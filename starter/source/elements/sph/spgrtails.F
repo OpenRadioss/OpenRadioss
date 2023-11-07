@@ -37,13 +37,14 @@ Chd|====================================================================
      2                     IPARTSP, EADD,   ND  , CEPSP, DD_IAD,
      3                     IDX,   IXSP, IPM  , IGEO,
      4                     SPBUF,SPH2SOL,SOL2SPH,
-     5                     IRST   , NOD2SP ,PRINT_FLAG)
+     5                     IRST   , NOD2SP ,PRINT_FLAG,MAT_PARAM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MOD_SPGRHEAD
       USE MESSAGE_MOD
       USE R2R_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,6 +71,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       my_real
      .        PM(NPROPM,*), SPBUF(NSPBUF,NUMSPH)
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -77,7 +79,7 @@ C-----------------------------------------------
      .        N, IGTYP,JIVF,JHBE,IJK,NE1,
      .        ISSN,IKSNOD,IORDER,IPRT,ISLEEP,IEOS,NEL_PREC,IUN,IG,IFAIL, 
      .        WORK(70000),INUM(13,NUMSPH),INDEX(2*NUMSPH),
-     .        NGP(NSPMD+1),K,J,II, MX, NUMBER_FAILURE, IR, IP, STAT,
+     .        NGP(NSPMD+1),K,J,II, MX, NFAIL, IR, IP, STAT,
      .        IPARTR2R, NOD, JALE_FROM_MAT, JALE_FROM_PROP
 C     REAL
       my_real
@@ -323,19 +325,15 @@ C           IERR=IERR+1
 C     full geometric non linearities.
           NE1 = MIN( NVSIZ, NEL + NEL_PREC - NFT)
           IFAIL = 0
-          IF(IPM(111,MT) > 0)THEN
-           IFAIL = 1
-          ENDIF
+          IF (MAT_PARAM(MT)%NFAIL > 0) IFAIL = 1
 C-------------------------------------------------          
-          IF((MLN/=14).AND.(MLN/=24).AND.(MLN/=25).AND.
-     .       (MLN<28))THEN
-            NUMBER_FAILURE = IPM(220, MT)
+          IF(MLN/=14 .AND. MLN/=24 .AND. MLN/=25 .AND. MLN<28) THEN
+            NFAIL = MAT_PARAM(MT)%NFAIL
             DO IJK = 1, NE1
               II = EADD(N)+NFT-1+IJK
               MX = IPART(1,IPARTSP(II))
-              DO IR = 1,NUMBER_FAILURE 
-                IP=(IR -1)*15
-                IF(IPM(111 + IP,MX)==10) THEN
+              DO IR = 1,NFAIL 
+                IF (MAT_PARAM(MX)%FAIL(IR)%IRUPT == 10) THEN
                   ISTRAIN=1
                   GO TO 100
                 END IF

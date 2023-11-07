@@ -32,31 +32,18 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_FAIL_EMC(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,ID     ,FAIL_ID  ,
-     .           LSUBMODEL,UNITAB   )
+     .            FAIL     ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .            LSUBMODEL,UNITAB   )
 C-----------------------------------------------
-C   ROUTINE DESCRIPTION :
-C   ===================
-C   READ FAILURE TENSSTRAIN (REPLACE LECR10)
-C-----------------------------------------------
-C   DUMMY ARGUMENTS DESCRIPTION:
-C   ===================
-C
-C     NAME            DESCRIPTION                         
-C
-C     UNITAB          UNITS ARRAY
-C     FAIL_ID         FAILURE ID(INTEGER)
-C     TITR            MATERIAL TITLE
-C     LSUBMODEL       SUBMODEL STRUCTURE    
+c    ROUTINE DESCRIPTION :
+c    Read EMC failure model parameters
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
-C---s----1---------2---------3---------4---------5---------6---------7->
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,23 +55,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER,INTENT(IN)             ::ID,FAIL_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
-C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          ::IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM
-      my_real,INTENT(INOUT)          ::UPARAM(MAXUPARAM)
-      INTEGER,INTENT(INOUT)            ::NUPARAM,NUVAR
+      INTEGER            ,INTENT(IN) :: FAIL_ID       ! failure model ID
+      INTEGER            ,INTENT(IN) :: MAT_ID        ! material law ID
+      INTEGER            ,INTENT(IN) :: IRUPT         ! failure model type number
+      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table
+      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL
       my_real    ::     AFRAC,NFRAC,BFRAC,CFRAC,GAMA,DEPS0
 C-----------------------------------------------
       LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
@@ -94,27 +78,39 @@ C--------------------------------------------------
 C EXTRACT DATAS  
 C--------------------------------------------------
 Card1   
-      CALL HM_GET_FLOATV    ('a_EMC'  ,AFRAC     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV    ('n_EMC'  ,NFRAC     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV    ('b0'     ,BFRAC     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV    ('c'      ,CFRAC     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('a_EMC'  ,AFRAC     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('n_EMC'  ,NFRAC     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('b0'     ,BFRAC     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('c'      ,CFRAC     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 Card2   
-      CALL HM_GET_FLOATV    ('Gamma'        ,GAMA   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV    ('Epsilon_Dot_0',DEPS0  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('Gamma'        ,GAMA   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('Epsilon_Dot_0',DEPS0  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c-----------------------------------------------------------------------
       IF (AFRAC == ZERO) AFRAC = ONE
       IF (BFRAC == ZERO) BFRAC = ONE
-      IF (DEPS0 == ZERO) DEPS0 = EM30
+      IF (DEPS0 == ZERO) DEPS0 = EM20
 c-----------------------------------------------------------------------
-      UPARAM(1)  = AFRAC
-      UPARAM(2)  = BFRAC
-      UPARAM(3)  = GAMA
-      UPARAM(4)  = CFRAC
-      UPARAM(5)  = NFRAC
-      UPARAM(6)  = DEPS0
-c-----------------------------------------------------------------------
-      NUPARAM = 6
-      NUVAR   = 2
+      FAIL%KEYWORD = 'EMC' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 6
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 2
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      FAIL%UPARAM(1) = AFRAC
+      FAIL%UPARAM(2) = BFRAC
+      FAIL%UPARAM(3) = GAMA
+      FAIL%UPARAM(4) = CFRAC
+      FAIL%UPARAM(5) = NFRAC
+      FAIL%UPARAM(6) = DEPS0
 c-----------------------------------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT, 1300)

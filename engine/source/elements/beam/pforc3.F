@@ -64,11 +64,11 @@ Chd|====================================================================
      F           JSMS     ,IGRE     ,NFT      ,IFAIL    ,
      G           SBUFMAT  ,SNPC     ,STF      ,NUMMAT   ,
      H           NUMGEO   ,IOUT     ,ISTDO    ,IDEL7NOK ,
-     I           IDYNA    ,IMCONV   ,IMPL_S   )
+     I           IDYNA    ,IMCONV   ,IMPL_S   ,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
       USE H3D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -115,12 +115,13 @@ C-----------------------------------------------
      .   FTHESKY(*)
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
-      TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (H3D_DATABASE) :: H3D_DATA
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IFLAG,IGTYP,NUPARAM,NUVAR,NFUNC,IFUNC(100),IFUNC_ALPHA
-      INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),
+      INTEGER I,IFLAG,IGTYP,NUPARAM,NUVAR,NFUNC,IFUNC_ALPHA,IMAT
+      INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),IFUNC(100),
      .   NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ)
       my_real 
      .   STI(MVSIZ),STIR(MVSIZ),OFF(MVSIZ),AL(MVSIZ),EXX(MVSIZ),
@@ -190,6 +191,7 @@ C-----------------------------------------------
      7   E2Y,     E2Z,     E3X,     E3Y,
      8   E3Z,     PID,     NEL)
 C---
+      IMAT = MAT(1)
       NUPARAM = IPM(9,MAT(1))
 C---
       DIE(1:NEL)   = ZERO
@@ -229,13 +231,13 @@ C---
      .       F2       ,F3       ,M1       ,M2       ,M3       ,
      .       BUFMAT   ,NPROPG   ,NPROPMI  ,NPROPM   ,NUMMAT   ,
      .       NUMGEO   ,SBUFMAT  ,SNPC     ,STF      ,IOUT     ,
-     .       ISTDO    ,NUVAR    ,UVAR     ,GBUF%EPSD,MAT(1)   ,
-     .       GBUF%FOR ,GBUF%MOM ,GBUF%EINT,ISMSTR)
+     .       ISTDO    ,NUVAR    ,UVAR     ,GBUF%EPSD,IMAT   ,
+     .       GBUF%FOR ,GBUF%MOM ,GBUF%EINT,ISMSTR   ,MAT_PARAM(IMAT))
 C----
       ELSEIF (IGTYP == 18) THEN  
         ! beams type 18 (integration points in the section)
         CALL MAIN_BEAM18(ELBUF_STR,
-     1       NEL       ,NPT         ,MTN       ,MAT(1)   ,                
+     1       NEL       ,NPT         ,MTN       ,IMAT   ,                
      2       PID       ,NGL         ,PM        ,IPM      ,                
      3       GEO       ,OFF         ,GBUF%FOR  ,GBUF%MOM ,                
      4       GBUF%EINT ,AL          ,GBUF%EPSD ,BUFMAT   ,NPF     ,       
@@ -245,12 +247,12 @@ C----
      8       IFAIL     ,SBUFMAT     ,SNPC      ,STF      ,NUMMAT  ,       
      9       NUMGEO    ,IOUT        ,ISTDO     ,NPROPMI  ,NPROPM  ,
      A       NPROPG    ,TT          ,DT1       ,IDEL7NOK ,ISIGI   ,
-     B       IMCONV    ,ISMSTR)                                               
+     B       IMCONV    ,ISMSTR      ,MAT_PARAM(IMAT))                                               
       ENDIF
 c---------------------------
 c     element damping
 c---------------------------
-      CALL PDAMP3(PM      ,GEO     ,OFF     ,MAT(1)  ,PID(1),
+      CALL PDAMP3(PM      ,GEO     ,OFF     ,IMAT  ,PID(1),
      .            NEL     ,NGL     ,EXX     ,EXY     ,EXZ  ,
      .            KXX     ,KYY     ,KZZ     ,AL      ,F1   ,
      .            F2      ,F3      ,M1      ,M2      ,M3   ,

@@ -33,13 +33,16 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
        SUBROUTINE HM_READ_FAIL_RTCL(
-     .            UPARAM  ,MAXUPARAM ,NUPARAM ,NUVAR    ,UNITAB  ,
-     .            FAIL_ID ,MAT_ID    ,TITR    ,LSUBMODEL)   
+     .           FAIL     ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .           LSUBMODEL,UNITAB   )
+C-----------------------------------------------
+c    ROUTINE DESCRIPTION :
+c    Read RTCL failure model parameters
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
-      USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
 C-----------------------------------------------
@@ -49,28 +52,24 @@ C-----------------------------------------------
 C----------+---------+---+---+------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr17_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB 
-      INTEGER,INTENT(IN)             :: MAXUPARAM,FAIL_ID,MAT_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
-C MODIFIED ARGUMENT
-      my_real,INTENT(INOUT)          :: UPARAM(MAXUPARAM)
-      INTEGER,INTENT(INOUT)            :: NUPARAM,NUVAR
-      CHARACTER TITR*nchartitle
+      INTEGER             ,INTENT(IN) :: FAIL_ID       ! failure model ID
+      INTEGER             ,INTENT(IN) :: MAT_ID        ! material law ID
+      INTEGER             ,INTENT(IN) :: IRUPT         ! failure model number
+      TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
+      TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table 
+      TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER Inst
-      my_real 
-     .        N,EPSCAL
+      my_real :: N,EPSCAL
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
@@ -92,13 +91,24 @@ C===============================================================================
 C======================================================================================
 c     Filling buffer tables
 C======================================================================================
-      ! -> Number of parameters
-      NUPARAM    = 3
-      ! -> Number of user variables
-      NUVAR      = 2   
-      UPARAM(1)  = EPSCAL
-      UPARAM(2)  = Inst
-      UPARAM(3)  = N
+      FAIL%KEYWORD = 'RTCL' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 3
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 2
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      FAIL%UPARAM(1) = EPSCAL
+      FAIL%UPARAM(2) = Inst
+      FAIL%UPARAM(3) = N
 C======================================================================================
 c--------------------------
 c     Printout data

@@ -32,10 +32,9 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_LADEVEZE(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,UNITAB   ,MAT_ID ,FAIL_ID  ,
-     .           LSUBMODEL)
+      SUBROUTINE HM_READ_FAIL_LADEVEZE(FAIL ,
+     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .           LSUBMODEL,UNITAB   )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -43,6 +42,7 @@ C   READ HASHIN FAILURE MODEL
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
@@ -58,24 +58,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER,INTENT(IN)             ::MAT_ID,FAIL_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
-C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          ::IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM
-      my_real,INTENT(INOUT)          ::UPARAM(MAXUPARAM)
-      INTEGER,INTENT(INOUT)            ::NUPARAM,NUVAR
+      INTEGER            ,INTENT(IN) :: FAIL_ID       ! failure model ID
+      INTEGER            ,INTENT(IN) :: MAT_ID        ! material law ID
+      INTEGER            ,INTENT(IN) :: IRUPT         ! failure model type number
+      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table
+      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: ISHELL,ISOLID
-      my_real 
-     .    K1,K2,K3,GAMA1,GAMA2,
-     .    K,A,TMAX,FAC_L,FAC_T,FAC_M,FAC_C,Y0,YC,R
-      LOGICAL  :: IS_AVAILABLE,IS_ENCRYPTED
+      my_real :: K1,K2,K3,GAMA1,GAMA2,K,A,TMAX,FAC_L,FAC_T,FAC_M,FAC_C,Y0,YC,R
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 c
 C--------------------------------------------------
@@ -117,26 +113,36 @@ c--------------------------------------------------
       IF(TMAX <= ZERO) TMAX = EP20    
       IF(ISHELL == 0) ISHELL = 1 
       IF(ISOLID == 0) ISOLID = 1              
-CC  
-      UPARAM(1) = K1
-      UPARAM(2) = K2
-      UPARAM(3) = K3
-      UPARAM(4) = GAMA1
-      UPARAM(5) = GAMA2 
-      UPARAM(6) = Y0
-      UPARAM(7) = YC
-      UPARAM(8) = K
-      UPARAM(9) = A
-      UPARAM(10) = TMAX
-      UPARAM(11) = ISHELL
-      UPARAM(12) = ISOLID
-      UPARAM(13) = R   ! used inside delamination failure (plyxfem formulation) 
-      
-C
-      NUPARAM = 13
-      NUVAR   = 12
-      NFUNC   = 0
-C
+c---------------------------
+      FAIL%KEYWORD = 'LADEVEZE' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 13
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 12
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c  
+      FAIL%UPARAM(1) = K1
+      FAIL%UPARAM(2) = K2
+      FAIL%UPARAM(3) = K3
+      FAIL%UPARAM(4) = GAMA1
+      FAIL%UPARAM(5) = GAMA2 
+      FAIL%UPARAM(6) = Y0
+      FAIL%UPARAM(7) = YC
+      FAIL%UPARAM(8) = K
+      FAIL%UPARAM(9) = A
+      FAIL%UPARAM(10) = TMAX
+      FAIL%UPARAM(11) = ISHELL
+      FAIL%UPARAM(12) = ISOLID
+      FAIL%UPARAM(13) = R   ! used inside delamination failure (plyxfem formulation) 
+c---------------------------
       IF(IS_ENCRYPTED)THEN
       
       ELSE

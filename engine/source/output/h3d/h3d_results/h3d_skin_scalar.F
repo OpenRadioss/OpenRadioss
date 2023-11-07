@@ -49,12 +49,12 @@ Chd|====================================================================
      6                  IAD_ELEM        ,FR_ELEM     , WEIGHT    ,TAG_SKINS6,
      7                  NPF   ,TF    ,BUFMAT,IBCL    ,ILOADP     ,LLOADP    ,FAC    ,
      8                  NSENSOR,SENSOR_TAB,TAGNCONT    ,LOADP_HYD_INTER,XFRAME,FORC    ,
-     9                  NODAL_IPART ,IMAPSKP ,LOADS  ,TABLE, IFRAME) 
+     9                  NODAL_IPART ,IMAPSKP ,LOADS  ,TABLE, IFRAME,MAT_PARAM) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
+      USE MAT_ELEM_MOD    
       USE SCHLIEREN_MOD 
       USE H3D_MOD        
       USE MULTI_FVM_MOD
@@ -99,6 +99,7 @@ C-----------------------------------------------
       TYPE (LOADS_)   , INTENT(IN) :: LOADS
       INTEGER ,       DIMENSION(LISKN,NUMFRAM+1)  ,INTENT(IN) :: IFRAME
       TYPE (TTABLE)  ,DIMENSION(NTABLE)   ,INTENT(IN) :: TABLE
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -111,7 +112,7 @@ C-----------------------------------------------
      .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
      .        IIGEO,IADI,ISUBSTACK,ITHK,NB_PLYOFF,IUVAR,IDX,IPOS,ITRIMAT,
      .        IALEFVM_FLG, IMAT,IADBUF,NUPARAM,IOK_PART(MVSIZ),
-     .        MLWI,PID,MID,IP,MX,KCVT,IOR_TSH,ICSTR
+     .        MLWI,PID,MID,MX,KCVT,IOR_TSH,ICSTR
       INTEGER 
      .        IS_WRITTEN_VALUE(MVSIZ),NFRAC,IU(4),IV,NB_FACE,KFACE,NSKIN
       INTEGER NGL(MVSIZ) 
@@ -202,11 +203,9 @@ C----------    F.I. uses also average strain to be consisting
               NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
              DO IFAIL=1,NFAIL                                                          
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                  IP=(IFAIL -1)*15         
-                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),
-     .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
-     .                       IPM,NPF,TF,BUFMAT,
-     .                       NGL,STRAIN,NEL )
+                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),MAT_PARAM(MX)%FAIL(IFAIL),
+     .                       IR,IS,IT,ILAY,IFAIL,
+     .                       NPF,TF,NGL,STRAIN,NEL )
                    DO I=1,NEL 
                     RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
                     VALUE(I) = MAX(VALUE(I),RINDX) 
@@ -237,12 +236,10 @@ C-------- grp skin_up
               NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
              DO IFAIL=1,NFAIL                                                          
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                  IP=(IFAIL -1)*15         
                   DO I=1,NEL                                                      
-                     CALL H3D_FLD_TSH(ELBUF_TAB(NG),
-     .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
-     .                       IPM,NPF,TF,BUFMAT,
-     .                       NGL,STRAIN,NEL )
+                     CALL H3D_FLD_TSH(ELBUF_TAB(NG),MAT_PARAM(MX)%FAIL(IFAIL),
+     .                       IR,IS,IT,ILAY,IFAIL,
+     .                       NPF,TF,NGL,STRAIN,NEL )
                     RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
                     VALUE(I) = MAX(VALUE(I),RINDX) 
                     IS_WRITTEN_VALUE(I) = 1                           
@@ -278,11 +275,9 @@ C------
               NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
              DO IFAIL=1,NFAIL                                                          
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                  IP=(IFAIL -1)*15         
-                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),
-     .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
-     .                       IPM,NPF,TF,BUFMAT,
-     .                       NGL,STRAIN,NEL )
+                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),MAT_PARAM(MX)%FAIL(IFAIL),
+     .                       IR,IS,IT,ILAY,IFAIL,
+     .                       NPF,TF,NGL,STRAIN,NEL )
                    DO I=1,NEL 
                     RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
                     VALUE(I) = MAX(VALUE(I),RINDX) 
@@ -313,12 +308,10 @@ C-------- grp skin_up
               NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
              DO IFAIL=1,NFAIL                                                          
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                  IP=(IFAIL -1)*15         
                   DO I=1,NEL                                                      
-                     CALL H3D_FLD_TSH(ELBUF_TAB(NG),
-     .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
-     .                       IPM,NPF,TF,BUFMAT,
-     .                       NGL,STRAIN,NEL )
+                     CALL H3D_FLD_TSH(ELBUF_TAB(NG),MAT_PARAM(MX)%FAIL(IFAIL),
+     .                       IR,IS,IT,ILAY,IFAIL,
+     .                       NPF,TF,NGL,STRAIN,NEL )
                     RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
                     VALUE(I) = MAX(VALUE(I),RINDX) 
                     IS_WRITTEN_VALUE(I) = 1                           
@@ -353,11 +346,9 @@ C-------- grp skin_inf first
               NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
              DO IFAIL=1,NFAIL                                                          
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                  IP=(IFAIL -1)*15         
-                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),
-     .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
-     .                       IPM,NPF,TF,BUFMAT,
-     .                       NGL,STRAIN,NEL )
+                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),MAT_PARAM(MX)%FAIL(IFAIL),
+     .                       IR,IS,IT,ILAY,IFAIL,
+     .                       NPF,TF,NGL,STRAIN,NEL )
                   DO I=1,NEL                                                      
                     VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
                     IS_WRITTEN_VALUE(I) = 1                           
@@ -389,11 +380,9 @@ C-------- grp skin_up
               NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
              DO IFAIL=1,NFAIL                                                          
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                  IP=(IFAIL -1)*15         
-                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),
-     .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
-     .                       IPM,NPF,TF,BUFMAT,
-     .                       NGL,STRAIN,NEL )
+                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),MAT_PARAM(MX)%FAIL(IFAIL),
+     .                       IR,IS,IT,ILAY,IFAIL,
+     .                       NPF,TF,NGL,STRAIN,NEL )
                   DO I=1,NEL                                                      
                     VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
                     IS_WRITTEN_VALUE(I) = 1                           
@@ -429,11 +418,9 @@ C-------- grp skin_inf first
               NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
              DO IFAIL=1,NFAIL                                                          
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                  IP=(IFAIL -1)*15         
-                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),
-     .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
-     .                       IPM,NPF,TF,BUFMAT,
-     .                       NGL,STRAIN,NEL )
+                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),MAT_PARAM(MX)%FAIL(IFAIL),
+     .                       IR,IS,IT,ILAY,IFAIL,
+     .                       NPF,TF,NGL,STRAIN,NEL )
                   DO I=1,NEL                                                      
                     VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
                     IS_WRITTEN_VALUE(I) = 1                           
@@ -465,11 +452,9 @@ C-------- grp skin_up
               NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL                                                                   
              DO IFAIL=1,NFAIL                                                          
                IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                  IP=(IFAIL -1)*15         
-                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),
-     .                       IR,IS,IT,ILAY,IFAIL,IP,MX,
-     .                       IPM,NPF,TF,BUFMAT,
-     .                       NGL,STRAIN,NEL )
+                  CALL H3D_FLD_TSH(ELBUF_TAB(NG),MAT_PARAM(MX)%FAIL(IFAIL),
+     .                       IR,IS,IT,ILAY,IFAIL,
+     .                       NPF,TF,NGL,STRAIN,NEL )
                   DO I=1,NEL                                                      
                     VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
                     IS_WRITTEN_VALUE(I) = 1                           
@@ -493,10 +478,10 @@ C------for solid elements
        IF (NUMSKIN> (NSKIN+NUMSKINP))       
      .  CALL H3D_SOL_SKIN_SCALAR(
      .                   ELBUF_TAB,SKIN_SCALAR, IPARG   ,IXS     ,X     ,PM  ,
-     4                   IPARTS  ,IPM     ,IGEO    ,IXS10 ,IXS16 , IXS20  ,
+     4                   IPARTS  ,IGEO    ,IXS10 ,IXS16 , IXS20  ,
      5                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,NSKIN ,
      6                   IAD_ELEM        ,FR_ELEM     , WEIGHT   ,TAG_SKINS6,
-     7                   NPF  ,TF   ,BUFMAT)
+     7                   NPF  ,TF   ,MAT_PARAM)
 C------for solid elements
        IF (NUMSKINP> 0)       
      .  CALL H3D_PRE_SKIN_SCALAR(SKIN_SCALAR,NODAL_IPART,

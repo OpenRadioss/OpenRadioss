@@ -42,7 +42,7 @@ Chd|====================================================================
      2           PM       ,GEO      ,IPM     ,IGEO    ,X       ,       
      3           A        ,AR       ,V       ,VR      ,W       ,       
      4           D        ,MS       ,IN      ,TF      ,NPF     ,       
-     5           BUFMAT   ,IPARG    ,IPARTS  ,PARTSAV ,         
+     5           BUFMAT   ,IPARG    ,IPARTS  ,PARTSAV ,MAT_PARAM,         
      6           FSKY     ,FR_WAVE  ,IADS    ,EANI    ,STIFN   ,
      7           STIFR    ,FX       ,FY      ,FZ      ,IFAILURE,
      8           MTN      ,IGTYP    ,NPT     ,JSMS    ,MSSA    ,
@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -88,6 +88,7 @@ C     REAL
      .   MSSA(*), DMELS(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (TTABLE)  , DIMENSION(NTABLE) ::  TABLE
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -404,7 +405,7 @@ C-----------
      G  FZ(1,1),FZ(1,2),FZ(1,3),FZ(1,4),FZ(1,5),FZ(1,6),FZ(1,7),FZ(1,8),     
      H  STI    ,STIR   ,VISCM  ,VISCR  ,PARTSAV,IPARTS ,BUFMAT ,IOUTPRT,     
      L  IFAILURE,NPF   ,TF     ,IPM    ,IGEO   ,NPT    ,NEL    ,JSMS   ,     
-     M  DMELS  ,PM     ,GEO    ,ITASK  ,JTHE   ,TABLE )   
+     M  DMELS  ,PM     ,GEO    ,ITASK  ,JTHE   ,TABLE  ,MAT_PARAM)   
        IF(NFILSOL/=0) THEN
         CALL SFILLOPT(
      1   GBUF%FILL,STI,      FX(1,1),  FX(1,2),

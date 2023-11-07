@@ -32,7 +32,7 @@ Chd|====================================================================
      1           NEL      ,NUVAR    ,
      2           TIME     ,UPARAM   ,NGL      ,IPT      ,NPTOT    ,
      3           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     4           DPLA     ,EPSP     ,UVAR     ,PTHKF    ,UEL1     ,
+     4           DPLA     ,EPSP     ,UVAR     ,UEL1     ,
      5           OFF      ,OFFL     ,DFMAX    ,TDEL     ,NFUNC    ,
      6           IFUNC    ,NPF      ,TF       ,ALDT     ,FOFF     ,
      7           IPG      ,DMG_FLAG ,DMGSCL   )
@@ -84,7 +84,7 @@ C-----------------------------------------------
       INTEGER NEL,NUVAR,IPT,NPTOT,NFUNC,IPG
       INTEGER NGL(NEL),IFUNC(NFUNC)
       my_real TIME,UPARAM(*),DPLA(NEL),EPSP(NEL),
-     .   UEL1(NEL),ALDT(NEL),PTHKF
+     .   UEL1(NEL),ALDT(NEL)
       INTEGER, INTENT(INOUT) :: DMG_FLAG
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
@@ -131,7 +131,6 @@ C-----------------------------------------------
        X_2(1)       = UPARAM(4)
        X_2(2)       = UPARAM(5)
        X_2(3)       = UPARAM(6)
-       PTHKF        = UPARAM(7)
        FLAG_PERTURB = UPARAM(8)
        c3           = UPARAM(9)
        L            = INT(UPARAM(10)+0.0001)

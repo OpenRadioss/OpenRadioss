@@ -33,7 +33,7 @@ Chd|====================================================================
      2           TIME     ,NGL      ,IPG      ,ILAY     ,IPTT     ,
      3           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      4           DPLA     ,EPSP     ,TSTAR    ,OFF      ,FOFF     ,
-     5           PTHKF    ,DFMAX    ,TDEL     )
+     5           DFMAX    ,TDEL     )
 C-----------------------------------------------
 c    Johnson-Cook failure model
 C-----------------------------------------------
@@ -68,7 +68,6 @@ C DPLA    | NEL     | F | R | PLASTIC STRAIN
 C---------+---------+---+---+--------------------------------------------
 C OFF     | NEL     | F | R | DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C FOFF    | NEL     | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)
-C PTHKF   |  1      | F | W | PERCENTAGE OF LAYER THICKNESS TO FAIL
 C DFMAX   | NEL     | F |R/W| MAX DAMAGE FACTOR 
 C TDEL    | NEL     | F | W | FAILURE TIME
 C---------+---------+---+---+--------------------------------------------
@@ -89,14 +88,13 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER ,DIMENSION(NEL), INTENT(INOUT) :: FOFF
-      my_real :: PTHKF
       my_real ,DIMENSION(NEL), INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: TDEL
       my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,IFAIL_SH,NINDX
+      INTEGER :: I,J,NINDX
       INTEGER ,DIMENSION(NEL) :: INDX
       my_real :: D1,D2,D3,D4,D5,EPSP0,P,EPSF,SVM
 C=======================================================================
@@ -107,13 +105,6 @@ C=======================================================================
       D4      = UPARAM(4)
       D5      = UPARAM(5)
       EPSP0   = UPARAM(6)
-      IFAIL_SH  = INT(UPARAM(7))
-c-----------------------------
-      IF (IFAIL_SH == 1) THEN
-        PTHKF = EM06
-      ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = ONE
-      ENDIF
 c-----------------------------
       DO I=1,NEL
         IF (OFF(I) == ONE .and. FOFF(I) == 1 .and. DPLA(I) > ZERO) THEN

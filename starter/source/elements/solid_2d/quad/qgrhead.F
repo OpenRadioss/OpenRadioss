@@ -34,13 +34,14 @@ Chd|====================================================================
       SUBROUTINE QGRHEAD(
      1       IXQ     ,PM      ,GEO     ,INUM    ,ISEL    ,
      2       ITR1    ,EADD    ,INDEX   ,ITRI    ,IPARTQ  ,     
-     3       ND      ,IGRSURF ,IGRQUAD ,CEP     ,
+     3       ND      ,IGRSURF ,IGRQUAD ,CEP     ,MAT_PARAM,
      5       XEP     ,IGEO    ,IPM     ,IQUAOFF )     
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -81,6 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRQUAD)  :: IGRQUAD
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT),INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -157,7 +159,7 @@ C
           IF(MLN==46)MLN=47
           MID=IABS(MID)
         ENDIF
-        IFAIL = IPM(220,MID)       
+        IFAIL = MAT_PARAM(MID)%NFAIL      
         JALE_FROM_MAT = NINT(PM(72,MID))
         JALE_FROM_PROP = IGEO(62,PID)
         JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if inconsistent, error message was displayed in PART reader

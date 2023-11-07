@@ -28,10 +28,10 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|====================================================================
       SUBROUTINE FAIl_TAB_OLD_S (
      1     NEL     ,NUVAR   ,NPF     ,TF      ,TIME    ,
-     2     UPARAM  ,NGL     ,IPM     ,MAT     ,ALDT    ,
+     2     UPARAM  ,NGL     ,ALDT    ,
      4     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,
      5     PLAS    ,DPLA    ,EPSP    ,TSTAR   ,UVAR    ,
-     6     OFF     ,IP      ,DFMAX   ,TDELE   ,
+     6     OFF     ,DFMAX   ,TDELE   ,
      7     NFUNC   ,IFUNC )
 C---------+---------+---+---+--------------------------------------------
 C   /FAIL/TAB - tabulated rupture criteria for solids (old, obsolete version)
@@ -50,8 +50,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,NUVAR,IP
-      INTEGER NGL(NEL),IPM(NPROPMI,*),MAT(NEL)
+      INTEGER NEL,NUVAR
+      INTEGER NGL(NEL)
       INTEGER, INTENT(IN) :: NFUNC
       INTEGER, DIMENSION(NFUNC), INTENT(IN) ::  IFUNC
 c

@@ -39,11 +39,12 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|====================================================================
       SUBROUTINE FAILINI(
      .   ELBUF_STR,NPTR,NPTS,NPTT,NLAY,IPM,SIGSP,NSIGI,FAIL_INI,
-     .   SIGI,NSIGS,IX,NIX,PT,RNOISE,PERTURB,BUFMAT)
+     .   SIGI,NSIGS,IX,NIX,PT,RNOISE,PERTURB,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,19 +62,20 @@ C-----------------------------------------------
       INTEGER NPTR,NPTS,NPTT,IPM(NPROPMI,*),NSIGI,NLAY,
      .   FAIL_INI(*),IX(NIX,*),NSIGS,NIX,PT(*),PERTURB(NPERTURB)
       my_real
-     .   SIGSP(NSIGI,*),SIGI(NSIGS,*),RNOISE(NPERTURB,*),BUFMAT(*)
+     .   SIGSP(NSIGI,*),SIGI(NSIGS,*),RNOISE(NPERTURB,*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IIP,JPT, II, JJ, IPT, IPP,IUS,IPSU,
+      INTEGER I,J,L,N,IIP,JPT, II, JJ, IPT, IPP,IUS,IPSU,
      .        IFLAGINI,JPS,IL,IR,IS,IT,NV,NVAR_RUPT,NVMAX,NFAIL,
-     .        N,IP,IMAT,IADBUFR,L,IRUP,FAIL_ID
+     .        IP,IMAT,IRUP
       my_real,
      .  DIMENSION(:), POINTER  :: UVARF,DFMAX
       TYPE(BUF_FAIL_),POINTER :: FBUF
       my_real
-     .  c1,c2,c3,c4,c5,d1,X_1(2),X_2(3)
+     .  c1,c2,c3,c4,c5,X_1(2),X_2(3)
 C-----------------------------------------------
       IF (ISIGI /= 0 .AND. NVSOLID4 /= 0) THEN
 C                     
@@ -96,8 +98,8 @@ c
                 DFMAX => FBUF%FLOC(IUS)%DAMMX   
                 NVAR_RUPT = FBUF%FLOC(IUS)%NVAR
                 DFMAX(I)= SIGSP(JPS+1+(IUS-1)*NLAY*NPTR*NPTS*NPTT*NVMAX+
-     .                  (IL-1)*NVMAX*NPTR*NPTS*NPTT,JJ)
-          JPS = JPS + 1
+     .                    (IL-1)*NVMAX*NPTR*NPTS*NPTT,JJ)
+                JPS = JPS + 1
                 DO NV=1,NVAR_RUPT 
                   UVARF((NV-1)*LLT+I)=
      .               SIGSP(JPS+1+(IUS-1)*NLAY*NPTR*NPTS*NPTT*NVMAX+
@@ -121,21 +123,17 @@ c-----------------------------
                  NFAIL =  ELBUF_STR%BUFLY(IL)%NFAIL
                  IMAT  =  ELBUF_STR%BUFLY(IL)%IMAT
                  DO IUS=1,NFAIL                                  
-                   IP  = (IUS - 1)*15  
-                   IADBUFR = IPM(114+IP, IMAT)
-                   IRUP = IPM(111+IP, IMAT)
-                   BUFMAT(IADBUFR+7) = 1
-                   FAIL_ID = IPM(236+IUS, IMAT)
+                   IRUP = MAT_PARAM(IMAT)%FAIL(IUS)%IRUPT
                    IF (IRUP == 30) THEN           ! /FAIL/BIQUAD
-                     d1 = BUFMAT(IADBUFR+6)
+                     MAT_PARAM(IMAT)%FAIL(IUS)%UPARAM(8) = 1
                      c1 = ZERO
                      c2 = ZERO
-                     c3 = BUFMAT(IADBUFR+8) * RNOISE(J,I+NFT)
+                     c3 = MAT_PARAM(IMAT)%FAIL(IUS)%UPARAM(9) * RNOISE(J,I+NFT)
                      c4 = ZERO
                      c5 = ZERO
-                     L = INT(BUFMAT(IADBUFR+9))
+                     L = INT(MAT_PARAM(IMAT)%FAIL(IUS)%UPARAM(10))
 c
-                     CALL BIQUAD_COEFFICIENTS(c1 ,c2 ,c3  ,c4  ,c5  ,d1  ,L  ,
+                     CALL BIQUAD_COEFFICIENTS(c1 ,c2 ,c3  ,c4  ,c5  ,L  ,
      .                                        X_1,X_2,ZERO,ZERO,ZERO,ZERO)
 c
                      DO IT = 1,NPTT 

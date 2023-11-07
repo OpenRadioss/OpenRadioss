@@ -30,7 +30,7 @@ Chd|        DELM02LAW                     source/properties/composite_options/st
 Chd|        DELM24LAW                     source/properties/composite_options/stack/delm24law.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE DELAMINATION(ELBUF_STR,
+      SUBROUTINE DELAMINATION(ELBUF_STR,MAT_PARAM,
      1           JFT      ,JLT     ,IR     ,IS     ,NPT      ,
      2           MAT_IPLY ,IPM     ,PM     ,BUFMAT ,NPF      ,
      3           TF       ,DT1C    ,NGL    ,OFF    ,TH_IPLY  ,
@@ -38,11 +38,12 @@ Chd|====================================================================
      5           MOM      ,PLY_F   ,THK0   ,SHF    ,EXZ      ,
      6           EYZ      ,AREA    ,PID    ,GEO    ,SSP      ,
      7           POSLY    ,THKLY   ,KXX    ,KYY    ,KXY      ,
-     .           DEXZ     ,DEYZ    ,EINT   ,GSTR   ,NEL      )   
+     .           DEXZ     ,DEYZ    ,EINT   ,GSTR   ,NEL      ,
+     .           NUMMAT   )   
 C----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,6 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NUMMAT
       INTEGER JFT,JLT,IR,IS,NPT,NEL
       INTEGER MAT_IPLY(MVSIZ,*),IPM(NPROPMI,*),NGL(*),NPF(*),PID(*)
 C     REAL
@@ -71,15 +73,16 @@ C     REAL
      .   EXZ(*),EYZ(*),SHF(*),AREA(*),MOM(NEL,3),SSP(*),GEO(NPROPG,*),
      .   POSLY(*),THKLY(*), KXX(*), KYY(*), KXY(*), DEXZ(*), DEYZ(*),
      .   EINT(JLT,2), GSTR(NEL,8)
-      TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,JJ,IG,IC,II,IFL,IPLY,NVARF,IP,NFAIL,JVAR,NVARF_MAX, 
-     .   IPMAT_IPLY,JINF,JSUP,NUPAR,NFUNC,
-     .   IADBUF,ILAW,IRUPT,IMAT,JJINF,JJSUP,NBDEL,NF,NL,KK(5)
+      INTEGER I,J,K,JJ,IG,IC,II,IFL,IPLY,NVARF,NFAIL,JVAR,NVARF_MAX, 
+     .   IPMAT_IPLY,JINF,JSUP,
+     .   ILAW,IRUPT,IMAT,JJINF,JJSUP,NBDEL,NF,NL,KK(5)
        INTEGER  MAT(MVSIZ),IFAIL(MVSIZ),MATF(MVSIZ),
-     .   IFUNC(100),NBIPLY_DEL(MVSIZ),NIPLY_DEL(MVSIZ,NPT),JLY,
+     .   NBIPLY_DEL(MVSIZ),NIPLY_DEL(MVSIZ,NPT),JLY,
      .   NINDX,INDX(MVSIZ)
 C     REAL
       my_real
@@ -143,7 +146,6 @@ c
 C
 C Actuallement on utilise qu'une interface elastique isotrope. (Law01)
 C  
-c         ILAW = IPM(2,MAT_IPLY(I,IPLY))                                
 C         Only with  law59 (K33, K13, K23)                              
 c
           E33 = PM(20, MAT_IPLY(I, IPLY))*OFF(I)                        
@@ -194,69 +196,36 @@ C
           ILBUF%EPS(II + 1) = EPSZZ_IP(I)
           ILBUF%EPS(II + 2) = EPSYZ_IP(I)
           ILBUF%EPS(II + 3) = EPSXZ_IP(I)
-       ENDDO
+        ENDDO
 C----------------------- -----------------------
 C              delamination damage model 
 C-----------------------------------------------
-         DO IFL = 1, NFAIL
-           IP = (IFL - 1)*15    
-           UVARF  => FBUF%FLOC(IFL)%VAR
-           NVARF  =  FBUF%FLOC(IFL)%NVAR
-           IRUPT  =  FBUF%FLOC(IFL)%ILAWF  
-           NUPAR  = IPM(112+IP, IMAT)                            
-           IADBUF = IPM(114+IP, IMAT)                          
-           NFUNC  = IPM(115+IP, IMAT) 
-           DO I=1,NFUNC                                             
-             IFUNC(I)=IPM(115+IP+I,IMAT)                        
-           ENDDO
-           
-!           IFAIL(IC) = IPM(111 + IP ,MAT(1))
-!           MATF(IC) = MAT(1)
-!           DO I=JFT +1 ,JLT
-!             IFAIL(IC) = IPM(111 + IP,MAT(I-1))
-!             MATF(IC) = MAT(I-1)
-!             IF(IPM(111 + IP ,MAT(I))/=IPM(111 + IP,MAT(I-1)))THEN
-!               IC = IC+1
-!               MATF(IC)  = MAT(I)
-!               IFAIL(IC) = IPM(111 + IP,MAT(I))
-!             ENDIF
-!           ENDDO
-C 
-!          NVARF_MAX = 0
-!          DO II = 1,IC
-!            NUPAR   = IPM(112 + IP,MATF(II))
-!            NFUNC   = IPM(115 + IP,MATF(II))
-!            IADBUF  = IPM(114 + IP ,MATF(II))
-!            NVARF   = IPM(113 + IP ,MATF(II))
-!            NVARF_MAX = MAX(NVARF_MAX, NVARF)
-!            DO I=1,NFUNC                
-!              IFUNC(I)=IPM(115+ IP + I,MATF(II))
-!            ENDDO 
+        DO IFL = 1, NFAIL
+          UVARF  => FBUF%FLOC(IFL)%VAR
+          NVARF  =  FBUF%FLOC(IFL)%NVAR
+          IRUPT  =  FBUF%FLOC(IFL)%ILAWF  
 C     
           IF (IRUPT == 18) THEN 
 C-- ladeveze delamination model
-           CALL DELM01LAW(
-     1                JLT  ,NUPAR ,NVARF ,NFUNC ,IFUNC,
-     2                NPF  ,TF    ,TT    ,DT1C  ,BUFMAT ,
-     3                NGL  ,IPLY  ,IPM   ,MAT   ,IP     ,
+           CALL DELM01LAW(MAT_PARAM(IMAT)%FAIL(IFL),
+     1                JLT  ,NVARF ,TT    ,DT1C  ,
+     3                NGL  ,IPLY  ,
      4                OFF  ,SYZ0  ,SXZ0  ,SZZ   ,UVARF  , 
      5                OFFI(1,IPLY),REDUC(1,IPLY),INTLAY%COUNT,
      .                                               SYZ, SXZ)
 C--- power law
           ELSEIF (IRUPT == 19) THEN
-            CALL DELM02LAW(
-     1                JLT  ,NUPAR ,NVARF ,NFUNC ,IFUNC,
-     2                NPF  ,TF    ,TT    ,DT1C  ,BUFMAT ,
-     3                NGL  ,IPLY  ,IPM   ,MAT   ,IP     ,
+            CALL DELM02LAW(MAT_PARAM(IMAT)%FAIL(IFL),
+     1                JLT  ,NVARF ,TT    ,DT1C  ,
+     3                NGL  ,IPLY  ,
      4                OFF  ,SYZ0   ,SXZ0   ,SZZ   ,DU_IPLY,
      5                UVARF  ,OFFI(1,IPLY),REDUC(1,IPLY),
      .                INTLAY%COUNT)
 C--- total strain per direction
           ELSEIF(IRUPT == 24) THEN
-            CALL DELM24LAW(
-     1                JLT  ,NUPAR ,NVARF ,NFUNC ,IFUNC,
-     2                NPF  ,TF    ,TT    ,DT1C  ,BUFMAT ,
-     3                NGL  ,IPLY  ,IPM   ,MAT   ,IP     ,
+            CALL DELM24LAW(MAT_PARAM(IMAT)%FAIL(IFL),
+     1                JLT  ,NVARF ,TT    ,DT1C  ,
+     3                NGL  ,IPLY  ,
      4                OFF  ,SYZ0  ,SXZ0  ,SZZ   ,EPSYZ_IP,
      5                EPSXZ_IP,EPSZZ_IP,UVARF ,OFFI(1,IPLY),REDUC(1,IPLY),
      6                INTLAY%COUNT)

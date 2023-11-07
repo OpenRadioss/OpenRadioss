@@ -43,9 +43,9 @@ Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE S4REFSTA3(ELBUF_STR,IXS     ,PM     ,GEO     ,IPARG   ,
-     .                     IPM    ,IGEO    ,SKEW   ,X      ,XREFS   ,
-     .                     NEL      ,IPARTS  ,IPART  ,BUFMAT  ,NUMMAT  ,
-     .                     MATPARAM,NPF      ,TF      )
+     .                     IPM      ,IGEO    ,SKEW   ,X      ,XREFS   ,
+     .                     NEL      ,IPARTS  ,IPART  ,BUFMAT  ,MAT_PARAM,
+     .                     NPF      ,TF      ,NUMMAT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -77,11 +77,11 @@ C-----------------------------------------------
      .   PM(NPROPM,*), X(3,*), XREFS(8,3,*), GEO(NPROPG,*),
      .   SKEW(LSKEW,*), BUFMAT(*), TF(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
-      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MATPARAM
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II, N, JHBE, IGTYP, ITRS, ISTRA, IPID, IBID,
+      INTEGER I,II, N, JHBE, IMAT,IGTYP, ITRS, ISTRA, IPID, IBID,
      .        NITSAV,JJ(6)
       INTEGER ID
       CHARACTER*nchartitle,
@@ -169,6 +169,7 @@ C----------------------------
           IX3(I)=IXS(7,N)
           IX4(I)=IXS(6,N)
         END DO
+        IMAT = MAT(1)
 C----------------------------
 C        Coordinates
 C----------------------------
@@ -465,8 +466,8 @@ C-----------
 C-----------
           CALL MMAIN(PM     ,ELBUF_STR,IXS     ,NIXS   ,X      ,
      2               GEO    ,IPARG  ,NEL     ,SKEW   ,BUFMAT ,
-     3               IPART  ,IPARTS ,NUMMAT  ,MATPARAM,
-     4               MAT    ,IPM    ,NGL     ,PID    ,NPF    ,
+     3               IPART  ,IPARTS ,NUMMAT  ,MAT_PARAM,
+     4               IMAT   ,IPM    ,NGL     ,PID    ,NPF    ,
      5               TF     ,MFXX   ,MFXY   ,MFXZ    ,MFYX   ,
      6               MFYY   ,MFYZ   ,MFZX   ,MFZY    ,MFZZ   ,
      7               RX     ,RY     ,RZ     ,SX      ,SY     ,

@@ -31,16 +31,16 @@ Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE FAIL_SETOFF_WIND_FRWAVE(
-     .           ELBUF_STR,GEO      ,PID      ,NGL      ,
-     .           NEL      ,IR       ,IS       ,NLAY     ,
-     .           NPTTOT   ,PTHKF    ,THK_LY   ,THKLY    ,
+     .           ELBUF_STR,MAT_ELEM ,GEO      ,PID      ,
+     .           NGL      ,NEL      ,IR       ,IS       ,
+     .           NLAY     ,NPTTOT   ,THK_LY   ,THKLY    ,
      .           OFF      ,NPG      ,STACK    ,ISUBSTACK,
      .           IGTYP    ,FAILWAVE ,FWAVE_EL ,DMG_FLAG ,
      .           TIME     ,TRELAX   ,TFAIL    ,DMG_SCALE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
 C-----------------------------------------------
@@ -60,19 +60,20 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NEL) :: NGL,FWAVE_EL
       my_real, DIMENSION(NPTTOT*NEL) :: THKLY
       my_real, DIMENSION(NPROPG,*) :: GEO
-      my_real, DIMENSION(NLAY,*)   :: PTHKF
       my_real, DIMENSION(NEL   )   :: OFF,TFAIL,DMG_SCALE
       my_real, DIMENSION(NEL,*)    :: THK_LY
       TYPE(ELBUF_STRUCT_)  ,TARGET :: ELBUF_STR
       TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,IEL,IPOS,IL,IFL,IP,IPT,IG,IPG,JPG,NPTR,NPTS,NPTT,
+      INTEGER I,II,IEL,IPOS,IL,IFL,IP,IPT,IG,IPG,JPG,NPTR,NPTS,NPTT,IMAT,
      .   IDMG,COUNTPG,NINDXPG,NINDXLY,IPT_ALL,NFAIL,IPWEIGHT,IPTHKLY
       INTEGER, DIMENSION(NEL) :: NPTF,INDXPG,INDXLY  
       INTEGER, DIMENSION(10) :: ISTRESS
       INTEGER, DIMENSION(:), POINTER :: OFFLY,OFFPG,FOFF
+      my_real, DIMENSION(NLAY,100)   :: PTHKF
       my_real, DIMENSION(NEL) :: UEL1,DFMAX,TDEL,NPTTF,SIGSCALE
       my_real, DIMENSION(:), POINTER :: DMAX
       my_real, DIMENSION(NLAY) :: WEIGHT,P_THKLY
@@ -99,6 +100,13 @@ c
       IPG  = (IS-1)*NPTR + IR     ! current Gauss point
       JPG  = (IPG-1)*NEL
 c                                                       
+      DO IL=1,NLAY
+        NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
+        IMAT  = ELBUF_STR%BUFLY(IL)%IMAT
+        DO IFL = 1,NFAIL
+          PTHKF(IL,IFL) = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%PTHK
+        END DO
+      END DO
 c------------------------------------
       IF (NLAY == 1) THEN
 c------------------------------------

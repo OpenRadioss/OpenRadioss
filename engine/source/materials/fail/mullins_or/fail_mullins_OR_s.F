@@ -29,10 +29,10 @@ Chd|-- calls ---------------
 Chd|        MULLINS_OR                    source/materials/fail/mullins_or/fail_mullins_OR_s.F
 Chd|====================================================================
       SUBROUTINE FAIL_MULLINS_OR_S(
-     1     NEL    ,NUPARAM  ,NUVAR   ,NPF    ,TF     ,
+     1     NEL    ,NUPARAM  ,NUVAR   ,
      2     TIME   ,TIMESTEP ,UPARAM  ,NGL    ,  
-     3     MAT    ,SIGNXX   ,SIGNYY  ,SIGNZZ ,SIGNXY  ,
-     4     SIGNYZ ,SIGNZX   ,UVAR    ,OFF    ,IP     ,
+     3     SIGNXX ,SIGNYY   ,SIGNZZ  ,SIGNXY  ,
+     4     SIGNYZ ,SIGNZX   ,UVAR    ,OFF    ,
      5     DFMAX  ,WW)
 C---------+---------+---+---+--------------------------------------------
 c---------+---------+---+---+--------------------------------------------
@@ -47,9 +47,6 @@ C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
 C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF FAILURE ELEMENT VARIABLES
-C---------+---------+---+---+--------------------------------------------
-C NPF     |  *      | I | R | FUNCTION ARRAY   
-C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
@@ -66,10 +63,10 @@ C---------+---------+---+---+--------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,  INTENT(IN) ::  NEL,NUPARAM  ,NUVAR ,IP
+      INTEGER,  INTENT(IN) ::  NEL,NUPARAM  ,NUVAR
       my_real,  INTENT(IN) ::  TIME,TIMESTEP
       my_real, DIMENSION(NUPARAM),  INTENT(IN) :: UPARAM
-      my_real, DIMENSION(NEL), INTENT(IN) ::NGL,MAT, WW
+      my_real, DIMENSION(NEL), INTENT(IN) ::NGL, WW
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -81,18 +78,10 @@ C-----------------------------------------------
      .   SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX,DFMAX, OFF
       my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR      
 C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*)
-      my_real TF(*)
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,JJ,K,IR,IADBUF,NINDX,IFAIL
-      INTEGER, DIMENSION(NEL) :: 
-     .   INDX
-C
-
+      INTEGER, DIMENSION(NEL) :: INDX
       my_real 
      .    COEFR, BETAF ,COEFM,SXX,SYY,SZZ,TRACE,ETA(NEL)
 C=======================================================================
@@ -152,9 +141,6 @@ C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
 C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF FAILURE ELEMENT VARIABLES
-C---------+---------+---+---+--------------------------------------------
-C NPF     |  *      | I | R | FUNCTION ARRAY   
-C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP

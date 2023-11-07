@@ -53,12 +53,12 @@ Chd|====================================================================
      .                  IR_INPUT        ,IS_INPUT     ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
      .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,
      .                  MULTI_FVM       , H3D_DATA    ,NG        ,IDMDS       ,IMDSVAR     ,
-     .                  MDS_MATID       ,ID           )
+     .                  MDS_MATID       ,ID           ,MAT_PARAM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
+      USE MAT_ELEM_MOD    
       USE SCHLIEREN_MOD 
       USE STACK_MOD       
       USE H3D_MOD        
@@ -102,6 +102,7 @@ C-----------------------------------------------
       TYPE (H3D_DATABASE) :: H3D_DATA
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -722,7 +723,7 @@ c UVAR=IUVAR
                     IF (ISOLNOD == 8 .AND. MLW == 59) THEN                      
 c                     output = global damage variables of /fail/connect         
                       MT = IXS(1,NFT+1)                                         
-                      IRUPT = IPM(111,MT)                                       
+                      IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT                                     
                       NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL                      
                       IF (IRUPT == 20) THEN                                     
                         NPTG = 4                                                
@@ -1190,7 +1191,7 @@ c ILAYER=NULL IR=NULL IS=NULL IT=NULL
                   IF (ISOLNOD == 8 .AND. MLW == 83) THEN 
 c                   output = damage variables of /fail/snconnect  
                     MT = IXS(1,NFT+1)
-                    IRUPT = IPM(111,MT)
+                    IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT
                     NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL! ng= ngroup
                     IF (IRUPT == 26) THEN 
                       NPTG = 4
@@ -1215,7 +1216,7 @@ c ILAYER=NULL IR= IS= IT=
                   IF (ISOLNOD == 8 .AND. MLW == 83) THEN 
 c                   output = damage variables of /fail/snconnect  
                     MT = IXS(1,NFT+1)
-                    IRUPT = IPM(111,MT)
+                    IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT
                     NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL! ng= ngroup
                     IF (IRUPT == 26) THEN 
                       DO IIR=1,NFAIL
@@ -1240,7 +1241,7 @@ c ILAYER=NULL IR=NULL IS=NULL IT=NULL
                   IF (ISOLNOD == 8 .AND. MLW == 83) THEN 
 c                   output = damage variables of /fail/snconnect  
                     MT = IXS(1,NFT+1)
-                    IRUPT = IPM(111,MT)
+                    IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT
                     NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL! ng= ngroup
                     IF (IRUPT == 26) THEN 
                       NPTG = 4
@@ -1265,7 +1266,7 @@ c ILAYER=NULL IR= IS= IT=
                   IF (ISOLNOD == 8 .AND. MLW == 83) THEN 
 c                   output = damage variables of /fail/snconnect  
                     MT = IXS(1,NFT+1)
-                    IRUPT = IPM(111,MT)
+                    IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT
                     NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL! ng= ngroup
                     IF (IRUPT == 26) THEN 
                       DO IIR=1,NFAIL
@@ -1290,7 +1291,7 @@ c ILAYER=NULL IR=NULL IS=NULL IT=NULL
                   IF (ISOLNOD == 8 .AND. MLW == 83) THEN 
 c                   output = damage variables of /fail/snconnect  
                     MT = IXS(1,NFT+1)
-                    IRUPT = IPM(111,MT)
+                    IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT
                     NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL! ng= ngroup
                     IF (IRUPT == 26) THEN 
                       NPTG = 4
@@ -1315,7 +1316,7 @@ c ILAYER=NULL IR= IS= IT=
                   IF (ISOLNOD == 8 .AND. MLW == 83) THEN 
 c                   output = damage variables of /fail/snconnect  
                     MT = IXS(1,NFT+1)
-                    IRUPT = IPM(111,MT)
+                    IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT
                     NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL! ng= ngroup
                     IF (IRUPT == 26) THEN 
                       DO IIR=1,NFAIL

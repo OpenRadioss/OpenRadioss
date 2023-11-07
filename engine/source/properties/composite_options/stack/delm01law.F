@@ -27,12 +27,15 @@ Chd|-- called by -----------
 Chd|        DELAMINATION                  source/properties/composite_options/stack/delamination.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DELM01LAW(
-     1     NEL    ,NUPARAM ,NUVAR  ,MFUNC    ,KFUNC   ,
-     2     NPF    ,TF      ,TIME   ,TIMESTEP ,UPARAM  ,
-     3     NGL    ,IPLY    ,IPM    ,MAT      ,IP      ,
-     4     OFF    ,SIGNYZ0 ,SIGNXZ0,SIGNZZ   ,UVAR    ,
-     5     OFFI   ,REDUC   ,COUNT  ,SIGNYZ   ,SIGNXZ  )
+      SUBROUTINE DELM01LAW(FAIL    ,
+     1     NEL    ,NUVAR   ,TIME   ,TIMESTEP ,
+     2     NGL    ,IPLY    ,
+     3     OFF    ,SIGNYZ0 ,SIGNXZ0,SIGNZZ   ,UVAR    ,
+     4     OFFI   ,REDUC   ,COUNT  ,SIGNYZ   ,SIGNXZ  )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE FAIL_PARAM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,17 +44,10 @@ C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
-C---------+---------+---+---+--------------------------------------------
-C MFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW not used
-C KFUNC   | NFUNC   | I | R | FUNCTION INDEX not used
-C NPF     |  *      | I | R | FUNCTION ARRAY   
-C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
-C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
 C EPSPXX  | NEL     | F | R | STRAIN RATE XX
 C EPSPYY  | NEL     | F | R | STRAIN RATE YY
 C ...     |         |   |   |
@@ -85,12 +81,12 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
 C
-      INTEGER NEL, NUPARAM, NUVAR,NGL(*),IPM(NPROPMI,*),
-     .        MAT(*),IP, IPLY
+      INTEGER NEL,  NUVAR,NGL(*),IPLY
       my_real 
-     .   TIME,TIMESTEP(*),UPARAM(*),SIGNZZ(*),
+     .   TIME,TIMESTEP(*),SIGNZZ(*),
      .   SIGNYZ0(*),SIGNXZ0(*),SIGNYZ(*),SIGNXZ(*),
      .   OFFI(*),COUNT(*),REDUC(*)
+      TYPE (FAIL_PARAM_) ,INTENT(IN) :: FAIL
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -99,26 +95,13 @@ cc      my_real
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real UVAR(NEL,NUVAR), OFF(NEL),UEL(NEL)
-C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*), MFUNC, KFUNC(MFUNC)
-      my_real FINTER ,TF(*)
-      EXTERNAL FINTER
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
+      my_real UVAR(NEL,NUVAR), OFF(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .   I,J,IDEL,IDEL_L,IFLAG(MVSIZ),INDX(MVSIZ),IADBUF,NINDX,     
-     .   IFAIL,JST(MVSIZ),IR,JJ,IMATLY,
+     .   I,J,IDEL,IDEL_L,IFLAG(MVSIZ),INDX(MVSIZ),NINDX,   
+     .   JST(MVSIZ),IR,JJ,
      .   NINDX0,INDX0(MVSIZ)        
       my_real 
      .   K1(MVSIZ),K2(MVSIZ),K3(MVSIZ),K(MVSIZ),
@@ -129,26 +112,19 @@ C--------------------------------------------------------------
 C
       IR = 0
       DO I=1,NEL
-C
-        IF(OFF(I)==ZERO) CYCLE
-C
-        IMATLY=MAT(I)  
-        IFAIL = IPM(111 +IP,IMATLY)
-        IF(IFAIL == 18)THEN  
-          IADBUF     =  IPM(114 +IP, IMATLY)
-          K1(I)      = UPARAM(IADBUF )
-          K2(I)      = UPARAM(IADBUF + 1)
-          K3(I)      = UPARAM(IADBUF + 2)
-          GAMA1(I)   = UPARAM(IADBUF + 3)
-          GAMA2(I)   = UPARAM(IADBUF + 4)
-          Y0(I)      = UPARAM(IADBUF + 5)
-          YC(I)      = UPARAM(IADBUF + 6)
-          K(I)       = UPARAM(IADBUF + 7)
-          A(I)       = UPARAM(IADBUF + 8)
-          REDUC(I)   = UPARAM(IADBUF + 12) 
-          IR = IR + 1
-          JST(IR) = I  
-        ENDIF 
+        IF (OFF(I)== ZERO) CYCLE
+        K1(I)      = FAIL%UPARAM(1)
+        K2(I)      = FAIL%UPARAM(2)
+        K3(I)      = FAIL%UPARAM(3)
+        GAMA1(I)   = FAIL%UPARAM(4)
+        GAMA2(I)   = FAIL%UPARAM(5)
+        Y0(I)      = FAIL%UPARAM(6)
+        YC(I)      = FAIL%UPARAM(7)
+        K(I)       = FAIL%UPARAM(8)
+        A(I)       = FAIL%UPARAM(9)
+        REDUC(I)   = FAIL%UPARAM(13) 
+        IR = IR + 1
+        JST(IR) = I  
         INDX(I) = 0
       ENDDO      
 C-----------------------------------------------
@@ -157,13 +133,9 @@ C-----------------------------------------------
       IF (TIME == ZERO) THEN
         DO JJ=1,IR
           I = JST(JJ)
-          UEL(I) = ZERO
           UVAR(I,9)  = ONE
         ENDDO   
       ENDIF   
-C-------------------------------
-C      
-C     OFF = 0.
 C-------------------------------
 C           
         NINDX  = 0 

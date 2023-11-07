@@ -195,7 +195,7 @@ Chd|====================================================================
      J                  FXB_MATRIX ,FXB_MATRIX_ADD,FXB_LAST_ADRESS,PTR_NOPT_FXB,R_SKEW,
      K                  KNOD2EL1D  ,NOD2EL1D     ,EBCS_TAB     ,RBY_INIAXIS  ,ALEA    ,
      L                  KNOD2ELC   ,NOD2ELC      ,DR           ,SLRBODY      , DRAPEG ,
-     M                  IPARI      ,INTBUF_TAB   ,INTERFACES   ,MATPARAM)
+     M                  IPARI      ,INTBUF_TAB   ,INTERFACES   ,MAT_PARAM    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -333,7 +333,7 @@ C
       TYPE (FVM_INIVEL_STRUCT), INTENT(IN) :: FVM_INIVEL(*)
       TYPE (NLOCAL_STR_)   :: NLOC_DMG 
       TYPE (GROUP_PARAM_), DIMENSION(NGROUP)  :: GROUP_PARAM_TAB
-      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MATPARAM
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
@@ -1025,14 +1025,14 @@ C Element types
      7              VNS          ,BNS         ,WMA      ,PTSOL      ,BUFMAT     ,  
      8              MCP          ,MCPS        ,TEMP     ,NPC        ,PLD        ,  
      9              IUSER        ,SIGSP       ,NSIGI    ,MSSA       ,XREFS      ,  
-     A              STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI ,SPBUF      ,SOL2SPH    ,
-     B              ILOADP       ,FACLOAD      ,RNOISE   ,PERTURB    )                            
+     A              STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI ,SPBUF     ,SOL2SPH    ,
+     B              ILOADP       ,FACLOAD      ,RNOISE   ,PERTURB   ,MAT_PARAM)                            
                IF (NXREF > 0 .AND. JLAG/=0 .AND. JSPH==0)THEN
                   CALL S4REFSTA3(
      1                 ELBUF_TAB(NG),IXS        ,PM         ,GEO      ,IPARG(1,NG),
      2                 IPM        ,IGEO       ,SKEW       ,X        ,XREFS      ,
-     3                 NEL        ,IPART(I15A),IPART    ,BUFMAT   ,NUMMAT     ,
-     4                 MATPARAM   ,NPC          ,PLD        )
+     3                 NEL          ,IPART(I15A),IPART    ,BUFMAT   ,MAT_PARAM  ,
+     4                 NPC          ,PLD        ,NUMMAT   )
 C Case total strain
                   IF (ISTOT == 1) THEN
                      CALL SGSAVREF(ISOLNOD,XREFS(1,1,NFT+1),GBUF%SMSTR,NEL)
@@ -1058,7 +1058,7 @@ C Case total strain
      A         MCP         ,MCPS      ,MCPSX   ,TEMP       ,NPC        ,
      B         PLD         ,IN        ,STIFR   ,INS        ,MSSA       ,
      C         STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI,ILOADP ,FACLOAD    ,
-     D         PERTURB     ,RNOISE    )
+     D         PERTURB     ,RNOISE    ,MAT_PARAM)
           IF (NSIGI > 0 ) THEN
              NNOD = 10
              NSROT = 0
@@ -1080,7 +1080,7 @@ C Case total strain
      8         VNS         ,BNS       ,VNSX   ,BNSX       ,PTSOL      ,
      9         BUFMAT      ,MCP       ,MCPS   ,MCPSX      ,TEMP       ,
      A         NPC         ,PLD       ,STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI   ,
-     B         ILOADP      ,FACLOAD   ,PERTURB,RNOISE     )
+     B         ILOADP      ,FACLOAD   ,PERTURB,RNOISE     ,MAT_PARAM  )
          ELSEIF(ITY==1.AND.ISOLNOD==16)THEN
           KK1=1+NUMELS*NIXS+NUMELS10*6+NUMELS20*12
           CALL S16INIT3(
@@ -1093,7 +1093,7 @@ C Case total strain
      7       VNS          ,BNS       ,VNSX    ,BNSX       ,PTSOL      ,    
      8       BUFMAT       ,MCP       ,MCPS    ,MCPSX      ,TEMP       ,    
      9       NPC          ,PLD       ,STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI   ,
-     A       ILOADP       ,FACLOAD   ,PERTURB ,RNOISE     )                
+     A       ILOADP       ,FACLOAD   ,PERTURB ,RNOISE     ,MAT_PARAM  )                
          ELSEIF(ITY==1)THEN
           JHBE=IPARG(23,NG)
           JCLOS=IPARG(33,NG)
@@ -1121,7 +1121,7 @@ C Case total strain
      .             BUFMAT       ,MCP      ,MCPS     ,MCPSX      ,TEMP    ,
      .             NPC          ,PLD      ,STRSGLOB(NF1),STRAGLOB(NF1),MSSA    ,
      .             ORTHOGLOB    ,FAIL_INI ,ILOADP   ,FACLOAD   ,PERTURB  ,
-     .             RNOISE       )
+     .             RNOISE       ,MAT_PARAM)
             ELSE
               CALL SCINIT3(ELBUF_TAB(NG),
      .             MS         ,IXS       ,PM        ,X           ,MSS        ,
@@ -1149,7 +1149,7 @@ C Case total strain
      .             BNS     ,WMA     ,PTSOL   ,BUFMAT  ,MCP     ,
      .             MCPS    ,TEMP    ,NPC     ,PLD     ,XREFS   ,
      .             MSSA    ,STRSGLOB,STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI,
-     .             ILOADP  ,FACLOAD ,PERTURB ,RNOISE  )
+     .             ILOADP  ,FACLOAD ,PERTURB ,RNOISE  ,MAT_PARAM)
             IF (ISTOT == 1) THEN
               CALL SGSAVINI(ISOLNOD,X,IXS(1,NFT+1),GBUF%SMSTR,NEL)
             ENDIF
@@ -1179,7 +1179,7 @@ C Case total strain
      .             MCPS    ,TEMP    ,NPC     ,PLD     ,XREFS   ,
      .             MSSA    ,STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI,SPBUF   ,
      .             KXSP    ,IPART(I15J) ,NOD2SP  ,SOL2SPH ,IRST,
-     .             ILOADP  ,FACLOAD     ,PERTURB ,RNOISE  )
+     .             ILOADP  ,FACLOAD     ,PERTURB ,RNOISE  ,MAT_PARAM)
               IF (NSIGI > 0 .AND. ISMSTR == 1) THEN
                  CALL SGSAVINIEREF(ISOLNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
      .                             GBUF%SMSTR,GBUF%OFF,NEL)
@@ -1193,7 +1193,7 @@ C Case total strain
      .             NSIGI ,IN        ,VR    ,IPM        ,NSIGS   ,
      .             VOLNOD ,BVOLNOD  ,VNS   ,BNS        ,PTSOL   ,
      .             BUFMAT ,NPC      ,PLD   ,FAIL_INI   ,INS     ,
-     .             ILOADP ,FACLOAD  ,PERTURB,RNOISE    )
+     .             ILOADP ,FACLOAD  ,PERTURB,RNOISE    ,MAT_PARAM)
           ELSE
             GBUF => ELBUF_TAB(NG)%GBUF
             IF (NPT == 1 .AND. ISTOT == 1) THEN
@@ -1217,7 +1217,7 @@ C Case total strain
      B              XREFS        ,NPC          ,PLD    ,MSSA       ,STRSGLOB(NF1),
      C              STRAGLOB(NF1),FAIL_INI     ,SPBUF  ,KXSP       ,IPART(I15J),
      D              NOD2SP       ,SOL2SPH      ,IRST   ,ILOADP     ,FACLOAD    ,
-     E              RNOISE       ,PERTURB      )        
+     E              RNOISE       ,PERTURB      ,MAT_PARAM)        
             ELSE IF (JMULT > 0 .AND. MTN == 151) THEN
       !Multifluid law
                CALL MULTIFLUID_INIT3 (
@@ -1237,10 +1237,10 @@ C Case total strain
             ENDIF
            
             CALL SREFSTA3(
-     1        ELBUF_TAB(NG),IXS      ,PM         ,GEO      ,IPARG(1,NG),  
-     2        IPM        ,IGEO       ,SKEW       ,X        ,XREFS      ,
-     3        NEL        ,IPART(I15A),IPART      ,BUFMAT   ,NUMMAT     ,              
-     6        MATPARAM   ,NPC        ,PLD        )
+     1        ELBUF_TAB(NG),IXS        ,PM         ,GEO      ,IPARG(1,NG),  
+     2        IPM          ,IGEO       ,SKEW       ,X        ,XREFS     ,
+     3        NEL          ,IPART(I15A),IPART      ,BUFMAT   ,MAT_PARAM,              
+     6        NPC          ,PLD        ,NUMMAT     )
 C
 C Case total strain: conf_ref <- XREF
             IF (NXREF > 0 .AND. (NPT == 1 .AND. ISTOT == 1) ) THEN
@@ -1342,7 +1342,8 @@ C 2D multifluid law
      C             NPC        ,PLD    ,XFEM_TAB,ISUBSTACK ,STACK    ,
      D             RNOISE     ,DRAPE  ,SH4ANG    ,GEO_STACK,
      E             IGEO_STACK ,STRC   ,PERTURB            ,IYLDINI ,ELE_AREA,
-     F             NLOC_DMG   ,NG        ,GROUP_PARAM_TAB(NG),IDRAPE,DRAPEG)
+     F             NLOC_DMG   ,NG        ,GROUP_PARAM_TAB(NG),IDRAPE,DRAPEG,
+     G             MAT_PARAM  )
           ELSE
             NULLIFY(ptr_ITAGE)
             IF (SITAGE>0) ptr_ITAGE => ITAGE(1)       
@@ -1360,7 +1361,7 @@ C 2D multifluid law
      D      STACK     ,RNOISE     ,DRAPE      ,SH4ANG     ,
      E      GEO_STACK,IGEO_STACK  ,STRC       ,PERTURB    ,IYLDINI    ,
      F      ELE_AREA  ,NG         ,GROUP_PARAM_TAB(NG)    ,NLOC_DMG   ,
-     G      IDRAPE    ,DRAPEG)
+     G      IDRAPE    ,DRAPEG     ,MAT_PARAM  )
           ENDIF
           NC1 = NVC / 8
           NC2 = (NVC-NC1*8) / 4
@@ -1431,7 +1432,7 @@ C 2D multifluid law
      B          IPARG(1,NG),CPT_ELTENS,PART_AREA   ,NPC ,PLD      , 
      C          SH3TRIM ,ISUBSTACK,STACK ,RNOISE,
      D          DRAPE,SH3ANG ,GEO_STACK,IGEO_STACK,STRTG,
-     E          PERTURB,IYLDINI ,ELE_AREA,NLOC_DMG,IDRAPE, DRAPEG)
+     E          PERTURB,IYLDINI ,ELE_AREA,NLOC_DMG,IDRAPE, DRAPEG,MAT_PARAM)
           ELSEIF (MTN == 151 .OR. N2D > 0) THEN
              CALL MULTIFLUID_INIT2T(ELBUF_TAB(NG), NEL, NSIGS, NVC, IPARG, IXTG, ALE_CONNECTIVITY,
      .            IGEO, IPART, IPART(I15H), IPM, PTSH3N, NPC, ILOADP, 
@@ -1453,7 +1454,7 @@ C 2D multifluid law
      D          ISUBSTACK , STACK,RNOISE  ,
      E          DRAPE ,SH3ANG,GEO_STACK,IGEO_STACK,STRTG,
      F          PERTURB ,ISH3N,IYLDINI ,ELE_AREA,
-     G          NLOC_DMG,NG,GROUP_PARAM_TAB(NG),IDRAPE, DRAPEG)
+     G          NLOC_DMG,NG,GROUP_PARAM_TAB(NG),IDRAPE, DRAPEG,MAT_PARAM)
           ENDIF
           NC1 = NVC / 8
           NC2 = (NVC-NC1*8) / 4

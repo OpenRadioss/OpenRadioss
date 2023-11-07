@@ -31,13 +31,12 @@ Chd|        NGR2USRN                      source/system/nintrr.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
-      SUBROUTINE FAIL_WINDSHIELD_INIT(
-     .           ELBUF_STR,NEL      ,NFT      ,ITY      ,NGL      ,
-     .           IPM      ,BUFMAT   ,IGRSH4N  ,IGRSH3N  )
+      SUBROUTINE FAIL_WINDSHIELD_INIT(ELBUF_STR,MAT_PARAM,
+     .            NEL      ,NFT      ,ITY      ,IGRSH4N  ,IGRSH3N  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD    
       USE GROUPDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -52,24 +51,22 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NFT
-      INTEGER IPM(NPROPMI,*),NGL(NEL)
-      my_real ,DIMENSION(*), INTENT(IN) ,TARGET :: BUFMAT
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSHEL) :: IGRSH4N
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,KK,IEL,IL,IP,IR,IS,IT,NPTR,NPTS,NPTT,IFL,IAD,IADBUF,
-     .   ITY,IGR,IGRID,NUMEL,IMAT,IRUPT,NFAIL,NUPAR,NUVAR,NINDX,IVAR,NUM
+      INTEGER I,II,KK,IEL,IL,IR,IS,IT,NPTR,NPTS,NPTT,IFL,
+     .   ITY,IGR,IGRID,NUMEL,IMAT,IRUPT,NFAIL,NINDX,IVAR,NUM
       INTEGER TAGSH(MAX(NUMELC,NUMELTG)),TAGEL(NEL),INDX(NEL)
-      my_real ,DIMENSION(:), POINTER  :: UVAR, UPARAM
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(BUF_FAIL_),POINTER :: FBUF
       EXTERNAL  NGR2USRN
       INTEGER   NGR2USRN
-c
+c-----------------------------------------------------------------------
 c     Initialization of failure UVAR table => edge element flag for /FAIL/ALTER
 C=======================================================================
       DO IL=1, ELBUF_STR%NLAY  
@@ -88,19 +85,15 @@ C=======================================================================
 c---
             IF (IRUPT == 28) THEN   ! windshield failure model
               IVAR = NEL*(10-1)     ! edge element flag = UVAR(10)
-              IP   = (IFL - 1)*15                                             
-              NUPAR  = IPM(112 + IP, IMAT)
-              IADBUF = IPM(114 + IP ,IMAT)
-              UPARAM => BUFMAT(IADBUF:IADBUF+NUPAR)
-              IGR    = 0
+              IGR  = 0
               IF (ITY == 3) THEN
                 KK = NGRNOD + NGRBRIC + NGRQUAD
-                IGRID = UPARAM(12)
-                UPARAM(11) = ONE / SQRT(PI)  ! GEORED for underintegrated 4N shells
+                IGRID = MAT_PARAM(IMAT)%FAIL(IFL)%UPARAM(12)
+                MAT_PARAM(IMAT)%FAIL(IFL)%UPARAM(11) = ONE / SQRT(PI)  ! GEORED for underintegrated 4N shells
                 IF (IGRID > 0) IGR = NGR2USRN(IGRID,IGRSH4N,NGRSHEL,NUM)
                 TAGSH(1:NUMELC)  = 0
               ELSEIF (ITY == 7) THEN
-                IGRID = UPARAM(13)
+                IGRID = MAT_PARAM(IMAT)%FAIL(IFL)%UPARAM(13)
                 IF (IGRID > 0) IGR = NGR2USRN(IGRID,IGRSH3N,NGRSH3N,NUM)
                 TAGSH(1:NUMELTG) = 0
               ENDIF
@@ -122,7 +115,6 @@ c
                 ENDIF ! IF (ITY == 3)
                 NINDX = 0
                 DO I=1,NEL
-c                  IEL = NGL(I)
                   IF (TAGSH(I+NFT) == 1) THEN
                     NINDX = NINDX + 1
                     INDX(NINDX) = I

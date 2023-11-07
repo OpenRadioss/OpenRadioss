@@ -34,13 +34,8 @@ Chd|        USER_OUTPUT                   source/user_interface/user_output.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_USER(IRUP,IUSER_KEY,
-     .                             USERL_AVAIL,
-     .                             UPARAM,MAXUPARAM,NUPARAM,
-     .                             NUVAR,IFUNC,MAXFUNC,NFUNC,
-     .                             LSUBMODEL,
-     .                             UNITAB_SUB,
-     .                             MAT_ID)
+      SUBROUTINE HM_READ_FAIL_USER(FAIL   ,IRUPT,IUSER_KEY,USERL_AVAIL,
+     .                             LSUBMODEL,UNITAB_SUB,MAT_ID)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -55,10 +50,9 @@ C     USERL_AVAIL   Flag if userlibrary was load
 C     IS_AVAILABLE  Bool / Result of HM_interface
 C     LSUBMODEL     SUBMODEL Structure.
 C------------------------------------------------------------------
-C
-C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
@@ -74,26 +68,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IRUP
+      INTEGER IRUPT,MAT_ID
       INTEGER USERL_AVAIL
-      INTEGER MAXUPARAM
-      INTEGER NUPARAM 
-      INTEGER NUVAR
-      INTEGER NFUNC,MAXFUNC
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)
-      INTEGER, DIMENSION(MAXFUNC)     :: IFUNC
-      my_real, DIMENSION(MAXUPARAM)   :: UPARAM
       my_real, DIMENSION(4)           :: UNITAB_SUB
       CHARACTER IUSER_KEY*ncharline
+      TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      INTEGER NUPARAM,NUVAR,NFUNC
+      INTEGER, PARAMETER :: MAXFUNC  = 100
+      INTEGER, PARAMETER :: MAXPARAM = 1000
+      INTEGER, DIMENSION(MAXFUNC)  :: IFUNC
+      my_real, DIMENSION(MAXPARAM) :: UPARAM
       CHARACTER(LEN=4096) :: SCR_FILE_NAME
       CHARACTER(LEN=ncharline) :: RLINE
       CHARACTER (LEN=4) :: CRUP
       CHARACTER(LEN=nchartitle) :: TITLE
       LOGICAL :: IS_AVAILABLE
-      INTEGER NLINES,J,MAT_ID
+      INTEGER NLINES,J
       INTEGER SCR_FILE_NAME_LEN
 !
       CHARACTER OPTION*256
@@ -113,7 +107,7 @@ C-----------------------------------------------
       IF(NLINES > 0)THEN 
 
         ! Create tempo file  
-        WRITE(CRUP,'(I4.4)')IRUP
+        WRITE(CRUP,'(I4.4)')IRUPT
         SCR_FILE_NAME='SI'//ROOTNAM(1:ROOTLEN)//'_'//CRUP//'.scr'
         SCR_FILE_NAME_LEN=LEN_TRIM(SCR_FILE_NAME)
         OPEN(UNIT=30,FILE=TRIM(SCR_FILE_NAME),FORM='FORMATTED',RECL=ncharline)
@@ -125,10 +119,29 @@ C-----------------------------------------------
         ENDDO
         CLOSE(UNIT=30)
 !
-        CALL ST_USERLIB_LECR(IRUP,ROOTNAM,ROOTLEN,UPARAM,MAXUPARAM,NUPARAM,
+        CALL ST_USERLIB_LECR(IRUPT,ROOTNAM,ROOTLEN,UPARAM,MAXPARAM,NUPARAM,
      .                       NUVAR ,IFUNC,MAXFUNC,NFUNC,UNITAB_SUB,
      .                       MAT_ID)
-        CALL USER_OUTPUT(IOUT,IRUP,ROOTNAM,ROOTLEN,1)
+c
+        FAIL%KEYWORD = 'USER FAILURE MODEL' 
+        FAIL%IRUPT   = IRUPT 
+        FAIL%FAIL_ID = 0 
+        FAIL%NUPARAM = NUPARAM
+        FAIL%NIPARAM = 0
+        FAIL%NUVAR   = NUVAR
+        FAIL%NFUNC   = NFUNC
+        FAIL%NTABLE  = 0
+        FAIL%NMOD    = 0
+c            
+        ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+        ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+        ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+        ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+        FAIL%UPARAM(1:NUPARAM) = UPARAM(1:NUPARAM)
+        FAIL%IFUNC (1:NFUNC)   = IFUNC(1:NFUNC)
+c
+        CALL USER_OUTPUT(IOUT,IRUPT,ROOTNAM,ROOTLEN,1)
       ELSE
          ! Error MESSAGE_Mess
       ENDIF

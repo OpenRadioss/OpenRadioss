@@ -210,7 +210,7 @@ Chd|====================================================================
      5                  SINVERT  ,CONT     ,SMATER      ,ICUT        ,SKEW     ,
      6                  XCUT     ,FINT     ,ITAB        ,SEL2FA      ,FEXT     ,
      7                  FOPT     ,ANIN     ,LPBY        ,NPBY        ,NSTRF    ,
-     8                  RWBUF    ,NPRW     ,TANI        ,ELBUF_TAB   ,MATPARAM_TAB,
+     8                  RWBUF    ,NPRW     ,TANI        ,ELBUF_TAB   ,MAT_PARAM,
      A                  DD_IAD   ,WEIGHT   ,EANI        ,IPART       ,CLUSTER  ,
      B                  IPARTS   ,IPARTQ   ,IPARTC      ,IPARTT      ,IPARTP   ,
      C                  IPARTR   ,IPARTUR  ,IPARTTG     ,
@@ -349,7 +349,7 @@ C-----------------------------------------------
       TYPE (SURF_)   , DIMENSION(NSURF)  :: IGRSURF
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
-      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3812,7 +3812,7 @@ C-----------------------------------------------
           CALL TENSORC(ELBUF_TAB,IPARG ,IFUNC ,INVERT,NELCUT,
      .                 EL2FA    ,NBF   ,WAFT  ,TANI  ,IAD   ,
      .                 NBF_L    ,NBPART,IADG  ,X     ,IXC   ,
-     .                 IGEO     ,IXTG  ,IPM   ,STACK ,MATPARAM_TAB)
+     .                 IGEO     ,IXTG  ,IPM   ,STACK ,MAT_PARAM)
           IF (ISPMD==0) THEN
             R4 = ZERO
             DO J=1,NESBW2
@@ -4662,7 +4662,7 @@ C-----------------------------------------------
      4              IADG      ,SPBUF     ,IPART       ,IPARTSP     ,ISPH3D       ,
      5              X         ,V         ,W           ,ALE_CONNECTIVITY,
      6              NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS    ,BUFMAT       ,
-     7              FANI_CELL ,MULTI_FVM)
+     7              FANI_CELL ,MULTI_FVM ,MAT_PARAM   )
         ENDIF
       ENDDO
 C-----------------------------------------------

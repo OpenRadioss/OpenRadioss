@@ -65,7 +65,7 @@ C-----------------------------------------------
      .  Q1,Q2,Q3,EPN,AS,KW,F0,FC,FR,RLEN,HKHI
 C=======================================================================
       IF (IFAILG == 1) THEN
-        ILOC  = NINT(UPARF(1))
+        ILOC  = MATPARAM%NLOC
         !IGURSON = 0  no damage (default) 
         IF (ILOC == 0) THEN
           IGURSON = 1 ! local damage

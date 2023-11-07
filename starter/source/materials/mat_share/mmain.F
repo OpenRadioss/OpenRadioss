@@ -32,7 +32,7 @@ Chd|====================================================================
       SUBROUTINE MMAIN(PM      ,ELBUF_STR,IX   ,NIX    ,X       ,
      2                  GEO    ,IPARG  ,NEL    ,SKEW   ,BUFMAT  ,
      3                  IPART  ,IPARTEL,NUMMAT ,MATPARAM,
-     4                  MAT    ,IPM    ,NGL    ,PID    ,NPF     ,
+     4                  IMAT   ,IPM    ,NGL    ,PID    ,NPF     ,
      5                  TF     ,MFXX   ,MFXY   ,MFXZ   ,MFYX    ,
      6                  MFYY   ,MFYZ   ,MFZX   ,MFZY   ,MFZZ    ,
      7                  RX     ,RY     ,RZ     ,SX     ,SY      ,
@@ -62,9 +62,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NUMMAT
-      INTEGER NIX,NEL
+      INTEGER ,INTENT(IN) :: IMAT
+      INTEGER ,INTENT(IN) :: NIX,NEL
       INTEGER IX(NIX,*), IPARG(*),
-     .        IPART(LIPART1,*),IPARTEL(*),MAT(*),IPM(NPROPMI,*),
+     .        IPART(LIPART1,*),IPARTEL(*),IPM(NPROPMI,*),
      .        NGL(*), PID(*), NPF(*)
       my_real
      .   X(*), GEO(*), PM(NPROPM,*),
@@ -106,20 +107,19 @@ C
      2             PM       ,OFF      ,GBUF%SIG ,GBUF%EINT,GBUF%RHO,
      3             GBUF%VOL ,LBUF%STRA,GAMA     ,
      4             MBUF%VAR ,BUFMAT   ,TF       ,NPF      ,
-     5             MAT      ,NGL      ,NUVAR    ,NVARTMP, MBUF%VARTMP,
-     6                       GEO      ,PID      ,EPSD     ,
-     8                                                     WXX    ,
-     9             WYY      ,WZZ      ,JSPH     ,          CXX    ,
-     A                       VOLN     ,                    VIS    ,
-     B             DXX      ,DYY      ,DZZ      ,D4       ,D5     ,
-     C             D6       ,
-     D             DVOL     ,S1       ,S2       ,S3       ,S4     ,
-     E             S5       ,S6       ,RX       ,RY       ,RZ     ,
-     F             SX       ,SY       ,SZ       ,TX       ,TY     ,
-     G             TZ       ,                              ISMSTR ,
-     H             MFXX     ,MFXY     ,MFXZ     ,MFYX     ,MFYY   ,
-     I             MFYZ     ,MFZX     ,MFZY     ,MFZZ     ,IPM    ,
-     J             ISORTH   ,NEL      ,MATPARAM)
+     5             IMAT     ,NGL      ,NUVAR    ,NVARTMP, MBUF%VARTMP,
+     6             GEO      ,PID      ,EPSD     ,
+     8             WXX      ,WYY      ,WZZ      ,JSPH     ,CXX    ,
+     A             VOLN     ,VIS      ,DXX      ,
+     B             DYY      ,DZZ      ,D4       ,D5       ,D6     ,
+     C             DVOL     ,S1       ,S2       ,S3       ,S4     ,
+     D             S5       ,S6       ,RX       ,RY       ,RZ     ,
+     E             SX       ,SY       ,SZ       ,TX       ,TY     ,
+     F             TZ       ,ISMSTR   ,
+     G             MFXX     ,MFXY     ,MFXZ     ,MFYX     ,MFYY   ,
+     H             MFYZ     ,MFZX     ,MFZY     ,MFZZ     ,IPM    ,
+     I             ISORTH   ,NEL      ,MATPARAM)
+     J             
       ENDIF
 C------------
       RETURN

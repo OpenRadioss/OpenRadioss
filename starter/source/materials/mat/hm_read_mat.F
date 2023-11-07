@@ -159,7 +159,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT(
-     .   MAT_PARAM   ,MLAW_TAG    ,FAIL_TAG    ,EOS_TAG     ,BUFMAT      ,
+     .   MAT_PARAM   ,MLAW_TAG    ,EOS_TAG     ,BUFMAT      ,
      .   BUFLEN      ,IADBUF      ,IPM         ,PM          ,
      .   MULTI_FVM   ,UNITAB      ,LSUBMODEL   ,TABLE)
 C-----------------------------------------------
@@ -206,7 +206,6 @@ C-----------------------------------------------
 
       TYPE(MLAW_TAG_), TARGET, DIMENSION(NUMMAT)      :: MLAW_TAG
       TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG
-      TYPE(FAIL_TAG_), TARGET, DIMENSION(0:MAXFAIL),INTENT(INOUT) :: FAIL_TAG
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)

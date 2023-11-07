@@ -39,7 +39,7 @@ Chd|====================================================================
      1       IXQ    ,PM      ,IPARG  ,GEO    ,
      2       EADD   ,ND      ,DD_IAD ,IDX    ,
      3       INUM   ,INDEX   ,CEP    ,IPARTQ ,
-     4       ITR1   ,IGRSURF ,IGRQUAD,
+     4       ITR1   ,IGRSURF ,IGRQUAD,MAT_PARAM,
      5       IGEO   ,IPM     ,IQUAOFF,INIVOL,PRINT_FLAG)
 C-----------------------------------------------
 C   M o d u l e s
@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE INIVOL_DEF_MOD
       USE INIVOL_ARRAY_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------M
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -92,6 +93,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRQUAD)  :: IGRQUAD
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT),INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -347,7 +349,7 @@ C
           END IF
           ISRAT=IPM(3,MID)
           IFAIL = 0
-          NFAIL = IPM(220,MID)
+          NFAIL = MAT_PARAM(MID)%NFAIL
           ISTRAIN = 1
           IEOS=IPM(4,MID)
 

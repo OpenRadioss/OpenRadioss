@@ -31,8 +31,7 @@ Chd|====================================================================
      1     NEL      ,NUPARAM  ,NUVAR    ,UPARAM   ,UVAR     ,
      2     TIME     ,TIMESTEP ,IPG      ,ILAY     ,IPT      ,
      3     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     4     NGL      ,OFF      ,FOFF     ,PTHKF    ,DFMAX    ,
-     5     TDEL     )
+     4     NGL      ,OFF      ,FOFF     ,DFMAX    ,TDEL     )
 C---------+---------+---+---+--------------------------------------------
 c    Tuler Butcher Failure model
 C-----------------------------------------------
@@ -62,7 +61,6 @@ C ...     |         |   |   |
 C---------+---------+---+---+--------------------------------------------
 C OFF     | NEL     | F | R | DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C FOFF    | NEL     | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)
-C PTHKF   |  1      | F | W | PERCENTAGE OF LAYER THICKNESS TO FAIL
 C DFMAX   | NEL     | F |R/W| MAX DAMAGE FACTOR 
 C TDEL    | NEL     | F | W | FAILURE TIME
 C---------+---------+---+---+--------------------------------------------
@@ -83,26 +81,19 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER ,DIMENSION(NEL), INTENT(INOUT) :: FOFF
-      my_real ,INTENT(OUT) :: PTHKF
       my_real ,DIMENSION(NEL), INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: TDEL
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,IFAIL_SH,NINDX
+      INTEGER :: I,J,NINDX
       INTEGER ,DIMENSION(NEL) ::  INDX
       my_real :: TBA,TBK,KK,SIGMAX,SIGR_INI,SIG1,SIG2,S1,S2
 C=======================================================================
       TBA      = UPARAM(1)                           
       TBK      = UPARAM(2)                           
       SIGR_INI = UPARAM(3)                        
-      IFAIL_SH   = INT(UPARAM(4))                     
-      IF (IFAIL_SH == 1) THEN
-        PTHKF = EM06
-      ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = ONE
-      ENDIF
       NINDX  = 0  
 C-----------------------------------------------
       DO I=1,NEL                                             

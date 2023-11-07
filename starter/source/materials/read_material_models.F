@@ -35,7 +35,7 @@ Chd|        HM_READ_THERM                 source/materials/therm/hm_read_therm.F
 Chd|        HM_READ_THERM_STRESS          source/materials/therm/hm_read_therm_stress.F
 Chd|        HM_READ_VISC                  source/materials/visc/hm_read_visc.F
 Chd|        INI_EOS_VARS                  source/elements/elbuf_init/ini_eos_vars.F
-Chd|        INI_MAT_ELEM                  source/materials/mat/ini_mat_elem.F
+Chd|        INI_MATPARAM                  source/materials/mat/ini_matparam.F
 Chd|        INI_MLAW_VARS                 source/elements/elbuf_init/ini_mlaw_vars.F
 Chd|        MULTI_CHECK_EOS               source/multifluid/multi_check_eos.F
 Chd|        MULTI_CHECK_PSH               source/multifluid/multi_check_psh.F
@@ -104,7 +104,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(INOUT) :: PM
       my_real ,DIMENSION(SBUFMAT)       , INTENT(INOUT) :: BUFMAT
       TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
-      TYPE(MLAW_TAG_) , DIMENSION(NUMMAT  ) , INTENT(INOUT) :: MLAW_TAG
+      TYPE(MLAW_TAG_) , DIMENSION(NUMMAT)  , INTENT(INOUT) :: MLAW_TAG
       TYPE(EOS_TAG_)  ,DIMENSION(0:MAXEOS) , INTENT(INOUT) :: EOS_TAG
       TYPE(FAIL_TAG_) ,DIMENSION(0:MAXFAIL), INTENT(INOUT) :: FAIL_TAG
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
@@ -119,10 +119,7 @@ C-----------------------------------------------
       INTEGER ::  I,J,K,N,IADBUF,ILAW
       LOGICAL IS_ENCRYPTED, IS_AVAILABLE
       my_real ::  T0,SPH,AS,BS,T1,AL,BL
-      TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
-      INTEGER NRUPT
-      PARAMETER (NRUPT = 10) 
-      INTEGER IFUNC(MAXFUNC), NVAR_FAIL(MAXLAW,NRUPT) 
+      INTEGER IFUNC(MAXFUNC)
       CHARACTER MESS*40
 C-----------------------------------------------
       DATA IADBUF /1/
@@ -133,7 +130,7 @@ C=======================================================================
       CALL INI_MAT_ELEM (MAT_ELEM)
     
       !Set default parameters used in material laws
-      CALL INI_MLAW_VARS(MLAW_TAG ,FAIL_TAG ,NUMMAT)  ! attention ca ne marchera pas
+      CALL INI_MLAW_VARS(MLAW_TAG ,NUMMAT)  ! attention ca ne marchera pas
       CALL INI_EOS_VARS (EOS_TAG)
 c----------      
       ILAW    = 0
@@ -144,7 +141,7 @@ c----------
       ITHERM  = 0
       ITURB   = 0
       PM(1:100,NUMMAT)=ZERO
-      MULTI_FVM%NBMAT = 0 !Initialize number of material in law151  
+      MULTI_FVM%NBMAT   = 0 !Initialize number of material in law151  
       FAILWAVE%WAVE_MOD = 0 !Initialization of failwave option
       FAILWAVE%NDDL = 0
 c----------       
@@ -161,7 +158,7 @@ c-------------------------------------------------------------------
 c     /MAT : Material laws (Constitutive law : sigma,epsilon)
 c-------------------------------------------------------------------      
       CALL HM_READ_MAT(
-     .     MAT_ELEM%MAT_PARAM       ,MLAW_TAG    ,FAIL_TAG    ,EOS_TAG     ,BUFMAT      ,
+     .     MAT_ELEM%MAT_PARAM       ,MLAW_TAG    ,EOS_TAG     ,BUFMAT      ,
      .     BUFLEN      ,IADBUF      ,IPM         ,PM          ,
      .     MULTI_FVM   ,UNITAB      ,LSUBMODEL   ,TABLE)
 
@@ -174,9 +171,9 @@ c-------------------------------------------------------------------
 c-------------------------------------------------------------------
 c     /FAIL : Failure Models
 c-------------------------------------------------------------------     
-      CALL HM_READ_FAIL(FAIL_TAG,FAILWAVE ,NLOC_DMG,IPM     ,PM       ,
-     .                  BUFMAT  ,BUFLEN   ,IADBUF  ,UNITAB  ,LSUBMODEL,
-     .                  NRUPT   ,NVAR_FAIL,TABLE   )
+      CALL HM_READ_FAIL(MAT_ELEM%MAT_PARAM,NUMMAT,MAXFAIL  ,FAIL_TAG,
+     .                  NTABLE  ,TABLE    ,FAILWAVE ,NLOC_DMG,
+     .                  UNITAB  ,LSUBMODEL)
      
 c-------------------------------------------------------------------
 c     /VISC : Visco elastic  Models
@@ -217,7 +214,7 @@ c-------------------------------------------------------------------
 c-------------------------------------------------------------------
 c     /NONLOCAL : Non-local regularization
 c------------------------------------------------------------------
-      CALL HM_READ_NONLOCAL(NLOC_DMG ,MLAW_TAG ,IPM, UNITAB, LSUBMODEL)
+      CALL HM_READ_NONLOCAL(MAT_ELEM%MAT_PARAM,NLOC_DMG ,MLAW_TAG ,IPM, UNITAB, LSUBMODEL)
 
 c-------------------------------------------------------------------
 c      ALE EULER SPECIFIC TREATMENTS 

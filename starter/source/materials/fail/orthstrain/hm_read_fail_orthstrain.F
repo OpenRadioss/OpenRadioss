@@ -34,47 +34,22 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
        SUBROUTINE HM_READ_FAIL_ORTHSTRAIN(
-     .            UPARAM  ,MAXUPARAM ,NUPARAM ,NUVAR   ,IFUNC    ,
-     .            MAXFUNC ,NFUNC     ,UNITAB  ,FAIL_ID ,LSUBMODEL)
+     .            FAIL     ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
 C-----------------------------------------------
-c    Orthotropic strain  failure model
-C-----------------------------------------------
-C   ROUTINE DESCRIPTION :
-C   ===================
-C   READ FAILURE ORTHSTRAIN
-C-----------------------------------------------
-C   DUMMY ARGUMENTS DESCRIPTION:
-C   ===================
-C
-C     NAME            DESCRIPTION                         
-C
-C     UNITAB          UNITS ARRAY
-C     FAIL_ID         FAILURE ID(INTEGER)
-C     TITR            MATERIAL TITLE
-C     LSUBMODEL       SUBMODEL STRUCTURE   
+c    ROUTINE DESCRIPTION :
+c    Read orthotropic strain  failure model parameters
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
-      USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C----------+---------+---+---+--------------------------------------------
-C VAR      | SIZE    |TYP| RW| DEFINITION
-C----------+---------+---+---+--------------------------------------------
-C UPARAM   | NUPARAM | F | W | USER FAILURE MODEL PARAMETER ARRAY
-C MAXUPARAM|  1      | I | R | MAXIMUM SIZE OF UPARAM 
-C NUPARAM  |  1      | I | W | SIZE OF UPARAM =< MAXUPARAM
-C NUVAR    |  1      | I | W | NUMBER OF USER  VARIABLES
-C----------+---------+---+---+--------------------------------------------
-C IFUNC    | NFUNC   | I | W | FUNCTION NUMBER ARRAY
-C MAXFUNC  |  1      | I | R | MAXIMUM SIZE OF IFUNC
-C NFUNC    |  1      | I | W | SIZE OF IFUNC =< MAXFUNC
-C----------+---------+---+---+--------------------------------------------
+C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
@@ -82,22 +57,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN)   ::UNITAB 
-      INTEGER,INTENT(IN)             :: MAXUPARAM,MAXFUNC,FAIL_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
-C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          :: IFUNC(MAXFUNC),NFUNC
-      my_real,INTENT(INOUT)          :: UPARAM(MAXUPARAM)
-      INTEGER,INTENT(INOUT)          :: NUPARAM,NUVAR
+      INTEGER            ,INTENT(IN) :: FAIL_ID       ! failure model ID
+      INTEGER            ,INTENT(IN) :: IRUPT         ! failure model type number
+      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table
+      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IDAM,ISOLID,FT1,FT2,FT12,FC1,FC2,FC12,STRDEF
-      my_real 
-     .    EPSPREF,ET1,ET2,ET12,EC1,EC2,EC12,ET3,EC3,EC23,ET23,EC31,ET31,
+      INTEGER :: IDAM,ISOLID,FT1,FT2,FT12,FC1,FC2,FC12,STRDEF
+      INTEGER ,PARAMETER :: NFUNC = 13
+      INTEGER ,DIMENSION(NFUNC) :: IFUNC
+      my_real :: EPSPREF,ET1,ET2,ET12,EC1,EC2,EC12,ET3,EC3,EC23,ET23,EC31,ET31,
      .    ET1M,ET2M,ET12M,EC1M,EC2M,EC12M,ET3M,EC3M,EC23M,ET23M,EC31M,ET31M,
-     .    FAC_M,FAC_L,FAC_T,FAC_E,PTHK,ALPHA,FSCALE_SIZ,REF_SIZ,
+     .    FAC_M,FAC_L,FAC_T,FAC_E,ALPHA,FSCALE_SIZ,REF_SIZ,PTHKF,
      .    EPSPREF_UNIT,FSCAL_UNIT,REF_SIZ_UNIT,FCUT
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
@@ -110,7 +83,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
-      CALL HM_GET_FLOATV ('Pthk'           ,PTHK       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('Pthk'           ,PTHKF      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('Strdef'         ,STRDEF     ,IS_AVAILABLE,LSUBMODEL)
 c
       CALL HM_GET_FLOATV ('Epsilon_Dot_ref',EPSPREF    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -199,9 +172,9 @@ c-----------------------------------------------------
       IF (EC23M == ZERO) EC23M = 1.2*EC23
       IF (EC31M == ZERO) EC31M = 1.2*EC31
 c
-      IF (PTHK  == ZERO) PTHK = ONE-EM06
-      PTHK = MIN(PTHK, ONE)
-      PTHK = MAX(PTHK,-ONE)
+      IF (PTHKF  == ZERO) PTHKF = ONE-EM06
+      PTHKF = MIN(PTHKF, ONE)
+      PTHKF = MAX(PTHKF,-ONE)
       IF (FCUT  == ZERO) FCUT = 10000.0D0*FAC_T_WORK
 !
       IDAM = 0
@@ -210,48 +183,61 @@ c
       IF (IDAM == 0) IDAM = 1 ! => linear damage, default value for shells
 c                    IDAM = 2   => linear stress softening, the only choice for solids
 c-----------------------------------------------------
-      UPARAM(1)  = IDAM    
-      UPARAM(2)  = PTHK
-      UPARAM(3)  = ISOLID   ! not used 
-C
-      UPARAM(4)   = ET1
-      UPARAM(5)   = ET1M
-      UPARAM(6)   = ET2
-      UPARAM(7)   = ET2M
-      UPARAM(8)   = EC1
-      UPARAM(9)   = EC1M
-      UPARAM(10)  = EC2
-      UPARAM(11)  = EC2M
-      UPARAM(12)  = ET12
-      UPARAM(13)  = ET12M
-      UPARAM(14)  = EC12
-      UPARAM(15)  = EC12M
-      UPARAM(16)  = FCUT
-      UPARAM(17)  = EPSPREF
-      UPARAM(18)  = ET3
-      UPARAM(19)  = ET3M
-      UPARAM(20)  = EC3
-      UPARAM(21)  = EC3M
-      UPARAM(22)  = ET23
-      UPARAM(23)  = ET23M
-      UPARAM(24)  = EC23
-      UPARAM(25)  = EC23M
-      UPARAM(22)  = ET31
-      UPARAM(23)  = ET31M
-      UPARAM(24)  = EC31
-      UPARAM(25)  = EC31M
-      UPARAM(26)  = FSCALE_SIZ
-      UPARAM(27)  = REF_SIZ
-      UPARAM(28)  = STRDEF
-c-----------------
-      NUPARAM = 28
-      NUVAR   = 32
-      NFUNC   = 13
+      FAIL%KEYWORD = 'ORTHSTRAIN' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 28
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 32
+      FAIL%NFUNC   = NFUNC
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+      FAIL%PTHK    = PTHKF
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+      
+      FAIL%IFUNC(1:NFUNC) = IFUNC(1:NFUNC)
+c
+      FAIL%UPARAM(1)  = IDAM    
+      FAIL%UPARAM(2)  = 0        ! PTHK
+      FAIL%UPARAM(3)  = ISOLID   ! not used 
+      FAIL%UPARAM(4)  = ET1
+      FAIL%UPARAM(5)  = ET1M
+      FAIL%UPARAM(6)  = ET2
+      FAIL%UPARAM(7)  = ET2M
+      FAIL%UPARAM(8)  = EC1
+      FAIL%UPARAM(9)  = EC1M
+      FAIL%UPARAM(10) = EC2
+      FAIL%UPARAM(11) = EC2M
+      FAIL%UPARAM(12) = ET12
+      FAIL%UPARAM(13) = ET12M
+      FAIL%UPARAM(14) = EC12
+      FAIL%UPARAM(15) = EC12M
+      FAIL%UPARAM(16) = FCUT
+      FAIL%UPARAM(17) = EPSPREF
+      FAIL%UPARAM(18) = ET3
+      FAIL%UPARAM(19) = ET3M
+      FAIL%UPARAM(20) = EC3
+      FAIL%UPARAM(21) = EC3M
+      FAIL%UPARAM(22) = ET23
+      FAIL%UPARAM(23) = ET23M
+      FAIL%UPARAM(24) = EC23
+      FAIL%UPARAM(25) = EC23M
+      FAIL%UPARAM(22) = ET31
+      FAIL%UPARAM(23) = ET31M
+      FAIL%UPARAM(24) = EC31
+      FAIL%UPARAM(25) = EC31M
+      FAIL%UPARAM(26) = FSCALE_SIZ
+      FAIL%UPARAM(27) = REF_SIZ
+      FAIL%UPARAM(28) = STRDEF
 c-----------------------------------------------------
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT, 1000)
        ELSE
-        WRITE(IOUT, 1000) FAIL_ID,PTHK,STRDEF,EPSPREF,FCUT,
+        WRITE(IOUT, 1000) FAIL_ID,PTHKF,STRDEF,EPSPREF,FCUT,
      .     IFUNC(13),FSCALE_SIZ,REF_SIZ,
      .     ET1,ET1M,IFUNC(1)   ,EC1,EC1M,IFUNC(4),
      .     ET2,ET2M,IFUNC(2)   ,EC2,EC2M,IFUNC(5),

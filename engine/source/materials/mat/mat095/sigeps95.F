@@ -49,7 +49,7 @@ Chd|====================================================================
      A      MFXX   ,MFXY    ,MFXZ,MFYX, MFYY  , MFYZ  ,  
      B      MFZX   ,MFZY    ,MFZZ     ,                  
      C      SOUNDSP, VISCMAX, UVAR    , OFF   , ISMSTR, ET  ,
-     D      IHET   ,OFFG    , EPSTH3  , IEXPAN,
+     D      IHET   ,OFFG    , EPSTH3  , IEXPAN, NPARF ,
      E      UPARAMF,UVARF   ,NVARF    ,JCVT   ,GAMA_R)
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -62,21 +62,20 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER       NEL, JCVT,    NUPARAM, NUVAR,ISMSTR,NGL(*),IHET,IEXPAN,NVARF 
-      my_real
-     .      TIME       , TIMESTEP   , UPARAM(NUPARAM),UPARAMF(NUPARAM),
-     .      RHO   (NEL), RHO0  (NEL), VOLUME(NEL), EINT(NEL),
-     .      EPSPXX(NEL), EPSPYY(NEL), EPSPZZ(NEL),
-     .      EPSPXY(NEL), EPSPYZ(NEL), EPSPZX(NEL),
-     .      DEPSXX(NEL), DEPSYY(NEL), DEPSZZ(NEL),
-     .      DEPSXY(NEL), DEPSYZ(NEL), DEPSZX(NEL),
-     .      EPSXX (NEL), EPSYY (NEL), EPSZZ (NEL),
-     .      EPSXY (NEL), EPSYZ (NEL), EPSZX (NEL),
-     .      SIGOXX(NEL), SIGOYY(NEL), SIGOZZ(NEL),
-     .      SIGOXY(NEL), SIGOYZ(NEL), SIGOZX(NEL),OFFG(NEL),
-     .      MFXX(NEL)  , MFXY(NEL)  ,MFXZ(NEL)  ,MFYX(NEL) ,
-     .      MFYY(NEL)  , MFYZ(NEL)  ,MFZX(NEL)  ,MFZY(NEL)  ,MFZZ(NEL), 
-     .      EPSTH3(NEL), GAMA_R(NEL,6)
+      INTEGER ,INTENT(IN) ::  NPARF
+      INTEGER ,INTENT(IN) ::  NEL,JCVT,NVARF,NUPARAM,NUVAR,ISMSTR,IHET,IEXPAN
+      INTEGER ,INTENT(IN) ::  NGL(NEL)
+      my_real :: TIME,TIMESTEP
+      my_real ,DIMENSION(NUPARAM) ,INTENT(IN) :: UPARAM
+      my_real ,DIMENSION(NPARF)   ,INTENT(IN) :: UPARAMF
+      my_real ,DIMENSION(NEL)  ::  RHO,RHO0,VOLUME,EINT,EPSTH3,
+     .      EPSPXX, EPSPYY, EPSPZZ, EPSPXY, EPSPYZ, EPSPZX,
+     .      DEPSXX, DEPSYY, DEPSZZ, DEPSXY, DEPSYZ, DEPSZX,
+     .      EPSXX , EPSYY , EPSZZ , EPSXY , EPSYZ , EPSZX ,
+     .      SIGOXX, SIGOYY, SIGOZZ, SIGOXY, SIGOYZ, SIGOZX,OFFG,
+     .      MFXX,MFXY,MFXZ,MFYX,MFYY,MFYZ,MFZX,MFZY,MFZZ
+   
+      my_real ::  GAMA_R(NEL,6)
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------

@@ -35,29 +35,16 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-       SUBROUTINE HM_READ_FAIL_ORTHBIQUAD(
-     .            UPARAM  ,MAXUPARAM ,NUPARAM ,NUVAR   ,IFUNC    ,
-     .            MAXFUNC ,NFUNC     ,UNITAB  ,FAIL_ID ,MAT_ID   ,
-     .            TITR    ,LSUBMODEL )
+      SUBROUTINE HM_READ_FAIL_ORTHBIQUAD(
+     .           FAIL    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .           TITR    ,LSUBMODEL,UNITAB   )
 C-----------------------------------------------
+c    ROUTINE DESCRIPTION :
 c    Orthotropic strain  failure model
-C-----------------------------------------------
-C   ROUTINE DESCRIPTION :
-C   ===================
-C   READ FAILURE ORTHBIQUAD
-C-----------------------------------------------
-C   DUMMY ARGUMENTS DESCRIPTION:
-C   ===================
-C
-C     NAME            DESCRIPTION                         
-C
-C     UNITAB          UNITS ARRAY
-C     FAIL_ID         FAILURE ID(INTEGER)
-C     TITR            MATERIAL TITLE
-C     LSUBMODEL       SUBMODEL STRUCTURE   
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
@@ -67,17 +54,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C----------+---------+---+---+--------------------------------------------
-C VAR      | SIZE    |TYP| RW| DEFINITION
-C----------+---------+---+---+--------------------------------------------
-C UPARAM   | NUPARAM | F | W | USER FAILURE MODEL PARAMETER ARRAY
-C MAXUPARAM|  1      | I | R | MAXIMUM SIZE OF UPARAM 
-C NUPARAM  |  1      | I | W | SIZE OF UPARAM =< MAXUPARAM
-C NUVAR    |  1      | I | W | NUMBER OF USER  VARIABLES
-C----------+---------+---+---+--------------------------------------------
-C IFUNC    | NFUNC   | I | W | FUNCTION NUMBER ARRAY
-C MAXFUNC  |  1      | I | R | MAXIMUM SIZE OF IFUNC
-C NFUNC    |  1      | I | W | SIZE OF IFUNC =< MAXFUNC
-C----------+---------+---+---+--------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
@@ -85,21 +61,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB 
-      INTEGER,INTENT(IN)             :: MAXUPARAM,MAXFUNC,FAIL_ID,MAT_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
-C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          :: IFUNC(MAXFUNC),NFUNC
-      my_real,INTENT(INOUT)          :: UPARAM(MAXUPARAM)
-      INTEGER,INTENT(INOUT)            :: NUPARAM,NUVAR
-      CHARACTER TITR*nchartitle
+      INTEGER            ,INTENT(IN) :: FAIL_ID         ! failure model ID
+      INTEGER            ,INTENT(IN) :: MAT_ID          ! material law ID
+      INTEGER            ,INTENT(IN) :: IRUPT           ! failure model type number
+      CHARACTER          ,INTENT(IN) :: TITR*nchartitle ! material model title
+      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB          ! table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)    ! submodel table
+      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL         ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NANGLE,I,J,K,INFO,REG_FUNC,MFLAG,SFLAG,RATE_FUNC,IPIV2(2),IPIV3(3)
-      my_real 
-     .    PTHK,REF_SIZ,REF_SIZ_UNIT,EPSD0,CJC,RATE_SCALE,REF_RATE_UNIT,
+      INTEGER :: NANGLE,I,J,K,INFO,REG_FUNC,MFLAG,SFLAG,RATE_FUNC,NFUNC,NUPARAM,NUVAR
+      INTEGER :: IPIV2(2),IPIV3(3)
+      INTEGER ,PARAMETER :: NSIZE = 2
+      INTEGER ,DIMENSION(NSIZE) :: IFUNC
+      my_real :: PTHK,REF_SIZ,REF_SIZ_UNIT,EPSD0,CJC,RATE_SCALE,REF_RATE_UNIT,
      .    R1,R2,R4,R5,C5,C5_MIN,THETA_MYREAL
       my_real, DIMENSION(:), ALLOCATABLE :: C1,C2,C3,C4,INST
       DOUBLE PRECISION A_1(2,2),B_1(2),A_2(3,3),B_2(3),
@@ -131,15 +107,16 @@ C
      9 1.   ,0.   ,-32. ,0.   ,160. ,0.   ,-256.,0.   ,128. ,0.   ,     
      A 0.   ,9.   ,0.   ,-120.,0.   ,432. ,0.   ,-576 ,0.   ,256. /
 C=======================================================================
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
-C EXTRACT DATA (IS OPTION CRYPTED)
+C     (IS OPTION CRYPTED)
 C--------------------------------------------------
+
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
+
 C======================================================================================
-C EXTRACT DATAS (REAL VALUES)
-C======================================================================================
+C     EXTRACT DATA
 !---------------
 ! -> Card1
 !---------------
@@ -333,7 +310,7 @@ C===============================================================================
       !================================================
       DO J = 1,NANGLE
 C
-        ! Coefficient for the first parable
+        ! Coefficient for the first parabole
         ! ---------------------------------------
         A_1(1,1) = TRIAX_1_LIN
         A_1(1,2) = TRIAX_1_QUAD
@@ -351,7 +328,7 @@ C
         X_1(J,1)   = C2(J)
         X_1(J,2:3) = B_1(1:2)
 C      
-        ! Coefficient for the second parable
+        ! Coefficient for the second parabole
         !----------------------------------------
         A_2(1,1) = ONE
         A_2(1,2) = TRIAX_3_LIN
@@ -489,9 +466,7 @@ c
       Q_X23(1:NANGLE)  = BVEC(1:NANGLE,6)
       IF (SFLAG == 3) Q_INST(1:NANGLE) = BVEC(1:NANGLE,7)
 c
-C======================================================================================
-c     Filling buffer tables
-C======================================================================================
+c----------------------------------
       ! -> Number of parameters
       NUPARAM = 7
       IF (SFLAG == 3) THEN 
@@ -511,35 +486,54 @@ C===============================================================================
       ENDIF
       ! -> Number of user variables
       NUVAR = 3   
-c-----------------------------------------------------    
-      UPARAM(1) = PTHK
-      UPARAM(2) = SFLAG
-      UPARAM(3) = REF_SIZ
-      UPARAM(4) = EPSD0
-      UPARAM(5) = CJC
-      UPARAM(6) = RATE_SCALE
-      UPARAM(7) = NANGLE
+C======================================================================================
+c     Filling buffer tables
+C======================================================================================
+      FAIL%KEYWORD = 'ORTH-BIQUAD' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = NUPARAM
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = NUVAR
+      FAIL%NFUNC   = NFUNC
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+      FAIL%PTHK    = PTHK
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      FAIL%IFUNC(1:NFUNC) = IFUNC(1:NFUNC)
+c
+      FAIL%UPARAM(1) = PTHK
+      FAIL%UPARAM(2) = SFLAG
+      FAIL%UPARAM(3) = REF_SIZ
+      FAIL%UPARAM(4) = EPSD0
+      FAIL%UPARAM(5) = CJC
+      FAIL%UPARAM(6) = RATE_SCALE
+      FAIL%UPARAM(7) = NANGLE
       IF (SFLAG == 3) THEN 
         DO J = 1,NANGLE
-          UPARAM(8  + 7*(J-1)) = Q_X11(J)
-          UPARAM(9  + 7*(J-1)) = Q_X12(J)
-          UPARAM(10 + 7*(J-1)) = Q_X13(J)
-          UPARAM(11 + 7*(J-1)) = Q_X21(J)
-          UPARAM(12 + 7*(J-1)) = Q_X22(J)
-          UPARAM(13 + 7*(J-1)) = Q_X23(J)
-          UPARAM(14 + 7*(J-1)) = Q_INST(J)
+          FAIL%UPARAM(8  + 7*(J-1)) = Q_X11(J)
+          FAIL%UPARAM(9  + 7*(J-1)) = Q_X12(J)
+          FAIL%UPARAM(10 + 7*(J-1)) = Q_X13(J)
+          FAIL%UPARAM(11 + 7*(J-1)) = Q_X21(J)
+          FAIL%UPARAM(12 + 7*(J-1)) = Q_X22(J)
+          FAIL%UPARAM(13 + 7*(J-1)) = Q_X23(J)
+          FAIL%UPARAM(14 + 7*(J-1)) = Q_INST(J)
         ENDDO    
       ELSE
         DO J = 1,NANGLE
-          UPARAM(8  + 6*(J-1)) = Q_X11(J)
-          UPARAM(9  + 6*(J-1)) = Q_X12(J)
-          UPARAM(10 + 6*(J-1)) = Q_X13(J)
-          UPARAM(11 + 6*(J-1)) = Q_X21(J)
-          UPARAM(12 + 6*(J-1)) = Q_X22(J)
-          UPARAM(13 + 6*(J-1)) = Q_X23(J)
+          FAIL%UPARAM(8  + 6*(J-1)) = Q_X11(J)
+          FAIL%UPARAM(9  + 6*(J-1)) = Q_X12(J)
+          FAIL%UPARAM(10 + 6*(J-1)) = Q_X13(J)
+          FAIL%UPARAM(11 + 6*(J-1)) = Q_X21(J)
+          FAIL%UPARAM(12 + 6*(J-1)) = Q_X22(J)
+          FAIL%UPARAM(13 + 6*(J-1)) = Q_X23(J)
         ENDDO          
       ENDIF
-c-----------------------------------------------------
 c--------------------------
 c     Printout data
 c-------------------------- 

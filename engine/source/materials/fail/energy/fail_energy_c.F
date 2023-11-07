@@ -32,7 +32,7 @@ Chd|====================================================================
      1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
      2     UPARAM   ,UVAR     ,NPF      ,TF       ,TIME     , 
      3     NGL      ,IPG      ,ILAY     ,IPT      ,EPSP     ,
-     4     AREA     ,THK      ,PTHKF    ,DMG_FLAG ,
+     4     AREA     ,THK      ,DMG_FLAG ,
      5     DMG_SCALE,OFF      ,FOFF     ,DFMAX    ,TDEL     ,
      6     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      7     DEPSXX   ,DEPSYY   ,DEPSXY   ,DEPSYZ   ,DEPSZX   )
@@ -62,7 +62,6 @@ C EINT    | NEL     | F | R | INTERNAL ENERGY
 C---------+---------+---+---+--------------------------------------------
 C OFF     | NEL     | F | R | DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C FOFF    | NEL     | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)
-C PTHKF   |  1      | F | W | PERCENTAGE OF LAYER THICKNESS TO FAIL
 C DFMAX   | NEL     | F |R/W| MAX DAMAGE FACTOR 
 C TDEL    | NEL     | F | W | FAILURE TIME
 C DMG_FLAG|  1      | I | W | STRESS REDUCTION FLAG DUE TO DAMAGE
@@ -87,7 +86,6 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(OUT) ::DMG_FLAG
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,INTENT(OUT) :: PTHKF
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL,DMG_SCALE
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
@@ -114,7 +112,6 @@ C-----------------------------------------------
 C=======================================================================
       RIEF1    = UPARAM(1)             
       RIEF2    = UPARAM(2)           
-      PTHKF    = UPARAM(3)
       XFAC     = UPARAM(4)           
       DMG_FLAG = INT(UPARAM(5))
       NINDX    = 0  

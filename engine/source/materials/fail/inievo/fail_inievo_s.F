@@ -35,8 +35,8 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE FAIL_INIEVO_S (
-     1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
-     2     NPF      ,TABLE    ,TF       ,TIME     ,UPARAM   , 
+     1     NEL      ,NUPARAM  ,NUVAR    ,
+     2     TABLE    ,NTABLF   ,ITABLF   ,TIME     ,UPARAM   , 
      3     NGL      ,ALDT     ,DPLA     ,EPSP     ,UVAR     ,     
      4     SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,            
      5     PLA      ,TEMP     ,SIGY     ,OFF      ,DFMAX    ,
@@ -62,8 +62,8 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: 
-     .        NEL,NUPARAM,NUVAR,NGL(NEL),NPG,IPG,
-     .        INLOC
+     .        NEL,NUPARAM,NUVAR,NGL(NEL),NPG,IPG,NTABLF,INLOC
+      INTEGER, DIMENSION(NTABLF) ,INTENT(IN) :: ITABLF
       my_real, INTENT(IN) ::
      .        TIME,UPARAM(NUPARAM),ALDT(NEL),
      .        DPLA(NEL),EPSP(NEL),TEMP(NEL),
@@ -75,14 +75,6 @@ C-----------------------------------------------
      .        DMG_SCALE(NEL),OFF(NEL),UELR(NEL),
      .        LOFF(NEL),DAMINI(NEL)
       TYPE (TTABLE), INTENT(IN), DIMENSION(NTABLE) :: TABLE 
-C!-----------------------------------------------
-C!   VARIABLES FOR FUNCTION INTERPOLATION 
-C!-----------------------------------------------
-      INTEGER, INTENT(IN) :: NPF(SNPC),NFUNC,IFUNC(NFUNC)
-      my_real, INTENT(IN) :: TF(STF)
-      my_real
-     .         FINTER
-      EXTERNAL FINTER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -128,16 +120,18 @@ C!--------------------------------------------------------------
       ALLOCATE(DISP   (NINIEVO))
       ALLOCATE(ENER   (NINIEVO))
       ALLOCATE(ALPHA2 (NINIEVO))     
+c
+      TAB_ID(1:NINIEVO) = ITABLF(1:NINIEVO)
+      TAB_EL(1:NINIEVO) = ITABLF(NINIEVO+1:NINIEVO*2)
+c
       DO J = 1,NINIEVO
         INITYPE(J) = UPARAM(6  + 14*(J-1))
         EVOTYPE(J) = UPARAM(7  + 14*(J-1))
         EVOSHAP(J) = UPARAM(8  + 14*(J-1))
         COMPTYP(J) = UPARAM(9  + 14*(J-1))
-        TAB_ID(J)  = NINT(UPARAM(10 + 14*(J-1)))
         SR_REF(J)  = UPARAM(11 + 14*(J-1))
         FSCALE(J)  = UPARAM(12 + 14*(J-1))
         INI_P1(J)  = UPARAM(13 + 14*(J-1))
-        TAB_EL(J)  = NINT(UPARAM(14 + 14*(J-1)))
         EL_REF(J)  = UPARAM(15 + 14*(J-1))
         ELSCAL(J)  = UPARAM(16 + 14*(J-1)) 
         DISP(J)    = UPARAM(17 + 14*(J-1))

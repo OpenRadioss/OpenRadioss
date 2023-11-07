@@ -31,9 +31,9 @@ Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE FAIL_SETOFF_NPG_C(
-     .           ELBUF_STR,GEO      ,PID      ,NGL      ,
-     .           NEL      ,IR       ,IS       ,NLAY     ,
-     .           NPTTOT   ,PTHKF    ,THK_LY   ,THKLY    ,
+     .           ELBUF_STR,MAT_ELEM ,GEO      ,PID      ,
+     .           NGL      ,NEL      ,IR       ,IS       ,
+     .           NLAY     ,NPTTOT   ,THK_LY   ,THKLY    ,
      .           OFF      ,NPG      ,STACK    ,ISUBSTACK,
      .           IGTYP    ,FAILWAVE ,FWAVE_EL ,NLAY_MAX ,
      .           LAYNPT_MAX,NUMGEO  ,IPG      ,NUMSTACK ,
@@ -41,7 +41,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
       USE STACK_MOD
@@ -66,21 +66,21 @@ C-----------------------------------------------
      .                       ISUBSTACK,NLAY_MAX,LAYNPT_MAX,NUMGEO,
      .                       IPG,NUMSTACK
       INTEGER, DIMENSION(NEL), INTENT(IN)           :: NGL
-      my_real, DIMENSION(NLAY,100),INTENT(INOUT)    :: PTHKF
       my_real, DIMENSION(NEL,NLAY_MAX*LAYNPT_MAX), INTENT(IN) :: THK_LY
       my_real, DIMENSION(NPTTOT*NEL), INTENT(IN)    :: THKLY
       my_real, DIMENSION(NEL), INTENT(INOUT)        :: OFF
       TYPE (STACK_PLY), INTENT(IN)                  :: STACK    
       TYPE (FAILWAVE_STR_), INTENT(IN), TARGET      :: FAILWAVE 
       INTEGER, DIMENSION(NEL), INTENT(INOUT)        :: FWAVE_EL
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,IEL,IPOS,IL,IFL,IP,IPT,IG,JPG,NPTR,NPTS,NPTT,
      .   COUNTPG,NINDXPG,NINDXLY,IPT_ALL,NFAIL,IPWEIGHT,IPTHKLY,
-     .   IPS,IPR,ID_PLY
-      my_real 
-     .   P_THICKG,FAIL_EXP,THFACT,NORM,DFAIL,NPFAIL
+     .   IPS,IPR,ID_PLY,IMAT
+      my_real :: P_THICKG,FAIL_EXP,THFACT,NORM,DFAIL,NPFAIL
+      my_real, DIMENSION(NLAY,100)   :: PTHKF
       INTEGER, DIMENSION(NEL)        :: INDXPG,INDXLY
       INTEGER, DIMENSION(:), POINTER :: FOFF,LAY_OFF,OFFPG
       my_real, DIMENSION(NLAY)       :: WEIGHT,P_THKLY
@@ -110,6 +110,13 @@ c
       NPTS = ELBUF_STR%NPTS
       JPG  = (IPG-1)*NEL
 c         
+      DO IL=1,NLAY
+        NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
+        IMAT  = ELBUF_STR%BUFLY(IL)%IMAT
+        DO IFL = 1,NFAIL
+          PTHKF(IL,IFL) = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%PTHK
+        END DO
+      END DO
       !=================================================================
       ! 1 LAYER PROPERTIES - TYPE1/TYPE9
       !=================================================================

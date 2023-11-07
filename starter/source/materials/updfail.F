@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -20,52 +20,56 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd/        HM_READ_FAIL_TBUTCHER         source/materials/fail/tuler_bucher/hm_read_fail_tbutcher.F
 Chd|====================================================================
-Chd|  FAIL_INIT                     source/materials/fail/fail_init.F
+Chd|  UPDFAIL                        source/materials/updfail.F     
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================
-      SUBROUTINE FAIL_INIT(MAT_PARAM ,NUMMAT)
+      SUBROUTINE UPDFAIL(MAT_PARAM ,NUMMAT ,NFUNCT ,NTABLE ,FUNC_ID ,TABLE )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MATPARAM_DEF_MOD
-C============================================================================
+      USE TABLE_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NUMMAT
-      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+      INTEGER ,INTENT(IN) :: NUMMAT   ! total number of material models 
+      INTEGER ,INTENT(IN) :: NFUNCT   ! total number of system functions   
+      INTEGER ,INTENT(IN) :: NTABLE   ! total number of system function tables   
+      INTEGER ,DIMENSION(NFUNCT)      ,INTENT(IN) :: FUNC_ID
+      TYPE(TTABLE), DIMENSION(NTABLE) ,INTENT(IN) :: TABLE
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(INOUT), TARGET :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IMAT,IFL,NFAIL
-c======================================================================- 
-      DO IMAT = 1,NUMMAT-1
-        NFAIL = MAT_PARAM(IMAT)%NFAIL
-        ALLOCATE (MAT_PARAM(IMAT)%FAIL(NFAIL))
+      INTEGER IMAT,IR,NFAIL
+C=======================================================================
+      DO IMAT=1,NUMMAT
+        NFAIL  = MAT_PARAM(IMAT)%NFAIL
         IF (NFAIL > 0) THEN
-          DO IFL = 1,NFAIL
-            MAT_PARAM(IMAT)%FAIL(IFL)%KEYWORD = ' '
-            MAT_PARAM(IMAT)%FAIL(IFL)%IRUPT   = 0
-            MAT_PARAM(IMAT)%FAIL(IFL)%FAIL_ID = 0
-            MAT_PARAM(IMAT)%FAIL(IFL)%NUPARAM = 0
-            MAT_PARAM(IMAT)%FAIL(IFL)%NIPARAM = 0
-            MAT_PARAM(IMAT)%FAIL(IFL)%NUVAR   = 0
-            MAT_PARAM(IMAT)%FAIL(IFL)%NFUNC   = 0
-            MAT_PARAM(IMAT)%FAIL(IFL)%NTABLE  = 0
-            MAT_PARAM(IMAT)%FAIL(IFL)%NMOD    = 0
-c
-            MAT_PARAM(IMAT)%FAIL(IFL)%FAIL_IP = 0
-            MAT_PARAM(IMAT)%FAIL(IFL)%PTHK    = ONE
-          END DO
-        END IF      
-      END DO
-c-----------       
+          DO IR = 1,NFAIL
+            IF (MAT_PARAM(IMAT)%FAIL(IR)%NFUNC > 0) THEN
+              CALL FAIL_FUN2SYS(MAT_PARAM(IMAT)%FAIL(IR) ,
+     .                          MAT_PARAM(IMAT)%TITLE    ,
+     .                          MAT_PARAM(IMAT)%MAT_ID   ,
+     .                          NFUNCT  ,FUNC_ID  )
+            END IF
+            IF (MAT_PARAM(IMAT)%FAIL(IR)%NTABLE > 0) THEN
+              CALL MATTAB_USR2SYS(MAT_PARAM(IMAT)%TITLE    ,
+     .                            MAT_PARAM(IMAT)%MAT_ID, 
+     .                            NTABLE ,TABLE ,
+     .                            MAT_PARAM(IMAT)%FAIL(IR)%NTABLE ,
+     .                            MAT_PARAM(IMAT)%FAIL(IR)%TABLE  )
+            END IF
+          ENDDO
+        ENDIF
+      ENDDO
+c-----------
       RETURN
       END

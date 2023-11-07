@@ -41,11 +41,11 @@ Chd|====================================================================
      8                  IFAIL   ,SBUFMAT ,SNPC    ,STF     ,NUMMAT   ,
      9                  NUMGEO  ,IOUT    ,ISTDO   ,NPROPMI ,NPROPM   ,
      A                  NPROPG  ,TIME    ,DTIME   ,IDEL7NOK,ISIGI    ,
-     B                  IMCONV  ,ISMSTR)
+     B                  IMCONV  ,ISMSTR  ,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,6 +92,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(STF)  ,INTENT(IN)    :: TF
 C
       TYPE (ELBUF_STRUCT_) ,INTENT(INOUT) :: ELBUF_STR
+      TYPE (MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -193,14 +194,15 @@ c---------------------------
         END IF           
 c
         AREA = GEO(1 ,IPID)
-        CALL FAIL_BEAM18(ELBUF_STR   ,NUMMAT  ,NUMGEO  ,NPROPM  ,
-     .              NPROPMI ,NPROPG  ,SBUFMAT ,SNPC    ,STF     ,
-     .              NEL     ,NPT     ,IMAT    ,IPID    ,JTHE    ,
-     .              TEMPEL  ,NGL     ,PM      ,IPM     ,GEO     ,
-     .              OFF     ,EPSD    ,BUFMAT  ,NPF     ,TF      ,
-     .              DPLA    ,TIME    ,IOUT    ,ISTDO   ,
-     .              AL      ,ISMSTR  ,EXX     ,EXY     ,EXZ     ,
-     .              KXX     ,KYY     ,KZZ     )
+        CALL FAIL_BEAM18(
+     .              ELBUF_STR,MAT_PARAM%FAIL(1),NUMMAT  ,NUMGEO  ,
+     .              NPROPM   ,NPROPG  ,SNPC    ,STF     ,
+     .              NEL      ,NPT     ,IMAT    ,IPID    ,JTHE    ,
+     .              TEMPEL   ,NGL     ,PM      ,GEO     ,
+     .              OFF      ,EPSD    ,NPF     ,TF      ,
+     .              DPLA     ,EINT    ,TIME    ,IOUT    ,ISTDO   ,
+     .              AL       ,ISMSTR  ,EXX     ,EXY     ,EXZ     ,
+     .              KXX      ,KYY     ,KZZ     )
       END IF
 C------------------------------------
 c     resultant force and moment

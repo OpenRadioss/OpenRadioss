@@ -1521,7 +1521,7 @@ C------------------------------------------------
       CALL LECTUR(  ICODE ,  ISKEW ,  ISKWN ,  IXTG  ,   IXS ,
      2              IXQ ,    IXC ,    IXT ,    IXP ,     IXR ,
      3              ITAB ,   ITABM1  ,NPC,     IPARG,    IGRV ,
-     4              LGRAV ,IPARI,
+     4              LGRAV   ,IPARI,
      5              NPBY ,   LPBY    ,ILINK,   LLINK  ,LINALE ,
      6              NEFLSW , NNFLSW , ICUT ,   IAF(IF01),
      7              X  ,     V  ,     VR  ,    MS   ,IN  ,
@@ -1535,8 +1535,8 @@ C------------------------------------------------
      F              IGRPART,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G              MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
      H              MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
-     I              DYNAIN_DATA,DT ,LOADS ,OUTPUT,NAMES_AND_TITLES)
-
+     I              DYNAIN_DATA,DT ,LOADS ,OUTPUT,NAMES_AND_TITLES,
+     J              MAT_ELEM%MAT_PARAM)
 C------------------------------------------------
 C Close & Delete scratch file
       CLOSE (UNIT=IIN)

@@ -60,7 +60,7 @@ Chd|====================================================================
      B                  ID_SIGTRUSS,WORK         ,IGRBRIC      ,NIBRICK      ,NIQUAD    ,
      C                  NISHELL    ,NISH3N       ,NISPRING     ,NIBEAM       ,NITRUSS   ,
      D                  MAP_TABLES ,VARMAX       ,IPARG        ,PTSHEL       ,PTSH3N    ,
-     E                  STACK      ,IWORKSH      ,IOUT         )
+     E                  STACK      ,IWORKSH      ,IOUT         ,MAT_PARAM    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,6 +71,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE MAPPING_OPTION_MOD
       USE STACK_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -116,6 +117,7 @@ C
       TYPE (STACK_PLY) :: STACK
       INTEGER,   INTENT(IN) :: IWORKSH(3,NUMELC + NUMELTG)
       INTEGER,   INTENT(IN) :: IOUT
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1672,9 +1674,9 @@ C---------
                 ELSE
                   IOK = 0
                   DO K=1,5
-                    NFAIL(K) = IPM(236+K,IMAT)
+                    NFAIL(K) = MAT_PARAM(IMAT)%FAIL(K)%FAIL_ID
                     IF (IFAIL == NFAIL(K) .AND. 
-     .                IRUPT_TYP == IPM(241+K,IMAT)) THEN
+     .                IRUPT_TYP == MAT_PARAM(IMAT)%FAIL(K)%IRUPT) THEN
                       IFAIL = K
                       FAIL_INI(IFAIL)=1
                       IOK = 1
@@ -3043,9 +3045,9 @@ C----------
 !         check for consistency ( D00 & INIBRI)
                     IOK = 0
                     DO K=1,5
-                      NFAIL(K) = IPM(236+K,IMAT)
+                      NFAIL(K) = MAT_PARAM(IMAT)%FAIL(K)%FAIL_ID
                       IF (IFAIL == NFAIL(K) .AND. 
-     .                    IRUPT_TYP == IPM(241+K,IMAT)) THEN
+     .                    IRUPT_TYP == MAT_PARAM(IMAT)%FAIL(K)%IRUPT) THEN
                         IFAIL = K
                         FAIL_INI(IFAIL)=1
                         IOK = 1
@@ -4146,9 +4148,9 @@ C----------
 !         check for consistency ( D00 & INIBRI)
                     IOK = 0
                     DO K=1,5
-                      NFAIL(K) = IPM(236+K,IMAT)
+                      NFAIL(K) = MAT_PARAM(IMAT)%FAIL(K)%FAIL_ID
                       IF (IFAIL == NFAIL(K) .AND. 
-     .                    IRUPT_TYP == IPM(241+K,IMAT)) THEN
+     .                    IRUPT_TYP == MAT_PARAM(IMAT)%FAIL(K)%IRUPT) THEN
                         IFAIL = K
                         FAIL_INI(IFAIL)=1
                         IOK = 1

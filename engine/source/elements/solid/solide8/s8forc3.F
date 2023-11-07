@@ -49,17 +49,16 @@ Chd|====================================================================
      1                   ELBUF_STR,PM       ,GEO    ,IXS      ,X      ,
      2                   A        ,V        ,MS     , 
      3                   VEUL     ,FV       ,ALE_CONNECT  ,IPARG    ,
-     4                   TF       ,NPF      ,BUFMAT ,PARTSAV  ,
-     5                   STIFN ,FSKY ,IADS  ,OFFSET ,IPARTS ,
-     6                   NEL      ,DT2T     ,NELTST ,ITYPTST,IPM      ,
-     7                   ITASK    ,GRESAV   ,GRTH   ,IGRTH  ,MSSA     ,
-     8                   DMELS    ,TABLE    ,
-     9                   IOUTPRT  ,NG       )
+     4                   TF       ,NPF      ,BUFMAT ,PARTSAV ,
+     5                   STIFN ,FSKY ,IADS  ,OFFSET ,IPARTS  ,
+     6                   NEL      ,DT2T     ,NELTST ,ITYPTST ,IPM      ,
+     7                   ITASK    ,GRESAV   ,GRTH   ,IGRTH   ,MSSA     ,
+     8                   DMELS    ,TABLE    ,IOUTPRT,MAT_ELEM,NG       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
-      USE ELBUFDEF_MOD         
+      USE MAT_ELEM_MOD         
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -89,6 +88,7 @@ C     REAL
      .   VEUL(*), FV(*),TF(*), BUFMAT(*),
      .   PARTSAV(*),STIFN(*),FSKY(*), DT2T,GRESAV(*), MSSA(*), DMELS(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      TYPE (MAT_ELEM_) ,TARGET ,INTENT(INOUT) :: MAT_ELEM
       TYPE(TTABLE) TABLE(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
@@ -198,17 +198,17 @@ C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
-      CALL MMAIN8(PM   ,GEO   ,ELBUF_STR,
+      CALL MMAIN8(PM   ,GEO   ,ELBUF_STR,MAT_ELEM ,
      2            IXS  ,IPARG ,V        ,TF    ,    
-     3              NPF  ,BUFMAT,STI    ,X     ,D1    ,
-     4              D2   ,D3    ,D4     ,D5    ,D6    ,
-     5              VOLGP,DELTAX,VOLN   ,DVOL  ,VD2   ,
+     3            NPF  ,BUFMAT,STI    ,X     ,D1    ,
+     4            D2   ,D3    ,D4     ,D5    ,D6    ,
+     5            VOLGP,DELTAX,VOLN   ,DVOL  ,VD2   ,
      6            RHO0 ,MXT   ,NC       ,NGL   ,FV    ,           
-     7              NEL  ,WXX   ,WYY    ,WZZ   ,PID   ,
-     8              DT2T ,NELTST,ITYPTST,R11   ,R21   ,  
-     9              R31  ,R12   ,R22    ,R32   ,R13   , 
-     A              R23  ,R33   ,OFF    ,IPM   ,GAMA  ,
-     B              MSSA ,DMELS ,TABLE  ,SSP   ,ITASK )
+     7            NEL  ,WXX   ,WYY    ,WZZ   ,PID   ,
+     8            DT2T ,NELTST,ITYPTST,R11   ,R21   ,  
+     9            R31  ,R12   ,R22    ,R32   ,R13   , 
+     A            R23  ,R33   ,OFF    ,IPM   ,GAMA  ,
+     B            MSSA ,DMELS ,TABLE  ,SSP   ,ITASK )
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C--------------------------
 C     BILANS PAR MATERIAU

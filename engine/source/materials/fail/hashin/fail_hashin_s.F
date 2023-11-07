@@ -27,12 +27,11 @@ Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FAIL_HASHIN_S(
-     1     NEL     ,NUVAR   ,IP      ,ILAY    ,NPT0    ,
-     2     NPF     ,TF      ,TIME    ,TIMESTEP,UPARAM  ,
-     3     MAT     ,NGL     ,OFF     ,NOFF    ,SIGNXX  , 
+     1     NEL     ,NUVAR   ,ILAY    ,NPT0    ,
+     2     TIME    ,TIMESTEP,UPARAM  ,
+     3     NGL     ,OFF     ,NOFF    ,SIGNXX  , 
      4     SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     5     UVAR    ,IPM     ,NUPARAM ,DFMAX   ,TDELE   ,
-     6     EPSP )
+     5     UVAR    ,NUPARAM ,DFMAX   ,TDELE   ,EPSP )
 C-----------------------------------------------
 C Hashin model ------
 C-----------------------------------------------
@@ -45,10 +44,6 @@ C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
 C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
-C---------+---------+---+---+--------------------------------------------
-C MFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW not used
-C NPF     |  *      | I | R | FUNCTION ARRAY   
-C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
@@ -87,7 +82,7 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM,ILAY,NPT0,NUVAR
-      INTEGER NGL(NEL),IPM(NPROPMI,*),MAT(NEL)
+      INTEGER NGL(NEL)
       my_real 
      .   TIME,TIMESTEP(NEL),UPARAM(NUPARAM),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
@@ -104,17 +99,12 @@ C-----------------------------------------------
       INTEGER NOFF(NEL)
       my_real UVAR(NEL,NUVAR), OFF(NEL), DFMAX(NEL),TDELE(NEL)
 C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*)
-      my_real TF(*)
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER
      .        I,J,IDEL,IDEL_L,IFLAG,INDX(MVSIZ),IADBUF,NINDX,
      .        NINDEX,INDEX(MVSIZ),IFAIL,JJ,KK,IR,IMATLY,
-     .        IMODEL,IUNIDIR,IFABRIC,IP,INDX0(MVSIZ),NINDX0,
+     .        IMODEL,IUNIDIR,IFABRIC,INDX0(MVSIZ),NINDX0,
      .        MODE(MVSIZ,7),IMODE,FAILNPT,TMOD
       my_real 
      .   SIGT1,SIGT2,SIGT3,

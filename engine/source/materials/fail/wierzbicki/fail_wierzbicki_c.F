@@ -31,8 +31,7 @@ Chd|====================================================================
      1     NEL      ,NUPARAM  ,UPARAM   ,NUVAR    ,UVAR     ,
      2     TIME     ,NGL      ,IPG      ,ILAY     ,IPT      ,
      3     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     4     DPLA     ,OFF      ,FOFF     ,PTHKF    ,DFMAX    ,
-     5     TDEL     )
+     4     DPLA     ,OFF      ,FOFF     ,DFMAX    ,TDEL     )
 C-----------------------------------------------
 C    Xue-Wierzbicki
 C-----------------------------------------------
@@ -62,7 +61,6 @@ C DPLA    | NEL     | F | R | PLASTIC STRAIN INCREMENT
 C---------+---------+---+---+--------------------------------------------
 C OFF     | NEL     | F | R | DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C FOFF    | NEL     | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)
-C PTHKF   |  1      | F | W | PERCENTAGE OF LAYER THICKNESS TO FAIL
 C DFMAX   | NEL     | F |R/W| MAX DAMAGE FACTOR 
 C TDEL    | NEL     | F | W | FAILURE TIME
 C---------+---------+---+---+--------------------------------------------
@@ -83,14 +81,13 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,INTENT(OUT) :: PTHKF
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,IFAIL_SH,NINDX
+      INTEGER :: I,J,NINDX
       INTEGER ,DIMENSION(NEL) :: INDX
       my_real :: C1,C2,C3,C4,CM,CN,P,EPSF,SVM,ETA,XI
 C=======================================================================
@@ -100,13 +97,6 @@ C=======================================================================
       C4 = UPARAM(4)
       CM = UPARAM(5)
       CN = UPARAM(6)
-      IFAIL_SH = INT(UPARAM(7))   
-c
-      IF (IFAIL_SH == 1) THEN
-        PTHKF = EM06
-      ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = ONE
-      ENDIF
       NINDX  = 0  
 C-----------------------------------------------
       DO I=1,NEL

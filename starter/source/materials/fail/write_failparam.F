@@ -74,6 +74,7 @@ c
       LENR = 1
       ALLOCATE (RBUF(LENR))
       RBUF(1) = FAIL%PTHK
+      CALL WRITE_DB(RBUF ,LENR)
       DEALLOCATE(RBUF)
       LEN = LEN + LENI + LENR
 c
@@ -107,12 +108,7 @@ c     write function adresses
 c
       NFUNC = FAIL%NFUNC
       IF (NFUNC > 0) THEN
-        ALLOCATE (IBUF(NFUNC))
-        DO I = 1,NFUNC
-          IBUF(I) = FAIL%IFUNC(I)
-        END DO
-        CALL WRITE_I_C(IBUF,NFUNC)
-        DEALLOCATE(IBUF)
+        CALL WRITE_I_C(FAIL%IFUNC,NFUNC)
         LEN = LEN + NFUNC
       END IF
 c      
@@ -120,8 +116,8 @@ c     write function tables
 c
       NUMTABL  = FAIL%NTABLE
       IF (NUMTABL > 0) THEN
-        CALL WRITE_MAT_TABLE(FAIL%TABLE, NUMTABL, LENI,  LENR)
-        LEN = LEN + LENI + LENR
+        CALL WRITE_I_C(FAIL%TABLE,NUMTABL)
+        LEN = LEN + NUMTABL
       END IF
 c-----------
       RETURN

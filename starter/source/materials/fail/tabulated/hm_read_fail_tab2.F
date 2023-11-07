@@ -36,18 +36,17 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_TAB2(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,UNITAB   ,FAIL_ID,MAT_ID   ,
-     .           TABLE    ,TITR     ,LSUBMODEL)
+      SUBROUTINE HM_READ_FAIL_TAB2(FAIL ,
+     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,TITR     ,
+     .           LSUBMODEL,UNITAB   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
-      USE TABLE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,27 +60,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB 
-      INTEGER,INTENT(IN)             :: MAXUPARAM,MAXFUNC,FAIL_ID,MAT_ID
+      INTEGER            ,INTENT(IN) :: FAIL_ID       ! failure model ID
+      INTEGER            ,INTENT(IN) :: MAT_ID        ! material law ID
+      INTEGER            ,INTENT(IN) :: IRUPT         ! failure model number
+      CHARACTER          ,INTENT(IN) :: TITR*nchartitle
+      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
-C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          :: IFUNC(MAXFUNC),NFUNC
-      my_real,INTENT(INOUT)          :: UPARAM(MAXUPARAM)
-      INTEGER,INTENT(OUT)            :: NUPARAM,NUVAR
-      CHARACTER TITR*nchartitle
-      TYPE(TTABLE) TABLE(NTABLE)   
+      TYPE (FAIL_PARAM_) ,INTENT(INOUT) :: FAIL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  :: ITAB_EPSF,INT_ITAB_EPSF,FAILIP,
-     .            ITAB_INST,INT_ITAB_INST,
-     .            IFUN_EXP,ITAB_SIZE,INT_ITAB_SIZE,
-     .            IREG,IFUN_RATE,IFUN_DLIM
-      my_real  :: FCRIT,PTHKFAIL,DN,DCRIT,ECRIT,
-     .            EXP_REF,EXPO,EL_REF,SR_REF1,
-     .            FSCALE_EL,SHRF,BIAXF,SR_REF2,
-     .            FSCALE_SR,CJC,FSCALE_DLIM,
+      INTEGER  :: ITAB_EPSF,FAILIP,ITAB_INST,
+     .            IFUN_EXP,ITAB_SIZE,IREG,IFUN_RATE,IFUN_DLIM
+      my_real  :: FCRIT,PTHKFAIL,DN,DCRIT,ECRIT,EXP_REF,EXPO,EL_REF,SR_REF1,
+     .            FSCALE_EL,SHRF,BIAXF,SR_REF2,FSCALE_SR,CJC,FSCALE_DLIM,
      .            LENGTH_UNIT,RATE_UNIT
 C-----------------------------------------------
       LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
@@ -130,9 +122,7 @@ C-------------------------------------------------------------------------------
 C     Setting default values 
 C--------------------------------------------------------------------------------
       IF (ITAB_EPSF == 0 .AND. FCRIT == ZERO) THEN 
-        CALL ANCMSG(MSGID=3000,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND,
+        CALL ANCMSG(MSGID=3000, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND,
      .              I1=MAT_ID,
      .              C1=TITR)        
       ENDIF
@@ -169,53 +159,53 @@ C-------------------------------------------------------------------------------
       PTHKFAIL = MIN(PTHKFAIL, ONE)
       PTHKFAIL = MAX(PTHKFAIL,-ONE)
 C--------------------------------------------------------------------------------
-C     Functions and tables
-C--------------------------------------------------------------------------------
-      ! -> Functions
-      NFUNC    = 3 
-      IFUNC(1) = IFUN_EXP
-      IFUNC(2) = IFUN_RATE
-      IFUNC(3) = IFUN_DLIM
-      ! -> Tables IDs conversion
-      INT_ITAB_EPSF = ITAB_EPSF
-      IF (ITAB_EPSF > 0) THEN
-        CALL MATTAB_USR2SYS(TITR,MAT_ID,TABLE,1,INT_ITAB_EPSF)
-      ENDIF
-      INT_ITAB_INST = ITAB_INST
-      IF (ITAB_INST > 0) THEN
-        CALL MATTAB_USR2SYS(TITR,MAT_ID,TABLE,1,INT_ITAB_INST)
-      ENDIF       
-      INT_ITAB_SIZE = ITAB_SIZE
-      IF (ITAB_SIZE > 0) THEN
-        CALL MATTAB_USR2SYS(TITR,MAT_ID,TABLE,1,INT_ITAB_SIZE)
-      ENDIF   
-C--------------------------------------------------------------------------------
 C     Filling buffer tables
 C--------------------------------------------------------------------------------
-      NUPARAM    = 21
-      UPARAM(1)  = INT_ITAB_EPSF
-      UPARAM(2)  = FCRIT
-      UPARAM(3)  = FAILIP
-      UPARAM(4)  = PTHKFAIL
-      UPARAM(5)  = DN
-      UPARAM(6)  = DCRIT
-      UPARAM(7)  = INT_ITAB_INST
-      UPARAM(8)  = ECRIT
-      UPARAM(9)  = EXP_REF
-      UPARAM(10) = EXPO
-      UPARAM(11) = INT_ITAB_SIZE
-      UPARAM(12) = IREG
-      UPARAM(13) = EL_REF
-      UPARAM(14) = SR_REF1
-      UPARAM(15) = FSCALE_EL
-      UPARAM(16) = SHRF
-      UPARAM(17) = BIAXF
-      UPARAM(18) = SR_REF2
-      UPARAM(19) = FSCALE_SR
-      UPARAM(20) = CJC
-      UPARAM(21) = FSCALE_DLIM      
-c-----------------------------------------------------------------------
-      NUVAR = 3
+      FAIL%KEYWORD = 'TAB2' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 21
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 3
+      FAIL%NFUNC   = 3
+      FAIL%NTABLE  = 3
+      FAIL%NMOD    = 0
+      FAIL%PTHK    = PTHKFAIL
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      FAIL%UPARAM(1)  = 0              !   INT_ITAB_EPSF
+      FAIL%UPARAM(2)  = FCRIT
+      FAIL%UPARAM(3)  = FAILIP
+      FAIL%UPARAM(4)  = PTHKFAIL
+      FAIL%UPARAM(5)  = DN
+      FAIL%UPARAM(6)  = DCRIT
+      FAIL%UPARAM(7)  = 0              !   INT_ITAB_INST
+      FAIL%UPARAM(8)  = ECRIT
+      FAIL%UPARAM(9)  = EXP_REF
+      FAIL%UPARAM(10) = EXPO
+      FAIL%UPARAM(11) = 0              !   INT_ITAB_SIZE
+      FAIL%UPARAM(12) = IREG
+      FAIL%UPARAM(13) = EL_REF
+      FAIL%UPARAM(14) = SR_REF1
+      FAIL%UPARAM(15) = FSCALE_EL
+      FAIL%UPARAM(16) = SHRF
+      FAIL%UPARAM(17) = BIAXF
+      FAIL%UPARAM(18) = SR_REF2
+      FAIL%UPARAM(19) = FSCALE_SR
+      FAIL%UPARAM(20) = CJC
+      FAIL%UPARAM(21) = FSCALE_DLIM      
+c
+      FAIL%IFUNC(1) = IFUN_EXP
+      FAIL%IFUNC(2) = IFUN_RATE
+      FAIL%IFUNC(3) = IFUN_DLIM
+c
+      FAIL%TABLE(1) = ITAB_EPSF
+      FAIL%TABLE(2) = ITAB_INST
+      FAIL%TABLE(3) = ITAB_SIZE
 c-----------------------------------------------------------------------
       IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'

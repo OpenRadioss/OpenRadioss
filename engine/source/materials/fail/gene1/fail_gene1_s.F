@@ -35,13 +35,13 @@ Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE FAIL_GENE1_S (
-     1     NEL      ,NUPARAM  ,NUVAR    ,MFUNC    ,KFUNC    ,LOFF     ,
+     1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,LOFF     ,
      2     NPF      ,TF       ,TIME     ,TIMESTEP ,UPARAM   ,IPG      ,
      3     NGL      ,DT       ,EPSP     ,UVAR     ,OFF      ,NPG      ,
      4     EPSXX    ,EPSYY    ,EPSZZ    ,EPSXY    ,EPSYZ    ,EPSZX    ,
      5     SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      6     TEMP     ,VOLN     ,DFMAX    ,TDELE    ,ALDT     ,TABLE    ,
-     7     IRUPT    ,ELBUF_TAB,ILAY1    )
+     7     IRUPT    ,ELBUF_TAB,ILAY1    ,NTABLF   ,ITABLF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,7 +61,8 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com01_c.inc"
 C!-----------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR,NGL(NEL),IPG,NPG,IRUPT,ILAY1
+      INTEGER NEL, NUPARAM, NUVAR,NGL(NEL),IPG,NPG,IRUPT,ILAY1,NTABLF
+      INTEGER, DIMENSION(NTABLF) ,INTENT(IN) :: ITABLF
       my_real TIME,TIMESTEP,UPARAM(*),
      .   EPSXX(NEL),EPSYY(NEL),EPSZZ(NEL),
      .   EPSXY(NEL),EPSYZ(NEL),EPSZX(NEL),
@@ -74,7 +75,7 @@ C!-----------------------------------------------
 C!-----------------------------------------------
 C!   VARIABLES FOR FUNCTION INTERPOLATION 
 C!-----------------------------------------------
-      INTEGER NPF(*), MFUNC, KFUNC(MFUNC)
+      INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
       my_real FINTER ,TF(*)
       EXTERNAL FINTER
 C!        Y = FINTER(IFUNC(J),X,NPF,TF,DF)
@@ -87,9 +88,9 @@ C!        NPF,TF  : FUNCTION PARAMETER
 C!-----------------------------------------------
 C!   L o c a l   V a r i a b l e s
 C!-----------------------------------------------
-      INTEGER I,K,J,INDX(NEL),NINDX,INDX2(NEL),NINDX2,IREG,NSTEP,
-     .        ISM,IPS,IG12,IG13,IE1C,fct_IDg12,fct_IDg13,fct_IDe1c,
-     .        NCRIT(NEL),fct_IDel,IPOS(NEL,2),Ismooth,Istrain,IR,IS,IT,
+      INTEGER I,K,J,INDX(NEL),NINDX,INDX2(NEL),NINDX2,NSTEP,
+     .        fct_ISM,fct_IPS,fct_IDg12,fct_IDg13,fct_IDe1c,fct_IDel,
+     .        NCRIT(NEL),IPOS(NEL,2),Ismooth,Istrain,IR,IS,IT,
      .        ILAY,tab_IDfld,Itab,NCS,INDX3(NEL),NINDX3,IPMAX(NEL),IPMIN(NEL),
      .        IS1MAX(NEL),ITMAX(NEL),IMINDT(NEL),ISIGMAX(NEL),ISIGTH(NEL),
      .        IEPSMAX(NEL),IEFFEPS(NEL),IVOLEPS(NEL),IMINEPS(NEL),ISHEAR(NEL),
@@ -98,7 +99,7 @@ C!-----------------------------------------------
       my_real 
      .        MINPRES,MAXPRES,SIGP1,TMAX,DTMIN,EPSDOT_SM,SIGVM,SIGTH,
      .        KF,EPSDOT_PS,MAXEPS,EFFEPS,VOLEPS,MINEPS,EPSSH,EPSDOT_FLD,
-     .        THIN,VOLFRAC,PTHK,MAXTEMP,Fscale_el,El_ref,LAMBDA,FAC,DF
+     .        THIN,VOLFRAC,MAXTEMP,Fscale_el,El_ref,LAMBDA,FAC,DF
       my_real 
      .        E1,E2,E3,E4,E5,E6,E42,E52,E62,I1,I2,I3,P(NEL),SXX,SYY,SZZ,SVM(NEL),
      .        Q,R,R_INTER,PHI,E11(NEL),E22(NEL),E33(NEL),VOL_STRAIN(NEL),DAV,E1D,
@@ -127,23 +128,30 @@ C!--------------------------------------------------------------
       VOLEPS     = UPARAM(13)
       MINEPS     = UPARAM(14)
       EPSSH      = UPARAM(15)
-      tab_IDfld  = NINT(UPARAM(16))
       Itab       = NINT(UPARAM(17))
       EPSDOT_FLD = UPARAM(18)
       NSTEP      = NINT(UPARAM(19))
       THIN       = UPARAM(20)
       VOLFRAC    = UPARAM(21)
-      PTHK       = UPARAM(22)
       NCS        = NINT(UPARAM(23))
       MAXTEMP    = UPARAM(24)
       Fscale_el  = UPARAM(25)
       El_ref     = UPARAM(26)
-      fct_IDg12  = NINT(UPARAM(27))
-      fct_IDg13  = NINT(UPARAM(28))
-      fct_IDe1c  = NINT(UPARAM(29))
-      fct_IDel   = NINT(UPARAM(30))
       Ismooth    = NINT(UPARAM(31))
       Istrain    = NINT(UPARAM(32))
+c
+c     function & tables
+      fct_ISM    = IFUNC(1) 
+      fct_IPS    = IFUNC(2)   ! -> maximum principal strain VS strain-rate
+      fct_IDg12  = IFUNC(3)   ! -> in-plane shear strain VS element size
+      fct_IDg13  = IFUNC(4)   ! -> in-plane shear strain VS element size
+      fct_IDe1c  = IFUNC(5)   ! -> major in plane-strain VS element size
+      fct_IDel   = IFUNC(6)   ! -> element size regularization
+      IF (NTABLF > 0) THEN
+        tab_IDfld  = ITABLF(1)
+      ELSE
+        tab_IDfld  = 0
+      END IF
 c
       ! Initialization of variable
       NINDX  = 0 
@@ -172,50 +180,13 @@ c
       ITHIN(1:NEL)    = 0
       IMAXTEMP(1:NEL) = 0
       NCRIT(1:NEL)    = 0
-c
-      ! Recovering functions
-      ! -> equivalent stress VS strain-rate
-      ISM  = 0
-      IPS  = 0
-      IG12 = 0
-      IG13 = 0
-      IE1C = 0
-      IREG = 0 
-      IF (EPSDOT_SM /= ZERO) THEN
-        ISM = ISM + 1
-      ENDIF    
-      ! -> maximul principal strain VS strain-rate
-      IPS = ISM
-      IF (EPSDOT_PS /= ZERO) THEN
-        IPS = IPS + 1
-      ENDIF   
-      ! -> in-plane shear strain VS element size
-      IG12 = IPS
-      IF (fct_IDg12 > 0) THEN 
-        IG12 = IG12 + 1
-      ENDIF    
-      ! -> transverse shear strain VS element size
-      IG13 = IG12
-      IF (fct_IDg13 > 0) THEN 
-        IG13 = IG13 + 1
-      ENDIF
-      ! -> major in plane-strain VS element size
-      IE1C = IG13
-      IF (fct_IDe1c > 0) THEN
-        IE1C = IE1C + 1
-      ENDIF
-      ! -> element size regularization
-      IREG  = IE1C
-      IF (fct_IDel > 0) THEN
-        IREG = IREG + 1
-      ENDIF       
 c      
       ! At initial time, compute the element size regularization factor
       IF (UVAR(1,1)==ZERO) THEN 
         IF (fct_IDel > 0) THEN 
           DO I=1,NEL   
             LAMBDA      = ALDT(I)/El_ref
-            FAC         = FINTER(KFUNC(IREG),LAMBDA,NPF,TF,DF) 
+            FAC         = FINTER(fct_IDel,LAMBDA,NPF,TF,DF) 
             UVAR(I,1)   = FAC*Fscale_el
           ENDDO
         ELSE
@@ -351,7 +322,7 @@ c
       ENDDO
 c
       !  -> Forming limit diagram
-      IF (tab_IDfld > 0) THEN 
+      IF (NTABLF > 0) THEN 
         IF (Itab == 1) THEN 
           ! Diagram using true strains
           IF (Istrain == 0) THEN 
@@ -435,7 +406,7 @@ c
           !  -> equivalent stress
           IF (EPSDOT_SM /= ZERO) THEN 
             LAMBDA    = EPSP(I)/EPSDOT_SM
-            SIGMAX(I) = FINTER(KFUNC(ISM),LAMBDA,NPF,TF,DF) 
+            SIGMAX(I) = FINTER(fct_ISM,LAMBDA,NPF,TF,DF) 
             SIGMAX(I) = SIGMAX(I)*SIGVM       
           ELSE
             SIGMAX(I) = SIGVM
@@ -455,7 +426,7 @@ c
           !  -> maximal principal strain
           IF (EPSDOT_PS /= ZERO) THEN 
             LAMBDA    = EPSP(I)/EPSDOT_PS    
-            EPSMAX(I) = FINTER(KFUNC(IPS),LAMBDA,NPF,TF,DF)
+            EPSMAX(I) = FINTER(fct_IPS,LAMBDA,NPF,TF,DF)
             EPSMAX(I) = EPSMAX(I)*MAXEPS
           ELSE
             EPSMAX(I) = MAXEPS
@@ -494,7 +465,7 @@ c
           !  -> mixed mode 
           IF (fct_IDg12 > 0) THEN 
             LAMBDA  = UVAR(I,8)/El_ref
-            SH12(I) = FINTER(KFUNC(IG12),LAMBDA,NPF,TF,DF) 
+            SH12(I) = FINTER(fct_IDg12,LAMBDA,NPF,TF,DF) 
             DENOM   = SIGN(MAX(ABS(E11(I)),EM20),E11(I))  
             IF (((E22(I)/DENOM)<=-HALF).AND.((E22(I)/DENOM)>=-TWO)) THEN
               IF ((E11(I) - E22(I))/TWO >= SH12(I)) THEN 
@@ -505,7 +476,7 @@ c
           ENDIF
           IF (fct_IDg13 > 0) THEN 
             LAMBDA  = UVAR(I,8)/El_ref
-            SH13(I) = FINTER(KFUNC(IG13),LAMBDA,NPF,TF,DF)
+            SH13(I) = FINTER(fct_IDg13,LAMBDA,NPF,TF,DF)
             DENOM   = SIGN(MAX(ABS(E11(I)),EM20),E11(I))  
             IF (((E22(I)/DENOM)<=ONE).AND.((E22(I)/DENOM)>=-HALF)) THEN
               IF ((E11(I) - E33(I))/TWO >= SH13(I)) THEN 
@@ -516,7 +487,7 @@ c
           ENDIF
           IF (fct_IDe1c > 0) THEN 
             LAMBDA = UVAR(I,8)/El_ref
-            E1C(I) = FINTER(KFUNC(IE1C),LAMBDA,NPF,TF,DF) 
+            E1C(I) = FINTER(fct_IDe1c,LAMBDA,NPF,TF,DF) 
             DENOM  = SIGN(MAX(ABS(E11(I)),EM20),E11(I))  
             IF (((E22(I)/DENOM)<=ONE).AND.((E22(I)/DENOM)>=-HALF)) THEN
               IF (E11(I) >= E1C(I)) THEN 
@@ -526,7 +497,7 @@ c
             ENDIF
           ENDIF
           !  -> Forming limit diagram
-          IF (tab_IDfld > 0) THEN 
+          IF (NTABLF > 0) THEN 
             IF (Itab == 1) THEN 
               IF (E11(I) >= E1FLD(I)*FACL(I)) THEN 
                 NCRIT(I) = NCRIT(I) + 1

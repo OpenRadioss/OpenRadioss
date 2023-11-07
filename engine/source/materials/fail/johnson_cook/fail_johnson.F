@@ -31,12 +31,11 @@ Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_sol
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FAIL_JOHNSON(
-     1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC   ,
-     2     NPF    ,TF     ,TIME   ,TIMESTEP ,UPARAM  ,
-     3     NGL    , IPM    ,MAT,
+     1     NEL    ,NUPARAM,NUVAR   ,
+     2     TIME   ,TIMESTEP ,UPARAM  ,NGL    ,
      4     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     5     DPLA    ,EPSP  ,TSTAR   ,UVAR    ,OFF     ,IP     ,
-     6     DFMAX   ,TDELE )
+     5     DPLA   ,EPSP   ,TSTAR   ,UVAR    ,OFF     ,
+     6     DFMAX  ,TDELE  )
 c-----------------------------------------------
 c    Johnson cook failure model
 C-----------------------------------------------
@@ -50,11 +49,6 @@ C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL
 C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF FAILURE ELEMENT VARIABLES
 C---------+---------+---+---+--------------------------------------------
-C MFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW not used
-C KFUNC   | NFUNC   | I | R | FUNCTION INDEX not used
-C NPF     |  *      | I | R | FUNCTION ARRAY   
-C TF      |  *      | F | R | FUNCTION ARRAY 
-C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
 C UPARAM  | NUPARAM | F | R | USER FAILURE PARAMETER ARRAY
@@ -67,32 +61,23 @@ C---------+---------+---+---+--------------------------------------------
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
-#include  "mvsiz_p.inc"
 #include  "scr17_c.inc"
 #include  "units_c.inc"
 #include  "comlock.inc"
 #include  "param_c.inc"
 #include  "impl1_c.inc"
 C-----------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR,NGL(NEL),IPM(NPROPMI,*),
-     .        MAT(NEL),IP
-      my_real TIME,TIMESTEP,UPARAM(*),
+      INTEGER NEL, NUPARAM, NUVAR,NGL(NEL)
+      my_real TIME,TIMESTEP,UPARAM(NUPARAM),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),UVAR(NEL,NUVAR),
      .   DPLA(NEL),EPSP(NEL),TSTAR(NEL),OFF(NEL),DFMAX(NEL),TDELE(NEL)    
 C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*), MFUNC, KFUNC(MFUNC)
-      my_real TF(*)
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDEL,IDEV,ISOLID,INDX(MVSIZ),IADBUF,NINDX,
-     .        NINDEX,INDEX(MVSIZ),IR,IFAIL,JJ
-      my_real 
-     .        D1,D2,D3,D4,D5,
-     .        EPSP0,P,EPSF,SVM,SCALE,SXX,SYY,SZZ
+      INTEGER I,J,JJ,IDEL,IDEV,IFLAG,NINDX,IR,IFAIL,ISOLID
+      INTEGER ,DIMENSION(NEL) :: INDX
+      my_real :: D1,D2,D3,D4,D5,EPSP0,P,EPSF,SVM,SCALE,SXX,SYY,SZZ
 C--------------------------------------------------------------
       D1 = UPARAM(1)
       D2 = UPARAM(2)
@@ -158,7 +143,6 @@ C
 Cc deviatoric will be vanished      
       IF(IDEV==1)THEN
        NINDX=0 
-       NINDEX = 0 
        DO I=1,NEL 
         IF(ISOLID==2.AND.OFF(I)==ONE)THEN 
          IF(DFMAX(I)<ONE.AND.DPLA(I)/=ZERO)THEN

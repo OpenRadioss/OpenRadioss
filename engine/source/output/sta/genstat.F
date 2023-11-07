@@ -93,11 +93,11 @@ Chd|====================================================================
      A                  IXS16    ,IXS20   ,ICODE    ,LENGR   ,LENGP   ,
      B                  LENGT    ,ISKEW   ,V        ,VR      ,LENGQ   ,
      C                  MULTI_FVM,BUFMAT  ,NPBY     ,LPBY    ,STACK   ,
-     D                  DRAPE_SH4N ,DRAPE_SH3N,DR       ,DRAPEG)
+     D                  DRAPE_SH4N ,DRAPE_SH3N,DR,DRAPEG,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
       USE MESSAGE_MOD    
       USE INOUTFILE_MOD 
       USE MULTI_FVM_MOD
@@ -150,6 +150,7 @@ C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
       TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
       TYPE(DRAPEG_) :: DRAPEG
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       my_real BUFMAT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -478,7 +479,8 @@ C
       IF(STAT_C(8)==1) CALL STAT_C_FAIL(
      .   ELBUF_TAB,IPARG ,IPM ,IGEO,IXC  ,
      .   IXTG ,WA,WAP0 ,IPARTC,IPARTTG,
-     .   IPART_STATE,STAT_INDXC,STAT_INDXTG,SIZP0)
+     .   IPART_STATE,STAT_INDXC,STAT_INDXTG,SIZP0,
+     .   NUMMAT,MAT_PARAM)
 C-----------------------------------------------
 C   SHELL TENSOR(2D)
 C-----------------------------------------------
@@ -533,7 +535,7 @@ C-----------------------------------------------
       IF(STAT_S(11)==1) CALL STAT_S_FAIL(
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
      2                        WA,WAP0 ,IPARTS, IPART_STATE,
-     3                        STAT_INDXS,IPART,SIZP0)
+     3                        STAT_INDXS,IPART,SIZP0,NUMMAT,MAT_PARAM)
       IF(STAT_S(13)==1) CALL STAT_S_EREF(
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,
      2                        IXS ,IXS10,IXS16,IXS20,X   ,

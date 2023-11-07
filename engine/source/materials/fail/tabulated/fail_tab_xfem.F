@@ -35,12 +35,12 @@ Chd|====================================================================
       SUBROUTINE FAIL_TAB_XFEM(
      1           NEL      ,NPARAM   ,NUVAR    ,NPF      ,TF       ,
      2           TIME     ,TIMESTEP ,UPARAM   ,NGL      ,IPT      ,
-     3           NPTOT    ,IP       ,NFUNC    ,IFUNC    ,TABLE    ,
+     3           NPTOT    ,NFUNC    ,IFUNC    ,TABLE    ,
      4           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      5           DPLA     ,EPSP     ,TSTAR    ,TENS     ,UVAR     ,
      6           NOFF     ,ALDT     ,OFF      ,OFFL     ,ELCRKINI ,
      7           IXFEM    ,IXEL     ,ILAY     ,DFMAX    ,TDEL     ,
-     8           DMG_FLAG )
+     8           DMG_FLAG ,NTABLF   ,ITABLF   )
 C-----------------------------------------------
 C    tabulated failure model
 C-----------------------------------------------
@@ -92,8 +92,10 @@ C NOFF                        NUMBER OF FAILED INTEGRATION POINTS (TOTAL)
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,NPARAM,NUVAR,IP,IPT,NFUNC,IXFEM,IXEL,ILAY,
+      INTEGER NEL,NPARAM,NUVAR,IPT,NFUNC,IXFEM,IXEL,ILAY,
      .   NPTOT,DMG_FLAG
+      INTEGER ,INTENT(IN) :: NTABLF
+      INTEGER, DIMENSION(NTABLF) ,INTENT(IN) :: ITABLF
       INTEGER NGL(NEL),NOFF(NEL),IFUNC(NFUNC),
      .   ELCRKINI(NXLAYMAX,NEL)
       my_real TIME,TIMESTEP(NEL),UPARAM(*),DPLA(NEL),EPSP(NEL),
@@ -124,8 +126,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  ::
-     .  I,J,K,L,IADR,NINDX,ISHELL,LAYXFEM,I_MOD,I_DAM,
-     .  ITABLE,IFUN_EL,IFUN_TEMP,INSTABIL,ID_DD,NF_LOC
+     .  I,J,K,L,IADR,NINDX,ISHELL,I_MOD,I_DAM,NF_LOC,
+     .  ITAB_EPSF,ITAB_INST,IFUN_EL,IFUN_TEMP,IFUN_DMG,IFUN_FAD
       INTEGER, DIMENSION(NEL) :: INDX,NRATE,RFLAG,DMG_FLAG_INT
 C
       my_real, DIMENSION(NEL) :: EPSF,EPSF_N,DMG_SCALE
@@ -140,7 +142,7 @@ C Storage of initial thickness in UVAR(x,2) at time = 0.0
 C 1 = DAMAGE
 C 2 = initial shell thickness
 C 3 = DCrit_NS --> Instability starts
-C 4 = percent from instability to failure
+C 4 = percent from Instability to failure
 C 5 = initial characteristic el. length
 C=======================================================================
 C     INITIALIZATIONS
@@ -163,7 +165,6 @@ C-----------------------------------------------
       SC_TEMP   = UPARAM(7)
       SC_EL     = UPARAM(8)
       EL_REF    = UPARAM(9)
-      LAYXFEM   = UPARAM(10)
       DADV      = UPARAM(11)
       X1SCALE   = UPARAM(12)
       X2SCALE   = UPARAM(13)
@@ -174,10 +175,7 @@ C-----------------------------------------------
       FADE_EXPO = UPARAM(18)
       I_MOD     = INT(UPARAM(19))
 c-----------------------------
-      IF (LAYXFEM == 0) RETURN
-c-----------------------------
-      LAYXFEM = IXFEM
-      IF (LAYXFEM == 1 .and. ISHELL == 1) ISHELL=2
+      IF (IXFEM == 1 .and. ISHELL == 1) ISHELL=2
 c-----------------------------
       I_DAM = 0      
       IF (ECRIT /= ZERO .OR. FADE_EXPO /= ZERO) I_DAM = 1
@@ -205,14 +203,15 @@ c
         XCHAR = ' '
       ENDIF
 C-------------------------------------------------------------------
-c     Failure strain value - function interpolation
-C-------------------------------------------------------------------
-      ITABLE = UPARAM(23)
+c---- Failure strain
+      ITAB_EPSF  = ITABLF(1)
+c---- Instability
+      ITAB_INST  = ITABLF(2)
 c---- Scale functions       
-      IFUN_EL   = IFUNC(1)
-      IFUN_TEMP = IFUNC(2)
-c---- Instability function
-      INSTABIL  = UPARAM(24)
+      IFUN_EL   = IFUNC(2)
+      IFUN_TEMP = IFUNC(3)
+      IFUN_DMG  = IFUNC(3)    ! damage
+      IFUN_FAD  = IFUNC(4)    ! fading exponent
 c
 c---  failure strain interpolation
       DO I=1,NEL
@@ -224,7 +223,7 @@ C----
 C         XX0(1)=SIGM *X1SCALE
          XX0(1)=SIGM
          XX0(2)=EPSP(I) *X2SCALE
-         CALL TABLE_INTERP (TABLE(ITABLE),XX0,YY)            
+         CALL TABLE_INTERP (TABLE(ITAB_EPSF),XX0,YY)            
          EPSF(I) = YY * X1SCALE
       ENDDO
 c
@@ -243,9 +242,9 @@ c----   temperature scale function
         
 C----   Instability function
 
-        IF (INSTABIL > 0) THEN
+        IF (ITAB_INST > 0) THEN
            XX0(2)=EPSP(I) *X4SCALE
-           CALL TABLE_INTERP (TABLE(INSTABIL),XX0,YY_N)            
+           CALL TABLE_INTERP (TABLE(ITAB_INST),XX0,YY_N)            
            EPSF_N(I) = YY_N * X3SCALE
         ELSEIF (ECRIT > 0.0) THEN
            EPSF_N(I) = ECRIT
@@ -256,7 +255,7 @@ C----   Instability function
 C----   Fading exponent
         IF (FADE_EXPO < ZERO) THEN
            LAMBDA = UVAR(I,5) / EL_REF
-           FADE_EXPO = FINTER(IFUNC(4),LAMBDA,NPF,TF,DF) 
+           FADE_EXPO = FINTER(IFUN_FAD,LAMBDA,NPF,TF,DF) 
         ENDIF
 C----         
       ENDDO
@@ -265,9 +264,8 @@ C-------------------------------------------------------------------
             IF (IXFEM == 1 .OR. IXFEM == 2) THEN 
               DO I=1,NEL
                 IF (ISHELL == 1 .AND. OFF(I)==ONE) THEN
-                  ID_DD = IFUNC(3)
-                  IF(ID_DD /= 0 )THEN
-                    DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
+                  IF (IFUN_DMG > 0) THEN
+                    DP = FINTER(IFUN_DMG,UVAR(I,1),NPF,TF,DF)
                   ELSE
                     IF(UVAR(I,1) == ZERO) THEN 
                       DP = ONE
@@ -333,9 +331,8 @@ C-------------------------------
               DO I=1,NEL
                 IF (OFF(I) == ONE)THEN
                   IF (UVAR(I,1) < DCRIT) THEN
-                    ID_DD = IFUNC(3)
-                    IF(ID_DD /= 0 )THEN
-                      DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
+                    IF (IFUN_DMG > 0) THEN
+                      DP = FINTER(IFUN_DMG,UVAR(I,1),NPF,TF,DF)
                     ELSE
                      IF(UVAR(I,1) == ZERO) THEN 
                        DP = ONE
@@ -415,9 +412,8 @@ C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
               DO I=1,NEL
                 IF (OFF(I)==ONE .AND. (ISHELL==2 .OR. ISHELL==3))THEN
                   IF (UVAR(I,1) < DCRIT) THEN
-                     ID_DD = IFUNC(3)
-                    IF(ID_DD /= 0 )THEN
-                      DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
+                    IF (IFUN_DMG > 0) THEN
+                      DP = FINTER(IFUN_DMG,UVAR(I,1),NPF,TF,DF)
                     ELSE
                      IF(UVAR(I,1) == ZERO) THEN 
                        DP = ONE

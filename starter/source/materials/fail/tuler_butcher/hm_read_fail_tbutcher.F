@@ -33,27 +33,16 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_TBUTCHER(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,UNITAB   ,ID     ,FAIL_ID  ,
-     .           LSUBMODEL,IXFEM)
+      SUBROUTINE HM_READ_FAIL_TBUTCHER(FAIL   ,
+     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
+     .           LSUBMODEL,UNITAB   )
 C-----------------------------------------------
-C   ROUTINE DESCRIPTION :
-C   ===================
-C   READ FAILURE SPALLING (REPLACE LECR08)
-C-----------------------------------------------
-C   DUMMY ARGUMENTS DESCRIPTION:
-C   ===================
-C
-C     NAME            DESCRIPTION                         
-C
-C     UNITAB          UNITS ARRAY
-C     FAIL_ID         FAILURE ID(INTEGER)
-C     TITR            MATERIAL TITLE
-C     LSUBMODEL       SUBMODEL STRUCTURE    
+c    ROUTINE DESCRIPTION :
+c    Read Tuler-Butcher failure model parameters
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
@@ -69,50 +58,47 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER,INTENT(IN)             ::ID,FAIL_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
-C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          ::IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM
-      my_real,INTENT(INOUT)          ::UPARAM(MAXUPARAM)
-      INTEGER,INTENT(INOUT)          ::NUPARAM,NUVAR,IXFEM
+      INTEGER             ,INTENT(IN) :: FAIL_ID       ! failure model ID
+      INTEGER             ,INTENT(IN) :: MAT_ID        ! material law ID
+      INTEGER             ,INTENT(IN) :: IRUPT         ! failure model number
+      TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
+      TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table
+      INTEGER             ,INTENT(INOUT) :: IXFEM      ! XFEM activation flag
+      TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISHELL, ISOLID,IBRIT
-      my_real
-     .  TBA,TBK,SIGR,FAC_L,FAC_T,FAC_M,FAC_C,BRIT_B,BRIT_C,DADV
-      LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
+      INTEGER :: IFAIL_SH,ISOLID,IBRIT
+      my_real :: TBA,TBK,SIGR,FAC_L,FAC_T,FAC_M,FAC_C,BRIT_B,BRIT_C,DADV,PTHKF
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C
-      CALL HM_GET_FLOATV         ('Lambda'           ,TBA     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('K'           ,TBK     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('Sigma_r'           ,SIGR     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV           ('Ifail_sh'     ,ISHELL ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_INTV           ('Ifail_so'     ,ISOLID ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_INTV           ('Iduct'     ,IBRIT ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_INTV           ('Ixfem'     ,IXFEM ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_FLOATV ('Lambda'    ,TBA    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('K'         ,TBK    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('Sigma_r'   ,SIGR   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_INTV   ('Ifail_sh'  ,IFAIL_SH ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV   ('Ifail_so'  ,ISOLID ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV   ('Iduct'     ,IBRIT  ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV   ('Ixfem'     ,IXFEM  ,IS_AVAILABLE,LSUBMODEL)
 C
-      CALL HM_GET_FLOATV         ('a_TBUTCHER_XFEMTBUTC',BRIT_B  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('b_TBUTCHER_XFEMTBUTC'        ,BRIT_C   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV         ('Dadv'        ,DADV   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (DADV == ZERO)DADV=ZEP85
-      IF (DADV > ONE)THEN
+      CALL HM_GET_FLOATV ('a_TBUTCHER_XFEMTBUTC',BRIT_B ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('b_TBUTCHER_XFEMTBUTC',BRIT_C ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('Dadv'        ,DADV   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+c-----------------------------------------------------------------------
+      IF (DADV == ZERO) DADV=ZEP85
+      IF (DADV > ONE) THEN
          DADV = ONE
-         CALL ANCMSG(MSGID=1049,
-     .               MSGTYPE=MSGWARNING,
-     .               ANMODE=ANINFO,
-     .               I1=ID)
+         CALL ANCMSG(MSGID=1049, MSGTYPE=MSGWARNING, ANMODE=ANINFO,
+     .               I1=MAT_ID)
       ENDIF
 C
-      IF(ISHELL==0)ISHELL=1
+      IF(IFAIL_SH==0)IFAIL_SH=1
       IF(ISOLID==0)ISOLID= 1
       IF(IBRIT==0)IBRIT= 1
       IF(IXFEM /= 1 .AND. IXFEM /= 2)IXFEM = 0
@@ -120,23 +106,42 @@ C
       IF(IXFEM == 0)IBRIT = 0
       IF(SIGR <= ZERO)SIGR=EP30
       IF(TBK <= ZERO)TBK=EP30
-      UPARAM(1) = TBA
-      UPARAM(2) = TBK
-      UPARAM(3) = SIGR
-      UPARAM(4) = ISHELL
-      UPARAM(5) = ISOLID
-      UPARAM(6) = IBRIT
-      UPARAM(7) = IXFEM
-      UPARAM(8) = BRIT_B
-      UPARAM(9) = BRIT_C
-      UPARAM(10)= DADV
-C
-      NUPARAM = 10
-C
-      NUVAR = 2
-      NFUNC = 0
-C
-C
+c
+      IF (IFAIL_SH == 1) THEN
+        PTHKF = EM06
+      ELSEIF (IFAIL_SH == 2) THEN
+        PTHKF = ONE
+      ENDIF
+c---------------------------
+      FAIL%KEYWORD = 'TULER-BUTCHER' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 10
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 2
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+      FAIL%PTHK    = PTHKF
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      FAIL%UPARAM(1) = TBA
+      FAIL%UPARAM(2) = TBK
+      FAIL%UPARAM(3) = SIGR
+      FAIL%UPARAM(4) = IFAIL_SH
+      FAIL%UPARAM(5) = ISOLID
+      FAIL%UPARAM(6) = IBRIT
+      FAIL%UPARAM(7) = IXFEM
+      FAIL%UPARAM(8) = BRIT_B
+      FAIL%UPARAM(9) = BRIT_C
+      FAIL%UPARAM(10)= DADV
+c---------------------------
+c     OUTPUT
+c---------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE 
@@ -145,9 +150,9 @@ C for shell
 C---
         IF(IXFEM == 0)THEN
           WRITE(IOUT, 1000)TBA,TBK,SIGR,IXFEM
-          IF(ISHELL==1)THEN
+          IF(IFAIL_SH==1)THEN
             WRITE(IOUT, 1100)
-          ELSEIF(ISHELL==2)THEN
+          ELSEIF(IFAIL_SH==2)THEN
             WRITE(IOUT, 1200)
           ENDIF
         ELSE
@@ -165,7 +170,7 @@ C---
           ENDIF
         END IF
       ENDIF      
-C
+c-----------------------------------------------------------
  1000 FORMAT(
      & 5X,40H    TULER BUTCHER DAMAGE PARAMETER            /,
      & 5X,40H    -----------------------------             /,
@@ -195,7 +200,5 @@ C
      & 5X,40HBRITTLE FRACTURE EXPONENT B  . . . . . =,E12.4/,
      & 5X,40HCRITICAL ADVANCEMENT COEFFICIENT . . . =,E12.4//)
 C-----------
-
-
       RETURN
       END

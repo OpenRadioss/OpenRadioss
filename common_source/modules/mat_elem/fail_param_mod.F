@@ -51,15 +51,14 @@ c=======================================================================
         INTEGER     :: NFUNC
         INTEGER     :: NTABLE
         INTEGER     :: NMOD                   !number of rupture/damage modes
-
         INTEGER     :: FAIL_IP                
         my_real     :: PTHK
         
         character(len=nchartitle) ,DIMENSION(:) ,ALLOCATABLE :: MODE   ! size NMOD
-        my_real        ,DIMENSION(:) ,ALLOCATABLE :: UPARAM  ! NUPARAM
-        INTEGER        ,DIMENSION(:) ,ALLOCATABLE :: IPARAM  ! NIPARAM
-        INTEGER        ,DIMENSION(:) ,ALLOCATABLE :: IFUNC   ! function adress table
-        TYPE(TABLE_4D_),DIMENSION(:) ,ALLOCATABLE :: TABLE   ! NTABLE
+        my_real ,DIMENSION(:) ,ALLOCATABLE :: UPARAM  ! NUPARAM
+        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IPARAM  ! NIPARAM
+        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IFUNC   ! function index
+        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: TABLE   ! function table index
       
       END TYPE FAIL_PARAM_   
 c

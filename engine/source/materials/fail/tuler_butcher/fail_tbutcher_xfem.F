@@ -103,12 +103,9 @@ C=======================================================================
       SIGR_INI = UPARAM(3)                        
       ISHELL   = INT(UPARAM(4))                     
       IBRIT    = INT(UPARAM(6))                   
-      LAYXFEM  = INT(UPARAM(7))                  
       BRIT_B   = UPARAM(8)                        
       BRIT_C   = UPARAM(9)                        
       DADV     = UPARAM(10)
-c-----------------------------
-      IF (LAYXFEM == 0) RETURN
 c-----------------------------
       LAYXFEM = IXFEM
       IF (LAYXFEM == 1 .and. ISHELL == 1) ISHELL = 2

@@ -33,8 +33,7 @@ Chd|====================================================================
      2     TIME      ,NPF       ,TF        ,NFUNC     ,IFUNC     ,
      3     NGL       ,IPG       ,ILAY      ,IPT       ,HARDM     ,
      4     SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,  
-     5     OFF       ,FOFF      ,PTHKF     ,DFMAX     ,TDEL      ,
-     6     DAM       )
+     5     OFF       ,FOFF      ,DFMAX     ,TDEL      ,DAM       )
 C-----------------------------------------------
 c     NXT Failure
 C-----------------------------------------------
@@ -63,7 +62,6 @@ C ...     |         |   |   |
 C---------+---------+---+---+--------------------------------------------
 C OFF     | NEL     | F | R | DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C FOFF    | NEL     | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)
-C PTHKF   |  1      | F | W | PERCENTAGE OF LAYER THICKNESS TO FAIL
 C DFMAX   | NEL     | F |R/W| MAX DAMAGE FACTOR 
 C TDEL    | NEL     | F | W | FAILURE TIME
 C---------+---------+---+---+--------------------------------------------
@@ -85,7 +83,6 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,INTENT(OUT) :: PTHKF
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX,DAM
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
@@ -105,7 +102,7 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,IFAIL_SH,NINDX,CHECK
+      INTEGER :: I,J,NINDX,CHECK
       INTEGER ,DIMENSION(NEL) :: INDX
       my_real :: S1,S2,SS,S12,DYDX1,DYDX2,S2DYDX1,SIGSR,SIG3D
       my_real ,DIMENSION(NEL)  :: SIG1,SIG2,LAMBDANXT
@@ -123,13 +120,6 @@ C-------- ZERO VALUE for deleted element
           UVAR(I,2)= ZERO
         END IF
       ENDDO    
-c-----------------------------
-      IFAIL_SH = INT(UPARAM(1))
-      IF (IFAIL_SH == 1) THEN
-        PTHKF = EM06
-      ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = ONE
-      ENDIF
 C-------------------------------------------------------
 C     SIGMA1 and SIGMA2 computing: Principal stresses
 C-------------------------------------------------------
@@ -139,7 +129,7 @@ C-------------------------------------------------------
           S1 = HALF*(SIGNXX(I) + SIGNYY(I))
           S2 = HALF*(SIGNXX(I) - SIGNYY(I))
           SIG1(I) = S1  + SQRT(S2**2 + S12**2)
-          SS   = S1  - SQRT(S2**2 + S12**2)
+          SS   = S1 - SQRT(S2**2 + S12**2)
           SIG2(I) = SS
 
           IF(SS >= SIG1(I))THEN

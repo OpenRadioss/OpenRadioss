@@ -97,6 +97,7 @@ Chd|====================================================================
         TYPE MAT_ELEM_
            INTEGER :: NGROUP       ! Number of element groups
            INTEGER :: NUMMAT       ! Number of /MAT  cards
+!           INTEGER :: NUMFAIL      ! Number of /FAIL cards
            INTEGER :: NUMGEO       ! Number of /PROP cards
            INTEGER :: NUMSUBSTACK  ! Number of SUBSTACK created from /PROP/TYPE17, TYPE51 or TYPE52 => NS_STACK (see stackgroup.F)
            INTEGER :: NUMSTACK     ! Number of /STACK  used with /PCOMPP

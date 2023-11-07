@@ -41,11 +41,11 @@ Chd|====================================================================
      .       BUFMAT   ,NPROPG   ,NPROPMI  ,NPROPM   ,NUMMAT   ,
      .       NUMGEO   ,SBUFMAT  ,SNPC     ,STF      ,IOUT     ,
      .       ISTDO    ,NUVAR    ,UVAR     ,EPSD     ,IMAT     ,
-     .       FOR      ,MOM      ,EINT     ,ISMSTR)
+     .       FOR      ,MOM      ,EINT     ,ISMSTR   ,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,6 +93,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)  ,INTENT(OUT)   :: EPSD
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
       TYPE (ELBUF_STRUCT_) ,INTENT(INOUT) :: ELBUF_STR
+      TYPE (MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -213,11 +214,11 @@ c---------------------------
           PRESSURE(I) = THIRD * F1(I) / AREA
         ENDDO
 c
-        CALL FAIL_BEAM3(ELBUF_STR    ,NUMMAT  ,NPROPM  ,
-     .              NPROPMI ,SBUFMAT ,SNPC    ,STF     ,
+        CALL FAIL_BEAM3(ELBUF_STR    ,MAT_PARAM%FAIL(1),NUMMAT  ,
+     .              NPROPM  ,SNPC    ,STF     ,
      .              NEL     ,IMAT    ,JTHE    ,DPLA    ,
-     .              TEMPEL  ,NGL     ,PM      ,IPM     ,
-     .              OFF     ,EPSD    ,BUFMAT  ,NPF     ,TF      ,
+     .              TEMPEL  ,NGL     ,PM      ,
+     .              OFF     ,EPSD    ,NPF     ,TF      ,
      .              TIME    ,IOUT    ,ISTDO   ,
      .              SVM     ,PRESSURE,AREA    ,AL      ,
      .              F1      ,F2      ,F3      ,M1      ,M2      ,

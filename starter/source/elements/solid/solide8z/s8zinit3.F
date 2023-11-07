@@ -67,7 +67,7 @@ Chd|====================================================================
      .                    MCPS     ,TEMP    ,NPF     ,TF      ,XREFS ,
      .                    MSSA     ,STRSGLOB,STRAGLOB,FAIL_INI,SPBUF ,
      .                    KXSP     ,IPARTSP ,NOD2SP  ,SOL2SPH ,IRST  ,
-     .                    ILOADP   ,FACLOAD ,PERTURB ,RNOISE  )
+     .                    ILOADP   ,FACLOAD ,PERTURB ,RNOISE  ,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -76,6 +76,7 @@ C-----------------------------------------------
       USE BPRELOAD_MOD
       USE DETONATORS_MOD      
       USE ALE_CONNECTIVITY_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -117,6 +118,7 @@ C-----------------------------------------------
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
       TYPE(DETONATORS_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -578,7 +580,7 @@ c Failure model initialisation
 C----------------------------------------
       CALL FAILINI(ELBUF_STR,NPTR,NPTS,NPTT,NLAY,
      .             IPM,SIGSP,NSIGI,FAIL_INI ,
-     .             SIGI,NSIGS,IXS,NIXS,PTSOL,RNOISE,PERTURB,BUFMAT)
+     .             SIGI,NSIGS,IXS,NIXS,PTSOL,RNOISE,PERTURB,MAT_PARAM)
 C------------------------------------------
 C     assemblage des Volumes nodaux et Modules nodaux
 C     (pour rigidites d'interface)

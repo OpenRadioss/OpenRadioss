@@ -46,12 +46,12 @@ Chd|====================================================================
      4                  IADG       ,SPBUF     ,IPART     ,IPARTSP  ,ISPH3D  ,
      5                  X          ,V         ,W         ,ALE_CONNECTIVITY,
      6                  NERCVOIS   ,NESDVOIS  ,LERCVOIS  ,LESDVOIS ,BUFMAT  ,
-     7                  FANI_CELL  ,MULTI_FVM)
+     7                  FANI_CELL  ,MULTI_FVM ,MAT_PARAM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD
+      USE MAT_ELEM_MOD
       USE SCHLIEREN_MOD  
       USE I22TRI_MOD , only:INT22_FCELL_ANIM  
       USE ALEFVM_MOD  
@@ -92,6 +92,7 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -339,20 +340,22 @@ c                 USER VARIABLES per Gauss point from 1 to 5
                   IF (ISOLNOD == 8 .AND. MLW == 59) THEN ! exception for connect rupture   
                    !output = global damage variables of /fail/connect                      
                     MT = IXS(1,NFT+1)                                                      
-                    IRUPT = IPM(111,MT)                                                    
-                    NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL                                   
-                    IF (IRUPT == 20) THEN                                                  
-                      NPTG = 4                                                             
-                      DO IR=1,NFAIL                                                        
-                        DO IPT = 1,NPTG                                                    
-                         UVARF =>                                                          
-     .                   ELBUF_TAB(NG)%BUFLY(1)%FAIL(IPT,1,1)%FLOC(IR)%VAR                 
-                         DO I=LFT,LLT                                                      
-                           USER(I) = MAX(USER(I),UVARF(IUS*NEL + I))                       
-                         ENDDO                                                             
+                    NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL
+                    IF (NFAIL > 0) THEN                                 
+                      IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT ! one failure model only ?!!                                              
+                      IF (IRUPT == 20) THEN                                                
+                        NPTG = 4                                                           
+                        DO IR=1,NFAIL                                                      
+                          DO IPT = 1,NPTG                                                  
+                           UVARF =>                                                        
+     .                     ELBUF_TAB(NG)%BUFLY(1)%FAIL(IPT,1,1)%FLOC(IR)%VAR               
+                           DO I=LFT,LLT                                                    
+                             USER(I) = MAX(USER(I),UVARF(IUS*NEL + I))                     
+                           ENDDO                                                           
+                          ENDDO                                                            
                         ENDDO                                                              
-                      ENDDO                                                                
-                    ENDIF                                                                  
+                      ENDIF                                                                
+                    ENDIF                                                                
                   ELSE                                                                     
                     DO IL=1,NLAY                                                           
                       DO IS=1,NPTS                                                         
@@ -417,20 +420,22 @@ C               IUS = (n-1)'th user variable in UVAR
                 IF (ISOLNOD == 8 .AND. MLW == 59) THEN                      
 c                 output = global damage variables of /fail/connect         
                   MT = IXS(1,NFT+1)                                         
-                  IRUPT = IPM(111,MT)                                       
-                  NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL                      
-                  IF (IRUPT == 20) THEN                                     
-                    NPTG = 4                                                
-                    DO IR=1,NFAIL                                           
-                      DO IPT = 1,NPTG                                       
-                       UVARF =>                                             
-     .                 ELBUF_TAB(NG)%BUFLY(1)%FAIL(IPT,1,1)%FLOC(IR)%VAR    
-                       DO I=LFT,LLT                                         
-                         USER(I) = MAX(USER(I),UVARF(IUS*NEL + I))          
-                       ENDDO                                                
+                  NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL
+                  IF (NFAIL > 0) THEN                    
+                    IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT                                
+                    IF (IRUPT == 20) THEN                                   
+                      NPTG = 4                                              
+                      DO IR=1,NFAIL                                         
+                        DO IPT = 1,NPTG                                     
+                         UVARF =>                                           
+     .                   ELBUF_TAB(NG)%BUFLY(1)%FAIL(IPT,1,1)%FLOC(IR)%VAR  
+                         DO I=LFT,LLT                                       
+                           USER(I) = MAX(USER(I),UVARF(IUS*NEL + I))        
+                         ENDDO                                              
+                        ENDDO                                               
                       ENDDO                                                 
-                    ENDDO                                                   
-                  ENDIF                                                     
+                    ENDIF                                                   
+                  ENDIF                                                   
                 ELSE                                                        
                   DO IL=1,NLAY                                              
                     DO IS=1,NPTS                                            
@@ -683,60 +688,62 @@ c--------------
                 IF (ISOLNOD == 8 .AND. MLW == 83) THEN 
 c                 output = damage variables of /fail/snconnect  
                   MT = IXS(1,NFT+1)
-                  IRUPT = IPM(111,MT)
-                  NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL! ng= ngroup
-                  IF (IRUPT == 26) THEN 
-                   IF(IFUNC <= 890 ) THEN
-                    IUS = IFUNC - 888
-C                   IUS = (n-1)'th user variable IN DAM 
-                    NPTG = 4
-                    DO IR=1,NFAIL
-                      DO IPT = 1,NPTG
-                       DAMF => 
-     .                ELBUF_TAB(NG)%BUFLY(1)%FAIL(IPT,1,1)%FLOC(IR)%DAM
+                  NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL
+                  IF (NFAIL > 0) THEN
+                    IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT
+                    IF (IRUPT == 26) THEN 
+                     IF(IFUNC <= 890 ) THEN
+                      IUS = IFUNC - 888
+C                     IUS = (n-1)'th user variable IN DAM 
+                      NPTG = 4
+                      DO IR=1,NFAIL
+                        DO IPT = 1,NPTG
+                         DAMF => 
+     .                  ELBUF_TAB(NG)%BUFLY(1)%FAIL(IPT,1,1)%FLOC(IR)%DAM
+                         DO I=LFT,LLT                                 
+                           EVAR(I) = MAX(EVAR(I) ,DAMF(IUS*NEL + I))      
+                         ENDDO                                           
+                        ENDDO
+                      ENDDO
+                     ELSEIF(IFUNC <= 1890 )THEN !vdam1_ijk
+                      IJK = IFUNC - 890
+                      IIR = IJK/100
+                      IS = (MOD(IJK,100)-MOD(IJK,10))/10
+                      IT = MOD(IJK,10)
+                      DO IR=1,NFAIL
+                      DAMF => 
+     .                 ELBUF_TAB(NG)%BUFLY(1)%FAIL(IIR,1,1)%FLOC(IR)%DAM
                        DO I=LFT,LLT                                 
-                         EVAR(I) = MAX(EVAR(I) ,DAMF(IUS*NEL + I))      
+                        EVAR(I) = DAMF(I)   
                        ENDDO                                           
                       ENDDO
-                    ENDDO
-                   ELSEIF(IFUNC <= 1890 )THEN !vdam1_ijk
-                    IJK = IFUNC - 890
-                    IIR = IJK/100
-                    IS = (MOD(IJK,100)-MOD(IJK,10))/10
-                    IT = MOD(IJK,10)
-                    DO IR=1,NFAIL
-                    DAMF => 
-     .               ELBUF_TAB(NG)%BUFLY(1)%FAIL(IIR,1,1)%FLOC(IR)%DAM
-                     DO I=LFT,LLT                                 
-                      EVAR(I) = DAMF(I)   
-                     ENDDO                                           
-                    ENDDO
-                   ELSEIF(IFUNC <= 2890 )THEN !vdam2_ijk
-                    IJK = IFUNC - 1890
-                    IIR = IJK/100
-                    IS = (MOD(IJK,100)-MOD(IJK,10))/10
-                    IT = MOD(IJK,10)
-                    DO IR=1,NFAIL
-                     DAMF => 
-     .               ELBUF_TAB(NG)%BUFLY(1)%FAIL(IIR,1,1)%FLOC(IR)%DAM
-                     DO I=LFT,LLT                                 
-                      EVAR(I) = DAMF(NEL+I)            
-                     ENDDO                                           
-                    ENDDO
-                   ELSE !vdam3_ijk
-                    IJK = IFUNC - 2890
-                    IIR = IJK/100
-                    IS = (MOD(IJK,100)-MOD(IJK,10))/10
-                    IT = MOD(IJK,10)
-                    DO IR=1,NFAIL
-                     DAMF => 
-     .               ELBUF_TAB(NG)%BUFLY(1)%FAIL(IIR,1,1)%FLOC(IR)%DAM
-                     DO I=LFT,LLT                                 
-                      EVAR(I) = DAMF(2*NEL+I)                
-                     ENDDO                                           
-                    ENDDO
-                   ENDIF !IFUNC <= 890                       
-                  ENDIF !IRUPT
+                     ELSEIF(IFUNC <= 2890 )THEN !vdam2_ijk
+                      IJK = IFUNC - 1890
+                      IIR = IJK/100
+                      IS = (MOD(IJK,100)-MOD(IJK,10))/10
+                      IT = MOD(IJK,10)
+                      DO IR=1,NFAIL
+                       DAMF => 
+     .                 ELBUF_TAB(NG)%BUFLY(1)%FAIL(IIR,1,1)%FLOC(IR)%DAM
+                       DO I=LFT,LLT                                 
+                        EVAR(I) = DAMF(NEL+I)            
+                       ENDDO                                           
+                      ENDDO
+                     ELSE !vdam3_ijk
+                      IJK = IFUNC - 2890
+                      IIR = IJK/100
+                      IS = (MOD(IJK,100)-MOD(IJK,10))/10
+                      IT = MOD(IJK,10)
+                      DO IR=1,NFAIL
+                       DAMF => 
+     .                 ELBUF_TAB(NG)%BUFLY(1)%FAIL(IIR,1,1)%FLOC(IR)%DAM
+                       DO I=LFT,LLT                                 
+                        EVAR(I) = DAMF(2*NEL+I)                
+                       ENDDO                                           
+                      ENDDO
+                     ENDIF !IFUNC <= 890                       
+                    ENDIF !IRUPT
+                  ENDIF
                 ENDIF ! ISOLNOD == 8 .AND. MLW == 83
 c-----------
               ELSEIF (IFUNC >= 3891.AND.IFUNC <= 4889 )THEN

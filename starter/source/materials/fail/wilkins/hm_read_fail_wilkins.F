@@ -32,29 +32,17 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_WILKINS(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,IXFEM    ,ID     ,FAIL_ID  ,
-     .           LSUBMODEL,UNITAB   )
+      SUBROUTINE HM_READ_FAIL_WILKINS(FAIL   ,
+     .           MAT_ID   ,FAIL_ID  ,IRUPT   ,LSUBMODEL,UNITAB   )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
-C   READ FAILURE WILKINS (replace LECR03)
-C-----------------------------------------------
-C   DUMMY ARGUMENTS DESCRIPTION:
-C   ===================
-C
-C     NAME            DESCRIPTION                         
-C
-C     UNITAB          UNITS ARRAY
-C     FAIL_ID         FAILURE ID(INTEGER)
-C     TITR            MATERIAL TITLE
-C     LSUBMODEL       SUBMODEL STRUCTURE    
+C   READ FAILURE WILKINS
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
 C-----------------------------------------------
@@ -68,26 +56,24 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER,INTENT(IN)             ::ID,FAIL_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
-C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          ::IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,IXFEM
-      my_real,INTENT(INOUT)          ::UPARAM(MAXUPARAM)
-      INTEGER,INTENT(INOUT)            ::NUPARAM,NUVAR
+      INTEGER             ,INTENT(IN) :: FAIL_ID       ! failure model ID
+      INTEGER             ,INTENT(IN) :: MAT_ID        ! material law ID
+      INTEGER             ,INTENT(IN) :: IRUPT         ! failure model number
+      TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
+      TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
+      TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER    ::     IMARGIN,IENG
       my_real    ::     RANI,DADV,FACT_MARGIN,FACT_LOOSEMETAL
-      INTEGER    ::     ISHELL, ISOLID
-      my_real    ::     PC,ALPHA,BETA,DF
+      INTEGER    ::     IFAIL_SH, IFAIL_SO
+      my_real    ::     PC,ALPHA,BETA,DF,PTHKF
       LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
 C--------------------------------------------------
 C   S o u r c e   L i n e s
 C--------------------------------------------------
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
@@ -97,38 +83,62 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV    ('Plim'          ,PC        ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV    ('Df'            ,DF        ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
-      CALL HM_GET_INTV      ('Ifail_sh'      ,ISHELL    ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_INTV      ('Ifail_so'      ,ISOLID    ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV      ('Ifail_sh'      ,IFAIL_SH  ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV      ('Ifail_so'      ,IFAIL_SO    ,IS_AVAILABLE,LSUBMODEL)
             
-      IF(ISHELL==0)ISHELL=1
-      IF(ISOLID==0)ISOLID=1
-      IF(PC == ZERO)PC=EP30
-      IF(DF <= ZERO) DF=EP30
-      UPARAM(1) = ALPHA
-      UPARAM(2) = BETA
-      UPARAM(3) = PC
-      UPARAM(4) = DF
-      UPARAM(5) = ISHELL
-      UPARAM(6) = ISOLID
-      NUPARAM = 6
-      NUVAR = 1
-      NFUNC = 0
-      
+c-----------------------------------------------------------------------
+      IF (IFAIL_SH==0)  IFAIL_SH=1
+      IF (IFAIL_SO==0)  IFAIL_SO=1
+      IF (PC == ZERO) PC=EP20
+      IF (DF <= ZERO) DF=EP20
+c
+      IF (IFAIL_SH == 1) THEN
+        PTHKF = EM06
+      ELSEIF (IFAIL_SH == 2) THEN
+        PTHKF = ONE
+      ENDIF
+c      
+      FAIL%KEYWORD = 'WILKINS' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 6
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 1
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+      FAIL%PTHK    = PTHKF
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c      
+      FAIL%UPARAM(1) = ALPHA
+      FAIL%UPARAM(2) = BETA
+      FAIL%UPARAM(3) = PC
+      FAIL%UPARAM(4) = DF
+      FAIL%UPARAM(5) = IFAIL_SH
+      FAIL%UPARAM(6) = IFAIL_SO
+c---------------------------
+c     OUTPUT
+c---------------------------
       IF(IS_ENCRYPTED)THEN
        WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE       
        WRITE(IOUT, 1000)ALPHA,BETA,PC,DF     
-       IF(ISHELL==1)THEN
+       IF(IFAIL_SH==1)THEN
         WRITE(IOUT, 1100)
-       ELSEIF(ISHELL==2)THEN
+       ELSEIF(IFAIL_SH==2)THEN
         WRITE(IOUT, 1200)
        ENDIF   
-       IF(ISOLID==1)THEN
+       IF(IFAIL_SO==1)THEN
         WRITE(IOUT, 2100)
-       ELSEIF(ISOLID==2)THEN
+       ELSEIF(IFAIL_SO==2)THEN
         WRITE(IOUT, 2200)
        ENDIF
       ENDIF         
+c---------------------------
  1000 FORMAT(
      & 5X,40H    WILKINS DAMAGE MODEL                  /,
      & 5X,40H    --------------------                  /,
@@ -145,5 +155,6 @@ C--------------------------------------------------
      & 5X,'    SHELL TENSOR STRESS OF LAYER WILL BE VANISHED ')    
  2200 FORMAT(
      & 5X,'    DEVIATORIC STRESS WILL BE VANISHED ')    
+c---------------------------
       RETURN
       END

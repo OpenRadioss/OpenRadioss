@@ -33,10 +33,10 @@ Chd|====================================================================
       SUBROUTINE FAIL_TENSSTRAIN_S(
      1           NEL    ,NUPARAM,NUVAR  ,NFUNC   ,IFUNC   , 
      2           NPF    ,TF     ,TIME   ,TIMESTEP,UPARAM  ,
-     3           NGL    ,IPM    ,MAT    ,ALDT    ,TSTAR  ,ISMSTR ,
+     3           NGL    ,ALDT   ,TSTAR  ,ISMSTR ,
      4           EPSXX  ,EPSYY  ,EPSZZ  ,EPSXY   ,EPSYZ  ,EPSZX  ,
      5           SIGNXX ,SIGNYY ,SIGNZZ ,SIGNXY  ,SIGNYZ ,SIGNZX ,
-     6           EPSP   ,UVAR   ,OFF    ,IP      ,DFMAX  ,TDELE  ,
+     6           EPSP   ,UVAR   ,OFF    ,DFMAX  ,TDELE  ,
      7           MFXX   ,MFXY   ,MFXZ   ,MFYX    ,MFYY   ,MFYZ   ,                 
      8           MFZX   ,MFZY   ,MFZZ   ,DMG_SCALE)
 C-----------------------------------------------
@@ -77,9 +77,8 @@ C---------+---------+---+---+--------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: NEL,NUPARAM,NUVAR,ISMSTR,IP
-      INTEGER ,DIMENSION(NEL)       :: NGL,MAT
-      INTEGER ,DIMENSION(NPROPMI,*) :: IPM
+      INTEGER :: NEL,NUPARAM,NUVAR,ISMSTR
+      INTEGER ,DIMENSION(NEL)       :: NGL
       my_real  :: TIME,TIMESTEP
       my_real ,DIMENSION(NUPARAM)  :: UPARAM
       my_real ,DIMENSION(NEL) :: SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX,

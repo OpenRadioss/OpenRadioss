@@ -89,7 +89,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IL,IR,IS,IT,NG,BUFLEN,IRUPT,IPID,IMID,IPRT,IAD,
-     .   NEL,NPT,NPG,MLW,ISORTH,ISRATE,ISROT,IREP,ISVIS,NLAY,
+     .   NEL,NPT,NPG,MLW,MX,ISORTH,ISRATE,ISROT,IREP,ISVIS,NLAY,
      .   ISTRA,IFAIL,NFAIL,IEOS,IXFEM,NPTR,NPTS,NPTT,ISHPLYXFEM,
      .   NFT,NFT0,KFTS,ITY,JALE,OFF,ISMSTR,ICPRE,NSG,ICNOD,ISNOD,JEUL,
      .   JTUR,JTHE,JLAG,IRS,IRE,ICSTR,NVC,JMULT,IADM1,IADM2,
@@ -413,7 +413,7 @@ c
               IEOS_TYPE = IPM(4,IMAT(IL))
               IF(IEOS_TYPE>0)NUVAREOS = EOS_TAG(IEOS_TYPE)%NVAR                                
               NVARTMP  = MLAW_TAG(IMAT(IL))%NVARTMP                                
-              NFAIL    = IPM(220,IMAT(IL))
+              NFAIL    = MAT_PARAM(IMAT(IL))%NFAIL
               ELBUF_TAB(NG)%BUFLY(IL)%ILAW = ILAW(IL)        
               ELBUF_TAB(NG)%BUFLY(IL)%IMAT = IMAT(IL)        
               ELBUF_TAB(NG)%BUFLY(IL)%IEOS = IEOS        
@@ -425,8 +425,8 @@ c
               ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP   = NVARTMP
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = MAT_PARAM(IMAT(IL))%VISC%NUVAR
               DO J = 1, NFAIL                                            
-                IRUPT  = IPM(111 + (J-1)*15,IMAT(IL))   ! modele de rupture
-                IDFAIL = IPM(236 + J,IMAT(IL)) 
+                IRUPT  = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT   ! modele de rupture
+                IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID
                 TFAIL(IL,J)  = IRUPT 
                 FAILID(IL,J) = IDFAIL      
               ENDDO                                                           
@@ -457,7 +457,8 @@ c---
           ELSEIF (MLW == 20) THEN      ! Bimat  
             DO IL = 1,2
               ILAW(IL) = IPARG(24+IL,NG)
-              NFAIL = IPM(220,NINT(PM(20+IL,IMID))) 
+              MX = NINT(PM(20+IL,IMID))
+              NFAIL = MAT_PARAM(MX)%NFAIL
               NUVAREOS = 0
               IEOS_TYPE = IPM(4, NINT(PM(20+IL,IMID)))
               IF(IEOS_TYPE>0)NUVAREOS = EOS_TAG(IEOS_TYPE)%NVAR                           
@@ -472,8 +473,8 @@ c---
               ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP = 0
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC=0
               DO J = 1,NFAIL                                              
-                IRUPT  = IPM(111 + (J-1)*15, NINT(PM(20+IL,IMID)))   ! modele de rupture 
-                IDFAIL = IPM(236 + J, NINT(PM(20+IL,IMID))) 
+                IRUPT  = MAT_PARAM(MX)%FAIL(J)%IRUPT   ! modele de rupture 
+                IDFAIL = MAT_PARAM(MX)%FAIL(J)%FAIL_ID
                 TFAIL(IL,J)  = IRUPT  
                 FAILID(IL,J) = IDFAIL    
               ENDDO                                                         
@@ -488,7 +489,7 @@ c---
               NUVAREOS = 0  
               IEOS_TYPE = IPM(4,IMAT(IL))                           
               IF(IEOS_TYPE>0)NUVAREOS = EOS_TAG(IEOS_TYPE)%NVAR   
-              NFAIL    = IPM(220,IMAT(IL))
+              NFAIL = MAT_PARAM(IMAT(IL))%NFAIL
               ELBUF_TAB(NG)%BUFLY(IL)%ILAW = ILAW(IL)
               ELBUF_TAB(NG)%BUFLY(IL)%IMAT = IMAT(IL)       
               ELBUF_TAB(NG)%BUFLY(IL)%IEOS = IEOS_TYPE ! submaterial eos type       
@@ -500,9 +501,9 @@ c---
               ELBUF_TAB(NG)%BUFLY(IL)%IPORO= 0  
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL                          
               DO J = 1,NFAIL                                              
-                IRUPT  = IPM(111 + (J-1)*15, IMAT(IL))   ! modele de rupture 
-                IDFAIL = IPM(236 + J, IMAT(IL)) 
-                TFAIL(IL,J)  = IRUPT 
+                IRUPT  = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT   ! modele de rupture 
+                IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID
+                TFAIL(IL,J)  = IRUPT
                 FAILID(IL,J) = IDFAIL      
               ENDDO                                                         
               IF (MLAW_TAG(IMAT(IL))%L_PLA == 0 .and. IPARG(10,NG) == 2) THEN
@@ -516,7 +517,7 @@ c---
               ILAW(IL) = MLW    ! same law type everywhere
               NUVAR   = MLAW_TAG(IMID)%NUVAR                                
               NVARTMP = MLAW_TAG(IMID)%NVARTMP                                
-              NFAIL   = IPM(220,IMAT(IL))
+              NFAIL   = MAT_PARAM(IMAT(IL))%NFAIL
               ELBUF_TAB(NG)%BUFLY(IL)%ILAW = MLW
               ELBUF_TAB(NG)%BUFLY(IL)%IMAT = IMID       
               ELBUF_TAB(NG)%BUFLY(IL)%IEOS = IEOS        
@@ -528,8 +529,8 @@ c---
               ELBUF_TAB(NG)%BUFLY(IL)%IPORO= 0  
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL                          
               DO J = 1,NFAIL                                              
-                IRUPT  = IPM(111 + (J-1)*15, IMAT(IL))   ! modele de rupture 
-                IDFAIL = IPM(236 + J, IMAT(IL)) 
+                IRUPT  = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT   ! modele de rupture 
+                IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID
                 TFAIL(IL,J)  = IRUPT 
                 FAILID(IL,J) = IDFAIL      
               ENDDO                                                         
@@ -574,8 +575,8 @@ c---
             NVARTMP = MLAW_TAG(IMID)%NVARTMP 
             NUVAREOS = 0
             IEOS_TYPE = IPM(4,IMID)
-            IF(IEOS_TYPE>0)NUVAREOS = EOS_TAG(IEOS_TYPE)%NVAR                                
-            NFAIL   = IPM(220,IMID)
+            IF (IEOS_TYPE > 0) NUVAREOS = EOS_TAG(IEOS_TYPE)%NVAR                                
+            NFAIL = MAT_PARAM(IMID)%NFAIL
             ELBUF_TAB(NG)%BUFLY(1)%ILAW = MLW                                          
             ELBUF_TAB(NG)%BUFLY(1)%IMAT = IMID                                        
             ELBUF_TAB(NG)%BUFLY(1)%IEOS = IEOS                                        
@@ -587,8 +588,8 @@ c---
             ELBUF_TAB(NG)%BUFLY(1)%IPORO= 0                                           
             ELBUF_TAB(NG)%BUFLY(1)%NFAIL = NFAIL                                     
             DO J = 1,NFAIL                                                             
-              IRUPT  = IPM(111 + (J-1)*15, IMID)   ! modele de rupture
-              IDFAIL = IPM(236 + J, IMID)                
+              IRUPT  = MAT_PARAM(IMID)%FAIL(J)%IRUPT   ! modele de rupture
+              IDFAIL = MAT_PARAM(IMID)%FAIL(J)%FAIL_ID            
               TFAIL(1,J)  = IRUPT
               FAILID(1,J) = IDFAIL                                                       
             ENDDO                                                                     
@@ -596,6 +597,7 @@ c---
           ENDIF                                               
 c---      User Mat Buffer, Fail buffer, Visc buffer :  alloc + init
           DO IL = 1, NLAY
+           MX      = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
            NUVARM  = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
            NVARTMP = ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP
            NUVARV  = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC
@@ -605,7 +607,7 @@ c---      User Mat Buffer, Fail buffer, Visc buffer :  alloc + init
             DO IS = 1,NPTS                                      
               DO IT = 1,NPTT
                 ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%MLAW = ELBUF_TAB(NG)%BUFLY(IL)%ILAW
-                ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%LawID = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
+                ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%LawID = MX
                 CALL MY_ALLOC(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR,NUVARM*NEL)                
                 CALL MY_ALLOC(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VARTMP,NVARTMP*NEL)                
                 CALL MY_ALLOC(ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR,NUVARV*NEL)                
@@ -624,16 +626,14 @@ c
 
                 DO J = 1,NFAIL
                   FLOC=>ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(J)         
-                  IRUPT  = TFAIL(IL,J)  
-                  IDFAIL = FAILID(IL,J)   
 c
-                  FLOC%ILAWF = IRUPT                                           
+                  FLOC%ILAWF = MAT_PARAM(MX)%FAIL(J)%IRUPT                                          
                   LFAIL = LFAIL + 1 
 c
-                  FLOC%IDFAIL = IDFAIL
+                  FLOC%IDFAIL = MAT_PARAM(MX)%FAIL(J)%FAIL_ID
                   LFAIL = LFAIL + 1
 c
-                  FLOC%NVAR  = FAIL_TAG(IRUPT)%NUVAR                              
+                  FLOC%NVAR  = MAT_PARAM(MX)%FAIL(J)%NUVAR                          
                   CALL MY_ALLOC(FLOC%VAR,FLOC%NVAR*NEL)
                   FLOC%VAR = ZERO     
                   LFAIL = LFAIL + FLOC%NVAR*NEL + 1 
@@ -1251,7 +1251,6 @@ c-----------------------------------------------
             DO IL = 1,NLAY
               ILAW(IL) = MLW
               IMAT(IL) = IPM(20+IL,IMID)                                    
-              IPM(220,IPM(20+IL,IMID)) = 0
               NUVAREOS = 0
               IEOS_TYPE = IPM(4,IMAT(IL))
               IF(IEOS_TYPE>0)NUVAREOS = EOS_TAG(IEOS_TYPE)%NVAR              
@@ -1268,7 +1267,7 @@ c-----------------------------------------------
             ENDDO
           ELSE     
             DO IL = 1,NLAY
-              NFAIL    = IPM(220,IMAT(IL))
+              NFAIL    = MAT_PARAM(IMAT(IL))%NFAIL
               NUVAREOS = 0
               IEOS_TYPE = IPM(4,IMAT(IL))
               IF(IEOS_TYPE>0)NUVAREOS = EOS_TAG(IEOS_TYPE)%NVAR               
@@ -1284,8 +1283,8 @@ c-----------------------------------------------
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL  
 
               DO J = 1, NFAIL                                            
-                IRUPT  = IPM(111 + (J-1)*15,IMAT(IL))   ! modele de rupture 
-                IDFAIL = IPM(236 + J,IMAT(IL))
+                IRUPT  = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT   ! modele de rupture 
+                IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID
                 TFAIL(IL,J)  = IRUPT  
                 FAILID(IL,J) = IDFAIL    
               ENDDO                                                           
@@ -1326,15 +1325,13 @@ c
                 ALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(NFAIL))
                 DO J = 1,NFAIL
                   FLOC=>ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(J)         
-                  IRUPT = TFAIL(IL,J)     
-                  FLOC%ILAWF = IRUPT
+                  FLOC%ILAWF = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT  
                   LFAIL = LFAIL + 1 
 c
-                  IDFAIL = FAILID(IL,J)     
-                  FLOC%IDFAIL = IDFAIL
+                  FLOC%IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID 
                   LFAIL = LFAIL + 1 
 c
-                  FLOC%NVAR  = FAIL_TAG(IRUPT)%NUVAR                              
+                  FLOC%NVAR  = MAT_PARAM(IMAT(IL))%FAIL(J)%NUVAR                       
                   CALL MY_ALLOC(FLOC%VAR,FLOC%NVAR*NEL)
                   FLOC%VAR = ZERO     
                   LFAIL = LFAIL + FLOC%NVAR*NEL + 1 
@@ -1392,15 +1389,15 @@ c
 C old stack IGEO(500+IL,IPID)                                
             IMAT(IL) = STACK%IGEO(IPMAT_IPLY + IL ,ISUBSTACK)                    
             ILAW(IL) = IPM(2,IMAT(IL))                                        
-            NFAIL    = IPM(220,IMAT(IL))                                      
+            NFAIL    = MAT_PARAM(IMAT(IL))%NFAIL                                  
             ELBUF_TAB(NG)%INTLAY(IL)%ILAW = ILAW(IL)                          
             ELBUF_TAB(NG)%INTLAY(IL)%IMAT = IMAT(IL)                          
             ELBUF_TAB(NG)%INTLAY(IL)%NFAIL= NFAIL                             
             ELBUF_TAB(NG)%INTLAY(IL)%NVAR_MAT = MLAW_TAG(IMAT(IL))%NUVAR          
             ELBUF_TAB(NG)%INTLAY(IL)%NVARTMP  = MLAW_TAG(IMAT(IL))%NVARTMP          
             DO J = 1, NFAIL                                                   
-              IRUPT  = IPM(111 + (J-1)*15, IMAT(IL))   ! modele de rupture           
-              IDFAIL = IPM(236 + J, IMAT(IL))
+              IRUPT  = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT   ! modele de rupture           
+              IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID
               TFAIL(IL,J)  = IRUPT 
               FAILID(IL,J) = IDFAIL                                            
             ENDDO                                                               
@@ -1409,12 +1406,12 @@ c
           DO IL = 1, NINTLAY                                                       
             NUVARM  = ELBUF_TAB(NG)%INTLAY(IL)%NVAR_MAT                            
             NVARTMP = ELBUF_TAB(NG)%INTLAY(IL)%NVARTMP                            
-c            NUVARV = ELBUF_TAB(NG)%INTLAY(IL)%NVAR_VISC                           
             NFAIL = ELBUF_TAB(NG)%INTLAY(IL)%NFAIL                                
             DO IR = 1,NPTR                                                         
               DO IS = 1,NPTS                                                         
                 CALL MY_ALLOC(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VARTMP,NVARTMP*NEL)
                 CALL MY_ALLOC(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VAR,NUVARM*NEL)
+                CALL MY_ALLOC(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VARTMP,NVARTMP*NEL)
                 ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VAR = ZERO                 
                 ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VARTMP = 0                 
 c                ALLOCATE(ELBUF_TAB(NG)%INTLAY(IL)%VISC(IR,IS)%                 
@@ -1425,11 +1422,9 @@ c
 c                LVISC = LVISC + NUVARV*NEL                                         
                 DO J = 1,NFAIL                                                     
                   FLOC=>ELBUF_TAB(NG)%INTLAY(IL)%FAIL(IR,IS)%FLOC(J)           
-                  IRUPT = TFAIL(IL,J)                                              
-                  FLOC%ILAWF = IRUPT  
-                  IDFAIL = FAILID(IL,J)
-                  FLOC%IDFAIL = IDFAIL                                             
-                  FLOC%NVAR  = FAIL_TAG(IRUPT)%NUVAR                                
+                  FLOC%ILAWF = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT 
+                  FLOC%IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID                                              
+                  FLOC%NVAR  = MAT_PARAM(IMAT(IL))%FAIL(J)%NUVAR                             
                   CALL MY_ALLOC(FLOC%VAR,FLOC%NVAR*NEL)
                   FLOC%VAR = ZERO                                                   
                   LIFAIL = LIFAIL + FLOC%NVAR*NEL + 2                                
@@ -1975,7 +1970,7 @@ c
             DO IL = 1,NLAY
               IMAT(IL) = IMID                                                      
               ILAW(IL) = MLW
-              NFAIL    = IPM(220,IMAT(IL))                                      
+              NFAIL    = MAT_PARAM(IMAT(IL))%NFAIL                                 
               NUVAREOS = 0
               IEOS_TYPE = IPM(4,IMAT(IL))
               IF(IEOS_TYPE>0)NUVAREOS = EOS_TAG(IEOS_TYPE)%NVAR
@@ -1986,7 +1981,7 @@ c
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT  = MLAW_TAG(IMAT(IL))%NUVAR
               ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP   = MLAW_TAG(IMAT(IL))%NVARTMP
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = MAT_PARAM(IMID)%VISC%NUVAR  
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS = NUVAREOS           
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS  = NUVAREOS           
               ELBUF_TAB(NG)%BUFLY(IL)%IPORO = 0
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL
             ENDDO
@@ -2017,16 +2012,14 @@ c
                     IF (NFAIL == 1) THEN
                       ALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(NFAIL))
                       FLOC   => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(1)         
-                      IRUPT  = IPM(111,IMAT(IL))   ! modele de rupture
-                      IDFAIL = IPM(236 + 1,IMAT(IL)) 
 c
-                      FLOC%ILAWF = IRUPT                                           
+                      FLOC%ILAWF = MAT_PARAM(IMAT(IL))%FAIL(1)%IRUPT                                            
                       LFAIL = LFAIL + 1 
 c
-                      FLOC%IDFAIL = IDFAIL
+                      FLOC%IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(1)%FAIL_ID 
                       LFAIL = LFAIL + 1
 c
-                      FLOC%NVAR  = FAIL_TAG(IRUPT)%NUVAR                              
+                      FLOC%NVAR  = MAT_PARAM(IMAT(IL))%FAIL(1)%NUVAR                              
                       CALL MY_ALLOC(FLOC%VAR,FLOC%NVAR*NEL)
                       FLOC%VAR = ZERO     
                       LFAIL = LFAIL + FLOC%NVAR*NEL + 1 
@@ -2216,16 +2209,14 @@ c
           GFAIL = 0
           IF (IGTYP == 3 .and. IFAIL > 0) THEN
              ALLOCATE(ELBUF_TAB(NG)%GBUF%FAIL(1))
-             IRUPT  = IPM(111,IMID)   ! type of failure model
-             IDFAIL = IPM(237,IMID)   ! failure model ID
 c
-             ELBUF_TAB(NG)%GBUF%FAIL(1)%ILAWF = IRUPT                                           
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%ILAWF = MAT_PARAM(IMID)%FAIL(J)%IRUPT                                           
              GFAIL = GFAIL + 1 
 c
-             ELBUF_TAB(NG)%GBUF%FAIL(1)%IDFAIL = IDFAIL
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%IDFAIL = MAT_PARAM(IMID)%FAIL(1)%FAIL_ID
              GFAIL = GFAIL + 1
 c
-             ELBUF_TAB(NG)%GBUF%FAIL(1)%NVAR  = FAIL_TAG(IRUPT)%NUVAR                              
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%NVAR  = MAT_PARAM(IMID)%FAIL(1)%NUVAR                             
              CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%FAIL(1)%VAR,ELBUF_TAB(NG)%GBUF%FAIL(1)%NVAR*NEL)
              ELBUF_TAB(NG)%GBUF%FAIL(1)%VAR = ZERO     
              GFAIL = GFAIL + ELBUF_TAB(NG)%GBUF%FAIL(1)%NVAR*NEL + 1

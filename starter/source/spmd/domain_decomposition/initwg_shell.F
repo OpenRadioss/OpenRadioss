@@ -34,12 +34,13 @@ Chd|====================================================================
      .            NUMELC,IPM,NUMMAT,NUMGEO,POIN_PART_SHELL,
      .            MID_PID_SHELL,IPARTC,OFF,BUFMAT,
      .            MID_OLD,PID_OLD,MLN_OLD,RECHERCHE,TELT_PRO,
-     .            TABMP_L)
+     .            TABMP_L,MAT_PARAM)
 C-----------------------------------------------
 C            M o d u l e s
 C-----------------------------------------------
       USE DDWEIGHTS_MOD
       USE MID_PID_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,6 +70,7 @@ C     REAL OU REAL*8
       INTEGER, DIMENSION(*), INTENT(IN) :: IPARTC
       INTEGER, DIMENSION(2,*), INTENT(IN) :: POIN_PART_SHELL
       TYPE(MID_PID_TYPE), DIMENSION(*), INTENT(INOUT) :: MID_PID_SHELL
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
       INTEGER  NPN, MID, PID, JHBE, IGT, MLN,
      .    ISTRAIN, ITHK, IHBE, IPLA, ISSN, MTN, I, J, K,L,
@@ -76,7 +78,7 @@ C-----------------------------------------------
      .    I_MID,I_PID,I_MID_OLD,I_PID_OLD,PUID,MUID,
      .    ELM_TYP,ELM_TYP_OLD,ILAW,ILAW_OLD,TEST_MAT,
      .    I_PRO,ISOL2,MUID_OLD,PUID_OLD,
-     .    TEST,NFUNC1,NFUNC2,IRUP,IRUP2,II,IRUP_TAB(SIZE_IRUP),
+     .    TEST,NFUNC1,NFUNC2,NFAIL,IRUP2,II,IRUP_TAB(SIZE_IRUP),
      .    INDI,IAD,INDI2,MULT,IDRIL
       INTEGER :: INDI3,IGTYP,INDI4,INDI5
 
@@ -141,16 +143,16 @@ C-----------------------------------------------
         ITHK = NINT(GEO(35,PID))
         IPLA = NINT(GEO(39,PID))
         IGTYP = IGEO(11,PID)
-        IRUP = IPM(220,ABS(MID))
+        NFAIL = MAT_PARAM(MID)%NFAIL
         IDRIL = IGEO(20,PID)
         FLAG_NON_LOCAL = 0  
         SPECIAL_OPTION = 0
         SPE_I_1 = 1
         SPE_I_2 = 1
         IRUP_TAB = 0
-        IF(IRUP/=0) THEN          ! up to 6 failure models per material
-         DO J=1,IRUP
-          IRUP_TAB(J) = IPM(111+15*(J-1),ABS(MID))
+        IF (NFAIL > 0) THEN          ! up to 6 failure models per material
+         DO J=1,NFAIL
+          IRUP_TAB(J) = MAT_PARAM(MID)%FAIL(J)%IRUPT
          ENDDO
         ENDIF
         TIMMAT = 0.
@@ -269,7 +271,7 @@ C-----------------------------------------------
            ELSEIF(FLAG_GURSON==3) THEN
              SPE_I_2 = 3
            ENDIF                
-           FLAG_NON_LOCAL = IPM(253,ABS(MID))
+           FLAG_NON_LOCAL = MAT_PARAM(ABS(MID))%NLOC
         ! ----------------
         ! other laws
         ELSE
@@ -321,8 +323,8 @@ C           Compute line function A1 ="Time for 1 int Point" - A2="time for 5 in
             ENDIF
 !           --------------
 !           Failure
-            IF(IRUP/=0) THEN
-             DO J=1,IRUP
+            IF(NFAIL/=0) THEN
+             DO J=1,NFAIL
               A1 = RUPTURE_SHELL(IRUP_TAB(J),IRUP2+1)
               A2 = RUPTURE_SHELL(IRUP_TAB(J),IRUP2+3)
               IF (A2 /=ZERO)THEN
@@ -365,8 +367,8 @@ C ow        test elem delete
                 CALL INTERLAGRAN(TABMAT,TABX,3,NPT,TIMMAT)
 !               ----------------
 !               Failure 
-                IF(IRUP/=0) THEN
-                 DO J=1,IRUP
+                IF(NFAIL/=0) THEN
+                 DO J=1,NFAIL
                   DO II=1,3
                    TABRUP(II) = RUPTURE_SHELL(IRUP_TAB(J),IRUP2+II)
                   ENDDO
@@ -374,7 +376,7 @@ C ow        test elem delete
                   CALL INTERLAGRAN(TABRUP,TABX,3,NPT,TRUP_LOCAL)
                   TRUP = TRUP + TRUP_LOCAL
                  ENDDO
-                ENDIF          !   <--- fin IRUP/=0
+                ENDIF          !   <--- fin NFAIL/=0
 !               ----------------      
                ELSE
 C           0pt d integration doit etre traite a part
@@ -385,9 +387,9 @@ C           0pt d integration doit etre traite a part
                 ! *******--------*******
 !               ----------------
 !               Failure incompatible N=0
-                IF(IRUP/=0) THEN
+                IF(NFAIL/=0) THEN
                  TRUP = 0.
-                ENDIF          !   <--- fin IRUP/=0
+                ENDIF          !   <--- fin NFAIL/=0
 !               ----------------  
                ENDIF
             ENDIF

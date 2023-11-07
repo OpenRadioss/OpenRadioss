@@ -32,7 +32,7 @@ Chd|====================================================================
      1     NEL       ,NUPARAM   ,NUVAR     ,UPARAM    ,UVAR      , 
      2     TIME      ,NGL       ,IPG       ,ILAY      ,IPT       ,                          
      3     SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,  
-     4     OFF       ,FOFF      ,PTHKF     ,DMG_FLAG  ,DMG_SCALE ,
+     4     OFF       ,FOFF      ,DMG_FLAG  ,DMG_SCALE ,
      5     DFMAX     ,TDEL      ,TIMESTEP  )                               
 C-----------------------------------------------
 C    modified Puck model ------
@@ -62,7 +62,6 @@ C ...     |         |   |   |
 C---------+---------+---+---+--------------------------------------------
 C OFF     | NEL     | F | R | DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C FOFF    | NEL     | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)
-C PTHKF   |  1      | F | W | PERCENTAGE OF LAYER THICKNESS TO FAIL
 C DFMAX   | NEL     | F |R/W| MAX DAMAGE FACTOR 
 C TDEL    | NEL     | F | W | FAILURE TIME
 C DMG_FLAG|  1      | I | W | STRESS REDUCTION FLAG DUE TO DAMAGE
@@ -86,14 +85,13 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(OUT) ::DMG_FLAG
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,INTENT(OUT) :: PTHKF
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL,DMG_SCALE
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,NINDX,IFAIL_SH,FSMOOTH
+      INTEGER :: I,J,NINDX,FSMOOTH
       INTEGER ,DIMENSION(NEL) :: INDX
       my_real :: SIGT1,SIGT2, SIGC1,SIGC2,FSIG12,F1,FA,FB,FC,
      .           PN12,PP12,PN22,FAC,TMAX,DAMMX,FCUT,ASRATE,
@@ -108,7 +106,6 @@ C=======================================================================
       PN12   = UPARAM(7) 
       PN22   = UPARAM(8)
       TMAX   = UPARAM(9)
-      IFAIL_SH = INT(UPARAM(10)) 
       FCUT   = UPARAM(12)
       IF (FCUT > ZERO) THEN
         FSMOOTH = 1 
@@ -116,12 +113,6 @@ C=======================================================================
         ASRATE = ASRATE/(ONE+ASRATE)
       ELSE
         FSMOOTH = 0
-      ENDIF
-c
-      IF (IFAIL_SH == 1) THEN
-        PTHKF = EM06
-      ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = ONE
       ENDIF
 c
       DMG_FLAG = 1               

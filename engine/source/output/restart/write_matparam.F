@@ -135,7 +135,7 @@ c
         NFAIL = MAT_ELEM%MAT_PARAM(IMAT)%NFAIL
         IF (NFAIL > 0) THEN
           DO I = 1,NFAIL
-            CALL WRITE_FAILPARAM(MAT_ELEM%MAT_PARAM(IMAT)%FAIL)
+            CALL WRITE_FAILPARAM(MAT_ELEM%MAT_PARAM(IMAT)%FAIL(I))
           END DO      
         END IF
       END DO      

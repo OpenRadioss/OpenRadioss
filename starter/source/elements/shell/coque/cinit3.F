@@ -73,7 +73,7 @@ Chd|====================================================================
      D                  STACK    ,RNOISE  ,DRAPE  ,SH4ANG  ,
      E                  GEO_STACK,IGEO_STACK,STRC  ,PERTURB ,IYLDINI ,
      F                  ELE_AREA ,NG      ,GROUP_PARAM      ,NLOC_DMG,
-     G                  IDRAPE   ,DRAPEG)
+     G                  IDRAPE   ,DRAPEG  ,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -84,6 +84,7 @@ C-----------------------------------------------
       USE GROUP_PARAM_MOD
       USE NLOCAL_REG_MOD    
       USE DRAPE_MOD        
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -126,6 +127,7 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_) :: NLOC_DMG
       TYPE (DRAPE_) :: DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
       TYPE (DRAPEG_) :: DRAPEG
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSHEL) :: IGRSH4N
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
@@ -554,14 +556,13 @@ c Failure model initialisation
 C----------------------------------------
 c     tag edge elements in local UVAR for /FAIL/ALTER (XFEM)
       IF (IFAIL > 0) THEN
-        CALL FAIL_WINDSHIELD_INIT(
-     .       ELBUF_STR,NEL      ,NFT      ,ITY      ,NGL      ,
-     .       IPM      ,BUFMAT   ,IGRSH4N  ,IGRSH3N  )
+        CALL FAIL_WINDSHIELD_INIT(ELBUF_STR,MAT_PARAM,
+     .       NEL      ,NFT      ,ITY      ,IGRSH4N  ,IGRSH3N  )
       ENDIF
 C to be checked for IGTYP = 51
-      CALL CFAILINI(ELBUF_STR,IXC     ,NIXC    ,NPTT    ,NLAY    ,
-     .              IPM      ,SIGSH   ,NSIGSH  ,NUMELC  ,PTSHEL  ,
-     .              RNOISE   ,PERTURB ,BUFMAT  ,ALDT    ,THK     )
+      CALL CFAILINI(ELBUF_STR,MAT_PARAM,
+     .              NPTT     ,NLAY     ,SIGSH   ,NSIGSH  ,PTSHEL  ,
+     .              RNOISE   ,PERTURB  ,ALDT    ,THK     )
 C-------------------------------------------
 C    CALCUL DES DT ELEMENTAIRES
 C-------------------------------------------

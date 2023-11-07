@@ -32,7 +32,7 @@ Chd|====================================================================
      1           NEL      ,NUVAR    ,
      2           TIME     ,UPARAM   ,NGL      ,IPT      ,NPTOT    ,
      3           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     4           DPLA     ,EPSP     ,UVAR     ,PTHKF    ,UEL1     ,
+     4           DPLA     ,EPSP     ,UVAR     ,UEL1     ,
      5           OFF      ,OFFL     ,DFMAX    ,TDEL     ,NFUNC    ,
      6           IFUNC    ,NPF      ,TF       ,ALDT     ,FOFF     ,
      7           IPG      )
@@ -84,7 +84,7 @@ C-----------------------------------------------
       INTEGER NEL,NUVAR,IPT,NPTOT,NFUNC,IPG
       INTEGER NGL(NEL),IFUNC(NFUNC)
       my_real TIME,UPARAM(*),DPLA(NEL),EPSP(NEL),
-     .   UEL1(NEL),ALDT(NEL),PTHKF
+     .   UEL1(NEL),ALDT(NEL)
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -140,7 +140,6 @@ c
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
       !=======================================================================
       ! Recovering model parameters
-      PTHKF      = UPARAM(1)
       SEL        = INT(UPARAM(2))
       REF_EL_LEN = UPARAM(3)
       EPSD0      = UPARAM(4)

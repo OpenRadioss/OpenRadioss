@@ -54,10 +54,11 @@ C-----------------------------------------------
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IP, MY_ID,MY_MAT,IADBUF,NUPARAM,NIPARAM,NRUPT,IVISC,IVAR
+      INTEGER I,J,IP, MY_ID,MY_MAT,IADBUF,NUPARAM,NIPARAM,NFAIL,IVISC,IVAR,
+     .        IRUPT,FAIL_ID,FAIL_IP,NUVAR,NFUNCF,NTABF,NMOD
       CHARACTER *nchartitle TITR
       CHARACTER (LEN=255) :: VARNAME
-      DOUBLE PRECISION TEMP_DOUBLE
+      DOUBLE PRECISION TEMP_DOUBLE,PTHK
       LOGICAL :: OK_QA
 C-----------------------------------------------
       OK_QA = MYQAKEY('MATERIALS')
@@ -101,22 +102,65 @@ C             VARNAME: variable name in ref.extract (without blanks)
             END IF
           END DO
 c-----------------------------
-c         UPARAM of /FAIL 
+c         MATERIAL FAILURE MODELS 
 c-----------------------------
-          NRUPT = IPM(220,MY_MAT)
-          DO I=1,NRUPT
-            CALL QAPRINT('** FAIL_MODEL',I,0.0_8)
-            IP   = (I-1)*15
-            IADBUF  = IPM(114 + IP ,MY_MAT)
-            NUPARAM = IPM(112 + IP ,MY_MAT)
-            DO J=1,NUPARAM
-              IF (BUFMAT(IADBUF+J-1) /= ZERO) THEN
-                WRITE(VARNAME,'(A,I0,A,I0)') 'UPARF_',I,'_',J
-                TEMP_DOUBLE = BUFMAT(IADBUF+J-1)
-                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
-              END IF
-            END DO
-          END DO      !NRUPT
+          NFAIL = MAT_ELEM%MAT_PARAM(MY_MAT)%NFAIL
+          IF (NFAIL > 0) THEN
+            CALL QAPRINT('NUMBER OF FAILURE MODELS',NFAIL,0.0_8)
+c
+            DO I=1,NFAIL
+              IRUPT   = MAT_ELEM%MAT_PARAM(MY_MAT)%FAIL(I)%IRUPT
+              FAIL_ID = MAT_ELEM%MAT_PARAM(MY_MAT)%FAIL(I)%FAIL_ID
+              NUPARAM = MAT_ELEM%MAT_PARAM(MY_MAT)%FAIL(I)%NUPARAM
+              NIPARAM = MAT_ELEM%MAT_PARAM(MY_MAT)%FAIL(I)%NIPARAM
+              NUVAR   = MAT_ELEM%MAT_PARAM(MY_MAT)%FAIL(I)%NUVAR
+              NFUNCF  = MAT_ELEM%MAT_PARAM(MY_MAT)%FAIL(I)%NFUNC
+              NTABF   = MAT_ELEM%MAT_PARAM(MY_MAT)%FAIL(I)%NTABLE
+              NMOD    = MAT_ELEM%MAT_PARAM(MY_MAT)%FAIL(I)%NMOD
+              FAIL_IP = MAT_ELEM%MAT_PARAM(MY_MAT)%FAIL(I)%FAIL_IP
+              PTHK    = MAT_ELEM%MAT_PARAM(MY_MAT)%FAIL(I)%PTHK
+c
+              CALL QAPRINT(' FAIL MODEL TYPE',IRUPT,0.0_8)
+              CALL QAPRINT(' FAIL_ID',FAIL_ID,0.0_8)
+              CALL QAPRINT(' FAIL_IP',FAIL_IP,0.0_8)
+              CALL QAPRINT(' PTHK',0,PTHK)
+              CALL QAPRINT(' NUMBER OF STATE VARIABLES',NUVAR,0.0_8)
+              CALL QAPRINT(' NUMBER OF FAILURE MODES',NMOD,0.0_8)
+c
+              CALL QAPRINT(' NUPARAM',NUPARAM,0.0_8)
+              DO J=1,NUPARAM
+                TEMP_DOUBLE = MAT_ELEM%MAT_PARAM(MY_MAT)%FAIL(I)%UPARAM(J)
+                IF (TEMP_DOUBLE /= ZERO) THEN
+                  WRITE(VARNAME,'(A,I0,A,I0)') 'UPARF_',I,'_',J
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                END IF
+              END DO
+              CALL QAPRINT(' NIPARAM',NIPARAM,0.0_8)
+              DO J=1,NIPARAM
+                IVAR = MAT_ELEM%MAT_PARAM(MY_MAT)%FAIL(I)%IPARAM(J)   
+                IF (IVAR /= 0) THEN
+                  WRITE(VARNAME,'(A,I0)') 'IPARF_',J
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IVAR,0.0_8)
+                END IF
+              END DO
+              CALL QAPRINT(' NFUNC',NFUNCF,0.0_8)
+              DO J=1,NFUNCF
+                IVAR = MAT_ELEM%MAT_PARAM(MY_MAT)%FAIL(I)%IFUNC(J)   
+                IF (IVAR /= 0) THEN
+                  WRITE(VARNAME,'(A,I0)') 'IFUNC_',J
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IVAR,0.0_8)
+                END IF
+              END DO
+              CALL QAPRINT(' NTABLE',NTABF,0.0_8)
+              DO J=1,NTABF
+                IVAR = MAT_ELEM%MAT_PARAM(MY_MAT)%FAIL(I)%TABLE(J)   
+                IF (IVAR /= 0) THEN
+                  WRITE(VARNAME,'(A,I0)') 'TABLE_',J
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IVAR,0.0_8)
+                END IF
+              END DO
+            END DO    ! NFAIL
+          END IF      ! NFAIL > 0
 c-----------------------------
 c         UPARAM of /VISC
 c-----------------------------

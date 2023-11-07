@@ -36,76 +36,48 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-       SUBROUTINE HM_READ_FAIL_GENE1(
-     .            UPARAM  ,MAXUPARAM ,NUPARAM ,NUVAR   ,IFUNC    ,
-     .            MAXFUNC ,NFUNC     ,UNITAB  ,FAIL_ID ,MAT_ID   ,
-     .            TABLE   ,TITR      ,LSUBMODEL)
+      SUBROUTINE HM_READ_FAIL_GENE1(
+     .           FAIL    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .           TITR    ,LSUBMODEL,UNITAB   )
 C-----------------------------------------------
-c    Orthotropic strain  failure model
-C-----------------------------------------------
-C   ROUTINE DESCRIPTION :
-C   ===================
-C   READ FAILURE ORTHBIQUAD
-C-----------------------------------------------
-C   DUMMY ARGUMENTS DESCRIPTION:
-C   ===================
-C
-C     NAME            DESCRIPTION                         
-C
-C     UNITAB          UNITS ARRAY
-C     FAIL_ID         FAILURE ID(INTEGER)
-C     TITR            MATERIAL TITLE
-C     LSUBMODEL       SUBMODEL STRUCTURE   
+c    ROUTINE DESCRIPTION :
+c    Read generic tabulated failure model parameters
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
-      USE TABLE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C----------+---------+---+---+--------------------------------------------
-C VAR      | SIZE    |TYP| RW| DEFINITION
-C----------+---------+---+---+--------------------------------------------
-C UPARAM   | NUPARAM | F | W | USER FAILURE MODEL PARAMETER ARRAY
-C MAXUPARAM|  1      | I | R | MAXIMUM SIZE OF UPARAM 
-C NUPARAM  |  1      | I | W | SIZE OF UPARAM =< MAXUPARAM
-C NUVAR    |  1      | I | W | NUMBER OF USER  VARIABLES
-C----------+---------+---+---+--------------------------------------------
-C IFUNC    | NFUNC   | I | W | FUNCTION NUMBER ARRAY
-C MAXFUNC  |  1      | I | R | MAXIMUM SIZE OF IFUNC
-C NFUNC    |  1      | I | W | SIZE OF IFUNC =< MAXFUNC
-C----------+---------+---+---+--------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com04_c.inc"
-#include      "scr17_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB 
-      INTEGER,INTENT(IN)             :: MAXUPARAM,MAXFUNC,FAIL_ID,MAT_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
-C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          :: IFUNC(MAXFUNC),NFUNC
-      my_real,INTENT(INOUT)          :: UPARAM(MAXUPARAM)
-      INTEGER,INTENT(INOUT)            :: NUPARAM,NUVAR
-      CHARACTER TITR*nchartitle
-      TYPE(TTABLE) TABLE(NTABLE)    
+      INTEGER             ,INTENT(IN) :: FAIL_ID        ! failure model ID
+      INTEGER             ,INTENT(IN) :: MAT_ID         ! material law ID
+      INTEGER             ,INTENT(IN) :: IRUPT          ! failure model number
+      CHARACTER           ,INTENT(IN) :: TITR*500 ! material model title
+      TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB         ! table of input units
+      TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)   ! submodel table 
+      TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL        ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NSTEP,NCS,fct_IDsm,fct_IDps,fct_IDg12,fct_IDg13,
-     .        fct_IDe1c,fct_IDel,Itab,tab_IDfld,int_tab_IDfld,Istrain,
+     .        fct_IDe1c,fct_IDel,Itab,tab_IDfld,Istrain,
      .        Ismooth,NCRIT_MAX,IMINPRES,IMAXPRES,IMAXSIGP,IMAXTIME,
      .        IMINDT,IMAXSIGVM,IMAXKF,IMAXEPS,IEFFEPS,IVOLEPS,IMINEPS,
-     .        IEPSSH,IMINTHIN,IMAXTEMP
+     .        IEPSSH,IMINTHIN,IMAXTEMP,NFUNC,NTABLE,NUPARAM,NUVAR
+      INTEGER ,PARAMETER :: NSIZE = 6
+      INTEGER ,DIMENSION(NSIZE) :: IFUNC
       my_real 
      .        MINPRES,MAXPRES,SIGP1,TMAX,DTMIN,EPSDOT_SM,SIGVM,SIGTH,KF,
      .        EPSDOT_PS,MAXEPS,EFFEPS,VOLEPS,MINEPS,EPSSH,EPSDOT_FLD,
@@ -113,7 +85,7 @@ C-----------------------------------------------
      .        PRESSURE_UNIT,LENGTH_UNIT
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       ! Initialization of the number of criteria
       NCRIT_MAX    = 0
@@ -339,75 +311,69 @@ C===============================================================================
       ENDIF
 C======================================================================================
 c     Filling buffer tables
-C======================================================================================
-      ! -> Number of parameters
+c-----------------------------------------------------    
+      NUVAR   = 8 
       NUPARAM = 32
-      ! -> Number of functions
-      NFUNC   = 0
-      IF (fct_IDsm /= 0) THEN
-        NFUNC = NFUNC + 1 
-        IFUNC(NFUNC) = fct_IDsm
-      ENDIF
-      IF (fct_IDps /= 0) THEN
-        NFUNC = NFUNC + 1 
-        IFUNC(NFUNC) = fct_IDps
-      ENDIF
-      IF (fct_IDg12 /= 0) THEN
-        NFUNC = NFUNC + 1 
-        IFUNC(NFUNC) = fct_IDg12
-      ENDIF                
-      IF (fct_IDg13 /= 0) THEN
-        NFUNC = NFUNC + 1 
-        IFUNC(NFUNC) = fct_IDg13
-      ENDIF 
-      IF (fct_IDe1c /= 0) THEN
-        NFUNC = NFUNC + 1 
-        IFUNC(NFUNC) = fct_IDe1c
-      ENDIF 
-      IF (fct_IDel /= 0) THEN
-        NFUNC = NFUNC + 1 
-        IFUNC(NFUNC) = fct_IDel
-      ENDIF
-      int_tab_IDfld = tab_IDfld
-      IF (tab_IDfld > 0) THEN
-        CALL MATTAB_USR2SYS(TITR,MAT_ID,TABLE,1,int_tab_IDfld)
-      ENDIF
-      ! -> Number of user variables
-      NUVAR = 8 
-! c-----------------------------------------------------    
-      UPARAM(1)  = MINPRES
-      UPARAM(2)  = MAXPRES
-      UPARAM(3)  = SIGP1
-      UPARAM(4)  = TMAX
-      UPARAM(5)  = DTMIN
-      UPARAM(6)  = EPSDOT_SM
-      UPARAM(7)  = SIGVM
-      UPARAM(8)  = SIGTH
-      UPARAM(9)  = KF
-      UPARAM(10) = EPSDOT_PS
-      UPARAM(11) = MAXEPS
-      UPARAM(12) = EFFEPS
-      UPARAM(13) = VOLEPS
-      UPARAM(14) = MINEPS
-      UPARAM(15) = EPSSH
-      UPARAM(16) = int_tab_IDfld
-      UPARAM(17) = Itab
-      UPARAM(18) = EPSDOT_FLD
-      UPARAM(19) = NSTEP
-      UPARAM(20) = THIN
-      UPARAM(21) = VOLFRAC
-      UPARAM(22) = PTHK
-      UPARAM(23) = NCS
-      UPARAM(24) = MAXTEMP
-      UPARAM(25) = Fscale_el
-      UPARAM(26) = El_ref
-      UPARAM(27) = fct_IDg12
-      UPARAM(28) = fct_IDg13
-      UPARAM(29) = fct_IDe1c
-      UPARAM(30) = fct_IDel
-      UPARAM(31) = Ismooth
-      UPARAM(32) = Istrain
-c-----------------------------------------------------
+      NFUNC   = 6
+      NTABLE  = 0
+      IF (tab_IDfld > 0) NTABLE = 1
+c
+      FAIL%KEYWORD = 'GENE' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = NUPARAM
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = NUVAR
+      FAIL%NFUNC   = NFUNC
+      FAIL%NTABLE  = NTABLE
+      FAIL%NMOD    = 0
+      FAIL%PTHK    = PTHK
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+
+      FAIL%IFUNC(1) = fct_IDsm
+      FAIL%IFUNC(2) = fct_IDps
+      FAIL%IFUNC(3) = fct_IDg12
+      FAIL%IFUNC(4) = fct_IDg13
+      FAIL%IFUNC(5) = fct_IDe1c
+      FAIL%IFUNC(6) = fct_IDel
+      IF (NTABLE == 1) FAIL%TABLE(1) = tab_IDfld
+c
+      FAIL%UPARAM(1)  = MINPRES
+      FAIL%UPARAM(2)  = MAXPRES
+      FAIL%UPARAM(3)  = SIGP1
+      FAIL%UPARAM(4)  = TMAX
+      FAIL%UPARAM(5)  = DTMIN
+      FAIL%UPARAM(6)  = EPSDOT_SM
+      FAIL%UPARAM(7)  = SIGVM
+      FAIL%UPARAM(8)  = SIGTH
+      FAIL%UPARAM(9)  = KF
+      FAIL%UPARAM(10) = EPSDOT_PS
+      FAIL%UPARAM(11) = MAXEPS
+      FAIL%UPARAM(12) = EFFEPS
+      FAIL%UPARAM(13) = VOLEPS
+      FAIL%UPARAM(14) = MINEPS
+      FAIL%UPARAM(15) = EPSSH
+      FAIL%UPARAM(16) = 0              !  tab_IDfld
+      FAIL%UPARAM(17) = Itab
+      FAIL%UPARAM(18) = EPSDOT_FLD
+      FAIL%UPARAM(19) = NSTEP
+      FAIL%UPARAM(20) = THIN
+      FAIL%UPARAM(21) = VOLFRAC
+      FAIL%UPARAM(22) = PTHK
+      FAIL%UPARAM(23) = NCS
+      FAIL%UPARAM(24) = MAXTEMP
+      FAIL%UPARAM(25) = Fscale_el
+      FAIL%UPARAM(26) = El_ref
+      FAIL%UPARAM(27) = 0              !  fct_IDg12
+      FAIL%UPARAM(28) = 0              !  fct_IDg13
+      FAIL%UPARAM(29) = 0              !  fct_IDe1c
+      FAIL%UPARAM(30) = 0              !  fct_IDel
+      FAIL%UPARAM(31) = Ismooth
+      FAIL%UPARAM(32) = Istrain
 c--------------------------
 c     Printout data
 c-------------------------- 

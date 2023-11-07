@@ -31,7 +31,7 @@ Chd|====================================================================
      1     NEL      ,NUPARAM  ,NUVAR    ,UPARAM   ,UVAR     ,
      2     TIME     ,NGL      ,IPG      ,ILAY     ,IPT      ,
      3     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     4     DPLA     ,FOFF     ,PTHKF    ,DFMAX    ,TDEL     )
+     4     DPLA     ,FOFF     ,DFMAX    ,TDEL     )
 C-----------------------------------------------
 C     2D Wilkins Failure model
 C-----------------------------------------------
@@ -62,7 +62,6 @@ C DPLA    | NEL     | F |R/W| PLASTIC STRAIN
 C---------+---------+---+---+--------------------------------------------
 C OFF     | NEL     | F | R | DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C FOFF    | NEL     | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)
-C PTHKF   |  1      | F | W | PERCENTAGE OF LAYER THICKNESS TO FAIL
 C DFMAX   | NEL     | F |R/W| MAX DAMAGE FACTOR 
 C TDEL    | NEL     | F | W | FAILURE TIME
 C---------+---------+---+---+--------------------------------------------
@@ -83,14 +82,13 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,INTENT(OUT) :: PTHKF
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,IFAIL_SH,NINDX
+      INTEGER :: I,J,NINDX
       INTEGER ,DIMENSION(NEL) :: INDX
       my_real :: AL,BE,PC,DC,P,W1,W2,SS,S1,S2,S3,SS0,SS1,SS2,SIG1,SIG2,
      .           A,A1,A2
@@ -99,13 +97,6 @@ C=======================================================================
       BE = UPARAM(2)
       PC = UPARAM(3)
       DC = UPARAM(4)
-      IFAIL_SH = INT(UPARAM(5))
-c
-      IF (IFAIL_SH == 1) THEN
-        PTHKF = EM06
-      ELSEIF (IFAIL_SH == 2) THEN
-        PTHKF = ONE
-      ENDIF
       NINDX  = 0  
 C-----------------------------------------------
       DO I=1,NEL

@@ -31,7 +31,7 @@ Chd|====================================================================
      1     NEL      ,NUPARAM  ,NUVAR    ,UPARAM   ,UVAR     ,
      2     NGL      ,TIME     ,IPG      ,ILAY     ,IPT      ,   
      3     DEPSXX   ,DEPSYY   ,DEPSXY   ,DMG_FLAG ,DMG_SCALE,
-     4     ALDT     ,PTHKF    ,FOFF     ,DFMAX    ,TDEL     ,
+     4     ALDT     ,FOFF     ,DFMAX    ,TDEL     ,
      5     SIGNXX   ,SIGNYY   ,SIGNXY   ,IGTYP    ,PLY_ID   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -57,7 +57,6 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(OUT) :: DMG_FLAG
       INTEGER, DIMENSION(NEL), INTENT(INOUT) :: FOFF
-      my_real, INTENT(OUT) :: PTHKF
       my_real, DIMENSION(NEL), INTENT(INOUT) :: DFMAX,TDEL
       my_real, DIMENSION(NEL,5), INTENT(OUT) :: DMG_SCALE
       my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
@@ -76,7 +75,6 @@ C
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
       !=======================================================================
       ! Recovering failure criterion parameters
-      PTHKF      = UPARAM(1)  ! -> Percentage of failed thickness/ratio
       SIGMA_11T  = UPARAM(3)  ! -> Critical stress for tension in direction 11
       SIGMA_11C  = UPARAM(4)  ! -> Critical stress for compression in direction 11
       SIGMA_22T  = UPARAM(5)  ! -> Critical stress for tension in direction 22

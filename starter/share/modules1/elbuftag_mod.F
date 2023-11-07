@@ -436,7 +436,6 @@ c---    uvar
       END TYPE PROP_TAG_               
 C
       TYPE FAIL_TAG_   
-        INTEGER ::   NUVAR 
         INTEGER ::   LF_DAM
         INTEGER ::   LF_DAMMX  
         INTEGER ::   LF_DAMINI

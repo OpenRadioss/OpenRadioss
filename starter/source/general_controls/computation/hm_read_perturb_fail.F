@@ -38,9 +38,9 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_PERTURB_FAIL(
+      SUBROUTINE HM_READ_PERTURB_FAIL(MAT_PARAM,
      .      IPART    ,RNOISE   ,IPARTC ,IPARTG    ,IPARTSP  ,
-     .      IGRPART  ,IPARTS   ,IPM    ,PERTURB   ,IDPERTURB,
+     .      IGRPART  ,IPARTS   ,PERTURB   ,IDPERTURB,
      .      INDEX   ,INDEX_ITYP,NPART_SHELL,OFFS ,QP_IPERTURB,
      .      QP_RPERTURB,LSUBMODEL,UNITAB)
 C-----------------------------------------------
@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE MAT_ELEM_MOD    
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,13 +71,14 @@ C-----------------------------------------------
       my_real :: RNOISE(NPERTURB,NUMELC+NUMELTG+NUMELS+NUMSPH),
      .   QP_RPERTURB(NPERTURB,4)
       INTEGER IPART(LIPART1,*),IPARTC(*),IPARTSP(*),IPARTG(*),IPARTS(*),
-     .   IPM(NPROPMI,*),PERTURB(NPERTURB),
+     .   PERTURB(NPERTURB),
      .   IDPERTURB(NPERTURB),INDEX(NUMELC+NUMELTG+NUMELS+NUMSPH),
      .   INDEX_ITYP(NUMELC+NUMELTG+NUMELS+NUMSPH),NPART_SHELL,
      .   QP_IPERTURB(NPERTURB,6)
       TYPE (UNIT_TYPE_)    ,INTENT(IN)  :: UNITAB
       TYPE (SUBMODEL_DATA) ,INTENT(IN)  :: LSUBMODEL(*)
       TYPE (GROUP_)  ,DIMENSION(NGRPART):: IGRPART
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -132,9 +134,9 @@ c
         IFAILMAT = 0
         IF (FAIL_ID > 0) THEN
           DO N=1,NUMMAT
-            DO J=1,IPM(220, N)
-              IF( IPM(236+J, N) == FAIL_ID)THEN
-                IF (IFAILTYPE /= IPM(241+J, N)) THEN
+            DO J=1,MAT_PARAM(N)%NFAIL
+              IF (MAT_PARAM(N)%FAIL(J)%FAIL_ID == FAIL_ID)THEN
+                IF (IFAILTYPE /= MAT_PARAM(N)%FAIL(J)%IRUPT) THEN
                   CALL ANCMSG(MSGID=1193, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .                 I1=OPT_ID,
      .                 C1=TITR,
@@ -235,8 +237,8 @@ c
           IFAILMAT = 0
           IF (FAIL_ID > 0)THEN
             DO N=1,NUMMAT
-              DO J=1,IPM(220, N)
-                IF (IPM(236+J, N) == FAIL_ID) THEN
+              DO J=1,MAT_PARAM(N)%NFAIL
+                IF (MAT_PARAM(N)%FAIL(J)%FAIL_ID == FAIL_ID) THEN
                   IFAILMAT = N
                   EXIT
                 END IF

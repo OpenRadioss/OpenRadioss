@@ -34,13 +34,13 @@ Chd|        INITBUF_MOD                   share/resol/initbuf.F
 Chd|====================================================================
       SUBROUTINE H3D_SOL_SKIN_SCALAR1(ELBUF_TAB,IPARG,IPARTS,IXS,IXS10,
      .                                SKIN_SCALAR,TAG_SKINS6,T6GPS,X  ,
-     .                                NPF,TF,BUFMAT,H3D_PART,IS_WRITTEN_SKIN,
-     .                                IPM,KEYWORD,NSKIN )
+     .                                NPF,TF,H3D_PART,IS_WRITTEN_SKIN,
+     .                                KEYWORD,NSKIN ,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
+      USE MAT_ELEM_MOD    
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,12 +60,13 @@ C-----------------------------------------------
 C     REAL
       INTEGER IPARG(NPARG,*),IXS(NIXS,*),IPARTS(*),
      .        IXS10(6,*) ,TAG_SKINS6(*) ,NSKIN , NPF(*),H3D_PART(*),
-     .        IS_WRITTEN_SKIN(*),IPM(NPROPMI,*)
+     .        IS_WRITTEN_SKIN(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
-      my_real,INTENT(IN),TARGET :: BUFMAT(*),TF(*)
+      my_real,INTENT(IN),TARGET :: TF(*)
       my_real,INTENT(IN),TARGET :: T6GPS(6,*),X(3,*)
       my_real,INTENT(OUT),TARGET :: SKIN_SCALAR(*)
       CHARACTER*ncharline KEYWORD
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
@@ -81,7 +82,7 @@ C-----------------------------------------------
       INTEGER NC(10,MVSIZ),NMIN,PWR(7),LL,IXSK(5,6*MVSIZ)
       INTEGER FACES(4,6),NS(4),JJ,II,K1,K2,NF,N2,T3(3),T6(6),TIA4S(3,4)
       INTEGER IFUNC(MAXFUNC),IDEB
-      INTEGER NPAR,IADBUF,NFUNC,MX,NSK,IL,IR,IS,IT,NFAIL,IFAIL,IP,NSKI
+      INTEGER NPAR,NFUNC,MX,NSK,IL,IR,IS,IT,NFAIL,IFAIL,NSKI
       my_real
      .   EVAR(3,MVSIZ),VALUE(MVSIZ)
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
@@ -320,16 +321,14 @@ C-----------------------------------------------
                 IS_WRITTEN_VALUE(1:NSKI) = 1
                 DO IFAIL=1,NFAIL                                                          
                   IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                    IP=(IFAIL -1)*15         
-                    NPAR   = IPM(112+IP, MX)   
-                    IADBUF = IPM(114+IP ,MX)
-                    NFUNC  = IPM(115+IP, MX)             
+                    NPAR   = MAT_PARAM(MX)%FAIL(IFAIL)%NUPARAM   
+                    NFUNC  =  MAT_PARAM(MX)%FAIL(IFAIL)%NFUNC          
                     DO I=1,NFUNC
-                      IFUNC(I) = IPM(115+IP+I, MX)         
+                      IFUNC(I) = MAT_PARAM(MX)%FAIL(IFAIL)%IFUNC(I)
                     END DO
                    CALL IDX_FLD_SOL(
      1                            NSKI     ,NPAR     ,NFUNC    ,IFUNC    ,
-     2                            NPF      ,TF       ,BUFMAT(IADBUF),
+     2                            NPF      ,TF       ,MAT_PARAM(MX)%FAIL(IFAIL)%UPARAM,
      4                            EVAR     ,VALUE    )
 C
                   ENDIF                                                                   
@@ -344,16 +343,14 @@ C-----------------------------------------------
                 IS_WRITTEN_VALUE(1:NSKI) = 1
                 DO IFAIL=1,NFAIL                                                          
                   IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                    IP=(IFAIL -1)*15         
-                    NPAR   = IPM(112+IP, MX)   
-                    IADBUF = IPM(114+IP ,MX)
-                    NFUNC  = IPM(115+IP, MX)             
+                    NPAR   = MAT_PARAM(MX)%FAIL(IFAIL)%NUPARAM   
+                    NFUNC  = MAT_PARAM(MX)%FAIL(IFAIL)%NFUNC
                     DO I=1,NFUNC
-                      IFUNC(I) = IPM(115+IP+I, MX)         
+                      IFUNC(I) = MAT_PARAM(MX)%FAIL(IFAIL)%IFUNC(I)
                     END DO
                    CALL DAM_FLD_SOL(
      1                            NSKI     ,NPAR     ,NFUNC    ,IFUNC    ,
-     2                            NPF      ,TF       ,BUFMAT(IADBUF),
+     2                            NPF      ,TF       ,MAT_PARAM(MX)%FAIL(IFAIL)%UPARAM,
      4                            EVAR     ,VALUE    )
 C
                   ENDIF                                                                   

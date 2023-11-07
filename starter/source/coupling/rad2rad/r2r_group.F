@@ -56,7 +56,7 @@ Chd|====================================================================
      6           IGRSH3N2 ,IGRTRUSS2,IGRBEAM2,IGRSPRING2,IGRNOD2 ,
      7           IGRSURF2 ,IGRSLIN2,LSUBMODEL,ALE_EULER,IGEO_,
      8           NLOC_DMG ,DETONATORS,NSENSOR,SEATBELT_SHELL_TO_SPRING,
-     9           NB_SEATBELT_SHELLS)
+     9           NB_SEATBELT_SHELLS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,6 +71,7 @@ C-----------------------------------------------
         USE INIVOL_ARRAY_MOD
         USE NLOCAL_REG_MOD
         USE DETONATORS_MOD
+        USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -105,7 +106,8 @@ C-----------------------------------------------
         INTEGER ,INTENT(IN) :: SEATBELT_SHELL_TO_SPRING(NUMELC,2)
         my_real :: PM_STACK(*)
         TYPE (NLOCAL_STR_) ,INTENT(IN)  :: NLOC_DMG
-        TYPE(DETONATORS_STRUCT_),TARGET,INTENT(IN) :: DETONATORS
+        TYPE (DETONATORS_STRUCT_),TARGET,INTENT(IN) :: DETONATORS
+        TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 !      TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD2
         TYPE (GROUP_)  , DIMENSION(NGROU)   :: IGRNOD2
@@ -434,7 +436,7 @@ C---------------Tag of nodes with nlocal dof-------------------------C
               CALL MY_ALLOC(TAG_NLOCAL,NUMNOD)
               TAG_NLOCAL(1:NUMNOD) = 0
               CALL TAGNOD_R2R_NL(IXC,IXTG,IXS,IXS10,IXS20,
-     .                           IXS16,TAG_NLOCAL,IPM)
+     .                           IXS16,TAG_NLOCAL,MAT_PARAM)
             ENDIF
 C
             DO K=1,NN

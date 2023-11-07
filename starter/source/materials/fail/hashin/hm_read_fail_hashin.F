@@ -32,19 +32,17 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_HASHIN(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,UNITAB   ,MAT_ID ,FAIL_ID  ,
-     .           IFAILWAVE,LSUBMODEL)
+      SUBROUTINE HM_READ_FAIL_HASHIN(FAIL , 
+     .           MAT_ID   ,FAIL_ID  ,IRUPT  ,FRWAVE    ,
+     .           LSUBMODEL,UNITAB   )
 C-----------------------------------------------
-C   ROUTINE DESCRIPTION :
-C   ===================
-C   READ HASHIN FAILURE MODEL
+c    ROUTINE DESCRIPTION :
+c    Read Hashin failure model parameters
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
 C-----------------------------------------------
@@ -58,24 +56,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER,INTENT(IN)             ::MAT_ID,FAIL_ID
-      TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
-C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)          ::IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM
-      my_real,INTENT(INOUT)          ::UPARAM(MAXUPARAM)
-      INTEGER,INTENT(INOUT)            ::NUPARAM,NUVAR,IFAILWAVE
+      INTEGER            ,INTENT(IN) :: FAIL_ID       ! failure model ID
+      INTEGER            ,INTENT(IN) :: MAT_ID        ! material law ID
+      INTEGER            ,INTENT(IN) :: IRUPT         ! failure model type number
+      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table
+      INTEGER            ,INTENT(INOUT) :: FRWAVE     ! failure model type number
+      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: ISHELL,IMODEL,ISOLID,DMG_FLAG,TMOD,FRWAVE
+      INTEGER :: IFAIL_SH,IMODEL,ISOLID,DMG_FLAG,TMOD
       my_real :: SIGT1,SIGT2,SIGT3,SIGT12,SIGC1,SIGC2,SOFT1,SOFT2,SOFT3,
-     .    FSIG12,MSIG12,MSIG23,MSIG13,ANGLE,SDELAM,CSIG,
+     .    FSIG12,MSIG12,MSIG23,MSIG13,ANGLE,SDELAM,CSIG,PTHKF,
      .    TMAX,RATIO,TCUT,EPSP_REF,EPSP_MIN
       LOGICAL  :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 c
       EPSP_MIN    = ZERO
@@ -92,7 +89,7 @@ C--------------------------------------------------
 C     Read DATA
 C--------------------------------------------------
       CALL HM_GET_INTV   ('Iform'       ,IMODEL    ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_INTV   ('Ifail_sh'    ,ISHELL    ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV   ('Ifail_sh'    ,IFAIL_SH    ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('Ifail_so'    ,ISOLID    ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('ratio'       ,RATIO     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('I_Dam'       ,DMG_FLAG  ,IS_AVAILABLE,LSUBMODEL)
@@ -123,7 +120,7 @@ c--------------------------------------------------
 c     Default values
 c--------------------------------------------------
       IF (FRWAVE == 0) FRWAVE = 1
-      IF (FRWAVE > 1)  IFAILWAVE = 1
+      IF (FRWAVE > 1)  FRWAVE = 1
       IF (SIGT1  == ZERO) SIGT1  = EP20
       IF (SIGT2  == ZERO) SIGT2  = EP20
       IF (SIGT3  == ZERO) SIGT3  = EP20
@@ -139,7 +136,7 @@ c--------------------------------------------------
       IF (EPSP_REF == ZERO) EPSP_REF = EM20
       IF (SDELAM == ZERO) SDELAM = ONE
       IF (IMODEL == 0) IMODEL = 1
-      IF (ISHELL == 0) ISHELL = 1
+      IF (IFAIL_SH == 0) IFAIL_SH = 1
       IF (ISOLID == 0) ISOLID = 1 
       IF (RATIO == ZERO) RATIO = ONE - EM06
       RATIO = MIN(RATIO, ONE)
@@ -147,37 +144,57 @@ c--------------------------------------------------
       IF (DMG_FLAG == 0) DMG_FLAG = 1  ! DMG_FLAG = 1    => damage reduces forces after criteria is met
       IF (DMG_FLAG == 2) DMG_FLAG = 0  ! DMG_FLAG = 2->0 => damage reduces saved stress (old method)
       SOFT1 = MIN(ONE,MAX(ZERO,SOFT1))
+c
+      IF (IFAIL_SH == 1) THEN
+        PTHKF = EM06
+      ELSEIF (IFAIL_SH == 2) THEN
+        PTHKF = RATIO
+      ELSE   !  IFAIL_SH = 3
+        PTHKF = ONE - EM06
+      ENDIF
 c--------------------------------------------------
-      UPARAM(1)  = IMODEL
-      UPARAM(2)  = SIGT1
-      UPARAM(3)  = SIGT2
-      UPARAM(4)  = SIGT3
-      UPARAM(5)  = SIGC1
-      UPARAM(6)  = SIGC2
-      UPARAM(7)  = CSIG
-      UPARAM(8)  = FSIG12
-      UPARAM(9)  = MSIG12
-      UPARAM(10) = MSIG13
-      UPARAM(11) = MSIG23
-      UPARAM(12) = ANGLE*PI/HUNDRED80   ! degre ---> radian 
-      UPARAM(13) = SDELAM
-      UPARAM(14) = TMAX
-      UPARAM(15) = ISHELL
-      UPARAM(16) = ISOLID
-      UPARAM(17) = RATIO
-      UPARAM(18) = DMG_FLAG
-      UPARAM(19) = TMOD
-      UPARAM(20) = EPSP_REF 
-      UPARAM(21) = TCUT 
-      UPARAM(22) = EPSP_MIN 
-      UPARAM(23) = FRWAVE 
-      UPARAM(24) = SOFT1 
-      UPARAM(25) = SOFT2 
-      UPARAM(26) = SOFT3 
-c-----------------------------------------------------
-      NUPARAM = 26
-      NFUNC   = 0
-      NUVAR   = 12
+      FAIL%KEYWORD = 'HASHIN' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 26
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 12
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+      FAIL%PTHK    = PTHKF
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      FAIL%UPARAM(1)  = IMODEL
+      FAIL%UPARAM(2)  = SIGT1
+      FAIL%UPARAM(3)  = SIGT2
+      FAIL%UPARAM(4)  = SIGT3
+      FAIL%UPARAM(5)  = SIGC1
+      FAIL%UPARAM(6)  = SIGC2
+      FAIL%UPARAM(7)  = CSIG
+      FAIL%UPARAM(8)  = FSIG12
+      FAIL%UPARAM(9)  = MSIG12
+      FAIL%UPARAM(10) = MSIG13
+      FAIL%UPARAM(11) = MSIG23
+      FAIL%UPARAM(12) = ANGLE*PI/HUNDRED80   ! degre ---> radian 
+      FAIL%UPARAM(13) = SDELAM
+      FAIL%UPARAM(14) = TMAX
+      FAIL%UPARAM(15) = IFAIL_SH
+      FAIL%UPARAM(16) = ISOLID
+      FAIL%UPARAM(17) = RATIO
+      FAIL%UPARAM(18) = DMG_FLAG
+      FAIL%UPARAM(19) = TMOD
+      FAIL%UPARAM(20) = EPSP_REF 
+      FAIL%UPARAM(21) = TCUT 
+      FAIL%UPARAM(22) = EPSP_MIN 
+      FAIL%UPARAM(23) = 0         !not used 
+      FAIL%UPARAM(24) = SOFT1 
+      FAIL%UPARAM(25) = SOFT2 
+      FAIL%UPARAM(26) = SOFT3 
 c-----------------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT, 1000)

@@ -33,11 +33,14 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
        SUBROUTINE HM_READ_FAIL_ORTHENERG(
-     .            UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
-     .            UNITAB   ,LSUBMODEL)  
+     .           FAIL     ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+C-----------------------------------------------
+c    ROUTINE DESCRIPTION :
+c    Read Orthenerg failure model parameters
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE FAIL_PARAM_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
@@ -54,12 +57,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN)    :: MAXUPARAM
-      INTEGER,INTENT(INOUT) :: NFUNC
-      my_real,INTENT(INOUT) :: UPARAM(MAXUPARAM)
-      INTEGER,INTENT(INOUT) :: NUPARAM,NUVAR
-      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
-      TYPE(SUBMODEL_DATA),DIMENSION(*),INTENT(IN) :: LSUBMODEL
+      INTEGER             ,INTENT(IN) :: FAIL_ID       ! failure model ID
+      INTEGER             ,INTENT(IN) :: IRUPT         ! failure model number
+      TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
+      TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table 
+      TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -222,54 +224,62 @@ c
       !==========================================================================
       ! Save parameters and set buffer tables size
       !==========================================================================
-c
-      ! Number of parameters
-      NUPARAM = 39
-      ! Number of user variables
-      NUVAR   = 25
-      ! Number of functions
-      NFUNC   = 0
+      FAIL%KEYWORD = 'ORTHENERG' 
+      FAIL%IRUPT   = IRUPT 
+      FAIL%FAIL_ID = FAIL_ID 
+      FAIL%NUPARAM = 39
+      FAIL%NIPARAM = 0
+      FAIL%NUVAR   = 25
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = 0
+      FAIL%NMOD    = 0
+      FAIL%PTHK    = PTHICKFAIL
+c            
+      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
+      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
+      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
+      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
 c
       ! Failure criterion parameters
-      UPARAM(1)  = PTHICKFAIL
-      UPARAM(2)  = FAILIP
-      UPARAM(3)  = SIGMA_11T
-      UPARAM(4)  = SIGMA_11C
-      UPARAM(5)  = SIGMA_22T
-      UPARAM(6)  = SIGMA_22C
-      UPARAM(7)  = SIGMA_33T
-      UPARAM(8)  = SIGMA_33C
-      UPARAM(9)  = SIGMA_12T
-      UPARAM(10) = SIGMA_12C
-      UPARAM(11) = SIGMA_23T
-      UPARAM(12) = SIGMA_23C
-      UPARAM(13) = SIGMA_31T
-      UPARAM(14) = SIGMA_31C
-      UPARAM(15) = G_11T
-      UPARAM(16) = G_11C
-      UPARAM(17) = G_22T
-      UPARAM(18) = G_22C
-      UPARAM(19) = G_33T
-      UPARAM(20) = G_33C
-      UPARAM(21) = G_12T
-      UPARAM(22) = G_12C
-      UPARAM(23) = G_23T
-      UPARAM(24) = G_23C
-      UPARAM(25) = G_31T
-      UPARAM(26) = G_31C
-      UPARAM(27) = ISHAP11T
-      UPARAM(28) = ISHAP11C
-      UPARAM(29) = ISHAP22T
-      UPARAM(30) = ISHAP22C
-      UPARAM(31) = ISHAP33T
-      UPARAM(32) = ISHAP33C
-      UPARAM(33) = ISHAP12T
-      UPARAM(34) = ISHAP12C
-      UPARAM(35) = ISHAP23T
-      UPARAM(36) = ISHAP23C
-      UPARAM(37) = ISHAP31T
-      UPARAM(38) = ISHAP31C
-      UPARAM(39) = NMOD
+      FAIL%UPARAM(1)  = PTHICKFAIL
+      FAIL%UPARAM(2)  = FAILIP
+      FAIL%UPARAM(3)  = SIGMA_11T
+      FAIL%UPARAM(4)  = SIGMA_11C
+      FAIL%UPARAM(5)  = SIGMA_22T
+      FAIL%UPARAM(6)  = SIGMA_22C
+      FAIL%UPARAM(7)  = SIGMA_33T
+      FAIL%UPARAM(8)  = SIGMA_33C
+      FAIL%UPARAM(9)  = SIGMA_12T
+      FAIL%UPARAM(10) = SIGMA_12C
+      FAIL%UPARAM(11) = SIGMA_23T
+      FAIL%UPARAM(12) = SIGMA_23C
+      FAIL%UPARAM(13) = SIGMA_31T
+      FAIL%UPARAM(14) = SIGMA_31C
+      FAIL%UPARAM(15) = G_11T
+      FAIL%UPARAM(16) = G_11C
+      FAIL%UPARAM(17) = G_22T
+      FAIL%UPARAM(18) = G_22C
+      FAIL%UPARAM(19) = G_33T
+      FAIL%UPARAM(20) = G_33C
+      FAIL%UPARAM(21) = G_12T
+      FAIL%UPARAM(22) = G_12C
+      FAIL%UPARAM(23) = G_23T
+      FAIL%UPARAM(24) = G_23C
+      FAIL%UPARAM(25) = G_31T
+      FAIL%UPARAM(26) = G_31C
+      FAIL%UPARAM(27) = ISHAP11T
+      FAIL%UPARAM(28) = ISHAP11C
+      FAIL%UPARAM(29) = ISHAP22T
+      FAIL%UPARAM(30) = ISHAP22C
+      FAIL%UPARAM(31) = ISHAP33T
+      FAIL%UPARAM(32) = ISHAP33C
+      FAIL%UPARAM(33) = ISHAP12T
+      FAIL%UPARAM(34) = ISHAP12C
+      FAIL%UPARAM(35) = ISHAP23T
+      FAIL%UPARAM(36) = ISHAP23C
+      FAIL%UPARAM(37) = ISHAP31T
+      FAIL%UPARAM(38) = ISHAP31C
+      FAIL%UPARAM(39) = NMOD
 c
       !==========================================================================
       ! Print out parameters

@@ -31,10 +31,10 @@ Chd|====================================================================
      1     NEL       ,NUPARAM   ,NUVAR     ,UPARAM    ,UVAR      , 
      2     TIME      ,NGL       ,IPG       ,ILAY      ,IPT       ,                          
      3     SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,  
-     4     OFF       ,FOFF      ,PTHKF     ,DMG_FLAG  ,DMG_SCALE ,
+     4     OFF       ,FOFF      ,DMG_FLAG  ,DMG_SCALE ,
      5     DFMAX     ,TDEL      ,TIMESTEP  )                               
 C-----------------------------------------------
-C    modified Puck model ------
+C    Tsai-Hill failure model model
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +58,6 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(OUT) ::DMG_FLAG
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,INTENT(OUT) :: PTHKF
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL,DMG_SCALE
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
@@ -86,13 +85,6 @@ C!----------------------------------------------
 c
       ! Stress softening activation
       DMG_FLAG = 1    
-c
-      ! Shell element deletion flag
-      IF (IFAIL_SH == 1) THEN
-        PTHKF = EM06
-      ELSEIF (IFAIL_SH == 2) THEN 
-        PTHKF = ONE
-      ENDIF
 c
       ! Stress tensor filtering
       IF (FCUT > ZERO) THEN

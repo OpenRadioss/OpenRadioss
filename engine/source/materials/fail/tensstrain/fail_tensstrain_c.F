@@ -33,7 +33,7 @@ Chd|====================================================================
      2     UPARAM   ,UVAR     ,NPF      ,TF       ,TIME     ,
      3     NGL      ,IPG      ,ILAY     ,IPT      ,EPSP     ,
      4     EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,
-     5     OFF      ,FOFF     ,PTHKF    ,DFMAX    ,TDEL     ,
+     5     OFF      ,FOFF     ,DFMAX    ,TDEL     ,
      6     DMG_FLAG ,DMG_SCALE,ALDT     ,TSTAR    ,ISMSTR   )
 C-----------------------------------------------
 C    tension strain failure model
@@ -67,7 +67,6 @@ C ...     |         |   |   |
 C---------+---------+---+---+--------------------------------------------
 C OFF     | NEL     | F | R | DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C FOFF    | NEL     | I |R/W| DELETED INTEGRATION POINT FLAG (=1 ON, =0 OFF)
-C PTHKF   |  1      | F | W | PERCENTAGE OF LAYER THICKNESS TO FAIL
 C DFMAX   | NEL     | F |R/W| MAX DAMAGE FACTOR 
 C TDEL    | NEL     | F | W | FAILURE TIME
 C DMG_FLAG|  1      | I | W | STRESS REDUCTION FLAG DUE TO DAMAGE
@@ -91,7 +90,6 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(OUT) :: DMG_FLAG
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,INTENT(OUT) :: PTHKF
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL,DMG_SCALE
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
@@ -122,7 +120,6 @@ C=======================================================================
       DMG_FLAG     = 1
       S_FLAG       = 1
       SCALE_FLAG   = 1
-      PTHKF        = EM06      ! % of thickness to fail <=> 1 integration point
       EPSF1        = UPARAM(1)
       EPSF2        = UPARAM(2)
       EPSP1        = UPARAM(3)

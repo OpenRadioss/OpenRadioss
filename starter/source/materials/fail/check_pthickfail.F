@@ -30,14 +30,14 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|====================================================================
-      SUBROUTINE CHECK_PTHICKFAIL(ELBUF_STR,IPARG    ,GEO      ,BUFMAT   ,
-     .                            SBUFMAT  ,IPM      ,STACK    ,IGEO     ,
+      SUBROUTINE CHECK_PTHICKFAIL(ELBUF_STR,MAT_PARAM,IPARG    ,GEO      ,
+     .                            IPM      ,STACK    ,IGEO     ,
      .                            NUMMAT   ,NUMGEO   ,NGROUP   ,NPARG    ,
      .                            NPROPMI  ,NPROPGI  ,NPROPG   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD    
+      USE MAT_ELEM_MOD    
       USE STACK_MOD
       USE MESSAGE_MOD         
 C-----------------------------------------------
@@ -47,19 +47,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: IPARG(NPARG,NGROUP),SBUFMAT,NPROPG,
+      INTEGER, INTENT(IN) :: IPARG(NPARG,NGROUP),NPROPG,
      .                       IPM(NPROPMI,NUMMAT),IGEO(NPROPGI,NUMGEO),
      .                       NUMMAT,NUMGEO,NGROUP,NPARG,NPROPMI,NPROPGI
-      TYPE(ELBUF_STRUCT_),DIMENSION(NGROUP) :: ELBUF_STR
-      my_real, INTENT(IN) :: GEO(NPROPG,NUMGEO),BUFMAT(SBUFMAT)
+      my_real, INTENT(IN) :: GEO(NPROPG,NUMGEO)
+      TYPE (ELBUF_STRUCT_) ,DIMENSION(NGROUP) :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NG,ITY,IGTYP,PID,NLAY,IRUPT,IFL,NFAIL,NPTTOT,IL,
-     .           IMAT,IADBUFR,IP,NPARAMF,ISUBSTACK,IPTHKLY,PROP_ID,MAT_ID
+      INTEGER :: NG,ITY,IGTYP,PID,NLAY,IFL,NFAIL,NPTTOT,IL,
+     .           IMAT,ISUBSTACK,IPTHKLY,PROP_ID,MAT_ID
       my_real :: P_THICKG,P_THICKFAIL,PTHKLY
-      my_real, DIMENSION(:), ALLOCATABLE :: UPARAMF
 c
       !===============================================================================
       ! CHECK PTHICKFAIL VALUE FOR SHELL PROPERTIES
@@ -101,44 +101,7 @@ c
             DO IFL = 1,NFAIL
 c
               ! Recover criterion PTHKFAIL value
-              IP      =  (IFL - 1)*15
-              IRUPT   =  ELBUF_STR(NG)%BUFLY(IL)%FAIL(1,1,1)%FLOC(IFL)%ILAWF ! -> Failure criterion type
-              NPARAMF =  IPM(112 + IP,IMAT) ! -> Number of failure criterion parameter
-              IADBUFR =  IPM(114 + IP,IMAT) ! -> Adress of 1st failure criterion parameter
-              ALLOCATE(UPARAMF(NPARAMF))
-              UPARAMF(1:NPARAMF) = BUFMAT(IADBUFR:IADBUFR+NPARAMF) ! -> Failure criterion parameters
-              SELECT CASE (IRUPT)
-                ! HASHIN
-                CASE(14)
-                  P_THICKFAIL = UPARAMF(17)
-                ! TAB1 
-                CASE(23)
-                  P_THICKFAIL = UPARAMF(3)
-                ! ORTHSTRAIN
-                CASE(24)
-                  P_THICKFAIL = UPARAMF(2)
-                ! BIQUAD 
-                CASE(30)
-                  P_THICKFAIL = UPARAMF(7)
-                ! HC_DSSE 
-                CASE(32)
-                  P_THICKFAIL = UPARAMF(6)
-                ! ORTHBIQUAD
-                CASE(38)
-                  P_THICKFAIL = UPARAMF(1)
-                ! GENE1
-                CASE(39)
-                  P_THICKFAIL = UPARAMF(22)
-                ! TAB2 
-                CASE(41)
-                  P_THICKFAIL = UPARAMF(4)
-                ! INIEVO
-                CASE(42)
-                  P_THICKFAIL = UPARAMF(5)
-                CASE DEFAULT 
-                  P_THICKFAIL = ZERO
-              END SELECT
-              IF (ALLOCATED(UPARAMF)) DEALLOCATE(UPARAMF)
+              P_THICKFAIL = MAT_PARAM(IMAT)%FAIL(IFL)%PTHK
 c
               ! Check conflicts between failure criteria and property value
               !   -> For 1 layer properties, check between global and failure criterion value

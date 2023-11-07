@@ -32,12 +32,13 @@ Chd|        TAB_STRS_TXT50                source/output/sta/sta_txt.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE STAT_C_FAIL(ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXC ,
-     2                        IXTG  ,WA,WAP0 ,IPARTC, IPARTTG,
-     3                      IPART_STATE,STAT_INDXC,STAT_INDXTG,SIZP0)
+     2                       IXTG  ,WA,WAP0 ,IPARTC, IPARTTG,
+     3                       IPART_STATE,STAT_INDXC,STAT_INDXTG,SIZP0,
+     4                       NUMMAT,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE MAT_ELEM_MOD         
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,10 +62,12 @@ C-----------------------------------------------
      .        IPARTC(*), IPARTTG(*), IPART_STATE(*),
      .        STAT_INDXC(*), STAT_INDXTG(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       double precision WA(*),WAP0(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NUMMAT
       INTEGER I,N,J,K,L,II,JJ,ID,IE,LEN,NG,NEL,NFT,ITY,LFT,LLT,NPT,
      .   MLW,IGTYP,IPRT0,IPRT,IVAR,IMAT,
      .   NPG,IPG,NLAY,NPTR,NPTS,NPTT,IL,IR,IS,IT,IPT,IC,IFAIL,NV,
@@ -156,9 +159,9 @@ c
               WA(JJ) = NPTT
 c
               DO IFAIL = 1,NFAIL 
-                IRUPT = IPM(236+IFAIL,IMAT)
-                IRUPT_TYPE = IPM(241+IFAIL,IMAT)        
-                NVAR_RUPT = FBUF%FLOC(IFAIL)%NVAR           
+                IRUPT = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID 
+                IRUPT_TYPE = MAT_PARAM(IMAT)%FAIL(IFAIL)%IRUPT 
+                NVAR_RUPT = FBUF%FLOC(IFAIL)%NVAR		       
                 JJ = JJ + 1
                 WA(JJ) = NVAR_RUPT + 1
                 JJ = JJ + 1
@@ -390,33 +393,33 @@ c
               WA(JJ) = NPTT 
 c
               DO IFAIL = 1,NFAIL 
-          IRUPT = IPM(236+IFAIL,IMAT)
-          IRUPT_TYPE = IPM(241+IFAIL,IMAT)         
-          NVAR_RUPT  = FBUF%FLOC(IFAIL)%NVAR       
-          JJ = JJ + 1
-          WA(JJ) = NVAR_RUPT + 1
-          JJ = JJ + 1
-          WA(JJ) = IRUPT
-          JJ = JJ + 1
-          WA(JJ) = IRUPT_TYPE
+                IRUPT = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID 
+                IRUPT_TYPE = MAT_PARAM(IMAT)%FAIL(IFAIL)%IRUPT 
+           	    NVAR_RUPT  = FBUF%FLOC(IFAIL)%NVAR			 
+           	    JJ = JJ + 1
+           	    WA(JJ) = NVAR_RUPT + 1
+           	    JJ = JJ + 1
+           	    WA(JJ) = IRUPT
+           	    JJ = JJ + 1
+           	    WA(JJ) = IRUPT_TYPE	
 !
                 IF (IRUPT == 0) CYCLE
 !
-                DO IT = 1,NPTT          
-            DO IS=1,NPTS                 
-              DO IR=1,NPTR          
-                      FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)               
-                UVARF => FBUF%FLOC(IFAIL)%VAR  
-                      DFMAX => FBUF%FLOC(IFAIL)%DAMMX   
-                      JJ = JJ + 1
-                      WA(JJ) = DFMAX(I)
-                DO NV=1,NVAR_RUPT
+                DO IT = 1,NPTT 		     
+           	    DO IS=1,NPTS					       
+           	    DO IR=1,NPTR 		     
+                  FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)				       
+           	      UVARF => FBUF%FLOC(IFAIL)%VAR  
+                  DFMAX => FBUF%FLOC(IFAIL)%DAMMX   
                   JJ = JJ + 1
-                  WA(JJ) = UVARF((NV-1)*LLT+I)
-                ENDDO
-              ENDDO
+                  WA(JJ) = DFMAX(I)
+                  DO NV=1,NVAR_RUPT
+                    JJ = JJ + 1
+                    WA(JJ) = UVARF((NV-1)*LLT+I)
                   ENDDO
-          ENDDO    ! IT = 1,NPTT
+                ENDDO
+                ENDDO
+                ENDDO    ! IT = 1,NPTT
               ENDDO  ! IFAIL = 1,NFAIL
             ENDDO      ! IL = 1,NLAY
 c                                                          

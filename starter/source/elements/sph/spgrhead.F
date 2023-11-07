@@ -36,13 +36,14 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPGRHEAD(KXSP    ,IXSP    ,IPARG     ,PM  ,IPART,
      2                    IPARTSP ,EADD    ,CEPSP     ,ND  ,IPM  ,
-     3                    IGEO    ,SPBUF,SPH2SOL,
-     4                    SOL2SPH ,IRST    )
+     3                    IGEO    ,SPBUF   ,SPH2SOL   ,
+     4                    SOL2SPH ,IRST    ,MAT_PARAM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MOD_SPGRHEAD
       USE MESSAGE_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,6 +65,7 @@ C-----------------------------------------------
      .        IPM(NPROPMI,NUMMAT), IGEO(NPROPGI,NUMGEO),
      .        ND, SPH2SOL(*), SOL2SPH(2,*), IRST(3,NSPHSOL)
       my_real PM(NPROPM,NUMMAT), SPBUF(NSPBUF,NUMSPH)
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -194,7 +196,7 @@ C
         JTUR=NINT(PM(70,MT))
         JTHE=NINT(PM(71,MT))
         IFAIL = 0
-        IF(IPM(111,MT) > 0) IFAIL = 1
+        IF (MAT_PARAM(MT)%NFAIL > 0) IFAIL = 1
 Clef 1
         JTHE=MY_SHIFTL(JTHE,1)
         JTUR=MY_SHIFTL(JTUR,2)

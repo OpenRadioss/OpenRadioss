@@ -40,7 +40,7 @@ Chd|====================================================================
      3       IPARTC  ,ND      ,THK       ,IGRSURF,IGRSH4N,
      4       CEP     ,XEP     ,IGEO      ,IPM    ,
      5       IPART   ,SH4TREE ,NOD2ELC   ,ISHEOFF,SH4TRIM,
-     6       TAGPRT_SMS, LGAUGE,IWORKSH,
+     6       TAGPRT_SMS, LGAUGE,IWORKSH  ,MAT_PARAM,
      7       STACK   ,DRAPE  ,RNOISE ,SH4ANG,DRAPEG, PTSHEL )
 C-----------------------------------------------
 C            A R G U M E N T S
@@ -71,6 +71,7 @@ C-----------------------------------------------
       USE REORDER_MOD
       USE GROUPDEF_MOD
       USE DRAPE_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -109,6 +110,7 @@ C-----------------------------------------------
       TYPE (DRAPEG_)                             :: DRAPEG
       TYPE (DRAPE_)  , DIMENSION(:), ALLOCATABLE :: XNUM_DRAPE
       TYPE (DRAPEG_)                             :: XNUM_DRAPEG
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT),INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSHEL)  :: IGRSH4N
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -342,11 +344,11 @@ C
         IF (IGTYP == 11) THEN
           DO IPT = 1, NPN
             IMATLY  = IGEO(100+IPT,PID)
-            NFAIL = MAX(NFAIL,IPM(220, IMATLY))
+            NFAIL = MAX(NFAIL,MAT_PARAM(IMATLY)%NFAIL)
           ENDDO 
           IF(ICRACK3D > 0)THEN
 C-          new multilayer -
-            IXFEM = IPM(236,MID)
+            IXFEM = MAT_PARAM(MID)%IXFEM
           ENDIF
         ELSEIF(IGTYP == 17) THEN
           NPN = IWORKSH(1,II)
@@ -359,7 +361,7 @@ C-          new multilayer -
 !!            IPIDL = IGEO(IPPID+IPT,PID)
             IPIDL = STACK%IGEO(IPPID  + IPT  ,ISUBSTACK)
             IMATLY  = IGEO(101,IPIDL)
-            NFAIL = MAX(NFAIL,IPM(220, IMATLY))
+            NFAIL = MAX(NFAIL,MAT_PARAM(IMATLY)%NFAIL)
           ENDDO   
         ELSEIF(IGTYP == 51 ) THEN
 C---
@@ -372,7 +374,7 @@ C---
           DO IPT = 1,NPN  ! nb of plys
             IPIDL  = STACK%IGEO(IPPID + IPT,ISUBSTACK)
             IMATLY = IGEO(101,IPIDL)
-            NFAIL  = MAX(NFAIL,IPM(220,IMATLY))
+            NFAIL  = MAX(NFAIL,MAT_PARAM(IMATLY)%NFAIL)
 C --- PID 51 combined with LAW58 ---
             IF (NINT(PM(19,IMATLY)) == 58) NB_LAW58 = NB_LAW58 + 1
           ENDDO
@@ -394,7 +396,7 @@ C---
           DO IPT = 1,NPN  ! nb of plys
             IPIDL  = STACK%IGEO(IPPID + IPT,ISUBSTACK)
             IMATLY = STACK%IGEO(IPMAT + IPT,ISUBSTACK)
-            NFAIL  = MAX(NFAIL,IPM(220,IMATLY))
+            NFAIL  = MAX(NFAIL,MAT_PARAM(IMATLY)%NFAIL)
 C --- PID 51 combined with LAW58 ---
             IF (NINT(PM(19,IMATLY)) == 58) NB_LAW58 = NB_LAW58 + 1
           ENDDO
@@ -406,10 +408,10 @@ C --- set IREP for tri criteria:
           ENDIF           
 C
         ELSE ! IGTYP == 1
-          NFAIL = IPM(220, MID)
+          NFAIL = MAT_PARAM(MID)%NFAIL
           IF(ICRACK3D > 0)THEN
 C -         new monolayer -
-            IXFEM = IPM(236,MID)
+            IXFEM = MAT_PARAM(MID)%IXFEM
             IF (IXFEM == 1) THEN
               IXFEM = 2
               ICRACK3D = IXFEM

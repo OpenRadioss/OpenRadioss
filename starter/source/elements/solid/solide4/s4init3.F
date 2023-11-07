@@ -61,7 +61,7 @@ Chd|====================================================================
      8   MCP      ,MCPS    ,TEMP    ,NPF     ,TF      ,
      9   IUSER    ,SIGSP   ,NSIGI   ,MSSA    ,XREFS   ,
      A   STRSGLOB ,STRAGLOB,FAIL_INI,SPBUF   ,SOL2SPH ,
-     B   ILOADP   ,FACLOAD ,RNOISE  ,PERTURB )
+     B   ILOADP   ,FACLOAD ,RNOISE  ,PERTURB ,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,6 +70,7 @@ C-----------------------------------------------
       USE BPRELOAD_MOD
       USE DETONATORS_MOD      
       USE ALE_CONNECTIVITY_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -110,6 +111,7 @@ C-----------------------------------------------
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
       TYPE(DETONATORS_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -292,7 +294,7 @@ c Failure model initialisation
 C----------------------------------------
       CALL FAILINI(ELBUF_STR,NPTR,NPTS,NPTT,NLAY,
      .             IPM,SIGSP,NSIGI,FAIL_INI ,
-     .             SIGI,NSIGS,IXS,NIXS,PTSOL,RNOISE,PERTURB,BUFMAT)
+     .             SIGI,NSIGS,IXS,NIXS,PTSOL,RNOISE,PERTURB,MAT_PARAM)
 C----------------------------------------
 c initialisation inibri/eref
 C----------------------------------------
