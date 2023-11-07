@@ -202,7 +202,6 @@ C-----------------------------------------------
 #include      "tabsiz_c.inc"
 #include      "intstamp_c.inc"
 #include      "macro.inc"
-#include      "my_allocate.inc"
 #include      "sysunit.inc"
 C-----------------------------------------------
 C   E x t e r n a l  F u n c t i o n s

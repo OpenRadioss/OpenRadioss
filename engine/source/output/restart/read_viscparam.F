@@ -41,14 +41,11 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE VISC_PARAM_MOD
       USE NAMES_AND_TITLES_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -96,8 +93,8 @@ c       read material title
 c       read viscosity parameter arrays
         NUPARAM = VISC%NUPARAM
         NIPARAM = VISC%NIPARAM
-        MY_ALLOCATE(VISC%UPARAM ,NUPARAM)
-        MY_ALLOCATE(VISC%IPARAM ,NIPARAM)
+        CALL MY_ALLOC(VISC%UPARAM ,NUPARAM)
+        CALL MY_ALLOC(VISC%IPARAM ,NIPARAM)
 
         IF (NUPARAM > 0) THEN
           CALL READ_DB(VISC%UPARAM  ,NUPARAM)

@@ -52,7 +52,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "task_c.inc"
 #include      "com01_c.inc"
-#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

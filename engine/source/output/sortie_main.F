@@ -191,7 +191,6 @@ C-----------------------------------------------
 #include      "fxbcom.inc"
 #include      "filescount_c.inc"
 #include      "intstamp_c.inc"
-#include      "my_allocate.inc"
 #include      "chara_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
