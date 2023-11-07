@@ -50,8 +50,6 @@ Chd|        CRKOFFC                       source/elements/xfem/precrklay.F
 Chd|        CSENS3                        source/elements/shell/coque/csens3.F
 Chd|        CSSP2A11                      source/elements/sh3n/coque3n/cssp2a11.F
 Chd|        CSTRA3                        source/elements/shell/coque/cstra3.F
-Chd|        CSUBC3                        source/elements/shell/coque/csubc3.F
-Chd|        CSUBF3                        source/elements/shell/coque/csubf3.F
 Chd|        CUPDT3                        source/elements/shell/coque/cupdt3.F
 Chd|        CUPDT3F                       source/elements/shell/coque/cupdt3.F
 Chd|        CUPDT3P                       source/elements/shell/coque/cupdt3.F

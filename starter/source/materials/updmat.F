@@ -58,6 +58,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
+Chd|        VISC_PARAM_MOD                ../common_source/modules/mat_elem/visc_param_mod.F
 Chd|====================================================================
       SUBROUTINE UPDMAT(BUFMAT   ,PM    ,IPM       ,TABLE    ,FUNC_ID  ,
      .                  NPC      ,PLD   ,SENSORS   ,NLOC_DMG ,MLAW_TAG ,

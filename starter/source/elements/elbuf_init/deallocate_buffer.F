@@ -29,7 +29,6 @@ Chd|        DEALLOCATE_ONE_ELEMENT_GROUP  source/elements/elbuf_init/deallocate_
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|====================================================================
       SUBROUTINE DEALLOCATE_ELBUF(
      .           ELBUF_TAB ,IGEO      ,IPARG    , IXS      ,IXC      ,IXTG      ,

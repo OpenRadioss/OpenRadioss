@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        MATPARAM_DEF_MOD              common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        HM_READ_VISC_LPRONY           starter/source/materials/visc/hm_read_visc_lprony.F
 Chd|        HM_READ_VISC_PRONY            starter/source/materials/visc/hm_read_visc_prony.F
+Chd|        UPDMAT                        starter/source/materials/updmat.F
 Chd|        WRITE_VISCPARAM               starter/source/materials/mat/write_viscparam.F
 Chd|        READ_VISCPARAM                engine/source/output/restart/read_viscparam.F
 Chd|        VISCMAIN                      engine/source/materials/visc/viscmain.F

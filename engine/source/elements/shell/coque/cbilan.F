@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
 Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
 Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
-Chd|        CSUBC3                        source/elements/shell/coque/csubc3.F
 Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
 Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
 Chd|-- calls ---------------

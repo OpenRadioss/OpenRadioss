@@ -31,7 +31,6 @@ Chd|        ST_QAPRINT_TIME_HISTORIES     starter/source/output/qaprint/st_qapri
 Chd|        ALEMAIN                       engine/source/ale/alemain.F   
 Chd|        BFORC2                        engine/source/ale/bimat/bforc2.F
 Chd|        CFORC3                        engine/source/elements/shell/coque/cforc3.F
-Chd|        CSUBC3                        engine/source/elements/shell/coque/csubc3.F
 Chd|        ECRIT                         engine/source/output/ecrit.F  
 Chd|        ENG_QAPRINT_DRIVER            engine/source/output/qaprint/eng_qaprint_driver.F
 Chd|        FORINT                        engine/source/elements/forint.F

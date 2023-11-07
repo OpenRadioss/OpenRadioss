@@ -39,7 +39,6 @@ Chd|        CMAINI3                       source/elements/sh3n/coquedk/cmaini3.F
 Chd|        CORTHDIR                      source/elements/shell/coque/corthdir.F
 Chd|        CORTHINI                      source/elements/shell/coque/corthini.F
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
-Chd|        DEALLOCATE_ELBUF              source/elements/elbuf_init/deallocate_buffer.F
 Chd|        ELBUF_INI                     source/elements/elbuf_init/elbuf_ini.F
 Chd|        HM_READ_ANIM                  source/general_controls/engine/hm_read_anim.F
 Chd|        HM_READ_DRAPE                 source/properties/composite_options/drape/hm_read_drape.F
