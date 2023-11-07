@@ -55,9 +55,9 @@ Set the following environment variables:
 
         set PATH=%OPENRADIOSS_PATH%\extlib\intelOneAPI_runtime\win64;%PATH%
 
-*  If OpenRadioss was build from the Source code, use the Intel Runtime from the used compiler. 
+*  If OpenRadioss was built from the Source code, use the Intel Runtime from the used compiler.
    The Intel oneAPI compiler installed and used for building the binaries could be more recent than the one used for building the Releases.
-   In this case the Runtimes may not be not compatible.
+   In this case the Runtimes may not be compatible.
 
    In a typical installation, OneAPI variables are load with following command : 
 
@@ -65,7 +65,7 @@ Set the following environment variables:
 
 ### Environment variables settings under Windows Cygwin shell
 
-* If OpenRadioss was build from Source code, load the Intel oneAPI variables prior to launch Cygwin. This will load the appropriate 
+* If OpenRadioss was built from source code, load the Intel oneAPI variables prior to launch Cygwin. This will load the appropriate
   Runtime libraries.
 
         call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019
@@ -135,7 +135,7 @@ Note that variables `RAD_CFG_PATH` and `RAD_H3D_PATH` start with `c:` unlike the
 
 #### Under Windows in cmd shell
 
-* Intel OneAPI MPI must be installed and setup. Variables can le load separately : 
+* Intel OneAPI MPI must be installed and setup. Variables can le load separately:
 
         call [Path to Intel OneAPI]\env\vars.bat
 
