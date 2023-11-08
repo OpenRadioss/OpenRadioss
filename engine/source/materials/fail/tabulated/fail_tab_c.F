@@ -28,7 +28,7 @@ Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_she
 Chd|-- calls ---------------
 Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
 Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
-Chd|        VINTER                        source/tools/curve/vinter.F   
+Chd|        VINTER2                       source/tools/curve/vinter.F   
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

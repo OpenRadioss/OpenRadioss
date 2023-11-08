@@ -293,7 +293,6 @@ Chd|        ENRICHTG_INI                  engine/source/elements/xfem/enrichtg_i
 Chd|        ERR_THK                       engine/source/elements/shell/err_thk.F
 Chd|        FAIL_BEAM18                   engine/source/elements/beam/fail_beam18.F
 Chd|        FAIL_BEAM3                    engine/source/elements/beam/fail_beam3.F
-Chd|        FAIL_GENE1_C                  engine/source/materials/fail/gene1/fail_gene1_c.F
 Chd|        FAIL_GENE1_S                  engine/source/materials/fail/gene1/fail_gene1_s.F
 Chd|        FAIL_SETOFF_C                 engine/source/materials/fail/fail_setoff_c.F
 Chd|        FAIL_SETOFF_NPG_C             engine/source/materials/fail/fail_setoff_npg_c.F

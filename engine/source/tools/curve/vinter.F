@@ -24,7 +24,6 @@ Chd|====================================================================
 Chd|  VINTER                        source/tools/curve/vinter.F   
 Chd|-- called by -----------
 Chd|        FAIL_FLD_C                    source/materials/fail/fld/fail_fld_c.F
-Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_tab_c.F
 Chd|        FAIL_TAB_OLD_C                source/materials/fail/tabulated/fail_tab_old_c.F
 Chd|        FIXTEMP                       source/constraints/thermic/fixtemp.F
 Chd|        MAT122C_NEWTON                source/materials/mat/mat122/mat122c_newton.F
@@ -102,6 +101,7 @@ Chd|  VINTER2                       source/tools/curve/vinter.F
 Chd|-- called by -----------
 Chd|        FAIL_ORTHSTRAIN               source/materials/fail/orthstrain/fail_orthstrain_s.F
 Chd|        FAIL_ORTHSTRAIN_C             source/materials/fail/orthstrain/fail_orthstrain_c.F
+Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_tab_c.F
 Chd|        M36ITER_IMP                   source/materials/mat/mat036/m36iter_imp.F
 Chd|        MAT121C_NEWTON                source/materials/mat/mat121/mat121c_newton.F
 Chd|        MAT121C_NICE                  source/materials/mat/mat121/mat121c_nice.F
