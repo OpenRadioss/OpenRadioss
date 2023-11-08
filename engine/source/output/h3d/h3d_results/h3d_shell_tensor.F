@@ -658,7 +658,7 @@ c               PLY=IPLY NPT=IPT
                   ENDDO
                 ENDIF
 c
-              ELSEIF (ILAY > 0 .AND. ILAY <= NLAY .AND. IPLY == -1 .AND. IPT == -1) THEN
+              ELSEIF (ILAY > 0 .AND. ILAY <= NLAY .AND. IPLY == -1) THEN
 c               ILAYER=IL  PLY=NULL NPT=NULL
                 IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN
                   FACTOR = HALF*(((2*ILAY-ONE)/NLAY)-ONE)
