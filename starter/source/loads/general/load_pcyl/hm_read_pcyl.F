@@ -84,12 +84,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,LOAD_ID,TABLE_ID,SURF_ID,SENS_ID,FRAME_ID,UID,ISENS,ISS,
-     .        NOFRA,SUB_INDX,NSEG,ITABLE,STAT,NLOAD_CYL,IMOV
-      my_real :: X_R,X_T,YFAC,FAC_R,FAC_T,FAC_P
-      CHARACTER MESS*40,TITR*nchartitle
-      LOGICAL IS_AVAILABLE
-      DATA MESS/'CYLINDRICAL PRESSURE LOADS DEFINITION               '/
+        INTEGER I,J,LOAD_ID,TABLE_ID,SURF_ID,SENS_ID,FRAME_ID,UID,ISENS,ISS,
+     .          NOFRA,SUB_INDX,NSEG,ITABLE,STAT,NLOAD_CYL,IMOV
+        my_real :: X_R,X_T,YFAC,FAC_R,FAC_T,FAC_P
+        CHARACTER MESS*40,TITR*nchartitle
+        LOGICAL IS_AVAILABLE
+        DATA MESS/'CYLINDRICAL PRESSURE LOADS DEFINITION   '/
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -165,7 +165,7 @@ c        internal_SURF_ID =  NGR2USR(SURF_ID,INGR2USR,NSURF)
           DO J=1,NSURF
             IF (SURF_ID == IGRSURF(J)%ID) THEN
               ISS = J
-	             NSEG = IGRSURF(ISS)%NSEG
+                     NSEG = IGRSURF(ISS)%NSEG
               EXIT
             ENDIF                             
           ENDDO 
@@ -186,13 +186,13 @@ c---------------------------------------------------------------------------
         ITABLE = 0
         IF (TABLE_ID > 0) THEN
           DO J=1,NTABLE
-	           IF (TABLE_ID == TABLE(J)%NOTABLE) THEN
+                   IF (TABLE_ID == TABLE(J)%NOTABLE) THEN
               ITABLE = J
               EXIT
             ENDIF
-	         ENDDO
+                 ENDDO
         ENDIF
-	       IF (ITABLE == 0) THEN
+               IF (ITABLE == 0) THEN
            CALL ANCMSG(MSGID=488,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              C1='LOAD PCYL',
      .              C2='LOAD PCYL',
@@ -205,11 +205,11 @@ c
         ISENS = 0
         IF (SENS_ID > 0) THEN
           DO J=1,NSENSOR
-	           IF (SENS_ID == SENSOR_TAB(J)%SENS_ID) THEN
+                   IF (SENS_ID == SENSOR_TAB(J)%SENS_ID) THEN
               ISENS = J
               EXIT
             ENDIF
-	         ENDDO
+                 ENDDO
         ENDIF
 c
 c       check local frame
@@ -225,7 +225,7 @@ c
             ENDIF
           ENDDO
         ENDIF
-	       IF (NOFRA == 0) THEN
+        IF (NOFRA == 0) THEN
             CALL ANCMSG(MSGID=490, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
      .           C1='/LOAD/PCYL',
      .           I1=LOAD_ID,
@@ -249,7 +249,7 @@ c       OUTPUT
 c---------------------------------------------------------------------------
         WRITE (IOUT,1000) LOAD_ID,FRAME_ID,SENS_ID,TABLE_ID,SURF_ID,NSEG,
      .                    X_R,X_T,YFAC
-	     ENDDO
+        ENDDO
 c-----------
  1000 FORMAT(
      & 5X,'                         '/,

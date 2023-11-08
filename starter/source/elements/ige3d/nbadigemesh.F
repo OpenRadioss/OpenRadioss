@@ -100,7 +100,7 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER NINTRI
 C-----------------------------------------------
-      DATA MESS /'OPTIONS FOR ISOGEOMETRIC MESHING DEFINITION '/
+      DATA MESS /'OPTIONS FOR ISOGEOMETRIC MESHING DEFINITION'/
 C-----------------------------------------------
       IPART=0
       NCTRLMAX=0
