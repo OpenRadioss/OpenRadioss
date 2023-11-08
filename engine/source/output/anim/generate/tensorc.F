@@ -799,8 +799,12 @@ c
                 END IF
                 MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
                 IF (MAT_ORTH == 2) THEN
-                  DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA  
-                  CALL UROTO_TENS2D(NEL,SIGE,DIR_A)
+                 IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP ==52)) THEN
+                   DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%LBUF_DIR(IPT)%DIRA 
+                 ELSE
+                   DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA 
+                 ENDIF  
+                 CALL UROTO_TENS2D(NEL,SIGE,DIR_A)
                 END IF
 c
                 DO I=LFT,LLT
@@ -1091,7 +1095,7 @@ c
 c
                           MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
                           IF (MAT_ORTH > 0) THEN                 
-                            IF (IDRAPE > 0 ) THEN
+                            IF (IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP ==52) ) THEN
                               DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%LBUF_DIR(IPT)%DIRA
                               DIR_B => ELBUF_TAB(NG)%BUFLY(IL)%LBUF_DIR(IPT)%DIRB
                             ELSE                                            
