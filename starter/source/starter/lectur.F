@@ -8545,7 +8545,7 @@ C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
           FLAG_XFEM = 0
           CALL DEALLOCATE_ELBUF(
      .               ELBUF_TAB, IGEO     ,IPARG    ,IXS      ,IXC      ,IXTG     ,
-     .               IXT      ,IXP      ,IXR      ,KXX       ,GEO )
+     .               FLAG_XFEM, IXT      ,IXP      ,IXR      ,KXX       )
           DEALLOCATE(ELBUF_TAB)
 C       XFEM buffer deallocation
           IF(ICRACK3D > 0) THEN
@@ -8553,7 +8553,7 @@ C       XFEM buffer deallocation
             DO IXEL=1,NXEL
               CALL DEALLOCATE_ELBUF(
      .               XFEM_TAB(1:NGROUP,IXEL),IGEO     ,IPARG    ,IXS      ,IXC      ,IXTG    ,
-     .               IXT      ,IXP      ,IXR      ,KXX       ,GEO  )
+     .               FLAG_XFEM              ,IXT      ,IXP      ,IXR      ,KXX        )
             ENDDO
           ENDIF
 C
