@@ -349,7 +349,7 @@ c               /TENS/STRESS/PLY=.../NPT=...
                    END IF 
                    MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
                    IF (MAT_ORTH > 0) THEN                 
-                        IF (IDRAPE > 0 ) THEN
+                        IF (IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52) ) THEN
                           DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(IPT)%DIRA
                           DIR_B => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(IPT)%DIRB
                         ELSE                                            
@@ -726,7 +726,7 @@ c
                       IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT                          
                       MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
                       IF (MAT_ORTH > 0) THEN                 
-                        IF (IDRAPE > 0 ) THEN
+                        IF (IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52) ) THEN
                           DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(IPT)%DIRA
                           DIR_B => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(IPT)%DIRB
                         ELSE                                            

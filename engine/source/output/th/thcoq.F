@@ -74,10 +74,10 @@ C-----------------------------------------------
      .   ISTRAIN,NU,NUVAR,NUVARV,NUVARD,IGTYP,IHBE,NBD1,NBD2,NBD3,
      .   IFAILURE,IADD,ISROT,IVISC,IPMAT,PTMAT,ISHPLYXFEM,IPMAT_IPLY,
      .   MAT_IPLY,NBDELM,IWA,NV,NGL,IIGEO,IADI,ISUBSTACK,ITHK,NPT_ALL,
-     .   MATLY,KK(8),IPINCH,IPG,IMAT,MAT_ORTH
+     .   MATLY,KK(8),IPINCH,IPG,IMAT,MAT_ORTH, IDRAPE
       INTEGER PID(MVSIZ),MAT(MVSIZ)
       INTEGER :: NITER,IAD,NN,IADV,NVAR,ITYP,IJK
-      my_real :: WWA(50000),FUNC(6),SIG(5)
+      my_real :: WWA(50000),FUNC(6),SIG(5),SIGG(5)
       my_real ,DIMENSION(MVSIZ) :: DAM1,DAM2,WPLA,DMAX,WPMAX,
      .   FAIL,FAIL1,FAIL2,FAIL3
       my_real :: F1,F2,F3,F4,F5,F11,F22,F33,F44,F55,CP,SP,MM1,MM2,MM3,
@@ -131,6 +131,7 @@ C-------------------
           NPTS = ELBUF_TAB(NG)%NPTS    
           NPTT = ELBUF_TAB(NG)%NPTT    
           NLAY = ELBUF_TAB(NG)%NLAY
+          IDRAPE = ELBUF_TAB(NG)%IDRAPE
           NPG  = NPTR*NPTS
 cc         NPT  = NLAY*NPTT ! not compatible with PID51 (shell)
           MPT   = MAX(1,NPT)
@@ -336,42 +337,82 @@ c----------------------
 c              Stress tensor
 c----------------------
 c----           mean stress over Gauss points in each layer
-                DO IL = 1,NLAY                                        
-                  BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
-                  IMAT  = BUFLY%IMAT                          
-                  NPTT  = BUFLY%NPTT
-                  SIG(1:5) = ZERO
-                  K = 183 + (IL-1)*5
-                  DO IR=1,NPTR                    
-                    DO IS=1,NPTS       
+                IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52) )THEN
+                    DO IL = 1,NLAY                                                               
+                      BUFLY => ELBUF_TAB(NG)%BUFLY(IL)                                           
+                      IMAT  = BUFLY%IMAT                                                         
+                      NPTT  = BUFLY%NPTT   
+                      K = 183 + (IL-1)*5
+                      SIGG(1:5) = ZERO
                       DO IT=1,NPTT
-                        LBUF => BUFLY%LBUF(IR,IS,IT)
-                        DO J = 1,5
-                          SIG(J) = SIG(J) + LBUF%SIG(KK(J) + I) / (NPTT*NPG)
+                        DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%LBUF_DIR(IT)%DIRA  
+                        SIG(1:5) = ZERO
+                        DO IR=1,NPTR                    
+                          DO IS=1,NPTS     
+                            LBUF => BUFLY%LBUF(IR,IS,IT)
+                            DO J = 1,5
+                              SIG(J) = SIG(J) + LBUF%SIG(KK(J) + I) / NPG
+                            ENDDO
+                          ENDDO
+                        ENDDO
+                        D1  = DIR_A(I)
+                        D2  = DIR_A(I+NEL)
+                        D11 = D1*D1
+                        D22 = D2*D2
+                        D12 = D1*D2
+                        SIGG(1)  = SIGG(1) + (D11*SIG(1) + D22*SIG(2) + TWO*D12 *SIG(3)) /NPTT
+                        SIGG(2)  = SIGG(2) + (D22*SIG(1) + D11*SIG(2) - TWO*D12 *SIG(3)) /NPTT
+                        SIGG(3)  = SIGG(3) + (D12*SIG(2) + (D11-D22)*SIG(3) -D12*SIG(1)) /NPTT
+                        SIGG(4)  = SIGG(4) + (D1 *SIG(4) - D2 *SIG(5)) / NPTT
+                        SIGG(5)  = SIGG(5) + (D1 *SIG(5) + D2 *SIG(4)) / NPTT
+                      ENDDO 
+                       WWA(K + 1) =SIGG(1)
+                       WWA(K + 2) =SIGG(2)
+                       WWA(K + 3) =SIGG(3)
+                       WWA(K + 4) =SIGG(4)
+                       WWA(K + 5) =SIGG(5)
+                    ENDDO    ! DO IL=1,NLAY          
+                ELSE
+                    DO IL = 1,NLAY                                        
+                      BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+                      IMAT  = BUFLY%IMAT                          
+                      NPTT  = BUFLY%NPTT
+                      SIG(1:5) = ZERO
+                      K = 183 + (IL-1)*5
+                      DO IR=1,NPTR                    
+                        DO IS=1,NPTS       
+                          DO IT=1,NPTT
+                            LBUF => BUFLY%LBUF(IR,IS,IT)
+                            DO J = 1,5
+                              SIG(J) = SIG(J) + LBUF%SIG(KK(J) + I) / (NPTT*NPG)
+                            ENDDO
+                          ENDDO
                         ENDDO
                       ENDDO
-                    ENDDO
-                  ENDDO
-                  MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
-                  IF (MAT_ORTH == 1) THEN                 
-                    DO J = 1,5
-                      WWA(K + J) = SIG(J)
-                    ENDDO
-                  ELSE IF (MAT_ORTH == 2) THEN   !  rotate sig to global coord             
-                    DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA
-                    D1  = DIR_A(I)
-                    D2  = DIR_A(I+NEL)
-                    D11 = D1*D1
-                    D22 = D2*D2
-                    D12 = D1*D2
-                    WWA(K + 1) = D11*SIG(1) + D22*SIG(2) + TWO*D12 *SIG(3)
-                    WWA(K + 2) = D22*SIG(1) + D11*SIG(2) - TWO*D12 *SIG(3)
-                    WWA(K + 3) =-D12*SIG(1) + D12*SIG(2) +(D11-D22)*SIG(3)
-                    WWA(K + 4) =-D2 *SIG(5) + D1 *SIG(4)
-                    WWA(K + 5) = D1 *SIG(5) + D2 *SIG(4)
-                  END IF
-                ENDDO    ! DO IL=1,NLAY                                                                     
-c
+                      MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
+                      IF (MAT_ORTH == 1) THEN                 
+                        DO J = 1,5
+                          WWA(K + J) = SIG(J)
+                        ENDDO
+                      ELSE IF (MAT_ORTH == 2) THEN   !  rotate sig to global coord  
+                        IF(IDRAPE == 0) THEN           
+                          DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA
+                        ELSE
+                          DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%LBUF_DIR(1)%DIRA ! to check
+                        ENDIF
+                        D1  = DIR_A(I)
+                        D2  = DIR_A(I+NEL)
+                        D11 = D1*D1
+                        D22 = D2*D2
+                        D12 = D1*D2
+                        WWA(K + 1) = D11*SIG(1) + D22*SIG(2) + TWO*D12 *SIG(3)
+                        WWA(K + 2) = D22*SIG(1) + D11*SIG(2) - TWO*D12 *SIG(3)
+                        WWA(K + 3) =-D12*SIG(1) + D12*SIG(2) +(D11-D22)*SIG(3)
+                        WWA(K + 4) =-D2 *SIG(5) + D1 *SIG(4)
+                        WWA(K + 5) = D1 *SIG(5) + D2 *SIG(4)
+                      END IF
+                    ENDDO    ! DO IL=1,NLAY 
+                ENDIF ! idrape
 c------------   Viscous stress
 c
                 DO IL = 1,NLAY                                        
