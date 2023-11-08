@@ -69,7 +69,7 @@ C-----------------------------------------------
       WRITE(10, "(A5)") "/NODE"
       WRITE(10, "(A100)") RAD_INTER
       DO II = NB_TOTAL_NODE_OLD + 1, NB_TOTAL_NODE
-         WRITE(10, "(I10, 1PG20.13, 1PG20.13, 1PG20.13)"), ITAB_TMP(II), 
+         WRITE(10, "(I10, 1PG20.13, 1PG20.13, 1PG20.13)") ITAB_TMP(II), 
      .        NODE_COORD(1, II), NODE_COORD(2, II), NODE_COORD(3, II)
       ENDDO
 C     VOID MATERIAL

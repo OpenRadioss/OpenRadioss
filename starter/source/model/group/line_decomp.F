@@ -59,14 +59,6 @@ C I reuse last field to store the processor ID.
 C When lines are taken care in Element Grouping 
 C   1. Set processor only when no element is set in lines
 C   2. Split lines accordingly
-!
-!        /\
-!       /  \
-!      / |  \ 
-!     /  |   \
-!    /   o    \
-!   /__________\
-!
 !       /LINE are not used in the engine and the split is wrong in
 !       case of useless line (ie. when a line is defined but not 
 !       used by an interface or other stuffs) --> 
