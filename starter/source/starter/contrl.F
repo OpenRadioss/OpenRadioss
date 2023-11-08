@@ -2041,7 +2041,8 @@ C---- read ipart_id if there are
              ELSE
                J=1
                NPRT = 0
-               DO WHILE(CARTE(1:1) /= '/' .AND. LEN_C /= 0) 
+               DO WHILE(CARTE(1:1) /= '/' .AND. CARTE(1:1) /= '#' .AND. 
+     .                  CARTE(1:1) /= '$' .AND. LEN_C /= 0) 
                  DO WHILE (J <= LEN_C)
                   IF(CARTE(J:J) /= ' ') THEN
                     K=J
@@ -2059,7 +2060,7 @@ C---- read ipart_id if there are
                  LEN_C = LEN_TRIM(CARTE)
                  IF(CARTE(LEN_C:LEN_C)==CHAR(13)) LEN_C = LEN_C - 1
                END DO
-     	       IF (NPRT==0) THEN
+     	         IF (NPRT==0) THEN
                  NPRT = NPART
                  NTM_PART(1:NPRT) = 1
                END IF

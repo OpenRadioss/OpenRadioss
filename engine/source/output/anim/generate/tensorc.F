@@ -378,7 +378,7 @@ C------------------------
               NS1 = 8
               NS2 = 8
               IPT = MIN(MPT,ITENS-200)
-              IF (ITENS - 200 > MPT) THEN
+              IF ((ITENS - 200 > MPT) .OR. IGTYP == 51 .OR. IGTYP == 52 .OR. IGTYP == 17) THEN
                 A1 = ZERO
                 A2 = ZERO
               ELSE
@@ -824,7 +824,7 @@ c
                 ! /TENS/STRESS/PLY_ID  <=> IGTYP = 17
 
                 IPT = ITENS-100
-                IF (IGTYP == 51 .OR. IGTYP == 52) THEN
+                IF (IGTYP == 51 .OR. IGTYP == 52 .OR. IGTYP == 17) THEN
                   INPUT_ERROR = 1  ! IGTYP 51,52 does not support this syntax
                 ELSE
                   IF (IGTYP == 1 .OR. IGTYP == 9) THEN
@@ -833,17 +833,6 @@ c
                   ELSE IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN
                     IL  = MIN(IPT, ELBUF_TAB(NG)%NLAY)
                     IPT = 1
-                  ELSE IF (IGTYP == 17) THEN    ! defined by ply ID
-                    IPLY = IPT
-                    IPT = 1
-                    IL  = 1
-                    DO J=1,NLAY
-                      ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
-                      IF (ID_PLY == IPLY) THEN
-                        IL = J
-                        EXIT
-                      END IF
-                    END DO
                   END IF
 c
                   IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT                          
@@ -1078,7 +1067,7 @@ c
                       ELSE IF (IGTYP == 52) THEN
                         ID_PLY = PLY_INFO(1,STACK%IGEO(2+IL,ISUBSTACK) - NUMSTACK)
                       END IF
-                      IF (ID_PLY == IPLY) THEN
+                      IF (ID_PLY == PLY_ANIM_STRESS(3*(IPLY - 1) + 1)) THEN
                         IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT                          
                         IVISC = IPM(222,IMAT)    
                         IF (IPT <= ELBUF_TAB(NG)%BUFLY(IL)%NPTT) THEN 
