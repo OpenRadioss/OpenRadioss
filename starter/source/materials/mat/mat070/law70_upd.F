@@ -26,11 +26,11 @@ Chd|-- called by -----------
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FUNC_COMP                     source/materials/mat/mat076/law76_upd.F
-Chd|        TABLE2D_INTERSECT             source/tools/curve/table2d_intersect.F
-Chd|        MAT_PARAM_DEF_MOD              ../common_source/modules/mat_elem/MAT_PARAM_def_mod.F
+Chd|        LAW70_TABLE                   source/materials/mat/mat070/law70_table.F
+Chd|        TABLE_SLOPE                   source/materials/tools/table_slope.F
+Chd|        VW_SMOOTH                     source/tools/curve/vw_smooth.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE LAW70_UPD(MAT_PARAM,TITR     ,MAT_ID   ,NUPARAM  ,UPARAM   ,
      .                     NFUNC    ,IFUNC    ,NPC      ,PLD      ,EMAX     ,

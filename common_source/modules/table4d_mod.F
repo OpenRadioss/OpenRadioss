@@ -26,8 +26,10 @@ Chd|-- called by -----------
 Chd|        FAIL_PARAM_MOD                common_source/modules/mat_elem/fail_param_mod.F
 Chd|        MATPARAM_DEF_MOD              common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        VISC_PARAM_MOD                common_source/modules/mat_elem/visc_param_mod.F
-Chd|        TABLE_WRESTI_MAT              starter/source/materials/tools/table_wresti_mat.F
-Chd|        TABLE_WRESTR_MAT              starter/source/materials/tools/table_wrestr_mat.F
+Chd|        LAW70_TABLE                   starter/source/materials/mat/mat070/law70_table.F
+Chd|        TABLE_MAT_VINTERP             starter/source/materials/tools/table_mat_vinterp.F
+Chd|        TABLE_SLOPE                   starter/source/materials/tools/table_slope.F
+Chd|        WRITE_MAT_TABLE               starter/source/materials/tools/write_mat_table.F
 Chd|        ASSO_PLAS76                   engine/source/materials/mat/mat076/asso_plas76.F
 Chd|        ASSO_QPLAS76C                 engine/source/materials/mat/mat076/asso_qplas76c.F
 Chd|        CONDAMAGE                     engine/source/materials/mat/mat190/condamage.F
@@ -35,11 +37,10 @@ Chd|        CONVERSION                    engine/source/materials/mat/mat190/con
 Chd|        NO_ASSO_LPLAS76C              engine/source/materials/mat/mat076/no_asso_lplas76c.F
 Chd|        NO_ASSO_PLAS76                engine/source/materials/mat/mat076/no_asso_plas76.F
 Chd|        NO_ASSO_QPLAS76C              engine/source/materials/mat/mat076/no_asso_qplas76c.F
+Chd|        READ_MAT_TABLE                engine/source/materials/tools/read_mat_table.F
 Chd|        TABLE_MAT_VINTERP             engine/source/materials/tools/table_mat_vinterp.F
 Chd|        TABLE_RRESTI_MAT              engine/source/materials/tools/table_rresti_mat.F
-Chd|        TABLE_RRESTR_MAT              engine/source/materials/tools/table_rrestr_mat.F
-Chd|        TABLE_WRESTI_MAT              engine/source/materials/tools/table_wresti_mat.F
-Chd|        TABLE_WRESTR_MAT              engine/source/materials/tools/table_wrestr_mat.F
+Chd|        WRITE_MAT_TABLE               engine/source/materials/tools/write_mat_table.F
 Chd|-- calls ---------------
 Chd|        TABLE_MOD                     starter/share/modules1/table_mod.F
 Chd|        TABLE_MOD                     engine/share/modules/table_mod.F

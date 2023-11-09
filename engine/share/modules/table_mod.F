@@ -165,6 +165,7 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  INTERFACE_TABLE_MOD           share/modules/table_mod.F     
 Chd|-- called by -----------
+Chd|        FAIL_GENE1_C                  source/materials/fail/gene1/fail_gene1_c.F
 Chd|        FAIL_GENE1_S                  source/materials/fail/gene1/fail_gene1_s.F
 Chd|        FAIL_INIEVO_C                 source/materials/fail/inievo/fail_inievo_c.F
 Chd|        FAIL_INIEVO_S                 source/materials/fail/inievo/fail_inievo_s.F

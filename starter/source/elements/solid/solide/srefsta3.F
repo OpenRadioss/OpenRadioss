@@ -39,7 +39,7 @@ Chd|        SRROTA3                       source/elements/solid/solide/srrota3.F
 Chd|        STORTH3                       source/elements/solid/solidez/szorth3.F
 Chd|        SZORDEF3                      source/elements/solid/solidez/szorth3.F
 Chd|        SZREFDERI3                    source/elements/solid/solide/srefsta3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SREFSTA3(ELBUF_STR,IXS     ,PM     ,GEO     ,IPARG  ,

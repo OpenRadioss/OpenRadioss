@@ -21,8 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|               source/tools/curve/vw_smooth.F
+Chd|  VW_SMOOTH                     source/tools/curve/vw_smooth.F
 Chd|-- called by -----------
+Chd|        LAW36_UPD                     source/materials/mat/mat036/law36_upd.F
+Chd|        LAW70_TABLE                   source/materials/mat/mat070/law70_table.F
+Chd|        LAW70_UPD                     source/materials/mat/mat070/law70_upd.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE VW_SMOOTH(NPT,NTARGET,X,Y)

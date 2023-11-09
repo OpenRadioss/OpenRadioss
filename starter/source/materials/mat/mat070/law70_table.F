@@ -21,15 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  LAW70_UPD                     source/materials/mat/mat070/law70_upd.F
+Chd|  LAW70_TABLE                   source/materials/mat/mat070/law70_table.F
 Chd|-- called by -----------
-Chd|        UPDMAT                        source/materials/updmat.F     
+Chd|        LAW70_UPD                     source/materials/mat/mat070/law70_upd.F
 Chd|-- calls ---------------
-Chd|        FUNC_COMP                     source/materials/mat/mat076/law76_upd.F
-Chd|        TABLE2D_INTERSECT             source/tools/curve/table2d_intersect.F
-Chd|        MAT_PARAM_DEF_MOD              ../common_source/modules/mat_elem/MAT_PARAM_def_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
+Chd|        FUNC2D_DEINTERSECT            source/materials/tools/func2d_deintersect.F
+Chd|        UNIFY_ABSCISSA_2D             source/materials/tools/unify_abscissas_2d.F
+Chd|        VW_SMOOTH                     source/tools/curve/vw_smooth.F
+Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|====================================================================
       SUBROUTINE LAW70_TABLE(TABLE  ,LMAX   ,NFUNC  ,LEN     ,RATE  ,
      .                       XI     ,YI     )

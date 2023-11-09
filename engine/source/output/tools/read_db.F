@@ -57,6 +57,7 @@ Chd|        READ_CLUSTER                  source/output/cluster/read_cluster.F
 Chd|        READ_ELGROUP_PARAM            source/output/restart/read_elgroup_param.F
 Chd|        READ_FAILPARAM                source/output/restart/read_failparam.F
 Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
+Chd|        READ_MAT_TABLE                source/materials/tools/read_mat_table.F
 Chd|        READ_NLOC_STRUCT              source/output/restart/read_nloc_struct.F
 Chd|        READ_PCYL                     source/output/restart/read_pcyl.F
 Chd|        READ_SENSORS                  source/output/restart/read_sensors.F
@@ -68,7 +69,6 @@ Chd|        SPMD_INISPH                   source/mpi/sph/spmd_sptool.F
 Chd|        SPMD_INITFI                   source/mpi/interfaces/spmd_i7tool.F
 Chd|        STACK_RREST                   source/output/restart/rdresb.F
 Chd|        TABLE_RRESTR                  source/tools/curve/table_tools.F
-Chd|        TABLE_RRESTR_MAT              source/materials/tools/table_rrestr_mat.F
 Chd|        THCRREST                      source/output/restart/rdresb.F
 Chd|        USERWI_READ                   source/user_interface/userwindow_interface_routines.F
 Chd|        WIGEREST                      source/output/restart/rdresb.F

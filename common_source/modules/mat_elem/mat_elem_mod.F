@@ -28,7 +28,10 @@ Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit
 Chd|        ELBUF_INI                     starter/source/elements/elbuf_init/elbuf_ini.F
 Chd|        INI_MAT_ELEM                  starter/source/materials/mat/ini_mat_elem.F
 Chd|        LECTUR                        starter/source/starter/lectur.F
+Chd|        MMAIN                         starter/source/materials/mat_share/mmain.F
 Chd|        READ_MATERIAL_MODELS          starter/source/materials/read_material_models.F
+Chd|        S4REFSTA3                     starter/source/elements/solid/solide4/s4refsta3.F
+Chd|        SREFSTA3                      starter/source/elements/solid/solide/srefsta3.F
 Chd|        STARTER0                      starter/source/starter/starter0.F
 Chd|        ST_QAPRINT_DRIVER             starter/source/output/qaprint/st_qaprint_driver.F
 Chd|        ST_QAPRINT_MATERIALS          starter/source/output/qaprint/st_qaprint_materials.F

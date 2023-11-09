@@ -868,7 +868,9 @@ Chd|        LAW62_UPD                     source/materials/mat/mat062/law62_upd.
 Chd|        LAW69_NLSQF                   source/materials/tools/nlsqf.F
 Chd|        LAW69_NLSQF_AUTO              source/materials/tools/law69_nlsqf_auto.F
 Chd|        LAW69_UPD                     source/materials/mat/mat069/law69_upd.F
+Chd|        LAW70_UPD                     source/materials/mat/mat070/law70_upd.F
 Chd|        LAW76_UPD                     source/materials/mat/mat076/law76_upd.F
+Chd|        LAW77_UPD                     source/materials/mat/mat077/law77_upd.F
 Chd|        LAW87_UPD                     source/materials/mat/mat087/law87_upd.F
 Chd|        LAW88_UPD                     source/materials/mat/mat088/law88_upd.F
 Chd|        LAW90_UPD                     source/materials/mat/mat090/law90_upd.F
@@ -1144,6 +1146,7 @@ Chd|        SZDERI3                       source/elements/solid/solidez/szderi3.
 Chd|        SZREFDERI3                    source/elements/solid/solide/srefsta3.F
 Chd|        T3GRHEAD                      source/elements/solid_2d/tria/t3grhead.F
 Chd|        T3GRTAILS                     source/elements/solid_2d/tria/t3grtails.F
+Chd|        TABLE_SLOPE                   source/materials/tools/table_slope.F
 Chd|        TAGNODS                       source/groups/tagnod.F        
 Chd|        TAGNODS_R2R                   source/coupling/rad2rad/tagnod_r2r.F
 Chd|        TAGNOD_R2R                    source/coupling/rad2rad/tagnod_r2r.F

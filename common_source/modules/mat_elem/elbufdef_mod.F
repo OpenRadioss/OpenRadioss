@@ -98,7 +98,6 @@ Chd|        INIGRAV_M51                   starter/source/initial_conditions/inig
 Chd|        ININTR_THKVAR                 starter/source/interfaces/interf1/inintr_thkvar.F
 Chd|        INIPHASE                      starter/source/initial_conditions/inivol/iniphase.F
 Chd|        INIRIG_MAT                    starter/source/elements/initia/inirig_mat.F
-Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|        INITVARS_AUTO                 starter/source/elements/elbuf_init/initvars_auto.F
 Chd|        INIVOID                       starter/source/elements/initia/inivoid.F
 Chd|        INIVOL_SET                    starter/source/initial_conditions/inivol/inivol_set.F
@@ -114,7 +113,6 @@ Chd|        M20DCOD                       starter/source/system/fsdcod.F
 Chd|        M37INIT                       starter/source/materials/mat/mat037/m37init.F
 Chd|        M51INIT                       starter/source/materials/mat/mat051/m51init.F
 Chd|        MATINI                        starter/source/materials/mat_share/matini.F
-Chd|        MMAIN                         starter/source/materials/mat_share/mmain.F
 Chd|        MULTIFLUID_GLOBAL_TDET        starter/source/multifluid/multifluid_global_tdet.F
 Chd|        MULTIFLUID_INIT2              starter/source/multifluid/multifluid_init2.F
 Chd|        MULTIFLUID_INIT2T             starter/source/multifluid/multifluid_init2t.F
@@ -135,7 +133,6 @@ Chd|        S10JACI3                      starter/source/elements/solid/solide10
 Chd|        S16INIT3                      starter/source/elements/thickshell/solide16/s16init3.F
 Chd|        S20INIT3                      starter/source/elements/solid/solide20/s20init3.F
 Chd|        S4INIT3                       starter/source/elements/solid/solide4/s4init3.F
-Chd|        S4REFSTA3                     starter/source/elements/solid/solide4/s4refsta3.F
 Chd|        S6CINIT3                      starter/source/elements/thickshell/solide6c/s6cinit3.F
 Chd|        S8CINIT3                      starter/source/elements/thickshell/solide8c/s8cinit3.F
 Chd|        S8E_PIJ                       starter/source/elements/solid/solide8z/s8zderi3.F
@@ -148,7 +145,6 @@ Chd|        SINI43                        starter/source/elements/solid/sconnect
 Chd|        SINIT3                        starter/source/elements/solid/solide/sinit3.F
 Chd|        SMS_AUTO_DT                   starter/source/ams/sms_auto_dt.F
 Chd|        SPINIT3                       starter/source/elements/sph/spinit3.F
-Chd|        SREFSTA3                      starter/source/elements/solid/solide/srefsta3.F
 Chd|        SUINIT3                       starter/source/elements/elbuf_init/suinit3.F
 Chd|        TENSOR0                       starter/source/output/anim/tensor0.F
 Chd|        TENSORC                       starter/source/output/anim/tensorc.F

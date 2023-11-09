@@ -21,10 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  CR_SPLINE_INTERPOL
+Chd|  SPLINE_INTERPOL_2D            source/materials/tools/spline_interpol_2d.F
 Chd|-- called by -----------
-Chd|        CR_SPLINE_LENGTH              source/initial_conditions/detonation/detcord.F
-Chd|        CR_SPLINE_POINT_PROJ          source/initial_conditions/detonation/detcord.F
+Chd|        TEST_SPLINE                   source/materials/tools/test_splines.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPLINE_INTERPOL_2D(PTX, PTY ,KNOTS, T,  NX  ,NY  )

@@ -1,11 +1,9 @@
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  CR_SPLINE_LENGTH
+Chd|  TEST_SPLINE                   source/materials/tools/test_splines.F
 Chd|-- called by -----------
-Chd|        DETCORD                       source/initial_conditions/detonation/detcord.F
 Chd|-- calls ---------------
-Chd|        CR_SPLINE_INTERPOL            source/initial_conditions/detonation/detcord.F
-Chd|        CR_SPLINE_KNOTS               source/initial_conditions/detonation/detcord.F
+Chd|        SPLINE_INTERPOL_2D            source/materials/tools/spline_interpol_2d.F
 Chd|====================================================================
        SUBROUTINE TEST_SPLINE(NPT0,NSUB,XF,YF,XX,YY)
 C-----------------------------------------------

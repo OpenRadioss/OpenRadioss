@@ -39,7 +39,7 @@ Chd|        S4ROTA3                       source/elements/solid/solide4/s4rota3.
 Chd|        S4ROTAT3                      source/elements/solid/solide4/s4rota3.F
 Chd|        SORTHO3                       source/elements/solid/solide/sortho3.F
 Chd|        SRHO3                         source/elements/solid/solide/srho3.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE S4REFSTA3(ELBUF_STR,IXS     ,PM     ,GEO     ,IPARG   ,

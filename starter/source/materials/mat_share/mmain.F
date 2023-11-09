@@ -27,7 +27,7 @@ Chd|        S4REFSTA3                     source/elements/solid/solide4/s4refsta
 Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.F
 Chd|-- calls ---------------
 Chd|        MULAW                         source/materials/mat_share/mulaw.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|====================================================================
       SUBROUTINE MMAIN(PM      ,ELBUF_STR,IX   ,NIX    ,X       ,
      2                  GEO    ,IPARG  ,NEL    ,SKEW   ,BUFMAT  ,

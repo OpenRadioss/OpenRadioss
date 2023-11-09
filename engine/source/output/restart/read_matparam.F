@@ -29,9 +29,8 @@ Chd|        READ_C_C                      source/output/tools/sortie_c.c
 Chd|        READ_DB                       source/output/tools/read_db.F 
 Chd|        READ_FAILPARAM                source/output/restart/read_failparam.F
 Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_MAT_TABLE                source/materials/tools/read_mat_table.F
 Chd|        READ_VISCPARAM                source/output/restart/read_viscparam.F
-Chd|        TABLE_RRESTI_MAT              source/materials/tools/table_rresti_mat.F
-Chd|        TABLE_RRESTR_MAT              source/materials/tools/table_rrestr_mat.F
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F

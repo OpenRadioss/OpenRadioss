@@ -21,10 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  TABLE2D_INTERSECT             source/tools/curve/table2d_intersect.F
+Chd|  FUNC2D_DEINTERSECT            source/materials/tools/func2d_deintersect.F
 Chd|-- called by -----------
+Chd|        LAW70_TABLE                   source/materials/mat/mat070/law70_table.F
 Chd|-- calls ---------------
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE FUNC2D_DEINTERSECT(NPT, LMAX ,NRATE  ,YY    )
 C-----------------------------------------------

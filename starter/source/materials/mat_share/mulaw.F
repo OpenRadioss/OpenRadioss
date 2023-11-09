@@ -31,6 +31,7 @@ Chd|        SIGEPS38                      source/materials/mat/mat038/sigeps38.F
 Chd|        SIGEPS42                      source/materials/mat/mat042/sigeps42.F
 Chd|        SIGEPS70                      source/materials/mat/mat070/sigeps70.F
 Chd|        SIGEPS90                      source/materials/mat/mat090/sigeps90.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================
       SUBROUTINE MULAW(LFT   ,LLT   ,NFT    ,MTN   ,JCVT   ,
      2                 PM    ,OFF   ,SIG    ,EINT  ,RHO    ,

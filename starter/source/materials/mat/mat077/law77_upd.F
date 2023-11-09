@@ -26,8 +26,7 @@ Chd|-- called by -----------
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FUNC_COMP                     source/materials/mat/mat076/law76_upd.F
-Chd|        TABLE2D_INTERSECT             source/tools/curve/table2d_intersect.F
+Chd|        FUNC_SLOPE                    source/tools/curve/func_slope.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    

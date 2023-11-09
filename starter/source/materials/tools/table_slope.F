@@ -21,16 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  TABLE_SLOPE                    source/tools/curve/func_slope.F
+Chd|  TABLE_SLOPE                   source/materials/tools/table_slope.F
 Chd|-- called by -----------
-Chd|        LAW111_UPD                    source/materials/mat/mat111/law111_upd.F
-Chd|        LAW158_UPD                    source/materials/mat/mat158/law158_upd.F
-Chd|        LAW58_UPD                     source/materials/mat/mat058/law58_upd.F
-Chd|        LAW88_UPD                     source/materials/mat/mat088/law88_upd.F
-Chd|        LAW90_UPD                     source/materials/mat/mat090/law90_upd.F
+Chd|        LAW70_UPD                     source/materials/mat/mat070/law70_upd.F
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
+Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|====================================================================
       SUBROUTINE TABLE_SLOPE(TABLE,STIFFINI,STIFFMIN,STIFFMAX,XMAX)
 C-----------------------------------------------

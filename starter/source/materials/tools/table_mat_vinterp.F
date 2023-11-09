@@ -23,17 +23,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  TABLE_MAT_VINTERP             source/materials/tools/table_mat_vinterp.F
 Chd|-- called by -----------
-Chd|        ASSO_PLAS76                   source/materials/mat/mat076/asso_plas76.F
-Chd|        ASSO_QPLAS76C                 source/materials/mat/mat076/asso_qplas76c.F
-Chd|        CONDAMAGE                     source/materials/mat/mat190/condamage.F
-Chd|        CONVERSION                    source/materials/mat/mat190/conversion.F
-Chd|        NO_ASSO_LPLAS76C              source/materials/mat/mat076/no_asso_lplas76c.F
-Chd|        NO_ASSO_PLAS76                source/materials/mat/mat076/no_asso_plas76.F
-Chd|        NO_ASSO_QPLAS76C              source/materials/mat/mat076/no_asso_qplas76c.F
+Chd|        SIGEPS70                      source/materials/mat/mat070/sigeps70.F
 Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|====================================================================
         SUBROUTINE TABLE_MAT_VINTERP(TABLE,NEL,IPOS,XX,YY,DYDX)
