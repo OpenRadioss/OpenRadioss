@@ -2230,14 +2230,14 @@ C------------potision Ti  [-1,1]  'pos_nip'       --->      undocumented FIELD
                         DO N=1,NIP
                           PT = 22 + (N-1)*6
                           ! Reading CARD_2 ---  sigma_X, sigma_Y, sigma_Z  ---
-                          SIGSH(PT,I)     = TMPVAL1(N)
-                          SIGSH(PT + 1,I) = TMPVAL2(N)
-                          SIGSH(INISHVAR + N,I) = TMPVAL3(N)
-                          SIGSH(PT + 2,I) = TMPVAL4(N)
-                          SIGSH(PT + 3,I) = TMPVAL5(N)
-                          SIGSH(PT + 4,I) = TMPVAL6(N)
-                          SIGSH(PT + 5,I) = TMPVAL7(N)
-                          SIGSH(INISHVAR + J+NIP,I) = TMPVAL8(N)
+                          SIGSH(PT,I)                  = TMPVAL1(N)
+                          SIGSH(PT + 1,I)              = TMPVAL2(N)
+                          SIGSH(INISHVAR + N,I)        = TMPVAL3(N)
+                          SIGSH(PT + 2,I)              = TMPVAL4(N)
+                          SIGSH(PT + 3,I)              = TMPVAL5(N)
+                          SIGSH(PT + 4,I)              = TMPVAL6(N)
+                          SIGSH(PT + 5,I)              = TMPVAL7(N)
+                          SIGSH(INISHVAR +  NIP + N,I) = TMPVAL8(N)
                         ENDDO ! DO K=1,NIP
                       ENDIF ! IF (NIP = 0) THEN
 !----
@@ -3113,7 +3113,7 @@ C----------
                     IF ( IGTYP == 10 .OR. IGTYP == 11) THEN
                       SIGSH(2,I) = NLAY
                     ELSE
-                      SIGSH(2,I) = NPTT
+                      SIGSH(2,I) = NPTT*NLAY
                     ENDIF
                     IF (IHBE==12 .OR. IHBE==24) THEN
                       SIGSH(NVSHELL,I) = 4
@@ -3412,13 +3412,13 @@ C------------potision Ti  [-1,1]   'pos_nip'      --->      undocumented FIELD
                         DO N=1,NIP
                           PT = 22 + (N-1)*6
                           ! Reading CARD_2 ---  sigma_X, sigma_Y, sigma_Z  ---
-                          SIGSH(PT,I)     = TMPVAL1(N)
-                          SIGSH(PT + 1,I) = TMPVAL2(N)
-                          SIGSH(INISHVAR + N,I) = TMPVAL3(N)
-                          SIGSH(PT + 2,I) = TMPVAL4(N)
-                          SIGSH(PT + 3,I) = TMPVAL5(N)
-                          SIGSH(PT + 4,I) = TMPVAL6(N)
-                          SIGSH(PT + 5,I) = TMPVAL7(N)
+                          SIGSH(PT,I)             = TMPVAL1(N)
+                          SIGSH(PT + 1,I)         = TMPVAL2(N)
+                          SIGSH(INISHVAR + N,I)   = TMPVAL3(N)
+                          SIGSH(PT + 2,I)         = TMPVAL4(N)
+                          SIGSH(PT + 3,I)         = TMPVAL5(N)
+                          SIGSH(PT + 4,I)         = TMPVAL6(N)
+                          SIGSH(PT + 5,I)         = TMPVAL7(N)
                           SIGSH(INISHVAR+NIP+N,I) = TMPVAL8(N)
                         ENDDO ! DO K=1,NIP
                       ENDIF ! IF (NIP = 0) THEN
@@ -4265,7 +4265,7 @@ C----------
                     IF ( IGTYP == 10 .OR. IGTYP == 11) THEN
                       SIGSH(2,I) = NLAY
                     ELSE
-                      SIGSH(2,I) = NPTT
+                      SIGSH(2,I) = NPTT*NLAY
                     ENDIF
                     IF( ISH3N == 30 ) THEN
                       SIGSH(NVSHELL,I) = 3
