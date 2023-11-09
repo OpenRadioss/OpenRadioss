@@ -27,7 +27,6 @@ Chd|        UPDMAT                        source/materials/updmat.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FUNC_INTERS                   source/tools/curve/func_inters.F
-Chd|        VW_SMOOTH                     source/tools/curve/vw_smooth.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
@@ -62,12 +61,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,IFE,IE,IX1,IX2,IY1,IY2,NRATE,IYLD,IFAIL,FUNC1,FUNC2
-      my_real :: EPSMAX,EPSLAST,X1,X2,Y1,Y2,FAC1,FAC2,XINT,YINT,Y0
-
-
-
-      INTEGER :: K,NPT,NPTMAX,ZEROSTART,MONOTONIC
-      my_real ,DIMENSION(:) ,ALLOCATABLE :: XX,YY,FX,FY
+      my_real :: EPSMAX,EPSLAST,X1,X2,Y1,Y2,FAC1,FAC2,XINT,YINT
 C==================================================================== 
 c     Check if scale factor function of Young modulus is decreasing with plastic strain   
 c    
@@ -139,65 +133,6 @@ c
           END IF
         END DO                                                      
       END DO
-      
-c===========================================================================
-c        TEST VW algorithm
-c===========================================================================
-        
-      ZEROSTART = 1
-      MONOTONIC = 1
-      FUNC1 = IFUNC(1)
-      NPT = (NPC(FUNC1+1)-NPC(FUNC1))*HALF  ! nb of points of the curve
-      ALLOCATE (XX(NPT))
-      ALLOCATE (YY(NPT))
-      ALLOCATE (FX(NPT))
-      ALLOCATE (FY(NPT))
-      XX(:) = ZERO
-      YY(:) = ZERO
-      FX(:) = ZERO
-      FY(:) = ZERO
-      
-      print*,'NPT = ',NPT
-      NPTMAX = 100
-      IF (MONOTONIC == 1) THEN 
-        Y0 = PLD(NPC(FUNC1)+1)
-        DO I = 2,NPT+1
-          K = I-1
-          J = 2*(I-2)
-          XX(K) = PLD(NPC(FUNC1)+J)
-          YY(K) = MAX(PLD(NPC(FUNC1)+J+1) , Y0)
-          Y0    = YY(K)
-        ENDDO
-      ELSE
-        DO I = 2,NPT+1
-          K = I-1
-          J = 2*(I-2)
-          XX(K) = PLD(NPC(FUNC1)+J)
-          YY(K) = PLD(NPC(FUNC1)+J+1)
-        ENDDO
-      END IF
-      IF (ZEROSTART == 1) THEN  ! first function point must be (0,0)
-        XX(1) = ZERO
-        YY(1) = ZERO
-      END IF
-      DO I=1,NPT      
-        write(*,'(2E12.3)')  XX(I),YY(I) 
-      END DO    
-        print*,' '
-
-        CALL VW_SMOOTH(NPT,NPTMAX ,XX,YY, FX,FY)
-       
-c      
-        print*,' '
-        print*,' '
-      DO I=1,NPTMAX    
-        write(*,'(2E12.3)')  FX(I),FY(I) 
-      END DO    
-     
-      
-      
-      
-      
 c--------------------------------------------------------
       RETURN
       END

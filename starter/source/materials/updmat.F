@@ -171,7 +171,7 @@ C
 c
         IF (ILAW < 29.or.ILAW==32.or.ILAW==43.or.ILAW==49.or.ILAW==52.or.
      .      ILAW==57.or.ILAW==59.or.ILAW==60.or.ILAW==65.or.ILAW==75.or.
-     .      ILAW==77.or.ILAW==78 ) CYCLE
+     .      ILAW==78 ) CYCLE
 c
         CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,IMAT),LTITR)
 c
