@@ -1037,7 +1037,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real, INTENT(INOUT) :: A(*)
+      DOUBLE PRECISION, INTENT(INOUT) :: A(*)
       INTEGER, INTENT(IN)    :: FIRST, LAST
       INTEGER, INTENT(INOUT) :: IDX(*)
 C-----------------------------------------------
