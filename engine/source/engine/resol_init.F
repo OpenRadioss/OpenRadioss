@@ -876,13 +876,6 @@ C---------------------------------------------
         ENDDO
       ENDIF
 C-----------------------------------------------
-      XMIN_GLOB = EP30
-      YMIN_GLOB = EP30
-      ZMIN_GLOB = EP30
-      XMAX_GLOB = -EP30
-      YMAX_GLOB = -EP30
-      ZMAX_GLOB = -EP30
-C-----------------------------------------------
 C  RESTARTING RADIOSS ENGINE.
         IF (IPARIT==0) THEN
           CALL ZEROR(A(1,NDTASK),NUMNOD)

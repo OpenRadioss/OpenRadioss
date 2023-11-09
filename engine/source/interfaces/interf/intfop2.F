@@ -216,8 +216,10 @@ C
         NTY   =IPARI(7,N)
 C       LINDMAX = NCONT*MULTIMP
         LINDMAX  = IPARI(18,N)*IPARI(23,N)
-        IF(INT18ADD(NINTER+1) >= 0.and.JTASK == 1)THEN
-          INT18ADD(N+1) = INT18ADD(N)
+        IF(JTASK == 1) THEN
+          IF(INT18ADD(NINTER+1) >= 0) THEN
+            INT18ADD(N+1) = INT18ADD(N)
+          ENDIF
         ENDIF
 C
         ISENS = 0

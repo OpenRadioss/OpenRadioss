@@ -156,7 +156,9 @@ C-----
       DATA IPENTA6/1,2,3,5,6,7/
 C-----------------------------------------------
 C reset enforcement of contact sorting
+!$OMP SINGLE
       KFORSMS=0
+!$OMP END SINGLE
 C
       IF(IPARIT/=0)THEN
         IF(DEBUG(9)==0)THEN

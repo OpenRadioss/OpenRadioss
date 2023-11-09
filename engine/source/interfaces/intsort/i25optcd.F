@@ -99,8 +99,6 @@ C-----------------------------------------------
          PREC = EM8
       ENDIF
 C------
-C initialize PMAX_GAP to Zero for future treatments in force computation.
-      PMAX_GAP   = ZERO
 C
 C CONT_I contains Starter infos, it must be flushed when IRTLM(1,xxx) is no more Zero.
 C
@@ -387,6 +385,8 @@ C
         LSKYI_COUNT=LSKYI_COUNT+I_OPT_STOK*5
         COUNT_REMSLV(NIN)=COUNT_REMSLV(NIN)+I_OPT_STOK
       END IF
+C initialize PMAX_GAP to Zero for future treatments in force computation.
+      PMAX_GAP   = ZERO
 !$OMP END SINGLE
 C
 c     print *,'i_stok',ispmd+1,i_stok,i_opt_stok

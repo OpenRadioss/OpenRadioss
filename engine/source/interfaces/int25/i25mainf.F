@@ -262,6 +262,7 @@ C     REAL
       my_real,TARGET, DIMENSION(1):: TABCOEF_FRIC_BID
 
       INTEGER :: NEDGE_REM,NRTM,NSN,NTY
+      LOGICAL :: SET_IPARI40_TO_ZERO
 C=======================================================================
 C
       NRTM   =IPARI(4,NIN)
@@ -383,28 +384,27 @@ c----------------------------------------------------
 c   Rayon de courbure : calcul des normales nodales (normees)
 C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
-      IF(IADM/=0)THEN
-      END IF!(IADM/=0)
 C-----Press-fit 
+       SET_IPARI40_TO_ZERO = .FALSE.
        IF (STARTT>ZERO.AND.T_PFIT==ZERO) THEN
-        T_PFIT=10000*DT12
-        INTBUF_TAB%VARIABLES(15) = T_PFIT
+         T_PFIT=10000*DT12
+         INTBUF_TAB%VARIABLES(15) = T_PFIT
        END IF
-       IF (T_PFIT>ZERO) THEN
-        IF (TT <=(STARTT+T_PFIT)) THEN 
-         TNCY = (TT+EM05-STARTT)/T_PFIT
-        ELSE
-         IPARI(40,NIN)= 0
-        END IF
+       IF (T_PFIT > ZERO) THEN
+         IF (TT <= (STARTT+T_PFIT) ) THEN 
+           TNCY = (TT+EM05-STARTT)/T_PFIT
+         ELSE
+           SET_IPARI40_TO_ZERO = .TRUE.
+         END IF
        ELSE
-        NCY_PFIT = IPARI(40,NIN)
-        IF (NCY_PFIT >0 .AND. NCYCLE> NCY_PFIT) IPARI(40,NIN) = 0
-		IF (IPARI(40,NIN)>0) THEN
-          FINC= ONE/IPARI(40,NIN)
-          TNCY = (NCYCLE+1)*FINC
-		END IF
+         NCY_PFIT = IPARI(40,NIN)
+         IF (NCY_PFIT >0 .AND. NCYCLE> NCY_PFIT) THEN
+           SET_IPARI40_TO_ZERO = .TRUE.
+  		   ELSEIF (NCY_PFIT>0) THEN
+           FINC = ONE/IPARI(40,NIN)
+           TNCY = (NCYCLE+1)*FINC
+         END IF
        END IF
-	   IF (INACTI/=-1) IPARI(40,NIN) = 0 
 C----------------------------------------------------------------------
 C     Secnd node previously impacted & Secnd node is leaving the contact
 C----------------------------------------------------------------------
@@ -417,11 +417,8 @@ C----------------------------------------------------------------------
       IF(IVIS2/=-1) THEN
 C
         DO N=NSNFT, NSNLT
-c          if(itab(intbuf_tab%NSV(n))==27324)
-c     .     print *,'natif',ispmd+1,INTBUF_TAB%IRTLM(N),INTBUF_TAB%TIME_S(N)
           IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0 .AND. (INTBUF_TAB%TIME_S(2*(N-1)+1) == EP20 .OR.
      .                                           (INTBUF_TAB%IRTLM(4*(N-1)+2) < 0.AND.MOD(-INTBUF_TAB%IRTLM(4*(N-1)+2),5)==0)) )THEN
-C
 C           No more contact (Reset Irtlm & PENE_OLD)
             INTBUF_TAB%IRTLM(4*(N-1)+1)=0
             INTBUF_TAB%IRTLM(4*(N-1)+2)=0
@@ -497,6 +494,12 @@ C
 
 C-----------------------------------------------------------------------
       CALL MY_BARRIER
+	    IF (INACTI/=-1 .OR. SET_IPARI40_TO_ZERO) THEN
+!$OMP SINGLE
+         IPARI(40,NIN) = 0 
+!$OMP END SINGLE
+      ENDIF
+
 C-----------------------------------------------------------------------
 C       Tag true impacts vs forces (CAND_N = -CAND_N)
 C-----------------------------------------------------------------------

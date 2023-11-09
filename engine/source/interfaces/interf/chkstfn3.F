@@ -705,10 +705,12 @@ C
               IF (ABS(GBUF%OFF(I)) == ONE .OR.
      .            ABS(GBUF%OFF(I)) == TWO) THEN
                 TAGEL(IE)=1
+#include "lockon.inc"
                 DO K=2,9
                   N = IXS(K,NFT+I)
                   ITAG(N) = 1
                 ENDDO
+#include "lockoff.inc"
               ELSE
                 IF ((R2R_SIU == 1).AND.(TAGEL(IE) > -1)) THEN
                   CALL R2R_TAGEL(NTAGEL_R2R_SEND,IXS(11,NFT+I),ITAB(IXS(2,NFT+I)),ITY,
@@ -720,10 +722,12 @@ C
                     LOCAL_ELEM_INDEX(GLOBAL_NB_ELEM_OFF(ITASK+1)) = IE
                 ENDIF
                 ELEM_STATE(IE) = .FALSE.
+#include "lockon.inc"
                 DO K=2,9
                   N = IXS(K,NFT+I)
                   ITAG(NUMNOD+N) = 1
                 ENDDO
+#include "lockoff.inc"
               ENDIF
             ENDDO
            ELSEIF ((R2R_SIU == 0).OR.(IPARTR2R > 0)) THEN         
@@ -1371,7 +1375,9 @@ C E2E have fictive nodes with NSV  > NUMNOD
          NRTM  =IPARI(4,NG)
          INC=4
          IF(IDEL == 1) THEN
+!$OMP SINGLE
            NINDEX1(NG) = 0
+!$OMP END SINGLE
            CALL CHKMSR3NB(
      1   NMN          ,INTBUF_TAB(NG)%MSR ,ITAG          ,ITASK,INTBUF_TAB(NG)%IRECTM,
      2   NRTM         ,INTBUF_TAB(NG)%STFM,ITAG(NUMNOD+1),IXS  ,IXC          ,
@@ -1381,7 +1387,9 @@ C E2E have fictive nodes with NSV  > NUMNOD
      6   IBUFS(IDBS+4),IND(IDB)     ,TAGEL         ,NG   ,INTBUF_TAB(NG)%MSEGLO,
      7   INTBUF_TAB(NG)%MVOISIN,INDSEGLO     ,IBUFSEGLO)
          ELSEIF(IDEL == 2)THEN
+!$OMP SINGLE
             NINDEX1(NG) = 0
+!$OMP END SINGLE
            CALL CHKMSR3N( 
      1   NMN          ,INTBUF_TAB(NG)%MSR ,ITAG           ,ITASK,INTBUF_TAB(NG)%IRECTM,
      2   NRTM         ,INTBUF_TAB(NG)%STFM,ITAG(NUMNOD+1),IXS  ,IXC          ,
@@ -1391,7 +1399,10 @@ C E2E have fictive nodes with NSV  > NUMNOD
      6   IBUFS(IDBS+4),IND(IDB)     ,TAGEL         ,NG,
      7   INTBUF_TAB(NG)%MSEGLO,INTBUF_TAB(NG)%MVOISIN,INDSEGLO     ,IBUFSEGLO)
          END IF
+!$OMP SINGLE
          NINDEX2(NG)=0
+!$OMP END SINGLE
+
          IF(NINDEX1(NG)+NINDEX2(NG) > 0)THEN
 C Partie non parallele
 !$OMP SINGLE
@@ -1961,7 +1972,6 @@ C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
-      ICOMP = 0
 C
       IF(NTY/=3.AND.NTY/=5) THEN
 C mise a - uniquement pour optimiser les interfaces type 7, 10
@@ -1972,6 +1982,10 @@ C si tag nul sur noeuds main alors msr(i) = -msr(i)
           ENDIF
         ENDDO
       END IF
+
+!$OMP SINGLE
+      ICOMP = 0
+!$OMP END SINGLE
 C
       CALL MY_BARRIER()
       IF(NTY==7.OR.NTY==10.OR.NTY==22.OR.NTY==24.OR.NTY==25) RETURN

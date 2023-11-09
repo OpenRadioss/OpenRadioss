@@ -107,7 +107,9 @@ C-----------------------------------------------------------
        SIZOPT = INTBUF_TAB%S_CAND_OPT_N
 C
 C      I_OPT_STOK modifie ds i25optcd, apres barriere !
+!$OMP SINGLE
        I_OPT_STOK = INTBUF_TAB%I_STOK(2)
+!$OMP END SINGLE NOWAIT
        CALL I25OPTCD(
      1 INTBUF_TAB%NSV,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,X,I_STOK_GLO    ,
      2 INTBUF_TAB%IRECTM,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,V,IPARI(39,NIN),
@@ -146,7 +148,10 @@ C        I_OPT_STOK modifie ds i25optcd, apres barriere !
        END IF
 C
 C      I_OPT_STOK modifie ds i25optcd, avant barriere
+!$OMP SINGLE
        INTBUF_TAB%I_STOK(2)=I_OPT_STOK
+       ! nowait is ok, because there is a barrier in INTTRI
+!$OMP END SINGLE NOWAIT
 C
 Cf barrier at the end of i25optcd
       NSNF = 1 + ITASK*NSN / NTHREAD
@@ -190,7 +195,6 @@ C
      7    INTBUF_TAB%FTSAVX_E2S,INTBUF_TAB%FTSAVY_E2S, INTBUF_TAB%FTSAVZ_E2S,DGAPLOAD)
       END IF
 
-C     call my_barrier ! pour timer only
 
 C-----------------------------------------------------------------------
       RETURN

@@ -160,13 +160,16 @@ C
 C
 C-----------------------------------------------------------------------
 C       Secnd node leaving its previous impacted segment ...
-C-----------------------------------------------------------------------
+C-----------------------------------------------------------------------  
+!$OMP SINGLE
       DO NI25=1,NINTER25
-C
         NIN = INTLIST25(NI25)
-
         IPARI(29,NIN) = 0
-C
+      END DO
+!$OMP END SINGLE
+
+      DO NI25=1,NINTER25
+        NIN = INTLIST25(NI25)
         CALL I25COMP_1(
      1    IPARI   ,INTBUF_TAB(NIN),X   ,ITAB      ,NIN       ,
      2    KINET     ,JTASK    ,NB_DST1(JTASK),V   ,NSENSOR   ,

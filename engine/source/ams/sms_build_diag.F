@@ -179,8 +179,10 @@ C
         END IF
       END IF
 C 
+!$OMP SINGLE
       NINDX1_SMS=0
       NINDX2_SMS=0
+!$OMP END SINGLE
 C 
       CALL MY_BARRIER()
 C

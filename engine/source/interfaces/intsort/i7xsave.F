@@ -66,6 +66,7 @@ C-----------------------------------------------
       INTEGER NSNF,NMNF,NSNL,NMNL,I, J, II
       my_real
      .        XXX, YYY, ZZZ 
+      INTEGER :: INCONV_L
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -89,16 +90,19 @@ C
       SY2=ZERO
       SZ2=ZERO
       NMN_L = 0
-C        
+C      
+      INCONV_L = INCONV
       IF(NSN+NMN < NUMNOD+NUMFAKENODIGEO)THEN
-        DO I=NSNF,NSNL
-          J=NSV(I)
-          IF(J>0.AND.J<=(NUMNOD+NUMFAKENODIGEO).AND.INCONV==1)THEN
-            XSAV(1,I)=X(1,J)
-            XSAV(2,I)=X(2,J)
-            XSAV(3,I)=X(3,J)
-          END IF
-        END DO
+        IF(INCONV_L == 1) THEN
+          DO I=NSNF,NSNL
+            J=NSV(I)
+            IF(J>0.AND.J<=(NUMNOD+NUMFAKENODIGEO))THEN
+              XSAV(1,I)=X(1,J)
+              XSAV(2,I)=X(2,J)
+              XSAV(3,I)=X(3,J)
+            END IF
+          END DO
+        ENDIF
         DO I=NMNF,NMNL
           II = I+NSN
           J=MSR(I)
@@ -110,7 +114,7 @@ C msr < 0 <=> shooting nodes
             XMAX= MAX(XMAX,X(1,J))
             YMAX= MAX(YMAX,X(2,J))
             ZMAX= MAX(ZMAX,X(3,J))
-            IF (INCONV==1) THEN
+            IF (INCONV_L==1) THEN
               XSAV(1,II)=X(1,J)
               XSAV(2,II)=X(2,J)
               XSAV(3,II)=X(3,J)
@@ -126,14 +130,16 @@ C msr < 0 <=> shooting nodes
         END DO
       ELSE
 C
-        DO I=NSNF,NSNL
-          J=NSV(I)
-          IF(J>0.AND.J<=(NUMNOD+NUMFAKENODIGEO).AND.INCONV==1)THEN
-            XSAV(1,J)=X(1,J)
-            XSAV(2,J)=X(2,J)
-            XSAV(3,J)=X(3,J)
-          END IF
-        END DO
+        IF(INCONV_L == 1) THEN
+          DO I=NSNF,NSNL
+            J=NSV(I)
+            IF(J>0.AND.J<=(NUMNOD+NUMFAKENODIGEO))THEN
+              XSAV(1,J)=X(1,J)
+              XSAV(2,J)=X(2,J)
+              XSAV(3,J)=X(3,J)
+            END IF
+          END DO
+        ENDIF
         DO I=NMNF,NMNL
           J=MSR(I)
 C msr < 0 <=> shooting nodes
@@ -144,7 +150,7 @@ C msr < 0 <=> shooting nodes
             XMAX= MAX(XMAX,X(1,J))
             YMAX= MAX(YMAX,X(2,J))
             ZMAX= MAX(ZMAX,X(3,J))
-            IF (INCONV==1) THEN
+            IF (INCONV_L==1) THEN
               XSAV(1,J)=X(1,J)
               XSAV(2,J)=X(2,J)
               XSAV(3,J)=X(3,J)
