@@ -437,7 +437,9 @@ C
         IF(IMONM > 0 ) THEN
          IF(ITASK == 0) CALL INT_STARTIME(INTBUF_TAB(N)%METRIC,I_MAIN_CRIT_TRI)  
         ENDIF
+!$OMP ATOMIC WRITE
         IPARI(29,N) = 0
+!$OMP END ATOMIC
         NTY   =IPARI(7,N)
         ! Look if interface is activated 
         ISENS = 0
@@ -498,7 +500,9 @@ C        END IF !(NSNE_MAX>0 ) THEN
 C-----------------------------------------------
         ELSEIF(NTY == 25.AND.TT>=TS)THEN
 C-----------------------------------------------
+!$OMP ATOMIC WRITE
           I7KGLO = 1
+!$OMP END ATOMIC
 C         IPARI(4,N) = NRTM ; IPARI(5,N)=NSN  
           CALL I25MAIN_CRIT_TRI(
      1      IPARI ,INTBUF_TAB(N),X            ,N        ,
@@ -513,7 +517,9 @@ C ITHK = 1 : main gap should be modified as per change in thickness
      1        IPARI  ,INTBUF_TAB(N)  ,N    ,ITASK  ,
      2        THKNOD, MAXDGAP(N))
           ELSE
+!$OMP ATOMIC WRITE
                MAXDGAP(N) = ZERO
+!$OMP END ATOMIC
           ENDIF
 C
 C-----------------------------------------------
@@ -1183,15 +1189,15 @@ C=======================================================================
       IF(NINTER25 /= 0)THEN
 
         IF(IDEL7NOK_SAV/=0)THEN
-          CALL STOPTIME(2,1)  
-          CALL STARTIME(8,1)  
+          IF(ITASK == 0) CALL STOPTIME(2,1)  
+          IF(ITASK == 0) CALL STARTIME(8,1)  
           CALL I25MAIN_FREE(ITASK, IPARI  ,INTBUF_TAB ,INTLIST25, ISENDTO,
      2                      IRECVFROM)
 C
           CALL MY_BARRIER()
 C
-          CALL STARTIME(2,1)  
-          CALL STOPTIME(8,1)  
+          IF(ITASK == 0) CALL STARTIME(2,1)  
+          IF(ITASK == 0) CALL STOPTIME(8,1)  
         END IF
 
         DO KK=1,NINTER25

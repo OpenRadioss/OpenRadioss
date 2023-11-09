@@ -93,7 +93,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
 c-----doing TT=0 initialization instead of Starter; elementary first      
-       NMAX_E = 0    
+       IF(ITASK == 0) NMAX_E = 0
        IF (TT==ZERO) THEN
          IF (ITASK==0) THEN
            DO NG=1,NGROUP

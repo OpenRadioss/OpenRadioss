@@ -130,7 +130,9 @@ C----------------------------------------------------------
 C----------------------------------------------------------
 C     ANIM TIME STEP 
 C----------------------------------------------------------
+!$OMP SINGLE
       IMSCH = 0
+!$OMP END SINGLE
       IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT >0)THEN
 #include      "vectorize.inc"
         DO NN=NODFT,NODLT

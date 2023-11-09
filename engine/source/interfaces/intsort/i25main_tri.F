@@ -136,8 +136,10 @@ C     REAL
       INTEGER :: NMN,NRTM,NSN,NTY
 C-----------------------------------------------
       I_MEM = 0
+!$OMP SINGLE
       I_MEMG = 0
       NMN_G = 0
+!$OMP END SINGLE NOWAIT
       NMN_L = 0
 C
       LOC_PROC=ISPMD+1
@@ -160,13 +162,15 @@ C
       FLAGREMN =IPARI(63,NIN)
       LREMNORMAX =IPARI(82,NIN)
       NEDGE   = IPARI(68,NIN)
+!$OMP SINGLE
       NEDGE_REMOTE_OLD   = IPARI(69,NIN)
+      NSNROLD = IPARI(24,NIN)
+!$OMP END SINGLE NOWAIT
       NCONTE  = IPARI(88,NIN)
       ITHK    = IPARI(91,NIN)
       IFSUB_CAREA =0
       IF(IPARI(36,NIN)> 0.AND.PARAMETERS%INTCAREA > 0) IFSUB_CAREA = 1
 C
-      NSNROLD = IPARI(24,NIN)
 C
       ISENS = IPARI(64,NIN)  
       IF(ISENS == 0) THEN
@@ -185,7 +189,6 @@ C
 C
       DGAPLOAD  =INTBUF_TAB%VARIABLES(46)
 C
-C     Specific TYPE7 :
       ITIED = 0 
 C
 C -------------------------------------------------------------
@@ -198,17 +201,17 @@ C
 C -------------------------------------------------------------
 C
       MARGE  = INTBUF_TAB%VARIABLES(25)
-      BMINMA(1)=-EP30
-      BMINMA(2)=-EP30
-      BMINMA(3)=-EP30
-      BMINMA(4)=EP30
-      BMINMA(5)=EP30
-      BMINMA(6)=EP30
-      CURV_MAX_MAX = ZERO
 C
 C -------------------------------------------------------------
 C
       IF(ITASK==0) THEN
+        BMINMA(1)=-EP30
+        BMINMA(2)=-EP30
+        BMINMA(3)=-EP30
+        BMINMA(4)=EP30
+        BMINMA(5)=EP30
+        BMINMA(6)=EP30
+        CURV_MAX_MAX = ZERO
         I_SK_OLD = INTBUF_TAB%I_STOK(1)
         INTBUF_TAB%I_STOK(1) = 0
         IF(IEDGE /= 0) ALLOCATE(NSNFIEOLD(NSPMD))
@@ -282,9 +285,9 @@ C
       BMINMA(6) = MIN(BMINMA(6),ZMINL)
       CURV_MAX_MAX = MAX(CURV_MAX_MAX,C_MAXL)
       NMN_G = NMN_G + NMN_L
+      RESULT = 0
 #include "lockoff.inc"
 
-      RESULT = 0
 C BARRIER II_STOK, II_STOK_E et RESULT
       CALL MY_BARRIER
 

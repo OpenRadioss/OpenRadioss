@@ -83,6 +83,7 @@ C     REAL
      .        XYZM(6), AAA
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8   
+      INTEGER :: INIVOXEL_L
 
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -157,14 +158,14 @@ C=============================================================================
         NBY = MIN(100,MAX(NBY8,1))
         NBZ = MIN(100,MAX(NBZ8,1))
       ENDIF
-c      IF(MAX(NBX,NBY,NBZ) > 100) stop 678
 
-C     initialisation complete de VOXEL
-C (en // SMP il y a possibilite de redondance de traitement mais no pb)
-      DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
+!$OMP SINGLE
+      DO I=1,(NBX+2)*(NBY+2)*(NBZ+2)
         VOXEL1(I)=0
       ENDDO
       INIVOXEL = MAX(INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)+1)
+      ! wait not necessary, because there is a barrier at the start of I25TRIVOX
+!$OMP END SINGLE NOWAIT
 
       CALL I25TRIVOX(
      1   NSN     ,NSNR     ,ISZNSNR  ,I_MEM   ,VMAXDT   ,
