@@ -103,7 +103,7 @@ C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER    I,J,KK,LL,N,FLAGBB,DIRECT,ITER,NITER,TAB,TABN,SHIFT,NINDX 
-      INTEGER  N_NETWORK, FLAG_HE, FLAG_MUL, FLAG_T,NHYPER,NPLAS,
+      INTEGER  N_NETWORK, FLAG_HE, FLAG_MUL, FLAG_T,NHYPER,NPLAS,IFORM,
      .        FLAG_PL,NET,EXPPL, NVISC(10),
      .        FLAG_VISC(10),
      .   IPOS1(NEL),ILEN1(NEL),IAD1(NEL),
@@ -140,6 +140,7 @@ C
      .    COEFR,BETAF ,COEFM
 C----------------------------------------------------------------
 C----------------------------------------------------------------
+      IFORM = 1
       COEFR = ONE
       BETAF = ZERO
       COEFM = ONE
@@ -426,7 +427,7 @@ C
      2                C11 ,C02, C30, C21, C12,
      3                C03 ,D1 ,D2  ,  D3, SIGA ,
      4                BI1,BI2,JDET ,FLAG_MUL,
-     5                NVARF,COEFR, BETAF,COEFM  ,UVARF)
+     5                NVARF,COEFR, BETAF,COEFM  ,UVARF,RBULK,IFORM)
       ELSEIF (FLAG_HE == 2) THEN 
         CALL SIGABOYCE(
      1                NEL , FFT ,C1,C2  ,C3,
@@ -496,7 +497,7 @@ C
      2                   C11 ,C02, C30, C21, C12,
      3                   C03 ,D1 ,D2  ,  D3, SIGA ,
      4                   BI1,BI2,JDET ,FLAG_MUL,
-     5                   NVARF,COEFR, BETAF,COEFM  ,UVARF)      
+     5                   NVARF,COEFR, BETAF,COEFM  ,UVARF,RBULK,IFORM)      
         ELSEIF (FLAG_HE == 2) THEN 
           CALL SIGABOYCE(
      1                   NEL , FFTN ,C1,C2  ,C3,
@@ -591,7 +592,7 @@ c
      2                C11 ,C02, C30, C21, C12,
      3                C03 ,D1 ,D2  ,  D3, SIGB ,
      4                BI1,BI2,JDET ,FLAG_MUL,
-     5                NVARF,COEFR, BETAF,COEFM  ,UVARF)
+     5                NVARF,COEFR, BETAF,COEFM  ,UVARF,RBULK,IFORM)
      
        ELSEIF (FLAG_HE == 2) THEN !arruda boyce
        CALL SIGABOYCE(
@@ -709,7 +710,7 @@ c
      2                C11 ,C02, C30, C21, C12,
      3                C03 ,D1 ,D2  ,  D3, SIGB ,
      4                BI1,BI2,JDET ,FLAG_MUL,
-     5                NVARF,COEFR, BETAF,COEFM  ,UVARF)
+     5                NVARF,COEFR, BETAF,COEFM  ,UVARF,RBULK,IFORM)
         ELSEIF (FLAG_HE == 2) THEN 
          CALL SIGABOYCE(
      1                NEL , MATB ,C1,C2  ,C3,
