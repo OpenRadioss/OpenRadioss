@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  VW_SMOOTH                     source/tools/curve/vw_smooth.F
 Chd|-- called by -----------
-Chd|        LAW36_UPD                     source/materials/mat/mat036/law36_upd.F
 Chd|        LAW70_TABLE                   source/materials/mat/mat070/law70_table.F
 Chd|        LAW70_UPD                     source/materials/mat/mat070/law70_upd.F
 Chd|-- calls ---------------
