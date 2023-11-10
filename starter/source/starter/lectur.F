@@ -1133,6 +1133,8 @@ C
       INTEGER :: NUMBER_LOAD_CYL
       INTEGER :: S_NOD2ELS,S_NOD2ELTG,S_NOD2EL1D
 c=======================================================================
+!    
+      PYTHON%NB_FUNCTS = 0
 !     domain decomposition statistic
       DDSTAT(1:50,1:PARASIZ)=0
       I22LEN_L = 0 
