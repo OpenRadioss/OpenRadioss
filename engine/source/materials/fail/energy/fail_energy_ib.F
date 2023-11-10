@@ -115,7 +115,7 @@ c-----------------------------
            DAMSCL(I) = ONE - DAMAGE(I)
           ENDIF
 
-          IF (IE_SP(I) > R2 .OR. DAMSCL(I) < EM12) THEN
+          IF (IE_SP(I) > R2 ) THEN
             NINDX = NINDX + 1
             INDX(NINDX) = I  
             TDEL(I)     = TIME
