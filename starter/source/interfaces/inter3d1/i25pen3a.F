@@ -31,7 +31,7 @@ Chd|====================================================================
      .                  Z1    ,Z2    ,Z3    ,Z4     ,XI   ,
      .                  YI    ,ZI    ,PENE  ,IX1    ,IX2  ,
      .                  IX3   ,IX4   ,GAPV  ,NRTM   ,ETYP ,
-     .                  IBC  )
+     .                  IBC   ,NRTMT )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,6 +52,7 @@ C-----------------------------------------------
      .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), PENE(MVSIZ)
+      INTEGER , INTENT(IN) :: NRTMT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -455,7 +456,7 @@ C     Case of solids, cf symmetry conditions
 C--------------------------------------------------------
       DO I=1,JLT
 
-        IF(.NOT.(ETYP(I)==0 .OR. ETYP(I) > NRTM))CYCLE ! only solids including coating shell.
+        IF(.NOT.(ETYP(I)==0 .OR. ETYP(I) > NRTMT))CYCLE ! only solids including coating shell.
 
         DX =MAX(X1(I),X2(I),X3(I),X4(I))-MIN(X1(I),X2(I),X3(I),X4(I))
         DY =MAX(Y1(I),Y2(I),Y3(I),Y4(I))-MIN(Y1(I),Y2(I),Y3(I),Y4(I))

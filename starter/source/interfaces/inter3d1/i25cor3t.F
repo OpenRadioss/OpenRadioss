@@ -36,7 +36,7 @@ Chd|====================================================================
      6                   MARGE   ,GAP_S ,GAP_M   ,GAPV  ,ITYP   ,
      7                   IGAP  ,GAP_S_L ,GAP_M_L ,EDGE_L2,MSEGTYP,
      8                   ETYP    ,ICODE ,ISKEW   ,IBC    ,DRAD  ,
-     9                   DGAPLOAD)
+     9                   DGAPLOAD,NRTMT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,6 +56,7 @@ C-----------------------------------------------
      .    JLT,IDT, NOINT, NSN , NRTM,ITYP, IGAP, MSEGTYP(*), ICODE(*), ISKEW(*)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        ETYP(MVSIZ), IBC(MVSIZ)
+      INTEGER , INTENT(IN) :: NRTMT
 C     REAL
       my_real
      .   X(3,*), GAPV(*), GAP_S(*), GAP_M(*), 
@@ -81,7 +82,7 @@ C
           J = CAND_N(I)
           L = CAND_E(I)
           GAPV(I)=GAP_S(J) + GAP_M(L)
-          IF(MSEGTYP(L)==0.OR.MSEGTYP(L)>NRTM)THEN
+          IF(MSEGTYP(L)==0.OR.MSEGTYP(L)>NRTMT)THEN
             GAPV(I)=MAX(GAPV(I)+MARGE,GAPV(I)+EDGE_L2(J))
           ELSE
             GAPV(I)=GAPV(I)+MARGE
@@ -94,7 +95,7 @@ C
           L = CAND_E(I)
           GAPV(I)=GAP_S(J) + GAP_M(L)
           GAPV(I)=MIN(GAP_S_L(J)+GAP_M_L(L),GAPV(I))
-          IF(MSEGTYP(L)==0.OR.MSEGTYP(L)>NRTM)THEN
+          IF(MSEGTYP(L)==0.OR.MSEGTYP(L)>NRTMT)THEN
             GAPV(I)=MAX(GAPV(I)+MARGE,GAPV(I)+EDGE_L2(J))
           ELSE
             GAPV(I)=GAPV(I)+MARGE

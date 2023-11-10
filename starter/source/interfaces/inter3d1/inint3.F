@@ -1878,7 +1878,7 @@ C-----------------------------------------------------------
      I KNOD2EL1D  ,NOD2EL1D         ,IPARI(72)       ,TAGPRT_FRIC    ,INTBUF_TAB%IPARTFRICS   ,
      J INTBUF_TAB%IPARTFRICM,INTBUF_FRIC_TAB,IVIS2   ,GAPM_MX       , GAPS_MX               ,
      K GAPM_L_MX  ,GAPS_L_MX        ,IPARTSM         ,DRAD          ,IPARTT                 ,
-     J IPARTP     ,IPARTR   )
+     J IPARTP     ,IPARTR           )
        IPARI(21) = IGAP
 C-----------------------------------------------------------
 C      ELEMENT NEIGHBROURS & FREE EDGES
@@ -1950,7 +1950,7 @@ C
     
        CALL I25BUC_VOX1(
      1 X        ,INTBUF_TAB%IRECTM  ,INTBUF_TAB%NSV,INTBUF_TAB%VARIABLES(4),NSEG  ,
-     2 NMN      ,NRTM              ,MWA     ,NSN        ,INTBUF_TAB%CAND_E  ,
+     2 NMN      ,NRTM0              ,MWA     ,NSN        ,INTBUF_TAB%CAND_E  ,
      3 INTBUF_TAB%CAND_N  ,INTBUF_TAB%VARIABLES(2),NOINT       ,I_STOK ,
      4 INTBUF_TAB%VARIABLES(5),INTBUF_TAB%VARIABLES(8),MAXBOX  ,MINBOX,INTBUF_TAB%MSR,
      5 INTBUF_TAB%STFM  ,INTBUF_TAB%STFNS  ,MULTIMP   ,1       ,IDDLEVEL    ,
@@ -1961,7 +1961,7 @@ C
      A IPARTS  ,KNOD2ELS ,NOD2ELS ,
      B IREMNODE,IPARI(63),INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE,
      C IXS, IXS10, IXS16, IXS20,ICODE,ISKEW, 
-     D DRAD,INTBUF_TAB%PENE_OLD,INTBUF_TAB%VARIABLES(46))
+     D DRAD,INTBUF_TAB%PENE_OLD,INTBUF_TAB%VARIABLES(46),NRTM)
 
        IF (I_MEM == 2) RETURN
 C

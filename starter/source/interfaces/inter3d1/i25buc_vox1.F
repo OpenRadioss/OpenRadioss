@@ -44,7 +44,7 @@ Chd|====================================================================
      A   IPARTS,KNOD2ELS,NOD2ELS,
      B   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,
      C   IXS, IXS10, IXS16, IXS20,ICODE,ISKEW ,
-     D   DRAD ,PEN_OLD,DGAPLOAD)
+     D   DRAD ,PEN_OLD,DGAPLOAD,NRTMT)
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   M o d u l e s
@@ -85,6 +85,7 @@ C     REAL
       CHARACTER*nchartitle,
      .   TITR
       my_real :: LENGTH_TRESHOLD
+      INTEGER , INTENT(IN) :: NRTMT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -151,7 +152,7 @@ C      LONGUEUR COTE 4
        DD4=SQRT(DX6**2+DY6**2+DZ6**2)
        DD=DD+ (DD1+DD2+DD3+DD4)
 C-------only for solid---  and coating shell
-       IF (MSEGTYP(L)==0.OR.MSEGTYP(L)>NRTM) THEN
+       IF (MSEGTYP(L)==0.OR.MSEGTYP(L)>NRTMT) THEN
         D_MAX=MAX(DD1,DD2,DD3,DD4)
         D_MAX=MIN(D_MAX,GAP_N(1,L))
 C--------correction of too huge GAP_N(1,L) w/ irregular mesh         
@@ -375,7 +376,7 @@ cccLEDGE removing
      .              + (X(3,N2)-X(3,N1))*(X(3,N2)-X(3,N1)) 
                 EDGE_L2_TMP(N1) = MAX(EDGE_L2_TMP(N1), AAA )
                 EDGE_L2_TMP(N2) = MAX(EDGE_L2_TMP(N2), AAA )
-                IF (MSEGTYP(IE)==0.OR.MSEGTYP(IE)>NRTM) THEN ! Solids only
+                IF (MSEGTYP(IE)==0.OR.MSEGTYP(IE)>NRTMT) THEN ! Solids only
                    IF(TAGNOD(N1)==0) THEN
                       N_SOL= N_SOL + 1
                       TAGNOD(N1) = 1
@@ -503,7 +504,7 @@ C
      8   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,INACTI,
      9   IPARTS  ,NPARTNS ,LPARTNS ,IELEM   ,ICODE   ,
      A   ISKEW   ,DRAD, IS_LARGE_NODE, LARGE_NODE, NB_LARGE_NODES,
-     B   PEN_OLD ,DGAPLOAD)
+     B   PEN_OLD ,DGAPLOAD,NRTMT   )
 C
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C
