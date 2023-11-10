@@ -34,7 +34,7 @@ Chd|====================================================================
       SUBROUTINE FAIL_BIQUAD_S(
      1  NEL      ,NUPARAM  ,NUVAR    ,MFUNC    ,KFUNC    ,ALDT     ,
      2  NPF      ,TF       ,TIME     ,UPARAM   ,TDELE    ,
-     3  NGL      ,DPLA     ,UVAR     ,OFF      ,DFMAX    ,
+     3  NGL      ,DPLA     ,UVAR     ,OFF      ,DFMAX    ,DMGSCL   ,
      4  SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -56,7 +56,7 @@ C-----------------------------------------------
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
      .   DPLA(NEL),ALDT(NEL)
       my_real, INTENT(INOUT) :: UVAR(NEL,NUVAR),DFMAX(NEL),
-     .   TDELE(NEL),OFF(NEL)
+     .   TDELE(NEL),OFF(NEL),DMGSCL(NEL)
 C!-----------------------------------------------
 C!   VARIABLES FOR FUNCTION INTERPOLATION 
 C!-----------------------------------------------
@@ -66,10 +66,10 @@ C!-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,INDX(NEL),NINDX,SEL,FLAG_PERTURB
+      INTEGER I,J,INDX(NEL),NINDX,SEL,FLAG_PERTURB,ICOUP
       my_real 
      .  DF,P,TRIAXS,SVM,SXX,SYY,SZZ,EPS_FAIL,P1X,P1Y,S1X,S1Y,
-     .  S2Y,A1,B1,C1,REF_EL_LEN,LAMBDA,FAC,X_1(3),X_2(3)   
+     .  S2Y,A1,B1,C1,REF_EL_LEN,LAMBDA,FAC,X_1(3),X_2(3),DCRIT,EXP
 C
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
@@ -85,6 +85,9 @@ C
       SEL    = INT(UPARAM(11)+0.0001)
       IF (SEL == 3) SEL = 2
       REF_EL_LEN = UPARAM(13)
+      ICOUP = NINT(UPARAM(14))
+      DCRIT = UPARAM(15)
+      EXP   = UPARAM(16)
 C
       ! At initial time, compute the element size regularization factor
       IF (MFUNC > 0) THEN 
@@ -260,6 +263,23 @@ C
               TDELE(I) = TIME    
             ENDIF
           ENDIF 
+        ENDDO
+      ENDIF
+c
+c------------------------
+c     STRESS SOFTENING
+c------------------------
+      IF (ICOUP == 1) THEN
+        DO I = 1,NEL
+          IF (DFMAX(I) >= DCRIT) THEN 
+            IF (DCRIT < ONE) THEN 
+              DMGSCL(I) = ONE - ((DFMAX(I)-DCRIT)/MAX(ONE-DCRIT,EM20))**EXP
+            ELSE
+              DMGSCL(I) = ZERO
+            ENDIF
+          ELSE
+            DMGSCL(I) = ONE
+          ENDIF
         ENDDO
       ENDIF
 c

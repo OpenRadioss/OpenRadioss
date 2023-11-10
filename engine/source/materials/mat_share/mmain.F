@@ -2282,7 +2282,7 @@ C  --- Biquadratic failure model
               CALL FAIL_BIQUAD_S(
      1        LLT      ,NPARAM   ,NVARF    ,NFUNC    ,IFUNC    ,EL_LEN   ,
      2        NPF      ,TF       ,TT       ,BUFMAT(IADBUF),TDEL,      
-     3        NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,              
+     3        NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,LBUF%DMGSCL,              
      4        SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      )                            
           ELSEIF (IRUPT == 34) THEN                                      
 C  --- Cockroft-Latham failure model             

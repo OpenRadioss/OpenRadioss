@@ -332,7 +332,7 @@ c ---   Biquadratic failure
                CALL FAIL_BIQUAD_S(
      1         NEL      ,NUPARAM  ,NVARF    ,NFUNC    ,IFUNC    ,DELTAX   ,
      2         NPF      ,TF       ,TT       ,BUFMAT   ,TDELE    ,
-     3         NGL      ,DPLA(J1) ,UVARF    ,OFF      ,DFMAX    ,
+     3         NGL      ,DPLA(J1) ,UVARF    ,OFF      ,DFMAX    ,LBUF%DMGSCL,
      4         SXX      ,SYY      ,SZZ      ,SXY      ,SYZ      ,SZX      )
 c
               ELSEIF (IFAIL(II) == 37) THEN

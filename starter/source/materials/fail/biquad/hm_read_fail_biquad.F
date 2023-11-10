@@ -37,8 +37,8 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_FAIL_BIQUAD(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
-     .           MAXFUNC  ,NFUNC    ,UNITAB   ,MAT_ID ,FAIL_ID  ,
-     .           LSUBMODEL,TITR     )
+     .           MAXFUNC  ,NFUNC    ,UNITAB   ,MAT_ID ,LSUBMODEL,
+     .           TITR     )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -51,7 +51,6 @@ C     NAME            DESCRIPTION
 C
 C     UNITAB          UNITS ARRAY
 C     MAT_ID          MATERIAL ID(INTEGER)
-C     FAIL_ID         FAILURE ID(INTEGER)
 C     TITR            MATERIAL TITLE
 C     LSUBMODEL       SUBMODEL STRUCTURE    
 C-----------------------------------------------
@@ -76,7 +75,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER,INTENT(IN)  :: MAT_ID,FAIL_ID,MAXFUNC,MAXUPARAM
+      INTEGER,INTENT(IN)  :: MAT_ID,MAXFUNC,MAXUPARAM
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
 C OUTPUT ARGUMENTS
       INTEGER,INTENT(INOUT) :: NUPARAM,NUVAR,NFUNC
@@ -86,14 +85,14 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER   :: MFLAG,SFLAG,REG_FUNC
+      INTEGER   :: MFLAG,SFLAG,REG_FUNC,ICOUP
       my_real   :: C1,C2,C3,C4,C5,E1,E2,E3,E4,PTHK,INST,REF_LEN,REF_SIZ_UNIT
       my_real   :: X_1(2)
       my_real   :: X_2(3)
-      my_real   :: XMIN,YMIN
+      my_real   :: XMIN,YMIN,DCRIT,EXP
       LOGICAL   :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
@@ -129,10 +128,23 @@ c---------------------------------------------------
       CALL HM_GET_FLOATV ('R4'          ,E3          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
       CALL HM_GET_FLOATV ('R5'          ,E4          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
 c---------------------------------------------------
+c
+c---------------------------------------------------
+c     Stress softening input
+c---------------------------------------------------
+      CALL HM_GET_INTV   ('ICOUP'      ,ICOUP        ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_FLOATV ('DCRIT'      ,DCRIT        ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('EXP'        ,EXP          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+c---------------------------------------------------
+c
+      ! Check Pthickfail parameter
       PTHK = MIN(PTHK, ONE)
       PTHK = MAX(PTHK,-ONE) 
-      IF (PTHK == ZERO)  PTHK  = EM06
-      IF (SFLAG == 0)    SFLAG = 1
+      IF (PTHK == ZERO) PTHK  = EM06
+c
+      ! Check SFLAG formulation parameter
+      IF (SFLAG == 0)   SFLAG = 1
+c
 c---------------------------------------------------
 c     pre definition for user-input data when only 
 c     tension test data are provided
@@ -162,6 +174,38 @@ c
 c---------------------------------------------------
 c
       CALL BIQUAD_COEFFICIENTS(C1,C2,C3,C4,C5,PTHK,MFLAG,X_1,X_2,E1,E2,E3,E4)
+c
+      ! Check necking instability parameters
+      IF (SFLAG == 3 .AND. INST <= ZERO) THEN
+        CALL ANCMSG(MSGID=3042,
+     .              MSGTYPE=MSGWARNING,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=MAT_ID,
+     .              C1=TITR) 
+        SFLAG = 2
+      ELSEIF (SFLAG == 3 .AND. INST >= c4) THEN
+        CALL ANCMSG(MSGID=3043,
+     .              MSGTYPE=MSGWARNING,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=MAT_ID,
+     .              C1=TITR) 
+        SFLAG = 2
+      ENDIF
+c
+      ! Check stress softening parameters
+      DCRIT = MIN(DCRIT,ONE)
+      DCRIT = MAX(DCRIT,ZERO)
+      EXP = ABS(EXP)
+      IF (EXP == ZERO) EXP = ONE
+      IF ((DCRIT /= ZERO).AND.(ICOUP == 0)) ICOUP = 1
+      IF (SFLAG /= 3 .AND. ICOUP == 2) THEN 
+        CALL ANCMSG(MSGID=3044,
+     .              MSGTYPE=MSGWARNING,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=MAT_ID,
+     .              C1=TITR)         
+        ICOUP = 0
+      ENDIF
 c
       ! Check if minimum of first parabola is negative 
       XMIN = -X_1(1)/(TWO*X_1(2))
@@ -199,9 +243,12 @@ c---------------------------------------------------
       UPARAM(12) = INST
       UPARAM(9)  = C3
       UPARAM(10) = MFLAG
-      UPARAM(13) = REF_LEN    
+      UPARAM(13) = REF_LEN  
+      UPARAM(14) = ICOUP
+      UPARAM(15) = DCRIT 
+      UPARAM(16) = EXP  
 c-------------------------
-      NUPARAM = 13
+      NUPARAM = 16
 c
       IF (REG_FUNC == 0) THEN
         NUVAR = 2
@@ -221,68 +268,84 @@ c---------------------------------------------------
       IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE 
-        WRITE(IOUT, 1000) FAIL_ID
+        WRITE(IOUT,1000)
         IF (MFLAG /= 0) WRITE(IOUT, 1100) MFLAG
-        WRITE(IOUT, 1200) C1,C2,C3,C4,C5 
-        WRITE(IOUT, 1300) X_1(2),X_1(1),C2
-        WRITE(IOUT, 1400) X_2(3),X_2(2),X_2(1)
-        IF (REG_FUNC > 0) WRITE(IOUT, 1500) REG_FUNC,REF_LEN
-        IF (SFLAG == 3 .AND. INST <= ZERO)   THEN
-          WRITE(IOUT, 1600)    
-          SFLAG = 2
-        ELSEIF (SFLAG == 3 .AND. INST >= c4) THEN
-          SFLAG = 2
-          WRITE(IOUT, 1700)
-        ENDIF        
-        WRITE(IOUT, 1800) PTHK,SFLAG
-        IF (SFLAG == 3) WRITE(IOUT, 1900) INST
+        WRITE(IOUT,1200) C1,C2,C3,C4,C5 
+        WRITE(IOUT,1300) X_1(2),X_1(1),C2
+        WRITE(IOUT,1400) X_2(3),X_2(2),X_2(1)
+        WRITE(IOUT,1500) SFLAG
+        IF (SFLAG == 3) WRITE(IOUT,1600) INST
+        IF (REG_FUNC > 0) WRITE(IOUT, 1700) REG_FUNC,REF_LEN
+        IF (ICOUP > 0) THEN 
+          WRITE(IOUT,1800) ICOUP,DCRIT,EXP
+        ENDIF
+        WRITE(IOUT, 1900) PTHK
         WRITE(IOUT, 2000) 
       ENDIF      
 c-----------------------------------------------------------------------
       RETURN
 c-----------------------------------------------------------------------
  1000 FORMAT(
-     & 5X,'BI-QUADRATIC FAILURE MODEL               ',/,
-     & 5X,'FAILURE MODEL ID . . . . . . . . . . . . . . .=',I10/)
+     & 5X,'-----------------------------------------------',/,
+     & 5X,'          BIQUADRATIC FAILURE MODEL            ',/,
+     & 5X,'-----------------------------------------------',/)
  1100 FORMAT(
-     & 5X,' MATERIAL PARAMETER SELECTOR                  =',I10)
+     & 5X,'MATERIAL PARAMETER SELECTOR M-FLAG. . . . . . .=',I10/,
+     & 5X,'  = 1 : MILD STEEL                              ',/,
+     & 5X,'  = 2 : HSS  STEEL                              ',/,
+     & 5X,'  = 3 : UHSS STEEL                              ',/,
+     & 5X,'  = 4 : ALUMINUM AA5182                         ',/,
+     & 5X,'  = 5 : ALUMINUM AA6082-T6                      ',/,
+     & 5X,'  = 6 : PLASTIC PA6GF30                         ',/,
+     & 5X,'  = 7 : PLASTIC PP T40                          ',/,
+     & 5X,'  = 99: USER DEFINED STRAIN RATIO               ',/)
  1200 FORMAT(
-     & 5X,'C1 . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'C2 . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'C3 . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'C4 . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'C5 . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/)
+     & 5X,'PLASTIC STRAINS AT FAILURE:                    ',/,
+     & 5X,'---------------------------                    ',/,
+     & 5X,'C1 (SIMPLE COMPRESSION). . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'C2 (SHEAR) . . . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'C3 (SIMPLE TENSION). . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'C4 (PLANE STRAIN). . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'C5 (BIAXIAL TENSION) . . . . . . . . . . . . .=',1PG20.13,/)
  1300 FORMAT(
-     & 5X,' COEFFICIENTS OF FIRST PARABOLA ',/,
-     & 5X,' ----------------------------- ',/,
-     & 5X,'a. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'b. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'c. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/)
+     & 5X,'COEFFICIENTS OF FIRST PARABOLA:                ',/,
+     & 5X,'------------------------------                 ',/,
+     & 5X,'A. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'B. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'C. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/)
  1400 FORMAT(
-     & 5X,' COEFFICIENTS OF SECOND PARABOLA               ',/,
-     & 5X,' -------------------------------               ',/,
-     & 5X,'d. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'e. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
-     & 5X,'f. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/)
+     & 5X,'COEFFICIENTS OF SECOND PARABOLA:               ',/,
+     & 5X,'--------------------------------               ',/,
+     & 5X,'D. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'E. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'F. . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/)
  1500 FORMAT(
-     & 5X,'ELEMENT LENGTH REGULARIZATION USED:            ',/,
+     & 5X,'SPECIFIC BEHAVIOR FLAG S-FLAG. . . . . . . . .=',I10,/
+     & 5X,'  = 1: TWO QUADRATIC FUNCTIONS                 ',/,
+     & 5X,'  = 2: PLANE STRAIN VALUE IS THE GLOBAL MINIMUM',/,
+     & 5X,'  = 3: PLANE STRAIN IS GLOBAL MINIMUM + INSTABILITY NECKING (SHELLS ONLY)',/)
+ 1600 FORMAT(
+     & 5X,'INSTABILITY STRAIN (SHELLS ONLY) . . . . . . .=',1PG20.13,/)
+ 1700 FORMAT(
+     & 5X,'ELEMENT LENGTH REGULARIZATION:                 ',/,
+     & 5X,'------------------------------                 ',/,
      & 5X,'REGULARIZATION FUNCTION ID . . . . . . . . . .=',I10,/
      & 5X,'REFERENZE ELEMENT LENGTH . . . . . . . . . . .=',1PG20.13,/)
- 1600 FORMAT(
-     & 5X,' Instability value less or equal zero !  ',/
-     & 5X,' Instability will be ignored and selector set to 2 !',/)
- 1700 FORMAT(
-     & 5X,' Instability strain higher or equal plain strain value c4 !',/
-     & 5X,' Instability will be ignored and selector set to 2 !',/)
  1800 FORMAT(
-     & 5X,' ELEMENT DELETION :',/,
-     & 5X,' Shell element deletion parameter Pthickfail .=',1PG20.13,/
-     & 5X,'   > 0.0 : Fraction of failed thickness             ',/,
-     & 5X,'   < 0.0 : Fraction of failed intg. points or layers',/,
-     & 5X,' S-Flag. . . . . . . . . . . . . . . . . . . .=',I10,/)
+     & 5X,'STRESS SOFTENING:                              ',/,
+     & 5X,'-----------------                              ',/,
+     & 5X,'COUPLING METHOD FLAG ICOUP . . . . . . . . . .=',I10,/,
+     & 5X,'  = 1: CLASSICAL COUPLING USING CRITICAL DAMAGE',/,
+     & 5X,'  = 2: NECKING INSTABILITY COUPLING (SHELLS ONLY)',/, 
+     & 5X,'DAMAGE CRITICAL VALUE DCRIT (IF ICOUP = 1) . .=',1PG20.13,/,
+     & 5X,'STRESS SOFTENING EXPONENT EXP. . . . . . . . .=',1PG20.13,/)
  1900 FORMAT(
-     & 5X,'Instability strain . . . . . . . . . . . . . .=',1PG20.13,//)
+     & 5X,'ELEMENT DELETION:                              ',/,
+     & 5X,'-----------------                              ',/,
+     & 5X,'SHELL ELEMENT DELETION PARAMETER PTHICKFAIL. .=',1PG20.13,/
+     & 5X,'   > 0.0: FRACTION OF FAILED THICKNESS         ',/,
+     & 5X,'   < 0.0: FRACTION OF FAILED INTG. POINTS      ',/)
  2000 FORMAT(
-     & 5X,' ---------------------------------------------- ',//)
+     & 5X,'-----------------------------------------------',/)
 c-----------------------------------------------------------------------
       END
