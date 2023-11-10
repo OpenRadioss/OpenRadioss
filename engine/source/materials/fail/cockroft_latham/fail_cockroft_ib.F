@@ -30,7 +30,8 @@ Chd|====================================================================
      .          NEL      ,NGL      ,NUPARAM  ,UPARAM  ,
      .          TIME     ,DPLA     ,OFF      ,DFMAX,  
      .          TDEL     ,IOUT     ,ISTDO    ,EPSXX    ,
-     .          IPT      ,SIGNXX   ,NVARF    , UVAR    ,FOFF)   
+     .          IPT      ,SIGNXX   ,SIGNXY   ,SIGNXZ   ,
+     .          NVARF    , UVAR    ,FOFF)   
 !====================================================================
 ! cockroft  failure model for integrated beams
 C-----------------------------------------------
@@ -56,6 +57,10 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: DPLA    ! plastic strain increment
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: OFF     ! element desactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXX  ! stress component
+      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXY  ! stress component
+      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXZ  ! stress component
+
+
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSXX 
       INTEGER ,DIMENSION(NEL)     ,INTENT(INOUT) :: FOFF    ! integration point desactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
@@ -67,7 +72,8 @@ C-----------------------------------------------
       INTEGER I,J,NINDXF
       INTEGER ,DIMENSION(NEL) :: INDXF
       my_real
-     .                            C0,EMA,EEQ,SIG_A,SIG_FILTRE
+     .                            C0,EMA,EEQ,SIG_A,SIG_FILTRE,R,Q,I1,S11,
+     .                            S22 , S33,R_INTER,PHI,I2 
       my_real ,DIMENSION(NEL) ::  EPS_EQ,DAMAGE,EPSRATE,EPS11,EPSI,D_EEQ
 C=======================================================================
 C     UVAR(I,1) contains previous equivalent strain value increment
@@ -99,13 +105,31 @@ c-----------------------------
 
       DO I =1,NEL
         IF(OFF(I) == ONE .AND. FOFF(I) == 1  ) THEN
-          ! principal stress Sigma 
-          SIG_A        = SIGNXX (I)
-          SIG_FILTRE   = SIG_A * EMA + (ONE-EMA)* UVAR(I,3)
+          !   principal stress calculation
+          I1 = SIGNXX(I) 
+          I2 = -SIGNXY(I)*SIGNXY(I)-SIGNXZ(I)*SIGNXZ(I)
+          
+          Q  = (THREE*I2 - I1*I1)/NINE
+          R  = (TWO*I1*I1*I1 - NINE*I1*I2 )/CINQUANTE4     
+           
+          R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
+          PHI = ACOS(MAX(R_INTER,-ONE))
+           
+          S11 = TWO*SQRT(-Q)*COS(PHI/THREE)+THIRD*I1
+          S22 = TWO*SQRT(-Q)*COS((PHI+TWO*PI)/THREE)+THIRD*I1
+          S33 = TWO*SQRT(-Q)*COS((PHI+FOUR*PI)/THREE)+THIRD*I1
 
-          UVAR(I,3)= SIG_FILTRE
-          !integral
-          UVAR(I,2) = UVAR(I,2) + MAX(SIG_FILTRE,ZERO) * D_EEQ(I)
+          SIG_A = MAX (S11  ,S22 )
+          SIG_A = MAX (SIG_A,S33 )
+
+
+          IF (SIG_A>ZERO)THEN
+            SIG_FILTRE   = SIG_A * EMA + (ONE-EMA)* UVAR(I,3)
+            UVAR(I,3)= SIG_FILTRE
+            !integral
+            UVAR(I,2) = UVAR(I,2) + MAX(SIG_FILTRE,ZERO) * D_EEQ(I)
+          ENDIF
+
           !damage
           DFMAX(I) =  MIN(UVAR(I,2) / MAX(EM20,ABS(C0))  ,ONE)
           

@@ -213,6 +213,9 @@ c---------------
      .          EPSXX    ,AL       ,TSTAR    ,LBUF%DMGSCL ,
      .          SNPC     ,NPF      ,STF      ,UVARF  ,NVARF,
      .          TF       ,IPT      ,FOFF     ,ISMSTR )
+          DO I= 1,NEL
+            IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
+          END DO
 c---------------  
         CASE (11)     ! Energy failure model                                           
           CALL FAIL_ENERGY_IB(
@@ -234,7 +237,8 @@ c---------------
      .          NEL      ,NGL      ,NPARAM   ,UPARAMF  ,
      .          TIME     ,DPLA     ,OFF      ,DFMAX,  
      .          TDEL     ,IOUT     ,ISTDO    ,EPSXX    ,
-     .          IPT      ,SIGNXX   ,NVARF    ,UVARF    ,FOFF )   
+     .          IPT      ,SIGNXX   ,SIGNXY   ,SIGNXZ   ,
+     .          NVARF    ,UVARF    ,FOFF )   
           DO I= 1,NEL
             IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
           END DO
