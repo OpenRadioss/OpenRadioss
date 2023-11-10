@@ -1080,9 +1080,15 @@ C machine.inc include
 
 C variables inutiles mais definies dans machine.inc
         INTEGER IBUILTIN,NSPMD,BMUL0,IEXPM,ICRAY,IRESP,IMACH,IRFORM,LENBT,READER_ID
+        INTEGER READER_COMMIT_ID_SIZE,READER_COMMIT_ID_LEN
+        CHARACTER(LEN=128):: READER_COMMIT_ID
 C-----------------------------------------------
 #include "machine.inc"
 C-----------------------------------------------
+         ! Grab Build ID from hm_reader library
+         READER_COMMIT_ID_SIZE=128
+         CALL HM_BUILD_ID(READER_COMMIT_ID,READER_COMMIT_ID_SIZE,READER_COMMIT_ID_LEN)
+
 
          WRITE(6,'(A,A)') ' '
          WRITE(6,'(A,A)') 'OpenRadioss Starter '
@@ -1096,6 +1102,13 @@ C-----------------------------------------------
          WRITE(6,'(A,A)')   ' '
          WRITE(6,'(A,A)')   'Time of build : ',BTIME
          WRITE(6,'(A,A)')   'Date of build : ',BDATE
+         WRITE(6,'(A,A)') ' '
+         IF( BTAG(1:1) == ' ') THEN
+           WRITE(6,'(A)')   'CommitID : User Build'
+         ELSE
+           WRITE(6,'(A)')     BTAG(1:LEN_TRIM(BTAG))
+         ENDIF
+         WRITE(6,'(A,A)') 'Hm_reader : ',READER_COMMIT_ID(1:READER_COMMIT_ID_LEN)
          WRITE(6,'(A,A)')   ' '
 
         END
