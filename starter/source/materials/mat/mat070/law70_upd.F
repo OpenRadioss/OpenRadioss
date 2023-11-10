@@ -310,9 +310,8 @@ c
 c------------------------------------
 c     static function value at EPSMAX
 c------------------------------------
-      EPSMAX = UPARAM(4)
       K = 1
-      DO WHILE (MAT_PARAM%TABLE(LOAD)%X(1)%VALUES(K) < EPSMAX)
+      DO WHILE (MAT_PARAM%TABLE(LOAD)%X(1)%VALUES(K) < EPSMAX .and. K < LEN(1)-1)
         K = K + 1
       END DO
       X1 = MAT_PARAM%TABLE(LOAD)%X(1)%VALUES(K)
