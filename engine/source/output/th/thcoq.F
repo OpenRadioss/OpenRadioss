@@ -395,11 +395,7 @@ c----           mean stress over Gauss points in each layer
                           WWA(K + J) = SIG(J)
                         ENDDO
                       ELSE IF (MAT_ORTH == 2) THEN   !  rotate sig to global coord  
-                        IF(IDRAPE == 0) THEN           
-                          DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA
-                        ELSE
-                          DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%LBUF_DIR(1)%DIRA ! to check
-                        ENDIF
+                        DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA
                         D1  = DIR_A(I)
                         D2  = DIR_A(I+NEL)
                         D11 = D1*D1
