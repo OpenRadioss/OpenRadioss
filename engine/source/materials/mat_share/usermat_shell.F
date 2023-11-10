@@ -1611,9 +1611,10 @@ c
      1          JLT      ,NVARF   ,
      2          TT       ,UPARAMF ,NGL      ,IPT      ,MPT      ,
      3          SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     4          DPLA     ,EPSPL   ,UVARF    ,GBUF%NOFF,UELR1    ,
+     4          DPLA     ,EPSPL   ,UVARF    ,PTHKF(ILAYER,IFL)  ,UELR1    ,
      5          OFF      ,OFFL    ,DFMAX    ,TDEL     ,NFUNC1   ,
-     6          IFUNC1   ,NPF     ,TF       ,EL_LEN   ,FOFF     , IGTYP)
+     6          IFUNC1   ,NPF     ,TF       ,EL_LEN   ,FOFF     ,IPG      ,
+     7          DMG_FLAG ,DMG_LOC_SCALE)
 c
               CASE (31)     !    Anisotropic fabric failure model
 c

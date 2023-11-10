@@ -35,7 +35,7 @@ Chd|====================================================================
      4           DPLA     ,EPSP     ,UVAR     ,PTHKF    ,UEL1     ,
      5           OFF      ,OFFL     ,DFMAX    ,TDEL     ,NFUNC    ,
      6           IFUNC    ,NPF      ,TF       ,ALDT     ,FOFF     ,
-     7           IPG      )
+     7           IPG      ,DMG_FLAG ,DMGSCL   )
 C-----------------------------------------------
 C    Biquadratic failure model
 C-----------------------------------------------
@@ -85,14 +85,16 @@ C-----------------------------------------------
       INTEGER NGL(NEL),IFUNC(NFUNC)
       my_real TIME,UPARAM(*),DPLA(NEL),EPSP(NEL),
      .   UEL1(NEL),ALDT(NEL),PTHKF
+      INTEGER, INTENT(INOUT) :: DMG_FLAG
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-       INTEGER ,DIMENSION(NEL), INTENT(INOUT) :: FOFF
+      INTEGER ,DIMENSION(NEL), INTENT(INOUT) :: FOFF
       my_real 
      .  UVAR(NEL,NUVAR),OFF(NEL),OFFL(NEL),
      .  SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
      .  DFMAX(NEL),TDEL(NEL)
+      my_real, INTENT(INOUT) :: DMGSCL(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -111,11 +113,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        my_real hydros, vmises, triaxs,REF_EL_LEN
        INTEGER I,J,L,NINDX1,NINDX2,FLAG_PERTURB,SEL
-       INTEGER FAIL_COUNT,IT
+       INTEGER FAIL_COUNT,IT,ICOUP
        INTEGER, DIMENSION(MVSIZ) :: INDX1,INDX2
 
-       my_real  X_1(3) , X_2(3),c3,DYDX
-       my_real  EPS_FAIL, EPS_FAIL2, DAMAGE, INST
+       my_real  X_1(3) , X_2(3),c3,DYDX,DC(NEL)
+       my_real  EPS_FAIL, EPS_FAIL2, DAMAGE, INST, DCRIT, EXP
        my_real  P1X,P1Y,S1X,S1Y,S2Y, A1, A2, B1, B2, C1, C2,FAC,LAMBDA
 C-----------------------------------------------
 c! UVAR1 = damage due to instability (triax between 1/3 and 2/3)
@@ -140,6 +142,9 @@ C-----------------------------------------------
        NINDX2       = 0
        EPS_FAIL     = ZERO
        EPS_FAIL2    = ZERO
+       ICOUP        = NINT(UPARAM(14))
+       DCRIT        = UPARAM(15)
+       EXP          = UPARAM(16)
 C
 C!  Initialization
        IF (NFUNC > 0) THEN 
@@ -237,23 +242,27 @@ C-----------------------------------------------
                  ENDIF
                  IF (EPS_FAIL2> ZERO) THEN
                    DAMAGE = DAMAGE + DPLA(I)/EPS_FAIL2
+                   DAMAGE = MIN(ONE,DAMAGE)
                    UVAR(I,1) = DAMAGE
+                   IF ((DAMAGE >= ONE).AND.(UVAR(I,2) == ZERO)) THEN 
+                     UVAR(I,2) = DFMAX(I)
+                   ENDIF
                  ENDIF
                END SELECT
            ENDIF
            
-             DFMAX(I) = DFMAX(I) + DPLA(I)/MAX(EPS_FAIL,EM6)
-             DFMAX(I) = MIN(ONE,DFMAX(I))
+           DFMAX(I) = DFMAX(I) + DPLA(I)/MAX(EPS_FAIL,EM6)
+           DFMAX(I) = MIN(ONE,DFMAX(I))
            
-           IF (OFFL(I)==1. .AND. DFMAX(I)>=1.0) THEN
+           IF (DFMAX(I) >= ONE) THEN
              FOFF(I)       = 0
              NINDX1        = NINDX1 + 1
              INDX1(NINDX1) = I  
            ENDIF
            
-           IF (DAMAGE >= ONE .AND. UVAR(I,2) == ZERO .AND. OFFL(I) == ONE) THEN
-             UVAR(I,2) = ONE  
-             UEL1(I)   = UEL1(I) + ONE
+           IF (DAMAGE >= ONE .AND. OFFL(I) == ONE .AND. ICOUP == 0) THEN  
+             UEL1(I) = UEL1(I) + ONE
+             OFFL(I) = FOUR_OVER_5
              IF (INT(UEL1(I)) == NPTOT) THEN
                NINDX2        = NINDX2 + 1
                INDX2(NINDX2) = I
@@ -341,23 +350,27 @@ C-----------------------------------------------
                  ENDIF
                  IF (EPS_FAIL2> ZERO) THEN
                    DAMAGE = DAMAGE + DPLA(I)/EPS_FAIL2
+                   DAMAGE = MIN(ONE,DAMAGE)
                    UVAR(I,1) = DAMAGE
+                   IF ((DAMAGE >= ONE).AND.(UVAR(I,2) == ZERO)) THEN 
+                     UVAR(I,2) = DFMAX(I)
+                   ENDIF
                  ENDIF
                END SELECT
            ENDIF
            
-             DFMAX(I) = DFMAX(I) + DPLA(I)/MAX(EPS_FAIL,EM6)
-             DFMAX(I) = MIN(ONE,DFMAX(I))
+           DFMAX(I) = DFMAX(I) + DPLA(I)/MAX(EPS_FAIL,EM6)
+           DFMAX(I) = MIN(ONE,DFMAX(I))
              
-           IF (OFFL(I)==1. .AND. DFMAX(I)>=1.0) THEN
+           IF (DFMAX(I) >= ONE) THEN
              FOFF(I)       = 0
              NINDX1        = NINDX1 + 1
              INDX1(NINDX1) = I  
            ENDIF
            
-           IF (DAMAGE > ONE .AND. UVAR(I,2) == ZERO .AND. OFFL(I) == ONE) THEN
-             UVAR(I,2) = ONE   
-             UEL1(I)   = UEL1(I) + ONE
+           IF (DAMAGE >= ONE .AND. OFFL(I) == ONE .AND. ICOUP == 0) THEN  
+             UEL1(I) = UEL1(I) + ONE
+             OFFL(I) = FOUR_OVER_5           
              IF (INT(UEL1(I)) == NPTOT) THEN
                NINDX2        = NINDX2 + 1
                INDX2(NINDX2) = I
@@ -374,7 +387,40 @@ C-----------------------------------------------
          ENDDO
 
        ENDIF
-       
+c
+c------------------------
+c      STRESS SOFTENING
+c------------------------
+       IF (ICOUP > 0) THEN 
+         DMG_FLAG = 1
+         IF (ICOUP == 1) THEN 
+           DO I = 1,NEL 
+            IF (DFMAX(I) >= DCRIT) THEN 
+              IF (DCRIT < ONE) THEN 
+                DMGSCL(I) = ONE - ((DFMAX(I)-DCRIT)/MAX(ONE-DCRIT,EM20))**EXP
+              ELSE
+                DMGSCL(I) = ZERO
+              ENDIF
+            ELSE
+              DMGSCL(I) = ONE
+            ENDIF
+           ENDDO
+         ELSE
+           DO I = 1,NEL 
+            DC(I) = UVAR(I,2)
+            IF (DC(I) == ZERO) DC(I) = ONE
+            IF (DFMAX(I) >= DC(I)) THEN 
+              IF (DC(I) < ONE) THEN 
+                DMGSCL(I) = ONE - ((DFMAX(I)-DC(I))/MAX(ONE-DC(I),EM20))**EXP
+              ELSE
+                DMGSCL(I) = ZERO
+              ENDIF
+            ELSE
+              DMGSCL(I) = ONE
+            ENDIF
+           ENDDO         
+         ENDIF
+       ENDIF
 c------------------------
 c------------------------
 c------------------------

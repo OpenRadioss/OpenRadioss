@@ -1510,7 +1510,7 @@ c  --- Biquadratic failure model
               CALL FAIL_BIQUAD_S(
      1        LLT      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,EL_LEN   ,
      2        NPF      ,TF       ,TT       ,UPARAMF  ,TDEL     ,
-     3        NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,                   
+     3        NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,LBUF%DMGSCL,                   
      4        S1       ,S2       ,S3       ,S4       ,S5       ,S6       )    
           ELSEIF (IRUPT == 33) THEN                                
 c  --- Mullins Ogden-Roxburgh damage model                                  

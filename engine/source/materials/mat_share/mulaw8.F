@@ -1053,7 +1053,7 @@ C  --- Biquadratic failure model
               CALL FAIL_BIQUAD_S(
      1         LLT      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,DELTAX   ,
      2         NPF      ,TF       ,TT       ,BUFMAT   ,TDELE    ,
-     3         NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,                  
+     3         NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,LBUF%DMGSCL,                  
      4         S1       ,S2       ,S3       ,S4       ,S5       ,S6       )                  
           ELSEIF (IFAIL(II) == 36) THEN                                           
 C  --- VISUAL failure model             

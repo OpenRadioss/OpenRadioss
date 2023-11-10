@@ -2149,7 +2149,8 @@ c
      3          SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      4          DPLA     ,EPSPL   ,UVARF    ,PTHKF(ILAYER,IFL)  ,UELR1    ,
      5          OFF      ,OFFL    ,DFMAX    ,TDEL     ,NFUNC1   ,
-     6          IFUNC1   ,NPF     ,TF       ,EL_LEN   ,FOFF     ,IPG      )
+     6          IFUNC1   ,NPF     ,TF       ,EL_LEN   ,FOFF     ,IPG      ,
+     7          DMG_FLAG,DMG_LOC_SCALE)
 c
               CASE (31)     !    Anisotropic fabric failure model
 c
