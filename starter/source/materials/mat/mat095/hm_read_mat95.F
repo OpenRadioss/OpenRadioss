@@ -91,7 +91,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NBMAT, MAT_ID  ! Number of declared materials
-      INTEGER :: I,J,NRATE,NPS,OPTE,IFUNCE,ILAW,NFUNC
+      INTEGER :: I,J,NRATE,NPS,OPTE,IFUNCE,ILAW,NFUNC,IFORM
       my_real :: RHO0, RHOR,E,NU,G,MU,RBULK,   C1,  
      .           C10,C01,C20,C11,C02 ,TAUREF_UNIT,
      .           C30, C21,C12,C03,SB,D1,D2,D3,A,EXPC,EXPM,KSI,TAUREF
@@ -130,6 +130,7 @@ C=======================================================================
       NU     = ZERO
       TAUREF = ZERO
       A      = ZERO
+      IFORM  = 0
 Card1        
       CALL HM_GET_FLOATV('MAT_C_10'    ,C10      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_C_01'    ,C01      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -147,6 +148,8 @@ Card3
       CALL HM_GET_FLOATV('MAT_D_1'    ,D1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_D_2'    ,D2       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_D_3'    ,D3       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_NU'     ,NU       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_INTV  ('IFORM'      ,IFORM    ,IS_AVAILABLE,LSUBMODEL) 
 
 Card4        
       CALL HM_GET_FLOATV('MLAW95_A'    ,A        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -158,10 +161,11 @@ Card4
 
 C------------------------------------------------------------------
       NUVAR = 10
-      NUPARAM = 22
+      NUPARAM = 23
 C------------------------------------------------------------------
       IF(D2 /=  ZERO )   D2 = ONE/D2    
       IF(D3 /=  ZERO )   D3 = ONE/D3 
+      IF(IFORM== 0 )IFORM = 1
 
       IF(TAUREF == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('MAT_TAU_REF' ,TAUREF_UNIT   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -175,13 +179,19 @@ C------------------------------------------------------------------
          RBULK= TWO*D1 *(ONE+SB) 
          NU = (THREE*RBULK -TWO*G)/(THREE*RBULK + G)/TWO
          E = NINE*RBULK*G/(THREE*RBULK + G)
+      ELSEIF(NU /=ZERO)THEN
+         D2 = ZERO
+         D3 = ZERO
+         E  = TWO*G*(ONE + NU)  
+         RBULK = TWO_THIRD*G*(ONE + NU)/(ONE-TWO*NU)
+         D1 = RBULK / TWO                
       ELSE
          D2 = ZERO
          D3 = ZERO
          NU= 0.495
          RBULK = TWO_THIRD*G*(ONE + NU)/(ONE-TWO*NU)
          D1 = RBULK / TWO ! 1/D1 A VOIR SI ON SUPRIME PAS LE TERME AVEC J
-         E = TWO*G*(ONE + NU)      
+         E = TWO*G*(ONE + NU)                 
       ENDIF
 C------------------------------------------------------------------
       UPARAM(19) = G 
@@ -209,6 +219,7 @@ C------------------------------------------------------------------
       UPARAM(17) = EXPM
       UPARAM(18) = KSI 
       UPARAM(22) = TAUREF
+      UPARAM(23) = IFORM
 c
 c---------------------------------
 C      PM PARMAT
@@ -233,7 +244,7 @@ c-----------------
       ELSE     
          WRITE(IOUT,1002)RHO0
          WRITE(IOUT,1100)C10,C01,C20,C11,C02,
-     .      C30, C21,C12,C03,D1,D2,D3  
+     .      C30, C21,C12,C03,D1,D2,D3  ,NU,IFORM
          WRITE(IOUT,1300)A,EXPC,EXPM,KSI ,SB ,TAUREF
          WRITE(IOUT,1200)G,RBULK, NU
       ENDIF
@@ -259,7 +270,11 @@ C
      & 5X,'C03 . . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'1/D1  . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'1/D2  . . . . . . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'1/D3  . . . . . . . . . . . . . . . . . .=',1PG20.13)
+     & 5X,'1/D3  . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'POISSON COEFFICIENT . . . . . . . . . . .=',1PG20.13//
+     & 5X,'INCOMPRESSIBILITY FORMULATION FLAG IFORM. . .  =',I2/,
+     & 5X,'  IFORM = 1: STANDARD STRAIN ENERGY DENSITY (DEFAULT)',/,
+     & 5X,'  IFORM = 2: MODIFIED STRAIN ENERGY DENSITY          ',/)
  1300 FORMAT(
      & 5X,'PARAMETERS FOR THE EFFECTIVE CREEP STRAIN RATE: ',/,
      & 5X,'A. . . . . . . . . . . . . . . . . . . . =',1PG20.13/

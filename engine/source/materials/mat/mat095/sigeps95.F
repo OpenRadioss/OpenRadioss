@@ -100,7 +100,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER   I,J,K,KK,LL,FLAGBB,DIRECT,ITER,NITER,FLAG_MUL,IAVIS
+      INTEGER   I,J,K,KK,LL,FLAGBB,DIRECT,ITER,NITER,FLAG_MUL,IAVIS,IFORM
 
       my_real
      .   ET1,ET2,ET3,A1,A10,KSI,MU,D,LAM,G,RBULK,AA,BB,CC,SB, TEMP,
@@ -150,6 +150,7 @@ c    material parameters
       G    =  UPARAM(19) 
       RBULK=  UPARAM(20) 
       TAUREF= UPARAM(22) 
+      IFORM = NINT(UPARAM(23))
       !
       STIFF0 = FOUR_OVER_3*G + RBULK
       MAXL = ONE
@@ -224,11 +225,12 @@ C
       !-------------------------
       !entry B=F*FT matrix --  output hyperelastic stress 
        CALL POLYSTREST2(
-     1                NEL , FFT , C10, C01, C20, 
-     2                C11 ,C02, C30, C21, C12,
-     3                C03 ,D1 ,D2  ,  D3, SIGA ,
-     4                BI1,BI2,JDET ,FLAG_MUL,
-     5                NVARF,COEFR, BETAF,COEFM  ,UVARF,CAII)
+     1                NEL  , FFT , C10 , C01, C20, 
+     2                C11  ,C02  , C30 , C21, C12,
+     3                C03  ,D1   , D2  ,  D3, SIGA ,
+     4                BI1  ,BI2  ,JDET ,FLAG_MUL,
+     5                NVARF,COEFR,BETAF,COEFM   ,
+     6                UVARF,CAII ,RBULK,IFORM)
      
       
       IF (IAVIS>0) THEN    
@@ -259,7 +261,8 @@ C
      2                C11 ,C02, C30, C21, C12,
      3                C03 ,D1 ,D2  ,  D3, SIGB ,
      4                BI1,BI2,JDET ,FLAG_MUL,
-     5                NVARF,COEFR, BETAF,COEFM  ,UVARF)
+     5                NVARF,COEFR, BETAF,COEFM ,
+     6                UVARF,RBULK,IFORM)
      
      
         DO I=1,NEL  !     scale trial cauchy stress in chain B
@@ -340,7 +343,8 @@ C
      2                C11 ,C02, C30, C21, C12,
      3                C03 ,D1 ,D2  ,  D3, SIGB ,
      4                BI1,BI2,JDET ,FLAG_MUL,
-     5                NVARF,COEFR, BETAF,COEFM  ,UVARF,CBII)
+     5                NVARF,COEFR, BETAF,COEFM  ,
+     6                UVARF,CBII,RBULK,IFORM)
 
         DO I=1,NEL  !     scale  cauchy stress in chain B
          SIGB(I,1,1) = SB *  SIGB(I,1,1)
