@@ -39,7 +39,7 @@ Chd|====================================================================
      8      IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,INACTI,
      9      IPARTS  ,NPARTNS ,LPARTNS ,IELEM ,ICODE   ,
      A      ISKEW   ,DRAD, IS_LARGE_NODE, LARGE_NODE  ,
-     B      NB_LARGE_NODES,PEN_OLD      , DGAPLOAD)
+     B      NB_LARGE_NODES,PEN_OLD      , DGAPLOAD,NRTMT)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -114,7 +114,7 @@ C     REAL
       INTEGER :: LARGE_NODE(NSN) ! list of nodes that have large research distance wrt solids
       INTEGER :: IS_LARGE_NODE(NSN) ! tag nodes that have large research distance wrt solids
       INTEGER :: NB_LARGE_NODES
-
+      INTEGER , INTENT(IN) :: NRTMT
 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -237,7 +237,7 @@ c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
           ENDDO
         ENDIF
 
-        IF (MSEGTYP(NE)==0 .OR. MSEGTYP(NE)>NRTM)THEN
+        IF (MSEGTYP(NE)==0 .OR. MSEGTYP(NE)>NRTMT)THEN
           ! LEDGMAX /=0 <=> INACTI=5 or -1 and IDDLEVEL=1 !
           AAA = MAX(MARGE+MAX(BGAPSMX+GAP_M(NE)+DGAPLOAD,DRAD),LEDGMAX+BGAPSMX+GAP_M(NE)+DGAPLOAD)
         ELSE
@@ -292,7 +292,7 @@ c        indice des voxels occupes par la facette
         IY2=MAX(1,2+MIN(NBY,IY2))
         IZ2=MAX(1,2+MIN(NBZ,IZ2))
 
-        IF (MSEGTYP(NE)==0 .OR. MSEGTYP(NE)>NRTM)THEN
+        IF (MSEGTYP(NE)==0 .OR. MSEGTYP(NE)>NRTMT)THEN
 C Check for "large" nodes separately
 C if the current segment belongs to a solid or a coating shell
           DO I = 1, NB_LARGE_NODES
@@ -357,7 +357,7 @@ c               END IF
      4           NRTM  ,GAP_S  ,GAP_M ,NBINFLG  ,MBINFLG,
      5           ILEV,MSEGTYP,ITAB  ,IGAP ,GAP_S_L,
      6           GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD ,
-     7           DGAPLOAD)
+     7           DGAPLOAD,NRTMT)
               IF(I_MEM==2)GOTO 100
               J_STOK = 0
             ENDIF
@@ -392,7 +392,7 @@ c NEED to communicate in SPMD
 c VMAXDT is a local overestimate of relative incremental displacement
 c NO need to communicate in SPMD
 
-                IF (MSEGTYP(NE)==0 .OR. MSEGTYP(NE)>NRTM)THEN
+                IF (MSEGTYP(NE)==0 .OR. MSEGTYP(NE)>NRTMT)THEN
                   IF(IS_LARGE_NODE(JJ)==1) GOTO 300 ! node already checked before
                   ! LEDGMAX /=0 <=> INACTI=5 or -1 and IDDLEVEL=1 !
                   AAA = MAX(MARGE+MAX(GAP_S(JJ)+GAP_M(NE)+DGAPLOAD,DRAD),EDGE_L2(JJ)+GAP_S(JJ)+GAP_M(NE)+DGAPLOAD)
@@ -453,7 +453,7 @@ cc             nnr0pelem = nnr0pelem + 1
      4               NRTM  ,GAP_S  ,GAP_M ,NBINFLG  ,MBINFLG,
      5               ILEV,MSEGTYP,ITAB  ,IGAP ,GAP_S_L,
      6               GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD ,
-     7               DGAPLOAD)
+     7               DGAPLOAD,NRTMT)
                   IF(I_MEM==2)GOTO 100
                   J_STOK = 0
                 ENDIF
@@ -487,7 +487,7 @@ C-------------------------------------------------------------------------
      4                NRTM  ,GAP_S  ,GAP_M ,NBINFLG  ,MBINFLG,
      5                ILEV,MSEGTYP,ITAB  ,IGAP ,GAP_S_L,
      6                GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD ,
-     7                DGAPLOAD)
+     7                DGAPLOAD,NRTMT)
 C 4   remise a zero des noeuds dans les boites
 C=======================================================================
   100 CONTINUE
