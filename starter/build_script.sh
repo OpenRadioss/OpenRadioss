@@ -284,7 +284,15 @@ then
 fi
 
 make -j ${threads} ${verbose}
-
+return_value=$?
+if [ $return_value -ne 0 ]
+then
+   echo " " 
+   echo " " 
+   echo "-- Errors in Build found"
+   cd ..
+   exit 1
+fi
 
 cd ..
 echo " "
