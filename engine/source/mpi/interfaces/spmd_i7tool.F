@@ -3835,11 +3835,17 @@ C
 C
         IF(INTHEAT > 0.OR.INTERADHESION > 0 ) THEN
          ALLOCATE(AREASFI(NINTER),STAT=IERROR1)        
+          DO I = 1, NINTER
+            NULLIFY(AREASFI(I)%p)
+          ENDDO
          IERROR = IERROR + IERROR1 
         ENDIF
 C
         IF(INTERADHESION > 0) THEN
          ALLOCATE(IF_ADHFI(NINTER),STAT=IERROR1)        
+          DO I = 1, NINTER
+            NULLIFY(IF_ADHFI(I)%p)
+          ENDDO
          IERROR = IERROR + IERROR1 
         ENDIF
 
@@ -4376,8 +4382,6 @@ C
                 IF(INTTH > 0 )  THEN      
                  ALLOCATE(TEMPFI(I)%P(LENR),STAT=IERROR1)
                  IERROR = IERROR + IERROR1
-c                  ALLOCATE(MATSFI(I)%P(LENR),STAT=IERROR1)
-c                 IERROR = IERROR + IERROR
                 ENDIF
 C
                 IF(INTTH>0.OR.(ITYP == 25.AND.IVIS2==-1)) THEN
@@ -4388,8 +4392,6 @@ C
                   ALLOCATE(IF_ADHFI(I)%P(LENR),STAT=IERROR1)
                   IERROR = IERROR + IERROR1
                 ENDIF
-C
-                
 C  
                END IF
                IF(ITYP == 24)THEN
