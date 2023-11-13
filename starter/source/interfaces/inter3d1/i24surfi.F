@@ -315,14 +315,14 @@ C=======================================================================
 C-----new subsuf/suf on edge-----
       IF(IEDGE == 4)THEN
         ISHIF=0
-         CALL I24EDGE2(IALLO   ,IGRSURF(ISU1)%NSEG,NLN     ,IEDGE-1  ,
+         CALL I24EDGE2(IALLO   ,IGRSURF(ISU1)%NSEG,NLN     ,
      1                 IGRSURF(ISU1)%NODES ,ITAB  ,ISU1    ,
      2                 X       ,EDG_COS ,MBINFLG  ,ISHIF   ,NLS1    ,
      3                 IRECT   ,NRTSE   ,IRTSE    ,NSNE    ,IS2SE   ,
      4                 IS2PT   ,NSN     ,NSV      ,IS2ID)
         ISHIF=NSU1
         IF(ISU2 /= 0 .AND. ILEV /= 1) THEN
-         CALL I24EDGE2(IALLO   ,IGRSURF(ISU2)%NSEG,NLN     ,IEDGE-1 ,
+         CALL I24EDGE2(IALLO   ,IGRSURF(ISU2)%NSEG,NLN     ,
      1                 IGRSURF(ISU2)%NODES ,ITAB  ,ISU2    ,
      2                 X       ,EDG_COS ,MBINFLG  ,ISHIF   ,NLS2    ,
      3                 IRECT   ,NRTSE   ,IRTSE    ,NSNE    ,IS2SE   ,
@@ -1169,7 +1169,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE I24EDGE2(IALLO      ,NSEG    ,NACTIF  ,IEDGE   ,
+      SUBROUTINE I24EDGE2(IALLO      ,NSEG    ,NACTIF  ,
      1                    SURF_NODES ,ITAB    ,ISU     ,
      2                    X          ,EDG_COS ,MBINFLG ,IADM    ,NLS     ,
      3                    IRECT      ,NRTSE   ,IRTSE   ,NSNE    ,IS2SE   ,
@@ -1194,7 +1194,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IALLO,NACTIF,IEDGE,IADM,NLS,L24ADD,NSN,IFIRST,ISU
+      INTEGER IALLO,NACTIF,IADM,NLS,L24ADD,NSN,IFIRST,ISU
       INTEGER ITAB(*),MBINFLG(*),IRECT(4,*),NSEG,SURF_NODES(NSEG,4),
      .        IRTSE(5,*) ,NSV(*),NRTSE,NSNE,IS2SE(2,*),IS2PT(*),IS2ID(*)
       my_real
@@ -1237,7 +1237,6 @@ c---------------------------------------
       ALLOCATE (LINEIX2(2,NLMAX)   ,STAT=stat)
       ALLOCATE (XLINEIX(3,NLMAX)   ,STAT=stat)
       ALLOCATE (INDEX(2*NLMAX)     ,STAT=stat)
-c      ALLOCATE (TAG(NUMNOD)        ,STAT=stat)
       ALLOCATE (IXWORK(8,NLMAX)    ,STAT=stat)
 
 #ifndef HYPERMESH_LIB
@@ -1378,41 +1377,6 @@ c       dimension first
 c---------------------------------------
         LL = NL
         NL = 0
-        IF(IEDGE == 1)THEN
-c         keep only border edges (IXWORK(5,L) == 1)
-          DO L=1,LL
-            IF(IXWORK(5,L) == 1)THEN
-              NL = NL + 1
-              I1=IXWORK(1,NL)
-              I2=IXWORK(2,NL)
-              I3=IXWORK(3,NL)
-              I4=IXWORK(4,NL)
-              I5=IXWORK(5,NL)
-              I6=IXWORK(6,NL)
-              I7=IXWORK(7,NL)
-              IXWORK(1,NL)=IXWORK(1,L)
-              IXWORK(2,NL)=IXWORK(2,L)
-              IXWORK(3,NL)=IXWORK(3,L)
-              IXWORK(4,NL)=IXWORK(4,L)
-              IXWORK(5,NL)=1 ! border
-              IXWORK(6,NL)=IXWORK(6,L)
-              IXWORK(7,NL)=IXWORK(7,L)
-              IXWORK(1,L)=I1  
-              IXWORK(2,L)=I2  
-              IXWORK(3,L)=I3  
-              IXWORK(4,L)=I4  
-              IXWORK(5,L)=I5 
-              IXWORK(6,L)=I6  
-              IXWORK(7,L)=I7 
-            ENDIF
-          ENDDO
-        ELSEIF(IEDGE == 2)THEN
-c         toutes les lignes sont conserves ET actives
-          DO L=1,LL
-            NL = NL + 1
-            IF(IXWORK(5,L) == 0)IXWORK(5,L)=-1 ! all on +-1
-          ENDDO
-        ELSEIF(IEDGE == 3)THEN
 c         les bords sont conservs
 c         les artes vives sont conservs (EDG_COS)
           DO L=1,LL
@@ -1442,7 +1406,6 @@ C             IXWORK(5,NL)=+-1 ! bord on
               IXWORK(7,L)=I7 
            ENDIF
           ENDDO
-        ENDIF
 C
       ELSE
 C       pas de surfaces
@@ -1460,7 +1423,7 @@ C-------no double fictive SECONDARY nodes----
 C------NSN<-NSN0+NSNE;  3*4*NRTSE for IEDGE = 2  -> more interesting to coding seg/seg
 C------
       IF(IALLO == 1 )THEN
-        DO L=1,LL
+        DO L=1,NL
             IF(IABS(IXWORK(5,L)) == 1)THEN
                 I3 = IXWORK(3,L)
                 I6 = IXWORK(6,L)
@@ -1480,20 +1443,16 @@ c
             ENDIF
         ENDDO
       ELSEIF(IALLO == 2 )THEN
-        DO L=1,LL
+        DO L=1,NL
             IF(IABS(IXWORK(5,L)) == 1)THEN
                 I3 = IXWORK(3,L)
                 I6 = IXWORK(6,L)
-c             print *,'edge I,J=',itab(IXWORK(1,L)),itab(IXWORK(2,L)),L
-c             print *,'I3,I6,IADM=',I3,I6,IADM
              IF(I3/=0)THEN
               I4 = IXWORK(4,L)
               J=I3
               NRTSE = NRTSE + 1
               IRTSE(1:4,NRTSE)=SURF_NODES(J,1:4)
               IRTSE(5,NRTSE)=I4
-c             print *,'IRTSE(j,NRTSE)=',(itab(IRTSE(k,NRTSE)),k=1,4),
-c     +                  IRTSE(5,NRTSE)
               DO I = 1,NP_EDGE
                NSNE = NSNE + 1
                NSV(NSN+NSNE) = NUMNOD+NSNE
@@ -1514,8 +1473,6 @@ C -----IF IS2SE(1,NSNE) >0 and IS2SE(2,NSNE) >0, order is inversed on IS2SE(2
               NRTSE = NRTSE + 1
               IRTSE(1:4,NRTSE)=SURF_NODES(J,1:4)
               IRTSE(5,NRTSE)=I7
-c             print *,'IRTSE(j,NRTSE)=',(itab(IRTSE(k,NRTSE)),k=1,4),
-c     +                  IRTSE(5,NRTSE)
               IF(I3==0) THEN
                DO I = 1,NP_EDGE
                 NSNE = NSNE + 1
@@ -1536,10 +1493,8 @@ C------------------only  NP_EDGE_th node is added
             ENDIF
         ENDDO
       ENDIF
-C        NSN = NSN + NSNE
-c       print *,'IALLO,NSNE,NRTSE,NSN0=',IALLO,NSNE,NRTSE,NSN
 c---------------------------------------
-c       nombre de lignes: may keep only NACTIF
+c       edge number: may keep only NACTIF
 c---------------------------------------
       NACTIF = NACTIF + NL
 c---------------------------------------
@@ -1587,7 +1542,6 @@ C Useful in SPMD to easily find the SECONDARY
       ENDIF
 c---------------------------------------
       DEALLOCATE (INDEX)
-c      DEALLOCATE (TAG)
       DEALLOCATE (IXWORK)
       DEALLOCATE (LINEIX)
       DEALLOCATE (LINEIX2)
