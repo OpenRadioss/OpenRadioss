@@ -21,44 +21,53 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  UPGRADE_IXINT                 source/interfaces/interf1/upgrade_ixint.F
+Chd|  I7NINTDD                      source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
 Chd|        I20INI3                       source/interfaces/inter3d1/i20ini3.F
 Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        IXINTMOD                      share/modules1/restart_mod.F  
+Chd|        ZEROIN                        source/system/zeroin.F        
 Chd|====================================================================
-        SUBROUTINE UPGRADE_IXINT(INTER_CAND,NELEMINT,NEW_SIZE)
+        SUBROUTINE FLUSH_REMNODE_ARRAY(NINTER,NPARI,IPARI,INTBUF_TAB)
+!$COMMENT
+!       FLUSH_REMNODE_ARRAY description :
+!       flush arrays and structure related to RMENODE algo
+!
+!       FLUSH_REMNODE_ARRAY organization :
+!           loop over the interfaces
+!               * for interface type 24 --> flush structures and arrays
+!$ENDCOMMENT
+
+        USE INTBUFDEF_MOD
 C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-        USE INTER_CAND_MOD
-C-------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(in) :: NELEMINT !< number of pair of candidate
-        INTEGER, INTENT(in) :: NEW_SIZE !< number of pair of candidate for the current interface
-        TYPE(INTER_CAND_), INTENT(inout) :: INTER_CAND !< struture of pair of candidate
+        INTEGER, INTENT(in) :: NINTER !< number of interface
+        INTEGER, INTENT(in) :: NPARI !< 1rst dim of IPARI array
+        INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI !< interface data 
+        TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB !< interface structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER, DIMENSION(:,:), ALLOCATABLE :: TEMP
+        INTEGER :: N
+        INTEGER :: INTERFACE_TYPE,LOCAL_SIZE
 C-----------------------------------------------
-        ALLOCATE(TEMP(INTER_CAND%S_IXINT_1,NELEMINT))
-        TEMP(1:INTER_CAND%S_IXINT_1,1:NELEMINT) = INTER_CAND%IXINT(1:INTER_CAND%S_IXINT_1,1:NELEMINT)
-        DEALLOCATE(INTER_CAND%IXINT)
 
-        INTER_CAND%S_IXINT_2 = NELEMINT+NEW_SIZE
-        ALLOCATE(INTER_CAND%IXINT(INTER_CAND%S_IXINT_1,INTER_CAND%S_IXINT_2))
-        INTER_CAND%IXINT(1:INTER_CAND%S_IXINT_1,1:NELEMINT)=TEMP(1:INTER_CAND%S_IXINT_1,1:NELEMINT)
+        ! ---------------------------
+        ! loop over the interface
+        DO N=1,NINTER
+          INTERFACE_TYPE = IPARI(7,N)
+          IF(INTERFACE_TYPE==24) THEN
+            LOCAL_SIZE = size(INTBUF_TAB(N)%KREMNODE)
+            INTBUF_TAB(N)%KREMNODE(1:LOCAL_SIZE) = 0
+            INTBUF_TAB(N)%S_REMNODE = 0
+          ENDIF
+        ENDDO
+        ! ---------------------------
 
-        DEALLOCATE(TEMP)
         RETURN
-
-        END SUBROUTINE UPGRADE_IXINT
-C
+        END SUBROUTINE FLUSH_REMNODE_ARRAY

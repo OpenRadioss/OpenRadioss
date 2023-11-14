@@ -651,183 +651,6 @@ C----- Compute maximum number of MAIN segments banned for all SECONDARY nodes---
       RETURN
       END
 Chd|====================================================================
-Chd|  REMN_I2                       source/interfaces/inter3d1/i7remnode.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ADDINT2M                      source/interfaces/inter3d1/i7remnode.F
-Chd|        ADDINT2S                      source/interfaces/inter3d1/i7remnode.F
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ANOTHERN2                     source/interfaces/inter3d1/i7remnode.F
-Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|====================================================================
-      SUBROUTINE REMN_I2(IPARI   ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMOV,IFLAG  )
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-      USE MY_ALLOC_MOD
-      USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-#include      "param_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER IPARI(NPARI,*), ITAB(*),NREMOV(*)
-      INTEGER NOM_OPT(LNOPT1,*)
-
-      TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com04_c.inc"
-#include      "scr17_c.inc"
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER N,NTY
-      INTEGER ILEV,II,J,NMN,NSN,NRTS,NRTM,
-     .        NLINS,NLINM,IWOUT,INCOM,NM,N2,IFLAG,NRE,ip,IACT,
-     .        IF7,IF24,IF25,NN2
-      INTEGER, DIMENSION(:),ALLOCATABLE :: TAGN,TAGD
-      INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
-
-C-----------------------------------------------
-C----like Irem_gap of int7, creat list of SECONDARY nodes to be removed per M_seg
-C---------IFLAG=0 : DIM
-      ALLOCATE(TAGN(NUMNOD),TAGD(NUMNOD))
-      TAGN(1:NUMNOD)=0
-C----------only during dimensioning
-      IF (IFLAG==0) THEN
-       IACT=0  
-        DO N=1,NINTER
-         NTY=IPARI(7,N)
-         IF7 =IPARI(54,N)
-         IF24=IPARI(63,N)
-         IF25=IPARI(83,N)
-         IF(NTY==7 .AND. IF7>0 )THEN
-          IACT=1
-          CYCLE
-         ENDIF
-         IF(NTY==24 .AND. IF24>0 )THEN
-          IACT=1
-          CYCLE
-         ENDIF
-         IF(NTY==25 .AND. IF25>0 )THEN
-          IACT=1
-          CYCLE
-         ENDIF
-        ENDDO
-       IF (IACT==0) THEN
-        DO N=1,NINTER
-         NREMOV(N) = 0
-        ENDDO
-        RETURN
-       END IF
-      END IF !(IFLAG==0) THEN
-C-------tag int2 nodes------  
-       DO N=1,NINTER
-         NTY=IPARI(7,N)
-         IF(NTY==2)THEN
-          NRTS  =IPARI(3,N)
-          NRTM  =IPARI(4,N)
-          NSN   =IPARI(5,N)
-          NMN   =IPARI(6,N)
-          ILEV  =IPARI(20,N)
-C
-          DO II=1,NSN        
-            J=INTBUF_TAB(N)%NSV(II)
-            TAGN(J)=-N
-          ENDDO
-          DO II=1,NMN        
-            J=INTBUF_TAB(N)%MSR(II)
-            IF (TAGN(J)>0) THEN
-             TAGN(J)=N+NINTER
-            ELSE
-             TAGN(J)=N
-            END IF
-          ENDDO
-         ENDIF
-       ENDDO
-C-----
-       DO N=1,NINTER
-        NTY=IPARI(7,N)
-        NSN   =IPARI(5,N)
-        NRTS  =IPARI(3,N)
-        NRTM  =IPARI(4,N)
-        IF7   =IPARI(54,N)
-        IF24  =IPARI(63,N)
-        IF25  =IPARI(83,N)
-        IF (IFLAG==0) NREMOV(N) = 0
-
-        ID=NOM_OPT(1,N)
-        CALL FRETITL2(TITR,
-     .       NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
-C----- --           
-        IF((NTY==7.AND.IF7>0).OR.(NTY==24.AND.IF24>0).OR.(NTY==25.AND.IF25>0))THEN
-          IF (IFLAG==0) NREMOV(N) = IPARI(62,N)
-          IF (IFLAG==1 .AND. IPARI(63,N) /= 2 ) CYCLE
-          IF (IFLAG==1) INTBUF_TAB(N)%KREMNODE(1) = 0
-          DO II=1,NRTM
-           IF (IFLAG==1) INTBUF_TAB(N)%KREMNODE(II+1) =INTBUF_TAB(N)%KREMNODE(II)
-           TAGD(1:NUMNOD)=0
-           DO J=1,4
-            NM = INTBUF_TAB(N)%IRECTM(4*(II-1)+J)
-C--------if it's a MAIN node (type2) ->add SECONDARY node(tagged) in the list
-            IF (TAGN(NM)>0) THEN            
-             N2 = TAGN(NM)
-             IF (N2 >NINTER) THEN
-              NN2=N2-NINTER
-              CALL ADDINT2S(NN2     ,INTBUF_TAB  ,IPARI   ,II      ,NM     ,
-     1                 NREMOV(N),INTBUF_TAB(N)%REMNODE,INTBUF_TAB(N)%KREMNODE,
-     2                 TAGD,IFLAG)    
-C-----------Another N2 (NN2 will be updated after ANOTHERN2 )
-              CALL ANOTHERN2(NN2     ,NINTER  ,INTBUF_TAB  ,IPARI   ,NM     )
-c              IF (N2==0) Message out                 
-              CALL ADDINT2S(NN2     ,INTBUF_TAB  ,IPARI   ,II      ,NM     ,
-     1                 NREMOV(N),INTBUF_TAB(N)%REMNODE,INTBUF_TAB(N)%KREMNODE,
-     2                 TAGD,IFLAG)    
-             ELSE
-              CALL ADDINT2S(N2     ,INTBUF_TAB  ,IPARI   ,II      ,NM     ,
-     1                 NREMOV(N),INTBUF_TAB(N)%REMNODE,INTBUF_TAB(N)%KREMNODE,
-     2                 TAGD,IFLAG)    
-             END IF     
-C--------if it's a SECONDARY node (type2) ->add MAIN nodes(tagged) in the list
-            ELSEIF (TAGN(NM)<0) THEN
-             N2 = -TAGN(NM)
-              CALL ADDINT2M(N2     ,INTBUF_TAB  ,IPARI   ,II      ,NM     ,
-     1                   NREMOV(N),INTBUF_TAB(N)%REMNODE,INTBUF_TAB(N)%KREMNODE,
-     2                   TAGD,IFLAG)    
-            END IF
-           END DO !DO J=1,4
-          END DO 
-C------------update of IPARI(62,N) is out of subroutine    
-         IF (IFLAG==0.AND.(NREMOV(N)>IPARI(62,N))) THEN
-          NRE = NREMOV(N)-IPARI(62,N)
-             CALL ANCMSG(MSGID=1053,
-     .                   MSGTYPE=MSGWARNING,
-     .                   ANMODE=ANINFO_BLIND_1,
-     .                   I1=ID,
-     .                   C1=TITR,
-     .                   I2=NRE,
-     .                   I3=NOM_OPT(1,N2))
-         END IF
-        END IF!(NTY==7.OR.NTY==24.OR.NTY==25)
-       END DO
-      DEALLOCATE(TAGN,TAGD)
-C----
-      RETURN
-      END
-Chd|====================================================================
 Chd|  ADDINT2S                      source/interfaces/inter3d1/i7remnode.F
 Chd|-- called by -----------
 Chd|        REMN_I2                       source/interfaces/inter3d1/i7remnode.F
@@ -1362,7 +1185,7 @@ Chd|        ZERONM_TAGD                   source/interfaces/inter3d1/i7remnode.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE REMN_I2OP(IPARI   ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMOV)
+      SUBROUTINE REMN_I2OP(IPARI   ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMOV,IDDLEVEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1382,6 +1205,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*), ITAB(*),NREMOV(*)
       INTEGER NOM_OPT(LNOPT1,*)
+      INTEGER, INTENT(in) :: IDDLEVEL
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
@@ -1573,7 +1397,7 @@ C---------
                     IF24  =IPARI(63,N)
                     IF25  =IPARI(83,N)
                     IEDGE = IPARI(58,N)
-
+                    IF(IDDLEVEL==0.AND.NTY/=24) CYCLE
                     ALLOCATE( NBR_INSERT_II(NRTM) )
                     ALLOCATE( ADRESS_II(NRTM) )
                     ALLOCATE( KREMNODE_SAVE(NRTM+1) )
@@ -1789,14 +1613,19 @@ C
                                 INTBUF_TAB(N)%REMNODE(1:NNREM) = REMNODE(1:NNREM)
                                 INTBUF_TAB(N)%KREMNODE(2:NRTM+1) = KREMNODE_SAVE(1:NRTM)
                                 INTBUF_TAB(N)%KREMNODE(1)=0
+                                ! -----------------
+                                ! only print the message for the 2nd sorting
+                                IF(IDDLEVEL>0) THEN
 C------------update of IPARI(62,N) is out of subroutine    
-                                CALL ANCMSG(MSGID=1053,
-     .                                  MSGTYPE=MSGWARNING,
-     .                                  ANMODE=ANINFO_BLIND_1,
-     .                                  I1=ID,
-     .                                  C1=TITR,
-     .                                  I2=NNREM,
-     .                                  I3=NOM_OPT(1,N2))
+                                  CALL ANCMSG(MSGID=1053,
+     .                                    MSGTYPE=MSGWARNING,
+     .                                    ANMODE=ANINFO_BLIND_1,
+     .                                    I1=ID,
+     .                                    C1=TITR,
+     .                                    I2=NNREM,
+     .                                    I3=NOM_OPT(1,N2))
+                                ENDIF
+                                ! -----------------
 C----------used for Iedge=1     
                                 NREMOV(N) = NNREM
                             END IF !IF (NNREM>0) THEN
@@ -1885,7 +1714,7 @@ C-----------------------------------------------
 
                     IF(NTY==25.AND.IF25>0.AND.IEDGE>0)THEN
                       CALL REMN_I2OP_EDG25(N          ,FLAGREMNODE_SAV ,IPARI   ,INTBUF_TAB   ,I2NODE,
-     .                                     POINTS_I2N ,I2NODE_SIZE     ,NOM_OPT  ,ITAB        )
+     .                                     POINTS_I2N ,I2NODE_SIZE     ,NOM_OPT  ,ITAB)
                     ENDIF      
         END DO 
 

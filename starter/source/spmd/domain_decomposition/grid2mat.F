@@ -52,7 +52,7 @@ Chd|====================================================================
      2  IXR    ,IXTG   ,CEP     ,GEO     ,
      3  ITRI1  ,ITRI2  ,INDEX1 ,INDEX2  ,NUM     ,
      4  WD     ,IWCONT ,NELEM  ,IDDLEVEL,NELEMINT,
-     5  IXINT  ,PM     ,X      ,KXX     ,IXX     ,
+     5  INTER_CAND,PM     ,X      ,KXX     ,IXX     ,
      6  ADSKY  ,IGEO   ,ISOLNOD,IWCIN2  ,DSDOF   ,
      7  ISOLOFF,ISHEOFF,ITRIOFF,ITRUOFF ,IPOUOFF ,
      8  IRESOFF,IELEM21,IPM    ,IXS10   ,IKINE   , 
@@ -78,6 +78,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MID_PID_MOD
       USE MONVOL_STRUCT_MOD
+      USE INTER_CAND_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -105,7 +106,7 @@ C-----------------------------------------------
       INTEGER IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*),
      .        IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*),
      .        CEP(*), ITRI1(*), ITRI2(*), INDEX1(*),INDEX2(*),
-     .        NUM(*), NELEM,IDDLEVEL, NELEMINT, IXINT(6,*),
+     .        NUM(*), NELEM,IDDLEVEL, NELEMINT,
      .        KXX(NIXX,NUMELX),IXX(*), ADSKY(0:*),IGEO(NPROPGI,NUMGEO),
      .        ISOLNOD(*), IWCONT(5,*), IWCIN2(2,*), DSDOF(*),
      .        ISOLOFF(*), ISHEOFF(*), ITRIOFF(*), IKINE(*),
@@ -135,6 +136,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: EBCS_TAG_CELL_SPMD(NUMELQ+NUMELTG+NUMELS)
       INTEGER, DIMENSION(NNPBY,*), INTENT(in) :: NPBY
       INTEGER, DIMENSION(*), INTENT(in) :: LPBY
+      TYPE(INTER_CAND_), INTENT(in) :: INTER_CAND
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -753,7 +755,7 @@ Calcul des poids en prennant en compte le ratio connectivite
       NCOND=1
 C
       DO I = 1, NELEMINT
-        ITYPINT=ABS(IXINT(6,I))
+        ITYPINT=ABS(INTER_CAND%IXINT(6,I))
         IF(ITYPINT == 2)THEN
           ICINT2 = ICINT2+1
         ELSEIF(ITYPINT == 7 .OR. ITYPINT == 11)THEN
@@ -1488,16 +1490,16 @@ C cep temporairement utilise comme flag
         ENDDO
 C
         DO I = 1, NELEMINT ! Loop over the the pair of candidates
-          N=IXINT(5,I) !N is the secondary node
+          N=INTER_CAND%IXINT(5,I) !N is the secondary node
           IF (N<=NUMNOD) THEN  !  
             NUMG1=ABS(CNE(ADSKY(N))) ! NUMG1 is the first element found connected to node N
             NUMG2=NUMG1 
-            ITYPINT=ABS(IXINT(6,I)) 
+            ITYPINT=ABS(INTER_CAND%IXINT(6,I)) 
             IF(ITYPINT==2) THEN ! Type 2 interface (tied contact)
              IF(ADSKY(N+1)-ADSKY(N)>0)THEN ! number of elements connected to node N
-              N=IXINT(1,I) ! 1st node of the main segment
-              N1=IXINT(2,I) ! 2nd node of the main segment
-              N2=IXINT(3,I) ! 3td ode of the main segment
+              N=INTER_CAND%IXINT(1,I) ! 1st node of the main segment
+              N1=INTER_CAND%IXINT(2,I) ! 2nd node of the main segment
+              N2=INTER_CAND%IXINT(3,I) ! 3td ode of the main segment
               DO I1 = ADSKY(N), ADSKY(N+1)-1 ! loop over the elements connected to node N
                 NUMG2=ABS(CNE(I1)) ! NUMG2 = id of the current element connected to node N
                 DO I2 = ADSKY(N1), ADSKY(N1+1)-1 ! loop over elts connected to N1 
@@ -1541,16 +1543,9 @@ C
 
 C sorting of NELEMINT : negative value for IXINT(6) means that distance is small
         DO I=1,NELEMINT
-            ISORT(I)=(-IXINT(6,I)) + 100
+            ISORT(I)=(-INTER_CAND%IXINT(6,I)) + 100
             INDEX_SORT(I)=I
-            ITYPINT=ABS(IXINT(6,I))
-C             IF(ITYPINT==7 .OR. ITYPINT == 25 .AND IXINT(6,I) < 0) THEN
-CC Add even more priority on edges connecting different colors
-C             IF(COLORS(CNE(ADSKY(IXINT(5,I)))) /=
-C      .           COLORS(CNE(ADSKY(IXINT(1,I))))) THEN
-C                 ISORT(I) = ISORT(I) - 1 
-C             ENDIF
-C             ENDIF
+            ITYPINT=ABS(INTER_CAND%IXINT(6,I))
         ENDDO
          CALL MY_ORDERS(0,WORK,ISORT,INDEX_SORT,NELEMINT,1)
 
@@ -1559,7 +1554,7 @@ C
 C   hierarchy : type 2 before, contact now
         DO II = 1, NELEMINT
           I = INDEX_SORT(II)
-          N=IXINT(5,I)
+          N=INTER_CAND%IXINT(5,I)
           IF (N<=NUMNOD) THEN  !  POUR LES ELEMENTS ISOGEOMETRIQUES (PARTIE FICTIVE A NE PAS CONSIDERER)
             NUMG1=-1
 C searching for the first connected element not seen
@@ -1574,12 +1569,12 @@ C searching for the first connected element not seen
             END DO
 C   initialisation numg2 pour cas ou facette non trouvee (erreur)
             NUMG2=-1
-            ITYPINT=ABS(IXINT(6,I))
+            ITYPINT=ABS(INTER_CAND%IXINT(6,I))
             IF(ITYPINT==7) THEN
              IF(ADSKY(N+1)-ADSKY(N)>0)THEN
-              N=IXINT(1,I)
-              N1=IXINT(2,I)
-              N2=IXINT(3,I)
+              N=INTER_CAND%IXINT(1,I)
+              N1=INTER_CAND%IXINT(2,I)
+              N2=INTER_CAND%IXINT(3,I)
               IF (N<=NUMNOD) THEN !  POUR LES ELEMENTS ISOGEOMETRIQUES (PARTIE FICTIVE A NE PAS CONSIDERER)
                DO I1 = ADSKY(N), ADSKY(N+1)-1
                  NUMG2=ABS(CNE(I1))
@@ -1609,11 +1604,7 @@ C   initialisation numg2 pour cas ou facette non trouvee (erreur)
 C test to limit number of edges added for contact interfaces
                   CALL IDDCONNECTPLUS(NUMG1,NUMG2,NELEM)
                   CALL IDDCONNECTPLUS(NUMG2,NUMG1,NELEM)
-C                    IF(IXINT(6,I)<0)THEN   
-C                      EDGEWT(NEWEDGE) = 1   ! near contact
-C                    ELSE
-C                      EDGEWT(NEWEDGE) = 1   ! candidate only
-C                    END IF
+
                   CEP(NUMG1) = CEP(NUMG1) +  1
                   CEP(NUMG2) = CEP(NUMG2) +  1
                 ELSE 
@@ -1627,7 +1618,7 @@ C                    END IF
               IF(ICCAND > 0 .AND. NUMG2 > 0) THEN
 C load-balancing contact force -- incremental needed for multiple interface
 cc                  IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+1
-                IF(IXINT(6,I)<0)THEN
+                IF(INTER_CAND%IXINT(6,I)<0)THEN
 C 5:1 ratio between potential impact and just candidat 
                   IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+5
                 ELSE
@@ -1638,8 +1629,8 @@ C 5:1 ratio between potential impact and just candidat
              ENDIF
             ELSEIF(ITYPINT==11) THEN
              IF(ADSKY(N+1)-ADSKY(N)>0)THEN
-              N1=IXINT(3,I)
-              N2=IXINT(4,I)
+              N1=INTER_CAND%IXINT(3,I)
+              N2=INTER_CAND%IXINT(4,I)
               DO I1 = ADSKY(N1), ADSKY(N1+1)-1
                 NUMG2=ABS(CNE(I1))
                 IF(NUMG2 /= NUMG1) THEN
@@ -1668,8 +1659,7 @@ C test to limit number of edges added for contact interfaces
               ENDIF
               IF(ICCAND > 0 .AND. NUMG2 > 0) THEN
 C load-balancing contact force -- incremental needed for multiple interface
-cc                  IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+1
-                IF(IXINT(6,I)<0)THEN
+                IF(INTER_CAND%IXINT(6,I)<0)THEN
                   IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+1
                 ELSE
                   IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+1
@@ -1679,9 +1669,9 @@ cc                  IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+1
              ENDIF
             ELSEIF(ITYPINT==24.OR.ITYPINT==25)THEN
              IF(ADSKY(N+1)-ADSKY(N)>0)THEN
-              N=IXINT(1,I)
-              N1=IXINT(2,I)
-              N2=IXINT(3,I)
+              N=INTER_CAND%IXINT(1,I)
+              N1=INTER_CAND%IXINT(2,I)
+              N2=INTER_CAND%IXINT(3,I)
               DO I1 = ADSKY(N), ADSKY(N+1)-1
                 NUMG2=ABS(CNE(I1))
                IF(NUMG2 == NUMG1) GOTO 124
@@ -1706,15 +1696,6 @@ cc                  IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+1
 
                   CALL IDDCONNECTPLUS(NUMG1,NUMG2,NELEM)
                   CALL IDDCONNECTPLUS(NUMG2,NUMG1,NELEM)
-C test to limit number of edges added for contact interfaces
-C                    IF(IXINT(6,I)<0 .AND. ICCAND > 0)THEN
-C                      IWD(NCOND*(NUMG2-1)+ICCAND)=1
-C       +              IWD(NCOND*(NUMG2-1)+ICCAND)+2 ! contact proche effectif
-C                    ELSEIF(ICCAND > 0)THEN
-C                      IWD(NCOND*(NUMG2-1)+ICCAND)=1
-C       +              IWD(NCOND*(NUMG2-1)+ICCAND)+1 ! contact potentiel
-C les autres elt sont a 1
-C                    END IF
                   CEP(NUMG1) = CEP(NUMG1) +  1
                   CEP(NUMG2) = CEP(NUMG2) +  1
                 ELSE 
@@ -1725,8 +1706,7 @@ C                    END IF
                 if(NUMG1<=0 .OR. NUMG2<=0) refused_numg0 = refused_numg0 + 1
               ENDIF
               IF(ICCAND > 0 .AND. NUMG2 > 0) THEN
-cc                IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+1
-                IF(IXINT(6,I)<0)THEN
+                IF(INTER_CAND%IXINT(6,I)<0)THEN
                   IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+5 
                 ELSE
                   IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+1
@@ -2615,396 +2595,6 @@ C
 C
       RETURN
       END
-C
-Chd|====================================================================
-Chd|  I7NINTDD                      source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        I20INI3                       source/interfaces/inter3d1/i20ini3.F
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|        ZEROIN                        source/system/zeroin.F        
-Chd|====================================================================
-      SUBROUTINE I7NINTDD(NELEMINT,IXINT ,IRECT ,NSV  ,CAND_E ,
-     2                    CAND_N  ,I_STOK,IFIEND,X    ,GAP    ,
-     3                    DRAD    ,IGAP  ,GAP_S ,GAP_M,GAP_S_L,
-     4                    GAP_M_L ,GAPMIN,GAPMAX,DGAPLOAD)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NELEMINT, IXINT(6,*), IRECT(4,*),NSV(*),
-     .   CAND_E(*),CAND_N(*),I_STOK ,IFIEND, IGAP
-      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
-      my_real
-     .   GAP, X(3,*), GAPMAX, GAPMIN,
-     .   GAP_M(*), GAP_S(*), GAP_S_L(*), GAP_M_L(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER N, L, I,a,b,
-     .   IG,IX1,IX2,IX3,IX4
-      my_real
-     .   XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,SEUIL,
-     .   XI,X1,X2,X3,X4,YI,Y1,Y2,Y3,Y4,ZI,Z1,Z2,Z3,Z4
-C-----------------------------------------------
-      IFIEND = IFIEND + I_STOK*6
-      CALL ZEROIN (1,I_STOK*6,IXINT)
-C calcul du facteur de poids relatif
-      SEUIL = MAX(GAP+DGAPLOAD,DRAD)
-      DO I = 1, I_STOK
-          IG = NSV(CAND_N(I))
-          L  = CAND_E(I)
-          IXINT(1,I)=IRECT(1,L)
-          IXINT(2,I)=IRECT(2,L)
-          IXINT(3,I)=IRECT(3,L)
-          IXINT(4,I)=IRECT(4,L)
-          IXINT(5,I)=IG
-          IXINT(6,I)=7
-          IX1=IRECT(1,L)
-          IX2=IRECT(2,L)
-          IX3=IRECT(3,L)
-          IX4=IRECT(4,L)
-          ZI = X(3,IG)
-          Z1=X(3,IX1)
-          Z2=X(3,IX2)
-          Z3=X(3,IX3)
-          Z4=X(3,IX4)
-          IF(IGAP==0)THEN
-            SEUIL = GAP
-          ELSE
-            SEUIL=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
-            IF(IGAP==3)
-     .        SEUIL=MIN(SEUIL,
-     .             GAP_S_L(CAND_N(I))+GAP_M_L(CAND_E(I)))
-            SEUIL=MIN(SEUIL,GAPMAX)
-            SEUIL=MAX(SEUIL,GAPMIN)
-          ENDIF
-          SEUIL = MAX(SEUIL+DGAPLOAD,DRAD)
- 
-          ZMIN = MIN(Z1,Z2,Z3,Z4)-SEUIL
-          ZMAX = MAX(Z1,Z2,Z3,Z4)+SEUIL
-          IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN
-            YI = X(2,IG)
-            Y1 = X(2,IX1)
-            Y2 = X(2,IX2)
-            Y3 = X(2,IX3)
-            Y4 = X(2,IX4)
-            YMIN = MIN(Y1,Y2,Y3,Y4)-SEUIL
-            YMAX = MAX(Y1,Y2,Y3,Y4)+SEUIL
-            IF (YMIN<=YI.AND.YMAX>=YI) THEN
-              XI = X(1,IG)
-              X1 = X(1,IX1)
-              X2 = X(1,IX2)
-              X3 = X(1,IX3)
-              X4 = X(1,IX4)
-              XMIN = MIN(X1,X2,X3,X4)-SEUIL
-              XMAX = MAX(X1,X2,X3,X4)+SEUIL
-              IF (XMIN<=XI.AND.XMAX>=XI) THEN
-                IXINT(6,I)=-7
-              ENDIF
-            ENDIF
-          ENDIF          
-      ENDDO
-C
-      NELEMINT=NELEMINT+I_STOK
-C
-      RETURN
-      END
-Chd|====================================================================
-Chd|  I11NINTDD                     source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|        ZEROIN                        source/system/zeroin.F        
-Chd|====================================================================
-      SUBROUTINE I11NINTDD(NELEMINT,IXINT ,IRECTS ,IRECTM,CAND_S,
-     .                     CAND_M   ,I_STOK,IFIEND,X     ,GAP   ,
-     .                     DRAD     ,DGAPLOAD)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NELEMINT, IXINT(6,*), IRECTS(2,*), IRECTM(2,*),
-     .   CAND_S(*), CAND_M(*),I_STOK ,IFIEND
-
-      my_real
-     .   GAP, X(3,*)
-      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER N, L, I,a,b,
-     .   IG,IX1,IX2,IX3,IX4
-      my_real
-     .   XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,SEUIL,
-     .   XI,X1,X2,X3,X4,YI,Y1,Y2,Y3,Y4,ZI,Z1,Z2,Z3,Z4
-C-----------------------------------------------
-      IFIEND = IFIEND + I_STOK*6
-      CALL ZEROIN (1,I_STOK*6,IXINT)
-C calcul du facteur de poids relatif
-      SEUIL = MAX(GAP+DGAPLOAD,DRAD)
-      DO I = 1, I_STOK
-        IXINT(1,I)=IRECTS(1,CAND_S(I))
-        IXINT(2,I)=IRECTS(2,CAND_S(I))
-        IXINT(3,I)=IRECTM(1,CAND_M(I))
-        IXINT(4,I)=IRECTM(2,CAND_M(I))
-        IXINT(5,I)=IRECTS(1,CAND_S(I)) ! 1er noeud retenu arbitrairement
-        IXINT(6,I)=11
-      ENDDO
-C
-      NELEMINT=NELEMINT+I_STOK
-C
-      RETURN
-      END
-      
-Chd|====================================================================
-Chd|  I24NINTDD                     source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|        ZEROIN                        source/system/zeroin.F        
-Chd|====================================================================
-      SUBROUTINE I24NINTDD(NELEMINT,IXINT ,IRECT ,NSV,CAND_E,
-     .                     CAND_N  ,I_STOK,IFIEND,X  ,GAP   ,
-     .                     DRAD    ,GAP_S ,GAP_M ,DGAPLOAD)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com04_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NELEMINT, IXINT(6,*), IRECT(4,*),NSV(*),
-     .   CAND_E(*),CAND_N(*),I_STOK ,IFIEND
-
-      my_real
-     .   GAP, X(3,*), GAP_M(*), GAP_S(*)
-      my_real , INTENT(IN) :: DGAPLOAD , DRAD
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER N, L, I,IG,IX1,IX2,IX3,IX4,II
-      my_real
-     .   XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,SEUIL,
-     .   XI,X1,X2,X3,X4,YI,Y1,Y2,Y3,Y4,ZI,Z1,Z2,Z3,Z4
-C-----------------------------------------------
-C      IFIEND = IFIEND + I_STOK*6
-      CALL ZEROIN (1,I_STOK*6,IXINT)
-C calcul du facteur de poids relatif
-c      SEUIL = MAX(GAP +DGAPLOAD,DRAD)
-      II = 0
-      DO I = 1, I_STOK
-          IG = NSV(CAND_N(I))
-          L  = CAND_E(I)
-          if (IG >NUMNOD) CYCLE
-          II = II +1
-          IXINT(1,II)=IRECT(1,L)
-          IXINT(2,II)=IRECT(2,L)
-          IXINT(3,II)=IRECT(3,L)
-          IXINT(4,II)=IRECT(4,L)
-          IXINT(5,II)=IG
-          IXINT(6,II)=24
-          IX1=IRECT(1,L)
-          IX2=IRECT(2,L)
-          IX3=IRECT(3,L)
-          IX4=IRECT(4,L)
-          ZI = X(3,IG)
-          Z1=X(3,IX1)
-          Z2=X(3,IX2)
-          Z3=X(3,IX3)
-          Z4=X(3,IX4)
-          SEUIL=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))+DGAPLOAD
-          ZMIN = MIN(Z1,Z2,Z3,Z4)-SEUIL
-          ZMAX = MAX(Z1,Z2,Z3,Z4)+SEUIL
-          IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN
-            YI = X(2,IG)
-            Y1 = X(2,IX1)
-            Y2 = X(2,IX2)
-            Y3 = X(2,IX3)
-            Y4 = X(2,IX4)
-            YMIN = MIN(Y1,Y2,Y3,Y4)-SEUIL
-            YMAX = MAX(Y1,Y2,Y3,Y4)+SEUIL
-            IF (YMIN<=YI.AND.YMAX>=YI) THEN
-              XI = X(1,IG)
-              X1 = X(1,IX1)
-              X2 = X(1,IX2)
-              X3 = X(1,IX3)
-              X4 = X(1,IX4)
-              XMIN = MIN(X1,X2,X3,X4)-SEUIL
-              XMAX = MAX(X1,X2,X3,X4)+SEUIL
-              IF (XMIN<=XI.AND.XMAX>=XI) THEN
-                IXINT(6,II)=-24
-              ENDIF
-            ENDIF
-          ENDIF          
-      ENDDO
-C
-      IFIEND = IFIEND + II*6
-      NELEMINT=NELEMINT+II
-C
-      RETURN
-      END
-
-      
-Chd|====================================================================
-Chd|  I25NINTDD                     source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|        ZEROIN                        source/system/zeroin.F        
-Chd|====================================================================
-      SUBROUTINE I25NINTDD(NELEMINT,IXINT ,IRECT ,NSV,CAND_E,
-     .                     CAND_N  ,I_STOK,IFIEND,X  ,GAP   ,
-     .                     DRAD    ,GAP_S ,GAP_M ,DGAPLOAD)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com04_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NELEMINT, IXINT(6,*), IRECT(4,*),NSV(*),
-     .   CAND_E(*),CAND_N(*),I_STOK ,IFIEND
-
-      my_real
-     .   GAP, X(3,*), GAP_M(*), GAP_S(*) 
-      my_real , INTENT(IN) :: DGAPLOAD , DRAD
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER N, L, I,IG,IX1,IX2,IX3,IX4,II
-      my_real
-     .   XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,SEUIL,
-     .   XI,X1,X2,X3,X4,YI,Y1,Y2,Y3,Y4,ZI,Z1,Z2,Z3,Z4
-C-----------------------------------------------
-C      IFIEND = IFIEND + I_STOK*6
-      CALL ZEROIN (1,I_STOK*6,IXINT)
-C calcul du facteur de poids relatif
-C      SEUIL = MAX(GAP+DGAPLOAD,DRAD)
-      II = 0
-      DO I = 1, I_STOK
-          IG = NSV(CAND_N(I))
-          L  = CAND_E(I)
-          if (IG >NUMNOD) CYCLE
-          II = II +1
-          IXINT(1,II)=IRECT(1,L)
-          IXINT(2,II)=IRECT(2,L)
-          IXINT(3,II)=IRECT(3,L)
-          IXINT(4,II)=IRECT(4,L)
-          IXINT(5,II)=IG
-          IXINT(6,II)=25
-          IX1=IRECT(1,L)
-          IX2=IRECT(2,L)
-          IX3=IRECT(3,L)
-          IX4=IRECT(4,L)
-          ZI = X(3,IG)
-          Z1=X(3,IX1)
-          Z2=X(3,IX2)
-          Z3=X(3,IX3)
-          Z4=X(3,IX4)
-          SEUIL=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))+DGAPLOAD
-          ZMIN = MIN(Z1,Z2,Z3,Z4)-SEUIL
-          ZMAX = MAX(Z1,Z2,Z3,Z4)+SEUIL
-          IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN
-            YI = X(2,IG)
-            Y1 = X(2,IX1)
-            Y2 = X(2,IX2)
-            Y3 = X(2,IX3)
-            Y4 = X(2,IX4)
-            YMIN = MIN(Y1,Y2,Y3,Y4)-SEUIL
-            YMAX = MAX(Y1,Y2,Y3,Y4)+SEUIL
-            IF (YMIN<=YI.AND.YMAX>=YI) THEN
-              XI = X(1,IG)
-              X1 = X(1,IX1)
-              X2 = X(1,IX2)
-              X3 = X(1,IX3)
-              X4 = X(1,IX4)
-              XMIN = MIN(X1,X2,X3,X4)-SEUIL
-              XMAX = MAX(X1,X2,X3,X4)+SEUIL
-              IF (XMIN<=XI.AND.XMAX>=XI) THEN
-                IXINT(6,II)=-25
-              ENDIF
-            ENDIF
-          ENDIF          
-      ENDDO
-C
-      IFIEND = IFIEND + II*6
-      NELEMINT=NELEMINT+II
-C
-      RETURN
-      END
-
-Chd|====================================================================
-Chd|  I2NINTDD                      source/spmd/domain_decomposition/grid2mat.F
-Chd|-- called by -----------
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE I2NINTDD(NELEMINT,IXINT,IRECT,NSV,IRTL,
-     .                    NSN,IFIEND)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NELEMINT, IXINT(6,*), IRECT(4,*),NSV(*),
-     .   IRTL(*),NSN ,IFIEND, IFITMP, NN    
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER N, L, I, JJ, NIR 
-C-----------------------------------------------
-C
-      IFITMP = IFIEND + NSN*6
-C
-      NIR=2
-      IF(N2D==0)NIR=4
-C
-      NN = 0
-      DO N = 1, NSN
-        I = NSV(N)
-        L = IRTL(N)
-        IF(L/=0)THEN         ! cas erreur segment non trouve
-          NN = NN + 1
-          IXINT(1,NN)=IRECT(1,L)
-          IXINT(2,NN)=IRECT(2,L)
-          IF (NIR==2) THEN
-            IXINT(3,NN)=IRECT(1,L)
-            IXINT(4,NN)=IRECT(2,L)
-          ELSE
-            IXINT(3,NN)=IRECT(3,L)
-            IXINT(4,NN)=IRECT(4,L)                
-          END IF
-          IXINT(5,NN)=I
-          IXINT(6,NN)=2
-        END IF
-      ENDDO
-      NELEMINT = NELEMINT+NN
-      IFIEND   = IFIEND + NN*6
-C
-      RETURN
-      END
-      
 Chd|====================================================================
 Chd|  SPDOMETIS                     source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------

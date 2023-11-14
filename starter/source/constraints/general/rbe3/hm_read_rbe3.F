@@ -318,11 +318,7 @@ c        WRITE(IOUT,1103)
           ENDDO
         ENDIF
       ENDDO
-      IF (NSPMD>1) THEN
-          LXINTD = 6*LXINTD
-      ELSE
-         LXINTD = 0
-      ENDIF
+      IF (NSPMD==1) LXINTD = 0
 C
       RETURN
 C
@@ -482,64 +478,6 @@ C optimisation possible
         END DO
        IADS = IADS + NM
       ENDDO
-C
-      RETURN
-      END
-Chd|====================================================================
-Chd|  INTXRBE3                      source/constraints/general/rbe3/hm_read_rbe3.F
-Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE INTXRBE3(IRBE3  ,LRBE3  ,NELEMINT,IXINT,IFIEND)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com04_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER IRBE3(NRBE3L,*), LRBE3(*),NELEMINT, IXINT(6,*), IFIEND
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I, N, J,K, NS,NM, NI, NMT,M,NFT,JLT,IAD,II
-C
-C========================================================================|
-      NMT = 0
-      DO I=1,NRBE3
-       IAD = IRBE3(1,I)
-       NS = IRBE3(3,I)
-       NM = IRBE3(5,I)
-       DO NFT =0,NM-1 ,4
-         JLT = MIN(4, NM - NFT )
-         NELEMINT = NELEMINT + 1
-         NMT = NMT + 1
-         DO J = 1 ,JLT
-          II = J+ NFT
-          M= LRBE3(IAD+II)
-          IXINT(J,NELEMINT)=M
-         ENDDO
-         IF (JLT==1) THEN
-          IXINT(2,NELEMINT)=IXINT(1,NELEMINT)
-          IXINT(3,NELEMINT)=IXINT(1,NELEMINT)
-          IXINT(4,NELEMINT)=IXINT(1,NELEMINT)
-         ELSEIF (JLT==2) THEN
-          IXINT(3,NELEMINT)=IXINT(1,NELEMINT)
-          IXINT(4,NELEMINT)=IXINT(2,NELEMINT)
-         ELSEIF (JLT==3) THEN
-          IXINT(4,NELEMINT)=IXINT(3,NELEMINT)
-         ENDIF
-         IXINT(5,NELEMINT)=NS
-         IXINT(6,NELEMINT)=100
-       ENDDO
-      ENDDO
-      IFIEND = IFIEND + NMT*6
 C
       RETURN
       END
