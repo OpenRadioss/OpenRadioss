@@ -1119,6 +1119,8 @@ C
                     FSAVSUB1(10,JSUB)=FSAVSUB1(10,JSUB)+ABS(IMPZ)
 C
                     FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+FNI(I)*DT12
+
+                    IF(PARAMETERS%INTCAREA > 0)  FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + PARAMETERS%INTAREAN(NN) 
 C
                   END IF
 
@@ -1148,6 +1150,8 @@ C
                   FSAVPARIT(JSUB+1,2,I+NFT) =  FYI(I)
                   FSAVPARIT(JSUB+1,3,I+NFT) =  FZI(I)
                 ENDIF
+
+                IF(PARAMETERS%INTCAREA > 0)  FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + PARAMETERS%INTAREAN(NN) 
 
                 JJ=JJ+1
 
@@ -1199,6 +1203,7 @@ C
                     FSAVSUB1(9,JSUB) =FSAVSUB1(9,JSUB) +ABS(IMPY)
                     FSAVSUB1(10,JSUB)=FSAVSUB1(10,JSUB)+ABS(IMPZ)
 C
+                    IF(PARAMETERS%INTCAREA > 0)  FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + PARAMETERS%INTAREAN(NN) 
                   END IF
 
                   KK=KK+1
@@ -1244,6 +1249,13 @@ C
                 FSAVPARIT(KSUB+1,3,I+NFT) =  -FZI(I)
               ENDIF
 
+              IF(PARAMETERS%INTCAREA > 0)  THEN
+                 IF(NN > 0) THEN
+                     FSAVSUB1(25,KSUB) = FSAVSUB1(25,KSUB) + PARAMETERS%INTAREAN(NN) 
+                 ELSE
+                     FSAVSUB1(25,KSUB) = FSAVSUB1(25,KSUB) + INTAREANFI(NIN)%P(-NN)
+                 ENDIF
+              ENDIF
 
             ENDIF
             KK=KK+1
@@ -1295,6 +1307,8 @@ C
 C
                       FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+FNI(I)*DT12
 C
+                      IF(PARAMETERS%INTCAREA > 0) FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + INTAREANFI(NIN)%P(NN)
+
                     END IF
 
                     KK=KK+1
@@ -1323,6 +1337,8 @@ C
                     FSAVPARIT(JSUB+1,2,I+NFT) =  FYI(I)
                     FSAVPARIT(JSUB+1,3,I+NFT) =  FZI(I)
                   ENDIF
+
+                  IF(PARAMETERS%INTCAREA > 0) FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + INTAREANFI(NIN)%P(NN)
 
                   JJ=JJ+1
 
@@ -1373,6 +1389,8 @@ C
                       FSAVSUB1(8,JSUB) =FSAVSUB1(8,JSUB) +ABS(IMPX)
                       FSAVSUB1(9,JSUB) =FSAVSUB1(9,JSUB) +ABS(IMPY)
                       FSAVSUB1(10,JSUB)=FSAVSUB1(10,JSUB)+ABS(IMPZ)
+
+                      IF(PARAMETERS%INTCAREA > 0) FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + INTAREANFI(NIN)%P(NN)
 
                     ENDIF
                     KK=KK+1
@@ -2672,8 +2690,6 @@ C
      .                                       +ZP(I)*IMPX-XP(I)*IMPZ
                     FSAVSUB1(24,JSUB)=FSAVSUB1(24,JSUB)
      .                            +XP(I)*IMPY-YP(I)*IMPX
-
-                    IF(PARAMETERS%INTCAREA > 0)  FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + PARAMETERS%INTAREAN(NN) 
 C
                   END IF
 
@@ -2713,8 +2729,6 @@ C
      .                           +ZP(I)*IMPX-XP(I)*IMPZ
                 FSAVSUB1(24,JSUB)=FSAVSUB1(24,JSUB)
      .                           +XP(I)*IMPY-YP(I)*IMPX
-
-                IF(PARAMETERS%INTCAREA > 0)  FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + PARAMETERS%INTAREAN(NN) 
 
                 JJ=JJ+1
 
@@ -2778,8 +2792,6 @@ C
      .                          +ZP(I)*IMPX-XP(I)*IMPZ
                     FSAVSUB1(24,JSUB)=FSAVSUB1(24,JSUB)
      .                          +XP(I)*IMPY-YP(I)*IMPX
-
-                    IF(PARAMETERS%INTCAREA > 0)  FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + PARAMETERS%INTAREAN(NN) 
 C
                   ENDIF
                   KK=KK+1
@@ -2835,15 +2847,6 @@ C
      .                         +ZP(I)*IMPX-XP(I)*IMPZ
               FSAVSUB1(24,KSUB)=FSAVSUB1(24,KSUB)
      .                         +XP(I)*IMPY-YP(I)*IMPX
-
-              IF(PARAMETERS%INTCAREA > 0)  THEN
-                 IF(NN > 0) THEN
-                     FSAVSUB1(25,KSUB) = FSAVSUB1(25,KSUB) + PARAMETERS%INTAREAN(NN) 
-                 ELSE
-                     FSAVSUB1(25,KSUB) = FSAVSUB1(25,KSUB) + INTAREANFI(NIN)%P(-NN)
-                 ENDIF
-              ENDIF
-
 
             ENDIF
             KK=KK+1
@@ -2905,7 +2908,6 @@ C
                       FSAVSUB1(24,JSUB)=FSAVSUB1(24,JSUB)
      .                               +XP(I)*IMPY-YP(I)*IMPX
 
-                      IF(PARAMETERS%INTCAREA > 0) FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + INTAREANFI(NIN)%P(NN)
 C
                     END IF
 
@@ -2946,8 +2948,6 @@ C
      .                             +ZP(I)*IMPX-XP(I)*IMPZ
                   FSAVSUB1(24,JSUB)=FSAVSUB1(24,JSUB)
      .                             +XP(I)*IMPY-YP(I)*IMPX
-
-                  IF(PARAMETERS%INTCAREA > 0) FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + INTAREANFI(NIN)%P(NN)
 
                   JJ=JJ+1
 
@@ -2998,8 +2998,6 @@ C
                       FSAVSUB1(8,JSUB) =FSAVSUB1(8,JSUB) +ABS(IMPX)
                       FSAVSUB1(9,JSUB) =FSAVSUB1(9,JSUB) +ABS(IMPY)
                       FSAVSUB1(10,JSUB)=FSAVSUB1(10,JSUB)+ABS(IMPZ)
-
-                      IF(PARAMETERS%INTCAREA > 0) FSAVSUB1(25,JSUB) = FSAVSUB1(25,JSUB) + INTAREANFI(NIN)%P(NN)
 
                     ENDIF
                     KK=KK+1
