@@ -821,6 +821,9 @@ C---------to be cleaned later
         integer ::   S_STFE         !  NEDGE 
         integer ::   S_GAPMSAV      ! NRTM
         integer ::   S_E2S_NOD_NORMAL ! 3*NADMSR
+
+        integer :: NUMBER_EDGE_TYPE1
+        integer :: NUMBER_EDGE_TYPE1_0
 C       Orthotropic friction 
         integer ::   S_DIR_FRICM !  2*NRTM         : orhotropic directions for friction 
 C   Stiffness based on mass and time step
@@ -944,7 +947,9 @@ C--------to be cleaned later
         integer, DIMENSION(:) , POINTER ::  CANDM_E2S  
         integer, DIMENSION(:) , POINTER ::  CANDS_E2S
         integer, DIMENSION(:) , POINTER ::  IFPEN_E   
-        integer, DIMENSION(:) , POINTER ::  IFPEN_E2S       
+        integer, DIMENSION(:) , POINTER ::  IFPEN_E2S      
+        integer, DIMENSION(:), ALLOCATABLE :: EDGE_TYPE1
+        integer, DIMENSION(:), ALLOCATABLE :: EDGE_TYPE1_0
 C---- INTER FRICTION PARTS
         integer, DIMENSION(:) , POINTER ::  IPARTFRICS 
         integer, DIMENSION(:) , POINTER ::  IPARTFRICM

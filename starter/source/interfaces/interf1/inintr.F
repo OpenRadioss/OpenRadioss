@@ -134,7 +134,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, JINSCR, NIN, ITABM1, IWRN, I,NINT2
+      INTEGER N, JINSCR, NIN, ITABM1, IWRN, I
       INTEGER NTY, NSN2T, NMN2T,IKINE1(3*NUMNOD),ID,
      .        NSNET  ,NMNET  ,MULTIMP, IREMNODE, NREMNODE,
      .        NREMN(NINTER),NREMN_OLD(NINTER),IEDG,IEDGN,ST2_CONNEC,
@@ -168,7 +168,10 @@ C-----------------------------------------------
       INTEGER, DIMENSION(3) :: ADDRESS_INTER ! address in the INTERFACE_INDEX array
       INTEGER, DIMENSION(NINTER) :: INTERFACE_TYPE2,INTERFACE_TYPE24,INTERFACE_OTHER ! interfaces, savec according to theirs types
       INTEGER, DIMENSION(NINTER) :: INTERFACE_INDEX ! index of interface : other : 1-->next_inter(1), type2 : next_inter(1)+1--> next_inter(2), type24 : next_inter(1)+(2)--> next_inter(1)+(2)+(3)
+      INTEGER :: INTER_TYPE2_NUMBER !<number of interface type 2
       INTEGER(KIND=8) :: NREMNODE_KIND8
+      INTEGER :: IEDGE !< check if edge to edge is used by the interface
+      INTEGER :: SKIP_TYPE25_EDGE_2_EDGE !< flag to activate only the computation of interface type 25 with edge to edge
 C
       I_MEM = 0
       RESORT = 0
@@ -219,23 +222,32 @@ C--
 C-----------------------------------------------     
         ! ----------------
         ! loop over the interfaces
-        ! interface type 24 must be treated at the end
+        ! interface type 24 & 25 must be treated at the end
         ! interface type 2 must be treated before interface 24
         ! other interfaces are treated at the beginning
+        SKIP_TYPE25_EDGE_2_EDGE = 0
         NEXT_INTER(1:3) = 0
         DO N=1,NINTER
           NTY=IPARI(7,N)
           IF(NTY==2) THEN
             NEXT_INTER(2) = NEXT_INTER(2) + 1
             INTERFACE_TYPE2(NEXT_INTER(2)) = N
-          ELSEIF(NTY==24) THEN
+          ELSEIF(NTY==24.OR.NTY==25) THEN
             NEXT_INTER(3) = NEXT_INTER(3) + 1
             INTERFACE_TYPE24(NEXT_INTER(3)) = N
+            IF(NTY==25) THEN
+              ! special case : interface type 25 with edge to edge 
+              ! LEDGE array is initialized during the sorting (why? i don't know)
+              ! i7remnode algo for interface type 25 with edge to edge must be done after the %LEDGE initialization
+              IEDGE = IPARI(58,N)
+              IF(IEDGE/=0) SKIP_TYPE25_EDGE_2_EDGE = 1
+            ENDIF
           ELSE
             NEXT_INTER(1) = NEXT_INTER(1) + 1
             INTERFACE_OTHER(NEXT_INTER(1)) = N
           ENDIF
         ENDDO
+
         ADDRESS_INTER(1) = 0
         ADDRESS_INTER(2) = NEXT_INTER(1)
         ADDRESS_INTER(3) = NEXT_INTER(1) + NEXT_INTER(2)
@@ -244,17 +256,17 @@ C-----------------------------------------------
         INTERFACE_INDEX(ADDRESS_INTER(3)+1:ADDRESS_INTER(3)+NEXT_INTER(3)) = INTERFACE_TYPE24(1:NEXT_INTER(3))
         ! ----------------
         IWRN = 0
-        NINT2 = 0
+        INTER_TYPE2_NUMBER = 0
         NREMN(1:NINTER) = 0     
         ! ----------------
         ! loop over the interfaces
-        ! 1) interface type 1,3:23,25 + other
+        ! 1) interface type 1,3:6,8:23
         !    forbidden S nodes (defined in remnode structure) will BE take into account in the domain decomposition
         ! 2) interface type 2
         !    at the end of the interface type 2 treatment, update :
         !    a) remnode algo for interface type 2 
         !    b) remnode algo for interface type 24
-        ! 3) interface type 24
+        ! 3) interface type 24 / 25
         !    forbidden S nodes (defined in remnode structure) will not be take into account in the domain decomposition
         DO KIND_INTERFACE=1,3
           
@@ -265,6 +277,7 @@ C-----------------------------------------------
             IREMNODE_EDG = 0
             NREMNODE = 0
             NTY=IPARI(7,N)
+            IEDGE = IPARI(58,N)
             FLAG_REMOVED_NODE = .FALSE.
             IF ((NTY == 7.OR.NTY == 25) .AND. IPARI(63,N) == 2 .AND. IDDLEVEL == 1)THEN
 C---     Initial dimension of REMNODE arrays
@@ -276,6 +289,7 @@ C---     Initial dimension of REMNODE arrays
                 NREMNODE = NREMNODE_KIND8
               END IF
               CALL UPGRADE_REMNODE(IPARI(1,N),NREMNODE,INTBUF_TAB(N),NTY)
+              FLAG_REMOVED_NODE = .TRUE.
             ENDIF
             IF (NTY == 11.AND. IPARI(63,N) == 2 .AND. IDDLEVEL == 1)THEN
 C---      Initial dimension of REMNODE arrays
@@ -289,11 +303,13 @@ C---     Initial dimension of REMNODE arrays
               REMNODE_SIZE_EDG = 5*IPARI(68,N)
               CALL UPGRADE_REMNODE_EDG(IPARI(1,N),REMNODE_SIZE_EDG,INTBUF_TAB(N))
             ENDIF
-            IF(NTY==24.AND.IDDLEVEL==0.AND.IPARI(63,N)>0) THEN
+            IF((NTY==24.OR.NTY==25).AND.IDDLEVEL==0.AND.IPARI(63,N)>0) THEN
               IF(INTBUF_TAB(N)%S_KREMNODE>0) FLAG_REMOVED_NODE = .TRUE.
+              IF(NTY==25.AND.IEDGE/=0) FLAG_REMOVED_NODE = .TRUE.
+              IF(NTY==25.AND.NEXT_INTER(2)==0) FLAG_REMOVED_NODE = .FALSE.
             ENDIF
 
-            IF (NTY == 2)  NINT2=NINT2+1
+            IF (NTY == 2)  INTER_TYPE2_NUMBER=INTER_TYPE2_NUMBER+1
             RESORT = 0
             IF (NTY == 14.OR.NTY == 15.OR.NTY == 16.OR.NTY == 18.OR.NTY==0) CYCLE
  200        CONTINUE
@@ -321,8 +337,8 @@ C---     Initial dimension of REMNODE arrays
 
             IF(N2D==0)THEN
 
-              CALL ININT3(INSCR(N)%WA  ,X              ,IXS             ,IXC          ,PM       ,
-     1                GEO          ,IPARI(1,N)     ,NIN             ,ITAB         ,MS       ,
+              CALL ININT3(INSCR(N)%WA  ,X          ,IXS             ,IXC          ,PM       ,
+     1                GEO          ,IPARI          ,NIN             ,ITAB         ,MS       ,
      2                MWA          ,RWA            ,IXTG            ,IWRN         ,IKINE    ,
      3                IXT          ,IXP            ,IXR             ,NELEMINT     ,IDDLEVEL ,
      4                IFIEND       ,ALE_CONNECTIVITY ,NSNET           ,NMNET        ,IGRBRIC  ,
@@ -334,11 +350,12 @@ C---     Initial dimension of REMNODE arrays
      A                I_MEM        ,RESORT         ,INTER_CAND      ,IXS16        ,IXS20    ,
      B                ID           ,TITR           ,IREMNODE        ,NREMNODE     ,IPARTS   ,
      C                KXX          ,IXX            ,IGEO            ,INTERCEP     ,LELX     , 
-     D                INTBUF_TAB(N),FILLSOL        ,PM_STACK        ,IWORKSH      ,KXIG3D   ,
+     D                INTBUF_TAB   ,FILLSOL        ,PM_STACK        ,IWORKSH      ,KXIG3D   ,
      E                IXIG3D       ,TAGPRT_FRIC    ,INTBUF_FRIC_TAB ,IPARTT       ,IPARTP   ,
      F                IPARTX       ,IPARTR         ,NSN_MULTI_CONNEC,T2_ADD_CONNEC,T2_NB_CONNEC,
      G                T2_CONNEC    ,NOM_OPT        ,ICODE           ,ISKEW        ,IREMNODE_EDG,
-     H                MULTI_FVM%S_APPEND_ARRAY,MULTI_FVM%X_APPEND,MULTI_FVM%MASS_APPEND,N2D,FLAG_REMOVED_NODE,NSPMD)
+     H                MULTI_FVM%S_APPEND_ARRAY,MULTI_FVM%X_APPEND,MULTI_FVM%MASS_APPEND,N2D,FLAG_REMOVED_NODE,
+     I                NSPMD,INTER_TYPE2_NUMBER)
 
               IF (I_MEM /= 0) GOTO 200
             ELSE
@@ -357,12 +374,12 @@ C---     Initial dimension of REMNODE arrays
           IF (N2D==0.AND.KIND_INTERFACE==2.AND.NSPMD>1) THEN
             IF(IDDLEVEL==0) THEN   
               FLAG_OUTPUT = 0
-              IF (NINT2 >0) CALL REMN_I2OP(IPARI   ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMN,FLAG_OUTPUT)
+              IF (INTER_TYPE2_NUMBER >0) CALL REMN_I2OP(IPARI,INTBUF_TAB,ITAB,NOM_OPT,NREMN,FLAG_OUTPUT,SKIP_TYPE25_EDGE_2_EDGE)
               CALL REMN_SELF24(X   ,IXS   ,IXS10 ,IXS16,IXS20   ,
      .                       KNOD2ELS,NOD2ELS,IPARI ,INTBUF_TAB ,
      .                       ITAB , NOM_OPT,NREMN, S_NOD2ELS,FLAG_OUTPUT)
-              CALL REMN_I2_EDGOP(IPARI   ,INTBUF_TAB   ,ITAB, NREMN)
-              CALL RI2_INT24P_INI(IPARI  ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMN )
+              CALL REMN_I2_EDGOP(IPARI,INTBUF_TAB,ITAB,NREMN)
+              CALL RI2_INT24P_INI(IPARI,INTBUF_TAB,ITAB,NOM_OPT,NREMN )
             ELSE
               CALL FLUSH_REMNODE_ARRAY(NINTER,NPARI,IPARI,INTBUF_TAB)
             ENDIF

@@ -107,6 +107,7 @@ C-----------------------------------------------
       CHARACTER*nchartitle,
      .   TITR
       INTEGER :: FLAG_OUTPUT !< flag for output
+      INTEGER :: SKIP_TYPE25_EDGE_2_EDGE !< flag to activate only the computation of interface type 25 with edge to edge
 C=======================================================================
 C
 C     SWITCH OF INTERF2 SPOTFLAG26 TO SPOTFLAG25 IF POSSIBLE 
@@ -238,7 +239,8 @@ C
        IF (N2D==0 ) THEN 
          NREMN(1:NINTER) = 0    
          FLAG_OUTPUT = 1   
-         IF (NINT2 >0) CALL REMN_I2OP(IPARI   ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMN,FLAG_OUTPUT)
+         SKIP_TYPE25_EDGE_2_EDGE = 0
+         IF (NINT2 >0) CALL REMN_I2OP(IPARI   ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMN,FLAG_OUTPUT,SKIP_TYPE25_EDGE_2_EDGE)
          CALL REMN_SELF24(X   ,IXS   ,IXS10 ,IXS16,IXS20   ,
      .                KNOD2ELS,NOD2ELS,IPARI ,INTBUF_TAB ,
      .                ITAB , NOM_OPT,NREMN, S_NOD2ELS,FLAG_OUTPUT)
