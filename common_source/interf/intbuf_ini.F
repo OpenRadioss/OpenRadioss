@@ -702,9 +702,11 @@ C=======================================================================
         ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_LISUBM
-        ALLOCATE(INTBUF_TAB(NI)%LISUBM(SIZ))
+        ALLOCATE(INTBUF_TAB(NI)%LISUBM(SIZ+1))
         IF(SIZ>0)THEN
           CALL READ_I_C(INTBUF_TAB(NI)%LISUBM,SIZ)
+          !sentinel value to avoid invalid read in i*for3.F
+          INTBUF_TAB(NI)%LISUBM(SIZ+1) = HUGE(SIZ)
         ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_INFLG_SUBS
