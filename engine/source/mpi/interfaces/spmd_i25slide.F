@@ -1033,7 +1033,7 @@ C
 
 
         ENDIF !IF(NSNR_OLD/=0) 
-      ENDDO  ! end do NSPMD        	
+      ENDDO  ! end do NSPMD        
 
 c ===============================================================
 c                           TESTS
@@ -1620,7 +1620,7 @@ C
           DO J = 1, NODFI
             EFRICFI(NIN)%P(J)=ZERO
           END DO                  
-        END IF  		      
+        END IF            
        END IF
       ENDIF
 C
@@ -1634,7 +1634,7 @@ C
           DO J = 1, NODFI
             EFRICGFI(NIN)%P(J)=ZERO
           END DO                  
-        END IF  		      
+        END IF            
       END IF
 
       RETURN

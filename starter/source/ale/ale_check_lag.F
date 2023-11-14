@@ -84,7 +84,7 @@ C--------------------------------------------------------------
             N=IXQ(I,M)
             IF(IABS(NALE(N)) == 2)THEN
               JWARN=1
-              !WARNING NODE CONNECTS LAGRANGIAN QUAD TO EULERIAN QUAD	      
+              !WARNING NODE CONNECTS LAGRANGIAN QUAD TO EULERIAN QUAD        
               CALL ANCMSG(MSGID=336,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ITAB(N),PRMOD=MSG_CUMU,C1='QUAD')
             ENDIF
           NALE(N)=0
@@ -127,7 +127,7 @@ C---------------------------------------------------
             N=IXC(I,M)
             IF(IABS(NALE(N)) == 2)THEN
               JWARN=1
-	      !WARNING NODE CONNECTS SHELL (LAGRANGIAN) TO EULERIAN SOLID
+                !WARNING NODE CONNECTS SHELL (LAGRANGIAN) TO EULERIAN SOLID
               CALL ANCMSG(MSGID=336,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ITAB(N),PRMOD=MSG_CUMU,C1='SHELL')
             ENDIF
           NALE(N)=0

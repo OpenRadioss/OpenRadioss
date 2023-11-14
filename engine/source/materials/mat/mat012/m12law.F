@@ -391,8 +391,8 @@ C------------------
         DO  I=1,NEL
           EFIB(I) =PM(38,MX)
           EPSFT(I)=PM(84,MX)
-	      EPSFC(I)=PM(85,MX) 
-	      EPSF(I) = EPSF(I)+ E1(I)
+                EPSFC(I)=PM(85,MX) 
+                EPSF(I) = EPSF(I)+ E1(I)
           SIGF(I) = EFIB(I)*EPSF(I)
         ENDDO 
 C

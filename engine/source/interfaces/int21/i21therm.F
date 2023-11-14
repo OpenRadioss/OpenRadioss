@@ -34,7 +34,7 @@ Chd|====================================================================
      5                   PENRAD ,TEMPM ,FHEAT ,EFRICT ,CONDINT,
      6                   IFORM  ,H1    ,H2    ,H3     ,H4     ,
      7                   PHI1   ,PHI2  ,PHI3  ,PHI4   ,X1     ,
-     8                   Y1	,Z1    ,X2    ,Y2     ,Z2     ,
+     8                   Y1  ,Z1    ,X2    ,Y2     ,Z2     ,
      9                   X3     ,Y3    ,Z3    ,X4     ,Y4     ,
      A                   Z4     ,ITAB  ,NSV    ,MSR   ,IX1    ,
      B                   IX2    ,IX3   ,IX4    ,TEMP  ,FCOND  ,

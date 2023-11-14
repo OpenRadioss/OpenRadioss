@@ -56,7 +56,7 @@ C
         FSAV(9)=ZERO
         FSAV(10)=ZERO
         FSAV(11)=ZERO
-        FSAV(12)=ZERO	
+        FSAV(12)=ZERO
       ENDIF
 C
       RETURN

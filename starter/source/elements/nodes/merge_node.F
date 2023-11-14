@@ -223,79 +223,79 @@ C
           N_DEST = USRTOS(IMERGE0(I),ITABM1)
 C
 C---      Check of elements
-	  FLAG = 0 	
-C------------------------>   cas des coques  <-----------------------C		    
+            FLAG = 0 
+C------------------------>   cas des coques  <-----------------------C        
           DO J = KNOD2ELC(N)+1,KNOD2ELC(N+1)
-            DO K=2,5	           
-              IF (IXC(K,NOD2ELC(J)) == N_DEST) FLAG = 1   	   
+            DO K=2,5             
+              IF (IXC(K,NOD2ELC(J)) == N_DEST) FLAG = 1        
             ENDDO
           ENDDO
-C------------------------>   cas des coques triagnles <--------------C		    
+C------------------------>   cas des coques triagnles <--------------C        
           DO J = KNOD2ELTG(N)+1,KNOD2ELTG(N+1)
             DO K=2,4            
-              IF (IXTG(K,NOD2ELTG(J)) == N_DEST) FLAG = 1   	   
+              IF (IXTG(K,NOD2ELTG(J)) == N_DEST) FLAG = 1        
             ENDDO
           ENDDO
-C------------------------>   cas des solides <-----------------------C	
+C------------------------>   cas des solides <-----------------------C
           DO J = KNOD2ELS(N)+1,KNOD2ELS(N+1)     
             CUR_ID = NOD2ELS(J)
             DO K=2,9
-	      IF(IXS(K,NOD2ELS(J)) == N_DEST) FLAG = 1
+                IF(IXS(K,NOD2ELS(J)) == N_DEST) FLAG = 1
             ENDDO
-	    IF (EANI(CUR_ID)==10) THEN
+              IF (EANI(CUR_ID)==10) THEN
               DO K=1,6
-	        IF(IXS10(K,CUR_ID-NUMELS8) == N_DEST) FLAG = 1
+                  IF(IXS10(K,CUR_ID-NUMELS8) == N_DEST) FLAG = 1
               ENDDO
-            ELSEIF (EANI(CUR_ID)==20) THEN		 	       
+            ELSEIF (EANI(CUR_ID)==20) THEN              
               DO K=1,12
-	        IF(IXS20(K,CUR_ID-NUMELS8-NUMELS10) == N_DEST) FLAG = 1
+                  IF(IXS20(K,CUR_ID-NUMELS8-NUMELS10) == N_DEST) FLAG = 1
               ENDDO
-	    ELSEIF (EANI(CUR_ID)==16) THEN      
+              ELSEIF (EANI(CUR_ID)==16) THEN      
               DO K=1,8
-	        IF(IXS16(K,CUR_ID-NUMELS8-NUMELS10-NUMELS20) == N) FLAG = 1
-              ENDDO			 		 	       
-	    ENDIF	       	           	    
-	  END DO
+                  IF(IXS16(K,CUR_ID-NUMELS8-NUMELS10-NUMELS20) == N) FLAG = 1
+              ENDDO                     
+              ENDIF                            
+            END DO
 C------------------------>   cas des elements 1D <-------------------C
           DO J = KNOD2EL1D(N)+1,KNOD2EL1D(N+1)
             CUR_ID = NOD2EL1D(J)
-	    IF (CUR_ID <= NUMELT) THEN
+              IF (CUR_ID <= NUMELT) THEN
               DO K=2,3
-                IF (IXT(K,NOD2EL1D(J)) == N_DEST) FLAG = 1   	   
+                IF (IXT(K,NOD2EL1D(J)) == N_DEST) FLAG = 1        
               ENDDO
             ELSEIF (CUR_ID <= NUMELT + NUMELP) THEN
               DO K=2,4
-                IF (IXP(K,CUR_ID-NUMELT) == N_DEST) FLAG = 1   	   
+                IF (IXP(K,CUR_ID-NUMELT) == N_DEST) FLAG = 1        
               ENDDO
             ELSE
               DO K=2,4
-                IF (IXR(K,CUR_ID-NUMELT-NUMELP) == N_DEST) FLAG = 1   	   
+                IF (IXR(K,CUR_ID-NUMELT-NUMELP) == N_DEST) FLAG = 1        
               ENDDO
             ENDIF
           ENDDO
 C------------------------>   cas des elements 1D inverse (pour 3e noeud )<---C
           DO J = KNOD2EL1D(N_DEST)+1,KNOD2EL1D(N_DEST+1)
             CUR_ID = NOD2EL1D(J)
-	    IF (CUR_ID <= NUMELT) THEN
+              IF (CUR_ID <= NUMELT) THEN
               DO K=2,3
-                IF (IXT(K,NOD2EL1D(J)) == N) FLAG = 1   	   
+                IF (IXT(K,NOD2EL1D(J)) == N) FLAG = 1        
               ENDDO
             ELSEIF (CUR_ID <= NUMELT + NUMELP) THEN
               DO K=2,4
-                IF (IXP(K,CUR_ID-NUMELT) == N) FLAG = 1   	   
+                IF (IXP(K,CUR_ID-NUMELT) == N) FLAG = 1        
               ENDDO
             ELSE
               DO K=2,4
-                IF (IXR(K,CUR_ID-NUMELT-NUMELP) == N) FLAG = 1   	   
+                IF (IXR(K,CUR_ID-NUMELT-NUMELP) == N) FLAG = 1        
               ENDDO
             ENDIF
           ENDDO
-C------------------------>   cas des quad  <-----------------------C		    
+C------------------------>   cas des quad  <-----------------------C        
           DO J = KNOD2ELQ(N)+1,KNOD2ELQ(N+1)
-            DO K=2,5	           
-              IF (IXQ(K,NOD2ELQ(J)) == N_DEST) FLAG = 1   	   
+            DO K=2,5             
+              IF (IXQ(K,NOD2ELQ(J)) == N_DEST) FLAG = 1        
             ENDDO
-          ENDDO	
+          ENDDO
 C
           IF (FLAG == 1) THEN
 C--         connection removed

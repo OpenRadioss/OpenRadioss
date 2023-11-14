@@ -399,12 +399,12 @@ c
           ! a plastic multiplier allowing to update internal variables to satisfy
           ! the consistency condition using the cutting plane method
           ! Its expression at each iteration is : DLAMBDA = - PHI/DPHI_DLAMBDA
-	  ! -> PHI          : current value of yield function (known)
+            ! -> PHI          : current value of yield function (known)
           ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
           !                   into account of internal variables kinetic : 
           !                   hardening parameters
 c        
-	  ! 1 - Computation of DPHI_DSIG the normal to the yield criterion
+            ! 1 - Computation of DPHI_DSIG the normal to the yield criterion
           !-------------------------------------------------------------          
           ! Computation of derivatives to the yield criterion
           ! - in-plane normal
@@ -472,7 +472,7 @@ c
           !   a) Computation of the plastic multiplier
           DLAM = -PHI(I) / DPHI_DLAM
 c        
-	  !   b) Plastic strains tensor update
+            !   b) Plastic strains tensor update
           DPXX = DLAM * NORMPXX
           DPYY = DLAM * NORMPYY
           DPXY = TWO * DLAM * NORMPXY 
@@ -613,12 +613,12 @@ c
           ! a plastic multiplier allowing to update internal variables to satisfy
           ! the consistency condition using the cutting plane method
           ! Its expression at each iteration is : DLAMBDA = - THETA/DTHETA_DLAMBDA
-	  ! -> THETA          : current value of yield function (known)
+            ! -> THETA          : current value of yield function (known)
           ! -> DTHETA_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
           !                   into account of internal variables kinetic : 
           !                   hardening parameters
 c               
-	  ! 1 - Computation of DTHETA_DSIG the normal to the yield criterion
+            ! 1 - Computation of DTHETA_DSIG the normal to the yield criterion
           !-------------------------------------------------------------          
           ! Computation of derivatives to the yield criterion
           ! - in-plane normal
@@ -724,12 +724,12 @@ c
           ! a plastic multiplier allowing to update internal variables to satisfy
           ! the consistency condition using the cutting plane method
           ! Its expression at each iteration is : DLAMBDA = - PSI/DPSI_DLAMBDA
-	  ! -> PSI          : current value of yield function (known)
+            ! -> PSI          : current value of yield function (known)
           ! -> DPSI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
           !                   into account of internal variables kinetic : 
           !                   hardening parameters
 c               
-	  ! 1 - Computation of DPSI_DSIG the normal to the yield criterion
+            ! 1 - Computation of DPSI_DSIG the normal to the yield criterion
           !-------------------------------------------------------------          
           ! Computation of derivatives to the yield criterion
           ! - transverse shear normal
@@ -764,7 +764,7 @@ c
           !   a) Computation of the plastic multiplier
           DLAM = -PSI(I) / DPSI_DLAM
 c        
-	  !   b) Plastic strains tensor update
+            !   b) Plastic strains tensor update
           DPYZ = TWO*DLAM * NORMYZ
           DPZX = TWO*DLAM * NORMZX
 c        

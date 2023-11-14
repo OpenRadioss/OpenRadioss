@@ -118,7 +118,7 @@ C-----------------------------------------------
       
       IF(IRESP==1)THEN
         ALLOCATE(SRBUFDP(ISIZXV*LEN_DP),STAT=IERROR1)
-	IF(IERROR1/=0) THEN
+          IF(IERROR1/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ENDIF
@@ -350,16 +350,16 @@ C   NEW_D==2 => Envoyer D et W
             END DO
            ENDIF
           ENDIF
-	  IF(IRESP==1)THEN
+            IF(IRESP==1)THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(2,I),IAD_ELEM(1,I+1)-1
-              NOD = FR_ELEM(J)	     
-	      SRBUFDP(L2)  = XDP(1,NOD)
-	      SRBUFDP(L2+1)= XDP(2,NOD)
-	      SRBUFDP(L2+2)= XDP(3,NOD)	       
-	      L2= L2 + LEN_DP 
-	    ENDDO
-	  ENDIF	  
+              NOD = FR_ELEM(J)       
+                SRBUFDP(L2)  = XDP(1,NOD)
+                SRBUFDP(L2+1)= XDP(2,NOD)
+                SRBUFDP(L2+2)= XDP(3,NOD)         
+                L2= L2 + LEN_DP 
+              ENDDO
+            ENDIF    
         ENDDO
 C
 C   Envoi messages
@@ -375,15 +375,15 @@ C----------------------------------------------------------------------------
      S       SRBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
      G       MPI_COMM_WORLD,REQ_S(I),IERROR)
            L = L + SIZ
-	   
-	   IF(IRESP==1)THEN
-	     MSGTYP = MSGOFF2
+             
+             IF(IRESP==1)THEN
+               MSGTYP = MSGOFF2
              SIZDP = LEN_DP*(IAD_ELEM(1,I+1)-IAD_ELEM(2,I))
              CALL MPI_ISEND(
      S         SRBUFDP(L2),SIZDP,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
      G         MPI_COMM_WORLD,REQ_S_DP(I),IERROR)
              L2 = L2 + SIZDP
-	   ENDIF
+             ENDIF
          ENDIF
 C----------------------------------------------------------------------------
        ENDDO
@@ -391,9 +391,9 @@ C   wait terminaison isend
        DO I = 1, NSPMD
          IF(IAD_ELEM(1,I+1)-IAD_ELEM(2,I)>0)THEN
            CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
-	   IF(IRESP==1)THEN
-    	     CALL MPI_WAIT(REQ_S_DP(I),STATUS,IERROR)
-	   ENDIF
+             IF(IRESP==1)THEN
+               CALL MPI_WAIT(REQ_S_DP(I),STATUS,IERROR)
+             ENDIF
          END IF
        END DO
 
@@ -403,9 +403,9 @@ C decompactage
 C
       IF(ISPMD/=0) THEN
         L = 1
-	L2= 1
+          L2= 1
         SIZ = E_LEN*(IAD_ELEM(1,2)-IAD_ELEM(2,1))
-	IF(IRESP==1)SIZDP = LEN_DP*(IAD_ELEM(1,2)-IAD_ELEM(2,1))
+          IF(IRESP==1)SIZDP = LEN_DP*(IAD_ELEM(1,2)-IAD_ELEM(2,1))
         IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_RECV(
@@ -418,7 +418,7 @@ C
      S        SRBUFDP(L2),SIZDP,MPI_DOUBLE_PRECISION,IT_SPMD(1),MSGTYP,
      G        MPI_COMM_WORLD,STATUS,IERROR)
           ENDIF
-     	  
+            
           IF(NEW_D==0) THEN
             IF(IRODDL/=0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
@@ -639,16 +639,16 @@ CD et W a recevoir
               END DO
             ENDIF
           ENDIF
-	  IF(IRESP==1)THEN
+            IF(IRESP==1)THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(2,1),IAD_ELEM(1,2)-1
-	      NOD = FR_ELEM(J)  
-	      XDP(1,NOD)=  SRBUFDP(L2)
-	      XDP(2,NOD)=  SRBUFDP(L2+1)
-	      XDP(3,NOD)=  SRBUFDP(L2+2)
-	      L2= L2 + LEN_DP      	    
-	    ENDDO
-	  ENDIF	    
+                NOD = FR_ELEM(J)  
+                XDP(1,NOD)=  SRBUFDP(L2)
+                XDP(2,NOD)=  SRBUFDP(L2+1)
+                XDP(3,NOD)=  SRBUFDP(L2+2)
+                L2= L2 + LEN_DP            
+              ENDDO
+            ENDIF      
         END IF
       ENDIF
       DEALLOCATE(SRBUF)

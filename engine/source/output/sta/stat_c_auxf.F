@@ -383,7 +383,7 @@ C
               J=J+MY_NUVAR
             ENDDO
           ENDIF  !  IF (IOFF == 1 .AND. MY_NUVAR /= 0)
-        ENDDO  !  DO N=1,STAT_NUMELC_G		    
+        ENDDO  !  DO N=1,STAT_NUMELC_G        
       ENDIF  !  IF (ISPMD == 0.AND.LEN > 0)
 C-----------------------------------------------
 C     3-NODE SHELLS

@@ -76,37 +76,37 @@ C-------
 C--------only linear for the moment       
         IF(ISOLNOD==6)THEN
           DO I=1,NEL
- 	        N = NFT+I
+                  N = NFT+I
             NC(1:3,I)=IXS(2:4,N)
             NC(4:6,I)=IXS(6:8,N)
           ENDDO
             DO I=1,NEL
               IF (GBUF%IDT_TSH(I)<=0) CYCLE
- 	          N1 = NC(1,I)
- 	          N2 = NC(4,I)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
+                    N1 = NC(1,I)
+                    N2 = NC(4,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
               END IF
- 	          N1 = NC(2,I)
- 	          N2 = NC(5,I)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
+                    N1 = NC(2,I)
+                    N2 = NC(5,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
               END IF
- 	          N1 = NC(3,I)
- 	          N2 = NC(6,I)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
+                    N1 = NC(3,I)
+                    N2 = NC(6,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
               END IF
             ENDDO
         ELSEIF(ISOLNOD==8)THEN
           DO I=1,NEL
- 	        N = NFT+I
+                  N = NFT+I
             NC(1:8,I)=IXS(2:9,N)
           ENDDO
           IF (JHBE==14) THEN
@@ -114,130 +114,130 @@ C--------only linear for the moment
               CASE(100)                                             
                 DO I=1,NEL
                   IF (GBUF%IDT_TSH(I)<=0) CYCLE
- 	              N1 = NC(1,I)
- 	              N2 = NC(4,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(1,I)
+                        N2 = NC(4,I)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(2,I)
- 	              N2 = NC(3,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(2,I)
+                        N2 = NC(3,I)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(5,I)
- 	              N2 = NC(8,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(5,I)
+                        N2 = NC(8,I)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(6,I)
- 	              N2 = NC(7,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(6,I)
+                        N2 = NC(7,I)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
                 ENDDO
               CASE(10)                                          
                 DO I=1,NEL
                   IF (GBUF%IDT_TSH(I)<=0) CYCLE
- 	              N1 = NC(1,I)
- 	              N2 = NC(5,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(1,I)
+                        N2 = NC(5,I)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(2,I)
- 	              N2 = NC(6,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(2,I)
+                        N2 = NC(6,I)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(3,I)
- 	              N2 = NC(7,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(3,I)
+                        N2 = NC(7,I)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(4,I)
- 	              N2 = NC(8,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(4,I)
+                        N2 = NC(8,I)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
                 ENDDO
               CASE(1)                                          
                 DO I=1,NEL
                   IF (GBUF%IDT_TSH(I)<=0) CYCLE
- 	              N1 = NC(1,I)
- 	              N2 = NC(2,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(1,I)
+                        N2 = NC(2,I)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(4,I)
- 	              N2 = NC(3,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(4,I)
+                        N2 = NC(3,I)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(5,I)
- 	              N2 = NC(6,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(5,I)
+                        N2 = NC(6,I)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(8,I)
- 	              N2 = NC(7,I)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(8,I)
+                        N2 = NC(7,I)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
                 ENDDO
              END SELECT 
           ELSEIF (JHBE==15) THEN
             DO I=1,NEL
               IF (GBUF%IDT_TSH(I)<=0) CYCLE
- 	          N1 = NC(1,I)
- 	          N2 = NC(5,I)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
+                    N1 = NC(1,I)
+                    N2 = NC(5,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
               END IF
- 	          N1 = NC(2,I)
- 	          N2 = NC(6,I)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
+                    N1 = NC(2,I)
+                    N2 = NC(6,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
               END IF
- 	          N1 = NC(3,I)
- 	          N2 = NC(7,I)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
+                    N1 = NC(3,I)
+                    N2 = NC(7,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
               END IF
- 	          N1 = NC(4,I)
- 	          N2 = NC(8,I)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
+                    N1 = NC(4,I)
+                    N2 = NC(8,I)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
               END IF
             ENDDO
           END IF

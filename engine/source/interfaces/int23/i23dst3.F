@@ -27,17 +27,17 @@ Chd|        I23MAINF                      source/interfaces/int23/i23mainf.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE I23DST3(
-     1  		JLT    ,CAND_N_N ,CAND_E_N ,CN_LOC ,CE_LOC ,
-     2  		X1     ,X2     ,X3     ,X4     ,Y1     ,
-     3  		Y2     ,Y3     ,Y4     ,Z1     ,Z2     ,
-     4  		Z3     ,Z4     ,XI     ,YI     ,ZI     ,
-     6  		IX1    ,IX2    ,IX3    ,IX4    ,NSVG   ,
-     7  		GAPV   ,INACTI ,INDEX  ,
-     8  		VXM    ,VYM    ,VZM    ,H1     ,H2     ,
-     9  		H3     ,H4     ,IRECT  ,CAND_P ,
-     A  		IFPEN  ,NX     ,NY     ,NZ     ,FTXSAV ,
-     B  		FTYSAV ,FTZSAV ,FXT    ,FYT   ,FZT     ,
-     C  		PENE   ,V      ,VXI    ,VYI   ,VZI     ,
+     1      JLT    ,CAND_N_N ,CAND_E_N ,CN_LOC ,CE_LOC ,
+     2      X1     ,X2     ,X3     ,X4     ,Y1     ,
+     3      Y2     ,Y3     ,Y4     ,Z1     ,Z2     ,
+     4      Z3     ,Z4     ,XI     ,YI     ,ZI     ,
+     6      IX1    ,IX2    ,IX3    ,IX4    ,NSVG   ,
+     7      GAPV   ,INACTI ,INDEX  ,
+     8      VXM    ,VYM    ,VZM    ,H1     ,H2     ,
+     9      H3     ,H4     ,IRECT  ,CAND_P ,
+     A      IFPEN  ,NX     ,NY     ,NZ     ,FTXSAV ,
+     B      FTYSAV ,FTZSAV ,FXT    ,FYT   ,FZT     ,
+     C      PENE   ,V      ,VXI    ,VYI   ,VZI     ,
      D                  MSI    ,STIF   ,JLT_NEW,NSMS  ,KINI    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -320,13 +320,13 @@ C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
         AAA = ONE / MAX(EM20,X23*X23+Y23*Y23+Z23*Z23)
         HLA= LA*ABS(LA) * AAA
         INPROJ(2,I)=0
-	IF(LA<ZERO.AND.
+          IF(LA<ZERO.AND.
      +     HLA<=HLB2(I).AND.HLA<=HLC2(I))THEN
-	  LB2(I) = (XI3(I)*X23+YI3(I)*Y23+ZI3(I)*Z23)*AAA
-	  LB2(I) = MAX(ZERO,MIN(ONE,LB2(I)))
-	  LC2(I) = ONE - LB2(I)
+            LB2(I) = (XI3(I)*X23+YI3(I)*Y23+ZI3(I)*Z23)*AAA
+            LB2(I) = MAX(ZERO,MIN(ONE,LB2(I)))
+            LC2(I) = ONE - LB2(I)
           INPROJ(2,I)=1
-	ELSEIF(LB2(I)<ZERO.AND.
+          ELSEIF(LB2(I)<ZERO.AND.
      +          HLB2(I)<=HLC2(I).AND.HLB2(I)<=HLA)THEN
          LB2(I) = ZERO
          LC2(I) = AL3(I)

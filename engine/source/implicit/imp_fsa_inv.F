@@ -1157,9 +1157,9 @@ C-----------------------------
        print *,'D_tol,p_mach=',tol,e_ps
        NZ = IADA(ND+1)-IADA(1)
        DO I  = 1, NDF-1
-	    DIAG_A(I) = ZERO
+              DIAG_A(I) = ZERO
         DO J  = IADA(I), IADA(I+1)-1
-	     LT_A(J) = ZERO
+               LT_A(J) = ZERO
         ENDDO
         IADA(I+1) = 1
        ENDDO
@@ -1181,7 +1181,7 @@ C-----------------------------------------------
         MAX_D = MAX(MAX_D,DIAG_A(I))
         MIN_D = MIN(MIN_D,DIAG_A(I))
        ENDDO
-	print *,'max_d,min_d=',max_d,min_d
+          print *,'max_d,min_d=',max_d,min_d
 c       MTOL = TOL*MIN_D
 c       MTOL = MAX(E_PS,MTOL)
 C------post-filtration------
@@ -1191,27 +1191,27 @@ C------post-filtration------
          MTOL = TOL*MIN(DIAG_A(JDIL(J)),DIAG_A(I))
          MTOL = MAX(E_PS,MTOL)
          IF (ABS(LT_L(J))>MTOL) THEN
-	      MNZ = MNZ + 1
-	      JDIA(MNZ) = JDIL(J)
-	      LT_A(MNZ) = LT_L(J)
-	     ENDIF
+                MNZ = MNZ + 1
+                JDIA(MNZ) = JDIL(J)
+                LT_A(MNZ) = LT_L(J)
+               ENDIF
         ENDDO
-	    IADA(I+1) = MNZ + 1
+              IADA(I+1) = MNZ + 1
        ENDDO
        DEALLOCATE(IADL,JDIL)
        DEALLOCATE(LT_L)
        TAUX = ONE*MNZ/NZ
-c	print *,'mnz,nz=',mnz,nz,mtol
+c  print *,'mnz,nz=',mnz,nz,mtol
         print *,'filtrage factor=',TAUX
 C------retrun from M normalized------
       ENDIF 
       INORM = 0
       IF (INORM>ZERO) THEN
        DO I  = NDF, ND
-	    DIAG_A(I) = DIAG_A(I)/DIAG_K(I)
+              DIAG_A(I) = DIAG_A(I)/DIAG_K(I)
         DO J  = IADA(I), IADA(I+1)-1
-	     DD = SQRT(DIAG_K(I)/DIAG_K(JDIA(J)))
-	     LT_A(J) = DD*LT_A(J)
+               DD = SQRT(DIAG_K(I)/DIAG_K(JDIA(J)))
+               LT_A(J) = DD*LT_A(J)
         ENDDO
        ENDDO
       ENDIF 
@@ -1261,7 +1261,7 @@ C--------------------------------------------
          JJ=JDIK(K)
          N=INTAB0(NC,JM,JJ)
          IF (N>0) THEN
-	  DD = SQRT(DIAG_K(J)*DIAG_K(JJ))
+            DD = SQRT(DIAG_K(J)*DIAG_K(JJ))
           NNZA=NNZA+1
           JDIA(NNZA)=N
           LT_A(NNZA)=LT_K(K)/DD

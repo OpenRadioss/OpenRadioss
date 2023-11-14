@@ -163,7 +163,7 @@ c
           VALUE(1:3) = ZERO
           DO I=1,NEL
             IS_WRITTEN_VALUE(I) = 0
-          ENDDO	     
+          ENDDO       
           EVAR(1:3,1:NEL) = ZERO
           IS_WRITTEN_VECTOR(1:NEL) = 0
 C-----------------------------------------------

@@ -1908,15 +1908,15 @@ C--------------------------------------------
           DO I =1, NINTER
            ITY   =IPARI(7,I)
            IGSTI =IPARI(34,I)
-	       IAD_STIFOLD(I)=1
+                 IAD_STIFOLD(I)=1
 C           IF (ITY == 24.AND.IGSTI==6) THEN
-C	        IAD_STIFOLD(I)=JD(32)
+C          IAD_STIFOLD(I)=JD(32)
 C           END IF
            DO J =1, NPARI
             IPARICP(J,I) = IPARI(J,I)
            END DO 
           END DO 
-      ELSE	
+      ELSE
           DO I =1, NINTER
            ITY   =IPARI(7,I)
            IGSTI =IPARI(34,I)
@@ -1970,8 +1970,8 @@ C-------------------AFI,STNFI,VSCFI
                   IF(KDTINT/=0)LRI7CP=LRI7CP+LENR*NTHREAD
                   IF(INTTH > 0 )LRI7CP=LRI7CP+2*LENR+2*LENR*NTHREAD
                  ELSE
-C-----------------PARITON not yet with implicit----	       
-	             ENDIF
+C-----------------PARITON not yet with implicit----         
+                       ENDIF
 C-----  IRTLM_FI,TIME_SFI,SECND_FRFI,PENE_OLDFI,STIF_OLDFI
                  IF(ITYP==24) THEN
                   LII7CP=LII7CP+2*LENR
@@ -1996,8 +1996,8 @@ C-------------------AFI,STNFI,VSCFI,AREASFI,TEMPFI
                   IF(KDTINT/=0)LRI7CP=LRI7CP+2*LENR*NTHREAD
                   IF(INTTH > 0 )LRI7CP=LRI7CP+3*LENR   
                  ELSE
-C-----------------PARITON not yet with implicit----	       
-	         ENDIF
+C-----------------PARITON not yet with implicit----         
+                   ENDIF
                 ELSEIF(ITYP==17)THEN
                 END IF
               END IF
@@ -2013,20 +2013,20 @@ C-----------------PARITON not yet with implicit----
          IF(LRI7CP>0)ALLOCATE(RI7CP(LRI7CP),STAT=IERR)
 C ----copy-to II7CP,RI7CP ---------------
           IID=1
-	      RID=1
+                RID=1
           DO I =1, NINTER
             ITYP = IPARI(7,I)
             IGAP = IPARI(21,I)
             INACTI = IPARI(22,I)
             INTTH = IPARI(47,I)
            IF(ITYP==7.OR.ITYP==10.OR.ITYP==11.OR.ITYP==24)THEN
-	        II7CP(IID) = IPARI(24,I)
-	        II7CP(IID+1) = IPARI(57,I)
-	        IID=IID+2
-	        CALL CP_INT(NSPMD,NSNSI(I)%P(1),II7CP(IID))
-	        IID=IID+NSPMD
-	        CALL CP_INT(NSPMD,NSNFI(I)%P(1),II7CP(IID))
-	        IID=IID+NSPMD
+                  II7CP(IID) = IPARI(24,I)
+                  II7CP(IID+1) = IPARI(57,I)
+                  IID=IID+2
+                  CALL CP_INT(NSPMD,NSNSI(I)%P(1),II7CP(IID))
+                  IID=IID+NSPMD
+                  CALL CP_INT(NSPMD,NSNFI(I)%P(1),II7CP(IID))
+                  IID=IID+NSPMD
               LENS = 0
               LENR = 0
               DO P = 1, NSPMD
@@ -2034,118 +2034,118 @@ C ----copy-to II7CP,RI7CP ---------------
                 LENR = LENR + NSNFI(I)%P(P)
               END DO
                IF (LENS>0)
-     .       	   CALL CP_INT(LENS,NSVSI(I)%P(1),II7CP(IID))
-	        IID=IID+LENS
+     .            CALL CP_INT(LENS,NSVSI(I)%P(1),II7CP(IID))
+                  IID=IID+LENS
 C
             IF (LENR>0) THEN
-	         CALL CP_INT(LENR,NSVFI(I)%P(1),II7CP(IID))
-	         IID=IID+LENR
+                   CALL CP_INT(LENR,NSVFI(I)%P(1),II7CP(IID))
+                   IID=IID+LENR
              IF(ITYP==7.OR.ITYP==10.OR.ITYP==24) THEN
 C-------------------ITAFI,KINFI
-	          CALL CP_INT(LENR,ITAFI(I)%P(1),II7CP(IID))
-	          IID=IID+LENR
-	          CALL CP_INT(LENR,KINFI(I)%P(1),II7CP(IID))
-	          IID=IID+LENR
+                    CALL CP_INT(LENR,ITAFI(I)%P(1),II7CP(IID))
+                    IID=IID+LENR
+                    CALL CP_INT(LENR,KINFI(I)%P(1),II7CP(IID))
+                    IID=IID+LENR
               IF (INTTH > 0 ) THEN
-	           CALL CP_INT(LENR,MATSFI(I)%P(1),II7CP(IID))
-	           IID=IID+LENR
+                     CALL CP_INT(LENR,MATSFI(I)%P(1),II7CP(IID))
+                     IID=IID+LENR
               END IF
 C-------------------MSFI,STIFI
-	          CALL CP_REAL(LENR,MSFI(I)%P(1),RI7CP(RID))
-	           RID=RID+LENR
-	          CALL CP_REAL(LENR,STIFI(I)%P(1),RI7CP(RID))
-	           RID=RID+LENR
+                    CALL CP_REAL(LENR,MSFI(I)%P(1),RI7CP(RID))
+                     RID=RID+LENR
+                    CALL CP_REAL(LENR,STIFI(I)%P(1),RI7CP(RID))
+                     RID=RID+LENR
               IF(IGAP/=0) THEN
-	           CALL CP_REAL(LENR,GAPFI(I)%P(1),RI7CP(RID))
-	           RID=RID+LENR
+                     CALL CP_REAL(LENR,GAPFI(I)%P(1),RI7CP(RID))
+                     RID=RID+LENR
               ENDIF
 C-------------------XFI,VFI
-	          CALL CP_REAL(3*LENR,XFI(I)%P(1,1),RI7CP(RID))
-	           RID=RID+3*LENR
-	          CALL CP_REAL(3*LENR,VFI(I)%P(1,1),RI7CP(RID))
-	           RID=RID+3*LENR
+                    CALL CP_REAL(3*LENR,XFI(I)%P(1,1),RI7CP(RID))
+                     RID=RID+3*LENR
+                    CALL CP_REAL(3*LENR,VFI(I)%P(1,1),RI7CP(RID))
+                     RID=RID+3*LENR
               IF(IPARIT==0) THEN
 C-------------------AFI,STNFI,VSCFI
                     CALL CP_REAL(3*LENR*NTHREAD,AFI(I)%P(1,1),RI7CP(RID))
-	            RID=RID+3*LENR*NTHREAD
-	            CALL CP_REAL(LENR*NTHREAD,STNFI(I)%P(1),RI7CP(RID))
-	            RID=RID+LENR*NTHREAD
+                      RID=RID+3*LENR*NTHREAD
+                      CALL CP_REAL(LENR*NTHREAD,STNFI(I)%P(1),RI7CP(RID))
+                      RID=RID+LENR*NTHREAD
                IF(KDTINT/=0) THEN
-	            CALL CP_REAL(LENR*NTHREAD,VSCFI(I)%P(1),RI7CP(RID))
-	            RID=RID+LENR*NTHREAD
+                      CALL CP_REAL(LENR*NTHREAD,VSCFI(I)%P(1),RI7CP(RID))
+                      RID=RID+LENR*NTHREAD
                ENDIF
                IF(INTTH/=0) THEN
-	            CALL CP_REAL(LENR*NTHREAD,FTHEFI(I)%P(1),RI7CP(RID))
-	            RID=RID+LENR*NTHREAD
-	            CALL CP_REAL(LENR*NTHREAD,CONDNFI(I)%P(1),RI7CP(RID))
-	            RID=RID+LENR*NTHREAD
-	            CALL CP_REAL(LENR,TEMPFI(I)%P(1),RI7CP(RID))
-	            RID=RID+LENR
-	            CALL CP_REAL(LENR,AREASFI(I)%P(1),RI7CP(RID))
-	            RID=RID+LENR
+                      CALL CP_REAL(LENR*NTHREAD,FTHEFI(I)%P(1),RI7CP(RID))
+                      RID=RID+LENR*NTHREAD
+                      CALL CP_REAL(LENR*NTHREAD,CONDNFI(I)%P(1),RI7CP(RID))
+                      RID=RID+LENR*NTHREAD
+                      CALL CP_REAL(LENR,TEMPFI(I)%P(1),RI7CP(RID))
+                      RID=RID+LENR
+                      CALL CP_REAL(LENR,AREASFI(I)%P(1),RI7CP(RID))
+                      RID=RID+LENR
                ENDIF
               ELSE
-C-----------------PARITON not yet with implicit----	       
-	          ENDIF
+C-----------------PARITON not yet with implicit----         
+                    ENDIF
               IF(ITYP==24) THEN
-	           CALL CP_INT(2*LENR,IRTLM_FI(I)%P(1,1),II7CP(IID))
-	           IID=IID+2*LENR
-	           CALL CP_REAL(LENR,TIME_SFI(I)%P(1),RI7CP(RID))
-	           RID=RID+LENR
-	           CALL CP_REAL(6*LENR,SECND_FRFI(I)%P(1,1),RI7CP(RID))
-	           RID=RID+6*LENR
-	           CALL CP_REAL(5*LENR,PENE_OLDFI(I)%P(1,1),RI7CP(RID))
-	           RID=RID+5*LENR
-	           CALL CP_REAL(2*LENR,STIF_OLDFI(I)%P(1,1),RI7CP(RID))
-	           RID=RID+2*LENR
+                     CALL CP_INT(2*LENR,IRTLM_FI(I)%P(1,1),II7CP(IID))
+                     IID=IID+2*LENR
+                     CALL CP_REAL(LENR,TIME_SFI(I)%P(1),RI7CP(RID))
+                     RID=RID+LENR
+                     CALL CP_REAL(6*LENR,SECND_FRFI(I)%P(1,1),RI7CP(RID))
+                     RID=RID+6*LENR
+                     CALL CP_REAL(5*LENR,PENE_OLDFI(I)%P(1,1),RI7CP(RID))
+                     RID=RID+5*LENR
+                     CALL CP_REAL(2*LENR,STIF_OLDFI(I)%P(1,1),RI7CP(RID))
+                     RID=RID+2*LENR
               END IF
              ELSEIF(ITYP==11) THEN
 C-------------------ITAFI
-	          CALL CP_INT(2*LENR,ITAFI(I)%P(1),II7CP(IID))
-	          IID=IID+2*LENR
+                    CALL CP_INT(2*LENR,ITAFI(I)%P(1),II7CP(IID))
+                    IID=IID+2*LENR
               IF (INTTH > 0 ) THEN
-	           CALL CP_INT(LENR,MATSFI(I)%P(1),II7CP(IID))
-	           IID=IID+LENR
+                     CALL CP_INT(LENR,MATSFI(I)%P(1),II7CP(IID))
+                     IID=IID+LENR
               END IF
 C-------------------MSFI,STIFI
-	          CALL CP_REAL(2*LENR,MSFI(I)%P(1),RI7CP(RID))
-	           RID=RID+2*LENR
-	          CALL CP_REAL(LENR,STIFI(I)%P(1),RI7CP(RID))
-	           RID=RID+LENR
+                    CALL CP_REAL(2*LENR,MSFI(I)%P(1),RI7CP(RID))
+                     RID=RID+2*LENR
+                    CALL CP_REAL(LENR,STIFI(I)%P(1),RI7CP(RID))
+                     RID=RID+LENR
               IF(IGAP/=0) THEN
-	           CALL CP_REAL(LENR,GAPFI(I)%P(1),RI7CP(RID))
-	           RID=RID+LENR
+                     CALL CP_REAL(LENR,GAPFI(I)%P(1),RI7CP(RID))
+                     RID=RID+LENR
               ENDIF
 C-------------------XFI,VFI
-	          CALL CP_REAL(6*LENR,XFI(I)%P(1,1),RI7CP(RID))
-	           RID=RID+6*LENR
-	          CALL CP_REAL(6*LENR,VFI(I)%P(1,1),RI7CP(RID))
-	           RID=RID+6*LENR
+                    CALL CP_REAL(6*LENR,XFI(I)%P(1,1),RI7CP(RID))
+                     RID=RID+6*LENR
+                    CALL CP_REAL(6*LENR,VFI(I)%P(1,1),RI7CP(RID))
+                     RID=RID+6*LENR
               IF(INACTI==5.OR.INACTI==6) THEN
-	           CALL CP_REAL(2*LENR,PENFI(I)%P(1,1),RI7CP(RID))
-	           RID=RID+2*LENR
+                     CALL CP_REAL(2*LENR,PENFI(I)%P(1,1),RI7CP(RID))
+                     RID=RID+2*LENR
               ENDIF
               IF(IPARIT==0) THEN
 C-------------------AFI,STNFI,VSCFI
                    CALL CP_REAL(6*LENR*NTHREAD,AFI(I)%P(1,1),RI7CP(RID))
-	           RID=RID+6*LENR*NTHREAD
-	           CALL CP_REAL(2*LENR*NTHREAD,STNFI(I)%P(1),RI7CP(RID))
-	           RID=RID+2*LENR*NTHREAD
+                     RID=RID+6*LENR*NTHREAD
+                     CALL CP_REAL(2*LENR*NTHREAD,STNFI(I)%P(1),RI7CP(RID))
+                     RID=RID+2*LENR*NTHREAD
                IF(KDTINT/=0) THEN
-	            CALL CP_REAL(2*LENR*NTHREAD,VSCFI(I)%P(1),RI7CP(RID))
-	            RID=RID+2*LENR*NTHREAD
+                      CALL CP_REAL(2*LENR*NTHREAD,VSCFI(I)%P(1),RI7CP(RID))
+                      RID=RID+2*LENR*NTHREAD
                ENDIF
                IF(INTTH/=0) THEN
-	            CALL CP_REAL(LENR,FTHEFI(I)%P(1),RI7CP(RID))
-	            RID=RID+LENR
-	            CALL CP_REAL(LENR,TEMPFI(I)%P(1),RI7CP(RID))
-	            RID=RID+LENR
-	            CALL CP_REAL(LENR,AREASFI(I)%P(1),RI7CP(RID))
-	            RID=RID+LENR
+                      CALL CP_REAL(LENR,FTHEFI(I)%P(1),RI7CP(RID))
+                      RID=RID+LENR
+                      CALL CP_REAL(LENR,TEMPFI(I)%P(1),RI7CP(RID))
+                      RID=RID+LENR
+                      CALL CP_REAL(LENR,AREASFI(I)%P(1),RI7CP(RID))
+                      RID=RID+LENR
                ENDIF
               ELSE
-C-----------------PARITON not yet with implicit----	       
-	          ENDIF
+C-----------------PARITON not yet with implicit----         
+                    ENDIF
              ELSEIF(ITYP==17)THEN
              END IF
             END IF !IF (LENR>0)
@@ -2167,12 +2167,12 @@ C-----------------PARITON not yet with implicit----
          LENSCP(14)=ISLEN20E
          CALL CP_INT(SNEWFRONT,NEWFRONT,NEWFRCP)
          IF (IID>(LII7CP+1).OR.RID>(LRI7CP+1)) then
-	       CALL ANCMSG(MSGID=82,ANMODE=ANINFO,
+                 CALL ANCMSG(MSGID=82,ANMODE=ANINFO,
      .            I1=IID,I2=LII7CP,I3=RID,I4=LRI7CP)
            CALL ARRET(2)
          ENDIF
         END IF 
-      ELSE	
+      ELSE
         IF((LII7CP+LRI7CP)==0) RETURN
         IF(NINTER/=0) THEN
 C ----copy- from II7CP,RI7CP -------------
@@ -2185,221 +2185,221 @@ C ----copy- from II7CP,RI7CP -------------
             INTTH = IPARI(47,I)
             NREBOU=IPARI(53,I)
             IF(ITYP==7.OR.ITYP==10.OR.ITYP==11.OR.ITYP==24)THEN
-	         IPARI(24,I) = II7CP(IID) 
-	         IPARI(57,I) = II7CP(IID+1) 
-	         IID=IID+2
+                   IPARI(24,I) = II7CP(IID) 
+                   IPARI(57,I) = II7CP(IID+1) 
+                   IID=IID+2
               LENR0 = 0
               DO P = 1, NSPMD
                 LENR0 = LENR0 + NSNFI(I)%P(P)
               END DO
-	         CALL CP_INT(NSPMD,II7CP(IID),NSNSI(I)%P(1))
-	         IID=IID+NSPMD
-	         CALL CP_INT(NSPMD,II7CP(IID),NSNFI(I)%P(1))
-	         IID=IID+NSPMD
+                   CALL CP_INT(NSPMD,II7CP(IID),NSNSI(I)%P(1))
+                   IID=IID+NSPMD
+                   CALL CP_INT(NSPMD,II7CP(IID),NSNFI(I)%P(1))
+                   IID=IID+NSPMD
               LENS = 0
               LENR = 0
               DO P = 1, NSPMD
                 LENS = LENS + NSNSI(I)%P(P)
                 LENR = LENR + NSNFI(I)%P(P)
               END DO
-	         IF (LENS>0) THEN
+                   IF (LENS>0) THEN
                IF(ASSOCIATED(NSVSI(I)%P)) DEALLOCATE(NSVSI(I)%P)
                ALLOCATE(NSVSI(I)%P(LENS),STAT=IERR)
-	          CALL CP_INT(LENS,II7CP(IID),NSVSI(I)%P(1))
-	          IID=IID+LENS
-	         ENDIF	      
+                    CALL CP_INT(LENS,II7CP(IID),NSVSI(I)%P(1))
+                    IID=IID+LENS
+                   ENDIF        
 C-----------------ALLOCATION cp from II7CP,RI7CP----------
               IF (LENR>0) THEN
                IF(ASSOCIATED(NSVFI(I)%P)) DEALLOCATE(NSVFI(I)%P)
                ALLOCATE(NSVFI(I)%P(LENR),STAT=IERR)
-	           CALL CP_INT(LENR,II7CP(IID),NSVFI(I)%P(1))
-	           IID=IID+LENR
+                     CALL CP_INT(LENR,II7CP(IID),NSVFI(I)%P(1))
+                     IID=IID+LENR
                IF(ITYP==7.OR.ITYP==10.OR.ITYP==24) THEN
                   IF(ASSOCIATED(ITAFI(I)%P)) DEALLOCATE(ITAFI(I)%P)
                   ALLOCATE(ITAFI(I)%P(LENR),STAT=IERR)
-	              CALL CP_INT(LENR,II7CP(IID),ITAFI(I)%P(1))
-	              IID=IID+LENR
+                        CALL CP_INT(LENR,II7CP(IID),ITAFI(I)%P(1))
+                        IID=IID+LENR
                   IF(ASSOCIATED(KINFI(I)%P)) DEALLOCATE(KINFI(I)%P)
                   ALLOCATE(KINFI(I)%P(LENR),STAT=IERR)
-	              CALL CP_INT(LENR,II7CP(IID),KINFI(I)%P(1))
-	              IID=IID+LENR
+                        CALL CP_INT(LENR,II7CP(IID),KINFI(I)%P(1))
+                        IID=IID+LENR
                   IF(INTTH > 0 ) THEN
                    IF(ASSOCIATED(MATSFI(I)%P)) DEALLOCATE(MATSFI(I)%P)
                    ALLOCATE(MATSFI(I)%P(LENR),STAT=IERR)
-	               CALL CP_INT(LENR,II7CP(IID),MATSFI(I)%P(1))
-	               IID=IID+LENR
+                         CALL CP_INT(LENR,II7CP(IID),MATSFI(I)%P(1))
+                         IID=IID+LENR
                   ENDIF
                   IF(ASSOCIATED(MSFI(I)%P)) DEALLOCATE(MSFI(I)%P)
                   ALLOCATE(MSFI(I)%P(LENR),STAT=IERR)
-	              CALL CP_REAL(LENR,RI7CP(RID),MSFI(I)%P(1))
-	              RID=RID+LENR
+                        CALL CP_REAL(LENR,RI7CP(RID),MSFI(I)%P(1))
+                        RID=RID+LENR
                   IF(ASSOCIATED(STIFI(I)%P)) DEALLOCATE(STIFI(I)%P)
                   ALLOCATE(STIFI(I)%P(LENR),STAT=IERR)
-	              CALL CP_REAL(LENR,RI7CP(RID),STIFI(I)%P(1))
-	              RID=RID+LENR
+                        CALL CP_REAL(LENR,RI7CP(RID),STIFI(I)%P(1))
+                        RID=RID+LENR
                   IF(IGAP/=0) THEN
                    IF(ASSOCIATED(GAPFI(I)%P)) DEALLOCATE(GAPFI(I)%P)
                    ALLOCATE(GAPFI(I)%P(LENR),STAT=IERR)
-	               CALL CP_REAL(LENR,RI7CP(RID),GAPFI(I)%P(1))
-	               RID=RID+LENR
+                         CALL CP_REAL(LENR,RI7CP(RID),GAPFI(I)%P(1))
+                         RID=RID+LENR
                   ENDIF
                   IF(ASSOCIATED(XFI(I)%P)) DEALLOCATE(XFI(I)%P)
                   ALLOCATE(XFI(I)%P(3,LENR),STAT=IERR)
-	              CALL CP_REAL(3*LENR,RI7CP(RID),XFI(I)%P(1,1))
-	              RID=RID+3*LENR
+                        CALL CP_REAL(3*LENR,RI7CP(RID),XFI(I)%P(1,1))
+                        RID=RID+3*LENR
                   IF(ASSOCIATED(VFI(I)%P)) DEALLOCATE(VFI(I)%P)
                   ALLOCATE(VFI(I)%P(3,LENR),STAT=IERR)
-	              CALL CP_REAL(3*LENR,RI7CP(RID),VFI(I)%P(1,1))
-	              RID=RID+3*LENR
+                        CALL CP_REAL(3*LENR,RI7CP(RID),VFI(I)%P(1,1))
+                        RID=RID+3*LENR
                   IF(IPARIT==0) THEN
                      IF(ASSOCIATED(AFI(I)%P)) DEALLOCATE(AFI(I)%P)
                      ALLOCATE(AFI(I)%P(3,LENR*NTHREAD),STAT=IERR)
-	             CALL CP_REAL(3*LENR*NTHREAD,RI7CP(RID),AFI(I)%P(1,1))
-	             RID=RID+3*LENR*NTHREAD
+                       CALL CP_REAL(3*LENR*NTHREAD,RI7CP(RID),AFI(I)%P(1,1))
+                       RID=RID+3*LENR*NTHREAD
                      IF(ASSOCIATED(STNFI(I)%P)) DEALLOCATE(STNFI(I)%P)
                      ALLOCATE(STNFI(I)%P(LENR*NTHREAD),STAT=IERR)
-	             CALL CP_REAL(LENR*NTHREAD,RI7CP(RID),STNFI(I)%P(1))
-	             RID=RID+LENR*NTHREAD
+                       CALL CP_REAL(LENR*NTHREAD,RI7CP(RID),STNFI(I)%P(1))
+                       RID=RID+LENR*NTHREAD
                      NLSKYFI(I)=LENR
                   IF(KDTINT/=0)THEN
                    IF(ASSOCIATED(VSCFI(I)%P)) DEALLOCATE(VSCFI(I)%P)
                    ALLOCATE(VSCFI(I)%P(LENR),STAT=IERR)
-	               CALL CP_REAL(LENR*NTHREAD,RI7CP(RID),VSCFI(I)%P(1))
-	               RID=RID+LENR*NTHREAD
+                         CALL CP_REAL(LENR*NTHREAD,RI7CP(RID),VSCFI(I)%P(1))
+                         RID=RID+LENR*NTHREAD
                   ENDIF
                   IF(INTTH > 0 )THEN    
 C
                    IF(ASSOCIATED(FTHEFI(I)%P)) DEALLOCATE(FTHEFI(I)%P)
                    ALLOCATE(FTHEFI(I)%P(LENR*NTHREAD),STAT=IERR)
-	               CALL CP_REAL(LENR*NTHREAD,RI7CP(RID),FTHEFI(I)%P(1))
-	               RID=RID+LENR*NTHREAD
+                         CALL CP_REAL(LENR*NTHREAD,RI7CP(RID),FTHEFI(I)%P(1))
+                         RID=RID+LENR*NTHREAD
 C
                    IF(ASSOCIATED(CONDNFI(I)%P)) DEALLOCATE(CONDNFI(I)%P)
                    ALLOCATE(CONDNFI(I)%P(LENR*NTHREAD),STAT=IERR)
-	               CALL CP_REAL(LENR*NTHREAD,RI7CP(RID),CONDNFI(I)%P(1))
-	               RID=RID+LENR*NTHREAD
+                         CALL CP_REAL(LENR*NTHREAD,RI7CP(RID),CONDNFI(I)%P(1))
+                         RID=RID+LENR*NTHREAD
 C
                    IF(ASSOCIATED(TEMPFI(I)%P)) DEALLOCATE(TEMPFI(I)%P)
                    ALLOCATE(TEMPFI(I)%P(LENR),STAT=IERR)
-	               CALL CP_REAL(LENR,RI7CP(RID),TEMPFI(I)%P(1))
-	               RID=RID+LENR
+                         CALL CP_REAL(LENR,RI7CP(RID),TEMPFI(I)%P(1))
+                         RID=RID+LENR
 C
                    IF(ASSOCIATED(AREASFI(I)%P))DEALLOCATE(AREASFI(I)%P)
                    ALLOCATE(AREASFI(I)%P(LENR),STAT=IERR)
-	               CALL CP_REAL(LENR,RI7CP(RID),AREASFI(I)%P(1))
-	               RID=RID+LENR
+                         CALL CP_REAL(LENR,RI7CP(RID),AREASFI(I)%P(1))
+                         RID=RID+LENR
                   ENDIF
                 ELSE
-C-----------------PARITON not yet with implicit----	       
-	            ENDIF
+C-----------------PARITON not yet with implicit----         
+                      ENDIF
                 IF(ITYP==24) THEN
                  IF(ASSOCIATED(IRTLM_FI(I)%P))DEALLOCATE(IRTLM_FI(I)%P)
                  ALLOCATE(IRTLM_FI(I)%P(2,LENR),STAT=IERR)
-	             CALL CP_INT(2*LENR,II7CP(IID),IRTLM_FI(I)%P(1,1))
-	             IID=IID+2*LENR
+                       CALL CP_INT(2*LENR,II7CP(IID),IRTLM_FI(I)%P(1,1))
+                       IID=IID+2*LENR
                  IF(ASSOCIATED(TIME_SFI(I)%P))DEALLOCATE(TIME_SFI(I)%P)
                  ALLOCATE(TIME_SFI(I)%P(LENR),STAT=IERR)
-	             CALL CP_REAL(LENR,RI7CP(RID),TIME_SFI(I)%P(1))
-	             RID=RID+LENR
+                       CALL CP_REAL(LENR,RI7CP(RID),TIME_SFI(I)%P(1))
+                       RID=RID+LENR
                  IF(ASSOCIATED(SECND_FRFI(I)%P))
      +                    DEALLOCATE(SECND_FRFI(I)%P)
                  ALLOCATE(SECND_FRFI(I)%P(6,LENR),STAT=IERR)
-	             CALL CP_REAL(6*LENR,RI7CP(RID),SECND_FRFI(I)%P(1,1))
-	             RID=RID+6*LENR
+                       CALL CP_REAL(6*LENR,RI7CP(RID),SECND_FRFI(I)%P(1,1))
+                       RID=RID+6*LENR
                  IF(ASSOCIATED(PENE_OLDFI(I)%P))
      +                    DEALLOCATE(PENE_OLDFI(I)%P)
                  ALLOCATE(PENE_OLDFI(I)%P(5,LENR),STAT=IERR)
-	             CALL CP_REAL(5*LENR,RI7CP(RID),PENE_OLDFI(I)%P(1,1))
-	             RID=RID+5*LENR
+                       CALL CP_REAL(5*LENR,RI7CP(RID),PENE_OLDFI(I)%P(1,1))
+                       RID=RID+5*LENR
                  IF (NREBOU <0.AND.IMCONV>=0) THEN
-	              CALL CP_REAL(2*LENR,STIF_OLDFI(I)%P(1,1),RI7CP(RID))
+                        CALL CP_REAL(2*LENR,STIF_OLDFI(I)%P(1,1),RI7CP(RID))
                  ELSE
                   IF(ASSOCIATED(STIF_OLDFI(I)%P))
      +                    DEALLOCATE(STIF_OLDFI(I)%P)
                   ALLOCATE(STIF_OLDFI(I)%P(2,LENR),STAT=IERR)
-	              CALL CP_REAL(2*LENR,RI7CP(RID),STIF_OLDFI(I)%P(1,1))
+                        CALL CP_REAL(2*LENR,RI7CP(RID),STIF_OLDFI(I)%P(1,1))
                  END IF !(NREBOU <0.AND.IMCONV>=0) THEN
-	             RID=RID+2*LENR
+                       RID=RID+2*LENR
                 END IF
                ELSEIF(ITYP==11) THEN
 C
                 IF(ASSOCIATED(ITAFI(I)%P)) DEALLOCATE(ITAFI(I)%P)
                 ALLOCATE(ITAFI(I)%P(2*LENR),STAT=IERR)
-	            CALL CP_INT(2*LENR,II7CP(IID),ITAFI(I)%P(1))
-	            IID=IID+2*LENR
+                      CALL CP_INT(2*LENR,II7CP(IID),ITAFI(I)%P(1))
+                      IID=IID+2*LENR
                   IF(INTTH > 0 ) THEN
                    IF(ASSOCIATED(MATSFI(I)%P)) DEALLOCATE(MATSFI(I)%P)
                    ALLOCATE(MATSFI(I)%P(LENR),STAT=IERR)
-	               CALL CP_INT(LENR,II7CP(IID),MATSFI(I)%P(1))
-	               IID=IID+LENR
+                         CALL CP_INT(LENR,II7CP(IID),MATSFI(I)%P(1))
+                         IID=IID+LENR
                   ENDIF
                   IF(ASSOCIATED(MSFI(I)%P)) DEALLOCATE(MSFI(I)%P)
                   ALLOCATE(MSFI(I)%P(2*LENR),STAT=IERR)
-	            CALL CP_REAL(2*LENR,RI7CP(RID),MSFI(I)%P(1))
-	            RID=RID+2*LENR
+                      CALL CP_REAL(2*LENR,RI7CP(RID),MSFI(I)%P(1))
+                      RID=RID+2*LENR
                   IF(ASSOCIATED(STIFI(I)%P)) DEALLOCATE(STIFI(I)%P)
                   ALLOCATE(STIFI(I)%P(LENR),STAT=IERR)
-	            CALL CP_REAL(LENR,RI7CP(RID),STIFI(I)%P(1))
-	            RID=RID+LENR
+                      CALL CP_REAL(LENR,RI7CP(RID),STIFI(I)%P(1))
+                      RID=RID+LENR
                  IF(IGAP/=0) THEN
                    IF(ASSOCIATED(GAPFI(I)%P)) DEALLOCATE(GAPFI(I)%P)
                    ALLOCATE(GAPFI(I)%P(LENR),STAT=IERR)
-	               CALL CP_REAL(LENR,RI7CP(RID),GAPFI(I)%P(1))
-	               RID=RID+LENR
+                         CALL CP_REAL(LENR,RI7CP(RID),GAPFI(I)%P(1))
+                         RID=RID+LENR
                  ENDIF
                   IF(ASSOCIATED(XFI(I)%P)) DEALLOCATE(XFI(I)%P)
                   ALLOCATE(XFI(I)%P(3,2*LENR),STAT=IERR)
-	             CALL CP_REAL(6*LENR,RI7CP(RID),XFI(I)%P(1,1))
-	             RID=RID+6*LENR
+                       CALL CP_REAL(6*LENR,RI7CP(RID),XFI(I)%P(1,1))
+                       RID=RID+6*LENR
                   IF(ASSOCIATED(VFI(I)%P)) DEALLOCATE(VFI(I)%P)
                   ALLOCATE(VFI(I)%P(3,2*LENR),STAT=IERR)
-	             CALL CP_REAL(6*LENR,RI7CP(RID),VFI(I)%P(1,1))
-	             RID=RID+6*LENR
+                       CALL CP_REAL(6*LENR,RI7CP(RID),VFI(I)%P(1,1))
+                       RID=RID+6*LENR
                  IF(INACTI==5.OR.INACTI==6) THEN
                   IF(ASSOCIATED(PENFI(I)%P)) DEALLOCATE(PENFI(I)%P)
                   ALLOCATE(PENFI(I)%P(2,LENR),STAT=IERR)
-	              CALL CP_REAL(2*LENR,RI7CP(RID),PENFI(I)%P(1,1))
-	              RID=RID+2*LENR
+                        CALL CP_REAL(2*LENR,RI7CP(RID),PENFI(I)%P(1,1))
+                        RID=RID+2*LENR
                  END IF
                  IF(IPARIT==0) THEN
 
                   IF(ASSOCIATED(AFI(I)%P)) DEALLOCATE(AFI(I)%P)
                   ALLOCATE(AFI(I)%P(3,2*LENR*NTHREAD),STAT=IERR)
-	              CALL CP_REAL(6*LENR*NTHREAD,RI7CP(RID),AFI(I)%P(1,1))
-	              RID=RID+6*LENR*NTHREAD
+                        CALL CP_REAL(6*LENR*NTHREAD,RI7CP(RID),AFI(I)%P(1,1))
+                        RID=RID+6*LENR*NTHREAD
 
                   IF(ASSOCIATED(STNFI(I)%P)) DEALLOCATE(STNFI(I)%P)
                   ALLOCATE(STNFI(I)%P(2*LENR*NTHREAD),STAT=IERR)
-	              CALL CP_REAL(2*LENR*NTHREAD,RI7CP(RID),STNFI(I)%P(1))
-	              RID=RID+2*LENR
+                        CALL CP_REAL(2*LENR*NTHREAD,RI7CP(RID),STNFI(I)%P(1))
+                        RID=RID+2*LENR
 
                   IF(KDTINT/=0)THEN
                    IF(ASSOCIATED(VSCFI(I)%P)) DEALLOCATE(VSCFI(I)%P)
                    ALLOCATE(VSCFI(I)%P(2*LENR),STAT=IERR)
-	               CALL CP_REAL(2*LENR*NTHREAD,RI7CP(RID),VSCFI(I)%P(1))
-	               RID=RID+2*LENR*NTHREAD
+                         CALL CP_REAL(2*LENR*NTHREAD,RI7CP(RID),VSCFI(I)%P(1))
+                         RID=RID+2*LENR*NTHREAD
                   ENDIF
                   IF(INTTH > 0 )THEN    
                    IF(ASSOCIATED(FTHEFI(I)%P)) DEALLOCATE(FTHEFI(I)%P)
                    ALLOCATE(FTHEFI(I)%P(LENR),STAT=IERR)
-	               CALL CP_REAL(LENR,RI7CP(RID),FTHEFI(I)%P(1))
-	               RID=RID+LENR
+                         CALL CP_REAL(LENR,RI7CP(RID),FTHEFI(I)%P(1))
+                         RID=RID+LENR
                    IF(ASSOCIATED(TEMPFI(I)%P)) DEALLOCATE(TEMPFI(I)%P)
                    ALLOCATE(TEMPFI(I)%P(LENR),STAT=IERR)
-	               CALL CP_REAL(LENR,RI7CP(RID),TEMPFI(I)%P(1))
-	               RID=RID+LENR
+                         CALL CP_REAL(LENR,RI7CP(RID),TEMPFI(I)%P(1))
+                         RID=RID+LENR
                    IF(ASSOCIATED(AREASFI(I)%P))DEALLOCATE(AREASFI(I)%P)
                    ALLOCATE(AREASFI(I)%P(LENR),STAT=IERR)
-	               CALL CP_REAL(LENR,RI7CP(RID),AREASFI(I)%P(1))
-	               RID=RID+LENR
+                         CALL CP_REAL(LENR,RI7CP(RID),AREASFI(I)%P(1))
+                         RID=RID+LENR
                   ENDIF
                      NLSKYFI(I)=LENR*2
                  ELSE
-C-----------------PARITON not yet with implicit----	       
-	             ENDIF
+C-----------------PARITON not yet with implicit----         
+                       ENDIF
                ELSEIF(ITYP==17)THEN
-	          ENDIF !IF(ITYP==7.OR.ITYP==10)	      
-	         ENDIF !IF (LENR.GT0)	      
+                    ENDIF !IF(ITYP==7.OR.ITYP==10)        
+                   ENDIF !IF (LENR.GT0)        
             ENDIF
          ENDDO
          ISLEN7 = LENSCP(1)
@@ -2418,7 +2418,7 @@ C-----------------PARITON not yet with implicit----
          ISLEN20E=LENSCP(14)
          CALL CP_INT(SNEWFRONT,NEWFRCP,NEWFRONT)
          IF (IID>(LII7CP+1).OR.RID>(LRI7CP+1)) then
-	      CALL ANCMSG(MSGID=82,ANMODE=ANINFO,
+                CALL ANCMSG(MSGID=82,ANMODE=ANINFO,
      .            I1=IID,I2=LII7CP,I3=RID,I4=LRI7CP)
           CALL ARRET(2)
          ENDIF
@@ -2605,14 +2605,14 @@ C-----IFLAG=1 > store dm to DMCP and put dm=zero ; IFLAG=2 reput dm
             DMCP(I) = GEO(16,I)                       
             GEO(16,I) = EM30                        
           ENDIF                                                
-	     END DO
+               END DO
       ELSE
          DO I=1,NUMGEO
           IGTYP = IGEO(11,I)  
           IF(IGTYP==1.OR.(IGTYP>=9 .AND. IGTYP<=11).OR.IGTYP==16) THEN  
             GEO(16,I) = DMCP(I)                        
           ENDIF                                                
-	     END DO
+               END DO
       END IF
       RETURN
       END

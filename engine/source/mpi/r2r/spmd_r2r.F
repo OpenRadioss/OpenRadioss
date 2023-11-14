@@ -283,11 +283,11 @@ C
       DO I = 1, NNG
         NOD=GRNOD(I)
         IF(WEIGHT(NOD)==1)THEN
-          N=TAG_RBY(ADD_RBY(IEX)+I)	
+          N=TAG_RBY(ADD_RBY(IEX)+I)
           L = L + 1
-	  DO P = 1, 9
+            DO P = 1, 9
             BUFR(P,L) = RBY(16+P,N)
-	  END DO  
+            END DO  
         END IF
       END DO
       IF(LOC_PROC==1) THEN
@@ -370,24 +370,24 @@ C
         END IF
       END DO
           L(2) = TLEL
-	  L(3) = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
-	  L(4) = TLELN
+            L(3) = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
+            L(4) = TLELN
           L(5) = TCNEL
           L(6) = TCNELDB
-	  	  
+            
       IF(LOC_PROC==1) THEN
-            DBN(IEX,1)=L(1)	    
-	    DBNO(IEX)=L(1)
-	    NBEL(IEX,1) = L(2)
-	    NBELT_R2R(IEX) = L(2)
-	    NBELTN_R2R(IEX) = L(4)
-	    OFFSET(1)=0
-	    OFFSET1 = L(3)
-	    TBCNEL(IEX,1) = L(5)
-	    TCNELT(IEX) = L(5)
-	    TBCNELDB(IEX,1) = L(6)
-	    TCNELTDB(IEX) = L(6)
-	    	    
+            DBN(IEX,1)=L(1)      
+              DBNO(IEX)=L(1)
+              NBEL(IEX,1) = L(2)
+              NBELT_R2R(IEX) = L(2)
+              NBELTN_R2R(IEX) = L(4)
+              OFFSET(1)=0
+              OFFSET1 = L(3)
+              TBCNEL(IEX,1) = L(5)
+              TCNELT(IEX) = L(5)
+              TBCNELDB(IEX,1) = L(6)
+              TCNELTDB(IEX) = L(6)
+              
         DO P = 2, NSPMD
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
@@ -395,17 +395,17 @@ C
      G        MPI_COMM_WORLD,STATUS,IERROR)
      
             DBN(IEX,P) = NB(1)
-	    NBEL(IEX,P) = NB(2)
-	    NBELN(IEX,P) = NB(4)
+              NBEL(IEX,P) = NB(2)
+              NBELN(IEX,P) = NB(4)
             DBNO(IEX) = DBNO(IEX) + DBN(IEX,P)
-	    NBELT_R2R(IEX) = NBELT_R2R(IEX) + NBEL(IEX,P)
-	    NBELTN_R2R(IEX) = NBELTN_R2R(IEX) + NBELN(IEX,P)	    
-	    OFFSET(P)= OFFSET1
-	    OFFSET1 = OFFSET1 + NB(3)
-	    TBCNEL(IEX,P) = NB(5)
-	    TCNELT(IEX) = TCNELT(IEX) + NB(5)
-	    TBCNELDB(IEX,P) = NB(6)
-	    TCNELTDB(IEX) = TCNELTDB(IEX)+NB(6)	    
+              NBELT_R2R(IEX) = NBELT_R2R(IEX) + NBEL(IEX,P)
+              NBELTN_R2R(IEX) = NBELTN_R2R(IEX) + NBELN(IEX,P)      
+              OFFSET(P)= OFFSET1
+              OFFSET1 = OFFSET1 + NB(3)
+              TBCNEL(IEX,P) = NB(5)
+              TCNELT(IEX) = TCNELT(IEX) + NB(5)
+              TBCNELDB(IEX,P) = NB(6)
+              TCNELTDB(IEX) = TCNELTDB(IEX)+NB(6)      
         END DO
       ELSE
         MSGTYP = MSGOFF 
@@ -462,11 +462,11 @@ C
         N=GRNOD(I)
         IF(WEIGHT(N)==1)THEN
           L = L + 1
-	  IF (FLAG==1) THEN
+            IF (FLAG==1) THEN
           IBUF(L) = ITAB(N)
-	  ELSE
-          IBUF(L) = ITAB(I)	  
-	  ENDIF
+            ELSE
+          IBUF(L) = ITAB(I)    
+            ENDIF
         END IF
       END DO
       
@@ -539,23 +539,23 @@ C
       IF(LOC_PROC==1) THEN     
         DO I = 1, NNG
          IBUF(I) = ITAB(I)
-	 L = L+1
+           L = L+1
         END DO
-	       
+                 
         DO P = 2, NSPMD
-		  
-	    IF (FLAG<2) THEN
+            
+              IF (FLAG<2) THEN
             BUFSIZ = NBEL(IEX,P)
-	    ELSEIF (FLAG==2) THEN
+              ELSEIF (FLAG==2) THEN
             BUFSIZ = NBELN(IEX,P)
-	    ELSEIF (FLAG==3) THEN
-	    BUFSIZ = TBCNEL(IEX,P)
-	    ELSEIF (FLAG==4) THEN
-	    BUFSIZ = TBCNELDB(IEX,P)	    	    
-	    ENDIF
-	    
-	    IF(BUFSIZ>0)THEN
-	    
+              ELSEIF (FLAG==3) THEN
+              BUFSIZ = TBCNEL(IEX,P)
+              ELSEIF (FLAG==4) THEN
+              BUFSIZ = TBCNELDB(IEX,P)            
+              ENDIF
+              
+              IF(BUFSIZ>0)THEN
+              
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
      S        IBUF(L+1),BUFSIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
@@ -563,22 +563,22 @@ C
   
 C--------------OFFSET de la numerotation des elements----     
             IF ((FLAG==1).OR.(FLAG>2)) THEN
-	      DO I=1,BUFSIZ
-	        IBUF(L+I)=IBUF(L+I)+OFFSET(P)
-	      END DO
-	    ENDIF
-C--------------------------------------------------------	    
-	    
-	    IF (FLAG<2) THEN     
+                DO I=1,BUFSIZ
+                  IBUF(L+I)=IBUF(L+I)+OFFSET(P)
+                END DO
+              ENDIF
+C--------------------------------------------------------      
+              
+              IF (FLAG<2) THEN     
             L = L + NBEL(IEX,P)
-	    ELSEIF (FLAG==2) THEN
+              ELSEIF (FLAG==2) THEN
             L = L + NBELN(IEX,P)
-	    ELSEIF (FLAG==3) THEN
-	    L = L + TBCNEL(IEX,P)
-	    ELSEIF (FLAG==4) THEN
-	    L = L + TBCNELDB(IEX,P)	    	    	    
-	    ENDIF
-	    	    
+              ELSEIF (FLAG==3) THEN
+              L = L + TBCNEL(IEX,P)
+              ELSEIF (FLAG==4) THEN
+              L = L + TBCNELDB(IEX,P)                  
+              ENDIF
+              
           END IF
         END DO
       ELSEIF(NNG>0)THEN
@@ -642,30 +642,30 @@ C
         N=GRNOD(I)
         IF(WEIGHT(N)==0)THEN
           L = L + 1
-	  IF (FLAG==1) THEN
-           IBUF(L) = ITAB(N)	   
-	  ELSE
-           IBUF(L) = ITAB(I)	  
-	  ENDIF
+            IF (FLAG==1) THEN
+           IBUF(L) = ITAB(N)     
+            ELSE
+           IBUF(L) = ITAB(I)    
+            ENDIF
         END IF
-      END DO		
+      END DO
       
       IF(LOC_PROC==1) THEN
-	  DBNBUF(1)=DBN(IEX,1)
-	  DDBUF(1)=DD_R2R(1)       	        
+            DBNBUF(1)=DBN(IEX,1)
+            DDBUF(1)=DD_R2R(1)                 
         DO P = 2, NSPMD
-	  DBNBUF(P)=DBN(IEX,P)
-	  DDBUF(P)=DD_R2R(P)
-	    	  
+            DBNBUF(P)=DBN(IEX,P)
+            DDBUF(P)=DD_R2R(P)
+            
           IF(DBN(IEX,P)>0)THEN
             BUFSIZ = DBN(IEX,P)
             MSGTYP = MSGOFF
             CALL MPI_RECV(
      S        IBUF(L+1),BUFSIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      G        MPI_COMM_WORLD,STATUS,IERROR)
-	    
-	    L = L + DBN(IEX,P)
-	    
+              
+              L = L + DBN(IEX,P)
+              
           END IF
         END DO
       ELSEIF(L>0)THEN
@@ -720,9 +720,9 @@ C
       IF(NSPMD>1) THEN      
        IF(LOC_PROC==1) THEN
         CALL GET_NAME_C(ADDR)
-	ADDR=trim(ADDR)
-	TOTO=len_trim(ADDR)     
-        DO P = 2, NSPMD	  	
+          ADDR=trim(ADDR)
+          TOTO=len_trim(ADDR)     
+        DO P = 2, NSPMD    
             MSGTYP = MSGOFF
             CALL MPI_SEND(
      S        ADDR,BUFSIZ,MPI_CHARACTER,IT_SPMD(P),MSGTYP,
@@ -793,7 +793,7 @@ C-----------------------------------------------
 C
       LOC_PROC = ISPMD+1
       IF(LOC_PROC==1) THEN
-        L = DD_R2R(1)+DBN(IEX,1)	
+        L = DD_R2R(1)+DBN(IEX,1)
         DO P = 2, NSPMD
           IF((DD_R2R(P)+DBN(IEX,P))>0)THEN
             BUFSIZ = DD_R2R(P)+DBN(IEX,P)
@@ -822,10 +822,10 @@ C
         IF(WEIGHT(N)==1)THEN
           L = L + 1
           M(N) = BUFR(L)
-	ELSE
+          ELSE
           DBL = DBL + 1
-          M(N) = BUFR(DBL)	  	 
-        ENDIF	  
+          M(N) = BUFR(DBL)       
+        ENDIF    
       END DO
 C
 #endif
@@ -879,8 +879,8 @@ C-----------------------------------------------
 C
       LOC_PROC = ISPMD+1
       IF(LOC_PROC==1) THEN
-        L = DD_R2R(1)		
-        DO P = 2, NSPMD	
+        L = DD_R2R(1)
+        DO P = 2, NSPMD
           IF((DD_R2R(P))>0)THEN
             BUFSIZ = DD_R2R(P)
             MSGTYP = MSGOFF 
@@ -999,13 +999,13 @@ C
           L = L + 1 
           A(1,N) = BUFR(1,L)
           A(2,N) = BUFR(2,L)
-          A(3,N) = BUFR(3,L)  	  
-	ELSE
+          A(3,N) = BUFR(3,L)      
+          ELSE
           DBL = DBL + 1
           A(1,N) = BUFR(1,DBL)
           A(2,N) = BUFR(2,DBL)
-          A(3,N) = BUFR(3,DBL)	  	  	 
-        ENDIF	  
+          A(3,N) = BUFR(3,DBL)           
+        ENDIF    
       END DO
 C
 #endif
@@ -1103,16 +1103,16 @@ C
           A(3,N) = MS(N)*BUFR(3,L)
 C calcul du travail localement
           WF = WF + (DF1*V(1,N)+DF2*V(2,N)+DF3*V(3,N))/TWO
-          WF2= WF2+ (DF1*A(1,N)+DF2*A(2,N)+DF3*A(3,N))/(TWO*MS(N))	  	  
-	ELSE
+          WF2= WF2+ (DF1*A(1,N)+DF2*A(2,N)+DF3*A(3,N))/(TWO*MS(N))        
+          ELSE
           DBL = DBL + 1
           DF1 = MS(N)*BUFR(1,DBL)-A(1,N)
           DF2 = MS(N)*BUFR(2,DBL)-A(2,N)
           DF3 = MS(N)*BUFR(3,DBL)-A(3,N)
           A(1,N) = MS(N)*BUFR(1,DBL)
           A(2,N) = MS(N)*BUFR(2,DBL)
-          A(3,N) = MS(N)*BUFR(3,DBL)	  	 
-        ENDIF	  
+          A(3,N) = MS(N)*BUFR(3,DBL)       
+        ENDIF    
       END DO
       
 C Sommation sur les procs de WF
@@ -1140,7 +1140,7 @@ C Sommation sur les procs de WF2
      S        WFB,1,REAL,IT_SPMD(P),MSGTYP,
      G        MPI_COMM_WORLD,STATUS,IERROR)
             WF2 = WF2+WFB
-        END DO	
+        END DO
       ELSE
         MSGTYP = MSGOFF 
         CALL MPI_SEND(
@@ -1770,7 +1770,7 @@ C Sommation sur les procs de WF2
      S        WFB,1,REAL,IT_SPMD(P),MSGTYP,
      G        MPI_COMM_WORLD,STATUS,IERROR)
             WF2 = WF2+WFB
-        END DO	
+        END DO
       ELSE
         MSGTYP = MSGOFF 
         CALL MPI_SEND(

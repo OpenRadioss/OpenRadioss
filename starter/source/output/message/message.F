@@ -1297,26 +1297,26 @@ C         ------------------------------------------
               I=2
               IOLD=1
               DO WHILE (I+1<=LEN_TRIM(TMPLINE))
-          	IF (TMPLINE(I:I)=='%') THEN
-          	  I=I+1
-          	  IF (TMPLINE(I:I)=='d') THEN       ! %d format
-          	    I=I+1
-          	    INDXI_INC=INDXI_INC+1
-          	  ELSE IF (TMPLINE(I:I)=='f') THEN  ! %f format
-          	    I=I+1
-          	    INDXR_INC=INDXR_INC+1
-          	  ELSE IF (TMPLINE(I:I)=='s') THEN  ! %s format
-          	    I=I+1
-          	    INDXC_INC=INDXC_INC+1
+          IF (TMPLINE(I:I)=='%') THEN
+            I=I+1
+            IF (TMPLINE(I:I)=='d') THEN       ! %d format
+              I=I+1
+              INDXI_INC=INDXI_INC+1
+            ELSE IF (TMPLINE(I:I)=='f') THEN  ! %f format
+              I=I+1
+              INDXR_INC=INDXR_INC+1
+            ELSE IF (TMPLINE(I:I)=='s') THEN  ! %s format
+              I=I+1
+              INDXC_INC=INDXC_INC+1
                   ELSE IF (TMPLINE(I:I)=='i') THEN  ! %ixxx format
-          	    I=I+1
+              I=I+1
                     IF(DYNA_MESSAGE == 1) THEN
-          	      INDXD_INC=INDXD_INC+1
+                INDXD_INC=INDXD_INC+1
                     ENDIF
-        	  ENDIF
-          	ELSE
-          	  I=I+1
-          	END IF
+            ENDIF
+          ELSE
+            I=I+1
+          END IF
               END DO
               ENDIF
             ENDDO
@@ -1401,26 +1401,26 @@ c
                     NO_PRINT=0
                     DO WHILE (I+1<=LEN_TRIM(TMPLINE))
                       IF (TMPLINE(I:I)=='%') THEN
-                	I=I+1
-                	IF (TMPLINE(I:I)=='d') THEN
-                	  I=I+1
-                	  IOLD=I
-                	  INDXI=INDXI+1
-                	  CPT=CPT+1
+          I=I+1
+          IF (TMPLINE(I:I)=='d') THEN
+            I=I+1
+            IOLD=I
+            INDXI=INDXI+1
+            CPT=CPT+1
                           READ(RES_MES,'(A)',END=130) TMPIN
                           READ(TMPIN,'(I10)') INT_TMP
-                	  TMP_INTEGER(INDXI) = INT_TMP
+            TMP_INTEGER(INDXI) = INT_TMP
                           ITRI(CPT,NBREPET) = INT_TMP
-                	  IF(CPT == INDXI_INC) CPT = 0
-                	ELSE IF (TMPLINE(I:I)=='f') THEN
-                	  I=I+1
-                	  IOLD=I
-                	  INDXR=INDXR+1
+            IF(CPT == INDXI_INC) CPT = 0
+          ELSE IF (TMPLINE(I:I)=='f') THEN
+            I=I+1
+            IOLD=I
+            INDXR=INDXR+1
                           READ(RES_MES,'(A)',END=130) TMPIN
                           READ(TMPIN,*) REAL_TMP
-                	  TMP_REAL(INDXR) = REAL_TMP
-                	ELSE IF (TMPLINE(I:I)=='s') THEN
-                	  I=I+1
+            TMP_REAL(INDXR) = REAL_TMP
+          ELSE IF (TMPLINE(I:I)=='s') THEN
+            I=I+1
                           IOLD=I
                           INDXC=INDXC+1
                           READ(RES_MES,'(A)',END=130) TMPIN
@@ -1441,9 +1441,9 @@ c
                           ELSE
                               NO_PRINT=1
                           ENDIF
-                	ENDIF
+          ENDIF
                       ELSE
-                	I=I+1
+          I=I+1
                       END IF
                     END DO
                   ENDIF
@@ -1501,29 +1501,29 @@ c   MESSAGE SUMMARY
 c-----------------------------------------------------------
 c
         MYFMT='(A,X,A)' 
-	IF(MSGTYPE == 0) THEN 
-	  WRITE(RES_CHECK,MYFMT) 'M_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
-	ELSEIF(MSGTYPE == 1) THEN
-	  WRITE(RES_CHECK,MYFMT) 'W_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
-	ELSEIF(MSGTYPE == 2) THEN
-	  WRITE(RES_CHECK,MYFMT) 'E_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
-	ENDIF
-	MYFMT='(A,I10,X)' 
-	WRITE(RES_CHECK,MYFMT) 'OPTION_TYPE=',0
-	IF(PRESENT(I1))THEN
-	  WRITE(RES_CHECK,MYFMT) 'OPTION_ID=',I1
-	ELSE
-	  WRITE(RES_CHECK,MYFMT) 'OPTION_ID=',0
-	ENDIF
-	MYFMT='(A,X,A)'
-	IF(PRESENT(C1))THEN
-	  WRITE(RES_CHECK,MYFMT) 'TITLE=',C1(1:LEN_TRIM(C1))
-	ELSE
-	  WRITE(RES_CHECK,MYFMT) 'TITLE=',''
-	ENDIF
-	MYFMT='(A,I10,X)'
-	WRITE(RES_CHECK,MYFMT) 'ID_MES=',MSGID
-	WRITE(RES_CHECK,MYFMT) 'NB_REPET=',NBREPET
+          IF(MSGTYPE == 0) THEN 
+            WRITE(RES_CHECK,MYFMT) 'M_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
+          ELSEIF(MSGTYPE == 1) THEN
+            WRITE(RES_CHECK,MYFMT) 'W_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
+          ELSEIF(MSGTYPE == 2) THEN
+            WRITE(RES_CHECK,MYFMT) 'E_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
+          ENDIF
+          MYFMT='(A,I10,X)' 
+          WRITE(RES_CHECK,MYFMT) 'OPTION_TYPE=',0
+          IF(PRESENT(I1))THEN
+            WRITE(RES_CHECK,MYFMT) 'OPTION_ID=',I1
+          ELSE
+            WRITE(RES_CHECK,MYFMT) 'OPTION_ID=',0
+          ENDIF
+          MYFMT='(A,X,A)'
+          IF(PRESENT(C1))THEN
+            WRITE(RES_CHECK,MYFMT) 'TITLE=',C1(1:LEN_TRIM(C1))
+          ELSE
+            WRITE(RES_CHECK,MYFMT) 'TITLE=',''
+          ENDIF
+          MYFMT='(A,I10,X)'
+          WRITE(RES_CHECK,MYFMT) 'ID_MES=',MSGID
+          WRITE(RES_CHECK,MYFMT) 'NB_REPET=',NBREPET
 C
         CMSGTYPE=' '
         IF (MSGTYPE==0) THEN
@@ -1802,11 +1802,11 @@ c          WRITE(RES_MES,'(A)') TMPIN
 c        ENDDO
 c140     CONTINUE
 c        CLOSE (UNIT=RES_TMP,STATUS='DELETE')
-	REWIND RES_TMP
-	CLOSE (UNIT=RES_MES)
-	ITMP = RES_MES
-	RES_MES = RES_TMP
-	RES_TMP = ITMP
+          REWIND RES_TMP
+          CLOSE (UNIT=RES_MES)
+          ITMP = RES_MES
+          RES_MES = RES_TMP
+          RES_TMP = ITMP
 
        ENDIF
       ELSE                  ! PRMODE Was not set / No Message Stacking.
@@ -1815,30 +1815,30 @@ C
 c-----------------------------------------------------------
 c   MESSAGE SUMMARY
 c-----------------------------------------------------------
-	MYFMT='(A,X,A)'
-	IF(MSGTYPE == 0) THEN 
-	  WRITE(RES_CHECK,MYFMT) 'M_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
-	ELSEIF(MSGTYPE == 1) THEN
-	  WRITE(RES_CHECK,MYFMT) 'W_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
-	ELSEIF(MSGTYPE == 2) THEN
-	  WRITE(RES_CHECK,MYFMT) 'E_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
-	ENDIF
-	MYFMT='(A,I10,X)' 
-	WRITE(RES_CHECK,MYFMT) 'OPTION_TYPE=',0
-	IF(PRESENT(I1))THEN
-	  WRITE(RES_CHECK,MYFMT) 'OPTION_ID=',I1
-	ELSE
-	  WRITE(RES_CHECK,MYFMT) 'OPTION_ID=',0
-	ENDIF
-	MYFMT='(A,X,A)'
-	IF(PRESENT(C1))THEN
-	  WRITE(RES_CHECK,MYFMT) 'TITLE=',C1(1:LEN_TRIM(C1))
-	ELSE
-	  WRITE(RES_CHECK,MYFMT) 'TITLE=',''
-	ENDIF
-	MYFMT='(A,I10,X)'
-	WRITE(RES_CHECK,MYFMT) 'ID_MES=',MSGID
-	WRITE(RES_CHECK,MYFMT) 'NB_REPET=',1
+          MYFMT='(A,X,A)'
+          IF(MSGTYPE == 0) THEN 
+            WRITE(RES_CHECK,MYFMT) 'M_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
+          ELSEIF(MSGTYPE == 1) THEN
+            WRITE(RES_CHECK,MYFMT) 'W_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
+          ELSEIF(MSGTYPE == 2) THEN
+            WRITE(RES_CHECK,MYFMT) 'E_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
+          ENDIF
+          MYFMT='(A,I10,X)' 
+          WRITE(RES_CHECK,MYFMT) 'OPTION_TYPE=',0
+          IF(PRESENT(I1))THEN
+            WRITE(RES_CHECK,MYFMT) 'OPTION_ID=',I1
+          ELSE
+            WRITE(RES_CHECK,MYFMT) 'OPTION_ID=',0
+          ENDIF
+          MYFMT='(A,X,A)'
+          IF(PRESENT(C1))THEN
+            WRITE(RES_CHECK,MYFMT) 'TITLE=',C1(1:LEN_TRIM(C1))
+          ELSE
+            WRITE(RES_CHECK,MYFMT) 'TITLE=',''
+          ENDIF
+          MYFMT='(A,I10,X)'
+          WRITE(RES_CHECK,MYFMT) 'ID_MES=',MSGID
+          WRITE(RES_CHECK,MYFMT) 'NB_REPET=',1
 C   
         CMSGTYPE=' '
         IF (MSGTYPE==0) THEN

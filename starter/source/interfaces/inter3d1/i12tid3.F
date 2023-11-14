@@ -85,7 +85,7 @@ C-----------------------------------------------
           XX1(JJ) = X(1,NN)
           XX2(JJ) = X(2,NN)
           XX3(JJ) = X(3,NN)
-	    END DO
+              END DO
         
         CALL INIST3(N1,N2,N3,SS,TT,IER,ALP,XX1,XX2,XX3,XS1,YS1,ZS1,XC,YC,ZC)
         IF(IPRI>=1)WRITE(IOUT,FMT=FMW_7I_2F) ITAB(I),ITAB(K),L,(ITAB(MSR(IRECT(JJ,L))),JJ=1,4),SS,TT
@@ -115,17 +115,17 @@ C-----------------------------------------------
         CRST(2,II) = TT
       END DO !II=1,NSN
       CALL ANCMSG(MSGID=1247,
-     .  	      MSGTYPE=MSGERROR,
-     .  	      ANMODE=ANSTOP,
-     .  	      I1=ID,
-     .  	      C1=TITR,
-     .  	      PRMOD=MSG_PRINT)
+     .          MSGTYPE=MSGERROR,
+     .          ANMODE=ANSTOP,
+     .          I1=ID,
+     .          C1=TITR,
+     .          PRMOD=MSG_PRINT)
       CALL ANCMSG(MSGID=1248,
-     .  	      MSGTYPE=MSGWARNING,
-     .  	      ANMODE=ANINFO_BLIND,
-     .  	      I1=ID,
-     .  	      C1=TITR,
-     .  	      PRMOD=MSG_PRINT) 
+     .          MSGTYPE=MSGWARNING,
+     .          ANMODE=ANINFO_BLIND,
+     .          I1=ID,
+     .          C1=TITR,
+     .          PRMOD=MSG_PRINT) 
 
       RETURN
       END

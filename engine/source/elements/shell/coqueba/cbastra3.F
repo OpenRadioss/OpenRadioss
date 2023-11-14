@@ -107,7 +107,7 @@ C
          GSTRPG(I,6)=GSTRPG(I,6)+KXX(I)
          GSTRPG(I,7)=GSTRPG(I,7)+KYY(I)
          GSTRPG(I,8)=GSTRPG(I,8)+KXY(I)
-C		 
+C     
          GSTRWPG(I)=GSTRWPG(I)+WXY(I)* DT1C(I)
         ENDDO
 C----- use ISTRAIN temporarily for KXX.. cumulated

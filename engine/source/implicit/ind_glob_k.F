@@ -1661,7 +1661,7 @@ C-----------------------------------------------
         INLOC(N)=0
         NNMAX=MAX(NNMAX,NROW(N))
        ENDDO
-      ENDDO	   
+      ENDDO     
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
@@ -1725,9 +1725,9 @@ C----- rbe2 main------
          INLOC(M)=NKINE
        ENDIF
       ENDDO
-C-----will be stored in ICOKM(NKMAX,*)	  
+C-----will be stored in ICOKM(NKMAX,*)    
       NKINM=NKINE
-C-----pour IND_GLOB_K, passer NKINM par include ou module, modifier dans IND_KINE_	  
+C-----pour IND_GLOB_K, passer NKINM par include ou module, modifier dans IND_KINE_    
 C      K=0
 C------interface 2-------------- 
       DO I=1,NINT2
@@ -2278,8 +2278,8 @@ C-----Due to hierarchy----
          IF (NROW(NS)>NROWI(NKS)) NROW(M)=NROW(M)+ NROW(NS)-NROWI(NKS)
 C+++++++Knsns -> Kmns      
           IF (IC>0) THEN
-	       NROW(M)=NROW(M)+1
-	       NROW(NS)=NROW(NS)+1
+                 NROW(M)=NROW(M)+1
+                 NROW(NS)=NROW(NS)+1
           ENDIF 
          ENDIF 
        ENDDO 
@@ -2336,7 +2336,7 @@ C-----with Kij (i,j -> NSi,NSj-----
             ENDDO
          ENDIF
         ENDDO
-C	
+C
         DO M=1,NNOD
          NM=LRBE3(IAD+M)
          IF (INLOC(NM)==0.AND.NDOF(NM)>0) THEN
@@ -2552,13 +2552,13 @@ C------Rbe2------
           ENDIF
          ENDDO 
          IF (IC>0) THEN
-	      CALL REORDER_A(NROWI(NKE1),ICOKM(1,NKE1),NS)
+                CALL REORDER_A(NROWI(NKE1),ICOKM(1,NKE1),NS)
           IF (NKS > INK) THEN
            CALL REORDER_A(NROWI(NKS),ICOK(1,NKS),M)
-          ELSEIF (NKS > 0) THEN		   
+          ELSEIF (NKS > 0) THEN       
            CALL REORDER_A(NROWI(NKS),ICOKM(1,NKS),M)
           END IF
-	     ENDIF
+               ENDIF
         ENDIF 
        ENDDO 
       ENDDO
@@ -2579,15 +2579,15 @@ C
             NM1=LRBE3(IAD+J1)
             IF (NKE1>INK.AND.NM/=NM1) THEN
              CALL REORDER_A(NROWI(NKE1),ICOK(1,NKE1),NM1) 
-	        ELSEIF (NKE1>0.AND.NM/=NM1) THEN
+                  ELSEIF (NKE1>0.AND.NM/=NM1) THEN
              CALL REORDER_A(NROWI(NKE1),ICOKM(1,NKE1),NM1) 
-	        ENDIF
+                  ENDIF
             NKE2=INLOC(NM1) 
             IF (NKE2>INK) THEN
              CALL REORDER_A(NROWI(NKE2),ICOK(1,NKE2),NM) 
-	        ELSEIF (NKE2>0) THEN
+                  ELSEIF (NKE2>0) THEN
              CALL REORDER_A(NROWI(NKE2),ICOKM(1,NKE2),NM)              
-	        ENDIF
+                  ENDIF
            ENDDO
           ENDIF 
          ENDDO
@@ -2606,19 +2606,19 @@ C-----due to change of RBE2- (M used ICOKM now) --
             NM=LRBE3(IAD+M)
              IF (NDOF(NM)>0) THEN
               NKE1=INLOC(NM)
-	       
+                 
               IF (NKE1>INK) THEN
                CALL REORDER_A(NROWI(NKE1),ICOK(1,NKE1),NJ) 
-	          ELSEIF (NKE1>0) THEN
+                    ELSEIF (NKE1>0) THEN
                CALL REORDER_A(NROWI(NKE1),ICOKM(1,NKE1),NJ) 
-	          ENDIF
-	      
+                    ENDIF
+                
               IF (NKE2>INK) THEN
                CALL REORDER_A(NROWI(NKE2),ICOK(1,NKE2),NM) 
               ELSEIF (NKE2>0) THEN
                CALL REORDER_A(NROWI(NKE2),ICOKM(1,NKE2),NM) 
               ENDIF 
-	              
+                        
              ENDIF 
            ENDDO
           ENDIF
@@ -2926,13 +2926,13 @@ C-----RBE2------
            ENDIF 
           ENDDO 
           IF (IC>0) THEN
-	       CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKE1-INK),NI)
+                 CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKE1-INK),NI)
            IF (NKE <= INK) THEN
             CALL REORDER_A(NROWK(NKE),ICOK(1,NKE),M)
-           ELSEIF (NKE > 0) THEN		   
+           ELSEIF (NKE > 0) THEN       
             CALL REORDER_A(NROWK(NKE),ICOKM(1,NKE-INK),M)
            END IF
-	      ENDIF
+                ENDIF
          ENDIF
         ENDDO
        IRBE2(8,N) = NS
@@ -2976,19 +2976,19 @@ C------------RBE3-----
             NM=LRBE3(IAD+M)
             IF (NDOF(NM)>0) THEN
              NKE1=INLOC(NM)
-	      
+                
              IF (NKE1<=INK) THEN
               CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NJ) 
-	         ELSE
+                   ELSE
               CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKE1-INK),NJ) 
-	         ENDIF
-	     
+                   ENDIF
+               
              IF (NKE2<=INK) THEN
               CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),NM) 
-	         ELSE
+                   ELSE
               CALL REORDER_A(NROWK(NKE2),ICOKM(1,NKE2-INK),NM) 
-	         ENDIF
-	     
+                   ENDIF
+               
             ENDIF 
            ENDDO
           ENDIF 
@@ -3218,7 +3218,7 @@ c-----2. prepare icol for secnd nodes using ikine;
      3    NDOF      ,NSI2      ,NSRB      ,NKINE     ,
      7    INLOC     ,IRBE3     ,IRBE2     ,LRBE2     ,LNK       ,
      8    INTBUF_TAB       )
-C----- pass for IND_GLOB_K, including RBE2 main	 
+C----- pass for IND_GLOB_K, including RBE2 main   
       LCOKM=LNK
       NKINE0=NKINE
       IF (NKINE0>0) THEN
@@ -4571,7 +4571,7 @@ C------interface --------------
        NIMP(NIN) = 0
 C----------deleted int NTY->0       
        IF (NTY ==0 ) CYCLE
-	   IF (NTY ==2 ) THEN
+             IF (NTY ==2 ) THEN
         ILEV   =IPARI(20,NIN)
         NOINT =IPARI(15,NIN)
         IF (ILEV>=10.AND.ILEV<=25) THEN
@@ -4584,8 +4584,8 @@ C----------deleted int NTY->0
        STOPT =INTBUF_TAB(NIN)%VARIABLES(11)
        IF(STARTT<TSTOP) 
      .   CALL ANCMSG(MSGID=232,ANMODE=ANINFO,I1=NTY )
-	   END IF
-C-----as int5 uses only ISPMD=0	; some values are not initialized w/ ISPMD/=0   
+             END IF
+C-----as int5 uses only ISPMD=0  ; some values are not initialized w/ ISPMD/=0   
        IF (ISPMD/=0.AND.(NTY<7.OR.NTY==8
      .                     .OR.NTY==14.OR.NTY==15)) CYCLE
        STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
@@ -5875,17 +5875,17 @@ C-----RBE2------
            IF (INLOC(NJ)>0.AND.NJ/=NI) NROW1(NJ)=NROW1(NJ)+1+NHRBE2 
            LNSB2= LNSB2+1
           ENDDO
-	      IF (INLOC(M)==0) THEN
+                IF (INLOC(M)==0) THEN
            NKINE=NKINE+1
            INLOC(M)=NKINE
-	      ENDIF
+                ENDIF
           NROW1(M)=NROW1(M)+NROW(NI)+NROW1(NI)
           IF (IC>0) THEN
            NROW1(M)=NROW1(M)+1
            NROW1(NI)=NROW1(NI)+1
           END IF
          ENDIF
-C---------for the case with main node--------	 
+C---------for the case with main node--------   
          LNSB2= LNSB2+1
         ENDDO
         IF (INLOC(M)>0) NDOFI(M)=NDOF(M)
@@ -6024,10 +6024,10 @@ C------------case hierarchy w/ RBE3----
             CALL REORDER_A(NROW(NJ),ICOK(1,NKE2),M) 
            END IF
           ENDDO
-	      IF (IC>0) THEN
-	       CALL REORDER_A(NROW(M),ICOK(1,NKE1),NI)
+                IF (IC>0) THEN
+                 CALL REORDER_A(NROW(M),ICOK(1,NKE1),NI)
            CALL REORDER_A(NROW(NI),ICOK(1,NKE),M) 
-	      END IF
+                END IF
          ENDIF
         ENDDO
       ENDDO
@@ -6289,10 +6289,10 @@ C-----RBE2------
              NSB2(ID)=NSB2(ID)+1
            END IF
           END DO
-	      IF (IC>0) THEN
-	       CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NI)
+                IF (IC>0) THEN
+                 CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NI)
            CALL REORDER_A(NROWK(NKE),ICOK(1,NKE),M) 
-	      END IF
+                END IF
          END IF
         END DO
        END IF
@@ -6345,15 +6345,15 @@ c---------RBE3-------------
              NKE1=INLOC(NM) 
              IF (NKE1<=INK) THEN
               CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NJ) 
-	         ELSE
+                   ELSE
               CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKE1-INK),NJ) 
-	         ENDIF
-	     
+                   ENDIF
+               
              IF (NKE2<=INK) THEN
               CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),NM) 
-	         ELSE
+                   ELSE
               CALL REORDER_A(NROWK(NKE2),ICOKM(1,NKE2-INK),NM) 
-	         ENDIF
+                   ENDIF
             ENDIF 
            ENDDO
           ENDIF 
@@ -7248,7 +7248,7 @@ C
        DO I = NDF+1,NDDL
         NRI = IADK(I+1)-IADK(I)
         CALL CP_INT(NRI,JDIK(IADK(I)),ICOL)
-	IF (ICRI(I)==1) THEN
+          IF (ICRI(I)==1) THEN
          NR0 = NRI
          DO J=IADK(I),IADK(I+1)-1
           JD = JDIK(J)
@@ -7257,7 +7257,7 @@ C
           ENDDO
          ENDDO
          IF (NRI>NR0) CALL REORDER_M(NRI,ICOL)
-	ENDIF 
+          ENDIF 
         DO J=1,NRI
          L_NZ = L_NZ + 1
          JDIM(L_NZ) = ICOL(J)
@@ -7279,7 +7279,7 @@ C
        DO I = NDF+1,NDDL
         NRI = IADK(I+1)-IADK(I)
         CALL CP_INT(NRI,JDIK(IADK(I)),ICOL)
-	IF (ICRI(I)==1) THEN
+          IF (ICRI(I)==1) THEN
          NR0 = NRI
          DO J=IADK(I),IADK(I+1)-1
           JD = JDIK(J)
@@ -7288,7 +7288,7 @@ C
           ENDDO
          ENDDO
          IF (NRI>NR0) CALL REORDER_M(NRI,ICOL)
-	ENDIF 
+          ENDIF 
         DO J=1,NRI
          L_NZ = L_NZ + 1
          JDIM(L_NZ) = ICOL(J)
@@ -7303,7 +7303,7 @@ C
         DO I = NDF+1,NDDL
          NRI = IADL(I+1)-IADL(I)
          CALL CP_INT(NRI,JDIL(IADL(I)),ICOL)
-	 IF (ICRI(I)==1) THEN
+           IF (ICRI(I)==1) THEN
           NR0 = NRI
           DO J=IADL(I),IADL(I+1)-1
            JD = JDIL(J)
@@ -7312,7 +7312,7 @@ C
            ENDDO
           ENDDO
           IF (NRI>NR0) CALL REORDER_M(NRI,ICOL)
-	 ENDIF 
+           ENDIF 
          DO J=1,NRI
            L_NZ = L_NZ + 1
            JDIM(L_NZ) = ICOL(J)
@@ -7327,7 +7327,7 @@ C
        DO I = 1,NDDL
         NRI = IADK(I+1)-IADK(I)
         CALL CP_INT(NRI,JDIK(IADK(I)),ICOL)
-	IF (ICRI(I)==1) THEN
+          IF (ICRI(I)==1) THEN
          NR0 = NRI
          DO J=IADK(I),IADK(I+1)-1
           JD = JDIK(J)
@@ -7336,7 +7336,7 @@ C
           ENDDO
          ENDDO
          IF (NRI>NR0) CALL REORDER_M(NRI,ICOL)
-	ENDIF 
+          ENDIF 
         DO J=1,NRI
          L_NZ = L_NZ + 1
          JDIM(L_NZ) = ICOL(J)
@@ -7383,7 +7383,7 @@ C
         DO I = NDF+1,NDDL
          NRI = IADL(I+1)-IADL(I)
          CALL CP_INT(NRI,JDIL(IADL(I)),ICOL)
-	 IF (ICRI(I)==1) THEN
+           IF (ICRI(I)==1) THEN
           NR0 = NRI
           DO J=IADL(I),IADL(I+1)-1
            JD = JDIL(J)
@@ -7392,7 +7392,7 @@ C
            ENDDO
           ENDDO
           IF (NRI>NR0) CALL REORDER_M(NRI,ICOL)
-	 ENDIF 
+           ENDIF 
          DO J=1,NRI
            L_NZ = L_NZ + 1
            JDIM(L_NZ) = ICOL(J)
@@ -7504,7 +7504,7 @@ C
        IFIX=0
        DO J=1,NDOF(M)
         IF (IKC(ID+J)==0) THEN
-	 IFIX=IFIX+1
+           IFIX=IFIX+1
          PRE_FPAT(IDM+IFIX) = 0
         ENDIF 
        ENDDO

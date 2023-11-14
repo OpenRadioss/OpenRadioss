@@ -440,7 +440,7 @@ C
           Y2=RPOLY(4+3*(JJ-1)+2,II)
           Z2=RPOLY(4+3*(JJ-1)+3,II)
           TST21=NX*(X2-X1)+NY*(Y2-Y1)+NZ*(Z2-Z1)
-C			 
+C       
           IF(TST12*TST21 < ZERO) THEN
             N2=EDGVER(J,2)
             WRITE(IOUT,'(/2(A,I5),2A,2(/A,1P3G20.13,A))') 
@@ -508,7 +508,7 @@ C---------------------------------------
 C Arete connectee a 3 polygones internes
 C---------------------------------------
       DO J=1,NEDGE
-          IF(EDGPOL(J,1) /= 3) CYCLE		  
+          IF(EDGPOL(J,1) /= 3) CYCLE      
           I1=EDGPOL(J,2)
           I2=EDGPOL(J,3)
           IF(ITYP(I2) /= 3) CYCLE
@@ -578,7 +578,7 @@ C Premier polyedre
           IF (ITAG(K1,I1) == 0 .AND. ITAG(L1,I2) == 0) THEN
             ICMAX=ICMAX+1
             ITAG(K1,I1)=ICMAX
-            ITAG(L1,I2)=ICMAX						
+            ITAG(L1,I2)=ICMAX
           ELSEIF(ITAG(K1,I1) == 0 .AND. ITAG(L1,I2) /= 0) THEN
             ITAG(K1,I1)=ITAG(L1,I2)
           ELSEIF(ITAG(K1,I1) /= 0. AND. ITAG(L1,I2) == 0) THEN
@@ -592,7 +592,7 @@ C Premier polyedre
                  IF(ITYP(I) /= 3) CYCLE
                  IF(ITAG(2,I) == IMAX) ITAG(2,I)=IMIN
                ENDDO
-            ENDIF			
+            ENDIF
           ENDIF 
 C Deuxieme polyedre
           IF(ITAG(M1,I3) == 0 .AND. ITAG(L2,I2) == 0) THEN
@@ -602,7 +602,7 @@ C Deuxieme polyedre
           ELSEIF(ITAG(M1,I3) /= 0 .AND. ITAG(L2,I2) == 0) THEN
             ITAG(L2,I2)=ITAG(M1,I3)
           ELSEIF(ITAG(M1,I3) == 0 .AND. ITAG(L2,I2) /= 0) THEN
-            ITAG(M1,I3)=ITAG(L2,I2)			
+            ITAG(M1,I3)=ITAG(L2,I2)
           ELSEIF(ITAG(M1,I3) /= 0 .AND. ITAG(L2,I2) /= 0) THEN
             IF(ITAG(M1,I3) /= ITAG(L2,I2)) THEN
                IMIN=MIN(ITAG(M1,I3),ITAG(L2,I2))
@@ -622,7 +622,7 @@ C Troisieme polyedre
           ELSEIF(ITAG(M2,I3) /= 0 .AND. ITAG(K2,I1) == 0) THEN
             ITAG(K2,I1)=ITAG(M2,I3)
           ELSEIF(ITAG(M2,I3) == 0 .AND. ITAG(K2,I1) /= 0) THEN
-            ITAG(M2,I3)=ITAG(K2,I1)			
+            ITAG(M2,I3)=ITAG(K2,I1)
           ELSEIF(ITAG(M2,I3) /= 0 .AND. ITAG(K2,I1) /= 0) THEN
             IF(ITAG(M2,I3) /= ITAG(K2,I1)) THEN
                IMIN=MIN(ITAG(M2,I3),ITAG(K2,I1))
@@ -633,13 +633,13 @@ C Troisieme polyedre
                  IF(ITAG(2,I) == IMAX) ITAG(2,I)=IMIN
                ENDDO
             ENDIF
-          ENDIF		  
+          ENDIF      
       ENDDO ! J=1,NEDGE
 C-------------------------------------------------------
 C Arete connectee a 3 polygones (1 interne + 2 externes)
 C-------------------------------------------------------
       DO J=1,NEDGE
-          IF(EDGPOL(J,1) /= 3) CYCLE		  
+          IF(EDGPOL(J,1) /= 3) CYCLE      
           I1=EDGPOL(J,2)
           I2=EDGPOL(J,3)
           IF(ITYP(I2) == 3) CYCLE
@@ -720,7 +720,7 @@ C-------------------------------------------------------
                  IF(ITAG(2,I) == IMAX) ITAG(2,I)=IMIN
                ENDDO
             ENDIF 
-          ENDIF 		  
+          ENDIF       
       ENDDO ! J=1,NEDGE
 C------------------------------------------------
 C Arete connectee a 2 polygones
@@ -769,7 +769,7 @@ C
                  IF(ITAG(2,I) == IMAX) ITAG(2,I)=IMIN
               ENDDO
             ENDIF
-          ENDIF			
+          ENDIF
       ENDDO  ! J=1,NEDGE
 C
       DEALLOCATE (EDGPOL)

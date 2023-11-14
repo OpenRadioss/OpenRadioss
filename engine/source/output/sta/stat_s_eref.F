@@ -151,8 +151,8 @@ c------
               JJ = JJ + 7
               IF(ISMSTR==1.OR.ISMSTR>=10) THEN
                 IF(ISOLNOD == 8)THEN
-	             DO J = 1,ISOLNOD
-	               NC(J) = IXS(J+1,N)
+                       DO J = 1,ISOLNOD
+                         NC(J) = IXS(J+1,N)
                  ENDDO
                 ELSEIF(ISOLNOD0== 4)THEN
                   NC(1)=IXS(2,N)
@@ -176,13 +176,13 @@ c------
                     NC(J+4) = IXS10(J,NN1)
                   ENDDO
                 ELSEIF(ISOLNOD == 16)THEN
-	              NC(1:8) = IXS(2:9,N)
+                        NC(1:8) = IXS(2:9,N)
                   NN1 = N - (NUMELS8+NUMELS10+NUMELS20)
                   DO J=1,8
                    NC(J+8) = IXS16(J,NN1)
                   ENDDO
                 ELSEIF(ISOLNOD == 20)THEN
-	              NC(1:8) = IXS(2:9,N)
+                        NC(1:8) = IXS(2:9,N)
                   NN1 = N - (NUMELS8+NUMELS10)
                   DO J=1,12
                     NC(J+8) = IXS20(J,NN1)
@@ -311,7 +311,7 @@ c------------------------------------------------
             ENDDO                  
           ENDIF  !  IF (IOFF == 1)
 c---
-        ENDDO		    
+        ENDDO        
       ENDIF
 c-----------
       RETURN

@@ -202,44 +202,44 @@ C           looks for an elt sharing the face.
               END DO
               IF(NN==NF)THEN ! il faut que la face ait 4 points en commun avec uen autre pour eventuellement etre exclue
                 DO KK=1,6
-            	  DO II=1,4
-            	    MS(II)=IXIG3D(KXIG3D(4,KS)+FACEIGEO(II,KK)-1) 
-            	  END DO
+            DO II=1,4
+              MS(II)=IXIG3D(KXIG3D(4,KS)+FACEIGEO(II,KK)-1) 
+            END DO
 C
 C                 permute
-           	  MMIN=MS(1)
-           	  DO II=2,MF
-           	    MMIN=MIN(MMIN,MS(II))
-           	  END DO
-            	  DO IPERM=1,MF
-            	    IF(MMIN==MS(IPERM).AND.
+            MMIN=MS(1)
+            DO II=2,MF
+              MMIN=MIN(MMIN,MS(II))
+            END DO
+            DO IPERM=1,MF
+              IF(MMIN==MS(IPERM).AND.
      .                 MS(MOD(IPERM,MF)+1)/=MS(IPERM))THEN
-            	      DO II=1,MF
-            	  	    MI(II)=MS(MOD(II+IPERM-2,MF)+1)
-            	      END DO
-            	      EXIT
-            	    END IF
-            	  END DO
+                DO II=1,MF
+                  MI(II)=MS(MOD(II+IPERM-2,MF)+1)
+                END DO
+                EXIT
+              END IF
+            END DO
 C
                   IF(CROSSFACEIGEO(1,KK)/=0) THEN
-              	    DO II=1,4
-              	      MS(II)=IXIG3D(KXIG3D(4,KS)+CROSSFACEIGEO(II,KK)-1) 
-            	    END DO
+              DO II=1,4
+                MS(II)=IXIG3D(KXIG3D(4,KS)+CROSSFACEIGEO(II,KK)-1) 
+              END DO
 C
 C                   permute
-           	    MMIN=MS(1)
-           	    DO II=2,MF
-           	      MMIN=MIN(MMIN,MS(II))
-           	    END DO
-            	    DO IPERM=1,MF
-            	      IF(MMIN==MS(IPERM).AND.
+              MMIN=MS(1)
+              DO II=2,MF
+                MMIN=MIN(MMIN,MS(II))
+              END DO
+              DO IPERM=1,MF
+                IF(MMIN==MS(IPERM).AND.
      .                   MS(MOD(IPERM,MF)+1)/=MS(IPERM))THEN
-            	        DO II=1,MF
-            	          MI2(II)=MS(MOD(II+IPERM-2,MF)+1)
-            	        END DO
-            	        EXIT
-            	      END IF
-            	    END DO
+                  DO II=1,MF
+                    MI2(II)=MS(MOD(II+IPERM-2,MF)+1)
+                  END DO
+                  EXIT
+                END IF
+              END DO
                   ENDIF
 C
                   IF((MI(1)==NI(1).AND.MI(NF)==NI(2)).OR.

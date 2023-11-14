@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-	SUBROUTINE CBACOORK(JFT,JLT,X,IXC,PM,OFFG,
+          SUBROUTINE CBACOORK(JFT,JLT,X,IXC,PM,OFFG,
      1                     GEO,AREA,VCORE,JAC,HX,HY,
      2                     VQN,VQG,VQ,VJFI,VNRM,VASTN,NPLAT,IPLAT,
      3                     X13_T  ,X24_T  ,Y13_T,Y24_T, 
@@ -467,61 +467,61 @@ C--------------------------------------------------
 C   CALCUL DE AS N AU MILIEU DES COTES
 C--------------------------------------------------
 C        J=1 COTE
-	VNRM(EP,1,1)=VQN(EP,7,1)+VQN(EP,7,2)
-	VNRM(EP,2,1)=VQN(EP,8,1)+VQN(EP,8,2)
-	VNRM(EP,3,1)=VQN(EP,9,1)+VQN(EP,9,2)
-	C1=SQRT(VNRM(EP,1,1)*VNRM(EP,1,1)+
+          VNRM(EP,1,1)=VQN(EP,7,1)+VQN(EP,7,2)
+          VNRM(EP,2,1)=VQN(EP,8,1)+VQN(EP,8,2)
+          VNRM(EP,3,1)=VQN(EP,9,1)+VQN(EP,9,2)
+          C1=SQRT(VNRM(EP,1,1)*VNRM(EP,1,1)+
      1      VNRM(EP,2,1)*VNRM(EP,2,1)+VNRM(EP,3,1)*VNRM(EP,3,1))
         C1 = MAX(EM20,C1)
-	VNRM(EP,1,1)=VNRM(EP,1,1)/C1
-	VNRM(EP,2,1)=VNRM(EP,2,1)/C1
-	VNRM(EP,3,1)=VNRM(EP,3,1)/C1
-	VASTN(EP,1,1)=ZERO
-	VASTN(EP,2,1)=L12
-	VASTN(EP,3,1)=VASTN(EP,1,1)
-	VASTN(EP,4,1)=VASTN(EP,2,1)
+          VNRM(EP,1,1)=VNRM(EP,1,1)/C1
+          VNRM(EP,2,1)=VNRM(EP,2,1)/C1
+          VNRM(EP,3,1)=VNRM(EP,3,1)/C1
+          VASTN(EP,1,1)=ZERO
+          VASTN(EP,2,1)=L12
+          VASTN(EP,3,1)=VASTN(EP,1,1)
+          VASTN(EP,4,1)=VASTN(EP,2,1)
 C        J=2 
-	VNRM(EP,1,2)=VQN(EP,7,4)+VQN(EP,7,3)
-	VNRM(EP,2,2)=VQN(EP,8,4)+VQN(EP,8,3)
-	VNRM(EP,3,2)=VQN(EP,9,4)+VQN(EP,9,3)
-	C1=SQRT(VNRM(EP,1,2)*VNRM(EP,1,2)+
+          VNRM(EP,1,2)=VQN(EP,7,4)+VQN(EP,7,3)
+          VNRM(EP,2,2)=VQN(EP,8,4)+VQN(EP,8,3)
+          VNRM(EP,3,2)=VQN(EP,9,4)+VQN(EP,9,3)
+          C1=SQRT(VNRM(EP,1,2)*VNRM(EP,1,2)+
      1      VNRM(EP,2,2)*VNRM(EP,2,2)+VNRM(EP,3,2)*VNRM(EP,3,2))
         C1 = MAX(EM20,C1)
-	VNRM(EP,1,2)=VNRM(EP,1,2)/C1
-	VNRM(EP,2,2)=VNRM(EP,2,2)/C1
-	VNRM(EP,3,2)=VNRM(EP,3,2)/C1
-	VASTN(EP,1,2)=ZERO
-	VASTN(EP,2,2)=L34
-	VASTN(EP,3,2)=VASTN(EP,1,2)
-	VASTN(EP,4,2)=VASTN(EP,2,2)
+          VNRM(EP,1,2)=VNRM(EP,1,2)/C1
+          VNRM(EP,2,2)=VNRM(EP,2,2)/C1
+          VNRM(EP,3,2)=VNRM(EP,3,2)/C1
+          VASTN(EP,1,2)=ZERO
+          VASTN(EP,2,2)=L34
+          VASTN(EP,3,2)=VASTN(EP,1,2)
+          VASTN(EP,4,2)=VASTN(EP,2,2)
 C        J=3 
-	VNRM(EP,1,3)=VQN(EP,7,1)+VQN(EP,7,4)
-	VNRM(EP,2,3)=VQN(EP,8,1)+VQN(EP,8,4)
-	VNRM(EP,3,3)=VQN(EP,9,1)+VQN(EP,9,4)
-	C1=SQRT(VNRM(EP,1,3)*VNRM(EP,1,3)+
+          VNRM(EP,1,3)=VQN(EP,7,1)+VQN(EP,7,4)
+          VNRM(EP,2,3)=VQN(EP,8,1)+VQN(EP,8,4)
+          VNRM(EP,3,3)=VQN(EP,9,1)+VQN(EP,9,4)
+          C1=SQRT(VNRM(EP,1,3)*VNRM(EP,1,3)+
      1      VNRM(EP,2,3)*VNRM(EP,2,3)+VNRM(EP,3,3)*VNRM(EP,3,3))
         C1 = MAX(EM20,C1)
-	VNRM(EP,1,3)=VNRM(EP,1,3)/C1
-	VNRM(EP,2,3)=VNRM(EP,2,3)/C1
-	VNRM(EP,3,3)=VNRM(EP,3,3)/C1
-	VASTN(EP,1,3)=-(X41*VQN(EP,4,1)+Y41*VQN(EP,5,1)+Z41*VQN(EP,6,1))
-	VASTN(EP,2,3)= X41*VQN(EP,1,1)+Y41*VQN(EP,2,1)+Z41*VQN(EP,3,1)
-	VASTN(EP,3,3)=-(X41*VQN(EP,4,4)+Y41*VQN(EP,5,4)+Z41*VQN(EP,6,4))
-	VASTN(EP,4,3)= X41*VQN(EP,1,4)+Y41*VQN(EP,2,4)+Z41*VQN(EP,3,4)
+          VNRM(EP,1,3)=VNRM(EP,1,3)/C1
+          VNRM(EP,2,3)=VNRM(EP,2,3)/C1
+          VNRM(EP,3,3)=VNRM(EP,3,3)/C1
+          VASTN(EP,1,3)=-(X41*VQN(EP,4,1)+Y41*VQN(EP,5,1)+Z41*VQN(EP,6,1))
+          VASTN(EP,2,3)= X41*VQN(EP,1,1)+Y41*VQN(EP,2,1)+Z41*VQN(EP,3,1)
+          VASTN(EP,3,3)=-(X41*VQN(EP,4,4)+Y41*VQN(EP,5,4)+Z41*VQN(EP,6,4))
+          VASTN(EP,4,3)= X41*VQN(EP,1,4)+Y41*VQN(EP,2,4)+Z41*VQN(EP,3,4)
 C        J=4 
-	VNRM(EP,1,4)=VQN(EP,7,2)+VQN(EP,7,3)
-	VNRM(EP,2,4)=VQN(EP,8,2)+VQN(EP,8,3)
-	VNRM(EP,3,4)=VQN(EP,9,2)+VQN(EP,9,3)
-	C1=SQRT(VNRM(EP,1,4)*VNRM(EP,1,4)+
+          VNRM(EP,1,4)=VQN(EP,7,2)+VQN(EP,7,3)
+          VNRM(EP,2,4)=VQN(EP,8,2)+VQN(EP,8,3)
+          VNRM(EP,3,4)=VQN(EP,9,2)+VQN(EP,9,3)
+          C1=SQRT(VNRM(EP,1,4)*VNRM(EP,1,4)+
      1      VNRM(EP,2,4)*VNRM(EP,2,4)+VNRM(EP,3,4)*VNRM(EP,3,4))
         C1 = MAX(EM20,C1)
-	VNRM(EP,1,4)=VNRM(EP,1,4)/C1
-	VNRM(EP,2,4)=VNRM(EP,2,4)/C1
-	VNRM(EP,3,4)=VNRM(EP,3,4)/C1
-	VASTN(EP,1,4)=-(X32*VQN(EP,4,2)+Y32*VQN(EP,5,2)+Z32*VQN(EP,6,2))
-	VASTN(EP,2,4)= X32*VQN(EP,1,2)+Y32*VQN(EP,2,2)+Z32*VQN(EP,3,2)
-	VASTN(EP,3,4)=-(X32*VQN(EP,4,3)+Y32*VQN(EP,5,3)+Z32*VQN(EP,6,3))
-	VASTN(EP,4,4)= X32*VQN(EP,1,3)+Y32*VQN(EP,2,3)+Z32*VQN(EP,3,3)
+          VNRM(EP,1,4)=VNRM(EP,1,4)/C1
+          VNRM(EP,2,4)=VNRM(EP,2,4)/C1
+          VNRM(EP,3,4)=VNRM(EP,3,4)/C1
+          VASTN(EP,1,4)=-(X32*VQN(EP,4,2)+Y32*VQN(EP,5,2)+Z32*VQN(EP,6,2))
+          VASTN(EP,2,4)= X32*VQN(EP,1,2)+Y32*VQN(EP,2,2)+Z32*VQN(EP,3,2)
+          VASTN(EP,3,4)=-(X32*VQN(EP,4,3)+Y32*VQN(EP,5,3)+Z32*VQN(EP,6,3))
+          VASTN(EP,4,4)= X32*VQN(EP,1,3)+Y32*VQN(EP,2,3)+Z32*VQN(EP,3,3)
 C---------- 
 C    CALCUL DE [QG] NG=1,4 
 C----------
@@ -550,20 +550,20 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
         G2X1=MX34-JMX13 
         G2Y1=MY34-JMY13
         C2 = SQRT(G2X1*G2X1 + G2Y1*G2Y1 +J2MYZ)
-	VJFI(EP,1,1)=(G2Y1*VQG(EP,9,1)+JMZ13*VQG(EP,8,1))
-	VJFI(EP,2,1)=(-JMZ13*VQG(EP,7,1)-G2X1*VQG(EP,9,1))
-	VJFI(EP,3,1)=(G2X1*VQG(EP,8,1)-G2Y1*VQG(EP,7,1))
+          VJFI(EP,1,1)=(G2Y1*VQG(EP,9,1)+JMZ13*VQG(EP,8,1))
+          VJFI(EP,2,1)=(-JMZ13*VQG(EP,7,1)-G2X1*VQG(EP,9,1))
+          VJFI(EP,3,1)=(G2X1*VQG(EP,8,1)-G2Y1*VQG(EP,7,1))
         VQG(EP,1,1)= G1X1*C2+VJFI(EP,1,1)*C1
         VQG(EP,2,1)= G1Y1*C2+VJFI(EP,2,1)*C1
         VQG(EP,3,1)= -JMZ13*C2+VJFI(EP,3,1)*C1
         SL=SL/PG
-	VJFI(EP,1,1)=VJFI(EP,1,1)*SL
-	VJFI(EP,2,1)=VJFI(EP,2,1)*SL
-	VJFI(EP,3,1)=VJFI(EP,3,1)*SL
+          VJFI(EP,1,1)=VJFI(EP,1,1)*SL
+          VJFI(EP,2,1)=VJFI(EP,2,1)*SL
+          VJFI(EP,3,1)=VJFI(EP,3,1)*SL
 C
-	VJFI(EP,4,1)=(-JMZ13*VQG(EP,8,1)-G1Y1*VQG(EP,9,1))*SL
-	VJFI(EP,5,1)=(G1X1*VQG(EP,9,1)+JMZ13*VQG(EP,7,1))*SL
-	VJFI(EP,6,1)=(G1Y1*VQG(EP,7,1)-G1X1*VQG(EP,8,1))*SL
+          VJFI(EP,4,1)=(-JMZ13*VQG(EP,8,1)-G1Y1*VQG(EP,9,1))*SL
+          VJFI(EP,5,1)=(G1X1*VQG(EP,9,1)+JMZ13*VQG(EP,7,1))*SL
+          VJFI(EP,6,1)=(G1Y1*VQG(EP,7,1)-G1X1*VQG(EP,8,1))*SL
 C
         SL = SQRT(VQG(EP,1,1)*VQG(EP,1,1) + VQG(EP,2,1)*VQG(EP,2,1)
      1            + VQG(EP,3,1)*VQG(EP,3,1))
@@ -591,20 +591,20 @@ C--------G2X3=G2X2------
         G2X2=MX34+JMX13 
         G2Y2=MY34+JMY13
         J2 = SQRT(G2X2*G2X2 + G2Y2*G2Y2 +J2MYZ)
-	VJFI(EP,1,3)=(G2Y2*VQG(EP,9,3)-JMZ13*VQG(EP,8,3))
-	VJFI(EP,2,3)=(JMZ13*VQG(EP,7,3)-G2X2*VQG(EP,9,3))
-	VJFI(EP,3,3)=(G2X2*VQG(EP,8,3)-G2Y2*VQG(EP,7,3))
+          VJFI(EP,1,3)=(G2Y2*VQG(EP,9,3)-JMZ13*VQG(EP,8,3))
+          VJFI(EP,2,3)=(JMZ13*VQG(EP,7,3)-G2X2*VQG(EP,9,3))
+          VJFI(EP,3,3)=(G2X2*VQG(EP,8,3)-G2Y2*VQG(EP,7,3))
         VQG(EP,1,3)= G1X3*J2+VJFI(EP,1,3)*J1
         VQG(EP,2,3)= G1Y3*J2+VJFI(EP,2,3)*J1
         VQG(EP,3,3)= JMZ13*J2+VJFI(EP,3,3)*J1
         SL=SL/PG
-	VJFI(EP,1,3)=VJFI(EP,1,3)*SL
-	VJFI(EP,2,3)=VJFI(EP,2,3)*SL
-	VJFI(EP,3,3)=VJFI(EP,3,3)*SL
+          VJFI(EP,1,3)=VJFI(EP,1,3)*SL
+          VJFI(EP,2,3)=VJFI(EP,2,3)*SL
+          VJFI(EP,3,3)=VJFI(EP,3,3)*SL
 C
-	VJFI(EP,4,3)=(JMZ13*VQG(EP,8,3)-G1Y3*VQG(EP,9,3))*SL
-	VJFI(EP,5,3)=(G1X3*VQG(EP,9,3)-JMZ13*VQG(EP,7,3))*SL
-	VJFI(EP,6,3)=(G1Y3*VQG(EP,7,3)-G1X3*VQG(EP,8,3))*SL
+          VJFI(EP,4,3)=(JMZ13*VQG(EP,8,3)-G1Y3*VQG(EP,9,3))*SL
+          VJFI(EP,5,3)=(G1X3*VQG(EP,9,3)-JMZ13*VQG(EP,7,3))*SL
+          VJFI(EP,6,3)=(G1Y3*VQG(EP,7,3)-G1X3*VQG(EP,8,3))*SL
 C
         SL = SQRT(VQG(EP,1,3)*VQG(EP,1,3) + VQG(EP,2,3)*VQG(EP,2,3)
      1            + VQG(EP,3,3)*VQG(EP,3,3))
@@ -630,20 +630,20 @@ C---------- NG =2----------
         VQG(EP,7,2)= VQG(EP,7,2)*SL
         VQG(EP,8,2)= VQG(EP,8,2)*SL
 C
-	VJFI(EP,1,2)=(G2Y2*VQG(EP,9,2)-JMZ13*VQG(EP,8,2))
-	VJFI(EP,2,2)=(JMZ13*VQG(EP,7,2)-G2X2*VQG(EP,9,2))
-	VJFI(EP,3,2)=(G2X2*VQG(EP,8,2)-G2Y2*VQG(EP,7,2))
+          VJFI(EP,1,2)=(G2Y2*VQG(EP,9,2)-JMZ13*VQG(EP,8,2))
+          VJFI(EP,2,2)=(JMZ13*VQG(EP,7,2)-G2X2*VQG(EP,9,2))
+          VJFI(EP,3,2)=(G2X2*VQG(EP,8,2)-G2Y2*VQG(EP,7,2))
         VQG(EP,1,2)= G1X1*J2+VJFI(EP,1,2)*C1
         VQG(EP,2,2)= G1Y1*J2+VJFI(EP,2,2)*C1
         VQG(EP,3,2)=-JMZ13*J2+VJFI(EP,3,2)*C1
         SL=SL/PG
-	VJFI(EP,1,2)=VJFI(EP,1,2)*SL
-	VJFI(EP,2,2)=VJFI(EP,2,2)*SL
-	VJFI(EP,3,2)=VJFI(EP,3,2)*SL
+          VJFI(EP,1,2)=VJFI(EP,1,2)*SL
+          VJFI(EP,2,2)=VJFI(EP,2,2)*SL
+          VJFI(EP,3,2)=VJFI(EP,3,2)*SL
 C
-	VJFI(EP,4,2)=(-JMZ13*VQG(EP,8,2)-G1Y1*VQG(EP,9,2))*SL
-	VJFI(EP,5,2)=(G1X1*VQG(EP,9,2)+JMZ13*VQG(EP,7,2))*SL
-	VJFI(EP,6,2)=(G1Y1*VQG(EP,7,2)-G1X1*VQG(EP,8,2))*SL
+          VJFI(EP,4,2)=(-JMZ13*VQG(EP,8,2)-G1Y1*VQG(EP,9,2))*SL
+          VJFI(EP,5,2)=(G1X1*VQG(EP,9,2)+JMZ13*VQG(EP,7,2))*SL
+          VJFI(EP,6,2)=(G1Y1*VQG(EP,7,2)-G1X1*VQG(EP,8,2))*SL
 C
         SL = SQRT(VQG(EP,1,2)*VQG(EP,1,2) + VQG(EP,2,2)*VQG(EP,2,2)
      1            + VQG(EP,3,2)*VQG(EP,3,2))
@@ -663,20 +663,20 @@ C---------- NG =4----------
         VQG(EP,8,4)= VQG(EP,8,4)*SL
         VQG(EP,9,4)= SZ2*SL
 C
-	VJFI(EP,1,4)=(G2Y1*VQG(EP,9,4)+JMZ13*VQG(EP,8,4))
-	VJFI(EP,2,4)=(-JMZ13*VQG(EP,7,4)-G2X1*VQG(EP,9,4))
-	VJFI(EP,3,4)=(G2X1*VQG(EP,8,4)-G2Y1*VQG(EP,7,4))
+          VJFI(EP,1,4)=(G2Y1*VQG(EP,9,4)+JMZ13*VQG(EP,8,4))
+          VJFI(EP,2,4)=(-JMZ13*VQG(EP,7,4)-G2X1*VQG(EP,9,4))
+          VJFI(EP,3,4)=(G2X1*VQG(EP,8,4)-G2Y1*VQG(EP,7,4))
         VQG(EP,1,4)= G1X3*C2+VJFI(EP,1,4)*J1
         VQG(EP,2,4)= G1Y3*C2+VJFI(EP,2,4)*J1
         VQG(EP,3,4)=JMZ13*C2+VJFI(EP,3,4)*J1
         SL=SL/PG
-	VJFI(EP,1,4)=VJFI(EP,1,4)*SL
-	VJFI(EP,2,4)=VJFI(EP,2,4)*SL
-	VJFI(EP,3,4)=VJFI(EP,3,4)*SL
+          VJFI(EP,1,4)=VJFI(EP,1,4)*SL
+          VJFI(EP,2,4)=VJFI(EP,2,4)*SL
+          VJFI(EP,3,4)=VJFI(EP,3,4)*SL
 C
-	VJFI(EP,4,4)=(JMZ13*VQG(EP,8,4)-G1Y3*VQG(EP,9,4))*SL
-	VJFI(EP,5,4)=(G1X3*VQG(EP,9,4)-JMZ13*VQG(EP,7,4))*SL
-	VJFI(EP,6,4)=(G1Y3*VQG(EP,7,4)-G1X3*VQG(EP,8,4))*SL
+          VJFI(EP,4,4)=(JMZ13*VQG(EP,8,4)-G1Y3*VQG(EP,9,4))*SL
+          VJFI(EP,5,4)=(G1X3*VQG(EP,9,4)-JMZ13*VQG(EP,7,4))*SL
+          VJFI(EP,6,4)=(G1Y3*VQG(EP,7,4)-G1X3*VQG(EP,8,4))*SL
 C
         SL = SQRT(VQG(EP,1,4)*VQG(EP,1,4) + VQG(EP,2,4)*VQG(EP,2,4)
      1            + VQG(EP,3,4)*VQG(EP,3,4))
@@ -694,7 +694,7 @@ C
        OFF(I)=OFFG(I)
       ENDDO
 C
-	 RETURN
+           RETURN
  2001 FORMAT(/' ZERO OR NEGATIVE SHELL SUB-AREA : ELEMENT NB:',
      .          I8/)
-	 END
+           END

@@ -90,7 +90,7 @@ C-----------------------------------------------
         VXA(I)=V1
         VYA(I)=V2
         VZA(I)=V3
-        VA2(I)=(V1**2+V2**2+V3**2)	  
+        VA2(I)=(V1**2+V2**2+V3**2)    
       ENDDO
 C
       DO N=2,8
@@ -101,7 +101,7 @@ C
           VXA(I)=VXA(I)+V1
           VYA(I)=VYA(I)+V2
           VZA(I)=VZA(I)+V3
-          VA2(I)=VA2(I)+(V1**2+V2**2+V3**2)	  
+          VA2(I)=VA2(I)+(V1**2+V2**2+V3**2)    
         ENDDO
       ENDDO
 C

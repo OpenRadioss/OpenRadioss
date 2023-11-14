@@ -101,7 +101,7 @@ C-----------------------------------------------
         IF(BFRAC(I) < ONE) THEN
           TB=-TBURN(I)
           BFRAC1 = ZERO
-	  BFRAC2 = ZERO
+            BFRAC2 = ZERO
           IF(IBFRAC_1/=1 .AND. TT>TB) BFRAC1=VDET(I)*(TT-TB)/THREE_HALF/DELTAX(I)   !time control
           IF(IBFRAC_1/=2)BFRAC2=BHE(I)*(ONE-DF(I))                                 !volumetric control
           BFRAC(I) = MAX(BFRAC1,BFRAC2)

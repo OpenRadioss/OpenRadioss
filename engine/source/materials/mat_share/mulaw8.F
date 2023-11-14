@@ -387,7 +387,7 @@ C
         ES3(I) = STRAIN(JJ(3)+I)
         ES4(I) = STRAIN(JJ(4)+I)
         ES5(I) = STRAIN(JJ(5)+I)
-        ES6(I) = STRAIN(JJ(6)+I)	  
+        ES6(I) = STRAIN(JJ(6)+I)    
       ENDDO
 C------Compute of AMU as in mmain after thermal expansion computation ---------------
       DO I=LFT,LLT

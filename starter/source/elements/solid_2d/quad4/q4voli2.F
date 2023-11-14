@@ -97,7 +97,7 @@ C----------------------------------------------------------------------
       ELSE
         DO I=LFT,LLT
           VOLU(I)=AIRE(I)
-	END DO
+          END DO
       ENDIF
 
       DO I=LFT,LLT
@@ -106,7 +106,7 @@ C----------------------------------------------------------------------
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
      .                I1=NGL(I))
-	  EXIT	
+            EXIT
         END IF
       END DO
 

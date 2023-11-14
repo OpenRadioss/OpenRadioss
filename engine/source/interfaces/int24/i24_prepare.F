@@ -77,7 +77,7 @@ C-----------------------------------------------
               ITAG(NOD)=1
             ENDDO
             DO NI=1,NBINTC
-	      NIN = INTLIST(NI)
+                NIN = INTLIST(NI)
               NTY   = IPARI(7,NIN)
               NSN   = IPARI(5,NIN)
 
@@ -92,7 +92,7 @@ C Fictives T24 E2E Nodes hav NSV over Numnod
                   ENDIF
                 ENDDO
               ENDIF
-            ENDDO	   	   
+            ENDDO          
 C Flush ITAG to zero again for next CPU
             DO J=IAD_ELEM(1,P),IAD_ELEM(1,P+1)-1
               NOD = FR_ELEM(J)
@@ -115,8 +115,8 @@ C-----------------------------------------------
             ENDDO
 
             DO NI=1,NBINTC
-	      IAD_I24(NI+1,P)=IAD_I24(NI,P)
-	      NIN = INTLIST(NI)
+                IAD_I24(NI+1,P)=IAD_I24(NI,P)
+                NIN = INTLIST(NI)
               NTY   = IPARI(7,NIN)
               NSN   = IPARI(5,NIN)
 
@@ -125,9 +125,9 @@ C-----------------------------------------------
                   SN = INTBUF_TAB(NIN)%NSV(I)
 C Fictives T24 E2E Nodes hav NSV over Numnod
                   IF(SN<=NUMNOD)THEN
-                    IF(ITAG(SN)==1)THEN		 
+                    IF(ITAG(SN)==1)THEN     
                       IAD_I24(NI+1,P)=IAD_I24(NI+1,P)+1
-		      IAFR24 = IAFR24 + 1
+                IAFR24 = IAFR24 + 1
                       FR_I24(IAFR24)=I
                     ENDIF
                  ENDIF
@@ -139,12 +139,12 @@ C Flush ITAG to zero again for next CPU
               NOD = FR_ELEM(J)
               ITAG(NOD)=0
             ENDDO
-	  ELSE
+            ELSE
             DO I=2,NBINTC+1
-	      IAD_I24(I,P)=IAD_I24(1,P)
-	    ENDDO	  
+                IAD_I24(I,P)=IAD_I24(1,P)
+              ENDDO    
           ENDIF    ! IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P)>0)
-	  IF(P<NSPMD)IAD_I24(1,P+1)=IAD_I24(NBINTC+1,P)
+            IF(P<NSPMD)IAD_I24(1,P+1)=IAD_I24(NBINTC+1,P)
         ENDDO
       ENDIF
 
@@ -155,7 +155,7 @@ C
       IF(MODE==2)THEN
           I24MAXNSNE=0
           DO NI=1,NBINTC
-	     NIN = INTLIST(NI)
+               NIN = INTLIST(NI)
              NTY   = IPARI(7,NIN)
              IF(NTY==24)THEN
                 NSNE=IPARI(55,NIN)

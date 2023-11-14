@@ -60,9 +60,9 @@ C-----------------------------------------------
 C
       IF(N2D==1)THEN
 #include      "vectorize.inc"
- 	DO I=NODFT,NODLT
- 	  IF(X(2,I)+DT2*V(2,I)<ZERO) V(2,I)=ZERO
- 	ENDDO
+          DO I=NODFT,NODLT
+            IF(X(2,I)+DT2*V(2,I)<ZERO) V(2,I)=ZERO
+          ENDDO
       ENDIF
 C-------------------------------------------------------------
 C         CALCUL DES  DEPLACEMENTS TRANSLATIONS PUIS ROTATIONS

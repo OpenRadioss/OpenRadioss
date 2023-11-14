@@ -175,7 +175,7 @@ C
 C----
 C
 C----
-      WRITE(IUGEO,'(A)')'/SECTION   /VECTOR	/FORCE'
+      WRITE(IUGEO,'(A)')'/SECTION   /VECTOR  /FORCE'
       WRITE(IUGEO,'(A)')
      .  'Sections forces and moments'
       IF (OUTYY_FMT==2) THEN
@@ -196,15 +196,15 @@ C
 C----
       IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(I8,1P3E16.9,/,8X,1P3E16.9)')
-     .  	(NOM_SECT(1,N),(FOPT(I,N),I=1,3),
+     .    (NOM_SECT(1,N),(FOPT(I,N),I=1,3),
      .           (FOPT(I,N),I=4,6),N=1,NSECT)
       ELSE
         WRITE(IUGEO,'(I10,1P3E20.13,/,10X,1P3E20.13)')
-     .  	(NOM_SECT(1,N),(FOPT(I,N),I=1,3),
+     .    (NOM_SECT(1,N),(FOPT(I,N),I=1,3),
      .           (FOPT(I,N),I=4,6),N=1,NSECT)
       ENDIF
 C
-      WRITE(IUGEO,'(A)')'/RWALL    /VECTOR	/FORCE'
+      WRITE(IUGEO,'(A)')'/RWALL    /VECTOR  /FORCE'
       WRITE(IUGEO,'(A)')
      .  'Rigid wall forces'
       IF (OUTYY_FMT==2) THEN

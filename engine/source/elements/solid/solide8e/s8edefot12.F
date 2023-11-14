@@ -161,7 +161,7 @@ C     REAL
 C-----------------------------------------------
       IF (JCVT > 0 ) THEN
         DO I=1,NEL
-	     IF(OFFG(I)<=ONE) CYCLE
+               IF(OFFG(I)<=ONE) CYCLE
          VLX1(I)=R11(I)*VX1(I)+R21(I)*VY1(I)+R31(I)*VZ1(I)
          VLY1(I)=R12(I)*VX1(I)+R22(I)*VY1(I)+R32(I)*VZ1(I)
          VLZ1(I)=R13(I)*VX1(I)+R23(I)*VY1(I)+R33(I)*VZ1(I)
@@ -216,7 +216,7 @@ C-----------------------------------------------
 C   
       IF (I_SH>0) THEN
        DO I=1,NEL
-	    IF(OFFG(I)<=ONE) CYCLE
+              IF(OFFG(I)<=ONE) CYCLE
         DXY(I) =PXY1(I)*VLX1(I)+PXY2(I)*VLX2(I)
      +         +PXY3(I)*VLX3(I)+PXY4(I)*VLX4(I)
      +         +PXY5(I)*VLX5(I)+PXY6(I)*VLX6(I)
@@ -244,7 +244,7 @@ C
        ENDDO
       ELSE
        DO I=1,NEL
-	    IF(OFFG(I)<=ONE) CYCLE
+              IF(OFFG(I)<=ONE) CYCLE
         DXY(I) =PY1(I)*VLX1(I)+PY2(I)*VLX2(I)+PY3(I)*VLX3(I)+PY4(I)*VLX4(I)
      +         +PY5(I)*VLX5(I)+PY6(I)*VLX6(I)+PY7(I)*VLX7(I)+PY8(I)*VLX8(I)
         DXZ(I) =PZ1(I)*VLX1(I)+PZ2(I)*VLX2(I)+PZ3(I)*VLX3(I)+PZ4(I)*VLX4(I)
@@ -259,9 +259,9 @@ C
      +         +PY5(I)*VLZ5(I)+PY6(I)*VLZ6(I)+PY7(I)*VLZ7(I)+PY8(I)*VLZ8(I)
        ENDDO
       END IF !(ISMSTR==11) THEN
-C	   
+C     
        DO I=1,NEL
-	    IF(OFFG(I)<=ONE) CYCLE
+              IF(OFFG(I)<=ONE) CYCLE
         DXX(I) =PX1(I)*VLX1(I)+PX2(I)*VLX2(I)+PX3(I)*VLX3(I)+PX4(I)*VLX4(I)
      .         +PX5(I)*VLX5(I)+PX6(I)*VLX6(I)+PX7(I)*VLX7(I)+PX8(I)*VLX8(I)
         DYY(I) =PY1(I)*VLY1(I)+PY2(I)*VLY2(I)+PY3(I)*VLY3(I)+PY4(I)*VLY4(I)
@@ -269,10 +269,10 @@ C
         DZZ(I) =PZ1(I)*VLZ1(I)+PZ2(I)*VLZ2(I)+PZ3(I)*VLZ3(I)+PZ4(I)*VLZ4(I)
      .         +PZ5(I)*VLZ5(I)+PZ6(I)*VLZ6(I)+PZ7(I)*VLZ7(I)+PZ8(I)*VLZ8(I)
        ENDDO
-	   IF (ISEL_V>0) THEN
+             IF (ISEL_V>0) THEN
 #include   "nofusion.inc"
        DO I=1,NEL
-	    IF(OFFG(I)<=ONE) CYCLE
+              IF(OFFG(I)<=ONE) CYCLE
         DYY(I) =DYY(I)+BXY1(I)*VLX1(I)+BXY2(I)*VLX2(I)
      +                +BXY3(I)*VLX3(I)+BXY4(I)*VLX4(I)
      +                +BXY5(I)*VLX5(I)+BXY6(I)*VLX6(I)
@@ -298,10 +298,10 @@ C
      +                +BZY5(I)*VLZ5(I)+BZY6(I)*VLZ6(I)
      +                +BZY7(I)*VLZ7(I)+BZY8(I)*VLZ8(I)
        ENDDO
-	   END IF !(ISEL_V>0) THEN
+             END IF !(ISEL_V>0) THEN
       IF (ICP==1) THEN
         DO I=1,NEL
-	     IF(OFFG(I)<=ONE) CYCLE
+               IF(OFFG(I)<=ONE) CYCLE
          AJ11=DXX(I)+ONE
          AJ22=DYY(I)+ONE
          AJ33=DZZ(I)+ONE

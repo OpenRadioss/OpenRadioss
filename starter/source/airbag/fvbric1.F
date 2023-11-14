@@ -505,7 +505,7 @@ C
 C
       IF(NELA > 0) THEN
         WRITE(IOUT,'(/5X,A,I10/)') 'NUMBER OF AIRBAG TRIANGLES NOT CONNECTED TO A SOLID ELEMENT . .=',NELA
-      ENDIF	  
+      ENDIF    
 C
 C Noeuds auxiliaires
 C

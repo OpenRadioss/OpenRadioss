@@ -268,7 +268,7 @@ C         retrouve l'adresse dans WAP0
               ENDIF
             END DO
           END IF
-        ENDDO		    
+        ENDDO        
       ENDIF
 
 C-----------------------------------------------
@@ -456,7 +456,7 @@ C         retrouve l'adresse dans WAP0
             END DO
           END IF
 
-        ENDDO		    
+        ENDDO        
       ENDIF
 
       RETURN

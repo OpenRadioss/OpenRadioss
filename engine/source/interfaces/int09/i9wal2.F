@@ -194,15 +194,15 @@ C
 C
 C gather des valeurs
 C
- 	       CALL SPMD_GLOB_DSUM9(COMAREA,ILEN)
- 	       CALL SPMD_GLOB_DSUM9(COMSTF,ILEN)
- 	       CALL SPMD_GLOB_DSUM9(COMT,ILEN)
- 	       CALL SPMD_GLOB_DSUM9(COMVOL,ILEN)
- 	       CALL SPMD_GLOB_ISUM9(ICOMERR,ILEN)
- 	       CALL SPMD_GLOB_ISUM9(ICOMNGR,ILEN)
- 	       CALL SPMD_GLOB_ISUM9(ICOMNEL,ILEN)
+                 CALL SPMD_GLOB_DSUM9(COMAREA,ILEN)
+                 CALL SPMD_GLOB_DSUM9(COMSTF,ILEN)
+                 CALL SPMD_GLOB_DSUM9(COMT,ILEN)
+                 CALL SPMD_GLOB_DSUM9(COMVOL,ILEN)
+                 CALL SPMD_GLOB_ISUM9(ICOMERR,ILEN)
+                 CALL SPMD_GLOB_ISUM9(ICOMNGR,ILEN)
+                 CALL SPMD_GLOB_ISUM9(ICOMNEL,ILEN)
 C   partie noeud sur P0 uniquement
- 	    IF(ISPMD/=0) GOTO 900
+              IF(ISPMD/=0) GOTO 900
        END IF
 C   interface traitee par p0
       ELSE
@@ -267,11 +267,11 @@ c          ENDIF
 c         ELSEIF(ISPMD==0)THEN
            KK = TAGM(L)
            EFRIC = HALF * EE(II) / (LL2-LL1+1)
-	   IERR = ICOMERR(KK)
-	   AREAM = COMAREA(KK)
-	   TSTIFM = COMSTF(KK)
-	   TM = COMT(KK)
-	   VOLM = COMVOL(KK)
+             IERR = ICOMERR(KK)
+             AREAM = COMAREA(KK)
+             TSTIFM = COMSTF(KK)
+             TM = COMT(KK)
+             VOLM = COMVOL(KK)
            IF(IERR==0) THEN
              DO LL = LL1,LL2
                LG = LMSR(LL)

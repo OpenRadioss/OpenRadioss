@@ -179,7 +179,7 @@ c
             SIGC(I,3)=S03(I)
             SIGC(I,4)=S04(I)
             SIGC(I,5)=S05(I)
-            SIGC(I,6)=S06(I)			 
+            SIGC(I,6)=S06(I)       
           !---------------------------!
           !---      DAMAGE         ---!
           !---------------------------!           
@@ -189,7 +189,7 @@ c
             SIGC(I,3)=S03(I)
             SIGC(I,4)=S04(I)
             SIGC(I,5)=S05(I)
-            SIGC(I,6)=S06(I)			 
+            SIGC(I,6)=S06(I)       
             IF (DAM(I,1) == ZERO .or. DAM(I,2) == ZERO .or. DAM(I,3) == ZERO) THEN 
               I1 = I1 + 1
               INDEX1(I1) = I

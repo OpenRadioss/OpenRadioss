@@ -188,7 +188,7 @@ C
       DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
 C preparation candidats retenus
-	  CALL I25CDCOR3(
+            CALL I25CDCOR3(
      1     JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_OPT_E,INTBUF_TAB%CAND_OPT_N,
      2     CAND_E_N,CAND_N_N )
 C cand_n et cand_e remplace par cand_n_n et cand_e_n

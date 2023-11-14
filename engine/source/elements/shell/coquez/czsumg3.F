@@ -820,7 +820,7 @@ C -----------PROJECTION---------
 C
         CALL SET_RSJ2(RZ1     ,RZ2     ,RZ3     ,RZ4    ,Z1    ,
      .                JFT     ,JLT     ,CORELV  ,IPLAT  )
-C	
+C
         CALL SETPROJKZ(DR    ,R1     ,R2     ,R3     ,R4    ,
      3                K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      4                M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
@@ -2337,7 +2337,7 @@ C--------------update KL(6,j),j=4,6--by QNI------------------------
 C
        IF (IT == 1 )THEN
         DO J=4,6
-	 K=J-3 
+           K=J-3 
          DO EP=JFT,JLT 
           KR(6,K,EP)= ZERO
           KR(6,J,EP)= QNI(K,EP)
@@ -2345,7 +2345,7 @@ C
         ENDDO
        ELSE
         DO J=4,6 
-	 K=J-3 
+           K=J-3 
          DO EP=JFT,JLT 
           KR(K,6,EP)= ZERO
           KR(J,6,EP)= QNI(K,EP)

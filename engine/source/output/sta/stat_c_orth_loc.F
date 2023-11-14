@@ -409,8 +409,8 @@ C---        Axe I
                 DIR1_1 = VR/SUMA                                                   
                 DIR1_2 = VS/SUMA
 C---        Axe II
-                AA = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I)	 			    
-                BB = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I + NEL)			   
+                AA = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I)             
+                BB = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I + NEL)         
                 V1 = AA*RX + BB*SX                                               
                 V2 = AA*RY + BB*SY                                               
                 V3 = AA*RZ + BB*SZ                                               
@@ -434,8 +434,8 @@ C---        Axe I
                   DIR1_1 = VR/SUMA                                                   
                   DIR1_2 = VS/SUMA
 C---        Axe II
-                  AA = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I)	   			       
-                  BB = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I + NEL)			      
+                  AA = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I)                  
+                  BB = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I + NEL)            
                   V1 = AA*RX + BB*SX                                               
                   V2 = AA*RY + BB*SY                                               
                   V3 = AA*RZ + BB*SZ                                               
@@ -462,8 +462,8 @@ C---        Axe I
                   DIR1_1 = VR/SUMA                                                   
                   DIR1_2 = VS/SUMA
 C---        Axe II
-                  AA = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I)	   			       
-                  BB = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I + NEL)			      
+                  AA = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I)                  
+                  BB = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I + NEL)            
                   V1 = AA*RX + BB*SX                                               
                   V2 = AA*RY + BB*SY                                               
                   V3 = AA*RZ + BB*SZ                                               
@@ -725,9 +725,9 @@ cc            RZ = Z31
             SZ = Z31
           ENDIF
          IF(IFRAM_OLD ==0 ) THEN
-	    CALL CLSCONV3(X21,Y21,Z21,X31,Y31,Z31,
-     +	                     E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z)
-         ELSE		
+              CALL CLSCONV3(X21,Y21,Z21,X31,Y31,Z31,
+     +                       E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z)
+         ELSE
           E1X= X21
           E1Y= Y21
           E1Z= Z21
@@ -950,8 +950,8 @@ C---        Axe I
                 DIR1_1 = VR/SUMA                                                   
                 DIR1_2 = VS/SUMA
 C---        Axe II
-                AA = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I)	 			    
-                BB = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I + NEL)			   
+                AA = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I)             
+                BB = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I + NEL)         
                 V1 = AA*RX + BB*SX                                               
                 V2 = AA*RY + BB*SY                                               
                 V3 = AA*RZ + BB*SZ                                               
@@ -975,8 +975,8 @@ C---        Axe I
                   DIR1_1 = VR/SUMA                                                   
                   DIR1_2 = VS/SUMA
 C---        Axe II
-                  AA = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I)	   			     
-                  BB = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I + NEL)			    
+                  AA = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I)                
+                  BB = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I + NEL)          
                   V1 = AA*RX + BB*SX                                               
                   V2 = AA*RY + BB*SY                                               
                   V3 = AA*RZ + BB*SZ                                               
@@ -1003,8 +1003,8 @@ C---        Axe I
                   DIR1_1 = VR/SUMA                                                   
                   DIR1_2 = VS/SUMA
 C---        Axe II
-                  AA = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I)	   			      
-                  BB = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I + NEL)			     
+                  AA = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I)                 
+                  BB = ELBUF_TAB(NG)%BUFLY(J)%DIRB(I + NEL)           
                   V1 = AA*RX + BB*SX                                               
                   V2 = AA*RY + BB*SY                                               
                   V3 = AA*RZ + BB*SZ                                               

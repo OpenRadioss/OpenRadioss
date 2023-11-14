@@ -1621,7 +1621,7 @@ C Face interne brique/brique
                           N2=FAC6(2,J)
                           N3=FAC6(3,J)
                           N4=FAC6(4,J)
-						ENDIF
+          ENDIF
                      ELSEIF (NTYPE==4) THEN
                         IF(J <= 4) THEN
                           IQUAD=0
@@ -1634,14 +1634,14 @@ C Face interne brique/brique
                           N2=FAC5(2,J)
                           N3=FAC5(3,J)
                           N4=FAC5(4,J)
-						ENDIF
+          ENDIF
                      ELSEIF (NTYPE==1) THEN
                         IQUAD=1
                         N1=FAC(1,J)
                         N2=FAC(2,J)
                         N3=FAC(3,J)
                         N4=FAC(4,J)
-                     ENDIF						  
+                     ENDIF              
 C
                      IF(IQUAD==0) THEN
 C Face=triangle
@@ -1691,7 +1691,7 @@ C
                         NNP=NNP+1
                         POLH_F(2+NNP,NPOLH+I)=NPOLY
                      ELSEIF(IQUAD==1) THEN
-C Face=quadrangle					 
+C Face=quadrangle           
                         NN1=IXS(1+N1,II)
                         NN2=IXS(1+N2,II)
                         NN3=IXS(1+N3,II)

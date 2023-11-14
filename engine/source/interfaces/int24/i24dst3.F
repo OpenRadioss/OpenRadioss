@@ -3346,7 +3346,7 @@ C-----Correction due to difference between starter/engine
 #include "lockoff.inc"
          ENDIF
         ENDDO
-C-------zero force for all first contact		
+C-------zero force for all first contact
        ELSE
         DO I=1,JLT
          IF(PENE(I) == ZERO)CYCLE

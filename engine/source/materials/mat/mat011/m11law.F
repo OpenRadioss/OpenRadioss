@@ -176,7 +176,7 @@ C=======================================================================
             MASS   = RHO(I) * VOL(I)
             VxN(I) = MOM(I,1) / MASS
             VyN(I) = MOM(I,2) / MASS
-            VzN(I) = MOM(I,3) / MASS			
+            VzN(I) = MOM(I,3) / MASS
           ENDDO          
         ENDIF
       ELSE
@@ -251,7 +251,7 @@ C=======================================================================
             VzV(I)  = MOM(I,3)/MASS 
             XmomV(I)= MOM(I,1)
             YmomV(I)= MOM(I,2)
-            ZmomV(I)= MOM(I,3)  			     
+            ZmomV(I)= MOM(I,3)             
           ENDIF
         ENDIF
 
@@ -367,7 +367,7 @@ C        LIQUIDE
          IF(ALEFVM_Param%IEnabled==1)THEN
            MOM(I,1)   = XmomN
            MOM(I,2)   = YmomN
-           MOM(I,3)   = ZmomN			    
+           MOM(I,3)   = ZmomN          
          ENDIF
          
         !-------------------------------------------!
@@ -383,7 +383,7 @@ C        LIQUIDE
          IF(ALEFVM_Param%IEnabled==1)THEN
            MOM(I,1) = XmomN
            MOM(I,2) = YmomN
-           MOM(I,3) = ZmomN		    
+           MOM(I,3) = ZmomN        
          ENDIF         
 C
          IF(TT>ZERO)THEN

@@ -83,48 +83,48 @@ C-----------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------
 c     LGAUGE(3,*)
-c 1:  -Isolid				   -(NUMELS_G+1) if SPH gauge
+c 1:  -Isolid           -(NUMELS_G+1) if SPH gauge
 c 2:  GaugeId
 c 3:  +Node or -Shell
 c
 c     => GAUGE(LLGAUGE,*), LLGAUGE = 37
-c 1:  Dist (distance from Shell)	   Dist (distance from Shell)
-c 2:  XG				   XG
-c 3:  YG				   YG
-c 4:  ZG				   ZG
-c 5:  Alpha (Solid penetration ratio)	   not yet used
-c 6:    				   XSAV (SPH sorting)
-c 7:    				   YSAV (SPH sorting)
-c 8:    				   ZSAV (SPH sorting)
-c 9:    				   FF (sph only)
-c 10:   				   intantaneous Pressure
-c 11:   				   intantaneous PA
-c 12:   				   intantaneous Rho
-c 13:   				   intantaneous E
-c 14:   				   ! Butterworth !
-c 15:   				   ! Butterworth !
-c 16:   				   ! Butterworth !
-c 17:   				   ! Butterworth !
-c 18:   				   ! Butterworth !
-c 19:   				   ! Butterworth !
-c 20:   			         ! Butterworth !
-c 21: 				   ! Butterworth !
-c 22: 				   ! Butterworth !
-c 23: 				   ! Butterworth !  
-c 24:   				   ! Butterworth !
-c 25:   				   ! Butterworth !
-c 26:   				   ! Butterworth !
-c 27:   				   ! Butterworth !
-c 28:   				   ! Butterworth !
-c 29:   				   ! Butterworth !
-c 30:  Pressure      		  	   filtered Pressure
-c 31:  PA            			   filtered PA
-c 32:  Rho           			   filtered Rho
-c 33:  E             			   filtered E	     
-c 34:   				   ! Xpoint      !
-c 35:   				   ! Ypoint      !
-c 36:   				   ! Zpoint      !
-c 37:   				   ! Butterworth !
+c 1:  Dist (distance from Shell)     Dist (distance from Shell)
+c 2:  XG           XG
+c 3:  YG           YG
+c 4:  ZG           ZG
+c 5:  Alpha (Solid penetration ratio)     not yet used
+c 6:               XSAV (SPH sorting)
+c 7:               YSAV (SPH sorting)
+c 8:               ZSAV (SPH sorting)
+c 9:               FF (sph only)
+c 10:              intantaneous Pressure
+c 11:              intantaneous PA
+c 12:              intantaneous Rho
+c 13:              intantaneous E
+c 14:              ! Butterworth !
+c 15:              ! Butterworth !
+c 16:              ! Butterworth !
+c 17:              ! Butterworth !
+c 18:              ! Butterworth !
+c 19:              ! Butterworth !
+c 20:                  ! Butterworth !
+c 21:            ! Butterworth !
+c 22:            ! Butterworth !
+c 23:            ! Butterworth !  
+c 24:              ! Butterworth !
+c 25:              ! Butterworth !
+c 26:              ! Butterworth !
+c 27:              ! Butterworth !
+c 28:              ! Butterworth !
+c 29:              ! Butterworth !
+c 30:  Pressure                 filtered Pressure
+c 31:  PA                     filtered PA
+c 32:  Rho                    filtered Rho
+c 33:  E                      filtered E       
+c 34:              ! Xpoint      !
+c 35:              ! Ypoint      !
+c 36:              ! Zpoint      !
+c 37:              ! Butterworth !
 C-----------------------------------------------
 
 C-----------------------------------------------
@@ -563,48 +563,48 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 c     LGAUGE(3,*)
-c 1:  -Isolid				   -(NUMELS_G+1) if SPH gauge
+c 1:  -Isolid           -(NUMELS_G+1) if SPH gauge
 c 2:  GaugeId
 c 3:  +Node or -Shell
 c
 c     => GAUGE(LLGAUGE,*), LLGAUGE = 37
-c 1:  Dist (distance from Shell)	   Dist (distance from Shell)
-c 2:  XG				   XG
-c 3:  YG				   YG
-c 4:  ZG				   ZG
-c 5:  Alpha (Solid penetration ratio)	   not yet used
-c 6:    				   XSAV (SPH sorting)
-c 7:    				   YSAV (SPH sorting)
-c 8:    				   ZSAV (SPH sorting)
-c 9:    				   FF (sph only)
-c 10:   				   intantaneous Pressure
-c 11:   				   intantaneous PA
-c 12:   				   intantaneous Rho
-c 13:   				   intantaneous E
-c 14:   				   ! Butterworth !
-c 15:   				   ! Butterworth !
-c 16:   				   ! Butterworth !
-c 17:   				   ! Butterworth !
-c 18:   				   ! Butterworth !
-c 19:   				   ! Butterworth !
-c 20:   			         ! Butterworth !
-c 21: 				   ! Butterworth !
-c 22: 				   ! Butterworth !
-c 23: 				   ! Butterworth !  
-c 24:   				   ! Butterworth !
-c 25:   				   ! Butterworth !
-c 26:   				   ! Butterworth !
-c 27:   				   ! Butterworth !
-c 28:   				   ! Butterworth !
-c 29:   				   ! Butterworth !
-c 30:  Pressure      		  	   filtered Pressure
-c 31:  PA            			   filtered PA
-c 32:  Rho           			   filtered Rho
-c 33:  E             			   filtered E	     
-c 34:   				   ! Xpoint      !
-c 35:   				   ! Ypoint      !
-c 36:   				   ! Zpoint      !
-c 37:   				   ! Butterworth !
+c 1:  Dist (distance from Shell)     Dist (distance from Shell)
+c 2:  XG           XG
+c 3:  YG           YG
+c 4:  ZG           ZG
+c 5:  Alpha (Solid penetration ratio)     not yet used
+c 6:               XSAV (SPH sorting)
+c 7:               YSAV (SPH sorting)
+c 8:               ZSAV (SPH sorting)
+c 9:               FF (sph only)
+c 10:              intantaneous Pressure
+c 11:              intantaneous PA
+c 12:              intantaneous Rho
+c 13:              intantaneous E
+c 14:              ! Butterworth !
+c 15:              ! Butterworth !
+c 16:              ! Butterworth !
+c 17:              ! Butterworth !
+c 18:              ! Butterworth !
+c 19:              ! Butterworth !
+c 20:                  ! Butterworth !
+c 21:            ! Butterworth !
+c 22:            ! Butterworth !
+c 23:            ! Butterworth !  
+c 24:              ! Butterworth !
+c 25:              ! Butterworth !
+c 26:              ! Butterworth !
+c 27:              ! Butterworth !
+c 28:              ! Butterworth !
+c 29:              ! Butterworth !
+c 30:  Pressure                 filtered Pressure
+c 31:  PA                     filtered PA
+c 32:  Rho                    filtered Rho
+c 33:  E                      filtered E       
+c 34:              ! Xpoint      !
+c 35:              ! Ypoint      !
+c 36:              ! Zpoint      !
+c 37:              ! Butterworth !
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

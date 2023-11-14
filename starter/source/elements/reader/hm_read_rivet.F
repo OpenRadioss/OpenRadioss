@@ -204,7 +204,7 @@ C-------------------------------------
         ENDDO
         IF (IF1==0) THEN
           CALL IFRONTPLUS(IXRI(2,J),1)
-          CALL IFRONTPLUS(IXRI(3,J),1)	  
+          CALL IFRONTPLUS(IXRI(3,J),1)    
         ENDIF      
       ENDDO
       CALL RIVET0(V,VR,MS,IN,IXRI,RIVET,GEO,ITAB,IKINE)

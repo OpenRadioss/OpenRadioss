@@ -77,7 +77,7 @@ C-----------------------------------------------
       ITAG(1:NUMNOD)=0
       IF(IPARIT==0)THEN
        DO NI=1,NBINTC
-	 NIN = INTLIST(NI)
+           NIN = INTLIST(NI)
          NTY   = IPARI(7,NIN)
          NSN   = IPARI(5,NIN)
          NRTS  = IPARI(3,NIN)
@@ -229,7 +229,7 @@ C
       ELSE !IPARIT
 
        DO NI=1,NBINTC
-	 NIN = INTLIST(NI)
+           NIN = INTLIST(NI)
          NTY   = IPARI(7,NIN)
          NSN   = IPARI(5,NIN)
          NRTS  = IPARI(3,NIN)

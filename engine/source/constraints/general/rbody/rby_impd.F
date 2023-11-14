@@ -390,7 +390,7 @@ C---determine iteration num.
         XS=X(1,N)-X(1,M)
         YS=X(2,N)-X(2,M)
         ZS=X(3,N)-X(3,M)
-	LSM(I) = XS*XS+YS*YS+ZS*ZS
+          LSM(I) = XS*XS+YS*YS+ZS*ZS
         LMAX = MAX(LMAX,LSM(I))
        ENDDO
        NP = RMAX*SQRT(LMAX)*FIFTY
@@ -453,8 +453,8 @@ C
          XS=X(1,N)-X(1,M)+D(1,N)-D(1,M)
          YS=X(2,N)-X(2,M)+D(2,N)-D(2,M)
          ZS=X(3,N)-X(3,M)+D(3,N)-D(3,M)
-	 LSM1 =XS*XS+YS*YS+ZS*ZS
-	 A = SQRT(LSM(I)/LSM1)-ONE
+           LSM1 =XS*XS+YS*YS+ZS*ZS
+           A = SQRT(LSM(I)/LSM1)-ONE
          D(1,N)=D(1,N)+A*XS
          D(2,N)=D(2,N)+A*YS
          D(3,N)=D(3,N)+A*ZS

@@ -88,7 +88,7 @@ C
        HZ4PG2(I)=HZ(I,4)*PG2
       ENDDO
       IP=1
-C - - -	  
+C - - -    
       DO I=1,NEL
        AJ1(I,IP)=CJ1(I)-HX3PG(I)-HX2PG(I)+HX4PG2(I)
        AJ2(I,IP)=CJ2(I)-HY3PG(I)-HY2PG(I)+HY4PG2(I)
@@ -102,8 +102,8 @@ C
        AJ8(I,IP)=CJ8(I)-HY2PG(I)-HY1PG(I)+HY4PG2(I)
        AJ9(I,IP)=CJ9(I)-HZ2PG(I)-HZ1PG(I)+HZ4PG2(I)
       ENDDO
-      IP=2	  
-C + - -	  
+      IP=2    
+C + - -    
       DO I=1,NEL
        AJ1(I,IP)=CJ1(I)-HX3PG(I)-HX2PG(I)+HX4PG2(I)
        AJ2(I,IP)=CJ2(I)-HY3PG(I)-HY2PG(I)+HY4PG2(I)
@@ -117,8 +117,8 @@ C
        AJ8(I,IP)=CJ8(I)+HY2PG(I)-HY1PG(I)-HY4PG2(I)
        AJ9(I,IP)=CJ9(I)+HZ2PG(I)-HZ1PG(I)-HZ4PG2(I)
       ENDDO
-      IP=3	  
-C - + -	  
+      IP=3    
+C - + -    
       DO I=1,NEL
        AJ1(I,IP)=CJ1(I)+HX3PG(I)-HX2PG(I)-HX4PG2(I)
        AJ2(I,IP)=CJ2(I)+HY3PG(I)-HY2PG(I)-HY4PG2(I)
@@ -132,8 +132,8 @@ C
        AJ8(I,IP)=CJ8(I)-HY2PG(I)+HY1PG(I)-HY4PG2(I)
        AJ9(I,IP)=CJ9(I)-HZ2PG(I)+HZ1PG(I)-HZ4PG2(I)
       ENDDO
-      IP=4	  
-C + + -	  
+      IP=4    
+C + + -    
       DO I=1,NEL
        AJ1(I,IP)=CJ1(I)+HX3PG(I)-HX2PG(I)-HX4PG2(I)
        AJ2(I,IP)=CJ2(I)+HY3PG(I)-HY2PG(I)-HY4PG2(I)
@@ -147,8 +147,8 @@ C
        AJ8(I,IP)=CJ8(I)+HY2PG(I)+HY1PG(I)+HY4PG2(I)
        AJ9(I,IP)=CJ9(I)+HZ2PG(I)+HZ1PG(I)+HZ4PG2(I)
       ENDDO
-      IP=5	  
-C - - +	  
+      IP=5    
+C - - +    
       DO I=1,NEL
        AJ1(I,IP)=CJ1(I)-HX3PG(I)+HX2PG(I)-HX4PG2(I)
        AJ2(I,IP)=CJ2(I)-HY3PG(I)+HY2PG(I)-HY4PG2(I)
@@ -162,8 +162,8 @@ C
        AJ8(I,IP)=CJ8(I)-HY2PG(I)-HY1PG(I)+HY4PG2(I)
        AJ9(I,IP)=CJ9(I)-HZ2PG(I)-HZ1PG(I)+HZ4PG2(I)
       ENDDO
-      IP=6	  
-C + - +	  
+      IP=6    
+C + - +    
       DO I=1,NEL
        AJ1(I,IP)=CJ1(I)-HX3PG(I)+HX2PG(I)-HX4PG2(I)
        AJ2(I,IP)=CJ2(I)-HY3PG(I)+HY2PG(I)-HY4PG2(I)
@@ -177,8 +177,8 @@ C
        AJ8(I,IP)=CJ8(I)+HY2PG(I)-HY1PG(I)-HY4PG2(I)
        AJ9(I,IP)=CJ9(I)+HZ2PG(I)-HZ1PG(I)-HZ4PG2(I)
       ENDDO
-      IP=7	  
-C - + +	  
+      IP=7    
+C - + +    
       DO I=1,NEL
        AJ1(I,IP)=CJ1(I)+HX3PG(I)+HX2PG(I)+HX4PG2(I)
        AJ2(I,IP)=CJ2(I)+HY3PG(I)+HY2PG(I)+HY4PG2(I)
@@ -192,8 +192,8 @@ C
        AJ8(I,IP)=CJ8(I)-HY2PG(I)+HY1PG(I)-HY4PG2(I)
        AJ9(I,IP)=CJ9(I)-HZ2PG(I)+HZ1PG(I)-HZ4PG2(I)
       ENDDO
-      IP=8	  
-C + + +	  
+      IP=8    
+C + + +    
       DO I=1,NEL
        AJ1(I,IP)=CJ1(I)+HX3PG(I)+HX2PG(I)+HX4PG2(I)
        AJ2(I,IP)=CJ2(I)+HY3PG(I)+HY2PG(I)+HY4PG2(I)

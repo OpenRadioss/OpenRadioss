@@ -276,7 +276,7 @@ c---------6 x2 +1(eps) for MPT=0
               IF (MPT == 0) THEN  ! global integration
                 IF (MLW == 0 .or. MLW == 13) THEN
                   DO IPG=1,NPG 
-                    DO J=1,13        ! forces and moments           	
+                    DO J=1,13        ! forces and moments           
                       JJ = JJ + 1
                       WA(JJ) = ZERO
                     ENDDO                                                               
@@ -298,7 +298,7 @@ c
 c
                   JJ = JJ + 1                                      
                   IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
+              WA(JJ) = GBUF%PLA(I)       
                   ELSE                         
                     WA(JJ) = ZERO              
                   ENDIF                        
@@ -318,7 +318,7 @@ C
 c
                       JJ = JJ + 1
                       IF (GBUF%G_PLA > 0) THEN    
-            	        WA(JJ) = LBUF%PLA(I)
+                  WA(JJ) = LBUF%PLA(I)
                       ELSE                         
                         WA(JJ) = ZERO              
                       ENDIF                        
@@ -365,15 +365,15 @@ C           (MPT >0 ):
                         END DO
                         JJ = JJ + 1
                         IF (BUFLY%L_PLA > 0) THEN
-            	          WA(JJ) = LBUF%PLA(I)
+                    WA(JJ) = LBUF%PLA(I)
                         ELSE
                           WA(JJ) = ZERO
                         ENDIF
                         JJ    = JJ + 1
                         WA(JJ) = POSLY(I,IPT)*TWO
                       ENDDO
-                    ENDDO	    
-                  ENDDO	    
+                    ENDDO      
+                  ENDDO      
                   IPT_ALL = IPT_ALL + NPTT
                 ENDDO
               ENDIF    ! MPT, NLAY
@@ -402,7 +402,7 @@ c---------
                   ENDDO               
                 ELSE
                   DO IPG=1,NPG
-              	   DO J=1,8         
+             DO J=1,8         
                      JJ = JJ + 1      
                      WA(JJ) = ZERO
                    ENDDO                                                               
@@ -426,19 +426,19 @@ c
               IF (MPT == 0 .and. MLW /= 0 .and. MLW /= 13) THEN
                 DO IPG=1,NPG
                   TENS(1:2) = GBUF%FOR(KK(1:2)+I)
-     .	    	             + ST(1:2)*QPG(2,IPG)+SK(1:2)*QPG(1,IPG)
+     .                     + ST(1:2)*QPG(2,IPG)+SK(1:2)*QPG(1,IPG)
                   TENS(3) = GBUF%FOR(KK(3)+I)
                   TENS(4) = GBUF%FOR(KK(4)+I)
-     .	    	           + SHT(2)*QPG(2,IPG)+SHK(2)*QPG(1,IPG)
+     .                   + SHT(2)*QPG(2,IPG)+SHK(2)*QPG(1,IPG)
                   TENS(5) = GBUF%FOR(KK(5)+I)
-     .	    	           + SHT(1)*QPG(2,IPG)+SHK(1)*QPG(1,IPG)
+     .                   + SHT(1)*QPG(2,IPG)+SHK(1)*QPG(1,IPG)
                   CALL SHELL2G(TENS,QT(1,I))
                   DO J =1,6
                    JJ = JJ + 1                                      
                    WA(JJ) = TENS(J)             
                   END DO
                   TENS(1:2) = GBUF%MOM(KK(1:2)+I)
-     .	    	            + MT(1:2)*QPG(2,IPG)+MK(1:2)*QPG(1,IPG)
+     .                    + MT(1:2)*QPG(2,IPG)+MK(1:2)*QPG(1,IPG)
                   TENS(3) = GBUF%MOM(KK(3)+I)
                   CALL SHEML2G(TENS,QT(1,I))
                   DO J =1,6
@@ -448,7 +448,7 @@ c
 c
                   JJ = JJ + 1                                      
                   IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
+              WA(JJ) = GBUF%PLA(I)       
                   ELSE                         
                     WA(JJ) = ZERO              
                   ENDIF                        
@@ -472,9 +472,9 @@ c
      .                           + (SK(1:2)+ZZ*MK(1:2))*QPG(1,IPG)              
                       TENS(3) = LBUF%SIG(KK(3)+I)
                       TENS(4) = LBUF%SIG(KK(4)+I)
-     .	    	               + SHT(2)*QPG(2,IPG)+SHK(2)*QPG(1,IPG)
+     .                       + SHT(2)*QPG(2,IPG)+SHK(2)*QPG(1,IPG)
                       TENS(5) = LBUF%SIG(KK(5)+I)
-     .	    	               + SHT(1)*QPG(2,IPG)+SHK(1)*QPG(1,IPG)
+     .                       + SHT(1)*QPG(2,IPG)+SHK(1)*QPG(1,IPG)
                       CALL ORTH2LOC(TENS,DIR_A,DIR_B,II,ILAW,IGTYP,NEL)
                       CALL SHELL2G(TENS,QT(1,I))
                       DO J =1,6
@@ -483,7 +483,7 @@ c
                       END DO
                       JJ = JJ + 1                                      
                       IF (L_PLA > 0) THEN    
-            	        WA(JJ) = LBUF%PLA(I)       
+                  WA(JJ) = LBUF%PLA(I)       
                       ELSE                         
                         WA(JJ) = ZERO              
                       ENDIF                        
@@ -802,7 +802,7 @@ c
 c
                   JJ = JJ + 1                                      
                   IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
+              WA(JJ) = GBUF%PLA(I)       
                   ELSE                         
                     WA(JJ) = ZERO              
                   ENDIF                        
@@ -822,7 +822,7 @@ C
 c
                       JJ = JJ + 1
                       IF (GBUF%G_PLA > 0) THEN    
-            	        WA(JJ) = LBUF%PLA(I)
+                  WA(JJ) = LBUF%PLA(I)
                       ELSE                         
                         WA(JJ) = ZERO              
                       ENDIF                        
@@ -868,14 +868,14 @@ c
                       END DO
                       JJ = JJ + 1
                       IF (BUFLY%L_PLA > 0) THEN
-            	        WA(JJ) = LBUF%PLA(I)
+                  WA(JJ) = LBUF%PLA(I)
                       ELSE
                         WA(JJ) = ZERO
                       ENDIF
                       JJ    = JJ + 1
                       WA(JJ) = POSLY(I,IPT)*TWO
-                    ENDDO !IPG=1,NPG	    
-                  ENDDO	    
+                    ENDDO !IPG=1,NPG      
+                  ENDDO      
                   IPT_ALL = IPT_ALL + NPTT
                 ENDDO
               ENDIF  !  IF (MLW == 0 .or. MLW == 13)

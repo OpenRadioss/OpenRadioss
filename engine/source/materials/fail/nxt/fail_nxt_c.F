@@ -189,7 +189,7 @@ c-----------------------
             FOFF(I) = 0
             TDEL(I) = TIME
           ENDIF
-	       ENDIF
+                 ENDIF
       ENDDO
 c-----------------------
       IF (NINDX > 0) THEN

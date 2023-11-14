@@ -263,7 +263,7 @@ C----------------------------
           RLX(I,3)=ZERO
           RLY(I,1)=ZERO
           RLY(I,2)=ZERO
-          RLY(I,3)=ZERO	  
+          RLY(I,3)=ZERO    
          ENDIF
         ENDDO
       ENDIF

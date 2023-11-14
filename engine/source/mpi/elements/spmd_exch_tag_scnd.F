@@ -79,11 +79,11 @@ C--------------------------------------------------------------------
       DO I=1,NSPMD
        DO J=IAD_CNDS(I),IAD_CNDS(I+1)-1
         NOD =  FR_CNDS(J)
-	IF (IABS(ITAGND(NOD))>NS10E) THEN
+          IF (IABS(ITAGND(NOD))>NS10E) THEN
          SBUF(J) = 1
-	ELSE
+          ELSE
          SBUF(J) = 0
-	END IF
+          END IF
        ENDDO
       ENDDO
 C

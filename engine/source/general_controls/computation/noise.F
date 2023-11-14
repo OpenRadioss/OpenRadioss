@@ -173,7 +173,7 @@ C
       IF(IMACH==3.AND.ISPMD/=0) THEN
         DO I=1,6*NNOISE
           DO L=1,NCNOIS
-            BUF(L,I)=ZERO	 
+            BUF(L,I)=ZERO   
           ENDDO
         ENDDO
       ENDIF
@@ -190,13 +190,13 @@ C
             IF(NOISEV/=0)THEN
              BUF(1,KK)=BUF(1,KK)+CC *V(1,IN(I))
              BUF(2,KK)=BUF(2,KK)+CC *V(2,IN(I))
-	            BUF(3,KK)=BUF(3,KK)+CC *V(3,IN(I))
+                      BUF(3,KK)=BUF(3,KK)+CC *V(3,IN(I))
             ENDIF
             IF(NOISEA/=0)THEN
              IAD=3*NOISEV
              BUF(IAD+1,KK)=BUF(IAD+1,KK)+CC *A(1,IN(I))
              BUF(IAD+2,KK)=BUF(IAD+2,KK)+CC *A(2,IN(I))
-	            BUF(IAD+3,KK)=BUF(IAD+3,KK)+CC *A(3,IN(I))
+                      BUF(IAD+3,KK)=BUF(IAD+3,KK)+CC *A(3,IN(I))
             ENDIF
            ENDIF
           END IF

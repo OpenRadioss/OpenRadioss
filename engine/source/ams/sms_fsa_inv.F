@@ -276,7 +276,7 @@ C----------------------
       CALL MY_BARRIER
 C---------------------
       CALL SMS_FSA_INVH(NNZM   ,JADM  ,JDIM2 , DIAG_M, LT_M2, 
-     1  	        NNDFT0,NNDFT1,ITASK  ,DIAG_INV)
+     1            NNDFT0,NNDFT1,ITASK  ,DIAG_INV)
 C----------------------
       CALL MY_BARRIER
 C---------------------
@@ -322,7 +322,7 @@ C--------------------------------------------
      .' **  WARNING : RADIOSS DETECTED A SEVERE ISSUE',/
      .'     PLEASE CHECK THE MODEL, ESPECIALLY KINEMATIC CONDITIONS',/
      .'     ISSUE MAY OCCUR NEARBY OR ON ENTITY LINKED ',/
-     .' 				   TO NODE ID =',I10/
+     .'            TO NODE ID =',I10/
      .'     (MINIMUM DIAGONAL TERM OF FSAI = ',1PG20.14,')')
  4001 FORMAT(' **  INFO : COULD NOT IDENTIFY THE ISSUE')
       RETURN
@@ -342,7 +342,7 @@ Chd|        SP_STAT0                      source/implicit/imp_fsa_inv.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SMS_FSA_INVH(NNZM   ,IADM  ,JDIM  , DIAG_M, LT_M, 
-     1  	              NNDFT0 ,NNDFT1,ITASK ,DIAG_INV)
+     1                  NNDFT0 ,NNDFT1,ITASK ,DIAG_INV)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -532,8 +532,8 @@ C------X(I)=ZERO--------
        DIAG_M(I)=ONE/MAX(EM20,DIAG_K(I))
       ENDDO 
       CALL MAV_LT(
-     1  	 NDDL  ,IBID  ,IADK  ,JDIK  ,DIAG_K,   
-     2  	 LT_K  ,X     ,Z     )
+     1     NDDL  ,IBID  ,IADK  ,JDIK  ,DIAG_K,   
+     2     LT_K  ,X     ,Z     )
       DO I=1,NDDL
        R(I) = R(I)-Z(I)
       ENDDO 
@@ -545,8 +545,8 @@ C------X(I)=ZERO--------
       ENDDO 
       CALL PRODUT_V0(NDDL,R,Z,G0)
       CALL MAV_LT(
-     1  	 NDDL  ,IBID ,IADK  ,JDIK  ,DIAG_K,   
-     2  	 LT_K  ,P     ,Y     )
+     1     NDDL  ,IBID ,IADK  ,JDIK  ,DIAG_K,   
+     2     LT_K  ,P     ,Y     )
       CALL PRODUT_V0(NDDL,P,Y,S)
       ALPHA = G0/S
       TOLS2=TOLS*TOLS

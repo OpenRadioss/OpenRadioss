@@ -283,22 +283,22 @@ C------max of Cii :
            ENDIF
          ENDDO
          DO II = 2,NORDRE
-		   IF (D(II)==ZERO) CYCLE
-		   PP = 2*II*(2*II-1)/D(II)
-		   JJ = 2*II - 2
+             IF (D(II)==ZERO) CYCLE
+             PP = 2*II*(2*II-1)/D(II)
+             JJ = 2*II - 2
            DO I=1,NEL
-		    IF (ABS(RV(I)- ONE)<EM20) CYCLE
+              IF (ABS(RV(I)- ONE)<EM20) CYCLE
             RKMAX(I) = RKMAX(I) + PP * (RV(I)- ONE)**JJ
            ENDDO
          ENDDO
-C------GT=3/4 Cii (factor 1/2*1/3 already inside CII)		  
+C------GT=3/4 Cii (factor 1/2*1/3 already inside CII)      
          DO I=1,NEL
            AMAX= HALF*MAX(CII(I,1),CII(I,2),CII(I,3))/GMAX
-C---------reduce old result change		   
+C---------reduce old result change       
            ETI = MAX(ONE,AMAX*0.81) 
            GTMAX(I) = GMAX*ETI 
            RKMAX(I) = MAX(RBULK,RKMAX(I))
-C---- 		   
+C----        
            ET(I)= MAX(ONE,AMAX)
          ENDDO
 C cauchy to glabale

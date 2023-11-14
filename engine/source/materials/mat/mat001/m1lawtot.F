@@ -256,7 +256,7 @@ C--------switch to Ismstr11
               END DO
             END IF!(IPRES==1)THEN 
           ELSE
-		   IF (ISELECT>0) THEN
+             IF (ISELECT>0) THEN
             DO I=1,NEL
               IF (OFFG0(I)>ONE) THEN
                NSM = NSM +1

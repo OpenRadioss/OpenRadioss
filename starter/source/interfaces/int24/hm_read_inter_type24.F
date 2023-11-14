@@ -9,7 +9,7 @@ Copyright>
 Copyright>        This program is distributed in the hope that it will be useful,
 Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
 Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-Copyright>        GNU Affero General Public License for more details
+Copyright>        GNU Affero General Public License for more details.
 Copyright>
 Copyright>        You should have received a copy of the GNU Affero General Public License
 Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
@@ -404,7 +404,7 @@ c             CALL ANCWAR(119,ANINFO)
         END SELECT
         INGR2USR => IGRNOD(1:NGRNOD)%ID
         IF(NOD1 /= 0) NOD1=NGR2USR(NOD1,INGR2USR,NGRNOD)
-C------only IEDGE=5 or 	IEDGE=0 
+C------only IEDGE=5 or   IEDGE=0 
         IF (IEDGE>0) IEDGE=5
         IF (IEDGE==4.OR.IEDGE==5) THEN
           IPARI(59)=IEDGE-3

@@ -400,7 +400,7 @@ C-----Press-fit
          NCY_PFIT = IPARI(40,NIN)
          IF (NCY_PFIT >0 .AND. NCYCLE> NCY_PFIT) THEN
            SET_IPARI40_TO_ZERO = .TRUE.
-  		   ELSEIF (NCY_PFIT>0) THEN
+             ELSEIF (NCY_PFIT>0) THEN
            FINC = ONE/IPARI(40,NIN)
            TNCY = (NCYCLE+1)*FINC
          END IF
@@ -494,7 +494,7 @@ C
 
 C-----------------------------------------------------------------------
       CALL MY_BARRIER
-	    IF (INACTI/=-1 .OR. SET_IPARI40_TO_ZERO) THEN
+              IF (INACTI/=-1 .OR. SET_IPARI40_TO_ZERO) THEN
 !$OMP SINGLE
          IPARI(40,NIN) = 0 
 !$OMP END SINGLE

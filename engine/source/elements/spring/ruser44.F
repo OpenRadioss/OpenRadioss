@@ -287,7 +287,7 @@ C=======================================================================
         MY1(I) = -YMOM(I)+HALF*XL(I)*FZ(I)
         MY2(I) =  YMOM(I)+HALF*XL(I)*FZ(I)
         MZ1(I) = -ZMOM(I)-HALF*XL(I)*FY(I)
-        MZ2(I) =  ZMOM(I)-HALF*XL(I)*FY(I)	  
+        MZ2(I) =  ZMOM(I)-HALF*XL(I)*FY(I)    
 C
         LENG = MAX(XL(I),EM20)
         LENG2 = LENG*LENG

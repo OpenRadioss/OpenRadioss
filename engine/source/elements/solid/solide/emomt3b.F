@@ -279,7 +279,7 @@ C
         F35(I) = F35(I) - (ONE+A5(I))*F3(I)*VOLGP(5,I)
         F36(I) = F36(I) - (ONE+A6(I))*F3(I)*VOLGP(6,I)
         F37(I) = F37(I) - (ONE+A7(I))*F3(I)*VOLGP(7,I)
-        F38(I) = F38(I) - (ONE+A8(I))*F3(I)*VOLGP(8,I)	
+        F38(I) = F38(I) - (ONE+A8(I))*F3(I)*VOLGP(8,I)
        ENDDO
 C
       RETURN

@@ -239,9 +239,9 @@ C-----------------------------------------------
           
           DO I=LFT,LLT
             II          = I+NFT
-            MOM(I,1)	= Vx*RHO(I)
-            MOM(I,2)	= Vy*RHO(I)
-            MOM(I,3)	= Vz*RHO(I)		    
+            MOM(I,1)  = Vx*RHO(I)
+            MOM(I,2)  = Vy*RHO(I)
+            MOM(I,3)  = Vz*RHO(I)        
             ALEFVM_Buffer%FCELL(1,II) = MOM(I,1)
             ALEFVM_Buffer%FCELL(2,II) = MOM(I,2)
             ALEFVM_Buffer%FCELL(3,II) = MOM(I,3)  
@@ -256,9 +256,9 @@ C-----------------------------------------------
           Vz=ZERO
           DO I=LFT,LLT
             II          = I+NFT
-            MOM(I,1)	= Vx*RHO(I)
-            MOM(I,2)	= Vy*RHO(I)
-            MOM(I,3)	= Vz*RHO(I)		    
+            MOM(I,1)  = Vx*RHO(I)
+            MOM(I,2)  = Vy*RHO(I)
+            MOM(I,3)  = Vz*RHO(I)        
             ALEFVM_Buffer%FCELL(1,II) = MOM(I,1)
             ALEFVM_Buffer%FCELL(2,II) = MOM(I,2)
             ALEFVM_Buffer%FCELL(3,II) = MOM(I,3)  

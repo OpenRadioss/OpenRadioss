@@ -68,48 +68,48 @@ C----------------------------------------------------------
 C      
       DO NG=1,NGROUP
         ITYP = IPARG(5,NG)
-	NEL = IPARG(2,NG)
-	NFT = IPARG(3,NG) 
-	JFT = 1
-	JLT = MIN(NVSIZ,NEL)  
+          NEL = IPARG(2,NG)
+          NFT = IPARG(3,NG) 
+          JFT = 1
+          JLT = MIN(NVSIZ,NEL)  
         GBUF => ELBUF_TAB(NG)%GBUF
-	IF (ITYP == 6) THEN
+          IF (ITYP == 6) THEN
 C
 C--------> Boucle sur les elements ressort -------
           DO I=JFT,JLT
-	    J = I + NFT	  
+              J = I + NFT    
             IG = IPART(2,IPARTR(J))
             IGTYP =  IGEO(11,IG)
-	    NUVAR =  NINT(GEO(25,IG))
+              NUVAR =  NINT(GEO(25,IG))
             NV = NUVAR*(I-1) + 1
             IF (IGTYP==45) THEN    
-C	         
-C--------> Calcul pas de temps nodal RB1 -------	   	  
-	      IRB = NINT(GBUF%VAR(NV + 37))
+C           
+C--------> Calcul pas de temps nodal RB1 -------         
+                IRB = NINT(GBUF%VAR(NV + 37))
               IF (IRB > 0) THEN
-	        M1 = NPBY(1,IRB)
+                  M1 = NPBY(1,IRB)
               ELSE
                 M1 = IXR(2,J)
               ENDIF 
-	      DTRB1 = DTFAC1(11)*SQRT(TWO*MS(M1)/MAX(EM20,STIFN(M1)))
+                DTRB1 = DTFAC1(11)*SQRT(TWO*MS(M1)/MAX(EM20,STIFN(M1)))
               IF (IN(M1) > 0) THEN
-	        DTRB1 = MIN(DTRB1,DTFAC1(11)*SQRT(TWO*IN(M1)/MAX(EM20,STIFR(M1))))
-              ENDIF     	      	    	    	    
+                  DTRB1 = MIN(DTRB1,DTFAC1(11)*SQRT(TWO*IN(M1)/MAX(EM20,STIFR(M1))))
+              ENDIF                               
 C
 C--------> Calcul pas de temps nodal RB2 ------- 
-	      IRB = NINT(GBUF%VAR(NV + 38))
+                IRB = NINT(GBUF%VAR(NV + 38))
               IF (IRB > 0) THEN
-	        M2 = NPBY(1,IRB)
+                  M2 = NPBY(1,IRB)
               ELSE
                 M2 = IXR(3,J)
-              ENDIF	    	    
-	      DTRB2 = DTFAC1(11)*SQRT(TWO*MS(M2)/MAX(EM20,STIFN(M2)))
+              ENDIF            
+                DTRB2 = DTFAC1(11)*SQRT(TWO*MS(M2)/MAX(EM20,STIFN(M2)))
               IF (IN(M2) > 0) THEN
-	        DTRB2 = MIN(DTRB2,DTFAC1(11)*SQRT(TWO*IN(M2)/MAX(EM20,STIFR(M2))))
+                  DTRB2 = MIN(DTRB2,DTFAC1(11)*SQRT(TWO*IN(M2)/MAX(EM20,STIFR(M2))))
               ENDIF
 C
 C--------> Calcul pas de temps du Joint ------- 
-	      DT = MIN(DTRB1,DTRB2)	      	      
+                DT = MIN(DTRB1,DTRB2)                
               IF(DT<DT2T) THEN
                 DT2T=DT
                 ITYPTST=11
@@ -119,11 +119,11 @@ C--------> Calcul pas de temps du Joint -------
                   NELTST = ITAB(M2)
                 ENDIF
               ENDIF
-	      	      
-            ENDIF	        	    	    	    	    	    	                                      
+                
+            ENDIF                                                                                
           ENDDO
-C	  
-        ENDIF	 
+C    
+        ENDIF   
       ENDDO             
 C      
       ENDIF

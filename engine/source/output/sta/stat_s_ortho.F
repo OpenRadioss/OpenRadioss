@@ -361,7 +361,7 @@ c
               ENDIF
             ENDIF
           ENDIF !IOFF
-        ENDDO		    
+        ENDDO        
       ENDIF
 c-----------
       RETURN

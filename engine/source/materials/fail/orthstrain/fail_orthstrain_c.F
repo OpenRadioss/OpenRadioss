@@ -239,14 +239,14 @@ c     Element size scale factor
 c
       IF (FSIZE(1)==ZERO) THEN
         IF (IFUNC_SIZ > 0) THEN
-	        ESCAL(1:NEL) = ALDT(1:NEL) / REF_SIZ
+                  ESCAL(1:NEL) = ALDT(1:NEL) / REF_SIZ
           IPOSP(1:NEL) = 0
           IADP (1:NEL) = NPF(IFUNC_SIZ) / 2 + 1
           ILENP(1:NEL) = NPF(IFUNC_SIZ  + 1) / 2 - IADP(1:NEL)
           CALL VINTER2(TF,IADP,IPOSP,ILENP,NEL,ESCAL,DYDXE,FSIZE)
           FSIZE(1:NEL) = FSCALE_SIZ * FSIZE(1:NEL)
         ELSE
-	        FSIZE(1:NEL) = ONE
+                  FSIZE(1:NEL) = ONE
         ENDIF
       ENDIF
 c
@@ -314,7 +314,7 @@ c
           ELSE
             FRATE = ONE
           ENDIF
-		      FRATE = FRATE*FSIZE(I)
+                FRATE = FRATE*FSIZE(I)
           ET1M = FRATE * ET1M
           ET1  = FRATE * ET1
           DEPS = EPS11(I) - ET1 
@@ -338,7 +338,7 @@ c
           ELSE
             FRATE = ONE
           ENDIF
-		        FRATE = FRATE*FSIZE(I)
+                  FRATE = FRATE*FSIZE(I)
           ET2M = FRATE * ET2M
           ET2  = FRATE * ET2
           DEPS = MAX(EPS22(I) - ET2, ZERO)
@@ -362,7 +362,7 @@ c
           ELSE
             FRATE = ONE
           ENDIF
-		        FRATE = FRATE*FSIZE(I)
+                  FRATE = FRATE*FSIZE(I)
           ET12M = FRATE * ET12M
           ET12  = FRATE * ET12
           DEPS  = MAX(EPS12(I) - ET12, ZERO)
@@ -386,7 +386,7 @@ c
           ELSE
             FRATE = ONE
           ENDIF
-		        FRATE = FRATE*FSIZE(I)
+                  FRATE = FRATE*FSIZE(I)
           EC1M = FRATE * EC1M
           EC1  = FRATE * EC1
           DEPS = -EPS11(I) - EC1
@@ -410,7 +410,7 @@ c
           ELSE
             FRATE = ONE
           ENDIF
-		        FRATE = FRATE*FSIZE(I)
+                  FRATE = FRATE*FSIZE(I)
           EC2M = FRATE * EC2M
           EC2  = FRATE * EC2
           DEPS = MAX(-EPS22(I) - EC2, ZERO)
@@ -434,7 +434,7 @@ c
           ELSE
             FRATE = ONE
           ENDIF
-		        FRATE = FRATE*FSIZE(I)
+                  FRATE = FRATE*FSIZE(I)
           EC12M = FRATE * EC12M
           EC12  = FRATE * EC12
           DEPS  = MAX(-EPS12(I) - EC12, ZERO)

@@ -1070,7 +1070,7 @@ c---
                     DO IT=1,NPTT
                       DO  I=1,NEL 
                         EVAR(I) = EVAR(I) + ABS(BUFLY%LBUF(1,1,IT)%PLA(I))/NPTT
-                      ENDDO			
+                      ENDDO
                     ENDDO
                   ENDIF ! npg
                  ENDIF ! BUFLY%L_PLA 
@@ -1474,8 +1474,8 @@ C
                           DIR1_1 = VR/SUMA                                        
                           DIR1_2 = VS/SUMA                                        
                         ELSE                                                      
-                          DIR1_1 = LBUF_DIR%DIRA(I)    			      
-                          DIR1_2 = LBUF_DIR%DIRA(I+NEL)			      
+                          DIR1_1 = LBUF_DIR%DIRA(I)                
+                          DIR1_2 = LBUF_DIR%DIRA(I+NEL)            
                         ENDIF                                       
 C
                         PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
@@ -1585,8 +1585,8 @@ C
                           DIR1_1 = VR/SUMA                                        
                           DIR1_2 = VS/SUMA                                        
                         ELSE                                                      
-                          DIR1_1 = BUFLY%DIRA(I)    			      
-                          DIR1_2 = BUFLY%DIRA(I+NEL)			      
+                          DIR1_1 = BUFLY%DIRA(I)                
+                          DIR1_2 = BUFLY%DIRA(I+NEL)            
                         ENDIF                                       
 C
                         PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
@@ -1630,9 +1630,9 @@ C
                           E23 = Z31                                             
                         ENDIF                                                   
                         IF(IFRAM_OLD ==0 ) THEN
-	                    CALL CLSCONV3(X21,Y21,Z21,X31,Y31,Z31,
-     +	                          E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z)
-                       ELSE		
+                              CALL CLSCONV3(X21,Y21,Z21,X31,Y31,Z31,
+     +                            E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z)
+                       ELSE
                         E1X= X21                                                
                         E1Y= Y21                                                
                         E1Z= Z21                                                
@@ -1658,8 +1658,8 @@ C
                         E2Z=E2Z/SUM_                                             
                       END IF!(ISH3NFRAM ==0 ) THEN
                         IF (IREP >= 1) THEN                                     
-                          AA = LBUF_DIR%DIRA(I)				    
-                          BB = LBUF_DIR%DIRA(I+NEL)			    
+                          AA = LBUF_DIR%DIRA(I)            
+                          BB = LBUF_DIR%DIRA(I+NEL)          
                           V1 = AA*E11 + BB*E21                                  
                           V2 = AA*E12 + BB*E22                                  
                           V3 = AA*E13 + BB*E23                                  
@@ -1669,8 +1669,8 @@ C
                           DIR1_1 = VR/SUMA                                      
                           DIR1_2 = VS/SUMA                                      
                         ELSE                                                    
-                          DIR1_1 = LBUF_DIR%DIRA(I)    			    
-                          DIR1_2 = LBUF_DIR%DIRA(I+NEL)			    
+                          DIR1_1 = LBUF_DIR%DIRA(I)              
+                          DIR1_2 = LBUF_DIR%DIRA(I+NEL)          
                         ENDIF                                         
                         PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
                         ERR = (ABS(PHI) - NINTY)/NINTY
@@ -1701,9 +1701,9 @@ C
                           E23 = Z31                                             
                         ENDIF                                                   
                         IF(IFRAM_OLD ==0 ) THEN
-	                    CALL CLSCONV3(X21,Y21,Z21,X31,Y31,Z31,
-     +	                          E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z)
-                       ELSE		
+                              CALL CLSCONV3(X21,Y21,Z21,X31,Y31,Z31,
+     +                            E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z)
+                       ELSE
                         E1X= X21                                                
                         E1Y= Y21                                                
                         E1Z= Z21                                                
@@ -1729,8 +1729,8 @@ C
                         E2Z=E2Z/SUM_                                             
                       END IF!(ISH3NFRAM ==0 ) THEN
                         IF (IREP >= 1) THEN                                     
-                          AA = BUFLY%DIRA(I)				    
-                          BB = BUFLY%DIRA(I+NEL)			    
+                          AA = BUFLY%DIRA(I)            
+                          BB = BUFLY%DIRA(I+NEL)          
                           V1 = AA*E11 + BB*E21                                  
                           V2 = AA*E12 + BB*E22                                  
                           V3 = AA*E13 + BB*E23                                  
@@ -1740,8 +1740,8 @@ C
                           DIR1_1 = VR/SUMA                                      
                           DIR1_2 = VS/SUMA                                      
                         ELSE                                                    
-                          DIR1_1 = BUFLY%DIRA(I)    			    
-                          DIR1_2 = BUFLY%DIRA(I+NEL)			    
+                          DIR1_1 = BUFLY%DIRA(I)              
+                          DIR1_2 = BUFLY%DIRA(I+NEL)          
                         ENDIF                                         
                         PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
                         ERR = (ABS(PHI) - NINTY)/NINTY
@@ -2827,60 +2827,60 @@ C--------------------------------------------------
             ELSE IF (IFUNC>11925 .AND. IFUNC < 11925+MX_PLY_ANIM+1)THEN 
             !/ANIM/SHELL/IDPLY
 c------------------------------------
-	      IPLY = IFUNC - 11925
-	      IF (IGTYP == 17 .OR. IGTYP == 51) THEN
-		IF (PLY_ANIM( 3 * (IPLY - 1) + 2) == 1 )THEN
-		  DO J=1,NLAY
+                IPLY = IFUNC - 11925
+                IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+          IF (PLY_ANIM( 3 * (IPLY - 1) + 2) == 1 )THEN
+            DO J=1,NLAY
                     BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                     NPTT = BUFLY%NPTT
-		    ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
-		    IF (ID_PLY  == PLY_ANIM( 3 * (IPLY - 1) + 1) ) THEN
-		      DO I=LFT,LLT
+              ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+              IF (ID_PLY  == PLY_ANIM( 3 * (IPLY - 1) + 1) ) THEN
+                DO I=LFT,LLT
                         NB_PLYOFF = 0
                         DO IR=1,NPTR                                          
                           DO IS=1,NPTS                                         
                             DO IT=1,NPTT     
                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)  
                               IF (LBUF%OFF(I) == ZERO) NB_PLYOFF = NB_PLYOFF + 1
-		            ENDDO 
-		          ENDDO 
-		        ENDDO
-		        IF ( NB_PLYOFF == NPTR * NPTS * NPTT ) THEN
+                      ENDDO 
+                    ENDDO 
+                  ENDDO
+                  IF ( NB_PLYOFF == NPTR * NPTS * NPTT ) THEN
                           EVAR(I) = -ONE
-		        ELSE
+                  ELSE
                           EVAR(I) = ONE 
                         ENDIF
-		      ENDDO 
-		    ENDIF
-		  ENDDO
-		ENDIF
-	      ELSEIF (IGTYP == 52) THEN
-		IF (PLY_ANIM( 3 * (IPLY - 1) + 2) == 1 )THEN
-		  DO J=1,NLAY
+                ENDDO 
+              ENDIF
+            ENDDO
+          ENDIF
+                ELSEIF (IGTYP == 52) THEN
+          IF (PLY_ANIM( 3 * (IPLY - 1) + 2) == 1 )THEN
+            DO J=1,NLAY
                     BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                     NPTT = BUFLY%NPTT
-		    ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK)
-		    IF (ID_PLY  == PLY_ANIM( 3 * (IPLY - 1) + 1) ) THEN
-		      DO I=LFT,LLT
+              ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK)
+              IF (ID_PLY  == PLY_ANIM( 3 * (IPLY - 1) + 1) ) THEN
+                DO I=LFT,LLT
                         NB_PLYOFF = 0
                         DO IR=1,NPTR                                          
                           DO IS=1,NPTS                                         
                             DO IT=1,NPTT     
                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)  
                               IF (LBUF%OFF(I) == ZERO) NB_PLYOFF = NB_PLYOFF + 1
-		            ENDDO 
-		          ENDDO 
-		        ENDDO 
-		        IF ( NB_PLYOFF == NPTR * NPTS * NPTT ) THEN
+                      ENDDO 
+                    ENDDO 
+                  ENDDO 
+                  IF ( NB_PLYOFF == NPTR * NPTS * NPTT ) THEN
                           EVAR(I) = -ONE
-		        ELSE
+                  ELSE
                           EVAR(I) = ONE 
                         ENDIF
-		      ENDDO 
-		    ENDIF
-		  ENDDO
-		ENDIF
-	      ENDIF
+                ENDDO 
+              ENDIF
+            ENDDO
+          ENDIF
+                ENDIF
 C--------------------------------------------------
             ELSE IF (IFUNC> 11925+MX_PLY_ANIM .AND. IFUNC < 11925+(2*MX_PLY_ANIM)+1)THEN 
             !/ANIM/SHELL/IDPLY/PHI
@@ -2889,10 +2889,10 @@ c------------------------------------
               IPLY = PLY_ANIM_PHI( 3 * (IVAR - 1) + 1)
               IPT  = PLY_ANIM_PHI( 3 * (IVAR - 1) + 3)      
 c
-	      DO J=1,NLAY
+                DO J=1,NLAY
                ID_PLY = 0
                IF (IGTYP == 17 .OR. IGTYP == 51) THEN
-		 ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+           ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                ELSEIF (IGTYP == 52) THEN
                  ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
                ENDIF
@@ -2995,8 +2995,8 @@ C
                           E2Z = E2Z*SUMA                                          
                         ENDIF                                                     
                         IF (IREP >= 1) THEN                                       
-                          AA = LBUF_DIR%DIRA(I)				      
-                          BB = LBUF_DIR%DIRA(I+NEL)			      
+                          AA = LBUF_DIR%DIRA(I)              
+                          BB = LBUF_DIR%DIRA(I+NEL)            
                           V1 = AA*RX + BB*SX                                      
                           V2 = AA*RY + BB*SY                                      
                           V3 = AA*RZ + BB*SZ                                      
@@ -3006,8 +3006,8 @@ C
                           DIR1_1 = VR/SUMA                                        
                           DIR1_2 = VS/SUMA                                        
                         ELSE                                                      
-                          DIR1_1 = LBUF_DIR%DIRA(I)    			      
-                          DIR1_2 = LBUF_DIR%DIRA(I+NEL)			      
+                          DIR1_1 = LBUF_DIR%DIRA(I)                
+                          DIR1_2 = LBUF_DIR%DIRA(I+NEL)            
                         ENDIF                                       
 c
                         PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
@@ -3108,8 +3108,8 @@ C
                           E2Z = E2Z*SUMA                                          
                         ENDIF                                                     
                         IF (IREP >= 1) THEN                                       
-                          AA = BUFLY%DIRA(I)				      
-                          BB = BUFLY%DIRA(I+NEL)			      
+                          AA = BUFLY%DIRA(I)              
+                          BB = BUFLY%DIRA(I+NEL)            
                           V1 = AA*RX + BB*SX                                      
                           V2 = AA*RY + BB*SY                                      
                           V3 = AA*RZ + BB*SZ                                      
@@ -3119,8 +3119,8 @@ C
                           DIR1_1 = VR/SUMA                                        
                           DIR1_2 = VS/SUMA                                        
                         ELSE                                                      
-                          DIR1_1 = BUFLY%DIRA(I)    			      
-                          DIR1_2 = BUFLY%DIRA(I+NEL)			      
+                          DIR1_1 = BUFLY%DIRA(I)                
+                          DIR1_2 = BUFLY%DIRA(I+NEL)            
                         ENDIF                                       
 c
                         PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
@@ -3162,9 +3162,9 @@ c
                           E23 = Z31                                             
                         ENDIF                                                   
              IF(IFRAM_OLD ==0 ) THEN
-	       CALL CLSCONV3(X21,Y21,Z21,X31,Y31,Z31,
-     +	                     E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z)
-             ELSE		
+                 CALL CLSCONV3(X21,Y21,Z21,X31,Y31,Z31,
+     +                       E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z)
+             ELSE
                         E1X= X21                                                
                         E1Y= Y21                                                
                         E1Z= Z21                                                
@@ -3188,10 +3188,10 @@ C
                         E2X=E2X/SUM_                                             
                         E2Y=E2Y/SUM_                                             
                         E2Z=E2Z/SUM_ 
-             END IF			
+             END IF
                         IF (IREP >= 1) THEN                                     
-                          AA = LBUF_DIR%DIRA(I)				    
-                          BB = LBUF_DIR%DIRA(I+NEL)			    
+                          AA = LBUF_DIR%DIRA(I)            
+                          BB = LBUF_DIR%DIRA(I+NEL)          
                           V1 = AA*E11 + BB*E21                                  
                           V2 = AA*E12 + BB*E22                                  
                           V3 = AA*E13 + BB*E23                                  
@@ -3236,9 +3236,9 @@ C
                           E23 = Z31                                             
                         ENDIF                                                   
              IF(IFRAM_OLD ==0 ) THEN
-	       CALL CLSCONV3(X21,Y21,Z21,X31,Y31,Z31,
-     +	                     E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z)
-             ELSE		
+                 CALL CLSCONV3(X21,Y21,Z21,X31,Y31,Z31,
+     +                       E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z)
+             ELSE
                         E1X= X21                                                
                         E1Y= Y21                                                
                         E1Z= Z21                                                
@@ -3262,10 +3262,10 @@ C
                         E2X=E2X/SUM_                                             
                         E2Y=E2Y/SUM_                                             
                         E2Z=E2Z/SUM_ 
-             END IF			
+             END IF
                         IF (IREP >= 1) THEN                                     
-                          AA = BUFLY%DIRA(I)				    
-                          BB = BUFLY%DIRA(I+NEL)			    
+                          AA = BUFLY%DIRA(I)            
+                          BB = BUFLY%DIRA(I+NEL)          
                           V1 = AA*E11 + BB*E21                                  
                           V2 = AA*E12 + BB*E22                                  
                           V3 = AA*E13 + BB*E23                                  
@@ -3294,13 +3294,13 @@ c------------------------------------
             ELSE IF (IFUNC> 11925+(2*MX_PLY_ANIM) .AND. IFUNC < 11925+(3*MX_PLY_ANIM)+1)THEN 
             !/ANIM/SHELL/IDPLY/EPSP
 c------------------------------------
-	      IPLY = IFUNC - (11925+ 2*MX_PLY_ANIM)
-	      IPT = PLY_ANIM_EPSP( 3 * (IPLY - 1) + 3)
+                IPLY = IFUNC - (11925+ 2*MX_PLY_ANIM)
+                IPT = PLY_ANIM_EPSP( 3 * (IPLY - 1) + 3)
 c
-	      DO J=1,NLAY
+                DO J=1,NLAY
                ID_PLY = 0
                IF (IGTYP == 17 .OR. IGTYP == 51) THEN
-		 ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+           ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                ELSEIF (IGTYP == 52) THEN
                  ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
                ENDIF
@@ -3313,24 +3313,24 @@ c
                     IF( NPG > 1 ) THEN
                      DO  I=LFT,LLT
                        DO IR=1,NPTR
-                         DO IS=1,NPTS				  
+                         DO IS=1,NPTS          
                            EVAR(I) = EVAR(I) + ABS(BUFLY%LBUF(IR,IS,IPT)%PLA(I))/NPG  
                          ENDDO    
                        ENDDO
                      ENDDO
                     ELSE
-                      DO  I=LFT,LLT				  
+                      DO  I=LFT,LLT          
                         EVAR(I) = ABS(BUFLY%LBUF(1,1,IPT)%PLA(I))  
                       ENDDO
                     ENDIF
 c
                    ELSE
-                     DO  I=LFT,LLT				  
+                     DO  I=LFT,LLT          
                        EVAR(I) = ZERO
                      ENDDO
                    ENDIF
                  ELSE
-                   DO  I=LFT,LLT				
+                   DO  I=LFT,LLT
                      EVAR(I) = ZERO
                    ENDDO
                  ENDIF
@@ -3340,30 +3340,30 @@ c------------------------------------
             ELSE IF (IFUNC> 11925+(3*MX_PLY_ANIM) .AND. IFUNC < 11925+(4*MX_PLY_ANIM)+1)THEN 
             !/ANIM/SHELL/IDPLY/DAMA
 c------------------------------------
-	      IPLY = IFUNC - (11925+ 3*MX_PLY_ANIM)
-	      IPT = PLY_ANIM_DAMA( 3 * (IPLY - 1) + 3)
+                IPLY = IFUNC - (11925+ 3*MX_PLY_ANIM)
+                IPT = PLY_ANIM_DAMA( 3 * (IPLY - 1) + 3)
 c
               IF(IFAILURE > 0) THEN 
-	        DO J=1,NLAY
+                  DO J=1,NLAY
                   NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
                   ID_PLY = 0
                   IF (IGTYP == 17 .OR. IGTYP == 51) THEN
-		    ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+              ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                   ELSEIF (IGTYP == 52) THEN
                     ID_PLY=PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
                   ENDIF 
                   IF (ID_PLY  == PLY_ANIM_DAMA( 3 *(IPLY - 1) + 1) )THEN
                     IF (IPT <= NPTT) THEN                                             
-                      DO I=LFT,LLT								  
-                        DO IR = 1, NPTR							  
-                          DO IS = 1, NPTS							  
-                            FBUF => ELBUF_TAB(NG)%BUFLY(J)%FAIL(IR,IS,IPT)			    
-                            DO IFAIL = 1, ELBUF_TAB(NG)%BUFLY(J)%NFAIL						 
-                	      EVAR(I) = MAX(EVAR(I), FBUF%FLOC(IFAIL)%DAMMX(I))
-                            ENDDO								  
-                          ENDDO								  
-                        ENDDO 								  
-                      ENDDO	  !  I=LFT,LLT  
+                      DO I=LFT,LLT                  
+                        DO IR = 1, NPTR                
+                          DO IS = 1, NPTS                
+                            FBUF => ELBUF_TAB(NG)%BUFLY(J)%FAIL(IR,IS,IPT)          
+                            DO IFAIL = 1, ELBUF_TAB(NG)%BUFLY(J)%NFAIL             
+                EVAR(I) = MAX(EVAR(I), FBUF%FLOC(IFAIL)%DAMMX(I))
+                            ENDDO                  
+                          ENDDO                  
+                        ENDDO                   
+                      ENDDO    !  I=LFT,LLT  
                     ENDIF
                   ENDIF
                 ENDDO
@@ -3374,34 +3374,34 @@ c
                   DO I=LFT,LLT
                     MAT(I)=IXC(1,NFT+I)
                     PID(I)=IXC(6,NFT+I)
-                  END DO				
+                  END DO
                 ELSE
                   DO I=LFT,LLT
                     MAT(I)=IXTG(1,NFT+I)
                     PID(I)=IXTG(5,NFT+I)
-                  END DO				
+                  END DO
                 END IF
 c
-                IPMAT = 2 + NLAY			 
+                IPMAT = 2 + NLAY       
                 DO N=1,NLAY
-                  IADR = (N-1)*NEL			 
+                  IADR = (N-1)*NEL       
                   DO I=LFT,LLT
-                    J = IADR+I  			  
+                    J = IADR+I          
                     MATLY(J) = STACK%IGEO(IPMAT+N,ISUBSTACK)
-                  END DO				
+                  END DO
                 END DO
 c
-	        DO J=1,NLAY
+                  DO J=1,NLAY
                   ID_PLY = 0
                   IF (IGTYP == 17 .OR. IGTYP == 51) THEN
-		    ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+              ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                   ELSEIF (IGTYP == 52) THEN
                    ID_PLY=PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
                   ENDIF
 c
                   IF (ID_PLY  == PLY_ANIM_DAMA( 3 *(IPLY - 1) + 1) )THEN
                     BUFLY => ELBUF_TAB(NG)%BUFLY(J)
-                    DO I=LFT,LLT					    
+                    DO I=LFT,LLT              
                       NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
                       IF (IPT <= NPTT) THEN                                      
                         IADR = (J - 1)*NEL
@@ -3410,11 +3410,11 @@ c
                         DO IR=1,NPTR
                           DO IS=1,NPTS
                             LBUF=> ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)  
-                            DMAX(I) = ONE/PM(64,MATLY(IADR + I))  			     
-                            WPMAX(I)= ONE/PM(41,MATLY(IADR + I))  			     
-                            EPST1(I)= PM(60,MATLY(IADR + I))				  
-                            EPST2(I)= PM(61,MATLY(IADR + I))				  
-                            EPSF1(I)= ONE/PM(98,MATLY(IADR + I))  			     
+                            DMAX(I) = ONE/PM(64,MATLY(IADR + I))             
+                            WPMAX(I)= ONE/PM(41,MATLY(IADR + I))             
+                            EPST1(I)= PM(60,MATLY(IADR + I))          
+                            EPST2(I)= PM(61,MATLY(IADR + I))          
+                            EPSF1(I)= ONE/PM(98,MATLY(IADR + I))             
                             EPSF2(I)= ONE/PM(99,MATLY(IADR + I))
 C   
                             VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
@@ -4008,7 +4008,7 @@ C
                     DO IT=1,NPTT
                       DO  I=1,NEL 
                         EVAR(I) = EVAR(I) + ABS(BUFLY%LBUF(1,1,IT)%PLA(I))/NPTT
-                      ENDDO			
+                      ENDDO
                     ENDDO
                   ENDIF ! npg
                  ENDIF ! BUFLY%L_PLA 
@@ -4945,6 +4945,6 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         E2X = E3Y * E1Z - E3Z * E1Y
         E2Y = E3Z * E1X - E3X * E1Z
         E2Z = E3X * E1Y - E3Y * E1X
-C	
+C
       RETURN
       END

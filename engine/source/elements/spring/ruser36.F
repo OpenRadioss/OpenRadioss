@@ -181,7 +181,7 @@ C== ON CALCULE D'ABORD LES VITESSES DES DEFORMATIONS GENERALISEES ====
         DTEMP = ONE/MAX(XL(I),EM20)
         EPSVXX(I) = VX(I)*DTEMP
         EPSVXY(I) = -HALF*(RZ1(I) + RZ2(I))
-        EPSVXZ(I) = HALF*(RY1(I) + RY2(I))	
+        EPSVXZ(I) = HALF*(RY1(I) + RY2(I))
         EPSCBX(I) = R_X*RX(I)*DTEMP
         EPSCBY(I) = R_Y*(RY2(I) - RY1(I))*DTEMP
         EPSCBZ(I) = R_Z*(RZ2(I) - RZ1(I))*DTEMP
@@ -222,7 +222,7 @@ C
         PC1 = SIX*YOUNGM(I)*(UVAR(N0+3,I)/UVAR(N0+1,I))
         CC1 =  (THREE*PI/SIXTEEN)**2
         C1=ONE - (ONE - CC1)*EXP(-PC1)
-        GAMA(I)=CC1/MAX(C1,EM20)	
+        GAMA(I)=CC1/MAX(C1,EM20)
 C
         NX(I)=SIGNXX(I)
         NY(I)=AY*SIGNXY(I)
@@ -279,11 +279,11 @@ C
             DPLA_I=DPLA_J(I)
             IF (IFUNC /= 0) THEN
               YLD_I =YLD(I)+H(I)*DPLA_I
-	    ELSEIF (UVAR(N0,I) > EM20) THEN
+              ELSEIF (UVAR(N0,I) > EM20) THEN
               YLD_I =YLD(I)+H(I)*M*DPLA_I*(UVAR(N0,I)+DPLA_I)**(M-1)
-	    ELSE
+              ELSE
               YLD_I =YLD(I)
-	    ENDIF
+              ENDIF
             DRE =YOUNGM(I)*DPLA_I/YLD_I
             DRG =G*DPLA_I/YLD_I
             PNX  =ONE/(ONE+DRE)
@@ -291,7 +291,7 @@ C
             PNZ  =ONE/(ONE+THREE*DRG*AZ**2)
             PMX  =ONE/(ONE+THREE*DRG*GAMAC(I)**2)
             PMY  =ONE/(ONE+DRE*(BY*GAMA(I))**2)
-            PMZ  =ONE/(ONE+DRE*(BZ*GAMA(I))**2)	  
+            PMZ  =ONE/(ONE+DRE*(BZ*GAMA(I))**2)    
             PNX2=PNX*PNX
             PNY2=PNY*PNY
             PNZ2=PNZ*PNZ
@@ -313,11 +313,11 @@ C
      .                    +MX2*PMX2*PMX*GAMAC(I)**2
             IF (IFUNC /= 0) THEN
               DSIGY = -H(I)*YLD_I*TWO
-	    ELSEIF (UVAR(N0,I)>EM20) THEN 
+              ELSEIF (UVAR(N0,I)>EM20) THEN 
               DSIGY = -(H(I)*YLD_I*M*(DPLA_I+UVAR(N0,I))**(M-1))*TWO
             ELSE
               DSIGY = ZERO
-	    ENDIF
+              ENDIF
             DF =(-DFE*(YOUNGM(I)-DRE*H(I))/YLD_I
      .           -NINE*DFG*(G-DRG*H(I))/YLD_I)*TWO
             DF=DF+DSIGY
@@ -349,7 +349,7 @@ C INCREMENT N+1
           PNZ  =ONE/(ONE+THREE*DRG*AZ**2)
           PMX  =ONE/(ONE+THREE*DRG*GAMAC(I)**2)
           PMY  =ONE/(ONE+DRE*(BY*GAMA(I))**2)
-          PMZ  =ONE/(ONE+DRE*(BZ*GAMA(I))**2)	
+          PMZ  =ONE/(ONE+DRE*(BZ*GAMA(I))**2)
 C
           SIGNXX(I) = SIGNXX(I)*PNX
           SIGNXY(I) = SIGNXY(I)*PNY
@@ -369,7 +369,7 @@ C
           IF (UVAR(N0,I) > PS) THEN
              DEVOL = DC*DPLA_I/(PR - PS)
           ELSE
-	     DEVOL = ZERO
+               DEVOL = ZERO
           ENDIF
 C
           UVAR(N0+4,I) = UVAR(N0+4,I)+DEVOL

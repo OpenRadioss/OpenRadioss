@@ -148,19 +148,19 @@ C
             X1  = X(1,IX1)                                       
             Y1  = X(2,IX1)                                          
             Z1  = X(3,IX1)                                          
-            X2  = X(1,IX2)					     
-            Y2  = X(2,IX2)					     
-            Z2  = X(3,IX2)					     
-            X3  = X(1,IX3)					     
-            Y3  = X(2,IX3)					     
-            Z3  = X(3,IX3)					     
-            X4  = X(1,IX4)					     
-            Y4  = X(2,IX4)					     
-            Z4  = X(3,IX4)					     
+            X2  = X(1,IX2)               
+            Y2  = X(2,IX2)               
+            Z2  = X(3,IX2)               
+            X3  = X(1,IX3)               
+            Y3  = X(2,IX3)               
+            Z3  = X(3,IX3)               
+            X4  = X(1,IX4)               
+            Y4  = X(2,IX4)               
+            Z4  = X(3,IX4)               
             XS(1)  = X(1,I)                                          
             XS(2)  = X(2,I)                                         
             XS(3)  = X(3,I)                                          
-C								
+C
             CALL I2REP(X1     ,X2     ,X3     ,X4     ,
      .               Y1     ,Y2     ,Y3     ,Y4     ,
      .               Z1     ,Z2     ,Z3     ,Z4     ,
@@ -347,8 +347,8 @@ C
          ENDIF
 C                                             
 C---     output of tied contact forces
- 	 CALL I2FORCES(X      ,V	,A	 ,MS	  ,I	  ,
-     .	               IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
+           CALL I2FORCES(X      ,V  ,A   ,MS    ,I    ,
+     .                 IRECT(1,L),H  ,NIR     ,FSAV    ,FNCONT ,
      .                 FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
 C                      
          IF (IRODDL == 0) THEN                               

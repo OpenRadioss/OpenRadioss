@@ -29,11 +29,11 @@ Chd|        INTERP                        source/tools/curve/interp.F
 Chd|        RGWATH                        source/interfaces/int09/rgwath.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE RGWAL1(X       ,A	,V	  ,W	  ,RWBUF   ,
-     2                  LPRW    ,NPRW	, 
-     3                  ICODT   ,ISKEW  ,SKEW	  ,MS	  ,FSAV    ,
-     4                  IXS     ,IXQ	,ELBUF_TAB,IPARG  ,
-     5                  PM      ,NALE	,TF	  ,NPF	  ,WEIGHT  ,
+      SUBROUTINE RGWAL1(X       ,A  ,V    ,W    ,RWBUF   ,
+     2                  LPRW    ,NPRW  , 
+     3                  ICODT   ,ISKEW  ,SKEW    ,MS    ,FSAV    ,
+     4                  IXS     ,IXQ  ,ELBUF_TAB,IPARG  ,
+     5                  PM      ,NALE  ,TF    ,NPF    ,WEIGHT  ,
      6                  IAD_ELEM,FR_ELEM,FR_WALL )
 C-----------------------------------------------
 C   M o d u l e s
@@ -90,11 +90,11 @@ C-----------------------
               CALL INTERP(TF(NPF(IFUNC)),TIME,NPOINT,TEMP,BID)
               TEMP = TEMP * RWBUF(10,N)
               CALL RGWATH(
-     1          X       ,V	     ,W       ,RWBUF(1,N),LPRW(K)    ,
-     2          NSN     ,NPRW(N3)    ,MS      ,FSAV(1,N) ,IXS	     ,
-     3          IXQ     ,ELBUF_TAB   ,IPARG   ,PM	 ,
-     4          NTAG    ,LPRW(K+NSN) ,NE      ,TEMP	 ,RWBUF(11,N),
-     5          E       ,A	     ,NPRW(N2),WEIGHT	 ,IAD_ELEM   ,
+     1          X       ,V       ,W       ,RWBUF(1,N),LPRW(K)    ,
+     2          NSN     ,NPRW(N3)    ,MS      ,FSAV(1,N) ,IXS       ,
+     3          IXQ     ,ELBUF_TAB   ,IPARG   ,PM   ,
+     4          NTAG    ,LPRW(K+NSN) ,NE      ,TEMP   ,RWBUF(11,N),
+     5          E       ,A       ,NPRW(N2),WEIGHT   ,IAD_ELEM   ,
      6          FR_ELEM ,FR_WALL(1,N))
               K=K+NINT(RWBUF(8,N))
             ENDIF

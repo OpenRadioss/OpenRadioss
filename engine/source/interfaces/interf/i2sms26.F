@@ -71,19 +71,19 @@ C=======================================================================
 C
         IF (NSVG(I) < 0) CYCLE
         IF ((IDTMINS_INT == 0 .AND. NODNX_SMS(NSVG(I))+
-     .     			NODNX_SMS(IX1(I))+
-     .     			NODNX_SMS(IX2(I))+
-     .     			NODNX_SMS(IX3(I))+
-     .     			NODNX_SMS(IX4(I))==0) .OR.
+     .           NODNX_SMS(IX1(I))+
+     .           NODNX_SMS(IX2(I))+
+     .           NODNX_SMS(IX3(I))+
+     .           NODNX_SMS(IX4(I))==0) .OR.
      .        STIF(1,I)+STIF(2,I)+STIF(3,I)+STIF(4,I)==ZERO) THEN
           CYCLE
         END IF
 C
         IF (IDTMINS_INT == 0 .AND. NODNX_SMS(NSVG(I))+
-     .     			NODNX_SMS(IX1(I))+
-     .     			NODNX_SMS(IX2(I))+
-     .     			NODNX_SMS(IX3(I))+
-     .     			NODNX_SMS(IX4(I))/=0) THEN
+     .           NODNX_SMS(IX1(I))+
+     .           NODNX_SMS(IX2(I))+
+     .           NODNX_SMS(IX3(I))+
+     .           NODNX_SMS(IX4(I))/=0) THEN
           DTS = DTMINS/DTFACS
           DTI = MIN(DTI,DTMINS)
         ELSE

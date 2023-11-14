@@ -242,7 +242,7 @@ C
           NITRS = MAX(NITRS,NITER)
 C
           IF(IDDLEVEL == 0) THEN
-            WRITE(IOUT,1001) TITR,NITRS,PARTID			
+            WRITE(IOUT,1001) TITR,NITRS,PARTID
             IF(IPRI >= 5) WRITE(IOUT,'(8X,A7,3(18X,A2))') 'NODE-ID',' X',' Y',' Z'
           ENDIF
 C

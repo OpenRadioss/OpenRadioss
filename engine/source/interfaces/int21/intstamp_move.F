@@ -108,8 +108,8 @@ C---------------------
              FVY=VIS*(INTSTAMP(NN)%VR(2)-INTSTAMP(INTDAMP)%VR(2))
              FVZ=VIS*(INTSTAMP(NN)%VR(3)-INTSTAMP(INTDAMP)%VR(3))
              DW=-TWO*( FVX*(VR(1,MSR)-VR(1,MSRR))
-     .     	       +FVY*(VR(2,MSR)-VR(2,MSRR))
-     .     	       +FVZ*(VR(3,MSR)-VR(3,MSRR)))
+     .              +FVY*(VR(2,MSR)-VR(2,MSRR))
+     .              +FVZ*(VR(3,MSR)-VR(3,MSRR)))
            END IF
            INTSTAMP(NN)%DW = INTSTAMP(NN)%DW + HALF * DT2 * DW
          END IF

@@ -237,19 +237,19 @@ C-----------------------------------------------------
         DO I=1,JLT
           IF(CS_LOC(I)<=NRTS) THEN
           IF(FX1(I)/=ZERO.OR.FY1(I)/=ZERO.OR.FZ1(I)/=ZERO)THEN
-            ICONTACT(N1(I))=1	  
+            ICONTACT(N1(I))=1    
           ENDIF
           IF(FX2(I)/=ZERO.OR.FY2(I)/=ZERO.OR.FZ2(I)/=ZERO)THEN
-            ICONTACT(N2(I))=1	    	  
-          ENDIF		  
-	  ENDIF	
+            ICONTACT(N2(I))=1          
+          ENDIF      
+            ENDIF
 C test modifie pour coherence avec communication SPMD (spmd_i7tools)
           IF(FX3(I)/=ZERO.OR.FY3(I)/=ZERO.OR.FZ3(I)/=ZERO)THEN
-            ICONTACT(M1(I))=1	    	  
+            ICONTACT(M1(I))=1          
           ENDIF
           IF(FX4(I)/=ZERO.OR.FY4(I)/=ZERO.OR.FZ4(I)/=ZERO)THEN
-            ICONTACT(M2(I))=1	    	  
-          ENDIF	  
+            ICONTACT(M2(I))=1          
+          ENDIF    
         ENDDO
       ENDIF
 C      

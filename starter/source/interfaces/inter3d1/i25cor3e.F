@@ -127,16 +127,16 @@ C-----------------------------------------------
 
       DO I=1,JLT
         GAPE_M(I)=GAPE(CAND_M(I))
-	IF(CAND_S(I)<=NEDGE) THEN
+          IF(CAND_S(I)<=NEDGE) THEN
           GAPE_S(I)=GAPE(CAND_S(I))
         ELSE ! TBD
-	END IF
+          END IF
         GAPVE(I)=GAPE_M(I)+GAPE_S(I)
       END DO
       IF(IGAP==3) THEN
         DO I=1,JLT
            GAPE_M(I)=MIN(GAPE_M(I),GAP_E_L(CAND_M(I)))
-	   IF(CAND_S(I)<=NEDGE) THEN
+             IF(CAND_S(I)<=NEDGE) THEN
               GAPE_S(I)=MIN(GAPE_S(I),GAP_E_L(CAND_S(I)))
               GAPVE(I)=MIN(GAP_E_L(CAND_M(I))+GAP_E_L(CAND_S(I)),GAPVE(I))
            ENDIF
@@ -282,9 +282,9 @@ C
           FZ(I) = EDG_BISECTOR(3,JE,IE)
 C
 C         DX, DY, DZ Direction for shifting
-	  DX = VTX_BISECTOR(1,1,I1)+VTX_BISECTOR(1,2,I1)
-	  DY = VTX_BISECTOR(2,1,I1)+VTX_BISECTOR(2,2,I1)
-	  DZ = VTX_BISECTOR(3,1,I1)+VTX_BISECTOR(3,2,I1)
+            DX = VTX_BISECTOR(1,1,I1)+VTX_BISECTOR(1,2,I1)
+            DY = VTX_BISECTOR(2,1,I1)+VTX_BISECTOR(2,2,I1)
+            DZ = VTX_BISECTOR(3,1,I1)+VTX_BISECTOR(3,2,I1)
 C
           NNI = FX(I)*DX + FY(I)*DY + FZ(I)*DZ
           NI2 = DX*DX + DY*DY + DZ*DZ
@@ -304,22 +304,22 @@ c           scharp angle bound nodal normal to 45 from edge normal
             DZ = DZ + AAA*FZ(I)
           ENDIF
           DD=ONE/MAX(EM20,SQRT(DX*DX+DY*DY+DZ*DZ))
-	  DX = DX*DD
-	  DY = DY*DD
-	  DZ = DZ*DD
+            DX = DX*DD
+            DY = DY*DD
+            DZ = DZ*DD
           INVCOS  = ONE / MAX(EM20,FX(I)*DX  + FY(I)*DY  + FZ(I)*DZ)
           DX = DX*INVCOS
           DY = DY*INVCOS
           DZ = DZ*INVCOS
 C
-	  XXS1(I) = XXS1(I)-GAPE_S(I)*DX
-	  XYS1(I) = XYS1(I)-GAPE_S(I)*DY
-	  XZS1(I) = XZS1(I)-GAPE_S(I)*DZ
+            XXS1(I) = XXS1(I)-GAPE_S(I)*DX
+            XYS1(I) = XYS1(I)-GAPE_S(I)*DY
+            XZS1(I) = XZS1(I)-GAPE_S(I)*DZ
 C
 C         DX, DY, DZ Direction for shifting
-	  DX = VTX_BISECTOR(1,1,I2)+VTX_BISECTOR(1,2,I2)
-	  DY = VTX_BISECTOR(2,1,I2)+VTX_BISECTOR(2,2,I2)
-	  DZ = VTX_BISECTOR(3,1,I2)+VTX_BISECTOR(3,2,I2)
+            DX = VTX_BISECTOR(1,1,I2)+VTX_BISECTOR(1,2,I2)
+            DY = VTX_BISECTOR(2,1,I2)+VTX_BISECTOR(2,2,I2)
+            DZ = VTX_BISECTOR(3,1,I2)+VTX_BISECTOR(3,2,I2)
 C
           NNI = FX(I)*DX  + FY(I)*DY  + FZ(I)*DZ
           NI2 = DX*DX + DY*DY + DZ*DZ
@@ -339,17 +339,17 @@ c           scharp angle bound nodal normal to 45 from edge normal
             DZ = DZ + AAA*FZ(I)
           ENDIF
           DD=ONE/MAX(EM20,SQRT(DX*DX+DY*DY+DZ*DZ))
-	  DX = DX*DD
-	  DY = DY*DD
-	  DZ = DZ*DD
+            DX = DX*DD
+            DY = DY*DD
+            DZ = DZ*DD
           INVCOS  = ONE / MAX(EM20,FX(I)*DX  + FY(I)*DY  + FZ(I)*DZ)
           DX = DX*INVCOS
           DY = DY*INVCOS
           DZ = DZ*INVCOS
 C
-	  XXS2(I) = XXS2(I)-GAPE_S(I)*DX
-	  XYS2(I) = XYS2(I)-GAPE_S(I)*DY
-	  XZS2(I) = XZS2(I)-GAPE_S(I)*DZ
+            XXS2(I) = XXS2(I)-GAPE_S(I)*DX
+            XYS2(I) = XYS2(I)-GAPE_S(I)*DY
+            XZS2(I) = XZS2(I)-GAPE_S(I)*DZ
 C
         END DO
       END IF

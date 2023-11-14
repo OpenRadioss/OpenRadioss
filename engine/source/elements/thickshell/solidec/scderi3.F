@@ -237,10 +237,10 @@ C
             DET(I)=ONE
             AREA(I) = ONE
           ELSEIF(OFFG(I) > ONE)THEN
-	  
+            
           ELSEIF((DET(I)<=VOLMIN).OR.(AREA(I)<=ZERO))THEN
             NNEGA=NNEGA+1
-	    INDEX(NNEGA)=I
+              INDEX(NNEGA)=I
 #include "lockon.inc"
             WRITE(ISTDO,3000) NGL(I)
             WRITE(IOUT ,3000) NGL(I)
@@ -403,7 +403,7 @@ C 1 -1 -1 1 -1 1 1 -1
          H2Z(I)=Z1(I)-Z2(I)-Z3(I)+Z4(I)-Z5(I)+Z6(I)+Z7(I)-Z8(I)
          HX=ONE_OVER_8*H2X(I)
          HY=ONE_OVER_8*H2Y(I)
-         HZ=ONE_OVER_8*H2Z(I)	 
+         HZ=ONE_OVER_8*H2Z(I)   
          PX1H2(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H2(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H2(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -414,7 +414,7 @@ C -1 1 -1 1 1 -1 1 -1
        DO I=1,NEL
          HX=ONE_OVER_8*(-X1(I)+X2(I)-X3(I)+X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
          HY=ONE_OVER_8*(-Y1(I)+Y2(I)-Y3(I)+Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
-         HZ=ONE_OVER_8*(-Z1(I)+Z2(I)-Z3(I)+Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))	 
+         HZ=ONE_OVER_8*(-Z1(I)+Z2(I)-Z3(I)+Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))   
          PX1H4(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H4(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H4(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ

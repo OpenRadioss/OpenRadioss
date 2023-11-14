@@ -377,7 +377,7 @@ C      ----------------------------------------------------
        DO II=1,NINDX                                              
         I = INDX(II)                                             
         !IF (SIG(I)>YLD(I).AND.OFF(I) == ONE)THEN
-	   DPLA(I)= UVAR(I,3)+ EM09
+             DPLA(I)= UVAR(I,3)+ EM09
 
         !DPLA(I)= (SIG(I)-YLD(I))/(THREE*G+DYDX(I))
         DEPLXX(I)=ZERO
@@ -553,7 +553,7 @@ c     .        -G * (DU * DF6) **2
          ENDIF
   
         ENDDO  ! iter  
-	   UVAR(I,3)=DPLA(I)       
+             UVAR(I,3)=DPLA(I)       
        ENDDO ! NINDX
 C-------------------
 C-------------------
@@ -679,9 +679,9 @@ C     ----------------------------------------------------
         !--------------------
         !PLASTIC FLOW
         !--------------------
-	       !DPLA(I)= UVAR(I,3)
+                 !DPLA(I)= UVAR(I,3)
          !DPLA(I)= (SIG(I)-YLD(I))/(THREE*G+DYDX(I))
-	    DPLA(I)= UVAR(I,3)+ EM09
+              DPLA(I)= UVAR(I,3)+ EM09
          DEPLXX(I)=ZERO
          DEPLYY(I)=ZERO
          DEPLZZ(I)=ZERO
@@ -808,7 +808,7 @@ C     ----------------------------------------------------
           ENDIF
 
          ENDDO !iter   
-	        UVAR(I,3)=DPLA(I)       
+                  UVAR(I,3)=DPLA(I)       
        ENDDO ! NINDX
 C=======================================================================
       ELSE !IFLAGSR PLASTIC STRAIN RATE ******************************
@@ -845,7 +845,7 @@ C=======================================================================
 
 
        
-	       !DPLA(I)= UVAR(I,3)
+                 !DPLA(I)= UVAR(I,3)
         !DPLA(I)= (SIG(I)-YLD(I))/(THREE*G+DYDX(I))
          DEPLXX(I)=ZERO
          DEPLYY(I)=ZERO

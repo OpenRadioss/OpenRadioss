@@ -510,22 +510,22 @@ C===========================================================================C
           MU1=UVAR(I,K1+20)*RHO1/RHO10 - ONE
           IF(UVAR(I,K1+20)/=ZERO)THEN
             P1 = ( C01 + C11*MU1
-     .      	   + MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1)
-     .      	   + (C41 + C51*MU1)*E01*UVAR(I,K1+21)*RHO10/RHO1/UVAR(I,K1+20) )
+     .           + MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1)
+     .           + (C41 + C51*MU1)*E01*UVAR(I,K1+21)*RHO10/RHO1/UVAR(I,K1+20) )
           ENDIF
           P1 = MAX(P1,PM1)
           MU2=UVAR(I,K2+20)*RHO2/RHO20 - ONE
           IF(UVAR(I,K2+20)/=ZERO)THEN
             P2 = ( C02 + C12*MU2
-     .    	   + MAX(MU2,ZERO)*(C22*MU2 + C32*MU2*MU2)
-     .    	   + (C42 + C52*MU2)*E02*UVAR(I,K2+21)*RHO20/RHO2/UVAR(I,K2+20) )
+     .         + MAX(MU2,ZERO)*(C22*MU2 + C32*MU2*MU2)
+     .         + (C42 + C52*MU2)*E02*UVAR(I,K2+21)*RHO20/RHO2/UVAR(I,K2+20) )
           ENDIF
           P2 = MAX(P2,PM2)
           MU3=UVAR(I,K3+20)*RHO3/RHO30 - ONE
           IF(UVAR(I,K3+20)/=ZERO)THEN
             P3 = ( C03 + C13*MU3
-     .    	   + MAX(MU3,ZERO)*(C23*MU3 + C33*MU3*MU3)
-     .    	   + (C43 + C53*MU3)*E03*UVAR(I,K3+21)*RHO30/RHO3/UVAR(I,K3+20) )
+     .         + MAX(MU3,ZERO)*(C23*MU3 + C33*MU3*MU3)
+     .         + (C43 + C53*MU3)*E03*UVAR(I,K3+21)*RHO30/RHO3/UVAR(I,K3+20) )
           ENDIF
           P3 = MAX(P3,PM3)
           PP(I) = P1 * AV1(I) + P2 * AV2(I) + P3 * AV3(I)
@@ -947,9 +947,9 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
         RHO1f = ONE
         RHO2f = ONE
         RHO3f = ONE
-	E01f  = ONE
-	E02f  = ONE
-	E03f  = ONE
+          E01f  = ONE
+          E02f  = ONE
+          E03f  = ONE
         IF(IRHO1/=0)RHO1f = FINTER(IRHO1,ABCS,NPF,TF,DYDX)
         IF(IRHO2/=0)RHO2f = FINTER(IRHO2,ABCS,NPF,TF,DYDX)
         IF(IRHO3/=0)RHO3f = FINTER(IRHO3,ABCS,NPF,TF,DYDX)

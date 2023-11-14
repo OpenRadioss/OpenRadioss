@@ -140,8 +140,8 @@ c---
               K=K+1
               READ(IUSC2,*,ERR=9990,END=9990)(IV2(J),J=1,NVAR(CARTE))
               DO J=1,NVAR(CARTE)
-           	WRITE(IIN,'(I10)')IV2(J)
-           	NSTATPRT=NSTATPRT+1
+          WRITE(IIN,'(I10)')IV2(J)
+          NSTATPRT=NSTATPRT+1
               ENDDO
             ENDDO ! DO I=2,NBC
             IF(NSTATPRT == 0)THEN
@@ -174,7 +174,7 @@ c---
               STAT_C(2) = 1
             ELSEIF (KEY3(1:5) == 'EPSP ') THEN
               IF (KEY4(1:5) == 'FULL ') THEN
-                STAT_C(3) = 1	    
+                STAT_C(3) = 1      
               ELSE
                 GOTO 9990
               ENDIF
@@ -200,9 +200,9 @@ c---
               ELSE
                 GOTO 9990
               ENDIF
-	    ELSEIF (KEY3(1:5) == 'ORTHL') THEN
+              ELSEIF (KEY3(1:5) == 'ORTHL') THEN
               STAT_C(7) = 1
-	    ELSEIF (KEY3(1:4) == 'FAIL') THEN
+              ELSEIF (KEY3(1:4) == 'FAIL') THEN
               STAT_C(8) = 1
             ELSE
               GOTO 9990

@@ -130,7 +130,7 @@ C
         CALL HM_GET_INTV('component',PARTID,IS_AVAILABLE,LSUBMODEL)
 C
         IF (KEY1(1:4) == 'EREF')THEN
-          IF(IDDLEVEL == 0) WRITE(IOUT,1001) TITLE,PARTID			
+          IF(IDDLEVEL == 0) WRITE(IOUT,1001) TITLE,PARTID
           IP = 0
           DO I = 1,NPART
             IF (IPART(4,I) == PARTID) IP = I
@@ -186,7 +186,7 @@ C
                 DO IN=1,4
                   NN = USR2SYS(IX(IN),ITABM1,MESS,ID)
                   MM = IXC(IN+1,IE)
-                  TAGNOD(MM) = 1				  
+                  TAGNOD(MM) = 1          
                   XREFC(IN,1,IE) = X(1,NN)
                   XREFC(IN,2,IE) = X(2,NN)
                   XREFC(IN,3,IE) = X(3,NN)
@@ -194,8 +194,8 @@ C
                 IF(IDDLEVEL == 0.AND.IPRI >= 5) WRITE(IOUT,'(5X,5(1X,I10))') ID,(IX(IN),IN=1,4)
               ENDIF
             ENDDO
-            IF(IDDLEVEL == 0.AND.IPRI < 5) WRITE(IOUT,1010) NEL	
-C	
+            IF(IDDLEVEL == 0.AND.IPRI < 5) WRITE(IOUT,1010) NEL
+C
           ELSEIF(KEY(1:4)=='SH3N') THEN
             IF(IDDLEVEL == 0.AND.IPRI >= 5) WRITE(IOUT,'(9X,A7,4(9X,A2))') 'ELEM-ID','N1','N2','N3'
             CALL HM_GET_INTV('table_count',NEL,IS_AVAILABLE,LSUBMODEL)
@@ -225,13 +225,13 @@ C
                 IF(IDDLEVEL == 0.AND.IPRI >= 5) WRITE(IOUT,'(5X,4(1X,I10))') ID,(IX(IN),IN=1,3)
               ENDIF
             ENDDO
-            IF(IDDLEVEL == 0.AND.IPRI < 5) WRITE(IOUT,1020) NEL		
+            IF(IDDLEVEL == 0.AND.IPRI < 5) WRITE(IOUT,1020) NEL
           ENDIF
 C
           CASE (2)
           IF(KEY(1:5)=='BRICK') THEN
 C
-	    IF(IDDLEVEL == 0.AND.IPRI >= 5)WRITE(IOUT,'(9X,A7,8(9X,A2))')'ELEM-ID','N1','N2','N3','N4','N5','N6','N7','N8'
+              IF(IDDLEVEL == 0.AND.IPRI >= 5)WRITE(IOUT,'(9X,A7,8(9X,A2))')'ELEM-ID','N1','N2','N3','N4','N5','N6','N7','N8'
             CALL HM_GET_INTV('table_count',NEL,IS_AVAILABLE,LSUBMODEL)
 C
             DO I=1,NEL
@@ -264,9 +264,9 @@ C
                 IF(IDDLEVEL == 0.AND.IPRI >= 5) WRITE(IOUT,'(5X,9(1X,I10))') ID,(IX(IN),IN=1,8)
               ENDIF
             ENDDO
-            IF(IDDLEVEL == 0.AND.IPRI < 5) WRITE(IOUT,1030) NEL		
+            IF(IDDLEVEL == 0.AND.IPRI < 5) WRITE(IOUT,1030) NEL
           ELSEIF(KEY(1:6)=='TETRA4') THEN
-	    IF(IDDLEVEL == 0.AND.IPRI >= 5) WRITE(IOUT,'(9X,A7,4(9X,A2))') 'ELEM-ID','N1','N2','N3','N4'
+              IF(IDDLEVEL == 0.AND.IPRI >= 5) WRITE(IOUT,'(9X,A7,4(9X,A2))') 'ELEM-ID','N1','N2','N3','N4'
             CALL HM_GET_INTV('table_count',NEL,IS_AVAILABLE,LSUBMODEL)
 C
             DO I=1,NEL
@@ -300,7 +300,7 @@ C
                 IF(IDDLEVEL == 0.AND.IPRI >= 5) WRITE(IOUT,'(5X,5(1X,I10))') ID,IX(1),IX(3),IX(6),IX(5)
               ENDIF
             ENDDO
-            IF(IDDLEVEL == 0.AND.IPRI < 5) WRITE(IOUT,1040) NEL		
+            IF(IDDLEVEL == 0.AND.IPRI < 5) WRITE(IOUT,1040) NEL
           ENDIF
           END SELECT 
 C

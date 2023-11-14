@@ -403,10 +403,10 @@ C-------------------------------------------
 C    INITIALISATION DES CONTRAINTES + ENERGIE+ DENSITE + PLA
 C---------------------------------------------
          IF (MTN >= 28) THEN
-	          NUVAR =  IPM(8,IXS(1,NFT+1))
+                    NUVAR =  IPM(8,IXS(1,NFT+1))
            IDEF =1
-	        ELSE
-	          NUVAR = 0
+                  ELSE
+                    NUVAR = 0
            IF(MTN == 14 .OR. MTN == 12)THEN             
               IDEF =1                                   
            ELSEIF(MTN == 24)THEN                        

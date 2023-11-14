@@ -52,22 +52,22 @@ C======================================================================|
            ND  = ICNDS10(1,I)
            N1  = ICNDS10(2,I)
            N2  = ICNDS10(3,I)
-	   VX = HALF*(V(1,N1) + V(1,N2))
-	   VY = HALF*(V(2,N1) + V(2,N2))
-	   VZ = HALF*(V(3,N1) + V(3,N2))
-	   IF (ND<0) THEN
-	    ND = -ND
+             VX = HALF*(V(1,N1) + V(1,N2))
+             VY = HALF*(V(2,N1) + V(2,N2))
+             VZ = HALF*(V(3,N1) + V(3,N2))
+             IF (ND<0) THEN
+              ND = -ND
             V(1,ND) =  VX 
             V(2,ND) =  VY 
             V(3,ND) =  VZ 
-	   ELSE
+             ELSE
             V(1,ND) = V(1,ND)-VND(1,I) + VX 
             V(2,ND) = V(2,ND)-VND(2,I) + VY 
             V(3,ND) = V(3,ND)-VND(3,I) + VZ 
-	   END IF
-	   VND(1,I) = VX
-	   VND(2,I) = VY
-	   VND(3,I) = VZ
+             END IF
+             VND(1,I) = VX
+             VND(2,I) = VY
+             VND(3,I) = VZ
          END DO
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -104,16 +104,16 @@ C======================================================================|
 C---relative velocity for KE compute----
          DO I=1,NS10E
            ND  = ICNDS10(1,I)
-	   IF (ND>0) THEN
+             IF (ND>0) THEN
             V(1,ND) = V(1,ND)-VND(1,I)  
             V(2,ND) = V(2,ND)-VND(2,I)  
             V(3,ND) = V(3,ND)-VND(3,I) 
            ELSEIF (ND<0) THEN
-            ND = -ND	   
+            ND = -ND     
             V(1,ND) = ZERO  
             V(2,ND) = ZERO  
             V(3,ND) = ZERO 
-	   END IF
+             END IF
          END DO
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -148,10 +148,10 @@ C======================================================================|
            ND  = iabs(ICNDS10(1,I))
            N1  = ICNDS10(2,I)
            N2  = ICNDS10(3,I)
-	 write(iout,*)'ND,N1,N2,ND_id,I=',itab(ND),itab(N1),itab(N2),ICNDS10(1,I),I
-	 write(iout,*)V(1,ND),V(1,N1) , V(1,N2) 
-	 write(iout,*)V(2,ND),V(2,N1) , V(2,N2) 
-	 write(iout,*)V(3,ND),V(3,N1) , V(3,N2) 
+           write(iout,*)'ND,N1,N2,ND_id,I=',itab(ND),itab(N1),itab(N2),ICNDS10(1,I),I
+           write(iout,*)V(1,ND),V(1,N1) , V(1,N2) 
+           write(iout,*)V(2,ND),V(2,N1) , V(2,N2) 
+           write(iout,*)V(3,ND),V(3,N1) , V(3,N2) 
          END DO
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -187,23 +187,23 @@ C======================================================================|
 C----for Nd as main of int2 only; Ad-> acce absolu
          DO I=1,NS10E
            ND  = ICNDS10(1,I)
-	  IF (IABS(ITAGND(IABS(ND)))>NS10E) THEN
+            IF (IABS(ITAGND(IABS(ND)))>NS10E) THEN
            N1  = ICNDS10(2,I)
            N2  = ICNDS10(3,I)
-	   AX = HALF*(A(1,N1) + A(1,N2))
-	   AY = HALF*(A(2,N1) + A(2,N2))
-	   AZ = HALF*(A(3,N1) + A(3,N2))
-	   IF (ND<0) THEN
-	    ND = -ND
+             AX = HALF*(A(1,N1) + A(1,N2))
+             AY = HALF*(A(2,N1) + A(2,N2))
+             AZ = HALF*(A(3,N1) + A(3,N2))
+             IF (ND<0) THEN
+              ND = -ND
             A(1,ND) =  AX 
             A(2,ND) =  AY 
             A(3,ND) =  AZ 
-	   ELSE
+             ELSE
             A(1,ND) = A(1,ND) + AX 
             A(2,ND) = A(2,ND) + AY 
             A(3,ND) = A(3,ND) + AZ 
-	   END IF
-	  END IF !(IABS(ITAGND(IABS(ND)))>NS10E) THEN
+             END IF
+            END IF !(IABS(ITAGND(IABS(ND)))>NS10E) THEN
          END DO
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -241,16 +241,16 @@ C======================================================================|
 C----for Nd as main of int2 only; Ad-> acce relative
          DO I=1,NS10E
            ND  = ICNDS10(1,I)
-	  IF (ND>0.AND.IABS(ITAGND(IABS(ND)))>NS10E) THEN
+            IF (ND>0.AND.IABS(ITAGND(IABS(ND)))>NS10E) THEN
            N1  = ICNDS10(2,I)
            N2  = ICNDS10(3,I)
-	   AX = HALF*(A(1,N1) + A(1,N2))
-	   AY = HALF*(A(2,N1) + A(2,N2))
-	   AZ = HALF*(A(3,N1) + A(3,N2))
+             AX = HALF*(A(1,N1) + A(1,N2))
+             AY = HALF*(A(2,N1) + A(2,N2))
+             AZ = HALF*(A(3,N1) + A(3,N2))
            A(1,ND) = A(1,ND) - AX 
            A(2,ND) = A(2,ND) - AY 
            A(3,ND) = A(3,ND) - AZ 
-	  END IF !(IABS(ITAGND(IABS(ND)))>NS10E) THEN
+            END IF !(IABS(ITAGND(IABS(ND)))>NS10E) THEN
          END DO
 C----6---------------------------------------------------------------7---------8
       RETURN

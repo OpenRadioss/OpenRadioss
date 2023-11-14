@@ -435,8 +435,8 @@ c
      .                 GBUF%STRA,THKE,NEL     ,CPT_ELTENS)
           IF (ISMSTR == 1 .AND. MTN==19) IPARG(9)=11
           IF (MTN==58) THEN
-C-------IINT to say NXREF > 0		  
-		    IPARG(36)=1
+C-------IINT to say NXREF > 0      
+              IPARG(36)=1
             DO I=LFT,LLT                          
               II = NFT + I            
               ELBUF_STR%GBUF%HOURG(JJ(1)+I) = XREFC(2,1,II)-XREFC(1,1,II)  
@@ -449,7 +449,7 @@ C-------IINT to say NXREF > 0
               ELBUF_STR%GBUF%HOURG(JJ(8)+I) = XREFC(4,2,II)-XREFC(1,2,II)  
               ELBUF_STR%GBUF%HOURG(JJ(9)+I) = XREFC(4,3,II)-XREFC(1,3,II)  
             ENDDO                                 
-	 END IF
+           END IF
 c
         ELSEIF (ISMSTR == 11 .OR. (ISMSTR==1 .AND. MTN==19) ) THEN
 c

@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 C---------------------------------------------------- 
-C	Calcul des adresses des buffers d'interfaces. 
+C  Calcul des adresses des buffers d'interfaces. 
 C----------------------------------------------------
 C
       NSN   =IPARI(5,NIN)
@@ -74,9 +74,9 @@ C
       FIRST = 1 + NSN*ITASK / NTHREAD
       LAST = NSN*(ITASK+1) / NTHREAD
       DO N=FIRST,LAST
-	INTBUF_TAB%IRTLM(2*(N-1)+1)=0
-	INTBUF_TAB%CSTS(2*(N-1)+1)  =-ONE
-	INTBUF_TAB%CSTS(2*(N-1)+2)=-ONE
+          INTBUF_TAB%IRTLM(2*(N-1)+1)=0
+          INTBUF_TAB%CSTS(2*(N-1)+1)  =-ONE
+          INTBUF_TAB%CSTS(2*(N-1)+2)=-ONE
       END DO
 C
       RETURN

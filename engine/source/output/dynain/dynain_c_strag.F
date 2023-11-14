@@ -241,7 +241,7 @@ c---------
               DO IPG=1,NPG 
                  JJ = JJ + 1
                  WA(JJ) = ZERO
-                 DO J=1,7        ! STRAIN + POS           	
+                 DO J=1,7        ! STRAIN + POS           
                     JJ = JJ + 1
                     WA(JJ) = ZERO
                 ENDDO                                                               
@@ -585,7 +585,7 @@ c---------
               DO IPG=1,NPG 
                  JJ = JJ + 1
                  WA(JJ) = ZERO
-                 DO J=1,7        ! STRAIN + POS           	
+                 DO J=1,7        ! STRAIN + POS           
                     JJ = JJ + 1
                     WA(JJ) = ZERO
                 ENDDO                                                               

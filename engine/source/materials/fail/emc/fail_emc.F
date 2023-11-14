@@ -144,7 +144,7 @@ C---      failure strain interpolation
      .                       +SIGNYZ(I)*SIGNYZ(I)
      .                       +SIGNZX(I)*SIGNZX(I))))
 
-          	  ! determinant du deviateur des contraintes
+            ! determinant du deviateur des contraintes
           INV2 = DEVXX * DEVYY * DEVZZ 
      .         + TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
      .         - DEVXX*SIGNYZ(I)**2 - DEVYY*SIGNZX(I)**2

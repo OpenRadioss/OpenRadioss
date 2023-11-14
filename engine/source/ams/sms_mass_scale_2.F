@@ -194,11 +194,11 @@ C-----
 C-----------------------------------------------
       IF(ITASK==0)THEN
         ALLOCATE(CJWORK(18,NJOINT),
-     .  	 FREA(3,NUMNOD), IRWL_WORK(SLPRW),
+     .     FREA(3,NUMNOD), IRWL_WORK(SLPRW),
      .           STAT=IERROR)
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .  	      C1='(/DT/.../AMS)')
+     .          C1='(/DT/.../AMS)')
           CALL ARRET(2)
         ENDIF
       END IF
@@ -608,7 +608,7 @@ C-----------------------------------
                DW =DW+DA*V(J,I)*DT12*WEIGHT(I)
              END DO
           END DO
-		ELSE
+          ELSE
          IF(ISTATG<0)THEN
           ISTATG=NGR2USR(-ISTATG,IGRNOD,NGRNOD)
          ENDIF
@@ -860,7 +860,7 @@ C
       CALL MY_BARRIER
 C
       IF(ITASK==0) DEALLOCATE(CJWORK, FREA, IRWL_WORK, 
-     .    	LIST_SMS,LIST_RMS,MSKYI_FI_SMS,VFI)
+     .      LIST_SMS,LIST_RMS,MSKYI_FI_SMS,VFI)
       IF(IPARIT/=0)THEN
         DEALLOCATE(IMV, MV, MV6)
         IF(ITASK==0)DEALLOCATE(MW6)

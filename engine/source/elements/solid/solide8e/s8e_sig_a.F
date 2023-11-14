@@ -92,7 +92,7 @@ C-----------------------------------------------
        IF (TT==ZERO) PIJ(1:NEL,25:27)=ZERO
 C----1,compute Dii with v-terms, compute incremental stress
        DO I=1,NEL
-	     IF (OFFG(I) >ONE) CYCLE
+               IF (OFFG(I) >ONE) CYCLE
            DYY(I) =BXY1(I)*VX1(I)+BXY2(I)*VX2(I)
      +              +BXY3(I)*VX3(I)+BXY4(I)*VX4(I)
      +              +BXY5(I)*VX5(I)+BXY6(I)*VX6(I)
@@ -122,9 +122,9 @@ C----1,compute Dii with v-terms, compute incremental stress
        DG2=TWO*G*DT1
        SIG_A(1:NEL,1:3)=PIJ(1:NEL,25:27)
        DO I=1,NEL
-	     IF (OFFG(I) >ONE) CYCLE
+               IF (OFFG(I) >ONE) CYCLE
          EKK=(DXX(I)+DYY(I)+DZZ(I))*DC1
-c	     IF (OFFG(I) >ONE) EKK=ZERO
+c       IF (OFFG(I) >ONE) EKK=ZERO
          DAV=-THIRD*(DXX(I)+DYY(I)+DZZ(I))
          PIJ(I,25)=PIJ(I,25)*OFF(I)+EKK+DG2*(DXX(I)+DAV)
          PIJ(I,26)=PIJ(I,26)*OFF(I)+EKK+DG2*(DYY(I)+DAV)
@@ -132,7 +132,7 @@ c	     IF (OFFG(I) >ONE) EKK=ZERO
        END DO
        DT05 =HALF*DT1
       DO I=1,NEL
-	    IF (OFFG(I) >ONE) CYCLE
+              IF (OFFG(I) >ONE) CYCLE
        E1=(DXX(I)+D1(I))*(SIG_A(I,1)+PIJ(I,25))+DXX(I)*(S1(I)+SIG(I,1))
        E2=(DYY(I)+D2(I))*(SIG_A(I,2)+PIJ(I,26))+DYY(I)*(S2(I)+SIG(I,2))
        E3=(DZZ(I)+D3(I))*(SIG_A(I,3)+PIJ(I,27))+DZZ(I)*(S3(I)+SIG(I,3))

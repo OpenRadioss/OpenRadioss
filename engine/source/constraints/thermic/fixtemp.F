@@ -148,7 +148,7 @@ C
         ELSE
           CALL VINTER_SMOOTH(TF,IADC,IPOSC,ILENC,IC,TSC,DYDXC,YC)
         ENDIF ! IF (ISMOOTH == 0)
-C		
+C
         IF(IVECTOR == 0) THEN
          DO II=1,IC
           N = INDEX(II) 

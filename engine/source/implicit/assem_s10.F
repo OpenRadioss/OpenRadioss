@@ -883,11 +883,11 @@ C------------------------------
         ENDDO
 C 
         NJ=NJ1
-	
+
         CALL ASSEM_KIJ1(NC(NI),NC(NJ),IDDL  ,IADK,JDIK,
      1                  K_DIAG,K_LT   ,KIJ  ,ND   )
         NJ=NJ2
-	
+
         CALL ASSEM_KIJ1(NC(NI),NC(NJ),IDDL  ,IADK,JDIK,
      1                  K_DIAG,K_LT   ,KIJ  ,ND   )
 C
@@ -935,7 +935,7 @@ C
           K22(I,J) = K22(I,J)+ KII(I,J)
          ENDDO 
          ENDDO 
-C	 
+C   
          DO I =1,ND
          DO J =1,ND
           K12(I,J) = K12(I,J)+ KII(I,J)

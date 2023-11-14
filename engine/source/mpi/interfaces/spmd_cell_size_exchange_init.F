@@ -123,7 +123,7 @@ c specific cases
 c IGAP=1 or IGAP=2
             IF(IGAP==1 .OR. IGAP==2)THEN
                 RSIZ = RSIZ + 1
-c IGAP=3	
+c IGAP=3
             ELSEIF(IGAP==3)THEN
                 RSIZ = RSIZ + 2
             ENDIF
@@ -131,17 +131,17 @@ c IGAP=3
 C thermic      
             IF(INTTH > 0 ) THEN    
                 RSIZ = RSIZ + 2
-	            ISIZ = ISIZ + 1
+                      ISIZ = ISIZ + 1
             ENDIF
 C Friction      
             IF(INTFRIC > 0 ) THEN    
-	            ISIZ = ISIZ + 1
+                      ISIZ = ISIZ + 1
             ENDIF
 
 C -- IDTMINS==2      
             IF(IDTMINS == 2)THEN     
                 ISIZ = ISIZ + 2
-C -- IDTMINS_INT /= 0		
+C -- IDTMINS_INT /= 0
             ELSEIF(IDTMINS_INT/=0)THEN    
                 ISIZ = ISIZ + 1
             END IF

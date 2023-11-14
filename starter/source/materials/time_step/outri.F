@@ -414,7 +414,7 @@ C
                            ! -2- nodal time step from VOID elem (stifn<em20) is dt=EP30 too.
         ENDIF
       ENDDO
-	 
+           
       IF(IRODDL/=0)THEN
         DO I=1,NUMNOD
           IF(IN(I)/=ZERO)THEN
@@ -424,7 +424,7 @@ C
       ENDIF
 
       DO I=1,NUMNOD
-	   IF(DT(I)/=EP30)DT(I)=SQRT(ABS(TWO*DT(I)))
+             IF(DT(I)/=EP30)DT(I)=SQRT(ABS(TWO*DT(I)))
       END DO
 C---- Multidomains : Nodal time step is deactivated for splited RBODY
       IF(NSUBDOM>0) THEN

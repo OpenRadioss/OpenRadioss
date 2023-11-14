@@ -135,12 +135,12 @@ C
             S3(I)=(SIG(I,3)+SVIS(I,3)-P(I))*FAC(I)
             S4(I)=(SIG(I,4)+SVIS(I,4))*FAC(I)
           ENDDO
-	 ELSE
+           ELSE
           DO I=1,NEL
             S3(I)=(SIG(I,3)+SVIS(I,3)-QVIS(I))*FAC(I)
             S4(I)=(SIG(I,4)+SVIS(I,4))*FAC(I)
           ENDDO
-	 END IF
+           END IF
          IF(JCVT/=0) THEN
             DO I=1,NEL
               T1=S1(I)*R22(I)+S4(I)*R23(I)
@@ -160,4 +160,4 @@ C
 C
       RETURN
       END
-	  
+            

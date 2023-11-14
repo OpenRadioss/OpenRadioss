@@ -114,7 +114,7 @@ C-----------------------------------------------
           II          = I + NFT
           MOM(I,1)    = MOM(I,1) + dMOM(1,I)
           MOM(I,2)    = MOM(I,2) + dMOM(2,I)
-          MOM(I,3)    = MOM(I,3) + dMOM(3,I)		 
+          MOM(I,3)    = MOM(I,3) + dMOM(3,I)     
         ENDDO!next I
 
 
@@ -149,9 +149,9 @@ C-----------------------------------------------
               write(*,FMT='(A,1E26.14)')     "             VOL           =", VOL(I)                            
               write(*,FMT='(A,1E26.14)')     "            MASS           =", RHO(I)*VOL(I)                                        
               write(*,FMT='(A)')             "       #-- cell momentum --#"       
-              write (*,FMT='(3(A,1E26.14))') "             Q-X           =", MOM(I,1) -dMOM(1,I)," +",dMOM(1,I)," =",MOM(I,1)	       
+              write (*,FMT='(3(A,1E26.14))') "             Q-X           =", MOM(I,1) -dMOM(1,I)," +",dMOM(1,I)," =",MOM(I,1)         
               write (*,FMT='(3(A,1E26.14))') "             Q-Y           =", MOM(I,2) -dMOM(2,I)," +",dMOM(2,I)," =",MOM(I,2)
-              write (*,FMT='(3(A,1E26.14))') "             Q-Z           =", MOM(I,3) -dMOM(3,I)," +",dMOM(3,I)," =",MOM(I,3)			
+              write (*,FMT='(3(A,1E26.14))') "             Q-Z           =", MOM(I,3) -dMOM(3,I)," +",dMOM(3,I)," =",MOM(I,3)
               write(*,FMT='(A)')             "       #-- cell momentum densities--#"       
               write (*,FMT='(3(A,1E26.14))') "             rho.Ux        =", MOM(I,1)  / VOL(I)        
               write (*,FMT='(3(A,1E26.14))') "             rho.Uy        =", MOM(I,2)  / VOL(I)
@@ -183,7 +183,7 @@ C-----------------------------------------------
         !MOM(3,I)    = MOM(3,I) / MASS              
         MOM(I,1)    = MOM(I,1) / VOL(I)
         MOM(I,2)    = MOM(I,2) / VOL(I)
-        MOM(I,3)    = MOM(I,3) / VOL(I) 	     
+        MOM(I,3)    = MOM(I,3) / VOL(I)        
       ENDDO!next I 
 
       !internal force in animation file USER7 -> ||Fint||      

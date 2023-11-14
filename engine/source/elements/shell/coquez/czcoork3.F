@@ -237,7 +237,7 @@ C
         L13(I)=X13_2(I)+Y13_2(I)
         L24(I)=X24_2(I)+Y24_2(I)
         LL(I)=HALF*(L13(I)+L24(I))
-	       S1=EM01*THK(I)*THK(I)
+                 S1=EM01*THK(I)*THK(I)
         LL(I)=MAX(LL(I),S1)
       ENDDO
       IF (IMP_CHK > 0) THEN

@@ -68,7 +68,7 @@ C-----------------------------------------------
             X=SAV(I,N)
             Y=SAV(I,N+10)
             Z=SAV(I,N+20)
-            SAV(I,N)	= X - Y*WZZ(I) + Z*WYY(I)
+            SAV(I,N)  = X - Y*WZZ(I) + Z*WYY(I)
             SAV(I,N+10) = Y - Z*WXX(I) + X*WZZ(I)
             SAV(I,N+20) = Z - X*WYY(I) + Y*WXX(I) 
           END DO
@@ -81,7 +81,7 @@ C-----------------------------------------------
             X=SAV(I,N)
             Y=SAV(I,N+10)
             Z=SAV(I,N+20)
-            SAV(I,N)	= X - Y*WZZ(I) + Z*WYY(I)
+            SAV(I,N)  = X - Y*WZZ(I) + Z*WYY(I)
             SAV(I,N+10) = Y - Z*WXX(I) + X*WZZ(I)
             SAV(I,N+20) = Z - X*WYY(I) + Y*WXX(I) 
           END DO

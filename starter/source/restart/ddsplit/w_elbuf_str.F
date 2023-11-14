@@ -362,7 +362,7 @@ c
               L_JAC_I   = BUFLY%L_JAC_I
               L_FAC_YLD = BUFLY%L_FAC_YLD
               L_ABURN   = BUFLY%L_ABURN 
-              L_MU      = BUFLY%L_MU 	        
+              L_MU      = BUFLY%L_MU           
               L_PLANL   = BUFLY%L_PLANL
               L_EPSDNL  = BUFLY%L_EPSDNL 
               L_DMGSCL  = BUFLY%L_DMGSCL
@@ -592,7 +592,7 @@ c
               RBUF_L(L_REL+1:L_REL+NEL*L_FRAC) = LBUF%FRAC(1:NEL*L_FRAC)
                 L_REL = L_REL+NEL*L_FRAC
               RBUF_L(L_REL+1:L_REL+NEL*L_BFRAC)= LBUF%BFRAC(1:NEL*L_BFRAC)        
-                L_REL = L_REL+NEL*L_BFRAC  		
+                L_REL = L_REL+NEL*L_BFRAC  
               RBUF_L(L_REL+1:L_REL+NEL*L_EINT)= LBUF%EINT(1:NEL*L_EINT)        
                 L_REL = L_REL+NEL*L_EINT                                     
               RBUF_L(L_REL+1:L_REL+NEL*L_EINS)= LBUF%EINS(1:NEL*L_EINS)        
@@ -696,15 +696,15 @@ c
               RBUF_L(L_REL+1:L_REL+NEL*L_ABURN)= LBUF%ABURN(1:NEL*L_ABURN)        
                 L_REL = L_REL+NEL*L_ABURN  
               RBUF_L(L_REL+1:L_REL+NEL*L_MU)= LBUF%MU(1:NEL*L_MU)        
-                L_REL = L_REL+NEL*L_MU  		
+                L_REL = L_REL+NEL*L_MU  
               RBUF_L(L_REL+1:L_REL+NEL*L_PLANL)= LBUF%PLANL(1:NEL*L_PLANL)        
-                L_REL = L_REL+NEL*L_PLANL 	
+                L_REL = L_REL+NEL*L_PLANL 
               RBUF_L(L_REL+1:L_REL+NEL*L_EPSDNL)= LBUF%EPSDNL(1:NEL*L_EPSDNL)        
                 L_REL = L_REL+NEL*L_EPSDNL
               RBUF_L(L_REL+1:L_REL+NEL*L_DMGSCL)= LBUF%DMGSCL(1:NEL*L_DMGSCL)        
-                L_REL = L_REL+NEL*L_DMGSCL 	 
+                L_REL = L_REL+NEL*L_DMGSCL    
               RBUF_L(L_REL+1:L_REL+NEL*L_TSAIWU)= LBUF%TSAIWU(1:NEL*L_TSAIWU)        
-                L_REL = L_REL+NEL*L_TSAIWU 		
+                L_REL = L_REL+NEL*L_TSAIWU 
               RBUF_L(L_REL+1:L_REL+NEL*L_PIJ) = LBUF%PIJ(1:NEL*L_PIJ)
                 L_REL = L_REL+NEL*L_PIJ
 C--------write first VOL0DP                

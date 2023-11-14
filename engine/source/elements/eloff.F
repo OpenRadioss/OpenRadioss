@@ -158,7 +158,7 @@ C
              NPTS   = ELBUF_TAB(NG)%NPTS
              NPTT   = ELBUF_TAB(NG)%NPTT
              FACVOL=ONE
-             IF(ISOLNOD == 4 .AND. ITETRA4 == 1) FACVOL=FOUR			   
+             IF(ISOLNOD == 4 .AND. ITETRA4 == 1) FACVOL=FOUR         
 
              DO I=1,NELA
                 J=INDEX(I)+NFT
@@ -180,7 +180,7 @@ C
                 MCP_OFF(NC7(I)) = ONE
                 MCP_OFF(NC8(I)) = ONE
              ENDDO
-			 
+           
              IF(IFORM == 2) THEN
                RHOCP=PM(69,IXS(1,1+NFT))
                DO I=1,NELA
@@ -208,13 +208,13 @@ C---      TEMPERATURE AT ACTIVATION TIME
                  NC4(I)=IXS(6,J)
                ENDDO
                CALL S4VOLUME(X, VOLGN, NELA, NC1, NC2, NC3, NC4)
-			   
+             
                IF(ITETRA4 == 1) THEN
                  IF(JTHE < 0) CALL S10NXT4(NXT4,NELA)
                  DO IP=1,NPTR
                    DO I=1,NELA
                     VOLPN(I,IP) = FOURTH*VOLGN(I)
-				    IF(JTHE >= 0 ) CYCLE
+              IF(JTHE >= 0 ) CYCLE
                     TEMPN(I,IP) = NXT4(I,1,IP)*TEMP(NC1(I))+NXT4(I,2,IP)*TEMP(NC2(I))+
      .                            NXT4(I,3,IP)*TEMP(NC3(I))+NXT4(I,4,IP)*TEMP(NC4(I))
                    ENDDO
@@ -222,7 +222,7 @@ C---      TEMPERATURE AT ACTIVATION TIME
                ELSE
                  DO I=1,NELA
                   VOLPN(I,1) = VOLGN(I)
-				  IF(JTHE >= 0 ) CYCLE
+            IF(JTHE >= 0 ) CYCLE
                   TEMPN(I,1) = FOURTH*(TEMP(NC1(I))+TEMP(NC2(I))+TEMP(NC3(I))+TEMP(NC4(I)))
                  ENDDO
                ENDIF
@@ -415,7 +415,7 @@ C-----------------------
           WRITE(IOUT,'(A,I10,A,G13.5)')' BRICK DEACTIVATION:',IXS(11,II),' AT TIME:',TIME
           IF(ITHERM_FE > 0 .AND. IFORM == 2) THEN
             FACVOL=ONE
-            IF(ISOLNOD == 4 .AND. ITETRA4 == 1) FACVOL=FOUR			   
+            IF(ISOLNOD == 4 .AND. ITETRA4 == 1) FACVOL=FOUR         
             RHOCP=PM(69,IXS(1,II))
             MCPS=ONE_OVER_8*RHOCP*VOLG(I)*FACVOL
             DO K=2,9

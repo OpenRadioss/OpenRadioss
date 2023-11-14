@@ -161,7 +161,7 @@ c
      .        MTE == 44.OR.MTE == 45.OR.MTE == 48.OR.MTE>=50) THEN
               CONTINUE
 c
-	           ELSEIF (MTE == 25) THEN
+                     ELSEIF (MTE == 25) THEN
 C
               DO I=1,NEL               
                 DAM1(I)=ZERO           
@@ -171,37 +171,37 @@ C
                 FAIL1(I)=ZERO          
                 FAIL2(I)=ZERO          
                 FAIL3(I)=ZERO          
-              ENDDO				               
+              ENDDO                       
 c
               IF (ITY == 3) THEN        
                 DO I=1,NEL             
                   MAT(I)=IXC(1,NFT+I)  
                   PID(I)=IXC(6,NFT+I)  
-                ENDDO				             
+                ENDDO                     
               ELSE                     
                 DO I=1,NEL             
-             	  MAT(I)=IXTG(1,NFT+I) 
+            MAT(I)=IXTG(1,NFT+I) 
                   PID(I)=IXTG(5,NFT+I) 
-                ENDDO				             
+                ENDDO                     
               ENDIF                   
 c---
               IF (IGTYP == 11) THEN
                 IPMAT = 100
                 DO N=1,MPT
-            	  DO I=1,NEL
-      	            MATLY = IGEO(IPMAT+N,PID(I))
+            DO I=1,NEL
+                      MATLY = IGEO(IPMAT+N,PID(I))
                     NUVARV = MAX(NUVARV, IPM(225,MATLY)) 
                     IF (IPM(222,MATLY) > 0) IVISC = 1
-            	  ENDDO  			      
-                ENDDO				    
+            ENDDO              
+                ENDDO            
               ELSEIF (IGTYP == 9 .OR. IGTYP == 10) THEN 
                 DO N=1,MPT
                   DO I=1,NEL
                     MATLY=MAT(I)
                     NUVARV =  MAX(NUVARV, IPM(225,MATLY)) 
                     IF (IPM(222,MATLY) > 0) IVISC = 1
-            	  ENDDO  			      
-                ENDDO	
+            ENDDO              
+                ENDDO
               ELSEIF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
                 IPMAT   = 2 + NLAY  
                 DO N=1,NLAY
@@ -209,7 +209,7 @@ c---
                     MATLY  = STACK%IGEO(IPMAT+N,ISUBSTACK)
                     NUVARV = MAX(NUVARV, IPM(225,MATLY)) 
                     IF (IPM(222,MATLY) > 0) IVISC = 1
-            	     ENDDO  			      
+               ENDDO              
                 ENDDO
 c
                 IF (ISHPLYXFEM > 0) THEN
@@ -220,7 +220,7 @@ c
                       NUVARD = MAX(NUVARD, IPM(221,MAT_IPLY)) 
                     ENDDO                                 
                   ENDDO 
-                ENDIF	              			    
+                ENDIF                          
               ENDIF
             ENDIF     ! MTE
 c---------

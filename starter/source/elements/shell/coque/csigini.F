@@ -111,7 +111,7 @@ C=======================================================================
             DO J = 1,NUMEL
               II= J
               N = NINT(SIGSH(1,II))
-	      IF (N == 0) GOTO 100
+                IF (N == 0) GOTO 100
               IF (N == IX(NIX,JJ)) GOTO 60
             ENDDO
             GOTO 100
@@ -348,11 +348,11 @@ C
             L_PLA = ELBUF_STR%BUFLY(ILAY)%L_PLA
             DO IT=1,NPTT
               LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,IT)
-              LBUF%SIG(KK(1)+I)=SIGSH(PT,II)	     
-              LBUF%SIG(KK(2)+I)=SIGSH(PT+1,II)	     
-              LBUF%SIG(KK(3)+I)=SIGSH(PT+2,II)	     
-              LBUF%SIG(KK(4)+I)=SIGSH(PT+3,II)	     
-              LBUF%SIG(KK(5)+I)=SIGSH(PT+4,II)	     
+              LBUF%SIG(KK(1)+I)=SIGSH(PT,II)       
+              LBUF%SIG(KK(2)+I)=SIGSH(PT+1,II)       
+              LBUF%SIG(KK(3)+I)=SIGSH(PT+2,II)       
+              LBUF%SIG(KK(4)+I)=SIGSH(PT+3,II)       
+              LBUF%SIG(KK(5)+I)=SIGSH(PT+4,II)       
               IF (L_PLA > 0) LBUF%PLA(I) = SIGSH(PT+5,II)        
               PT = PT + 6
             END DO !IT=1,NPTT

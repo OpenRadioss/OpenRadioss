@@ -103,7 +103,7 @@ C-----------------------
 C
       DO 10 N=1,NUMNOD
         NTAG(N) = 0
-        E(N)	= ZERO
+        E(N)  = ZERO
  10   CONTINUE
 C
 c      FXN = ZERO

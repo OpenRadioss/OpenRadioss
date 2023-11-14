@@ -336,7 +336,7 @@ C  stress interply (output only)
             ILBUF%SIG(KK(3) + I) = SIG(I,2,IPLY) 
 C
 C stability condition  
-            A11(I,IPLY) =   A11(I,IPLY) * FAC*FAC	 
+            A11(I,IPLY) =   A11(I,IPLY) * FAC*FAC   
  
 C  stress       
 !!           ILBUF%SIG(KK(1) + I) = SIG(3,I,IPLY)
@@ -387,9 +387,9 @@ C reduction of mom  for shell
 C
               DEGFX(I) = - MOM(I,1)*KXX(I) - MOM(I,2)*KYY(I)                   
      +              - MOM(I,3)*KXY(I)                                     
-              MOM(I,1) = SCALE*MOM(I,1) 					    
-              MOM(I,2) = SCALE*MOM(I,2) 					    
-              MOM(I,3) = SCALE*MOM(I,3) 		   
+              MOM(I,1) = SCALE*MOM(I,1)               
+              MOM(I,2) = SCALE*MOM(I,2)               
+              MOM(I,3) = SCALE*MOM(I,3)        
 C
               DEGFX(I) = DEGFX(I) + MOM(I,1)*KXX(I)+MOM(I,2)*KYY(I)                 
      +                  + MOM(I,3)*KXY(I)                                            

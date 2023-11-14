@@ -68,7 +68,7 @@ C
 c      NN2 = NN1 + (NUMSPH+MAXPJET)                                      
 C                                                                       
       DO 490 NG=1,NGROUP                                               
-	    MLW = IPARG(1,NG)
+              MLW = IPARG(1,NG)
         NEL = IPARG(2,NG)                                            
         NFT = IPARG(3,NG)
         ITY = IPARG(5,NG)
@@ -110,12 +110,12 @@ C-----------------------------------------------
            DO I=LFT,LLT                                                 
              N = I + NFT                                                
              IF(EL2FA(NN1+N)/=0)THEN                                  
-               TENS(1,EL2FA(NN1+N)) =  LBUF%DGLO(II(1) + I)	
-               TENS(2,EL2FA(NN1+N)) =  LBUF%DGLO(II(2) + I)	
-               TENS(3,EL2FA(NN1+N)) =  LBUF%DGLO(II(3) + I)		    
-               TENS(4,EL2FA(NN1+N)) =  LBUF%DGLO(II(4) + I)	
-               TENS(5,EL2FA(NN1+N)) =  LBUF%DGLO(II(5) + I)	
-               TENS(6,EL2FA(NN1+N)) =  LBUF%DGLO(II(6) + I)	
+               TENS(1,EL2FA(NN1+N)) =  LBUF%DGLO(II(1) + I)
+               TENS(2,EL2FA(NN1+N)) =  LBUF%DGLO(II(2) + I)
+               TENS(3,EL2FA(NN1+N)) =  LBUF%DGLO(II(3) + I)        
+               TENS(4,EL2FA(NN1+N)) =  LBUF%DGLO(II(4) + I)
+               TENS(5,EL2FA(NN1+N)) =  LBUF%DGLO(II(5) + I)
+               TENS(6,EL2FA(NN1+N)) =  LBUF%DGLO(II(6) + I)
              ENDIF                                                      
            ENDDO                                                        
           ELSE                                                          

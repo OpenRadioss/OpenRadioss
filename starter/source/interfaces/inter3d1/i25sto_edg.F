@@ -73,10 +73,10 @@ C     REAL
       my_real
      .   PENE(MVSIZ)
 C-----------------------------------------------
-      CALL I25PEN3_EDG( J_STOK,PROV_S ,PROV_M ,DRAD    ,IGAP0	,
-     .  		NEDGE ,LEDGE  ,MARGE  ,GAPE    ,GAP_E_L ,
-     .  		IGAP   ,X     ,IRECT  ,PENE    ,ADMSR	,
-     .  		EDG_BISECTOR,VTX_BISECTOR ,ITAB,DGAPLOAD)
+      CALL I25PEN3_EDG( J_STOK,PROV_S ,PROV_M ,DRAD    ,IGAP0  ,
+     .      NEDGE ,LEDGE  ,MARGE  ,GAPE    ,GAP_E_L ,
+     .      IGAP   ,X     ,IRECT  ,PENE    ,ADMSR  ,
+     .      EDG_BISECTOR,VTX_BISECTOR ,ITAB,DGAPLOAD)
 C-----------------------------------------------
 C SUPPRESSION DES ANCIENS CANDIDATS DEJA STOCKES (PENE INITIALE)
 C-----------------------------------------------

@@ -92,12 +92,12 @@ C-----------------
                 TAB_DK(IL) = DK
 C-----------------
 C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
-	            NVOIS=0
-	            DO K=1,KXSP(5,IL)
-	                IF(DVOIS(K)<DK)THEN
-	                    NVOIS=NVOIS+1
-	                END IF
-	            END DO
+                      NVOIS=0
+                      DO K=1,KXSP(5,IL)
+                          IF(DVOIS(K)<DK)THEN
+                              NVOIS=NVOIS+1
+                          END IF
+                      END DO
 
             ENDIF
 C-----------------
@@ -145,14 +145,14 @@ C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
                         JSTOR(K)=JVOIS(K)
                         DSTOR(K)=DVOIS(K)
                     ENDDO
-	                NVOIS=0
-	                DO K=1,KXSPR(IL-NUMSPH)
-	                    IF(DSTOR(K)<DK)THEN
-	                        NVOIS=NVOIS+1
+                          NVOIS=0
+                          DO K=1,KXSPR(IL-NUMSPH)
+                              IF(DSTOR(K)<DK)THEN
+                                  NVOIS=NVOIS+1
                             JVOIS(NVOIS)=JSTOR(K)
                             DVOIS(NVOIS)=DSTOR(K)
-	                    END IF
-	                END DO
+                              END IF
+                          END DO
                     DEALLOCATE(DSTOR)
                     NVOIS=MIN(NVOIS,KVOISPH)
                 ENDIF
@@ -193,12 +193,12 @@ C-----------------
                 DK=DVOIS(KVOISPH)
 C-----------------
 C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
-	            NVOIS=0
-	            DO K=1,KXSP(5,IL)
-	                IF(DVOIS(K)<DK)THEN
-	                    NVOIS=NVOIS+1
-	                END IF
-	            END DO
+                      NVOIS=0
+                      DO K=1,KXSP(5,IL)
+                          IF(DVOIS(K)<DK)THEN
+                              NVOIS=NVOIS+1
+                          END IF
+                      END DO
             ENDIF
 C-----------------
             NVOIS=MIN(NVOIS,KVOISPH)

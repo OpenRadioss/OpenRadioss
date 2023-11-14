@@ -135,8 +135,8 @@ C--------------------------------------------------
 C      FILL OTHER STRUCTURES + CHECKS
 C--------------------------------------------------
         I=0
-	NUMEL_KJ = 0
-C	
+          NUMEL_KJ = 0
+C
         DO N=1,NUMELR
           I = I + 1
 C--------------------------------------------------
@@ -169,7 +169,7 @@ c
           DO J=1,3
             IF (IXR_KJ(J,I)/=0) FLAG_KJ(I) = FLAG_KJ(I) + 1
           END DO   
-c	    
+c      
           IF (IXR(NIXR,I)>ID_LIMIT) THEN
             CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXR(NIXR,I),C1=LINE,C2='/SPRING')
@@ -183,14 +183,14 @@ c
              IXR(4,I)=USR2SYS(IXR(4,I),ITABM1,MESS,IXR(NIXR,I))
              CALL ANODSET(IXR(4,I), CHECK_USED)
           ENDIF
-C         Noeuds additionels pour joints	  
-	  IF (FLAG_KJ(I)>0) THEN
+C         Noeuds additionels pour joints    
+            IF (FLAG_KJ(I)>0) THEN
             DO J=1,3
              IF(IXR_KJ(J,I)/=0) THEN
                 IXR_KJ(J,I)=USR2SYS(IXR_KJ(J,I),ITABM1,MESS,IXR(NIXR,I))
                 CALL ANODSET(IXR_KJ(J,I), CHECK_USED)
              ENDIF
-            END DO  	  		
+            END DO      
           ENDIF
 C         Skews per element - PROP type23 and mat law 108 or PROP type8 - only
           IF (SKEWID(I) > 0) THEN  
@@ -243,7 +243,7 @@ C
           CHAR_SKEW=''
         ENDIF
 C
-	IF (IGEO(11,IXR(1,I))==45) NUMEL_KJ = NUMEL_KJ + 1
+          IF (IGEO(11,IXR(1,I))==45) NUMEL_KJ = NUMEL_KJ + 1
         IF(IXR(4,I)==0) THEN
           WRITE (IOUT,'(5(I10,1X),44X,A,A)') I,IXR(NIXR,I),PID,
      .                  ITAB(IXR(2,I)),ITAB(IXR(3,I)),CHAR_MAT,CHAR_SKEW
@@ -251,7 +251,7 @@ C
           IF (FLAG_KJ(I) == 1) THEN
             WRITE (IOUT,'(7(I10,1X),A,A)') I,IXR(NIXR,I),PID,
      .                   ITAB(IXR(2,I)),ITAB(IXR(3,I)),ITAB(IXR(4,I)),
-     .                  (ITAB(IXR_KJ(J,I)),J=1,FLAG_KJ(I)),CHAR_MAT,CHAR_SKEW  	
+     .                  (ITAB(IXR_KJ(J,I)),J=1,FLAG_KJ(I)),CHAR_MAT,CHAR_SKEW  
           ELSEIF  (FLAG_KJ(I) == 2) THEN
             WRITE (IOUT,'(8(I10,1X),A,A)') I,IXR(NIXR,I),PID,
      .                   ITAB(IXR(2,I)),ITAB(IXR(3,I)),ITAB(IXR(4,I)),
@@ -261,7 +261,7 @@ C
      .                   ITAB(IXR(2,I)),ITAB(IXR(3,I)),ITAB(IXR(4,I)),
      .                  (ITAB(IXR_KJ(J,I)),J=1,FLAG_KJ(I)),CHAR_MAT,CHAR_SKEW 
           ENDIF
-	ELSE
+          ELSE
           WRITE (IOUT,'(6(I10,1X),33X,A,A)') I,IXR(NIXR,I),PID,
      .           ITAB(IXR(2,I)),ITAB(IXR(3,I)),ITAB(IXR(4,I)),CHAR_MAT,CHAR_SKEW
         ENDIF
@@ -280,22 +280,22 @@ C--------------------------------------------------
 
       IF (NUMEL_KJ>0) THEN
         DO I=1,NUMELR
-	  DO J=1,3
-	    IKJ_TMP(J,I)=IXR_KJ(J,I)
-	  END DO
-	END DO
-	CPT = 0
-	IXR_KJ(1,NUMELR+1)=NUMEL_KJ
+            DO J=1,3
+              IKJ_TMP(J,I)=IXR_KJ(J,I)
+            END DO
+          END DO
+          CPT = 0
+          IXR_KJ(1,NUMELR+1)=NUMEL_KJ
         DO I=1,NUMELR
-	  IF (IGEO(11,IXR(1,I))==45) THEN
-	    CPT = CPT+1
-	    DO J=1,3
-	      IXR_KJ(J,CPT)=IKJ_TMP(J,I)
-	    END DO
-	    IXR_KJ(4,CPT)=IXR(NIXR,I)
-	    IXR_KJ(5,CPT)=I
-	  ENDIF  
-	END DO	       
+            IF (IGEO(11,IXR(1,I))==45) THEN
+              CPT = CPT+1
+              DO J=1,3
+                IXR_KJ(J,CPT)=IKJ_TMP(J,I)
+              END DO
+              IXR_KJ(4,CPT)=IXR(NIXR,I)
+              IXR_KJ(5,CPT)=I
+            ENDIF  
+          END DO         
       ENDIF
 C
 C----

@@ -1140,8 +1140,8 @@ C--------------------------------------------
       !COMMUN LAW51/LAW37
       !if multimaterial law then removing useless phases output (phases 3 or/and 4)
       IF(MMALE==1)THEN     
-	IF(N2D==0)THEN 
-	  !no 2D output 
+          IF(N2D==0)THEN 
+            !no 2D output 
           DO I=10248,10251
             IF(ANIM_CE(I)==1)THEN
               ANIM_CE(I)=0
@@ -1162,8 +1162,8 @@ C--------------------------------------------
               NSE_ANI=NSE_ANI-1
             END IF      
           ENDIF
-	ELSEIF(N2D>0)THEN 
-	  !no 3D output	
+          ELSEIF(N2D>0)THEN 
+            !no 3D output
           DO I=283,286
             IF(ANIM_SE(I)==1)THEN
               ANIM_SE(I)=0
@@ -1185,7 +1185,7 @@ C--------------------------------------------
           !    END IF      
           !  ENDDO
           !ENDIF          
-	ENDIF	
+          ENDIF
       ENDIF
       
       IF(MMALE==1)THEN 

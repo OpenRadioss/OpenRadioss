@@ -352,7 +352,7 @@ C----------------------------------------------------------------
      .   I2(NEL),JTHIRD(NEL),J4THIRD(NEL),ETA(NEL),WW(NEL) ,
      .   DPHIDI1(NEL) ,DPHIDI2(NEL) , DPHIDJ(NEL) ,INV2J(NEL), 
      .   DPHI2DI1(NEL) ,DPHI2DI2(NEL) , DPHI2DJ(NEL),LAM_B(3),LAM_B_1(3),
-     .   BI1_3,BI2_3	 
+     .   BI1_3,BI2_3   
 C----------------------------------------------------------------
       ETA(1:NEL) = ONE !MULLINS DAMAGE FACTOR
  
@@ -453,7 +453,7 @@ C----------------------------------------------------------------
          SIG(I,3,2)=SIG(I,2,3)   
          SIG(I,1,3)=SIG(I,3,1)   
       ENDDO
-	  
+            
       DO I = 1,NEL
         DPHI2DI1(I) = TWO*ETA(I)*(C20 + THREE*C30*(BI1(I)-THREE)+ C21*(BI2(I)-THREE)) 
 
@@ -463,8 +463,8 @@ C----------------------------------------------------------------
         LAM_B(2) = MATB(I,2,2)*J2THIRD(I)
         LAM_B(3) = MATB(I,3,3)*J2THIRD(I)
         LAM_B_1(1:3) = ONE/LAM_B(1:3)
-		BI1_3 = THIRD*BI1(I)
-		BI2_3 = THIRD*BI2(I)
+          BI1_3 = THIRD*BI1(I)
+          BI2_3 = THIRD*BI2(I)
         CII(I,1:3) = TWO*(TWO_THIRD*DPHIDI1(I)*(LAM_B(1:3)+BI1_3)+DPHI2DI1(I)*(LAM_B(1:3)-BI1_3)+
      .                     TWO_THIRD*DPHIDI2(I)*(LAM_B_1(1:3)+BI2_3)+DPHI2DI2(I)*(LAM_B_1(1:3)-BI2_3))  
      .               + DPHI2DJ(I)  

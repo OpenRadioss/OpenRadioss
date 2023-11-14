@@ -172,7 +172,7 @@ C
           Y4(I)=ZERO
           Z4(I)=ZERO
          ENDDO
-	END IF
+          END IF
 #include "vectorize.inc"
          DO J=1,NNEGA
           I = INDEX(J)
@@ -240,16 +240,16 @@ C
        IF(IDT1SOL==0)THEN
 
          DO I=1,NEL
-	   D = MAX(PX1(I)*PX1(I)+PY1(I)*PY1(I)+PZ1(I)*PZ1(I),
-     .    	   PX2(I)*PX2(I)+PY2(I)*PY2(I)+PZ2(I)*PZ2(I),
-     .  	   PX3(I)*PX3(I)+PY3(I)*PY3(I)+PZ3(I)*PZ3(I),
-     .  	   PX4(I)*PX4(I)+PY4(I)*PY4(I)+PZ4(I)*PZ4(I))
+             D = MAX(PX1(I)*PX1(I)+PY1(I)*PY1(I)+PZ1(I)*PZ1(I),
+     .         PX2(I)*PX2(I)+PY2(I)*PY2(I)+PZ2(I)*PZ2(I),
+     .       PX3(I)*PX3(I)+PY3(I)*PY3(I)+PZ3(I)*PZ3(I),
+     .       PX4(I)*PX4(I)+PY4(I)*PY4(I)+PZ4(I)*PZ4(I))
            DELTAX(I) = ONE / SQRT(D)
          END DO
 
        ELSEIF(IFORMDT==0)THEN
          DO I=1,NEL
-	   D = PX1(I)*PX1(I)+PY1(I)*PY1(I)+PZ1(I)*PZ1(I)
+             D = PX1(I)*PX1(I)+PY1(I)*PY1(I)+PZ1(I)*PZ1(I)
      .       + PX2(I)*PX2(I)+PY2(I)*PY2(I)+PZ2(I)*PZ2(I)
      .       + PX3(I)*PX3(I)+PY3(I)*PY3(I)+PZ3(I)*PZ3(I)
      .       + PX4(I)*PX4(I)+PY4(I)*PY4(I)+PZ4(I)*PZ4(I)
@@ -273,7 +273,7 @@ C
            P  = BB-THIRD*AA*AA
            D  = TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
- 	   D=LD*D
+             D=LD*D
 C
            DELTAX(I) = ONE / SQRT(D)
          END DO

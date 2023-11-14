@@ -118,9 +118,9 @@ C
 
         M   = SH3TREE(2,N)+IB-1
         NG1 = SH3TREE(4,M)
-        NEL1	= IPARG(2,NG1)
-        NFT1	= IPARG(3,NG1)
-        I1	  = M-NFT1
+        NEL1  = IPARG(2,NG1)
+        NFT1  = IPARG(3,NG1)
+        I1    = M-NFT1
         GBUFT => ELBUF_TAB(NG1)%GBUF
 !
         DO K=1,8  ! length max of GBUF%G_STRA = 8
@@ -171,8 +171,8 @@ c
                 LBUFT%SIG(KK1(3)+I1) = LBUFS%SIG(KK(3)+I)
                 LBUFT%SIG(KK1(4)+I1) = LBUFS%SIG(KK(4)+I)
                 LBUFT%SIG(KK1(5)+I1) = LBUFS%SIG(KK(5)+I)
-              END DO  	                                                 
-            END DO  	                                                   
+              END DO                                                     
+            END DO                                                       
           END DO                                                        
         END DO                                                          
 c
@@ -185,10 +185,10 @@ c
           DO IT=1,NPTT
             ELBUF_TAB(NG1)%BUFLY(IL)%LBUF(IR,IS,IT)%PLA(I1) = 
      .      ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%PLA(I)
-          END DO  	   
-          END DO  	   
-          END DO  	   
-          END DO  	   
+          END DO       
+          END DO       
+          END DO       
+          END DO       
         ENDIF
 c
 c       Uvar
@@ -202,10 +202,10 @@ c
               ELBUF_TAB(NG1)%BUFLY(IL)%MAT(IR,IS,IT)%VAR(NEL1*(K-1)+I1)=
      .        ELBUF_TAB(NG )%BUFLY(IL)%MAT(IR,IS,IT)%VAR(NEL*(K-1)+I)
             END DO
-          END DO  	   
-          END DO  	   
-          END DO  	   
-          END DO  	   
+          END DO       
+          END DO       
+          END DO       
+          END DO       
         END IF
 c
 c       sig moyen                                                           
@@ -225,7 +225,7 @@ c       sig moyen
 !     .        ELBUF_TAB(NG)%BUFLY(1)%SIGPT(JJ+I)          
 !            END DO                                                        
 !          END DO 
-!        ENDIF 	                                                       
+!        ENDIF                                                          
 
 c-----
       END DO  ! IB=1,3
@@ -292,8 +292,8 @@ c
               LBUFT%SIG(KK1(3)+I1) = LBUFS%SIG(KK(3)+I)
               LBUFT%SIG(KK1(4)+I1) =-LBUFS%SIG(KK(4)+I)
               LBUFT%SIG(KK1(5)+I1) =-LBUFS%SIG(KK(5)+I)
-            END DO  	                                                 
-          END DO  	                                                   
+            END DO                                                     
+          END DO                                                       
          END DO                                                        
         END DO                                                          
       ELSE
@@ -308,8 +308,8 @@ c
               LBUFT%SIG(KK1(3)+I1) = LBUFS%SIG(KK(3)+I)
               LBUFT%SIG(KK1(4)+I1) = LBUFS%SIG(KK(4)+I)
               LBUFT%SIG(KK1(5)+I1) = LBUFS%SIG(KK(5)+I)
-            END DO  	                                                 
-          END DO  	                                                   
+            END DO                                                     
+          END DO                                                       
          END DO                                                        
         END DO                                                          
       END IF
@@ -323,10 +323,10 @@ c
         DO IT=1,NPTT                                         
           ELBUF_TAB(NG1)%BUFLY(IL)%LBUF(IR,IS,IT)%PLA(I1) =   
      .    ELBUF_TAB(NG )%BUFLY(IL)%LBUF(IR,IS,IT)%PLA(I) 
-        END DO  	                                            
-        END DO  	                                            
-        END DO  	                                            
-        END DO  	                                            
+        END DO                                                
+        END DO                                                
+        END DO                                                
+        END DO                                                
       ENDIF                                                  
 c
 c     Uvar                                               
@@ -340,10 +340,10 @@ c
             ELBUF_TAB(NG1)%BUFLY(IL)%MAT(IR,IS,IT)%VAR(NEL1*(K-1)+I1)=  
      .      ELBUF_TAB(NG )%BUFLY(IL)%MAT(IR,IS,IT)%VAR(NEL*(K-1)+I)     
           END DO                                                        
-        END DO  	                                                       
-        END DO  	                                                       
-        END DO  	                                                       
-        END DO  	                                                       
+        END DO                                                           
+        END DO                                                           
+        END DO                                                           
+        END DO                                                           
       END IF                                                            
 
 c
@@ -366,7 +366,7 @@ c     sig moyen
 !            BUFLY%SIGPT(II+K) = BUFLY%SIGPT(JJ+K)              
 !          END DO                                                          
 !        END DO                                               
-!      ENDIF 	                                                         
+!      ENDIF                                                            
 c---------------------------------------------
 c     reset source element variables
 c---------------------------------------------
@@ -398,8 +398,8 @@ c
                ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%SIG(KK(K)+I)=ZERO  
               ENDDO                                                   
                ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%PLA(I)=ZERO  
-            END DO  	                                                 
-          END DO  	                                                   
+            END DO                                                     
+          END DO                                                       
         END DO                                                        
       END DO                                                          
 c

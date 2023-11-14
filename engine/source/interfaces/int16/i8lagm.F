@@ -341,7 +341,7 @@ C
           NK = 9
           VX = ZERO
           VY = ZERO
-          VZ = ZERO	  
+          VZ = ZERO    
           DO IK=1,NK
             VX = VX - (V(1,III(I,IK))+DT12*A(1,III(I,IK)))*NI(I,IK)
             VY = VY - (V(2,III(I,IK))+DT12*A(2,III(I,IK)))*NI(I,IK)

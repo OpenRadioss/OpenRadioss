@@ -279,7 +279,7 @@ C-------------Volume traitement------
         DV=DSV(I)
         IF (ABS(DV)>TOL.AND.OFF(I)/=ZERO) THEN
           DV =ZERO
-C----generally element will be switched to smstr 	  
+C----generally element will be switched to smstr     
 C          OFF(I)=ZERO
 C         IF (IMCONV==1) THEN
 C#include "lockon.inc"

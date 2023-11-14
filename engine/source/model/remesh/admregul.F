@@ -258,7 +258,7 @@ C         map fields to the son
         END DO
 C
         CALL ADMMAP4(N, IXC, X, IPARG, ELBUF_TAB,
-     .  	 IGEO, IPM ,SH4TREE)
+     .     IGEO, IPM ,SH4TREE)
 C
         N1 = IXC(2,N)
         N2 = IXC(3,N)
@@ -384,7 +384,7 @@ C         map fields to the son
         END DO
 C
         CALL ADMMAP3(N, IXTG, X, IPARG, ELBUF_TAB,
-     .  	 IGEO, IPM , SH3TREE)
+     .     IGEO, IPM , SH3TREE)
 C
         N1 = IXTG(2,N)
         N2 = IXTG(3,N)

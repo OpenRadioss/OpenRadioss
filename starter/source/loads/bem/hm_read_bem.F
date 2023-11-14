@@ -232,7 +232,7 @@ C
             CALL ANCMSG(MSGID = 1711, ANMODE=ANINFO, MSGTYPE = MSGERROR, 
      .           I1 = INT(SQRT(REAL(HG))))
             CALL ARRET(2)
-         ENDIF			
+         ENDIF
          IF(NEL < NELMAX) THEN
             LRFLOW=LRFLOW+NRFLOW+7*NEL+NEL*NEL+3*NEL
          ELSE
@@ -949,8 +949,8 @@ C     Initialization
          XA=ZERO
          YA=ZERO
          ZA=ZERO 
-         DIRX=ZERO			
-         DIRY=ZERO			
+         DIRX=ZERO
+         DIRY=ZERO
          DIRZ=ZERO   
          IF(FREESURF == 2 .OR. GRAV_ID > 0)THEN
             CALL HM_GET_FLOATV('XA', XA, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -958,7 +958,7 @@ C     Initialization
             CALL HM_GET_FLOATV('ZA', ZA, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('Dir-X', DIRX, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('Dir-Y', DIRY, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            CALL HM_GET_FLOATV('Dir-Z', DIRZ, IS_AVAILABLE, LSUBMODEL, UNITAB)              			
+            CALL HM_GET_FLOATV('Dir-Z', DIRZ, IS_AVAILABLE, LSUBMODEL, UNITAB)              
             NORM=SQRT(DIRX**2+DIRY**2+DIRZ**2)
             IF (NORM==ZERO) THEN
                CALL ANCMSG(MSGID=622,

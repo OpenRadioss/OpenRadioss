@@ -208,7 +208,7 @@ C=======================================================================
             C31v    = BUFMAT(IADBUF-1+18)    ; 
             C32v    = BUFMAT(IADBUF-1+19)    ; 
             C33v    = BUFMAT(IADBUF-1+20)    ; 
-            C34v    = ZERO                   ;  				
+            C34v    = ZERO                   ;  
             C41v    = BUFMAT(IADBUF-1+22)    ; 
             C42v    = BUFMAT(IADBUF-1+23)    ; 
             C43v    = BUFMAT(IADBUF-1+24)    ; 

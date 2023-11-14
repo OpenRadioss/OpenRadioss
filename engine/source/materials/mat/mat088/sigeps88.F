@@ -186,7 +186,7 @@ C ---- (STRAIN IS LOGARITHMIC)
           EV(1,I)=SQRT(EVV(1,I)+ ONE)
           EV(2,I)=SQRT(EVV(2,I)+ ONE)
           EV(3,I)=SQRT(EVV(3,I)+ ONE)
-	ELSE
+          ELSE
          EV(1,I)=EVV(1,I)+ ONE
          EV(2,I)=EVV(2,I)+ ONE
          EV(3,I)=EVV(3,I)+ ONE

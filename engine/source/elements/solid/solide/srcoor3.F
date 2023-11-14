@@ -167,9 +167,9 @@ C----------------------------
           ZD7(I)=XDP(3,NC7(I))  
           XD8(I)=XDP(1,NC8(I))  
           YD8(I)=XDP(2,NC8(I))  
-          ZD8(I)=XDP(3,NC8(I))  	  	  	  
+          ZD8(I)=XDP(3,NC8(I))              
         ENDDO
-      ELSE	
+      ELSE
         DO I=LFT,LLT
           XD1(I)=X(1,NC1(I))  
           YD1(I)=X(2,NC1(I))  
@@ -404,13 +404,13 @@ C     X=RX' <=> X'=t(R)X chgt de base.
             ZDL=R13(I)*XD8(I)+R23(I)*YD8(I)+R33(I)*ZD8(I)
             XD8(I)=XDL
             YD8(I)=YDL
-            ZD8(I)=ZDL		    	    
+            ZD8(I)=ZDL              
             OFF(I) = ABS(OFFG(I))
             OFF_L  = MIN(OFF_L,OFFG(I))
           ENDIF
         ENDDO
         IF((ISMSTR==12.AND.IDTMIN(1)==3).AND.JLAG>0) THEN
-         DO I=LFT,LLT	  
+         DO I=LFT,LLT    
           IF(ABS(OFFG(I)) > ONE)THEN
           XDL=R11(I)*XD1(I)+R21(I)*YD1(I)+R31(I)*ZD1(I)
           YDL=R12(I)*XD1(I)+R22(I)*YD1(I)+R32(I)*ZD1(I)
@@ -459,13 +459,13 @@ C     X=RX' <=> X'=t(R)X chgt de base.
           ZDL=R13(I)*XD8(I)+R23(I)*YD8(I)+R33(I)*ZD8(I)
           XD8(I)=XDL
           YD8(I)=YDL
-          ZD8(I)=ZDL		   	 
+          ZD8(I)=ZDL          
           END IF
-	 ENDDO
+           ENDDO
         END IF
 C
       ELSE    ! Ismstr = 4
-        DO I=LFT,LLT	  
+        DO I=LFT,LLT    
           XDL=R11(I)*XD1(I)+R21(I)*YD1(I)+R31(I)*ZD1(I)
           YDL=R12(I)*XD1(I)+R22(I)*YD1(I)+R32(I)*ZD1(I)
           ZDL=R13(I)*XD1(I)+R23(I)*YD1(I)+R33(I)*ZD1(I)
@@ -513,7 +513,7 @@ C
           ZDL=R13(I)*XD8(I)+R23(I)*YD8(I)+R33(I)*ZD8(I)
           XD8(I)=XDL
           YD8(I)=YDL
-          ZD8(I)=ZDL		   	    	   
+          ZD8(I)=ZDL                  
           OFF(I) = ABS(OFFG(I))
           OFF_L  = MIN(OFF_L,OFFG(I))
         ENDDO
@@ -553,7 +553,7 @@ C------save for SAV update
          Z0(I,8) = ZD8(I)
         END DO
        END IF
-C	
+C
         DO I=LFT,LLT
 C         Extration de G tq Xortho=Transpose(G) Xcvt
 C                                 =Transpose(G) Transpose(R) Xglobal.

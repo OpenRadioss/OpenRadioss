@@ -164,7 +164,7 @@ c     .            +       MFZY(I)*MFYY(I)+MFZZ(I)*MFYZ(I))
 c        ENDDO
 c        IF(IDTMIN(1)==3)THEN
 c         DO I=1,NEL
-c	  IF (OFFG(I) <=ONE) CYCLE
+c    IF (OFFG(I) <=ONE) CYCLE
 c           EPSXX(I)=MFXX(I)
 c           EPSYY(I)=MFYY(I)
 c           EPSZZ(I)=MFZZ(I)
@@ -172,7 +172,7 @@ c           EPSXY(I)=MFXY(I)+MFYX(I)
 c           EPSZX(I)=MFXZ(I)+MFZX(I)
 c           EPSYZ(I)=MFZY(I)+MFYZ(I)
 c         ENDDO
-c	END IF
+c  END IF
 c      ENDIF
 C
       DO I=1,NEL
@@ -203,7 +203,7 @@ C     Strain definition
           EV(I,1)=SQRT(EVV(I,1)+ ONE)
           EV(I,2)=SQRT(EVV(I,2)+ ONE)
           EV(I,3)=SQRT(EVV(I,3)+ ONE)
-	ELSE
+          ELSE
          EV(I,1)=EVV(I,1)+ ONE
          EV(I,2)=EVV(I,2)+ ONE
          EV(I,3)=EVV(I,3)+ ONE
@@ -223,7 +223,7 @@ C        ET(I) = ZERO
           ETI(1:NEL)  = ZERO
           DO K=1,NORDRE
             DO I  = 1,NEL
-	     AMAX = EV(I,J)
+               AMAX = EV(I,J)
              IF(AMAX>ZERO) THEN
               IF((Al(K)-ONE)==ZERO) THEN
                  ETI(I)  = ETI(I) + MU(K)*Al(K)

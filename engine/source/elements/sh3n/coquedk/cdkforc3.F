@@ -475,7 +475,7 @@ C---
         DO J=1,3
           GBUF%MOM(KK(J)+I) = THIRD*(GBUF%MOMPG(PT1+KK(J)+I)
      .                             + GBUF%MOMPG(PT2+KK(J)+I)
-     .                             + GBUF%MOMPG(PT3+KK(J)+I))	
+     .                             + GBUF%MOMPG(PT3+KK(J)+I))
          ENDDO
       ENDDO
 C-------------------------

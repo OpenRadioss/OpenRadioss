@@ -76,7 +76,7 @@ c-----------
         CALL I2_DTN_28_PEN(X,INTBUF_TAB(N)%IRECTM,INTBUF_TAB(N)%CSTS,INTBUF_TAB(N)%NSV,INTBUF_TAB(N)%IRTLM,
      .                     IPARI(1,N),INTBUF_TAB(N)%MSEGTYP2,STIFN,STIFN(NUMNOD+1),INTBUF_TAB(N)%SPENALTY,
      .                     INTBUF_TAB(N)%STFR_PENALTY,INTBUF_TAB(N)%VARIABLES(14),IN,INTBUF_TAB(N)%IRUPT)
-      ENDIF	    
+      ENDIF      
 C-----------
       RETURN
       END
@@ -248,7 +248,7 @@ C
         ENDIF
 C
       ENDDO
-C	    
+C      
 C-----------
       RETURN
       END
@@ -344,19 +344,19 @@ C------------------------------------------------
           X1  = X(1,IX1)                                       
           Y1  = X(2,IX1)                                          
           Z1  = X(3,IX1)                                          
-          X2  = X(1,IX2)					     
-          Y2  = X(2,IX2)					     
-          Z2  = X(3,IX2)					     
-          X3  = X(1,IX3)					     
-          Y3  = X(2,IX3)					     
-          Z3  = X(3,IX3)					     
-          X4  = X(1,IX4)					     
-          Y4  = X(2,IX4)					     
-          Z4  = X(3,IX4)					     
+          X2  = X(1,IX2)               
+          Y2  = X(2,IX2)               
+          Z2  = X(3,IX2)               
+          X3  = X(1,IX3)               
+          Y3  = X(2,IX3)               
+          Z3  = X(3,IX3)               
+          X4  = X(1,IX4)               
+          Y4  = X(2,IX4)               
+          Z4  = X(3,IX4)               
           XS  = X(1,I)                                          
           YS  = X(2,I)                                         
           ZS  = X(3,I)                                           
-							
+
 C---------------------
           CALL I2REP(X1     ,X2     ,X3     ,X4     ,
      .               Y1     ,Y2     ,Y3     ,Y4     ,
@@ -441,9 +441,9 @@ c
         RZ(4) = E3X*X4 + E3Y*Y4 + E3Z*Z4         
 C
         IF (NIR==3) THEN
- 	  RX(4)=ZERO
- 	  RY(4)=ZERO
- 	  RZ(4)=ZERO
+            RX(4)=ZERO
+            RY(4)=ZERO
+            RZ(4)=ZERO
         END IF
 C
 C---------

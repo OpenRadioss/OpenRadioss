@@ -442,7 +442,7 @@ C
      .               PX, PY, PZ, VX, VY, VZ, 
      .               DVM ,GBUF%OFF, NPT ,NEL)
         END IF
-C--- for /CST avoid multi-printout----	
+C--- for /CST avoid multi-printout----
        IF (ISMSTR == 2 .OR.ISMSTR ==12) THEN
         DO IP=1,NPT
          IPTR = IP
@@ -569,7 +569,7 @@ C-----------------------------
           DO I=LFT,LLT                                            
             TEMPEL(I)= ZERO                                       
           ENDDO                                                   
-          IF(ISOLNOD == 10) THEN		  
+          IF(ISOLNOD == 10) THEN      
           DO J = 1,10                                             
             DO I=LFT,LLT                                          
               TEMPEL(I)= TEMPEL(I) +  NX(I,J,IP)*TEMP(NC(I,J))       
@@ -687,14 +687,14 @@ c----------
 
       IF (JTHE < 0 .AND. ISOLNOD == 4) THEN
           CALL S4THERM_ITET1(PM   ,MXT    ,NC   ,NEL  ,
-     .    	                 XX   ,YY     ,ZZ   ,DT1  ,DIE ,
-     .    	                 TEMP ,THEM   ,GBUF%OFF   ,LBUF%OFF) 
+     .                       XX   ,YY     ,ZZ   ,DT1  ,DIE ,
+     .                       TEMP ,THEM   ,GBUF%OFF   ,LBUF%OFF) 
       ENDIF
 c-----------------------------
       IF (JLAG+JALE+JEUL /= 0) THEN
 c
 C-----  small strain
-C------ correction of GBUF%SMSTR will be done only from next cycle	
+C------ correction of GBUF%SMSTR will be done only from next cycle
         CALL S10MALLB3(
      1   GBUF%SMSTR,GBUF%OFF,  WXXG,      WYYG,
      2   WZZG,      NEL,       ISMSTR,    JLAG)

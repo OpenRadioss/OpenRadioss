@@ -301,7 +301,7 @@ C      CALL GET_GAMA(MTN,NEL,NBGAMA,JCVT,PM,IXS(1,NF1),IGTYP)
         C1 =PM(32,MX)
         E0(I) =THREE*(ONE-TWO*NU(1))*C1
         DELTAX(I)=EP30
-		      IDEG(I)=0
+                IDEG(I)=0
       ENDDO
       IF (JHBE/=14.AND.JHBE<20) THEN
         DO I=1,NEL

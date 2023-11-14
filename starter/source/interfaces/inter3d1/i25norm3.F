@@ -410,30 +410,30 @@ C
               IS1=ADMSR(IEDG,IRM)
 C             LBOUND(IS1)=1
               IF(VTX_BISECTOR(1,1,IS1)==RZERO.AND.
-     .  	 VTX_BISECTOR(2,1,IS1)==RZERO.AND.
-     .  	 VTX_BISECTOR(3,1,IS1)==RZERO)THEN
-        	VTX_BISECTOR(1,1,IS1)=VX
-        	VTX_BISECTOR(2,1,IS1)=VY
-        	VTX_BISECTOR(3,1,IS1)=VZ
+     .     VTX_BISECTOR(2,1,IS1)==RZERO.AND.
+     .     VTX_BISECTOR(3,1,IS1)==RZERO)THEN
+          VTX_BISECTOR(1,1,IS1)=VX
+          VTX_BISECTOR(2,1,IS1)=VY
+          VTX_BISECTOR(3,1,IS1)=VZ
               ELSE
-        	VTX_BISECTOR(1,2,IS1)=VX
-        	VTX_BISECTOR(2,2,IS1)=VY
-        	VTX_BISECTOR(3,2,IS1)=VZ
-              END IF	
+          VTX_BISECTOR(1,2,IS1)=VX
+          VTX_BISECTOR(2,2,IS1)=VY
+          VTX_BISECTOR(3,2,IS1)=VZ
+              END IF
 C
               IS2=ADMSR(MOD(IEDG,4)+1,IRM)
 C             LBOUND(IS2)=1
               IF(VTX_BISECTOR(1,1,IS2)==RZERO.AND.
-     .  	 VTX_BISECTOR(2,1,IS2)==RZERO.AND.
-     .  	 VTX_BISECTOR(3,1,IS2)==RZERO)THEN
-        	VTX_BISECTOR(1,1,IS2)=VX
-        	VTX_BISECTOR(2,1,IS2)=VY
-        	VTX_BISECTOR(3,1,IS2)=VZ
+     .     VTX_BISECTOR(2,1,IS2)==RZERO.AND.
+     .     VTX_BISECTOR(3,1,IS2)==RZERO)THEN
+          VTX_BISECTOR(1,1,IS2)=VX
+          VTX_BISECTOR(2,1,IS2)=VY
+          VTX_BISECTOR(3,1,IS2)=VZ
               ELSE
-        	VTX_BISECTOR(1,2,IS2)=VX
-        	VTX_BISECTOR(2,2,IS2)=VY
-        	VTX_BISECTOR(3,2,IS2)=VZ
-              END IF	
+          VTX_BISECTOR(1,2,IS2)=VX
+          VTX_BISECTOR(2,2,IS2)=VY
+          VTX_BISECTOR(3,2,IS2)=VZ
+              END IF
 
             END IF
           END IF

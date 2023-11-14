@@ -262,10 +262,10 @@ c        NPT = NPTT
            ENDIF
         END SELECT
         IF (NLY ==0) THEN
-	 NLY =IINT
-	ELSE
-	 IINT = 1
-	ENDIF
+           NLY =IINT
+          ELSE
+           IINT = 1
+          ENDIF
       END SELECT      
       IF (NLY<=0) THEN
          CALL ANCMSG(MSGID=27,
@@ -281,7 +281,7 @@ c        NPT = NPTT
      .               I2=NLYMAX,
      .               I1=IG,
      .               C1=TITR)
-	     NLY =NLYMAX
+               NLY =NLYMAX
       ENDIF
 C                                 
 C  viscosity

@@ -425,7 +425,7 @@ C-----------------------------------------------
         INTEGER I ,J,K
       my_real
      .   SCAL
-C-------crrection to pass patch test	 
+C-------crrection to pass patch test   
       BMRZ(JFT:JLT,1:3,1:2)=ZERO
       RETURN
 C------- moyen ksi,eta=0.5 for BMRZ(,J,I)
@@ -496,7 +496,7 @@ c        VDEF(3,I)=VDEF(3,I)+BM0RZ(3,1,I)*RZ13(I)+BM0RZ(3,2,I)*RZ23(I)
 c        VDEF(4,I)=VDEF(4,I)+BM0RZ(4,1,I)*RZ13(I)+BM0RZ(4,2,I)*RZ23(I)
 c       ENDDO
 c      END IF !(IDRIL>0) THEN
-C	  
+C    
       RETURN
 C
       END

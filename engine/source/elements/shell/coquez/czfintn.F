@@ -123,7 +123,7 @@ C
           CYY=HYY*VGLAS(I,12)
           CXX_K=HXX_K*VGLAS(I,11)
           CYY_K=HYY_K*VGLAS(I,12)
-		  C2 = A11(I)*FAC1(I)
+            C2 = A11(I)*FAC1(I)
           C1M=C2*FAC58(I,1)
           C2M=C2*FAC58(I,2)
           C12 = EM02*MIN(C1M,C2M)
@@ -132,8 +132,8 @@ C
           DGLAS(I,7) =C1M*CXX_K-C12*CYY_K
           DGLAS(I,8) =C2M*CYY_K-C12*CXX_K
          END DO
-c       if (mod(ncycle,10)==0) print *,'FAC58(I,1-2)=',FAC58(nel,1),FAC58(nel,2)	   
-		ELSE
+c       if (mod(ncycle,10)==0) print *,'FAC58(I,1-2)=',FAC58(nel,1),FAC58(nel,2)     
+          ELSE
          DO I=JFT,JLT
           C3=FOUR*AA(I)
           HXX=C3*MY34(I)
@@ -148,7 +148,7 @@ c       if (mod(ncycle,10)==0) print *,'FAC58(I,1-2)=',FAC58(nel,1),FAC58(nel,2)
           BYY=HYY*DHG(I,4)
           BXX_K=HXX_K*DHG(I,3)
           BYY_K=HYY_K*DHG(I,4)
-		  C2 = A11(I)*FAC1(I)
+            C2 = A11(I)*FAC1(I)
           C1M=C2*FAC58(I,1)
           C2M=C2*FAC58(I,2)
           C12 = EM02*MIN(C1M,C2M)
@@ -278,7 +278,7 @@ C      -----------for energy calculation-Mean_value--------
 C       ----viscous energy is removed to hourglass energy----
         TESY(I)= (SS1_V*DHG(I,1)+SS2_V*DHG(I,2))*THK(I)
        ENDDO
-	  ELSE
+            ELSE
       DO I=JFT,JLT
 C      ---------elstic increament----------
         VGLAS(I,1) =VGLAS(I,1) +DGLAS(I,1)
@@ -289,7 +289,7 @@ C      ---------elstic increament----------
         VGLAS(I,8) =VGLAS(I,8) +DGLAS(I,8)
         VGLAS(I,9) =VGLAS(I,9) +DGLAS(I,9)
         VGLAS(I,10)=VGLAS(I,10)+DGLAS(I,10)
-C  -----------/4 par rapport formulation-------	  
+C  -----------/4 par rapport formulation-------    
         VGLAS(I,5) =VGLAS(I,5) +DGLAS(I,5)
         VGLAS(I,6) =VGLAS(I,6) +DGLAS(I,6)
         VGLAS(I,11)=VGLAS(I,11)+DGLAS(I,11)
@@ -746,7 +746,7 @@ C      ---------elstic increament----------
         VGLAS(I,9) =VGLAS(I,9) +DGLAS(I,9)
         VGLAS(I,10)=VGLAS(I,10)+DGLAS(I,10)
         VGLAS(I,11)=VGLAS(I,11)+DGLAS(I,11)
-        VGLAS(I,12)=VGLAS(I,12)+DGLAS(I,12)	  
+        VGLAS(I,12)=VGLAS(I,12)+DGLAS(I,12)    
         VGLAS(I,13)=VGLAS(I,13)+DGLAS(I,13)
         VGLAS(I,14)=VGLAS(I,14)+DGLAS(I,14)
         VGLAS(I,15)=VGLAS(I,15)+DGLAS(I,15)
@@ -2222,18 +2222,18 @@ c gama_i=1/4(h_i-hx*bx_i-hy*byi); bx_i=(y24 -y13 -y24 y13)/A;by_i=(-x24 x13 x24 
         PX2(I)  = -Y13(I)
         PY1(I)  = -X24(I)
         PY2(I)  =  X13(I)
-C----1/4*hx		
-	    HX(I) = HALF*(-X13(I)+X24(I))+(MX13(I)-MX23(I))
-	    HY(I) = HALF*(-Y13(I)+Y24(I))+(MY13(I)-MY23(I))
+C----1/4*hx
+              HX(I) = HALF*(-X13(I)+X24(I))+(MX13(I)-MX23(I))
+              HY(I) = HALF*(-Y13(I)+Y24(I))+(MY13(I)-MY23(I))
       ENDDO
 c gama_i*vz_i = vhi-hx*(y24*v13-y13*v24)-hy*(-x24*v13+x13*v24)
       DO I=JFT,JLT
-		GAMAVZ(I) = VHI(I,3)-HX(I)*(PX1(I)*V13(I,3)+PX2(I)*V24(I,3))
+          GAMAVZ(I) = VHI(I,3)-HX(I)*(PX1(I)*V13(I,3)+PX2(I)*V24(I,3))
      .                      -HY(I)*(PY1(I)*V13(I,3)+PY2(I)*V24(I,3))
       ENDDO
       DO I=JFT,JLT
-	    HXA =HX(I)*AA(I) 
-	    HYA =HY(I)*AA(I) 
+              HXA =HX(I)*AA(I) 
+              HYA =HY(I)*AA(I) 
         PX1V    = PX1(I)*HXA
         PX2V    = PX2(I)*HXA
         PY1V    = PY1(I)*HYA
@@ -2245,45 +2245,45 @@ C        J=3,4 STOCK LA PARTIE SYM (F(1)=F(3),F(2)=F(4))
         GAMA2(I)= - PX2V-PY2V
         GAMA4(I)= -FOURTH
       ENDDO
-C----fixing fac as Q4, can be changed w/ G(i) 	  
-	  FAC = 0.83*EM02
-C--- same as Q4, no more daming but elatic w/ FAC*G 	  
+C----fixing fac as Q4, can be changed w/ G(i)     
+            FAC = 0.83*EM02
+C--- same as Q4, no more daming but elatic w/ FAC*G     
       DO I=JFT,JLT
         HVL=FAC*G(I)*THK(I)*OFF(I)*DT1
         VGLAS(I,10)=VGLAS(I,10)+HVL*GAMAVZ(I)
-		C2 = FOUR*VGLAS(I,10)
+          C2 = FOUR*VGLAS(I,10)
         VF(I,3,1)=VF(I,3,1)+C2*GAMA1(I)
         VF(I,3,2)=VF(I,3,2)+C2*GAMA2(I)
         VF(I,3,3)=VF(I,3,3)+C2*GAMA3(I)
         VF(I,3,4)=VF(I,3,4)+C2*GAMA4(I)
-C		
-		TESY(I) = AREA(I)*VGLAS(I,10)*DT1*(
+C
+          TESY(I) = AREA(I)*VGLAS(I,10)*DT1*(
      .           (GAMA1(I)+GAMA2(I))*V13(I,3)+(GAMA3(I)+GAMA4(I))*V24(I,3))
-	  ENDDO
+            ENDDO
        MX = IPARTC(JFT)
        DO I=JFT,JLT
           EVIS(8,MX)=EVIS(8,MX) + TESY(I)
        ENDDO
 C---- damping 
-c      FAC=0.01	  
-cc      FAC=0.5	  
+c      FAC=0.01    
+cc      FAC=0.5    
 c      DO I=JFT,JLT
 c        HVZ(I)=FOURTH*FAC*RHO(I)*THK(I)*SQRT(AREA(I))
-c	  ENDDO       
-cC---- mode Z1+Z2-(Z3+Z4) 	  
+c    ENDDO       
+cC---- mode Z1+Z2-(Z3+Z4)     
 c      DO I=JFT,JLT
 c        FV=HVZ(I)*(V13(I,3)+V24(I,3))
 c        VF(I,3,1)=VF(I,3,1)+FV
 c        VF(I,3,2)=VF(I,3,2)+FV
-c	  ENDDO       
-cC---- mode Z1+Z4-(Z2+Z3) 	  
+c    ENDDO       
+cC---- mode Z1+Z4-(Z2+Z3)     
 c      DO I=JFT,JLT
 c        FV=HVZ(I)*(V13(I,3)-V24(I,3))
 c        VF(I,3,1)=VF(I,3,1)+FV
 c        VF(I,3,2)=VF(I,3,2)-FV
-c	  ENDDO       
+c    ENDDO       
 
-	   GV(JFT:JLT) = 0.001*G(JFT:JLT)
+             GV(JFT:JLT) = 0.001*G(JFT:JLT)
        CALL CZFINTNM(JFT  ,JLT  ,THK  ,AA   ,VHG  ,
      2               X13  ,X24  ,Y13  ,Y24  ,VF   ,
      3               GV   ,RHO  ,AREA ,AMU  ,DT1  ,

@@ -1119,9 +1119,9 @@ C-----------------------
      .   CALL TMAX_IPART(IPARG   ,IPART   ,IPART(I15A),IPART(I15C),
      .                 IPART(I15I),H3D_DATA)
        CALL INI_TMAX(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
-     .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
-     .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
-     .  	       X	,D       ,V       ,IAD_ELEM,FR_ELEM ,
+     .           IXS  ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
+     .           IXC  ,IXTG   ,IXT    ,IXP     ,IXR     ,
+     .           X  ,D       ,V       ,IAD_ELEM,FR_ELEM ,
      .             WEIGHT ,IPM   ,IGEO    ,STACK   ,ITASK   )
 !$OMP SINGLE
        IF (FAILWAVE%WAVE_MOD > 0) THEN

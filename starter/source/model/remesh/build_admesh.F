@@ -628,8 +628,8 @@ C          DO K=KNOD2SH(NI-1)+1,KNOD2SH(NI)
 C            P=NOD2SH(K)
 C            IF(P/=N)THEN
 C              DO L=KNOD2SH(NJ-1)+1,KNOD2SH(NJ)
-C          	Q=NOD2SH(L)
-C          	IF(Q==P)THEN
+C            Q=NOD2SH(L)
+C            IF(Q==P)THEN
 C                  IF(SH4NEIGHB(I,N)/=0)THEN
 C                    CALL ANSTCKI(IXC(NIXC,N))
 C                    CALL ANSTCKI(IPART(1,IP))
@@ -637,7 +637,7 @@ C                    CALL ANCERR(640,ANINFO_BLIND_1)
 C                  ELSE
 C                    SH4NEIGHB(I,N)=Q
 C                  END IF
-C          	END IF
+C            END IF
 C              END DO
 C            END IF
 C          END DO
@@ -656,16 +656,16 @@ C          DO K=KNOD2SH(NI-1)+1,KNOD2SH(NI)
 C            P=NOD2SH(K)
 C            IF(P/=N)THEN
 C              DO L=KNOD2SH(NJ-1)+1,KNOD2SH(NJ)
-C          	Q=NOD2SH(L)
-C          	IF(Q==P)THEN
+C            Q=NOD2SH(L)
+C            IF(Q==P)THEN
 C                  IF(SH3NEIGHB(I,N)/=0)THEN
 C                    CALL ANSTCKI(IXTG(NIXTG,N))
 C                    CALL ANSTCKI(IPART(1,IP))
 C                    CALL ANCERR(641,ANINFO_BLIND_1)
 C                  ELSE
 C                    SH3NEIGHB(I,N)=Q
-C          	  END IF
-C          	END IF
+C              END IF
+C            END IF
 C              END DO
 C            END IF
 C          END DO

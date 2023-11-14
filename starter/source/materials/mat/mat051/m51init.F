@@ -169,7 +169,7 @@ C-----------------------------------------------
         UVAR(I,20+KK) = RHO0_(IMAT)  !rho0 initial state is element dependent and can be updated by /INIGRAV
         UVAR(I,21+KK) = E0_(IMAT)    !E0
         UVAR(I,22+KK) = ZERO !SSP0 to introduce if needed
-	UVAR(I,23+KK) = VF(IMAT)                      !alpha0                   
+          UVAR(I,23+KK) = VF(IMAT)                      !alpha0                   
        ENDDO                                                            
       ENDDO 
       !particular case of submaterial 4 (burning time to initialize)

@@ -85,8 +85,8 @@ C
         L2 = 0.
         RM = 1.E30
         RI = 1.E30
-	IDRB(1)=0
-	IDRB(2)=0
+          IDRB(1)=0
+          IDRB(2)=0
 C-->
         DO I=1,NODES
             M(I) = 0
@@ -97,7 +97,7 @@ C-->        Search of connected rbody ---
               NSL=NPBY(2,N)
               IF (NPBY(1,N)==NOD(I)) THEN 
 C--             Tag for error message - Can't be attached to main node of rbody-              
-		IDRB(I)=-N
+          IDRB(I)=-N
                 UVAR(37+I,IEL)= N                
                 EXIT
               ENDIF
@@ -105,7 +105,7 @@ C
               DO J=1,NSL
                 NN = LPBY(J+K)
                 IF(NN==NOD(I)) THEN
-		  IDRB(I)=N
+            IDRB(I)=N
                   M(I) = NPBY(1,N)
                   MASS = RBY(14,N)
                   INER = (RBY(10,N)+RBY(11,N)+RBY(12,N))/3.0
@@ -113,7 +113,7 @@ C                 L2 = INER/MASS
                   UVAR(33+I,IEL)= MASS
                   UVAR(35+I,IEL)= INER
                   UVAR(37+I,IEL)= N
-C-->		  
+C-->      
                   GOTO 100
                 ENDIF
               ENDDO
@@ -123,7 +123,7 @@ C
 C-->        Stockage d'une masse elementaire (masse hormonique) pour calcul d'energie specifique
             GMASS(IEL) = (UVAR(34,IEL)*UVAR(35,IEL))/MAX(EM20,UVAR(34,IEL)+UVAR(35,IEL))
 C-->
-            IF (IDRB(I)==0) THEN	    
+            IF (IDRB(I)==0) THEN      
 C-->          no rbodies found - kjoint connected to structural node  ---
               UVAR(33+I,IEL)= MS(NOD(I))
               UVAR(35+I,IEL)= IN(NOD(I))
@@ -146,7 +146,7 @@ C-->          no rbodies found - kjoint connected to structural node  ---
      .                      I3=ITAB(NOD(I)))
               ENDIF
             ELSEIF (IDRB(I) < 0) THEN
-C-->          kjoint connected to main node of rbody - error --	    
+C-->          kjoint connected to main node of rbody - error --      
               CALL ANCMSG(MSGID=1768,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_2,
@@ -154,7 +154,7 @@ C-->          kjoint connected to main node of rbody - error --
      .                    C1=TITR,
      .                    I2=IXR(NIXR,NFT+IEL),
      .                    I3=ITAB(NOD(I)))
-	    ENDIF
+              ENDIF
 C            
         ENDDO
 C-->
@@ -165,24 +165,24 @@ C---> Print de l'output pour kjoint2--------------------
         IELUSR = IXR(NIXR,NFT+IEL)
         RB1 = 0
         RB2 = 0
-	IF (UVAR(38,IEL) > 0) RB1 = NPBY(6,NINT(UVAR(38,IEL)))
-	IF (UVAR(39,IEL) > 0) RB2 = NPBY(6,NINT(UVAR(39,IEL)))
+          IF (UVAR(38,IEL) > 0) RB1 = NPBY(6,NINT(UVAR(38,IEL)))
+          IF (UVAR(39,IEL) > 0) RB2 = NPBY(6,NINT(UVAR(39,IEL)))
         N1 = ITAB(IXR(2,NFT+IEL))
         N2 = ITAB(IXR(3,NFT+IEL))
-	N3 = 0
-	N4 = 0
-        IF (IXR(4,NFT+IEL)/=0) N3 = ITAB(IXR(4,NFT+IEL)) 	
-	LEN=SQRT(UVAR(1,IEL)**2+UVAR(2,IEL)**2+UVAR(3,IEL)**2)
-	NUMEL_KJ = IXR_KJ(1,NUMELR+1)
+          N3 = 0
+          N4 = 0
+        IF (IXR(4,NFT+IEL)/=0) N3 = ITAB(IXR(4,NFT+IEL)) 
+          LEN=SQRT(UVAR(1,IEL)**2+UVAR(2,IEL)**2+UVAR(3,IEL)**2)
+          NUMEL_KJ = IXR_KJ(1,NUMELR+1)
         DO J=1,NUMEL_KJ
           IF (IXR_KJ(4,J)==IELUSR) ID_KJ = J
         END DO 
-        IF (ID_KJ>0) THEN 	     
+        IF (ID_KJ>0) THEN        
           IF (IXR_KJ(1,ID_KJ)/=0) N4 = ITAB(IXR_KJ(1,ID_KJ))
         ENDIF
         IDSK2 = NINT(GET_U_GEO(54,IPROP))
         IF (IDSK2==0) THEN
-          WRITE(IOUT,2000)      	  
+          WRITE(IOUT,2000)          
           WRITE(IOUT,'(1X,5I10,4X,2I10,2X,F16.7,2X,3F16.7)') IELUSR,N1,
      .    N2,N3,N4,RB1,RB2,LEN,(UVAR(21+K,IEL),K=1,3)
           WRITE(IOUT,'(2(95X,3F16.7/))') (UVAR(21+K,IEL),K=4,9)
@@ -194,7 +194,7 @@ C---> Print de l'output pour kjoint2--------------------
           WRITE(IOUT,'(2(95X,F16.7,2X,3F16.7/))') UVAR(9,IEL) ,(UVAR(21+K,IEL),K=7,9)
         ENDIF
       ENDDO
-      	   
+             
 C-------------------------------------------------------
  
       RETURN

@@ -218,11 +218,11 @@ C---
               NSN = ILINK(K1)
               ISMS=0
               DO J=1,NSN
-          	N=RLINK(K+J-1)
-          	IF(NODXI_SMS(N)/=0)THEN
-          	  ISMS=1
-          	  EXIT
-          	END IF
+          N=RLINK(K+J-1)
+          IF(NODXI_SMS(N)/=0)THEN
+            ISMS=1
+            EXIT
+          END IF
               END DO
 
               IF(NSPMD > 1) CALL SPMD_ALLGLOB_ISUM9(ISMS,1)
@@ -236,20 +236,20 @@ C---
               IF(ISMS/=0)THEN
 C
 C propagate AMS to all nodes of the rlink
-     		DO J=1,NSN
-     		  N=RLINK(K+J-1)
-     		  IF(NODXI_SMS(N)==0.AND.NOD2ADD(N)==0)THEN
-     		    NINDX1_SMS=NINDX1_SMS+1
-     		    INDX1_SMS(NINDX1_SMS)=N
+          DO J=1,NSN
+            N=RLINK(K+J-1)
+            IF(NODXI_SMS(N)==0.AND.NOD2ADD(N)==0)THEN
+              NINDX1_SMS=NINDX1_SMS+1
+              INDX1_SMS(NINDX1_SMS)=N
                     NODXI_SMS(N)=NINDX1_SMS
-     		    NOD2ADD(N)=1
-     		  END IF
-     		END DO
+              NOD2ADD(N)=1
+            END IF
+          END DO
 C
-     	      END IF
-     	      K = K + NSN
-     	    END DO
-     	  END IF
+                END IF
+                K = K + NSN
+              END DO
+            END IF
 C---
           IF(NLINK/=0)THEN
             K = 1
@@ -259,11 +259,11 @@ C---
               NSN = NNLINK(1,I)
               ISMS=0
               DO J=1,NSN
-        	N=LNLINK(K+J-1)
-        	IF(NODXI_SMS(N)/=0)THEN
-        	  ISMS=1
-        	  EXIT
-        	END IF
+          N=LNLINK(K+J-1)
+          IF(NODXI_SMS(N)/=0)THEN
+            ISMS=1
+            EXIT
+          END IF
               END DO
 
               IF(NSPMD > 1) CALL SPMD_ALLGLOB_ISUM9(ISMS,1)
@@ -278,44 +278,44 @@ C---
               IF(ISMS/=0)THEN
 C
 C propagate AMS to all nodes of the rlink
-     		DO J=1,NSN
-     		  N=LNLINK(K+J-1)
-     		  IF(NODXI_SMS(N)==0.AND.NOD2ADD(N)==0)THEN
-     		    NINDX1_SMS=NINDX1_SMS+1
-     		    INDX1_SMS(NINDX1_SMS)=N
+          DO J=1,NSN
+            N=LNLINK(K+J-1)
+            IF(NODXI_SMS(N)==0.AND.NOD2ADD(N)==0)THEN
+              NINDX1_SMS=NINDX1_SMS+1
+              INDX1_SMS(NINDX1_SMS)=N
                     NODXI_SMS(N)=NINDX1_SMS
-     		    NOD2ADD(N)=1
-     		  END IF
-     		END DO
+              NOD2ADD(N)=1
+            END IF
+          END DO
 C
-     	      END IF
-     	      K = K + NSN
-     	    END DO
-     	  END IF
+                END IF
+                K = K + NSN
+              END DO
+            END IF
 C-----------------------------------------------
           IF(NJOINT/=0)THEN
             IF(ISPMD==0)THEN
               K=1
               DO J=1,NJOINT
-         	NSN=LJOINT(K)
-         	ISMS=0
-         	DO I=1,NSN
-         	  N=LJOINT(K+I)
-         	  IF(NODXI_SMS(N)/=0)THEN
-         	    ISMS=1
-         	    EXIT
-         	  END IF
-         	END DO
+          NSN=LJOINT(K)
+          ISMS=0
+          DO I=1,NSN
+            N=LJOINT(K+I)
+            IF(NODXI_SMS(N)/=0)THEN
+              ISMS=1
+              EXIT
+            END IF
+          END DO
 
-         	TAG_LNK_SMS(NRLINK+NLINK+J)=ISMS
+          TAG_LNK_SMS(NRLINK+NLINK+J)=ISMS
 
-         	K=K+NSN+1
+          K=K+NSN+1
               END DO
             END IF
 C
             IF(NSPMD > 1) 
      .        CALL SPMD_IBCAST(TAG_LNK_SMS(NRLINK+NLINK+1),
-     .   		       TAG_LNK_SMS(NRLINK+NLINK+1),NJOINT,1,0,2)
+     .              TAG_LNK_SMS(NRLINK+NLINK+1),NJOINT,1,0,2)
 C
 
             IF(NSPMD==1)THEN
@@ -490,8 +490,8 @@ C
             END DO
 
             CALL SPMD_MIJ_SMS(
-     1   	   ISKYI_SMS,FR_SMS,FR_RMS,LIST_RMS,MSKYI_SMS,
-     2   	   MSKYI_FI_SMS)
+     1        ISKYI_SMS,FR_SMS,FR_RMS,LIST_RMS,MSKYI_SMS,
+     2        MSKYI_FI_SMS)
 
             DO K=1,FR_RMS(NSPMD+1)-1
               I=LIST_RMS(K)
@@ -523,7 +523,7 @@ C---------------------------------------------------------------------
           I=INDX2_SMS(N)
           DO IJ=JADI_SMS(I),JADI_SMS(I+1)-1
             KMV=KMV+1
-            IMV(KMV)=I  	  
+            IMV(KMV)=I      
             MV(KMV)=-LTI_SMS(IJ)
           END DO
         END DO
@@ -553,8 +553,8 @@ C
 
           IF(ITASK==0) THEN   ! comm sur 1er thread
             CALL SPMD_MIJ_SMS(
-     1  	   ISKYI_SMS,FR_SMS,FR_RMS,LIST_RMS,MSKYI_SMS,
-     2  	   MSKYI_FI_SMS)
+     1       ISKYI_SMS,FR_SMS,FR_RMS,LIST_RMS,MSKYI_SMS,
+     2       MSKYI_FI_SMS)
           END IF
 C 
           CALL MY_BARRIER()
@@ -592,7 +592,7 @@ C
           I=INDX2_SMS(N)
           DIAG_SMS(I) = DIAG_SMS(I)
      .                 +W6(1,I)+W6(2,I)+W6(3,I)
-     .  	       +W6(4,I)+W6(5,I)+W6(6,I)
+     .           +W6(4,I)+W6(5,I)+W6(6,I)
         END DO
 C
         IF(NSPMD > 1) THEN
@@ -626,7 +626,7 @@ C
           I=INDX1_SMS(N)
           DO IJ=JADI_SMS(I),JADI_SMS(I+1)-1
             KMV=KMV+1
-            IMV(KMV)=I  	  
+            IMV(KMV)=I      
             MV(KMV)=-LTI_SMS(IJ)
           END DO
         END DO
@@ -656,8 +656,8 @@ C
 
           IF(ITASK==0) THEN   ! comm sur 1er thread
             CALL SPMD_MIJ_SMS(
-     1  	   ISKYI_SMS,FR_SMS,FR_RMS,LIST_RMS,MSKYI_SMS,
-     2  	   MSKYI_FI_SMS)
+     1       ISKYI_SMS,FR_SMS,FR_RMS,LIST_RMS,MSKYI_SMS,
+     2       MSKYI_FI_SMS)
           END IF
 C 
           CALL MY_BARRIER()
@@ -711,7 +711,7 @@ C
         DO N=NODFT1_SMS,NODLT1_SMS
           I=INDX1_SMS(N)
           DIAG_SMS(I) = W6(1,I)+W6(2,I)+W6(3,I)
-     .  	       +W6(4,I)+W6(5,I)+W6(6,I)
+     .           +W6(4,I)+W6(5,I)+W6(6,I)
         END DO
 C
       END IF

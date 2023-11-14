@@ -91,7 +91,7 @@ C--------------------------------------------------
      .                       KEYWORD2 = KEY )
 C--------------------------------------------------
        IF(KEY=='')THEN ! not a /RBODY/LAGMUL
-C----------Multidomaines --> on ignore les rby tages---------------	
+C----------Multidomaines --> on ignore les rby tages---------------
          NRB = NRB + 1
          IF (NSUBDOM > 0) THEN ! TAGRBY is allocated only if NSUBDOM>0
            IF(TAGRBY(NRB) == 0) CALL HM_SZ_R2R(TAGRBY,NRB,LSUBMODEL)

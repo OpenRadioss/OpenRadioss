@@ -234,13 +234,13 @@ C
 c---
               NOD1 = INOD_CRKXFEM(NOD)                                        
               IF (NOD1 > 0 ) THEN                                             
-	               XFEM_REM_COUNT = 0                                            
+                         XFEM_REM_COUNT = 0                                            
                 DO CC = ADDCNE_CRKXFEM(NOD1),ADDCNE_CRKXFEM(NOD1+1)-1         
                   IF (PROCNE_CRKXFEM(CC) == I) XFEM_REM_COUNT =                 
      .                                         XFEM_REM_COUNT+1                 
-		              ENDDO                                                         
+                        ENDDO                                                         
 c
-		              IF (XFEM_REM_COUNT /= 0) THEN                                 
+                        IF (XFEM_REM_COUNT /= 0) THEN                                 
                   DO CC = ADDCNE_CRKXFEM(NOD1),ADDCNE_CRKXFEM(NOD1+1)-1       
                     IF (PROCNE_CRKXFEM(CC)==LOC_PROC) THEN                  
                       FR_NBCC1(1,I) = FR_NBCC1(1,I)+1                         
@@ -252,7 +252,7 @@ c
                       LRC1 = LRC1 + 1                                         
                     ENDIF                                                     
                   ENDDO                                                       
-		              ENDIF                                                         
+                        ENDIF                                                         
 c                                                                              
               ENDIF                                                           
 c---

@@ -574,10 +574,10 @@ c           PURE TRIAXIAL TO SOLVE UNDETERMINATION
             RO = MIN( ROB(I),ROB(I) + HPV*DEPSVP )
             DP = RO - ROB(I)
             SIG(I,1) = SIG(I,1) + DP + TWO*G*D1
-	           SIG(I,2) = SIG(I,2) + DP + TWO*G*D2
+                     SIG(I,2) = SIG(I,2) + DP + TWO*G*D2
             SIG(I,3) = SIG(I,3) + DP + TWO*G*D3
- 	          SIG(I,4) = SIG(I,4) + G*DEPS4(I)
-	           SIG(I,5) = SIG(I,5) + G*DEPS5(I)
+                    SIG(I,4) = SIG(I,4) + G*DEPS4(I)
+                     SIG(I,5) = SIG(I,5) + G*DEPS5(I)
             SIG(I,6) = SIG(I,6) + G*DEPS6(I)
             ROB(I) = RO
             VK0(I) = ONE  

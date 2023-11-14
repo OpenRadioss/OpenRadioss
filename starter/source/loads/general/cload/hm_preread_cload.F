@@ -98,9 +98,9 @@ C--------------------------------------------------
         IGS = NGR2USRN(IGU,IGRNOD,NGRNOD,NN)
 C-----------Multidomaines -> on decompte les noeuds communs, on ne les compte qu'une foi---
         IF (NSUBDOM>0) THEN
-	  IF (IDDOM>0) NN = NN-IGRNOD(IGS)%R2R_SHARE
-	  NNCL(I)=NN 
-	ENDIF
+            IF (IDDOM>0) NN = NN-IGRNOD(IGS)%R2R_SHARE
+            NNCL(I)=NN 
+          ENDIF
 C-----------
         NUMCLD = NUMCLD + NN
 C--------------------------------------------------

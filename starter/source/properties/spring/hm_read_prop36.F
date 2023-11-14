@@ -427,7 +427,7 @@ C
         IMYZ   = MAX(IYY,IZZ)
         YOUNG  = HALF*(YOUNG1+YOUNG2)
         G      = HALF*(G1+G2)
-	ATMP   = YOUNG/MAX(EM20,G*AREA)
+          ATMP   = YOUNG/MAX(EM20,G*AREA)
 C--------------------------------------
 C       ELEMENT CHECK
 C--------------------------------------

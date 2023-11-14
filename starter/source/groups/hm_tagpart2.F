@@ -219,11 +219,11 @@ C-------------------------
                 DO KK=1,NENTITY_POS 
                     JJ = ENTITY_POS(KK)
                     DO K=1,NPART
-	                    NUMA = IPART(IPP,K)
+                              NUMA = IPART(IPP,K)
                 
                         IF (NSUBDOM>0) THEN
-	                        IF (IPP==5) NUMA = IPART_R2R(2,K)
-	                    ENDIF
+                                  IF (IPP==5) NUMA = IPART_R2R(2,K)
+                              ENDIF
                         ISU = 0                
                         IF(JJ == NUMA)THEN                       
                             ISU=K 
@@ -241,11 +241,11 @@ C-------------------------
                 DO KK=1,NENTITY_NEG 
                     JJ = ENTITY_NEG(KK)
                     DO K=1,NPART
-	                    NUMA = IPART(IPP,K)
+                              NUMA = IPART(IPP,K)
                 
                         IF (NSUBDOM>0) THEN
-	                        IF (IPP==5) NUMA = IPART_R2R(2,K)
-	                    ENDIF
+                                  IF (IPP==5) NUMA = IPART_R2R(2,K)
+                              ENDIF
                         ISU = 0
                         IF(JJ == NUMA)THEN      
                             ISU=K 

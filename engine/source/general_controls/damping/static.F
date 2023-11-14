@@ -101,7 +101,7 @@ C
         ENDDO
         IF (ISPMD==0) TFEXT = TFEXT - ENCINT + ENCINN
        END IF !(IDTMINS==0) THEN
-C	   
+C     
         IF(IRODDL/=0)THEN
          ENCINT = ENROT
          ENCINN = ENCINT * OMEGA2
@@ -158,7 +158,7 @@ C
         ENDDO
        ENDDO
        END IF !(IDTMINS==0) THEN
-C	   
+C     
         IF(IRODDL/=0)THEN
          DO J=1,3
 #include "vectorize.inc"
@@ -256,27 +256,27 @@ C-----------------------------------------------
        END IF       
        IF (F_FIL>ZERO) THEN
           FF = ENCIN+ENROT
-    	     VV1 = FIL_KE(1)                                
-    	     VV2 = FIL_KE(2)                               
-    	     FV1 = FIL_KE(3)                                
-    	     FV2 = FIL_KE(4)                                
-    	     CALL BUTTERWORTH(DT2,F_FIL,VV2,VV1,FF,FV2,FV1,FV) 
-    	       FIL_KE(1)= FF                               
-    	       FIL_KE(2)= VV1                              
-    	       FIL_KE(3)= FV                              
-    	       FIL_KE(4)= FV1                              
+               VV1 = FIL_KE(1)                                
+               VV2 = FIL_KE(2)                               
+               FV1 = FIL_KE(3)                                
+               FV2 = FIL_KE(4)                                
+               CALL BUTTERWORTH(DT2,F_FIL,VV2,VV1,FF,FV2,FV1,FV) 
+                 FIL_KE(1)= FF                               
+                 FIL_KE(2)= VV1                              
+                 FIL_KE(3)= FV                              
+                 FIL_KE(4)= FV1                              
               ENCINT = FV
 C         
           FF = ENINT
-    	     VV1 = FIL_IE(1)                                
-    	     VV2 = FIL_IE(2)                               
-    	     FV1 = FIL_IE(3)                                
-    	     FV2 = FIL_IE(4)                                
-    	     CALL BUTTERWORTH(DT2,F_FIL,VV2,VV1,FF,FV2,FV1,FV) 
-    	       FIL_IE(1) = FF                                
-    	       FIL_IE(2) = VV1                              
-    	       FIL_IE(3) = FV                               
-    	       FIL_IE(4) = FV1
+               VV1 = FIL_IE(1)                                
+               VV2 = FIL_IE(2)                               
+               FV1 = FIL_IE(3)                                
+               FV2 = FIL_IE(4)                                
+               CALL BUTTERWORTH(DT2,F_FIL,VV2,VV1,FF,FV2,FV1,FV) 
+                 FIL_IE(1) = FF                                
+                 FIL_IE(2) = VV1                              
+                 FIL_IE(3) = FV                               
+                 FIL_IE(4) = FV1
               EINT = FV
 C 
        ELSE      

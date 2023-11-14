@@ -175,7 +175,7 @@ C
          S(2,I)=HALF*(Y12(I)-Y34(I))
          S(3,I)=HALF*(Z12(I)-Z34(I))
          T(2,I)=HALF*(-Y41(I)+Y23(I))
-         T(3,I)=HALF*(-Z41(I)+Z23(I))	 
+         T(3,I)=HALF*(-Z41(I)+Z23(I))   
        ENDDO
       ENDIF
 C

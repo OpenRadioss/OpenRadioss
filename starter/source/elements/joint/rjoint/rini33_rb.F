@@ -101,32 +101,32 @@ C------------------check sur les skews-----------------
      .                 I1=ID,
      .                 C1=TITR,
      .                 I2=IDSK(I))
-	   ERR_FLG = 1
-	   GOTO 500
-	ENDIF
+             ERR_FLG = 1
+             GOTO 500
+          ENDIF
         DO J=1,3
-	  SRB(J+3*(I-1)) = FIND_RBY(NO(J),NPBY,LPBY)
+            SRB(J+3*(I-1)) = FIND_RBY(NO(J),NPBY,LPBY)
         END DO
         IF((SRB(1+3*(I-1))==(SRB(2+3*(I-1)))).AND.
      .     (SRB(1+3*(I-1))==(SRB(3+3*(I-1))))) THEN
-	  IDSKRB(I) = SRB(1+3*(I-1))
+            IDSKRB(I) = SRB(1+3*(I-1))
         ELSE
-	  IDSKRB(I) = 0
-	  IF (SRB(1+3*(I-1))+SRB(2+3*(I-1))+SRB(3+3*(I-1))==0) THEN
+            IDSKRB(I) = 0
+            IF (SRB(1+3*(I-1))+SRB(2+3*(I-1))+SRB(3+3*(I-1))==0) THEN
             CALL ANCMSG(MSGID=392,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
      .                  I1=ID,
      .                  C1=TITR,
      .                  I2=IDSK(I))
-	  ELSE
+            ELSE
             CALL ANCMSG(MSGID=919,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
      .                  I1=ID,
      .                  C1=TITR,
      .                  I2=IDSK(I))
-	  ENDIF
+            ENDIF
         ENDIF
 500     CONTINUE
       ENDDO
@@ -134,7 +134,7 @@ C------------------check sur les skews-----------------
          GOTO 1000
       ENDIF
       IF (ISK2==0) THEN
-	  IDSKRB(2) = IDSKRB(1)
+            IDSKRB(2) = IDSKRB(1)
       ENDIF
       
 C------------------Boucle sur les neuds-----------------
@@ -150,8 +150,8 @@ C------------------Boucle sur les neuds-----------------
           L2 = 0.
           RM = 1.E30
           RI = 1.E30
-	  IDRB(1)=0
-	  IDRB(2)=0
+            IDRB(1)=0
+            IDRB(2)=0
 C-->
           DO I=1,NODES
             M(I) = 0
@@ -161,7 +161,7 @@ C-->
               NSL=NPBY(2,N)
               IF (NPBY(1,N)==NOD(I)) THEN 
 C-- Tag for error message - Can't be attached to main node-              
-		IDRB(I)=-N
+          IDRB(I)=-N
                 UVAR(37+I,IEL)= N                
                 EXIT
               ENDIF
@@ -169,7 +169,7 @@ C
               DO J=1,NSL
                 NN = LPBY(J+K)
                 IF(NN==NOD(I)) THEN
-		  IDRB(I)=N
+            IDRB(I)=N
                   M(I) = NPBY(1,N)
                   MASS = RBY(14,N)
                   INER = (RBY(10,N)+RBY(11,N)+RBY(12,N))/3.0
@@ -193,7 +193,7 @@ c---              rigid body principal frame
                     UVAR(11,IEL)= Q(8)
                     UVAR(12,IEL)= Q(9)
                   ENDIF
-C-->		  
+C-->      
                   GOTO 100
                 ENDIF
               ENDDO
@@ -204,16 +204,16 @@ C
 C-->  Stockage d'une masse elementaire (masse hormonique) pour calcul d'energie specifique
             GMASS(IEL) = (UVAR(34,IEL)*UVAR(35,IEL))/MAX(EM20,UVAR(34,IEL)+UVAR(35,IEL))
 C-->
-            IF (IDRB(I)==0) THEN	    
-	      USR = ITAB(NOD(I))
+            IF (IDRB(I)==0) THEN      
+                USR = ITAB(NOD(I))
               CALL ANCMSG(MSGID=391,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_2,
      .                    I1=ID,
      .                    C1=TITR,
      .                    I2=USR)
-            ELSEIF (IDRB(I) < 0) THEN	    
-	      USR = ITAB(NOD(I))
+            ELSEIF (IDRB(I) < 0) THEN      
+                USR = ITAB(NOD(I))
               CALL ANCMSG(MSGID=1768,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_2,
@@ -223,7 +223,7 @@ C-->
      .                    I3=USR)
             ELSEIF ((IDRB(I)/=IDSKRB(1)).AND.
      .             (IDRB(I)/=IDSKRB(2))) THEN
-	      USR = ITAB(NOD(I))
+                USR = ITAB(NOD(I))
               CALL ANCMSG(MSGID=920,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_2,
@@ -233,7 +233,7 @@ C-->
      .                    C2="OR",
      .                    I3=IDSK(1),
      .                    I4=IDSK(2))
-	    ENDIF
+              ENDIF
           ENDDO
 
 C---> Control consistence Noeud / Skew --------------------
@@ -249,15 +249,15 @@ C-->        permutation skews
      .                  I3=IDSK(1))
             XSK1 = IDSK(2)
             XSK2 = IDSK(1)
-	    IERROR = RESET_U_GEO(2,IPROP,XSK1)
-	    IERROR = RESET_U_GEO(3,IPROP,XSK2)
-	    GOTO 350
-	  ENDIF
+              IERROR = RESET_U_GEO(2,IPROP,XSK1)
+              IERROR = RESET_U_GEO(3,IPROP,XSK2)
+              GOTO 350
+            ENDIF
 350       CONTINUE
 C-->
         ENDDO
       ENDIF
-      	   
+             
 C-------------------------------------------------------
  1000 CONTINUE
  
@@ -297,14 +297,14 @@ C=======================================================================
       K = 0
       DO N=1,NRBYKIN
         NSL=NPBY(2,N)
-	DO I=1,NSL
-	  IF (NPBY(7,N)/=0) THEN
-	    IF (IDNOD==LPBY(K+I)) THEN
-	       FIND_RBY = N
-	       EXIT
-	    ENDIF
-	  ENDIF
-	END DO
+          DO I=1,NSL
+            IF (NPBY(7,N)/=0) THEN
+              IF (IDNOD==LPBY(K+I)) THEN
+                 FIND_RBY = N
+                 EXIT
+              ENDIF
+            ENDIF
+          END DO
         K=K+NSL
       ENDDO
 

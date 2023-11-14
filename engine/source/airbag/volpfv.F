@@ -99,7 +99,7 @@ C
         FSAV(6)=ZERO
         FSAV(7)=ZERO
         FSAV(8)=ZERO
-        FSAV(9)=ZERO	
+        FSAV(9)=ZERO
         FSAV(10)=ZERO
         FSAV(11)=ZERO
         FSAV(12)=ZERO

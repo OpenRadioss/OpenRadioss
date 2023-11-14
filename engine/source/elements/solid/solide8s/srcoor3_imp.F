@@ -187,9 +187,9 @@ C----------------------------
           ZD7(I)=XDP(3,NC7(I))  
           XD8(I)=XDP(1,NC8(I))  
           YD8(I)=XDP(2,NC8(I))  
-          ZD8(I)=XDP(3,NC8(I))  	  	  	  
+          ZD8(I)=XDP(3,NC8(I))              
         ENDDO
-      ELSE	
+      ELSE
         DO I=LFT,LLT
           XD1(I)=X(1,NC1(I))  
           YD1(I)=X(2,NC1(I))  
@@ -322,14 +322,14 @@ C-----------
           ENDIF
         ENDDO
         IF((ISMSTR==12.AND.IDTMIN(1)==3).AND.JLAG>0) THEN
-         DO I=LFT,LLT	  
+         DO I=LFT,LLT    
           IF(ABS(OFFG(I)) > ONE)THEN
           END IF
-	 ENDDO
+           ENDDO
         END IF
 C
       ELSE    ! Ismstr = 4
-        DO I=LFT,LLT	  
+        DO I=LFT,LLT    
           OFF(I) = ABS(OFFG(I))
           OFF_L  = MIN(OFF_L,OFFG(I))
         ENDDO

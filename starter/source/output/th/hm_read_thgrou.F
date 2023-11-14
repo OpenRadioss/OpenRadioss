@@ -2034,15 +2034,15 @@ C keyword  564
 c keyword  565 -----> 573
         DO J = 565,573
          DO I = 1,10
-	  IVARCG(I,J)= IVCG + 1
-	  IVCG = IVCG + 1
-	 ENDDO
-	ENDDO
+            IVARCG(I,J)= IVCG + 1
+            IVCG = IVCG + 1
+           ENDDO
+          ENDDO
 c keyword  574
         DO I = 1,9
-	 IVARCG(I,574)= IVCG + 1
-	 IVCG = IVCG + 1
-	ENDDO
+           IVARCG(I,574)= IVCG + 1
+           IVCG = IVCG + 1
+          ENDDO
 C keyword de 575 -----> 674
         DO J = 575, 674
          DO I = 1,5
@@ -2606,9 +2606,9 @@ C          frame numbers user -> internal
           NVALL = 9                                               
           IGS=IGS+1                                               
           TITR1(1:5)='VENT '                                      
-   	      DO J=1,nchartitle-5                                 
-   	        TITR1(J+5:J+5) = TITR(J:J)                        
-   	      ENDDO                                               
+                DO J=1,nchartitle-5                                 
+                  TITR1(J+5:J+5) = TITR(J:J)                        
+                ENDDO                                               
           CALL FRETITL(TITR1,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)    
           ITHGRP(1,IGS)=ID_TH_AUTO                                
           ID_TH_AUTO = ID_TH_AUTO + 1                             

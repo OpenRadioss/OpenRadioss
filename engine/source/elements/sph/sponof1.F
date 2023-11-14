@@ -465,7 +465,7 @@ c          IN4=IBUFSSG_IO(IAD2+NIBSPH*(J-1)+3)
           Z4=X(3,IN4)
           XP=FOURTH*(X1+X2+X3+X4)
           YP=FOURTH*(Y1+Y2+Y3+Y4)
-          ZP=FOURTH*(Z1+Z2+Z3+Z4)	  
+          ZP=FOURTH*(Z1+Z2+Z3+Z4)    
          ELSE
           X4=X3
           Y4=Y3
@@ -480,7 +480,7 @@ C--------
          Z12=HALF*(Z2+Z3-Z1-Z4)
          X23=HALF*(X3+X4-X1-X2)
          Y23=HALF*(Y3+Y4-Y1-Y2)
-         Z23=HALF*(Z3+Z4-Z1-Z2)	 
+         Z23=HALF*(Z3+Z4-Z1-Z2)   
          NX = Y12*Z23-Z12*Y23
          NY =-X12*Z23+Z12*X23
          NZ = X12*Y23-Y12*X23

@@ -190,7 +190,7 @@ C
           IF (MLN==6.AND.JPOR/=2) MLN=17
           IF (MLN==46) MLN=47
           MID = IABS(MID)
-        ENDIF	
+        ENDIF
         IF (MLN == 36 .or. MLN == 47) THEN
           NUVAR = IPM(8,MID)
         ELSE

@@ -239,21 +239,21 @@ C preparation candidats retenus
          CALL I7CDCOR3(
      1         JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,CAND_E_N,
      2         CAND_N_N)
-	 CALL I7COR3(
-     1  JLT	  ,X	     ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,CAND_E_N,
-     2  CAND_N_N  ,INTBUF_TAB%STFM,INTBUF_TAB%STFNS,X1  ,X2  	    ,
-     3  X3	  ,X4	     ,Y1	,Y2	   ,Y3  	    ,
-     4  Y4	  ,Z1	     ,Z2	,Z3	   ,Z4  	    ,
-     5  XI	  ,YI	     ,ZI	,STIF	   ,IX1 	    ,
-     6  IX2	  ,IX3       ,IX4	,NSVG	   ,IGAP	    ,
-     7  GAP	  ,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,GAPV,
-     9  MS	  ,VXI    ,VYI  	   ,
-     A  VZI	  ,MSI        ,NSN	 ,V	   ,IDUM	    ,
-     B  IDUM	  ,NTY        ,NIN	 ,IGSTI    ,KMIN	    ,
-     C  KMAX	  ,GAPMAX     ,GAPMIN	 ,IADM     ,RBID	    ,
-     D  RBID	  ,RBID       ,RBID	 ,IBID     ,RBID	    ,
-     E  RBID	  ,RBID       ,RBID	 ,IBID     ,RBID	    ,
-     F  IBID	  ,NODNX_SMS  ,NSMS	 ,RBID     ,RBID	    ,
+           CALL I7COR3(
+     1  JLT    ,X       ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,CAND_E_N,
+     2  CAND_N_N  ,INTBUF_TAB%STFM,INTBUF_TAB%STFNS,X1  ,X2        ,
+     3  X3    ,X4       ,Y1  ,Y2     ,Y3        ,
+     4  Y4    ,Z1       ,Z2  ,Z3     ,Z4        ,
+     5  XI    ,YI       ,ZI  ,STIF     ,IX1       ,
+     6  IX2    ,IX3       ,IX4  ,NSVG     ,IGAP      ,
+     7  GAP    ,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,GAPV,
+     9  MS    ,VXI    ,VYI       ,
+     A  VZI    ,MSI        ,NSN   ,V     ,IDUM      ,
+     B  IDUM    ,NTY        ,NIN   ,IGSTI    ,KMIN      ,
+     C  KMAX    ,GAPMAX     ,GAPMIN   ,IADM     ,RBID      ,
+     D  RBID    ,RBID       ,RBID   ,IBID     ,RBID      ,
+     E  RBID    ,RBID       ,RBID   ,IBID     ,RBID      ,
+     F  IBID    ,NODNX_SMS  ,NSMS   ,RBID     ,RBID      ,
      G  IBID      ,IBID       ,IBID      ,IBID     ,IBID            ,
      H  IBID      ,IBID       ,RBID      ,IBID     ,RBID            )
          JLT_NEW = 0

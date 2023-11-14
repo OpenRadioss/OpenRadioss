@@ -239,7 +239,7 @@ C
         CALL MY_BARRIER
 
         IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(26,1)
-	
+
         CALL SPMD_TRI11VOX0(
      1      X        ,BMINMA  ,IPARI(21,NIN),NRTM_T  , INTBUF_TAB%STFM(1+ESHIFT),
      2      TZINF    ,INTBUF_TAB%IRECTM(1+2*ESHIFT),GAP,INTBUF_TAB%GAP_M(1+ESHIFT),
@@ -250,7 +250,7 @@ C
         IF(ITASK==0)THEN
 C
 C recuperation des noeuds remote NSNR stockes dans XREM
-C	  
+C    
           CALL SPMD_TRI11VOX(
      1 INTBUF_TAB%IRECTS,NRTS     ,X              ,V         ,MS           ,
      2 BMINMA           ,WEIGHT   ,INTBUF_TAB%STFS,NIN       ,ISENDTO      ,

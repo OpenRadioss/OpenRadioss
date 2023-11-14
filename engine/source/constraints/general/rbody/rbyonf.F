@@ -204,7 +204,7 @@ C
       ENDDO
 C
       DO K=1,NLOADC
-	NN   = ICFIELD(1,K) 
+          NN   = ICFIELD(1,K) 
         IAD  = ICFIELD(4,K)
         DO I=1,NN
          N=LCFIELD(IAD+I-1)
@@ -615,7 +615,7 @@ C
       ENDDO
 C
       DO K=1,NLOADC
-	NN   = ICFIELD(1,K) 
+          NN   = ICFIELD(1,K) 
         IAD  = ICFIELD(4,K)
         DO I=1,NN
          N=LCFIELD(IAD+I-1)

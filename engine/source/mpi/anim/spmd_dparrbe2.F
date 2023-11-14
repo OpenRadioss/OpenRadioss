@@ -155,12 +155,12 @@ C Envoi des noeuds secnds
         MAINNODS = 0
         DO I=1,NRBE2
           MN = IRBE2(3,I)
-	  IF(MN/=0)THEN
+            IF(MN/=0)THEN
             IF (WEIGHT(MN)==1)THEN
               NGRBE = IRBE2(10,I)
               MAINNODS(NGRBE)=NODGLOB(MN)
             ENDIF
-	  ENDIF
+            ENDIF
         ENDDO
         CALL SPMD_GLOB_ISUM9(MAINNODS,NRBE2G)
         
@@ -186,9 +186,9 @@ C preparation IADRBE2
 
 C preparation P0RECRBE2 pour le proc0
          DO I=1,NRBE2G
-	    PGLOBRBE2(I)=IADRBE2(I)
+              PGLOBRBE2(I)=IADRBE2(I)
          ENDDO
-	 
+           
          DO I=1,NRBE2
            NSN = IRBE2(5,I)
            IAD = IRBE2(1,I)

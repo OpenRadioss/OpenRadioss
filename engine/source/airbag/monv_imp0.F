@@ -158,13 +158,13 @@ C-----------ini RBE3
          IROT=MAX(IROT,IRBE3(6,N))
         ENDDO
         ALLOCATE(ID_MVM3(6,IAD,NRBE3_MV),STAT=IERR3)
-	 ID_MVM3=0
-	 R3M_MAX=IAD
+           ID_MVM3=0
+           R3M_MAX=IAD
         ALLOCATE(FCDI_MV(18*NMT),STAT=IERR5)
-	 FCDI_MV=ZERO
+           FCDI_MV=ZERO
         IF (IROT>0) THEN
-	 ALLOCATE(MCDI_MV(18*NMT),STAT=IERR5)
-	 MCDI_MV=ZERO
+           ALLOCATE(MCDI_MV(18*NMT),STAT=IERR5)
+           MCDI_MV=ZERO
         ENDIF
       ENDIF
       IF (IPREC >= 2) THEN
@@ -174,11 +174,11 @@ C-----------ini RBE3
        IF (NRB_MV>0) ALLOCATE(DIAG_MVM(6,NRB_MV),STAT=IERR6)
        IF (NRBE3_MV>0) THEN
         ALLOCATE(DIAG_MVM3(6,R3M_MAX,NRBE3_MV),STAT=IERR5)
-	 DIAG_MVM3=ZERO
+           DIAG_MVM3=ZERO
        ENDIF
        IF (NRBE2_MV>0) THEN
         ALLOCATE(DIAG_MVM4(6,NRBE2_MV),STAT=IERR5)
-	 DIAG_MVM4=ZERO
+           DIAG_MVM4=ZERO
        ENDIF
       ENDIF
 C
@@ -734,7 +734,7 @@ C-------
          DO M=1,NNOD
           NJ=LRBE3(IAD+M)
           DO J = 1 , NDOF(NJ)
-	   ID = ID_MVM3(J,M,I)
+             ID = ID_MVM3(J,M,I)
            IF (ID>0) THEN
             IF (J<=3) THEN
              DIAG_MVM3(J,M,I)=A_MV(J,NJ)
@@ -826,7 +826,7 @@ C
         ELSE
          ND = 0
          DO J = 1 , MIN(3,NDOF(N))
-	  ID = IDDL(N) + J
+            ID = IDDL(N) + J
           IF (IKC(ID)<1) THEN
            ND = ND + 1
            ID_MV(J,I) = IDDLM(N) + ND
@@ -841,7 +841,7 @@ C
          N = IRB_MV(1,I)
          ND = 0
          DO J = 1 , NDOF(N)
-	  ID = IDDL(N) + J
+            ID = IDDL(N) + J
           IF (IKC(ID)<1) THEN
            ND = ND + 1
            ID_MVM(J,I) = IDDLM(N) + ND
@@ -876,7 +876,7 @@ C-------si noeud main est dependant aussi-----
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           ND = 0
           DO J = 1 , NDOF(NJ)
-	   ID = IDDL(NJ) + J
+             ID = IDDL(NJ) + J
            IF (IKC(ID)<1) THEN
             ND = ND + 1
             ID_MVM2(J,M,I) = IDDLM(NJ) + ND
@@ -897,7 +897,7 @@ C-------
           NJ=LRBE3(IAD+M)
           ND = 0
           DO J = 1 , NDOF(NJ)
-	     ID = IDDL(NJ) + J
+               ID = IDDL(NJ) + J
            IF (IKC(ID)<1) THEN
             ND = ND + 1
             ID_MVM3(J,M,I) = IDDLM(NJ) + ND
@@ -915,7 +915,7 @@ C------- init FCDI_MV,MCDI_MV
          NI=IRBE3(3,N)
          NNOD=IRBE3(5,N)
          IAD=IRBE3(1,N)
-	 IROT=IRBE3(6,N)
+           IROT=IRBE3(6,N)
          CALL RBE3CL(LRBE3(IAD+1),LRBE3(NMT+IAD+1),NI     ,X    ,
      .               FRBE3(IAD+1),SKEW    ,NNOD   ,IROT   ,
      .               FCDI_MV(IADS),MCDI_MV(IADS) ,IRBE3(2,N) )
@@ -929,7 +929,7 @@ C---------RBE2------------
          M = IRBE2(3,N)
          ND = 0
          DO J = 1 , NDOF(M)
-	  ID = IDDL(M) + J
+            ID = IDDL(M) + J
           IF (IKC(ID)<1) THEN
            ND = ND + 1
            ID_MVM4(J,I) = IDDLM(M) + ND
@@ -1354,16 +1354,16 @@ C--------RBE2-----------
          M = IRBE2(3,N)
          NS = IRBE2_MV(2,I)
          ISK = IRBE2(7,N)
-	 IRAD =IRBE2(11,N)
-	 IC = IRBE2(4,N)
-	 IC =(IC/512)*512
+           IRAD =IRBE2(11,N)
+           IC = IRBE2(4,N)
+           IC =(IC/512)*512
          CALL PRERBE2FR(IC    ,JT  ,JR   )
          DO K=1,6
           DO J=1,6
            KDD(K,J) = ZERO
           ENDDO
-	  KMM(K)=  ZERO
-	  KSS(K)=  ZERO
+            KMM(K)=  ZERO
+            KSS(K)=  ZERO
          ENDDO
          DO J=1,3
           KDD(J,J) = A(J,NS)
@@ -1457,14 +1457,14 @@ C
       DO I1 = 1,NSPC_MV
         N = ISPC_MV(I1)
         I = IN_SPC(N)
-	IR = 0
-	IAD = 6*(N-1)+1
-	NN = IC_SPC(N)
-	IF (NN>3) THEN
-	 NN= NN-3
-	 IR = 1
-	ENDIF
-	IF (IR==0) THEN
+          IR = 0
+          IAD = 6*(N-1)+1
+          NN = IC_SPC(N)
+          IF (NN>3) THEN
+           NN= NN-3
+           IR = 1
+          ENDIF
+          IF (IR==0) THEN
           KII(1,1)=A(1,I)
           KII(2,2)=A(2,I)
           KII(3,3)=A(3,I)
@@ -1474,16 +1474,16 @@ C
           KII(2,1)=KII(1,2)
           KII(3,1)=KII(1,3)
           KII(3,2)=KII(2,3)
-	  IF (NN==1) THEN
-	   EJ(1)=SKEW_SPC(IAD)
-	   EJ(2)=SKEW_SPC(IAD+1)
-	   EJ(3)=SKEW_SPC(IAD+2)
+            IF (NN==1) THEN
+             EJ(1)=SKEW_SPC(IAD)
+             EJ(2)=SKEW_SPC(IAD+1)
+             EJ(3)=SKEW_SPC(IAD+2)
            CALL L_DIR(EJ,J)
            CALL FV_UPDKD(EJ    ,J    ,KII   ,A(1,I))
-	  ELSEIF (NN==2) THEN
+            ELSEIF (NN==2) THEN
            CALL FV_UPDKD2(SKEW_SPC(IAD),SKEW_SPC(IAD+3),KII  ,A(1,I))
-	  END IF
-	ELSE
+            END IF
+          ELSE
           KII(1,1)=AR(1,I)
           KII(2,2)=AR(2,I)
           KII(3,3)=AR(3,I)
@@ -1493,16 +1493,16 @@ C
           KII(2,1)=KII(1,2)
           KII(3,1)=KII(1,3)
           KII(3,2)=KII(2,3)
-	  IF (NN==1) THEN
-	   EJ(1)=SKEW_SPC(IAD)
-	   EJ(2)=SKEW_SPC(IAD+1)
-	   EJ(3)=SKEW_SPC(IAD+2)
+            IF (NN==1) THEN
+             EJ(1)=SKEW_SPC(IAD)
+             EJ(2)=SKEW_SPC(IAD+1)
+             EJ(3)=SKEW_SPC(IAD+2)
            CALL L_DIR(EJ,J)
            CALL FV_UPDKD(EJ    ,J    ,KII   ,AR(1,I))
-	  ELSEIF (NN==2) THEN
+            ELSEIF (NN==2) THEN
            CALL FV_UPDKD2(SKEW_SPC(IAD),SKEW_SPC(IAD+3),KII  ,AR(1,I))
-	  END IF
-	ENDIF
+            END IF
+          ENDIF
       ENDDO
 C
       DO I1 = 1,NFX_MV
@@ -2004,34 +2004,34 @@ C
        DO L=NSPC,1,-1
         N = ISPC(L)
         I = IN_SPC(N)
-	IROT = 0
-	IAD = 6*(N-1)+1
-	NN = IC_SPC(N)
-	IF (NN>3) THEN
-	 NN= NN-3
-	 IROT = 1
-	ENDIF
-	IF (NN==1) THEN
-	 EJ(1)=SKEW_SPC(IAD)
-	 EJ(2)=SKEW_SPC(IAD+1)
-	 EJ(3)=SKEW_SPC(IAD+2)
+          IROT = 0
+          IAD = 6*(N-1)+1
+          NN = IC_SPC(N)
+          IF (NN>3) THEN
+           NN= NN-3
+           IROT = 1
+          ENDIF
+          IF (NN==1) THEN
+           EJ(1)=SKEW_SPC(IAD)
+           EJ(2)=SKEW_SPC(IAD+1)
+           EJ(3)=SKEW_SPC(IAD+2)
          CALL L_DIR(EJ,J)
-	END IF
-	IF (IROT==0) THEN
-	 IF (NN==1) THEN
+          END IF
+          IF (IROT==0) THEN
+           IF (NN==1) THEN
           A(J,I) = ZERO
           CALL BC_UPDD(I     ,EJ   ,J     ,A     )
-	 ELSEIF (NN==2) THEN
+           ELSEIF (NN==2) THEN
           CALL BC_UPD2D(I     ,SKEW_SPC(IAD),SKEW_SPC(IAD+3),A     )
-	 END IF
-	ELSE
-	 IF (NN==1) THEN
+           END IF
+          ELSE
+           IF (NN==1) THEN
           AR(J,I) = ZERO
           CALL BC_UPDD(I     ,EJ   ,J     ,A     )
-	 ELSEIF (NN==2) THEN
+           ELSEIF (NN==2) THEN
           CALL BC_UPD2D(I     ,SKEW_SPC(IAD),SKEW_SPC(IAD+3),AR    )
-	 END IF
-	ENDIF
+           END IF
+          ENDIF
        ENDDO
       DO L = 1,NRW
         I = IRW(L)
@@ -2046,7 +2046,7 @@ C------Rigid bodies-------
        DO I=1,NRB
         M=IRB(1,I)
          DO J = 1 , NDOF(M)
-	  ND = IDDLM(J,I)
+            ND = IDDLM(J,I)
           IF (ND<=0) THEN
            IF (J<=3) THEN
             A(J,M)=ZERO
@@ -2060,11 +2060,11 @@ C------esperons le hierachic est dans l'ordre
        DO I=NRB,1,-1
         M=IRB(1,I)
          DO J = 1 , MIN(3,NDOF(M))
-	  ND = IDDLM(J,I)
+            ND = IDDLM(J,I)
           IF (ND>0) A(J,M)=LX(ND)
          ENDDO
          DO J = 4 , NDOF(M)
-	  ND = IDDLM(J,I)
+            ND = IDDLM(J,I)
           IF (ND>0) AR(J-3,M)=LX(ND)
          ENDDO
         NS=IRB(2,I)
@@ -2122,7 +2122,7 @@ C------RBE2---add jt&skew
         N=IR2(1,I)
         M=IRBE2(3,N)
          DO J = 1 , NDOF(M)
-	  ND = IDDLM4(J,I)
+            ND = IDDLM4(J,I)
           IF (ND<=0) THEN
            IF (J<=3) THEN
             A(J,M)=ZERO
@@ -2137,15 +2137,15 @@ C------RBE2---add jt&skew
         M=IRBE2(3,N)
         NS = IR2(2,I)
         ISK = IRBE2(7,N)
-	IRAD =IRBE2(11,N)
-	IC  = IRBE2(4,N)
-	IC =(IC/512)*512
+          IRAD =IRBE2(11,N)
+          IC  = IRBE2(4,N)
+          IC =(IC/512)*512
          DO J = 1 , MIN(3,NDOF(M))
-	  ND = IDDLM4(J,I)
+            ND = IDDLM4(J,I)
           IF (ND>0) A(J,M)=LX(ND)
          ENDDO
          DO J = 4 , NDOF(M)
-	  ND = IDDLM4(J,I)
+            ND = IDDLM4(J,I)
           IF (ND>0) AR(J-3,M)=LX(ND)
          ENDDO
           CALL PRERBE2FR(IC    ,JT  ,JR   )
@@ -2429,14 +2429,14 @@ C---------RBE2 -------------
         M=IRBE2(3,N)
         NS = IR2(2,I)
         ISK = IRBE2(7,N)
-	IRAD =IRBE2(11,N)
-	IC  = IRBE2(4,N)
-	IC =(IC/512)*512
+          IRAD =IRBE2(11,N)
+          IC  = IRBE2(4,N)
+          IC =(IC/512)*512
          CALL PRERBE2FR(IC    ,JT  ,JR   )
          CALL RBE2FRF(NS    ,M     ,A     ,AR    ,JT    ,
      1                JR    ,X_IMP ,ISK   ,SKEW(1,ISK),IRAD  )
          DO J = 1 , NDOF(M)
-	  ND = IDDLM(J,I)
+            ND = IDDLM(J,I)
           IF (J<=3.AND.ND>0) THEN
             LB(ND)=LB(ND)+A(J,M)
             A(J,M)=ZERO
@@ -2479,7 +2479,7 @@ C------Rigid bodies-------
         CALL RBY_IMPF(X_IMP ,M      ,NS     ,NDOF   ,A     ,
      .                AR    )
          DO J = 1 , NDOF(M)
-	  ND = IDDLM(J,I)
+            ND = IDDLM(J,I)
           IF (J<=3.AND.ND>0) THEN
             LB(ND)=LB(ND)+A(J,M)
             A(J,M)=ZERO
@@ -2495,33 +2495,33 @@ C------Rigid bodies-------
         DO L=1,NSPC
          N = ISPC(L)
         I = IN_SPC(N)
-	IF (NDOF(I)==0) CYCLE
-	IROT = 0
-	IAD = 6*(N-1)+1
-	NN = IC_SPC(N)
-	IF (NN>3) THEN
-	 NN= NN-3
-	 IROT = 1
-	ENDIF
-	IF (NN==1) THEN
-	 EJ(1)=SKEW_SPC(IAD)
-	 EJ(2)=SKEW_SPC(IAD+1)
-	 EJ(3)=SKEW_SPC(IAD+2)
+          IF (NDOF(I)==0) CYCLE
+          IROT = 0
+          IAD = 6*(N-1)+1
+          NN = IC_SPC(N)
+          IF (NN>3) THEN
+           NN= NN-3
+           IROT = 1
+          ENDIF
+          IF (NN==1) THEN
+           EJ(1)=SKEW_SPC(IAD)
+           EJ(2)=SKEW_SPC(IAD+1)
+           EJ(3)=SKEW_SPC(IAD+2)
          CALL L_DIR(EJ,J)
-	ENDIF
-	IF (IROT==0) THEN
-	 IF (NN==1) THEN
+          ENDIF
+          IF (IROT==0) THEN
+           IF (NN==1) THEN
           CALL BC_FI(I     ,EJ   ,J     ,A     )
-	 ELSE
+           ELSE
           CALL BC_FI2(I   ,SKEW_SPC(IAD),SKEW_SPC(IAD+3),A     )
-	 END IF
-	ELSE
-	 IF (NN==1) THEN
+           END IF
+          ELSE
+           IF (NN==1) THEN
           CALL BC_FI(I     ,EJ   ,J     ,AR    )
-	 ELSE
+           ELSE
           CALL BC_FI2(I   ,SKEW_SPC(IAD),SKEW_SPC(IAD+3),AR    )
-	 END IF
-	ENDIF
+           END IF
+          ENDIF
        ENDDO
 C
       IF (NFX>0) THEN

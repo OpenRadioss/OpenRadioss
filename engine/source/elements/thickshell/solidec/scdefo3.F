@@ -109,7 +109,7 @@ C  ------due to the sigzz traitement----
 C         
           IF (IRESP==1) VOL0DP(I) = VOL0DP(I)*(ONE- DDV)
           IF(ISMDISP>0.OR.OFFS(I)==TWO) DVC(I) = DVZ
-C	    
+C      
           VOLO(I) = VOLO(I)*(ONE- DDV)
           EINT(I) = EINT(I)/(ONE- DDV)
         ENDDO

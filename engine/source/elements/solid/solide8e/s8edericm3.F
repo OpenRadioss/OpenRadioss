@@ -134,7 +134,7 @@ C-----------------------------------------------
             Y8(I)=ZERO
             Z8(I)=ZERO
          ENDDO
-	ELSE
+          ELSE
 #include "vectorize.inc"
          DO J=1,NNEGA
           I = INDEX(J)
@@ -163,7 +163,7 @@ C-----------------------------------------------
             Y8(I)=ZERO
             Z8(I)=ZERO
          ENDDO
-	END IF
+          END IF
 #include "vectorize.inc"
          DO J=1,NNEGA
           I = INDEX(J)
@@ -171,10 +171,10 @@ C-----------------------------------------------
            IF(ISMSTR<10) THEN
               CALL ANCMSG(MSGID=260,ANMODE=ANINFO,
      .                    I1=NGL(I))
-	   ELSE
+             ELSE
               CALL ANCMSG(MSGID=262,ANMODE=ANINFO,
      .                    I1=NGL(I))
-	   END IF
+             END IF
 #include "lockoff.inc"
 C
             X17(I)=X7(I)-X1(I)
@@ -205,7 +205,7 @@ C
             AJ1(I)=A17(I)-A28(I)
             AJ2(I)=B17(I)-B28(I)
             AJ3(I)=C17(I)-C28(I)
-C	    
+C      
             JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
             JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
             JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
@@ -261,15 +261,15 @@ C 1 1 -1 -1 -1 -1 1 1
          HX(I,1)=(X1(I)+X2(I)-X3(I)-X4(I)-X5(I)-X6(I)+X7(I)+X8(I))
          HY(I,1)=(Y1(I)+Y2(I)-Y3(I)-Y4(I)-Y5(I)-Y6(I)+Y7(I)+Y8(I))
          HZ(I,1)=(Z1(I)+Z2(I)-Z3(I)-Z4(I)-Z5(I)-Z6(I)+Z7(I)+Z8(I))
-C	 
+C   
          HX(I,2)=(X1(I)-X2(I)-X3(I)+X4(I)-X5(I)+X6(I)+X7(I)-X8(I))
          HY(I,2)=(Y1(I)-Y2(I)-Y3(I)+Y4(I)-Y5(I)+Y6(I)+Y7(I)-Y8(I))
          HZ(I,2)=(Z1(I)-Z2(I)-Z3(I)+Z4(I)-Z5(I)+Z6(I)+Z7(I)-Z8(I))
-C	 
+C   
          HX(I,3)=(X1(I)-X2(I)+X3(I)-X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
          HY(I,3)=(Y1(I)-Y2(I)+Y3(I)-Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
          HZ(I,3)=(Z1(I)-Z2(I)+Z3(I)-Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))
-C	 
+C   
          HX(I,4)=(-X1(I)+X2(I)-X3(I)+X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
          HY(I,4)=(-Y1(I)+Y2(I)-Y3(I)+Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
          HZ(I,4)=(-Z1(I)+Z2(I)-Z3(I)+Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))

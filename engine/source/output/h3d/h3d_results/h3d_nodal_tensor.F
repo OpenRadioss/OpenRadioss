@@ -191,10 +191,10 @@ C-----------------------------------------------
            AFLU(J,N) = ZERO
           ENDDO
          ENDDO
-         CALL TENSGPS3(ELBUF_TAB,VFLU	 ,AFLU    ,IPARG   ,GEO     ,
-     .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
-     .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
-     .  	       X	,ITAGPS  ,PM	  )
+         CALL TENSGPS3(ELBUF_TAB,VFLU   ,AFLU    ,IPARG   ,GEO     ,
+     .           IXS  ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
+     .           IXC  ,IXTG   ,IXT    ,IXP     ,IXR     ,
+     .           X  ,ITAGPS  ,PM    )
 
          IF(NSPMD > 1)THEN
            LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
@@ -226,10 +226,10 @@ C-----------------------------------------------
           AFLU(J,N) = ZERO
          ENDDO
         ENDDO
-        CALL TENSGPS1(VFLU    ,AFLU    ,IPARG	,GEO	 ,
-     .  	      IXS   ,IXS10   ,IXS16   ,IXS20   ,IXQ	,
-     .  	      IXC   ,IXTG    ,IXT     ,IXP     ,IXR	,
-     .  	      X     ,ITAGPS  ,ELBUF_TAB)
+        CALL TENSGPS1(VFLU    ,AFLU    ,IPARG  ,GEO   ,
+     .          IXS   ,IXS10   ,IXS16   ,IXS20   ,IXQ  ,
+     .          IXC   ,IXTG    ,IXT     ,IXP     ,IXR  ,
+     .          X     ,ITAGPS  ,ELBUF_TAB)
 
          IF(NSPMD > 1)THEN
            LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
@@ -262,10 +262,10 @@ C-----------------------------------------------
           AFLU(J,N) = ZERO
          ENDDO
         ENDDO
-        CALL TENSGPS2(VFLU    ,AFLU    ,IPARG	,GEO	 ,
-     .  	      IXS   ,IXS10   ,IXS16   ,IXS20   ,IXQ	,
-     .  	      IXC   ,IXTG    ,IXT     ,IXP     ,IXR	,
-     .  	      X     ,VGPS   ,ELBUF_TAB )
+        CALL TENSGPS2(VFLU    ,AFLU    ,IPARG  ,GEO   ,
+     .          IXS   ,IXS10   ,IXS16   ,IXS20   ,IXQ  ,
+     .          IXC   ,IXTG    ,IXT     ,IXP     ,IXR  ,
+     .          X     ,VGPS   ,ELBUF_TAB )
 
          IF(NSPMD > 1)THEN
            LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
@@ -298,10 +298,10 @@ C-----------------------------------------------
            AFLU(J,N) = ZERO
           ENDDO
          ENDDO
-         CALL TENSGPSTRAIN(ELBUF_TAB,VFLU	 ,AFLU    ,IPARG   ,GEO     ,
-     .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
-     .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
-     .  	       X	,ITAGPS  ,PM	  )
+         CALL TENSGPSTRAIN(ELBUF_TAB,VFLU   ,AFLU    ,IPARG   ,GEO     ,
+     .           IXS  ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
+     .           IXC  ,IXTG   ,IXT    ,IXP     ,IXR     ,
+     .           X  ,ITAGPS  ,PM    )
      
          IF(NSPMD > 1)THEN
            LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)

@@ -71,15 +71,15 @@ C-----------------------------------------------
           DO I=NAD+1,NAD+N
             JP=NODPOR(I)
               IF(IABS(NALE(JP)) == 1)THEN
-        	V1X2=VG(1)*(X(2,JP)-X(2,M))
-        	V2X1=VG(2)*(X(1,JP)-X(1,M))
-        	V2X3=VG(2)*(X(3,JP)-X(3,M))
-        	V3X2=VG(3)*(X(2,JP)-X(2,M))
-        	V3X1=VG(3)*(X(1,JP)-X(1,M))
-        	V1X3=VG(1)*(X(3,JP)-X(3,M))
-        	W(1,JP)= V(1,M) + V2X3-V3X2-HALF*DT12*(VG(2)*V2X1+VG(3)*V3X1)
-        	W(2,JP)= V(2,M) + V3X1-V1X3-HALF*DT12*(VG(3)*V3X2+VG(1)*V1X2)
-        	W(3,JP)= V(3,M) + V1X2-V2X1-HALF*DT12*(VG(1)*V1X3+VG(2)*V2X3)
+          V1X2=VG(1)*(X(2,JP)-X(2,M))
+          V2X1=VG(2)*(X(1,JP)-X(1,M))
+          V2X3=VG(2)*(X(3,JP)-X(3,M))
+          V3X2=VG(3)*(X(2,JP)-X(2,M))
+          V3X1=VG(3)*(X(1,JP)-X(1,M))
+          V1X3=VG(1)*(X(3,JP)-X(3,M))
+          W(1,JP)= V(1,M) + V2X3-V3X2-HALF*DT12*(VG(2)*V2X1+VG(3)*V3X1)
+          W(2,JP)= V(2,M) + V3X1-V1X3-HALF*DT12*(VG(3)*V3X2+VG(1)*V1X2)
+          W(3,JP)= V(3,M) + V1X2-V2X1-HALF*DT12*(VG(1)*V1X3+VG(2)*V2X3)
               ENDIF
           ENDDO 
         ENDIF

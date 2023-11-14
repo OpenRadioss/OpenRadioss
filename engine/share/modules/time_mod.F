@@ -40,12 +40,12 @@ C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
       TYPE TIME_TYPE
 !--------------------------------------------------------------------
-!	RST_NAME --> name of the restart
+!  RST_NAME --> name of the restart
 !       RUN_NBR --> number of engine run
 !       STARTER_TIME --> elapsed time of the starter
 !       ENGINE_TIME --> elapsed time of the engine
 !--------------------------------------------------------------------
-	CHARACTER(len=1000) :: RST_NAME
+          CHARACTER(len=1000) :: RST_NAME
         INTEGER :: RUN_NBR
         REAL(kind=8) :: STARTER_TIME
         REAL(kind=8), DIMENSION(:), ALLOCATABLE :: ENGINE_TIME

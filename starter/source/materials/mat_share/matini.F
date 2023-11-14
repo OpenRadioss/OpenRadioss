@@ -263,8 +263,8 @@ C---------------------------
           CALL ANCMSG(MSGID=129,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO)
-          CALL ARRET(2)             	  
-	       ENDIF
+          CALL ARRET(2)                 
+                 ENDIF
       ELSEIF (MTN == 21.OR.MTN == 22.OR.MTN == 23) THEN
         IPARG(15)=1
         IPARG(16)=1

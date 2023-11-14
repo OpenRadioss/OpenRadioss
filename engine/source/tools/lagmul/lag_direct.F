@@ -112,15 +112,15 @@ C---  second membre
       ENDDO
 C---  Factorise H (Full Cholesky)
       DO J=1,NCL
-	    IF (HLOC(J,J)<=ZERO) THEN
+              IF (HLOC(J,J)<=ZERO) THEN
           CALL ANCMSG(MSGID=112,ANMODE=ANINFO,
      .            I1=J)
           CALL ARRET(2)
-	    ENDIF
+              ENDIF
         HLOC(J,J) = SQRT(HLOC(J,J))
         DO K=1,J-1
           DO I=J+1,NCL
-	        HLOC(I,J) = HLOC(I,J) - HLOC(I,K)*HLOC(J,K)
+                  HLOC(I,J) = HLOC(I,J) - HLOC(I,K)*HLOC(J,K)
           ENDDO
         ENDDO
         DO I=J+1,NCL
@@ -134,7 +134,7 @@ C---  back subst Ly = r,
         DO J=1,I-1
           S = S - HLOC(I,J)*RLOC(J)
         ENDDO
-	    RLOC(I) = S / HLOC(I,I)
+              RLOC(I) = S / HLOC(I,I)
       ENDDO
 C---  back subst Lz = y
       DO I=NCL,1,-1
@@ -142,7 +142,7 @@ C---  back subst Lz = y
         DO J=I+1,NCL
           S = S - HLOC(J,I)*RLOC(J)
         ENDDO
-	    RLOC(I) = S / HLOC(I,I)
+              RLOC(I) = S / HLOC(I,I)
       ENDDO
 C---  update accelerations
       DO K=1,NCL

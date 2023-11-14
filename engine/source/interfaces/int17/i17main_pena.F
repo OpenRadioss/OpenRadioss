@@ -114,8 +114,8 @@ C      TEST pour savoir s'il faut retrier + initialisation
 C=======================================================================
 C       SIZE_T(NIN)=ZERO init dans inttri
        CALL I17CRIT(
-     1   X     ,AZERO	     ,AZERO	   ,IGRBRIC(IGE)%ENTITY ,EMINX        ,
-     2   NME   ,ITASK	     ,INTBUF_TAB%XSAV,IXS 	 ,IXS16        ,
+     1   X     ,AZERO       ,AZERO     ,IGRBRIC(IGE)%ENTITY ,EMINX        ,
+     2   NME   ,ITASK       ,INTBUF_TAB%XSAV,IXS    ,IXS16        ,
      3   IXS20 ,XMSR_L       ,SIZE_T(NIN))
 C -------------------------------------------------------------
 C       CALL MY_BARRIER   inutile
@@ -273,11 +273,11 @@ C BARRIER INIT BMINMA
 C -------------------------------------------------------------
 C     CALCUL BORNE DOMAINE REMONTE DANS I17XSAVE
 C -------------------------------------------------------------
-	 CALL I17XSAVE(
-     1       X     ,V	  ,AZERO	,IXS	     ,IXS16,
-     2       NMES  ,NME_T ,ESH_T	,IGRBRIC(IGE)%ENTITY,IGRBRIC(IGN)%ENTITY,
-     3       EMINX ,ITASK ,INTBUF_TAB%XSAV,XMINL       ,YMINL	  ,
-     3       ZMINL ,XMAXL ,YMAXL	,ZMAXL  		  )
+           CALL I17XSAVE(
+     1       X     ,V    ,AZERO  ,IXS       ,IXS16,
+     2       NMES  ,NME_T ,ESH_T  ,IGRBRIC(IGE)%ENTITY,IGRBRIC(IGN)%ENTITY,
+     3       EMINX ,ITASK ,INTBUF_TAB%XSAV,XMINL       ,YMINL    ,
+     3       ZMINL ,XMAXL ,YMAXL  ,ZMAXL        )
 #include "lockon.inc"
          BMINMA(1) = MIN(BMINMA(1),XMINL)
          BMINMA(2) = MIN(BMINMA(2),YMINL)

@@ -117,7 +117,7 @@ C      NSPHSYM=0 initialized in sphprep
            NSPHSYM_L = ISPSYM(NC,N)
            XS=XI - TWO*DD*NX
            YS=YI - TWO*DD*NY
-           ZS=ZI - TWO*DD*NZ	   
+           ZS=ZI - TWO*DD*NZ     
            IF(ISLIDE==0)THEN
             VXS=-VXI
             VYS=-VYI
@@ -126,7 +126,7 @@ C      NSPHSYM=0 initialized in sphprep
             VN=VXI*NX+VYI*NY+VZI*NZ
             VXS=VXI  - TWO*VN*NX
             VYS=VYI - TWO*VN*NY
-            VZS=VZI - TWO*VN*NZ	    
+            VZS=VZI - TWO*VN*NZ      
            ENDIF
            XSPSYM(1,NSPHSYM_L)= XS
            XSPSYM(2,NSPHSYM_L)= YS
@@ -151,7 +151,7 @@ C
            NSPHSYM_L = ISPSYMR(NC,NS)
            XS=XI - TWO*DD*NX
            YS=YI - TWO*DD*NY
-           ZS=ZI - TWO*DD*NZ	   
+           ZS=ZI - TWO*DD*NZ     
            IF(ISLIDE==0)THEN
             VXS=-VXI
             VYS=-VYI
@@ -160,7 +160,7 @@ C
             VN=VXI*NX+VYI*NY+VZI*NZ
             VXS=VXI  - TWO*VN*NX
             VYS=VYI - TWO*VN*NY
-            VZS=VZI - TWO*VN*NZ	    
+            VZS=VZI - TWO*VN*NZ      
            ENDIF
            XSPSYM(1,NSPHSYM_L)= XS
            XSPSYM(2,NSPHSYM_L)= YS
@@ -326,12 +326,12 @@ C        adapting bucket sort true security coefficient ;
 C        looking if non-zero weight neighbours were lost.
          DK=DVOIS(KVOISPH)
 C Choice of cells to keep such as distance < DK toa void parith/on issue
-	 NVOIS=0
-	 DO K=1,KVOISPH
-	   IF(DVOIS(K)<DK)THEN
-	     NVOIS=NVOIS+1
-	   END IF
-	 END DO
+           NVOIS=0
+           DO K=1,KVOISPH
+             IF(DVOIS(K)<DK)THEN
+               NVOIS=NVOIS+1
+             END IF
+           END DO
 C-------
 C        Resorting adjacent particles (real ones and then ghost ones).
          NVOIS1=0
@@ -550,12 +550,12 @@ C         adapting bucket sort true security coefficient ;
 C         looking if non-zero weight neighbours were lost.
           DK=DVOIS(KVOISPH)
 C Select cells to keep such as distance < DK to avoid parith/on issue
-	  NVOIS=0
-	  DO K=1,KVOISPH
-	   IF(DVOIS(K)<DK)THEN
-	     NVOIS=NVOIS+1
-	   END IF
-	  END DO
+            NVOIS=0
+            DO K=1,KVOISPH
+             IF(DVOIS(K)<DK)THEN
+               NVOIS=NVOIS+1
+             END IF
+            END DO
 C-------
 C         Resorting adjacent particles (real ones and then ghost ones).
           NVOIS1=0

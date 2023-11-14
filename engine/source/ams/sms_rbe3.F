@@ -302,24 +302,24 @@ C
         NS  = IRBE3(3,N)
         IF (NS==0) CYCLE
         NML = IRBE3(5,N)
-	IROT =MIN(IRBE3(6,N),IRODDL)
+          IROT =MIN(IRBE3(6,N),IRODDL)
         CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X      ,
      .              FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
      .              MDSTNB  ,IRBE3(2,N))
         DO J = 1,3
-	 AS(J) = ZERO
-	ENDDO
+           AS(J) = ZERO
+          ENDDO
         DO I=1,NML
          M = LRBE3(IAD+I)
          DO J = 1,3
           DO K = 1,3
-	   AS(J) = AS(J)+FDSTNB(K,J,I)*A(K,M)
-	  ENDDO
-	 ENDDO
+             AS(J) = AS(J)+FDSTNB(K,J,I)*A(K,M)
+            ENDDO
+           ENDDO
         ENDDO
         DO J = 1,3
-	 A(J,NS) = AS(J) *JT(J,N)
-	ENDDO
+           A(J,NS) = AS(J) *JT(J,N)
+          ENDDO
       ENDDO
 C      
       DEALLOCATE(FDSTNB)
@@ -496,25 +496,25 @@ C---
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
-	IROT =IRBE3(6,N)
+          IROT =IRBE3(6,N)
         IF (NS>0) THEN
          CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X      ,
      .               FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
      .               MDSTNB  ,IRBE3(2,N))
 
         DO J = 1,3
-	  NN = JT(J,N)*WEIGHT(NS)
-	  FNS(J) = A(J,NS)*NN
-	ENDDO
-C---not to add supplementary mass globally	
+            NN = JT(J,N)*WEIGHT(NS)
+            FNS(J) = A(J,NS)*NN
+          ENDDO
+C---not to add supplementary mass globally
         CALL MFAC_RBE3(FDSTNB,MDSTNB,NML  ,IROTG,SFD ,SMD)
         DO I=1,NML
          K = IADMP(IAD+I)
          DO J = 1,3
-	   AM(1,K) = AM(1,K)+FDSTNB(1,J,I)*FNS(J)
-	   AM(2,K) = AM(2,K)+FDSTNB(2,J,I)*FNS(J)
-	   AM(3,K) = AM(3,K)+FDSTNB(3,J,I)*FNS(J)
-	 ENDDO
+             AM(1,K) = AM(1,K)+FDSTNB(1,J,I)*FNS(J)
+             AM(2,K) = AM(2,K)+FDSTNB(2,J,I)*FNS(J)
+             AM(3,K) = AM(3,K)+FDSTNB(3,J,I)*FNS(J)
+           ENDDO
         ENDDO
 C---
        END IF ! IF (NS>0) THEN

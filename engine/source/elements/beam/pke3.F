@@ -117,7 +117,7 @@ C-------------------------
 C
       RETURN
       END
-	SUBROUTINE PKEG3(JFT     ,JLT     ,
+          SUBROUTINE PKEG3(JFT     ,JLT     ,
      1                   FX      ,AL      ,KE11    ,KE12    ,KE22   )
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S

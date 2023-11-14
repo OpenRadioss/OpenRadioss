@@ -115,9 +115,9 @@ C------TAG_SKIN_ND only the big seg(mid-node of S10 not include)
         END DO
        IOK_PART(1:MVSIZ)=0
        IF (KEYWORD == 'TENS/STRESS/OUTER') THEN
-         CALL TENSGPS_SKIN(ELBUF_TAB,VFLU	 ,AFLU    ,IPARG   ,
-     .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,
-     .  	       X	,ITAGPS  ,PM	  ,TAG_SKIN_ND)
+         CALL TENSGPS_SKIN(ELBUF_TAB,VFLU   ,AFLU    ,IPARG   ,
+     .           IXS  ,IXS10   ,IXS16   ,IXS20   ,
+     .           X  ,ITAGPS  ,PM    ,TAG_SKIN_ND)
 
          IF(NSPMD > 1)THEN
            LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)

@@ -8144,9 +8144,9 @@ C--------------------------------------------------
 C       /H3D/TMAX    
 C--------------------------------------------------
         CALL UPD_TMAX(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
-     .  	       IXS	,IXS(L1) ,IXS(L3) ,IXS(L2) ,IXQ     ,
-     .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
-     .  	       X	,D       ,V       ,IAD_ELEM,FR_ELEM ,
+     .           IXS  ,IXS(L1) ,IXS(L3) ,IXS(L2) ,IXQ     ,
+     .           IXC  ,IXTG   ,IXT    ,IXP     ,IXR     ,
+     .           X  ,D       ,V       ,IAD_ELEM,FR_ELEM ,
      .             WEIGHT ,IPM   ,IGEO    ,STACK   ,ITSK    )  
 
 !$OMP END PARALLEL

@@ -182,7 +182,7 @@ C ---- (STRAIN IS LOGARITHMIC)
          EV(I,1)=SQRT(EVV(I,1)+ ONE)
          EV(I,2)=SQRT(EVV(I,2)+ ONE)
          EV(I,3)=SQRT(EVV(I,3)+ ONE)
-	ELSE
+          ELSE
          EV(I,1)=EVV(I,1)+ ONE
          EV(I,2)=EVV(I,2)+ ONE
          EV(I,3)=EVV(I,3)+ ONE
@@ -203,7 +203,7 @@ C----------------
          DO K= 1,NORDRE
 !         ETI  = ETI + MU(K)*AMAX**(AL(K)-ONE)
           DO I=1,NEL
-	   AMAX = EV(I,J)
+             AMAX = EV(I,J)
            IF(AMAX>ZERO) THEN
             IF(MU(K)/=ZERO) THEN
              IF((AL(K)-ONE)/=ZERO) THEN

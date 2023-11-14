@@ -77,33 +77,33 @@ C
       IF(DT1==ZERO)RETURN
       DO I=1,NEL
         FAC=-ONE_OVER_8*HH(I)*RHO(I)*VOLN(I)/DT1
- 	F11(I) = F11(I) + FAC*VX1(I)
- 	F12(I) = F12(I) + FAC*VX2(I)
- 	F13(I) = F13(I) + FAC*VX3(I)
- 	F14(I) = F14(I) + FAC*VX4(I)
- 	F15(I) = F15(I) + FAC*VX5(I)
- 	F16(I) = F16(I) + FAC*VX6(I)
- 	F17(I) = F17(I) + FAC*VX7(I)
- 	F18(I) = F18(I) + FAC*VX8(I)
+          F11(I) = F11(I) + FAC*VX1(I)
+          F12(I) = F12(I) + FAC*VX2(I)
+          F13(I) = F13(I) + FAC*VX3(I)
+          F14(I) = F14(I) + FAC*VX4(I)
+          F15(I) = F15(I) + FAC*VX5(I)
+          F16(I) = F16(I) + FAC*VX6(I)
+          F17(I) = F17(I) + FAC*VX7(I)
+          F18(I) = F18(I) + FAC*VX8(I)
 
- 	F21(I) = F21(I) + FAC*VY1(I)
- 	F22(I) = F22(I) + FAC*VY2(I)
- 	F23(I) = F23(I) + FAC*VY3(I)
- 	F24(I) = F24(I) + FAC*VY4(I)
- 	F25(I) = F25(I) + FAC*VY5(I)
- 	F26(I) = F26(I) + FAC*VY6(I)
- 	F27(I) = F27(I) + FAC*VY7(I)
- 	F28(I) = F28(I) + FAC*VY8(I)
+          F21(I) = F21(I) + FAC*VY1(I)
+          F22(I) = F22(I) + FAC*VY2(I)
+          F23(I) = F23(I) + FAC*VY3(I)
+          F24(I) = F24(I) + FAC*VY4(I)
+          F25(I) = F25(I) + FAC*VY5(I)
+          F26(I) = F26(I) + FAC*VY6(I)
+          F27(I) = F27(I) + FAC*VY7(I)
+          F28(I) = F28(I) + FAC*VY8(I)
 
- 	F31(I) = F31(I) + FAC*VZ1(I)
- 	F32(I) = F32(I) + FAC*VZ2(I)
- 	F33(I) = F33(I) + FAC*VZ3(I)
- 	F34(I) = F34(I) + FAC*VZ4(I)
- 	F35(I) = F35(I) + FAC*VZ5(I)
- 	F36(I) = F36(I) + FAC*VZ6(I)
- 	F37(I) = F37(I) + FAC*VZ7(I)
- 	F38(I) = F38(I) + FAC*VZ8(I)
+          F31(I) = F31(I) + FAC*VZ1(I)
+          F32(I) = F32(I) + FAC*VZ2(I)
+          F33(I) = F33(I) + FAC*VZ3(I)
+          F34(I) = F34(I) + FAC*VZ4(I)
+          F35(I) = F35(I) + FAC*VZ5(I)
+          F36(I) = F36(I) + FAC*VZ6(I)
+          F37(I) = F37(I) + FAC*VZ7(I)
+          F38(I) = F38(I) + FAC*VZ8(I)
       ENDDO
       RETURN
-      END		
-	
+      END
+

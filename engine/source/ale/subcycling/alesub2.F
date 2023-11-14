@@ -127,45 +127,45 @@ C
 C DISPLACEMENT BACKUP
 C
       DO N=NODFT,NODLT
- 	DSAVE(1,N)=D(1,N)
- 	DSAVE(2,N)=D(2,N)
- 	DSAVE(3,N)=D(3,N)
+          DSAVE(1,N)=D(1,N)
+          DSAVE(2,N)=D(2,N)
+          DSAVE(3,N)=D(3,N)
       ENDDO
 
       IF(IPARIT > 0)THEN
 C forces from solid elements are stored in fsky
 C they are reused in subcycles
 C + same strategy as P/off => use of ASAVE
- 	DO N=NODFT,NODLT
- 	  ASAVE(1,N)=A(1,N)
- 	  ASAVE(2,N)=A(2,N)
- 	  ASAVE(3,N)=A(3,N)
- 	ENDDO
+          DO N=NODFT,NODLT
+            ASAVE(1,N)=A(1,N)
+            ASAVE(2,N)=A(2,N)
+            ASAVE(3,N)=A(3,N)
+          ENDDO
         NISKFT =  1+ITASK*LSKY/NTHREAD
         NISKLT = (ITASK+1)*LSKY/NTHREAD
- 	IF(IVECTOR == 1) THEN
- 	  DO K=1,8
- 	    DO I=NISKFT,NISKLT
- 	      FSKYV(I,K)=ZERO
- 	    ENDDO
- 	  ENDDO
- 	ELSE
- 	  DO K=1,8
- 	    DO I=NISKFT,NISKLT
- 	      FSKY(K,I)=ZERO
- 	    ENDDO
- 	  ENDDO
- 	ENDIF
+          IF(IVECTOR == 1) THEN
+            DO K=1,8
+              DO I=NISKFT,NISKLT
+                FSKYV(I,K)=ZERO
+              ENDDO
+            ENDDO
+          ELSE
+            DO K=1,8
+              DO I=NISKFT,NISKLT
+                FSKY(K,I)=ZERO
+              ENDDO
+            ENDDO
+          ENDIF
 C Parith/OFF
       ELSE
- 	DO N=NODFT,NODLT
- 	  A(1,N)=A(1,N)*WEIGHT(N)
- 	  A(2,N)=A(2,N)*WEIGHT(N)
- 	  A(3,N)=A(3,N)*WEIGHT(N)
- 	  ASAVE(1,N)=A(1,N)
- 	  ASAVE(2,N)=A(2,N)
- 	  ASAVE(3,N)=A(3,N)
- 	ENDDO
+          DO N=NODFT,NODLT
+            A(1,N)=A(1,N)*WEIGHT(N)
+            A(2,N)=A(2,N)*WEIGHT(N)
+            A(3,N)=A(3,N)*WEIGHT(N)
+            ASAVE(1,N)=A(1,N)
+            ASAVE(2,N)=A(2,N)
+            ASAVE(3,N)=A(3,N)
+          ENDDO
       ENDIF
 C
       RETURN

@@ -110,24 +110,24 @@ C-----------------------------------------------
       ENDIF
       IF(IABS(ISIGI)/=5.OR.TT==0) THEN
         DO I=JFT,JLT
-    	  G11 = F11(I)
-    	  G21 = F21(I)
-    	  G31 = F31(I)
-    	  F11(I) = E1X(I)*G11 + E2X(I)*G21 + E3X(I)*G31
-    	  F21(I) = E1Y(I)*G11 + E2Y(I)*G21 + E3Y(I)*G31
-    	  F31(I) = E1Z(I)*G11 + E2Z(I)*G21 + E3Z(I)*G31
-    	  G12 = F12(I)
-    	  G22 = F22(I)
-    	  G32 = F32(I)
-    	  F12(I) = E1X(I)*G12 + E2X(I)*G22 + E3X(I)*G32
-    	  F22(I) = E1Y(I)*G12 + E2Y(I)*G22 + E3Y(I)*G32
-    	  F32(I) = E1Z(I)*G12 + E2Z(I)*G22 + E3Z(I)*G32
-    	  G13 = F13(I)
-    	  G23 = F23(I)
-    	  G33 = F33(I)
-    	  F13(I) = E1X(I)*G13 + E2X(I)*G23 + E3X(I)*G33
-    	  F23(I) = E1Y(I)*G13 + E2Y(I)*G23 + E3Y(I)*G33
-    	  F33(I) = E1Z(I)*G13 + E2Z(I)*G23 + E3Z(I)*G33
+            G11 = F11(I)
+            G21 = F21(I)
+            G31 = F31(I)
+            F11(I) = E1X(I)*G11 + E2X(I)*G21 + E3X(I)*G31
+            F21(I) = E1Y(I)*G11 + E2Y(I)*G21 + E3Y(I)*G31
+            F31(I) = E1Z(I)*G11 + E2Z(I)*G21 + E3Z(I)*G31
+            G12 = F12(I)
+            G22 = F22(I)
+            G32 = F32(I)
+            F12(I) = E1X(I)*G12 + E2X(I)*G22 + E3X(I)*G32
+            F22(I) = E1Y(I)*G12 + E2Y(I)*G22 + E3Y(I)*G32
+            F32(I) = E1Z(I)*G12 + E2Z(I)*G22 + E3Z(I)*G32
+            G13 = F13(I)
+            G23 = F23(I)
+            G33 = F33(I)
+            F13(I) = E1X(I)*G13 + E2X(I)*G23 + E3X(I)*G33
+            F23(I) = E1Y(I)*G13 + E2Y(I)*G23 + E3Y(I)*G33
+            F33(I) = E1Z(I)*G13 + E2Z(I)*G23 + E3Z(I)*G33
         ENDDO
       ENDIF
 C

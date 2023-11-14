@@ -106,17 +106,17 @@ C----tetra 4  ,pyrami
 #include      "vectorize.inc"
           DO J=1,N_INDX
                 I = INDX(J)
-C--------suposse here V=0.5*A_max*L for penta	=0.333A_max*L for Pyram 
+C--------suposse here V=0.5*A_max*L for penta  =0.333A_max*L for Pyram 
                 IF (IT(I) ==0  ) AREAM(I)=FAC(I)*AREAM(I)
-C--------add special treat for tetra4, as V is not right values		
+C--------add special treat for tetra4, as V is not right values
                 IF (IDET4(I) ==1 ) THEN
                         CALL DEGES4V(V_G,
      .                  X1(I), X2(I), X3(I), X4(I), X5(I), X6(I), X7(I), X8(I),
      .                  Y1(I), Y2(I), Y3(I), Y4(I), Y5(I), Y6(I), Y7(I), Y8(I),
      .                  Z1(I), Z2(I), Z3(I), Z4(I), Z5(I), Z6(I), Z7(I), Z8(I))
-	                FAC(I)=THIRD*VOLG(I)/V_G
+                          FAC(I)=THIRD*VOLG(I)/V_G
                         AREAM(I)=FAC(I)*FAC(I)*AREAM(I)
-	        END IF
+                  END IF
         ENDDO
       ENDIF
 C

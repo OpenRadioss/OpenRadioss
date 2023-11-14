@@ -342,7 +342,7 @@ C------------------------------------------------
           DLIBFILE(1:LEN_USERL_ALTNAME)=USERL_ALTNAME(1:LEN_USERL_ALTNAME)
           DLIBFILE_SIZE=LEN_USERL_ALTNAME
         ELSE
-	      DLIBFILE='libraduser_'
+                DLIBFILE='libraduser_'
           DLIBFILE_SIZE=LEN_TRIM(DLIBFILE)
         ENDIF
         USERL_AVAIL=0
@@ -442,7 +442,7 @@ C-------------------------------------------------------------------
 C     message file id
 C-------------------------------------------------------------------
       WRITE(CHRUN,'(I4.4)')IRUN
-C	  
+C    
       IF (IPID==1) THEN
       FILNAM  =OUTFILE_NAME(1:OUTFILE_NAME_LEN)//
      .         ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.out'

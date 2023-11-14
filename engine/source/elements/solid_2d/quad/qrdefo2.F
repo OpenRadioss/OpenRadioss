@@ -119,7 +119,7 @@ C
         PY1(I)=HALF*(Z2(I)-Z4(I))
         PY2(I)=HALF*(Z3(I)-Z1(I))
         PZ1(I)=HALF*(Y4(I)-Y2(I))
-        PZ2(I)=HALF*(Y1(I)-Y3(I))	 
+        PZ2(I)=HALF*(Y1(I)-Y3(I))   
       END DO
 C
       DO I=1,NEL
@@ -154,7 +154,7 @@ C
           DZY(I)=(PY1(I)*VZ13(I)+PY2(I)*VZ24(I))/AIREM(I)
           DYZ(I)=(PZ1(I)*VY13(I)+PZ2(I)*VY24(I))/AIREM(I)
           EYT(I)=ZERO
-          EZT(I)=ZERO	
+          EZT(I)=ZERO
         ELSE
           EYY(I)=ZERO
           EZZ(I)=ZERO
@@ -180,13 +180,13 @@ C
 C     correction due to rotation of the skew:
       DO I=1,NEL
         EYZ(I)  = DYZ(I)+DZY(I)
-     .  	 -DT1*(EYY(I)*DYZ(I)+DZY(I)*EZZ(I))
+     .     -DT1*(EYY(I)*DYZ(I)+DZY(I)*EZZ(I))
         EYY(I)  = EYY(I)
-     .  	 -0.5*DT1*(EYY(I)*EYY(I)+DZY(I)*DZY(I))
+     .     -0.5*DT1*(EYY(I)*EYY(I)+DZY(I)*DZY(I))
         EZZ(I)  = EZZ(I)
-     .  	 -0.5*DT1*(EZZ(I)*EZZ(I)+DYZ(I)*DYZ(I))
+     .     -0.5*DT1*(EZZ(I)*EZZ(I)+DYZ(I)*DYZ(I))
         ETT(I)  = ETT(I)
-C   pas de rotation => pas de terme    .  	 -0.5*DT1*ETT(I)*ETT(I)
+C   pas de rotation => pas de terme    .     -0.5*DT1*ETT(I)*ETT(I)
         WYZ(I)= ZERO
       ENDDO
 C---------------------------------------

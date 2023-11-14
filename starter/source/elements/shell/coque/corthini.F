@@ -609,15 +609,15 @@ C
                 ILAW_LY = ELBUF_STR%BUFLY(J)%ILAW
                 IF (IGTYP == 16 .OR.(IGTYP == 51 .AND. ILAW_LY == 58) 
      .                          .OR.(IGTYP == 52 .AND. ILAW_LY == 58) ) THEN
-             	  COOR1(J,I) = SIGSH(IPT+1,II)
-             	  COOR2(J,I) = SIGSH(IPT+2,II)
-             	  COOR3(J,I) = SIGSH(IPT+3,II)
-             	  COOR4(J,I) = SIGSH(IPT+4,II)
-             	  IPT = IPT + 4
+            COOR1(J,I) = SIGSH(IPT+1,II)
+            COOR2(J,I) = SIGSH(IPT+2,II)
+            COOR3(J,I) = SIGSH(IPT+3,II)
+            COOR4(J,I) = SIGSH(IPT+4,II)
+            IPT = IPT + 4
                 ELSE
-             	  COOR1(J,I) = SIGSH(IPT+1,II)
-             	  COOR2(J,I) = SIGSH(IPT+2,II)
-             	  IPT = IPT + 2
+            COOR1(J,I) = SIGSH(IPT+1,II)
+            COOR2(J,I) = SIGSH(IPT+2,II)
+            IPT = IPT + 2
                 ENDIF
               ENDDO
               IORTHLOC(I) = 1

@@ -68,7 +68,7 @@ C
         DO I=JFT,JLT
          GSTR(I,6)=GSTR(I,6)+KXX(I)*THIRD
          GSTR(I,7)=GSTR(I,7)+KYY(I)*THIRD
-         GSTR(I,8)=GSTR(I,8)+KXY(I)*THIRD	 
+         GSTR(I,8)=GSTR(I,8)+KXY(I)*THIRD   
 C
          GSTRPG(I,1)=GSTRPG(I,1)+EXX(I)
          GSTRPG(I,2)=GSTRPG(I,2)+EYY(I)

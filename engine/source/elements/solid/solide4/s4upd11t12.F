@@ -75,8 +75,8 @@ C-----for JCVT>0 Fixed SAV is rotated w/ local system not like Ismstr=1
            NCH = NCH +1
            INDEX(NCH) = I
          END IF
-	END DO
-	IF (NCH==0) RETURN
+          END DO
+          IF (NCH==0) RETURN
         DO J=1,NCH
           I= INDEX(J)
           X1(J)=XD1(I)
@@ -92,7 +92,7 @@ C-----for JCVT>0 Fixed SAV is rotated w/ local system not like Ismstr=1
           Z3(J)=ZD3(I)
           Z4(J)=ZD4(I)
         END DO
-C	
+C
        CALL S4JAC_I(
      .              X1   ,X2   ,X3   ,X4   ,
      .              Y1   ,Y2   ,Y3   ,Y4   ,

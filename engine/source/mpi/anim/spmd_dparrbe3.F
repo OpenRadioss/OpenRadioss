@@ -154,7 +154,7 @@ C Envoi des noeuds secnds
         SECNDNODS=0
          DO I=1,NRBE3
            MN =  IRBE3(3,I)
-	   IF(MN/=0)THEN
+             IF(MN/=0)THEN
              IF (WEIGHT(MN)==1) THEN
                NGRBE = IRBE3(10,I)
                SECNDNODS(NGRBE)=NODGLOB(MN)
@@ -185,9 +185,9 @@ C preparation IADRBE3
 C preparation P0RECRBE3 pour le proc0
          PGLOBRBE3=0
          DO I=1,NRBE3G
-	    PGLOBRBE3(I)=IADRBE3(I)
+              PGLOBRBE3(I)=IADRBE3(I)
          ENDDO
-	 	 
+           
          DO I=1,NRBE3
            NSN = IRBE3(5,I)
            IAD = IRBE3(1,I)
@@ -233,7 +233,7 @@ C Reception des Noeuds SECONDARYs
          SECNDNODS=0
          DO I=1,NRBE3
            MN =  IRBE3(3,I)
-	   IF(MN/=0)THEN
+             IF(MN/=0)THEN
              IF (WEIGHT(MN)==1) THEN
                NGRBE = IRBE3(10,I)
                SECNDNODS(NGRBE)=NODGLOB(MN)

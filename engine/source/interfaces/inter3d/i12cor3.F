@@ -118,7 +118,7 @@ C-----------------------------------------------
             IF(Z4(I)<ZERO)Z4(I)=Z4(I)+DEUPI
             IF(ZI(I)<ZERO)ZI(I)=ZI(I)+DEUPI
           ENDIF
-        ENDDO	
+        ENDDO
 
         !--------------------------------------------------!
         !   CAS D'UNE FACETTE CENTRALE                     !

@@ -87,7 +87,7 @@ C
 
         CALL HM_GET_INTV('sect_ID'  ,ISEC  ,IS_AVAILABLE,LSUBMODEL)                                             
 
-	   NN = 0
+             NN = 0
         IF (ISEC > 0) THEN
           K0=31
           DO IS=1,NSECT
@@ -98,7 +98,7 @@ C
               K0=NSTRF(K0+24)
            ENDDO 
         ENDIF
-        NUMPRELOAD = NUMPRELOAD + NN	 
+        NUMPRELOAD = NUMPRELOAD + NN   
 
       ENDDO                                            
 C---

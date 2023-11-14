@@ -225,10 +225,10 @@ C     #######################################################
         IF(ILAW == 37) I22LAW37 = 5               ! UVAR buffer size
         IF(ILAW == 51) I22LAW51 = N0PHAS+4*NVPHAS ! UVAR buffer size
 
-	IF((ILAW/=0).AND.(ILAW/=11).AND.(ILAW/=51).AND.(ILAW/=6).AND.(ILAW/=37))THEN
+          IF((ILAW/=0).AND.(ILAW/=11).AND.(ILAW/=51).AND.(ILAW/=6).AND.(ILAW/=37))THEN
           IMESG = 97
-	  EXIT
-	END IF
+            EXIT
+          END IF
       END DO! next I
       
       IF(I22LAW06*I22LAW37/=0 .OR. I22LAW06*I22LAW51/=0 .OR. I22LAW37*I22LAW51/=0 )THEN

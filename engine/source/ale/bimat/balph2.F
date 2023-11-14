@@ -170,7 +170,7 @@ C-----------------------------------------------
           ALPHN=(VOLO1(I)-DT1*HALF*(FLU11(I)
      .    +FLUX1(1,I)+FLUX1(2,I)+FLUX1(3,I)+FLUX1(4,I)))/VOLN(I)
           ALPHNN=ALPHN*(ONE+(D1(I)+D2(I)+D3(I))*DT1)
-          IF((SIG1(I,1)+SIG1(I,2)+SIG1(I,3))>ZERO)THEN	
+          IF((SIG1(I,1)+SIG1(I,2)+SIG1(I,3))>ZERO)THEN
            ALPHN= MIN(ALPHN,ALPHNN)
           ELSE
            ALPHN= MAX(ALPHN,ALPHNN)
@@ -210,7 +210,7 @@ C-----------------------------------------------
           ALPH1(I)=ZERO
           OFF1(I) =ZERO
           VOLO1(I)=ZERO
-          EINT1(I)=ZERO	
+          EINT1(I)=ZERO
          ELSE
           OFF1(I)=ONE
          ENDIF
@@ -341,7 +341,7 @@ C-----------------------------------------------
           ALPH1(I)=ZERO
           OFF1(I) =ZERO
           VOLO1(I)=ZERO
-          EINT1(I)=ZERO	
+          EINT1(I)=ZERO
          ELSE
           OFF1(I) =ONE
          ENDIF

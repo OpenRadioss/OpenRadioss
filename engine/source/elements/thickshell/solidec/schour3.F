@@ -153,7 +153,7 @@ C 1 1 -1 -1 -1 -1 1 1
         G51(I)=-ONE_OVER_8+PX3H1(I)
         G61(I)=-ONE_OVER_8+PX4H1(I)
         G71(I)= ONE_OVER_8+PX1H1(I)
-        G81(I)= ONE_OVER_8+PX2H1(I)	
+        G81(I)= ONE_OVER_8+PX2H1(I)
       ENDDO
       DO I=1,NEL
 C   alpha =2 
@@ -165,7 +165,7 @@ C 1 -1 -1 1 -1 1 1 -1
         G52(I)=-ONE_OVER_8+PX3H2(I)
         G62(I)= ONE_OVER_8+PX4H2(I)
         G72(I)= ONE_OVER_8+PX1H2(I)
-        G82(I)=-ONE_OVER_8+PX2H2(I)	
+        G82(I)=-ONE_OVER_8+PX2H2(I)
       ENDDO
       DO I=1,NEL
 C   alpha =3 
@@ -177,7 +177,7 @@ C 1 -1 1 -1 1 -1 1 -1
         G53(I)= ONE_OVER_8 +PX3H3(I)
         G63(I)=-ONE_OVER_8 +PX4H3(I)
         G73(I)= ONE_OVER_8 +PX1H3(I)
-        G83(I)=-ONE_OVER_8 +PX2H3(I)	
+        G83(I)=-ONE_OVER_8 +PX2H3(I)
         HGX3(I)=
      &   G13(I)*VX1(I)+G23(I)*VX2(I)+G33(I)*VX3(I)+G43(I)*VX4(I)
      &  +G53(I)*VX5(I)+G63(I)*VX6(I)+G73(I)*VX7(I)+G83(I)*VX8(I)
@@ -200,7 +200,7 @@ C -1 1 -1 1 1 -1 1 -1
         G54(I)= ONE_OVER_8+PX3H4(I)
         G64(I)=-ONE_OVER_8+PX4H4(I)
         G74(I)= ONE_OVER_8+PX1H4(I)
-        G84(I)=-ONE_OVER_8+PX2H4(I)	
+        G84(I)=-ONE_OVER_8+PX2H4(I)
         HGX4(I)=
      &    G14(I)*VX1(I)+G24(I)*VX2(I)+G34(I)*VX3(I)+G44(I)*VX4(I)
      &   +G54(I)*VX5(I)+G64(I)*VX6(I)+G74(I)*VX7(I)+G84(I)*VX8(I)

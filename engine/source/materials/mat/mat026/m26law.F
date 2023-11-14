@@ -186,7 +186,7 @@ C
       SIG(I,3)=ZERO
       SIG(I,4)=ZERO
       SIG(I,5)=ZERO
-      SIG(I,6)=ZERO	 
+      SIG(I,6)=ZERO   
 C
   110 CONTINUE
       RETURN

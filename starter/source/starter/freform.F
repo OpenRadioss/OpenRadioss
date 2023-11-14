@@ -1061,7 +1061,7 @@ C
       J1=I
       DO WHILE(KLINE(I:I)/='/')
         I=I+1
-	      IF(I>ncharline)EXIT
+                IF(I>ncharline)EXIT
       ENDDO
       J2=I-1
 
@@ -1419,7 +1419,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IT1
 C=======================================================================
-	IT1 = IT
+          IT1 = IT
       IF(IT1==3)THEN
         IT1=0
         READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE

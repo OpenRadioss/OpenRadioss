@@ -64,12 +64,12 @@ C
       ALPDT=ALP*DT1
 C
       IF(TT==ZERO)THEN
-     	  DO I=1,NOD
-	    N=LISTE(I)
-	    RESO(1,I)=A(1,N)
-	    RESO(2,I)=A(2,N)
-	    RESO(3,I)=A(3,N)
-     	  ENDDO
+            DO I=1,NOD
+              N=LISTE(I)
+              RESO(1,I)=A(1,N)
+              RESO(2,I)=A(2,N)
+              RESO(3,I)=A(3,N)
+            ENDDO
       ENDIF
 C
       IF(ALP>ZERO)THEN

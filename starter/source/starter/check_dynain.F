@@ -128,9 +128,9 @@ C--     Check dynain file is requested --
           NPRT = NPART
           IPRTALL = 1
 
-     	  DO J=1,NPART
-     	    IPART_DYNAIN(J) = 1
-     	  END DO
+            DO J=1,NPART
+              IPART_DYNAIN(J) = 1
+            END DO
 
          IS_READ = 1
 
@@ -179,13 +179,13 @@ C
 C
 C--     parts id to local part --
 
-    	     DO I=1,NPRT
+               DO I=1,NPRT
                 IP=0
                 IPRT = DYNPART(I)
-     	        DO J=1,NPART
-     	           IF(IPART(4,J)==IPRT)IP=J
-     	        END DO
-     	        IF(IP==0)THEN
+                  DO J=1,NPART
+                     IF(IPART(4,J)==IPRT)IP=J
+                  END DO
+                  IF(IP==0)THEN
                    CALL ANCMSG(MSGID=1908,
      .                        MSGTYPE=MSGERROR,
      .                        ANMODE=ANINFO_BLIND_1,

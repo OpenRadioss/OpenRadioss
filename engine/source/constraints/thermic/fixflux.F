@@ -116,7 +116,7 @@ C
             ELSE
                DT1N = DT1A
             ENDIF
-         ENDIF		 
+         ENDIF     
 C
          IFUNC = IBFFLUX(5,NL)
          FCY = FBFFLUX(1,NL)
@@ -171,7 +171,7 @@ C
            FTHE(N1) = FTHE(N1) + FLUX
            FTHE(N2) = FTHE(N2) + FLUX
            FTHE(N3) = FTHE(N3) + FLUX
-C		   
+C       
           ELSE !ANALYSE 2D
            NY=  -X(3,N2)+X(3,N1)
            NZ=   X(2,N2)-X(2,N1)
@@ -202,8 +202,8 @@ C----------------------------
            N6  = IXS(7,IEL)
            N7  = IXS(8,IEL)
            N8  = IXS(9,IEL)
-		   
-           IF(N1 == N2 .AND. N3 == N4 .AND. N5 == N8 .AND. N6 == N7) THEN		   
+             
+           IF(N1 == N2 .AND. N3 == N4 .AND. N5 == N8 .AND. N6 == N7) THEN       
              CALL S4VOLUME(X, VOLG, 1, N1, N3, N6, N5)
            ELSE  
              CALL S8EVOLUME(X, VOLG, BID, 1, 0, 0, 0, N1, N2, N3, N4, N5, N6, N7, N8)

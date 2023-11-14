@@ -85,8 +85,8 @@ C======================================================================|
           NDL = IBUFDL(KF)
           ISK = IBUFSK(KF)
 C---
-	  IF(MASS(NN)==0.)THEN
-	        CALL ANCMSG(MSGID=535,
+            IF(MASS(NN)==0.)THEN
+                  CALL ANCMSG(MSGID=535,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  C1='MULTI-POINT CONSTRAINTS',
@@ -94,7 +94,7 @@ C---
      .                  C2='MULTI-POINT CONSTRAINTS',
      .                  C3=TITR,C4=' ',
      .                  I2=ITAB(NN))
-	  ENDIF
+            ENDIF
           IF(ISK==1)THEN
             NK = NK+1
             IK = IK+1
@@ -124,7 +124,7 @@ C---
               JLL(IK) = 6
             ENDIF
           ENDIF
-	      IF(NDL>3.AND.INER(NN)==0.)THEN
+                IF(NDL>3.AND.INER(NN)==0.)THEN
                 CALL ANCMSG(MSGID=536,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
@@ -133,7 +133,7 @@ C---
      .                      C2='MULTI-POINT CONSTRAINTS',
      .                      C3=TITR,
      .                      I2=ITAB(NN))
-	      ENDIF
+                ENDIF
           IADLL(NC+1)=IADLL(NC) + NK
           IF(IADLL(NC+1)-1>LAG_NKF)THEN
             CALL ANCMSG(MSGID=469,

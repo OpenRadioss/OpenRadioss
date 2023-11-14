@@ -104,7 +104,7 @@ C--------------------------------
       ZMAX=-EP30 
 C
       DO I=ESHIFT+1,ESHIFT+NEDGE_T
-     	L=LEDGE(1,I)
+          L=LEDGE(1,I)
         E=LEDGE(2,I)
         IF(STFM(L) /= ZERO)THEN      
           J=IRECT(E,L)

@@ -179,7 +179,7 @@ C
           STIFM(I)  = STIF0
         ENDDO
       ENDIF
-C	  	
+C    
       IF (IACT == 0) THEN
       ELSEIF (ITYP == 1) THEN
         F0  = GET_U_GEO(4,IPROP)

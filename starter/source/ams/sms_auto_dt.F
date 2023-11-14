@@ -147,7 +147,7 @@ C
       NUME(4) = NUMELT
       NUME(5) = NUMELP
       NUME(6) = NUMELR
-      NUME(7) = NUMELTG 	 
+      NUME(7) = NUMELTG    
       DT_INDEX(1)  = 0
       DO I=2,7
         DT_INDEX(I)  = DT_INDEX(I-1)  + NUME(I-1)
@@ -165,7 +165,7 @@ C
       TYPE_ELEM(7)='SHELL-3NODES'
 C
 C--------------------------------------------------
-C     Identification des elements a switcher en AMS	
+C     Identification des elements a switcher en AMS
 C--------------------------------------------------
 C
       DO NG=1,NGROUP
@@ -232,7 +232,7 @@ C
       ENDDO
 C
 C------------------------------------------------------------------
-C     Printout of selected elements - only at first call of initia	
+C     Printout of selected elements - only at first call of initia
 C------------------------------------------------------------------
 C
       IF (IDDLEVEL == 0) THEN
@@ -337,8 +337,8 @@ C
             IF(TAG(I)==0)THEN
               TAGN_SMS(I)=1
               TAG(I)=1
-            END IF		    
-          END IF		    
+            END IF        
+          END IF        
         ENDDO
         IF (TAGPRT_SMS(ID_PART)==0) THEN
           COMPT = COMPT + 1
@@ -402,8 +402,8 @@ C
               IF(TAG(I)==0)THEN
                 TAGN_SMS(I)=1
                 TAG(I)=1
-              END IF		    
-            END IF		    
+              END IF        
+            END IF        
           ENDDO
 C
         ENDIF

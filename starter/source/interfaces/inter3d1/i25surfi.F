@@ -320,14 +320,14 @@ c-----------------------------------------------------------------
 c     taged nodes on S2 -> negative value
             IF(TAG(I) == 2 .OR. TAG(I) == 3)THEN
               TAG(I) = - TAG(I)
-	      IF ( ILEV == 2.AND.TAGS(I) == 0 ) THEN
+                IF ( ILEV == 2.AND.TAGS(I) == 0 ) THEN
                 NSN = NSN + 1
                 TAGS(I) = NSN
                 IF(IALLO == 2) THEN
                  NSV(NSN) = I
                  IF(ILEV == 2)NBINFLG(NSN) = BITSET(NBINFLG(NSN),1)
                 END IF
-	      END IF !( ILEV == 2 ) THEN
+                END IF !( ILEV == 2 ) THEN
             ENDIF
           ENDDO
         ENDDO

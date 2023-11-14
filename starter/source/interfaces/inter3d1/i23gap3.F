@@ -115,7 +115,7 @@ C---------------------
         IF(IGAP>=1)THEN
           MG=IXTG(5,NELTG)
           IGTYP = IGEO(11,MG)
-	  IP = IPARTTG(NELTG)
+            IP = IPARTTG(NELTG)
           DX=HALF*GEO(1,MG)
           IF(IGTYP == 17) DX = HALF*THK(NUMELC + NELTG)
           WA(IXTG(2,NELTG))=MAX(WA(IXTG(2,NELTG)),DX)

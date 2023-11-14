@@ -82,9 +82,9 @@ C--------------------------
                 IVENT  =-ITAGEL(I)
                 IVENTYP=IBAGHOL(13,IVENT)
                 IF(IVENTYP == 0) THEN
-			       WRITE(IOUT,1112) I,IXTG(NIXTG,IFOUND-NUMELQ-NUMELC),IVENT
+                 WRITE(IOUT,1112) I,IXTG(NIXTG,IFOUND-NUMELQ-NUMELC),IVENT
                 ELSE
-			       WRITE(IOUT,1113) I,IXTG(NIXTG,IFOUND-NUMELQ-NUMELC),IVENT
+                 WRITE(IOUT,1113) I,IXTG(NIXTG,IFOUND-NUMELQ-NUMELC),IVENT
                 ENDIF
             ENDIF
          ENDIF

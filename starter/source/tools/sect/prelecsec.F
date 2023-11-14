@@ -157,12 +157,12 @@ C-----------------------------------------------------------------
 C---    
         IF (FLAG_R2R == 1) THEN
 C----------tag section s skew nodes---------------
-	  IF (N1 /= 0) N1=USR2SYS(N1,ITABM1,MESS,ID)
+            IF (N1 /= 0) N1=USR2SYS(N1,ITABM1,MESS,ID)
           IF (N2 /= 0) N2=USR2SYS(N2,ITABM1,MESS,ID)
           IF (N3 /= 0) N3=USR2SYS(N3,ITABM1,MESS,ID)
-	  IF(TAGNO(N1+NPART) < 2) TAGNO(N1+NPART) = 2
-	  IF(TAGNO(N2+NPART) < 2) TAGNO(N2+NPART) = 2
-	  IF(TAGNO(N3+NPART) < 2) TAGNO(N3+NPART) = 2
+            IF(TAGNO(N1+NPART) < 2) TAGNO(N1+NPART) = 2
+            IF(TAGNO(N2+NPART) < 2) TAGNO(N2+NPART) = 2
+            IF(TAGNO(N3+NPART) < 2) TAGNO(N3+NPART) = 2
         ELSEIF (FLAG_R2R == 2) THEN     
 C----------set section position  wrt multidomain interface
 C----------element groups
@@ -211,16 +211,16 @@ C------------ external sections : not keeped
         ELSE           
 C---    
         IF (NFRAM == 0 .AND. ISTYP == 0) THEN
-	         NNOD  = GRSIZEN(IGU,IGRNOD,NGRNOD)
-       	ELSE
-          NNOD = 20 * GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)	   
-          NNOD = NNOD + 4 * GRSIZE_ELE(IGUQ,IGRQUAD,NGRQUAD)	   
-          NNOD = NNOD + 4 * GRSIZE_ELE(IGUC,IGRSH4N,NGRSHEL)	   
-          NNOD = NNOD + 2 * GRSIZE_ELE(IGUT,IGRTRUSS,NGRTRUS)	   
-          NNOD = NNOD + 2 * GRSIZE_ELE(IGUP,IGRBEAM,NGRBEAM)	   
-          NNOD = NNOD + 2 * GRSIZE_ELE(IGUR,IGRSPRING,NGRSPRI)	   
+                   NNOD  = GRSIZEN(IGU,IGRNOD,NGRNOD)
+          ELSE
+          NNOD = 20 * GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)     
+          NNOD = NNOD + 4 * GRSIZE_ELE(IGUQ,IGRQUAD,NGRQUAD)     
+          NNOD = NNOD + 4 * GRSIZE_ELE(IGUC,IGRSH4N,NGRSHEL)     
+          NNOD = NNOD + 2 * GRSIZE_ELE(IGUT,IGRTRUSS,NGRTRUS)     
+          NNOD = NNOD + 2 * GRSIZE_ELE(IGUP,IGRBEAM,NGRBEAM)     
+          NNOD = NNOD + 2 * GRSIZE_ELE(IGUR,IGRSPRING,NGRSPRI)     
           NNOD = NNOD + 3 * GRSIZE_ELE(IGUTG,IGRSH3N,NGRSH3N)
-	ENDIF
+          ENDIF
         NSEGS = GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)        
         NSEGQ = GRSIZE_ELE(IGUQ,IGRQUAD,NGRQUAD)        
         NSEGC = GRSIZE_ELE(IGUC,IGRSH4N,NGRSHEL)        

@@ -366,13 +366,13 @@ c
       ENDDO
 C-----------
       CALL I6ASS3(
-     1     A		 ,INTBUF_TAB%MSR ,INTBUF_TAB%NSV ,INTBUF_TAB%FS  ,	    
-     2  INTBUF_TAB%FM  ,NPC	       ,TF	       ,ANSMX	       ,     
-     3  FMX	       ,FMY	       ,FMZ	       ,INTBUF_TAB%VARIABLES(4),      
-     4  IPARI(11)      ,V	       ,NOINT	       ,NSN	       ,      
-     5  NMN	       ,FSAV	       ,DT2T	       ,NELTST         ,      
-     6  ITYPTST        ,INTBUF_TAB%STFAC(1)  ,FSKYI	       ,ISKY	       ,     
-     7  FCONT,INTBUF_TAB%VARIABLES(19),INTBUF_TAB%VARIABLES(20),STIFF    ,	
+     1     A     ,INTBUF_TAB%MSR ,INTBUF_TAB%NSV ,INTBUF_TAB%FS  ,      
+     2  INTBUF_TAB%FM  ,NPC         ,TF         ,ANSMX         ,     
+     3  FMX         ,FMY         ,FMZ         ,INTBUF_TAB%VARIABLES(4),      
+     4  IPARI(11)      ,V         ,NOINT         ,NSN         ,      
+     5  NMN         ,FSAV         ,DT2T         ,NELTST         ,      
+     6  ITYPTST        ,INTBUF_TAB%STFAC(1)  ,FSKYI         ,ISKY         ,     
+     7  FCONT,INTBUF_TAB%VARIABLES(19),INTBUF_TAB%VARIABLES(20),STIFF    ,
      8  IPARI(47)      ,IPARI(49)      ,IPARI(58)      ,INTBUF_TAB%FCONT  ,
      9  INTBUF_TAB%ANSMX0(1)  ,INTBUF_TAB%ANSMX0(2),H3D_DATA )   
 C-----------

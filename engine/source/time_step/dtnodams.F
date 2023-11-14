@@ -460,19 +460,19 @@ C--------------------------------
           WRITE(ISTDO,*)
      .     ' **ERROR : NEGATIVE STIFFNESS NODE',-ISTOP
              IF ( ISTAMPING == 1) THEN
-	       WRITE(ISTDO,'(A)')'The run encountered a problem in an in
+                 WRITE(ISTDO,'(A)')'The run encountered a problem in an in
      .terface Type 7.'
                WRITE(ISTDO,'(A)')'You may need to check if there is enou 
      .gh clearance between the tools,'
                WRITE(ISTDO,'(A)')'and that they do not penetrate each ot
      .her during their travel'
-	       WRITE(IOUT, '(A)')'The run encountered a problem in an in
+                 WRITE(IOUT, '(A)')'The run encountered a problem in an in
      .terface Type 7.'
                WRITE(IOUT, '(A)')'You may need to check if there is enou
      .gh clearance between the tools,'
                WRITE(IOUT, '(A)')'and that they do not penetrate each ot
      .her during their travel'
-	     ENDIF
+               ENDIF
 #include "lockoff.inc"
         ENDIF
        ELSE
@@ -492,19 +492,19 @@ C--------------------------------
           WRITE(ISTDO,*)
      .     ' **ERROR : NEGATIVE STIFFNESS NODE',-ISTOP
              IF ( ISTAMPING == 1) THEN
-	       WRITE(ISTDO,'(A)')'The run encountered a problem in an in
+                 WRITE(ISTDO,'(A)')'The run encountered a problem in an in
      .terface Type 7.'
                WRITE(ISTDO,'(A)')'You may need to check if there is enou 
      .gh clearance between the tools,'
                WRITE(ISTDO,'(A)')'and that they do not penetrate each ot
      .her during their travel'
-	       WRITE(IOUT, '(A)')'The run encountered a problem in an in
+                 WRITE(IOUT, '(A)')'The run encountered a problem in an in
      .terface Type 7.'
                WRITE(IOUT, '(A)')'You may need to check if there is enou
      .gh clearance between the tools,'
                WRITE(IOUT, '(A)')'and that they do not penetrate each ot
      .her during their travel'
-	     ENDIF
+               ENDIF
 #include "lockoff.inc"
         ENDIF
        ENDIF

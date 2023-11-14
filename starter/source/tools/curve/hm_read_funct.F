@@ -248,7 +248,7 @@ c
                   ENDIF
                ENDIF     
                NPC(L + 1) = NPC(L + 1) + 1                                      
-               PLD(NPC(L + 1)) = FUNCT 	                                       
+               PLD(NPC(L + 1)) = FUNCT                                          
                NPC(L + 1) = NPC(L + 1) + 1
             ENDDO
 c

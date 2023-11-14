@@ -89,8 +89,8 @@ C-----------------------------------------------
             DO K=1,2
 !              NOD = IGRSLIN(ISU)%NODES(J,K)
 !              IF(NOD > 0)THEN;IGRSLIN_L(L_SLIN+1) = NODLOCAL(NOD)
-!	      ELSE;           IGRSLIN_L(L_SLIN+1) = 0
-!	      ENDIF
+!        ELSE;           IGRSLIN_L(L_SLIN+1) = 0
+!        ENDIF
               L_SLIN = L_SLIN+1
             ENDDO
 !            IGRSLIN_L(L_SLIN+1) = PROC

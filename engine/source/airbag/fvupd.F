@@ -447,7 +447,7 @@ C
       ELSE
          DTI = DT12
       ENDIF
-	  
+            
 
 !$OMP PARALLEL PRIVATE(I,II,J,JJ,K,KK,IP1,IP2,IEL,AREA,NX,NY,NZ,PVOLTMP)
 !$OMP+ PRIVATE(X1,Y1,Z1,N1,N2,N3,X12,Y12,Z12,X13,Y13,Z13)
@@ -570,7 +570,7 @@ C
          ENDDO 
 !$OMP END DO
       ENDIF 
-	  
+            
 C Normale et aire des triangles
 !$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNTR

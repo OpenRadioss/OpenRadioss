@@ -355,7 +355,7 @@ C-----------------------------------------------
         DO I=1,NEL
          R(I,J)=FOURTH*(V12(I,J)+V56(I,J)+V43(I,J)+V87(I,J))
          S(I,J)=FOURTH*(V23(I,J)+V14(I,J)+V58(I,J)+V67(I,J))
-         T(I,J)=FOURTH*(V15(I,J)+V26(I,J)+V37(I,J)+V48(I,J))	 
+         T(I,J)=FOURTH*(V15(I,J)+V26(I,J)+V37(I,J)+V48(I,J))   
         ENDDO
        ENDDO
       ENDIF
@@ -447,7 +447,7 @@ C
         F35(I) = F35(I) - (ONE-A3(I))*F3(I)
         F36(I) = F36(I) - (ONE-A4(I))*F3(I)
         F37(I) = F37(I) - (ONE-A1(I))*F3(I)
-        F38(I) = F38(I) - (ONE-A2(I))*F3(I)	
+        F38(I) = F38(I) - (ONE-A2(I))*F3(I)
        ENDDO
 
       ELSE

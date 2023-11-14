@@ -359,13 +359,13 @@ c
         ! a plastic multiplier allowing to update internal variables to satisfy
         ! the consistency condition. 
         ! Its expression is : DLAMBDA = - (PHI + DPHI) / DPHI_DLAMBDA
-	      ! -> PHI  : current value of yield function (known)
+                ! -> PHI  : current value of yield function (known)
         ! -> DPHI : yield function prediction (to compute)
         ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
         !                   into account of internal variables kinetic : 
         !                   plasticity, temperature and damage (to compute)
 c        
-	      ! 1 - Computation of DPHI_DSIG the normal to the yield surface
+                ! 1 - Computation of DPHI_DSIG the normal to the yield surface
         !-------------------------------------------------------------  
 c        
         ! Computation of the normal to the yield criterion NORM
@@ -421,14 +421,14 @@ c
         ! 2 - Computation of DPHI_DLAMBDA
         !---------------------------------------------------------
 c        
-        !   a) Derivative with respect stress increments tensor DSIG			
+        !   a) Derivative with respect stress increments tensor DSIG
         !   --------------------------------------------------------
         TRDFDS  = NORMXX + NORMYY + NORMZZ  
         DFDSIG2 = NORMXX * (ONE-D(I))*(A11*NORMXX + A12*NORMYY)
      .          + NORMYY * (ONE-D(I))*(A11*NORMYY + A12*NORMXX)
      .          + NORMXY * (ONE-D(I))* NORMXY * G
 c  
-        !   b) Derivatives with respect to plastic strain P 			
+        !   b) Derivatives with respect to plastic strain P 
         !   ------------------------------------------------
 c        
         !     i) Derivative of the yield stress with respect to plastic strain dYLD / dPLA
@@ -549,7 +549,7 @@ c
         DLAM  = (DPHI + PHI(I)) / DENOM
         DLAM  = MAX(DLAM, ZERO)
 c        
-	! Plastic strains tensor update
+          ! Plastic strains tensor update
         DPXX     = DLAM * NORMXX
         DPYY     = DLAM * NORMYY
         DPZZ     = DLAM * NORMZZ

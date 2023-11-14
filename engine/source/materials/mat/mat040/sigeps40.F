@@ -169,8 +169,8 @@ C=======================================================================
         G(2) =  TWO*UPARAM(4)
         G(3) =  TWO*UPARAM(5)
         G(4) =  TWO*UPARAM(6)
-        G(5) =  TWO*UPARAM(7)	
-	
+        G(5) =  TWO*UPARAM(7)
+
         BETA(1) =  UPARAM(8) 
         BETA(2) =  UPARAM(9) 
         BETA(3) =  UPARAM(10) 

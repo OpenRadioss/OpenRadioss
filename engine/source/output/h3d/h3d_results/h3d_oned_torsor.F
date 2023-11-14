@@ -174,7 +174,7 @@ C------------------------------------------------
           ENDIF
 
           CALL H3D_WRITE_TORSOR(IOK_PART,IS_WRITTEN_ONED,ONED_TORSOR,NEL,OFFSET,NFT,
-     .          		   EVAR)
+     .                 EVAR)
 
         ELSEIF(ITY==5)THEN
 C-----------------------------------------------
@@ -243,7 +243,7 @@ C------------------------------------------------
           ENDIF
 
           CALL H3D_WRITE_TORSOR(IOK_PART,IS_WRITTEN_ONED,ONED_TORSOR,NEL,OFFSET,NFT,
-     .          		   EVAR)
+     .                 EVAR)
         ELSEIF(ITY==6)THEN
 C-----------------------------------------------
           IF (KEYWORD == 'F1') THEN
@@ -311,7 +311,7 @@ C------------------------------------------------
           ENDIF
 
           CALL H3D_WRITE_TORSOR(IOK_PART,IS_WRITTEN_ONED,ONED_TORSOR,NEL,OFFSET,NFT,
-     .          		   EVAR)
+     .                 EVAR)
         ENDIF
 C-----------------------------------------------
       ENDDO

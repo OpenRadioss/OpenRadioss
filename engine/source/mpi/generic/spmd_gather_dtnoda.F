@@ -94,7 +94,7 @@ C-------------
             MS_LTYP = MS_LOFF 
             CALL MPI_PROBE(IT_SPMD(I),MS_LTYP,
      .                    MPI_COMM_WORLD,STATUS,ierror)
-	    CALL MPI_GET_COUNT(STATUS,REAL,SIZ,ierror) 
+              CALL MPI_GET_COUNT(STATUS,REAL,SIZ,ierror) 
 
 C------------ Reception du buffer flottant
 

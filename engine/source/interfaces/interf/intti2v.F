@@ -126,7 +126,7 @@ C
          CALL I2VIT10(                                                  
      1       NSN       ,NMN       ,MS        ,V         ,A         ,     
      2       AR        ,VR        ,X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,     
-     3       INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%IRUPT,WEIGHT	 )
+     3       INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%IRUPT,WEIGHT   )
          IF(IRODDL /= 0) THEN                                          
            CALL I2ROT10(                                                
      1        NSN       ,NMN       ,MS        ,V         ,A         ,   

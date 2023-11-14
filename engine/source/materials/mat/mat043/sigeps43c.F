@@ -369,7 +369,7 @@ C------------------------------------------
           DR  =A1(I)*DR0
           P_1=ONE/(ONE + B_1(I)*DR)
           P_2=ONE/(ONE + B_2(I)*DR)
-          P_3=ONE/(ONE + B_3(I)*DR)	
+          P_3=ONE/(ONE + B_3(I)*DR)
          S1=S11(I)*P_1
          S2=S22(I)*P_2
          SIGNXX(I)=JQ(I)*(S1-S2*Q12(I))

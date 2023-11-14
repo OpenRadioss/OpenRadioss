@@ -292,11 +292,11 @@ C
         FZI(I)=FZI(I) + ANSZ*STF
           IFQ = IPARI(31)
           IF (IFQ>0) THEN
-	    IF (IFQ==3) FREQ = MAX(ONE,FREQ*DT12)
+              IF (IFQ==3) FREQ = MAX(ONE,FREQ*DT12)
             ALPHA = FREQ
             ALPHI = ONE - ALPHA
             K = 3*(IL-1)
-	    IF (FNI(I)/=ZERO) THEN
+              IF (FNI(I)/=ZERO) THEN
               FXI(I)= ALPHA*FXI(I) + ALPHI*FTSAV(K+1)
               FYI(I)= ALPHA*FYI(I) + ALPHI*FTSAV(K+2)
               FZI(I)= ALPHA*FZI(I) + ALPHI*FTSAV(K+3)
@@ -326,9 +326,9 @@ C
         ENDIF
 C
        ENDIF
-        TNJ(1,I)=TN1	
-        TNJ(2,I)=TN2	
-        TNJ(3,I)=TN3	
+        TNJ(1,I)=TN1
+        TNJ(2,I)=TN2
+        TNJ(3,I)=TN3
 C
  300  CONTINUE
       RETURN

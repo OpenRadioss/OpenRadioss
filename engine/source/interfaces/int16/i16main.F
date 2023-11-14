@@ -143,9 +143,9 @@ C=======================================================================
 C      TEST pour savoir s'il faut retrier + initialisation
 C=======================================================================
        CALL I16CRIT(
-     1   X	  ,IGRNOD(IGN)%ENTITY,IGRBRIC(IGE)%ENTITY ,NSN	,EMINX      ,
-     2   NME	  ,ITASK       ,INTBUF_TAB(NIN)%XSAV ,IXS	,IXS16      ,
-     3   IXS20    ,IXS10       ,V	     ,A 	)
+     1   X    ,IGRNOD(IGN)%ENTITY,IGRBRIC(IGE)%ENTITY ,NSN  ,EMINX      ,
+     2   NME    ,ITASK       ,INTBUF_TAB(NIN)%XSAV ,IXS  ,IXS16      ,
+     3   IXS20    ,IXS10       ,V       ,A   )
 
 C -------------------------------------------------------------
        CALL MY_BARRIER
@@ -161,16 +161,16 @@ C -------------------------------------------------------------
 C=======================================================================
 C        TRI
 C=======================================================================
-	IPARI(35,NIN) = 0
+          IPARI(35,NIN) = 0
 C -------------------------------------------------------------
          CALL MY_BARRIER
 C -------------------------------------------------------------
-	 CALL I16BUCE(
-     1   IGRNOD(IGN)%ENTITY,IXS	 ,IXS16   ,IXS20	,IGRBRIC(IGE)%ENTITY ,
-     2   NME_T      ,WAT	 ,NSN	  ,INTBUF_TAB(NIN)%CAND_E,INTBUF_TAB(NIN)%CAND_N,
-     3   NOINT      ,IPARI(35,NIN) ,TZINF   ,MINBOX	  ,EMINX      ,
-     4   INTBUF_TAB(NIN)%XSAV,ITASK	 ,X	  ,V		,A	      ,
-     5   MX_CAND    ,IXS10	 ,ESH_T)
+           CALL I16BUCE(
+     1   IGRNOD(IGN)%ENTITY,IXS   ,IXS16   ,IXS20  ,IGRBRIC(IGE)%ENTITY ,
+     2   NME_T      ,WAT   ,NSN    ,INTBUF_TAB(NIN)%CAND_E,INTBUF_TAB(NIN)%CAND_N,
+     3   NOINT      ,IPARI(35,NIN) ,TZINF   ,MINBOX    ,EMINX      ,
+     4   INTBUF_TAB(NIN)%XSAV,ITASK   ,X    ,V    ,A        ,
+     5   MX_CAND    ,IXS10   ,ESH_T)
 C -------------------------------------------------------------
          CALL MY_BARRIER
 C -------------------------------------------------------------
@@ -179,11 +179,11 @@ C=======================================================================
 C      CONTACT
 C=======================================================================
        CALL I8LAGM(
-     1   X	 ,V	       ,LLL	  ,JLL  	 ,SLL	      ,
-     2   XLL	 ,INTBUF_TAB(NIN)%CAND_N,INTBUF_TAB(NIN)%CAND_E,IPARI(35,NIN),IXS	,
+     1   X   ,V         ,LLL    ,JLL     ,SLL        ,
+     2   XLL   ,INTBUF_TAB(NIN)%CAND_N,INTBUF_TAB(NIN)%CAND_E,IPARI(35,NIN),IXS  ,
      3   IADLL   ,EMINX        ,IGRNOD(IGN)%ENTITY,IGRBRIC(IGE)%ENTITY,
-     4   N_MUL_MX     ,ITASK	 ,A	       ,IPARI(30,NIN),
-     5   NIN	 ,NKMAX        ,COMNTAG   )
+     4   N_MUL_MX     ,ITASK   ,A         ,IPARI(30,NIN),
+     5   NIN   ,NKMAX        ,COMNTAG   )
        CALL I10LAGM(
      1   X       ,V            ,LLL       ,JLL           ,SLL         ,
      2   XLL     ,INTBUF_TAB(NIN)%CAND_N,INTBUF_TAB(NIN)%CAND_E,IPARI(35,NIN),IXS       ,
@@ -191,17 +191,17 @@ C=======================================================================
      4   N_MUL_MX     ,ITASK     ,A            ,IPARI(30,NIN),
      5   NIN     ,NKMAX        ,COMNTAG   )
        CALL I16LAGM(
-     1   X	 ,V	       ,LLL	  ,JLL  	 ,SLL	      ,
-     2   XLL	 ,INTBUF_TAB(NIN)%CAND_N,INTBUF_TAB(NIN)%CAND_E,IPARI(35,NIN),IXS ,
-     3   IXS16   ,IADLL        ,EMINX	  ,IGRNOD(IGN)%ENTITY,IGRBRIC(IGE)%ENTITY,
-     4   N_MUL_MX     ,ITASK	 ,A	       ,IPARI(30,NIN),
-     5   NIN	 ,NKMAX        ,COMNTAG   )
+     1   X   ,V         ,LLL    ,JLL     ,SLL        ,
+     2   XLL   ,INTBUF_TAB(NIN)%CAND_N,INTBUF_TAB(NIN)%CAND_E,IPARI(35,NIN),IXS ,
+     3   IXS16   ,IADLL        ,EMINX    ,IGRNOD(IGN)%ENTITY,IGRBRIC(IGE)%ENTITY,
+     4   N_MUL_MX     ,ITASK   ,A         ,IPARI(30,NIN),
+     5   NIN   ,NKMAX        ,COMNTAG   )
        CALL I20LAGM(
-     1   X	 ,V	       ,LLL	  ,JLL  	 ,SLL	      ,
-     2   XLL	 ,INTBUF_TAB(NIN)%CAND_N,INTBUF_TAB(NIN)%CAND_E,IPARI(35,NIN),IXS       ,
-     3   IXS20   ,IADLL        ,EMINX	  ,IGRNOD(IGN)%ENTITY,IGRBRIC(IGE)%ENTITY,
-     4   N_MUL_MX     ,ITASK	 ,A	       ,IPARI(30,NIN),
-     5   NIN	 ,NKMAX        ,COMNTAG   )
+     1   X   ,V         ,LLL    ,JLL     ,SLL        ,
+     2   XLL   ,INTBUF_TAB(NIN)%CAND_N,INTBUF_TAB(NIN)%CAND_E,IPARI(35,NIN),IXS       ,
+     3   IXS20   ,IADLL        ,EMINX    ,IGRNOD(IGN)%ENTITY,IGRBRIC(IGE)%ENTITY,
+     4   N_MUL_MX     ,ITASK   ,A         ,IPARI(30,NIN),
+     5   NIN   ,NKMAX        ,COMNTAG   )
 !
       CALL MY_BARRIER
 !

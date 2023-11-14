@@ -969,16 +969,16 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K,I,ELSZ,NDSZ
 C-----------------------------------------------
-      	CALL WRITE_I_C(NPLYPART,1)
-     	 CALL WRITE_I_C(INDX_PLY,NPLYPART)
+          CALL WRITE_I_C(NPLYPART,1)
+           CALL WRITE_I_C(INDX_PLY,NPLYPART)
 
-     	 DO K=1,NPLYMAX
+           DO K=1,NPLYMAX
 C Writing shell infos for PLY XFEM
-     	   ELSZ = PLYSHELL(K)%PLYNUMSHELL
-     	   CALL WRITE_I_C(ELSZ,1)
-      	   CALL WRITE_I_C(PLYSHELL(K)%SHID,     ELSZ)
+             ELSZ = PLYSHELL(K)%PLYNUMSHELL
+             CALL WRITE_I_C(ELSZ,1)
+             CALL WRITE_I_C(PLYSHELL(K)%SHID,     ELSZ)
            CALL WRITE_I_C(PLYSHELL(K)%SHELLIPT, ELSZ)
-       	   CALL WRITE_I_C(PLYSHELL(K)%SHELLID,  ELSZ)
+             CALL WRITE_I_C(PLYSHELL(K)%SHELLID,  ELSZ)
 
 C Writing nodes infos for PLY XFEM
            NDSZ=PLYNOD(K)%PLYNUMNODS
@@ -988,7 +988,7 @@ C Writing nodes infos for PLY XFEM
          ENDDO
 
          CALL WRITE_I_C(PLYSIZG,NPLYMAX)
-     	 CALL WRITE_I_C(IDPID_PLY,NPLYPART)
+           CALL WRITE_I_C(IDPID_PLY,NPLYPART)
       RETURN
       END
 Chd|====================================================================
@@ -1067,15 +1067,15 @@ C=======================================================================
 c
 C     Writing shell infos for CRACK XFEM
 c
-     	DO K=1,NLEVMAX
-     	  ELSZ  = CRKSHELL(K)%CRKNUMSHELL                           
+          DO K=1,NLEVMAX
+            ELSZ  = CRKSHELL(K)%CRKNUMSHELL                           
         ELSZC = CRKSHELL(K)%CRKNUMSH4                             
         ELSZTG= CRKSHELL(K)%CRKNUMSH3                             
 c
-     	  CALL WRITE_I_C(ELSZC,1)                                   
-     	  CALL WRITE_I_C(ELSZTG,1)                                  
-     	  CALL WRITE_I_C(ELSZ,1)                                    
-       	CALL WRITE_I_C(CRKSHELL(K)%CRKSHELLID  ,ELSZ)             
+            CALL WRITE_I_C(ELSZC,1)                                   
+            CALL WRITE_I_C(ELSZTG,1)                                  
+            CALL WRITE_I_C(ELSZ,1)                                    
+          CALL WRITE_I_C(CRKSHELL(K)%CRKSHELLID  ,ELSZ)             
         CALL WRITE_I_C(CRKSHELL(K)%ELTYPE      ,ELSZ)   
 c------ CRKNOD
         LEN  = 4*ELSZ                                
@@ -1168,13 +1168,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K,I,ELSZ,NDSZ
 C-----------------------------------------------
-     	 DO K=1,NPLYMAX
+           DO K=1,NPLYMAX
 C Writing U, V A
            NDSZ = 3*NPLYXFE
-      	   CALL WRITE_DB(PLY(K)%U, NDSZ)
+             CALL WRITE_DB(PLY(K)%U, NDSZ)
            CALL WRITE_DB(PLY(K)%V, NDSZ)
 cc            NDSZ = 4*NPLYXFE
-cc       	   CALL WRITE_DB(PLY(K)%A, NDSZ)
+cc            CALL WRITE_DB(PLY(K)%A, NDSZ)
          ENDDO
 C
       RETURN

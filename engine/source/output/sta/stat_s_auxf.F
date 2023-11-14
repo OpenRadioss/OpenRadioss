@@ -321,7 +321,7 @@ c
               ENDIF
             ENDIF
          ENDIF  !  IF (IOFF == 1)              
-        ENDDO		    
+        ENDDO        
       ENDIF
 c-----------
       RETURN

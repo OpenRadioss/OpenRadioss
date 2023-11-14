@@ -92,7 +92,7 @@ C=======================================================================
             VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
             VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
             SUMA=SQRT(VR*VR + VS*VS)
-            DIR_A(J+I)     = VR/SUMA  		  
+            DIR_A(J+I)     = VR/SUMA        
             DIR_A(J+I+NEL) = VS/SUMA     
 !    or      DIR_A(I,J+1) = VR/SUMA                    
 !            DIR_A(I,J+2) = VS/SUMA
@@ -114,8 +114,8 @@ C---        Axe I
             VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
             VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
             SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-            DIR_A(J+I)     = VR/SUMA		     
-            DIR_A(J+I+NEL) = VS/SUMA		     
+            DIR_A(J+I)     = VR/SUMA         
+            DIR_A(J+I+NEL) = VS/SUMA         
 !    or      DIR_A(I,J+1) = VR/SUMA                    
 !            DIR_A(I,J+2) = VS/SUMA
 C---        Axe II                                  
@@ -127,8 +127,8 @@ C---        Axe II
             VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
             VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
             SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-            DIR_B(J+I)     = VR/SUMA		     
-            DIR_B(J+I+NEL) = VS/SUMA		     
+            DIR_B(J+I)     = VR/SUMA         
+            DIR_B(J+I+NEL) = VS/SUMA         
 !    or      DIR_B(I,J+1) = VR/SUMA                    
 !            DIR_B(I,J+2) = VS/SUMA
           ENDDO                                     
@@ -152,8 +152,8 @@ C---        Axe I
               VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
               VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
               SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-              DIR_A(J+I)     = VR/SUMA		       
-              DIR_A(J+I+NEL) = VS/SUMA		       
+              DIR_A(J+I)     = VR/SUMA           
+              DIR_A(J+I+NEL) = VS/SUMA           
 !     or       DIR_A(I,J+1) = VR/SUMA                    
 !              DIR_A(I,J+2) = VS/SUMA
 C---        Axe II                                  
@@ -165,8 +165,8 @@ C---        Axe II
               VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
               VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
               SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-              DIR_B(J+I)     = VR/SUMA		       
-              DIR_B(J+I+NEL) = VS/SUMA		       
+              DIR_B(J+I)     = VR/SUMA           
+              DIR_B(J+I+NEL) = VS/SUMA           
 !    or        DIR_B(I,J+1) = VR/SUMA                    
 !              DIR_B(I,J+2) = VS/SUMA
             ENDDO
@@ -201,8 +201,8 @@ C---        Axe I
               VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
               VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
               SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-              DIR_A(J+I)     = VR/SUMA		       
-              DIR_A(J+I+NEL) = VS/SUMA		       
+              DIR_A(J+I)     = VR/SUMA           
+              DIR_A(J+I+NEL) = VS/SUMA           
 !    or        DIR_A(I,J+1) = VR/SUMA                    
 !              DIR_A(I,J+2) = VS/SUMA
 C---        Axe II                                  
@@ -214,8 +214,8 @@ C---        Axe II
               VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
               VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
               SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-              DIR_B(J+I)     = VR/SUMA		       
-              DIR_B(J+I+NEL) = VS/SUMA		       
+              DIR_B(J+I)     = VR/SUMA           
+              DIR_B(J+I+NEL) = VS/SUMA           
 !     or       DIR_B(I,J+1) = VR/SUMA                    
 !              DIR_B(I,J+2) = VS/SUMA
             ENDDO
@@ -232,8 +232,8 @@ C---        Axe II
               VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
               VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
               SUMA=SQRT(VR*VR + VS*VS)
-              DIR_A(J+I)     = VR/SUMA		       
-              DIR_A(J+I+NEL) = VS/SUMA	
+              DIR_A(J+I)     = VR/SUMA           
+              DIR_A(J+I+NEL) = VS/SUMA
 !    or        DIR_A(I,J+1) = VR/SUMA                    
 !              DIR_A(I,J+2) = VS/SUMA
             ENDDO
@@ -259,7 +259,7 @@ C---        Axe II
             VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
             VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
             SUMA=SQRT(VR*VR + VS*VS)
-            DIR_A(J+I)     = VR/SUMA  		  
+            DIR_A(J+I)     = VR/SUMA        
             DIR_A(J+I+NEL) = VS/SUMA     
 !    or      DIR_A(I,J+1) = VR/SUMA                    
 !            DIR_A(I,J+2) = VS/SUMA
@@ -287,8 +287,8 @@ C---        Axe I
              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
              SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-             DIR_A(J+I)     = VR/SUMA		     
-             DIR_A(J+I+NEL) = VS/SUMA		     
+             DIR_A(J+I)     = VR/SUMA         
+             DIR_A(J+I+NEL) = VS/SUMA         
 !    or      DIR_A(I,J+1) = VR/SUMA                    
 !            DIR_A(I,J+2) = VS/SUMA
 C---        Axe II                                  
@@ -300,8 +300,8 @@ C---        Axe II
              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
              SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-             DIR_B(J+I)     = VR/SUMA		     
-             DIR_B(J+I+NEL) = VS/SUMA		     
+             DIR_B(J+I)     = VR/SUMA         
+             DIR_B(J+I+NEL) = VS/SUMA         
 !    or      DIR_B(I,J+1) = VR/SUMA                    
 !            DIR_B(I,J+2) = VS/SUMA
             ENDDO
@@ -331,8 +331,8 @@ C---        Axe I
               VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
               VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
               SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-              DIR_A(J+I)     = VR/SUMA		       
-              DIR_A(J+I+NEL) = VS/SUMA		       
+              DIR_A(J+I)     = VR/SUMA           
+              DIR_A(J+I+NEL) = VS/SUMA           
 !     or       DIR_A(I,J+1) = VR/SUMA                    
 !              DIR_A(I,J+2) = VS/SUMA
 C---        Axe II                                  
@@ -344,8 +344,8 @@ C---        Axe II
               VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
               VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
               SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-              DIR_B(J+I)     = VR/SUMA		       
-              DIR_B(J+I+NEL) = VS/SUMA		       
+              DIR_B(J+I)     = VR/SUMA           
+              DIR_B(J+I+NEL) = VS/SUMA           
 !    or        DIR_B(I,J+1) = VR/SUMA                    
 !              DIR_B(I,J+2) = VS/SUMA
             ENDDO
@@ -391,8 +391,8 @@ C---        Axe I
               VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
               VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
               SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-              DIR_A(J+I)     = VR/SUMA		       
-              DIR_A(J+I+NEL) = VS/SUMA		       
+              DIR_A(J+I)     = VR/SUMA           
+              DIR_A(J+I+NEL) = VS/SUMA           
 !    or        DIR_A(I,J+1) = VR/SUMA                    
 !              DIR_A(I,J+2) = VS/SUMA
 C---        Axe II                                  
@@ -404,8 +404,8 @@ C---        Axe II
               VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
               VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
               SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-              DIR_B(J+I)     = VR/SUMA		       
-              DIR_B(J+I+NEL) = VS/SUMA		       
+              DIR_B(J+I)     = VR/SUMA           
+              DIR_B(J+I+NEL) = VS/SUMA           
 !     or       DIR_B(I,J+1) = VR/SUMA                    
 !              DIR_B(I,J+2) = VS/SUMA
             ENDDO
@@ -427,8 +427,8 @@ C---        Axe II
               VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
               VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
               SUMA=SQRT(VR*VR + VS*VS)
-              DIR_A(J+I)     = VR/SUMA		       
-              DIR_A(J+I+NEL) = VS/SUMA	
+              DIR_A(J+I)     = VR/SUMA           
+              DIR_A(J+I+NEL) = VS/SUMA
 !    or        DIR_A(I,J+1) = VR/SUMA                    
 !              DIR_A(I,J+2) = VS/SUMA
             ENDDO

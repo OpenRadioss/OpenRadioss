@@ -154,7 +154,7 @@ C  1
          NV=0
          DVY=ZERO
          DVZ=ZERO
-         IF(FF2>ZERO)THEN	 
+         IF(FF2>ZERO)THEN   
           NV=NV+1
           DVY=DVY+(V(2,NC2(I))-V(2,NC1(I)))
           DVZ=DVZ+(V(3,NC2(I))-V(3,NC1(I)))
@@ -177,7 +177,7 @@ C  2
          NV=0
          DVY=ZERO
          DVZ=ZERO
-         IF(FF3>ZERO)THEN	 
+         IF(FF3>ZERO)THEN   
           NV=NV+1
           DVY=DVY+(V(2,NC3(I))-V(2,NC2(I)))
           DVZ=DVZ+(V(3,NC3(I))-V(3,NC2(I)))
@@ -200,7 +200,7 @@ C  3
          NV=0
          DVY=ZERO
          DVZ=ZERO
-         IF(FF4>ZERO)THEN	 
+         IF(FF4>ZERO)THEN   
           NV=NV+1
           DVY=DVY+(V(2,NC4(I))-V(2,NC3(I)))
           DVZ=DVZ+(V(3,NC4(I))-V(3,NC3(I)))
@@ -223,7 +223,7 @@ C  4
          NV=0
          DVY=ZERO
          DVZ=ZERO
-         IF(FF1>ZERO)THEN	 
+         IF(FF1>ZERO)THEN   
           NV=NV+1
           DVY=DVY+(V(2,NC1(I))-V(2,NC4(I)))
           DVZ=DVZ+(V(3,NC1(I))-V(3,NC4(I)))

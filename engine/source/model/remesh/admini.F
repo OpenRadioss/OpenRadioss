@@ -354,7 +354,7 @@ C               wake up the son
 #include "lockon.inc"
                 NSH4ACT=NSH4ACT+1
                 LSH4ACT(NSH4ACT)=M
-C	    
+C      
 C               1/4 of the element mass has been stored
                 IF(ISTATCND==0)THEN          
                   MS(N1)=MS(N1)+MSC(M)
@@ -503,7 +503,7 @@ C           wake up the son
 #include "lockon.inc"
             NSH4ACT=NSH4ACT+1
             LSH4ACT(NSH4ACT)=M
-C	  
+C    
 C           1/4 of the element mass has been stored
             IF(ISTATCND==0)THEN          
               MS(N1)=MS(N1)+MSC(M)
@@ -672,7 +672,7 @@ C               wake up the son
 #include "lockon.inc"
                 NSH3ACT=NSH3ACT+1
                 LSH3ACT(NSH3ACT)=M
-C	    
+C      
 C             1/4 of the element mass has been stored
                 IF(ISTATCND==0)THEN          
                   MS(N1)=MS(N1)+MSTG(M)*PTG(1,M)
@@ -802,7 +802,7 @@ C           wake up the son
 #include "lockon.inc"
             NSH3ACT=NSH3ACT+1
             LSH3ACT(NSH3ACT)=M
-C	  
+C    
 C           1/4 of the element mass has been stored
             IF(ISTATCND==0)THEN          
               MS(N1)=MS(N1)+MSTG(M)*PTG(1,M)

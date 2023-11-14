@@ -436,7 +436,7 @@ C   j ai un doute sur SVISCN - et du flag KDTINT
         SFSKY = 0
         SFSKYM = 0
         SFSKYD = 0
-        SISKY	 = 0
+        SISKY   = 0
 
         PROBINT=0.5
         LSKYI_SMS = MAX(NINT(5*MAX(4*NUMNOD,IMAXIMP)*PROBINT)
@@ -448,7 +448,7 @@ C   j ai un doute sur SVISCN - et du flag KDTINT
         SPROCNI2 = 0
         SIADSDP  = 0
         SIADRCP  = 0
-        SIADS	 = 0
+        SIADS   = 0
         SIADWAL  = 0
         SIADRBK  = 0
         SIADI2   = 0

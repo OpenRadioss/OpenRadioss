@@ -1199,7 +1199,7 @@ C Friction
                 END IF
                 LR = LR + RSIZ
               END DO 
-	      RSHIFT = RSHIFT + 1	
+                RSHIFT = RSHIFT + 1
             ENDIF 
 
             IF(IFSUB_CAREA > 0) THEN
@@ -1216,7 +1216,7 @@ C Friction
                 END IF
                 LR = LR + RSIZ
               END DO 
-	      RSHIFT = RSHIFT + 1	
+                RSHIFT = RSHIFT + 1
             ENDIF 
 
 C

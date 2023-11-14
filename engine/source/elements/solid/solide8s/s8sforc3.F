@@ -689,7 +689,7 @@ C-----------Begin integrating points-----
        DO IR=1,NPTR
         DO IT=1,NPTT
           LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
-C-----avoid multi-print	  
+C-----avoid multi-print    
           IF (IOFFS == 1)THEN
            DO I=1,NEL
             IF (OFFS(I)<=TWO) LBUF%OFF(I)=OFFS(I)

@@ -88,17 +88,17 @@ C-----------------------------------------------
          VZ35=VZ3(I)-VZ5(I)
          VZ46=VZ4(I)-VZ6(I)
          DXY=PY1(I)*VX17+PY2(I)*VX28+
-     .  	PY3(I)*VX35+PY4(I)*VX46
+     .    PY3(I)*VX35+PY4(I)*VX46
          DXZ=PZ1(I)*VX17+PZ2(I)*VX28+
-     .  	PZ3(I)*VX35+PZ4(I)*VX46
+     .    PZ3(I)*VX35+PZ4(I)*VX46
          DYX=PX1(I)*VY17+PX2(I)*VY28+
-     .  	PX3(I)*VY35+PX4(I)*VY46
+     .    PX3(I)*VY35+PX4(I)*VY46
          DYZ=PZ1(I)*VY17+PZ2(I)*VY28+
-     .  	PZ3(I)*VY35+PZ4(I)*VY46
+     .    PZ3(I)*VY35+PZ4(I)*VY46
          DZX=PX1(I)*VZ17+PX2(I)*VZ28+
-     .  	PX3(I)*VZ35+PX4(I)*VZ46
+     .    PX3(I)*VZ35+PX4(I)*VZ46
          DZY=PY1(I)*VZ17+PY2(I)*VZ28+
-     .  	PY3(I)*VZ35+PY4(I)*VZ46
+     .    PY3(I)*VZ35+PY4(I)*VZ46
 C
         WZZ(I)=DT1D2*(DYX-DXY)
         WYY(I)=DT1D2*(DXZ-DZX)

@@ -108,9 +108,9 @@ c dmelc = 2*dmelc !!
 c w^2 < 2k / (m+dmelc+dmelc/3) < 2k / (m+dmelc)
 c dt = 2/w = sqrt( 2*(m+dmelc)/k)
             DMELC(I)=MAX(DMELC(I),
-     .  		(DTMINS/DTFACS)**2 * STI(I) - TWO*MSC(I))
+     .      (DTMINS/DTFACS)**2 * STI(I) - TWO*MSC(I))
             DT(I)  = DTFACS*
-     .  	     SQRT((TWO*MSC(I)+DMELC(I))/MAX(EM20,STI(I)))
+     .         SQRT((TWO*MSC(I)+DMELC(I))/MAX(EM20,STI(I)))
             IF(DT(I)<DT2T)THEN
               DT2T    = DT(I)
               NELTST  = NGL(I)
@@ -127,9 +127,9 @@ c dmelc = 2*dmelc !!
 c w^2 < 2k / (m+dmelc+dmelc/2) < 2k / (m+dmelc)
 c dt = 2/w = sqrt( 2*(m+dmelc)/k)
             DMELC(I)=MAX(DMELC(I),
-     .  		(DTMINS/DTFACS)**2 * STI(I) - TWO*MMIN)
+     .      (DTMINS/DTFACS)**2 * STI(I) - TWO*MMIN)
             DT(I)  = DTFACS*
-     .  	     SQRT((TWO*MMIN+DMELC(I))/MAX(EM20,STI(I)))
+     .         SQRT((TWO*MMIN+DMELC(I))/MAX(EM20,STI(I)))
             IF(DT(I)<DT2T)THEN
               DT2T    = DT(I)
               NELTST  = NGL(I)

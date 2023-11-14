@@ -114,10 +114,10 @@ C-------------------------------------------------------------------------------
 C-----------Multidomaines : on ne compte l'ajout de masse et d'inertie uniquement d'1 cote-------------
       IF ((NSUBDOM>0).AND.(IPID==0)) THEN
         IF (TAGNO(M+N_PART)==3) THEN
-	   FLAG = 1
-	   DO J=1,9
-	     RBY(J,NRB) = ZERO
-	   END DO
+             FLAG = 1
+             DO J=1,9
+               RBY(J,NRB) = ZERO
+             END DO
 C-----------Multidomaines : on evite de compter 2 fois la masse et l'inertie des noeuds communs--------
            DO I=1,NSL
              N=LSN(I)
@@ -126,7 +126,7 @@ C-----------Multidomaines : on evite de compter 2 fois la masse et l'inertie des
              IF (TAGNO(N+N_PART)==0) MS_LOC(I)= 0
              IF (TAGNO(N+N_PART)==0) IN_LOC(I)= 0
            ENDDO
-	ENDIF
+          ENDIF
       ENDIF
 C------------------------------------------------------------------------------------------------------
        IF (NS10E>0) THEN
@@ -224,7 +224,7 @@ C-----CDG DES NOEUDS SECONDS
          ENDDO
          MASRB   = MASRB+MS_LOC(I)
         ENDDO
-	IF (FLAG==1) MASRB = MAX(MASRB,EM20)	
+          IF (FLAG==1) MASRB = MAX(MASRB,EM20)
 C
         IF(MASRB<=EM30) THEN
            CALL ANCMSG(MSGID=679,
@@ -339,11 +339,11 @@ C        ANALYSE 3D
           RBY(8,NRB)=RBY(8,NRB)-YZ*XMG
           RBY(9,NRB)=RBY(9,NRB)+(XX+YY)*XMG
 
-	  IF (NSL==1) THEN
+            IF (NSL==1) THEN
             RBY(1,NRB)=RBY(1,NRB)+EM20
             RBY(5,NRB)=RBY(5,NRB)+EM20
             RBY(9,NRB)=RBY(9,NRB)+EM20
-	  ENDIF
+            ENDIF
 C
           DO I=1,NSL
            N=LSN(I)
@@ -383,11 +383,11 @@ C
           RBY(8,NRB)=ZERO
           RBY(9,NRB)=RBY(9,NRB)+YY*XMG
 
-	  IF (NSL==1) THEN
+            IF (NSL==1) THEN
             RBY(1,NRB)=RBY(1,NRB)+EM20
             RBY(5,NRB)=RBY(5,NRB)+EM20
             RBY(9,NRB)=RBY(9,NRB)+EM20
-	  ENDIF
+            ENDIF
 C
           DO I=1,NSL
            N=LSN(I)
@@ -417,11 +417,11 @@ c
           RBY(8,NRB)=RBY(8,NRB)-YZ*XMG
           RBY(9,NRB)=RBY(9,NRB)+YY*XMG
 
-	  IF (NSL==1) THEN
+            IF (NSL==1) THEN
             RBY(1,NRB)=RBY(1,NRB)+EM20
             RBY(5,NRB)=RBY(5,NRB)+EM20
             RBY(9,NRB)=RBY(9,NRB)+EM20
-	  ENDIF
+            ENDIF
 C
           DO I=1,NSL
            N=LSN(I)
@@ -631,7 +631,7 @@ C-----------Multidomaines : on evite de compter 2 fois la masse et l'inertie des
                  IF (TAGNO(N+N_PART)==0) MS_LOC(I)= 0
                  IF (TAGNO(N+N_PART)==0) IN_LOC(I)= 0
               ENDDO
-	    ENDIF
+              ENDIF
           ENDIF
 C
           IF (NS10E>0) THEN
@@ -658,8 +658,8 @@ C-----------Multidomaines : on stoke la matrice assembl   e--------------
         IF(NSUBDOM>0)THEN
           IF(TAGNO(M+N_PART)==3)THEN
             DO J=1,9
-	      RBY_R2R(J)=RBY(J,NRB)
-	    END DO
+                RBY_R2R(J)=RBY(J,NRB)
+              END DO
           END IF
         ENDIF
 

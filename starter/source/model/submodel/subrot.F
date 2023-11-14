@@ -190,10 +190,10 @@ C======================================================================
               Z = Z + TZ
             ELSEIF(ITY ==2 )THEN
               DO L=1,3
-        	X0(L) = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),L+11)
+          X0(L) = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),L+11)
               ENDDO
               DO L=1,9
-        	ROT(L) = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),L+2)
+          ROT(L) = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),L+2)
               ENDDO
               P(1) = X
               P(2) = Y
@@ -207,14 +207,14 @@ C======================================================================
               TY = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),16)
               TZ = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),17)
               DO L=1,9
-        	ROT(L) = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),L+2)
+          ROT(L) = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),L+2)
               ENDDO
               XP = ROT(1)*X + ROT(4)*Y + ROT(7)*Z + TX
               YP = ROT(2)*X + ROT(5)*Y + ROT(8)*Z + TY
               ZP = ROT(3)*X + ROT(6)*Y + ROT(9)*Z + TZ
               X = XP
               Y = YP
-              Z = ZP		
+              Z = ZP
             ELSEIF(ITY ==4 )THEN
               DO K=1,3
                 XCOLD(K)=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),K+11)

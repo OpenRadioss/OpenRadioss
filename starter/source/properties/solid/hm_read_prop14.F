@@ -272,7 +272,7 @@ C--------------------------------------------------
       IF (ICPRE == 0) ICPRE = ICPRE_D      
       IF((N2D > 0 .AND. IHBE == 17) ) THEN
         IF(ICPRE/=1 .AND. ICPRE/=2) ICPRE=0
-        ! no effet for Axi Isolid17 for the moment	
+        ! no effet for Axi Isolid17 for the moment
         IF(N2D == 1 .AND. IHBE == 17) ICPRE=0
       ELSE
         IF (IHBE /= 14 .AND. IHBE /= 24 .AND. IHBE /= 17 .AND. IHBE /= 18) ICPRE = 0

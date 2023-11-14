@@ -223,37 +223,37 @@ C                DDVOL = DDVOL + cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICE
       ! SECND CELLS STACK                                       !
       !---------------------------------------------------------!
       !STACK Secnd cells values from ones connected to current main cell                                                        
-      NIN = 1													       
-      DO IB=NBF,NBL												             
-     	NG    = BRICK_LIST(NIN,IB)%NG										       
-     	IE    = BRICK_LIST(NIN,IB)%ID										       
-     	IDLOC = BRICK_LIST(NIN,IB)%IDLOC									       
-     	MLW   =  BRICK_LIST(NIN,IB)%MLW 									       
-     	NUM   = BRICK_LIST(NIN,IB)%SecndList%Num								       
-     	MCELL = BRICK_LIST(NIN,IB)%mainID									       
-     	IF(MLW/=51)CYCLE											       
-     	DDVOL = ZERO												       
-     	DO K=1,NUM												       
-     	  IBV	 = BRICK_LIST(NIN,IB)%SecndList%IBV(K)  							       
-     	  ICELLv = BRICK_LIST(NIN,IB)%SecndList%ICELLv(K)							       
-     	  DDVOL  = DDVOL + BRICK_LIST(NIN,IBv)%POLY(ICELLv)%DDVOL_upw						       
-     	ENDDO													       
-     	DDVOL = DDVOL + BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL_upw						       
-     	!updating law51 material buffer with computed stacked value						       
-     	IF(ITRIMAT>0)THEN											       
-     	  LFT	 =  1												       
-     	  LLT	 =  IPARG(2,NG) 										       
-     	  UVAR   => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR							       
-     	  ADD	 = (N0PHAS + (ITRIMAT-1)*NVPHAS+12)*LLT 							       
-     	  pDDVOL => UVAR(ADD+1:ADD+LLT) 									       
-     	  pDDVOL(IDLOC) =  DDVOL   !*HALF  : deja applique facteur 1/2					       
-     	  if(ixs(11,IE)==26354)then										       
-     	    print *, "itrimat, ddvoli", itrimat, DDVOL  							       
-     	  endif 												       
-     	ELSE													       
-     	  BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL_upw = DDVOL							       
-     	ENDIF													       
-      ENDDO!next IB												       
+      NIN = 1                                 
+      DO IB=NBF,NBL                                     
+          NG    = BRICK_LIST(NIN,IB)%NG                           
+          IE    = BRICK_LIST(NIN,IB)%ID                           
+          IDLOC = BRICK_LIST(NIN,IB)%IDLOC                         
+          MLW   =  BRICK_LIST(NIN,IB)%MLW                          
+          NUM   = BRICK_LIST(NIN,IB)%SecndList%Num                       
+          MCELL = BRICK_LIST(NIN,IB)%mainID                         
+          IF(MLW/=51)CYCLE                             
+          DDVOL = ZERO                               
+          DO K=1,NUM                               
+            IBV   = BRICK_LIST(NIN,IB)%SecndList%IBV(K)                       
+            ICELLv = BRICK_LIST(NIN,IB)%SecndList%ICELLv(K)                     
+            DDVOL  = DDVOL + BRICK_LIST(NIN,IBv)%POLY(ICELLv)%DDVOL_upw                   
+          ENDDO                                 
+          DDVOL = DDVOL + BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL_upw                   
+          !updating law51 material buffer with computed stacked value                   
+          IF(ITRIMAT>0)THEN                             
+            LFT   =  1                               
+            LLT   =  IPARG(2,NG)                            
+            UVAR   => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR                     
+            ADD   = (N0PHAS + (ITRIMAT-1)*NVPHAS+12)*LLT                      
+            pDDVOL => UVAR(ADD+1:ADD+LLT)                          
+            pDDVOL(IDLOC) =  DDVOL   !*HALF  : deja applique facteur 1/2                 
+            if(ixs(11,IE)==26354)then                           
+              print *, "itrimat, ddvoli", itrimat, DDVOL                       
+            endif                                
+          ELSE                                 
+            BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL_upw = DDVOL                     
+          ENDIF                                 
+      ENDDO!next IB                               
       
 
       RETURN

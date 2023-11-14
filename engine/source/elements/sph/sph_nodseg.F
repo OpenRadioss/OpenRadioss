@@ -73,7 +73,7 @@ C----------
              XC=X3
              YC=Y3
              ZC=Z3
-           ENDIF	   
+           ENDIF     
 C----------
 C          triangle 1,2,C
            K  =0
@@ -461,7 +461,7 @@ C             normale sortante au segment.
               Z12=HALF*(Z2+Z3-Z1-Z4)
               X23=HALF*(X3+X4-X1-X2)
               Y23=HALF*(Y3+Y4-Y1-Y2)
-              Z23=HALF*(Z3+Z4-Z1-Z2)	      
+              Z23=HALF*(Z3+Z4-Z1-Z2)        
               NX = Y12*Z23-Z12*Y23
               NY =-X12*Z23+Z12*X23
               NZ = X12*Y23-Y12*X23
@@ -476,7 +476,7 @@ C             cumule normale sortante au segment.
               Z12=HALF*(Z2+Z3-Z1-Z4)
               X23=HALF*(X3+X4-X1-X2)
               Y23=HALF*(Y3+Y4-Y1-Y2)
-              Z23=HALF*(Z3+Z4-Z1-Z2)	      
+              Z23=HALF*(Z3+Z4-Z1-Z2)        
               NX = Y12*Z23-Z12*Y23
               NY =-X12*Z23+Z12*X23
               NZ = X12*Y23-Y12*X23

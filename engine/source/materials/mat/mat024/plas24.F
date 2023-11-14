@@ -427,10 +427,10 @@ C . .       . . . . . . . . . . . . . . . . . . . . . . . . . .
      .                   +CP64*E4(I)+CP65*E5(I)+CP66*E6(I)
           ELSE
 c           PURE TRIAXIAL TO SOLVE UNDETERMINATION
-	           DP = BULK*HPV/(BULK+HPV)*(E1(I)+E2(I)+E3(I))
-	           SIG(I,1)=SIG(I,1)+DP
-	           SIG(I,2)=SIG(I,2)+DP
-          	 SIG(I,3)=SIG(I,3)+DP
+                     DP = BULK*HPV/(BULK+HPV)*(E1(I)+E2(I)+E3(I))
+                     SIG(I,1)=SIG(I,1)+DP
+                     SIG(I,2)=SIG(I,2)+DP
+           SIG(I,3)=SIG(I,3)+DP
           ENDIF
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 C RECALCUL DES DEFORMATION ELASTIQUES POUR REOUVERTURE DES FISSURES

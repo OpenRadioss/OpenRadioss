@@ -1779,8 +1779,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include	"com01_c.inc"
-#include	"task_c.inc"
+#include  "com01_c.inc"
+#include  "task_c.inc"
 #include        "units_c.inc"
 #include        "impl1_c.inc"
 C-----------------------------------------------
@@ -2000,8 +2000,8 @@ C-----------------------------------------------
       COMMON /TIMERG/TIMERG(2,500000),CPUTIMEG(500000)
       REAL TIMERG,CPUTIMEG
 C-----------------------------------------------
-#include	"com01_c.inc"
-#include	"task_c.inc"
+#include  "com01_c.inc"
+#include  "task_c.inc"
 #include        "units_c.inc"
 #include        "param_c.inc"
 #include        "chara_c.inc"
@@ -2107,15 +2107,15 @@ C   SOLIDES
            TELT = TET4TNL(MTN,1) + TET4TELT(1)
 C   TETRA10
           ELSEIF (ISOLNOD==10) THEN
-	   MMA = IXS(1,NFT)
-	   NFUNC = MAX(IPM(10,MMA) - 3,1)
-	   IF (NFUNC<=2) THEN
+             MMA = IXS(1,NFT)
+             NFUNC = MAX(IPM(10,MMA) - 3,1)
+             IF (NFUNC<=2) THEN
               TELT = TET10TNL(MTN,1) + TET10TELT(1)
-	   ELSEIF (NFUNC>2.AND.NFUNC<=7) THEN
-	      TELT = TET10TNL(MTN,2) + TET10TELT(1)
-	   ELSE
-	      TELT = TET10TNL(MTN,3) + TET10TELT(1)
-	   ENDIF
+             ELSEIF (NFUNC>2.AND.NFUNC<=7) THEN
+                TELT = TET10TNL(MTN,2) + TET10TELT(1)
+             ELSE
+                TELT = TET10TNL(MTN,3) + TET10TELT(1)
+             ENDIF
           ELSE
            IF (IHBE<=1.OR.IHBE==101) THEN
 C   Solides ISOLD1
@@ -2141,11 +2141,11 @@ C   Solides HA8
             NPTOT = NPTS*NPTT*NPTR
 C
             TELT = NPTOT*SOL8TNL(MTN,1)+SOLTELT(5)+NPTOT*SOLTELT(6)
-	   
-	   ELSEIF(IHBE==17)THEN
-	     TELT = SOL1TNL(MTN,1)*8+SOLTELT(7)
-	   ELSE
-	     TELT = SOL1TNL(MTN,1) + SOLTELT(1)
+             
+             ELSEIF(IHBE==17)THEN
+               TELT = SOL1TNL(MTN,1)*8+SOLTELT(7)
+             ELSE
+               TELT = SOL1TNL(MTN,1) + SOLTELT(1)
            ENDIF
           ENDIF
 C
@@ -2577,12 +2577,12 @@ C-----------------------------------------------
         ITY = IPARG(5,NG)
         MTN = IPARG(1,NG)
         NELEM = IPARG(2,NG)
-	NFT   = IPARG(3,NG)+1
+          NFT   = IPARG(3,NG)+1
         NSG = IPARG(10,NG)
         NPT = IPARG(6,NG)
-	
+
         MID = IXS(1,NFT)
-        MUID = IPM(1,MID)	
+        MUID = IPM(1,MID)
 
         DIFFTT = CPUTIMEG(NG) - THEOGP(NG) 
 
@@ -2680,7 +2680,7 @@ C-----------------------------------------------
       DO I=1,NUMSOLG
         NGL = INDEXSH(I)
         NG = NUMGROUP(NGL)
-	NFT   = IPARG(3,NG)+1
+          NFT   = IPARG(3,NG)+1
 
         ITY = IPARG(5,NG)
         MTN = IPARG(1,NG)

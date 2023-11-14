@@ -406,7 +406,7 @@ C----- 2nd point
             ENDIF
           END IF
 C
-        ENDDO		    
+        ENDDO        
       ENDIF
 C-----------------------------------------------
 C     3-NODE SHELLS
@@ -704,7 +704,7 @@ C----- 2nd point
             ENDIF
           END IF
 
-        ENDDO		    
+        ENDDO        
       ENDIF
 
       RETURN

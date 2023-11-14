@@ -2476,7 +2476,7 @@ C RECEIVE comm structure
                    N = NINT(RBUFR(IDEB+1))
                    NOD = INTBUF_TAB(NIN)%MSR_L(N)
                    FTHE(NOD) = FTHE(NOD) + RBUFR(IDEB+2)
-                   IDEB = IDEB + 2	   
+                   IDEB = IDEB + 2     
                 ENDDO
                 IDEBUT2(NI) = IDEBUT2(NI) + LEN 
               ENDIF
@@ -2569,7 +2569,7 @@ C
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
               END IF
-	                    
+                              
               DO J=1,NIF
                  INDEX(J)=J
                  TEMPO(J)=FTHESKYFI(NIN)%P(J)
@@ -2587,7 +2587,7 @@ C precomptage du nombre de contacts par processeur+calcul nsnfi total
 
              IF (NIF > 0 ) THEN
                DEALLOCATE(TEMPO,INDEX)
-	     ENDIF
+               ENDIF
           ENDIF
 
         ENDDO
@@ -2722,7 +2722,7 @@ C
                       FSKYI(NISKY,3)=ZERO
                       FSKYI(NISKY,4)=ZERO
                       IF(NODADT_THERM == 1 )  CONDNSKYI(NISKY)=ZERO
-                      FTHESKYI(NISKY)=RBUFR(IDEB+2)	
+                      FTHESKYI(NISKY)=RBUFR(IDEB+2)
                       ISKY(NISKY) = NOD  
                       IDEB = IDEB + 2
                    ENDDO

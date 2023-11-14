@@ -139,7 +139,7 @@ C
           EZXDP(I)= ZERO
           EXYDP(I)= ZERO
           EYYDP(I)= ONE
-          EZYDP(I)= ZERO	
+          EZYDP(I)= ZERO
         ELSE
           EXXDP(I)=EXXDP(I)/ALDP(I) 
           EYXDP(I)=EYXDP(I)/ALDP(I) 

@@ -215,14 +215,14 @@ c         yp= 3 x^2 + c
           W1 =  ONE - P/PC
           W1 = (MAX(EM20,ONE/W1))**AL
           UVAR(I,1) = UVAR(I,1) + W1*W2*DPLA(I)
-          IF(UVAR(I,1)>=DC) THEN	  
+          IF(UVAR(I,1)>=DC) THEN    
            OFF(I) = FOUR_OVER_5
            IDEL7NOK = 1
            NINDX=NINDX+1
            INDX(NINDX)=I
            TDELE(I) = TIME  
           ENDIF
-	 ENDIF
+           ENDIF
         ENDDO
         IF(NINDX>0.AND.IMCONV==1)THEN
          DO J=1,NINDX
@@ -303,7 +303,7 @@ c         yp= 3 x^2 + c
           W1 = ONE - ONE*P/PC
           W1 = (MAX(EM20,ONE/W1))**AL
           UVAR(I,1) = UVAR(I,1) + W1*W2*DPLA(I)      
-          IF(UVAR(I,1)>=DC) THEN	   
+          IF(UVAR(I,1)>=DC) THEN     
            NINDX=NINDX+1
            INDX(NINDX)=I
            SIGNXX(I) =  P

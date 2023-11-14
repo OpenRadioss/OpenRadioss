@@ -137,13 +137,13 @@ C            CALL ARRET(2)
              CALL ANCMSG(MSGID=294,ANMODE=ANINFO)
            ENDIF
            CALL ARRET(2)
-	    END IF
+              END IF
         IF (NBUCK>0) THEN
            IF(ISPMD==0)THEN
              CALL ANCMSG(MSGID=295,ANMODE=ANINFO)
            ENDIF
            CALL ARRET(2)
-	    END IF
+              END IF
 #endif
 c          
           ALLOCATE(IMPBUF_TAB%IDDL(NUMNOD))
@@ -168,7 +168,7 @@ c
           I_IMP => IMPBUF_TAB%I_IMP
           IRBYAC => IMPBUF_TAB%IRBYAC
           NSC => IMPBUF_TAB%NSC
-		        NSC = 0
+                  NSC = 0
           IINT2 => IMPBUF_TAB%IINT2
           NKUD => IMPBUF_TAB%NKUD
           IMONV => IMPBUF_TAB%IMONV
@@ -185,37 +185,37 @@ c
      A    FR_RBY    ,SH4TREE   ,SH3TREE   ,IRBE3     ,LRBE3     ,
      B    FR_RBE3M  ,IAD_RBE3M ,IRBE2     ,LRBE2     ,IBFV      ,
      C    VEL       ,ELBUF_TAB ,IFRAME    ,INTBUF_TAB   )
-	      S_IADK=NDDL+1
-		  S_JDIK=NNZK
+                S_IADK=NDDL+1
+            S_JDIK=NNZK
           NDDL0 = NDDL
           NNZK0 = NNZK
           ALLOCATE(IMPBUF_TAB%IADK(S_IADK))
           ALLOCATE(IMPBUF_TAB%JDIK(S_JDIK))
           IADK => IMPBUF_TAB%IADK
           JDIK => IMPBUF_TAB%JDIK
-c		  S_ISIJ=IMPBUF_TAB%LSIZE(4)
-c		  S_IMIJ=IMPBUF_TAB%LSIZE(5)
-c		  S_NSS=IMPBUF_TAB%LSIZE(1)
-c		  S_ISS=IMPBUF_TAB%LSIZE(3)
-c		  S_ISIJ2=IMPBUF_TAB%LSIZE(7)
-c		  S_NSS2=IMPBUF_TAB%LSIZE(2)
-c		  S_ISS2=IMPBUF_TAB%LSIZE(6)
-c		  S_NSC2=NINT2
-c		  S_NROWK=IMPBUF_TAB%LSIZE(8)
-c		  S_ICOK=(LSIZE(8)-LCOKM)*LSIZE(9)
-c		  S_ICOKM=LCOKM*LSIZE(10)
-c		  S_NMIJ2=4*LSIZE(11)
-c		  S_NSS3=IMPBUF_TAB%LSIZE(14)
-c		  S_ISB2=IMPBUF_TAB%LSIZE(15)
-c		  S_NSRB2=IMPBUF_TAB%LSIZE(16)
-C		  
+c      S_ISIJ=IMPBUF_TAB%LSIZE(4)
+c      S_IMIJ=IMPBUF_TAB%LSIZE(5)
+c      S_NSS=IMPBUF_TAB%LSIZE(1)
+c      S_ISS=IMPBUF_TAB%LSIZE(3)
+c      S_ISIJ2=IMPBUF_TAB%LSIZE(7)
+c      S_NSS2=IMPBUF_TAB%LSIZE(2)
+c      S_ISS2=IMPBUF_TAB%LSIZE(6)
+c      S_NSC2=NINT2
+c      S_NROWK=IMPBUF_TAB%LSIZE(8)
+c      S_ICOK=(LSIZE(8)-LCOKM)*LSIZE(9)
+c      S_ICOKM=LCOKM*LSIZE(10)
+c      S_NMIJ2=4*LSIZE(11)
+c      S_NSS3=IMPBUF_TAB%LSIZE(14)
+c      S_ISB2=IMPBUF_TAB%LSIZE(15)
+c      S_NSRB2=IMPBUF_TAB%LSIZE(16)
+C      
           NKINE = LSIZE(8) 
           NNMAX = LSIZE(9) 
           NKMAX = LSIZE(10)
           NMIJ2 = LSIZE(11)
           NPN   = LSIZE(12)
           NPP   = LSIZE(13)
-C		  
+C      
 c          ALLOCATE(IMPBUF_TAB%ISIJ(S_ISIJ))
 c          ALLOCATE(IMPBUF_TAB%IMIJ(S_IMIJ))
 c          ALLOCATE(IMPBUF_TAB%NSS(S_NSS))
@@ -231,7 +231,7 @@ c          ALLOCATE(IMPBUF_TAB%NMIJ2(S_NMIJ2))
 c          ALLOCATE(IMPBUF_TAB%NSS3(S_NSS3))
 c          ALLOCATE(IMPBUF_TAB%ISB2(S_ISB2))
 c          ALLOCATE(IMPBUF_TAB%NSRB2(S_NSRB2))
-C----finally not to splite IKINW, otherwise too many changes		  
+C----finally not to splite IKINW, otherwise too many changes      
           LI1 =1
           LI2 = LI1+LSIZE(4)
           LI3 = LI2+LSIZE(5)
@@ -248,7 +248,7 @@ C----finally not to splite IKINW, otherwise too many changes
           LI14 = LI13+LSIZE(14)
           LI15 = LI14+LSIZE(15)
           LIF = LI15+LSIZE(16)
-		  S_IKINW = LIF
+            S_IKINW = LIF
           ALLOCATE(IMPBUF_TAB%IKINW(S_IKINW))
           IKINW => IMPBUF_TAB%IKINW
           CALL IND_GLOB_K(NPBY  ,LPBY      ,
@@ -289,10 +289,10 @@ C-----integer : 1:IKC,2:IKUD,3:W_DDL,4:IADM,5:JDIM,6:NDOFI,7:IDDLI,8:INBUF_C
           ELSE
            L1=0
           ENDIF
-	      S_IKC=NDDL+6
-	      S_IKUD=L1
+                S_IKC=NDDL+6
+                S_IKUD=L1
 C  -----------W_DDL is reserved anyway------
-	      S_W_DDL=NDDL
+                S_W_DDL=NDDL
           MAX_L = 0
           IF (NMONV>0.AND.ISOLV>=3.AND.NEIG==0) THEN
            IF(ISPMD==0)THEN
@@ -304,18 +304,18 @@ C     ----- ---------
          IF ((ISOLV==1.OR.ISOLV>4).AND.N_PAT>1) THEN
           CALL FIL_SPAN0(NRBYAC,IRBYAC,NPBY,IDDL,NDOF,NDDL)
           CALL DIM_SPAN(N_PAT,NDDL,IADK,JDIK,MAX_L,MAXB1)
-	      S_IADM=NDDL+1
+                S_IADM=NDDL+1
          ELSE
-	      S_IADM=0
+                S_IADM=0
          ENDIF
-	      S_JDIM=MAX_L
+                S_JDIM=MAX_L
           ALLOCATE(IMPBUF_TAB%IKC(S_IKC))
           ALLOCATE(IMPBUF_TAB%IKUD(S_IKUD))
           ALLOCATE(IMPBUF_TAB%W_DDL(S_W_DDL))
           ALLOCATE(IMPBUF_TAB%IADM(S_IADM))
           ALLOCATE(IMPBUF_TAB%JDIM(S_JDIM))
-		  S_NDOFI=NUMNOD
-	      S_IDDLI=0
+            S_NDOFI=NUMNOD
+                S_IDDLI=0
           NINT7 = 0
           S_CAND_N = 0
           S_CAND_E = 0
@@ -330,7 +330,7 @@ C     ----- ---------
            S_CAND_N = NINT7*NTHREAD !NS_IMP
            S_CAND_E = S_CAND_N      !NE_IMP
            S_INDSUBT= S_CAND_N      !IND_IMP  
-	       S_IDDLI=NUMNOD
+                 S_IDDLI=NUMNOD
           ELSE
            IF (ILINTF>0.AND.IMACH/=3) ILINTF=0
           ENDIF
@@ -338,7 +338,7 @@ C     ----- ---------
          ALLOCATE(IMPBUF_TAB%CAND_N(S_CAND_N))
          ALLOCATE(IMPBUF_TAB%CAND_E(S_CAND_E))
          ALLOCATE(IMPBUF_TAB%INDSUBT(S_INDSUBT),STAT=IER1)
-		  S_INBUF_C =0
+            S_INBUF_C =0
           ALLOCATE(IMPBUF_TAB%NDOFI(S_NDOFI))
           ALLOCATE(IMPBUF_TAB%IDDLI(S_IDDLI))
           ALLOCATE(IMPBUF_TAB%INBUF_C(S_INBUF_C))
@@ -347,11 +347,11 @@ c         IIF=II9
 C-----reel : 1,2,3,4:DIAG_K,LT_K,DIAG_M,LT_M,5,6:LB,DB,7:BKUD,8,9:D_IMP,DR_IMP
 C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_actual,free
 C-----------17-21:FEXT,DG,DGR,DI,DIR;(Riks arc-length);22:BUFIN_C,23,24:AC,ACR,
-	      S_DIAG_K=NDDL
-	      S_LT_K=NNZK
-	      S_DIAG_M=NDDL
-	      S_LT_M=MAX(NNZK,MAX_L)
-	      S_LB=NDDL
+                S_DIAG_K=NDDL
+                S_LT_K=NNZK
+                S_DIAG_M=NDDL
+                S_LT_M=MAX(NNZK,MAX_L)
+                S_LB=NDDL
           IF (ILINE/=1.AND.TT==ZERO.AND.ISPRB==0) THEN
            IF (NMONV>0) ISIGINI=1
           ELSE
@@ -359,91 +359,91 @@ C-----------17-21:FEXT,DG,DGR,DI,DIR;(Riks arc-length);22:BUFIN_C,23,24:AC,ACR,
           ENDIF
           IF ((ISPRB==1.OR.ISIGINI==1.OR.ILINTF>0)
      .        .AND.NEIG==0) THEN
-	       S_LB0=NDDL
+                 S_LB0=NDDL
           ELSE
-	       S_LB0=0
+                 S_LB0=0
           ENDIF
-	      S_BKUD=L1
-	      S_D_IMP=NNDL
+                S_BKUD=L1
+                S_D_IMP=NNDL
           IF (IRODDL/=0.AND.NEIG==0) THEN
-	        S_DR_IMP=NNDL
+                  S_DR_IMP=NNDL
           ELSE
-	        S_DR_IMP=0
+                  S_DR_IMP=0
           ENDIF
           IF (ILINE/=1) THEN
            CALL BUF_DIM1(S_ELBUF_C,S_BUFMAT_C)
-		   S_X_C=NNDL
-		   S_DD=NNDL
+             S_X_C=NNDL
+             S_DD=NNDL
            IF (IRODDL/=0) THEN
-		    S_DDR=NNDL
+              S_DDR=NNDL
            ELSE
-		    S_DDR=0
+              S_DDR=0
            ENDIF
           ELSEIF (ILINTF>0) THEN
            CALL BUF_DIM1(S_ELBUF_C,S_BUFMAT_C)
-		   S_X_C=NNDL
-		    S_DD=0
-		    S_DDR=0
+             S_X_C=NNDL
+              S_DD=0
+              S_DDR=0
           ELSE
-		    S_ELBUF_C=0
-			S_BUFMAT_C=0
-		    S_X_C=0
-		    S_DD=0
-		    S_DDR=0
+              S_ELBUF_C=0
+          S_BUFMAT_C=0
+              S_X_C=0
+              S_DD=0
+              S_DDR=0
           ENDIF
-		  S_X_A=0
+            S_X_A=0
           IF (NEIG==0) THEN
            IF (ISMDISP>0) S_X_A=NNDL
           ENDIF
 C-----------17-21:FEXT,DG,DGR,DG0,DGR0;(Riks arc-length);22:BUFIN_C,23,24:AC,ACR,
-		  S_FEXT=0
-		  S_DG=0
-		  S_DGR=0
-		  S_DG0=0
-		  S_DGR0=0
+            S_FEXT=0
+            S_DG=0
+            S_DGR=0
+            S_DG0=0
+            S_DGR0=0
           IF (IDTC==3) THEN
-		   S_FEXT=NDDL
+             S_FEXT=NDDL
            IF (IRODDL/=0) THEN
-		    S_DG=NNDL
-		    S_DGR=NNDL
-		    S_DG0=NNDL
-		    S_DGR0=NNDL
+              S_DG=NNDL
+              S_DGR=NNDL
+              S_DG0=NNDL
+              S_DGR0=NNDL
            ELSE
-		    S_DG=NNDL
-		    S_DG0=NNDL
+              S_DG=NNDL
+              S_DG0=NNDL
            ENDIF
           ENDIF
-		   S_BUFIN_C=0
-		   S_AC=0
-		   S_ACR=0
+             S_BUFIN_C=0
+             S_AC=0
+             S_ACR=0
           IF (NEIG==0) THEN
-		    S_AC=NNDL
+              S_AC=NNDL
             IF (IRODDL/=0) S_ACR=NNDL
           ENDIF
-C		  
-	      ALLOCATE(IMPBUF_TAB%DIAG_K(S_DIAG_K)) 
-	      ALLOCATE(IMPBUF_TAB%LT_K(S_LT_K))   
-	      ALLOCATE(IMPBUF_TAB%DIAG_M(S_DIAG_M)) 
-	      ALLOCATE(IMPBUF_TAB%LT_M(S_LT_M))   
-	      ALLOCATE(IMPBUF_TAB%LB(S_LB))     
-	      ALLOCATE(IMPBUF_TAB%LB0(S_LB0))     
-	      ALLOCATE(IMPBUF_TAB%BKUD(S_BKUD))   
-	      ALLOCATE(IMPBUF_TAB%D_IMP(S_D_IMP))  
-	      ALLOCATE(IMPBUF_TAB%DR_IMP(S_DR_IMP)) 
+C      
+                ALLOCATE(IMPBUF_TAB%DIAG_K(S_DIAG_K)) 
+                ALLOCATE(IMPBUF_TAB%LT_K(S_LT_K))   
+                ALLOCATE(IMPBUF_TAB%DIAG_M(S_DIAG_M)) 
+                ALLOCATE(IMPBUF_TAB%LT_M(S_LT_M))   
+                ALLOCATE(IMPBUF_TAB%LB(S_LB))     
+                ALLOCATE(IMPBUF_TAB%LB0(S_LB0))     
+                ALLOCATE(IMPBUF_TAB%BKUD(S_BKUD))   
+                ALLOCATE(IMPBUF_TAB%D_IMP(S_D_IMP))  
+                ALLOCATE(IMPBUF_TAB%DR_IMP(S_DR_IMP)) 
           ALLOCATE(IMPBUF_TAB%ELBUF_C(S_ELBUF_C))
-		  ALLOCATE(IMPBUF_TAB%BUFMAT_C(S_BUFMAT_C))
-		  ALLOCATE(IMPBUF_TAB%X_C(S_X_C))
-		  ALLOCATE(IMPBUF_TAB%DD(S_DD))
-		  ALLOCATE(IMPBUF_TAB%DDR(S_DDR))
-		  ALLOCATE(IMPBUF_TAB%X_A(S_X_A))   
-		  ALLOCATE(IMPBUF_TAB%FEXT(S_FEXT))  
-		  ALLOCATE(IMPBUF_TAB%DG(S_DG))    
-		  ALLOCATE(IMPBUF_TAB%DGR(S_DGR))   
-		  ALLOCATE(IMPBUF_TAB%DG0(S_DG0))    
-		  ALLOCATE(IMPBUF_TAB%DGR0(S_DGR0))   
-		  ALLOCATE(IMPBUF_TAB%BUFIN_C(S_BUFIN_C))
-		  ALLOCATE(IMPBUF_TAB%AC(S_AC))
-		  ALLOCATE(IMPBUF_TAB%ACR(S_ACR),STAT=IER2)
+            ALLOCATE(IMPBUF_TAB%BUFMAT_C(S_BUFMAT_C))
+            ALLOCATE(IMPBUF_TAB%X_C(S_X_C))
+            ALLOCATE(IMPBUF_TAB%DD(S_DD))
+            ALLOCATE(IMPBUF_TAB%DDR(S_DDR))
+            ALLOCATE(IMPBUF_TAB%X_A(S_X_A))   
+            ALLOCATE(IMPBUF_TAB%FEXT(S_FEXT))  
+            ALLOCATE(IMPBUF_TAB%DG(S_DG))    
+            ALLOCATE(IMPBUF_TAB%DGR(S_DGR))   
+            ALLOCATE(IMPBUF_TAB%DG0(S_DG0))    
+            ALLOCATE(IMPBUF_TAB%DGR0(S_DGR0))   
+            ALLOCATE(IMPBUF_TAB%BUFIN_C(S_BUFIN_C))
+            ALLOCATE(IMPBUF_TAB%AC(S_AC))
+            ALLOCATE(IMPBUF_TAB%ACR(S_ACR),STAT=IER2)
 c
          IF (IER1/=0.OR.IER2/=0) THEN
              CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
@@ -490,7 +490,7 @@ c      IBUCK= IBUCKL
             CALL SPMD_MSTOP()
             RETURN
       ENDIF
-C	  
+C    
       RETURN
       END SUBROUTINE IMP_SOL_INIT
 Chd|====================================================================
@@ -543,6 +543,6 @@ C ----------------for restart---
             NNDL=3*NUMNOD
             CALL CP_REAL(NNDL,IMPBUF_TAB%X_A,X)
           END IF
-C	  
+C    
       RETURN
       END SUBROUTINE IMP_RESTARCP

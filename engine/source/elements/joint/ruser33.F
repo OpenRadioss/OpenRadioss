@@ -133,13 +133,13 @@ C
 C
         XCENT(1:6) = ZERO
         DO I=1,6
-	  KF(I) = GET_U_GEO(40+I,IPROP)
-	  FM(I) = GET_U_GEO(46+I,IPROP)	  
+            KF(I) = GET_U_GEO(40+I,IPROP)
+            FM(I) = GET_U_GEO(46+I,IPROP)    
           SMI(I) = GET_U_GEO(K+1,IPROP)      
           SMA(I) = GET_U_GEO(K+2,IPROP)
           FCOMB(I) = GET_U_GEO(54+I,IPROP)
           XCENT(I) = HALF*(SMA(I)+SMI(I))
-	  K = K+2
+            K = K+2
         END DO
 C
         ICOMBT = NINT(FCOMB(1)+FCOMB(2)+FCOMB(3))
@@ -148,7 +148,7 @@ C
 C--  old kjoint type33 -> combined stopping displ/angles not allowed
         ICOMBT = 0
         ICOMBR = 0
-      ENDIF	      
+      ENDIF        
 C
       IFUN_XX = GET_U_PNU(1,IPROP,KFUNC) 
       IFUN_YY = GET_U_PNU(2,IPROP,KFUNC) 
@@ -171,21 +171,21 @@ C
         KRX(I) = UVAR(31,I)
         KRY(I) = UVAR(32,I)
         KRZ(I) = UVAR(33,I)
-	KNN(I) = UVAR(17,I)
-	KRR(I) = UVAR(18,I)
+          KNN(I) = UVAR(17,I)
+          KRR(I) = UVAR(18,I)
         IF ((IGTYP==45).AND.(ISENS==1)) THEN
-	  DO K=1,6
-            DXSK(K) = UVAR(4+K-1,I)	    
-	    IF (ABS(SMA(K))>EM20) DXSK(K) = MIN(DXSK(K),SMA(K))
-	    IF (ABS(SMI(K))>EM20) DXSK(K) = MAX(DXSK(K),SMI(K))	    
-	  END DO
-	  DXS(I) = DXSK(1)	  
-	  DYS(I) = DXSK(2)
-	  DZS(I) = DXSK(3)
-	  DRXS(I) = DXSK(4)
-	  DRYS(I) = DXSK(5)
-	  DRZS(I) = DXSK(6)		  	  	  	  
-	ENDIF 		
+            DO K=1,6
+            DXSK(K) = UVAR(4+K-1,I)      
+              IF (ABS(SMA(K))>EM20) DXSK(K) = MIN(DXSK(K),SMA(K))
+              IF (ABS(SMI(K))>EM20) DXSK(K) = MAX(DXSK(K),SMI(K))      
+            END DO
+            DXS(I) = DXSK(1)    
+            DYS(I) = DXSK(2)
+            DZS(I) = DXSK(3)
+            DRXS(I) = DXSK(4)
+            DRYS(I) = DXSK(5)
+            DRZS(I) = DXSK(6)                  
+          ENDIF 
         DXOLD(I,1) = DX(I)
         DXOLD(I,2) = DY(I)
         DXOLD(I,3) = DZ(I)
@@ -286,7 +286,7 @@ C--------      JOINT BLOCKED BY SENSOR ACTIVATION
          CALL SENS_BLOCK(NEL,RX,XMOM,KRX,KRR,CR,CR4,DRXS,FDOF(4),XKR)
          CALL SENS_BLOCK(NEL,RY,YMOM,KRY,KRR,CR,CR5,DRYS,FDOF(5),XKR)
          CALL SENS_BLOCK(NEL,RZ,ZMOM,KRZ,KRR,CR,CR6,DRZS,FDOF(6),XKR)
-       ENDIF       	                              
+       ENDIF                                       
 C--------      CRITICAL DAMPING
        DO I=1,NEL
          MS = ZERO
@@ -436,47 +436,47 @@ C
       IF ((KF>EM20).AND.((FM>EM20).OR.(IFUN>0))) THEN      
 C------Friction-----------------------------------------------------------     
         DO I=1,NEL
-	  DFR = KF*VX(I)*DT12
-	  FR = FRP(I) + DFR 
+            DFR = KF*VX(I)*DT12
+            FR = FRP(I) + DFR 
           FT = MAX(FR*FR,EM30)
           DELTAX = ZERO
 C
           IF (IFUN>0) THEN
-	    FFM = FM*GET_U_FUNC(IFUN,DX(I)*FAC_X,DERI)
-	    KTMAX = MAX(KF,ABS((FM*FAC_X)*DERI))
-	  ELSE
-	    FFM = FM
-	    KTMAX = KF  
-	  ENDIF	  
-C	  
+              FFM = FM*GET_U_FUNC(IFUN,DX(I)*FAC_X,DERI)
+              KTMAX = MAX(KF,ABS((FM*FAC_X)*DERI))
+            ELSE
+              FFM = FM
+              KTMAX = KF  
+            ENDIF    
+C    
           BETA = MIN(ONE,SQRT((FFM**2)/FT))
 C
           IF (ICOMB <= 1) THEN
 C-    stopping displacement/ angle
-	    IF ((DX(I)>0).AND.(DXMA>0)) DELTAX = MAX(ZERO,DX(I)-DXMA)
+              IF ((DX(I)>0).AND.(DXMA>0)) DELTAX = MAX(ZERO,DX(I)-DXMA)
             IF ((DX(I)<0).AND.(DXMI<0)) DELTAX = MIN(ZERO,DX(I)-DXMI)
-	    IF (ABS(DELTAX)>EM20) BETA = ONE
+              IF (ABS(DELTAX)>EM20) BETA = ONE
           ELSE
 C-    combined stopping displacement/ angle
             RADIUS = HALF*(DXMA-DXMI)
             IF ((DEQ(I)>0).AND.(RADIUS>0)) DELTAX = MAX(ZERO,DEQ(I)-RADIUS)
             FR = FRP(I)
-	    IF (ABS(DELTAX)>EM20) THEN
+              IF (ABS(DELTAX)>EM20) THEN
               DFR = DFR*FCOMB*ABS(DX(I)-XCENT)/DEQ(I)
               BETA = ONE
               FR = FRP(I) + DFR
             ENDIF
           ENDIF
-C	  
-	  FR = FR * BETA
-	  KTAN = ABS((FR-FRP(I))/(MAX(EM15,VX(I)*DT12)))	  
-	  KTAN = MIN(KTAN,KTMAX)
-	  FRP(I) = FR	  
-C	    
+C    
+            FR = FR * BETA
+            KTAN = ABS((FR-FRP(I))/(MAX(EM15,VX(I)*DT12)))    
+            KTAN = MIN(KTAN,KTMAX)
+            FRP(I) = FR    
+C      
           FX(I) = FX(I) + FR
-	  KX(I) = KX(I) + KTAN
-	  KLOC = KX(I) + MAX(KTAN,KF)
-	  CRX = CR	  
+            KX(I) = KX(I) + KTAN
+            KLOC = KX(I) + MAX(KTAN,KF)
+            CRX = CR    
           KMX(I)= MAX(KMX(I),KLOC)
         ENDDO      
 
@@ -484,42 +484,42 @@ C
 C------Stopping Angles / displacements only--------------------------------      
         DO I=1,NEL
           DELTAX = ZERO
-	  KLOC = KNN(I)
-	  IF (KF>EM20) KLOC = KF
+            KLOC = KNN(I)
+            IF (KF>EM20) KLOC = KF
           IF ((DX(I)>0).AND.(DXMA>0)) DELTAX = MAX(ZERO,DX(I)-DXMA)
           IF ((DX(I)<0).AND.(DXMI<0)) DELTAX = MIN(ZERO,DX(I)-DXMI)
-	  IF (ABS(DELTAX)>EM20) THEN
+            IF (ABS(DELTAX)>EM20) THEN
              FX(I) = FX(I) + KLOC*DELTAX
-	     KX(I) = KX(I) + KLOC
-	     CRX = CR	  
+               KX(I) = KX(I) + KLOC
+               CRX = CR    
              KMX(I)= MAX(KMX(I),KX(I))
-	  ELSEIF (ABS((DX(I)-DXMA)/DXMA)<0.001) THEN
-	     KX(I) = KX(I) + KLOC
-	     CRX = CR	  
-             KMX(I)= MAX(KMX(I),KX(I))	        
-	  ENDIF   
+            ELSEIF (ABS((DX(I)-DXMA)/DXMA)<0.001) THEN
+               KX(I) = KX(I) + KLOC
+               CRX = CR    
+             KMX(I)= MAX(KMX(I),KX(I))          
+            ENDIF   
         ENDDO
 C
       ELSEIF (((ABS(DXMI)+DXMA)>0).AND.(ICOMB > 1)) THEN      
 C------Combined stopping Angles / displacements only--------------------------------      
         DO I=1,NEL
           DELTAX = ZERO
-	  KLOC = KNN(I)
+            KLOC = KNN(I)
           RADIUS = HALF*(DXMA-DXMI)
-	  IF (KF>EM20) KLOC = KF
+            IF (KF>EM20) KLOC = KF
           IF ((DEQ(I)>0).AND.(RADIUS>0)) DELTAX = MAX(ZERO,DEQ(I)-RADIUS)
-	  IF (ABS(DELTAX)>EM20) THEN
+            IF (ABS(DELTAX)>EM20) THEN
              FX(I) = FX(I) + KLOC*DELTAX*(FCOMB*(DX(I)-XCENT)/DEQ(I))
-	     KX(I) = KX(I) + KLOC
-	     CRX = CR	  
+               KX(I) = KX(I) + KLOC
+               CRX = CR    
              KMX(I)= MAX(KMX(I),KX(I))
-	  ELSEIF (ABS((DEQ(I)-RADIUS)/RADIUS)<0.001) THEN
-	     KX(I) = KX(I) + KLOC
-	     CRX = CR	  
-             KMX(I)= MAX(KMX(I),KX(I))	        
-	  ENDIF   
+            ELSEIF (ABS((DEQ(I)-RADIUS)/RADIUS)<0.001) THEN
+               KX(I) = KX(I) + KLOC
+               CRX = CR    
+             KMX(I)= MAX(KMX(I),KX(I))          
+            ENDIF   
         ENDDO
-C	      
+C        
       ENDIF
 C
                   
@@ -552,8 +552,8 @@ C
       DO I=1,NEL
          DELTAX = DX(I)-DXS(I)
          FX(I) = FX(I) + KNN(I)*DELTAX
-	 KX(I) = KX(I) + KNN(I)
-	 CRX = CR	  
+           KX(I) = KX(I) + KNN(I)
+           CRX = CR    
          KMX(I)= MAX(KMX(I),KX(I))  
       ENDDO
 C      
@@ -586,16 +586,16 @@ C-------------------------------------------------------------------------
       IF (JTYP==1) THEN
         FDOF(4) = 1
         FDOF(5) = 1
-        FDOF(6) = 1		
+        FDOF(6) = 1
       ELSEIF (JTYP==2) THEN
-        FDOF(4) = 1		
+        FDOF(4) = 1
       ELSEIF (JTYP==3) THEN
         FDOF(1) = 1
         FDOF(4) = 1
       ELSEIF (JTYP==4) THEN
         FDOF(2) = 1
         FDOF(3) = 1
-        FDOF(4) = 1   		
+        FDOF(4) = 1   
       ELSEIF (JTYP==6) THEN
         FDOF(1) = 1
       ELSEIF (JTYP==7) THEN

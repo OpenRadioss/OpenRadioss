@@ -98,12 +98,12 @@ C
             TAGNOD(MC)=1
             DO J=1,3
               VV= FOURTH*(V(J,N1)+V(J,N2)+V(J,N3)+V(J,N4)
-     .    	       +DT12*(A(J,N1)+A(J,N2)+A(J,N3)+A(J,N4)))
+     .             +DT12*(A(J,N1)+A(J,N2)+A(J,N3)+A(J,N4)))
               A(J,MC)=USDT*(VV-V(J,MC))
             END DO
             DO J=1,3
               VV= FOURTH*(VR(J,N1)+VR(J,N2)+VR(J,N3)+VR(J,N4)
-     .    	       +DT12*(AR(J,N1)+AR(J,N2)+AR(J,N3)+AR(J,N4)))
+     .             +DT12*(AR(J,N1)+AR(J,N2)+AR(J,N3)+AR(J,N4)))
               AR(J,MC)=USDT*(VV-VR(J,MC))
             END DO
             IF(ITHERM_FE > 0)

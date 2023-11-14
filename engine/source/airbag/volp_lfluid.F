@@ -76,7 +76,7 @@ C   BULK
       IFUNCT = IVOLU(21)
       SCALEF = RVOLU(35)
       IF(IFUNCT == 0) THEN
-         BULK = SCALEF	  
+         BULK = SCALEF    
       ELSE
          BULK = SCALEF * FINTER(IFUNCT,TT,NPC,TF,DYDX)
       ENDIF
@@ -116,7 +116,7 @@ C   P0
       IFUNCT = IVOLU(25)
       SCALEF = RVOLU(39)
       IF(IFUNCT == 0) THEN
-         P0 = SCALEF	  
+         P0 = SCALEF    
       ELSE
          P0 = SCALEF * FINTER(IFUNCT,TT,NPC,TF,DYDX)
       ENDIF
@@ -125,7 +125,7 @@ C   PMAX
       IFUNCT = IVOLU(26)
       SCALEF = RVOLU(40)
       IF(IFUNCT == 0) THEN
-         PMAX = SCALEF	  
+         PMAX = SCALEF    
       ELSE
          PMAX = SCALEF * FINTER(IFUNCT,TT,NPC,TF,DYDX)
       ENDIF
@@ -148,7 +148,7 @@ C   PMAX
         FSAV(6)=ZERO
         FSAV(7)=ZERO
         FSAV(8)=ZERO
-        FSAV(9)=ZERO	
+        FSAV(9)=ZERO
         FSAV(10)=ZERO
         FSAV(11)=ZERO
         FSAV(12)=ZERO

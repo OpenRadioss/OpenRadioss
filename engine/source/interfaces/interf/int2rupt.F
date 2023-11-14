@@ -421,11 +421,11 @@ C------------------------------------------------
 
            ELSE
              USERBUF%ISECND = I                                     
-             USERBUF%AREA   = AREA(II)	        			
-             USERBUF%DXN    = DXNORM         			     
-             USERBUF%DXT    = ABS(DXTANG)       			     
-             USERBUF%SIGN   = FNORM / AREA(II)           			     
-             USERBUF%SIGT   = MAX(ABS(FTANG),ABS(FTAN2)) / AREA(II)           			     
+             USERBUF%AREA   = AREA(II)          
+             USERBUF%DXN    = DXNORM                    
+             USERBUF%DXT    = ABS(DXTANG)                  
+             USERBUF%SIGN   = FNORM / AREA(II)                      
+             USERBUF%SIGT   = MAX(ABS(FTANG),ABS(FTAN2)) / AREA(II)                      
              USERBUF%DT     = DTIME
              USERBUF%RUPT   = RFLAG
            ENDIF

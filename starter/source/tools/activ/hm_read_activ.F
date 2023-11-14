@@ -145,7 +145,7 @@ C
           ELSE
              FACTIV(1,I) = STARTT  
              FACTIV(2,I) = STOPT
-          ENDIF			 
+          ENDIF       
         ENDIF
 C
         IF (IGBR > 0) THEN

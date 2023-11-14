@@ -75,44 +75,44 @@ C======================================================================|
      .              FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
      .              MDSTNB  ,IRBE3(2,N))
         DO J = 1,3
-	 VS(J) = ZERO
-	 VRS(J) = ZERO
-	 AS(J) = ZERO
-	 ARS(J) = ZERO
-	ENDDO
+           VS(J) = ZERO
+           VRS(J) = ZERO
+           AS(J) = ZERO
+           ARS(J) = ZERO
+          ENDDO
         DO I=1,NML
          M = LRBE3(IAD+I)
          DO J = 1,3
           DO K = 1,3
-	   VS(J) = VS(J)+FDSTNB(K,J,I)*V(K,M)
-	   AS(J) = AS(J)+FDSTNB(K,J,I)*A(K,M)
-	   VRS(J) = VRS(J)+FDSTNB(K,J+3,I)*V(K,M)
-	   ARS(J) = ARS(J)+FDSTNB(K,J+3,I)*A(K,M)
-	  ENDDO
-	 ENDDO
+             VS(J) = VS(J)+FDSTNB(K,J,I)*V(K,M)
+             AS(J) = AS(J)+FDSTNB(K,J,I)*A(K,M)
+             VRS(J) = VRS(J)+FDSTNB(K,J+3,I)*V(K,M)
+             ARS(J) = ARS(J)+FDSTNB(K,J+3,I)*A(K,M)
+            ENDDO
+           ENDDO
         ENDDO
         IF (IROT>0) THEN
          DO I=1,NML
           M = LRBE3(IAD+I)
           DO J = 1,3
            DO K = 1,3
-	    VS(J) = VS(J)+MDSTNB(K,J,I)*VR(K,M)
-	    AS(J) = AS(J)+MDSTNB(K,J,I)*AR(K,M)
-	    VRS(J) = VRS(J)+MDSTNB(K,J+3,I)*VR(K,M)
-	    ARS(J) = ARS(J)+MDSTNB(K,J+3,I)*AR(K,M)
-	   ENDDO
-	  ENDDO
+              VS(J) = VS(J)+MDSTNB(K,J,I)*VR(K,M)
+              AS(J) = AS(J)+MDSTNB(K,J,I)*AR(K,M)
+              VRS(J) = VRS(J)+MDSTNB(K,J+3,I)*VR(K,M)
+              ARS(J) = ARS(J)+MDSTNB(K,J+3,I)*AR(K,M)
+             ENDDO
+            ENDDO
          ENDDO
         ENDIF 
         DO J = 1,3
-	 V(J,NS) = VS(J) *JT(J,N)
-	 A(J,NS) = AS(J) *JT(J,N)
-	ENDDO
+           V(J,NS) = VS(J) *JT(J,N)
+           A(J,NS) = AS(J) *JT(J,N)
+          ENDDO
         IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) THEN
          DO J = 1,3
-	  VR(J,NS) = VRS(J) *JR(J,N)
-	  AR(J,NS) = ARS(J) *JR(J,N)
-	 ENDDO
+            VR(J,NS) = VRS(J) *JR(J,N)
+            AR(J,NS) = ARS(J) *JR(J,N)
+           ENDDO
         ENDIF 
       ENDDO
 C      
@@ -170,41 +170,41 @@ C======================================================================|
         NS  = IRBE3(3,N)
         IF (NS==0) CYCLE
         NML = IRBE3(5,N)
-	IROT =MIN(IRBE3(6,N),IRODDL)
+          IROT =MIN(IRBE3(6,N),IRODDL)
         CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X    ,
      .              FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
      .              MDSTNB  ,IRBE3(2,N))
         DO J = 1,3
-	 VS(J) = ZERO
-	 VRS(J) = ZERO
-	ENDDO
+           VS(J) = ZERO
+           VRS(J) = ZERO
+          ENDDO
         DO I=1,NML
          M = LRBE3(IAD+I)
          DO J = 1,3
           DO K = 1,3
-	   VS(J) = VS(J)+FDSTNB(K,J,I)*D(K,M)
-	   VRS(J) = VRS(J)+FDSTNB(K,J+3,I)*D(K,M)
-	  ENDDO
-	 ENDDO
+             VS(J) = VS(J)+FDSTNB(K,J,I)*D(K,M)
+             VRS(J) = VRS(J)+FDSTNB(K,J+3,I)*D(K,M)
+            ENDDO
+           ENDDO
         ENDDO
         IF (IROT>0) THEN
          DO I=1,NML
           M = LRBE3(IAD+I)
           DO J = 1,3
            DO K = 1,3
-	    VS(J) = VS(J)+MDSTNB(K,J,I)*DR(K,M)
-	    VRS(J) = VRS(J)+MDSTNB(K,J+3,I)*DR(K,M)
-	   ENDDO
-	  ENDDO
+              VS(J) = VS(J)+MDSTNB(K,J,I)*DR(K,M)
+              VRS(J) = VRS(J)+MDSTNB(K,J+3,I)*DR(K,M)
+             ENDDO
+            ENDDO
          ENDDO
         ENDIF 
         DO J = 1,3
-	 D(J,NS) = VS(J) *JT(J,N)
-	ENDDO
+           D(J,NS) = VS(J) *JT(J,N)
+          ENDDO
         IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) THEN
          DO J = 1,3
-	  DR(J,NS) = VRS(J) *JR(J,N)
-	 ENDDO
+            DR(J,NS) = VRS(J) *JR(J,N)
+           ENDDO
         ENDIF 
       ENDDO
 C      
@@ -241,36 +241,36 @@ C-----------------------------------------------
 
 C======================================================================|
         DO J = 1,3
-	 VS(J) = ZERO
-	 VRS(J) = ZERO
-	ENDDO
+           VS(J) = ZERO
+           VRS(J) = ZERO
+          ENDDO
         DO I=1,NML
          M = IML(I)
          DO J = 1,3
           DO K = 1,3
-	   VS(J) = VS(J)+FDSTNB(K,J,I)*D(K,M)
-	   VRS(J) = VRS(J)+FDSTNB(K,J+3,I)*D(K,M)
-	  ENDDO
-	 ENDDO
+             VS(J) = VS(J)+FDSTNB(K,J,I)*D(K,M)
+             VRS(J) = VRS(J)+FDSTNB(K,J+3,I)*D(K,M)
+            ENDDO
+           ENDDO
         ENDDO
         IF (IROT>0) THEN
          DO I=1,NML
           M = IML(I)
           DO J = 1,3
            DO K = 1,3
-	    VS(J) = VS(J)+MDSTNB(K,J,I)*DR(K,M)
-	    VRS(J) = VRS(J)+MDSTNB(K,J+3,I)*DR(K,M)
-	   ENDDO
-	  ENDDO
+              VS(J) = VS(J)+MDSTNB(K,J,I)*DR(K,M)
+              VRS(J) = VRS(J)+MDSTNB(K,J+3,I)*DR(K,M)
+             ENDDO
+            ENDDO
          ENDDO
         ENDIF 
         DO J = 1,3
-	 D(J,NS) = VS(J) *JT(J)
-	ENDDO
+           D(J,NS) = VS(J) *JT(J)
+          ENDDO
         IF ((JR(1)+JR(2)+JR(3))>0) THEN
          DO J = 1,3
-	  DR(J,NS) = VRS(J) *JR(J)
-	 ENDDO
+            DR(J,NS) = VRS(J) *JR(J)
+           ENDDO
         ENDIF 
 C---
       RETURN

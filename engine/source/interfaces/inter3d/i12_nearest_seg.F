@@ -76,7 +76,7 @@ C
       B2 =(UW(1)*N(1)+UW(2)*N(2)+UW(3)*N(3))*FAC
       B1 =(WV(1)*N(1)+WV(2)*N(2)+WV(3)*N(3))*FAC
       B0 = ONE - B1 - B2
-      BMIN=MIN(B0,B1,B2)	  
+      BMIN=MIN(B0,B1,B2)    
 C BMIN > 0 Projection est a l'interieur du triangle
 C BMIN = 0 Projection est sur un cote du triangle
 C BMIN < 0 Projection est a l'exterieur du triangle

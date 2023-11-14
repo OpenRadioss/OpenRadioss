@@ -127,7 +127,7 @@ C-----------------------------------------------
         S3(I) = SIG(I,3) + SVIS(I,3) - QVIS(I) 
         S4(I) = SIG(I,4) + SVIS(I,4)
         S5(I) = SIG(I,5) + SVIS(I,5) 
-        S6(I) = SIG(I,6) + SVIS(I,6)		   
+        S6(I) = SIG(I,6) + SVIS(I,6)       
       ENDDO 
       
       DO I=1,NEL
@@ -141,7 +141,7 @@ C-----------------------------------------------
 !      IF(JALE==1 .OR. JEUL==0)THEN  !lagrangian bricks also
         DO I=1,NEL
           II     = I + NFT
-	  !---8 local node numbers NC1 TO NC8 for solid element I ---!
+            !---8 local node numbers NC1 TO NC8 for solid element I ---!
           NC1(I)=IXS(2,II)
           NC2(I)=IXS(3,II)
           NC3(I)=IXS(4,II)
@@ -150,7 +150,7 @@ C-----------------------------------------------
           NC6(I)=IXS(7,II)
           NC7(I)=IXS(8,II)
           NC8(I)=IXS(9,II)
-	  !
+            !
           !---Coordinates of the 8 nodes
           X1(I)=X(1,NC1(I))
           Y1(I)=X(2,NC1(I))

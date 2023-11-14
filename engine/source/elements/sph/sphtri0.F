@@ -134,12 +134,12 @@ C
 
       IF(ITASK==0) THEN
         DBUC=DBUC*SQRT(ONE +SPATRUE)*ONEP0001
-	BMINMA(1) = BMINMA(1)+DBUC
+          BMINMA(1) = BMINMA(1)+DBUC
         BMINMA(2) = BMINMA(2)+DBUC
         BMINMA(3) = BMINMA(3)+DBUC
-	BMINMA(4) = BMINMA(4)-DBUC
-	BMINMA(5) = BMINMA(5)-DBUC
-	BMINMA(6) = BMINMA(6)-DBUC
+          BMINMA(4) = BMINMA(4)-DBUC
+          BMINMA(5) = BMINMA(5)-DBUC
+          BMINMA(6) = BMINMA(6)-DBUC
 C   Computation of standard deviation of X main
 C   use the formula dev = sum(xi  )-n.m  
 C   mean value m by direction

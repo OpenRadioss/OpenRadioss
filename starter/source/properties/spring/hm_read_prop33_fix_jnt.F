@@ -104,26 +104,26 @@ C--------------------------------------------------
 C-----------------------
       IF (IDSK1<=0.OR.IDSK1<=0) THEN
          CALL ANCMSG(MSGID=386,
-     .  	     MSGTYPE=MSGERROR,
-     .  	     ANMODE=ANINFO_BLIND_1,
-     .  	     I1=ID,
-     .  	     C1=TITR)
+     .         MSGTYPE=MSGERROR,
+     .         ANMODE=ANINFO_BLIND_1,
+     .         I1=ID,
+     .         C1=TITR)
       ENDIF
       IF (KNN==0.) THEN
          CALL ANCMSG(MSGID=387,
-     .  	     MSGTYPE=MSGERROR,
-     .  	     ANMODE=ANINFO_BLIND_1,
-     .  	     I1=ID,
-     .  	     C1=TITR)
+     .         MSGTYPE=MSGERROR,
+     .         ANMODE=ANINFO_BLIND_1,
+     .         I1=ID,
+     .         C1=TITR)
       ENDIF
       IF (CR<ZERO.OR.CR>1.) THEN
          CALL ANCMSG(MSGID=388,
-     .  	     MSGTYPE=MSGERROR,
-     .  	     ANMODE=ANINFO_BLIND_1,
-     .  	     I1=ID,
-     .  	     C1=TITR)
+     .         MSGTYPE=MSGERROR,
+     .         ANMODE=ANINFO_BLIND_1,
+     .         I1=ID,
+     .         C1=TITR)
       ENDIF
-      IF (CR==ZERO) CR = FIVEEM2	      
+      IF (CR==ZERO) CR = FIVEEM2        
 C
       XTYP = ITYP
       XFLG = SKFLAG
@@ -169,8 +169,8 @@ C
       IERROR = SET_U_GEO(24,ZERO)
       IERROR = SET_U_GEO(25,ZERO)
       IERROR = SET_U_GEO(26,ZERO)
-      IERROR = SET_U_GEO(27,FAC_CTX)		
-      IERROR = SET_U_GEO(28,FAC_CRX)		
+      IERROR = SET_U_GEO(27,FAC_CTX)
+      IERROR = SET_U_GEO(28,FAC_CRX)
       IERROR = SET_U_PNU(1,ZEROI,KFUNC)
       IERROR = SET_U_PNU(2,ZEROI,KFUNC)
       IERROR = SET_U_PNU(3,ZEROI,KFUNC)

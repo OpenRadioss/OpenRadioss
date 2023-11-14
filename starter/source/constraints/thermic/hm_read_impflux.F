@@ -188,9 +188,9 @@ C
          ELSE
           CALL ANCMSG(MSGID=1230,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1=TITR,I1=ISU)                              
          ENDIF
-C		 
+C     
         ELSEIF(IGBR > 0) THEN
-         IS=0		
+         IS=0
          DO J=1,NGRBRIC
            IF (IGBR == IGRBRIC(J)%ID) IS=J
          ENDDO

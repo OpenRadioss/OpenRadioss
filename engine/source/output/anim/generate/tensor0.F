@@ -132,7 +132,7 @@ C-----------------------------------------------
                  N  = I + NFT
                  TENS(1,EL2FA(NN1+N)) =  LBUF%DGLO(JJ(1) + I)
                  TENS(2,EL2FA(NN1+N)) =  LBUF%DGLO(JJ(2) + I)
-                 TENS(3,EL2FA(NN1+N)) =  LBUF%DGLO(JJ(3) + I)			   
+                 TENS(3,EL2FA(NN1+N)) =  LBUF%DGLO(JJ(3) + I)         
                  TENS(4,EL2FA(NN1+N)) =  LBUF%DGLO(JJ(4) + I)
                  TENS(5,EL2FA(NN1+N)) =  LBUF%DGLO(JJ(5) + I)
                  TENS(6,EL2FA(NN1+N)) =  LBUF%DGLO(JJ(6) + I)
@@ -140,11 +140,11 @@ C-----------------------------------------------
             ELSE
               DO I=LFT,LLT                                              
                 N  = I + NFT
-                L11 = LBUF%DGLO(JJ(1) + I)	       
-                L21 = LBUF%DGLO(JJ(2) + I)	       
-                L31 = LBUF%DGLO(JJ(3) + I)	       
-                L12 = LBUF%DGLO(JJ(4) + I)	
-                L22 = LBUF%DGLO(JJ(5) + I)	
+                L11 = LBUF%DGLO(JJ(1) + I)         
+                L21 = LBUF%DGLO(JJ(2) + I)         
+                L31 = LBUF%DGLO(JJ(3) + I)         
+                L12 = LBUF%DGLO(JJ(4) + I)
+                L22 = LBUF%DGLO(JJ(5) + I)
                 L32 = LBUF%DGLO(JJ(6) + I)
                 L13 = L21*L32-L31*L22
                 L23 = L31*L12-L11*L32
@@ -199,7 +199,7 @@ C-----------------------------------------------
                N = I + NFT                                    
                TENS(1,EL2FA(NN1+N)) = LBUF%EPE(JJ(1) + I)
                TENS(2,EL2FA(NN1+N)) = LBUF%EPE(JJ(2) + I)
-               TENS(3,EL2FA(NN1+N)) = LBUF%EPE(JJ(3) + I)	  
+               TENS(3,EL2FA(NN1+N)) = LBUF%EPE(JJ(3) + I)    
                TENS(4,EL2FA(NN1+N)) =  ZERO
                TENS(5,EL2FA(NN1+N)) =  ZERO
                TENS(6,EL2FA(NN1+N)) =  ZERO
@@ -209,7 +209,7 @@ C-----------------------------------------------
                N  = I + NFT                                    
                TENS(1,EL2FA(NN1+N)) = LBUF%STRA(JJ(1) + I)
                TENS(2,EL2FA(NN1+N)) = LBUF%STRA(JJ(2) + I)
-               TENS(3,EL2FA(NN1+N)) = LBUF%STRA(JJ(3) + I)			
+               TENS(3,EL2FA(NN1+N)) = LBUF%STRA(JJ(3) + I)
                TENS(4,EL2FA(NN1+N)) = LBUF%STRA(JJ(4) + I)*HALF
                TENS(5,EL2FA(NN1+N)) = LBUF%STRA(JJ(5) + I)*HALF
                TENS(6,EL2FA(NN1+N)) = LBUF%STRA(JJ(6) + I)*HALF   
@@ -220,8 +220,8 @@ C-----------------------------------------------
                 DO I=LFT,LLT
                   N  = I + NFT  
                   TENS(1,EL2FA(NN1+N)) = LBUF%STRA(JJ(1) + I)
-                  TENS(2,EL2FA(NN1+N)) = LBUF%STRA(JJ(2) + I)	       
-                  TENS(3,EL2FA(NN1+N)) = LBUF%STRA(JJ(3) + I)			  
+                  TENS(2,EL2FA(NN1+N)) = LBUF%STRA(JJ(2) + I)         
+                  TENS(3,EL2FA(NN1+N)) = LBUF%STRA(JJ(3) + I)        
                   TENS(4,EL2FA(NN1+N)) = LBUF%STRA(JJ(4) + I)*HALF   
                   TENS(5,EL2FA(NN1+N)) = LBUF%STRA(JJ(5) + I)*HALF   
                   TENS(6,EL2FA(NN1+N)) = LBUF%STRA(JJ(6) + I)*HALF   
@@ -246,7 +246,7 @@ C-----------------------------------------------
                N  = I + NFT                                    
                TENS(1,EL2FA(NN1+N)) = LBUF%PLA(JJ(1) + I + NEL)
                TENS(2,EL2FA(NN1+N)) = LBUF%PLA(JJ(2) + I + NEL)
-               TENS(3,EL2FA(NN1+N)) = LBUF%PLA(JJ(3) + I + NEL)			
+               TENS(3,EL2FA(NN1+N)) = LBUF%PLA(JJ(3) + I + NEL)
                TENS(4,EL2FA(NN1+N)) = LBUF%PLA(JJ(4) + I + NEL)*HALF
                TENS(5,EL2FA(NN1+N)) = LBUF%PLA(JJ(5) + I + NEL)*HALF
                TENS(6,EL2FA(NN1+N)) = LBUF%PLA(JJ(6) + I + NEL)*HALF   

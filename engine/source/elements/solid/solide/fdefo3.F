@@ -110,23 +110,23 @@ C-----------------------------------------------
 C                                                                     
        DO I=1,NEL
          DXX(I)=PX1(I)*VX17(I)+PX2(I)*VX28(I)+
-     .  	PX3(I)*VX35(I)+PX4(I)*VX46(I)
+     .    PX3(I)*VX35(I)+PX4(I)*VX46(I)
          DYY(I)=PY1(I)*VY17(I)+PY2(I)*VY28(I)+
-     .  	PY3(I)*VY35(I)+PY4(I)*VY46(I)
+     .    PY3(I)*VY35(I)+PY4(I)*VY46(I)
          DZZ(I)=PZ1(I)*VZ17(I)+PZ2(I)*VZ28(I)+
-     .  	PZ3(I)*VZ35(I)+PZ4(I)*VZ46(I)
+     .    PZ3(I)*VZ35(I)+PZ4(I)*VZ46(I)
          DXY(I)=PY1(I)*VX17(I)+PY2(I)*VX28(I)+
-     .  	PY3(I)*VX35(I)+PY4(I)*VX46(I)
+     .    PY3(I)*VX35(I)+PY4(I)*VX46(I)
          DXZ(I)=PZ1(I)*VX17(I)+PZ2(I)*VX28(I)+
-     .  	PZ3(I)*VX35(I)+PZ4(I)*VX46(I)
+     .    PZ3(I)*VX35(I)+PZ4(I)*VX46(I)
          DYX(I)=PX1(I)*VY17(I)+PX2(I)*VY28(I)+
-     .  	PX3(I)*VY35(I)+PX4(I)*VY46(I)
+     .    PX3(I)*VY35(I)+PX4(I)*VY46(I)
          DYZ(I)=PZ1(I)*VY17(I)+PZ2(I)*VY28(I)+
-     .  	PZ3(I)*VY35(I)+PZ4(I)*VY46(I)
+     .    PZ3(I)*VY35(I)+PZ4(I)*VY46(I)
          DZX(I)=PX1(I)*VZ17(I)+PX2(I)*VZ28(I)+
-     .  	PX3(I)*VZ35(I)+PX4(I)*VZ46(I)
+     .    PX3(I)*VZ35(I)+PX4(I)*VZ46(I)
          DZY(I)=PY1(I)*VZ17(I)+PY2(I)*VZ28(I)+
-     .  	PY3(I)*VZ35(I)+PY4(I)*VZ46(I)
+     .    PY3(I)*VZ35(I)+PY4(I)*VZ46(I)
        ENDDO
 C
 C

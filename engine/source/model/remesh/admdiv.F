@@ -105,12 +105,12 @@ c
 c         parcours des feuilles
           LEVEL=LEVELMAX
           DO NN=PSH4KIN(LEVEL)+1,PSH4KIN(LEVEL+1)
-            N	 =LSH4KIN(NN)
+            N   =LSH4KIN(NN)
             CALL ADMNORM4(N,IXC,X)
           END DO
 
           DO NN=PSH3KIN(LEVEL)+1,PSH3KIN(LEVEL+1)
-            N	 =LSH3KIN(NN)
+            N   =LSH3KIN(NN)
             CALL ADMNORM3(N,IXTG,X)
           END DO
 c

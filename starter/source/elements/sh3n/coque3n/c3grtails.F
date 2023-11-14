@@ -380,18 +380,18 @@ C
           ENDDO  
            DEALLOCATE(INUM_PTSH3N)
         ENDIF
-       	IF(NADMESH/=0)THEN
-       	  DO  K=1,KSH3TREE
-       	    DO  I=1,NEL
-       	      SH3TREE(K,I+NFT)=ISTOR(K,INDEX(I))
-       	    ENDDO
-       	  ENDDO
-       	  IF(LSH3TRIM/=0)THEN
-       	    DO  I=1,NEL
-       	      SH3TRIM(I+NFT)=ISTOR(KSH3TREE+1,INDEX(I))
-       	    ENDDO
-       	  END IF
-       	END IF
+          IF(NADMESH/=0)THEN
+            DO  K=1,KSH3TREE
+              DO  I=1,NEL
+                SH3TREE(K,I+NFT)=ISTOR(K,INDEX(I))
+              ENDDO
+            ENDDO
+            IF(LSH3TRIM/=0)THEN
+              DO  I=1,NEL
+                SH3TRIM(I+NFT)=ISTOR(KSH3TREE+1,INDEX(I))
+              ENDDO
+            END IF
+          END IF
 C
         IF(NFT>=NELTG3)THEN
           DO I = 1, NEL

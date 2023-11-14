@@ -489,7 +489,7 @@ c
         ELBUF_TAB(NG)%GBUF%MU     => LBUF%MU                                    
       ELSE  ! NPT > 1                                                                
         CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%BFRAC,NEL*GBUF%G_BFRAC)                
-              ELBUF_TAB(NG)%GBUF%BFRAC = ZERO 	  
+              ELBUF_TAB(NG)%GBUF%BFRAC = ZERO     
         CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%OFF,NEL*GBUF%G_OFF) 
               ELBUF_TAB(NG)%GBUF%OFF = ONE               
         CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%EINT,NEL*GBUF%G_EINT)                      
@@ -527,7 +527,7 @@ c
         CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%SEQ,NEL*GBUF%G_SEQ)                       
               ELBUF_TAB(NG)%GBUF%SEQ = ZERO
         CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%ABURN,NEL*GBUF%G_ABURN)                
-              ELBUF_TAB(NG)%GBUF%ABURN = ZERO 	
+              ELBUF_TAB(NG)%GBUF%ABURN = ZERO 
         CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%MU,NEL*GBUF%G_MU)                
               ELBUF_TAB(NG)%GBUF%MU = ZERO 
       ENDIF  ! NPT

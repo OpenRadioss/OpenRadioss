@@ -91,7 +91,7 @@ C-----------------------------------------------
             GMS=FMS
             JLNEW=N
           ENDIF
-        END DO !LL=LL1,LL2	
+        END DO !LL=LL1,LL2
         ILOC(IL)=JLNEW      
       END DO !I=LFT,LLT
 

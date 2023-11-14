@@ -63,7 +63,7 @@ C-----------------------------------------------
           TANI(6,I)= ZERO
           TANI(7,I)= ZERO
           TANI(8,I)= ZERO
-          TANI(9,I)= ZERO	
+          TANI(9,I)= ZERO
         ENDDO
       ENDIF
 !

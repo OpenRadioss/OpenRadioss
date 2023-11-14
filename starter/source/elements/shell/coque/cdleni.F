@@ -438,7 +438,7 @@ C----------------------------------------------------------
         ENDDO
       ELSE
         DO I=LFT,LLT
-	         PX1(I)= ZERO
+                   PX1(I)= ZERO
           PX2(I)= ZERO
           PY1(I)= ZERO
           PY2(I)= ZERO

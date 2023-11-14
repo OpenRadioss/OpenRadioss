@@ -423,21 +423,21 @@ C
            IX2(JLT_NEW)  = IRECT(2,L)
            IX3(JLT_NEW)  = IRECT(3,L)
            IX4(JLT_NEW)  = IRECT(4,L)
-	   NS=IND_INT(NIN)%P(NN)
- 	   NE=SHF_INT(NIN)+JLT_NEW+LREM
+             NS=IND_INT(NIN)%P(NN)
+             NE=SHF_INT(NIN)+JLT_NEW+LREM
            NSVG(JLT_NEW) = NS
            H1(JLT_NEW)  = H_E(1,NE)
            H2(JLT_NEW)  = H_E(2,NE)
            H3(JLT_NEW)  = H_E(3,NE)
            H4(JLT_NEW)  = H_E(4,NE)
-	   STIF(JLT_NEW)=STIFS(NE)
-	   N1(JLT_NEW)=N_E(1,NE)
-	   N2(JLT_NEW)=N_E(2,NE)
-	   N3(JLT_NEW)=N_E(3,NE)
+             STIF(JLT_NEW)=STIFS(NE)
+             N1(JLT_NEW)=N_E(1,NE)
+             N2(JLT_NEW)=N_E(2,NE)
+             N3(JLT_NEW)=N_E(3,NE)
 C----------displacement
-	   DXI(JLT_NEW)=DFI(1,NS)
-	   DYI(JLT_NEW)=DFI(2,NS)
-	   DZI(JLT_NEW)=DFI(3,NS)
+             DXI(JLT_NEW)=DFI(1,NS)
+             DYI(JLT_NEW)=DFI(2,NS)
+             DZI(JLT_NEW)=DFI(3,NS)
 C
          END IF
 C
@@ -490,21 +490,21 @@ C
          NI = NSVG(I)
          IF(NI<0)THEN
            NN = -NI
-	   NS=IND_INT(NIN)%P(NN)
+             NS=IND_INT(NIN)%P(NN)
 C----------displacement
-	   DXI(I)=DFI(1,NS)
-	   DYI(I)=DFI(2,NS)
-	   DZI(I)=DFI(3,NS)
-	 ELSE
+             DXI(I)=DFI(1,NS)
+             DYI(I)=DFI(2,NS)
+             DZI(I)=DFI(3,NS)
+           ELSE
            DXI(I) = D(1,NI)
            DYI(I) = D(2,NI)
            DZI(I) = D(3,NI)
          END IF
 C----------update
          IF(IUPD>0.AND.NI<0)THEN
-	   XI(I) = XI(I) + DXI(I)
-	   YI(I) = YI(2) + DYI(I)
-	   ZI(I) = ZI(3) + DZI(I)
+             XI(I) = XI(I) + DXI(I)
+             YI(I) = YI(2) + DYI(I)
+             ZI(I) = ZI(3) + DZI(I)
          END IF
 C
         END DO

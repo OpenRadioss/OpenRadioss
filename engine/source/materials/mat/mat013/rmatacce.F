@@ -105,9 +105,9 @@ C compute rotational velocity
 C
         ENDDO
         
-	VRBYM(1,M) = VRBYM(1,M) + ARBYM(1,M)*DT12
-	VRBYM(2,M) = VRBYM(2,M) + ARBYM(2,M)*DT12
-	VRBYM(3,M) = VRBYM(3,M) + ARBYM(3,M)*DT12
+          VRBYM(1,M) = VRBYM(1,M) + ARBYM(1,M)*DT12
+          VRBYM(2,M) = VRBYM(2,M) + ARBYM(2,M)*DT12
+          VRBYM(3,M) = VRBYM(3,M) + ARBYM(3,M)*DT12
 C       
         VRRBYM(1,M) = VG(1)
         VRRBYM(2,M) = VG(2)

@@ -230,7 +230,7 @@ C
         ENDIF
         IGRV(3,K)=NCURS
         IGRV(4,K)=IAD
-	       IGRV(5,K)=ID
+                 IGRV(5,K)=ID
         IGRV(6,K)=ISENS
         GRAV(1,K) = FCY
         GRAV(2,K) = ONE/FCX

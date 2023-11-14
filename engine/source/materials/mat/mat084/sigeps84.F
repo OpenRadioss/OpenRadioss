@@ -200,7 +200,7 @@ C
 C     Initialize material parameters
 C     --------------
       YOUNG = UPARAM(1)
-	 NU    = UPARAM(2)
+           NU    = UPARAM(2)
       SHEAR = YOUNG*HALF/(ONE+NU)
       G2    = TWO*SHEAR   
       LAMDA = YOUNG*NU/(ONE+NU)/(ONE-TWO*NU)  

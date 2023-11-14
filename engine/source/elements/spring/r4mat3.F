@@ -236,7 +236,7 @@ C------only traction--------
         IF (X==ZERO) THEN
          X=TF(NPF(IFUNCT)+2)
          Y=TF(NPF(IFUNCT)+3)-Y0
-	ELSE
+          ELSE
          X=TF(NPF(IFUNCT)+2)-X
          Y=TF(NPF(IFUNCT)+3)-Y
         ENDIF
@@ -246,7 +246,7 @@ C------only compression--------
         J1=2*(N0-3)
         X=TF(NPF(IFUNCT)+J1)
         Y=TF(NPF(IFUNCT)+J1+1)-Y0
-C------w/o zero point--------------	
+C------w/o zero point--------------
         IF (N0==(NPOINT+1)) THEN
          J1=2*(N0-4)
          X=TF(NPF(IFUNCT)+J1)-X
@@ -271,7 +271,7 @@ C------traction 1er point
          IF (ABS(X)>ZERO) E2= Y/X
          E_S= HALF*(E1+E2)
 C------w/o point (0,0)-----
-	ELSE
+          ELSE
          Y=TF(NPF(IFUNCT)+J1+1)-Y0
          E_S= ZERO
          IF (ABS(X-XN)>ZERO) E_S= (Y-YN)/(X-XN)

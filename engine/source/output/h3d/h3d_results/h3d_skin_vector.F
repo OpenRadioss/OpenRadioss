@@ -122,7 +122,7 @@ C=======================================================================
       IF (KEYWORD /= 'VECT/PEXT') RETURN
       NSKIN = NUMSKIN - NUMSKINP
       IS_WRITTEN_SKIN(NSKIN+1:NUMSKIN) = 0
-	  SKIN_VECTOR(1:3,NSKIN+1:NUMSKIN)=ZERO
+            SKIN_VECTOR(1:3,NSKIN+1:NUMSKIN)=ZERO
         NP0= 0
         NSKIN0 = NSKIN
 C---- fill SKIN_SCALAR(*) w/ IS_WRITTEN_SKIN(*)=1
@@ -143,7 +143,7 @@ C--------default zero
          NP0 = NP0 + 1
          NSKIN = NSKIN0+ IMAPSKP(NP0)
          IF (NODAL_IPART(N1)>0) THEN
-		   IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
+             IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
          END IF
          ISENS   = 0
          XSENS   = ONE
@@ -174,8 +174,8 @@ C--------default zero
          AA = FCY*F1*XSENS
          SKIN_VECTOR(3,NSKIN)=SKIN_VECTOR(3,NSKIN) + AA
        END DO 
-C----------load_pressure	   
-       SHIFT = 	NLOADP_F+NLOADP_B
+C----------load_pressure     
+       SHIFT =   NLOADP_F+NLOADP_B
        DO NP=1+SHIFT,NLOADP_HYD+SHIFT
          ISIZ_SEG = ILOADP(1,NP)/4 
          IFUNC = ILOADP(3,NP)
@@ -193,7 +193,7 @@ C--------default zero
            IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
            NSKIN = NSKIN0+ IMAPSKP(NP0+N)
            IF (NODAL_IPART(N1)>0) THEN
-		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
+               IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
            END IF
          ENDDO
 C
@@ -235,7 +235,7 @@ C----------------
                       TAGN2 = TAGNCONT(NPL,N2)
                       TAGN3 = TAGNCONT(NPL,N3)
                       TAGN4 = TAGNCONT(NPL,N4)
-					  FP = (TAGN1+TAGN2+TAGN3+TAGN4)/4
+            FP = (TAGN1+TAGN2+TAGN3+TAGN4)/4
                    ENDIF
                 ELSE
                    IF(TAGNCONT(NPL,N1)==1.AND.TAGNCONT(NPL,N2)==1.AND.
@@ -245,17 +245,17 @@ C----------------
                       TAGN1 = TAGNCONT(NPL,N1)
                       TAGN2 = TAGNCONT(NPL,N2)
                       TAGN3 = TAGNCONT(NPL,N3)
-					  FP = (TAGN1+TAGN2+TAGN3)/3
+            FP = (TAGN1+TAGN2+TAGN3)/3
                    ENDIF
                 ENDIF    
                 IF (FP==ZERO) FP = ONE
              ENDIF
-			 IF (SEGCONT==1) AA = ZERO
-		    AA=AA*FP
-		    SKIN_VECTOR(3,NSKIN)=SKIN_VECTOR(3,NSKIN) + AA
+           IF (SEGCONT==1) AA = ZERO
+              AA=AA*FP
+              SKIN_VECTOR(3,NSKIN)=SKIN_VECTOR(3,NSKIN) + AA
          END DO !N=1, NPRES/4
        END DO !NP=1,NLOADP_HYD
-C---------pfluid	   
+C---------pfluid     
        DO NL=1,NLOADP_F
 C--------default zero        
          ISIZ_SEG = ILOADP(1,NL)/4 
@@ -268,7 +268,7 @@ C--------default zero
            IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
            NSKIN = NSKIN0+ IMAPSKP(NP0+N)
            IF (NODAL_IPART(N1)>0) THEN
-		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
+               IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
            END IF
          ENDDO
          FUN_HSP=ILOADP(7,NL)
@@ -422,11 +422,11 @@ C
      .                 (NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )* FCY1*
      .              FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
            ENDIF
-		    AA=-AA+PVEL*NSIGN
-		    SKIN_VECTOR(3,NSKIN)=SKIN_VECTOR(3,NSKIN) + AA
+              AA=-AA+PVEL*NSIGN
+              SKIN_VECTOR(3,NSKIN)=SKIN_VECTOR(3,NSKIN) + AA
          END DO 
        END DO 
-C---------pblast	   
+C---------pblast     
        DO NL=1+NLOADP_F,NLOADP_F+NLOADP_B
 C--------default zero        
          ISIZ_SEG  = ILOADP(1,NL)/4 
@@ -439,7 +439,7 @@ C--------default zero
            IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
            NSKIN = NSKIN0+ IMAPSKP(NP0+N)
            IF (NODAL_IPART(N1)>0) THEN
-		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
+               IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
            END IF
          ENDDO
          IL             = NL-NLOADP_F
@@ -462,7 +462,7 @@ C--------default zero
            SKIN_VECTOR(3,NSKIN)=SKIN_VECTOR(3,NSKIN) + AA
          ENDDO
        END DO 
-C---------/LOAD/PCYL	   
+C---------/LOAD/PCYL     
        DO NL=1,LOADS%NLOAD_CYL
 C--------default zero        
          ISIZ_SEG  = LOADS%LOAD_CYL(NL)%NSEG 

@@ -200,13 +200,13 @@ C
         FM = GET_U_GEO(46+I,IPROP)
         IF (IFM/=0) THEN
           DERIMAX = FM*GET_U_FUNC_DERI(IFM) 
-	      IF (DERIMAX>KFM) THEN
+                IF (DERIMAX>KFM) THEN
             CALL ANCMSG(MSGID=979,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
      .                  R1=KFM,
      .                  R2=DERIMAX)
-          ENDIF 	
+          ENDIF 
         ENDIF
       END DO
 
@@ -225,7 +225,7 @@ C--------------------------------------
         DO I=1,NEL
           MASS(I)   = ZERO
           XINER(I)  = ZERO
-C	  
+C    
           IL = LFT+I-1+NFT
           IF ((IDSK1==0).AND.(IDSK2==0)) THEN
 C-------    local frame computation from spring nodes
@@ -233,11 +233,11 @@ C-------    local frame computation from spring nodes
           ENDIF
           X1 = XL(I,1)
           Y1 = XL(I,2)
-          Z1 = XL(I,3)	  
+          Z1 = XL(I,3)    
           XL(I,1)=EX(1)*X1+EX(2)*Y1+EX(3)*Z1
           XL(I,2)=EX(4)*X1+EX(5)*Y1+EX(6)*Z1
           XL(I,3)=EX(7)*X1+EX(8)*Y1+EX(9)*Z1
-C	  	  	  
+C            
           UVAR(1,I) = XL(I,1)
           UVAR(2,I) = XL(I,2)
           UVAR(3,I) = XL(I,3)
@@ -262,14 +262,14 @@ C
           UVAR(28,I) = EX(7)
           UVAR(29,I) = EX(8)
           UVAR(30,I) = EX(9)
-C	  	  	  
+C            
 C-------  stockage des raideurs
           KR = KNN*MAX(SCF,LEN2)
           UVAR(17,I)= KNN
           UVAR(18,I)= KR
           UVAR(19,I)= KXX
           UVAR(20,I)= KYY
-          UVAR(21,I)= KZZ	  	  
+          UVAR(21,I)= KZZ        
 C 
           IF(JTYP>=2.AND.JTYP<=4) THEN
             UVAR(31,I)= KRX
@@ -284,7 +284,7 @@ C
             UVAR(12,I)= EX(6)
             UVAR(13,I)= EX(7)
             UVAR(14,I)= EX(8)
-            UVAR(15,I)= EX(9)	    	    
+            UVAR(15,I)= EX(9)            
           ELSEIF(JTYP>=6.AND.JTYP<=8) THEN
             UVAR(31,I)= KR
             UVAR(32,I)= KR
@@ -300,7 +300,7 @@ C
           UVAR(36,I)= ZERO
           UVAR(37,I)= ZERO
           UVAR(38,I)= ZERO
-          UVAR(39,I)= ZERO	  
+          UVAR(39,I)= ZERO    
 C
           STIFN(I) = KTT
           STIFR(I) = KRR+KTT*LEN2
@@ -370,10 +370,10 @@ C---- Nb de noeuds min par type de joint
       NNOD_REQ(9) = 4                                   
 C---- Check des vrais noeuds      
       DO J=1,3
-        IF (IXR(1+J,IEL)/=0) THEN	  
-	    NNOD = NNOD + 1
-	    NN(NNOD) = IXR(1+J,IEL)
-	ENDIF   
+        IF (IXR(1+J,IEL)/=0) THEN    
+              NNOD = NNOD + 1
+              NN(NNOD) = IXR(1+J,IEL)
+          ENDIF   
       END DO
 C---- Check des noeuds additionnels
       DO J=1,NUMEL_KJ
@@ -382,10 +382,10 @@ C---- Check des noeuds additionnels
       
       IF (ID_KJ>0) THEN                
       DO J=1,3
-        IF (IXR_KJ(J,ID_KJ)/=0) THEN	  
-	    NNOD = NNOD + 1
-	    NN(NNOD) = IXR_KJ(J,ID_KJ)
-	ENDIF   
+        IF (IXR_KJ(J,ID_KJ)/=0) THEN    
+              NNOD = NNOD + 1
+              NN(NNOD) = IXR_KJ(J,ID_KJ)
+          ENDIF   
       END DO
       ENDIF
       
@@ -413,81 +413,81 @@ C-----------------------------------------------
 C---   on utilise le rep   re global
 C-----------------------------------------------
              EX(1)= ONE
-	     EX(2)= ZERO
-	     EX(3)= ZERO
-	     EX(4)= ZERO
-	     EX(5)= ONE	
-	     EX(6)= ZERO
-	     EX(7)= ZERO
-	     EX(8)= ZERO	
-	     EX(9)= ONE
-	     PP1 = ONE
-	     PP2 = ONE
-	     PP3 = ONE
+               EX(2)= ZERO
+               EX(3)= ZERO
+               EX(4)= ZERO
+               EX(5)= ONE
+               EX(6)= ZERO
+               EX(7)= ZERO
+               EX(8)= ZERO
+               EX(9)= ONE
+               PP1 = ONE
+               PP2 = ONE
+               PP3 = ONE
       ELSEIF ((NNOD==2).AND.(LEN>EM10)) THEN
 C-----------------------------------------------      
 C---  1 axis joint definit avec le 2e noeud
 C-----------------------------------------------
              N1 = NN(1)
-	     N2 = NN(2)        
+               N2 = NN(2)        
 C-- calcul de x
              EX(1)=X(1,N2)-X(1,N1)
              EX(2)=X(2,N2)-X(2,N1)
              EX(3)=X(3,N2)-X(3,N1)
              PP1=SQRT(EX(1)*EX(1)+EX(2)*EX(2)+EX(3)*EX(3))
-	     MAX =ZERO
-	     DO J=1,3
-	       IF (ABS(EX(J))>=MAX) THEN
-	         MAX = ABS(EX(J))
-		 HH = J
-	       ENDIF
-	     END DO
+               MAX =ZERO
+               DO J=1,3
+                 IF (ABS(EX(J))>=MAX) THEN
+                   MAX = ABS(EX(J))
+           HH = J
+                 ENDIF
+               END DO
 C-- calcul de y
              IF (HH<3) THEN
                EX(4)= -EX(2)
                EX(5)= EX(1)
                EX(6)= ZERO
-	     ELSE
+               ELSE
                EX(4)= ZERO
                EX(5)= EX(3)
-               EX(6)= -EX(2)	     
-	     ENDIF  
-             PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))	     
-C-- calcul de z = x ^ y	     
+               EX(6)= -EX(2)       
+               ENDIF  
+             PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))       
+C-- calcul de z = x ^ y       
              EX(7)=EX(2)*EX(6)-EX(3)*EX(5)
              EX(8)=EX(3)*EX(4)-EX(1)*EX(6)
              EX(9)=EX(1)*EX(5)-EX(2)*EX(4)
-             PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))	     			
+             PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))       
       ELSEIF (NNOD==3) THEN
 C-----------------------------------------------      
 C---  1 axis joint definit avec le 3e noeud
 C-----------------------------------------------
              N1 = NN(1)
-	     N2 = NN(3)        
+               N2 = NN(3)        
 C-- calcul de x
              EX(1)=X(1,N2)-X(1,N1)
              EX(2)=X(2,N2)-X(2,N1)
              EX(3)=X(3,N2)-X(3,N1)
              PP1=SQRT(EX(1)*EX(1)+EX(2)*EX(2)+EX(3)*EX(3))
-	     MAX =ZERO
-	     DO J=1,3
-	       IF (ABS(EX(J))>=MAX) THEN
-	         MAX = ABS(EX(J))
-		 HH = J
-	       ENDIF
-	     END DO
+               MAX =ZERO
+               DO J=1,3
+                 IF (ABS(EX(J))>=MAX) THEN
+                   MAX = ABS(EX(J))
+           HH = J
+                 ENDIF
+               END DO
 C-- calcul de y
              IF (HH<3) THEN
                EX(4)= -EX(2)
                EX(5)= EX(1)
                EX(6)= ZERO
-	     ELSE
+               ELSE
                EX(4)= ZERO
                EX(5)= EX(3)
-               EX(6)= -EX(2)	     
-	     ENDIF  
-             PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))	     
-C-- calcul de z = x ^ y	     
+               EX(6)= -EX(2)       
+               ENDIF  
+             PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))       
+C-- calcul de z = x ^ y       
              EX(7)=EX(2)*EX(6)-EX(3)*EX(5)
              EX(8)=EX(3)*EX(4)-EX(1)*EX(6)
              EX(9)=EX(1)*EX(5)-EX(2)*EX(4)
@@ -500,25 +500,25 @@ C-- control longeur de l'axe
      .                      I1=ID,
      .                      C1=TITR,
      .                      I2=IELUSR)
-	     ENDIF	     	     
+               ENDIF              
       ELSEIF ((NNOD>=4).AND.(JTYP/=5)) THEN
 C-----------------------------------------------      
 C---  Cas general : skew quelconque
 C-----------------------------------------------
              N1 = NN(1)
-	     N2 = NN(3)
-	     N3 = NN(4)        
+               N2 = NN(3)
+               N3 = NN(4)        
 C-- calcul de x
              EX(1)=X(1,N2)-X(1,N1)
              EX(2)=X(2,N2)-X(2,N1)
              EX(3)=X(3,N2)-X(3,N1)
-             PP1=SQRT(EX(1)*EX(1)+EX(2)*EX(2)+EX(3)*EX(3))	      
+             PP1=SQRT(EX(1)*EX(1)+EX(2)*EX(2)+EX(3)*EX(3))        
 C-- calcul de y
              EX(4)=X(1,N3)-X(1,N1)
              EX(5)=X(2,N3)-X(2,N1)
-             EX(6)=X(3,N3)-X(3,N1)	     
-             PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))	     
-C-- calcul de z = x ^ y	     
+             EX(6)=X(3,N3)-X(3,N1)       
+             PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))       
+C-- calcul de z = x ^ y       
              EX(7)=EX(2)*EX(6)-EX(3)*EX(5)
              EX(8)=EX(3)*EX(4)-EX(1)*EX(6)
              EX(9)=EX(1)*EX(5)-EX(2)*EX(4)     
@@ -532,11 +532,11 @@ C-- control orthogonalite
      .                      I1=ID,
      .                      C1=TITR,
      .                      I2=IELUSR)
-	     ELSE
+               ELSE
                 EX(4)=EX(8)*EX(3)-EX(9)*EX(2)
                 EX(5)=EX(9)*EX(1)-EX(7)*EX(3)
                 EX(6)=EX(7)*EX(2)-EX(8)*EX(1)
-                PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))			     	
+                PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))           
              ENDIF
 C-- control de N4
              IF ((N4==N1).OR.(N4==N2).OR.(N4==N3)) THEN
@@ -544,7 +544,7 @@ C-- control de N4
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_2,
      .                      I1=IELUSR)
-	     ENDIF	     
+               ENDIF       
 C-- control longeur des axes
              PP4 = SQRT((X(1,N3)-X(1,N2))**2+(X(2,N3)-X(2,N2))**2   
      .                 +(X(3,N3)-X(3,N2))**2)
@@ -555,25 +555,25 @@ C-- control longeur des axes
      .                      I1=ID,
      .                      C1=TITR,
      .                      I2=IELUSR)
-	     ENDIF
+               ENDIF
       ELSEIF ((NNOD>=4).AND.(JTYP==5)) THEN
 C-----------------------------------------------      
 C---  Universal Joint : local skew
 C-----------------------------------------------
              N1 = NN(1)
-	     N2 = NN(3)
-	     N3 = NN(4)        
+               N2 = NN(3)
+               N3 = NN(4)        
 C-- calcul de y
              EX(4)=X(1,N2)-X(1,N1)
              EX(5)=X(2,N2)-X(2,N1)
              EX(6)=X(3,N2)-X(3,N1)
-             PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))	      
+             PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))        
 C-- calcul de z
              EX(7)=X(1,N3)-X(1,N1)
              EX(8)=X(2,N3)-X(2,N1)
-             EX(9)=X(3,N3)-X(3,N1)	     
-             PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))	     
-C-- calcul de x = y ^ z	     
+             EX(9)=X(3,N3)-X(3,N1)       
+             PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))       
+C-- calcul de x = y ^ z       
              EX(1)=EX(5)*EX(9)-EX(6)*EX(8)
              EX(2)=EX(6)*EX(7)-EX(4)*EX(9)
              EX(3)=EX(4)*EX(8)-EX(5)*EX(7)     
@@ -595,12 +595,12 @@ C-- Orthogonalization of the skew
      .                      I1=ID,
      .                      C1=TITR,
      .                      I2=IELUSR)
-C-- Recalcul de z = x ^ y	
-	        EX(7)=EX(2)*EX(6)-EX(3)*EX(5)
+C-- Recalcul de z = x ^ y
+                  EX(7)=EX(2)*EX(6)-EX(3)*EX(5)
                 EX(8)=EX(3)*EX(4)-EX(1)*EX(6)
                 EX(9)=EX(1)*EX(5)-EX(2)*EX(4)     
                 PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))
-             ENDIF	     
+             ENDIF       
 C-- control longeur des axes
              PP4 = SQRT((X(1,N3)-X(1,N2))**2+(X(2,N3)-X(2,N2))**2   
      .                 +(X(3,N3)-X(3,N2))**2)
@@ -611,7 +611,7 @@ C-- control longeur des axes
      .                      I1=ID,
      .                      C1=TITR,
      .                      I2=IELUSR)
-	     ENDIF	     
+               ENDIF       
       ELSE
              CALL ANCMSG(MSGID=937,
      .                   MSGTYPE=MSGERROR,
@@ -699,7 +699,7 @@ C Check skew1 ------
           DO I=1,9
             EX(I)=U(I)
           ENDDO
-	ENDIF
+          ENDIF
       ENDIF
 
 C Check skew2 ------
@@ -712,7 +712,7 @@ C Check skew2 ------
      .                 I1=ID,
      .                 C1=TITR,
      .                 I2=IDSK2)
-	ENDIF
+          ENDIF
         IF ((JTYP>4).AND.(JTYP<9)) THEN
 C--       init angle not allowed for joints with no rotations - idsk2 ignored
           CALL ANCMSG(MSGID=1134,

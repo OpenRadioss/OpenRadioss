@@ -453,7 +453,7 @@ C-----------------------------------------------
            AN=AXI*NX+AYI*NY+AZI*NZ
            AXS=AXI-TWO*AN*NX
            AYS=AYI-TWO*AN*NY
-           AZS=AZI-TWO*AN*NZ	   
+           AZS=AZI-TWO*AN*NZ     
           ENDIF
           WASPSYM(1,JS)=AXS
           WASPSYM(2,JS)=AYS
@@ -480,7 +480,7 @@ C
            AN=AXI*NX+AYI*NY+AZI*NZ
            AXS=AXI-TWO*AN*NX
            AYS=AYI-TWO*AN*NY
-           AZS=AZI-TWO*AN*NZ	   
+           AZS=AZI-TWO*AN*NZ     
           ENDIF
           WASPSYM(1,JS)=AXS
           WASPSYM(2,JS)=AYS

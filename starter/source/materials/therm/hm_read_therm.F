@@ -255,11 +255,11 @@ c       Default Values
 c--------------------------------------------------
         IF (T0 == ZERO)    T0 = PM(23,IMAT) / RHO_CP             
         IF (T1 == ZERO)    T1 = EP20                              
-        IF (EFRAC < ZERO)  EFRAC = ZERO			  
+        IF (EFRAC < ZERO)  EFRAC = ZERO        
         IF (EFRAC > ONE )   EFRAC = ONE
         IF (EFRAC == ZERO) EFRAC = ONE
         PM (80,IMAT) = T1
-        PM (90,IMAT) = EFRAC			  
+        PM (90,IMAT) = EFRAC        
 c--------------------------------------------------
 c       Output
 c--------------------------------------------------

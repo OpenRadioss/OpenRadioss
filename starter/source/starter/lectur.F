@@ -3627,7 +3627,7 @@ C--------------------------------------------
      *              IGRSPRING,IXS       ,IXS10     ,IXC      ,IXTG      ,
      *              KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC  ,KNOD2ELTG ,
      *              NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS   ,SH4TREE   ,
-     *              SH3TREE  ,IXQ	,KNOD2ELQ  ,NOD2ELQ  ,X 	,
+     *              SH3TREE  ,IXQ  ,KNOD2ELQ  ,NOD2ELQ  ,X   ,
      *              IXT      ,IXP       ,IXR       ,IXX      ,KXX       ,
      *              KXSP     ,IXS20     ,IXS16     ,GEO      ,ITABM1    ,
      *              IBOX     ,SKEW      ,IPARTQ    ,IPARTT   ,IPARTP    ,

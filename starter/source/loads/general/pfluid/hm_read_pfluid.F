@@ -154,7 +154,7 @@ C     FACLOADP( 3,K) = Fscaley_pc                                     YDET
 C     FACLOADP( 4,K) = ONE/Ascalex_pc                                 ZDET     
 C     FACLOADP( 5,K) = Fscaley_vel                                    WTNT                                        
 C     FACLOADP( 6,K) = ONE/Ascalex_vel                                P0_REF   
-C     FACLOADP( 7,K) = -		                              ZERO ! TA_SHIFT 
+C     FACLOADP( 7,K) = -                                  ZERO ! TA_SHIFT 
 C     FACLOADP( 8,K) = -                                              Nx_SURF
 C     FACLOADP( 9,K) = -                                              Ny_SURF
 C     FACLOADP(10,K) = -                                              Nz_SURF
@@ -225,18 +225,18 @@ C-----------
             ENDIF                                                                    
           ENDDO                                                                      
         ENDIF                                                                        
-	       ILOADP(1,K)=4*NN                                                             
+                 ILOADP(1,K)=4*NN                                                             
         !-----------  
         !possible Sensor                                                               
-	       TSENS=0                                                                      
+                 TSENS=0                                                                      
         DO J=1,SENSORS%NSENSOR                                                               
-        	  IF(ISENS /= 0) THEN                                                
-	            IF (ISENS == SENSORS%SENSOR_TAB(J)%SENS_ID) TSENS=J
-        	  ENDIF                                                              
-        	ENDDO                                                                
-        	IF((TSENS == 0).AND.(ISENS /= 0))THEN                               
+            IF(ISENS /= 0) THEN                                                
+                      IF (ISENS == SENSORS%SENSOR_TAB(J)%SENS_ID) TSENS=J
+            ENDIF                                                              
+          ENDDO                                                                
+          IF((TSENS == 0).AND.(ISENS /= 0))THEN                               
                   CALL ANCMSG(MSGID=930, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1, I1=ID, C1=TITR, I2=ISENS)                                                
-        	ENDIF                                                                
+          ENDIF                                                                
         !-----------  
         !Input file - Reader                                                               
         CALL HM_GET_INTV('fct_hsp',NCUR_HSP,IS_AVAILABLE,LSUBMODEL)                  
@@ -379,7 +379,7 @@ C-----------
           FACLOADP( 5,K) = FCY2                                                       
           FACLOADP( 6,K) = ONE/FCX2                                                   
           !Multidomains -> numbering common segments (one single time)                
-	  IF (IDDOM > 0) NN = NN-ISURF_R2R(1,IS)                                      
+            IF (IDDOM > 0) NN = NN-ISURF_R2R(1,IS)                                      
         ENDIF    
 
         !OUTPUT STARTER LISTING FILE

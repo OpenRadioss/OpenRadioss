@@ -211,9 +211,9 @@ C--------------------------------------------------
           SIGP(JJ(1)+I)=SIGP(JJ(1)+I)+P(I)+G2(I)*(D1(I,IPT)+DAV)
           SIGP(JJ(2)+I)=SIGP(JJ(2)+I)+P(I)+G2(I)*(D2(I,IPT)+DAV)
           SIGP(JJ(3)+I)=SIGP(JJ(3)+I)+P(I)+G2(I)*(D3(I,IPT)+DAV)
-          SIGP(JJ(4)+I)=SIGP(JJ(4)+I)	  +G1(I)* D4(I,IPT)
-          SIGP(JJ(5)+I)=SIGP(JJ(5)+I)	  +G1(I)* D5(I,IPT)
-          SIGP(JJ(6)+I)=SIGP(JJ(6)+I)	  +G1(I)* D6(I,IPT)
+          SIGP(JJ(4)+I)=SIGP(JJ(4)+I)    +G1(I)* D4(I,IPT)
+          SIGP(JJ(5)+I)=SIGP(JJ(5)+I)    +G1(I)* D5(I,IPT)
+          SIGP(JJ(6)+I)=SIGP(JJ(6)+I)    +G1(I)* D6(I,IPT)
         ENDDO
 C
         DO I=1,NEL
@@ -377,7 +377,7 @@ C--------------------------------------------------
           SIG(I,4)=SIG(I,4)+ONE_OVER_8*SIGP(JJ(4)+I)
           SIG(I,5)=SIG(I,5)+ONE_OVER_8*SIGP(JJ(5)+I)
           SIG(I,6)=SIG(I,6)+ONE_OVER_8*SIGP(JJ(6)+I)
-          EPSEQ(I)=EPSEQ(I)+ONE_OVER_8*EPLA(I)	
+          EPSEQ(I)=EPSEQ(I)+ONE_OVER_8*EPLA(I)
         ENDDO
 C
       ENDDO  ! NPT

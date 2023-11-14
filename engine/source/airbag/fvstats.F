@@ -56,9 +56,9 @@ C-----------------------------------------------
       INTEGER IWIOUT
 C
       IF(NFVBAG == 0) RETURN
-	  
-      CALL FVSTATS1(IOUT,MONVOL,0)	  
-C	  
+            
+      CALL FVSTATS1(IOUT,MONVOL,0)    
+C    
       IF (NSPMD > 1) THEN
         IWIOUT = 0
         IF(ISPMD /= 0 ) CALL SPMD_CHKW(IWIOUT,IOUT)          

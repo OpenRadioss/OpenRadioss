@@ -88,7 +88,7 @@ C-----------------------------------------------
 
             NP(JJ+1) = IXS(NIXS,N)
             IF (ISOLNOD == 10)THEN
-	      N10 = N - NUMELS8
+                N10 = N - NUMELS8
               NP(JJ+2) = ITAB(IXS(2,N))
               NP(JJ+3) = ITAB(IXS(4,N))
               NP(JJ+4) = ITAB(IXS(7,N))
@@ -134,7 +134,7 @@ C-----------------------------------------------
               NP(JJ+20) = 0
               NP(JJ+21) = 0
             ELSEIF (ISOLNOD == 16)THEN
-	      N16 = N - (NUMELS8+NUMELS10+NUMELS20)
+                N16 = N - (NUMELS8+NUMELS10+NUMELS20)
               NP(JJ+2) = ITAB(IXS(2,N))
               NP(JJ+3) = ITAB(IXS(3,N))
               NP(JJ+4) = ITAB(IXS(4,N))
@@ -188,7 +188,7 @@ C-----------------------------------------------
               NP(JJ+20) = 0
               NP(JJ+21) = 0
             ELSEIF (ISOLNOD == 20)THEN
-	      N20 = N - (NUMELS8+NUMELS10)
+                N20 = N - (NUMELS8+NUMELS10)
               NP(JJ+2) = ITAB(IXS(2,N))
               NP(JJ+3) = ITAB(IXS(3,N))
               NP(JJ+4) = ITAB(IXS(4,N))

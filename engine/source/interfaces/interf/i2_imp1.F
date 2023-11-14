@@ -1254,7 +1254,7 @@ C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
-        Z0=FACM*(ZM(1)+ZM(2)+ZM(3)+ZM(4))	
+        Z0=FACM*(ZM(1)+ZM(2)+ZM(3)+ZM(4))
         DO J=1,NIR
          XM(J)=XM(J)-X0
          YM(J)=YM(J)-Y0
@@ -1558,7 +1558,7 @@ C-----------------------------------------------
         FACM = ONE / NIR
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
-        Z0=FACM*(ZM(1)+ZM(2)+ZM(3)+ZM(4))	
+        Z0=FACM*(ZM(1)+ZM(2)+ZM(3)+ZM(4))
         DO J=1,NIR
          XM(J)=XM(J)-X0
          YM(J)=YM(J)-Y0
@@ -1743,7 +1743,7 @@ C
        SP=ONE + SS
        SM=ONE - SS
        IF(IRECT(3,L)==IRECT(4,L)) THEN
-	 NIR = 3
+           NIR = 3
          TP=FOURTH*(ONE + TT)
          TM=FOURTH*(ONE - TT)
          H(1)=TM*SM
@@ -1849,7 +1849,7 @@ C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
-        Z0=FACM*(ZM(1)+ZM(2)+ZM(3)+ZM(4))	
+        Z0=FACM*(ZM(1)+ZM(2)+ZM(3)+ZM(4))
         DO J=1,NIR
          XM(J)=XM(J)-X0
          YM(J)=YM(J)-Y0

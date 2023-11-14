@@ -75,7 +75,7 @@ C
            N3      = IB(3,NL)
            N4      = IB(4,NL)
 C          
-		   IF (N1==0.OR.N2==0.OR.N3==0.OR.N4==-1) CYCLE
+             IF (N1==0.OR.N2==0.OR.N3==0.OR.N4==-1) CYCLE
            NP = NP +1
            IRECT(1:4,NP) = IB(1:4,NL)
            IF (IRECT(4,NP)==0) IRECT(4,NP)=IRECT(3,NP)
@@ -88,7 +88,7 @@ C
          END DO
          NP0 = NP         
 C----add only not existing           
-           SHIFT = 	NLOADP_F+NLOADP_B
+           SHIFT =   NLOADP_F+NLOADP_B
            DO NL=1+SHIFT,NLOADP_HYD+SHIFT
               IAD = ILOADP(4,NL)
               DO N=1, ILOADP(1,NL)/4
@@ -96,7 +96,7 @@ C----add only not existing
                 N2 = LLOADP(IAD+4*(N-1)+1)
                 N3 = LLOADP(IAD+4*(N-1)+2)
                 N4 = LLOADP(IAD+4*(N-1)+3)
-		        IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+                  IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
                 IF (N4==0) N4 = N3
                 NP0 = NP0 +1
                 IF(ITAGN(N1)+ITAGN(N2)+ITAGN(N3)+ITAGN(N4)<4) THEN
@@ -145,7 +145,7 @@ C
                 N2 = LLOADP(IAD+4*(N-1)+1)
                 N3 = LLOADP(IAD+4*(N-1)+2)
                 N4 = LLOADP(IAD+4*(N-1)+3)
-		        IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+                  IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
                 IF (N4==0) N4 = N3
                 NP0 = NP0 +1
                 IF(ITAGN(N1)+ITAGN(N2)+ITAGN(N3)+ITAGN(N4)<4) THEN

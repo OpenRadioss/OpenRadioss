@@ -258,24 +258,24 @@ C-----------
         ENDIF
 C-----------        
         TSENS = 0
-	       IF (ISENS/=0) THEN
+                 IF (ISENS/=0) THEN
           DO J=1,SENSORS%NSENSOR
-	           IF (ISENS == SENSORS%SENSOR_TAB(J)%SENS_ID) TSENS=J
-	         ENDDO
-	         IF (TSENS==0) THEN
+                     IF (ISENS == SENSORS%SENSOR_TAB(J)%SENS_ID) TSENS=J
+                   ENDDO
+                   IF (TSENS==0) THEN
              CALL ANCMSG(MSGID=884, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
      .            I1=ID,
      .            C1=TITR,
      .            I2=ISENS)
-	         ENDIF
-	       ENDIF
+                   ENDIF
+                 ENDIF
 C-----------        
         NN = NODGRNR5(IGU,IGS,LCFIELD(IAD),IGRNOD,ITABM1,MESS)
 C-----------        
         IF (IVAR == 0) IVAR = 1
 C-----------        
-	       ICFIELD(1,K)  = NN
-	       ICFIELD(2,K)  = IDIR
+                 ICFIELD(1,K)  = NN
+                 ICFIELD(2,K)  = IDIR
         ICFIELD(3,K)  = NCURS
         ICFIELD(4,K)  = IAD
         ICFIELD(5,K)  = 1 ! Type /LOAD/CENTRI

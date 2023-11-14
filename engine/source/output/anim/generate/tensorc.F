@@ -402,7 +402,7 @@ C------------------------
                     BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                     NPTT = BUFLY%NPTT
                     IF (IGTYP == 17 .OR. IGTYP == 51) THEN
-		                    ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                              ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                     ELSEIF (IGTYP == 52) THEN
                       ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
                     ENDIF
@@ -556,7 +556,7 @@ C------------------------
               IF (ITENS - 300 > MPT) THEN
                 A1 = ZERO
                 A2 = ZERO            
-              ELSEIF (NPT /= 0) THEN	
+              ELSEIF (NPT /= 0) THEN
                 A1 = ONE
                 A2 = HALF*(((2*IPT-ONE)/MPT)-ONE)
               ELSE
@@ -578,7 +578,7 @@ C------------------------
                     BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                     NPTT = BUFLY%NPTT
                     IF (IGTYP == 17 .OR. IGTYP == 51) THEN
-		                    ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                              ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                     ELSEIF (IGTYP == 52) THEN
                       ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
                     ENDIF
@@ -1338,7 +1338,7 @@ C---------
 c------------------------------------
               DO I=LFT,LLT
                 N = I + NFT
-                THK = GBUF%THK(I)	      
+                THK = GBUF%THK(I)        
                 IF (ITENS /= 92) THEN
                   DO J=1,3
                     R4(J) = A1*EPSDOT(J,N+N0) + A2*EPSDOT(J+3,N+N0)*THK
@@ -1522,19 +1522,19 @@ C------------------------
           CALL SHLROTG(LFT     ,LLT     ,NFT     ,X       ,EVAR    ,
      1                 ITY     ,IXC     ,IXTG    ,IHBE    ,AREA    )
            IF(ITY == 7)THEN
-	    NNOD=3
+              NNOD=3
             DO I=LFT,LLT
                 N = I + NFT
-	        DO J = 1,NNOD
-	          NC(J,I) = IXTG(J+1,N)
+                  DO J = 1,NNOD
+                    NC(J,I) = IXTG(J+1,N)
                 ENDDO
             ENDDO 
            ELSEIF(ITY == 3)THEN
-	    NNOD=4
+              NNOD=4
             DO I=LFT,LLT
                 N = I + NFT
-	        DO J = 1,NNOD
-	          NC(J,I) = IXC(J+1,N)
+                  DO J = 1,NNOD
+                    NC(J,I) = IXC(J+1,N)
                 ENDDO
             ENDDO 
            ENDIF
@@ -1542,15 +1542,15 @@ C-----------------------------------------------
         ELSE
         ENDIF
         DO I=LFT,LLT
-	   DO J = 1,NNOD
-	      N = NC(J,I)
-	      IF (N>0)THEN
-	       DO K = 1,3
-	        TENS1(K,N) = TENS1(K,N)+EVAR(K,I)
-	        TENS2(K,N) = TENS2(K,N)+EVAR(K+3,I)
-	       ENDDO 
-	       ITAGPS(N) = ITAGPS(N)+1
-	      ENDIF
+             DO J = 1,NNOD
+                N = NC(J,I)
+                IF (N>0)THEN
+                 DO K = 1,3
+                  TENS1(K,N) = TENS1(K,N)+EVAR(K,I)
+                  TENS2(K,N) = TENS2(K,N)+EVAR(K+3,I)
+                 ENDDO 
+                 ITAGPS(N) = ITAGPS(N)+1
+                ENDIF
            ENDDO
         ENDDO
  490   CONTINUE
@@ -1683,22 +1683,22 @@ C------------------------
           CALL SHLROTG(LFT     ,LLT     ,NFT     ,X       ,EVAR    ,
      1                 ITY     ,IXC     ,IXTG    ,IHBE    ,AREA    )
            IF(ITY == 7)THEN
-	           NNOD=3
+                     NNOD=3
             DO I=LFT,LLT
                 N = I + NFT
-	               DO J = 1,NNOD
-	                 NC(J,I) = IXTG(J+1,N)
+                         DO J = 1,NNOD
+                           NC(J,I) = IXTG(J+1,N)
                 ENDDO
                 THK0 = GEO(1,IXTG(5,N))
                 OFF = MIN(GBUF%OFF(I),ONE)
                 VOL(I) = THK0*AREA(I)*OFF
             ENDDO 
            ELSEIF(ITY == 3)THEN
-	           NNOD=4
+                     NNOD=4
             DO I=LFT,LLT
                 N = I + NFT
-	               DO J = 1,NNOD
-	                 NC(J,I) = IXC(J+1,N)
+                         DO J = 1,NNOD
+                           NC(J,I) = IXC(J+1,N)
                 ENDDO
                 THK0 = GEO(1,IXC(6,N))
                 OFF = MIN(GBUF%OFF(I),ONE)
@@ -1709,15 +1709,15 @@ C-----------------------------------------------
         ELSE
         ENDIF
         DO I=LFT,LLT
-	   DO J = 1,NNOD
-	      N = NC(J,I)
-	      IF (N>0)THEN
-	       DO K = 1,3
-	        TENS1(K,N) = TENS1(K,N)+EVAR(K,I)*VOL(I)
-	        TENS2(K,N) = TENS2(K,N)+EVAR(K+3,I)*VOL(I)
-	       ENDDO 
-	       VGPS(N) = VGPS(N)+VOL(I)
-	      ENDIF
+             DO J = 1,NNOD
+                N = NC(J,I)
+                IF (N>0)THEN
+                 DO K = 1,3
+                  TENS1(K,N) = TENS1(K,N)+EVAR(K,I)*VOL(I)
+                  TENS2(K,N) = TENS2(K,N)+EVAR(K+3,I)*VOL(I)
+                 ENDDO 
+                 VGPS(N) = VGPS(N)+VOL(I)
+                ENDIF
            ENDDO
         ENDDO
  490   CONTINUE

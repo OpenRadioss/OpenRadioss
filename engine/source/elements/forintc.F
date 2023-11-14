@@ -60,7 +60,7 @@ Chd|====================================================================
      4    TF        ,BUFMAT    ,PARTSAV   ,D         ,MAT_ELEM  ,
      5    DR        ,EANI      ,TANI      ,FANI      ,
      6    FSAV      ,SENSORS   ,SKEW      ,ANIN      ,FAILWAVE  ,
-     7    DT2T      ,THKE      ,BUFGEO    ,IADC      ,IADTG    	,
+     7    DT2T      ,THKE      ,BUFGEO    ,IADC      ,IADTG      ,
      8    IPARG     ,NPC       ,IXC       ,IXTG      ,NELTST    ,
      A    IPARI     ,ITYPTST   ,NSTRF     ,
      B    IPART     ,IPARTC    ,IPARTTG   ,SECFCUM   ,

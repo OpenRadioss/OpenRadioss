@@ -99,10 +99,10 @@ C
            IF(ISMSTR<10) THEN
               CALL ANCMSG(MSGID=259,ANMODE=ANINFO,
      .                    I1=NGL(I))
-	   ELSE
+             ELSE
               CALL ANCMSG(MSGID=261,ANMODE=ANINFO,
      .                    I1=NGL(I))
-	   END IF
+             END IF
 #include "lockoff.inc"
           ENDIF
           IF (INEG_V==0) THEN

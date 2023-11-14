@@ -138,9 +138,9 @@ C
           N=0
           IF(IDS/=0)THEN
             IF (NSUBDOM>0) THEN
-              ! Multidomain : skip if entity does not exist---------------	
+              ! Multidomain : skip if entity does not exist---------------
               IF(R2R_EXIST(ITYP,IDS)==0) CYCLE !next K
-	    ENDIF		  
+              ENDIF      
             DO J=1,NUM
               IF(IDS == IGRSURF(J)%ID)THEN
                  N=J

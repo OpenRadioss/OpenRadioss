@@ -335,16 +335,16 @@ C------------------------
            ELSEIF(ITENS>=301.AND.ITENS<=400)THEN
             IPT = MIN(NPT,ITENS - 300)
             IF(IPT == IPLY ) ION = 1
-            IF(NPT/=0)THEN	
+            IF(NPT/=0)THEN
              ISTRE  = 2
 cc             IPT = ILAYER             
              A1   = ONE
              A2   = HALF*(((2*ILAYER-ONE)/NPT)-ONE)
-	        ELSE
-	         ISTRE  = 2
-	         A1   = ZERO
+                  ELSE
+                   ISTRE  = 2
+                   A1   = ZERO
              A2   = ZERO
-	        ENDIF
+                  ENDIF
            ENDIF
 C
            IF(ISTRE==1)THEN
@@ -364,14 +364,14 @@ c------------
              NUVARV = 0
              IF(ITY==3)THEN
               DO I=1,NEL
-            	MAT(I)=IXC(1,NFT+I)
-            	PID(I)=IXC(6,NFT+I)
-              END DO				    
+          MAT(I)=IXC(1,NFT+I)
+          PID(I)=IXC(6,NFT+I)
+              END DO            
             ELSE
               DO I=1,NEL
-            	MAT(I)=IXTG(1,NFT+I)
-            	PID(I)=IXTG(5,NFT+I)
-              END DO				    
+          MAT(I)=IXTG(1,NFT+I)
+          PID(I)=IXTG(5,NFT+I)
+              END DO            
             END IF   
              IF(MLW == 25) THEN
                IF(IGTYP == 17)THEN

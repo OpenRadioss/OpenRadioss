@@ -246,9 +246,9 @@ C  --------Skyline tabs ADDSUBS-----------
 
         CUR=1
         DO IS=1,NSN
-           NEXT	                = CUR+INTBUF_TAB(NI)%ADDSUBS(IS)
+           NEXT                  = CUR+INTBUF_TAB(NI)%ADDSUBS(IS)
            INTBUF_TAB(NI)%ADDSUBS(IS)= CUR
-            CUR	                = NEXT
+            CUR                  = NEXT
         END DO
         INTBUF_TAB(NI)%ADDSUBS(1+NSN)=CUR
 C
@@ -638,9 +638,9 @@ C
 C
         CUR=1
         DO IM=1,NRTM0
-           NEXT	                =CUR+INTBUF_TAB(NI)%ADDSUBM(IM)
+           NEXT                  =CUR+INTBUF_TAB(NI)%ADDSUBM(IM)
            INTBUF_TAB(NI)%ADDSUBM(IM)=CUR
-           CUR	                =NEXT
+           CUR                  =NEXT
         END DO
         INTBUF_TAB(NI)%ADDSUBM(NRTM0+1:NRTM+1)=CUR
 C

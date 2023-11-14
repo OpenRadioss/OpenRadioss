@@ -247,7 +247,7 @@ C--------------------------------------------------
      .                ANMODE=ANINFO,
      .                I1=ID)
         ELSE
-	  IXC(1,I)=IP
+            IXC(1,I)=IP
           IPART(2,IP)=IPART(2,IP)+1 
         END IF
       ENDDO
@@ -300,7 +300,7 @@ C--------------------------------------------------
      .                ANMODE=ANINFO,
      .                I1=ID)
         ELSE
-	  IXTG(1,I)=IP
+            IXTG(1,I)=IP
           IPART(3,IP)=IPART(3,IP)+1 
         END IF
       ENDDO
@@ -328,12 +328,12 @@ C--------------------------------------------------
 C      CHECKS NODES & CNODES IDs
 C--------------------------------------------------  
       DO I=1,NUMNUSR
-	IF (ITAB(I) > ID_LIMIT_ADMESH
+          IF (ITAB(I) > ID_LIMIT_ADMESH
      .        .AND. (ITAB(I) <  IDFT_NODE_AUTO.OR.
      .               ITAB(I) >= IDLT_NODE_AUTO)) THEN
               CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                    I1=ITAB(I),C1=LINE,C2='/NODE') 
-	ENDIF 			 
+          ENDIF        
       ENDDO
       IF(ALLOCATED(SUBID_NODES)) DEALLOCATE(SUBID_NODES)
 C------
@@ -343,28 +343,28 @@ C     NUMNUSR=NUMNUSR1+NUMCNOD !
       CALL CONSTIT(ITAB,ITABM1,NUMNUSR)
 C------
 C     4-node shells
-C------			  
+C------        
       DO I=1,NUMELC
-	  IF (IXC(NIXC,I)>ID_LIMIT_ADMESH) THEN	     
+            IF (IXC(NIXC,I)>ID_LIMIT_ADMESH) THEN       
             CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .            I1=IXC(NIXC,I),C1=LINE,C2='/SHELL') 
-	  ENDIF
-	  DO J=2,5						   
-	    IXC(J,I)=USR2SYS(IXC(J,I),ITABM1,MESS,ID)  
-	  ENDDO
+            ENDIF
+            DO J=2,5               
+              IXC(J,I)=USR2SYS(IXC(J,I),ITABM1,MESS,ID)  
+            ENDDO
       ENDDO
       IF(ALLOCATED(IPARTC)) DEALLOCATE(IPARTC)
       IF(ALLOCATED(SH_ANGLE)) DEALLOCATE(SH_ANGLE) 
       IF(ALLOCATED(SH_THK)) DEALLOCATE (SH_THK)
-C------			  
+C------        
       DO I=1,NUMELTG
-	  IF (IXTG(NIXTG,I)>ID_LIMIT_ADMESH) THEN	     
+            IF (IXTG(NIXTG,I)>ID_LIMIT_ADMESH) THEN       
             CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .            I1=IXTG(NIXTG,I),C1=LINE,C2='/SH3N')
-	  ENDIF
-	  DO J=2,4						   
-	    IXTG(J,I)=USR2SYS(IXTG(J,I),ITABM1,MESS,ID) 
-	  ENDDO
+            ENDIF
+            DO J=2,4               
+              IXTG(J,I)=USR2SYS(IXTG(J,I),ITABM1,MESS,ID) 
+            ENDDO
       ENDDO
       IF(ALLOCATED(IPARTTG)) DEALLOCATE(IPARTTG)
       IF(ALLOCATED(SH3_ANGLE)) DEALLOCATE (SH3_ANGLE)  
@@ -374,41 +374,41 @@ C     inverse connectivity at level 0
 C------
       KNOD2SH=0
       DO N=1,NUMELC0
-	DO I=1,4
-	  NI=IXC(I+1,N)
-	  KNOD2SH(NI)=KNOD2SH(NI)+1
-	END DO
+          DO I=1,4
+            NI=IXC(I+1,N)
+            KNOD2SH(NI)=KNOD2SH(NI)+1
+          END DO
       END DO
 
       DO N=1,NUMELTG0
-	DO I=1,3
-	  NI=IXTG(I+1,N)
-	  KNOD2SH(NI)=KNOD2SH(NI)+1
-	END DO
+          DO I=1,3
+            NI=IXTG(I+1,N)
+            KNOD2SH(NI)=KNOD2SH(NI)+1
+          END DO
       END DO
 
       DO N=2,NUMNUSR
-	KNOD2SH(N)=KNOD2SH(N)+KNOD2SH(N-1)
+          KNOD2SH(N)=KNOD2SH(N)+KNOD2SH(N-1)
       END DO
 
       DO N=1,NUMELC0
-	DO I=1,4
-	  NI=IXC(I+1,N)-1
-	  KNOD2SH(NI)=KNOD2SH(NI)+1
-	  NOD2SH(KNOD2SH(NI))=N
-	END DO
+          DO I=1,4
+            NI=IXC(I+1,N)-1
+            KNOD2SH(NI)=KNOD2SH(NI)+1
+            NOD2SH(KNOD2SH(NI))=N
+          END DO
       END DO
 
       DO N=1,NUMELTG0
-	DO I=1,3
-	  NI=IXTG(I+1,N)-1
-	  KNOD2SH(NI)=KNOD2SH(NI)+1
-	  NOD2SH(KNOD2SH(NI))=NUMELC0+N
-	END DO
+          DO I=1,3
+            NI=IXTG(I+1,N)-1
+            KNOD2SH(NI)=KNOD2SH(NI)+1
+            NOD2SH(KNOD2SH(NI))=NUMELC0+N
+          END DO
       END DO
 
       DO N=NUMNUSR,1,-1
-	KNOD2SH(N)=KNOD2SH(N-1)
+          KNOD2SH(N)=KNOD2SH(N-1)
       END DO
       KNOD2SH(0)=0
 C------
@@ -416,9 +416,9 @@ C
 C------
       NUMELC=0
       DO N=1,NUMELC0
-	IP  =IXC(1,N)
-	NLEV=IPART(4,IP)
-	IF(NLEV/=0) THEN
+          IP  =IXC(1,N)
+          NLEV=IPART(4,IP)
+          IF(NLEV/=0) THEN
          NUMNOD=NUMNOD+(2**NLEV-1)*(2**NLEV-1)
          DO I=1,4
            IF(TAG(I,N)<NLEV)THEN
@@ -430,87 +430,87 @@ C------
              DO K=KNOD2SH(NI-1)+1,KNOD2SH(NI)
                P=NOD2SH(K)
                IF(P/=N)THEN
-         	DO L=KNOD2SH(NJ-1)+1,KNOD2SH(NJ)
-         	  Q=NOD2SH(L)
-         	  IF(Q==P)THEN
-         	     IF(Q<=NUMELC0)THEN
-         	       DO J=1,4
+          DO L=KNOD2SH(NJ-1)+1,KNOD2SH(NJ)
+            Q=NOD2SH(L)
+            IF(Q==P)THEN
+               IF(Q<=NUMELC0)THEN
+                 DO J=1,4
                          NK=IXC(J+1,Q)
                          NL=IXC(MOD(J,4)+2,Q)
                          IF((NK==NI.AND.NL==NJ).OR.
      .                      (NL==NI.AND.NK==NJ))THEN
-         		   TAG(J,Q)=NLEV
-         		 END IF
-         	       END DO
-         	     ELSE
-         	       QQ=Q-NUMELC0
-         	       DO J=1,3
+             TAG(J,Q)=NLEV
+           END IF
+                 END DO
+               ELSE
+                 QQ=Q-NUMELC0
+                 DO J=1,3
                         NK=IXTG(J+1,QQ)
                         NL=IXTG(MOD(J,3)+2,QQ)
-         		IF((NK==NI.AND.NL==NJ).OR.
-     .  		   (NL==NI.AND.NK==NJ))THEN
-         		   TAG(J,Q)=NLEV
-         		 END IF
-         	       END DO
-         	     END IF
-         	  END IF
-         	END DO
+          IF((NK==NI.AND.NL==NJ).OR.
+     .         (NL==NI.AND.NK==NJ))THEN
+             TAG(J,Q)=NLEV
+           END IF
+                 END DO
+               END IF
+            END IF
+          END DO
                END IF
              END DO
            END IF
          END DO
-	END IF
-	NUMELC =NUMELC +(4**(NLEV+1)-1)/3
+          END IF
+          NUMELC =NUMELC +(4**(NLEV+1)-1)/3
       END DO
 
 C
       NUMELTG=0
       DO N=1,NUMELTG0
-	IP  =IXTG(1,N)
-	NLEV=IPART(4,IP)
-	IF(NLEV/=0) THEN
+          IP  =IXTG(1,N)
+          NLEV=IPART(4,IP)
+          IF(NLEV/=0) THEN
          NUMNOD =NUMNOD+(2**(NLEV-1)+1)*(2**NLEV+1)-3*(2**NLEV)
-	 DO I=1,3
-	   IF(TAG(I,N+NUMELC0)<NLEV)THEN
-	     NUMNOD=NUMNOD+(2**NLEV-1)-(2**(TAG(I,N+NUMELC0))-1)
-	     TAG(I,N+NUMELC0)=NLEV
+           DO I=1,3
+             IF(TAG(I,N+NUMELC0)<NLEV)THEN
+               NUMNOD=NUMNOD+(2**NLEV-1)-(2**(TAG(I,N+NUMELC0))-1)
+               TAG(I,N+NUMELC0)=NLEV
 
-	     NI=IXTG(I+1,N)
-	     NJ=IXTG(MOD(I,3)+2,N)
-	     DO K=KNOD2SH(NI-1)+1,KNOD2SH(NI)
-	       P=NOD2SH(K)
-	       IF(P/=N+NUMELC0)THEN
-	 	 DO L=KNOD2SH(NJ-1)+1,KNOD2SH(NJ)
-	 	   Q=NOD2SH(L)
-	 	   IF(Q==P)THEN
-	 	     IF(Q<=NUMELC0)THEN
-	 	       DO J=1,4
+               NI=IXTG(I+1,N)
+               NJ=IXTG(MOD(I,3)+2,N)
+               DO K=KNOD2SH(NI-1)+1,KNOD2SH(NI)
+                 P=NOD2SH(K)
+                 IF(P/=N+NUMELC0)THEN
+           DO L=KNOD2SH(NJ-1)+1,KNOD2SH(NJ)
+             Q=NOD2SH(L)
+             IF(Q==P)THEN
+               IF(Q<=NUMELC0)THEN
+                 DO J=1,4
                          NK=IXC(J+1,Q)
                          NL=IXC(MOD(J,4)+2,Q)
                          IF((NK==NI.AND.NL==NJ).OR.
      .                      (NL==NI.AND.NK==NJ))THEN
-	 		   TAG(J,Q)=NLEV
-	 		 END IF
-	 	       END DO
-	 	     ELSE
-	 	       QQ=Q-NUMELC0
-	 	       DO J=1,3
+             TAG(J,Q)=NLEV
+           END IF
+                 END DO
+               ELSE
+                 QQ=Q-NUMELC0
+                 DO J=1,3
                         NK=IXTG(J+1,QQ)
                         NL=IXTG(MOD(J,3)+2,QQ)
-         		IF((NK==NI.AND.NL==NJ).OR.
-     .  		   (NL==NI.AND.NK==NJ))THEN
-	 		   TAG(J,Q)=NLEV
-	 		 END IF
-	 	       END DO
-	 	     END IF
-	 	   END IF
-	 	 END DO
-	       END IF
-	     END DO
-	   END IF
-	 END DO
-	END IF
-	NUMELTG =NUMELTG +(4**(NLEV+1)-1)/3
+          IF((NK==NI.AND.NL==NJ).OR.
+     .         (NL==NI.AND.NK==NJ))THEN
+             TAG(J,Q)=NLEV
+           END IF
+                 END DO
+               END IF
+             END IF
+           END DO
+                 END IF
+               END DO
+             END IF
+           END DO
+          END IF
+          NUMELTG =NUMELTG +(4**(NLEV+1)-1)/3
       END DO
 C-------------------------------------
       DEALLOCATE(ITAB,ITABM1,IXC,IXTG,KNOD2SH,NOD2SH,TAG)

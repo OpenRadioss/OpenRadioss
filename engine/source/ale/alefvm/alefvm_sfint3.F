@@ -121,7 +121,7 @@ C-----------------------------------------------
 !      IF(JALE==1 .OR. JEUL==0)THEN  !lagrangian bricks also
         DO I=1,NEL
           II     = I + NFT
-	  !---8 local node numbers NC1 TO NC8 for solid element I ---!
+            !---8 local node numbers NC1 TO NC8 for solid element I ---!
           NC1=IXS(2,II)
           NC2=IXS(3,II)
           NC3=IXS(4,II)
@@ -130,7 +130,7 @@ C-----------------------------------------------
           NC6=IXS(7,II)
           NC7=IXS(8,II)
           NC8=IXS(9,II)
-	  !
+            !
           !---Coordinates of the 8 nodes
           X1(I)=X(1,NC1)
           Y1(I)=X(2,NC1)

@@ -96,7 +96,7 @@ C-----------------------------------------------
           NY=NY+1
 C----------Multidomaines --> on ignore les BCS SPH non tagees-----------
           IF(NSUBDOM>0)THEN
-	    IF(TAGSPHBCS(NY)==0)CALL HM_SZ_R2R(TAGSPHBCS,NY,LSUBMODEL)
+              IF(TAGSPHBCS(NY)==0)CALL HM_SZ_R2R(TAGSPHBCS,NY,LSUBMODEL)
           END IF
 C--------------------------------------------------
 C EXTRACT DATAS OF /SPHBCS/... LINE

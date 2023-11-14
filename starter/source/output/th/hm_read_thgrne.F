@@ -126,7 +126,7 @@ C-----------------------------------------------
       ITHGRP(7)=IAD                                              
       IAD=IAD+NVAR                                               
       IFI=IFI+NVAR
-      RFI=0	                                              	                                              
+      RFI=0                                                                                                
 
       CONT=1
       NNE=0                                                      
@@ -150,7 +150,7 @@ C         Multidomains-> skipping entities which are not on current domain
         ELSE                                                                              
           NNE = NNE+1                                                                     
         ENDIF                                                                             
-      ENDDO	      
+      ENDDO        
 C------------------------
       ITHGRP(4)=NNE                                        
       ITHGRP(5)=IAD                                        
@@ -168,10 +168,10 @@ C------------------------
         SIZ=LEN_TRIM(TITR)
         TITR(SIZ+1:SIZ+1)=' '     
         IF (ITYP == 0) THEN                               
-C         Multidomains-> skipping nodes which are not on current domain 	    	 		  		  
-	  IF(NSUBDOM /= 0) THEN
+C         Multidomains-> skipping nodes which are not on current domain                      
+            IF(NSUBDOM /= 0) THEN
               IF (R2R_SYS(N,ITABM1,MESS) == 0) CYCLE
-	  ENDIF  
+            ENDIF  
           ITHBUF(IAD)=USR2SYS(N,ITABM1,MESS,ID)                          
           ITHBUF(IAD+NNE)=ISK                                         
           DO JC = 1,NMERGED                                           
@@ -179,10 +179,10 @@ C         Multidomains-> skipping nodes which are not on current domain
      .          ITHBUF(IAD)  = IMERGE(NUMCNOD+JC)                     
           ENDDO                                                         
         ELSE                                                                           
-C         Multidomains-> skipping elems which are not on current domain 		    	 		  		  
-	  IF(NSUBDOM /= 0) THEN                                   
-	      IF (R2R_NIN(N,IX,NIX,NUMEL) == 0) CYCLE             
-	  ENDIF  
+C         Multidomains-> skipping elems which are not on current domain                        
+            IF(NSUBDOM /= 0) THEN                                   
+                IF (R2R_NIN(N,IX,NIX,NUMEL) == 0) CYCLE             
+            ENDIF  
           ID_LOCAL = SET_USRTOS(N,MAP,MAPSIZE)
           IF(ID_LOCAL == 0) THEN
             CALL ANCMSG(MSGID=69, MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ITHGRP(1),C1=TITR1,I2=N)

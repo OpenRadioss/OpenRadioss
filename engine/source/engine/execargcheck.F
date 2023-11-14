@@ -575,7 +575,7 @@ C-----------------------------------------------
 
 
 
-	SUBROUTINE PEXECINFO(IDUM)
+          SUBROUTINE PEXECINFO(IDUM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -615,7 +615,7 @@ C-----------------------------------------------
         CALL MY_EXIT(0)
         END
 
-	SUBROUTINE PREXECINFO(IDUM)
+          SUBROUTINE PREXECINFO(IDUM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -656,7 +656,7 @@ C-----------------------------------------------
 
         END
 
-	SUBROUTINE PHELPINFO(ERRN,EMSG,SMSG)
+          SUBROUTINE PHELPINFO(ERRN,EMSG,SMSG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

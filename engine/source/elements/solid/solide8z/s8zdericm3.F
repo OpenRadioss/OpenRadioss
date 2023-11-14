@@ -140,7 +140,7 @@ C-----------------------------------------------
             Y8(I)=ZERO
             Z8(I)=ZERO
          ENDDO
-	ELSE
+          ELSE
 #include "vectorize.inc"
          DO J=1,NNEGA
           I = INDEX(J)
@@ -169,17 +169,17 @@ C-----------------------------------------------
             Y8(I)=ZERO
             Z8(I)=ZERO
          ENDDO
-	END IF
+          END IF
         DO J=1,NNEGA
           I = INDEX(J)
 #include "lockon.inc"
            IF(ISMSTR<10) THEN
               CALL ANCMSG(MSGID=260,ANMODE=ANINFO,
      .                    I1=NGL(I))
-	   ELSE
+             ELSE
               CALL ANCMSG(MSGID=262,ANMODE=ANINFO,
      .                    I1=NGL(I))
-	   END IF
+             END IF
 #include "lockoff.inc"
         ENDDO
 C
@@ -214,7 +214,7 @@ C
             JAC1(I)=X_17_46-X_28_35
             JAC2(I)=Y_17_46-Y_28_35
             JAC3(I)=Z_17_46-Z_28_35
-C	    
+C      
             JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
             JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
             JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
@@ -272,7 +272,7 @@ C 1 1 -1 -1 -1 -1 1 1
          PX2H1(I)=PX2(I)*HX(I,1)+ PY2(I)*HY(I,1)+PZ2(I)*HZ(I,1)
          PX3H1(I)=PX3(I)*HX(I,1)+ PY3(I)*HY(I,1)+PZ3(I)*HZ(I,1)
          PX4H1(I)=PX4(I)*HX(I,1)+ PY4(I)*HY(I,1)+PZ4(I)*HZ(I,1)
-C	 
+C   
          HX(I,2)=(X1(I)-X2(I)-X3(I)+X4(I)-X5(I)+X6(I)+X7(I)-X8(I))
          HY(I,2)=(Y1(I)-Y2(I)-Y3(I)+Y4(I)-Y5(I)+Y6(I)+Y7(I)-Y8(I))
          HZ(I,2)=(Z1(I)-Z2(I)-Z3(I)+Z4(I)-Z5(I)+Z6(I)+Z7(I)-Z8(I))
@@ -280,7 +280,7 @@ C
          PX2H2(I)=PX2(I)*HX(I,2)+ PY2(I)*HY(I,2)+PZ2(I)*HZ(I,2)
          PX3H2(I)=PX3(I)*HX(I,2)+ PY3(I)*HY(I,2)+PZ3(I)*HZ(I,2)
          PX4H2(I)=PX4(I)*HX(I,2)+ PY4(I)*HY(I,2)+PZ4(I)*HZ(I,2)
-C	 
+C   
          HX(I,3)=(X1(I)-X2(I)+X3(I)-X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
          HY(I,3)=(Y1(I)-Y2(I)+Y3(I)-Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
          HZ(I,3)=(Z1(I)-Z2(I)+Z3(I)-Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))
@@ -288,7 +288,7 @@ C
          PX2H3(I)=PX2(I)*HX(I,3)+ PY2(I)*HY(I,3)+PZ2(I)*HZ(I,3)
          PX3H3(I)=PX3(I)*HX(I,3)+ PY3(I)*HY(I,3)+PZ3(I)*HZ(I,3)
          PX4H3(I)=PX4(I)*HX(I,3)+ PY4(I)*HY(I,3)+PZ4(I)*HZ(I,3)
-C	 
+C   
          HX(I,4)=(-X1(I)+X2(I)-X3(I)+X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
          HY(I,4)=(-Y1(I)+Y2(I)-Y3(I)+Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
          HZ(I,4)=(-Z1(I)+Z2(I)-Z3(I)+Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))

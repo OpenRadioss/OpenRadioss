@@ -690,7 +690,7 @@ C=======================================================================
               DO II=1,NUMELS                                                   
                  IF (IABS(BUFTMP(IPARTS(II)))==1)THEN 
                  l1104=.TRUE.                         
-	           CALL ANCMSG(MSGID=1104,                                     
+                     CALL ANCMSG(MSGID=1104,                                     
      .                         MSGTYPE=MSGERROR,                               
      .                         ANMODE=ANINFO_BLIND_1,                          
      .                         PRMOD=MSG_CUMU,                                 
@@ -698,7 +698,7 @@ C=======================================================================
      .                         I2=IXS(11,II))                                  
                  ENDIF                                                         
               ENDDO                                                            
-	      IF(l1104)CALL ANCMSG(MSGID=1104,                                          
+                IF(l1104)CALL ANCMSG(MSGID=1104,                                          
      .                    MSGTYPE=MSGERROR,                                    
      .                    ANMODE=ANINFO_BLIND_1,                               
      .                    PRMOD=MSG_PRINT,
@@ -825,7 +825,7 @@ C-----------------------                                                        
               DO II=1,NUMELS                                                       
                  IF(IABS(BUFTMP(IPARTS(II)))==1)THEN                               
                    l1104=.TRUE.
-	           CALL ANCMSG(MSGID=1104,                                         
+                     CALL ANCMSG(MSGID=1104,                                         
      .                         MSGTYPE=MSGERROR,                                   
      .                         ANMODE=ANINFO_BLIND_1,                              
      .                         PRMOD=MSG_CUMU,                                     
@@ -833,7 +833,7 @@ C-----------------------                                                        
      .                         I2=IXS(11,II))                                      
                  ENDIF                                                             
               ENDDO                                                                
-	      IF(l1104)CALL ANCMSG(MSGID=1104,                                              
+                IF(l1104)CALL ANCMSG(MSGID=1104,                                              
      .                    MSGTYPE=MSGERROR,                                        
      .                    ANMODE=ANINFO_BLIND_1,                                   
      .                    I1=ID,                                                   

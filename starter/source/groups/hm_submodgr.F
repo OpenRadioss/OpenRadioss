@@ -104,13 +104,13 @@ C-------------------------
               IF (LSUBMODEL(CUR_SUBMOD)%NOSUBMOD == -JJ) ISELECT = -1
               CUR_SUBMOD = LSUBMODEL(CUR_SUBMOD)%IFATHER
             ENDDO
-                				  
+            
             IF (ISELECT == 1) THEN
-              ISU=K			  
+              ISU=K        
               TAGS(K) = TAGS(K) + 1
               IOK = 1
             ELSEIF (ISELECT == -1) THEN
-              ISU=K			
+              ISU=K
               TAGS(K) = TAGS(K) - 1
               IOK = 1
             ENDIF

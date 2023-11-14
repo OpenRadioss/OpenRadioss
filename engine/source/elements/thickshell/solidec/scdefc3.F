@@ -150,7 +150,7 @@ C 1 1 -1 -1 -1 -1 1 1
         HGX1(I)=ONE_OVER_8*H1VX-
      .         (PX1H1(I)*VX17(I)+PX2H1(I)*VX28(I)+
      .          PX3H1(I)*VX35(I)+PX4H1(I)*VX46(I))
-        HGY1(I)=ONE_OVER_8*H1VY-	
+        HGY1(I)=ONE_OVER_8*H1VY-
      .         (PX1H1(I)*VY17(I)+PX2H1(I)*VY28(I)+
      .          PX3H1(I)*VY35(I)+PX4H1(I)*VY46(I))
         HGZ1(I)=ONE_OVER_8*H1VZ-

@@ -193,8 +193,8 @@ C--------------------------------------------------
       ENDDO
       IF (UID /= 0.AND.IFLAGUNIT == 0) THEN
            CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .  	       I2=UID,I1=NOINT,C1='INTERFACE',
-     .  	       C2='INTERFACE',
+     .           I2=UID,I1=NOINT,C1='INTERFACE',
+     .           C2='INTERFACE',
      .                 C3=TITR)
       ENDIF
 C--------------------------------------------------
@@ -210,7 +210,7 @@ C--------------------------------------------------
      .     STR_TMP /= 'TYPE1' .AND. STR_TMP /= 'TYPE2' .AND.
      .     STR_TMP /= 'TYPE3' .AND. STR_TMP /= 'TYPE5') THEN
               CALL ANCMSG(MSGID=2097,ANMODE=ANSTOP,MSGTYPE=MSGERROR,
-     .  	       I1=NOINT,C1=TITR,C2=STR_TMP)
+     .           I1=NOINT,C1=TITR,C2=STR_TMP)
         ENDIF
 C--------------------------------------------------
         SELECT CASE(STR_TMP)
@@ -276,7 +276,7 @@ C-------
            IPARI(40,NI)=USR2SYS(IPARI(40,NI),ITABM1,MESS,IPARI(15,NI))
            IF(IMACH == 3)THEN
              DO P = 1, NSPMD
-	       CALL IFRONTPLUS(IPARI(40,NI),P) 
+                 CALL IFRONTPLUS(IPARI(40,NI),P) 
              END DO
            END IF
          ELSEIF(IPARI(39,NI) == 2)THEN
@@ -285,7 +285,7 @@ C-------
            IF(IMACH == 3)THEN
               DO P = 1, NSPMD
                 CALL IFRONTPLUS(IPARI(40,NI),P)
-                CALL IFRONTPLUS(IPARI(41,NI),P)	      
+                CALL IFRONTPLUS(IPARI(41,NI),P)        
               END DO
             END IF
          ENDIF

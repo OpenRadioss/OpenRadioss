@@ -190,7 +190,7 @@ C MISE EN ORDRE DES NOEUDS SELON LEUR COSINUS
 C------------------------------------------------
             XM=ZERO
             YM=ZERO
-            ZM=ZERO	    
+            ZM=ZERO      
             DO 130 K=1,NODEL
               XM=XM+XC(K)/FLOAT(NODEL)
               YM=YM+YC(K)/FLOAT(NODEL)

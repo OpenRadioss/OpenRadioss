@@ -167,10 +167,10 @@ C-------- grp skin_inf first
                EVAR(3,I) = LBUF%SIG(JJ(4) + I)
              ENDDO
              IF(IVISC > 0) THEN
-           	DO I=1,NEL
+          DO I=1,NEL
                   EVAR(1:2,I) = EVAR(1:2,I) + LBUF%VISC(JJ(1:2) + I)
                   EVAR(3,I) = EVAR(3,I) + LBUF%VISC(JJ(4) + I)
-           	ENDDO
+          ENDDO
              ENDIF
            ELSE ! 14,16
              DO IR=1,NPTR
@@ -229,10 +229,10 @@ C-------- grp skin_up
                EVAR(3,I) = LBUF%SIG(JJ(4) + I)
              ENDDO
              IF(IVISC > 0) THEN
-           	DO I=1,NEL
+          DO I=1,NEL
                   EVAR(1:2,I) = EVAR(1:2,I) + LBUF%VISC(JJ(1:2) + I)
                   EVAR(3,I)   = EVAR(3,I) + LBUF%VISC(JJ(4) + I)
-           	ENDDO
+          ENDDO
              ENDIF
            ELSE ! 14,16
              DO IR=1,NPTR
@@ -295,15 +295,15 @@ C-------- grp skin_inf first
               IS = 1
               LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
                IF (MLWI == 12 .OR. MLWI == 14) THEN
-                 DO I=1,NEL						   
+                 DO I=1,NEL               
                   EVAR(1:2,I) = LBUF%EPE(JJ(1:2) + I)       
                   EVAR(3,I)   = HALF*LBUF%EPE(JJ(4) + I)
-                 ENDDO						       
+                 ENDDO                   
                ELSEIF (MLWI /= 49 ) THEN                 
-                 DO I=1,NEL						   
+                 DO I=1,NEL               
                   EVAR(1:2,I) = LBUF%STRA(JJ(1:2) + I)       
                   EVAR(3,I)   = HALF*LBUF%STRA(JJ(4) + I)
-                 ENDDO						       
+                 ENDDO                   
                ELSE
                 IS_WRITTEN_TENSOR(1:NEL) = 0
                END IF               
@@ -313,15 +313,15 @@ C------to see if need rotate EVARL
                DO IS=1,NPTS
                   LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)         
                   IF (MLWI == 12 .OR. MLWI == 14) THEN
-                    DO I=1,NEL						   
+                    DO I=1,NEL               
                      EVAR(1:2,I) = EVAR(1:2,I)+LBUF%EPE(JJ(1:2) + I)       
                      EVAR(3,I)   = EVAR(3,I)+HALF*LBUF%EPE(JJ(4) + I)
-                    ENDDO						       
+                    ENDDO                   
                   ELSEIF (MLWI /= 49 ) THEN                 
-                    DO I=1,NEL						   
+                    DO I=1,NEL               
                      EVAR(1:2,I) = EVAR(1:2,I)+LBUF%STRA(JJ(1:2) + I)       
                      EVAR(3,I)   = EVAR(3,I)+ HALF*LBUF%STRA(JJ(4) + I)
-                    ENDDO						       
+                    ENDDO                   
                   ELSE
                    IS_WRITTEN_TENSOR(1:NEL) = 0
                   END IF               
@@ -369,15 +369,15 @@ C-------- grp skin_sup
               IS = 1
               LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
                IF (MLWI == 12 .OR. MLWI == 14) THEN
-                 DO I=1,NEL						   
+                 DO I=1,NEL               
                   EVAR(1:2,I) = LBUF%EPE(JJ(1:2) + I)       
                   EVAR(3,I)   = HALF*LBUF%EPE(JJ(4) + I)
-                 ENDDO						       
+                 ENDDO                   
                ELSEIF (MLWI /= 49 ) THEN                 
-                 DO I=1,NEL						   
+                 DO I=1,NEL               
                   EVAR(1:2,I) = LBUF%STRA(JJ(1:2) + I)       
                   EVAR(3,I)   = HALF*LBUF%STRA(JJ(4) + I)
-                 ENDDO						       
+                 ENDDO                   
                ELSE
                 IS_WRITTEN_TENSOR(1:NEL) = 0
                END IF               
@@ -387,15 +387,15 @@ C------to see if need rotate EVARL
                DO IS=1,NPTS
                   LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)         
                   IF (MLWI == 12 .OR. MLWI == 14) THEN
-                    DO I=1,NEL						   
+                    DO I=1,NEL               
                      EVAR(1:2,I) = EVAR(1:2,I)+LBUF%EPE(JJ(1:2) + I)       
                      EVAR(3,I)   = EVAR(3,I)+HALF*LBUF%EPE(JJ(4) + I)
-                    ENDDO						       
+                    ENDDO                   
                   ELSEIF (MLWI /= 49 ) THEN                 
-                    DO I=1,NEL						   
+                    DO I=1,NEL               
                      EVAR(1:2,I) = EVAR(1:2,I)+LBUF%STRA(JJ(1:2) + I)       
                      EVAR(3,I)   = EVAR(3,I)+ HALF*LBUF%STRA(JJ(4) + I)
-                    ENDDO						       
+                    ENDDO                   
                   ELSE
                    IS_WRITTEN_TENSOR(1:NEL) = 0
                   END IF               

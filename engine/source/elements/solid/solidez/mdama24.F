@@ -74,14 +74,14 @@ C     REAL
 C-----------------------------------------------
        LBUF => ELBUF_STR%BUFLY(1)%LBUF(1,1,1)
         MX = MAT(1)
-C-------get concrete part (CC,G3) and ANG in damage system	 
+C-------get concrete part (CC,G3) and ANG in damage system   
         CALL MMODUL24C(JLT    ,PM(1,MX),LBUF%DAM,LBUF%CRAK ,
      .                 CC     ,G3      ,LBUF%ANG,DAMANG ,NBDAMA)
        IF (NBDAMA==0) THEN
         DAMA_G(JFT:JLT,1:3)= ZERO
        ELSE
          C3(JFT:JLT,1:3)=PM(24,MX)
-C----- 	
+C----- 
          CALL GETTRANSV(JFT,JLT,DAMANG ,QC,QCG,QGC,QG)
         B(JFT:JLT,1:3,1:3)=ZERO
 C      

@@ -775,7 +775,7 @@ C Friction
                  RBUF(P)%p(L+RSHIFT)    =STIFMSDT_S(I)
                  L = L + RSIZ
                END DO 
-	       RSHIFT = RSHIFT + 1	
+                 RSHIFT = RSHIFT + 1
             ENDIF 
 
 
@@ -788,7 +788,7 @@ C Friction
                  RBUF(P)%p(L+RSHIFT)    =INTAREAN(NOD)
                  L = L + RSIZ
                END DO 
-	       RSHIFT = RSHIFT + 1	
+                 RSHIFT = RSHIFT + 1
             ENDIF 
                
 C -- IDTMINS==2

@@ -31,7 +31,7 @@ Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
 Chd|====================================================================
-	  SUBROUTINE FVWRESTP(PROC)
+            SUBROUTINE FVWRESTP(PROC)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -57,13 +57,13 @@ C--------------------------------------
         CALL WRITE_I_C(NFVBAG,LEN)
 C
       DO I=1,NFVBAG
-	 CALL WRITE_I_C(FVDATA(I)%L_TYPE,1)
-	 CALL WRITE_I_C(FVDATA(I)%ID_DT_OPTION,1)
-	 CALL WRITE_DB(FVDATA(I)%LAMBDA,1)
-	 CALL WRITE_DB(FVDATA(I)%DTOLD,1)
+           CALL WRITE_I_C(FVDATA(I)%L_TYPE,1)
+           CALL WRITE_I_C(FVDATA(I)%ID_DT_OPTION,1)
+           CALL WRITE_DB(FVDATA(I)%LAMBDA,1)
+           CALL WRITE_DB(FVDATA(I)%DTOLD,1)
          
-	 CALL WRITE_DB(FVDATA(I)%CFL_COEF,1)
-	 CALL WRITE_DB(FVDATA(I)%DTMIN,1)
+           CALL WRITE_DB(FVDATA(I)%CFL_COEF,1)
+           CALL WRITE_DB(FVDATA(I)%DTMIN,1)
          TABI(1)=FVSPMD(I)%NN_L
          TABI(2)=FVSPMD(I)%NNA_L
          TABI(3)=FVSPMD(I)%NNSA_L
@@ -73,8 +73,8 @@ C
          TABI(7)=FVSPMD(I)%PMAIN
          TABI(8)=FVSPMD(I)%NNI_L
          LEN=8
-	 CALL WRITE_I_C(TABI,LEN)
-	 
+           CALL WRITE_I_C(TABI,LEN)
+           
          LEN=2*(FVSPMD(I)%NN_L+FVSPMD(I)%NNI_L)
          IF (LEN>0) THEN
               CALL WRITE_I_C(FVSPMD(I)%IBUF_L,LEN)
@@ -90,8 +90,8 @@ C
               CALL WRITE_I_C(FVSPMD(I)%IBUFSA_L,LEN)
               DEALLOCATE(FVSPMD(I)%IBUFSA_L)
          ENDIF
-	 LEN = 1
-	 CALL WRITE_I_C(KMESH(FVID(I)), LEN)
+           LEN = 1
+           CALL WRITE_I_C(KMESH(FVID(I)), LEN)
          IF (PROC/=FVSPMD(I)%PMAIN) CYCLE
 C
          LEN=8*FVSPMD(I)%NSA
@@ -134,7 +134,7 @@ C
          TABI(10)=NNS_ANIM
          TABI(11)=FVDATA(I)%ID
          LEN=11
-	 CALL WRITE_I_C(TABI,LEN)
+           CALL WRITE_I_C(TABI,LEN)
        
 C--------------------------------------
 C     ECRITURE DES ENTIERS
@@ -162,9 +162,9 @@ C
 C--------------------------------------
 C     ECRITURE DES REELS
 C--------------------------------------
-	 LEN = 1
-	 CALL WRITE_DB(FVDATA(I)%PDISP_OLD,LEN)
-	 CALL WRITE_DB(FVDATA(I)%PDISP,LEN)
+           LEN = 1
+           CALL WRITE_DB(FVDATA(I)%PDISP_OLD,LEN)
+           CALL WRITE_DB(FVDATA(I)%PDISP,LEN)
          LEN=2*NNS
            CALL WRITE_DB(FVDATA(I)%RFVNOD,LEN)
            CALL WRITE_DB(FVDATA(I)%MPOLH,NPOLH)

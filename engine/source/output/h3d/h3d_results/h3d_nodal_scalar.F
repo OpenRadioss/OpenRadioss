@@ -221,12 +221,12 @@ C--------------------------------------------------
         IF(KEYWORD == 'DINER') K =(MIN(1,ANIM_N(1)+H3D_DATA%N_SCAL_DT) +
      .                            MIN(1,ANIM_N(2)+H3D_DATA%N_SCAL_DMAS) ) * NUMNOD
         DO I=1,NUMNOD
-         VALUE(I) = ANIN(I+K)			 
+         VALUE(I) = ANIN(I+K)       
          IS_WRITTEN_VALUE(I) = 1
         ENDDO
       ELSEIF(KEYWORD == 'MASS')THEN      ! IFUNC<3.OR.IFUNC==12)THEN
         DO I=1,NUMNOD
-         VALUE(I) = MS(I)			 
+         VALUE(I) = MS(I)       
          IS_WRITTEN_VALUE(I) = 1
         ENDDO
         DO N=1,NRBYKIN
@@ -263,7 +263,7 @@ c
            IFUNC = 0 !not 
            K = 0    
            DO I=1,NUMNOD
-             VALUE(I) = ANIN(I+K)			 
+             VALUE(I) = ANIN(I+K)       
              IS_WRITTEN_VALUE(I) = 1
            ENDDO                  
          ENDIF
@@ -369,7 +369,7 @@ C--------------------------------------------------
 C--------------------------------------------------
         IF(IDTMINS /= 0)THEN
           DO I=1,NUMNOD
-            VALUE(I)=MAX(ZERO,DIAG_SMS(I)/MAX(EM20,MS(I))-ONE)	 
+            VALUE(I)=MAX(ZERO,DIAG_SMS(I)/MAX(EM20,MS(I))-ONE)   
             IS_WRITTEN_VALUE(I) = 1
           ENDDO
         ENDIF
@@ -377,14 +377,14 @@ C--------------------------------------------------
       ELSEIF(KEYWORD == 'DAMA2/NORMAL')THEN
 C--------------------------------------------------
         DO I=1,NUMNOD
-          VALUE(I)=PDAMA2(1,I)	 
+          VALUE(I)=PDAMA2(1,I)   
           IS_WRITTEN_VALUE(I) = 1
         ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'DAMA2/TANGENT')THEN
 C--------------------------------------------------
         DO I=1,NUMNOD
-          VALUE(I)=PDAMA2(2,I)	 
+          VALUE(I)=PDAMA2(2,I)   
           IS_WRITTEN_VALUE(I) = 1
         ENDDO
 C--------------------------------------------------
@@ -399,15 +399,15 @@ C--------------------------------------------------
 C--------------------------------------------------
         IF(IRODDL/=0)THEN
           DO I=1,NUMNOD
-            VALUE(I)=STIFR(I)		 
+            VALUE(I)=STIFR(I)     
             IS_WRITTEN_VALUE(I) = 1
           ENDDO
-        ENDIF	 
+        ENDIF   
 C-------------------------------------------------- 
       ELSEIF(KEYWORD == 'STIF')THEN
 C--------------------------------------------------
         DO I=1,NUMNOD
-          VALUE(I)=STIFN(I)		 
+          VALUE(I)=STIFN(I)     
           IS_WRITTEN_VALUE(I) = 1
         ENDDO
 C-------------------------------------------------- 
@@ -416,12 +416,12 @@ C--------------------------------------------------
         IF(ITYSKID == 21 ) THEN
            DO I=1,NUMNOD
               K=NODGLOB(I)
-              VALUE(I)=PSKIDS(INTERSKID,K)		 
+              VALUE(I)=PSKIDS(INTERSKID,K)     
               IS_WRITTEN_VALUE(I) = 1
            ENDDO
         ELSE
            DO I=1,NUMNOD
-              VALUE(I)=PSKIDS(INTERSKID,I)		 
+              VALUE(I)=PSKIDS(INTERSKID,I)     
               IS_WRITTEN_VALUE(I) = 1
            ENDDO
         ENDIF
@@ -438,13 +438,13 @@ C--------------------------------------------------
         IF(INTERFRIC > 0) THEN
           IF(INTERFRIC <= NINEFRIC ) THEN
              DO I=1,NUMNOD
-                VALUE(I)=CSEFRIC(INTERFRIC,I)		 
+                VALUE(I)=CSEFRIC(INTERFRIC,I)     
                 IS_WRITTEN_VALUE(I) = 1
              ENDDO
           ELSE
              DO I=1,NUMNOD
                 K=NODGLOB(I)
-                VALUE(I)=CSEFRIC_STAMP(INTERFRIC-NINEFRIC,K)		 
+                VALUE(I)=CSEFRIC_STAMP(INTERFRIC-NINEFRIC,K)     
                 IS_WRITTEN_VALUE(I) = 1
              ENDDO
           ENDIF 
@@ -466,13 +466,13 @@ C--------------------------------------------------
            ELSE
               DO I=1,NUMNOD
                  K=NODGLOB(I)
-                 VALUE(I)=CSEFRICG(I) + CSEFRICG_STAMP(K)		 
+                 VALUE(I)=CSEFRICG(I) + CSEFRICG_STAMP(K)     
                  IS_WRITTEN_VALUE(I) = 1
               ENDDO
            ENDIF
         ENDIF
       ENDIF
-c	 
+c   
       CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_NODE,NODAL_SCALAR,NUMNOD,0,0,VALUE,IS_WRITTEN_VALUE)
 
       IF(AIRBAGS_TOTAL_FVM_IN_H3D > 0)THEN

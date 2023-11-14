@@ -277,7 +277,7 @@ Chd|====================================================================
         end subroutine
 
 !! \brief Evaluate the python function
-!! \details the python function is called with one argument and one return value	(double precision version)
+!! \details the python function is called with one argument and one return value  (double precision version)
         subroutine python_call_funct1D_dp(py, funct_id, x, y)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -300,7 +300,7 @@ Chd|====================================================================
         end subroutine
 
 !! \brief Evaluate the python function
-!! \details the python function is called with one argument and one return value	(single precision version)
+!! \details the python function is called with one argument and one return value  (single precision version)
         subroutine python_call_funct1D_sp(py, funct_id, x, y)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------

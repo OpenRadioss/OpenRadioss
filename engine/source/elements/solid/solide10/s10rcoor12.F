@@ -76,12 +76,12 @@ C=======================================================================
             IF(IRESP==1)THEN
               XX(I,N)=XDP(1,NN)
               YY(I,N)=XDP(2,NN)
-              ZZ(I,N)=XDP(3,NN)	      
-	    ELSE
+              ZZ(I,N)=XDP(3,NN)        
+              ELSE
               XX(I,N)=X(1,NN)
               YY(I,N)=X(2,NN)
-              ZZ(I,N)=X(3,NN)			 
-            ENDIF	    
+              ZZ(I,N)=X(3,NN)       
+            ENDIF      
           END DO 
          END DO 
 C-----------

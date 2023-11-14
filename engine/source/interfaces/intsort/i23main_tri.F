@@ -216,7 +216,7 @@ C BARRIER II_STOK et RESULT
      +      ABS(BMINMA(5)-BMINMA(2))>2*EP30.OR.
      +      ABS(BMINMA(4)-BMINMA(1))>2*EP30)THEN
            CALL ANCMSG(MSGID=87,ANMODE=ANINFO,
-     .   	       I1=NOINT,C1='(I23BUCE)')
+     .            I1=NOINT,C1='(I23BUCE)')
            CALL ARRET(2)
          END IF
 C
@@ -259,20 +259,20 @@ C recuperation des noeuds remote NSNR stockes dans XREM
 C
           IFQ  =0
           INTTH=0
-	  CALL SPMD_TRI7VOX(
-     1      INTBUF_TAB%NSV,NSN	  ,X		,V	      ,MS     ,
-     2      BMINMA	 ,WEIGHT  ,INTBUF_TAB%STFNS,NIN	      ,ISENDTO,
-     3      IRCVFROM	 ,IAD_ELEM,FR_ELEM	,NSNR	,IPARI(21,NIN),
-     4      INTBUF_TAB%GAP_S,ITAB    ,KINET	,IFQ	      ,INACTI ,
+            CALL SPMD_TRI7VOX(
+     1      INTBUF_TAB%NSV,NSN    ,X    ,V        ,MS     ,
+     2      BMINMA   ,WEIGHT  ,INTBUF_TAB%STFNS,NIN        ,ISENDTO,
+     3      IRCVFROM   ,IAD_ELEM,FR_ELEM  ,NSNR  ,IPARI(21,NIN),
+     4      INTBUF_TAB%GAP_S,ITAB    ,KINET  ,IFQ        ,INACTI ,
      5      NSNFIOLD,INTTH,IDUM1,RDUM1,RDUM1  ,
-     6      NUM_IMP	,NODNX_SMS,RDUM1,NTY	      ,IDUM1  ,
-     7      RDUM1	,RDUM1,RDUM1,RDUM1	,IDUM1        ,ILEV,IDUM1,
+     6      NUM_IMP  ,NODNX_SMS,RDUM1,NTY        ,IDUM1  ,
+     7      RDUM1  ,RDUM1,RDUM1,RDUM1  ,IDUM1        ,ILEV,IDUM1,
      8      INTFRIC      ,IDUM1  ,ITIED, IVIS2, INTBUF_TAB%IF_ADH)
 c 300      continue
 C
 C renumerotation locale des anciens candidats
 C
-	  CALL SPMD_RNUMCD(
+            CALL SPMD_RNUMCD(
      1     INTBUF_TAB%CAND_N,RENUM  ,INTBUF_TAB%I_STOK(1), NIN, NSN,
      2     NSNFIOLD    ,NSNROLD)
          END IF

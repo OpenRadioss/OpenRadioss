@@ -180,7 +180,7 @@ C-----------------------------------------------
             TSH_ORT = 0  
             IF (IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22) TSHELL = 1 
             IF (IGTYP==21 .OR. IGTYP==22) TSH_ORT = 1               
-	           PID=IXS(10,1 + NFT)
+                     PID=IXS(10,1 + NFT)
 c
             DO I=LFT,LLT
               EVAR(I) = ZERO   
@@ -524,7 +524,7 @@ C
                 IF (ISOLNOD == 16.OR.ISOLNOD == 20.OR.
      .             (ISOLNOD == 8.AND.JHBE == 14).OR.
      .             ((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15))THEN
-		  IF (IUS <= NPTG) THEN      
+            IF (IUS <= NPTG) THEN      
                     DO IL=1,NLAY                                          
                       IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA > 0) THEN
                         DO IS=1,NPTS                                        
@@ -539,7 +539,7 @@ C
                         ENDDO                                               
                       ENDIF                                        
                     ENDDO                                                 
-		  ENDIF                                              
+            ENDIF                                              
                 ENDIF
 c-----------
               ELSEIF (IFUNC == 282 .AND. MLW == 25) THEN
@@ -743,20 +743,20 @@ c-----------
                   EVAR(I) = ZERO                                      
                 ENDDO 
                 IJK = IFUNC - 3890
-				IF (TSHELL>0) THEN
+          IF (TSHELL>0) THEN
                   IIR = IJK/100
                   IL = (MOD(IJK,100)-MOD(IJK,10))/10
                   IS = MOD(IJK,10)
-				  IT =1
-				ELSE
+            IT =1
+          ELSE
                   IIR = IJK/100
                   IS = (MOD(IJK,100)-MOD(IJK,10))/10
                   IT = MOD(IJK,10)
-				  IL =1
-				END IF
+            IL =1
+          END IF
                 IUS = NLAY*IIR*IS*IT
                 DAMMAX = ZERO
-		         IF (IIR <= NPTR.AND.IS <= NPTS.AND.IT <= NPTT) THEN                            
+                   IF (IIR <= NPTR.AND.IS <= NPTS.AND.IT <= NPTT) THEN                            
                      NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL                          
                      DO IR=1,NFAIL                                                                                            
                         DFMAX=>
@@ -772,7 +772,7 @@ c-----------
                 ENDDO 
                 IJK = IFUNC - 3890
                 IF ((ISOLNOD == 6 .OR. ISOLNOD == 8).AND.JHBE == 15) THEN
-				  IL = MOD(ABS(IJK)/10,201)
+            IL = MOD(ABS(IJK)/10,201)
                   IIR = 1
                   IS = 1
                   IT = 1
@@ -783,9 +783,9 @@ c-----------
                   IL=MOD(ABS(IJK)/10,201)
                   IS=MOD(ABS(IJK),10)
                   IT = 1
-				END IF
+          END IF
                 DAMMAX = ZERO
-		         IF (IIR <= NPTR.AND.IS <= NPTS.AND.IT <= NPTT) THEN                            
+                   IF (IIR <= NPTR.AND.IS <= NPTS.AND.IT <= NPTT) THEN                            
                      NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL                          
                      DO IR=1,NFAIL                                                                                            
                         DFMAX=>
@@ -1228,7 +1228,7 @@ c-----------
 !                          IAD0     = (I-1)*3                                                                         
                           EVAR(I) = SQRT ( GBUF%MOM(JJ(1)+I)*GBUF%MOM(JJ(1)+I)+ 
      +                                     GBUF%MOM(JJ(2)+I)*GBUF%MOM(JJ(2)+I)+
-     +                                     GBUF%MOM(JJ(3)+I)*GBUF%MOM(JJ(3)+I) )					       
+     +                                     GBUF%MOM(JJ(3)+I)*GBUF%MOM(JJ(3)+I) )                 
                         ENDDO 
                       ENDIF    
                     ENDIF                                                                                    
@@ -1269,7 +1269,7 @@ c-----------
 !                          IAD0     = (I-1)*3                                                                         
                           EVAR(I) = SQRT ( GBUF%MOM(JJ(1)+I)*GBUF%MOM(JJ(1)+I)+ 
      +                                     GBUF%MOM(JJ(2)+I)*GBUF%MOM(JJ(2)+I)+
-     +                                     GBUF%MOM(JJ(3)+I)*GBUF%MOM(JJ(3)+I) )       / GBUF%RHO(I)						
+     +                                     GBUF%MOM(JJ(3)+I)*GBUF%MOM(JJ(3)+I) )       / GBUF%RHO(I)
                         ENDDO 
                       ENDIF    
                     ENDIF                                                                                    
@@ -1891,12 +1891,12 @@ C-----------
               ELSEIF(IFUNC == 3890) THEN
 
                   NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL  
-                  DO IR=1,NFAIL 											   
+                  DO IR=1,NFAIL                          
                     DFMAX=>
      .                ELBUF_TAB(NG)%BUFLY(1)%FAIL(1,1,1)%FLOC(IR)%DAMMX
                     DO I=LFT,LLT   
-                  	N = I + NFT				 
-                  	FUNC(EL2FA(NN3+N)) = DFMAX(I)    
+          N = I + NFT         
+          FUNC(EL2FA(NN3+N)) = DFMAX(I)    
                     ENDDO
                   ENDDO   
 C-----------        

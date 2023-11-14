@@ -169,30 +169,30 @@ c
           DY = YMAX - YMIN
           DZ = ZMAX - ZMIN
 
-  	  R =  HALF*RWBUF(7,N)
-  	  XL = HALF*MAX(DX,DY,DZ)
-  	  V1 = ZERO
-  	  V2 = ZEP707
-  	  V3 = ZEP707
-  	  VV1 = V2 * ZN - V3 * YN
-  	  VV2 = V3 * XN - V1 * ZN
-  	  VV3 = V1 * YN - V2 * XN
-  	  VV = SQRT(VV1*VV1 + VV2*VV2 + VV3*VV3)
-  	  IF(VV<=HALF)THEN
-  	    V1 = ZERO
-  	    V2 = -ZEP707
-  	    V3 = ZEP707
-  	    VV1 = V2 * ZN - V3 * YN
-  	    VV2 = V3 * XN - V1 * ZN
-  	    VV3 = V1 * YN - V2 * XN
-  	    VV = SQRT(VV1*VV1 + VV2*VV2 + VV3*VV3)
-  	  ENDIF
-  	  VV1 = R*VV1/VV
-  	  VV2 = R*VV2/VV
-  	  VV3 = R*VV3/VV
-  	  V1 = VV2 * ZN - VV3 * YN
-  	  V2 = VV3 * XN - VV1 * ZN
-  	  V3 = VV1 * YN - VV2 * XN
+            R =  HALF*RWBUF(7,N)
+            XL = HALF*MAX(DX,DY,DZ)
+            V1 = ZERO
+            V2 = ZEP707
+            V3 = ZEP707
+            VV1 = V2 * ZN - V3 * YN
+            VV2 = V3 * XN - V1 * ZN
+            VV3 = V1 * YN - V2 * XN
+            VV = SQRT(VV1*VV1 + VV2*VV2 + VV3*VV3)
+            IF(VV<=HALF)THEN
+              V1 = ZERO
+              V2 = -ZEP707
+              V3 = ZEP707
+              VV1 = V2 * ZN - V3 * YN
+              VV2 = V3 * XN - V1 * ZN
+              VV3 = V1 * YN - V2 * XN
+              VV = SQRT(VV1*VV1 + VV2*VV2 + VV3*VV3)
+            ENDIF
+            VV1 = R*VV1/VV
+            VV2 = R*VV2/VV
+            VV3 = R*VV3/VV
+            V1 = VV2 * ZN - VV3 * YN
+            V2 = VV3 * XN - VV1 * ZN
+            V3 = VV1 * YN - VV2 * XN
 
           RWALL_V1(N) = V1
           RWALL_V2(N) = V2

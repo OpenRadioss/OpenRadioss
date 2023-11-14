@@ -168,7 +168,7 @@ C-----------------------------------------------
       UPARAM(12) = ETA
       UPARAM(13) = 273.15
       UPARAM(14) = EPS0
-C	  
+C    
       NUVAR     = 1  ! temperature
       NFUNC     = 0 
       BULK   = E/THREE/(ONE-TWO*NU)

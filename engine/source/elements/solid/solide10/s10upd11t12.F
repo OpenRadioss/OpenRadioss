@@ -77,8 +77,8 @@ C-----------------------------------------------
            NCH = NCH +1
            INDEX(NCH) = I
          END IF
-	END DO
-	IF (NCH==0) RETURN
+          END DO
+          IF (NCH==0) RETURN
         DO J=1,NCH
           I= INDEX(J)
           XXD(J,1:10)=XX(I,1:10)

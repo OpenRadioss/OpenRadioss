@@ -73,11 +73,11 @@ C     REAL
 C=======================================================================
       IF (IREP == 0) THEN 
         DO I=1,NEL                                            
-          GAMA(I,1) = GAMA0(I,1)				  
-          GAMA(I,2) = GAMA0(I,2)				  
+          GAMA(I,1) = GAMA0(I,1)          
+          GAMA(I,2) = GAMA0(I,2)          
           GAMA(I,3) = GAMA0(I,3) 
-          GAMA(I,4) = GAMA0(I,4)				  
-          GAMA(I,5) = GAMA0(I,5)				  
+          GAMA(I,4) = GAMA0(I,4)          
+          GAMA(I,5) = GAMA0(I,5)          
           GAMA(I,6) = GAMA0(I,6)
         ENDDO                                   
       ELSEIF (IREP > 0) THEN 

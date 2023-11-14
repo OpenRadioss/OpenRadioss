@@ -137,9 +137,9 @@ C
             DO I=1,NEL
 C
 C             DELTAX/SSP = 2/Omega, Omega=SQRT[Spectral Radius(M-1 K)]    cf s10deri3.F
-C           		 = SQRT[Volp*Rho/Kp]				  cf mqviscb.F
-C             STIG = sum(Kp)						  cf s10fint3.F
-C           	   => STIG == sum( Volp*rho ) *  Omega**2/4 == M * Omega**2/4
+C                = SQRT[Volp*Rho/Kp]          cf mqviscb.F
+C             STIG = sum(Kp)              cf s10fint3.F
+C                => STIG == sum( Volp*rho ) *  Omega**2/4 == M * Omega**2/4
 C
 C             cf Assembling respectively Kvertex=Mvertex * Omega**2/2 and Kedge=Medge * Omega**2/2
               STIV(I) = TWO/THIRTY2 * STI(I)
@@ -171,41 +171,41 @@ C             cf Assembling respectively Kvertex=Mvertex * Omega**2/2 and Kedge=
                JJ=II-NUMELS8
                NN = NC(I,N+4)
                IF(NN/=0)THEN
-           	 K = IADS10(N,JJ)
-           	 FSKYV(K,1)=FX(I,N+4)
-           	 FSKYV(K,2)=FY(I,N+4)
-           	 FSKYV(K,3)=FZ(I,N+4)
-           	 FSKYV(K,4)=ZERO
-           	 FSKYV(K,5)=ZERO
-           	 FSKYV(K,6)=ZERO    
-           	 FSKYV(K,7)=STIE(I)
+           K = IADS10(N,JJ)
+           FSKYV(K,1)=FX(I,N+4)
+           FSKYV(K,2)=FY(I,N+4)
+           FSKYV(K,3)=FZ(I,N+4)
+           FSKYV(K,4)=ZERO
+           FSKYV(K,5)=ZERO
+           FSKYV(K,6)=ZERO    
+           FSKYV(K,7)=STIE(I)
                ELSE
-           	 K = IADS(L1,II)
-           	 FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
-           	 FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
-           	 FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
-           	 FSKYV(K,4)=ZERO
-           	 FSKYV(K,5)=ZERO
-           	 FSKYV(K,6)=ZERO
-           	 FSKYV(K,7)=FSKYV(K,7)+HALF*STIE(I)
-           	 K = IADS(L2,II)
-           	 FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
-           	 FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
-           	 FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
-           	 FSKYV(K,4)=ZERO
-           	 FSKYV(K,5)=ZERO
-           	 FSKYV(K,6)=ZERO
-           	 FSKYV(K,7)=FSKYV(K,7)+HALF*STIE(I)
+           K = IADS(L1,II)
+           FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
+           FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
+           FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
+           FSKYV(K,4)=ZERO
+           FSKYV(K,5)=ZERO
+           FSKYV(K,6)=ZERO
+           FSKYV(K,7)=FSKYV(K,7)+HALF*STIE(I)
+           K = IADS(L2,II)
+           FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
+           FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
+           FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
+           FSKYV(K,4)=ZERO
+           FSKYV(K,5)=ZERO
+           FSKYV(K,6)=ZERO
+           FSKYV(K,7)=FSKYV(K,7)+HALF*STIE(I)
                ENDIF
               ENDDO
             ENDDO
           ELSEIF(ISROT == 2)THEN
             DO I=1,NEL
 C
-C             DELTAX/SSP = 2/Omega, Omega=SQRT[Spectral Radius(K)/Mmin] with Mmin=M/4	 cf s10deri3.F
-C           		 = SQRT[Volp*Rho/Kp]				       cf mqviscb.F
-C             STIG = sum(Kp)						       cf s10fint3.F
-C           	   => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
+C             DELTAX/SSP = 2/Omega, Omega=SQRT[Spectral Radius(K)/Mmin] with Mmin=M/4   cf s10deri3.F
+C                = SQRT[Volp*Rho/Kp]               cf mqviscb.F
+C             STIG = sum(Kp)                   cf s10fint3.F
+C                => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
               STI(I) = HALF * STI(I)
             END DO
 
@@ -232,28 +232,28 @@ C           	   => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
               L1=IPERM(K1)
               L2=IPERM(K2)
               DO I=1,NEL
-         	N1=NC(I,K1)
-         	N2=NC(I,K2)
-         	II=I+NFT
-         	JJ=II-NUMELS8
-         	NN = NC(I,N+4)
+          N1=NC(I,K1)
+          N2=NC(I,K2)
+          II=I+NFT
+          JJ=II-NUMELS8
+          NN = NC(I,N+4)
                IF(NN == 0)THEN
 
-         	K = IADS(L1,II)
-         	FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
-         	FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
-         	FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
-         	K = IADS(L2,II)
-         	FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
-         	FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
-         	FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
+          K = IADS(L1,II)
+          FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
+          FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
+          FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
+          K = IADS(L2,II)
+          FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+4)
+          FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+4)
+          FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+4)
 
                ELSEIF(ITAGDN(NN)/=0) THEN
-         	  K = IADS10(N,JJ)
-         	  FSKYV(K,1)=FX(I,N+4)
-         	  FSKYV(K,2)=FY(I,N+4)
-         	  FSKYV(K,3)=FZ(I,N+4)
-         	  FSKYV(K,7)=STI(I)*FACIROT
+            K = IADS10(N,JJ)
+            FSKYV(K,1)=FX(I,N+4)
+            FSKYV(K,2)=FY(I,N+4)
+            FSKYV(K,3)=FZ(I,N+4)
+            FSKYV(K,7)=STI(I)*FACIROT
                ENDIF
               ENDDO
             ENDDO
@@ -342,14 +342,14 @@ C           	   => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
             II=I+NFT
             JJ=II-NUMELS8
             NN = NC(I,N+4)
-	    IF(ABS(OFFG(I))>ONE)THEN
-	     XX=SAV(I,K2)-SAV(I,K1)
-	     YY=SAV(I,K2+10)-SAV(I,K1+10)
-	     ZZ=SAV(I,K2+20)-SAV(I,K1+20)
-	     XM = ONE_OVER_8*(YY*FZ(I,N+4) - ZZ*FY(I,N+4))
-	     YM = ONE_OVER_8*(ZZ*FX(I,N+4) - XX*FZ(I,N+4))
-	     ZM = ONE_OVER_8*(XX*FY(I,N+4) - YY*FX(I,N+4))
-	    ELSE
+              IF(ABS(OFFG(I))>ONE)THEN
+               XX=SAV(I,K2)-SAV(I,K1)
+               YY=SAV(I,K2+10)-SAV(I,K1+10)
+               ZZ=SAV(I,K2+20)-SAV(I,K1+20)
+               XM = ONE_OVER_8*(YY*FZ(I,N+4) - ZZ*FY(I,N+4))
+               YM = ONE_OVER_8*(ZZ*FX(I,N+4) - XX*FZ(I,N+4))
+               ZM = ONE_OVER_8*(XX*FY(I,N+4) - YY*FX(I,N+4))
+              ELSE
              XM = ONE_OVER_8*
      .       ((X(2,N2)-X(2,N1))*FZ(I,N+4) - (X(3,N2)-X(3,N1))*FY(I,N+4))
              YM = ONE_OVER_8*
@@ -468,9 +468,9 @@ C           	   => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
             DO I=1,NEL
 C
 C             DELTAX/SSP = 2/Omega, Omega=SQRT[Spectral Radius(M-1 K)]    cf s10deri3.F
-C           		 = SQRT[Volp*Rho/Kp]				  cf mqviscb.F
-C             STIG = sum(Kp)						  cf s10fint3.F
-C           	   => STIG == sum( Volp*rho ) *  Omega**2/4 == M * Omega**2/4
+C                = SQRT[Volp*Rho/Kp]          cf mqviscb.F
+C             STIG = sum(Kp)              cf s10fint3.F
+C                => STIG == sum( Volp*rho ) *  Omega**2/4 == M * Omega**2/4
 C
 C             cf Assembling respectively Kvertex=Mvertex * Omega**2/2 and Kedge=Medge * Omega**2/2
               STIV(I) = TWO/THIRTY2 * STI(I)
@@ -500,22 +500,22 @@ C             cf Assembling respectively Kvertex=Mvertex * Omega**2/2 and Kedge=
               JJ=II-NUMELS8
               NN = NC(I,N+4)
               IF(NN/=0)THEN
-           	K = IADS10(N,JJ)
-           	FSKY(1,K)=FX(I,N+4)
-           	FSKY(2,K)=FY(I,N+4)
-           	FSKY(3,K)=FZ(I,N+4)
-           	FSKY(7,K)=STIE(I)
+          K = IADS10(N,JJ)
+          FSKY(1,K)=FX(I,N+4)
+          FSKY(2,K)=FY(I,N+4)
+          FSKY(3,K)=FZ(I,N+4)
+          FSKY(7,K)=STIE(I)
               ELSE
-           	K = IADS(L1,II)
-           	FSKY(1,K)=FSKY(1,K)+HALF*FX(I,N+4)
-           	FSKY(2,K)=FSKY(2,K)+HALF*FY(I,N+4)
-           	FSKY(3,K)=FSKY(3,K)+HALF*FZ(I,N+4)
-           	FSKY(7,K)=FSKY(7,K) + HALF*STIE(I)
-           	K = IADS(L2,II)
-           	FSKY(1,K)=FSKY(1,K) + HALF*FX(I,N+4)
-           	FSKY(2,K)=FSKY(2,K) + HALF*FY(I,N+4)
-           	FSKY(3,K)=FSKY(3,K) + HALF*FZ(I,N+4)
-           	FSKY(7,K)=FSKY(7,K ) + HALF*STIE(I)
+          K = IADS(L1,II)
+          FSKY(1,K)=FSKY(1,K)+HALF*FX(I,N+4)
+          FSKY(2,K)=FSKY(2,K)+HALF*FY(I,N+4)
+          FSKY(3,K)=FSKY(3,K)+HALF*FZ(I,N+4)
+          FSKY(7,K)=FSKY(7,K) + HALF*STIE(I)
+          K = IADS(L2,II)
+          FSKY(1,K)=FSKY(1,K) + HALF*FX(I,N+4)
+          FSKY(2,K)=FSKY(2,K) + HALF*FY(I,N+4)
+          FSKY(3,K)=FSKY(3,K) + HALF*FZ(I,N+4)
+          FSKY(7,K)=FSKY(7,K ) + HALF*STIE(I)
               ENDIF
              ENDDO
             ENDDO
@@ -524,9 +524,9 @@ C             cf Assembling respectively Kvertex=Mvertex * Omega**2/2 and Kedge=
             DO I=1,NEL
 C
 C             DELTAX/SSP = 2/Omega, Omega=SQRT[Spectral Radius(M-1 K)]    cf s10deri3.F
-C           		 = SQRT[Volp*Rho/Kp]				  cf mqviscb.F
-C             STIG = sum(Kp)						  cf s10fint3.F
-C           	   => STIG == sum( Volp*rho ) *  Omega**2/4 == M * Omega**2/4
+C                = SQRT[Volp*Rho/Kp]          cf mqviscb.F
+C             STIG = sum(Kp)              cf s10fint3.F
+C                => STIG == sum( Volp*rho ) *  Omega**2/4 == M * Omega**2/4
 C
 C             cf Assembling K = 1/2 * M/4 * Omega**2 
               STI(I) = HALF * STI(I)
@@ -649,14 +649,14 @@ C             cf Assembling K = 1/2 * M/4 * Omega**2
              II=I+NFT
              JJ=II-NUMELS8
              NN = NC(I,N+4)
-	     IF(ABS(OFFG(I))>ONE)THEN
-	      XX=SAV(I,K2)-SAV(I,K1)
-	      YY=SAV(I,K2+10)-SAV(I,K1+10)
-	      ZZ=SAV(I,K2+20)-SAV(I,K1+20)
-	      XM = ONE_OVER_8*(YY*FZ(I,N+4) - ZZ*FY(I,N+4))
-	      YM = ONE_OVER_8*(ZZ*FX(I,N+4) - XX*FZ(I,N+4))
-	      ZM = ONE_OVER_8*(XX*FY(I,N+4) - YY*FX(I,N+4))
-	     ELSE
+               IF(ABS(OFFG(I))>ONE)THEN
+                XX=SAV(I,K2)-SAV(I,K1)
+                YY=SAV(I,K2+10)-SAV(I,K1+10)
+                ZZ=SAV(I,K2+20)-SAV(I,K1+20)
+                XM = ONE_OVER_8*(YY*FZ(I,N+4) - ZZ*FY(I,N+4))
+                YM = ONE_OVER_8*(ZZ*FX(I,N+4) - XX*FZ(I,N+4))
+                ZM = ONE_OVER_8*(XX*FY(I,N+4) - YY*FX(I,N+4))
+               ELSE
               XM = ONE_OVER_8*
      .       ((X(2,N2)-X(2,N1))*FZ(I,N+4) - (X(3,N2)-X(3,N1))*FY(I,N+4)) 
               YM = ONE_OVER_8*

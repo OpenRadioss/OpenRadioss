@@ -105,7 +105,7 @@ C
       DATA MESS/'RBE2 RIGID BODY  '/
 C-----------------------------------------------
 C     IRBE2(1,I) : IAD0 for LRBE2
-C     IRBE2(2,I) : TYPE 	usr' id temporaire (print)
+C     IRBE2(2,I) : TYPE   usr' id temporaire (print)
 C     IRBE2(3,I) : INDEPENDENT NODE
 C     IRBE2(4,I) : REF_DOF
 C     IRBE2(5,I) : NUMBER OF DEPENDENT NODES
@@ -132,8 +132,8 @@ C
         NRB=NRB+1
 C----------Multidomaines --> on ignore les rbe3 non tages---------
         IF(NSUBDOM>0)THEN
-	     IF(TAGRB2(NRB)==0)CALL HM_SZ_R2R(TAGRB2,NRB,LSUBMODEL)
-	    END IF
+               IF(TAGRB2(NRB)==0)CALL HM_SZ_R2R(TAGRB2,NRB,LSUBMODEL)
+              END IF
 C-----------------------------------------------------------------
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                       OPTION_ID = NUSER,
@@ -171,7 +171,7 @@ C
         IF (NS10E > 0) THEN
 C----partial dof of RBE2 will be treated correctly
 C         
-	 IF (ITAGND(M)/=0) THEN
+           IF (ITAGND(M)/=0) THEN
           CALL ANCMSG(MSGID=1211,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -179,7 +179,7 @@ C
      .               C1='RBE2',
      .               I2=NUSER,
      .               C2='RBE2')
-	 END IF
+           END IF
         END IF
         ISKS = 0
         IF ((J6(1)+J6(2)+J6(3)+J6(4)+J6(5)+J6(6))==0) THEN
@@ -287,7 +287,7 @@ C--------for decompo
 C  noeud main sur les procs ayant au moins 1 SECONDARY
           DO P = 1, NSPMD
             IF (FMAIN(P)==1) THEN
-	      CALL IFRONTPLUS(M,P)
+                CALL IFRONTPLUS(M,P)
             ENDIF
           ENDDO
         ENDIF
@@ -367,7 +367,7 @@ C========================================================================|
         NRB=NRB+1
 C----------Multidomaines --> on ignore les rbe2 non tages---------
         IF(NSUBDOM>0)THEN
-	  IF(TAGRB2(NRB)==0)CALL HM_SZ_R2R(TAGRB2,NRB,LSUBMODEL)
+            IF(TAGRB2(NRB)==0)CALL HM_SZ_R2R(TAGRB2,NRB,LSUBMODEL)
         END IF
 C-----------------------------------------------------------------
         CALL HM_OPTION_READ_KEY(LSUBMODEL,

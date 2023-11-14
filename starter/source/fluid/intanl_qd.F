@@ -65,7 +65,7 @@ C SIMPLIFICATION SI SOURCE LOIN DU POINT P
 
       IF(D2>TWENTY5*LM2) THEN  
         RVLG=AREA/SQRT(D2)
-        RVLH=AREA*(NRX*(X0-XP)+NRY*(Y0-YP)+NRZ*(Z0-ZP))/(D2**THREE_HALF)	  
+        RVLH=AREA*(NRX*(X0-XP)+NRY*(Y0-YP)+NRZ*(Z0-ZP))/(D2**THREE_HALF)    
       ELSE
 C COORDONNEES LOCALES
         VX1=X2-X1
@@ -124,7 +124,7 @@ C
         S(3)=SQRT(L32)
         S(4)=SQRT(L42)
         R(5)=R(1)
-	  
+            
         DO I=1,4
           CS(I)=DKSI(I)/S(I)
           SN(I)=DETA(I)/S(I)
@@ -156,7 +156,7 @@ C INTEGRALE SIMPLE COUCHE
         ENDDO
         RVLG=-RVLG+ZLS*RVLH
 
-      ENDIF	 
+      ENDIF   
 C
       RETURN
       END

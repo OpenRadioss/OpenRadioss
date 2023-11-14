@@ -80,7 +80,7 @@ C          True initial penetration
 
            ELSEIF(SH_EDGE==1.AND.LEDGE(3,CAND_S(I))/=0) THEN
 
-	   ELSEIF(SH_EDGE==3 .AND.
+             ELSEIF(SH_EDGE==3 .AND.
      .        LEDGE(3,CAND_M(I))/=0 .AND.
      .        LEDGE(3,CAND_S(I))/=0) THEN ! One of the 2 edges is not a free edge 
              

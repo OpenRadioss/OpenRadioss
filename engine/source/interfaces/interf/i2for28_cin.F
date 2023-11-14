@@ -141,7 +141,7 @@ C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
-        Z0=FACM*(ZM(1)+ZM(2)+ZM(3)+ZM(4))	
+        Z0=FACM*(ZM(1)+ZM(2)+ZM(3)+ZM(4))
         DO J=1,NIR
          XM(J)=XM(J)-X0
          YM(J)=YM(J)-Y0
@@ -270,8 +270,8 @@ C
 C----
        IF(I>0)THEN
 C---     output of tied contact forces
- 	 CALL I2FORCES(X      ,V	,A	 ,MS	  ,I	  ,
-     .	               IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
+           CALL I2FORCES(X      ,V  ,A   ,MS    ,I    ,
+     .                 IRECT(1,L),H  ,NIR     ,FSAV    ,FNCONT ,
      .                 FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)                     
        ENDIF                            
 C----
@@ -484,8 +484,8 @@ C
 C----
        IF(I>0)THEN
 C---     output of tied contact forces
- 	 CALL I2FORCES(X      ,V	,A	 ,MS	  ,I	  ,
-     .	               IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
+           CALL I2FORCES(X      ,V  ,A   ,MS    ,I    ,
+     .                 IRECT(1,L),H  ,NIR     ,FSAV    ,FNCONT ,
      .                 FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA) 
        ENDIF                        
 C----

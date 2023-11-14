@@ -80,7 +80,7 @@ C----------------------------------------------------------
 c--    
         DO I=1,NDAMP
 C--       
-          IF (DAMPR(19,I)/=0) CYCLE	   	        	      	      	              
+          IF (DAMPR(19,I)/=0) CYCLE                                               
           D_TSTART = DAMPR(17,I)
           D_TSTOP  = DAMPR(18,I)
           IF ((TT<D_TSTART).OR.(TT>D_TSTOP)) CYCLE
@@ -90,11 +90,11 @@ C--
             ND=IGRNOD(IGR)%ENTITY(J)
             DT2N(ND) = DTMAX
             IF(STIFN(ND)>EM20 .AND. MS(ND)>ZERO)THEN
-              DT2N(ND) = SQRT(TWO*MS(ND)/STIFN(ND))		
-              DT2N(ND) = MIN(DTMAX,DT2N(ND))		
-              DTN = MIN(DT2N(ND),DTN)		
-            END IF      	       	      	      
-          END DO	    
+              DT2N(ND) = SQRT(TWO*MS(ND)/STIFN(ND))
+              DT2N(ND) = MIN(DTMAX,DT2N(ND))
+              DTN = MIN(DT2N(ND),DTN)
+            END IF                               
+          END DO      
           DAMPAI = MAX(DAMPR(3,I),DAMPR(5,I),DAMPR(7,I))
           DAMPAI = MAX(DAMPAI,DAMPR(9,I),DAMPR(11,I),DAMPR(13,I))
           DAMPBI = MAX(DAMPR(4,I),DAMPR(6,I),DAMPR(8,I))
@@ -107,7 +107,7 @@ C--
             DTN2= SQRT(DTMI2*DTMI2+TWO*BBI*DTMI2)
             BBI = DAMPBI/DTN2+HALF*DAMPAI*DTN2
             FACI = SQRT(BBI*BBI+ONE) -BBI
-          END IF      	       	      	      
+          END IF                               
           DO J=1,IGRNOD(IGR)%NENTITY
             ND=IGRNOD(IGR)%ENTITY(J)
             BB=DAMPBI/DT2N(ND)+HALF*DAMPAI*DT2N(ND)
@@ -117,25 +117,25 @@ C--
             END IF
             COEFF =ONE/FAC**2
             IF(STIFN(ND)>ZERO .AND. MS(ND)>ZERO)THEN
-              STIFN(ND) =STIFN(ND)*COEFF		
-            END IF      	       	      	      
+              STIFN(ND) =STIFN(ND)*COEFF
+            END IF                               
           END DO
           IF (IRODDL/=0) THEN
             DO J=1,IGRNOD(IGR)%NENTITY
               ND=IGRNOD(IGR)%ENTITY(J)
               IF(STIFR(ND)>EM20 .AND. IN(ND)>ZERO)THEN
-                DT2N(ND) = SQRT(TWO*IN(ND)/STIFR(ND))		
-                DT2N(ND) = MIN(DTMAX,DT2N(ND))		
+                DT2N(ND) = SQRT(TWO*IN(ND)/STIFR(ND))
+                DT2N(ND) = MIN(DTMAX,DT2N(ND))
                 BB=DAMPBI/DT2N(ND)+HALF*DAMPAI*DT2N(ND)
                 FAC = SQRT(BB*BB+ONE) -BB
                 IF (FAC*DT2N(ND) < DTMI2) THEN
                   FAC = MAX(FAC,FACI)
                 END IF
                 COEFF =ONE/FAC**2
-                STIFR(ND) =STIFR(ND)*COEFF		
-              END IF      	       	      	      
-            END DO	    
-          END IF      	       	      	      
+                STIFR(ND) =STIFR(ND)*COEFF
+              END IF                               
+            END DO      
+          END IF                               
         END DO !I=1,NDAMP
 C----------global damping
         IF(IDAMP>0.OR.ISTAT==3)THEN
@@ -153,37 +153,37 @@ C------- still factor HALF* in another program
             DTN2= SQRT(DTMI2*DTMI2+TWO*BBI*DTMI2)
             BBI = BETA1/DTN2+ALPHA05*DTN2
             FACI = SQRT(BBI*BBI+ONE) -BBI
-          END IF      	       	      	      
+          END IF                               
           DO ND=1,NUMNOD
             COEFF =ONE
             IF(STIFN(ND)>ZERO .AND. MS(ND)>ZERO)THEN
-              DT2N(ND) = SQRT(TWO*MS(ND)/STIFN(ND))		
-              DT2N(ND) = MIN(DTMAX,DT2N(ND))		
+              DT2N(ND) = SQRT(TWO*MS(ND)/STIFN(ND))
+              DT2N(ND) = MIN(DTMAX,DT2N(ND))
               BB  = BETA1/DT2N(ND) + ALPHA05*DT2N(ND)
               FAC = SQRT(BB*BB+ONE) -BB
               IF (FAC*DT2N(ND) < DTMI2) THEN
                 FAC = MAX(FAC,FACI)
               END IF
               COEFF =ONE/FAC**2
-              STIFN(ND) =STIFN(ND)*COEFF		
-            END IF      	       	      	      
-          END DO	    
+              STIFN(ND) =STIFN(ND)*COEFF
+            END IF                               
+          END DO      
           IF (IRODDL/=0) THEN
             DO ND=1,NUMNOD
               COEFF =ONE
               IF(STIFR(ND)>ZERO .AND. IN(ND)>ZERO)THEN
-                DT2N(ND) = SQRT(TWO*IN(ND)/STIFR(ND))		
-                DT2N(ND) = MIN(DTMAX,DT2N(ND))		
+                DT2N(ND) = SQRT(TWO*IN(ND)/STIFR(ND))
+                DT2N(ND) = MIN(DTMAX,DT2N(ND))
                 BB  = BETA1/DT2N(ND) + ALPHA05*DT2N(ND)
                 FAC = SQRT(BB*BB+ONE) -BB
                 IF (FAC*DT2N(ND) < DTMI2) THEN
                   FAC = MAX(FAC,FACI)
                 END IF
                 COEFF =ONE/FAC**2
-                STIFR(ND) =STIFR(ND)*COEFF		
-              END IF      	       	      	      
-            END DO	    
-          END IF      	       	      	      
+                STIFR(ND) =STIFR(ND)*COEFF
+              END IF                               
+            END DO      
+          END IF                               
         END IF 
 C        
       RETURN 

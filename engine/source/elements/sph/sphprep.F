@@ -289,7 +289,7 @@ C
         IF(ITASK==0)THEN
           IF(NSPMD>1)THEN
             CALL SPMD_MIN_MAX(DXMIN,DYMIN,DZMIN,DXMAX,DYMAX,DZMAX)
-          END IF	 
+          END IF   
 C
           DX=DXMAX-DXMIN
           DY=DYMAX-DYMIN
@@ -475,8 +475,8 @@ C
         MYSPATRUE=SPATRUE
 C       re-tri voisins (voisins vrais, voisins dans la zone de securite).
         CALL SPCLASV(X     ,SPBUF ,KXSP    ,IXSP   ,NOD2SP   ,
-     1  	     ISPSYM,XSPSYM%BUF,WSP2SORT ,ITASK  ,MYSPATRUE,
-     2  	     IREDUCE,WREDUCE,LGAUGE ,GAUGE ,ISORTSP)
+     1         ISPSYM,XSPSYM%BUF,WSP2SORT ,ITASK  ,MYSPATRUE,
+     2         IREDUCE,WREDUCE,LGAUGE ,GAUGE ,ISORTSP)
 C
 C      /---------------/
         CALL MY_BARRIER
@@ -580,7 +580,7 @@ C       re-tri voisins (voisins vrais, voisins dans la zone de securite).
         MYSPATRUE=ZERO
         CALL SPCLASV(X     ,SPBUF ,KXSP    ,IXSP   ,NOD2SP  ,
      1               ISPSYM,XSPSYM%BUF,WSP2SORT ,ITASK  ,MYSPATRUE,
-     2  	     IREDUCE,WREDUCE,LGAUGE ,GAUGE ,ISORTSP)
+     2         IREDUCE,WREDUCE,LGAUGE ,GAUGE ,ISORTSP)
 C      /---------------/
         CALL MY_BARRIER
 C      /---------------/

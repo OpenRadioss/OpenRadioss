@@ -171,10 +171,10 @@ C
        IF(IDT1SOL==0)THEN
 
          DO I=LFT,LLT
-	   D = MAX(PX1(I)*PX1(I)+PY1(I)*PY1(I)+PZ1(I)*PZ1(I),
-     .    	   PX2(I)*PX2(I)+PY2(I)*PY2(I)+PZ2(I)*PZ2(I),
-     .  	   PX3(I)*PX3(I)+PY3(I)*PY3(I)+PZ3(I)*PZ3(I),
-     .  	   PX4(I)*PX4(I)+PY4(I)*PY4(I)+PZ4(I)*PZ4(I))
+             D = MAX(PX1(I)*PX1(I)+PY1(I)*PY1(I)+PZ1(I)*PZ1(I),
+     .         PX2(I)*PX2(I)+PY2(I)*PY2(I)+PZ2(I)*PZ2(I),
+     .       PX3(I)*PX3(I)+PY3(I)*PY3(I)+PZ3(I)*PZ3(I),
+     .       PX4(I)*PX4(I)+PY4(I)*PY4(I)+PZ4(I)*PZ4(I))
            DELTAX(I) = ONE / SQRT(D)
          END DO
 

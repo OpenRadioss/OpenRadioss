@@ -73,7 +73,7 @@ C
       DO NHI=NHRBE2,0,-1
        DO N=1,NRBE2
         IF (IRBE2(9,N)/=NHI) CYCLE
-	IAD = IRBE2(1,N)
+          IAD = IRBE2(1,N)
         NSN = IRBE2(5,N)
         M   = IRBE2(3,N)
         DO I=1,NSN
@@ -120,12 +120,12 @@ C
        END DO
        DO N=1,NRBE2
         IF (IRBE2(9,N)/=NHI) CYCLE
-	IAD = IRBE2(1,N)
+          IAD = IRBE2(1,N)
         NSN = IRBE2(5,N)
         M   = IRBE2(3,N)
         ISK = IRBE2(7,N)
-	MID = IABS(IRBE2(6,N))
-	IRAD = IRBE2(11,N)
+          MID = IABS(IRBE2(6,N))
+          IRAD = IRBE2(11,N)
         CALL SMS_RBE_5(NSN   ,LRBE2(IAD+1),DIAG_RBE2,MS    ,WEIGHT,
      1                 JT    ,FRBE2M6(1,1,MID),M      ,IRAD  ,ISK   ,
      2                 SKEW  )
@@ -233,12 +233,12 @@ C
       DO NHI=0,NHRBE2
        DO N=1,NRBE2
         IF (IRBE2(9,N)/=NHI) CYCLE
-	IAD = IRBE2(1,N)
+          IAD = IRBE2(1,N)
         NSN = IRBE2(5,N)
         M   = IRBE2(3,N)
         ISK = IRBE2(7,N)
-	MID = IABS(IRBE2(6,N))
-	IRAD = IRBE2(11,N)
+          MID = IABS(IRBE2(6,N))
+          IRAD = IRBE2(11,N)
         IF(JT(1,N)+JT(2,N)+JT(3,N)/=0.AND.NODXI_SMS(M)==0)THEN
           DO I=1,NSN
            NS = LRBE2(IAD+I)
@@ -314,12 +314,12 @@ C
        END DO
        DO N=1,NRBE2
         IF (IRBE2(9,N)/=NHI) CYCLE
-	IAD = IRBE2(1,N)
+          IAD = IRBE2(1,N)
         NSN = IRBE2(5,N)
         M   = IRBE2(3,N)
         ISK = IRBE2(7,N)
-	MID = IABS(IRBE2(6,N))
-	IRAD = IRBE2(11,N)
+          MID = IABS(IRBE2(6,N))
+          IRAD = IRBE2(11,N)
         CALL SMS_RBE_1(NSN   ,LRBE2(IAD+1),X       ,A     ,AR       ,
      1                 MS    ,IN    ,WEIGHT,JT(1,N),FRBE2M6(1,1,MID),
      2                 M     ,IRAD  ,ISK   ,SKEW   )
@@ -511,12 +511,12 @@ C
        END DO
        DO N=1,NRBE2
         IF (IRBE2(9,N)/=NHI) CYCLE
-	IAD = IRBE2(1,N)
+          IAD = IRBE2(1,N)
         NSN = IRBE2(5,N)
         M   = IRBE2(3,N)
         ISK = IRBE2(7,N)
-	MID = IABS(IRBE2(6,N))
-	IRAD = IRBE2(11,N)
+          MID = IABS(IRBE2(6,N))
+          IRAD = IRBE2(11,N)
         CALL SMS_RBE_5(NSN   ,LRBE2(IAD+1),DIAG_SMS3,MS    ,WEIGHT,
      1                 JT    ,FRBE2M6(1,1,MID),M      ,IRAD  ,ISK   ,
      2                 SKEW  )
@@ -973,7 +973,7 @@ C======================================================================|
         IF (MID<0) CYCLE
         DO K=1,6
          DO J=1,ISIZE
-	  A(J,M) = A(J,M)+ F6(J,K,MID)
+            A(J,M) = A(J,M)+ F6(J,K,MID)
          ENDDO
         ENDDO
       ENDDO

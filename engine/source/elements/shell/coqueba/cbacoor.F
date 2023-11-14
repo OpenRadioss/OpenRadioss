@@ -1794,7 +1794,7 @@ C--------drilling dof
            RR(3,2) =VQ(EP,1,3)*AXYZ(EP,1,2)+VQ(EP,2,3)*AXYZ(EP,2,2)+VQ(EP,3,3)*AXYZ(EP,3,2)
            RR(3,3) =VQ(EP,1,3)*AXYZ(EP,1,3)+VQ(EP,2,3)*AXYZ(EP,2,3)+VQ(EP,3,3)*AXYZ(EP,3,3)
            RR(3,4) =VQ(EP,1,3)*AXYZ(EP,1,4)+VQ(EP,2,3)*AXYZ(EP,2,4)+VQ(EP,3,3)*AXYZ(EP,3,4)
-C----------not right takes the RLZ with cbacoor		 
+C----------not right takes the RLZ with cbacoor     
            RLZ(EP,1)=(VQN(EP,7,1)*RR(1,1)+VQN(EP,8,1)*RR(2,1)+VQN(EP,9,1)*RR(3,1))
            RLZ(EP,2)=(VQN(EP,7,2)*RR(1,2)+VQN(EP,8,2)*RR(2,2)+VQN(EP,9,2)*RR(3,2))
            RLZ(EP,3)=(VQN(EP,7,3)*RR(1,3)+VQN(EP,8,3)*RR(2,3)+VQN(EP,9,3)*RR(3,3))

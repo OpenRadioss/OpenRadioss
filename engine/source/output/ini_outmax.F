@@ -35,9 +35,9 @@ Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE INI_TMAX(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
-     .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
-     .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
-     .  	       X	,D       ,V       ,IAD_ELEM,FR_ELEM ,
+     .           IXS  ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
+     .           IXC  ,IXTG   ,IXT    ,IXP     ,IXR     ,
+     .           X  ,D       ,V       ,IAD_ELEM,FR_ELEM ,
      .             WEIGHT ,IPM   ,IGEO    ,STACK   ,ITASK   )
 C-----------------------------------------------
 C   M o d u l e s
@@ -126,9 +126,9 @@ C-----------------
          CALL MY_BARRIER()
 C-----------------         
          CALL UPD_TMAX(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
-     .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
-     .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
-     .  	       X	,D       ,V       ,IAD_ELEM,FR_ELEM ,
+     .           IXS  ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
+     .           IXC  ,IXTG   ,IXT    ,IXP     ,IXR     ,
+     .           X  ,D       ,V       ,IAD_ELEM,FR_ELEM ,
      .             WEIGHT ,IPM   ,IGEO    ,STACK   ,ITASK   )
 C
        ELSEIF (ITASK==0) THEN

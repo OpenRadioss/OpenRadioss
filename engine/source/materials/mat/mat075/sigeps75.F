@@ -309,7 +309,7 @@ C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----A----+----B----+----C----+
 C        WRITE(6,'(5X,A,I4,8(A,E18.10))')'ELAS ITER=',ITER,'MUS=',MUS(IMAX),' ALPHA1=',ALPHA1(IMAX),' ALPHA=',ALPHA(IMAX),
 C     .                                 ' CRIT=',CRIT,' PNEW=',PNEW(IMAX),' PNEWG=',PNEWG(IMAX),' ALPHAOLD=',ALPHAOLD(IMAX)
-C		  		  
+C            
         IF (CRIT > TOL) THEN
           DO I=1,NEL
             ALPHA(I)=ALPHA1(I)

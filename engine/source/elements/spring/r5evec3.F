@@ -88,7 +88,7 @@ C
           EZX(I)= ZERO
           EXY(I)= ZERO
           EYY(I)= ONE
-          EZY(I)= ZERO	  
+          EZY(I)= ZERO    
         ELSE
           EXX(I)=EXX(I)/AL(I) 
           EYX(I)=EYX(I)/AL(I) 

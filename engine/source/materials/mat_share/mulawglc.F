@@ -515,9 +515,9 @@ C---------------------------
         DO I=JFT,JLT                                                   
           VISCMX(I) = MAX(VISCMX(I),DM)
           VISC = ONEP414*DM*RHO(I)*SSP(I)*SQRT(AREA(I))*DT_INV(I)        
-          FOR(I,1) = FOR(I,1) + VISC*(EXX(I)+HALF*EYY(I))		  
-          FOR(I,2) = FOR(I,2) + VISC*(EYY(I)+HALF*EXX(I))		  
-          FOR(I,3) = FOR(I,3) + VISC* EXY(I)*THIRD			     
+          FOR(I,1) = FOR(I,1) + VISC*(EXX(I)+HALF*EYY(I))      
+          FOR(I,2) = FOR(I,2) + VISC*(EYY(I)+HALF*EXX(I))      
+          FOR(I,3) = FOR(I,3) + VISC* EXY(I)*THIRD           
         ENDDO
       ENDIF
 C

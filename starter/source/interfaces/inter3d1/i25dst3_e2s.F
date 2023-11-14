@@ -192,11 +192,11 @@ C !!!!!!!!!!!!!!!!!!!!!!!!!!
 C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
 C!!!!!!!!!!!!!!!!!!!!!!!!!!!
           NX(EJ,I) = H1S(EJ,I)*XXS1(I)    + H2S(EJ,I)*XXS2(I)
-     .   	- H1M(EJ,I)*XXM1(EJ,I) - H2M(EJ,I)*XXM2(EJ,I)
+     .     - H1M(EJ,I)*XXM1(EJ,I) - H2M(EJ,I)*XXM2(EJ,I)
           NY(EJ,I) = H1S(EJ,I)*XYS1(I)    + H2S(EJ,I)*XYS2(I)
-     .   	- H1M(EJ,I)*XYM1(EJ,I) - H2M(EJ,I)*XYM2(EJ,I)
+     .     - H1M(EJ,I)*XYM1(EJ,I) - H2M(EJ,I)*XYM2(EJ,I)
           NZ(EJ,I) = H1S(EJ,I)*XZS1(I)    + H2S(EJ,I)*XZS2(I)
-     .   	- H1M(EJ,I)*XZM1(EJ,I) - H2M(EJ,I)*XZM2(EJ,I)
+     .     - H1M(EJ,I)*XZM1(EJ,I) - H2M(EJ,I)*XZM2(EJ,I)
 
           NN(EJ,I) = SQRT(NX(EJ,I)**2 + NY(EJ,I)**2 + NZ(EJ,I)**2)
 
@@ -492,16 +492,16 @@ C
             DA = (XS-XM)*XNA(I,EJ)+(YS-YM)*YNA(I,EJ)+(ZS-ZM)*ZNA(I,EJ)
             DB = (XS-XM)*XNB(I,EJ)+(YS-YM)*YNB(I,EJ)+(ZS-ZM)*ZNB(I,EJ)
 C
-	    CNVX= (XA(I0,I)-XA(I1,I))*XNB(I,EJ)
-     .    	 +(YA(I0,I)-YA(I1,I))*YNB(I,EJ)
-     .    	 +(ZA(I0,I)-ZA(I1,I))*ZNB(I,EJ) 
-	    IF(CNVX >= ZERO)THEN
+              CNVX= (XA(I0,I)-XA(I1,I))*XNB(I,EJ)
+     .       +(YA(I0,I)-YA(I1,I))*YNB(I,EJ)
+     .       +(ZA(I0,I)-ZA(I1,I))*ZNB(I,EJ) 
+              IF(CNVX >= ZERO)THEN
               IF(DA <= ZERO .OR.  DB <= ZERO) THEN ! Don't compute a force in the wrong direction.
                 PENE(EJ,I)=ZERO
               ENDIF
-	    ELSE
- 	      IF(DA <= ZERO .AND. DB <= ZERO) PENE(EJ,I)=ZERO
-	    END IF
+              ELSE
+                IF(DA <= ZERO .AND. DB <= ZERO) PENE(EJ,I)=ZERO
+              END IF
 
           ENDDO
         ENDDO
@@ -532,19 +532,19 @@ C        Solid on main side !
 C--------------------------------------
 C
 C          vu cas ou S1 (resp S2) est egal au 3eme noeud du triangle main
-C       						    --------
+C                       --------
 C          alors qu'il n'y a pas d'auto intersection de la part sur elle meme ::
-C       		      
-C       			       
-C	     M2  ---					M2	
-C	       \    --- 				 |  
-C	         \     ---x M3=S1, S2		   M3=S1 x----x S2
-C	           \	  |				 |	
-C	             \    |				 |	
-C	               \  |				 |	
-C	        	M1				M1	
+C                 
+C                    
+C       M2  ---          M2
+C         \    ---          |  
+C           \     ---x M3=S1, S2       M3=S1 x----x S2
+C             \    |         |
+C               \    |         |
+C                 \  |         |
+C            M1        M1
 C
-C	            Left view			     Front view 
+C              Left view           Front view 
 C
 C         IF((XXS1(I)==XA3(I).AND.XYS1(I)==YA3(I).AND.XZS1(I)==ZA3(I)).OR.
 C     .      (XXS1(I)==XA4(I).AND.XYS1(I)==YA4(I).AND.XZS1(I)==ZA4(I)).OR.
@@ -644,9 +644,9 @@ C
             LBA(I,2) = -(-(XNA(I,2)*SX2 + YNA(I,2)*SY2 + ZNA(I,2)*SZ2))*AAA
             LCA(I,2) = -( (XNA(I,2)*SX1 + YNA(I,2)*SY1 + ZNA(I,2)*SZ1))*AAA
 C
-C	  ELSE
-C	    LBA(I,2) = -ONE
-C	    LCA(I,2) = ZERO
+C    ELSE
+C      LBA(I,2) = -ONE
+C      LCA(I,2) = ZERO
           END IF
 C
         ENDDO
@@ -690,9 +690,9 @@ C
             LBA(I,3) = -(-(XNA(I,3)*SX2 + YNA(I,3)*SY2 + ZNA(I,3)*SZ2))*AAA
             LCA(I,3) = -( (XNA(I,3)*SX1 + YNA(I,3)*SY1 + ZNA(I,3)*SZ1))*AAA
 C
-C	  ELSE
-C	    LBA(I,3) = -ONE
-C	    LCA(I,3) = ZERO
+C    ELSE
+C      LBA(I,3) = -ONE
+C      LCA(I,3) = ZERO
           END IF
 C
         ENDDO
@@ -736,9 +736,9 @@ C
             LBA(I,4) = -(-(XNA(I,4)*SX2 + YNA(I,4)*SY2 + ZNA(I,4)*SZ2))*AAA
             LCA(I,4) = -( (XNA(I,4)*SX1 + YNA(I,4)*SY1 + ZNA(I,4)*SZ1))*AAA
 C
-C	  ELSE
-C	    LBA(I,4) = -ONE
-C	    LCA(I,4) = ZERO
+C    ELSE
+C      LBA(I,4) = -ONE
+C      LCA(I,4) = ZERO
           END IF
 C
         ENDDO

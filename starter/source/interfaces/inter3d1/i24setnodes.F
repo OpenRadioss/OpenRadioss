@@ -91,7 +91,7 @@ C domain than MAIN surface
             IF (.NOT.(ASSOCIATED(INTERCEP(2,NI)%P)))THEN
 C             In Type24 INTERCEP(2 gives Edge MPI Domain
               ALLOCATE(INTERCEP(2,NI)%P(NRTSE))
-            ENDIF	  
+            ENDIF    
 C 
             DO I=1,NRTSE
               N1= INTBUF_TAB(NI)%IRTSE((I-1)*5+1)
@@ -99,7 +99,7 @@ C
               N3= INTBUF_TAB(NI)%IRTSE((I-1)*5+3)
               N4= INTBUF_TAB(NI)%IRTSE((I-1)*5+4)
 
- 	      PROC = INTERSURFL(N1,N2,N3,N4)
+                PROC = INTERSURFL(N1,N2,N3,N4)
     
               INTERCEP(2,NI)%P(I)=PROC
            ENDDO
@@ -107,7 +107,7 @@ C
 
 
           NRTM   = IPARI(4,NI)
-          DO K=1,NRTM	  
+          DO K=1,NRTM    
              PROC = INTERCEP(1,NI)%P(K)
              IF(PROC==0)THEN
                  CALL ANCMSG(MSGID=978,

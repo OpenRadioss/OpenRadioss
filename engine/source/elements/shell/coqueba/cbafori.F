@@ -20,15 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-	SUBROUTINE CBAFORI(JFT  ,JLT   ,NG    ,CDET ,THK0,
+          SUBROUTINE CBAFORI(JFT  ,JLT   ,NG    ,CDET ,THK0,
      2                     TH12 ,FF0   ,MM0   ,NEL  ,BM  ,
      3                     BMF  ,BF    ,BC    ,TC   ,VF  ,
      4                     VM   ,NPLAT ,IPLAT ,VOL  ) 
 C--------------------------------------------------------------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-C	CALCUL DES FORCES INTERNES AUX NOEUDS 
-C	ENTREES :  NEL,MNT,NPT,NP,NG,NIXC,IXC,HZ,OFF,CDET,EPAIS,BUFCON,VQN,BM,BMF,BF,BC
-C	SORTIES : VF,VM
+C  CALCUL DES FORCES INTERNES AUX NOEUDS 
+C  ENTREES :  NEL,MNT,NPT,NP,NG,NIXC,IXC,HZ,OFF,CDET,EPAIS,BUFCON,VQN,BM,BMF,BF,BC
+C  SORTIES : VF,VM
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C--------------------------------------------------------------------------------------------------
 C-----------------------------------------------
@@ -445,13 +445,13 @@ C
 C
        RETURN
        END
-	SUBROUTINE CBAFORI1(JFT  ,JLT  ,FF  ,BM  ,VF,
+          SUBROUTINE CBAFORI1(JFT  ,JLT  ,FF  ,BM  ,VF,
      .                      NPLAT,IPLAT,VOL ,NEL ) 
 C--------------------------------------------------------------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-C	CALCUL DES FORCES INTERNES AUX NOEUDS (MEMBRANE ONLY)
-C	ENTREES :  NEL,MNT,NPT,NP,NG,NIXC,IXC,HZ,OFF,CDET,EPAIS,BUFCON,VQN,BM,BMF,BF,BC
-C	SORTIES : VF,VM
+C  CALCUL DES FORCES INTERNES AUX NOEUDS (MEMBRANE ONLY)
+C  ENTREES :  NEL,MNT,NPT,NP,NG,NIXC,IXC,HZ,OFF,CDET,EPAIS,BUFCON,VQN,BM,BMF,BF,BC
+C  SORTIES : VF,VM
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C--------------------------------------------------------------------------------------------------
 C-----------------------------------------------

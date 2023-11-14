@@ -1894,7 +1894,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
          INTEGER I,NI,NSI
 C-----------------------------------------------
-	 ISPT2(1:NSN) = 0
+           ISPT2(1:NSN) = 0
          DO I=1,I_STOK
              NI=CAND_N(I)
              IF(NI <= NSN)THEN

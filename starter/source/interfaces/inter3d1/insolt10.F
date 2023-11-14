@@ -92,8 +92,8 @@ C
                      IF(I3/=0)THEN
                IXS10(IPERM3(K),N10)=-ABS(IXS10(IPERM3(K),N10))
                      END IF
-        	   END IF
-        	 END DO
+             END IF
+           END DO
                END IF
              END DO
            END IF

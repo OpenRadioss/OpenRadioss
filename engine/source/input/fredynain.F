@@ -113,8 +113,8 @@ c---
               K=K+1
               READ(IUSC2,*,ERR=9990,END=9990)(IV2(J),J=1,NVAR(CARTE))
               DO J=1,NVAR(CARTE)
-           	WRITE(IIN,'(I10)')IV2(J)
-           	DYNAIN_DATA%NDYNAINPRT=DYNAIN_DATA%NDYNAINPRT+1
+          WRITE(IIN,'(I10)')IV2(J)
+          DYNAIN_DATA%NDYNAINPRT=DYNAIN_DATA%NDYNAINPRT+1
               ENDDO
             ENDDO ! DO I=2,NBC
             IF(DYNAIN_DATA%NDYNAINPRT == 0)THEN

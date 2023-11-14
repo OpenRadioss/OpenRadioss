@@ -1065,7 +1065,7 @@ C
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
           V(2,2,NN) = ONE
-          V(3,2,NN) = ZERO	  
+          V(3,2,NN) = ZERO    
         ENDIF
       ENDDO
 C
@@ -1258,7 +1258,7 @@ C
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
           V(2,2,NN) = ONE
-          V(3,2,NN) = ZERO	  
+          V(3,2,NN) = ZERO    
         ELSEIF(XMAXV(NN)>TOL1(NN)) THEN
           NINDEX1 = NINDEX1 + 1
           INDEX1(NINDEX1) = NN
@@ -1383,7 +1383,7 @@ C
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
           V(2,2,NN) = ONE
-          V(3,2,NN) = ZERO	  
+          V(3,2,NN) = ZERO    
         ENDIF
       ENDDO
 C
@@ -1595,9 +1595,9 @@ C precision minimum dependant du type REAL ou DOUBLE
         CS(1) = CS(1) + PR
         CS(2) = CS(2) + PR
         CS(3) = CS(3) + PR
-	S4_2 = CS(4)*CS(4)
-	S5_2 = CS(5)*CS(5)
-	S6_2 = CS(6)*CS(6)
+          S4_2 = CS(4)*CS(4)
+          S5_2 = CS(5)*CS(5)
+          S6_2 = CS(6)*CS(6)
         AAA(NN)=S4_2 + S5_2 + S6_2 - CS(1)*CS(2)
      &         - CS(2)*CS(3) - CS(1)*CS(3)
         NORMINF(NN) = MAX(ABS(CS(1)),ABS(CS(2)),ABS(CS(3)),
@@ -1670,9 +1670,9 @@ C
         XMAG(1,NN)=B(1,1,NN)*B(1,1,NN)+B(2,1,NN)*B(2,1,NN)+
      .             B(3,1,NN)*B(3,1,NN)
         XMAG(2,NN)=B(1,2,NN)*B(1,2,NN)+B(2,2,NN)*B(2,2,NN)+
-     .             	B(3,2,NN)*B(3,2,NN)
+     .               B(3,2,NN)*B(3,2,NN)
         XMAG(3,NN)=B(1,3,NN)*B(1,3,NN)+B(2,3,NN)*B(2,3,NN)+
-     .             	B(3,3,NN)*B(3,3,NN)
+     .               B(3,3,NN)*B(3,3,NN)
 
       ENDDO
 C 
@@ -1696,7 +1696,7 @@ C
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
           V(2,2,NN) = ONE
-          V(3,2,NN) = ZERO	  
+          V(3,2,NN) = ZERO    
         ELSEIF(XMAXV(NN)>TOL1(NN)*TOL1(NN)) THEN
           NINDEX1 = NINDEX1 + 1
           INDEX1(NINDEX1) = NN
@@ -1730,9 +1730,9 @@ C
         XMAG(1,NN)=B(1,1,NN)*B(1,1,NN)+B(2,1,NN)*B(2,1,NN)+
      .             B(3,1,NN)*B(3,1,NN)
         XMAG(2,NN)=B(1,2,NN)*B(1,2,NN)+B(2,2,NN)*B(2,2,NN)+
-     .             	B(3,2,NN)*B(3,2,NN)
+     .               B(3,2,NN)*B(3,2,NN)
         XMAG(3,NN)=B(1,3,NN)*B(1,3,NN)+B(2,3,NN)*B(2,3,NN)+
-     .             	B(3,3,NN)*B(3,3,NN)
+     .               B(3,3,NN)*B(3,3,NN)
 C
         XMAXV(NN)=MAX(XMAG(1,NN),XMAG(2,NN),XMAG(3,NN))
       ENDDO
@@ -1759,7 +1759,7 @@ C
           V(1,2,NN)=V(2,3,NN)*V(3,1,NN)-V(2,1,NN)*V(3,3,NN)
           V(2,2,NN)=V(3,3,NN)*V(1,1,NN)-V(3,1,NN)*V(1,3,NN)
           V(3,2,NN)=V(1,3,NN)*V(2,1,NN)-V(1,1,NN)*V(2,3,NN)
-	  C1 = V(1,2,NN)*V(1,2,NN)+V(2,2,NN)*V(2,2,NN)+
+            C1 = V(1,2,NN)*V(1,2,NN)+V(2,2,NN)*V(2,2,NN)+
      &         V(3,2,NN)*V(3,2,NN)
           VMAG=ONE/SQRT(C1)
           V(1,2,NN)=V(1,2,NN)*VMAG
@@ -1818,7 +1818,7 @@ C
           V(1,2,NN)=-A(3,LMAX,NN)*V(2,1,NN)
           V(2,2,NN)= A(3,LMAX,NN)*V(1,1,NN)
           V(3,2,NN)= A(1,LMAX,NN)*V(2,1,NN)-A(2,LMAX,NN)*V(1,1,NN)
-	  C1 = V(1,2,NN)*V(1,2,NN)+V(2,2,NN)*V(2,2,NN)+
+            C1 = V(1,2,NN)*V(1,2,NN)+V(2,2,NN)*V(2,2,NN)+
      &         V(3,2,NN)*V(3,2,NN)
           VMAG=ONE/SQRT(C1)
           V(1,2,NN)=V(1,2,NN)*VMAG
@@ -1830,7 +1830,7 @@ C
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
           V(2,2,NN) = ONE
-          V(3,2,NN) = ZERO	  
+          V(3,2,NN) = ZERO    
         ENDIF
       ENDDO
 C
@@ -2173,7 +2173,7 @@ C
           V(NN,3,1) = ZERO
           V(NN,1,2) = ZERO
           V(NN,2,2) = ONE
-          V(NN,3,2) = ZERO	  
+          V(NN,3,2) = ZERO    
         ENDIF
       ENDDO
 C
@@ -2374,7 +2374,7 @@ C
           V(NN,3,1) = ZERO
           V(NN,1,2) = ZERO
           V(NN,2,2) = ONE
-          V(NN,3,2) = ZERO	  
+          V(NN,3,2) = ZERO    
         ELSEIF(XMAXV(NN)>TOL1(NN)) THEN
           NINDEX1 = NINDEX1 + 1
           INDEX1(NINDEX1) = NN
@@ -2500,7 +2500,7 @@ C
           V(NN,3,1) = ZERO
           V(NN,1,2) = ZERO
           V(NN,2,2) = ONE
-          V(NN,3,2) = ZERO	  
+          V(NN,3,2) = ZERO    
         ENDIF
       ENDDO
 C

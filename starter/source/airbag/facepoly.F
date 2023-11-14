@@ -418,7 +418,7 @@ C SI SS1=SS2=0 les segments sont colineaires (cas non traite)
             SEG(NSEG,1,2)=XP2
             SEG(NSEG,2,2)=YP2
             SEG(NSEG,3,2)=ZP2
-            ELSEG(NSEG,2)=J			
+            ELSEG(NSEG,2)=J
          ENDDO
       ENDDO
 C
@@ -1005,7 +1005,7 @@ C Traitement des 2 segments internes
                 IF(JTAG(2,J) == IMAX) JTAG(2,J)=IMIN
              ENDDO
            ENDIF
-C Traitement des 2 segments externes		   
+C Traitement des 2 segments externes       
            ID1=ISEG(1,I3)
            ID2=ISEG(2,I3)
            IF(ID1==I) L=ID2
@@ -1092,7 +1092,7 @@ C
                ENDDO
              ENDIF
            ENDDO
-        ENDDO		   
+        ENDDO       
 C------------------------------------------------------
 C Noeud connecte a 3 segments : 1 interne et 2 externes
 C------------------------------------------------------
@@ -1425,7 +1425,7 @@ C
         ENDDO
 C----------------
 C Order polygones 
-C----------------	
+C----------------
         IAD=0
         DO I=1,NPOLY
            IF(LENPOLY(I) < 3) THEN
@@ -1475,7 +1475,7 @@ C
                     POLY(2,IAD+J+1)=2
                     ISTOP=1
                     ITAGSEG(K)=1
-                 ENDIF			   
+                 ENDIF         
               ENDDO
            ENDDO
            IF(ISEG(IP0SEG,ISSEG) /= I0) THEN
@@ -1487,7 +1487,7 @@ C
         ENDDO
 C
       ENDIF  ! ALGO
-C	  
+C    
       NNS=0
       IAD=0
       DO I=1,NPOLY

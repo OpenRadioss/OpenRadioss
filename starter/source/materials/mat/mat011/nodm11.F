@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-	SUBROUTINE NODM11(PM,IXS,IXQ,ICODE)
+          SUBROUTINE NODM11(PM,IXS,IXQ,ICODE)
 C     BLOCAGE DES NOEUDS MATERIAU 11 HORS DOMAINE CALCULE
 C     FP 12/97
 C-----------------------------------------------

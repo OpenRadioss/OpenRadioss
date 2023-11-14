@@ -137,7 +137,7 @@ C          Echange les positions et les vitesses
             VN=VXI*UX+VYI*UY+VZI*UZ
             VXS=VXI-TWO*VN*UX
             VYS=VYI-TWO*VN*UY
-            VZS=VZI-TWO*VN*UZ	    
+            VZS=VZI-TWO*VN*UZ      
            ENDIF
            X(1,INOD)=XS
            X(2,INOD)=YS

@@ -208,7 +208,7 @@ c     --  storing elastic predictors for stiffness computation
         DO I=1,NEL
          SIGEXX(I) = SIG(I,1)
          SIGEYY(I) = SIG(I,2)
-         SIGEZZ(I) = SIG(I,3)		    
+         SIGEZZ(I) = SIG(I,3)        
          SIGEXY(I) = SIG(I,4)
          SIGEYZ(I) = SIG(I,5)
          SIGEZX(I) = SIG(I,6)

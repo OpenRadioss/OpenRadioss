@@ -319,14 +319,14 @@ Cit's available just for law25 and batoz shell
 C +
              IF(ITY == 3)THEN
               DO I=1,NEL
-            	MAT(I)=IXC(1,NFT+I)
-            	PID(I)=IXC(6,NFT+I)
-              END DO				    
+          MAT(I)=IXC(1,NFT+I)
+          PID(I)=IXC(6,NFT+I)
+              END DO            
             ELSE
               DO I=1,NEL
-            	MAT(I)=IXTG(1,NFT+I)
-            	PID(I)=IXTG(5,NFT+I)
-              END DO				    
+          MAT(I)=IXTG(1,NFT+I)
+          PID(I)=IXTG(5,NFT+I)
+              END DO            
             END IF   
              IVISC = 0
              IF(MLW == 25) THEN
@@ -403,14 +403,14 @@ c
             IF (MLW == 25.AND. IREP == 1) THEN
              IF(ITY == 3)THEN
               DO I=1,NEL
-            	MAT(I)=IXC(1,NFT+I)
-            	PID(I)=IXC(6,NFT+I)
-              END DO				    
+          MAT(I)=IXC(1,NFT+I)
+          PID(I)=IXC(6,NFT+I)
+              END DO            
             ELSE
               DO I=1,NEL
-            	MAT(I)=IXTG(1,NFT+I)
-            	PID(I)=IXTG(5,NFT+I)
-              END DO				    
+          MAT(I)=IXTG(1,NFT+I)
+          PID(I)=IXTG(5,NFT+I)
+              END DO            
             END IF   
               IVISC = 0
               NUVARV = 0

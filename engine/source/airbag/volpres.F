@@ -253,7 +253,7 @@ C
 C
           XX = FOURTH*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
           YY = FOURTH*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
-          ZZ = FOURTH*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))	  
+          ZZ = FOURTH*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))    
 C
           XM=HALF*(X(1,NJ1)+X(1,NJ3))
           YM=HALF*(X(2,NJ1)+X(2,NJ3))
@@ -348,7 +348,7 @@ C
 C
           XX = (X(1,N1)+X(1,N2)+X(1,N3)) * THIRD
           YY = (X(2,N1)+X(2,N2)+X(2,N3)) * THIRD
-          ZZ = (X(3,N1)+X(3,N2)+X(3,N3)) * THIRD	  
+          ZZ = (X(3,N1)+X(3,N2)+X(3,N3)) * THIRD    
 C
           XM=0.5*(X(1,NJ1)+X(1,NJ3))
           YM=0.5*(X(2,NJ1)+X(2,NJ3))
@@ -440,11 +440,11 @@ C
 C
           XX = FOURTH*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
           YY = FOURTH*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
-          ZZ = FOURTH*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))	  
+          ZZ = FOURTH*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))    
 C
           XM=HALF*(X(1,NJ1)+X(1,NJ3))
           YM=HALF*(X(2,NJ1)+X(2,NJ3))
-          ZM=HALF*(X(3,NJ1)+X(3,NJ3))	  
+          ZM=HALF*(X(3,NJ1)+X(3,NJ3))    
 C
           NX1 = XX-XM
           NY1 = YY-YM

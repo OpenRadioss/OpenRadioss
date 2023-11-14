@@ -79,7 +79,7 @@ C-----------------------------------------------
               ITAG(NOD)=1
             ENDDO
             DO NI=1,NBINTC
-	      NIN = INTLIST(NI)
+                NIN = INTLIST(NI)
               NTY   = IPARI(7,NIN)
               NSN   = IPARI(5,NIN)
 
@@ -91,7 +91,7 @@ C-----------------------------------------------
                   ENDIF
                 ENDDO
               ENDIF
-            ENDDO	   	   
+            ENDDO          
 C Flush ITAG to zero again for next CPU
             DO J=IAD_ELEM(1,P),IAD_ELEM(1,P+1)-1
               NOD = FR_ELEM(J)
@@ -115,8 +115,8 @@ C-----------------------------------------------
             ENDDO
 
             DO NI=1,NBINTC
-	      IAD_I25(NI+1,P)=IAD_I25(NI,P)
-	      NIN = INTLIST(NI)
+                IAD_I25(NI+1,P)=IAD_I25(NI,P)
+                NIN = INTLIST(NI)
               NTY   = IPARI(7,NIN)
               NSN   = IPARI(5,NIN)
 
@@ -125,9 +125,9 @@ C-----------------------------------------------
                   SN = INTBUF_TAB(NIN)%NSV(I)
                   ASSERT(SN > 0)
                   ASSERT(SN <= NUMNOD)
-                  IF(ITAG(SN)==1)THEN		 
+                  IF(ITAG(SN)==1)THEN     
                     IAD_I25(NI+1,P)=IAD_I25(NI+1,P)+1
-		    IAFR25 = IAFR25 + 1
+              IAFR25 = IAFR25 + 1
                     FR_I25(IAFR25)=I
                   ENDIF
                 ENDDO
@@ -138,12 +138,12 @@ C Flush ITAG to zero again for next CPU
               NOD = FR_ELEM(J)
               ITAG(NOD)=0
             ENDDO
-	  ELSE
+            ELSE
             DO I=2,NBINTC+1
-	      IAD_I25(I,P)=IAD_I25(1,P)
-	    ENDDO	  
+                IAD_I25(I,P)=IAD_I25(1,P)
+              ENDDO    
           ENDIF    ! IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P)>0)
-	  IF(P<NSPMD)IAD_I25(1,P+1)=IAD_I25(NBINTC+1,P)
+            IF(P<NSPMD)IAD_I25(1,P+1)=IAD_I25(NBINTC+1,P)
         ENDDO
       ENDIF
       

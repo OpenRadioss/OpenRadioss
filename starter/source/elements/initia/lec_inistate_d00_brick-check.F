@@ -61,7 +61,7 @@ C-----------------------------------------
 C     INITIALE STRESS FILE D00
 C     CHECK INPUT CONSISTENCY BETWEEN /INIBRI AND D00
 C     Erreur if difference in data ( D00 & INIBRI)
-C-----------------------------------------		   
+C-----------------------------------------       
       IPIDD00  = IXS(10,IE)
       JJHBED00 = IGEO(10,IPIDD00)
       IGTYP    = IGEO(11,IPIDD00)
@@ -142,7 +142,7 @@ C
      .                C3=KEYWORD)
        ENDIF
 C
-C	   
+C     
       ELSEIF (JJHBED00 == 14 .OR.ISOLNOD==16 .OR.ISOLNOD==20 ) THEN
        NPTD00 = NPTR*NPTS*NPTT
       ELSEIF (JJHBED00 == 12 .OR.JJHBED00==17.OR.JJHBED00==18) THEN
@@ -150,7 +150,7 @@ C
       ENDIF
 
       IF (NPTD00 == 0 .and. IGTYP == 43)   NPTD00 = 4
-			 
+           
       IF (NPTD00 == 0)   NPTD00 = 1
       IF (ISOLNOD == 10) NPTD00 = 4
       IF (ISOLNOD == 4 .AND. (ISROT == 0 .OR. ISROT == 3)) THEN

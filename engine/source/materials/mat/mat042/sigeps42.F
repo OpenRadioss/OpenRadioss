@@ -176,7 +176,7 @@ c
             EV(I,1) = SQRT(EVV(I,1) + ONE)
             EV(I,2) = SQRT(EVV(I,2) + ONE)
             EV(I,3) = SQRT(EVV(I,3) + ONE)
-     	    ELSE
+              ELSE
             EV(I,1) = EVV(I,1) + ONE
             EV(I,2) = EVV(I,2) + ONE
             EV(I,3) = EVV(I,3) + ONE
@@ -272,7 +272,7 @@ c
           ENDDO
         ENDIF
       ENDDO
-      ! Note: 2GT=3/2 Cii (factor 3 already inside CII)		  
+      ! Note: 2GT=3/2 Cii (factor 3 already inside CII)      
       AMAX1 = 0.81*HALF/GMAX
       DO I = 1,NEL
         AMAX = AMAX1*MAX(CII(I,1),CII(I,2),CII(I,3))

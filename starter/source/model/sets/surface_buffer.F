@@ -91,7 +91,7 @@ C=======================================================================
      .                             NSEG     ,IAD_SURF  ,OPT_O    ,BUFTMPSURF,CLAUSE)
       ELSE
         IF ( CLAUSE%NB_SH4N > 0 ) CALL SHELL_SURFACE_BUFFER_REMESH(
-     .                             IXC     ,NIXC      ,2	 ,5	    ,3     ,
+     .                             IXC     ,NIXC      ,2   ,5      ,3     ,
      .                             NSEG    ,IAD_SURF  ,BUFTMPSURF,CLAUSE    ,IPARTC ,
      .                             IPART   ,KSH4TREE  ,SH4TREE   )
         IF ( CLAUSE%NB_SH3N > 0 .AND. NUMELTRIA == 0) 

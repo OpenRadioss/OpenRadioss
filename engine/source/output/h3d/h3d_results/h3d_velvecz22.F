@@ -143,11 +143,11 @@ C-----------------------------------------------
        ENDDO
         
        DO I=1,NUMNOD   
-	 VALUE(1)=BUFFER(1,I)
-	 VALUE(2)=BUFFER(2,I)
-	 VALUE(3)=BUFFER(3,I)
+           VALUE(1)=BUFFER(1,I)
+           VALUE(2)=BUFFER(2,I)
+           VALUE(3)=BUFFER(3,I)
          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
-     .   				 VALUE)
+     .            VALUE)
        ENDDO
           
        DEALLOCATE(BUFFER)  

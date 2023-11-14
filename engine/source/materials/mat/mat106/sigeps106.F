@@ -298,7 +298,7 @@ C     Initial condition for Newton method
               UVAR(I,3)=UVAR(I,3)
               RATIO = (ONE - THREE * MU * V0 / EQVM)
 
-              IF(JTHE >=0 ) TEMP(I)=UVAR(I,12)+UVAR(I,2)*DPLA(I)/CS			  
+              IF(JTHE >=0 ) TEMP(I)=UVAR(I,12)+UVAR(I,2)*DPLA(I)/CS        
             ENDIF
 
             UVAR(I,10) = E  ! register as previous Young's modulus

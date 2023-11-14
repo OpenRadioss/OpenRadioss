@@ -292,7 +292,7 @@ C----------------------------
            DA1(3) = HALF*DT2*DT12M1*(VXX*VT1(1) - VYY*VT1(2))
            DA2(1) = HALF*DT2*DT12M1*(VYY*VT2(3) - VZZ*VT2(2))
            DA2(2) = HALF*DT2*DT12M1*(VZZ*VT2(1) - VXX*VT2(3))
-           DA2(3) = HALF*DT2*DT12M1*(VXX*VT2(1) - VYY*VT2(2))	   
+           DA2(3) = HALF*DT2*DT12M1*(VXX*VT2(1) - VYY*VT2(2))     
 C
            A(1,N1)=A(1,N1)+AX/MS(N1)+DA1(1)
            A(2,N1)=A(2,N1)+AY/MS(N1)+DA1(2)

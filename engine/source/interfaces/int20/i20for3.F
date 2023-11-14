@@ -474,9 +474,9 @@ C --
      1              N3     ,GAPV   ,XA     ,NOD_NORMAL,
      2              IX1L   ,IX2L   ,IX3L   ,IX4L      ,
      3              H1     ,H2     ,H3     ,H4        ,
-     4              X1     ,X2     ,X3     ,X4    ,Y1	 ,
-     5              Y2     ,Y3     ,Y4     ,Z1    ,Z2	 ,
-     6              Z3     ,Z4     ,XI     ,YI    ,ZI	 )
+     4              X1     ,X2     ,X3     ,X4    ,Y1   ,
+     5              Y2     ,Y3     ,Y4     ,Z1    ,Z2   ,
+     6              Z3     ,Z4     ,XI     ,YI    ,ZI   )
 
         DO I=1,JLT
           IF(PENE(I)<ZERO)THEN

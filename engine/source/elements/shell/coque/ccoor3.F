@@ -251,7 +251,7 @@ C
             SMSTR(II(9)+I)= Z0G4(I)
           ENDIF
         ENDDO
-C		
+C
       DO I=JFT,JLT
         XL2(I)=E1X(I)*X0G2(I)+E1Y(I)*Y0G2(I)+E1Z(I)*Z0G2(I)
         XL3(I)=E1X(I)*X0G3(I)+E1Y(I)*Y0G3(I)+E1Z(I)*Z0G3(I)
@@ -281,7 +281,7 @@ C
         V24X(I)=E1X(I)*VG24(1)+E1Y(I)*VG24(2)+E1Z(I)*VG24(3)
         V13Y(I)=E2X(I)*VG13(1)+E2Y(I)*VG13(2)+E2Z(I)*VG13(3)
         V24Y(I)=E2X(I)*VG24(1)+E2Y(I)*VG24(2)+E2Z(I)*VG24(3)
-C	
+C
        PX1(I)=A_I(I)*PX1(I) 
        PY1(I)=A_I(I)*PY1(I)
        PX2(I)=A_I(I)*PX2(I)

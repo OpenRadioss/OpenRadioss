@@ -2183,14 +2183,14 @@ C
      .                   ANMODE=ANINFO_BLIND_1,
      .                   I1=ID,C1=TITR,
      .                   I2=IS)
-	    CALL ARRET(2)
+              CALL ARRET(2)
  200        CONTINUE !found
             !LAW20 material buffer is dimensioned from submaterial buffer dimensions.
             IF(PASSED)THEN
               ILAWk = IPM(2,J)            
               MTAG  => MLAW_TAG(I)   
               MTAGk => MLAW_TAG(J) 
-              MTAG%L_BFRAC= MAX(MTAG%L_BFRAC, MTAGk%L_BFRAC)  	        
+              MTAG%L_BFRAC= MAX(MTAG%L_BFRAC, MTAGk%L_BFRAC)            
               MTAG%L_TEMP = MAX(MTAG%L_TEMP , MTAGk%L_TEMP )
               MTAG%L_PLA  = MAX(MTAG%L_PLA  , MTAGk%L_PLA  )       
               MTAG%G_BFRAC= MAX(MTAG%G_BFRAC, MTAGk%G_BFRAC)        
@@ -2213,8 +2213,8 @@ C
                     ILAWk = IPM(2,J)            
                     MTAG  => MLAW_TAG(I)   
                     MTAGk => MLAW_TAG(J) 
-                    MTAG%L_BFRAC= MAX(MTAG%L_BFRAC, MTAGk%L_BFRAC)  	        
-                    MTAG%L_TB= MAX(MTAG%L_BFRAC, MTAGk%L_TB)  	        
+                    MTAG%L_BFRAC= MAX(MTAG%L_BFRAC, MTAGk%L_BFRAC)            
+                    MTAG%L_TB= MAX(MTAG%L_BFRAC, MTAGk%L_TB)            
                     MTAG%L_TEMP = MAX(MTAG%L_TEMP , MTAGk%L_TEMP )
                     MTAG%L_PLA  = MAX(MTAG%L_PLA  , MTAGk%L_PLA  )       
                     MTAG%G_BFRAC= MAX(MTAG%G_BFRAC, MTAGk%G_BFRAC)        

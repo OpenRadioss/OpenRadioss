@@ -439,9 +439,9 @@ C
 !!          SIGP(1,I)   =A11(I)*EPSPLY(I,1)+A12(I)*EPSPLY(I,2)
 !!          SIGP(2,I)   =A12(I)*EPSPLY(I,1)+A22(I)*EPSPLY(I,2)
 !!          SIGP(3,I)   =DE1(I)*DE2(I)*G12(I)*EPSPLY(I,3)
-          SIGPLY(I,1)	=A11(I)*EPLY(I,1)+A12(I)*EPLY(I,2)
-          SIGPLY(I,2)	=A12(I)*EPLY(I,1)+A22(I)*EPLY(I,2)
-          SIGPLY(I,3)	=DE1(I)*DE2(I)*G12(I)*EPLY(I,3)
+          SIGPLY(I,1)  =A11(I)*EPLY(I,1)+A12(I)*EPLY(I,2)
+          SIGPLY(I,2)  =A12(I)*EPLY(I,1)+A22(I)*EPLY(I,2)
+          SIGPLY(I,3)  =DE1(I)*DE2(I)*G12(I)*EPLY(I,3)
         END DO
        END IF
 C  
@@ -561,7 +561,7 @@ C
          F2(I)  = ONE/SIGYT2-ONE/SIGYC2
          F11(I) = ONE/(SIGYT1*SIGYC1)
          F22(I) = ONE/(SIGYT2*SIGYC2)
-         F33(I) = ONE/(SIGYT12*SIGYT12)	 
+         F33(I) = ONE/(SIGYT12*SIGYT12)   
          ALPHA = F12(I)
          F12(I) = -ALPHA/(TWO*SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2))
          SIGY(I)=MIN(SIGYT1,SIGYC1,SIGYT2,SIGYC2,SIGYT12)

@@ -131,8 +131,8 @@ C -------------------------------------------------------------
 C -------------------------------------------------------------
         NMES_F = 1 + ITASK*(NMES+NMESR) / NTHREAD
         NMES_L = (ITASK+1)*(NMES+NMESR) / NTHREAD
-	ADCHAINE(NMES_F:NMES_L) = 0
-C	ADCHAINE(NMES_F:NMES_L+NMESR) = 0
+          ADCHAINE(NMES_F:NMES_L) = 0
+C  ADCHAINE(NMES_F:NMES_L+NMESR) = 0
         CHAINE(1,1:MX_CAND) = 0
         CHAINE(2,1:MX_CAND) = 0
         MX_AD = 0
@@ -357,7 +357,7 @@ C -------------------------------------------------------------
 C -------------------------------------------------------------
         CALL MY_BARRIER
 C -------------------------------------------------------------
-	ADCHAINE(NMES_F:NMES_L+NMESR) = 0
+          ADCHAINE(NMES_F:NMES_L+NMESR) = 0
         CHAINE(1,1:MX_CAND) = 0
         CHAINE(2,1:MX_CAND) = 0
         MX_AD = 0

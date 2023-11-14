@@ -256,7 +256,7 @@ c
               L_GAMA   = BUFLY%L_GAMA   
               L_STRA   = BUFLY%L_STRA   
               L_FRAC   = BUFLY%L_FRAC
-              L_BFRAC  = BUFLY%L_BFRAC 	         
+              L_BFRAC  = BUFLY%L_BFRAC            
               L_EINT   = BUFLY%L_EINT   
               L_EINS   = BUFLY%L_EINS   
               L_RHO    = BUFLY%L_RHO    
@@ -523,7 +523,7 @@ c
               RBUF_L(L_REL+1:L_REL+NEL*L_FRAC) = LBUF%FRAC(1:NEL*L_FRAC)
                 L_REL = L_REL+NEL*L_FRAC
               RBUF_L(L_REL+1:L_REL+NEL*L_BFRAC)= LBUF%BFRAC(1:NEL*L_BFRAC)        
-                L_REL = L_REL+NEL*L_BFRAC  		
+                L_REL = L_REL+NEL*L_BFRAC  
               RBUF_L(L_REL+1:L_REL+NEL*L_EINT)= LBUF%EINT(1:NEL*L_EINT)        
                 L_REL = L_REL+NEL*L_EINT                                     
               RBUF_L(L_REL+1:L_REL+NEL*L_EINS)= LBUF%EINS(1:NEL*L_EINS)        

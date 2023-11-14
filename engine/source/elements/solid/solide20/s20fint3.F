@@ -74,21 +74,21 @@ C     REAL
 C=======================================================================
       DO I=1,NEL                                                 
         WIP(I) = VOL(I)/VOLG(I)                                       
-        SIGG(I,1) = SIGG(I,1) + WIP(I) * SIG(I,1)		      
-        SIGG(I,2) = SIGG(I,2) + WIP(I) * SIG(I,2)		      
-        SIGG(I,3) = SIGG(I,3) + WIP(I) * SIG(I,3)		      
-        SIGG(I,4) = SIGG(I,4) + WIP(I) * SIG(I,4)		      
-        SIGG(I,5) = SIGG(I,5) + WIP(I) * SIG(I,5)		      
-        SIGG(I,6) = SIGG(I,6) + WIP(I) * SIG(I,6)		      
+        SIGG(I,1) = SIGG(I,1) + WIP(I) * SIG(I,1)          
+        SIGG(I,2) = SIGG(I,2) + WIP(I) * SIG(I,2)          
+        SIGG(I,3) = SIGG(I,3) + WIP(I) * SIG(I,3)          
+        SIGG(I,4) = SIGG(I,4) + WIP(I) * SIG(I,4)          
+        SIGG(I,5) = SIGG(I,5) + WIP(I) * SIG(I,5)          
+        SIGG(I,6) = SIGG(I,6) + WIP(I) * SIG(I,6)          
         RHOG(I)   = RHOG(I)   + WIP(I) * RHO(I)                       
         EINTG(I)  = EINTG(I)  + EINT(I) * VOL0(I)/VOL0G(I)         
         QG(I)     = QG(I)     + WIP(I) * Q(I)                         
-        S1(I)=(SIG(I,1)+SVIS(I,1)-QVIS(I))*VOL(I)		   
-        S2(I)=(SIG(I,2)+SVIS(I,2)-QVIS(I))*VOL(I)		   
-        S3(I)=(SIG(I,3)+SVIS(I,3)-QVIS(I))*VOL(I)		   
-        S4(I)=(SIG(I,4)+SVIS(I,4))*VOL(I)			   
-        S5(I)=(SIG(I,5)+SVIS(I,5))*VOL(I)			   
-        S6(I)=(SIG(I,6)+SVIS(I,6))*VOL(I)			   
+        S1(I)=(SIG(I,1)+SVIS(I,1)-QVIS(I))*VOL(I)       
+        S2(I)=(SIG(I,2)+SVIS(I,2)-QVIS(I))*VOL(I)       
+        S3(I)=(SIG(I,3)+SVIS(I,3)-QVIS(I))*VOL(I)       
+        S4(I)=(SIG(I,4)+SVIS(I,4))*VOL(I)         
+        S5(I)=(SIG(I,5)+SVIS(I,5))*VOL(I)         
+        S6(I)=(SIG(I,6)+SVIS(I,6))*VOL(I)         
       ENDDO                                                        
       IF (ISRAT > 0) THEN                                                    
         DO I=1,NEL                                                         

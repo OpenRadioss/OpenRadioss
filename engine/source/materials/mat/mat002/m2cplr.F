@@ -454,7 +454,7 @@ C-------------
 C
             AA=(SVM2(I)-YLD2(I))
      .        /(FIVE*SVM2(I)+THREE*(-SIGNXX(I)*SIGNYY(I)+SIGNXY(I)*SIGNXY(I)))
-            S1=(ONE-TWO*AA)*SIGNXX(I)+	     AA*SIGNYY(I)
+            S1=(ONE-TWO*AA)*SIGNXX(I)+       AA*SIGNYY(I)
             S2=AA*SIGNXX(I)+(ONE-TWO*AA)*SIGNYY(I)
             S3=(ONE-THREE*AA)*SIGNXY(I)
             SIGNXX(I)=S1

@@ -70,10 +70,10 @@ C-----------------------------------------------
          SIGN(I,3) = SX*G3X(I)+SY*G3Y(I)+SZ*G3Z(I)
          SIG(I,1) = SIGN(I,1) 
          SIG(I,2) = SIGN(I,2) 
-         SIG(I,3) = SIGN(I,3)	 
+         SIG(I,3) = SIGN(I,3)   
          SIG(I,4) = SIGN(I,4) 
          SIG(I,5) = SIGN(I,5) 
-         SIG(I,6) = SIGN(I,6)	 
+         SIG(I,6) = SIGN(I,6)   
       ENDDO
 C-----------
       RETURN

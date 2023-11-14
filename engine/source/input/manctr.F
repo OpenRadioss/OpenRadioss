@@ -218,11 +218,11 @@ C CYCLE
            GOTO 100
           ENDIF  
           READ(KEY2,FMT,ERR=990,END=990)MCYCLE
-C MCYCLE DESATIVE EN MULTIDOMAINES	  
-	  IF (IRAD2R==1) THEN
-	    MSG_R2R = 1
-	    MCYCLE = 0
-	  ENDIF 	  
+C MCYCLE DESATIVE EN MULTIDOMAINES    
+            IF (IRAD2R==1) THEN
+              MSG_R2R = 1
+              MCYCLE = 0
+            ENDIF     
           GOTO 100
 C PLOT
  30       MANIM0=MANIM0+1
@@ -311,7 +311,7 @@ C
          IF(MH3D0 == 1)
      .    WRITE(IUSC3,'(A,A)',ERR=990)' UPDATE H3D FILE', CARTE
          MFILR=1
-	 IF (IRAD2R==1) R2R_MFILR=1    
+           IF (IRAD2R==1) R2R_MFILR=1    
          GOTO 999
  990    CONTINUE
         CLOSE (IUSC3)
@@ -327,25 +327,25 @@ C---------------------------------
        IF (IRAD2R==1) THEN
          IF (ISPMD==0) THEN
 C *** traitement flag mstop ***       
-	   MSTOP = R2R_MSTOP
+             MSTOP = R2R_MSTOP
            R2R_MSTOP = MSTOP0
-	   MSTOP0 = MSTOP	 	 	 
-       	   IF (R2R_MFILR == 1) THEN      
+             MSTOP0 = MSTOP         
+             IF (R2R_MFILR == 1) THEN      
 C *** stockage des flags pour envoi     rad2rad ***
-             TMAN_R2R = TMAN	  	       
+             TMAN_R2R = TMAN             
              R2R_CTR(1) = MREST0
              R2R_CTR(2) = MANIM0
-             R2R_CTR(3) = WMCHECK0	   
-	   ELSEIF (R2R_MFILR == 2) THEN
+             R2R_CTR(3) = WMCHECK0     
+             ELSEIF (R2R_MFILR == 2) THEN
 C *** on applique les flags recus de rad2rad ***
              MFILR = 1
-	     R2R_MFILR = 0
+               R2R_MFILR = 0
              TMAN = TMAN_R2R
-	     MANIM0 = R2R_CTR(2)
-	     WMCHECK0= R2R_CTR(3)	     	   	 	 	 	 	 	 
-	   ENDIF
-	 ENDIF
-         IF(NSPMD > 1) CALL SPMD_IBCAST(MFILR,MFILR,1,1,0,2)	   	 	 	 	          
+               MANIM0 = R2R_CTR(2)
+               WMCHECK0= R2R_CTR(3)                              
+             ENDIF
+           ENDIF
+         IF(NSPMD > 1) CALL SPMD_IBCAST(MFILR,MFILR,1,1,0,2)                          
        ENDIF
 
 C---------------------------------

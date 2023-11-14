@@ -329,7 +329,7 @@ C-----------------------------------------------
                   ELSE
                     LAMBDA(N)=PM(77,MX)+PM(78,MX)*WT(N)
                   END IF
-				  LAMBDA(N)=LAMBDA(N)*THEACCFACT
+            LAMBDA(N)=LAMBDA(N)*THEACCFACT
                 END IF
                END DO
               ELSE
@@ -757,7 +757,7 @@ C      /---------------/
 C      /---------------/
 C       initialisation sur task i
         DO NS=ITASK+1,NSPHACT,NTHREAD
-          N	  =WASPACT(NS)
+          N    =WASPACT(NS)
 C         (re)used for storage of FX, FY, FZ, STIF :
           MYADRN  =KWASPH*(N-1)
           WA(MYADRN+10)=ZERO

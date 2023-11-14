@@ -556,8 +556,8 @@ C      general outlets & silent boundary.
           IPPV=0
           DMIN=EP20
 
-	  DO J=1,KXSP(4,N)         
-	   JNOD=IXSP(J,N)
+            DO J=1,KXSP(4,N)         
+             JNOD=IXSP(J,N)
 
            IF(JNOD>0)THEN      ! particule locale
              M=NOD2SP(JNOD)
@@ -599,7 +599,7 @@ C      general outlets & silent boundary.
                ENDIF
              ENDIF
             ENDIF
-	  ENDDO
+            ENDDO
 C-------
           IF(IPPV==0)THEN
 C           no interaction between the outgoing particle 

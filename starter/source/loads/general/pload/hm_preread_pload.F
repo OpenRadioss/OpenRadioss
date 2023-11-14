@@ -84,7 +84,7 @@ C--------------------------------------------------
 C BROWSING MODEL Surface  1->NLD
 C--------------------------------------------------
       DO I=1,NLD
-	NN = 0
+          NN = 0
 C--------------------------------------------------
 C EXTRACT DATAS OF SURF
 C--------------------------------------------------
@@ -100,18 +100,18 @@ C--------------------------------------------------
           DO J=1,NSURF
             IF (ISU == IGRSURF(J)%ID) THEN
               ISS = J
-	      NN = IGRSURF(ISS)%NSEG
+                NN = IGRSURF(ISS)%NSEG
               EXIT
             ENDIF                             
           ENDDO 
         ENDIF
 C-----------Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---
         IF (NSUBDOM>0) THEN
-	  IF (IDDOM>0) NN = NN-ISURF_R2R(1,ISS) 
-	  NNCL(NCONLD+I)=NN 
-	ENDIF
+            IF (IDDOM>0) NN = NN-ISURF_R2R(1,ISS) 
+            NNCL(NCONLD+I)=NN 
+          ENDIF
 C-----------
-        NUMPRES = NUMPRES + NN	 
+        NUMPRES = NUMPRES + NN   
       ENDDO                                            
 C---
       RETURN

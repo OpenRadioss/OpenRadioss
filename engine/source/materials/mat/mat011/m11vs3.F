@@ -155,7 +155,7 @@ C-----------------------------------------------
               VzV(I)   = GBUF%MOM(JJ(3) + IS)/MassV  
               XmomV(I) = GBUF%MOM(JJ(1) + IS)
               YmomV(I) = GBUF%MOM(JJ(2) + IS)
-              ZmomV(I) = GBUF%MOM(JJ(3) + IS)					
+              ZmomV(I) = GBUF%MOM(JJ(3) + IS)
             ENDIF
           ELSE
             !                                                        

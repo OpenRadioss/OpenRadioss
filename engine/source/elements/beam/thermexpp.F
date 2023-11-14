@@ -104,7 +104,7 @@ C
 C       FORCES ET MOMENTS
           APT = GEO(IPA+IPT,PID(I)) 
           DFXX = APT*SIGNXX
-          FOR(I,1) = FOR(I,1) + DFXX		 
+          FOR(I,1) = FOR(I,1) + DFXX     
 C                                                    
           LBUF%SIG(II(1)+I) = LBUF%SIG(II(1)+I) + SIGNXX
         ENDDO                                                       

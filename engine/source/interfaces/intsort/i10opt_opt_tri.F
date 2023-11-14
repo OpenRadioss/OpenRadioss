@@ -63,12 +63,12 @@ C     REAL
 C-----------------------------------------------
 C     REAL
 C-----------------------------------------------
-C	Calcul des adresses des buffers d'interfaces. 
-C	Les adresses des buffers J10-JFI et K10-KFI 
-C	sont remplaces systematiquement par des tableaux
-C	JD(i) et KD(i), en gardant les memes numeros d'indexes.
-C	Les anciens adresses directs Jn, Kn sont modifies
-C	dans la routine sans commentaires additionnels habituels
+C  Calcul des adresses des buffers d'interfaces. 
+C  Les adresses des buffers J10-JFI et K10-KFI 
+C  sont remplaces systematiquement par des tableaux
+C  JD(i) et KD(i), en gardant les memes numeros d'indexes.
+C  Les anciens adresses directs Jn, Kn sont modifies
+C  dans la routine sans commentaires additionnels habituels
 C----------------------------------------------------
       NOINT  =IPARI(15)
 C
@@ -84,7 +84,7 @@ C     (si candidat retenu, cand_n(i) = - cand_n(i))
 C-----------------------------------------------------------
        I_STOK = INTBUF_TAB%I_STOK(1)
        CALL I10OPTCD(
-     1INTBUF_TAB%NSV,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,X	  ,I_STOK	,
+     1INTBUF_TAB%NSV,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,X    ,I_STOK  ,
      2INTBUF_TAB%IRECTM,GAP      ,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,IPARI(21)    ,
      3ITASK        ,NIN      ,IPARI(5)     ,INTBUF_TAB%STFNS,INTBUF_TAB%STFM,
      4COUNT_REMSLV )

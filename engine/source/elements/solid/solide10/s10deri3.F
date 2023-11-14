@@ -234,15 +234,15 @@ C-------------attention, /STOP /DEL are not implemented
           IF(OFF(I) == ZERO.OR.OFFG(I) > ONE)THEN
           ELSEIF(VOL(I,IP)<=ZERO)THEN
             NNEGA=NNEGA+1
-	    INDEX(NNEGA)=I
+              INDEX(NNEGA)=I
 #include "lockon.inc"
            IF(ISMSTR<10) THEN
               CALL ANCMSG(MSGID=260,ANMODE=ANINFO,
      .                    I1=NGL(I))
-	   ELSE
+             ELSE
               CALL ANCMSG(MSGID=262,ANMODE=ANINFO,
      .                    I1=NGL(I))
-	   END IF
+             END IF
 #include "lockoff.inc"
             OFFG(I) = TWO
           ENDIF

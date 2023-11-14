@@ -159,7 +159,7 @@ C
              F5(I-NAD)=RFM(1,I)*(X(3,JP)-X(3,JRB))
      +                -RFM(3,I)*(X(1,JP)-X(1,JRB))
              F6(I-NAD)=RFM(2,I)*(X(1,JP)-X(1,JRB))
-     +        	      -RFM(1,I)*(X(2,JP)-X(2,JRB))
+     +                -RFM(1,I)*(X(2,JP)-X(2,JRB))
            ELSE
              F1(I-NAD)=ZERO
              F2(I-NAD)=ZERO

@@ -527,12 +527,12 @@ C--------------------------------------------------
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'FREAC') THEN
 C--------------------------------------------------
-	    DO I=1,NUMNOD
-	      VALUE(1)=FANREAC(1,I)
-	      VALUE(2)=FANREAC(2,I)
-	      VALUE(3)=FANREAC(3,I)
+              DO I=1,NUMNOD
+                VALUE(1)=FANREAC(1,I)
+                VALUE(2)=FANREAC(2,I)
+                VALUE(3)=FANREAC(3,I)
           CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
-	    ENDDO
+              ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'MREAC') THEN
 C--------------------------------------------------
@@ -545,21 +545,21 @@ C--------------------------------------------------
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'CLUSTER/FORCE') THEN
 C--------------------------------------------------
-	    DO I=1,NUMNOD
-	      VALUE(1)=FCLUSTER(1,I)
-	      VALUE(2)=FCLUSTER(2,I)
-	      VALUE(3)=FCLUSTER(3,I)
+              DO I=1,NUMNOD
+                VALUE(1)=FCLUSTER(1,I)
+                VALUE(2)=FCLUSTER(2,I)
+                VALUE(3)=FCLUSTER(3,I)
           CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
-	    ENDDO
+              ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'CLUSTER/MOMENT') THEN
 C--------------------------------------------------
-	    DO I=1,NUMNOD
-	      VALUE(1)=MCLUSTER(1,I)
-	      VALUE(2)=MCLUSTER(2,I)
-	      VALUE(3)=MCLUSTER(3,I)
+              DO I=1,NUMNOD
+                VALUE(1)=MCLUSTER(1,I)
+                VALUE(2)=MCLUSTER(2,I)
+                VALUE(3)=MCLUSTER(3,I)
           CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
-	    ENDDO
+              ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'ZVEL') THEN
         CALL H3D_VELVECC22(ELBUF_TAB,IPARG,1,IXS,IXQ,ITAB,IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR)

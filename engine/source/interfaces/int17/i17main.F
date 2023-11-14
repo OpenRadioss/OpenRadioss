@@ -161,8 +161,8 @@ C -------------------------------------------------------------
        CALL MY_BARRIER
 C -------------------------------------------------------------
        CALL I17CRIT(
-     1   X	  ,V	       ,A	,IGRBRIC(IGN)%ENTITY,EMINX(1,NME+1),
-     2   NMES	  ,ITASK       ,INTBUF_TAB%XSAV,IXS	   ,IXS16         ,
+     1   X    ,V         ,A  ,IGRBRIC(IGN)%ENTITY,EMINX(1,NME+1),
+     2   NMES    ,ITASK       ,INTBUF_TAB%XSAV,IXS     ,IXS16         ,
      3   IXS20    ,XSLVG       ,SIZE_T  )
 C -------------------------------------------------------------
 #include "lockon.inc"
@@ -193,14 +193,14 @@ C=======================================================================
 C -------------------------------------------------------------
          CALL MY_BARRIER
 C -------------------------------------------------------------
-	 CALL I17BUCE(
-     1   IGRBRIC(IGN)%ENTITY,IXS	 ,IXS16   ,IXS20	,IGRBRIC(IGE)%ENTITY ,
-     2   NME_T      ,LWAT	 ,NMES    ,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
-     3   NOINT      ,IPARI(35,NIN) ,TZINF ,MINBOX	,EMINX        ,
-     4   INTBUF_TAB%XSAV,ITASK	 ,X	  ,V		,A	      ,
+           CALL I17BUCE(
+     1   IGRBRIC(IGN)%ENTITY,IXS   ,IXS16   ,IXS20  ,IGRBRIC(IGE)%ENTITY ,
+     2   NME_T      ,LWAT   ,NMES    ,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
+     3   NOINT      ,IPARI(35,NIN) ,TZINF ,MINBOX  ,EMINX        ,
+     4   INTBUF_TAB%XSAV,ITASK   ,X    ,V    ,A        ,
      5   MX_CAND    ,EMINX(1,NME+1),ESH_T ,INTBUF_TAB%FROTS,INTBUF_TAB%KS,
-     6   IDUM1      ,IDUM2	 ,IDUM3   ,NIN  	,NMESR        ,
-     7   V	    )
+     6   IDUM1      ,IDUM2   ,IDUM3   ,NIN    ,NMESR        ,
+     7   V      )
 C IDUM1 & IDUM2 replace ISENDTO, IRCVFROM useful for SPMD i17 pena
 C -------------------------------------------------------------
          CALL MY_BARRIER
@@ -210,11 +210,11 @@ C=======================================================================
 C      CONTACT
 C=======================================================================
        CALL I17LAGM(
-     1   X	 ,V	       ,LLL	  ,JLL  	 ,SLL	      ,
-     2   XLL	 ,INTBUF_TAB%CAND_N,INTBUF_TAB%CAND_E,IPARI(35,NIN),IXS,
-     3   IXS16   ,IADLL        ,EMINX	  ,IGRBRIC(IGN)%ENTITY,IGRBRIC(IGE)%ENTITY,
-     4   NC	 ,N_MUL_MX     ,ITASK	  ,A		,IPARI(30,NIN),
-     5   NIN	 ,NKMAX        ,EMINX(1,NME+1),COMNTAG  )
+     1   X   ,V         ,LLL    ,JLL     ,SLL        ,
+     2   XLL   ,INTBUF_TAB%CAND_N,INTBUF_TAB%CAND_E,IPARI(35,NIN),IXS,
+     3   IXS16   ,IADLL        ,EMINX    ,IGRBRIC(IGN)%ENTITY,IGRBRIC(IGE)%ENTITY,
+     4   NC   ,N_MUL_MX     ,ITASK    ,A    ,IPARI(30,NIN),
+     5   NIN   ,NKMAX        ,EMINX(1,NME+1),COMNTAG  )
        CALL I21LAGM(
      1   X       ,V            ,LLL       ,JLL           ,SLL         ,
      2   XLL     ,INTBUF_TAB%CAND_N,INTBUF_TAB%CAND_E,IPARI(35,NIN),IXS,
