@@ -25,7 +25,6 @@ Chd|  FAIL_BEAM3                    source/elements/beam/fail_beam3.F
 Chd|-- called by -----------
 Chd|        MAIN_BEAM3                    source/elements/beam/main_beam3.F
 Chd|-- calls ---------------
-Chd|        FAIL_COCKROFT_B               source/materials/fail/cockroft_latham/fail_cockroft_b.F
 Chd|        FAIL_ENERGY_B                 source/materials/fail/energy/fail_energy_b.F
 Chd|        FAIL_JOHNSON_B                source/materials/fail/johnson_cook/fail_johnson_b.F
 Chd|        FAIL_TENSSTRAIN_B             source/materials/fail/tensstrain/fail_tensstrain_b.F
