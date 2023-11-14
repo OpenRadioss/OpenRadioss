@@ -61,7 +61,7 @@ C     If A is in simple precision
 c     Convert A in integer
           TMP = TRANSFER(A(1:SIZ2,1:SIZ1),S1,SIZ)
           DO I = 1,SIZ
-            S1 = MOD(S1 + TMP(I),ROOT)
+            S1 = MOD(S1 + MOD(TMP(I),ROOT),ROOT)
             S2 = MOD(S1 + S2    ,ROOT)
           ENDDO
 C     (s2 << 16) | s1
