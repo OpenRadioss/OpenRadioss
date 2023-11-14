@@ -138,7 +138,7 @@ Chd|====================================================================
      E                  IXIG3D     ,TAGPRT_FRIC ,INTBUF_FRIC_TAB,IPARTT,IPARTP  ,
      F                  IPARTX     ,IPARTR      ,NSN_MULTI_CONNEC,T2_ADD_CONNEC,T2_NB_CONNEC,
      G                  T2_CONNEC  ,NOM_OPT     ,ICODE     ,ISKEW      ,IREMNODE_EDG,
-     H                  S_APPEND_ARRAY,X_APPEND,MASS_APPEND,N2D,FLAG_REMOVED_NODE)
+     H                  S_APPEND_ARRAY,X_APPEND,MASS_APPEND,N2D,FLAG_REMOVED_NODE,NSPMD)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -191,6 +191,7 @@ C-----------------------------------------------
      .   NREMNODE,KXX(*),IXX(*),IGEO(*),IWORKSH(*),NSN_MULTI_CONNEC,T2_ADD_CONNEC(*),
      .   T2_NB_CONNEC(*),T2_CONNEC(*)
       INTEGER NOM_OPT(LNOPT1,*)
+      INTEGER, INTENT(in) :: NSPMD !< nuummber of mpi tasks
       my_real
      .   PM(*), GEO(*), RWA(6,*),
      .   THK(*),THK_PART(*), LELX(*), FILLSOL(*),
@@ -512,7 +513,7 @@ c       IF ((ILEV >=10 .AND. ILEV < 23) ) THEN
 
        ! -----------------
        ! update the weight of candidate's pair for the domain decomposition
-       IF (IDDLEVEL==0)THEN
+       IF (IDDLEVEL==0.AND.NSPMD>1)THEN
          IF ( ((NELEMINT+NSN)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,NSN)
          CALL UPDATE_WEIGHT_INTER_TYPE2(NELEMINT,INTERFACE_ID,NSN,NRTM,IFIEND,
      1                                  N2D,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,INTER_CAND)
@@ -729,7 +730,7 @@ C I_STOK sauvegarde a sa place pour optimisation tri
 
        ! -----------------
        ! update the weight of candidate's pair for the domain decomposition
-       IF (IDDLEVEL==0)THEN
+       IF (IDDLEVEL==0.AND.NSPMD>1)THEN
          IF ( ((NELEMINT+I_STOK)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,I_STOK)
 
         GAP = INTBUF_TAB%VARIABLES(2)
@@ -1122,7 +1123,7 @@ C
 
        ! -----------------
        ! update the weight of candidate's pair for the domain decomposition
-       IF (IDDLEVEL==0)THEN
+       IF (IDDLEVEL==0.AND.NSPMD>1)THEN
          IF ( ((NELEMINT+I_STOK)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,I_STOK)
           CALL UPDATE_WEIGHT_INTER_TYPE11(NELEMINT,INTERFACE_ID,NSN,NRTM,IFIEND,
      .                                    INTBUF_TAB%IRECTM,INTBUF_TAB%IRECTS,I_STOK,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
@@ -1241,7 +1242,7 @@ C-----------------------------------------------------------------------
      A              IWPENE  ,IXS10,I_MEM     ,
      B              INTER_CAND,IXS16   ,IXS20   ,ID   ,TITR      ,
      C              KXX     ,IXX     ,IGEO  ,NOD2EL1D,KNOD2EL1D,
-     D              LELX    ,INTBUF_TAB , PM_STACK , IWORKSH)
+     D              LELX    ,INTBUF_TAB , PM_STACK , IWORKSH,NSPMD)
        IF (I_MEM ==2) RETURN
 C-----------------------------------------------------------------------
       ELSEIF(NTY==21) THEN
@@ -1399,7 +1400,7 @@ C
 
        ! -----------------
        ! update the weight of candidate's pair for the domain decomposition
-       IF (IDDLEVEL==0)THEN
+       IF (IDDLEVEL==0.AND.NSPMD>1)THEN
          IF ( ((NELEMINT+I_STOK)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,I_STOK)
 
         GAP = INTBUF_TAB%VARIABLES(2)
@@ -1410,7 +1411,7 @@ C
      .                                 INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,I_STOK,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      .                                 IGAP,GAP,GAPMAX,GAPMIN,DGAPLOAD,
      .                                 DRAD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_M,INTBUF_TAB%GAP_ML,
-     .                                 NUMNOD,PTR_X,INTER_CAND)
+     .                                 NUMNOD,X,INTER_CAND)
        ENDIF
        ! -----------------
 
@@ -1638,7 +1639,7 @@ C      CLOSE(67)
 
        ! -----------------
        ! update the weight of candidate's pair for the domain decomposition
-       IF (IDDLEVEL==0)THEN
+       IF (IDDLEVEL==0.AND.NSPMD>1)THEN
          IF ( ((NELEMINT+I_STOK)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,I_STOK)
 
         DGAPLOAD = INTBUF_TAB%VARIABLES(46)
@@ -2064,7 +2065,7 @@ C
 C
        ! -----------------
        ! update the weight of candidate's pair for the domain decomposition
-       IF (IDDLEVEL==0)THEN
+       IF (IDDLEVEL==0.AND.NSPMD>1)THEN
          IF ( ((NELEMINT+I_STOK)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,I_STOK)
 
         DGAPLOAD = INTBUF_TAB%VARIABLES(46)

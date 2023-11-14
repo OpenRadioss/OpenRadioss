@@ -61,7 +61,7 @@ Chd|====================================================================
      A                  IWPENTOT,IXS10 ,I_MEM    ,
      B                  INTER_CAND,IXS16,IXS20   ,ID    ,TITR     ,
      C                  KXX     ,IXX     ,IGEO  ,NOD2EL1D,KNOD2EL1D, 
-     D                  LELX    ,INTBUF_TAB ,PM_STACK, IWORKSH )
+     D                  LELX    ,INTBUF_TAB ,PM_STACK, IWORKSH,NSPMD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -104,6 +104,7 @@ C-----------------------------------------------
      .   IXS16(*), IXS20(*),KXX(*),IXX(*), IGEO(NPROPGI,*),
      .   NOD2EL1D(*), KNOD2EL1D(*),IWORKSH(3,*)
       INTEGER IKINE1(*)
+      INTEGER, INTENT(in) :: NSPMD !< nuummber of mpi tasks
 C     REAL
       my_real
      .   X(*), PM(*), GEO(*), MS(*),RWA(6,*),
@@ -261,7 +262,7 @@ C
       IF (IMACH==3) THEN
        ! -----------------
        ! update the weight of candidate's pair for the domain decomposition
-       IF (IDDLEVEL==0)THEN
+       IF (IDDLEVEL==0.AND.NSPMD>1)THEN
          IF ( ((NELEMINT+I_STOK)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,I_STOK)
 
         GAP = INTBUF_TAB%VARIABLES(2)

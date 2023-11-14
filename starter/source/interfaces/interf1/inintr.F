@@ -338,7 +338,7 @@ C---     Initial dimension of REMNODE arrays
      E                IXIG3D       ,TAGPRT_FRIC    ,INTBUF_FRIC_TAB ,IPARTT       ,IPARTP   ,
      F                IPARTX       ,IPARTR         ,NSN_MULTI_CONNEC,T2_ADD_CONNEC,T2_NB_CONNEC,
      G                T2_CONNEC    ,NOM_OPT        ,ICODE           ,ISKEW        ,IREMNODE_EDG,
-     H                MULTI_FVM%S_APPEND_ARRAY,MULTI_FVM%X_APPEND,MULTI_FVM%MASS_APPEND,N2D,FLAG_REMOVED_NODE)
+     H                MULTI_FVM%S_APPEND_ARRAY,MULTI_FVM%X_APPEND,MULTI_FVM%MASS_APPEND,N2D,FLAG_REMOVED_NODE,NSPMD)
 
               IF (I_MEM /= 0) GOTO 200
             ELSE
@@ -354,7 +354,7 @@ C---     Initial dimension of REMNODE arrays
           ! ----------------
           ! update the forbidden nodes for interface type 2 and 24
           ! thank to remnode algo (remnode for removed node ???)
-          IF (N2D==0.AND.KIND_INTERFACE==2) THEN
+          IF (N2D==0.AND.KIND_INTERFACE==2.AND.NSPMD>1) THEN
             IF(IDDLEVEL==0) THEN   
               FLAG_OUTPUT = 0
               IF (NINT2 >0) CALL REMN_I2OP(IPARI   ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMN,FLAG_OUTPUT)
