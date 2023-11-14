@@ -669,7 +669,7 @@ Chd|        FORINTP                       source/elements/forintp.F
 Chd|-- calls ---------------
 Chd|        SPHBOX                        share/modules/sphbox.F        
 Chd|====================================================================
-      SUBROUTINE SPMD_SPHGETW(SPBUF,WACOMP,WA,WAR)
+      SUBROUTINE SPMD_SPHGETW(SPBUF,WACOMP,WA,WAR,SPH_IORD1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -693,6 +693,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+       INTEGER, INTENT(IN) :: SPH_IORD1
        my_real
      .        SPBUF(NSPBUF,*), WACOMP(16,*), WA(KWASPH,*),
      .        WAR(10,*)
@@ -704,7 +705,7 @@ C-----------------------------------------------
      .        IERROR, ICELL,
      .        REQ_SD(NSPMD), STATUS(MPI_STATUS_SIZE),MSGOFF
        my_real
-     .        BUFS(15,NSPHS), BUFR(15,NSPHR)
+     .        BUFS(15+6*SPH_IORD1,NSPHS),BUFR(15+6*SPH_IORD1,NSPHR)
        DATA MSGOFF/2010/
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -713,85 +714,171 @@ C-----------------------------------------------
 C
 C Envoi WACOMP, WA, RHO sur cellules actives
 C
-      IDEB = 0
-      DO P = 1, NSPMD
-        IF(PSPHS(P)>0)THEN
-          NN = 0
-          DO N = 1, PSPHS(P)
-            IF(ISPHS(IDEB+N)==1) THEN
-              NN = NN + 1
-              ICELL = LSPHS(IDEB+N)
-C             INOD = KXSP(3,ICELL)
-              BUFS(1,NN+IDEB)  = SPBUF(2,ICELL)
-              BUFS(2,NN+IDEB)  = WACOMP(1,ICELL)
-              BUFS(3,NN+IDEB)  = WACOMP(5,ICELL)
-              BUFS(4,NN+IDEB)  = WACOMP(6,ICELL)
-              BUFS(5,NN+IDEB)  = WACOMP(7,ICELL)
-              BUFS(6,NN+IDEB)  = WA(1,ICELL)
-              BUFS(7,NN+IDEB)  = WA(2,ICELL)
-              BUFS(8,NN+IDEB)  = WA(3,ICELL)
-              BUFS(9,NN+IDEB)  = WA(4,ICELL)
-              BUFS(10,NN+IDEB) = WA(5,ICELL)
-              BUFS(11,NN+IDEB) = WA(6,ICELL)
-              BUFS(12,NN+IDEB) = WA(8,ICELL)
-              BUFS(13,NN+IDEB) = WA(9,ICELL)
-              BUFS(14,NN+IDEB) = WA(13,ICELL)
-              BUFS(15,NN+IDEB) = WA(14,ICELL)
-            END IF
-          END DO
-          MSGTYP = MSGOFF
-          CALL MPI_ISEND(
-     S      BUFS(1,IDEB+1),NN*15,REAL,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_SD(P),IERROR)
-          IDEB = IDEB + PSPHS(P)
-        END IF
-      END DO
+      IF (SPH_IORD1 == 0) THEN
+        IDEB = 0
+        DO P = 1, NSPMD
+          IF(PSPHS(P)>0)THEN
+            NN = 0
+            DO N = 1, PSPHS(P)
+              IF(ISPHS(IDEB+N)==1) THEN
+                NN = NN + 1
+                ICELL = LSPHS(IDEB+N)
+C               INOD = KXSP(3,ICELL)
+                BUFS(1,NN+IDEB)  = SPBUF(2,ICELL)
+                BUFS(2,NN+IDEB)  = WA(1,ICELL)
+                BUFS(3,NN+IDEB)  = WA(2,ICELL)
+                BUFS(4,NN+IDEB)  = WA(3,ICELL)
+                BUFS(5,NN+IDEB)  = WA(4,ICELL)
+                BUFS(6,NN+IDEB)  = WA(5,ICELL)
+                BUFS(7,NN+IDEB)  = WA(6,ICELL)
+                BUFS(8,NN+IDEB)  = WA(8,ICELL)
+                BUFS(9,NN+IDEB)  = WA(9,ICELL)
+                BUFS(10,NN+IDEB) = WA(13,ICELL)
+                BUFS(11,NN+IDEB) = WA(14,ICELL)
+                BUFS(12,NN+IDEB) = WACOMP(1,ICELL)
+                BUFS(13,NN+IDEB) = WACOMP(5,ICELL)
+                BUFS(14,NN+IDEB) = WACOMP(6,ICELL)
+                BUFS(15,NN+IDEB) = WACOMP(7,ICELL)
+              END IF
+            END DO
+            MSGTYP = MSGOFF
+            CALL MPI_ISEND(
+     S        BUFS(1,IDEB+1),NN*15,REAL,IT_SPMD(P),MSGTYP,
+     G        MPI_COMM_WORLD,REQ_SD(P),IERROR)
+            IDEB = IDEB + PSPHS(P)
+          END IF
+        END DO
+      ELSE
+        IDEB = 0
+        DO P = 1, NSPMD
+          IF(PSPHS(P)>0)THEN
+            NN = 0
+            DO N = 1, PSPHS(P)
+              IF(ISPHS(IDEB+N)==1) THEN
+                NN = NN + 1
+                ICELL = LSPHS(IDEB+N)
+C               INOD = KXSP(3,ICELL)
+                BUFS(1,NN+IDEB)  = SPBUF(2,ICELL)
+                BUFS(2,NN+IDEB)  = WA(1,ICELL)
+                BUFS(3,NN+IDEB)  = WA(2,ICELL)
+                BUFS(4,NN+IDEB)  = WA(3,ICELL)
+                BUFS(5,NN+IDEB)  = WA(4,ICELL)
+                BUFS(6,NN+IDEB)  = WA(5,ICELL)
+                BUFS(7,NN+IDEB)  = WA(6,ICELL)
+                BUFS(8,NN+IDEB)  = WA(8,ICELL)
+                BUFS(9,NN+IDEB)  = WA(9,ICELL)
+                BUFS(10,NN+IDEB) = WA(13,ICELL)
+                BUFS(11,NN+IDEB) = WA(14,ICELL)
+                BUFS(12,NN+IDEB) = WACOMP(1,ICELL)
+                BUFS(13,NN+IDEB) = WACOMP(8,ICELL)
+                BUFS(14,NN+IDEB) = WACOMP(9,ICELL)
+                BUFS(15,NN+IDEB) = WACOMP(10,ICELL)
+                BUFS(16,NN+IDEB) = WACOMP(11,ICELL)
+                BUFS(17,NN+IDEB) = WACOMP(12,ICELL)
+                BUFS(18,NN+IDEB) = WACOMP(13,ICELL)
+                BUFS(19,NN+IDEB) = WACOMP(14,ICELL)
+                BUFS(20,NN+IDEB) = WACOMP(15,ICELL)
+                BUFS(21,NN+IDEB) = WACOMP(16,ICELL)                                
+              END IF
+            END DO
+            MSGTYP = MSGOFF
+            CALL MPI_ISEND(
+     S        BUFS(1,IDEB+1),NN*21,REAL,IT_SPMD(P),MSGTYP,
+     G        MPI_COMM_WORLD,REQ_SD(P),IERROR)
+            IDEB = IDEB + PSPHS(P)
+          END IF
+        END DO        
+      ENDIF  
 C
 C Reception WACOMP, WA, RHO
 C
-      IDEB = 0
-      DO P = 1, NSPMD
-        IF(PSPHR(P)/=0)THEN
-          MSGTYP = MSGOFF
-          CALL MPI_RECV(BUFR,15*PSPHR(P),REAL,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
-          NN = 0
-          DO N = 1, PSPHR(P)
-            IF(ISPHR(IDEB+N)==1) THEN
-              NN = NN + 1
-              XSPHR(7,IDEB+N)  = BUFR(1,NN)
-              WACOMPR(1,IDEB+N)= BUFR(2,NN)
-              WACOMPR(2,IDEB+N)= ZERO
-              WACOMPR(3,IDEB+N)= ZERO
-              WACOMPR(4,IDEB+N)= ZERO
-              WACOMPR(5,IDEB+N)= BUFR(3,NN)
-              WACOMPR(6,IDEB+N)= BUFR(4,NN)
-              WACOMPR(7,IDEB+N)= BUFR(5,NN)
-              WACOMPR(8,IDEB+N)= ZERO
-              WACOMPR(9,IDEB+N)= ZERO
-              WACOMPR(10,IDEB+N)=ZERO
-              WACOMPR(11,IDEB+N)=ZERO
-              WACOMPR(12,IDEB+N)=ZERO
-              WACOMPR(13,IDEB+N)=ZERO
-              WACOMPR(14,IDEB+N)=ZERO
-              WACOMPR(15,IDEB+N)=ZERO
-              WACOMPR(16,IDEB+N)=ZERO
-              WAR(1,IDEB+N)= BUFR(6,NN)
-              WAR(2,IDEB+N)= BUFR(7,NN)
-              WAR(3,IDEB+N)= BUFR(8,NN)
-              WAR(4,IDEB+N)= BUFR(9,NN)
-              WAR(5,IDEB+N)= BUFR(10,NN)
-              WAR(6,IDEB+N)= BUFR(11,NN)
-              WAR(7,IDEB+N)= BUFR(12,NN)
-              WAR(8,IDEB+N)= BUFR(13,NN)
-              WAR(9,IDEB+N)= BUFR(14,NN)
-              WAR(10,IDEB+N)=BUFR(15,NN)
-            END IF
-          END DO    
-          IDEB = IDEB + PSPHR(P)
-        END IF
-
-      END DO
+      IF (SPH_IORD1 == 0) THEN
+        IDEB = 0
+        DO P = 1, NSPMD
+          IF(PSPHR(P)/=0)THEN
+            MSGTYP = MSGOFF
+            CALL MPI_RECV(BUFR,15*PSPHR(P),REAL,IT_SPMD(P),
+     .                    MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+            NN = 0
+            DO N = 1, PSPHR(P)
+              IF(ISPHR(IDEB+N)==1) THEN
+                NN = NN + 1
+                XSPHR(7,IDEB+N)  = BUFR(1,NN)
+                WAR(1,IDEB+N)= BUFR(2,NN)
+                WAR(2,IDEB+N)= BUFR(3,NN)
+                WAR(3,IDEB+N)= BUFR(4,NN)
+                WAR(4,IDEB+N)= BUFR(5,NN)
+                WAR(5,IDEB+N)= BUFR(6,NN)
+                WAR(6,IDEB+N)= BUFR(7,NN)
+                WAR(7,IDEB+N)= BUFR(8,NN)
+                WAR(8,IDEB+N)= BUFR(9,NN)
+                WAR(9,IDEB+N)= BUFR(10,NN)
+                WAR(10,IDEB+N)=BUFR(11,NN)
+                WACOMPR(1,IDEB+N)= BUFR(12,NN)
+                WACOMPR(2,IDEB+N)= ZERO
+                WACOMPR(3,IDEB+N)= ZERO
+                WACOMPR(4,IDEB+N)= ZERO
+                WACOMPR(5,IDEB+N)= BUFR(13,NN)
+                WACOMPR(6,IDEB+N)= BUFR(14,NN)
+                WACOMPR(7,IDEB+N)= BUFR(15,NN)
+                WACOMPR(8,IDEB+N)= ZERO
+                WACOMPR(9,IDEB+N)= ZERO
+                WACOMPR(10,IDEB+N)=ZERO
+                WACOMPR(11,IDEB+N)=ZERO
+                WACOMPR(12,IDEB+N)=ZERO
+                WACOMPR(13,IDEB+N)=ZERO
+                WACOMPR(14,IDEB+N)=ZERO
+                WACOMPR(15,IDEB+N)=ZERO
+                WACOMPR(16,IDEB+N)=ZERO
+              END IF
+            END DO	  
+            IDEB = IDEB + PSPHR(P)
+          END IF
+        END DO
+      ELSE
+        IDEB = 0
+        DO P = 1, NSPMD
+          IF(PSPHR(P)/=0)THEN
+            MSGTYP = MSGOFF
+            CALL MPI_RECV(BUFR,21*PSPHR(P),REAL,IT_SPMD(P),
+     .                    MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+            NN = 0
+            DO N = 1, PSPHR(P)
+              IF(ISPHR(IDEB+N)==1) THEN
+                NN = NN + 1
+                XSPHR(7,IDEB+N)  = BUFR(1,NN)
+                WAR(1,IDEB+N)= BUFR(2,NN)
+                WAR(2,IDEB+N)= BUFR(3,NN)
+                WAR(3,IDEB+N)= BUFR(4,NN)
+                WAR(4,IDEB+N)= BUFR(5,NN)
+                WAR(5,IDEB+N)= BUFR(6,NN)
+                WAR(6,IDEB+N)= BUFR(7,NN)
+                WAR(7,IDEB+N)= BUFR(8,NN)
+                WAR(8,IDEB+N)= BUFR(9,NN)
+                WAR(9,IDEB+N)= BUFR(10,NN)
+                WAR(10,IDEB+N)=BUFR(11,NN)
+                WACOMPR(1,IDEB+N)= BUFR(12,NN)
+                WACOMPR(2,IDEB+N)= ZERO
+                WACOMPR(3,IDEB+N)= ZERO
+                WACOMPR(4,IDEB+N)= ZERO
+                WACOMPR(5,IDEB+N)= ZERO
+                WACOMPR(6,IDEB+N)= ZERO
+                WACOMPR(7,IDEB+N)= ZERO
+                WACOMPR(8,IDEB+N)= BUFR(13,NN)
+                WACOMPR(9,IDEB+N)= BUFR(14,NN)
+                WACOMPR(10,IDEB+N)=BUFR(15,NN)
+                WACOMPR(11,IDEB+N)=BUFR(16,NN)
+                WACOMPR(12,IDEB+N)=BUFR(17,NN)
+                WACOMPR(13,IDEB+N)=BUFR(18,NN)
+                WACOMPR(14,IDEB+N)=BUFR(19,NN)
+                WACOMPR(15,IDEB+N)=BUFR(20,NN)
+                WACOMPR(16,IDEB+N)=BUFR(21,NN)
+              END IF
+            END DO	  
+            IDEB = IDEB + PSPHR(P)
+          END IF
+        END DO        
+      ENDIF
 C
 C Wait terminaison
 C
@@ -1383,7 +1470,7 @@ Chd|        FORINTP                       source/elements/forintp.F
 Chd|-- calls ---------------
 Chd|        SPHBOX                        share/modules/sphbox.F        
 Chd|====================================================================
-      SUBROUTINE SPMD_SPHGETG(WGRADT,WACOMP,WGR)
+      SUBROUTINE SPMD_SPHGETG(WGRADT,WACOMP,WGR,SPH_IORD1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1406,6 +1493,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+       INTEGER, INTENT(IN) :: SPH_IORD1
        my_real
      .        WGRADT(3,*), WACOMP(16,*), WGR(3,*)
 C-----------------------------------------------
@@ -1416,7 +1504,7 @@ C-----------------------------------------------
      .        IERROR, ICELL,
      .        REQ_SD(NSPMD), STATUS(MPI_STATUS_SIZE),MSGOFF
        my_real
-     .        BUFS(7,NSPHS), BUFR(7,NSPHR)
+     .        BUFS(7+6*SPH_IORD1,NSPHS), BUFR(7+6*SPH_IORD1,NSPHR)
        DATA MSGOFF/2016/
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -1425,68 +1513,139 @@ C-----------------------------------------------
 C
 C Envoi WACOMP, WA, RHO sur cellules actives
 C
-      IDEB = 0
-      DO P = 1, NSPMD
-        IF(PSPHS(P)>0)THEN
-          NN = 0
-          DO N = 1, PSPHS(P)
-            IF(ISPHS(IDEB+N)==1) THEN
-              NN = NN + 1
-              ICELL = LSPHS(IDEB+N)
-C             INOD = KXSP(3,ICELL)
-              BUFS(1,NN+IDEB)  = WGRADT(1,ICELL)
-              BUFS(2,NN+IDEB)  = WGRADT(2,ICELL)
-              BUFS(3,NN+IDEB)  = WGRADT(3,ICELL)
-              BUFS(4,NN+IDEB)  = WACOMP(1,ICELL)
-              BUFS(5,NN+IDEB)  = WACOMP(5,ICELL)
-              BUFS(6,NN+IDEB)  = WACOMP(6,ICELL)
-              BUFS(7,NN+IDEB)  = WACOMP(7,ICELL)
-            END IF
-          END DO
-          MSGTYP = MSGOFF
-          CALL MPI_ISEND(
-     S      BUFS(1,IDEB+1),NN*7,REAL,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_SD(P),IERROR)
-          IDEB = IDEB + PSPHS(P)
-        END IF
-      END DO
+      IF (SPH_IORD1==0) THEN
+        IDEB = 0
+        DO P = 1, NSPMD
+          IF(PSPHS(P)>0)THEN
+            NN = 0
+            DO N = 1, PSPHS(P)
+              IF(ISPHS(IDEB+N)==1) THEN
+                NN = NN + 1
+                ICELL = LSPHS(IDEB+N)
+C               INOD = KXSP(3,ICELL)
+                BUFS(1,NN+IDEB)  = WGRADT(1,ICELL)
+                BUFS(2,NN+IDEB)  = WGRADT(2,ICELL)
+                BUFS(3,NN+IDEB)  = WGRADT(3,ICELL)
+                BUFS(4,NN+IDEB)  = WACOMP(1,ICELL)
+                BUFS(5,NN+IDEB)  = WACOMP(5,ICELL)
+                BUFS(6,NN+IDEB)  = WACOMP(6,ICELL)
+                BUFS(7,NN+IDEB)  = WACOMP(7,ICELL)
+              END IF
+            END DO
+            MSGTYP = MSGOFF
+            CALL MPI_ISEND(
+     S        BUFS(1,IDEB+1),NN*7,REAL,IT_SPMD(P),MSGTYP,
+     G        MPI_COMM_WORLD,REQ_SD(P),IERROR)
+            IDEB = IDEB + PSPHS(P)
+          END IF
+        END DO
+      ELSE
+        IDEB = 0
+        DO P = 1, NSPMD
+          IF(PSPHS(P)>0)THEN
+            NN = 0
+            DO N = 1, PSPHS(P)
+              IF(ISPHS(IDEB+N)==1) THEN
+                NN = NN + 1
+                ICELL = LSPHS(IDEB+N)
+C               INOD = KXSP(3,ICELL)
+                BUFS(1,NN+IDEB)  = WGRADT(1,ICELL)
+                BUFS(2,NN+IDEB)  = WGRADT(2,ICELL)
+                BUFS(3,NN+IDEB)  = WGRADT(3,ICELL)
+                BUFS(4,NN+IDEB)  = WACOMP(1,ICELL)
+                BUFS(5,NN+IDEB)  = WACOMP(8,ICELL)
+                BUFS(6,NN+IDEB)  = WACOMP(9,ICELL)
+                BUFS(7,NN+IDEB)  = WACOMP(10,ICELL)
+                BUFS(8,NN+IDEB)  = WACOMP(11,ICELL)
+                BUFS(9,NN+IDEB)  = WACOMP(12,ICELL)
+                BUFS(10,NN+IDEB) = WACOMP(13,ICELL)
+                BUFS(11,NN+IDEB) = WACOMP(14,ICELL)
+                BUFS(12,NN+IDEB) = WACOMP(15,ICELL)
+                BUFS(13,NN+IDEB) = WACOMP(16,ICELL)
+              END IF
+            END DO
+            MSGTYP = MSGOFF
+            CALL MPI_ISEND(
+     S        BUFS(1,IDEB+1),NN*13,REAL,IT_SPMD(P),MSGTYP,
+     G        MPI_COMM_WORLD,REQ_SD(P),IERROR)
+            IDEB = IDEB + PSPHS(P)
+          END IF
+        END DO        
+      ENDIF  
 C
 C Reception WACOMP, WA, RHO
 C
-      IDEB = 0
-      DO P = 1, NSPMD
-        IF(PSPHR(P)/=0)THEN
-          MSGTYP = MSGOFF
-          CALL MPI_RECV(BUFR,7*PSPHR(P),REAL,IT_SPMD(P),
+      IF (SPH_IORD1==0) THEN
+        IDEB = 0
+        DO P = 1, NSPMD
+          IF(PSPHR(P)/=0)THEN
+            MSGTYP = MSGOFF
+            CALL MPI_RECV(BUFR,7*PSPHR(P),REAL,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
-          NN = 0
-          DO N = 1, PSPHR(P)
-            IF(ISPHR(IDEB+N)==1) THEN
-              NN = NN + 1
-              WGR(1,IDEB+N)= BUFR(1,NN)
-              WGR(2,IDEB+N)= BUFR(2,NN)
-              WGR(3,IDEB+N)= BUFR(3,NN)
-              WACOMPR(1,IDEB+N)= BUFR(4,NN)
-              WACOMPR(2,IDEB+N)= ZERO
-              WACOMPR(3,IDEB+N)= ZERO
-              WACOMPR(4,IDEB+N)= ZERO
-              WACOMPR(5,IDEB+N)= BUFR(5,NN)
-              WACOMPR(6,IDEB+N)= BUFR(6,NN)
-              WACOMPR(7,IDEB+N)= BUFR(7,NN)
-              WACOMPR(8,IDEB+N)= ZERO
-              WACOMPR(9,IDEB+N)= ZERO
-              WACOMPR(10,IDEB+N)=ZERO
-              WACOMPR(11,IDEB+N)=ZERO
-              WACOMPR(12,IDEB+N)=ZERO
-              WACOMPR(13,IDEB+N)=ZERO
-              WACOMPR(14,IDEB+N)=ZERO
-              WACOMPR(15,IDEB+N)=ZERO
-              WACOMPR(16,IDEB+N)=ZERO
-            END IF
-          END DO
-          IDEB = IDEB + PSPHR(P)
-        END IF
-      END DO
+            NN = 0
+            DO N = 1, PSPHR(P)
+              IF(ISPHR(IDEB+N)==1) THEN
+                NN = NN + 1
+                WGR(1,IDEB+N)= BUFR(1,NN)
+                WGR(2,IDEB+N)= BUFR(2,NN)
+                WGR(3,IDEB+N)= BUFR(3,NN)
+                WACOMPR(1,IDEB+N)= BUFR(4,NN)
+                WACOMPR(2,IDEB+N)= ZERO
+                WACOMPR(3,IDEB+N)= ZERO
+                WACOMPR(4,IDEB+N)= ZERO
+                WACOMPR(5,IDEB+N)= BUFR(5,NN)
+                WACOMPR(6,IDEB+N)= BUFR(6,NN)
+                WACOMPR(7,IDEB+N)= BUFR(7,NN)
+                WACOMPR(8,IDEB+N)= ZERO
+                WACOMPR(9,IDEB+N)= ZERO
+                WACOMPR(10,IDEB+N)=ZERO
+                WACOMPR(11,IDEB+N)=ZERO
+                WACOMPR(12,IDEB+N)=ZERO
+                WACOMPR(13,IDEB+N)=ZERO
+                WACOMPR(14,IDEB+N)=ZERO
+                WACOMPR(15,IDEB+N)=ZERO
+                WACOMPR(16,IDEB+N)=ZERO
+              END IF
+            END DO
+            IDEB = IDEB + PSPHR(P)
+          END IF
+        END DO
+      ELSE
+        IDEB = 0
+        DO P = 1, NSPMD
+          IF(PSPHR(P)/=0)THEN
+            MSGTYP = MSGOFF
+            CALL MPI_RECV(BUFR,13*PSPHR(P),REAL,IT_SPMD(P),
+     .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+            NN = 0
+            DO N = 1, PSPHR(P)
+              IF(ISPHR(IDEB+N)==1) THEN
+                NN = NN + 1
+                WGR(1,IDEB+N)= BUFR(1,NN)
+                WGR(2,IDEB+N)= BUFR(2,NN)
+                WGR(3,IDEB+N)= BUFR(3,NN)
+                WACOMPR(1,IDEB+N)= BUFR(4,NN)
+                WACOMPR(2,IDEB+N)= ZERO
+                WACOMPR(3,IDEB+N)= ZERO
+                WACOMPR(4,IDEB+N)= ZERO
+                WACOMPR(5,IDEB+N)= ZERO
+                WACOMPR(6,IDEB+N)= ZERO
+                WACOMPR(7,IDEB+N)= ZERO
+                WACOMPR(8,IDEB+N)= BUFR(5,NN)
+                WACOMPR(9,IDEB+N)= BUFR(6,NN)
+                WACOMPR(10,IDEB+N)=BUFR(7,NN)
+                WACOMPR(11,IDEB+N)=BUFR(8,NN)
+                WACOMPR(12,IDEB+N)=BUFR(9,NN)
+                WACOMPR(13,IDEB+N)=BUFR(10,NN)
+                WACOMPR(14,IDEB+N)=BUFR(11,NN)
+                WACOMPR(15,IDEB+N)=BUFR(12,NN)
+                WACOMPR(16,IDEB+N)=BUFR(13,NN)
+              END IF
+            END DO
+            IDEB = IDEB + PSPHR(P)
+          END IF
+        END DO
+      ENDIF
 C
 C Wait terminaison
 C

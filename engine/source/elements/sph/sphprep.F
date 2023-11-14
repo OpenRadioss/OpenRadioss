@@ -76,7 +76,8 @@ Chd|====================================================================
      8    SPHVELN ,ITASK   ,XDP, IBUFSSG_IO  ,LGAUGE  ,
      9    GAUGE   ,NGROUNC ,IGROUNC ,SOL2SPH ,SPH2SOL ,
      A    IXS     ,IADS    ,ADDCNE  ,FSKYD   ,DMSPH   ,
-     B    WASPACT ,ICONTACT,OFF_SPH_R2R,WSMCOMP,IRUNN_BIS)
+     B    WASPACT ,ICONTACT,OFF_SPH_R2R,WSMCOMP,IRUNN_BIS,
+     C    SPH_IORD1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -118,6 +119,7 @@ C-----------------------------------------------
      .    NGROUNC,  IGROUNC(*), SOL2SPH(2,*), SPH2SOL(*), IXS(NIXS,*),
      .    IADS(8,*), ADDCNE(*), WASPACT(*), ICONTACT(*), OFF_SPH_R2R(*),
      .    IRUNN_BIS
+      INTEGER, INTENT(INOUT) :: SPH_IORD1     
 C     REAL
       my_real
      .   X(3,*), V(3,*), MS(*),PM(NPROPM,*),
@@ -680,7 +682,7 @@ C-----------------------------------------------
      2    KXSP    ,IXSP    ,NOD2SP   ,ISPSYM ,XSPSYM%BUF  ,
      3    VSPSYM%BUF  ,IPARG   ,WASPH  ,ISPCOND ,
      4    XFRAME  ,WSMCOMP%BUF,GEO,IPART  ,IPARTSP ,
-     5    WASPACT ,ITASK  )
+     5    WASPACT ,ITASK   ,SPH_IORD1)
 C-----------------------------------------------
 C
       IF(ITASK==0) DEALLOCATE(WREDUCE)

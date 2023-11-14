@@ -181,12 +181,12 @@ C
         K = 1
       ENDIF
 C------
-      IF(NSPMD > 1 .AND. IORDER==1)THEN
-        CALL ANCMSG(MSGID=755,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO,
-     .              C1='SPH CORRECTION ORDER 1')
-      END IF
+C      IF(NSPMD > 1 .AND. IORDER==1)THEN
+C        CALL ANCMSG(MSGID=755,
+C     .              MSGTYPE=MSGERROR,
+C     .              ANMODE=ANINFO,
+C     .              C1='SPH CORRECTION ORDER 1')
+C      END IF
 C
       IF (IFLG_H_1D==0) THEN
         RFLG_H_1D = THIRD

@@ -940,7 +940,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE, TARGET :: CNEL,ADDCNEL,ADDTMPL
       INTEGER, DIMENSION(:),ALLOCATABLE ::
      .        ISENDP_CRK,IRECVP_CRK
-      INTEGER NSPHACTG,nd
+      INTEGER NSPHACTG,nd,SPH_IORD1
       INTEGER, DIMENSION(1), TARGET :: IMP_DUM
 C----
       my_real,
@@ -4450,7 +4450,8 @@ C Init var parallel SMP
      8    SPHVELN ,ITSK    ,XDP     ,IBUFSSG_IO,LGAUGE  ,
      9    GAUGE   ,NGROUNC ,IGROUNC ,SOL2SPH ,SPH2SOL   ,
      A    IXS     ,IADS    ,ADSKY   ,FSKYD   ,DMSPH(NDTSK),
-     B    WASPH(KSPACTIV),ICONTACT_OLD,OFF_SPH_R2R,WSMCOMP,IRUNN_BIS)
+     B    WASPH(KSPACTIV),ICONTACT_OLD,OFF_SPH_R2R,WSMCOMP,IRUNN_BIS,
+     C    SPH_IORD1)
 !$OMP END PARALLEL
 
         IF (IMONM > 0) CALL STOPTIME(87,1)
@@ -4495,7 +4496,7 @@ C----------------------------------
      C    NGROUNC       ,IGROUNC        ,IXS        ,IRST            ,SOL2SPH       ,
      D    SPH2SOL       ,FSKY           ,FSKY       ,IGEO            ,TEMP          ,
      E    FTHE          ,FTHESKYI       ,SPHG_F6    ,WSMCOMP%BUF     ,SOL2SPH_TYP   ,
-     F    MAt_ELEM      ,OUTPUT         )
+     F    MAt_ELEM      ,OUTPUT         ,SPH_IORD1)
 #include "lockon.inc"
         IF(DT2TT<DT2T)THEN
           DT2T = DT2TT
