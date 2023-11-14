@@ -140,9 +140,9 @@ C       for artificial viscosity computation.
         FI   =DIVVI/MAX(EM20,DIVVI+ROTVI)
 C
         ALPHAI=WACOMP(1,N)
-        BETAXI=WACOMP(2,N)
-        BETAYI=WACOMP(3,N)
-        BETAZI=WACOMP(4,N)
+C        BETAXI=WACOMP(2,N)
+C        BETAYI=WACOMP(3,N)
+C        BETAZI=WACOMP(4,N)
         ALPHAXI=WACOMP( 5,N)
         ALPHAYI=WACOMP( 6,N)
         ALPHAZI=WACOMP( 7,N)
@@ -186,28 +186,29 @@ C
           WGRDX=WGRAD(1)
           WGRDY=WGRAD(2)
           WGRDZ=WGRAD(3)
-          BETAX=1.+BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
-          WGRAD(1)=
-     .     WGRDX*ALPHAI*BETAX
-     .     +WGHT*
-     .      (ALPHAXI*BETAX+ALPHAI*
-     .       (BETAXXI*(XI-XJ)+BETAYXI*(YI-YJ)+BETAZXI*(ZI-ZJ)+BETAXI))
-          WGRAD(2)=
-     .     WGRDY*ALPHAI*BETAX
-     .     +WGHT*
-     .      (ALPHAYI*BETAX+ALPHAI*
-     .       (BETAXYI*(XI-XJ)+BETAYYI*(YI-YJ)+BETAZYI*(ZI-ZJ)+BETAYI))
-          WGRAD(3)=
-     .     WGRDZ*ALPHAI*BETAX
-     .     +WGHT*
-     .      (ALPHAZI*BETAX+ALPHAI*
-     .       (BETAXZI*(XI-XJ)+BETAYZI*(YI-YJ)+BETAZZI*(ZI-ZJ)+BETAZI))
+          WGRAD(1)=WGRDX*ALPHAI+WGHT*ALPHAXI
+     .            +WGRDX*BETAXXI+WGRDY*BETAXYI+WGRDZ*BETAXZI
+          WGRAD(2)=WGRDY*ALPHAI+WGHT*ALPHAYI
+     .            +WGRDX*BETAYXI+WGRDY*BETAYYI+WGRDZ*BETAYZI
+          WGRAD(3)=WGRDZ*ALPHAI+WGHT*ALPHAZI
+     .            +WGRDX*BETAZXI+WGRDY*BETAZYI+WGRDZ*BETAZZI
+!          Old order1 correction           
+!          BETAX=1.+BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+!          WGRAD(1)=WGRDX*ALPHAI*BETAX
+!     .     +WGHT*(ALPHAXI*BETAX+ALPHAI*
+!     .      (BETAXXI*(XI-XJ)+BETAYXI*(YI-YJ)+BETAZXI*(ZI-ZJ)+BETAXI))
+!          WGRAD(2)=WGRDY*ALPHAI*BETAX
+!     .     +WGHT*(ALPHAYI*BETAX+ALPHAI*
+!     .      (BETAXYI*(XI-XJ)+BETAYYI*(YI-YJ)+BETAZYI*(ZI-ZJ)+BETAYI))
+!          WGRAD(3)=WGRDZ*ALPHAI*BETAX
+!     .     +WGHT*(ALPHAZI*BETAX+ALPHAI*
+!     .      BETAXZI*(XI-XJ)+BETAYZI*(YI-YJ)+BETAZZI*(ZI-ZJ)+BETAZI))
 C----------
 C         noyau conjugue Grad[Wa(b)]
           ALPHAJ=WACOMP(1,M)
-          BETAXJ=WACOMP(2,M)
-          BETAYJ=WACOMP(3,M)
-          BETAZJ=WACOMP(4,M)
+C          BETAXJ=WACOMP(2,M)
+C          BETAYJ=WACOMP(3,M)
+C          BETAZJ=WACOMP(4,M)
           ALPHAXJ=WACOMP( 5,M)
           ALPHAYJ=WACOMP( 6,M)
           ALPHAZJ=WACOMP( 7,M)
@@ -220,23 +221,25 @@ C         noyau conjugue Grad[Wa(b)]
           BETAXZJ=WACOMP(14,M)
           BETAYZJ=WACOMP(15,M)
           BETAZZJ=WACOMP(16,M)
-C
-          BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
-          WGRD(1)=
-     .     -WGRDX*ALPHAJ*BETAX
-     .     +WGHT*
-     .      (ALPHAXJ*BETAX+ALPHAJ*
-     .       (BETAXXJ*(XJ-XI)+BETAYXJ*(YJ-YI)+BETAZXJ*(ZJ-ZI)+BETAXJ))
-          WGRD(2)=
-     .     -WGRDY*ALPHAJ*BETAX
-     .     +WGHT*
-     .      (ALPHAYJ*BETAX+ALPHAJ*
-     .       (BETAXYJ*(XJ-XI)+BETAYYJ*(YJ-YI)+BETAZYJ*(ZJ-ZI)+BETAYJ))
-          WGRD(3)=
-     .     -WGRDZ*ALPHAJ*BETAX
-     .     +WGHT*
-     .      (ALPHAZJ*BETAX+ALPHAJ*
-     .       (BETAXZJ*(XJ-XI)+BETAYZJ*(YJ-YI)+BETAZZJ*(ZJ-ZI)+BETAZJ))
+C          
+          WGRD(1)=-WGRDX*ALPHAJ+WGHT*ALPHAXJ
+     .            -WGRDX*BETAXXJ-WGRDY*BETAXYJ-WGRDZ*BETAXZJ
+          WGRD(2)=-WGRDY*ALPHAJ+WGHT*ALPHAYJ
+     .            -WGRDX*BETAYXJ-WGRDY*BETAYYJ-WGRDZ*BETAYZJ
+          WGRD(3)=-WGRDZ*ALPHAJ+WGHT*ALPHAZJ
+     .            -WGRDX*BETAZXJ-WGRDY*BETAZYJ-WGRDZ*BETAZZJ
+C          
+!          Old order1 correction           
+!          BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
+!          WGRD(1)=-WGRDX*ALPHAJ*BETAX
+!     .     +WGHT*(ALPHAXJ*BETAX+ALPHAJ*
+!     .      (BETAXXJ*(XJ-XI)+BETAYXJ*(YJ-YI)+BETAZXJ*(ZJ-ZI)+BETAXJ))
+!          WGRD(2)=-WGRDY*ALPHAJ*BETAX
+!     .     +WGHT*(ALPHAYJ*BETAX+ALPHAJ*
+!     .      (BETAXYJ*(XJ-XI)+BETAYYJ*(YJ-YI)+BETAZYJ*(ZJ-ZI)+BETAYJ))
+!          WGRD(3)=-WGRDZ*ALPHAJ*BETAX
+!     .     +WGHT*(ALPHAZJ*BETAX+ALPHAJ*
+!     .      BETAXZJ*(XJ-XI)+BETAYZJ*(YJ-YI)+BETAZZJ*(ZJ-ZI)+BETAZJ))          
 C
           AX=SXX*WGRAD(1)+SXY*WGRAD(2)+SXZ*WGRAD(3)
           AY=SXY*WGRAD(1)+SYY*WGRAD(2)+SYZ*WGRAD(3)
@@ -288,6 +291,7 @@ C         artitifial viscosity.
           DIVVJ=ABS(WA(13,M))
           ROTVJ=WA(14,M)
           FJ   =DIVVJ/MAX(EM20,DIVVJ+ROTVJ)
+C          MUIJ=MIN(MUIJ,ZERO)
           MUIJ=MUIJ*(FI+FJ)*HALF
           SSP=(WA(8,N)+WA(8,M))*HALF
           MUIJ2=MIN(MUIJ,ZERO)*MIN(MUIJ,ZERO)
@@ -301,6 +305,7 @@ C         FV(j,i)=-FV(i,j)
           FVX=-FACT*WGRDX
           FVY=-FACT*WGRDY
           FVZ=-FACT*WGRDZ
+C
           IF((NODADT/=0).OR.(I7KGLO/=0))THEN
 C
 C           nodal stability
@@ -354,28 +359,29 @@ C Solids to SPH, no interaction if both particles are inactive
           WGRDX=WGRAD(1)
           WGRDY=WGRAD(2)
           WGRDZ=WGRAD(3)
-          BETAX=1.+BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
-          WGRAD(1)=
-     .     WGRDX*ALPHAI*BETAX
-     .     +WGHT*
-     .      (ALPHAXI*BETAX+ALPHAI*
-     .       (BETAXXI*(XI-XJ)+BETAYXI*(YI-YJ)+BETAZXI*(ZI-ZJ)+BETAXI))
-          WGRAD(2)=
-     .     WGRDY*ALPHAI*BETAX
-     .     +WGHT*
-     .      (ALPHAYI*BETAX+ALPHAI*
-     .       (BETAXYI*(XI-XJ)+BETAYYI*(YI-YJ)+BETAZYI*(ZI-ZJ)+BETAYI))
-          WGRAD(3)=
-     .     WGRDZ*ALPHAI*BETAX
-     .     +WGHT*
-     .      (ALPHAZI*BETAX+ALPHAI*
-     .       (BETAXZI*(XI-XJ)+BETAYZI*(YI-YJ)+BETAZZI*(ZI-ZJ)+BETAZI))
+          WGRAD(1)=WGRDX*ALPHAI+WGHT*ALPHAXI
+     .            +WGRDX*BETAXXI+WGRDY*BETAXYI+WGRDZ*BETAXZI
+          WGRAD(2)=WGRDY*ALPHAI+WGHT*ALPHAYI
+     .            +WGRDX*BETAYXI+WGRDY*BETAYYI+WGRDZ*BETAYZI
+          WGRAD(3)=WGRDZ*ALPHAI+WGHT*ALPHAZI
+     .            +WGRDX*BETAZXI+WGRDY*BETAZYI+WGRDZ*BETAZZI          
+!          Old order1 correction          
+!          BETAX=1.+BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+!          WGRAD(1)=WGRDX*ALPHAI*BETAX
+!     .     +WGHT*(ALPHAXI*BETAX+ALPHAI*
+!     .      (BETAXXI*(XI-XJ)+BETAYXI*(YI-YJ)+BETAZXI*(ZI-ZJ)+BETAXI))
+!          WGRAD(2)=WGRDY*ALPHAI*BETAX
+!     .     +WGHT*(ALPHAYI*BETAX+ALPHAI*
+!     .      (BETAXYI*(XI-XJ)+BETAYYI*(YI-YJ)+BETAZYI*(ZI-ZJ)+BETAYI))
+!          WGRAD(3)=WGRDZ*ALPHAI*BETAX
+!     .     +WGHT*(ALPHAZI*BETAX+ALPHAI*
+!     .      (BETAXZI*(XI-XJ)+BETAYZI*(YI-YJ)+BETAZZI*(ZI-ZJ)+BETAZI))
 C----------
 C         noyau conjugue Grad[Wa(b)]
           ALPHAJ=WACOMPR(1,NN)
-          BETAXJ=WACOMPR(2,NN)
-          BETAYJ=WACOMPR(3,NN)
-          BETAZJ=WACOMPR(4,NN)
+C          BETAXJ=WACOMPR(2,NN)
+C          BETAYJ=WACOMPR(3,NN)
+C          BETAZJ=WACOMPR(4,NN)
           ALPHAXJ=WACOMPR( 5,NN)
           ALPHAYJ=WACOMPR( 6,NN)
           ALPHAZJ=WACOMPR( 7,NN)
@@ -389,22 +395,23 @@ C         noyau conjugue Grad[Wa(b)]
           BETAYZJ=WACOMPR(15,NN)
           BETAZZJ=WACOMPR(16,NN)
 C
-          BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
-          WGRD(1)=
-     .     -WGRDX*ALPHAJ*BETAX
-     .     +WGHT*
-     .      (ALPHAXJ*BETAX+ALPHAJ*
-     .       (BETAXXJ*(XJ-XI)+BETAYXJ*(YJ-YI)+BETAZXJ*(ZJ-ZI)+BETAXJ))
-          WGRD(2)=
-     .     -WGRDY*ALPHAJ*BETAX
-     .     +WGHT*
-     .      (ALPHAYJ*BETAX+ALPHAJ*
-     .       (BETAXYJ*(XJ-XI)+BETAYYJ*(YJ-YI)+BETAZYJ*(ZJ-ZI)+BETAYJ))
-          WGRD(3)=
-     .     -WGRDZ*ALPHAJ*BETAX
-     .     +WGHT*
-     .      (ALPHAZJ*BETAX+ALPHAJ*
-     .       (BETAXZJ*(XJ-XI)+BETAYZJ*(YJ-YI)+BETAZZJ*(ZJ-ZI)+BETAZJ))
+          WGRD(1)=-WGRDX*ALPHAJ+WGHT*ALPHAXJ
+     .            -WGRDX*BETAXXJ-WGRDY*BETAXYJ-WGRDZ*BETAXZJ
+          WGRD(2)=-WGRDY*ALPHAJ+WGHT*ALPHAYJ
+     .            -WGRDX*BETAYXJ-WGRDY*BETAYYJ-WGRDZ*BETAYZJ
+          WGRD(3)=-WGRDZ*ALPHAJ+WGHT*ALPHAZJ
+     .            -WGRDX*BETAZXJ-WGRDY*BETAZYJ-WGRDZ*BETAZZJ          
+!          Old order1 correction          
+!          BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
+!          WGRD(1)=-WGRDX*ALPHAJ*BETAX
+!     .     +WGHT*(ALPHAXJ*BETAX+ALPHAJ*
+!     .      (BETAXXJ*(XJ-XI)+BETAYXJ*(YJ-YI)+BETAZXJ*(ZJ-ZI)+BETAXJ))
+!          WGRD(2)=-WGRDY*ALPHAJ*BETAX
+!     .     +WGHT*(ALPHAYJ*BETAX+ALPHAJ*
+!     .      (BETAXYJ*(XJ-XI)+BETAYYJ*(YJ-YI)+BETAZYJ*(ZJ-ZI)+BETAYJ))
+!          WGRD(3)=-WGRDZ*ALPHAJ*BETAX
+!     .     +WGHT*(ALPHAZJ*BETAX+ALPHAJ*
+!     .      (BETAXZJ*(XJ-XI)+BETAYZJ*(YJ-YI)+BETAZZJ*(ZJ-ZI)+BETAZJ))
 C
           AX=SXX*WGRAD(1)+SXY*WGRAD(2)+SXZ*WGRAD(3)
           AY=SXY*WGRAD(1)+SYY*WGRAD(2)+SYZ*WGRAD(3)
@@ -458,6 +465,7 @@ C WA(13) <=> WAR(9) ; WA(14) <=> WAR(10)
           DIVVJ=ABS(WAR(9,NN))
           ROTVJ=WAR(10,NN)
           FJ   =DIVVJ/MAX(EM20,DIVVJ+ROTVJ)
+C          MUIJ=MIN(MUIJ,ZERO)
           MUIJ=MUIJ*(FI+FJ)*HALF
 C WA(8) <=> WAR(7)
           SSP=(WA(8,N)+WAR(7,NN))*HALF
@@ -549,22 +557,23 @@ C
            WGRDX=WGRAD(1)
            WGRDY=WGRAD(2)
            WGRDZ=WGRAD(3)
-           BETAX=ONE +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
-           WGRAD(1)=
-     .      WGRDX*ALPHAI*BETAX
-     .      +WGHT*
-     .       (ALPHAXI*BETAX+ALPHAI*
-     .        (BETAXXI*(XI-XJ)+BETAYXI*(YI-YJ)+BETAZXI*(ZI-ZJ)+BETAXI))
-           WGRAD(2)=
-     .      WGRDY*ALPHAI*BETAX
-     .      +WGHT*
-     .       (ALPHAYI*BETAX+ALPHAI*
-     .        (BETAXYI*(XI-XJ)+BETAYYI*(YI-YJ)+BETAZYI*(ZI-ZJ)+BETAYI))
-           WGRAD(3)=
-     .      WGRDZ*ALPHAI*BETAX
-     .      +WGHT*
-     .       (ALPHAZI*BETAX+ALPHAI*
-     .        (BETAXZI*(XI-XJ)+BETAYZI*(YI-YJ)+BETAZZI*(ZI-ZJ)+BETAZI))
+           WGRAD(1)=WGRDX*ALPHAI+WGHT*ALPHAXI
+     .             +WGRDX*BETAXXI+WGRDY*BETAXYI+WGRDZ*BETAXZI
+           WGRAD(2)=WGRDY*ALPHAI+WGHT*ALPHAYI
+     .             +WGRDX*BETAYXI+WGRDY*BETAYYI+WGRDZ*BETAYZI
+           WGRAD(3)=WGRDZ*ALPHAI+WGHT*ALPHAZI
+     .             +WGRDX*BETAZXI+WGRDY*BETAZYI+WGRDZ*BETAZZI              
+!           Old order1 correction           
+!           BETAX=ONE +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+!           WGRAD(1)=WGRDX*ALPHAI*BETAX
+!     .      +WGHT*(ALPHAXI*BETAX+ALPHAI*
+!     .       (BETAXXI*(XI-XJ)+BETAYXI*(YI-YJ)+BETAZXI*(ZI-ZJ)+BETAXI))
+!           WGRAD(2)=WGRDY*ALPHAI*BETAX
+!     .      +WGHT*(ALPHAYI*BETAX+ALPHAI*
+!     .       (BETAXYI*(XI-XJ)+BETAYYI*(YI-YJ)+BETAZYI*(ZI-ZJ)+BETAYI))
+!           WGRAD(3)=WGRDZ*ALPHAI*BETAX
+!     .      +WGHT*(ALPHAZI*BETAX+ALPHAI*
+!     .       (BETAXZI*(XI-XJ)+BETAYZI*(YI-YJ)+BETAZZI*(ZI-ZJ)+BETAZI))
 C----------
 C          noyau conjugue.
            ALPHAJ=WACOMP(1,SM)
@@ -589,22 +598,23 @@ C          ALPHAZJ=WACOMP( 7,SM)
            BETAXZJ=WACOMP(14,SM)
            BETAYZJ=WACOMP(15,SM)
            BETAZZJ=WACOMP(16,SM)
-           BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
-           WGRD(1)=
-     .      -WGRDX*ALPHAJ*BETAX
-     .      +WGHT*
-     .       (ALPHAXJ*BETAX+ALPHAJ*
-     .       (BETAXXJ*(XJ-XI)+BETAYXJ*(YJ-YI)+BETAZXJ*(ZJ-ZI)+BETAXJ))
-           WGRD(2)=
-     .      -WGRDY*ALPHAJ*BETAX
-     .      +WGHT*
-     .       (ALPHAYJ*BETAX+ALPHAJ*
-     .        (BETAXYJ*(XJ-XI)+BETAYYJ*(YJ-YI)+BETAZYJ*(ZJ-ZI)+BETAYJ))
-           WGRD(3)=
-     .      -WGRDZ*ALPHAJ*BETAX
-     .      +WGHT*
-     .       (ALPHAZJ*BETAX+ALPHAJ*
-     .        (BETAXZJ*(XJ-XI)+BETAYZJ*(YJ-YI)+BETAZZJ*(ZJ-ZI)+BETAZJ))
+           WGRD(1)=-WGRDX*ALPHAJ+WGHT*ALPHAXJ
+     .             -WGRDX*BETAXXJ-WGRDY*BETAXYJ-WGRDZ*BETAXZJ
+           WGRD(2)=-WGRDY*ALPHAJ+WGHT*ALPHAYJ
+     .             -WGRDX*BETAYXJ-WGRDY*BETAYYJ-WGRDZ*BETAYZJ
+           WGRD(3)=-WGRDZ*ALPHAJ+WGHT*ALPHAZJ
+     .             -WGRDX*BETAZXJ-WGRDY*BETAZYJ-WGRDZ*BETAZZJ            
+!           Old order1 correction           
+!           BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
+!           WGRD(1)=-WGRDX*ALPHAJ*BETAX
+!     .      +WGHT*(ALPHAXJ*BETAX+ALPHAJ*
+!     .       (BETAXXJ*(XJ-XI)+BETAYXJ*(YJ-YI)+BETAZXJ*(ZJ-ZI)+BETAXJ))
+!           WGRD(2)=-WGRDY*ALPHAJ*BETAX
+!     .      +WGHT*(ALPHAYJ*BETAX+ALPHAJ*
+!     .       (BETAXYJ*(XJ-XI)+BETAYYJ*(YJ-YI)+BETAZYJ*(ZJ-ZI)+BETAYJ))
+!           WGRD(3)=-WGRDZ*ALPHAJ*BETAX
+!     .      +WGHT*(ALPHAZJ*BETAX+ALPHAJ*
+!     .       (BETAXZJ*(XJ-XI)+BETAYZJ*(YJ-YI)+BETAZZJ*(ZJ-ZI)+BETAZJ))           
            AX=SXX*WGRAD(1)+SXY*WGRAD(2)+SXZ*WGRAD(3)
            AY=SXY*WGRAD(1)+SYY*WGRAD(2)+SYZ*WGRAD(3)
            AZ=SXZ*WGRAD(1)+SYZ*WGRAD(2)+SZZ*WGRAD(3)
@@ -652,6 +662,7 @@ C          artitifial viscosity.
            DIVVJ=ABS(WA(13,SM))
            ROTVJ=WA(14,SM)
            FJ=DIVVJ/MAX(EM20,DIVVJ+ROTVJ)
+C           MUIJ=MIN(MUIJ,ZERO)
            MUIJ=MUIJ*(FI+FJ)*HALF
            SSP=(WA(8,N)+WA(8,SM))*HALF
            MUIJ2=MIN(MUIJ,ZERO)*MIN(MUIJ,ZERO)
@@ -730,22 +741,23 @@ C
            WGRDX=WGRAD(1)
            WGRDY=WGRAD(2)
            WGRDZ=WGRAD(3)
-           BETAX=ONE +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
-           WGRAD(1)=
-     .      WGRDX*ALPHAI*BETAX
-     .      +WGHT*
-     .       (ALPHAXI*BETAX+ALPHAI*
-     .        (BETAXXI*(XI-XJ)+BETAYXI*(YI-YJ)+BETAZXI*(ZI-ZJ)+BETAXI))
-           WGRAD(2)=
-     .      WGRDY*ALPHAI*BETAX
-     .      +WGHT*
-     .       (ALPHAYI*BETAX+ALPHAI*
-     .        (BETAXYI*(XI-XJ)+BETAYYI*(YI-YJ)+BETAZYI*(ZI-ZJ)+BETAYI))
-           WGRAD(3)=
-     .      WGRDZ*ALPHAI*BETAX
-     .      +WGHT*
-     .       (ALPHAZI*BETAX+ALPHAI*
-     .        (BETAXZI*(XI-XJ)+BETAYZI*(YI-YJ)+BETAZZI*(ZI-ZJ)+BETAZI))
+           WGRAD(1)=WGRDX*ALPHAI+WGHT*ALPHAXI
+     .             +WGRDX*BETAXXI+WGRDY*BETAXYI+WGRDZ*BETAXZI
+           WGRAD(2)=WGRDY*ALPHAI+WGHT*ALPHAYI
+     .             +WGRDX*BETAYXI+WGRDY*BETAYYI+WGRDZ*BETAYZI
+           WGRAD(3)=WGRDZ*ALPHAI+WGHT*ALPHAZI
+     .             +WGRDX*BETAZXI+WGRDY*BETAZYI+WGRDZ*BETAZZI            
+!           Old order1 correction           
+!           BETAX=ONE +BETAXI*(XI-XJ)+BETAYI*(YI-YJ)+BETAZI*(ZI-ZJ)
+!           WGRAD(1)=WGRDX*ALPHAI*BETAX
+!     .      +WGHT*(ALPHAXI*BETAX+ALPHAI*
+!     .       (BETAXXI*(XI-XJ)+BETAYXI*(YI-YJ)+BETAZXI*(ZI-ZJ)+BETAXI))
+!           WGRAD(2)=WGRDY*ALPHAI*BETAX
+!     .      +WGHT*(ALPHAYI*BETAX+ALPHAI*
+!     .       (BETAXYI*(XI-XJ)+BETAYYI*(YI-YJ)+BETAZYI*(ZI-ZJ)+BETAYI))
+!           WGRAD(3)=WGRDZ*ALPHAI*BETAX
+!     .      +WGHT*(ALPHAZI*BETAX+ALPHAI*
+!     .       (BETAXZI*(XI-XJ)+BETAYZI*(YI-YJ)+BETAZZI*(ZI-ZJ)+BETAZI))
 C----------
 C          noyau conjugue.
            ALPHAJ=WACOMPR(1,SM)
@@ -770,23 +782,24 @@ C          ALPHAZJ=WACOMPR( 7,SM)
            BETAXZJ=WACOMPR(14,SM)
            BETAYZJ=WACOMPR(15,SM)
            BETAZZJ=WACOMPR(16,SM)
-C  
-           BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
-           WGRD(1)=
-     .      -WGRDX*ALPHAJ*BETAX
-     .      +WGHT*
-     .       (ALPHAXJ*BETAX+ALPHAJ*
-     .       (BETAXXJ*(XJ-XI)+BETAYXJ*(YJ-YI)+BETAZXJ*(ZJ-ZI)+BETAXJ))
-           WGRD(2)=
-     .      -WGRDY*ALPHAJ*BETAX
-     .      +WGHT*
-     .       (ALPHAYJ*BETAX+ALPHAJ*
-     .        (BETAXYJ*(XJ-XI)+BETAYYJ*(YJ-YI)+BETAZYJ*(ZJ-ZI)+BETAYJ))
-           WGRD(3)=
-     .      -WGRDZ*ALPHAJ*BETAX
-     .      +WGHT*
-     .       (ALPHAZJ*BETAX+ALPHAJ*
-     .        (BETAXZJ*(XJ-XI)+BETAYZJ*(YJ-YI)+BETAZZJ*(ZJ-ZI)+BETAZJ))
+C
+           WGRD(1)=-WGRDX*ALPHAJ+WGHT*ALPHAXJ
+     .             -WGRDX*BETAXXJ-WGRDY*BETAXYJ-WGRDZ*BETAXZJ
+           WGRD(2)=-WGRDY*ALPHAJ+WGHT*ALPHAYJ
+     .             -WGRDX*BETAYXJ-WGRDY*BETAYYJ-WGRDZ*BETAYZJ
+           WGRD(3)=-WGRDZ*ALPHAJ+WGHT*ALPHAZJ
+     .             -WGRDX*BETAZXJ-WGRDY*BETAZYJ-WGRDZ*BETAZZJ
+!           Old order1 correction           
+!           BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
+!           WGRD(1)=-WGRDX*ALPHAJ*BETAX
+!     .      +WGHT*(ALPHAXJ*BETAX+ALPHAJ*
+!     .       (BETAXXJ*(XJ-XI)+BETAYXJ*(YJ-YI)+BETAZXJ*(ZJ-ZI)+BETAXJ))
+!           WGRD(2)=-WGRDY*ALPHAJ*BETAX
+!     .      +WGHT*(ALPHAYJ*BETAX+ALPHAJ*
+!     .       (BETAXYJ*(XJ-XI)+BETAYYJ*(YJ-YI)+BETAZYJ*(ZJ-ZI)+BETAYJ))
+!           WGRD(3)=-WGRDZ*ALPHAJ*BETAX
+!     .      +WGHT*(ALPHAZJ*BETAX+ALPHAJ*
+!     .       (BETAXZJ*(XJ-XI)+BETAYZJ*(YJ-YI)+BETAZZJ*(ZJ-ZI)+BETAZJ))  
            AX=SXX*WGRAD(1)+SXY*WGRAD(2)+SXZ*WGRAD(3)
            AY=SXY*WGRAD(1)+SYY*WGRAD(2)+SYZ*WGRAD(3)
            AZ=SXZ*WGRAD(1)+SYZ*WGRAD(2)+SZZ*WGRAD(3)
@@ -835,6 +848,7 @@ C WA(13) <=> WAR(9) ; WA(14) <=> WAR(10)
            DIVVJ=ABS(WAR(9,SM))
            ROTVJ=WAR(10,SM)
            FJ=DIVVJ/MAX(EM20,DIVVJ+ROTVJ)
+C           MUIJ=MIN(MUIJ,ZERO)
            MUIJ=MUIJ*(FI+FJ)*HALF
 C WA(8) <=> WAR(7)
            SSP=(WA(8,N)+WAR(7,SM))*HALF

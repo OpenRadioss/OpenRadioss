@@ -94,7 +94,7 @@ Chd|====================================================================
      C    NGROUNC   ,IGROUNC   ,IXS       ,IRST      ,SOL2SPH   ,
      D    SPH2SOL   ,FSKYV     ,FSKY      ,IGEO      ,TEMP      ,
      E    FTHE      ,FTHESKYI  ,SPHG_F6   ,WSMCOMP   ,SOL2SPH_TYP,
-     F    MAT_ELEM  ,OUTPUT)
+     F    MAT_ELEM  ,OUTPUT    ,SPH_IORD1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -142,6 +142,7 @@ C-----------------------------------------------
      .   LPRTSPH(2,0:NPART),LONFSPH(*),WASPACT(*),ISPHIO(NISPHIO,*),
      .   ITASK,GRTH(*),IGRTH(*), LGAUGE(3,*), NGROUNC, IGROUNC(*), 
      .   IXS(NIXS,*), IRST(3,*), SOL2SPH(2,*), SPH2SOL(*), SOL2SPH_TYP(*)
+      INTEGER, INTENT(IN) :: SPH_IORD1
       my_real
      .   X(3,*), V(3,*), MS(*), W(*), PM(NPROPM,*), GEO(NPROPG,*),
      .   BUFMAT(*), BUFGEO(*), PLD(*)  ,
@@ -414,7 +415,7 @@ C
          IF(NSPMD>1) THEN
            IF(ITASK==0) THEN
              CALL STARTIME(93,1)
-             CALL SPMD_SPHGETG(WGRADT,WASPH,WGR)
+             CALL SPMD_SPHGETG(WGRADT,WASPH,WGR,SPH_IORD1)
              CALL STOPTIME(93,1)
            END IF
 C         /---------------/
@@ -697,7 +698,7 @@ C       /---------------/
 C       /---------------/
          IF(ITASK==0)THEN
            CALL STARTIME(93,1)
-           CALL SPMD_SPHGETW(SPBUF,WASPH,WA,WAR)
+           CALL SPMD_SPHGETW(SPBUF,WASPH,WA,WAR,SPH_IORD1)
 C a optimiser (1 seule comm)
            CALL SPMD_SPHGETSTB(STAB,STAB(1,NUMSPH+1))
            CALL STOPTIME(93,1)
