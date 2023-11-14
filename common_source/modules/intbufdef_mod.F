@@ -635,9 +635,9 @@ C-------S_ISEADD,S_ISEDGE,S_CAND_T will be cleaned after, for the moment with si
         integer ::   S_ISEADD     !  ISEADD     :SECND EDGE ADDRESS                      :      24
         integer ::   S_ISEDGE     !  L24ADD     :ISEDGE:SECND EDGES NODES AND FLAGS      :      24
         integer ::   S_CAND_T     !  MULTIMP*NSN:CAND_T:Candidate type                   :      24
-c					  ! =0 node to surface candidate
-c					  ! =1 node or edge to surface candidate
-c					  ! =2 edge to surface candidate
+c            ! =0 node to surface candidate
+c            ! =1 node or edge to surface candidate
+c            ! =2 edge to surface candidate
         integer ::   S_ISEG_PXFEM !  ISEG_PXFEM:       :      24
         integer ::   S_ISEG_PLY   !  ISEG_PLY          :      24
 

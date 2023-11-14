@@ -66,62 +66,62 @@ C-----------------------------------------------
        !        DETPOIN          !
        !-------------------------!
       IF (CHAIN == 'DETPOIN') THEN
-	NDETPS=NDETPS-1
-	I2=I2-1
-	I3=I3-1
-	I4=I4-1
-	DO I=I1+1,NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD
-	  DO J=1,8
-	    DETONATORS%BURN(J,I)=DETONATORS%BURN(J,I+1)
-	  END DO
-	END DO
+          NDETPS=NDETPS-1
+          I2=I2-1
+          I3=I3-1
+          I4=I4-1
+          DO I=I1+1,NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD
+            DO J=1,8
+              DETONATORS%BURN(J,I)=DETONATORS%BURN(J,I+1)
+            END DO
+          END DO
 
        !-------------------------!
        !        DETLINE          !
        !-------------------------!
       ELSEIF (CHAIN == 'DETLINE') THEN
         NDETSG=NDETSG-1
-	I3=I3-1
-	I4=I4-1        
-	DO I=I2+1,NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD
-	  DO J=1,8
-	    DETONATORS%BURN(J,I)=DETONATORS%BURN(J,I+1)
-	  END DO
-	END DO
+          I3=I3-1
+          I4=I4-1        
+          DO I=I2+1,NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD
+            DO J=1,8
+              DETONATORS%BURN(J,I)=DETONATORS%BURN(J,I+1)
+            END DO
+          END DO
 
        !-------------------------!
        !        WAV_SHA          !
        !-------------------------!
       ELSEIF (CHAIN == 'WAV_SHA') THEN
         NECRAN=NECRAN-1
-	I4=I4-1     
-	DO I=I3+1,NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD
-	  DO J=1,8
-	    DETONATORS%BURN(J,I)=DETONATORS%BURN(J,I+1)
-	  END DO
-	END DO	  
+          I4=I4-1     
+          DO I=I3+1,NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD
+            DO J=1,8
+              DETONATORS%BURN(J,I)=DETONATORS%BURN(J,I+1)
+            END DO
+          END DO    
 
        !-------------------------!
        !        DETPLAN          !
        !-------------------------!
       ELSEIF (CHAIN == 'DETPLAN') THEN
         NDETPL=NDETPL-1  
-	DO I=I4+1,NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD
-	  DO J=1,8
-	    DETONATORS%BURN(J,I)=DETONATORS%BURN(J,I+1)
-	  END DO
-	END DO	  
+          DO I=I4+1,NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD
+            DO J=1,8
+              DETONATORS%BURN(J,I)=DETONATORS%BURN(J,I+1)
+            END DO
+          END DO    
 
        !-------------------------!
        !        DETCORD          !
        !-------------------------!
       ELSEIF (CHAIN == 'DETCORD') THEN
         NDETCORD=NDETCORD-1  
-	DO I=I5+1,NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD
-	  DO J=1,8
-	    DETONATORS%BURN(J,I)=DETONATORS%BURN(J,I+1)
-	  END DO
-	END DO	       
+          DO I=I5+1,NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD
+            DO J=1,8
+              DETONATORS%BURN(J,I)=DETONATORS%BURN(J,I+1)
+            END DO
+          END DO         
       
       END IF      
       

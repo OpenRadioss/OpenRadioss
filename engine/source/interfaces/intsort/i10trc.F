@@ -66,7 +66,7 @@ C=======================================================================
          IPUT(I)=0
         END DO
         DO N=1,NUM_IMP
-	  I= IND_IMP(N)
+            I= IND_IMP(N)
           IPUT(I)=1
         END DO
         DO I=1,I_STOK

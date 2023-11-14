@@ -84,14 +84,14 @@ c       CALL RBE2_POFF(IRBE2 ,A     ,AR    ,MS    ,IN    ,
 c     1                STIFN ,STIFR ,WEIGHT,JR    ,NHI   )
        DO N=1,NRBE2
         IF (IRBE2(9,N)/=NHI) CYCLE
-	IAD = IRBE2(1,N)
+          IAD = IRBE2(1,N)
         NSN = IRBE2(5,N)
         M   = IRBE2(3,N)
         ISK = IRBE2(7,N)
-	MID = IABS(IRBE2(6,N))
-	IRAD = IRBE2(11,N)
-c	print *,'iad,m,mid,ih=',iad,m,IRBE2(6,N),IRBE2(9,N)
-	IF (ISK>1) THEN
+          MID = IABS(IRBE2(6,N))
+          IRAD = IRBE2(11,N)
+c  print *,'iad,m,mid,ih=',iad,m,IRBE2(6,N),IRBE2(9,N)
+          IF (ISK>1) THEN
           CALL RBE2FL(NSN   ,LRBE2(IAD+1),X     ,A     ,AR    ,
      1                MS    ,IN    ,WEIGHT,JT(1,N),JR(1,N),
      2               FRBE2M6(1,1,MID),MRBE2M6(1,1,MID),STIFN ,STIFR,
@@ -102,7 +102,7 @@ c	print *,'iad,m,mid,ih=',iad,m,IRBE2(6,N),IRBE2(9,N)
      1               MS    ,IN    ,WEIGHT,JT(1,N),JR(1,N),
      2               FRBE2M6(1,1,MID),MRBE2M6(1,1,MID),STIFN ,STIFR,
      3               STRBE2M6(1,MID),SRRBE2M6(1,MID),M  ,IRAD   )
-	END IF
+          END IF
        END DO
 C-----------------
         IF (ICOM>0) THEN
@@ -450,16 +450,16 @@ C======================================================================|
       DO N=1,NRBE2
         IF (IRBE2(9,N)/=IH) CYCLE
         M  = IRBE2(3,N)
-	A(1,M) = A(1,M)*WEIGHT(M)
-	A(2,M) = A(2,M)*WEIGHT(M)
-	A(3,M) = A(3,M)*WEIGHT(M)
-	STIFN(M) = STIFN(M)*WEIGHT(M)
-	IROT = JR(1,N)+JR(2,N)+JR(3,N)
+          A(1,M) = A(1,M)*WEIGHT(M)
+          A(2,M) = A(2,M)*WEIGHT(M)
+          A(3,M) = A(3,M)*WEIGHT(M)
+          STIFN(M) = STIFN(M)*WEIGHT(M)
+          IROT = JR(1,N)+JR(2,N)+JR(3,N)
         IF (IROT>0) THEN
-	 AR(1,M) = AR(1,M)*WEIGHT(M)
-	 AR(2,M) = AR(2,M)*WEIGHT(M)
-	 AR(3,M) = AR(3,M)*WEIGHT(M)
-	 STIFR(M) = STIFR(M)*WEIGHT(M)
+           AR(1,M) = AR(1,M)*WEIGHT(M)
+           AR(2,M) = AR(2,M)*WEIGHT(M)
+           AR(3,M) = AR(3,M)*WEIGHT(M)
+           STIFR(M) = STIFR(M)*WEIGHT(M)
         ENDIF
       ENDDO
 C---
@@ -505,19 +505,19 @@ C======================================================================|
         MID = IRBE2(6,N)
         IRAD = IRBE2(11,N)
         IF (MID<0) CYCLE
-	IROT = JR(1,N)+JR(2,N)+JR(3,N)
+          IROT = JR(1,N)+JR(2,N)+JR(3,N)
          DO K=1,6
-	  A(1,M) = A(1,M)+ F6(1,K,MID)
-	  A(2,M) = A(2,M)+ F6(2,K,MID)
-	  A(3,M) = A(3,M)+ F6(3,K,MID)
-	  STIFN(M) = STIFN(M)+ST6(K,MID)
+            A(1,M) = A(1,M)+ F6(1,K,MID)
+            A(2,M) = A(2,M)+ F6(2,K,MID)
+            A(3,M) = A(3,M)+ F6(3,K,MID)
+            STIFN(M) = STIFN(M)+ST6(K,MID)
          ENDDO
          IF (IROT>0.OR.IRAD==0) THEN
           DO K=1,6
-	   AR(1,M) = AR(1,M)+ M6(1,K,MID)
-	   AR(2,M) = AR(2,M)+ M6(2,K,MID)
-	   AR(3,M) = AR(3,M)+ M6(3,K,MID)
-	   STIFR(M) = STIFR(M)+SR6(K,MID)
+             AR(1,M) = AR(1,M)+ M6(1,K,MID)
+             AR(2,M) = AR(2,M)+ M6(2,K,MID)
+             AR(3,M) = AR(3,M)+ M6(3,K,MID)
+             STIFR(M) = STIFR(M)+SR6(K,MID)
           ENDDO
          ENDIF
       ENDDO
@@ -564,14 +564,14 @@ C-----------------------------------------------
       INTEGER I, J, N,NML,IC,ICT,ICR,IROT
 C======================================================================|
       DO N=1,NRBE2
-	IC=IRBE2(4,N)
+          IC=IRBE2(4,N)
         ICT=IC/512
         ICR=(IC-512*(ICT))/64
-	IF (IRODDL==0) ICR =0
-	DO J =1,3
+          IF (IRODDL==0) ICR =0
+          DO J =1,3
            JT(J,N)=0
            JR(J,N)=0
-	ENDDO
+          ENDDO
         SELECT CASE (ICT)
           CASE(1)
            JT(3,N)=1
@@ -647,50 +647,50 @@ C======================================================================|
       NMRBE2 = 0
       IF (NRBE2==0) RETURN
       DO N=1,NUMNOD
-	ITAG(N)=0
+          ITAG(N)=0
       ENDDO
 C-----s'il y a hierarchy----
 C      DO N=1,NRBE2
-C	M=IRBE2(3,N)
-C	ITAG(M)=N
-C	IH(N)=0
+C  M=IRBE2(3,N)
+C  ITAG(M)=N
+C  IH(N)=0
 C      ENDDO
 C      DO N=1,NRBE2
-C	IAD=IRBE2(1,N)
-C	M=IRBE2(3,N)
-C	NSL =IRBE2(5,N)
-C	DO J=1,NSL
-C	 NS= LRBE2(IAD+J)
-C	 IF (ITAG(NS)>0) IH(ITAG(NS)) =M
-C	ENDDO
+C  IAD=IRBE2(1,N)
+C  M=IRBE2(3,N)
+C  NSL =IRBE2(5,N)
+C  DO J=1,NSL
+C   NS= LRBE2(IAD+J)
+C   IF (ITAG(NS)>0) IH(ITAG(NS)) =M
+C  ENDDO
 C      ENDDO
 C      DO N=1,NRBE2
-C	M=IRBE2(3,N)
-C	ITAG(M)=0
+C  M=IRBE2(3,N)
+C  ITAG(M)=0
 C      ENDDO
 C
        DO N=1,NRBE2
-	M=IRBE2(3,N)
-	IF (ITAG(M)==0) THEN
-	 NMRBE2 =NMRBE2 +1
-	 ITAG(M)= NMRBE2
-	 IRBE2(6,N) = ITAG(M)
-	 IH(NMRBE2) = IRBE2(9,N)
-	ELSE
-	 NIH = IH(ITAG(M))
-	 IRBE2(6,N) = ITAG(M)
+          M=IRBE2(3,N)
+          IF (ITAG(M)==0) THEN
+           NMRBE2 =NMRBE2 +1
+           ITAG(M)= NMRBE2
+           IRBE2(6,N) = ITAG(M)
+           IH(NMRBE2) = IRBE2(9,N)
+          ELSE
+           NIH = IH(ITAG(M))
+           IRBE2(6,N) = ITAG(M)
 C---------to avoid the double sum on A,AR for main nodes in the same IH
-	 IF (IRBE2(9,N)==NIH) THEN
+           IF (IRBE2(9,N)==NIH) THEN
            IRBE2(6,N) = -ITAG(M)
 C---------case the same main in the same IH, but also before
          ELSE
            IH(ITAG(M)) = IRBE2(9,N)
          END IF
-	ENDIF
+          ENDIF
        ENDDO
 C---
       DO N=1,NFR
-	M=FR_RBE2(N)
+          M=FR_RBE2(N)
         FR_RBE2M(N)=ITAG(M)
       ENDDO
 C
@@ -731,17 +731,17 @@ C     REAL
       my_real
      .       RX,RY,RZ,FX,FY,FZ, SKEW(LSKEW),CDT(9),CDR(9),CDTR(9),AAR(3)
 C======================================================================|
-	IF (ISK>1) THEN
-	 DO K=1,9
-	  SKEW(K)=SKEW0(K)
-	 ENDDO
-	ELSE
-	 DO K=1,LSKEW
-	  SKEW(K)=ZERO
-	 ENDDO
-	  SKEW(1)=ONE
-	  SKEW(5)=ONE
-	  SKEW(9)=ONE
+          IF (ISK>1) THEN
+           DO K=1,9
+            SKEW(K)=SKEW0(K)
+           ENDDO
+          ELSE
+           DO K=1,LSKEW
+            SKEW(K)=ZERO
+           ENDDO
+            SKEW(1)=ONE
+            SKEW(5)=ONE
+            SKEW(9)=ONE
         ENDIF
        IC = JT(1)*100+JT(2)*10+JT(3)
        CALL CDI_BCN(IC   ,SKEW  ,JT   ,CDT  ,JT1  )
@@ -810,7 +810,7 @@ C----------------100-------------------------
           EJ(2)=SKEW(2)
           EJ(3)=SKEW(3)
           CALL L_DIR(EJ,J)
-	  J1=0
+            J1=0
           CALL DIR_RBE2(J    ,J1    ,K     )
 C----------------010-------------------------
          CASE(10)
@@ -818,7 +818,7 @@ C----------------010-------------------------
           EJ(2)=SKEW(5)
           EJ(3)=SKEW(6)
           CALL L_DIR(EJ,J)
-	  J1=0
+            J1=0
           CALL DIR_RBE2(J    ,J1    ,K     )
 C----------------001-------------------------
          CASE(1)
@@ -826,7 +826,7 @@ C----------------001-------------------------
           EJ(2)=SKEW(8)
           EJ(3)=SKEW(9)
           CALL L_DIR(EJ,J)
-	  J1=0
+            J1=0
           CALL DIR_RBE2(J    ,J1    ,K     )
 C----------------011-------------------------
          CASE(11)
@@ -846,9 +846,9 @@ C----------------011-------------------------
            EJ1(3)=SKEW(6)/SKEW(3+J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-	  S=ONE/(ONE-EJ(J1)*EJ1(J))
-	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
-	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
+            S=ONE/(ONE-EJ(J1)*EJ1(J))
+            EA=S*(EJ(J1)*EJ1(K)-EJ(K))
+            EB=S*(EJ1(J)*EJ(K)-EJ1(K))
 C----------------101-------------------------
          CASE(101)
           EJ(1)=SKEW(7)
@@ -867,9 +867,9 @@ C----------------101-------------------------
            EJ1(3)=SKEW(3)/SKEW(J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-	  S=ONE/(ONE-EJ(J1)*EJ1(J))
-	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
-	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
+            S=ONE/(ONE-EJ(J1)*EJ1(J))
+            EA=S*(EJ(J1)*EJ1(K)-EJ(K))
+            EB=S*(EJ1(J)*EJ(K)-EJ1(K))
 C----------------110-------------------------
          CASE(110)
           EJ(1)=SKEW(4)
@@ -888,14 +888,14 @@ C----------------110-------------------------
            EJ1(3)=SKEW(3)/SKEW(J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-	  S=ONE/(ONE-EJ(J1)*EJ1(J))
-	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
-	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
+            S=ONE/(ONE-EJ(J1)*EJ1(J))
+            EA=S*(EJ(J1)*EJ1(K)-EJ(K))
+            EB=S*(EJ1(J)*EJ(K)-EJ1(K))
        END SELECT
 C
        DO I=1,NSL
         NS = ISL(I)
-	IF (WEIGHT(NS)==0) CYCLE
+          IF (WEIGHT(NS)==0) CYCLE
 C-------------------100---------------------
          IF (ICT == 100 ) THEN
           A(J1,NS) = A(J1,NS)-EJ(J1)*A(J,NS)
@@ -954,7 +954,7 @@ C----------------100-------------------------
           EJ(2)=SKEW(2)
           EJ(3)=SKEW(3)
           CALL L_DIR(EJ,J)
-	  J1=0
+            J1=0
           CALL DIR_RBE2(J    ,J1    ,K     )
           A(J1,NS) = A(J1,NS)-EJ(J1)*A(J,NS)
           A(K,NS) = A(K,NS)-EJ(K)*A(J,NS)
@@ -964,7 +964,7 @@ C----------------010-------------------------
           EJ(2)=SKEW(5)
           EJ(3)=SKEW(6)
           CALL L_DIR(EJ,J)
-	  J1=0
+            J1=0
           CALL DIR_RBE2(J    ,J1    ,K     )
           A(J1,NS) = A(J1,NS)-EJ(J1)*A(J,NS)
           A(K,NS) = A(K,NS)-EJ(K)*A(J,NS)
@@ -974,7 +974,7 @@ C----------------001-------------------------
           EJ(2)=SKEW(8)
           EJ(3)=SKEW(9)
           CALL L_DIR(EJ,J)
-	  J1=0
+            J1=0
           CALL DIR_RBE2(J    ,J1    ,K     )
           A(J1,NS) = A(J1,NS)-EJ(J1)*A(J,NS)
           A(K,NS) = A(K,NS)-EJ(K)*A(J,NS)
@@ -996,9 +996,9 @@ C----------------011-------------------------
            EJ1(3)=SKEW(6)/SKEW(3+J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-	  S=ONE/(ONE-EJ(J1)*EJ1(J))
-	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
-	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
+            S=ONE/(ONE-EJ(J1)*EJ1(J))
+            EA=S*(EJ(J1)*EJ1(K)-EJ(K))
+            EB=S*(EJ1(J)*EJ(K)-EJ1(K))
           A(K,NS)=A(K,NS)+EA*A(J,NS)+EB*A(J1,NS)
 C----------------101-------------------------
          CASE(101)
@@ -1018,9 +1018,9 @@ C----------------101-------------------------
            EJ1(3)=SKEW(3)/SKEW(J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-	  S=ONE/(ONE-EJ(J1)*EJ1(J))
-	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
-	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
+            S=ONE/(ONE-EJ(J1)*EJ1(J))
+            EA=S*(EJ(J1)*EJ1(K)-EJ(K))
+            EB=S*(EJ1(J)*EJ(K)-EJ1(K))
           A(K,NS)=A(K,NS)+EA*A(J,NS)+EB*A(J1,NS)
 C----------------110-------------------------
          CASE(110)
@@ -1040,9 +1040,9 @@ C----------------110-------------------------
            EJ1(3)=SKEW(3)/SKEW(J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
-	  S=ONE/(ONE-EJ(J1)*EJ1(J))
-	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
-	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
+            S=ONE/(ONE-EJ(J1)*EJ1(J))
+            EA=S*(EJ(J1)*EJ1(K)-EJ(K))
+            EB=S*(EJ1(J)*EJ(K)-EJ1(K))
           A(K,NS)=A(K,NS)+EA*A(J,NS)+EB*A(J1,NS)
        END SELECT
 C
@@ -1075,13 +1075,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NML,ICT,ICR
 C======================================================================|
-C	IC=IRBE2(4,N)
+C  IC=IRBE2(4,N)
         ICT=IC/512
         ICR=(IC-512*(ICT))/64
-	DO J =1,3
+          DO J =1,3
            JT(J)=0
            JR(J)=0
-	ENDDO
+          ENDDO
         SELECT CASE (ICT)
           CASE(1)
            JT(3)=1

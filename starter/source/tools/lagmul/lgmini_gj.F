@@ -71,8 +71,8 @@ C
         CALL FRETITL2(TITR,
      .       NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
         DO J=3,6
-	  IF(GJBUFI(J,I)/=0)THEN
-	    IF(MASS(GJBUFI(J,I))==0)THEN
+            IF(GJBUFI(J,I)/=0)THEN
+              IF(MASS(GJBUFI(J,I))==0)THEN
               CALL ANCMSG(MSGID=535,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,
@@ -81,11 +81,11 @@ C
      .                    C2='GEAR TYPE JOINT',
      .                    C3=TITR,C4=' ',
      .                    I2=ITAB(GJBUFI(J,I)))
-	    ENDIF
-	  END IF
-	  
-	  IF(GJBUFI(J,I)/=0)THEN
-	    IF(INER(GJBUFI(J,I))==0)THEN
+              ENDIF
+            END IF
+            
+            IF(GJBUFI(J,I)/=0)THEN
+              IF(INER(GJBUFI(J,I))==0)THEN
               CALL ANCMSG(MSGID=536,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,
@@ -94,10 +94,10 @@ C
      .                    C2='GEAR TYPE JOINT',
      .                    C3=TITR,
      .                    I2=ITAB(GJBUFI(J,I)))
-	    ENDIF 
-	  END IF
-	ENDDO  	
-	
+              ENDIF 
+            END IF
+          ENDDO  
+
         IF (JTYP==1) THEN
           CALL INI_GEAR(IADLL,JLL  ,LLL  ,N0   ,N1   ,N2,NC,ID,TITR)
         ELSEIF (JTYP==2) THEN

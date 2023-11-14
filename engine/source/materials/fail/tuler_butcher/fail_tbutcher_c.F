@@ -112,7 +112,7 @@ C-----------------------------------------------
           SIG1 = S1 + SQRT(S2**2 + SIGNXY(I)**2)            
           SIG2 = S1 - SQRT(S2**2 + SIGNXY(I)**2)            
           SIGMAX = MAX(SIG1,SIG2)                            
-          IF (SIGMAX > SIGR_INI) UVAR(I,1) = UVAR(I,1)            	 
+          IF (SIGMAX > SIGR_INI) UVAR(I,1) = UVAR(I,1)               
      .        + TIMESTEP(I)*(SIGMAX - SIGR_INI)**TBA         
           IF (UVAR(I,1) >= TBK) THEN                         
             NINDX = NINDX + 1

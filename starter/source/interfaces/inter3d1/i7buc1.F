@@ -395,7 +395,7 @@ C---------------------------------
             RETURN
             MARGE_ST = THREE_OVER_4*MARGE_ST
             TZINF_ST = MARGE_ST + GAP
-	    I_MEM = 0
+              I_MEM = 0
 C ne pas dimunuer la taille des boite
 C            MINBOX= THREE_OVER_4*MINBOX
 C            MAXBOX= THREE_OVER_4*MAXBOX

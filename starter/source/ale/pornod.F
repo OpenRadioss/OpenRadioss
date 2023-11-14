@@ -96,7 +96,7 @@ C-----------------------------------------------
             END DO ! J=2,5
           END DO !I=1,NUMELQ
         ENDIF
-	
+
       !--------------------!
       !  COUNT AND STORE   !
       !--------------------!
@@ -164,7 +164,7 @@ C-----------------------------------------------
         ! main node RB replicate on all procs for SPMD calculation of porosity
           IF(IMACH == 3) THEN
             DO P = 1, NSPMD
-	      CALL IFRONTPLUS(IRB,P) 
+                CALL IFRONTPLUS(IRB,P) 
             ENDDO
           ENDIF
         ENDIF !IF (GEO(33,IG) == ZERO)

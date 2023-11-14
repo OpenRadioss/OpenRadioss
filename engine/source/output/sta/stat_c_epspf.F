@@ -172,7 +172,7 @@ c
                       ENDDO                   
                     ENDDO
                   ENDIF
-                ENDDO	 
+                ENDDO   
               ELSE  !  (IHBE /= 23)
                 DO K=1,NLAY                                            
                   BUFLY => ELBUF_TAB(NG)%BUFLY(K)
@@ -196,7 +196,7 @@ c
                       ENDDO                   
                     ENDDO
                   ENDIF
-                ENDDO	 
+                ENDDO   
               ENDIF ! IHBE
 c           NLAY = 1 :
             ELSEIF (ELBUF_TAB(NG)%BUFLY(1)%L_PLA > 0) THEN
@@ -215,7 +215,7 @@ c           NLAY = 1 :
                     DO IR=1,NPTR                                        
                       JJ = JJ + 1                                            
                       WA(JJ) = BUFLY%LBUF(IR,IS,IT)%PLA(I)         
-                    ENDDO	                                   
+                    ENDDO                                     
                   ENDDO                                         
                 ENDDO                                         
               ENDIF ! IHBE
@@ -330,7 +330,7 @@ C         retrouve l'adresse dans WAP0
               CALL TAB_STRS_TXT50(WAP0,NPTM*NPG,J,SIZP0,5)
             ENDIF
           ENDIF  !  IF (IOFF == 1)
-        ENDDO  !  DO N=1,STAT_NUMELC_G	    
+        ENDDO  !  DO N=1,STAT_NUMELC_G      
       ENDIF  !  IF (ISPMD == 0 .AND. LEN > 0)
 
 C-----------------------------------------------
@@ -434,7 +434,7 @@ c           NLAY = 1 :
                   DO IS=1,NPTS                                              
                     JJ = JJ + 1                              
                     WA(JJ) = BUFLY%LBUF(IR,IS,IT)%PLA(I)        
-                  ENDDO	  
+                  ENDDO    
                 ENDDO                                        
               ENDDO
             ELSE                       
@@ -539,7 +539,7 @@ C
               CALL TAB_STRS_TXT50(WAP0,NPTM*NPG,J,SIZP0,5)
             ENDIF
           ENDIF  !  IF (IOFF == 1)
-        ENDDO  !  DO N=1,STAT_NUMELTG_G	    
+        ENDDO  !  DO N=1,STAT_NUMELTG_G      
       ENDIF  !  IF(ISPMD == 0.AND.LEN>0)
 C
       RETURN

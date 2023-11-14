@@ -254,13 +254,13 @@ C
             AJ1(I)=A17(I)-A28(I)
             AJ2(I)=B17(I)-B28(I)
             AJ3(I)=C17(I)-C28(I)
-C	    
+C      
             JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
             JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
             JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
 C
            DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
-	   OFFG(I) = TWO
+             OFFG(I) = TWO
          ENDDO
       END IF
 C      

@@ -213,7 +213,7 @@ C     principal stretch (def gradient eigenvalues)
       TRAV(1:NEL)  = EPSXX(1:NEL)+EPSYY(1:NEL)                                     
       ROOTV(1:NEL) = SQRT((EPSXX(1:NEL)-EPSYY(1:NEL))*(EPSXX(1:NEL)-EPSYY(1:NEL))  
      .           + EPSXY(1:NEL)*EPSXY(1:NEL))
-	     EVV(1:NEL,1) = HALF*(TRAV(1:NEL)+ROOTV(1:NEL))
+               EVV(1:NEL,1) = HALF*(TRAV(1:NEL)+ROOTV(1:NEL))
       EVV(1:NEL,2) = HALF*(TRAV(1:NEL)-ROOTV(1:NEL))  
       EVV(1:NEL,3) = ZERO                               
 C     rot matrix (eigenvectors)
@@ -306,7 +306,7 @@ c----------------------------------------------
 #include "vectorize.inc"
          DO II =1,NINDX_LOOP
            I = INDX_LOOP(II) 
-	      FM = UVAR(I,1)   ! fraction of Martensite    
+                FM = UVAR(I,1)   ! fraction of Martensite    
            GT(I) = G + FM * (GM - G) !G_n
            KT(I) = K + FM * (KM - K) !K_n
           !pressure
@@ -322,10 +322,10 @@ c----------------------------------------------
            SYY(I)= TWO*GT(I)*(EE2(I) -EPSL*FM*NYY(I))
            SZZ(I)= TWO*GT(I)*(EE3(I) -EPSL*FM*NZZ(I))
 
-	      SV(I) =  SQRT( SXX(I)*SXX(I) + SYY(I)*SYY(I) + SZZ(I)*SZZ(I)  )
-	      !-------------------
-	      ! transformation  
-	      !-------------------
+                SV(I) =  SQRT( SXX(I)*SXX(I) + SYY(I)*SYY(I) + SZZ(I)*SZZ(I)  )
+                !-------------------
+                ! transformation  
+                !-------------------
            DFMSA = ZERO
            DFMAS = ZERO
 
@@ -440,7 +440,7 @@ c
 #include "vectorize.inc"
          DO II =1,NINDX_LOOP
            I = INDX_LOOP(II) 
-	      FM = UVAR(I,1)   ! fraction of Martensite    
+                FM = UVAR(I,1)   ! fraction of Martensite    
            !pressure
            P11(I) = K * (TRDE(I) - THREE*ALPHA*EPSL*FM)
            ! n= e/ norm(e)
@@ -453,7 +453,7 @@ c
            SXX(I)= G2*(EE1(I) -EPSL*FM*NXX(I))
            SYY(I)= G2*(EE2(I) -EPSL*FM*NYY(I))
            SZZ(I)= G2*(EE3(I) -EPSL*FM*NZZ(I))
-	      SV(I) =  SQRT( SXX(I)*SXX(I) + SYY(I)*SYY(I) + SZZ(I)*SZZ(I)  )
+                SV(I) =  SQRT( SXX(I)*SXX(I) + SYY(I)*SYY(I) + SZZ(I)*SZZ(I)  )
 
            !-------------------
            ! transformation  
@@ -485,9 +485,9 @@ c
            IF(DFM(I) < ZERO .AND. FM == ZERO) DFM(I) = ZERO
 
            !UPDATE
-	      SXX(I) =  SXX(I) -G2* EPSL*DFM(I)*NXX(I) 
-	      SYY(I) =  SYY(I) -G2* EPSL*DFM(I)*NYY(I)
-	      SZZ(I) =  SZZ(I) -G2* EPSL*DFM(I)*NZZ(I)
+                SXX(I) =  SXX(I) -G2* EPSL*DFM(I)*NXX(I) 
+                SYY(I) =  SYY(I) -G2* EPSL*DFM(I)*NYY(I)
+                SZZ(I) =  SZZ(I) -G2* EPSL*DFM(I)*NZZ(I)
            P11(I) =  P11(I) - K*EPSL*THREE*ALPHA*DFM(I)
            SIGXX(I)= SXX(I) + P11(I)
            SIGYY(I)= SYY(I) + P11(I)

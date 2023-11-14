@@ -73,7 +73,7 @@ C-----------------------------------------------
           IF(SPBUF(9,N)>ZERO)THEN
            KXSP(1,N) =0
            KXSP(2,N) =NG
-           SPBUF(9,N)=ZERO	   
+           SPBUF(9,N)=ZERO     
           ENDIF
          ENDDO
         ENDIF

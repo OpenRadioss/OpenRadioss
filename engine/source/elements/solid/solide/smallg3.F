@@ -133,7 +133,7 @@ C
          SAV(I,21) = Z - X*WYY(I) + Y*WXX(I) 
        ENDDO
       ELSEIF(ISMSTR==1.OR.
-     .  	((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3))THEN
+     .    ((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3))THEN
        DO I=1,NEL
        IF(OFFG(I)>ONE)THEN
 C-----------------------------------------------

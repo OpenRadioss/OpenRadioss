@@ -310,7 +310,7 @@ C! for igtyp=16 --->IGMAT= 0
 C! for igtyp=17 --->IGMAT= 0
           IF(IGMAT <= 0) THEN
             IF (DMS > EM02) THEN               
-	              IDPROP = NINT(GEO(40,IPROP))       
+                        IDPROP = NINT(GEO(40,IPROP))       
                CALL FRETITL2(TITR,
      .                    IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
                CALL ANCMSG(MSGID=519,
@@ -321,7 +321,7 @@ C! for igtyp=17 --->IGMAT= 0
      .                  R1=EM(I),R2=MST)
              ENDIF
           ENDIF                           
-	       ENDDO
+                 ENDDO
       ELSEIF (IGTYP == 17) THEN
         IPPID  = 2
         IPMAT   = IPPID + NPT
@@ -346,7 +346,7 @@ C---         Test stability condition for mass
              DMS = ABS(EM(I)-MST)/MST                              
              IF(IGMAT < 0) THEN                                    
                IF (DMS > EM02) THEN                                
-	                IDPROP = NINT(GEO(40,IPROP))               
+                          IDPROP = NINT(GEO(40,IPROP))               
                  CALL FRETITL2(TITR,                               
      .                         IGEO(NPROPGI-LTITR+1,IPROP),LTITR)  
                  CALL ANCMSG(MSGID=519,                            
@@ -402,7 +402,7 @@ C---         Test stability condition for mass
              DMS = ABS(EM(I)-MST)/MST                              
              IF(IGMAT < 0) THEN                                    
                IF (DMS > EM02) THEN                                
-	                IDPROP = NINT(GEO(40,IPROP))               
+                          IDPROP = NINT(GEO(40,IPROP))               
                  CALL FRETITL2(TITR,                               
      .                         IGEO(NPROPGI-LTITR+1,IPROP),LTITR)  
                  CALL ANCMSG(MSGID=519,                            
@@ -481,7 +481,7 @@ C---         Test stability condition for mass
      .                      R1=EM(I),R2=MST)
                ENDIF     
              ENDIF                    
-	    ENDDO
+              ENDDO
           ELSE ! IDRAPE > 0
            DO I=LFT,LLT
              EM(I)=ZERO
@@ -585,7 +585,7 @@ C---         Test stability condition for mass
      .                      R1=EM(I),R2=MST)
                ENDIF     
              ENDIF                    
-	    ENDDO ! LFT,LLT
+              ENDDO ! LFT,LLT
           ENDIF  ! IDRAPE
       ELSE
         DO I=LFT,LLT
@@ -618,7 +618,7 @@ C---      Test stability condition for inertia
             INS = EM(I)*(AREA(I)/NINE_OVER_2+THK(I)*THK(I)*ONE_OVER_12)
             DMS = ABS(XI(I)-INS)/INS
             IF(DMS > EM02) THEN
-	             IDPROP = NINT(GEO(40,IPROP))       
+                       IDPROP = NINT(GEO(40,IPROP))       
               CALL FRETITL2(TITR,
      .                  IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
               CALL ANCMSG(MSGID=520,

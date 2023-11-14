@@ -67,48 +67,48 @@ C     REAL
       DOUBLE PRECISION SPHG_F6(4,6,NBGAUGE)
 C-----------------------------------------------
 c     GAUGE(3,*)
-c 1:  -Isolid				   -(NUMELS_G+1) if SPH gauge
+c 1:  -Isolid           -(NUMELS_G+1) if SPH gauge
 c 2:  GaugeId
 c 3:  +Node or -Shell
 c
 c     => GAUGE(LLGAUGE,*), LLGAUGE = 37
-c 1:  Dist (distance from Shell)	   Dist (distance from Shell)
-c 2:  XG				   XG
-c 3:  YG				   YG
-c 4:  ZG				   ZG
-c 5:  Alpha (Solid penetration ratio)	   not yet used
-c 6:    				   XSAV (SPH sorting)
-c 7:    				   YSAV (SPH sorting)
-c 8:    				   ZSAV (SPH sorting)
-c 9:    				   FF (sph only)
-c 10:   				   intantaneous Pressure
-c 11:   				   not yet available
-c 12:   				   intantaneous Rho
-c 13:   				   intantaneous E
-c 14:   				   ! Butterworth !
-c 15:   				   ! Butterworth !
-c 16:   				   ! Butterworth !
-c 17:   				   ! Butterworth !
-c 18:   				   ! Butterworth !
-c 19:   				   ! Butterworth !
-c 20:   			           ! Butterworth !
-c 21: 				           ! Butterworth !
-c 22: 				           ! Butterworth !
-c 23: 				           ! Butterworth !  
-c 24:   				   ! Butterworth !
-c 25:   				   ! Butterworth !
-c 26:   				   ! Butterworth !
-c 27:   				   ! Butterworth !
-c 28:   				   ! Butterworth !
-c 29:   				   ! Butterworth !
-c 30:  Pressure      		  	   filtered Pressure
-c 31:  PA            			   not yet available
-c 32:  Rho           			   filtered Rho
-c 33:  E             			   filtered E	     
-c 34:   				   ! Butterworth !
-c 35:   				   ! Butterworth !
-c 36:   				   ! Butterworth !
-c 37:   				   ! Butterworth !
+c 1:  Dist (distance from Shell)     Dist (distance from Shell)
+c 2:  XG           XG
+c 3:  YG           YG
+c 4:  ZG           ZG
+c 5:  Alpha (Solid penetration ratio)     not yet used
+c 6:               XSAV (SPH sorting)
+c 7:               YSAV (SPH sorting)
+c 8:               ZSAV (SPH sorting)
+c 9:               FF (sph only)
+c 10:              intantaneous Pressure
+c 11:              not yet available
+c 12:              intantaneous Rho
+c 13:              intantaneous E
+c 14:              ! Butterworth !
+c 15:              ! Butterworth !
+c 16:              ! Butterworth !
+c 17:              ! Butterworth !
+c 18:              ! Butterworth !
+c 19:              ! Butterworth !
+c 20:                    ! Butterworth !
+c 21:                    ! Butterworth !
+c 22:                    ! Butterworth !
+c 23:                    ! Butterworth !  
+c 24:              ! Butterworth !
+c 25:              ! Butterworth !
+c 26:              ! Butterworth !
+c 27:              ! Butterworth !
+c 28:              ! Butterworth !
+c 29:              ! Butterworth !
+c 30:  Pressure                 filtered Pressure
+c 31:  PA                     not yet available
+c 32:  Rho                    filtered Rho
+c 33:  E                      filtered E       
+c 34:              ! Butterworth !
+c 35:              ! Butterworth !
+c 36:              ! Butterworth !
+c 37:              ! Butterworth !
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -137,31 +137,31 @@ C------
         ENER   =ZERO
         RHO    =ZERO
 C------
-     	NVOIS=KXSP(4,N)
+          NVOIS=KXSP(4,N)
 C------
         SFGAUGE = KXSP(4,N) + KXSP(6,N)
         ALLOCATE(FGAUGE1(SFGAUGE),FGAUGE2(SFGAUGE),FGAUGE3(SFGAUGE),FGAUGE4(SFGAUGE))
 C------
-     	DO J=1,NVOIS
-     	  JNOD=IXSP(J,N)
-     	  IF(JNOD>0)THEN
-     	    M=NOD2SP(JNOD)
+          DO J=1,NVOIS
+            JNOD=IXSP(J,N)
+            IF(JNOD>0)THEN
+              M=NOD2SP(JNOD)
             IF(KXSP(2,M)<=0) CYCLE
-     	    XJ=X(1,JNOD)
-     	    YJ=X(2,JNOD)
-     	    ZJ=X(3,JNOD)
-     	    DJ  =SPBUF(1,M)
-     	    RHOJ=SPBUF(2,M)
-     	    VJ=SPBUF(12,M)/MAX(EM20,RHOJ)
-     	    CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DJ,WGHT)
+              XJ=X(1,JNOD)
+              YJ=X(2,JNOD)
+              ZJ=X(3,JNOD)
+              DJ  =SPBUF(1,M)
+              RHOJ=SPBUF(2,M)
+              VJ=SPBUF(12,M)/MAX(EM20,RHOJ)
+              CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DJ,WGHT)
             WCOMPI=VJ*WGHT
             PP=-THIRD*(WA(1,M)+WA(2,M)+WA(3,M))
             FGAUGE1(J) = WCOMPI
             FGAUGE2(J) = VJ*WGHT*PP
             FGAUGE3(J) = VJ*WGHT*RHOJ
             FGAUGE4(J) = ENER
-     	  END IF
-     	ENDDO
+            END IF
+          ENDDO
 C------
 C       partie symetrique.
         NVOISS=KXSP(6,N)

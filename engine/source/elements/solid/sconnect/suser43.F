@@ -479,7 +479,7 @@ C           Fill Structure in dynamical library
      *           BID,    BID, BID, BID, BID, BID,  BID,  
      *           BID,    DEPSZZ, BID, DEPSYZ, DEPSZX, RHO0, BID,   
      *           BID,    SIGNZZ,  BID,  SIGNYZ,  SIGNZX,  BID,  BID,  
-     *  	        BID,    BID, BID, BID )                 
+     *            BID,    BID, BID, BID )                 
 c
 c           Call user law in dynamical user library
             CALL  ENG_USERLIB_SIGEPS99(
@@ -602,9 +602,9 @@ c       save current strain and stress
         ENDDO                               
         IF (ELBUF_STR%BUFLY(1)%L_EPE > 0) THEN
           DO IEL=1,NEL
-            LBUF%EPE(JJ(1)+IEL) = EPSZZ(IEL)	 
-            LBUF%EPE(JJ(2)+IEL) = EPSYZ(IEL)	 
-            LBUF%EPE(JJ(3)+IEL) = EPSZX(IEL)	 
+            LBUF%EPE(JJ(1)+IEL) = EPSZZ(IEL)   
+            LBUF%EPE(JJ(2)+IEL) = EPSYZ(IEL)   
+            LBUF%EPE(JJ(3)+IEL) = EPSZX(IEL)   
           ENDDO
         END IF
 c

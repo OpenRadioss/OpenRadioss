@@ -27,7 +27,7 @@ C   |-- appele -----------
 C   |-- appelee par -----------
 C   |         CBAFORC3                         /coqueba/cbaforc3.F
 C   |============================================================
-	SUBROUTINE CBAVIT_PLY(JFT,JLT,IXC,OFFG,OFF,NPLAT,IPLAT,NPT,
+          SUBROUTINE CBAVIT_PLY(JFT,JLT,IXC,OFFG,OFF,NPLAT,IPLAT,NPT,
      1                        VCORE,DI,ZL,VQ , VXYZ,X13_T  ,X24_T ,
      2                        Y13_T,Y24_T,AREA,INOD,DEL_PLY,
      .                        VNI,ISTACK,VR)  
@@ -36,7 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
        USE PLYXFEM_MOD
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-C	transformation au repere local est absolue
+C  transformation au repere local est absolue
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -82,28 +82,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 !!        NPLAT0 = JLT
         NPLAT0 = NPLAT
-	A1 = ONE - PG
+          A1 = ONE - PG
         A2 = ONE + PG
 C (-PG, -PG)        
         VNI(1,1)= FOURTH*A2*A2
-	VNI(2,1)= FOURTH*A1*A2
-	VNI(3,1)= FOURTH*A1*A1
-	VNI(4,1)= VNI(2,1)
+          VNI(2,1)= FOURTH*A1*A2
+          VNI(3,1)= FOURTH*A1*A1
+          VNI(4,1)= VNI(2,1)
 C (xi = PG,eta=-PG)
         VNI(1,2)= VNI(2,1)
-	VNI(2,2)= VNI(1,1)
-	VNI(3,2)= VNI(2,1)
-	VNI(4,2)= VNI(3,1)
+          VNI(2,2)= VNI(1,1)
+          VNI(3,2)= VNI(2,1)
+          VNI(4,2)= VNI(3,1)
 C  xi = PG, eta = PG 
         VNI(1,3)= VNI(3,1)
-	VNI(2,3)= VNI(2,1)
-	VNI(3,3)= VNI(1,1)
-	VNI(4,3)= VNI(2,1)
+          VNI(2,3)= VNI(2,1)
+          VNI(3,3)= VNI(1,1)
+          VNI(4,3)= VNI(2,1)
 Cxi= -PG, eta= pG
         VNI(1,4)= VNI(2,1)
-	VNI(2,4)= VNI(3,1)
-	VNI(3,4)= VNI(2,1)
-	VNI(4,4)= VNI(1,1)
+          VNI(2,4)= VNI(3,1)
+          VNI(3,4)= VNI(2,1)
+          VNI(4,4)= VNI(1,1)
 C        
       DO EP=JFT,JLT
         AREA_I(EP)=ONE/MAX(EM20,AREA(EP))
@@ -356,5 +356,5 @@ C 4th
          ENDDO 
         ENDDO
 C ---
-	RETURN
-	END
+          RETURN
+          END

@@ -120,8 +120,8 @@ C=======================================================================
         CALL HM_GET_INTV('grbrick_id', IGUS, IS_AVAILABLE, LSUBMODEL)  
 
         IF (NFRAM == 0 .AND. ISTYP == 0) THEN
-	         NNOD  = GRSIZEN(IGU,IGRNOD,NGRNOD)
-       	ELSE
+                   NNOD  = GRSIZEN(IGU,IGRNOD,NGRNOD)
+          ELSE
           NNOD = 20 * GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)
         ENDIF
         NSEGS = GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)

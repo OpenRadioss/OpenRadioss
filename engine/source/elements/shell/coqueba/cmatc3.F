@@ -982,7 +982,7 @@ C
        IF (IORTH >0 ) THEN
         DO M=JFT,JLT 
          EP=IPLAT(M)
- 	     C2=VOL(EP)
+               C2=VOL(EP)
          C1=THK2(EP)*C2
          DMOR(1,M)=HMOR(1,EP)*C2
          DMOR(2,M)=HMOR(2,EP)*C2
@@ -991,7 +991,7 @@ C
         ENDDO
         DO M=JFT,JLT 
          EP=IPLAT(M)
- 	     C2=VOL(EP)*THK0(EP)
+               C2=VOL(EP)*THK0(EP)
          DMF(1,1,M)=HMFOR(1,EP)*C2
          DMF(2,2,M)=HMFOR(2,EP)*C2
          DMF(1,2,M)=HMFOR(3,EP)*C2

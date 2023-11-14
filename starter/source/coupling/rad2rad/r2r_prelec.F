@@ -254,7 +254,7 @@ C--------------------------------------------------------------------C
             ELSEIF (KEY(1:3) == 'VEL' .OR. KEY(1:5) == 'TYPE9') THEN
 c          READ(IIN,REC=IREC,ERR=999,FMT=FMT_I_2F)N1,NUL,NUL
 c          N1 = USR2SYS(N1,ITABM1,MESS,NI)
-c	         CALL MODIF_TAG(TAGNO(NPART+N1),2,MODIF)
+c           CALL MODIF_TAG(TAGNO(NPART+N1),2,MODIF)
             ELSEIF (KEY(1:4) /='SENS'.AND.KEY(1:5)/='TYPE3'
      .          .AND.KEY(1:3)/='AND'.AND.KEY(1:5)/='TYPE4'
      .          .AND.KEY(1:2)/='OR'.AND.KEY(1:5)/='TYPE5'
@@ -1452,10 +1452,10 @@ C             --> if all the nodes of the segment are in the subdomain -it's val
             IF (CPT_NOD==4) CPT_SEG=CPT_SEG+1
           END DO
 C--------MONVOL not allowed on multidomains interface--------------------------
-C	  IF (WARN>0) THEN
-C	        CALL ANSTCKC(LEN_TRIM(LINE),LINE)
+C    IF (WARN>0) THEN
+C          CALL ANSTCKC(LEN_TRIM(LINE),LINE)
 C                CALL ANCWARN(843,ANINFO_BLIND_1)
-C	  ENDIF
+C    ENDIF
 C-------Case AIRBAG1----------------------------------------
           IF ((TYPE==1).AND.(TAGMON(I)>0)) THEN
             CALL HM_GET_INTV('nb_jet', NJET, IS_AVAILABLE, LSUBMODEL)

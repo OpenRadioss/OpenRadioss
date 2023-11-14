@@ -111,97 +111,97 @@ C----------------   skew initialisation for kjoints
         ISK1 = GET_U_SKEW(IDSK1,N1,N2,N2,U)
         ISK2 = GET_U_SKEW(IDSK2,N1,N2,N3,V)
       ELSE
-        SKFLG = 0       	
+        SKFLG = 0       
 C----------------   sensor check for kjoints2
-	      USENS = NINT(GET_U_GEO(2,IPROP))
-	      ISENS_ACT = 0
-	      IF (USENS>0) THEN
-	         ISENS_OLD = NINT(UVAR(16,JFT))      
+                USENS = NINT(GET_U_GEO(2,IPROP))
+                ISENS_ACT = 0
+                IF (USENS>0) THEN
+                   ISENS_OLD = NINT(UVAR(16,JFT))      
           DO K=1,NSENSOR
             IF(USENS==SENSOR_TAB(K)%SENS_ID) INSENS=K
           ENDDO
 C      
           IF (TT>SENSOR_TAB(INSENS)%TSTART) THEN
             ISENS = 1
-	           UVAR(16,JFT) = ISENS
+                     UVAR(16,JFT) = ISENS
           ENDIF
-	         IF (ISENS/=ISENS_OLD) ISENS_ACT = 1
+                   IF (ISENS/=ISENS_OLD) ISENS_ACT = 1
         ENDIF
-      ENDIF	
-C            	
+      ENDIF
+C            
 C ----------------
 C     
       DO I=JFT,JLT
 C
 C----------------   initizialisation at time 0
 C
-	IF ((NCYCLE==0).AND.(TT==0)) THEN
+          IF ((NCYCLE==0).AND.(TT==0)) THEN
           IF (IGTYP==33) THEN
             DO J=1,9
               A0(J)= UVAR(3+J,I)
             END DO
           ELSE
             RX(I)= UVAR(7,I)
-	    RY(I)= UVAR(8,I)
+              RY(I)= UVAR(8,I)
             RZ(I)= UVAR(9,I)
-          ENDIF         	
+          ENDIF         
         ENDIF
 C
 C----------------   stockage of displacements if sensor is activated 
 C
-        IF ((IGTYP==45).AND.(ISENS_ACT==1)) THEN	
+        IF ((IGTYP==45).AND.(ISENS_ACT==1)) THEN
           UVAR(4,I) = DX(I)
           UVAR(5,I) = DY(I) 
           UVAR(6,I) = DZ(I)
           UVAR(7,I) = RX(I)
           UVAR(8,I) = RY(I) 
           UVAR(9,I) = RZ(I)
-        ENDIF	  	 		 		  	
+        ENDIF                  
 C
 C----------------   local frame 
 C
         IF (JTYP==5) THEN
-C---------------------------------------------		
+C---------------------------------------------
 C----   universal joint - orthogonalized  ----
-C---------------------------------------------	
+C---------------------------------------------
           IF (IGTYP==45) THEN  
-C-------------------- nod 1		 	     
+C-------------------- nod 1            
              DT(1)= VR(1,NC1(I))*DT1
              DT(2)= VR(2,NC1(I))*DT1
-             DT(3)= VR(3,NC1(I))*DT1  	  
-	     U(1)=UVAR(10,I) - UVAR(11,I)*DT(3)+UVAR(12,I)*DT(2)
+             DT(3)= VR(3,NC1(I))*DT1      
+               U(1)=UVAR(10,I) - UVAR(11,I)*DT(3)+UVAR(12,I)*DT(2)
              U(2)=UVAR(11,I) - UVAR(12,I)*DT(1)+UVAR(10,I)*DT(3)
              U(3)=UVAR(12,I) - UVAR(10,I)*DT(2)+UVAR(11,I)*DT(1)
-	     NR =SQRT(U(1)*U(1)+U(2)*U(2)+U(3)*U(3))
-	     IF (NR>0) THEN
-	       U(1)=U(1)/NR
-	       U(2)=U(2)/NR
-	       U(3)=U(3)/NR
-	     ENDIF
+               NR =SQRT(U(1)*U(1)+U(2)*U(2)+U(3)*U(3))
+               IF (NR>0) THEN
+                 U(1)=U(1)/NR
+                 U(2)=U(2)/NR
+                 U(3)=U(3)/NR
+               ENDIF
 C-----
-	     UVAR(10,I) = U(1)
-	     UVAR(11,I) = U(2)	
-	     UVAR(12,I) = U(3)
-	     		     	     	     
-C-------------------- nod 2		  	     
+               UVAR(10,I) = U(1)
+               UVAR(11,I) = U(2)
+               UVAR(12,I) = U(3)
+                             
+C-------------------- nod 2             
              DT(1)= VR(1,NC2(I))*DT1
              DT(2)= VR(2,NC2(I))*DT1
-             DT(3)= VR(3,NC2(I))*DT1	  	  	     
-	     V(1)=UVAR(13,I) - UVAR(14,I)*DT(3)+UVAR(15,I)*DT(2)
+             DT(3)= VR(3,NC2(I))*DT1               
+               V(1)=UVAR(13,I) - UVAR(14,I)*DT(3)+UVAR(15,I)*DT(2)
              V(2)=UVAR(14,I) - UVAR(15,I)*DT(1)+UVAR(13,I)*DT(3)
              V(3)=UVAR(15,I) - UVAR(13,I)*DT(2)+UVAR(14,I)*DT(1)
-	     NR =SQRT(V(1)*V(1)+V(2)*V(2)+V(3)*V(3))
-	     IF (NR>0) THEN
-	       V(1)=V(1)/NR
-	       V(2)=V(2)/NR
-	       V(3)=V(3)/NR
-	     ENDIF
+               NR =SQRT(V(1)*V(1)+V(2)*V(2)+V(3)*V(3))
+               IF (NR>0) THEN
+                 V(1)=V(1)/NR
+                 V(2)=V(2)/NR
+                 V(3)=V(3)/NR
+               ENDIF
 C-----
-	     UVAR(13,I) = V(1)
-	     UVAR(14,I) = V(2)	
-	     UVAR(15,I) = V(3)	     	     	     
-	  ENDIF
-	  
+               UVAR(13,I) = V(1)
+               UVAR(14,I) = V(2)
+               UVAR(15,I) = V(3)                     
+            ENDIF
+            
           EX(1) = U(2)*V(3) - U(3)*V(2)
           EX(2) = U(3)*V(1) - U(1)*V(3)
           EX(3) = U(1)*V(2) - U(2)*V(1)
@@ -215,61 +215,61 @@ C-----
           EX(7) = V(1)
           EX(8) = V(2)
           EX(9) = V(3)
-	  
-	  CALL INV3(EX,EXI)	  
-	  	    	  	  	  	  
+            
+            CALL INV3(EX,EXI)    
+                              
 C----- Calcul du vecteur rotation R12
           X21(I) = (VR(1,NC2(I))-VR(1,NC1(I)))*DT1
           Y21(I) = (VR(2,NC2(I))-VR(2,NC1(I)))*DT1
           Z21(I) = (VR(3,NC2(I))-VR(3,NC1(I)))*DT1
 C
           RM(1) = RX(I)+EXI(1)*X21(I)+EXI(4)*Y21(I)+EXI(7)*Z21(I)
-	  RM(2) = RY(I)+EXI(2)*X21(I)+EXI(5)*Y21(I)+EXI(8)*Z21(I)
-	  RM(3) = RZ(I)+EXI(3)*X21(I)+EXI(6)*Y21(I)+EXI(9)*Z21(I)	  	  
-C-----		      
+            RM(2) = RY(I)+EXI(2)*X21(I)+EXI(5)*Y21(I)+EXI(8)*Z21(I)
+            RM(3) = RZ(I)+EXI(3)*X21(I)+EXI(6)*Y21(I)+EXI(9)*Z21(I)        
+C-----          
           R2(1) =  0.5*RM(1)
           R2(2) =  0.5*RM(2)
           R2(3) =  0.5*RM(3)
           R1(1) = -0.5*RM(1)
           R1(2) = -0.5*RM(2)
           R1(3) = -0.5*RM(3)
-C-----		  
+C-----      
           X21(I) = X(1,NC2(I))-X(1,NC1(I))
           Y21(I) = X(2,NC2(I))-X(2,NC1(I))
           Z21(I) = X(3,NC2(I))-X(3,NC1(I))
           XL(I,1)=EXI(1)*X21(I)+EXI(4)*Y21(I)+EXI(7)*Z21(I)
           XL(I,2)=EXI(2)*X21(I)+EXI(5)*Y21(I)+EXI(8)*Z21(I)
           XL(I,3)=EXI(3)*X21(I)+EXI(6)*Y21(I)+EXI(9)*Z21(I)
-	  	  
-C---------------------------	  
+            
+C---------------------------    
         ELSE
 C---------------------------
           IF (SKFLG==1) THEN
-C---------------------------------------------	  
+C---------------------------------------------    
 C----   first skew is used as mean skew  -----
 C---------------------------------------------
-	      
+                
             DO J=1,9
-	       EX(J) = U(J)
-	    ENDDO
+                 EX(J) = U(J)
+              ENDDO
    
-          ELSE	  
-C-------------------------------------	  
+          ELSE    
+C-------------------------------------    
 C----   mean skew is calculated  -----
 C-------------------------------------
-	    
+              
 C----- Initialisation de EXPREC
             IF ((NCYCLE==0).AND.(TT==0).AND.(IGTYP==33)) THEN
-               CALL PROD_AB(U,A0,A)	      
+               CALL PROD_AB(U,A0,A)        
                DO J=1,9
-	          EXPREC(J) = A(J)
-	       END DO
-	    ELSE
+                    EXPREC(J) = A(J)
+                 END DO
+              ELSE
                DO J=1,9
-	          EXPREC(J) = UVAR(21+J,I)
-	       END DO	       
-	    ENDIF
-	      
+                    EXPREC(J) = UVAR(21+J,I)
+                 END DO         
+              ENDIF
+                
 C----- Calcul de DEX
             X21(I) = HALF*(VR(1,NC2(I))+VR(1,NC1(I)))*DT1
             Y21(I) = HALF*(VR(2,NC2(I))+VR(2,NC1(I)))*DT1
@@ -277,21 +277,21 @@ C----- Calcul de DEX
             DT(1)=EXPREC(1)*X21(I)+EXPREC(2)*Y21(I)+EXPREC(3)*Z21(I)
             DT(2)=EXPREC(4)*X21(I)+EXPREC(5)*Y21(I)+EXPREC(6)*Z21(I)
             DT(3)=EXPREC(7)*X21(I)+EXPREC(8)*Y21(I)+EXPREC(9)*Z21(I)
-C----- 	  	  
-	    NR =SQRT(DT(1)*DT(1)+DT(2)*DT(2)+DT(3)*DT(3))
-	    IF (NR>0) THEN
-	       DT(1)=DT(1)/NR
-	       DT(2)=DT(2)/NR
-	       DT(3)=DT(3)/NR
-	    ENDIF
-	    CO = COS(NR)
-	    SI = SIN(NR)
+C-----         
+              NR =SQRT(DT(1)*DT(1)+DT(2)*DT(2)+DT(3)*DT(3))
+              IF (NR>0) THEN
+                 DT(1)=DT(1)/NR
+                 DT(2)=DT(2)/NR
+                 DT(3)=DT(3)/NR
+              ENDIF
+              CO = COS(NR)
+              SI = SIN(NR)
             CALL QROT33(DEX, DT, CO, SI)
-	  
-C----- Calcul du nouveau EX	  
+            
+C----- Calcul du nouveau EX    
             CALL PROD_AB(EXPREC,DEX,EX)
 
-C-------------------------------	  
+C-------------------------------    
           ENDIF
 C-------------------------------
 C----- Calcul du vecteur rotation R12
@@ -300,16 +300,16 @@ C----- Calcul du vecteur rotation R12
           Z21(I) = (VR(3,NC2(I))-VR(3,NC1(I)))*DT1
 C
           RM(1) = RX(I)+EX(1)*X21(I)+EX(2)*Y21(I)+EX(3)*Z21(I)
-	  RM(2) = RY(I)+EX(4)*X21(I)+EX(5)*Y21(I)+EX(6)*Z21(I)
-	  RM(3) = RZ(I)+EX(7)*X21(I)+EX(8)*Y21(I)+EX(9)*Z21(I)  	  
-C-----		      
+            RM(2) = RY(I)+EX(4)*X21(I)+EX(5)*Y21(I)+EX(6)*Z21(I)
+            RM(3) = RZ(I)+EX(7)*X21(I)+EX(8)*Y21(I)+EX(9)*Z21(I)      
+C-----          
           R2(1) =  0.5*RM(1)
           R2(2) =  0.5*RM(2)
           R2(3) =  0.5*RM(3)
           R1(1) = -0.5*RM(1)
           R1(2) = -0.5*RM(2)
           R1(3) = -0.5*RM(3)
-C-----	
+C-----
           IF (IRESP == 1) THEN
 C- simple precision - extended sple precsion only for translational dof 
             X21(I) = XDP(1,NC2(I))-XDP(1,NC1(I))

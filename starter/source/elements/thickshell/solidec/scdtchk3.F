@@ -81,163 +81,163 @@ C-------
 C--------only linear for the moment       
         IF(ISOLNOD==6)THEN
           DO I=1,NEL
- 	        N = NFT+I
+                  N = NFT+I
             NC(I,1:3)=IXS(2:4,N)
             NC(I,4:6)=IXS(6:8,N)
           ENDDO
             DO I=1,NEL
- 	          N1 = NC(I,1)
- 	          N2 = NC(I,4)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
+                    N1 = NC(I,1)
+                    N2 = NC(I,4)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
               END IF
- 	          N1 = NC(I,2)
- 	          N2 = NC(I,5)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
+                    N1 = NC(I,2)
+                    N2 = NC(I,5)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
               END IF
- 	          N1 = NC(I,3)
- 	          N2 = NC(I,6)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
+                    N1 = NC(I,3)
+                    N2 = NC(I,6)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
               END IF
             ENDDO
         ELSEIF(ISOLNOD==8)THEN
           DO I=1,NEL
- 	        N = NFT+I
+                  N = NFT+I
             NC(I,1:8)=IXS(2:9,N)
           ENDDO
           IF (JHBE==14) THEN
              SELECT CASE (ICSTR)
               CASE(100)                                             
                 DO I=1,NEL
- 	              N1 = NC(I,1)
- 	              N2 = NC(I,4)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(I,1)
+                        N2 = NC(I,4)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(I,2)
- 	              N2 = NC(I,3)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(I,2)
+                        N2 = NC(I,3)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(I,5)
- 	              N2 = NC(I,8)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(I,5)
+                        N2 = NC(I,8)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(I,6)
- 	              N2 = NC(I,7)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(I,6)
+                        N2 = NC(I,7)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
                 ENDDO
               CASE(10)                                          
                 DO I=1,NEL
- 	              N1 = NC(I,1)
- 	              N2 = NC(I,5)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(I,1)
+                        N2 = NC(I,5)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(I,2)
- 	              N2 = NC(I,6)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(I,2)
+                        N2 = NC(I,6)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(I,3)
- 	              N2 = NC(I,7)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(I,3)
+                        N2 = NC(I,7)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(I,4)
- 	              N2 = NC(I,8)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(I,4)
+                        N2 = NC(I,8)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
                 ENDDO
               CASE(1)                                          
                 DO I=1,NEL
- 	              N1 = NC(I,1)
- 	              N2 = NC(I,2)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(I,1)
+                        N2 = NC(I,2)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(I,4)
- 	              N2 = NC(I,3)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(I,4)
+                        N2 = NC(I,3)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(I,5)
- 	              N2 = NC(I,6)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(I,5)
+                        N2 = NC(I,6)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
- 	              N1 = NC(I,8)
- 	              N2 = NC(I,7)
-	              IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	                NEDG = NEDG + 1
-	                ITAG(N1)=NEDG
-	                ITAG(N2)=NEDG
+                        N1 = NC(I,8)
+                        N2 = NC(I,7)
+                        IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                          NEDG = NEDG + 1
+                          ITAG(N1)=NEDG
+                          ITAG(N2)=NEDG
                   END IF
                 ENDDO
              END SELECT 
           ELSEIF (JHBE==15) THEN
             DO I=1,NEL
- 	          N1 = NC(I,1)
- 	          N2 = NC(I,5)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
+                    N1 = NC(I,1)
+                    N2 = NC(I,5)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
               END IF
- 	          N1 = NC(I,2)
- 	          N2 = NC(I,6)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
+                    N1 = NC(I,2)
+                    N2 = NC(I,6)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
               END IF
- 	          N1 = NC(I,3)
- 	          N2 = NC(I,7)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
+                    N1 = NC(I,3)
+                    N2 = NC(I,7)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
               END IF
- 	          N1 = NC(I,4)
- 	          N2 = NC(I,8)
-	          IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
-	            NEDG = NEDG + 1
-	            ITAG(N1)=NEDG
-	            ITAG(N2)=NEDG
+                    N1 = NC(I,4)
+                    N2 = NC(I,8)
+                    IF (ITAG(N1)==0.AND.ITAG(N2)==0) THEN
+                      NEDG = NEDG + 1
+                      ITAG(N1)=NEDG
+                      ITAG(N2)=NEDG
               END IF
             ENDDO
           END IF
@@ -262,29 +262,29 @@ C-------uncompatibility commun node dif edge
 C--------only linear for the moment       
         IF(ISOLNOD==6)THEN
           DO I=1,NEL
- 	        N = NFT+I
+                  N = NFT+I
             NC(I,1:3)=IXS(2:4,N)
             NC(I,4:6)=IXS(6:8,N)
           ENDDO
             DO I=1,NEL
               IKIN = 0
- 	          N1 = NC(I,1)
- 	          N2 = NC(I,4)
-	          IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	          IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
- 	          N1 = NC(I,2)
- 	          N2 = NC(I,5)
-	          IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	          IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
- 	          N1 = NC(I,3)
- 	          N2 = NC(I,6)
-	          IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	          IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
-	          IF (IKIN==1) GBUF%IDT_TSH(I)=-1
+                    N1 = NC(I,1)
+                    N2 = NC(I,4)
+                    IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                    IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                    N1 = NC(I,2)
+                    N2 = NC(I,5)
+                    IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                    IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                    N1 = NC(I,3)
+                    N2 = NC(I,6)
+                    IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                    IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                    IF (IKIN==1) GBUF%IDT_TSH(I)=-1
             ENDDO
         ELSEIF(ISOLNOD==8)THEN
           DO I=1,NEL
- 	        N = NFT+I
+                  N = NFT+I
             NC(I,1:8)=IXS(2:9,N)
           ENDDO
           IF (JHBE==14) THEN
@@ -292,93 +292,93 @@ C--------only linear for the moment
               CASE(100)                                             
                 DO I=1,NEL
                   IKIN = 0
- 	              N1 = NC(I,1)
- 	              N2 = NC(I,4)
-	              IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	              IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
- 	              N1 = NC(I,2)
- 	              N2 = NC(I,3)
-	              IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	              IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
- 	              N1 = NC(I,5)
- 	              N2 = NC(I,8)
-	              IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	              IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
- 	              N1 = NC(I,6)
- 	              N2 = NC(I,7)
-	              IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	              IF (IKIN==1) GBUF%IDT_TSH(I)=-1
+                        N1 = NC(I,1)
+                        N2 = NC(I,4)
+                        IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                        IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                        N1 = NC(I,2)
+                        N2 = NC(I,3)
+                        IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                        IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                        N1 = NC(I,5)
+                        N2 = NC(I,8)
+                        IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                        IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                        N1 = NC(I,6)
+                        N2 = NC(I,7)
+                        IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                        IF (IKIN==1) GBUF%IDT_TSH(I)=-1
                 ENDDO
               CASE(10)                                          
                 DO I=1,NEL
                   IKIN = 0
- 	              N1 = NC(I,1)
- 	              N2 = NC(I,5)
-	              IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	              IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
- 	              N1 = NC(I,2)
- 	              N2 = NC(I,6)
-	              IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	              IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
- 	              N1 = NC(I,3)
- 	              N2 = NC(I,7)
-	              IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	              IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
- 	              N1 = NC(I,4)
- 	              N2 = NC(I,8)
-	              IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	              IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
-	              IF (IKIN==1) GBUF%IDT_TSH(I)=-1
+                        N1 = NC(I,1)
+                        N2 = NC(I,5)
+                        IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                        IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                        N1 = NC(I,2)
+                        N2 = NC(I,6)
+                        IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                        IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                        N1 = NC(I,3)
+                        N2 = NC(I,7)
+                        IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                        IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                        N1 = NC(I,4)
+                        N2 = NC(I,8)
+                        IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                        IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                        IF (IKIN==1) GBUF%IDT_TSH(I)=-1
                 ENDDO
               CASE(1)                                          
                 DO I=1,NEL
                   IKIN = 0
- 	              N1 = NC(I,1)
- 	              N2 = NC(I,2)
-	              IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	              IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
- 	              N1 = NC(I,4)
- 	              N2 = NC(I,3)
-	              IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
-	              IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
- 	              N1 = NC(I,5)
- 	              N2 = NC(I,6)
-	              IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
-	              IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
- 	              N1 = NC(I,8)
- 	              N2 = NC(I,7)
-	              IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
-	              IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	              IF (IKIN==1) GBUF%IDT_TSH(I)=-1
+                        N1 = NC(I,1)
+                        N2 = NC(I,2)
+                        IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                        IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                        N1 = NC(I,4)
+                        N2 = NC(I,3)
+                        IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                        IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                        N1 = NC(I,5)
+                        N2 = NC(I,6)
+                        IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                        IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                        N1 = NC(I,8)
+                        N2 = NC(I,7)
+                        IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                        IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                        IF (IKIN==1) GBUF%IDT_TSH(I)=-1
                 ENDDO
              END SELECT 
           ELSEIF (JHBE==15) THEN
             DO I=1,NEL
               IKIN = 0
- 	          N1 = NC(I,1)
- 	          N2 = NC(I,5)
-	          IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	          IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
- 	          N1 = NC(I,2)
- 	          N2 = NC(I,6)
-	          IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	          IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
- 	          N1 = NC(I,3)
- 	          N2 = NC(I,7)
-	          IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	          IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
-	          N1 = NC(I,4)
- 	          N2 = NC(I,8)
-	          IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
-	          IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
-	          IF (IKIN==1) GBUF%IDT_TSH(I)=-1
+                    N1 = NC(I,1)
+                    N2 = NC(I,5)
+                    IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                    IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                    N1 = NC(I,2)
+                    N2 = NC(I,6)
+                    IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                    IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                    N1 = NC(I,3)
+                    N2 = NC(I,7)
+                    IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                    IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                    N1 = NC(I,4)
+                    N2 = NC(I,8)
+                    IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
+                    IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
+                    IF (IKIN==1) GBUF%IDT_TSH(I)=-1
             ENDDO
           END IF
         END IF
          IF (IDTTSH>0 .AND.(ISOLNOD==6.OR.ISOLNOD==8)) THEN
             DO I=1,NEL
- 	           N = NFT+I
-	            IF (GBUF%IDT_TSH(I)==0) THEN
+                     N = NFT+I
+                      IF (GBUF%IDT_TSH(I)==0) THEN
                   IF (IPRI>0 ) CALL ANCMSG(MSGID=2070,
      .                MSGTYPE=MSGINFO,
      .                ANMODE=ANINFO_BLIND_1,
@@ -386,7 +386,7 @@ C--------only linear for the moment
      .                PRMOD=MSG_CUMU)
                   IER1=IER1+1
                 END IF
-	            IF (GBUF%IDT_TSH(I)==-1) THEN
+                      IF (GBUF%IDT_TSH(I)==-1) THEN
                   IF (IPRI>0 ) CALL ANCMSG(MSGID=2071,
      .                MSGTYPE=MSGINFO,
      .                ANMODE=ANINFO_BLIND_1,

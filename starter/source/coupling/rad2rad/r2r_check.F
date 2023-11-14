@@ -116,14 +116,14 @@ C----- Check of parts of subdomains-------------------------------C
 C----- Check of common nodes between interfaces---------------------C
 
 !        DO N=1,NR2RLNK-1
-!	   DO I=N+1,NR2RLNK
+!     DO I=N+1,NR2RLNK
 C                 CALL ANSTCKI(22)
 C                 CALL ANSTCKI(9)
 C                 CALL ANSTCKI(8)
-C    	         CALL ANCERR(792,ANINFO)
-C		 IERR=IERR+1
-!	   END DO
-!	END DO
+C               CALL ANCERR(792,ANINFO)
+C     IERR=IERR+1
+!     END DO
+!  END DO
 
 C----- Check of multidomains node groups-----------------------------C
 

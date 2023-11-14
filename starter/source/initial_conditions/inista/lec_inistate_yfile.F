@@ -61,7 +61,7 @@ C-----------------------------------------------
      .   NVARSH,NUMR,NUMSOLID,KK,
      .   JJHBE
       INTEGER KN
-      INTEGER IS_SOLID,IS_QUAD	 
+      INTEGER IS_SOLID,IS_QUAD   
       my_real
      .   THKI, EM, EB, H1, H2, H3, R0 , EIN, SMOOTHL
       my_real

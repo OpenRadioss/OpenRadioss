@@ -117,7 +117,7 @@ c-------------------------
       DO I=1,NEL             
         EPSN(I) = MAX(EPSZZ(I) , ZERO)      
         EPST(I) = SQRT(EPSYZ(I)**2  + EPSZX(I)**2)
-        EPSM(I) = SQRT( EPSN(I)**2  + EPST(I)**2)	           
+        EPSM(I) = SQRT( EPSN(I)**2  + EPST(I)**2)             
         EPSMMAX(I) = MAX(EPSM(I),EPSMMAX(I))
       ENDDO !I=1,NEL
       !---------------------------------------------------------

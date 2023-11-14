@@ -714,8 +714,8 @@ C
           ! in the following cases
             IF(HAS_MOVED_ON_REMOTE == 0) THEN
           ! the main face has not changed on the remote proc.
-              IRTL(K) =  0			  
-            ELSEIF( RMAX1 < RMAX2 .OR. (RMAX1 == RMAX2 .AND. IFLAG == 1)) THEN			  
+              IRTL(K) =  0        
+            ELSEIF( RMAX1 < RMAX2 .OR. (RMAX1 == RMAX2 .AND. IFLAG == 1)) THEN        
               IRTL(K) =  0
             ENDIF
           ENDIF

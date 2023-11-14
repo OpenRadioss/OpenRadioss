@@ -34,7 +34,7 @@ Chd|====================================================================
      2   NALE    ,IPARG  ,NC      ,WB    ,
      3   IAD_ELEM,FR_ELEM,FR_NBCC ,SIZEN ,ADDCNE,
      4   PROCNE  ,FSKY   ,FSKYV   ,IADX  ,WMA   ,
-     5   NIX,     NIADX  ,ITAB	)
+     5   NIX,     NIADX  ,ITAB  )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -102,13 +102,13 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF(ALE%GRID%ALPHA < ZERO)THEN
- 	DO I=1,NUMNOD
- 	  IF(IABS(NALE(I)) == 1) THEN
- 	    WB(1,I)=ZERO
- 	    WB(2,I)=ZERO
- 	    WB(3,I)=ZERO
- 	  ENDIF
- 	ENDDO
+          DO I=1,NUMNOD
+            IF(IABS(NALE(I)) == 1) THEN
+              WB(1,I)=ZERO
+              WB(2,I)=ZERO
+              WB(3,I)=ZERO
+            ENDIF
+          ENDDO
 C
          ALE%GRID%ALPHA=-ALE%GRID%ALPHA
       ENDIF
@@ -128,13 +128,13 @@ C SPMD
 C-----------------------------------------------
       IF (IPARIT /= 0) THEN
 #include "vectorize.inc"
-     	DO I=1,NUMNOD
-     	  IF(IABS(NALE(I)) == 1) THEN
-     	    WA(1,I)=ZERO
-     	    WA(2,I)=ZERO
-     	    WA(3,I)=ZERO
-     	  ENDIF
-     	ENDDO
+          DO I=1,NUMNOD
+            IF(IABS(NALE(I)) == 1) THEN
+              WA(1,I)=ZERO
+              WA(2,I)=ZERO
+              WA(3,I)=ZERO
+            ENDIF
+          ENDDO
       ELSE
 
 #include "vectorize.inc"
@@ -268,32 +268,32 @@ C middle
          IF(ITY == 2)KK=(ITR+1)/2 
          DO  I=1,NEL
 C
- 	  J1(I)=NC(ICT(1,ITR)+1,NFT+I)
- 	  J2(I)=NC(ICT(2,ITR)+1,NFT+I)
+            J1(I)=NC(ICT(1,ITR)+1,NFT+I)
+            J2(I)=NC(ICT(2,ITR)+1,NFT+I)
 C
- 	  DDX(I)=(W(1,J2(I))-W(1,J1(I)))*DT2
- 	  DDY(I)=(W(2,J2(I))-W(2,J1(I)))*DT2
- 	  DDZ(I)=(W(3,J2(I))-W(3,J1(I)))*DT2
- 	  DX(I)=D(1,J2(I))-D(1,J1(I))
- 	  DY(I)=D(2,J2(I))-D(2,J1(I))
- 	  DZ(I)=D(3,J2(I))-D(3,J1(I))
- 	  XX(I)=X(1,J2(I))-X(1,J1(I))
- 	  XY(I)=X(2,J2(I))-X(2,J1(I))
- 	  XZ(I)=X(3,J2(I))-X(3,J1(I))
+            DDX(I)=(W(1,J2(I))-W(1,J1(I)))*DT2
+            DDY(I)=(W(2,J2(I))-W(2,J1(I)))*DT2
+            DDZ(I)=(W(3,J2(I))-W(3,J1(I)))*DT2
+            DX(I)=D(1,J2(I))-D(1,J1(I))
+            DY(I)=D(2,J2(I))-D(2,J1(I))
+            DZ(I)=D(3,J2(I))-D(3,J1(I))
+            XX(I)=X(1,J2(I))-X(1,J1(I))
+            XY(I)=X(2,J2(I))-X(2,J1(I))
+            XZ(I)=X(3,J2(I))-X(3,J1(I))
 C
- 	  DDLF=VX(I,KK)*DDX(I)+VY(I,KK)*DDY(I)+VZ(I,KK)*DDZ(I)
- 	  DLF0=ABS(VX(I,KK)*XX(I)+VY(I,KK)*XY(I)+VZ(I,KK)*XZ(I))
- 	  DLF=(DLF0-ALE%GRID%VGY)/ALE%GRID%VGY
- 	  DLF=MIN(DLF,ZERO)
- 	  DLF0=DLF0-0.2*ALE%GRID%VGY
- 	  DLF0=MIN(DLF0,ZERO)
- 	  DLF=ALE%GRID%GAMMA+GAM1*DLF*DLF*DLF
- 	  DLF=MIN(DLF,ONE)
- 	  DX(I)=DT2*DLF0*DLF/ALE%GRID%VGZ/ALE%GRID%VGZ
- 	  DDL(I)= ALE%GRID%VGX/ALE%GRID%VGZ
- 	  IF(DDLF > 0.)DLF=ALE%GRID%GAMMA
- 	  DL(I) = 1. /ALE%GRID%VGZ/ALE%GRID%VGZ *DLF
-c	   DL(I)=0.
+            DDLF=VX(I,KK)*DDX(I)+VY(I,KK)*DDY(I)+VZ(I,KK)*DDZ(I)
+            DLF0=ABS(VX(I,KK)*XX(I)+VY(I,KK)*XY(I)+VZ(I,KK)*XZ(I))
+            DLF=(DLF0-ALE%GRID%VGY)/ALE%GRID%VGY
+            DLF=MIN(DLF,ZERO)
+            DLF0=DLF0-0.2*ALE%GRID%VGY
+            DLF0=MIN(DLF0,ZERO)
+            DLF=ALE%GRID%GAMMA+GAM1*DLF*DLF*DLF
+            DLF=MIN(DLF,ONE)
+            DX(I)=DT2*DLF0*DLF/ALE%GRID%VGZ/ALE%GRID%VGZ
+            DDL(I)= ALE%GRID%VGX/ALE%GRID%VGZ
+            IF(DDLF > 0.)DLF=ALE%GRID%GAMMA
+            DL(I) = 1. /ALE%GRID%VGZ/ALE%GRID%VGZ *DLF
+c     DL(I)=0.
 C
          ENDDO
 C
@@ -303,22 +303,22 @@ C-----------------------------------------------
          IF(IPARIT == 0) THEN
           DO I=1,NEL
            IF(NALE(J1(I)) /= 0) THEN
- 	    WBTMP(1,J1(I))=WBTMP(1,J1(I))+DDX(I)*DL(I)
- 	    WBTMP(2,J1(I))=WBTMP(2,J1(I))+DDY(I)*DL(I)
- 	    WBTMP(3,J1(I))=WBTMP(3,J1(I))+DDZ(I)*DL(I)
- 	    WA(1,J1(I))=WA(1,J1(I))+DDX(I)*DDL(I)
- 	    WA(2,J1(I))=WA(2,J1(I))+DDY(I)*DDL(I)
- 	    WA(3,J1(I))=WA(3,J1(I))+DDZ(I)*DDL(I)
+              WBTMP(1,J1(I))=WBTMP(1,J1(I))+DDX(I)*DL(I)
+              WBTMP(2,J1(I))=WBTMP(2,J1(I))+DDY(I)*DL(I)
+              WBTMP(3,J1(I))=WBTMP(3,J1(I))+DDZ(I)*DL(I)
+              WA(1,J1(I))=WA(1,J1(I))+DDX(I)*DDL(I)
+              WA(2,J1(I))=WA(2,J1(I))+DDY(I)*DDL(I)
+              WA(3,J1(I))=WA(3,J1(I))+DDZ(I)*DDL(I)
            ENDIF
 C
- 	   IF(NALE(J2(I)) /= 0) THEN
- 	    WBTMP(1,J2(I))=WBTMP(1,J2(I))-DDX(I)*DL(I)
- 	    WBTMP(2,J2(I))=WBTMP(2,J2(I))-DDY(I)*DL(I)
- 	    WBTMP(3,J2(I))=WBTMP(3,J2(I))-DDZ(I)*DL(I)
- 	    WA(1,J2(I))=WA(1,J2(I))-DDX(I)*DDL(I)
- 	    WA(2,J2(I))=WA(2,J2(I))-DDY(I)*DDL(I)
- 	    WA(3,J2(I))=WA(3,J2(I))-DDZ(I)*DDL(I)
- 	   ENDIF
+             IF(NALE(J2(I)) /= 0) THEN
+              WBTMP(1,J2(I))=WBTMP(1,J2(I))-DDX(I)*DL(I)
+              WBTMP(2,J2(I))=WBTMP(2,J2(I))-DDY(I)*DL(I)
+              WBTMP(3,J2(I))=WBTMP(3,J2(I))-DDZ(I)*DL(I)
+              WA(1,J2(I))=WA(1,J2(I))-DDX(I)*DDL(I)
+              WA(2,J2(I))=WA(2,J2(I))-DDY(I)*DDL(I)
+              WA(3,J2(I))=WA(3,J2(I))-DDZ(I)*DDL(I)
+             ENDIF
           ENDDO
          ELSE
 C-----------------------------------------------
@@ -389,7 +389,7 @@ C
 C-----------------------------------------------
 C SPMD : CUMULATION OF WA WB
 C-----------------------------------------------
-	IF(IPARIT == 0)THEN
+          IF(IPARIT == 0)THEN
         IF(NSPMD > 1)THEN
           SIZE = 6
           LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)

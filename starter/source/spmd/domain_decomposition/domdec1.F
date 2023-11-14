@@ -236,7 +236,7 @@ C         mettre a 1 la FRONTIERE(sd) correspondante
         DO J=1,NEL
           N = IX(1+I,J)
           IF(N/=0) THEN
-	    CALL IFRONTPLUS(N,P)    
+              CALL IFRONTPLUS(N,P)    
           ENDIF
         END DO
       END DO
@@ -282,7 +282,7 @@ C         mettre a 1 la FRONTIERE(sd) correspondante
         DO J=1,ICON
           N = IXX(ADDX-1+J)
           IF(N/=0) THEN
-	    CALL IFRONTPLUS(N,P)  
+              CALL IFRONTPLUS(N,P)  
           ENDIF
         END DO
       END DO 

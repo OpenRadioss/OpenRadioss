@@ -133,11 +133,11 @@ c      NRC = NR1
                DO J=1,10
                   II= CONNEC(IEL,J)
                    IF(II > 0) THEN
-		     IF(ITAG(II) == 0)THEN
+               IF(ITAG(II) == 0)THEN
                        ITAG(II) = NRB
                        NR1 = NR1 + 1
                        INDX(NR1) = II
-		     END IF
+               END IF
                   ENDIF
                 ENDDO
               ENDDO

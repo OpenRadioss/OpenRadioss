@@ -389,7 +389,7 @@ C---------------------------------
             TZINF_ST = MARGE_ST + MAX(DEPTH,DRAD,(GAP+DGAPLOAD))
             MAXBOX_ST= HALF*(DD + 2*TZINF_ST)
             MINBOX_ST= HALF*MAXBOX_ST
-	    I_MEM = 0
+              I_MEM = 0
             IF(MARGE_ST<EM03) THEN
 C             WRITE(ISTDO,*)' ***ERROR INFINITE LOOP DETECTED(I7BUC)'
 C             WRITE(IOUT,*)' **ERROR INFINITE LOOP DETECTED(I7BUC)'

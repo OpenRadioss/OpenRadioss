@@ -437,7 +437,7 @@ C-----------------------------------------------
          ELSEIF(KEY3(1:4)=='VONM')THEN
            OUTP_SPS(7) = 1
          ELSEIF(KEY3(1:5)=='STRES')THEN
-              IF(KEY4(1:4)=='FULL')THEN 	
+              IF(KEY4(1:4)=='FULL')THEN 
                OUTP_SPT(2) = 1
               ELSE
                OUTP_SPT(1) = 1

@@ -182,12 +182,12 @@ C
             IF(IRESP==1)THEN
               XX(I,N)=XDP(1,NN)
               YY(I,N)=XDP(2,NN)
-              ZZ(I,N)=XDP(3,NN)	      
-	    ELSE
+              ZZ(I,N)=XDP(3,NN)        
+              ELSE
               XX(I,N)=X(1,NN)
               YY(I,N)=X(2,NN)
-              ZZ(I,N)=X(3,NN)			 
-            ENDIF	    
+              ZZ(I,N)=X(3,NN)       
+            ENDIF      
           ENDDO
       END DO
 C
@@ -200,11 +200,11 @@ C
                IF(IRESP==1)THEN
                  XX(I,N)=XDP(1,NN)
                  YY(I,N)=XDP(2,NN)
-                 ZZ(I,N)=XDP(3,NN)	      
-	       ELSE
+                 ZZ(I,N)=XDP(3,NN)        
+                 ELSE
                  XX(I,N)=X(1,NN)
                  YY(I,N)=X(2,NN)
-                 ZZ(I,N)=X(3,NN)			 
+                 ZZ(I,N)=X(3,NN)       
                ENDIF
             ELSE
               N1=IPERM1(N)
@@ -325,7 +325,7 @@ C--
             ELSE
               N1=IPERM1(N)
               N2=IPERM2(N)
-C-------------DR-> local first	      
+C-------------DR-> local first        
               DX = (YY(I,N2)-YY(I,N1))*(DR(3,NC(I,N2))-DR(3,NC(I,N1)))
      .           - (ZZ(I,N2)-ZZ(I,N1))*(DR(2,NC(I,N2))-DR(2,NC(I,N1)))
               DY = (ZZ(I,N2)-ZZ(I,N1))*(DR(1,NC(I,N2))-DR(1,NC(I,N1)))
@@ -456,12 +456,12 @@ C
           N1=IPERM1(N)
           N2=IPERM2(N)
           DO I=1,NEL
-	           DVX = (YY(I,N2)-YY(I,N1))*(VR(3,NC(I,N2))-VR(3,NC(I,N1)))
-     .         	- (ZZ(I,N2)-ZZ(I,N1))*(VR(2,NC(I,N2))-VR(2,NC(I,N1)))
-	           DVY = (ZZ(I,N2)-ZZ(I,N1))*(VR(1,NC(I,N2))-VR(1,NC(I,N1)))
-     .         	- (XX(I,N2)-XX(I,N1))*(VR(3,NC(I,N2))-VR(3,NC(I,N1)))
-	           DVZ = (XX(I,N2)-XX(I,N1))*(VR(2,NC(I,N2))-VR(2,NC(I,N1)))
-     .         	- (YY(I,N2)-YY(I,N1))*(VR(1,NC(I,N2))-VR(1,NC(I,N1)))
+                     DVX = (YY(I,N2)-YY(I,N1))*(VR(3,NC(I,N2))-VR(3,NC(I,N1)))
+     .           - (ZZ(I,N2)-ZZ(I,N1))*(VR(2,NC(I,N2))-VR(2,NC(I,N1)))
+                     DVY = (ZZ(I,N2)-ZZ(I,N1))*(VR(1,NC(I,N2))-VR(1,NC(I,N1)))
+     .           - (XX(I,N2)-XX(I,N1))*(VR(3,NC(I,N2))-VR(3,NC(I,N1)))
+                     DVZ = (XX(I,N2)-XX(I,N1))*(VR(2,NC(I,N2))-VR(2,NC(I,N1)))
+     .           - (YY(I,N2)-YY(I,N1))*(VR(1,NC(I,N2))-VR(1,NC(I,N1)))
             VX(I,N) = HALF*(VX(I,N1)+VX(I,N2)) + ONE_OVER_8 * DVX
             VY(I,N) = HALF*(VY(I,N1)+VY(I,N2)) + ONE_OVER_8 * DVY
             VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2)) + ONE_OVER_8 * DVZ   

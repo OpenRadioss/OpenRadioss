@@ -112,9 +112,9 @@ C----------------------------
           ZD7(I)=XDP(3,NC7(I))  
           XD8(I)=XDP(1,NC8(I))  
           YD8(I)=XDP(2,NC8(I))  
-          ZD8(I)=XDP(3,NC8(I))  	  	  	  
+          ZD8(I)=XDP(3,NC8(I))              
         ENDDO
-      ELSE	
+      ELSE
         DO I=1,NEL
          IF (OFF(I) <= ONE ) CYCLE 
           XD1(I)=X(1,NC1(I))  

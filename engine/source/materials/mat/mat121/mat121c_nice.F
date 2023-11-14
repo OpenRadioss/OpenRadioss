@@ -241,7 +241,7 @@ c
         ! Loop over yielding elements
         DO II=1,NINDX 
 c      
-          ! Number of the element with plastic behaviour  	
+          ! Number of the element with plastic behaviour  
           I = INDEX(II)  
 c        
           ! Computation of the trial stress increment

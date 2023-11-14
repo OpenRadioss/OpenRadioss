@@ -103,7 +103,7 @@ C=======================================================================
                     PROC_LIST(1:NSPMD) = -1
                     PROC_NUMBER = 0
                     NN = CYL_JOIN(I)%SECONDARY_NODE(LJ)
-	                CALL PLIST_IFRONT(PROC_LIST,NN,PROC_NUMBER)
+                          CALL PLIST_IFRONT(PROC_LIST,NN,PROC_NUMBER)
                     !returns in "PROC_LIST" array list of SPMD domains on which node I is sticked
                     !PROC_NUMBER is the number of SPMD domains on which node I is sticked
                     

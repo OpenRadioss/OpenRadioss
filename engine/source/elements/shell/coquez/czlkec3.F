@@ -150,7 +150,7 @@ C
 #include "vectorize.inc"
         DO M=JFT,JLT 
          EP=IPLAT(M)
- 	 C2=VOL(EP)
+           C2=VOL(EP)
          C1=THK2(EP)*C2
          DM5(M)=HMOR(EP,1)*C2
          DM6(M)=HMOR(EP,2)*C2
@@ -194,7 +194,7 @@ C
         ENDDO
         DO M=JFT,JLT 
          EP=IPLAT(M)
- 	 C2=VOL(EP)*THK0(EP)
+           C2=VOL(EP)*THK0(EP)
          DMF(1,1,M)=HMFOR(EP,1)*C2
          DMF(2,2,M)=HMFOR(EP,2)*C2
          DMF(1,2,M)=HMFOR(EP,3)*C2
@@ -620,7 +620,7 @@ C------ renforce positive  ----------
       IF (NEIG==0) THEN
        DO EP=JFT,JLT
         C1 = EM8*M11(3,3,EP)
-	C2 = EM8*M22(3,3,EP)
+          C2 = EM8*M22(3,3,EP)
         M11(3,3,EP)=M11(3,3,EP)+C1
         M22(3,3,EP)=M22(3,3,EP)+C2
         M33(3,3,EP)=M11(3,3,EP)
@@ -703,7 +703,7 @@ C--------Constante parts---------------
        IF (IORTH==1) THEN
         DO M=JFT,JLT 
          EP=IPLAT(M)
- 	 C2=VOL(EP)
+           C2=VOL(EP)
          DM(1,3,M)=HMOR(EP,1)*C2
          DM(2,3,M)=HMOR(EP,2)*C2
         ENDDO
@@ -919,7 +919,7 @@ C ----add mem-bending coupling terms of orthotrope--coplanar first---
 #include "vectorize.inc"
         DO M=JFT,JLT 
          EP=IPLAT(M)
- 	 C2=VOL(EP)*THK0(EP)
+           C2=VOL(EP)*THK0(EP)
          DMF(1,1,M)=HMFOR(EP,1)*C2
          DMF(2,2,M)=HMFOR(EP,2)*C2
          DMF(1,2,M)=HMFOR(EP,3)*C2

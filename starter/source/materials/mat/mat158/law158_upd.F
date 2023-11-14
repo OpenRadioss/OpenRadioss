@@ -100,7 +100,7 @@ C----------------------------
         ENDDO
         IF (ISENS == 0)  
      .    CALL ANCMSG(MSGID=1240,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
-     .  	      I1=MAT_ID,C1=TITR,I2=ISENS) 
+     .          I1=MAT_ID,C1=TITR,I2=ISENS) 
       ENDIF
 c---------------------------------------------------------------
 c

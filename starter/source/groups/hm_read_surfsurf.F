@@ -249,7 +249,7 @@ C-----------
                            IGRSURF(IGS)%NODES(NSEG_TOT,3) = IGRSURF(IGRS)%NODES(L,3)
                            IGRSURF(IGS)%NODES(NSEG_TOT,4) = IGRSURF(IGRS)%NODES(L,4)
                            IGRSURF(IGS)%ELTYP(NSEG_TOT)   = IGRSURF(IGRS)%ELTYP(L)
-                           IGRSURF(IGS)%ELEM(NSEG_TOT)	 = IGRSURF(IGRS)%ELEM(L)
+                           IGRSURF(IGS)%ELEM(NSEG_TOT)   = IGRSURF(IGRS)%ELEM(L)
                         ENDDO
                      ELSE   
                         IF(N2D==0)THEN
@@ -540,7 +540,7 @@ C------ for re-allocation %NODES
                   IGRSURF(IGS)%NODES(NSEG_TOT,3) = BUFTMP((INDEX(L)-1) *NISX+3)
                   IGRSURF(IGS)%NODES(NSEG_TOT,4) = BUFTMP((INDEX(L)-1) *NISX+4)
                   IGRSURF(IGS)%ELTYP(NSEG_TOT)   = BUFTMP((INDEX(L)-1) *NISX+5)
-                  IGRSURF(IGS)%ELEM(NSEG_TOT)	 = BUFTMP((INDEX(L)-1) *NISX+6)
+                  IGRSURF(IGS)%ELEM(NSEG_TOT)   = BUFTMP((INDEX(L)-1) *NISX+6)
                 ENDIF 
               ENDDO             
               IGRSURF(IGS)%NSEG=NSEG_TOT

@@ -292,7 +292,7 @@ C
           L = CAND_S(I)
           IF(L<=NRTS) THEN
             NI=0 
-	    N1=IRECTS(1,CAND_S(I))
+              N1=IRECTS(1,CAND_S(I))
             N2=IRECTS(2,CAND_S(I))
             X11 = X(1,N1)
             X12 = X(2,N1)

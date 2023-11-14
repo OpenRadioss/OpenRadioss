@@ -78,9 +78,9 @@ C-----Always in global system and fixed then (not like Ismstr=11
            NCH = NCH +1
            INDEX(NCH) = I
          END IF
-	END DO
-	IF (NCH==0) RETURN
-C	
+          END DO
+          IF (NCH==0) RETURN
+C
       IF(IRESP==1)THEN 
 #include "vectorize.inc"
         DO J=1,NCH
@@ -108,9 +108,9 @@ C
           ZD7(J)=XDP(3,NC7(I))  
           XD8(J)=XDP(1,NC8(I))  
           YD8(J)=XDP(2,NC8(I))  
-          ZD8(J)=XDP(3,NC8(I))  	  	  	  
+          ZD8(J)=XDP(3,NC8(I))              
         ENDDO
-      ELSE	
+      ELSE
 #include "vectorize.inc"
         DO J=1,NCH
           I = INDEX(J)

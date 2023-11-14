@@ -248,7 +248,7 @@ C
               IF(MOD(LL,PWR(JJ+1))/PWR(JJ)==0)THEN
                 NN=0
                 DO KK=1,4
-          	  IF(IXS(FACES(KK,JJ)+1,JS)/=0) 
+            IF(IXS(FACES(KK,JJ)+1,JS)/=0) 
      .              NN=NN+NODTAG(IXS(FACES(KK,JJ)+1,JS))
                 END DO
                 IF(NN == 4)THEN
@@ -275,7 +275,7 @@ C
               IF(MOD(LL,PWR(JJ+1))/PWR(JJ)==0)THEN
                 NN=0
                 DO KK=1,4
-          	  IF(IXS(FACES(KK,JJ)+1,JS)/=0) 
+            IF(IXS(FACES(KK,JJ)+1,JS)/=0) 
      .              NN=NN+NODTAG(IXS(FACES(KK,JJ)+1,JS))
                 END DO
                 IF(NN==4)THEN
@@ -301,7 +301,7 @@ C
               IF(MOD(LL,PWR(JJ+1))/PWR(JJ)==0)THEN
                 NN=0
                 DO KK=1,4
-          	  IF(IXS(FACES(KK,JJ)+1,JS)/=0) 
+            IF(IXS(FACES(KK,JJ)+1,JS)/=0) 
      .              NN=NN+NODTAG(IXS(FACES(KK,JJ)+1,JS))
                 END DO
                 IF(NN==4)THEN

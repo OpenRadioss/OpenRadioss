@@ -31,10 +31,10 @@ Chd|====================================================================
      .                        VF,VFI,IXC) 
 C--------------------------------------------------------------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-C	CALCUL DES FORCES INTERNES AUX NOEUDS 
-C	ENTREES : NEL,MNT,NPT,NP,NIXC,IXC,HZ,OFF,
+C  CALCUL DES FORCES INTERNES AUX NOEUDS 
+C  ENTREES : NEL,MNT,NPT,NP,NIXC,IXC,HZ,OFF,
 C                 CDET,EPAIS,BUFCON,BM,,,BC
-C	SORTIES : VF
+C  SORTIES : VF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C--------------------------------------------------------------------------------------------------
 C-----------------------------------------------
@@ -75,7 +75,7 @@ C-------------------------------------------------------------------------------
           FF(EP,5,J)=FF0(EP,4,J) 
           FF(EP,4,J)=FF0(EP,5,J) 
 C          
-cc 	  C2=VOL(EP)/NPT
+cc     C2=VOL(EP)/NPT
 !!          C2=VOL(EP)
           C2=THKLY(EP,J)*CDET(EP)
           C1=TH12(EP)*CDET(EP)
@@ -122,13 +122,13 @@ C
           FF(EP,5,J)=FF0(EP,4,J) 
           FF(EP,4,J)=FF0(EP,5,J)
 C          
-!! 	  C2=VOL(EP)          
+!!     C2=VOL(EP)          
           C2=THKLY(EP,J)*CDET(EP)
           C1=TH12(EP)*CDET(EP)
-	  BCX=TC(EP,1,1)*FF(EP,4,J)+TC(EP,1,2)*FF(EP,5,J)
-	  BCY=TC(EP,2,1)*FF(EP,4,J)+TC(EP,2,2)*FF(EP,5,J)
-C	  J=1 K0=0 K1=0 K2=0
-	  VF(EP,1,J) = VF(EP,1,J) + C2*(BM(EP,1)*FF(EP,1,J)+
+            BCX=TC(EP,1,1)*FF(EP,4,J)+TC(EP,1,2)*FF(EP,5,J)
+            BCY=TC(EP,2,1)*FF(EP,4,J)+TC(EP,2,2)*FF(EP,5,J)
+C    J=1 K0=0 K1=0 K2=0
+            VF(EP,1,J) = VF(EP,1,J) + C2*(BM(EP,1)*FF(EP,1,J)+
      1                                  BM(EP,2)*FF(EP,2,J)+
      3                                  BC(EP,1)*BCX+
      4                                  BC(EP,2)*BCY )
@@ -136,7 +136,7 @@ c     5                          +C1*(BMF(EP,1)*MM(1,EP)+
 c     6                               BMF(EP,2)*MM(2,EP)+
 c     7                               BMF(EP,3)*MM(3,EP))
 
-	  VF(EP,2,J) = VF(EP,2,J  )+ C2*(BM(EP,4)*FF(EP,1,J)+
+            VF(EP,2,J) = VF(EP,2,J  )+ C2*(BM(EP,4)*FF(EP,1,J)+
      2                                   BM(EP,5)*FF(EP,2,J)+
      4                                   BC(EP,3)*BCX+
      5                                   BC(EP,4)*BCY )
@@ -145,15 +145,15 @@ c     7                              BMF(EP,5,EP)*MM(2,EP)+
 c     8                              BMF(EP,6,EP)*MM(3,EP))
 
 C          I1=3 I2=3
-	  VF(EP,3,J)=VF(EP,3,J)+ C2*(BM(EP,7)*FF(EP,1,J)+
+            VF(EP,3,J)=VF(EP,3,J)+ C2*(BM(EP,7)*FF(EP,1,J)+
      2                               BM(EP,8)*FF(EP,2,J)+
      4                               BC(EP,5)*BCX+
      5                               BC(EP,6)*BCY )
 c     6                         +C1*(BMF(EP,7)*MM(1,EP)+
 c     7                              BMF(EP,8)*MM(2,EP)+
 c     8                              BMF(EP,9)*MM(3,EP))
-C	 J=2 K0=2 K1=3 K2=5 I1=4 I2=6
-	  VF(EP,4,J) = VF(EP,4,J)+C2*(BM(EP,10)*FF(EP,1,J)+
+C   J=2 K0=2 K1=3 K2=5 I1=4 I2=6
+            VF(EP,4,J) = VF(EP,4,J)+C2*(BM(EP,10)*FF(EP,1,J)+
      2                                BM(EP,11)*FF(EP,2,J)+
      4                                BC(EP,11)*BCX+
      5                                BC(EP,12)*BCY )
@@ -162,7 +162,7 @@ c     7                              BMF(EP,11)*MM(2,EP)+
 c     8                              BMF(EP,12)*MM(3,EP))
 
 C          I1=5 I2=7
-	  VF(EP,5,J)=VF(EP,5,J)+C2*(BM(EP,13)*FF(EP,1,J)+
+            VF(EP,5,J)=VF(EP,5,J)+C2*(BM(EP,13)*FF(EP,1,J)+
      2                              BM(EP,14)*FF(EP,2,J)+
      4                              BC(EP,13)*BCX+
      5                              BC(EP,14)*BCY )
@@ -170,15 +170,15 @@ c     6                         +C1*(BMF(EP,13)*MM(1,EP)+
 c     7                              BMF(EP,14)*MM(2,EP)+
 c     8                              BMF(EP,15)*MM(3,EP))
 C          I1=6 I2=8
-	  VF(EP,6,J)=VF(EP,6,J)+C2*(BM(EP,16)*FF(EP,1,J)+
+            VF(EP,6,J)=VF(EP,6,J)+C2*(BM(EP,16)*FF(EP,1,J)+
      2                              BM(EP,17)*FF(EP,2,J)+
      4                              BC(EP,15)*BCX+
      5                              BC(EP,16)*BCY )
 c     6                         +C1*(BMF(EP,16)*MM(1,EP)+
 c     7                              BMF(EP,17)*MM(2,EP)+
 c     8                              BMF(EP,18)*MM(3,EP))
-C	 J=3 K0=4  K1=6 K2=10 I1=7 I2=11
-	  VF(EP,7,J)=VF(EP,7,J)+C2*(BM(EP,19)*FF(EP,1,J)+
+C   J=3 K0=4  K1=6 K2=10 I1=7 I2=11
+            VF(EP,7,J)=VF(EP,7,J)+C2*(BM(EP,19)*FF(EP,1,J)+
      2                              BM(EP,20)*FF(EP,2,J)+
      4                              BC(EP,21)*BCX+
      5                              BC(EP,22)*BCY )
@@ -186,7 +186,7 @@ c     6                         +C1*(BMF(EP,19)*MM(1,EP)+
 c     7                              BMF(EP,20)*MM(2,EP)+
 c     8                              BMF(EP,21)*MM(3,EP))
 C          I1=8  I2=12
-	  VF(EP,8,J)=VF(EP,8,J)+C2*(BM(EP,22)*FF(EP,1,J)+
+            VF(EP,8,J)=VF(EP,8,J)+C2*(BM(EP,22)*FF(EP,1,J)+
      2                              BM(EP,23)*FF(EP,2,J)+
      4                              BC(EP,23)*BCX+
      5                              BC(EP,24)*BCY )
@@ -194,15 +194,15 @@ c     6                         +C1*(BMF(EP,22)*MM(1,EP)+
 c     7                              BMF(EP,23)*MM(2,EP)+
 c     8                              BMF(EP,24)*MM(3,EP))
 C          I1=9 I2=13
-	  VF(EP,9,J)=VF(EP,9,J)+C2*(BM(EP,25)*FF(EP,1,J)+
+            VF(EP,9,J)=VF(EP,9,J)+C2*(BM(EP,25)*FF(EP,1,J)+
      2                              BM(EP,26)*FF(EP,2,J)+
      4                              BC(EP,25)*BCX+
      5                              BC(EP,26)*BCY )
 cc     6                         +C1*(BMF(EP,25)*MM(1,EP)+
 c     7                              BMF(EP,26)*MM(2,EP)+
 c     8                              BMF(EP,27)*MM(3,EP))
-C	 J=4  K0=6 K1=9 K2=15 I=1 I1=10 I2=16
-	  VF(EP,10,J)=VF(EP,10,J)+C2*(BM(EP,28)*FF(EP,1,J)+
+C   J=4  K0=6 K1=9 K2=15 I=1 I1=10 I2=16
+            VF(EP,10,J)=VF(EP,10,J)+C2*(BM(EP,28)*FF(EP,1,J)+
      2                                BM(EP,29)*FF(EP,2,J)+
      4                                BC(EP,31)*BCX+
      5                                BC(EP,32)*BCY )
@@ -210,7 +210,7 @@ c     6                         +C1*(BMF(EP,28)*MM(1,EP)+
 c     7                              BMF(EP,29)*MM(2,EP)+
 c     8                              BMF(EP,30)*MM(3,EP))
 C          I1=11  I2=17
-	  VF(EP,11,J)=VF(EP,11,J)+C2*(BM(EP,31)*FF(EP,1,J)+
+            VF(EP,11,J)=VF(EP,11,J)+C2*(BM(EP,31)*FF(EP,1,J)+
      2                                BM(EP,32)*FF(EP,2,J)+
      4                                BC(EP,33)*BCX+
      5                                BC(EP,34)*BCY )
@@ -218,7 +218,7 @@ c     6                         +C1*(BMF(EP,31)*MM(1,EP)+
 c     7                              BMF(EP,32)*MM(2,EP)+
 c     8                              BMF(EP,33)*MM(3,EP))
 C          I1=12 I2=18
-	  VF(EP,12,J)=VF(EP,12,J)+C2*(BM(EP,34)*FF(EP,1,J)+
+            VF(EP,12,J)=VF(EP,12,J)+C2*(BM(EP,34)*FF(EP,1,J)+
      2                                BM(EP,35)*FF(EP,2,J)+
      4                                BC(EP,35)*BCX+
      5                                BC(EP,36)*BCY )

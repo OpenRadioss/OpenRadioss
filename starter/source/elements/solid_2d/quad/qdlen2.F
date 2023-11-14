@@ -107,7 +107,7 @@ C
      .           (Y4(I)-Y2(I))*(Y4(I)-Y2(I))
 
           ALMX(I)= MAX(AL1(I),AL2(I),ALMX(I))
-	END DO
+          END DO
         IF(ALE%GLOBAL%ICAA==0)THEN
           DO I=LFT,LLT
             ATEST(I)=EM4*ALMX(I) 

@@ -160,7 +160,7 @@ C associated rbody & main node
           INTSTAMP(NSTAMP)%IRB=IRB
           INTSTAMP(NSTAMP)%MSR=NPBY(1,IRB)
           DO P = 1, NSPMD
-	      CALL IFRONTPLUS(NPBY(1,IRB),P)
+                CALL IFRONTPLUS(NPBY(1,IRB),P)
           ENDDO
 C
           WRITE(IOUT,2111) ID_INTDAMP,DAMP

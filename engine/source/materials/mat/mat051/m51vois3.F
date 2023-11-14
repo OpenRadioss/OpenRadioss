@@ -172,14 +172,14 @@ C-----------------------------------------------
 
         IF(IVOI<=NUMELS)THEN
           !element du processeur                           
- 	  DO N=1,NGROUP                                    
- 	     KTY = IPARG(5,N)                              
- 	     KLT = IPARG(2,N)                              
- 	     MFT = IPARG(3,N)                              
- 	     IF (KTY==1 .AND. IVOI<=KLT+MFT) EXIT      
- 	  ENDDO                                            
+            DO N=1,NGROUP                                    
+               KTY = IPARG(5,N)                              
+               KLT = IPARG(2,N)                              
+               MFT = IPARG(3,N)                              
+               IF (KTY==1 .AND. IVOI<=KLT+MFT) EXIT      
+            ENDDO                                            
 
- 	  IF (KTY/=1 .OR. IVOI>KLT+MFT) CYCLE
+            IF (KTY/=1 .OR. IVOI>KLT+MFT) CYCLE
           GBUF  => ELBUF_TAB(N)%GBUF
           LBUF  => ELBUF_TAB(N)%BUFLY(1)%LBUF(1,1,1)
           MBUF  => ELBUF_TAB(N)%BUFLY(1)%MAT(1,1,1)
@@ -239,11 +239,11 @@ C-----------------------------------------------
           !cas SPMD et voisin remote : aller chercher dans BUFVOIS
           !BUFVOIS rempli dans ALEMAIN (spmf_cfd.F : SPMD_L51VOIS)
           
- 	        IS               = IVOI-NUMELS
- 	        PV(0,I)          = BUFVOIS(01,IS)
- 	        EIV(0,I)         = BUFVOIS(02,IS)
- 	        RHOV(0,I)        = BUFVOIS(03,IS)
- 	        TV(0,I)          = BUFVOIS(04,IS)
+                  IS               = IVOI-NUMELS
+                  PV(0,I)          = BUFVOIS(01,IS)
+                  EIV(0,I)         = BUFVOIS(02,IS)
+                  RHOV(0,I)        = BUFVOIS(03,IS)
+                  TV(0,I)          = BUFVOIS(04,IS)
                 SSPv(0,I)        = BUFVOIS(05,IS)
                 EPSPv(0,I)       = BUFVOIS(06,IS)
                 

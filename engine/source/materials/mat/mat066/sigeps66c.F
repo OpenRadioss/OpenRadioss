@@ -769,7 +769,7 @@ C------------------------------------------
           DEYY = (DSYY - NU*DSXX)
 C
           DEXY = TWO*(ONE+NU)*DSXY
-	         HKIN = TWO_THIRD*FISOKIN*H(I)
+                   HKIN = TWO_THIRD*FISOKIN*H(I)
           ALPHA = HKIN/(E(I)+HKIN)
           SIGPXX = ALPHA*(TWO*DEXX+DEYY)
           SIGPYY = ALPHA*(TWO*DEYY+DEXX)

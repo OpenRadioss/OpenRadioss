@@ -1090,25 +1090,25 @@ C           WACOMP(10,JS)=0.
 C           WACOMP(11,JS)=0.
 C           WACOMP(12,JS)=0.
 C           WACOMP(13,JS)=0.
-C    	    WACOMP(14,JS)=0.
-C    	    WACOMP(15,JS)=0.
-C    	    WACOMP(16,JS)=0.
-     	   ENDIF
-     	  ENDDO
-     	ENDDO
+C          WACOMP(14,JS)=0.
+C          WACOMP(15,JS)=0.
+C          WACOMP(16,JS)=0.
+             ENDIF
+            ENDDO
+          ENDDO
 C-----------------------------------------------
-C  	Kernel correction up to order 0. or 1.
+C    Kernel correction up to order 0. or 1.
 C-----------------------------------------------
-     	DO NC=1,NSPCOND
-     	  IC=ISPCOND(2,NC)
-     	  IS=ISPCOND(3,NC)
-     	  IF (IC==1) THEN
-     	      OX=XFRAME(10,IS)
-     	      OY=XFRAME(11,IS)
-     	      OZ=XFRAME(12,IS)
-     	      UX=XFRAME(1,IS)
-     	      UY=XFRAME(2,IS)
-     	      UZ=XFRAME(3,IS)
+          DO NC=1,NSPCOND
+            IC=ISPCOND(2,NC)
+            IS=ISPCOND(3,NC)
+            IF (IC==1) THEN
+                OX=XFRAME(10,IS)
+                OY=XFRAME(11,IS)
+                OZ=XFRAME(12,IS)
+                UX=XFRAME(1,IS)
+                UY=XFRAME(2,IS)
+                UZ=XFRAME(3,IS)
               VX=XFRAME(4,IS)
               VY=XFRAME(5,IS)
               VZ=XFRAME(6,IS)
@@ -1152,7 +1152,7 @@ C         S21=-UY*UX+VY*VX+WY*WX
 C         S31=-UZ*UX+VZ*VX+WZ*WX
 C         S32=-UZ*UY+VZ*VY+WZ*WY
 C-----------------------------------------------
-C  	Kernel correction up to order 0.
+C    Kernel correction up to order 0.
 C-----------------------------------------------
           DO I=1,NZERO
            SM=MWAZERO(I)
@@ -1186,16 +1186,16 @@ C-----------------------------------------------
 C     Kernel correction up to order 1
 C     NON COMPATIBLE SPMD SUR PLUS D ONE DOMAINE
 C-----------------------------------------------
-     	  DO I=1,NUN
-     	   SM=MWAUN(I)
-     	   JS=ISPSYM(NC,SM)
-     	   IF(JS>0)THEN
-C    	    WACOMP(1,JS)=WACOMP(1,SM)
-     	    BETAXI=WACOMP(2,SM)
-     	    BETAYI=WACOMP(3,SM)
-     	    BETAZI=WACOMP(4,SM)
-     	    BETAXJ=S11*BETAXI+S12*BETAYI+S13*BETAZI
-     	    BETAYJ=S12*BETAXI+S22*BETAYI+S23*BETAZI
+            DO I=1,NUN
+             SM=MWAUN(I)
+             JS=ISPSYM(NC,SM)
+             IF(JS>0)THEN
+C          WACOMP(1,JS)=WACOMP(1,SM)
+              BETAXI=WACOMP(2,SM)
+              BETAYI=WACOMP(3,SM)
+              BETAZI=WACOMP(4,SM)
+              BETAXJ=S11*BETAXI+S12*BETAYI+S13*BETAZI
+              BETAYJ=S12*BETAXI+S22*BETAYI+S23*BETAZI
             BETAZJ=S13*BETAXI+S23*BETAYI+S33*BETAZI
             WSMCOMP(1,JS)=BETAXJ
             WSMCOMP(2,JS)=BETAYJ

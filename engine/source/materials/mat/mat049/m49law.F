@@ -156,7 +156,7 @@ C---      Melting
           G(I)  =ZERO
           YLD(I)=ZERO
           AJ2(I)=ZERO
-          SCALE(I)=ZERO	  
+          SCALE(I)=ZERO    
         ELSE
 C---      Hardening rule
           IF(CN>=1) THEN

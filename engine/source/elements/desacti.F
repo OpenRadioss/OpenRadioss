@@ -172,7 +172,7 @@ C----------------------------------------------------------------------
      .                 IGRTRUSS,IGRBEAM ,IGRSPRING)
             IACTIV(1,N) = 0
             OFFCHANGE=1
-          ENDIF		  
+          ENDIF      
         ENDIF
       ENDDO ! N=1,NACTIV
 C

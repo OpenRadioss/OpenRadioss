@@ -431,7 +431,7 @@ C
          F2(I)  = ONE/SIGYT2-ONE/SIGYC2
          F11(I) = ONE/(SIGYT1*SIGYC1)
          F22(I) = ONE/(SIGYT2*SIGYC2)
-         F33(I) = ONE/(SIGYT12*SIGYT12)	 
+         F33(I) = ONE/(SIGYT12*SIGYT12)   
          ALPHA=F12(I)
          F12(I) = -ALPHA/(TWO*SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2))
 C         
@@ -463,7 +463,7 @@ C
            WPLAMX(I) = WPLAMX(I)*EPSP(I)
          ENDIF
          FYLD(I)= ONE
-         FMAX(I)= ONE	 
+         FMAX(I)= ONE   
         ENDDO
       ELSEIF(JFLAG > 0)THEN
 C-------------------------------------------------------------------
@@ -502,13 +502,13 @@ C-------------------------------------------------------------------
            SIGYT2=SIGYT2*(ONE +PM(150,IMATLY)*EPSP(I))
            SIGYC1=SIGYC1*(ONE +PM(155,IMATLY)*EPSP(I))
            SIGYC2=SIGYC2*(ONE +PM(160,IMATLY)*EPSP(I))
-           SIGYT12=SIGYT12*(ONE+PM(165,IMATLY)*EPSP(I))	   
+           SIGYT12=SIGYT12*(ONE+PM(165,IMATLY)*EPSP(I))     
          ELSE
            SIGYT1=SIGYT1*(ONE +PM(145,IMATLY)*EPSP(I))
            SIGYT2=SIGYT2*(ONE +PM(150,IMATLY)*EPSP(I))
            SIGYC1=SIGYC1*(ONE +PM(155,IMATLY)*EPSP(I))
            SIGYC2=SIGYC2*(ONE +PM(160,IMATLY)*EPSP(I))
-           SIGYT12=SIGYT12*(ONE +PM(165,IMATLY)*EPSP(I))	   
+           SIGYT12=SIGYT12*(ONE +PM(165,IMATLY)*EPSP(I))     
            SIGYT1=MIN(SIGYT1,PM(144,IMATLY))
            SIGYT2=MIN(SIGYT2,PM(149,IMATLY))
            SIGYC1=MIN(SIGYC1,PM(154,IMATLY))
@@ -518,7 +518,7 @@ C-------------------------------------------------------------------
 C
          SOFT(1)=ZERO
          SOFT(2)=ZERO
-         SOFT(3)=ZERO	 
+         SOFT(3)=ZERO   
 C Direction 1
          IF(EPST(I,1) <= -EPS1C1(I)) THEN
           SOFT(1)=MIN(ONE,(EPST(I,1)+EPS1C1(I))/(EPS1C1(I)-EPS2C1(I)))
@@ -547,7 +547,7 @@ C Direction 12
          F2(I)  = ONE/SIGYT2-ONE/SIGYC2
          F11(I) = ONE/(SIGYT1*SIGYC1)
          F22(I) = ONE/(SIGYT2*SIGYC2)
-         F33(I) = ONE/(SIGYT12*SIGYT12)	 
+         F33(I) = ONE/(SIGYT12*SIGYT12)   
          ALPHA=F12(I)
          F12(I) = -ALPHA/(TWO*SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2))
 C
@@ -970,7 +970,7 @@ C
          T3(I)=T3(I)-G12(I)*DE1(I)*DE2(I)*DP3(I)*TWO
       ENDDO
 C
-	DO  I=JFT,JLT                  
+          DO  I=JFT,JLT                  
           DWPLA = HALF*
      .      (DP1(I)*(T1(I)+SO1(I))+
      .       DP2(I)*(T2(I)+SO2(I))+

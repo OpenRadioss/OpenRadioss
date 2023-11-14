@@ -316,7 +316,7 @@ C----------------------------
         X0L3(I)=XL
         Y0L3(I)=YL
       ENDDO
-C------U21,U31 in actual local system	  
+C------U21,U31 in actual local system    
       DO I=JFT,JLT
         V21X(I)=XL2(I)-X0L2(I)
         V31X(I)=XL3(I)-X0L3(I)
@@ -330,7 +330,7 @@ C------U21,U31 in actual local system
         Y3_T(I) = Y0L3(I)
       ENDDO 
       IF (ISROT>0) THEN
-C------RZ13,RZ23 in actual local system	  
+C------RZ13,RZ23 in actual local system    
        DO I=JFT,JLT
         AREAI=HALF/MAX(EM20,AREA(I))
         RLZ1 =E3X(I)*AXYZ(I,1,1)+E3Y(I)*AXYZ(I,2,1)+E3Z(I)*AXYZ(I,3,1)

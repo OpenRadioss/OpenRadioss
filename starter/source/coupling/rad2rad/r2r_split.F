@@ -222,11 +222,11 @@ C---------------Tag of subsets--------------------------------------------------
 C     --- TAG_SUBS  ---> ATTENTION not used
 !
 !        DO J=1,NSUBS
-!	  IAD3 = ISUBS(LISUB1*(J-1)+9)
+!    IAD3 = ISUBS(LISUB1*(J-1)+9)
 !          DO K=1,ISUBS(LISUB1*(J-1)+8)
-!	    IF (TAG_PART(BUF_NOD(IAD3))>0) TAG_SUBS(J)=1
-!	    IAD3 = IAD3+1
-!	  END DO
+!      IF (TAG_PART(BUF_NOD(IAD3))>0) TAG_SUBS(J)=1
+!      IAD3 = IAD3+1
+!    END DO
 !        END DO
 !---
           DO J=1,NSUBS
@@ -313,14 +313,14 @@ C-------------------------------------------------------------------------------
           SIZ_IGEO_NEW = NPROPGI
           SIZ_GEO_NEW = NPROPG
 
-C ---------> counting of materials	-------------------------------------------C
+C ---------> counting of materials  -------------------------------------------C
           DO J=1,NUMMAT
             IF (TAG_MAT(J)/=0)THEN
               SIZ_IPM_NEW = SIZ_IPM_NEW + NPROPMI
               SIZ_PM_NEW = SIZ_PM_NEW + NPROPM
             ENDIF
           ENDDO
-C ---------> counting of properties	-------------------------------------------C
+C ---------> counting of properties  -------------------------------------------C
           DO J=1,NUMGEO
             IF (TAG_PROP(J)/=0)THEN
               SIZ_IGEO_NEW = SIZ_IGEO_NEW + NPROPGI
@@ -335,27 +335,27 @@ C ---------> counting of nodes and deleted nodes--------------------------------
               NODSUPR = NODSUPR+1
             ENDIF
           ENDDO
-C ---------> counting of parts	---------------------------------------------------C
+C ---------> counting of parts  ---------------------------------------------------C
           DO J=1,NPART
             IF (TAG_PART(J)==1) THEN
               NPARN = NPARN+1
             ENDIF
           ENDDO
-C ---------> DUmmy nodes	---------------------------------------------------C
+C ---------> DUmmy nodes  ---------------------------------------------------C
           NNODN = NNODN+1
-C ---------> couting of shells	---------------------------------------------------C
+C ---------> couting of shells  ---------------------------------------------------C
           DO J=1,NUMELC
             IF (TAG_ELC(J+NPART)/=0) THEN
               NELCN = NELCN+1
             ENDIF
           ENDDO
-C ---------> counting of sh3n	---------------------------------------------------C
+C ---------> counting of sh3n  ---------------------------------------------------C
           DO J=1,NUMELTG
             IF (TAG_ELG(J+NPART)/=0) THEN
               NELTGN = NELTGN+1
             ENDIF
           ENDDO
-C ---------> counting of truss	---------------------------------------------------C
+C ---------> counting of truss  ---------------------------------------------------C
           DO J=1,NUMELT
             IF (TAG_ELT(J+NPART)/=0) THEN
               NELTN = NELTN+1
@@ -373,13 +373,13 @@ C ---------> comptage des beams-------------------------------------------------
               NELPN = NELPN+1
             ENDIF
           ENDDO
-C ---------> counting of beams	---------------------------------------------------C
+C ---------> counting of beams  ---------------------------------------------------C
           DO J=1,NUMELQ
             IF (TAG_ELQ(J+NPART)/=0) THEN
               NELQN = NELQN+1
             ENDIF
           ENDDO
-C ---------> counting of solids	---------------------------------------------------C
+C ---------> counting of solids  ---------------------------------------------------C
           DO J=1,NUMELS
             IF (TAG_ELS(J+NPART)/=0) THEN
               NELSN = NELSN+1
@@ -531,14 +531,14 @@ C-------------Split-------------------------------------------------------------
               X(3*(COMPT-1)+1)=X_TEMP(1,J)
               X(3*(COMPT-1)+2)=X_TEMP(2,J)
               X(3*(COMPT-1)+3)=X_TEMP(3,J)
-c		 FRONT_R2R(COMPT)=FRONT(J,1)
+c     FRONT_R2R(COMPT)=FRONT(J,1)
               FRONT_R2R(COMPT) = NLOCAL(J,1)
               IF(FLAGKIN(J)==1)THEN
                 FLAGKIN_R2R(COMPT)=1
               ENDIF
-c		 ELSE
-c		   FRONT_R2R(COMPT) = 0
-c		 ENDIF
+c     ELSE
+c       FRONT_R2R(COMPT) = 0
+c     ENDIF
               IF (TAGNO(J+NPART)>1) THEN
                 MS(COMPT)=1e-20
                 IF (IRODDL==1) IN(COMPT)=1e-20

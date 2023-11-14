@@ -320,8 +320,8 @@ c---------------------------------------
 c     fill border nodal table
 c---------------------------------------
 c      DO LL=1,NL
-c        IBORDNODE(IXWORK(1,LL)) = 1				  
-c        IBORDNODE(IXWORK(2,LL)) = 1				  
+c        IBORDNODE(IXWORK(1,LL)) = 1          
+c        IBORDNODE(IXWORK(2,LL)) = 1          
 c      ENDDO
 C
       ALLOCATE (IEDGE_TMP(NUMEDGES))

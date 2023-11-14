@@ -894,7 +894,7 @@ C
            L  = CAND_E(I)
 C
            IX=IRECT(1,L)  
-           IX1(I)=IX	  
+           IX1(I)=IX    
            XX(I,1)=X(1,IX)  
            YY(I,1)=X(2,IX)  
            ZZ(I,1)=X(3,IX)  
@@ -903,7 +903,7 @@ C
            VZ1(I)=V(3,IX)  
 C
            IX=IRECT(2,L)  
-           IX2(I)=IX	  
+           IX2(I)=IX    
            XX(I,2)=X(1,IX)  
            YY(I,2)=X(2,IX)  
            ZZ(I,2)=X(3,IX)  
@@ -912,7 +912,7 @@ C
            VZ2(I)=V(3,IX)  
 C
            IX=IRECT(3,L)  
-           IX3(I)=IX	  
+           IX3(I)=IX    
            XX(I,3)=X(1,IX)  
            YY(I,3)=X(2,IX)  
            ZZ(I,3)=X(3,IX)  
@@ -921,7 +921,7 @@ C
            VZ3(I)=V(3,IX)  
 C
            IX=IRECT(4,L)  
-           IX4(I)=IX	  
+           IX4(I)=IX    
            XX(I,4)=X(1,IX)  
            YY(I,4)=X(2,IX)  
            ZZ(I,4)=X(3,IX)  

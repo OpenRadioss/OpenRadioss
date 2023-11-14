@@ -116,7 +116,7 @@ C
          GAMA1(I)= OFF(I)*( ONE - PX1V-PY1V)
          GAMA3(I)= OFF(I)*( ONE + PX1V+PY1V)
          GAMA2(I)= OFF(I)*(-ONE - PX2V-PY2V)
-         GAMA4(I)= OFF(I)*(-ONE + PX2V+PY2V)	 
+         GAMA4(I)= OFF(I)*(-ONE + PX2V+PY2V)   
        ENDDO
       ELSE
        DO I=JFT,JLT
@@ -151,7 +151,7 @@ C-----------------------------------
          H3Q(I)=ZERO
          H3L(I)=ZERO
          H1(I)=ZERO
-         H2(I)=ZERO	 
+         H2(I)=ZERO   
        ENDIF
       ENDDO
 C-----------------------------------

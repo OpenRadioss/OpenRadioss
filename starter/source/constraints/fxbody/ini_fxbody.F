@@ -328,7 +328,7 @@ C
 C
 C---      Tag of connected DOF ---
           DO I=1,SIZE_STIFF
-	    IL1 = FXB_MATRIX_ADD(1,ADR_STIFF+I-1)
+              IL1 = FXB_MATRIX_ADD(1,ADR_STIFF+I-1)
             IL2 = FXB_MATRIX_ADD(2,ADR_STIFF+I-1)
             IDOF1 = FXB_MATRIX_ADD(3,ADR_STIFF+I-1)
             IDOF2 = FXB_MATRIX_ADD(4,ADR_STIFF+I-1)

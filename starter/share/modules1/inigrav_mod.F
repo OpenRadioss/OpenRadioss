@@ -37,7 +37,7 @@ Chd|====================================================================
 #include "my_real.inc"
 
         INTEGER , DIMENSION(:,:), ALLOCATABLE :: INIGRV
-	my_real , DIMENSION(:,:), ALLOCATABLE :: LINIGRAV 
+          my_real , DIMENSION(:,:), ALLOCATABLE :: LINIGRAV 
         
         type t_inigrav_parts
           logical :: IS_ALLOCATED = .false.

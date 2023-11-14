@@ -165,7 +165,7 @@ c        internal_SURF_ID =  NGR2USR(SURF_ID,INGR2USR,NSURF)
           DO J=1,NSURF
             IF (SURF_ID == IGRSURF(J)%ID) THEN
               ISS = J
-                     NSEG = IGRSURF(ISS)%NSEG
+               NSEG = IGRSURF(ISS)%NSEG
               EXIT
             ENDIF                             
           ENDDO 
@@ -186,13 +186,13 @@ c---------------------------------------------------------------------------
         ITABLE = 0
         IF (TABLE_ID > 0) THEN
           DO J=1,NTABLE
-                   IF (TABLE_ID == TABLE(J)%NOTABLE) THEN
+            IF (TABLE_ID == TABLE(J)%NOTABLE) THEN
               ITABLE = J
               EXIT
             ENDIF
-                 ENDDO
+           ENDDO
         ENDIF
-               IF (ITABLE == 0) THEN
+           IF (ITABLE == 0) THEN
            CALL ANCMSG(MSGID=488,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              C1='LOAD PCYL',
      .              C2='LOAD PCYL',
@@ -205,11 +205,11 @@ c
         ISENS = 0
         IF (SENS_ID > 0) THEN
           DO J=1,NSENSOR
-                   IF (SENS_ID == SENSOR_TAB(J)%SENS_ID) THEN
+            IF (SENS_ID == SENSOR_TAB(J)%SENS_ID) THEN
               ISENS = J
               EXIT
             ENDIF
-                 ENDDO
+          ENDDO
         ENDIF
 c
 c       check local frame
@@ -249,7 +249,7 @@ c       OUTPUT
 c---------------------------------------------------------------------------
         WRITE (IOUT,1000) LOAD_ID,FRAME_ID,SENS_ID,TABLE_ID,SURF_ID,NSEG,
      .                    X_R,X_T,YFAC
-        ENDDO
+      ENDDO
 c-----------
  1000 FORMAT(
      & 5X,'                         '/,

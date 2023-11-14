@@ -304,7 +304,7 @@ c---------
                   DO IPG=1,NPG 
                     JJ = JJ + 1
                     WA(JJ) = ZERO
-                    DO J=1,8        ! forces            	
+                    DO J=1,8        ! forces            
                       JJ = JJ + 1
                       WA(JJ) = ZERO
                     ENDDO                                                               
@@ -351,7 +351,7 @@ c---------
 c
                   JJ = JJ + 1                                      
                   IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
+              WA(JJ) = GBUF%PLA(I)       
                   ELSE                         
                     WA(JJ) = ZERO              
                   ENDIF    
@@ -395,7 +395,7 @@ c
 c
                   JJ = JJ + 1                                      
                   IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
+              WA(JJ) = GBUF%PLA(I)       
                   ELSE                         
                     WA(JJ) = ZERO              
                   ENDIF   
@@ -440,7 +440,7 @@ c
 c
                   JJ = JJ + 1                                      
                   IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
+              WA(JJ) = GBUF%PLA(I)       
                   ELSE                         
                     WA(JJ) = ZERO              
                   ENDIF                       
@@ -469,19 +469,19 @@ c
                    DO IPG=1,NPG
 
                       SIG(1) = GBUF%FOR(KK(1)+I)
-     .	    	              + ST(1)*QPG(2,IPG)+SK(1)*QPG(1,IPG)
+     .                      + ST(1)*QPG(2,IPG)+SK(1)*QPG(1,IPG)
                       SIG(2) = GBUF%FOR(KK(2)+I)
-     .	    	              + ST(2)*QPG(2,IPG)+SK(2)*QPG(1,IPG)
+     .                      + ST(2)*QPG(2,IPG)+SK(2)*QPG(1,IPG)
                       SIG(3) = GBUF%FOR(KK(3)+I)
                       SIG(4) = GBUF%FOR(KK(4)+I)
-     .	    	             + SHT(2)*QPG(2,IPG)+SHK(2)*QPG(1,IPG)
+     .                     + SHT(2)*QPG(2,IPG)+SHK(2)*QPG(1,IPG)
                       SIG(5) = GBUF%FOR(KK(5)+I)
-     .	    	              + SHT(1)*QPG(2,IPG)+SHK(1)*QPG(1,IPG)
+     .                      + SHT(1)*QPG(2,IPG)+SHK(1)*QPG(1,IPG)
 
                       MOM(1) = GBUF%MOM(KK(1)+I)
-     .	    	            + MT(1)*QPG(2,IPG)+MK(1)*QPG(1,IPG)
+     .                    + MT(1)*QPG(2,IPG)+MK(1)*QPG(1,IPG)
                       MOM(2) = GBUF%MOM(KK(2)+I)
-     .	    	            + MT(2)*QPG(2,IPG)+MK(2)*QPG(1,IPG)
+     .                    + MT(2)*QPG(2,IPG)+MK(2)*QPG(1,IPG)
                       MOM(3) = GBUF%MOM(KK(3)+I)
                       SIG(1) = A1*SIG(1) + A2*MOM(1) 
                       SIG(2) = A1*SIG(2) + A2*MOM(2)    
@@ -517,7 +517,7 @@ c
 c
                        JJ = JJ + 1
                        IF (GBUF%G_PLA > 0) THEN    
-            	          WA(JJ) = GBUF%PLA(I)
+                    WA(JJ) = GBUF%PLA(I)
                        ELSE                         
                           WA(JJ) = ZERO              
                        ENDIF 
@@ -531,19 +531,19 @@ c
                    DO IPG=1,NPG
 
                       SIG(1) = GBUF%FOR(KK(1)+I)
-     .	    	              + ST(1)*QPG(2,IPG)+SK(1)*QPG(1,IPG)
+     .                      + ST(1)*QPG(2,IPG)+SK(1)*QPG(1,IPG)
                       SIG(2) = GBUF%FOR(KK(2)+I)
-     .	    	              + ST(2)*QPG(2,IPG)+SK(1)*QPG(1,IPG)
+     .                      + ST(2)*QPG(2,IPG)+SK(1)*QPG(1,IPG)
                       SIG(3) = GBUF%FOR(KK(3)+I)
                       SIG(4) = GBUF%FOR(KK(4)+I)
-     .	    	             + SHT(2)*QPG(2,IPG)+SHK(2)*QPG(1,IPG)
+     .                     + SHT(2)*QPG(2,IPG)+SHK(2)*QPG(1,IPG)
                       SIG(5) = GBUF%FOR(KK(5)+I)
-     .	    	              + SHT(1)*QPG(2,IPG)+SHK(1)*QPG(1,IPG)
+     .                      + SHT(1)*QPG(2,IPG)+SHK(1)*QPG(1,IPG)
 
                       MOM(1) = GBUF%MOM(KK(1)+I)
-     .	    	            + MT(1)*QPG(2,IPG)+MK(1)*QPG(1,IPG)
+     .                    + MT(1)*QPG(2,IPG)+MK(1)*QPG(1,IPG)
                       MOM(2) = GBUF%MOM(KK(2)+I)
-     .	    	            + MT(2)*QPG(2,IPG)+MK(2)*QPG(1,IPG)
+     .                    + MT(2)*QPG(2,IPG)+MK(2)*QPG(1,IPG)
                       MOM(3) = GBUF%MOM(KK(3)+I)
                       SIG(1) = A1*SIG(1) + A2*MOM(1) 
                       SIG(2) = A1*SIG(2) + A2*MOM(2)    
@@ -579,7 +579,7 @@ c
 c
                        JJ = JJ + 1
                        IF (GBUF%G_PLA > 0) THEN    
-            	          WA(JJ) = GBUF%PLA(I)
+                    WA(JJ) = GBUF%PLA(I)
                        ELSE                         
                           WA(JJ) = ZERO              
                        ENDIF 
@@ -592,19 +592,19 @@ c
                    DO IPG=1,NPG
 
                       SIG(1) = GBUF%FOR(KK(1)+I)
-     .	    	              + ST(1)*QPG(2,IPG)+SK(1)*QPG(1,IPG)
+     .                      + ST(1)*QPG(2,IPG)+SK(1)*QPG(1,IPG)
                       SIG(2) = GBUF%FOR(KK(2)+I)
-     .	    	              + ST(2)*QPG(2,IPG)+SK(2)*QPG(1,IPG)
+     .                      + ST(2)*QPG(2,IPG)+SK(2)*QPG(1,IPG)
                       SIG(3) = GBUF%FOR(KK(3)+I)
                       SIG(4) = GBUF%FOR(KK(4)+I)
-     .	    	             + SHT(2)*QPG(2,IPG)+SHK(2)*QPG(1,IPG)
+     .                     + SHT(2)*QPG(2,IPG)+SHK(2)*QPG(1,IPG)
                       SIG(5) = GBUF%FOR(KK(5)+I)
-     .	    	              + SHT(1)*QPG(2,IPG)+SHK(1)*QPG(1,IPG)
+     .                      + SHT(1)*QPG(2,IPG)+SHK(1)*QPG(1,IPG)
 
                       MOM(1) = GBUF%MOM(KK(1)+I)
-     .	    	            + MT(1)*QPG(2,IPG)+MK(1)*QPG(1,IPG)
+     .                    + MT(1)*QPG(2,IPG)+MK(1)*QPG(1,IPG)
                       MOM(2) = GBUF%MOM(KK(2)+I)
-     .	    	            + MT(2)*QPG(2,IPG)+MK(2)*QPG(1,IPG)
+     .                    + MT(2)*QPG(2,IPG)+MK(2)*QPG(1,IPG)
                       MOM(3) = GBUF%MOM(KK(3)+I)
                       SIG(1) = A1*SIG(1) + A2*MOM(1) 
                       SIG(2) = A1*SIG(2) + A2*MOM(2)    
@@ -640,7 +640,7 @@ c
 c
                        JJ = JJ + 1
                        IF (GBUF%G_PLA > 0) THEN    
-            	          WA(JJ) = GBUF%PLA(I)
+                    WA(JJ) = GBUF%PLA(I)
                        ELSE                         
                           WA(JJ) = ZERO              
                        ENDIF 
@@ -694,7 +694,7 @@ c
 c
                          JJ = JJ + 1
                          IF (GBUF%G_PLA > 0) THEN    
-            	           WA(JJ) = GBUF%PLA(I)
+                     WA(JJ) = GBUF%PLA(I)
                          ELSE                         
                            WA(JJ) = ZERO              
                          ENDIF 
@@ -747,7 +747,7 @@ c
 c
                          JJ = JJ + 1
                          IF (GBUF%G_PLA > 0) THEN    
-            	           WA(JJ) = GBUF%PLA(I)
+                     WA(JJ) = GBUF%PLA(I)
                          ELSE                         
                            WA(JJ) = ZERO              
                          ENDIF 
@@ -799,7 +799,7 @@ c
 c
                          JJ = JJ + 1
                          IF (GBUF%G_PLA > 0) THEN    
-            	           WA(JJ) = GBUF%PLA(I)
+                     WA(JJ) = GBUF%PLA(I)
                          ELSE                         
                            WA(JJ) = ZERO              
                          ENDIF 
@@ -854,15 +854,15 @@ C-------------------------
 
                       SIG(1) = LBUF%SIG(KK(1)+I)
      .                       + (ST(1)+ZZ*MT(1))*QPG(2,IPG)              
-     .                       + (SK(1)+ZZ*MK(1))*QPG(1,IPG)  			
+     .                       + (SK(1)+ZZ*MK(1))*QPG(1,IPG)  
                       SIG(2) = LBUF%SIG(KK(2)+I)
      .                       + (ST(2)+ZZ*MT(2))*QPG(2,IPG)              
-     .                       + (SK(2)+ZZ*MK(2))*QPG(1,IPG)  			
-                      SIG(3) = LBUF%SIG(KK(3)+I)			
+     .                       + (SK(2)+ZZ*MK(2))*QPG(1,IPG)  
+                      SIG(3) = LBUF%SIG(KK(3)+I)
                       SIG(4) = LBUF%SIG(KK(4)+I)
-     .	    	             + SHT(2)*QPG(2,IPG)+SHK(2)*QPG(1,IPG)			
+     .                     + SHT(2)*QPG(2,IPG)+SHK(2)*QPG(1,IPG)
                       SIG(5) = LBUF%SIG(KK(5)+I)
-     .	    	             + SHT(1)*QPG(2,IPG)+SHK(1)*QPG(1,IPG)
+     .                     + SHT(1)*QPG(2,IPG)+SHK(1)*QPG(1,IPG)
                       SIG(6) = ZERO 
  
                       CALL SHELL_ROTA(
@@ -890,7 +890,7 @@ C-------------------------
                       WA(JJ) = SIG(6)
                       JJ = JJ + 1
                       IF (BUFLY%L_PLA > 0) THEN
-            	        WA(JJ) = LBUF%PLA(I)
+                  WA(JJ) = LBUF%PLA(I)
                       ELSE
                         WA(JJ) = ZERO
                      ENDIF
@@ -912,10 +912,10 @@ C-------------------------
                     DO IR=1,NPTR                                                         
                       LBUF => BUFLY%LBUF(IR,IS,IT)
                       IPG = NPTR*(IS-1) + IR
-                      SIG(1) = LBUF%SIG(KK(1)+I)			
-                      SIG(2) = LBUF%SIG(KK(2)+I)			
-                      SIG(3) = LBUF%SIG(KK(3)+I)			
-                      SIG(4) = LBUF%SIG(KK(4)+I)			
+                      SIG(1) = LBUF%SIG(KK(1)+I)
+                      SIG(2) = LBUF%SIG(KK(2)+I)
+                      SIG(3) = LBUF%SIG(KK(3)+I)
+                      SIG(4) = LBUF%SIG(KK(4)+I)
                       SIG(5) = LBUF%SIG(KK(5)+I)
                       SIG(6) = ZERO    
 C
@@ -923,10 +923,10 @@ C                 viscous stress added
 C 
                      IF (IVISC > 0) THEN
 
-                      SIG(1) = SIG(1) + LBUF%VISC(KK(1)+I)			
-                      SIG(2) = SIG(2) + LBUF%VISC(KK(2)+I)			
-                      SIG(3) = SIG(3) + LBUF%VISC(KK(3)+I)			
-                      SIG(4) = SIG(4) + LBUF%VISC(KK(4)+I)			
+                      SIG(1) = SIG(1) + LBUF%VISC(KK(1)+I)
+                      SIG(2) = SIG(2) + LBUF%VISC(KK(2)+I)
+                      SIG(3) = SIG(3) + LBUF%VISC(KK(3)+I)
+                      SIG(4) = SIG(4) + LBUF%VISC(KK(4)+I)
                       SIG(5) = SIG(5) + LBUF%VISC(KK(5)+I)
 
                      ENDIF  !  IF (IVISC > 0)
@@ -940,9 +940,9 @@ C
      3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
      4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
-     6                      DIR_A    ,DIR_B    )	
+     6                      DIR_A    ,DIR_B    )
 
-					
+
 
                      JJ = JJ + 1
                      WA(JJ) = TWO * POSLY(I,IT)
@@ -961,13 +961,13 @@ C
                      WA(JJ) = SIG(6)
                      JJ = JJ + 1
                      IF (BUFLY%L_PLA > 0) THEN
-            	        WA(JJ) = LBUF%PLA(I)
+                  WA(JJ) = LBUF%PLA(I)
                      ELSE
                         WA(JJ) = ZERO
                      ENDIF
 
                     ENDDO      
-                  ENDDO	    
+                  ENDDO      
                 ENDDO  !  DO IPT = 1,NPTT
 
 
@@ -986,20 +986,20 @@ C
                       DO IR=1,NPTR                                                         
                         LBUF => BUFLY%LBUF(IR,IS,IT)
 
-                        SIG(1) = LBUF%SIG(KK(1)+I)			
-                        SIG(2) = LBUF%SIG(KK(2)+I)			
-                        SIG(3) = LBUF%SIG(KK(3)+I)			
-                        SIG(4) = LBUF%SIG(KK(4)+I)			
+                        SIG(1) = LBUF%SIG(KK(1)+I)
+                        SIG(2) = LBUF%SIG(KK(2)+I)
+                        SIG(3) = LBUF%SIG(KK(3)+I)
+                        SIG(4) = LBUF%SIG(KK(4)+I)
                         SIG(5) = LBUF%SIG(KK(5)+I)
                         SIG(6) = ZERO   
 C
 C                 viscous stress added 
 C 
                         IF (IVISC > 0) THEN
-                           SIG(1) = SIG(1) + LBUF%VISC(KK(1)+I)			
-                           SIG(2) = SIG(2) + LBUF%VISC(KK(2)+I)			
-                           SIG(3) = SIG(3) + LBUF%VISC(KK(3)+I)			
-                           SIG(4) = SIG(4) + LBUF%VISC(KK(4)+I)			
+                           SIG(1) = SIG(1) + LBUF%VISC(KK(1)+I)
+                           SIG(2) = SIG(2) + LBUF%VISC(KK(2)+I)
+                           SIG(3) = SIG(3) + LBUF%VISC(KK(3)+I)
+                           SIG(4) = SIG(4) + LBUF%VISC(KK(4)+I)
                            SIG(5) = SIG(5) + LBUF%VISC(KK(5)+I)
                         ENDIF  !  IF (IVISC > 0) 
 
@@ -1009,8 +1009,8 @@ C
      3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
      4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
-     6                      DIR_A    ,DIR_B    )	
-		
+     6                      DIR_A    ,DIR_B    )
+
                         JJ = JJ + 1
                         WA(JJ) = TWO * POSLY(I,IPT)
 
@@ -1028,13 +1028,13 @@ C
                         WA(JJ) = SIG(6)
                         JJ = JJ + 1
                         IF (BUFLY%L_PLA > 0) THEN
-            	          WA(JJ) = LBUF%PLA(I)
+                    WA(JJ) = LBUF%PLA(I)
                         ELSE
                           WA(JJ) = ZERO
                         ENDIF
                       ENDDO
-                    ENDDO	    
-                  ENDDO	
+                    ENDDO      
+                  ENDDO
                   IPTT = IPTT + NPTT
                 ENDDO
               ENDIF    ! MPT, NLAY
@@ -1372,7 +1372,7 @@ c----
 c
                   JJ = JJ + 1                                      
                   IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
+              WA(JJ) = GBUF%PLA(I)       
                   ELSE                         
                     WA(JJ) = ZERO              
                   ENDIF    
@@ -1416,7 +1416,7 @@ c
 c
                   JJ = JJ + 1                                      
                   IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
+              WA(JJ) = GBUF%PLA(I)       
                   ELSE                         
                     WA(JJ) = ZERO              
                   ENDIF   
@@ -1461,7 +1461,7 @@ c
 c
                   JJ = JJ + 1                                      
                   IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
+              WA(JJ) = GBUF%PLA(I)       
                   ELSE                         
                     WA(JJ) = ZERO              
                   ENDIF                 
@@ -1493,7 +1493,7 @@ c
      3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
      4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
-     6                      DIR_A    ,DIR_B    )		
+     6                      DIR_A    ,DIR_B    )
 
                       JJ = JJ + 1
                       WA(JJ) = -ONE
@@ -1512,7 +1512,7 @@ c
 c
                       JJ = JJ + 1
                       IF (GBUF%G_PLA > 0) THEN    
-            	        WA(JJ) = LBUF%PLA(I)
+                  WA(JJ) = LBUF%PLA(I)
                       ELSE                         
                         WA(JJ) = ZERO              
                       ENDIF 
@@ -1545,7 +1545,7 @@ c
      3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
      4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
-     6                      DIR_A    ,DIR_B    )		
+     6                      DIR_A    ,DIR_B    )
 
                       JJ = JJ + 1
                       WA(JJ) = ZERO
@@ -1564,7 +1564,7 @@ c
 c
                       JJ = JJ + 1
                       IF (GBUF%G_PLA > 0) THEN    
-            	        WA(JJ) = LBUF%PLA(I)
+                  WA(JJ) = LBUF%PLA(I)
                       ELSE                         
                         WA(JJ) = ZERO              
                       ENDIF    
@@ -1597,7 +1597,7 @@ c
      3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
      4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
-     6                      DIR_A    ,DIR_B    )		
+     6                      DIR_A    ,DIR_B    )
 
                       JJ = JJ + 1
                       WA(JJ) = ONE
@@ -1616,7 +1616,7 @@ c
 c
                       JJ = JJ + 1
                       IF (GBUF%G_PLA > 0) THEN    
-            	        WA(JJ) = LBUF%PLA(I)
+                  WA(JJ) = LBUF%PLA(I)
                       ELSE                         
                         WA(JJ) = ZERO              
                       ENDIF                              
@@ -1642,10 +1642,10 @@ c
                     DO IR=1,NPTR                                                         
                       LBUF => BUFLY%LBUF(IR,IS,IT)
                       IPG = NPTR*(IS-1) + IR
-                      SIG(1) = LBUF%SIG(KK(1)+I)			
-                      SIG(2) = LBUF%SIG(KK(2)+I)			
-                      SIG(3) = LBUF%SIG(KK(3)+I)			
-                      SIG(4) = LBUF%SIG(KK(4)+I)			
+                      SIG(1) = LBUF%SIG(KK(1)+I)
+                      SIG(2) = LBUF%SIG(KK(2)+I)
+                      SIG(3) = LBUF%SIG(KK(3)+I)
+                      SIG(4) = LBUF%SIG(KK(4)+I)
                       SIG(5) = LBUF%SIG(KK(5)+I)
                       SIG(6) = ZERO    
 C
@@ -1653,10 +1653,10 @@ C                 viscous stress added for animation
 C 
                      IF (IVISC > 0) THEN
 
-                      SIG(1) = SIG(1) + LBUF%VISC(KK(1)+I)			
-                      SIG(2) = SIG(2) + LBUF%VISC(KK(2)+I)			
-                      SIG(3) = SIG(3) + LBUF%VISC(KK(3)+I)			
-                      SIG(4) = SIG(4) + LBUF%VISC(KK(4)+I)			
+                      SIG(1) = SIG(1) + LBUF%VISC(KK(1)+I)
+                      SIG(2) = SIG(2) + LBUF%VISC(KK(2)+I)
+                      SIG(3) = SIG(3) + LBUF%VISC(KK(3)+I)
+                      SIG(4) = SIG(4) + LBUF%VISC(KK(4)+I)
                       SIG(5) = SIG(5) + LBUF%VISC(KK(5)+I)
 
                      ENDIF  !  IF (IVISC > 0)
@@ -1670,7 +1670,7 @@ C
      3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
      4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
-     6                      DIR_A    ,DIR_B    )			
+     6                      DIR_A    ,DIR_B    )
 
                       JJ = JJ + 1
                       WA(JJ) = TWO * POSLY(I,IT)
@@ -1686,14 +1686,14 @@ C
                       WA(JJ) = SIG(5)
                       JJ = JJ + 1
                       WA(JJ) = SIG(6)
-            	      JJ = JJ + 1
+                JJ = JJ + 1
                       IF (BUFLY%L_PLA > 0) THEN
                         WA(JJ) = LBUF%PLA(I)
                       ELSE
                         WA(JJ) = ZERO
                       ENDIF
                     ENDDO      
-                  ENDDO	    
+                  ENDDO      
                 ENDDO  !  DO IPT = 1,NPTT
 
               ELSE
@@ -1706,10 +1706,10 @@ C
                       LBUF => BUFLY%LBUF(IPG,1,IT)
                       L_PLA = BUFLY%L_PLA
 
-                      SIG(1) = LBUF%SIG(KK(1)+I)			
-                      SIG(2) = LBUF%SIG(KK(2)+I)			
-                      SIG(3) = LBUF%SIG(KK(3)+I)			
-                      SIG(4) = LBUF%SIG(KK(4)+I)			
+                      SIG(1) = LBUF%SIG(KK(1)+I)
+                      SIG(2) = LBUF%SIG(KK(2)+I)
+                      SIG(3) = LBUF%SIG(KK(3)+I)
+                      SIG(4) = LBUF%SIG(KK(4)+I)
                       SIG(5) = LBUF%SIG(KK(5)+I)
                       SIG(6) = ZERO    
 C
@@ -1717,10 +1717,10 @@ C                 viscous stress added for animation
 C 
                      IF (IVISC > 0) THEN
 
-                      SIG(1) = SIG(1) + LBUF%VISC(KK(1)+I)			
-                      SIG(2) = SIG(2) + LBUF%VISC(KK(2)+I)			
-                      SIG(3) = SIG(3) + LBUF%VISC(KK(3)+I)			
-                      SIG(4) = SIG(4) + LBUF%VISC(KK(4)+I)			
+                      SIG(1) = SIG(1) + LBUF%VISC(KK(1)+I)
+                      SIG(2) = SIG(2) + LBUF%VISC(KK(2)+I)
+                      SIG(3) = SIG(3) + LBUF%VISC(KK(3)+I)
+                      SIG(4) = SIG(4) + LBUF%VISC(KK(4)+I)
                       SIG(5) = SIG(5) + LBUF%VISC(KK(5)+I)
 
                      ENDIF  !  IF (IVISC > 0)
@@ -1734,7 +1734,7 @@ C
      3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
      4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
-     6                      DIR_A    ,DIR_B    )				
+     6                      DIR_A    ,DIR_B    )
                       JJ = JJ + 1
                       WA(JJ) = TWO * POSLY(I,IPTT)
                       JJ = JJ + 1

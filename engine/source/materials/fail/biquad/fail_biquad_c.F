@@ -285,12 +285,12 @@ C-----------------------------------------------
            triaxs = hydros / MAX(EM20,vmises)
            DAMAGE = UVAR(I,1)
              IF (triaxs <= THIRD) THEN
-        	   EPS_FAIL =   UVAR(I,3) +  UVAR(I,4) * triaxs + UVAR(I,5) * triaxs**2
+             EPS_FAIL =   UVAR(I,3) +  UVAR(I,4) * triaxs + UVAR(I,5) * triaxs**2
              IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
              ELSE           ! triax > 1/3
              SELECT CASE (SEL)
                CASE(1)
-         	    EPS_FAIL =   UVAR(I,6) +  UVAR(I,7) * triaxs + UVAR(I,8) * triaxs**2
+              EPS_FAIL =   UVAR(I,6) +  UVAR(I,7) * triaxs + UVAR(I,8) * triaxs**2
                 IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
                CASE(2)
                  IF (triaxs <= ONE/SQR3) THEN

@@ -112,7 +112,7 @@ C-----
         WPRIMR =-THREE_OVER_4*RHM2/(H*H*R)
       ELSE
         W      =ZERO
-        WPRIMR =ZERO	
+        WPRIMR =ZERO
       ENDIF
       WGRAD(1)=WPRIMR*(XI-XJ)
       WGRAD(2)=WPRIMR*(YI-YJ)

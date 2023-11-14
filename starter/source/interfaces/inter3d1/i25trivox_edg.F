@@ -119,7 +119,7 @@ c provisoire
      .   ZMAX_EDGS, ZMIN_EDGS,
      .   XMAX_EDGM, XMIN_EDGM,
      .   YMAX_EDGM, YMIN_EDGM,
-     .   ZMAX_EDGM, ZMIN_EDGM	
+     .   ZMAX_EDGM, ZMIN_EDGM
       INTEGER FIRST_ADD, PREV_ADD, CHAIN_ADD, CURRENT_ADD, MAX_ADD
       INTEGER BITGET
       INTEGER WORK(70000)
@@ -204,14 +204,14 @@ C       IF(LEDGE(3,I)/=0) CYCLE   ! on ne retient que les aretes de bord
         ZZ2=X(3,N2)
         IF(IGAP0 == 0)THEN
           XMAX_EDGS=MAX(XX1,XX2); IF(XMAX_EDGS < XMIN) CYCLE
-          XMIN_EDGS=MIN(XX1,XX2); IF(XMIN_EDGS > XMAX) CYCLE		 
+          XMIN_EDGS=MIN(XX1,XX2); IF(XMIN_EDGS > XMAX) CYCLE     
           YMAX_EDGS=MAX(YY1,YY2); IF(YMAX_EDGS < YMIN) CYCLE
-          YMIN_EDGS=MIN(YY1,YY2); IF(YMIN_EDGS > YMAX) CYCLE	     
+          YMIN_EDGS=MIN(YY1,YY2); IF(YMIN_EDGS > YMAX) CYCLE       
           ZMAX_EDGS=MAX(ZZ1,ZZ2); IF(ZMAX_EDGS < ZMIN) CYCLE
           ZMIN_EDGS=MIN(ZZ1,ZZ2); IF(ZMIN_EDGS > ZMAX) CYCLE
         ELSE
           XMAX_EDGS=MAX(XX1,XX2)+GAP_M(NE); IF(XMAX_EDGS < XMIN) CYCLE
-          XMIN_EDGS=MIN(XX1,XX2)-GAP_M(NE); IF(XMIN_EDGS > XMAX) CYCLE  	   
+          XMIN_EDGS=MIN(XX1,XX2)-GAP_M(NE); IF(XMIN_EDGS > XMAX) CYCLE       
           YMAX_EDGS=MAX(YY1,YY2)+GAP_M(NE); IF(YMAX_EDGS < YMIN) CYCLE
           YMIN_EDGS=MIN(YY1,YY2)-GAP_M(NE); IF(YMIN_EDGS > YMAX) CYCLE         
           ZMAX_EDGS=MAX(ZZ1,ZZ2)+GAP_M(NE); IF(ZMAX_EDGS < ZMIN) CYCLE
@@ -219,7 +219,7 @@ C       IF(LEDGE(3,I)/=0) CYCLE   ! on ne retient que les aretes de bord
         END IF
 
         !-------------------------------------------!
-        !  VOXEL OCCUPIED BY THE EDGE		    !
+        !  VOXEL OCCUPIED BY THE EDGE        !
         !-------------------------------------------!
         !Voxel_lower_left_bound for this edge
         IX1=INT(NBX*(XMIN_EDGS-XMINB)/(XMAXB-XMINB))
@@ -237,32 +237,32 @@ C       IF(LEDGE(3,I)/=0) CYCLE   ! on ne retient que les aretes de bord
         IZ2=MAX(1,2+MIN(NBZ,IZ2))
 
 c       moins bon (cf snapfit, etc)
-c	IIXYZ(1,I)=NE
-c	IIXYZ(2,I)=LEDGE(3,I)
-c	IIXYZ(3,I)=0
-c	IIXYZ(4,I)=0
+c  IIXYZ(1,I)=NE
+c  IIXYZ(2,I)=LEDGE(3,I)
+c  IIXYZ(3,I)=0
+c  IIXYZ(4,I)=0
 C
-	IIXYZ(1,I)=MIN(N1,N2)
-	IIXYZ(2,I)=0
-	IIXYZ(3,I)=0
-	IIXYZ(4,I)=0
-C	IF(LEDGE(7,I) < 0) THEN ! larete nest pas une arete second
-C	  IIXYZ(1,I)=1
-C	ELSE
-C	  IIXYZ(1,I)=0
-C	END IF   
-C	IIXYZ(2,I)=N1
-C	IIXYZ(3,I)=N2
-C	IIXYZ(4,I)=0
+          IIXYZ(1,I)=MIN(N1,N2)
+          IIXYZ(2,I)=0
+          IIXYZ(3,I)=0
+          IIXYZ(4,I)=0
+C  IF(LEDGE(7,I) < 0) THEN ! larete nest pas une arete second
+C    IIXYZ(1,I)=1
+C  ELSE
+C    IIXYZ(1,I)=0
+C  END IF   
+C  IIXYZ(2,I)=N1
+C  IIXYZ(3,I)=N2
+C  IIXYZ(4,I)=0
 c
 c        IF(LEDGE(7,I) < 0) THEN
 c          IIXYZ(1,I)=1
 c        ELSE
 c          IIXYZ(1,I)=0
 c        END IF   ! larete nest pas une arete second
-c	IIXYZ(2,I)=IX1
-c	IIXYZ(3,I)=IY1
-c	IIXYZ(4,I)=IZ1
+c  IIXYZ(2,I)=IX1
+c  IIXYZ(3,I)=IY1
+c  IIXYZ(4,I)=IZ1
         INDEX(I)  =I
 
        END DO
@@ -297,14 +297,14 @@ c        write(500,'(3I10)') I,LEDGE(5,I),LEDGE(6,I)
         ZZ2=X(3,N2)
         IF(IGAP0 == 0)THEN
           XMAX_EDGS=MAX(XX1,XX2); IF(XMAX_EDGS < XMIN) CYCLE
-          XMIN_EDGS=MIN(XX1,XX2); IF(XMIN_EDGS > XMAX) CYCLE		 
+          XMIN_EDGS=MIN(XX1,XX2); IF(XMIN_EDGS > XMAX) CYCLE     
           YMAX_EDGS=MAX(YY1,YY2); IF(YMAX_EDGS < YMIN) CYCLE
-          YMIN_EDGS=MIN(YY1,YY2); IF(YMIN_EDGS > YMAX) CYCLE	     
+          YMIN_EDGS=MIN(YY1,YY2); IF(YMIN_EDGS > YMAX) CYCLE       
           ZMAX_EDGS=MAX(ZZ1,ZZ2); IF(ZMAX_EDGS < ZMIN) CYCLE
           ZMIN_EDGS=MIN(ZZ1,ZZ2); IF(ZMIN_EDGS > ZMAX) CYCLE
         ELSE
           XMAX_EDGS=MAX(XX1,XX2)+GAPE(I); IF(XMAX_EDGS < XMIN) CYCLE
-          XMIN_EDGS=MIN(XX1,XX2)-GAPE(I); IF(XMIN_EDGS > XMAX) CYCLE  	   
+          XMIN_EDGS=MIN(XX1,XX2)-GAPE(I); IF(XMIN_EDGS > XMAX) CYCLE       
           YMAX_EDGS=MAX(YY1,YY2)+GAPE(I); IF(YMAX_EDGS < YMIN) CYCLE
           YMIN_EDGS=MIN(YY1,YY2)-GAPE(I); IF(YMIN_EDGS > YMAX) CYCLE         
           ZMAX_EDGS=MAX(ZZ1,ZZ2)+GAPE(I); IF(ZMAX_EDGS < ZMIN) CYCLE
@@ -312,7 +312,7 @@ c        write(500,'(3I10)') I,LEDGE(5,I),LEDGE(6,I)
         END IF
 
         !-------------------------------------------!
-        !  VOXEL OCCUPIED BY THE EDGE		    !
+        !  VOXEL OCCUPIED BY THE EDGE        !
         !-------------------------------------------!
         !Voxel_lower_left_bound for this edge
         IX1=INT(NBX*(XMIN_EDGS-XMINB)/(XMAXB-XMINB))
@@ -332,10 +332,10 @@ c        write(500,'(3I10)') I,LEDGE(5,I),LEDGE(6,I)
         !pour reset des voxel
         MIN_IX = MIN(MIN_IX,IX1)
         MIN_IY = MIN(MIN_IY,IY1)
-        MIN_IZ = MIN(MIN_IZ,IZ1)	  
+        MIN_IZ = MIN(MIN_IZ,IZ1)    
         MAX_IX = MAX(MAX_IX,IX2)
         MAX_IY = MAX(MAX_IY,IY2)
-        MAX_IZ = MAX(MAX_IZ,IZ2)				     
+        MAX_IZ = MAX(MAX_IZ,IZ2)             
  
         !----------------------------------------------!
         ! EDGE STORAGE FOR EACH VOXEL (CHAINED ARRAY)  !
@@ -343,27 +343,27 @@ c        write(500,'(3I10)') I,LEDGE(5,I),LEDGE(6,I)
 C
 C       VOXEL(i,j,k) LCHAIN_LAST(FIRST)
 C       +-----------+------------+ 
-C       |  =>FIRST  |	=>LAST   |		      
+C       |  =>FIRST  |  =>LAST   |          
 C       +--+--------+--+---------+
-C          |	       |
-C          |	       |
-C          |	       |
-C          |	       |   LCHAIN_ELEM(*) LCHAIN_NEXT(*) 
-C          |	       |   +------------+-----------+
-C          +-------------->| edge_id	|   iadd 3  |  1:FIRST --+
-C       	       |   +------------+-----------+		 |
-C       	       |   |		|	       |  2	      |
-C       	       |   +------------+-----------+		 |
-C       	       |   | edge_id	|   iadd 4  |  3 <-------+
-C       	       |   +------------+-----------+		 |
-C       	       |   | edge_id	|   iadd 6  |  4 <-------+
-C       	       |   +------------+-----------+		 |
-C       	     |   |	      | 	     |  5	    |
-C       	       |   +------------+-----------+		 |
-C       	       +-->| edge_id	|   0	    |  6:LAST <--+
-C       		 +------------+-----------+
-C       		   |		|	       |  MAX_ADD
-C       		   +------------+-----------+
+C          |         |
+C          |         |
+C          |         |
+C          |         |   LCHAIN_ELEM(*) LCHAIN_NEXT(*) 
+C          |         |   +------------+-----------+
+C          +-------------->| edge_id  |   iadd 3  |  1:FIRST --+
+C                |   +------------+-----------+     |
+C                |   |    |         |  2        |
+C                |   +------------+-----------+     |
+C                |   | edge_id  |   iadd 4  |  3 <-------+
+C                |   +------------+-----------+     |
+C                |   | edge_id  |   iadd 6  |  4 <-------+
+C                |   +------------+-----------+     |
+C              |   |        |        |  5      |
+C                |   +------------+-----------+     |
+C                +-->| edge_id  |   0      |  6:LAST <--+
+C            +------------+-----------+
+C              |    |         |  MAX_ADD
+C              +------------+-----------+
         DO IZ = IZ1,IZ2
          DO IY = IY1,IY2
           DO IX = IX1,IX2
@@ -529,7 +529,7 @@ C                 ISS1 = BITGET(IREM(I24IREMP+6,JJ-NEDGE),0)
 C                 ISS2 = BITGET(IREM(I24IREMP+6,JJ-NEDGE),1) 
                 ENDIF
                 IF(.NOT.((IMS1 == 1 .and. ISS2==1).or.
-     .            	 (IMS2 == 1 .and. ISS1==1)))THEN
+     .               (IMS2 == 1 .and. ISS1==1)))THEN
                   CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                   CYCLE
                 ENDIF
@@ -542,11 +542,11 @@ C                 ISS2 = BITGET(IREM(I24IREMP+6,JJ-NEDGE),1)
                 AS1 = MIN(SS1,SS2)
                 AS2 = MAX(SS1,SS2)
                 ! unicite des couples   
-	        IF(AM1 < AS1 .OR. (AM1 == AS1 .AND. AM2 < AS2))THEN
-		  CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
-		  CYCLE
-	        ENDIF
-	      ENDIF
+                  IF(AM1 < AS1 .OR. (AM1 == AS1 .AND. AM2 < AS2))THEN
+            CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
+            CYCLE
+                  ENDIF
+                ENDIF
 
 C             IREMPGAP - Tagged lines are removed
               IF(FLAGREMNODE==2)THEN
@@ -565,12 +565,12 @@ c              DEJA=1                          !l edge main IEDG fait l'objet d'
               CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
 C-----------------------------------------------------
               IF(J_STOK==NVSIZ)THEN
-		CALL I25STO_EDG(
-     1  	     NVSIZ ,IRECT  ,X	   ,II_STOK,INACTI,
-     2  	     CANDS_E2E,CANDM_E2E ,MULNSNE,NOINT  ,MARGE ,
-     3  	     I_MEM(1) ,PROV_S ,PROV_M ,IGAP0,CAND_A,
-     4  	     NEDGE ,LEDGE  ,ITAB   ,DRAD2  ,IGAP  ,
-     5  	     GAPE  ,GAP_E_L,ADMSR  ,EDG_BISECTOR,VTX_BISECTOR ,
+          CALL I25STO_EDG(
+     1         NVSIZ ,IRECT  ,X     ,II_STOK,INACTI,
+     2         CANDS_E2E,CANDM_E2E ,MULNSNE,NOINT  ,MARGE ,
+     3         I_MEM(1) ,PROV_S ,PROV_M ,IGAP0,CAND_A,
+     4         NEDGE ,LEDGE  ,ITAB   ,DRAD2  ,IGAP  ,
+     5         GAPE  ,GAP_E_L,ADMSR  ,EDG_BISECTOR,VTX_BISECTOR ,
      6               CAND_P,DGAPLOAD)
                 IF(I_MEM(1)/=0) GOTO 300
                 J_STOK = 0
@@ -619,11 +619,11 @@ C-------------------------------------------------------------------------
 C     FIN DU TRI vs Main shell edges
 C-------------------------------------------------------------------------
       IF(J_STOK/=0)CALL I25STO_EDG(
-     1  	       J_STOK ,IRECT  ,X     ,II_STOK,INACTI,
-     2  	       CANDS_E2E,CANDM_E2E ,MULNSNE,NOINT  ,MARGE ,
-     3  	       I_MEM(1) ,PROV_S ,PROV_M ,IGAP0,CAND_A,
-     4  	       NEDGE ,LEDGE  ,ITAB   ,DRAD2  ,IGAP  ,
-     5  	       GAPE  ,GAP_E_L,ADMSR  ,EDG_BISECTOR,VTX_BISECTOR ,
+     1           J_STOK ,IRECT  ,X     ,II_STOK,INACTI,
+     2           CANDS_E2E,CANDM_E2E ,MULNSNE,NOINT  ,MARGE ,
+     3           I_MEM(1) ,PROV_S ,PROV_M ,IGAP0,CAND_A,
+     4           NEDGE ,LEDGE  ,ITAB   ,DRAD2  ,IGAP  ,
+     5           GAPE  ,GAP_E_L,ADMSR  ,EDG_BISECTOR,VTX_BISECTOR ,
      6                 CAND_P,DGAPLOAD)
  
  300  CONTINUE
@@ -676,9 +676,9 @@ C=======================================================================
         YMIN_EDGM=MIN(YY1,YY2,YY3,YY4) ! -TZINF
         ZMAX_EDGM=MAX(ZZ1,ZZ2,ZZ3,ZZ4) ! +TZINF
         ZMIN_EDGM=MIN(ZZ1,ZZ2,ZZ3,ZZ4) ! -TZINF
-	DX=EM02*(XMAX_EDGM-XMIN_EDGM)
-	DY=EM02*(YMAX_EDGM-YMIN_EDGM)
-	DZ=EM02*(ZMAX_EDGM-ZMIN_EDGM)
+          DX=EM02*(XMAX_EDGM-XMIN_EDGM)
+          DY=EM02*(YMAX_EDGM-YMIN_EDGM)
+          DZ=EM02*(ZMAX_EDGM-ZMIN_EDGM)
         XMAX_EDGM=XMAX_EDGM+DX
         XMIN_EDGM=XMIN_EDGM-DX
         YMAX_EDGM=YMAX_EDGM+DY
@@ -749,7 +749,7 @@ C                 ISS1 = BITGET(IREM(I24IREMP+6,JJ-NEDGE),0)
 C                 ISS2 = BITGET(IREM(I24IREMP+6,JJ-NEDGE),1) 
                 ENDIF
                 IF(.NOT.((IMS1 == 1 .and. ISS2==1).or.
-     .            	 (IMS2 == 1 .and. ISS1==1)))THEN
+     .               (IMS2 == 1 .and. ISS1==1)))THEN
                     CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                     CYCLE
                 ENDIF
@@ -764,7 +764,7 @@ C-----------------------------------------------------
 C-----------------------------------------------------
               IF(J_STOK==NVSIZ)THEN
                 CALL I25STO_E2S(
-     1               NVSIZ ,IRECT  ,X	      ,LL_STOK,INACTI,
+     1               NVSIZ ,IRECT  ,X        ,LL_STOK,INACTI,
      2               CANDS_E2S,CANDM_E2S,MULNSNS,NOINT  ,MARGE ,
      3               I_MEM(2) ,PROV_S ,PROV_M ,IGAP0,CAND_B,
      4               NEDGE ,LEDGE  ,ITAB   ,DRAD2  ,IGAP  ,
@@ -772,7 +772,7 @@ C-----------------------------------------------------
      6               EDG_BISECTOR,VTX_BISECTOR ,CAND_PS,DGAPLOAD)
                 IF(I_MEM(2)/=0) GOTO 400
                 J_STOK = 0
-              ENDIF		    
+              ENDIF        
 C-----------------------------------------------------                   
 
               CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD) ! Next RTM

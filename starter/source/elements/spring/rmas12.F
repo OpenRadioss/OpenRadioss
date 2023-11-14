@@ -159,7 +159,7 @@ C
         ZX = HALF*(X(3,I1)*X(1,I1)+X(3,I3)*X(3,I3)) + X(3,I2)*X(1,I2)
         PARTSAV(5,IP) =PARTSAV(5,IP) + TWO*XI + EMS * (YY+ZZ)
         PARTSAV(6,IP) =PARTSAV(6,IP) + TWO*XI + EMS * (ZZ+XX)
-        PARTSAV(7,IP) =PARTSAV(7,IP) + TWO*XI + EMS * (XX+YY)	
+        PARTSAV(7,IP) =PARTSAV(7,IP) + TWO*XI + EMS * (XX+YY)
         PARTSAV(8,IP) =PARTSAV(8,IP)  - EMS * XY
         PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS * YZ
         PARTSAV(10,IP)=PARTSAV(10,IP) - EMS * ZX

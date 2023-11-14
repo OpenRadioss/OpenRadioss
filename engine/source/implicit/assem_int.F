@@ -135,16 +135,16 @@ c------------------------------------------------------------------[0 Dm]-
      .                  ND   ,OFF(I)) 
          CALL ASSEM_KII(N4(I),1,IDDL,IADK,K_DIAG,K_LT ,KL11(1,1,I), 
      .                  ND   ,OFF(I)) 
-	 NN=IND_INT(NIN)%P(-NS(I))
+           NN=IND_INT(NIN)%P(-NS(I))
          DO J=1,ND
-	  FFI(J,NN)=FFI(J,NN) +
+            FFI(J,NN)=FFI(J,NN) +
      .              KI11(J,J,I)+KJ11(J,J,I)+KK11(J,J,I)+KL11(J,J,I)
          ENDDO
-	 DFI(1,NN)=DFI(1,NN) +
+           DFI(1,NN)=DFI(1,NN) +
      .             KI11(1,2,I)+KJ11(1,2,I)+KK11(1,2,I)+KL11(1,2,I)
-	 DFI(2,NN)=DFI(2,NN) +
+           DFI(2,NN)=DFI(2,NN) +
      .             KI11(1,3,I)+KJ11(1,3,I)+KK11(1,3,I)+KL11(1,3,I)
-	 DFI(3,NN)=DFI(3,NN) +
+           DFI(3,NN)=DFI(3,NN) +
      .             KI11(2,3,I)+KJ11(2,3,I)+KK11(2,3,I)+KL11(2,3,I)
          IF (INTP_D>0) THEN
 C-------NS,N1----
@@ -304,18 +304,18 @@ c------------------------------------------------------------------[0 Dm]-
          CALL ASSEM_KII(M2(I),1,IDDL,IADK,K_DIAG,K_LT ,K2J11(1,1,I), 
      .                  ND   ,OFF(I)) 
          NN = NS(I)-NRTS
-	 NN1=IND_INT(NIN)%P(NN)
-	 NN2=NN1+1
+           NN1=IND_INT(NIN)%P(NN)
+           NN2=NN1+1
          DO J=1,ND
-	  FFI(J,NN1)=FFI(J,NN1) + K1I11(J,J,I)+K1J11(J,J,I)
-	  FFI(J,NN2)=FFI(J,NN2) + K2I11(J,J,I)+K2J11(J,J,I)
+            FFI(J,NN1)=FFI(J,NN1) + K1I11(J,J,I)+K1J11(J,J,I)
+            FFI(J,NN2)=FFI(J,NN2) + K2I11(J,J,I)+K2J11(J,J,I)
          ENDDO
-	 DFI(1,NN1)=DFI(1,NN1) +K1I11(1,2,I)+K1J11(1,2,I)
-	 DFI(2,NN1)=DFI(2,NN1) +K1I11(1,3,I)+K1J11(1,3,I)
-	 DFI(3,NN1)=DFI(3,NN1) +K1I11(2,3,I)+K1J11(2,3,I)
-	 DFI(1,NN2)=DFI(1,NN2) +K2I11(1,2,I)+K2J11(1,2,I)
-	 DFI(2,NN2)=DFI(2,NN2) +K2I11(1,3,I)+K2J11(1,3,I)
-	 DFI(3,NN2)=DFI(3,NN2) +K2I11(2,3,I)+K2J11(2,3,I)
+           DFI(1,NN1)=DFI(1,NN1) +K1I11(1,2,I)+K1J11(1,2,I)
+           DFI(2,NN1)=DFI(2,NN1) +K1I11(1,3,I)+K1J11(1,3,I)
+           DFI(3,NN1)=DFI(3,NN1) +K1I11(2,3,I)+K1J11(2,3,I)
+           DFI(1,NN2)=DFI(1,NN2) +K2I11(1,2,I)+K2J11(1,2,I)
+           DFI(2,NN2)=DFI(2,NN2) +K2I11(1,3,I)+K2J11(1,3,I)
+           DFI(3,NN2)=DFI(3,NN2) +K2I11(2,3,I)+K2J11(2,3,I)
          IF (INTP_D>0) THEN
           IDI = IDDL_SI(NN1)
           IDJ = IDDL(M1(I))

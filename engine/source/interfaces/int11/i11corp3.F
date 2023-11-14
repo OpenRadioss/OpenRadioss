@@ -109,23 +109,23 @@ C
            MM1(JLT_NEW) = MS(M1(JLT_NEW))
            MM2(JLT_NEW) = MS(M2(JLT_NEW))
 C
-	   NS=IND_INT(NIN)%P(NN)
- 	   NE=SHF_INT(NIN)+JLT_NEW+LREM
+             NS=IND_INT(NIN)%P(NN)
+             NE=SHF_INT(NIN)+JLT_NEW+LREM
            HS1(JLT_NEW)  = H_E(1,NE)
            HS2(JLT_NEW)  = H_E(2,NE)
            HM1(JLT_NEW)  = H_E(3,NE)
            HM2(JLT_NEW)  = H_E(4,NE)
-	   STIF(JLT_NEW)=STIFS(NE)
-	   NX(JLT_NEW)=N_E(1,NE)
-	   NY(JLT_NEW)=N_E(2,NE)
-	   NZ(JLT_NEW)=N_E(3,NE)
+             STIF(JLT_NEW)=STIFS(NE)
+             NX(JLT_NEW)=N_E(1,NE)
+             NY(JLT_NEW)=N_E(2,NE)
+             NZ(JLT_NEW)=N_E(3,NE)
 C----------displacement
-	   DXS1(JLT_NEW)=DFI(1,NS)
-	   DYS1(JLT_NEW)=DFI(2,NS)
-	   DZS1(JLT_NEW)=DFI(3,NS)
-	   DXS2(JLT_NEW)=DFI(1,NS+1)
-	   DYS2(JLT_NEW)=DFI(2,NS+1)
-	   DZS2(JLT_NEW)=DFI(3,NS+1)
+             DXS1(JLT_NEW)=DFI(1,NS)
+             DYS1(JLT_NEW)=DFI(2,NS)
+             DZS1(JLT_NEW)=DFI(3,NS)
+             DXS2(JLT_NEW)=DFI(1,NS+1)
+             DYS2(JLT_NEW)=DFI(2,NS+1)
+             DZS2(JLT_NEW)=DFI(3,NS+1)
            N1(JLT_NEW)=NS
            N2(JLT_NEW)=NS+1
 C
@@ -180,23 +180,23 @@ C
          NI = CAND_N(I)
          IF(NI>NRTS)THEN
            NN = NI - NRTS
-	   NS=IND_INT(NIN)%P(NN)
+             NS=IND_INT(NIN)%P(NN)
 C----------displacement
-	   DXS1(I)=DFI(1,NS)
-	   DYS1(I)=DFI(2,NS)
-	   DZS1(I)=DFI(3,NS)
-	   DXS2(I)=DFI(1,NS+1)
-	   DYS2(I)=DFI(2,NS+1)
-	   DZS2(I)=DFI(3,NS+1)
-	 ELSE
-	  NN1 = N1(I)
-	  NN2 = N2(I)
-	  DXS1(I) = D(1,NN1)
-	  DYS1(I) = D(2,NN1)
-	  DZS1(I) = D(3,NN1)
-	  DXS2(I) = D(1,NN2)
-	  DYS2(I) = D(2,NN2)
-	  DZS2(I) = D(3,NN2)
+             DXS1(I)=DFI(1,NS)
+             DYS1(I)=DFI(2,NS)
+             DZS1(I)=DFI(3,NS)
+             DXS2(I)=DFI(1,NS+1)
+             DYS2(I)=DFI(2,NS+1)
+             DZS2(I)=DFI(3,NS+1)
+           ELSE
+            NN1 = N1(I)
+            NN2 = N2(I)
+            DXS1(I) = D(1,NN1)
+            DYS1(I) = D(2,NN1)
+            DZS1(I) = D(3,NN1)
+            DXS2(I) = D(1,NN2)
+            DYS2(I) = D(2,NN2)
+            DZS2(I) = D(3,NN2)
          END IF
 C----------update
          IF(IUPD>0.AND.NI>NRTS)THEN

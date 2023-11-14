@@ -160,72 +160,72 @@ c
           ENDDO
           DO K=1,20
             I = III(LLT,K)
-            IF(I/=0)THEN	  	    
+            IF(I/=0)THEN          
               XX(LLT,K)=X(1,I)
               YY(LLT,K)=X(2,I)
               ZZ(LLT,K)=X(3,I)
-	    ELSE
-	      IF(K==9)THEN
-	        XX(LLT,K)=0.500*(X(1,III(LLT,1))+X(1,III(LLT,2)))
+              ELSE
+                IF(K==9)THEN
+                  XX(LLT,K)=0.500*(X(1,III(LLT,1))+X(1,III(LLT,2)))
                 YY(LLT,K)=0.500*(X(2,III(LLT,1))+X(2,III(LLT,2)))
                 ZZ(LLT,K)=0.500*(X(3,III(LLT,1))+X(3,III(LLT,2)))
-	      ENDIF
-	      IF(K==10)THEN
-	        XX(LLT,K)=0.500*(X(1,III(LLT,2))+X(1,III(LLT,3)))
+                ENDIF
+                IF(K==10)THEN
+                  XX(LLT,K)=0.500*(X(1,III(LLT,2))+X(1,III(LLT,3)))
                 YY(LLT,K)=0.500*(X(2,III(LLT,2))+X(2,III(LLT,3)))
                 ZZ(LLT,K)=0.500*(X(3,III(LLT,2))+X(3,III(LLT,3)))
-	      ENDIF
-	      IF(K==11)THEN
-	        XX(LLT,K)=0.500*(X(1,III(LLT,3))+X(1,III(LLT,4)))
+                ENDIF
+                IF(K==11)THEN
+                  XX(LLT,K)=0.500*(X(1,III(LLT,3))+X(1,III(LLT,4)))
                 YY(LLT,K)=0.500*(X(2,III(LLT,3))+X(2,III(LLT,4)))
                 ZZ(LLT,K)=0.500*(X(3,III(LLT,3))+X(3,III(LLT,4)))
-	      ENDIF
-	      IF(K==12)THEN   
-	        XX(LLT,K)=0.500*(X(1,III(LLT,4))+X(1,III(LLT,1)))
+                ENDIF
+                IF(K==12)THEN   
+                  XX(LLT,K)=0.500*(X(1,III(LLT,4))+X(1,III(LLT,1)))
                 YY(LLT,K)=0.500*(X(2,III(LLT,4))+X(2,III(LLT,1)))
                 ZZ(LLT,K)=0.500*(X(3,III(LLT,4))+X(3,III(LLT,1)))
-	      ENDIF
-	      IF(K==13)THEN
-	        XX(LLT,K)=0.500*(X(1,III(LLT,1))+X(1,III(LLT,5)))
+                ENDIF
+                IF(K==13)THEN
+                  XX(LLT,K)=0.500*(X(1,III(LLT,1))+X(1,III(LLT,5)))
                 YY(LLT,K)=0.500*(X(2,III(LLT,1))+X(2,III(LLT,5)))
                 ZZ(LLT,K)=0.500*(X(3,III(LLT,1))+X(3,III(LLT,5)))
-	      ENDIF
-	      IF(K==14)THEN
-	        XX(LLT,K)=0.500*(X(1,III(LLT,2))+X(1,III(LLT,6)))
+                ENDIF
+                IF(K==14)THEN
+                  XX(LLT,K)=0.500*(X(1,III(LLT,2))+X(1,III(LLT,6)))
                 YY(LLT,K)=0.500*(X(2,III(LLT,2))+X(2,III(LLT,6)))
                 ZZ(LLT,K)=0.500*(X(3,III(LLT,2))+X(3,III(LLT,6)))
-	      ENDIF
-	      IF(K==15)THEN
-	        XX(LLT,K)=0.500*(X(1,III(LLT,3))+X(1,III(LLT,7)))
+                ENDIF
+                IF(K==15)THEN
+                  XX(LLT,K)=0.500*(X(1,III(LLT,3))+X(1,III(LLT,7)))
                 YY(LLT,K)=0.500*(X(2,III(LLT,3))+X(2,III(LLT,7)))
                 ZZ(LLT,K)=0.500*(X(3,III(LLT,3))+X(3,III(LLT,7)))
-	      ENDIF
-	      IF(K==16)THEN
-	        XX(LLT,K)=0.500*(X(1,III(LLT,4))+X(1,III(LLT,8)))
+                ENDIF
+                IF(K==16)THEN
+                  XX(LLT,K)=0.500*(X(1,III(LLT,4))+X(1,III(LLT,8)))
                 YY(LLT,K)=0.500*(X(2,III(LLT,4))+X(2,III(LLT,8)))
                 ZZ(LLT,K)=0.500*(X(3,III(LLT,4))+X(3,III(LLT,8)))
-	      ENDIF
-	      IF(K==17)THEN
-	        XX(LLT,K)=0.500*(X(1,III(LLT,5))+X(1,III(LLT,6)))
+                ENDIF
+                IF(K==17)THEN
+                  XX(LLT,K)=0.500*(X(1,III(LLT,5))+X(1,III(LLT,6)))
                 YY(LLT,K)=0.500*(X(2,III(LLT,5))+X(2,III(LLT,6)))
                 ZZ(LLT,K)=0.500*(X(3,III(LLT,5))+X(3,III(LLT,6)))
-	      ENDIF
-	      IF(K==18)THEN
-	        XX(LLT,K)=0.500*(X(1,III(LLT,6))+X(1,III(LLT,7)))
+                ENDIF
+                IF(K==18)THEN
+                  XX(LLT,K)=0.500*(X(1,III(LLT,6))+X(1,III(LLT,7)))
                 YY(LLT,K)=0.500*(X(2,III(LLT,6))+X(2,III(LLT,7)))
                 ZZ(LLT,K)=0.500*(X(3,III(LLT,6))+X(3,III(LLT,7)))
-	      ENDIF
-	      IF(K==19)THEN    
-	        XX(LLT,K)=0.500*(X(1,III(LLT,7))+X(1,III(LLT,8)))
+                ENDIF
+                IF(K==19)THEN    
+                  XX(LLT,K)=0.500*(X(1,III(LLT,7))+X(1,III(LLT,8)))
                 YY(LLT,K)=0.500*(X(2,III(LLT,7))+X(2,III(LLT,8)))
                 ZZ(LLT,K)=0.500*(X(3,III(LLT,7))+X(3,III(LLT,8)))
-	      ENDIF
-	      IF(K==20)THEN
-	        XX(LLT,K)=0.500*(X(1,III(LLT,5))+X(1,III(LLT,8)))
+                ENDIF
+                IF(K==20)THEN
+                  XX(LLT,K)=0.500*(X(1,III(LLT,5))+X(1,III(LLT,8)))
                 YY(LLT,K)=0.500*(X(2,III(LLT,5))+X(2,III(LLT,8)))
                 ZZ(LLT,K)=0.500*(X(3,III(LLT,5))+X(3,III(LLT,8)))
-	      ENDIF
-	    ENDIF
+                ENDIF
+              ENDIF
           ENDDO
 C-----------------------------------------------------------------------
 C     calcul de  [L] par paquet de mvsiz   
@@ -316,7 +316,7 @@ C-----------------------------------------------
       DATA IPERM1 /0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,
      .             5,6,7,8/
       DATA IPERM2 /0,0,0,0,0,0,0,0,2,3,4,1,1,2,3,4,
-     .             6,7,8,5/	   
+     .             6,7,8,5/     
 C-----------------------------------------------
 C      calcul de r,s,t
 C-----------------------------------------------
@@ -346,17 +346,17 @@ C
             VY = VY - (V(2,III(I,IK))+DT12*A(2,III(I,IK)))*NI(I,IK)
             VZ = VZ - (V(3,III(I,IK))+DT12*A(3,III(I,IK)))*NI(I,IK)
           ENDDO
-	  DO IK=9,21
-	    IF(III(I,IK)/=0)THEN
-	      VX = VX - (V(1,III(I,IK))+DT12*A(1,III(I,IK)))*NI(I,IK)
+            DO IK=9,21
+              IF(III(I,IK)/=0)THEN
+                VX = VX - (V(1,III(I,IK))+DT12*A(1,III(I,IK)))*NI(I,IK)
               VY = VY - (V(2,III(I,IK))+DT12*A(2,III(I,IK)))*NI(I,IK)
               VZ = VZ - (V(3,III(I,IK))+DT12*A(3,III(I,IK)))*NI(I,IK)
             ELSE
-	       VX=VX
-	       VY=VY
-	       VZ=VZ
-	    ENDIF 
-	   ENDDO 
+                 VX=VX
+                 VY=VY
+                 VZ=VZ
+              ENDIF 
+             ENDDO 
 c
 c      print *, "vx,vy,vz s-m",vx,vy,vz
 c      print *, "nx,ny,nz ", NX(I),NY(I),NZ(I)
@@ -383,16 +383,16 @@ c           AA = DT12/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
             ENDIF
             IAD = IADLL(N_MULT) - 1
             IIK=0
-	    COMPTIK=0 
-	    DO IK=1,21
-              IF(III(I,IK)/=0)THEN	
-	       COMPTIK=COMPTIK+1
-	      ENDIF  
-	    ENDDO
+              COMPTIK=0 
+              DO IK=1,21
+              IF(III(I,IK)/=0)THEN
+                 COMPTIK=COMPTIK+1
+                ENDIF  
+              ENDDO
             DO IK=1,21
-	      IF(III(I,IK)/=0)THEN	
-	        IIK=IIK+1  
-		LLL(IAD+IIK)    = III(I,IK)
+                IF(III(I,IK)/=0)THEN
+                  IIK=IIK+1  
+          LLL(IAD+IIK)    = III(I,IK)
                 JLL(IAD+IIK)    = 1
                 SLL(IAD+IIK)    = 0
                 XLL(IAD+IIK)    = NSX(I)*NI(I,IK)
@@ -404,30 +404,30 @@ c           AA = DT12/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
                 JLL(IAD+(2*COMPTIK)+IIK) = 3
                 SLL(IAD+(2*COMPTIK)+IIK) = 0
                 XLL(IAD+(2*COMPTIK)+IIK) = NSZ(I)*NI(I,IK)
-		NN = LLL(IAD+IIK)
-		COMNTAG(NN) = COMNTAG(NN) + 1
+          NN = LLL(IAD+IIK)
+          COMNTAG(NN) = COMNTAG(NN) + 1
               ELSE
-	        J1=IPERM1(IK)
-	        J2=IPERM2(IK)
-	        XLL(IAD+J1)=XLL(IAD+J1)+0.5*(NSX(I)*NI(I,IK))
-		XLL(IAD+J2)=XLL(IAD+J2)+0.5*(NSX(I)*NI(I,IK))
-		XLL(IAD+COMPTIK+J1)=XLL(IAD+COMPTIK+J1)+
-     .		0.5*(NSY(I)*NI(I,IK))
-		XLL(IAD+COMPTIK+J2)=XLL(IAD+COMPTIK+J2)+
-     .		0.5*(NSY(I)*NI(I,IK))
-		XLL(IAD+(2*COMPTIK)+J1)=XLL(IAD+(2*COMPTIK)+J1)+
-     .		0.5*(NSZ(I)*NI(I,IK))
-		XLL(IAD+(2*COMPTIK)+J2)=XLL(IAD+(2*COMPTIK)+J2)+
-     .		0.5*(NSZ(I)*NI(I,IK))
-	      ENDIF	  	    
+                  J1=IPERM1(IK)
+                  J2=IPERM2(IK)
+                  XLL(IAD+J1)=XLL(IAD+J1)+0.5*(NSX(I)*NI(I,IK))
+          XLL(IAD+J2)=XLL(IAD+J2)+0.5*(NSX(I)*NI(I,IK))
+          XLL(IAD+COMPTIK+J1)=XLL(IAD+COMPTIK+J1)+
+     .    0.5*(NSY(I)*NI(I,IK))
+          XLL(IAD+COMPTIK+J2)=XLL(IAD+COMPTIK+J2)+
+     .    0.5*(NSY(I)*NI(I,IK))
+          XLL(IAD+(2*COMPTIK)+J1)=XLL(IAD+(2*COMPTIK)+J1)+
+     .    0.5*(NSZ(I)*NI(I,IK))
+          XLL(IAD+(2*COMPTIK)+J2)=XLL(IAD+(2*COMPTIK)+J2)+
+     .    0.5*(NSZ(I)*NI(I,IK))
+                ENDIF          
             ENDDO
             IADLL(N_MULT+1)=IADLL(N_MULT)+(3*COMPTIK)
-	    IF(IADLL(N_MULT+1)-1>NKMAX)THEN
+              IF(IADLL(N_MULT+1)-1>NKMAX)THEN
 #include "lockoff.inc"
               CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
-	    SLL(IAD+COMPTIK) = NINT
+              SLL(IAD+COMPTIK) = NINT
             SLL(IAD+(2*COMPTIK)) = NINT
             SLL(IAD+(3*COMPTIK)) = NINT
 #include "lockoff.inc"
@@ -454,17 +454,17 @@ C
             VY = VY - (V(2,III(I,IK))+DT12*A(2,III(I,IK)))*NI(I,IK)
             VZ = VZ - (V(3,III(I,IK))+DT12*A(3,III(I,IK)))*NI(I,IK)
           ENDDO
-	  DO IK=9,21
-	    IF(III(I,IK)/=0)THEN
-	      VX = VX - (V(1,III(I,IK))+DT12*A(1,III(I,IK)))*NI(I,IK)
+            DO IK=9,21
+              IF(III(I,IK)/=0)THEN
+                VX = VX - (V(1,III(I,IK))+DT12*A(1,III(I,IK)))*NI(I,IK)
               VY = VY - (V(2,III(I,IK))+DT12*A(2,III(I,IK)))*NI(I,IK)
               VZ = VZ - (V(3,III(I,IK))+DT12*A(3,III(I,IK)))*NI(I,IK)
             ELSE
-	      VX=VX
-	      VY=VY
-	      VZ=VZ
-	    ENDIF 
-	   ENDDO 
+                VX=VX
+                VY=VY
+                VZ=VZ
+              ENDIF 
+             ENDDO 
 c
 c      print *, "vx,vy,vz s-m",vx,vy,vz
 c      print *, "nx,ny,nz ", NX(I),NY(I),NZ(I)
@@ -491,69 +491,69 @@ c
 C
             N_MULT=N_MULT+1
             IAD = IADLL(N_MULT) - 1
-            IIK=0	    
+            IIK=0      
             DO IK=1,21
-	      IF(III(I,IK)/=0)THEN
-	         IIK=IIK+1
-		 LLL(IAD+IIK) = III(I,IK)
+                IF(III(I,IK)/=0)THEN
+                   IIK=IIK+1
+           LLL(IAD+IIK) = III(I,IK)
                  JLL(IAD+IIK) = 1
                  SLL(IAD+IIK) = 0
                  XLL(IAD+IIK) = NI(I,IK)
-		 NN = LLL(IAD+IIK)
+           NN = LLL(IAD+IIK)
                  COMNTAG(NN) = COMNTAG(NN) + 1
-	      ELSE
-	        J1=IPERM1(IK)
-	        J2=IPERM2(IK)
-	        XLL(IAD+J1)=XLL(IAD+J1)+0.5*NI(I,IK)
-		XLL(IAD+J2)=XLL(IAD+J2)+0.5*NI(I,IK)
-	      ENDIF
+                ELSE
+                  J1=IPERM1(IK)
+                  J2=IPERM2(IK)
+                  XLL(IAD+J1)=XLL(IAD+J1)+0.5*NI(I,IK)
+          XLL(IAD+J2)=XLL(IAD+J2)+0.5*NI(I,IK)
+                ENDIF
             ENDDO
             SLL(IAD+IIK) = NINT
-	    IADLL(N_MULT+1)=IADLL(N_MULT) + IIK
+              IADLL(N_MULT+1)=IADLL(N_MULT) + IIK
 C
             N_MULT=N_MULT+1
             IAD = IADLL(N_MULT) - 1
             IIK=0
             DO IK=1,21
-	       IF(III(I,IK)/=0)THEN
-	         IIK=IIK+1
-		 LLL(IAD+IIK) = III(I,IK)
+                 IF(III(I,IK)/=0)THEN
+                   IIK=IIK+1
+           LLL(IAD+IIK) = III(I,IK)
                  JLL(IAD+IIK) = 2
                  SLL(IAD+IIK) = 0
                  XLL(IAD+IIK) = NI(I,IK)
-		 NN = LLL(IAD+IIK)
+           NN = LLL(IAD+IIK)
                  COMNTAG(NN) = COMNTAG(NN) + 1
                ELSE
-	         J1=IPERM1(IK)
-	         J2=IPERM2(IK)
-	         XLL(IAD+J1)=XLL(IAD+J1)+0.5*NI(I,IK)
-		 XLL(IAD+J2)=XLL(IAD+J2)+0.5*NI(I,IK)
-	       ENDIF
+                   J1=IPERM1(IK)
+                   J2=IPERM2(IK)
+                   XLL(IAD+J1)=XLL(IAD+J1)+0.5*NI(I,IK)
+           XLL(IAD+J2)=XLL(IAD+J2)+0.5*NI(I,IK)
+                 ENDIF
             ENDDO
-	    IADLL(N_MULT+1)=IADLL(N_MULT) + IIK
-	    SLL(IAD+IIK) = NINT
+              IADLL(N_MULT+1)=IADLL(N_MULT) + IIK
+              SLL(IAD+IIK) = NINT
 C
             N_MULT=N_MULT+1
             IAD = IADLL(N_MULT) - 1
-	    IIK=0	    
+              IIK=0      
             DO IK=1,21
-	      IF(III(I,IK)/=0)THEN 
-	        IIK=IIK+1
+                IF(III(I,IK)/=0)THEN 
+                  IIK=IIK+1
                 LLL(IAD+IIK) = III(I,IK)
                 JLL(IAD+IIK) = 3
                 SLL(IAD+IIK) = 0
                 XLL(IAD+IIK) = NI(I,IK)
-		NN = LLL(IAD+IIK)
+          NN = LLL(IAD+IIK)
                 COMNTAG(NN) = COMNTAG(NN) + 1
-	      ELSE
-	      	J1=IPERM1(IK)
-	        J2=IPERM2(IK)
-	        XLL(IAD+J1)=XLL(IAD+J1)+0.5*NI(I,IK)
-	        XLL(IAD+J2)=XLL(IAD+J2)+0.5*NI(I,IK)
-	      ENDIF
+                ELSE
+          J1=IPERM1(IK)
+                  J2=IPERM2(IK)
+                  XLL(IAD+J1)=XLL(IAD+J1)+0.5*NI(I,IK)
+                  XLL(IAD+J2)=XLL(IAD+J2)+0.5*NI(I,IK)
+                ENDIF
             ENDDO
-            IADLL(N_MULT+1)=IADLL(N_MULT) + IIK	 
-	    SLL(IAD+IIK) = NINT 
+            IADLL(N_MULT+1)=IADLL(N_MULT) + IIK   
+              SLL(IAD+IIK) = NINT 
 #include "lockoff.inc"
           ENDIF
         ENDIF
@@ -585,69 +585,69 @@ c
             ENDIF
             N_MULT=N_MULT+1
             IAD = IADLL(N_MULT) - 1
-            IIK=0	    
+            IIK=0      
             DO IK=1,21
-	     IF(III(I,IK)/=0)THEN
-	         IIK=IIK+1
-		 LLL(IAD+IIK) = III(I,IK)
+               IF(III(I,IK)/=0)THEN
+                   IIK=IIK+1
+           LLL(IAD+IIK) = III(I,IK)
                  JLL(IAD+IIK) = 1
                  SLL(IAD+IIK) = 0
                  XLL(IAD+IIK) = NI(I,IK)
                  NN = LLL(IAD+IIK)
                  COMNTAG(NN) = COMNTAG(NN) + 1
               ELSE
-	        J1=IPERM1(IK)
-	        J2=IPERM2(IK)
-	        XLL(IAD+J1)=XLL(IAD+J1)+0.5*NI(I,IK)
-		XLL(IAD+J2)=XLL(IAD+J2)+0.5*NI(I,IK)
-	      ENDIF
+                  J1=IPERM1(IK)
+                  J2=IPERM2(IK)
+                  XLL(IAD+J1)=XLL(IAD+J1)+0.5*NI(I,IK)
+          XLL(IAD+J2)=XLL(IAD+J2)+0.5*NI(I,IK)
+                ENDIF
             ENDDO
-	    IADLL(N_MULT+1)=IADLL(N_MULT) + IIK	 
-	    SLL(IAD+IIK) = NINT  
+              IADLL(N_MULT+1)=IADLL(N_MULT) + IIK   
+              SLL(IAD+IIK) = NINT  
 C
             N_MULT=N_MULT+1
             IAD = IADLL(N_MULT) - 1
-            IIK=0	    
+            IIK=0      
             DO IK=1,21
-	     IF(III(I,IK)/=0)THEN
-	         IIK=IIK+1
-		 LLL(IAD+IIK) = III(I,IK)
+               IF(III(I,IK)/=0)THEN
+                   IIK=IIK+1
+           LLL(IAD+IIK) = III(I,IK)
                  JLL(IAD+IIK) = 2
                  SLL(IAD+IIK) = 0
                  XLL(IAD+IIK) = NI(I,IK)
-		 NN = LLL(IAD+IIK)
+           NN = LLL(IAD+IIK)
                  COMNTAG(NN) = COMNTAG(NN) + 1
               ELSE
-	        J1=IPERM1(IK)
-	        J2=IPERM2(IK)
-	        XLL(IAD+J1)=XLL(IAD+J1)+0.5*NI(I,IK)
-		XLL(IAD+J2)=XLL(IAD+J2)+0.5*NI(I,IK)
-	      ENDIF
+                  J1=IPERM1(IK)
+                  J2=IPERM2(IK)
+                  XLL(IAD+J1)=XLL(IAD+J1)+0.5*NI(I,IK)
+          XLL(IAD+J2)=XLL(IAD+J2)+0.5*NI(I,IK)
+                ENDIF
             ENDDO
-	    IADLL(N_MULT+1)=IADLL(N_MULT) + IIK	 
-	    SLL(IAD+IIK) = NINT 
+              IADLL(N_MULT+1)=IADLL(N_MULT) + IIK   
+              SLL(IAD+IIK) = NINT 
 C
             N_MULT=N_MULT+1
             IAD = IADLL(N_MULT) - 1
-            IIK=0	    
+            IIK=0      
             DO IK=1,21
-	     IF(III(I,IK)/=0)THEN
-	         IIK=IIK+1
-		 LLL(IAD+IIK) = III(I,IK)
+               IF(III(I,IK)/=0)THEN
+                   IIK=IIK+1
+           LLL(IAD+IIK) = III(I,IK)
                  JLL(IAD+IIK) = 3
                  SLL(IAD+IIK) = 0
                  XLL(IAD+IIK) = NI(I,IK)
-	         NN = LLL(IAD+IIK)
+                   NN = LLL(IAD+IIK)
                  COMNTAG(NN) = COMNTAG(NN) + 1
               ELSE
-	        J1=IPERM1(IK)
-	        J2=IPERM2(IK)
-	        XLL(IAD+J1)=XLL(IAD+J1)+0.5*NI(I,IK)
-		XLL(IAD+J2)=XLL(IAD+J2)+0.5*NI(I,IK)
-	      ENDIF
+                  J1=IPERM1(IK)
+                  J2=IPERM2(IK)
+                  XLL(IAD+J1)=XLL(IAD+J1)+0.5*NI(I,IK)
+          XLL(IAD+J2)=XLL(IAD+J2)+0.5*NI(I,IK)
+                ENDIF
             ENDDO
-	    IADLL(N_MULT+1)=IADLL(N_MULT) + IIK	 
-	    SLL(IAD+IIK) = NINT 
+              IADLL(N_MULT+1)=IADLL(N_MULT) + IIK   
+              SLL(IAD+IIK) = NINT 
 C
 #include "lockoff.inc"
         ENDIF

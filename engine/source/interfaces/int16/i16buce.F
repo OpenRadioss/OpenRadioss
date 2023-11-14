@@ -110,11 +110,11 @@ C-----------------------------------------------
         ELSEIF(N20>0)THEN
           DO K=1,12
             J=IXS20(K,N20)
-            IF(J/=0)THEN	
+            IF(J/=0)THEN
               XSAV(1,J) = X(1,J)+DT2*(V(1,J)+DT12*A(1,J))
               XSAV(2,J) = X(2,J)+DT2*(V(2,J)+DT12*A(2,J))
               XSAV(3,J) = X(3,J)+DT2*(V(3,J)+DT12*A(3,J))
-	    ENDIF	      
+              ENDIF        
           ENDDO
         ELSEIF(N10>0)THEN
           DO K=1,6

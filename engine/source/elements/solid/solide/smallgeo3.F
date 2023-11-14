@@ -87,7 +87,7 @@ C
      .                    I1=NGL(I),
      .                    R1=DEF_V )
 #include "lockoff.inc"
-        END IF	
+        END IF
        END DO
       END IF !(MIN_DEFV)>ZERO) THEN
 C      
@@ -102,7 +102,7 @@ c       TET_COLLA(I)= COEF* (DELTAX(I)/AL)**(3.0D0/2.0D0)!COEF*EXP(THREE_HALF*LO
          OFFG(I) = TWO
          ICOUNT=ICOUNT+1
          LIST(ICOUNT)=I
-        END IF	
+        END IF
        END DO
        IF (ICOUNT > 0) THEN
 #include "lockon.inc"

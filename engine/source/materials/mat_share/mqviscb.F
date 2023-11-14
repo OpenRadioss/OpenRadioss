@@ -184,7 +184,7 @@ C
       ENDIF
 C
        !Numerical viscosity is managed inside sigeps51.f for law51
-       !qa, qb should be 0 here otherwise viscosity will be twice.	
+       !qa, qb should be 0 here otherwise viscosity will be twice.
        IF(.NOT.(IDTMINS==2.AND.JSMS/=0))THEN
         MT = MAT(1)
         DO I=1,NEL
@@ -311,7 +311,7 @@ C
         DO 50 I=1,NEL
           STI(I) = ZERO
           IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) GO TO 50
-	  IF(IPM(251,MT)/=0) GO TO 50
+            IF(IPM(251,MT)/=0) GO TO 50
           IF(N2D==0) THEN 
             TIDT = ONE/DTX(I)
             IF(OFFG(I)>ONE)THEN
@@ -608,7 +608,7 @@ C
            AKK=AKK*(1.+ATU)
           ENDIF
           DTX(I) = MIN(DTX(I),DTFACS*HALF*DELTAX(I)*DELTAX(I)*
-     .  				    SPH/MAX(AKK,EM20))
+     .              SPH/MAX(AKK,EM20))
          ENDDO
        END IF
       END IF

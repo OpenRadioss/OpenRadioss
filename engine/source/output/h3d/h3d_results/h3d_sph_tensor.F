@@ -232,54 +232,54 @@ C-----------------------------------------------
 C           CRACKS
             IF (MLW == 24. AND. NINT(PM(56,MT1)) == 1) THEN
               IF(ISORTH==0)THEN
-             	 DO I=1,NEL
-             	   EVAR(1,I) =  LBUF%DGLO(JJ(1) + I)
-             	   EVAR(2,I) =  LBUF%DGLO(JJ(2) + I)
-             	   EVAR(3,I) =  LBUF%DGLO(JJ(3) + I)
-             	   EVAR(4,I) =  LBUF%DGLO(JJ(4) + I)
-             	   EVAR(5,I) =  LBUF%DGLO(JJ(5) + I)
-             	   EVAR(6,I) =  LBUF%DGLO(JJ(6) + I)
+           DO I=1,NEL
+             EVAR(1,I) =  LBUF%DGLO(JJ(1) + I)
+             EVAR(2,I) =  LBUF%DGLO(JJ(2) + I)
+             EVAR(3,I) =  LBUF%DGLO(JJ(3) + I)
+             EVAR(4,I) =  LBUF%DGLO(JJ(4) + I)
+             EVAR(5,I) =  LBUF%DGLO(JJ(5) + I)
+             EVAR(6,I) =  LBUF%DGLO(JJ(6) + I)
                    IS_WRITTEN_TENSOR(I) = 1
-             	 ENDDO
+           ENDDO
               ELSE
-             	DO I=1,NEL	
-             	  L11 = LBUF%DGLO(JJ(1) + I)		 
-             	  L21 = LBUF%DGLO(JJ(2) + I)		 
-             	  L31 = LBUF%DGLO(JJ(3) + I)		 
-             	  L12 = LBUF%DGLO(JJ(4) + I)	  
-             	  L22 = LBUF%DGLO(JJ(5) + I)	  
-             	  L32 = LBUF%DGLO(JJ(6) + I)
-             	  L13 = L21*L32-L31*L22
-             	  L23 = L31*L12-L11*L32
-             	  L33 = L11*L22-L21*L12
-             	  G11 = GBUF%GAMA(JJ(1) + I)
-             	  G21 = GBUF%GAMA(JJ(2) + I)
-             	  G31 = GBUF%GAMA(JJ(3) + I)
-             	  G12 = GBUF%GAMA(JJ(4) + I)
-             	  G22 = GBUF%GAMA(JJ(5) + I)
-             	  G32 = GBUF%GAMA(JJ(6) + I)
-             	  G13 = G21*G32-G31*G22
-             	  G23 = G31*G12-G11*G32
-             	  G33 = G11*G22-G21*G12
-             	  S11 =L11*G11+L12*G12+L13*G13 
-             	  S12 =L11*G21+L12*G22+L13*G23 
-             	  S13 =L11*G31+L12*G32+L13*G33
-             	  S21 =L12*G11+L22*G12+L23*G13
-             	  S22 =L12*G21+L22*G22+L23*G23
-             	  S23 =L12*G31+L22*G32+L23*G33 
-             	  S31 =L13*G11+L23*G12+L33*G13
-             	  S32 =L13*G21+L23*G22+L33*G23
-             	  S33 =L13*G31+L23*G32+L33*G33
-             	  EVAR(1,I) = G11*S11+G12*S21+G13*S31
-             	  EVAR(2,I) = G21*S12+G22*S22+G23*S32
-             	  EVAR(3,I) = G31*S13+G32*S23+G33*S33
-             	  EVAR(4,I) = G11*S12+G12*S22+G13*S32
-             	  EVAR(5,I) = G21*S13+G22*S23+G23*S33
-             	  EVAR(6,I) = G11*S13+G12*S23+G13*S33
+          DO I=1,NEL
+            L11 = LBUF%DGLO(JJ(1) + I)     
+            L21 = LBUF%DGLO(JJ(2) + I)     
+            L31 = LBUF%DGLO(JJ(3) + I)     
+            L12 = LBUF%DGLO(JJ(4) + I)    
+            L22 = LBUF%DGLO(JJ(5) + I)    
+            L32 = LBUF%DGLO(JJ(6) + I)
+            L13 = L21*L32-L31*L22
+            L23 = L31*L12-L11*L32
+            L33 = L11*L22-L21*L12
+            G11 = GBUF%GAMA(JJ(1) + I)
+            G21 = GBUF%GAMA(JJ(2) + I)
+            G31 = GBUF%GAMA(JJ(3) + I)
+            G12 = GBUF%GAMA(JJ(4) + I)
+            G22 = GBUF%GAMA(JJ(5) + I)
+            G32 = GBUF%GAMA(JJ(6) + I)
+            G13 = G21*G32-G31*G22
+            G23 = G31*G12-G11*G32
+            G33 = G11*G22-G21*G12
+            S11 =L11*G11+L12*G12+L13*G13 
+            S12 =L11*G21+L12*G22+L13*G23 
+            S13 =L11*G31+L12*G32+L13*G33
+            S21 =L12*G11+L22*G12+L23*G13
+            S22 =L12*G21+L22*G22+L23*G23
+            S23 =L12*G31+L22*G32+L23*G33 
+            S31 =L13*G11+L23*G12+L33*G13
+            S32 =L13*G21+L23*G22+L33*G23
+            S33 =L13*G31+L23*G32+L33*G33
+            EVAR(1,I) = G11*S11+G12*S21+G13*S31
+            EVAR(2,I) = G21*S12+G22*S22+G23*S32
+            EVAR(3,I) = G31*S13+G32*S23+G33*S33
+            EVAR(4,I) = G11*S12+G12*S22+G13*S32
+            EVAR(5,I) = G21*S13+G22*S23+G23*S33
+            EVAR(6,I) = G11*S13+G12*S23+G13*S33
                   IS_WRITTEN_TENSOR(I) = 1
-             	ENDDO							 
-              END IF								 
-            END IF	
+          ENDDO               
+              END IF                 
+            END IF
           ENDIF
 
           CALL H3D_WRITE_TENSOR(IOK_PART,IS_WRITTEN_SPH,SPH_TENSOR,NEL,0,NFT,

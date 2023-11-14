@@ -61,14 +61,14 @@ C---- should not rotate w/ global iso system
 C----------------------------
       IF (KHBE /= 17 .OR. IINT /= 3) RETURN
          R11 = FRAME(1,1)
-	   R21 = FRAME(2,1)
-	   R31 = FRAME(3,1)
-	   R12 = FRAME(1,2)
-	   R22 = FRAME(2,2)
-	   R32 = FRAME(3,2)
-	   R13 = FRAME(1,3)
-	   R23 = FRAME(2,3)
-	   R33 = FRAME(3,3)
+             R21 = FRAME(2,1)
+             R31 = FRAME(3,1)
+             R12 = FRAME(1,2)
+             R22 = FRAME(2,2)
+             R32 = FRAME(3,2)
+             R13 = FRAME(1,3)
+             R23 = FRAME(2,3)
+             R33 = FRAME(3,3)
 !       ENDIF
 C-----------
 C     ORTHOTROPIC ELEMENTS : Rotation from ORHTOROPIC FRAME TO LOCAL FRAME

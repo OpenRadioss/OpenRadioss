@@ -258,11 +258,11 @@ C
 C inbuf == cand_n
             INTBUF_TAB%CAND_N(I) = -INTBUF_TAB%CAND_N(I)
           ELSE
-	    INTBUF_TAB%CAND_P(I) = ZERO
-	    INTBUF_TAB%FTSAVX(I) = ZERO
-	    INTBUF_TAB%FTSAVY(I) = ZERO
-	    INTBUF_TAB%FTSAVZ(I) = ZERO
-	    INTBUF_TAB%IFPEN(I) = 0
+              INTBUF_TAB%CAND_P(I) = ZERO
+              INTBUF_TAB%FTSAVX(I) = ZERO
+              INTBUF_TAB%FTSAVY(I) = ZERO
+              INTBUF_TAB%FTSAVZ(I) = ZERO
+              INTBUF_TAB%IFPEN(I) = 0
           ENDIF
         ENDDO
 C
@@ -308,26 +308,26 @@ C preparation candidats retenus
      1         JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      2         CAND_E_N,CAND_N_N)
 C cand_n et cand_e remplace par cand_n_n et cand_e_n
-	  CALL I23COR3(
-     1  JLT	  ,NIN       ,X 	,INTBUF_TAB%IRECTM,NSN	 ,
+            CALL I23COR3(
+     1  JLT    ,NIN       ,X   ,INTBUF_TAB%IRECTM,NSN   ,
      2  INTBUF_TAB%NSV,CAND_E_N ,CAND_N_N ,INTBUF_TAB%STFM,
-     +  				        INTBUF_TAB%STFNS,
-     3  INTBUF_TAB%MSR,MS     ,V 	 ,XI	    ,YI 	,
-     4  ZI	   ,IX1      ,IX2	 ,IX3	    ,IX4	,
-     5  NSVG	   ,IGSTI    ,STIF	 ,KMIN      ,KMAX	,
-     6  IGAP	   ,GAP      ,INTBUF_TAB%GAP_S,GAPV    ,GAPMAX	,
-     7  GAPMIN     ,INTBUF_TAB%GAP_M,VXI	   ,VYI     ,VZI,
-     8  MSI	   ,NODNX_SMS,NSMS	   ,KINET   ,X1 	,
-     9  Y1	    ,Z1       ,X2	,Y2	     ,Z2	,
-     A  X3	    ,Y3       ,Z3	,X4	     ,Y4	,
-     B  Z4	    ,NX1      ,NX2     ,NX3	    ,NX4       ,
-     C  NY1	    ,NY2      ,NY3	,NY4	     ,NZ1      ,
-     D  NZ2	   ,NZ3      ,NZ4      ,KINI	 ,INDEX2(NFT+1))
+     +                  INTBUF_TAB%STFNS,
+     3  INTBUF_TAB%MSR,MS     ,V    ,XI      ,YI   ,
+     4  ZI     ,IX1      ,IX2   ,IX3      ,IX4  ,
+     5  NSVG     ,IGSTI    ,STIF   ,KMIN      ,KMAX  ,
+     6  IGAP     ,GAP      ,INTBUF_TAB%GAP_S,GAPV    ,GAPMAX  ,
+     7  GAPMIN     ,INTBUF_TAB%GAP_M,VXI     ,VYI     ,VZI,
+     8  MSI     ,NODNX_SMS,NSMS     ,KINET   ,X1   ,
+     9  Y1      ,Z1       ,X2  ,Y2       ,Z2  ,
+     A  X3      ,Y3       ,Z3  ,X4       ,Y4  ,
+     B  Z4      ,NX1      ,NX2     ,NX3      ,NX4       ,
+     C  NY1      ,NY2      ,NY3  ,NY4       ,NZ1      ,
+     D  NZ2     ,NZ3      ,NZ4      ,KINI   ,INDEX2(NFT+1))
 C
           JLT_NEW = 0
 C
-	  CALL I23DST3(
-     1      JLT 	   ,CAND_N_N ,CAND_E_N ,CN_LOC ,CE_LOC ,
+            CALL I23DST3(
+     1      JLT      ,CAND_N_N ,CAND_E_N ,CN_LOC ,CE_LOC ,
      2      X1     ,X2     ,X3     ,X4     ,Y1     ,
      3      Y2     ,Y3     ,Y4     ,Z1     ,Z2     ,
      4      Z3     ,Z4     ,XI     ,YI     ,ZI     ,
@@ -335,9 +335,9 @@ C
      7      GAPV   ,INACTI ,INDEX2(NFT+1),
      8      VXM    ,VYM    ,VZM    ,H1     ,H2     ,
      9      H3     ,H4     ,INTBUF_TAB%IRECTM,INTBUF_TAB%CAND_P,
-     A      INTBUF_TAB%IFPEN,NX	 ,NY	 ,NZ	,INTBUF_TAB%FTSAVX,
+     A      INTBUF_TAB%IFPEN,NX   ,NY   ,NZ  ,INTBUF_TAB%FTSAVX,
      B      INTBUF_TAB%FTSAVY,INTBUF_TAB%FTSAVZ,FXT    ,FYT   ,FZT,
-     C      PENE   ,V	 ,VXI	 ,VYI	,VZI   ,
+     C      PENE   ,V   ,VXI   ,VYI  ,VZI   ,
      D      MSI    ,STIF ,JLT_NEW,NSMS  ,KINI  )
           JLT = JLT_NEW
           IF (IMONM > 0) CALL STARTIME(20,1)
@@ -347,26 +347,26 @@ C
             IF (DEBUG(3)>=1)
      .        NB_JLT_NEW = NB_JLT_NEW + JLT
 C 
-	    CALL I23FOR3(
-     1  JLT	     ,NIN	,NOINT        ,IBC	,ICODT        ,
-     2  FSAV	     ,GAP	,STIGLO       ,FRIC	,VISC	      ,
-     3  INACTI       ,MFROT	,IFQ	      ,IBAG	,
-     4  IPARI(39,NIN),STIF	,GAPV	      ,ITAB	,A	      ,
-     5  INTBUF_TAB%CAND_P,INTBUF_TAB%FRIC_P,INTBUF_TAB%XFILTR,V	,ICONTACT,
-     6  NISKYFI      ,NSVG	   ,X1        ,Y1	    ,Z1       ,
-     7  X2	     ,Y2	   ,Z2        ,X3	    ,Y3       ,
-     8  Z3	     ,X4	   ,Y4        ,Z4	    ,XI       ,
-     9  YI	     ,ZI	   ,VXI       ,VYI	    ,VZI      ,
-     A  MSI	     ,VXM	   ,VYM       ,VZM	    ,NX       ,
-     B  NY	     ,NZ	   ,PENE      ,H1	    ,H2       ,
-     C  H3	     ,H4	   ,INDEX2(NFT+1),CAND_N_N  ,WEIGHT   ,
-     F  FXT	     ,FYT	   ,FZT       ,DT2T         ,
-     G  FCONT	     ,FNCONT	   ,FTCONT    ,STIFN	    ,VISCN    ,
-     H  NEWFRONT     ,ISECIN	   ,NSTRF     ,SECFCUM      ,FSKYI    ,
-     I  ISKY	     ,INTTH	   ,MS        ,IX1	    ,IX2      ,
-     J  IX3	 ,IX4	    ,INTBUF_TAB%FTSAVX,INTBUF_TAB%FTSAVY,INTBUF_TAB%FTSAVZ,
-     K  KMIN	     ,KMAX	  ,CN_LOC     ,CE_LOC	,MSKYI_SMS    ,
-     L  ISKYI_SMS    ,NSMS	   ,JTASK     ,ISENSINT ,FSAVPARIT    ,
+              CALL I23FOR3(
+     1  JLT       ,NIN  ,NOINT        ,IBC  ,ICODT        ,
+     2  FSAV       ,GAP  ,STIGLO       ,FRIC  ,VISC        ,
+     3  INACTI       ,MFROT  ,IFQ        ,IBAG  ,
+     4  IPARI(39,NIN),STIF  ,GAPV        ,ITAB  ,A        ,
+     5  INTBUF_TAB%CAND_P,INTBUF_TAB%FRIC_P,INTBUF_TAB%XFILTR,V  ,ICONTACT,
+     6  NISKYFI      ,NSVG     ,X1        ,Y1      ,Z1       ,
+     7  X2       ,Y2     ,Z2        ,X3      ,Y3       ,
+     8  Z3       ,X4     ,Y4        ,Z4      ,XI       ,
+     9  YI       ,ZI     ,VXI       ,VYI      ,VZI      ,
+     A  MSI       ,VXM     ,VYM       ,VZM      ,NX       ,
+     B  NY       ,NZ     ,PENE      ,H1      ,H2       ,
+     C  H3       ,H4     ,INDEX2(NFT+1),CAND_N_N  ,WEIGHT   ,
+     F  FXT       ,FYT     ,FZT       ,DT2T         ,
+     G  FCONT       ,FNCONT     ,FTCONT    ,STIFN      ,VISCN    ,
+     H  NEWFRONT     ,ISECIN     ,NSTRF     ,SECFCUM      ,FSKYI    ,
+     I  ISKY       ,INTTH     ,MS        ,IX1      ,IX2      ,
+     J  IX3   ,IX4      ,INTBUF_TAB%FTSAVX,INTBUF_TAB%FTSAVY,INTBUF_TAB%FTSAVZ,
+     K  KMIN       ,KMAX    ,CN_LOC     ,CE_LOC  ,MSKYI_SMS    ,
+     L  ISKYI_SMS    ,NSMS     ,JTASK     ,ISENSINT ,FSAVPARIT    ,
      M  NISUB        ,NFT          ,H3D_DATA  )
 C
             ENDIF ! JLT_NEW/=0

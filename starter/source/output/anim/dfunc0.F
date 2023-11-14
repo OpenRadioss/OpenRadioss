@@ -120,9 +120,9 @@ c
      .                 + GBUF%SIG(II(3) + I) ) * THIRD
                   VALUE = P
                   IF(IFUNC == 7) THEN                                   
-                    S1=GBUF%SIG(II(1) + I) + P  	      
-                    S2=GBUF%SIG(II(2) + I) + P  	      
-                    S3=GBUF%SIG(II(3) + I) + P  	      
+                    S1=GBUF%SIG(II(1) + I) + P          
+                    S2=GBUF%SIG(II(2) + I) + P          
+                    S3=GBUF%SIG(II(3) + I) + P          
                     VONM2= THREE*(GBUF%SIG(II(4) + I)**2 +    
      .                            GBUF%SIG(II(5) + I)**2 +    
      .                            GBUF%SIG(II(6) + I)**2 +    

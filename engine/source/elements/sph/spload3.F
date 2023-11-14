@@ -114,7 +114,7 @@ C        for stability time step computation:
          DXZ(I)   =ZERO
          DYX(I)   =ZERO
          DZY(I)   =ZERO
-         DZX(I)   =ZERO	 
+         DZX(I)   =ZERO   
 C        for stability time step computation:
          DELTAX(I)=EP20
          MUMAX(I) =ZERO

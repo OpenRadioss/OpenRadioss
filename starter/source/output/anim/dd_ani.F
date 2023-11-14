@@ -87,13 +87,13 @@ C
       NBCSPH = 0
       DO I = 1, NUMSPH
 C maillage hexagonal compact => 12 voisins les + proches
-	DO J = 1,MIN(12,KXSP(4,I))
-	  N1 = KXSP(3,I)
-	  N2 = IXSP(J,I)
-	  IF(N1<N2) THEN
-	    NBCSPH = NBCSPH + 1
-	  END IF
-	END DO
+          DO J = 1,MIN(12,KXSP(4,I))
+            N1 = KXSP(3,I)
+            N2 = IXSP(J,I)
+            IF(N1<N2) THEN
+              NBCSPH = NBCSPH + 1
+            END IF
+          END DO
       END DO
 C---------- -------------------------------------
 C   INIT SPECIAL STARTER

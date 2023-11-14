@@ -414,12 +414,12 @@ C--------------------------------------------------
         IF(SUBID_NODES(I) /= 0)THEN
           IF(ITAB(I) /= 0) ITAB(I) = ITAB(I) + OFF_NOD(SUBID_NODES(I))
         ENDIF
-	IF (ITAB(I) > ID_LIMIT_ADMESH
+          IF (ITAB(I) > ID_LIMIT_ADMESH
      .        .AND. (ITAB(I) <  IDFT_NODE_AUTO.OR.
      .               ITAB(I) >= IDLT_NODE_AUTO)) THEN
               CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                    I1=ITAB(I),C1=LINE,C2='/NODE') 
-	ENDIF 			 
+          ENDIF        
       ENDDO
       IF(ALLOCATED(SUBID_NODES)) DEALLOCATE(SUBID_NODES)
 C--------------------------------------------------
@@ -437,7 +437,7 @@ C--------------------------------------------------
           N=N+1 
           READ(LINE,ERR=999,FMT=FMT_I)             
      .           ITAB(N)        
-	  IF (ITAB(N) > ID_LIMIT_ADMESH
+            IF (ITAB(N) > ID_LIMIT_ADMESH
      .        .AND. (ITAB(N) <  IDFT_NODE_AUTO.OR.
      .               ITAB(N) >= IDLT_NODE_AUTO)) THEN       
               CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,

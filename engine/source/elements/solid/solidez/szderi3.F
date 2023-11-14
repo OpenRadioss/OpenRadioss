@@ -228,7 +228,7 @@ C
             JAC1(I)=X17+X46-X28-X35
             JAC2(I)=Y17+Y46-Y28-Y35
             JAC3(I)=Z17+Z46-Z28-Z35
-C	    
+C      
             JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
             JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
             JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
@@ -277,7 +277,7 @@ C
 C 1 -1 1 -1 1 -1 1 -1
          HX=ONE_OVER_8*(X1(I)-X2(I)+X3(I)-X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
          HY=ONE_OVER_8*(Y1(I)-Y2(I)+Y3(I)-Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
-         HZ=ONE_OVER_8*(Z1(I)-Z2(I)+Z3(I)-Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))	 
+         HZ=ONE_OVER_8*(Z1(I)-Z2(I)+Z3(I)-Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))   
          PX1H3(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H3(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H3(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -287,7 +287,7 @@ C 1 1 -1 -1 -1 -1 1 1
        DO I=1,NEL
          HX=ONE_OVER_8*(X1(I)+X2(I)-X3(I)-X4(I)-X5(I)-X6(I)+X7(I)+X8(I))
          HY=ONE_OVER_8*(Y1(I)+Y2(I)-Y3(I)-Y4(I)-Y5(I)-Y6(I)+Y7(I)+Y8(I))
-         HZ=ONE_OVER_8*(Z1(I)+Z2(I)-Z3(I)-Z4(I)-Z5(I)-Z6(I)+Z7(I)+Z8(I))	 
+         HZ=ONE_OVER_8*(Z1(I)+Z2(I)-Z3(I)-Z4(I)-Z5(I)-Z6(I)+Z7(I)+Z8(I))   
          PX1H1(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H1(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H1(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -297,7 +297,7 @@ C 1 -1 -1 1 -1 1 1 -1
        DO I=1,NEL
          HX=ONE_OVER_8*(X1(I)-X2(I)-X3(I)+X4(I)-X5(I)+X6(I)+X7(I)-X8(I))
          HY=ONE_OVER_8*(Y1(I)-Y2(I)-Y3(I)+Y4(I)-Y5(I)+Y6(I)+Y7(I)-Y8(I))
-         HZ=ONE_OVER_8*(Z1(I)-Z2(I)-Z3(I)+Z4(I)-Z5(I)+Z6(I)+Z7(I)-Z8(I))	 
+         HZ=ONE_OVER_8*(Z1(I)-Z2(I)-Z3(I)+Z4(I)-Z5(I)+Z6(I)+Z7(I)-Z8(I))   
          PX1H2(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H2(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H2(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -307,7 +307,7 @@ C -1 1 -1 1 1 -1 1 -1
        DO I=1,NEL
          HX=ONE_OVER_8*(-X1(I)+X2(I)-X3(I)+X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
          HY=ONE_OVER_8*(-Y1(I)+Y2(I)-Y3(I)+Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
-         HZ=ONE_OVER_8*(-Z1(I)+Z2(I)-Z3(I)+Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))	 
+         HZ=ONE_OVER_8*(-Z1(I)+Z2(I)-Z3(I)+Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))   
          PX1H4(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H4(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H4(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -477,7 +477,7 @@ C
 C 1 -1 1 -1 1 -1 1 -1
          HX=ONE_OVER_8*(X1(I)-X2(I)+X3(I)-X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
          HY=ONE_OVER_8*(Y1(I)-Y2(I)+Y3(I)-Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
-         HZ=ONE_OVER_8*(Z1(I)-Z2(I)+Z3(I)-Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))	 
+         HZ=ONE_OVER_8*(Z1(I)-Z2(I)+Z3(I)-Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))   
          PX1H3(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H3(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H3(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -487,7 +487,7 @@ C 1 1 -1 -1 -1 -1 1 1
       DO I=1,NEL
          HX=ONE_OVER_8*(X1(I)+X2(I)-X3(I)-X4(I)-X5(I)-X6(I)+X7(I)+X8(I))
          HY=ONE_OVER_8*(Y1(I)+Y2(I)-Y3(I)-Y4(I)-Y5(I)-Y6(I)+Y7(I)+Y8(I))
-         HZ=ONE_OVER_8*(Z1(I)+Z2(I)-Z3(I)-Z4(I)-Z5(I)-Z6(I)+Z7(I)+Z8(I))	 
+         HZ=ONE_OVER_8*(Z1(I)+Z2(I)-Z3(I)-Z4(I)-Z5(I)-Z6(I)+Z7(I)+Z8(I))   
          PX1H1(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H1(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H1(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -497,7 +497,7 @@ C 1 -1 -1 1 -1 1 1 -1
       DO I=1,NEL
          HX=ONE_OVER_8*(X1(I)-X2(I)-X3(I)+X4(I)-X5(I)+X6(I)+X7(I)-X8(I))
          HY=ONE_OVER_8*(Y1(I)-Y2(I)-Y3(I)+Y4(I)-Y5(I)+Y6(I)+Y7(I)-Y8(I))
-         HZ=ONE_OVER_8*(Z1(I)-Z2(I)-Z3(I)+Z4(I)-Z5(I)+Z6(I)+Z7(I)-Z8(I))	 
+         HZ=ONE_OVER_8*(Z1(I)-Z2(I)-Z3(I)+Z4(I)-Z5(I)+Z6(I)+Z7(I)-Z8(I))   
          PX1H2(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H2(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H2(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -507,7 +507,7 @@ C -1 1 -1 1 1 -1 1 -1
       DO I=1,NEL
          HX=ONE_OVER_8*(-X1(I)+X2(I)-X3(I)+X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
          HY=ONE_OVER_8*(-Y1(I)+Y2(I)-Y3(I)+Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
-         HZ=ONE_OVER_8*(-Z1(I)+Z2(I)-Z3(I)+Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))	 
+         HZ=ONE_OVER_8*(-Z1(I)+Z2(I)-Z3(I)+Z4(I)+Z5(I)-Z6(I)+Z7(I)-Z8(I))   
          PX1H4(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H4(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H4(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ

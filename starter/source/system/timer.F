@@ -36,7 +36,7 @@ c     3                           ddsplit
 c     4                           freeform
 c     5                           IPARI_L_INI
 c     6                           INTBUF_INI
-c     7				  SPLIT_INTERFACES
+c     7          SPLIT_INTERFACES
 c     8                           W_FI
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

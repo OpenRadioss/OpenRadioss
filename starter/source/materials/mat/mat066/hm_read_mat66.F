@@ -232,7 +232,7 @@ C unity
         MFUNC = NC + NT          
 c
         DO I=1,NC-1                        
-	         IF(RATE(I) > RATE(I+1))THEN        
+                   IF(RATE(I) > RATE(I+1))THEN        
                CALL ANCMSG(MSGID=478,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
@@ -244,7 +244,7 @@ c
  100    CONTINUE
  
         DO I=1,NT-1                        
-	         IF(RATE(NC+I) >= RATE(NC+I+1))THEN        
+                   IF(RATE(NC+I) >= RATE(NC+I+1))THEN        
                CALL ANCMSG(MSGID=478,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,

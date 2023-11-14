@@ -477,7 +477,7 @@ c
           IPANG = 200                              
           IPTHK = IPANG+NLYMAX                     
           IPPOS = IPTHK+NLYMAX                     
-	         IPMAT = 100                              
+                   IPMAT = 100                              
           MTN0=MTN                                 
           DO I=1,NEL                             
             MXT0(I)=MXT(I)                         

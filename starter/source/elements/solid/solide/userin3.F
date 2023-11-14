@@ -69,12 +69,12 @@ C-----------------------------------------------
       DO I=LFT,LLT                                                       
         IF (STRAGLOB(I) == 1 )THEN                                       
           IF(JCVT==2)THEN                                   
-            GAMA(1)=BUFGAMA(I	     )  				 
-            GAMA(2)=BUFGAMA(I +   NEL)  				 
-            GAMA(3)=BUFGAMA(I + 2*NEL)  				 
-            GAMA(4)=BUFGAMA(I + 3*NEL)  				 
-            GAMA(5)=BUFGAMA(I + 4*NEL)  				 
-            GAMA(6)=BUFGAMA(I + 5*NEL)  				 
+            GAMA(1)=BUFGAMA(I       )           
+            GAMA(2)=BUFGAMA(I +   NEL)           
+            GAMA(3)=BUFGAMA(I + 2*NEL)           
+            GAMA(4)=BUFGAMA(I + 3*NEL)           
+            GAMA(5)=BUFGAMA(I + 4*NEL)           
+            GAMA(6)=BUFGAMA(I + 5*NEL)           
           ELSE                                                           
             GAMA(1)=ONE                                                   
             GAMA(2)=ZERO                                                 
@@ -117,14 +117,14 @@ c
             ENDDO                                                      
           ENDIF                                                       
         ENDIF                                                              
-        IF(IDEF /= 0 .AND. NVSOLID2 /= 0 .AND. IFLAGINI == 1) THEN  		       
-            EPS(I,1)=SIGSP(NVSOLID1 + 1 ,JJ)			       
-            EPS(I,2)=SIGSP(NVSOLID1 + 2 ,JJ)			       
-            EPS(I,3)=SIGSP(NVSOLID1 + 3 ,JJ)			       
-            EPS(I,4)=SIGSP(NVSOLID1 + 4 ,JJ)			       
-            EPS(I,5)=SIGSP(NVSOLID1 + 5 ,JJ)			       
-            EPS(I,6)=SIGSP(NVSOLID1 + 6 ,JJ)			       
-            IF (STRAGLOB(I) == 1) THEN				       
+        IF(IDEF /= 0 .AND. NVSOLID2 /= 0 .AND. IFLAGINI == 1) THEN             
+            EPS(I,1)=SIGSP(NVSOLID1 + 1 ,JJ)             
+            EPS(I,2)=SIGSP(NVSOLID1 + 2 ,JJ)             
+            EPS(I,3)=SIGSP(NVSOLID1 + 3 ,JJ)             
+            EPS(I,4)=SIGSP(NVSOLID1 + 4 ,JJ)             
+            EPS(I,5)=SIGSP(NVSOLID1 + 5 ,JJ)             
+            EPS(I,6)=SIGSP(NVSOLID1 + 6 ,JJ)             
+            IF (STRAGLOB(I) == 1) THEN               
               TENS(1)=EPS(I,1)
               TENS(2)=EPS(I,2)
               TENS(3)=EPS(I,3)
@@ -132,14 +132,14 @@ c
               TENS(5)=EPS(I,5)
               TENS(6)=EPS(I,6)
               CALL SROTA6_M1(X,IX(1,II),JCVT,TENS,GAMA,JHBE,IGTYP)   
-              EPS(I,1)=TENS(1)  		     
-              EPS(I,2)=TENS(2)  		     
-              EPS(I,3)=TENS(3)  		     
-              EPS(I,4)=TENS(4)  		     
-              EPS(I,5)=TENS(5)  		     
+              EPS(I,1)=TENS(1)           
+              EPS(I,2)=TENS(2)           
+              EPS(I,3)=TENS(3)           
+              EPS(I,4)=TENS(4)           
+              EPS(I,5)=TENS(5)           
               EPS(I,6)=TENS(6)
             ENDIF
-        ENDIF							       
+        ENDIF                     
       ENDDO !  I=LFT,LLT                                                           
 c-----------
       RETURN
@@ -190,12 +190,12 @@ C-----------------------------------------------
         JJ=PT(II)
         IF ((JCVT+ISORTH)==0.OR.JJ==0 .OR. STRSGLOB(I) /= 1) CYCLE                                       
           IF(JCVT==2)THEN                                   
-            GAMA(1)=BUFGAMA(I	     )  				 
-            GAMA(2)=BUFGAMA(I +   NEL)  				 
-            GAMA(3)=BUFGAMA(I + 2*NEL)  				 
-            GAMA(4)=BUFGAMA(I + 3*NEL)  				 
-            GAMA(5)=BUFGAMA(I + 4*NEL)  				 
-            GAMA(6)=BUFGAMA(I + 5*NEL)  				 
+            GAMA(1)=BUFGAMA(I       )           
+            GAMA(2)=BUFGAMA(I +   NEL)           
+            GAMA(3)=BUFGAMA(I + 2*NEL)           
+            GAMA(4)=BUFGAMA(I + 3*NEL)           
+            GAMA(5)=BUFGAMA(I + 4*NEL)           
+            GAMA(6)=BUFGAMA(I + 5*NEL)           
           ELSE                                                           
             GAMA(1)=ONE                                                   
             GAMA(2)=ZERO                                                 
@@ -212,11 +212,11 @@ C
           TENS(5)=SIGI(5,JJ)
           TENS(6)=SIGI(6,JJ)
           CALL SROTA6_M1(X,IX(1,II),JCVT,TENS,GAMA,JHBE,IGTYP)   
-          SIG(I,1)=TENS(1)  		     
-          SIG(I,2)=TENS(2)  		     
-          SIG(I,3)=TENS(3)  		     
-          SIG(I,4)=TENS(4)  		     
-          SIG(I,5)=TENS(5)  		     
+          SIG(I,1)=TENS(1)           
+          SIG(I,2)=TENS(2)           
+          SIG(I,3)=TENS(3)           
+          SIG(I,4)=TENS(4)           
+          SIG(I,5)=TENS(5)           
           SIG(I,6)=TENS(6)
          VOLDP(I) = RHO(I)*VOLDP(I) / RHO0(I)
       ENDDO !  I=LFT,LLT                                                           

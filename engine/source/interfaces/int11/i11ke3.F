@@ -542,7 +542,7 @@ C
         DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
           CALL I11COR3(
-     1  JLT          ,INTBUF_TAB%IRECTS,INTBUF_TAB%IRECTM,X	    ,V     ,
+     1  JLT          ,INTBUF_TAB%IRECTS,INTBUF_TAB%IRECTM,X      ,V     ,
      2  CAND_N(NFT+1),CAND_E(NFT+1),INTBUF_TAB%STFS,INTBUF_TAB%STFM,GAPMIN ,
      3  INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,IGAP         ,GAPV         ,MS     ,
      4  STIF         ,XXS1         ,XXS2         ,XYS1         ,XYS2   ,

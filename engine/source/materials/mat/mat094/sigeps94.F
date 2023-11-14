@@ -248,23 +248,23 @@ c----compute GT_MAX
           DO II = 1,3
             CLP = FOUR*II*C0(II)
             DO I=1,NEL
-			 IF (ABS(TRAC3(I))<EM10) CYCLE
+           IF (ABS(TRAC3(I))<EM10) CYCLE
              LAM_2(1:3) = EVM(I,1:3)*EVM(I,1:3)
              LAM_4(1:3) = LAM_2(1:3)*LAM_2(1:3)
              AA = ONE_OVER_9*II*TRAC3(I)**II
-			 BB = ZERO
-			 CC = ZERO
-			 IF (II>1) BB =THIRD*(3-II)*TRAC3(I)**(II-1)
-			 IF (II>2) CC =(II-1)*TRAC3(I)**(II-2)
+           BB = ZERO
+           CC = ZERO
+           IF (II>1) BB =THIRD*(3-II)*TRAC3(I)**(II-1)
+           IF (II>2) CC =(II-1)*TRAC3(I)**(II-2)
              CII(I,1:3) = CII(I,1:3) +CLP*(AA+BB*LAM_2(1:3) +CC*LAM_4(1:3))
             ENDDO
           ENDDO
           DO I=1,NEL
            AMAX= MAX(CII(I,1),CII(I,2),CII(I,3))
-C---------reduce old result change		   
+C---------reduce old result change       
            ETI = MAX(ONE,AMAX*0.81) 
            GTMAX(I) = G*ETI
-C---- see if many QA return for HEPH 		   
+C---- see if many QA return for HEPH        
            RKMAX(I) = RBULK+TWELVE*D(2)*(RV(I) - ONE)**2 + 30*D(3)*(RV(I) - ONE)**4
            RKMAX(I) = MAX(RBULK,RKMAX(I))
            ET(I)= MAX(ONE,AMAX)

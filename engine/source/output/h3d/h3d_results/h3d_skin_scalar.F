@@ -170,7 +170,7 @@ c
             IS_WRITTEN_VALUE(I) = 0
             IOK_PART(I) = 0 
             IF( H3D_PART(IPARTS(NFT+I)) == 1) IOK_PART(I) = 1
-          ENDDO	     
+          ENDDO       
           MLWI = MLW
           IF (IGTYP == 22 .AND. NLAY>9) THEN
            F_EXP = ONE
@@ -210,7 +210,7 @@ C----------    F.I. uses also average strain to be consisting
                    DO I=1,NEL 
                     RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
                     VALUE(I) = MAX(VALUE(I),RINDX) 
-                    IS_WRITTEN_VALUE(I) = 1	                         
+                    IS_WRITTEN_VALUE(I) = 1                           
                   ENDDO                                                                 
                ENDIF
              END DO               
@@ -245,7 +245,7 @@ C-------- grp skin_up
      .                       NGL,STRAIN,NEL )
                     RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
                     VALUE(I) = MAX(VALUE(I),RINDX) 
-                    IS_WRITTEN_VALUE(I) = 1	                         
+                    IS_WRITTEN_VALUE(I) = 1                           
                   ENDDO                                                                 
                ENDIF
              END DO               
@@ -286,7 +286,7 @@ C------
                    DO I=1,NEL 
                     RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
                     VALUE(I) = MAX(VALUE(I),RINDX) 
-                    IS_WRITTEN_VALUE(I) = 1	                         
+                    IS_WRITTEN_VALUE(I) = 1                           
                   ENDDO                                                                 
                ENDIF
              END DO               
@@ -321,7 +321,7 @@ C-------- grp skin_up
      .                       NGL,STRAIN,NEL )
                     RINDX = FBUF%FLOC(IFAIL)%INDX(I)                  
                     VALUE(I) = MAX(VALUE(I),RINDX) 
-                    IS_WRITTEN_VALUE(I) = 1	                         
+                    IS_WRITTEN_VALUE(I) = 1                           
                   ENDDO                                                                 
                ENDIF
              END DO               
@@ -360,7 +360,7 @@ C-------- grp skin_inf first
      .                       NGL,STRAIN,NEL )
                   DO I=1,NEL                                                      
                     VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
-                    IS_WRITTEN_VALUE(I) = 1	                         
+                    IS_WRITTEN_VALUE(I) = 1                           
                   ENDDO                                                                 
                ENDIF
              END DO               
@@ -396,7 +396,7 @@ C-------- grp skin_up
      .                       NGL,STRAIN,NEL )
                   DO I=1,NEL                                                      
                     VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
-                    IS_WRITTEN_VALUE(I) = 1	                         
+                    IS_WRITTEN_VALUE(I) = 1                           
                   ENDDO                                                                 
                ENDIF
              END DO               
@@ -436,7 +436,7 @@ C-------- grp skin_inf first
      .                       NGL,STRAIN,NEL )
                   DO I=1,NEL                                                      
                     VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
-                    IS_WRITTEN_VALUE(I) = 1	                         
+                    IS_WRITTEN_VALUE(I) = 1                           
                   ENDDO                                                                 
                ENDIF
              END DO               
@@ -472,7 +472,7 @@ C-------- grp skin_up
      .                       NGL,STRAIN,NEL )
                   DO I=1,NEL                                                      
                     VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
-                    IS_WRITTEN_VALUE(I) = 1	                         
+                    IS_WRITTEN_VALUE(I) = 1                           
                   ENDDO                                                                 
                ENDIF
              END DO               
@@ -610,7 +610,7 @@ C=======================================================================
 C---- fill SKIN_SCALAR(*) w/ IS_WRITTEN_SKIN(*)=1
         IF (KEYWORD /= 'PEXT') RETURN
         IS_WRITTEN_SKIN(NSKIN+1:NUMSKIN) = 0
-		SKIN_SCALAR(NSKIN+1:NUMSKIN)=ZERO
+          SKIN_SCALAR(NSKIN+1:NUMSKIN)=ZERO
         NP0= 0
         NSKIN0 = NSKIN
 C-----Force (pressure) first 
@@ -625,12 +625,12 @@ C-----Force (pressure) first
          IDEL    = IB(8,NL)
          FCY     = FORC(1,NL)
          FCX     = FORC(2,NL)
-		 IF (N1==0.OR.N2==0.OR.N3==0.OR.N4==-1) CYCLE
+           IF (N1==0.OR.N2==0.OR.N3==0.OR.N4==-1) CYCLE
 C--------default zero        
-		 NP0 = NP0 + 1
+           NP0 = NP0 + 1
          NSKIN = NSKIN0+ IMAPSKP(NP0)
          IF (NODAL_IPART(N1)>0) THEN
-		   IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
+             IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
          END IF
          ISENS   = 0
          XSENS   = ONE
@@ -659,7 +659,7 @@ C--------default zero
          SKIN_SCALAR(NSKIN)=AA
        END DO 
 C----------load_pressure
-       SHIFT = 	NLOADP_F+NLOADP_B
+       SHIFT =   NLOADP_F+NLOADP_B
        DO NP=1+SHIFT,NLOADP_HYD+SHIFT
          ISIZ_SEG = ILOADP(1,NP)/4 
          IFUNC = ILOADP(3,NP)
@@ -692,9 +692,9 @@ C
            N2 = LLOADP(IAD+4*(N-1)+1)
            N3 = LLOADP(IAD+4*(N-1)+2)
            N4 = LLOADP(IAD+4*(N-1)+3)
-		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+             IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
 
-		   NP0 = NP0 + 1
+             NP0 = NP0 + 1
            IF(TS<ZERO) CYCLE
            NSKIN = NSKIN0+ IMAPSKP(NP0)
            F1 = FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
@@ -748,10 +748,10 @@ C--------default zero
            N2 = LLOADP(IAD+4*(N-1)+1)
            N3 = LLOADP(IAD+4*(N-1)+2)
            N4 = LLOADP(IAD+4*(N-1)+3)
-		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+             IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
            NSKIN = NSKIN0+ IMAPSKP(NP0+N)
            IF (NODAL_IPART(N1)>0) THEN
-		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
+               IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
            END IF
          ENDDO
          FUN_HSP=ILOADP(7,NL)
@@ -784,8 +784,8 @@ C--------default zero
            N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)
            N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
            N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)
-		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
-		   NP0 = NP0 + 1
+             IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+             NP0 = NP0 + 1
            IF(TS < ZERO) CYCLE     
            NSKIN = NSKIN0+ IMAPSKP(NP0)
 C        
@@ -905,10 +905,10 @@ C
      .                 (NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )* FCY1*
      .              FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
            ENDIF
-		    SKIN_SCALAR(NSKIN)=SKIN_SCALAR(NSKIN)-AA+PVEL*NSIGN
+              SKIN_SCALAR(NSKIN)=SKIN_SCALAR(NSKIN)-AA+PVEL*NSIGN
          END DO 
        END DO 
-C---------pblast	   
+C---------pblast     
        DO NL=1+NLOADP_F,NLOADP_F+NLOADP_B
 C--------default zero        
          ISIZ_SEG  = ILOADP(1,NL)/4 
@@ -918,10 +918,10 @@ C--------default zero
            N2 = LLOADP(IAD+4*(N-1)+1)
            N3 = LLOADP(IAD+4*(N-1)+2)
            N4 = LLOADP(IAD+4*(N-1)+3)
-		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+             IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
            NSKIN = NSKIN0+ IMAPSKP(NP0+N)
            IF (NODAL_IPART(N1)>0) THEN
-		     IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
+               IF (H3D_PART(NODAL_IPART(N1))==1) IS_WRITTEN_SKIN(NSKIN)=1
            END IF
          ENDDO
          IL             = NL-NLOADP_F
@@ -935,7 +935,7 @@ C--------default zero
            SKIN_SCALAR(NSKIN)= SKIN_SCALAR(NSKIN)-P
          ENDDO!next I
        END DO 
-C---------/LOAD/PCYL	
+C---------/LOAD/PCYL
        DO NL=1,LOADS%NLOAD_CYL
 C--------default zero        
          ISIZ_SEG  = LOADS%LOAD_CYL(NL)%NSEG 

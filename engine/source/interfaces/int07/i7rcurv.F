@@ -248,19 +248,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 
       DO I=NMNFT,NMNLT
-     	N1 = MSR(I)
-     	SURFX = NOD_NORMAL(1,N1)
-     	SURFY = NOD_NORMAL(2,N1)
-     	SURFZ = NOD_NORMAL(3,N1)
+          N1 = MSR(I)
+          SURFX = NOD_NORMAL(1,N1)
+          SURFY = NOD_NORMAL(2,N1)
+          SURFZ = NOD_NORMAL(3,N1)
 
         AAA=ONE/MAX(EM30,SQRT(SURFX*SURFX+SURFY*SURFY+SURFZ*SURFZ))
         SURFX = SURFX * AAA
         SURFY = SURFY * AAA
         SURFZ = SURFZ * AAA
 
-     	NOD_NORMAL(1,N1) = SURFX
-     	NOD_NORMAL(2,N1) = SURFY
-     	NOD_NORMAL(3,N1) = SURFZ
+          NOD_NORMAL(1,N1) = SURFX
+          NOD_NORMAL(2,N1) = SURFY
+          NOD_NORMAL(3,N1) = SURFZ
       END DO
 
       RETURN

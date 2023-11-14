@@ -315,7 +315,7 @@ c
               ENDDO
             ENDDO  
          ENDIF  !  IF (IOFF == 1)                   
-        ENDDO		    
+        ENDDO        
       ENDIF
       
 c-----------

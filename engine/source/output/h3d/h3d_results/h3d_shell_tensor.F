@@ -216,7 +216,7 @@ C
                 DO J=1,NLAY
                   ID_PLY = 0
                   IF (IGTYP == 51) THEN
-	             ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                       ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                   ELSEIF (IGTYP == 52) THEN
                     ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
                   ENDIF

@@ -54,7 +54,7 @@ Chd|====================================================================
      .                    IPART    ,
      .                    SIGSP    ,NSIGI   ,MSNF    ,MSSF     ,IPM      ,
      .                    IUSER    ,NSIGS   ,VOLNOD  ,BVOLNOD  ,VNS      ,
-     .		                  BNS      ,WMA     ,PTSOL   ,BUFMAT   ,MCP      ,
+     .                      BNS      ,WMA     ,PTSOL   ,BUFMAT   ,MCP      ,
      .                    MCPS     ,TEMP    ,NPF     ,TF       ,XREFS    ,
      .                    MSSA     ,STRSGLOB,STRAGLOB,ORTHOGLOB,FAIL_INI ,
      .                    ILOADP   ,FACLOAD ,RNOISE  ,PERTURB  )
@@ -289,7 +289,7 @@ c
         MTN0  = MTN
         DO I=1,NEL
           MAT0(I) = MAT(I)
-       	  DTX0(I) = EP20
+            DTX0(I) = EP20
         ENDDO
       END SELECT
 c

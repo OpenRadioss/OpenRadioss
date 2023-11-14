@@ -48,7 +48,7 @@ C-----------------------------------------------
       INTEGER ILVOUT, NEL, IWAVE, FREESURF
       INTEGER N1, N2, N3, NN1, NN2, NN3, IEL, JEL
       my_real X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3,
-     .        XP, YP, ZP, X12, Y12, Z12, X13, Y13, Z13,	  
+     .        XP, YP, ZP, X12, Y12, Z12, X13, Y13, Z13,    
      .        NRX, NRY, NRZ, AREA2, DCS, SSP,
      .        XC, YC, ZC, DIRX, DIRY, DIRZ
 C
@@ -59,10 +59,10 @@ C
 C-------------------------------------------------------------------
 C Compute Area Normal and Arrival Time
 C-------------------------------------------------------------------
-      SSP=RFLOW(2)	  
+      SSP=RFLOW(2)    
       IF(IWAVE==1) THEN
-        XC =RFLOW(9)	  
-        YC =RFLOW(10)	  
+        XC =RFLOW(9)    
+        YC =RFLOW(10)    
         ZC =RFLOW(11)
         DCS=RFLOW(12)
       ELSEIF(IWAVE==2) THEN
@@ -121,7 +121,7 @@ C  Arrival time
             TA(IEL)  = DCP(IEL)/SSP
             COSG(IEL)= (NRX*DIRX+NRY*DIRY+NRZ*DIRZ)/AREA2
          ENDIF
-      ENDDO 	  
+      ENDDO     
 
       IF(ILVOUT>=2) THEN
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----1----+----2----+----3--

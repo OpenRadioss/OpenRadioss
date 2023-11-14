@@ -116,7 +116,7 @@ C-----------------------------------------------
         DO K=1,8
           ALEFVM_Buffer%VERTEX(1,IN(K)) = ALEFVM_Buffer%VERTEX(1,IN(K)) + MOM(I,1)/EIGHT 
           ALEFVM_Buffer%VERTEX(2,IN(K)) = ALEFVM_Buffer%VERTEX(2,IN(K)) + MOM(I,2)/EIGHT
-          ALEFVM_Buffer%VERTEX(3,IN(K)) = ALEFVM_Buffer%VERTEX(3,IN(K)) + MOM(I,3)/EIGHT		   
+          ALEFVM_Buffer%VERTEX(3,IN(K)) = ALEFVM_Buffer%VERTEX(3,IN(K)) + MOM(I,3)/EIGHT       
           ALEFVM_Buffer%VERTEX(4,IN(K)) = ALEFVM_Buffer%VERTEX(4,IN(K)) + ONE
         ENDDO
 #include "lockoff.inc"

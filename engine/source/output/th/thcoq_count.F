@@ -96,7 +96,7 @@ c
      .                           MTE == 35.OR.MTE == 36.OR.MTE == 43.OR.
      .                           MTE == 44.OR.MTE == 45.OR.MTE == 48.OR.MTE>=50) THEN
                                 CONTINUE
-	                        ELSEIF (MTE == 25) THEN
+                                  ELSEIF (MTE == 25) THEN
 
                             ENDIF     ! MTE = 25
 c---------

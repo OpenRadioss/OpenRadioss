@@ -236,10 +236,10 @@ C
           IF(OFF(I) == ZERO)THEN
             DET(I)=ONE
           ELSEIF(OFFG(I) > ONE)THEN
-	  
+            
           ELSEIF((DET(I)<=VOLMIN).OR.(DET(I)<=ZERO))THEN
             NNEGA=NNEGA+1
-	    INDEX(NNEGA)=I
+              INDEX(NNEGA)=I
 #include "lockon.inc"
             WRITE(ISTDO,3000) NGL(I)
             WRITE(IOUT ,3000) NGL(I)

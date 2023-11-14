@@ -144,7 +144,7 @@ c
           DO I=1,NEL
             VALUE(I) = ZERO
             IS_WRITTEN_VALUE(I) = 0
-          ENDDO	     
+          ENDDO       
 C-----------------------------------------------
           IF (ITY == 51) THEN
 c           SPH ELEMENTS
@@ -174,13 +174,13 @@ C-----------------------------------------------
 C Mass computation
 C-----------------------------------------------
             IF (KEYWORD == 'MASS') THEN
-     	      GBUF => ELBUF_TAB(NG)%GBUF
-     	      DO I=1,NEL
-     	        N = I + NFT
-   	        IPRT=IPARTSP(N)                
-     	        MT  =IPART(1,IPRT)             
-     	        MASS(I)=PM(89,MT)*GBUF%VOL(I)  
-     	      ENDDO
+                GBUF => ELBUF_TAB(NG)%GBUF
+                DO I=1,NEL
+                  N = I + NFT
+                  IPRT=IPARTSP(N)                
+                  MT  =IPART(1,IPRT)             
+                  MASS(I)=PM(89,MT)*GBUF%VOL(I)  
+                ENDDO
             ENDIF
 C-----------
             IF (MLW /= 0 .and. MLW /= 13 .and. IGTYP /= 0) THEN
@@ -195,10 +195,10 @@ C--------------------------------------------------
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'DIAMETER')THEN
 C--------------------------------------------------
-             	DO I=1,NEL
-             	  VALUE(I) = SPBUF(1,NFT+I)  
+          DO I=1,NEL
+            VALUE(I) = SPBUF(1,NFT+I)  
                   IS_WRITTEN_VALUE(I) = 1  
-             	ENDDO
+          ENDDO
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'EPSP')THEN
 C--------------------------------------------------
@@ -211,10 +211,10 @@ C--------------------------------------------------
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'DENS')THEN
 C----------------------------------------------------
-             	DO I=1,NEL
-             	  VALUE(I) = GBUF%RHO(I)
+          DO I=1,NEL
+            VALUE(I) = GBUF%RHO(I)
                   IS_WRITTEN_VALUE(I) = 1 
-             	ENDDO
+          ENDDO
 C-------------------------------------------------- 
               ELSEIF (KEYWORD == 'EINTM' .OR. KEYWORD == 'ENER')THEN
 C-------------------------------------------------- 
@@ -325,7 +325,7 @@ C--------------------------------------------------
                   S2=S22 + P
                   S3=S33 + P
                   VONM2= THREE*(S4*S4 + S5*S5 + S6*S6 +
-     .            	 HALF*(S1*S1+S2*S2+S3*S3) )
+     .               HALF*(S1*S1+S2*S2+S3*S3) )
                   VONM= SQRT(VONM2)
                   VALUE(I) = VONM
                   IS_WRITTEN_VALUE(I) = 1 
@@ -345,7 +345,7 @@ C             VISCOSITE TURBULENTE
                 DO I=1,NEL
                   IF((MLW == 6 .OR. MLW == 17).AND.JTURB/=0)THEN
                     IPRT=IPARTSP(N)
-      		    MT  =IPART(1,IPRT)
+              MT  =IPART(1,IPRT)
                     VALUE(I)=PM(81,MT)*GBUF%RK(I)**2/
      .                     MAX(EM15,GBUF%RE(I))
                     IS_WRITTEN_VALUE(I) = 1  
@@ -434,8 +434,8 @@ C--------------------------------------------------
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'USER')THEN
 C--------------------------------------------------
-                IUS = IFUNC - 20				      
-                NUVAR = IPM(8,MT)				    
+                IUS = IFUNC - 20              
+                NUVAR = IPM(8,MT)            
                 IF (NUVAR > 0) THEN
                   DO I=1,NEL
                    IF(IUS <= NUVAR)THEN
@@ -465,12 +465,12 @@ C--------------------------------------------------
                    VALUE(I) = ZERO
                  ENDDO
                  NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL  
-                 DO IR=1,NFAIL  											  
+                 DO IR=1,NFAIL                          
                    DFMAX=>
      .               ELBUF_TAB(NG)%BUFLY(1)%FAIL(1,1,1)%FLOC(IR)%DAMMX
-                   DO I=1,NEL					
+                   DO I=1,NEL
                      VALUE(I) = MAX(DFMAX(I),VALUE(I))
-                     IS_WRITTEN_VALUE(I) = 1  	
+                     IS_WRITTEN_VALUE(I) = 1  
                    ENDDO
                  ENDDO 
 C--------------------------------------------------        
@@ -481,12 +481,12 @@ C--------------------------------------------------
                  ENDDO
                  NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL  
                  DO IR=1,NFAIL 
-                   IF (ELBUF_TAB(NG)%BUFLY(1)%FAIL(1,1,1)%FLOC(IR)%IDFAIL == ID) THEN	
+                   IF (ELBUF_TAB(NG)%BUFLY(1)%FAIL(1,1,1)%FLOC(IR)%IDFAIL == ID) THEN
                      DFMAX=>
      .                ELBUF_TAB(NG)%BUFLY(1)%FAIL(1,1,1)%FLOC(IR)%DAMMX
-                     DO I=1,NEL					
+                     DO I=1,NEL
                        VALUE(I) = DFMAX(I)
-                       IS_WRITTEN_VALUE(I) = 1  	
+                       IS_WRITTEN_VALUE(I) = 1  
                      ENDDO
                    ENDIF
                  ENDDO 
@@ -512,18 +512,18 @@ C--------------------------------------------------
                     VALUE(I) = GBUF%SEQ(I)
                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO
-                ELSE			  ! VON MISES
+                ELSE        ! VON MISES
                   DO I=1,NEL
-                    P = -(GBUF%SIG(JJ(1) + I)		     
-     .              	+ GBUF%SIG(JJ(2) + I)		     
-     .              	+ GBUF%SIG(JJ(3) + I)) * THIRD
-                    S1=GBUF%SIG(JJ(1) + I) + P  		
-                    S2=GBUF%SIG(JJ(2) + I) + P  		
-                    S3=GBUF%SIG(JJ(3) + I) + P  		
-                    VONM2= THREE*(GBUF%SIG(JJ(4) + I)**2 +	
-     .              		  GBUF%SIG(JJ(5) + I)**2 +	
-     .              		  GBUF%SIG(JJ(6) + I)**2 +	
-     .              	    HALF*(S1*S1+S2*S2+S3*S3)) 	  
+                    P = -(GBUF%SIG(JJ(1) + I)         
+     .                + GBUF%SIG(JJ(2) + I)         
+     .                + GBUF%SIG(JJ(3) + I)) * THIRD
+                    S1=GBUF%SIG(JJ(1) + I) + P  
+                    S2=GBUF%SIG(JJ(2) + I) + P  
+                    S3=GBUF%SIG(JJ(3) + I) + P  
+                    VONM2= THREE*(GBUF%SIG(JJ(4) + I)**2 +
+     .                    GBUF%SIG(JJ(5) + I)**2 +
+     .                    GBUF%SIG(JJ(6) + I)**2 +
+     .                    HALF*(S1*S1+S2*S2+S3*S3))     
                     VONM= SQRT(VONM2) 
                     VALUE(I) = VONM
                     IS_WRITTEN_VALUE(I) = 1
@@ -601,7 +601,7 @@ C--------------------------------------------------
               ENDIF   ! IFUNC
 C-------------------------------------------------- 
               CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_SPH,SPH_SCALAR,NEL,OFFSET,NFT,
-     .   			  VALUE,IS_WRITTEN_VALUE)
+     .           VALUE,IS_WRITTEN_VALUE)
             ENDIF
           ENDIF
        ENDIF

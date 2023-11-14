@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-	SUBROUTINE CDK6FINT3(JFT,JLT,VOL,THK0,FOR,MOM,
+          SUBROUTINE CDK6FINT3(JFT,JLT,VOL,THK0,FOR,MOM,
      1                      PX2,PY2,PX3,PY3,PB1,PB2,PB3,
      2                      F11,F12,F13,F21,F22,F23,F31,F32,F33,
      3                      F14,F15,F16,F24,F25,F26,F34,F35,F36,
@@ -62,7 +62,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
         F21(I)=-F22(I)-F23(I)
       ENDDO     
       DO I=JFT,JLT
- 	C2=VOL(I)*THK0(I)
+          C2=VOL(I)*THK0(I)
         MXX=C2*MOM(I,1)
         MYY=C2*MOM(I,2)
         MXY=C2*MOM(I,3)

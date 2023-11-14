@@ -205,7 +205,7 @@ C-----------------------------------------------
         NNU1 = ANU / (ONE - ANU)
         NU1 = ONE/(ONE-ANU)
         NU2 = ONE/(ONE+ANU)
-        NU3 = ONE - NNU1	
+        NU3 = ONE - NNU1
 C        NNU2    = NNU1*NNU1
 C        NU4 = 1. + NNU2 + NNU1
 C        NU5 = 1. + NNU2 - 2.*NNU1
@@ -356,7 +356,7 @@ C#include "vectorize.inc"
              YLD_I =UVAR(I,3)+UVAR(I,4)*DPLA_I(I)
              DR(I) =HALF*YOUNG*DPLA_I(I)/YLD_I
              PP(I)  =ONE/(ONE+DR(I)*NU1)
-             QQ(I)  =ONE/(ONE + THREE*DR(I)*NU2)	     
+             QQ(I)  =ONE/(ONE + THREE*DR(I)*NU2)       
              P2    =PP(I)*PP(I)
              Q2    =QQ(I)*QQ(I)
              F     =AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I

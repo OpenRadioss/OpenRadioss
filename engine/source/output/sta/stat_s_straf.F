@@ -153,12 +153,12 @@ c
               JJ = JJ + 11                                                  
               IF (IGLOB == 1)THEN                                           
                 IF(JCVT==2)THEN                                
-                  GAMA(1)=GBUF%GAMA(KK(1)+I)				       
-                  GAMA(2)=GBUF%GAMA(KK(2)+I)				       
-                  GAMA(3)=GBUF%GAMA(KK(3)+I)				       
-                  GAMA(4)=GBUF%GAMA(KK(4)+I)				       
-                  GAMA(5)=GBUF%GAMA(KK(5)+I)				       
-                  GAMA(6)=GBUF%GAMA(KK(6)+I)				       
+                  GAMA(1)=GBUF%GAMA(KK(1)+I)               
+                  GAMA(2)=GBUF%GAMA(KK(2)+I)               
+                  GAMA(3)=GBUF%GAMA(KK(3)+I)               
+                  GAMA(4)=GBUF%GAMA(KK(4)+I)               
+                  GAMA(5)=GBUF%GAMA(KK(5)+I)               
+                  GAMA(6)=GBUF%GAMA(KK(6)+I)               
                 ELSE                                                        
                   GAMA(1)=ONE                                                
                   GAMA(2)=ZERO                                              
@@ -218,12 +218,12 @@ C             pointeur de fin de zone dans WA
               JJ = JJ + 11                                                  
               IF (IGLOB == 1)THEN                                           
                 IF(JCVT==2)THEN                                
-                  GAMA(1)=GBUF%GAMA(KK(1)+I)				       
-                  GAMA(2)=GBUF%GAMA(KK(2)+I)				       
-                  GAMA(3)=GBUF%GAMA(KK(3)+I)				       
-                  GAMA(4)=GBUF%GAMA(KK(4)+I)				       
-                  GAMA(5)=GBUF%GAMA(KK(5)+I)				       
-                  GAMA(6)=GBUF%GAMA(KK(6)+I)				       
+                  GAMA(1)=GBUF%GAMA(KK(1)+I)               
+                  GAMA(2)=GBUF%GAMA(KK(2)+I)               
+                  GAMA(3)=GBUF%GAMA(KK(3)+I)               
+                  GAMA(4)=GBUF%GAMA(KK(4)+I)               
+                  GAMA(5)=GBUF%GAMA(KK(5)+I)               
+                  GAMA(6)=GBUF%GAMA(KK(6)+I)               
                 ELSE                                                        
                   GAMA(1)=ONE                                                
                   GAMA(2)=ZERO                                              
@@ -284,12 +284,12 @@ C             pointeur de fin de zone dans WA
               JJ = JJ + 11                                                  
               IF (IGLOB == 1)THEN                                           
                 IF(JCVT==2)THEN                                
-                  GAMA(1)=GBUF%GAMA(KK(1)+I)				       
-                  GAMA(2)=GBUF%GAMA(KK(2)+I)				       
-                  GAMA(3)=GBUF%GAMA(KK(3)+I)				       
-                  GAMA(4)=GBUF%GAMA(KK(4)+I)				       
-                  GAMA(5)=GBUF%GAMA(KK(5)+I)				       
-                  GAMA(6)=GBUF%GAMA(KK(6)+I)				       
+                  GAMA(1)=GBUF%GAMA(KK(1)+I)               
+                  GAMA(2)=GBUF%GAMA(KK(2)+I)               
+                  GAMA(3)=GBUF%GAMA(KK(3)+I)               
+                  GAMA(4)=GBUF%GAMA(KK(4)+I)               
+                  GAMA(5)=GBUF%GAMA(KK(5)+I)               
+                  GAMA(6)=GBUF%GAMA(KK(6)+I)               
                 ELSE                                                        
                   GAMA(1)=ONE                                                
                   GAMA(2)=ZERO                                              
@@ -431,12 +431,12 @@ c
               JJ = JJ + 11                                                              
               IF (IGLOB == 1)THEN                                                       
                 IF(JCVT==2)THEN                                            
-                  GAMA(1)=GBUF%GAMA(KK(1)+I)						   
-                  GAMA(2)=GBUF%GAMA(KK(2)+I)						   
-                  GAMA(3)=GBUF%GAMA(KK(3)+I)						   
-                  GAMA(4)=GBUF%GAMA(KK(4)+I)						   
-                  GAMA(5)=GBUF%GAMA(KK(5)+I)						   
-                  GAMA(6)=GBUF%GAMA(KK(6)+I)						   
+                  GAMA(1)=GBUF%GAMA(KK(1)+I)               
+                  GAMA(2)=GBUF%GAMA(KK(2)+I)               
+                  GAMA(3)=GBUF%GAMA(KK(3)+I)               
+                  GAMA(4)=GBUF%GAMA(KK(4)+I)               
+                  GAMA(5)=GBUF%GAMA(KK(5)+I)               
+                  GAMA(6)=GBUF%GAMA(KK(6)+I)               
                 ELSE                                                                    
                   GAMA(1)=ONE                                                            
                   GAMA(2)=ZERO                                                          
@@ -457,7 +457,7 @@ c---
                     WATMP(3) = LBUF%STRA(KK(3)+I)
                     WATMP(4) = LBUF%STRA(KK(4)+I)
                     WATMP(5) = LBUF%STRA(KK(5)+I)
-                    WATMP(6) = LBUF%STRA(KK(6)+I)		    
+                    WATMP(6) = LBUF%STRA(KK(6)+I)        
                     IF (IGLOB == 1)                                                     
      .             CALL SROTA6(
      1   X,       IXS(1,N),JCVT,    WATMP,
@@ -503,12 +503,12 @@ c
               JJ = JJ + 11                                                              
               IF (IGLOB == 1)THEN                                                       
                 IF(JCVT==2)THEN                                            
-                  GAMA(1)=GBUF%GAMA(KK(1)+I)						   
-                  GAMA(2)=GBUF%GAMA(KK(2)+I)						   
-                  GAMA(3)=GBUF%GAMA(KK(3)+I)						   
-                  GAMA(4)=GBUF%GAMA(KK(4)+I)						   
-                  GAMA(5)=GBUF%GAMA(KK(5)+I)						   
-                  GAMA(6)=GBUF%GAMA(KK(6)+I)						   
+                  GAMA(1)=GBUF%GAMA(KK(1)+I)               
+                  GAMA(2)=GBUF%GAMA(KK(2)+I)               
+                  GAMA(3)=GBUF%GAMA(KK(3)+I)               
+                  GAMA(4)=GBUF%GAMA(KK(4)+I)               
+                  GAMA(5)=GBUF%GAMA(KK(5)+I)               
+                  GAMA(6)=GBUF%GAMA(KK(6)+I)               
                 ELSE                                                                    
                   GAMA(1)=ONE                                                            
                   GAMA(2)=ZERO                                                          
@@ -529,7 +529,7 @@ c
                     WATMP(3) = LBUF%STRA(KK(3)+I)
                     WATMP(4) = LBUF%STRA(KK(4)+I)
                     WATMP(5) = LBUF%STRA(KK(5)+I)
-                    WATMP(6) = LBUF%STRA(KK(6)+I)		      
+                    WATMP(6) = LBUF%STRA(KK(6)+I)          
                    IF (IGLOB == 1)                                                      
      .             CALL SROTA6(
      1   X,       IXS(1,N),JCVT,    WATMP,
@@ -571,12 +571,12 @@ c
               JJ = JJ + 11                                                              
               IF (IGLOB == 1)THEN                                                       
                 IF(JCVT==2)THEN                                            
-                  GAMA(1)=GBUF%GAMA(KK(1)+I)						   
-                  GAMA(2)=GBUF%GAMA(KK(2)+I)						   
-                  GAMA(3)=GBUF%GAMA(KK(3)+I)						   
-                  GAMA(4)=GBUF%GAMA(KK(4)+I)						   
-                  GAMA(5)=GBUF%GAMA(KK(5)+I)						   
-                  GAMA(6)=GBUF%GAMA(KK(6)+I)						   
+                  GAMA(1)=GBUF%GAMA(KK(1)+I)               
+                  GAMA(2)=GBUF%GAMA(KK(2)+I)               
+                  GAMA(3)=GBUF%GAMA(KK(3)+I)               
+                  GAMA(4)=GBUF%GAMA(KK(4)+I)               
+                  GAMA(5)=GBUF%GAMA(KK(5)+I)               
+                  GAMA(6)=GBUF%GAMA(KK(6)+I)               
                 ELSE                                                                    
                   GAMA(1)=ONE                                                            
                   GAMA(2)=ZERO                                                          
@@ -597,7 +597,7 @@ c---
                     WATMP(3) = LBUF%STRA(KK(3)+I)
                     WATMP(4) = LBUF%STRA(KK(4)+I)
                     WATMP(5) = LBUF%STRA(KK(5)+I)
-                    WATMP(6) = LBUF%STRA(KK(6)+I)			
+                    WATMP(6) = LBUF%STRA(KK(6)+I)
                     IF (IGLOB == 1)                                                     
      .             CALL SROTA6(
      1   X,       IXS(1,N),JCVT,    WATMP,
@@ -786,7 +786,7 @@ c---
             ENDIF
           ENDIF  !  IF (IOFF == 1)
 c---
-        ENDDO		    
+        ENDDO        
       ENDIF
 c-----------
       RETURN

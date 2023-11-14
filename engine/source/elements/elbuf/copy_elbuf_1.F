@@ -734,7 +734,7 @@ c
             ELBUF_TGT(NG)%GBUF%DELTAX => LBUFT%DELTAX
             ELBUF_TGT(NG)%GBUF%VOL    => LBUFT%VOL
             ELBUF_TGT(NG)%GBUF%EPSD   => LBUFT%EPSD
-            ELBUF_TGT(NG)%GBUF%EPSQ   => LBUFT%EPSQ	    
+            ELBUF_TGT(NG)%GBUF%EPSQ   => LBUFT%EPSQ      
             ELBUF_TGT(NG)%GBUF%PLA    => LBUFT%PLA
             ELBUF_TGT(NG)%GBUF%TEMP   => LBUFT%TEMP
             ELBUF_TGT(NG)%GBUF%TB     => LBUFT%TB

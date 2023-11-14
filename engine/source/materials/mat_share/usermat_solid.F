@@ -850,7 +850,7 @@ C---------------------------
      .               R21,R22,R23,
      .               R31,R32,R33)
             END IF !(ISORTH /= 0) THEN
-	    CALL EPSF2U(
+              CALL EPSF2U(
      1      LLT    ,FPSXX    , FPSXY  , FPSXZ  , FPSYX  ,    
      2      FPSYY  ,FPSYZ    , FPSZX  , FPSZY  , FPSZZ  , 
      3      UPSXX  ,UPSYY    , UPSZZ  , UPSXY  , UPSYZ  ,
@@ -1031,7 +1031,7 @@ C            ORTHOTROPE
             USERBUF%FPSYX = MFYX(1:MVSIZ)
             USERBUF%FPSZY = MFZY(1:MVSIZ)
             USERBUF%FPSZX = MFZX(1:MVSIZ)    
-	           CALL EPSF2U(
+                     CALL EPSF2U(
      1           LLT    ,USERBUF%FPSXX,USERBUF%FPSXY,USERBUF%FPSXZ,USERBUF%FPSYX,    
      2           USERBUF%FPSYY,USERBUF%FPSYZ,USERBUF%FPSZX,USERBUF%FPSZY,USERBUF%FPSZZ, 
      3           USERBUF%UPSXX,USERBUF%UPSYY,USERBUF%UPSZZ,USERBUF%UPSXY,USERBUF%UPSYZ,
@@ -1046,7 +1046,7 @@ C            ORTHOTROPE
             USERBUF%FPSYX = ZERO
             USERBUF%FPSZY = ZERO
             USERBUF%FPSZX = ZERO
-C	    
+C      
             USERBUF%UPSXX = ZERO
             USERBUF%UPSYY = ZERO
             USERBUF%UPSZZ = ZERO

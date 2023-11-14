@@ -88,7 +88,7 @@ C
             ITAGVENT(N4)=IVENT
          ENDDO
       ENDDO
-C			
+C
       DO IEL=1,NEL
          IF(ITAGEL(IEL) > 0) CYCLE   ! injecteur
          N1=ELEM(1,IEL)
@@ -98,7 +98,7 @@ C
          IF(NALL/=0) THEN
             NN1=ITAGVENT(N2)-ITAGVENT(N1)
             NN2=ITAGVENT(N3)-ITAGVENT(N1)
-            IF (NN1 == 0 .AND. NN2 == 0) ITAGEL(IEL)=-ITAGVENT(N1)					
+            IF (NN1 == 0 .AND. NN2 == 0) ITAGEL(IEL)=-ITAGVENT(N1)
          ENDIF 
       ENDDO
 C

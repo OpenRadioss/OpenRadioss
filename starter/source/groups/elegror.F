@@ -93,9 +93,9 @@ C
       IF (NFRAM > 0 .OR. ISTYP >= 1) THEN
         DO I=1,IGRELE(IG)%NENTITY
           IF (TAGELEMS(IGRELE(IG)%ENTITY(I)) == 1 ) THEN
-	    J = J + 1
+              J = J + 1
             IBUF(1,J)=IGRELE(IG)%ENTITY(I)
-	  ENDIF
+            ENDIF
         ENDDO
       ELSE
         DO I=1,IGRELE(IG)%NENTITY

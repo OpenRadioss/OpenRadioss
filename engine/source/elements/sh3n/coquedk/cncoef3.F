@@ -142,7 +142,7 @@ C---- due to too high young update (Starter) w/ input func
            K58(2) = UPARAM(10)  ! young dir2
            K58(3) = MAX(UPARAM(13),UPARAM(14))
            K58I = EM02
-           IF (FAC1TMP <ONE) K58I = HALF*K58I	   
+           IF (FAC1TMP <ONE) K58I = HALF*K58I     
            FAC58(JFT:JLT,1:2) = K58I
          IF(NPT==1) THEN
            DO I=JFT,JLT                                             
@@ -165,17 +165,17 @@ C---- due to too high young update (Starter) w/ input func
              G(I)  = HALF*FAC1TMP*YM(I)
              NU(I)  = ZERO
              NUSR(I) =EM01
-C---- for dt compute -> will be updated by cndt in case of dtnoda 			 
+C---- for dt compute -> will be updated by cndt in case of dtnoda        
              A11(I) = YM(I)
              A12(I) = NU(I)*A11(I)
              RFAC = EXP(UVAR(I,4)) 
              RFAT = EXP(UVAR(I,5))
-C----	FAC58(I,1:2) could be different values, but too complicated		 
+C----  FAC58(I,1:2) could be different values, but too complicated     
              IF (UVAR(I,11)/=ZERO.AND.UVAR(I,12)/=ZERO) THEN
                FAC58(I,1:2) = EM01*K58I
              ELSEIF (MIN(RFAC,RFAT)>ONE) THEN
                FAC58(I,1:2) = 1.2*K58I
-			 END IF
+           END IF
            ENDDO                                                    
          ELSE
            DO I=JFT,JLT                                             
@@ -185,11 +185,11 @@ C----	FAC58(I,1:2) could be different values, but too complicated
              G(I)  = HALF*YM(I)
              NU(I)  = ZERO
              NUSR(I) =EM01
-C---- for dt compute			 
+C---- for dt compute       
              A11(I) = YM(I)
              A12(I) = NU(I)*A11(I)
            ENDDO                                                    
-		 END IF
+           END IF
            MX  =MAT(JFT)
            DO I=JFT,JLT
              THK02(I) = THK0(I)*THK0(I)

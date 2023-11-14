@@ -50,12 +50,12 @@ C-----------------------------------------------
       INTEGER I
 C
         DO I=1,NEL
-	  MB(I,1) = BXX(I)
-	  MB(I,2) = BYY(I)
-	  MB(I,3) = BZZ(I)
-	  MB(I,4) = BXY(I)
-	  MB(I,5) = BYZ(I)
-	  MB(I,6) = BXZ(I)
+            MB(I,1) = BXX(I)
+            MB(I,2) = BYY(I)
+            MB(I,3) = BZZ(I)
+            MB(I,4) = BXY(I)
+            MB(I,5) = BYZ(I)
+            MB(I,6) = BXZ(I)
         END DO
 C       
       RETURN

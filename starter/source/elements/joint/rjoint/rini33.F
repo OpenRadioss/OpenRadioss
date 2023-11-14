@@ -227,13 +227,13 @@ C--------------------------------------
           UVAR(27,I)= EX(6)
           UVAR(28,I)= EX(7)
           UVAR(29,I)= EX(8)
-          UVAR(30,I)= EX(9)	  
+          UVAR(30,I)= EX(9)    
 C
           KR = KNN*MAX(ONE,LEN2)
           UVAR(19,I)= KXX
           UVAR(20,I)= KYY
           UVAR(21,I)= KZZ
-	  
+            
           IF(JTYP>=2.AND.JTYP<=4) THEN
             UVAR(31,I)= KRX
             UVAR(32,I)= KR
@@ -257,7 +257,7 @@ C
           UVAR(36,I)= ZERO
           UVAR(37,I)= ZERO
           UVAR(38,I)= ZERO
-          UVAR(39,I)= ZERO	  
+          UVAR(39,I)= ZERO    
 C
           STIFN(I) = KTT
           STIFR(I) = KRR+KTT*LEN2
@@ -380,7 +380,7 @@ C
           A(6) = HALF * (Q1(6) + Q2(8))
           A(7) = HALF * (Q1(7) + Q2(3))
           A(8) = HALF * (Q1(8) + Q2(6))
-          A(9) = HALF * (Q1(9) + Q2(9))	  
+          A(9) = HALF * (Q1(9) + Q2(9))    
 C
           CALL PROD_AB(U,A,X1)
           CALL PROD_ABT(V,A,X2)
@@ -449,7 +449,7 @@ C
       SKEW(5) =  E22   
       SKEW(8) =  E23  
       SKEW(3) =  E31  
-      SKEW(6	) =  E32  
+      SKEW(6  ) =  E32  
       SKEW(9) =  E33  
       RETURN
       END

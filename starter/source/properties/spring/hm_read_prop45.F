@@ -163,33 +163,33 @@ C
       ENDIF
       IF (SCF==ZERO) THEN      
         IF (KNN==0) THEN
-	  SCF = ONE
+            SCF = ONE
         ELSE
-	  SCF = 10
+            SCF = 10
         ENDIF      
       ENDIF
-C      	
+C      
       KNN = KNN * FAC_KT
       
 C  Mise a zero      
-	 KXX = ZERO
-	 KYY = ZERO
-	 KZZ = ZERO
-	 KRX = ZERO
-	 KRY = ZERO
-	 KRZ = ZERO
-	 CXX = ZERO
-	 CYY = ZERO
-	 CZZ = ZERO
-	 CRX = ZERO
-	 CRY = ZERO
-	 CRZ = ZERO
+           KXX = ZERO
+           KYY = ZERO
+           KZZ = ZERO
+           KRX = ZERO
+           KRY = ZERO
+           KRZ = ZERO
+           CXX = ZERO
+           CYY = ZERO
+           CZZ = ZERO
+           CRX = ZERO
+           CRY = ZERO
+           CRZ = ZERO
          CRXX = ZERO
-	 CRYY = ZERO
-	 CRZZ = ZERO
-	 CRRX = ZERO
-	 CRRY = ZERO
-	 CRRZ = ZERO
+           CRYY = ZERO
+           CRZZ = ZERO
+           CRRX = ZERO
+           CRRY = ZERO
+           CRRZ = ZERO
 C
          SDXMI = ZERO
          SDXMA = ZERO
@@ -238,7 +238,7 @@ C
          IFUN_CRZ = ZEROI
          IFUN_FMX = ZEROI
          IFUN_FMY = ZEROI
-         IFUN_FMZ = ZEROI	 	 
+         IFUN_FMZ = ZEROI      
          IFUN_FMRX = ZEROI
          IFUN_FMRY = ZEROI
          IFUN_FMRZ = ZEROI              
@@ -249,31 +249,31 @@ C----   SPHERICAL JOINT
 C=======================================================================
          IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,100)
-	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
-	     IF (KNN==0) THEN
+             IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
-	     ELSE
-               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR   
+               ENDIF
            ELSE
-	     IF (KNN==0) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
-	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2   
+               ENDIF
            ENDIF
          ENDIF
 C
-	 RED = 0	 
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
+           RED = 0   
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
      .                     SAXMA,FCOMBRX,KFRX,FMRX,IFUN_CRX,IFUN_RX,4,
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRY,CRY,SAYMI,
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRY,CRY,SAYMI,
      .                     SAYMA,FCOMBRY,KFRY,FMRY,IFUN_CRY,IFUN_RY,5,
      .                     FAC_MM,IFUN_FMRY,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRZ,CRZ,SAZMI,
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRZ,CRZ,SAZMI,
      .                     SAZMA,FCOMBRZ,KFRZ,FMRZ,IFUN_CRZ,IFUN_RZ,6,
      .                     FAC_MM,IFUN_FMRZ,RED,ID,TITR,
      .                     LSUBMODEL)
@@ -286,22 +286,22 @@ C
      .                  C1=TITR,
      .                  I2=RED,
      .                  I3=3)
-	 ENDIF	 
+           ENDIF   
 C     
          KXX = KNN
-	 KYY = KNN
-	 KZZ = KNN
+           KYY = KNN
+           KZZ = KNN
 C
          CXX = ZERO
-	 CYY = ZERO
-	 CZZ = ZERO
+           CYY = ZERO
+           CZZ = ZERO
 C
          CRXX = CR
-	 CRYY = CR
-	 CRZZ = CR
-	 CRRX = ZERO
-	 CRRY = ZERO
-	 CRRZ = ZERO
+           CRYY = CR
+           CRZZ = CR
+           CRRX = ZERO
+           CRRY = ZERO
+           CRRZ = ZERO
 C
          SDXMI = ZERO
          SDXMA = ZERO
@@ -316,8 +316,8 @@ C
 C
          FMX = ZERO
          FMY = ZERO
-         FMZ = ZERO 	  
-C	 
+         FMZ = ZERO     
+C   
          IFUN_XX = ZEROI
          IFUN_YY = ZEROI 
          IFUN_ZZ = ZEROI
@@ -326,59 +326,59 @@ C
          IFUN_CZZ = ZEROI
          IFUN_FMX = ZEROI
          IFUN_FMY = ZEROI 
-         IFUN_FMZ = ZEROI	 
-C	 	  
+         IFUN_FMZ = ZEROI   
+C       
       ELSEIF (JTYP==2) THEN
 C=======================================================================
 C----   REVOLUTE JOINT
 C=======================================================================
          IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,200)
-	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
-	     IF (KNN==0) THEN
+             IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
-	     ELSE
+               ELSE
                WRITE(IOUT,1000) KNN,SCF,CR,SENSOR
-	     ENDIF
+               ENDIF
            ELSE
-	     IF (KNN==0) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
-	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2   
+               ENDIF
            ENDIF
          ENDIF
 C      
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
      .                     SAXMA,FCOMBRX,KFRX,FMRX,IFUN_CRX,IFUN_RX,4,
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
      .                     LSUBMODEL)        
 C     
          KXX = KNN
-	 KYY = KNN
-	 KZZ = KNN
-	 KRY = KNN
-	 KRZ = KNN
+           KYY = KNN
+           KZZ = KNN
+           KRY = KNN
+           KRZ = KNN
 C
          CXX = ZERO
-	 CYY = ZERO
-	 CZZ = ZERO
-	 CRY = ZERO
-	 CRZ = ZERO
+           CYY = ZERO
+           CZZ = ZERO
+           CRY = ZERO
+           CRZ = ZERO
 C
          CRXX = CR
-	 CRYY = CR
-	 CRZZ = CR
-	 CRRX = ZERO
-	 CRRY = CR
-	 CRRZ = CR	 
+           CRYY = CR
+           CRZZ = CR
+           CRRX = ZERO
+           CRRY = CR
+           CRRZ = CR   
 C
          SDXMI = ZERO
          SDXMA = ZERO
          SDYMI = ZERO
          SDYMA = ZERO
          SDZMI = ZERO
-         SDZMA = ZERO	 
+         SDZMA = ZERO   
 C
          SAYMI = ZERO
          SAYMA = ZERO
@@ -395,8 +395,8 @@ C
          FMY = ZERO
          FMZ = ZERO
          FMRY = ZERO
-         FMRZ = ZERO	 
-C	 
+         FMRZ = ZERO   
+C   
          IFUN_XX = ZEROI
          IFUN_YY = ZEROI 
          IFUN_ZZ = ZEROI
@@ -411,35 +411,35 @@ C
          IFUN_FMY = ZEROI 
          IFUN_FMZ = ZEROI
          IFUN_FMRY = ZEROI 
-         IFUN_FMRZ = ZEROI	 	 
-C	 
+         IFUN_FMRZ = ZEROI      
+C   
       ELSEIF (JTYP==3) THEN
 C=======================================================================
 C----   CYLINDRICAL JOINT
 C=======================================================================
          IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,300)
-	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
-	     IF (KNN==0) THEN
+             IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
-	     ELSE
-               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR   
+               ENDIF
            ELSE
-	     IF (KNN==0) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
-	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2   
+               ENDIF
            ENDIF
          ENDIF
 C
-	 RED = 0
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KXX,CXX,SDXMI,
+           RED = 0
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KXX,CXX,SDXMI,
      .                     SDXMA,FCOMBX,KFX,FMX,IFUN_CXX,IFUN_XX,1,
      .                     FAC_FF,IFUN_FMX,RED,ID,TITR,
-     .                     LSUBMODEL)	 
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
+     .                     LSUBMODEL)   
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
      .                     SAXMA,FCOMBRX,KFRX,FMRX,IFUN_CRX,IFUN_RX,4,
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
      .                     LSUBMODEL)
@@ -452,24 +452,24 @@ C
      .                 C1=TITR,
      .                 I2=RED,
      .                 I3=2)
-	 ENDIF 
+           ENDIF 
 C     
-	 KYY = KNN
-	 KZZ = KNN
-	 KRY = KNN
-	 KRZ = KNN
+           KYY = KNN
+           KZZ = KNN
+           KRY = KNN
+           KRZ = KNN
 C
-	 CYY = ZERO
-	 CZZ = ZERO
-	 CRY = ZERO
-	 CRZ = ZERO
+           CYY = ZERO
+           CZZ = ZERO
+           CRY = ZERO
+           CRZ = ZERO
 C
          CRXX = ZERO
-	 CRYY = CR
-	 CRZZ = CR
-	 CRRX = ZERO
-	 CRRY = CR
-	 CRRZ = CR	 
+           CRYY = CR
+           CRZZ = CR
+           CRRX = ZERO
+           CRRY = CR
+           CRRZ = CR   
 C
          SDYMI = ZERO
          SDYMA = ZERO
@@ -489,8 +489,8 @@ C
          FMY = ZERO
          FMZ = ZERO
          FMRY = ZERO
-         FMRZ = ZERO	 
-C	 
+         FMRZ = ZERO   
+C   
          IFUN_YY = ZEROI 
          IFUN_ZZ = ZEROI
          IFUN_CYY = ZEROI 
@@ -502,42 +502,42 @@ C
          IFUN_FMY = ZEROI 
          IFUN_FMZ = ZEROI
          IFUN_FMRY = ZEROI 
-         IFUN_FMRZ = ZEROI	 
-C		 
+         IFUN_FMRZ = ZEROI   
+C     
       ELSEIF (JTYP==4) THEN
 C=======================================================================
 C----   PLANAR JOINT
 C=======================================================================
          IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,400)
-	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
-	     IF (KNN==0) THEN
+             IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
-	     ELSE
-               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR   
+               ENDIF
            ELSE
-	     IF (KNN==0) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
-	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2   
+               ENDIF
            ENDIF
          ENDIF
 C
-	 RED = 0
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KYY,CYY,SDYMI,
+           RED = 0
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KYY,CYY,SDYMI,
      .                     SDYMA,FCOMBY,KFY,FMY,IFUN_CYY,IFUN_YY,2,
      .                     FAC_FF,IFUN_FMY,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KZZ,CZZ,SDZMI,
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KZZ,CZZ,SDZMI,
      .                     SDZMA,FCOMBZ,KFZ,FMZ,IFUN_CZZ,IFUN_ZZ,3,
      .                     FAC_FF,IFUN_FMZ,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
      .                     SAXMA,FCOMBRX,KFRX,FMRX,IFUN_CRX,IFUN_RX,4,
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
-     .                     LSUBMODEL)	 
+     .                     LSUBMODEL)   
 C
          IF ((RED/=0).AND.(RED/=3)) THEN
            CALL ANCMSG(MSGID=973,
@@ -547,22 +547,22 @@ C
      .                 C1=TITR,
      .                 I2=RED,
      .                 I3=3)
-	 ENDIF   	 
+           ENDIF      
 C     
-	 KXX = KNN
-	 KRY = KNN
-	 KRZ = KNN
+           KXX = KNN
+           KRY = KNN
+           KRZ = KNN
 C
-	 CXX = ZERO
-	 CRY = ZERO
-	 CRZ = ZERO
+           CXX = ZERO
+           CRY = ZERO
+           CRZ = ZERO
 C
          CRXX = CR
-	 CRYY = ZERO
-	 CRZZ = ZERO
-	 CRRX = ZERO
-	 CRRY = CR
-	 CRRZ = CR	 
+           CRYY = ZERO
+           CRZZ = ZERO
+           CRRX = ZERO
+           CRRY = CR
+           CRRZ = CR   
 C
          SDXMI = ZERO
          SDXMA = ZERO
@@ -578,7 +578,7 @@ C
 C
          FMX = ZERO
          FMRY = ZERO
-         FMRZ = ZERO 	 	 	 	 	 	 	 
+         FMRZ = ZERO                      
 C
          IFUN_XX = ZEROI 
          IFUN_CXX = ZEROI 
@@ -588,35 +588,35 @@ C
          IFUN_CRZ = ZEROI
          IFUN_FMX = ZEROI 
          IFUN_FMRY = ZEROI 
-         IFUN_FMRZ = ZEROI                                    	 
+         IFUN_FMRZ = ZEROI                                       
 C
       ELSEIF (JTYP==5) THEN
 C=======================================================================
 C----   UNIVERSAL  JOINT
-C=================================================================	 			 
+C=================================================================          
          IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,500)
-	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
-	     IF (KNN==0) THEN
+             IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
-	     ELSE
-               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR   
+               ENDIF
            ELSE
-	     IF (KNN==0) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
-	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2   
+               ENDIF
            ENDIF
          ENDIF
 C
-	 RED = 0	 
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRY,CRY,SAYMI,
+           RED = 0   
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRY,CRY,SAYMI,
      .                     SAYMA,FCOMBRY,KFRY,FMRY,IFUN_CRY,IFUN_RY,5,
      .                     FAC_MM,IFUN_FMRY,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRZ,CRZ,SAZMI,
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRZ,CRZ,SAZMI,
      .                     SAZMA,FCOMBRZ,KFRZ,FMRZ,IFUN_CRZ,IFUN_RZ,6,
      .                     FAC_MM,IFUN_FMRZ,RED,ID,TITR,
      .                     LSUBMODEL)
@@ -629,24 +629,24 @@ C
      .                  C1=TITR,
      .                  I2=RED,
      .                  I3=3)
-	 ENDIF	 
+           ENDIF   
 C     
          KXX = KNN
-	 KYY = KNN
-	 KZZ = KNN
-	 KRX = KNN  
+           KYY = KNN
+           KZZ = KNN
+           KRX = KNN  
 C
          CXX = ZERO
-	 CYY = ZERO
-	 CZZ = ZERO
-	 CRX = ZERO	 
+           CYY = ZERO
+           CZZ = ZERO
+           CRX = ZERO   
 C
          CRXX = CR
-	 CRYY = CR
-	 CRZZ = CR
-	 CRRX = CR
-	 CRRY = ZERO
-	 CRRZ = ZERO
+           CRYY = CR
+           CRZZ = CR
+           CRRX = CR
+           CRRY = ZERO
+           CRRZ = ZERO
 C
          SDXMI = ZERO
          SDXMA = ZERO
@@ -656,18 +656,18 @@ C
          SDZMA = ZERO
 C
          SAXMI = ZERO
-         SAXMA = ZERO		 
+         SAXMA = ZERO     
 C
          KFX = ZERO         
          KFY = ZERO
          KFZ = ZERO
-         KFRX = ZERO		 
+         KFRX = ZERO     
 C
          FMX = ZERO
          FMY = ZERO
          FMZ = ZERO
-         FMRX = ZERO  	 
-C	 
+         FMRX = ZERO     
+C   
          IFUN_XX = ZEROI
          IFUN_YY = ZEROI 
          IFUN_ZZ = ZEROI
@@ -679,57 +679,57 @@ C
          IFUN_FMX = ZEROI 
          IFUN_FMY = ZEROI
          IFUN_FMZ = ZEROI 
-         IFUN_FMRX = ZEROI	 
-C	 	  
+         IFUN_FMRX = ZEROI   
+C       
       ELSEIF (JTYP==6) THEN
 C=======================================================================
 C----   TRANSLATIONAL JOINT
 C=======================================================================
          IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,600)
-	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
-	     IF (KNN==0) THEN
+             IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
-	     ELSE
-               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR   
+               ENDIF
            ELSE
-	     IF (KNN==0) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
-	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2   
+               ENDIF
            ENDIF
          ENDIF
 C
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KXX,CXX,SDXMI,
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KXX,CXX,SDXMI,
      .                     SDXMA,FCOMBX,KFX,FMX,IFUN_CXX,IFUN_XX,1,
      .                     FAC_FF,IFUN_FMX,RED,ID,TITR,
      .                     LSUBMODEL)            
 C     
-	 KYY = KNN
-	 KZZ = KNN
-	 KRX = KNN
-	 KRY = KNN
-	 KRZ = KNN
+           KYY = KNN
+           KZZ = KNN
+           KRX = KNN
+           KRY = KNN
+           KRZ = KNN
 C
-	 CYY = ZERO
-	 CZZ = ZERO
-	 CRX = ZERO
-	 CRY = ZERO
-	 CRZ = ZERO
+           CYY = ZERO
+           CZZ = ZERO
+           CRX = ZERO
+           CRY = ZERO
+           CRZ = ZERO
 C
          CRXX = ZERO
-	 CRYY = CR
-	 CRZZ = CR
-	 CRRX = CR
-	 CRRY = CR
-	 CRRZ = CR	 
+           CRYY = CR
+           CRZZ = CR
+           CRRX = CR
+           CRRY = CR
+           CRRZ = CR   
 C
          SDYMI = ZERO
          SDYMA = ZERO
          SDZMI = ZERO
-         SDZMA = ZERO	 
+         SDZMA = ZERO   
 C
          SAXMI = ZERO
          SAXMA = ZERO
@@ -748,51 +748,51 @@ C
          FMZ = ZERO
          FMRX = ZERO
          FMRY = ZERO
-         FMRZ = ZERO	 	 	 	 	 	 	 	 
+         FMRZ = ZERO                        
 C
          IFUN_YY = ZEROI 
          IFUN_ZZ = ZEROI
          IFUN_CYY = ZEROI 
          IFUN_CZZ = ZEROI
-         IFUN_RX = ZEROI	 
+         IFUN_RX = ZEROI   
          IFUN_RY = ZEROI
          IFUN_RZ = ZEROI
-         IFUN_CRX = ZEROI	  
+         IFUN_CRX = ZEROI    
          IFUN_CRY = ZEROI 
          IFUN_CRZ = ZEROI
          IFUN_FMY = ZEROI 
          IFUN_FMZ = ZEROI
-         IFUN_FMRX = ZEROI	 
+         IFUN_FMRX = ZEROI   
          IFUN_FMRY = ZEROI 
-         IFUN_FMRZ = ZEROI	 
-C		 
+         IFUN_FMRZ = ZEROI   
+C     
       ELSEIF (JTYP==7) THEN
 C=======================================================================
 C----   OLDHAM JOINT
 C=======================================================================
          IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,700)
-	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
-	     IF (KNN==0) THEN
+             IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
-	     ELSE
-               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR   
+               ENDIF
            ELSE
-	     IF (KNN==0) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
-	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2   
+               ENDIF
            ENDIF
          ENDIF
 C
-	 RED = 0
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KYY,CYY,SDYMI,
+           RED = 0
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KYY,CYY,SDYMI,
      .                     SDYMA,FCOMBY,KFY,FMY,IFUN_CYY,IFUN_YY,2,
      .                     FAC_FF,IFUN_FMY,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KZZ,CZZ,SDZMI,
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KZZ,CZZ,SDZMI,
      .                     SDZMA,FCOMBZ,KFZ,FMZ,IFUN_CZZ,IFUN_ZZ,3,
      .                     FAC_FF,IFUN_FMZ,RED,ID,TITR,
      .                     LSUBMODEL) 
@@ -805,24 +805,24 @@ C
      .                 C1=TITR,
      .                 I2=RED,
      .                 I3=2)
-	 ENDIF   	 
+           ENDIF      
 C     
-	 KXX = KNN
-	 KRX = KNN
-	 KRY = KNN
-	 KRZ = KNN
+           KXX = KNN
+           KRX = KNN
+           KRY = KNN
+           KRZ = KNN
 C
-	 CXX = ZERO
-	 CRX = ZERO
-	 CRY = ZERO
-	 CRZ = ZERO
+           CXX = ZERO
+           CRX = ZERO
+           CRY = ZERO
+           CRZ = ZERO
 C
          CRXX = CR
-	 CRYY = ZERO
-	 CRZZ = ZERO
-	 CRRX = CR
-	 CRRY = CR
-	 CRRZ = CR
+           CRYY = ZERO
+           CRZZ = ZERO
+           CRRX = CR
+           CRRY = CR
+           CRRZ = CR
 C
          SDXMI = ZERO
          SDXMA = ZERO
@@ -835,14 +835,14 @@ C
          SAZMA = ZERO
 C
          KFX = ZERO
-	 KFRX = ZERO
+           KFRX = ZERO
          KFRY = ZERO
          KFRZ = ZERO
 C
          FMX = ZERO
          FMRX = ZERO
          FMRY = ZERO
-         FMRZ = ZERO		 
+         FMRZ = ZERO     
 C
          IFUN_XX = ZEROI 
          IFUN_CXX = ZEROI
@@ -855,49 +855,49 @@ C
          IFUN_FMX = ZEROI
          IFUN_FMRX = ZEROI
          IFUN_FMRY = ZEROI
-         IFUN_FMRZ = ZEROI	 	 	 	 
-C		 
+         IFUN_FMRZ = ZEROI            
+C     
       ELSEIF (JTYP==8) THEN
 C=======================================================================
 C----   RIGID JOINT
 C=======================================================================
          IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,800)
-	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
-	     IF (KNN==0) THEN
+             IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
-	     ELSE
-               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR   
+               ENDIF
            ELSE
-	     IF (KNN==0) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
-	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2   
+               ENDIF
            ENDIF
          ENDIF
 C
-	 KXX = KNN
-	 KYY = KNN
-	 KZZ = KNN
-	 KRX = KNN
-	 KRY = KNN
-	 KRZ = KNN
+           KXX = KNN
+           KYY = KNN
+           KZZ = KNN
+           KRX = KNN
+           KRY = KNN
+           KRZ = KNN
 C
-	 CXX = ZERO
-	 CYY = ZERO
-	 CZZ = ZERO
-	 CRX = ZERO
-	 CRY = ZERO
-	 CRZ = ZERO
+           CXX = ZERO
+           CYY = ZERO
+           CZZ = ZERO
+           CRX = ZERO
+           CRY = ZERO
+           CRZ = ZERO
 C
          CRXX = CR
-	 CRYY = CR
-	 CRZZ = CR
-	 CRRX = CR
-	 CRRY = CR
-	 CRRZ = CR
+           CRYY = CR
+           CRZZ = CR
+           CRRX = CR
+           CRRY = CR
+           CRRZ = CR
 C
          SDXMI = ZERO
          SDXMA = ZERO
@@ -942,57 +942,57 @@ C
          IFUN_CRZ = ZEROI
          IFUN_FMX = ZEROI
          IFUN_FMY = ZEROI
-         IFUN_FMZ = ZEROI	 	 
+         IFUN_FMZ = ZEROI      
          IFUN_FMRX = ZEROI
          IFUN_FMRY = ZEROI
-         IFUN_FMRZ = ZEROI	 
-C		 
+         IFUN_FMRZ = ZEROI   
+C     
       ELSEIF (JTYP==9) THEN
 C=======================================================================
 C----   FREE JOINT
 C=======================================================================
          IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,900)
-	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
-	     IF (KNN==0) THEN
+             IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
-	     ELSE
-               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR   
+               ENDIF
            ELSE
-	     IF (KNN==0) THEN
+               IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
-	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
-	     ENDIF
+               ELSE
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2   
+               ENDIF
            ENDIF
          ENDIF
 C
-	 RED = 0
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KXX,CXX,SDXMI,
+           RED = 0
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KXX,CXX,SDXMI,
      .                     SDXMA,FCOMBX,KFX,FMX,IFUN_CXX,IFUN_XX,1,
      .                     FAC_FF,IFUN_FMX,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KYY,CYY,SDYMI,
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KYY,CYY,SDYMI,
      .                     SDYMA,FCOMBY,KFY,FMY,IFUN_CYY,IFUN_YY,2,
      .                     FAC_FF,IFUN_FMY,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KZZ,CZZ,SDZMI,
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KZZ,CZZ,SDZMI,
      .                     SDZMA,FCOMBZ,KFZ,FMZ,IFUN_CZZ,IFUN_ZZ,3,
      .                     FAC_FF,IFUN_FMZ,RED,ID,TITR,
-     .                     LSUBMODEL)		 
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
+     .                     LSUBMODEL)     
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
      .                     SAXMA,FCOMBRX,KFRX,FMRX,IFUN_CRX,IFUN_RX,4,
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRY,CRY,SAYMI,
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRY,CRY,SAYMI,
      .                     SAYMA,FCOMBRY,KFRY,FMRY,IFUN_CRY,IFUN_RY,5,
      .                     FAC_MM,IFUN_FMRY,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRZ,CRZ,SAZMI,
+           CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRZ,CRZ,SAZMI,
      .                     SAZMA,FCOMBRZ,KFRZ,FMRZ,IFUN_CRZ,IFUN_RZ,6,
      .                     FAC_MM,IFUN_FMRZ,RED,ID,TITR,
-     .                     LSUBMODEL)	 
+     .                     LSUBMODEL)   
 C
          IF ((RED/=0).AND.(RED/=6)) THEN
            CALL ANCMSG(MSGID=973,
@@ -1002,8 +1002,8 @@ C
      .                 C1=TITR,
      .                 I2=RED,
      .                 I3=6)
-	 ENDIF
-C	 	 	 	  	 	          	 	 	 	         	  	 
+           ENDIF
+C                                                       
       ELSE
 C        WRITE(IOUT,*)' **ERROR WRONG JOINT TYPE'
          CALL ANCMSG(MSGID=938,
@@ -1087,7 +1087,7 @@ C-----------------------
         IERROR = SET_U_GEO(9,KRZ)
         IERROR = SET_U_GEO(10,KNN)
         IERROR = SET_U_GEO(11,SCF)
-C	
+C
         IERROR = SET_U_GEO(12,CR)
         IERROR = SET_U_GEO(13,ZERO)
         IERROR = SET_U_GEO(14,ZERO)
@@ -1143,7 +1143,7 @@ C------------Combination flag for stopping angles / displacements
         IERROR = SET_U_GEO(58,FCOMBRX)
         IERROR = SET_U_GEO(59,FCOMBRY)
         IERROR = SET_U_GEO(60,FCOMBRZ)
-C------------Functions	            
+C------------Functions              
         IERROR = SET_U_PNU(1,IFUN_XX,KFUNC)
         IERROR = SET_U_PNU(2,IFUN_YY,KFUNC)
         IERROR = SET_U_PNU(3,IFUN_ZZ,KFUNC)
@@ -1155,7 +1155,7 @@ C------------Functions
         IERROR = SET_U_PNU(9,IFUN_CZZ,KFUNC)
         IERROR = SET_U_PNU(10,IFUN_CRX,KFUNC)
         IERROR = SET_U_PNU(11,IFUN_CRY,KFUNC)
-        IERROR = SET_U_PNU(12,IFUN_CRZ,KFUNC)	
+        IERROR = SET_U_PNU(12,IFUN_CRZ,KFUNC)
         IERROR = SET_U_PNU(13,IFUN_FMX,KFUNC)
         IERROR = SET_U_PNU(14,IFUN_FMY,KFUNC)
         IERROR = SET_U_PNU(15,IFUN_FMZ,KFUNC)
@@ -1175,10 +1175,10 @@ C
         PROP_TAG(IGTYP)%G_MASS = 1
         PROP_TAG(IGTYP)%G_NUVAR = NUVAR
         PROP_TAG(IGTYP)%G_LENGTH_ERR = 3
-C		           
+C               
       RETURN
  100  FORMAT(
-     & 5X,'JOINT TYPE . . . . . . . . SPHERICAL JOINT'/)  	  
+     & 5X,'JOINT TYPE . . . . . . . . SPHERICAL JOINT'/)      
  200  FORMAT(
      & 5X,'JOINT TYPE . . . . . . . . REVOLUTE JOINT'/)
  300  FORMAT(
@@ -1194,7 +1194,7 @@ C
  800  FORMAT(
      & 5X,'JOINT TYPE . . . . . . . . RIGID JOINT'/)
  900  FORMAT(
-     & 5X,'JOINT TYPE . . . . . . . . FREE JOINT'/)    	 
+     & 5X,'JOINT TYPE . . . . . . . . FREE JOINT'/)       
      
  1000 FORMAT(
      & 5X,'BLOCKING STIFFNESS KNN . . . . . . . .  . . =',1PG20.13/,
@@ -1410,10 +1410,10 @@ C
 C
       IF (READ_BLOCK > 0) THEN      
         FCOMB = ICOMB
-	RED = RED +1
+          RED = RED +1
       ELSE
-	GOTO 350		
-      ENDIF          	              
+          GOTO 350
+      ENDIF                          
 C
       IF(CRX==ZERO.AND.IFUN_CRX/=0) CRX = ONE * FAC3
       IF(KRX==ZERO.AND.IFUN_RX/=0) KRX = ONE * FAC3
@@ -1430,7 +1430,7 @@ C-----------------------
         ELSEIF (IDOF==4) THEN
           WRITE(IOUT,400)
         ELSEIF (IDOF==5) THEN
-          WRITE(IOUT,500) 	 	 	  	        
+          WRITE(IOUT,500)                     
         ELSE
           WRITE(IOUT,600)       
         ENDIF
@@ -1454,20 +1454,20 @@ C
         IF (IDOF<4) THEN
           IF (IFUN_FM==0) THEN      
             WRITE(IOUT,1000) KRX,IFUN_RX,CRX,IFUN_CRX,SAMI,SAMA,ICOMB,KFR,FM
-	  ELSE
-            WRITE(IOUT,3000) KRX,IFUN_RX,CRX,IFUN_CRX,SAMI,SAMA,ICOMB,KFR,IFUN_FM	
-	  ENDIF
+            ELSE
+            WRITE(IOUT,3000) KRX,IFUN_RX,CRX,IFUN_CRX,SAMI,SAMA,ICOMB,KFR,IFUN_FM
+            ENDIF
         ELSE
-          IF (IFUN_FM==0) THEN      	
+          IF (IFUN_FM==0) THEN      
             WRITE(IOUT,2000) KRX,IFUN_RX,CRX,IFUN_CRX,SAMI,SAMA,ICOMB,KFR,FM
-	  ELSE
-            WRITE(IOUT,4000) KRX,IFUN_RX,CRX,IFUN_CRX,SAMI,SAMA,ICOMB,KFR,IFUN_FM	
-	  ENDIF  	
+            ELSE
+            WRITE(IOUT,4000) KRX,IFUN_RX,CRX,IFUN_CRX,SAMI,SAMA,ICOMB,KFR,IFUN_FM
+            ENDIF  
         ENDIF
       ENDIF
 C
 350   CONTINUE      
-      	      
+                
 C-----------------------
       RETURN
  100  FORMAT(

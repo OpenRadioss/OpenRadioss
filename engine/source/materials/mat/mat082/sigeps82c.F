@@ -107,7 +107,7 @@ C     principal stretch (def gradient eigenvalues)
         TRAV(I)  = EPSXX(I)+EPSYY(I)                           
         ROOTV(I) = SQRT((EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .           + EPSXY(I)*EPSXY(I))
-	       EVV(I,1) = HALF*(TRAV(I)+ROOTV(I))                  
+                 EVV(I,1) = HALF*(TRAV(I)+ROOTV(I))                  
         EVV(I,2) = HALF*(TRAV(I)-ROOTV(I))                  
         EVV(I,3) = ZERO                                       
       ENDDO

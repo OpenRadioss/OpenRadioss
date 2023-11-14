@@ -317,7 +317,7 @@ C
 !          print *, "    JLT = ", JLT        
 !          print *, "================================================"        
 !        endif
-	       
+                 
         ! cand_b & cand_e replaced with cand_b_n & cand_e_n
         CALL I22COR3(
      1  JLT              ,X                 , INTBUF_TAB%IRECTM         ,INTBUF_TAB%NSV            ,CAND_E_N         ,
@@ -400,7 +400,7 @@ c
 c
       IF (SFSAVPARIT /= 0)THEN
           CALL SUM_6_FLOAT_SENS(FSAVPARIT, NISUB+1, 11, I_STOK,1,I_STOK,
-     .  			FBSAV6, 12, 6, DIMFB, ISENSINT )
+     .        FBSAV6, 12, 6, DIMFB, ISENSINT )
       ENDIF
       IF (ALLOCATED(FSAVPARIT)) DEALLOCATE (FSAVPARIT)
 C
@@ -417,7 +417,7 @@ C
 
 
       CALL MY_BARRIER()  
-	      
+                
       IF(JTASK == 1) THEN
         IF(ALLOCATED(SURF))DEALLOCATE(SURF)
         IF(ALLOCATED(PRES))DEALLOCATE(PRES)        

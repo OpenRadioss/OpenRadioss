@@ -56,7 +56,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IN, JN, KN, N1, N2, N3, NN1, NN2, NN3, NNJ, IEL, JEL, ERR
       my_real X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, XQ, YQ, ZQ, R2,
-     .        XP, YP, ZP, X12, Y12, Z12, X13, Y13, Z13,	  
+     .        XP, YP, ZP, X12, Y12, Z12, X13, Y13, Z13,    
      .        NRX, NRY, NRZ, D2, AREA, RVAL, RVLH, RVLG
       my_real MASSX, MASSY, MASSZ, NORM
       my_real, DIMENSION(:,:), ALLOCATABLE :: BBEM, CBEM, EBEM 
@@ -280,7 +280,7 @@ C-----------------------------------------
             MFLE(IN,JN)=HALF*RHO*AF(IN)*(CBEM(IN,JN)+CBEM(JN,IN))
             BBEM(IN,JN)=MFLE(IN,JN)
          ENDDO
-      ENDDO	
+      ENDDO
 
       IF(ILVOUT>=3) THEN
         WRITE (*,'(//,A)') ' FLUID MASS MATRIX'
@@ -307,8 +307,8 @@ C-----------------------------------------
             MASSX=MASSX+NORMAL(1,IN)*MFLE(IN,JN)*NORMAL(1,JN)
             MASSY=MASSY+NORMAL(2,IN)*MFLE(IN,JN)*NORMAL(2,JN)
             MASSZ=MASSZ+NORMAL(3,IN)*MFLE(IN,JN)*NORMAL(3,JN)
-         ENDDO	  
-      ENDDO	  
+         ENDDO    
+      ENDDO    
       WRITE (IOUT,'(/7X,A,E13.5)')  'DAA : RIGID BODY FLUID MASS XX', MASSX
       WRITE (IOUT,'( 7X,A,E13.5)')  'DAA : RIGID BODY FLUID MASS YY', MASSY
       WRITE (IOUT,'( 7X,A,E13.5)')  'DAA : RIGID BODY FLUID MASS ZZ', MASSZ
@@ -345,9 +345,9 @@ C
       ENDDO
 
       IF (ALLOCATED(BBEM)) DEALLOCATE(BBEM)
-      IF (ALLOCATED(EBEM)) DEALLOCATE(EBEM)	  
+      IF (ALLOCATED(EBEM)) DEALLOCATE(EBEM)    
       IF (ALLOCATED(CBEM)) DEALLOCATE(CBEM)
-	  
+            
       RETURN
       END
 

@@ -51,8 +51,8 @@ C-----------------------------------------------
       I = 1 
       
       DO WHILE ((I<=LENGTH).AND.(STR(I:I) == ' '))
-	    I = I+1
-	    B = I
+              I = I+1
+              B = I
       END DO
       
       I = 1      
@@ -60,7 +60,7 @@ C-----------------------------------------------
      .         .AND.
      .          (STR((LENGTH-I+1):(LENGTH-I+1)) == ' ') )
             E =  LENGTH-I
-	    I = I+1
+              I = I+1
       END DO
                
       LENGTH=E-B+1

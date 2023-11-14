@@ -325,12 +325,12 @@ c
           ! a plastic multiplier allowing to update internal variables to satisfy
           ! the consistency condition using the cutting plane method
           ! Its expression at each iteration is : DLAMBDA = - PHI/DPHI_DLAMBDA
-	  ! -> PHI          : current value of yield function (known)
+            ! -> PHI          : current value of yield function (known)
           ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
           !                   into account of internal variables kinetic : 
           !                   hardening parameters
 c        
-	  ! 1 - Computation of DPHI_DSIG the normal to the yield criterion
+            ! 1 - Computation of DPHI_DSIG the normal to the yield criterion
           !-------------------------------------------------------------          
 c    
           NORMXX  = TWO*(ALPHA1(I)/(R1(I)**2))*(SIGNXX(I)-XI1*SIGNYY(I))
@@ -341,7 +341,7 @@ c
      .            + TWO*(ALPHA4(I)/(R2C(I)**2))*SIGNYY(I)
           NORMXY  = (ALPHA5(I)/(RT(I)**2))*ABS(SIGNXY(I))*SIGN(ONE,SIGNXY(I))
 c
-	  ! 2 - Computation of DFP_DSIG the normal to the non-associated plastic potential
+            ! 2 - Computation of DFP_DSIG the normal to the non-associated plastic potential
           !-------------------------------------------------------------------------------
           !  a) Computation of derivatives
           NORMPXX  = BETA1(I)*(TWO*SIGNXX(I)    + K2*SIGNYY(I)) + BETA2(I)*(TWO*SIGNXX(I)    + K4*SIGNYY(I))
@@ -399,7 +399,7 @@ c
           !   a) Computation of the plastic multiplier
           DLAM = -PHI(I) / DPHI_DLAM
 c        
-	  !   b) Plastic strains tensor update
+            !   b) Plastic strains tensor update
           DPXX = DLAM * NORMPXX
           DPYY = DLAM * NORMPYY
           DPXY = TWO * DLAM * NORMPXY 

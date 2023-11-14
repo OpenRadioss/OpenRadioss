@@ -67,7 +67,7 @@ C SIMPLIFICATION SI SOURCE LOIN DE L'ELEMENT
 
       IF(D2>TWENTY5*LM2) THEN  
         RVLG=AREA/SQRT(D2)
-        RVLH=AREA*(NRX*(X0-XP)+NRY*(Y0-YP)+NRZ*(Z0-ZP))/(D2**THREE_HALF)	  
+        RVLH=AREA*(NRX*(X0-XP)+NRY*(Y0-YP)+NRZ*(Z0-ZP))/(D2**THREE_HALF)    
       ELSE
 C
 C COORDONNEES LOCALES
@@ -121,7 +121,7 @@ C
         S(2)=SQRT(L22)
         S(3)=SQRT(L32)
         R(4)=R(1)
-	  
+            
         DO I=1,3
           CS(I)=DKSI(I)/S(I)
           SN(I)=DETA(I)/S(I)

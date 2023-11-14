@@ -183,12 +183,12 @@ C--------------------------------------------------
             IGRS=0
 
 c original
-c	  DO J=1,NGRNOD
-c	    IF(IGR == IGROU(1,J))THEN
-c	      IGRS=J
-c	      GOTO 100
-c	    ENDIF
-c	  ENDDO
+c    DO J=1,NGRNOD
+c      IF(IGR == IGROU(1,J))THEN
+c        IGRS=J
+c        GOTO 100
+c      ENDIF
+c    ENDDO
 c end original
 ccccccccccccccccccccccccc
 c OPTIMISATION1
@@ -200,15 +200,15 @@ c in case on non sorted file, a dichotomic search is more appropriate
 
             CPT_LAST = NGRNOD
             LOOP_2 = .FALSE.
-110	    CONTINUE
-	    DO J=JCURR,CPT_LAST
-	      IF (IGR == IGRNOD(J)%ID) THEN
-	        IGRS = J
-	        JCURR = J
-c	        group found
-	        GOTO 100
-	      ENDIF
-	      IF (J == NGRNOD) THEN 
+110      CONTINUE
+              DO J=JCURR,CPT_LAST
+                IF (IGR == IGRNOD(J)%ID) THEN
+                  IGRS = J
+                  JCURR = J
+c          group found
+                  GOTO 100
+                ENDIF
+                IF (J == NGRNOD) THEN 
                 IF(LOOP_2)THEN
 c second passage IGRS has not been found we output in error 
                   GOTO 100
@@ -217,23 +217,23 @@ c first passage in loop, we will start a 2nd passage from 1 to jcurr
                   LOOP_2 = .TRUE.
                 ENDIF
                 CPT_LAST = JCURR
-	        JCURR = 1
+                  JCURR = 1
 c begin again loop 1
-	        GOTO 110
-	      ENDIF
-	    ENDDO ! DO J=JCURR,CPT_LAST
+                  GOTO 110
+                ENDIF
+              ENDDO ! DO J=JCURR,CPT_LAST
 ccccccccccccccccccccccccc
 c end OPTIMISATION1
 ccccccccccccccccccccccccc
 100         CONTINUE
 C---
             IF (ITYPE == 1) THEN 
-	      COEFF_R2R = 1
+                COEFF_R2R = 1
               NNOD = IGRNOD(IGRS)%NENTITY
 C-----------Multidomaines : on corrige la masse totale avec le nouveau nb de noeuds--------------
               IF (NSUBDOM > 0) THEN
-	         IF (IPID==0) NNOD = NNOD-IGRNOD(IGRS)%R2R_SHARE
-	         COEFF_R2R=(1.00*NNOD)/(1.00*MAX(1,IGRNOD(IGRS)%R2R_ALL))
+                   IF (IPID==0) NNOD = NNOD-IGRNOD(IGRS)%R2R_SHARE
+                   COEFF_R2R=(1.00*NNOD)/(1.00*MAX(1,IGRNOD(IGRS)%R2R_ALL))
               ENDIF
               AMAS = COEFF_R2R*AMAS/MAX(1,NNOD)
             ENDIF !  ! IF (ITYPE == 1)
@@ -241,7 +241,7 @@ C
             IF (IGRS /= 0) THEN
               DO J=1,IGRNOD(IGRS)%NENTITY
                 NOSYS=IGRNOD(IGRS)%ENTITY(J)
-C-----------Multidomaines : les noeuds communs ne sont traites que sur 1 domaine--------------	    
+C-----------Multidomaines : les noeuds communs ne sont traites que sur 1 domaine--------------      
                 IF ((NSUBDOM > 0).AND.(IPID == 0)) THEN
                   IF (TAGNO(NPART+NOSYS) > 1) GOTO 150
                 ENDIF
@@ -290,25 +290,25 @@ C-----------Multidomaines : les noeuds communs ne sont traites que sur 1 domaine
             DO J=1,NSURF
               IF (ISU == IGRSURF(J)%ID) THEN
                 ISS=J
-	        NN = IGRSURF(ISS)%NSEG
+                  NN = IGRSURF(ISS)%NSEG
                 EXIT
               ENDIF
             ENDDO
 C-----------Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---
             IF (NSUBDOM > 0) THEN
-	      IF (IDDOM > 0) NN = NN-ISURF_R2R(1,ISS)
+                IF (IDDOM > 0) NN = NN-ISURF_R2R(1,ISS)
             ENDIF
 C-----------
             IF (ISS /= 0) THEN
               DO J=1,NN
-	        IF (IDDOM > 0) THEN
+                  IF (IDDOM > 0) THEN
 C-----------Multidomaines -> on elimine les seg communs, on ne les traite qu'une foi---
-	          CAPT=0
+                    CAPT=0
                   DO K=1,4
-	            CAPT=CAPT+TAGNO(NPART+IGRSURF(ISS)%NODES(J,K))
+                      CAPT=CAPT+TAGNO(NPART+IGRSURF(ISS)%NODES(J,K))
                   ENDDO
-	          IF (CAPT == 8) GOTO 160
-	        ENDIF
+                    IF (CAPT == 8) GOTO 160
+                  ENDIF
 C 
                 ITY=IGRSURF(ISS)%ELTYP(J)
 C
@@ -399,7 +399,7 @@ C-----------Multidomaines : on ne peut pas splitter la masse dans ce cas--------
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO,
      .                    I1=ID)
-	      ENDIF	      
+                ENDIF        
               DO J=1,NEL
                 IDP=IGRPART(IGRS)%ENTITY(J)
                 IPMAS(I)%PARTID(J) = IDP
@@ -441,10 +441,10 @@ C-----------Multidomaines : on ne peut pas splitter la masse dans ce cas--------
      .                      I2=ENTITY_MULTI(J))
               ENDIF
               NOSYS = USR2SYS(ENTITY_MULTI(J),ITABM1,MESS,ID)
-C-----------Multidomaines : les noeuds communs ne sont traits que sur 1 domaine--------------	    
+C-----------Multidomaines : les noeuds communs ne sont traits que sur 1 domaine--------------      
               IF ((NSUBDOM > 0) .AND. (IPID == 0)) THEN
-	         IF (TAGNO(NPART+NOSYS) > 1) GOTO 170
-	      ENDIF
+                   IF (TAGNO(NPART+NOSYS) > 1) GOTO 170
+                ENDIF
               MS(NOSYS) = MS(NOSYS) + AMAS_MULTI(J)
               TOTADDMAS = TOTADDMAS + AMAS_MULTI(J)
  170          CONTINUE
@@ -509,11 +509,11 @@ C-----------Multidomaines : les noeuds communs ne sont traits que sur 1 domaine-
 !
 C-----------Multidomaines : on ignore les parts qui ne sont pas propres au domaine--------------
               IF (NSUBDOM > 0) THEN
-	        IF (TAG_PART(IP) == 0) THEN
+                  IF (TAG_PART(IP) == 0) THEN
                   IPMAS(I)%NPART = IPMAS(I)%NPART -1
-		  GOTO 180
-		ENDIF
-	      ENDIF
+            GOTO 180
+          ENDIF
+                ENDIF
 
               IF (IP > 0) THEN
                 IMASADD = IMASADD + 1

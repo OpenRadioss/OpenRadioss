@@ -91,7 +91,7 @@ Chd|====================================================================
         INTEGER , DIMENSION(:), ALLOCATABLE :: 
      .      IAD_ELEM,  IAD_RBY,  IAD_RBY2, IAD_I2M, 
      .      IADCJ,     IAD_RBM,  IAD_RBM2, IAD_SEC,    IAD_CUT,   FR_ELEM, 
-     .      FR_RBY,    FR_WALL,  FR_RBY2,  FR_I2M,     FR_MV,	  FR_LL, 
+     .      FR_RBY,    FR_WALL,  FR_RBY2,  FR_I2M,     FR_MV,    FR_LL, 
      .      FR_CJ,     FR_RBM,   FR_RBM2,  FR_SEC,     FR_CUT,    RG_CUT, 
      .      FR_MAD,    FR_I18,   WEIGHT,   NEWFRONT,   NODGLOB,   NBRCVOIS, 
      .      LNRCVOIS,  NBSDVOIS, LNSDVOIS, NERCVOIS,   LERCVOIS,  NESDVOIS, 

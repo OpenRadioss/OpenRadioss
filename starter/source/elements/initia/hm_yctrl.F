@@ -339,13 +339,13 @@ C------------------------------------
           IF (KTRIELC == 0) THEN
 C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
               DO IE = 1, NUMELC
-           	ITRI(IE) = IXC(NIXC,IE)
+          ITRI(IE) = IXC(NIXC,IE)
               END DO
               CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMELC,1)
               DO J = 1, NUMELC
-           	IE=INDEX(J)
-           	KSYSUSR(J)	 =IXC(NIXC,IE)
-           	KSYSUSR(NUMELC+J)=IE
+          IE=INDEX(J)
+          KSYSUSR(J)   =IXC(NIXC,IE)
+          KSYSUSR(NUMELC+J)=IE
               END DO
               KTRIELC=1
            ENDIF        

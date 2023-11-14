@@ -199,7 +199,7 @@ c         yp= 3 x^2 + c
           IF(YP/=ZERO)SIGMAX = SIGMAX - Y/YP
          ENDIF 
          SIGMAX = SIGMAX + P  
-         IF(SIGMAX>=SIGR)            	 
+         IF(SIGMAX>=SIGR)               
      .    UVAR(I,1)=UVAR(I,1) + TIMESTEP*(SIGMAX - SIGR)**TBA  
 cc          UVAR(I,2)=UVAR(I,2) + TIMESTEP  
          IF (UVAR(I,1)>TBK) THEN
@@ -209,7 +209,7 @@ cc          UVAR(I,2)=UVAR(I,2) + TIMESTEP
           INDX(NINDX)=I
           TDELE(I) = TIME  
          ENDIF
-	ENDIF
+          ENDIF
        ENDDO
        IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
@@ -272,10 +272,10 @@ c         yp= 3 x^2 + c
            IF(YP/=ZERO)SIGMAX = SIGMAX - Y/YP
           ENDIF   
           SIGMAX = SIGMAX + P          
-          IF(SIGMAX>=SIGR)            	 
+          IF(SIGMAX>=SIGR)               
      .     UVAR(I,1)=UVAR(I,1) + TIMESTEP*(SIGMAX - SIGR)**TBA    
 cc          UVAR(I,2)=UVAR(I,2) + TIMESTEP  
-          IF(UVAR(I,1)>TBK) THEN	  
+          IF(UVAR(I,1)>TBK) THEN    
            NINDX=NINDX+1
            INDX(NINDX)=I
            SIGNXX(I) =   P

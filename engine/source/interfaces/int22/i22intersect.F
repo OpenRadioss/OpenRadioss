@@ -333,7 +333,7 @@ C================================================================
       DO I=NBF,NBL !each thread handle its bricks (no duplicate work)
         BRICK_LIST(NIN,I)%Seg_add_LFT = IADF(I)    ! corresponding window in CAND_B(i)  : CAND_B(IADFL(I):IADL(I)) = I
         BRICK_LIST(NIN,I)%Seg_add_LLT = IADL(I) 
-	CAND_B(IADF(I):IADL(I)) = I        !TRANSFORM CAND_B(I) into ADD into brick_list()
+          CAND_B(IADF(I):IADL(I)) = I        !TRANSFORM CAND_B(I) into ADD into brick_list()
 c        print *, "IB           =", I
 c        print *, "....IADF,IADL=", IADF(I), IADL(I)   
         IB  = LIST_B(I)            !local ID in group IBUFSSG(IAD+(/1:NBRIC/))

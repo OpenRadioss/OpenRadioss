@@ -132,7 +132,7 @@ C-------------------------------------------------------------------------------
            ALLOCATE(ISCAND(NUMNOD+I24MAXNSNE))
            ISCAND(1:NUMNOD+I24MAXNSNE)=0
            DO NI=1,NBINTC
-	     NIN = INTLIST(NI)
+               NIN = INTLIST(NI)
              NTY   = IPARI( 7,NIN)
              NSN   = IPARI( 5,NIN)
              NSNR   = IPARI( 24,NIN)
@@ -190,7 +190,7 @@ C Comptage des tailles de buffer  Reception et envoi
       DO P=1,NSPMD
          IADR(P)=LENRV+1
          DO NI=1,NBINTC
-	   NIN = INTLIST(NI)
+             NIN = INTLIST(NI)
            NTY=IPARI(7,NIN)
            IF(NTY==24)THEN
               LENSD = LENSD + NSNFI(NIN)%P(P)*ALEN
@@ -236,7 +236,7 @@ C Send
        IADS(P)=L
        IF (P/= LOC_PROC) THEN
          DO NI=1,NBINTC
-	   NIN = INTLIST(NI)
+             NIN = INTLIST(NI)
            NTY   =IPARI(7,NIN)
            IF(NTY==24) THEN
              NB = NSNFI(NIN)%P(P)
@@ -249,8 +249,8 @@ C Send
                BBUFS(L+5)=SECND_FRFI(NIN)%P(3,NN+IDEB(NIN))
                BBUFS(L+6)=PENE_OLDFI(NIN)%P(1,NN+IDEB(NIN))
                BBUFS(L+7)=STIF_OLDFI(NIN)%P(1,NN+IDEB(NIN))
-	       BBUFS(L+8)=PENE_OLDFI(NIN)%P(3,NN+IDEB(NIN))
-	       BBUFS(L+9)=PENE_OLDFI(NIN)%P(5,NN+IDEB(NIN))
+                 BBUFS(L+8)=PENE_OLDFI(NIN)%P(3,NN+IDEB(NIN))
+                 BBUFS(L+9)=PENE_OLDFI(NIN)%P(5,NN+IDEB(NIN))
                L=L+10
              ENDDO
              IDEB(NIN)=IDEB(NIN)+NB
@@ -289,7 +289,7 @@ C WAIT
            CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
 
            DO NI=1,NBINTC
-	     NIN = INTLIST(NI)
+               NIN = INTLIST(NI)
              NTY   =IPARI(7,NIN)
 
              IF(NTY==24)THEN
@@ -311,8 +311,8 @@ C Merge IRTLM & TIME_S
      *                               .AND.BBUFR(IADR(P)+L+2)==ZERO) THEN
 C Si IRTLM(1, == 0 et TIME_S(SNR)==0. Alors il n'est pas candidat retenu   
                   
-		   ELSEIF (INTBUF_TAB(NIN)%IRTLM(2*(ND-1)+1) == 0 
-     *  			    .AND. INTBUF_TAB(NIN)%TIME_S(ND) ==ZERO)THEN
+             ELSEIF (INTBUF_TAB(NIN)%IRTLM(2*(ND-1)+1) == 0 
+     *            .AND. INTBUF_TAB(NIN)%TIME_S(ND) ==ZERO)THEN
 C Si candidat local n'est pas retenu, on copie simplement                 
                      INTBUF_TAB(NIN)%IRTLM(2*(ND-1)+1) = BBUFR(IADR(P)+L)
                      INTBUF_TAB(NIN)%IRTLM(2*(ND-1)+2) = BBUFR(IADR(P)+L+1)
@@ -361,8 +361,8 @@ C nothing to do
                      ENDIF
                    ENDIF 
 C Merge SECND_FR
-		   
-		   IF(ABS(BBUFR(IADR(P)+L+3)) > 
+             
+             IF(ABS(BBUFR(IADR(P)+L+3)) > 
      *                ABS(INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+1)))
      *                    INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+1)   = BBUFR(IADR(P)+L+3)
 C
@@ -445,7 +445,7 @@ C     either Local or remote (not neighbour in term of SPMD domain).
 C     One can start to merge here and spread the info to the neighboug domains.
       IF(INT24E2EUSE == 1)THEN
          DO NI=1,NBINTC
-	    NIN = INTLIST(NI)
+              NIN = INTLIST(NI)
             NTY = IPARI(7,NIN)
             IEDG4 = IPARI(59,NIN)
             IF(NTY==24 .AND. IEDG4 > 0)THEN
@@ -492,7 +492,7 @@ C mise en place du irecieve
         SIZ = IADS(P+1)-IADS(P)
         IF(SIZ/=0)THEN
           LI = (IADS(P)-1)*ILEN+1
-	  LR = (IADS(P)-1)*RLEN+1
+            LR = (IADS(P)-1)*RLEN+1
           MSGTYP = MSGOFF3
           LEN = SIZ*4
           CALL MPI_IRECV(
@@ -511,11 +511,11 @@ C mise en place du irecieve
        NB = 1
        DO P = 1, NSPMD
           DO NI=1,NBINTC
-	     NIN=INTLIST(NI)
+               NIN=INTLIST(NI)
              NTY    = IPARI(7,NIN)
              NSN    = IPARI(5,NIN)
              IEDG4 = IPARI(59,NIN)
-	     IF(NTY==24) THEN
+               IF(NTY==24) THEN
 
                DO I=IAD_I24(NI,P),IAD_I24(NI+1,P)-1
                 
@@ -585,14 +585,14 @@ C Reception
           CALL MPI_WAIT(REQ_R2(P),STATUS,IERROR)
 
 C Traitements
-	
+
          DO NI=1,NBINTC
            NIN = INTLIST(NI)
-	    
+              
            NTY    = IPARI(7,NIN)
            NSN    = IPARI(5,NIN)
            IEDG4 = IPARI(59,NIN)
-	   IF (NTY == 24)THEN
+             IF (NTY == 24)THEN
 
              DO K=IAD_I24(NI,P),IAD_I24(NI+1,P)-1 
                 SN = FR_I24(K)
@@ -650,26 +650,26 @@ c rien a faire
      *                                           IRECBUF(3+(IDB-1)*ILEN)
                            ENDIF
                     ELSEIF (TIME_S <= TIME_SR ) THEN
-			   INTBUF_TAB(NIN)%TIME_S(SN) = TIME_SR
-			   INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+1)   = 
-     *  					 IRECBUF(2+(IDB-1)*ILEN)
-			   INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+2) = 
-     *  					 IRECBUF(3+(IDB-1)*ILEN)
+             INTBUF_TAB(NIN)%TIME_S(SN) = TIME_SR
+             INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+1)   = 
+     *             IRECBUF(2+(IDB-1)*ILEN)
+             INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+2) = 
+     *             IRECBUF(3+(IDB-1)*ILEN)
                         ENDIF
                     ENDIF
                  
 C Max pour les SECND_FR
-		    IF (ABS(RRECBUF(2+(IDB-1)*RLEN)) > 
+              IF (ABS(RRECBUF(2+(IDB-1)*RLEN)) > 
      *                 (ABS(INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+1)) ) )
-     *                 	INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+1) = RRECBUF(2+(IDB-1)*RLEN)
+     *                   INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+1) = RRECBUF(2+(IDB-1)*RLEN)
      
- 		    IF (ABS(RRECBUF(3+(IDB-1)*RLEN)) > 
+              IF (ABS(RRECBUF(3+(IDB-1)*RLEN)) > 
      *                  ABS(INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+2)) )
-     *                 	INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+2) = RRECBUF(3+(IDB-1)*RLEN)
+     *                   INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+2) = RRECBUF(3+(IDB-1)*RLEN)
      
- 		    IF (ABS(RRECBUF(4+(IDB-1)*RLEN)) > 
+              IF (ABS(RRECBUF(4+(IDB-1)*RLEN)) > 
      *                  ABS(INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+3)) )
-     *                 	INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+3) = RRECBUF(4+(IDB-1)*RLEN)
+     *                   INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+3) = RRECBUF(4+(IDB-1)*RLEN)
 
 C Case equal abs but opposite sign
                     IF (RRECBUF(2+(IDB-1)*RLEN)==-INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+1) )
@@ -725,7 +725,7 @@ C Fin send
 C Treat PENE_OLD(5
       
            DO NI=1,NBINTC
-	     NIN = INTLIST(NI)
+               NIN = INTLIST(NI)
              NTY   = IPARI( 7,NIN)
              NSN   = IPARI( 5,NIN)
              NSNR   = IPARI( 24,NIN)
@@ -801,7 +801,7 @@ C Send
        IADS(P)=L
        IF (P/= LOC_PROC) THEN
          DO NI=1,NBINTC
-	   NIN = INTLIST(NI)
+             NIN = INTLIST(NI)
            NTY   =IPARI(7,NIN)
            IF(NTY==24)THEN
                IEDG4 = IPARI(59,NIN)
@@ -865,9 +865,9 @@ C Recieve
           SIZ=IADR(P+1)-IADR(P)
           IF (SIZ > 0) THEN
            
-	   CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
+             CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
            DO NI=1,NBINTC
-	     NIN=INTLIST(NI)
+               NIN=INTLIST(NI)
              NTY   = IPARI(7,NIN)
              IGSTI = IPARI(34,NIN)
 
@@ -892,8 +892,8 @@ C           copy SECND_FRFI(1,2,3) into SECND_FRFI(4,5,6) & Flush SECND_FRFI to 
                     SECND_FRFI(NIN)%P(6,IDEB(NIN)+K)=BBUFR(IADR(P)+L+5)
                     PENE_OLDFI(NIN)%P(1,IDEB(NIN)+K)=ZERO
                     PENE_OLDFI(NIN)%P(2,IDEB(NIN)+K)=BBUFR(IADR(P)+L+6)
-		    PENE_OLDFI(NIN)%P(3,IDEB(NIN)+K)=BBUFR(IADR(P)+L+7)
-		    PENE_OLDFI(NIN)%P(5,IDEB(NIN)+K)=BBUFR(IADR(P)+L+9)
+              PENE_OLDFI(NIN)%P(3,IDEB(NIN)+K)=BBUFR(IADR(P)+L+7)
+              PENE_OLDFI(NIN)%P(5,IDEB(NIN)+K)=BBUFR(IADR(P)+L+9)
                     STIF_OLDFI(NIN)%P(2,IDEB(NIN)+K)=BBUFR(IADR(P)+L+8)
                     IF(IEDG4 > 0)THEN
                        ISPT2_FI(NIN)%P(IDEB(NIN)+K)=BBUFR(IADR(P)+L+10)
@@ -915,8 +915,8 @@ C           copy SECND_FRFI(1,2,3) into SECND_FRFI(4,5,6) & Flush SECND_FRFI to 
                     SECND_FRFI(NIN)%P(6,IDEB(NIN)+K)=BBUFR(IADR(P)+L+5)
                     PENE_OLDFI(NIN)%P(1,IDEB(NIN)+K)=ZERO
                     PENE_OLDFI(NIN)%P(2,IDEB(NIN)+K)=BBUFR(IADR(P)+L+6)
-		    PENE_OLDFI(NIN)%P(3,IDEB(NIN)+K)=BBUFR(IADR(P)+L+7)
-		    PENE_OLDFI(NIN)%P(5,IDEB(NIN)+K)=BBUFR(IADR(P)+L+9)
+              PENE_OLDFI(NIN)%P(3,IDEB(NIN)+K)=BBUFR(IADR(P)+L+7)
+              PENE_OLDFI(NIN)%P(5,IDEB(NIN)+K)=BBUFR(IADR(P)+L+9)
                     STIF_OLDFI(NIN)%P(1,IDEB(NIN)+K)=ZERO
                     STIF_OLDFI(NIN)%P(2,IDEB(NIN)+K)=BBUFR(IADR(P)+L+8)
                     IF(IEDG4 > 0)THEN

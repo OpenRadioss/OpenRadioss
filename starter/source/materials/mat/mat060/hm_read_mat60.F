@@ -212,7 +212,7 @@ C=======================================================================
       ENDIF
       
       DO I=1,NRATE-1
-	 IF(RATE(I) >= RATE(I+1))THEN
+           IF(RATE(I) >= RATE(I+1))THEN
           CALL ANCMSG(MSGID=478,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,

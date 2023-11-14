@@ -309,7 +309,7 @@ C ----add mem-bending coupling terms of orthotrope--coplanar first---
 #include "vectorize.inc"
         DO M=JFT,JLT 
          EP=IPLAT(M)
- 	 C2=VOL(EP)*THK0(EP)
+           C2=VOL(EP)*THK0(EP)
          DMF(1,1,M)=HMFOR(EP,1)*C2
          DMF(2,2,M)=HMFOR(EP,2)*C2
          DMF(1,2,M)=HMFOR(EP,3)*C2
@@ -654,53 +654,53 @@ C
          KM12       =T11(1,1,EP)*DF5(EP)+T11(2,2,EP)*DF6(EP)
          M11(1,2,EP)=M11(1,2,EP)-KM12
          M11(2,2,EP)=M11(2,2,EP)+T11(1,2,EP)*DF5_2(EP)
-	 
-         M12(1,1,EP)=M12(1,1,EP)+T12(1,2,EP)*DF6_2(EP)	 
+           
+         M12(1,1,EP)=M12(1,1,EP)+T12(1,2,EP)*DF6_2(EP)   
          KM12       =T12(1,1,EP)*DF5(EP)+T12(2,2,EP)*DF6(EP)
          M12(1,2,EP)=M12(1,2,EP)-KM12
          M12(2,1,EP)=M12(2,1,EP)-KM12
          M12(2,2,EP)=M12(2,2,EP)+T12(1,2,EP)*DF5_2(EP)
-	 
-         M13(1,1,EP)=M13(1,1,EP)+T13(1,2,EP)*DF6_2(EP)	 
+           
+         M13(1,1,EP)=M13(1,1,EP)+T13(1,2,EP)*DF6_2(EP)   
          KM12       =T13(1,1,EP)*DF5(EP)+T13(2,2,EP)*DF6(EP)
          M13(1,2,EP)=M13(1,2,EP)-KM12
          M13(2,1,EP)=M13(2,1,EP)-KM12
          M13(2,2,EP)=M13(2,2,EP)+T13(1,2,EP)*DF5_2(EP)
-	 
+           
          M14(1,1,EP)=M14(1,1,EP)+T14(1,2,EP)*DF6_2(EP)
          KM12       =T14(1,1,EP)*DF5(EP)+T14(2,2,EP)*DF6(EP)
          M14(1,2,EP)=M14(1,2,EP)-KM12
          M14(2,1,EP)=M14(2,1,EP)-KM12
          M14(2,2,EP)=M14(2,2,EP)+T14(1,2,EP)*DF5_2(EP)
-	 
-         M22(1,1,EP)=M22(1,1,EP)+T22(1,2,EP)*DF6_2(EP)	 
+           
+         M22(1,1,EP)=M22(1,1,EP)+T22(1,2,EP)*DF6_2(EP)   
          KM12       =T22(1,1,EP)*DF5(EP)+T22(2,2,EP)*DF6(EP)
          M22(1,2,EP)=M22(1,2,EP)-KM12
          M22(2,2,EP)=M22(2,2,EP)+T22(1,2,EP)*DF5_2(EP)
-	 
+           
          M23(1,1,EP)=M23(1,1,EP)+T23(1,2,EP)*DF6_2(EP)
          KM12       =T23(1,1,EP)*DF5(EP)+T23(2,2,EP)*DF6(EP)
          M23(1,2,EP)=M23(1,2,EP)-KM12
          M23(2,1,EP)=M23(2,1,EP)-KM12
          M23(2,2,EP)=M23(2,2,EP)+T23(1,2,EP)*DF5_2(EP)
-	 
+           
          M24(1,1,EP)=M24(1,1,EP)+T24(1,2,EP)*DF6_2(EP)
          KM12       =T24(1,1,EP)*DF5(EP)+T24(2,2,EP)*DF6(EP)
          M24(1,2,EP)=M24(1,2,EP)-KM12
          M24(2,1,EP)=M24(2,1,EP)-KM12
          M24(2,2,EP)=M24(2,2,EP)+T24(1,2,EP)*DF5_2(EP)
-	 
+           
          M33(1,1,EP)=M33(1,1,EP)+T33(1,2,EP)*DF6_2(EP)
          KM12       =T33(1,1,EP)*DF5(EP)+T33(2,2,EP)*DF6(EP)
          M33(1,2,EP)=M33(1,2,EP)-KM12
          M33(2,2,EP)=M33(2,2,EP)+T33(1,2,EP)*DF5_2(EP)
-	 
+           
          M34(1,1,EP)=M34(1,1,EP)+T34(1,2,EP)*DF6_2(EP)
          KM12       =T34(1,1,EP)*DF5(EP)+T34(2,2,EP)*DF6(EP)
          M34(1,2,EP)=M34(1,2,EP)-KM12
          M34(2,1,EP)=M34(2,1,EP)-KM12
          M34(2,2,EP)=M34(2,2,EP)+T34(1,2,EP)*DF5_2(EP)
-	 
+           
          M44(1,1,EP)=M44(1,1,EP)+T44(1,2,EP)*DF6_2(EP)
          KM12       =T44(1,1,EP)*DF5(EP)+T44(2,2,EP)*DF6(EP)
          M44(1,2,EP)=M44(1,2,EP)-KM12
@@ -1314,7 +1314,7 @@ C
          ENDDO
         ENDDO
         ENDDO
-C	
+C
         DO I=1,2
         DO J=I,2
          DO EP=NF,JLT
@@ -1967,7 +1967,7 @@ C ----add mem-bending coupling terms of orthotrope--coplanar first---
 #include "vectorize.inc"
         DO M=JFT,JLT 
          EP=IPLAT(M)
- 	 C2=VOL(EP)*THK0(EP)
+           C2=VOL(EP)*THK0(EP)
          DMF(1,1,M)=HMFOR(EP,1)*C2
          DMF(2,2,M)=HMFOR(EP,2)*C2
          DMF(1,2,M)=HMFOR(EP,3)*C2

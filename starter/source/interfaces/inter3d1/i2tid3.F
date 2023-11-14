@@ -903,7 +903,7 @@ C-----------
      +'     NODE   SEGMENT                                              S       T        DIST')
  2024 FORMAT(//'     PROJECTION ON 3 NODES SEGMENTS '//
      +'     SECONDARY  NEAREST        MAIN NODES                       SECONDARY '/
-     +'     NODE       SEGMENT                                S       T        DIST')   	    
+     +'     NODE       SEGMENT                                S       T        DIST')         
 C-----------
 
       DEALLOCATE( TAGS,TAGM )

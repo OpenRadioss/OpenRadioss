@@ -631,7 +631,7 @@ C
 
                 IF (IHTML == 1) CALL REPORT(IH3DREADER,N,IMVW)                ! Htlm report
                 IF (IMVW /= 0) CALL SORTIE_MVW(IMVW,IMVW_REF)               ! MVW output
-                IF ((IRAD2R==1).AND.(ISPMD==0)) CALL SEND_IBUF_C(1,1)	    ! Rad2rad termination
+                IF ((IRAD2R==1).AND.(ISPMD==0)) CALL SEND_IBUF_C(1,1)      ! Rad2rad termination
 
               ENDIF
 

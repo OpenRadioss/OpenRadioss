@@ -313,7 +313,7 @@ C----------- NSK could be > mvsiz
                  VALUE(I) = ZERO
                  IS_WRITTEN_VALUE(I) = 0
                  IOK_PART(I) = H3D_PART(IXSK(1,I+IDEB))
-               ENDDO	     
+               ENDDO       
 C-----------------------------------------------
               IF (KEYWORD == 'FLDZ/OUTER') THEN
 C-----------------------------------------------

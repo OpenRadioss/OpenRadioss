@@ -233,7 +233,7 @@ C-----------------------------------------------
               J=J+MY_NUVAR
             ENDDO
           ENDIF  !  IF (IOFF == 1 .AND. MY_NUVAR /= 0)
-        ENDDO  !  DO N=1,STAT_NUMELP_G		    
+        ENDDO  !  DO N=1,STAT_NUMELP_G        
       ENDIF  !  IF (ISPMD == 0.AND.LEN > 0)
 c-----------
       RETURN

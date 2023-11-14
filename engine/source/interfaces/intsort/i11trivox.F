@@ -181,7 +181,7 @@ C
         ALLOCATE(LCHAIN_LAST(1:MAX_ADD))
       END IF   
       
-	  CALL MY_BARRIER      !all threads wait for allocation       
+            CALL MY_BARRIER      !all threads wait for allocation       
 
       IF(NRTM==0.OR.NRTS==0)THEN
        !ne pas reinitiliser tout le voxel s'il n'y a pas de candidat

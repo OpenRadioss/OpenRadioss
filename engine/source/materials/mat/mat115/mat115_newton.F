@@ -211,12 +211,12 @@ c
           ! the consistency condition using the backward Euler implicit method
           ! with a Newton-Raphson iterative procedure
           ! Its expression at each iteration is : DLAMBDA = - PHI/DPHI_DLAMBDA
-	  ! -> PHI          : current value of yield function (known)
+            ! -> PHI          : current value of yield function (known)
           ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
           !                   into account of internal variables kinetic : 
           !                   plasticity, temperature and damage (to compute)
 c        
-	  ! 1 - Computation of DPHI_DSIG the normal to the yield surface
+            ! 1 - Computation of DPHI_DSIG the normal to the yield surface
           !-------------------------------------------------------------
 c
           ! Derivative with respect to the Von Mises equivalent stress
@@ -236,7 +236,7 @@ c
           ! 2 - Computation of DPHI_DLAMBDA
           !---------------------------------------------------------
 c        
-          !   a) Derivative with respect stress increments tensor DSIG			
+          !   a) Derivative with respect stress increments tensor DSIG
           !   --------------------------------------------------------
           TRDFDS  = NORMXX + NORMYY + NORMZZ    
           DFDSIG2 = NORMXX * (NORMXX*G2 + LAMHOOK*TRDFDS)
@@ -246,7 +246,7 @@ c
      .            + NORMYZ * NORMYZ * G
      .            + NORMZX * NORMZX * G
 c     
-          !   b) Derivatives with respect to plastic strain P 			
+          !   b) Derivatives with respect to plastic strain P 
           !   ------------------------------------------------  
 c          
           !     i) Derivative of the yield function with respect to plastic strain dPHI / dPLA
@@ -276,7 +276,7 @@ c
           ! Computation of the plastic multiplier
           DLAM = -PHI(I)/DPHI_DLAM(I)
 c          
-	  ! Plastic strains tensor update
+            ! Plastic strains tensor update
           DPXX  = DLAM * NORMXX
           DPYY  = DLAM * NORMYY
           DPZZ  = DLAM * NORMZZ

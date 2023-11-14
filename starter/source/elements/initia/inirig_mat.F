@@ -238,10 +238,10 @@ C Solid 10 nodes tetrahedron-
      .                XX, YY, ZZ, PX,PY,PZ, NX,
      .                RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,VOLU,VOID,
      .                BIDBUF,VOLG)
- 	CALL S10LEN3(VOLP,NGL,DELTAX,DELTAX2,
-     .  	     PX,PY,PZ,VOLU,VOID,VOLG, 
-     .  	     RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,
-     .  	     NEL,MXT,PM,V_PITER,IBID)
+          CALL S10LEN3(VOLP,NGL,DELTAX,DELTAX2,
+     .         PX,PY,PZ,VOLU,VOID,VOLG, 
+     .         RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,
+     .         NEL,MXT,PM,V_PITER,IBID)
 C
         DO I=1,NEL
           MASSCP(I) = ZERO 

@@ -406,7 +406,7 @@ c
         BUFLY%L_GAMA    = L_GAMA   
         BUFLY%L_STRA    = L_STRA   
         BUFLY%L_FRAC    = L_FRAC   
-        BUFLY%L_BFRAC   = L_BFRAC   	
+        BUFLY%L_BFRAC   = L_BFRAC   
         BUFLY%L_EINT    = L_EINT   
         BUFLY%L_EINS    = L_EINS   
         BUFLY%L_RHO     = L_RHO         

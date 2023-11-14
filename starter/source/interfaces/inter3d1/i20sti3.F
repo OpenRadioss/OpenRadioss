@@ -152,16 +152,16 @@ C------------------------------------
        DO I=1,NUMELC
               MG=IXC(6,I)
               IGTYP = IGEO(11,MG)
-	       IP = IPARTC(I)
-	       IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
-	         DX=HALF*THK_PART(IP)
-	       ELSEIF ( THK(I) /= ZERO .AND. IINTTHICK == 0) THEN
-	         DX=HALF*THK(I)
-	       ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR.IGTYP == 52)THEN
-	         DX=HALF*THK(I)
+                 IP = IPARTC(I)
+                 IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
+                   DX=HALF*THK_PART(IP)
+                 ELSEIF ( THK(I) /= ZERO .AND. IINTTHICK == 0) THEN
+                   DX=HALF*THK(I)
+                 ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR.IGTYP == 52)THEN
+                   DX=HALF*THK(I)
                ELSE
                  DX=HALF*GEO(1,MG)
-	       ENDIF
+                 ENDIF
         WA(IXC(2,I))=MAX(WA(IXC(2,I)),DX)
         WA(IXC(3,I))=MAX(WA(IXC(3,I)),DX)
         WA(IXC(4,I))=MAX(WA(IXC(4,I)),DX)
@@ -230,16 +230,16 @@ C------------------------------------
        DO I=1,NUMELC
         MG=IXC(6,I)
         IGTYP = IGEO(11,MG)
-	       IP = IPARTC(I)
-	       IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
-	         DX=HALF*THK_PART(IP)
-	       ELSEIF ( THK(I) /= ZERO .AND. IINTTHICK == 0) THEN
-	         DX=HALF*THK(I)
-	       ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52)THEN
-	         DX=HALF*THK(I)
+                 IP = IPARTC(I)
+                 IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
+                   DX=HALF*THK_PART(IP)
+                 ELSEIF ( THK(I) /= ZERO .AND. IINTTHICK == 0) THEN
+                   DX=HALF*THK(I)
+                 ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52)THEN
+                   DX=HALF*THK(I)
                ELSE
                  DX=HALF*GEO(1,MG)
-	       ENDIF
+                 ENDIF
         WA(IXC(2,I))=MAX(WA(IXC(2,I)),DX)
         WA(IXC(3,I))=MAX(WA(IXC(3,I)),DX)
         WA(IXC(4,I))=MAX(WA(IXC(4,I)),DX)

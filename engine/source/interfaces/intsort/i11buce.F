@@ -464,9 +464,9 @@ C --- --- ---         NBZ = INT((NBZ+2)*AAA)-2
 C --- --- ---         NBX = MAX(NBX,1)
 C --- --- ---         NBY = MAX(NBY,1)
 C --- --- ---         NBZ = MAX(NBZ,1)
-C --- --- --- 	NBX8 = NBX
-C --- --- --- 	NBY8 = NBY
-C --- --- --- 	NBZ8 = NBZ
+C --- --- ---   NBX8 = NBX
+C --- --- ---   NBY8 = NBY
+C --- --- ---   NBZ8 = NBZ
 C --- --- ---         RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
 C --- --- ---       END IF
 C --- --- ---           

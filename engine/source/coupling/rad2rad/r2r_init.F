@@ -218,7 +218,7 @@ C
             GRNOD => IGRNOD(IDG)%ENTITY
 !
             IF (IDP>NBK) NBK = IDP
-C------	determination of the type of the interface
+C------  determination of the type of the interface
             CALL SEND_IBUF_C(IDP,1)
             CALL GET_IBUF_C(TYPLNK(IEX),1)
             CALL GET_IBUF_C(MAIN_SIDE,1)
@@ -431,7 +431,7 @@ C----- ----- ----- ----- ----- -----
             IDP  = IEXLNK(2,IEX)
             NNG  = IGRNOD(IDG)%NENTITY
             GRNOD => IGRNOD(IDG)%ENTITY
-C------	determination of the type of interface and link
+C------  determination of the type of interface and link
             IF (IDP>NBK) NBK = IDP
             IF(ISPMD==0) THEN
               CALL SEND_IBUF_C(IDP,1)
@@ -608,8 +608,8 @@ C*******************************************************************************
 C      DO J = 1, NFXVEL
 C       DO K = 1, NNG
 C         IF ((IBFV(1,J)==GRNOD(K)).AND.(IBFV(2,J)>0)) THEN
-C	  BCS(K) =  BCS(K) +100 ;
-C	 ENDIF
+C    BCS(K) =  BCS(K) +100 ;
+C   ENDIF
 C       END DO
 C      END DO
 

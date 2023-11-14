@@ -27,6 +27,6 @@ Chd|        SPMD_CHKW                     source/mpi/generic/spmd_chkw.F
 Chd|        SPMD_WIOUT                    source/mpi/generic/spmd_wiout.F
 Chd|-- calls ---------------
 Chd|====================================================================
-		MODULE IO_MOD
-			INTEGER :: IWIOUT_SAVE
-		END MODULE IO_MOD
+          MODULE IO_MOD
+          INTEGER :: IWIOUT_SAVE
+          END MODULE IO_MOD

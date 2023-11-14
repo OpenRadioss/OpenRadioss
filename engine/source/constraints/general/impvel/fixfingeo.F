@@ -105,7 +105,7 @@ C-------------------------------------------------
         IF(TT>STOPT)  THEN
            N1 = IABS(IBFV(1,N))
            N2 = IBFV(14,N)
-C			  
+C        
            VX1= V(1,N1)+A(1,N1)*DT12
            VY1= V(2,N1)+A(2,N1)*DT12
            VZ1= V(3,N1)+A(3,N1)*DT12
@@ -125,13 +125,13 @@ C
          VY(N)=VY(N)/MASS(N)
          VZ(N)=VZ(N)/MASS(N)
       ENDDO
-C	  
+C    
       DO N=1,NFXVEL
         IF (IBFV(13,N) /= 2) CYCLE
         STOPT  = VEL(3,N)
         IF(TT>STOPT)  THEN
            N1 = IABS(IBFV(1,N))
-           N2 = IBFV(14,N)		   
+           N2 = IBFV(14,N)       
            A(1,N1)=(VX(N2)-V(1,N1))/DT12
            A(2,N1)=(VY(N2)-V(2,N1))/DT12
            A(3,N1)=(VZ(N2)-V(3,N1))/DT12

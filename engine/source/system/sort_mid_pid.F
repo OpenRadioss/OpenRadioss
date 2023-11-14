@@ -179,7 +179,7 @@ C-----------------------------------------------
             II=TAB_LOC(J,1)
             MID = TAB_SHELL_LOC(II,3)
             PID = TAB_SHELL_LOC(II,4)
-	    GR_ID = TAB_SHELL_LOC(II,2)
+              GR_ID = TAB_SHELL_LOC(II,2)
             POIDS_J = TAB_MAT(GR_ID)
             JJ=TAB_LOC(J+1,1)
             MID = TAB_SHELL_LOC(JJ,3)

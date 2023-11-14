@@ -686,7 +686,7 @@ c
         DO IL=1,NLAY
           IP = IR + ( (IS-1) + (IL-1)*NPTS )*NPTR
           LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
-C-----avoid multi-print	  
+C-----avoid multi-print    
           IF (IOFFS == 1)THEN
            DO I=LFT,LLT
             IF (OFFS(I)<=TWO) LBUF%OFF(I)=OFFS(I)
@@ -706,7 +706,7 @@ C----------------
           ELSE
             ZZ = A_GAUSS(IL,NLAY)
             WT = W_GAUSS(IL,NLAY)
-	        ENDIF
+                  ENDIF
           IF (ICT == 1) THEN
             ZR = A_GAUSS(IR,NPTR)
             ZS = A_GAUSS(IS,NPTS)

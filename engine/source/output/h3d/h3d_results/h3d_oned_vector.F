@@ -116,7 +116,7 @@ C---
         VALUE(1:3) = ZERO
         DO I=1,NEL
           IS_WRITTEN_VALUE(I) = 0
-        ENDDO	 
+        ENDDO   
 c
         IF (ITY == 4) OFFSET = 0
         IF (ITY == 5) OFFSET = NUMELT

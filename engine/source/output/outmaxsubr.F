@@ -30,9 +30,9 @@ Chd|        TENSGPS3                      source/output/anim/generate/tensor6.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE GPS_SOLID(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
-     .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
-     .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
-     .  	       X	,IAD_ELEM,FR_ELEM ,WEIGHT  ,SIG_N   ,
+     .           IXS  ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
+     .           IXC  ,IXTG   ,IXT    ,IXP     ,IXR     ,
+     .           X  ,IAD_ELEM,FR_ELEM ,WEIGHT  ,SIG_N   ,
      .             ITAGPS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -92,10 +92,10 @@ C
 
        SIG_N(1:NUMNOD,1:6) = ZERO
        ITAGPS(1:NUMNOD) = 0
-         CALL TENSGPS3(ELBUF_TAB ,VFLU	  ,AFLU    ,IPARG   ,GEO     ,
-     .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
-     .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
-     .  	       X	,ITAGPS  ,PM	  )
+         CALL TENSGPS3(ELBUF_TAB ,VFLU    ,AFLU    ,IPARG   ,GEO     ,
+     .           IXS  ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
+     .           IXC  ,IXTG   ,IXT    ,IXP     ,IXR     ,
+     .           X  ,ITAGPS  ,PM    )
          IF(NSPMD > 1)THEN
            VCOM(7,1:NUMNOD) =ITAGPS(1:NUMNOD) 
            LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
@@ -124,9 +124,9 @@ Chd|        TENSGPSTRAIN                  source/output/anim/generate/tensgpstra
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE GPSTRA_SOLID(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
-     .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
-     .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
-     .  	       X	,IAD_ELEM,FR_ELEM ,WEIGHT  ,STR_N   ,
+     .           IXS  ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
+     .           IXC  ,IXTG   ,IXT    ,IXP     ,IXR     ,
+     .           X  ,IAD_ELEM,FR_ELEM ,WEIGHT  ,STR_N   ,
      .             ITAGPS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -186,10 +186,10 @@ C
            VFLU(1:3,N) = ZERO
            AFLU(1:3,N) = ZERO
          ENDDO
-         CALL TENSGPSTRAIN(ELBUF_TAB,VFLU	 ,AFLU    ,IPARG   ,GEO     ,
-     .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
-     .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
-     .  	       X	,ITAGPS  ,PM	  )
+         CALL TENSGPSTRAIN(ELBUF_TAB,VFLU   ,AFLU    ,IPARG   ,GEO     ,
+     .           IXS  ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
+     .           IXC  ,IXTG   ,IXT    ,IXP     ,IXR     ,
+     .           X  ,ITAGPS  ,PM    )
          IF(NSPMD > 1)THEN
            LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
            CALL SPMD_EXCH_NODAREAI(ITAGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
@@ -430,14 +430,14 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
         DO I=1,NEL
-          S(1:6) = SIG(I,1:6)				  
-          IF(IVISC > 0 ) S(1:6) = S(1:6) + VISC(I,1:6)				  
+          S(1:6) = SIG(I,1:6)          
+          IF(IVISC > 0 ) S(1:6) = S(1:6) + VISC(I,1:6)          
           P = - (S(1)  + S(2) + S(3) ) * THIRD
           S1= S(1) + P
           S2= S(2) + P
           S3= S(3) + P
           VONM2= THREE*(S(4)*S(4)  +  S(5)*S(5) + S(6)*S(6) +
-     .    	   HALF*(S1*S1 + S2*S2  + S3*S3) )
+     .         HALF*(S1*S1 + S2*S2  + S3*S3) )
           VONM= SQRT(VONM2) ! can be optimized
           VALUE(I) = MAX(VALUE(I),VONM)
         ENDDO 
@@ -531,13 +531,13 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
         DO IL=1,NLAY 
-         NFAIL = ELBUF_TAB%BUFLY(IL)%NFAIL								    
-         DO IS=1,NPTS					
-           DO IT=1,NPTT					
-             DO IIR=1,NPTR	
-               DO IR=1,NFAIL 											   
+         NFAIL = ELBUF_TAB%BUFLY(IL)%NFAIL                    
+         DO IS=1,NPTS
+           DO IT=1,NPTT
+             DO IIR=1,NPTR
+               DO IR=1,NFAIL                          
                  DFMAX=>ELBUF_TAB%BUFLY(IL)%FAIL(IIR,IS,IT)%FLOC(IR)%DAMMX
-                 DO I=1,NEL  			       
+                 DO I=1,NEL               
                    VALUE(I) = MAX(VALUE(I),DFMAX(I))
                  ENDDO
                ENDDO 
@@ -592,11 +592,11 @@ C-----------------------------------------------
              DO IS=1,NPTS
                LBUF =>  ELBUF_TAB%BUFLY(IL)%LBUF(IR,IS,IT)        
                DO I = 1,NEL
-                 S(I,1:6) = LBUF%SIG(JJ(1:6)+I)				  
+                 S(I,1:6) = LBUF%SIG(JJ(1:6)+I)          
                END DO 
                IF(IVISC > 0 ) THEN
                  DO I = 1,NEL
-                   S(I,1:6) = S(I,1:6) + LBUF%VISC(JJ(1:6)+I)				  
+                   S(I,1:6) = S(I,1:6) + LBUF%VISC(JJ(1:6)+I)          
                  END DO 
                END IF
                CALL SIG3DPIN2(S,SP2,NEL)
@@ -663,7 +663,7 @@ C-----------------------------------------------
 C !!!!! law 12,14                
                IF (ELBUF_TAB%BUFLY(IL)%L_STRA > 0) THEN
                  DO I = 1,NEL
-                   S(I,1:6) = LBUF%STRA(JJ(1:6)+I)				  
+                   S(I,1:6) = LBUF%STRA(JJ(1:6)+I)          
                  END DO 
                  CALL SIG3DPIN2(S,SP2,NEL)
                  DO I = 1,NEL
@@ -712,9 +712,9 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
         DO I=1,NEL
-          S1 = FOR(I,1)				  
-          S2 = FOR(I,2)				  
-          S12 = FOR(I,3)				  
+          S1 = FOR(I,1)          
+          S2 = FOR(I,2)          
+          S12 = FOR(I,3)          
           VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12 
           VONM= SQRT(VONM2)
           VALUE(I) = MAX(VALUE(I),VONM)
@@ -821,7 +821,7 @@ C-----------------------------------------------
             DO IT=1,BUFLY%NPTT
               LBUF  => BUFLY%LBUF(IR,IS,IT)
                DO I = 1,NEL
-                 S(I,1:3) = LBUF%SIG(JJ(1:3)+I)				  
+                 S(I,1:3) = LBUF%SIG(JJ(1:3)+I)          
                END DO 
                CALL SIG2DPIN2(S,SP2,NEL)
                DO I = 1,NEL
@@ -882,7 +882,7 @@ C-----------------------------------------------
        NPG = NPTS*NPTR
       IF (NPG == 1) THEN
         DO I = 1,NEL
-          S(I,1:3) = GBUF%STRA(JJ(1:3)+I)				  
+          S(I,1:3) = GBUF%STRA(JJ(1:3)+I)          
         END DO 
         CALL SIG2DPIN2(S,SP2,NEL)
         DO I = 1,NEL
@@ -902,7 +902,7 @@ C-----------------------------------------------
             NG = NPTR*(IS-1) + IR
             PTS = (NG-1)*LENS+1
                DO I = 1,NEL
-                 S(I,1:3) = GBUF%STRPG(PTS+JJ(1:3)+I)				  
+                 S(I,1:3) = GBUF%STRPG(PTS+JJ(1:3)+I)          
                END DO 
                CALL SIG2DPIN2(S,SP2,NEL)
                DO I = 1,NEL
@@ -954,13 +954,13 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------     
        DO IL=1,NLAY 
          BUFLY => ELBUF_TAB%BUFLY(IL)
-         NFAIL = BUFLY%NFAIL								    
-         DO IS=1,NPTS					
-           DO IR=1,NPTR					
-             DO IT=1,BUFLY%NPTT	
-               DO IIR=1,NFAIL 											   
+         NFAIL = BUFLY%NFAIL                    
+         DO IS=1,NPTS
+           DO IR=1,NPTR
+             DO IT=1,BUFLY%NPTT
+               DO IIR=1,NFAIL                          
                  DFMAX=>BUFLY%FAIL(IR,IS,IT)%FLOC(IIR)%DAMMX
-                 DO I=1,NEL  			       
+                 DO I=1,NEL               
                    VALUE(I) = MAX(VALUE(I),DFMAX(I))
                  ENDDO
                ENDDO 
@@ -1019,13 +1019,13 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------     
        DO IL=1,NLAY 
          BUFLY => ELBUF_TAB%BUFLY(IL)
-         NFAIL = BUFLY%NFAIL								    
-         DO IS=1,NPTS					
-           DO IR=1,NPTR					
-             DO IT=1,BUFLY%NPTT	
-               DO IIR=1,NFAIL 											   
+         NFAIL = BUFLY%NFAIL                    
+         DO IS=1,NPTS
+           DO IR=1,NPTR
+             DO IT=1,BUFLY%NPTT
+               DO IIR=1,NFAIL                          
                  DFMAX=>BUFLY%FAIL(IR,IS,IT)%FLOC(IIR)%DAMMX
-                 DO I=1,NEL  			       
+                 DO I=1,NEL               
                    VALUE(I) = MAX(VALUE(I),DFMAX(I))
                  END DO
                END DO
@@ -1041,29 +1041,29 @@ C
          ENDDO
          DO IL=1,NLAY 
            BUFLY => ELBUF_TAB%BUFLY(IL)
-           DO IPT=1,BUFLY%NPTT	
-             IADR = (IPT - 1)*NEL			      
-             DO I=1,NEL  					  
+           DO IPT=1,BUFLY%NPTT
+             IADR = (IPT - 1)*NEL            
+             DO I=1,NEL              
                J = IADR + I 
                VLY(1:5) = ZERO
                VG(1:5) = ZERO
                DO IR=1,NPTR
                  DO IS=1,NPTS
                    LBUF => BUFLY%LBUF(IR,IS,IPT)        
-                   DMAX(I) = ONE/PM(64,MATLY(J))				
-                   WPMAX(I)= ONE/PM(41,MATLY(J))				
-                   EPST1(I)= PM(60,MATLY(J))  			     
-                   EPST2(I)= PM(61,MATLY(J))  			     
-                   EPSF1(I)= ONE/PM(98,MATLY(J))				
+                   DMAX(I) = ONE/PM(64,MATLY(J))
+                   WPMAX(I)= ONE/PM(41,MATLY(J))
+                   EPST1(I)= PM(60,MATLY(J))             
+                   EPST2(I)= PM(61,MATLY(J))             
+                   EPSF1(I)= ONE/PM(98,MATLY(J))
                    EPSF2(I)= ONE/PM(99,MATLY(J))
 C        
                    VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
                    VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I)) 
                    VG(3) = MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I)) 
                    IF(LBUF%CRAK(JJ(1)+I) > ZERO) VG(4)=  MAX(VG(4),
-     .         	     (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I)) 
+     .                (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I)) 
                    IF(LBUF%CRAK(JJ(2)+I) > ZERO )VG(5) = MAX(VG(5), 
-     .         	     (LBUF%CRAK(JJ(2)+I)+EPST2(I))*EPSF2(I))
+     .                (LBUF%CRAK(JJ(2)+I)+EPST2(I))*EPSF2(I))
                  END DO
                END DO
                VLY(1) =VLY(1) + VG(1) 
@@ -1071,10 +1071,10 @@ C
                VLY(3) =VLY(3) + VG(3) 
                VLY(4) =VLY(4) + VG(4) 
                VLY(5) =VLY(5) + VG(5)
-C                 	 
+C                    
                VALUE(I) = MAX(VALUE(I),VLY(1),VLY(2),VLY(3),VLY(4),VLY(5))
              END DO  ! I=1,NEL
-           END DO !IPT=1,BUFLY%NPTT	
+           END DO !IPT=1,BUFLY%NPTT
          END DO !IL=1,NLAY 
        END IF !(IGTYP == 10 .OR. IGTYP == 11 .OR. 
 C      

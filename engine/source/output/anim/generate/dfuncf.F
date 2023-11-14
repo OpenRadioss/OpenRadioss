@@ -583,8 +583,8 @@ C-----------------------------------------------
                 ENDIF
                 EVAR(I) = VALUE
                 IF(ISOLNOD==8)THEN
-	                 DO J = 1,ISOLNOD
-	                   NC(J,I) = IXS(J+1,N)
+                           DO J = 1,ISOLNOD
+                             NC(J,I) = IXS(J+1,N)
                   ENDDO
                 ELSEIF(ISOLNOD==4)THEN
                   NC(1,I)=IXS(2,N)
@@ -603,25 +603,25 @@ C-----------------------------------------------
                   NC(2,I)=IXS(4,N)
                   NC(3,I)=IXS(7,N)
                   NC(4,I)=IXS(6,N)
-		                NN1 = N - NUMELS8
+                          NN1 = N - NUMELS8
                   DO J=1,6
 C                   IF (IXS10(J,NN1)>0) THEN
                     NC(J+4,I) = IXS10(J,NN1)
 C                   ENDIF
                   ENDDO
                 ELSEIF(ISOLNOD==16)THEN
-	                 DO J = 1,8
-	                   NC(J,I) = IXS(J+1,N)
+                           DO J = 1,8
+                             NC(J,I) = IXS(J+1,N)
                   ENDDO
-		                NN1 = N - (NUMELS8+NUMELS10+NUMELS20)
+                          NN1 = N - (NUMELS8+NUMELS10+NUMELS20)
                   DO J=1,8
                    NC(J+8,I) = IXS16(J,NN1)
                   ENDDO
                 ELSEIF(ISOLNOD==20)THEN
-	                 DO J = 1,8
-	                  NC(J,I) = IXS(J+1,N)
+                           DO J = 1,8
+                            NC(J,I) = IXS(J+1,N)
                   ENDDO
-		                NN1 = N - (NUMELS8+NUMELS10)
+                          NN1 = N - (NUMELS8+NUMELS10)
                   DO J=1,12
                     NC(J+8,I) = IXS20(J,NN1)
                   ENDDO
@@ -741,7 +741,7 @@ C-----------------------
             EVAR(I) = VALUE
           ENDDO
         ENDIF ! IF (ITY)
-C	
+C
         DO I=LFT,LLT
           DO J=1,NNOD
             N = NC(J,I)
@@ -861,8 +861,8 @@ C-----------------------------------------------
                 OFF    = MIN(GBUF%OFF(I),ONE)
                 VOL(I) = GBUF%VOL(I)*OFF
                 IF(ISOLNOD==8)THEN
-	                DO J = 1,ISOLNOD
-	                  NC(J,I) = IXS(J+1,N)
+                          DO J = 1,ISOLNOD
+                            NC(J,I) = IXS(J+1,N)
                  ENDDO
                 ELSEIF(ISOLNOD==4)THEN
                   NC(1,I)=IXS(2,N)
@@ -881,7 +881,7 @@ C-----------------------------------------------
                   NC(2,I)=IXS(4,N)
                   NC(3,I)=IXS(7,N)
                   NC(4,I)=IXS(6,N)
-		                NN1 = N - NUMELS8
+                          NN1 = N - NUMELS8
                   DO J=1,6
 C                   IF (IXS10(J,NN1)>0) THEN
                     NC(J+4,I) = IXS10(J,NN1)
@@ -932,8 +932,8 @@ C-----------------------------------------------
                 EVAR(I) = VALUE
                 OFF = MIN(GBUF%OFF(I),ONE)
                 VOL(I) = GBUF%VOL(I)*OFF
-	               DO J = 1,NNOD
-	                 NC(J,I) = IXQ(J+1,N)
+                         DO J = 1,NNOD
+                           NC(J,I) = IXQ(J+1,N)
                 ENDDO
             ENDDO 
 C-----------------------------------------------
@@ -955,7 +955,7 @@ C-----------------------------------------------
             ENDDO 
 c
            IF(ITY==7)THEN
-	           NNOD=3
+                     NNOD=3
             DO I=LFT,LLT
                 N = I + NFT
                 DO J = 1,NNOD
@@ -982,8 +982,8 @@ c
             NNOD=4
             DO I=LFT,LLT
                 N = I + NFT
-	               DO J = 1,NNOD
-	                 NC(J,I) = IXC(J+1,N)
+                         DO J = 1,NNOD
+                           NC(J,I) = IXC(J+1,N)
                 ENDDO
                 THK0 = GEO(1,IXC(6,N))
                 N1 = IXC(2,N)
@@ -1070,7 +1070,7 @@ C-----------------------
             EVAR(I) = VALUE
           ENDDO
         ENDIF ! IF (ITY)
-C	
+C
         DO I=LFT,LLT
           DO J=1,NNOD
             N = NC(J,I)

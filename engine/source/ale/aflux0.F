@@ -106,13 +106,13 @@ C     ALE ON / OFF
           LFT=1
           IF (DT1 > ZERO)THEN
             UDT=ONE/DT1
-   	      ELSE
-   	       UDT=ZERO
-   	      ENDIF
-   	      DO I=LFT,LLT
-   	        ALPH(1,I+NFT)=LBUF1%FRAC(I)
-   	        ALPH(2,I+NFT)=LBUF2%FRAC(I)
-   	        VOL(I+NFT)=GBUF%VOL(I)*UDT
+                ELSE
+                 UDT=ZERO
+                ENDIF
+                DO I=LFT,LLT
+                  ALPH(1,I+NFT)=LBUF1%FRAC(I)
+                  ALPH(2,I+NFT)=LBUF2%FRAC(I)
+                  VOL(I+NFT)=GBUF%VOL(I)*UDT
           ENDDO
         ENDDO
 c

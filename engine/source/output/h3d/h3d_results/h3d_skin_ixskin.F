@@ -265,7 +265,7 @@ Chd|        SPMD_ALLGLOB_ISUM9            source/mpi/generic/spmd_allglob_isum9.
 Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|====================================================================
       SUBROUTINE H3D_SKIN_DIM(IPARG ,NUMSKIN, NUMSKING,TAG_SKINS6,IBCL,
-     .   	                  ILOADP,LLOADP ,LOADS,NUMSKINP0,NUMSKINP,IFLAG )
+     .                       ILOADP,LLOADP ,LOADS,NUMSKINP0,NUMSKINP,IFLAG )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -283,7 +283,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(OUT) :: NUMSKINP0
       INTEGER NUMSKIN, NUMSKING ,IPARG(*),TAG_SKINS6(*),
-     .        IBCL(*),ILOADP(*),LLOADP(*),NUMSKINP,IFLAG	  
+     .        IBCL(*),ILOADP(*),LLOADP(*),NUMSKINP,IFLAG    
       TYPE (LOADS_) , INTENT(IN)   :: LOADS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -302,8 +302,8 @@ C--- followed by pressure: pblast, pfluid,force...
        NUMSKIN0 = NUMSKIN
 C------!!!!create NODAL_IPART(numnod) before       
        IF (IFLAG>1) CALL H3D_SKIN_PRE_DIM (IBCL,ILOADP,LLOADP,LOADS, NUMSKIN0,NUMSKIN)
-	   NUMSKINP =NUMSKIN- N0
-	   NUMSKINP0=NUMSKIN0- N0
+             NUMSKINP =NUMSKIN- N0
+             NUMSKINP0=NUMSKIN0- N0
 C
        LEN = 1       
        IF (NSPMD>1) THEN
@@ -523,10 +523,10 @@ C-----Force (pressure) first
          N3      = IB(3,NL)
          N4      = IB(4,NL)
 C        
-		 IF (N1>0.AND.N2>0.AND.N3>0.AND.N4/=-1) NSKIN = NSKIN + 1
+           IF (N1>0.AND.N2>0.AND.N3>0.AND.N4/=-1) NSKIN = NSKIN + 1
        END DO 
 C----------load_pressure
-       SHIFT = 	NLOADP_F+NLOADP_B
+       SHIFT =   NLOADP_F+NLOADP_B
        DO NL=1+SHIFT,NLOADP_HYD+SHIFT
            IAD = ILOADP(4,NL)
            DO N=1, ILOADP(1,NL)/4
@@ -534,10 +534,10 @@ C----------load_pressure
               N2 = LLOADP(IAD+4*(N-1)+1)
               N3 = LLOADP(IAD+4*(N-1)+2)
               N4 = LLOADP(IAD+4*(N-1)+3)
-		     IF (N1>0.AND.N2>0.AND.N3>0) NSKIN = NSKIN + 1
+               IF (N1>0.AND.N2>0.AND.N3>0) NSKIN = NSKIN + 1
            ENDDO
        END DO 
-C---------pfluid+pblast	   
+C---------pfluid+pblast     
        DO NL=1,NLOADP_F+NLOADP_B
          IAD = ILOADP(4,NL)
            DO N=1, ILOADP(1,NL)/4
@@ -545,7 +545,7 @@ C---------pfluid+pblast
               N2 = LLOADP(IAD+4*(N-1)+1)
               N3 = LLOADP(IAD+4*(N-1)+2)
               N4 = LLOADP(IAD+4*(N-1)+3)
-		     IF (N1>0.AND.N2>0.AND.N3>0) NSKIN = NSKIN + 1
+               IF (N1>0.AND.N2>0.AND.N3>0) NSKIN = NSKIN + 1
            ENDDO
        END DO 
 C       
@@ -555,7 +555,7 @@ C
            N2   = LOADS%LOAD_CYL(NL)%SEGNOD(N,2)
            N3   = LOADS%LOAD_CYL(NL)%SEGNOD(N,3)
            N4   = LOADS%LOAD_CYL(NL)%SEGNOD(N,4)
-		   IF (N1>0.AND.N2>0.AND.N3>0) NSKIN = NSKIN + 1
+             IF (N1>0.AND.N2>0.AND.N3>0) NSKIN = NSKIN + 1
          ENDDO
        END DO
 C       
@@ -572,7 +572,7 @@ C
            N3      = IB(3,NL)
            N4      = IB(4,NL)
 C          
-		   IF (N1==0.OR.N2==0.OR.N3==0.OR.N4==-1) CYCLE
+             IF (N1==0.OR.N2==0.OR.N3==0.OR.N4==-1) CYCLE
            IF (N4==0) N4 = N3
            NP = NP +1
            ITAGN(N1) = 1
@@ -582,7 +582,7 @@ C
            IRECT(1:4,NP) = IB(1:4,NL)
          END DO 
 C----add only not existing           
-           SHIFT = 	NLOADP_F+NLOADP_B
+           SHIFT =   NLOADP_F+NLOADP_B
            DO NL=1+SHIFT,NLOADP_HYD+SHIFT
               IAD = ILOADP(4,NL)
               DO N=1, ILOADP(1,NL)/4
@@ -590,7 +590,7 @@ C----add only not existing
                 N2 = LLOADP(IAD+4*(N-1)+1)
                 N3 = LLOADP(IAD+4*(N-1)+2)
                 N4 = LLOADP(IAD+4*(N-1)+3)
-		        IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+                  IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
                 IF (N4==0) N4 = N3
                 IF(ITAGN(N1)+ITAGN(N2)+ITAGN(N3)+ITAGN(N4)<4) THEN
                    NP = NP +1
@@ -634,7 +634,7 @@ C----add only not existing
                 N2 = LLOADP(IAD+4*(N-1)+1)
                 N3 = LLOADP(IAD+4*(N-1)+2)
                 N4 = LLOADP(IAD+4*(N-1)+3)
-		        IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+                  IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
                 IF (N4==0) N4 = N3
                 IF(ITAGN(N1)+ITAGN(N2)+ITAGN(N3)+ITAGN(N4)<4) THEN
                    NP = NP +1
@@ -773,24 +773,24 @@ C-----Force (pressure) first
          N2      = IB(2,NL)
          N3      = IB(3,NL)
          N4      = IB(4,NL)
-		 IF (N1==0.OR.N2==0.OR.N3==0.OR.N4==-1) CYCLE
+           IF (N1==0.OR.N2==0.OR.N3==0.OR.N4==-1) CYCLE
 C        
            NP = NP + 1
            NSKIN = NSKIN0+ IMAPSKP(NP)
-		 IXSKIN(2,NSKIN)=N1
-		 IXSKIN(3,NSKIN)=N2
-		 IXSKIN(4,NSKIN)=N3
-		 IF (N4==0) THEN
-		  IXSKIN(5,NSKIN)=N3
-		 ELSEIF(N4>0) THEN
-		  IXSKIN(5,NSKIN)=N4
-		 END IF
-		 IXSKIN(1,NSKIN)=NODAL_IPART(N1)
-		 IXSKIN(6,NSKIN)=NSKIN0+NL
+           IXSKIN(2,NSKIN)=N1
+           IXSKIN(3,NSKIN)=N2
+           IXSKIN(4,NSKIN)=N3
+           IF (N4==0) THEN
+            IXSKIN(5,NSKIN)=N3
+           ELSEIF(N4>0) THEN
+            IXSKIN(5,NSKIN)=N4
+           END IF
+           IXSKIN(1,NSKIN)=NODAL_IPART(N1)
+           IXSKIN(6,NSKIN)=NSKIN0+NL
        END DO 
        NSKIN1 = NSKIN
-C----------load_pressure	   
-       SHIFT = 	NLOADP_F+NLOADP_B
+C----------load_pressure     
+       SHIFT =   NLOADP_F+NLOADP_B
        DO NL=1+SHIFT,NLOADP_HYD+SHIFT
          IAD = ILOADP(4,NL)
          DO N=1, ILOADP(1,NL)/4
@@ -798,24 +798,24 @@ C----------load_pressure
            N2 = LLOADP(IAD+4*(N-1)+1)
            N3 = LLOADP(IAD+4*(N-1)+2)
            N4 = LLOADP(IAD+4*(N-1)+3)
-		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+             IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
 C          
-		   NP = NP + 1
-		   IF (IMAPSKP(NP) < NP) CYCLE
+             NP = NP + 1
+             IF (IMAPSKP(NP) < NP) CYCLE
              NSKIN = NSKIN0+ IMAPSKP(NP)
-		   IXSKIN(2,NSKIN)=N1
-		   IXSKIN(3,NSKIN)=N2
-		   IXSKIN(4,NSKIN)=N3
-		   IF (N4==0) THEN
-		    IXSKIN(5,NSKIN)=N3
-		   ELSEIF(N4>0) THEN
-		    IXSKIN(5,NSKIN)=N4
-		   END IF
-		   IXSKIN(1,NSKIN)=NODAL_IPART(N1)
-		   IXSKIN(6,NSKIN)=NSKIN1+NL
+             IXSKIN(2,NSKIN)=N1
+             IXSKIN(3,NSKIN)=N2
+             IXSKIN(4,NSKIN)=N3
+             IF (N4==0) THEN
+              IXSKIN(5,NSKIN)=N3
+             ELSEIF(N4>0) THEN
+              IXSKIN(5,NSKIN)=N4
+             END IF
+             IXSKIN(1,NSKIN)=NODAL_IPART(N1)
+             IXSKIN(6,NSKIN)=NSKIN1+NL
          ENDDO
        END DO !NP=1,NLOADP_HYD
-C---------pfluid	   
+C---------pfluid     
        NSKIN1 = NSKIN
        DO NL=1,NLOADP_F
          IAD = ILOADP(4,NL)
@@ -824,24 +824,24 @@ C---------pfluid
            N2=LLOADP(IAD+4*(I-1)+1)
            N3=LLOADP(IAD+4*(I-1)+2)
            N4=LLOADP(IAD+4*(I-1)+3)
-		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+             IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
 C          
-		   NP = NP + 1
-		   IF (IMAPSKP(NP) < NP) CYCLE
+             NP = NP + 1
+             IF (IMAPSKP(NP) < NP) CYCLE
            NSKIN = NSKIN0+ IMAPSKP(NP)
-		   IXSKIN(2,NSKIN)=N1
-		   IXSKIN(3,NSKIN)=N2
-		   IXSKIN(4,NSKIN)=N3
-		   IF (N4==0) THEN
-		    IXSKIN(5,NSKIN)=N3
-		   ELSEIF(N4>0) THEN
-		    IXSKIN(5,NSKIN)=N4
-		   END IF
-		   IXSKIN(1,NSKIN)=NODAL_IPART(N1)
-		   IXSKIN(6,NSKIN)=NSKIN1+NL
+             IXSKIN(2,NSKIN)=N1
+             IXSKIN(3,NSKIN)=N2
+             IXSKIN(4,NSKIN)=N3
+             IF (N4==0) THEN
+              IXSKIN(5,NSKIN)=N3
+             ELSEIF(N4>0) THEN
+              IXSKIN(5,NSKIN)=N4
+             END IF
+             IXSKIN(1,NSKIN)=NODAL_IPART(N1)
+             IXSKIN(6,NSKIN)=NSKIN1+NL
          END DO 
        END DO 
-C---------pblast	   
+C---------pblast     
        NSKIN1 = NSKIN
        DO NL=1+NLOADP_F,NLOADP_F+NLOADP_B
          IAD = ILOADP(4,NL)
@@ -850,24 +850,24 @@ C---------pblast
            N2=LLOADP(IAD+4*(I-1)+1)
            N3=LLOADP(IAD+4*(I-1)+2)
            N4=LLOADP(IAD+4*(I-1)+3)
-		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+             IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
 C          
-		   NP = NP + 1
-		   IF (IMAPSKP(NP) < NP) CYCLE
+             NP = NP + 1
+             IF (IMAPSKP(NP) < NP) CYCLE
            NSKIN = NSKIN0+ IMAPSKP(NP)
-		   IXSKIN(2,NSKIN)=N1
-		   IXSKIN(3,NSKIN)=N2
-		   IXSKIN(4,NSKIN)=N3
-		   IF (N4==0) THEN
-		    IXSKIN(5,NSKIN)=N3
-		   ELSEIF(N4>0) THEN
-		    IXSKIN(5,NSKIN)=N4
-		   END IF
-		   IXSKIN(1,NSKIN)=NODAL_IPART(N1)
-		   IXSKIN(6,NSKIN)=NSKIN1+NL
+             IXSKIN(2,NSKIN)=N1
+             IXSKIN(3,NSKIN)=N2
+             IXSKIN(4,NSKIN)=N3
+             IF (N4==0) THEN
+              IXSKIN(5,NSKIN)=N3
+             ELSEIF(N4>0) THEN
+              IXSKIN(5,NSKIN)=N4
+             END IF
+             IXSKIN(1,NSKIN)=NODAL_IPART(N1)
+             IXSKIN(6,NSKIN)=NSKIN1+NL
          END DO 
        END DO 
-C---------/LOAD/PCYL	   
+C---------/LOAD/PCYL     
        NSKIN1 = NSKIN
        DO NL=1,LOADS%NLOAD_CYL
          DO I = 1,LOADS%LOAD_CYL(NL)%NSEG

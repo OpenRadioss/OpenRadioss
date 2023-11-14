@@ -176,8 +176,8 @@ C   correction pb poff si main dans plusieurs interfaces type2
               ILAGM = IPARI(33,N)                             
               IF (NTY == 2 .AND. ILAGM == 0)THEN  
                 CALL INT2POFF(                                
-     .   	         IPARI(1,N) ,X        ,V      ,  
-     .   	         A          ,VR       ,AR     ,MS    ,IN    ,          
+     .              IPARI(1,N) ,X        ,V      ,  
+     .              A          ,VR       ,AR     ,MS    ,IN    ,          
      .               WEIGHT     ,STIFN    ,STIFR  ,MCP   ,CONDN , 
      .               FTHE       ,INTBUF_TAB(N)    )               
               ENDIF                                           
@@ -195,9 +195,9 @@ C   correction pb poff si main dans plusieurs interfaces type2
               ILAGM = IPARI(33,N)                             
               IF (NTY == 2 .AND. ILAGM == 0) THEN 
                 CALL INT2POFFH(                               
-     .   	      IPARI(1,N),X    ,V    ,  
-     .   	      A	  ,VR	,AR   ,MS   ,IN    ,          
-     .   	      WEIGHT    ,STIFN     ,STIFR   ,TAGNOD,INTBUF_TAB(N))        
+     .           IPARI(1,N),X    ,V    ,  
+     .           A    ,VR  ,AR   ,MS   ,IN    ,          
+     .           WEIGHT    ,STIFN     ,STIFR   ,TAGNOD,INTBUF_TAB(N))        
               ENDIF                                           
             ENDIF                                             
           ENDDO                                               

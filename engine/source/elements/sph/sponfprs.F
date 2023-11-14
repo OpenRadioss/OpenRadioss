@@ -229,7 +229,7 @@ C
          K=N-NFT
 !
          PX=-( GBUF%SIG(KK(1)+K)          
-     .        +GBUF%SIG(KK(2)+K)	  
+     .        +GBUF%SIG(KK(2)+K)    
      .        +GBUF%SIG(KK(3)+K))*THIRD   
          GBUF%SIG(KK(1)+K)=GBUF%SIG(KK(1)+K)+PX-PN
          GBUF%SIG(KK(2)+K)=GBUF%SIG(KK(2)+K)+PX-PN

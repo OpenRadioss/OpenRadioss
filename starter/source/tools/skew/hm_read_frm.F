@@ -516,12 +516,12 @@ C----------------
           IF (N1/=0) THEN
             N1=USR2SYS(N1,ITABM1,MESSF,ID)
             CALL ANODSET(N1, CHECK_USED)
-	    CALL IFRONTPLUS(N1,1)
+              CALL IFRONTPLUS(N1,1)
           ENDIF
           IF (N2/=0) THEN
             N2=USR2SYS(N2,ITABM1,MESSF,ID)
             CALL ANODSET(N2, CHECK_USED)
-	    CALL IFRONTPLUS(N2,1)
+              CALL IFRONTPLUS(N2,1)
           ENDIF
           ISKN(1,JJ)=N1
           ISKN(2,JJ)=0
@@ -536,7 +536,7 @@ C---      CALCUL DE X' et Y0'
               IF (N3/=0) THEN
                 N3=USR2SYS(N3,ITABM1,MESSF,ID)
                 CALL ANODSET(N3, CHECK_USED)
-	        CALL IFRONTPLUS(N3,1)
+                  CALL IFRONTPLUS(N3,1)
               ENDIF
               P(4)=X(1,N3)-X(1,N1)
               P(5)=X(2,N3)-X(2,N1)

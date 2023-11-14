@@ -248,22 +248,22 @@ C--------------------------------------------------------
 C
         IF(STIF(I) == ZERO)CYCLE
 C
-        AAA	 = ONE/MAX(EM30,X0N(I,1)*X0N(I,1)+Y0N(I,1)*Y0N(I,1)+Z0N(I,1)*Z0N(I,1))
+        AAA   = ONE/MAX(EM30,X0N(I,1)*X0N(I,1)+Y0N(I,1)*Y0N(I,1)+Z0N(I,1)*Z0N(I,1))
         HLC(I,1) = LC(I,1)*ABS(LC(I,1))*AAA
         HLB(I,4) = LB(I,4)*ABS(LB(I,4))*AAA
         AL(I,1)  = -(XI0V(I)*X0N(I,1)+YI0V(I)*Y0N(I,1)+ZI0V(I)*Z0N(I,1))*AAA
         AL(I,1)  = MAX(ZERO,MIN(ONE,AL(I,1)))
-        AAA	 = ONE/MAX(EM30,X0N(I,2)*X0N(I,2)+Y0N(I,2)*Y0N(I,2)+Z0N(I,2)*Z0N(I,2))
+        AAA   = ONE/MAX(EM30,X0N(I,2)*X0N(I,2)+Y0N(I,2)*Y0N(I,2)+Z0N(I,2)*Z0N(I,2))
         HLC(I,2) = LC(I,2)*ABS(LC(I,2))*AAA
         HLB(I,1) = LB(I,1)*ABS(LB(I,1))*AAA
         AL(I,2)  = -(XI0V(I)*X0N(I,2)+YI0V(I)*Y0N(I,2)+ZI0V(I)*Z0N(I,2))*AAA
         AL(I,2)  = MAX(ZERO,MIN(ONE,AL(I,2)))
-        AAA	 = ONE/MAX(EM30,X0N(I,3)*X0N(I,3)+Y0N(I,3)*Y0N(I,3)+Z0N(I,3)*Z0N(I,3))
+        AAA   = ONE/MAX(EM30,X0N(I,3)*X0N(I,3)+Y0N(I,3)*Y0N(I,3)+Z0N(I,3)*Z0N(I,3))
         HLC(I,3) = LC(I,3)*ABS(LC(I,3))*AAA
         HLB(I,2) = LB(I,2)*ABS(LB(I,2))*AAA
         AL(I,3)  = -(XI0V(I)*X0N(I,3)+YI0V(I)*Y0N(I,3)+ZI0V(I)*Z0N(I,3))*AAA
         AL(I,3)  = MAX(ZERO,MIN(ONE,AL(I,3)))
-        AAA	 = ONE/MAX(EM30,X0N(I,4)*X0N(I,4)+Y0N(I,4)*Y0N(I,4)+Z0N(I,4)*Z0N(I,4))
+        AAA   = ONE/MAX(EM30,X0N(I,4)*X0N(I,4)+Y0N(I,4)*Y0N(I,4)+Z0N(I,4)*Z0N(I,4))
         HLC(I,4) = LC(I,4)*ABS(LC(I,4))*AAA
         HLB(I,3) = LB(I,3)*ABS(LB(I,3))*AAA
         AL(I,4)  = -(XI0V(I)*X0N(I,4)+YI0V(I)*Y0N(I,4)+ZI0V(I)*Z0N(I,4))*AAA
@@ -285,7 +285,7 @@ C
 C
         LBP(I,IT) = LB(I,IT)
         LCP(I,IT) = LC(I,IT)
-        LAP	  = ONE-LBP(I,IT)-LCP(I,IT)
+        LAP    = ONE-LBP(I,IT)-LCP(I,IT)
 C       HLA, HLB, HLC necessaires pour triangle angle obtu
         AAA = ONE / MAX(EM20,X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I))
         HLA= LAP*ABS(LAP) * AAA
@@ -363,7 +363,7 @@ C
      .          (YH-YY(I,I1))* NNY(I,IT)+
      .          (ZH-ZZ(I,I1))* NNZ(I,IT) >= GAPS(I)) FAR(I,IT) =2
 C
-	  ELSEIF((IB1 /= 0 .AND. IB2 == 0).OR.
+            ELSEIF((IB1 /= 0 .AND. IB2 == 0).OR.
      .           (IB2 /= 0 .AND. IB1 == 0))THEN
 
 C
@@ -413,7 +413,7 @@ C           normal to the bisecting plane (pointing toward the inside)
 C
             LL  = XIJ(I,I1)*XIJ(I,I1)+YIJ(I,I1)*YIJ(I,I1)+ZIJ(I,I1)*ZIJ(I,I1)
 C
-            SIDE(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))		  
+            SIDE(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))      
 C
 C           Projette a l'exterieur et Hors secteur angulaire (cf bissectrices) <=> Glissement
             IF(SIDE(I,IT) < -ZEP01) FAR(I,IT) =2
@@ -423,9 +423,9 @@ C
 C
         ELSE
 C
-	  IB1=IBOUND(1,I)
-	  IB2=IBOUND(2,I)
-	  IB3=IBOUND(3,I)
+            IB1=IBOUND(1,I)
+            IB2=IBOUND(2,I)
+            IB3=IBOUND(3,I)
 C
           D1=(XH-XX(I,1))* NNX(I,1)+
      .       (YH-YY(I,1))* NNY(I,1)+
@@ -441,7 +441,7 @@ C
             FAR(I,1)=2
           ELSEIF( MVOISN(I,2)==0 .AND. D2 >= GAPS(I)) THEN  
             FAR(I,2)=2
-          ELSEIF( MVOISN(I,4)==0 .AND. D3 >= GAPS(I)) THEN 	 
+          ELSEIF( MVOISN(I,4)==0 .AND. D3 >= GAPS(I)) THEN    
             FAR(I,3)=2
           ELSEIF((IB1/=0 .AND. IB2==0 .AND. IB3==0).OR.
      .           (IB2/=0 .AND. IB3==0 .AND. IB1==0).OR.
@@ -522,9 +522,9 @@ C             normal to the bisecting plane (pointing toward the inside)
               PZ = Y12(I)*NNX(I,2)-X12(I)*NNY(I,2)  
               PP = PX*PX+PY*PY+PZ*PZ
 C
-	      XI1(I) = XX(I,2) - XI(I)
-	      YI1(I) = YY(I,2) - YI(I)
-	      ZI1(I) = ZZ(I,2) - ZI(I)
+                XI1(I) = XX(I,2) - XI(I)
+                YI1(I) = YY(I,2) - YI(I)
+                ZI1(I) = ZZ(I,2) - ZI(I)
               LL     = XI1(I)*XI1(I)+YI1(I)*YI1(I)+ZI1(I)*ZI1(I)
 C
               SIDE(I,2)=-(XI1(I)*PX+YI1(I)*PY+ZI1(I)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))   
@@ -544,9 +544,9 @@ C             normal to the bisecting plane (pointing toward the inside)
               PZ = Y12(I)*NNX(I,4)-X12(I)*NNY(I,4)  
               PP = PX*PX+PY*PY+PZ*PZ
 C
-	      XI1(I) = XX(I,3) - XI(I)
-	      YI1(I) = YY(I,3) - YI(I)
-	      ZI1(I) = ZZ(I,3) - ZI(I)
+                XI1(I) = XX(I,3) - XI(I)
+                YI1(I) = YY(I,3) - YI(I)
+                ZI1(I) = ZZ(I,3) - ZI(I)
               LL     = XI1(I)*XI1(I)+YI1(I)*YI1(I)+ZI1(I)*ZI1(I)
 C
               SIDE(I,4)=-(XI1(I)*PX+YI1(I)*PY+ZI1(I)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))   
@@ -587,7 +587,7 @@ C
 C
          LBP(I,IT) = LB(I,IT)
          LCP(I,IT) = LC(I,IT)
-         LAP	   = ONE-LBP(I,IT)-LCP(I,IT)
+         LAP     = ONE-LBP(I,IT)-LCP(I,IT)
 C        HLA, HLB, HLC necessaires pour triangle angle obtu
          AAA = ONE / MAX(EM20,X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I))
          HLA= LAP*ABS(LAP) * AAA
@@ -661,7 +661,7 @@ C
      .        (YH-YY(I,I1))* NNY(I,IT)+
      .        (ZH-ZZ(I,I1))* NNZ(I,IT) >= GAPS(I)) FAR(I,IT) =2
 C
-	ELSEIF((IB1 /= 0 .AND. IB2 == 0).OR.
+          ELSEIF((IB1 /= 0 .AND. IB2 == 0).OR.
      .         (IB2 /= 0 .AND. IB1 == 0))THEN
 C
           IBX=MAX(IB1,IB2)
@@ -700,9 +700,9 @@ C       Cone
 C
 C        tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
 C
- 	 X12(I)=XX(I,I2)-XX(I,I1)
- 	 Y12(I)=YY(I,I2)-YY(I,I1)
- 	 Z12(I)=ZZ(I,I2)-ZZ(I,I1)
+           X12(I)=XX(I,I2)-XX(I,I1)
+           Y12(I)=YY(I,I2)-YY(I,I1)
+           Z12(I)=ZZ(I,I2)-ZZ(I,I1)
 C
 C        normal to the bisecting plane (pointing toward the inside)
          PX = Z12(I)*NNY(I,IT)-Y12(I)*NNZ(I,IT)  
@@ -712,7 +712,7 @@ C        normal to the bisecting plane (pointing toward the inside)
 C
          LL  = XIJ(I,I1)*XIJ(I,I1)+YIJ(I,I1)*YIJ(I,I1)+ZIJ(I,I1)*ZIJ(I,I1)
 C
-         SIDE(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))  	       
+         SIDE(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))           
          IF(SIDE(I,IT) < -ZEP01) FAR(I,IT) =2
 C
         END IF
@@ -749,9 +749,9 @@ C             Privilegier secteur dans lequel on se trouve.
 c            if(itab(nsvg(i))==5750)
 c     .  print *,'lx',jj,dmin,dd(i,jj),lx,far(i,jj),pent(i,jj)
               IF(LX < LD(I)) THEN
-          	SUBTRIA_N(I)= JJ
-          	DIST(I)     = DD(I,JJ)
-          	LD(I)=LX
+          SUBTRIA_N(I)= JJ
+          DIST(I)     = DD(I,JJ)
+          LD(I)=LX
               END IF
 
             END IF
@@ -825,15 +825,15 @@ C         Condition for sliding :
               IRTLM_FI(NIN)%P(2,N-NSN) = -IRTLM_FI(NIN)%P(2,N-NSN) 
             END IF
           END IF
-c	 it1=it
-c	 if(it==0)it1=1
-cc	 if(itafi(nin)%p(n-nsn)==28139)
-c	  if(itafi(nin)%p(n-nsn)==2421446.or.
+c   it1=it
+c   if(it==0)it1=1
+cc   if(itafi(nin)%p(n-nsn)==28139)
+c    if(itafi(nin)%p(n-nsn)==2421446.or.
 c     .       itab(ix1(i))==2421446.or.itab(ix2(i))==2421446.or.itab(ix3(i))==2421446.or.itab(ix4(i))==2421446)
 c     .      print *,'dst1 rem',ispmd+1,IRTLM_FI(NIN)%P(1,n-nsn),cand_e(i),TIME_SFI(NIN)%P(2*(N-NSN-1)+1),
-c     .  	       itafi(nin)%p(n-nsn),itab(ix1(i)),itab(ix2(i)),itab(ix3(i)),itab(ix4(i)),
-c     .  	       itold,pent(i,itold),far(i,itold),
-c     .  	       it,pent(i,it1),far(i,it1)
+c     .           itafi(nin)%p(n-nsn),itab(ix1(i)),itab(ix2(i)),itab(ix3(i)),itab(ix4(i)),
+c     .           itold,pent(i,itold),far(i,itold),
+c     .           it,pent(i,it1),far(i,it1)
         END IF
       END DO
 C-----

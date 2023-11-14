@@ -95,9 +95,9 @@ C                 at the previous cycle => the node can not impact during THIS c
                   INTBUF_TAB%TIME_S(2*(N-1)+1) =  EP20
                   INTBUF_TAB%TIME_S(2*(N-1)+2) =  EP20
 C
-          	  INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) = ZERO
-          	  INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
-          	  INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
+            INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) = ZERO
+            INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
+            INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
 C
                 ELSE
 C
@@ -171,9 +171,9 @@ C                 at the previous cycle => the node can not impact during THIS c
                   TIME_SFI(NIN)%P(2*(N-1)+1) =  EP20
                   TIME_SFI(NIN)%P(2*(N-1)+2) =  EP20
 C
-          	  SECND_FRFI(NIN)%P (1:6,N)=ZERO
-          	  PENE_OLDFI(NIN)%P(1:5,N)=ZERO
-          	  STIF_OLDFI(NIN)%P(1:2,N)=ZERO
+            SECND_FRFI(NIN)%P (1:6,N)=ZERO
+            PENE_OLDFI(NIN)%P(1:5,N)=ZERO
+            STIF_OLDFI(NIN)%P(1:2,N)=ZERO
 C
                 ELSE
                   I_STOK_RTLM=I_STOK_RTLM+1
@@ -247,9 +247,9 @@ C                 at the previous cycle => the node can not impact during THIS c
                   INTBUF_TAB%TIME_S(2*(N-1)+1) =  EP20
                   INTBUF_TAB%TIME_S(2*(N-1)+2) =  EP20
 C
-          	  INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) = ZERO
-          	  INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
-          	  INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
+            INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) = ZERO
+            INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
+            INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
                   INTBUF_TAB%IF_ADH(N) = 0    
 C
                 ELSE
@@ -323,9 +323,9 @@ C                 at the previous cycle => the node can not impact during THIS c
                   TIME_SFI(NIN)%P(2*(N-1)+1) =  EP20
                   TIME_SFI(NIN)%P(2*(N-1)+2) =  EP20
 C
-          	  SECND_FRFI(NIN)%P (1:6,N)=ZERO
-          	  PENE_OLDFI(NIN)%P(1:5,N)=ZERO
-          	  STIF_OLDFI(NIN)%P(1:2,N)=ZERO
+            SECND_FRFI(NIN)%P (1:6,N)=ZERO
+            PENE_OLDFI(NIN)%P(1:5,N)=ZERO
+            STIF_OLDFI(NIN)%P(1:2,N)=ZERO
                   IF_ADHFI(NIN)%P(N) = 0
 C
                 ELSE

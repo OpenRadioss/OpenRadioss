@@ -148,12 +148,12 @@ C Envoi des noeuds secnds
         MAINNODS = 0
         DO I=1,NRBE2
           MN = IRBE2(3,I)
-	  IF(MN/=0)THEN
+            IF(MN/=0)THEN
             IF (WEIGHT(MN)==1)THEN
               NGRBE = IRBE2(10,I)
               MAINNODS(NGRBE)=ITAB(MN)
             ENDIF
-	  ENDIF
+            ENDIF
         ENDDO
         CALL SPMD_GLOB_ISUM9(MAINNODS,NRBE2G)
 
@@ -161,12 +161,12 @@ C Envoi des Ids
         ID_RBE2 = 0
         DO I=1,NRBE2
           ID = IRBE2(2,I)
-	  IF(IRBE2(3,I)/=0)THEN
+            IF(IRBE2(3,I)/=0)THEN
             IF (WEIGHT(IRBE2(3,I))==1)THEN
               NGRBE = IRBE2(10,I)
               ID_RBE2(NGRBE)=ID
             ENDIF
-	  ENDIF
+            ENDIF
         ENDDO
         CALL SPMD_GLOB_ISUM9(ID_RBE2,NRBE2G)
         
@@ -192,9 +192,9 @@ C preparation IADRBE2
 
 C preparation P0RECRBE2 pour le proc0
          DO I=1,NRBE2G
-	    PGLOBRBE2(I)=IADRBE2(I)
+              PGLOBRBE2(I)=IADRBE2(I)
          ENDDO
-	 
+           
          DO I=1,NRBE2
            NSN = IRBE2(5,I)
            IAD = IRBE2(1,I)
@@ -253,12 +253,12 @@ C Reception des Ids
         ID_RBE2 = 0
         DO I=1,NRBE2
           ID = IRBE2(2,I)
-	  IF(IRBE2(3,I)/=0)THEN
+            IF(IRBE2(3,I)/=0)THEN
             IF (WEIGHT(IRBE2(3,I))==1)THEN
               NGRBE = IRBE2(10,I)
               ID_RBE2(NGRBE)=ID
             ENDIF
-	  ENDIF
+            ENDIF
         ENDDO
         CALL SPMD_GLOB_ISUM9(ID_RBE2,NRBE2G)
 

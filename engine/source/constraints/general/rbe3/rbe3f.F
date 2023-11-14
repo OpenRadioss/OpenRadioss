@@ -138,7 +138,7 @@ C
         IADLP=IPFR+NMP
 C         version spmd p/on
 C        ALLOCATE(RSUM_PON(IADLP),STAT=IERR)
-C	 RSUM_PON=ZERO
+C   RSUM_PON=ZERO
         CALL FOAT_TO_6_FLOAT(1  ,NMT*3  ,RSUM(IADA) ,RSUM_PON(IPA) )
         CALL FOAT_TO_6_FLOAT(1  ,NMT    ,RSUM(IADMS),RSUM_PON(IPMS))
         CALL FOAT_TO_6_FLOAT(1  ,NMT    ,RSUM(IADFN),RSUM_PON(IPFN))
@@ -232,25 +232,25 @@ C-----------------------------------------------
         IAD = IRBE3(1,N)
         NML = IRBE3(5,N)
         NS  = IRBE3(3,N)
-	IROT =IRBE3(6,N)
+          IROT =IRBE3(6,N)
 #include    "vectorize.inc"
         DO I=IAD+1,IAD+NML
          M = LRBE3(I)
-	 A(1,M) = A(1,M)*WEIGHT(M)
-	 A(2,M) = A(2,M)*WEIGHT(M)
-	 A(3,M) = A(3,M)*WEIGHT(M)
-	 MS(M)  = MS(M)*WEIGHT(M)
-	 STIFN(M)= STIFN(M)*WEIGHT(M)
+           A(1,M) = A(1,M)*WEIGHT(M)
+           A(2,M) = A(2,M)*WEIGHT(M)
+           A(3,M) = A(3,M)*WEIGHT(M)
+           MS(M)  = MS(M)*WEIGHT(M)
+           STIFN(M)= STIFN(M)*WEIGHT(M)
         ENDDO
         IF (IROT>0) THEN
 #include    "vectorize.inc"
          DO I=IAD+1,IAD+NML
           M = LRBE3(I)
-	  AR(1,M) = AR(1,M)*WEIGHT(M)
-	  AR(2,M) = AR(2,M)*WEIGHT(M)
-	  AR(3,M) = AR(3,M)*WEIGHT(M)
-	  IN(M) =  IN(M)*WEIGHT(M)
-	  STIFR(M) = STIFR(M)*WEIGHT(M)
+            AR(1,M) = AR(1,M)*WEIGHT(M)
+            AR(2,M) = AR(2,M)*WEIGHT(M)
+            AR(3,M) = AR(3,M)*WEIGHT(M)
+            IN(M) =  IN(M)*WEIGHT(M)
+            STIFR(M) = STIFR(M)*WEIGHT(M)
          ENDDO
         ENDIF
       ENDDO
@@ -358,46 +358,46 @@ C-----IMOD=4  STIFNM might be over_estimated but safe
         ENDDO
         IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) THEN
          DO J = 1,3
-	     NN = JR(J,N)*WEIGHT(NS)
-	     MNS(J) = AR(J,NS)*NN
-	     INS(J) = IN(NS)*NN/3
-	     STR(J) = STIFR(NS)*NN
+               NN = JR(J,N)*WEIGHT(NS)
+               MNS(J) = AR(J,NS)*NN
+               INS(J) = IN(NS)*NN/3
+               STR(J) = STIFR(NS)*NN
          ENDDO
          DO I=1,NML
-	      K = IADMP(IAD+I)
+                K = IADMP(IAD+I)
           DO J = 1,3
-	      AM(1,K) = AM(1,K)+FDSTNB(1,J+3,I)*MNS(J)
-	      AM(2,K) = AM(2,K)+FDSTNB(2,J+3,I)*MNS(J)
-	      AM(3,K) = AM(3,K)+FDSTNB(3,J+3,I)*MNS(J)
+                AM(1,K) = AM(1,K)+FDSTNB(1,J+3,I)*MNS(J)
+                AM(2,K) = AM(2,K)+FDSTNB(2,J+3,I)*MNS(J)
+                AM(3,K) = AM(3,K)+FDSTNB(3,J+3,I)*MNS(J)
           ENDDO
            SMAX = ZERO
           DO J = 1,3
-C	   FSUM = FDSTNB(J,J+3,I)
+C     FSUM = FDSTNB(J,J+3,I)
             FSUM = FDSTNB(J,4,I)+FDSTNB(J,5,I)+FDSTNB(J,6,I)
             MSM(K) =MSM(K)+ABS(FSUM)*INS(J)
             FMAX=ABS(FDSTNB(J,4,I))+ABS(FDSTNB(J,5,I))+ABS(FDSTNB(J,6,I))
             SMAX = MAX(SMAX,FMAX*STR(J))
           ENDDO
-	      STIFNM(K) = STIFNM(K)+SMAX
+                STIFNM(K) = STIFNM(K)+SMAX
          ENDDO
         ENDIF
         IF (IROT>0) THEN
          DO I=1,NML
           K = IADMP(IAD+I)
           DO J = 1,3
-	       ARM(1,K) = ARM(1,K)+MDSTNB(1,J,I)*FNS(J)
-	       ARM(2,K) = ARM(2,K)+MDSTNB(2,J,I)*FNS(J)
-	       ARM(3,K) = ARM(3,K)+MDSTNB(3,J,I)*FNS(J)
+                 ARM(1,K) = ARM(1,K)+MDSTNB(1,J,I)*FNS(J)
+                 ARM(2,K) = ARM(2,K)+MDSTNB(2,J,I)*FNS(J)
+                 ARM(3,K) = ARM(3,K)+MDSTNB(3,J,I)*FNS(J)
           ENDDO
           SMAX = ZERO
           DO J = 1,3
-C	   MSUM = MDSTNB(J,J,I)
-	      MSUM = MDSTNB(J,1,I)+MDSTNB(J,2,I)+MDSTNB(J,3,I)
- 	      IF (IMOD /=4) INM(K) = INM(K)+ABS(MSUM)*MSS(J)
-	      MMAX=ABS(MDSTNB(J,1,I))+ABS(MDSTNB(J,2,I))+ABS(MDSTNB(J,3,I))
+C     MSUM = MDSTNB(J,J,I)
+                MSUM = MDSTNB(J,1,I)+MDSTNB(J,2,I)+MDSTNB(J,3,I)
+                IF (IMOD /=4) INM(K) = INM(K)+ABS(MSUM)*MSS(J)
+                MMAX=ABS(MDSTNB(J,1,I))+ABS(MDSTNB(J,2,I))+ABS(MDSTNB(J,3,I))
               SMAX = MAX(SMAX,MMAX*STN(J))
           ENDDO
-	      STIFRM(K) = STIFRM(K)+SMAX
+                STIFRM(K) = STIFRM(K)+SMAX
          ENDDO
          IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) THEN
           IF (IMOD <=3) THEN
@@ -420,21 +420,21 @@ C	   MSUM = MDSTNB(J,J,I)
           DO I=1,NML
            K = IADMP(IAD+I)
            DO J = 1,3
-	       ARM(1,K) = ARM(1,K)+MDSTNB(1,J+3,I)*MNS(J)
-	       ARM(2,K) = ARM(2,K)+MDSTNB(2,J+3,I)*MNS(J)
-	       ARM(3,K) = ARM(3,K)+MDSTNB(3,J+3,I)*MNS(J)
+                 ARM(1,K) = ARM(1,K)+MDSTNB(1,J+3,I)*MNS(J)
+                 ARM(2,K) = ARM(2,K)+MDSTNB(2,J+3,I)*MNS(J)
+                 ARM(3,K) = ARM(3,K)+MDSTNB(3,J+3,I)*MNS(J)
            ENDDO
            SMAX = ZERO
            DO J = 1,3
-	      MMAX=ABS(MDSTNB(J,4,I))+ABS(MDSTNB(J,5,I))+ABS(MDSTNB(J,6,I))
+                MMAX=ABS(MDSTNB(J,4,I))+ABS(MDSTNB(J,5,I))+ABS(MDSTNB(J,6,I))
               SMAX = MAX(SMAX,MMAX*STR(J))
            ENDDO
-	      STIFRM(K) = STIFRM(K)+SMAX
+                STIFRM(K) = STIFRM(K)+SMAX
           ENDDO
          ENDIF
         ENDIF
-C	MS(NS) = ZERO
-	STIFN(NS) = EM20
+C  MS(NS) = ZERO
+          STIFN(NS) = EM20
         IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) STIFR(NS) = EM20
        ENDIF
        END IF ! IF (NS>0) THEN
@@ -482,20 +482,20 @@ C======================================================================|
 #include    "vectorize.inc"
       DO I=1,NMT
          M = IML(I)
-	 A(1,M) = A(1,M) + DA(1,I)
-	 A(2,M) = A(2,M) + DA(2,I)
-	 A(3,M) = A(3,M) + DA(3,I)
-	 MS(M)  = MS(M)  + DMS(I)
-	 STIFN(M)= STIFN(M) + DSTIFN(I)
+           A(1,M) = A(1,M) + DA(1,I)
+           A(2,M) = A(2,M) + DA(2,I)
+           A(3,M) = A(3,M) + DA(3,I)
+           MS(M)  = MS(M)  + DMS(I)
+           STIFN(M)= STIFN(M) + DSTIFN(I)
       ENDDO
       IF (IROTG>0) THEN
        DO I=1,NMT
           M = IML(I)
-	  AR(1,M) = AR(1,M) + DAR(1,I)
-	  AR(2,M) = AR(2,M) + DAR(2,I)
-	  AR(3,M) = AR(3,M) + DAR(3,I)
-	  IN(M) =  IN(M)  +  DIN(I)
-	  STIFR(M) = STIFR(M) + DSTIFR(I)
+            AR(1,M) = AR(1,M) + DAR(1,I)
+            AR(2,M) = AR(2,M) + DAR(2,I)
+            AR(3,M) = AR(3,M) + DAR(3,I)
+            IN(M) =  IN(M)  +  DIN(I)
+            STIFR(M) = STIFR(M) + DSTIFR(I)
        ENDDO
       ENDIF
       RETURN
@@ -504,24 +504,24 @@ C
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
-	IROT =IRBE3(6,N)
+          IROT =IRBE3(6,N)
         IF (NS==0.OR.WEIGHT(NS)==0) CYCLE
         DO I=IAD+1,IAD+NML
          M = LRBE3(I)
-	 A(1,M) = A(1,M) + DA(1,I)
-	 A(2,M) = A(2,M) + DA(2,I)
-	 A(3,M) = A(3,M) + DA(3,I)
-	 MS(M)  = MS(M)  + DMS(I)
-	 STIFN(M)= STIFN(M) + DSTIFN(I)
+           A(1,M) = A(1,M) + DA(1,I)
+           A(2,M) = A(2,M) + DA(2,I)
+           A(3,M) = A(3,M) + DA(3,I)
+           MS(M)  = MS(M)  + DMS(I)
+           STIFN(M)= STIFN(M) + DSTIFN(I)
         ENDDO
         IF (IROT>0) THEN
          DO I=IAD+1,IAD+NML
           M = LRBE3(I)
-	  AR(1,M) = AR(1,M) + DAR(1,I)
-	  AR(2,M) = AR(2,M) + DAR(2,I)
-	  AR(3,M) = AR(3,M) + DAR(3,I)
-	  IN(M) =  IN(M)  +  DIN(I)
-	  STIFR(M) = STIFR(M) + DSTIFR(I)
+            AR(1,M) = AR(1,M) + DAR(1,I)
+            AR(2,M) = AR(2,M) + DAR(2,I)
+            AR(3,M) = AR(3,M) + DAR(3,I)
+            IN(M) =  IN(M)  +  DIN(I)
+            STIFR(M) = STIFR(M) + DSTIFR(I)
          ENDDO
         ENDIF
       ENDDO
@@ -567,16 +567,16 @@ C======================================================================|
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
-	IROT =IRBE3(6,N)
+          IROT =IRBE3(6,N)
 #include    "vectorize.inc"
         DO I=IAD+1,IAD+NML
          M = LRBE3(I)
-	 IF (ITAG(M)==0) THEN
-	  WEIGHT(I) = 1
-	 ELSE
-	  WEIGHT(I) = 0
-	 END IF
-	 ITAG(M)=1
+           IF (ITAG(M)==0) THEN
+            WEIGHT(I) = 1
+           ELSE
+            WEIGHT(I) = 0
+           END IF
+           ITAG(M)=1
         ENDDO
       ENDDO
 C
@@ -584,25 +584,25 @@ C
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
-	IROT =IRBE3(6,N)
+          IROT =IRBE3(6,N)
 #include    "vectorize.inc"
         DO I=IAD+1,IAD+NML
          M = LRBE3(I)
-	 DA(1,I) = A(1,M)*WEIGHT(I) + DA(1,I)
-	 DA(2,I) = A(2,M)*WEIGHT(I) + DA(2,I)
-	 DA(3,I) = A(3,M)*WEIGHT(I) + DA(3,I)
-	 DMS(I) = MS(M)*WEIGHT(I)+DMS(I)
-	 DSTIFN(I) = STIFN(M)*WEIGHT(I)+DSTIFN(I)
+           DA(1,I) = A(1,M)*WEIGHT(I) + DA(1,I)
+           DA(2,I) = A(2,M)*WEIGHT(I) + DA(2,I)
+           DA(3,I) = A(3,M)*WEIGHT(I) + DA(3,I)
+           DMS(I) = MS(M)*WEIGHT(I)+DMS(I)
+           DSTIFN(I) = STIFN(M)*WEIGHT(I)+DSTIFN(I)
         ENDDO
         IF (IROT>0) THEN
 #include    "vectorize.inc"
          DO I=IAD+1,IAD+NML
           M = LRBE3(I)
-	  DAR(1,I) = AR(1,M)*WEIGHT(I) + DAR(1,I)
-	  DAR(2,I) = AR(2,M)*WEIGHT(I) + DAR(2,I)
-	  DAR(3,I) = AR(3,M)*WEIGHT(I) + DAR(3,I)
-	  DIN(I) = IN(M)*WEIGHT(I)+DIN(I)
-	  DSTIFR(I) = STIFR(M)*WEIGHT(I)+DSTIFR(I)
+            DAR(1,I) = AR(1,M)*WEIGHT(I) + DAR(1,I)
+            DAR(2,I) = AR(2,M)*WEIGHT(I) + DAR(2,I)
+            DAR(3,I) = AR(3,M)*WEIGHT(I) + DAR(3,I)
+            DIN(I) = IN(M)*WEIGHT(I)+DIN(I)
+            DSTIFR(I) = STIFR(M)*WEIGHT(I)+DSTIFR(I)
          ENDDO
         ENDIF
       ENDDO
@@ -646,25 +646,25 @@ C======================================================================|
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
-	IROT =IRBE3(6,N)
+          IROT =IRBE3(6,N)
 #include    "vectorize.inc"
         DO I=IAD+1,IAD+NML
          M = LRBE3(I)
-	  A(1,M) = ZERO
-	  A(2,M) = ZERO
-	  A(3,M) = ZERO
-	  MS(M) =  ZERO
-	  STIFN(M) = ZERO
+            A(1,M) = ZERO
+            A(2,M) = ZERO
+            A(3,M) = ZERO
+            MS(M) =  ZERO
+            STIFN(M) = ZERO
         ENDDO
         IF (IROT>0) THEN
 #include    "vectorize.inc"
          DO I=IAD+1,IAD+NML
           M = LRBE3(I)
-	   AR(1,M) = ZERO
-	   AR(2,M) = ZERO
-	   AR(3,M) = ZERO
-	   IN(M) =  ZERO
-	   STIFR(M) = ZERO
+             AR(1,M) = ZERO
+             AR(2,M) = ZERO
+             AR(3,M) = ZERO
+             IN(M) =  ZERO
+             STIFR(M) = ZERO
          ENDDO
         ENDIF
       ENDDO
@@ -673,16 +673,16 @@ C
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
-	IROT =IRBE3(6,N)
+          IROT =IRBE3(6,N)
 #include    "vectorize.inc"
         DO I=IAD+1,IAD+NML
          M = LRBE3(I)
          DO J=1,6
-	  A(1,M) = A(1,M)+ DA(J,1,I)
-	  A(2,M) = A(2,M)+ DA(J,2,I)
-	  A(3,M) = A(3,M)+ DA(J,3,I)
-	  MS(M) =  MS(M)+DMS(J,I)
-	  STIFN(M) = STIFN(M)+DSTIFN(J,I)
+            A(1,M) = A(1,M)+ DA(J,1,I)
+            A(2,M) = A(2,M)+ DA(J,2,I)
+            A(3,M) = A(3,M)+ DA(J,3,I)
+            MS(M) =  MS(M)+DMS(J,I)
+            STIFN(M) = STIFN(M)+DSTIFN(J,I)
          ENDDO
         ENDDO
         IF (IROT>0) THEN
@@ -690,11 +690,11 @@ C
          DO I=IAD+1,IAD+NML
           M = LRBE3(I)
           DO J=1,6
-	   AR(1,M) = AR(1,M)+ DAR(J,1,I)
-	   AR(2,M) = AR(2,M)+ DAR(J,2,I)
-	   AR(3,M) = AR(3,M)+ DAR(J,3,I)
-	   IN(M) =  IN(M)+DIN(J,I)
-	   STIFR(M) = STIFR(M)+DSTIFR(J,I)
+             AR(1,M) = AR(1,M)+ DAR(J,1,I)
+             AR(2,M) = AR(2,M)+ DAR(J,2,I)
+             AR(3,M) = AR(3,M)+ DAR(J,3,I)
+             IN(M) =  IN(M)+DIN(J,I)
+             STIFR(M) = STIFR(M)+DSTIFR(J,I)
           ENDDO
          ENDDO
         ENDIF
@@ -741,37 +741,37 @@ C======================================================================|
 #include    "vectorize.inc"
        DO I=1,NMT
          M = IML(I)
-	 AX = ZERO
-	 AY = ZERO
-	 AZ = ZERO
+           AX = ZERO
+           AY = ZERO
+           AZ = ZERO
          DO J=1,6
-	  AX = AX + DA(J,1,I)
-	  AY = AY + DA(J,2,I)
-	  AZ = AZ + DA(J,3,I)
-	  MS(M) =  MS(M)+DMS(J,I)
-C	  MS1 = MS1 + DMS(J,I)
- 	  STIFN(M) = STIFN(M)+DSTIFN(J,I)
+            AX = AX + DA(J,1,I)
+            AY = AY + DA(J,2,I)
+            AZ = AZ + DA(J,3,I)
+            MS(M) =  MS(M)+DMS(J,I)
+C    MS1 = MS1 + DMS(J,I)
+            STIFN(M) = STIFN(M)+DSTIFN(J,I)
          ENDDO
-	  A(1,M) = A(1,M)+ AX
-	  A(2,M) = A(2,M)+ AY
-	  A(3,M) = A(3,M)+ AZ
+            A(1,M) = A(1,M)+ AX
+            A(2,M) = A(2,M)+ AY
+            A(3,M) = A(3,M)+ AZ
        ENDDO
       IF (IROTG>0) THEN
        DO I=1,NMT
          M = IML(I)
-	 AX = ZERO
-	 AY = ZERO
-	 AZ = ZERO
+           AX = ZERO
+           AY = ZERO
+           AZ = ZERO
           DO J=1,6
-	   AX = AX + DAR(J,1,I)
-	   AY = AY + DAR(J,2,I)
-	   AZ = AZ + DAR(J,3,I)
-	   IN(M) =  IN(M)+DIN(J,I)
-	   STIFR(M) = STIFR(M)+DSTIFR(J,I)
+             AX = AX + DAR(J,1,I)
+             AY = AY + DAR(J,2,I)
+             AZ = AZ + DAR(J,3,I)
+             IN(M) =  IN(M)+DIN(J,I)
+             STIFR(M) = STIFR(M)+DSTIFR(J,I)
           ENDDO
-	  AR(1,M) = AR(1,M)+ AX
-	  AR(2,M) = AR(2,M)+ AY
-	  AR(3,M) = AR(3,M)+ AZ
+            AR(1,M) = AR(1,M)+ AX
+            AR(2,M) = AR(2,M)+ AY
+            AR(3,M) = AR(3,M)+ AZ
        ENDDO
       ENDIF
 C---
@@ -832,11 +832,11 @@ C----accumulated secnd masses---
           IF (WEIGHT(NS)==1) THEN
             IF (NML>0) MNS= MNS+MS(NS)*WEIGHT(NS)
 c         DO J = 1,NML
-c	  K = IADMP(IAD+J)
+c    K = IADMP(IAD+J)
 c          DMS(K) = DMS(K) -MNS
-c	 ENDDO
+c   ENDDO
             MS(NS) = ZERO
-	    IF (IRODDL/=0) IN(NS) = ZERO
+              IF (IRODDL/=0) IN(NS) = ZERO
           ENDIF
         ENDIF
       ENDDO
@@ -877,7 +877,7 @@ C-------output only when real added mass happened: debug usage
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
-	IROT =IRBE3(6,N)
+          IROT =IRBE3(6,N)
         IF (NS>0.AND.IROT>0.AND.WEIGHT(NS)==1) THEN
          DO J = 1,NML
           M = LRBE3(IAD+J)
@@ -930,17 +930,17 @@ C======================================================================|
       MAX_M=0
       IROTG=0
       DO N=1,NRBE3
-	    NML = IRBE3(5,N)
-	    IROT =IRBE3(6,N)
+              NML = IRBE3(5,N)
+              IROT =IRBE3(6,N)
         MAX_M=MAX(MAX_M,NML)
         IROTG=MAX(IROTG,IROT)
-	    IC=IRBE3(4,N)
+              IC=IRBE3(4,N)
         ICT=IC/512
         ICR=(IC-512*(ICT))/64
-	   DO J =1,3
+             DO J =1,3
            JT(J,N)=0
            JR(J,N)=0
-	   ENDDO
+             ENDDO
         SELECT CASE (ICT)
           CASE(1)
            JT(3,N)=1
@@ -1020,13 +1020,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NML,IC,ICT,ICR
 C======================================================================|
-	IC=IRBE3(4,N)
+          IC=IRBE3(4,N)
         ICT=IC/512
         ICR=(IC-512*(ICT))/64
-	    DO J =1,3
+              DO J =1,3
            JT(J)=0
            JR(J)=0
-	    ENDDO
+              ENDDO
         SELECT CASE (ICT)
           CASE(1)
            JT(3)=1
@@ -1444,7 +1444,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE WRRINF(TITLE,R,N)
 #include      "implicit_f.inc"
-c	!DECLARATIONS
+c  !DECLARATIONS
       INTEGER N
       my_real
      .        R(N)
@@ -1767,96 +1767,96 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-c	!DECLARATIONS
-	INTEGER, INTENT(IN) :: N
-	INTEGER, INTENT(OUT) :: ERRORFLAG  !RETURN ERROR STATUS. -1 FOR ERROR, 0 FOR NORMAL
+c  !DECLARATIONS
+          INTEGER, INTENT(IN) :: N
+          INTEGER, INTENT(OUT) :: ERRORFLAG  !RETURN ERROR STATUS. -1 FOR ERROR, 0 FOR NORMAL
       my_real
      *     , INTENT(IN), DIMENSION(N,N) :: MATRIX  !INPUT MATRIX
       my_real
      *     , INTENT(OUT), DIMENSION(N,N) :: INVERSE !INVERTED MATRIX
 
-	LOGICAL :: FLAG = .TRUE.
-	INTEGER :: I, J, K, L
+          LOGICAL :: FLAG = .TRUE.
+          INTEGER :: I, J, K, L
       my_real
      *     :: M
       my_real
      *       , DIMENSION(N,2*N) :: AUGMATRIX !AUGMENTED MATRIX
 
-c	!AUGMENT INPUT MATRIX WITH AN IDENTITY MATRIX
-	DO I = 1, N
-		DO J = 1, 2*N
-			IF (J <= N ) THEN
-				AUGMATRIX(I,J) = MATRIX(I,J)
-			ELSE IF ((I+N) == J) THEN
-				AUGMATRIX(I,J) = ONE
-			ELSE
-				AUGMATRIX(I,J) = ZERO
-			ENDIF
-		END DO
-	END DO
+c  !AUGMENT INPUT MATRIX WITH AN IDENTITY MATRIX
+          DO I = 1, N
+          DO J = 1, 2*N
+          IF (J <= N ) THEN
+          AUGMATRIX(I,J) = MATRIX(I,J)
+          ELSE IF ((I+N) == J) THEN
+          AUGMATRIX(I,J) = ONE
+          ELSE
+          AUGMATRIX(I,J) = ZERO
+          ENDIF
+          END DO
+          END DO
 
-c	!REDUCE AUGMENTED MATRIX TO UPPER TRAINGULAR FORM
-	DO K =1, N-1
-		IF (AUGMATRIX(K,K) == 0) THEN
-		 FLAG = .FALSE.
-		 DO I = K+1, N
-		  IF (AUGMATRIX(I,K) /= 0) THEN
-		    DO J = 1,2*N
-			AUGMATRIX(K,J) = AUGMATRIX(K,J)+AUGMATRIX(I,J)
-		    END DO
-		    FLAG = .TRUE.
-		    EXIT
-		  ENDIF
-		  IF (FLAG .EQV. .FALSE.) THEN
-			INVERSE = 0
-			ERRORFLAG = -1
-			RETURN
-		  ENDIF
-		 END DO
-		ENDIF
-		DO J = K+1, N
-		 M = AUGMATRIX(J,K)/AUGMATRIX(K,K)
-		 DO I = K, 2*N
-		  AUGMATRIX(J,I) = AUGMATRIX(J,I) - M*AUGMATRIX(K,I)
-		 END DO
-		END DO
-	END DO
+c  !REDUCE AUGMENTED MATRIX TO UPPER TRAINGULAR FORM
+          DO K =1, N-1
+          IF (AUGMATRIX(K,K) == 0) THEN
+           FLAG = .FALSE.
+           DO I = K+1, N
+            IF (AUGMATRIX(I,K) /= 0) THEN
+              DO J = 1,2*N
+          AUGMATRIX(K,J) = AUGMATRIX(K,J)+AUGMATRIX(I,J)
+              END DO
+              FLAG = .TRUE.
+              EXIT
+            ENDIF
+            IF (FLAG .EQV. .FALSE.) THEN
+          INVERSE = 0
+          ERRORFLAG = -1
+          RETURN
+            ENDIF
+           END DO
+          ENDIF
+          DO J = K+1, N
+           M = AUGMATRIX(J,K)/AUGMATRIX(K,K)
+           DO I = K, 2*N
+            AUGMATRIX(J,I) = AUGMATRIX(J,I) - M*AUGMATRIX(K,I)
+           END DO
+          END DO
+          END DO
 
-c	!TEST FOR INVERTIBILITY
-	DO I = 1, N
-		IF (AUGMATRIX(I,I) == 0) THEN
-c			PRINT*, "MATRIX IS NON - INVERTIBLE"
-			INVERSE = 0
-			ERRORFLAG = -1
-			RETURN
-		ENDIF
-	END DO
+c  !TEST FOR INVERTIBILITY
+          DO I = 1, N
+          IF (AUGMATRIX(I,I) == 0) THEN
+c      PRINT*, "MATRIX IS NON - INVERTIBLE"
+          INVERSE = 0
+          ERRORFLAG = -1
+          RETURN
+          ENDIF
+          END DO
 
-c	!MAKE DIAGONAL ELEMENTS AS 1
-	DO I = 1 , N
-		M = AUGMATRIX(I,I)
-		DO J = I , (2 * N)
-			AUGMATRIX(I,J) = (AUGMATRIX(I,J) / M)
-		END DO
-	END DO
+c  !MAKE DIAGONAL ELEMENTS AS 1
+          DO I = 1 , N
+          M = AUGMATRIX(I,I)
+          DO J = I , (2 * N)
+          AUGMATRIX(I,J) = (AUGMATRIX(I,J) / M)
+          END DO
+          END DO
 
-c	!REDUCED RIGHT SIDE HALF OF AUGMENTED MATRIX TO IDENTITY MATRIX
-	DO K = N-1, 1, -1
-		DO I =1, K
-		M = AUGMATRIX(I,K+1)
-		 DO J = K, (2*N)
-		  AUGMATRIX(I,J) = AUGMATRIX(I,J) -AUGMATRIX(K+1,J) * M
-		 END DO
-		END DO
-	END DO
+c  !REDUCED RIGHT SIDE HALF OF AUGMENTED MATRIX TO IDENTITY MATRIX
+          DO K = N-1, 1, -1
+          DO I =1, K
+          M = AUGMATRIX(I,K+1)
+           DO J = K, (2*N)
+            AUGMATRIX(I,J) = AUGMATRIX(I,J) -AUGMATRIX(K+1,J) * M
+           END DO
+          END DO
+          END DO
 
-c	!STORE ANSWER
-	DO I =1, N
-		DO J = 1, N
-			INVERSE(I,J) = AUGMATRIX(I,J+N)
-		END DO
-	END DO
-	ERRORFLAG = 0
+c  !STORE ANSWER
+          DO I =1, N
+          DO J = 1, N
+          INVERSE(I,J) = AUGMATRIX(I,J+N)
+          END DO
+          END DO
+          ERRORFLAG = 0
         RETURN
         END SUBROUTINE INVERT
 Chd|====================================================================
@@ -1888,46 +1888,46 @@ C     REAL
      .        FNS(3),MNS(3)
 C======================================================================|
         DO J = 1,3
-	 FNS(J) = A(J,NS)*JT(J)
-	ENDDO
+           FNS(J) = A(J,NS)*JT(J)
+          ENDDO
         DO I=1,NML
-	 M = IML(I)
+           M = IML(I)
          DO J = 1,3
-	  A(1,M) = A(1,M)+FDSTNB(1,J,I)*FNS(J)
-	  A(2,M) = A(2,M)+FDSTNB(2,J,I)*FNS(J)
-	  A(3,M) = A(3,M)+FDSTNB(3,J,I)*FNS(J)
-	 ENDDO
+            A(1,M) = A(1,M)+FDSTNB(1,J,I)*FNS(J)
+            A(2,M) = A(2,M)+FDSTNB(2,J,I)*FNS(J)
+            A(3,M) = A(3,M)+FDSTNB(3,J,I)*FNS(J)
+           ENDDO
         ENDDO
         IF ((JR(1)+JR(2)+JR(3))>0) THEN
          DO J = 1,3
-	  MNS(J) = AR(J,NS)*JR(J)
-	 ENDDO
+            MNS(J) = AR(J,NS)*JR(J)
+           ENDDO
          DO I=1,NML
-	  M = IML(I)
+            M = IML(I)
           DO J = 1,3
-	   A(1,M) = A(1,M)+FDSTNB(1,J+3,I)*MNS(J)
-	   A(2,M) = A(2,M)+FDSTNB(2,J+3,I)*MNS(J)
-	   A(3,M) = A(3,M)+FDSTNB(3,J+3,I)*MNS(J)
-	  ENDDO
+             A(1,M) = A(1,M)+FDSTNB(1,J+3,I)*MNS(J)
+             A(2,M) = A(2,M)+FDSTNB(2,J+3,I)*MNS(J)
+             A(3,M) = A(3,M)+FDSTNB(3,J+3,I)*MNS(J)
+            ENDDO
          ENDDO
         ENDIF
         IF (IROT>0) THEN
          DO I=1,NML
-	  M = IML(I)
+            M = IML(I)
           DO J = 1,3
-	   AR(1,M) = AR(1,M)+MDSTNB(1,J,I)*FNS(J)
-	   AR(2,M) = AR(2,M)+MDSTNB(2,J,I)*FNS(J)
-	   AR(3,M) = AR(3,M)+MDSTNB(3,J,I)*FNS(J)
-	  ENDDO
+             AR(1,M) = AR(1,M)+MDSTNB(1,J,I)*FNS(J)
+             AR(2,M) = AR(2,M)+MDSTNB(2,J,I)*FNS(J)
+             AR(3,M) = AR(3,M)+MDSTNB(3,J,I)*FNS(J)
+            ENDDO
          ENDDO
          IF ((JR(1)+JR(2)+JR(3))>0) THEN
           DO I=1,NML
-	   M = IML(I)
+             M = IML(I)
            DO J = 1,3
-	    AR(1,M) = AR(1,M)+MDSTNB(1,J+3,I)*MNS(J)
-	    AR(2,M) = AR(2,M)+MDSTNB(2,J+3,I)*MNS(J)
-	    AR(3,M) = AR(3,M)+MDSTNB(3,J+3,I)*MNS(J)
-	   ENDDO
+              AR(1,M) = AR(1,M)+MDSTNB(1,J+3,I)*MNS(J)
+              AR(2,M) = AR(2,M)+MDSTNB(2,J+3,I)*MNS(J)
+              AR(3,M) = AR(3,M)+MDSTNB(3,J+3,I)*MNS(J)
+             ENDDO
           ENDDO
          ENDIF
         ENDIF
@@ -2058,9 +2058,9 @@ C-----------------------------------------------
       my_real
      .   FSUM,MSUM,SUM
 C======================================================================|
-	IFD=0
-	SF=ONE
-	SM=ONE
+          IFD=0
+          SF=ONE
+          SM=ONE
         DO I=1,NML
          DO J = 1,3
           IF (IFD==0) THEN

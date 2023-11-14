@@ -65,7 +65,7 @@ C=======================================================================
         SIGM(I,6) = ZERO  
         RHOM(I)   = ZERO  
         EINTM(I)  = ZERO  
-        QM(I)     = ZERO	  
+        QM(I)     = ZERO    
       ENDDO
       IF (G_EPSD > 0) THEN
         DO I=1,NEL

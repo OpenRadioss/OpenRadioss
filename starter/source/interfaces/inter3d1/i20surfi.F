@@ -565,7 +565,7 @@ c---------------------------------------
         DO J=1,NLIN0
           TAG(SLIN_NODES(J,1)) = 1                             
           TAG(SLIN_NODES(J,2)) = 1                             
-          LNTAG(SLIN_NODES(J,1)) = 1			      
+          LNTAG(SLIN_NODES(J,1)) = 1            
           LNTAG(SLIN_NODES(J,2)) = 1
         ENDDO
       ENDIF

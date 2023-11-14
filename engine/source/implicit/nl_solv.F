@@ -200,7 +200,7 @@ c          WRITE(ISTDO,1008)IT,RE,R01,RE
         RETURN
        ELSE
         F(1)=MAX(EM20,F(1))
-	    R01=MAX(R01,EM20)
+              R01=MAX(R01,EM20)
        ENDIF
        ENDIF
        IF (INSOLV==4) ICOV = IMCONV
@@ -232,12 +232,12 @@ C---------
      .                  DG    ,DGR   ,U2    ,W_DDL  )
 C-------distinquer converge or diverge---
 citask0         IF (ITASK == 0) THEN
-	      IF (IDIV/=-2) THEN
+                IF (IDIV/=-2) THEN
            CALL CP_REAL(ND,DD,DG0)
            IF (IRODDL/=0) CALL CP_REAL(ND,DDR,DGR0) 
-	      ELSE
+                ELSE
            DLA_RIKS = ISIGN*DT2
-	      ENDIF 
+                ENDIF 
 citask0         END IF !(ITASK == 0) THEN
           CALL PRODUT_UHP2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                    DG    ,DGR   ,DG0   ,DGR0  ,UC2   ,
@@ -247,30 +247,30 @@ c      CALL MY_BARRIER
 C---------------------
 citask0         IF (ITASK == 0) THEN
           CALL GET_MAX(NUMNOD,DG0,TEMP,I)
-	      UM1=TEMP
+                UM1=TEMP
           CALL GET_MAX(NUMNOD,DGR0,TEMP,I)
-	      UM1=MAX(UM1,TEMP,EM20)
+                UM1=MAX(UM1,TEMP,EM20)
           CALL GET_MAX(NUMNOD,DG,TEMP,I)
-	      UM2=TEMP
+                UM2=TEMP
           CALL GET_MAX(NUMNOD,DGR,TEMP,I)
-	      UM2=MAX(UM2,TEMP,EM20)
-	      UC2=UC2/UM1/UM2
+                UM2=MAX(UM2,TEMP,EM20)
+                UC2=UC2/UM1/UM2
 C          LAMDA = ALEN/SQRT(U2)
-	     IF ((UC2+DLA_RIKS/RFEXT)<ZERO) THEN
-	      ISIGN = -1
-	     ELSE
-	      ISIGN = 1
-	     ENDIF
+               IF ((UC2+DLA_RIKS/RFEXT)<ZERO) THEN
+                ISIGN = -1
+               ELSE
+                ISIGN = 1
+               ENDIF
 c           print *,'UC2,DLA_RIKS,ISIGN=',UC2,DLA_RIKS,ISIGN
           IF (IMPDEB>0) THEN
            IF (NCYCLE>=NDEB0.AND.NCYCLE<=NDEB1) 
      .      WRITE(IOUT,1025)UC2,DLA_RIKS,ISIGN
-	      ENDIF
-	     IF (ISIGN<0) THEN
-	      DLA_RIKS = 2*ISIGN*DT2
-	     ELSE
-	      DLA_RIKS = ZERO
-	     ENDIF
+                ENDIF
+               IF (ISIGN<0) THEN
+                DLA_RIKS = 2*ISIGN*DT2
+               ELSE
+                DLA_RIKS = ZERO
+               ENDIF
 C---------
 citask0         END IF !(ITASK == 0) THEN
 
@@ -292,11 +292,11 @@ C---------------------
         IF ((N_LIM /= 1.OR.ISPRB /= 0).AND.
      .      (NCYCLE>1.AND.IDIV/=-2.AND.ICONT==0.AND.IKT==0
      .     .OR.(NCYCLE==1.AND.IDIV==10)))THEN
-	     IF (IDTC==3.AND.ILAST==1) THEN
+               IF (IDTC==3.AND.ILAST==1) THEN
           LAMDA = DLA_RIKS
-	      DLA_RIKS = ZERO
+                DLA_RIKS = ZERO
           CALL FRAC_D_HP(IDDL,NDOF,IKC,DD,DDR,LAMDA)
-	     ENDIF
+               ENDIF
          CALL PRODUT_VMHP(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                   DD    ,DDR   ,F     ,DE    ,W_DDL )
         ELSE
@@ -325,11 +325,11 @@ C---------------------
           IF (PMAX>GAPN) THEN
            TEMP=GAPN/PMAX
            CALL FRAC_D_HP(IDDL,NDOF,IKC,DD,DDR,TEMP)
-	       DE = DE * TEMP
+                 DE = DE * TEMP
           ENDIF
          ENDIF
         ENDIF
-C	
+C
         CALL INTEGRATOR2_HP(IDDL,NDOF,IKC,D,DR,DD,DDR)
        ENDIF !IF (IRIKS>0)
 C----------------------
@@ -346,7 +346,7 @@ citask0       IF (ITASK == 0) THEN
           WRITE(IOUT,1030)EIMP  
           WRITE(ISTDO,1030)EIMP  
          ENDIF
-	     CALL IMP_STOP(-1)
+               CALL IMP_STOP(-1)
         ENDIF
 C--------pour idtc>=2-----
         U02=U2
@@ -438,7 +438,7 @@ C-------start line-search------------
        IF(IMCONV==1) THEN
         ISTOP=0
         IDIV=0
-C------For time correction-with Riks----	 
+C------For time correction-with Riks----   
          IF (IT>1.AND.ICALU==0) THEN
           CALL PRODUT_UHP(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                    D     ,DR    ,U2    ,W_DDL )
@@ -628,8 +628,8 @@ C---------------------
      B               FR_MV ,VOLMON,IBFV  ,SKEW  ,
      C               XFRAME ,MUMPS_PAR,CDDLP,IND_IMP,RBID,
      E               IRBE3 ,LRBE3 ,IRBE2  ,LRBE2 )
-	      ICPREC = 0
-	      IDSC = 0
+                ICPREC = 0
+                IDSC = 0
           END IF 
           CALL PRODUT_VMHP(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                     DG    ,DGR   ,F     ,UM1   ,W_DDL )
@@ -657,16 +657,16 @@ C---------------------
           IF (PMAX>GAPN) THEN
            TEMP=GAPN/PMAX
            CALL FRAC_D_HP(IDDL,NDOF,IKC,DD,DDR,TEMP)
-	       DE = DE * TEMP
+                 DE = DE * TEMP
           ENDIF
          ENDIF
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
-C---------Riks type arc length------	 
+C---------Riks type arc length------   
          IF (IRIKS>0) THEN
-	      LAMDA = DLA_RIKS
-	      IF (IAL_M==1) THEN
+                LAMDA = DLA_RIKS
+                IF (IAL_M==1) THEN
             CALL AL_CONSTRAINT1_HP(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                          DD    ,DDR   ,DG    ,DGR   ,D     ,
      .                          DR    ,W_DDL ,ALEN  ,LAMDA ,SCAL_RIKS,
@@ -675,7 +675,7 @@ C----------------------
 c      CALL MY_BARRIER
 C---------------------
           IF (IER==1) THEN
-	       IMCONV=-2
+                 IMCONV=-2
             IF(INPRINT/=0)THEN
              WRITE(IOUT,*)
              WRITE(IOUT,1020)
@@ -694,11 +694,11 @@ C---------------------
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
-	  END IF
-	  IF (IMCONV>=0) THEN
+            END IF
+            IF (IMCONV>=0) THEN
            CALL FRAC_DD_HP(IDDL,NDOF,IKC,D ,DR ,DG,DGR,LAMDA)
 citask0           IF (ITASK == 0) THEN
-	        DLA_RIKS = DLA_RIKS + LAMDA
+                  DLA_RIKS = DLA_RIKS + LAMDA
             EIMP=EIMP+DLA_RIKS*UM1
 citask0           END IF !(ITASK == 0) THEN
 C----------------------
@@ -706,10 +706,10 @@ c      CALL MY_BARRIER
 C---------------------
           ENDIF
          END IF !IF (IRIKS>0) THEN
-C	 
+C   
          CALL INTEGRATOR2_HP(IDDL,NDOF,IKC,D,DR,DD,DDR)
          EIMP=EIMP+DE
-c	 if (de<0) print *,'****negative de=',de
+c   if (de<0) print *,'****negative de=',de
 C
         ELSEIF(IMCONV==-1) THEN
 C----------line-search---------
@@ -1035,7 +1035,7 @@ C------find sl so that el<0
          RETURN
         ELSEIF (IDIV>0) THEN
          SOLD = S
-         IF (ABS(E1-EP)<DTOL.OR.E1>EP.OR.IDIV>NLS_LIM) THEN	 
+         IF (ABS(E1-EP)<DTOL.OR.E1>EP.OR.IDIV>NLS_LIM) THEN   
           IF (E1>EP) S = S - ONE
           IMCONV =0
          ELSE
@@ -1049,7 +1049,7 @@ C------find sl so that el<0
         SP = S
         EP = E1
        ELSE
-        IF (IDIV==0) THEN	 
+        IF (IDIV==0) THEN   
          SP = ZERO
          EP = ONE
          S = HALF
@@ -1058,13 +1058,13 @@ C------find sl so that el<0
          EN = E1
          RETURN
         ELSEIF (SP==ZERO) THEN
-          IF (ABS(E1-EN)<DTOL.OR.IDIV<-NLS_LIM) THEN	 
+          IF (ABS(E1-EN)<DTOL.OR.IDIV<-NLS_LIM) THEN   
            IMCONV =0
           ELSEIF (IRIKS>0.OR.ISMDISP>0) THEN
            IMCONV =0
           ELSE
 c          SN = S
-c	  EN = E1
+c    EN = E1
            S = S*HALF
           ENDIF
           IDIV = IDIV - 1
@@ -1141,7 +1141,7 @@ C-----------------------------------------------
          CALL PRODUT_U(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                 DG    ,DGR   ,UT2   ,W_DDL )
          A = UT2+SW2
-C-------DD< DI+DD	 
+C-------DD< DI+DD   
          CALL INTEGRATOR2(1,NUMNOD,IDDL,NDOF,IKC,DD,DDR,DI,DIR)
          CALL PRODUT_U2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                  DG    ,DGR   ,DD    ,DDR   ,UIUT  ,
@@ -1150,11 +1150,11 @@ C-------DD< DI+DD
          CALL PRODUT_U(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                 DD    ,DDR   ,UI2   ,W_DDL )
          C = UI2-L_A*L_A+SW2*LAMDA
-	 S= B*B-FOUR*A*C
- 	IF (S>=0) THEN
-	 S=SQRT(S)
-	 LAM1=HALF*(-B+S)/A
-	 LAM2=HALF*(-B-S)/A
+           S= B*B-FOUR*A*C
+          IF (S>=0) THEN
+           S=SQRT(S)
+           LAM1=HALF*(-B+S)/A
+           LAM2=HALF*(-B-S)/A
          CALL PRODUT_U2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                  DD    ,DDR   ,DI    ,DIR   ,UIUD  ,
      .                  W_DDL )
@@ -1163,19 +1163,19 @@ C-------DD< DI+DD
      .                  W_DDL )
          TH1= UIUD+LAM1*UIUT
          TH2= UIUD+LAM2*UIUT
-	 IF (TH1>ZERO.AND.TH2<ZERO) THEN
-	  LAMDA =LAM1
-	 ELSEIF (TH1<ZERO.AND.TH2>ZERO) THEN
-	  LAMDA =LAM2
-	 ELSEIF (TH1>ZERO.AND.TH2>ZERO) THEN
-	  LAMDA =MIN(LAM1,LAM2)
-	 ELSE
-	  IER=1
-	 ENDIF
+           IF (TH1>ZERO.AND.TH2<ZERO) THEN
+            LAMDA =LAM1
+           ELSEIF (TH1<ZERO.AND.TH2>ZERO) THEN
+            LAMDA =LAM2
+           ELSEIF (TH1>ZERO.AND.TH2>ZERO) THEN
+            LAMDA =MIN(LAM1,LAM2)
+           ELSE
+            IER=1
+           ENDIF
         ELSE
-	 IER=1
-	ENDIF
-	 FAC =-ONE
+           IER=1
+          ENDIF
+           FAC =-ONE
         CALL FRAC_DD(1,NUMNOD,IDDL,NDOF,IKC,DD,DDR,DI,DIR,FAC)
 C
       RETURN
@@ -1217,7 +1217,7 @@ C-----------------------------------------------
          CALL PRODUT_U2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                  DD    ,DDR   ,DI    ,DIR   ,UIUD  ,
      .                  W_DDL )
-         S = SW2*LAMDA	 
+         S = SW2*LAMDA   
          LAMDA = ((L_A-GI)*GI-UIUD)/(UIUT+S)
 C
       RETURN
@@ -1244,8 +1244,8 @@ C-----------------------------------------------
       INTEGER I
 C-----------------------------------------------
          DO I =1,NDDL
-	  F(I)=F(I)+DLAMDA*FEXT(I)
-	 ENDDO
+            F(I)=F(I)+DLAMDA*FEXT(I)
+           ENDDO
 C
       RETURN
       END
@@ -1272,8 +1272,8 @@ C-----------------------------------------------
       INTEGER I
 C-----------------------------------------------
          DO I =F_DDL  ,L_DDL
-	      F(I)=F(I)+DLAMDA*FEXT(I)
-	     ENDDO
+                F(I)=F(I)+DLAMDA*FEXT(I)
+               ENDDO
 C
       RETURN
       END
@@ -1320,7 +1320,7 @@ C----------------------
       CALL MY_BARRIER
 C---------------------
          A = UT2+SW2
-C-------DD< DI+DD	 
+C-------DD< DI+DD   
          CALL INTEGRATOR2(FT_N,LT_N,IDDL,NDOF,IKC,DD,DDR,DI,DIR)
 C----------------------
       CALL MY_BARRIER
@@ -1336,11 +1336,11 @@ C----------------------
 C---------------------
          B= TWO*(UIUT+SW2*LAMDA)
          C = UI2-L_A*L_A+SW2*LAMDA
-	 S= B*B-FOUR*A*C
-	IF (S>=0) THEN
-	 S=SQRT(S)
-	 LAM1=HALF*(-B+S)/A
-	 LAM2=HALF*(-B-S)/A
+           S= B*B-FOUR*A*C
+          IF (S>=0) THEN
+           S=SQRT(S)
+           LAM1=HALF*(-B+S)/A
+           LAM2=HALF*(-B-S)/A
          CALL PRODUT_UH2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                  DD    ,DDR   ,DI    ,DIR   ,UIUD  ,
      .                  W_DDL ,F_DDL ,L_DDL ,ITASK )
@@ -1352,19 +1352,19 @@ C----------------------
 C---------------------
          TH1= UIUD+LAM1*UIUT
          TH2= UIUD+LAM2*UIUT
-	 IF (TH1>ZERO.AND.TH2<ZERO) THEN
-	  LAMDA =LAM1
-	 ELSEIF (TH1<ZERO.AND.TH2>ZERO) THEN
-	  LAMDA =LAM2
-	 ELSEIF (TH1>ZERO.AND.TH2>ZERO) THEN
-	  LAMDA =MIN(LAM1,LAM2)
-	 ELSE
-	  IER=1
-	 ENDIF
+           IF (TH1>ZERO.AND.TH2<ZERO) THEN
+            LAMDA =LAM1
+           ELSEIF (TH1<ZERO.AND.TH2>ZERO) THEN
+            LAMDA =LAM2
+           ELSEIF (TH1>ZERO.AND.TH2>ZERO) THEN
+            LAMDA =MIN(LAM1,LAM2)
+           ELSE
+            IER=1
+           ENDIF
         ELSE
-	 IER=1
-	ENDIF
-	 FAC =-ONE
+           IER=1
+          ENDIF
+           FAC =-ONE
         CALL FRAC_DD(FT_N,LT_N,IDDL,NDOF,IKC,DD,DDR,DI,DIR,FAC)
 C
       RETURN
@@ -1414,7 +1414,7 @@ C----------------------
       CALL MY_BARRIER
 C---------------------
          GI = SQRT(UI2)
-         S = SW2*LAMDA	 
+         S = SW2*LAMDA   
          LAMDA = ((L_A-GI)*GI-UIUD)/(UIUT+S)
 C
       RETURN
@@ -1446,8 +1446,8 @@ C-----------------------------------------------
 !$OMP PARALLEL PRIVATE(ITSK,F_DDL  ,L_DDL,I)
       CALL IMP_SMPINI(ITSK   ,F_DDL  ,L_DDL ,NDDL )
          DO I =F_DDL  ,L_DDL
-	       F(I)=F(I)+DLAMDA*FEXT(I)
-	     ENDDO
+                 F(I)=F(I)+DLAMDA*FEXT(I)
+               ENDDO
 !$OMP END PARALLEL
 C
       RETURN
@@ -1491,7 +1491,7 @@ C-----------------------------------------------
      .                  DG    ,DGR   ,UT2   ,W_DDL  )
 C---------------------
          A = UT2+SW2
-C-------DD< DI+DD	 
+C-------DD< DI+DD   
          CALL INTEGRATOR2_HP(IDDL,NDOF,IKC,DD,DDR,DI,DIR)
 C---------------------
          CALL PRODUT_UHP2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
@@ -1502,11 +1502,11 @@ C---------------------
 C---------------------
          B= TWO*(UIUT+SW2*LAMDA)
          C = UI2-L_A*L_A+SW2*LAMDA
-	     S= B*B-FOUR*A*C
-	    IF (S>=0) THEN
-	      S=SQRT(S)
-	      LAM1=HALF*(-B+S)/A
-	      LAM2=HALF*(-B-S)/A
+               S= B*B-FOUR*A*C
+              IF (S>=0) THEN
+                S=SQRT(S)
+                LAM1=HALF*(-B+S)/A
+                LAM2=HALF*(-B-S)/A
          CALL PRODUT_UHP2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                   DD    ,DDR   ,DI    ,DIR   ,UIUD  ,
      .                   W_DDL )
@@ -1516,19 +1516,19 @@ C---------------------
 C---------------------
          TH1= UIUD+LAM1*UIUT
          TH2= UIUD+LAM2*UIUT
-	     IF (TH1>ZERO.AND.TH2<ZERO) THEN
-	      LAMDA =LAM1
-	     ELSEIF (TH1<ZERO.AND.TH2>ZERO) THEN
-	      LAMDA =LAM2
-	     ELSEIF (TH1>ZERO.AND.TH2>ZERO) THEN
-	      LAMDA =MIN(LAM1,LAM2)
-	     ELSE
-	      IER=1
-	     ENDIF
+               IF (TH1>ZERO.AND.TH2<ZERO) THEN
+                LAMDA =LAM1
+               ELSEIF (TH1<ZERO.AND.TH2>ZERO) THEN
+                LAMDA =LAM2
+               ELSEIF (TH1>ZERO.AND.TH2>ZERO) THEN
+                LAMDA =MIN(LAM1,LAM2)
+               ELSE
+                IER=1
+               ENDIF
         ELSE
-	     IER=1
-	    ENDIF
-	    FAC =-ONE
+               IER=1
+              ENDIF
+              FAC =-ONE
         CALL FRAC_DD_HP(IDDL,NDOF,IKC,DD,DDR,DI,DIR,FAC)
 C
       RETURN
@@ -1573,7 +1573,7 @@ C-----------------------------------------------
      .                    W_DDL )
 C---------------------
          GI = SQRT(UI2)
-         S = SW2*LAMDA	 
+         S = SW2*LAMDA   
          LAMDA = ((L_A-GI)*GI-UIUD)/(UIUT+S)
 C
       RETURN

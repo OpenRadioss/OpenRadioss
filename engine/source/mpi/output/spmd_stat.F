@@ -176,11 +176,11 @@ C
           MSGTYP=MSGOFF
 
           CALL MPI_PROBE(IT_SPMD(K),MSGTYP,
-     .    		   MPI_COMM_WORLD,STATUS,ierror)
+     .           MPI_COMM_WORLD,STATUS,ierror)
           CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,NB_TMP,ierror)
 C                                                                     12
           CALL MPI_RECV(NPGLOB(IDEB),NB_TMP,MPI_INTEGER,IT_SPMD(K),
-     .    		  MSGTYP,MPI_COMM_WORLD,STATUS,ierror)
+     .          MSGTYP,MPI_COMM_WORLD,STATUS,ierror)
 
           IDEB = IDEB + NB_TMP
         END DO

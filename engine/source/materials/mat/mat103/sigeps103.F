@@ -166,7 +166,7 @@ C Hardening scale factor
          YLD_H(I) = ONE
       ENDDO
       IF(M2 /= ZERO) THEN
-	    DO I=1,NEL
+              DO I=1,NEL
            IF(EPS(I) > ZERO) YLD_H(I) = YLD_H(I)*EPS(I)**M2
         ENDDO
       ENDIF
@@ -182,7 +182,7 @@ C Hardening scale factor
       ENDIF 
 C Strain rate scale factor; convert strain rate in second-1
       IF(M3 /= ZERO) THEN
-	    DO I=1,NEL
+              DO I=1,NEL
            YLD_SR(I) = (EPSD(I)*TIME_FAC)**M3
         ENDDO
       ELSE
@@ -192,15 +192,15 @@ C Strain rate scale factor; convert strain rate in second-1
       ENDIF
 C Temperature scale factor
       IF(M1 /= ZERO .AND. M5 /= ZERO) THEN
-	    DO I=1,NEL
+              DO I=1,NEL
            YLD_T(I) = EXP(THETA(I)*M1) * (ONE+EPS(I))**(THETA(I)*M5)
         ENDDO
       ELSEIF(M1 /= ZERO) THEN
-	    DO I=1,NEL
+              DO I=1,NEL
            YLD_T(I) = EXP(THETA(I)*M1)
         ENDDO
       ELSEIF(M5 /= ZERO) THEN
-	    DO I=1,NEL
+              DO I=1,NEL
            YLD_T(I) = (ONE+EPS(I))**(THETA(I)*M5)
         ENDDO
       ELSE
@@ -218,7 +218,7 @@ C----------------------------------------------------------------
       DO I=1,NEL
          HM(I) = M7*YLD(I)
       ENDDO
-	  DO I=1,NEL
+            DO I=1,NEL
          IF(EPS(I) > ZERO) HM(I) = HM(I) + YLD(I)*(M2-M4/EPS(I))/EPS(I)
       ENDDO
 C----------------------------------------------------------------

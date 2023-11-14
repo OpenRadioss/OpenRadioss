@@ -643,43 +643,43 @@ C-----------------------------------------------
       DO I= 1,A
         IF(ISENSINT(I) /=0)THEN
          DO J= 1,B
-   	    DO K=JFT,JLT
+              DO K=JFT,JLT
 
-   	     RESTE  = F(I,J,K)
+               RESTE  = F(I,J,K)
 
-   	     TEMP1  = RESTE + R8DEUXP89
-   	     TEMP11 = TEMP1 - R8DEUXP89
-   	     RESTE  = RESTE - TEMP11
+               TEMP1  = RESTE + R8DEUXP89
+               TEMP11 = TEMP1 - R8DEUXP89
+               RESTE  = RESTE - TEMP11
 
-   	     TEMP2  = RESTE + R8DEUXP62
-   	     TEMP12 = TEMP2 - R8DEUXP62
-   	     RESTE  = RESTE - TEMP12
+               TEMP2  = RESTE + R8DEUXP62
+               TEMP12 = TEMP2 - R8DEUXP62
+               RESTE  = RESTE - TEMP12
 
-   	     TEMP3  = RESTE + R8DEUXP35
-   	     TEMP13 = TEMP3 - R8DEUXP35
-   	     RESTE  = RESTE - TEMP13
+               TEMP3  = RESTE + R8DEUXP35
+               TEMP13 = TEMP3 - R8DEUXP35
+               RESTE  = RESTE - TEMP13
 
-   	     TEMP4  = RESTE + R8TWOP8
-   	     TEMP14 = TEMP4 - R8TWOP8
-   	     RESTE  = RESTE - TEMP14
+               TEMP4  = RESTE + R8TWOP8
+               TEMP14 = TEMP4 - R8TWOP8
+               RESTE  = RESTE - TEMP14
 
-   	     TEMP5  = RESTE + R8DEUXPM19
-   	     TEMP15 = TEMP5 - R8DEUXPM19
-   	     RESTE  = RESTE - TEMP15
+               TEMP5  = RESTE + R8DEUXPM19
+               TEMP15 = TEMP5 - R8DEUXPM19
+               RESTE  = RESTE - TEMP15
 
-   	     TEMP6  = RESTE + R8DEUXPM46
-   	     TEMP16 = TEMP6 - R8DEUXPM46
+               TEMP6  = RESTE + R8DEUXPM46
+               TEMP16 = TEMP6 - R8DEUXPM46
 
 #include "lockon.inc"
-   	     F6(J,1,ISENSINT(I))  = F6(J,1,ISENSINT(I)) + TEMP11
-   	     F6(J,2,ISENSINT(I))  = F6(J,2,ISENSINT(I)) + TEMP12
-   	     F6(J,3,ISENSINT(I))  = F6(J,3,ISENSINT(I)) + TEMP13
-   	     F6(J,4,ISENSINT(I))  = F6(J,4,ISENSINT(I)) + TEMP14
-   	     F6(J,5,ISENSINT(I))  = F6(J,5,ISENSINT(I)) + TEMP15
-   	     F6(J,6,ISENSINT(I))  = F6(J,6,ISENSINT(I)) + TEMP16 
+               F6(J,1,ISENSINT(I))  = F6(J,1,ISENSINT(I)) + TEMP11
+               F6(J,2,ISENSINT(I))  = F6(J,2,ISENSINT(I)) + TEMP12
+               F6(J,3,ISENSINT(I))  = F6(J,3,ISENSINT(I)) + TEMP13
+               F6(J,4,ISENSINT(I))  = F6(J,4,ISENSINT(I)) + TEMP14
+               F6(J,5,ISENSINT(I))  = F6(J,5,ISENSINT(I)) + TEMP15
+               F6(J,6,ISENSINT(I))  = F6(J,6,ISENSINT(I)) + TEMP16 
 #include "lockoff.inc"
 
-   	    ENDDO
+              ENDDO
          ENDDO
         ENDIF
       ENDDO
@@ -798,43 +798,43 @@ C-----------------------------------------------
       DATA R8DEUXPM19/'3EC0000000000000'x/
       DATA R8DEUXPM46/'3D10000000000000'x/
       DO I= 1,A
-   	DO J=JFT,JLT
+          DO J=JFT,JLT
 
-   	 RESTE  = F(I,J)
+           RESTE  = F(I,J)
 
-   	 TEMP1  = RESTE + R8DEUXP89
-   	 TEMP11 = TEMP1 - R8DEUXP89
-   	 RESTE  = RESTE - TEMP11
+           TEMP1  = RESTE + R8DEUXP89
+           TEMP11 = TEMP1 - R8DEUXP89
+           RESTE  = RESTE - TEMP11
 
-   	 TEMP2  = RESTE + R8DEUXP62
-   	 TEMP12 = TEMP2 - R8DEUXP62
-   	 RESTE  = RESTE - TEMP12
+           TEMP2  = RESTE + R8DEUXP62
+           TEMP12 = TEMP2 - R8DEUXP62
+           RESTE  = RESTE - TEMP12
 
-   	 TEMP3  = RESTE + R8DEUXP35
-   	 TEMP13 = TEMP3 - R8DEUXP35
-   	 RESTE  = RESTE - TEMP13
+           TEMP3  = RESTE + R8DEUXP35
+           TEMP13 = TEMP3 - R8DEUXP35
+           RESTE  = RESTE - TEMP13
 
-   	 TEMP4  = RESTE + R8TWOP8
-   	 TEMP14 = TEMP4 - R8TWOP8
-   	 RESTE  = RESTE - TEMP14
+           TEMP4  = RESTE + R8TWOP8
+           TEMP14 = TEMP4 - R8TWOP8
+           RESTE  = RESTE - TEMP14
 
-   	 TEMP5  = RESTE + R8DEUXPM19
-   	 TEMP15 = TEMP5 - R8DEUXPM19
-   	 RESTE  = RESTE - TEMP15
+           TEMP5  = RESTE + R8DEUXPM19
+           TEMP15 = TEMP5 - R8DEUXPM19
+           RESTE  = RESTE - TEMP15
 
-   	 TEMP6  = RESTE + R8DEUXPM46
-   	 TEMP16 = TEMP6 - R8DEUXPM46
+           TEMP6  = RESTE + R8DEUXPM46
+           TEMP16 = TEMP6 - R8DEUXPM46
 
-#include "lockon.inc"   	 
-   	 F6(I,1)  = F6(I,1) + TEMP11
-   	 F6(I,2)  = F6(I,2) + TEMP12
-   	 F6(I,3)  = F6(I,3) + TEMP13
-   	 F6(I,4)  = F6(I,4) + TEMP14
-   	 F6(I,5)  = F6(I,5) + TEMP15
-   	 F6(I,6)  = F6(I,6) + TEMP16
+#include "lockon.inc"      
+           F6(I,1)  = F6(I,1) + TEMP11
+           F6(I,2)  = F6(I,2) + TEMP12
+           F6(I,3)  = F6(I,3) + TEMP13
+           F6(I,4)  = F6(I,4) + TEMP14
+           F6(I,5)  = F6(I,5) + TEMP15
+           F6(I,6)  = F6(I,6) + TEMP16
 #include "lockoff.inc"
 
-   	ENDDO
+          ENDDO
       ENDDO
 
       RETURN

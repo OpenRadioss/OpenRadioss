@@ -497,8 +497,8 @@ C-------- default EDG_ANGL=135
         IF(IGAP == 3 .AND. PERCENT_SIZE == ZERO) PERCENT_SIZE = FOUR*EM01
         FRIGAP(28) = PERCENT_SIZE
 
-	IF(GAPSCALE==ZERO)GAPSCALE=ONE
-	FRIGAP(13) = GAPSCALE ! historically stored, get modified in I25STI3 (GAPMIN)
+          IF(GAPSCALE==ZERO)GAPSCALE=ONE
+          FRIGAP(13) = GAPSCALE ! historically stored, get modified in I25STI3 (GAPMIN)
         FRIGAP(45) = GAPSCALE
         
 
@@ -506,7 +506,7 @@ C-------- default EDG_ANGL=135
         IF(GAPMAX_M==ZERO)GAPMAX_M=EP30
 C       IF(PENMAX==ZERO)PENMAX=EP30
         IF(PENMIN==ZERO)PENMIN=EM8
-	FRIGAP(35) = GAPMAX_S
+          FRIGAP(35) = GAPMAX_S
         FRIGAP(36) = GAPMAX_M
         FRIGAP(37) = PENMAX
         FRIGAP(38) = PENMIN

@@ -153,8 +153,8 @@ c    material parameters
       !
       STIFF0 = FOUR_OVER_3*G + RBULK
       MAXL = ONE
-	  IAVIS =1
-	  IF (A10*SB==ZERO) IAVIS=0
+            IAVIS =1
+            IF (A10*SB==ZERO) IAVIS=0
 
       FLAG_MUL   =  UPARAM(21)  !CALCULATED IN UPDMAT = 1 IF IRUP==33
       IF (FLAG_MUL > ZERO)THEN
@@ -163,8 +163,8 @@ c    material parameters
        COEFM = UPARAMF(3)    
       ENDIF
 
-C	  
-      IF (IAVIS>0) THEN	  
+C    
+      IF (IAVIS>0) THEN    
       DO  I = 1, NEL
          !retrieve previous viscous deformation gradient
          FPO(I,1,1)  = UVAR(I,1) 
@@ -231,7 +231,7 @@ C
      5                NVARF,COEFR, BETAF,COEFM  ,UVARF,CAII)
      
       
-      IF (IAVIS>0) THEN	  
+      IF (IAVIS>0) THEN    
       !-------------------------
       !chain B: compute stress : 
       !-------------------------
@@ -366,13 +366,13 @@ C
          UVAR(I,8)   =   FP(I,3,2)
          UVAR(I,9)   =   FP(I,1,3)               
        ENDDO
-C----- A10*SB=0 ->sigB=sigA		
-	  ELSE	
+C----- A10*SB=0 ->sigB=sigA
+            ELSE
         DO I=1,NEL  !     scale  cauchy stress in chain B
          SIGB(I,1:3,1:3) = SB *  SIGA(I,1:3,1:3)
-		 CBII(I,1:3) = CAII(I,1:3)
+           CBII(I,1:3) = CAII(I,1:3)
         ENDDO
-      END IF !(IAVIS>0) THEN	  
+      END IF !(IAVIS>0) THEN    
 
       !--------------------
       !UPDATE TOTAL STRESS : sum of the stresses of each network
@@ -389,7 +389,7 @@ C----- A10*SB=0 ->sigB=sigA
       
        DO I=1,NEL  
          CII(1:3)=CAII(I,1:3)+SB*CBII(I,1:3)
-		 C_MAX(I)=MAX(STIFF0,CII(1),CII(2),CII(3))
+           C_MAX(I)=MAX(STIFF0,CII(1),CII(2),CII(3))
        ENDDO
 
        DO I=1,NEL

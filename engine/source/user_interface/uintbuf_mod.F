@@ -34,7 +34,7 @@ C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
       TYPE UINTBUF
-	INTEGER ISECND
+          INTEGER ISECND
         my_real AREA
         my_real DT
         my_real DXN

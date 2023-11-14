@@ -357,7 +357,7 @@ C en spmd il faut envoyer l'info meme qd on a 0 elem local
 C-----
       STAT_NUMELS_G=0
       CALL SPMD_IGET_PARTN_STA(24,STAT_NUMELS,STAT_NUMELS_G,LENGS,NP,
-     .  		       IADG,NPGLOB,STAT_INDXS)
+     .             IADG,NPGLOB,STAT_INDXS)
 C-----
       IF (ISPMD==0) THEN
         DO N=1,STAT_NUMELS_G

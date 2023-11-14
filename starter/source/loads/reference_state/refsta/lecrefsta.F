@@ -92,8 +92,8 @@ C--------------------------------------
         IF (ID <= 0) CYCLE
         IF (NSUBDOM == 0) NN = USR2SYS(ID,ITABM1,MESS,0)
         IF (NSUBDOM  > 0) THEN
-	         NN = R2R_SYS(ID,ITABM1,MESS)
-	         IF (NN == 0) CYCLE
+                   NN = R2R_SYS(ID,ITABM1,MESS)
+                   IF (NN == 0) CYCLE
         ENDIF
         TAGREF(NN) = 1
         IF (TAGNOD(NN) == 0) THEN
@@ -120,7 +120,7 @@ C-------------
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANINFO)
  799  CONTINUE                                          
-      IF(IDDLEVEL == 0.AND.IPRI < 5) WRITE(IOUT,1010) NNOD		
+      IF(IDDLEVEL == 0.AND.IPRI < 5) WRITE(IOUT,1010) NNOD
 C-------------                                                       
       DO IE=1,NUMELC                                    
         DO IN=1,4                                       

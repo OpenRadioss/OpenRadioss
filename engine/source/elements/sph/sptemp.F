@@ -530,7 +530,7 @@ C         noyau conjugue.
           BETAXZJ=WACOMP(14,SM)
           BETAYZJ=WACOMP(15,SM)
           BETAZZJ=WACOMP(16,SM)
-C	  
+C    
           BETAX=ONE +BETAXJ*(XJ-XI)+BETAYJ*(YJ-YI)+BETAZJ*(ZJ-ZI)
           WGRD(1)=
      .     -WGRDX*ALPHAJ*BETAX

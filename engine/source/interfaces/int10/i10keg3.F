@@ -407,41 +407,41 @@ C
        IF ((INTP_D)>0) THEN
         DO I=1,JLT
          IF(NSVG(I)<0) THEN
-	  NN=-NSVG(I)
-	  NS=IND_INT(NIN)%P(NN)
+            NN=-NSVG(I)
+            NS=IND_INT(NIN)%P(NN)
 C---------pour diag_ss---
-	  FFI(1,NS)=ZERO
-	  FFI(2,NS)=ZERO
-	  FFI(3,NS)=ZERO
-	  DFI(1,NS)=ZERO
-	  DFI(2,NS)=ZERO
-	  DFI(3,NS)=ZERO
-	 ENDIF
+            FFI(1,NS)=ZERO
+            FFI(2,NS)=ZERO
+            FFI(3,NS)=ZERO
+            DFI(1,NS)=ZERO
+            DFI(2,NS)=ZERO
+            DFI(3,NS)=ZERO
+           ENDIF
         ENDDO
        ELSE
         JLTF = 0
         DO I=1,JLT
          IF(NSVG(I)<0) THEN
-	  NN=-NSVG(I)
+            NN=-NSVG(I)
           JLTF = JLTF + 1
-	  NE=SHF_INT(NIN) + JLTF +LREM
-	  NS=IND_INT(NIN)%P(NN)
-	  STIFS(NE)=STIF(I)
-	  H_E(1,NE)=H1(I)
-	  H_E(2,NE)=H2(I)
-	  H_E(3,NE)=H3(I)
-	  H_E(4,NE)=H4(I)
-	  N_E(1,NE)=NX(I)
-	  N_E(2,NE)=NY(I)
-	  N_E(3,NE)=NZ(I)
+            NE=SHF_INT(NIN) + JLTF +LREM
+            NS=IND_INT(NIN)%P(NN)
+            STIFS(NE)=STIF(I)
+            H_E(1,NE)=H1(I)
+            H_E(2,NE)=H2(I)
+            H_E(3,NE)=H3(I)
+            H_E(4,NE)=H4(I)
+            N_E(1,NE)=NX(I)
+            N_E(2,NE)=NY(I)
+            N_E(3,NE)=NZ(I)
 C---------pour temporairement diag_ss---
-	  FFI(1,NS)=ZERO
-	  FFI(2,NS)=ZERO
-	  FFI(3,NS)=ZERO
-	  DFI(1,NS)=ZERO
-	  DFI(2,NS)=ZERO
-	  DFI(3,NS)=ZERO
-	 ENDIF
+            FFI(1,NS)=ZERO
+            FFI(2,NS)=ZERO
+            FFI(3,NS)=ZERO
+            DFI(1,NS)=ZERO
+            DFI(2,NS)=ZERO
+            DFI(3,NS)=ZERO
+           ENDIF
         ENDDO
        ENDIF 
        ENDIF 
@@ -895,13 +895,13 @@ C--------secnd part-------
            A(1,IG)=A(1,IG)-FXI(I)
            A(2,IG)=A(2,IG)-FYI(I)
            A(3,IG)=A(3,IG)-FZI(I)
-	  ELSE
-	   NN=-IG
-	   NS=IND_INT(NIN)%P(NN)
+            ELSE
+             NN=-IG
+             NS=IND_INT(NIN)%P(NN)
 C---------
-	   FFI(1,NS)=FFI(1,NS)-FXI(I)
-	   FFI(2,NS)=FFI(2,NS)-FYI(I)
-	   FFI(3,NS)=FFI(3,NS)-FZI(I)
+             FFI(1,NS)=FFI(1,NS)-FXI(I)
+             FFI(2,NS)=FFI(2,NS)-FYI(I)
+             FFI(3,NS)=FFI(3,NS)-FZI(I)
           ENDIF
         ENDDO
        END IF

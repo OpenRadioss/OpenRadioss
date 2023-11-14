@@ -265,7 +265,7 @@ C
         YC0 = X(2,I)
         ZC0 = X(3,I)
 C  
-        AMX=ZERO	
+        AMX=ZERO
         AMY=ZERO
         AMZ=ZERO
         VMX=ZERO
@@ -398,7 +398,7 @@ C----------------------------------------
         VMZ=FOURTH*(V(3,J1)+V(3,J2)+V(3,J3)+V(3,J4))
         AMX=FOURTH*(A(1,J1)+A(1,J2)+A(1,J3)+A(1,J4))
         AMY=FOURTH*(A(2,J1)+A(2,J2)+A(2,J3)+A(2,J4))
-        AMZ=FOURTH*(A(3,J1)+A(3,J2)+A(3,J3)+A(3,J4))	
+        AMZ=FOURTH*(A(3,J1)+A(3,J2)+A(3,J3)+A(3,J4))
 C----------------------------------------------------
 C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
@@ -416,7 +416,7 @@ C----------------------------------------------------
         Z4=X(3,J4)
         X0=FOURTH*(X1+X2+X3+X4)
         Y0=FOURTH*(Y1+Y2+Y3+Y4)
-        Z0=FOURTH*(Z1+Z2+Z3+Z4)	
+        Z0=FOURTH*(Z1+Z2+Z3+Z4)
         X1=X1-X0
         Y1=Y1-Y0
         Z1=Z1-Z0
@@ -635,7 +635,7 @@ C
             Y0=FOURTH*(Y1+Y2+Y3+Y4)
             Z0=FOURTH*(Z1+Z2+Z3+Z4)
           ENDIF
-C	
+C
           X1=X1-X0
           Y1=Y1-Y0
           Z1=Z1-Z0
@@ -689,7 +689,7 @@ C--------------------------------------------------C
 C--- shell / shell - shell / solide  --------------C
 C--------------------------------------------------C
 C
-          AMX=ZERO	
+          AMX=ZERO
           AMY=ZERO
           AMZ=ZERO
           VMX=ZERO

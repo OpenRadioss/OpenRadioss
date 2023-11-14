@@ -192,7 +192,7 @@ C-----------------------------------------------
          PMZ3(I)=HALF*(PZ3(I)-PZ5(I))
          PMX4(I)=HALF*(PX4(I)-PX6(I))
          PMY4(I)=HALF*(PY4(I)-PY6(I))
-         PMZ4(I)=HALF*(PZ4(I)-PZ6(I))	 
+         PMZ4(I)=HALF*(PZ4(I)-PZ6(I))   
         ENDDO
        ENDIF
         DO I=1,NEL

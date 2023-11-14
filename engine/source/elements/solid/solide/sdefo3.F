@@ -197,7 +197,7 @@ C-----------------------------------------------
              D6(I)=DXZ(I)+DZX(I)
             ENDDO
           ELSEIF (ISMDISP>0.AND.ISCAU==0) THEN
-          !---------implicit static---------	           
+          !---------implicit static---------             
             DO I=1,NEL
              D4(I) = DXY(I)+DYX(I)
              D5(I) = DYZ(I)+DZY(I)

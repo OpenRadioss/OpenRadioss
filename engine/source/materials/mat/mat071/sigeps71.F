@@ -286,7 +286,7 @@ C
         SYY= TWO*GT(I)*(EE2(I) -EPSL*FM*NYY(I))
         SZZ= TWO*GT(I)*(EE3(I) -EPSL*FM*NZZ(I))
 
-	   SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ  )
+             SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ  )
 c       sound velocity    
         SOUNDSP(I) = SQRT(AA1/RHO0(I))
         
@@ -435,7 +435,7 @@ C
         SYY= G2*(EE2(I) -EPSL*FM*NYY(I))
         SZZ= G2*(EE3(I) -EPSL*FM*NZZ(I))
 
-	   SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ  )
+             SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ  )
 c       sound velocity    
         SOUNDSP(I) = SQRT(AA1/RHO0(I))
         VISCMAX(I) = ZERO
@@ -471,15 +471,15 @@ C      new martensite fraction
        IF(DFM < ZERO .AND. FM == ZERO) DFM = ZERO
 C----------------------
        !UPDATE
-	  SXX =  SXX -G2* EPSL*DFM*NXX(I) 
-	  SYY =  SYY -G2* EPSL*DFM*NYY(I)
-	  SZZ =  SZZ -G2* EPSL*DFM*NZZ(I)
+            SXX =  SXX -G2* EPSL*DFM*NXX(I) 
+            SYY =  SYY -G2* EPSL*DFM*NYY(I)
+            SZZ =  SZZ -G2* EPSL*DFM*NZZ(I)
        P = P - K*EPSL*THREE*ALPHA*DFM
        !KIRCHHOFF STRESS
        SIGXX(I)= SXX + P
        SIGYY(I)= SYY + P
        SIGZZ(I)= SZZ + P
-	  SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ ) 
+            SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ ) 
        FS = SV + THREE*ALPHA*P      
        !CAUCHY STRESS
        IF(DET(I)/=zero)THEN 

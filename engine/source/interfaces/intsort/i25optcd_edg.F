@@ -122,7 +122,7 @@ C
 C            CAND_S is local
              IF(SH_EDGE==1.AND.LEDGE(3,CAND_S(I))/=0) CYCLE ! Shell edge is not a free edge
 
-	     IF(SH_EDGE==3 .AND.
+               IF(SH_EDGE==3 .AND.
      .          LEDGE(3,CAND_M(I))/=0 .AND.
      .          LEDGE(3,CAND_S(I))/=0) CYCLE ! One of the 2 edges is not a free edge
 
@@ -136,7 +136,7 @@ C            CAND_S is local
              IF(SH_EDGE==1.AND.LEDGE_FIE(NIN)%P(E_RIGHT_SEG,CAND_S(I)-NEDGE)/=0) CYCLE ! Shell edge is not a free edge
 C            IF(SH_EDGE==1.AND.LEDGE(3,CAND_M(I))/=0) CYCLE ! Shell edge is not a free edge
 
-	     IF(SH_EDGE==3 .AND.
+               IF(SH_EDGE==3 .AND.
      .          LEDGE(3,CAND_M(I))/=0 .AND.
      .          LEDGE_FIE(NIN)%P(E_RIGHT_SEG,CAND_S(I)-NEDGE)/=0) CYCLE ! One of the 2 edges is not a free edge
        DEBUG_E2E(LEDGE(8,CAND_M(I))==D_EM.AND.LEDGE_FIE(NIN)%P(1,CAND_S(I)-NEDGE)==D_ES,STIFIE(NIN)%P(CAND_S(I)-NEDGE))
@@ -177,7 +177,7 @@ C            IF(SH_EDGE==1.AND.LEDGE(3,CAND_M(I))/=0) CYCLE ! Shell edge is not 
 
            IF(SH_EDGE==1.AND.LEDGE(3,CAND_S(I))/=0) CYCLE ! Shell edge is not a free edge
 
-	   IF(SH_EDGE==3 .AND.
+             IF(SH_EDGE==3 .AND.
      .        LEDGE(3,CAND_M(I))/=0 .AND.
      .        LEDGE(3,CAND_S(I))/=0) CYCLE ! One of the 2 edges is not a free edge
 

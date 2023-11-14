@@ -457,23 +457,23 @@ C Friction model
 C Stif based on mass and dt
 
           IF(ISTIF_MSDT > 0) THEN
-#include      "vectorize.inc"	      	    	    
+#include      "vectorize.inc"                    
              DO J = 1, NN
                 I = IAUX(J)
                 STIF_MSDT_FI(NIN)%P(NN2+J) = XREM(RSHIFT,I+IDEB)
              ENDDO
-	     RSHIFT = RSHIFT + 1
+               RSHIFT = RSHIFT + 1
           ENDIF
 
 C CAREA output in case of NISUB
 
           IF(IFSUB_CAREA > 0) THEN
-#include      "vectorize.inc"	      	    	    
+#include      "vectorize.inc"                    
              DO J = 1, NN
                 I = IAUX(J)
                 INTAREANFI(NIN)%P(NN2+J) = XREM(RSHIFT,I+IDEB)
              ENDDO
-	     RSHIFT = RSHIFT + 1
+               RSHIFT = RSHIFT + 1
           ENDIF
 
 C -- IDTMINS==2
@@ -765,7 +765,7 @@ C
           DO J = 1, NODFI
             EFRICFI(NIN)%P(J)=ZERO
           END DO                  
-        END IF  		      
+        END IF            
        END IF
       ENDIF
 
@@ -779,7 +779,7 @@ C
           DO J = 1, NODFI
             EFRICGFI(NIN)%P(J)=ZERO
           END DO                  
-        END IF  		      
+        END IF            
       END IF
 C
 C Renumbering candidate

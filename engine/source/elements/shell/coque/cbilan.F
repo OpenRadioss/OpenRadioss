@@ -235,15 +235,15 @@ C
      6                    REK   ,FLAG)
         ENDIF
 C
-	IC=1
-	JST(IC)=JFT
-	DO J=JFT+1,JLT
-	  IF (IPARTC(J)/=IPARTC(J-1)) THEN
-	    IC=IC+1
-	    JST(IC)=J
-	  ENDIF
-	ENDDO
-	JST(IC+1)=JLT+1
+          IC=1
+          JST(IC)=JFT
+          DO J=JFT+1,JLT
+            IF (IPARTC(J)/=IPARTC(J-1)) THEN
+              IC=IC+1
+              JST(IC)=J
+            ENDIF
+          ENDDO
+          JST(IC+1)=JLT+1
         IF (IC==1) THEN
          MX = IPARTC(JFT)
          DO I=JFT,JLT
@@ -369,16 +369,16 @@ C                PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
      4                    RBIDON,RBIDON,RBIDON,RBIDON,RBIDON,
      5                    RBIDON,RBIDON,RBIDON,RBIDON,RBIDON,
      6                    RBIDON,FLAG)
-        ENDIF	   
-	IC=1
-	JST(IC)=JFT
-	DO J=JFT+1,JLT
-	  IF (IPARTC(J)/=IPARTC(J-1)) THEN
-	    IC=IC+1
-	    JST(IC)=J
-	  ENDIF
-	ENDDO
-	JST(IC+1)=JLT+1		   
+        ENDIF     
+          IC=1
+          JST(IC)=JFT
+          DO J=JFT+1,JLT
+            IF (IPARTC(J)/=IPARTC(J-1)) THEN
+              IC=IC+1
+              JST(IC)=J
+            ENDIF
+          ENDDO
+          JST(IC+1)=JLT+1       
         IF (IC==1) THEN
           MX = IPARTC(JFT)
           DO I=JFT,JLT

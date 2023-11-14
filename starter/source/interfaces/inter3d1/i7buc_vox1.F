@@ -439,7 +439,7 @@ c        RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
 c        LVOXEL8 = LVOXEL 
 c
 c        IF(RES8 > LVOXEL8) THEN
-c          AAA = LVOXEL	
+c          AAA = LVOXEL
 c          AAA = AAA/((NBX8+2)*(NBY8+2)*(NBZ8+2))
 c          AAA = AAA**(THIRD)
 c          NBX = INT((NBX+2)*AAA)-2

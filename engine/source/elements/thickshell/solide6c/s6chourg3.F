@@ -202,7 +202,7 @@ C 1 1 -1 -1 -1 -1 1 1
          G51(I)=-ONE_OVER_8+PX3H1(I)
          G61(I)=-ONE_OVER_8+PX4H1(I)
          G71(I)= ONE_OVER_8+PX1H1(I)
-         G81(I)= ONE_OVER_8+PX2H1(I)	
+         G81(I)= ONE_OVER_8+PX2H1(I)
        ENDDO
 C   h2
 C 1 -1 -1 1 -1 1 1 -1
@@ -212,7 +212,7 @@ C 1 -1 -1 1 -1 1 1 -1
          H2Z=Z1(I)-Z2(I)-Z3(I)+Z4(I)-Z5(I)+Z6(I)+Z7(I)-Z8(I)
          HX=ONE_OVER_8*H2X
          HY=ONE_OVER_8*H2Y
-         HZ=ONE_OVER_8*H2Z	 
+         HZ=ONE_OVER_8*H2Z   
          PX1H2(I)=PX1(I)*HX+ PY1(I)*HY+PZ1(I)*HZ
          PX2H2(I)=PX2(I)*HX+ PY2(I)*HY+PZ2(I)*HZ
          PX3H2(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
@@ -226,7 +226,7 @@ C 1 -1 -1 1 -1 1 1 -1
          G52(I)=-ONE_OVER_8+PX3H2(I)
          G62(I)= ONE_OVER_8+PX4H2(I)
          G72(I)= ONE_OVER_8+PX1H2(I)
-         G82(I)=-ONE_OVER_8+PX2H2(I)	
+         G82(I)=-ONE_OVER_8+PX2H2(I)
        ENDDO
        DO I=1,NEL
          VZ17=VZ1(I)-VZ7(I)

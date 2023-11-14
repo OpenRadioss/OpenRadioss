@@ -488,7 +488,7 @@ c
             ENDIF
           ENDIF
 c
-c         MODE YY TRACTION				
+c         MODE YY TRACTION
 c
           MODE  = 2
           EPDOT = ABS(EPSP(I,YY))/EPSPREF
@@ -513,7 +513,7 @@ c
               EPSM2(I) = ET2M
             ENDIF
           ENDIF
-c		
+c
 c         MODE XY TRACTION
 c
           MODE  = 3
@@ -540,8 +540,8 @@ c
             ENDIF
           ENDIF
 c
-c		       MODE XX COMPRESSION
-c         		
+c           MODE XX COMPRESSION
+c         
           MODE  = 4
           EPDOT = ABS(EPSP(I,XX))/EPSPREF
           IF (IFUNC(MODE) > 0) THEN
@@ -566,8 +566,8 @@ c
             ENDIF
           ENDIF
 c
-c		       MODE YY COMPRESSION	 
-c         	
+c           MODE YY COMPRESSION   
+c         
           MODE = 5
           EPDOT = ABS(EPSP(I,YY))/EPSPREF
           IF (IFUNC(MODE) > 0) THEN
@@ -591,8 +591,8 @@ c
               EPSM5(I) = -EC2M
             ENDIF
           ENDIF
-c		
-c         MODE XY COMPRESSION		
+c
+c         MODE XY COMPRESSION
 c
           MODE  = 6
           EPDOT = ABS(EPSP(I,XY))/EPSPREF
@@ -617,8 +617,8 @@ c
               EPSM6(I) = -EC12M
             ENDIF
           ENDIF
-c		
-c         MODE ZZ Traction		
+c
+c         MODE ZZ Traction
 c
           MODE  = M33T
           EPDOT = ABS(EPSP(I,ZZ))/EPSPREF
@@ -643,8 +643,8 @@ c
               EPSM7(I) = ET3M
             ENDIF
           ENDIF
-c		
-c         MODE ZZ Compression		
+c
+c         MODE ZZ Compression
 c
           MODE  = M33C
           EPDOT = ABS(EPSP(I,ZZ))/EPSPREF
@@ -669,7 +669,7 @@ c
               EPSM8(I) = -EC3M
             ENDIF
           ENDIF
-c		
+c
 c         MODE YZ TRACT
 c
           MODE  = M23T
@@ -695,8 +695,8 @@ c
               EPSM9(I) = ET23M
             ENDIF
           ENDIF
-c		
-c         MODE YZ COMP		
+c
+c         MODE YZ COMP
 c
           MODE  = M23C
           EPDOT = ABS(EPSP(I,YZ))/EPSPREF
@@ -721,7 +721,7 @@ c
               EPSM10(I) = -EC23M
             ENDIF
           ENDIF
-c		
+c
 c         MODE ZX Traction
 c
           MODE  = M31T
@@ -747,8 +747,8 @@ c
               EPSM11(I) = ET31M
             ENDIF
           ENDIF
-c		
-c         mode ZX comp		
+c
+c         mode ZX comp
 c
           MODE  = M31C  ! Mode 12
           EPDOT = ABS(EPSP(I,ZX))/EPSPREF

@@ -186,9 +186,9 @@ C=======================================================================
         I2C = C11*C22+C22*C33+C11*C33-C21*C12-C13*C31-C23*C32
         I3C = C11*C22*C33+C12*C23*C31+C13*C21*C32
      .      -(C13*C22*C31+C12*C21*C33+C11*C23*C32)
-     	
+     
         A = (TWO*IC*IC*IC-NINE*IC*I2C+TWENTY7*I3C)*THIRTY2/TWENTY7
-	  B = (FOUR*(I2C*I2C*I2C+IC*IC*IC*I3C)-IC*IC*I2C*I2C-EIGHTEEN*IC*I2C*I3C
+            B = (FOUR*(I2C*I2C*I2C+IC*IC*IC*I3C)-IC*IC*I2C*I2C-EIGHTEEN*IC*I2C*I3C
      .      +TWENTY7*I3C*I3C)*MILLE24/TWENTY7
         B = MAX(B,ZERO)
         A1 = A+SQRT(B)

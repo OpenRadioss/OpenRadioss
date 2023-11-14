@@ -142,7 +142,7 @@ c             IFPEN(I_STOK) = 0
         IF (IFORM==2 .AND. I_STOK > I_STOK_FIRST) IFPEN(I_STOK_FIRST+1:I_STOK)=0
 
 C-----------------------------------------------
-#include "lockoff.inc"	
+#include "lockoff.inc"
       RETURN
       END
 
@@ -244,7 +244,7 @@ C-----------------------------------------------
             ENDIF
           ENDIF
         ENDDO
-	
+
         IF(K_STOK==0) THEN
 #include "lockoff.inc"         
           RETURN
@@ -263,7 +263,7 @@ c             IFPEN(I_STOK) = 0
         IF (IFORM==2 .AND. I_STOK > I_STOK_FIRST) IFPEN(I_STOK_FIRST+1:I_STOK)=0
 
 C-----------------------------------------------
-#include "lockoff.inc"	
+#include "lockoff.inc"
       RETURN
       END
 

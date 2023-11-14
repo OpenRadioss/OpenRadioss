@@ -161,7 +161,7 @@ c    .         ITK,   RTK,     NKFRONT, NKFLOC, NKLOC,
 c    .         NDDLG, IMPRINT )
 C
          NKFLOC = 0
-         NZLOC=NKLOC+NKFLOC	 
+         NZLOC=NKLOC+NKFLOC   
          IF (IMUMPSD==1) THEN
             ALLOCATE(MUMPS_PAR%A_LOC(NZLOC),
      .               MUMPS_PAR%IRN_LOC(NZLOC),
@@ -506,8 +506,8 @@ C
 C
       CALL SPMD_MUMPS_RHS(X,     CDDLP, MUMPS_PAR%RHS, NDDL, 2,
      .                    NDDLG)
-C----FLAG for MUMPS: IF (IMPL_S>0.AND.ISOLV==3.AND.IMACH==3)	
-	LENT = 1024*MUMPS_PAR%INFO(16)                   
+C----FLAG for MUMPS: IF (IMPL_S>0.AND.ISOLV==3.AND.IMACH==3)
+          LENT = 1024*MUMPS_PAR%INFO(16)                   
         MUMPSFILESIZE = MAX(MUMPSFILESIZE,LENT)       
 C
       RETURN

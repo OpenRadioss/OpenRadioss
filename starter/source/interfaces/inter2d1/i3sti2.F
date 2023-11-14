@@ -131,7 +131,7 @@ C---------------------------------------------
           LL=LNSV(NPT+JJ)
           STFN(J)=STFN(J) + HALF*STF(LL)
         ENDDO
-      ENDDO	  
+      ENDDO    
 
 C---------------------------------------------
 C     SECND NODAL SURFACE COMPUTATION

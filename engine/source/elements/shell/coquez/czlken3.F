@@ -725,17 +725,17 @@ C-----KIJ(3,2)=KJI(2,3)=DHZ*Zr*(HXX*ByI*GamaJ-HXY*BxI*GamaJ)----------
 C-------------------------        
         J=1
 C-----------------------        
-	C11 = ZR(M)*GAMA(J,M)
+          C11 = ZR(M)*GAMA(J,M)
 C I=1,3
-	C1 = (CHM(1,1,M)*PX1(M)+CHM(1,2,M)*PY1(M))*C11
-	C2 = (CHM(1,2,M)*PX1(M)+CHM(2,2,M)*PY1(M))*C11
+          C1 = (CHM(1,1,M)*PX1(M)+CHM(1,2,M)*PY1(M))*C11
+          C2 = (CHM(1,2,M)*PX1(M)+CHM(2,2,M)*PY1(M))*C11
         K11(1,3,M)=K11(1,3,M)+ C1
         K13(1,3,M)=K13(1,3,M)- C1
         K11(2,3,M)=K11(2,3,M)+ C2
         K13(2,3,M)=K13(2,3,M)- C2
 C I=2,4
-	C1 = (CHM(1,1,M)*PX2(M)+CHM(1,2,M)*PY2(M))*C11
-	C2 = (CHM(1,2,M)*PX2(M)+CHM(2,2,M)*PY2(M))*C11
+          C1 = (CHM(1,1,M)*PX2(M)+CHM(1,2,M)*PY2(M))*C11
+          C2 = (CHM(1,2,M)*PX2(M)+CHM(2,2,M)*PY2(M))*C11
         K12(1,3,M)=K12(1,3,M)+ C1
         K14(1,3,M)=K14(1,3,M)- C1
         K12(2,3,M)=K12(2,3,M)+ C2
@@ -743,17 +743,17 @@ C I=2,4
 C-------------------------        
         J=2
 C---------------------------        
-	C11 = ZR(M)*GAMA(J,M)
+          C11 = ZR(M)*GAMA(J,M)
 C I=1,3
-	C1 = (CHM(1,1,M)*PX1(M)+CHM(1,2,M)*PY1(M))*C11
-	C2 = (CHM(1,2,M)*PX1(M)+CHM(2,2,M)*PY1(M))*C11
+          C1 = (CHM(1,1,M)*PX1(M)+CHM(1,2,M)*PY1(M))*C11
+          C2 = (CHM(1,2,M)*PX1(M)+CHM(2,2,M)*PY1(M))*C11
         K12(3,1,M)=K12(3,1,M)+ C1
         K23(1,3,M)=K23(1,3,M)- C1
         K12(3,2,M)=K12(3,2,M)+ C2
         K23(2,3,M)=K23(2,3,M)- C2
 C I=2,4
-	C1 = (CHM(1,1,M)*PX2(M)+CHM(1,2,M)*PY2(M))*C11
-	C2 = (CHM(1,2,M)*PX2(M)+CHM(2,2,M)*PY2(M))*C11
+          C1 = (CHM(1,1,M)*PX2(M)+CHM(1,2,M)*PY2(M))*C11
+          C2 = (CHM(1,2,M)*PX2(M)+CHM(2,2,M)*PY2(M))*C11
         K22(1,3,M)=K22(1,3,M)+ C1
         K24(1,3,M)=K24(1,3,M)- C1
         K22(2,3,M)=K22(2,3,M)+ C2
@@ -761,17 +761,17 @@ C I=2,4
 C-------------------------        
         J=3
 C-------------------------        
-	C11 = ZR(M)*GAMA(J,M)
+          C11 = ZR(M)*GAMA(J,M)
 C I=1,3
-	C1 = (CHM(1,1,M)*PX1(M)+CHM(1,2,M)*PY1(M))*C11
-	C2 = (CHM(1,2,M)*PX1(M)+CHM(2,2,M)*PY1(M))*C11
+          C1 = (CHM(1,1,M)*PX1(M)+CHM(1,2,M)*PY1(M))*C11
+          C2 = (CHM(1,2,M)*PX1(M)+CHM(2,2,M)*PY1(M))*C11
         K13(3,1,M)=K13(3,1,M)+ C1
         K33(1,3,M)=K33(1,3,M)- C1
         K13(3,2,M)=K13(3,2,M)+ C2
         K33(2,3,M)=K33(2,3,M)- C2
 C I=2,4
-	C1 = (CHM(1,1,M)*PX2(M)+CHM(1,2,M)*PY2(M))*C11
-	C2 = (CHM(1,2,M)*PX2(M)+CHM(2,2,M)*PY2(M))*C11
+          C1 = (CHM(1,1,M)*PX2(M)+CHM(1,2,M)*PY2(M))*C11
+          C2 = (CHM(1,2,M)*PX2(M)+CHM(2,2,M)*PY2(M))*C11
         K23(3,1,M)=K23(3,1,M)+ C1
         K34(1,3,M)=K34(1,3,M)- C1
         K23(3,2,M)=K23(3,2,M)+ C2
@@ -779,17 +779,17 @@ C I=2,4
 C-------------------------        
         J=4
 C-------------------------        
-	C11 = ZR(M)*GAMA(J,M)
+          C11 = ZR(M)*GAMA(J,M)
 C I=1,3
-	C1 = (CHM(1,1,M)*PX1(M)+CHM(1,2,M)*PY1(M))*C11
-	C2 = (CHM(1,2,M)*PX1(M)+CHM(2,2,M)*PY1(M))*C11
+          C1 = (CHM(1,1,M)*PX1(M)+CHM(1,2,M)*PY1(M))*C11
+          C2 = (CHM(1,2,M)*PX1(M)+CHM(2,2,M)*PY1(M))*C11
         K14(3,1,M)=K14(3,1,M)+ C1
         K34(3,1,M)=K34(3,1,M)- C1
         K14(3,2,M)=K14(3,2,M)+ C2
         K34(3,2,M)=K34(3,2,M)- C2
 C I=2,4
-	C1 = (CHM(1,1,M)*PX2(M)+CHM(1,2,M)*PY2(M))*C11
-	C2 = (CHM(1,2,M)*PX2(M)+CHM(2,2,M)*PY2(M))*C11
+          C1 = (CHM(1,1,M)*PX2(M)+CHM(1,2,M)*PY2(M))*C11
+          C2 = (CHM(1,2,M)*PX2(M)+CHM(2,2,M)*PY2(M))*C11
         K24(3,1,M)=K24(3,1,M)+ C1
         K44(1,3,M)=K44(1,3,M)- C1
         K24(3,2,M)=K24(3,2,M)+ C2
@@ -797,7 +797,7 @@ C I=2,4
        ENDDO
 C-----KIJ(3,3)=DHZ*Zr*Zr*(HYY*BxI*BxJ+HXX*ByI*ByJ-HXY*BxI*ByJ-HXY*ByI*BxJ)----------
        DO M=NF,JLT
-	ZR2= ZR(M)*ZR(M)
+          ZR2= ZR(M)*ZR(M)
 C-------------------------        
         J=1
 C-----------------------        

@@ -176,7 +176,7 @@ C---- this sub_routine has been called 2 times, one for Ismstr=10,12 another for
        ENDDO
       ELSE
        DO I=1,NEL
-	    IF (ISMSTR==12.AND.OFFG(I)>ONE) CYCLE
+              IF (ISMSTR==12.AND.OFFG(I)>ONE) CYCLE
        DXY(I) =PY1(I)*VX1(I)+PY2(I)*VX2(I)+PY3(I)*VX3(I)+PY4(I)*VX4(I)
      +        +PY5(I)*VX5(I)+PY6(I)*VX6(I)+PY7(I)*VX7(I)+PY8(I)*VX8(I)
        DXZ(I) =PZ1(I)*VX1(I)+PZ2(I)*VX2(I)+PZ3(I)*VX3(I)+PZ4(I)*VX4(I)
@@ -231,7 +231,7 @@ C
        ENDDO
       ELSE
        DO I=1,NEL
-	    IF (ISMSTR==12.AND.OFFG(I)>ONE) CYCLE
+              IF (ISMSTR==12.AND.OFFG(I)>ONE) CYCLE
        DXX(I) =PX1(I)*VX1(I)+PX2(I)*VX2(I)+PX3(I)*VX3(I)+PX4(I)*VX4(I)
      .        +PX5(I)*VX5(I)+PX6(I)*VX6(I)+PX7(I)*VX7(I)+PX8(I)*VX8(I)
        DYY(I) =PY1(I)*VY1(I)+PY2(I)*VY2(I)+PY3(I)*VY3(I)+PY4(I)*VY4(I)

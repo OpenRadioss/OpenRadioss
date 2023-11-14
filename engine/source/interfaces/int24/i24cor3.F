@@ -487,7 +487,7 @@ C
            ENDIF
 
       END DO
-C	  
+C    
       IF(IGSTI<=1)THEN
          DO I=1,JLT
           L  = CAND_E(I)
@@ -853,7 +853,7 @@ C-----------one internal point for SPMD reason ----
                NN = NSI
                ICONT1 = IRTLM(1,NN)
               IF (ICONT1 /=0) THEN
-	       ISPT2(I) = 0
+                 ISPT2(I) = 0
               ELSE
                ISPT2(I) = NSI
               END IF
@@ -928,7 +928,7 @@ C---not set ISPT2=0 : when only one internal point is on contact
 C-----------one internal point for SPMD reason ----   
                ICONT1 = IRTLM(1,NSI)
               IF (ICONT1 /=0) THEN
-	       ISPT2(NI) = 0
+                 ISPT2(NI) = 0
               ELSE
                ISPT2(NI) = 1
               END IF
@@ -993,7 +993,7 @@ C--- fixing min(stif) with Inacti=-1
             NN = NI - NSN
             STIF_S =ABS(STIFI(NIN)%P(NN))
           END IF
-c		  STIF_R(I) = MIN(STIF_S,STF(L))/MAX(EM20,STIF(I))
+c      STIF_R(I) = MIN(STIF_S,STF(L))/MAX(EM20,STIF(I))
           STIF(I) = MIN(STIF_S,STF(L))
          ENDDO
       ELSEIF (IGSTI==-1)THEN
@@ -1084,8 +1084,8 @@ C--- fixing min(stif) with Inacti=-1
             NN = NI - NEDGE
             STIF_S =STIFIE(NIN)%P(NN)
           END IF
-c		  STIF_R(I) = MIN(STIF_S,STFE(EM))/MAX(EM20,STIF(I))
-		  STIF(I) = MIN(STIF_S,STFE(EM))
+c      STIF_R(I) = MIN(STIF_S,STFE(EM))/MAX(EM20,STIF(I))
+            STIF(I) = MIN(STIF_S,STFE(EM))
          ENDDO
       END IF
       IF(NCFIT>0)THEN

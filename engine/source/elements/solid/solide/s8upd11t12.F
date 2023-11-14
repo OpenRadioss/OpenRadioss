@@ -100,9 +100,9 @@ C
           ZD7(J)=XDP(3,NC7(I))  
           XD8(J)=XDP(1,NC8(I))  
           YD8(J)=XDP(2,NC8(I))  
-          ZD8(J)=XDP(3,NC8(I))  	  	  	  
+          ZD8(J)=XDP(3,NC8(I))              
         ENDDO
-      ELSE	
+      ELSE
 #include "vectorize.inc"
         DO J=1,NCH
           I = INDEX(J)

@@ -152,8 +152,8 @@ c
 c      print *, "dans la boite",XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX
 c
           LLT = LLT+1
-	  IEL(LLT)=IE
-	  IESL(LLT)=IES
+            IEL(LLT)=IE
+            IESL(LLT)=IES
           DO K=1,4
 C III 1,2,3,4,5,6,7,8, 9,10,11,12,13,14,15,16
             III(LLT,K)   =IXS(K+1,IE)
@@ -205,7 +205,7 @@ c debug
       ENDDO
 C-----------------------------------------------------------------------
 C     calcul de  [L] pour dernier paquet   
-C-----------------------------------------------------------------------	
+C-----------------------------------------------------------------------
       IF(LLT/=0) CALL I17LLL(
      1       LLT ,LLL       ,JLL       ,SLL       ,XLL     ,V       ,
      2       XX  ,YY        ,ZZ        ,III       ,NC      ,IADLL   ,
@@ -459,7 +459,7 @@ c      ICONT(J,1) = 1
       ENDDO
       IF(J/=0)THEN
         ICONT(J,1) = ICON
-cc	print *,ITASK,':',VIT(J),IE(J),IES(J),NC,J,ICON
+cc  print *,ITASK,':',VIT(J),IE(J),IES(J),NC,J,ICON
       ENDIF
 C-----------------------------------------------------------------------
 C     calcul du contact
@@ -471,8 +471,8 @@ C-----------------------------------------------------------------------
      5             ICONT(1,1),R_CM   ,T_CM   ,R_S    ,T_S    )
 c      IF(J/=0)THEN
 c        do i=1,nc*16
-c	print *,ITASK,':',i,':',LLL(i),JLL(i),XLL(i)
-c	enddo
+c  print *,ITASK,':',i,':',LLL(i),JLL(i),XLL(i)
+c  enddo
 c      ENDIF
 C
 #include "lockoff.inc"
@@ -1291,7 +1291,7 @@ C
         NI(I,1) = U_M_T * U_M_R * (-R(I)-T(I)-ONE)
         NI(I,2) = U_P_T * U_M_R * (-R(I)+T(I)-ONE)
         NI(I,3) = U_P_T * U_P_R * ( R(I)+T(I)-ONE)
-        NI(I,4) = U_M_T * U_P_R * ( R(I)-T(I)-ONE)	
+        NI(I,4) = U_M_T * U_P_R * ( R(I)-T(I)-ONE)
 C------------------------------------
         A = (ONE-R(I)*R(I))
         NI(I,6) = A * U_P_T
@@ -1355,7 +1355,7 @@ C
           ENDIF
         ELSEIF(D<ZERO)THEN
             R1(I) = -ONE
-            R2(I) =  ONE	    
+            R2(I) =  ONE      
         ELSE
             D = SQRT( D )
             R1(I) = (-B(I) - D) / (TWO*A(I))

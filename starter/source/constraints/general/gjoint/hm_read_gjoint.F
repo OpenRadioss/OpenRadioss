@@ -111,7 +111,7 @@ C
         NG=NG+1
 C----------Multidomaines --> on ignore les gjoint non tages--------
         IF(NSUBDOM>0)THEN
-	  IF(TAGJOIN(NG)==0)CALL HM_SZ_R2R(TAGJOIN,NG,LSUBMODEL)
+            IF(TAGJOIN(NG)==0)CALL HM_SZ_R2R(TAGJOIN,NG,LSUBMODEL)
         END IF
 C-----------------------------------------------------------------      
         CALL HM_OPTION_READ_KEY(LSUBMODEL,

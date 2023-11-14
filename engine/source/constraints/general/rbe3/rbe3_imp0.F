@@ -73,8 +73,8 @@ C-----------------------------------------------
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
-	IROT =IRBE3(6,N)
-	NSJ  =IRBE3(8,N)
+          IROT =IRBE3(6,N)
+          NSJ  =IRBE3(8,N)
        IF (NS==0.OR.NDOF(NS)==0) CYCLE
        IF (WEIGHT(NS)/=0) THEN
         CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X    ,
@@ -147,10 +147,10 @@ C-----------------------------------------------
         NS  = IRBE3(3,N)
         IF (NS==0) CYCLE
         NML = IRBE3(5,N)
-	IROT =IRBE3(6,N)
-	DO J =1,3
+          IROT =IRBE3(6,N)
+          DO J =1,3
            JR(J,N)=0
-	ENDDO
+          ENDDO
        IF (WEIGHT(NS)/=0.AND.NDOF(NS)>0) THEN
         CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X    ,
      .              FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
@@ -242,7 +242,7 @@ C
 C        CALL UPDK_BC(JT,JR,KDD,ISTIF)
 C
 C-------Update K(main node)---
-C	IF (ISTIF>0) THEN
+C  IF (ISTIF>0) THEN
          DO J=1,NML
           NJ=IML(J)
           ND = NDOF(NJ)
@@ -258,7 +258,7 @@ C-------Update CDI^t[KDD]CDJ---
            IF (IR==1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,IP )
           ENDDO
          ENDDO
-C	END IF
+C  END IF
         DO J=1,NML
           NJ=IML(J)
           ND = NDOF(NJ)
@@ -282,14 +282,14 @@ C--------no diag--Kjm=sum(KjsCsm)--
           IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(I) ,IP )
 C------- Update ---
 C          CALL UPDK_BC2(JT,JR,KDD,ISTIF)
-C	  IF (ISTIF>0) THEN
+C    IF (ISTIF>0) THEN
            DO J=1,NML
             NJ=IML(J)
             NDJ = NDOF(NJ)
             IF (NI==NJ) THEN
              CALL UPDK_CDI(FDSTNB(1,J),MDSTNB(1,J),KDD,KII,IROT,NDM,1)
              CALL PUT_KII(NJ,IDDL ,IADK,DIAG_K,LT_K ,KII,NDJ)
-	    ELSE
+              ELSE
              CALL UPDK_CDI(FDSTNB(1,J),MDSTNB(1,J),KDD,KII,IROT,NDM,0)
              CALL PUT_KIJ(NI,NJ,IDDL,IADK,JDIK,LT_K,KII,NIDOF,NDJ,IR)
              IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,IP )
@@ -352,7 +352,7 @@ C-----------------------------------------------
         NS  = IRBE3(3,N)
         IF (NS==0) CYCLE
         NML = IRBE3(5,N)
-	IROT =IRBE3(6,N)
+          IROT =IRBE3(6,N)
        IF (WEIGHT(NS)/=0) THEN
         CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X    ,
      .              FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
@@ -479,7 +479,7 @@ C-----------------------------------------------
         NS  = IRBE3(3,N)
         IF (NS==0) CYCLE
         NML = IRBE3(5,N)
-	IROT =IRBE3(6,N)
+          IROT =IRBE3(6,N)
        IF (WEIGHT(NS)/=0) THEN
         CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X    ,
      .              FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
@@ -573,7 +573,7 @@ C-------Update K(main node)---
            ENDIF
          END IF 
         ENDDO 
-C	
+C
        ELSE
         DO K=1,NDOF(I)
          ID = IDDL(I)+K
@@ -641,17 +641,17 @@ C
           K(I+3,J+3)= K(I+3,J+3)*JR(I)*JR(J)
          ENDDO
         ENDDO
-	R = ZERO
+          R = ZERO
         DO I=1,6
          DO J=1,6
           R=R+ABS(K(I,J))
          ENDDO
         ENDDO
-	IF (R<EM30) THEN
-	 ISTIF = 0
-	ELSE
-	 ISTIF = 1
-	ENDIF
+          IF (R<EM30) THEN
+           ISTIF = 0
+          ELSE
+           ISTIF = 1
+          ENDIF
 C
       RETURN
       END
@@ -696,11 +696,11 @@ C
           R=R+ABS(K(I,J))
          ENDDO
         ENDDO
-	IF (R<EM30) THEN
-	 ISTIF = 0
-	ELSE
-	 ISTIF = 1
-	ENDIF
+          IF (R<EM30) THEN
+           ISTIF = 0
+          ELSE
+           ISTIF = 1
+          ENDIF
 C
       RETURN
       END
@@ -731,18 +731,18 @@ C-----------------------------------------------
 C     REAL
 C-------Update =CDI^t[BD]---
          DO J=1,6
-	  BI(J) = ZERO
+            BI(J) = ZERO
          ENDDO
 C
         DO I=1,3
          DO J=1,6
-	  BI(I)=BI(I)+FDI(I,J)*BD(J)
+            BI(I)=BI(I)+FDI(I,J)*BD(J)
          ENDDO
         ENDDO
        IF (IROT>0) THEN
         DO I=4,6
          DO J=1,6
-	  BI(I)=BI(I)+MDI(I-3,J)*BD(J)
+            BI(I)=BI(I)+MDI(I-3,J)*BD(J)
          ENDDO
         ENDDO
        END IF
@@ -777,7 +777,7 @@ C     REAL
 C-------Update KII=CDI^t[KDD]CDI----FDI=CDI^t
         DO I=1,6
          DO J=I,6
-	  KII(I,J)=ZERO
+            KII(I,J)=ZERO
          ENDDO
         ENDDO
 C----   FDI[KDD]FDI^t------
@@ -785,14 +785,14 @@ C----   FDI[KDD]FDI^t------
          DO J=I,3
           DO K=1,ND
            DO L=1,ND
-	     KII(I,J)=KII(I,J)+FDI(I,K)*KDD(K,L)*FDI(J,L)
+               KII(I,J)=KII(I,J)+FDI(I,K)*KDD(K,L)*FDI(J,L)
            ENDDO
           ENDDO
          ENDDO
         ENDDO
         DO I=1,3
          DO J=I,3
-	   KII(J,I)=KII(I,J)
+             KII(J,I)=KII(I,J)
          ENDDO
         ENDDO
        IF (IROT>0) THEN
@@ -801,7 +801,7 @@ C----   MDI[KDD]MDI^t------
          DO J=I,3
           DO K=1,ND
            DO L=1,ND
-	     KII(I+3,J+3)=KII(I+3,J+3)+MDI(I,K)*KDD(K,L)*MDI(J,L)
+               KII(I+3,J+3)=KII(I+3,J+3)+MDI(I,K)*KDD(K,L)*MDI(J,L)
            ENDDO
           ENDDO
          ENDDO
@@ -811,19 +811,19 @@ C----   FDI[KDD]MDI^t------
          DO J=1,3
           DO K=1,ND
            DO L=1,ND
-	     KII(I,J+3)=KII(I,J+3)+FDI(I,K)*KDD(K,L)*MDI(J,L)
+               KII(I,J+3)=KII(I,J+3)+FDI(I,K)*KDD(K,L)*MDI(J,L)
            ENDDO
           ENDDO
          ENDDO
         ENDDO
         DO I=1,3
          DO J=1,3
-	    KII(I+3,J)=KII(J,I+3)
+              KII(I+3,J)=KII(J,I+3)
          ENDDO
         ENDDO
         DO I=1,3
          DO J=I,3
-	    KII(J+3,I+3)=KII(I+3,J+3)
+              KII(J+3,I+3)=KII(I+3,J+3)
          ENDDO
         ENDDO
        ENDIF
@@ -857,7 +857,7 @@ C     REAL
 C-------Update KII=CDI^t[KDD]CDJ---
         DO I=1,6
          DO J=1,6
-	  KIJ(I,J)=ZERO
+            KIJ(I,J)=ZERO
          ENDDO
         ENDDO
 C----   FDI[KDD]FDJ^t------
@@ -865,7 +865,7 @@ C----   FDI[KDD]FDJ^t------
          DO J=1,3
           DO K=1,ND
            DO L=1,ND
-	     KIJ(I,J)=KIJ(I,J)+FDI(I,K)*KDD(K,L)*FDJ(J,L)
+               KIJ(I,J)=KIJ(I,J)+FDI(I,K)*KDD(K,L)*FDJ(J,L)
            ENDDO
           ENDDO
          ENDDO
@@ -876,7 +876,7 @@ C----   MDI[KDD]MDJ^t------
          DO J=1,3
           DO K=1,ND
            DO L=1,ND
-	     KIJ(I+3,J+3)=KIJ(I+3,J+3)+MDI(I,K)*KDD(K,L)*MDJ(J,L)
+               KIJ(I+3,J+3)=KIJ(I+3,J+3)+MDI(I,K)*KDD(K,L)*MDJ(J,L)
            ENDDO
           ENDDO
          ENDDO
@@ -886,7 +886,7 @@ C----   FDI[KDD]MDI^t------
          DO J=1,3
           DO K=1,ND
            DO L=1,ND
-	     KIJ(I,J+3)=KIJ(I,J+3)+FDI(I,K)*KDD(K,L)*MDJ(J,L)
+               KIJ(I,J+3)=KIJ(I,J+3)+FDI(I,K)*KDD(K,L)*MDJ(J,L)
            ENDDO
           ENDDO
          ENDDO
@@ -896,7 +896,7 @@ C----   MDI[KDD]MDJ^t------
          DO J=1,3
           DO K=1,ND
            DO L=1,ND
-	     KIJ(I+3,J)=KIJ(I+3,J)+MDI(I,K)*KDD(K,L)*FDJ(J,L)
+               KIJ(I+3,J)=KIJ(I+3,J)+MDI(I,K)*KDD(K,L)*FDJ(J,L)
            ENDDO
           ENDDO
          ENDDO
@@ -932,14 +932,14 @@ C     REAL
 C-------Update KIJ=[KDD]CDI---
         DO I=1,6
          DO J=1,6
-	  KIJ(I,J)=ZERO
+            KIJ(I,J)=ZERO
          ENDDO
         ENDDO
 C----   FDI[KDD]------
         DO I=1,ND
          DO J=1,3
           DO K=1,ND
-	     KIJ(I,J)=KIJ(I,J)+KDD(I,K)*FDI(J,K)
+               KIJ(I,J)=KIJ(I,J)+KDD(I,K)*FDI(J,K)
           ENDDO
          ENDDO
         ENDDO
@@ -948,7 +948,7 @@ C----   MDI[KDD]------
         DO I=1,ND
          DO J=1,3
           DO K=1,ND
-	     KIJ(I,J+3)=KIJ(I,J+3)+KDD(I,K)*MDI(J,K)
+               KIJ(I,J+3)=KIJ(I,J+3)+KDD(I,K)*MDI(J,K)
           ENDDO
          ENDDO
         ENDDO
@@ -996,17 +996,17 @@ C
           K(I,J)= K(I,J)*JT(I)*JT(J)
          ENDDO
         ENDDO
-	R = ZERO
+          R = ZERO
         DO I=1,3
          DO J=1,3
           R=R+ABS(K(I,J))
          ENDDO
         ENDDO
-	IF (R<EM30) THEN
-	 ISTIF = 0
-	ELSE
-	 ISTIF = 1
-	ENDIF
+          IF (R<EM30) THEN
+           ISTIF = 0
+          ELSE
+           ISTIF = 1
+          ENDIF
 C
       RETURN
       END
@@ -1041,7 +1041,7 @@ C     REAL
       my_real
      .   K0(6,6),KIJ(6,6)
 C-----------------------------------------------
-	ND = 3
+          ND = 3
        DO J = 1,3
         K0(J,J)=KSS(J)
        ENDDO
@@ -1057,8 +1057,8 @@ C-----------------------------------------------
          CALL UPDK_CDII(FDSTNB(1,J),MDSTNB(1,J),
      .                  K0 ,KIJ ,IROT ,ND   )
          DO JJ=1,6
-	  DIAG_M3(JJ,J)=KIJ(JJ,JJ)
-	 ENDDO
+            DIAG_M3(JJ,J)=KIJ(JJ,JJ)
+           ENDDO
         ENDDO
        ENDIF
 C
@@ -1207,7 +1207,7 @@ C--------no diag--Kjm=sum(KjsCsm)--
           ENDDO
 C------- Update ---
 C          CALL UPDFRK_BC(JT,KDD,ISTIF)
-C	  IF (ISTIF>0) THEN
+C    IF (ISTIF>0) THEN
            DO J=1,NML
             NJ=IML(J)
             CALL UPDK_CDI(FDSTNB(1,J),MDSTNB(1,J),KDD,KII,IROT,NDOFI,0)

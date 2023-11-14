@@ -301,7 +301,7 @@ C
 !
         DO JC=1,NMERGED
           IF (NPBY(1,NRB) == IMERGE(JC)) NPBY(1,NRB)=IMERGE(NUMCNOD+JC)
-	ENDDO
+          ENDDO
         CALL ANODSET(NPBY(1,NRB), CHECK_RB_M)
 C
         NPBY(11,NRB)=K
@@ -486,7 +486,7 @@ C
       ENDDO
 C
       DO K=1,NLOADC
-	NN   = ICFIELD(1,K) 
+          NN   = ICFIELD(1,K) 
         IAD  = ICFIELD(4,K)
         DO I=1,NN
          N=LCFIELD(IAD+I-1)

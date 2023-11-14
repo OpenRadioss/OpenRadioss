@@ -230,7 +230,7 @@ C
       DO J=1,5
           BB = ONE/LAM**(2*J - 2)
           AA = J*C(J)
-		  CLAM(J) = BB*C(J)
+            CLAM(J) = BB*C(J)
           DO I=1,NEL
               CC = AA*BB*TRACE(I)**(J-1)
               T1(I) = T1(I) + CC*DI1LAM1(I)
@@ -240,7 +240,7 @@ C
       ENDDO
 C RBilk = 2/D
       DO I=1,NEL
-         RV_1(I) = ONE/RV(I)	  
+         RV_1(I) = ONE/RV(I)    
          P = RV_1(I)*RBULK*(RV(I)**2 - ONE)/TWO
          T1(I) = (MU*T1(I) + P)*RV_1(I)
          T2(I) = (MU*T2(I) + P)*RV_1(I)
@@ -267,16 +267,16 @@ c----compute GT_MAX
              LAM_2(1:3) = EVM(I,1:3)**2
              LAM_4(1:3) = LAM_2(1:3)**2
              AA = ONE_OVER_9*II*TRACE(I)**II
-			 BB = ZERO
-			 CC = ZERO
-			 IF (II>1) BB =THIRD*(3-II)*TRACE(I)**(II-1)
-			 IF (II>2) CC =(II-1)*TRACE(I)**(II-2)
+           BB = ZERO
+           CC = ZERO
+           IF (II>1) BB =THIRD*(3-II)*TRACE(I)**(II-1)
+           IF (II>2) CC =(II-1)*TRACE(I)**(II-2)
              CII(I,1:3) = CII(I,1:3) +CLP*(AA+BB*LAM_2(1:3) +CC*LAM_4(1:3))
             ENDDO
           ENDDO
           DO I=1,NEL
            AMAX= MAX(CII(I,1),CII(I,2),CII(I,3))
-C---------reduce old result change		   
+C---------reduce old result change       
            ETI(I) = MAX(ONE,AMAX*0.81) 
            GTMAX(I) = G*ETI(I)
            RKMAX(I) = RKMAX(I)*(ONE+RV_1(I)*RV_1(I))

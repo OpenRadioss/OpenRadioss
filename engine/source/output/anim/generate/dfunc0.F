@@ -173,9 +173,9 @@ c-----------
      .               + GBUF%SIG(II(3) + I) ) * THIRD
                 VALUE = P
                 IF (IFUNC == 7) THEN
-                  S1=GBUF%SIG(II(1) + I) + P		      
-                  S2=GBUF%SIG(II(2) + I) + P		      
-                  S3=GBUF%SIG(II(3) + I) + P		      
+                  S1=GBUF%SIG(II(1) + I) + P          
+                  S2=GBUF%SIG(II(2) + I) + P          
+                  S3=GBUF%SIG(II(3) + I) + P          
                   VONM2= THREE*(GBUF%SIG(II(4) + I)**2 +      
      .                          GBUF%SIG(II(5) + I)**2 +      
      .                          GBUF%SIG(II(6) + I)**2 +      
@@ -272,12 +272,12 @@ c-----------
            ELSEIF(IFUNC == 3890) THEN
 
            NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL  
-           DO IR=1,NFAIL											    
+           DO IR=1,NFAIL                          
              DFMAX=>
      .         ELBUF_TAB(NG)%BUFLY(1)%FAIL(1,1,1)%FLOC(IR)%DAMMX
              DO I=LFT,LLT   
-           	 N = I + NFT				  
-           	 FUNC(EL2FA(NN1+N)) = DFMAX(I)    
+           N = I + NFT          
+           FUNC(EL2FA(NN1+N)) = DFMAX(I)    
              ENDDO
            ENDDO  
 c-----------
@@ -312,12 +312,12 @@ C  equivalent stress -  (NON VON MISES / VON MISES)
                DO I=LFT,LLT
                  N = I + NFT
                  IF (EL2FA(NN1+N) /= 0) THEN
-                   P = -(GBUF%SIG(II(1) + I)		    
-     .                 + GBUF%SIG(II(2) + I)		    
+                   P = -(GBUF%SIG(II(1) + I)        
+     .                 + GBUF%SIG(II(2) + I)        
      .                 + GBUF%SIG(II(3) + I)) * THIRD
-                   S1=GBUF%SIG(II(1) + I) + P		       
-                   S2=GBUF%SIG(II(2) + I) + P		       
-                   S3=GBUF%SIG(II(3) + I) + P		       
+                   S1=GBUF%SIG(II(1) + I) + P           
+                   S2=GBUF%SIG(II(2) + I) + P           
+                   S3=GBUF%SIG(II(3) + I) + P           
                    VONM2= THREE*(GBUF%SIG(II(4) + I)**2 +      
      .                           GBUF%SIG(II(5) + I)**2 +      
      .                           GBUF%SIG(II(6) + I)**2 +      
@@ -388,7 +388,7 @@ c-----------
                   IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(1) + I)+GBUF%MOM(II(1) + I) 
      +                                         +GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I)
-     +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )		     
+     +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )         
                   ENDIF
                  ENDDO                                            
                ENDIF
@@ -409,7 +409,7 @@ c-----------
 !                  IAD0  = (I-1)*3
                   IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(1) + I)+GBUF%MOM(II(1) + I) 
-     +                                         +GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I) )  / GBUF%RHO(I)		  
+     +                                         +GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I) )  / GBUF%RHO(I)      
                   ENDIF
                  ENDDO 
                ELSEIF(IFUNC==4949)THEN
@@ -418,7 +418,7 @@ c-----------
 !                  IAD0  = (I-1)*3
                   IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I) 
-     +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )  / GBUF%RHO(I)		  
+     +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )  / GBUF%RHO(I)      
                   ENDIF
                  ENDDO                 
                ELSEIF(IFUNC==4950)THEN
@@ -427,7 +427,7 @@ c-----------
 !                  IAD0  = (I-1)*3
                   IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(1) + I)+GBUF%MOM(II(1) + I) 
-     +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )  / GBUF%RHO(I)		  
+     +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )  / GBUF%RHO(I)      
                   ENDIF
                  ENDDO 
                ELSEIF(IFUNC==4951)THEN
@@ -437,7 +437,7 @@ c-----------
                   IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(1) + I)+GBUF%MOM(II(1) + I) 
      +                                         +GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I)
-     +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )  / GBUF%RHO(I)		  
+     +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )  / GBUF%RHO(I)      
                   ENDIF
                  ENDDO                                            
                ENDIF

@@ -260,7 +260,7 @@ C
          M33(1,2,EP)=M33(1,2,EP)-PY3PY3(EP)*DF6(EP)
         ENDDO
         DO EP=JFT,JLT 
- 	     C2=VOL(EP)*THK0(EP)
+               C2=VOL(EP)*THK0(EP)
          DMF(1,1,EP)=HMFOR(EP,1)*C2
          DMF(2,2,EP)=HMFOR(EP,2)*C2
          DMF(1,2,EP)=HMFOR(EP,3)*C2
@@ -888,7 +888,7 @@ C------ Mzz  ----------
 C ----add mem-bending coupling terms of orthotrope--coplanar first---
 #include "vectorize.inc"
         DO EP=JFT,JLT 
- 	 C2=VOL(EP)*THK0(EP)
+           C2=VOL(EP)*THK0(EP)
          DMF(1,1,EP)=HMFOR(EP,1)*C2
          DMF(2,2,EP)=HMFOR(EP,2)*C2
          DMF(1,2,EP)=HMFOR(EP,3)*C2

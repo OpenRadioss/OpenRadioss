@@ -120,12 +120,12 @@ C     REAL
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAG_S,TAG_M
       INTEGER :: NSN, NMN
 C---------------------------------------------------- 
-C	Calcul des adresses des buffers d'interfaces. 
-C	Les adresses des buffers J10-JFI et K10-KFI 
-C	sont remplaces systematiquement par des tableaux
-C	JD(i) et KD(i), en gardant les memes numeros d'indexes.
-C	Les anciens adresses directs Jn, Kn sont modifies
-C	dans la routine sans commentaires additionnels habituels
+C  Calcul des adresses des buffers d'interfaces. 
+C  Les adresses des buffers J10-JFI et K10-KFI 
+C  sont remplaces systematiquement par des tableaux
+C  JD(i) et KD(i), en gardant les memes numeros d'indexes.
+C  Les anciens adresses directs Jn, Kn sont modifies
+C  dans la routine sans commentaires additionnels habituels
 C----------------------------------------------------
 C
       NSN   =IPARI(5,NIN)
@@ -508,16 +508,16 @@ C
        IF (INTP_D>0) THEN
         DO I=1,JLT
          IF(NSVG(I)<0) THEN
-	      NN=-NSVG(I)
-	      NS=IND_INT(NIN)%P(NN)
+                NN=-NSVG(I)
+                NS=IND_INT(NIN)%P(NN)
 C---------pour diag_ss---
-	      FFI(1,NS)=ZERO
-	      FFI(2,NS)=ZERO
-	      FFI(3,NS)=ZERO
-	      DFI(1,NS)=ZERO
-	      DFI(2,NS)=ZERO
-	      DFI(3,NS)=ZERO
-	     ENDIF
+                FFI(1,NS)=ZERO
+                FFI(2,NS)=ZERO
+                FFI(3,NS)=ZERO
+                DFI(1,NS)=ZERO
+                DFI(2,NS)=ZERO
+                DFI(3,NS)=ZERO
+               ENDIF
         ENDDO
        ELSE
 C---  general case----
@@ -543,7 +543,7 @@ C----pour temporairement diag_ss---
           DFI(1,NS)=ZERO
           DFI(2,NS)=ZERO
           DFI(3,NS)=ZERO
-	     ENDIF
+               ENDIF
         ENDDO
 C
        END IF !IF (INTP_D>0)

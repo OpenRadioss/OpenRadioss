@@ -356,9 +356,9 @@ c
                END IF
              END IF
               DO J=1,8
-	         KSI = A_HEPH(1,J)
-	         ETA = A_HEPH(2,J)
-	         ZETA = A_HEPH(3,J)
+                   KSI = A_HEPH(1,J)
+                   ETA = A_HEPH(2,J)
+                   ZETA = A_HEPH(3,J)
 c
                  ILAY = 1
 
@@ -487,9 +487,9 @@ c
                    ILAY = 1
                  ENDIF
 c
-	         KSI = A_GAUSS(IR,2)
-	         ETA = A_GAUSS(IS,2)
-	         ZETA = A_GAUSS(IT,2)
+                   KSI = A_GAUSS(IR,2)
+                   ETA = A_GAUSS(IS,2)
+                   ZETA = A_GAUSS(IT,2)
 
                  LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)
 

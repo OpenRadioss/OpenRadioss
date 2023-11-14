@@ -322,8 +322,8 @@ C-----------------------------------------------
                  !intersection point such as INTERP = Z + ALPHA . NG   et   <B-INTERP,N> = 0, donc :
                  ALPHA                 = (BX-Z(1))*NX+(BY-Z(2))*NY+(BZ-Z(3))*NZ / (NGX*NX+NGY*NY+NGZ*NZ)  !non nul car verification a la lecture
                  INTERP(1)             = Z(1) + ALPHA*NGX
-	         INTERP(2)             = Z(2) + ALPHA*NGY
-	         INTERP(3)             = Z(3) + ALPHA*NGZ
+                   INTERP(2)             = Z(2) + ALPHA*NGY
+                   INTERP(3)             = Z(3) + ALPHA*NGZ
                  ! profondeur = <INTERP_P , N>
                  !DEPTH(I) = (INTERP(1)-Z(1))*(INTERP(1)-Z(1))+(INTERP(2)-Z(2))*(INTERP(2)-Z(2))+(INTERP(3)-Z(3))*(INTERP(3)-Z(3))
                  !DEPTH(I) = SQRT(DEPTH(I))

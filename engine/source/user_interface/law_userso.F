@@ -109,7 +109,7 @@ C--------when Ismstr=10 we input [F] et [U]
         my_real FPSYX(MVSIZ)
         my_real FPSZY(MVSIZ)
         my_real FPSXZ(MVSIZ)
-C	
+C
         my_real UPSXX(MVSIZ)
         my_real UPSYY(MVSIZ)
         my_real UPSZZ(MVSIZ)

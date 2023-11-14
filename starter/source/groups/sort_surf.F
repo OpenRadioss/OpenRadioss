@@ -102,8 +102,8 @@ C-----------------------------------------------
           IGRSURF(K)%NODES(I,2) = IBUFSSG_TRI(6*(IT-1)+2)
           IGRSURF(K)%NODES(I,3) = IBUFSSG_TRI(6*(IT-1)+3)
           IGRSURF(K)%NODES(I,4) = IBUFSSG_TRI(6*(IT-1)+4)
-          IGRSURF(K)%ELTYP(I)	= IBUFSSG_TRI(6*(IT-1)+5)
-          IGRSURF(K)%ELEM(I)	= IBUFSSG_TRI(6*(IT-1)+6)
+          IGRSURF(K)%ELTYP(I)  = IBUFSSG_TRI(6*(IT-1)+5)
+          IGRSURF(K)%ELEM(I)  = IBUFSSG_TRI(6*(IT-1)+6)
          ENDDO
 
          DEALLOCATE(IBUFSSG_TRI)

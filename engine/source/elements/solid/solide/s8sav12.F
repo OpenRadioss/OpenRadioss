@@ -75,9 +75,9 @@ C-----for JCVT>0 Fixed SAV is rotated w/ local system not like Ismstr=1
         IH=0
         DO I=1,NEL
          IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE ) IH=1
-	END DO
-	IF (IH==0) RETURN
-C	
+          END DO
+          IF (IH==0) RETURN
+C
       IF(IRESP==1)THEN 
         DO I=1,NEL
           XD1(I)=XDP(1,NC1(I))  
@@ -103,9 +103,9 @@ C
           ZD7(I)=XDP(3,NC7(I))  
           XD8(I)=XDP(1,NC8(I))  
           YD8(I)=XDP(2,NC8(I))  
-          ZD8(I)=XDP(3,NC8(I))  	  	  	  
+          ZD8(I)=XDP(3,NC8(I))              
         ENDDO
-      ELSE	
+      ELSE
         DO I=1,NEL
           XD1(I)=X(1,NC1(I))  
           YD1(I)=X(2,NC1(I))  

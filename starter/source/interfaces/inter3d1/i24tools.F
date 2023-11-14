@@ -403,7 +403,7 @@ C---
          CALL NORMA4N(NXI,NYI,NZI,AREA,IRECT(1,EI),X )
          CALL NORMA4N(NXJ,NYJ,NZJ,AREA,IRECT(1,EJ),X )
          S=NXI*NXJ+NYI*NYJ+NZI*NZJ
-	     IF (S<ZERO.AND.ABS(S)>0.99) IOP=1
+               IF (S<ZERO.AND.ABS(S)>0.99) IOP=1
          IF (IOP == 0 ) THEN
           NN = 0
           DO I = 1,3
@@ -416,7 +416,7 @@ C---
            IF (INTAB(3,IRECT(1,EJ),J)) NN = NN +1
            IF (IRECT(3,EJ)/=IRECT(4,EJ).AND.J==IRECT(4,EJ)) NN = NN +1
           END IF
-	      IF (NN > 2) IOP = 1
+                IF (NN > 2) IOP = 1
          END IF !IF (IOP == 0 )
 C-----------------------------------------------
       RETURN

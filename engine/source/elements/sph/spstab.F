@@ -778,7 +778,7 @@ C
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
           V(2,2,NN) = ONE
-          V(3,2,NN) = ZERO	  
+          V(3,2,NN) = ZERO    
         ENDIF
       ENDDO
 C

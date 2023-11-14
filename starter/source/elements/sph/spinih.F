@@ -61,7 +61,7 @@ C-----------------------------------------------
         I0  =IPART(2,IPRT)
         DIST=GET_U_GEO(6,I0)
         IF(DIST==ZERO) THEN
-          MP	=GET_U_GEO(1,I0)
+          MP  =GET_U_GEO(1,I0)
           RHO=PM(1,IMAT)
           VOL=MP/RHO
           DIST=(SQ2*VOL)**THIRD

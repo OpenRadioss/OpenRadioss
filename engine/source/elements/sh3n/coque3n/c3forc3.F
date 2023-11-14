@@ -430,7 +430,7 @@ c
      .             PX1 ,PY1 ,PY2 ,EYZ  ,EZX  ,
      .             E1X      ,E1Y      ,E1Z     ,E2X      ,                 
      .             E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      )       
-	  
+            
       IF (ISMSTR == 10) THEN
         CALL C3COORT3(JFT    ,JLT    ,X          ,IXTG   ,GBUF%OFF,
      1                R      ,X2L    ,X3L        ,Y2L    ,Y3L     ,

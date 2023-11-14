@@ -232,9 +232,9 @@ C-----------------------------------------
         ! Start reading /INIBRI card 
         CALL HM_OPTION_START('/INIBRI')
         ISTRSF=0
-		ISTRSFG=0
-		ISTRAF=0
-		ISTRAFG=0
+          ISTRSFG=0
+          ISTRAF=0
+          ISTRAFG=0
 !
         DO INI=1,NB_INIBRI
 !
@@ -248,13 +248,13 @@ c---------------------------------------
           SELECT CASE (KEY(1:LEN_TRIM(KEY)))
 C---------
             CASE ( 'STRS_FGLO' )
-		      ISTRSFG=1
+                ISTRSFG=1
             CASE ( 'STRS_F' )
-		      ISTRSF=1
+                ISTRSF=1
             CASE ( 'STRA_FGLO' )
-		      ISTRAFG=1
+                ISTRAFG=1
             CASE ( 'STRA_F' )
-		      ISTRAF=1
+                ISTRAF=1
           END SELECT ! SELECT CASE(KEY)
         END DO 
         IF (ISTRSFG>0.AND.ISTRSF>0) THEN
@@ -264,7 +264,7 @@ C---------
            CALL ANCMSG(MSGID=2045,ANMODE=ANINFO,MSGTYPE=MSGWARNING)
         END IF
       END IF !( NB_INIBRI > 0 ) THEN
-	  
+            
       BRIGLOB = 0
       NIBRICK = 0
       I = 0
@@ -516,7 +516,7 @@ C---------
      .                                   C1='/INIBRI/STRS_FGLO',
      .                                   C2='SOLID')
                 ELSEIF (STRSGLOB(IE) >= 0) THEN   
-! ---     treated already				
+! ---     treated already
                 ELSE
 !
                   I=I+1
@@ -843,7 +843,7 @@ C---------
                     CALL LEC_INISTATE_D00_BRICK_CHECK (
      1                  IXS            ,IGEO          ,ITRIS         ,ISOLNODD00    ,IE            ,
      2                  NPT            ,NLAY          ,ISOLNOD       ,JJHBE         ,IGTYP         ,
-     3                  ISROT          ,KEYWORD )				
+     3                  ISROT          ,KEYWORD )
                     IF (STRSGLOB(IE) >= 0) CYCLE  
                     IF (BRIGLOB == 1) STRSGLOB(IE)=1
                     I = I+1
@@ -903,7 +903,7 @@ C---------
      .                                   C1='/INIBRI/STRS_F',
      .                                   C2='SOLID')
                 ELSEIF (STRSGLOB(IE) >= 0) THEN   
-! ---     treated already				
+! ---     treated already
                 ELSE
 !
                   I=I+1
@@ -1233,7 +1233,7 @@ C---------
                     CALL LEC_INISTATE_D00_BRICK_CHECK (
      1                  IXS            ,IGEO          ,ITRIS         ,ISOLNODD00    ,IE            ,
      2                  NPT            ,NLAY          ,ISOLNOD       ,JJHBE         ,IGTYP         ,
-     3                  ISROT          ,KEYWORD )				
+     3                  ISROT          ,KEYWORD )
 !!                    IF (BRIGLOB == 1) STRSGLOB(IE)=1
                     IF (STRSGLOB(IE) >= 0) CYCLE  
                     STRSGLOB(IE)=0
@@ -1977,13 +1977,13 @@ C---------
            IF (KTRIELC == 0) THEN
 C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
               DO IE = 1, NUMELC
-           	ITRI(IE) = IXC(NIXC,IE)
+          ITRI(IE) = IXC(NIXC,IE)
               END DO
               CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMELC,1)
               DO J = 1, NUMELC
-           	IE=INDEX(J)
-           	KSYSUSR(J)	 =IXC(NIXC,IE)
-           	KSYSUSR(NUMELC+J)=IE
+          IE=INDEX(J)
+          KSYSUSR(J)   =IXC(NIXC,IE)
+          KSYSUSR(NUMELC+J)=IE
               END DO
               KTRIELC=1
            ENDIF
@@ -4340,13 +4340,13 @@ C----------
            IF (KTRIELTRUSS == 0) THEN
 C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
               DO IE = 1, NUMELT
-           	ITRI(IE) = IXT(NIXT,IE)
+          ITRI(IE) = IXT(NIXT,IE)
               END DO
               CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMELT,1)
               DO J = 1, NUMELT
-           	IE=INDEX(J)
-           	KSYSUSR(J)	 =IXT(NIXT,IE)
-           	KSYSUSR(NUMELT+J)=IE
+          IE=INDEX(J)
+          KSYSUSR(J)   =IXT(NIXT,IE)
+          KSYSUSR(NUMELT+J)=IE
               END DO
               KTRIELTRUSS=1
            ENDIF

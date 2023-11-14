@@ -41,31 +41,31 @@ c DEFINE SIZES (integers arrays)
 C=======================================================================
         integer ::   S_IADK               
         integer ::   S_JDIK     
-		integer ::   S_ISIJ 
-		integer ::   S_IMIJ 
-		integer ::   S_NSS  
-		integer ::   S_ISS  
-		integer ::   S_ISIJ2
-		integer ::   S_NSS2 
-		integer ::   S_ISS2 
-		integer ::   S_NSC2 
-		integer ::   S_NROWK
-		integer ::   S_ICOK 
-		integer ::   S_ICOKM
-		integer ::   S_NMIJ2
-		integer ::   S_NSS3 
-		integer ::   S_ISB2 
-		integer ::   S_NSRB2
-	    integer ::   S_IKC  
-	    integer ::   S_IKUD 
-	    integer ::   S_W_DDL
-	    integer ::   S_IADM 
+          integer ::   S_ISIJ 
+          integer ::   S_IMIJ 
+          integer ::   S_NSS  
+          integer ::   S_ISS  
+          integer ::   S_ISIJ2
+          integer ::   S_NSS2 
+          integer ::   S_ISS2 
+          integer ::   S_NSC2 
+          integer ::   S_NROWK
+          integer ::   S_ICOK 
+          integer ::   S_ICOKM
+          integer ::   S_NMIJ2
+          integer ::   S_NSS3 
+          integer ::   S_ISB2 
+          integer ::   S_NSRB2
+              integer ::   S_IKC  
+              integer ::   S_IKUD 
+              integer ::   S_W_DDL
+              integer ::   S_IADM 
         integer ::   S_JDIM     
-	    integer ::   S_NDOFI
-	    integer ::   S_IDDLI
-	    integer ::   S_IKINW
-		integer ::   S_INBUF_C
-C-		
+              integer ::   S_NDOFI
+              integer ::   S_IDDLI
+              integer ::   S_IKINW
+          integer ::   S_INBUF_C
+C-
         integer ::   S_I_STOK     !  replace NUM_IMP            
         integer ::   S_CAND_N     !  replace NS_IMP  
         integer ::   S_CAND_E     !  replace NE_IMP   
@@ -77,25 +77,25 @@ C=======================================================================
         integer ::   S_LT_K           
         integer ::   S_DIAG_M           
         integer ::   S_LT_M           
-	    integer ::   S_LB
-	    integer ::   S_LB0
-	    integer ::   S_BKUD
-	    integer ::   S_D_IMP
-	    integer ::   S_DR_IMP
+              integer ::   S_LB
+              integer ::   S_LB0
+              integer ::   S_BKUD
+              integer ::   S_D_IMP
+              integer ::   S_DR_IMP
         integer ::   S_ELBUF_C
-		integer ::   S_BUFMAT_C
-		integer ::   S_X_C
-		integer ::   S_DD
-		integer ::   S_DDR
-		integer ::   S_X_A
-		integer ::   S_FEXT
-		integer ::   S_DG
-		integer ::   S_DGR
-		integer ::   S_DG0
-		integer ::   S_DGR0
-		integer ::   S_BUFIN_C
-		integer ::   S_AC
-		integer ::   S_ACR
+          integer ::   S_BUFMAT_C
+          integer ::   S_X_C
+          integer ::   S_DD
+          integer ::   S_DDR
+          integer ::   S_X_A
+          integer ::   S_FEXT
+          integer ::   S_DG
+          integer ::   S_DGR
+          integer ::   S_DG0
+          integer ::   S_DGR0
+          integer ::   S_BUFIN_C
+          integer ::   S_AC
+          integer ::   S_ACR
 c=======================================================================      
 c define type IMPBUF_STRUCT_ for implicit structure array
 c=======================================================================      
@@ -127,30 +127,30 @@ C=======================================================================
         integer, DIMENSION(:) , ALLOCATABLE ::  INLOC    
         integer, DIMENSION(:) , ALLOCATABLE ::  IADK    
         integer, DIMENSION(:) , ALLOCATABLE ::  JDIK    
-		integer, DIMENSION(:) , ALLOCATABLE ::  ISIJ 
-		integer, DIMENSION(:) , ALLOCATABLE ::  IMIJ 
-		integer, DIMENSION(:) , ALLOCATABLE ::  NSS  
-		integer, DIMENSION(:) , ALLOCATABLE ::  ISS  
-		integer, DIMENSION(:) , ALLOCATABLE ::  ISIJ2
-		integer, DIMENSION(:) , ALLOCATABLE ::  NSS2 
-		integer, DIMENSION(:) , ALLOCATABLE ::  ISS2 
-		integer, DIMENSION(:) , ALLOCATABLE ::  NSC2 
-		integer, DIMENSION(:) , ALLOCATABLE ::  NROWK
-		integer, DIMENSION(:) , ALLOCATABLE ::  ICOK 
-		integer, DIMENSION(:) , ALLOCATABLE ::  ICOKM
-		integer, DIMENSION(:) , ALLOCATABLE ::  NMIJ2
-		integer, DIMENSION(:) , ALLOCATABLE ::  NSS3 
-		integer, DIMENSION(:) , ALLOCATABLE ::  ISB2 
-		integer, DIMENSION(:) , ALLOCATABLE ::  NSRB2
-	    integer, DIMENSION(:) , ALLOCATABLE ::  IKC  
-	    integer, DIMENSION(:) , ALLOCATABLE ::  IKUD 
-	    integer, DIMENSION(:) , ALLOCATABLE ::  W_DDL
-	    integer, DIMENSION(:) , ALLOCATABLE ::  IADM 
-	    integer, DIMENSION(:) , ALLOCATABLE ::  JDIM 
-	    integer, DIMENSION(:) , ALLOCATABLE ::  NDOFI
-	    integer, DIMENSION(:) , ALLOCATABLE ::  IDDLI
-	    integer, DIMENSION(:) , ALLOCATABLE ::  IKINW
-	    integer, DIMENSION(:) , ALLOCATABLE ::  INBUF_C
+          integer, DIMENSION(:) , ALLOCATABLE ::  ISIJ 
+          integer, DIMENSION(:) , ALLOCATABLE ::  IMIJ 
+          integer, DIMENSION(:) , ALLOCATABLE ::  NSS  
+          integer, DIMENSION(:) , ALLOCATABLE ::  ISS  
+          integer, DIMENSION(:) , ALLOCATABLE ::  ISIJ2
+          integer, DIMENSION(:) , ALLOCATABLE ::  NSS2 
+          integer, DIMENSION(:) , ALLOCATABLE ::  ISS2 
+          integer, DIMENSION(:) , ALLOCATABLE ::  NSC2 
+          integer, DIMENSION(:) , ALLOCATABLE ::  NROWK
+          integer, DIMENSION(:) , ALLOCATABLE ::  ICOK 
+          integer, DIMENSION(:) , ALLOCATABLE ::  ICOKM
+          integer, DIMENSION(:) , ALLOCATABLE ::  NMIJ2
+          integer, DIMENSION(:) , ALLOCATABLE ::  NSS3 
+          integer, DIMENSION(:) , ALLOCATABLE ::  ISB2 
+          integer, DIMENSION(:) , ALLOCATABLE ::  NSRB2
+              integer, DIMENSION(:) , ALLOCATABLE ::  IKC  
+              integer, DIMENSION(:) , ALLOCATABLE ::  IKUD 
+              integer, DIMENSION(:) , ALLOCATABLE ::  W_DDL
+              integer, DIMENSION(:) , ALLOCATABLE ::  IADM 
+              integer, DIMENSION(:) , ALLOCATABLE ::  JDIM 
+              integer, DIMENSION(:) , ALLOCATABLE ::  NDOFI
+              integer, DIMENSION(:) , ALLOCATABLE ::  IDDLI
+              integer, DIMENSION(:) , ALLOCATABLE ::  IKINW
+              integer, DIMENSION(:) , ALLOCATABLE ::  INBUF_C
 C---for contact
         integer, DIMENSION(:) , ALLOCATABLE ::  I_STOK      
         integer, DIMENSION(:) , ALLOCATABLE ::  CAND_N      
@@ -164,25 +164,25 @@ C=======================================================================
         my_real, DIMENSION(:) , ALLOCATABLE ::   LT_K           
         my_real, DIMENSION(:) , ALLOCATABLE ::   DIAG_M           
         my_real, DIMENSION(:) , ALLOCATABLE ::   LT_M           
-	    my_real, DIMENSION(:) , ALLOCATABLE ::   LB
-	    my_real, DIMENSION(:) , ALLOCATABLE ::   LB0
-	    my_real, DIMENSION(:) , ALLOCATABLE ::   BKUD
-	    my_real, DIMENSION(:) , ALLOCATABLE ::   D_IMP
-	    my_real, DIMENSION(:) , ALLOCATABLE ::   DR_IMP
+              my_real, DIMENSION(:) , ALLOCATABLE ::   LB
+              my_real, DIMENSION(:) , ALLOCATABLE ::   LB0
+              my_real, DIMENSION(:) , ALLOCATABLE ::   BKUD
+              my_real, DIMENSION(:) , ALLOCATABLE ::   D_IMP
+              my_real, DIMENSION(:) , ALLOCATABLE ::   DR_IMP
         my_real, DIMENSION(:) , ALLOCATABLE ::   ELBUF_C
-		my_real, DIMENSION(:) , ALLOCATABLE ::   BUFMAT_C
-		my_real, DIMENSION(:) , ALLOCATABLE ::   X_C
-		my_real, DIMENSION(:) , ALLOCATABLE ::   DD
-		my_real, DIMENSION(:) , ALLOCATABLE ::   DDR
-		my_real, DIMENSION(:) , ALLOCATABLE ::   X_A
-		my_real, DIMENSION(:) , ALLOCATABLE ::   FEXT
-		my_real, DIMENSION(:) , ALLOCATABLE ::   DG
-		my_real, DIMENSION(:) , ALLOCATABLE ::   DGR
-		my_real, DIMENSION(:) , ALLOCATABLE ::   DG0
-		my_real, DIMENSION(:) , ALLOCATABLE ::   DGR0
-		my_real, DIMENSION(:) , ALLOCATABLE ::   BUFIN_C
-		my_real, DIMENSION(:) , ALLOCATABLE ::   AC
-		my_real, DIMENSION(:) , ALLOCATABLE ::   ACR
+          my_real, DIMENSION(:) , ALLOCATABLE ::   BUFMAT_C
+          my_real, DIMENSION(:) , ALLOCATABLE ::   X_C
+          my_real, DIMENSION(:) , ALLOCATABLE ::   DD
+          my_real, DIMENSION(:) , ALLOCATABLE ::   DDR
+          my_real, DIMENSION(:) , ALLOCATABLE ::   X_A
+          my_real, DIMENSION(:) , ALLOCATABLE ::   FEXT
+          my_real, DIMENSION(:) , ALLOCATABLE ::   DG
+          my_real, DIMENSION(:) , ALLOCATABLE ::   DGR
+          my_real, DIMENSION(:) , ALLOCATABLE ::   DG0
+          my_real, DIMENSION(:) , ALLOCATABLE ::   DGR0
+          my_real, DIMENSION(:) , ALLOCATABLE ::   BUFIN_C
+          my_real, DIMENSION(:) , ALLOCATABLE ::   AC
+          my_real, DIMENSION(:) , ALLOCATABLE ::   ACR
 C=======================================================================
       END TYPE IMPBUF_STRUCT_
 C=======================================================================

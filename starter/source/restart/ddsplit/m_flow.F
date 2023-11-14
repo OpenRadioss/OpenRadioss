@@ -66,7 +66,7 @@ C
          NBLOC=IFLOW(IADI+12)
          NPROW=IFLOW(IADI+18)
          NPCOL=IFLOW(IADI+19)
-		 
+           
          IF (ITYP==1) THEN
             NINOUT=IFLOW(IADI+4)
             NNN=IFLOW(IADI+7)
@@ -202,7 +202,7 @@ C
                  WRITE(IOUT,'(4X,A)') 'PROC  NB OF ROWS  NB OF COLUMNS'
               ENDIF
               WRITE(IOUT,'(3I10)') P,NNR_P,NNC_P
-			  
+            
               IFLOW_L(IADI+8) = NNR_P+NBLOC
               IFLOW_L(IADI+9) = NNR_P*NNC_P
               IFLOW_L(IADI+10)= IADMATI

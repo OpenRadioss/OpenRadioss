@@ -66,7 +66,7 @@ C-----------------------------------------------
 C     REAL
       my_real DX(3),THETA(3),E0(MVSIZ),TH1,TH2,TH3,
      .   DT(JLT-JFT+1), DTC(1), DTINV,  A, MASS2, IN2, DTA, DTB, MX2,
-     .   MS, IN	 
+     .   MS, IN   
 C=======================================================================
 C     nodal time step
 C--------------------------------------------
@@ -77,21 +77,21 @@ C
         STIR(1,I) = XKR(I)
         STI(2,I) = STI(1,I) 
         STIR(2,I) = STIR(1,I)
-	
+
 C-------- Masse harmonique --------------
         MS = (UVAR(34,I)*UVAR(35,I))/MAX(EM20,UVAR(34,I)+UVAR(35,I))
         IN = (UVAR(36,I)*UVAR(37,I))/MAX(EM20,UVAR(36,I)+UVAR(37,I))
-				
+
 C-------- Node 1--------------
-	IF (MS>EM15)
-     .    STI(1,I) = ((XCM(I)+SQRT(XCM(I)**2+XKM(I)*MS))**2)/MS		
-	IF (IN>EM15)
+          IF (MS>EM15)
+     .    STI(1,I) = ((XCM(I)+SQRT(XCM(I)**2+XKM(I)*MS))**2)/MS
+          IF (IN>EM15)
      .    STIR(1,I) = ((XCR(I)+SQRT(XCR(I)**2+XKR(I)*IN))**2)/IN
      
-C-------- Node 2--------------					
+C-------- Node 2--------------
         STI(2,I) = STI(1,I) 
         STIR(2,I) = STIR(1,I)
-	 
+           
       ENDDO
 C
       IF(IDTMINS==2.AND.JSMS/=0)THEN

@@ -82,7 +82,7 @@ C
         IF(NSUBDOM>0)THEN
           IF(TAGCYL(NY)==0)CALL HM_SZ_R2R(TAGCYL,NY,LSUBMODEL)
         END IF
-C----------------------------------------------------------------------	   
+C----------------------------------------------------------------------     
         CALL HM_OPTION_READ_KEY(LSUBMODEL)
 C
         CALL HM_GET_INTV('dependentnodeset',IGU,IS_AVAILABLE,LSUBMODEL)

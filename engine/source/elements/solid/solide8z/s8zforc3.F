@@ -390,7 +390,7 @@ c------------------------------------------------------------
      1 0.D0               ,0.D0               ,0.D0               ,
      2 -.577350269189625D0,0.577350269189625D0,0.D0               ,
      2 0.D0               ,0.D0               ,0.D0               ,
-     2 0.D0               ,0.D0               ,0.D0               , 	
+     2 0.D0               ,0.D0               ,0.D0               , 
      3 -.774596669241483D0,0.D0               ,0.774596669241483D0,
      3 0.D0               ,0.D0               ,0.D0               ,
      3 0.D0               ,0.D0               ,0.D0               ,
@@ -973,7 +973,7 @@ c
           IP = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
           LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
 
-C-----avoid multi-print	  
+C-----avoid multi-print    
           IF (IOFFS == 1)THEN
            DO I=LFT,LLT
             IF (OFFS(I)<=TWO) LBUF%OFF(I)=OFFS(I)

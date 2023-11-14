@@ -86,7 +86,7 @@ Chd|====================================================================
 
       TYPE my_front
         INTEGER, DIMENSION(:,:), POINTER :: P
-	INTEGER, DIMENSION(:)  , ALLOCATABLE :: IENTRY
+          INTEGER, DIMENSION(:)  , ALLOCATABLE :: IENTRY
       END TYPE my_front     
       
 c IFRONT chained-list      
@@ -94,7 +94,7 @@ c IFRONT chained-list
 
       TYPE my_connectdom
         INTEGER, DIMENSION(:,:), POINTER :: PDOM
-	INTEGER, DIMENSION(:,:)  , ALLOCATABLE :: IENTRYDOM
+          INTEGER, DIMENSION(:,:)  , ALLOCATABLE :: IENTRYDOM
       END TYPE my_connectdom     
       
 c IFRONT64 chained-list      

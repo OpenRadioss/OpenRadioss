@@ -230,7 +230,7 @@ C
          STI(2,I) = ZERO
          STIR(1,I) = ZERO
          STIR(2,I) = ZERO
-         IF(OFF(I)>ZERO) THEN	 
+         IF(OFF(I)>ZERO) THEN   
            STI(1,I) = XM(I) / DT(I)**2
            STI(2,I) = STI(1,I)
          ENDIF

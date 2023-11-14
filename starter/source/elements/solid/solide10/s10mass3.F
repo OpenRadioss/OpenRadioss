@@ -104,7 +104,7 @@ C       same as RD Engine
           STIFN(NC(I,2))=STIFN(NC(I,2))+STI(I)*DELTAX2(I)
           STIFN(NC(I,3))=STIFN(NC(I,3))+STI(I)*DELTAX2(I)
           STIFN(NC(I,4))=STIFN(NC(I,4))+STI(I)*DELTAX2(I)
-          DO N=5,10	    
+          DO N=5,10      
            IF(NC(I,N)/=0)THEN
              MSSX(N-4,I)=BM*PTG(N,I)
              STIFN(NC(I,N))=STIFN(NC(I,N))+STI(I)
@@ -114,7 +114,7 @@ C       same as RD Engine
              N22=IPERM2(N)
              N2=IPERM3(N22)
              MSS(N1,I)=MSS(N1,I) + HALF*BM*PTG(N,I)
-             MSS(N2,I)=MSS(N2,I) + HALF*BM*PTG(N,I)	     
+             MSS(N2,I)=MSS(N2,I) + HALF*BM*PTG(N,I)       
              STIFN(NC(I,N11))=STIFN(NC(I,N11))  + HALF*STI(I)
              STIFN(NC(I,N22))=STIFN(NC(I,N22))  + HALF*STI(I)      
            ENDIF
@@ -134,7 +134,7 @@ C         Not yet compatible with IMAS_DS/=0
           STIFN(NC(I,2))=STIFN(NC(I,2))+AAA
           STIFN(NC(I,3))=STIFN(NC(I,3))+AAA
           STIFN(NC(I,4))=STIFN(NC(I,4))+AAA
-          DO N=5,10	    
+          DO N=5,10      
            IF(NC(I,N)/=0)THEN
              MSSX(N-4,I)=BM
              STIFN(NC(I,N))=STIFN(NC(I,N))+BBB
@@ -238,35 +238,35 @@ C
      .     + AM*(ZZ(I,1)+ZZ(I,2)+ZZ(I,3)+ZZ(I,4))
      .     + BM*(ZZ(I,5)+ZZ(I,6)+ZZ(I,7)+ZZ(I,8)+ZZ(I,9)+ZZ(I,10))
        AXX = AM*(XX(I,1)*XX(I,1)+XX(I,2)*XX(I,2)
-     .  	+XX(I,3)*XX(I,3)+XX(I,4)*XX(I,4))
+     .    +XX(I,3)*XX(I,3)+XX(I,4)*XX(I,4))
      .      +BM*(XX(I,5)*XX(I,5)+XX(I,6)*XX(I,6)
-     .  	+XX(I,7)*XX(I,7)+XX(I,8)*XX(I,8)
-     .  	+XX(I,9)*XX(I,9)+XX(I,10)*XX(I,10))
+     .    +XX(I,7)*XX(I,7)+XX(I,8)*XX(I,8)
+     .    +XX(I,9)*XX(I,9)+XX(I,10)*XX(I,10))
        AYY = AM*(YY(I,1)*YY(I,1)+YY(I,2)*YY(I,2)
-     .  	+YY(I,3)*YY(I,3)+YY(I,4)*YY(I,4))
+     .    +YY(I,3)*YY(I,3)+YY(I,4)*YY(I,4))
      .      +BM*(YY(I,5)*YY(I,5)+YY(I,6)*YY(I,6)
-     .  	+YY(I,7)*YY(I,7)+YY(I,8)*YY(I,8)
-     .  	+YY(I,9)*YY(I,9)+YY(I,10)*YY(I,10))
+     .    +YY(I,7)*YY(I,7)+YY(I,8)*YY(I,8)
+     .    +YY(I,9)*YY(I,9)+YY(I,10)*YY(I,10))
        AZZ = AM*(ZZ(I,1)*ZZ(I,1)+ZZ(I,2)*ZZ(I,2)
-     .  	+ZZ(I,3)*ZZ(I,3)+ZZ(I,4)*ZZ(I,4))
+     .    +ZZ(I,3)*ZZ(I,3)+ZZ(I,4)*ZZ(I,4))
      .      +BM*(ZZ(I,5)*ZZ(I,5)+ZZ(I,6)*ZZ(I,6)
-     .  	+ZZ(I,7)*ZZ(I,7)+ZZ(I,8)*ZZ(I,8)
-     .  	+ZZ(I,9)*ZZ(I,9)+ZZ(I,10)*ZZ(I,10))
+     .    +ZZ(I,7)*ZZ(I,7)+ZZ(I,8)*ZZ(I,8)
+     .    +ZZ(I,9)*ZZ(I,9)+ZZ(I,10)*ZZ(I,10))
        AXY = AM*(XX(I,1)*YY(I,1)+XX(I,2)*YY(I,2)
-     .  	+XX(I,3)*YY(I,3)+XX(I,4)*YY(I,4))
+     .    +XX(I,3)*YY(I,3)+XX(I,4)*YY(I,4))
      .      +BM*(XX(I,5)*YY(I,5)+XX(I,6)*YY(I,6)
-     .  	+XX(I,7)*YY(I,7)+XX(I,8)*YY(I,8)
-     .  	+XX(I,9)*YY(I,9)+XX(I,10)*YY(I,10))
+     .    +XX(I,7)*YY(I,7)+XX(I,8)*YY(I,8)
+     .    +XX(I,9)*YY(I,9)+XX(I,10)*YY(I,10))
        AYZ = AM*(YY(I,1)*ZZ(I,1)+YY(I,2)*ZZ(I,2)
-     .  	+YY(I,3)*ZZ(I,3)+YY(I,4)*ZZ(I,4))
+     .    +YY(I,3)*ZZ(I,3)+YY(I,4)*ZZ(I,4))
      .      +BM*(YY(I,5)*ZZ(I,5)+YY(I,6)*ZZ(I,6)
-     .  	+YY(I,7)*ZZ(I,7)+YY(I,8)*ZZ(I,8)
-     .  	+YY(I,9)*ZZ(I,9)+YY(I,10)*ZZ(I,10))
+     .    +YY(I,7)*ZZ(I,7)+YY(I,8)*ZZ(I,8)
+     .    +YY(I,9)*ZZ(I,9)+YY(I,10)*ZZ(I,10))
        AZX = AM*(ZZ(I,1)*XX(I,1)+ZZ(I,2)*XX(I,2)
-     .  	+ZZ(I,3)*XX(I,3)+ZZ(I,4)*XX(I,4))
+     .    +ZZ(I,3)*XX(I,3)+ZZ(I,4)*XX(I,4))
      .      +BM*(ZZ(I,5)*XX(I,5)+ZZ(I,6)*XX(I,6)
-     .  	+ZZ(I,7)*XX(I,7)+ZZ(I,8)*XX(I,8)
-     .  	+ZZ(I,9)*XX(I,9)+ZZ(I,10)*XX(I,10))
+     .    +ZZ(I,7)*XX(I,7)+ZZ(I,8)*XX(I,8)
+     .    +ZZ(I,9)*XX(I,9)+ZZ(I,10)*XX(I,10))
        PARTSAV(5,IP) =PARTSAV(5,IP)  + (AYY+AZZ)
        PARTSAV(6,IP) =PARTSAV(6,IP)  + (AZZ+AXX)
        PARTSAV(7,IP) =PARTSAV(7,IP)  + (AXX+AYY)
@@ -285,20 +285,20 @@ C
      .     + BM*(VZ(I,5)+VZ(I,6)+VZ(I,7)+VZ(I,8)+VZ(I,9)+VZ(I,10))
        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF *
      .      (AM*(VX(I,1)*VX(I,1)+VX(I,2)*VX(I,2)
-     .  	+VX(I,3)*VX(I,3)+VX(I,4)*VX(I,4)
-     .  	+VY(I,1)*VY(I,1)+VY(I,2)*VY(I,2)
-     .  	+VY(I,3)*VY(I,3)+VY(I,4)*VY(I,4)
-     .  	+VZ(I,1)*VZ(I,1)+VZ(I,2)*VZ(I,2)
-     .  	+VZ(I,3)*VZ(I,3)+VZ(I,4)*VZ(I,4))
+     .    +VX(I,3)*VX(I,3)+VX(I,4)*VX(I,4)
+     .    +VY(I,1)*VY(I,1)+VY(I,2)*VY(I,2)
+     .    +VY(I,3)*VY(I,3)+VY(I,4)*VY(I,4)
+     .    +VZ(I,1)*VZ(I,1)+VZ(I,2)*VZ(I,2)
+     .    +VZ(I,3)*VZ(I,3)+VZ(I,4)*VZ(I,4))
      .      +BM*(VX(I,5)*VX(I,5)+VX(I,6)*VX(I,6)
-     .  	+VX(I,7)*VX(I,7)+VX(I,8)*VX(I,8)
-     .  	+VX(I,9)*VX(I,9)+VX(I,10)*VX(I,10)
-     .  	+VY(I,5)*VY(I,5)+VY(I,6)*VY(I,6)
-     .  	+VY(I,7)*VY(I,7)+VY(I,8)*VY(I,8)
-     .  	+VY(I,9)*VY(I,9)+VY(I,10)*VY(I,10)
-     .  	+VZ(I,5)*VZ(I,5)+VZ(I,6)*VZ(I,6)
-     .  	+VZ(I,7)*VZ(I,7)+VZ(I,8)*VZ(I,8)
-     .  	+VZ(I,9)*VZ(I,9)+VZ(I,10)*VZ(I,10)))
+     .    +VX(I,7)*VX(I,7)+VX(I,8)*VX(I,8)
+     .    +VX(I,9)*VX(I,9)+VX(I,10)*VX(I,10)
+     .    +VY(I,5)*VY(I,5)+VY(I,6)*VY(I,6)
+     .    +VY(I,7)*VY(I,7)+VY(I,8)*VY(I,8)
+     .    +VY(I,9)*VY(I,9)+VY(I,10)*VY(I,10)
+     .    +VZ(I,5)*VZ(I,5)+VZ(I,6)*VZ(I,6)
+     .    +VZ(I,7)*VZ(I,7)+VZ(I,8)*VZ(I,8)
+     .    +VZ(I,9)*VZ(I,9)+VZ(I,10)*VZ(I,10)))
       ENDDO
 
       IF(JTHE < 0) THEN
@@ -310,7 +310,7 @@ C
         MCPS(3,I)=AM
         MCPS(6,I)=AM
         MCPS(5,I)=AM
-        DO N=5,10	  
+        DO N=5,10    
           IF(NC(I,N)/=0)THEN
             MCPSX(N-4,I) = BM
           ELSE

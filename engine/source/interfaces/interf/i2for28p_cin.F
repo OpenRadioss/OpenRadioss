@@ -334,8 +334,8 @@ C
         ENDIF
 C
 C---    output of tied contact forces
- 	CALL I2FORCES(X      ,V	,A	 ,MS	  ,I	  ,
-     .	              IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
+          CALL I2FORCES(X      ,V  ,A   ,MS    ,I    ,
+     .                IRECT(1,L),H  ,NIR     ,FSAV    ,FNCONT ,
      .                FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)   
 C----
 C stokage ZERO pour noeuds delete par idel2

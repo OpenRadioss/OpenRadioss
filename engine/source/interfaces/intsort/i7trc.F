@@ -81,7 +81,7 @@ C------for travelling nodes detected in imp_solv-----
          IPUT(I)=0
         END DO
         DO N=1,NUM_IMP
-	  I= IND_IMP(N)
+            I= IND_IMP(N)
           IPUT(I)=1
         END DO
        IF(IFQ>0)THEN
@@ -148,18 +148,18 @@ C
               !at previous cycle IFEN should be updated 
               NI = CAND_N(I)
               IF(NI>NSNL) THEN
-	  	    !remote node
-          	NI = NI-NSNL
-          	IF(STIFI(NIN)%P(NI) == ZERO)THEN
-          	  IFPEN(I)    = 0
-          	  CAND_N(I)   = NSN+1
-          	ENDIF
+              !remote node
+          NI = NI-NSNL
+          IF(STIFI(NIN)%P(NI) == ZERO)THEN
+            IFPEN(I)    = 0
+            CAND_N(I)   = NSN+1
+          ENDIF
               ELSE
-	  	    !local node
-          	IF(STFNS(NI) == ZERO)THEN 
-          	  IFPEN(I)    = 0
-          	  CAND_N(I)   = NSN+1
-          	ENDIF
+              !local node
+          IF(STFNS(NI) == ZERO)THEN 
+            IFPEN(I)    = 0
+            CAND_N(I)   = NSN+1
+          ENDIF
               ENDIF
             ENDIF
           ENDDO
@@ -173,20 +173,20 @@ C
               !at previous cycle IFEN should be updated 
               NI = CAND_N(I)
               IF(NI>NSNL) THEN
-	  	    !remote node
-          	NI = NI-NSNL
-          	IF(STIFI(NIN)%P(NI) == ZERO)THEN
-          	  IFPEN(I)  = 0
+              !remote node
+          NI = NI-NSNL
+          IF(STIFI(NIN)%P(NI) == ZERO)THEN
+            IFPEN(I)  = 0
                   CAND_F(1,I) = ZERO
-          	  CAND_N(I) = NSN+1
-          	ENDIF
+            CAND_N(I) = NSN+1
+          ENDIF
               ELSE
-	  	    !local node
-          	IF(STFNS(NI) == ZERO)THEN 
-          	  IFPEN(I)  = 0
+              !local node
+          IF(STFNS(NI) == ZERO)THEN 
+            IFPEN(I)  = 0
                   CAND_F(1,I) = ZERO
-          	  CAND_N(I) = NSN+1
-          	ENDIF
+            CAND_N(I) = NSN+1
+          ENDIF
               ENDIF
             ENDIF
           ENDDO
@@ -208,18 +208,18 @@ C
               !at previous cycle CAND_F should be updated 
               NI = CAND_N(I)
               IF(NI>NSNL) THEN
-	  	    !remote node
-          	NI = NI-NSNL
-          	IF(STIFI(NIN)%P(NI) == ZERO)THEN
+              !remote node
+          NI = NI-NSNL
+          IF(STIFI(NIN)%P(NI) == ZERO)THEN
                   CAND_F(1,I) = ZERO
-          	  CAND_N(I) = NSN+1
-          	ENDIF
+            CAND_N(I) = NSN+1
+          ENDIF
               ELSE
-	  	    !local node
-          	IF(STFNS(NI) == ZERO)THEN 
+              !local node
+          IF(STFNS(NI) == ZERO)THEN 
                   CAND_F(1,I) = ZERO
-          	  CAND_N(I) = NSN+1
-          	ENDIF
+            CAND_N(I) = NSN+1
+          ENDIF
               ENDIF
             ENDIF
           ENDDO
@@ -233,16 +233,16 @@ C
             !at previous cycle CAND_F should be updated 
             NI = CAND_N(I)
             IF(NI>NSNL) THEN
-	          !remote node
+                    !remote node
               NI = NI-NSNL
               IF(STIFI(NIN)%P(NI) == ZERO)THEN
-          	CAND_F(1,I) = ZERO
+          CAND_F(1,I) = ZERO
                 CAND_N(I)   = NSN+1
               ENDIF
             ELSE
-	          !local node
+                    !local node
               IF(STFNS(NI) == ZERO)THEN 
-          	CAND_F(1,I) = ZERO
+          CAND_F(1,I) = ZERO
                 CAND_N(I) = NSN+1
               ENDIF
             ENDIF

@@ -117,7 +117,7 @@ C
         N4=IRECT(4,IS)
         IF(N4==0 .OR. N4==N3) THEN
           FAC=ONE_OVER_6*ORIENT
-	         N4=N3
+                   N4=N3
         ELSE
           FAC=ONE_OVER_8*ORIENT
         ENDIF

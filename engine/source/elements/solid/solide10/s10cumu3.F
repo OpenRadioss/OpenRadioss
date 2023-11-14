@@ -270,21 +270,21 @@ C
               A(1,N2)=A(1,N2)+HALF*FX(I,N)
               A(2,N2)=A(2,N2)+HALF*FY(I,N)
               A(3,N2)=A(3,N2)+HALF*FZ(I,N)
-      	      IF(ABS(OFFG(I))>ONE)THEN
-      	  	XX=SAV(I,IPERM2(N))-SAV(I,IPERM1(N))
-      	  	YY=SAV(I,IPERM2(N)+10)-SAV(I,IPERM1(N)+10)
-      	  	ZZ=SAV(I,IPERM2(N)+20)-SAV(I,IPERM1(N)+20)
-      	  	XM = ONE_OVER_8*(YY*FZ(I,N) - ZZ*FY(I,N))
-      	  	YM = ONE_OVER_8*(ZZ*FX(I,N) - XX*FZ(I,N))
-      	  	ZM = ONE_OVER_8*(XX*FY(I,N) - YY*FX(I,N))
-      	      ELSE
-        	XM = ONE_OVER_8*
-     .  	((X(2,N2)-X(2,N1))*FZ(I,N) - (X(3,N2)-X(3,N1))*FY(I,N))
-        	YM = ONE_OVER_8*
-     .  	((X(3,N2)-X(3,N1))*FX(I,N) - (X(1,N2)-X(1,N1))*FZ(I,N))
-        	ZM = ONE_OVER_8*
-     .  	((X(1,N2)-X(1,N1))*FY(I,N) - (X(2,N2)-X(2,N1))*FX(I,N))
-              END IF		
+                IF(ABS(OFFG(I))>ONE)THEN
+              XX=SAV(I,IPERM2(N))-SAV(I,IPERM1(N))
+              YY=SAV(I,IPERM2(N)+10)-SAV(I,IPERM1(N)+10)
+              ZZ=SAV(I,IPERM2(N)+20)-SAV(I,IPERM1(N)+20)
+              XM = ONE_OVER_8*(YY*FZ(I,N) - ZZ*FY(I,N))
+              YM = ONE_OVER_8*(ZZ*FX(I,N) - XX*FZ(I,N))
+              ZM = ONE_OVER_8*(XX*FY(I,N) - YY*FX(I,N))
+                ELSE
+          XM = ONE_OVER_8*
+     .    ((X(2,N2)-X(2,N1))*FZ(I,N) - (X(3,N2)-X(3,N1))*FY(I,N))
+          YM = ONE_OVER_8*
+     .    ((X(3,N2)-X(3,N1))*FX(I,N) - (X(1,N2)-X(1,N1))*FZ(I,N))
+          ZM = ONE_OVER_8*
+     .    ((X(1,N2)-X(1,N1))*FY(I,N) - (X(2,N2)-X(2,N1))*FX(I,N))
+              END IF
               AR(1,N1) = AR(1,N1) + XM
               AR(2,N1) = AR(2,N1) + YM
               AR(3,N1) = AR(3,N1) + ZM

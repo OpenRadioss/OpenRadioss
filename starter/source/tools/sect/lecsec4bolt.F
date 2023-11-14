@@ -317,13 +317,13 @@ C
              J=K+1                                                       
              JJ=(NUMSKW+1)+NSUBMOD+MIN(IUN,NSPCOND)*NUMSPH+K+1           
              IF(NFRAM==ISKN(4,JJ)) THEN                                
-	       A = XFRAME(7,J)                                           
-	       B = XFRAME(8,J)                                           
-	       C = XFRAME(9,J)                                           
+                 A = XFRAME(7,J)                                           
+                 B = XFRAME(8,J)                                           
+                 C = XFRAME(9,J)                                           
                D = XFRAME(10,J)                                          
                E = XFRAME(11,J)                                          
                F = XFRAME(12,J)                                          
-	       N1 = ISKN(1,JJ)                                           
+                 N1 = ISKN(1,JJ)                                           
                IF (NSTRF(K0+3) == 0 ) THEN                               
                  IF (ISKN(1,JJ) /= 0) THEN                             
                    NSTRF(K0+3) = ITAB(ISKN(1,JJ))                        
@@ -367,9 +367,9 @@ C
            ENDDO                                                         
           ENDIF                                                          
           KK=1+NGRNOD                                                    
-	  NNOD = 0                                                       
-	  CPT = 1                                                        
-	  CALL SEC_NODES_SOL(IGUS,ISTYP,NGRBRIC,IGRBRIC,X0,A,            
+            NNOD = 0                                                       
+            CPT = 1                                                        
+            CALL SEC_NODES_SOL(IGUS,ISTYP,NGRBRIC,IGRBRIC,X0,A,            
      2                  B,C,D,E,F,ITAB,IXS,IXS10,IXS16,IXS20,            
      3                  NIXS,KK,NNOD,NSTRF,NBINTER,N1 ,K1,               
      4                  CPT,NODTAG,ISOLNOD,TAGELEMS,                     

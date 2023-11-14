@@ -81,12 +81,12 @@ C     (si candidat retenu, cand_n(i) = - cand_n(i))
 C-----------------------------------------------------------
        I_STOK = INTBUF_TAB%I_STOK(1)
        CALL I23OPTCD(
-     1 INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,X	   ,I_STOK,INTBUF_TAB%IRECTM,
+     1 INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,X     ,I_STOK,INTBUF_TAB%IRECTM,
      2GAP      ,INTBUF_TAB%GAP_S,IPARI(21,NIN),IPARI(5,NIN) ,INTBUF_TAB%STFNS,
-     3ITASK	   ,INTBUF_TAB%STFM,INACTI   ,INTBUF_TAB%FTSAVX,
+     3ITASK     ,INTBUF_TAB%STFM,INACTI   ,INTBUF_TAB%FTSAVX,
      4INTBUF_TAB%FTSAVY,INTBUF_TAB%FTSAVZ,INTBUF_TAB%CAND_P,NIN   ,INTBUF_TAB%VARIABLES(16),
      5IPARI(39,NIN),COUNT_REMSLV,INTBUF_TAB%GAP_M,
-     .  				    INTBUF_TAB%MSR,INTBUF_TAB%NSV,
+     .              INTBUF_TAB%MSR,INTBUF_TAB%NSV,
      .GAPMIN)
 C-----------------------------------------------------------
 C

@@ -299,7 +299,7 @@ C------------------------
             A1 = ONE
             A2 = -HALF
           ELSEIF (ITENS >= 301 .AND. ITENS <= 400) THEN
-            IF (NPT /= 0) THEN	
+            IF (NPT /= 0) THEN
               ISTRE = 2
               IPT = MIN(NPT,ITENS - 300)  
               A1 = ONE

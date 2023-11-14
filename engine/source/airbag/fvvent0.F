@@ -191,7 +191,7 @@ C------------------
             TT1=TT-TTF
             IF (ITTF==13) THEN
               TVENT=RBAGHOL(3,IVENT)
-			  TT1=TT-TTF-TVENT
+            TT1=TT-TTF-TVENT
             ENDIF
             SVTFAC=ZERO
 C

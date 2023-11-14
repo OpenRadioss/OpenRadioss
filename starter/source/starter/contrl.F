@@ -1461,9 +1461,9 @@ C
       IF (USERL_AVAIL==1)THEN
         WRITE(IOUT,4500)
         IF(GOT_INSPIRE_ALM == 1)THEN
-	  WRITE(IOUT,4601) DLIBFILE(1:DLIBFILE_SIZE),DLIBTKVERS
+            WRITE(IOUT,4601) DLIBFILE(1:DLIBFILE_SIZE),DLIBTKVERS
         ELSE
-	  WRITE(IOUT,4600) DLIBFILE(1:DLIBFILE_SIZE),DLIBTKVERS
+            WRITE(IOUT,4600) DLIBFILE(1:DLIBFILE_SIZE),DLIBTKVERS
         ENDIF
       ENDIF
 C
@@ -2060,7 +2060,7 @@ C---- read ipart_id if there are
                  LEN_C = LEN_TRIM(CARTE)
                  IF(CARTE(LEN_C:LEN_C)==CHAR(13)) LEN_C = LEN_C - 1
                END DO
-     	         IF (NPRT==0) THEN
+                   IF (NPRT==0) THEN
                  NPRT = NPART
                  NTM_PART(1:NPRT) = 1
                END IF
@@ -2077,17 +2077,17 @@ C
         IF (IFUND>0 .AND. (NPRT == NPART .OR.NPRT ==0)) THEN   
           NTM_PART(1:NPRT) = 1
         ELSEIF (IFUND>0) THEN   
-    	  DO I=1,NPRT
+            DO I=1,NPRT
              IP=0
              IPRT = TMAX_IPART(I)
-     	     DO J=1,NPART
-     	        IF(IPART(4,J)==IPRT)IP=J
-     	     END DO
-     	     IF (IP > 0) NTM_PART(IP)=1
+               DO J=1,NPART
+                  IF(IPART(4,J)==IPRT)IP=J
+               END DO
+               IF (IP > 0) NTM_PART(IP)=1
              IP = 0
-     	     DO J=1,NPART
-     	       IP = IP +NTM_PART(J)
-     	     END DO
+               DO J=1,NPART
+                 IP = IP +NTM_PART(J)
+               END DO
              IF (IP==0) NTM_PART(1:NPART) = 1 
           ENDDO
         END IF 

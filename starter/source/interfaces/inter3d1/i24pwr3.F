@@ -80,13 +80,13 @@ C
 C---Cas INACTI=0,1----
           PEN =ZERO
          IF(ICONT_I(NI)==-L)THEN
-C-------Cas INACTI=-1,5	  
-	   PEN = PMIN(NI)
+C-------Cas INACTI=-1,5    
+             PEN = PMIN(NI)
          ELSEIF(IRTLM(1,NI)==L)THEN
-	   PEN = PENE_OLD(5,NI)
-	 ELSE
-	  CYCLE
-	 END IF
+             PEN = PENE_OLD(5,NI)
+           ELSE
+            CYCLE
+           END IF
            IX1=IRECT(1,L)
            IX2=IRECT(2,L)
            IX3=IRECT(3,L)

@@ -130,7 +130,7 @@ C
 C       
        DO N=1,NINTER
         NTY   =IPARI(7,N)
-	    LREM(N) = 0
+              LREM(N) = 0
         IF(NTY==7) THEN
 C
           ISENS = IPARI(64,N)
@@ -289,7 +289,7 @@ C
        END DO
       DO N=1,NINTER
         NTY   =IPARI(7,N)
-	       LREM(N) = 0
+                 LREM(N) = 0
         IF(NTY==7) THEN
 C
           ISENS = IPARI(64,N)
@@ -451,7 +451,7 @@ C        N = INTLIST(KK)
         XSLV_L(16,N)= EP30
         XSLV_L(17,N)= EP30
         XSLV_L(18,N)= EP30
-	
+
         XMSR_L(1,N)= -EP30
         XMSR_L(2,N)= -EP30
         XMSR_L(3,N)= -EP30
@@ -485,7 +485,7 @@ C
 C        N = INTLIST(KK)
       DO N=1,NINTER
         DTK(N) = EP30
-C----------ICONT-----	
+C----------ICONT-----
         IPARI(29,N) = 0
 C
         NTY   =IPARI(7,N)
@@ -679,7 +679,7 @@ C
             GAPINF = INTBUF_TAB(I)%VARIABLES(6)
             IF (GAPINF==ZERO) GAPINF = INTBUF_TAB(I)%VARIABLES(2)
 C-------supposee s est encore loin de M ------
-	    GAPINF =GAPINF+MAX(ZERO,DIST0)
+              GAPINF =GAPINF+MAX(ZERO,DIST0)
             DTI = ONEP8*GAPINF/VV
 Ctmp            DTI = ZEP9*GAPINF/VV
             IF(DTI<DT2T) DT2T    = DTI            
@@ -924,7 +924,7 @@ C     REAL
 C------------------------------------
         DO J=1,NSN
           I=NSV(J)
-	 IF (I>0) THEN
+           IF (I>0) THEN
           DX = D(1,I)*FACD
           DY = D(2,I)*FACD
           DZ = D(3,I)*FACD
@@ -938,7 +938,7 @@ C------------------------------------
         END DO
         DO J=1,NMN
           I=MSR(J)
-	 IF (I>0) THEN
+           IF (I>0) THEN
           DX = D(1,I)*FACD
           DY = D(2,I)*FACD
           DZ = D(3,I)*FACD
@@ -954,7 +954,7 @@ C
         IF (IRODDL/=0) THEN
          DO J=1,NSN
           I=NSV(J)
-	  IF (I>0) THEN
+            IF (I>0) THEN
            VR(1,I)=DR(1,I)*FACV
            VR(2,I)=DR(2,I)*FACV
            VR(3,I)=DR(3,I)*FACV
@@ -962,7 +962,7 @@ C
          END DO
          DO J=1,NMN
           I=MSR(J)
-	  IF (I>0) THEN
+            IF (I>0) THEN
            VR(1,I)=DR(1,I)*FACV
            VR(2,I)=DR(2,I)*FACV
            VR(3,I)=DR(3,I)*FACV
@@ -1006,7 +1006,7 @@ C     REAL
      .        DX,DY,DZ
 C------------------------------------
         DO J=1,NSN
-	 IF (STFN(J)/=ZERO) THEN
+           IF (STFN(J)/=ZERO) THEN
           I=NSV(J)
           DX = D(1,I)*FACD
           DY = D(2,I)*FACD
@@ -1021,7 +1021,7 @@ C------------------------------------
         END DO
         DO J=1,NMN
           I=MSR(J)
-	 IF (I>0) THEN
+           IF (I>0) THEN
           DX = D(1,I)*FACD
           DY = D(2,I)*FACD
           DZ = D(3,I)*FACD
@@ -1036,7 +1036,7 @@ C------------------------------------
 C
         IF (IRODDL/=0) THEN
          DO J=1,NSN
-	  IF (STFN(J)/=ZERO) THEN
+            IF (STFN(J)/=ZERO) THEN
            I=NSV(J)
            VR(1,I)=DR(1,I)*FACV
            VR(2,I)=DR(2,I)*FACV
@@ -1045,7 +1045,7 @@ C
          END DO
          DO J=1,NMN
           I=MSR(J)
-	  IF (I>0) THEN
+            IF (I>0) THEN
            VR(1,I)=DR(1,I)*FACV
            VR(2,I)=DR(2,I)*FACV
            VR(3,I)=DR(3,I)*FACV
@@ -1228,7 +1228,7 @@ C
             TS = TT
          ENDIF
 C
-         IF(TT>=TS) THEN  ! If interface is activated	
+         IF(TT>=TS) THEN  ! If interface is activated
           CALL I11MAIN_TRI(
      1 IPARI      ,X       ,V        ,
      2 MS         ,N            ,ITASK        ,WEIGHT  ,ISENDTO  ,
@@ -1454,7 +1454,7 @@ C------dans NS_IMP input:d'abord NT_IMP1, + NT_IMP-NT_IMP1, output: NT_IMP
        IF(NSPMD>1) THEN
         IAD1 = 0
         DO N = 1,NINTER
-	 DO I = 1,NUMIMP1(N)
+           DO I = 1,NUMIMP1(N)
           NS_IMP(IAD1+I)=NS_IMP1(IAD1+I)
          END DO
          IAD1 =IAD1 + NUMIMP1(N) 
@@ -1470,18 +1470,18 @@ C----
 C
        IAD1 = 0
        DO N = 1,NINTER
-	DO I = 1,NUMIMP1(N)
-	 NS_IMP1(IAD1+I) = NS_IMP(IAD1+I)
-	 NE_IMP1(IAD1+I) = NE_IMP(IAD1+I)
-	 IND_IMP1(IAD1+I) = IND_IMP(IAD1+I)
+          DO I = 1,NUMIMP1(N)
+           NS_IMP1(IAD1+I) = NS_IMP(IAD1+I)
+           NE_IMP1(IAD1+I) = NE_IMP(IAD1+I)
+           IND_IMP1(IAD1+I) = IND_IMP(IAD1+I)
         END DO
         IAD1 =IAD1 + NUMIMP1(N) 
        END DO
        DO N = 1,NINTER
-	DO I = 1,NUMIMP(N)
-	 NS_IMP1(IAD1+I) = NS_IMP(IAD1+I)
-	 NE_IMP1(IAD1+I) = NE_IMP(IAD1+I)
-	 IND_IMP1(IAD1+I) = IND_IMP(IAD1+I)
+          DO I = 1,NUMIMP(N)
+           NS_IMP1(IAD1+I) = NS_IMP(IAD1+I)
+           NE_IMP1(IAD1+I) = NE_IMP(IAD1+I)
+           IND_IMP1(IAD1+I) = IND_IMP(IAD1+I)
         END DO
         IAD1 =IAD1 + NUMIMP(N) 
        END DO
@@ -1489,10 +1489,10 @@ C--------change ind for NS_IMP,INE_IMP,IND_IMP---
        IAD = 0
        IAD1 = 0
        DO N = 1,NINTER
-	DO I = 1,NUMIMP1(N)
-	 NS_IMP(IAD+I) = NS_IMP1(IAD1+I)
-	 NE_IMP(IAD+I) = NE_IMP1(IAD1+I)
-	 IND_IMP(IAD+I) = IND_IMP1(IAD1+I)
+          DO I = 1,NUMIMP1(N)
+           NS_IMP(IAD+I) = NS_IMP1(IAD1+I)
+           NE_IMP(IAD+I) = NE_IMP1(IAD1+I)
+           IND_IMP(IAD+I) = IND_IMP1(IAD1+I)
         END DO
         IAD =IAD + NUMIMP1(N) + NUMIMP(N)
         IAD1 = IAD1 + NUMIMP1(N)
@@ -1500,10 +1500,10 @@ C--------change ind for NS_IMP,INE_IMP,IND_IMP---
        IAD = 0
        DO N = 1,NINTER
         IADT =IAD + NUMIMP1(N) 
-	DO I = 1,NUMIMP(N)
-	 NS_IMP(IADT+I) = NS_IMP1(IAD1+I)
-	 NE_IMP(IADT+I) = NE_IMP1(IAD1+I)
-	 IND_IMP(IADT+I) = IND_IMP1(IAD1+I)
+          DO I = 1,NUMIMP(N)
+           NS_IMP(IADT+I) = NS_IMP1(IAD1+I)
+           NE_IMP(IADT+I) = NE_IMP1(IAD1+I)
+           IND_IMP(IADT+I) = IND_IMP1(IAD1+I)
         END DO
         IAD1 =IAD1 + NUMIMP(N) 
         IAD =IAD + NUMIMP1(N) + NUMIMP(N)
@@ -1723,7 +1723,7 @@ C--------allocation------
 C
        ALLOCATE(IN_KN(NUMN_KN),ID_KN(3,NUMN_KN),STAT=IERR1)
       IF (NUMN_KN > 0) THEN
-       ID_KN = -7	  
+       ID_KN = -7    
        N = 0
 C------------valeur nega pour les nsl nodes-----      
        DO I=1,NUMNOD
@@ -1793,13 +1793,13 @@ C ------ini RBE3---
          IROT=MAX(IROT,IRBE3(6,N))
         ENDDO 
         ALLOCATE(ID_KNM3(6,IAD,NRBE3_KN),STAT=IERR3)
-	 ID_KNM3=0
-	 RKN_MAX=IAD
+           ID_KNM3=0
+           RKN_MAX=IAD
         ALLOCATE(FCDI_KN(18*NMT),STAT=IERR5)
-	 FCDI_KN=ZERO
+           FCDI_KN=ZERO
         IF (IROT>0) THEN
-	 ALLOCATE(MCDI_KN(18*NMT),STAT=IERR5)
-	 MCDI_KN=ZERO
+           ALLOCATE(MCDI_KN(18*NMT),STAT=IERR5)
+           MCDI_KN=ZERO
         ENDIF 
         CALL RBE3_MINT(IRBE3   ,LRBE3    ,FRBE3   ,X     ,SKEW ,
      .                 NRBE3_KN,IRBE3_KN ,FCDI_KN,MCDI_KN)
@@ -2099,7 +2099,7 @@ C-
        NSPC = 0
        DO N=1,NSPCL
         IF (INLOC(N)>0.AND.IC_SPC(N)<=3)THEN
-	 NSPC = NSPC + 1  
+           NSPC = NSPC + 1  
          ISPC_MV(NSPC) = N 
         ENDIF 
        ENDDO
@@ -2203,17 +2203,17 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
        IF (NML>0) THEN
-C--------initialization for ndof=0---	
+C--------initialization for ndof=0---
         DO I = 1, NML
          N = IML(I)
          NDD = 0
          DO J = 1 , MIN(3,NDOF(N))
-	  ID = IDDL(N) + J
+            ID = IDDL(N) + J
           IF (IKC(ID)<1) THEN
            NDD = NDD + 1
-           IDDML(J,I) = IDDLM(N) + NDD	  
+           IDDML(J,I) = IDDLM(N) + NDD    
           ELSE
-           IDDML(J,I) = -IKC(ID)	  
+           IDDML(J,I) = -IKC(ID)    
           ENDIF
          ENDDO
         ENDDO
@@ -2224,12 +2224,12 @@ C
          N = IFRSR(1,I)
          NDD = 0
          DO J = 1 , NDOF(N)
-	  ID = IDDL(N) + J
+            ID = IDDL(N) + J
           IF (IKC(ID)<1) THEN
            NDD = NDD + 1
-           IDDMR(J,I) = IDDLM(N) + NDD	  
+           IDDMR(J,I) = IDDLM(N) + NDD    
           ELSE
-           IDDMR(J,I) = -IKC(ID)	  
+           IDDMR(J,I) = -IKC(ID)    
           ENDIF
          ENDDO
         ENDDO
@@ -2261,12 +2261,12 @@ C-------si noeud main est dependant aussi-----
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           NDD = 0
           DO J = 1 , NDOF(NJ)
-	   ID = IDDL(NJ) + J
+             ID = IDDL(NJ) + J
            IF (IKC(ID)<1) THEN
             NDD = NDD + 1
-            IDDMI2(J,M,I) = IDDLM(NJ) + NDD	  
+            IDDMI2(J,M,I) = IDDLM(NJ) + NDD    
            ELSE
-            IDDMI2(J,M,I) = -IKC(ID)	  
+            IDDMI2(J,M,I) = -IKC(ID)    
            ENDIF
           ENDDO
          ENDDO 
@@ -2284,12 +2284,12 @@ C-------
           NJ=LRBE3(IAD+M)
           NDD = 0
           DO J = 1 , NDOF(NJ)
-	     ID = IDDL(NJ) + J
+               ID = IDDL(NJ) + J
            IF (IKC(ID)<1) THEN
             NDD = NDD + 1
-            IDDMI3(J,M,I) = IDDLM(NJ) + NDD	  
+            IDDMI3(J,M,I) = IDDLM(NJ) + NDD    
            ELSE
-            IDDMI3(J,M,I) = -IKC(ID)	  
+            IDDMI3(J,M,I) = -IKC(ID)    
            ENDIF
           ENDDO
          ENDDO 
@@ -2302,12 +2302,12 @@ C------RBE2
          M = IRBE2(3,N)
          NDD = 0
          DO J = 1 , NDOF(M)
-	  ID = IDDL(M) + J
+            ID = IDDL(M) + J
           IF (IKC(ID)<1) THEN
            NDD = NDD + 1
-           IDDMI4(J,I) = IDDLM(M) + NDD	  
+           IDDMI4(J,I) = IDDLM(M) + NDD    
           ELSE
-           IDDMI4(J,I) = -IKC(ID)	  
+           IDDMI4(J,I) = -IKC(ID)    
           ENDIF
          ENDDO
         ENDDO

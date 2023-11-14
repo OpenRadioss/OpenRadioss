@@ -262,11 +262,11 @@ c!$OMP END DO
 
           NDS=0
           IMP=1
-	      IF (IDYNA > 0) THEN
-	        CALL GETDYNA_A(1  ,NUMNOD   ,A )
-	      ELSE
+                IF (IDYNA > 0) THEN
+                  CALL GETDYNA_A(1  ,NUMNOD   ,A )
+                ELSE
             CALL ZEROR(A,NUMNOD)
-	      END IF
+                END IF
           IF (ICOMV == 1) THEN
            DTI = ONE/DT2
            DO N=1,NUMNOD

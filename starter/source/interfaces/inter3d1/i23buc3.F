@@ -402,7 +402,7 @@ C---------------------------------
 C ne pas dimunuer la taille des boite
 C            MINBOX= THREE_OVER_4*MINBOX
 C            MAXBOX= THREE_OVER_4*MAXBOX
-	    I_MEM = 0
+              I_MEM = 0
             IF(MARGE_ST<EM03) THEN
 C             WRITE(ISTDO,*)' ***ERROR INFINITE LOOP DETECTED(I7BUC)'
 C             WRITE(IOUT,*)' **ERROR INFINITE LOOP DETECTED(I7BUC)'

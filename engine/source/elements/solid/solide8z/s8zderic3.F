@@ -254,13 +254,13 @@ C
             JAC1(I)=X_17_46-X_28_35
             JAC2(I)=Y_17_46-Y_28_35
             JAC3(I)=Z_17_46-Z_28_35
-C	    
+C      
             JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
             JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
             JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
 C
            DET(I)=ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
-	   OFFG(I) = TWO
+             OFFG(I) = TWO
          ENDDO
       END IF
 C      

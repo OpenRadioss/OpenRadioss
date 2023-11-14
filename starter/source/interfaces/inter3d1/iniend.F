@@ -120,20 +120,20 @@ C
          ENDDO
 C
        ELSEIF(NTY/=2) THEN
-	     IF(INCREM==1)THEN
+               IF(INCREM==1)THEN
             DO I=1,NSN
-	           CALL IFRONTPLUS(INTBUF_TAB%NSV(I),1)
+                     CALL IFRONTPLUS(INTBUF_TAB%NSV(I),1)
             END DO
             DO I=1,NMN
-               CALL IFRONTPLUS(INTBUF_TAB%MSR(I),1)	   
+               CALL IFRONTPLUS(INTBUF_TAB%MSR(I),1)     
             END DO
-	     ENDIF
+               ENDIF
 C  interface ALE -> c. c. traitees par P0
          IF(NTY==1.OR.NTY==9.OR.NTY==12)THEN
            INCREM = 10
            DO I=1,NSN
              !set FLAGKIN to 1 for boundary node with
-	            !kinematic constraints (old FRONT TAG=10)	   
+                      !kinematic constraints (old FRONT TAG=10)     
              FLAGKIN(INTBUF_TAB%NSV(I)) = 1
            END DO
            DO I=1,NMN
@@ -192,13 +192,13 @@ C
        WRITE(IOUT,2002)
        CALL I6PEN3
      1   (X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,INTBUF_TAB%NSV  ,INTBUF_TAB%ILOCS,
-     2    INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%IRTLOM,INTBUF_TAB%VARIABLES(2),NSN	 ,
+     2    INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%IRTLOM,INTBUF_TAB%VARIABLES(2),NSN   ,
      3    ITAB      ,IWPENE    ,INTBUF_TAB%FCONT,ICOR        ,ID,
      4    INACTI    ,TITR)
        WRITE(IOUT,2003)
        CALL I6PEN3
      1   (X         ,INTBUF_TAB%IRECTS,INTBUF_TAB%NSV,INTBUF_TAB%MSR  ,INTBUF_TAB%ILOCM,
-     2    INTBUF_TAB%IRTLS,INTBUF_TAB%CSTM,INTBUF_TAB%IRTLOS,INTBUF_TAB%VARIABLES(2),NMN	 ,
+     2    INTBUF_TAB%IRTLS,INTBUF_TAB%CSTM,INTBUF_TAB%IRTLOS,INTBUF_TAB%VARIABLES(2),NMN   ,
      3    ITAB      ,IWPENE    ,INTBUF_TAB%FCONT,ICOR        ,ID,
      4    INACTI    ,TITR)
 C
@@ -416,7 +416,7 @@ C interface ALE -> c. c. traitees par P0
            INCREM = 10
            DO I=1,NSN
               !set FLAGKIN to 1 for boundary node with
-	      !kinematic constraints (old FRONT TAG=10)
+                !kinematic constraints (old FRONT TAG=10)
               FLAGKIN(INTBUF_TAB%NSV(I)) = 1
            END DO
            DO I=1,NMN
@@ -439,7 +439,7 @@ C interface ALE -> c. c. traitees par P0
 C pas d optimisation possible
  100         DO JJ=1,NIR
                K = INTBUF_TAB%IRECTM((L-1)*4+JJ)
-	           CALL IFRONTPLUS(K,P)
+                     CALL IFRONTPLUS(K,P)
              ENDDO
 C optimisation possible
  200         CONTINUE

@@ -118,7 +118,7 @@ C--------non-linear-----
 C         IKG=0
          IKPAT=0
         IF (IMACH==3) IKPAT=1
-	       IF (IAUTSPC==1) IAUTSPC=0
+                 IF (IAUTSPC==1) IAUTSPC=0
       ENDIF
 
       IF (IDYNA>0)CALL DYNA_INI(1 ,NUMNOD ,HHT_A ,NEWM_A,NEWM_B,V,VR)

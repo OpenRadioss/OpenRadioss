@@ -717,7 +717,7 @@ C
        WRITE (IUSC3,'(A,G14.7)',ERR=990)     ' MASS.ERR (M-M0)/M0=',EMASS
 
        CALL FVSTATS1(IUSC3,MONVOL,1)
-	   
+             
        IF(IMON > 0 .AND. TT > ZERO) THEN
 C calcul temps restant
          RETIME = (ETIME*TSTOP) / TT - ETIME

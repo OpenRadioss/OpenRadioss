@@ -113,7 +113,7 @@ c
 C----
       STAT_NUMELP_G = 0
       CALL SPMD_IGET_PARTN_STA(6,STAT_NUMELP,STAT_NUMELP_G,LENGP,NP,
-     .  		       IADG,NPGLOB,STAT_INDXP)
+     .             IADG,NPGLOB,STAT_INDXP)
 C----
       IF (ISPMD == 0) THEN
         DO N=1,STAT_NUMELP_G

@@ -171,7 +171,7 @@ C
             ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
             VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
             VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
-            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))	    
+            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))      
           ENDIF
         ENDDO
       ENDDO

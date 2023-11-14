@@ -342,10 +342,10 @@ C-----T_FIT .OR. NCY_PFIT
        ELSE
         NCY_PFIT = IPARI(40,NIN)
         IF (NCY_PFIT >0 .AND. NCYCLE> NCY_PFIT) IPARI(40,NIN) = 0
-		IF (IPARI(40,NIN)>0) THEN
+          IF (IPARI(40,NIN)>0) THEN
           FINC= ONE/IPARI(40,NIN)
           TNCY = (NCYCLE+1)*FINC
-		END IF
+          END IF
        END IF
       ALLOCATE(INDEX2(LINDMAX))
 
@@ -440,9 +440,9 @@ C
           JLT = MIN( NVSIZ, I_STOK - NFT )
 C preparation candidats retenus
           IKNON(1:JLT) = 0
-	  CALL I24CDCOR3(
+            CALL I24CDCOR3(
      1     JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,INTBUF_TAB%CAND_T,
-     2     CAND_E_N,CAND_N_N,CAND_T_N	  ,IEDGE	)
+     2     CAND_E_N,CAND_N_N,CAND_T_N    ,IEDGE  )
 C cand_n et cand_e remplace par cand_n_n et cand_e_n
 C-------ISPT2 change    dimension NSN, initialis   au Starter
           CALL I24COR3(
@@ -472,7 +472,7 @@ C-------ISPT2 change    dimension NSN, initialis   au Starter
 
           JLT_NEW = 0
           IF(IMPL_S > 0 ) THEN
-	   CALL IMPL_SAV0(
+             CALL IMPL_SAV0(
      1        JLT    ,CAND_N_N ,SUBTRIA_OLD ,INTBUF_TAB%IRTLM,NSN  ,NIN  ) 
           END IF!(IMPL_S > 0 ) THEN
 C

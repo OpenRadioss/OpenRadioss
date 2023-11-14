@@ -74,7 +74,7 @@ C=======================================================================
          EINTM(I)  = ZERO
          QM(I)     = ZERO
          STIN(I)   = ZERO
-         PP(I)     = ZERO	
+         PP(I)     = ZERO
          CONDEN(I)   = ZERO 
       ENDDO
 C

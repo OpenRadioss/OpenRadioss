@@ -143,22 +143,22 @@ cc           WA(JJ) = NPTT
             WA(JJ) = NPG
 c
             DO IL = 1,NLAY
-              NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL			       
+              NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL             
               IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
               FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(1,1,1)   
               NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
               JJ = JJ + 1
               WA(JJ) = NFAIL
               JJ = JJ + 1  
-              IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT			     
+              IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT           
               WA(JJ) = IPM(1,IMAT)   
               JJ = JJ + 1
               WA(JJ) = NPTT
 c
               DO IFAIL = 1,NFAIL 
                 IRUPT = IPM(236+IFAIL,IMAT)
-                IRUPT_TYPE = IPM(241+IFAIL,IMAT) 			 
-                NVAR_RUPT = FBUF%FLOC(IFAIL)%NVAR		       
+                IRUPT_TYPE = IPM(241+IFAIL,IMAT)        
+                NVAR_RUPT = FBUF%FLOC(IFAIL)%NVAR           
                 JJ = JJ + 1
                 WA(JJ) = NVAR_RUPT + 1
                 JJ = JJ + 1
@@ -169,9 +169,9 @@ c
                 IF (IRUPT == 0) CYCLE
 !
                 DO IT=1,NPTT  
-                  DO IS=1,NPTS					     
-                    DO IR=1,NPTR			   
-                      FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)				     
+                  DO IS=1,NPTS               
+                    DO IR=1,NPTR         
+                      FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)             
                       UVARF => FBUF%FLOC(IFAIL)%VAR 
                       DFMAX => FBUF%FLOC(IFAIL)%DAMMX   
                       JJ = JJ + 1
@@ -377,7 +377,7 @@ cc           WA(JJ) = NPTT
             WA(JJ) = NPG
 c
             DO IL = 1,NLAY
-              NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL			       
+              NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL             
               IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
               FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(1,1,1)   
               NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
@@ -390,33 +390,33 @@ c
               WA(JJ) = NPTT 
 c
               DO IFAIL = 1,NFAIL 
-           	IRUPT = IPM(236+IFAIL,IMAT)
-           	IRUPT_TYPE = IPM(241+IFAIL,IMAT)			   
-           	NVAR_RUPT  = FBUF%FLOC(IFAIL)%NVAR			 
-           	JJ = JJ + 1
-           	WA(JJ) = NVAR_RUPT + 1
-           	JJ = JJ + 1
-           	WA(JJ) = IRUPT
-           	JJ = JJ + 1
-           	WA(JJ) = IRUPT_TYPE	
+          IRUPT = IPM(236+IFAIL,IMAT)
+          IRUPT_TYPE = IPM(241+IFAIL,IMAT)         
+          NVAR_RUPT  = FBUF%FLOC(IFAIL)%NVAR       
+          JJ = JJ + 1
+          WA(JJ) = NVAR_RUPT + 1
+          JJ = JJ + 1
+          WA(JJ) = IRUPT
+          JJ = JJ + 1
+          WA(JJ) = IRUPT_TYPE
 !
                 IF (IRUPT == 0) CYCLE
 !
-                DO IT = 1,NPTT 		     
-           	  DO IS=1,NPTS					       
-           	    DO IR=1,NPTR 		     
-                      FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)				       
-           	      UVARF => FBUF%FLOC(IFAIL)%VAR  
+                DO IT = 1,NPTT          
+            DO IS=1,NPTS                 
+              DO IR=1,NPTR          
+                      FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)               
+                UVARF => FBUF%FLOC(IFAIL)%VAR  
                       DFMAX => FBUF%FLOC(IFAIL)%DAMMX   
                       JJ = JJ + 1
                       WA(JJ) = DFMAX(I)
-           	      DO NV=1,NVAR_RUPT
-           	        JJ = JJ + 1
-           	        WA(JJ) = UVARF((NV-1)*LLT+I)
-           	      ENDDO
-           	    ENDDO
+                DO NV=1,NVAR_RUPT
+                  JJ = JJ + 1
+                  WA(JJ) = UVARF((NV-1)*LLT+I)
+                ENDDO
+              ENDDO
                   ENDDO
-           	ENDDO    ! IT = 1,NPTT
+          ENDDO    ! IT = 1,NPTT
               ENDDO  ! IFAIL = 1,NFAIL
             ENDDO      ! IL = 1,NLAY
 c                                                          

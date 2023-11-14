@@ -144,7 +144,7 @@ C
           NN=IGRSURF(IS)%NSEG
           DO J=1,NN                                              
             K=K+1                                                
-            IB(1,K)=IGRSURF(IS)%NODES(J,1)				    
+            IB(1,K)=IGRSURF(IS)%NODES(J,1)            
             IB(2,K)=IGRSURF(IS)%NODES(J,2)
             IB(3,K)=IGRSURF(IS)%NODES(J,3)
             ITY    =IGRSURF(IS)%ELTYP(J)

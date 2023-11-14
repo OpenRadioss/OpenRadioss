@@ -170,30 +170,30 @@ C
                 END DO
  50            CONTINUE
 C
-          	IF(IP/=0)THEN
-          	  IF(IPART(10,IP)/=0)THEN
+          IF(IP/=0)THEN
+            IF(IPART(10,IP)/=0)THEN
                     CALL ANCMSG(MSGID=644,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
      .                     I1=IPART(4,IP))
-          	  END IF
-          	  IPART(10,IP)  =LEVELMAX
+            END IF
+            IPART(10,IP)  =LEVELMAX
                   IPADMESH(1,IP)=MIN(INILEV,LEVELMAX)
-          	  PADMESH(1,IP) =COS(ANGL)
-          	  PADMESH(2,IP) =THKERR
+            PADMESH(1,IP) =COS(ANGL)
+            PADMESH(2,IP) =THKERR
 
                   WRITE(IOUT,1250) IPART(4,IP),
      .                             IPADMESH(1,IP),
      .                             ANGLDEGR,THKERR
 
-          	ELSE
+          ELSE
                   CALL ANCMSG(MSGID=646,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO,
      .                   I1=ID,
      .                   C1=TITR,
      .                   I2=ID_IP)
-          	END IF
+          END IF
              END IF
 
           ENDDO

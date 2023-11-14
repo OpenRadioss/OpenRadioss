@@ -45,15 +45,15 @@ C-----------------------------------------------
      .   XIJ,YIJ,ZIJ
 C----6---------------------------------------------------------------7---------8
        DO J=1,NN
-	    XIJ=XYZ(1,J)-X
-	    YIJ=XYZ(2,J)-Y
-	    ZIJ=XYZ(3,J)-Z
+              XIJ=XYZ(1,J)-X
+              YIJ=XYZ(2,J)-Y
+              ZIJ=XYZ(3,J)-Z
         IF (XIJ==ZERO.AND.YIJ==ZERO.AND.ZIJ==ZERO) RETURN
        END DO !J=1,NN
-	     NN = NN + 1
-	     XYZ(1,NN)=X
-	     XYZ(2,NN)=Y
-	     XYZ(3,NN)=Z
+               NN = NN + 1
+               XYZ(1,NN)=X
+               XYZ(2,NN)=Y
+               XYZ(3,NN)=Z
 C
       RETURN
       END

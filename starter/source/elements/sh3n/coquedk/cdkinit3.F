@@ -337,12 +337,12 @@ C-----------------------------------------------------------------------
 C----------------------------------------
 c Failure model initialisation
 C----------------------------------------
-c	     IF ( NPERTURB /= 0 .OR. NVSHELL1 /= 0) THEN
-	       CALL CFAILINI4(ELBUF_STR,IXTG    ,NIXTG   ,NPTR    ,NPTS    ,
+c       IF ( NPERTURB /= 0 .OR. NVSHELL1 /= 0) THEN
+                 CALL CFAILINI4(ELBUF_STR,IXTG    ,NIXTG   ,NPTR    ,NPTS    ,
      .                 NPTT     ,NLAY    ,IPM     ,SIGSH   ,NSIGSH  ,
      .                 NUMELTG  ,PTSH3N  ,RNOISE  ,PERTURB ,BUFMAT  ,
      .                 ALDT     ,THK     )
-c	     ENDIF
+c       ENDIF
 C-----------------------------------------------------------------------
 C     CALCUL DES DEFORMATIONS INITIALES (MEMBRANE)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--

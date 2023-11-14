@@ -161,7 +161,7 @@ c        goto 6543
          I1 = IRECT(K1,I)
          I2 = IRECT(K2,I)
          J  = MVOISIN(K1,I)
-		 IF (J==0) CYCLE
+           IF (J==0) CYCLE
          J1 = IRECT(1,J)
          J2 = IRECT(2,J)
          J3 = IRECT(3,J)
@@ -524,7 +524,7 @@ C
        WA(M) = MIN(WA(M),GAPMAX_M)
        GAPN_M(I) = WA(M)
       END DO
-C		 
+C     
       IF(INTPLY == 0) THEN
           DO I=1,NRTM
              GAP_M(I) = ZERO

@@ -127,7 +127,7 @@ C-----------------------------------------------
 
           DO I=1,JLT
            BI = CAND_B(I)    !up to i22intersect() : cand_b is related to couple I. It corresponds to brick IID = bufbric(cand_b(i))
-	                     !after that cand_b(i) is replaced by address in brick_list
+                               !after that cand_b(i) is replaced by address in brick_list
            EI = IABS(CAND_E(I))   
            NI=BI
            

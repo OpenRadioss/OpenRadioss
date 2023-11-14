@@ -806,7 +806,7 @@ C   echange messages
 C
 c      SIZ=1
 c      CALL MPI_ALLTOALL(NNZP,SIZ,MPI_INTEGER,MNZP,SIZ,MPI_INTEGER,
-c     .  		MPI_COMM_WORLD,IERROR)
+c     .      MPI_COMM_WORLD,IERROR)
 C
 C sur dimensionne
       DO P = 1, NSPMD
@@ -816,44 +816,44 @@ C-----
       L = 1
       DO P=1,NSPMD
 C
-	SIZ = IAD_ELEM(1,P+1)-IAD_ELEM(1,P)
-	IF(SIZ/=0)THEN
-	  MSGTYP = MSGOFF2 
-	  CALL MPI_IRECV(
+          SIZ = IAD_ELEM(1,P+1)-IAD_ELEM(1,P)
+          IF(SIZ/=0)THEN
+            MSGTYP = MSGOFF2 
+            CALL MPI_IRECV(
      .      RBUF(L),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .      MPI_COMM_WORLD,REQ_R(P),IERROR    )
 C
-	  DO J=IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
-	    NOD = FR_ELEM(J)
-	    SBUF(J)=IADK(NOD+1)-IADK(NOD)
-	  END DO
+            DO J=IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
+              NOD = FR_ELEM(J)
+              SBUF(J)=IADK(NOD+1)-IADK(NOD)
+            END DO
 C
-	  MSGTYP= MSGOFF2
-	  CALL MPI_ISEND(
+            MSGTYP= MSGOFF2
+            CALL MPI_ISEND(
      .      SBUF(L),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .      MPI_COMM_WORLD,REQ_S(P),IERROR    )
-	  L = L + SIZ
-	END IF
+            L = L + SIZ
+          END IF
 C
       END DO
 C
       L = 1
       DO P=1,NSPMD
-	SIZ = IAD_ELEM(1,P+1)-IAD_ELEM(1,P)
-	IF(SIZ/=0)THEN
-	  CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
-	  DO J=IAD_ELEM(1,P),IAD_ELEM(1,P+1)-1
-	    NOD = FR_ELEM(J)
-	    KADM(NOD)=KADM(NOD)+RBUF(L)
-	    L = L + 1
-	  END DO
-	END IF
+          SIZ = IAD_ELEM(1,P+1)-IAD_ELEM(1,P)
+          IF(SIZ/=0)THEN
+            CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
+            DO J=IAD_ELEM(1,P),IAD_ELEM(1,P+1)-1
+              NOD = FR_ELEM(J)
+              KADM(NOD)=KADM(NOD)+RBUF(L)
+              L = L + 1
+            END DO
+          END IF
       END DO
 C
       DO P=1,NSPMD
-	IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P)/=0)THEN
-	  CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
-	END IF
+          IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P)/=0)THEN
+            CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
+          END IF
       END DO
 C--------------------------------------------------------------------
       RETURN
@@ -994,7 +994,7 @@ C
           IF(SIZR(P)/=0)THEN
             MSGTYP = MSGOFF2                          
             CALL MPI_IRECV(RBUF(L),SIZR(P),REAL ,IT_SPMD(P),
-     .    		  MSGTYP,MPI_COMM_WORLD,REQ_R(P),IERROR)
+     .          MSGTYP,MPI_COMM_WORLD,REQ_R(P),IERROR)
             L = L +SIZR(P)
           END IF
         END IF
@@ -1015,17 +1015,17 @@ C
             DO K=IADK(NOD),IADK(NOD+1)-1
               M=JDIK(K)
               IF(ITAG(M)/=0.AND.ITAG(M)<ITAG(NOD))THEN
-        	SBUF(LL  ) = ITAG(NOD)
-        	SBUF(LL+1) = ITAG(M)
-        	SBUF(LL+2) = LT_K(K)
-        	LL = LL + 3
+          SBUF(LL  ) = ITAG(NOD)
+          SBUF(LL+1) = ITAG(M)
+          SBUF(LL+2) = LT_K(K)
+          LL = LL + 3
               END IF
             END DO
           END DO
 C
           MSGTYP = MSGOFF2                               
           CALL MPI_ISEND(SBUF(L),SIZS(P),REAL ,IT_SPMD(P),
-     .  		MSGTYP,MPI_COMM_WORLD,REQ_S2(P),IERROR)
+     .      MSGTYP,MPI_COMM_WORLD,REQ_S2(P),IERROR)
           L = L + SIZS(P)
 C
 C reset

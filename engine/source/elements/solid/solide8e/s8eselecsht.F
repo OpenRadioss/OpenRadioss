@@ -85,13 +85,13 @@ C ----[B]=[MF+1][MF+1]^t -1
            ENDDO
          END DO !IP = 1
        END IF !(ISMSTR/=11) THEN               
-C	
+C
         DO IR = 1,2
           B0XY(1:NEL,IR) = ZERO
           B0XZ(1:NEL,IR) = ZERO
           B0YZ(1:NEL,IR) = ZERO
         END DO !IR = 1,2
-C	
+C
       IF (ISMSTR==11) THEN                           
         DO IR = 1,2
           B0YX(1:NEL,IR) = ZERO

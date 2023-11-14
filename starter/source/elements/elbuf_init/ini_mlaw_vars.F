@@ -66,7 +66,7 @@ c       global variables - scalars
         MTAG%G_RHO    = 0   ! G_RHO > 0 only for solids   
         MTAG%G_DELTAX = 0 
         MTAG%G_EPSD   = 0 
-        MTAG%G_EPSQ   = 0	
+        MTAG%G_EPSQ   = 0
         MTAG%G_PLA    = 0 
         MTAG%G_TEMP   = 0 
         MTAG%G_TB     = 0 
@@ -161,10 +161,10 @@ c---    local variables (per integration point)
         MTAG%L_Z      = 0
         MTAG%L_GAMA   = 0  
         MTAG%L_FRAC   = 0  
-        MTAG%L_BFRAC  = 0  	
+        MTAG%L_BFRAC  = 0  
         MTAG%NUVAR    = 0  
         MTAG%NVARTMP  = 0    
-        MTAG%L_DMG    = 0  	
+        MTAG%L_DMG    = 0  
         MTAG%L_SEQ    = 0
         MTAG%L_FAC_YLD= 0  
         MTAG%L_ABURN  = 0  
@@ -172,7 +172,7 @@ c---    local variables (per integration point)
         MTAG%L_PLANL  = 0  
         MTAG%L_EPSDNL = 0 
         MTAG%L_DMGSCL = 0  
-        MTAG%L_TSAIWU = 0	 
+        MTAG%L_TSAIWU = 0   
       ENDDO
 C-----------------------------------------------
       RETURN

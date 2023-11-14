@@ -100,7 +100,7 @@ C-----------------------------------------------
         
           WM1M2(1) = ZERO
           WM1M2(2) = ZERO 
-          WM1M2(3) = ZERO	    
+          WM1M2(3) = ZERO      
           WM1M2(4) = ZERO 
           WM1M2(5) = ZERO 
           WM1M2(6) = ZERO

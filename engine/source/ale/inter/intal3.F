@@ -83,7 +83,7 @@ C-----------------------------------------------
      4        PM        ,NALE         )
        ELSEIF(NTY == 12) THEN
         IF(ISPMD == 0)THEN
-	 ITIED=NINT(INTBUF_TAB(N)%VARIABLES(1))
+           ITIED=NINT(INTBUF_TAB(N)%VARIABLES(1))
 C Grid Velocities of secondary nodes are not interpolated
 C ONLY in case "TIED"
          IF (ITIED  == 1 .OR. ITIED == 2) CALL INT12W(

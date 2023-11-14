@@ -191,7 +191,7 @@ C----------------BC-------------------------
         ICT = IABS(ICODT(I))
         K = NDOF(I)
         ND = IADN(I)
-C---------<0 with FV coupling, not to change IFIX		
+C---------<0 with FV coupling, not to change IFIX
         IF (ICODT(I)<0) THEN
          DO J =1,3
           IFIX_CP(J)=IFIX(ND+J)
@@ -771,7 +771,7 @@ C          CALL L_DIR2(EJ,J,3)
           EJ1(3)=SKEW(6,ISK)
           CALL BC_C2D(EJ,EJ1, J, J1  ,EA, EB  )
           CALL DIR_RBE2(J, J1  ,K)
-C-----FV-BCS coupling		  
+C-----FV-BCS coupling      
           IF (ICT<0) THEN
            D(J,I) =D(J,I)- EA*D(K,I)
            D(J1,I) =D(J1,I)- EB*D(K,I)
@@ -1893,21 +1893,21 @@ C
 C        IF BOTH EIGENVALUES ARE ZERO, IKC=14
 C
         IF (NZERO == 2) THEN
-	 DO I = 1 , NMTX
+           DO I = 1 , NMTX
           LAUSPC = LAUSPC + 1
           IKC(ID(I)) = 14
-	 ENDDO
+           ENDDO
         ELSEIF (NZERO == 1) THEN
          DO 100 I = 1, NMTX
           IF ( EIGVAL(I) < SMLEIG ) THEN
             LAUSPC = LAUSPC + 1
             IND = 2*I-1
             HIGH = MAX(ABS(EIGVEC(IND)),EIGVEC(ABS(IND+1)))
-	    IF (ABS(HIGH-ONE)<SMLEIG) THEN
+              IF (ABS(HIGH-ONE)<SMLEIG) THEN
              IKC(ID(I)) = 14
-	    ELSE
+              ELSE
              IKC(ID(I)) = 15
-	     NASPCC =NASPCC +1
+               NASPCC =NASPCC +1
              RASPCC(ID(1)) = EIGVEC(IND)
              RASPCC(ID(2)) = EIGVEC(IND+1)
             ENDIF
@@ -1932,37 +1932,37 @@ C
 c
           DO I = 1, NMTX
            COPY(I)=EIGVAL(I)
-	  ENDDO
+            ENDDO
 C
 C        NORMALIZE EIGENVALUES BASED ON MAXIMUM EIGENVALUE
 C
          CALL NRMLZAUSPC(EIGVAL,SMLEIG,3,NZERO)
 C
         IF (NZERO == 3) THEN
-	 DO I = 1 , NMTX
+           DO I = 1 , NMTX
           LAUSPC = LAUSPC + 1
           IKC(I) = 14
-	 ENDDO
+           ENDDO
         ELSEIF (NZERO == 2) THEN
-	 HIGH = ZERO
+           HIGH = ZERO
          DO I = 1, NMTX
           IF ( EIGVAL(I) < SMLEIG ) THEN
             LAUSPC = LAUSPC + 1
             IND = 3*I-2
-	    DO J=0,2
+              DO J=0,2
              HIGH = MAX(HIGH,ABS(EIGVEC(IND+J)))
-	    ENDDO
+              ENDDO
           ENDIF
-	 ENDDO
+           ENDDO
 C        STILL GLOBAL SYSTEM
-	 IF (ABS(HIGH-ONE)<SMLEIG) THEN
+           IF (ABS(HIGH-ONE)<SMLEIG) THEN
           DO I = 1, NMTX
            IF ( EIGVAL(I) < SMLEIG ) IKC(I) = 14
-	  ENDDO
-	 ELSE
+            ENDDO
+           ELSE
           DO I = 1, NMTX
            IF ( EIGVAL(I) < SMLEIG ) THEN
-	     NASPCC =NASPCC +1
+               NASPCC =NASPCC +1
              IKC(I) = 15
              IND = 3*I-2
              IEQ = 3*(NASPCC-1)
@@ -1970,7 +1970,7 @@ C        STILL GLOBAL SYSTEM
              RASPCC(IEQ+2) = EIGVEC(IND+1)
              RASPCC(IEQ+3) = EIGVEC(IND+2)
            ENDIF
-	  ENDDO
+            ENDDO
          ENDIF
         ELSEIF (NZERO == 1) THEN
          DO I = 1, NMTX
@@ -1978,17 +1978,17 @@ C        STILL GLOBAL SYSTEM
             LAUSPC = LAUSPC + 1
             IND = 3*I-2
             HIGH = MAX(EIGVEC(IND),EIGVEC(IND+1),EIGVEC(IND+2))
-	    IF (ABS(HIGH-ONE)<SMLEIG) THEN
+              IF (ABS(HIGH-ONE)<SMLEIG) THEN
              IKC(I) = 14
-	    ELSE
-	     NASPCC =NASPCC +1
+              ELSE
+               NASPCC =NASPCC +1
              IKC(I) = 15
              RASPCC(1) = EIGVEC(IND)
              RASPCC(2) = EIGVEC(IND+1)
              RASPCC(3) = EIGVEC(IND+2)
             ENDIF
           ENDIF
-	 ENDDO
+           ENDDO
         ENDIF
       ENDIF
 C
@@ -2078,11 +2078,11 @@ C-----------------------------------------------
       N =0
       DO I = 1, 3
         IF (IKC(I) ==15) THEN
-	 N = N+1
-	 II(N)=I
+           N = N+1
+           II(N)=I
 C---------reset in BC_IMPA ---
          IKC(I)=0
-	ENDIF
+          ENDIF
       ENDDO
       IF (N>0) J =II(1)
       IF (N>1) J1 =II(2)
@@ -2169,7 +2169,7 @@ C-----------------------------------------------
        IF (KDIV3<=EM10.AND.IKC3==0) THEN
         DO J=1,NDOFT
          K = IDDL(I)+J
-	 IKC(K) = 14
+           IKC(K) = 14
         ENDDO
         NSPCT = NSPCT+3
         NSPCN = NSPCN + 1
@@ -2204,7 +2204,7 @@ C-----------------------------------------------
         IF ((KDD(4,4)+KDD(5,5)+KDD(6,6))<=EM10.AND.IKC3==0) THEN
          DO J=1,NDOFT
           K = IDDL(I)+J + 3
-	  IKC(K) = 14
+            IKC(K) = 14
          ENDDO
          NSPCR = NSPCR+3
          IF (KDIV3>EM10) NSPCN = NSPCN + 1
@@ -2403,10 +2403,10 @@ c          CALL L_DIR(EJ,J)
           EJ1(3)=SKEW1(3)
          CALL BC_C2D(EJ,EJ1, J, J1  ,EA, EB  )
           CALL DIR_RBE2(J    ,J1    ,K     )
-c	  S=ONE/(ONE-EJ(J1)*EJ1(J))
+c    S=ONE/(ONE-EJ(J1)*EJ1(J))
 C------------signe due to the subroutine BC_UPDK2
-c	  EA=-S*(EJ(J1)*EJ1(K)-EJ(K))
-c	  EB=-S*(EJ1(J)*EJ(K)-EJ1(K))
+c    EA=-S*(EJ(J1)*EJ1(K)-EJ(K))
+c    EB=-S*(EJ1(J)*EJ(K)-EJ1(K))
           CALL BC_UPDK2(I     ,IADN  ,J    ,J1    ,K     ,
      1                  IR    ,EA    ,EB   ,IADK  ,JDIK  ,
      2                  DIAG_K,LT_K  )
@@ -2497,9 +2497,9 @@ c          CALL L_DIR(EJ,J)
           EJ1(3)=SKEW1(3)
           CALL BC_C2D(EJ,EJ1, J, J1  ,EA, EB  )
           CALL DIR_RBE2(J    ,J1    ,K     )
-c	  S=ONE/(ONE-EJ(J1)*EJ1(J))
-c	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
-c	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
+c    S=ONE/(ONE-EJ(J1)*EJ1(J))
+c    EA=S*(EJ(J1)*EJ1(K)-EJ(K))
+c    EB=S*(EJ1(J)*EJ(K)-EJ1(K))
 C
           D(J,N) = -EA* D(K,N)
           D(J1,N)= -EB* D(K,N)
@@ -2540,9 +2540,9 @@ c          CALL L_DIR(EJ,J)
           EJ1(1)=SKEW1(1)
           EJ1(2)=SKEW1(2)
           EJ1(3)=SKEW1(3)
-c	  S=ONE/(ONE-EJ(J1)*EJ1(J))
-c	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
-c	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
+c    S=ONE/(ONE-EJ(J1)*EJ1(J))
+c    EA=S*(EJ(J1)*EJ1(K)-EJ(K))
+c    EB=S*(EJ1(J)*EJ(K)-EJ1(K))
           CALL BC_C2D(EJ,EJ1, J, J1  ,EA, EB  )
           CALL DIR_RBE2(J    ,J1    ,K     )
           EA = -EA
@@ -2592,9 +2592,9 @@ c          CALL L_DIR(EJ,J)
           CALL DIR_RBE2(J    ,J1    ,K     )
           EA = -EA
           EB = -EB
-c	  S=ONE/(ONE-EJ(J1)*EJ1(J))
-c	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
-c	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
+c    S=ONE/(ONE-EJ(J1)*EJ1(J))
+c    EA=S*(EJ(J1)*EJ1(K)-EJ(K))
+c    EB=S*(EJ1(J)*EJ(K)-EJ1(K))
 C
           A(K,N)=A(K,N)+EA*A(J,N)+EB*A(J1,N)
 C
@@ -2645,9 +2645,9 @@ c          CALL L_DIR(EJ,J)
           CALL DIR_RBE2(J    ,J1    ,K     )
           EA = -EA
           EB = -EB
-c	  S=ONE/(ONE-EJ(J1)*EJ1(J))
-c	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
-c	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
+c    S=ONE/(ONE-EJ(J1)*EJ1(J))
+c    EA=S*(EJ(J1)*EJ1(K)-EJ(K))
+c    EB=S*(EJ1(J)*EJ(K)-EJ1(K))
 C
        ND = 3
       IF (IFSS>0) THEN
@@ -2761,12 +2761,12 @@ C-----------------------------------------------
 C---------set up Matrix C=-(EA,EB) for BC local 2 dir
 C-----determine ind dir K
       CALL GDIR2_IND(EJ,EJ1,K)
-	  J  = K +1
-	  IF (J >3) J= J-3
+            J  = K +1
+            IF (J >3) J= J-3
       J1  = K +2
-	  IF (J1 >3) J1= J1-3
+            IF (J1 >3) J1= J1-3
       DET = ONE/(EJ(J)*EJ1(J1)-EJ(J1)*EJ1(J))
-	  EA = DET*(EJ1(J1)*EJ(K)-EJ(J1)*EJ1(K))
-	  EB = DET*(EJ(J)*EJ1(K)-EJ1(J)*EJ(K))
+            EA = DET*(EJ1(J1)*EJ(K)-EJ(J1)*EJ1(K))
+            EB = DET*(EJ(J)*EJ1(K)-EJ1(J)*EJ(K))
       RETURN
       END

@@ -407,9 +407,9 @@ C
       VZ=VZ-N3*A0
 C
       IF (MASSE>ZERO) THEN
-	VX=VX/MASSE
-	VY=VY/MASSE
-	VZ=VZ/MASSE
+          VX=VX/MASSE
+          VY=VY/MASSE
+          VZ=VZ/MASSE
       ENDIF
 C
       DT05=HALF*DT1
@@ -437,9 +437,9 @@ C
       VZZ=VZZ-N3*A0
 C
       IF (INER>ZERO) THEN
-	VXX=VXX/INER
-	VYY=VYY/INER
-	VZZ=VZZ/INER
+          VXX=VXX/INER
+          VYY=VYY/INER
+          VZZ=VZZ/INER
       ENDIF
 C
 C store sum(diag_i)
@@ -628,11 +628,11 @@ C
 C
       VX=CJWORK(12)
       VY=CJWORK(13)
-      VZ=CJWORK(14)	 
+      VZ=CJWORK(14)   
 C
       VXX=CJWORK(15)
       VYY=CJWORK(16)
-      VZZ=CJWORK(17)	 
+      VZZ=CJWORK(17)   
 C
       VG(1)=VXX+AXX*DT12
       VG(2)=VYY+AYY*DT12

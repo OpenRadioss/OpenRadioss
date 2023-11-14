@@ -261,9 +261,9 @@ C la partie visqueuse
 C  
          SOUNDSP(I) = SQRT(A1(I)/RHO0(I))
          C11 = C2(I) + 2*VISCV(I)
-C a verefier cette formule	  
+C a verefier cette formule    
           VISCMAX(I) = MAX(C2(I), C11)
-	  VISCMAX(I) = VISCMAX(I)/
+            VISCMAX(I) = VISCMAX(I)/
      .          (ONEP414*RHO0(I)*SOUNDSP(I)*SQRT(AREA(I)))                   
          ETSE(I) = ONE
 C-------------------

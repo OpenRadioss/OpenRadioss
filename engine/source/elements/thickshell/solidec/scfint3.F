@@ -223,7 +223,7 @@ C 1 -1 -1 1 -1 1 1 -1
         XH1I =-ONE_OVER_8*RY1(I)
         XH2I = ONE_OVER_8*SY1(I)
         YH1I = ONE_OVER_8*RX1(I)
-        YH2I =-ONE_OVER_8*SX1(I)	
+        YH2I =-ONE_OVER_8*SX1(I)
 C   ---- ---------------
         FINT1=(S1(I)-NU(I)*S2(I)-NU(I)*S3(I))*XH1I+S4(I)*YH1I
         FINT2=(S1(I)-NU1(I)*S3(I))*XH2I+S4(I)*YH2I

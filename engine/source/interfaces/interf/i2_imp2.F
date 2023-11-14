@@ -337,7 +337,7 @@ C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
-        Z0=FACM*(ZM(1)+ZM(2)+ZM(3)+ZM(4))	   
+        Z0=FACM*(ZM(1)+ZM(2)+ZM(3)+ZM(4))     
         LSM(1)=X(1,I)-X0
         LSM(2)=X(2,I)-Y0
         LSM(3)=X(3,I)-Z0             

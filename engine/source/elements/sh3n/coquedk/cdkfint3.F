@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-	SUBROUTINE CDKFINT3(JFT,JLT,VOL,THK0,FOR,MOM,
+          SUBROUTINE CDKFINT3(JFT,JLT,VOL,THK0,FOR,MOM,
      1                      PX2,PY2,PX3,PY3,
      2                      BZ1,BZ2,BZ3,
      3                      BRX1,BRX2,BRX3,BRY1,BRY2,BRY3,
@@ -55,7 +55,7 @@ C-----------------------------------------------
      .    C2,FX2,FX3,FY2,FY3
 C--------------------------------------------------------------------------------------------------
       DO I=JFT,JLT
- 	C2=VOL(I)
+          C2=VOL(I)
         FX2 =C2*(PX2(I)*FOR(I,1)+PY2(I)*FOR(I,3))
         FY2 =C2*(PY2(I)*FOR(I,2)+PX2(I)*FOR(I,3))
         FX3 =C2*(PX3(I)*FOR(I,1)+PY3(I)*FOR(I,3))
@@ -68,7 +68,7 @@ C        F11(I)=F11(I)-FX2-FX3
 C        F21(I)=F21(I)-FY2-FY3
       ENDDO     
       DO I=JFT,JLT
- 	C2=VOL(I)*THK0(I)
+          C2=VOL(I)*THK0(I)
         F32(I)=F32(I)+C2*(BZ1(I,1)*MOM(I,1)+BZ2(I,1)*MOM(I,2)+
      .                    BZ3(I,1)*MOM(I,3))
         F33(I)=F33(I)+C2*(BZ1(I,2)*MOM(I,1)+BZ2(I,2)*MOM(I,2)+

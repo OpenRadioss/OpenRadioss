@@ -1605,7 +1605,7 @@ C
             FTCONTI(NIN)%P(2,J)=ZERO
             FTCONTI(NIN)%P(3,J)=ZERO
           END DO                  
-        END IF  		      
+        END IF            
       END IF
 C
 C allocations additionnelles pour interface type20

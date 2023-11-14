@@ -54,21 +54,21 @@ C                                                                     12
      .   XYZ(3,4),XIJ,YIJ,ZIJ
 C-----------------------------------------------
 C
-	   NNOD=1
-	   XYZ(1,NNOD)=X1
-	   XYZ(2,NNOD)=Y1
-	   XYZ(3,NNOD)=Z1
+             NNOD=1
+             XYZ(1,NNOD)=X1
+             XYZ(2,NNOD)=Y1
+             XYZ(3,NNOD)=Z1
        CALL NODEDEGE(X2,Y2,Z2,XYZ,NNOD)
        CALL NODEDEGE(X3,Y3,Z3,XYZ,NNOD)
        CALL NODEDEGE(X4,Y4,Z4,XYZ,NNOD)
-       IF (NNOD==4) GOTO 100	   
-       CALL NODEDEGE(X5,Y5,Z5,XYZ,NNOD)	   
-       IF (NNOD==4) GOTO 100	   
-       CALL NODEDEGE(X6,Y6,Z6,XYZ,NNOD)	   
-       IF (NNOD==4) GOTO 100	   
-       CALL NODEDEGE(X7,Y7,Z7,XYZ,NNOD)	   
-       IF (NNOD==4) GOTO 100	   
-       CALL NODEDEGE(X8,Y8,Z8,XYZ,NNOD)	   
+       IF (NNOD==4) GOTO 100     
+       CALL NODEDEGE(X5,Y5,Z5,XYZ,NNOD)     
+       IF (NNOD==4) GOTO 100     
+       CALL NODEDEGE(X6,Y6,Z6,XYZ,NNOD)     
+       IF (NNOD==4) GOTO 100     
+       CALL NODEDEGE(X7,Y7,Z7,XYZ,NNOD)     
+       IF (NNOD==4) GOTO 100     
+       CALL NODEDEGE(X8,Y8,Z8,XYZ,NNOD)     
  100   CONTINUE
        CALL TETRA4V(DET,
      .   XYZ(1,1), XYZ(1,2), XYZ(1,3), XYZ(1,4), 

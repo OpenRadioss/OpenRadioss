@@ -274,12 +274,12 @@ c
           ! the consistency condition using the backward Euler implicit method
           ! with a Newton-Raphson iterative procedure
           ! Its expression at each iteration is : DLAMBDA = - PHI/DPHI_DLAMBDA
-	  ! -> PHI          : current value of yield function (known)
+            ! -> PHI          : current value of yield function (known)
           ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
           !                   into account of internal variables kinetic : 
           !                   plasticity, temperature and damage (to compute)
 c        
-	  ! 1 - Computation of DPHI_DSIG the normal to the yield surface
+            ! 1 - Computation of DPHI_DSIG the normal to the yield surface
           !-------------------------------------------------------------
 c        
           ! Computation of the normal to the yield criterion NORM
@@ -329,7 +329,7 @@ c
           ! 2 - Computation of DPHI_DLAMBDA
           !---------------------------------------------------------
 c        
-          !   a) Derivative with respect stress increments tensor DSIG			
+          !   a) Derivative with respect stress increments tensor DSIG
           !   --------------------------------------------------------
           DFDSIG2 = NORMXX * NORMXX * G2
      .            + NORMYY * NORMYY * G2
@@ -338,7 +338,7 @@ c
      .            + NORMYZ * NORMYZ * G
      .            + NORMZX * NORMZX * G   
 c     
-          !   b) Derivatives with respect to plastic strain P 			
+          !   b) Derivatives with respect to plastic strain P 
           !   ------------------------------------------------  
 c          
           !     i) Derivative of the yield stress with respect to plastic strain dYLD / dPLA
@@ -387,7 +387,7 @@ c
           ! Computation of the plastic multiplier
           DLAM = -PHI(I)/DPHI_DLAM(I)
 c          
-	  ! Plastic strains tensor update
+            ! Plastic strains tensor update
           DPXX(I) = DLAM * NORMXX
           DPYY(I) = DLAM * NORMYY
           DPZZ(I) = DLAM * NORMZZ

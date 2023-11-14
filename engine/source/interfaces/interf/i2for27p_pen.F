@@ -171,50 +171,50 @@ C------------------------------------------------
           X1  = X(1,IX1(K))                                       
           Y1  = X(2,IX1(K))                                          
           Z1  = X(3,IX1(K))                                          
-          X2  = X(1,IX2(K))					     
-          Y2  = X(2,IX2(K))					     
-          Z2  = X(3,IX2(K))					     
-          X3  = X(1,IX3(K))					     
-          Y3  = X(2,IX3(K))					     
-          Z3  = X(3,IX3(K))					     
-          X4  = X(1,IX4(K))					     
-          Y4  = X(2,IX4(K))					     
-          Z4  = X(3,IX4(K))					     
+          X2  = X(1,IX2(K))               
+          Y2  = X(2,IX2(K))               
+          Z2  = X(3,IX2(K))               
+          X3  = X(1,IX3(K))               
+          Y3  = X(2,IX3(K))               
+          Z3  = X(3,IX3(K))               
+          X4  = X(1,IX4(K))               
+          Y4  = X(2,IX4(K))               
+          Z4  = X(3,IX4(K))               
           XS  = X(1,I)                                          
           YS  = X(2,I)                                         
           ZS  = X(3,I)                                           
           VSX = V(1,I)                                                   
           VSY = V(2,I)                                                   
           VSZ = V(3,I)                                                
-          VX1 = V(1,IX1(K))						      
-          VY1 = V(2,IX1(K))						      
-          VZ1 = V(3,IX1(K))						      
-          VX2 = V(1,IX2(K))						      
-          VY2 = V(2,IX2(K))						      
-          VZ2 = V(3,IX2(K))						      
-          VX3 = V(1,IX3(K))						      
-          VY3 = V(2,IX3(K))						      
-          VZ3 = V(3,IX3(K))						      
-          VX4 = V(1,IX4(K))						      
-          VY4 = V(2,IX4(K))						      
+          VX1 = V(1,IX1(K))                  
+          VY1 = V(2,IX1(K))                  
+          VZ1 = V(3,IX1(K))                  
+          VX2 = V(1,IX2(K))                  
+          VY2 = V(2,IX2(K))                  
+          VZ2 = V(3,IX2(K))                  
+          VX3 = V(1,IX3(K))                  
+          VY3 = V(2,IX3(K))                  
+          VZ3 = V(3,IX3(K))                  
+          VX4 = V(1,IX4(K))                  
+          VY4 = V(2,IX4(K))                  
           VZ4 = V(3,IX4(K))
           IF (IROT > ZERO) THEN
             VRSX = VR(1,I)
             VRSY = VR(2,I)
             VRSZ = VR(3,I)   
-            VRX1 = VR(1,IX1(K))						      
-            VRY1 = VR(2,IX1(K))						      
-            VRZ1 = VR(3,IX1(K))						      
-            VRX2 = VR(1,IX2(K))						      
-            VRY2 = VR(2,IX2(K))						      
-            VRZ2 = VR(3,IX2(K))						      
-            VRX3 = VR(1,IX3(K))						      
-            VRY3 = VR(2,IX3(K))						      
-            VRZ3 = VR(3,IX3(K))						      
-            VRX4 = VR(1,IX4(K))						      
-            VRY4 = VR(2,IX4(K))						      
+            VRX1 = VR(1,IX1(K))                  
+            VRY1 = VR(2,IX1(K))                  
+            VRZ1 = VR(3,IX1(K))                  
+            VRX2 = VR(1,IX2(K))                  
+            VRY2 = VR(2,IX2(K))                  
+            VRZ2 = VR(3,IX2(K))                  
+            VRX3 = VR(1,IX3(K))                  
+            VRY3 = VR(2,IX3(K))                  
+            VRZ3 = VR(3,IX3(K))                  
+            VRX4 = VR(1,IX4(K))                  
+            VRY4 = VR(2,IX4(K))                  
             VRZ4 = VR(3,IX4(K))
-          ENDIF								
+          ENDIF
 C---------------------
           CALL I2REP(X1     ,X2     ,X3     ,X4     ,
      .               Y1     ,Y2     ,Y3     ,Y4     ,
@@ -317,9 +317,9 @@ c
         RZ(4) = E3X*X4 + E3Y*Y4 + E3Z*Z4         
 C
         IF (NIR==3) THEN
- 	  RX(4)=ZERO
- 	  RY(4)=ZERO
- 	  RZ(4)=ZERO
+            RX(4)=ZERO
+            RY(4)=ZERO
+            RZ(4)=ZERO
         END IF
 C
         VS(1) = VSX*E1X + VSY*E1Y + VSZ*E1Z

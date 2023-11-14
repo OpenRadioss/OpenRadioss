@@ -124,7 +124,7 @@ C
          SAV(I,14)= Y - Z*WXX(I) + X*WZZ(I)
          SAV(I,21)= Z - X*WYY(I) + Y*WXX(I) 
        ENDDO
-	  ELSEIF(ISMSTR==12)THEN
+            ELSEIF(ISMSTR==12)THEN
 C------------Wxx,y,z from local system to global 
        DO I=1,NEL
          IF(OFFG(I)<=ONE) CYCLE

@@ -347,7 +347,7 @@ C-----
       DO NHI=0,NHRBE2
        DO N=1,NRBE2
         IF (IRBE2(9,N)/=NHI) CYCLE
-	IAD = IRBE2(1,N)
+          IAD = IRBE2(1,N)
         NSN = IRBE2(5,N)
         M   = IRBE2(3,N)
 
@@ -628,12 +628,12 @@ C
              DO K=1,2
                I=IXR(1+K,J)
                DO KK=1,2
-         	 JJ = IXR(1+KK,J)
+           JJ = IXR(1+KK,J)
                  IF(JJ/=I.AND..NOT.(NATIV_SMS(I)==0.AND.NATIV_SMS(JJ)==0))THEN
                    TAGREL_SMS(NG)=1
-         	   NAD_SMS(I)=NAD_SMS(I)+1
-         	   KNZ_SMS   =KNZ_SMS+1
-         	 END IF
+             NAD_SMS(I)=NAD_SMS(I)+1
+             KNZ_SMS   =KNZ_SMS+1
+           END IF
                END DO
              END DO
            END DO
@@ -644,44 +644,44 @@ C
                I=IXR(1+K,J)
 
                KK=2
-         	 JJ = IXR(1+KK,J)
+           JJ = IXR(1+KK,J)
                  IF(JJ/=I.AND..NOT.(NATIV_SMS(I)==0.AND.NATIV_SMS(JJ)==0))THEN
                    TAGREL_SMS(NG)=1
-         	   NAD_SMS(I)=NAD_SMS(I)+1
-         	   KNZ_SMS   =KNZ_SMS+1
-         	 END IF
+             NAD_SMS(I)=NAD_SMS(I)+1
+             KNZ_SMS   =KNZ_SMS+1
+           END IF
 
              K=2
 
                I=IXR(1+K,J)
 
                KK=1
-         	 JJ = IXR(1+KK,J)
+           JJ = IXR(1+KK,J)
                  IF(JJ/=I.AND..NOT.(NATIV_SMS(I)==0.AND.NATIV_SMS(JJ)==0))THEN
                    TAGREL_SMS(NG)=1
-         	   NAD_SMS(I)=NAD_SMS(I)+1
-         	   KNZ_SMS   =KNZ_SMS+1
-         	 END IF
+             NAD_SMS(I)=NAD_SMS(I)+1
+             KNZ_SMS   =KNZ_SMS+1
+           END IF
 
                KK=3
-         	 JJ = IXR(1+KK,J)
+           JJ = IXR(1+KK,J)
                  IF(JJ/=I.AND..NOT.(NATIV_SMS(I)==0.AND.NATIV_SMS(JJ)==0))THEN
                    TAGREL_SMS(NG)=1
-         	   NAD_SMS(I)=NAD_SMS(I)+1
-         	   KNZ_SMS   =KNZ_SMS+1
-         	 END IF
+             NAD_SMS(I)=NAD_SMS(I)+1
+             KNZ_SMS   =KNZ_SMS+1
+           END IF
 
              K=3
 
                I=IXR(1+K,J)
 
                KK=2
-         	 JJ = IXR(1+KK,J)
+           JJ = IXR(1+KK,J)
                  IF(JJ/=I.AND..NOT.(NATIV_SMS(I)==0.AND.NATIV_SMS(JJ)==0))THEN
                    TAGREL_SMS(NG)=1
-         	   NAD_SMS(I)=NAD_SMS(I)+1
-         	   KNZ_SMS   =KNZ_SMS+1
-         	 END IF
+             NAD_SMS(I)=NAD_SMS(I)+1
+             KNZ_SMS   =KNZ_SMS+1
+           END IF
 
            END DO
           END IF
@@ -750,7 +750,7 @@ C
             IF(TAG(I)==0)THEN
               NODNX_SMS(I)=NODNX_SMS(I)+1
               TAG(I)=1
-            END IF		    
+            END IF        
           END IF                  
         ENDDO                                    
       ENDDO                                      

@@ -341,11 +341,11 @@ c
           ! 2 - Computation of DPHI_DLAMBDA
           !---------------------------------------------------------
 c        
-          !   a) Derivative with respect stress increments tensor DSIG			
+          !   a) Derivative with respect stress increments tensor DSIG
           !   --------------------------------------------------------
           DFDSIG2 = NORMYY*NORMYY*A22(I) + NORMXY*NORMXY*G12(I)                  
 c
-          !   b) Derivatives with respect to plastic strain P 			
+          !   b) Derivatives with respect to plastic strain P 
           !   ------------------------------------------------  
 c          
           !     i) Derivative of the yield stress with respect to plastic strain dSIGY / dPLA

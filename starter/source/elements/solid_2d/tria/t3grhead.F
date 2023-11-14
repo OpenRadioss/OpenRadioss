@@ -339,7 +339,7 @@ C
         NPN   = IGEO(4,PID)
         ISH3N  = IGEO(18,PID)
         IXFEM = 0
-	       NFAIL = IPM(220,MID)
+                 NFAIL = IPM(220,MID)
         IFAIL = 0
 C
         IF (IGTYP == 11) THEN

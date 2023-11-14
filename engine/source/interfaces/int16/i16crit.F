@@ -597,101 +597,101 @@ C-----------------------------------------------------------------------
             XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X8-XSAV(IDIR,J))
 C
             J = IXS20(1,N20)
-            IF(J/=0)THEN	
+            IF(J/=0)THEN
               X9  = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
               XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X9-XSAV(IDIR,J))
               XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X9-XSAV(IDIR,J))
-	    ELSE
-	      X9=0.5*(X(IDIR,IXS(2,NE))+X(IDIR,IXS(3,NE)))
-	    ENDIF
+              ELSE
+                X9=0.5*(X(IDIR,IXS(2,NE))+X(IDIR,IXS(3,NE)))
+              ENDIF
             J = IXS20(2,N20)
             IF(J/=0)THEN
               X10 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
               XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X10-XSAV(IDIR,J))
               XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X10-XSAV(IDIR,J))
-	    ELSE
-	      X10=0.5*(X(IDIR,IXS(3,NE))+X(IDIR,IXS(4,NE)))
-	    ENDIF
+              ELSE
+                X10=0.5*(X(IDIR,IXS(3,NE))+X(IDIR,IXS(4,NE)))
+              ENDIF
             J = IXS20(3,N20)
             IF(J/=0)THEN
              X11 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X11-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X11-XSAV(IDIR,J))
-	    ELSE
-	      X11=0.5*(X(IDIR,IXS(4,NE))+X(IDIR,IXS(5,NE)))
-	    ENDIF
+              ELSE
+                X11=0.5*(X(IDIR,IXS(4,NE))+X(IDIR,IXS(5,NE)))
+              ENDIF
             J = IXS20(4,N20)
-            IF(J/=0)THEN	
+            IF(J/=0)THEN
              X12 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X12-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X12-XSAV(IDIR,J))
-	    ELSE
-	      X12=0.5*(X(IDIR,IXS(5,NE))+X(IDIR,IXS(2,NE)))
-	    ENDIF
+              ELSE
+                X12=0.5*(X(IDIR,IXS(5,NE))+X(IDIR,IXS(2,NE)))
+              ENDIF
             J = IXS20(5,N20)
-            IF(J/=0)THEN	
+            IF(J/=0)THEN
              X13 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X13-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X13-XSAV(IDIR,J))
-	    ELSE
-	      X13=0.5*(X(IDIR,IXS(2,NE))+X(IDIR,IXS(6,NE)))
-	    ENDIF  	   
+              ELSE
+                X13=0.5*(X(IDIR,IXS(2,NE))+X(IDIR,IXS(6,NE)))
+              ENDIF       
             J = IXS20(6,N20)
-            IF(J/=0)THEN	
+            IF(J/=0)THEN
              X14 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X14-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X14-XSAV(IDIR,J))
-	    ELSE
-	      X14=0.5*(X(IDIR,IXS(3,NE))+X(IDIR,IXS(6,NE)))
-	    ENDIF
+              ELSE
+                X14=0.5*(X(IDIR,IXS(3,NE))+X(IDIR,IXS(6,NE)))
+              ENDIF
             J = IXS20(7,N20)
-            IF(J/=0)THEN	
+            IF(J/=0)THEN
              X15 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X15-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X15-XSAV(IDIR,J))
-	    ELSE
-	      X15=0.5*(X(IDIR,IXS(4,NE))+X(IDIR,IXS(8,NE)))
-	    ENDIF
+              ELSE
+                X15=0.5*(X(IDIR,IXS(4,NE))+X(IDIR,IXS(8,NE)))
+              ENDIF
             J = IXS20(8,N20)
             IF(J/=0)THEN
              X16 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X16-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X16-XSAV(IDIR,J))
-	    ELSE
-	      X16=0.5*(X(IDIR,IXS(5,NE))+X(IDIR,IXS(9,NE)))
-	    ENDIF
+              ELSE
+                X16=0.5*(X(IDIR,IXS(5,NE))+X(IDIR,IXS(9,NE)))
+              ENDIF
             J = IXS20(9,N20)
-            IF(J/=0)THEN	
+            IF(J/=0)THEN
              X17 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X17-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X17-XSAV(IDIR,J))
-	    ELSE
-	      X17=0.5*(X(IDIR,IXS(6,NE))+X(IDIR,IXS(7,NE)))
-	    ENDIF
+              ELSE
+                X17=0.5*(X(IDIR,IXS(6,NE))+X(IDIR,IXS(7,NE)))
+              ENDIF
             J = IXS20(10,N20)
             IF(J/=0)THEN
              X18 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X18-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X18-XSAV(IDIR,J))
-	    ELSE
-	      X18=0.5*(X(IDIR,IXS(7,NE))+X(IDIR,IXS(8,NE)))
-	    ENDIF
+              ELSE
+                X18=0.5*(X(IDIR,IXS(7,NE))+X(IDIR,IXS(8,NE)))
+              ENDIF
             J = IXS20(11,N20)
-            IF(J/=0)THEN	
+            IF(J/=0)THEN
              X19 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X19-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X19-XSAV(IDIR,J))
-	    ELSE
-	      X19=0.5*(X(IDIR,IXS(8,NE))+X(IDIR,IXS(9,NE)))
-	    ENDIF
+              ELSE
+                X19=0.5*(X(IDIR,IXS(8,NE))+X(IDIR,IXS(9,NE)))
+              ENDIF
             J = IXS20(12,N20)
             IF(J/=0)THEN
              X20 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X20-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X20-XSAV(IDIR,J))
-	    ELSE
-	      X20=0.5*(X(IDIR,IXS(6,NE))+X(IDIR,IXS(9,NE)))
-	    ENDIF
+              ELSE
+                X20=0.5*(X(IDIR,IXS(6,NE))+X(IDIR,IXS(9,NE)))
+              ENDIF
 C
 C-----------------------------------------------------------------------
 C           Face 1 2 3 4

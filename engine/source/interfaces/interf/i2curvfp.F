@@ -267,8 +267,8 @@ C
           FSKYI2(10,NN)= DSTFR(JJ)                                        
 C
 C---      output of tied contact forces
- 	  CALL I2FORCES(X      ,V	,A	 ,MS	  ,IS	  ,
-     .	                INOD(1),H	,NIR     ,FSAV    ,FNCONT ,
+            CALL I2FORCES(X      ,V  ,A   ,MS    ,IS    ,
+     .                  INOD(1),H  ,NIR     ,FSAV    ,FNCONT ,
      .                  FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA) 
 C---
           IF (IDEL2/=0.AND.MS(IS)/=ZERO) SMASS(II)=MS(IS)

@@ -77,7 +77,7 @@ C-------------------------
 C
       DO 20 I=JFT,JLT
         DO J=1,9
-	  EX(J) = UVAR(21+J,I)
+            EX(J) = UVAR(21+J,I)
         END DO      
         F11(I)=EX(1)*FORX(I)+EX(4)*FORY(I)+EX(7)*FORZ(I)
         F21(I)=EX(2)*FORX(I)+EX(5)*FORY(I)+EX(8)*FORZ(I)
@@ -134,9 +134,9 @@ C-------------------------
 C
       DO I=JFT,JLT
         DO J=1,9
-	  EX(J) = UVAR(21+J,I)
+            EX(J) = UVAR(21+J,I)
         END DO
-C	
+C
         M1 = HALF*(XL(I,2)*FORZ(I)-XL(I,3)*FORY(I))
         M2 = HALF*(XL(I,3)*FORX(I)-XL(I,1)*FORZ(I))
         M3 = HALF*(XL(I,1)*FORY(I)-XL(I,2)*FORX(I))

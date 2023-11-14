@@ -171,7 +171,7 @@ c       END IF!(N2D==1) THEN
 C----For hypoelastic laws-----       
 c       DO I=1,NEL
 c        IF(OFFG(I)==TWO) CYCLE
-c	 DV1 = ONE- DVC(I)*DT1
+c   DV1 = ONE- DVC(I)*DT1
 c         VOLO(I) = VOLO(I)*DV1
 c         EINT(I) = EINT(I)/DV1
 c       ENDDO
@@ -180,4 +180,4 @@ Ccw>>>
 C
       RETURN
       END
-	  
+            

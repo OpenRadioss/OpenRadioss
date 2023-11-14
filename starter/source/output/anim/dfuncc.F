@@ -80,7 +80,7 @@ C La routine ne fonctionne que pour les IFUNC 3,6,7,14-19 (stress)
       NN9 = NN8                                                         
 C                                                                       
       DO 900 NG=1,NGROUP
-	    MLW = IPARG(1,NG)
+              MLW = IPARG(1,NG)
         NEL = IPARG(2,NG)                                            
         NFT = IPARG(3,NG)
         ITY = IPARG(5,NG)

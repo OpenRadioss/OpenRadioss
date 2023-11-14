@@ -118,7 +118,7 @@ C---
         DO I=1,NEL
           VALUE(I) = ZERO
           IS_WRITTEN_VALUE(I) = 0
-        ENDDO	 
+        ENDDO   
 c
         IF (ITY == 4) OFFSET = 0
         IF (ITY == 5) OFFSET = NUMELT
@@ -152,56 +152,56 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       TRUSS
 C-----------------------------------------------
-   	      IF (ITY == 4) THEN
-   	        DO I=1,NEL
-   	          N = I + NFT
-   	          RHO0 = PM(1,IXT(1,N))
-   	          A0 = GEO(1,IXT(4,N))
-   	          N1 = IXT(2,N)
-   	          N2 = IXT(3,N)
-   	          XX1 = X(1,N2)-D(1,N2)-X(1,N1)+D(1,N1)
-   	          YY1 = X(2,N2)-D(2,N2)-X(2,N1)+D(2,N1)
-   	          ZZ1 = X(3,N2)-D(3,N2)-X(3,N1)+D(3,N1)
-   	          AL0  = HALF*SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
-   	          MASS(I) = RHO0*AL0*A0
-   	        ENDDO
+                IF (ITY == 4) THEN
+                  DO I=1,NEL
+                    N = I + NFT
+                    RHO0 = PM(1,IXT(1,N))
+                    A0 = GEO(1,IXT(4,N))
+                    N1 = IXT(2,N)
+                    N2 = IXT(3,N)
+                    XX1 = X(1,N2)-D(1,N2)-X(1,N1)+D(1,N1)
+                    YY1 = X(2,N2)-D(2,N2)-X(2,N1)+D(2,N1)
+                    ZZ1 = X(3,N2)-D(3,N2)-X(3,N1)+D(3,N1)
+                    AL0  = HALF*SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
+                    MASS(I) = RHO0*AL0*A0
+                  ENDDO
 C-----------------------------------------------
 C       POUTRES
 C-----------------------------------------------
-  	      ELSEIF (ITY == 5) THEN
-  	        DO I=1,NEL
-  	          N = I + NFT
-  	          RHO0 = PM(1,IXP(1,N))
-  	          A0 = GEO(1,IXP(5,N))
-  	          N1 = IXP(2,N)
-  	          N2 = IXP(3,N)
-  	          XX1 = X(1,N2)-D(1,N2)-X(1,N1)+D(1,N1)
-  	          YY1 = X(2,N2)-D(2,N2)-X(2,N1)+D(2,N1)
-  	          ZZ1 = X(3,N2)-D(3,N2)-X(3,N1)+D(3,N1)
-  	          AL0  = HALF*SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
-  	          MASS(I) = RHO0*AL0*A0
-  	        ENDDO
+                ELSEIF (ITY == 5) THEN
+                  DO I=1,NEL
+                    N = I + NFT
+                    RHO0 = PM(1,IXP(1,N))
+                    A0 = GEO(1,IXP(5,N))
+                    N1 = IXP(2,N)
+                    N2 = IXP(3,N)
+                    XX1 = X(1,N2)-D(1,N2)-X(1,N1)+D(1,N1)
+                    YY1 = X(2,N2)-D(2,N2)-X(2,N1)+D(2,N1)
+                    ZZ1 = X(3,N2)-D(3,N2)-X(3,N1)+D(3,N1)
+                    AL0  = HALF*SQRT(XX1*XX1 + YY1*YY1 + ZZ1*ZZ1)
+                    MASS(I) = RHO0*AL0*A0
+                  ENDDO
 C-----------------------------------------------
 C       RESSORTS
 C-----------------------------------------------
-  	      ELSEIF (ITY == 6) THEN
-  	        IF(MLW==3)THEN
-  	          DO I=1,NEL
-  	            N = I + NFT
-  	            MASS(I) = HALF*GEO(1,IXR(1,N))
-  	          ENDDO
-  	        ELSEIF (MLW == 5) THEN
-  	          DO I=1,NEL
-  	            N = I + NFT
-  	            MASS(I) = GBUF%MASS(I)
-  	          ENDDO
-  	        ELSE
-  	          DO I=1,NEL
-  	            N = I + NFT
-  	            MASS(I) = GEO(1,IXR(1,N))
-  	          ENDDO
-  	        ENDIF ! IF(MLW)
-  	      ENDIF ! IF (ITY)
+                ELSEIF (ITY == 6) THEN
+                  IF(MLW==3)THEN
+                    DO I=1,NEL
+                      N = I + NFT
+                      MASS(I) = HALF*GEO(1,IXR(1,N))
+                    ENDDO
+                  ELSEIF (MLW == 5) THEN
+                    DO I=1,NEL
+                      N = I + NFT
+                      MASS(I) = GBUF%MASS(I)
+                    ENDDO
+                  ELSE
+                    DO I=1,NEL
+                      N = I + NFT
+                      MASS(I) = GEO(1,IXR(1,N))
+                    ENDDO
+                  ENDIF ! IF(MLW)
+                ENDIF ! IF (ITY)
             ENDIF
 C-----------
 !
@@ -690,7 +690,7 @@ C--------------------------------------------------
         
         IF (ITY == 4 .OR. ITY == 5 .OR. ITY == 6)
      .    CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_ONED,ONED_SCALAR,NEL,OFFSET,NFT,
-     .   		        VALUE,IS_WRITTEN_VALUE)
+     .               VALUE,IS_WRITTEN_VALUE)
       ENDDO ! DO NG=1,NGROUP
  
       RETURN

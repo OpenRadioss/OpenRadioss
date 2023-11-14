@@ -203,7 +203,7 @@ C
            V(3,1) = ZERO
            V(1,2) = ZERO
            V(2,2) = ONE
-           V(3,2) = ZERO	   
+           V(3,2) = ZERO     
          ENDIF
       ENDIF
 C

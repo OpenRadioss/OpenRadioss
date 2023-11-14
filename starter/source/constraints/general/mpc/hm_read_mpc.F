@@ -102,7 +102,7 @@ C
         NMP=NMP+1
 C----------Multidomaines --> on ignore les mpc non tages----------
         IF(NSUBDOM>0)THEN
-	  IF(TAGMPC(NMP)==0)CALL HM_SZ_R2R(TAGMPC,NMP,LSUBMODEL)
+            IF(TAGMPC(NMP)==0)CALL HM_SZ_R2R(TAGMPC,NMP,LSUBMODEL)
         END IF
 C-----------------------------------------------------------------
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
@@ -125,7 +125,7 @@ C
           NOSYS = USR2SYS(NOD,ITABM,MESS,ID)
           IF (NS10E>0) THEN 
             IF(ITAGND(NOSYS)/=0) THEN
-C------- error out	
+C------- error out
            CALL ANCMSG(MSGID=1208,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -137,7 +137,7 @@ C------- error out
           END IF
           CALL KINSET(512,ITAB(NOSYS),IKINE(NOSYS),7,0,IKINE1LAG(NOSYS))
           IBUFNN(KF) = NOSYS
-	  IF(IMACH==3) CALL IFRONTPLUS(NOSYS,1)
+            IF(IMACH==3) CALL IFRONTPLUS(NOSYS,1)
           IBUFDL(KF) = IDDL
           IBUFSK(KF) = 0
           DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD

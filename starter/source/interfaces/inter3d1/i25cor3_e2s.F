@@ -113,9 +113,9 @@ C-----------------------------------------------
       DO I=1,JLT
         GAPE_M(I)=ZERO ! Solids 
                        ! If edge is shared by solid and shell : edge is considered as a shell edge
-	IF(CAND_S(I)<=NRTS) THEN
+          IF(CAND_S(I)<=NRTS) THEN
           GAPE_S(I)=GAPE(CAND_S(I))
-	END IF
+          END IF
         GAPVE(I)=ZERO
       END DO
 

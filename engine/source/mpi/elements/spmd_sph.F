@@ -616,9 +616,9 @@ ctmp+1
           BUFS(1,N+IDEB) = SPBUF(1,ICELL)
           BUFS(2,N+IDEB) = X(1,INOD)
           BUFS(3,N+IDEB) = X(2,INOD)
-          BUFS(4,N+IDEB) = X(3,INOD)	  
-          BUFS(5,N+IDEB) = KXSP(2,ICELL)	  
-          BUFS(6,N+IDEB) = IPARTSP(ICELL)	  
+          BUFS(4,N+IDEB) = X(3,INOD)    
+          BUFS(5,N+IDEB) = KXSP(2,ICELL)    
+          BUFS(6,N+IDEB) = IPARTSP(ICELL)    
         END DO
         MSGTYP = MSGOFF
         CALL MPI_ISEND(
@@ -642,8 +642,8 @@ C
             XSPHR(3,IDEB+N) = BUFR(2,N)
             XSPHR(4,IDEB+N) = BUFR(3,N)
             XSPHR(5,IDEB+N) = BUFR(4,N)
-	    XSPHR(13,IDEB+N)= BUFR(5,N)
-	    XSPHR(14,IDEB+N)= BUFR(6,N)
+              XSPHR(13,IDEB+N)= BUFR(5,N)
+              XSPHR(14,IDEB+N)= BUFR(6,N)
           END DO
           IDEB = IDEB + PSPHR(P)
         END IF
@@ -787,10 +787,10 @@ C
               WAR(9,IDEB+N)= BUFR(14,NN)
               WAR(10,IDEB+N)=BUFR(15,NN)
             END IF
-          END DO	  
+          END DO    
           IDEB = IDEB + PSPHR(P)
         END IF
-	
+
       END DO
 C
 C Wait terminaison
@@ -888,10 +888,10 @@ C
               NN = NN + 1
               STABR(7,IDEB+N)  = BUFR(NN)
             END IF
-          END DO	  
+          END DO    
           IDEB = IDEB + PSPHR(P)
         END IF
-	
+
       END DO
 C
 C Wait terminaison
@@ -1805,10 +1805,10 @@ C
                   IXSP(NVOIS2+NVOISS2,ICELL)=JK
                 ENDIF
               ENDDO 
-    	      KXSP(4,ICELL)= NVOIS1
- 	      KXSP(5,ICELL)= NVOIS2
-	      KXSP(6,ICELL)=NVOISS1
-	      KXSP(7,ICELL)=NVOISS2
+                KXSP(4,ICELL)= NVOIS1
+                KXSP(5,ICELL)= NVOIS2
+                KXSP(6,ICELL)=NVOISS1
+                KXSP(7,ICELL)=NVOISS2
             ENDIF
           END DO
           IDEB = IDEB + PSPHS(P)
@@ -2096,15 +2096,15 @@ C         plus proche voisin en amont de l'outlet => IPPV.
                 TMP_IPPV(2,IPPVR)=P !proc sur lequel il se situe
                 TMP_IPPV(3,IPPVR)=(-IPPV)-N1 !Indice IPPV (local)
                 MYPSPHS(P)=MYPSPHS(P)+1
-		GOTO 160
+          GOTO 160
                 ELSEIF(P==NSPMD)THEN
                    TMP_IPPV(2,IPPVR)=P !proc sur lequel il se situe
                    TMP_IPPV(3,IPPVR)=(-IPPV)-N1 !Indice IPPV (local)
-                   MYPSPHS(P)=MYPSPHS(P)+1	
-		ENDIF	
+                   MYPSPHS(P)=MYPSPHS(P)+1
+          ENDIF
                ENDIF
              ENDDO ! ENDDO P=1,NSPMD
- 160      CONTINUE	     
+ 160      CONTINUE       
           ENDIF
         ENDIF
        ENDIF
@@ -2368,8 +2368,8 @@ c envoi
      S      BUFS(1,IDEB2+1),SIZ,REAL,IT_SPMD(P),MSGTYP,
      G      MPI_COMM_WORLD,REQ_SD3(P),IERROR)
         IDEB2= IDEB2+MYPSPHR(P)
-	ENDIF
-	IDEB = IDEB + PSPHS(P)
+          ENDIF
+          IDEB = IDEB + PSPHS(P)
       END DO !ENDDO P = 1, NSPMD
 C
 C Reception 

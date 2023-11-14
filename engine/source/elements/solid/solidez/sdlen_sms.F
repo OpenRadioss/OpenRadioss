@@ -171,18 +171,18 @@ C----tetra 4  ,pyrami
          ELSE
            FAC=ONE
          END IF
-C--------suposse here V=0.5*A_max*L for penta	=0.333A_max*L for Pyram 
+C--------suposse here V=0.5*A_max*L for penta  =0.333A_max*L for Pyram 
          IF (IT ==0  ) AREAM(I)=FAC*AREAM(I) 
-C--------add special treat for tetra4, as V is not right values		
+C--------add special treat for tetra4, as V is not right values
          IF (IDEGE(I) > 3 ) THEN
-	   AREAM(I)=AREAM(I)*FAC
+             AREAM(I)=AREAM(I)*FAC
            CALL DEGES4V(V_G,
      .    X1(I), X2(I), X3(I), X4(I), X5(I), X6(I), X7(I), X8(I),
      .    Y1(I), Y2(I), Y3(I), Y4(I), Y5(I), Y6(I), Y7(I), Y8(I),
      .    Z1(I), Z2(I), Z3(I), Z4(I), Z5(I), Z6(I), Z7(I), Z8(I))
-	 ELSE
-	   V_G=VOLG(I)
-	 END IF
+           ELSE
+             V_G=VOLG(I)
+           END IF
        ENDIF
 C------
        DELTAX(I)=FOUR*VOLG(I)/SQRT(AREAM(I))
@@ -203,7 +203,7 @@ C----tetra 4  ,pyrami
          ELSE
            FAC=ONE
          END IF
-	 IT = 0
+           IT = 0
          CALL IDEGE8(X1(I),X2(I),X3(I),X4(I),Y1(I),Y2(I),Y3(I),Y4(I),
      .              Z1(I),Z2(I),Z3(I),Z4(I),AREAM(I),FAC,IT)
          CALL IDEGE8(X5(I),X6(I),X7(I),X8(I),Y5(I),Y6(I),Y7(I),Y8(I),
@@ -219,14 +219,14 @@ C----tetra 4  ,pyrami
 C----tetra 4       
          IF (IT ==0  ) AREAM(I)=FAC*AREAM(I)
          IF (IDEGE(I) > 3 ) THEN
-	   AREAM(I)=AREAM(I)*FAC
+             AREAM(I)=AREAM(I)*FAC
            CALL DEGES4V(V_G,
      .    X1(I), X2(I), X3(I), X4(I), X5(I), X6(I), X7(I), X8(I),
      .    Y1(I), Y2(I), Y3(I), Y4(I), Y5(I), Y6(I), Y7(I), Y8(I),
      .    Z1(I), Z2(I), Z3(I), Z4(I), Z5(I), Z6(I), Z7(I), Z8(I))
-	 ELSE
-	   V_G=VOLG(I)
-	 END IF
+           ELSE
+             V_G=VOLG(I)
+           END IF
          DELTAX(I) = FOUR*V_G/SQRT(AREAM(I))
        END IF
       END DO

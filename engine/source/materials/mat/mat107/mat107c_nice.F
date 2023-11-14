@@ -303,20 +303,20 @@ c
 #include "vectorize.inc" 
       DO II=1,NINDX   
 c      
-        ! Number of the element with plastic behaviour  	                                           
+        ! Number of the element with plastic behaviour                                               
         I = INDEX(II)
 c        
         ! Note     : in this part, the purpose is to compute for each iteration
         ! a plastic multiplier allowing to update internal variables to satisfy
         ! the consistency condition. 
         ! Its expression is : DLAMBDA = - (PHI + DPHI) / DPHI_DLAMBDA
-	! -> PHI  : current value of yield function (known)
+          ! -> PHI  : current value of yield function (known)
         ! -> DPHI : yield function prediction (to compute)
         ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
         !                   into account of internal variables kinetic : 
         !                   plasticity, temperature and damage (to compute) 
 c        
-	! 1 - Computation of DPHI_DSIG the normal to the yield criterion
+          ! 1 - Computation of DPHI_DSIG the normal to the yield criterion
         !-------------------------------------------------------------          
 c    
         NORMXX  = TWO*(ALPHA1(I)/(R1(I)**2))*(SIGOXX(I)-XI1*SIGOYY(I))
@@ -327,7 +327,7 @@ c
      .          + TWO*(ALPHA4(I)/(R2C(I)**2))*SIGOYY(I)
         NORMXY  = (ALPHA5(I)/(RT(I)**2))*ABS(SIGOXY(I))*SIGN(ONE,SIGOXY(I))
 c
-	! 2 - Computation of DFP_DSIG the normal to the non-associated plastic potential
+          ! 2 - Computation of DFP_DSIG the normal to the non-associated plastic potential
         !-------------------------------------------------------------------------------
         !  a) Computation of BETA switching coefficient
         NORMSIG = SQRT(SIGOXX(I)*SIGOXX(I) + SIGOYY(I)*SIGOYY(I) + TWO*SIGOXY(I)*SIGOXY(I))

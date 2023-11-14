@@ -209,10 +209,10 @@ C-------*CHECKS*-------------------
 C
       IF ((ISU1 > 0).AND.(IGRNOD(ISU1)%NENTITY == 0)) THEN
         CALL ANCMSG(MSGID=1131,
-     .   		ANMODE=ANINFO_BLIND_1,
-     .  		MSGTYPE=MSGERROR,
-     .    		I1=NOINT,
-     .    		C1=TITR)
+     .       ANMODE=ANINFO_BLIND_1,
+     .      MSGTYPE=MSGERROR,
+     .        I1=NOINT,
+     .        C1=TITR)
       END IF
 C
       IPARI(45) = ISU1
@@ -348,8 +348,8 @@ C.....* CHECK AND Storage IPARI FRIGAP *.........
         IF (SCAL_SR  == ZERO) SCAL_SR  = ONE*SR_UNIT
         IF (SCAL_D == ZERO) SCAL_D = ONE*D_UNIT
 C
-C	DNMAX = DNMAX*L_UNIT
-C	DTMAX = DTMAX*L_UNIT
+C  DNMAX = DNMAX*L_UNIT
+C  DTMAX = DTMAX*L_UNIT
 C        AREA = AREA*FAC_L*FAC_L
 C        SCAL_F = SCAL_F*FAC_M/(FAC_L*FAC_T**2)
 C        SCAL_SR = SCAL_SR*FAC_M/(FAC_L*FAC_T**3)

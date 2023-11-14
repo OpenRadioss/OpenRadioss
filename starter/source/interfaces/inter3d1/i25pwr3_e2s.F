@@ -74,15 +74,15 @@ C-----------------------------------------------
 C            True initial penetration
              IWPENE=IWPENE+1
              IF(IPRI>=5)
-     .    	 CALL ANCMSG(MSGID=1631,
-     .    			 MSGTYPE=MSGWARNING,
-     .    			 ANMODE=ANINFO_BLIND_1,
-     .    			 I1=ITAB(N1(I)),
-     .    			 I2=ITAB(N2(I)),
-     .    			 I3=ITAB(M1(EJ,I)),
-     .    			 I4=ITAB(M2(EJ,I)),
-     .    			 R1=PENE(EJ,I),
-     .    			 PRMOD=MSG_CUMU)
+     .       CALL ANCMSG(MSGID=1631,
+     .           MSGTYPE=MSGWARNING,
+     .           ANMODE=ANINFO_BLIND_1,
+     .           I1=ITAB(N1(I)),
+     .           I2=ITAB(N2(I)),
+     .           I3=ITAB(M1(EJ,I)),
+     .           I4=ITAB(M2(EJ,I)),
+     .           R1=PENE(EJ,I),
+     .           PRMOD=MSG_CUMU)
              IF(INACTI==0)THEN
 C              Ignore initial penetrations
 C            ELSEIF(INACTI==1) THEN

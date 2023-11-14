@@ -442,7 +442,7 @@ C
 C-------cas thk >>L----
        IF (IMPL_S>0) THEN
         DO I=JFT,JLT
-	 S1=EM01*THK(I)*THK(I)
+           S1=EM01*THK(I)*THK(I)
          LM(I)=MAX(LM(I),S1)
         ENDDO
        END IF 
@@ -600,7 +600,7 @@ C--------------------------
          V13X = V13(I,1)
          V24X = V24(I,1)
          VHIX = VHI(I,1)
-	 IF (ABS(X13(I)-X24(I)) < EM10) THEN
+           IF (ABS(X13(I)-X24(I)) < EM10) THEN
            DDRZ1 = ZERO
          ELSE
            DDRZ1 = DT025*(V13(I,2)-V24(I,2))/(X13(I)-X24(I))
@@ -608,7 +608,7 @@ C--------------------------
          V13(I,1) = V13(I,1)-DDRY*V13(I,3)-DDRZ1*V13(I,2)
          V24(I,1) = V24(I,1)-DDRY*V24(I,3)-DDRZ1*V24(I,2)
          VHI(I,1) = VHI(I,1)-DDRY*VHI(I,3)-DDRZ1*VHI(I,2)
-	 IF (ABS(Y13(I)+Y24(I)) < EM10) THEN
+           IF (ABS(Y13(I)+Y24(I)) < EM10) THEN
            DDRZ2 = ZERO
          ELSE
            DDRZ2 = DT025*(V13X+V24X)/(Y13(I)+Y24(I))
@@ -2238,7 +2238,7 @@ C----------------------------
 C-------cas thk >>L----
        IF (IMPL_S>0) THEN
         DO I=JFT,JLT
-	     S1=EM01*THK(I)*THK(I)
+               S1=EM01*THK(I)*THK(I)
          LM(I)=MAX(LM(I),S1)
         ENDDO
        END IF 
@@ -2387,7 +2387,7 @@ C----------------------------------------------
         TOL=EM8
       END IF
 C
-	  IF (IINT==0.AND.TT==ZERO) THEN
+            IF (IINT==0.AND.TT==ZERO) THEN
        DO I=JFT,JLT           
          HOURG(I,1) = X(1,IXC(3,I))-X(1,IXC(2,I))  
          HOURG(I,2) = X(2,IXC(3,I))-X(2,IXC(2,I))  
@@ -2398,9 +2398,9 @@ C
          HOURG(I,7) = X(1,IXC(5,I))-X(1,IXC(2,I))  
          HOURG(I,8) = X(2,IXC(5,I))-X(2,IXC(2,I))  
          HOURG(I,9) = X(3,IXC(5,I))-X(3,IXC(2,I))  
-       ENDDO	  
-	  END IF
-C	  
+       ENDDO    
+            END IF
+C    
        DO I=JFT,JLT           
          X0G2(I) = HOURG(I,1)
          Y0G2(I) = HOURG(I,2)
@@ -2530,9 +2530,9 @@ C----------------------------
 C
         MX13(I)=(COREL(I,1,1)+COREL(I,1,3))*HALF
         MY13(I)=(COREL(I,2,1)+COREL(I,2,3))*HALF
-C----1/4*hx		
-c	    HX(I) = FOURTH*(COREL(I,1,1)-COREL(I,1,2)+COREL(I,1,3)-COREL(I,1,4))
-c	    HY(I) = FOURTH*(COREL(I,2,1)-COREL(I,2,2)+COREL(I,2,3)-COREL(I,2,4))
+C----1/4*hx
+c      HX(I) = FOURTH*(COREL(I,1,1)-COREL(I,1,2)+COREL(I,1,3)-COREL(I,1,4))
+c      HY(I) = FOURTH*(COREL(I,2,1)-COREL(I,2,2)+COREL(I,2,3)-COREL(I,2,4))
 C-
         L13(I) = X13(I)*X13(I)+Y13(I)*Y13(I)
 C-------------------------------
@@ -2563,7 +2563,7 @@ C  HOURGLASS STRAIN RATE
 C----------------------------------
         HG1=VHI(I,1)-MX13(I)*VDEF1-MY13(I)*BYV1     
         HG2=VHI(I,2)-MX13(I)*BXV2 -MY13(I)*VDEF2
-	HOURG(I,11) = HG1
+          HOURG(I,11) = HG1
         HOURG(I,12) = HG2
       ENDDO
 C

@@ -350,13 +350,13 @@ C     HLA, HLB1, HLC1 necessaires pour triangle angle obtu
         AAA = ONE / MAX(EM20,X23*X23+Y23*Y23+Z23*Z23)
         HLA= LA*ABS(LA) * AAA
         INPROJ(2,I)=0
-	IF(LA<ZERO.AND.
+          IF(LA<ZERO.AND.
      +     HLA<=HLB2(I).AND.HLA<=HLC2(I))THEN
-	  LB2(I) = (XI3(I)*X23+YI3(I)*Y23+ZI3(I)*Z23)*AAA
-	  LB2(I) = MAX(ZERO,MIN(ONE,LB2(I)))
-	  LC2(I) = ONE - LB2(I)
+            LB2(I) = (XI3(I)*X23+YI3(I)*Y23+ZI3(I)*Z23)*AAA
+            LB2(I) = MAX(ZERO,MIN(ONE,LB2(I)))
+            LC2(I) = ONE - LB2(I)
           INPROJ(2,I)=1
-	ELSEIF(LB2(I)<ZERO.AND.
+          ELSEIF(LB2(I)<ZERO.AND.
      +          HLB2(I)<=HLC2(I).AND.HLB2(I)<=HLA)THEN
          LB2(I) = ZERO
          LC2(I) = AL3(I)

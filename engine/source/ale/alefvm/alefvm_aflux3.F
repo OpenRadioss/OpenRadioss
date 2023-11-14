@@ -126,7 +126,7 @@ C-----------------------------------------------
       DO I=1,NEL
         II     = I + NFT
         MAT(I) = IXS(1,II)
-	!---8 local node numbers NC1 TO NC8 for solid element I ---!
+          !---8 local node numbers NC1 TO NC8 for solid element I ---!
         NC1(I)=IXS(2,II)
         NC2(I)=IXS(3,II)
         NC3(I)=IXS(4,II)
@@ -135,7 +135,7 @@ C-----------------------------------------------
         NC6(I)=IXS(7,II)
         NC7(I)=IXS(8,II)
         NC8(I)=IXS(9,II)
-	!
+          !
         !---Coordinates of the 8 nodes
         X1(I)=X(1,NC1(I))
         Y1(I)=X(2,NC1(I))

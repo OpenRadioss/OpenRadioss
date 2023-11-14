@@ -77,15 +77,15 @@ C-----------------------------------------------
            IS = 1
            LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)
             IF (MLWI == 12 .OR. MLWI == 14) THEN
-              DO I=1,NEL						   
+              DO I=1,NEL               
                EVAR(1:2,I) = LBUF%EPE(JJ(1:2) + I)       
                EVAR(3,I)   = HALF*LBUF%EPE(JJ(4) + I)
-              ENDDO						       
+              ENDDO                   
             ELSEIF (MLWI /= 49 ) THEN                 
-              DO I=1,NEL						   
+              DO I=1,NEL               
                EVAR(1:2,I) = LBUF%STRA(JJ(1:2) + I)       
                EVAR(3,I)   = HALF*LBUF%STRA(JJ(4) + I)
-              ENDDO						       
+              ENDDO                   
             END IF               
 C------      
         ELSE ! 14,16
@@ -93,20 +93,20 @@ C------
             DO IR=1,NPTR
               DO IS=1,NPTS
                  LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)         
-                 DO I=1,NEL						   
+                 DO I=1,NEL               
                   EVAR(1:2,I) = EVAR(1:2,I)+LBUF%EPE(JJ(1:2) + I)       
                   EVAR(3,I)   = EVAR(3,I)+HALF*LBUF%EPE(JJ(4) + I)
-                 ENDDO						       
+                 ENDDO                   
               END DO 
             END DO 
           ELSEIF (MLWI /= 49 ) THEN                 
             DO IR=1,NPTR
               DO IS=1,NPTS
                  LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)         
-                 DO I=1,NEL						   
+                 DO I=1,NEL               
                   EVAR(1:2,I) = EVAR(1:2,I)+LBUF%STRA(JJ(1:2) + I)       
                   EVAR(3,I)   = EVAR(3,I)+ HALF*LBUF%STRA(JJ(4) + I)
-                 ENDDO						       
+                 ENDDO                   
               ENDDO 
             END DO 
           END IF               

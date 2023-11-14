@@ -79,10 +79,10 @@ C-------------------------------------------------------------------------------
         RIGHT(J+1) = KXI(IDXI+J) - XI
         SAVED = ZERO
         DO L = 0,J-1
-      	  ANDU(J+1,L+1) = RIGHT(L+2) + ALEFT(J-L+1)
-      	  TEMP = ANDU(L+1,J)/ANDU(J+1,L+1)
-      	  ANDU(L+1,J+1) = SAVED + RIGHT(L+2)*TEMP
-      	  SAVED = ALEFT(J-L+1)*TEMP
+            ANDU(J+1,L+1) = RIGHT(L+2) + ALEFT(J-L+1)
+            TEMP = ANDU(L+1,J)/ANDU(J+1,L+1)
+            ANDU(L+1,J+1) = SAVED + RIGHT(L+2)*TEMP
+            SAVED = ALEFT(J-L+1)*TEMP
         ENDDO
         ANDU(J+1,J+1) = SAVED
       ENDDO
@@ -97,7 +97,7 @@ C COMPUTE DERIVATES
         LS1 = 0
         LS2 = 1
         A(1,1) = ONE
-	
+
         DO K = 1,NDERS
           D = ZERO
           KR = L-K
@@ -113,8 +113,8 @@ C COMPUTE DERIVATES
           ENDIF
           IF ((L-1) <= KP) THEN
             J2 = K-1
-	  ELSE 
-	    J2 = PXI-L
+            ELSE 
+              J2 = PXI-L
           ENDIF
           DO J = J1,J2
             A(LS2+1,J+1) = (A(LS1+1,J+1) - A(LS1+1,J))/ANDU(KP+2,KR+J+1)
@@ -136,7 +136,7 @@ C MULTIPLY THROUGH BY THE CORRECT FACTORS
       L = PXI
       DO K = 1,NDERS
         DO J = 0,PXI
-	  DERS(K+1,J+1) = DERS(K+1,J+1)*L
+            DERS(K+1,J+1) = DERS(K+1,J+1)*L
         ENDDO
         L = L*(PXI-K)
       ENDDO
@@ -203,10 +203,10 @@ C-------------------------------------------------------------------------------
         RIGHT(J+1) = KXI(IDXI+J) - XI
         SAVED = ZERO
         DO L = 0,J-1
-      	  ANDU(J+1,L+1) = RIGHT(L+2) + ALEFT(J-L+1)
-      	  TEMP = ANDU(L+1,J)/ANDU(J+1,L+1)
-      	  ANDU(L+1,J+1) = SAVED + RIGHT(L+2)*TEMP
-      	  SAVED = ALEFT(J-L+1)*TEMP
+            ANDU(J+1,L+1) = RIGHT(L+2) + ALEFT(J-L+1)
+            TEMP = ANDU(L+1,J)/ANDU(J+1,L+1)
+            ANDU(L+1,J+1) = SAVED + RIGHT(L+2)*TEMP
+            SAVED = ALEFT(J-L+1)*TEMP
         ENDDO
         ANDU(J+1,J+1) = SAVED
       ENDDO

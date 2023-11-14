@@ -76,7 +76,7 @@ C-----------------------------------------------
       INTEGER  NBLOC, NPROW, NPCOL, ICTXT, DESCA(9), DESCB(9), MYROW, MYCOL, MXLLDM, NUMROC
       EXTERNAL NUMROC
       my_real  X1,  Y1,  Z1,  X2,  Y2,  Z2,  X3,  Y3,  Z3,  X4,  Y4,  Z4,
-     .         X0,  Y0,  Z0,  X12, Y12, Z12, X13, Y13, Z13, X24, Y24, Z24,	  
+     .         X0,  Y0,  Z0,  X12, Y12, Z12, X13, Y13, Z13, X24, Y24, Z24,    
      .         NRX, NRY, NRZ, AREA2, WF(2), WI(4,2),
      .         PM1, DSC, VX0, VY0, VZ0
       my_real  RHO, SSP, RHOC, TTA, DYDX, FF, SFPRES, DPPDT, PMAX, THETA, NORM, FAC1, TS, GRAVITY
@@ -195,7 +195,7 @@ C Spherical wave
                DIRWRX=DIRWRX/NORM
                DIRWRY=DIRWRY/NORM
                DIRWRZ=DIRWRZ/NORM
-	           COSG(I+NEL)=NORMAL(1,I)*DIRWRX+NORMAL(2,I)*DIRWRY+NORMAL(3,I)*DIRWRZ
+                     COSG(I+NEL)=NORMAL(1,I)*DIRWRX+NORMAL(2,I)*DIRWRY+NORMAL(3,I)*DIRWRZ
              ENDIF
 C hydrostatic pressure
              HH(I)=ZERO
@@ -210,7 +210,7 @@ C Onde plane
 C hydrostatic pressure
              HH(I)=ZERO
            ENDIF
-	       COSG(I)=NORMAL(1,I)*DIRWIX+NORMAL(2,I)*DIRWIY+NORMAL(3,I)*DIRWIZ
+                 COSG(I)=NORMAL(1,I)*DIRWIX+NORMAL(2,I)*DIRWIY+NORMAL(3,I)*DIRWIZ
 C vitesse N-1/2
            VX0 = THIRD*VL(1,I1)+THIRD*VL(1,I2)+THIRD*VL(1,I3)
            VY0 = THIRD*VL(2,I1)+THIRD*VL(2,I2)+THIRD*VL(2,I3)
@@ -278,7 +278,7 @@ C Spherical wave
                DIRWRX=DIRWRX/NORM
                DIRWRY=DIRWRY/NORM
                DIRWRZ=DIRWRZ/NORM
-	           COSG(I+NEL)=NORMAL(1,I)*DIRWRX+NORMAL(2,I)*DIRWRY+NORMAL(3,I)*DIRWRZ
+                     COSG(I+NEL)=NORMAL(1,I)*DIRWRX+NORMAL(2,I)*DIRWRY+NORMAL(3,I)*DIRWRZ
              ENDIF
 C hydrostatic pressure
              HH(I)=ZERO
@@ -300,7 +300,7 @@ C vitesse N-1/2
            VZ0 = WI(1,I5)*VL(3,I1)+WI(2,I5)*VL(3,I2)+WI(3,I5)*VL(3,I3)+WI(4,I5)*VL(3,I4)
            VEL(I) = VX0*NORMAL(1,I)+VY0*NORMAL(2,I)+VZ0*NORMAL(3,I)
         ENDDO
-		
+
       ENDIF
 C-----------------------------------------------
 C    1. Pression incidente
@@ -378,7 +378,7 @@ C-----------------------------------------------
              ENDIF
           ENDDO
         ENDIF
-      ENDIF	  
+      ENDIF    
 C-----------------------------------------------
 C     Vitesse onde incidente
 C-----------------------------------------------
@@ -398,7 +398,7 @@ C add afterflow velocity, no afterflow velocity for plane wave
            ELSEIF(IPRES == 2) THEN
               DO I=1,NEL
                  PTI(I) = PTI(I) + PP(I)*DT1
-		         VI(I) = VI(I) + PTI(I)*COSG(I)/(RHO*DIST(I))
+                   VI(I) = VI(I) + PTI(I)*COSG(I)/(RHO*DIST(I))
               ENDDO
            ENDIF
          ENDIF
@@ -446,7 +446,7 @@ C-----------------------------------------------
                 DPRDT(I) = ZERO
              ENDIF
           ENDDO
-        ENDIF	  
+        ENDIF    
 C-----------------------------------------------
 C    Vitesse onde reflechie
 C-----------------------------------------------
@@ -538,9 +538,9 @@ C  L U decomposition
                IF(IBUFELR(I) == 0) CYCLE
                K=K+1
                VECT(K) = VECT1(I)
-            ENDDO	
+            ENDDO
           ENDIF
-		  
+            
 C         Resolution
           CALL PDGETRS('N', NEL, 1, MFLE_L, 1, 1, DESCA, IPIV_L, VECT, 1, 1, DESCB, INFO)
 
@@ -594,7 +594,7 @@ C Correction
                   IF(IBUFELR(I) == 0) CYCLE
                   K=K+1
                   VECT(K) = VECT1(I)
-               ENDDO	
+               ENDDO
              ENDIF
 
 C Resolution
@@ -690,7 +690,7 @@ C-----------------------------------------------
          PTOT = PP(I)+PS(I)+PR(I)+RHO*HH(I)*ABS(GRAVITY)
          FEL(I) = AREAF(I)*MAX(PTOT,PMIN)
       ENDDO
-C	  
+C    
       IF(JFORM == 1) THEN
         NEL_L=0
         DO I=1,NEL
@@ -794,7 +794,7 @@ C
               TFEXT   = TFEXT+FF*DT1*(NRX*V(1,N4)+NRY*V(2,N4)+NRZ*V(3,N4))/CNP(I4)
            ENDIF
         ENDDO
-      ENDIF		
+      ENDIF
 C-----------------------------------------------------------
 C     5. Gauge
 C-----------------------------------------------------------

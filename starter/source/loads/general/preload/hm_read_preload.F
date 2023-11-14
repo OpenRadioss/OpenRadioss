@@ -167,7 +167,7 @@ c
            END IF
         ENDIF !(ISENS > 0) 
 c
-	   NN = 0
+             NN = 0
         IF (ISEC > 0) THEN !ISEC=sect_ID input is mandatory
           K0=31
           DO IS=1,NSECT 

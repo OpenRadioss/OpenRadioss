@@ -981,7 +981,7 @@ C-----------------------------------------------
 C-------------------------------------------------------------
         ALLOCATE(P(24,24,MVSIZ))
         ALLOCATE(KE(24,24,MVSIZ))
-C	
+C
         DO I=1,3 
         DO J=1,3 
          DO EP=JFT,JLT 
@@ -1568,7 +1568,7 @@ C------------------------------|0 VQN|---------------------
         ENDDO
 C        
         DO J=1,3 
-	 J1=J+3
+           J1=J+3
         DO I=1,3 
          DO EP=JFT,JLT 
           DO K=1,3 
@@ -1578,11 +1578,11 @@ C
          ENDDO
         ENDDO
         ENDDO
-C	
+C
         DO I=1,3 
-	 I1=I+3
+           I1=I+3
         DO J=1,3 
-	 J1=J+3
+           J1=J+3
          DO EP=JFT,JLT 
             KQ(I1,J,EP)=KD(I,J,EP)
             KQ(I1,J1,EP)=KK(I,J,EP)

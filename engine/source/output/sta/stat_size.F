@@ -245,7 +245,7 @@ C------------------------------
               MPT = MAX(1,NPT_ALL)
            IF (NPT==0) MPT=2
 C
-           IHBE	 =IPARG(23,NG)
+           IHBE   =IPARG(23,NG)
            NPG   =IPARG(48,NG)
            IF (IHBE==23) NPG=4
 C
@@ -277,7 +277,7 @@ C------------------------------
            MLW =IPARG(1,NG)
            IF (MLW == 1.OR.MLW == 3.OR.MLW == 23) MPT=0
 C
-           IHBE	 =IPARG(23,NG)
+           IHBE   =IPARG(23,NG)
            NPG   =IPARG(48,NG)
 CC         IF(ITY==3.AND.IHBE==23) NPG=4
 C
@@ -401,9 +401,9 @@ C------------------------------
 C       8: fail
 C------------------------------
         DO NG=1,NGROUP
-          ITY	=IPARG(5,NG)
-          NEL	=IPARG(2,NG)
-          NFT	=IPARG(3,NG)
+          ITY  =IPARG(5,NG)
+          NEL  =IPARG(2,NG)
+          NFT  =IPARG(3,NG)
 
           IF (ITY == 3.OR.ITY == 7) THEN
             LFT=1
@@ -462,9 +462,9 @@ C       8: /inibri/stres/full
 C------------------------------
       IF (STAT_S(4)==1 .OR. STAT_S(8)==1) THEN
         DO NG=1,NGROUP
-          ITY	   =IPARG(5,NG)
+          ITY     =IPARG(5,NG)
           IF(ITY==1) THEN
-            NEL	   =IPARG(2,NG)
+            NEL     =IPARG(2,NG)
             NLAY = ELBUF_TAB(NG)%NLAY
             NPTR = ELBUF_TAB(NG)%NPTR
             NPTS = ELBUF_TAB(NG)%NPTS
@@ -488,9 +488,9 @@ C       9: /inibri/strai/full
 C------------------------------
       IF (STAT_S(5)==1 .OR. STAT_S(9)==1) THEN
         DO NG=1,NGROUP
-          ITY	 =IPARG(5,NG)
+          ITY   =IPARG(5,NG)
           IF(ITY==1) THEN
-            NEL	 =IPARG(2,NG)
+            NEL   =IPARG(2,NG)
             NLAY = ELBUF_TAB(NG)%NLAY
             NPTR = ELBUF_TAB(NG)%NPTR
             NPTS = ELBUF_TAB(NG)%NPTS
@@ -517,8 +517,8 @@ C------------------------------
         DO NG=1,NGROUP
           ITY =IPARG(5,NG)
           IF(ITY==1) THEN
-            NEL	 =IPARG(2,NG)
-            NFT	 =IPARG(3,NG)
+            NEL   =IPARG(2,NG)
+            NFT   =IPARG(3,NG)
             NLAY = ELBUF_TAB(NG)%NLAY
             NPTR = ELBUF_TAB(NG)%NPTR
             NPTS = ELBUF_TAB(NG)%NPTS
@@ -548,7 +548,7 @@ C------------------------------
         DO NG=1,NGROUP
           ITY =IPARG(5,NG)
           IF(ITY==1) THEN
-            NEL	 =IPARG(2,NG)
+            NEL   =IPARG(2,NG)
             NLAY = ELBUF_TAB(NG)%NLAY
             NPTR = ELBUF_TAB(NG)%NPTR
             NPTS = ELBUF_TAB(NG)%NPTS
@@ -588,8 +588,8 @@ C------------------------------
         DO NG=1,NGROUP
           ITY =IPARG(5,NG)
           IF(ITY==1) THEN
-            NEL	 =IPARG(2,NG)
-            NFT	 =IPARG(3,NG)
+            NEL   =IPARG(2,NG)
+            NFT   =IPARG(3,NG)
             NLAY = ELBUF_TAB(NG)%NLAY
             NPTR = ELBUF_TAB(NG)%NPTR
             NPTS = ELBUF_TAB(NG)%NPTS
@@ -759,12 +759,12 @@ C      17: /inibri/eref
 C------------------------------
       IF (STAT_S(13)==1) THEN
         DO NG=1,NGROUP
-          ITY	 =IPARG(5,NG)
+          ITY   =IPARG(5,NG)
           ISOLNOD=IPARG(28,NG)
           ISMSTR =IPARG(9,NG)
           ISROT  =IPARG(41,NG)
           IF(ITY==1) THEN
-            NEL	 =IPARG(2,NG)
+            NEL   =IPARG(2,NG)
 c
             WASZ2 = WASZ2 + NEL * 7
             IF (ISMSTR==1.OR.ISMSTR>=10) THEN

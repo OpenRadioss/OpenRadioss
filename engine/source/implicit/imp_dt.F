@@ -54,7 +54,7 @@ C         DT_MIN=MAX(DT_E,DT_MIN)
          TREST=TSTOP-TT
          IF (IMCONV==1.AND.TREST>EM10)  THEN
           DT_E = MIN(DT_IMP,TREST)
-	  IF (IDYNA>0) DT_E = DT_IMP
+            IF (IDYNA>0) DT_E = DT_IMP
           DT1_IMP= DT_E
           IF (NCYCLE==0.AND.INCONV==1) DT0_IMP= DT_E
          ELSE
@@ -62,9 +62,9 @@ C         DT_MIN=MAX(DT_E,DT_MIN)
           DT0_IMP= DT_E
          ENDIF
          IF (NCYCLE==0) THEN
-	  DT1= DT_E
+            DT1= DT_E
           DT1_IMP= DT_E
-	 ENDIF
+           ENDIF
 C
       RETURN
       END
@@ -115,9 +115,9 @@ C-----------------------------------
         FAC=DT_IMP/TMP
         IF (IDTC==2.AND.ALEN0/=ZERO)ALEN=ALEN*SCAL_DTN
         IF (IDTC==3) THEN
-	 ALEN=ALEN*SCAL_DTN
+           ALEN=ALEN*SCAL_DTN
          FACT = ONE
-	END IF
+          END IF
        ENDIF
       ELSEIF (IMCONV==1)  THEN
        IF (IDTFIX>0)  THEN
@@ -185,18 +185,18 @@ C--------increase----------------------
           ALEN=SQRT(UL2)
          ENDIF
          FACT = ONE
-	ELSE !(NCYCLE>1)
+          ELSE !(NCYCLE>1)
 C----------time correction ------
          TT = TT + DLA_RIKS
          FACT = ONE+DLA_RIKS/DT2
-C------last step-------	 
-	 IF (TT>TSTOP) THEN
+C------last step-------   
+           IF (TT>TSTOP) THEN
           ILAST=1
           TMP=DT_IMP
           DT_IMP = MAX(DT_MIN,TMP*EM3)
           FAC=DT_IMP/TMP
           TT =TSTOP-DT_IMP
-	 ELSE
+           ELSE
           TREST=TSTOP-TT
           IF (ALEN0>ZERO) THEN
            ALEN=ALEN0
@@ -218,7 +218,7 @@ C------last step-------
             DT_IMP=MIN(DT_IMP,TREST)
             FAC=DT_IMP/TMP
            ENDIF
-	   ALEN=FACL*ALEN
+             ALEN=FACL*ALEN
           END IF !IF (ALEN0>ZERO)
          ENDIF !IF (TT>TSTOP) THEN
         ENDIF !(NCYCLE>1)
@@ -238,7 +238,7 @@ C----------reput old dt du to fix_p ------
        IF(NPRINT<0)WRITE(ISTDO,*)
        IF (IDTC==3)  THEN
         IF (FACT/=ONE) THEN
-	 WRITE(IOUT,1005) DLA_RIKS
+           WRITE(IOUT,1005) DLA_RIKS
          IF (NPRINT<0)WRITE(ISTDO,1005) DLA_RIKS
         END IF 
        ENDIF

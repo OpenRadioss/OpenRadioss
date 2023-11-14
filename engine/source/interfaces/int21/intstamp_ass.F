@@ -179,10 +179,10 @@ C---------------------
           A(2,MSR)=A(2,MSR)-VIS*INTSTAMP(NN)%V(2)
           A(3,MSR)=A(3,MSR)-VIS*INTSTAMP(NN)%V(3)
           IF(ISPMD==0)THEN
-	    DW=-VIS*( INTSTAMP(NN)%V(1)*INTSTAMP(NN)%V(1)
-     . 	      +INTSTAMP(NN)%V(2)*INTSTAMP(NN)%V(2)
-     . 	      +INTSTAMP(NN)%V(3)*INTSTAMP(NN)%V(3))
-	    TFEXT=TFEXT + DT05 * DW
+              DW=-VIS*( INTSTAMP(NN)%V(1)*INTSTAMP(NN)%V(1)
+     .         +INTSTAMP(NN)%V(2)*INTSTAMP(NN)%V(2)
+     .         +INTSTAMP(NN)%V(3)*INTSTAMP(NN)%V(3))
+              TFEXT=TFEXT + DT05 * DW
           END IF
         ELSE
           VX=(INTSTAMP(NN)%V(1)-INTSTAMP(INTDAMP)%V(1))
@@ -214,10 +214,10 @@ C---------------------
             AR(2,MSR)=AR(2,MSR)-VIS*INTSTAMP(NN)%VR(2)
             AR(3,MSR)=AR(3,MSR)-VIS*INTSTAMP(NN)%VR(3)
             IF(ISPMD==0)THEN
-	      DW=-VIS*( INTSTAMP(NN)%VR(1)*INTSTAMP(NN)%VR(1)
-     . 	        +INTSTAMP(NN)%VR(2)*INTSTAMP(NN)%VR(2)
-     . 	        +INTSTAMP(NN)%VR(3)*INTSTAMP(NN)%VR(3))
-	      TFEXT=TFEXT + DT05 * DW
+                DW=-VIS*( INTSTAMP(NN)%VR(1)*INTSTAMP(NN)%VR(1)
+     .           +INTSTAMP(NN)%VR(2)*INTSTAMP(NN)%VR(2)
+     .           +INTSTAMP(NN)%VR(3)*INTSTAMP(NN)%VR(3))
+                TFEXT=TFEXT + DT05 * DW
             END IF
           ELSE
             VX=INTSTAMP(NN)%VR(1)-INTSTAMP(INTDAMP)%VR(1)

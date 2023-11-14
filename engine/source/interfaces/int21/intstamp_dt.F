@@ -160,8 +160,8 @@ C-----------------------------------------------
      .                INTSTAMP(NN)%IN(3))
               STR =INTSTAMP(NN)%STR
               IF(STR/=ZERO)THEN
-             	ALPHA=CVISR(NN)/SQRT(FOUR*INM*STR)
-             	STR  =STR*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
+          ALPHA=CVISR(NN)/SQRT(FOUR*INM*STR)
+          STR  =STR*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
                 STIFR(MAIN)=STIFR(MAIN)+STR
               END IF
             END IF
@@ -182,8 +182,8 @@ C
      .                INTSTAMP(NN)%IN(3))
               STR =INTSTAMP(NN)%STR
               IF(STR/=ZERO)THEN
-             	ALPHA=CVISR(NN)/SQRT(FOUR*INM*STR)
-             	STR  =STR*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
+          ALPHA=CVISR(NN)/SQRT(FOUR*INM*STR)
+          STR  =STR*(SQRT(ONE+ALPHA*ALPHA)+ALPHA)**2
                 STIFR(MAIN)=STIFR(MAIN)+STR
               END IF
             END IF

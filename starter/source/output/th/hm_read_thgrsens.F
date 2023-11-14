@@ -139,8 +139,8 @@ C
           ! Loop over Objects IDs
           IF (IDS > 0) THEN
             IF (NSUBDOM > 0) THEN
-	             IF (R2R_EXIST(ITYP,IDS) == 0) CYCLE
-	           ENDIF
+                       IF (R2R_EXIST(ITYP,IDS) == 0) CYCLE
+                     ENDIF
 c
             N = 0
             DO J=1,SENSORS%NSENSOR

@@ -142,7 +142,7 @@ Chd|====================================================================
       SUBROUTINE INITIA(IPARG      ,ELBUF        ,MS           ,IN           ,V       , 
      1                  X          ,IXS          ,IXQ          ,IXC          ,IXT     , 
      2                  IXP        ,IXR          ,DETONATORS   ,GEO          ,PM      , 
-     3                  RBY        ,NPBY         ,LPBY         ,NPC          ,NPTS    ,	        
+     3                  RBY        ,NPBY         ,LPBY         ,NPC          ,NPTS    ,          
      4                  PLD        ,VEUL         ,ALE_CONNECTIVITY ,SKEW     ,FILL    , 
      5                  IPART      ,ITAB         , 
      6                  IXTG       ,THK          ,NLOC_DMG     ,GROUP_PARAM_TAB,
@@ -151,13 +151,13 @@ Chd|====================================================================
      9                  MSQ        ,MSC          ,MST          ,MSP          ,MSR     , 
      A                  MSTG       ,PTG          ,INC     , 
      B                  INP        ,INR          ,INTG         ,INDEX   , 
-     C                  ITRI       ,KXX          ,IXX          ,XELEMWA      ,	        
+     C                  ITRI       ,KXX          ,IXX          ,XELEMWA      ,          
      E                  IWA        ,
      F                  KXSP       ,IXSP         ,NOD2SP       ,ISPCOND      ,ICODE   , 
      G                  ISKEW      ,ISKN         ,ISPSYM       ,XFRAME       ,ISPTAG  , 
      H                  SPBUF      ,MSSX         ,NSIGI        ,
      I                  NPBYL      ,LPBYL        ,RBYL         ,MSNF         ,MSSF    , 
-     J                  NSIGSH     ,IGEO         ,IPM          ,NSIGS        ,	        
+     J                  NSIGSH     ,IGEO         ,IPM          ,NSIGS        ,          
      K                  NSIGSPH    ,VNS          ,VNSX         ,STC          ,STT     , 
      L                  STP        ,STR          ,STTG         ,STUR         ,BNS     , 
      M                  BNSX       ,VOLNOD       ,BVOLNOD      ,ETNOD        ,NSHNOD  , 
@@ -166,7 +166,7 @@ Chd|====================================================================
      P                  PTSHEL     ,PTSH3N       ,PTSOL        ,PTQUAD  ,
      Q                  WMA        ,PTSPH        ,FXBNOD       ,MBUFEL       ,MDEPL   , 
      R                  FXANI      ,NUMEL        ,NSIGRS       ,
-     T                  SH4TREE    ,SH3TREE      ,MCP          ,TEMP         ,	        
+     T                  SH4TREE    ,SH3TREE      ,MCP          ,TEMP         ,          
      U                  IMERGE2    ,IADMERGE2    ,
      V                  SLNRBM     ,NSLNRBM      ,RMSTIFN      ,RMSTIFR,
      U                  MS_LAYER   ,ZI_LAYER     ,ITAG         ,ITAGEL       ,MCPC    ,
@@ -1387,7 +1387,7 @@ C 2D multifluid law
         !----------------------------------------!
         ELSEIF (ITY == 5) THEN
           CALL PINIT3(ELBUF_TAB(NG),
-     1                STP        ,IXP      ,PM      ,X       ,GEO	 ,
+     1                STP        ,IXP      ,PM      ,X       ,GEO   ,
      2                MS         ,IN       ,DTELEM  ,NFT     ,NEL  ,
      3                STIFN      ,STIFR    ,PARTSAV ,V       ,IPART(I15E),
      4                MSP        ,INP      ,IGEO    ,STIFINT ,STRP       ,
@@ -2220,7 +2220,7 @@ C------------------------------------------------------
         LLT = NEL
         IF (ITY == 6) THEN
           IPROP=IXR(1,1+NFT)
-          IGTYP =  NINT(GEO(NPROPG*(IPROP-1)+12))	 	  
+          IGTYP =  NINT(GEO(NPROPG*(IPROP-1)+12))       
           GBUF => ELBUF_TAB(NG)%GBUF
           IF (IGTYP==33) THEN 
             NUVAR =  NINT(GEO(NPROPG*(IPROP-1)+25))
@@ -2526,13 +2526,13 @@ C         WRITE(IOUT,*)' **ERROR INVALID MATERIAL LAW',NINT(PM(19,MT))
 C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
          CALL FRETITL2(TITR2,IPM(NPROPMI-LTITR+1,MT),LTITR)
          CALL ANCMSG(MSGID=62,
-     .  	       MSGTYPE=MSGERROR,
-     .  	       ANMODE=ANINFO_BLIND_2,
-     .  	       I1=IPM(1,MT),
-     .  	       C1=TITR2,
-     .  	       I2=IPM(2,MT),
-     .  	       C2=ELEM,
-     .  	       I3=IX(NE,I))
+     .           MSGTYPE=MSGERROR,
+     .           ANMODE=ANINFO_BLIND_2,
+     .           I1=IPM(1,MT),
+     .           C1=TITR2,
+     .           I2=IPM(2,MT),
+     .           C2=ELEM,
+     .           I3=IX(NE,I))
         ENDIF
         IF (IG<=0) THEN
            CALL ANCMSG(MSGID=59,
@@ -3207,11 +3207,11 @@ C
        IIS0= NUSOLID+4+NVSOLID1 + NVSOLID2 + NVSOLID3 + NVSOLID4 + NVSOLID5
        DO I=LFT,LLT
         JJ=PTSOL(I)
-        IF(STRAGLOB(I) == 10.AND.JJ>0) THEN  		       
+        IF(STRAGLOB(I) == 10.AND.JJ>0) THEN             
           DO N=1,NPE
             IIS= IIS0 + (N-1)*3
-            XL(N)=SIGSP(IIS+1,JJ)			       
-            YL(N)=SIGSP(IIS+2,JJ)			       
+            XL(N)=SIGSP(IIS+1,JJ)             
+            YL(N)=SIGSP(IIS+2,JJ)             
             ZL(N)=SIGSP(IIS+3,JJ)
           END DO
           IF (ISMSTR==1) THEN
@@ -3281,18 +3281,18 @@ C-----------------------------------------------
        END IF
        DO I=LFT,LLT
         JJ=PTSOL(I)
-        IF(STRAGLOB(I) == 10.AND.JJ>0) THEN  		       
+        IF(STRAGLOB(I) == 10.AND.JJ>0) THEN             
           DO N=1,NPE
             IIS= IIS0 + (N-1)*3
-            SAV(I,N)       = SIGSP(IIS+1,JJ)			       
-            SAV(I,N+NPE)   = SIGSP(IIS+2,JJ)			       
+            SAV(I,N)       = SIGSP(IIS+1,JJ)             
+            SAV(I,N+NPE)   = SIGSP(IIS+2,JJ)             
             SAV(I,N+2*NPE) = SIGSP(IIS+3,JJ)
           END DO
           DO N=1,NDR
             IIS= IIS0 +(NPE+N-1)*3
             NN = 3*(NC(I,N)-1)
-            DR(NN+1) = SIGSP(IIS+1,JJ)			       
-            DR(NN+2) = SIGSP(IIS+2,JJ)			       
+            DR(NN+1) = SIGSP(IIS+1,JJ)             
+            DR(NN+2) = SIGSP(IIS+2,JJ)             
             DR(NN+3) = SIGSP(IIS+3,JJ)
           END DO
          IF (ISMSTR==1) OFFG(I) =TWO 

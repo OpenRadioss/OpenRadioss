@@ -139,10 +139,10 @@ C
        ISU2=NGR2USR(ISU2,INGR2USR,NSURF)
        IF (IGRNOD(ISU1)%NENTITY == 0) THEN
            CALL ANCMSG(MSGID=1131,
-     .   		ANMODE=ANINFO_BLIND_1,
-     .  		MSGTYPE=MSGERROR,
-     .    		I1=NOINT,
-     .    		C1=TITR)
+     .       ANMODE=ANINFO_BLIND_1,
+     .      MSGTYPE=MSGERROR,
+     .        I1=NOINT,
+     .        C1=TITR)
        END IF
 
 C-------*STORAGE IN IPARI AND FRIGAP *-------------------

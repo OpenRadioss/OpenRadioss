@@ -131,17 +131,17 @@ C        Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
          IGEO(11)= IGTYP
          GEO(12) = IGTYP+PUN
 
-	 IF(ALE%GLOBAL%ICAA==0 .AND. IGFLU==0)THEN
-	   IF(GEO(14)==ZERO) GEO(14)=ONEP1
-	   IF(GEO(15)==ZERO) GEO(15)=FIVEEM2
-	 ENDIF
-	 IF(GEO(13)==ZERO)GEO(13)=EM01
-	 IF(IHBE==0)THEN
-	   IHBE=IHBE_DS
-	 ENDIF
-	 I8PT=0
+           IF(ALE%GLOBAL%ICAA==0 .AND. IGFLU==0)THEN
+             IF(GEO(14)==ZERO) GEO(14)=ONEP1
+             IF(GEO(15)==ZERO) GEO(15)=FIVEEM2
+           ENDIF
+           IF(GEO(13)==ZERO)GEO(13)=EM01
+           IF(IHBE==0)THEN
+             IHBE=IHBE_DS
+           ENDIF
+           I8PT=0
 C
-	 IF(ISMSTR==0)ISMSTR=ISST_DS
+           IF(ISMSTR==0)ISMSTR=ISST_DS
          IF (ISMSTR < 0.OR.ISST_DS==-2) ISMSTR=4                            
          IF(ISMSTR==0)ISMSTR=4
          IF(ISMSTR==3)GEO(5)=EP06

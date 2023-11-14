@@ -144,7 +144,7 @@ C     REAL
             DO P=1,NSPMD
               IADS(P)=LENSD_0+1
               DO NI=1,NBINTC
-	         NIN = INTLIST(NI)
+                   NIN = INTLIST(NI)
                  NTY=IPARI(7,NIN)
                  IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
                     LENSD_0 = LENSD_0 + NSNFI(NIN)%P(P)*ALEN
@@ -168,7 +168,7 @@ C     REAL
             DO P=1,NSPMD
               IADR(P) = LENRV_0 + 1
               DO NI=1,NBINTC
-	         NIN = INTLIST(NI)
+                   NIN = INTLIST(NI)
                  NTY=IPARI(7,NIN)
                  IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
                     LENRV_0 = LENRV_0 + TAB_SEND(NIN+NINTER*(P-1))*ALEN
@@ -200,7 +200,7 @@ C     REAL
              ENDIF
 
              DO NI=1,NBINTC
-	      NIN = INTLIST(NI)
+                NIN = INTLIST(NI)
               NTY = IPARI(7,NIN)
               IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
                 NSNR = IPARI(24,NIN)
@@ -235,7 +235,7 @@ C     REAL
               IADS(P)=L
               IF (P/= LOC_PROC) THEN
                 DO NI=1,NBINTC
-	          NIN = INTLIST(NI)
+                    NIN = INTLIST(NI)
                   NTY = IPARI(7,NIN)
                   IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11) THEN
                     NB = NSNFI(NIN)%P(P) ! size = nsnfi
@@ -269,7 +269,7 @@ C     REAL
                 ! MPI WAIT
                 CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
                 DO NI=1,NBINTC
-	         NIN = INTLIST(NI)
+                   NIN = INTLIST(NI)
                  NTY = IPARI(7,NIN)
                  IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
                   NB = TAB_SEND(NIN+NINTER*(P-1)) ! nsnfi becomes nsnsi on local proc
@@ -319,7 +319,7 @@ C     REAL
               IADS(P)=LENSD+1
               IADR(P)=LENRV+1
               DO NI=1,NBINTC
-	         NIN = INTLIST(NI)
+                   NIN = INTLIST(NI)
                  NTY=IPARI(7,NIN)
                  IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
                     LENSD = LENSD + TAB_SEND(NIN+NINTER*(P-1))*ALEN
@@ -365,7 +365,7 @@ C     REAL
               IADS(P)=L
               IF (P/= LOC_PROC) THEN
                 DO NI=1,NBINTC
-	          NIN = INTLIST(NI)
+                    NIN = INTLIST(NI)
                   NTY = IPARI(7,NIN)
                   IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25) THEN
                     NB = TAB_SEND(NIN+NINTER*(P-1)) ! size = nsnsi
@@ -409,7 +409,7 @@ C     REAL
             ! Recv. MPI comm
             ALLOCATE( TAG_LOC(NINTER) )
             DO NI=1,NBINTC
-	     NIN = INTLIST(NI)
+               NIN = INTLIST(NI)
              NTY = IPARI(7,NIN)
              IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
                NSNR = IPARI(24,NIN)
@@ -434,7 +434,7 @@ C     REAL
                 CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
                 
                 DO NI=1,NBINTC
-	         NIN = INTLIST(NI)
+                   NIN = INTLIST(NI)
                  NTY = IPARI(7,NIN)
                  IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11)THEN
                   NB = NSNFI(NIN)%P(P) ! size = nsnfi
@@ -465,7 +465,7 @@ C     REAL
         ! -----------------------
             ! Check the value of tag and elimination of cand_a/e if tag = -1
             DO NI=1,NBINTC
-	      NIN = INTLIST(NI)
+                NIN = INTLIST(NI)
               NTY = IPARI(7,NIN)
               NSN = IPARI(5,NIN)
               NSNR = IPARI(24,NIN)

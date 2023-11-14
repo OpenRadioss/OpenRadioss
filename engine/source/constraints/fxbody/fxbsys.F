@@ -50,7 +50,7 @@ C
 #ifdef WITHOUT_LINALG
       WRITE(6,*) "Error: Lapack needed for Flexible bodies"
       CALL FLUSH(6)
-	  CALL ARRET(5)
+            CALL ARRET(5)
 #else
 #ifdef MYREAL8
       CALL DGETRF(N,N,MT,N,IPIV,INFO)

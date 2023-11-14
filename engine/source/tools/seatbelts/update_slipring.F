@@ -149,11 +149,11 @@ C
         DO NG=1,NGROUP
 C
           ITYP = IPARG(5,NG)
-	  MTN = IPARG(1,NG)
-	  NEL = IPARG(2,NG)
-	  NFT = IPARG(3,NG) 
-	  JFT = 1
-	  JLT = MIN(NVSIZ,NEL)  
+            MTN = IPARG(1,NG)
+            NEL = IPARG(2,NG)
+            NFT = IPARG(3,NG) 
+            JFT = 1
+            JLT = MIN(NVSIZ,NEL)  
           GBUF => ELBUF_TAB(NG)%GBUF
 C
           DO I=1,6
@@ -166,7 +166,7 @@ C
 C--------> Boucle sur les elements ressort seatbelt-------
             DO I=JFT,JLT
 C
-	      J = I + NFT	  
+                J = I + NFT    
               N1 = IXR(2,J)
               N2 = IXR(3,J)
               SLIP = 0
@@ -273,7 +273,7 @@ C                   Element deactivated - X0 updated in r23l114def3 for consiste
                   ENDIF
                 ENDIF
               ENDIF 
-C	 
+C   
             ENDDO
 C
           ENDIF
@@ -337,15 +337,15 @@ C
         DO NG=1,NGROUP
 C
           ITYP = IPARG(5,NG)
-	  MTN = IPARG(1,NG)
-	  NEL = IPARG(2,NG)
-	  NFT = IPARG(3,NG)
+            MTN = IPARG(1,NG)
+            NEL = IPARG(2,NG)
+            NFT = IPARG(3,NG)
           ISEATBELT = IPARG(91,NG)
           IREP = IPARG(35,NG)
           ISMSTR = IPARG(9,NG)
 C 
-	  JFT = 1
-	  JLT = MIN(NVSIZ,NEL)  
+            JFT = 1
+            JLT = MIN(NVSIZ,NEL)  
           GBUF => ELBUF_TAB(NG)%GBUF
           DO I=1,6
             II(I) = (I-1)*NEL + 1
@@ -363,10 +363,10 @@ C
 C
             DO I=JFT,JLT
 C
-	      J = I + NFT
+                J = I + NFT
 C
               FLAG_REACTIV = 0
-C	
+C
               NFOUND = 0
               FOUND_SLIP(1:2) = 0
               FOUND_FRAM(1:2) = 0 

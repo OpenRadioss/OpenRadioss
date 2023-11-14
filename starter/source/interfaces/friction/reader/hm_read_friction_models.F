@@ -126,8 +126,8 @@ C--------------------------------------------------
         ENDDO
         IF (UID/=0.AND.IFLAGUNIT==0) THEN
            CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .  	       I2=UID,I1=NOINTF,C1='FRITION',
-     .  	       C2='FRICTION',
+     .           I2=UID,I1=NOINTF,C1='FRITION',
+     .           C2='FRICTION',
      .                 C3=TITR)
         ENDIF
 

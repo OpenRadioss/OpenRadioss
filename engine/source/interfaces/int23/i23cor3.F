@@ -29,16 +29,16 @@ Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I23COR3(JLT   ,NIN    ,X       ,IRECT ,NSN   ,
      2                NSV      ,CAND_E ,CAND_N  ,STF   ,STFN  ,
-     3                MSR      ,MS       ,V      ,XI	,YI    ,
-     4  	      ZI    ,IX1      ,IX2    ,IX3	,IX4   ,
-     5  	      NSVG  ,IGSTI    ,STIF   ,KMIN	,KMAX  ,
-     6  	      IGAP  ,GAP      ,GAP_S  ,GAPV	,GAPMAX,
-     7  	      GAPMIN,GAP_M    ,VXI    ,VYI      ,VZI   ,
-     8  	      MSI   ,NODNX_SMS,NSMS   ,KINET   ,X1     ,
-     9  	      Y1    ,Z1    ,X2       ,Y2     ,Z2	,
-     A  	      X3    ,Y3    ,Z3       ,X4     ,Y4	,
-     B  	      Z4    ,NX1   ,NX2      ,NX3    ,NX4	,
-     C                NY1   ,NY2   ,NY3      ,NY4    ,NZ1	,
+     3                MSR      ,MS       ,V      ,XI  ,YI    ,
+     4          ZI    ,IX1      ,IX2    ,IX3  ,IX4   ,
+     5          NSVG  ,IGSTI    ,STIF   ,KMIN  ,KMAX  ,
+     6          IGAP  ,GAP      ,GAP_S  ,GAPV  ,GAPMAX,
+     7          GAPMIN,GAP_M    ,VXI    ,VYI      ,VZI   ,
+     8          MSI   ,NODNX_SMS,NSMS   ,KINET   ,X1     ,
+     9          Y1    ,Z1    ,X2       ,Y2     ,Z2  ,
+     A          X3    ,Y3    ,Z3       ,X4     ,Y4  ,
+     B          Z4    ,NX1   ,NX2      ,NX3    ,NX4  ,
+     C                NY1   ,NY2   ,NY3      ,NY4    ,NZ1  ,
      D                NZ2   ,NZ3   ,NZ4      ,KINI   ,INDEX     )
 C-----------------------------------------------
 C   M o d u l e s

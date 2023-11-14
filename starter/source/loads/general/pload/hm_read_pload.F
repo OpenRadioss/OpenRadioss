@@ -150,7 +150,7 @@ C--------------------------------------------------
         CALL HM_GET_FLOATV('magnitude',FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV_DIM('magnitude',FAC_FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C--------------------------------------------------
-        IFLAGUNIT = 0 					       
+        IFLAGUNIT = 0                  
         DO J=1,NUNITS                           
           IF (UNITAB%UNIT_ID(J) == UID) THEN                     
             IFLAGUNIT = 1                       
@@ -181,19 +181,19 @@ C--------------------------------------------------
           NN=IGRSURF(IS)%NSEG
           KPINCH=NN+1
           DO J=1,NN
-	    IF (IDDOM/=0) THEN	  
+              IF (IDDOM/=0) THEN    
 C-----------Multidomaines -> on elimine les seg communs, on ne les traite qu'une foi---
-	       CAPT=0 
+                 CAPT=0 
                DO H=1,4
-	         IF (TAGNO(NPART+IGRSURF(IS)%NODES(J,H))==1) CAPT = 1
-               END DO	  
-	       IF (CAPT==0) GOTO 150
-	    ENDIF   
+                   IF (TAGNO(NPART+IGRSURF(IS)%NODES(J,H))==1) CAPT = 1
+               END DO    
+                 IF (CAPT==0) GOTO 150
+              ENDIF   
 C
             IF(FLAG_PINCH /= 1) THEN
               K=K+1                                                
               IPRES(1,K)  = IGRSURF(IS)%NODES(J,1)
-              IPRES(2,K)  = IGRSURF(IS)%NODES(J,2)				    
+              IPRES(2,K)  = IGRSURF(IS)%NODES(J,2)            
               IPRES(3,K)  = IGRSURF(IS)%NODES(J,3)
               IF (IGRSURF(IS)%NODES(J,3)==IGRSURF(IS)%NODES(J,4)) THEN
 C               true triangles (not segments built from 3 nodes).   
@@ -211,7 +211,7 @@ C               true triangles (not segments built from 3 nodes).
               NPLOADPINCH = NPLOADPINCH + 1
               KPINCH=KPINCH-1
               IPRES(1,KPINCH)  = IGRSURF(IS)%NODES(J,1)
-              IPRES(2,KPINCH)  = IGRSURF(IS)%NODES(J,2)				    
+              IPRES(2,KPINCH)  = IGRSURF(IS)%NODES(J,2)            
               IPRES(3,KPINCH)  = IGRSURF(IS)%NODES(J,3)
               IF (IGRSURF(IS)%ELTYP(J)==7) THEN
 C               true triangles (not segments built from 3 nodes).   
@@ -229,12 +229,12 @@ C               true triangles (not segments built from 3 nodes).
 C                                  
   150        CONTINUE
           ENDDO
-C-----------Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---	  
-	  IF (IDDOM>0) NN = NN-ISURF_R2R(1,IS)                                                  
+C-----------Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---    
+            IF (IDDOM>0) NN = NN-ISURF_R2R(1,IS)                                                  
           NPRELD=NPRELD+NN                                       
         ELSE                                                     
           GOTO 999                                               
-        ENDIF						 
+        ENDIF             
       ENDDO
 C
       I1=1

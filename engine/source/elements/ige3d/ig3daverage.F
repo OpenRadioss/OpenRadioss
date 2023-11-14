@@ -63,12 +63,12 @@ C-----------------------------------------------
 c
       DO I=1,NEL  
        WIP(I) = VOL(I)/VOLG(I)                                       
-       SIGG(I,1) = SIGG(I,1) + WIP(I) * SIG(I,1)		     
-       SIGG(I,2) = SIGG(I,2) + WIP(I) * SIG(I,2)		     
-       SIGG(I,3) = SIGG(I,3) + WIP(I) * SIG(I,3)		     
-       SIGG(I,4) = SIGG(I,4) + WIP(I) * SIG(I,4)		     
-       SIGG(I,5) = SIGG(I,5) + WIP(I) * SIG(I,5)		     
-       SIGG(I,6) = SIGG(I,6) + WIP(I) * SIG(I,6)		     
+       SIGG(I,1) = SIGG(I,1) + WIP(I) * SIG(I,1)         
+       SIGG(I,2) = SIGG(I,2) + WIP(I) * SIG(I,2)         
+       SIGG(I,3) = SIGG(I,3) + WIP(I) * SIG(I,3)         
+       SIGG(I,4) = SIGG(I,4) + WIP(I) * SIG(I,4)         
+       SIGG(I,5) = SIGG(I,5) + WIP(I) * SIG(I,5)         
+       SIGG(I,6) = SIGG(I,6) + WIP(I) * SIG(I,6)         
        RHOG(I)   = RHOG(I)   + WIP(I) * RHO(I)                       
        EINTG(I)  = EINTG(I)  + EINT(I) * VOL0(I)/VOL0G(I)
       ENDDO

@@ -171,7 +171,7 @@ c-------
           CASE ('LASERS')
             !SKIP IT               
 c-------         
-	END SELECT !CASE(KEY)
+          END SELECT !CASE(KEY)
 c-------
       ENDDO !K=1,NDET
 c-------

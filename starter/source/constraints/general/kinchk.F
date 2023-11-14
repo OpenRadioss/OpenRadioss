@@ -164,7 +164,7 @@ C----------------------------------------------------------
 C - no-autorised hierarchy :Check des noeuds mains des RBE2 SECONDARY de INT2
 C----------------------------------------------------------
       DO I=1,NRBE2
-	     M = IRBE2(3,I)
+               M = IRBE2(3,I)
          ID=NOM_OPT(1,PTR_NOPT_RBE2+I)
            CALL FRETITL2(TITR,
      .                   NOM_OPT(LNOPT1-LTITR+1,PTR_NOPT_RBE2+I),LTITR)
@@ -220,8 +220,8 @@ C----------------------------------------------------------
 C - Check des noeuds mains des RBE2 sont mains de RBODY
 C----------------------------------------------------------
       DO I=1,NRBE2
-	     M = IRBE2(3,I)
-	     DO J =1,NRBODY
+               M = IRBE2(3,I)
+               DO J =1,NRBODY
           IF(NPBY(1,J)==M)THEN
            ID=NOM_OPT(1,PTR_NOPT_RBE2+I)
            CALL FRETITL2(TITR,
@@ -1384,41 +1384,41 @@ C======================================================================|
         NS  = IRBE3(3,N)
         IF (NS==0) CYCLE
         NML = IRBE3(5,N)
-	IROT =MIN(IRBE3(6,N),IRODDL)
+          IROT =MIN(IRBE3(6,N),IRODDL)
         CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X    ,
      .              FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
      .              MDSTNB  )
         DO J = 1,3
-	 VS(J) = ZERO
-	 VRS(J) = ZERO
-	ENDDO
+           VS(J) = ZERO
+           VRS(J) = ZERO
+          ENDDO
         DO I=1,NML
          M = LRBE3(IAD+I)
          DO J = 1,3
           DO K = 1,3
-	   VS(J) = VS(J)+FDSTNB(K,J,I)*D(K,M)
-	   VRS(J) = VRS(J)+FDSTNB(K,J+3,I)*D(K,M)
-	  ENDDO
-	 ENDDO
+             VS(J) = VS(J)+FDSTNB(K,J,I)*D(K,M)
+             VRS(J) = VRS(J)+FDSTNB(K,J+3,I)*D(K,M)
+            ENDDO
+           ENDDO
         ENDDO
         IF (IROT>0) THEN
          DO I=1,NML
           M = LRBE3(IAD+I)
           DO J = 1,3
            DO K = 1,3
-	    VS(J) = VS(J)+MDSTNB(K,J,I)*DR(K,M)
-	    VRS(J) = VRS(J)+MDSTNB(K,J+3,I)*DR(K,M)
-	   ENDDO
-	  ENDDO
+              VS(J) = VS(J)+MDSTNB(K,J,I)*DR(K,M)
+              VRS(J) = VRS(J)+MDSTNB(K,J+3,I)*DR(K,M)
+             ENDDO
+            ENDDO
          ENDDO
         ENDIF
         DO J = 1,3
-	 D(J,NS) = VS(J) *JT(J,N)
-	ENDDO
+           D(J,NS) = VS(J) *JT(J,N)
+          ENDDO
         IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) THEN
          DO J = 1,3
-	  DR(J,NS) = VRS(J) *JR(J,N)
-	 ENDDO
+            DR(J,NS) = VRS(J) *JR(J,N)
+           ENDDO
         ENDIF
       ENDDO
 C
@@ -1456,17 +1456,17 @@ C======================================================================|
       MAX_M=0
       IROTG=0
       DO N=1,NRBE3
-	NML = IRBE3(5,N)
-	IROT =IRBE3(6,N)
+          NML = IRBE3(5,N)
+          IROT =IRBE3(6,N)
         MAX_M=MAX(MAX_M,NML)
         IROTG=MAX(IROTG,IROT)
-	IC=IRBE3(4,N)
+          IC=IRBE3(4,N)
         ICT=IC/512
         ICR=(IC-512*(ICT))/64
-	DO J =1,3
+          DO J =1,3
            JT(J,N)=0
            JR(J,N)=0
-	ENDDO
+          ENDDO
         SELECT CASE (ICT)
           CASE(1)
            JT(3,N)=1
@@ -1897,7 +1897,7 @@ C======================================================================|
         M  = IRBE2(3,N)
         NSL = IRBE2(5,N)
         ISK = IRBE2(7,N)
-	IF (ISK>1) THEN
+          IF (ISK>1) THEN
             CALL RBE2DL(NSL   ,LRBE2(IAD+1),X     ,D     ,DR    ,
      1                  JT(1,N),JR(1,N),M     ,SKEW(1,ISK))
         ELSE
@@ -1936,14 +1936,14 @@ C-----------------------------------------------
       INTEGER I, J, N,NML,IC,ICT,ICR,IROT
 C======================================================================|
       DO N=1,NRBE2
-	IC=IRBE2(4,N)
+          IC=IRBE2(4,N)
         ICT=IC/512
         ICR=(IC-512*(ICT))/64
-	IF (IRODDL==0) ICR =0
-	DO J =1,3
+          IF (IRODDL==0) ICR =0
+          DO J =1,3
            JT(J,N)=0
            JR(J,N)=0
-	ENDDO
+          ENDDO
         SELECT CASE (ICT)
           CASE(1)
            JT(3,N)=1
@@ -2018,22 +2018,22 @@ C     REAL
      .     XS, YS, ZS,VRM(3)
 C======================================================================|
         DO J = 1,3
-	 IF (JT(J)/=0) THEN
+           IF (JT(J)/=0) THEN
           DO I=1,NSL
            NS = ISL(I)
-	   V(J,NS)= V(J,M)
-	  ENDDO
+             V(J,NS)= V(J,M)
+            ENDDO
          ENDIF
         ENDDO
        IF ((JR(1)+JR(2)+JR(3))>0) THEN
         DO J = 1,3
-	 IF (JR(J)/=0) THEN
+           IF (JR(J)/=0) THEN
           DO I=1,NSL
            NS = ISL(I)
-	   VR(J,NS)= VR(J,M)
-	  ENDDO
+             VR(J,NS)= VR(J,M)
+            ENDDO
          ENDIF
-	 VRM(J)= VR(J,M)*JR(J)
+           VRM(J)= VR(J,M)*JR(J)
         ENDDO
         DO I=1,NSL
          NS = ISL(I)

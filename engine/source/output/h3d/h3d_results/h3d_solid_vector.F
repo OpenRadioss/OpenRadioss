@@ -127,7 +127,7 @@ c
           VALUE(1:3) = ZERO
           DO I=1,NEL
             IS_WRITTEN_VALUE(I) = 0
-          ENDDO	     
+          ENDDO       
 C-----------------------------------------------
           IF (ITY == 1) THEN
 c           SOLID ELEMENTS

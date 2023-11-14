@@ -168,15 +168,15 @@ C--
               OFF_L  = MIN(OFF_L,OFFG(I))
             ELSE
               NN = NC(I,N)
-	      IF(IRESP==1)THEN
+                IF(IRESP==1)THEN
                 XX(I,N)=XDP(1,NN)
                 YY(I,N)=XDP(2,NN)
                 ZZ(I,N)=XDP(3,NN)
-              ELSE	      
+              ELSE        
                 XX(I,N)=X(1,NN)
                 YY(I,N)=X(2,NN)
                 ZZ(I,N)=X(3,NN)
-	      ENDIF
+                ENDIF
 C              SAV(I,N)=XX(I,N)
 C              SAV(I,N+10)=YY(I,N)
 C              SAV(I,N+20)=ZZ(I,N)
@@ -191,12 +191,12 @@ C--
             IF(IRESP==1)THEN
               XX(I,N)=XDP(1,NN)
               YY(I,N)=XDP(2,NN)
-              ZZ(I,N)=XDP(3,NN)	      
-	    ELSE
+              ZZ(I,N)=XDP(3,NN)        
+              ELSE
               XX(I,N)=X(1,NN)
               YY(I,N)=X(2,NN)
-              ZZ(I,N)=X(3,NN)			 
-            ENDIF	    
+              ZZ(I,N)=X(3,NN)       
+            ENDIF      
             OFF(I) = MIN(ONE,ABS(OFFG(I)))
             OFF_L  = MIN(OFF_L,OFFG(I))
           ENDDO
@@ -221,12 +221,12 @@ C--
                IF(IRESP==1)THEN
                  XX(I,N)=XDP(1,NN)
                  YY(I,N)=XDP(2,NN)
-                 ZZ(I,N)=XDP(3,NN)	      
-	       ELSE
+                 ZZ(I,N)=XDP(3,NN)        
+                 ELSE
                  XX(I,N)=X(1,NN)
                  YY(I,N)=X(2,NN)
-                 ZZ(I,N)=X(3,NN)			 
-               ENDIF	      
+                 ZZ(I,N)=X(3,NN)       
+               ENDIF        
               ELSE
                 N1=IPERM1(N)
                 N2=IPERM2(N)
@@ -287,11 +287,11 @@ C
                IF(IRESP==1)THEN
                  XX(I,N)=XDP(1,NN)
                  YY(I,N)=XDP(2,NN)
-                 ZZ(I,N)=XDP(3,NN)	      
-	       ELSE
+                 ZZ(I,N)=XDP(3,NN)        
+                 ELSE
                  XX(I,N)=X(1,NN)
                  YY(I,N)=X(2,NN)
-                 ZZ(I,N)=X(3,NN)			 
+                 ZZ(I,N)=X(3,NN)       
                ENDIF
             ELSE
               N1=IPERM1(N)
@@ -333,7 +333,7 @@ c              XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
 c              YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
 c              ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
 c            ELSE
-c --------------will be done in resol	    
+c --------------will be done in resol      
 c              XX(I,N) = D(1,NC(I,N)) + HALF*(XX(I,N1)+XX(I,N2))
 c              YY(I,N) = D(2,NC(I,N)) + HALF*(YY(I,N1)+YY(I,N2))
 c              ZZ(I,N) = D(3,NC(I,N)) + HALF*(ZZ(I,N1)+ZZ(I,N2))
@@ -341,10 +341,10 @@ c             en entr   X est faux, il manque 1/2(V1+V2)*dt
 c              X(1,NC(I,N)) = XX(I,N)
 c              X(2,NC(I,N)) = YY(I,N)
 c              X(3,NC(I,N)) = ZZ(I,N)
-c	      IF(IRESP==1)THEN
+c        IF(IRESP==1)THEN
 c                XDP(1,NC(I,N)) = XX(I,N)
 c                XDP(2,NC(I,N)) = YY(I,N)
-c                XDP(3,NC(I,N)) = ZZ(I,N)	        
+c                XDP(3,NC(I,N)) = ZZ(I,N)          
 c              ENDIF
 c            END IF
 c            OFF(I) = MIN(ONE,ABS(OFFG(I)))
@@ -456,12 +456,12 @@ C
           N1=IPERM1(N)
           N2=IPERM2(N)
           DO I=1,NEL
-	           DVX = (YY(I,N2)-YY(I,N1))*(VR(3,NC(I,N2))-VR(3,NC(I,N1)))
-     .         	- (ZZ(I,N2)-ZZ(I,N1))*(VR(2,NC(I,N2))-VR(2,NC(I,N1)))
-	           DVY = (ZZ(I,N2)-ZZ(I,N1))*(VR(1,NC(I,N2))-VR(1,NC(I,N1)))
-     .         	- (XX(I,N2)-XX(I,N1))*(VR(3,NC(I,N2))-VR(3,NC(I,N1)))
-	           DVZ = (XX(I,N2)-XX(I,N1))*(VR(2,NC(I,N2))-VR(2,NC(I,N1)))
-     .         	- (YY(I,N2)-YY(I,N1))*(VR(1,NC(I,N2))-VR(1,NC(I,N1)))
+                     DVX = (YY(I,N2)-YY(I,N1))*(VR(3,NC(I,N2))-VR(3,NC(I,N1)))
+     .           - (ZZ(I,N2)-ZZ(I,N1))*(VR(2,NC(I,N2))-VR(2,NC(I,N1)))
+                     DVY = (ZZ(I,N2)-ZZ(I,N1))*(VR(1,NC(I,N2))-VR(1,NC(I,N1)))
+     .           - (XX(I,N2)-XX(I,N1))*(VR(3,NC(I,N2))-VR(3,NC(I,N1)))
+                     DVZ = (XX(I,N2)-XX(I,N1))*(VR(2,NC(I,N2))-VR(2,NC(I,N1)))
+     .           - (YY(I,N2)-YY(I,N1))*(VR(1,NC(I,N2))-VR(1,NC(I,N1)))
             VX(I,N) = HALF*(VX(I,N1)+VX(I,N2)) + ONE_OVER_8 * DVX
             VY(I,N) = HALF*(VY(I,N1)+VY(I,N2)) + ONE_OVER_8 * DVY
             VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2)) + ONE_OVER_8 * DVZ   

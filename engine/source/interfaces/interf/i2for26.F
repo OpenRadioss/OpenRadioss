@@ -138,29 +138,29 @@ C------------------------------------------------
           X1  = X(1,IX1(K))                                       
           Y1  = X(2,IX1(K))                                          
           Z1  = X(3,IX1(K))                                          
-          X2  = X(1,IX2(K))					     
-          Y2  = X(2,IX2(K))					     
-          Z2  = X(3,IX2(K))					     
-          X3  = X(1,IX3(K))					     
-          Y3  = X(2,IX3(K))					     
-          Z3  = X(3,IX3(K))					     
-          X4  = X(1,IX4(K))					     
-          Y4  = X(2,IX4(K))					     
+          X2  = X(1,IX2(K))               
+          Y2  = X(2,IX2(K))               
+          Z2  = X(3,IX2(K))               
+          X3  = X(1,IX3(K))               
+          Y3  = X(2,IX3(K))               
+          Z3  = X(3,IX3(K))               
+          X4  = X(1,IX4(K))               
+          Y4  = X(2,IX4(K))               
           Z4  = X(3,IX4(K))
 C
-          VX1 = V(1,IX1(K))						      
-          VY1 = V(2,IX1(K))						      
-          VZ1 = V(3,IX1(K))						      
-          VX2 = V(1,IX2(K))						      
-          VY2 = V(2,IX2(K))						      
-          VZ2 = V(3,IX2(K))						      
-          VX3 = V(1,IX3(K))						      
-          VY3 = V(2,IX3(K))						      
-          VZ3 = V(3,IX3(K))						      
-          VX4 = V(1,IX4(K))						      
-          VY4 = V(2,IX4(K))						      
+          VX1 = V(1,IX1(K))                  
+          VY1 = V(2,IX1(K))                  
+          VZ1 = V(3,IX1(K))                  
+          VX2 = V(1,IX2(K))                  
+          VY2 = V(2,IX2(K))                  
+          VZ2 = V(3,IX2(K))                  
+          VX3 = V(1,IX3(K))                  
+          VY3 = V(2,IX3(K))                  
+          VZ3 = V(3,IX3(K))                  
+          VX4 = V(1,IX4(K))                  
+          VY4 = V(2,IX4(K))                  
           VZ4 = V(3,IX4(K))
-C					     
+C               
 C---------------------
           CALL I2REP(X1     ,X2     ,X3     ,X4     ,
      .               Y1     ,Y2     ,Y3     ,Y4     ,
@@ -215,9 +215,9 @@ c
           RZ(4) = E3X*X4 + E3Y*Y4 + E3Z*Z4
 C
           IF (NIR==3) THEN
- 	    RX(4)=ZERO
- 	    RY(4)=ZERO
- 	    RZ(4)=ZERO
+              RX(4)=ZERO
+              RY(4)=ZERO
+              RZ(4)=ZERO
           END IF
 C
           IF (NIR==3) THEN 

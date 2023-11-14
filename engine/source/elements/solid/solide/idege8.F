@@ -63,7 +63,7 @@ C--------A: (2*AREA)^2-----
        Z12 = Z2 - Z1
        IF (X12==ZERO.AND.Y12==ZERO.AND.Z12==ZERO) THEN
         IDE = 1
-	GOTO 10
+          GOTO 10
        ENDIF
 C       
        X23 = X2 - X3
@@ -71,7 +71,7 @@ C
        Z23 = Z2 - Z3
        IF (X23==ZERO.AND.Y23==ZERO.AND.Z23==ZERO) THEN
         IDE = 1
-	GOTO 10
+          GOTO 10
        ENDIF
 C       
        X34 = X4 - X3
@@ -79,7 +79,7 @@ C
        Z34 = Z4 - Z3
        IF (X34==ZERO.AND.Y34==ZERO.AND.Z34==ZERO) THEN
         IDE = 1
-	GOTO 10
+          GOTO 10
        ENDIF
 C       
        X41 = X4 - X1
@@ -87,14 +87,14 @@ C
        Z41 = Z4 - Z1
        IF (X41==ZERO.AND.Y41==ZERO.AND.Z41==ZERO) THEN
         IDE = 1
-	GOTO 10
+          GOTO 10
        ENDIF
 C       
    10   CONTINUE
 C     
        IF (A > AMAX )THEN
-	    IT=IDE
-		AMAX = A
-	   END IF
+              IT=IDE
+          AMAX = A
+             END IF
       RETURN
       END

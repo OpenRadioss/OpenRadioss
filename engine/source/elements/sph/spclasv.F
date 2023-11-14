@@ -114,7 +114,7 @@ C
                YJ=X(2,JNOD)
                ZJ=X(3,JNOD)
                DJ=SPBUF(1,M)
-             ELSE			 ! cellule remote
+             ELSE       ! cellule remote
                NN = -JNOD
                XJ=XSPHR(3,NN)
                YJ=XSPHR(4,NN)

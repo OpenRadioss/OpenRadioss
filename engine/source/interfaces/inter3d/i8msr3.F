@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER, INTENT(INOUT) :: IRTL(*)
       my_real, DIMENSION(MVSIZ), INTENT(IN) ::  XFACE
       my_real, INTENT(IN)  ::  X(3,*)
-	  
+            
       INTEGER TAB_RMAX_UID(4,*),HAS_MOVED(*)
       INTEGER NBSECNDS,ITAB(*)
       my_real TAB_RMAX(*)
@@ -180,7 +180,7 @@ C
          ENDDO  !LL=LL1,LL2
 C
          IRTL(IL)=LSEG_NEW
-		 HAS_MOVED(IL)=1
+           HAS_MOVED(IL)=1
  200     CONTINUE
 
          TAB_RMAX(IL) = BMAX 
@@ -188,7 +188,7 @@ C
          TAB_RMAX_UID(2,IL) = ITAB(MSR(IRECT(2,LSEG_NEW)))
          TAB_RMAX_UID(3,IL) = ITAB(MSR(IRECT(3,LSEG_NEW)))
          TAB_RMAX_UID(4,IL) = ITAB(MSR(IRECT(4,LSEG_NEW)))
-		 
+           
         ENDIF !XFACE
       ENDDO !I=LFT,LLT
 

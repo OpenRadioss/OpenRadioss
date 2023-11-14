@@ -69,12 +69,12 @@ C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       IF(ISPMD==0) THEN
         DO I = 2, NSPMD
-	  SIZ = SIZE*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
+            SIZ = SIZE*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
           MSGTYP=MSGOFF 
           CALL MPI_IRECV(RBUF(1,I-1),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
      .                   MPI_COMM_WORLD,REQ_R(I-1),IERROR)
         END DO
-	IFIL = IDBG5+2
+          IFIL = IDBG5+2
         WRITE(CYCLENUM,'(I7.7)')NCYCLE
         FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//CYCLENUM//'.dadb'
 
@@ -87,7 +87,7 @@ C
         DO N = 1, NSPMD-1
           CALL MPI_WAITANY(NSPMD-1,REQ_R,INDEX,STATUS,IERROR)
           I = INDEX+1
-	  L=1
+            L=1
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             NOD = FR_ELEM(J)
             AX = RBUF(L,INDEX)  -A(1,NOD)
@@ -107,7 +107,7 @@ C
       ELSE
 C preparation envoi  partie fixe (elem) a proc I
           I = 1
-	  SIZ = 0
+            SIZ = 0
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             NOD = FR_ELEM(J)
             SBUF(SIZ+1  ) =  A(1,NOD)

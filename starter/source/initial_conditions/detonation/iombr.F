@@ -131,7 +131,7 @@ C-----------------------------------------------
            ENDIF !(ABS(A3) > EPS)
          ENDIF !(D2 > DD_UP.AND.D1 > DD_UP)
         ELSE
-		  !(CROSS_PROD_1*CROSS_PROD_2 > EPS) Pi-1 and Pi are in the same half plane of boundary (DL)
+            !(CROSS_PROD_1*CROSS_PROD_2 > EPS) Pi-1 and Pi are in the same half plane of boundary (DL)
           IOMBR=0
         ENDIF !(CROSS_PROD_1*CROSS_PROD_2<=EPS)
       END DO !I=2,NPE
