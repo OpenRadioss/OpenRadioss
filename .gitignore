@@ -22,4 +22,9 @@ qa-tests/scripts/Screen_Output
 qa-tests/scripts/*.tmp
 qa-tests/scripts/my_results
 qa-tests/ctest_*
+engine/extlib/MUMPS*
+engine/extlib/lapack*
+engine/extlib/scalap*
+engine/extlib/v2*
+engine/extlib/v3*
 .vscode/settings.json
