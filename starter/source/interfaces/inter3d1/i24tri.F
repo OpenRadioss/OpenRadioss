@@ -58,7 +58,9 @@ Chd|====================================================================
      K      NZ4,P1,P2,P3,P4,
      L      LB1,LB2,LB3,LB4,LC1,
      M      LC2,LC3,LC4,PENE,PROV_N,
-     N      PROV_E,N11,N21,N31,DGAPLOAD)
+     N      PROV_E,N11,N21,N31,DGAPLOAD,
+     O      S_KREMNODE,S_REMNODE,KREMNODE,REMNODE,
+     P      TAG_REMOVED_NODE,FLAG_REMOVED_NODE)
 #ifndef HYPERMESH_LIB
       USE MESSAGE_MOD
 #endif
@@ -95,6 +97,12 @@ C     REAL
      .   GAP_S_L(*),GAP_M_L(*),MARGE_SH
       my_real , INTENT(IN) :: DGAPLOAD
       INTEGER ID,MSEGTYP(*)
+      LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
+      INTEGER, INTENT(in) :: S_KREMNODE !< size of KREMNODE
+      INTEGER, INTENT(in) :: S_REMNODE !< size of REMNODE   
+      INTEGER, DIMENSION(S_KREMNODE), INTENT(in) :: KREMNODE 
+      INTEGER, DIMENSION(S_REMNODE), INTENT(in) :: REMNODE
+      INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: TAG_REMOVED_NODE
       CHARACTER*nchartitle,
      .   TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) ::PROV_N,PROV_E
@@ -118,6 +126,8 @@ C-----------------------------------------------
       INTEGER NB_NCN,NB_ECN,ADDNN,ADDNE,IPOS,I,IP,J
       INTEGER INF,SUP,DIR,N1,N2,N3,N4,NN,NE,INS
       INTEGER SKIP,NS,NS1,NS2,NSE
+      INTEGER :: FIRST,LAST
+      INTEGER :: IJK
 C     REAL
       my_real
      .   BID,DX,DY,DZ,DSUP,SEUIL,XMX,XMN,GAPSMAX,
@@ -225,8 +235,18 @@ C
 C       write(6,*)" NOUVELLE BOITE "
 C       1- STOCKAGE DU OU DES  NOEUD CANDIDAT ET DES ELTS CORRESP.
 C       VIRER LES INUTILES
-        DO 20 I=1,NB_EC
+        DO I=1,NB_EC
             NE = BPE(I)
+            ! --------------
+            ! do not take into account node_id = REMNODE(i)
+            IF(FLAG_REMOVED_NODE) THEN
+              FIRST = KREMNODE(NE)+1
+              LAST = KREMNODE(NE+1)
+              DO IJK=FIRST,LAST
+                IF(REMNODE(IJK)<=NUMNOD) TAG_REMOVED_NODE(REMNODE(IJK)) = 1
+              ENDDO
+            ENDIF
+            ! --------------
             N1=IRECT(1,NE) 
             N2=IRECT(2,NE) 
             N3=IRECT(3,NE) 
@@ -236,7 +256,7 @@ C       VIRER LES INUTILES
             ELSE
              MARGE_E = MARGE_SH
             END IF 
-            DO 20 J=1,NB_NC
+            DO J=1,NB_NC
               NN=NSV(BPN(J))
 C-----------------  
 C--------   not sure if use Inacti----
@@ -256,6 +276,23 @@ C Fictive Nodes to filter
                   IF(NS1 == N2 .OR. NS2 == N2) SKIP=1
                   IF(NS1 == N3 .OR. NS2 == N3) SKIP=1
                   IF(NS1 == N4 .OR. NS2 == N4) SKIP=1
+
+                  IF(SKIP==0) THEN
+                    IF(FLAG_REMOVED_NODE) THEN
+                      FIRST = KREMNODE(NE)+1
+                      LAST = KREMNODE(NE+1)
+                      DO IJK=FIRST,LAST
+                        IF(REMNODE(IJK)==NN) SKIP = 1
+                      ENDDO
+                    ENDIF
+                  ENDIF
+                ELSE
+                  ! --------------
+                  ! S node must be remove from the list of candidates if TAG_REMOVED_NODE = 1
+                  IF(FLAG_REMOVED_NODE) THEN
+                      IF(TAG_REMOVED_NODE(NN)==1) SKIP = 1
+                  ENDIF
+                  ! --------------
                 ENDIF
 
                 IF (SKIP==0)THEN 
@@ -314,7 +351,19 @@ C               write(6,*)"Noeud candidat",BPN(J)
 C               write(6,*)"Element  candidat",NE
                ENDIF
               ENDIF  
-   20   CONTINUE 
+            ENDDO
+
+            ! --------------
+            ! flush to 0
+            IF(FLAG_REMOVED_NODE) THEN
+              FIRST = KREMNODE(NE)+1
+              LAST = KREMNODE(NE+1)
+              DO IJK=FIRST,LAST
+                IF(REMNODE(IJK)<=NUMNOD) TAG_REMOVED_NODE(REMNODE(IJK)) = 0
+              ENDDO
+            ENDIF
+            ! --------------
+        ENDDO 
 C       IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
 C       AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
         CALL I7DSTK(I_ADD,NB_NC,NB_EC,ADD,BPN,PN,BPE,PE)

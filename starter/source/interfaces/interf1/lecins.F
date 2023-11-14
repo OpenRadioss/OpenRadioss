@@ -394,7 +394,7 @@ C-------
      .         INTBUF_TAB(NI)%NSEGM,NMT,NRTM,NMN)
 C-------
         ELSEIF (NTYP == 2) THEN
-          LIXINT = LIXINT+6*NSN
+          LIXINT = LIXINT+NSN
           IF (ILEV == 20 .OR. ILEV == 21 .OR. ILEV == 22.OR.INTTH >0) THEN
            DO J = 1,NSN
             INTBUF_TAB(NI)%AREAS2(J) = AREASL(NI) 
@@ -469,7 +469,7 @@ C-------
           IF(IPARI(31,NI)/=0) THEN
              INTBUF_TAB(NI)%XFILTR(1) = XFILTR(NI)
           ENDIF
-          LIXINT = LIXINT+6*MULTIMP*(NSN_IGE+NSN_FE)
+          LIXINT = LIXINT+MULTIMP*(NSN_IGE+NSN_FE)
 C-------
         ELSEIF (NTYP == 8) THEN
 C-------
@@ -500,7 +500,7 @@ C-------
           IF(IPARI(31,NI)/=0) THEN
             INTBUF_TAB(NI)%XFILTR(1) = XFILTR(NI)
           ENDIF
-          LIXINT = LIXINT+6*MULTIMP*NSN
+          LIXINT = LIXINT+MULTIMP*NSN
           IALLO = 2  ! initialisation des tableaux
           CALL I20SURFI(
      1      IALLO        ,IPARI(1,NI)  ,IGRNOD     ,IGRSURF  ,
@@ -523,7 +523,7 @@ C-------
           IF(IPARI(31,NI)/=0) THEN
             INTBUF_TAB(NI)%ALPHA0(1) = XFILTR(NI)
           ENDIF
-          LIXINT = MAX(LIXINT,6*MULTIMP*NSN)
+          LIXINT = MAX(LIXINT,MULTIMP*NSN)
 C-------
         ELSEIF (NTYP == 22) THEN
           IF (IPARI(30,NI)/=0) THEN
@@ -537,7 +537,7 @@ C-------
           IF(IPARI(31,NI)/=0) THEN
             INTBUF_TAB(NI)%XFILTR(1) = XFILTR(NI)
           ENDIF
-          LIXINT = LIXINT+6*MULTIMP*NSN
+          LIXINT = LIXINT+MULTIMP*NSN
 C-------
         ELSEIF (NTYP == 23) THEN
           IF (IPARI(30,NI)/=0) THEN
@@ -551,7 +551,7 @@ C-------
           IF(IPARI(31,NI)/=0) THEN
             INTBUF_TAB(NI)%XFILTR(1) = XFILTR(NI)
           ENDIF
-          LIXINT = MAX(LIXINT,6*MULTIMP*NSN)
+          LIXINT = MAX(LIXINT,MULTIMP*NSN)
 C-------
         ELSEIF (NTYP == 24) THEN
           IF (IPARI(30,NI)/=0) THEN
@@ -565,7 +565,7 @@ C-------
           IF(IPARI(31,NI)/=0) THEN
             INTBUF_TAB(NI)%XFILTR(1) = XFILTR(NI)
           ENDIF
-          LIXINT = LIXINT+6*MULTIMP*NSN
+          LIXINT = LIXINT+MULTIMP*NSN
 C-----------inside I24SURFI NRTM=NRTM0          
           IALLO = 2  ! initialisation des tableaux
           CALL I24SURFI(
@@ -592,7 +592,7 @@ C-------
           IF(IPARI(31,NI)/=0) THEN
             INTBUF_TAB(NI)%XFILTR(1) = XFILTR(NI)
           ENDIF
-          LIXINT = LIXINT+6*MULTIMP*NSN
+          LIXINT = LIXINT+MULTIMP*NSN
 C-----------inside I24SURFI NRTM=NRTM0          
           IALLO = 2  ! initialisation des tableaux
           IF(ILEV==2)THEN

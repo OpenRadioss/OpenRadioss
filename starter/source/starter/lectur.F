@@ -528,7 +528,6 @@ C-----------------------------------------------
       USE FVBAG_MOD
       USE RESTMOD
       USE INTBUFMOD
-      USE IXINTMOD
       USE NOD2EL_MOD
       USE INTSTAMP_GLOB_MOD
       USE SUBMODEL_MOD
@@ -600,6 +599,7 @@ C-----------------------------------------------
       USE INTERFACES_MOD
       USE READ_FUNCT_PYTHON_MOD
       USE PYTHON_FUNCT_MOD
+      USE INTER_CAND_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -717,7 +717,7 @@ C-----------------------------------------------
      .   SMAS,LEN_RM,LAG_NCF0,LAG_NKF0,
      .   LAG_NHF0,LAG_NCL0,LAG_NKL0,MAXNNOD, IBID,
      .   SRTRANS,LCNE_CRKXFEM,NSEGSMAX,XFEMON,
-     .   LXINTD2,IN10,IN20,SNOM_OPT_OLD,LENI,FLAG_ALLOCATE,
+     .   IN10,IN20,SNOM_OPT_OLD,LENI,FLAG_ALLOCATE,
      .   PROC_BID,FLG_R2R_ERR,NSPCOND0,LENTHGR,FLAG_XFEM,
      .   IADTABIGE,NDOUBLONIGE,DECALIGEO,HM_NSENSOR,
      .   IPARSENS,NBT8,
@@ -920,7 +920,7 @@ C======================================================================|
      .    SIPARTR,SIPARTG,SIPARTX,SIPARTSP,ITER,
      .    LIXINT,SBUFALE,NVARTOT,
      .    NVARTOT0,NVARTOTMAX,NVARABF,
-     .    PIXS10,PIXS16,PIXS20,NUMCFIELD,SIXINT,NUMLOADP,IXEL,
+     .    PIXS10,PIXS16,PIXS20,NUMCFIELD,NUMLOADP,IXEL,
      .    SIPARTIG3D,IDXIGE1,IDXIGE2,
      .    IDXIGECNT,TAGSURFIGE,LSIGRS,LSIGBEAM,LSIGTRUSS,NSETFRICTOT,
      .    IORTHFRICMAX,COEFSLEN,NPFRICORTH,NGRPF,LENG,
@@ -1132,6 +1132,8 @@ C
       INTEGER , DIMENSION(:), ALLOCATABLE :: INDXSH  
       INTEGER :: NUMBER_LOAD_CYL
       INTEGER :: S_NOD2ELS,S_NOD2ELTG,S_NOD2EL1D
+
+      TYPE(INTER_CAND_) :: INTER_CAND
 c=======================================================================
 !    
       PYTHON%NB_FUNCTS = 0
@@ -1689,6 +1691,13 @@ C---  Pointeurs : sous-tableaux
       ELSE
         IFRAME => ISKWN
       END IF
+
+      ! ---------------------
+      INTER_CAND%S_IXINT_2 = 0
+      ALLOCATE( INTER_CAND%ADDRESS(NINTER+1) )
+      INTER_CAND%ADDRESS(1:NINTER+1) = 0
+      ! ---------------------
+
 !--- NEW DATA STRUCTE ALLOCATION FOR GROUPS OF ENTITIES
       ALLOCATE(SUBSETS(NSUBS))
       SUBSETS(1:NSUBS)%ID=0
@@ -5674,7 +5683,7 @@ C allocation moyenne normalement suffisante si taille de groupe moyenne > NVSIZ/
           IWEIG  => IWORK
       END IF
 
-      IF(.NOT.ALLOCATED(IXINT)) ALLOCATE(IXINT(0))
+      IF(.NOT.ALLOCATED(INTER_CAND%IXINT)) ALLOCATE(INTER_CAND%IXINT(INTER_CAND%S_IXINT_1,INTER_CAND%S_IXINT_2))
       IF(.NOT. ALLOCATED(NPBY)) ALLOCATE(NPBY(0))
       IF(.NOT. ALLOCATED(LPBY)) ALLOCATE(LPBY(0))
       IF(.NOT. ALLOCATED( RBY)) ALLOCATE( RBY(0))
@@ -5684,7 +5693,7 @@ C allocation moyenne normalement suffisante si taille de groupe moyenne > NVSIZ/
      2     IXR       ,IXTG     ,CEP     ,GEO      ,
      3     ITRI1     ,ITRI2    ,INDEX1   ,INDEX2  ,INUM     ,
      4     IWD       ,IWCONT   ,NELEM    ,IDDLEVEL,NELEMINT ,
-     5     IXINT     ,PM       ,X        ,KXX     ,IXX      ,
+     5     INTER_CAND,PM ,X        ,KXX     ,IXX      ,
      6     ADDCNE    ,IGEO     ,EANI     ,IWCIN2  ,DSDOF    ,
      7     ISOLOFF   ,ISHEOFF  ,ITRIOFF  ,ITRUOFF ,IPOUOFF  ,
      8     IRESOFF   ,IELEM21  ,IPM      ,IXS10   ,D        ,
@@ -7314,9 +7323,6 @@ C----
 
       WRITE(ISTDO,'(A)')TITRE(68)
 C-----
-c       if (LSCR /= SINSCR) then
-c          print*,'allocation error in inscr: ',SINSCR,'>',SIWORK
-c       endif
        AUX = MAX( NUMNOD , NUMELT+NUMELP+NUMELR+NUMELTG+NUMELC+100 ,
      .            MAXRTM+100 )
        NS_I7 = 2*NUMNOD + 2002 + 4*AUX
@@ -7343,18 +7349,18 @@ C
        IWORK = 0
        RWORK = ZERO
 C-----
-       IF(LXINTD>0.AND.NSPMD>1)
-     .   LIXINT = LIXINT + LXINTD
+       IF(LXINTD>0.AND.NSPMD>1) LIXINT = LIXINT + LXINTD
+
+       INTER_CAND%S_IXINT_2 = LIXINT
        IF(IDDLEVEL==0)THEN
-         IF( ALLOCATED(IXINT) ) DEALLOCATE( IXINT )
-         ALLOCATE(IXINT(LIXINT))
+         IF( ALLOCATED(INTER_CAND%IXINT) ) DEALLOCATE( INTER_CAND%IXINT )
+         ALLOCATE(INTER_CAND%IXINT(INTER_CAND%S_IXINT_1,INTER_CAND%S_IXINT_2))
          ALLOCATE(XTMP(3*NUMNOD)    ,STAT=stat)
          XTMP = D(1:3*NUMNOD)
        ENDIF
        IFIXIN = IFIP
        IFIEND = IFIXIN
        NELEMINT = 0
-       SIXINT = LIXINT
        LIXINT = 0
 C
 C read /INIBRI/FILL before interfaces stiffness
@@ -7387,14 +7393,14 @@ C
      7               KNOD2ELC ,KNOD2ELTG,NOD2ELS ,NOD2ELC  ,NOD2ELTG ,
      8               IGRSURF  ,IELEM21  ,SH4TREE ,SH3TREE  ,IPART    ,
      9               IPARTC   ,IPARTG   ,THKE    ,THK_PART ,NOD2EL1D ,
-     A               KNOD2EL1D,IXS10    ,SIXINT  ,FRIGAP   ,IXS16    ,
+     A               KNOD2EL1D,IXS10    ,INTER_CAND,FRIGAP   ,IXS16    ,
      B               IXS20    ,IPM      ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),IPARTS,
      C               KXX      ,IXX      ,IGEO    ,INTERCEP ,LELX     ,
      D               INTBUF_TAB,FILLSOL ,STACK%PM,IWORKSH  ,NSNT     ,
      E               NMNT_2   ,KXIG3D   ,IXIG3D  ,KNOD2ELQ ,NOD2ELQ  ,
      F               SEGQUADFR,TAGPRT_FRIC,INTBUF_FRIC_TAB ,IPARTT   ,
      G               IPARTP   ,IPARTX   ,IPARTR  ,NSN_MULTI_CONNEC ,T2_NB_CONNEC,
-     H               ICODE    ,ISKEW    ,MULTI_FVM)
+     H               ICODE    ,ISKEW    ,MULTI_FVM,S_NOD2ELS)
       IF(IDDLEVEL == 0) CALL STOPTIME(12,1)
       IF(IDDLEVEL == 1) CALL STOPTIME(13,1)
 
@@ -7409,11 +7415,12 @@ C
         END IF
 C-------------RBE3 use IXINT--pour opt.
         IF(LXINTD>0.AND.NSPMD>1)THEN
-         IF(LIXINT+LXINTD > SIXINT)THEN
-           LXINTD2=LXINTD/6
-           CALL UPGRADE_IXINT(SIXINT,NELEMINT,LXINTD2)
+         IF(LIXINT+LXINTD > INTER_CAND%S_IXINT_2)THEN
+           CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,LXINTD)
          ENDIF
-         CALL INTXRBE3(IRBE3  ,LRBE3  ,NELEMINT,IXINT,LIXINT)
+
+         CALL UPDATE_WEIGHT_RBE3(NELEMINT,LIXINT,SLRBE3,NRBE3L,NRBE3,
+     .                           LRBE3,IRBE3,INTER_CAND)
         ENDIF
         CALL TRACE_OUT1()
 C-----

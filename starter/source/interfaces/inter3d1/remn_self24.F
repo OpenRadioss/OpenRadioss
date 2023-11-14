@@ -35,7 +35,7 @@ Chd|====================================================================
       SUBROUTINE REMN_SELF24(
      .               X   ,IXS   ,IXS10 ,IXS16,IXS20   ,
      .               KNOD2ELS,NOD2ELS,IPARI ,INTBUF_TAB ,
-     .               ITAB , NOM_OPT,NREMOV,S_NOD2ELS)
+     .               ITAB , NOM_OPT,NREMOV,S_NOD2ELS,IDDLEVEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,6 +69,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NINTER)      ,INTENT(INOUT) :: NREMOV
       my_real, DIMENSION(NUMNOD*3)       ,INTENT(IN) :: X
       TYPE(INTBUF_STRUCT_), DIMENSION(NINTER),INTENT(IN):: INTBUF_TAB
+      INTEGER, INTENT(in) :: IDDLEVEL !< flag : 0 for the 1rst step, 1 for the 2nd step
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -192,6 +193,7 @@ C--------dim first
         IFLAG =0
         NREMOV(N) = IPARI(62,N)
         FLAGREMNODE=IPARI(63,N)
+        IF(IDDLEVEL==0.AND.FLAGREMNODE==1) FLAGREMNODE = 2
         IADA= 1
         IF(NREMOV(N)>0) KREMNODE_SAVE(1:NRTM+1) = INTBUF_TAB(N)%KREMNODE(1:NRTM+1)
 
@@ -338,13 +340,19 @@ C
           ENDIF
           ID=NOM_OPT(1,N)
           CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
-          CALL ANCMSG(MSGID=3014,
-     .            MSGTYPE=MSGINFO,
-     .            ANMODE=ANINFO_BLIND_1,
-     .            I1=ID,
-     .            C1=TITR,
-     .            I2=NNREM)
+          ! -----------------
+          ! only print the message for the 2nd sorting
+          IF(IDDLEVEL>0) THEN
+            CALL ANCMSG(MSGID=3014,
+     .              MSGTYPE=MSGINFO,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=ID,
+     .              C1=TITR,
+     .              I2=NNREM)
+          ENDIF
+          ! -----------------
           !       update of NNREM and deallocation / allocation of the new array
+
           NNREM = NNREM + NREMOV(N)
 C----         no need, done in UPGRADE_REMNODE2 IPARI(63,N) = 2
           CALL UPGRADE_REMNODE2(N,NNREM,INTBUF_TAB(N),NTY)

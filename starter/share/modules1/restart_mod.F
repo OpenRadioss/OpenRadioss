@@ -237,16 +237,3 @@ c     .         DIMENSION(:),ALLOCATABLE :: BUFIN
 c        TARGET :: BUFIN
 
       END MODULE INTBUFMOD
-
-Chd|====================================================================
-Chd|  IXINTMOD                      share/modules1/restart_mod.F  
-Chd|-- called by -----------
-Chd|        I20INI3                       source/interfaces/inter3d1/i20ini3.F
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        UPGRADE_IXINT                 source/interfaces/interf1/upgrade_ixint.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      MODULE IXINTMOD
-          INTEGER , DIMENSION(:), ALLOCATABLE, TARGET :: IXINT
-       END MODULE IXINTMOD

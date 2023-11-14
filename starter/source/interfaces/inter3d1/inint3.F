@@ -123,7 +123,7 @@ Chd|        IXINTMOD                      share/modules1/restart_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE ININT3(INSCR     ,X            ,IXS        ,IXC       ,PM      ,
-     1                  GEO       ,IPARI        ,NUMINT     ,ITAB      ,MS      ,
+     1                  GEO       ,IPARI        ,INTERFACE_ID     ,ITAB      ,MS      ,
      2                  MWA       ,RWA          ,IXTG       ,IWRN      ,IKINE   ,
      3                  IXT       ,IXP          ,IXR        ,NELEMINT  ,IDDLEVEL,
      4                  IFIEND    ,ALE_CONNECTIVITY,NSNET      ,NMNET     ,IGRBRIC ,
@@ -132,25 +132,25 @@ Chd|====================================================================
      7                  NOD2ELC    ,NOD2ELTG    ,IGRSURF    ,IKINE1    ,IELEM21 ,
      8                  SH4TREE    ,SH3TREE     ,IPART      ,IPARTC    ,IPARTTG ,
      9                  THK        ,THK_PART    ,NOD2EL1D   ,KNOD2EL1D ,IXS10   ,
-     A                  I_MEM      ,RESORT      ,SIXINT     ,IXS16     ,IXS20   ,   
+     A                  I_MEM      ,RESORT      ,INTER_CAND ,IXS16     ,IXS20   ,   
      B                  ID         ,TITR        ,IREMNODE   ,NREMNODE  ,IPARTS  ,
      C                  KXX        ,IXX         ,IGEO       ,INTERCEP  ,LELX    ,
      D                  INTBUF_TAB ,FILLSOL     ,PM_STACK   ,IWORKSH   ,KXIG3D  ,
      E                  IXIG3D     ,TAGPRT_FRIC ,INTBUF_FRIC_TAB,IPARTT,IPARTP  ,
      F                  IPARTX     ,IPARTR      ,NSN_MULTI_CONNEC,T2_ADD_CONNEC,T2_NB_CONNEC,
      G                  T2_CONNEC  ,NOM_OPT     ,ICODE     ,ISKEW      ,IREMNODE_EDG,
-     H                  S_APPEND_ARRAY,X_APPEND,MASS_APPEND)
+     H                  S_APPEND_ARRAY,X_APPEND,MASS_APPEND,N2D,FLAG_REMOVED_NODE)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
-      USE IXINTMOD     !IXINT
       USE FRONT_MOD
       USE INTBUFDEF_MOD 
       USE INTBUF_FRIC_MOD
       USE GROUPDEF_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE INTER_CAND_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -172,8 +172,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NUMINT, IWRN, NSNT, NMNT, NSN2T, NMN2T,
-     .   NSNET  ,NMNET ,RESORT,SIXINT
+      INTEGER INTERFACE_ID, IWRN, NSNT, NMNT, NSN2T, NMN2T,
+     .   NSNET  ,NMNET ,RESORT
+      INTEGER, INTENT(in) :: N2D !< flag for 2D/3D, 0-->3D, 1-->2D
       INTEGER INSCR(*), IXS(NIXS,NUMELS), IXC(NIXC,NUMELC),
      .   IPARI(*), IXT(NIXT,NUMELT) ,IXP(NIXP,NUMELP) ,IXR(NIXR,NUMELR),
      .   ITAB(NUMNOD), MWA(*), IXTG(NIXTG,NUMELTG), IKINE(*),
@@ -208,6 +209,8 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC)  :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
+      TYPE(INTER_CAND_), iNTENT(inout) :: INTER_CAND
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -221,16 +224,19 @@ C-----------------------------------------------
      .   DIMFLAG,IPEN0,INTKG,INTPLY,NRTSE,NSN0,ITH, NADMSR, NEDGE, IERROR, IT19,INT_TYP,
      .   NRTM_FE, NRTM_IGE,NMN_IGE,NMN_FE,NRTS_FE, NRTS_IGE,NSN_IGE,NSN_FE,L,IEDG4,IS1,
      .   IVIS2, ISHARP, IEDGE, INACTBID, ITHK25, IGAP0
+      INTEGER :: NUMNOD_P ! fake numnod for interface type 7, NUMNOD_P can be = to NUMNOD or NUMNOD+NUMELS
       INTEGER
      .   N1(MVSIZ),N2(MVSIZ),M1(4,MVSIZ),M2(4,MVSIZ),NRTM0,NRTM_SH,IWPENE0,IAD,NBRIC,GRBRIC_ID,II,IBRIC,IAD_IXINT,
      .   NODEID, INOD, MVOISN(MVSIZ,4),IBOUND(4,MVSIZ)
       INTEGER ITASK, NEDGE_T, ESHIFT, NRTM_T, SSHIFT, MULNSNE, MULNSNS, MULTIMPE, MULTIMPS, NCONTE, 
      .        CAND_E_OLD(2), I_MEME(2),
      .        I_START, I_MEM_REM, NEW_SIZE
-      my_real MARGE, GAP, VMAXDT, BMINMA(6), GAPM_MX, GAPS_MX, GAPM_L_MX,GAPS_L_MX
+      INTEGER :: KIND_INTER
+      my_real MARGE,VMAXDT, BMINMA(6), GAPM_MX, GAPS_MX, GAPM_L_MX,GAPS_L_MX
       my_real MAXBOX,MINBOX,GAP0,BID,TZINF,GAPINF,BIDON,FPENMAX,DRAD,PENMN,GAPSCALE,BGAPEMX_L
       my_real NX(MVSIZ),NY(MVSIZ),NZ(MVSIZ),GAPV(MVSIZ)
       my_real RDUM(1)  ,PENE_MAX,PENMAX,FACF
+      my_real :: GAP,GAPMIN,GAPMAX,DGAPLOAD
       my_real, DIMENSION(:),ALLOCATABLE :: PENMIN
       INTEGER, DIMENSION(:),ALLOCATABLE :: IPARTNS,INOD2LIN,TAGSECND,NOD2LIN
       my_real, DIMENSION(:),ALLOCATABLE, TARGET :: XE
@@ -340,14 +346,14 @@ C
      2    INTBUF_TAB%NSV   ,INTBUF_TAB%ILOCS   ,NSN              ,NMN            ,NRTM   )
        CALL I1CHK3(
      1    X                ,INTBUF_TAB%IRECTS  ,IXS              ,NRTS           ,IXC           ,
-     2    NUMINT           ,NSN                ,INTBUF_TAB%NSV   ,NOINT          ,IXTG          ,
+     2    INTERFACE_ID           ,NSN                ,INTBUF_TAB%NSV   ,NOINT          ,IXTG          ,
      3    GEO              ,PM                 ,KNOD2ELS         ,KNOD2ELC       ,KNOD2ELTG     ,
      4    NOD2ELS          , NOD2ELC           ,NOD2ELTG         ,IGRSURF(ISU1)  ,
      5    THK              ,NTY                ,IXS10            ,IXS16          ,IXS20         ,
      6    ID               ,TITR               ,IGEO             ,PM_STACK        ,IWORKSH )
        CALL I1CHK3(
      1    X                ,INTBUF_TAB%IRECTM  ,IXS              ,NRTM           ,IXC ,
-     2    -NUMINT          ,NMN                ,INTBUF_TAB%MSR   ,NOINT          ,IXTG,
+     2    -INTERFACE_ID          ,NMN                ,INTBUF_TAB%MSR   ,NOINT          ,IXTG,
      3    GEO              ,PM                 ,KNOD2ELS         ,KNOD2ELC       ,KNOD2ELTG     ,
      4    NOD2ELS          , NOD2ELC           ,NOD2ELTG         ,IGRSURF(ISU2)  ,
      5    THK              ,NTY                ,IXS10            ,IXS16          ,IXS20         ,
@@ -378,7 +384,7 @@ C-----------------------------------------------------------------------
 
        CALL I1CHK3(
      1    X               ,INTBUF_TAB%IRECTM   ,IXS              ,NRTM           ,IXC           ,
-     2    -NUMINT         ,NMN                 ,INTBUF_TAB%MSR   ,NOINT          ,IXTG          ,
+     2    -INTERFACE_ID         ,NMN                 ,INTBUF_TAB%MSR   ,NOINT          ,IXTG          ,
      3    GEO             ,PM                  ,KNOD2ELS         ,KNOD2ELC       ,KNOD2ELTG     ,
      4    NOD2ELS         ,NOD2ELC             ,NOD2ELTG         ,IGRSURF(ISU2)  ,
      5    THK             ,NTY                 ,IXS10            ,IXS16          ,IXS20         ,
@@ -425,18 +431,15 @@ C
          ENDIF
 
        ENDIF
-C
+
+       ! -----------------
+       ! update the weight of candidate's pair for the domain decomposition
        IF (IDDLEVEL==0)THEN
-         IF ( ((NELEMINT+NSN))*6 > SIXINT)
-     .     CALL UPGRADE_IXINT(SIXINT,NELEMINT,NSN)
-           NULLIFY(pIXINT)
-           IF(SIXINT>0)THEN
-             IAD_IXINT=MIN(SIXINT, 6*NELEMINT+1)
-             pIXINT => IXINT(IAD_IXINT)
-           ENDIF
-           CALL I2NINTDD(NELEMINT       ,pIXINT           ,INTBUF_TAB%IRECTM,
-     .                   INTBUF_TAB%NSV ,INTBUF_TAB%IRTLM ,NSN              ,IFIEND )
+         IF ( ((NELEMINT+NSN)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,NSN)
+         CALL UPDATE_WEIGHT_INTER_TYPE2(NELEMINT,INTERFACE_ID,NSN,NRTM,IFIEND,
+     1                                  N2D,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,INTER_CAND)
        ENDIF
+       ! -----------------
        IF((IDDLEVEL==0).AND.
      +    (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
@@ -452,7 +455,7 @@ C j21 utilise en tmp dans i2chk3, i2buc3 et i2tied3
 C
        CALL I2CHK3(
      1   X                 ,INTBUF_TAB%IRECTM ,IXS                ,NRTM                   ,IXC             ,
-     2   -NUMINT           ,NSN               ,INTBUF_TAB%MSR     ,NOINT                  ,
+     2   -INTERFACE_ID           ,NSN               ,INTBUF_TAB%MSR     ,NOINT                  ,
      3   IXTG              ,INTBUF_TAB%IRTLM  ,INTBUF_TAB%CSTS    ,INTBUF_TAB%DPARA       ,GEO             ,
      4   PM                ,KNOD2ELS          ,KNOD2ELC           ,KNOD2ELTG              ,NOD2ELS         ,
      5   NOD2ELC           ,NOD2ELTG          ,IGRSURF(ISU2)      ,THK                    ,
@@ -469,7 +472,7 @@ C
      3   NOINT             ,INTBUF_TAB%MSR    ,INTBUF_TAB%CSTS   ,INTBUF_TAB%DPARA        ,TZINF           ,
      4   IGNORE            ,THK               ,KNOD2ELS          ,KNOD2ELC                ,KNOD2ELTG       ,
      5   NOD2ELS           ,NOD2ELC           ,NOD2ELTG          ,
-     6   -NUMINT           ,IXC               ,IXTG              ,THK_PART                ,IPARTC          ,
+     6   -INTERFACE_ID           ,IXC               ,IXTG              ,THK_PART                ,IPARTC          ,
      7   GEO               ,IXS               ,IXS10             ,PM                      ,IXS16           ,
      8   IXS20             ,IPARTTG           ,ID,TITR           ,IGEO                    ,PM_STACK        ,
      9   IWORKSH ,
@@ -507,17 +510,15 @@ c       IF ((ILEV >=10 .AND. ILEV < 23) ) THEN
      .    KNOD2ELC         ,NOD2ELC           ,KNOD2ELTG         ,NOD2ELTG                ,ILEV      ,
      .    ID               ,TITR              ,INTTH    )
        ENDIF
-C
+
+       ! -----------------
+       ! update the weight of candidate's pair for the domain decomposition
        IF (IDDLEVEL==0)THEN
-         IF ( (NELEMINT+NSN)*6 >  SIXINT)CALL UPGRADE_IXINT(SIXINT,NELEMINT,NSN)
-         NULLIFY(pIXINT)
-         IF(SIXINT>0)THEN
-           IAD_IXINT=MIN(SIXINT, 6*NELEMINT+1)
-           pIXINT => IXINT(IAD_IXINT)
-         ENDIF
-         CALL I2NINTDD(NELEMINT       ,pIXINT           ,INTBUF_TAB%IRECTM,
-     .                 INTBUF_TAB%NSV ,INTBUF_TAB%IRTLM ,NSN              ,IFIEND )
+         IF ( ((NELEMINT+NSN)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,NSN)
+         CALL UPDATE_WEIGHT_INTER_TYPE2(NELEMINT,INTERFACE_ID,NSN,NRTM,IFIEND,
+     1                                  N2D,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,INTER_CAND)
        ENDIF
+       ! -----------------
 C
        IF(IDDLEVEL==0 .AND.
      +   (DECTYP>=3.AND.DECTYP<=6))THEN
@@ -545,7 +546,7 @@ C-----------------------------------------------------------------------
        CALL I3STI3(
      1 X         ,INTBUF_TAB%IRECTS,INTBUF_TAB%STFS,IXS,PM   ,
      2 GEO       ,NRTS      ,IXC       ,INTBUF_TAB%STFNS,INTBUF_TAB%NSEGS,
-     3 INTBUF_TAB%LNSV,NUMINT ,NSN       ,INTBUF_TAB%NSV,INTBUF_TAB%STFAC,
+     3 INTBUF_TAB%LNSV,INTERFACE_ID ,NSN       ,INTBUF_TAB%NSV,INTBUF_TAB%STFAC,
      4 NTY       ,INTBUF_TAB%VARIABLES(2),NOINT   ,IXTG      ,IRS   ,
      5 KNOD2ELS  ,KNOD2ELC  ,KNOD2ELTG ,NOD2ELS      ,NOD2ELC   ,
      6 NOD2ELTG  ,IGRSURF(ISU1),THK     ,IXS10   ,
@@ -555,7 +556,7 @@ C-----------------------------------------------------------------------
        CALL I3STI3(
      1 X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%STFM,IXS       ,PM        ,
      2 GEO       ,NRTM      ,IXC       ,INTBUF_TAB%STFNM,INTBUF_TAB%NSEGM,
-     3 INTBUF_TAB%LMSR,-NUMINT ,NMN      ,INTBUF_TAB%MSR,INTBUF_TAB%STFAC,
+     3 INTBUF_TAB%LMSR,-INTERFACE_ID ,NMN      ,INTBUF_TAB%MSR,INTBUF_TAB%STFAC,
      4 NTY       ,INTBUF_TAB%VARIABLES(2),NOINT   ,IXTG      ,IRM       ,
      5 KNOD2ELS  ,KNOD2ELC  ,KNOD2ELTG ,NOD2ELS      ,NOD2ELC   ,
      6 NOD2ELTG  ,IGRSURF(ISU2),THK          ,IXS10     ,
@@ -602,7 +603,7 @@ C-----------------------------------------------------------------------
        CALL I3STI3(
      1 X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%STFM,IXS       ,PM          ,
      2 GEO       ,NRTM      ,IXC       ,INTBUF_TAB%STFNM, INTBUF_TAB%NSEGM  ,
-     3 INTBUF_TAB%LMSR,-NUMINT   ,NMN       ,INTBUF_TAB%MSR,INTBUF_TAB%STFAC(1),
+     3 INTBUF_TAB%LMSR,-INTERFACE_ID   ,NMN       ,INTBUF_TAB%MSR,INTBUF_TAB%STFAC(1),
      4 NTY       ,INTBUF_TAB%VARIABLES(2),NOINT   ,IXTG         ,IRM       ,
      5 KNOD2ELS  ,KNOD2ELC  ,KNOD2ELTG    ,NOD2ELS      ,NOD2ELC   ,
      6 NOD2ELTG  ,IGRSURF(ISU2),THK             ,IXS10     ,
@@ -637,12 +638,15 @@ C       I_STOK = 0
             XE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB%S_NIGE)) = INTBUF_TAB%XIGE(1:3*INTBUF_TAB%S_NIGE)
             PTR_X(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB%S_NIGE)) => XE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB%S_NIGE))
             PTR_MS(1:NUMNOD) => MS(1:NUMNOD)
+            NUMNOD_P = NUMNOD+INTBUF_TAB%S_NIGE
        ELSEIF(LAW151_TYPE18) THEN
             PTR_X(1:NUMNOD+NUMELS) => X_APPEND(1:3*S_APPEND_ARRAY)
             PTR_MS(1:NUMNOD+NUMELS) => MASS_APPEND(1:S_APPEND_ARRAY)
+            NUMNOD_P = NUMNOD+NUMELS
        ELSE
             PTR_X(1:NUMNOD) => X(1:NUMNOD)
             PTR_MS(1:NUMNOD) => MS(1:NUMNOD)
+            NUMNOD_P = NUMNOD
        ENDIF
 
        CALL I7ERR3(
@@ -659,7 +663,7 @@ C      CALCUL DES RIGIDITES ELEMENTTAIRES ET NODALES
 C----------------
        CALL I7STI3(
      1    PTR_X            ,INTBUF_TAB%IRECTM       , INTBUF_TAB%STFM ,    IXS          , PM              ,
-     2    GEO              ,NRTM_FE                 , IXC             ,-NUMINT          , INTBUF_TAB%STFAC,
+     2    GEO              ,NRTM_FE                 , IXC             ,-INTERFACE_ID          , INTBUF_TAB%STFAC,
      3    NTY              ,INTBUF_TAB%VARIABLES(2) , NOINT           ,INTBUF_TAB%STFNS , NSN             ,
      4    PTR_MS           ,INTBUF_TAB%NSV          , IXTG            ,IGAP             , RWA             ,
      5    INTBUF_TAB%GAP_S ,INTBUF_TAB%GAP_M        ,INTBUF_TAB%VARIABLES(13),IXT       , IXP             ,
@@ -704,7 +708,7 @@ C     I_STOK=INTBUF_TAB%I_STOK(1)
      6 ITAB      ,INTBUF_TAB%GAP_S  ,INTBUF_TAB%GAP_M, IGAP,INTBUF_TAB%VARIABLES(13),
      7 INTBUF_TAB%VARIABLES(16) ,INACTI  ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML ,I_MEM ,
      8 NCONT     ,ICURV ,INTBUF_TAB%VARIABLES(7), ID           ,  TITR    ,
-     9 DRAD      ,INTERCEP, NUMINT,PROV_N,PROV_E,
+     9 DRAD      ,INTERCEP, INTERFACE_ID,PROV_N,PROV_E,
      1 IX1   ,IX2     ,IX3   ,IX4   ,NSVG   ,
      2 X1    ,X2      ,X3    ,X4    ,Y1    ,
      3 Y2    ,Y3      ,Y4    ,Z1    ,Z2    ,
@@ -721,25 +725,25 @@ C I_STOK sauvegarde a sa place pour optimisation tri
          I_STOK=INTBUF_TAB%I_STOK(1)
          
        IF (I_MEM == 2 ) RETURN
-C
-C----------------
-C
-      IF (IDDLEVEL==0)THEN
-       IF ( (NELEMINT+I_STOK)*6 >  SIXINT)THEN
-         CALL UPGRADE_IXINT(SIXINT,NELEMINT,I_STOK)
+
+
+
+       ! -----------------
+       ! update the weight of candidate's pair for the domain decomposition
+       IF (IDDLEVEL==0)THEN
+         IF ( ((NELEMINT+I_STOK)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,I_STOK)
+
+        GAP = INTBUF_TAB%VARIABLES(2)
+        GAPMIN = INTBUF_TAB%VARIABLES(13)
+        GAPMAX = INTBUF_TAB%VARIABLES(16)
+        DGAPLOAD = INTBUF_TAB%VARIABLES(46)
+        CALL UPDATE_WEIGHT_INTER_TYPE7(NELEMINT,INTERFACE_ID,NSN,NRTM,IFIEND,
+     .                                 INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,I_STOK,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
+     .                                 IGAP,GAP,GAPMAX,GAPMIN,DGAPLOAD,
+     .                                 DRAD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_M,INTBUF_TAB%GAP_ML,
+     .                                 NUMNOD_P,PTR_X,INTER_CAND)
        ENDIF
-       NULLIFY(pIXINT)
-       IF(SIXINT>0)THEN
-         IAD_IXINT=MIN(SIXINT, 6*NELEMINT+1)
-         pIXINT => IXINT(IAD_IXINT)
-       ENDIF
-       CALL I7NINTDD(
-     1   NELEMINT         ,pIXINT                 ,INTBUF_TAB%IRECTM ,
-     2   INTBUF_TAB%NSV   ,INTBUF_TAB%CAND_E      ,INTBUF_TAB%CAND_N ,I_STOK ,IFIEND,
-     3   PTR_X             ,INTBUF_TAB%VARIABLES(2),DRAD, IGAP,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,
-     4   INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML      ,INTBUF_TAB%VARIABLES(13),INTBUF_TAB%VARIABLES(16),
-     .                                                                      INTBUF_TAB%VARIABLES(46))
-      ENDIF
+       ! -----------------
 
       IF((IDDLEVEL==0).AND.(DECTYP>=3.AND.DECTYP<=6))THEN
 C Weighting interface nodes
@@ -829,7 +833,7 @@ C
        CALL I3STI3(
      1 X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%STFM,IXS ,PM       ,
      2 GEO       ,NRTM      ,IXC       ,INTBUF_TAB%STFNM,INTBUF_TAB%NSEGM,
-     3 INTBUF_TAB%LMSR,-NUMINT   ,NMN  ,INTBUF_TAB%MSR,INTBUF_TAB%STFAC(1),
+     3 INTBUF_TAB%LMSR,-INTERFACE_ID   ,NMN  ,INTBUF_TAB%MSR,INTBUF_TAB%STFAC(1),
      4 NTY       ,INTBUF_TAB%VARIABLES(2),NOINT   ,IXTG      ,IRS   ,
      5 KNOD2ELS  ,KNOD2ELC  ,KNOD2ELTG ,NOD2ELS   ,NOD2ELC   ,
      6 NOD2ELTG  ,IGRSURF(ISU2),THK       ,IXS10     ,
@@ -866,14 +870,14 @@ C-----------------------------------------------------------------------
        CALL I9STI3(
      1   X         ,INTBUF_TAB%IRECTS,INTBUF_TAB%STFS,IXS ,PM ,
      2   GEO       ,NRTS             ,IXC       ,INTBUF_TAB%STFNS,INTBUF_TAB%NSEGS,
-     3   INTBUF_TAB%LNSV,NUMINT      ,NSN       ,INTBUF_TAB%NSV,INTBUF_TAB%STFAC(1),
+     3   INTBUF_TAB%LNSV,INTERFACE_ID      ,NSN       ,INTBUF_TAB%NSV,INTBUF_TAB%STFAC(1),
      4   NTY       ,INTBUF_TAB%VARIABLES(2),NOINT   ,IXTG      ,INTBUF_TAB%IELES,
      5   KNOD2ELS  ,NOD2ELS   ,IGRSURF   ,ISU1      ,IXS10     ,
      6   IXS16     ,IXS20     ,ID        ,TITR)
        CALL I9STI3(
      1   X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%STFM,IXS       ,PM        ,
      2   GEO       ,NRTM      ,IXC       ,INTBUF_TAB%STFNM,INTBUF_TAB%NSEGM,
-     3   INTBUF_TAB%LMSR,-NUMINT   ,NMN    ,INTBUF_TAB%MSR,INTBUF_TAB%STFAC(1),
+     3   INTBUF_TAB%LMSR,-INTERFACE_ID   ,NMN    ,INTBUF_TAB%MSR,INTBUF_TAB%STFAC(1),
      4   NTY       ,INTBUF_TAB%VARIABLES(2),NOINT   ,IXTG      ,INTBUF_TAB%IELEM,
      5   KNOD2ELS  ,NOD2ELS   ,IGRSURF     ,ISU2    ,IXS10     ,
      6   IXS16     ,IXS20     ,ID       ,TITR)
@@ -912,7 +916,7 @@ C
 
        CALL I7STI3(
      1             X         ,INTBUF_TAB%IRECTM       ,INTBUF_TAB%STFM  ,IXS     ,PM              ,
-     2             GEO       ,NRTM                    ,IXC              ,-NUMINT ,INTBUF_TAB%STFAC,
+     2             GEO       ,NRTM                    ,IXC              ,-INTERFACE_ID ,INTBUF_TAB%STFAC,
      3             NTY       ,INTBUF_TAB%VARIABLES(2) ,NOINT            ,INTBUF_TAB%STFNS, NSN    ,     
      4             MS        ,INTBUF_TAB%NSV          ,IXTG             ,IGAP            , RWA    ,
      5      INTBUF_TAB%GAP_S ,INTBUF_TAB%GAP_M        ,INTBUF_TAB%VARIABLES(13),IXT      ,IXP     ,
@@ -1035,7 +1039,7 @@ C      INTBUF_TAB%VARIABLES(1) EST MODIFIE PAR I11STI3; GAP0 NON
 
        CALL I11STI3(       
      1 X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%STFM  ,IXS       ,PM        ,
-     2 GEO       ,NRTM         ,IXC         ,NUMINT    ,INTBUF_TAB%STFAC,
+     2 GEO       ,NRTM         ,IXC         ,INTERFACE_ID    ,INTBUF_TAB%STFAC,
      3 NTY       ,INTBUF_TAB%VARIABLES(2),NOINT        ,INTBUF_TAB%GAP_M,        
      4 MS        ,IXTG         ,IXT         ,IXP       ,IXR       ,
      5 IGAP      ,INTBUF_TAB%VARIABLES(13),GAP0     ,GAPINF    ,IPARTC       ,
@@ -1051,7 +1055,7 @@ C
       DRAD = INTBUF_TAB%VARIABLES(24)          
        CALL I11STI3(     
      1 X         ,INTBUF_TAB%IRECTS,INTBUF_TAB%STFS  ,IXS      ,PM        ,
-     2 GEO       ,NRTS         ,IXC         ,-NUMINT,INTBUF_TAB%STFAC(1),
+     2 GEO       ,NRTS         ,IXC         ,-INTERFACE_ID,INTBUF_TAB%STFAC(1),
      3 NTY       ,INTBUF_TAB%VARIABLES(2),NOINT     ,INTBUF_TAB%GAP_S,       
      4 MS        ,IXTG         ,IXT         ,IXP    ,IXR       ,
      5 IGAP      ,INTBUF_TAB%VARIABLES(13),GAP0     ,GAPINF    ,IPARTC        ,
@@ -1099,14 +1103,6 @@ C
 C
         ENDIF
 
-c      CALL I11BUC1(
-c    1   X         ,INTBUF_TAB%IRECTM  ,INTBUF_TAB%IRECTS,INTBUF_TAB%VARIABLES(4),NRTS,
-c    2   NMN       ,NRTM        ,MWA       ,NSN         ,INTBUF_TAB%CAND_E,
-c    3   INTBUF_TAB%CAND_N,INTBUF_TAB%VARIABLES(2),RWA       ,NOINT    ,I_STOK    ,
-c    4   INTBUF_TAB%VARIABLES(5),INTBUF_TAB%VARIABLES(8),MAXBOX  ,MINBOX ,INTBUF_TAB%MSR,
-c    5   INTBUF_TAB%NSV,MULTIMP     ,INTBUF_TAB%ADCCM,INTBUF_TAB%CHAIN,
-c    6   I_MEM     ,ID,TITR     ,IDDLEVEL  ,DRAD, IT19)
-
        CALL I11BUC_VOX1(
      1   X         ,INTBUF_TAB%IRECTS  ,INTBUF_TAB%IRECTM       ,NRTS               ,NMN,
      2   NRTM      ,NSN                ,INTBUF_TAB%CAND_E       ,INTBUF_TAB%CAND_N  ,INTBUF_TAB%VARIABLES(2),
@@ -1124,20 +1120,16 @@ C
        INTBUF_TAB%VARIABLES(9)  = MAXBOX
        INTBUF_TAB%VARIABLES(12) = MINBOX
 C
+
+       ! -----------------
+       ! update the weight of candidate's pair for the domain decomposition
        IF (IDDLEVEL==0)THEN
-         IF ( (NELEMINT+I_STOK)*6 >  SIXINT)THEN
-           CALL UPGRADE_IXINT(SIXINT,NELEMINT,I_STOK)
-         ENDIF
-         NULLIFY(pIXINT)
-         IF(SIXINT>0)THEN
-           IAD_IXINT=MIN(SIXINT, 6*NELEMINT+1)
-           pIXINT => IXINT(IAD_IXINT)
-         ENDIF
-         CALL I11NINTDD(
-     .     NELEMINT          ,pIXINT                  ,INTBUF_TAB%IRECTS ,
-     .     INTBUF_TAB%IRECTM ,INTBUF_TAB%CAND_N       ,INTBUF_TAB%CAND_E , I_STOK ,IFIEND,
-     .     X                 ,INTBUF_TAB%VARIABLES(1) ,DRAD              ,INTBUF_TAB%VARIABLES(46))
+         IF ( ((NELEMINT+I_STOK)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,I_STOK)
+          CALL UPDATE_WEIGHT_INTER_TYPE11(NELEMINT,INTERFACE_ID,NSN,NRTM,IFIEND,
+     .                                    INTBUF_TAB%IRECTM,INTBUF_TAB%IRECTS,I_STOK,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
+     .                                    INTER_CAND)
        ENDIF
+       ! -----------------
 
        IF((IDDLEVEL==0).AND.
      +    (DECTYP>=3.AND.DECTYP<=6))THEN
@@ -1195,12 +1187,12 @@ C-----------------------------------------------------------------------
      2    INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,NSN       ,NMN        ,NRTM   )
        IPARI(30)=-1
       CALL I12CHK3(X,INTBUF_TAB%IRECTM,IXS       ,NRTM     ,IXC        ,
-     1          -NUMINT,NMN    ,INTBUF_TAB%MSR,NOINT     ,MWA        ,
+     1          -INTERFACE_ID,NMN    ,INTBUF_TAB%MSR,NOINT     ,MWA        ,
      2          IXTG,GEO,PM,INTBUF_TAB%IELEM, ALE_CONNECTIVITY,
      3          IPARI(30),INTBUF_TAB%FCOUNT,ITIED, ITAB,KNOD2ELS,
      4          NOD2ELS,NTY,ID,TITR)
        CALL I12CHK3(X,INTBUF_TAB%IRECTS,IXS       ,NRTS     ,IXC,
-     1          NUMINT,NSN      ,INTBUF_TAB%NSV,NOINT     ,MWA,
+     1          INTERFACE_ID,NSN      ,INTBUF_TAB%NSV,NOINT     ,MWA,
      2          IXTG,GEO,PM,INTBUF_TAB%IELES, ALE_CONNECTIVITY,
      3          IPARI(30),INTBUF_TAB%FCOUNT,ITIED, ITAB,KNOD2ELS,
      4          NOD2ELS,NTY,ID,TITR)
@@ -1239,7 +1231,7 @@ C-----------------------------------------------------------------------
       ELSEIF(NTY==20) THEN
 C-----------------------------------------------------------------------
        CALL I20INI3(X       ,IXS    ,IXC     ,
-     2              PM      ,GEO     ,IPARI   ,NUMINT ,ITAB    ,
+     2              PM      ,GEO     ,IPARI   ,INTERFACE_ID ,ITAB    ,
      3              MS      ,MWA     ,RWA     ,IXTG   ,IWRN    ,
      4              IKINE   ,IXT     ,IXP     ,IXR    ,NELEMINT,
      5              IDDLEVEL,IFIEND  ,NSNET   ,
@@ -1248,7 +1240,7 @@ C-----------------------------------------------------------------------
      8              NOD2ELC ,NOD2ELTG,IGRSURF ,IKINE1 ,IPART   ,
      9              IPARTC  ,IPARTTG ,THK     ,THK_PART,INPENE ,
      A              IWPENE  ,IXS10,I_MEM     ,
-     B              SIXINT  ,IXS16   ,IXS20   ,ID   ,TITR      ,
+     B              INTER_CAND,IXS16   ,IXS20   ,ID   ,TITR      ,
      C              KXX     ,IXX     ,IGEO  ,NOD2EL1D,KNOD2EL1D,
      D              LELX    ,INTBUF_TAB , PM_STACK , IWORKSH)
        IF (I_MEM ==2) RETURN
@@ -1280,7 +1272,7 @@ C
        CALL I21ELS3(
      1 X         ,INTBUF_TAB%IRECTS,INTBUF_TAB%IRECTM  ,NRTS      ,NRTM      ,
      2 GEO     ,IXS        ,PM        ,IXC        ,IXTG      ,
-     3 -NUMINT   ,NTY        ,NOINT     ,NSN      ,INTBUF_TAB%NSV  ,
+     3 -INTERFACE_ID   ,NTY        ,NOINT     ,NSN      ,INTBUF_TAB%NSV  ,
      4 INTBUF_TAB%IELES,IPARI(47) ,INTBUF_TAB%AREAS,NMN   ,INTBUF_TAB%MSR,
      5 KNOD2ELS   ,KNOD2ELC    ,KNOD2ELTG ,NOD2ELS  ,NOD2ELC      ,
      6 NOD2ELTG  ,IGRSURF(ISU1),IGRSURF(ISU2),IELEM21   ,
@@ -1317,7 +1309,7 @@ C      CALCUL DES RIGIDITES ELEMENTTAIRES ET NODALES
 C
        CALL I22STI3(
      1 X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%STFM  ,IXS       ,PM        ,
-     2 GEO       ,NRTM      ,IXC         ,-NUMINT   ,INTBUF_TAB%STFAC,
+     2 GEO       ,NRTM      ,IXC         ,-INTERFACE_ID   ,INTBUF_TAB%STFAC,
      3            NTY       ,INTBUF_TAB%VARIABLES(2),NOINT     ,
      4 INTBUF_TAB%STFNS,NSN       ,MS          ,INTBUF_TAB%NSV,IXTG      ,
      5 IGAP  ,RWA       ,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,INTBUF_TAB%VARIABLES(13),
@@ -1369,7 +1361,7 @@ C
        CALL I23GAP3(
      1 X     ,INTBUF_TAB%IRECTS,INTBUF_TAB%IRECTM  ,NRTS      ,NRTM      ,
      2 GEO     ,IXS        ,PM        ,IXC        ,IXTG      ,
-     3 -NUMINT   ,NTY        ,NOINT     ,NSN      ,INTBUF_TAB%NSV  ,
+     3 -INTERFACE_ID   ,NTY        ,NOINT     ,NSN      ,INTBUF_TAB%NSV  ,
      4 IPARI(47) ,NMN   ,INTBUF_TAB%MSR,RWA        ,
      5 KNOD2ELS   ,KNOD2ELC    ,KNOD2ELTG ,NOD2ELS  ,NOD2ELC      ,
      6 NOD2ELTG   ,THK         ,IXS10      ,IXS16    ,IXS20      ,
@@ -1405,21 +1397,23 @@ C
        IF (I_MEM == 2 ) RETURN
        INTBUF_TAB%VARIABLES(9) = MAXBOX
        INTBUF_TAB%VARIABLES(12) = MINBOX
+
+       ! -----------------
+       ! update the weight of candidate's pair for the domain decomposition
        IF (IDDLEVEL==0)THEN
-           IF ( (NELEMINT+I_STOK)*6 >  SIXINT)THEN
-             CALL UPGRADE_IXINT(SIXINT,NELEMINT,I_STOK)
-           ENDIF
-           NULLIFY(pIXINT)
-           IF(SIXINT>0)THEN
-             IAD_IXINT=MIN(SIXINT, 6*NELEMINT+1)
-             pIXINT => IXINT(IAD_IXINT)
-           ENDIF
-       CALL I7NINTDD(NELEMINT ,pIXINT               ,INTBUF_TAB%IRECTM  ,
-     2     INTBUF_TAB%NSV   ,INTBUF_TAB%CAND_E      ,INTBUF_TAB%CAND_N  ,I_STOK  ,IFIEND,
-     3     X                ,INTBUF_TAB%VARIABLES(2),DRAD, IGAP,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,
-     4     INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML      ,INTBUF_TAB%VARIABLES(13),INTBUF_TAB%VARIABLES(16),
-     .                                                                        INTBUF_TAB%VARIABLES(46))
+         IF ( ((NELEMINT+I_STOK)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,I_STOK)
+
+        GAP = INTBUF_TAB%VARIABLES(2)
+        GAPMIN = INTBUF_TAB%VARIABLES(13)
+        GAPMAX = INTBUF_TAB%VARIABLES(16)
+        DGAPLOAD = INTBUF_TAB%VARIABLES(46)
+        CALL UPDATE_WEIGHT_INTER_TYPE7(NELEMINT,INTERFACE_ID,NSN,NRTM,IFIEND,
+     .                                 INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,I_STOK,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
+     .                                 IGAP,GAP,GAPMAX,GAPMIN,DGAPLOAD,
+     .                                 DRAD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_M,INTBUF_TAB%GAP_ML,
+     .                                 NUMNOD,PTR_X,INTER_CAND)
        ENDIF
+       ! -----------------
 
        IF((IDDLEVEL==0).AND.
      .  (DECTYP>=3.AND.DECTYP<=6))THEN
@@ -1494,7 +1488,7 @@ C----  INTBUF_TAB%CRIT V/A is used temporarily for sorting and Pen-max
        IPARTNS(1:NSN)=0
        CALL I24STI3(
      1 X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%STFM  ,IXS       ,PM ,
-     2 GEO       ,NRTM0     ,IXC         ,-NUMINT   ,INTBUF_TAB%STFAC(1),
+     2 GEO       ,NRTM0     ,IXC         ,-INTERFACE_ID   ,INTBUF_TAB%STFAC(1),
      3            NTY       ,INTBUF_TAB%VARIABLES(2),NOINT     ,
      4 INTBUF_TAB%STFNS,NSN0      ,MS          ,INTBUF_TAB%NSV,IXTG  ,
      5 IGAP      ,RWA   ,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,INTBUF_TAB%VARIABLES(13),
@@ -1534,7 +1528,7 @@ C------------------
        IF(INTKG > 0 ) THEN
         CALL I24LL_KG(
      1 X         ,INTBUF_TAB%IRECTM,IXS       ,PM        ,RWA      ,
-     2 GEO       ,NRTM0     ,IXC         ,-NUMINT    ,NTY          ,
+     2 GEO       ,NRTM0     ,IXC         ,-INTERFACE_ID    ,NTY          ,
      3 NOINT     ,NSN0      ,INTBUF_TAB%NSV,IXTG      ,IXT         ,
      4 IXP       ,IPART     ,IPARTC      ,IPARTTG    ,THK          ,
      D THK_PART  ,IXR       ,ITAB        ,IXS10      ,IXS16        ,
@@ -1637,25 +1631,26 @@ C      CLOSE(67)
      8   ZN4    ,P1     ,P2     ,P3     ,P4     ,
      9   LB1    ,LB2    ,LB3    ,LB4    ,LC1    ,
      1   LC2    ,LC3    ,LC4    ,N11    ,N21    ,
-     2   N31    ,INTBUF_TAB%VARIABLES(46))
+     2   N31    ,INTBUF_TAB%VARIABLES(46),INTBUF_TAB%S_KREMNODE,INTBUF_TAB%S_REMNODE,
+     3   INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE,FLAG_REMOVED_NODE)
          IF (I_MEM == 2) RETURN
        INTBUF_TAB%VARIABLES(9)  = MAXBOX
        INTBUF_TAB%VARIABLES(12) = MINBOX
+
+       ! -----------------
+       ! update the weight of candidate's pair for the domain decomposition
        IF (IDDLEVEL==0)THEN
-         IF ( (NELEMINT+I_STOK)*6 >  SIXINT)THEN
-           CALL UPGRADE_IXINT(SIXINT,NELEMINT,I_STOK)
-         ENDIF
-         NULLIFY(pIXINT)
-         IF(SIXINT>0)THEN
-           IAD_IXINT=MIN(SIXINT, 6*NELEMINT+1)
-           pIXINT => IXINT(IAD_IXINT)
-         ENDIF
-         CALL I24NINTDD(
-     .         NELEMINT       ,pIXINT                  ,INTBUF_TAB%IRECTM,
-     .         INTBUF_TAB%NSV ,INTBUF_TAB%CAND_E       ,INTBUF_TAB%CAND_N ,I_STOK ,IFIEND,
-     .         X              ,INTBUF_TAB%VARIABLES(2) ,DRAD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,
-     .         INTBUF_TAB%VARIABLES(46))
+         IF ( ((NELEMINT+I_STOK)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,I_STOK)
+
+        DGAPLOAD = INTBUF_TAB%VARIABLES(46)
+        KIND_INTER = 24
+        CALL UPDATE_WEIGHT_INTER_TYPE_24_25(NUMNOD,NELEMINT,INTERFACE_ID,NSN,NRTM,
+     .                                  IFIEND,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,I_STOK,INTBUF_TAB%CAND_E,
+     .                                  INTBUF_TAB%CAND_N,DGAPLOAD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,X,INTER_CAND,
+     .                                  KIND_INTER,INTBUF_TAB)
        ENDIF
+       ! -----------------
+
        IF((IDDLEVEL==0).AND.
      .  (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
@@ -1866,7 +1861,7 @@ C-----------------------------------------------------------
        ENDIF
        CALL I25STI3(
      1 X          ,INTBUF_TAB%IRECTM,INTBUF_TAB%STFM  ,IXS           ,PM                 ,
-     2 GEO        ,NRTM0            ,IXC              ,-NUMINT       ,INTBUF_TAB%STFAC(1),
+     2 GEO        ,NRTM0            ,IXC              ,-INTERFACE_ID       ,INTBUF_TAB%STFAC(1),
      3 NTY        ,INTBUF_TAB%VARIABLES(2),NOINT      ,
      4 INTBUF_TAB%STFNS,NSN         ,MS               ,INTBUF_TAB%NSV,IXTG               ,
      5 IGAP       ,RWA              ,INTBUF_TAB%GAP_S ,INTBUF_TAB%GAP_M,INTBUF_TAB%VARIABLES(13),
@@ -1941,7 +1936,7 @@ C
      3 INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,IGAP,INTBUF_TAB%VARIABLES(2),DRAD  ,
      4 IPARI(62) ,NTY       ,IPARI     ,I_MEM_REM ,GAPM_MX            ,
      5 GAPS_MX   ,GAPM_L_MX ,GAPS_L_MX ,ILEV      ,INTBUF_TAB%NBINFLG ,
-     6 INTBUF_TAB%MBINFLG,INTBUF_TAB%VARIABLES(46))  
+     6 INTBUF_TAB%MBINFLG,INTBUF_TAB%VARIABLES(46))
 C
        END IF
 C-----------------------------------------------------------
@@ -2053,14 +2048,14 @@ C
              MULTIMPE = MAX(MULTIMPE,INTBUF_TAB%S_CANDL_MAX / MAX(1,NCONTE)) 
              INTBUF_TAB%S_CANDL_MAX = 
      .               MAX(MULTIMPE*NCONTE,INTBUF_TAB%S_CANDL_MAX)
-             CALL UPGRADE_LCAND_EDG(NUMINT,MULTIMPE,INTBUF_TAB)
+             CALL UPGRADE_LCAND_EDG(INTERFACE_ID,MULTIMPE,INTBUF_TAB)
            END IF
            IF(I_MEME(2)/=0)THEN ! Main Solid edges
              MULTIMPS = MAX(IPARI(89)+8,NINT(IPARI(89)*1.75))
              MULTIMPS = MAX(MULTIMPS,INTBUF_TAB%S_CANDS_MAX / MAX(1,NCONTE)) 
              INTBUF_TAB%S_CANDS_MAX = 
      .               MAX(MULTIMPS*NCONTE,INTBUF_TAB%S_CANDS_MAX)
-             CALL UPGRADE_LCAND_E2S(NUMINT,MULTIMPS,INTBUF_TAB)
+             CALL UPGRADE_LCAND_E2S(INTERFACE_ID,MULTIMPS,INTBUF_TAB)
            END IF
            I_MEME(1:2) = 0
            INTBUF_TAB%I_STOK_E(1:2)=CAND_E_OLD(1:2)
@@ -2068,21 +2063,20 @@ C
          END IF
        ENDIF
 C
+       ! -----------------
+       ! update the weight of candidate's pair for the domain decomposition
        IF (IDDLEVEL==0)THEN
-         IF ( (NELEMINT+I_STOK)*6 >  SIXINT)THEN
-           CALL UPGRADE_IXINT(SIXINT,NELEMINT,I_STOK)
-         ENDIF
-         NULLIFY(pIXINT)
-         IF(SIXINT>0)THEN
-           IAD_IXINT=MIN(SIXINT, 6*NELEMINT+1)
-           pIXINT => IXINT(IAD_IXINT)
-         ENDIF
-         CALL I25NINTDD(
-     .         NELEMINT       ,pIXINT                  ,INTBUF_TAB%IRECTM,
-     .         INTBUF_TAB%NSV ,INTBUF_TAB%CAND_E       ,INTBUF_TAB%CAND_N ,I_STOK ,IFIEND,
-     .         X              ,INTBUF_TAB%VARIABLES(2) ,DRAD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,
-     .         INTBUF_TAB%VARIABLES(46))
+         IF ( ((NELEMINT+I_STOK)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,I_STOK)
+
+        DGAPLOAD = INTBUF_TAB%VARIABLES(46)
+        KIND_INTER = 25
+        CALL UPDATE_WEIGHT_INTER_TYPE_24_25(NUMNOD,NELEMINT,INTERFACE_ID,NSN,NRTM,
+     .                                  IFIEND,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,I_STOK,INTBUF_TAB%CAND_E,
+     .                                  INTBUF_TAB%CAND_N,DGAPLOAD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,X,INTER_CAND,
+     .                                  KIND_INTER,INTBUF_TAB)
        ENDIF
+       ! -----------------
+
        IF((IDDLEVEL==0).AND.
      .  (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces

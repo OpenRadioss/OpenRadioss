@@ -52,14 +52,14 @@ Chd|====================================================================
      6                  KNOD2ELC  ,KNOD2ELTG,NOD2ELS ,NOD2ELC  ,NOD2ELTG ,
      8                  IGRSURF   ,IELEM21  ,SH4TREE ,SH3TREE  ,IPART    ,
      9                  IPARTC    ,IPARTTG  ,THK     ,THK_PART ,NOD2EL1D ,
-     A                  KNOD2EL1D ,IXS10    ,SIXINT  ,FRIGAP   ,IXS16    ,
+     A                  KNOD2EL1D ,IXS10    ,INTER_CAND,FRIGAP   ,IXS16    ,
      B                  IXS20     ,IPM      ,NOM_OPT           ,IPARTS   ,
      C                  KXX       ,IXX      ,IGEO    ,INTERCEP ,LELX     ,
      D                  INTBUF_TAB,FILLSOL  ,PM_STACK,IWORKSH  ,NSNT     ,
      E                  NMNT      ,KXIG3D   ,IXIG3D  ,KNOD2ELQ ,NOD2ELQ  ,
      F                  SEGQUADFR,TAGPRT_FRIC,INTBUF_FRIC_TAB  ,IPARTT   ,
      G                  IPARTP    ,IPARTX   ,IPARTR  ,NSN_MULTI_CONNEC,T2_NB_CONNEC,
-     H                  ICODE     ,ISKEW    ,MULTI_FVM)
+     H                  ICODE     ,ISKEW    ,MULTI_FVM,S_NOD2ELS)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -75,6 +75,7 @@ C-----------------------------------------------
       USE INOUTFILE_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MULTI_FVM_MOD
+      USE INTER_CAND_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,16 +94,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER :: S_NOD2ELS !< size of NOD2ELS
       INTEGER IPARI(NPARI,*), IXS(*), IXQ(*),
      .   IXC(*), ITAB(*), MWA(*), IXTG(*), IKINE(*),
      .   IWCONT(5,*),IWCIN2(2,*),
      .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), 
-     .   NOD2ELS(*), NOD2ELC(*), NOD2ELTG(*),
+     .   NOD2ELS(S_NOD2ELS), NOD2ELC(*), NOD2ELTG(*),
      .   IXT(*), IXP(*), IXR(*), NELEMINT,  IDDLEVEL,IFIEND,
      .   IELEM21(*),IPM(NPROPMI,*),
      .   SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*), IPART(*),
      .   IPARTC(*), IPARTTG(*),NOD2EL1D(*),KNOD2EL1D(*), IXS10(*),I_MEM,
-     .   RESORT  ,SIXINT, IXS16(8,*), IXS20(12,*),IPARTS(*),IGEO(*),
+     .   RESORT  , IXS16(8,*), IXS20(12,*),IPARTS(*),IGEO(*),
      .   IWORKSH(*),NSNT, NMNT,KXIG3D(NIXIG3D,*),IXIG3D(*),
      .   KNOD2ELQ(*),NOD2ELQ(*),SEGQUADFR(2,*),TAGPRT_FRIC(*),IPARTT(*),
      .   IPARTP(*),IPARTX(*),IPARTR(*),NSN_MULTI_CONNEC,T2_NB_CONNEC(*),
@@ -122,6 +124,7 @@ C-----------------------------------------------
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
+      TYPE(INTER_CAND_), INTENT(inout) :: INTER_CAND
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -151,8 +154,15 @@ C-----------------------------------------------
       DOUBLE PRECISION :: main_stiff
       DOUBLE PRECISION :: min_stiff
       LOGICAL :: IS_INTER18_AND_LAW151
-
-       
+      INTEGER :: FLAG_OUTPUT !< flag for output
+      LOGICAL :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
+      INTEGER :: FLAGREMNODE,IJK
+      INTEGER :: KIND_INTERFACE
+      INTEGER, DIMENSION(3) :: NEXT_INTER ! number of interface (3 different kinds of interface : type2,type24 and other)
+      INTEGER, DIMENSION(3) :: ADDRESS_INTER ! address in the INTERFACE_INDEX array
+      INTEGER, DIMENSION(NINTER) :: INTERFACE_TYPE2,INTERFACE_TYPE24,INTERFACE_OTHER ! interfaces, savec according to theirs types
+      INTEGER, DIMENSION(NINTER) :: INTERFACE_INDEX ! index of interface : other : 1-->next_inter(1), type2 : next_inter(1)+1--> next_inter(2), type24 : next_inter(1)+(2)--> next_inter(1)+(2)+(3)
+      INTEGER(KIND=8) :: NREMNODE_KIND8
 C
       I_MEM = 0
       RESORT = 0
@@ -201,100 +211,160 @@ C--
        ENDIF
 
 C-----------------------------------------------     
-       IWRN = 0
-       NINT2 = 0
-       DO 100 N=1,NINTER
-       IREMNODE = 0
-       IREMNODE_EDG = 0
-       NREMNODE = 0
-       NTY=IPARI(7,N)
-       IF ((NTY == 7.OR.NTY == 25) .AND. IPARI(63,N) == 2 .AND. IDDLEVEL == 1)THEN
+        ! ----------------
+        ! loop over the interfaces
+        ! interface type 24 must be treated at the end
+        ! interface type 2 must be treated before interface 24
+        ! other interfaces are treated at the beginning
+        NEXT_INTER(1:3) = 0
+        DO N=1,NINTER
+          NTY=IPARI(7,N)
+          IF(NTY==2) THEN
+            NEXT_INTER(2) = NEXT_INTER(2) + 1
+            INTERFACE_TYPE2(NEXT_INTER(2)) = N
+          ELSEIF(NTY==24) THEN
+            NEXT_INTER(3) = NEXT_INTER(3) + 1
+            INTERFACE_TYPE24(NEXT_INTER(3)) = N
+          ELSE
+            NEXT_INTER(1) = NEXT_INTER(1) + 1
+            INTERFACE_OTHER(NEXT_INTER(1)) = N
+          ENDIF
+        ENDDO
+        ADDRESS_INTER(1) = 0
+        ADDRESS_INTER(2) = NEXT_INTER(1)
+        ADDRESS_INTER(3) = NEXT_INTER(1) + NEXT_INTER(2)
+        INTERFACE_INDEX(1:NEXT_INTER(1)) = INTERFACE_OTHER(1:NEXT_INTER(1))
+        INTERFACE_INDEX(ADDRESS_INTER(2)+1:ADDRESS_INTER(2)+NEXT_INTER(2)) = INTERFACE_TYPE2(1:NEXT_INTER(2))
+        INTERFACE_INDEX(ADDRESS_INTER(3)+1:ADDRESS_INTER(3)+NEXT_INTER(3)) = INTERFACE_TYPE24(1:NEXT_INTER(3))
+        ! ----------------
+        IWRN = 0
+        NINT2 = 0
+        NREMN(1:NINTER) = 0     
+        ! ----------------
+        ! loop over the interfaces
+        ! 1) interface type 1,3:23,25 + other
+        !    forbidden S nodes (defined in remnode structure) will BE take into account in the domain decomposition
+        ! 2) interface type 2
+        !    at the end of the interface type 2 treatment, update :
+        !    a) remnode algo for interface type 2 
+        !    b) remnode algo for interface type 24
+        ! 3) interface type 24
+        !    forbidden S nodes (defined in remnode structure) will not be take into account in the domain decomposition
+        DO KIND_INTERFACE=1,3
+          
+          ! ----------------
+          DO IJK=1,NEXT_INTER(KIND_INTERFACE)
+            N = INTERFACE_INDEX(ADDRESS_INTER(KIND_INTERFACE)+IJK)
+            IREMNODE = 0
+            IREMNODE_EDG = 0
+            NREMNODE = 0
+            NTY=IPARI(7,N)
+            FLAG_REMOVED_NODE = .FALSE.
+            IF ((NTY == 7.OR.NTY == 25) .AND. IPARI(63,N) == 2 .AND. IDDLEVEL == 1)THEN
 C---     Initial dimension of REMNODE arrays
-         IREMNODE = 1
-         NREMNODE = 16*IPARI(4,N)
-         IF(NREMNODE < 0)THEN
-           NREMNODE=1073741824  ! decrease initial value of NREMNODE to fit into integer storage
-         END IF
-         CALL UPGRADE_REMNODE(IPARI(1,N),NREMNODE,INTBUF_TAB(N),NTY)
-       ENDIF
-       IF (NTY == 11.AND. IPARI(63,N) == 2 .AND. IDDLEVEL == 1)THEN
+              IREMNODE = 1
+              NREMNODE_KIND8 = 16*IPARI(4,N)
+              IF(NREMNODE_KIND8 > HUGE(NREMNODE)) THEN
+                NREMNODE = HUGE(NREMNODE)/2  ! decrease initial value of NREMNODE to fit into integer storage
+              ELSE
+                NREMNODE = NREMNODE_KIND8
+              END IF
+              CALL UPGRADE_REMNODE(IPARI(1,N),NREMNODE,INTBUF_TAB(N),NTY)
+            ENDIF
+            IF (NTY == 11.AND. IPARI(63,N) == 2 .AND. IDDLEVEL == 1)THEN
+C---      Initial dimension of REMNODE arrays
+              IREMNODE = 1
+              REMNODE_SIZE = 5*IPARI(4,N)
+              CALL UPGRADE_REMNODE(IPARI(1,N),REMNODE_SIZE,INTBUF_TAB(N),NTY)
+            ENDIF
+            IF (NTY == 25.AND.IPARI(58,N) >0 .AND. IPARI(63,N) == 2 .AND. IDDLEVEL == 1)THEN
 C---     Initial dimension of REMNODE arrays
-         IREMNODE = 1
-         REMNODE_SIZE = 5*IPARI(4,N)
-         CALL UPGRADE_REMNODE(IPARI(1,N),REMNODE_SIZE,INTBUF_TAB(N),NTY)
-       ENDIF
-       IF (NTY == 25.AND.IPARI(58,N) >0 .AND. IPARI(63,N) == 2 .AND. IDDLEVEL == 1)THEN
-C---     Initial dimension of REMNODE arrays
-         IREMNODE_EDG = 1
-         REMNODE_SIZE_EDG = 5*IPARI(68,N)
-         CALL UPGRADE_REMNODE_EDG(IPARI(1,N),REMNODE_SIZE_EDG,INTBUF_TAB(N))
-       ENDIF
+              IREMNODE_EDG = 1
+              REMNODE_SIZE_EDG = 5*IPARI(68,N)
+              CALL UPGRADE_REMNODE_EDG(IPARI(1,N),REMNODE_SIZE_EDG,INTBUF_TAB(N))
+            ENDIF
+            IF(NTY==24.AND.IDDLEVEL==0.AND.IPARI(63,N)>0) THEN
+              IF(INTBUF_TAB(N)%S_KREMNODE>0) FLAG_REMOVED_NODE = .TRUE.
+            ENDIF
 
-       IF (NTY == 2)  NINT2=NINT2+1
-       RESORT = 0
-       IF (NTY == 14.OR.NTY == 15.OR.NTY == 16.
-     .     OR.NTY == 18.OR.NTY==0) GOTO 100
-C
- 200   CONTINUE
-C
-       IF (I_MEM == 2)THEN
-        IF(NTY == 11) THEN
-          MULTIMP = MAX(IPARI(23,N)+8,NINT(IPARI(23,N)*1.75))
-c         MULTIMP = MAX(MULTIMP,IPARI(23,N)+2500000/MAX(1,IPARI(18,N)))
-          MULTIMP = MAX(MULTIMP,INTBUF_TAB(N)%S_CAND_MAX / MAX(1,IPARI(18,N))) 
-          INTBUF_TAB(N)%S_CAND_MAX = 
-     .             MAX(MULTIMP*IPARI(18,N),INTBUF_TAB(N)%S_CAND_MAX)
-        ELSE
-          MULTIMP = MAX(IPARI(23,N)+8,NINT(IPARI(23,N)*1.5))
-        ENDIF
+            IF (NTY == 2)  NINT2=NINT2+1
+            RESORT = 0
+            IF (NTY == 14.OR.NTY == 15.OR.NTY == 16.OR.NTY == 18.OR.NTY==0) CYCLE
+ 200        CONTINUE
+    
+            IF (I_MEM == 2)THEN
+              IF(NTY == 11) THEN
+                MULTIMP = MAX(IPARI(23,N)+8,NINT(IPARI(23,N)*1.75))
+                MULTIMP = MAX(MULTIMP,IPARI(23,N)+2500000/MAX(1,IPARI(18,N)))
+                MULTIMP = MAX(MULTIMP,INTBUF_TAB(N)%S_CAND_MAX / MAX(1,IPARI(18,N))) 
+                INTBUF_TAB(N)%S_CAND_MAX = MAX(MULTIMP*IPARI(18,N),INTBUF_TAB(N)%S_CAND_MAX)
+              ELSE
+                MULTIMP = MAX(IPARI(23,N)+8,NINT(IPARI(23,N)*1.5))
+              ENDIF
 
-        CALL RESET_GAP(N,IPARI,INTBUF_TAB(N),FRIGAP)
-        CALL UPGRADE_MULTIMP(N,MULTIMP,INTBUF_TAB(N))
-        I_MEM = 0
-        RESORT = 1
-       ENDIF
-C
-       JINSCR=IPARI(10,N)
-C reset GAP values (no more double read of interface)
-c       IF(IDDLEVEL > 0)THEN
-c         CALL RESET_GAP(N,IPARI,INTBUF_TAB(N),FRIGAP)
-c       END IF
+              CALL RESET_GAP(N,IPARI,INTBUF_TAB(N),FRIGAP)
+              CALL UPGRADE_MULTIMP(N,MULTIMP,INTBUF_TAB(N))
+              I_MEM = 0
+              RESORT = 1
+            ENDIF
 
-       NIN=N
-       ID=NOM_OPT(1,NIN)
-       CALL FRETITL2(TITR,
-     .               NOM_OPT(LNOPT1-LTITR+1,NIN),LTITR)
+            JINSCR=IPARI(10,N)
+            NIN=N
+            ID=NOM_OPT(1,NIN)
+            CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,NIN),LTITR)
 
-       IF(N2D==0)THEN
+            IF(N2D==0)THEN
 
-        CALL ININT3(INSCR(N)%WA  ,X              ,IXS             ,IXC          ,PM       ,
-     1              GEO          ,IPARI(1,N)     ,NIN             ,ITAB         ,MS       ,
-     2              MWA          ,RWA            ,IXTG            ,IWRN         ,IKINE    ,
-     3              IXT          ,IXP            ,IXR             ,NELEMINT     ,IDDLEVEL ,
-     4              IFIEND       ,ALE_CONNECTIVITY ,NSNET           ,NMNET        ,IGRBRIC  ,
-     5              IWCONT       ,NSNT           ,NMNT            ,NSN2T        ,NMN2T    ,
-     6              IWCIN2       ,KNOD2ELS       ,KNOD2ELC        ,KNOD2ELTG    ,NOD2ELS  ,
-     7              NOD2ELC      ,NOD2ELTG       ,IGRSURF         ,IKINE1       ,IELEM21  ,
-     8              SH4TREE      ,SH3TREE        ,IPART           ,IPARTC       ,IPARTTG  ,
-     9              THK          ,THK_PART       ,NOD2EL1D        ,KNOD2EL1D    ,IXS10    ,
-     A              I_MEM        ,RESORT         ,SIXINT          ,IXS16        ,IXS20    ,
-     B              ID           ,TITR           ,IREMNODE        ,NREMNODE     ,IPARTS   ,
-     C              KXX          ,IXX            ,IGEO            ,INTERCEP     ,LELX     , 
-     D              INTBUF_TAB(N),FILLSOL        ,PM_STACK        ,IWORKSH      ,KXIG3D   ,
-     E              IXIG3D       ,TAGPRT_FRIC    ,INTBUF_FRIC_TAB ,IPARTT       ,IPARTP   ,
-     F              IPARTX       ,IPARTR         ,NSN_MULTI_CONNEC,T2_ADD_CONNEC,T2_NB_CONNEC,
-     G              T2_CONNEC    ,NOM_OPT        ,ICODE           ,ISKEW        ,IREMNODE_EDG,
-     H              MULTI_FVM%S_APPEND_ARRAY,MULTI_FVM%X_APPEND,MULTI_FVM%MASS_APPEND)
+              CALL ININT3(INSCR(N)%WA  ,X              ,IXS             ,IXC          ,PM       ,
+     1                GEO          ,IPARI(1,N)     ,NIN             ,ITAB         ,MS       ,
+     2                MWA          ,RWA            ,IXTG            ,IWRN         ,IKINE    ,
+     3                IXT          ,IXP            ,IXR             ,NELEMINT     ,IDDLEVEL ,
+     4                IFIEND       ,ALE_CONNECTIVITY ,NSNET           ,NMNET        ,IGRBRIC  ,
+     5                IWCONT       ,NSNT           ,NMNT            ,NSN2T        ,NMN2T    ,
+     6                IWCIN2       ,KNOD2ELS       ,KNOD2ELC        ,KNOD2ELTG    ,NOD2ELS  ,
+     7                NOD2ELC      ,NOD2ELTG       ,IGRSURF         ,IKINE1       ,IELEM21  ,
+     8                SH4TREE      ,SH3TREE        ,IPART           ,IPARTC       ,IPARTTG  ,
+     9                THK          ,THK_PART       ,NOD2EL1D        ,KNOD2EL1D    ,IXS10    ,
+     A                I_MEM        ,RESORT         ,INTER_CAND      ,IXS16        ,IXS20    ,
+     B                ID           ,TITR           ,IREMNODE        ,NREMNODE     ,IPARTS   ,
+     C                KXX          ,IXX            ,IGEO            ,INTERCEP     ,LELX     , 
+     D                INTBUF_TAB(N),FILLSOL        ,PM_STACK        ,IWORKSH      ,KXIG3D   ,
+     E                IXIG3D       ,TAGPRT_FRIC    ,INTBUF_FRIC_TAB ,IPARTT       ,IPARTP   ,
+     F                IPARTX       ,IPARTR         ,NSN_MULTI_CONNEC,T2_ADD_CONNEC,T2_NB_CONNEC,
+     G                T2_CONNEC    ,NOM_OPT        ,ICODE           ,ISKEW        ,IREMNODE_EDG,
+     H                MULTI_FVM%S_APPEND_ARRAY,MULTI_FVM%X_APPEND,MULTI_FVM%MASS_APPEND,N2D,FLAG_REMOVED_NODE)
 
-        IF (I_MEM /= 0) GOTO 200
-       ELSE
-        CALL ININT2(
-     1  INTBUF_TAB(N),INSCR(N)%WA  ,X         ,IXQ,
-     2  PM           ,GEO          ,IPARI(1,N),NIN       ,ITAB     ,
-     3  ITABM1       ,NUMNOD       ,IKINE     ,MWA       ,IPM      ,
-     4  ID           ,TITR         ,KNOD2ELQ  ,NOD2ELQ   ,SEGQUADFR)
-       ENDIF
-  100 CONTINUE
+              IF (I_MEM /= 0) GOTO 200
+            ELSE
+              CALL ININT2(
+     1    INTBUF_TAB(N),INSCR(N)%WA  ,X         ,IXQ,
+     2    PM           ,GEO          ,IPARI(1,N),NIN       ,ITAB     ,
+     3    ITABM1       ,NUMNOD       ,IKINE     ,MWA       ,IPM      ,
+     4    ID           ,TITR         ,KNOD2ELQ  ,NOD2ELQ   ,SEGQUADFR)
+            ENDIF
+          ENDDO
+          ! ----------------
+
+          ! ----------------
+          ! update the forbidden nodes for interface type 2 and 24
+          ! thank to remnode algo (remnode for removed node ???)
+          IF (N2D==0.AND.KIND_INTERFACE==2) THEN
+            IF(IDDLEVEL==0) THEN   
+              FLAG_OUTPUT = 0
+              IF (NINT2 >0) CALL REMN_I2OP(IPARI   ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMN,FLAG_OUTPUT)
+              CALL REMN_SELF24(X   ,IXS   ,IXS10 ,IXS16,IXS20   ,
+     .                       KNOD2ELS,NOD2ELS,IPARI ,INTBUF_TAB ,
+     .                       ITAB , NOM_OPT,NREMN, S_NOD2ELS,FLAG_OUTPUT)
+              CALL REMN_I2_EDGOP(IPARI   ,INTBUF_TAB   ,ITAB, NREMN)
+              CALL RI2_INT24P_INI(IPARI  ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMN )
+            ELSE
+              CALL FLUSH_REMNODE_ARRAY(NINTER,NPARI,IPARI,INTBUF_TAB)
+            ENDIF
+          END IF
+          ! ----------------
+
+        ENDDO
+        ! ----------------
 C      
 C--- IREM_I2 treatment has been removed at end of ININTR2 to take into account 
 C---- the compaction of type2 w/ Itetra10=2  

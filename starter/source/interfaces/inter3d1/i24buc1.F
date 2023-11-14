@@ -58,7 +58,8 @@ Chd|====================================================================
      8   NZ4,P1 ,P2 ,P3 ,P4 ,
      9   LB1,LB2,LB3,LB4,LC1,
      1   LC2,LC3,LC4,N11,N21,
-     2   N31,DGAPLOAD)
+     2   N31,DGAPLOAD,S_KREMNODE,S_REMNODE,
+     3   KREMNODE,REMNODE,FLAG_REMOVED_NODE)
 #ifndef HYPERMESH_LIB
       USE MESSAGE_MOD
 #endif
@@ -96,6 +97,11 @@ C     REAL
      .   DIST,BUMULT,GAP,TZINF,MAXBOX,MINBOX,GAPMIN,GAPMAX,
      .   GAP_S_L(*),GAP_M_L(*),MARGE,GAP_N(12,*),PENMAX,XFIC(3,*)
       INTEGER ID
+      LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
+      INTEGER, INTENT(in) :: S_KREMNODE !< size of KREMNODE
+      INTEGER, INTENT(in) :: S_REMNODE !< size of REMNODE   
+      INTEGER, DIMENSION(S_KREMNODE), INTENT(in) :: KREMNODE 
+      INTEGER, DIMENSION(S_REMNODE), INTENT(in) :: REMNODE
       CHARACTER*nchartitle,
      .   TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(IN) ::PROV_N,PROV_E
@@ -133,7 +139,10 @@ C     REAL
      .         DIMENSION(:),ALLOCATABLE :: IWORK
       my_real,
      .         DIMENSION(:,:),ALLOCATABLE :: XTEN
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_REMOVED_NODE
 C    
+      ALLOCATE( TAG_REMOVED_NODE(NUMNOD) )
+      TAG_REMOVED_NODE(1:NUMNOD) = 0
       GAPMAX=EP30
       GAPMIN=ZERO
 C----edge fictive nodes----- 
@@ -438,7 +447,9 @@ C       SEPARER B ET N EN TWO
      K   NZ4    ,P1     ,P2     ,P3     ,P4     ,
      L   LB1    ,LB2    ,LB3    ,LB4    ,LC1    ,
      M   LC2    ,LC3    ,LC4    ,PENE   ,PROV_N ,
-     N   PROV_E ,N11    ,N21    ,N31    ,DGAPLOAD)
+     N   PROV_E ,N11    ,N21    ,N31    ,DGAPLOAD,
+     O   S_KREMNODE,S_REMNODE,KREMNODE,REMNODE,
+     P   TAG_REMOVED_NODE,FLAG_REMOVED_NODE)
 
        ELSE
         CALL I24TRI(
@@ -464,7 +475,9 @@ C       SEPARER B ET N EN TWO
      K   NZ4    ,P1     ,P2     ,P3     ,P4     ,
      L   LB1    ,LB2    ,LB3    ,LB4    ,LC1    ,
      M   LC2    ,LC3    ,LC4    ,PENE   ,PROV_N ,
-     N   PROV_E ,N11    ,N21    ,N31    ,DGAPLOAD)
+     N   PROV_E ,N11    ,N21    ,N31    ,DGAPLOAD,
+     O   S_KREMNODE,S_REMNODE,KREMNODE,REMNODE,
+     P   TAG_REMOVED_NODE,FLAG_REMOVED_NODE)
        END IF !(NSNE >0) THEN
 C------------------
       IF (I_MEM == 2)THEN
@@ -568,6 +581,7 @@ C
 
 C
       IF (NSNE >0) DEALLOCATE(XTEN,IWORK)
+      DEALLOCATE( TAG_REMOVED_NODE )
       RETURN
       END
 Chd|====================================================================
