@@ -1187,6 +1187,7 @@ C=======================================================================
 C     OPTIMISATION DU TRI A CHAQUE CYCLE, T25
 C=======================================================================
       IF(NINTER25 /= 0)THEN
+        IF(ITASK == 0) CALL STOPTIME(17,1)
 
         IF(IDEL7NOK_SAV/=0)THEN
           IF(ITASK == 0) CALL STOPTIME(2,1)  
@@ -1313,6 +1314,8 @@ C
           CALL STOPTIME(8,1)  
           CALL STARTIME(2,1)  
         END IF
+
+        IF(ITASK == 0) CALL STARTIME(17,1)
 C
       END IF
       ! end : old sorting algorithm 

@@ -42,7 +42,8 @@ Chd|====================================================================
      A   IGAP    ,GAP_M_L   ,IEDGE    ,NEDGE    ,MSEGTYP, 
      B   LEDGE   ,ADMSR,EDG_BISECTOR,VTX_BISECTOR,
      C   CANDM_E2S ,CANDS_E2S,CAND_B ,CAND_PS  ,GAPE    ,
-     D   GAP_E_L  ,DGAPLOAD)
+     D   GAP_E_L  ,DGAPLOAD,FLAG_REMOVED_NODE,
+     E   S_KREMNODE_E2S,S_REMNODE_E2S,KREMNODE_E2S,REMNODE_E2S)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,6 +68,11 @@ C-----------------------------------------------
      .        II_STOK, LL_STOK, ITAB(*),MBINFLG(*), EBINFLG(*), LEDGE(NLEDGE,*), ADMSR(*),
      .        MSEGTYP(*),
      .        FLAGREMNODE, KREMNOD(*), REMNOD(*)
+      LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
+      INTEGER, INTENT(in) :: S_KREMNODE_E2S !< size of KREMNODE_E2S array
+      INTEGER, INTENT(in) :: S_REMNODE_E2S !< size of REMNODE_E2S array
+      INTEGER, DIMENSION(S_KREMNODE_E2S), INTENT(in) :: KREMNODE_E2S !< adress of forbidden S edge
+      INTEGER, DIMENSION(S_REMNODE_E2S), INTENT(in) :: REMNODE_E2S !< list of forbidden S edge
       my_real
      .   GAP,VMAXDT,DRAD,
      .   BMINMA(6),BGAPEMX, MARGE
@@ -218,7 +224,8 @@ C
      A   IEDGE   ,NEDGE    ,LEDGE    ,MSEGTYP ,IGAP0    ,
      B   ADMSR,EDG_BISECTOR,VTX_BISECTOR,
      C   CANDM_E2S,CANDS_E2S,CAND_B,CAND_PS   ,GAPE     ,
-     D   GAP_E_L  ,DGAPLOAD)
+     D   GAP_E_L  ,DGAPLOAD,FLAG_REMOVED_NODE,
+     E   S_KREMNODE_E2S,S_REMNODE_E2S,KREMNODE_E2S,REMNODE_E2S)
 C
 C     I_MEM /= 0 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C

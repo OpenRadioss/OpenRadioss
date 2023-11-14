@@ -44,8 +44,7 @@ Chd|====================================================================
      A   IPARTS,KNOD2ELS,NOD2ELS,
      B   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,
      C   IXS, IXS10, IXS16, IXS20,ICODE,ISKEW ,
-     D   DRAD ,PEN_OLD,DGAPLOAD,NRTMT)
-      USE MESSAGE_MOD
+     D   DRAD ,PEN_OLD,DGAPLOAD,NRTMT,FLAG_REMOVED_NODE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,6 +72,7 @@ C-----------------------------------------------
       INTEGER ITAB(*),NBINFLG(*),MBINFLG(*),ILEV,MSEGTYP(*)
       INTEGER KREMNODE(*),REMNODE(*)
       INTEGER IXS(*), IXS10(*), IXS16(*), IXS20(*)
+      LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
 C     REAL
       my_real
      .   STF(*),STFN(*),X(3,*),GAP_S(*),GAP_M(*),PEN_OLD(5,NSN),
@@ -504,7 +504,7 @@ C
      8   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,INACTI,
      9   IPARTS  ,NPARTNS ,LPARTNS ,IELEM   ,ICODE   ,
      A   ISKEW   ,DRAD, IS_LARGE_NODE, LARGE_NODE, NB_LARGE_NODES,
-     B   PEN_OLD ,DGAPLOAD,NRTMT   )
+     B   PEN_OLD ,DGAPLOAD,NRTMT,FLAG_REMOVED_NODE)
 C
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C

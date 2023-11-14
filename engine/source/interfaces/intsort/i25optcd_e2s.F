@@ -107,6 +107,9 @@ C-----------------------------------------------
      .         DIMENSION(:,:),ALLOCATABLE :: BOXM
       SAVE TAGM,BOXM
       INTEGER :: IDS(4)
+      INTEGER :: J
+      INTEGER :: MY_SIZE
+      INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_REAL_CANDIDATE
 
 C-----------------------------------------------
       SOL_EDGE=IEDGE/10 ! solids
@@ -117,6 +120,8 @@ C-----------------------------------------------
       MSEG = NVSIZ
       FIRST = 1 + I_STOK*ITASK / NTHREAD
       LAST = I_STOK*(ITASK+1) / NTHREAD
+      MY_SIZE = LAST - FIRST + 1
+      ALLOCATE( LIST_REAL_CANDIDATE(MY_SIZE) )
 C-----------------------------------------------
       IF(SOL_EDGE/=0)THEN
 
@@ -427,6 +432,7 @@ C ======== LOCAL TIRM 3
           IF (XMAXS>=XMINM.AND.XMAXM>=XMINS) THEN
             CAND_S(I) = -CAND_S(I)
             COUNT_CAND = COUNT_CAND+1
+            LIST_REAL_CANDIDATE(COUNT_CAND) = I
           ENDIF
        ENDDO
 C
@@ -567,6 +573,7 @@ C ================ REMOTE TRIM 3
             CAND_S(I) = -CAND_S(I)
             COUNT_CAND = COUNT_CAND+1
             CT = CT+1
+            LIST_REAL_CANDIDATE(COUNT_CAND) = I
 
           ENDIF
         ENDDO
@@ -575,12 +582,16 @@ C ================ REMOTE TRIM 3
        JS = JS + NSEG
       ENDDO
       IF (IFQ > 0) THEN
-        DO I=FIRST,LAST
-          IF (IFPEN(I) == 0 ) THEN
+#include "vectorize.inc"
+        DO J=1,COUNT_CAND
+          I = LIST_REAL_CANDIDATE(J)
+          IF(IFPEN(I) == 0 ) THEN
             CAND_FX(1:4,I) = ZERO
             CAND_FY(1:4,I) = ZERO
             CAND_FZ(1:4,I) = ZERO
           ENDIF
+        ENDDO
+        DO I=FIRST,LAST
           IFPEN(I) = 0
         ENDDO
       ENDIF
@@ -599,6 +610,8 @@ C
         IF(ITASK==0)DEALLOCATE(TAGM,BOXM)
 
       END IF
+
+      DEALLOCATE( LIST_REAL_CANDIDATE )
 C
       RETURN
       END

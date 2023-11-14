@@ -325,7 +325,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE REMN_I2OP_EDG25(N         ,FLAGREMNODE, IPARI   ,INTBUF_TAB   ,I2NODE  ,
-     .                          POINTS_I2N ,I2NODE_SIZE, NOM_OPT ,ITAB     )
+     .                          POINTS_I2N ,I2NODE_SIZE, NOM_OPT ,ITAB,FLAG_OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -347,6 +347,7 @@ C-----------------------------------------------
       INTEGER , INTENT(INOUT) :: IPARI(NPARI,NINTER)
       INTEGER , INTENT(IN) :: I2NODE(I2NODE_SIZE,3),POINTS_I2N(NUMNOD,2)
       INTEGER , INTENT(IN) :: NOM_OPT(LNOPT1,NINTER),ITAB(NUMNOD)
+      INTEGER, INTENT(in) :: FLAG_OUTPUT !< flag to print the message/warning
 
       TYPE(INTBUF_STRUCT_) , INTENT(INOUT) :: INTBUF_TAB(NINTER)
 C-----------------------------------------------
@@ -442,7 +443,6 @@ C---------------------------------------------------------------------
 C  Main solids : build tables for deleted edges for each NRTM
 C     Use tabs of N2S : edge is deactivated if 1 node is deactivated
 C--------------------------------------------------------------------
-
         IF(SOL_EDGE > 0 .AND. IPARI(63,N) == 2) THEN
 
            MAX_INSERTED_EDG = 0
@@ -500,15 +500,17 @@ C--------------------------------------------------------------------
 
            DEALLOCATE(NBR_INSERT_II,KREMNODE_EDG_SAVE,INSERTED_EDG)
 
-
-C------------Output message 
-           CALL ANCMSG(MSGID=2067,
+           ! ---------
+           IF(FLAG_OUTPUT>0) THEN
+            ! Output message 
+            CALL ANCMSG(MSGID=2067,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_1,
      .                 I1=ID,
      .                 C1=TITR,
      .                 I2=NNREM_EDG)
-
+           ENDIF
+           ! ---------
         ENDIF
 
 C---------------------------------------------------------------------
@@ -852,14 +854,17 @@ C
             DO II=1,NEDGE+1
               INTBUF_TAB(N)%KREMNODE_EDG(II) =INTBUF_TAB(N)%KREMNODE_EDG(II)+1
             ENDDO
-
-C------------Output message 
-            CALL ANCMSG(MSGID=2067,
+             ! ---------
+            IF(FLAG_OUTPUT>0) THEN
+              ! Output message 
+              CALL ANCMSG(MSGID=2067,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_1,
      .                 I1=ID,
      .                 C1=TITR,
      .                 I2=NNREM_EDG)
+            ENDIF
+            ! ---------
 C----------used for Iedge=1     
             NREMOV_EDG = NNREM_EDG
           END IF !IF (NNREM_EDG>0) THEN

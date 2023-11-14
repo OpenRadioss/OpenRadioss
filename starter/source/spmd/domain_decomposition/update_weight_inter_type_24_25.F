@@ -32,7 +32,7 @@ Chd|====================================================================
         SUBROUTINE UPDATE_WEIGHT_INTER_TYPE_24_25(NUMNOD,NELEMINT,INTERFACE_ID,NSN,NRTM,
      .                                       IFIEND,IRECT,NSV,I_STOK,CAND_E,
      .                                       CAND_N,DGAPLOAD,GAP_S,GAP_M,X,INTER_CAND,
-     .                                       INTER_KIND,INTBUF_TAB)
+     .                                       INTER_KIND,INTBUF_TAB,IEDGE,NLEDGE)!,ITAB)
 !$COMMENT
 !       UPDATE_WEIGHT_INTER_TYPE_24_25 description :
 !       save the contact data for interface type 24 and 25 
@@ -67,6 +67,9 @@ C-----------------------------------------------
         INTEGER, DIMENSION(I_STOK), INTENT(in) :: CAND_E !< segment id of the candidate I
         INTEGER, DIMENSION(I_STOK), INTENT(in) :: CAND_N !< pointer to the S node id of the candidate I
         INTEGER, INTENT(in) :: INTER_KIND !< kind of interface : 24 or 25
+        INTEGER, INTENT(in) :: IEDGE !< edge to edge option - interface 25
+        INTEGER, INTENT(in) :: NLEDGE !< 1srt dim of %LEDGE array (%LEDGE array is defined as a 1d array but is used as a 2d array :( )
+!        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB !< array to find the node id
         my_real, INTENT(IN) :: DGAPLOAD !< other kind of gap
         my_real, DIMENSION(NSN) :: GAP_S !< gap of S node
         my_real, DIMENSION(NRTM) :: GAP_M!< gap of segment
@@ -77,6 +80,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: S_NODE_ID
+        INTEGER :: S_EDGE_ID,M_EDGE_ID ! edge id
         INTEGER :: SEGMENT_ID
         INTEGER :: SEGMENT_ID_TYPE24 ! id of the edge for type 24 with edge to edge
         INTEGER :: NODE_ID_1,NODE_ID_2 ! id of the 2 nodes of the edge for type 24 with edge to edge
@@ -152,6 +156,74 @@ C-----------------------------------------------
           ENDIF          
         ENDDO
 
+        ! ---------------------------
+        ! loop over the S edge candidates - only for the interface type 25
+        IF(INTER_KIND==25.AND.IEDGE>0) THEN
+          ! --------------------
+          ! edge to edge contact for interface 25 : part e / e
+          DO I = 1, INTBUF_TAB%I_STOK_E(1)
+
+            II = II +1
+
+            S_EDGE_ID = INTBUF_TAB%CANDS_E2E(I) ! S edge id
+            M_EDGE_ID = INTBUF_TAB%CANDM_E2E(I) ! M edge id
+            ! ------------
+            ! find the first node of S edge (arbitrary choice)
+            S_NODE_ID = INTBUF_TAB%LEDGE((S_EDGE_ID-1)*NLEDGE+5)!ITAB(INTBUF_TAB%LEDGE((S_EDGE_ID-1)*NLEDGE+5))
+            ! ------------
+            
+            ! ------------
+            ! find the nodes of M edge
+            IX1=INTBUF_TAB%LEDGE((M_EDGE_ID-1)*NLEDGE+5)
+            IX2=INTBUF_TAB%LEDGE((M_EDGE_ID-1)*NLEDGE+6)
+            IX3=IX1
+            IX4=IX2
+            ! ------------
+
+            INTER_CAND%IXINT(1,NELEMINT+II) = IX1
+            INTER_CAND%IXINT(2,NELEMINT+II) = IX2
+            INTER_CAND%IXINT(3,NELEMINT+II) = IX3
+            INTER_CAND%IXINT(4,NELEMINT+II) = IX4
+            INTER_CAND%IXINT(5,NELEMINT+II) = S_NODE_ID
+            INTER_CAND%IXINT(6,NELEMINT+II) = INTER_KIND
+            INTER_CAND%IXINT(7,NELEMINT+II) = M_EDGE_ID
+            INTER_CAND%IXINT(8,NELEMINT+II) = INTERFACE_ID
+          ENDDO
+          ! --------------------
+
+          ! --------------------
+          ! edge to edge contact for interface 25 : part e / s
+          DO I = 1, INTBUF_TAB%I_STOK_E(2)
+
+            II = II +1
+
+            S_EDGE_ID = INTBUF_TAB%CANDS_E2S(I) ! S edge id
+            SEGMENT_ID = INTBUF_TAB%CANDM_E2S(I) ! M segment id
+            ! ------------
+            ! find the first node of S edge (arbitrary choice)
+            S_NODE_ID = INTBUF_TAB%LEDGE((S_EDGE_ID-1)*NLEDGE+5)!ITAB(INTBUF_TAB%LEDGE((S_EDGE_ID-1)*NLEDGE+5))
+            ! ------------
+            
+            ! ------------
+            ! find the 4 M node id
+            IX1=IRECT(1,SEGMENT_ID)
+            IX2=IRECT(2,SEGMENT_ID)
+            IX3=IRECT(3,SEGMENT_ID)
+            IX4=IRECT(4,SEGMENT_ID)
+            ! ------------
+
+            INTER_CAND%IXINT(1,NELEMINT+II) = IX1
+            INTER_CAND%IXINT(2,NELEMINT+II) = IX2
+            INTER_CAND%IXINT(3,NELEMINT+II) = IX3
+            INTER_CAND%IXINT(4,NELEMINT+II) = IX4
+            INTER_CAND%IXINT(5,NELEMINT+II) = S_NODE_ID
+            INTER_CAND%IXINT(6,NELEMINT+II) = INTER_KIND
+            INTER_CAND%IXINT(7,NELEMINT+II) = SEGMENT_ID
+            INTER_CAND%IXINT(8,NELEMINT+II) = INTERFACE_ID
+          ENDDO
+          ! --------------------
+        ENDIF
+        ! ---------------------------
         IFIEND = IFIEND + II
         ! ---------------------------
         NELEMINT = NELEMINT + II

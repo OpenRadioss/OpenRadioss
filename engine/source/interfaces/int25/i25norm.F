@@ -36,7 +36,8 @@ Chd|====================================================================
      4                    TAGNOD    ,IAD_ELEM,FR_ELEM ,ADMSR    ,KNOR2MSR ,
      5                    NOR2MSR   ,FLAGREMN,KREMNOR ,REMNOR   ,IEDGE    ,
      6                    NEDGE,LEDGE,NRTM_FREE,FREE_IRECT_ID,I_STOK_E2S  ,
-     7                    CANDM_E2S  ,CANDS_E2S  ,MVOISIN ,E2S_ACTNOR,NADMSR )
+     7                    CANDM_E2S  ,CANDS_E2S  ,MVOISIN ,E2S_ACTNOR,NADMSR ,
+     8                    NUMBER_EDGE_TYPE1,NUMBER_EDGE_TYPE1_0,EDGE_TYPE1,EDGE_TYPE1_0 )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,6 +71,10 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IEDGE,NEDGE
       INTEGER :: LEDGE(NLEDGE,NEDGE)
       INTEGER :: FREE_IRECT_ID(NRTM),NRTM_FREE
+      INTEGER, INTENT(in) :: NUMBER_EDGE_TYPE1 !< number of solid edge
+      INTEGER, INTENT(in) :: NUMBER_EDGE_TYPE1_0 !< number of solid + S edge
+      INTEGER, DIMENSION(NUMBER_EDGE_TYPE1), INTENT(in) :: EDGE_TYPE1 !< solid edge list
+      INTEGER, DIMENSION(NUMBER_EDGE_TYPE1_0), INTENT(in) :: EDGE_TYPE1_0 !< solid + S edge list
 C     REAL
       my_real
      .        STFNS(*)
@@ -304,12 +309,14 @@ C         Primary edges <=> only candidates retained for this cycle (optcd_e2s)
           END DO
 C
 C         All secondary edges includes
-          NEDGFT= 1+(JTASK-1)*NEDGE/NTHREAD
-          NEDGLT= JTASK*NEDGE/NTHREAD
-          DO I = NEDGFT,NEDGLT
+          NEDGFT = 1 + (JTASK-1)*NUMBER_EDGE_TYPE1_0 / NTHREAD
+          NEDGFT = JTASK*NUMBER_EDGE_TYPE1_0 / NTHREAD
+          IF(JTASK==NTHREAD) NEDGFT =NUMBER_EDGE_TYPE1_0
+#include "vectorize.inc"
+          DO J = NEDGFT,NEDGLT
+            I = EDGE_TYPE1_0(J)
 C
-            IF( LEDGE(LEDGE_TYPE,I) < 0 .OR.
-     .         (SH_EDGE==1 .AND. LEDGE(LEDGE_TYPE,I) /= 1 .AND. LEDGE(LEDGE_RIGHT_SEG,I) /= 0)) CYCLE
+            IF(LEDGE(LEDGE_RIGHT_SEG,I) /= 0) CYCLE
             ! Not a secondary edge
 C
             IRM =LEDGE(LEDGE_LEFT_SEG ,I)
@@ -355,10 +362,12 @@ c              IF( LEDGE(LEDGE_TYPE,ABS(CANDS_E2S(I)))/=1)CYCLE
           END DO
 
 C         All secondary edges includes
-          NEDGFT= 1+(JTASK-1)*NEDGE/NTHREAD
-          NEDGLT= JTASK*NEDGE/NTHREAD
-          DO I = NEDGFT,NEDGLT
-             IF(LEDGE(LEDGE_TYPE,I)/=1)CYCLE 
+          NEDGFT = 1 + (JTASK-1)*NUMBER_EDGE_TYPE1 / NTHREAD
+          NEDGFT = JTASK*NUMBER_EDGE_TYPE1 / NTHREAD
+          IF(JTASK==NTHREAD) NEDGFT =NUMBER_EDGE_TYPE1
+#include "vectorize.inc"
+          DO J = NEDGFT,NEDGLT
+            I = EDGE_TYPE1(J)
 C
             IRM =LEDGE(LEDGE_LEFT_SEG ,I)
             IEDG=LEDGE(LEDGE_LEFT_ID  ,I)

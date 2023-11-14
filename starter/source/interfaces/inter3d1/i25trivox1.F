@@ -39,7 +39,7 @@ Chd|====================================================================
      8      IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,INACTI,
      9      IPARTS  ,NPARTNS ,LPARTNS ,IELEM ,ICODE   ,
      A      ISKEW   ,DRAD, IS_LARGE_NODE, LARGE_NODE  ,
-     B      NB_LARGE_NODES,PEN_OLD      , DGAPLOAD,NRTMT)
+     B      NB_LARGE_NODES,PEN_OLD      , DGAPLOAD,NRTMT,FLAG_REMOVED_NODE)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -104,6 +104,7 @@ C-----------------------------------------------
      .        NBINFLG(*),MBINFLG(*),ILEV,MSEGTYP(*),
      .        IREMNODE,FLAGREMNODE,KREMNODE(*),REMNODE(*),
      .        INACTI, IPARTS(*), NPARTNS(*), LPARTNS(*), IELEM(*), ICODE(*), ISKEW(*)
+      LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
 C     REAL
       my_real
      .   X(3,*),XYZM(6),STF(*),STFN(*),GAP_S(*),GAP_M(*),
@@ -229,7 +230,7 @@ c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
         M3 = IRECT(3,NE)
         M4 = IRECT(4,NE)
 
-        IF(FLAGREMNODE==2.AND.IREMNODE==2)THEN
+        IF(FLAG_REMOVED_NODE)THEN
           K = KREMNODE(NE)+1
           L = KREMNODE(NE+1)
           DO M=K,L
@@ -468,7 +469,7 @@ cc             nnr0pelem = nnr0pelem + 1
           ENDDO
         ENDDO
 
-        IF(FLAGREMNODE==2.AND.IREMNODE==2)THEN
+        IF(FLAG_REMOVED_NODE)THEN
           K = KREMNODE(NE)+1
           L = KREMNODE(NE+1)
           DO M=K,L
