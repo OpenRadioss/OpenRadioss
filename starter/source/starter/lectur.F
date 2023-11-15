@@ -3643,8 +3643,8 @@ C--------------------------------------------
       ERR_MSG='DRAPE'
       ERR_CATEGORY='DRAPE'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-       NUMELC_DRAPE = 0
-       NUMELTG_DRAPE = 0
+      NUMELC_DRAPE = 0
+      NUMELTG_DRAPE = 0
       IF(NDRAPE > 0) THEN
         WRITE(ISTDO,'(A)')' .. DRAPE'
         ALLOCATE(DRAPE_WRK(NUMELC + NUMELTG),DRAPEG%INDX(NUMELC + NUMELTG))
@@ -3669,55 +3669,55 @@ C-------------------------
          CALL HM_READ_DRAPE(DRAPE_WRK ,IWORK_T       ,IWORKSH   ,IGRSH3N   ,IGRSH4N  ,
      .                     IXC       ,IXTG           ,IGEO       ,IGEO_STACK,LSUBMODEL,
      .                     UNITAB    ,INDXSH         )
-          IF( NUMELC_DRAPE  > 0) SCDRAPE = NUMELC
-          IF( NUMELTG_DRAPE > 0) STDRAPE = NUMELTG
-          IF( (NUMELC_DRAPE + NUMELTG_DRAPE )> 0) THEN
-            ALLOCATE(DRAPE(NUMELC_DRAPE +NUMELTG_DRAPE) ) 
-            DRAPEG%NUMSH4 = NUMELC_DRAPE
-            DRAPEG%NUMSH3 = NUMELTG_DRAPE 
-            DO I=1,NUMELC_DRAPE + NUMELTG_DRAPE
-               IDSHEL = INDXSH(I)  
-               NPT_DRAPE = DRAPE_WRK(IDSHEL)%NPLY_DRAPE  
-               DRAPE(I)%NPLY_DRAPE = NPT_DRAPE 
-               NPT = IWORKSH(1,IDSHEL) 
-               DRAPE(I)%NPLY = NPT 
-               DRAPEG%INDX(IDSHEL) = I
-               ALLOCATE(DRAPE(I)%DRAPE_PLY(NPT_DRAPE))                                                        
-               ALLOCATE(DRAPE(I)%INDX_PLY(NPT))                                                          
-               DRAPE(I)%INDX_PLY = 0
-               DO JJ =1,NPT_DRAPE                                                                                    
-                IP = DRAPE_WRK(IDSHEL)%INDX_PLY(JJ)                                                                 
-                DRAPE(I)%INDX_PLY(IP) = JJ                                                                      
-                NSLICE = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%NSLICE   
-                DRAPE(I)%DRAPE_PLY(JJ)%NSLICE = NSLICE   
-                DRAPE(I)%DRAPE_PLY(JJ)%IPID = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IPID 
-                ALLOCATE(DRAPE(I)%DRAPE_PLY(JJ)%RDRAPE(NSLICE,2))                                        
-                ALLOCATE(DRAPE(I)%DRAPE_PLY(JJ)%IDRAPE(NSLICE,2))   
-                DO ISL = 1,NSLICE                                                                                     
-                   DRAPE(I)%DRAPE_PLY(JJ)%RDRAPE(ISL,1)  = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(ISL,1)           
-                   DRAPE(I)%DRAPE_PLY(JJ)%RDRAPE(ISL,2)  = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(ISL,2)           
-                   DRAPE(I)%DRAPE_PLY(JJ)%IDRAPE(ISL,1)  = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(ISL,1)           
-                   DRAPE(I)%DRAPE_PLY(JJ)%IDRAPE(ISL,2)  = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(ISL,2) 
-                ENDDO ! nbre of slice
+         IF( NUMELC_DRAPE  > 0) SCDRAPE = NUMELC
+         IF( NUMELTG_DRAPE > 0) STDRAPE = NUMELTG
+         ALLOCATE(DRAPE(NUMELC_DRAPE +NUMELTG_DRAPE) ) 
+         IF( (NUMELC_DRAPE + NUMELTG_DRAPE )> 0) THEN
+           DRAPEG%NUMSH4 = NUMELC_DRAPE
+           DRAPEG%NUMSH3 = NUMELTG_DRAPE 
+           DO I=1,NUMELC_DRAPE + NUMELTG_DRAPE
+             IDSHEL = INDXSH(I)  
+             NPT_DRAPE = DRAPE_WRK(IDSHEL)%NPLY_DRAPE  
+             DRAPE(I)%NPLY_DRAPE = NPT_DRAPE 
+             NPT = IWORKSH(1,IDSHEL) 
+             DRAPE(I)%NPLY = NPT 
+             DRAPEG%INDX(IDSHEL) = I
+             ALLOCATE(DRAPE(I)%DRAPE_PLY(NPT_DRAPE))                                                        
+             ALLOCATE(DRAPE(I)%INDX_PLY(NPT))                                                          
+             DRAPE(I)%INDX_PLY = 0
+             DO JJ =1,NPT_DRAPE                                                                                    
+               IP = DRAPE_WRK(IDSHEL)%INDX_PLY(JJ)                                                                 
+               DRAPE(I)%INDX_PLY(IP) = JJ                                                                      
+               NSLICE = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%NSLICE   
+               DRAPE(I)%DRAPE_PLY(JJ)%NSLICE = NSLICE   
+               DRAPE(I)%DRAPE_PLY(JJ)%IPID = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IPID 
+               ALLOCATE(DRAPE(I)%DRAPE_PLY(JJ)%RDRAPE(NSLICE,2))                                        
+               ALLOCATE(DRAPE(I)%DRAPE_PLY(JJ)%IDRAPE(NSLICE,2))   
+               DO ISL = 1,NSLICE                                                                                     
+                 DRAPE(I)%DRAPE_PLY(JJ)%RDRAPE(ISL,1)  = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(ISL,1)           
+                 DRAPE(I)%DRAPE_PLY(JJ)%RDRAPE(ISL,2)  = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(ISL,2)           
+                 DRAPE(I)%DRAPE_PLY(JJ)%IDRAPE(ISL,1)  = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(ISL,1)           
+                 DRAPE(I)%DRAPE_PLY(JJ)%IDRAPE(ISL,2)  = DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(ISL,2) 
+               ENDDO ! nbre of slice
              ENDDO                                                                                  
            ENDDO 
            !! Dallocation of work drape momory 
            DO I=1,NUMELC_DRAPE + NUMELTG_DRAPE
-               IDSHEL = INDXSH(I)                                                 
-               NPT = IWORKSH(1,IDSHEL)  
-               IF(ALLOCATED(DRAPE_WRK(IDSHEL)%DRAPE_PLY)) THEN  
-                 NPT_DRAPE = DRAPE_WRK(IDSHEL)%NPLY_DRAPE                                                                         
-                 DO JJ=1,NPT_DRAPE 
-                     IP = DRAPE_WRK(IDSHEL)%INDX_PLY(JJ)                          
-                     DEALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE,DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE)
-                  ENDDO
-                  DEALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY) 
-               ENDIF     
+             IDSHEL = INDXSH(I)                                                 
+             NPT = IWORKSH(1,IDSHEL)  
+             IF(ALLOCATED(DRAPE_WRK(IDSHEL)%DRAPE_PLY)) THEN  
+               NPT_DRAPE = DRAPE_WRK(IDSHEL)%NPLY_DRAPE                                                                         
+               DO JJ=1,NPT_DRAPE 
+                 IP = DRAPE_WRK(IDSHEL)%INDX_PLY(JJ)                          
+                 DEALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE,DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE)
+               ENDDO
+               DEALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY) 
+             ENDIF     
            ENDDO 
            DEALLOCATE(DRAPE_WRK)
            DEALLOCATE(INDXSH )
-        ENDIF ! NUMSH3+NUMSH4
-        IF(ALLOCATED(IDRAPEID)) DEALLOCATE(IDRAPEID)
+       ENDIF 
+       IF(ALLOCATED(IDRAPEID)) DEALLOCATE(IDRAPEID)
      
          IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0) THEN
             CALL STACKGROUP_DRAPE(DRAPE, DRAPEG , IWORK_T   , IWORKSH  ,
