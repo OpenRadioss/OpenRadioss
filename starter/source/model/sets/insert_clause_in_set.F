@@ -745,6 +745,12 @@ C-----------------------------------------------
      .                     KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
      .                     .TRUE.   )
 
+        !--- void calling UNION_SURFACE with non allocated arrays
+        IF(.NOT. ALLOCATED(SET%SURF_NODES))ALLOCATE(SET%SURF_NODES(1,4))
+        IF(.NOT. ALLOCATED(SET%SURF_ELTYP))ALLOCATE(SET%SURF_ELTYP(1))
+        IF(.NOT. ALLOCATED(SET%SURF_ELEM)) ALLOCATE(SET%SURF_ELEM(1))
+        IF(.NOT. ALLOCATED(DELBUF%SURF))   ALLOCATE(DELBUF%SURF(1,6))
+      
         CALL UNION_SURFACE(SET%SURF_NODES(1,1), SET%SURF_NODES(1,2), 
      .                     SET%SURF_NODES(1,3), SET%SURF_NODES(1,4),
      .                     SET%SURF_ELTYP, SET%SURF_ELEM, SET%NB_SURF_SEG,
@@ -759,8 +765,8 @@ C-----------------------------------------------
         IF(ALLOCATED(DELBUF%SURF))   DEALLOCATE(DELBUF%SURF)
 
         CALL MY_ALLOC(SET%SURF_NODES,NS,4)
-        CALL MY_ALLOC  (SET%SURF_ELTYP,NS)
-        CALL MY_ALLOC  (SET%SURF_ELEM,NS)
+        CALL MY_ALLOC(SET%SURF_ELTYP,NS)
+        CALL MY_ALLOC(SET%SURF_ELEM,NS)
 
         SET%NB_SURF_SEG = NS
 
@@ -780,6 +786,10 @@ C-----------------------------------------------
         !-------------------
         CALL CREATE_LINE_FROM_ELEMENT(IXT    ,IXP  ,IXR  ,SET ,DELBUF    ,
      .                                .TRUE. )
+        IF(.NOT. ALLOCATED(SET%LINE_NODES))ALLOCATE(SET%LINE_NODES(1,2))
+        IF(.NOT. ALLOCATED(SET%LINE_ELTYP))ALLOCATE(SET%LINE_ELTYP(1))
+        IF(.NOT. ALLOCATED(SET%LINE_ELEM)) ALLOCATE(SET%LINE_ELEM(1))
+        IF(.NOT. ALLOCATED(DELBUF%LINE))   ALLOCATE(DELBUF%LINE(1,4))
 
         CALL UNION_LINE(SET%LINE_NODES(1,1), SET%LINE_NODES(1,2), 
      .                  SET%LINE_ELTYP, SET%LINE_ELEM, SET%NB_LINE_SEG,
@@ -809,6 +819,12 @@ C-----------------------------------------------
         ! Line from SURFACE
         CALL CREATE_LINE_FROM_SURFACE(SET  ,KEYSET,OPT_A,OPT_E,DELBUF    ,
      .                               .TRUE.)
+
+        IF(.NOT. ALLOCATED(SET%LINE_NODES))ALLOCATE(SET%LINE_NODES(1,2))
+        IF(.NOT. ALLOCATED(SET%LINE_ELTYP))ALLOCATE(SET%LINE_ELTYP(1))
+        IF(.NOT. ALLOCATED(SET%LINE_ELEM)) ALLOCATE(SET%LINE_ELEM(1))
+        IF(.NOT. ALLOCATED(DELBUF%LINE))   ALLOCATE(DELBUF%LINE(1,4))
+
 
         CALL UNION_LINE(SET%LINE_NODES(1,1), SET%LINE_NODES(1,2), 
      .                  SET%LINE_ELTYP, SET%LINE_ELEM, SET%NB_LINE_SEG,
