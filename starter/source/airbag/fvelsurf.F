@@ -123,8 +123,8 @@ C
                   ENDDO
                   IF (ITAG(I1)==1.AND.ITAG(I2)==1.AND.ITAG(I3)==1) THEN
                      IF (.NOT. FLAG) IFOUND=NUMELQ+JJ
-                     IF (FLAG .AND. (JJ == ELEM_ID(I))) THEN
-                        IFOUND=NUMELQ+JJ
+                     IF (FLAG) THEN 
+                        IF(JJ == ELEM_ID(I)) IFOUND=NUMELQ+JJ
                      ENDIF
                   ENDIF
                   DO K=1,4
@@ -138,8 +138,8 @@ C
                   ENDDO
                   IF (ITAG(I1)==1.AND.ITAG(I2)==1.AND.ITAG(I3)==1) THEN
                      IF (.NOT. FLAG) IFOUND=NUMELC+JJ
-                     IF (FLAG .AND. (JJ == ELEM_ID(I))) THEN
-                        IFOUND=NUMELQ+NUMELC+JJ
+                     IF (FLAG) THEN 
+                        IF (JJ == ELEM_ID(I)) IFOUND=NUMELQ+NUMELC+JJ
                      ENDIF
                   ENDIF
                   DO K=1,3
@@ -159,8 +159,8 @@ C
                   ENDDO
                   IF (ITAG(I1)==1.AND.ITAG(I2)==1.AND.ITAG(I3)==1) THEN
                      IF (.NOT. FLAG) IFOUND=NUMELQ+JJ
-                     IF (FLAG .AND. (JJ == ELEM_ID(I))) THEN
-                        IFOUND=NUMELQ+JJ
+                     IF (FLAG) THEN 
+                        IF (JJ == ELEM_ID(I)) IFOUND=NUMELQ+JJ
                      ENDIF
                   ENDIF
                   DO K=1,4
@@ -174,8 +174,8 @@ C
                   ENDDO
                   IF (ITAG(I1)==1.AND.ITAG(I2)==1.AND.ITAG(I3)==1) THEN
                      IF (.NOT. FLAG) IFOUND=NUMELC+JJ
-                     IF (FLAG .AND. JJ == ELEM_ID(I)) THEN
-                        IFOUND=NUMELQ+NUMELC+JJ
+                     IF (FLAG) THEN
+                        IF( JJ == ELEM_ID(I)) IFOUND=NUMELQ+NUMELC+JJ
                      ENDIF
                   ENDIF
                   DO K=1,3
@@ -195,8 +195,8 @@ C
                   ENDDO
                   IF (ITAG(I1)==1.AND.ITAG(I2)==1.AND.ITAG(I3)==1) THEN
                      IF (.NOT. FLAG) IFOUND=NUMELQ+JJ
-                     IF (FLAG .AND. (JJ == ELEM_ID(I))) THEN
-                        IFOUND=NUMELQ+JJ
+                     IF (FLAG) THEN 
+                        IF (JJ == ELEM_ID(I)) IFOUND=NUMELQ+JJ
                      ENDIF
                   ENDIF
                   DO K=1,4
@@ -210,8 +210,8 @@ C
                   ENDDO
                   IF (ITAG(I1)==1.AND.ITAG(I2)==1.AND.ITAG(I3)==1) THEN
                      IF (.NOT. FLAG) IFOUND=NUMELC+JJ
-                     IF (FLAG .AND. (JJ == ELEM_ID(I))) THEN
-                        IFOUND=NUMELQ+NUMELC+JJ
+                     IF (FLAG) THEN
+                        IF (JJ == ELEM_ID(I)) IFOUND=NUMELQ+NUMELC+JJ
                      ENDIF
                   ENDIF
                   DO K=1,3
