@@ -143,22 +143,17 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,J1,J2,I1,I2,II,IADBUF,NC,NFUNC,ILOAD(MVSIZ),
      .        IFUNC(MVSIZ,100),NLOAD,NUNLOAD,
-     .        IE_CST(MVSIZ),ILOAD0,IDAMAGE,IFLAG,IETANG,IPFUNC,NUMTABL
+     .        IE_CST(MVSIZ),ILOAD0,IDAMAGE,IFLAG,IPFUNC,NUMTABL
       INTEGER :: NINDEX_EPSSM,NINDEX_EPST
       INTEGER, DIMENSION(MVSIZ) :: INDEX_EPSSM,INDEX_EPST
-      my_real
-     .        R,FAC,YP1,YP2,YN1,YN2,COEFF,RMIN,RMAX,
-     .        E,E1,E2,E3,E4,E5,E6,DF,BB,CC,DELTA,ALPHA,X1,X2,SVM2,
-     .        SVM,INTER_0,
+      my_real R,FAC,E,DELTA,ALPHA,SVM2,P,YFACC,
+     .        SVM,INTER_0,EMAX,EPSSMAX,EPS_MAX,DSIG,EXPO,HYS,DE,DF,MU
+      my_real YLDELAS(MVSIZ),YLDMIN(MVSIZ),YLDMAX(MVSIZ),EPSS(MVSIZ),
      .        E0(MVSIZ),G(MVSIZ),NU(MVSIZ),AA1(MVSIZ),AA2(MVSIZ),
-     .        FAIL(MVSIZ),
-     .        EPST(MVSIZ),AA(MVSIZ),YLDMIN(MVSIZ),YLDMAX(MVSIZ),
-     .        RATE(MVSIZ,2),
-     .        YFAC(MVSIZ,2),SIG0(MVSIZ),EPS0(MVSIZ),EPSS(MVSIZ),
-     .        EMAX,EPSSMAX,DF1,DF2,DAV,
-     .        EPS_MAX,DSIG ,YLDELAS(MVSIZ),P,SVM1(MVSIZ),EXPO,HYS,
-     .        ETAN(MVSIZ), DFMIN(MVSIZ), DFMAX(MVSIZ),DFELAS(MVSIZ),
-     .        EOLD,DAM,DD,A0,A1,DE,YFACC,MU
+     .        EPST(MVSIZ),AA(MVSIZ),RATE(MVSIZ,2),
+     .        YFAC(MVSIZ,2),SIG0(MVSIZ),EPS0(MVSIZ)
+      INTEGER, DIMENSION(NEL)   :: IPOS1
+      my_real, DIMENSION(NEL)   :: XVEC1
       INTEGER, DIMENSION(NEL,2) :: IPOS
       my_real, DIMENSION(NEL,2) :: XVEC
       my_real, DIMENSION(MVSIZ) :: YLD,DFC
@@ -223,49 +218,88 @@ c       YLD_elast
           INDEX_EPST(NINDEX_EPST) = I
         ENDIF
       ENDDO
-c
+c---------------------------------------------
       IF (NINDEX_EPST > 0) THEN
-        DO II=1,NINDEX_EPST
-          I = INDEX_EPST(II)
-          IPOS(II,1) = NINT(UVAR(I,11))
-          IPOS(II,2) = 1  
-          XVEC(II,1) = EPST(I)
-          XVEC(II,2) = UPARAM(IADBUF + 9) ! static strain rate
-        ENDDO
+        IF (MATPARAM%TABLE(1)%NDIM == 1) THEN
+          DO II=1,NINDEX_EPST
+            I = INDEX_EPST(II)
+            IPOS1(I) = NINT(UVAR(I,11))
+            XVEC1(I) = EPST(I)
+          ENDDO
 c
-        CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NINDEX_EPST,IPOS,XVEC,YLD,DFC)
+          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NINDEX_EPST,IPOS1,XVEC1,YLD,DFC)
 c
-        DO II=1,NINDEX_EPST
-          I = INDEX_EPST(II)
-          YLDELAS(I) = YLD(II)
-          UVAR(I,11) = IPOS(II,1)
-        ENDDO
+          DO II=1,NINDEX_EPST
+            I = INDEX_EPST(II)
+            YLDELAS(I) = YLD(II)
+            UVAR(I,11) = IPOS1(II)
+          ENDDO
+c
+        ELSE
+          DO II=1,NINDEX_EPST
+            I = INDEX_EPST(II)
+            IPOS(II,1) = NINT(UVAR(I,11))
+            IPOS(II,2) = 1  
+            XVEC(II,1) = EPST(I)
+            XVEC(II,2) = UPARAM(IADBUF + 9) ! static strain rate
+          ENDDO
+c
+          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NINDEX_EPST,IPOS,XVEC,YLD,DFC)
+c
+          DO II=1,NINDEX_EPST
+            I = INDEX_EPST(II)
+            YLDELAS(I) = YLD(II)
+            UVAR(I,11) = IPOS(II,1)
+          ENDDO
+        ENDIF
+c
       ENDIF
-c        
+c---------------------------------------------
 c     yld_max
+c---------------------------------------------
 c       
-      DO I=1,NEL
-        IPOS(I,1) = NINT(UVAR(I,11))
-        IPOS(I,2) = 1  
-        XVEC(I,1) = EPST(I)
-        XVEC(I,2) = UPARAM(IADBUF + 9) ! static strain rate
-      ENDDO
+      IF (MATPARAM%TABLE(1)%NDIM == 1) THEN
+        DO I=1,NEL
+          IPOS1(I) = NINT(UVAR(I,11))
+          XVEC1(I) = EPST(I)
+        ENDDO
 c
-      CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NEL,IPOS,XVEC,YLDMAX,DFC)
+        CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NEL,IPOS1,XVEC1,YLDMAX,DFC)
 c
-c        
-c     yld_min
-c     
-      IF (NUNLOAD > 0) THEN
+      ELSE
         DO I=1,NEL
           IPOS(I,1) = NINT(UVAR(I,11))
           IPOS(I,2) = 1  
           XVEC(I,1) = EPST(I)
-          XVEC(I,2) = UPARAM(IADBUF + 9 + NLOAD) ! static strain rate
+          XVEC(I,2) = UPARAM(IADBUF + 9) ! static strain rate
         ENDDO
 c
-        CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NEL,IPOS,XVEC,YLDMIN,DF)
+        CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NEL,IPOS,XVEC,YLDMAX,DFC)
 c
+      END IF
+c        
+c     yld_min
+c     
+      IF (NUNLOAD > 0) THEN
+        IF (MATPARAM%TABLE(2)%NDIM == 1) THEN
+          DO I=1,NEL
+            IPOS1(I) = NINT(UVAR(I,11))
+            XVEC1(I) = EPST(I)
+          ENDDO
+c
+          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NEL,IPOS1,XVEC1,YLDMIN,DFC)
+c
+        ELSE
+          DO I=1,NEL
+            IPOS(I,1) = NINT(UVAR(I,11))
+            IPOS(I,2) = 1  
+            XVEC(I,1) = EPST(I)
+            XVEC(I,2) = UPARAM(IADBUF + 9 + NLOAD) ! static strain rate
+          ENDDO
+c
+          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NEL,IPOS,XVEC,YLDMIN,DFC)
+c
+        END IF
       ELSE
         YLDMIN(1:NEL) = YLDMAX(1:NEL)
       END IF
