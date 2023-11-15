@@ -53,18 +53,31 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+      INTEGER I,JSK
       my_real
      .    P1(3),P2(3),P3(3),P4(3),PP2(3)
 C-----------------------------------------------
-      P1(1) = XP1
-      P1(2) = YP1
-      P1(3) = ZP1
+      JSK = ISK + 1
+      IF(ISK == 0)THEN
+        P1(1) = XP1
+        P1(2) = YP1
+        P1(3) = ZP1
+      ELSE
+        P1(1) = SKEW(10,JSK)
+        P1(2) = SKEW(11,JSK)
+        P1(3) = SKEW(12,JSK)
+      ENDIF
       CALL PROJSKEW(P1,SKEW,ISK)
 C
-      PP2(1) = XP2
-      PP2(2) = YP2
-      PP2(3) = ZP2
+      IF(ISK == 0)THEN
+        PP2(1) = XP2
+        PP2(2) = YP2
+        PP2(3) = ZP2
+      ELSE
+        PP2(1) = SKEW(10,JSK) + XP2 - XP1
+        PP2(2) = SKEW(11,JSK) + YP2 - YP1
+        PP2(3) = SKEW(12,JSK) + ZP2 - ZP1
+      ENDIF
       CALL PROJSKEW(PP2,SKEW,ISK)
 C
       P2(1) = PP2(1)
