@@ -33,10 +33,6 @@ Chd|        HM_READ_THGRNS                source/output/th/hm_read_thgrns.F
 Chd|        HM_READ_THGRSENS              source/output/th/hm_read_thgrsens.F
 Chd|        HM_READ_THGRSURF              source/output/th/hm_read_thgrsurf.F
 Chd|        HM_THGRKI_VENT                source/output/th/hm_thgrki_vent.F
-Chd|        I11NINTDD                     source/spmd/domain_decomposition/grid2mat.F
-Chd|        I24NINTDD                     source/spmd/domain_decomposition/grid2mat.F
-Chd|        I25NINTDD                     source/spmd/domain_decomposition/grid2mat.F
-Chd|        I7NINTDD                      source/spmd/domain_decomposition/grid2mat.F
 Chd|        IG3DGRTAILS                   source/elements/ige3d/ig3dgrtails.F
 Chd|        PGRTAILS                      source/elements/beam/pgrtails.F
 Chd|        QGRTAILS                      source/elements/solid_2d/quad/qgrtails.F

@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  REMN_SELF24                   source/interfaces/inter3d1/remn_self24.F
 Chd|-- called by -----------
+Chd|        ININTR                        source/interfaces/interf1/inintr.F
 Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F

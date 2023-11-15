@@ -21,6 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+Chd|  INTER_CAND_MOD                share/modules1/inter_cand_mod.F
+Chd|-- called by -----------
+Chd|        DOMETIS                       source/spmd/domain_decomposition/grid2mat.F
+Chd|        I20INI3                       source/interfaces/inter3d1/i20ini3.F
+Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
+Chd|        ININTR                        source/interfaces/interf1/inintr.F
+Chd|        LECTUR                        source/starter/lectur.F       
+Chd|        UPDATE_WEIGHT_INTER_TYPE11    source/spmd/domain_decomposition/update_weight_inter_type11.F
+Chd|        UPDATE_WEIGHT_INTER_TYPE2     source/spmd/domain_decomposition/update_weight_inter_type2.F
+Chd|        UPDATE_WEIGHT_INTER_TYPE7     source/spmd/domain_decomposition/update_weight_inter_type7.F
+Chd|        UPDATE_WEIGHT_INTER_TYPE_24_25source/spmd/domain_decomposition/update_weight_inter_type_24_25.F
+Chd|        UPDATE_WEIGHT_RBE3            source/spmd/domain_decomposition/update_weight_rbe3.F
+Chd|        UPGRADE_IXINT                 source/interfaces/interf1/upgrade_ixint.F
+Chd|-- calls ---------------
 Chd|====================================================================
       MODULE INTER_CAND_MOD
 

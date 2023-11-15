@@ -46,6 +46,7 @@ Chd|        FICTIVMASSIGEO                starter/source/groups/ssurftagigeo.F
 Chd|        FILLCNI2                      starter/source/spmd/domdec2.F 
 Chd|        FILL_INTERCEP                 starter/source/spmd/node/ddtools.F
 Chd|        FILTER_NODE_NODLOC            starter/source/restart/ddsplit/inter_tools.F
+Chd|        FLUSH_REMNODE_ARRAY           starter/source/interfaces/inter3d1/flush_remnode_array.F
 Chd|        FXBTAGN                       starter/source/constraints/fxbody/fxbtagn.F
 Chd|        HM_READ_INTER_TYPE21          starter/source/interfaces/int21/hm_read_inter_type21.F
 Chd|        HM_READ_INTER_TYPE25          starter/source/interfaces/int25/hm_read_inter_type25.F
@@ -111,7 +112,6 @@ Chd|        PREPARE_SPLIT_I9              starter/source/restart/ddsplit/inter_t
 Chd|        PRESCRINT                     starter/source/interfaces/interf1/prescrint.F
 Chd|        PRE_I2                        starter/source/interfaces/inter3d1/i7remnode.F
 Chd|        R2R_CLEAN_INTER               starter/source/coupling/rad2rad/r2r_clean_inter.F
-Chd|        REMN_I2                       starter/source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2OP                     starter/source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2OP_EDG25               starter/source/interfaces/int25/i25remlin.F
 Chd|        REMN_I2_EDG                   starter/source/interfaces/inter3d1/i7remnode.F
@@ -504,6 +504,7 @@ Chd|        WRITE_INTBUF                  engine/source/output/restart/write_int
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|        IMP_INTBUF                    engine/share/modules/imp_mod_def.F
 Chd|        INTBUF_MOD                    engine/share/modules/restart_mod.F
+Chd|        UPDATE_WEIGHT_INTER_TYPE_24_25starter/source/spmd/domain_decomposition/update_weight_inter_type_24_25.F
 Chd|-- calls ---------------
 Chd|        INT8_MOD                      modules/interfaces/int8_mod.F 
 Chd|        METRIC_MOD                    modules/metric_mod.F          

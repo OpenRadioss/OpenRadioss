@@ -20,12 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.Chd|====================================================================
-Chd|  I7NINTDD                      source/spmd/domain_decomposition/grid2mat.F
+Chd|====================================================================
+Chd|  UPDATE_WEIGHT_INTER_TYPE7     source/spmd/domain_decomposition/update_weight_inter_type7.F
 Chd|-- called by -----------
 Chd|        I20INI3                       source/interfaces/inter3d1/i20ini3.F
 Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
 Chd|-- calls ---------------
-Chd|        ZEROIN                        source/system/zeroin.F        
+Chd|        INTER_CAND_MOD                share/modules1/inter_cand_mod.F
 Chd|====================================================================
         SUBROUTINE UPDATE_WEIGHT_INTER_TYPE7(NELEMINT,INTERFACE_ID,NSN,NRTM,IFIEND,
      .                                       IRECT,NSV,I_STOK,CAND_E,CAND_N,

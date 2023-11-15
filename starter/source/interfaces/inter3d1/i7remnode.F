@@ -653,7 +653,6 @@ C----- Compute maximum number of MAIN segments banned for all SECONDARY nodes---
 Chd|====================================================================
 Chd|  ADDINT2S                      source/interfaces/inter3d1/i7remnode.F
 Chd|-- called by -----------
-Chd|        REMN_I2                       source/interfaces/inter3d1/i7remnode.F
 Chd|-- calls ---------------
 Chd|        ADD_NS                        source/interfaces/inter3d1/i7remnode.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
@@ -749,7 +748,6 @@ C----
 Chd|====================================================================
 Chd|  ADDINT2M                      source/interfaces/inter3d1/i7remnode.F
 Chd|-- called by -----------
-Chd|        REMN_I2                       source/interfaces/inter3d1/i7remnode.F
 Chd|-- calls ---------------
 Chd|        ADD_NM                        source/interfaces/inter3d1/i7remnode.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
@@ -846,7 +844,6 @@ C----
 Chd|====================================================================
 Chd|  ANOTHERN2                     source/interfaces/inter3d1/i7remnode.F
 Chd|-- called by -----------
-Chd|        REMN_I2                       source/interfaces/inter3d1/i7remnode.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
@@ -1174,6 +1171,7 @@ C----6---------------------------------------------------------------7---------8
 Chd|====================================================================
 Chd|  REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
 Chd|-- called by -----------
+Chd|        ININTR                        source/interfaces/interf1/inintr.F
 Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
@@ -1953,6 +1951,7 @@ C----
 Chd|====================================================================
 Chd|  REMN_I2_EDGOP                 source/interfaces/inter3d1/i7remnode.F
 Chd|-- called by -----------
+Chd|        ININTR                        source/interfaces/interf1/inintr.F
 Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
 Chd|-- calls ---------------
 Chd|        ADD_NSFIC1                    source/interfaces/inter3d1/i7remnode.F
@@ -2278,6 +2277,7 @@ C----6---------------------------------------------------------------7---------8
 Chd|====================================================================
 Chd|  RI2_INT24P_INI                source/interfaces/inter3d1/i7remnode.F
 Chd|-- called by -----------
+Chd|        ININTR                        source/interfaces/interf1/inintr.F
 Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
 Chd|-- calls ---------------
 Chd|        FRETITL2                      source/starter/freform.F      

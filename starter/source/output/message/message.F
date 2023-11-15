@@ -732,7 +732,6 @@ Chd|        READ_SENSOR_SECT              source/tools/sensor/read_sensor_sect.F
 Chd|        READ_SENSOR_USER              source/tools/sensor/read_sensor_user.F
 Chd|        REALLOC_IDDCONNECT            source/spmd/node/ddtools.F    
 Chd|        REALLOC_IFRONT                source/spmd/node/ddtools.F    
-Chd|        REMN_I2                       source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2OP_EDG25               source/interfaces/int25/i25remlin.F
 Chd|        REMN_SELF24                   source/interfaces/inter3d1/remn_self24.F

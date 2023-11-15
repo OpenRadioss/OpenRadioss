@@ -28,7 +28,6 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        I11BUC_VOX1                   source/interfaces/inter3d1/i11buc1.F
 Chd|        I11DST3                       source/interfaces/inter3d1/i11dst3.F
-Chd|        I11NINTDD                     source/spmd/domain_decomposition/grid2mat.F
 Chd|        I11PWR3                       source/interfaces/inter3d1/i11pwr3.F
 Chd|        I11REMLINE                    source/interfaces/inter3d1/i11remlin.F
 Chd|        I11STI3                       source/interfaces/inter3d1/i11sti3.F
@@ -57,7 +56,6 @@ Chd|        I24INISUR_NEI                 source/interfaces/inter3d1/i24inisu_ne
 Chd|        I24INI_GAP_N                  source/interfaces/inter3d1/i24inisu_nei.F
 Chd|        I24ISEGPT_INI                 source/interfaces/inter3d1/i24surfi.F
 Chd|        I24LL_KG                      source/interfaces/inter3d1/i24sti3.F
-Chd|        I24NINTDD                     source/spmd/domain_decomposition/grid2mat.F
 Chd|        I24PEN3                       source/interfaces/inter3d1/i24pen3.F
 Chd|        I24PWR3                       source/interfaces/inter3d1/i24pwr3.F
 Chd|        I24STI3                       source/interfaces/inter3d1/i24sti3.F
@@ -70,7 +68,6 @@ Chd|        I25COR3_E2S                   source/interfaces/inter3d1/i25cor3_e2s
 Chd|        I25DST3_E2S                   source/interfaces/inter3d1/i25dst3_e2s.F
 Chd|        I25INI_GAP_N                  source/interfaces/inter3d1/i25neigh.F
 Chd|        I25NEIGH                      source/interfaces/inter3d1/i25neigh.F
-Chd|        I25NINTDD                     source/spmd/domain_decomposition/grid2mat.F
 Chd|        I25NORM                       source/interfaces/inter3d1/i25norm3.F
 Chd|        I25PEN3                       source/interfaces/inter3d1/i25pen3.F
 Chd|        I25PEN3E                      source/interfaces/inter3d1/i25pen3e.F
@@ -84,7 +81,6 @@ Chd|        I25STI_EDG                    source/interfaces/inter3d1/i25sti_edg.
 Chd|        I2BUC1                        source/interfaces/inter3d1/i2buc1.F
 Chd|        I2CHK3                        source/interfaces/inter3d1/i2chk3.F
 Chd|        I2MAIN                        source/interfaces/interf1/i2master.F
-Chd|        I2NINTDD                      source/spmd/domain_decomposition/grid2mat.F
 Chd|        I2SURFS                       source/interfaces/inter3d1/i2surfs.F
 Chd|        I2TID3                        source/interfaces/inter3d1/i2tid3.F
 Chd|        I2WCONTDD                     source/spmd/domain_decomposition/grid2mat.F
@@ -96,7 +92,6 @@ Chd|        I7BUC_VOX1                    source/interfaces/inter3d1/i7buc_vox1.
 Chd|        I7COR3                        source/interfaces/inter3d1/i7cor3.F
 Chd|        I7DST3                        source/interfaces/inter3d1/i7dst3.F
 Chd|        I7ERR3                        source/interfaces/inter3d1/i7err3.F
-Chd|        I7NINTDD                      source/spmd/domain_decomposition/grid2mat.F
 Chd|        I7PEN3                        source/interfaces/inter3d1/i7pen3.F
 Chd|        I7PWR3                        source/interfaces/inter3d1/i7pwr3.F
 Chd|        I7REMNODE                     source/interfaces/inter3d1/i7remnode.F
@@ -109,6 +104,10 @@ Chd|        INVOI3                        source/interfaces/inter3d1/invoi3.F
 Chd|        ISPT2_INI                     source/interfaces/inter3d1/i24surfi.F
 Chd|        IWCONTDD                      source/spmd/domain_decomposition/grid2mat.F
 Chd|        IWCONTDD_151                  source/spmd/domain_decomposition/grid2mat.F
+Chd|        UPDATE_WEIGHT_INTER_TYPE11    source/spmd/domain_decomposition/update_weight_inter_type11.F
+Chd|        UPDATE_WEIGHT_INTER_TYPE2     source/spmd/domain_decomposition/update_weight_inter_type2.F
+Chd|        UPDATE_WEIGHT_INTER_TYPE7     source/spmd/domain_decomposition/update_weight_inter_type7.F
+Chd|        UPDATE_WEIGHT_INTER_TYPE_24_25source/spmd/domain_decomposition/update_weight_inter_type_24_25.F
 Chd|        UPGRADE_IXINT                 source/interfaces/interf1/upgrade_ixint.F
 Chd|        UPGRADE_LCAND_E2S             ../common_source/interf/upgrade_multimp.F
 Chd|        UPGRADE_LCAND_EDG             ../common_source/interf/upgrade_multimp.F
@@ -119,7 +118,7 @@ Chd|        FRONT_MOD                     share/modules1/front_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
-Chd|        IXINTMOD                      share/modules1/restart_mod.F  
+Chd|        INTER_CAND_MOD                share/modules1/inter_cand_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE ININT3(INSCR     ,X            ,IXS        ,IXC       ,PM      ,

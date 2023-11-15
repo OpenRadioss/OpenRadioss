@@ -21,10 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  I2NINTDD                      source/spmd/domain_decomposition/grid2mat.F
+Chd|  UPDATE_WEIGHT_INTER_TYPE2     source/spmd/domain_decomposition/update_weight_inter_type2.F
 Chd|-- called by -----------
 Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
 Chd|-- calls ---------------
+Chd|        INTER_CAND_MOD                share/modules1/inter_cand_mod.F
 Chd|====================================================================
         SUBROUTINE UPDATE_WEIGHT_INTER_TYPE2(NELEMINT,INTERFACE_ID,NSN,NRTM,IFIEND,
      1                                       N2D,IRECT,NSV,IRTL,INTER_CAND)

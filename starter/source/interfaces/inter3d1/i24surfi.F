@@ -1922,6 +1922,7 @@ Chd|        I24ISEGPT_INI                 source/interfaces/inter3d1/i24surfi.F
 Chd|        I24PEN3                       source/interfaces/inter3d1/i24pen3.F
 Chd|        I24TRI                        source/interfaces/inter3d1/i24tri.F
 Chd|        I24XFIC_INI                   source/interfaces/inter3d1/i24surfi.F
+Chd|        UPDATE_WEIGHT_INTER_TYPE_24_25source/spmd/domain_decomposition/update_weight_inter_type_24_25.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE I24FIC_GETN(NS      ,IRTSE   ,IS2SE   ,IE    ,NS1     ,

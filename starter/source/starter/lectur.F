@@ -272,7 +272,6 @@ Chd|        INTBUF_FRIC_COPY              source/interfaces/interf1/intbuf_fric_
 Chd|        INTBUF_FRIC_INI_STARTER       source/interfaces/intbuf/intbufFric_ini_starter.F
 Chd|        INTBUF_INI_STARTER            source/interfaces/intbuf/intbuf_ini_starter.F
 Chd|        INTSTAMP_ZERO                 share/modules1/intstamp_mod.F 
-Chd|        INTXRBE3                      source/constraints/general/rbe3/hm_read_rbe3.F
 Chd|        INVERTED_GROUP_DEALLOC        source/model/sets/inverted_group_dealloc.F
 Chd|        INVERTED_GROUP_INIT           source/model/sets/inverted_group_init.F
 Chd|        ISLIN_INI                     source/model/group/islin_ini.F
@@ -434,6 +433,7 @@ Chd|        TITRE3                        source/output/outfile/titre3.F
 Chd|        TRACE_IN1                     source/system/trace_back.F    
 Chd|        TRACE_OUT1                    source/system/trace_back.F    
 Chd|        TRIINTFRIC                    source/interfaces/interf1/trintfric.F
+Chd|        UPDATE_WEIGHT_RBE3            source/spmd/domain_decomposition/update_weight_rbe3.F
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|        UPGRADE_IXINT                 source/interfaces/interf1/upgrade_ixint.F
 Chd|        XFEM_CRACK_INIT               source/elements/xfem/xfem_crack_init.F
@@ -477,9 +477,9 @@ Chd|        INTBUFMOD                     share/modules1/restart_mod.F
 Chd|        INTBUFSCRATCH_MOD             source/interfaces/interf1/intbufscratch_mod.F
 Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
 Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
+Chd|        INTER_CAND_MOD                share/modules1/inter_cand_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules1/intstamp_glob_mod.F
 Chd|        INVERTED_GROUP_MOD            share/modules1/inverted_group_mod.F
-Chd|        IXINTMOD                      share/modules1/restart_mod.F  
 Chd|        JOINT_MOD                     share/modules1/joint_mod.F    
 Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MAPPING_OPTION_MOD            share/modules1/dichotomy_mod.F

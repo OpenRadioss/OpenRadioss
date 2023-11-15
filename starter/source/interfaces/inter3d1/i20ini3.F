@@ -41,12 +41,12 @@ Chd|        I20WCONTDD                    source/spmd/domain_decomposition/grid2
 Chd|        I7BUC1                        source/interfaces/inter3d1/i7buc1.F
 Chd|        I7COR3                        source/interfaces/inter3d1/i7cor3.F
 Chd|        I7ERR3                        source/interfaces/inter3d1/i7err3.F
-Chd|        I7NINTDD                      source/spmd/domain_decomposition/grid2mat.F
 Chd|        I7PEN3                        source/interfaces/inter3d1/i7pen3.F
+Chd|        UPDATE_WEIGHT_INTER_TYPE7     source/spmd/domain_decomposition/update_weight_inter_type7.F
 Chd|        UPGRADE_IXINT                 source/interfaces/interf1/upgrade_ixint.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        IXINTMOD                      share/modules1/restart_mod.F  
+Chd|        INTER_CAND_MOD                share/modules1/inter_cand_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I20INI3(X       ,IXS    ,IXC     ,

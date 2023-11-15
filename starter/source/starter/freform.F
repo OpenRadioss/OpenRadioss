@@ -1645,7 +1645,6 @@ Chd|        QGRTAILS                      source/elements/solid_2d/quad/qgrtails
 Chd|        QINIT2                        source/elements/solid_2d/quad/qinit2.F
 Chd|        QMORTH2                       source/elements/solid_2d/quad/qmorth2.F
 Chd|        RCHECKMASS                    source/elements/spring/rcheckmass.F
-Chd|        REMN_I2                       source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2OP_EDG25               source/interfaces/int25/i25remlin.F
 Chd|        REMN_SELF24                   source/interfaces/inter3d1/remn_self24.F

@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  I7NINTDD                      source/spmd/domain_decomposition/grid2mat.F
+Chd|  FLUSH_REMNODE_ARRAY           source/interfaces/inter3d1/flush_remnode_array.F
 Chd|-- called by -----------
-Chd|        I20INI3                       source/interfaces/inter3d1/i20ini3.F
-Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
+Chd|        ININTR                        source/interfaces/interf1/inintr.F
 Chd|-- calls ---------------
-Chd|        ZEROIN                        source/system/zeroin.F        
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
         SUBROUTINE FLUSH_REMNODE_ARRAY(NINTER,NPARI,IPARI,INTBUF_TAB)
 !$COMMENT

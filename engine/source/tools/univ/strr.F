@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        HIST1                         source/output/th/hist1.F      
 Chd|        WRTDES                        source/output/th/wrtdes.F     
 Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
-Chd|        WRTSQRDP                      source/output/tools/wrtsqr.F  
 Chd|        STRR                          source/tools/univ/strr.F      
 Chd|-- calls ---------------
 Chd|        STRR                          source/tools/univ/strr.F      
