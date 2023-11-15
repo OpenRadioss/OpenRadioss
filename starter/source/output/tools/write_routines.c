@@ -583,7 +583,7 @@ FILE *UCompressedFOpen (char   *fileName, char *type, int suffix)
 /* ---------------------------------------------- */
 /* restart writing */
 /* ---------------------------------------------- */
-FILE *outfile[3],*curfile;
+FILE *outfile[100],*curfile;
 int cur_nf;
 
 /*in parallel each restart on one thread writes on one specific file*/
