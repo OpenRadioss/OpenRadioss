@@ -127,8 +127,7 @@ C
           RHO0 = RHOG0/MAX(EM20,THICKT)
           RHOCP = RHOCPG/MAX(EM20,THICKT)
           E = E/MAX(EM20,THICKT)
-          A11 = A11/MAX(EM20,THICKT) 
-          IF(IPOS > 0)A11 = TWO*A11
+          A11 = A11/MAX(EM20,THICKT)
           A12 = A12/MAX(EM20,THICKT)
           IZ = ONE_OVER_12*THICKT**3
           A11R =A11R/MAX(EM20, IZ)
@@ -215,7 +214,6 @@ C
               RHOCP = RHOCPG/MAX(EM20,THICKT)
               E = E/MAX(EM20,THICKT)
               A11 = A11/MAX(EM20,THICKT) 
-              IF(IPOS > 0)A11 = TWO*A11
               A12 = A12/MAX(EM20,THICKT)
               IZ = ONE_OVER_12*THICKT**3
               A11R =A11R/MAX(EM20, IZ)
