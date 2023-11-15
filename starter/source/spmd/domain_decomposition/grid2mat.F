@@ -2625,9 +2625,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NEDGES, CC, N, N1, N2, NI, I, J, IW, ADDX,
+      INTEGER NEDGES, CC, N, N1, N2, NI, I, J,  ADDX,
      .        NUMSPHA, P, NCOND, NNODE, NEC, IERR1, MODE, NOD1, NOD2,
      .        IWFLG, NFLAG, NEWEDGE
+      INTEGER(kind=8) :: IW
       INTEGER IWD(NUMSPH), RESERVEP(NBPARTINLET),
      .        WORK(70000), OPTIONS(40), CEPSL(NUMSPH)
       INTEGER, DIMENSION(:),ALLOCATABLE :: IEND, XADJ, ADJNCY,
@@ -2855,7 +2856,7 @@ C
       DO I = 1, NSPMD
         IW = 0
         DO J = 1, NUMSPH
-          IF (CEPSP(J)+1==I) THEN
+          IF (CEPSP(J)+1==I .AND. IWD(J) > 0) THEN
             IW = IW + IWD(J)
           ENDIF
         ENDDO
