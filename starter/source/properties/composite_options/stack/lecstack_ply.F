@@ -321,8 +321,7 @@ C interface substack
 C
           DO J=1,N1
             JPID = STACK_INFO(NUMS)%PID(J)
-            STACK_INFO(NUMS)%THK(J)  = GEO_STACK(1,JPID)
-            STACK_INFO(NUMS)%ANG(J)  = STACK_INFO(NUMS)%ANG(J) + GEO_STACK(2,JPID)
+            STACK_INFO(NUMS)%THK(J)  = GEO_STACK(1,JPID) 
             STACK_INFO(NUMS)%DIR(J)  = GEO_STACK(212,JPID) ! angle (DIR1,DIR2) - for compatibility of law58 with PID51)
             STACK_INFO(NUMS)%MID(J)  = IGEO_STACK(101,JPID)
           ENDDO

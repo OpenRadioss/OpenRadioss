@@ -705,7 +705,6 @@ C
               DO J=1,N1
                 JPID = STACK_INFO(NUMS)%PID(J)
                 STACK_INFO(NUMS)%THK(J)   = GEO(1,JPID)
-                STACK_INFO(NUMS)%ANG(J)   = STACK_INFO(NUMS)%ANG(J) + GEO(2,JPID)
                 STACK_INFO(NUMS)%DIR(J)   = GEO(212,JPID) ! angle (DIR1,DIR2) - for compatibility of law58 with PID51)
                 STACK_INFO(NUMS)%MID(J)   = IGEO(101,JPID)
               ENDDO

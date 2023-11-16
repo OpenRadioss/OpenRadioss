@@ -79,7 +79,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,I1,I2,I3,IL,IGTYP,IPTHK,IPMAT,ILAW,L_DMG,NPTT,
-     .        IPT ,IPT_ALL,IT
+     .        IPT ,IPT_ALL,IT,IPID_PLY,IRP
       my_real R,S,D1,D2,D11,D12,D21,D22,U1X,U1Y,U2X,U2Y,
      .        DET,W1X,W2X,W1Y,W2Y,CSP,SNP
       my_real,  DIMENSION(MVSIZ)      :: E11,E12,E13,E21,E22,E23,VR,VS
@@ -127,10 +127,18 @@ C---      shell 3N
           ENDDO
         ENDIF
 C---    vecteur de projection dans repere elementaire
-        DO I=LFT,LLT
-          VR(I)=VX(I)*E1X(I)+VY(I)*E1Y(I)+VZ(I)*E1Z(I)
-          VS(I)=VX(I)*E2X(I)+VY(I)*E2Y(I)+VZ(I)*E2Z(I)
-        ENDDO
+        IRP = IGEO(14,IPROP)
+        IF(IRP == 26 .AND. (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52)) THEN
+           DO I=LFT,LLT
+             VR(I)= ONE
+             VS(I)= ZERO
+           ENDDO
+        ELSE
+           DO I=LFT,LLT
+               VR(I)=VX(I)*E1X(I)+VY(I)*E1Y(I)+VZ(I)*E1Z(I)
+               VS(I)=VX(I)*E2X(I)+VY(I)*E2Y(I)+VZ(I)*E2Z(I)
+           ENDDO
+        ENDIF   
 C-------
         IF (IGTYP == 9) THEN
           DIR1 => ELBUF_STR%BUFLY(1)%DIRA     
@@ -174,27 +182,11 @@ C-------
 C-------
           DO IL=1,NLAY
             DIR1 => ELBUF_STR%BUFLY(IL)%DIRA 
-C
             DO I=LFT,LLT
               CSP=COS(PHI1(IL,I))
               SNP=SIN(PHI1(IL,I))
-              IF(IGTYP == 17) THEN
-                IF(STACK%IGEO(2+IL,ISUBSTACK) /= 0) THEN
-                  IF (IGEO(49,STACK%IGEO(2+IL,ISUBSTACK)) == 1) THEN
-                    DIR1(I)     = CSP
-                    DIR1(I+NEL) = SNP
-                  ELSE
-                    DIR1(I)     = VR(I)*CSP-VS(I)*SNP
-                    DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP
-                  ENDIF
-                ELSE
-                   DIR1(I)     = VR(I)*CSP-VS(I)*SNP
-                   DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP
-                ENDIF
-              ELSE
-                DIR1(I)     = VR(I)*CSP-VS(I)*SNP
-                DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP
-              ENDIF
+              DIR1(I)     = VR(I)*CSP-VS(I)*SNP
+              DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP
               IF (IORTHLOC(I) /= 0) THEN
                 DIR1(I)     = COOR1(IL,I) 
                 DIR1(I+NEL) = COOR2(IL,I) 
@@ -243,49 +235,28 @@ C-------
          IF(IDRAPE > 0) THEN
            IPT_ALL = 0
            DO IL=1,NLAY
-              !!DIR1 => ELBUF_STR%BUFLY(IL)%DIRA
              NPTT = ELBUF_STR%BUFLY(IL)%NPTT
-             IF(STACK%IGEO(2 + IL,ISUBSTACK) > 0)THEN 
+             IPID_PLY=STACK%IGEO(2 + IL,ISUBSTACK)
+             IF(IPID_PLY > 0)THEN 
                DO IT = 1, NPTT  
                   LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
                   DIR1 => LBUF_DIR%DIRA
                   IPT = IPT_ALL + IT 
                   DO I=LFT,LLT
                    CSP=COS(PHI1(IPT,I))                                       
-                   SNP=SIN(PHI1(IPT,I)) 
-                   IF (IGEO(49,STACK%IGEO(2 + IL,ISUBSTACK)) == 1) THEN      
-                       DIR1(I)     = CSP                                     
-                       DIR1(I+NEL) = SNP                                     
-                   ELSE 
-                       DIR1(I)     = VR(I)*CSP-VS(I)*SNP                     
-                       DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP                     
-                   ENDIF                                           
+                   SNP=SIN(PHI1(IPT,I))  
+                   DIR1(I)     = VR(I)*CSP-VS(I)*SNP                     
+                   DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP               
                    IF (IORTHLOC(I) /= 0) THEN                                
                      DIR1(I)     = COOR1(IPT,I)                               
                      DIR1(I+NEL) = COOR2(IPT,I)                               
                    ENDIF                                                     
                  ENDDO    
                ENDDO ! NPPT
-             ELSE
-               DO IT = 1, NPTT  
-                  LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
-                  DIR1 => LBUF_DIR%DIRA
-                  IPT = IPT_ALL + IT 
-                  DO I=LFT,LLT                                               
-                   CSP=COS(PHI1(IPT,I))                                       
-                   SNP=SIN(PHI1(IPT,I))        
-                    DIR1(I)     = VR(I)*CSP-VS(I)*SNP                        
-                    DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP                 
-                    IF (IORTHLOC(I) /= 0) THEN                                
-                     DIR1(I)     = COOR1(IPT,I)                               
-                     DIR1(I+NEL) = COOR2(IPT,I)                               
-                    ENDIF                                                     
-                 ENDDO    
-               ENDDO ! NPPT
              ENDIF !
              IPT_ALL = IPT_ALL + NPTT                                                    
             ENDDO ! NLAY
-          IF(IREP == 1) THEN
+           IF(IREP == 1) THEN
             DO I=LFT,LLT
               U1X = E11(I)*E1X(I)+E12(I)*E1Y(I)+E13(I)*E1Z(I)
               U1Y = E11(I)*E2X(I)+E12(I)*E2Y(I)+E13(I)*E2Z(I)
@@ -592,29 +563,18 @@ C---          dir II
          ELSE ! idrape ==0
           DO IL=1,NLAY
              DIR1 => ELBUF_STR%BUFLY(IL)%DIRA 
-            DO I=LFT,LLT
+             IPID_PLY = STACK%IGEO(2+IL,ISUBSTACK)
+             DO I=LFT,LLT
               CSP=COS(PHI1(IL,I))
-              SNP=SIN(PHI1(IL,I))
-              IF(IGTYP == 51 .AND. STACK%IGEO(2+IL,ISUBSTACK) /= 0)THEN
-                IF (IGEO(49,STACK%IGEO(2+IL,ISUBSTACK)) == 1) THEN
-                  DIR1(I)     = CSP
-                  DIR1(I+NEL) = SNP
-                ELSE
+              SNP=SIN(PHI1(IL,I)) 
+              IF(IPID_PLY > 0)THEN
                   DIR1(I)     = VR(I)*CSP-VS(I)*SNP
                   DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP
-                ENDIF
-              ELSEIF(IGTYP == 52 .AND. 
-     .               IGEO_STACK(49,STACK%IGEO(2+IL,ISUBSTACK)) == 1)THEN
-                  DIR1(I)     = CSP
-                  DIR1(I+NEL) = SNP
-              ELSE
-                DIR1(I)     = VR(I)*CSP-VS(I)*SNP
-                DIR1(I+NEL) = VS(I)*CSP+VR(I)*SNP
-              ENDIF
-              IF (IORTHLOC(I) /= 0) THEN
-                DIR1(I)     = COOR1(IL,I) 
-                DIR1(I+NEL) = COOR2(IL,I) 
-              ENDIF
+                  IF (IORTHLOC(I) /= 0) THEN
+                    DIR1(I)     = COOR1(IL,I) 
+                    DIR1(I+NEL) = COOR2(IL,I) 
+                  ENDIF
+              ENDIF  
             ENDDO
           ENDDO
 C---
