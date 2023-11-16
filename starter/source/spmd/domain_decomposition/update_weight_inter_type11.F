@@ -27,7 +27,7 @@ Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
 Chd|-- calls ---------------
 Chd|        INTER_CAND_MOD                share/modules1/inter_cand_mod.F
 Chd|====================================================================
-        SUBROUTINE UPDATE_WEIGHT_INTER_TYPE11(NELEMINT,INTERFACE_ID,NSN,NRTM,IFIEND,
+        SUBROUTINE UPDATE_WEIGHT_INTER_TYPE11(NELEMINT,INTERFACE_ID,NRTS,NRTM,IFIEND,
      .                                       IRECTM,IRECTS,I_STOK,CAND_E,CAND_N,
      .                                       INTER_CAND)
 !$COMMENT
@@ -51,11 +51,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(inout) :: NELEMINT
         INTEGER, INTENT(in) :: INTERFACE_ID !< interface id 
-        INTEGER, INTENT(in) :: NSN !< number of S node
-        INTEGER, INTENT(in) :: NRTM !< number of segment
+        INTEGER, INTENT(in) :: NRTS !< number of S segment
+        INTEGER, INTENT(in) :: NRTM !< number of M segment
         INTEGER, INTENT(inout) :: IFIEND !< ???
         INTEGER, DIMENSION(2,NRTM) :: IRECTM !< list of M nodes for the NRTM segments
-        INTEGER, DIMENSION(2,NSN) :: IRECTS !< list of S nodes for the NSN segments
+        INTEGER, DIMENSION(2,NRTS) :: IRECTS !< list of S nodes for the NRTS segments
         INTEGER, INTENT(in) :: I_STOK !< total number of pair of candidate
         INTEGER, DIMENSION(I_STOK), INTENT(in) :: CAND_E !< pointer to M node of the candidate I
         INTEGER, DIMENSION(I_STOK), INTENT(in) :: CAND_N !< pointer to S node id of the candidate I
