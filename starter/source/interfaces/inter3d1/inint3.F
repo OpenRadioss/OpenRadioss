@@ -1125,7 +1125,7 @@ C
        ! update the weight of candidate's pair for the domain decomposition
        IF (IDDLEVEL==0.AND.NSPMD>1)THEN
          IF ( ((NELEMINT+I_STOK)) > INTER_CAND%S_IXINT_2) CALL UPGRADE_IXINT(INTER_CAND,NELEMINT,I_STOK)
-          CALL UPDATE_WEIGHT_INTER_TYPE11(NELEMINT,INTERFACE_ID,NSN,NRTM,IFIEND,
+          CALL UPDATE_WEIGHT_INTER_TYPE11(NELEMINT,INTERFACE_ID,NRTS,NRTM,IFIEND,
      .                                    INTBUF_TAB%IRECTM,INTBUF_TAB%IRECTS,I_STOK,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      .                                    INTER_CAND)
        ENDIF
