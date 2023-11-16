@@ -121,7 +121,7 @@ C-----
 C Variables utilisees en argument par les materiaux.
       my_real
      .   STI(MVSIZ),
-     .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ), BID(1)
+     .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ), BID(MVSIZ)
 C Variables utilisees en argument par les materiaux si SPH uniquement.
       my_real
      .   MUMAX(MVSIZ)
