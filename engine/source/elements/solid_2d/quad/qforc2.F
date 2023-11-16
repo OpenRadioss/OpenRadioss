@@ -173,7 +173,7 @@ C-----------------------------------------------
       my_real WYY(MVSIZ),WZZ(MVSIZ),VDX(MVSIZ)
 
       ! SPH case
-      my_real MUVOID(MVSIZ), STI(MVSIZ),BID(1), MBID(1),RSDA(1)
+      my_real MUVOID(MVSIZ), STI(MVSIZ),BID(1), MBID(MVSIZ),RSDA(1)
       ! void MMAIN
       my_real SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
       my_real  R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
@@ -392,7 +392,7 @@ c
      H   EYY,         EZZ,         ETT,         EYZ,
      I   EYT,         EZT,         WYY,         WZZ,
      J   WYZ,         IPM,         GAMA,        BID,
-     K   BID,         BID,         BID,         BID,
+     K   MBID,        MBID,        MBID,        MBID,
      L   BID,         BID,         ISTRAIN,     BID,
      M   BID,         IBIDON(1),   ILAY,        MBID,
      N   MBID,        IPTR,        IPTS,        IPTT,
