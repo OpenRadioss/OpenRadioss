@@ -313,7 +313,7 @@ c     PHI, COOR used only with dimension(NLAY,MVSIZ); !! now corrected
      .   VX         ,VY        ,VZ        ,COOR1      ,COOR2      ,
      .   COOR3      ,COOR4     ,IORTHLOC  ,ISUBSTACK  ,STACK      ,
      .   IREP       ,ELBUF_STR ,DRAPE     ,SH4ANG(NFT+1),X        ,
-     .   GEO_STACK  ,IGEO_STACK,E3X       ,E3Y        ,E3Z        ,
+     .   GEO_STACK  ,E3X       ,E3Y        ,E3Z        ,
      .   GBUF%BETAORTH,X1      ,X2        ,Y1         ,Y2         ,
      .   Z1         ,Z2        ,NEL       ,GBUF%G_ADD_NODE,GBUF%ADD_NODE,
      .   NPT_ALL    ,IDRAPE    ,DRAPEG%INDX) 
