@@ -207,7 +207,7 @@ C-----------------------------------------
      B                  ID_SIGTRUSS,WORK         ,IGRBRIC      ,NIBRICK      ,NIQUAD    ,
      C                  NISHELL    ,NISH3N       ,NISPRING     ,NIBEAM       ,NITRUSS   ,
      D                  MAP_TABLES ,VARMAX       ,IPARG        ,PTSHEL       ,PTSH3N    ,
-     E                  STACK      ,IWORKSH )
+     E                  STACK      ,IWORKSH      ,IOUT         )
       ENDIF
 C------------------------------------------------------------------------------------------
          CALL LEC_INISTATE_TRI(

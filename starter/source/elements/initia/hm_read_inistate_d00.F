@@ -60,7 +60,7 @@ Chd|====================================================================
      B                  ID_SIGTRUSS,WORK         ,IGRBRIC      ,NIBRICK      ,NIQUAD    ,
      C                  NISHELL    ,NISH3N       ,NISPRING     ,NIBEAM       ,NITRUSS   ,
      D                  MAP_TABLES ,VARMAX       ,IPARG        ,PTSHEL       ,PTSH3N    ,
-     E                  STACK      ,IWORKSH )
+     E                  STACK      ,IWORKSH      ,IOUT         )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -115,6 +115,7 @@ C
       INTEGER,   INTENT(INOUT) :: PTSHEL(NUMELC),PTSH3N(NUMELTG)
       TYPE (STACK_PLY) :: STACK
       INTEGER,   INTENT(IN) :: IWORKSH(3,NUMELC + NUMELTG)
+      INTEGER,   INTENT(IN) :: IOUT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -156,6 +157,7 @@ C-----------------------------------------------
       CHARACTER KEY2*ncharkey,KEY3*ncharkey
       CHARACTER*nchartitle,TITR,TITR1  
       CHARACTER*15,KEYWORD 
+      INTEGER NONEXIST
 C-----------------------------------------------
       EXTERNAL UEL2SYS
       INTEGER  UEL2SYS
@@ -176,6 +178,7 @@ C -- LECTURE OF INITIAL STATE DATA - EXTRACTED FROM INITIA.F
 C
 C=======================================================================
       SUB_INDEX = 0
+      NONEXIST = 0
 C
       ALLOCATE (ITRIS(NUMELS))
       ALLOCATE (INDEXS(2*NUMELS))
@@ -232,9 +235,9 @@ C-----------------------------------------
         ! Start reading /INIBRI card 
         CALL HM_OPTION_START('/INIBRI')
         ISTRSF=0
-          ISTRSFG=0
-          ISTRAF=0
-          ISTRAFG=0
+        ISTRSFG=0
+        ISTRAF=0
+        ISTRAFG=0
 !
         DO INI=1,NB_INIBRI
 !
@@ -248,13 +251,13 @@ c---------------------------------------
           SELECT CASE (KEY(1:LEN_TRIM(KEY)))
 C---------
             CASE ( 'STRS_FGLO' )
-                ISTRSFG=1
+              ISTRSFG=1
             CASE ( 'STRS_F' )
-                ISTRSF=1
+              ISTRSF=1
             CASE ( 'STRA_FGLO' )
-                ISTRAFG=1
+              ISTRAFG=1
             CASE ( 'STRA_F' )
-                ISTRAF=1
+              ISTRAF=1
           END SELECT ! SELECT CASE(KEY)
         END DO 
         IF (ISTRSFG>0.AND.ISTRSF>0) THEN
@@ -264,7 +267,7 @@ C---------
            CALL ANCMSG(MSGID=2045,ANMODE=ANINFO,MSGTYPE=MSGWARNING)
         END IF
       END IF !( NB_INIBRI > 0 ) THEN
-            
+          
       BRIGLOB = 0
       NIBRICK = 0
       I = 0
@@ -410,11 +413,7 @@ C---------
 !
                 IF (IE == 0) THEN        
                   ! Shell was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INIBRI/AUX',
-     .                                   C2='BRICK')
+                  NONEXIST = NONEXIST+1
                 ELSE
                   KEYWORD = '/INIBRI/AUX   '
                   I=I+1
@@ -510,11 +509,7 @@ C---------
 !
                 IF (IE == 0) THEN        
                   ! Solid was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INIBRI/STRS_FGLO',
-     .                                   C2='SOLID')
+                  NONEXIST = NONEXIST+1
                 ELSEIF (STRSGLOB(IE) >= 0) THEN   
 ! ---     treated already
                 ELSE
@@ -897,11 +892,7 @@ C---------
 !
                 IF (IE == 0) THEN        
                   ! Solid was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INIBRI/STRS_F',
-     .                                   C2='SOLID')
+                  NONEXIST = NONEXIST+1
                 ELSEIF (STRSGLOB(IE) >= 0) THEN   
 ! ---     treated already
                 ELSE
@@ -1283,11 +1274,7 @@ C         STRAGLOB(IE)=10-> reference configuration /INIBRI/EREF
 !
                 IF (IE == 0) THEN        
                   ! Solid was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INIBRI/STRA_F',
-     .                                   C2='SOLID')
+                  NONEXIST = NONEXIST+1
                 ELSEIF (STRAGLOB(IE)>=0) THEN        
                 ELSE
                   CALL LEC_INISTATE_D00_BRICK_CHECK (
@@ -1477,11 +1464,7 @@ C         STRAGLOB(IE)=10-> reference configuration /INIBRI/EREF
 !
                 IF (IE == 0) THEN        
                   ! Solid was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INIBRI/STRA_FGLO',
-     .                                   C2='SOLID')
+                  NONEXIST = NONEXIST+1
                 ELSEIF (STRAGLOB(IE)>=0) THEN        
                 ELSE
                   CALL LEC_INISTATE_D00_BRICK_CHECK (
@@ -1685,11 +1668,7 @@ C---------
 !
                 IF (IE == 0) THEN        
                   ! Solid was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INIBRI/FAIL',
-     .                                   C2='SOLID')
+                  NONEXIST = NONEXIST+1
                 ELSE
                   IOK = 0
                   DO K=1,5
@@ -1759,12 +1738,8 @@ C---------
                   SIGSP(IIS +4 , I) = NLAY
 !
                   IF (IE == 0) THEN        
-                  ! Solid was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INIBRI/SCALE_YLD',
-     .                                     C2='SOLID')
+                    ! Solid was not found. Issue a Warning & Skip.
+                    NONEXIST = NONEXIST+1
                   ELSE
                     IIS = NVSOLID1 + NVSOLID2 + NVSOLID3 + NUSOLID + 4 + NVSOLID4 + 7
 !
@@ -1811,12 +1786,8 @@ C---------
 !
 !
                   IF (IE == 0) THEN        
-                  ! Solid was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INIBRI/ORTHO',
-     .                                     C2='SOLID')
+                    ! Solid was not found. Issue a Warning & Skip.
+                    NONEXIST = NONEXIST+1
                   ELSE
                     CALL LEC_INISTATE_D00_BRICK_CHECK (
      1                   IXS            ,IGEO          ,ITRIS         ,ISOLNODD00    ,IE            ,
@@ -1886,12 +1857,8 @@ C---------
 !
 !
                   IF (IE == 0) THEN        
-                  ! Solid was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INIBRI/EREF',
-     .                                     C2='SOLID')
+                    ! Solid was not found. Issue a Warning & Skip.
+                    NONEXIST = NONEXIST+1
                   ELSE
                     CALL LEC_INISTATE_D00_BRICK_CHECK (
      1                   IXS            ,IGEO          ,ITRIS         ,ISOLNODD00    ,IE            ,
@@ -1977,13 +1944,13 @@ C---------
            IF (KTRIELC == 0) THEN
 C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
               DO IE = 1, NUMELC
-          ITRI(IE) = IXC(NIXC,IE)
+                ITRI(IE) = IXC(NIXC,IE)
               END DO
               CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMELC,1)
               DO J = 1, NUMELC
-          IE=INDEX(J)
-          KSYSUSR(J)   =IXC(NIXC,IE)
-          KSYSUSR(NUMELC+J)=IE
+                IE=INDEX(J)
+                KSYSUSR(J)         =IXC(NIXC,IE)
+                KSYSUSR(NUMELC+J)=IE
               END DO
               KTRIELC=1
            ENDIF
@@ -2036,11 +2003,7 @@ C---------
 !
                 IF (IE == 0) THEN        
                   ! Shell was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INISHE/EPSP_F',
-     .                                   C2='SHELL')
+                  NONEXIST = NONEXIST+1
                 ELSE
 !
                 ! check is SHELL is QEPH
@@ -2145,11 +2108,7 @@ C------------------------------------
 !
                   IF (IE == 0) THEN        
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISHE/STRS_F_GLOB',
-     .                                     C2='SHELL')
+                    NONEXIST = NONEXIST+1
                   ELSE
 !
                     ! check is SHELL is QEPH
@@ -2336,11 +2295,7 @@ C------------------------------------
 !
                   IF (IE == 0) THEN        
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISHE/STRS_F',
-     .                                     C2='SHELL')
+                    NONEXIST = NONEXIST+1
                   ELSE
 !
                     ! check is SHELL is QEPH
@@ -2509,11 +2464,7 @@ C-------global sys with diff format
 !
                   IF (IE == 0) THEN        
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISHE/STRA_F/GLOB',
-     .                                     C2='SHELL')
+                    NONEXIST = NONEXIST+1
                   ELSE
                     I = PTSHEL(IE)
                     SIGSH(1,I)  = ID_ELEM
@@ -2581,11 +2532,7 @@ C                     CALL ANCERR(58,ANINFO_BLIND_2)
 !
                   IF (IE == 0) THEN        
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISHE/STRA_F',
-     .                                     C2='SHELL')
+                    NONEXIST = NONEXIST+1
                   ELSE
                     I = PTSHEL(IE)
                     SIGSH(1,I) = ID_ELEM
@@ -2668,11 +2615,7 @@ C---------
 !
                 IF (IE == 0) THEN        
                   ! Shell was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INISHE/THICK',
-     .                                   C2='SHELL')
+                  NONEXIST = NONEXIST+1
                 ELSE
                   I = PTSHEL(IE)
                   SIGSH(1,I) = ID_ELEM
@@ -2699,11 +2642,7 @@ C---------
 !
                 IF (IE == 0) THEN
                   ! Shell was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INISHE/EPSP',
-     .                                   C2='SHELL')
+                  NONEXIST = NONEXIST+1
                 ELSE
                   I = PTSHEL(IE)
                   SIGSH(1,I) = ID_ELEM
@@ -2732,11 +2671,7 @@ C---------
 !
                   IF (IE == 0) THEN
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISHE/ORTHO',
-     .                                     C2='SHELL')
+                    NONEXIST = NONEXIST+1
                   ELSE
 !
                     IG   = IXC(6,IE)
@@ -2804,11 +2739,7 @@ C---------
 !
                   IF (IE == 0) THEN
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISHE/ORTH_LOC',
-     .                                     C2='SHELL')
+                    NONEXIST = NONEXIST+1
                   ELSE
 !
                     IG    = IXC(6,IE)
@@ -2936,11 +2867,7 @@ C---------
 !
                   IF (IE == 0) THEN
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISHE/SCALE_YLD',
-     .                                     C2='SHELL')
+                    NONEXIST = NONEXIST+1
                   ELSE
                     I = PTSHEL(IE)
                     SIGSH(NVSHELL + 1,I) = ID_ELEM ! elt ID
@@ -2983,11 +2910,7 @@ C---------
 !
                   IF (IE == 0) THEN
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISHE/AUX',
-     .                                     C2='SHELL')
+                    NONEXIST = NONEXIST+1
                   ELSE
 C----------
                     IMAT = IXC(1,IE)
@@ -3073,11 +2996,7 @@ C----------
                   IF (IE == 0) THEN
 !
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISHE/FAIL',
-     .                                     C2='SHELL')
+                    NONEXIST = NONEXIST+1
                   ELSE
 C----------
                     NPTT = MAX(1,NPTT)
@@ -3249,11 +3168,7 @@ C---------
 !
                 IF (IE == 0) THEN        
                   ! Shell was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INISH3/EPSP_F',
-     .                                   C2='SH3N')
+                  NONEXIST = NONEXIST+1
                 ELSE
 !
                   I = NUMSHEL + PTSH3N(IE)
@@ -3346,11 +3261,7 @@ C------------------------------------
 !
                   IF (IE == 0) THEN        
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISH3/STRS_F_GLOB',
-     .                                     C2='SH3N')
+                    NONEXIST = NONEXIST+1
                   ELSE
 !
                    ! Reading CARD_1 ---  EM,EB,H1,H2,H3  ---
@@ -3526,11 +3437,7 @@ C---------
 !
                   IF (IE == 0) THEN        
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISHE/STRS_F',
-     .                                     C2='SH3N')
+                    NONEXIST = NONEXIST+1
                   ELSE
 !
                    ! Reading CARD_2 ---  EM,EB,H1,H2,H3  ---
@@ -3681,11 +3588,7 @@ C-------global sys with diff format
 !
                   IF (IE == 0) THEN        
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISH3/STRA_F/GLOB',
-     .                                     C2='SH3N')
+                    NONEXIST = NONEXIST+1
                   ELSE
                     I = NUMSHEL + PTSH3N(IE)
                     SIGSH(1,I) = ID_ELEM
@@ -3745,11 +3648,7 @@ C----
 !
                   IF (IE == 0) THEN        
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISH3/STRA_F',
-     .                                     C2='SH3N')
+                    NONEXIST = NONEXIST+1
                   ELSE
                     I = NUMSHEL + PTSH3N(IE)
                     SIGSH(1,I) = ID_ELEM
@@ -3826,11 +3725,7 @@ C---------
 !
                 IF (IE == 0) THEN        
                   ! Shell was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INISH3/THICK',
-     .                                   C2='SHELL')
+                  NONEXIST = NONEXIST+1
                 ELSE
                   I = NUMSHEL + PTSH3N(IE)
                   SIGSH(1,I) = ID_ELEM
@@ -3856,11 +3751,7 @@ C---------
 !
                 IF (IE == 0) THEN
                   ! Shell was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INISH3/EPSP',
-     .                                   C2='INISH3')
+                  NONEXIST = NONEXIST+1
                 ELSE
                   I = NUMSHEL + PTSH3N(IE)
                   SIGSH(1,I) = ID_ELEM
@@ -3889,11 +3780,7 @@ C---------
 !
                   IF (IE == 0) THEN
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISH3/ORTHO',
-     .                                     C2='SH3N')
+                    NONEXIST = NONEXIST+1
                   ELSE
 !
                     IG   = IXTG(5,IE)
@@ -3960,11 +3847,7 @@ C---------
 !
                   IF (IE == 0) THEN
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISH3/ORTH_LOC',
-     .                                     C2='SH3N')
+                    NONEXIST = NONEXIST+1
                   ELSE
 !
                     IG    = IXTG(5,IE)
@@ -4094,11 +3977,7 @@ C---------
 !
                   IF (IE == 0) THEN
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISH3/SCALE_YLD',
-     .                                     C2='SH3N')
+                    NONEXIST = NONEXIST+1
                   ELSE
                     I = NUMSHEL + PTSH3N(IE)
                     SIGSH(NVSHELL + 1,I) = ID_ELEM ! elt ID
@@ -4139,11 +4018,7 @@ C---------
 !
                   IF (IE == 0) THEN
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISH3/AUX',
-     .                                     C2='SH3N')
+                    NONEXIST = NONEXIST+1
                   ELSE
 C----------
                     IMAT = IXTG(1,IE)
@@ -4222,13 +4097,8 @@ C----------
                   IE=UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
 !
                   IF (IE == 0) THEN
-!
                     ! Shell was not found. Issue a Warning & Skip.
-                    CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                     MSGTYPE=MSGWARNING,
-     .                                     I2=ID_ELEM,
-     .                                     C1='/INISH3/FAIL',
-     .                                     C2='SHE3N')
+                    NONEXIST = NONEXIST+1
                   ELSE
 C----------
                     NPTT = MAX(1,NPTT)
@@ -4340,13 +4210,13 @@ C----------
            IF (KTRIELTRUSS == 0) THEN
 C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
               DO IE = 1, NUMELT
-          ITRI(IE) = IXT(NIXT,IE)
+                ITRI(IE) = IXT(NIXT,IE)
               END DO
               CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMELT,1)
               DO J = 1, NUMELT
-          IE=INDEX(J)
-          KSYSUSR(J)   =IXT(NIXT,IE)
-          KSYSUSR(NUMELT+J)=IE
+                IE=INDEX(J)
+                KSYSUSR(J)         =IXT(NIXT,IE)
+                KSYSUSR(NUMELT+J)=IE
               END DO
               KTRIELTRUSS=1
            ENDIF
@@ -4392,11 +4262,7 @@ C---------
 !
                 IF (IE == 0) THEN        
                   ! Shell was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INITRUSS/FULL',
-     .                                   C2='TRUSS')
+                  NONEXIST = NONEXIST+1
                 ELSE
 !
                  CALL HM_GET_FLOAT_ARRAY_INDEX('EINT' ,EIN,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -4498,11 +4364,7 @@ C---------
 !
                 IF (IE == 0) THEN        
                   ! Shell was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INIBEAM/FULL',
-     .                                   C2='BEAM')
+                  NONEXIST = NONEXIST+1
                 ELSE
                  CALL HM_GET_FLOAT_ARRAY_INDEX('EImemb' ,EM,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                  CALL HM_GET_FLOAT_ARRAY_INDEX('EIbend' ,EB,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -4580,11 +4442,7 @@ C---------
 !
                 IF (IE == 0) THEN        
                   ! Shell was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INIBEAM/AUX',
-     .                                   C2='BEAM')
+                  NONEXIST = NONEXIST+1
                 ELSE
 !
 !              -- UVAR --
@@ -4706,11 +4564,7 @@ C---------
 !
                 IF (IE == 0) THEN        
                   ! Shell was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INISPRI/FULL',
-     .                                   C2='SPRING')
+                  NONEXIST = NONEXIST+1
                 ELSE
                   I=I+1
                   ID_SIGSPRI(I) = ID_ELEM
@@ -4908,11 +4762,7 @@ C---------
 !
                 IF (IE == 0) THEN        
                   ! Shell was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INIQUA/DENS',
-     .                                   C2='QUAD')
+                  NONEXIST = NONEXIST+1
                 ELSE
                   CALL HM_GET_FLOAT_ARRAY_INDEX('value',DENS,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                   I=I+1
@@ -4938,11 +4788,7 @@ C---------
 !
                 IF (IE == 0) THEN        
                   ! Shell was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INIQUA/ENER',
-     .                                   C2='QUAD')
+                  NONEXIST = NONEXIST+1
                 ELSE
                   CALL HM_GET_FLOAT_ARRAY_INDEX('value',ENER,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                   I=I+1
@@ -4967,11 +4813,7 @@ C---------
 !
                 IF (IE == 0) THEN        
                   ! Shell was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INIQUA/EPSP',
-     .                                   C2='QUAD')
+                  NONEXIST = NONEXIST+1
                 ELSE
                   CALL HM_GET_FLOAT_ARRAY_INDEX('value',EPSP,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                   I=I+1
@@ -4997,11 +4839,7 @@ C---------
 !
                 IF (IE == 0) THEN        
                   ! Shell was not found. Issue a Warning & Skip.
-                  CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
-     .                                   MSGTYPE=MSGWARNING,
-     .                                   I2=ID_ELEM,
-     .                                   C1='/INIQUA/STRESS',
-     .                                   C2='QUAD')
+                  NONEXIST = NONEXIST+1
                 ELSE
                   CALL HM_GET_FLOAT_ARRAY_INDEX('SIGMA_x' ,S(1),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                   CALL HM_GET_FLOAT_ARRAY_INDEX('SIGMA_y' ,S(2),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -5026,6 +4864,10 @@ C---------
       ENDIF ! IF ( NB_INIQUA > 0 )
 !
       NIQUAD = I
+!     message in case some elements was not found in the model
+      IF (NONEXIST  > 0) THEN
+           CALL ANCMSG(MSGID=3045,ANMODE=ANINFO,MSGTYPE=MSGWARNING,I1=NONEXIST)
+      ENDIF ! IF (NONEXIST  > 0) 
 C------------------------------------
       DEALLOCATE (ITRIS)
       DEALLOCATE (INDEXS)
