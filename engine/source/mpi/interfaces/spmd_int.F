@@ -202,6 +202,7 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
+C This routine cannot be used for type25 anymore
       SUBROUTINE SPMD_TRI7VOX(
      1   NSV     ,NSN      ,X      ,V     ,MS     ,
      2   BMINMAL ,WEIGHT   ,STIFN  ,NIN   ,ISENDTO,
@@ -453,10 +454,7 @@ C
             NOD = NSV(I)
             IF(WEIGHT(NOD)==1)THEN
              IF(STIFN(I)>ZERO)THEN
-               IF(ITYP==25.AND.IRTLM(4*(I-1)+4)==P)THEN
-                 NB = NB + 1
-                 INDEX(NB) = I
-               ELSEIF(ITIED/=0.AND.ITYP==7.AND.CANDF_SI(NIN)%P(I)/=0) THEN
+               IF(ITIED/=0.AND.ITYP==7.AND.CANDF_SI(NIN)%P(I)/=0) THEN
                  NB = NB + 1
                  INDEX(NB) = I
                ELSE
