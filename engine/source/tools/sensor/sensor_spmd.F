@@ -229,11 +229,11 @@ C
          IF (TT == ZERO) THEN
            DO K=1,NSENSOR
              TYP = SENSOR_TAB(K)%TYPE
-             N2  = SENSOR_TAB(K)%IPARAM(2)
              IF (TYP == 13) THEN
                XSENS(7,K)  = XSENS(1,K)
                XSENS(8,K)  = XSENS(2,K)
                XSENS(9,K)  = XSENS(3,K)
+               N2  = SENSOR_TAB(K)%IPARAM(2)
                IF (N2 > 0) THEN
                  XSENS(10,K) = XSENS(4,K)
                  XSENS(11,K) = XSENS(5,K)
