@@ -3302,6 +3302,9 @@ C   S o u r c e   C o d e
 C-----------------------------------------------
           !finding index for UFC table (Figure 2-7) using bijection.
           Z1_ = HALF
+          Phi_DB = ZERO
+          Phi_I = 1
+          LAMBDA = ZERO
           IF(Z>0.5 .and. Z<400.)THEN
             Phi_DB = LOG(Z1_/Z)*cst_255_div_ln_Z1_on_ZN
             Phi_I  = 1 + INT(Phi_DB)

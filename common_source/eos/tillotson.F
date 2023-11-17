@@ -220,6 +220,7 @@ C
          ENDDO
 C     
          DO I=1, NEL
+            REGION=1
             IF (VNEW(I) > ZERO) THEN
                FACC1=ONE
                FACC2=ONE
