@@ -191,8 +191,15 @@ C
 C
 C   boite minmax pour le tri provenant de i7buce BMINMA
 C
+      NEDGE_REMOTE = 0
+      DO P = 1, NSPMD
+        NSNFI(NIN)%P(P) = 0
+        IF(IEDGE /= 0) NSNFIE(NIN)%P(P) = 0
+      ENDDO
+
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
+
       IF (IMONM > 0) CALL STARTIME(25,1)
       BMINMA(1,LOC_PROC) = BMINMAL(1)
       BMINMA(2,LOC_PROC) = BMINMAL(2)
