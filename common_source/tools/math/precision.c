@@ -37,8 +37,8 @@ int *a,*n;
 {
         return *a << *n;
 }
-int my_shiftl_(a,n)
-int *a,*n;
+unsigned int my_shiftl_(a,n)
+unsigned int *a,*n;
 {
         return *a << *n;
 }
