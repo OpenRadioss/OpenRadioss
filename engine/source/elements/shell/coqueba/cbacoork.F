@@ -20,6 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  CBACOORK                      source/elements/shell/coqueba/cbacoork.F
+Chd|-- called by -----------
+Chd|        CBAKE3                        source/elements/shell/coqueba/cbake3.F
+Chd|-- calls ---------------
+Chd|        CLSKEW3                       source/elements/sh3n/coquedk/cdkcoor3.F
+Chd|        CORTDIR3                      source/elements/shell/coque/cortdir3.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|====================================================================
           SUBROUTINE CBACOORK(JFT,JLT,X,IXC,PM,OFFG,
      1                     GEO,AREA,VCORE,JAC,HX,HY,
      2                     VQN,VQG,VQ,VJFI,VNRM,VASTN,NPLAT,IPLAT,

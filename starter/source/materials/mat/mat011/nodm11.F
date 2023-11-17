@@ -20,6 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  NODM11                        source/materials/mat/mat011/nodm11.F
+Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
+Chd|-- calls ---------------
+Chd|====================================================================
           SUBROUTINE NODM11(PM,IXS,IXQ,ICODE)
 C     BLOCAGE DES NOEUDS MATERIAU 11 HORS DOMAINE CALCULE
 C     FP 12/97

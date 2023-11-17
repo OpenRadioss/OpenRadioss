@@ -27,6 +27,13 @@ C   |-- appele -----------
 C   |-- appelee par -----------
 C   |         CBAFORC3                         /coqueba/cbaforc3.F
 C   |============================================================
+Chd|====================================================================
+Chd|  CBAVIT_PLY                    source/properties/composite_options/stack/cbavit_ply.F
+Chd|-- called by -----------
+Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
+Chd|-- calls ---------------
+Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
+Chd|====================================================================
           SUBROUTINE CBAVIT_PLY(JFT,JLT,IXC,OFFG,OFF,NPLAT,IPLAT,NPT,
      1                        VCORE,DI,ZL,VQ , VXYZ,X13_T  ,X24_T ,
      2                        Y13_T,Y24_T,AREA,INOD,DEL_PLY,

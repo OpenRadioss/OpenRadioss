@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        FRICTIONPARTS_MODEL_ISOT      source/interfaces/int07/frictionparts_model.F
+Chd|        I11ASS3                       source/interfaces/int11/i11ass3.F
 Chd|        I11CDCOR3                     source/interfaces/int11/i11cdcor3.F
 Chd|        I11COR3                       source/interfaces/int11/i11cor3.F
 Chd|        I11DST3                       source/interfaces/int11/i11dst3.F

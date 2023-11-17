@@ -575,6 +575,14 @@ C-----------------------------------------------
 
 
 
+Chd|====================================================================
+Chd|  PEXECINFO                     source/engine/execargcheck.F  
+Chd|-- called by -----------
+Chd|        EXECARGCHECK                  source/engine/execargcheck.F  
+Chd|-- calls ---------------
+Chd|        MY_EXIT                       source/system/my_exit.c       
+Chd|        PREXECINFO                    source/engine/execargcheck.F  
+Chd|====================================================================
           SUBROUTINE PEXECINFO(IDUM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -615,6 +623,12 @@ C-----------------------------------------------
         CALL MY_EXIT(0)
         END
 
+Chd|====================================================================
+Chd|  PREXECINFO                    source/engine/execargcheck.F  
+Chd|-- called by -----------
+Chd|        PEXECINFO                     source/engine/execargcheck.F  
+Chd|-- calls ---------------
+Chd|====================================================================
           SUBROUTINE PREXECINFO(IDUM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -656,6 +670,15 @@ C-----------------------------------------------
 
         END
 
+Chd|====================================================================
+Chd|  PHELPINFO                     source/engine/execargcheck.F  
+Chd|-- called by -----------
+Chd|        EXECARGCHECK                  source/engine/execargcheck.F  
+Chd|        GET_FILE_NAME_INFO            source/system/get_file_name_info.F
+Chd|-- calls ---------------
+Chd|        ARRET                         source/system/arret.F         
+Chd|        PRHELPINFO                    source/engine/execargcheck.F  
+Chd|====================================================================
           SUBROUTINE PHELPINFO(ERRN,EMSG,SMSG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

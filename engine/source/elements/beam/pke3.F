@@ -117,6 +117,13 @@ C-------------------------
 C
       RETURN
       END
+Chd|====================================================================
+Chd|  PKEG3                         source/elements/beam/pke3.F   
+Chd|-- called by -----------
+Chd|        PKE3                          source/elements/beam/pke3.F   
+Chd|        R13KE3                        source/elements/spring/r13ke3.F
+Chd|-- calls ---------------
+Chd|====================================================================
           SUBROUTINE PKEG3(JFT     ,JLT     ,
      1                   FX      ,AL      ,KE11    ,KE12    ,KE22   )
 C-----------------------------------------------
