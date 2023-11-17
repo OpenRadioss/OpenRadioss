@@ -996,7 +996,7 @@ c
      .                IGTYP == 52 ) THEN
                     IF (MLW /= 0 .AND. MLW /= 13) THEN    
                      IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-                      IF(IPT <= BUFLY%NPTT ) THEN 
+                      IF(IPT <= BUFLY%NPTT .AND. IPT > 0 ) THEN 
                          LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(IPT) 
                       ELSE
                         LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(1)   
@@ -1231,7 +1231,7 @@ C
      .                IGTYP == 52 ) THEN
                     IF (MLW /= 0 .AND. MLW /= 13) THEN      
                      IF(IDRAPE > 0 . AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-                      IF(IPT <= BUFLY%NPTT ) THEN
+                      IF(IPT <= BUFLY%NPTT .AND. IPT > 0) THEN
                          LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(IPT) 
                       ELSE
                         LBUF_DIR => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF_DIR(1)   
@@ -1389,7 +1389,7 @@ c
                      IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
                       IF (MLW /= 0 .AND. MLW /= 13) THEN
                        IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-                         IF(IPT <= BUFLY%NPTT ) THEN
+                         IF(IPT <= BUFLY%NPTT .AND. IPT > 0) THEN
                             LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(IPT) 
                          ELSE
                             LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(1)   
@@ -1625,7 +1625,7 @@ c
                      IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
                       IF (MLW /= 0 .AND. MLW /= 13) THEN
                        IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN 
-                        IF(IPT <= BUFLY%NPTT ) THEN
+                        IF(IPT <= BUFLY%NPTT .AND. IPT > 0 ) THEN
                             LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(IPT) 
                         ELSE
                             LBUF_DIR => ELBUF_TAB(NG)%BUFLY(J)%LBUF_DIR(1)  
@@ -3134,7 +3134,7 @@ C
                  END DO        
                END IF
 C
-               IF(MPT >= IPT) THEN          
+               IF(MPT >= IPT .AND. IPT > 0) THEN          
 !!                    DO IL=1,NLAY  ! we are in the case IL=IPT      
                   DO I=1,NEL
                     K1 = 2*I-1                
