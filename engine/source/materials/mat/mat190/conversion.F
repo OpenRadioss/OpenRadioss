@@ -39,7 +39,8 @@ Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|====================================================================
        SUBROUTINE CONVERSION (ZXX,  ZYY,  ZZZ,   ZXY,  ZYZ,  ZZX,   
      .                      CIJKL,DFIRST,DRATE,  SCAL, NEL,  JAC, 
-     .                     SLOPE ,NUMTABL ,TABLE,NVARTMP,VARTMP)
+     .                      SLOPE ,NUMTABL ,TABLE,NVARTMP,VARTMP,
+     .                      YLD,NDIM_TABLE,TOL1)
 c           computation of coefficients to convert stiffness
 c           matrix from local to global reference system
 c===========================================================================
@@ -59,13 +60,13 @@ c===========================================================================
 C-----------------------------------------------
 C   I N T P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,  NUMTABL,NVARTMP
-      my_real, INTENT(IN) :: SCAL,ZXX(NEL),ZYY(NEL),ZZZ(NEL),ZXY(NEL),ZZX(NEL),ZYZ(NEL), JAC(NEL)
+      INTEGER, INTENT(IN) :: NEL,  NUMTABL,NVARTMP,NDIM_TABLE
+      my_real, INTENT(IN) :: TOL1,SCAL,ZXX(NEL),ZYY(NEL),ZZZ(NEL),ZXY(NEL),ZZX(NEL),ZYZ(NEL), JAC(NEL)
       INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
 C-----------------------------------------------
 C    I N T P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
-      my_real, INTENT(OUT) :: DFIRST(NEL,3,6),CIJKL(NEL,6,6), SLOPE(NEL,3)
+      my_real, INTENT(OUT) :: DFIRST(NEL,3,6),CIJKL(NEL,6,6), SLOPE(NEL,3),YLD(NEL)
       my_real, INTENT(INOUT) :: DRATE(NEL,3)
       my_real, EXTERNAL :: FINTER
       TYPE (TABLE_4D_), DIMENSION(NUMTABL) ,TARGET  ::  TABLE
@@ -114,13 +115,14 @@ C-----------------------------------------------
      .   AHELP3,AHELP33,AHELP,AHELP4,
      .   XCAP,DXCAP,ACOSTETA,TERMDAT32
       ! TABLE
-      INTEGER  IPOS(NEL,3)
+      INTEGER  IPOS(NEL,3),IPOS2(NEL,2),IPOS1(NEL,1)
       my_real, DIMENSION(NEL,3)   :: XVEC
-      TYPE(TABLE_4D_), POINTER :: FUNC_ENER , FUNC_SIG
+      my_real, DIMENSION(NEL,2)   :: XVEC2
+      my_real, DIMENSION(NEL,1)   :: XVEC1
+      TYPE(TABLE_4D_), POINTER ::  FUNC_SIG
 C===========================================================================
 C===========================================================================
       FUNC_SIG   => TABLE(1)
-      FUNC_ENER  => TABLE(2)
       
 
       DO I=1,NEL
@@ -632,7 +634,7 @@ C
 C       SIMILAR ZEROING OUT AS IN THE FIRST DERIVATIVES
 C       UNLIKE WITH THE FIRST DERIVATIVES, HERE IT MAKES A DIFFERENCE
 C
-        IF (AHELP3 < 1.E-9) THEN !1.E-16
+        IF (AHELP3 < TOL1) THEN !1.E-16
           AFAC3=ZERO
           AFAC4=ZERO
         ENDIF
@@ -763,35 +765,81 @@ C
 
 C     PRINCIPAL ENGINEERING STRESS POSITIVE IN COMPRESSION
 C     THIS IS FROM THE QUASISTATIC LOAD CURVE ( LOWEST STRAIN RATE )
-      XVEC(1:NEL,1)   = EPSILON(1:NEL,1)
-      XVEC(1:NEL,2)   = ZERO           ! QUASISTATIC
-      XVEC(1:NEL,3)   = VOLSTR(1:NEL)
-      IPOS(1:NEL,1) = VARTMP(1:NEL,1)
-      IPOS(1:NEL,2) = 1
-      IPOS(1:NEL,3) = VARTMP(1:NEL,2)            
-      CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG1,DSIG1)
-      VARTMP(1:NEL,1) = IPOS(1:NEL,1)
-      VARTMP(1:NEL,2) = IPOS(1:NEL,3)
+
+
+      !check table dimension
+      IF (NDIM_TABLE == 1) THEN
+         XVEC1(1:NEL,1)   = EPSILON(1:NEL,1)
+         IPOS1(1:NEL,1)   = VARTMP(1:NEL,1)
+         CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS1,XVEC1,FSIG1,DSIG1) 
+         VARTMP(1:NEL,1)  = IPOS1(1:NEL,1)
+
+         XVEC1(1:NEL,1)   = EPSILON(1:NEL,2)
+         IPOS1(1:NEL,1)   = VARTMP(1:NEL,3)
+         CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS1,XVEC1,FSIG2,DSIG2)
+         VARTMP(1:NEL,3) = IPOS1(1:NEL,1)
+
+         XVEC1(1:NEL,1)   = EPSILON(1:NEL,3)
+         IPOS1(1:NEL,1) = VARTMP(1:NEL,5)
+         CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS1,XVEC1,FSIG3,DSIG3)
+         VARTMP(1:NEL,5) = IPOS1(1:NEL,1)
 c
-      XVEC(1:NEL,1)   = EPSILON(1:NEL,2)
-      XVEC(1:NEL,2)   = ZERO           ! QUASISTATIC
-      XVEC(1:NEL,3)   = VOLSTR(1:NEL)
-      IPOS(1:NEL,1) = VARTMP(1:NEL,3)
-      IPOS(1:NEL,2) = 1
-      IPOS(1:NEL,3) = VARTMP(1:NEL,4)             
-      CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG2,DSIG2)
-      VARTMP(1:NEL,3) = IPOS(1:NEL,1)
-      VARTMP(1:NEL,4) = IPOS(1:NEL,3)
+         !if 2D table is used   
+      ELSEIF (NDIM_TABLE == 2) THEN
+         XVEC2(1:NEL,1)   = EPSILON(1:NEL,1)
+         XVEC2(1:NEL,2)   = ZERO           ! QUASISTATIC
+         IPOS2(1:NEL,1)   = VARTMP(1:NEL,1)
+         IPOS2(1:NEL,2)   = 1          
+         CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS2,XVEC2,FSIG1,DSIG1)
+         VARTMP(1:NEL,1) = IPOS2(1:NEL,1)
+
+         XVEC2(1:NEL,1)   = EPSILON(1:NEL,2)
+         XVEC2(1:NEL,2)   = ZERO           ! QUASISTATIC
+         IPOS2(1:NEL,1)   = VARTMP(1:NEL,3)
+         IPOS2(1:NEL,2)   = 1
+         CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS2,XVEC2,FSIG2,DSIG2)
+         VARTMP(1:NEL,3) = IPOS2(1:NEL,1)
+
+         XVEC2(1:NEL,1)   = EPSILON(1:NEL,3)
+         XVEC2(1:NEL,2)   = ZERO           ! QUASISTATIC
+         IPOS2(1:NEL,1) = VARTMP(1:NEL,5)
+         IPOS2(1:NEL,2) = 1         
+         CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS2,XVEC2,FSIG3,DSIG3)
+         VARTMP(1:NEL,5) = IPOS2(1:NEL,1)
+   
+      !if 3D table is used   
+      ELSEIF (NDIM_TABLE == 3) THEN
+     
+         XVEC(1:NEL,1)   = EPSILON(1:NEL,1)
+         XVEC(1:NEL,2)   = ZERO           ! QUASISTATIC
+         XVEC(1:NEL,3)   = VOLSTR(1:NEL)
+         IPOS(1:NEL,1) = VARTMP(1:NEL,1)
+         IPOS(1:NEL,2) = 1
+         IPOS(1:NEL,3) = VARTMP(1:NEL,2)  
+         CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG1,DSIG1)
+         VARTMP(1:NEL,1) = IPOS(1:NEL,1)
+         VARTMP(1:NEL,2) = IPOS(1:NEL,3)
 c
-      XVEC(1:NEL,1)   = EPSILON(1:NEL,3)
-      XVEC(1:NEL,2)   = ZERO           ! QUASISTATIC
-      XVEC(1:NEL,3)   = VOLSTR(1:NEL)
-      IPOS(1:NEL,1) = VARTMP(1:NEL,5)
-      IPOS(1:NEL,2) = 1
-      IPOS(1:NEL,3) = VARTMP(1:NEL,6)             
-      CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG3,DSIG3)
-      VARTMP(1:NEL,5) = IPOS(1:NEL,1)
-      VARTMP(1:NEL,6) = IPOS(1:NEL,3)
+         XVEC(1:NEL,1)   = EPSILON(1:NEL,2)
+         XVEC(1:NEL,2)   = ZERO           ! QUASISTATIC
+         XVEC(1:NEL,3)   = VOLSTR(1:NEL)
+         IPOS(1:NEL,1) = VARTMP(1:NEL,3)
+         IPOS(1:NEL,2) = 1
+         IPOS(1:NEL,3) = VARTMP(1:NEL,4)             
+         CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG2,DSIG2)
+         VARTMP(1:NEL,3) = IPOS(1:NEL,1)
+         VARTMP(1:NEL,4) = IPOS(1:NEL,3)
+c
+         XVEC(1:NEL,1)   = EPSILON(1:NEL,3)
+         XVEC(1:NEL,2)   = ZERO           ! QUASISTATIC
+         XVEC(1:NEL,3)   = VOLSTR(1:NEL)
+         IPOS(1:NEL,1) = VARTMP(1:NEL,5)
+         IPOS(1:NEL,2) = 1
+         IPOS(1:NEL,3) = VARTMP(1:NEL,6)             
+         CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG3,DSIG3)
+         VARTMP(1:NEL,5) = IPOS(1:NEL,1)
+         VARTMP(1:NEL,6) = IPOS(1:NEL,3)
+      ENDIF
 c
       DO I=1,NEL
 C
@@ -803,56 +851,111 @@ C
 
         SIGMA(I,3) = FSIG3(I) 
         SLOPE(I,3) = DSIG3(I) 
-
       ENDDO !I=1,NEL
 C
 C     PRINCIPAL ENGINEERING STRESS POSITIVE IN COMPRESSION
 C     THIS IS FROM THE COMPLETE RATE DEPENDENT TABLE3D
 C     SO 'ENGIRATE' HAS TO COME IN AS AN ADDITIONAL ARGUMENT
-C     DIRECTION 1
-      XVEC(1:NEL,1)   = EPSILON(1:NEL,1)
-      XVEC(1:NEL,2)   = STRAINRATE(1:NEL,1) * SCAL
-      XVEC(1:NEL,3)   = VOLSTR(1:NEL)
-!       
-      IPOS(1:NEL,1) = VARTMP(1:NEL,7)
-      IPOS(1:NEL,2) = VARTMP(1:NEL,8)
-      IPOS(1:NEL,3) = VARTMP(1:NEL,9)             
-      CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG1,DSIG1)
-      VARTMP(1:NEL,7) = IPOS(1:NEL,1)
-      VARTMP(1:NEL,8) = IPOS(1:NEL,2)
-      VARTMP(1:NEL,9) = IPOS(1:NEL,3)
+      !check table dimension
+      IF (NDIM_TABLE == 1) THEN
+C       DIRECTION 1
+        XVEC1(1:NEL,1)   = EPSILON(1:NEL,1)       
+        IPOS1(1:NEL,1) = VARTMP(1:NEL,7)
+        CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS1,XVEC1,FSIG1,DSIG1)
+        VARTMP(1:NEL,7) = IPOS1(1:NEL,1)
 
-C     DIRECTION 2
+C       DIRECTION 2
 
-      XVEC(1:NEL,1)   = EPSILON(1:NEL,2)
-      XVEC(1:NEL,2)   = STRAINRATE(1:NEL,2) * SCAL
-      XVEC(1:NEL,3)   = VOLSTR(1:NEL)       
-      IPOS(1:NEL,1) = VARTMP(1:NEL,10)
-      IPOS(1:NEL,2) = VARTMP(1:NEL,11)
-      IPOS(1:NEL,3) = VARTMP(1:NEL,12)            
-      CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG2,DSIG2)
-      VARTMP(1:NEL,10) = IPOS(1:NEL,1) 
-      VARTMP(1:NEL,11) = IPOS(1:NEL,2) 
-      VARTMP(1:NEL,12) = IPOS(1:NEL,3)
+        XVEC1(1:NEL,1)   = EPSILON(1:NEL,2)
+        IPOS1(1:NEL,1) = VARTMP(1:NEL,10)
+        CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS1,XVEC1,FSIG2,DSIG2)
+        VARTMP(1:NEL,10) = IPOS1(1:NEL,1) 
       
-C     DIRECTION 3
+C       DIRECTION 3
 
-      XVEC(1:NEL,1)   = EPSILON(1:NEL,3)
-      XVEC(1:NEL,2)   = STRAINRATE(1:NEL,3) * SCAL
-      XVEC(1:NEL,3)   = VOLSTR(1:NEL)       
-      IPOS(1:NEL,1) = VARTMP(1:NEL,13)
-      IPOS(1:NEL,2) = VARTMP(1:NEL,14)
-      IPOS(1:NEL,3) = VARTMP(1:NEL,15)            
-      CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG3,DSIG3)
-      VARTMP(1:NEL,13) = IPOS(1:NEL,1) 
-      VARTMP(1:NEL,14) = IPOS(1:NEL,2) 
-      VARTMP(1:NEL,15) = IPOS(1:NEL,3)
+        XVEC1(1:NEL,1)   = EPSILON(1:NEL,3)
+        IPOS1(1:NEL,1) = VARTMP(1:NEL,13)
+        CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS1,XVEC1,FSIG3,DSIG3)
+        VARTMP(1:NEL,13) = IPOS1(1:NEL,1) 
+
+         !if 2D table is used   
+      ELSEIF (NDIM_TABLE == 2) THEN
+C       DIRECTION 1
+        XVEC2(1:NEL,1)   = EPSILON(1:NEL,1)
+        XVEC2(1:NEL,2)   = STRAINRATE(1:NEL,1) * SCAL       
+        IPOS2(1:NEL,1) = VARTMP(1:NEL,7)
+        IPOS2(1:NEL,2) = VARTMP(1:NEL,8)             
+        CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS2,XVEC2,FSIG1,DSIG1)
+        VARTMP(1:NEL,7) = IPOS2(1:NEL,1)
+        VARTMP(1:NEL,8) = IPOS2(1:NEL,2)
+C       DIRECTION 2
+        XVEC2(1:NEL,1)   = EPSILON(1:NEL,2)
+        XVEC2(1:NEL,2)   = STRAINRATE(1:NEL,2) * SCAL      
+        IPOS2(1:NEL,1) = VARTMP(1:NEL,10)
+        IPOS2(1:NEL,2) = VARTMP(1:NEL,11)           
+        CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS2,XVEC2,FSIG2,DSIG2)
+        VARTMP(1:NEL,10) = IPOS2(1:NEL,1) 
+        VARTMP(1:NEL,11) = IPOS2(1:NEL,2) 
+C       DIRECTION 3
+        XVEC2(1:NEL,1)   = EPSILON(1:NEL,3)
+        XVEC2(1:NEL,2)   = STRAINRATE(1:NEL,3) * SCAL      
+        IPOS2(1:NEL,1) = VARTMP(1:NEL,13)
+        IPOS2(1:NEL,2) = VARTMP(1:NEL,14)         
+        CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS2,XVEC2,FSIG3,DSIG3)
+        VARTMP(1:NEL,13) = IPOS2(1:NEL,1) 
+        VARTMP(1:NEL,14) = IPOS2(1:NEL,2) 
+c        
+      !if 3D table is used   
+      ELSEIF (NDIM_TABLE == 3) THEN
+C       DIRECTION 1
+        XVEC(1:NEL,1)   = EPSILON(1:NEL,1)
+        XVEC(1:NEL,2)   = STRAINRATE(1:NEL,1) * SCAL
+        XVEC(1:NEL,3)   = VOLSTR(1:NEL)
+!       
+        IPOS(1:NEL,1) = VARTMP(1:NEL,7)
+        IPOS(1:NEL,2) = VARTMP(1:NEL,8)
+        IPOS(1:NEL,3) = VARTMP(1:NEL,9)             
+        CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG1,DSIG1)
+        VARTMP(1:NEL,7) = IPOS(1:NEL,1)
+        VARTMP(1:NEL,8) = IPOS(1:NEL,2)
+        VARTMP(1:NEL,9) = IPOS(1:NEL,3)
+
+C       DIRECTION 2
+
+        XVEC(1:NEL,1)   = EPSILON(1:NEL,2)
+        XVEC(1:NEL,2)   = STRAINRATE(1:NEL,2) * SCAL
+        XVEC(1:NEL,3)   = VOLSTR(1:NEL)       
+        IPOS(1:NEL,1) = VARTMP(1:NEL,10)
+        IPOS(1:NEL,2) = VARTMP(1:NEL,11)
+        IPOS(1:NEL,3) = VARTMP(1:NEL,12)            
+        CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG2,DSIG2)
+        VARTMP(1:NEL,10) = IPOS(1:NEL,1) 
+        VARTMP(1:NEL,11) = IPOS(1:NEL,2) 
+        VARTMP(1:NEL,12) = IPOS(1:NEL,3)
+      
+C       DIRECTION 3
+
+        XVEC(1:NEL,1)   = EPSILON(1:NEL,3)
+        XVEC(1:NEL,2)   = STRAINRATE(1:NEL,3) * SCAL
+        XVEC(1:NEL,3)   = VOLSTR(1:NEL)       
+        IPOS(1:NEL,1) = VARTMP(1:NEL,13)
+        IPOS(1:NEL,2) = VARTMP(1:NEL,14)
+        IPOS(1:NEL,3) = VARTMP(1:NEL,15)            
+        CALL TABLE_MAT_VINTERP(FUNC_SIG,NEL,IPOS,XVEC,FSIG3,DSIG3)
+        VARTMP(1:NEL,13) = IPOS(1:NEL,1) 
+        VARTMP(1:NEL,14) = IPOS(1:NEL,2) 
+        VARTMP(1:NEL,15) = IPOS(1:NEL,3)
+
+      ENDIF  !NDIM_TABLE
+
+
 
       DO I=1,NEL
 
         DYNSIGMA(I,1) = FSIG1(I) 
         DYNSIGMA(I,2) = FSIG2(I) 
         DYNSIGMA(I,3) = FSIG3(I) 
+        YLD(I) = SQRT(DYNSIGMA(I,1)**2 + DYNSIGMA(I,2)**2 + DYNSIGMA(I,3)**2 )
 C
 C       PRINCIPAL 2PK STRESS POSITIVE IN TENSION
 C

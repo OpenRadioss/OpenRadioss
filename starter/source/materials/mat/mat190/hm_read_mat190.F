@@ -99,7 +99,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       INTEGER :: I,ILAW
-      my_real :: RHO0,RHOR,NU,BULK,E,EMOD,G,A11, SCAL, SCALINT, 
+      my_real :: RHO0,RHOR,NU,BULK,E,EMOD,G,A11, SCAL, SCALINT, TOL1,TOL2,
      .  HU, SHAPE,SCALE_1_UNIT,SCALE_INT_UNIT,XFAC(2)
 C=======================================================================
       ILAW = 190
@@ -117,6 +117,10 @@ card2
 card3
       CALL HM_GET_FLOATV('MAT_HU'    ,HU      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_SHAPE' ,SHAPE   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_TOL1'  ,TOL1    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_TOL2'  ,TOL2    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+
+
 card4
       CALL HM_GET_INTV  ('FUN_1'     ,ITABLE(1),IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('SCALE_1'   ,XFAC(1) ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -126,6 +130,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF ( XFAC(1) == ZERO) XFAC(1) = ONE * SCALE_1_UNIT
 C-----------------------------------------------
+      IF(TOL1 == ZERO) TOL1 =  1.e-9
       E    = EMOD
       G    = EMOD / TWO / (ONE+NU)
       BULK = EMOD / THREE / (ONE-TWO * NU)      
@@ -137,7 +142,7 @@ C-----------------------------------------------
 C-------------------------------------------
 C User Material Parameters Definition
 C-------------------------------------------
-      MATPARAM%NUPARAM = 9
+      MATPARAM%NUPARAM = 11
 
       ALLOCATE (MATPARAM%UPARAM(MATPARAM%NUPARAM))
 
@@ -151,6 +156,8 @@ C-------------------------------------------
       MATPARAM%UPARAM(8) = HU
       MATPARAM%UPARAM(9) = SHAPE
 
+      MATPARAM%UPARAM(10) = TOL1
+      MATPARAM%UPARAM(11) = TOL2
       NUVAR   = 30  ! Number of User Element Variables and Curves
       NVARTMP = 18
 
