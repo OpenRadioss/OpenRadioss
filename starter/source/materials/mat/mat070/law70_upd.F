@@ -219,7 +219,7 @@ c       reduce number of points if necessary
         END DO
 c--------------------------------------------------------
         CALL LAW70_TABLE(
-     .       MAT_PARAM%TABLE(UNLOAD)  ,LMAX   ,NLOAD  ,LEN     ,RATE  ,
+     .       MAT_PARAM%TABLE(UNLOAD)  ,LMAX   ,NULOAD  ,LEN     ,RATE  ,
      .       XI    , YI     )      
       
         DEALLOCATE (YI)
