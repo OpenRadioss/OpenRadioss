@@ -192,6 +192,7 @@ card7 - Yield criterion parameters
         IF (.NOT.ALLOCATED(fUN))   ALLOCATE(fUN(NANGLE,2))
         IF (.NOT.ALLOCATED(fSH))   ALLOCATE(fSH(NANGLE,2))
         IF (.NOT.ALLOCATED(fPS))   ALLOCATE(fPS(NANGLE,2))
+        fPS(1:NANGLE,1:2) = ZERO
         IF (.NOT.ALLOCATED(rLank)) ALLOCATE(rLank(NANGLE))
         ! Loop over angles (must be equally distributed between 0 and pi/2)
         DO J = 1, NANGLE
