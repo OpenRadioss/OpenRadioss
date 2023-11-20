@@ -165,7 +165,7 @@ Chd|====================================================================
      Y  DIMFB  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N, DRAPE_SH3N,
      Z  H3D_DATA,MULTI_FVM,IGRBRIC,IGRSH4N,IGRSH3N,IGRBEAM,FORNEQS,MAXDGAP,
      A  NDDL0   ,NNZK0 ,IT_T    ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC, DRAPEG,
-     B  INTERFACES,TH_SURF ,FSAVSURF,NSEG_LOADP,DPL0CLD,VEL0CLD)
+     B  INTERFACES,TH_SURF ,FSAVSURF,NSEG_LOADP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -246,8 +246,6 @@ C-----------------------------------------------
      .          ISLEN17,IRLEN17,IRLEN7T,ISLEN7T,
      .          IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,ISLEN20E,
      .          KINET(*),NUM_IMP1(*),IRBE3(*),LRBE3(*),IRBE2(*),LRBE2(*)
-      my_real, INTENT(IN) :: 
-     .        DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
 C     REAL
         my_real
      .    DT2PREV,VOLMON(*) ,TEMP(*),
@@ -520,9 +518,7 @@ C
      5                     LGRAV ,ITASK ,NRBYAC,IRBYAC ,NPBY  ,
      6                     RBY   ,FR_ELEM,IAD_ELEM,NDDL0,NNZK0,
      7                     I_IMP(5),H3D_DATA,CPTREAC,FTHREAC,NODREAC,
-     8                     NSENSOR,TH_SURF ,FSAVSURF, NSEG_LOADP,DPL0CLD,
-     9                     VEL0CLD,   D,  DR,  NUMNOD,NSURF,
-     A                     NFUNCT,NCONLD,NGRAV,NINVEL)
+     8                     NSENSOR,TH_SURF ,FSAVSURF, NSEG_LOADP)
 C
 C----------------------------------
 C       FORCES EXTERNES A=Fext-Fint
@@ -537,8 +533,7 @@ C         --en spmd force est traite comme elements---
      3                 NSENSOR,SENSOR_TAB,TFEXC,
      4                 IADS_F ,FSKY    ,FSKY   ,DUMMY_FEXT,H3D_DATA,
      5                 CPTREAC ,FTHREAC,NODREAC ,TH_SURF ,FSAVSURF,
-     6                 NSEG_LOADP,DPL0CLD ,VEL0CLD ,D       ,DR      ,
-     7                 NCONLD  ,NUMNOD    ,NSURF,NFUNCT)
+     6                 NSEG_LOADP)
 C
             IF (IMACH==3.AND.NSPMD>1) THEN
               DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
@@ -1917,9 +1912,7 @@ C
      6                    NPBY  ,RBY   ,IBFV    ,VEL   ,D_IMP  ,
      7                    DR_IMP,IKC   ,IDDL  ,IFRAME,XFRAME  ,
      8                    NDOF  ,H3D_DATA,CPTREAC,FTHREAC,NODREAC,NSENSOR,
-     9                    TH_SURF ,FSAVSURF,NSEG_LOADP,DPL0CLD,
-     A                    VEL0CLD, NUMNOD,NSURF,NFUNCT,NCONLD,
-     B                    NGRAV,NFXVEL)
+     9                    TH_SURF ,FSAVSURF,NSEG_LOADP)
             CALL DYNA_CPR0(NDDL0  )
           END IF
 C----------D_imp taking D_n-1 :exception for case with Gravity-----
@@ -3136,7 +3129,7 @@ Chd|====================================================================
      N  FRWL6  ,IRBE2  ,LRBE2  ,ICFIELD,LCFIELD,CFIELD,ELBUF_TAB,WEIGHT_MD,
      O  STACK  ,DIMFB  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N,DRAPE_SH3N,H3D_DATA,
      P  NDDL0  ,NNZK0  ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC,DRAPEG,TH_SURF ,
-     Q  FSAVSURF,NSEG_LOADP,DPL0CLD,VEL0CLD)
+     Q  FSAVSURF,NSEG_LOADP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -3202,8 +3195,6 @@ C     REAL
      .           IRBE3(*),LRBE3(*),IRBE2(*),LRBE2(*)
         TYPE (DRAPE_) :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
         TYPE (DRAPEG_) :: DRAPEG
-        my_real, INTENT(IN) :: 
-     .   DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
 C     REAL
 c      my_real
 c     .  DIAG_K(*),LT_K(*),DD(*) ,DDR(*) ,DIAG_M(*),LT_M(*),LB(*),LB0(*),
@@ -3338,8 +3329,7 @@ C----------------------------------
      3               NSENSOR,SENSOR_TAB,TFEXC,
      4               IADS_F,FSKY  ,FSKY, DUMMY_FEXT,H3D_DATA,
      5               CPTREAC,FTHREAC,NODREAC,TH_SURF ,FSAVSURF,
-     6               NSEG_LOADP,DPL0CLD ,VEL0CLD ,D       ,DR      ,
-     7               NCONLD  ,NUMNOD    ,NSURF,NFUNCT)
+     6               NSEG_LOADP)
           IF (IMACH==3.AND.NSPMD>1) THEN
             DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
               J = FR_ELEM(I)

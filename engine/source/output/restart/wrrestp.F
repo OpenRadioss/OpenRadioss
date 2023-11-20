@@ -1438,11 +1438,6 @@ C--------------------------------------------
       CALL WRITE_DB(TM_NSTRA1,LMAX_NSTRA*NUMNOD)
       CALL WRITE_DB(TM_NSTRA3,LMAX_NSTRA*NUMNOD)
 C--------------------------------------
-      IF (LOADS%NLOAD_CLOAD > 0) THEN
-        CALL WRITE_DB(DPL0CLD,6*LOADS%NLOAD_CLOAD)
-        CALL WRITE_DB(VEL0CLD,6*LOADS%NLOAD_CLOAD)
-      ENDIF
-C--------------------------------------
       IF(ISPMD==0)THEN
         WRITE (IOUT,1000)  FILNAMG(1:LENG)
         WRITE (ISTDO,1050) FILNAMG(1:LENG)

@@ -42,8 +42,7 @@ Chd|====================================================================
      3                  NSENSOR ,SENSOR_TAB,TFEXC   ,IADC   ,
      4                  FSKY    ,FSKYV     ,FEXT    ,H3D_DATA,
      5                  CPTREAC ,FTHREAC   ,NODREAC ,TH_SURF ,FSAVSURF,
-     6                  NSEG_LOADP,DPL0CLD ,VEL0CLD ,D       ,DR      ,
-     7                  NCONLD  ,NUMNOD    ,NSURF   ,NFUNCT) 
+     6                  NSEG_LOADP) 
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -62,7 +61,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-!#include      "com04_c.inc"
+#include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "impl1_c.inc"
@@ -73,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NSENSOR,NCONLD,NUMNOD,NSURF,NFUNCT
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),CPTREAC,NODREAC(*)
       INTEGER IB(NIBCLD,*)
       INTEGER IADC(4,*)
@@ -86,16 +85,12 @@ C-----------------------------------------------
       TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
       my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
       INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
-      my_real, INTENT(IN) ::  DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
-      my_real, INTENT(IN) ::  D(3,NUMNOD), DR(3,NUMNOD)
-C-----------------------------------------------
 
       call FORCE(IB      ,FAC       ,NPC     ,TF      ,A      ,
      2                  V       ,X         ,SKEW    ,AR      ,VR     ,
      3                  NSENSOR ,SENSOR_TAB,TFEXC   ,IADC   ,
      4                  FSKY    ,FSKYV     ,FEXT    ,H3D_DATA,
      5                  CPTREAC ,FTHREAC   ,NODREAC ,TH_SURF ,FSAVSURF,
-     6                  NSEG_LOADP,DPL0CLD ,VEL0CLD ,D       ,DR      ,
-     7                  NCONLD  ,NUMNOD    ,NSURF   ,NFUNCT) 
+     6                  NSEG_LOADP) 
 
       END SUBROUTINE

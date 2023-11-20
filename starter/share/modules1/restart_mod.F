@@ -143,7 +143,7 @@ C 2D to avoid integer limitation
      .      MSP,     DMELP,   MSRT,    DMELRT,  RES_SMS,
      .      KVOL,    CFIELD, DIAG_SMS, LOADP,   GAUGE,
      .      DFLOW,   VFLOW,   WFLOW   ,KNOT,    WIGE,
-     .      RDRAPE,  KNOTLOCPC,KNOTLOCEL,DPL0CLD,VEL0CLD
+     .      RDRAPE,  KNOTLOCPC,KNOTLOCEL
       my_real , 
      .    DIMENSION(:), ALLOCATABLE :: FCONV, FBFTEMP, FRADIA, FBFFLUX
      

@@ -60,7 +60,7 @@ Chd|        SPH_MOD                       share/modules/sph_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TRIMAT_MOD                    share/modules/trimat.F        
 Chd|====================================================================
-      SUBROUTINE RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,LOADS)
+      SUBROUTINE RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -92,7 +92,6 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE OUTPUTS_MOD
       USE ALE_MOD
-      USE LOADS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -129,7 +128,6 @@ C-----------------------------------------------
       TYPE(PINCH) :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE(t_SEGVAR) :: SEGVAR
-      TYPE (LOADS_),INTENT(IN) :: LOADS
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2232,16 +2230,6 @@ C-------TMAX(H3D) -----
          IF ((LMAX_NSIG+LMAX_NSTRA)>0) THEN
            ALLOCATE(GPSTMP(6*NUMNOD),P2TMP(2*NUMNOD),STAT=IERR)
            IF (IERR/=0) GOTO 1000 
-         END IF
-         IF (LOADS%NLOAD_CLOAD > 0) THEN
-           ALLOCATE (DPL0CLD(6*LOADS%NLOAD_CLOAD),STAT=IERR)
-           IF (IERR/=0) GOTO 1000
-           DPL0CLD = ZERO
-           ALLOCATE (VEL0CLD(6*LOADS%NLOAD_CLOAD),STAT=IERR)
-           IF (IERR/=0) GOTO 1000
-           VEL0CLD = ZERO
-         ELSE
-           ALLOCATE(DPL0CLD(0),VEL0CLD(0))
          END IF
 C
 C  DEBUG MEMORY ALLOCATIONS

@@ -40,8 +40,8 @@ Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_PLOAD(IPRES     ,PRES     ,NPREL    ,ITAB    ,ITABM1  ,
-     .                         IGRSURF   ,UNITAB   ,LSUBMODEL,LOADS   )
+      SUBROUTINE HM_READ_PLOAD(IPRES     ,PRES     ,NPREL  ,ITAB    ,ITABM1  ,
+     2                  IGRSURF,UNITAB,LSUBMODEL )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -52,7 +52,6 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE PINCHTYPE_MOD
-      USE LOADS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,13 +76,12 @@ C-----------------------------------------------
      .   PRES(LFACCLD,*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
-      TYPE (LOADS_),INTENT(INOUT) :: LOADS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K, M, I1, I2, I3, I4, IFU, I, ISENS,NPR0,NN,ISU,IS,
      .        IAD,ID,J,UID,IFLAGUNIT,IFIX_TMP,
-     .        CAPT,H,SUB_INDEX,FLAG_PINCH,KPINCH,IDEL,IFUNCTYPE
+     .        CAPT,H,SUB_INDEX,FLAG_PINCH,KPINCH,IDEL
       INTEGER N1,N2,N3,N4
       my_real
      .   FCX,FCY,FAC_FCX,FAC_FCY
@@ -105,7 +103,6 @@ C     4: 4th node number of the segment
 C     5: Function internal number
 C     6: ISENS Sensor User ID
 C     7: User ID
-C     9: Itypfun                           Function type
 C-----------------------------------------------
 C     FORC(LFACCLD,NUMCLD+NUMPRES)
 C     PRES = FORC(LFACCLD,NUMCLD+1:NUMCLD+NUMPRES)
@@ -121,7 +118,6 @@ C=======================================================================
       NPLOADPINCH=0
       KPINCH=0
       PDEL = 0
-      IFUNCTYPE = 0
 C--------------------------------------------------
 C START BROWSING MODEL /PLOAD
 C--------------------------------------------------
@@ -146,7 +142,7 @@ C--------------------------------------------------
         CALL HM_GET_INTV('rad_sensor_id',ISENS,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('ipinch',FLAG_PINCH,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('Idel',IDEL,IS_AVAILABLE,LSUBMODEL)
-        CALL HM_GET_INTV('Itypfun',IFUNCTYPE,IS_AVAILABLE,LSUBMODEL)
+
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -182,11 +178,6 @@ C--------------------------------------------------
             PDEL = 0    
             IDEL = 0
         ENDIF
-C
-        IF(IFUNCTYPE == 0) IFUNCTYPE = 1 ! Abscissa function is time (by default)
-                        !  IFUNCTYPE = 2 ! Abscissa function is nodal displacement
-                        !  IFUNCTYPE = 3 ! Abscissa function is nodal velocity
-C
         IF(IS/=0)THEN                                          
           NN=IGRSURF(IS)%NSEG
           KPINCH=NN+1
@@ -215,7 +206,6 @@ C               true triangles (not segments built from 3 nodes).
               IPRES(6,K)     = ISENS     
               IPRES(7,K) = IDEL          
               IPRES(8,K) = 0                                       
-              IPRES(9,K) = IFUNCTYPE
               PRES(1,K) = FCY                                          
               PRES(2,K) = ONE/FCX
             ELSE
@@ -234,7 +224,6 @@ C               true triangles (not segments built from 3 nodes).
               IPRES(6,KPINCH)     = ISENS    
               IPRES(7,KPINCH) = IDEL  
               IPRES(8,KPINCH) = 0                                      
-              IPRES(9,KPINCH) = IFUNCTYPE
               PRES(1,KPINCH) = FCY                                          
               PRES(2,KPINCH) = ONE/FCX              
             ENDIF  
@@ -251,9 +240,6 @@ C-----------Multidomaines -> on decompte les seg communs, on ne les compte qu'un
 C
       I1=1
       I2=MIN0(50,NPRELD)
-C----
-      LOADS%NLOAD_PLOAD = NPRELD
-C----
 C
    90  WRITE (IOUT,2000)
 

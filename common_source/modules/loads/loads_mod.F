@@ -70,8 +70,6 @@ c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------
       TYPE LOADS_
         INTEGER :: NLOAD_CYL
-        INTEGER :: NLOAD_CLOAD ! nb of concentrated loads
-        INTEGER :: NLOAD_PLOAD ! nb of pressure loads
         TYPE (PRESS_CYL_) ,DIMENSION(:) ,ALLOCATABLE :: LOAD_CYL
         TYPE (DOMDEC_LOAD_), DIMENSION(:), ALLOCATABLE :: CYL_RESTART
         INTEGER :: S_GLOBAL_SEGMENT_ID

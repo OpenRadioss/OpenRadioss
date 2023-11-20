@@ -1385,11 +1385,6 @@ C--------------------------------------
       CALL READ_DB(TM_NSIG3,LMAX_NSIG*NUMNOD)
       CALL READ_DB(TM_NSTRA1,LMAX_NSTRA*NUMNOD)
       CALL READ_DB(TM_NSTRA3,LMAX_NSTRA*NUMNOD)
-C--------------------------------------
-      IF (LOADS%NLOAD_CLOAD > 0) THEN
-        CALL READ_DB(DPL0CLD,6*LOADS%NLOAD_CLOAD)
-        CALL READ_DB(VEL0CLD,6*LOADS%NLOAD_CLOAD)
-      ENDIF
 C
       RETURN
       END

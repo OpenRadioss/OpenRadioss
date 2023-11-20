@@ -1727,13 +1727,6 @@ C
 C
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = INTER_PARAMETERS%INTCAREA 
-C
-C /LOAD/CLOAD
-      LVARINT=LVARINT+1
-      TABVINT(LVARINT) = LOADS%NLOAD_CLOAD
-C /LOAD/PLOAD
-      LVARINT=LVARINT+1
-      TABVINT(LVARINT) = LOADS%NLOAD_PLOAD
 C----------------------------------------------------------------
 C    warning to radioss developers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------

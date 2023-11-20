@@ -4536,8 +4536,6 @@ C--------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       NUMCLD  = NCONLD
       NUMPRES = NPRELD
-      LOADS%NLOAD_CLOAD = 0
-      LOADS%NLOAD_PLOAD = 0
       IF(NSUBDOM>0) ALLOCATE(NNCL(NCONLD+NPRELD))
       CALL HM_PREREAD_CLOAD(NUMCLD, IGRNOD ,IGRSURF,LSUBMODEL)
       CALL HM_PREREAD_PLOAD(NUMPRES,IGRNOD ,IGRSURF,LSUBMODEL)
@@ -4551,14 +4549,6 @@ C--------------------------------------------
         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='FORC')
-      ALLOCATE(DPL0CLD(6*NUMCLD)    ,STAT=stat)
-        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                         C1='DPL0CLD')
-      ALLOCATE(VEL0CLD(6*NUMCLD)    ,STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                            MSGTYPE=MSGERROR,
-     .                         C1='VEL0CLD')
       IF(NUMPRES>0) THEN
         IPRES  => IBCL(NUMCLD*NIBCLD+1:SIBCL)
       ELSE
@@ -4566,8 +4556,6 @@ C--------------------------------------------
       END IF
       IBCL = 0
       FORC = ZERO
-      DPL0CLD = ZERO
-      VEL0CLD = ZERO
 C--------------------------------------------
 C     LECTURE DES FORCES CONCENTREES
 C--------------------------------------------
@@ -4575,8 +4563,7 @@ C--------------------------------------------
         WRITE(ISTDO,'(A)')TITRE(33)
 C       NCONLD ET NPRELD sont modifies dans LECCLD et LECPRE
         CALL HM_READ_CLOAD(IBCL   ,FORC   ,NCONLD,ITAB   ,ITABM1 ,
-     .                     IGRNOD ,IBCL   ,UNITAB,ISKWN ,LSUBMODEL,
-     .                     LOADS  )
+     .              IGRNOD ,IBCL   ,UNITAB,ISKWN ,LSUBMODEL  )
         IF(NCONLD*LFACCLD<SFORC) THEN
         PRES => FORC(NCONLD*LFACCLD+1:SFORC)
         ELSE
@@ -4597,8 +4584,8 @@ C--------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       IF(NPRELD/=0)THEN
         WRITE(ISTDO,'(A)')TITRE(34)
-        CALL HM_READ_PLOAD(IPRES   ,PRES   ,NPRELD    ,ITAB    ,ITABM1,
-     .                     IGRSURF ,UNITAB ,LSUBMODEL ,LOADS   )
+        CALL HM_READ_PLOAD(IPRES   ,PRES   , NPRELD , ITAB    , ITABM1 ,
+     .              IGRSURF ,UNITAB ,LSUBMODEL)
         NCONLD=NCONLD+NPRELD
       ENDIF
 C NCONLD ET NPRELD sont modifies dans LECCLD et LECPRE
@@ -10728,7 +10715,7 @@ c
      C         INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP,DYNAIN_DATA,
      E         DRAPEG       ,USER_WINDOWS ,OUTPUT        ,INTERFACES  ,NUMBER_LOAD_CYL ,
-     F         LOADS_PER_PROC(P), PYTHON,DPL0CLD,VEL0CLD)
+     F         LOADS_PER_PROC(P), PYTHON)
       GOTO 220
  221  CONTINUE
 
@@ -11002,8 +10989,6 @@ C
 
       IF(ALLOCATED( DGAPINT ))  DEALLOCATE(DGAPINT)
 
-      IF(ALLOCATED(DPL0CLD)) DEALLOCATE(DPL0CLD)
-      IF(ALLOCATED(VEL0CLD)) DEALLOCATE(VEL0CLD)
 C----------------------------------------------
 
       RETURN

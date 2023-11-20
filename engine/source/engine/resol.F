@@ -110,7 +110,6 @@ Chd|        DEPLA                         source/assembly/depla.F
 Chd|        DEPLAFAKEIGE                  source/assembly/deplafakeige.F
 Chd|        DEPLAPINCH                    source/assembly/deplapinch.F  
 Chd|        DESACTI                       source/elements/desacti.F     
-Chd|        DISP_VEL_SAVED_CLOAD          source/assembly/disp_vel_saved_cload.F
 Chd|        DRAPE_WREST                   source/output/restart/wrrest.F
 Chd|        DTNODA                        source/time_step/dtnoda.F     
 Chd|        DTNODAMP                      source/time_step/dtnodamp.F   
@@ -582,7 +581,7 @@ Chd|====================================================================
      L  XCELL, XFACE, NE_NERCVOIS, NE_NESDVOIS, NE_LERCVOIS, NE_LESDVOIS,IBCSCYC  ,LBCSCYC,
      M  T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,DYNAIN_DATA,FCONT_MAX,EBCS_TAB,DIFFUSION,
      N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT,INTERFACES,
-     O  DT         ,LOADS     , PYTHON, DPL0CLD        ,VEL0CLD)
+     O  DT         ,LOADS     , PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -824,8 +823,7 @@ C-----------------------------------------------
      .   MSTR(*), DMELTR(*), MSP(*), DMELP(*), MSRT(*), DMELRT(*),
      .   FRADIA(*), RES_SMS(*), PHIE(*),MSF(*),
      .   CFIELD(*),MSZ2(*), DIAG_SMS(*),LOADP(*), DMINT2(*),POR(*),
-     .   GAUGE(LLGAUGE,*),WAGAP(2,*),RTHBUF(*),FORNEQS(3,*),IN0(*),
-     .   DPL0CLD(*),VEL0CLD(*)
+     .   GAUGE(LLGAUGE,*),WAGAP(2,*),RTHBUF(*),FORNEQS(3,*),IN0(*)
       my_real , INTENT(IN) :: DGAPLOADINT(NINTER*NLOADP_HYD)
       my_real, DIMENSION(2) :: XX
       my_real yy
@@ -3203,6 +3201,7 @@ C-------------------------------------------------------------------
 C-------------------------------------------------------------------
 C       EXTERNAL FORCES
 C-------------------------------------------------------------------
+
        IF (NCONLD/=0 .AND. IMPL_S/=1) THEN
           CALL TRACE_IN(10,0,ZERO)
         IF (IMON>0) CALL STARTIME(4,1)
@@ -3212,8 +3211,7 @@ C-------------------------------------------------------------------
      3               NSENSOR,SENSORS%SENSOR_TAB ,TFEXC   ,IADS(I87J),
      4               FSKY   , FSKY   ,FEXT   ,H3D_DATA,
      5               CPTREAC,FTHREAC,NODREAC ,OUTPUT%TH%TH_SURF ,FSAVSURF   ,
-     6               NSEG_LOADP,DPL0CLD ,VEL0CLD,D   ,DR,
-     7               NCONLD ,NUMNOD  ,NSURF  ,NFUNCT ,PYTHON=PYTHON)
+     6               NSEG_LOADP, PYTHON=PYTHON)
 C
         IF (NPINCH > 0) THEN
           CALL FORCEPINCH(IBCL   ,FORC    ,NPC    ,TF      ,A         ,
@@ -8409,7 +8407,7 @@ C===============================================================================
      O  FRWL6  ,IRBE2  ,LRBE2 ,ICFIELD,LCFIELD,CFIELD,ELBUF_TAB,
      P  WEIGHT_MD, STACK,SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR,DRAPE_SH4N  , 
      Q  DRAPE_SH3N,H3D_DATA ,NDDL0,NNZK0,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC,
-     R  DRAPEG ,OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP,DPL0CLD,VEL0CLD)
+     R  DRAPEG ,OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP)
          MSTOP=2
 #else
         WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
@@ -8450,7 +8448,7 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
      Y  SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR,DRAPE_SH4N  , DRAPE_SH3N,
      Z  H3D_DATA,MULTI_FVM,IGRBRIC,IGRSH4N,IGRSH3N,IGRBEAM,FORNEQS,MAXDGAP,
      A  NDDL0   ,NNZK0 ,IT_T   ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC, DRAPEG,
-     B  INTERFACES,OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP,DPL0CLD,VEL0CLD)
+     B  INTERFACES,OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP)
 #else 
         WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
         CALL FLUSH(6)
@@ -8550,14 +8548,7 @@ C===============================================================================
           ENDIF
 
 !$OMP END PARALLEL
-C----------------------------------------------------------------
-C         CLOAD - Save Displacements and Velocities for concentrated loads only
-C----------------------------------------------------------------
-      IF (LOADS%NLOAD_CLOAD > 0) THEN
-        CALL DISP_VEL_SAVED_CLOAD(V      ,D      ,VR    ,DR    ,IBCL       ,
-     .                            DPL0CLD,VEL0CLD,NIBCLD,NCONLD,LOADS%NLOAD_CLOAD,
-     .                            IRODDL ,NUMNOD )
-      ENDIF
+
 C----------------------------------------------------------------
 C         USER WINDOWS - Save Accelerations before reset to zero
 C----------------------------------------------------------------

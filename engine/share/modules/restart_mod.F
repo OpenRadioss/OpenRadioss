@@ -140,7 +140,7 @@ Chd|====================================================================
      .      CFIELD,  MSZ2,    DIAG_SMS,LOADP,   DMINT2,
      .      POR,     GAUGE,   WAGAP   ,RTHBUF,  KNOT,
      .      WIGE,    RDRAPE,  TAB_MAT, MS_2D ,KNOTLOCPC,KNOTLOCEL,
-     .      FCONT_MAX,IN0  ,  DGAPLOADINT,DPL0CLD,VEL0CLD
+     .      FCONT_MAX,IN0  ,  DGAPLOADINT
         
       my_real, 
      .    DIMENSION(:, :), ALLOCATABLE :: XCELL
