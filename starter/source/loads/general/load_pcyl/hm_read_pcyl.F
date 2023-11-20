@@ -79,7 +79,7 @@ C-----------------------------------------------
       TYPE (SENSOR_STR_)   ,DIMENSION(NSENSOR),INTENT(IN) :: SENSOR_TAB
       TYPE (SUBMODEL_DATA) ,DIMENSION(*)      ,INTENT(IN) :: LSUBMODEL
       TYPE (UNIT_TYPE_)    ,INTENT(IN)  :: UNITAB 
-      TYPE (LOADS_)        ,INTENT(OUT) :: LOADS
+      TYPE (LOADS_)        ,INTENT(INOUT) :: LOADS
       INTEGER, INTENT(INOUT) :: NUMBER_LOAD_CYL ! total number of contribution (1 per node per segment) of /LOAD/CYL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -113,7 +113,6 @@ c         -> YSCALE_P
 c         -> SURFBOX(xmin,ymin,zmin,xmax,ymax,zmax)
 C=======================================================================
       IS_AVAILABLE = .FALSE.
-
       NUMBER_LOAD_CYL = 0
 C--------------------------------------------------
 C     START BROWSING MODEL /PCYL
