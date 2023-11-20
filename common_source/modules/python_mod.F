@@ -20,8 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-
-
 Chd|====================================================================
 Chd|  PYTHON_FUNCT_MOD              modules/python_mod.F          
 Chd|-- called by -----------
@@ -122,6 +120,9 @@ Chd|====================================================================
 
 !! \brief serialize python_function into a buffer (for I/O)
         subroutine python_serialize(python, buffer,buffer_size)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Module
+! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -132,7 +133,7 @@ Chd|====================================================================
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,pos,len_name,len_code
+          integer :: i,pos,len_name,len_code, ierr
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -144,27 +145,31 @@ Chd|====================================================================
           enddo
 ! allocate the buffer
           if(allocated(buffer)) deallocate(buffer)
-          allocate(buffer(buffer_size))
-          buffer(1) = buffer_size
-          buffer(2) = python%funct_offset
-          buffer(3) = python%nb_functs
-          pos = 4
-          do i = 1,python%nb_functs
-            buffer(pos)   = python%functs(i)%len_name
-            buffer(pos+1) = python%functs(i)%len_code
-            buffer(pos+2) = python%functs(i)%num_lines
-            buffer(pos+3) = python%functs(i)%num_args
-            buffer(pos+4) = python%functs(i)%num_return
-            buffer(pos+5) = python%functs(i)%user_id
-            pos = pos + 6
+          allocate(buffer(buffer_size), stat=ierr)
+          if(ierr /= 0) then
+            write(6,*) "ERROR: python_serialize: allocation of buffer failed"
+          else
+            buffer(1) = buffer_size
+            buffer(2) = python%funct_offset
+            buffer(3) = python%nb_functs
+            pos = 4
+            do i = 1,python%nb_functs
+              buffer(pos)   = python%functs(i)%len_name
+              buffer(pos+1) = python%functs(i)%len_code
+              buffer(pos+2) = python%functs(i)%num_lines
+              buffer(pos+3) = python%functs(i)%num_args
+              buffer(pos+4) = python%functs(i)%num_return
+              buffer(pos+5) = python%functs(i)%user_id
+              pos = pos + 6
 ! transfer the name to the buffer, using the transfer function
-            len_name = python%functs(i)%len_name
-            len_code = python%functs(i)%len_code
-            buffer(pos:pos+len_name-1) = transfer(python%functs(i)%name, buffer(pos:pos+len_name-1))
-            pos = pos + python%functs(i)%len_name
-            buffer(pos:pos+len_code-1) = transfer(python%functs(i)%code, buffer(pos:pos+len_code-1))
-            pos = pos + python%functs(i)%len_code
-          enddo
+              len_name = python%functs(i)%len_name
+              len_code = python%functs(i)%len_code
+              buffer(pos:pos+len_name-1) = transfer(python%functs(i)%name, buffer(pos:pos+len_name-1))
+              pos = pos + python%functs(i)%len_name
+              buffer(pos:pos+len_code-1) = transfer(python%functs(i)%code, buffer(pos:pos+len_code-1))
+              pos = pos + python%functs(i)%len_code
+            enddo
+          endif
         end subroutine python_serialize
 
 !! \brief deserialize python_function (for I/O)
@@ -178,30 +183,36 @@ Chd|====================================================================
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,pos
+          integer :: i,pos,ierr
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           python_error = 0
           python%funct_offset = buffer(2)
           python%nb_functs = buffer(3)
-          allocate(python%functs(python%nb_functs))
-          pos = 4
-          do i = 1,python%nb_functs
-            python%functs(i)%len_name = buffer(pos)
-            python%functs(i)%len_code = buffer(pos+1)
-            python%functs(i)%num_lines = buffer(pos+2)
-            python%functs(i)%num_args = buffer(pos+3)
-            python%functs(i)%num_return = buffer(pos+4)
-            python%functs(i)%user_id = buffer(pos+5)
-            pos = pos + 6
-            allocate(python%functs(i)%name(python%functs(i)%len_name))
-            python%functs(i)%name = transfer(buffer(pos:pos+python%functs(i)%len_name-1), python%functs(i)%name)
-            pos = pos + python%functs(i)%len_name
-            allocate(python%functs(i)%code(python%functs(i)%len_code))
-            python%functs(i)%code = transfer(buffer(pos:pos+python%functs(i)%len_code-1), python%functs(i)%code)
-            pos = pos + python%functs(i)%len_code
-          enddo
+          allocate(python%functs(python%nb_functs),stat=ierr)
+          if(ierr == 0 ) then
+            pos = 4
+            do i = 1,python%nb_functs
+              python%functs(i)%len_name = buffer(pos)
+              python%functs(i)%len_code = buffer(pos+1)
+              python%functs(i)%num_lines = buffer(pos+2)
+              python%functs(i)%num_args = buffer(pos+3)
+              python%functs(i)%num_return = buffer(pos+4)
+              python%functs(i)%user_id = buffer(pos+5)
+              pos = pos + 6
+              allocate(python%functs(i)%name(python%functs(i)%len_name),stat=ierr)
+              if(ierr == 0) then
+                python%functs(i)%name = transfer(buffer(pos:pos+python%functs(i)%len_name-1), python%functs(i)%name)
+               pos = pos + python%functs(i)%len_name
+              endif
+              allocate(python%functs(i)%code(python%functs(i)%len_code),stat=ierr)
+              if(ierr == 0) then
+                python%functs(i)%code = transfer(buffer(pos:pos+python%functs(i)%len_code-1), python%functs(i)%code)
+                pos = pos + python%functs(i)%len_code
+              endif
+            enddo
+          endif
 
         end subroutine python_deserialize
 
@@ -221,15 +232,18 @@ Chd|====================================================================
 ! ----------------------------------------------------------------------------------------------------------------------
           character(len=max_line_length) :: name
           integer                        :: i
+          integer                        :: ierr
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           name = " "
           call python_register_function(name, code, num_lines)
-          allocate(funct%name(len_trim(name)))
-          do i = 1, len_trim(name)
-            funct%name(i) = name(i:i)
-          end do
+          allocate(funct%name(len_trim(name)),stat=ierr)
+          if(ierr == 0) then
+            do i = 1, len_trim(name)
+              funct%name(i) = name(i:i)
+            end do
+          endif
           allocate(funct%code(len_code))
           do i = 1, len_code
             funct%code(i) = code(i:i)
@@ -402,6 +416,7 @@ Chd|====================================================================
           character(len=max_line_length) :: name
           integer :: buffer_size,ok
           integer, dimension(:), allocatable :: buffer
+          integer :: ierr
           type(python_) :: py,py2
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
@@ -414,7 +429,8 @@ Chd|====================================================================
           code = "def test_function(x,y):" // c_null_char // "    return x*y"// c_null_char // "    "//c_null_char
 ! Register a function
           name = " "
-          allocate(py%functs(1))
+          allocate(py%functs(1),stat=ierr)
+          if( ierr /= 0) stop
           py%nb_functs = 1
           py%funct_offset = 0
           call python_funct_init(py%functs(1), code, len_trim(code),3)
