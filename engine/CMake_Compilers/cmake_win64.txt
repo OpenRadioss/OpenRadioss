@@ -59,6 +59,9 @@ set ( RELNAME ${arch}${mpi_suf})
 #H3D
 set (h3d_inc "-I${source_directory}/../extlib/h3d/includes")
 
+# Zlib
+set (zlib_inc "-I${source_directory}/../extlib/zlib/win64_mt/include")
+set (zlib_lib "  ${source_directory}/../extlib/zlib/win64_mt/zlib1.lib")
 
 #
 # compiler Flags
@@ -109,29 +112,29 @@ set(Fortran "/fpp  /extend-source /assume:buffered_io")
 
 if ( debug STREQUAL "1" )
 # Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " /Qopenmp /Od /debug:all /Qftz /fpp /extend-source /assume:buffered_io ${precision_flag} ${Fortran} ${mpi_flag} ${MUMPS_flags} -DMETIS5 ${cppmach} ${cpprel}" )
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "/nologo /Qopenmp /Od /debug:all /Qftz /fpp /extend-source /assume:buffered_io ${precision_flag} ${Fortran} ${mpi_flag} ${MUMPS_flags} -DMETIS5 ${cppmach} ${cpprel}" )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "/Qopenmp /Od /debug:all /Qftz ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel}" )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "/nologo /Qopenmp /Od /debug:all /Qftz ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} ${zlib_inc}" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "/Qopenmp /Od /debug:all /Qftz ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} /Qstd=c++11" )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "/nologo /Qopenmp /Od /debug:all /Qftz ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} ${zlib_inc} /Qstd=c++11" )
 
 else ()
 
 # Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "/O3 ${Vect_opt} ${precision_flag} ${Vect_precise} ${Fortran} ${mpi_flag}  ${h3d_inc} ${MUMPS_flags} -DMETIS5 ${cppmach} ${cpprel}" )
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "/nologo /O3 ${Vect_opt} ${precision_flag} ${Vect_precise} ${Fortran} ${mpi_flag}  ${h3d_inc} ${MUMPS_flags} -DMETIS5 ${cppmach} ${cpprel}" )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "/O2 ${Vect_opt_c} ${precision_flag} ${Vect_precise} ${mpi_flag} ${h3d_inc}  -DMETIS5  ${MUMPS_flags} ${cppmach} ${cpprel}" )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "/nologo /O2 ${Vect_opt_c} ${precision_flag} ${Vect_precise} ${mpi_flag} ${h3d_inc}  -DMETIS5  ${MUMPS_flags} ${cppmach} ${cpprel} ${zlib_inc}" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "/O2 ${Vect_opt_c} ${precision_flag} ${Vect_precise} ${mpi_flag} ${h3d_inc} -DMETIS5 ${MUMPS_flags} ${cppmach} ${cpprel}" )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "/nologo /O2 ${Vect_opt_c} ${precision_flag} ${Vect_precise} ${mpi_flag} ${h3d_inc} -DMETIS5 ${MUMPS_flags} ${cppmach} ${cpprel} ${zlib_inc}" )
 
 endif()
 
 # Linking flags
-set (CMAKE_EXE_LINKER_FLAGS " /F1500000000 /STACK:1500000000 ${MKL_libraries} ${mpi_lib} libifport.lib svml_dispmt.lib libifcoremt.lib libmmt.lib Psapi.lib libvcruntime.lib" )
+set (CMAKE_EXE_LINKER_FLAGS " /F1500000000 /STACK:1500000000 ${MKL_libraries} ${mpi_lib} ${zlib_lib} libifport.lib svml_dispmt.lib libifcoremt.lib libmmt.lib Psapi.lib libvcruntime.lib" )
 
 #Libraries
 set (LINK "advapi32.lib"  )
@@ -140,9 +143,9 @@ set (LINK "advapi32.lib"  )
 # -------------------------------------------------------------------------------------------------------------------------------------------
 # Specific set of compilation flag
 
-set (F_O1_AXSSE3 "/Qaxsse3   /Qopenmp  /O1  /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${precision_flag} ${Fortran}  -DMETIS5 ${mpi_flag} ${cppmach} ${cpprel}")
-set (F_O2_AXSSE3 "/Qaxsse3   /Qopenmp  /O2  /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${precision_flag} ${Fortran}  -DMETIS5 ${mpi_flag} ${cppmach} ${cpprel}")
-set (F_O3_AXSSE3 "/Qaxsse3   /Qopenmp  /O3  /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${precision_flag} ${Fortran}  -DMETIS5 ${mpi_flag} ${cppmach} ${cpprel}")
+set (F_O1_AXSSE3 "/nologo /Qaxsse3 /Qopenmp /O1 /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${precision_flag} ${Fortran} -DMETIS5 ${mpi_flag} ${cppmach} ${cpprel}")
+set (F_O2_AXSSE3 "/nologo /Qaxsse3 /Qopenmp /O2 /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${precision_flag} ${Fortran} -DMETIS5 ${mpi_flag} ${cppmach} ${cpprel}")
+set (F_O3_AXSSE3 "/nologo /Qaxsse3 /Qopenmp /O3 /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${precision_flag} ${Fortran} -DMETIS5 ${mpi_flag} ${cppmach} ${cpprel}")
 
 set (C_BASIC "${cppmach} ${cpprel}")
 

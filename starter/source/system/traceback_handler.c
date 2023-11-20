@@ -133,19 +133,3 @@ signal (SIGBREAK,user_abrt);
 signal (SIGTERM, user_abrt);       /* 15 Termination signal*/
 #endif
 }
-
-
-
-
-
-void arret_c(int n) 
-{
-/*Appel a une routine Fortran */
-
-#ifdef _WIN64
- ARRET(&n);
-#else
- arret_(&n);
-#endif
-}
-

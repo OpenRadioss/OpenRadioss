@@ -97,13 +97,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER CTEXT(LENGTH+1),I
-C
-      DO I=1,LENGTH
-        CTEXT(I)=ICHAR(TEXT(I:I))
-        CALL WRITE_C_C_TXT(CTEXT(I),I,LENGTH)
-      ENDDO
-        CTEXT(LENGTH+1)=0
+      INTEGER TEXT_LEN
+      TEXT_LEN=LEN_TRIM(TEXT)
+
+      CALL WRITE_C_C_TXT(TEXT,TEXT_LEN)
 C
       RETURN
       END

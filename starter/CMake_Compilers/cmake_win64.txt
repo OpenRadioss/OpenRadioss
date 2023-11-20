@@ -29,6 +29,10 @@ set (metis_lib "${source_directory}/../extlib/metis/win64/libmetis_win64_i2018_1
 set (MKL_Inc "-DMKL")
 set (MKL_Lib "mkl_intel_lp64_dll.lib mkl_intel_thread_dll.lib mkl_core_dll.lib")
 
+# Zlib
+set (zlib_inc "-I${source_directory}/../extlib/zlib/win64_mt/include")
+set (zlib_lib "  ${source_directory}/../extlib/zlib/win64_mt/zlib1.lib")
+
 #
 # compiler Flags
 # --------------
@@ -75,10 +79,10 @@ if ( debug STREQUAL "1" )
 set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 /fpp /Od /debug:all /Qftz /extend-source /assume:buffered_io /Qopenmp  ${ADF} /traceback" )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback  ${zlib_inc}" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback" )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback  ${zlib_inc}" )
 
 else ()
 
@@ -86,15 +90,15 @@ else ()
 set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 ${VECT_OPT} ${Fortran} ${ADF}" )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${VECT_OPT}" )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${VECT_OPT}  ${zlib_inc}" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${VECT_OPT}" )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${VECT_OPT}  ${zlib_inc}" )
 
 endif()
 
 # Linking flags
-set (CMAKE_EXE_LINKER_FLAGS "/F1500000000 /STACK:1500000000 ${reader_lib} ${MKL_Lib}  ${metis_lib} svml_dispmd.lib")
+set (CMAKE_EXE_LINKER_FLAGS "/F1500000000 /STACK:1500000000 ${reader_lib} ${MKL_Lib}  ${metis_lib}  ${zlib_lib} svml_dispmd.lib")
 
 #Libraries
 set (LINK "advapi32.lib")

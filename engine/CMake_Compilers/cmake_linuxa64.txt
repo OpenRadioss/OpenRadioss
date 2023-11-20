@@ -61,8 +61,9 @@ set ( RELNAME ${arch}${mpi_suf})
 #H3D
 set (h3d_inc "-I${source_directory}/../extlib/h3d/includes")
 
-
-
+#ZLIB
+set (zlib_inc "-I${source_directory}/../extlib/zlib/linuxa64/include")
+set (zlib_lib "${source_directory}/../extlib/zlib/linuxa64/lib/libz.a")
 
 #
 # compiler Flags
@@ -105,10 +106,10 @@ if ( debug STREQUAL "1" )
 set_source_files_properties( ${source_files}    PROPERTIES COMPILE_FLAGS "-g -O0 ${Vect_opt} ${Vect_precise} ${wo_linalg} ${precision_flag} ${Fortran} ${mpi_flag} ${cppmach} ${cpprel} ${h3d_inc}" )
 
 # C source files
-set_source_files_properties(${c_source_files}   PROPERTIES COMPILE_FLAGS "-g -O0 ${Vect_opt} ${wo_linalg} ${precision_flag} ${mpi_flag} ${cppmach} ${cpprel} ${h3d_inc}" )
+set_source_files_properties(${c_source_files}   PROPERTIES COMPILE_FLAGS "-g -O0 ${Vect_opt} ${wo_linalg} ${precision_flag} ${mpi_flag} ${cppmach} ${cpprel} ${zlib_inc} ${h3d_inc}" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-g -O0 ${Vect_opt} ${wo_linalg} ${precision_flag} ${mpi_flag} ${cppmach} ${cpprel} ${h3d_inc} -std=c++11" )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-g -O0 ${Vect_opt} ${wo_linalg} ${precision_flag} ${mpi_flag} ${cppmach} ${cpprel} ${zlib_inc} ${h3d_inc} -std=c++11" )
 
 else ()
 
@@ -116,10 +117,10 @@ else ()
 set_source_files_properties( ${source_files}    PROPERTIES COMPILE_FLAGS "${wo_linalg} ${Vect_opt} ${precision_flag} ${Fortran} ${mpi_flag} ${cppmach} ${cpprel} -O3 ${Vect_precise} ${h3d_inc}" )
 
 # C source files
-set_source_files_properties(${c_source_files}   PROPERTIES COMPILE_FLAGS "${wo_linalg} ${Vect_opt} ${precision_flag} ${mpi_flag} ${cppmach} ${cpprel} -O2 ${h3d_inc}" )
+set_source_files_properties(${c_source_files}   PROPERTIES COMPILE_FLAGS "${wo_linalg} ${Vect_opt} ${precision_flag} ${mpi_flag} ${cppmach} ${cpprel} ${zlib_inc} ${h3d_inc} -O2" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${wo_linalg} ${Vect_opt} ${precision_flag} ${mpi_flag} ${cppmach} ${cpprel} -O2  -std=c++11 ${h3d_inc}" )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${wo_linalg} ${Vect_opt} ${precision_flag} ${mpi_flag} ${cppmach} ${cpprel} ${zlib_inc} ${h3d_inc} -O2 -std=c++11" )
 
 endif()
 
@@ -127,7 +128,7 @@ endif()
 set (CMAKE_EXE_LINKER_FLAGS "-march=armv8-a  -ffp-contract=off -fno-unsafe-math-optimizations -fno-fast-math -fopenmp -rdynamic " )
 
 #Libraries
-set (LINK "dl ${mpi_lib} -lrt -lm -lstdc++"  )
+set (LINK "dl ${mpi_lib} ${zlib_lib} -lrt -lm -lstdc++"  )
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------------
