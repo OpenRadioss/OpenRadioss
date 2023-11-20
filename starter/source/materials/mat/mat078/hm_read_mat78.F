@@ -174,6 +174,13 @@ C
         P4   = ONE                                              ! P
         CALL CALCULP2(P1,P2,P3,P4,MEXP,R45)                    ! USE ROUTINE OF HM_READ_MAT57
         N3   = MEXP                                            ! M
+      ELSE 
+        P1  = ZERO
+        P1  = ZERO                           
+        P2  = ZERO 
+        P3  = ZERO  
+        P4  = ZERO 
+        N3  = ZERO 
       ENDIF
 c---------------------------------    
       NVARTMP = 0

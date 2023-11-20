@@ -95,6 +95,7 @@ C=======================================================================
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 c
+      MUW0 = 0
       ILAW    = 81
 c------------------------------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)

@@ -438,6 +438,7 @@ C-----------------------------------------------
 C
       ! Find the function and recover the experimental data
       FOUND = .FALSE.
+      SIZE_TIME = 0
       DO I = 1,NTABLE
         IF (TABLE(I)%NOTABLE == FCT_ID) THEN
           ! Number of data points
