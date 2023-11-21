@@ -718,7 +718,7 @@ C-----------------------------------------------
 c on doit mettre a jour wa(1),wa(2),wa(3) suite a sponfprs
             IF(NSPMD>1) THEN
               CALL STARTIME(93,1)
-              CALL SPMD_SPHGETW(SPBUF,WASPH,WA,WAR)
+              CALL SPMD_SPHGETW(SPBUF,WASPH,WA,WAR,SPH_IORD1)
               CALL STOPTIME(93,1)
             ENDIF
           ENDIF 
