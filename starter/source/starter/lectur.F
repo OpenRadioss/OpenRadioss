@@ -10875,6 +10875,7 @@ C
             ENDDO
             DEALLOCATE(RETRACTOR)
           ENDIF
+          IF((IPART_STACK > 0 .OR. IPART_PCOMPP > 0) .AND. NDRAPE > 0) DEALLOCATE(IWORK_T)
 C --------------------------------------
 C Starter Memory Printout
 C --------------------------------------

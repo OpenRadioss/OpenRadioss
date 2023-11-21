@@ -448,9 +448,6 @@ C============================================================================
         ENDDO ! DO IS = 1,NS 
 C           
         DEALLOCATE(ICSH,INDX,ITRI)
-         DO I=1,NUMELC + NUMELTG
-             DEALLOCATE(IWORK_T(I)%PLYID)
-         ENDDO
        ENDIF
 C 
 C   pccommp part
@@ -732,12 +729,15 @@ C---
         ENDDO ! DO IS = 1,NS
 C---
          DEALLOCATE(ICSH,INDX,ITRI,IDSTACK)
-         DO I=1,NUMELC + NUMELTG
-             DEALLOCATE(IWORK_T(I)%PLYID)
-           ENDDO
-           !!DEALLOCATE(IWORK_T)
        ENDIF
 C
+       DO I=1,NUMELC + NUMELTG 
+             NPT = IWORKSH(1,I) 
+            IF(NPT > 0) THEN
+              DEALLOCATE(IWORK_T(I)%PLYID)
+              DEALLOCATE(IWORK_T(I)%NPT_LAY)
+            ENDIF  
+       ENDDO
        IF(IPART_STACK > 0) THEN  
          IF(IPART_PCOMPP == 0) THEN
             ALLOCATE(STACK%IGEO(4*NPT_STACK0+2,NS_STACK0))
