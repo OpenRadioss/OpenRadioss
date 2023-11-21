@@ -70,6 +70,7 @@ Chd|        W_BID                         source/restart/ddsplit/w_bid.F
 Chd|        W_BUFBRIC_22                  source/interfaces/inter3d1/w_bufbric_22.F
 Chd|        W_BUFEL                       source/restart/ddsplit/w_bufel.F
 Chd|        W_CLUSTER                     source/restart/ddsplit/w_cluster.F
+Chd|        W_DISP0_VEL0_CLOAD            source/restart/ddsplit/w_disp0_vel0_cload.F
 Chd|        W_DRAPE                       source/restart/ddsplit/w_drape.F
 Chd|        W_ELBUF_STR                   source/restart/ddsplit/w_elbuf_str.F
 Chd|        W_FAC                         source/restart/ddsplit/w_fac.F

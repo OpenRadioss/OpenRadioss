@@ -294,6 +294,7 @@ Chd|        HM_READ_MAT88                 source/materials/mat/mat088/hm_read_ma
 Chd|        HM_READ_MAT90                 source/materials/mat/mat090/hm_read_mat90.F
 Chd|        HM_READ_MAT92                 source/materials/mat/mat092/hm_read_mat92.F
 Chd|        HM_READ_MAT93                 source/materials/mat/mat093/hm_read_mat93.F
+Chd|        HM_READ_MAT95                 source/materials/mat/mat095/hm_read_mat95.F
 Chd|        HM_READ_MAT97                 source/materials/mat/mat097/hm_read_mat97.F
 Chd|        HM_READ_MAT_99                source/materials/mat/matuser/hm_read_mat_user_99.F
 Chd|        HM_READ_MERGE                 source/constraints/general/merge/hm_read_merge.F

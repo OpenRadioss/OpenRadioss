@@ -31,6 +31,7 @@ Chd|        SIGEPS100                     source/materials/mat/mat100/sigeps100.
 Chd|        SIGEPS95                      source/materials/mat/mat095/sigeps95.F
 Chd|-- calls ---------------
 Chd|        MULLINS_OR                    source/materials/fail/mullins_or/fail_mullins_OR_s.F
+Chd|        PRODMAT                       source/materials/tools/prodmat.F
 Chd|====================================================================
        SUBROUTINE POLYSTRESS2(
      1                NEL , MATB, C10, C01, C20, 
@@ -191,6 +192,7 @@ Chd|-- called by -----------
 Chd|        SIGEPS95                      source/materials/mat/mat095/sigeps95.F
 Chd|-- calls ---------------
 Chd|        MULLINS_OR                    source/materials/fail/mullins_or/fail_mullins_OR_s.F
+Chd|        PRODMAT                       source/materials/tools/prodmat.F
 Chd|====================================================================
        SUBROUTINE POLYSTREST2(
      1                NEL , MATB, C10, C01, C20, 

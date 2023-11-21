@@ -25,6 +25,8 @@ Chd|====================================================================
 Chd|  PRODMAT                       source/materials/tools/prodmat.F
 Chd|-- called by -----------
 Chd|        CALCMATB                      source/materials/mat/mat100/calcmatb.F
+Chd|        POLYSTRESS2                   source/materials/mat/mat100/sigpoly.F
+Chd|        POLYSTREST2                   source/materials/mat/mat100/sigpoly.F
 Chd|        SIGEPS100                     source/materials/mat/mat100/sigeps100.F
 Chd|        SIGEPS42                      source/materials/mat/mat042/sigeps42.F
 Chd|        SIGEPS95                      source/materials/mat/mat095/sigeps95.F

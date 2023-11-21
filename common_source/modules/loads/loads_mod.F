@@ -29,7 +29,9 @@ Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit
 Chd|        DOMAIN_DECOMPOSITION_PCYL     starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
 Chd|        DOMDEC2                       starter/source/spmd/domdec2.F 
 Chd|        FILLCNE                       starter/source/spmd/domdec2.F 
+Chd|        HM_READ_CLOAD                 starter/source/loads/general/cload/hm_read_cload.F
 Chd|        HM_READ_PCYL                  starter/source/loads/general/load_pcyl/hm_read_pcyl.F
+Chd|        HM_READ_PLOAD                 starter/source/loads/general/pload/hm_read_pload.F
 Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        SPLIT_PCYL                    starter/source/loads/general/load_pcyl/split_pcyl.F
 Chd|        W_PON                         starter/source/restart/ddsplit/w_pon.F
@@ -52,6 +54,7 @@ Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|        READ_PCYL                     engine/source/output/restart/read_pcyl.F
 Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
+Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
 Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
 Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
 Chd|        WRITE_PCYL                    engine/source/output/restart/write_pcyl.F

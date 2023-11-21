@@ -34,6 +34,7 @@ Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_re
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
+Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
