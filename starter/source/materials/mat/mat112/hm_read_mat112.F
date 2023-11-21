@@ -355,6 +355,7 @@ c
       ISRATE    = 0
       PARMAT(4) = ZERO
       PARMAT(5) = ZERO
+      ASRATE = ZERO
       IF (ITAB > 0) ASRATE = 10000.0D0*FAC_T_WORK
 c
       ! Elasticity parameter

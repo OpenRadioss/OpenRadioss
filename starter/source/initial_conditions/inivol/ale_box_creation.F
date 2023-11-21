@@ -117,7 +117,7 @@ C-----------------------------------------------
 
             NB_CELL_Z = NINT( DZ_BOX / LOCAL_SIZE_CELL )
             NB_CELL_Z = MIN(NB_CELL_Z,NB_BOX_LIMIT)
-        ELSEIF(LEADING_DIMENSION==3) THEN
+        ELSE !IF(LEADING_DIMENSION==3) THEN
             NB_CELL_Z = NINT( RATIO * DZ_BOX )
             NB_CELL_Z = MIN(NB_CELL_Z,NB_BOX_LIMIT)
 

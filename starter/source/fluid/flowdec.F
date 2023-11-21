@@ -151,6 +151,7 @@ C
          ELSEIF(ITYP == 3) THEN
             JFORM=IFLOW(IADI+4)
 C CNP nombre de processeurs possedant chaque noeud
+            IADL = 0 
             IF(JFORM==1) IADL=IADI+NIFLOW+NNO+3*NEL+NNO
             IF(JFORM==2) IADL=IADI+NIFLOW+NNO+5*NEL+NNO+NBGAUGE
             DO J=1,NNO

@@ -82,6 +82,7 @@ C DEF_INTER:  INTEGER ARRAY CONTAINING DEFAULT INTEGER VALUES
 C=======================================================================
       INDEX = 0
       IS_DEFAUT_1000 = .TRUE.
+      DEF_DEF = 0
       IF(ITYP == 2) THEN
         SELECT CASE (KEY)
 C

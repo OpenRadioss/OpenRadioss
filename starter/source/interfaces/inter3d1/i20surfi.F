@@ -135,6 +135,7 @@ c---------------------------------------
           ENDDO
         ENDIF
         IF(ISU2 /= 0 .and. ISYM == 1)THEN
+          L = 0
           DO J=1,IGRSURF(ISU2)%NSEG
             L = L+1
             DO K=1,4

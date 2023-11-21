@@ -124,6 +124,7 @@ c
 c     fiber stiffness dir2 (load) 
 c
       FUNC = IFUNC(2)                                                            
+      KTMAX = ZERO
       IF (FUNC > 0 ) THEN                                                         
         CALL FUNC_SLOPE(FUNC,YFAC2,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)    
 c
@@ -139,6 +140,7 @@ c
 c     shear modulus  (load) 
 c
       FUNC = IFUNC(3)                                                            
+      GMAX = ZERO
       IF (FUNC > 0 ) THEN                                                         
         CALL FUNC_SLOPE(FUNC,YFAC3,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)    
 c

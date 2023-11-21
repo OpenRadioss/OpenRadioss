@@ -130,6 +130,7 @@ C
              SN(K)=SQRT(SX(K)**2+SY(K)**2+SZ(K)**2)
         ENDDO
         SNMAX=0
+        KMAX = 1
         DO K=1,3
             IF(SN(K)>SNMAX)THEN
                KMAX=K

@@ -103,6 +103,7 @@ C=======================================================================
       IGTYP = IGEO(11,PID)
       IRP = IGEO(14,PID)
       DEF_ORTH(1:MVSIZ) = NLAY
+      IPDIR = 0
 C
       IF (IGTYP == 1) THEN
 C       non orthotropic property

@@ -53,10 +53,12 @@ C-----------------------------------------------
       DATA INV3/3,2,1/
 C=======================================================================
 !     ! SURF segments
+      NELEM = 0
       IF (IELTYP == 3) NELEM = CLAUSE%NB_SH4N
       IF (IELTYP == 7) NELEM = CLAUSE%NB_SH3N
 !
       DO J=1,NELEM
+        JJ = -HUGE(JJ)
         IF(IELTYP==3) JJ = CLAUSE%SH4N(J)
         IF(IELTYP==7) JJ = CLAUSE%SH3N(J)
 !

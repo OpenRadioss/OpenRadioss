@@ -73,7 +73,7 @@ C=======================================================================
           NPTTOT = NPTTOT + NPG*ELBUF_TAB(NG)%BUFLY(I)%NPTT
         ENDDO
         IF (NPT == 0) NPTTOT = NPT
-      ELSEIF (ITY == 4 .OR. ITY == 5 .OR. ITY == 6  .OR. ITY == 100)THEN
+      ELSE !IF (ITY == 4 .OR. ITY == 5 .OR. ITY == 6  .OR. ITY == 100)THEN
         NPG = 0
         NPTTOT = 0
       ENDIF

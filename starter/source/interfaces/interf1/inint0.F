@@ -51,6 +51,7 @@ C-----------------------------------------------
       my_real CMS, DMS
 C
       IF(NRT==0) RETURN
+      KK = 0
 C  
 C   Compute ILOC nearest secnd node from main node
       DO II=1,NMN

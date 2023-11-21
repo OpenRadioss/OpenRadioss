@@ -179,6 +179,7 @@ C
         CALL HM_GET_FLOATV('Diameter'       ,DIAM       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Filteringfactor',FREQ       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_INTV('Filteringflag'    ,IFQ        ,IS_AVAILABLE, LSUBMODEL)  
+        ALPHA = ZERO
         IF (FREQ == 0 .AND. IFQ /= 0) IFQ = 0
         IF (IFQ == 0) FREQ = ONE
         IF (IFQ >= 0) THEN

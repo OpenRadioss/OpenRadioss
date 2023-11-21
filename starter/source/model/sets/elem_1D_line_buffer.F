@@ -52,11 +52,13 @@ C-----------------------------------------------
 C=======================================================================
 !
 !     ! LINE segments
+      NELEM = 0
       IF (IELTYP == 4) NELEM = CLAUSE%NB_TRUSS
       IF (IELTYP == 5) NELEM = CLAUSE%NB_BEAM
       IF (IELTYP == 6) NELEM = CLAUSE%NB_SPRING
 !
       DO J=1,NELEM
+        JJ = -HUGE(JJ)
         IF (IELTYP == 4) JJ = CLAUSE%TRUSS(J)
         IF (IELTYP == 5) JJ = CLAUSE%BEAM(J)
         IF (IELTYP == 6) JJ = CLAUSE%SPRING(J)

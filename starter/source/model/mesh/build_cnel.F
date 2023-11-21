@@ -483,7 +483,7 @@ C
 
         DO N=1,NSN
 C
-C         IRTLM(3,-) <=> n� de segment local sur IRTLM(4,-)
+C         IRTLM(3,-) <=> n de segment local sur IRTLM(4,-)
           K = INTBUF_TAB(NIN)%IRTLM(4*(N-1)+3)
           IF(K /= 0)THEN
             INTBUF_TAB(NIN)%IRTLM(4*(N-1)+3)=IRTLM_L(K)

@@ -106,6 +106,7 @@ c
           IPOS = 1
           YTMP(1:NPT0) = YF(1:NPT0,I)
           LEN(I) = NPT
+          Y2 = YTMP(1)
           DO J = 2,NPT-1
             DO WHILE (XF(J) > XTMP(IPOS))
               IPOS = IPOS + 1

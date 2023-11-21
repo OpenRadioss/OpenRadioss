@@ -180,6 +180,7 @@ C
         CALL HM_GET_INTV('Filteringflag'    ,IFQ        ,IS_AVAILABLE, LSUBMODEL)  
         IF (FREQ == 0 .AND. IFQ /= 0) IFQ = 0
         IF (IFQ == 0) FREQ = ONE
+        ALPHA = ZERO
         IF (IFQ >= 0) THEN
           IF (IFQ <= 1) ALPHA = FREQ                         
           IF (IFQ == 2) ALPHA = FOUR*ATAN2(ONE,ZERO) / FREQ 

@@ -118,6 +118,7 @@ C     SY(K)=SY(K)/SN(K)
 C     SZ(K)=SZ(K)/SN(K)
         ENDDO
         SNMAX=0
+        KMAX = 1
         DO K=1,3
             IF(SN(K)>SNMAX)THEN
                KMAX=K

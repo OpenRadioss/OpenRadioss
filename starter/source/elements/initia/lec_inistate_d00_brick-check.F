@@ -105,6 +105,9 @@ C
       ENDIF
 C
       NPTD00 = 0
+      NPTR = 0
+      NPTS = 0
+      NPTT = 0
       IF (JJHBED00 == 14 .OR.ISOLNOD==16 .OR.ISOLNOD==20 ) THEN
        NPTF = IGEO(4,IPIDD00)
        IF (NPTF<=8) NPTF = 222

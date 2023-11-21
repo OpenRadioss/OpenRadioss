@@ -75,6 +75,7 @@ C-----------------------------------------------
       INTEGER NBELT
       CHARACTER (LEN=50) :: EL_TITLE
 C-----------------------------------------------
+      NBELT = 0
       SELECT CASE (ELTYP)
          CASE(ELT_SOLID)
             NBELT = NUMELS

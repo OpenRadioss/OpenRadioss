@@ -77,7 +77,7 @@ Chd|====================================================================
 
       my_real, DIMENSION(:), ALLOCATABLE :: SIG
 !!=======================================================================
-      
+      ISWITCH = 0 
       MINITER_LM = 5
       MAXITER_LM = 100 
       EPS_LM     = EM03 
@@ -291,27 +291,27 @@ c       check convergence of LM optimization
              EXIT                                                                
          ENDIF ! IFIT_SUCCESS                                     
        ENDDO  ! WHILE ( ISTART < NSTART )
-          IF(ISWITCH == 0 .AND. IFIT_SUCCESS == 0 ) THEN
-            IF (JCHECK == 2) THEN                                               
-              JCHECK = 1                                                         
-              IEND_ITER = 2                                                      
-             ELSEIF(JCHECK == 1) THEN                                            
-               IF(LAWID == 2) THEN                                               
-                LAWID = 1                                                        
-                JCHECK = 2                                                       
-                IEND_ITER =1                                                     
-               ELSEIF(NMUAL < 10) THEN                                           
-                 NMUAL = MIN(10, NMUAL + 2)                                      
-                 JCHECK = 2                                                      
-                 IEND_ITER = 1                                                   
-               ELSEIF(ICOMP == 0) THEN
-                 ICOMP   = 1
-                 JCHECK  = 1
-               ELSE                                                              
-                 IEND_FINDING = 1                                               
-               ENDIF                                                             
-             ENDIF ! JCHECK  
-          ENDIF
+       IF(ISWITCH == 0 .AND. IFIT_SUCCESS == 0 ) THEN
+         IF (JCHECK == 2) THEN                                               
+           JCHECK = 1                                                         
+           IEND_ITER = 2                                                      
+          ELSEIF(JCHECK == 1) THEN                                            
+            IF(LAWID == 2) THEN                                               
+             LAWID = 1                                                        
+             JCHECK = 2                                                       
+             IEND_ITER =1                                                     
+            ELSEIF(NMUAL < 10) THEN                                           
+              NMUAL = MIN(10, NMUAL + 2)                                      
+              JCHECK = 2                                                      
+              IEND_ITER = 1                                                   
+            ELSEIF(ICOMP == 0) THEN
+              ICOMP   = 1
+              JCHECK  = 1
+            ELSE                                                              
+              IEND_FINDING = 1                                               
+            ENDIF                                                             
+          ENDIF ! JCHECK  
+       ENDIF
        IF(IFIT_SUCCESS == 1 .OR. IEND_FINDING == 1) EXIT 
       ENDDO  ! IFIT_SUCCESS
       DEALLOCATE (SIG)
