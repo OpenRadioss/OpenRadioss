@@ -324,10 +324,12 @@ c
                    DO IT=1,NPTT
                     DO IR=1,NPTR
                      LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)                                         
-                     EVAR(1,I) = EVAR(1,I)+LBUF%DGLO(JJ(1) + I)/NPT
-                     EVAR(2,I) = EVAR(2,I)+LBUF%DGLO(JJ(2) + I)/NPT
-                     EVAR(4,I) = EVAR(4,I)+LBUF%DGLO(JJ(4) + I)/NPT
-                     IS_WRITTEN_TENSOR(I) = 1
+                     IF(ELBUF_TAB(NG)%BUFLY(1)%L_DGLO > 0) THEN
+                       EVAR(1,I) = EVAR(1,I)+LBUF%DGLO(JJ(1) + I)/NPT
+                       EVAR(2,I) = EVAR(2,I)+LBUF%DGLO(JJ(2) + I)/NPT
+                       EVAR(4,I) = EVAR(4,I)+LBUF%DGLO(JJ(4) + I)/NPT
+                       IS_WRITTEN_TENSOR(I) = 1
+                     ENDIF
                    ENDDO                                                   
                   ENDDO                                                    
                  ENDDO                                                     

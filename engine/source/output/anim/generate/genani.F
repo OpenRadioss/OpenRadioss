@@ -3327,8 +3327,8 @@ C-----------------------------------------------
         IF(ANIM_V(16)==1) CALL ANI_TXT('Gaz Velocity',12)
         IF(ANIM_V(17)==1) CALL ANI_TXT('Reaction Forces',15)
         IF(ANIM_V(18)==1) CALL ANI_TXT('Reaction Moments',16)
-        IF(ANIM_V(19)==1) CALL ANI_TXT('Cluster Forces',16)
-        IF(ANIM_V(20)==1) CALL ANI_TXT('Cluster Moments',16)
+        IF(ANIM_V(19)==1) CALL ANI_TXT('Cluster Forces',14)
+        IF(ANIM_V(20)==1) CALL ANI_TXT('Cluster Moments',15)
         IF(ANIM_V(21)==1) CALL ANI_TXT('inter22 - Centroid Velocity',27)          !inter22
         IF(ANIM_V(22)==1) CALL ANI_TXT('inter22 - Faces Velocity',24)             !inter22
         IF(ANIM_V(23)==1) 
