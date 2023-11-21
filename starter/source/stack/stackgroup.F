@@ -173,6 +173,7 @@ C    For Shell
 C-----------------------------------------------   
        NS_STACK = 0
        NPT_STACK = 0
+       ALLOCATE(IWORK_T(NUMELC+NUMELTG))
 C
        IF(IPART_STACK > 0) THEN
          NPLY = 0
@@ -348,14 +349,30 @@ C
 C
          ENDDO  ! iply  
 C #####################################################"
-           ALLOCATE(IWORK_T(NUMELC+NUMELTG),ICSH(NUMELC+NUMELTG))
+           ALLOCATE(ICSH(NUMELC+NUMELTG))
            IF(NUMELC + NUMELTG > 0)ICSH = 0
-           DO I=1,NUMELC + NUMELTG
-             NULLIFY(IWORK_T(I)%IPT)
-             NPT = IWORKSH(1,I)
-             ALLOCATE(IWORK_T(I)%IPT(NPT))
-             IWORK_T(I)%IPT = 0
-             IWORKSH(1,I) = 0
+           DO I=1,NUMELC 
+             PID   = IXC(6,I)
+             IGTYP = IGEO(11,PID) 
+             NPT   = IWORKSH(1,I)
+             IF(IGTYP == 17 .OR. IGTYP == 51  .AND. NPT > 0) THEN
+                NULLIFY(IWORK_T(I)%IPT)
+                ALLOCATE(IWORK_T(I)%IPT(NPT))
+                IWORK_T(I)%IPT = 0
+                IWORKSH(1,I)   = 0
+              ENDIF   
+           ENDDO  
+           DO I=1, NUMELTG
+             PID   = IXTG(5,I)
+             IGTYP = IGEO(11,PID)
+             II    = NUMELC + I
+             NPT   = IWORKSH(1,II)
+             IF((IGTYP == 17 .OR. IGTYP == 51) .AND. NPT > 0) THEN
+               NULLIFY(IWORK_T(II)%IPT)
+               ALLOCATE(IWORK_T(II)%IPT(NPT))
+               IWORK_T(II)%IPT = 0
+               IWORKSH(1,II)   = 0
+              ENDIF 
            ENDDO  
 !!
 !    ply to element
@@ -700,10 +717,6 @@ C============================================================================
         ENDDO ! DO IS = 1,NS 
 C           
         DEALLOCATE(ICSH,INDX,ITRI)
-         DO I=1,NUMELC + NUMELTG
-             DEALLOCATE(IWORK_T(I)%IPT)
-         ENDDO
-         DEALLOCATE(IWORK_T)
        ENDIF
 C 
 C   pccommp part
@@ -832,16 +845,32 @@ C  message d'erreur
            ENDDO !  I   ply groupe
 C
 !!         ENDDO  ! iply    
-!!!------------------------------------------------
-           ALLOCATE(IWORK_T(NUMELC+NUMELTG),ICSH(NUMELC+NUMELTG))
+!------------------------------------------------
+           ALLOCATE(ICSH(NUMELC+NUMELTG))
            IF(NUMELC+NUMELTG > 0) ICSH = 0
            IF(NUMELC+NUMELTG > 0) ICSH_STACK = 0
-           DO I=1,NUMELC + NUMELTG
-             NULLIFY(IWORK_T(I)%IPT)
-             NPT = IWORKSH(1,I)
-             ALLOCATE(IWORK_T(I)%IPT(NPT))
-             IWORK_T(I)%IPT = 0
-             IWORKSH(1,I) = 0
+           DO I=1,NUMELC 
+             PID = IXC(6,I)
+             IGTYP = IGEO(11,PID)
+             NPT   = IWORKSH(1,I)
+             IF(IGTYP == 52 .AND. NPT > 0) THEN
+               NULLIFY(IWORK_T(I)%IPT)
+               ALLOCATE(IWORK_T(I)%IPT(NPT))
+               IWORK_T(I)%IPT = 0
+               IWORKSH(1,I)   = 0
+              ENDIF   
+           ENDDO
+           DO I=1, NUMELTG
+             PID   = IXTG(5,I)
+             IGTYP = IGEO(11,PID)
+             II    = NUMELC + I
+             NPT   = IWORKSH(1,II)
+             IF(IGTYP == 52 .AND. NPT > 0) THEN
+               NULLIFY(IWORK_T(II)%IPT)
+               ALLOCATE(IWORK_T(II)%IPT(NPT))
+               IWORK_T(II)%IPT = 0
+               IWORKSH(1,II)   = 0
+              ENDIF   
            ENDDO
 C
             DO I= 1,NPLY
@@ -1215,11 +1244,12 @@ C---
         ENDDO ! DO IS = 1,NS
 C---
          DEALLOCATE(ICSH,INDX,ITRI,IDSTACK, ICSH_STACK)
-         DO I=1,NUMELC + NUMELTG
-             DEALLOCATE(IWORK_T(I)%IPT)
-           ENDDO
-           DEALLOCATE(IWORK_T)
        ENDIF
+       DO I=1,NUMELC + NUMELTG
+            NPT = IWORKSH(1,I)
+            IF(NPT > 0) DEALLOCATE(IWORK_T(I)%IPT)
+       ENDDO
+       DEALLOCATE(IWORK_T)
 C
        IF(IPART_STACK > 0) THEN  
          IF(IPART_PCOMPP == 0) THEN
@@ -1236,7 +1266,6 @@ C
               ENDDO
               DO J = 1, 6*NPT_STACK0+1
                 STACK%GEO(J, IS ) = IWORKS%GEO(J,IS)
-                
               ENDDO
          ENDDO
          DEALLOCATE(IWORKS%IGEO, IWORKS%GEO) 

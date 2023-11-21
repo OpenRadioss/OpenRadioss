@@ -244,13 +244,29 @@ C
 C
          ENDDO  ! iply  
 C #####################################################"
-           DO I=1,NUMELC + NUMELTG
-             NPT = IWORKSH(1,I)
-             ALLOCATE(IWORK_T(I)%PLYID(NPT))
-             IWORK_T(I)%PLYID = 0
-             IWORKSH(1,I) = 0
+           !  SH4N element
+           DO I=1,NUMELC  
+             PID   = IXC(6,I)
+             IGTYP = IGEO(11,PID) 
+             NPT   = IWORKSH(1,I)
+             IF(IGTYP == 17 .OR. IGTYP == 51  .AND. NPT > 0) THEN
+               ALLOCATE(IWORK_T(I)%PLYID(NPT))
+               IWORK_T(I)%PLYID = 0
+               IWORKSH(1,I) = 0
+             ENDIF   
            ENDDO  
-!!
+           ! sh3n element          
+           DO I=1, NUMELTG 
+             PID   = IXTG(5,I)
+             IGTYP = IGEO(11,PID)
+             II    = NUMELC + I
+             NPT   = IWORKSH(1,II)
+             IF((IGTYP == 17 .OR. IGTYP == 51) .AND. NPT > 0) THEN
+               ALLOCATE(IWORK_T(II)%PLYID(NPT))
+               IWORK_T(II)%PLYID = 0
+               IWORKSH(1,II) = 0
+             ENDIF   
+           ENDDO  
 !    ply to element
 !!
             DO I=1,NPLY 
@@ -382,7 +398,8 @@ C !GR  T3
               ENDDO
              ENDIF  ! ID > 0           
 11      CONTINUE        
-C   compteur by element               
+C   compteur by element    
+           IWORK_T(1:NUMELC + NUMELTG)%IDSTACK = 0
             DO I= 1,NPLY
               J   = IDGR4N(I)
               J4N = J
@@ -454,12 +471,28 @@ C  message d'erreur
            ENDDO !  I   ply groupe
 C  
 !!!------------------------------------------------
-           DO I=1,NUMELC + NUMELTG
-             NPT = IWORKSH(1,I)
-             ALLOCATE(IWORK_T(I)%PLYID(NPT) )
-             IWORK_T(I)%PLYID = 0
-             IWORK_T(I)%IDSTACK = 0
-             IWORKSH(1,I) = 0
+           DO I=1,NUMELC 
+             PID   = IXC(6,I)
+             IGTYP = IGEO(11,PID) 
+             NPT   = IWORKSH(1,I)
+             IF(IGTYP == 52 .AND. NPT > 0) THEN
+               ALLOCATE(IWORK_T(I)%PLYID(NPT))
+               IWORK_T(I)%PLYID   = 0
+               IWORK_T(I)%IDSTACK = 0
+               IWORKSH(1,I)       = 0
+             ENDIF  
+           ENDDO
+           DO I=1, NUMELTG  
+             PID   = IXTG(5,I)
+             IGTYP = IGEO(11,PID)
+             II    = NUMELC + I
+             NPT   = IWORKSH(1,II)
+             IF(IGTYP == 52 .AND. NPT > 0) THEN
+                ALLOCATE(IWORK_T(II)%PLYID(NPT) )
+                IWORK_T(II)%PLYID   = 0
+                IWORK_T(II)%IDSTACK = 0
+                IWORKSH(1,II)       = 0
+              ENDIF  
            ENDDO
 C
             DO I= 1,NPLY
