@@ -170,7 +170,6 @@ C------------used only for eliminating wrong contact w/ smaller distance
      +                    NS  ,IXS,   IXS10,     IXS16, IXS20   ,
      +                    IELIM)
             ICONN = 0
-C            IF (INACTI/=0 .AND. NS<=NUMNOD) THEN
             IF (NS>NUMNOD) THEN
               CALL I24FIC_GETN(NS1     ,IRTSE   ,IS2SE   ,IE    ,NN1     ,
      4                       NN2     )
@@ -262,17 +261,6 @@ C----------warning w/o treatment
           ELSEIF(PEN > ZERO) THEN
 C------Warning anyway-------------
            IF (TAG(NS)==0) IWPENE=IWPENE+1
-C-----------add output of fictive nodes after           
-c           IF(IPRI>=1.AND.NS<=NUMNOD) THEN
-c            CALL ANCMSG(MSGID=346,
-c     .                  MSGTYPE=MSGWARNING,
-c     .                  ANMODE=ANINFO_BLIND_2,
-c     .                  I1=ID,I2=ITAB(NS),
-c     .                  C1=TITR,
-c     .                  R1=PEN)
-c            WRITE(IOUT,FMT=FMT_6I_2F)
-c     .      ITAB(NS),L,(ITAB(IRECT(JJ,L)),JJ=1,4),SSC,TTC
-c           END IF
 C------------PMIN has been changed from PENE to dist excepting (INACTI ==0,1)        
            IF(INACTI ==0 .OR. INACTI ==1) THEN
 C------------use IRTLM(2,NI)-> ICONT_I<0 for initial penetration
@@ -303,11 +291,11 @@ C------------multi-cont-> single by overwriting with min_pene
              PEN0=PMIN(I0)
              DIST0 = ABS(PMIN(I0))
              IF (DIST < DIST0) THEN
-C             IF (PEN < PEN0) THEN
               IRTLM(1,NI)=L
               IRTLM(2,NI)=1
               PMIN(NI)=DIST
               PEN_OLD(5,NI)=PEN
+              TAG(NS) = NI
 #ifdef HYPERMESH_LIB
               PEN_OLD(1:3,NI) = NN(1:3)
 #endif
@@ -317,6 +305,7 @@ C             IF (PEN < PEN0) THEN
              IRTLM(2,NI)=1
              PMIN(NI)=DIST
              PEN_OLD(5,NI)=PEN
+             TAG(NS) = NI
 #ifdef HYPERMESH_LIB
              PEN_OLD(1:3,NI) = NN(1:3)
 #endif
@@ -362,11 +351,11 @@ C------------multi-cont-> single by overwriting with min_pene
              PEN0=PEN_OLD(5,I0)
              DIST0 = ABS(PMIN(I0))
              IF (DIST < DIST0) THEN
-C             IF (PEN < PEN0) THEN
               IRTLM(1,NI)=L
               IRTLM(2,NI)=1
               PEN_OLD(5,NI)=PEN
               PMIN(NI)=DIST
+              TAG(NS) = NI
 #ifdef HYPERMESH_LIB
               PEN_OLD(1:3,NI) = NN(1:3)
 #endif
@@ -376,13 +365,13 @@ C             IF (PEN < PEN0) THEN
              IRTLM(2,NI)=1
              PEN_OLD(5,NI)=PEN
              PMIN(NI)=DIST
+             TAG(NS) = NI
 #ifdef HYPERMESH_LIB
              PEN_OLD(1:3,NI) = NN(1:3)
 #endif
             END IF
-           END IF !IF(INACTI ==-1) THEN
-           TAG(NS)=CAND_N(I)
-          END IF !(ABS(PEN)<=TOL) THEN
+           END IF !IF(INACTI ==0 .OR. INACTI ==1) THEN
+          END IF !(PEN > ZERO) THEN
         END IF !(IER==-1)THEN
       END DO !I=LFT,LLT              
 C      
