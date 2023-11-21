@@ -151,6 +151,7 @@ C-----------------------------------------------
         IF(YFAC(I) == ZERO) YFAC(I) = YFAC_DIM(I) * ONE
       ENDDO
       HYS = ABS(HYS)
+      IFLAG = 0
       IF (NFUNC > 0  .AND. HYS == ZERO) IFLAG = 1     
       IF (NFUNC > 0  .AND. HYS > ZERO)  IFLAG  = 2    ! unloading is quasi-static
       IF (SHAPE == ZERO) SHAPE = ONE

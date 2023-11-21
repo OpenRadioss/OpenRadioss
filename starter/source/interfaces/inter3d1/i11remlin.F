@@ -64,6 +64,7 @@ C-----------------------------------------------
 c Build inverse connectivity for segments - only at first pass (I_START=1)
 C-----------------------------------------------
 C
+      CPT = 0
       IF (I_START ==1) THEN
 C
         ALLOCATE(KNOD2LIN(NUMNOD+1))
@@ -73,7 +74,6 @@ C
         KNOD2LIN(1:NUMNOD+1) = 0
         INOD2LIN(1:NUMNOD+1) = 0
         TAGSECND(1:NUMNOD)    = 0
-        CPT = 0
 C
         DO I=1,NRTS
           TAGSECND(IRECTS(1,I)) = 1

@@ -173,9 +173,6 @@ c-----------------------------------------------------------------------
       NUPARAM = 25
 c----------------------------------------------------------------------- 
       IF(NUPARAM > MAXUPARAM)THEN
-C        WRITE(IOUT,*)' ** ERROR : NUPARAM GT MAXUPARAM'
-C        WRITE(IOUT,*)'      NUPARAM =',NUPARAM,
-C     .                ' MAXUPARAM =',MAXUPARAM
          CALL ANCMSG(MSGID=309,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -183,6 +180,8 @@ C     .                ' MAXUPARAM =',MAXUPARAM
      .               C1=TITR,
      .               I2=NUPARAM,
      .               I3=MAXUPARAM)
+        C1 = ZERO
+        G = ZERO
       ELSE
         C1 = E / THREE / (ONE - TWO*NU)
         G  = E / TWO / (ONE + NU)

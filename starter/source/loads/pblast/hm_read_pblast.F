@@ -416,7 +416,7 @@ C-----------------------------------------------
         !   Scaled Height of Charge (IABAC==3)
         !--------------------------------------------------------------
         ZC = ZERO
-
+        NORM = ZERO
         IF(IABAC >= 2 )THEN !AIR BURST ONLY
           IF(SURF_ID_GROUND == 0)THEN
             Base_X=ZERO

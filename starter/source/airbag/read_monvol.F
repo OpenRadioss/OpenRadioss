@@ -168,6 +168,7 @@ C     Check units
          ELSEIF (KEY(1:6) == 'LFLUID') THEN
             ITYPE = 10
          ELSE
+            ITYPE = 0
             CALL ANCMSG(MSGID=7,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .           I1=ID,C1=TITR)
          ENDIF

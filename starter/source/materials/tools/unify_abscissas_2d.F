@@ -90,6 +90,7 @@ c
       DO I = 1,NFUNC
         IPOS = 1
         YF(1,I)= YI(1,I)
+        Y2 = YI(1,I)
         DO J = 2,NPT-1
           IF (XF(J) >= XI(IPOS+1,I)) IPOS = IPOS + 1
           X1 = XI(IPOS,I)
