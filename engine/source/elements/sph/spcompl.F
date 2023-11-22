@@ -25,7 +25,6 @@ Chd|  SPCOMPL                       source/elements/sph/spcompl.F
 Chd|-- called by -----------
 Chd|        SPHPREP                       source/elements/sph/sphprep.F 
 Chd|-- calls ---------------
-Chd|        PINVERS                       source/elements/sph/pinvers.F 
 Chd|        WEIGHT0                       source/elements/sph/weight.F  
 Chd|        WEIGHT1                       source/elements/sph/weight.F  
 Chd|        GET_U_GEO                     source/user_interface/upidmid.F

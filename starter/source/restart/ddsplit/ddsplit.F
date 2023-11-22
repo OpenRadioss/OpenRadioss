@@ -74,7 +74,6 @@ Chd|        C_LLINK                       source/restart/ddsplit/c_llink.F
 Chd|        C_MAD                         source/restart/ddsplit/c_mad.F
 Chd|        C_MULTI_VEL                   source/restart/ddsplit/c_multi_vel.F
 Chd|        C_NCRKXFEM                    source/restart/ddsplit/c_ncrkxfem.F
-Chd|        C_NLOADS                      source/restart/ddsplit/c_nloads.F
 Chd|        C_NGROUP                      source/restart/ddsplit/c_ngroup.F
 Chd|        C_NLOADS                      source/restart/ddsplit/c_nloads.F
 Chd|        C_PON                         source/restart/ddsplit/c_pon.F

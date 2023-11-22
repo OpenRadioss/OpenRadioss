@@ -28,7 +28,6 @@ C--------------------------------------------------------
 Chd|====================================================================
 Chd|  PINVERS                       source/elements/sph/pinvers.F 
 Chd|-- called by -----------
-Chd|        SPCOMPL                       source/elements/sph/spcompl.F 
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PINVERS(A,IA)
