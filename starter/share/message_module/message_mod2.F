@@ -50,10 +50,7 @@ C better than a durty one
 
       INTEGER ANINFO,ANINFO_BLIND,ANINFO_MSG,ANINFO_BLIND_1,ANINFO_BLIND_2
       INTEGER MSGINFO,MSGWARNING,MSGERROR,ANSTOP,MSG_CUMU,MSG_PRINT
-C      INTEGER IOUTMSG
-C      INTEGER IMSGMSG,IMSGWARN,IMSGERR
       INTEGER IMSG, IERR, IWARN, KWARN
-      INTEGER MY_IERR ! for my_allocate macro
 
 C Dyna Deck - catch if input deck comes from Dyna 
 C     -> Skip the research if Native Radioss Deck
