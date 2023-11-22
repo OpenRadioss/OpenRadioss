@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      module my_alloc_mod
+      MODULE MY_ALLOC_MOD
         implicit none
         integer, parameter :: len_error_message = 100
         ! lengths : integer
@@ -1233,5 +1233,5 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           endif
           if(present(stat)) stat = ierr
         end subroutine my_alloc_8_pinteger_3d
-      end module my_alloc_mod
+      END MODULE MY_ALLOC_MOD
 
