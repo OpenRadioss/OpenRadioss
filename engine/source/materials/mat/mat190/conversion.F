@@ -84,7 +84,7 @@ C-----------------------------------------------
       my_real   
      .   DIK(NEL,3), SIK(NEL,3), 
      .   AC,AS,Z1(NEL),Z2(NEL),Z3(NEL),DSECOND (NEL,3,6,6),
-     .   AH1(NEL),AH2(NEL),AH3(NEL),AT2(NEL),AT3(NEL),AA3(NEL),AA2(NEL),AA4(NEL),
+     .   AH1(NEL),AH2(NEL),AH3(NEL),J2(NEL),J3(NEL),AA3(NEL),AA2(NEL),AA4(NEL),
      .   DZERO(NEL,3),DAT2(NEL,6),DAT3(NEL,6),DA(NEL,6),DA2(NEL,6,6),DAT22(NEL,6,6),
      .   DAT32(NEL,6,6),DX2(NEL,6,6),
      .   DH1ZXX,DH1ZYY,DH1ZXY,DH1ZYZ,DH1ZZX,DH1ZZZ,
@@ -112,8 +112,9 @@ C-----------------------------------------------
      .   X1,X2,X22,X3,X4,X5,X6,
      .   T1,T2,T3,T4,T5,T6,
      .   AFAC1,AFAC2,AFAC3,AFAC4,AFAC33,AFAC5,
-     .   AHELP3,AHELP33,AHELP,AHELP4,
-     .   XCAP,DXCAP,ACOSTETA,TERMDAT32
+     .   AHELP3,AHELP33,AHELP,AHELP4,TETA,
+     .   XCAP,DXCAP,THREE_TETA,TERMDAT32,TERM_SING,TERM_DERI_A,
+     .   FAC1_DA2, FAC2_DA2,FAC3_DA2,T1DA2 , T2DA2 , T3DA2 ,  T4DA2, T5DA2 , T6DA2
       ! TABLE
       INTEGER  IPOS(NEL,3),IPOS2(NEL,2),IPOS1(NEL,1)
       my_real, DIMENSION(NEL,3)   :: XVEC
@@ -166,24 +167,28 @@ C
 C
 C       COMPUTE T2 AND T3
 C
-        AT3(I) = TWO*AH1(I)**3/TWENTY7 - AH1(I)*AH2(I)*THIRD +  AH3(I)
-        AT2(I) = -AH2(I) + THIRD*AH1(I)**2 
-        AT2(I) = MAX(AT2(I),1.E-16)
+        J3(I) = TWO*AH1(I)**3/TWENTY7 - AH1(I)*AH2(I)*THIRD +  AH3(I)
+        J2(I) = -AH2(I) + THIRD*AH1(I)**2 
+        TERM_SING = FOUR * J2(I)**3 - TWENTY7 *J3(I) **2
+        J2(I) = MAX(J2(I),1.E-16)
+        ! J2 = -3*Q
+        ! J3 = 2*R
+        ! D   = Q**3 + R**2 must be negative or nul to have real solutions and define teta
 C
 C       COMPUTE COS(A)
 C
-        AA3(I)=AT3(I)/TWO/SQRT(AT2(I)**3/TWENTY7)
+        AA3(I)=J3(I)/TWO/SQRT(J2(I)**3/TWENTY7)
     
         AA3(I)=MIN( ONE,AA3(I)) 
         AA3(I)=MAX(-ONE,AA3(I)) 
-        AA2(I)=SQRT(AT2(I)*THIRD)
-        ACOSTETA = ACOS(AA3(I))
+        AA2(I)=SQRT(J2(I)*THIRD)
+        THREE_TETA = ACOS(AA3(I))
 C
 C       COMPUTE PRINCIPAL STRAINS
 C
-        Z1(I)=TWO*AA2(I)*COS( THIRD * ACOSTETA  ) 
-        Z2(I)=TWO*AA2(I)*COS( THIRD * ACOSTETA -TWO *PI*THIRD)  
-        Z3(I)=TWO*AA2(I)*COS( THIRD * ACOSTETA -FOUR*PI*THIRD) 
+        Z1(I)=TWO*AA2(I)*COS( THIRD * THREE_TETA  ) 
+        Z2(I)=TWO*AA2(I)*COS( THIRD * THREE_TETA -TWO *PI*THIRD)  
+        Z3(I)=TWO*AA2(I)*COS( THIRD * THREE_TETA -FOUR*PI*THIRD) 
 C
 C       ADD HYDROSTATIC PART
 C
@@ -240,28 +245,30 @@ C
 C
 C       AUXILLARY COEFFICIENTS
 C
-        TEMP11= ONE -(AT3(I)/TWO/SQRT(AT2(I)**3/TWENTY7))**2
-        TEMP12= MAX(TEMP11,1.E-16)
-        TEMP1 =-ONE/SQRT(TEMP12)
+
 C
 C       'IF' TEST NEEDED TO GET CORRECT LIMIT VALUE
 C       IN THE UNIAXIAL CASES
 C       BIAXIAL CASES SEEM FINE WITHOUT THE TEST
 C
-        IF (TEMP11 < 1.E-16) TEMP1=ZERO
-C
-        TEMP2 = ONE/TWO/SQRT(AT2(I)**3/TWENTY7)
-        TEMP3 =(-ONE/TWO)*AT3(I)*THREE*AT2(I)**2/TWO/TWENTY7
-     .          /SQRT((AT2(I)**3/TWENTY7)**3)
+
 C
 C       DERIVATIVES OF A
 C
-        DA3ZXX = TEMP1*(TEMP2*DT3ZXX+TEMP3*DT2ZXX) 
-        DA3ZYY = TEMP1*(TEMP2*DT3ZYY+TEMP3*DT2ZYY) 
-        DA3ZZZ = TEMP1*(TEMP2*DT3ZZZ+TEMP3*DT2ZZZ) 
-        DA3ZXY = TEMP1*(TEMP2*DT3ZXY+TEMP3*DT2ZXY) 
-        DA3ZYZ = TEMP1*(TEMP2*DT3ZYZ+TEMP3*DT2ZYZ) 
-        DA3ZZX = TEMP1*(TEMP2*DT3ZZX+TEMP3*DT2ZZX) 
+        TERM_SING   = FOUR * J2(I)**3 - TWENTY7 *J3(I) **2        
+        IF (TERM_SING<=EM20)THEN 
+         TERM_DERI_A = ZERO
+        ELSE
+         TERM_DERI_A = -THREE* SQRT(THREE) / SQRT (TERM_SING )
+        ENDIF
+
+        DA3ZXX = TERM_DERI_A*(DT3ZXX- THREE_HALF *(J3(I)/ J2(I))*DT2ZXX) 
+        DA3ZYY = TERM_DERI_A*(DT3ZYY- THREE_HALF *(J3(I)/ J2(I))*DT2ZYY) 
+        DA3ZZZ = TERM_DERI_A*(DT3ZZZ- THREE_HALF *(J3(I)/ J2(I))*DT2ZZZ) 
+        DA3ZXY = TERM_DERI_A*(DT3ZXY- THREE_HALF *(J3(I)/ J2(I))*DT2ZXY) 
+        DA3ZYZ = TERM_DERI_A*(DT3ZYZ- THREE_HALF *(J3(I)/ J2(I))*DT2ZYZ) 
+        DA3ZZX = TERM_DERI_A*(DT3ZZX- THREE_HALF *(J3(I)/ J2(I))*DT2ZZX) 
+
 C
 C       STORE DERIVATIVES OF A
 C
@@ -272,48 +279,37 @@ C
         DA(I,5)=DA3ZYZ
         DA(I,6)=DA3ZZX
 C
-        TEMP4 = ONE*THIRD/SQRT(AT2(I)*THIRD)
-        TEMP5 = TWO*SQRT(AT2(I)*THIRD)*THIRD
+        TEMP4 = ONE*THIRD/SQRT(J2(I)*THIRD)
+        TEMP5 = TWO*SQRT(J2(I)*THIRD)*THIRD
+        AA4(I)= ACOS(AA3(I))
+        TETA  = THREE_TETA * THIRD
         AA4(I)= ACOS(AA3(I))
 C
 C       DERIVATIVES OF PRINCIPAL STRAINS
 C
-        DZ1ZXX=TEMP4*DT2ZXX*COS(-AA4(I)*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD)*DA3ZXX
-        DZ2ZXX=TEMP4*DT2ZXX*COS(-AA4(I)*THIRD+TWO*PI*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD+TWO*PI*THIRD)*DA3ZXX
-        DZ3ZXX=TEMP4*DT2ZXX*COS(-AA4(I)/THREE+FOUR*PI*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD+FOUR*PI*THIRD)*DA3ZXX
-        DZ1ZYY=TEMP4*DT2ZYY*COS(-AA4(I)*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD)*DA3ZYY
-        DZ2ZYY=TEMP4*DT2ZYY*COS(-AA4(I)*THIRD+TWO*PI*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD+TWO*PI*THIRD)*DA3ZYY
-        DZ3ZYY=TEMP4*DT2ZYY*COS(-AA4(I)*THIRD+FOUR*PI*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD+FOUR*PI*THIRD)*DA3ZYY
-        DZ1ZZZ=TEMP4*DT2ZZZ*COS(-AA4(I)*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD)*DA3ZZZ
-        DZ2ZZZ=TEMP4*DT2ZZZ*COS(-AA4(I)*THIRD+TWO*PI*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD+TWO*PI*THIRD)*DA3ZZZ
-        DZ3ZZZ=TEMP4*DT2ZZZ*COS(-AA4(I)*THIRD+FOUR*PI*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD+FOUR*PI*THIRD)*DA3ZZZ
-        DZ1ZXY=TEMP4*DT2ZXY*COS(-AA4(I)*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD)*DA3ZXY
-        DZ2ZXY=TEMP4*DT2ZXY*COS(-AA4(I)*THIRD+TWO*PI*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD+TWO*PI*THIRD)*DA3ZXY
-        DZ3ZXY=TEMP4*DT2ZXY*COS(-AA4(I)*THIRD+FOUR*PI*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD+FOUR*PI*THIRD)*DA3ZXY
-        DZ1ZYZ=TEMP4*DT2ZYZ*COS(-AA4(I)*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD)*DA3ZYZ
-        DZ2ZYZ=TEMP4*DT2ZYZ*COS(-AA4(I)*THIRD+TWO*PI*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD+TWO*PI*THIRD)*DA3ZYZ
-        DZ3ZYZ=TEMP4*DT2ZYZ*COS(-AA4(I)*THIRD+FOUR*PI*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD+FOUR*PI*THIRD)*DA3ZYZ
-        DZ1ZZX=TEMP4*DT2ZZX*COS(-AA4(I)*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD)*DA3ZZX
-        DZ2ZZX=TEMP4*DT2ZZX*COS(-AA4(I)*THIRD+TWO*PI*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD+TWO*PI*THIRD)*DA3ZZX
-        DZ3ZZX=TEMP4*DT2ZZX*COS(-AA4(I)*THIRD+FOUR*PI*THIRD)
-     .                   +TEMP5*SIN(-AA4(I)*THIRD+FOUR*PI*THIRD)*DA3ZZX
+        DZ1ZXX =TEMP4*DT2ZXX*COS(-TETA)               +TEMP5*SIN(-TETA)*DA3ZXX                        
+        DZ2ZXX =TEMP4*DT2ZXX*COS(-TETA+TWO*PI*THIRD)  +TEMP5*SIN(-TETA+TWO*PI*THIRD)*DA3ZXX                       
+        DZ3ZXX =TEMP4*DT2ZXX*COS(-TETA+FOUR*PI*THIRD) +TEMP5*SIN(-TETA+FOUR*PI*THIRD)*DA3ZXX    
+
+        DZ1ZYY =TEMP4*DT2ZYY*COS(-TETA)               +TEMP5*SIN(-TETA)*DA3ZYY                        
+        DZ2ZYY =TEMP4*DT2ZYY*COS(-TETA+TWO*PI*THIRD)  +TEMP5*SIN(-TETA+TWO*PI*THIRD)*DA3ZYY                        
+        DZ3ZYY =TEMP4*DT2ZYY*COS(-TETA+FOUR*PI*THIRD) +TEMP5*SIN(-TETA+FOUR*PI*THIRD)*DA3ZYY   
+
+        DZ1ZZZ =TEMP4*DT2ZZZ*COS(-TETA)               +TEMP5*SIN(-TETA)*DA3ZZZ                        
+        DZ2ZZZ =TEMP4*DT2ZZZ*COS(-TETA+TWO*PI*THIRD)  +TEMP5*SIN(-TETA+TWO*PI*THIRD)*DA3ZZZ                       
+        DZ3ZZZ =TEMP4*DT2ZZZ*COS(-TETA+FOUR*PI*THIRD) +TEMP5*SIN(-TETA+FOUR*PI*THIRD)*DA3ZZZ    
+
+        DZ1ZXY =TEMP4*DT2ZXY*COS(-TETA)               +TEMP5*SIN(-TETA)*DA3ZXY                        
+        DZ2ZXY =TEMP4*DT2ZXY*COS(-TETA+TWO*PI*THIRD)  +TEMP5*SIN(-TETA+TWO*PI*THIRD)*DA3ZXY                        
+        DZ3ZXY =TEMP4*DT2ZXY*COS(-TETA+FOUR*PI*THIRD) +TEMP5*SIN(-TETA+FOUR*PI*THIRD)*DA3ZXY   
+
+        DZ1ZYZ =TEMP4*DT2ZYZ*COS(-TETA)               +TEMP5*SIN(-TETA)*DA3ZYZ                        
+        DZ2ZYZ =TEMP4*DT2ZYZ*COS(-TETA+TWO*PI*THIRD)  +TEMP5*SIN(-TETA+TWO*PI*THIRD)*DA3ZYZ                        
+        DZ3ZYZ =TEMP4*DT2ZYZ*COS(-TETA+FOUR*PI*THIRD) +TEMP5*SIN(-TETA+FOUR*PI*THIRD)*DA3ZYZ   
+
+        DZ1ZZX =TEMP4*DT2ZZX*COS(-TETA)               +TEMP5*SIN(-TETA)*DA3ZZX                        
+        DZ2ZZX =TEMP4*DT2ZZX*COS(-TETA+TWO*PI*THIRD)  +TEMP5*SIN(-TETA+TWO*PI*THIRD)*DA3ZZX                        
+        DZ3ZZX =TEMP4*DT2ZZX*COS(-TETA+FOUR*PI*THIRD) +TEMP5*SIN(-TETA+FOUR*PI*THIRD)*DA3ZZX
 c
 c       store first derivatives
 c       store zero'd derivatives
@@ -321,36 +317,25 @@ c
         DZERO(I,1) =Z1(I)
         DZERO(I,2) =Z2(I)
         DZERO(I,3) =Z3(I)
-        DFIRST(I,1,1)=DZ1ZXX
-        DFIRST(I,1,2)=DZ1ZYY
-        DFIRST(I,1,3)=DZ1ZZZ
-        DFIRST(I,1,4)=DZ1ZXY
-        DFIRST(I,1,5)=DZ1ZYZ
-        DFIRST(I,1,6)=DZ1ZZX
-        DFIRST(I,2,1)=DZ2ZXX
-        DFIRST(I,2,2)=DZ2ZYY
-        DFIRST(I,2,3)=DZ2ZZZ
-        DFIRST(I,2,4)=DZ2ZXY
-        DFIRST(I,2,5)=DZ2ZYZ
-        DFIRST(I,2,6)=DZ2ZZX
-        DFIRST(I,3,1)=DZ3ZXX
-        DFIRST(I,3,2)=DZ3ZYY
-        DFIRST(I,3,3)=DZ3ZZZ
-        DFIRST(I,3,4)=DZ3ZXY
-        DFIRST(I,3,5)=DZ3ZYZ
-        DFIRST(I,3,6)=DZ3ZZX
-c
-c       add hydrostatic part
-c
         DFIRST(I,1,1)=DZ1ZXX + THIRD
         DFIRST(I,1,2)=DZ1ZYY + THIRD
         DFIRST(I,1,3)=DZ1ZZZ + THIRD
+        DFIRST(I,1,4)=DZ1ZXY
+        DFIRST(I,1,5)=DZ1ZYZ
+        DFIRST(I,1,6)=DZ1ZZX
         DFIRST(I,2,1)=DZ2ZXX + THIRD
         DFIRST(I,2,2)=DZ2ZYY + THIRD
         DFIRST(I,2,3)=DZ2ZZZ + THIRD
+        DFIRST(I,2,4)=DZ2ZXY
+        DFIRST(I,2,5)=DZ2ZYZ
+        DFIRST(I,2,6)=DZ2ZZX
         DFIRST(I,3,1)=DZ3ZXX + THIRD
         DFIRST(I,3,2)=DZ3ZYY + THIRD
         DFIRST(I,3,3)=DZ3ZZZ + THIRD
+        DFIRST(I,3,4)=DZ3ZXY
+        DFIRST(I,3,5)=DZ3ZYZ
+        DFIRST(I,3,6)=DZ3ZZX
+
 C
 C       PART 3
 C       SECOND DERIVATIVES OF PRINCIPAL STRAINS
@@ -614,100 +599,64 @@ C
 C
 C       SECOND DERIVATIVES OF A
 C
-C        FIRST TERM ( UP TO 'X')
-C
-        AFAC1  = TWO*SQRT(AT2(I)**3/TWENTY7)
-        AFAC2  = FOUR*SQRT((AT2(I)**3/TWENTY7)**3)
-        AFAC1  = MAX(AFAC1,1.E-16)
-        AFAC2  = MAX(AFAC2,1.E-16)
-        AFAC1  = ONE/AFAC1
-        AFAC2  = AT3(I)/AFAC2
-        AHELP  = SQRT(AT2(I)**3/TWENTY7)
+         IF (J2(I) <= TOL1 .OR.TERM_SING <= TOL1 )THEN    
+            FAC1_DA2 = ZERO
+            FAC2_DA2 = ZERO
+            FAC3_DA2 = ZERO
+         ELSE 
+            FAC1_DA2 =  SQRT(TWENTY7) / (J2(I)**2 * SQRT(TERM_SING))
+            FAC2_DA2 =  SQRT(TWENTY7) / (TWO  * (TERM_SING)**(3/2) )
+            FAC3_DA2 =  FAC2_DA2 / J2(I) 
+            
+         ENDIF 
+         DO J=1,6
+           DO K=1,6
+             
+             T1DA2  =  -FAC1_DA2 *( J2(I)**2 * DAT32(I,J,K) -THREE_HALF *J2(I) * J3(I) * DAT22(I,J,K)  )
+
+             T2DA2  =  -FAC2_DA2 * SIX*THREE * J2(I) * J3(I) * DAT2(I,K)*DAT2(I,J)
+
+             T3DA2  =  -FAC1_DA2 *THREE_HALF*J3(I) *DAT2(I,K)*DAT2(I,J)
+             
+             T4DA2  =  -FAC2_DA2 * TWO * TWENTY7 * J3(I)  * DAT3(I,J) *DAT3(I,K)
+
+             T5DA2  =   FAC3_DA2 * THREE * TWENTY7 * J3(I)**2 * DAT3(I,K)*  DAT2(I,J) 
+     .                  +FAC1_DA2 * THREE_HALF * J2(I) *  DAT3(I,K)*  DAT2(I,J) 
+
+             T6DA2  =   FAC2_DA2 *THREE * FOUR * J2(I)**2 * DAT3(I,J) * DAT2(I,K)
+
+             DA2(I,J,K) =  ( T1DA2 + T2DA2 + T3DA2 +  T4DA2 + T5DA2 + T6DA2)
+            ENDDO
+         ENDDO
 
 
-        AHELP3 = ONE-(AT3(I)/TWO/AHELP)**2
-        AHELP4 = MAX(AHELP3,1.E-16)
-        
-        AFAC3  = AHELP4**(-THREE_HALF)
-        AFAC4  = AHELP4**(-HALF)
 C
 C       SIMILAR ZEROING OUT AS IN THE FIRST DERIVATIVES
 C       UNLIKE WITH THE FIRST DERIVATIVES, HERE IT MAKES A DIFFERENCE
-C
-        IF (AHELP3 < TOL1) THEN !1.E-16
-          AFAC3=ZERO
-          AFAC4=ZERO
-        ENDIF
-C
-        DO   K=1,6
-          DO   J=1,6
-            DA2(I,K,J)=(AFAC1*DAT3(I,J)-AFAC2*(AT2(I)**2/NINE)*DAT2(I,J))
-     .                *(AFAC1*DAT3(I,K)-AFAC2*(AT2(I)**2/NINE)*DAT2(I,K)) 
-               
-          ENDDO
-        ENDDO
-C
-        AFAC33=AT3(I)/TWO/SQRT(AT2(I)**3/TWENTY7)
-C            AFAC33=1 IN UNIAXIAL AND AFAC33=-1 IN EQUIBIAXIAL
-C
-        DO   K=1,6
-          DO   J=1,6
-            DA2(I,K,J) = -AFAC3*AFAC33*DA2(I,K,J)
-          ENDDO
-        ENDDO
-C
-C       SECOND TERM 'X'
-C
-        XCAP  = SQRT(AT2(I)**3/TWENTY7)
-        XCAP  = MAX(XCAP,1.E-16)
-        XCAP  = ONE/XCAP
-        DXCAP =-AT2(I)**2 * XCAP**3 /NINE/TWO
-        X1    = XCAP/TWO
-        X2    = -XCAP**3 *AT3(I)*AT2(I)**2 /NINE/FOUR
-        X3    = DXCAP/TWO
-        X4    = -XCAP**2*DXCAP*AT3(I)*AT2(I)**2/SIX/TWO
-        X5    = -XCAP**3*AT2(I)**2/NINE/FOUR
-        X6    = -XCAP**3*AT3(I)*AT2(I)/NINE/TWO
-C
-        DO J=1,6
-          DO K=1,6
-            DX2(I,J,K)=   X1*DAT32(I,J,K)
-     .                +   X2*DAT22(I,J,K)
-     .                +   X3* DAT2(I,J) *DAT3(I,K)
-     .                +   X4* DAT2(I,J) *DAT2(I,K)
-     .                +   X5* DAT3(I,J) *DAT2(I,K)
-     .                +   X6* DAT2(I,J) *DAT2(I,K)   
-          ENDDO
-        ENDDO
-C
-        DO J=1,6
-          DO K=1,6
-            DA2(I,J,K)=DA2(I,J,K)-AFAC4*DX2(I,J,K)
-          ENDDO
-        ENDDO
+
 C       SECOND DERIVATIVES OF PRINCIPAL STRAINS
 C       MAKES USE OF FIRST DERIVATIVES OF T2 : DAT2
 C       MAKES USE OF FIRST DERIVATIVES OF A : DA
 C       MAKES USE OF SECOND DERIVATIVES OF T2 : DAT22
 C       MAKES USE OF SECOND DERIVATIVES OF A : DA2
 C
+
         DO  L=1,3
-          AC = COS(-AA4(I)*THIRD+(L-1)*TWO*PI*THIRD)
-          AS = SIN(-AA4(I)*THIRD+(L-1)*TWO*PI*THIRD) 
-          DO J=1,6
-            DO K=1,6
-              T1=(-ONE/SIX/AA2(I)**3*THIRD)*AC*DAT2(I,J)*DAT2(I,K)
-              T2=( TWO/SIX/AA2(I))         *AC*         DAT22(I,J,K)
-
-              T3=(ONE/NINE/AA2(I))         *AS*DAT2(I,K)*DA(I,J)
-              T4=(ONE/THREE/AA2(I)*THIRD)  *AS*DAT2(I,J)*DA(I,K)
-
-              T5=(-TWO/NINE) *AA2(I)         *AC* DA(I,J)*DA(I,K)
-              T6=(TWO*THIRD) *AA2(I)         *AS*DA2(I,J,K)
-              DSECOND(I,L,J,K) = T1+T2+T3+T4+T5+T6
-            ENDDO
-          ENDDO
-        ENDDO   
+         AC    = COS(-TETA   +(L-1)*TWO*PI*THIRD)
+         AS    = SIN(-TETA   +(L-1)*TWO*PI*THIRD) 
+         AA2(I)= SQRT(J2(I)*THIRD)
+         DO J=1,6
+           DO K=1,6
+             T1=(-ONE/SIX/AA2(I)**3*THIRD)* AC * DAT2(I,J)*DAT2(I,K)  
+             T2=( THIRD/AA2(I))           * AC *     DAT22(I,J,K)
+             T3=(ONE/NINE/AA2(I))         * AS * DAT2(I,K) * DA(I,J)
+             T4=(ONE/NINE/AA2(I))         * AS * DAT2(I,J) * DA(I,K)
+             T5=(-TWO/NINE) *AA2(I)       * AC * DA(I,J)   * DA(I,K) 
+             T6=(TWO*THIRD) *AA2(I)       * AS * DA2(I,J,K) ! IF J2==ZERO T6=ZERO
+             DSECOND(I,L,J,K) = T1 + T2 + T3 + T4 + T5 + T6
+           ENDDO
+         ENDDO
+       ENDDO   
       ENDDO
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -728,7 +677,6 @@ C
       STRAINRATE(1:NEL,1)= ZERO
       STRAINRATE(1:NEL,2)= ZERO
       STRAINRATE(1:NEL,3)= ZERO
-      
 C
       DO I=1,NEL
 C
