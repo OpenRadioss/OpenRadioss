@@ -288,23 +288,29 @@ C-----------------------------------------------
 
            !checking bounds
             IF(Z > 0.5 .AND. Z < 400.) then
-            elseif(Z <= 0.5)then
+              !inside interpolation tables
+            elseif(Z <= 0.5 .AND. PBLAST_TAB(IL)%TAGMSG(I) == 0)then
               if (N4==0)then
                 write(*,FMT='(A,3I11)')
-     .           "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
+     .           "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
               else
                 write(*,FMT='(A,4I11)')
-     .           "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+     .           "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
               endif
-
-            elseif(Z > 400.)then
-              if (N4==0)then
-                write(*,FMT='(A,3I11)')
-     .           "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
+              PBLAST_TAB(IL)%TAGMSG(I) = .TRUE.
+            elseif(Z > 400. .AND. PBLAST_TAB(IL)%TAGMSG(I) == 0)then
+              if (N4 == 0)then
+                write(IOUT,FMT='(A,3I11)')
+     .           "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
+                write(ISTDO,FMT='(A,3I11)')
+     .           "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
               else
-                write(*,FMT='(A,4I11)')
-     .           "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+                write(IOUT,FMT='(A,4I11)')
+     .           "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+                write(ISTDO,FMT='(A,4I11)')
+     .           "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
               endif
+              PBLAST_TAB(IL)%TAGMSG(I) = 1
             ENDIF
 
             !------------------------------------------------------------------!

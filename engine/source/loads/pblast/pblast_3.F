@@ -359,13 +359,14 @@ C-----------------------------------------------
             ANGLE_g = min(ONE,max(-ONE,ANGLE_g)) ! bound it to expected range (epsilon)
             ANGLE_g = acos(ANGLE_g)
             ANGLE_g = cst_180/PI_*ANGLE_g !debug purpose
-            IF(ANGLE_g < ZERO)THEN
+            IF(ANGLE_g < ZERO .AND. PBLAST_TAB(IL)%TAGMSG(I) == 0 )THEN
               WRITE(IOUT,*) ' ** WARNING : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g,
      .         ' FACE:',ITAB((/N1,N2,N3,N4/)),' SEEMS TO BE BELOW THE GROUND'
               WRITE(ISTDO,*)' ** WARNING : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g,
      .          ' FACE:',ITAB((/N1,N2,N3,N4/)),' SEEMS TO BE BELOW THE GROUND'
               ANGLE_g = ZERO
-            ELSEIF(ANGLE_g > 85.00000)THEN
+              PBLAST_TAB(IL)%TAGMSG(I) = 1
+            ELSEIF(ANGLE_g > 85.00000 .AND. PBLAST_TAB(IL)%TAGMSG(I) == 0)THEN
               WRITE(IOUT,FMT='(A,I0,A,E10.4,A,4I11)')
      .        ' ** WARNING : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g,
      .          '. ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3,N4/))
@@ -373,6 +374,7 @@ C-----------------------------------------------
      .        ' ** WARNING : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g,
      .          '. ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3,N4/))
               ANGLE_g = 85.00000
+              PBLAST_TAB(IL)%TAGMSG(I) = 1
             ENDIF
 
 
@@ -494,9 +496,12 @@ C----- /TH/SURF -------
 #include "lockoff.inc"
         CALL MY_BARRIER()
 !$OMP SINGLE
-        write(*,FMT='(A,I10,A,E16.8,A,E16.8)') "Updated parameters for /LOAD/PBLAST id=",
-     .                                         ID,' previous first arrival time :',ZETA,
-     .                                         ' is now updated to :',FAC(07,NL)
+        write(IOUT ,FMT='(A,I10,A,E16.8,A,E16.8)') "Updated parameters for /LOAD/PBLAST id=",
+     .                                             ID,' previous first arrival time :',ZETA,
+     .                                             ' is now updated to :',FAC(07,NL)
+        write(ISTDO,FMT='(A,I10,A,E16.8,A,E16.8)') "Updated parameters for /LOAD/PBLAST id=",
+     .                                             ID,' previous first arrival time :',ZETA,
+     .                                             ' is now updated to :',FAC(07,NL)
 !$OMP END SINGLE
       ENDIF
 

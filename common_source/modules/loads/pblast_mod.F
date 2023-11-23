@@ -54,6 +54,7 @@ Chd|====================================================================
         my_real, ALLOCATABLE,DIMENSION(:)    :: P_inci,P_refl,ta,t0,decay_inci,decay_refl ! Friedlander parameters
         my_real, DIMENSION(:)  , ALLOCATABLE :: FX,FY,FZ,NPt                              !working arrays (forces)
         INTEGER, DIMENSION(:,:), ALLOCATABLE :: N                                         !working array (normal vectors)
+        INTEGER, ALLOCATABLE,DIMENSION(:)    :: TAGMSG
       END TYPE PBLAST_STRUCT_
 
       TYPE FRIEDLANDER_PARAMS_
@@ -199,8 +200,9 @@ C-----------------------------------------------
         ALLOCATE ( PBLAST_TAB(I)%FZ(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
         ALLOCATE ( PBLAST_TAB(I)%N(4,SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
         ALLOCATE ( PBLAST_TAB(I)%NPt(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
-        ALLOCATE(RTMP(7*SIZ))
-        CALL READ_DB(RTMP,7*SIZ)
+        ALLOCATE ( PBLAST_TAB(I)%TAGMSG(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE(RTMP(8*SIZ))
+        CALL READ_DB(RTMP,8*SIZ)
         IAD = 0
         DO KK=1,SIZ
           PBLAST_TAB(I)%cos_theta(KK) = RTMP(IAD+1)
@@ -210,7 +212,8 @@ C-----------------------------------------------
           PBLAST_TAB(I)%t0(KK) = RTMP(IAD+5)
           PBLAST_TAB(I)%decay_inci(KK) = RTMP(IAD+6)
           PBLAST_TAB(I)%decay_refl(KK) = RTMP(IAD+7)
-          IAD = IAD+7
+          PBLAST_TAB(I)%TAGMSG(KK) = NINT(RTMP(IAD+8))
+          IAD = IAD+8
         ENDDO
         DEALLOCATE(RTMP)
       ENDDO
@@ -328,7 +331,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
-      IF(NLOADP_B<=0)RETURN
+      IF(NLOADP_B <= 0)RETURN
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------
@@ -366,7 +369,7 @@ C-----------------------------------------------
       OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR+NUMELX+NCONLD+NUMCONV+NUMRADIA+NFXFLUX
       DO I=1,NLOADP_B
         SIZ = NSEGL(I)
-        ALLOCATE(RTMP(7*NSEGL(I)))
+        ALLOCATE(RTMP(8*NSEGL(I)))
         IAD=0
         DO JJ=1,PBLAST_TAB(I)%SIZ
           IF(CEP(JJ+OFF)==PROC)THEN !write buffer if segment is on local domain
@@ -377,10 +380,11 @@ C-----------------------------------------------
             RTMP(IAD+5) = PBLAST_TAB(I)%t0(JJ)
             RTMP(IAD+6) = PBLAST_TAB(I)%decay_inci(JJ)
             RTMP(IAD+7) = PBLAST_TAB(I)%decay_refl(JJ)
-            IAD = IAD + 7
+            RTMP(IAD+8) = PBLAST_TAB(I)%TAGMSG(JJ)
+            IAD = IAD + 8
           ENDIF
         ENDDO
-        CALL WRITE_DB(RTMP,7*NSEGL(I))
+        CALL WRITE_DB(RTMP,8*NSEGL(I))
         DEALLOCATE(RTMP)
         OFF = OFF + PBLAST_TAB(I)%SIZ
       ENDDO
@@ -455,7 +459,7 @@ C-----------------------------------------------
       DO I=1,NLOADP_B
         SIZ = PBLAST_TAB(I)%SIZ
         IAD=0
-        ALLOCATE(RTMP(7*SIZ))
+        ALLOCATE(RTMP(8*SIZ))
         DO JJ=1,PBLAST_TAB(I)%SIZ
             RTMP(IAD+1) = PBLAST_TAB(I)%cos_theta(JJ)
             RTMP(IAD+2) = PBLAST_TAB(I)%P_inci(JJ)
@@ -464,9 +468,10 @@ C-----------------------------------------------
             RTMP(IAD+5) = PBLAST_TAB(I)%t0(JJ)
             RTMP(IAD+6) = PBLAST_TAB(I)%decay_inci(JJ)
             RTMP(IAD+7) = PBLAST_TAB(I)%decay_refl(JJ)
-            IAD = IAD + 7
+            RTMP(IAD+8) = PBLAST_TAB(I)%TAGMSG(JJ)
+            IAD = IAD + 8
         ENDDO
-        CALL WRITE_DB(RTMP,7*SIZ)
+        CALL WRITE_DB(RTMP,8*SIZ)
         DEALLOCATE(RTMP)
       ENDDO
 C-----------------------------------------------

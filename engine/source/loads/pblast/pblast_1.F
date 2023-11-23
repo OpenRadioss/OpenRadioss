@@ -265,22 +265,32 @@ C-----------------------------------------------
           Z  = DNORM / W13    !in abac unit ID  g,cm,mus
           !display warning message if out of bounds
           ! precondition for SUBROUTINE PBLAST_PARAMETERS__FREE_AIR
-          IF(Z <= 0.5)THEN
-            if (N4==0)then
-              write(*,FMT='(A,3I11)')
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
+          IF(Z <= 0.5 .AND. PBLAST_TAB(IL)%TAGMSG(I) == 0 )THEN
+            if (N4 == 0)then
+              write(IOUT,FMT='(A,3I11)')
+     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
+              write(ISTDO,FMT='(A,3I11)')
+     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
             else
-              write(*,FMT='(A,4I11)')
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+              write(IOUT,FMT='(A,4I11)')
+     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+              write(ISTDO,FMT='(A,4I11)')
+     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
             endif
-          ELSEIF(Z > 400.)THEN
-              if (N4==0)then
-              write(*,FMT='(A,3I11)')
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
+            PBLAST_TAB(IL)%TAGMSG(I) = .TRUE.
+          ELSEIF(Z > 400. AND. PBLAST_TAB(IL)%TAGMSG(I) == 0)THEN
+              if (N4 == 0)then
+              write(IOUT,FMT='(A,3I11)')
+     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
+              write(ISTDO,FMT='(A,3I11)')
+     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
               else
-              write(*,FMT='(A,4I11)')
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+              write(IOUT,FMT='(A,4I11)')
+     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+              write(ISTDO,FMT='(A,4I11)')
+     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
               endif
+              PBLAST_TAB(IL)%TAGMSG(I) = 1
           ENDIF
 
           !------------------------------------------------------------------!
@@ -405,7 +415,10 @@ C----- /TH/SURF -------
 #include "lockoff.inc"
         CALL MY_BARRIER()
 !$OMP SINGLE
-        write(*,FMT='(A,I10,A,E16.8,A,E16.8)') "Updated parameters for /LOAD/PBLAST id=",
+        write(IOUT,FMT='(A,I10,A,E16.8,A,E16.8)') "Updated parameters for /LOAD/PBLAST id=",
+     .                                         ID,' previous first arrival time :',ZETA,
+     .                                         ' is now updated to :',FAC(07,NL)
+        write(ISTDO,FMT='(A,I10,A,E16.8,A,E16.8)') "Updated parameters for /LOAD/PBLAST id=",
      .                                         ID,' previous first arrival time :',ZETA,
      .                                         ' is now updated to :',FAC(07,NL)
 !$OMP END SINGLE
