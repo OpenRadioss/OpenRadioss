@@ -127,7 +127,7 @@ C-----------------------------------------------
       INTEGER IAD,ID,SURF_ID,internal_SURF_ID
       INTEGER IABAC,IADPL,itmp,IS,SUB_ID
       INTEGER ITA_SHIFT
-      INTEGER N1,N2,N3,N4,IERR1,ISIZ_SEG,NDT,ILD_PBLAST,IZ_UPDATE,IMODEL,NODE_ID
+      INTEGER N1,N2,N3,N4,IERR1,NDT,ILD_PBLAST,IZ_UPDATE,IMODEL,NODE_ID
       INTEGER SURF_ID_ground,internal_SURF_ID_GROUND
       INTEGER curve_id1,curve_id2,SEG_UNDERGROUND
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
@@ -686,17 +686,17 @@ C-----------------------------------------------
         !--------------------------------------------------------------
         IF(internal_SURF_ID /= 0 .AND. .NOT.BOOL_SKIP_CALC)THEN
           NUMSEG = IGRSURF(internal_SURF_ID)%NSEG
-          ISIZ_SEG = NUMSEG
           IAD = ILOADP(4,K)
           ILD_PBLAST = ILD_PBLAST + 1
-          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%cos_theta(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%P_inci(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%P_refl(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%ta(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%t0(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%decay_inci(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%decay_refl(ISIZ_SEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          PBLAST_TAB(ILD_PBLAST)%SIZ=ISIZ_SEG
+          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%cos_theta(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%P_inci(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%P_refl(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%ta(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%t0(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%decay_inci(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%decay_refl(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          ALLOCATE (PBLAST_TAB(ILD_PBLAST)%TAGMSG(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+          PBLAST_TAB(ILD_PBLAST)%SIZ=NUMSEG
 
           !  Coordinates of detonation point projection = DETPOINT + HC*n     !N_SURF is here -HC*n  where n is normal unitary vector of the plane
           IF(IABAC == 3)THEN
@@ -783,7 +783,7 @@ C-----------------------------------------------
               !--------------------------------------------------------
               !   Free Air
               !--------------------------------------------------------
-              IF(  IABAC == 1 ) THEN
+              IF( IABAC == 1 ) THEN
               !=== SPHERICAL CHARGE IN FREE FIELD ===!
 
                 ! scaled distance
@@ -794,19 +794,21 @@ C-----------------------------------------------
                 ELSEIF(Z <= 0.5)THEN
                   IF (N4 == 0)THEN
                     WRITE(IOUT,FMT='(A,3I11)')
-     .               "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
+     .               "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
                   ELSE
-                    WRITE(ISTDO,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",
+                    WRITE(ISTDO,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",
      .               ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                   ENDIF
+                  PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                 ELSEIF(Z > 400.)THEN
                   IF (N4==0)THEN
                     WRITE(IOUT,FMT='(A,3I11)')
-     .               "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
+     .               "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
                   ELSE
-                    WRITE(ISTDO,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",
+                    WRITE(ISTDO,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",
      .               ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                   ENDIF
+                  PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                 ENDIF
 
                 !Angle from detonation point
@@ -884,19 +886,31 @@ C-----------------------------------------------
                   ELSEIF(Z <= 0.5)THEN
                     IF (N4 == 0)THEN
                       WRITE(IOUT,FMT='(A,3I11)')
-     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
+     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
+                      WRITE(ISTDO,FMT='(A,3I11)')
+     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
                     ELSE
-                      WRITE(ISTDO,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   mus/g**(1/3)    .Segment nodes : ",
-     .                 ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+                      WRITE(IOUT,FMT='(A,4I11)')
+     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+                      WRITE(ISTDO,FMT='(A,4I11)')
+     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                     ENDIF
+                    PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                   ELSEIF(Z > 400.)THEN
                     IF (N4==0)THEN
                       WRITE(IOUT,FMT='(A,3I11)')
-     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
+     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
+                      WRITE(ISTDO,FMT='(A,3I11)')
+     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
                     ELSE
-                      WRITE(ISTDO,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 mus/g**(1/3)    .Segment nodes : ",
+                      WRITE(IOUT,FMT='(A,4I11)')
+     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",
+     .                 ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+                      WRITE(ISTDO,FMT='(A,4I11)')
+     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",
      .                 ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                     ENDIF
+                    PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                   ENDIF
                   !------------------------------------------------------------!
                   CALL PBLAST_PARAMETERS__SURFACE_BURST( Z, W13, TDET,
@@ -977,6 +991,7 @@ C-----------------------------------------------
                     WRITE(ISTDO,*)' ** WARNING : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g,' FACE:',ITAB((/N1,N2,N3,N4/)),
      .                            ' SEEMS TO BE BELOW THE GROUND'
                     ANGLE_g = ZERO
+                    PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                   ELSEIF(ANGLE_g > 85.00000)THEN
                     WRITE(IOUT,FMT='(A,I0,A,E10.4,A,4I11)')
      .              ' ** WARNING : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g,
@@ -985,6 +1000,7 @@ C-----------------------------------------------
      .              ' ** WARNING : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g,
      .                                            '. ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3,N4/))
                     ANGLE_g = 85.00000
+                    PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                   ENDIF
 
                  !------------------------------------------------------------!
@@ -1021,6 +1037,7 @@ C-----------------------------------------------
               PBLAST_TAB(ILD_PBLAST)%t0(I) = DT_0
               PBLAST_TAB(ILD_PBLAST)%decay_inci(I) = decay_inci
               PBLAST_TAB(ILD_PBLAST)%decay_refl(I) = decay_refl
+              PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 0
 
               b_min = MIN(b_min, decay_inci)
               b_min = MIN(b_min, decay_refl)
