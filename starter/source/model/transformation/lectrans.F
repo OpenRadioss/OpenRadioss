@@ -87,7 +87,7 @@ C-----------------------------------------------
      .   IBID,CPT
       my_real
      .   LX,LY,LZ,TX,TY,TZ,R,S,RX,RY,RZ,SX,SY,SZ,ANGLE,AT,FAC_L,
-     .   TRANS1,TRANS2,TRANS3,XP,YP,ZP
+     .   XP,YP,ZP
       my_real
      .   VR(3),X0(3),X1(3),X2(3),X3(3),X4(3),X5(3),X6(3),
      .   ROT(9),PP(3,3),QQ(3,3),P(3),NORM1, NORM2, NORM3, SCAL1, 
@@ -506,18 +506,17 @@ c---------------------
      .                  I2= IGU)
           ENDIF
           RTRANS(I,18)=IGS
-
-          TRANS1 = TRANS1 * FAC_L
-          TRANS2 = TRANS2 * FAC_L
-          TRANS3 = TRANS3 * FAC_L
 c
           EPS   = EM3
-          NORM1 = SQRT(ROT(1)**2+ROT(4)**2+ROT(7)**2)
-          NORM2 = SQRT(ROT(2)**2+ROT(5)**2+ROT(8)**2)
-          NORM3 = SQRT(ROT(3)**2+ROT(6)**2+ROT(9)**2)
-          SCAL1 = ROT(1)*ROT(2)+ROT(4)*ROT(5)+ROT(7)*ROT(8)
-          SCAL2 = ROT(1)*ROT(3)+ROT(4)*ROT(6)+ROT(7)*ROT(9)
-          SCAL3 = ROT(2)*ROT(3)+ROT(5)*ROT(6)+ROT(8)*ROT(9)
+          NORM1 = SQRT(RTRANS(I,3)**2+RTRANS(I,6)**2+RTRANS(I,9)**2)
+          NORM2 = SQRT(RTRANS(I,4)**2+RTRANS(I,7)**2+RTRANS(I,10)**2)
+          NORM3 = SQRT(RTRANS(I,5)**2+RTRANS(I,8)**2+RTRANS(I,11)**2)
+          SCAL1 = RTRANS(I,3)*RTRANS(I,4)+RTRANS(I,6)*RTRANS(I,7)+
+     .            RTRANS(I,9)*RTRANS(I,10)
+          SCAL2 = RTRANS(I,3)*RTRANS(I,5)+RTRANS(I,6)*RTRANS(I,8)+
+     .            RTRANS(I,9)*RTRANS(I,11)
+          SCAL3 = RTRANS(I,4)*RTRANS(I,5)+RTRANS(I,7)*RTRANS(I,8)+
+     .            RTRANS(I,10)*RTRANS(I,11)
           IF(ABS(ONE-NORM1) > EPS .OR. ABS(ONE-NORM2) > EPS .OR.
      .       ABS(ONE-NORM3) > EPS .OR. 
      .      SCAL1 > (EPS * NORM1*NORM2) .OR. SCAL2 > (EPS * NORM1*NORM3)
@@ -529,12 +528,12 @@ c
 c---------------------
           DO J=1,IGRNOD(IGS)%NENTITY
             IS=IGRNOD(IGS)%ENTITY(J)
-            XP = ROT(1)*X(1,IS) + ROT(2)*X(2,IS) + ROT(3)*X(3,IS) 
-     .           + TRANS1     
-            YP = ROT(4)*X(1,IS) + ROT(5)*X(2,IS) + ROT(6)*X(3,IS) 
-     .           + TRANS2   
-            ZP = ROT(7)*X(1,IS) + ROT(8)*X(2,IS) + ROT(9)*X(3,IS) 
-     .           + TRANS3                                  
+            XP = RTRANS(I,3)*X(1,IS) + RTRANS(I,6)*X(2,IS) + RTRANS(I,9)*X(3,IS) 
+     .           + RTRANS(I,15)     
+            YP = RTRANS(I,4)*X(1,IS) + RTRANS(I,7)*X(2,IS) + RTRANS(I,10)*X(3,IS) 
+     .           + RTRANS(I,16)   
+            ZP = RTRANS(I,5)*X(1,IS) + RTRANS(I,8)*X(2,IS) + RTRANS(I,11)*X(3,IS) 
+     .           + RTRANS(I,17)                                  
             X(1,IS) = XP
             X(2,IS) = YP
             X(3,IS) = ZP
@@ -543,9 +542,9 @@ c
           WRITE(IOUT,900) ID,IGU
 c
           WRITE(IOUT,910) 
-     .         ROT(1),ROT(2),ROT(3),TRANS1,
-     .         ROT(4),ROT(5),ROT(6),TRANS2,
-     .         ROT(7),ROT(8),ROT(9),TRANS3
+     .         RTRANS(I,3),RTRANS(I,6),RTRANS(I,9),RTRANS(I,15),
+     .         RTRANS(I,4),RTRANS(I,7),RTRANS(I,10),RTRANS(I,16),
+     .         RTRANS(I,5),RTRANS(I,8),RTRANS(I,11),RTRANS(I,17)
 C----
         ELSEIF (KEY(1:8) == 'POSITION') THEN
 C--------------------------------------------------
