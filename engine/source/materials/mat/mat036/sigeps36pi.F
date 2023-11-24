@@ -138,8 +138,8 @@ c---------------------
         OPTE(I) = UPARAM(IADBUF+2*NRATE(I) + 23) 
         EINF(I) = UPARAM(IADBUF+2*NRATE(I) + 24) 
         CE(I)   = UPARAM(IADBUF+2*NRATE(I) + 25) 
-        IFAIL   = NINT(UPARAM(2*NRATE(I) + 27))    ! flag for failure
-        ISMOOTH = NINT(UPARAM(2*NRATE(I) + 29))    ! strain rate interpolation flag
+        IFAIL   = NINT(UPARAM(IADBUF+2*NRATE(I) + 27))    ! flag for failure
+        ISMOOTH = NINT(UPARAM(IADBUF+2*NRATE(I) + 29))    ! strain rate interpolation flag
 c--------------------
         IF (OPTE(I) == 1)THEN                                                     
            IF(PLA(I) > ZERO)THEN             
