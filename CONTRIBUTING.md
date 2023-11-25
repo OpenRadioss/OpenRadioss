@@ -74,17 +74,18 @@ It is not recommended to push commits directly into your `main` branch. This bra
 ### Guidelines and coding style
 
 #### Fortran coding style
+See `template/template.F90`
 
 | DOS                   | DONTS                       |
 |-----------------------|-----------------------------|
 | Use Fortran 90  |  Runtime polymorphism, type-bound procedures|
-| Fixed length (132), uppercase    |  free format, lowercase                           |
+| *.F Fixed length (132), uppercase for legacy files     |   |
+| *.F90 free format for new files                        |   |
 | Filenames: `<subroutine_name>.F`, `<module_name>_mod.F` |`*.f`, `*.F90`   |
-| Indent using spaces | use tabs | 
+| Indent using 2 spaces | use tabs |
 | Modules and derived type   |`COMMON`, `EQUIVALENCE`, `SAVE`|
 | Pass variables (built-in and derived types) as dummy arguments | use global variables |
 | Look for clarity                        |`GOTO`, multiple `RETURN` | 
-| `#include "implicit_f.inc"` that contains `IMPLICIT NONE` | use implicit declaration |
 | Explicit size of dummy argument arrays  `INTEGER, INTENT(IN) :: A(LEN)`  | `INTEGER, INTENT(IN) :: A(*)` |
 | Use bounds for arrays operations | `A = B + C` when A,B,C are arrays     |
 | Use the `MY_REAL` type for real numbers  | use `DOUBLE PRECISION` systematically |

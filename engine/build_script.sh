@@ -36,10 +36,11 @@ function my_help()
   echo " "
   echo " -prec=[dp|sp]                       : set precision - dp (default) |sp "
   echo " -static-link                        : Fortran, C & C++ runtime are linked in binary"
-  echo " -debug=[0|1|2]                      : debug version for gfortran"
-  echo "                                          0 : no debug flags (default)"
+  echo " -debug=[0|1|asan]                   : debug version for gfortran"
+  echo "                                          0 : no debug flags "
   echo "                                          1 : usual debug flag"
-  echo "                                          2 : gfortran sanitizer"
+  echo "                                          asan : gfortran address sanitizer (default)"
+  echo " -release                            : Set build for release (optimized)"
   echo " "
   echo " -addflag=\"list of additional flags\" : add compiler flags to usual set"
   echo " "
@@ -68,8 +69,8 @@ arch=none
 prec=dp
 threads=1
 got_arch=0
-debug=0
-ddebug=""
+debug=asan
+ddebug="_asan"
 sanitize=0
 jenkins_release=0
 no_rr_clean=0
@@ -93,6 +94,7 @@ mumps_root=""
 scalapack_root=""
 lapack_root=""
 com=0
+release=0
 
 if [ $number_of_arguments = 0 ]
 then
@@ -186,6 +188,12 @@ else
        then
          debug=`echo $var|awk -F '=' '{print $2}'`
          ddebug=_${debug}
+
+         if [ $debug == 0 ]
+         then
+           ddebug=""
+         fi
+
          if [ $debug == 1 ]
          then
            ddebug="_db"
@@ -213,6 +221,10 @@ else
          no_python=1
        fi
 
+       if [ "$arg" == "-release" ]
+       then
+         release=1
+       fi
 
        if [ "$arg" == "-verbose" ]
        then
@@ -245,6 +257,12 @@ else
      my_help
      exit 1
    fi
+
+   if [ $release == 1 ]
+   then
+     debug=0
+     ddebug=""
+   fi 
 
 engine_exec=${eng_vers}_${arch}${dmpi}${suffix}${ddebug}
 build_directory=cbuild_${engine_exec}${cf}

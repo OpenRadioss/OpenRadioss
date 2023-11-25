@@ -89,10 +89,6 @@ C-----------------------------------------------
         NS=NS+NVAR(CARTE)
        ENDDO
        LLLINK=LLLINK+NS
-C version spmd 
-       IF(IMACH==3) THEN
-         S_FRLINK = S_FRLINK + 4*NS
-       END IF
        IF(KEY2=='TRA  ')THEN
         WRITE(IIN,'(I8,1X,I3.3,4X,I10)')NS,IXYZ(KEY3),K4
        ELSEIF(KEY2=='ROT  ')THEN

@@ -375,7 +375,11 @@ void dyn_userlib_init_(char * libname, int *size, int * userlib_avail, int * use
 
      userlibhandle = NULL;
      if (has_path==1){
+#ifdef SANITIZE
+        userlibhandle = dlopen(libn,RTLD_LAZY|RTLD_GLOBAL);
+#else
         userlibhandle = dlopen(libn,RTLD_LAZY|RTLD_GLOBAL|RTLD_DEEPBIND);
+#endif
      }else{
 
        /* first trial find Environment variable RAD_USERLIB_LIBPATH */
@@ -384,7 +388,11 @@ void dyn_userlib_init_(char * libname, int *size, int * userlib_avail, int * use
          strcpy(load_libname,rad_userlib_libpath);
          strcat(load_libname,"/");
          strcat(load_libname,libn);
+#ifdef SANITIZE
+         userlibhandle = dlopen(load_libname,RTLD_LAZY|RTLD_GLOBAL);
+#else
          userlibhandle = dlopen(load_libname,RTLD_LAZY|RTLD_GLOBAL|RTLD_DEEPBIND);
+#endif
        }
 
        if(userlibhandle==NULL){
@@ -392,12 +400,22 @@ void dyn_userlib_init_(char * libname, int *size, int * userlib_avail, int * use
          getcwd(load_libname,15000);
          strcat(load_libname,"/");
          strcat(load_libname,libn);
+#ifdef SANITIZE
+         userlibhandle = dlopen(load_libname,RTLD_LAZY|RTLD_GLOBAL);
+#else
          userlibhandle = dlopen(load_libname,RTLD_LAZY|RTLD_GLOBAL|RTLD_DEEPBIND);
+#endif
        }
 
        if(userlibhandle==NULL){
          /* Third Trial : Default - LD_LRARY_PATH */
+#ifdef SANITIZE
+         userlibhandle = dlopen(libn,RTLD_LAZY|RTLD_GLOBAL);
+#else
          userlibhandle = dlopen(libn,RTLD_LAZY|RTLD_GLOBAL|RTLD_DEEPBIND);
+#endif
+
+
        }
 
      }

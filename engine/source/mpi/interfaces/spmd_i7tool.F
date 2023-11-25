@@ -3067,10 +3067,6 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-        NEW_BOUND = 1
-        NEW_BOUND_E = 1
-        NEW_BOUND_A = 1
-        NEW_BOUND_V = 1
 C iexicodt : flag pour envoi icodt en cours de run
         IEXICODT = 0
 C

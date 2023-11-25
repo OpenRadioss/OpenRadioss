@@ -89,6 +89,16 @@ if ( debug STREQUAL "1" )
   
   # CXX source files
   set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} ${cppmach} ${cpprel} ${zlib_inc} -O0 -g  -O0 -traceback -std=c++11" )
+
+elseif ( debug STREQUAL "asan" )
+  # Fortran
+  set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} ${cppmach} ${cpprel}  ${zlib_inc} -DCPP_comp=f90  -g -O0 -fp-model precise -qopenmp -ftz -extend-source -fsanitize=address -DSANITIZE -traceback ${ADF} " )
+  
+  set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} ${cppmach} ${cpprel} ${zlib_inc} -O0 -g  -fsanitize=address -DSANITIZE -traceback " )
+  
+  # CXX source files
+  set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} ${cppmach} ${cpprel} ${zlib_inc}  -fsanitize=address -O0 -g  -DSANITIZE -O0 -traceback -std=c++11" )
+
 else ()
   # Fortran
   set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "  ${precision_flag} ${Tet_mesher_inc} ${cppmach} ${cpprel} -DCPP_comp=f90  -axsse3 -O2 -fp-model precise -ftz -extend-source -qopenmp -assume buffered_io ${ADF} " )
@@ -101,7 +111,12 @@ else ()
 endif()
 
 # Linking flags
+if ( debug STREQUAL "asan" )
+set (CMAKE_EXE_LINKER_FLAGS " -O2 -qopenmp -static-intel -qopenmp-link=static -fsanitize=address" )
+else ()
 set (CMAKE_EXE_LINKER_FLAGS " -O2 -qopenmp -static-intel -qopenmp-link=static" )
+endif()
+
 
 #Libraries
 set (LINK "dl ${xml_lib} ${flexpipe_lib} ${metis} ${reader_lib}  ${MKL_lib}  ${flexpipe} ${Tet_mesher_lib} ${zlib_lib} -ldl -rdynamic -lstdc++"  )

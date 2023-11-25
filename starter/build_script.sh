@@ -18,10 +18,11 @@ function my_help()
   fi
   echo " -prec=[dp|sp]                       : set precision - dp (default) |sp "
   echo " -static-link                        : Fortran, C & C++ runtime are linked in binary"
-  echo " -debug=[0|1|2]                      : debug version for gfortran"
+  echo " -debug=[0|1|asan]                   : debug version for gfortran"
   echo "                                          0 : no debug flags (default)"
   echo "                                          1 : usual debug flag"
-  echo "                                          2 : gfortran sanitizer"
+  echo "                                          asan : gfortran address sanitizer (default)"
+  echo " -release                            : Set build for release (optimized)"
   echo " "
   echo " -addflag=\"list of additional flags\" : add compiler flags to usual set"
   echo " "
@@ -44,12 +45,12 @@ arch=none
 prec=dp
 threads=1
 got_arch=0
-no_python=0
-debug=0
-ddebug=""
+debug=asan
+ddebug="_asan"
 sanitize=0
 jenkins_release=0
 no_rr_clean=0
+no_python=0
 changelist=00000
 cf=""
 dc=""
@@ -61,6 +62,7 @@ clean=0
 verbose=""
 st_vers="starter"
 com=0
+release=0
 
 if [ $number_of_arguments = 0 ]
 then
@@ -98,6 +100,12 @@ else
        then
          debug=`echo $var|awk -F '=' '{print $2}'`
          ddebug=_${debug}
+
+         if [ $debug == 0 ]
+         then
+           ddebug=""
+         fi
+
          if [ $debug == 1 ]
          then
            ddebug="_db"
@@ -115,15 +123,19 @@ else
          threads=`echo $var|awk -F '=' '{print $2}'`
        fi
 
+       if [ "$arg" == "-static-link" ]
+       then
+         static_link=1
+       fi
+
        if [ "$arg" == "-no-python" ]
        then
          no_python=1
        fi
 
-
-       if [ "$arg" == "-static-link" ]
+       if [ "$arg" == "-release" ]
        then
-         static_link=1
+         release=1
        fi
 
        if [ "$arg" == "-verbose" ]
@@ -157,6 +169,12 @@ else
      my_help
      exit 1
    fi
+
+   if [ $release == 1 ]
+   then
+     debug=0
+     ddebug=""
+   fi 
 
 starter_exec=${st_vers}_${arch}${dmpi}${suffix}${ddebug}
 build_directory=cbuild_${starter_exec}${cf}
@@ -264,6 +282,7 @@ then
   CXX_path_w=`cygpath.exe -m "${CXX_path}"`
   cmake.exe -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} -DEXEC_NAME=${starter_exec} ${dc} -Dno_python=${no_python} -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER="${Fortran_path_w}" -DCMAKE_C_COMPILER="${C_path_w}" -DCMAKE_CPP_COMPILER="${CPP_path_w}" -DCMAKE_CXX_COMPILER="${CXX_path_w}" .. 
 else
+#  cmake -Darch=${arch} -G "Ninja" -Dprecision=${prec} ${DAD} -Ddebug=${debug} -DEXEC_NAME=${starter_exec} -Dstatic_link=$static_link -Dno_python=${no_python} ${dc} -Dsanitize=${sanitize}  -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path} ..
   cmake -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} -DEXEC_NAME=${starter_exec} -Dstatic_link=$static_link -Dno_python=${no_python} ${dc} -Dsanitize=${sanitize}  -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path} .. 
 fi
 
@@ -284,6 +303,7 @@ then
 fi
 
 make -j ${threads} ${verbose}
+#ninja -v -j ${threads} -d explain
 return_value=$?
 if [ $return_value -ne 0 ]
 then
