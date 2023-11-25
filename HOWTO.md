@@ -1,4 +1,4 @@
-# How to Build OpenRadioss
+# Building OpenRadioss
 
 * [Build environment on Linux](#build-environment-on-linux)
   * [System prerequisites](#system-prerequisites)
@@ -10,6 +10,7 @@
   * [Build environment using Visual Studio](#build-environment-using-visual-studio-2019)
   * [Building environment using cygwin](#building-environment-using-cygwin)
 * [How to build OpenRadioss](#how-to-build-openradioss)
+  * [Build defaults](#build-defaults)
   * [Get the source](#get-the-source)
   * [Building on Linux](#building-on-linux)
   * [Build OpenRadioss on Windows with cmd Shell](#build-openradioss-on-windows-with-cmd-shell)
@@ -35,9 +36,13 @@ You will need GCC/Gfortran version 11 or higher,
 
 Install as sudo or root
 
-* RHEL 7
+* RHEL 7, CentOS 7
 
             yum install devtoolset-11
+            yum install devtoolset-11-libasan-devel
+            yum install devtoolset-11-libubsan-devel
+            yum install libasan6
+            yum install libubsan
             yum install make
             yum install cmake
             yum install perl
@@ -46,22 +51,37 @@ Install as sudo or root
 
   To enable the devtoolset-11, you can run `scl enable devtoolset-11 bash`
 
-* RHEL 8, CentOS Stream 8
+* RHEL 8, CentOS Stream 8, Rocky Linux 8
 
-           dnf install gcc
-           dnf install gcc-gfortran
-           dnf install gcc-c++
+           dnf install gcc-toolset-11-toolchain
+           dnf install gcc-toolset-11-libasan-devel
+           dnf install gcc-toolset-11-libubsan-devel
+           dnf install libasan
+           dnf install libasan6
+           dnf install libubsan
            dnf install make
            dnf install cmake
            dnf install python
            dnf install perl
            dnf install git-lfs
 
+  Installed python is Python3. To create the link from python3 to pyhton,
+
+  type:
+
+           alternatives --config python
+
+           Select python3.
+
+  To enable the devtoolset-11, you can run `source /opt/rh/gcc-toolset-11/enable`
+
 * Ubuntu
 
            apt-get update
            apt-get upgrade
            apt-get install build-essential
+           apt-get install libasan6
+           apt-get install libubsan1
            apt-get install gfortran
            apt-get install cmake
            apt-get install perl
@@ -242,6 +262,15 @@ Both are shipped with Visual Studio 2019.
 
 See [here](./CONTRIBUTING.md) if you want to contribute to OpenRadioss.
 
+### Build defaults
+
+The default for Radioss builds are:
+
+* on Linux with with Gfortran : debug with Adress Sanitizer
+* on Windows with Intel Compiler : debug with Check bounds flag
+
+To enable builds with Optimized executable : add -release to the build_script command line.
+
 ### Building on Linux
 
 #### OpenRadioss Starter on Linux
@@ -254,34 +283,43 @@ See [here](./CONTRIBUTING.md) if you want to contribute to OpenRadioss.
 
   Usual build is make with:
 
-            ./build_script.sh -arch=linux64_gf
+            ./build_script.sh -arch=linux64_gf -release
 
 * OpenRadioss Starter: **starter_linux64_gf** binary will be copied in **OpenRadioss/exec** directory
 
 * Advanced script flags can be used to build OpenRadioss: run `./build_script.sh` without arguments:
 
-        []$ ./build_script.sh
+       []$ ./build_script.sh
 
-         build_script
-         ------------
- 
-         Use with arguments : 
-         -arch=[build architecture]
-             -arch=linux64_gf  (SMP executable / Gfortran compiler)
-         -prec=[dp|sp]                        : set precision - dp (default) |sp 
-         -static-link                         : Fortran, C & C++ runtime are linked in binary
-         -debug=[0|1]                         : debug version 0 no debug flags (default), 1 usual debug flag )
-         -addflag="list of additionnal flags" : add compiler flags to usual set
- 
-         Execution control 
-         -nt=[threads]      : number of threads for build 
-         -verbose           : Verbose build
-         -clean             : clean build directory
+       Use with arguments :
+       -arch=[build architecture]
+                -arch=linux64_gf  (SMP executable / Gfortran compiler)
+                -arch=linux64_AOCC (SMP executable / AOCC compiler)
+                -arch=linuxa64    (SMP executable / ARM Linux - Armflang compiler)
+                -arch=win64       (SMP executable / Windows X86-64 - Intel OneAPI)
+       
+        -prec=[dp|sp]                       : set precision - dp (default) |sp
+        -static-link                        : Fortran, C & C++ runtime are linked in binary
+        -debug=[0|1|asan]                   : debug version for gfortran
+                                                 0 : no debug flags (default)
+                                                 1 : usual debug flag
+                                                 asan : gfortran address sanitizer (default)
+        -release                            : Set build for release (optimized)
+
+        -addflag="list of additional flags" : add compiler flags to usual set
+
+        Execution control
+        -nt=[threads]      : number of threads for build
+        -verbose           : Verbose build
+        -clean             : clean build directory
+
+        -no-python : do not link with python
 
   * `-arch`: you will find the list of possible architectures
   * `-prec`: controls the OpenRadioss Floating Point Precision : dp : double Precision - Floats in 64 bits (default),  sp activates the Extended Single Precision Version (32bit)
   * `-static-link`: Runtime libraries are statically linked in Executable (easier when executable is used on different computers).
-  * `-debug=1`: activates debug build (-O0 + usual debug flags).
+  * `-debug=[0|1|asan]`: activates debug build (-O0 + usual debug flags).
+  * `-release`:  Set build for release (optimized)
   * `-addflag="list of additional flags"`: add compiler flags to usual set for all files
 
   Execution Control
@@ -297,54 +335,69 @@ See [here](./CONTRIBUTING.md) if you want to contribute to OpenRadioss.
 * Launch `build_script.sh` to proceed to the compilation
   To build OpenRadioss Engine with OpenMPI support
 
-            ./build_script.sh -arch=linux64_gf -mpi=ompi
+            ./build_script.sh -arch=linux64_gf -mpi=ompi -release
   
   To build OpenRadioss without OpenMPI support (SMP parallelism):
 
-            ./build_script.sh -arch=linux64_gf 
+            ./build_script.sh -arch=linux64_gf -release 
 
 * OpenRadioss Engine: **engine_linux64_gf** or **engine_linux64_gf_ompi** binary will be copied in **OpenRadioss/exec** directory
 
 * Advanced script flags can be used to build OpenRadioss Engine: launch `./build_script.sh` without arguments:
 
-        []$ ./build_script.sh 
-         
+        []$ ./build_script.sh
+        
+        
          build_script
          ------------
- 
-         Use with arguments : 
-         -arch=[build architecture]
 
-                 -arch=linux64_gf               (SMP executable / Gfortran compiler)
-                 -arch=linux64_gf -mpi=ompi     (OpenMPI executable / Gfortran compiler)
- 
+         Use with arguments :
+         -arch=[build architecture]
+        
+                 -arch=linux64_gf                (SMP executable / Gfortran compiler / Linux X86-64)
+                 -arch=linux64_gf  -mpi=ompi     (OpenMPI executable / Gfortran compiler / Linux X86-64)
+                 -arch=linux64_AOCC  -mpi=ompi     (OpenMPI executable / AOCC compiler / Linux X86-64)
+                 -arch=linux64_intel                (SMP executable / Intel compiler / Linux X86-64)
+                 -arch=linux64_intel  -mpi=impi     (MPI executable / Intel compiler / Linux X86-64)
+                 -arch=linuxa64_gf               (SMP executable / Armflang compiler / Linux ARM64)
+                 -arch=linuxa64_gf -mpi=ompi     (OpenMPI executable / Armflang compiler / Linux X86-64)
+                 -arch=win64                     (SMP executable / Intel OneAPI / Windows X86-64)
+                 -arch=win64       -mpi=impi     (Intel MPI OneAPI executable / Intel OneAPI / Windows X86-64)
+        
          MPI libraries
          -mpi=[mpi]
                  not set   : SMP (default)
                  -mpi=ompi : OpenMPI
- 
-                  Controling MPI Libraries - if need choose one of the 3 Option Set
-                                             If no options set, recommended OpenMPI directories are uses (default)
-                    1. -mpi-os                             : link with default MPI version installed on system
-                                                    libraries are in default installation 
-                    2. -mpi-root=[directory]               : set rootname to link with specific MPI installation
-                    3. -mpi-include=[directory]            : set include directory where to find mpif.h and mpi.h
-                       -mpi-libdir=[directory]             : set library directory where to find mpi libraries
- 
-         Other control
-         -prec=[dp|sp]                        : set precision - dp (default) |sp 
-         -static-link                         : Fortran, C & C++ runtime are linked in binary
-         -debug=[0|1]                         : debug version 0 no debug flags (default), 1 usual debug flag )
-         -addflag="list of additionnal flags" : add compiler flags to usual set
- 
-         Build control 
-         -nt=[threads]      : number of threads for build 
+        
+                 Controlling MPI Libraries - if need choose one of the 3 Option Set
+                                            If no options set, recommended OpenMPI directories         are used (default)
+                   1. -mpi-os                             : link with default MPI version         installed on system
+                                                    libraries are in default installation
+                   2. -mpi-root=[directory]               : set rootname to link with specific MPI installation
+                   3. -mpi-include=[directory]            : set include directory where to find mpif.h and mpi.h
+                      -mpi-libdir=[directory]             : set library directory where to find mpi libraries
+        
+         -prec=[dp|sp]                       : set precision - dp (default) |sp
+         -static-link                        : Fortran, C & C++ runtime are linked in binary
+         -debug=[0|1|asan]                   : debug version for gfortran
+                                                  0 : no debug flags
+                                                  1 : usual debug flag
+                                                  asan : gfortran address sanitizer (default)
+         -release                            : Set build for release (optimized)
+        
+         -addflag="list of additional flags" : add compiler flags to usual set
+        
+         Execution control
+         -nt=[threads]      : number of threads for build
          -verbose           : Verbose build
          -clean             : clean build directory
-                MUMPS linear solver: available only for dp, with mpi" 
+        
+          MUMPS linear solver: available only for dp, with mpi
          -mumps_root=[path_to_mumps]          : path_to_mumps/lib/libdmumps.a must exist
          -scalapack_root=[path to scalapack]  : path_to_scalapack/libscalapack.a must exist
          -lapack_root=[path to lapack]  : path_to_lapack/liblapack.a must exist
+        
+         -no-python : do not link with python
 
   * `-arch`: you will find the list of possible architectures
 
@@ -368,6 +421,7 @@ See [here](./CONTRIBUTING.md) if you want to contribute to OpenRadioss.
     * `sp`: activates the Extended Single Precision Version (32bit)
   * `-static-link`: Runtime libraries are statically linked in Executable (easier when executable is used on different computers).  
   * `-debug=1`: activates debug build (-O0 + usual debug flags).
+  * `-release`: Set build for release (optimized)
   * `-addflag="list of additionnal flags"`: add compiler flags to usual set for all files
 
   Execution Control
@@ -387,7 +441,7 @@ See [here](./CONTRIBUTING.md) if you want to contribute to OpenRadioss.
 * Launch `build_windows.bat` to proceed with compilation
   Usual build is made with:
   
-           build_windows.bat -arch=win64
+           build_windows.bat -arch=win64 -release
 
 * OpenRadioss Starter: **starter_win64.exe** binary is copied in **OpenRadioss/exec** directory
 
@@ -397,7 +451,12 @@ See [here](./CONTRIBUTING.md) if you want to contribute to OpenRadioss.
            -arch=[build architecture]          : set architecture : default  Windows 64 bit
            -prec=[dp,sp]                       : set precision - dp (default),sp
            -static-link                        : Compiler runtime is linked in binary
-           -debug=[0,1]                        : debug version 0 no debug flags (default), 1 usual debug flag )
+           -debug=[0,1,chkb]                   : debug version 
+                                                 0: no debug flags
+                                                 1: usual debug flags
+                                                 chkb: Check bounds build (default)
+
+           -release                            : set build for release (optimized)
 
        Execution control
            -nt [N,all]        : Run build with N Threads, all : takes all ressources of machine
@@ -415,7 +474,7 @@ See [here](./CONTRIBUTING.md) if you want to contribute to OpenRadioss.
 
   To build OpenRadioss without Intel MPI support (SMP parallelism):
 
-            ../build_windows.bat -arch=win64 
+            ../build_windows.bat -arch=win64 -release
 
 * OpenRadioss Engine: **engine_win64_impi.exe** or **engine_win64.exe** binary are copied in **OpenRadioss/exec** directory
 
@@ -426,7 +485,13 @@ See [here](./CONTRIBUTING.md) if you want to contribute to OpenRadioss.
           -mpi=[smp,impi]                     : set MPI version
           -prec=[dp,sp]                       : set precision - dp (default),sp
           -static-link                        : Compiler runtime is linked in binary
-          -debug=[0,1]                        : debug version 0 no debug flags (default), 1 usual debug flag )
+          -debug=[0,1,chkb]                   : debug version 
+                                                0: no debug flags
+                                                1: usual debug flag
+                                                chkb: check bounds build (default)
+
+          -release                            : set build for release (optimized)
+          
        Execution control
           -nt [N,all]        : Run build with N Threads, all : takes all ressources of machine
           -verbose           : Verbose build
@@ -467,7 +532,7 @@ Same procedure applies than building for Linux:
 
   Usual build is make with:
 
-            ./build_script.sh -arch=win64
+            ./build_script.sh -arch=win64 -release
 
 * Enter the OpenRadioss/engine directory
 
@@ -477,11 +542,11 @@ Same procedure applies than building for Linux:
 
   Usual build with Intel MPI support is made with:
 
-            ./build_script.sh -arch=win64 -mpi=impi
+            ./build_script.sh -arch=win64 -mpi=impi -release
 
   To build without MPI Support (SMP only)
   
-              ./build_script.sh -arch=win64
+              ./build_script.sh -arch=win64 -release
 
 ## How to build OpenRadioss on Linux with Container using Apptainer
 

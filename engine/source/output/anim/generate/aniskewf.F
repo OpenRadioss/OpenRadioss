@@ -57,6 +57,7 @@ C-----------------------------------------------
      .   NB10,NB11,NB12,NB13,NB14,NEL,LFT,LLT,NG,
      .   ITY,IAD,MLW,NFT,N,II,ISKK,MSGTAG,LEN,IGTYP
       INTEGER SRBUF(LRBUF)
+      INTEGER, PARAMETER :: INTSIZE = 4
 C
 C-----------------------------------------------
 C      SKEW

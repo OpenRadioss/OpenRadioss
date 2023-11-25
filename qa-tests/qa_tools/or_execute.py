@@ -62,6 +62,7 @@ if __name__ == "__main__":
   keep=0
   qa_type='default'
   starter_arg=""
+  debug=""
 
   # Parse command line arguments
   # -----------------------------
@@ -98,6 +99,9 @@ if __name__ == "__main__":
 
     if(arg == '-mpi'):
       mpi=arguments[count]
+
+    if(arg == '-debug'):
+      debug=arguments[count]
 
     if(arg == '-np'):
       np=int(arguments[count])
@@ -188,7 +192,7 @@ if __name__ == "__main__":
 
 # Executable Starter & Engine
 #-----------------------------
-  default_execs = execute_solver.get_executables(mpi,prec,exec_arch)
+  default_execs = execute_solver.get_executables(mpi,prec,exec_arch,debug)
 
   if (got_starter==0):
       starter = default_execs[0]

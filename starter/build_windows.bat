@@ -5,7 +5,8 @@ set arch=win64
 set dc=
 set dc_suf=
 set prec=dp
-set debug=0
+set debug=chkb
+set release=0
 set static=0
 set verbose=
 set clean=0
@@ -30,6 +31,10 @@ IF (%1) == () GOTO END_ARG_LOOP
 
    IF %1==-debug (
        set debug=%2
+   )
+
+   IF %1==-release (
+       set release=1
    )
 
    IF %1==-static-link (
@@ -67,8 +72,24 @@ if %jobsv%==all ( set jobs=0)
 
 Rem Starter name
 if %prec%==sp ( set sp_suffix=_sp)
-if %debug%==1 ( set debug_suffix=_db)
-if %debug%==2 ( set debug_suffix=_db2)
+
+if %debug%==0 (
+    set debug_suffix=''
+) else (
+
+   if %debug%==1 (
+    set debug_suffix='_db'
+   ) else (
+    set debug_suffix=_%debug%
+   )
+
+)
+
+Rem if release is set, set debug to zero and no suffix
+if  %release%==1 (
+    set debug_suffix=
+    set debug=0
+)
 
 if %cbuild%==0 (
   set starter=starter_%arch%%sp_suffix%%debug_suffix%
@@ -175,7 +196,11 @@ GOTO END_STARTER
   echo.
   echo     -prec=[dp,sp]                       : set precision - dp (default),sp
   echo     -static-link                        : Compiler runtime is linked in binary
-  echo     -debug=[0,1]                        : debug version 0 no debug flags (default), 1 usual debug flag )
+  echo     -debug=[0,1,chkb]                   : debug version 
+  echo                                              0 no debug flags
+  echo                                              1 usual debug flags
+  echo                                              chkb Check bounds build (default)
+  echo     -release                            : set build for release (optimized)
   echo.
   echo Execution control 
   echo     -nt [N,all]        : Run build with N Threads, all : takes all ressources of machine

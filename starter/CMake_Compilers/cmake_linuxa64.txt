@@ -73,6 +73,21 @@ set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -g ${pr
 # CXX source files
 set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${ARCH_OPT} " )
 
+elseif ( debug STREQUAL "asan" )
+#  No address sanitizer with Linux/ARM - Same than debug=1
+
+set(ARCH_OPT "-O0 -march=armv8-a  -DCOMP_ARMFLANG=1 -DARCH_CPU=ARM  -nofma -fopenmp")
+# Fortran
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${ARCH_OPT} ${FLAG_PRECISE} ${Fortran}  ${ADF} " )
+
+# C source files
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${ARCH_OPT}  " )
+
+# CXX source files
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${ARCH_OPT} " )
+
+
+
 else ()
 
 # Fortran

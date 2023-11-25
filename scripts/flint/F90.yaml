@@ -1,0 +1,291 @@
+# This file a configuration file to be used with flint
+#
+# Installation:
+# pip install flinter 
+#
+# Usage example:
+# flint lint  ./common_source/modules/python_mod.F90 -r scripts/flint/F90.yam 
+# Here is the copyright of flint:
+#
+#Copyright (c) [2018] [CERFACS]
+#Contact: coop@cerfacs.fr
+# 
+#This software is a computer program whose purpose is to ensure technology
+#transfer between academia and industry.
+# 
+#This software is governed by the CeCILL-B license under French law and
+#abiding by the rules of distribution of free software.  You can  use, 
+#modify and/ or redistribute the software under the terms of the CeCILL-B
+#license as circulated by CEA, CNRS and INRIA at the following URL
+#"http://www.cecill.info". 
+# 
+#As a counterpart to the access to the source code and  rights to copy,
+#modify and redistribute granted by the license, users are provided only
+#with a limited warranty  and the software's author,  the holder of the
+#economic rights,  and the successive licensors  have only  limited
+#liability. 
+# 
+#In this respect, the user's attention is drawn to the risks associated
+#with loading,  using,  modifying and/or developing or reproducing the
+#software by the user in light of its specific status of free software,
+#that may mean  that it is complicated to manipulate,  and  that  also
+#therefore means  that it is reserved for developers  and  experienced
+#professionals having in-depth computer knowledge. Users are therefore
+#encouraged to load and test the software's suitability as regards their
+#requirements in conditions enabling the security of their systems and/or 
+#data to be ensured and,  more generally, to use and operate it in the 
+#same conditions as regards security. 
+# 
+#The fact that you are presently reading this means that you have had
+#knowledge of the CeCILL-B license and that you accept its terms.
+
+
+extension: f\d*
+
+regexp-rules:
+
+  intrinsics-should-be-lowercased:
+    message: Intrinsics keywords should be lowercased
+    regexp: \b({intrinsics_upper}|end(?:{blocks_upper}|{structs_upper}))\b
+    case-sensitive: true
+    active: true
+
+  intrinsics-args-should-be-lowercased:
+    message: Intrinsics named argument should be lowercased
+    regexp: \b({named-args_upper})(?=\s*=)
+    case-sensitive: true
+    active: true
+  
+  types-should-be-lowercased:
+    message: Types should be lowercased
+    regexp: \b({types_upper})i\b
+    case-sensitive: true
+    active: true
+  
+  tabulation-insteadof-twospaces:
+    message: Should use 2 spaces instead of tabulation
+    regexp: \t
+    replacement: '  '
+
+  use-new-syntax-type:
+    message: Use new syntax TYPE(kind)
+    regexp: ({types})\*(\w+)
+    replacement: \1(\2)
+
+  one-space-before-comment:
+    message: At least one space before comment
+    regexp: (\S)\!
+    replacement: \1 !
+
+  useless-eol-dotcomma:
+    message: Useless ";" at end of line
+    regexp: ;\s*$
+    replacement: ''
+
+  reommended-use-of-brackets:
+    message: You should use "[]" instead
+    regexp: \(\\([^\)]*)\\\)
+    replacement: '[\1]'
+
+  not-recommended-bare-end:
+    message: Bare end statement not recommended
+    regexp: ^\s*end\s*$
+
+  not-recommended-bare-stop:
+    message: Bare stop statement not recommended
+    regexp: ^\s*stop\s*$
+
+  not-recommended-use-exit:
+    message: exit is an extension and should be avoided
+    regexp: \bexit\b
+
+  not-recommended-use-goto:
+    message: goto is hard to maintain, prone to spaghetti code.
+    regexp: \bgoto\b
+
+  not-recommended-use-pause:
+    message: pause is discouraged.
+    regexp: \bpause\b
+
+# These are rules that span over multiple lines, not accessible by regexp
+# If you want to edit these rules or add your own, two options:
+# - ask us.
+# - fork the code.
+structure-rules:
+  max-statements-in-context: 50
+  max-declared-locals: 12
+  min-varlen: 3
+  max-varlen: 20
+  max-arguments: 5
+  min-arglen: 3
+  max-arglen: 20
+  max-nesting-levels: 5
+  var-declaration: '(?:{types})\s*(?:\(.*\))?\s*(?:::| )\s*([A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)'
+
+
+######################################################################################
+# These are the fortran syntax we use to parse the source
+# A priori there is no need to edit, but Fortran is so vast in time...
+######################################################################################
+
+syntax:
+  types: 
+    - real
+    - character
+    - logical
+    - integer
+    - complex
+    - double precision
+    - my_real
+
+  operators:
+    - '\.eq\.'
+    - '=='
+    - '\.neq\.'
+    - '/='
+    - '\.gt\.'
+    - '>'
+    - '\.lt\.'
+    - '<'
+    - '\.geq\.'
+    - '>='
+    - '\.leq\.'
+    - '<='
+    - '\.le\.'
+    - '\.ge\.'
+    - '\.and\.'
+    - '\.or\.'
+
+  structs:
+    - if
+    - select
+    - case
+    - while
+
+  punctuations:
+    - ','
+    - '\)'
+    - ';'
+
+  namespace_blocks:
+    - program
+    - module
+
+  context_blocks:
+    - function
+    - subroutine
+
+  intrinsics:
+    - ALLOCATABLE
+    - ALLOCATE
+    - ASSIGN
+    - ASSIGNMENT
+    - BACKSPACE
+    - BLOCK
+    - CALL
+    - CASE
+    - CLOSE
+    - COMMON
+    - CONTAINS
+    - CONTINUE
+    - CYCLE
+    - DATA
+    - DEALLOCATE
+    - DEFAULT
+    - DIMENSION
+    - DO
+    - ELSE
+    - ELSEWHERE
+    - END
+    - ENDFILE
+    - ENTRY
+    - EQUIVALENCE
+    - EXIT
+    - EXTERNAL
+    - FUNCTION
+    - GO
+    - GOTO
+    - IF
+    - IMPLICIT
+    - IN
+    - INOUT
+    - INQUIRE
+    - INTENT
+    - INTERFACE
+    - INTRINSIC
+    - MODULE
+    - NAMELIST
+    - NONE
+    - NULLIFY
+    - ONLY
+    - OPEN
+    - OPERATOR
+    - OPTIONAL
+    - OUT
+    - PARAMETER
+    - PAUSE
+    - POINTER
+    - PRINT
+    - PRIVATE
+    - PROCEDURE
+    - PROGRAM
+    - PUBLIC
+    - READ
+    - RECURSIVE
+    - RESULT
+    - RETURN
+    - REWIND
+    - SAVE
+    - SELECT
+    - SEQUENCE
+    - STOP
+    - SUBROUTINE
+    - TARGET
+    - THEN
+    - TO
+    - TYPE
+    - USE
+    - WHERE
+    - WHILE
+    - WRITE
+    # should we or not?
+    #- IFDEF
+    #- IFNDEF
+    
+
+  named-args:
+    - ACCESS
+    - ACTION
+    - ADVANCE
+    - BLANK
+    - DELIM
+    - DIRECT
+    - EOR
+    - ERR
+    - EXIST
+    - FILE
+    - FMT
+    - FORM
+    - FORMAT
+    - FORMATTED
+    - IOLENGTH
+    - IOSTAT
+    - KIND
+    - LEN
+    - NAME
+    - NAMED
+    - NEXTREC
+    - NML
+    - NUMBER
+    - OPENED
+    - PAD
+    - POSITION
+    - READWRITE
+    - REC
+    - RECL
+    - SEQUENTIAL
+    - SIZE
+    - STAT
+    - STATUS
+    - UNFORMATTED
+    - UNIT

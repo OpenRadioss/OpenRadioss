@@ -113,8 +113,17 @@ else()
    set(FPP_FLAG "/fpp")
 endif()
 
-set(Vect_opt "${wo_linalg} /Qaxsse3,COMMON-AVX512 /Qfma- /Qimf-use-svml:true /align:array64byte")
-set(Vect_opt_c "${wo_linalg} /Qfma- /Qimf-use-svml:true")
+if ( CMAKE_GENERATOR STREQUAL "Ninja" )
+   # /fpp has issues with longer file path.
+   # Ninja has already preprocessed the files and CMAKES hardcode /fpp in the beginning.
+   # set /nofpp invalidates hardcoded /fpp
+   set(FPP_FLAG "/nofpp")
+else()
+   set(FPP_FLAG "/fpp")
+endif()
+
+set(Vect_opt "/nologo ${wo_linalg} /Qaxsse3,COMMON-AVX512 /Qfma- /Qimf-use-svml:true /align:array64byte")
+set(Vect_opt_c "/nologo ${wo_linalg} /Qfma- /Qimf-use-svml:true")
 
 set(Vect_precise "/Qopenmp /fp:precise /Qftz ")
 set(Fortran "${FPP_FLAG}  /extend-source /assume:buffered_io")
@@ -124,10 +133,23 @@ if ( debug STREQUAL "1" )
 set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "/nologo /Qopenmp /Od /debug:all /Qftz ${FPP_FLAG} /extend-source /assume:buffered_io ${precision_flag} ${Fortran} ${mpi_flag} ${MUMPS_flags} -DMETIS5 ${cppmach} ${cpprel}" )
 
 # C source files
+
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "/nologo /Qopenmp /Od /debug:all /Qftz ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} ${zlib_inc}" )
 
 # CXX source files
 set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "/nologo /Qopenmp /Od /debug:all /Qftz ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} ${zlib_inc} /Qstd=c++11" )
+
+
+elseif ( debug STREQUAL "chkb" )
+# Fortran
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "/nologo /Qopenmp /Od /debug:all /check:bounds /check:uninit /Qftz /fpp /extend-source /assume:buffered_io ${precision_flag} ${Fortran} ${mpi_flag} ${MUMPS_flags} -DMETIS5 ${cppmach} ${cpprel}" )
+
+# C source files
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "/nologo /Qopenmp /Od /debug:all /Qftz ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel}" )
+
+# CXX source files
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "/nologo /Qopenmp /Od /debug:all /Qftz ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} /Qstd=c++11" )
+
 
 else ()
 
@@ -139,6 +161,7 @@ set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "/nologo 
 
 # CXX source files
 set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "/nologo /O2 ${Vect_opt_c} ${precision_flag} ${Vect_precise} ${mpi_flag} ${h3d_inc} -DMETIS5 ${MUMPS_flags} ${cppmach} ${cpprel} ${zlib_inc}" )
+
 
 endif()
 

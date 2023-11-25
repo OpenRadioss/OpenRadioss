@@ -1029,6 +1029,7 @@ C-----------------------------------------------
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=4096) :: TMP_NAME
       INTEGER :: INDICE
+      INTEGER, PARAMETER :: INTSIZE = 4
 
       TITLES(MACRO_TIMER_RESOL      ) = "RESOL"
       TITLES(MACRO_TIMER_CONTSORT   ) = "CONTSORT"

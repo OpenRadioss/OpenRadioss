@@ -4,7 +4,6 @@
 # 
 
 lof=$(git diff --cached --name-only --diff-filter=ACM)  
-#echo $lof
 for fic in $lof
 do
 if [[ "$fic" == *".F" ]]; then
@@ -21,6 +20,32 @@ if [[ "$fic" == *".F" ]]; then
                 rm ${fic}.backup
         fi
 fi
+if [[ "$fic" == *".F90" ]]; then
+	findent  -I6 -ofree -i2 < ${fic} > ${fic}.backup
+        if cmp --silent -- <(cat ${fic}) <(cat ${fic}.backup) 
+        then
+                echo $fic "indentation ok"
+        else
+                echo $fic "indentation update "
+                mv ${fic}.backup ${fic}
+                git add ${fic}
+        fi
+fi
+if [[ "$fic" == *".F90" ]]; then
+        if cmp --silent -- <(head -n 22 scripts/copyright/F90_copyright.txt) <(head -n 22 ${fic}) 
+        then
+                echo $fic "copyright ok"
+        else
+                echo $fic "copyright update "
+                cp $fic ${fic}.backup
+                sed -i "/Copyright>/d" ${fic}
+                cat scripts/copyright/F90_copyright.txt ${fic} > pre_commit.tmp
+                mv pre_commit.tmp ${fic}
+                git add ${fic}
+                rm ${fic}.backup
+        fi
+fi
+
 done
 exit 0
 

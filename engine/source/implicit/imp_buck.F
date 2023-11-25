@@ -366,8 +366,7 @@ citask0       IF (ITASK == 0) THEN
         ENDIF
 C-------------
         NT_RW=0
-        NRWDONE = 0
-           IMCONV = 1
+        IMCONV = 1
         IF (NRWALL>0) THEN
          CALL RGWAL0_IMP(
      1     X           ,D_IMP    ,V      ,RWBUF   ,LPRW    ,

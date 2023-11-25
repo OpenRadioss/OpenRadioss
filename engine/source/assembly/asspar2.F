@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE ASSPAR2_MOD
+         INTEGER :: INTDONE
+      END MODULE
 Chd|====================================================================
 Chd|  ASSPAR2                       source/assembly/asspar2.F     
 Chd|-- called by -----------
@@ -42,6 +45,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   Modules
 C-----------------------------------------------
+      USE ASSPAR2_MOD 
       USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

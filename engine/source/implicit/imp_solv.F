@@ -612,7 +612,6 @@ C-------------dU_d---------------------------------
 C-------------RGWAL0_IMP peut suivre-ISETK=1, mais il faut changer-FV_IMP1
 C-------------(IKC(I)=4->IMCONV=1 pour eviter le rebond-------
         NT_RW=0
-        NRWDONE = 0
         IF (NRWALL>0) THEN
           IF (IMON>0) CALL STARTIME(4,1)
           DO I=1,NDDL0
@@ -3404,7 +3403,6 @@ C-------------dU_d---------------------------------
         ENDIF
 C-------------U_d--> rigid wall-------------------------------
         NT_RW=0
-        NRWDONE = 0
         IF (NRWALL>0) THEN
           CALL RGWAL0_IMP(
      1      X           ,D_IMP    ,V      ,RWBUF   ,LPRW    ,
