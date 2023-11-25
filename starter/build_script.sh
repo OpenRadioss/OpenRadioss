@@ -21,7 +21,8 @@ function my_help()
   echo " -debug=[0|1|2]                      : debug version for gfortran"
   echo "                                          0 : no debug flags (default)"
   echo "                                          1 : usual debug flag"
-  echo "                                          2 : gfortran sanitizer"
+  echo "                                          asan : gfortran address sanitizer (default)"
+  echo " -release                            : Set build for release (optimized)"
   echo " "
   echo " -addflag=\"list of additional flags\" : add compiler flags to usual set"
   echo " "
@@ -44,12 +45,12 @@ arch=none
 prec=dp
 threads=1
 got_arch=0
-no_python=0
-debug=0
-ddebug=""
+debug=asan
+ddebug="_asan"
 sanitize=0
 jenkins_release=0
 no_rr_clean=0
+no_python=0
 changelist=00000
 cf=""
 dc=""
@@ -61,6 +62,7 @@ clean=0
 verbose=""
 st_vers="starter"
 com=0
+release=0
 
 if [ $number_of_arguments = 0 ]
 then
@@ -98,6 +100,12 @@ else
        then
          debug=`echo $var|awk -F '=' '{print $2}'`
          ddebug=_${debug}
+
+         if [ $debug == 0 ]
+         then
+           ddebug=""
+         fi
+
          if [ $debug == 1 ]
          then
            ddebug="_db"
@@ -115,15 +123,19 @@ else
          threads=`echo $var|awk -F '=' '{print $2}'`
        fi
 
+       if [ "$arg" == "-static-link" ]
+       then
+         static_link=1
+       fi
+
        if [ "$arg" == "-no-python" ]
        then
          no_python=1
        fi
 
-
-       if [ "$arg" == "-static-link" ]
+       if [ "$arg" == "-release" ]
        then
-         static_link=1
+         release=1
        fi
 
        if [ "$arg" == "-verbose" ]
@@ -157,6 +169,12 @@ else
      my_help
      exit 1
    fi
+
+   if [ $release == 1 ]
+   then
+     debug=0
+     ddebug=""
+   fi 
 
 starter_exec=${st_vers}_${arch}${dmpi}${suffix}${ddebug}
 build_directory=cbuild_${starter_exec}${cf}

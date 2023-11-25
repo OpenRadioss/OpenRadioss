@@ -9,6 +9,8 @@ set verbose=""
 set stdout="-DSTDOUT=0"
 set keep_results=0
 set clean=0
+set debug=""
+set ddebug=""
 
 rem Argument loop
 :ARG_LOOP
@@ -24,6 +26,10 @@ IF (%1) == () GOTO END_ARG_LOOP
 
    IF %1==-mpi (
        set mpi=%2
+   )
+
+   IF %1==-debug (
+       set debug=%2
    )
 
    IF %1==-np (
@@ -83,10 +89,22 @@ if exist %test_directory% (
   cd  %test_directory%
 )
 
+if %debug%==0 (
+    set ddebug=''
+) else (
+
+   if %debug%==1 (
+    set ddebug='_db'
+   ) else (
+    set ddebug=_%debug%
+   )
+
+)
+
 rem MPI=smp,impi,ompi : depending on the flavors
 rem cmake -DMPI=impi -DNP=4 ..
 
-cmake -Darch=%arch% -DPREC=%prec% -DMPI=%mpi%  -DNP=%np% %stdout% -DKEEP=%keep_results% ..
+cmake -Darch=%arch% -DPREC=%prec% -DMPI=%mpi%  -DNP=%np% %stdout% -DKEEP=%keep_results% -DDEBUG=%ddebug% ..
 ctest -C Release --output-on-failure --timeout 600 %tests% %verbose%
 
 cd ..
@@ -138,6 +156,8 @@ set stdout=
 set keep_results=
 set clean=
 set test_directory=
+set debug=
+set ddebug=
 
 echo.
 

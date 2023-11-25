@@ -132,7 +132,7 @@ def get_version_name(dir_exec):
   return fields[size-1]
 
 
-def get_executables(mpi,prec,exec_arch):
+def get_executables(mpi,prec,exec_arch,debug):
 # ------------------------------------------------------------------
 # Input : 
 #   mpi : which mpi was defined in or_execute.py command line
@@ -165,8 +165,8 @@ def get_executables(mpi,prec,exec_arch):
   else:
      pmpi='_'+mpi
 
-  starter='..'+slash+'..'+slash+'..'+slash+'exec'+slash+'starter_'+parch+sp
-  engine='..'+slash+'..'+slash+'..'+slash+'exec'+slash+'engine_'+parch+pmpi+sp
+  starter='..'+slash+'..'+slash+'..'+slash+'exec'+slash+'starter_'+parch+sp+debug
+  engine='..'+slash+'..'+slash+'..'+slash+'exec'+slash+'engine_'+parch+pmpi+sp+debug
   executable=[starter]
   executable.append(engine)
   
