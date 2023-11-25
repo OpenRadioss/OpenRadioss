@@ -8,7 +8,7 @@
   ],
   "configurations": [
     {
-      "name": "Starter_x64-Release",
+      "name": "01 Starter_x64-Release",
       "generator": "Ninja",
       "configurationType": "Release",
       "buildRoot": "${projectDir}\\vs_build_win64\\${name}",
@@ -20,7 +20,7 @@
       "intelliSenseMode": "windows-msvc-x64"
     },
     {
-      "name": "Engine_x64-Release",
+      "name": "02 Engine_x64-Release",
       "generator": "Ninja",
       "configurationType": "Release",
       "buildRoot": "${projectDir}\\vs_build_win64\\${name}",
@@ -32,7 +32,7 @@
       "intelliSenseMode": "windows-msvc-x64"
     },
     {
-      "name": "Engine_Intel_MPI_x64-Release",
+      "name": "03 Engine_Intel_MPI_x64-Release",
       "generator": "Ninja",
       "configurationType": "Release",
       "buildRoot": "${projectDir}\\vs_build_win64\\${name}",
@@ -44,7 +44,7 @@
       "intelliSenseMode": "windows-msvc-x64"
     },
     {
-      "name": "Starter_x64-Debug",
+      "name": "04 Starter_x64-Debug",
       "generator": "Ninja",
       "configurationType": "Debug",
       "buildRoot": "${projectDir}\\vs_build_win64\\${name}",
@@ -56,7 +56,20 @@
       "intelliSenseMode": "windows-msvc-x64"
     },
     {
-      "name": "Engine_x64-Debug",
+      "name": "05 Starter_x64-Debug with check bounds",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "buildRoot": "${projectDir}\\vs_build_win64\\${name}",
+      "installRoot": "${projectDir}\\exec",
+      "cmakeCommandArgs": "-DVS_BUILD=1 -Darch=win64 -DEXEC_NAME=starter_win64_chkb -Dbuild=starter -Dprecision=dp -Ddebug=chkb -DCMAKE_Fortran_COMPILER=ifx.exe  -DCMAKE_C_COMPILER=icx.exe -DCMAKE_CPP_COMPILER=icx.exe -DCMAKE_CXX_COMPILER=icx.exe",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "intelliSenseMode": "windows-msvc-x64"
+    },
+
+    {
+      "name": "06 Engine_x64-Debug",
       "generator": "Ninja",
       "configurationType": "Debug",
       "buildRoot": "${projectDir}\\vs_build_win64\\${name}",
@@ -68,12 +81,37 @@
       "intelliSenseMode": "windows-msvc-x64"
     },
     {
-      "name": "Engine_Intel_MPI_x64-Debug",
+      "name": "07 Engine_x64-Debug with check bounds",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "buildRoot": "${projectDir}\\vs_build_win64\\${name}",
+      "installRoot": "${projectDir}\\exec",
+      "cmakeCommandArgs": "-DVS_BUILD=1 -Darch=win64 -DEXEC_NAME=engine_win64_db -Dbuild=engine -Dprecision=dp -Ddebug=chkb -DMPI=smp -DCMAKE_Fortran_COMPILER=ifx.exe  -DCMAKE_C_COMPILER=icx.exe -DCMAKE_CPP_COMPILER=icx.exe -DCMAKE_CXX_COMPILER=icx.exe",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "intelliSenseMode": "windows-msvc-x64"
+    },
+
+    {
+      "name": "08 Engine_Intel_MPI_x64-Debug",
       "generator": "Ninja",
       "configurationType": "Debug",
       "buildRoot": "${projectDir}\\vs_build_win64\\${name}",
       "installRoot": "${projectDir}\\exec",
       "cmakeCommandArgs": "-DVS_BUILD=1 -Darch=win64 -DEXEC_NAME=engine_win64_impi_db -Dbuild=engine -Dprecision=dp -Ddebug=0 -DMPI=impi -DCMAKE_Fortran_COMPILER=ifx.exe  -DCMAKE_C_COMPILER=icx.exe -DCMAKE_CPP_COMPILER=icx.exe -DCMAKE_CXX_COMPILER=icx.exe",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "intelliSenseMode": "windows-msvc-x64"
+    },
+    {
+      "name": "09 Engine_Intel_MPI_x64-Debug with check bounds",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "buildRoot": "${projectDir}\\vs_build_win64\\${name}",
+      "installRoot": "${projectDir}\\exec",
+      "cmakeCommandArgs": "-DVS_BUILD=1 -Darch=win64 -DEXEC_NAME=engine_win64_impi_db -Dbuild=engine -Dprecision=dp -Ddebug=chkb -DMPI=impi -DCMAKE_Fortran_COMPILER=ifx.exe  -DCMAKE_C_COMPILER=icx.exe -DCMAKE_CPP_COMPILER=icx.exe -DCMAKE_CXX_COMPILER=icx.exe",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
       "inheritEnvironments": [ "msvc_x64_x64" ],

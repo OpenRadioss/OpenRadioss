@@ -72,13 +72,26 @@ set(Fortran "/fpp /extend-source /assume:buffered_io")
 if ( debug STREQUAL "1" )
  
 # Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 /fpp /Od /debug:all /Qftz /extend-source /assume:buffered_io /Qopenmp  ${ADF} /traceback" )
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 /nologo /fpp /Od /debug:all /Qftz /extend-source /assume:buffered_io /Qopenmp  ${ADF} /traceback" )
 
 # C source files
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback " )
 
 # CXX source files
 set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback" )
+
+
+elseif ( debug STREQUAL "chkb" )
+ 
+# Fortran
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "/nologo ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 /fpp /Od /debug:all /check:bounds /check:uninit /Qftz /extend-source /assume:buffered_io /Qopenmp  ${ADF} /traceback" )
+
+# C source files
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "/nologo ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all  /Qftz  /Qopenmp /traceback " )
+
+# CXX source files
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "/nologo ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback" )
+
 
 else ()
 
