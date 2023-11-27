@@ -1,0 +1,29 @@
+Bootstrap: docker
+From: arm64v8/rockylinux:9
+
+%post
+dnf group install -y "Development Tools"
+dnf install -y \
+gcc gcc-gfortran gcc-c++ make cmake perl git-lfs \
+wget git patch diffutils libxcrypt-compat \
+procps environment-modules which nano python3
+
+ln -s /usr/bin/python3 /usr/bin/python
+
+echo "Downlaoding Arm compiler and performance libraries"
+cd /opt
+wget -q -c --read-timeout=15 --show-progress -O arm-compiler-for-linux_22.1_RHEL-8_aarch64.tar "https://developer.arm.com/-/media/Files/downloads/hpc/arm-compiler-for-linux/22-1/arm-compiler-for-linux_22.1_RHEL-8_aarch64.tar?rev=d7be1f977ef848c2873e1f2a1fb8482f&revision=d7be1f97-7ef8-48c2-873e-1f2a1fb8482f"
+tar -xvf arm-compiler-for-linux_22.1_RHEL-8_aarch64.tar
+cd arm-compiler-for-linux_22.1_RHEL-8
+./arm-compiler-for-linux_22.1_RHEL-8.sh -a
+
+cd /opt
+wget -q -c --read-timeout=15 --show-progress -O arm-performance-libraries_22.1_RHEL-8_gcc-11.2.tar "https://developer.arm.com/-/media/Files/downloads/hpc/arm-performance-libraries/22-1/rhel-8/arm-performance-libraries_22.1_RHEL-8_gcc-11.2.tar?rev=2efd010a9c974ebc99b7481a398e55d5&revision=2efd010a-9c97-4ebc-99b7-481a398e55d5"
+tar -xvf arm-performance-libraries_22.1_RHEL-8_gcc-11.2.tar
+cd arm-performance-libraries_22.1_RHEL-8
+./arm-performance-libraries_22.1_RHEL-8.sh -a
+
+echo "Cleaning up intermediate files"
+rm /opt/arm-compiler-for-linux_22.1_RHEL-8_aarch64.tar
+rm /opt/arm-performance-libraries_22.1_RHEL-8_gcc-11.2.tar
+rm -rf /opt/arm-*
