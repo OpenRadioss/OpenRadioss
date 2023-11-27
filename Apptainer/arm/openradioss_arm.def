@@ -1,34 +1,20 @@
-Bootstrap: docker
-From: arm64v8/rockylinux:9
+Bootstrap: localimage
+From: arm_buildEnv.sif
 
 %post
-dnf group install -y "Development Tools"
-dnf install -y \
-gcc gcc-gfortran gcc-c++ make cmake perl git-lfs \
-wget git patch diffutils libxcrypt-compat \
-procps environment-modules
-
-cd /opt
-wget -q -O arm-compiler-for-linux_22.1_RHEL-8_aarch64.tar "https://developer.arm.com/-/media/Files/downloads/hpc/arm-compiler-for-linux/22-1/arm-compiler-for-linux_22.1_RHEL-8_aarch64.tar?rev=d7be1f977ef848c2873e1f2a1fb8482f&revision=d7be1f97-7ef8-48c2-873e-1f2a1fb8482f"
-tar xvf arm-compiler-for-linux_22.1_RHEL-8_aarch64.tar
-cd arm-compiler-for-linux_22.1_RHEL-8
-./arm-compiler-for-linux_22.1_RHEL-8.sh -a
-
-cd /opt
-wget -q -O arm-performance-libraries_22.1_RHEL-8_gcc-11.2.tar "https://developer.arm.com/-/media/Files/downloads/hpc/arm-performance-libraries/22-1/rhel-8/arm-performance-libraries_22.1_RHEL-8_gcc-11.2.tar?rev=2efd010a9c974ebc99b7481a398e55d5&revision=2efd010a-9c97-4ebc-99b7-481a398e55d5"
-tar xvf arm-performance-libraries_22.1_RHEL-8_gcc-11.2.tar
-cd arm-performance-libraries_22.1_RHEL-8
-./arm-performance-libraries_22.1_RHEL-8.sh -a
 
 source /etc/profile.d/modules.sh
 export MODULEPATH=/opt/arm/modulefiles:$MODULEPATH
 module load acfl
 
-
 export CC=armclang
 export CXX=armclang++
 export Fortran_COMPILER=armflang
 export FC=armflang
+
+#echo "Checking if compiler is in PATH"
+#echo `which $CC`
+
 cd /opt
 wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.4.tar.gz
 tar xzvf openmpi-4.1.4.tar.gz
@@ -43,10 +29,10 @@ cd /opt
 git lfs install
 git clone --depth 1 --branch main https://github.com/OpenRadioss/OpenRadioss.git
 cd /opt/OpenRadioss/starter
-./build_script.sh -arch=linuxa64 -nt=80
+./build_script.sh -arch=linuxa64 -nt=80 -static-link
 cd /opt/OpenRadioss/engine
-./build_script.sh -arch=linuxa64 -nt=80
-./build_script.sh -arch=linuxa64 -mpi=ompi -nt=80
+./build_script.sh -arch=linuxa64 -nt=80 -static-link
+./build_script.sh -arch=linuxa64 -mpi=ompi -nt=80 -static-link
 cd /opt/OpenRadioss/tools/anim_to_vtk/linux64
 ./build.bash
 cd /opt/OpenRadioss/tools/th_to_csv/linux64
