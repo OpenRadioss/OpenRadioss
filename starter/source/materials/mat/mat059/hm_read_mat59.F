@@ -41,7 +41,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT59(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
      .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
      .                         UNITAB ,ID       ,TITR     ,MTAG     , LSUBMODEL,
-     .                         PM     )
+     .                         PM     ,MATPARAM )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -91,6 +91,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)              :: ID
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(NSUBMOD)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -207,6 +208,12 @@ C-----------
       MTAG%G_EINS=2
       MTAG%L_EPE =3
       MTAG%L_PLA =2
+C-----------------------  
+      ! MATPARAM keyword
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+c
+      ! Properties compatibility       
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_COHESIVE") 
 C-----------------------  
       WRITE(IOUT,1010) TRIM(TITR),ID,59  
       WRITE(IOUT,1000)          

@@ -37,7 +37,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT113(UPARAM   ,MAXUPARAM,NUPARAM  ,NFUNC    ,PARMAT   ,
      .                          UNITAB   ,PM       ,LSUBMODEL,ISRATE   ,MAT_ID   ,
-     .                          TITR     ,IFUNC    ,MAXFUNC  ,MTAG     )
+     .                          TITR     ,IFUNC    ,MAXFUNC  ,MTAG     ,MATPARAM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD 
       USE ELBUFTAG_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e sXM
 C-----------------------------------------------
@@ -68,6 +69,7 @@ C-----------------------------------------------
       my_real, DIMENSION(100),INTENT(INOUT) :: PARMAT
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT) :: MTAG
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1326,6 +1328,9 @@ C------------------------
       MTAG%G_MASS = 1
       PARMAT(4) = ISRATE
       PARMAT(5) = ASRATE
+C------------------------
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPRING_MATERIAL")
 C------------------------
 C------------------------
       RETURN

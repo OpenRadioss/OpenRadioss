@@ -36,7 +36,8 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT83(UPARAM  ,MAXUPARAM ,NUPARAM  ,MTAG    ,PM       ,
      .                         NUVAR   ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   , 
-     .                         UNITAB  ,MAT_ID    ,TITR     ,ISRATE  ,LSUBMODEL)
+     .                         UNITAB  ,MAT_ID    ,TITR     ,ISRATE  ,LSUBMODEL,
+     .                         MATPARAM)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -60,6 +61,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,6 +83,7 @@ C-----------------------------------------------
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(NSUBMOD)
       TYPE(MLAW_TAG_), INTENT(INOUT)  :: MTAG
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -190,6 +193,11 @@ C     Formulation for solid elements time step computation.
       MTAG%L_PLA  = 1
       MTAG%L_EPSD = 1
       MTAG%L_DMG  = 1
+c-----------------
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+      ! Properties compatibility  
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_COHESIVE")       
 C----------------
       WRITE(IOUT,1100) TRIM(TITR),MAT_ID,83
       WRITE(IOUT,1000)

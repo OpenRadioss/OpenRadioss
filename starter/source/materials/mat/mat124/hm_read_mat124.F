@@ -71,7 +71,7 @@ C-----------------------------------------------
       my_real, DIMENSION(100),INTENT(OUT)          :: PARMAT
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(OUT)                 :: MTAG
-      TYPE(MATPARAM_STRUCT_) ,INTENT(OUT)          :: MATPARAM 
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT)        :: MATPARAM 
       my_real, INTENT(INOUT)                       :: ASRATE  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -307,6 +307,9 @@ c
       CALL INIT_MAT_KEYWORD(MATPARAM ,"INCREMENTAL" )
       CALL INIT_MAT_KEYWORD(MATPARAM ,"LARGE_STRAIN")
       CALL INIT_MAT_KEYWORD(MATPARAM ,"HOOK")
+c
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
 c
 c--------------------------
 c     Parameters printout

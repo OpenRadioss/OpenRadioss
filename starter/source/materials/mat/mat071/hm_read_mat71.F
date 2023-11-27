@@ -34,9 +34,10 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matp
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT71(UPARAM   ,MAXUPARAM,NUPARAM ,NUVAR  ,MFUNC , 
+      SUBROUTINE HM_READ_MAT71(UPARAM   ,MAXUPARAM,NUPARAM ,NUVAR  ,MFUNC  , 
      .                         MAXFUNC  ,MTAG     ,PARMAT  ,UNITAB ,
-     .                         PM       ,LSUBMODEL, ID     ,TITR   ,IMATVIS)                     
+     .                         PM       ,LSUBMODEL, ID     ,TITR   ,IMATVIS,
+     .                         MATPARAM )                     
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -85,6 +86,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)              :: ID,MAXFUNC,MAXUPARAM
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -239,6 +241,13 @@ c-----------------------------------
 c-----------------------------------
       MTAG%G_MAXEPS = 3
       MTAG%G_MAXFRAC= 1
+c-----------------------------------
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+      ! Properties compatibility  
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"BEAM_INTEGRATED")
 c-----------------------------------
       WRITE(IOUT,1000) TRIM(TITR),ID,71
       WRITE(IOUT,1100)

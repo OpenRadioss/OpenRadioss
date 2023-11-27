@@ -37,7 +37,8 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT79(
      .     UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
      .     MAXFUNC  ,IFUNC    ,PARMAT   ,MAT_ID   ,PM       ,
-     .     ISRATE   ,MTAG     ,TITR     ,UNITAB   ,LSUBMODEL)
+     .     ISRATE   ,MTAG     ,TITR     ,UNITAB   ,LSUBMODEL,
+     .     MATPARAM )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -71,6 +72,7 @@ C-----------------------------------------------
       CHARACTER*nchartitle,INTENT(IN)       :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(*)
       TYPE(MLAW_TAG_), INTENT(INOUT)   :: MTAG
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -225,6 +227,10 @@ C
       PARMAT(3) = NU
       PARMAT(4) = ISRATE
       PARMAT(5) = ASRATE
+C
+      ! Properties compatibility  
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC") 
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")       
 C
       WRITE(IOUT, 900) TRIM(TITR),MAT_ID,79
       WRITE(IOUT,1000)

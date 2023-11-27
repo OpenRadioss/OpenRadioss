@@ -37,7 +37,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT48(UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,
      .                         PARMAT   ,MAT_ID   ,PM       ,TITR     ,
      .                         UNITAB   ,LSUBMODEL,ISRATE   ,NFUNC    ,
-     .                         MTAG     )
+     .                         MTAG     ,MATPARAM )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -81,6 +81,7 @@ C-----------------------------------------------
       my_real, DIMENSION(100),INTENT(INOUT)          :: PARMAT
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL   
       TYPE(MLAW_TAG_),INTENT(INOUT)                :: MTAG
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -230,6 +231,10 @@ c-----------------------------------------------------------------------
       NFUNC = 0
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
+c-----------------------------------------------------------------------
+      ! Properties compatibility 
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
 c-----------------------------------------------------------------------
 c--------------------------------------------------
 c     Starter output

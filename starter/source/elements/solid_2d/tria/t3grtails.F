@@ -774,6 +774,7 @@ C
           END IF
 C---------
           IPARG(54,NGROUP) = IXFEM
+          IPARG(62,NGROUP) = PID
           IPARG(65,NGROUP) = NLEVXF
 C         flag for group of duplicated elements in multidomains
           IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R

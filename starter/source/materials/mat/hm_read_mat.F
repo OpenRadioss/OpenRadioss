@@ -336,7 +336,8 @@ c-------
           CASE ('LAW0','VOID')
             ILAW = 0  
             CALL HM_READ_MAT00(MTAG   ,
-     .           IPM(1,I), PM(1,I), UNITAB, MAT_ID, TITR, LSUBMODEL,ISRATE)
+     .           IPM(1,I), PM(1,I), UNITAB, MAT_ID, TITR, LSUBMODEL,ISRATE,
+     .           MATPARAM)
 c-------
           CASE ('LAW1','LAW01','ELAST')
             ILAW = 1  
@@ -371,14 +372,14 @@ c-------
           CASE ('LAW3','LAW03', 'HYDPLA')
             ILAW=3
             CALL HM_READ_MAT03(
-     .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE)
+     .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I) ,
+     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE    ,MATPARAM)
 c-------
           CASE ('LAW4','LAW04', 'HYD_JCOOK')
             ILAW=4
             CALL HM_READ_MAT04(
-     .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE)
+     .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I)  ,
+     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE    ,MATPARAM )
 c-------
           CASE ('JWL','LAW5','LAW05')
             ILAW = 5
@@ -386,14 +387,14 @@ c-------
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID    ,TITR     ,MTAG    ,LSUBMODEL,
-     .           PM(1,I)  ,IPM(1,I)  ,UID)
+     .           PM(1,I)  ,IPM(1,I)  ,UID      ,MATPARAM)
 c-------
           CASE ('LAW06','LAW6', 'HYDRO','HYD_VISC')
             ILAW  = 6  
             CALL HM_READ_MAT06(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE,
-     .           1 , MTAG   )
+     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE    ,1      ,
+     .           MTAG      ,MATPARAM )
 c-------
           CASE ('K-EPS')
             ILAW = 6  
@@ -401,20 +402,20 @@ c-------
             PM(70,I) =JTUR+EM01
             CALL HM_READ_MAT06_KEPS(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE,
-     .           1 , MTAG   )      
+     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE    ,1      ,
+     .           MTAG      ,MATPARAM )      
 c-------
           CASE ('LAW10','DPRAG1')
             ILAW = 10  
             CALL HM_READ_MAT10(
-     .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE)
+     .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I)  ,
+     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE    ,MATPARAM )
 c-------
           CASE ('LAW11','BOUND')
             ILAW = 11  
             CALL HM_READ_MAT11(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR)
+     .           MAT_ID    ,TITR     ,MATPARAM )
 c-------
           CASE ('B-K-EPS')
             ILAW = 11 
@@ -422,7 +423,7 @@ c-------
             PM(70,I) =JTUR+EM01
             CALL HM_READ_MAT11_K_EPS(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR)     
+     .           MAT_ID    ,TITR     ,MATPARAM )     
 c-------
           CASE ('LAW12','3D_COMP')
             ILAW = 12  
@@ -460,7 +461,7 @@ c-------
             CALL HM_READ_MAT18(
      .           NUPARAM  ,NUVAR    ,NFUNC    ,MAT_ID   ,TITR     ,
      .           UNITAB   ,LSUBMODEL,MTAG     ,PM(1,I)  ,IPM(1,I) ,
-     .           JTHE     )
+     .           JTHE     ,MATPARAM )
 c-------
           CASE ('LAW19','FABRI')
             ILAW = 19 
@@ -472,20 +473,22 @@ c-------
           CASE ('LAW20','BIMAT')
             ILAW  = 20 
             CALL HM_READ_MAT20(
-     .           IPM(1,I), PM(1,I), UNITAB, MAT_ID, TITR, LSUBMODEL, MTAG)         
+     .           IPM(1,I) ,PM(1,I)  ,UNITAB   ,MAT_ID   ,TITR     , 
+     .           LSUBMODEL,MTAG     ,MATPARAM )         
 c-------
           CASE ('LAW21','DPRAG')
             ILAW = 21  
             CALL HM_READ_MAT21(
-     .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     )
+     .           LSUBMODEL,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I) ,
+     .           MAT_ID   ,TITR     ,MATPARAM )
+c-------
           CASE ('LAW22','DAMA')
             ILAW  = 22  
             CALL HM_READ_MAT22(
      .                       UPARAM ,MAXUPARAM ,NUPARAM  ,NUVAR     ,IFUNC   ,
      .                       MAXFUNC,NFUNC     ,PARMAT   ,IMATVIS   ,0       ,
      .                       UNITAB ,MAT_ID    ,TITR     ,LSUBMODEL ,MTAG    ,
-     .                       PM(1,I),IPM(1,I)  ,ISRATE  ) 
+     .                       PM(1,I),IPM(1,I)  ,ISRATE   ,MATPARAM  ) 
 c-------
          CASE ('LAW23','PLAS_DAM')
             ILAW  = 23  
@@ -493,14 +496,14 @@ c-------
      .                       UPARAM ,MAXUPARAM ,NUPARAM  ,NUVAR     ,IFUNC   ,
      .                       MAXFUNC,NFUNC     ,PARMAT   ,IMATVIS   ,0       ,
      .                       UNITAB ,MAT_ID    ,TITR     ,LSUBMODEL ,MTAG    ,
-     .                       PM(1,I),IPM(1,I)  ,ISRATE  )
+     .                       PM(1,I),IPM(1,I)  ,ISRATE   ,MATPARAM  )
 c-------
           CASE ('LAW24','CONC')
             ILAW = 24  
             CALL HM_READ_MAT24(
      .           NUPARAM  ,NUVAR    ,NFUNC    ,IPM(1,I) ,PM(1,I)  ,
      .           MTAG     ,MAT_ID   ,TITR     ,UNITAB   ,LSUBMODEL,
-     .           ISRATE   )
+     .           ISRATE   ,MATPARAM )
 c-------
           CASE ('LAW25','COMPSH')
             ILAW = 25  
@@ -512,15 +515,15 @@ c-------
           CASE ('LAW26','SESAM')
             ILAW = 26  
             CALL HM_READ_MAT26(
-     .              MTAG     ,PM(1,I),MAT_ID   ,TITR  ,IPM(1,I) ,
-     .              JTHE     ,BUFMAT ,BUFLEN  ,IADBUF ,LSUBMODEL,
-     .              UNITAB   )
+     .              MTAG     ,PM(1,I) ,MAT_ID   ,TITR   ,IPM(1,I) ,
+     .              JTHE     ,BUFMAT  ,BUFLEN   ,IADBUF ,LSUBMODEL,
+     .              UNITAB   ,MATPARAM)
 c-------
           CASE ('LAW27','PLAS_BRIT')
             ILAW = 27  
             CALL HM_READ_MAT27(
      .           MTAG     ,PARMAT   ,UNITAB   ,PM(1,I)  ,LSUBMODEL,
-     .           ISRATE   ,MAT_ID   ,TITR     )
+     .           ISRATE   ,MAT_ID   ,TITR     ,MATPARAM )
 c-------
           CASE ('LAW28','HONEYCOMB')
             ILAW = 28  
@@ -536,7 +539,7 @@ c-------
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID    ,TITR     ,MTAG    ,LSUBMODEL,
-     .           PM(1,I)  ,IPM(1,I) )
+     .           PM(1,I)  ,IPM(1,I)  ,MATPARAM )
 c-------
           CASE ('LAW33','FOAM_PLAS')
             ILAW = 33  
@@ -552,7 +555,7 @@ c-------
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC    ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID   ,TITR     ,MTAG    ,LSUBMODEL,
-     .           PM(1,I)  )
+     .           PM(1,I)  ,MATPARAM )
 c-------
           CASE ('LAW35','FOAM_VISC')
             ILAW = 35  
@@ -560,7 +563,7 @@ c-------
      .           UPARAM   ,MAXUPARAM,NUPARAM   ,NUVAR    ,IFUNC    ,
      .           MAXFUNC  ,NFUNC    ,PARMAT    ,UNITAB   ,PM(1,I)  ,
      .           ISRATE   ,MAT_ID   ,TITR      ,LSUBMODEL,IMATVIS  ,
-     .           MTAG     )
+     .           MTAG     ,MATPARAM )
 c-------
           CASE ('LAW36','PLAS_TAB')
             ILAW  = 36             
@@ -568,7 +571,7 @@ c-------
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NVARTMP  ,
      .           IFUNC    ,MAXFUNC  ,NFUNC    ,PARMAT   ,UNITAB   ,
      .           MAT_ID   ,MTAG     ,TITR     ,LSUBMODEL,PM(1,I)  ,
-     .           ISRATE   )
+     .           ISRATE   ,MATPARAM )
 c-------
           CASE ('LAW37','BIPHAS')
             ILAW   = 37  
@@ -577,7 +580,7 @@ c-------
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID    ,TITR     ,MTAG    ,LSUBMODEL,
-     .           PM(1,I)  ,PARMAT    ,MAT_ID)
+     .           PM(1,I)  ,PARMAT    ,MAT_ID   ,MATPARAM)
 c-------
           CASE ('LAW38','VISC_TAB')
             ILAW  = 38             
@@ -615,7 +618,7 @@ c-------
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID    ,TITR     ,MTAG    ,LSUBMODEL,
-     .           PM(1,I)  ,IPM(1,I) )
+     .           PM(1,I)  ,IPM(1,I)  ,MATPARAM )
 c-------
           CASE ('LAW44','COWPER')
             ILAW = 44  
@@ -623,7 +626,7 @@ c-------
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
      .           MTAG     ,PARMAT   ,UNITAB   ,PM(1,I)  ,LSUBMODEL,
      .           ISRATE   ,MAT_ID   ,TITR     ,IFUNC    ,MAXFUNC  ,
-     .           NVARTMP  )
+     .           NVARTMP  ,MATPARAM )
 c-------
           CASE ('LAW46','LES_FLUID')
             ILAW = 46
@@ -631,20 +634,20 @@ c-------
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID    ,TITR     ,MTAG    ,LSUBMODEL,
-     .           PM(1,I)  ,IPM(1,I) )
+     .           PM(1,I)  ,IPM(1,I)  ,MATPARAM )
 c-------
           CASE ('LAW48','ZHAO')
             ILAW = 48
             CALL HM_READ_MAT48(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,PARMAT   ,
      .           MAT_ID   ,PM(1,I)  ,TITR     ,UNITAB   ,LSUBMODEL,
-     .           ISRATE   ,NFUNC    ,MTAG     )
+     .           ISRATE   ,NFUNC    ,MTAG     ,MATPARAM )
 c-------
           CASE ('LAW49','STEINB')
             ILAW=49
             CALL HM_READ_MAT49(
-     .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE)
+     .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I) ,
+     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE    ,MATPARAM)
 c-------
           CASE ('LAW50','VISC_HONEY')
             ILAW  = 50  
@@ -660,7 +663,7 @@ c-------
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID    ,TITR     ,MTAG    ,LSUBMODEL,
-     .           PM(1,I)  ,IPM(1,I) )
+     .           PM(1,I)  ,IPM(1,I)  ,MATPARAM )
 c-------
           CASE ('LAW52','GURSON')
             ILAW  = 52 
@@ -668,7 +671,7 @@ c-------
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
      .           MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
      .           PM(1,I)  ,LSUBMODEL,ISRATE   ,MAT_ID   ,TITR     ,
-     .           ITABLE   ,MAXTABL  ,NUMTABL)
+     .           ITABLE   ,MAXTABL  ,NUMTABL  ,MATPARAM )
 c-------
           CASE ('LAW53','TSAI_TAB')
             ILAW = 53
@@ -683,14 +686,15 @@ c-------
              CALL HM_READ_MAT54(
      .            UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,IFUNC    ,
      .            MAXFUNC  ,NFUNC    ,PARMAT   ,UNITAB   ,MAT_ID   ,
-     .            MTAG     ,TITR     ,LSUBMODEL,PM(1,I)  )
+     .            MTAG     ,TITR     ,LSUBMODEL,PM(1,I)  ,MATPARAM )
 c-------
           CASE ('LAW57','BARLAT3','BARLAT')
             ILAW  = 57  
             CALL HM_READ_MAT57(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
      .           MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
-     .           ISRATE   ,PM(1,I)  ,LSUBMODEL,MAT_ID   ,TITR     )
+     .           ISRATE   ,PM(1,I)  ,LSUBMODEL,MAT_ID   ,TITR     ,
+     .           MATPARAM )
 c-------
           CASE ('LAW58','FABR_A')
             ILAW  = 58  
@@ -705,7 +709,7 @@ c-------
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID    ,TITR     ,MTAG    ,LSUBMODEL,
-     .           PM(1,I)  )
+     .           PM(1,I)  ,MATPARAM  )
 c-------
           CASE ('LAW60','PLAS_T3')
             ILAW = 60
@@ -713,7 +717,7 @@ c-------
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID    ,TITR     ,MTAG    ,LSUBMODEL,
-     .           PM(1,I)  ,IPM(1,I) )
+     .           PM(1,I)  ,IPM(1,I)  ,MATPARAM )
 c-------
           CASE ('LAW62','VISC_HYP')
             ILAW = 62  
@@ -727,7 +731,7 @@ c-------
             CALL HM_READ_MAT63(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,PARMAT   ,
      .           MAT_ID   ,PM(1,I)  ,TITR     ,UNITAB   ,LSUBMODEL,
-     .           MTAG     )
+     .           MTAG     ,MATPARAM )
 c-------
           CASE ('LAW64','UGINE_ALZ')
             ILAW = 64
@@ -735,21 +739,22 @@ c-------
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID    ,TITR     ,MTAG    ,LSUBMODEL,
-     .           PM(1,I)  ,IPM(1,I) )
+     .           PM(1,I)  ,IPM(1,I)  ,MATPARAM )
 c-------
           CASE ('LAW65','ELASTOMER')
             ILAW  = 65  
             CALL HM_READ_MAT65(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
      .           MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
-     .           PM(1,I)  ,LSUBMODEL,ISRATE   ,MAT_ID   ,TITR     )
+     .           PM(1,I)  ,LSUBMODEL,ISRATE   ,MAT_ID   ,TITR     ,
+     .           MATPARAM )
 c-------
           CASE ('LAW66')
             ILAW  = 66             
             CALL HM_READ_MAT66(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,IFUNC    ,
      .           MAXFUNC  ,NFUNC    ,PARMAT   ,UNITAB   ,MAT_ID   ,
-     .           MTAG     ,TITR     ,LSUBMODEL,PM(1,I)  )
+     .           MTAG     ,TITR     ,LSUBMODEL,PM(1,I)  ,MATPARAM )
             ISRATE = 1
 c-------
           CASE ('LAW68','COSSER')
@@ -781,7 +786,8 @@ c-------
             CALL HM_READ_MAT71(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
      .           MAXFUNC  ,MTAG     ,PARMAT   ,UNITAB   ,       
-     .           PM(1,I)  ,LSUBMODEL,MAT_ID   ,TITR     ,IMATVIS)                 
+     .           PM(1,I)  ,LSUBMODEL,MAT_ID   ,TITR     ,IMATVIS  ,
+     .           MATPARAM )                 
 c-------
           CASE ('LAW72','HILL_MMC')
             ILAW = 72
@@ -797,7 +803,8 @@ c-------
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,ISRATE   ,IMATVIS  ,
      .           NUVAR    ,IFUNC     ,MAXFUNC  ,NFUNC    ,PARMAT   ,
      .           UNITAB   ,MAT_ID    ,TITR     ,MTAG     ,LSUBMODEL,
-     .           ITABLE   ,MAXTABL  ,NUMTABL   ,PM(1,I)  ,IPM(1,I) )
+     .           ITABLE   ,MAXTABL  ,NUMTABL   ,PM(1,I)  ,IPM(1,I) ,
+     .           MATPARAM )
 c-------
           CASE ('LAW74')
             ILAW = 74
@@ -805,7 +812,8 @@ c-------
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID    ,TITR     ,MTAG    ,LSUBMODEL,
-     .           ITABLE   ,MAXTABL  ,NUMTABL   ,PM(1,I)  ,IPM(1,I)  )
+     .           ITABLE   ,MAXTABL  ,NUMTABL   ,PM(1,I) ,IPM(1,I) ,
+     .           MATPARAM )
 c-------
           CASE ('LAW75','POROUS')
             ILAW = 75
@@ -813,7 +821,7 @@ c-------
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,
      .           NUVAR    ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID    ,TITR     ,MTAG    ,LSUBMODEL,
-     .           PM(1,I))
+     .           PM(1,I)  ,MATPARAM  )
 c-------
           CASE ('LAW76','SAMP')
             ILAW  = 76             
@@ -838,14 +846,15 @@ c-------
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,ISRATE   ,IMATVIS  ,
      .           NUVAR    ,IFUNC     ,MAXFUNC  ,NFUNC    ,PARMAT   ,
      .           UNITAB   ,MAT_ID    ,TITR     ,MTAG     ,LSUBMODEL,
-     .           PM(1,I)  ,NVARTMP  )
+     .           PM(1,I)  ,NVARTMP   ,MATPARAM )
 c-------
           CASE ('LAW79','JOHN_HOLM')
             ILAW = 79
             CALL HM_READ_MAT79(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
      .           MAXFUNC  ,IFUNC    ,PARMAT   ,MAT_ID   ,PM(1,I)  ,
-     .           ISRATE   ,MTAG     ,TITR     ,UNITAB   ,LSUBMODEL)
+     .           ISRATE   ,MTAG     ,TITR     ,UNITAB   ,LSUBMODEL,
+     .           MATPARAM )
 c-------
           CASE ('LAW80')
             ILAW = 80
@@ -853,14 +862,15 @@ c-------
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
      .           MAXFUNC  ,IFUNC    ,PARMAT   ,MAT_ID   ,PM(1,I)  ,
      .           ISRATE   ,MTAG     ,TITR     ,UNITAB   ,LSUBMODEL,
-     .           ITABLE   ,MAXTABL  ,NUMTABL  ,NVARTMP  ,TABLE)
+     .           ITABLE   ,MAXTABL  ,NUMTABL  ,NVARTMP  ,TABLE    ,
+     .           MATPARAM )
 c-------
           CASE ('LAW81')
             ILAW = 81
             CALL HM_READ_MAT81(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,IFUNC    ,
      .           MAXFUNC  ,NFUNC    ,PARMAT   ,MAT_ID   ,PM(1,I)  ,
-     .           TITR     ,UNITAB   ,LSUBMODEL,MTAG     )
+     .           TITR     ,UNITAB   ,LSUBMODEL,MTAG     ,MATPARAM )
 c-------
           CASE ('LAW82')
             ILAW = 82 
@@ -874,7 +884,8 @@ c-------
             CALL HM_READ_MAT83(
      .           UPARAM   ,MAXUPARAM  ,NUPARAM  ,MTAG    ,PM(1,I)  ,
      .           NUVAR    ,IFUNC      ,MAXFUNC  ,NFUNC   ,PARMAT   , 
-     .           UNITAB   ,MAT_ID     ,TITR     ,ISRATE  ,LSUBMODEL)
+     .           UNITAB   ,MAT_ID     ,TITR     ,ISRATE  ,LSUBMODEL,
+     .           MATPARAM )
 c-------
           CASE ('LAW84')
             ILAW = 84
@@ -882,14 +893,16 @@ c-------
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID    ,TITR     ,MTAG    ,LSUBMODEL,
-     .           ITABLE   ,MAXTABL  ,NUMTABL   ,PM(1,I)  ,IPM(1,I)  )
+     .           ITABLE   ,MAXTABL   ,NUMTABL  ,PM(1,I) ,IPM(1,I) ,
+     .           MATPARAM )
 c-------
           CASE ('LAW87','BARLAT2000')
             ILAW  = 87  
             CALL HM_READ_MAT87(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,ISRATE   ,  NUVAR ,
-     .           NFUNC    ,MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT  ,
-     .           UNITAB   ,PM(1,I)  ,LSUBMODEL,MAT_ID   ,TITR     )    
+     .           UPARAM   ,MAXUPARAM,NUPARAM  ,ISRATE   ,NUVAR    ,
+     .           NFUNC    ,MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,
+     .           UNITAB   ,PM(1,I)  ,LSUBMODEL,MAT_ID   ,TITR     ,
+     .           MATPARAM )    
 c-------
           CASE ('LAW88','MLAW88')
             ILAW = 88  
@@ -944,7 +957,7 @@ c-------
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID    ,TITR     ,MTAG    ,LSUBMODEL,
-     .           PM(1,I)  ,IPM(1,I)  )
+     .           PM(1,I)  ,IPM(1,I)  ,MATPARAM )
 c-------
           CASE ('LAW100','MNF')
             ILAW  = 100  
@@ -975,7 +988,7 @@ c-------
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC    ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID   ,TITR     ,MTAG    ,LSUBMODEL,
-     .           PM(1,I)  ,IPM(1,I))
+     .           PM(1,I)  ,IPM(1,I) ,MATPARAM )
 c-------     
           CASE ('LAW104','JOHNS_VOCE_DRUCKER')
             ILAW  = 104  
@@ -990,7 +1003,7 @@ c-------
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC    ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID   ,TITR     ,MTAG    ,LSUBMODEL,
-     .           PM(1,I)  ,IPM(1,I))
+     .           PM(1,I)  ,IPM(1,I) ,MATPARAM )
 c-------
           CASE ('LAW107','PAPER_LIGHT','PFEIFFER')
             ILAW = 107
@@ -1005,7 +1018,7 @@ c-------
             CALL HM_READ_MAT108(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NFUNC    ,PARMAT   ,
      .           UNITAB   ,PM(1,I)  ,LSUBMODEL,ISRATE   ,MAT_ID   ,
-     .           TITR     ,IFUNC    ,MAXFUNC  ,MTAG     )
+     .           TITR     ,IFUNC    ,MAXFUNC  ,MTAG     ,MATPARAM )
 c-------     
           CASE ('LAW109')
             ILAW  = 109 
@@ -1046,14 +1059,14 @@ c-------
             CALL HM_READ_MAT113(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NFUNC    ,PARMAT   ,
      .           UNITAB   ,PM(1,I)  ,LSUBMODEL,ISRATE   ,MAT_ID   ,
-     .           TITR     ,IFUNC    ,MAXFUNC  ,MTAG     )
+     .           TITR     ,IFUNC    ,MAXFUNC  ,MTAG     ,MATPARAM )
 c-------
           CASE ('LAW114','SPR_SEATBELT')
             ILAW  = 114
             CALL HM_READ_MAT114(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NFUNC    ,PARMAT   ,
      .           UNITAB   ,PM(1,I)  ,LSUBMODEL,ISRATE   ,MAT_ID   ,
-     .           TITR     ,IFUNC    ,MAXFUNC  ,MTAG     )
+     .           TITR     ,IFUNC    ,MAXFUNC  ,MTAG     ,MATPARAM )
 c-------     
           CASE ('LAW115','DESHFLECK')
             ILAW = 115
@@ -1068,14 +1081,14 @@ c-------
             CALL HM_READ_MAT116(
      .           MTAG     ,UPARAM   ,MAXUPARAM,NUPARAM  ,PM(1,I)  ,
      .           PARMAT   ,NUVAR    ,IFUNC    ,NFUNC    ,MAXFUNC  ,
-     .           UNITAB   ,MAT_ID   ,TITR     ,LSUBMODEL)
+     .           UNITAB   ,MAT_ID   ,TITR     ,LSUBMODEL,MATPARAM )
 c-------     
           CASE ('LAW117')
             ILAW  = 117
             CALL HM_READ_MAT117(
      .           MTAG     ,UPARAM   ,MAXUPARAM,NUPARAM  ,PM(1,I)  ,
      .           PARMAT   ,NUVAR    ,MAXFUNC  ,NFUNC    ,IFUNC    ,
-     .           UNITAB   ,MAT_ID   ,TITR     ,LSUBMODEL)
+     .           UNITAB   ,MAT_ID   ,TITR     ,LSUBMODEL,MATPARAM )
 c-------
           CASE ('LAW119','SH_SEATBELT')
             ILAW = 119 
@@ -1120,8 +1133,8 @@ c-------
           CASE ('LAW151','MULTIFLUID')
             ILAW  = 151
             MULTI_FVM%IS_USED = .TRUE. 
-            CALL HM_READ_MAT151(MTAG   , PM(1, I), IPM(1, I), MAT_ID, TITR, 
-     .                          MULTI_FVM,UNITAB,LSUBMODEL)
+            CALL HM_READ_MAT151(MTAG   ,PM(1, I) ,IPM(1, I),MAT_ID   ,TITR   , 
+     .                          MULTI_FVM,UNITAB ,LSUBMODEL,MATPARAM )
 c-------
           CASE ('LAW158','FABR_NL')
             ILAW  = 158  
@@ -1140,7 +1153,7 @@ c-------
 c-------
           CASE ('GAS')
              ILAW = 999
-             CALL HM_READ_MATGAS(PM(1, I), IPM(1, I),MAT_ID, TITR, KEY2, UNITAB, LSUBMODEL)
+             CALL HM_READ_MATGAS(PM(1, I), IPM(1, I),MAT_ID, TITR, KEY2, UNITAB, LSUBMODEL,MATPARAM )
 c-------
           CASE ('LAW29','USER1')
             ILAW  = 29
@@ -1158,7 +1171,7 @@ c-------
      .                            NUVAR,IFUNC,MAXFUNC,NFUNC,
      .                            PARMAT,
      .                            LSUBMODEL,
-     .                            PM(1,I) )
+     .                            PM(1,I),MATPARAM)
 c-------
           CASE ('LAW30','USER2')
             ILAW  = 30
@@ -1176,7 +1189,7 @@ c-------
      .                            NUVAR,IFUNC,MAXFUNC,NFUNC,
      .                            PARMAT,
      .                            LSUBMODEL,
-     .                            PM(1,I) )
+     .                            PM(1,I),MATPARAM)
 c-------
           CASE ('LAW31','USER3')
             ILAW  = 31
@@ -1194,7 +1207,7 @@ c-------
      .                            NUVAR,IFUNC,MAXFUNC,NFUNC,
      .                            PARMAT,
      .                            LSUBMODEL,
-     .                            PM(1,I) )           
+     .                            PM(1,I),MATPARAM)           
 
 c-------
           CASE ('USER01','USER02','USER03','USER04','USER05','USER06',
@@ -1226,7 +1239,7 @@ c-------
      .                          NUVAR,IFUNC,MAXFUNC,NFUNC,
      .                          PARMAT,USERBUF,
      .                          LSUBMODEL,
-     .                          PM(1,I) )
+     .                          PM(1,I),MATPARAM)
             MTAG%G_TEMP = 1
             MTAG%L_TEMP = 1
             MTAG%G_EPSD = 1
@@ -1245,6 +1258,10 @@ c-------
             MTAG%L_EPSD = 1
             MTAG%G_PLA  = 1
             MTAG%L_PLA  = 1
+            CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")
+            ! Properties compatibility
+            CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ALL")
+            CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ALL")
 !
             CALL HM_READ_MAT_MDS(ILAW,I,MAT_ID,
      .                           UPARAM,MAXUPARAM,NUPARAM,
@@ -1382,36 +1399,6 @@ C for QEPH (shell formulation)
 !pour interface type 20 Ki=PM(100)*...        
 c
         IF (PM(100,I) == ZERO) PM(100,I) = PM(32,I) ! bulk used for interf 20 stiffness
-C        
-c---------------------------------------------------------
-C-----initialization MATPARAM%COMPRESSIBILITY... by keywords (default :ELASTO_PLASTIC)
-c---------------------------------------------------------
-            SELECT CASE (ILAW)
-C--------no-langrangian laws can be added later(not used now, so not important)         
-             CASE(6,11,17,18,19,20,26,49,151)                                             
-                CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
-C------ elasto-plastic, the call is not needed (default value), just for info             
-             CASE(10,21,22,23,24,27,32)  
-               CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
-             END SELECT 
-c---------------------------------------------------------
-C-----initialization MATPARAM%IPRES... by keywords (default :HYDROSTATIC)
-c---------------------------------------------------------
-            SELECT CASE (ILAW)
-c            laws using EOS and thermo are grouped here              
-             CASE(3,4,5,6,10,11,16,17,18,21,26,46,49,51,97,102,103,151)  
-               CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
-c              composite, visco-elastic laws don't separate spheric & deviatoric              
-             CASE(12,14,24,25,28,34,35,37,50,52,53,59,68,71,75,78,80,81,
-     .            83,84,106,116,117)
-              CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
-            END SELECT 
-c-----------------------------------------------------------------
-c           orthotropy => include in hm_read_matxxx !!!            
-            SELECT CASE (ILAW)
-             CASE(12,14,15,19,25,28,32,43,50,53,57,68,72,73,74,78,84,87,93,200)  
-               CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")
-            END SELECT 
 C                       
 C---------------  fin boucle sur les lois
       ENDDO   ! HM_NUMMAT

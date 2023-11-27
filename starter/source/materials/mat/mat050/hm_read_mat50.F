@@ -401,8 +401,12 @@ c-----------------
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
 c--------------------------------------------------
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
       CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
       CALL INIT_MAT_KEYWORD(MATPARAM,"SMALL_STRAIN")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")
+      ! Properties compatibility 
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")      
 c--------------------------------------------------
 c     Starter output
 c--------------------------------------------------

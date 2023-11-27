@@ -280,6 +280,11 @@ c
       CALL INIT_MAT_KEYWORD(MATPARAM ,"LARGE_STRAIN")
       CALL INIT_MAT_KEYWORD(MATPARAM ,"HOOK")
 c
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")
+c
 c--------------------------
 c     Parameters printout
 c-------------------------- 

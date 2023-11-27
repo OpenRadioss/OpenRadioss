@@ -35,10 +35,11 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matp
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT74(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
-     .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
-     .                         ITABLE   ,MAXTABL  ,NTABLE,PM     ,IPM       )
+      SUBROUTINE HM_READ_MAT74(UPARAM  ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
+     .                         NUVAR   ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         UNITAB  ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
+     .                         ITABLE  ,MAXTABL  ,NTABLE   ,PM       ,IPM       ,
+     .                         MATPARAM)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -85,6 +86,7 @@ C-----------------------------------------------
       CHARACTER*nchartitle,INTENT(IN)       :: TITR
 
       TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(*)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -272,6 +274,12 @@ C
 CC     Formulation for solid elements time step computation.
       PARMAT(16) = 2
       PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
+C
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")
+C
+      ! Properties compatibility  
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ORTHOTROPIC")        
 C
         WRITE(IOUT,1001) TRIM(TITR),MAT_ID,ILAW
         WRITE(IOUT,1000)        

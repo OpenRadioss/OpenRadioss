@@ -121,6 +121,15 @@ c-----------------
       ELSE
         CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
       END IF
+
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ALL")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ALL")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"BEAM_ALL")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"TRUSS")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPRING_ALL")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")
+
 c-----------------
 C--------------------------------
 C

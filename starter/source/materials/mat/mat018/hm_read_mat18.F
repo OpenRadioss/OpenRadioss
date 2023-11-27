@@ -36,7 +36,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT18(
      .           NUPARAM  ,NUVAR    ,NFUNC    ,MAT_ID   ,TITR      ,
      .           UNITAB   ,LSUBMODEL,MTAG     ,PM       ,IPM       ,
-     .           JTHE     ) 
+     .           JTHE     ,MATPARAM ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,6 +70,7 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: PM(NPROPM)     
       INTEGER, INTENT(INOUT) :: NUPARAM,NUVAR,NFUNC,JTHE
       TYPE(MLAW_TAG_) ,INTENT(INOUT) :: MTAG
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -161,6 +162,13 @@ c
       MTAG%G_DELTAX = 1
       MTAG%L_TEMP   = 1
       MTAG%L_DELTAX = 1
+
+      ! MATPARM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
+
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ORTHOTROPIC")
 c--------------------------------------------------
 c     Starter output
 c--------------------------------------------------

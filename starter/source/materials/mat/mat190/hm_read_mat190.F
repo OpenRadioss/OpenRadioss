@@ -182,6 +182,9 @@ C-------------------------------------------
       ELSE
         CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
       END IF
+c
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ORTHOTROPIC")
 C-------------------------------------------
 C Output File Print
 C-------------------------------------------

@@ -254,6 +254,9 @@ C-----------------------------------------------
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
       CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")  
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")  
 c-----------------
       !------------------------!
       !    LISTING OUTPUT      !

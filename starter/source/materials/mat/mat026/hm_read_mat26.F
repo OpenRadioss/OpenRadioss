@@ -39,15 +39,16 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT26(
-     .              MTAG     ,PM     ,MAT_ID   ,TITR  ,IPM     ,
-     .              JTHE     ,BUFMAT ,MFI      ,IDF   ,LSUBMODEL,
-     .              UNITAB   )
+     .              MTAG     ,PM      ,MAT_ID   ,TITR  ,IPM     ,
+     .              JTHE     ,BUFMAT  ,MFI      ,IDF   ,LSUBMODEL,
+     .              UNITAB   ,MATPARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE MATPARAM_DEF_MOD          
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,6 +73,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT) :: MTAG
       my_real ,DIMENSION(*), INTENT(INOUT) :: BUFMAT
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -317,6 +319,13 @@ c
       MTAG%L_EPSD  = 1
       MTAG%L_SSP   = 1
       MTAG%L_Z     = 1    ! taux ionisation
+c
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
+c
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
 c-----------
       RETURN
 c-----------       

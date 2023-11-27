@@ -40,7 +40,8 @@ Chd|====================================================================
      .     UPARAM      ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
      .     MAXFUNC     ,IFUNC    ,PARMAT   ,MAT_ID   ,PM       ,
      .     ISRATE_IN   ,MTAG     ,TITR     ,UNITAB   ,LSUBMODEL,
-     .     ITABLE      ,MAXTABL  ,NUMTABL  ,NVARTMP  ,TABLE)
+     .     ITABLE      ,MAXTABL  ,NUMTABL  ,NVARTMP  ,TABLE    ,
+     .     MATPARAM    )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -78,6 +79,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(*)
       TYPE(MLAW_TAG_), INTENT(INOUT)   :: MTAG
       TYPE(TTABLE) TABLE(NTABLE)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -513,6 +515,13 @@ c----------------------------
 CC     Formulation for solid elements time step computation.
       PARMAT(16) = 2
       PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
+C------------------------------           
+      ! MATPARAM keywords     
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+C
+      ! Properties compatibility  
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")  
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC")  
 C------------------------------   
       WRITE(IOUT, 900) TRIM(TITR),MAT_ID,80
       WRITE(IOUT,1000)

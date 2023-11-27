@@ -40,7 +40,7 @@ Chd|====================================================================
      .                            NUVAR ,IFUNC,MAXFUNC,NFUNC,
      .                            PARMAT,
      .                            LSUBMODEL,
-     .                            PM )
+     .                            PM,MATPARAM)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -62,6 +62,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE MATPARAM_DEF_MOD          
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,6 +89,7 @@ C-----------------------------------------------
       my_real, DIMENSION(MAXUPARAM)   :: UPARAM
       my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM
       CHARACTER IUSER_KEY*ncharline
+      TYPE (MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -147,6 +149,10 @@ C-----------------------------------------------
       ELSE
          ! Error MESSAGE_Mess
       ENDIF
+
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ALL")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ALL")
 
       RETURN
  999  CALL ANCMSG(MSGID=55,

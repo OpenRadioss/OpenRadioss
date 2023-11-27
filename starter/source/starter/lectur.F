@@ -8096,6 +8096,14 @@ C--------------------------------------------
       CALL CHECK_PTHICKFAIL(ELBUF_TAB,IPARG    ,GEO      ,BUFMAT   ,SBUFMAT  ,
      .                      IPM      ,STACK    ,IGEO     ,NUMMAT   ,NUMGEO   ,
      .                      NGROUP   ,NPARG    ,NPROPMI  ,NPROPGI  ,NPROPG   )
+C--------------------------------------------
+C     CHECK MATERIAL / PROPERTY COMPATIBILITY
+C--------------------------------------------
+      CALL CHECK_MAT_ELEM_PROP_COMPATIBILITY(
+     .    ELBUF_TAB,IPARG    ,IPM      ,IGEO     ,NUMMAT   ,NUMGEO   ,
+     .    NGROUP   ,NPARG    ,NPROPMI  ,NPROPGI  ,MAT_ELEM%MAT_PARAM ,
+     .    N2D      ,IXT      ,NUMELT   ,IXP      ,NUMELP   ,IXR      ,
+     .    NUMELR   )
 C
 C--------------------------------------------
 C     CHECK COMPATIBILITY /DTTSH
