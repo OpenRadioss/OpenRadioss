@@ -82,7 +82,7 @@ C-----------------------------------------------
       my_real ,INTENT(INOUT):: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       TYPE (UNIT_TYPE_)      ,INTENT(IN)    :: UNITAB 
       TYPE(SUBMODEL_DATA)    ,INTENT(IN)    :: LSUBMODEL((NSUBMOD))
-      TYPE(MLAW_TAG_)        ,INTENT(INOUT)   :: MTAG
+      TYPE(MLAW_TAG_)        ,INTENT(INOUT) :: MTAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -217,7 +217,13 @@ c---- Definition des variables internes (stockage elementaire)
 c
       MTAG%G_SIGI = 3
 c
+      ! MATPARAM keywords
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")
+
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ORTHOTROPIC")
 C--------------------------------------
       WRITE(IOUT,1000) TRIM(TITR),MAT_ID,19
       WRITE(IOUT,1100)      

@@ -154,6 +154,9 @@ C
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE") 
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
       CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+c 
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
      
       PARMAT(1) = ZERO !  updated in updmat111
       PARMAT(2) = ZERO !  updated in updmat111

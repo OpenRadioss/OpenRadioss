@@ -76,6 +76,14 @@ c
         MAT_ELEM%MAT_PARAM(IMAT)%VISC%NUVAR   = 0
         MAT_ELEM%MAT_PARAM(IMAT)%VISC%NFUNC   = 0
         MAT_ELEM%MAT_PARAM(IMAT)%VISC%NTABLE  = 0
+c
+        ! Properties compatibility flags
+        MAT_ELEM%MAT_PARAM(IMAT)%PROP_SOLID  = 0
+        MAT_ELEM%MAT_PARAM(IMAT)%PROP_SHELL  = 0
+        MAT_ELEM%MAT_PARAM(IMAT)%PROP_BEAM   = 0
+        MAT_ELEM%MAT_PARAM(IMAT)%PROP_SPRING = 0
+        MAT_ELEM%MAT_PARAM(IMAT)%PROP_TRUSS  = 0
+        MAT_ELEM%MAT_PARAM(IMAT)%PROP_SPH    = 0       
 c        
       END DO
 c-----------

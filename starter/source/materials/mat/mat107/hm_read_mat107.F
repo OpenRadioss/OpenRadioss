@@ -450,6 +450,10 @@ c
       CALL INIT_MAT_KEYWORD(MATPARAM ,"INCREMENTAL"   )
       CALL INIT_MAT_KEYWORD(MATPARAM ,"LARGE_STRAIN"  )
       CALL INIT_MAT_KEYWORD(MATPARAM ,"HOOK")
+c 
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ORTHOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ORTHOTROPIC")
 c
 c--------------------------
 c     Parameters printout

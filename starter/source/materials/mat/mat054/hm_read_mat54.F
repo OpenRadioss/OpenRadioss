@@ -36,7 +36,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT54(UPARAM, MAXUPARAM, NUPARAM, NUVAR, IFUNC, 
      .     MAXFUNC, NFUNC, PARMAT, UNITAB ,MAT_ID, 
-     .     MTAG, TITR, LSUBMODEL, PM)
+     .     MTAG, TITR, LSUBMODEL, PM, MATPARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD      
       USE SUBMODEL_MOD
+      USE MATPARAM_DEF_MOD          
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,6 +69,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: MAT_ID, MAXFUNC, MAXUPARAM
       CHARACTER*nchartitle, INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -188,7 +190,10 @@ C-----------------------------------------------
 
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
-
+c
+      ! Properties compatibility       
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPRING_PREDIT")       
+c
       WRITE(IOUT, 800) TRIM(TITR), MAT_ID, 54
       WRITE(IOUT, 1000)
       IF (IS_ENCRYPTED) THEN

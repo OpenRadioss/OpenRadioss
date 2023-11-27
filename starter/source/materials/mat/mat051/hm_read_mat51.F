@@ -45,7 +45,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT51(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
      .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
-     .                         PM     ,IPM      )
+     .                         PM     ,IPM      ,MATPARAM )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -101,6 +101,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)              :: MAT_ID
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(NSUBMOD)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1078,6 +1079,11 @@ C     !============================!
       PM(89)=RHO0
       PM(91)=MAXVAL(RHO0_(1:4))
 
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
+      
+      ! Properties compatibility 
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
 
       RETURN
 

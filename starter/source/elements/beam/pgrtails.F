@@ -293,6 +293,8 @@ C             thermal material expansion
               IF (IPM(220,MID) >  0) THEN                                
                 IPARG(43,NGROUP) = 1   ! IFAIL flag                      
               ENDIF
+              ! Property internal ID
+              IPARG(62,NGROUP) = PID
 
               JSMS=0
               IF(ISMS/=0)THEN

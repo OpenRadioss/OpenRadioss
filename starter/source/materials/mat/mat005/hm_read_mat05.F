@@ -36,7 +36,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT05(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
      .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
-     .                         PM     ,IPM      ,UID)
+     .                         PM     ,IPM      ,UID      ,MATPARAM )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -83,6 +83,7 @@ C-----------------------------------------------
       CHARACTER*nchartitle,INTENT(IN)       :: TITR
       my_real,INTENT(IN)                    :: UNITAB(LUNIT,NUNITS)
       TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(NSUBMOD)
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT)  :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -254,6 +255,13 @@ C-----------------------------------------------
       MTAG%L_TEMP   = 1
       MTAG%L_BFRAC  = 1 
       MTAG%L_ABURN  = 1       
+
+      !======== MATPARAM KEYWORDS
+      ! EOS/Thermo keyword
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")
       
       !======== LISTING OUTPUT
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,5

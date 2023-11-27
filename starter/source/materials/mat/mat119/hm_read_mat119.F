@@ -213,6 +213,9 @@ c---------------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
       CALL INIT_MAT_KEYWORD(MATPARAM,"SMALL_STRAIN") 
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCREMENTAL")
+c
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ORTHOTROPIC")
 c----------------------------------------
       WRITE(IOUT,1000) TRIM(TITR),MAT_ID,119
       WRITE(IOUT,1100)

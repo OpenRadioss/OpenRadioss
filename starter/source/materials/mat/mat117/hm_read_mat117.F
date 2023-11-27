@@ -36,7 +36,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT117(MTAG     ,UPARAM    ,MAXUPARAM,NUPARAM  ,PM       ,
      .                          PARMAT   ,NUVAR     ,MAXFUNC  ,NFUNC    ,IFUNC,
-     .                          UNITAB   ,MAT_ID    ,TITR     ,LSUBMODEL)
+     .                          UNITAB   ,MAT_ID    ,TITR     ,LSUBMODEL,MATPARAM )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -60,6 +60,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,6 +83,7 @@ C-----------------------------------------------
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)
       TYPE(MLAW_TAG_), INTENT(INOUT)  :: MTAG
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -198,6 +200,12 @@ C----------------
 c
       MTAG%L_EPE  = 3
       MTAG%L_DMG  = 1
+c
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+c 
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_COHESIVE")
 c-------------------
 c     STARTER Output
 c-------------------

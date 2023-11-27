@@ -37,7 +37,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT37(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
      .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
      .                         UNITAB ,ID       ,TITR     ,MTAG     , LSUBMODEL,
-     .                         PM     ,STIFINT  ,MAT_ID)
+     .                         PM     ,STIFINT  ,MAT_ID   ,MATPARAM )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -92,6 +92,7 @@ C-----------------------------------------------
       my_real,INTENT(INOUT)           :: STIFINT
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(NSUBMOD)
       INTEGER,INTENT(IN)              :: MAT_ID
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -220,6 +221,12 @@ C-----------------------------------------------
       NFUNC      = 1
       NUVAR      = 5
       STIFINT    = C1
+
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_POROUS")     
 
       !--------------------------------!
       !     PRINTOUT                   !

@@ -136,7 +136,64 @@ c
 c
         CASE ("ANISOTROPIC")      
           MATPARAM%ORTHOTROPY = 3
-
+c
+        CASE ("SOLID_ISOTROPIC")   ! Compatibility with /PROP/TYPE 6/14/20/21/22
+          MATPARAM%PROP_SOLID = 1          
+c
+        CASE ("SOLID_ORTHOTROPIC") ! Compatibility with /PROP/TYPE 6/21/22
+          MATPARAM%PROP_SOLID = 2  
+c
+        CASE ("SOLID_COMPOSITE")   ! Compatibility with /PROP/TYPE 22
+          MATPARAM%PROP_SOLID = 3
+c
+        CASE ("SOLID_COHESIVE")    ! Compatibility with /PROP/TYPE 43
+          MATPARAM%PROP_SOLID = 4
+c
+        CASE ("SOLID_POROUS")      ! Compatibility with /PROP/TYPE 14/15
+          MATPARAM%PROP_SOLID = 5
+c 
+        CASE ("SOLID_ALL")         ! Compatibility with /PROP/TYPE 6/14/20/21/22/43
+          MATPARAM%PROP_SOLID = 6     
+c
+        CASE ("SHELL_ISOTROPIC")   ! Compatibility with /PROP/TYPE 1/9/10/11/17/19/51/52
+          MATPARAM%PROP_SHELL = 1          
+c
+        CASE ("SHELL_ORTHOTROPIC") ! Compatibility with /PROP/TYPE 9/10/11/17/19/51/52
+          MATPARAM%PROP_SHELL = 2  
+c
+        CASE ("SHELL_COMPOSITE")   ! Compatibility with /PROP/TYPE 10/11/17/19/51/52
+          MATPARAM%PROP_SHELL = 3
+c
+        CASE ("SHELL_ANISOTROPIC") ! Compatibility with /PROP/TYPE 10/11/16/17/19/51/52
+          MATPARAM%PROP_SHELL = 4
+c
+        CASE ("SHELL_ALL")         ! Compatibility with /PROP/TYPE 1/9/10/11/16/17/19/51/52
+          MATPARAM%PROP_SHELL = 5          
+c
+        CASE ("BEAM_CLASSIC")      ! Compatibility with /PROP/TYPE 3
+          MATPARAM%PROP_BEAM = 1          
+c
+        CASE ("BEAM_INTEGRATED")   ! Compatibility with /PROP/TYPE 18
+          MATPARAM%PROP_BEAM = 2  
+c
+        CASE ("BEAM_ALL")          ! Compatibility with /PROP/TYPE 3/18
+          MATPARAM%PROP_BEAM = 3
+c
+        CASE ("SPRING_PREDIT")     ! Compatibility with /PROP/TYPE 36
+          MATPARAM%PROP_SPRING = 1          
+c
+        CASE ("SPRING_MATERIAL")   ! Compatibility with /PROP/TYPE 23
+          MATPARAM%PROP_SPRING = 2  
+c
+        CASE ("SPRING_ALL")        ! Compatibility with /PROP/TYPE 23/36
+          MATPARAM%PROP_SPRING = 3   
+c
+        CASE ("TRUSS")             ! Compatibility with /PROP/TYPE 2
+          MATPARAM%PROP_TRUSS = 1 
+c
+        CASE ("SPH")               ! Compatibility with /PROP/TYPE 34
+          MATPARAM%PROP_SPH = 1         
+c
         CASE DEFAULT      
           ! write error : keyword not recognized"
 c---

@@ -36,7 +36,8 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT75(UPARAM , MAXUPARAM, NUPARAM,
      .                         NUVAR  , IFUNC,     MAXFUNC, NFUNC, PARMAT,
-     .                         UNITAB , MAT_ID,    TITR,    MTAG,  LSUBMODEL, PM)
+     .                         UNITAB , MAT_ID,    TITR,    MTAG,  LSUBMODEL,
+     .                         PM     , MATPARAM)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -70,6 +71,7 @@ C-----------------------------------------------
       CHARACTER*nchartitle,INTENT(IN)       :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(*)
       TYPE(MLAW_TAG_), INTENT(INOUT)   :: MTAG
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -134,6 +136,14 @@ C
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
       PARMAT(17) = (ONE - TWO*NU)/(ONE - NU) ! ==TWO*G/(BULK+sFOUR_OVER_3*G)
+C
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+C
+      ! Properties compatibility  
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")  
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")       
+C 
 C----------------------
       WRITE(IOUT, 900) TRIM(TITR),MAT_ID,75
       WRITE(IOUT,1000)

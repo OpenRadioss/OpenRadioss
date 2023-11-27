@@ -38,7 +38,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT78(UPARAM   ,MAXUPARAM,NUPARAM  ,ISRATE   ,IMATVIS  ,
      .                         NUVAR    ,IFUNC    ,MAXFUNC  ,NFUNC    ,PARMAT   , 
      .                         UNITAB   ,MAT_ID   ,TITR     ,MTAG     ,LSUBMODEL,
-     .                         PM       ,NVARTMP)
+     .                         PM       ,NVARTMP  ,MATPARAM )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -74,6 +74,7 @@ C-----------------------------------------------
       my_real  ,DIMENSION(MAXUPARAM)    ,INTENT(INOUT) :: UPARAM
       INTEGER         ,INTENT(INOUT)     :: NFUNC,NUVAR,NVARTMP,NUPARAM,ISRATE,IMATVIS
       TYPE(MLAW_TAG_) ,INTENT(INOUT)   :: MTAG
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -239,6 +240,14 @@ c------------------------------
       MTAG%L_SIGC = 6
       MTAG%G_SEQ  = 1
       MTAG%L_SEQ  = 1
+c------------------------------        
+      ! MATPARAM keywords     
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")
+C
+      ! Properties compatibility  
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")  
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ORTHOTROPIC")  
 c------------------------------             
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'

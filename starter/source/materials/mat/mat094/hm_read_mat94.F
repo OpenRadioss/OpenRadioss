@@ -189,6 +189,8 @@ c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
       CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
 c-----------------
       !========== OUTPUT =============!
       

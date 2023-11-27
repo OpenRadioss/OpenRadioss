@@ -36,7 +36,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT21(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM  ,PM,
-     .           MAT_ID    ,TITR     )
+     .           MAT_ID    ,TITR     ,MATPARAM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE MATPARAM_DEF_MOD          
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -75,6 +76,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)   :: PM
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT)        :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -247,6 +249,15 @@ c
 c
       MTAG%L_PLA   = 1     ! /TH(VPLA)
       MTAG%L_EPSQ  = 1     ! /TH(EPSP)
+c
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
+c
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")
+c
 c-------------------
       RETURN
 c-------------------

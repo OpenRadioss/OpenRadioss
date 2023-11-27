@@ -35,7 +35,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT34(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
      .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
-     .                         PM     )
+     .                         PM     ,MATPARAM )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -84,6 +84,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)              :: MAT_ID
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -146,7 +147,17 @@ C     Formulation for solid elements time step computation.
       PM(89) = RHO0
       PM(12) = SQRT(MAX(ZERO, G0)) !done by default in lecmuser.F for law34
       PM(22) = G0
-      PM(27) = SQRT(YOUNG/RHO0)  ! Sound speed      
+      PM(27) = SQRT(YOUNG/RHO0)  ! Sound speed   
+c
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+c
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")   
+      CALL INIT_MAT_KEYWORD(MATPARAM,"TRUSS")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"BEAM_INTEGRATED")
 c
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,34
       WRITE(IOUT,1000)

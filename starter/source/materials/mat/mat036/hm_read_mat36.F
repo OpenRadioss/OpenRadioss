@@ -42,7 +42,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT36(UPARAM   ,MAXUPARAM,NUPARAM   ,NUVAR    ,NVARTMP  ,
      .                         IFUNC    ,MAXFUNC  ,MFUNC     ,PARMAT   ,UNITAB   ,
      .                         ID       ,MTAG     ,TITR      ,LSUBMODEL,PM       ,
-     .                         ISRATE   )                     
+     .                         ISRATE   ,MATPARAM )                     
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -92,6 +92,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)              :: ID,MAXFUNC,MAXUPARAM
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -363,7 +364,12 @@ C-----------------------
       IF (FISOKIN /= ZERO) THEN
         MTAG%L_SIGB = 6
       ENDIF
-
+C-----------------------  
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")   
+      CALL INIT_MAT_KEYWORD(MATPARAM,"BEAM_INTEGRATED")    
 C-----------------------      
       WRITE(IOUT,1001) TRIM(TITR),ID,36  
       WRITE(IOUT,1000)   

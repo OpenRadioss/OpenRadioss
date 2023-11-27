@@ -38,7 +38,7 @@ Chd|====================================================================
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,NUVAR    ,IFUNC    ,
      .           MAXFUNC  ,NFUNC     ,PARMAT   ,IMATVIS  ,IFORM    ,
      .           UNITAB   ,ID        ,TITR     ,LSUBMODEL,MTAG     ,
-     .           PM       ,IPM       ,ISRATE) 
+     .           PM       ,IPM       ,ISRATE   ,MATPARAM ) 
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -86,7 +86,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(MAXFUNC), INTENT(INOUT) :: IFUNC
       my_real, DIMENSION(MAXUPARAM), INTENT(INOUT) :: UPARAM
       my_real, INTENT(INOUT) :: PARMAT(*)
-      TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
+      TYPE(MLAW_TAG_),INTENT(INOUT) :: MTAG
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -225,6 +226,14 @@ c
 c
       MTAG%L_EPSD  = 1   
       MTAG%L_PLA   = 1   
+c 
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
+c
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")      
+c
 c-------------------
       RETURN
 c-------------------

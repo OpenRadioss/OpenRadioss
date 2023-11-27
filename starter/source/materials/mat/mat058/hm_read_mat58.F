@@ -321,6 +321,9 @@ c--------------------------
       PM(23) = YOUNG
 c--------------------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"ANISOTROPIC")
+c
+      ! Properties compatibility       
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ANISOTROPIC") 
 c--------------------------
       MTAG%L_ANG  = 1
 c--------------------------------------------------

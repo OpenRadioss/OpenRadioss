@@ -38,7 +38,7 @@ Chd|====================================================================
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
      .           MTAG     ,PARMAT   ,UNITAB   ,PM       ,LSUBMODEL,
      .           ISRATE   ,MAT_ID   ,TITR     ,IFUNC    ,MAXFUNC  ,
-     .           NVARTMP  )
+     .           NVARTMP  ,MATPARAM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
+      USE MATPARAM_DEF_MOD          
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -81,6 +82,7 @@ C-----------------------------------------------
       my_real, DIMENSION(100),INTENT(INOUT) :: PARMAT
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT) :: MTAG
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -268,6 +270,13 @@ c-----------------
       IF (FISOKIN > ZERO) THEN 
         MTAG%L_SIGB  = 3
       ENDIF
+C
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC")  
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC") 
+      CALL INIT_MAT_KEYWORD(MATPARAM,"BEAM_ALL")   
+      CALL INIT_MAT_KEYWORD(MATPARAM,"TRUSS")         
+C
 c-----------------
       WRITE(IOUT,1000) TRIM(TITR),MAT_ID,44
       WRITE(IOUT,1100)

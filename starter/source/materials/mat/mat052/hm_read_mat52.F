@@ -39,7 +39,7 @@ Chd|====================================================================
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,MFUNC    ,
      .           MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
      .           PM       ,LSUBMODEL,ISRAT    ,MAT_ID   ,TITR     ,
-     .           ITABLE   ,MAXTABL  ,NTABLE)
+     .           ITABLE   ,MAXTABL  ,NTABLE   ,MATPARAM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -83,6 +84,7 @@ C-----------------------------------------------
       my_real, DIMENSION(100),INTENT(INOUT) :: PARMAT
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT) :: MTAG
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -212,6 +214,12 @@ C     Formulation for solid elements time step computation.
       
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
+C 
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+      ! Properties compatibility 
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC")        
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")        
 C          
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,52
       WRITE(IOUT,1000)

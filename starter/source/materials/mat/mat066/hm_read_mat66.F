@@ -41,7 +41,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT66(UPARAM   ,MAXUPARAM,NUPARAM   ,NUVAR  ,IFUNC    , 
      .                         MAXFUNC  ,MFUNC    , PARMAT   ,UNITAB ,ID       , 
-     .                         MTAG     ,TITR     , LSUBMODEL,PM     )                     
+     .                         MTAG     ,TITR     , LSUBMODEL,PM     ,MATPARAM )                     
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -90,6 +90,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)              :: ID,MAXFUNC,MAXUPARAM
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -319,6 +320,11 @@ C-----------------------
       MTAG%L_EPSD = 1
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
+C-----------------------      
+      ! Properties compatibility  
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC") 
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH") 
 C ----------------      
 C
       WRITE(IOUT,1001) TRIM(TITR),ID,ILAW 

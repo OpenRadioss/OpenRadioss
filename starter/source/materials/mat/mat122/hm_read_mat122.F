@@ -475,6 +475,10 @@ c
       CALL INIT_MAT_KEYWORD(MATPARAM ,"HOOK")
       CALL INIT_MAT_KEYWORD(MATPARAM ,"ORTHOTROPIC")
 c
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ORTHOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ORTHOTROPIC")
+c
 c--------------------------
 c     Parameters printout
 c-------------------------- 

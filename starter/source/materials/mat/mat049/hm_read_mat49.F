@@ -34,14 +34,15 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT49(
-     .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM    ,PM,
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE )
+     .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM    ,PM       ,
+     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE ,MATPARAM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE MATPARAM_DEF_MOD          
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -78,6 +79,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG
       TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG   
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -203,6 +205,14 @@ C-----------
 C     Formulation for solid elements time step computation.
       IPM(252)= 2
       PM(105) = TWO*G0/(BULK+FOUR_OVER_3*G0) ! =(1-2*Nu)/(1-Nu)
+C
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
+c
+      ! Properties compatibility 
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")    
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")         
 C
       WRITE(IOUT,1000)          
       IF(IS_ENCRYPTED)THEN

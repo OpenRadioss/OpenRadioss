@@ -37,7 +37,9 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT151(MTAG, PM, IPM, ID, TITR, MULTI_FVM,UNITAB,LSUBMODEL)
+      SUBROUTINE HM_READ_MAT151(
+     .  MTAG     ,PM       ,IPM      ,ID       ,TITR     ,MULTI_FVM,UNITAB   ,
+     .  LSUBMODEL,MATPARAM )
 C     ..... FOR DEMO  ......
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -61,6 +63,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD 
       USE INIVOL_DEF_MOD
       USE INIVOL_ARRAY_MOD   
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,6 +86,7 @@ C-----------------------------------------------
       TYPE(MLAW_TAG_),INTENT(INOUT) :: MTAG      
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -140,6 +144,13 @@ C     Reading submaterial IDS and corresponding volumic fractions
       MTAG%L_DELTAX = 1
       MTAG%G_RHO = 1
       MTAG%L_RHO = 1
+
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
+
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
 
       WRITE(IOUT,1000) NBMAT
       DO II = 1, NBMAT

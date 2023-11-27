@@ -248,6 +248,11 @@ c-----------------
      &                 A,B,C,P0,PHI,GAMA0          
           ENDIF                                       
       END SELECT 
+c
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")
+c       
       RETURN
 C              12345678901234567890123456789012345678901
  1000 FORMAT

@@ -290,6 +290,8 @@ c----------------
         CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
       ENDIF
       CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+      ! Properties compatibility  
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
 c--------------------------------------------------
 c     Starter output
 c--------------------------------------------------

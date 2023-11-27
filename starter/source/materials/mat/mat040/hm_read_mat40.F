@@ -181,6 +181,9 @@ c-----------------
         CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
       END IF
       CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")  
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")  
 c-----------------
       WRITE(IOUT, 800) TRIM(TITR), MAT_ID, 40
       WRITE(IOUT,1000)

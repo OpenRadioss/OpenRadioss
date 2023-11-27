@@ -38,7 +38,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT60(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
      .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
-     .                         PM     ,IPM      )
+     .                         PM     ,IPM      ,MATPARAM )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -84,6 +84,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)                    :: MAT_ID
       CHARACTER*nchartitle,INTENT(IN)       :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(NSUBMOD)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -333,6 +334,10 @@ C     Formulation for solid elements time step computation.
       PARMAT(17) = TWO*G/(C1+FOUR_OVER_3*G) ! == (1-2*nu)/(1-nu)
 C
       NUVAR = 5 + MFUNC 
+c
+      ! Properties compatibility       
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC") 
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC") 
 C
        !---LISTING OUTPUT---!      
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,60

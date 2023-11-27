@@ -243,6 +243,9 @@ c---------------------------
       CALL INIT_MAT_KEYWORD(MATPARAM ,"INCREMENTAL"   )
       CALL INIT_MAT_KEYWORD(MATPARAM ,"LARGE_STRAIN"  )
       CALL INIT_MAT_KEYWORD(MATPARAM ,"HOOK")
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC")
 c---------------------------    
       PARMAT(1) = C1
       PARMAT(2) = YOUNG

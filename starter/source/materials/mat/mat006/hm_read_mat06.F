@@ -36,7 +36,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT06(
      .           LSUBMODEL ,MTAG6    ,UNITAB   ,IPM     ,PM,
      .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE,
-     .           ITYP      ,MTAG17)
+     .           ITYP      ,MTAG17   ,MATPARAM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD !MAXEOS
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -78,7 +79,8 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG6,MTAG17
       TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG  
-      INTEGER,INTENT(IN)                           :: ITYP    
+      INTEGER,INTENT(IN)                           :: ITYP 
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT)         :: MATPARAM   
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -162,6 +164,14 @@ C-----------------------------------------------
       PM(104)=C0 - PSH
       
       IPM(04)=IEOS
+
+      ! EOS/Thermo keyword
+      CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
+
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_POROUS")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")
 C-----
 
       WRITE(IOUT,2001) TRIM(TITR),MAT_ID,6   

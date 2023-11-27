@@ -37,7 +37,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT11(LSUBMODEL, MTAG, UNITAB, IPM, PM, 
-     .     MAT_ID, TITR)
+     .     MAT_ID, TITR ,MATPARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE ALE_MOD
+      USE MATPARAM_DEF_MOD 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,6 +67,7 @@ C-----------------------------------------------
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG
       INTEGER, DIMENSION(NPROPMI) ,INTENT(INOUT)   :: IPM
       my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)   :: PM
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT)         :: MATPARAM
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -294,7 +296,14 @@ C----------------------
       MTAG%L_TEMP  = 1   ! NB11 
       MTAG%L_RE    = 1   ! NB12   
       MTAG%L_VK    = 1   ! NB13   
-      MTAG%L_EINS  = 1   ! NB14   
+      MTAG%L_EINS  = 1   ! NB14  
+      
+      ! EOS/Thermo keyword
+      CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
+
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
 C--------------------------------
       RETURN
       

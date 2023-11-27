@@ -242,7 +242,11 @@ c---------------------------
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
 c
-      CALL INIT_MAT_KEYWORD(MATPARAM ,"ELASTO_PLASTIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")
 C------------------------------------------------- 
 C     LISTING OUTPUT 
 C------------------------------------------------- 

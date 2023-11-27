@@ -36,7 +36,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT24(
      .           NUPARAM  ,NUVAR    ,NFUNC    ,IPM      ,PM       ,
      .           MTAG     ,MAT_ID   ,TITR     ,UNITAB   ,LSUBMODEL,
-     .           ISRATE   )
+     .           ISRATE   ,MATPARAM ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
+      USE MATPARAM_DEF_MOD          
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -77,6 +78,7 @@ C-----------------------------------------------
       CHARACTER(nchartitle) ,INTENT(IN)            :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT) :: MTAG
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -314,7 +316,16 @@ c
       MTAG%L_SIGC  = 6     
       MTAG%L_DGLO  = 6     
       MTAG%L_RK    = 1     ! K 
-      MTAG%L_EPE   = 1     ! EPSP VOL        
+      MTAG%L_EPE   = 1     ! EPSP VOL  
+c
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+c
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH") 
+c            
 c-----------------
       WRITE(IOUT,1100) TRIM(TITR),MAT_ID,24
       WRITE(IOUT,1000)

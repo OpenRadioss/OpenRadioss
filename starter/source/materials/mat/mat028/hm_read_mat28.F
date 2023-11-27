@@ -200,7 +200,15 @@ CCC     Formulation for solid elements time step computation.
       
       MTAG%G_PLA = 1
       MTAG%L_PLA = 1
-      
+c
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")
+c
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ORTHOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")
+c          
       IF(RHOR==ZERO)RHOR=RHO0
       PM(01)=RHOR
       PM(89)=RHO0      

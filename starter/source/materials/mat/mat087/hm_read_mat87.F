@@ -39,9 +39,10 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matp
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT87(UPARAM   ,MAXUPARAM,NUPARAM,ISRATE ,NUVAR  , 
-     .                         NFUNC ,MAXFUNC ,IFUNC    ,MTAG    ,PARMAT , 
-     .                         UNITAB,PM      ,LSUBMODEL, ID     ,TITR      )                     
+      SUBROUTINE HM_READ_MAT87(UPARAM   ,MAXUPARAM,NUPARAM  ,ISRATE ,NUVAR     , 
+     .                         NFUNC    ,MAXFUNC  ,IFUNC    ,MTAG   ,PARMAT    , 
+     .                         UNITAB   ,PM       ,LSUBMODEL,ID     ,TITR      ,
+     .                         MATPARAM )                    
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -91,6 +92,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)              :: ID,MAXFUNC,MAXUPARAM
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -461,6 +463,11 @@ c-------------------------------------------------------------
       IF ( FISOKIN/= ZERO) THEN
          MTAG%L_SIGB = 12
       ENDIF
+c-------------------------------------------------------------
+      ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")
+      ! Properties compatibility
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ORTHOTROPIC")
 c-------------------------------------------------------------
       WRITE(IOUT,1001) TRIM(TITR),ID,87
       WRITE(IOUT,1000)
