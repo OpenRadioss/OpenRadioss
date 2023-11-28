@@ -29,7 +29,8 @@ Chd|        FUNC_SLOPE                    source/tools/curve/func_slope.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE LAW90_UPD(IOUT,TITR,MAT_ID,UPARAM,IPM, FUNC_ID,NPC,PLD,PM)
+      SUBROUTINE LAW90_UPD(IOUT,TITR,MAT_ID,UPARAM,IPM, FUNC_ID,NPC,PLD,PM,
+     .                     NFUNCT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -48,8 +49,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*nchartitle  :: TITR
+      INTEGER ,INTENT(IN) :: NFUNCT
       INTEGER MAT_ID,IOUT,ID_F1,ID_F2
-      INTEGER NPC(*), FUNC_ID(*), IPM(NPROPMI)
+      INTEGER NPC(*), FUNC_ID(NFUNCT), IPM(NPROPMI)
       my_real 
      .         UPARAM(*),PLD(*),PM(NPROPM)
 !      TYPE(TTABLE) TABLE(*)

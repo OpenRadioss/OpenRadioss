@@ -59,13 +59,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*nchartitle  :: TITR
       INTEGER MAT_ID,IOUT,NFUNC,NFUNL,NUPARAM,NPTS
-      INTEGER NPC(SNPC), FUNC_ID(*),IFUNC(NFUNC+NFUNL)
+      INTEGER NPC(SNPC), FUNC_ID(NFUNCT),IFUNC(NFUNC+NFUNL)
       my_real UPARAM(NUPARAM),PLD(STF),PM(NPROPM)
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,FUNC,FUND,UNLOAD,PN,IOK,ISENS,SENS_ID,TEST
+      INTEGER I,K,FUNC,FUND,UNLOAD,PN,IOK,ISENS,SENS_ID
       my_real KC,KT,KCMAX,KTMAX,KFC,KFT,GMAX,DERI,STIFF,STIFFMIN,STIFFINI,
      .  STIFFMAX,STIFFAVG,XINT1,YINT1,XINT2,YINT2,FAC,FAC1,FAC2,GFROT,GSH
 C=======================================================================

@@ -35,7 +35,7 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE LAW87_UPD(IOUT, TITR,MAT_ID,UPARAM,NFUNC, 
+      SUBROUTINE LAW87_UPD(IOUT, TITR,MAT_ID,UPARAM,NFUNC,NFUNCT,
      .                        IFUNC, FUNC_ID , NPC   , PLD , PM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -55,12 +55,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*nchartitle  :: TITR
-      INTEGER MAT_ID,IOUT, NFUNC
-      INTEGER NPC(*), FUNC_ID(*) 
-      my_real 
-     .         FINTER,UPARAM(*),PLD(*),PM(NPROPM)
+      INTEGER MAT_ID,IOUT
+      INTEGER ,INTENT(IN) :: NFUNCT
+      INTEGER ,INTENT(INOUT) :: NFUNC
+      INTEGER, DIMENSION(NFUNC) :: IFUNC
+      INTEGER, DIMENSION(NFUNCT):: FUNC_ID
+      INTEGER NPC(*)
+      my_real :: FINTER,UPARAM(*),PLD(*),PM(NPROPM)
       EXTERNAL FINTER
-      INTEGER, DIMENSION(NFUNC):: IFUNC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

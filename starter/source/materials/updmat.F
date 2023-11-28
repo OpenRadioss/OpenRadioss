@@ -92,7 +92,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(SNPC), FUNC_ID(*)
+      INTEGER NPC(SNPC), FUNC_ID(NFUNCT)
       INTEGER, DIMENSION(NPROPMI,NUMMAT) ,INTENT(INOUT) :: IPM
       my_real PM(NPROPM,NUMMAT), PLD(STF),BUFMAT(SBUFMAT)
       TARGET IPM,BUFMAT
@@ -223,8 +223,8 @@ c-------------------------
 c------------------
            MTAG => MLAW_TAG(IMAT)
            CALL LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,NPARAM,UPARAM ,
-     .                     NFUNC  ,IFUNC  ,FUNC_ID,NPC    ,PLD  ,
-     .                     MTAG  )        
+     .                    NFUNC  ,IFUNC  ,FUNC_ID,NPC    ,PLD  ,
+     .                    MTAG   ,NFUNCT )        
 c-------------------------
           CASE (42) 
 c------------------
@@ -245,7 +245,7 @@ c------------------
 c------------------
           CASE (69) 
 c------------------
-           CALL LAW69_UPD(IOUT, TITR    , MAT_ID, UPARAM, NFUNC, 
+           CALL LAW69_UPD(IOUT, TITR    , MAT_ID, UPARAM, NFUNC,NFUNCT, 
      .                    IFUNC, FUNC_ID , NPC   , PLD , 
      .                    PM(1,IMAT),IPM(1,IMAT),GAMA_INF)
 c          
@@ -277,7 +277,7 @@ c------------------
             NFUNC = UPARAM(25)
             FLAG_FIT = NINT ( UPARAM(25+2*NFUNC+9) )
             IF (FLAG_FIT == 1) THEN 
-              CALL LAW87_UPD(IOUT,TITR,MAT_ID   ,UPARAM,NFUNC  ,
+              CALL LAW87_UPD(IOUT,TITR,MAT_ID   ,UPARAM,NFUNC  ,NFUNCT,
      .                       IFUNC,FUNC_ID,NPC,PLD,PM(1,IMAT))
             ENDIF
 c-------------------------
@@ -285,13 +285,15 @@ c-------------------------
 c------------------
 c
             CALL LAW88_UPD(IOUT,TITR,UPARAM,NPC,PLD,
-     .                     NFUNC,IFUNC,MAT_ID,FUNC_ID,PM(1,IMAT))
+     .                     NFUNC,IFUNC,MAT_ID,FUNC_ID,PM(1,IMAT),
+     .                     NFUNCT )
 c------------------
           CASE (90) 
 c------------------
 c
             CALL LAW90_UPD(IOUT,TITR,MAT_ID   ,UPARAM,
-     .                     IPM(1,IMAT),FUNC_ID,NPC,PLD,PM(1,IMAT))
+     .                     IPM(1,IMAT),FUNC_ID,NPC,PLD,PM(1,IMAT),
+     .                     NFUNCT)
 c------------------
           CASE (92) ! Arruda-Boyce hyperelastic law
 c------------------
@@ -299,7 +301,7 @@ c
             UPARAM(13) = MULLINS(IMAT)
             IFC = IPM(11,IMAT)
             IF (IFC > 0) THEN
-              CALL LAW92_UPD(IOUT  ,TITR    ,MAT_ID ,UPARAM ,NFUNC     , 
+              CALL LAW92_UPD(IOUT  ,TITR    ,MAT_ID ,UPARAM ,NFUNC ,NFUNCT, 
      .                 IFUNC ,FUNC_ID ,NPC    ,PLD   ,PM(1,IMAT),IPM(1,IMAT))
             ENDIF
 c------------------
