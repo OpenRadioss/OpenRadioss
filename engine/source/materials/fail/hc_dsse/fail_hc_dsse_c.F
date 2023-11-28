@@ -135,7 +135,7 @@ c---------------------------
          PTHKF = P_THICKFAIL
        ELSEIF (IFAIL_SH == 1) THEN
          PTHKF = EM06
-       ELSEIF (IFAIL_SH == 2) THEN
+       ELSEIF (IFAIL_SH == 2 .OR. IFAIL_SH == 3) THEN
          PTHKF = ONE - EM06
        ENDIF
 c-----------------------------
@@ -206,7 +206,7 @@ C-----------------------------------------------
              
            DAM1     = DAM1 + DPLA(I)/MAX(EM6,EPSF)
            DFMAX(I) = MIN(ONE,DAM1)
-           IF (DAM1 >= ONE) THEN                    ! failure of integrateion points
+           IF ((DAM1 >= ONE).AND.(IFAIL_SH < 3)) THEN                    ! failure of integrateion points
              NINDX = NINDX + 1
              INDX(NINDX) = I  
              FOFF(I) = 0
@@ -215,7 +215,7 @@ C-----------------------------------------------
              CONDITION1(NINDX) = IPT
            ENDIF
            
-           IF (DAM2 >= ONE .AND. UVAR(I,1) == ZERO .AND. FOFF(I) == 1)THEN  
+           IF (DAM2 >= ONE .AND. UVAR(I,1) == ZERO .AND. FOFF(I) == 1 .AND. IFAIL_SH < 3)THEN  
              UVAR(I,1) = ONE           
              UEL(I) = UEL(I) + ONE
              IF (INT(UEL(I)+1e-6) == NPTOT) THEN   ! rupture due localized necking !!!

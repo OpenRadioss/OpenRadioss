@@ -2522,6 +2522,7 @@ CARD2
 C=======================================================================
       IF (NFRAC  == ZERO) NFRAC  = ONE
       IF (ISHELL == 0)    ISHELL = 1
+      ISHELL = MIN(ISHELL,3)
       IF (P_THICKFAIL == ZERO) P_THICKFAIL = ONE - EM06
       P_THICKFAIL = MIN(P_THICKFAIL, ONE)
       P_THICKFAIL = MAX(P_THICKFAIL,-ONE)
@@ -2578,55 +2579,51 @@ C=============================================
       ENDIF
 
 C--------------------------------------------------
-      IF(IS_ENCRYPTED)THEN
-        WRITE(IOUT, 1000)
+      IF (IS_ENCRYPTED) THEN
+        WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE       
+        WRITE(IOUT,1000)
         IF (IFLAG == 0) THEN 
-          WRITE(IOUT, 1001)AFRAC,BFRAC,CFRAC,INST,NFRAC      
-          WRITE(IOUT, 1300)
-          WRITE(IOUT, 1200)
-          WRITE(IOUT, 1100)P_THICKFAIL
+          WRITE(IOUT,1001) AFRAC,BFRAC,CFRAC,INST,NFRAC
         ELSE
-          WRITE(IOUT, 1050)AFRAC,BFRAC,CFRAC,AFRAC2,BFRAC2,CFRAC2,INST2,NFRAC,INST       
-          WRITE(IOUT, 1200)
-          WRITE(IOUT, 1100)P_THICKFAIL
-        ENDIF       
+          WRITE(IOUT,1050) AFRAC,BFRAC,CFRAC,AFRAC2,BFRAC2,CFRAC2,INST2,NFRAC,INST
+        ENDIF  
+        WRITE(IOUT,1100) ISHELL,P_THICKFAIL     
       ENDIF          
 C--------------------------------------------------
       RETURN
  1000 FORMAT(
-     & 5X,40H    CRYPTED DATA IN FAILURE MODEL             /,
-     & 5X,40H    -----------------------------             /)
+     & 5X,'-----------------------------------------------',/,
+     & 5X,'            HC-DSSE FAILURE MODEL              ',/,
+     & 5X,'-----------------------------------------------',/)
  1001 FORMAT(
-     & 5X,40H    HC-DSSE FAILURE CRITERIA                  /,
-     & 5X,40H    ------------------------                  /,
-     & 5X,' CLASSIC INPUT METHOD:',/
-     & 5X,' COEFFICIENT A ....... =',1PG20.13,/
-     & 5X,' COEFFICIENT B ....... =',1PG20.13,/
-     & 5X,' COEFFICIENT C ....... =',1PG20.13,/
-     & 5X,' COEFFICIENT D ....... =',1PG20.13,/
-     & 5X,' COEFFICIENT Nf....... =',1PG20.13,/)
+     & 5X,'CLASSIC INPUT METHOD:',/
+     & 5X,'COEFFICIENT A. . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'COEFFICIENT B. . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'COEFFICIENT C. . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'COEFFICIENT D. . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'COEFFICIENT Nf . . . . . . . . . . . . . . . .=',1PG20.13,/)
  1050 FORMAT(
-     & 5X,40H    HC-DSSE FAILURE CRITERIA                  /,
-     & 5X,40H    ------------------------                  /,
-     & 5X,' PHYSICAL INPUT METHOD:',/
-     & 5X,' SHEAR FAILURE STRAIN................... =',1PG20.13,/
-     & 5X,' UNIAXIAL TENSION FAILURE STRAIN ....... =',1PG20.13,/
-     & 5X,' PLAINSTRAIN TENSION FAILURE STRAIN..... =',1PG20.13,/
-     & 5X,' COEFFICIENT A ........... =',1PG20.13,/
-     & 5X,' COEFFICIENT B ........... =',1PG20.13,/
-     & 5X,' COEFFICIENT C ........... =',1PG20.13,/
-     & 5X,' COEFFICIENT D ........... =',1PG20.13,/
-     & 5X,' COEFFICIENT Nf........... =',1PG20.13,/
-     & 5X,' DSSE INSTABILITY STRAIN.. =',1PG20.13,/)
+     & 5X,'PHYSICAL INPUT METHOD:',/
+     & 5X,'SHEAR FAILURE STRAIN . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'UNIAXIAL TENSION FAILURE STRAIN. . . . . . . .=',1PG20.13,/
+     & 5X,'PLAINSTRAIN TENSION FAILURE STRAIN . . . . . .=',1PG20.13,/
+     & 5X,'COEFFICIENT A. . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'COEFFICIENT B. . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'COEFFICIENT C. . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'COEFFICIENT D. . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'COEFFICIENT Nf . . . . . . . . . . . . . . . .=',1PG20.13,/
+     & 5X,'DSSE INSTABILITY STRAIN. . . . . . . . . . . .=',1PG20.13,/)
  1100 FORMAT(
-     & 5X,'PARAMETER PTHICKFAIL . . . . . . . . . . . . . . .=',1PG20.13,/,
-     & 5X,'  > 0.0 : FRACTION OF FAILED THICKNESS             ',/,
-     & 5X,'  < 0.0 : FRACTION OF FAILED INTG. POINTS OR LAYERS',/)
- 1200 FORMAT(
-     & 5X,' SHELL ELEMENT DELETION ')
- 1300 FORMAT(
-     & 5X,' CLASSIC INPUT METHOD ')
+     & 5X,'SHELL ELEMENT DELETION PARAMETERS:                  ',/, 
+     & 5X,'FAILURE FLAG IFAIL_SH. . . . . . . . . . . . .=',I3,/
+     & 5X,'  = 1: ONE INTG. PT. FAILURE PRIOR TO SHELL DELETION',/,
+     & 5X,'  = 2: ALL INTG. PT. FAILURE PRIOR TO SHELL DELETION',/, 
+     & 5X,'       (OR PTHICKFAIL IF DEFINED)                   ',/,
+     & 5X,'  = 3: NO ELEMENT DELETION                          ',/,
+     & 5X,'PARAMETER PTHICKFAIL . . . . . . . . . . . . .=',1PG20.13,/,
+     & 5X,'  > 0.0 : FRACTION OF FAILED THICKNESS              ',/,
+     & 5X,'  < 0.0 : FRACTION OF FAILED INTG. POINTS OR LAYERS ',/)
 
       END
       
