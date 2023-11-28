@@ -33,7 +33,7 @@ Chd|        LAW69_NLSQF_AUTO              source/materials/tools/law69_nlsqf_aut
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE LAW69_UPD(IOUT,TITR    ,MAT_ID,UPARAM,NFUNC,
+      SUBROUTINE LAW69_UPD(IOUT,TITR    ,MAT_ID,UPARAM,NFUNC,NFUNCT,
      .                      IFUNC, FUNC_ID,NPC   ,PLD   ,PM,IPM, GAMA_INF)
 C-----------------------------------------------
 C   M o d u l e s
@@ -53,8 +53,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*nchartitle  :: TITR
-      INTEGER MAT_ID,IOUT, NFUNC
-      INTEGER NPC(*), FUNC_ID(*) ,IPM(NPROPMI)
+      INTEGER MAT_ID,IOUT
+      INTEGER ,INTENT(IN) :: NFUNC
+      INTEGER ,INTENT(IN) :: NFUNCT
+      INTEGER NPC(*), FUNC_ID(NFUNCT) ,IPM(NPROPMI)
       my_real 
      .         UPARAM(*),PLD(*),PM(NPROPM)
       my_real , INTENT(IN)    ::  GAMA_INF

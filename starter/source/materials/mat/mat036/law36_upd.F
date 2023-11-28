@@ -33,7 +33,7 @@ Chd|        TABLE_MOD                     share/modules1/table_mod.F
 Chd|====================================================================
       SUBROUTINE LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,NUPARAM,UPARAM ,
      .                     NFUNC  ,IFUNC  ,FUNC_ID,NPC    ,PLD    ,
-     .                     MTAG   )
+     .                     MTAG   ,NFUNCT )
 C----------------------------------------------- 
 C   M o d u l e s
 C-----------------------------------------------
@@ -51,8 +51,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT_ID,IOUT,NUPARAM,NFUNC
-      INTEGER, DIMENSION(NFUNC) :: IFUNC, FUNC_ID
+      INTEGER ,INTENT(IN) :: MAT_ID,IOUT,NUPARAM
+      INTEGER ,INTENT(IN) :: NFUNC    ! number of functions defined in the law
+      INTEGER ,INTENT(IN) :: NFUNCT   ! total number of functions in the system
+      INTEGER, DIMENSION(NFUNC)  :: IFUNC
+      INTEGER, DIMENSION(NFUNCT) :: FUNC_ID
       INTEGER NPC(*)
       my_real UPARAM(NUPARAM),PLD(*)
       CHARACTER*nchartitle  :: TITR
@@ -114,10 +117,10 @@ c-----------------------------------------------------------------------
 c     Check if yield curves for different strain rates do not intersect
 c-----------------------------------------------------------------------
       DO I = 1,NRATE
+        FUNC1 = IFUNC(I)
+        FAC1  = UPARAM(NRATE + 6 + I)
         DO J = I+1,NRATE
-          FUNC1 = IFUNC(I)
           FUNC2 = IFUNC(J)
-          FAC1  = UPARAM(NRATE + 6 + I)
           FAC2  = UPARAM(NRATE + 6 + J)
           IF (FUNC1 > 0 .and. FUNC2 > 0 .and. FUNC1 /= FUNC2) THEN
             CALL FUNC_INTERS(TITR,MAT_ID,FUNC1 ,FUNC2 ,FAC1 ,FAC2 ,

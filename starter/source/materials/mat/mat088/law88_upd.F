@@ -34,7 +34,8 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE LAW88_UPD(IOUT   ,TITR   ,UPARAM ,NPC    ,PLD    ,  
-     .                     NFUNC  ,IFUNC  ,MAT_ID ,FUNC_ID,PM   )
+     .                     NFUNC  ,IFUNC  ,MAT_ID ,FUNC_ID,PM     ,
+     .                     NFUNCT )
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   M o d u l e s
@@ -54,8 +55,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*nchartitle  :: TITR
-      INTEGER MAT_ID,IOUT,NFUNC
-      INTEGER NPC(*), FUNC_ID(*),IFUNC(NFUNC)
+      INTEGER MAT_ID,IOUT
+      INTEGER ,INTENT(IN) :: NFUNC
+      INTEGER ,INTENT(IN) :: NFUNCT
+      INTEGER NPC(*), FUNC_ID(NFUNCT),IFUNC(NFUNC)
       my_real UPARAM(*),PLD(*)
       my_real , DIMENSION(NPROPM), INTENT(INOUT) :: PM
 C-----------------------------------------------
