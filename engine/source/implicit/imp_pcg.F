@@ -406,7 +406,6 @@ Chd|====================================================================
       END MODULE MIC_PCG
 #endif
 
-#ifdef MUMPS5
 Chd|====================================================================
 Chd|  IMP_PCGH                      source/implicit/imp_pcg.F     
 Chd|-- called by -----------
@@ -494,7 +493,9 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "task_c.inc"
+#if defined(MUMPS5)
 #include      "dmumps_struc.h"
+#endif
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -530,7 +531,13 @@ C----------resol [K]{X}={F}---------
      .  MS(*),VOLMON(*),SKEW(*) ,XFRAME(*),FAC_K(*),
      .  R0(*)
       TYPE(PRGRAPH) :: GRAPHE(*)
+
+#ifdef MUMPS5
       TYPE(DMUMPS_STRUC) MUMPS_PAR
+#else
+      ! Fake declaration as DMUMPS_STRUC is shipped with MUMPS
+      INTEGER MUMPS_PAR 
+#endif
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -539,6 +546,7 @@ C   External function
 C-----------------------------------------------
       LOGICAL MIXEDSOL
       EXTERNAL MIXEDSOL
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2620,9 +2628,9 @@ C--------------------------------------------
  2002 FORMAT(/ 5X, 'WITH', 2X, 'ALFA =', E12.4, 2X, 'BETA =', 
      .       E12.4,2X,'OLDB =', E12.4)
       RETURN
+#endif
       END
 
-#endif
 Chd|====================================================================
 Chd|  PUPD                          source/implicit/imp_pcg.F     
 Chd|-- called by -----------
@@ -3100,7 +3108,6 @@ C
 C
       RETURN
       END
-#ifdef MUMPS5
 Chd|====================================================================
 Chd|  IMP_PPCGH                     source/implicit/imp_pcg.F     
 Chd|-- called by -----------
@@ -3162,7 +3169,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#if defined(MUMPS5)
 #include      "dmumps_struc.h"
+#endif
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "task_c.inc"
@@ -3184,9 +3193,15 @@ C----------resol [K]{X}={F}---------
       my_real DIAG_K(*), LT_K(*) ,DIAG_M(*),LT_M(*) ,X(*), TOL, P(*) ,Z(*)  ,R(*)  ,Y(*),LT_I(*) ,EPS_M,F_X,XI_C(*)
       my_real A(3,*),AR(3,*),VE(3,*),D(3,*),DR(3,*),XE(3,*), MS(*),VOLMON(*),SKEW(*) ,XFRAME(*),FAC_K(*), R0(*)
       TYPE(PRGRAPH) :: GRAPHE(*)
+#ifdef MUMPS5
       TYPE(DMUMPS_STRUC) MUMPS_PAR
+#else
+      ! Fake declaration as DMUMPS_STRUC is shipped with MUMPS
+      INTEGER MUMPS_PAR 
+#endif
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3814,8 +3829,8 @@ C--------------------------------------------
  2002 FORMAT(/ 5X, 'WITH', 2X, 'ALFA =', E12.4, 2X, 'BETA =', 
      .       E12.4,2X,'OLDB =', E12.4)
       RETURN
-      END
 #endif
+      END
 Chd|====================================================================
 Chd|  IMP_INIST                     source/implicit/imp_pcg.F     
 Chd|-- called by -----------
