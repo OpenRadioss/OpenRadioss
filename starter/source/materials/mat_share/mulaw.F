@@ -91,11 +91,12 @@ C
      .   TX(MVSIZ)    ,TY(MVSIZ)    ,TZ(MVSIZ)   ,
      .   MFXX(*)  ,MFXY(*)  ,MFXZ(*)  ,MFYX(*) ,MFYY(*)   ,MFYZ(*)   ,
      .   MFZX(*)  ,MFZY(*)  ,MFZZ(*)
-      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,NVPHAS, N0PHAS, NPH, IFLG,NPAR, IADBUF, NFUNC, IFUNC(100) 
+      INTEGER I,J,IMAT,NVPHAS, N0PHAS, NPH, IFLG,NPAR, 
+     .   IADBUF, NFUNC, IFUNC(100) 
       my_real
      . EP1(MVSIZ), EP2(MVSIZ), EP3(MVSIZ),E7(MVSIZ),
      . EP4(2*MVSIZ),EP5(2*MVSIZ),EP6(2*MVSIZ),
@@ -115,16 +116,17 @@ C=======================================================================
       TIME    =ZERO
       TIMESTEP=ONE/FLOAT(NITRS)
 C---------------------------
-      NPAR   = IPM(9,MAT(1))
-      IADBUF = IPM(7,MAT(1))
-      NFUNC  = IPM(10,MAT(1))
+      IMAT   = MAT(1)
+      NPAR   = IPM(9,IMAT)
+      IADBUF = IPM(7,IMAT)
+      NFUNC  = IPM(10,IMAT)
       DO I=1,NFUNC
-        IFUNC(I) = IPM(10+I,MAT(1))
+        IFUNC(I) = IPM(10+I,IMAT)
       ENDDO
 C---------------------------
       VIS = ZERO
       DO I=LFT,LLT
-        RHO0(I)= PM( 1,MAT(I))
+        RHO0(I)= PM(1,IMAT)
       END DO
 C---------------------------
       EP1 = ZERO
@@ -272,7 +274,7 @@ C ====================================================================
      7                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
      8                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
      9                  SSP ,VIS ,UVAR,OFF  ,NGL  ,
-     A                  PM  ,IPM ,MAT ,MATPARAM)
+     A                  PM  ,IPM ,MAT ,MATPARAM(IMAT))
       ELSEIF(MTN==90)THEN
         CALL SIGEPS90(LLT ,NPAR,NUVAR,NFUNC,IFUNC,
      2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT,

@@ -333,7 +333,7 @@ C
       TYPE (FVM_INIVEL_STRUCT), INTENT(IN) :: FVM_INIVEL(*)
       TYPE (NLOCAL_STR_)   :: NLOC_DMG 
       TYPE (GROUP_PARAM_), DIMENSION(NGROUP)  :: GROUP_PARAM_TAB
-      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
@@ -1031,8 +1031,8 @@ C Element types
                   CALL S4REFSTA3(
      1                 ELBUF_TAB(NG),IXS        ,PM         ,GEO      ,IPARG(1,NG),
      2                 IPM        ,IGEO       ,SKEW       ,X        ,XREFS      ,
-     3                 NEL          ,IPART(I15A),IPART    ,BUFMAT   ,MATPARAM  ,
-     4                 NPC          ,PLD        )
+     3                 NEL        ,IPART(I15A),IPART    ,BUFMAT   ,NUMMAT     ,
+     4                 MATPARAM   ,NPC          ,PLD        )
 C Case total strain
                   IF (ISTOT == 1) THEN
                      CALL SGSAVREF(ISOLNOD,XREFS(1,1,NFT+1),GBUF%SMSTR,NEL)
@@ -1237,10 +1237,10 @@ C Case total strain
             ENDIF
            
             CALL SREFSTA3(
-     1        ELBUF_TAB(NG),IXS        ,PM         ,GEO      ,IPARG(1,NG),  
-     2        IPM        ,IGEO       ,SKEW       ,X        ,XREFS     ,
-     3        NEL          ,IPART(I15A),IPART      ,BUFMAT   ,MATPARAM,              
-     6        NPC          ,PLD        )
+     1        ELBUF_TAB(NG),IXS      ,PM         ,GEO      ,IPARG(1,NG),  
+     2        IPM        ,IGEO       ,SKEW       ,X        ,XREFS      ,
+     3        NEL        ,IPART(I15A),IPART      ,BUFMAT   ,NUMMAT     ,              
+     6        MATPARAM   ,NPC        ,PLD        )
 C
 C Case total strain: conf_ref <- XREF
             IF (NXREF > 0 .AND. (NPT == 1 .AND. ISTOT == 1) ) THEN

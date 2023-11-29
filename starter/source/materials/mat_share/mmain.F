@@ -31,7 +31,7 @@ Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_
 Chd|====================================================================
       SUBROUTINE MMAIN(PM      ,ELBUF_STR,IX   ,NIX    ,X       ,
      2                  GEO    ,IPARG  ,NEL    ,SKEW   ,BUFMAT  ,
-     3                  IPART  ,IPARTEL,MATPARAM,
+     3                  IPART  ,IPARTEL,NUMMAT ,MATPARAM,
      4                  MAT    ,IPM    ,NGL    ,PID    ,NPF     ,
      5                  TF     ,MFXX   ,MFXY   ,MFXZ   ,MFYX    ,
      6                  MFYY   ,MFYZ   ,MFZX   ,MFZY   ,MFZZ    ,
@@ -61,6 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NUMMAT
       INTEGER NIX,NEL
       INTEGER IX(NIX,*), IPARG(*),
      .        IPART(LIPART1,*),IPARTEL(*),MAT(*),IPM(NPROPMI,*),
@@ -79,7 +80,7 @@ C-----------------------------------------------
      .   S1(*)    ,S2(*)    ,S3(*) ,
      .   S4(*)    ,S5(*)    ,S6(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
-      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
