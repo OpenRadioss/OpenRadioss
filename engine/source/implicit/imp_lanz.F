@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-#ifdef MUMPS5
 Chd|====================================================================
 Chd|  IMP_LANZP                     source/implicit/imp_lanz.F    
 Chd|-- called by -----------
@@ -63,7 +62,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#if defined(MUMPS5)
 #include "dmumps_struc.h"
+#endif
 #include "com04_c.inc"
 #include "units_c.inc"
 C-----------------------------------------------
@@ -88,6 +89,7 @@ C     REAL
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -592,5 +594,5 @@ C*     ------------------------------------------------------------------
      .       E12.4,2X,'OLDB =', E12.4)
 C*     ------------------------------------------------------------------
 C*     END OF SYMMLQ
-      END
 #endif
+      END

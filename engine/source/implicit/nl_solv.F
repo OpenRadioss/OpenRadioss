@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-#ifdef MUMPS5
 C  |---- version non //------------
 Chd|====================================================================
 Chd|  NL_SOLV                       source/implicit/nl_solv.F     
@@ -84,7 +83,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#if defined(MUMPS5)
 #include "dmumps_struc.h"
+#endif
 #include "com01_c.inc"
 #include "com04_c.inc"
 #include "com08_c.inc"
@@ -119,11 +120,18 @@ C     REAL
 C-----LS(1):R0,LS(2):S0,LS(3):S1 ; LS1(1): EN, LS1(2):SN;LS1(3):DE
       TYPE(PRGRAPH) :: GRAPHE(*)
       INTEGER CDDLP(*)
-      TYPE(DMUMPS_STRUC) MUMPS_PAR
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
-c
+C
+#ifdef MUMPS5
+      TYPE(DMUMPS_STRUC) MUMPS_PAR
+#else
+      ! Fake declaration as DMUMPS_STRUC is shipped with MUMPS
+      INTEGER MUMPS_PAR 
+#endif
+C
       character*1 anew_stif
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -788,9 +796,9 @@ c     .          ' |du|/|u|,|r|/|r0|,|dE|/|E|=',3E11.4)
  1030 FORMAT(3X,'CHECK CONSTRAINT CONDITIONS, TOO LARGE ENERGY VALUE=',
      .           2X,E11.4)
       RETURN
+#endif
       END
 
-#endif
 Chd|====================================================================
 Chd|  CRIT_ITE                      source/implicit/nl_solv.F     
 Chd|-- called by -----------

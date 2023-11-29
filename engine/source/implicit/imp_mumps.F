@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-#ifdef MUMPS5
 Chd|====================================================================
 Chd|  IMP_MUMPS1                    source/implicit/imp_mumps.F   
 Chd|-- called by -----------
@@ -58,7 +57,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#if defined(MUMPS5)
 #include "dmumps_struc.h"
+#endif
 #include "impl1_c.inc"
 #include "task_c.inc"
 #include "units_c.inc"
@@ -72,7 +73,13 @@ C-----------------------------------------------
      .        ITOK(*), NDDLI, NNZI,IMPRINT,TLEN, IT
       my_real
      .        DIAG_K(*), LT_K(*), DIAG_I(*), LT_I(*)
+#ifdef MUMPS5
       TYPE(DMUMPS_STRUC) MUMPS_PAR
+#else
+      ! Fake declaration as DMUMPS_STRUC is shipped with MUMPS
+      INTEGER MUMPS_PAR 
+#endif
+#ifdef MUMPS5
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -270,6 +277,7 @@ c      WRITE(IOUT,*) "NCYCLE,IT=",NCYCLE,IT
       ENDIF
 1000  FORMAT(5X,'--STIFFNESS MATRIX IS PRINTED--')
       RETURN
+#endif
       END
 Chd|====================================================================
 Chd|  PRINT_STIFF_MAT               source/implicit/imp_mumps.F   
@@ -287,7 +295,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#if defined(MUMPS5)
 #include      "dmumps_struc.h"
+#endif
 #include      "task_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
@@ -301,8 +311,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+#ifdef MUMPS5
       TYPE(DMUMPS_STRUC) MUMPS_PAR
+#else
+      ! Fake declaration as DMUMPS_STRUC is shipped with MUMPS
+      INTEGER MUMPS_PAR 
+#endif
       INTEGER NDDL, NODGLOB(*), IDDL(*), NDOF(*), CDDLP(*), INLOC(*), IKC(*), NDDLG, NDDLP(*)
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -461,6 +477,7 @@ C Write stiff. coeff. in only one file (suppress duplications)
 1002  FORMAT(I10,I10,I10)   
 1003  FORMAT(I10,I10,E10.2)
 C
+#endif
       RETURN
       END                
 Chd|====================================================================
@@ -479,7 +496,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#if defined(MUMPS5)
 #include "dmumps_struc.h"
+#endif
 #include "impl1_c.inc"
 #include "filescount_c.inc"
 C-----------------------------------------------
@@ -487,7 +506,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER CDDLP(*), NDDL
       my_real F(*), X(*)
+#ifdef MUMPS5
       TYPE(DMUMPS_STRUC) MUMPS_PAR
+#else
+      ! Fake declaration as DMUMPS_STRUC is shipped with MUMPS
+      INTEGER MUMPS_PAR 
+#endif
+
+#ifdef MUMPS5
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -511,6 +537,7 @@ C----FLAG for MUMPS: IF (IMPL_S>0.AND.ISOLV==3.AND.IMACH==3)
         MUMPSFILESIZE = MAX(MUMPSFILESIZE,LENT)       
 C
       RETURN
+#endif
       END  
 
 Chd|====================================================================
@@ -549,6 +576,7 @@ C-----------------------------------------------
      .        JDII(*), ITOK(*)
       my_real
      .        DIAG_K(*), LT_K(*), RTK(*), DIAG_I(*), LT_I(*)
+#ifdef MUMPS5
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -821,6 +849,7 @@ C
       DEALLOCATE(ITKFRONT, RTKFRONT)
 C
       RETURN
+#endif
       END
 
 
@@ -860,6 +889,7 @@ C-----------------------------------------------
      .        JDII(*), ITOK(*)
       my_real
      .        DIAG_K(*), LT_K(*), RTK(*), DIAG_I(*), LT_I(*)
+#ifdef MUMPS5
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -964,5 +994,5 @@ C----- il manque DIAG_SL--------
       ENDDO
 C
       RETURN
-      END
 #endif
+      END

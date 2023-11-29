@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-#if defined(MUMPS5)
 Chd|====================================================================
 Chd|  IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|-- called by -----------
@@ -193,7 +192,9 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "comlock.inc"
+#if defined(MUMPS5)
 #include      "dmumps_struc.h"
+#endif
 #include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
@@ -260,7 +261,12 @@ C     REAL
 C
         TYPE(PRGRAPH) :: GRAPHE(*)
 C
-        TYPE(DMUMPS_STRUC) MUMPS_PAR
+#ifdef MUMPS5
+      TYPE(DMUMPS_STRUC) MUMPS_PAR
+#else
+      ! Fake declaration as DMUMPS_STRUC is shipped with MUMPS
+      INTEGER MUMPS_PAR 
+#endif
         TYPE(INTBUF_STRUCT_) INTBUF_TAB(*), INTBUF_TAB_C
         TYPE (STACK_PLY) :: STACK
         TYPE(H3D_DATABASE) :: H3D_DATA
@@ -287,6 +293,7 @@ C---R_IMP[21:rel res disp.,22:rel res force,23:rel res energy,24:cumul arc lengt
 C---------20-25:libre
 C---I_IMP[1:IT(TOTAL),2:ITC,3:IT0(IT_OLD),4:IWAIT,5:IDIV,6:NDDLI0,7:1ercontact(used only w/ IREFI=4),
 C---8:num. of diverging, 9:ICONT_OLD 10:Isign (Riks);11: Ichang(solver);12: IDIV_OLD;13: NDDLI(SMP) or NDDLI_G(SPMD)
+#if defined(MUMPS5)
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1976,10 +1983,9 @@ c
  1012   FORMAT(3X,'**TIMESTEP WILL BE REDUCED DUE TO ',
      .            'DIM.(ND) CHANGE W/AUTOSPC::**',2I8)
         RETURN
-      END
 C endif MUMPS defined
 #endif
-
+      END
 Chd|====================================================================
 Chd|  IMP_STOP                      source/implicit/imp_solv.F    
 Chd|-- called by -----------
@@ -3060,7 +3066,6 @@ C------------------------------------------
  1002   FORMAT(' NODE NUM. =',I10,5X,'ROT_DIR = ',1A,5X,'VAL.= ',G14.7)
  1003   FORMAT(/,' LOOK AT CONNECTIVITY FOR NODE NUM. =',I10)
       END
-#if defined(MUMPS5)
 Chd|====================================================================
 Chd|  IMP_CHKM                      source/implicit/imp_solv.F    
 Chd|-- called by -----------
@@ -3157,7 +3162,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#if defined(MUMPS5)
 #include "dmumps_struc.h"
+#endif
 #include "timeri_c.inc"
 #include "impl1_c.inc"
 #include "impl2_c.inc"
@@ -3222,6 +3229,7 @@ c     .  BKUD(*),R_IMP(*),AC(3,*),ACR(3,*),FRBE3(*)
         TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
         my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
         INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
+#if defined(MUMPS5)
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3248,7 +3256,13 @@ C     .         DIMENSION(:),ALLOCATABLE :: DIAG_I,LT_I
      .                                        DR_IMP,X_C,DD,DDR,X_A,R_IMP
         my_real, DIMENSION(:) ,POINTER     :: FEXT,DG,DGR,DG0,DGR0,BUFIN_C,AC,ACR
         TYPE(PRGRAPH) :: GRAPHE(1)
+#ifdef MUMPS5
         TYPE(DMUMPS_STRUC) MUMPS_PAR
+#else
+        ! Fake declaration as DMUMPS_STRUC is shipped with MUMPS
+        INTEGER MUMPS_PAR 
+#endif
+  
 C------------------------------
 C        Initialisation
 C-----------------------------------------------
@@ -3758,6 +3772,7 @@ C    /---------------/
      .         5X,'TERMINATION WITH '/,I8,' ERRORS '/,I8,' WARNINGS'/
      .         5X,'** DETAILS REPORTED IN LISTING FILE **'/)
         RETURN
+#endif
       END
 Chd|====================================================================
 Chd|  IMP_COMPAB                    source/implicit/imp_solv.F    
@@ -3792,7 +3807,9 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
+#if defined(MUMPS5)
 #include      "dmumps_struc.h"
+#endif
 #include      "sphcom.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
@@ -3808,6 +3825,7 @@ C-----------------------------------------------
         my_real TF(*),VEL(LFXVELR,*),XFRAME(NXFRAME,*)
         TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
         TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+#if defined(MUMPS5)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -4147,6 +4165,7 @@ C--------rwall---------
  1100   FORMAT(A,' IMPLICIT IS INCOMPABLE WITH :',A/)
  1101   FORMAT(/'**STIFFNESS WILL BE IGNORED WITH',1X,I8,
      .          ' INCOMPABLE OPTIONS**'/)
+#endif
       END
 Chd|====================================================================
 Chd|  IMP_COMPABP                   source/implicit/imp_solv.F    
@@ -4199,6 +4218,7 @@ C-----------------------------------------------
         my_real TF(*),VEL(LFXVELR,*),XFRAME(NXFRAME,*)
         TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
         TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+#if defined(MUMPS5)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -4682,9 +4702,9 @@ C
  1100   FORMAT(A,' IMPLICIT IS INCOMPABLE WITH :',A/)
  1101   FORMAT(/'**STIFFNESS WILL BE IGNORED WITH',1X,I8,
      .          ' INCOMPABLE OPTIONS**'/)
-      END
 C endif MUMPS defined
 #endif
+      END
 
 Chd|====================================================================
 Chd|  IMP_FOUT                      source/implicit/imp_solv.F    
@@ -4911,7 +4931,6 @@ C------------------------------------------
         RETURN
       END
 
-#if defined(MUMPS5)
 Chd|====================================================================
 Chd|  DEALLOCM_IMP                  source/implicit/imp_solv.F    
 Chd|-- called by -----------
@@ -4950,11 +4969,19 @@ C-----------------------------------------------
 #include "com01_c.inc"
 #include "impl1_c.inc"
 #include "impl2_c.inc"
+#if defined(MUMPS5)
 #include "dmumps_struc.h"
+#endif
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        TYPE(DMUMPS_STRUC) MUMPS_PAR
+#ifdef MUMPS5
+      TYPE(DMUMPS_STRUC) MUMPS_PAR
+#else
+      ! Fake declaration as DMUMPS_STRUC is shipped with MUMPS
+      INTEGER MUMPS_PAR 
+#endif
+#if defined(MUMPS5)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -5022,8 +5049,8 @@ c       IF(ALLOCATED(BMINMA_IMP)) DEALLOCATE(BMINMA_IMP)
 c      END IF
 C------------------------------------------
         RETURN
-      END
 #endif
+      END
 Chd|====================================================================
 Chd|  CRIT_LLIM                     source/implicit/imp_solv.F    
 Chd|-- called by -----------

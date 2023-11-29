@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-#ifdef MUMPS5
 C  |---- version non //------------
 Chd|====================================================================
 Chd|  LIN_SOLV                      source/implicit/lin_solv.F    
@@ -86,7 +85,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#if defined(MUMPS5)
 #include "dmumps_struc.h"
+#endif
 #include "com01_c.inc"
 #include "com04_c.inc"
 #include "impl1_c.inc"
@@ -117,13 +118,19 @@ C
       TYPE(PRGRAPH) :: GRAPHE(*)
 C
       INTEGER CDDLP(*)
+#ifdef MUMPS5
       TYPE(DMUMPS_STRUC) MUMPS_PAR
+#else
+      ! Fake declaration as DMUMPS_STRUC is shipped with MUMPS
+      INTEGER MUMPS_PAR 
+#endif
 C      
       INTEGER OMP_GET_THREAD_NUM
       EXTERNAL OMP_GET_THREAD_NUM
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -419,6 +426,7 @@ C---------------------
      .          ' RELATIVE ||R||=',E11.4/)
  1003 FORMAT(/3X,'DIRECT SOLVER TERMINATED WITH RELATIVE ||R||=',E11.4/)
       RETURN
+#endif
       END
 
 C  |---- solveurs directs smp------------
@@ -460,6 +468,7 @@ C     REAL
      .  DIAG_K(*),LT_K(*),LT_I(*),X(*) ,F(*),
      .  FAC_K(*), DIAG_I(*)
       TYPE(PRGRAPH) :: GRAPHE(*)
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -492,6 +501,7 @@ C       IF (ISOLV==4) THEN
 C      ENDIF
 C      IF (IMON>0) CALL STOPTIME(33,ITASK+1)
       RETURN
+#endif
       END
 
 Chd|====================================================================
@@ -527,7 +537,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#if defined(MUMPS5)
 #include "dmumps_struc.h"
+#endif
 #include "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -540,7 +552,15 @@ C-----------------------------------------------
      .        F(*), DIAG_K(*), LT_K(*), X(*), DIAG_I(*), LT_I(*),
      .        FAC_K(*)
       TYPE(PRGRAPH) :: GRAPHE(*)
+C
+#ifdef MUMPS5
       TYPE(DMUMPS_STRUC) MUMPS_PAR
+#else
+      ! Fake declaration as DMUMPS_STRUC is shipped with MUMPS
+      INTEGER MUMPS_PAR 
+#endif
+
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -579,8 +599,8 @@ C
 C      IF (IMON>0) CALL STOPTIME(33,ITASK+1)
 C
       RETURN
-      END
 #endif
+      END
 Chd|====================================================================
 Chd|  ERR_MEM                       source/implicit/lin_solv.F    
 Chd|-- called by -----------
@@ -614,7 +634,6 @@ C-----------------------------------------------
       CALL ARRET(2)
       RETURN
       END
-#ifdef MUMPS5
 Chd|====================================================================
 Chd|  RECU_KDIS0                    source/implicit/lin_solv.F    
 Chd|-- called by -----------
@@ -637,6 +656,7 @@ C-----------------------------------------------
       INTEGER NDOF(*)
       my_real
      .       D(3,*)
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -653,6 +673,7 @@ C---------------------------------
        ENDDO
 C
       RETURN
+#endif
       END
 Chd|====================================================================
 Chd|  LIN_SOLVH0                    source/implicit/lin_solv.F    
@@ -695,7 +716,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#if defined(MUMPS5)
 #include "dmumps_struc.h"
+#endif
 #include "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -717,6 +740,7 @@ C     REAL
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -805,6 +829,7 @@ C---------------------
 C
 C       IF (IMON>0) CALL STOPTIME(33,1)
       RETURN
+#endif
       END
 C  |---- version Hybrid------------
 Chd|====================================================================
@@ -859,7 +884,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#if defined(MUMPS5)
 #include "dmumps_struc.h"
+#endif
 #include "com01_c.inc"
 #include "com04_c.inc"
 #include "timeri_c.inc"
@@ -886,6 +913,7 @@ C     REAL
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1098,6 +1126,7 @@ C--------------------------------------------
  2001 FORMAT(3X,'---WARNING :',I8,3X,
      .          'TOO SMALL PIVOT IN FACTORIZATION'/)
       RETURN
+#endif
       END
 Chd|====================================================================
 Chd|  LIN_SOLVIH2                   source/implicit/lin_solv.F    
@@ -1157,7 +1186,9 @@ C-----------------------------------------------
 #include "com04_c.inc"
 #include "timeri_c.inc"
 #include "units_c.inc"
+#if defined(MUMPS5)
 #include "dmumps_struc.h"
+#endif
 #include "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1181,6 +1212,7 @@ C     REAL
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1374,6 +1406,7 @@ C       IF (IMON>0) CALL STOPTIME(33,1)
  1002 FORMAT(3X,'END PRECONDITION WITH RELATIVE DENSITY =',E11.4/)
 C--------------------------------------------
       RETURN
+#endif
       END
 Chd|====================================================================
 Chd|  LIN_SOLVHM                    source/implicit/lin_solv.F    
@@ -1425,7 +1458,9 @@ C-----------------------------------------------
 #include "com01_c.inc"
 #include "com04_c.inc"
 #include "timeri_c.inc"
+#if defined(MUMPS5)
 #include "dmumps_struc.h"
+#endif
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1448,9 +1483,17 @@ C     REAL
      .  A(3,*),AR(3,*),VE(3,*),D(3,*),DR(3,*),XE(3,*),
      .  MS(*),VOLMON(*),SKEW(*)  ,XFRAME(*),FAC_K(*)
       TYPE(PRGRAPH) :: GRAPHE(*)
-      TYPE(DMUMPS_STRUC) MUMPS_PAR
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+C
+#ifdef MUMPS5
+      TYPE(DMUMPS_STRUC) MUMPS_PAR
+#else
+      ! Fake declaration as DMUMPS_STRUC is shipped with MUMPS
+      INTEGER MUMPS_PAR 
+#endif
+C
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1577,6 +1620,7 @@ c      CALL MY_BARRIER
 C---------------------
 C      IF (IMON>0) CALL STOPTIME(33,1)
       RETURN
+#endif
       END
 Chd|====================================================================
 Chd|  SET_KISC                      source/implicit/lin_solv.F    
@@ -1596,6 +1640,7 @@ C-----------------------------------------------
       my_real
      .  LT_I(*),LT_K0(*)
 C---------[I] local sym. [K0] global complete
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1642,6 +1687,7 @@ C-----------true with initial lower-triang  (default)
       ENDDO
 C      
       RETURN
+#endif
       END
 Chd|====================================================================
 Chd|  INI_KISC                      source/implicit/lin_solv.F    
@@ -1667,6 +1713,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDLI,IADI(*)
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1689,6 +1736,7 @@ C
         ENDIF
 C      
       RETURN
+#endif
       END
 Chd|====================================================================
 Chd|  MUMPSLB_HP                    source/implicit/lin_solv.F    
@@ -1719,6 +1767,7 @@ C-----------------------------------------------
      .        IDDL(*), IKC(*), INLOC(*), NDOF(*),ITAG(*)
       my_real
      .        F(*),F1(*)
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1761,6 +1810,7 @@ C----------------
 !$OMP END PARALLEL 
 C      
       RETURN
+#endif
       END
 Chd|====================================================================
 Chd|  MUMPSLB                       source/implicit/lin_solv.F    
@@ -1791,6 +1841,7 @@ C-----------------------------------------------
      .        IDDL(*), IKC(*), INLOC(*), NDOF(*),ITAG(*)
       my_real
      .        F(*),F1(*)
+#ifdef MUMPS5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1829,5 +1880,5 @@ C----------------
         END IF !(NSPMD > 1 ) THEN
 C      
       RETURN
-      END
 #endif
+      END

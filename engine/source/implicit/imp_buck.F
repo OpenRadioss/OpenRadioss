@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-#if defined(MUMPS5) && defined(DNC)
 Chd|====================================================================
 Chd|  IMP_BUCK                      source/implicit/imp_buck.F    
 Chd|-- called by -----------
@@ -148,7 +147,9 @@ C-----------------------------------------------
 #include      "spmd_c.inc"
 #include      "impl1_c.inc"
 #include      "buckcom.inc"
+#if defined(MUMPS5)
 #include      "dmumps_struc.h"
+#endif
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -190,7 +191,6 @@ C-----------------------------------------------
      .        FSAV(NTHVKI,*) ,FSAVD(NTHVKI,*), RWSAV(*),AR(3,*),W(*),
      .        STIFN(*),STIFR(*),FCONT_MAX(*)
       TYPE(PRGRAPH) :: GRAPHE(*)
-      TYPE(DMUMPS_STRUC) MUMPS_PAR
       DOUBLE PRECISION
      .        FRWL6(*)
       DOUBLE PRECISION
@@ -211,9 +211,11 @@ C-----------------------------------------------
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE(DRAPEG_)    :: DRAPEG
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
+#if defined(MUMPS5) && defined(DNC)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      TYPE(DMUMPS_STRUC) MUMPS_PAR
       INTEGER I, NM, NMMAX, MAXITR, N, MAXNCV, NEV, NCV, MAXN,
      .        MAXNEV, LDV, ISHFTS, MODE, INFO, PRSP,
      .        NEL3D, NEL2D, NEL1D, NEL, N1, N2, N3, N4, N5, N6, N7, N8,
@@ -920,8 +922,8 @@ citask0      END IF !(ITASK == 0) THEN
 
 C
       RETURN
-      END
 #endif 
+      END
 
 Chd|====================================================================
 Chd|  STOBUCK                       source/implicit/imp_buck.F    
