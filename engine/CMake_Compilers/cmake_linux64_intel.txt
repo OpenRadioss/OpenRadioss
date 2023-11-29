@@ -104,7 +104,7 @@ endif()
 
 
 # Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${opt_flag} ${precision_flag} ${Fortran} ${mpi_flag} ${MUMPS_flags}  ${cppmach} ${cpprel}" )
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${opt_flag} ${precision_flag} ${Fortran} ${mpi_flag} ${MUMPS_flags}  ${cppmach} ${cpprel} ${ADF}" )
 
 # C source files
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${optc_flag} ${h3d_inc} ${precision_flag} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} -O2 " )
