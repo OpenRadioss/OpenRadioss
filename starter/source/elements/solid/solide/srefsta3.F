@@ -42,10 +42,10 @@ Chd|        SZREFDERI3                    source/elements/solid/solide/srefsta3.
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE SREFSTA3(ELBUF_STR,IXS     ,PM     ,GEO     ,IPARG  ,
-     .                    IPM      ,IGEO    ,SKEW   ,X       ,XREFS  ,
-     .                    NEL      ,IPARTS  ,IPART  ,BUFMAT  ,MATPARAM,
-     .                    NPF      ,TF      )
+      SUBROUTINE SREFSTA3(ELBUF_STR,IXS     ,PM     ,GEO     ,IPARG    ,
+     .                    IPM      ,IGEO    ,SKEW   ,X       ,XREFS    ,
+     .                    NEL      ,IPARTS  ,IPART  ,BUFMAT  ,NUMMAT   ,
+     .                    MATPARAM,NPF     ,TF     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,6 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NUMMAT
       INTEGER IXS(NIXS,*), IPARG(*),IPARTS(*), IGEO(*),
      .    IPM(NPROPMI,*),IPART(LIPART1,*), NEL, NPF(*)
 C     REAL
@@ -76,7 +77,7 @@ C     REAL
      .   PM(NPROPM,*), X(3,*), XREFS(8,3,*), GEO(NPROPG,*),
      .   SKEW(LSKEW,*), BUFMAT(*), TF(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
-      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -628,7 +629,7 @@ C-----------
 C-----------
           CALL MMAIN(PM   ,ELBUF_STR,IXS    ,NIXS    ,X      ,
      2             GEO    ,IPARG    ,NEL    ,SKEW    ,BUFMAT ,
-     3             IPART  ,IPARTS   ,MATPARAM,
+     3             IPART  ,IPARTS   ,NUMMAT ,MATPARAM,
      4             MAT    ,IPM      ,NGL    ,PID     ,NPF    ,
      5             TF     ,MFXX     ,MFXY   ,MFXZ    ,MFYX   ,
      6             MFYY   ,MFYZ     ,MFZX   ,MFZY    ,MFZZ   ,
