@@ -201,7 +201,11 @@ C
                                        BBUFS(L+6+IJ)  = MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(2,IJ,IDEB+N)
                                        BBUFS(L+12+IJ) = MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(3,IJ,IDEB+N)
                                     ENDDO
-                                    MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(1:3,1:6,IDEB+N) = 0.d+00   
+                                    DO IJ = 1,6
+                                      MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(1,IJ,IDEB+N) = 0
+                                      MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(2,IJ,IDEB+N) = 0
+                                      MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(3,IJ,IDEB+N) = 0
+                                    ENDDO
                                     L = L + 18
                                 ENDIF
                             ENDDO
