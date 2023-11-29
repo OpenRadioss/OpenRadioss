@@ -92,7 +92,7 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
       K4 = N0PHAS + (4 - 1) * NVPHAS
       NUVAR = IPM(8, MATID)
       PEXT  = BUFMAT(8)
-      IF(IFORM/=6)THEN
+      IF(IFORM /= 6)THEN
       !all value are in UPARAM=>BUFMAT()
         !Initial densities
         RHO10 = BUFMAT(9)
@@ -135,10 +135,6 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
       ENDIF
       DO K = 1, NEL
          I = LIST(K)
-         EINT1 = EINT10
-         EINT2 = EINT20
-         EINT3 = EINT30
-         EINT4 = EINT40
          IF(IFORM==6)THEN
          !value are not in buffer UPARAM=>BUFMAT but are cell dependent
            ML     = 0
@@ -201,6 +197,10 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
            ALPHA3 = MBUFv%VAR(IS + (K3 + 23 - 1) * NELGv)
            ALPHA4 = MBUFv%VAR(IS + (K4 + 23 - 1) * NELGv)
          ELSE
+           EINT1 = EINT10
+           EINT2 = EINT20
+           EINT3 = EINT30
+           EINT4 = EINT40
            !Volumic fractions
            ALPHA1 = MBUF%VAR(I + (K1 + 23 - 1) * NELG)
            ALPHA2 = MBUF%VAR(I + (K2 + 23 - 1) * NELG)
