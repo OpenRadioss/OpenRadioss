@@ -325,7 +325,7 @@ C--------------------------------------------------
                 ELSE
                   DO I=LFT,LLT
                    IF (GBUF%G_PLA > 0)THEN
-                      EVAR(I) = GBUF%PLA(I)
+                      VALUE(I) = GBUF%PLA(I)
                       IS_WRITTEN_VALUE(I) = 1
                     ENDIF  
                   ENDDO
