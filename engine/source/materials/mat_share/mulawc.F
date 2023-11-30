@@ -2176,7 +2176,8 @@ c
      2           TT       ,NGL      ,IPT      ,ILAYER    ,IT        ,
      3           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX     ,
      4           DPLA     ,OFF      ,FOFF     ,PTHKF(ILAYER,IFL)    ,
-     5           DFMAX    ,TDEL     ,UELR1    ,MPT      ,IGTYP      )
+     5           DFMAX    ,TDEL     ,UELR1    ,MPT      ,IGTYP      ,
+     6           FLD_IDX  ,DAM      ,EL_PLA   )
 c
               CASE (34)     !    Cockcroft-Latham failure model
                 CALL FAIL_COCKROFT_C(

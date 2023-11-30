@@ -485,6 +485,36 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = '1:HighWrinkle 2:Compression 3:LooseMetal 4:SafeZone 5:MarginToFail 6:FailureZone'
 c-----------------------------------------------
       I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'HC_DSSE_F/MEMB'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'HC_DSSE Failure Factor Membrane'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'HC_DSSE_F'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'HC_DSSE Failure Factor'
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT_ALL = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER_ALL = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY_ALL = 1
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'HC_DSSE_Z/MEMB'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'HC_DSSE Zone Index Membrane'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = '1:Below HC and DSSE 2: Above DSSE and below HC 3: Above HC and DSSE'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'HC_DSSE_Z'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'HC_DSSE Zone Index'
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT_ALL = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER_ALL = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY_ALL = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = '1:Below HC and DSSE 2: Above DSSE and below HC 3: Above HC and DSSE'
+c-----------------------------------------------
+      I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'WPLA'
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER_ALL = 1

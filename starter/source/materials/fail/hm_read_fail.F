@@ -552,6 +552,8 @@ c---
      .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
      .             MAXFUNC  ,NFUNC    ,MAT_ID         ,FAIL_ID   ,
      .             LSUBMODEL,UNITAB )
+              FAIL_TAG(IRUP)%LF_DAM  = 1    ! damage factor for ANIM output
+              FAIL_TAG(IRUP)%LF_INDX = 1    ! HC_DSSE zone index for ANIM output
 c---
             CASE(33)
               CALL HM_READ_MULLINS_OR(
