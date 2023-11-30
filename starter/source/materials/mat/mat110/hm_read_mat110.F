@@ -292,9 +292,9 @@ c
         ENDIF
 c        
         ! Computation of plane strain reference point first coordinate
-        fPS_MIN   = 0.97D0
-        fPS_MAX   = 1.14D0
-        fPS_TRANS = 1.22D0
+        fPS_MIN   = 0.827D0
+        fPS_MAX   = 1.315D0
+        fPS_TRANS = 0.5D0
         ADIRAC    = 1.2D0
         DO J = 1,NANGLE
           FDIRAC    = EXP(ADIRAC*(rLank(J)-fPS_TRANS))
