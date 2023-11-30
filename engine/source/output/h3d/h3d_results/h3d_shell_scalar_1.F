@@ -3394,13 +3394,11 @@ c
                 ! Resetting values
                 DO I = 1,NEL
                   VALUE(I) = ZERO
-                ENDDO
-c
-                ! Middle layer/integration point
-                IPT = IABS(NPT)/2 + 1        
+                ENDDO  
 c              
                 ! Multilayer properties TYPE 10/11/16/17/51/52 
-                IF (NLAY > 1) THEN       
+                IF (NLAY > 1) THEN 
+                  IPT = IABS(NLAY)/2 + 1       
                   IF (ELBUF_TAB(NG)%BUFLY(IPT)%L_DMG > 0) THEN
                     NPTT = ELBUF_TAB(NG)%BUFLY(IPT)%NPTT
                     DO I = 1,NEL                                                              
@@ -3417,6 +3415,7 @@ c
                   ENDIF
                 ! Single layer properties TYPE 1/9
                 ELSEIF (MPT > 0) THEN
+                  IPT = IABS(NPT)/2 + 1 
                   IF (ELBUF_TAB(NG)%BUFLY(1)%L_DMG > 0) THEN                                                 
                     DO I = 1,NEL                                                              
                       DO IR = 1, NPTR                                                         
@@ -4473,8 +4472,410 @@ c PLY=NULL ILAYER=NULL NPT=IPT
 
                 ENDIF
               ENDIF                                                         
-
-
+c---------------------------------------------------------------------------
+            ELSEIF (KEYWORD == 'HC_DSSE_F/MEMB') THEN 
+c---------------------------------------------------------------------------
+              ! Multilayer properties TYPE 10/11/16/17/51/52 
+              IF (NLAY > 1) THEN       
+                IPT = IABS(NLAY)/2 + 1
+                BUFLY => ELBUF_TAB(NG)%BUFLY(IPT)
+                NPTT  = BUFLY%NPTT
+                NFAIL = BUFLY%NFAIL
+                DO I = 1,NEL                                                              
+                  DO IT = 1,NPTT
+                    DO IR = 1,NPTR                                                         
+                      DO IS = 1,NPTS 
+                        FBUF => BUFLY%FAIL(IR,IS,IT) 
+                        DO IFAIL=1,NFAIL  
+                          IF (FBUF%FLOC(IFAIL)%ILAWF == 32) THEN 
+                            VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I)) 
+                            IS_WRITTEN_VALUE(I) = 1                         
+                          ENDIF
+                        ENDDO                                                          
+                      ENDDO
+                    ENDDO                                                                 
+                  ENDDO
+                ENDDO
+              ! Single layer properties TYPE 1/9
+              ELSEIF (MPT > 0) THEN  
+                IPT = IABS(NPT)/2 + 1
+                BUFLY => ELBUF_TAB(NG)%BUFLY(1)  
+                NFAIL = BUFLY%NFAIL                                           
+                DO I = 1,NEL                                                              
+                  DO IR = 1,NPTR                                                         
+                    DO IS = 1,NPTS     
+                      FBUF => BUFLY%FAIL(IR,IS,IPT)                                                   
+                      DO IFAIL = 1,NFAIL  
+                        IF (FBUF%FLOC(IFAIL)%ILAWF == 32) THEN 
+                          VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I))
+                          IS_WRITTEN_VALUE(I) = 1                         
+                        ENDIF
+                      ENDDO                                                           
+                    ENDDO                                                                 
+                  ENDDO                                                                  
+                ENDDO                                                  
+              ENDIF
+c
+c---------------------------------------------------------------------------
+            ELSEIF (KEYWORD == 'HC_DSSE_F') THEN 
+c---------------------------------------------------------------------------
+              ! If no specific input PLY=null LAYER=null NPT=null
+              IF (ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN 
+                ! Multilayer properties TYPE 10/11/16/17/51/52 
+                ! -> Max value among all layers and integration points
+                IF (NLAY > 1) THEN    
+                  DO I = 1,NEL 
+                    DO N = 1,NLAY
+                      BUFLY => ELBUF_TAB(NG)%BUFLY(N)
+                      NPTT  = BUFLY%NPTT 
+                      NFAIL = BUFLY%NFAIL
+                      DO IT = 1,NPTT
+                        DO IR = 1,NPTR     
+                          DO IS = 1,NPTS    
+                            FBUF => BUFLY%FAIL(IR,IS,IT) 
+                            DO IFAIL=1,NFAIL  
+                              IF (FBUF%FLOC(IFAIL)%ILAWF == 32) THEN 
+                                VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I))
+                                IS_WRITTEN_VALUE(I) = 1
+                              ENDIF
+                            ENDDO
+                          ENDDO
+                        ENDDO  
+                      ENDDO
+                    ENDDO
+                  ENDDO    
+                ! Single layer properties TYPE 1/9 
+                ! -> Max value among all layers and integration points                                                                 
+                ELSEIF (MPT > 0) THEN
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(1)
+                  NPTT  = BUFLY%NPTT
+                  NFAIL = BUFLY%NFAIL
+                  DO I = 1,NEL
+                    DO IT = 1,NPTT
+                      DO IR = 1,NPTR 
+                        DO IS = 1,NPTS    
+                          FBUF => BUFLY%FAIL(IR,IS,IT) 
+                          DO IFAIL = 1,NFAIL  
+                            IF (FBUF%FLOC(IFAIL)%ILAWF == 32) THEN 
+                              VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I))
+                              IS_WRITTEN_VALUE(I) = 1
+                            ENDIF
+                          ENDDO
+                        ENDDO
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                ENDIF  
+c             ! If ply and int. point input: PLY=IPLY LAYER=null NPT=IPT
+              ! -> Properties type 17/51/52 only
+              ELSEIF (IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0) THEN
+                DO J = 1,NLAY
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(J)
+                  NPTT  = BUFLY%NPTT
+                  NFAIL = BUFLY%NFAIL
+                  ID_PLY = 0
+                  IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+                    ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                  ELSEIF (IGTYP == 52) THEN
+                    ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
+                  ENDIF 
+                  IF (ID_PLY == IPLY) THEN
+                    IF (IPT <= NPTT) THEN
+                      DO I = 1,NEL  
+                        DO IR = 1,NPTR  
+                          DO IS = 1,NPTS 
+                            FBUF => BUFLY%FAIL(IR,IS,IPT) 
+                            DO IFAIL = 1,NFAIL  
+                              IF (FBUF%FLOC(IFAIL)%ILAWF == 32) THEN 
+                                VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I))
+                                IS_WRITTEN_VALUE(I) = 1
+                              ENDIF
+                            ENDDO
+                          ENDDO
+                        ENDDO
+                      ENDDO
+                    ENDIF
+                  ENDIF
+                ENDDO
+c             ! If ply input only: PLY=IPLY LAYER=null NPT=null
+              ! -> Properties type 17/51/52 only
+              ELSEIF (IPLY > 0 .AND. IPT == -1) THEN
+                DO J = 1,NLAY
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(J)
+                  NPTT  = BUFLY%NPTT
+                  NFAIL = BUFLY%NFAIL
+                  ID_PLY = 0
+                  IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+                    ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                  ELSEIF (IGTYP == 52) THEN
+                    ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
+                  ENDIF 
+                  IF (ID_PLY == IPLY) THEN
+                    DO I = 1,NEL
+                      DO IR = 1,NPTR
+                        DO IS = 1,NPTS
+                          DO IT = 1,NPTT
+                            FBUF => BUFLY%FAIL(IR,IS,IT)
+                            DO IFAIL = 1,NFAIL  
+                              IF (FBUF%FLOC(IFAIL)%ILAWF == 32) THEN 
+                                VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I))
+                                IS_WRITTEN_VALUE(I) = 1
+                              ENDIF
+                            ENDDO
+                          ENDDO
+                        ENDDO 
+                      ENDDO 
+                    ENDDO
+                  ENDIF
+                ENDDO
+c             ! If layer input : PLY=null LAYER=ILAY NPT=null/IPT
+              ! -> Properties type 10/11/16 only
+              ELSEIF (ILAY <= NLAY .AND. ILAY > 0) THEN
+                IPT = 1
+                IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN 
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
+                  NFAIL = BUFLY%NFAIL
+                  DO I=1,NEL
+                    DO IR = 1,NPTR
+                      DO IS = 1,NPTS
+                        FBUF => BUFLY%FAIL(IR,IS,1)
+                        DO IFAIL = 1,NFAIL  
+                          IF (FBUF%FLOC(IFAIL)%ILAWF == 32) THEN 
+                            VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I))
+                            IS_WRITTEN_VALUE(I) = 1
+                          ENDIF
+                        ENDDO
+                      ENDDO         
+                    ENDDO
+                  ENDDO
+                ENDIF
+c             ! If intg. point input : PLY=null LAYER=null NPT=IPT
+              ! -> Properties type 1/9 only
+              ELSEIF (IPT <= NPT .AND. IPT > 0) THEN
+                IF (IGTYP == 1 .OR. IGTYP == 9) THEN 
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(1)
+                  NFAIL = BUFLY%NFAIL
+                  DO I=1,NEL       
+                    DO IR = 1,NPTR          
+                      DO IS = 1,NPTS    
+                        FBUF => BUFLY%FAIL(IR,IS,IPT)
+                        DO IFAIL = 1,NFAIL  
+                          IF (FBUF%FLOC(IFAIL)%ILAWF == 32) THEN 
+                            VALUE(I) = MAX(VALUE(I),FBUF%FLOC(IFAIL)%DAM(I))
+                            IS_WRITTEN_VALUE(I) = 1
+                          ENDIF
+                        ENDDO
+                      ENDDO         
+                    ENDDO
+                  ENDDO
+                ENDIF
+              ENDIF
+c---------------------------------------------------------------------------
+            ELSEIF (KEYWORD == 'HC_DSSE_Z/MEMB') THEN 
+c---------------------------------------------------------------------------          
+              ! Multilayer properties TYPE 10/11/16/17/51/52 
+              IF (NLAY > 1) THEN    
+                IPT = IABS(NLAY)/2 + 1   
+                BUFLY => ELBUF_TAB(NG)%BUFLY(IPT)
+                NPTT  = BUFLY%NPTT
+                NFAIL = BUFLY%NFAIL
+                DO I = 1,NEL                                                              
+                  DO IT = 1,NPTT
+                    DO IR = 1,NPTR                                                         
+                      DO IS = 1,NPTS 
+                        FBUF => BUFLY%FAIL(IR,IS,IT) 
+                        DO IFAIL=1,NFAIL  
+                          IF (FBUF%FLOC(IFAIL)%ILAWF == 32) THEN 
+                            RINDX = FBUF%FLOC(IFAIL)%INDX(I)
+                            VALUE(I) = MAX(VALUE(I),RINDX) 
+                            IS_WRITTEN_VALUE(I) = 1                         
+                          ENDIF
+                        ENDDO                                                          
+                      ENDDO
+                    ENDDO                                                                 
+                  ENDDO
+                ENDDO
+              ! Single layer properties TYPE 1/9
+              ELSEIF (MPT > 0) THEN  
+                IPT = IABS(NPT)/2 + 1
+                BUFLY => ELBUF_TAB(NG)%BUFLY(1)  
+                NFAIL = BUFLY%NFAIL                                           
+                DO I = 1,NEL                                                              
+                  DO IR = 1,NPTR                                                         
+                    DO IS = 1,NPTS     
+                      FBUF => BUFLY%FAIL(IR,IS,IPT)                                                   
+                      DO IFAIL = 1,NFAIL  
+                        IF (FBUF%FLOC(IFAIL)%ILAWF == 32) THEN 
+                          RINDX = FBUF%FLOC(IFAIL)%INDX(I)
+                          VALUE(I) = MAX(VALUE(I),RINDX) 
+                          IS_WRITTEN_VALUE(I) = 1                         
+                        ENDIF
+                      ENDDO                                                           
+                    ENDDO                                                                 
+                  ENDDO                                                                  
+                ENDDO                                                  
+              ENDIF      
+c 
+c---------------------------------------------------------------------------
+            ELSEIF (KEYWORD == 'HC_DSSE_Z') THEN 
+c---------------------------------------------------------------------------
+              ! If no specific input PLY=null LAYER=null NPT=null
+              IF (ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN 
+                ! Multilayer properties TYPE 10/11/16/17/51/52 
+                ! -> Max value among all layers and integration points
+                IF (NLAY > 1) THEN    
+                  DO I = 1,NEL 
+                    DO N = 1,NLAY
+                      BUFLY => ELBUF_TAB(NG)%BUFLY(N)
+                      NPTT  = BUFLY%NPTT 
+                      NFAIL = BUFLY%NFAIL
+                      DO IT = 1,NPTT
+                        DO IR = 1,NPTR     
+                          DO IS = 1,NPTS    
+                            FBUF => BUFLY%FAIL(IR,IS,IT) 
+                            DO IFAIL=1,NFAIL  
+                              IF (FBUF%FLOC(IFAIL)%ILAWF == 32) THEN 
+                                RINDX = FBUF%FLOC(IFAIL)%INDX(I)
+                                VALUE(I) = MAX(VALUE(I),RINDX) 
+                                IS_WRITTEN_VALUE(I) = 1     
+                              ENDIF
+                            ENDDO
+                          ENDDO
+                        ENDDO  
+                      ENDDO
+                    ENDDO
+                  ENDDO    
+                ! Single layer properties TYPE 1/9 
+                ! -> Max value among all layers and integration points                                                                 
+                ELSEIF (MPT > 0) THEN
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(1)
+                  NPTT  = BUFLY%NPTT
+                  NFAIL = BUFLY%NFAIL
+                  DO I = 1,NEL
+                    DO IT = 1,NPTT
+                      DO IR = 1,NPTR 
+                        DO IS = 1,NPTS    
+                          FBUF => BUFLY%FAIL(IR,IS,IT) 
+                          DO IFAIL = 1,NFAIL  
+                            IF (FBUF%FLOC(IFAIL)%ILAWF == 32) THEN 
+                              RINDX = FBUF%FLOC(IFAIL)%INDX(I)
+                              VALUE(I) = MAX(VALUE(I),RINDX) 
+                              IS_WRITTEN_VALUE(I) = 1     
+                            ENDIF
+                          ENDDO
+                        ENDDO
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                ENDIF  
+c             ! If ply and int. point input: PLY=IPLY LAYER=null NPT=IPT
+              ! -> Properties type 17/51/52 only
+              ELSEIF (IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0) THEN
+                DO J = 1,NLAY
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(J)
+                  NPTT  = BUFLY%NPTT
+                  NFAIL = BUFLY%NFAIL
+                  ID_PLY = 0
+                  IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+                    ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                  ELSEIF (IGTYP == 52) THEN
+                    ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
+                  ENDIF 
+                  IF (ID_PLY == IPLY) THEN
+                    IF (IPT <= NPTT) THEN
+                      DO I = 1,NEL  
+                        DO IR = 1,NPTR  
+                          DO IS = 1,NPTS 
+                            FBUF => BUFLY%FAIL(IR,IS,IPT) 
+                            DO IFAIL = 1,NFAIL  
+                              IF (FBUF%FLOC(IFAIL)%ILAWF == 32) THEN 
+                                RINDX = FBUF%FLOC(IFAIL)%INDX(I)
+                                VALUE(I) = MAX(VALUE(I),RINDX) 
+                                IS_WRITTEN_VALUE(I) = 1     
+                              ENDIF
+                            ENDDO
+                          ENDDO
+                        ENDDO
+                      ENDDO
+                    ENDIF
+                  ENDIF
+                ENDDO
+c             ! If ply input only: PLY=IPLY LAYER=null NPT=null
+              ! -> Properties type 17/51/52 only
+              ELSEIF (IPLY > 0 .AND. IPT == -1) THEN
+                DO J = 1,NLAY
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(J)
+                  NPTT  = BUFLY%NPTT
+                  NFAIL = BUFLY%NFAIL
+                  ID_PLY = 0
+                  IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+                    ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                  ELSEIF (IGTYP == 52) THEN
+                    ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
+                  ENDIF 
+                  IF (ID_PLY == IPLY) THEN
+                    DO I = 1,NEL
+                      DO IR = 1,NPTR
+                        DO IS = 1,NPTS
+                          DO IT = 1,NPTT
+                            FBUF => BUFLY%FAIL(IR,IS,IT)
+                            DO IFAIL = 1,NFAIL  
+                              IF (FBUF%FLOC(IFAIL)%ILAWF == 32) THEN 
+                                RINDX = FBUF%FLOC(IFAIL)%INDX(I)
+                                VALUE(I) = MAX(VALUE(I),RINDX) 
+                                IS_WRITTEN_VALUE(I) = 1     
+                              ENDIF
+                            ENDDO
+                          ENDDO
+                        ENDDO 
+                      ENDDO 
+                    ENDDO
+                  ENDIF
+                ENDDO
+c             ! If layer input : PLY=null LAYER=ILAY NPT=null/IPT
+              ! -> Properties type 10/11/16 only
+              ELSEIF (ILAY <= NLAY .AND. ILAY > 0) THEN
+                IPT = 1
+                IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN 
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
+                  NFAIL = BUFLY%NFAIL
+                  DO I=1,NEL
+                    DO IR = 1,NPTR
+                      DO IS = 1,NPTS
+                        FBUF => BUFLY%FAIL(IR,IS,1)
+                        DO IFAIL = 1,NFAIL  
+                          IF (FBUF%FLOC(IFAIL)%ILAWF == 32) THEN 
+                            RINDX = FBUF%FLOC(IFAIL)%INDX(I)
+                            VALUE(I) = MAX(VALUE(I),RINDX) 
+                            IS_WRITTEN_VALUE(I) = 1     
+                          ENDIF
+                        ENDDO
+                      ENDDO         
+                    ENDDO
+                  ENDDO
+                ENDIF
+c             ! If intg. point input : PLY=null LAYER=null NPT=IPT
+              ! -> Properties type 1/9 only
+              ELSEIF (IPT <= NPT .AND. IPT > 0) THEN
+                IF (IGTYP == 1 .OR. IGTYP == 9) THEN 
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(1)
+                  NFAIL = BUFLY%NFAIL
+                  DO I=1,NEL       
+                    DO IR = 1,NPTR          
+                      DO IS = 1,NPTS    
+                        FBUF => BUFLY%FAIL(IR,IS,IPT)
+                        DO IFAIL = 1,NFAIL  
+                          IF (FBUF%FLOC(IFAIL)%ILAWF == 32) THEN 
+                            RINDX = FBUF%FLOC(IFAIL)%INDX(I)
+                            VALUE(I) = MAX(VALUE(I),RINDX) 
+                            IS_WRITTEN_VALUE(I) = 1     
+                          ENDIF
+                        ENDDO
+                      ENDDO         
+                    ENDDO
+                  ENDDO
+                ENDIF
+              ENDIF
 c---------------------------------------------------------------------------
 c            ELSEIF (KEYWORD == 'NEWKEY') THEN ! New Output Example
 C---------------------------------------------------------------------------

@@ -32,7 +32,8 @@ Chd|====================================================================
      2           TIME     ,NGL      ,IPT      ,ILAY     ,IPTT     ,
      3           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      4           DPLA     ,OFF      ,FOFF     ,PTHKF    ,
-     5           DFMAX    ,TDEL     ,UEL      ,NPTOT    ,IGTYP  )
+     5           DFMAX    ,TDEL     ,UEL      ,NPTOT    ,IGTYP    ,
+     6           FLD_IDX  ,DAM      ,PLA      )
 
 C-----------------------------------------------
 C I m p l i c i t T y p e s
@@ -88,17 +89,17 @@ C!-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,ILAY,IPT,NPTOT,IPTT,IGTYP
       INTEGER ,DIMENSION(NEL), INTENT(IN) :: NGL
        my_real ,DIMENSION(NUPARAM), INTENT(IN) :: UPARAM
-       my_real ,DIMENSION(NEL), INTENT(IN)  :: DPLA
+       my_real ,DIMENSION(NEL), INTENT(IN)  :: DPLA,PLA
 c!       my_real OFF(NEL), UEL(NEL)
 C
 C-----------------------------------------------
 C I N P U T  O U T P U T  A r g u m e n t s
 C-----------------------------------------------
-       INTEGER ,DIMENSION(NEL), INTENT(INOUT) :: FOFF
+       INTEGER ,DIMENSION(NEL), INTENT(INOUT) :: FOFF,FLD_IDX
        my_real, INTENT(IN) :: TIME
        my_real ,DIMENSION(NEL), INTENT(IN)  :: SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
        my_real :: PTHKF
-       my_real ,DIMENSION(NEL), INTENT(INOUT) :: DFMAX, UEL,OFF
+       my_real ,DIMENSION(NEL), INTENT(INOUT) :: DFMAX, UEL,OFF,DAM
        my_real ,DIMENSION(NEL), INTENT(OUT)   :: TDEL
        my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
 C-----------------------------------------------
@@ -144,7 +145,8 @@ C-----------------------------------------------
        DO I =1,NEL
        
          DAM1 = DFMAX(I)
-         DAM2 = UVAR(I,2)
+         DAM2 = UVAR(I,2) 
+         IF (FLD_IDX(I) == 0) FLD_IDX(I) = 1
          
          IF (DPLA(I) > ZERO .and. OFF(I) == ONE .and. DAM1 < ONE) THEN
            SIGM   = (SIGNXX(I)+ SIGNYY(I))*THIRD
@@ -226,6 +228,22 @@ C-----------------------------------------------
                CONDITION2(NINDX) = 1
                CONDITION3(NINDX) = 1
              ENDIF
+           ENDIF
+
+           ! Index
+           DAM(I) = MIN(PLA(I)/MAX(EM6,EPSF),ONE)
+           
+           ! Zone contour
+           !  -> Below HC and DSSE failure curves 
+           IF (((ETA < THIRD) .AND.(DAM1<ONE)).OR.
+     .         ((ETA >= THIRD).AND.(DAM2<ONE))) THEN
+             FLD_IDX(I) = 1 
+           !  -> Between HC and DSSE failure curves 
+           ELSEIF ((ETA >= THIRD).AND.(DAM2>=ONE).AND.(DAM1<ONE)) THEN
+             FLD_IDX(I) = 2
+           !  -> Above all curves
+           ELSEIF (DAM1 >= ONE) THEN 
+             FLD_IDX(I) = 3
            ENDIF
            
          ENDIF
