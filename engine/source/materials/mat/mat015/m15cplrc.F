@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(MVSIZ),NEL
-      INTEGER JFT,JLT, ISRATE(*)
+      INTEGER JFT,JLT, ISRATE
 C     REAL
       my_real
      .   PM(NPROPM,*),WPLA(*),DAMT(NEL,2),SHF(*),EPSP(*),
@@ -173,7 +173,7 @@ C-------------------------------------------------------------------
 C     STRAIN RATE
 C-------------------------------------------------------------------
       DO I=JFT,JLT
-        IF (ISRATE(I) == 0) EPSP(I) = MAX(
+        IF (ISRATE == 0) EPSP(I) = MAX(
      .                     ABS(DEPSXX(I)),ABS(DEPSYY(I)),ABS(DEPSXY(I)),
      .                     ABS(DEPSYZ(I)),ABS(DEPSZX(I))) / MAX(DT1,EM30)
         IF (EPSP(I) > EPDR(I)) THEN
