@@ -448,7 +448,7 @@ c-------
             ILAW  = 15  
             CALL HM_READ_MAT15(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,MATPARAM )
+     .           MAT_ID    ,TITR     ,MATPARAM ,ISRATE    ,PARMAT )
 c-------
           CASE ('LAW16','GRAY')
             ILAW  = 16  

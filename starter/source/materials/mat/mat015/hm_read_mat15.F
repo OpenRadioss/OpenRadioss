@@ -35,8 +35,9 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matp
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT15(LSUBMODEL, MTAG, UNITAB, IPM, PM,
-     .                         MAT_ID   , TITR,MATPARAM)
+      SUBROUTINE HM_READ_MAT15(
+     .             LSUBMODEL,MTAG     ,UNITAB   ,IPM      ,PM       ,
+     .             MAT_ID   ,TITR     ,MATPARAM ,ISRATE   ,PARMAT   )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -67,13 +68,14 @@ C-----------------------------------------------
       CHARACTER*nchartitle, INTENT(IN)       :: TITR
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER, INTENT(IN)                    :: MAT_ID
-      INTEGER, INTENT(INOUT) :: IPM(NPROPMI)
+      INTEGER, INTENT(INOUT) :: IPM(NPROPMI),ISRATE
       my_real, INTENT(INOUT) :: PM(NPROPM)
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
+      my_real, DIMENSION(100),INTENT(INOUT) :: PARMAT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IOFF,ICC,IFLAG,ISRATE
+      INTEGER IOFF,ICC,IFLAG
       my_real
      .   N12, N21, E11, E22, G12, G23, G31, EPST1, EPST2, CB, CN,
      .   FMAX, SIGYT1, SIGYT2, SIGYC1, SIGYC2, SIGYT12, SIGYC12, 
@@ -182,7 +184,8 @@ C-----
      .                C1=TITR)
        ENDIF 
 C-------------------------------------
-       IF(ICC/=2.AND.ISRATE==0.AND.FCUT/=ZERO)ISRATE=1
+       IF (ICC/=2.AND.ISRATE==0.AND.FCUT/=ZERO) ISRATE=1
+       IF (ISRATE > 0 .AND. FCUT == ZERO) FCUT = INFINITY
        IF(CN==ZERO)    CN    = ONE
        IF(FMAX==ZERO)   FMAX  = INFINITY    
        IF(WPLAMX==ZERO)WPLAMX = INFINITY
@@ -241,8 +244,6 @@ C
         WRITE(IOUT,2700) S1,S2,S12,C11,C22        
       ENDIF
 C-------------------------------------------------
-      PM(8) =ISRATE
-      PM(9) =FCUT*TWO*PI
       PM(20)= MAX(E11,E22)/DETC
       PM(24)= PM(20)
       PM(26)=FIVE_OVER_6
@@ -267,6 +268,9 @@ C-----------------------------------------
       PM(32)= C1
       PM(27)= SSP
       PM(52)=ONEP414*PM(17)*PM(1)*SSP
+C-----------------------------------------
+      PARMAT(4) = ISRATE
+      PARMAT(5) = FCUT
 C----------------------------------------
 C     CONSTANTS FOR THE YIELD FUNCTION
 C-------------------------------------------
