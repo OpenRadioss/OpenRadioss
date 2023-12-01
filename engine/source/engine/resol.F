@@ -193,7 +193,7 @@ Chd|        INIT_INTERF_SORTING_STRATEGY  source/interfaces/init_interf_sorting_
 Chd|        INIT_NODAL_STATE              source/interfaces/interf/init_nodal_state.F
 Chd|        INIT_TRIM                     source/interfaces/intsort/init_trim.F
 Chd|        INIXFEM                       source/elements/xfem/inixfem.F
-Chd|        INT18_LAW151_ALLOC            source/interfaces/int18/int18_law151_alloc.F
+Chd|        INT18_ALLOC            source/interfaces/int18/int18_alloc.F
 Chd|        INT18_LAW151_INIT             source/interfaces/int18/int18_law151_init.F
 Chd|        INT18_LAW151_OMP_ACCUMULATION source/interfaces/int18/int18_law151_omp_accumulation.F
 Chd|        INT18_LAW151_UPDATE           source/interfaces/int18/int18_law151_update.F
@@ -663,6 +663,7 @@ C-----------------------------------------------
       USE FORINT_MOD
       USE PYTHON_FUNCT_MOD
       USE FORCE_MOD , ONLY : FORCE
+      USE ARRAY_MOD , ONLY : array_type
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1205,6 +1206,13 @@ C-------------------------------------------------------------------------------
         LOGICAL :: GLOBAL_ACTIVE_ALE_ELEMENT
 
         INTEGER :: SIZE_NPBY
+
+        ! ----------
+        LOGICAL :: NEED_COMM_INTER18 !< true if the mpi comm "exchange of remote XCELL data" is mandatory
+        INTEGER :: NUMBER_INTER18 ! number of interface 18
+        INTEGER, DIMENSION(NINTER) :: INTER18_LIST ! list of interface 18
+        TYPE(array_type), DIMENSION(:), ALLOCATABLE :: XCELL_REMOTE ! remote data structure for interface 18 
+        ! ----------
       DATA IUN/1/
 C-----------------------------------------------------------------------------------       
 C Uncomment for Debug - ITAB is copied in Debug Module.
@@ -2071,8 +2079,9 @@ C===============================================================================
 C                                  NON PARALLEL SECTION (SMP)
 C========================================================================================
        CALL SPLIT_ASSPAR4(ADSKY,NUMNOD,NTHREAD,NODFT_ASSPAR,NODLT_ASSPAR,SADSKY)
-       ! Allocation & initialization of /INT18 + LAW151
-       CALL INT18_LAW151_ALLOC(MULTI_FVM,IPARI)
+       ! Allocation & initialization of /INT18 + LAW151 
+       ALLOCATE( XCELL_REMOTE(NINTER) )
+       CALL INT18_ALLOC(NUMBER_INTER18,INTER18_LIST,MULTI_FVM,IPARI,XCELL_REMOTE)
        CALL INT18_LAW151_INIT(MULTI_FVM,IGRBRIC,IPARI    ,IXS,
      1                        IGROUPS  ,IPARG  ,ELBUF_TAB,MULTI_FVM%FORCE_INT         ,
      2            X       ,          V       ,          MS         ,          KINET       ,
@@ -3685,6 +3694,7 @@ C
 C--------------------------------------------------------
 C       ALE flux + forces
 C--------------------------------------------------------
+        NEED_COMM_INTER18 = .FALSE.
         IF (IALE+IEULER+ITHERM/=0.AND.GLOBAL_ACTIVE_ALE_ELEMENT) THEN
            CALL STARTIME(MACRO_TIMER_ALEMAIN,1) 
 C-----------------------------
@@ -3737,7 +3747,7 @@ C
      K          INTBUF_TAB ,IXT      ,IGRV          ,AGRV         ,SENSORS        ,
      L          LGRAV      ,CONDNSKY ,CONDN         ,MS_2D        ,MULTI_FVM      ,IGRTRUSS        ,
      M          IGRBRIC    ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS    ,EBCS_TAB       ,ALE_CONNECTIVITY, DIFFUSION,
-     N          MAT_ELEM   ,H3D_DATA,DT , OUTPUT  )
+     N          MAT_ELEM   ,H3D_DATA,DT , OUTPUT , NEED_COMM_INTER18)
 
            IF(INT22 /=0)  call my_barrier !INTER22in input files  - get also IDT_INT22
 #include "lockon.inc"
@@ -3766,6 +3776,10 @@ C
 
 !$OMP END PARALLEL
 
+           IF(NEED_COMM_INTER18) THEN
+             CALL SPMD_EXCH_INTER_18(NINTER,NSPMD,NUMBER_INTER18,SXCELL,INTER18_LIST,
+     .                   XCELL,MULTI_FVM,XCELL_REMOTE,INTBUF_TAB,ALE_CONNECTIVITY)
+           ENDIF
            CALL TRACE_OUT(12)
            CALL STOPTIME(MACRO_TIMER_ALEMAIN,1) 
         ELSE
@@ -4047,7 +4061,7 @@ C Init var parallel SMP
      P     PSKIDS            ,T2MAIN_SMS   ,FORNEQS        ,KNOTLOCPC       ,KNOTLOCEL      ,
      Q     PINCH_DATA%APINCH(1,IDX_PINCH),PINCH_DATA%STIFPINCH(IDX_PINCH),T2FAC_SMS,TAGNCONT   ,
      R     KLOADPINTER       ,LOADPINTER     ,LOADP_HYD_INTER ,DGAPLOADINT    ,S_LOADPINTER    ,
-     S     INTERFACES        )
+     S     INTERFACES        ,XCELL_REMOTE)
 
          IF(NINTSTAMP/=0.AND.(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0.OR.
      .          ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0))THEN
@@ -5453,7 +5467,7 @@ C        /---------------/
      2             A          ,ISKEW     ,SKEW     ,ICODT   ,WA      ,
      3             MS         ,ITAB      ,ITSK+1   ,KINET   ,STIFN   ,
      4             MTF        ,CAND_SAV  ,INT18ADD ,IAD_ELEM,FR_ELEM ,
-     5             TAGPENE    ,H3D_DATA  ,MULTI_FVM,ALE_CONNECTIVITY%NE_CONNECT,XCELL)
+     5             TAGPENE    ,H3D_DATA  ,MULTI_FVM,ALE_CONNECTIVITY%NE_CONNECT,XCELL,XCELL_REMOTE)
 !$OMP END PARALLEL
         ENDIF
 C------------------------

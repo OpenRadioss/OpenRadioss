@@ -77,7 +77,7 @@ Chd|====================================================================
      P       PSKIDS    ,T2MAIN_SMS ,FORNEQS    ,KNOTLOCPC,KNOTLOCEL,
      Q       APINCH    ,STIFPINCH   ,T2FAC_SMS ,TAGNCONT ,
      R       KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,
-     S       INTERFACES)
+     S       INTERFACES,XCELL_REMOTE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -93,6 +93,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE OUTPUTS_MOD
       USE INTERFACES_MOD
+      USE ARRAY_MOD 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -164,6 +165,7 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (INTERFACES_) ,INTENT(IN):: INTERFACES
+      TYPE(array_type), DIMENSION(NINTER), INTENT(in) :: XCELL_REMOTE !< remote data structure for interface 18 
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
 C-----------------------------------------------  
@@ -309,7 +311,7 @@ C
      I  KXIG3D         ,WIGE           ,KNOT             ,IGEO            ,MULTI_FVM   , 
      J  H3D_DATA       ,INTBUF_FRIC_TAB,KNOTLOCPC      ,KNOTLOCEL        ,JTASK        ,
      K  TAGNCONT       ,KLOADPINTER    ,LOADPINTER       ,LOADP_HYD_INTER ,DGAPLOADINT ,
-     L  S_LOADPINTER   ,INTEREFRIC     )
+     L  S_LOADPINTER   ,INTEREFRIC     ,XCELL_REMOTE(N)%SIZE_MY_REAL_ARRAY_1D,XCELL_REMOTE(N)%MY_REAL_ARRAY_1D)
           ELSE
            NULLIFY(ptr_FR_I18)
            IF(NI18>0) ptr_FR_I18 => FR_I18(1,NI18)           
@@ -333,7 +335,7 @@ C
      I  KXIG3D     ,WIGE          ,KNOT             ,IGEO            ,MULTI_FVM,     
      J  H3D_DATA   ,INTBUF_FRIC_TAB,KNOTLOCPC       ,KNOTLOCEL       ,JTASK       ,
      K  TAGNCONT    ,KLOADPINTER  ,LOADPINTER       ,LOADP_HYD_INTER ,DGAPLOADINT ,
-     L  S_LOADPINTER,INTEREFRIC   )
+     L  S_LOADPINTER,INTEREFRIC   ,XCELL_REMOTE(N)%SIZE_MY_REAL_ARRAY_1D,XCELL_REMOTE(N)%MY_REAL_ARRAY_1D)
            IAD=IAD+NUM_IMP(N)
           END IF
           IF(NTY == 17 .AND. IPARI(33,N) == 0)THEN            ! ILAGM == 0

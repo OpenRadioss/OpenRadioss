@@ -98,7 +98,7 @@ Chd|====================================================================
      K         INTBUF_TAB  , IXT         ,IGRV          ,AGRAV     ,SENSORS   ,
      L         LGRAV       , CONDNSKY    ,CONDN         ,MS_2D     ,MULTI_FVM ,IGRTRUSS        ,
      M         IGRBRIC     , NLOC_DMG    ,ID_GLOBAL_VOIS,FACE_VOIS ,EBCS_TAB  ,ALE_CONNECTIVITY, 
-     N         DIFFUSION   , MAT_ELEM    ,H3D_DATA      ,DT   ,OUTPUT)
+     N         DIFFUSION   , MAT_ELEM    ,H3D_DATA      ,DT   ,OUTPUT,NEED_COMM_INTER18)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -168,7 +168,7 @@ C-----------------------------------------------
      .   IGRV(*),LGRAV(*)
       ! for parith/on : ID_GLOBAL_VOIS --> user id ; FACE_VOIS --> face of the remote element
       INTEGER, DIMENSION(*), INTENT(in) :: ID_GLOBAL_VOIS,FACE_VOIS
-     
+      LOGICAL, INTENT(inout) :: NEED_COMM_INTER18 !< true if the mpi comm "exchange of remote XCELL data" is mandatory
       DOUBLE PRECISION XDP(3,*)
       
       my_real X(3,NUMNOD),V(3,NUMNOD),MS(*),PM(NPROPM,NUMMAT),SKEW(LSKEW,*),
@@ -285,6 +285,7 @@ C  IOUTPRT (assembly report)
       !     INTERFACE 18 - VARIABLE GAP
       !---------------------------------------------
        IF(INTER18_IS_VARIABLE_GAP_DEFINED)THEN
+          NEED_COMM_INTER18 = .TRUE.
           DO NG=ITASK+1,NGROUP,NTHREAD
              IF (TT > ZERO .AND. IPARG(76, NG) == 1) CYCLE ! --> OFF
              IF(IPARG(8,NG) == 1) CYCLE
@@ -300,18 +301,18 @@ C  IOUTPRT (assembly report)
                DO I=1,NEL                             
                  XCELL(1,I+NFT)=EXP(LOG(ELBUF_TAB(NG)%GBUF%VOL(I))/THREE)
                  XCELL(2,I+NFT)=ZERO
-                 XCELL(3,I+NFT)=ZERO                   
+                 XCELL(3,I+NFT)=ZERO      
                ENDDO      
              ENDIF                                    
           ENDDO
       CALL MY_BARRIER
         IF(NSPMD>1)THEN
            LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
-           CALL SPMD_ENVOIS(1, XCELL, 
+           CALL SPMD_ENVOIS(3, XCELL, 
      .          NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)    
         ENDIF
-      ENDIF
-      
+      ENDIF      
+
       !--------------------------------------------------------
       ! F L U I D E
       !       ALE SUB-CYCLING PREPARATION

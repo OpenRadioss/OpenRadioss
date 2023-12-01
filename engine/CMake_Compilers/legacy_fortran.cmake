@@ -386,6 +386,7 @@ set_source_files_properties( ${source_directory}/source/mpi/forces/spmd_exch_a_i
 set_source_files_properties( ${source_directory}/source/mpi/forces/spmd_exch_a_int2_ams.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/forces/spmd_exch_tagncont.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/forces/spmd_i7fcom_poff.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/source/mpi/interfaces/spmd_exch_inter_18.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/output/upd_outmax.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/output/outmaxsubr.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/output/th/hist13.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )

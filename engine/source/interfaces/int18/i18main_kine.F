@@ -45,7 +45,7 @@ Chd|====================================================================
      2                   A      ,ISKEW   ,SKEW     ,LCOD          ,WA      ,
      3                   MS     ,ITAB    ,JTASK    ,KINET         ,STIFN   ,
      4                   MTF    ,CAND_SAV,INT18ADD ,IAD_ELEM      ,FR_ELEM ,
-     5                   TAGPENE,H3D_DATA,MULTI_FVM,ALE_NE_CONNECT,XCELL)
+     5                   TAGPENE,H3D_DATA,MULTI_FVM,ALE_NE_CONNECT,XCELL,XCELL_REMOTE)
 C-----------------------------------------------
 C   D e s c r i p t i o n 
 C-----------------------------------------------
@@ -62,6 +62,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD    
       USE ALE_CONNECTIVITY_MOD
       USE ANIM_MOD
+      USE ARRAY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,7 +88,8 @@ C-----------------------------------------------
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM  
-      TYPE(t_connectivity), INTENT(IN) :: ALE_NE_CONNECT          
+      TYPE(t_connectivity), INTENT(IN) :: ALE_NE_CONNECT  
+      TYPE(array_type), DIMENSION(NINTER), INTENT(in) :: XCELL_REMOTE !< remote data structure for interface 18         
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -215,7 +217,8 @@ C LINDMAX = NCONT*MULTIMP
      2                       STIFN       ,V             ,A                     ,MS               , NMN             ,
      3                       ITAB        ,LINDMAX       ,CAND_SAV(INT18ADD(N)) ,MTF              , ALE_NE_CONNECT  ,
      4                       NRTMDIM     ,JTASK         ,NB_JLT(JTASK)         ,NB_JLT_NEW(JTASK),N B_STOK_N(JTASK),
-     5                       KINET       ,MULTI_FVM     ,XCELL)
+     5                       KINET       ,MULTI_FVM     ,XCELL,XCELL_REMOTE(N)%SIZE_MY_REAL_ARRAY_1D,
+     .                            XCELL_REMOTE(N)%MY_REAL_ARRAY_1D)
        ENDIF
       ENDDO
 C=======================================================================
@@ -511,7 +514,7 @@ Chd|====================================================================
      2      STIFN    ,V         ,A          ,MS           ,NMN      ,
      3      ITAB     ,LINDMAX   ,CAND_SAV   ,MTF          ,ALE_NE_CONNECT,
      4      NRTMDIM  ,JTASK     ,NB_JLT     ,NB_JLT_NEW   ,NB_STOK_N,
-     5      KINET    ,MULTI_FVM ,XCELL)
+     5      KINET    ,MULTI_FVM ,XCELL,S_XCELL_REMOTE,XCELL_REMOTE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -554,6 +557,8 @@ C-----------------------------------------------
       INTEGER NIN,JTASK ,LINDMAX,NMN     ,
      .        NB_JLT,NB_JLT_NEW,NB_STOK_N,NRTMDIM
       INTEGER IPARI(NPARI), KINET(*),ITAB(*),STIFN(*)
+      INTEGER, INTENT(in) :: S_XCELL_REMOTE
+      my_real, DIMENSION(S_XCELL_REMOTE), INTENT(in) :: XCELL_REMOTE
       my_real
      .   X(3,*), V(3,*), A(3,*), MS(*),
      .   MTF(14,*),CAND_SAV(8,*),XCELL(3,SXCELL)
@@ -704,7 +709,7 @@ C cand_n et cand_e replaced with cand_n_n et cand_e_n
      B        JLT_NEW      ,GAPV     ,INACTI   ,INTBUF_TAB%CAND_P,ALE_NE_CONNECT,
      C        INDEX2(NFT+1),VXI      ,VYI      ,ITAB             ,XCELL  ,
      D        VZI          ,MSI      ,KINI     ,SURF             ,IBAG    ,
-     E        IGAP         ,MULTI_FVM)
+     E        IGAP         ,MULTI_FVM,S_XCELL_REMOTE,XCELL_REMOTE)
           JLT = JLT_NEW
           IF(JLT_NEW /= 0) THEN
             IPARI(29) = 1

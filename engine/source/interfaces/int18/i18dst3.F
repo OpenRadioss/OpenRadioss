@@ -43,7 +43,7 @@ Chd|====================================================================
      B                  JLT_NEW,GAPV     , INACTI ,CAND_P ,ALE_NE_CONNECT,
      C                  INDEX  ,VXI      , VYI    ,ITAB   ,XCELL         ,
      D                  VZI    ,MSI      , KINI   ,SURF   ,IBAG          ,
-     E                  IGAP   ,MULTI_FVM)
+     E                  IGAP   ,MULTI_FVM,S_XCELL_REMOTE,XCELL_REMOTE)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -54,6 +54,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE MULTI_FVM_MOD
+      USE TRI7BOX
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,6 +74,7 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        INDEX(MVSIZ),IBAG
       INTEGER, INTENT(IN) :: ITAB(NUMNOD),IGAP
+      INTEGER, INTENT(in) :: S_XCELL_REMOTE
       my_real
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
      .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
@@ -91,6 +93,7 @@ C-----------------------------------------------
      .     SURF(3,*),XCELL(3,SXCELL)
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
       TYPE(t_connectivity), INTENT(IN) :: ALE_NE_CONNECT
+      my_real, DIMENSION(S_XCELL_REMOTE), INTENT(in) :: XCELL_REMOTE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -121,8 +124,8 @@ C-----------------------------------------------
      .     NNX1(MVSIZ), NNX2(MVSIZ), NNX3(MVSIZ), NNX4(MVSIZ),
      .     NNY1(MVSIZ), NNY2(MVSIZ), NNY3(MVSIZ), NNY4(MVSIZ),
      .     NNZ1(MVSIZ), NNZ2(MVSIZ), NNZ3(MVSIZ), NNZ4(MVSIZ)
-     
       LOGICAL IS_GAP_CONSTANT, IS_GAP_VARIABLE
+      INTEGER :: NODE_ID
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -255,25 +258,38 @@ C-----------------------------------------------
         LB4(I) = -(SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
         LC4(I) =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
        ENDDO
-       
        IF(IGAP == 1)THEN !---VARIABLE GAP, CALCULATED HERE
         IF (.NOT.MULTI_FVM%IS_USED) THEN
          DO I=1,JLT
-           IAD1 = ALE_NE_CONNECT%IAD_CONNECT(I)                         
-           IAD2 = ALE_NE_CONNECT%IAD_CONNECT(I + 1) - 1 
-           DL = ZERO                
-           DO IEL = IAD1, IAD2                                          
-              ELEM_ID = ALE_NE_CONNECT%CONNECTED(IEL)                   
+           NODE_ID = NSVG(I)
+           ! ----------
+           ! local node
+           IF(NODE_ID>0) THEN
+            IAD1 = ALE_NE_CONNECT%IAD_CONNECT(NODE_ID)                         
+            IAD2 = ALE_NE_CONNECT%IAD_CONNECT(NODE_ID + 1) - 1 
+            DL = ZERO                
+            DO IEL = IAD1, IAD2                                          
+              ELEM_ID = ALE_NE_CONNECT%CONNECTED(IEL)   
               DL=MAX(DL, XCELL(1,ELEM_ID))      
-           ENDDO                                                   
+            ENDDO  
+           ELSE
+            NODE_ID = ABS(NODE_ID)
+            DL = XCELL_REMOTE(NODE_ID)
+           ENDIF
+           ! ----------                                                 
            GAPV(I) = THREE_HALF*DL
          ENDDO!next I
         ELSEIF(MULTI_FVM%IS_USED) THEN
          DO I=1,JLT
-           ELEM_ID = NSVG(I) - NUMNOD   !ou NSVG(I) ?
-           DL=XCELL(1,ELEM_ID)                                                         
+            IF(NSVG(I)>0) THEN
+              ELEM_ID = NSVG(I) - NUMNOD  
+              DL=XCELL(1,ELEM_ID)                                                         
+            ELSE
+              NODE_ID = ABS(NSVG(I))
+              DL = XCELL_REMOTE(NODE_ID)
+            ENDIF
            !gap value
-           GAPV(I) = THREE_HALF*DL
+            GAPV(I) = THREE_HALF*DL
          ENDDO!next I
         ENDIF
        ELSE !---CONSTANT GAP INPUT BY USER (IGAP=0=

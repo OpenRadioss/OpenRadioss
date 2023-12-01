@@ -178,4 +178,45 @@ Chd|====================================================================
             RETURN
             END SUBROUTINE 
             ! ----------------------------
+Chd|====================================================================
+Chd|  ALLOC_1D_ARRAY                modules/array_mod.F           
+Chd|-- called by -----------
+Chd|        DOMAIN_DECOMPOSITION_PCYL     starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
+Chd|        IGRSURF_SPLIT                 starter/source/spmd/igrsurf_split.F
+Chd|        INITIA                        starter/source/elements/initia/initia.F
+Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
+Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+Chd|-- calls ---------------
+Chd|====================================================================
+            SUBROUTINE ALLOC_MY_REAL_1D_ARRAY(THIS)
+#include "implicit_f.inc"
+
+            TYPE(array_type), INTENT(inout) :: THIS
+
+            ALLOCATE( THIS%MY_REAL_ARRAY_1D( THIS%SIZE_MY_REAL_ARRAY_1D ) )
+
+            RETURN
+            END SUBROUTINE ALLOC_MY_REAL_1D_ARRAY
+            ! ----------------------------
+            ! ----------------------------
+Chd|====================================================================
+Chd|  ALLOC_1D_ARRAY                modules/array_mod.F           
+Chd|-- called by -----------
+Chd|        DOMAIN_DECOMPOSITION_PCYL     starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
+Chd|        IGRSURF_SPLIT                 starter/source/spmd/igrsurf_split.F
+Chd|        INITIA                        starter/source/elements/initia/initia.F
+Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
+Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+Chd|-- calls ---------------
+Chd|====================================================================
+            SUBROUTINE DEALLOC_MY_REAL_1D_ARRAY(THIS)
+#include "implicit_f.inc"
+
+            TYPE(array_type), INTENT(inout) :: THIS
+
+            DEALLOCATE( THIS%MY_REAL_ARRAY_1D )
+
+            RETURN
+            END SUBROUTINE DEALLOC_MY_REAL_1D_ARRAY
+            ! ----------------------------
         END MODULE ARRAY_MOD
