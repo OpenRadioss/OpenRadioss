@@ -39,13 +39,14 @@ Chd|====================================================================
      .            I0       ,I2SIZE  ,IADI2   ,FSKYI2  ,STFN    ,            
      .            STFR     ,VISC    ,PENFLAG ,IROTB    ,NOINT   ,            
      .            NODNX_SMS,DMINT2  ,DT2T    ,NELTST  ,ITYPTST ,            
-     .            IRECT    ,INDXP    ,IADX    ,
+     .            IRECT    ,INDXP   ,IADX    ,
      .            H3D_DATA,MSEGTYP2,
-     .            FNCONTP  ,FTCONTP  )   
+     .            FNCONTP  ,FTCONTP)   
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE H3D_MOD         
+      USE H3D_MOD
+      USE OUTMAX_MOD  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -683,9 +684,7 @@ C
             FNCONT(3,IX4(K)) = FNCONT(3,IX4(K)) + FZ(4)*W
           ENDIF
 
-
           IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2>0) THEN ! Normal/Tangential forces output
-
             FNCONTP(1,I) = FNCONTP(1,I)  - FN(1) * W
             FNCONTP(2,I) = FNCONTP(2,I)  - FN(2) * W
             FNCONTP(3,I) = FNCONTP(3,I)  - FN(3) * W
@@ -725,7 +724,25 @@ C
             FTCONTP(1,IX4(K)) = FTCONTP(1,IX4(K)) + FT(1)*H(4,K)*W
             FTCONTP(2,IX4(K)) = FTCONTP(2,IX4(K)) + FT(2)*H(4,K)*W
             FTCONTP(3,IX4(K)) = FTCONTP(3,IX4(K)) + FT(3)*H(4,K)*W
-         ENDIF
+          ENDIF
+C
+          IF ((H3D_DATA%N_VECT_CONT2M > 0).AND.(IROT > 0)) THEN ! Moment output in h3d
+            MCONT2(1,I) =  (-MGX + MRX)*W
+            MCONT2(2,I) =  (-MGY + MRY)*W
+            MCONT2(3,I) =  (-MGZ + MRZ)*W
+            MCONT2(1,IX1(K)) = MCONT2(1,IX1(K)) + MX(1)*H(1,K)*W
+            MCONT2(2,IX1(K)) = MCONT2(2,IX1(K)) + MY(1)*H(1,K)*W
+            MCONT2(3,IX1(K)) = MCONT2(3,IX1(K)) + MZ(1)*H(1,K)*W
+            MCONT2(1,IX2(K)) = MCONT2(1,IX2(K)) + MX(2)*H(2,K)*W
+            MCONT2(2,IX2(K)) = MCONT2(2,IX2(K)) + MY(2)*H(2,K)*W
+            MCONT2(3,IX2(K)) = MCONT2(3,IX2(K)) + MZ(2)*H(2,K)*W
+            MCONT2(1,IX3(K)) = MCONT2(1,IX3(K)) + MX(3)*H(3,K)*W
+            MCONT2(2,IX3(K)) = MCONT2(2,IX3(K)) + MY(3)*H(3,K)*W
+            MCONT2(3,IX3(K)) = MCONT2(3,IX3(K)) + MZ(3)*H(3,K)*W
+            MCONT2(1,IX4(K)) = MCONT2(1,IX4(K)) + MX(4)*H(4,K)*W
+            MCONT2(2,IX4(K)) = MCONT2(2,IX4(K)) + MY(4)*H(4,K)*W
+            MCONT2(3,IX4(K)) = MCONT2(3,IX4(K)) + MZ(4)*H(4,K)*W
+          ENDIF          
 C----------
         ELSE  ! desactivated secnd node
           NSVG(K)= -I

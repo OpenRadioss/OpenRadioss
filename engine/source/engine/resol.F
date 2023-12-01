@@ -662,6 +662,7 @@ C-----------------------------------------------
       USE DT_MOD
       USE FORINT_MOD
       USE PYTHON_FUNCT_MOD
+      USE OUTMAX_MOD
       USE FORCE_MOD , ONLY : FORCE
       USE ARRAY_MOD , ONLY : array_type
 C-----------------------------------------------
@@ -3096,7 +3097,13 @@ C===============================================================================
                  FANI(3,I) = ZERO
               ENDDO
           ENDIF
-
+          IF(H3D_DATA%N_VECT_CONT2M==1)THEN
+            DO I=1,NUMNOD
+              MCONT2(1,I) = ZERO
+              MCONT2(2,I) = ZERO
+              MCONT2(3,I) = ZERO
+            ENDDO
+          ENDIF
         NGDONE = 1
         NSGDONE = 1
 C------------------------
@@ -8222,6 +8229,7 @@ C Regular animation
      .                          WEIGHT,  NODGLOB)
           ENDIF
         ENDIF
+
         CALL SORTIE_MAIN(
      1   PM            ,D              ,V              ,ALE_CONNECTIVITY          ,W             ,
      2   ELBUF         ,IPARG          ,IXS            ,IXQ            ,IXC           ,
