@@ -1709,6 +1709,7 @@ C
             ALLOCATE(FTCONT2_MAX(0),STAT=IERR)
          END IF
 C
+C
          IF(H3D_DATA%N_VECT_CONT2_MIN >0.OR.IFCONT2MIN > 0)THEN
             ALLOCATE(FCONT2_MIN(3*NUMNOD),STAT=IERR)
             IF (IERR/=0) GOTO 1000
@@ -1726,6 +1727,17 @@ C
             ALLOCATE(FNCONT2_MIN(0),STAT=IERR)
             ALLOCATE(FTCONT2_MIN(0),STAT=IERR)
          END IF
+C
+         IF(H3D_DATA%N_VECT_CONT2M > 0)THEN
+            ALLOCATE(MCONT2(3,NUMNOD),STAT=IERR)
+            IF (IERR/=0) GOTO 1000
+            MCONT2=ZERO
+            MCONT2=ZERO
+         ELSE
+            ALLOCATE(MCONT2(3,0),STAT=IERR)
+            ALLOCATE(MCONT2(3,0),STAT=IERR)
+         END IF
+C        
 C----Frictional energy output  when it is coming from restart
 C
          IF(S_EFRICINT > 0)THEN

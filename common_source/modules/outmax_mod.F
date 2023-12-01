@@ -77,5 +77,7 @@ C---------Output Max contact force and pressure
         my_real, DIMENSION(:) , ALLOCATABLE ::   FNCONT_MAX,FTCONT_MAX
         my_real, DIMENSION(:) , ALLOCATABLE ::   FCONT2_MAX,FNCONT2_MAX,FTCONT2_MAX
         my_real, DIMENSION(:) , ALLOCATABLE ::   FCONT2_MIN,FNCONT2_MIN,FTCONT2_MIN
+C---------Output of moment for int type2
+        my_real, DIMENSION(:,:) , ALLOCATABLE ::  MCONT2       
 
         END MODULE OUTMAX_MOD

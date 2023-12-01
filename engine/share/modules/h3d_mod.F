@@ -467,7 +467,8 @@ C-----------------------------------------------
         INTEGER ::  N_VECT_CONT2_MAX = 0             
         INTEGER ::  N_VECT_PCONT2_MAX = 0     
         INTEGER ::  N_VECT_CONT2_MIN  = 0            
-        INTEGER ::  N_VECT_PCONT2_MIN  = 0    
+        INTEGER ::  N_VECT_PCONT2_MIN  = 0
+        INTEGER ::  N_VECT_CONT2M  = 0     
 
         INTEGER ::  SH_SCAL_ERR_THK = 0         !ANIM_CE(2156)
 

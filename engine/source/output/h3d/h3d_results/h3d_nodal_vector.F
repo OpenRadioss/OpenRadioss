@@ -422,6 +422,15 @@ C--------------------------------------------------
           CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
         ENDDO
 C--------------------------------------------------
+      ELSEIF(KEYWORD == 'CONT2/MOMENT') THEN
+C--------------------------------------------------
+        DO I=1,NUMNOD
+          VALUE(1) = MCONT2(1,I)
+          VALUE(2) = MCONT2(2,I)
+          VALUE(3) = MCONT2(3,I)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
+        ENDDO        
+C--------------------------------------------------
       ELSEIF(KEYWORD == 'PCONT2/NORMAL') THEN
 C--------------------------------------------------
         DO I=1,NUMNOD

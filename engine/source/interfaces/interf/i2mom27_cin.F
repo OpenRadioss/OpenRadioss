@@ -36,6 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
+      USE OUTMAX_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -168,6 +169,19 @@ C
             ADI(J)=ADI(J)+AI*H(JJ)
           END DO
         END IF
+C
+        IF (H3D_DATA%N_VECT_CONT2M > 0) THEN
+          MCONT2(1,I) =  -AR(1,I)*W
+          MCONT2(2,I) =  -AR(2,I)*W
+          MCONT2(3,I) =  -AR(3,I)*W
+          DO JJ=1,NIR
+            J=IRECT(JJ,L)
+            MCONT2(1,J) = MCONT2(1,J) + MXI*H(JJ)*W
+            MCONT2(2,J) = MCONT2(2,J) + MYI*H(JJ)*W
+            MCONT2(3,J) = MCONT2(3,J) + MZI*H(JJ)*W
+          ENDDO
+        ENDIF
+C         
         DO JJ=1,NIR
          J=IRECT(JJ,L)
          IF (MSEGTYP2(L)==1) THEN
@@ -290,6 +304,19 @@ C
             ADI(J)=ADI(J)+AI*H(JJ)
           END DO
         END IF
+C
+        IF (H3D_DATA%N_VECT_CONT2M > 0) THEN
+          MCONT2(1,I) =  -AR(1,I)*W
+          MCONT2(2,I) =  -AR(2,I)*W
+          MCONT2(3,I) =  -AR(3,I)*W
+          DO JJ=1,NIR
+            J=IRECT(JJ,L)
+            MCONT2(1,J) = MCONT2(1,J) + MXI*H(JJ)*W
+            MCONT2(2,J) = MCONT2(2,J) + MYI*H(JJ)*W
+            MCONT2(3,J) = MCONT2(3,J) + MZI*H(JJ)*W
+          ENDDO
+        ENDIF
+C        
         DO JJ=1,4
          J=IRECT(JJ,L)
          IF (MSEGTYP2(L)==1) THEN

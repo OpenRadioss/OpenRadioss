@@ -119,6 +119,10 @@ c-----------------------------------------------
       H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Tied Contact Forces'
 c-----------------------------------------------
       I = I + 1
+      H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'CONT2/MOMENT'
+      H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Tied Contact Moments'
+c-----------------------------------------------
+      I = I + 1
       H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'DROT'
       H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Rotational DOF'
       H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  ='drot=1 must also be set in /IOFLAG otherwise, rotational dof are not computed'
