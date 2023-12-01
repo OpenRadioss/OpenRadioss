@@ -71,7 +71,7 @@ Chd|====================================================================
      I                   FORNEQS  ,T2FAC_SMS,NPC    ,TF       ,TAGNCONT,
      J                   KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,DGAPLOADINT,
      .                                                         S_LOADPINTER,
-     K                   INTEREFRIC,INTERFACES)
+     K                   INTEREFRIC,INTERFACES,NISUBMAX)
 C========================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -110,6 +110,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER NISUBMAX                        ! Max number of SUB INTerfaces
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,
      .        NSTRF(*),
      .        NRTMDIM, IAD17, IPARSENS
@@ -124,7 +125,7 @@ C-----------------------------------------------
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*)
       INTEGER IXS(*)  ,IXS16(*) ,IXS20(*)
       INTEGER IAD_ELEM(2,*),FR_ELEM(*), 
-     .        ISKYI_SMS(*), NODNX_SMS(*), ISENSINT(*),DIMFB,T2MAIN_SMS(6,*)
+     .        ISKYI_SMS(*), NODNX_SMS(*), ISENSINT(NISUBMAX+1),DIMFB,T2MAIN_SMS(6,*)
       INTEGER  , INTENT(IN) :: INTEREFRIC
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real 
@@ -606,7 +607,8 @@ C-------------------------------------------------------------------------------
      Z  INTBUF_TAB%TYPSUB,INTBUF_TAB%INFLG_SUBS,INTBUF_TAB%INFLG_SUBM,
      .                                      NINLOADP,DGAPLOADINT,
      1  S_LOADPINTER, DIST       ,IXX         ,INTEREFRIC ,INTCAREA ,
-     2  INTERFACES%PARAMETERS ,PENREF ,KMAX   ) 
+     2  INTERFACES%PARAMETERS ,PENREF ,KMAX , INTBUF_TAB%S_ADDSUBM ,
+     3  INTBUF_TAB%S_LISUBM,INTBUF_TAB%S_TYPSUB,NISUBMAX,I_STOK)
 C
           IF(IMPL_S > 0 ) 
      +     CALL IMPL_SAV1(

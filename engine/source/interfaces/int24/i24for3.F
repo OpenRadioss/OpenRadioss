@@ -74,7 +74,8 @@ Chd|====================================================================
      Y    F_PFIT      ,TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
      Z    TYPSUB      ,INFLG_SUBS,INFLG_SUBM ,NINLOADP  ,DGAPLOADINT,
      1    S_LOADPINTER,DIST      ,IXX        ,INTEREFRIC,INTCAREA,
-     2    PARAMETERS  ,PENREF    ,KMAX       )
+     2    PARAMETERS  ,PENREF    ,KMAX       ,S_ADDSUBM, S_LISUBM,S_TYPSUB,
+     3    NISUBMAX,I_STOK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -113,6 +114,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER S_ADDSUBM                            ! Size of ADDSUBM
+      INTEGER S_LISUBM                             ! Size of LISUBM
+      INTEGER S_TYPSUB                             ! Size of TYPSUB
+      INTEGER NISUBMAX                             ! Size of ISENSINT
+      INTEGER I_STOK                               ! Number of contact candidates / Size of FSAVPARIT
       INTEGER NELTST,ITYPTST,JLT,IBCC,IBCM,IBCS,IVIS2,INACTI,IBAG,NIN,
      .        INTNITSCHE,IORTHFRIC,NFORTH ,NFISOT,
      .        NSN,ICODT(*), ITAB(*), ISKY(*), KINET(*),IRTLM(2,NSN),
@@ -121,13 +127,13 @@ C-----------------------------------------------
      .        KINI(*),SUBTRIA(MVSIZ),MBINFLG(*),ILEV,
      .        ISET, NISKYFI,IADM,INTTH,IFORM,CAND_N_N(*),INTPLY,
      .        MSEGTYP(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
-     .        TYPSUB(*),JTASK
+     .        TYPSUB(S_TYPSUB),JTASK
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        CN_LOC(MVSIZ),CE_LOC(MVSIZ),INDEX(MVSIZ),NSVG(MVSIZ),
-     .        NISUB, LISUB(*), ADDSUBS(*), ADDSUBM(*), LISUBS(*),
+     .        NISUB, LISUB(*), ADDSUBS(*), ADDSUBM(S_ADDSUBM), LISUBS(*),
      .        LISUBM(*),ILAGM,ICURV(3), NREBOU,
      .        ISKYI_SMS(*), NSMS(*),IGSTI,IPLY(4,*),INOD_PXFEM(*),
-     .        IRTSE(5,*),NSNE ,IS2SE(2,*),IS2PT(*), ISENSINT(*),NFT,T2MAIN_SMS(6,*),
+     .        IRTSE(5,*),NSNE ,IS2SE(2,*),IS2PT(*), ISENSINT(NISUBMAX+1),NFT,T2MAIN_SMS(6,*),
      .        INDEXORTH(MVSIZ)  ,INDEXISOT(MVSIZ),INFLG_SUBS(*), INFLG_SUBM(*)
       INTEGER  , INTENT(IN) :: NINLOADP,S_LOADPINTER
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
@@ -1222,50 +1228,20 @@ C
             IE = CE_LOC(I)
           ENDIF
 
-          KK  =ADDSUBM(IE)
-          DO WHILE(KK<ADDSUBM(IE+1))
-            KSUB=LISUBM(KK)
-
-            ITYPSUB = TYPSUB(KSUB)
-            IF(ITYPSUB == 2 ) THEN   ! Inter =0 : collecting forces from all inter with only 1 surface : main side
-
-              IMPX=-FXI(I)*DT12
-              IMPY=-FYI(I)*DT12
-              IMPZ=-FZI(I)*DT12
-
-              FSAVSUB1(1,KSUB)=FSAVSUB1(1,KSUB)+IMPX
-              FSAVSUB1(2,KSUB)=FSAVSUB1(2,KSUB)+IMPY
-              FSAVSUB1(3,KSUB)=FSAVSUB1(3,KSUB)+IMPZ
-
-              FSAVSUB1(8,KSUB) =FSAVSUB1(8,KSUB) +ABS(IMPX)
-              FSAVSUB1(9,KSUB) =FSAVSUB1(9,KSUB) +ABS(IMPY)
-              FSAVSUB1(10,KSUB)=FSAVSUB1(10,KSUB)+ABS(IMPZ)
-
-              FSAVSUB1(11,KSUB)=FSAVSUB1(11,KSUB)-FNI(I)*DT12
-
-              IF(ISENSINT(KSUB+1)/=0) THEN
-                FSAVPARIT(KSUB+1,1,I+NFT) =  -FXI(I)
-                FSAVPARIT(KSUB+1,2,I+NFT) =  -FYI(I)
-                FSAVPARIT(KSUB+1,3,I+NFT) =  -FZI(I)
-              ENDIF
-
-              IF(PARAMETERS%INTCAREA > 0)  THEN
-                 IF(NN > 0) THEN
-                     FSAVSUB1(25,KSUB) = FSAVSUB1(25,KSUB) + PARAMETERS%INTAREAN(NN) 
-                 ELSE
-                     FSAVSUB1(25,KSUB) = FSAVSUB1(25,KSUB) + INTAREANFI(NIN)%P(-NN)
-                 ENDIF
-              ENDIF
-
-            ENDIF
-            KK=KK+1
-          ENDDO
+          ! Compiler issue workaround,
+          ! Loop packed in suboutine to avoid optimization breaking the code.
+          CALL I24_SAVE_SUB(MVSIZ,NISUB,S_ADDSUBM,S_LISUBM,S_TYPSUB,NISUBMAX,I_STOK,
+     *                      IE,ITYPSUB,NIN,I,NN,NFT,
+     *                      ADDSUBM,LISUBM,TYPSUB,
+     *                      PARAMETERS%INTAREAN,PARAMETERS%INTCAREA,ISENSINT,
+     *                      FXI,FYI,FZI,FNI,DT12,
+     *                      FSAVSUB1,FSAVPARIT )
 
         END DO
 
 
+
         IF(NSPMD>1) THEN
-C loop split because of a PGI bug
           DO I=1,JLT
             IF(PENE(I) == ZERO)CYCLE
             NN = NSVG(I)
