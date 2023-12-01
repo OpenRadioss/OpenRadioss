@@ -41,6 +41,7 @@ Chd|====================================================================
       USE MESSAGE_MOD
       USE CHECK_MOD
       USE INOUTFILE_MOD
+      USE COMMAND_LINE_ARGS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +72,7 @@ C-----------------------------------------------
        CHARACTER :: LAST_LETTER,SEPARATOR
        CHARACTER(LEN=2096) ARGS2,ARGS_REDUCE,ARGP
        CHARACTER(LEN=4096) ULIBC
-       PARAMETER (LENLIST=18)
+       PARAMETER (LENLIST=19)
        CHARACTER(LEN=12):: ARGLIST(LENLIST)
        EXTERNAL IARGC
        DATA ARGLIST/
@@ -85,6 +86,7 @@ C-----------------------------------------------
      .    '-DYLIB',
      .    '-MEM-MAP' ,
      .    '-INSPIRE',
+     .    '-PREVIEW',
      .    '-INSPIRE_ALM','-NORST',
      .    '-MDS_LIBPATH'/
 C-----------------------------------------------
@@ -105,6 +107,7 @@ C-----------------------------------------------
        GOT_INSPIRE_ALM=0
        MDS_PATH_LEN = 0
        MDS_PATHI = 0
+       GOT_PREVIEW= 0
 
        ! Initialize MDS_PATH Array
        MDS_PATH=''
@@ -199,6 +202,8 @@ C------------------------------------------------
 C -MEM-MAP
           CASE ( '-MEM-MAP')
              GOT_MEM_MAP=1
+          CASE ( '-PREVIEW')  
+             GOT_PREVIEW=1
           CASE ( '-INSPIRE_ALM')
              GOT_INSPIRE_ALM=1
           CASE ( '-INSPIRE')

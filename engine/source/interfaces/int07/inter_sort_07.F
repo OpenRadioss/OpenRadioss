@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        INTER_SORT                    source/interfaces/generic/inter_sort.F
 Chd|-- calls ---------------
 Chd|        I7BUCE                        source/interfaces/intsort/i7buce.F
-Chd|        I7BUCE_VOX                    source/interfaces/intsort/i7buce.F
+Chd|        INTER7_COLLISION_DETECTION                    source/interfaces/intsort/i7buce.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SPMD_CELL_EXCHANGE            source/mpi/generic/spmd_cell_exchange.F
 Chd|        SPMD_RNUMCD                   source/mpi/interfaces/spmd_i7tool.F
@@ -56,6 +56,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
         USE TRI7BOX
+        USE COMMAND_LINE_ARGS_MOD
         USE MESSAGE_MOD
         USE INTBUFDEF_MOD
         USE H3D_MOD
@@ -63,6 +64,7 @@ C-----------------------------------------------
         USE INTER_STRUCT_MOD
         USE INTER_SORTING_MOD
         USE INTBUFDEF_MOD 
+        USE INTER7_COLLISION_DETECTION_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -121,7 +123,7 @@ C-----------------------------------------------
         my_real :: DGAPLOADP
         REAL T1  !elapsed time in smp
         LOGICAL TYPE18
-        INTEGER :: FIRST, LAST,ijk
+        INTEGER :: FIRST, LAST
         INTEGER :: NSN,NMN,NTY,NRTM
 C-----------------------------------------------
         NUM_IMP = 0
@@ -188,10 +190,6 @@ C -------------------------------------------------------------
         RESULT = 0
         NMN_G = INTER_STRUCT(NIN)%NMN_G
 !$OMP END SINGLE
-        FIRST = 1 + ITASK*(NRTM/NTHREAD)
-        LAST = FIRST + NRTM_T - 1
-        IF(ITASK==NTHREAD-1) LAST=NRTM
-        CURV_MAX(1:NRTM_T) = INTER_STRUCT(NIN)%CURV_MAX(FIRST:LAST)
 
         IF(NSPMD > 1) THEN
         ! ---------------------------
@@ -238,7 +236,29 @@ C
 #endif
         IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(30,1)
 C
-        IF(INTBUF_TAB%METRIC%ALGO == ALGO_VOXEL .OR.  INTBUF_TAB%METRIC%ALGO == TRY_ALGO_VOXEL) THEN
+        IF(GOT_PREVIEW == 1) THEN
+            CALL INTER7_COLLISION_DETECTION(
+     1      X      ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV       ,INACTI    ,INTBUF_TAB%CAND_P,
+     2      NMN_G  ,NRTM           ,NSN                  ,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
+     3      GAP    ,NOINT            ,INTBUF_TAB%I_STOK(1) ,NCONTACT ,INTER_STRUCT(NIN)%BOX_LIMIT_MAIN,
+     4      TZINF  ,INTER_STRUCT(NIN)%CAND_A  ,INTER_STRUCT(NIN)%CURV_MAX,
+     6      NB_N_B ,ESHIFT      ,ILD            ,IFQ    ,INTBUF_TAB%IFPEN,
+     8      INTBUF_TAB%STFNS,INTBUF_TAB%STFM,IPARI(21,NIN),INTBUF_TAB%GAP_S,
+     A      NSNR   ,NCONT  ,RENUM  ,NSNROLD  ,INTBUF_TAB%GAP_M,
+     B      GAPMIN ,GAPMAX  ,NUM_IMP   ,INTBUF_TAB%GAP_SL,
+     C      INTBUF_TAB%GAP_ML,ITASK  , INTBUF_TAB%VARIABLES(7),I_MEM     ,  
+     D      INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE,  IPARI(63,NIN),DRAD         ,
+     E      ITIED ,INTBUF_TAB%CAND_F,DGAPLOADP,
+     F      NRTM, INTER_STRUCT(NIN)%SIZE_CAND_A,
+     .      INTBUF_TAB%S_KREMNODE, INTBUF_TAB%S_REMNODE)
+
+        ELSE IF(INTBUF_TAB%METRIC%ALGO == ALGO_VOXEL .OR.  INTBUF_TAB%METRIC%ALGO == TRY_ALGO_VOXEL) THEN
+            FIRST = 1 + ITASK*(NRTM/NTHREAD)
+            LAST = FIRST + NRTM_T - 1
+            IF(ITASK==NTHREAD-1) LAST=NRTM
+            CURV_MAX(1:NRTM_T) = INTER_STRUCT(NIN)%CURV_MAX(FIRST:LAST)
+
+
             CALL I7BUCE_VOX(
      1      X      ,INTBUF_TAB%IRECTM(1+4*ESHIFT),INTBUF_TAB%NSV  ,INACTI    ,INTBUF_TAB%CAND_P,
      2      NMN_G  ,NRTM_T                       ,NSN     ,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
@@ -254,6 +274,10 @@ C
      F      NRTM)
 
         ELSE
+            FIRST = 1 + ITASK*(NRTM/NTHREAD)
+            LAST = FIRST + NRTM_T - 1
+            IF(ITASK==NTHREAD-1) LAST=NRTM
+            CURV_MAX(1:NRTM_T) = INTER_STRUCT(NIN)%CURV_MAX(FIRST:LAST)
             CALL I7BUCE(
      1 X      ,INTBUF_TAB%IRECTM(1+4*ESHIFT),INTBUF_TAB%NSV  ,INACTI    ,INTBUF_TAB%CAND_P,
      2 NMN_G  ,NRTM_T                       ,NSN     ,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
