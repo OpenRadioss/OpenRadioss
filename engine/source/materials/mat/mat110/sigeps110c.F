@@ -42,7 +42,7 @@ Chd|====================================================================
      6     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKLY   ,
      7     THK     ,SIGY    ,ET      ,TEMPEL  ,TEMP    ,SEQ     ,
      8     TF      ,NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,
-     9     SIGA    ,INLOC   ,DPLANL  )
+     9     SIGA    ,INLOC   ,DPLANL  ,EPSPL   )
       !=======================================================================
       !      Modules
       !=======================================================================
@@ -78,7 +78,7 @@ c
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
 c
       my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
-     .   PLA,DPLA,OFF,THK,TEMP,SEQ
+     .   PLA,DPLA,OFF,THK,TEMP,SEQ,EPSPL
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
       my_real ,DIMENSION(NEL,3)     ,INTENT(INOUT) :: 
@@ -165,6 +165,9 @@ c--------------------------
      A           SIGA    ,INLOC   ,DPLANL  )
           END SELECT    
         END SELECT
+
+        ! Copy the strain rate for failure criteria
+        EPSPL(1:NEL) = EPSP(1:NEL)
 c--------------------------
 c-----------
       END
