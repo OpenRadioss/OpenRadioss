@@ -2114,7 +2114,8 @@ C-------INTER18 BUFFER (IAUTO=1)--------
             SXCELL = NUMELS + NUMELQ + NE_NSVOIS + NE_NQVOIS
             IF(.NOT.ALLOCATED(XCELL))ALLOCATE(XCELL(3, SXCELL),STAT=IERR)
             IF (IERR/=0) GOTO 1000
-         ENDIF         
+         ENDIF       
+         XCELL(1:3,1:SXCELL) = ZERO
 C-------FXBODY (moved from radioss2.F) -----
         ALLOCATE (FXBIPM(NBIPM,NFXBODY),STAT=IERR)
         IF (IERR/=0) GOTO 1000

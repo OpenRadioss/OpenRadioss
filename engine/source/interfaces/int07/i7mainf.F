@@ -100,7 +100,7 @@ Chd|====================================================================
      I                   WIGE           ,KNOT        ,IGEO           ,MULTI_FVM        ,H3D_DATA   ,
      J                   INTBUF_FRIC_TAB,KNOTLOCPC   ,KNOTLOCEL      ,ITASK            ,TAGNCONT   ,
      K                   KLOADPINTER    ,LOADPINTER  ,LOADP_HYD_INTER,DGAPLOADINT      ,S_LOADPINTER,
-     L                   INTEREFRIC     )
+     L                   INTEREFRIC     ,S_XCELL_REMOTE,XCELL_REMOTE)
 C======================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -175,6 +175,9 @@ C-----------------------------------------------
      .   KNOTLOCPC(*),KNOTLOCEL(*)
 
       DOUBLE PRECISION FBSAV6(12,6,DIMFB)
+
+      INTEGER, INTENT(in) :: S_XCELL_REMOTE
+      my_real, DIMENSION(S_XCELL_REMOTE), INTENT(in) :: XCELL_REMOTE
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
@@ -656,7 +659,7 @@ C
      B        JLT_NEW       ,GAPV     ,INACTI  , INTBUF_TAB%CAND_P ,ALE_CONNECTIVITY%NE_CONNECT,
      C        INDEX2(NFT+1) ,VXI      ,VYI     , ITAB              ,XCELL                      ,               
      D        VZI           ,MSI      ,KINI    , SURF              ,IBAG                       ,
-     E        IGAP          ,MULTI_FVM)
+     E        IGAP          ,MULTI_FVM,S_XCELL_REMOTE,XCELL_REMOTE)
 
             IF( MULTI_FVM%IS_INT18_LAW151 ) THEN
               MSI_APPEND(1:MVSIZ) = ZERO
