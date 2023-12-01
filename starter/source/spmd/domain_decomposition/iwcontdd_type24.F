@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  IWCONTDD                      source/spmd/domain_decomposition/grid2mat.F
+Chd|  IWCONTDD_TYPE24               source/spmd/domain_decomposition/iwcontdd_type24.F
 Chd|-- called by -----------
 Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
 Chd|-- calls ---------------
+Chd|        I24FIC_GETN                   source/interfaces/inter3d1/i24surfi.F
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
         SUBROUTINE IWCONTDD_TYPE24(NUMNOD,NSN,NMN,NSV,MSR,IWCONT,NSNT,NMNT,INTBUF_TAB)
 !$COMMENT

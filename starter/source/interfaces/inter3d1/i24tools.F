@@ -79,7 +79,6 @@ C----6---------------------------------------------------------------7---------8
 Chd|====================================================================
 Chd|  INTAB                         source/interfaces/inter3d1/i24tools.F
 Chd|-- called by -----------
-Chd|        ADD_NS                        source/interfaces/inter3d1/i7remnode.F
 Chd|        ADD_NSFIC                     source/interfaces/inter3d1/i7remnode.F
 Chd|        COMM_SEG_E                    source/interfaces/inter3d1/i24inisu_nei.F
 Chd|        I24PENMAX                     source/interfaces/inter3d1/i24pen3.F

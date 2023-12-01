@@ -104,6 +104,9 @@ Chd|        INVOI3                        source/interfaces/inter3d1/invoi3.F
 Chd|        ISPT2_INI                     source/interfaces/inter3d1/i24surfi.F
 Chd|        IWCONTDD                      source/spmd/domain_decomposition/grid2mat.F
 Chd|        IWCONTDD_151                  source/spmd/domain_decomposition/grid2mat.F
+Chd|        IWCONTDD_TYPE24               source/spmd/domain_decomposition/iwcontdd_type24.F
+Chd|        IWCONTDD_TYPE25               source/spmd/domain_decomposition/iwcontdd_type25.F
+Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
 Chd|        UPDATE_WEIGHT_INTER_TYPE11    source/spmd/domain_decomposition/update_weight_inter_type11.F
 Chd|        UPDATE_WEIGHT_INTER_TYPE2     source/spmd/domain_decomposition/update_weight_inter_type2.F
 Chd|        UPDATE_WEIGHT_INTER_TYPE7     source/spmd/domain_decomposition/update_weight_inter_type7.F

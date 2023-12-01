@@ -188,6 +188,7 @@ Chd|        IMP_RESTARCP                  source/implicit/imp_sol_init.F
 Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|        IMP_SOL_INIT                  source/implicit/imp_sol_init.F
 Chd|        IMP_TRANS                     source/output/restart/wrrest.F
+Chd|        INIT_I25_EDGE                 source/interfaces/int25/init_i25_edge.F
 Chd|        INIT_INTERF_SORTING_STRATEGY  source/interfaces/init_interf_sorting_strategy.F
 Chd|        INIT_NODAL_STATE              source/interfaces/interf/init_nodal_state.F
 Chd|        INIT_TRIM                     source/interfaces/intsort/init_trim.F

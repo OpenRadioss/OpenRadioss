@@ -190,6 +190,7 @@ C
       END
 C
 C END TRI7VOX0
+C This routine cannot be used for type25 anymore
 Chd|====================================================================
 Chd|  SPMD_TRI7VOX                  source/mpi/interfaces/spmd_int.F
 Chd|-- called by -----------
@@ -202,7 +203,6 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-C This routine cannot be used for type25 anymore
       SUBROUTINE SPMD_TRI7VOX(
      1   NSV     ,NSN      ,X      ,V     ,MS     ,
      2   BMINMAL ,WEIGHT   ,STIFN  ,NIN   ,ISENDTO,

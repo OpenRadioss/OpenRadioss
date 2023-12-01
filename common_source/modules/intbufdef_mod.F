@@ -30,9 +30,6 @@ Chd|        UPGRADE_CAND_OPT              common_source/interf/upgrade_multimp.F
 Chd|        UPGRADE_LCAND_E2S             common_source/interf/upgrade_multimp.F
 Chd|        UPGRADE_LCAND_EDG             common_source/interf/upgrade_multimp.F
 Chd|        UPGRADE_MULTIMP               common_source/interf/upgrade_multimp.F
-Chd|        ADDINT2M                      starter/source/interfaces/inter3d1/i7remnode.F
-Chd|        ADDINT2S                      starter/source/interfaces/inter3d1/i7remnode.F
-Chd|        ANOTHERN2                     starter/source/interfaces/inter3d1/i7remnode.F
 Chd|        BUILD_CSRECT                  starter/source/model/mesh/build_cnel.F
 Chd|        CHKTYP2                       starter/source/interfaces/interf1/chktyp2.F
 Chd|        COPY_IVAL                     starter/source/restart/ddsplit/inter_tools.F
@@ -88,6 +85,8 @@ Chd|        INTBUF_INI_STARTER            starter/source/interfaces/intbuf/intbu
 Chd|        IPARI_L_INI                   starter/source/restart/ddsplit/ipari_l_ini.F
 Chd|        ITAGSL12                      starter/source/interfaces/inter3d1/inintr2.F
 Chd|        ITAGSL2                       starter/source/interfaces/inter3d1/itagsl2.F
+Chd|        IWCONTDD_TYPE24               starter/source/spmd/domain_decomposition/iwcontdd_type24.F
+Chd|        IWCONTDD_TYPE25               starter/source/spmd/domain_decomposition/iwcontdd_type25.F
 Chd|        LAGM_INI                      starter/source/tools/lagmul/lagm_ini.F
 Chd|        LECINS                        starter/source/interfaces/interf1/lecins.F
 Chd|        LECTUR                        starter/source/starter/lectur.F
@@ -361,6 +360,7 @@ Chd|        IND_KINEFR                    engine/source/mpi/implicit/imp_fri.F
 Chd|        IND_KINE_I                    engine/source/implicit/ind_glob_k.F
 Chd|        IND_KINE_K                    engine/source/implicit/ind_glob_k.F
 Chd|        IND_KINFRK                    engine/source/mpi/implicit/imp_fri.F
+Chd|        INIT_I25_EDGE                 engine/source/interfaces/int25/init_i25_edge.F
 Chd|        INIT_INTERF_SORTING_STRATEGY  engine/source/interfaces/init_interf_sorting_strategy.F
 Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
 Chd|        INI_DD0                       engine/source/mpi/implicit/imp_fri.F

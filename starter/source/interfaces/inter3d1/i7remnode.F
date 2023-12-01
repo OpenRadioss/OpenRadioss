@@ -653,9 +653,6 @@ C----- Compute maximum number of MAIN segments banned for all SECONDARY nodes---
 Chd|====================================================================
 Chd|  INSERT_A                      source/interfaces/inter3d1/i7remnode.F
 Chd|-- called by -----------
-Chd|        ADD_NM                        source/interfaces/inter3d1/i7remnode.F
-Chd|        ADD_NM1                       source/interfaces/inter3d1/i7remnode.F
-Chd|        ADD_NS                        source/interfaces/inter3d1/i7remnode.F
 Chd|        ADD_NSFIC                     source/interfaces/inter3d1/i7remnode.F
 Chd|-- calls ---------------
 Chd|====================================================================
@@ -927,6 +924,7 @@ C----6---------------------------------------------------------------7---------8
 Chd|====================================================================
 Chd|  REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
 Chd|-- called by -----------
+Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
 Chd|        ININTR                        source/interfaces/interf1/inintr.F
 Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
 Chd|-- calls ---------------
