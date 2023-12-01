@@ -310,8 +310,8 @@ C         Primary edges <=> only candidates retained for this cycle (optcd_e2s)
 C
 C         All secondary edges includes
           NEDGFT = 1 + (JTASK-1)*NUMBER_EDGE_TYPE1_0 / NTHREAD
-          NEDGFT = JTASK*NUMBER_EDGE_TYPE1_0 / NTHREAD
-          IF(JTASK==NTHREAD) NEDGFT =NUMBER_EDGE_TYPE1_0
+          NEDGLT = JTASK*NUMBER_EDGE_TYPE1_0 / NTHREAD
+          IF(JTASK==NTHREAD) NEDGLT =NUMBER_EDGE_TYPE1_0
 #include "vectorize.inc"
           DO J = NEDGFT,NEDGLT
             I = EDGE_TYPE1_0(J)
@@ -363,8 +363,8 @@ c              IF( LEDGE(LEDGE_TYPE,ABS(CANDS_E2S(I)))/=1)CYCLE
 
 C         All secondary edges includes
           NEDGFT = 1 + (JTASK-1)*NUMBER_EDGE_TYPE1 / NTHREAD
-          NEDGFT = JTASK*NUMBER_EDGE_TYPE1 / NTHREAD
-          IF(JTASK==NTHREAD) NEDGFT =NUMBER_EDGE_TYPE1
+          NEDGLT = JTASK*NUMBER_EDGE_TYPE1 / NTHREAD
+          IF(JTASK==NTHREAD) NEDGLT =NUMBER_EDGE_TYPE1
 #include "vectorize.inc"
           DO J = NEDGFT,NEDGLT
             I = EDGE_TYPE1(J)
