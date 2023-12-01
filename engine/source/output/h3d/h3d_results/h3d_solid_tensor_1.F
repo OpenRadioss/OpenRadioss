@@ -145,6 +145,7 @@ C-----------------------------------------------
           DO  I=1,NEL 
             ID_ELEM(NFT+I) = IXS(NIXS,NFT+I)
             ITY_ELEM(NFT+I) = 1
+            IOK_PART(I) = 0
             IF( H3D_PART(IPARTS(NFT+I)) == 1) IOK_PART(I) = 1
             IS_WRITTEN_TENSOR(I) = 0
           ENDDO
