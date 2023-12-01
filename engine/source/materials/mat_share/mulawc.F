@@ -1675,14 +1675,14 @@ c
 !
           ELSEIF (ILAW == 109 )THEN
             CALL SIGEPS109C(
-     1         JLT     ,NGL     ,NUPARAM0 ,NUVAR   ,NVARTMP  ,NUMTABL  ,
-     2         UPARAM0  ,UVAR    ,VARTMP  ,ITABLE  ,TABLE    ,JTHE     ,
+     1         JLT     ,NGL     ,NUPARAM0,NUVAR   ,NVARTMP  ,NUMTABL  ,
+     2         UPARAM0 ,UVAR    ,VARTMP  ,ITABLE  ,TABLE    ,JTHE     ,
      3         TT      ,DT1C    ,OFF     ,RHO     ,LBUF%PLA ,DPLA     ,
      4         SSP     ,SIGY    ,ETSE    ,EL_TEMP ,EPSP     ,GS       ,
      5         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX   ,
      6         LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      7         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,
-     8         THKN    ,THKLYL  ,INLOC   ,VARNL(1,IT))     
+     8         THKN    ,THKLYL  ,INLOC   ,VARNL(1,IT),EPSPL )     
 !
           ELSEIF (ILAW == 110 )THEN
             CALL SIGEPS110C(
@@ -1695,7 +1695,7 @@ c
      7         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,THKLYL  ,
      8         THKN    ,SIGY    ,ETSE    ,TEMPEL  ,LBUF%TEMP,LBUF%SEQ,
      9         TF      ,NUMTABL ,ITABLE  ,TABLE   ,NVARTMP  ,VARTMP  ,
-     A         LBUF%SIGA,INLOC  ,VARNL(1,IT))   
+     A         LBUF%SIGA,INLOC  ,VARNL(1,IT),EPSPL)   
 !
           ELSEIF (ILAW == 112 )THEN
             CALL SIGEPS112C(

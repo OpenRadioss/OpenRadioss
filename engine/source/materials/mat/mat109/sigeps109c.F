@@ -38,7 +38,7 @@ Chd|====================================================================
      5     DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      6     SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     8     THK     ,THKLY   ,INLOC   ,DPLANL  )
+     8     THK     ,THKLY   ,INLOC   ,DPLANL  ,EPSPL   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,7 +66,7 @@ c
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX,DPLANL
       my_real ,DIMENSION(NEL)    ,INTENT(OUT) :: SOUNDSP,SIGY,ET,
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
-      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: PLA,DPLA,EPSP,TEMP,THK
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: PLA,DPLA,EPSP,TEMP,THK,EPSPL
       my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
       INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
 c
@@ -359,6 +359,7 @@ c
       SOUNDSP(1:NEL)= SQRT(A11 / RHO(1:NEL))
       SIGY(1:NEL)   = YLD(1:NEL)
       EPSP(1:NEL)   = ALPHA*DPLA(1:NEL)*DTINV + ALPHI*EPSP(1:NEL)
+      EPSPL(1:NEL)  = EPSP(1:NEL)
       IF (INLOC > 0) THEN 
         DO I = 1,NEL     
           DEPSZZ(I) = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
