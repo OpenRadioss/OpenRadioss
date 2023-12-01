@@ -564,7 +564,7 @@ C
      H  SFBSAV6      ,H3D_DATA    ,INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
      I  T2FAC_SMS  ,NPC         ,TF          ,TAGNCONT    ,KLOADPINTER ,
      J  LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,
-     K  INTERFACES)
+     K  INTERFACES,NISUBMAX)
 
           ELSE
            CALL I24MAINF(
@@ -586,7 +586,7 @@ C
      H  SFBSAV6     ,H3D_DATA     ,INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
      I  T2FAC_SMS ,NPC         ,TF           ,TAGNCONT    ,KLOADPINTER ,
      J  LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,
-     K  INTERFACES)
+     K  INTERFACES,NISUBMAX)
            IAD=IAD+NUM_IMP(N)
           END IF
 C-----------------------------------------------------------------------
