@@ -228,13 +228,13 @@ c---------------
 
 c--------------- 
         CASE (30)     !    BIQUAD                                                  
-           CALL FAIL_BIQUAD_IB (
+          CALL FAIL_BIQUAD_IB (
      .          NEL       ,NGL      ,NPARAM   ,UPARAMF ,
      .          TIME     ,OFF      ,DFMAX     , TDEL     ,                       
      .          IOUT     ,ISTDO    ,NFUNC     ,IFUNC    ,LBUF%DMGSCL,
      .          UVARF    ,NVARF    ,SNPC      ,NPF      ,
      .          STF      ,TF       ,IPT       ,FOFF     ,
-     .          SIGNXX   ,SIGNXY   ,SIGNXZ    ,DPLA     )
+     .          SIGNXX   ,SIGNXY   ,SIGNXZ    ,DPLA     ,AL)
           DO I= 1,NEL
             IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
           END DO
