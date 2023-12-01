@@ -3980,11 +3980,11 @@ C ----------------------------------------
 
       !reflush to zero only part of TAG_SCRATCH that has been used
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
-          N = INDX_SCRT(K)
-          TAG_SCRATCH(N) = 0
-        ENDDO
-        NINDX_SCRT = 0
+      DO K=1,NINDX_SCRT  
+        N = INDX_SCRT(K)
+        TAG_SCRATCH(N) = 0
+      ENDDO
+      NINDX_SCRT = 0
 
 C
 C Partie ligne

@@ -80,7 +80,7 @@ C-----------------------------------------------
        INTEGER :: RANDM_SEED,RANDM_ALEA
        REAL(kind=8) :: RANDM_SEED_NBR,RANDM_ALEA_NBR
        INTEGER :: GOT_GRP_SIZE
-       PARAMETER (LENLIST=29)
+       PARAMETER (LENLIST=30)
        CHARACTER (LEN=12) ::  ARGLIST(LENLIST)
        EXTERNAL IARGC
        DATA ARGLIST/
@@ -96,6 +96,7 @@ C-----------------------------------------------
      .    '-MEM-MAP' ,  '-INSPIRE', '-DD_TUNING',
      .    '-INSPIRE_ALM' , '-FLUSH_RST', '-CHECK',
      .    '-HSTP_READ' , '-HSTP_WRITE', '-RXALEA', '-RSEED',
+     .    '-PREVIEW',
      .    '-GRP_SIZE' , '-PYTHON' /
 
 C-----------------------------------------------
@@ -285,8 +286,7 @@ C------------------------------------------------
                 RANDM_SEED = I
             CASE('-PYTHON')
                 PYTHON_ERROR = 0
-
-                
+            CASE('-PREVIEW')
 C------------------------------------------------
             CASE ( '-GRP_SIZE')
                 GOT_GRP_SIZE = I

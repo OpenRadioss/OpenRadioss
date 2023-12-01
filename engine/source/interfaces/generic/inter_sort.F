@@ -49,6 +49,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE COMMAND_LINE_ARGS_MOD , ONLY : GOT_PREVIEW
       USE MULTI_FVM_MOD
       USE H3D_MOD
       USE METRIC_MOD
@@ -128,14 +129,18 @@ C-----------------------------------------------
             ELSE
                 TS = TT
             ENDIF
-            ! ---------------------------
 
             ! -----------------------------------------------------
             ! type 7
             IF((NTY==7.AND.TT>=TS).AND.(.NOT.TYPE18))THEN
-                NRTM_T = IPARI(4,N)/NTHREAD
-                ESHIFT = ITASK*NRTM_T
-                IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
+                IF(GOT_PREVIEW == 1) THEN
+                   NRTM_T = IPARI(4,N)
+                   ESHIFT = 0
+                ELSE
+                  NRTM_T = IPARI(4,N)/NTHREAD
+                  ESHIFT = ITASK*NRTM_T
+                  IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
+                ENDIF
                 CALL INTER_SORT_07( IPARI,X,N,ITASK,ISENDTO,
      1                              IRECVFROM,RETRI,ITAB,NRTM_T,RENUM,RENUM_SIZ,
      2                              NSNFIOLD,ESHIFT,MULTI_FVM,INTBUF_TAB(N),H3D_DATA,
@@ -146,7 +151,7 @@ C-----------------------------------------------
             ! ---------------------------
             ! timer of current interface N : end
             IF(IMONM > 0) THEN
-                IF(ITASK==0) CALL INT_STOPTIME(INTBUF_TAB(N)%METRIC,I_MAIN_TRI)   
+              IF(ITASK==0) CALL INT_STOPTIME(INTBUF_TAB(N)%METRIC,I_MAIN_TRI)   
             ENDIF
             ! ---------------------------
         ENDDO
