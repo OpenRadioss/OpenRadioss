@@ -656,6 +656,7 @@ Chd|        XFEOFF                        engine/source/elements/xfem/xfeoff.F
 Chd|        XFORC3                        engine/source/elements/xelem/xforc3.F
 Chd|        ALE51_GRADIENT_RECONSTRUCTION2engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 Chd|        MULTI_MUSCL_FLUXES_COMPUTATIONengine/source/multifluid/multi_muscl_fluxes_computation.F
+Chd|        CHECK_MAT_ELEM_PROP_COMPATIBILITYstarter/source/materials/mat/check_mat_elem_prop_compatibility.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE ELBUFDEF_MOD

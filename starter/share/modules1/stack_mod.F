@@ -32,6 +32,7 @@ Chd|        CBUFXFE                       source/elements/xfem/cbufxfe.F
 Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.F
 Chd|        CGRHEAD                       source/elements/shell/coque/cgrhead.F
 Chd|        CGRTAILS                      source/elements/shell/coque/cgrtails.F
+Chd|        CHECK_MAT_ELEM_PROP_COMPATIBILITYsource/materials/mat/check_mat_elem_prop_compatibility.F
 Chd|        CHECK_PTHICKFAIL              source/materials/fail/check_pthickfail.F
 Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
 Chd|        CINMAS                        source/elements/shell/coque/cinmas.F

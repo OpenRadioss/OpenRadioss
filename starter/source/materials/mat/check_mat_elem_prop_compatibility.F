@@ -20,6 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.      
+Chd|====================================================================
+Chd|  CHECK_MAT_ELEM_PROP_COMPATIBILITYsource/materials/mat/check_mat_elem_prop_compatibility.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        STACK_MOD                     share/modules1/stack_mod.F    
+Chd|====================================================================
       SUBROUTINE CHECK_MAT_ELEM_PROP_COMPATIBILITY(
      .  ELBUF_STR,IPARG    ,IPM      ,IGEO     ,NUMMAT   ,NUMGEO   ,
      .  NGROUP   ,NPARG    ,NPROPMI  ,NPROPGI  ,MAT_PARAM,N2D      ,

@@ -36,7 +36,9 @@ Chd|        CONVEC                        source/constraints/thermic/convec.F
 Chd|        DAASOLV                       source/fluid/daasolv.F        
 Chd|        DAASOLVP                      source/fluid/daasolvp.F       
 Chd|        DAM_FLD_SOL                   source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+Chd|        FAIL_BIQUAD_B                 source/materials/fail/biquad/fail_biquad_b.F
 Chd|        FAIL_BIQUAD_C                 source/materials/fail/biquad/fail_biquad_c.F
+Chd|        FAIL_BIQUAD_IB                source/materials/fail/biquad/fail_biquad_ib.F
 Chd|        FAIL_BIQUAD_S                 source/materials/fail/biquad/fail_biquad_s.F
 Chd|        FAIL_CONNECT                  source/materials/fail/connect/fail_connect.F
 Chd|        FAIL_ENERGY_B                 source/materials/fail/energy/fail_energy_b.F
