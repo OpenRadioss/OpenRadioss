@@ -28,9 +28,6 @@ set ( RELNAME ${arch}${mpi_suf})
 # ---------------------
 #H3D
 set (h3d_inc "-I${source_directory}/../extlib/h3d/includes")
-if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
-set ( wo_linalg "-DWITHOUT_LINALG" )
-endif()
 
 
 #
@@ -102,15 +99,19 @@ if(DEFINED mumps_root)
     set(opt_flag "${opt_flag} ${mumps_flag} ${mumps_inc}")
 endif()
 
+if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
+set ( wo_linalg "-DWITHOUT_LINALG" )
+endif()
+
 
 # Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${opt_flag} ${precision_flag} ${Fortran} ${mpi_flag} ${MUMPS_flags}  ${cppmach} ${cpprel} ${ADF}" )
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${opt_flag} ${precision_flag} ${Fortran} ${mpi_flag} ${mumps_flags}  ${cppmach} ${cpprel} ${ADF}" )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${optc_flag} ${h3d_inc} ${precision_flag} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} -O2 " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${optc_flag} ${h3d_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2 " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${optc_flag}  ${h3d_inc} ${precision_flag} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} -O2  -std=c++11 " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${optc_flag}  ${h3d_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2  -std=c++11 " )
 
 
 # Linking flags
@@ -127,9 +128,9 @@ string(STRIP ${LINK} LINK)
 # -------------------------------------------------------------------------------------------------------------------------------------------
 # Specific set of compilation flag
 
-set (F_O1_AXSSE3 " -O1 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${MUMPS_flags} ${mpi_flag} ${cppmach} ${cpprel}")
-set (F_O2_AXSSE3 " -O2 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${MUMPS_flags} ${mpi_flag} ${cppmach} ${cpprel}")
-set (F_O3_AXSSE3 " -O3 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${MUMPS_flags} ${mpi_flag} ${cppmach} ${cpprel}")
+set (F_O1_AXSSE3 " -O1 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${mumps_flags} ${mpi_flag} ${cppmach} ${cpprel}")
+set (F_O2_AXSSE3 " -O2 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${mumps_flags} ${mpi_flag} ${cppmach} ${cpprel}")
+set (F_O3_AXSSE3 " -O3 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${mumps_flags} ${mpi_flag} ${cppmach} ${cpprel}")
 
 # rad2rad_c.c 
 set (C_BASIC "${cppmach} ${cpprel}" )
