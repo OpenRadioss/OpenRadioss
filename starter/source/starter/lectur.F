@@ -8103,7 +8103,7 @@ C--------------------------------------------
      .    ELBUF_TAB,IPARG    ,IPM      ,IGEO     ,NUMMAT   ,NUMGEO   ,
      .    NGROUP   ,NPARG    ,NPROPMI  ,NPROPGI  ,MAT_ELEM%MAT_PARAM ,
      .    N2D      ,IXT      ,NUMELT   ,IXP      ,NUMELP   ,IXR      ,
-     .    NUMELR   )
+     .    NUMELR   ,KXX      ,NUMELX   )
 C
 C--------------------------------------------
 C     CHECK COMPATIBILITY /DTTSH
