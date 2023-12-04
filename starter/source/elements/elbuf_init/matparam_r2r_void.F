@@ -55,7 +55,13 @@ c
         MATPARAM_TAB(I)%COMPRESSIBILITY    = MATPARAM_INI(I)%COMPRESSIBILITY
         MATPARAM_TAB(I)%SMSTR              = MATPARAM_INI(I)%SMSTR
         MATPARAM_TAB(I)%STRAIN_FORMULATION = MATPARAM_INI(I)%STRAIN_FORMULATION
-        MATPARAM_TAB(I)%NTABLE             = MATPARAM_INI(I)%NTABLE           
+        MATPARAM_TAB(I)%NTABLE             = MATPARAM_INI(I)%NTABLE  
+        MATPARAM_TAB(I)%PROP_SOLID         = MATPARAM_INI(I)%PROP_SOLID
+        MATPARAM_TAB(I)%PROP_SHELL         = MATPARAM_INI(I)%PROP_SHELL
+        MATPARAM_TAB(I)%PROP_BEAM          = MATPARAM_INI(I)%PROP_BEAM
+        MATPARAM_TAB(I)%PROP_SPRING        = MATPARAM_INI(I)%PROP_SPRING
+        MATPARAM_TAB(I)%PROP_TRUSS         = MATPARAM_INI(I)%PROP_TRUSS
+        MATPARAM_TAB(I)%PROP_SPH           = MATPARAM_INI(I)%PROP_SPH
       ENDDO
 c
 c     Fill matparam for additional rad2rad void materials
@@ -66,7 +72,13 @@ c
         MATPARAM_TAB(I)%COMPRESSIBILITY    = 0   
         MATPARAM_TAB(I)%SMSTR              = 0             
         MATPARAM_TAB(I)%STRAIN_FORMULATION = 0
-        MATPARAM_TAB(I)%NTABLE             = 0            
+        MATPARAM_TAB(I)%NTABLE             = 0     
+        MATPARAM_TAB(I)%PROP_SOLID         = 0
+        MATPARAM_TAB(I)%PROP_SHELL         = 0
+        MATPARAM_TAB(I)%PROP_BEAM          = 0
+        MATPARAM_TAB(I)%PROP_SPRING        = 0
+        MATPARAM_TAB(I)%PROP_TRUSS         = 0
+        MATPARAM_TAB(I)%PROP_SPH           = 0        
       ENDDO
 c-----------------------------------------------
       RETURN
