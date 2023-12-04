@@ -33,7 +33,8 @@ Chd|====================================================================
       SUBROUTINE CHECK_MAT_ELEM_PROP_COMPATIBILITY(
      .  ELBUF_STR,IPARG    ,IPM      ,IGEO     ,NUMMAT   ,NUMGEO   ,
      .  NGROUP   ,NPARG    ,NPROPMI  ,NPROPGI  ,MAT_PARAM,N2D      ,
-     .  IXT      ,NUMELT   ,IXP      ,NUMELP   ,IXR      ,NUMELR   )
+     .  IXT      ,NUMELT   ,IXP      ,NUMELP   ,IXR      ,NUMELR   ,
+     .  KXX      ,NUMELX   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -52,7 +53,8 @@ C-----------------------------------------------
      .                       IPM(NPROPMI,NUMMAT),IGEO(NPROPGI,NUMGEO),
      .                       NUMMAT,NUMGEO,NGROUP,NPARG,NPROPMI,NPROPGI,
      .                       IXT(NIXT,NUMELT),IXP(NIXP,NUMELP),
-     .                       IXR(NIXR,NUMELR),NUMELT,NUMELP,NUMELR
+     .                       IXR(NIXR,NUMELR),KXX(5,NUMELX),NUMELT,NUMELP,
+     .                       NUMELR,NUMELX
       TYPE(ELBUF_STRUCT_),DIMENSION(NGROUP),INTENT(IN) :: ELBUF_STR
       TYPE(MATPARAM_STRUCT_), DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
@@ -285,7 +287,14 @@ c
               IF (IMAT > 0) THEN 
                 IF (MAT_PARAM(IMAT)%PROP_SPRING == 0) COMPAT_ELEM = .FALSE.
               ENDIF      
-              ELTYP = 'SPRING'            
+              ELTYP = 'SPRING'    
+            ! ------------------------------------------------------------
+            ! XELEM
+            ! ------------------------------------------------------------   
+            CASE (100)
+              IMAT = KXX(1,NFT+1) ! -> Material internal ID
+              PID  = KXX(2,NFT+1) ! -> Property internal ID    
+              ELTYP = 'XELEM'        
           END SELECT
           ! ==============================================================
 c
@@ -330,8 +339,13 @@ c
 c
           ! Property parameters
           PROP_ID = IGEO(1,PID) ! -> Property user ID
-          MAT_ID  = IPM(1,IMAT) ! -> Material user ID
-          ILAW    = IPM(2,IMAT) ! -> Material law type
+          IF (IMAT > 0) THEN 
+            MAT_ID  = IPM(1,IMAT) ! -> Material user ID
+            ILAW    = IPM(2,IMAT) ! -> Material law type
+          ELSE 
+            MAT_ID  = 0
+            ILAW    = 0
+          ENDIF
 c
           ! ==============================================================
           ! SAVE ERROR MESSAGES IF NOT COMPATIBLE
