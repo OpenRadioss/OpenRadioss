@@ -2521,18 +2521,6 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
      .                 C1=ELEM,
      .                 I2=IX(NE,I),
      .                 PRMOD=MSG_CUMU)
-        ELSEIF(EMAT(IPM(2,MT)) == 0)THEN
-C         WRITE(IOUT,*)' **ERROR INVALID MATERIAL LAW',NINT(PM(19,MT))
-C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
-         CALL FRETITL2(TITR2,IPM(NPROPMI-LTITR+1,MT),LTITR)
-         CALL ANCMSG(MSGID=62,
-     .           MSGTYPE=MSGERROR,
-     .           ANMODE=ANINFO_BLIND_2,
-     .           I1=IPM(1,MT),
-     .           C1=TITR2,
-     .           I2=IPM(2,MT),
-     .           C2=ELEM,
-     .           I3=IX(NE,I))
         ENDIF
         IF (IG<=0) THEN
            CALL ANCMSG(MSGID=59,
@@ -2586,19 +2574,6 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
      .                 C1=ELEM,
      .                 I2=IX(NE,I),
      .                 PRMOD=MSG_CUMU)
-        ELSEIF(EMAT(IPM(2,MT)) == 0)THEN
-C         IERR = IERR + 1
-C         WRITE(IOUT,*)' **ERROR INVALID MATERIAL LAW',NINT(PM(19,MT))
-C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
-           CALL FRETITL2(TITR2,IPM(NPROPMI-LTITR+1,MT),LTITR)
-           CALL ANCMSG(MSGID=62,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_2,
-     .                 I1=IPM(1,MT),
-     .                 C1=TITR2,
-     .                 I2=IPM(2,MT),
-     .                 C2=ELEM,
-     .                 I3=IX(NE,I))
         ENDIF
         IF(IG/=0.AND.EPID(IGEO(11,IG)) == 0)THEN
 C         IERR = IERR + 1
@@ -2641,19 +2616,6 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
      .                     C1=ELEM,
      .                     I2=IX(NE,I),
      .                     PRMOD=MSG_CUMU)
-            ELSEIF(EMAT(IPM(2,MT)) == 0)THEN
-C
-C         WRITE(IOUT,*)' **ERROR INVALID MATERIAL LAW',NINT(PM(19,MT))
-C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
-               CALL FRETITL2(TITR2,IPM(NPROPMI-LTITR+1,MT),LTITR)
-               CALL ANCMSG(MSGID=62,
-     .                     MSGTYPE=MSGERROR,
-     .                     ANMODE=ANINFO_BLIND_2,
-     .                     I1=IPM(1,MT),
-     .                     C1=TITR2,
-     .                     I2=IPM(2,MT),
-     .                     C2=ELEM,
-     .                     I3=IX(NE,I))
             ENDIF
             IF(IG<=0)THEN
 C
@@ -2788,16 +2750,6 @@ C-----------------------------------------------
      .                 C1=ELEM,
      .                 I2=IX(NE,I),
      .                 PRMOD=MSG_CUMU)
-        ELSEIF(EMAT(IPM(2,MT)) == 0)THEN
-           CALL FRETITL2(TITR2,IPM(NPROPMI-LTITR+1,MT),LTITR)
-           CALL ANCMSG(MSGID=62,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO,
-     .                 I1=IPM(1,MT),
-     .                 C1=TITR2,
-     .                 I2=IPM(2,MT),
-     .                 C2=ELEM,
-     .                 I3=IX(NE,I))
         ENDIF
         IF (IG<=0) THEN
            CALL ANCMSG(MSGID=59,
@@ -2849,16 +2801,6 @@ C-----------------------------------------------
      .                 C1=ELEM,
      .                 I2=IX(NE,I),
      .                 PRMOD=MSG_CUMU)
-        ELSEIF(EMAT(IPM(2,MT)) == 0)THEN
-           CALL FRETITL2(TITR2,IPM(NPROPMI-LTITR+1,MT),LTITR)
-           CALL ANCMSG(MSGID=62,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO,
-     .                 I1=IPM(1,MT),
-     .                 C1=TITR2,
-     .                 I2=IX(NE,I),
-     .                 C2=ELEM,
-     .                 I3=IX(NE,I))
         ENDIF
         IF(IG/=0.AND.EPID(IGEO(11,IG)) == 0)THEN
            CALL FRETITL2(TITR2,IGEO(NPROPGI-LTITR+1,IG),LTITR)
@@ -2895,16 +2837,6 @@ c            IGTYP=IGEO(11,IG)
      .                     C1=ELEM,
      .                     I2=IX(NE,I),
      .                     PRMOD=MSG_CUMU)
-            ELSEIF(EMAT(IPM(2,MT)) == 0)THEN
-               CALL FRETITL2(TITR2,IPM(NPROPMI-LTITR+1,MT),LTITR)
-               CALL ANCMSG(MSGID=62,
-     .                     MSGTYPE=MSGERROR,
-     .                     ANMODE=ANINFO,
-     .                     I1=IPM(1,MT),
-     .                     C1=TITR2,
-     .                     I2=IPM(2,MT),
-     .                     C2=ELEM,
-     .                     I3=IX(NE,I))
             ENDIF
             IF(IG<=0)THEN
                CALL ANCMSG(MSGID=59,
@@ -2974,16 +2906,6 @@ c            IGTYP=IGEO(11,IG)
      .                     C1=ELEM,
      .                     I2=IX(NE,I),
      .                     PRMOD=MSG_CUMU)
-            ELSEIF(EMAT(IPM(2,MT)) == 0)THEN
-               CALL FRETITL2(TITR2,IPM(NPROPMI-LTITR+1,MT),LTITR)
-               CALL ANCMSG(MSGID=62,
-     .                     MSGTYPE=MSGERROR,
-     .                     ANMODE=ANINFO,
-     .                     I1=IPM(1,MT),
-     .                     C1=TITR2,
-     .                     I2=IPM(2,MT),
-     .                     C2=ELEM,
-     .                     I3=IX(NE,I))
             ENDIF
             IF(IPARTEL(I) == 0)THEN
               CONTINUE
