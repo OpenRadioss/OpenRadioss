@@ -26,12 +26,14 @@ Chd|-- called by -----------
 Chd|        I24FOR3                      source/interfaces/int24/i24main.F
 Chd|-- calls ---------------
 Chd|====================================================================
-       SUBROUTINE I24_SAVE_SUB(MVSIZ,NISUB,S_ADDSUBM,S_LISUBM,S_TYPSUB,NISUBMAX,I_STOK,
+       SUBROUTINE I24_SAVE_SUB(NUMNOD,MVSIZ,NISUB,S_ADDSUBM,S_LISUBM,S_TYPSUB,NISUBMAX,I_STOK,
      *                         IE,ITYPSUB,NIN,I,NN,NFT,
      *                         ADDSUBM,LISUBM,TYPSUB,
      *                         INTAREAN,INTCAREA,ISENSINT,
      *                         FXI,FYI,FZI,FNI,DT12,
      *                         FSAVSUB1,FSAVPARIT )
+!! \brief Routine to save values for type24 Sub interface for output
+!! \details moved from i24for3.F to secondary subroutine due to compiler issue.
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -49,19 +51,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MVSIZ        ! Vector size
-      INTEGER S_ADDSUBM    ! Size of ADDSUBM (computed in Starter)
-      INTEGER S_LISUBM     ! Size of LISUBM (computed in Starter)
-      INTEGER S_TYPSUB     ! Size of TYPSUB (computed in Starter)
-      INTEGER NISUBMAX     ! Size of ISENSINT
-      INTEGER NISUB        ! Number of Sub interfaces
-      INTEGER I_STOK       ! Number of contact pair / Dimension for FSAVPARIT
+      INTEGER NUMNOD       !< NUMBER of nodes in Model
+      INTEGER MVSIZ        !< Vector size
+      INTEGER S_ADDSUBM    !< Size of ADDSUBM (computed in Starter)
+      INTEGER S_LISUBM     !< Size of LISUBM (computed in Starter)
+      INTEGER S_TYPSUB     !< Size of TYPSUB (computed in Starter)
+      INTEGER NISUBMAX     !< Size of ISENSINT
+      INTEGER NISUB        !< Number of Sub interfaces
+      INTEGER I_STOK       !< Number of contact pair / Dimension for FSAVPARIT
       INTEGER IE
       INTEGER ITYPSUB
       INTEGER NIN
       INTEGER NN
-      INTEGER I            ! Iterator over Impact : Main Surface/Sec Node from caller routine
-      INTEGER NFT          ! Current pinter to FSAVSUB1
+      INTEGER I            !< Iterator over Impact : Main Surface/Sec Node from caller routine
+      INTEGER NFT          !< Current pinter to FSAVSUB1
       INTEGER ADDSUBM(S_ADDSUBM)
       INTEGER LISUBM(S_LISUBM)
       INTEGER TYPSUB(S_TYPSUB)
@@ -71,7 +74,7 @@ C-----------------------------------------------
       my_real FZI(MVSIZ)
       my_real FNI(MVSIZ)
       my_real DT12
-      INTEGER INTAREAN
+      INTEGER INTAREAN(NUMNOD)
       INTEGER INTCAREA
       my_real FSAVSUB1(25,NISUB)
       my_real FSAVPARIT(NISUB+1,11,I_STOK)
