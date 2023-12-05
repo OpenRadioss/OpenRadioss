@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        I2FOR27P                      source/interfaces/interf/i2for27p.F
 Chd|-- calls ---------------
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|====================================================================
       SUBROUTINE I2MOM27P_CIN(NSN  ,NMN  ,AR    ,IRECT,CRST  ,
      2                    MSR  ,NSV  ,IRTL  ,IN   ,MS    ,

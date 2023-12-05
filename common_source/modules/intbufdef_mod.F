@@ -463,6 +463,7 @@ Chd|        SPMD_EXCH_EFRIC               engine/source/mpi/interfaces/spmd_exch
 Chd|        SPMD_EXCH_I24                 engine/source/mpi/interfaces/spmd_exch_i24.F
 Chd|        SPMD_EXCH_I25                 engine/source/mpi/interfaces/spmd_exch_i25.F
 Chd|        SPMD_EXCH_IDEL_SEGLO          engine/source/mpi/interfaces/spmd_exch_idel_seglo.F
+Chd|        SPMD_EXCH_INTER_18            engine/source/mpi/interfaces/spmd_exch_inter_18.F
 Chd|        SPMD_EXCH_NOR                 engine/source/mpi/interfaces/spmd_exch_nor.F
 Chd|        SPMD_EXCH_PRESS               engine/source/mpi/interfaces/spmd_exch_press.F
 Chd|        SPMD_EXCH_SMST2               engine/source/mpi/ams/spmd_exch_smst2.F

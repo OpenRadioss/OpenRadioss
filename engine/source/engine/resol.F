@@ -193,7 +193,7 @@ Chd|        INIT_INTERF_SORTING_STRATEGY  source/interfaces/init_interf_sorting_
 Chd|        INIT_NODAL_STATE              source/interfaces/interf/init_nodal_state.F
 Chd|        INIT_TRIM                     source/interfaces/intsort/init_trim.F
 Chd|        INIXFEM                       source/elements/xfem/inixfem.F
-Chd|        INT18_ALLOC            source/interfaces/int18/int18_alloc.F
+Chd|        INT18_ALLOC                   source/interfaces/int18/int18_alloc.F
 Chd|        INT18_LAW151_INIT             source/interfaces/int18/int18_law151_init.F
 Chd|        INT18_LAW151_OMP_ACCUMULATION source/interfaces/int18/int18_law151_omp_accumulation.F
 Chd|        INT18_LAW151_UPDATE           source/interfaces/int18/int18_law151_update.F
@@ -355,6 +355,7 @@ Chd|        SPMD_EXCH_I24                 source/mpi/interfaces/spmd_exch_i24.F
 Chd|        SPMD_EXCH_I25                 source/mpi/interfaces/spmd_exch_i25.F
 Chd|        SPMD_EXCH_ICODT               source/mpi/nodes/spmd_exch_icodt.F
 Chd|        SPMD_EXCH_ICONT               source/mpi/nodes/spmd_exch_icont.F
+Chd|        SPMD_EXCH_INTER_18            source/mpi/interfaces/spmd_exch_inter_18.F
 Chd|        SPMD_EXCH_PRESS               source/mpi/interfaces/spmd_exch_press.F
 Chd|        SPMD_EXCH_R2R_SPH             source/mpi/r2r/spmd_r2r.F     
 Chd|        SPMD_EXCH_R2R_SPHOFF          source/mpi/r2r/spmd_r2r.F     
@@ -432,6 +433,7 @@ Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
+Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
@@ -474,6 +476,7 @@ Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F
 Chd|        MPI_TOOLS_MOD                 share/modules/mpi_tools_mod.F 
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
+Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F

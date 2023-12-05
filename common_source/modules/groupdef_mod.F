@@ -516,7 +516,7 @@ Chd|        IMP_UPDV2                     engine/source/implicit/imp_pcg.F
 Chd|        INIT_TH                       engine/source/output/th/init_th.F
 Chd|        INIT_TH0                      engine/source/output/th/init_th0.F
 Chd|        INIT_TH_GROUP                 engine/source/output/th/init_th_group.F
-Chd|        INT18_LAW151_ALLOC            engine/source/interfaces/int18/int18_law151_alloc.F
+Chd|        INT18_ALLOC                   engine/source/interfaces/int18/int18_alloc.F
 Chd|        INT18_LAW151_INIT             engine/source/interfaces/int18/int18_law151_init.F
 Chd|        INT18_LAW151_NSV_SHIFT        engine/source/interfaces/int18/int18_law151_nsv_shift.F
 Chd|        INT18_LAW151_UPDATE           engine/source/interfaces/int18/int18_law151_update.F

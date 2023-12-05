@@ -206,6 +206,7 @@ Chd|        SFORC3                        engine/source/elements/solid/solide/sf
 Chd|        SIGEPS51                      engine/source/materials/mat/mat051/sigeps51.F
 Chd|        SINIT22_FVM                   engine/source/interfaces/int22/sinit22_fvm.F
 Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
+Chd|        SPMD_EXCH_INTER_18            engine/source/mpi/interfaces/spmd_exch_inter_18.F
 Chd|        SPSTRES                       engine/source/elements/sph/spstres.F
 Chd|        SZFORC3                       engine/source/elements/solid/solidez/szforc3.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F

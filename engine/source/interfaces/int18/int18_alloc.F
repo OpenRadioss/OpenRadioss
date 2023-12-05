@@ -21,10 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  INT18_LAW151_ALLOC            source/interfaces/int18/int18_law151_alloc.F
+Chd|  INT18_ALLOC                   source/interfaces/int18/int18_alloc.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
+Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       

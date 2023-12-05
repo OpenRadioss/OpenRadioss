@@ -31,9 +31,14 @@ Chd|        W_OUTMAXN                     starter/source/restart/ddsplit/w_outma
 Chd|        GENH3D                        engine/source/output/h3d/h3d_results/genh3d.F
 Chd|        H3D_NODAL_TENSOR              engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
 Chd|        H3D_NODAL_VECTOR              engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
+Chd|        I2FOR27P_PEN                  engine/source/interfaces/interf/i2for27p_pen.F
+Chd|        I2FOR27_PEN                   engine/source/interfaces/interf/i2for27_pen.F
+Chd|        I2MOM27P_CIN                  engine/source/interfaces/interf/i2mom27p_cin.F
+Chd|        I2MOM27_CIN                   engine/source/interfaces/interf/i2mom27_cin.F
 Chd|        INI_TMAX                      engine/source/output/ini_outmax.F
 Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
+Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|        RESOL_INIT                    engine/source/engine/resol_init.F
 Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
 Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F

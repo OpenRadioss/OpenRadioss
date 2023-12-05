@@ -21,6 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+Chd|  SPMD_EXCH_INTER_18            source/mpi/interfaces/spmd_exch_inter_18.F
+Chd|-- called by -----------
+Chd|        RESOL                         source/engine/resol.F         
+Chd|-- calls ---------------
+Chd|        ALLOC_MY_REAL_1D_ARRAY        ../common_source/modules/array_mod.F
+Chd|        DEALLOC_MY_REAL_1D_ARRAY      ../common_source/modules/array_mod.F
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
+Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
         SUBROUTINE SPMD_EXCH_INTER_18(NINTER,NSPMD,NUMBER_INTER18,SXCELL,INTER18_LIST,
      .                 XCELL,MULTI_FVM,XCELL_REMOTE,INTBUF_TAB,ALE_CONNECTIVITY)

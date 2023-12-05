@@ -36,6 +36,7 @@ Chd|        SPMD_I18KINE_MSF_COM_POFF     source/mpi/interfaces/spmd_i18kine_msf
 Chd|        SPMD_I18KINE_PENE_COM_POFF    source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
+Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F

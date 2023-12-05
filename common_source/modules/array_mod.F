@@ -28,8 +28,13 @@ Chd|        DOMAIN_DECOMPOSITION_PCYL     starter/source/loads/general/load_pcyl
 Chd|        IGRSURF_SPLIT                 starter/source/spmd/igrsurf_split.F
 Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|        CHECK_REMOTE_SURFACE_STATE    engine/source/interfaces/interf/check_remote_surface_state.F
+Chd|        I18MAIN_KINE_1                engine/source/interfaces/int18/i18main_kine.F
 Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
+Chd|        INT18_ALLOC                   engine/source/interfaces/int18/int18_alloc.F
+Chd|        INTFOP2                       engine/source/interfaces/interf/intfop2.F
+Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+Chd|        SPMD_EXCH_INTER_18            engine/source/mpi/interfaces/spmd_exch_inter_18.F
 Chd|-- calls ---------------
 Chd|====================================================================
         MODULE ARRAY_MOD
@@ -179,13 +184,9 @@ Chd|====================================================================
             END SUBROUTINE 
             ! ----------------------------
 Chd|====================================================================
-Chd|  ALLOC_1D_ARRAY                modules/array_mod.F           
+Chd|  ALLOC_MY_REAL_1D_ARRAY        modules/array_mod.F           
 Chd|-- called by -----------
-Chd|        DOMAIN_DECOMPOSITION_PCYL     starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
-Chd|        IGRSURF_SPLIT                 starter/source/spmd/igrsurf_split.F
-Chd|        INITIA                        starter/source/elements/initia/initia.F
-Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
-Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+Chd|        SPMD_EXCH_INTER_18            engine/source/mpi/interfaces/spmd_exch_inter_18.F
 Chd|-- calls ---------------
 Chd|====================================================================
             SUBROUTINE ALLOC_MY_REAL_1D_ARRAY(THIS)
@@ -200,13 +201,9 @@ Chd|====================================================================
             ! ----------------------------
             ! ----------------------------
 Chd|====================================================================
-Chd|  ALLOC_1D_ARRAY                modules/array_mod.F           
+Chd|  DEALLOC_MY_REAL_1D_ARRAY      modules/array_mod.F           
 Chd|-- called by -----------
-Chd|        DOMAIN_DECOMPOSITION_PCYL     starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
-Chd|        IGRSURF_SPLIT                 starter/source/spmd/igrsurf_split.F
-Chd|        INITIA                        starter/source/elements/initia/initia.F
-Chd|        INIT_NODAL_STATE              engine/source/interfaces/interf/init_nodal_state.F
-Chd|        SPMD_EXCH_DELETED_SURF_EDGE   engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+Chd|        SPMD_EXCH_INTER_18            engine/source/mpi/interfaces/spmd_exch_inter_18.F
 Chd|-- calls ---------------
 Chd|====================================================================
             SUBROUTINE DEALLOC_MY_REAL_1D_ARRAY(THIS)

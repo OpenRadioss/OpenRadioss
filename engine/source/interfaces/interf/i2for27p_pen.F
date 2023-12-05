@@ -30,6 +30,7 @@ Chd|        I2PEN_ROT27                   ../common_source/interf/i2pen_rot.F
 Chd|        I2REP                         ../common_source/interf/i2rep.F
 Chd|        I2SMS27                       source/interfaces/interf/i2sms27.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|====================================================================
       SUBROUTINE I2FOR27P_PEN(
      .            X        ,V       ,VR      ,A       ,AR      ,

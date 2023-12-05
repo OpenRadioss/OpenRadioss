@@ -139,7 +139,7 @@ Chd|        IMP_BUCK                      engine/source/implicit/imp_buck.F
 Chd|        IMP_INTTD0                    engine/source/implicit/imp_int_k.F
 Chd|        IMP_SOLV                      engine/source/implicit/imp_solv.F
 Chd|        IMP_TRIPI                     engine/source/implicit/imp_int_k.F
-Chd|        INT18_LAW151_ALLOC            engine/source/interfaces/int18/int18_law151_alloc.F
+Chd|        INT18_ALLOC                   engine/source/interfaces/int18/int18_alloc.F
 Chd|        INT18_LAW151_INIT             engine/source/interfaces/int18/int18_law151_init.F
 Chd|        INT18_LAW151_NSV_SHIFT        engine/source/interfaces/int18/int18_law151_nsv_shift.F
 Chd|        INT18_LAW151_OMP_ACCUMULATION engine/source/interfaces/int18/int18_law151_omp_accumulation.F
@@ -186,6 +186,7 @@ Chd|        SCHLIEREN_BUFFER_GATHERING    engine/source/output/anim/generate/sch
 Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
 Chd|        SPMD_CELL_EXCHANGE            engine/source/mpi/generic/spmd_cell_exchange.F
 Chd|        SPMD_COLLECT_MULTI_FVM        engine/source/mpi/output/spmd_collect_multi_fvm.F
+Chd|        SPMD_EXCH_INTER_18            engine/source/mpi/interfaces/spmd_exch_inter_18.F
 Chd|        SPMD_FIADD25E_POFF            engine/source/mpi/interfaces/spmd_fiadd25e_poff.F
 Chd|        SPMD_FIADD_POFF               engine/source/mpi/interfaces/spmd_i7tool.F
 Chd|        SPMD_I7FCOM_POFF              engine/source/mpi/forces/spmd_i7fcom_poff.F

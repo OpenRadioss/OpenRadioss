@@ -58,6 +58,7 @@ Chd|        I17CUT                        source/interfaces/int17/i17tri.F
 Chd|        I17FOR3                       source/interfaces/int17/i17for3.F
 Chd|        I17LLL4_PENA                  source/interfaces/int17/i17for3.F
 Chd|        I17VIT_PENA                   source/interfaces/int17/i17for3.F
+Chd|        I18DST3                       source/interfaces/int18/i18dst3.F
 Chd|        I18FOR3                       source/interfaces/int18/i18for3.F
 Chd|        I18KINE_F                     source/interfaces/int18/i18main_kine.F
 Chd|        I18KINE_I                     source/interfaces/int18/i18main_kine.F
@@ -218,7 +219,7 @@ Chd|        IMPL_SAV1                     source/interfaces/int24/i24main.F
 Chd|        IMP_FR7I                      source/mpi/implicit/imp_fri.F 
 Chd|        IMP_STIF24                    source/implicit/imp_solv.F    
 Chd|        INIT_TRIM                     source/interfaces/intsort/init_trim.F
-Chd|        INT18_LAW151_ALLOC            source/interfaces/int18/int18_law151_alloc.F
+Chd|        INT18_ALLOC                   source/interfaces/int18/int18_alloc.F
 Chd|        INT18_LAW151_OMP_ACCUMULATION source/interfaces/int18/int18_law151_omp_accumulation.F
 Chd|        INTCRIT                       source/interfaces/intsort/intcrit.F
 Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
@@ -243,6 +244,7 @@ Chd|        SPMD_CHECK_TAG                source/mpi/ams/spmd_check_tag.F
 Chd|        SPMD_EXCH_EFRIC               source/mpi/interfaces/spmd_exch_efric.F
 Chd|        SPMD_EXCH_I24                 source/mpi/interfaces/spmd_exch_i24.F
 Chd|        SPMD_EXCH_I25                 source/mpi/interfaces/spmd_exch_i25.F
+Chd|        SPMD_EXCH_INTER_18            source/mpi/interfaces/spmd_exch_inter_18.F
 Chd|        SPMD_EXCH_PRESS               source/mpi/interfaces/spmd_exch_press.F
 Chd|        SPMD_EXCH_SMST2               source/mpi/ams/spmd_exch_smst2.F
 Chd|        SPMD_EXCH_SORTING_EFRIC       source/mpi/interfaces/spmd_exch_sorting_efric.F
