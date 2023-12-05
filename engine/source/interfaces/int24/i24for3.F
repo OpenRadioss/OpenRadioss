@@ -1230,7 +1230,7 @@ C
 
           ! Compiler issue workaround,
           ! Loop packed in suboutine to avoid optimization breaking the code.
-          CALL I24_SAVE_SUB(MVSIZ,NISUB,S_ADDSUBM,S_LISUBM,S_TYPSUB,NISUBMAX,I_STOK,
+          CALL I24_SAVE_SUB(NUMNOD,MVSIZ,NISUB,S_ADDSUBM,S_LISUBM,S_TYPSUB,NISUBMAX,I_STOK,
      *                      IE,ITYPSUB,NIN,I,NN,NFT,
      *                      ADDSUBM,LISUBM,TYPSUB,
      *                      PARAMETERS%INTAREAN,PARAMETERS%INTCAREA,ISENSINT,
