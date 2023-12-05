@@ -1,57 +1,57 @@
-Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
-Copyright>
-Copyright>        This program is free software: you can redistribute it and/or modify
-Copyright>        it under the terms of the GNU Affero General Public License as published by
-Copyright>        the Free Software Foundation, either version 3 of the License, or
-Copyright>        (at your option) any later version.
-Copyright>
-Copyright>        This program is distributed in the hope that it will be useful,
-Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
-Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-Copyright>        GNU Affero General Public License for more details.
-Copyright>
-Copyright>        You should have received a copy of the GNU Affero General Public License
-Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-Copyright>
-Copyright>
-Copyright>        Commercial Alternative: Altair Radioss Software
-Copyright>
-Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
-Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
-Chd|  PYTHON_FUNCT_MOD              modules/python_mod.F          
-Chd|-- called by -----------
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        EXECARGCHECK                  starter/source/starter/execargcheck.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        DAASOLV                       engine/source/fluid/daasolv.F 
-Chd|        DAASOLVP                      engine/source/fluid/daasolvp.F
-Chd|        FIXVEL                        engine/source/constraints/general/impvel/fixvel.F
-Chd|        FLOW0                         engine/source/fluid/flow0.F   
-Chd|        FORCE                         engine/source/loads/general/force.F
-Chd|        GRAVIT                        engine/source/loads/general/grav/gravit.F
-Chd|        GRAVIT_FVM_FEM                engine/source/loads/general/grav/gravit_fvm_fem.F
-Chd|        INCPFLOW                      engine/source/fluid/incpflow.F
-Chd|        LAG_FXV                       engine/source/tools/lagmul/lag_fxv.F
-Chd|        LAG_FXVP                      engine/source/tools/lagmul/lag_fxv.F
-Chd|        LAG_MULT                      engine/source/tools/lagmul/lag_mult.F
-Chd|        LAG_MULTP                     engine/source/tools/lagmul/lag_mult.F
-Chd|        RADIOSS2                      engine/source/engine/radioss2.F
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|====================================================================
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!hd|====================================================================
+!hd|  PYTHON_FUNCT_MOD              modules/python_mod.F
+!hd|-- called by -----------
+!hd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
+!hd|        EXECARGCHECK                  starter/source/starter/execargcheck.F
+!hd|        LECTUR                        starter/source/starter/lectur.F
+!hd|        DAASOLV                       engine/source/fluid/daasolv.F
+!hd|        DAASOLVP                      engine/source/fluid/daasolvp.F
+!hd|        FIXVEL                        engine/source/constraints/general/impvel/fixvel.F
+!hd|        FLOW0                         engine/source/fluid/flow0.F
+!hd|        FORCE                         engine/source/loads/general/force.F
+!hd|        GRAVIT                        engine/source/loads/general/grav/gravit.F
+!hd|        GRAVIT_FVM_FEM                engine/source/loads/general/grav/gravit_fvm_fem.F
+!hd|        INCPFLOW                      engine/source/fluid/incpflow.F
+!hd|        LAG_FXV                       engine/source/tools/lagmul/lag_fxv.F
+!hd|        LAG_FXVP                      engine/source/tools/lagmul/lag_fxv.F
+!hd|        LAG_MULT                      engine/source/tools/lagmul/lag_mult.F
+!hd|        LAG_MULTP                     engine/source/tools/lagmul/lag_mult.F
+!hd|        RADIOSS2                      engine/source/engine/radioss2.F
+!hd|        RDRESB                        engine/source/output/restart/rdresb.F
+!hd|        RESOL                         engine/source/engine/resol.F
+!hd|        RESOL_HEAD                    engine/source/engine/resol_head.F
+!hd|        WRRESTP                       engine/source/output/restart/wrrestp.F
+!hd|-- calls ---------------
+!hd|====================================================================
       MODULE PYTHON_FUNCT_MOD
         use iso_c_binding
         integer, parameter :: max_line_length = 500 !< the maximum length of a line of code of python function
         integer, parameter :: max_num_lines = 1000 !< the maximum number of lines of python function
         integer, parameter :: max_code_length = max_line_length*max_num_lines
 ! global variable
-        integer :: python_error !< true if the starter command line had the option "-python" 
+        integer :: python_error !< true if the starter command line had the option "-python"
 ! use iso_c_binding to bind python_init to cpp_python_init and python_finalize to cpp_python_finalize
         interface
           subroutine python_initialize(ok) bind(c, name="cpp_python_initialize")
@@ -88,7 +88,7 @@ Chd|====================================================================
         type :: python_function
           character(kind=c_char), dimension(:), allocatable :: name !< the name of the python function
           character(kind=c_char), dimension(:), allocatable :: code !< the code of the python function
-          integer :: len_name !< the length of the name 
+          integer :: len_name !< the length of the name
           integer :: len_code !< the length of the code
           integer :: num_lines !< the number of lines of the code
           integer :: num_args !< the number of arguments of the function (1 for 1D function)
@@ -96,7 +96,7 @@ Chd|====================================================================
           integer :: user_id !< the user id of the function
         end type python_function
 
-!! \brief the python structure: it contains the python functions 
+!! \brief the python structure: it contains the python functions
         type python_
           type(python_function), dimension(:), allocatable :: functs !< the python functions
           integer :: funct_offset !< the local id of the python function starts after the id of other kind of functions
@@ -116,7 +116,6 @@ Chd|====================================================================
 
 
       contains
-
 
 !! \brief serialize python_function into a buffer (for I/O)
         subroutine python_serialize(python, buffer,buffer_size)
@@ -204,7 +203,7 @@ Chd|====================================================================
               allocate(python%functs(i)%name(python%functs(i)%len_name),stat=ierr)
               if(ierr == 0) then
                 python%functs(i)%name = transfer(buffer(pos:pos+python%functs(i)%len_name-1), python%functs(i)%name)
-               pos = pos + python%functs(i)%len_name
+                pos = pos + python%functs(i)%len_name
               endif
               allocate(python%functs(i)%code(python%functs(i)%len_code),stat=ierr)
               if(ierr == 0) then
@@ -273,12 +272,12 @@ Chd|====================================================================
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           ierror = 0 ! if python error = 1 => python_initialize will do nothing, because python is not avaiable
-                                ! i.e. starter without -python option
+          ! i.e. starter without -python option
           if(py%nb_functs>0) call python_initialize(ierror)
 
           if(py%nb_functs > 0 .and. ierror == 1) then
             ! stops the program if python_initialize failed and there are python functions
-            write(6,*) "ERROR: python_register: python_initialize failed" 
+            write(6,*) "ERROR: python_register: python_initialize failed"
             stop
           endif
           do n = 1, py%nb_functs
@@ -357,12 +356,12 @@ Chd|====================================================================
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
-       
+
           eps = epsilon(1.0D0)
           h = sqrt(eps) * max(1.0D0, abs(x))
           prev_derivative = 0.0D0
           derivative = 0.0D0
-       
+
           do i = 1, 10  ! Max 10 iterations
             argin(1) = x + h
             call python_call_function(py%functs(funct_id)%name, 1, argin, 1, argout)
@@ -374,7 +373,7 @@ Chd|====================================================================
             ! Break if the derivative has stabilized
             if (i > 1 .and. abs(derivative - prev_derivative) <= eps * abs(derivative)) exit
             prev_derivative = derivative
-            h = h / 2.0D0  
+            h = h / 2.0D0
             if( h == 0.0D0 ) exit
           end do
           y = derivative
@@ -399,7 +398,7 @@ Chd|====================================================================
 ! ----------------------------------------------------------------------------------------------------------------------
 
           argin = dble(x)
-          call python_deriv_funct1D_dp(py, funct_id, argin, argout) 
+          call python_deriv_funct1D_dp(py, funct_id, argin, argout)
           y = real(argout,kind(1.0))
         end subroutine
 
@@ -436,8 +435,8 @@ Chd|====================================================================
           call python_funct_init(py%functs(1), code, len_trim(code),3)
           !            write(6,*) "Fortran name = ", py%functs(1)%name
           !            write(6,*) "Fortran code = ", py%functs(1)%code(1:len_trim(code))
-          call python_serialize(py, buffer, buffer_size)
-          call python_deserialize(py2, buffer)
+          call python_serialize(py, buffer, buffer_size) ! write into buffer
+          call python_deserialize(py2, buffer) ! read from buffer
 
 ! Call the function
           argin(1) = 2.0

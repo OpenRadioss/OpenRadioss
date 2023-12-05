@@ -36,7 +36,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !  [ the module names in use must be in uppercase for now, it will change latter]
 !  [ ONLY is mandatory, note the space before the ,]
-          USE INTBUF_DEF_MOD , ONLY: intbuf_struct
+          use intbuf_def_mod, only: intbuf_struct
+          use constant_mod, only : PI
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -49,7 +50,6 @@
 #include "my_real.inc"
 ! [ generally spealing, #include is forbidden, there are only few exceptions: ]
 #include "nchar_c.inc"
-#include "constant.inc"
 #include "task_c.inc"
 #include "units_c.inc"
 #include "mvsiz_p.inc"
