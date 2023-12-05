@@ -36,7 +36,7 @@ set (include_directory "${CMAKE_CURRENT_SOURCE_DIR}/share" )
 if ( NOT DEFINED COM) 
 
 #Fortran source files
-file(GLOB_RECURSE source_files  ${source_directory}/source/*.F ${source_directory}/stub/*.F ${source_directory}/share/*.F  ${source_directory}/../common_source/*.F ${source_directory}/source/*.F90 ${source_directory}/stub/*.F90 ${source_directory}/share/*.F90  ${source_directory}/../common_source/*.f90 ${source_directory}/source/*.f90 ${source_directory}/stub/*.f90 ${source_directory}/share/*.f90  ${source_directory}/../common_source/*.f90 )
+file(GLOB_RECURSE source_files  ${source_directory}/source/*.F ${source_directory}/stub/*.F ${source_directory}/share/*.F  ${source_directory}/../common_source/*.F ${source_directory}/source/*.F90 ${source_directory}/stub/*.F90 ${source_directory}/share/*.F90  ${source_directory}/../common_source/*.F90 ${source_directory}/source/*.F90 ${source_directory}/stub/*.F90 ${source_directory}/share/*.F90  ${source_directory}/../common_source/*.F90 )
 
 
 #C source files
@@ -53,7 +53,7 @@ set (ex_version "engine")
 else()
 
 #Fortran source files
-file(GLOB_RECURSE source_files  ${source_directory}/source/*.F ${source_directory}/com/*.F ${source_directory}/share/*.F  ${source_directory}/../common_source/*.F ${source_directory}/source/*.F90 ${source_directory}/stub/*.F90 ${source_directory}/share/*.F90  ${source_directory}/../common_source/*.f90 ${source_directory}/source/*.f90 ${source_directory}/stub/*.f90 ${source_directory}/share/*.f90  ${source_directory}/../common_source/*.f90)
+file(GLOB_RECURSE source_files  ${source_directory}/source/*.F ${source_directory}/com/*.F ${source_directory}/share/*.F  ${source_directory}/../common_source/*.F ${source_directory}/source/*.F90 ${source_directory}/stub/*.F90 ${source_directory}/share/*.F90  ${source_directory}/../common_source/*.F90 ${source_directory}/source/*.F90 ${source_directory}/stub/*.F90 ${source_directory}/share/*.F90  ${source_directory}/../common_source/*.F90)
 
 if ( NOT DEFINED WITH_LINEAR_ALGEBRA OR precision STREQUAL "sp") 
 # remove files related to linear algebra
