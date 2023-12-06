@@ -1201,7 +1201,7 @@ C--------- like QBAT is used to avoid instability
 C-----part CMF
        IF (IORTH>1) THEN
        DO I=JFT,JLT
-         C2=FAC1(I)*DT1
+         C2=EM01*FAC1(I)*DT1
          CMF(I,1,1)=C2*HMFOR(I,1)
          CMF(I,2,2)=C2*HMFOR(I,2)
          CMF(I,1,2)=C2*HMFOR(I,3)
