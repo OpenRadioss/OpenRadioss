@@ -131,6 +131,7 @@ Chd|        I24SMS2                       source/interfaces/int24/i24for3.F
 Chd|        I24STO                        source/interfaces/intsort/i24sto.F
 Chd|        I24TRC                        source/interfaces/intsort/i7trc.F
 Chd|        I24TRIVOX                     source/interfaces/intsort/i24trivox.F
+Chd|        I24_SAVE_SUB                  source/interfaces/int24/i24_save_sub.F
 Chd|        I25ASS0                       source/interfaces/int25/i25ass3.F
 Chd|        I25ASS2                       source/interfaces/int25/i25ass3.F
 Chd|        I25ASS3                       source/interfaces/int25/i25ass3.F
