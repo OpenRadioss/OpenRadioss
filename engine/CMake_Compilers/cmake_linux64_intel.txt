@@ -74,7 +74,6 @@ else ()
 set(opt_flag "-axSSE3,COMMON-AVX512 -no-fma -O3 -fp-model precise -fimf-use-svml=true -qopenmp")
 set(opt_cflag "-axSSE3,COMMON-AVX512 -no-fma -O3 -fp-model precise -fimf-use-svml=true -qopenmp")
 endif()
-set(Fortran "${wo_linalg} -ftz  -extend-source -assume buffered_io -align array64byte" )
 # MUMPS
 if(DEFINED mumps_root)
     if ( mpiver STREQUAL "smp")
@@ -99,9 +98,12 @@ if(DEFINED mumps_root)
     set(opt_flag "${opt_flag} ${mumps_flag} ${mumps_inc}")
 endif()
 
+
 if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
 set ( wo_linalg "-DWITHOUT_LINALG" )
 endif()
+set(Fortran "${wo_linalg} -ftz  -extend-source -assume buffered_io -align array64byte" )
+
 
 
 # Fortran
