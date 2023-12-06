@@ -172,7 +172,7 @@ C
       NLOAD   = UPARAM(IADBUF+7)
       NUNLOAD = UPARAM(IADBUF+8)
       INTER_0 = UPARAM(2*NFUNC + 15)
-      EPSSMAX= UPARAM(IADBUF+4)
+      EPSSMAX = UPARAM(IADBUF+4)
       DO I=1,NEL
         E0(I)     = UPARAM(IADBUF+2)
         AA(I)     = UPARAM(IADBUF+3)
@@ -283,7 +283,7 @@ c
       IF (NUNLOAD > 0) THEN
         IF (MATPARAM%TABLE(2)%NDIM == 1) THEN
           DO I=1,NEL
-            IPOS1(I) = NINT(UVAR(I,11))
+            IPOS1(I) = 1
             XVEC1(I) = EPST(I)
           ENDDO
 c
@@ -291,7 +291,7 @@ c
 c
         ELSE
           DO I=1,NEL
-            IPOS(I,1) = NINT(UVAR(I,11))
+            IPOS(I,1) = 1
             IPOS(I,2) = 1  
             XVEC(I,1) = EPST(I)
             XVEC(I,2) = UPARAM(IADBUF + 9 + NLOAD) ! static strain rate

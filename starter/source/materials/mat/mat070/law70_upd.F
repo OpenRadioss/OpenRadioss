@@ -98,7 +98,7 @@ c------------------------------------------------------
         RATE(I) = UPARAM(I + 8)
         YFAC(I) = UPARAM(I + 8 + NFUNC)
         LEN(I)  = (NPC(FUNC_ID+1) - NPC(FUNC_ID)) / 2
-        LMAX = MAX(LMAX,LEN(I))
+        LMAX    = MAX(LMAX,LEN(I))
       END DO
       ALLOCATE (XI(LMAX,NLOAD))
       ALLOCATE (YI(LMAX,NLOAD))
@@ -152,7 +152,7 @@ c
 c------------------------------------------------------      
 c
       CALL LAW70_TABLE(
-     .     MAT_PARAM%TABLE(LOAD)  ,LMAX   ,NLOAD  ,LEN     ,RATE  ,
+     .     MAT_PARAM%TABLE(LOAD)  ,NLOAD  ,LEN     ,LMAX   ,RATE  ,
      .     XI    ,YI     )      
       
       DEALLOCATE (YI)
@@ -169,7 +169,7 @@ c
           RATE(I) = UPARAM(K + 8)
           YFAC(I) = UPARAM(K + 8 + NFUNC)
           LEN(I)  = (NPC(FUNC(I)+1) - NPC(FUNC(I))) / 2
-          LMAX  = LMAX + LEN(I)
+          LMAX    = MAX(LMAX,LEN(I))
         END DO
         ALLOCATE (XI(LMAX,NULOAD))
         ALLOCATE (YI(LMAX,NULOAD))
@@ -219,7 +219,7 @@ c       reduce number of points if necessary
         END DO
 c--------------------------------------------------------
         CALL LAW70_TABLE(
-     .       MAT_PARAM%TABLE(UNLOAD)  ,LMAX   ,NULOAD  ,LEN     ,RATE  ,
+     .       MAT_PARAM%TABLE(UNLOAD)  ,NULOAD  ,LEN     ,LMAX   ,RATE  ,
      .       XI    , YI     )      
       
         DEALLOCATE (YI)
