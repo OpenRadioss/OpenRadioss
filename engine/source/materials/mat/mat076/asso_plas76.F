@@ -42,6 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE4D_MOD
+      USE TABLE_MAT_VINTERP_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -176,14 +177,14 @@ C
       XVEC(1:NEL,1)   = PLAT(1:NEL)
       XVEC(1:NEL,2)   = EPSPT(1:NEL)*XFAC
       IPOS(1:NEL,1:2) = 1
-      CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,IPOS,XVEC,SIGT,DSIGT_DP)
+      CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,IPOS,XVEC,SIGT,DSIGT_DP)
       SIGT     = SIGT*TFAC(1)*(ONE-DAM(1:NEL))
       DSIGT_DP = DSIGT_DP*TFAC(1)*(ONE-DAM(1:NEL))
       IF (TABLE(FUNC_COMP)%NOTABLE > 0) THEN 
         XVEC(1:NEL,1)   = PLAC(1:NEL)
         XVEC(1:NEL,2)   = EPSPC(1:NEL)*XFAC
         IPOS(1:NEL,1:2) = 1
-        CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,IPOS,XVEC,SIGC,DSIGC_DP)
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,IPOS,XVEC,SIGC,DSIGC_DP)
         SIGC     = SIGC*TFAC(2)*(ONE-DAM(1:NEL))
         DSIGC_DP = DSIGC_DP*TFAC(2)*(ONE-DAM(1:NEL))
       ENDIF
@@ -191,7 +192,7 @@ C
         XVEC(1:NEL,1)   = PLAS(1:NEL)
         XVEC(1:NEL,2)   = EPSPS(1:NEL)*XFAC
         IPOS(1:NEL,1:2) = 1
-        CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,IPOS,XVEC,SIGS,DSIGS_DP)
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,IPOS,XVEC,SIGS,DSIGS_DP)
         SIGS     = SIGS*TFAC(3)*(ONE-DAM(1:NEL))
         DSIGS_DP = DSIGS_DP*TFAC(3)*(ONE-DAM(1:NEL)) 
       ENDIF 
@@ -424,14 +425,14 @@ C
           XVEC(1:NEL,1)   = PLAT(1:NEL)
           XVEC(1:NEL,2)   = EPSPT(1:NEL)*XFAC
           IPOS(1:NEL,1:2) = 1
-          CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,IPOS,XVEC,SIGT,DSIGT_DP)
+          CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,IPOS,XVEC,SIGT,DSIGT_DP)
           SIGT     = SIGT*TFAC(1)*(ONE-DAM(1:NEL))
           DSIGT_DP = DSIGT_DP*TFAC(1)*(ONE-DAM(1:NEL))
           IF (TABLE(FUNC_COMP)%NOTABLE > 0) THEN 
             XVEC(1:NEL,1)   = PLAC(1:NEL)
             XVEC(1:NEL,2)   = EPSPC(1:NEL)*XFAC
             IPOS(1:NEL,1:2) = 1
-            CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,IPOS,XVEC,SIGC,DSIGC_DP)
+            CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,IPOS,XVEC,SIGC,DSIGC_DP)
             SIGC(1:NEL)     = SIGC*TFAC(2)*(ONE-DAM(1:NEL))
             DSIGC_DP(1:NEL) = DSIGC_DP*TFAC(2)*(ONE-DAM(1:NEL))
           ENDIF
@@ -439,7 +440,7 @@ C
             XVEC(1:NEL,1)   = PLAS(1:NEL)
             XVEC(1:NEL,2)   = EPSPS(1:NEL)*XFAC
             IPOS(1:NEL,1:2) = 1
-            CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,IPOS,XVEC,SIGS,DSIGS_DP)
+            CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,IPOS,XVEC,SIGS,DSIGS_DP)
             SIGS(1:NEL)     = SIGS*TFAC(3)*(ONE-DAM(1:NEL)) 
             DSIGS_DP(1:NEL) = DSIGS_DP*TFAC(3)*(ONE-DAM(1:NEL)) 
           ENDIF 

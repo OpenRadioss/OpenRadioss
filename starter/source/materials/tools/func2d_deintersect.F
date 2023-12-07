@@ -26,32 +26,31 @@ Chd|-- called by -----------
 Chd|        LAW70_TABLE                   source/materials/mat/mat070/law70_table.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE FUNC2D_DEINTERSECT(NPT, LMAX ,NRATE  ,YY    )
+      SUBROUTINE FUNC2D_DEINTERSECT(NPT, NFUNC  ,YY    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
       INTEGER ,INTENT(IN)  :: NPT
-      INTEGER ,INTENT(IN)  :: LMAX
-      INTEGER ,INTENT(IN)  :: NRATE
-      my_real ,DIMENSION(LMAX,NRATE) ,INTENT(INOUT):: YY
+      INTEGER ,INTENT(IN)  :: NFUNC
+      my_real ,DIMENSION(NPT,NFUNC) ,INTENT(INOUT):: YY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: IPT,IRATE,I1,I2,J1,J2
+      INTEGER :: IPT,IFUNC,I1,I2,J1,J2
       my_real :: T1,T2,Y1,Y2,DY1,DY2
-      my_real ,DIMENSION(LMAX) :: YTMP
+      my_real ,DIMENSION(NPT) :: YTMP
       my_real ,PARAMETER :: EPS = 1.0E-1
 c-----------------------------------------------
 c     Check and correct segment intersections between 2 functions with same abscissas
 c     with respect to the second independent variable
 C=======================================================================
       YTMP(:) = ZERO   
-      IF (NRATE > 1) THEN 
-        DO IRATE = 2,NRATE
-          J1 = IRATE - 1
-          J2 = IRATE
+      IF (NFUNC > 1) THEN 
+        DO IFUNC = 2,NFUNC
+          J1 = IFUNC - 1
+          J2 = IFUNC
           YTMP(1) = YY(1,J2)
           DO IPT = 2,NPT
             I1 = IPT - 1

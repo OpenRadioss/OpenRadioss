@@ -45,7 +45,7 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE TABLE2D_VINTERP_LOG(TABLE,ISMOOTH,NEL,IPOS,XX,YY,DYDX1,DYDX2)
+      SUBROUTINE TABLE2D_VINTERP_LOG(TABLE,ISMOOTH,DIMX,NEL,IPOS,XX,YY,DYDX1,DYDX2)
 C-----------------------------------------------
       USE TABLE_MOD
       USE MESSAGE_MOD
@@ -71,9 +71,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TTABLE)            :: TABLE
-      INTEGER                 :: ISMOOTH,NEL
-      INTEGER ,DIMENSION(:,:) :: IPOS
-      my_real ,DIMENSION(:,:) :: XX
+      INTEGER ,INTENT(IN)                 :: ISMOOTH,DIMX,NEL
+      INTEGER ,DIMENSION(DIMX,TABLE%NDIM) :: IPOS
+      my_real ,DIMENSION(DIMX,TABLE%NDIM) :: XX
       my_real ,DIMENSION(NEL) :: YY, DYDX1, DYDX2
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

@@ -33,7 +33,7 @@ Chd|====================================================================
      1   NEL,     NUPARAM, NUVAR,   MFUNC,
      2   KFUNC,   NPF,     TF,      TIME,
      3   TIMESTEP,UPARAM,  RHO0,    RHO,
-     4   OFFG,    RHOREF,
+     4   OFFG,    RHOREF,  NVARTMP, VARTMP,
      5   RHOSP,   DEPSXX,
      7   DEPSYY,  DEPSZZ,  DEPSXY,  DEPSYZ,
      8   DEPSZX,  EPSXX,   EPSYY,   EPSZZ,
@@ -49,6 +49,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MATPARAM_DEF_MOD
+      USE TABLE_MAT_VINTERP_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,6 +100,8 @@ C---------+---------+---+---+--------------------------------------------
 #include      "sms_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
+      INTEGER ,INTENT(IN)    :: NVARTMP
+      INTEGER ,INTENT(INOUT) :: VARTMP(NEL,NVARTMP)
       INTEGER, INTENT(IN) :: ISMSTR, IHET, JSMS
       INTEGER NEL, NUPARAM, NUVAR,IPT,
      .   NGL(NEL),MAT(NEL),IPLA,IPM(NPROPMI,*)
@@ -241,18 +244,18 @@ c
       IF (NINDEX_EPST > 0) THEN
         DO II=1,NINDEX_EPST
           I = INDEX_EPST(II)
-          IPOS(II,1) = NINT(UVAR(I,11))
+          IPOS(II,1) = VARTMP(I,1)
           IPOS(II,2) = 1  
           XVEC(II,1) = EPST(I)
           XVEC(II,2) = UPARAM(IADBUF + 9) ! static strain rate
         ENDDO
 c
-        CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NINDEX_EPST,IPOS,XVEC,INTER1,DF_INTER1)
+        CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NEL,NINDEX_EPST,IPOS,XVEC,INTER1,DF_INTER1)
 c
         DO II=1,NINDEX_EPST
           I = INDEX_EPST(II)
           YLDELAS(I) = INTER1(II)
-          UVAR(I,11) = IPOS(II,1)
+          VARTMP(I,1) = IPOS(II,1)
         ENDDO
       ENDIF
 
@@ -281,18 +284,18 @@ c
 #include "vectorize.inc"
           DO II=1,NINDEX_EPSSM
             I = INDEX_EPSSM(II)
-            IPOS(II,1) = NINT(UVAR(I,12))
+            IPOS(II,1) = VARTMP(I,2)
             IPOS(II,2) = 1   ! latest strain rate position
             XVEC(II,1) = EPSSMAX
             XVEC(II,2) = EPSP(I)
           ENDDO
 c
-          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NINDEX_EPSSM,IPOS,XVEC,YLDMAX,DFC)
+          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NEL,NINDEX_EPSSM,IPOS,XVEC,YLDMAX,DFC)
 c
 #include "vectorize.inc"
           DO II=1,NINDEX_EPSSM  
             I = INDEX_EPSSM(II)       
-            UVAR(I,12) = IPOS(II,1)
+            VARTMP(I,2) = IPOS(II,1)
           ENDDO
           ! end of case NC > 1  
           ! ------------------------                      
@@ -302,19 +305,19 @@ c
 #include "vectorize.inc"
           DO II=1,NINDEX_EPSSM
             I = INDEX_EPSSM(II)
-            IPOS(II,1) = NINT(UVAR(I,12))
+            IPOS(II,1) = VARTMP(I,2)
             IPOS(II,2) = 1   !  strain rate position
             XVEC(II,1) = EPSSMAX
             XVEC(II,2) = UPARAM(IADBUF + 8 + JJ(I))
           ENDDO
 c
-          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NINDEX_EPSSM,IPOS,XVEC,INTER1,DFC)
+          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NEL,NINDEX_EPSSM,IPOS,XVEC,INTER1,DFC)
 c
 #include "vectorize.inc"
             DO II=1,NINDEX_EPSSM
               I = INDEX_EPSSM(II)                        
               YLDMAX(I) = INTER1(II) + EMAX*(EPST(I) - EPSSMAX)   
-              UVAR(I,12)= IPOS(II,1)
+              VARTMP(I,2)= IPOS(II,1)
             ENDDO
            ! ------------------------
           ENDIF
@@ -334,19 +337,19 @@ c
 #include "vectorize.inc"
           DO II=1,NINDEX_EPST
             I = INDEX_EPST(II)
-            IPOS(II,1) = NINT(UVAR(I,13))
+            IPOS(II,1) = VARTMP(I,3)
             IPOS(II,2) = 1   !  strain rate position
             XVEC(II,1) = EPST(I)
             XVEC(II,2) = EPSP(I)
           ENDDO
 c
-          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NINDEX_EPST,IPOS,XVEC,INTER1,DFC)
+          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NEL,NINDEX_EPST,IPOS,XVEC,INTER1,DFC)
 c
 #include "vectorize.inc"
             DO II=1,NINDEX_EPST
               I = INDEX_EPST(II)                        
               YLDMAX(I) = INTER1(II)
-              UVAR(I,13)= IPOS(II,1)
+              VARTMP(I,3)= IPOS(II,1)
             ENDDO
             ! ------------------------    
             ! end of case NC > 1             
@@ -359,19 +362,19 @@ c
             DO II=1,NINDEX_EPST
               I = INDEX_EPST(II)
               J1 = JJ(I)    
-              IPOS(II,1) = NINT(UVAR(I,13))
+              IPOS(II,1) = VARTMP(I,3)
               IPOS(II,2) = 1   !  strain rate position
               XVEC(II,1) = EPST(I)
               XVEC(II,2) = UPARAM(IADBUF + 8 + J1)
             ENDDO
 c
-            CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NINDEX_EPST,IPOS,XVEC,INTER1,DFC)
+            CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NEL,NINDEX_EPST,IPOS,XVEC,INTER1,DFC)
 c
 #include "vectorize.inc"
             DO II=1,NINDEX_EPST
               I = INDEX_EPST(II)                        
               YLDMAX(I) = INTER1(II)
-              UVAR(I,13)= IPOS(II,1)
+              VARTMP(I,3)= IPOS(II,1)
             ENDDO
             ! ------------------------
           ENDIF
@@ -414,19 +417,19 @@ c
 #include "vectorize.inc"
               DO II=1,NINDEX_EPSSM
                 I = INDEX_EPSSM(II)
-                IPOS(II,1) = NINT(UVAR(I,14))
+                IPOS(II,1) = VARTMP(I,4)
                 IPOS(II,2) = 1
                 XVEC(II,1) = EPSSMAX
                 XVEC(II,2) = EPSP(I)
               ENDDO
 c
-              CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NINDEX_EPSSM,IPOS,XVEC,INTER1,DFC)
+              CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NEL,NINDEX_EPSSM,IPOS,XVEC,INTER1,DFC)
 c
 #include "vectorize.inc"
               DO II=1,NINDEX_EPSSM  
                 I = INDEX_EPSSM(II)     
                 YLDMIN(I)  = INTER1(II) +  EMAX*(EPST(I) - EPSSMAX)
-                UVAR(I,14) = IPOS(II,1)
+                VARTMP(I,4) = IPOS(II,1)
               ENDDO
               ! ------------------------   
               ! end of case NC > 1                 
@@ -439,19 +442,19 @@ c
               DO II=1,NINDEX_EPSSM
                 I  = INDEX_EPSSM(II)
                 J1 = JJ(I)    
-                IPOS(II,1) = NINT(UVAR(I,14))
+                IPOS(II,1) = VARTMP(I,4)
                 IPOS(II,2) = 1
                 XVEC(II,1) = EPSSMAX
                 XVEC(II,2) = UPARAM(IADBUF + 8 + J1)
               ENDDO
 c
-              CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NINDEX_EPSSM,IPOS,XVEC,INTER1,DFC)
+              CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NEL,NINDEX_EPSSM,IPOS,XVEC,INTER1,DFC)
 c
 #include "vectorize.inc"
               DO II=1,NINDEX_EPSSM  
                 I = INDEX_EPSSM(II)     
                 YLDMIN(I)  = INTER1(II) +  EMAX*(EPST(I) - EPSSMAX)
-                UVAR(I,14) = IPOS(II,1)
+                VARTMP(I,4) = IPOS(II,1)
               ENDDO
               ! ------------------------        
               ! end of case NC <= 1     
@@ -471,19 +474,19 @@ c
 #include "vectorize.inc"
               DO II=1,NINDEX_EPST
                 I = INDEX_EPST(II)
-                IPOS(II,1) = NINT(UVAR(I,15))
+                IPOS(II,1) = VARTMP(I,5)
                 IPOS(II,2) = 1
                 XVEC(II,1) = EPST(I)
                 XVEC(II,2) = EPSP(I)
               ENDDO
 c
-              CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NINDEX_EPST,IPOS,XVEC,INTER1,DFC)
+              CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NEL,NINDEX_EPST,IPOS,XVEC,INTER1,DFC)
 c
 #include "vectorize.inc"
               DO II=1,NINDEX_EPST  
                 I = INDEX_EPST(II)     
                 YLDMIN(I)  = INTER1(II)
-                UVAR(I,15) = IPOS(II,1)
+                VARTMP(I,5) = IPOS(II,1)
               ENDDO
               ! ------------------------      
               ! end of case NC > 1                     
@@ -496,19 +499,19 @@ c
               DO II=1,NINDEX_EPST
                 I  = INDEX_EPST(II)
                 J1 = JJ(I)    
-                IPOS(II,1) = NINT(UVAR(I,15))
+                IPOS(II,1) = VARTMP(I,5)
                 IPOS(II,2) = 1
                 XVEC(II,1) = EPST(I)
                 XVEC(II,2) = UPARAM(IADBUF + 8 + J1)
               ENDDO
 c
-              CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NINDEX_EPST,IPOS,XVEC,INTER1,DFC)
+              CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NEL,NINDEX_EPST,IPOS,XVEC,INTER1,DFC)
 c
 #include "vectorize.inc"
               DO II=1,NINDEX_EPST  
                 I = INDEX_EPST(II)     
                 YLDMIN(I)  = INTER1(II)
-                UVAR(I,15) = IPOS(II,1)
+                VARTMP(I,5) = IPOS(II,1)
               ENDDO
 C
             ENDIF
@@ -902,7 +905,7 @@ C
           IF (MU > 0) THEN
             NINDEX_MU = NINDEX_MU + 1
             INDEX_MU(NINDEX_MU) = I
-            IPOSP1(NINDEX_MU) = NINT(UVAR(I,16))
+            IPOSP1(NINDEX_MU) = VARTMP(I,6)
             IADP1(NINDEX_MU)  = NPF(IFUNC(NFUNC)) / 2 + 1
             ILENP1(NINDEX_MU) = NPF(IFUNC(NFUNC)+1) / 2 - IADP1(NINDEX_MU) - IPOSP1(NINDEX_MU)
             TAB_LOC1(NINDEX_MU) = MU
@@ -917,8 +920,8 @@ C
             I = INDEX_MU(II)        
             ALPHA_1(I) = YFACC*INTER1(II)
             ALPHA_1(I) = MAX(ZERO, ALPHA_1(I))
-          ENDDO
-          UVAR(INDEX_MU(1:NINDEX_MU),16) = IPOSP1(1:NINDEX_MU)
+            VARTMP(I,6) = IPOSP1(II)
+         ENDDO
         ENDIF
 C
         DO I=1,NEL
