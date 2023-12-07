@@ -21,23 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  UNIFY_ABSCISSA_2D             source/materials/tools/unify_abscissas_2d.F
+Chd|  TABLE_VALUES_2D             source/materials/tools/unify_abscissas_2d.F
 Chd|-- called by -----------
-Chd|        LAW70_TABLE                   source/materials/mat/mat070/law70_table.F
 Chd|-- calls ---------------
-Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
 Chd|====================================================================
-       SUBROUTINE UNIFY_ABSCISSA_2D(NFUNC,LEN,LMAX,NPT,XI,XF)
+       SUBROUTINE TABLE_VALUES_2D(LEN,NPTF,XI,YI,XF,YF)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-      ! create abscissa vector common to all input functions, in ascending order
-      ! and calculate new interpolated values of all functions
-c-------------------------------------------------------------
-      ! XI : INPUT   - initial X coordinates of all functions
-      ! XF : OUTPUT  - common abscissa coordinates
-      ! NPT : Input  => Sum of all function point numbers
-      !       Output => Final length of common abscissa vector
+c   use common abscissa vector to calculate new interpolated function values
+c   NPTF >= LEN
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,46 +38,35 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN)                         :: NFUNC ! number of input functions
-      INTEGER ,INTENT(IN)                         :: LMAX  ! max X length in input
-      INTEGER ,INTENT(INOUT)                      :: NPT   ! length of X vector
-      INTEGER ,DIMENSION(NFUNC)      ,INTENT(IN)  :: LEN   ! NPTS by function
-      my_real ,DIMENSION(LMAX,NFUNC) ,INTENT(IN)  :: XI    ! initial abscissa coordinates
-      my_real ,DIMENSION(NPT)        ,INTENT(OUT) :: XF    ! output abscissa vector
+      INTEGER ,INTENT(IN) :: LEN                    ! length of input  X vector
+      INTEGER ,INTENT(IN) :: NPTF                   ! length of output X vector
+      my_real ,DIMENSION(LEN)  ,INTENT(IN)  :: XI   ! initial X coordinates 
+      my_real ,DIMENSION(LEN)  ,INTENT(IN)  :: YI   ! initial Y values
+      my_real ,DIMENSION(NPTF) ,INTENT(IN)  :: XF   ! output  X coordinates 
+      my_real ,DIMENSION(NPTF) ,INTENT(OUT) :: YF   ! output function values
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,LTOT,LL,IDX,IERROR
-      my_real :: X1,X2,XC,Y1,Y2,DX,DX1,DERI
-      my_real ,DIMENSION(:) ,ALLOCATABLE :: XTMP,PERM
+      INTEGER :: IPT,IDX
+      my_real :: X1,X2,Y1,Y2,DERI
 c=======================================================================
-      LTOT = NPT
-      ALLOCATE (PERM(LTOT))
-      ALLOCATE (XTMP(LTOT))
-      XF(:)   = ZERO
-      XTMP(:) = ZERO
-      IDX = 0
-      DO I = 1,NFUNC
-        LL = LEN(I)
-        XTMP(IDX+1:IDX+LL) = XI(1:LL,I)
-        IDX = IDX + LL
-      END DO
-c     
-      CALL MYQSORT(LTOT,XTMP,PERM,IERROR)
-c
-c     create common abscissa vector XF
-c
-      NPT = 1
-      XF(1) = XTMP(1)
-      DO I = 2,LTOT
-        IF (XTMP(I) > XF(NPT)) THEN
-          NPT = NPT + 1
-          XF(NPT) = XTMP(I)
+      IDX = 1
+      X1  = XI(IDX)
+      Y1  = YI(IDX)
+      X2  = XI(IDX+1)
+      Y2  = YI(IDX+1)
+      DERI  = (Y2 - Y1) / (X2 - X1)
+      DO IPT = 1,NPTF
+        IF (XF(IPT) >= X2 .and. IDX+1 < LEN) THEN
+          IDX = IDX + 1
+          X1 = X2
+          Y1 = Y2
+          X2 = XI(IDX+1)
+          Y2 = YI(IDX+1)
+          DERI  = (Y2 - Y1) / (X2 - X1)
         END IF
+        YF(IPT) = Y1 + DERI * (XF(IPT) - X1)
       END DO
-c
-      DEALLOCATE (XTMP)
-      DEALLOCATE (PERM)
 c-----------
       RETURN
-      END SUBROUTINE UNIFY_ABSCISSA_2D
+      END SUBROUTINE TABLE_VALUES_2D
