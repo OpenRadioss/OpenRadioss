@@ -129,6 +129,8 @@ C     REAL
       LOGICAL, DIMENSION(NPART) :: TAG_PART
       INTEGER, DIMENSION(NPART) :: PART_ID_SPH,PART_ID_SOL
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_SPH
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TYPE
+      REAL*8, DIMENSION(:), ALLOCATABLE :: HM_MASS
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -143,14 +145,24 @@ C--------------------------------------------------
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='SUB_SPH')
+      ALLOCATE (TYPE(NUMSPH),STAT=stat)
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                             MSGTYPE=MSGERROR,
+     .                             C1='TYPE') 
+      ALLOCATE (HM_MASS(NUMSPH),STAT=stat)
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                             MSGTYPE=MSGERROR,
+     .                             C1='HM_MASS') 
       SUB_SPH(1:NUMSPH) = 0
+      HM_MASS(1:NUMSPH) = ZERO
+      TYPE(1:NUMSPH) = 0
       INDEX_PART = 1
       UID = -1 
 
 C--------------------------------------------------
 C      READING QUADS INPUTS IN HM STRUCTURE
 C-------------------------------------------------- 
-      CALL CPP_SPHCEL_READ(KXSP,NISP,IPARTSP,SUB_SPH)
+      CALL CPP_SPHCEL_READ(KXSP,NISP,IPARTSP,SUB_SPH,TYPE,HM_MASS)
 C--------------------------------------------------
       CALL HM_OPTION_COUNT('/SPHCEL',NSPHCEL)
       NCELL=0
@@ -159,6 +171,10 @@ C--------------------------------------------------
 C      FILL OTHER STRUCTURES + CHECKS
 C--------------------------------------------------
       DO I=1,NSPHCEL
+C--------------------------------------------------
+C      FOR _SP _DP PURPOSE
+C--------------------------------------------------
+c        MASS(I) = HM_MASS(I)
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
@@ -193,6 +209,8 @@ C--------------------------------------------------
       ENDDO
 C-------------------------------------
        IF(ALLOCATED(SUB_SPH)) DEALLOCATE(SUB_SPH)
+       IF(ALLOCATED(TYPE)) DEALLOCATE(TYPE)
+       IF(ALLOCATED(HM_MASS)) DEALLOCATE(HM_MASS)
 C-------------------------------------
        FIRST_SPHRES=NCELL+1
        IF(NSPHRES/=0)THEN
