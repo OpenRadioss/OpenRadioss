@@ -32,18 +32,19 @@ Chd|====================================================================
       SUBROUTINE SIGEPS70(
      1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,
-     3     VOLUME ,EINT   ,
+     3     VOLUME ,EINT   ,NVARTMP ,VARTMP  ,
      4     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      5     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
      6     SIG0XX ,SIG0YY ,SIG0ZZ  ,SIG0XY  ,SIG0YZ  ,SIG0ZX ,
      7     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
      8     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      9     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,
-     A     PM     ,IPM    , MAT    ,MATPARAM)
+     A     PM     ,IPM    ,MAT     ,MATPARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MATPARAM_DEF_MOD
+      USE TABLE_MAT_VINTERP_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -96,6 +97,8 @@ C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
 #include      "param_c.inc"
 C
+      INTEGER ,INTENT(IN) :: NVARTMP
+      INTEGER ,INTENT(INOUT) :: VARTMP(NEL,NVARTMP)
       INTEGER NEL, NUPARAM, NUVAR,IPT,
      .   NGL(NEL),MAT(NEL),IPLA,IPM(NPROPMI,*)
       my_real
@@ -172,7 +175,7 @@ C
       NLOAD   = UPARAM(IADBUF+7)
       NUNLOAD = UPARAM(IADBUF+8)
       INTER_0 = UPARAM(2*NFUNC + 15)
-      EPSSMAX= UPARAM(IADBUF+4)
+      EPSSMAX = UPARAM(IADBUF+4)
       DO I=1,NEL
         E0(I)     = UPARAM(IADBUF+2)
         AA(I)     = UPARAM(IADBUF+3)
@@ -223,33 +226,33 @@ c---------------------------------------------
         IF (MATPARAM%TABLE(1)%NDIM == 1) THEN
           DO II=1,NINDEX_EPST
             I = INDEX_EPST(II)
-            IPOS1(I) = NINT(UVAR(I,11))
+            IPOS1(I) = VARTMP(I,1)
             XVEC1(I) = EPST(I)
           ENDDO
 c
-          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NINDEX_EPST,IPOS1,XVEC1,YLD,DFC)
+          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NEL,NINDEX_EPST,IPOS1,XVEC1,YLD,DFC)
 c
           DO II=1,NINDEX_EPST
             I = INDEX_EPST(II)
             YLDELAS(I) = YLD(II)
-            UVAR(I,11) = IPOS1(II)
+            VARTMP(I,1) = IPOS1(II)
           ENDDO
 c
         ELSE
           DO II=1,NINDEX_EPST
             I = INDEX_EPST(II)
-            IPOS(II,1) = NINT(UVAR(I,11))
+            IPOS(II,1) = VARTMP(I,1)
             IPOS(II,2) = 1  
             XVEC(II,1) = EPST(I)
             XVEC(II,2) = UPARAM(IADBUF + 9) ! static strain rate
           ENDDO
 c
-          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NINDEX_EPST,IPOS,XVEC,YLD,DFC)
+          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NEL,NINDEX_EPST,IPOS,XVEC,YLD,DFC)
 c
           DO II=1,NINDEX_EPST
             I = INDEX_EPST(II)
             YLDELAS(I) = YLD(II)
-            UVAR(I,11) = IPOS(II,1)
+            VARTMP(I,1) = IPOS(II,1)
           ENDDO
         ENDIF
 c
@@ -260,21 +263,21 @@ c---------------------------------------------
 c       
       IF (MATPARAM%TABLE(1)%NDIM == 1) THEN
         DO I=1,NEL
-          IPOS1(I) = NINT(UVAR(I,11))
+          IPOS1(I) = VARTMP(I,1)
           XVEC1(I) = EPST(I)
         ENDDO
 c
-        CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NEL,IPOS1,XVEC1,YLDMAX,DFC)
+        CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NEL,NEL,IPOS1,XVEC1,YLDMAX,DFC)
 c
       ELSE
         DO I=1,NEL
-          IPOS(I,1) = NINT(UVAR(I,11))
+          IPOS(I,1) = VARTMP(I,1)
           IPOS(I,2) = 1  
           XVEC(I,1) = EPST(I)
           XVEC(I,2) = UPARAM(IADBUF + 9) ! static strain rate
         ENDDO
 c
-        CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NEL,IPOS,XVEC,YLDMAX,DFC)
+        CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(1),NEL,NEL,IPOS,XVEC,YLDMAX,DFC)
 c
       END IF
 c        
@@ -283,21 +286,21 @@ c
       IF (NUNLOAD > 0) THEN
         IF (MATPARAM%TABLE(2)%NDIM == 1) THEN
           DO I=1,NEL
-            IPOS1(I) = NINT(UVAR(I,11))
+            IPOS1(I) = 1
             XVEC1(I) = EPST(I)
           ENDDO
 c
-          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NEL,IPOS1,XVEC1,YLDMIN,DFC)
+          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NEL,NEL,IPOS1,XVEC1,YLDMIN,DFC)
 c
         ELSE
           DO I=1,NEL
-            IPOS(I,1) = NINT(UVAR(I,11))
+            IPOS(I,1) = 1
             IPOS(I,2) = 1  
             XVEC(I,1) = EPST(I)
             XVEC(I,2) = UPARAM(IADBUF + 9 + NLOAD) ! static strain rate
           ENDDO
 c
-          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NEL,IPOS,XVEC,YLDMIN,DFC)
+          CALL TABLE_MAT_VINTERP(MATPARAM%TABLE(2),NEL,NEL,IPOS,XVEC,YLDMIN,DFC)
 c
         END IF
       ELSE

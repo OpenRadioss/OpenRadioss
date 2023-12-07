@@ -21,6 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+      MODULE TABLE_MAT_VINTERP_MOD
+      CONTAINS
+Chd|====================================================================
 Chd|  TABLE_MAT_VINTERP             source/materials/tools/table_mat_vinterp.F
 Chd|-- called by -----------
 Chd|        ASSO_PLAS76                   source/materials/mat/mat076/asso_plas76.F
@@ -37,10 +40,10 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|====================================================================
-        SUBROUTINE TABLE_MAT_VINTERP(TABLE,NEL,IPOS,XX,YY,DYDX)
+      SUBROUTINE TABLE_MAT_VINTERP(TABLE,DIMX,NEL,IPOS,XX,YY,DYDX)
 C-----------------------------------------------
-        USE TABLE4D_MOD
-        USE MESSAGE_MOD
+      USE TABLE4D_MOD
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,11 +52,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TABLE_4D_)                    ,INTENT(IN)    :: TABLE
+      INTEGER, VALUE                     ,INTENT(IN)    :: DIMX
       INTEGER                            ,INTENT(IN)    :: NEL
-      my_real, DIMENSION(NEL,TABLE%NDIM) ,INTENT(IN)    :: XX
-      INTEGER, DIMENSION(NEL,TABLE%NDIM) ,INTENT(INOUT) :: IPOS
-      my_real, DIMENSION(NEL)            ,INTENT(INOUT) :: YY
-      my_real, DIMENSION(NEL)            ,INTENT(INOUT) :: DYDX
+      my_real, DIMENSION(DIMX,TABLE%NDIM),INTENT(IN)    :: XX
+      INTEGER, DIMENSION(DIMX,TABLE%NDIM),INTENT(INOUT) :: IPOS
+      my_real, DIMENSION(DIMX)           ,INTENT(INOUT) :: YY
+      my_real, DIMENSION(DIMX)           ,INTENT(INOUT) :: DYDX
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -268,3 +272,5 @@ C-----
 c-----------
       RETURN
       END SUBROUTINE TABLE_MAT_VINTERP
+c-----------
+      END MODULE TABLE_MAT_VINTERP_MOD     

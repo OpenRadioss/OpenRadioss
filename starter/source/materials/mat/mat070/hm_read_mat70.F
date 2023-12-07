@@ -42,7 +42,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT70(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
      .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
-     .                         PM     ,IPM      ,MATPARAM )
+     .                         PM     ,IPM      ,MATPARAM ,NVARTMP  )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -82,7 +82,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       my_real, INTENT(INOUT)                :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
-      INTEGER, INTENT(INOUT)                :: IPM(NPROPMI),ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,IMATVIS
+      INTEGER, INTENT(INOUT)                :: ISRATE,NFUNC,MAXFUNC,MAXUPARAM,
+     .                                         NUPARAM,NUVAR,NVARTMP,IMATVIS
+      INTEGER, INTENT(INOUT)                :: IFUNC(MAXFUNC)
+      INTEGER, INTENT(INOUT)                :: IPM(NPROPMI)
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
       INTEGER,INTENT(IN)                    :: MAT_ID
       CHARACTER*nchartitle,INTENT(IN)       :: TITR
@@ -330,7 +333,8 @@ C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
       PARMAT(17) = (ONE-TWO*NU)/(ONE-NU)
 C
-      NUVAR = 10 + 6
+      NUVAR   = 10
+      NVARTMP = 6
       ISRATE = 1
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")

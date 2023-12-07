@@ -30,7 +30,7 @@ Chd|        UNIFY_ABSCISSA_2D             source/materials/tools/unify_abscissas
 Chd|        VW_SMOOTH                     source/tools/curve/vw_smooth.F
 Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|====================================================================
-      SUBROUTINE LAW70_TABLE(TABLE  ,LMAX   ,NFUNC  ,LEN     ,RATE  ,
+      SUBROUTINE LAW70_TABLE(TABLE  ,NFUNC  ,LEN     ,LMAX   ,RATE   ,
      .                       XI     ,YI     )
 C----------------------------------------------- 
 C   M o d u l e s
@@ -43,8 +43,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  ,INTENT(IN) :: NFUNC
-      INTEGER  ,INTENT(INOUT) :: LMAX
+      INTEGER ,INTENT(IN) :: NFUNC
+      INTEGER ,INTENT(INOUT) :: LMAX
       INTEGER ,DIMENSION(NFUNC)   :: LEN
       my_real ,DIMENSION(NFUNC) ,INTENT(IN) :: RATE
       my_real ,DIMENSION(LMAX,NFUNC) ,INTENT(IN) :: XI
@@ -53,72 +53,63 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,IPT,NPT,NPT0,IPOS,NDIM,FUNC_ID,IERROR,STAT
+      INTEGER :: I,J,IPT,NPTX,IPOS,NDIM,FUNC_ID,IERROR,STAT
       INTEGER ,DIMENSION(NFUNC) :: PERM
       INTEGER ,PARAMETER :: NPTMAX = 100   ! max number of function points
       my_real :: X1,X2,Y1,Y2,DERI
-      my_real ,DIMENSION(LMAX) :: XTMP,YTMP
       my_real ,DIMENSION(:)   ,ALLOCATABLE :: XF
       my_real ,DIMENSION(:,:) ,ALLOCATABLE :: YF
 C=======================================================================
 c     create X,Y vectors for all curves before unifying all abscissas
 c--------------------------------------------------------
-      ALLOCATE (XF(LMAX))
-      ALLOCATE (YF(LMAX,NFUNC))
+      NPTX = 0
+      DO I = 1,NFUNC
+        NPTX = NPTX + LEN(I)
+      END DO
+      ALLOCATE (XF(NPTX))
 c
       IF (NFUNC == 1) THEN
-        NPT = LEN(1)
-        XF(1:NPT)   = XI(1:NPT,1)
-        YF(1:NPT,1) = YI(1:NPT,1)
+        ALLOCATE (YF(NPTX,NFUNC))
+        XF(1:NPTX)   = XI(1:NPTX,1)
+        YF(1:NPTX,1) = YI(1:NPTX,1)
 c
       ELSE
 c--------------------------------------------------------
 c       unify abscissas
 c--------------------------------------------------------
 c
-        CALL UNIFY_ABSCISSA_2D(NFUNC,LMAX,NPT,LEN,XI,YI,XF,YF)
+        CALL UNIFY_ABSCISSA_2D(NFUNC,LEN,LMAX,NPTX ,XI  ,XF  )
+c
+        ALLOCATE (YF(NPTX,NFUNC))
+        DO I = 1,NFUNC
+          CALL TABLE_VALUES_2D(LEN(I) ,NPTX ,XI(1,I) ,YI(1,I) ,XF ,YF(1,I) )
+        END DO      
+        LEN(1:NFUNC) = NPTX
 c
 c--------------------------------------------------------
 c       check and correct intersections
 c--------------------------------------------------------
 c
-        CALL FUNC2D_DEINTERSECT(NPT, LMAX ,NFUNC  ,YF   )
+        CALL FUNC2D_DEINTERSECT(NPTX, NFUNC  ,YF   )
 c
       END IF
 c--------------------------------------------------------
 c     d) check and correct monotonicity
 c--------------------------------------------------------
       DO I = 1,NFUNC
-        DO IPT = 2,NPT
+        DO IPT = 2,NPTX
           IF (YF(IPT,I) < YF(IPT-1,I)) YF(IPT,I) = YF(IPT-1,I)
         END DO
       END DO
-      XTMP(1:NPT) = XF(1:NPT)
-      NPT0 = NPT
 c--------------------------------------------------------
 c     second reduction of number of points of the 1st curve
 c     and reinterpolate all table functions based on its abscissa distribution
 c--------------------------------------------------------
-      IF (NPT > NPTMAX) THEN
-        CALL VW_SMOOTH(NPT,NPTMAX,XF,YF(1:NPT,1))
+      IF (NPTX > NPTMAX) THEN
+        CALL VW_SMOOTH(NPTX,NPTMAX,XF,YF(1:NPTX,1))
 c
         DO I = 2,NFUNC
-          IPOS = 1
-          YTMP(1:NPT0) = YF(1:NPT0,I)
-          LEN(I) = NPT
-          Y2 = YTMP(1)
-          DO J = 2,NPT-1
-            DO WHILE (XF(J) > XTMP(IPOS))
-              IPOS = IPOS + 1
-            END DO
-            X1 = XTMP(IPOS)
-            X2 = XTMP(IPOS+1)
-            Y1 = YTMP(IPOS)
-            Y2 = YTMP(IPOS+1)
-            DERI  = (Y2 - Y1) / (X2 - X1)
-            YF(J,I) = Y1 + DERI * (XF(J) - X1)
-          END DO
-          YF(NPT,I) = Y2
+          CALL TABLE_VALUES_2D(LEN(I) ,NPTX ,XI(1,I) ,YI(1,I) ,XF ,YF(1,I) )
         END DO      
       END IF
 c--------------------------------------------------------------------------
@@ -127,18 +118,18 @@ c--------------------------------------------------------
       NDIM = MIN(2,NFUNC)
       TABLE%NDIM  = NDIM
       ALLOCATE (TABLE%X(NDIM)              ,STAT=stat)            
-      ALLOCATE (TABLE%X(1)%VALUES(NPT)     ,STAT=stat)      
+      ALLOCATE (TABLE%X(1)%VALUES(NPTX)     ,STAT=stat)      
       IF (NFUNC == 1) THEN
-        ALLOCATE (TABLE%Y1D(NPT)           ,STAT=stat)
-        TABLE%X(1)%VALUES(1:NPT)   = XF(1:NPT)   
-        TABLE%Y1D(1:NPT) = YF(1:NPT,1)
+        ALLOCATE (TABLE%Y1D(NPTX)           ,STAT=stat)
+        TABLE%X(1)%VALUES(1:NPTX)   = XF(1:NPTX)   
+        TABLE%Y1D(1:NPTX) = YF(1:NPTX,1)
       ELSE
         ALLOCATE (TABLE%X(2)%VALUES(NFUNC) ,STAT=stat)
-        ALLOCATE (TABLE%Y2D(NPT,NFUNC)     ,STAT=stat)
-        TABLE%X(1)%VALUES(1:NPT)   = XF(1:NPT)   
+        ALLOCATE (TABLE%Y2D(NPTX,NFUNC)     ,STAT=stat)
+        TABLE%X(1)%VALUES(1:NPTX)   = XF(1:NPTX)   
         TABLE%X(2)%VALUES(1:NFUNC) = RATE(1:NFUNC)
         DO I = 1,NFUNC
-          TABLE%Y2D(1:NPT,I) = YF(1:NPT,I)
+          TABLE%Y2D(1:NPTX,I) = YF(1:NPTX,I)
         END DO
       END IF      
 c

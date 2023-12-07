@@ -248,7 +248,7 @@ C
      .   ETOTSH(NEL,6),TSTAR(MVSIZ),MUOLD(NEL),CONDE(*), RHOREF(*), RHOSP(*)
       TARGET :: BUFMAT,DELTAX,VARNL,DEFP
       my_real, TARGET, DIMENSION(NUVAR*NEL)   :: UVAR
-      INTEGER, TARGET, DIMENSION(NVARTMP*NEL) :: VARTMP
+      INTEGER, DIMENSION(NVARTMP*NEL) :: VARTMP
       my_real, TARGET, DIMENSION(NEL)       :: UVARF1,LTEMP,TEMPEL,SCALE1
       TYPE (BUF_FAIL_), TARGET  :: FBUF
       TYPE (BUF_VISC_)  :: VBUF
@@ -1222,7 +1222,7 @@ C
      1   NEL,     NPAR,    NUVAR,   NFUNC,
      2   IFUNC,   NPF,     TF,      TT,
      3   DT1,     BUFMAT,  RHO0,    RHO,
-     4   OFFG,    RHOREF,
+     4   OFFG,    RHOREF  ,NVARTMP, VARTMP,
      5   RHOSP,   DE1,
      7   DE2,     DE3,     DE4,     DE5,
      8   DE6,     ES1,     ES2,     ES3,

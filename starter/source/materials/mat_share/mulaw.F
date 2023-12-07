@@ -37,7 +37,7 @@ Chd|====================================================================
      2                 PM    ,OFF   ,SIG    ,EINT  ,RHO    ,
      3                        VOL   ,STRAIN ,       GAMA   ,
      4                 UVAR  ,BUFMAT,TF     ,NPF   ,
-     5                 MAT   ,NGL   ,NUVAR  ,
+     5                 MAT   ,NGL   ,NUVAR  ,NVARTMP,VARTMP,
      6                               GEO    ,PID   ,EPSD   ,
      8                                              WXX    ,
      9                 WYY   ,WZZ   ,JSPH   ,       SSP    ,
@@ -72,6 +72,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN)    :: NVARTMP
+      INTEGER ,INTENT(INOUT) :: VARTMP(NEL,NVARTMP)
       INTEGER LFT,LLT,NFT,MTN,NUVAR,JCVT,ISORTH,JSPH,ISMSTR,NEL
       INTEGER NPF(*), MAT(MVSIZ), NGL(MVSIZ),PID(MVSIZ),IPM(NPROPMI,NUMMAT)
 C 
@@ -267,7 +269,7 @@ C ====================================================================
       ELSEIF(MTN==70)THEN
         CALL SIGEPS70(LLT ,NPAR,NUVAR,NFUNC,IFUNC,
      2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT,
-     3                  RHO0,RHO ,VOLN,EINT,
+     3                  RHO0,RHO ,VOLN,EINT,NVARTMP ,VARTMP  ,
      4                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
      5                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
      6                  SO1 ,SO2 ,SO3 ,SO4  ,SO5  ,SO6 ,

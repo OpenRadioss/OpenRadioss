@@ -84,7 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NBE,NUVAR, NUVARR, NB11A, I, IADBUF
+      INTEGER NUVAR,NVARTMP,NUVARR
       my_real
      .   TX(MVSIZ), TY(MVSIZ), TZ(MVSIZ),
      .   VIS(MVSIZ), CXX(MVSIZ), OFF(MVSIZ), EPSD(MVSIZ)
@@ -98,6 +98,7 @@ C=======================================================================
         LBUF  => ELBUF_STR%BUFLY(1)%LBUF(1,1,1)
         MBUF  => ELBUF_STR%BUFLY(1)%MAT(1,1,1)
         NUVAR =  ELBUF_STR%BUFLY(1)%NVAR_MAT
+        NVARTMP =  ELBUF_STR%BUFLY(1)%NVARTMP
         OFF   =  ONE
         EPSD  =  ZERO
 C
@@ -105,7 +106,7 @@ C
      2             PM       ,OFF      ,GBUF%SIG ,GBUF%EINT,GBUF%RHO,
      3             GBUF%VOL ,LBUF%STRA,GAMA     ,
      4             MBUF%VAR ,BUFMAT   ,TF       ,NPF      ,
-     5             MAT      ,NGL      ,NUVAR    ,
+     5             MAT      ,NGL      ,NUVAR    ,NVARTMP, MBUF%VARTMP,
      6                       GEO      ,PID      ,EPSD     ,
      8                                                     WXX    ,
      9             WYY      ,WZZ      ,JSPH     ,          CXX    ,

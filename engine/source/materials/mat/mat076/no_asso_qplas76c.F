@@ -40,6 +40,7 @@ Chd|====================================================================
      .     YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  )
 C-----------------------------------------------
       USE TABLE4D_MOD
+      USE TABLE_MAT_VINTERP_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -174,7 +175,7 @@ c-----------------------------------------------
       IPOS(1:NEL,1) = 1
       IPOS(1:NEL,2) = 1
 c
-      CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,IPOS,XVEC,SIGT,DFT)
+      CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,IPOS,XVEC,SIGT,DFT)
       SIGT(1:NEL) = SIGT(1:NEL) * TFAC(1) * DAM(1:NEL)
       DFT(1:NEL)  = DFT(1:NEL)  * TFAC(1) * DAM(1:NEL)
 c
@@ -183,7 +184,7 @@ c
       IF (TABLE(FUNC_COMP)%NOTABLE  > 0) THEN
         XVEC(1:NEL,1) = EPSPC(1:NEL)
         XVEC(1:NEL,2) = EPDC(1:NEL)
-        CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,IPOS,XVEC,SIGC,DFC)
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,IPOS,XVEC,SIGC,DFC)
         SIGC(1:NEL) = SIGC(1:NEL) * TFAC(2) * DAM(1:NEL)
         DFC(1:NEL)  = DFC(1:NEL)  * TFAC(2) * DAM(1:NEL)
       END IF
@@ -192,7 +193,7 @@ c
       IF (TABLE(FUNC_SHEAR)%NOTABLE > 0) THEN
         XVEC(1:NEL,1) = EPSPS(1:NEL)
         XVEC(1:NEL,2) = EPDS(1:NEL)
-        CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,IPOS,XVEC,SIGS,DFS)
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,IPOS,XVEC,SIGS,DFS)
         SIGS(1:NEL) = SIGS(1:NEL) * TFAC(3) * DAM(1:NEL)
         DFS(1:NEL)  = DFS(1:NEL)  * TFAC(3) * DAM(1:NEL)
       END IF
@@ -354,7 +355,7 @@ c
           XVEC(1:NEL,2) = EPDT(1:NEL)
           IPOS(1:NEL,1) = 1
           IPOS(1:NEL,2) = 1
-          CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,IPOS,XVEC,SIGT,DFT)
+          CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,IPOS,XVEC,SIGT,DFT)
           SIGT(1:NEL) = SIGT(1:NEL) * TFAC(1) * DAM(1:NEL)
           DFT(1:NEL)  = DFT(1:NEL)  * TFAC(1) * DAM(1:NEL)
 c
@@ -363,7 +364,7 @@ c
           IF (TABLE(FUNC_COMP)%NOTABLE  > 0) THEN
             XVEC(1:NEL,1) = EPSPC(1:NEL)
             XVEC(1:NEL,2) = EPDC(1:NEL)
-            CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,IPOS,XVEC,SIGC,DFC)
+            CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,IPOS,XVEC,SIGC,DFC)
             SIGC(1:NEL) = SIGC(1:NEL) * TFAC(2) * DAM(1:NEL)
             DFC(1:NEL)  = DFC(1:NEL)  * TFAC(2) * DAM(1:NEL)
           END IF
@@ -372,7 +373,7 @@ c
           IF (TABLE(FUNC_SHEAR)%NOTABLE > 0) THEN
             XVEC(1:NEL,1) = EPSPS(1:NEL)
             XVEC(1:NEL,2) = EPDS(1:NEL)
-            CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,IPOS,XVEC,SIGS,DFS)
+            CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,IPOS,XVEC,SIGS,DFS)
             SIGS(1:NEL) = SIGS(1:NEL) * TFAC(3) * DAM(1:NEL)
             DFS(1:NEL)  = DFS(1:NEL)  * TFAC(3) * DAM(1:NEL)
           END IF

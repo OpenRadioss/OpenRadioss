@@ -49,6 +49,7 @@ c-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
        USE TABLE4D_MOD
+      USE TABLE_MAT_VINTERP_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -148,17 +149,17 @@ C     INTERPOLATE ENERGIES FOR HYSTERESIS MODEL
 C
       XVEC(1:NEL,1)   = EPSILON(1:NEL,1)
       IPOS(1:NEL,1)   = VARTMP(1:NEL,16)
-      CALL TABLE_MAT_VINTERP(FUNC_ENER,NEL,IPOS,XVEC,FENER1,DENER1)
+      CALL TABLE_MAT_VINTERP(FUNC_ENER,NEL,NEL,IPOS,XVEC,FENER1,DENER1)
       VARTMP(1:NEL,16) = IPOS(1:NEL,1)     
 
       XVEC(1:NEL,1)   = EPSILON(1:NEL,2)
       IPOS(1:NEL,1)   = VARTMP(1:NEL,17)
-      CALL TABLE_MAT_VINTERP(FUNC_ENER,NEL,IPOS,XVEC,FENER2,DENER2)
+      CALL TABLE_MAT_VINTERP(FUNC_ENER,NEL,NEL,IPOS,XVEC,FENER2,DENER2)
       VARTMP(1:NEL,17) = IPOS(1:NEL,1)     
 
       XVEC(1:NEL,1)   = EPSILON(1:NEL,3)
       IPOS(1:NEL,1)   = VARTMP(1:NEL,18)
-      CALL TABLE_MAT_VINTERP(FUNC_ENER,NEL,IPOS,XVEC,FENER3,DENER3)
+      CALL TABLE_MAT_VINTERP(FUNC_ENER,NEL,NEL,IPOS,XVEC,FENER3,DENER3)
       VARTMP(1:NEL,18) = IPOS(1:NEL,1)
 C
 C     COMPUTE DAMAGE FOR UNLOADING
