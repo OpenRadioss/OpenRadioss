@@ -87,6 +87,10 @@ C-----------------------------------------------
           my_real :: XDET
           my_real :: YDET
           my_real :: ZDET
+          !optionnal list of nodes
+          INTEGER :: GRNOD_ID
+          INTEGER :: NNOD
+          INTEGER,DIMENSION(:),ALLOCATABLE :: NODLIST
         END TYPE DETONATOR_POINT_STRUCT_
 
         ! --- /DFS/DETLINE DATA STRUCTURE
@@ -184,6 +188,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+      !working arrays for detonation point
+      IF(DETONATORS%N_DET_POINT > 0)THEN
+        DO IDET=1,DETONATORS%N_DET_POINT
+          IF(ALLOCATED(DETONATORS%POINT(IDET)%NODLIST))DEALLOCATE(DETONATORS%POINT(IDET)%NODLIST)
+        ENDDO
+      ENDIF
+
       !working arrays for detonating cord
       IF(DETONATORS%N_DET_CORD > 0)THEN
         DO IDET=1,DETONATORS%N_DET_CORD
