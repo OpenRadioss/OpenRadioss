@@ -183,6 +183,9 @@ C
       NINDX1_SMS=0
       NINDX2_SMS=0
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C 
       CALL MY_BARRIER()
 C

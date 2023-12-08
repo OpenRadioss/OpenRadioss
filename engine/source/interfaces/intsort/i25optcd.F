@@ -388,6 +388,9 @@ C
 C initialize PMAX_GAP to Zero for future treatments in force computation.
       PMAX_GAP   = ZERO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C
 c     print *,'i_stok',ispmd+1,i_stok,i_opt_stok
       RETURN

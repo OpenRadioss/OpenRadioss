@@ -882,6 +882,9 @@ C A special treatment is done, VTX_BISECTOR has to set to 0
         ENDDO
       ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
 
 C
@@ -1101,6 +1104,9 @@ CCCC             ENDIF
 CCCC           ENDIF
 CCCC        ENDDO
 CCCC !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 CCCC #endif
       CALL MY_BARRIER
 

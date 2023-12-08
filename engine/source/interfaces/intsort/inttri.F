@@ -393,6 +393,9 @@ ccc         CALL I24XVFIC_UPD(IPARI(1,N),INTBUF_TAB(N),X   ,V ,NFIC  ,ITAB)
 
 C end of single region
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
       ! If law151+int18 : shift NSV array
       IF( MULTI_FVM%IS_INT18_LAW151 ) THEN
@@ -485,6 +488,9 @@ C!$OMP SINGLE
 C         XE(NNOD3+1:(NNOD3+NSNE3)) = INTBUF_TAB(N)%XFIC(1:NSNE3)
 C         VE(NNOD3+1:(NNOD3+NSNE3)) = INTBUF_TAB(N)%VFIC(1:NSNE3)
 C!$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C        CALL I24MAIN_CRIT_TRI(
 C     1      IPARI ,INTBUF_TAB(N),XE           ,N        ,
 C     2      ITASK ,VE           ,XSLV(1,N)    ,XMSR(1,N),VSLV(1,N),
@@ -664,6 +670,9 @@ C
 
 C Fin Partie non parallele smt
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
       IF(IMPL_S/=1)THEN
 
@@ -698,6 +707,9 @@ C Fin Partie non parallele smt
             CALL INTER_TRC_7( ITASK,NIN,IPARI,IND_IMP,
      1                          INTBUF_TAB,NB_INTER_SORTED,LIST_INTER_SORTED,INTER_STRUCT)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
             ! -----------
             ! inacti exchange for all interfaces
             IF(NEED_TO_SORT>0.AND.NEED_COMM_INACTI.AND.NB_INTER_7_INACTI>0) THEN
@@ -945,6 +957,9 @@ c          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
          XE(NNOD3+1:(NNOD3+NSNE3)) = INTBUF_TAB(N)%XFIC(1:NSNE3)
          VE(NNOD3+1:(NNOD3+NSNE3)) = INTBUF_TAB(N)%VFIC(1:NSNE3)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
          CALL I24MAIN_TRI(
      1 IPARI   ,XE      ,VE  ,INTBUF_TAB(N),
      2 MS      ,N            ,ITASK        ,WAG     ,WEIGHT  ,
@@ -1076,6 +1091,9 @@ C-------  KINET,MS used for commu remot secnd, for the moment no need.
          XE(NNOD3+1:(NNOD3+NSNE3)) = INTBUF_TAB(N)%XFIC(1:NSNE3)
          VE(NNOD3+1:(NNOD3+NSNE3)) = INTBUF_TAB(N)%VFIC(1:NSNE3)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
        CALL I24MAIN_TRI(
      1 IPARI   ,XE      ,VE      ,INTBUF_TAB(N),
      2 MS      ,N            ,ITASK        ,WAG     ,WEIGHT  ,
@@ -1273,6 +1291,9 @@ C           Also needed in SMP for resetting STFE !
          ENDDO
        ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
 C
         IF (IMON>0 .AND. ITASK==0) THEN
@@ -1370,6 +1391,9 @@ C Fin Partie non parallele
 C
       IF (IMONM > 0)  CALL STARTIME(19,1)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C
 C=======================================================================
 C     OPTIMISATION DU TRI A CHAQUE CYCLE, ALL BUT T25
@@ -1458,6 +1482,9 @@ C-----------------------------------------------------------------------
          XE(NNOD3+1:(NNOD3+NSNE3)) = INTBUF_TAB(N)%XFIC(1:NSNE3)
          VE(NNOD3+1:(NNOD3+NSNE3)) = INTBUF_TAB(N)%VFIC(1:NSNE3)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
           CALL I24MAIN_OPT_TRI(
      1       IPARI     ,INTBUF_TAB(N),XE  ,VE ,
      2       N         ,ITASK        ,COUNT_REMSLV, T2MAIN_SMS,LSKYI_SMS_NEW)
@@ -1606,6 +1633,9 @@ C Fin Partie non parallele
 
       DEALLOCATE(X_IGE,V_IGE)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
       RETURN
       END

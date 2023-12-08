@@ -5001,6 +5001,9 @@ C         /---------------/
 !$OMP SINGLE
          CALL ANCMSG(MSGID=165,ANMODE=ANINFO)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
          CALL ARRET(1)
         ENDIF
@@ -7294,6 +7297,9 @@ C-----------------------------------------------
      .                 VR      ,A       ,AR      ,MS        ,IN      ,
      .                 DAMPR   ,DAMP    ,IGRNOD  ,WEIGHT    ,TAGSLV_RBY)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
         ELSE
 
@@ -7312,6 +7318,9 @@ C-----------------------------------------------
      .                 SKEW    ,ICONTACT,IDAMP_RDOF_TAB)
          END IF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
         END IF
       END IF

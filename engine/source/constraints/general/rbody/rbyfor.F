@@ -101,6 +101,9 @@ C-------------------------------------
         ENDIF
       ENDDO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C-------------------------------------
 C CALCUL FORCE SUPER RIGID BODIES (non multi-thread)
 C-------------------------------------
@@ -168,6 +171,9 @@ c
       ENDDO
 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
 C-------------------------------------
 C CALCUL FORCE RIGID BODIES CLASSIQUES (multi-thread)
@@ -263,6 +269,9 @@ C routine G/S de calcul Parith/ON de A AR STIFN STIFR noeuds main RB
         IF (IMON>0) CALL STOPTIME(11,1)
 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
       END IF
 C

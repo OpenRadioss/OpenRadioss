@@ -201,6 +201,9 @@ C-----------------------------
 !$OMP SINGLE
         CALL SPMD_E1VOIS(PHI,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ENDIF
 C-----------------------------
 C       Searching for new elements
@@ -263,6 +266,9 @@ C-----------------------------
 !$OMP SINGLE
         CALL SPMD_E1VOIS(PHI,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ENDIF  
 C-----------------------------
 C     CALCULATION OF GAUGE MEASURES

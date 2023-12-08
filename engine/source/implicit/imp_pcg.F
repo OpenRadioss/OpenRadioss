@@ -291,6 +291,9 @@ Chd|====================================================================
 cad!$OMP SINGLE
 cad      call mkl_dcsrgemv('N',n,mat,indl,indc,x,y)
 cad!$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 cad      return
 
 !$OMP DO schedule(dynamic,512)
@@ -2063,6 +2066,9 @@ C          L_B2=R02
            OLDB   = SQRT(R02)
 c+1
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
          ELSEIF (ITOL==4) THEN
            R02=ALPHA*ALPHA*ABS(G0)
            EPS(1)=R02
@@ -2085,6 +2091,9 @@ c+1
          ENDIF
 c+1
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C-------pour etre coherent avec lanzos for linear
 C----------------------
 c       CALL MY_BARRIER
@@ -2208,6 +2217,9 @@ C     INITIALIZE OTHER QUANTITIES.
            OLDB   = L_B
 c+1
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
          ELSEIF (ITOL==4) THEN
            R2=R02
          ELSE
@@ -2234,6 +2246,9 @@ C         ISTOP=CRIT_STOP(IT,R2,NLIM,TOLN)
          ENDIF
 c+1
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C----------------------
 c         LOOP OVER ITERATIONS
 C---------------------

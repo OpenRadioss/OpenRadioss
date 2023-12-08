@@ -181,6 +181,9 @@ C--------------INITIALISATION--------------------------
 !$OMP SINGLE
         NUPDTL_SMS=-1
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
         IACT=0
         IT  =0
@@ -472,6 +475,9 @@ C
             G6SMS(K)=ZERO
           ENDDO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
         END IF
 C
         CALL MY_BARRIER
@@ -558,6 +564,9 @@ C
             END IF
           END DO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
           IF (NSPMD > 1) THEN
 !$OMP SINGLE
@@ -565,6 +574,9 @@ C
             CALL SPMD_EXCH_A_RB6(
      1        NRBDIM,IAD_RBY,FR_RBY6,IAD_RBY(NSPMD+1),RBY6)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
           END IF
 
 !$OMP DO SCHEDULE(DYNAMIC,1)
@@ -892,6 +904,9 @@ C
             S6SMS(K)=ZERO
           ENDDO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
         END IF
 C
         CALL MY_BARRIER
@@ -986,6 +1001,9 @@ C
             END IF
           END DO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
           IF (NSPMD > 1) THEN
 !$OMP SINGLE
@@ -993,6 +1011,9 @@ C
             CALL SPMD_EXCH_A_RB6(
      1        NRBDIM,IAD_RBY,FR_RBY6,IAD_RBY(NSPMD+1),RBY6)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
           END IF
 
 !$OMP DO SCHEDULE(DYNAMIC,1)
@@ -1312,6 +1333,9 @@ C
 !$OMP SINGLE
         G0_SMS = G1_SMS
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
         DO N=NODFT1_SMS,NODLT1_SMS
           I=INDX1_SMS(N)
@@ -1480,6 +1504,9 @@ C
               END IF
             END DO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
             IF (NSPMD > 1) THEN
 !$OMP SINGLE
@@ -1487,6 +1514,9 @@ C
               CALL SPMD_EXCH_A_RB6(
      1          NRBDIM,IAD_RBY,FR_RBY6,IAD_RBY(NSPMD+1),RBY6)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
             END IF
 
 !$OMP DO SCHEDULE(DYNAMIC,1)

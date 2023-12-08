@@ -159,6 +159,9 @@ C reset enforcement of contact sorting
 !$OMP SINGLE
       KFORSMS=0
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C
       IF(IPARIT/=0)THEN
         IF(DEBUG(9)==0)THEN

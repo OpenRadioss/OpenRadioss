@@ -79,6 +79,9 @@ C----pass1 : only N1,N2 are secnd nodes of Int2
            STIFN(J)=STIFN(J)* WEIGHT(J)        
          END DO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
        ENDIF
        IF (IPARIT/=0.AND.ITSK==0) FSKYCND(1:4,1:LCNCND)=ZERO
 C------- change STIFND(I) :int  to ele
@@ -269,6 +272,9 @@ C----pass2 : all excepting N1,N2 are secnd nodes of Int2
            STIFN(J)=STIFN(J)* WEIGHT(J)        
          END DO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
        ENDIF
        IF (IPARIT/=0.AND.ITSK==0) FSKYCND(1:4,1:LCNCND)=ZERO
 C------------------------      
@@ -1832,6 +1838,9 @@ C------------------------
           CALL SPMD_EXCH_STIF_SCND(
      .        STIFND  ,FR_CNDS,IAD_CNDS,LCOMM)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
         END IF
 C----6---------------------------------------------------------------7---------8
       RETURN

@@ -244,6 +244,9 @@ c     calculs suivants.
           CALL SPMD_I18KINE_COM_ACC(IPARI,INTBUF_TAB,MTF,A,ITAB,TAGPENE)
       ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C=======================================================================
 C     calcul des forces et des masses a transmettre aux mains
 c     ponderation en pene/somme(pene)
@@ -270,6 +273,9 @@ C     comm sur les noeuds frontieres main int 18
         CALL SPMD_I18KINE_MSF_COM_POFF(MTF,IAD_ELEM,FR_ELEM,ITAB)
       ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C=======================================================================
 C     calcul des nouvelles accelerations des mains
 C=======================================================================
@@ -300,6 +306,9 @@ c     => ecraser A(local) par A(recu)
 !$OMP SINGLE
       IF(NSPMD > 1) CALL SPMD_I18KINE_MACC_COM_POFF(MTF,A,IAD_ELEM,FR_ELEM,ITAB)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C=======================================================================
 
       RETURN
@@ -424,6 +433,9 @@ C
       IF (NSPMD > 1)
      *    CALL  SPMD_I18KINE_COM_A(IPARI,INTBUF_TAB,A,ITAB)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C -------------------
       CALL MY_BARRIER
 C -------------------
@@ -454,6 +466,9 @@ C reset  MTF_V on procs which do not have fluid node but have it as candidate
         CALL SPMD_I18KINE_COM_V(IPARI,INTBUF_TAB,MTF,A,ITAB)
       ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
 C=======================================================================
 C=======================================================================
@@ -490,6 +505,9 @@ C=======================================================================
 
       DEALLOCATE(SLVNDTAG)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
       RETURN
 C

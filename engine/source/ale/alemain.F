@@ -392,6 +392,9 @@ C             Comm SPMD SEGVAR Pi -> P0
 !$OMP SINGLE
                 CALL SPMD_SEGCOM(SEGVAR,NPSEGCOM,LSEGCOM,NPSEGCOM(NSPMD+1),0)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
               ENDIF
             ENDIF
             !------------------------------------------------!
@@ -427,6 +430,9 @@ C Comm SPMD P0 -> Pi time T=0 depending on EBCS type
                     CALL SPMD_INIT_EBCS(V,ISIZXV,IAD_ELEM,FR_ELEM, EBCS_TAB)
                  ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
                ENDIF
             ENDIF
 c
@@ -497,6 +503,9 @@ C     ---------------------
      .                    NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM) 
                   ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
                   CALL MY_BARRIER
                ENDIF
 C     -------------------------
@@ -552,6 +561,9 @@ C     ------------------------
                   CALL SPMD_ENVOIS(3, MULTI_FVM%ELEM_DATA%CENTROID, 
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
                      CALL MY_BARRIER
                   ENDIF
 !$OMP SINGLE
@@ -629,6 +641,9 @@ C     -------------------------
      .                    IPM, PM, IPARG, ELBUF_TAB, NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
      .                    IXS, FV)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
                   ENDIF
 C     -------------------------
 C     Multifluid pressure equilibration
@@ -734,6 +749,9 @@ C
      .                     IAD_ELEM,FR_ELEM)
           ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
          !---------------------------------------------
          ! /ALE/GRID/MASSFLOW - INIT BUFFER
@@ -908,6 +926,9 @@ C
      3                 LENCOM  ,IPM     ,BUFMAT)
               ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
             ENDIF
             
             DO NG=ITASK+1,NGROUP,NTHREAD

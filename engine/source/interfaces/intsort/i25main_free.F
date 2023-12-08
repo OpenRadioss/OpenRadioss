@@ -92,6 +92,9 @@ C
      .                                                    INTBUF_TAB(NIN)%NRTM_FREE,
      2    INTBUF_TAB(NIN)%FREE_IRECT_ID)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       END DO
 C-----------------------------------------------------------
       IF (IMON>0 .AND. ITASK==0) THEN
@@ -111,6 +114,9 @@ C        Also needed in SMP for resetting STFE !
        ENDIF
       ENDDO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C
       IF (IMON>0 .AND. ITASK==0) THEN
         CALL STOPTIME(MACRO_TIMER_T25STFE,1)

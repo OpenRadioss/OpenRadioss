@@ -100,6 +100,9 @@ C routine de calcul Parith/ON de A AR MS IN rigid link
             END DO
 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
           END IF
 
 C boucle parallele sur les threads SMP
@@ -220,6 +223,9 @@ C routine de calcul Parith/ON de A AR MS IN rigid link
             END DO
 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
           END IF
 
 C boucle parallele sur les threads SMP

@@ -76,6 +76,9 @@ C-----------------------------------------------
          ALLOCATE(CRIT(0))
        END IF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C-------------------------------------
 C CALCUL SUPER RIGID BODIES (non multi-thread) sur premiere tache libre
 C-------------------------------------
@@ -106,6 +109,9 @@ C
         ENDDO
 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
 C-------------------------------------
 C CALCUL FORCE RIGID BODIES CLASSIQUES (multi-thread)
@@ -147,6 +153,9 @@ C
       END IF
       DEALLOCATE(CRIT)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C
       RETURN
       END

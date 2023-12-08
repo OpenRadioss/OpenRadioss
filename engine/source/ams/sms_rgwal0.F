@@ -157,6 +157,9 @@ C
 !$OMP SINGLE
           IF(NSPMD > 1) CALL SPMD_ALLGLOB_ISUM9(IFRICW,1)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C
 C         set A=-V/dt (A is an acceleration)
           CASE(1)
@@ -373,6 +376,9 @@ C
           END IF
 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
           END SELECT
 

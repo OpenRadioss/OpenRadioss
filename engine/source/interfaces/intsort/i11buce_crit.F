@@ -85,6 +85,9 @@ C
 
 C Fin Partie non parallele smt
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
         END IF
 C-----------------------------------------------

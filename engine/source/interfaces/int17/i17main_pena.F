@@ -341,6 +341,9 @@ C sauvegarde des candidats additionnels dans IPARI(24)  pas besoin car pas de in
 c          IPARI(24,NIN) = NMESR
           IF (IMONM > 0) CALL STOPTIME(26,1)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
          END IF
       ENDIF

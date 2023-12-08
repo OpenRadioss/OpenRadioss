@@ -136,6 +136,9 @@ C-----------------------------------------------
         ENDDO
 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C-----------------------------------------------
 #endif
         RETURN

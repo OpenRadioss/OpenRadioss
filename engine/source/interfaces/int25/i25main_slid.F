@@ -167,6 +167,9 @@ C-----------------------------------------------------------------------
         IPARI(29,NIN) = 0
       END DO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
       DO NI25=1,NINTER25
         NIN = INTLIST25(NI25)
@@ -545,6 +548,9 @@ C-----------------------------------------------------------------------
 
 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
 
 C-----------------------------------------------------------------------

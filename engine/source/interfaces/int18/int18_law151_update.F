@@ -161,6 +161,9 @@ C-----------------------------------------------
                 DEALLOCATE( VEL )
                 DEALLOCATE( VEL_DP )
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
             ENDDO  
         ! -------------------------------------
         ! update of vel array : parith/off part

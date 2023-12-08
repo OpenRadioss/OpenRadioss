@@ -365,6 +365,9 @@ c       WRITE(6,*) ISPMD,NOINT,"I_STOK=",INTBUF_TAB%I_STOK(1)
 c       CALL FLUSH(6)
 c       IF(MULTIMP > 200) STOP
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
         I_MEM = 0
         I_MEMG = 0
         INTBUF_TAB%I_STOK(1)=CAND_N_OLD
@@ -412,6 +415,9 @@ C sauvegarde des candidats additionnels dans IPARI(24)
 C
         IF (IMONM > 0) CALL STOPTIME(26,1)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ENDIF
 
       IF (ALLOCATED(OLDINBUF1)) DEALLOCATE(OLDINBUF1)

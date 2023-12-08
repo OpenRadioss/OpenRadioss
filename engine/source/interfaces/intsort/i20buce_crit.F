@@ -318,6 +318,9 @@ C
           CALL SPMD_GET_PENIS20(NSV,IXLINS,PENIS,PENISE,PENIA,NIN)
 C Fin Partie non parallele smt
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
         ENDIF
 c a faire ici ou dans I20BUCE_CRIT IF(PENIA(5,I)+... /= ZERO)NACTI=NACTI+1
         DO I=NLNF,NLNL
@@ -360,6 +363,9 @@ c          CALL SPMD_GET_PENIS20E(NLINSA,PENIS,NIN)
 c
 cC Fin Partie non parallele smt
 c!$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 c
 c        END IF
 c      ENDIF
@@ -516,6 +522,9 @@ c          CALL SPMD_GET_PENIS20E(NLINSA,PENIS,NIN)
 c
 cC Fin Partie non parallele smt
 c!$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 c
 c        END IF
 c        DO I=NLINSAF,NLINSAL

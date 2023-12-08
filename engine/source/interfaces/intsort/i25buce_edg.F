@@ -171,6 +171,9 @@ c      LX=TWO*LX/NEDGE
 c      LY=TWO*LY/NEDGE
 c      LZ=TWO*LZ/NEDGE
 c!$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 c
 c      NBX = NINT((BMINMA(1)-BMINMA(4))/LX)
 c      NBY = NINT((BMINMA(2)-BMINMA(5))/LY)

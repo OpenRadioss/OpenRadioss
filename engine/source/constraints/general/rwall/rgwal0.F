@@ -183,6 +183,9 @@ C
           END IF
 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
       RETURN
       END

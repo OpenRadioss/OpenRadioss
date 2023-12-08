@@ -110,6 +110,9 @@ C routine de calcul Parith/ON de A rigid link
             END DO
 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
           END IF
 
  100      CONTINUE
@@ -239,6 +242,9 @@ C routine de calcul Parith/ON de A rigid link
             END DO
 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
           END IF
 
  100      CONTINUE

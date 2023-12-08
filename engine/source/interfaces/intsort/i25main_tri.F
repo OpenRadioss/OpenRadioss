@@ -436,6 +436,9 @@ C New barrier needed for Dynamic MultiMP
         MULTIMP = IPARI(23,NIN) * 1.3
         CALL UPGRADE_MULTIMP(NIN,MULTIMP,INTBUF_TAB)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
         I_MEM = 0
         I_MEMG = 0
         INTBUF_TAB%I_STOK(1)=CAND_N_OLD
@@ -532,6 +535,9 @@ C New barrier needed for Dynamic MultiMP
           CALL UPGRADE_LCAND_E2S(NIN,MULTIMP,INTBUF_TAB)
         END IF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
         I_MEME(1:2)= 0
         I_MEMG_E  = 0
         I_MEMG_S  = 0
@@ -575,11 +581,17 @@ C
             DEALLOCATE(OLDNUM_EDGE)
         ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       END IF
         IF(IEDGE /= 0) THEN
 !$OMP SINGLE
             DEALLOCATE(NSNFIEOLD)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
         ENDIF
 C
       CALL MY_BARRIER

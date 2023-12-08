@@ -223,6 +223,9 @@ C-------------
 !$OMP SINGLE
            CALL SPMD_EXCH_FR6(FR_RL,SPHG_F6,4*NBGAUGE*6)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ENDIF
 C-------------
 C

@@ -277,6 +277,9 @@ C-----------------------------------------------
      .          IXC  ,IXTG   ,IXT    ,IXP     ,IXR     ,
      .          X  ,IAD_ELEM,FR_ELEM ,WEIGHT  ,GPSTMP  ,IGPSTAG )
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
          CALL SIG3DPIN2H(GPSTMP,P2TMP,NODFTSK,NODLTSK,IGPSTAG)
          CALL UPD_TMTENS(GPSTMP,P2TMP,TM_NSIG1,TM_NSIG3,TM_PNSIG,NODFTSK,NODLTSK,IGPSTAG)
        END IF
@@ -290,6 +293,9 @@ C-----------------
      .          IXC  ,IXTG   ,IXT    ,IXP     ,IXR     ,
      .          X  ,IAD_ELEM,FR_ELEM ,WEIGHT  ,GPSTMP  ,IGPSTRATAG)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
          CALL SIG3DPIN2H(GPSTMP,P2TMP,NODFTSK,NODLTSK,IGPSTRATAG)
          CALL UPD_TMTENS(GPSTMP,P2TMP,TM_NSTRA1,TM_NSTRA3,TM_PNSTRA,NODFTSK,NODLTSK,IGPSTRATAG)
        END IF

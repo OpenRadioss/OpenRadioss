@@ -199,6 +199,9 @@ C New barrier needed for Dynamic MultiMP
          MULTIMP = IPARI(23,NIN) + 4
          CALL UPGRADE_MULTIMP(NIN,MULTIMP,INTBUF_TAB)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
         I_MEMG = 0
         I_MEM = 0
         INTBUF_TAB%I_STOK(1) =CAND_N_OLD

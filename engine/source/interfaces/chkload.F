@@ -297,6 +297,9 @@ C Segment is deleted
 
 C Fin Partie non parallele
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ENDIF 
 
 C

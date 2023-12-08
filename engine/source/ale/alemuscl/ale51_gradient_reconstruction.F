@@ -231,6 +231,9 @@ C     ALE ON / OFF
      .           LERCVOIS, LESDVOIS, LENCOM)
          ENDDO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ENDIF
       CALL MY_BARRIER 
       
@@ -262,6 +265,9 @@ C     ALE ON / OFF
      .                              ALEMUSCL_Buffer%NODE_MIN_VALUE(1,ITRIMAT), ALEMUSCL_Buffer%NODE_MAX_VALUE(1,ITRIMAT) )
          ENDDO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ENDIF
       CALL MY_BARRIER
 

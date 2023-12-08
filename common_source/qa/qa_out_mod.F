@@ -533,6 +533,9 @@ C             A trick to pass an integer is to use idin (2nd parameter) and valu
       close ( lunitqa )
 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       return
       RETURN
       end subroutine qaclose

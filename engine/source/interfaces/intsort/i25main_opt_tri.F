@@ -83,6 +83,9 @@ C-----------------------------------------------------------
       CALL I25IRTLM(
      1  IPARI   ,INTBUF_TAB ,ITAB    ,NIN     )
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C-----------------------------------------------------------
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)

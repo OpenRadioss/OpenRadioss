@@ -362,6 +362,9 @@ C        UPGRADE_MULTIMP routine !!!!
            MULTIMP = IPARI(23,NIN) + 4
            CALL UPGRADE_MULTIMP(NIN,MULTIMP,INTBUF_TAB)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
            I_MEM = 0
            I_MEMG = 0
            INTBUF_TAB%I_STOK(1)=CAND_N_OLD
@@ -416,6 +419,9 @@ C mono tache
         IF (IMONM > 0) CALL STOPTIME(26,1)
 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ENDIF
 
 C-----------------------------------------------------------
@@ -513,6 +519,9 @@ C        UPGRADE_MULTIMP routine !!!!
              MULTIMP = IPARI(23,NIN) + 4
              CALL UPGRADE_MULTIMP(NIN,MULTIMP,INTBUF_TAB)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
              I_MEMG = 0
              I_MEM = 0
              INTBUF_TAB%I_STOK_E(1)=CAND_N_OLD
@@ -560,6 +569,9 @@ C mono tache
           IF (IMONM > 0) CALL STOPTIME(26,1)
 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
         ENDIF
       ENDIF
 C

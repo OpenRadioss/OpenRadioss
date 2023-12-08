@@ -105,6 +105,9 @@ C----------------------------------------------------------
           ENDIF        
         ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ENDIF
       
       IF(IDTGR(11)/=0)THEN   

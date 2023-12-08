@@ -145,6 +145,9 @@ C-----------------------------------------------
         !CALL SPMD_BARRIER()
 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C-----------------------------------------------
 #endif
         RETURN

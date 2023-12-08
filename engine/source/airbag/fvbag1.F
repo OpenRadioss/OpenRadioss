@@ -328,6 +328,9 @@ C
         FSAV(1:NTHVKI)=ZERO
       ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C---------------------------------------------------
 C Evolution of FV mesh
 C---------------------------------------------------
@@ -1873,6 +1876,9 @@ C     Computations for anim, also needed if there are gauges.
   310     ENDDO     ! next  polygon
         ENDDO        ! next polyhedron
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ENDIF
 
 

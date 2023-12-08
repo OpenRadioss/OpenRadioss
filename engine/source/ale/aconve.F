@@ -436,6 +436,9 @@ C----------------------
 !$OMP SINGLE
           CALL SPMD_E1VOIS(PHI,NERCVOIS,NESDVOIS,LERCVOIS, LESDVOIS,LENCOM  )
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
         END IF
 
 

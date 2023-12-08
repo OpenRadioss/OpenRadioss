@@ -78,6 +78,9 @@ C-------------------------------------
       ENDDO
 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
 !$OMP DO SCHEDULE(DYNAMIC,1)
         DO M=1,NRBYM
@@ -100,6 +103,9 @@ C
      1         IAD_RBY,FR_RBM,IAD_RBY(NSPMD+1),RBYM6 )
           IF (IMON>0) CALL STOPTIME(11,1)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
         END IF
 C

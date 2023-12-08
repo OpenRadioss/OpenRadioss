@@ -1139,6 +1139,9 @@ C Partie non parallele
 
 C Fin Partie non parallele
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
       ENDIF
 
@@ -1241,6 +1244,9 @@ C--------------------------------------------------------
       ENDIF
 C Fin Partie non parallele
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ! deallocation of local list of deactivated element
       DEALLOCATE( LOCAL_ELEM_INDEX )
 C
@@ -1357,6 +1363,9 @@ C
 !$OMP SINGLE
          INDSEGLO(NG+1)=INDSEGLO(NG)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ENDIF
 
        IF((NTY==7.OR.NTY==10.OR.NTY==22.OR.NTY==24.OR.NTY==25).AND.
@@ -1378,6 +1387,9 @@ C E2E have fictive nodes with NSV  > NUMNOD
 !$OMP SINGLE
            NINDEX1(NG) = 0
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
            CALL CHKMSR3NB(
      1   NMN          ,INTBUF_TAB(NG)%MSR ,ITAG          ,ITASK,INTBUF_TAB(NG)%IRECTM,
      2   NRTM         ,INTBUF_TAB(NG)%STFM,ITAG(NUMNOD+1),IXS  ,IXC          ,
@@ -1390,6 +1402,9 @@ C E2E have fictive nodes with NSV  > NUMNOD
 !$OMP SINGLE
             NINDEX1(NG) = 0
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
            CALL CHKMSR3N( 
      1   NMN          ,INTBUF_TAB(NG)%MSR ,ITAG           ,ITASK,INTBUF_TAB(NG)%IRECTM,
      2   NRTM         ,INTBUF_TAB(NG)%STFM,ITAG(NUMNOD+1),IXS  ,IXC          ,
@@ -1402,6 +1417,9 @@ C E2E have fictive nodes with NSV  > NUMNOD
 !$OMP SINGLE
          NINDEX2(NG)=0
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
          IF(NINDEX1(NG)+NINDEX2(NG) > 0)THEN
 C Partie non parallele
@@ -1412,6 +1430,9 @@ C Partie non parallele
            IBUFS(IDBS+3)=NINDEX2(NG)
 C Fin Partie non parallele
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
            IDBS = IDBS + INC*(NINDEX1(NG)+NINDEX2(NG)) + 4
            IDB  = IDB  + NINDEX1(NG) + NINDEX2(NG)
          END IF
@@ -1450,6 +1471,9 @@ C Partie non parallele
            IBUFS(IDBS+3)=NINDEX2(NG)
 C Fin Partie non parallele
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
            IDBS = IDBS + INC*(NINDEX1(NG)+NINDEX2(NG)) + 4
            IDB  = IDB  + NINDEX1(NG) + NINDEX2(NG)
          END IF
@@ -1513,6 +1537,9 @@ C Partie non parallele
            IBUFS(IDBS+3)=NINDEX2(NG)
 C Fin Partie non parallele
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
            IDBS = IDBS + INC*(NINDEX1(NG)+NINDEX2(NG)) + 4
            IDB  = IDB  + NINDEX1(NG) + NINDEX2(NG)
          END IF
@@ -1557,6 +1584,9 @@ C Partie non parallele
            IBUFS(IDBS+3)=NINDEX2(NG)
 C Fin Partie non parallele
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
            IDBS = IDBS + INC*(NINDEX1(NG)+NINDEX2(NG)) + 4
            IDB  = IDB  + NINDEX1(NG) + NINDEX2(NG)
          END IF
@@ -1623,6 +1653,9 @@ C Partie non parallele
            IBUFS(IDBS+3)=NINDEX4(NG)
 C Fin Partie non parallele
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
            IDBS = IDBS + INC*(NINDEX3(NG)+NINDEX4(NG)) + 4
            IDB  = IDB  + NINDEX3(NG) + NINDEX4(NG)
          END IF
@@ -1692,6 +1725,9 @@ C Partie non parallele
            IBUFS(IDBS+3)=NINDEX2(NG)
 C Fin Partie non parallele
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
            IDBS = IDBS + INC*(NINDEX1(NG)+NINDEX2(NG)) + 4
            IDB  = IDB  + NINDEX1(NG) + NINDEX2(NG)
          END IF
@@ -1736,6 +1772,9 @@ C Partie non parallele
            IBUFS(IDBS+3)=NINDEX2(NG)
 C Fin Partie non parallele
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
            IDBS = IDBS + INC*(NINDEX1(NG)+NINDEX2(NG)) + 4
            IDB  = IDB  + NINDEX1(NG) + NINDEX2(NG)
          END IF
@@ -1787,6 +1826,9 @@ C Partie non parallele
            IBUFS(IDBS+3)=NINDEX2(NG)
 C Fin Partie non parallele
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
            IDBS = IDBS + INC*(NINDEX1(NG)+NINDEX2(NG)) + 4
            IDB  = IDB  + NINDEX1(NG) + NINDEX2(NG)
          END IF
@@ -1912,6 +1954,9 @@ Cote secnd
 
 C Fin Partie non parallele
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
       END IF  ! specifique NSPMD > 1    
 C
@@ -1986,6 +2031,9 @@ C si tag nul sur noeuds main alors msr(i) = -msr(i)
 !$OMP SINGLE
       ICOMP = 0
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C
       CALL MY_BARRIER()
       IF(NTY==7.OR.NTY==10.OR.NTY==22.OR.NTY==24.OR.NTY==25) RETURN

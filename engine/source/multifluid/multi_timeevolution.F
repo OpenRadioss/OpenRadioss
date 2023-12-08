@@ -218,6 +218,9 @@ C     SUBMAT VARTIABLES
      .              NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
          ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
          CALL MY_BARRIER
       ENDIF
 C------------------
@@ -265,6 +268,9 @@ C     SUBMAT gradients
             ENDIF
          ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
          CALL MY_BARRIER
       ENDIF
 

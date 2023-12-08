@@ -132,6 +132,9 @@ C-----------------------------
 !$OMP SINGLE
         CALL SPMD_EVOIS(XE,VAL2,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
       END IF
 C-----------------------------

@@ -223,6 +223,9 @@ C--------------------
 !$OMP SINGLE
         CALL SPMD_E1VOIS(ALPHA,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM  )
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ENDIF
 C
 C-----------------------------------------------
@@ -308,6 +311,9 @@ C--------------------
             CALL SPMD_I4VOIS(N4_VOIS ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM)
          ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ENDIF
 
 C-----------------------------------------------

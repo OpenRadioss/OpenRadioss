@@ -91,6 +91,9 @@ C-------------------------------------
         ENDIF
       ENDDO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C-------------------------------------
 C CALCUL FORCE RIGID BODIES CLASSIQUES (multi-thread)
 C-------------------------------------

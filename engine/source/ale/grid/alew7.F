@@ -145,6 +145,9 @@ C-----------------------------------------------
          ALE%GRID%MASSFLOW_DATA%LW(3) = HALF*(ALE%GRID%MASSFLOW_DATA%EP(6)-ALE%GRID%MASSFLOW_DATA%EP(9))
       ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
       !3.---MEAN VELOCITY & CENTER OF MASS
       !-----------------------------------

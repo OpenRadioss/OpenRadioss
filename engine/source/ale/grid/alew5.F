@@ -107,6 +107,9 @@ C-----------------------------------------------
             LENCOM = NBRCVOIS(NSPMD+1)+NBSDVOIS(NSPMD+1)
             CALL SPMD_XVOIS(WA     ,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,LENCOM)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
          END IF
 
          IF(IFORM == 1)THEN     

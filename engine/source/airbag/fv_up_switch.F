@@ -458,6 +458,9 @@ C
          FSAV(1:NTHVKI)=ZERO
       ENDIF
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
 !     ============================    !
 !     VOLUME OF THE FINITE VOLUMES    !
@@ -1129,6 +1132,9 @@ C---------------------------------------------------
       PHDT=0
       
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
       !------------------------------!
       ! --- CHARACTERISTIC LENGTH ---!
@@ -1726,6 +1732,9 @@ C------------------
         SSPKA(1:NNA)=ZERO
         UA(1:3,1:NNA)=ZERO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ENDIF
 
 !$OMP DO SCHEDULE(DYNAMIC,MVSIZ)

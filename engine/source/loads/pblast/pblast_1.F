@@ -422,6 +422,9 @@ C----- /TH/SURF -------
      .                                         ID,' previous first arrival time :',ZETA,
      .                                         ' is now updated to :',FAC(07,NL)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ENDIF
 
       !-------------------------------------------------------------------!
@@ -453,6 +456,9 @@ C----- /TH/SURF -------
           ENDIF                                                                                    
         ENDDO 
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ELSE     
 !$OMP DO SCHEDULE(GUIDED,MVSIZ) 
         DO I = 1,ISIZ_SEG                                                                          

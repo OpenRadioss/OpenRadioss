@@ -298,6 +298,9 @@ C
         END IF
        END DO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 
        IF (NSPMD > 1) THEN
 !$OMP SINGLE
@@ -305,6 +308,9 @@ C
          CALL SPMD_EXCH_A_RB6(
      1     NRBDIM,IAD_RBY,FR_RBY6,IAD_RBY(NSPMD+1),RBY6)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
        END IF
 
 !$OMP DO SCHEDULE(DYNAMIC,1)

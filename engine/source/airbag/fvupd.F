@@ -744,6 +744,9 @@ C
 !$OMP SINGLE
       PVOLU_OLD(1:NPOLH)=PVOLU(1:NPOLH)
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 !$OMP END PARALLEL
 C
       ILOOP=0

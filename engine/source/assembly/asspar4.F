@@ -3646,6 +3646,9 @@ C-----------------------------------------------
           STIFND(I) = STIFN(ND)
         ENDDO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
       ENDIF
 C-----------------------------------------------
 C Partie NITSCHE ELEM FORNEQS
@@ -3721,6 +3724,9 @@ C-----------------------------------------------
           ADSKYI(N) = ADSKYI(N) + 1
         ENDDO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
 C-----------------------------------------------
 C Partie //
 C-----------------------------------------------
@@ -3744,6 +3750,9 @@ C
             FTHESKYI(I) = FSKYT(I)
           ENDDO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
           IF(NODADT_THERM ==1 ) THEN
 !$OMP SINGLE
             DO I=1,NISKY
@@ -3754,6 +3763,9 @@ C
               CONDNSKYI(I) = FSKYT(I)
             ENDDO
 !$OMP END SINGLE
+#ifdef __INTEL_LLVM_COMPILER
+!$omp barrier
+#endif
           ENDIF
         ENDIF
 C
