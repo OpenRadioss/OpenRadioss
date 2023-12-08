@@ -38,7 +38,7 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE READ_DFS_DETPOINT(DETONATORS,X,IPM,ITABM1,UNITAB,LSUBMODEL)
+      SUBROUTINE READ_DFS_DETPOINT(DETONATORS,X,IPM,ITABM1,UNITAB,LSUBMODEL,IGRNOD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,17 +63,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)           :: UNITAB
-      INTEGER,INTENT(IN)                     :: ITABM1(SITABM1)
-      INTEGER,INTENT(IN)                     :: IPM(NPROPMI,NUMMAT)
-      my_real,INTENT(IN)                    :: X(3,NUMNOD)
-      TYPE(SUBMODEL_DATA),INTENT(IN)         :: LSUBMODEL(NSUBMOD)
-      TYPE(DETONATORS_STRUCT_),INTENT(INOUT) :: DETONATORS
+      TYPE (UNIT_TYPE_),INTENT(IN)               :: UNITAB
+      INTEGER,INTENT(IN)                         :: ITABM1(SITABM1)
+      INTEGER,INTENT(IN)                         :: IPM(NPROPMI,NUMMAT)
+      my_real,INTENT(IN)                         :: X(3,NUMNOD)
+      TYPE(SUBMODEL_DATA),INTENT(IN)             :: LSUBMODEL(NSUBMOD)
+      TYPE(DETONATORS_STRUCT_),INTENT(INOUT)     :: DETONATORS
+      TYPE (GROUP_),DIMENSION(NGRNOD),INTENT(IN) :: IGRNOD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER              :: I, MAT, J, NPEM,NPCM,K,IGU,IGS,JJ,MDET,DET_ID,IDET
-      INTEGER              :: NODE_ID1, NODE_ID2,uID1,uID2,UID
+      INTEGER              :: NODE_ID1, NODE_ID2,uID1,uID2,UID,internal_ID,NNOD
       INTEGER              :: FLAG_FMT,IMAT,IFLAGUNIT,UNUSED
       INTEGER              :: STAT
       my_real              :: XC, YC, ZC, ALT
@@ -81,7 +82,7 @@ C-----------------------------------------------
       CHARACTER*64         :: chain1,chain2
       CHARACTER*nchartitle :: TITR
       LOGICAL              :: IS_ENCRYPTED, IS_AVAILABLE
-      LOGICAL              :: IS_NODE_DEFINED
+      LOGICAL              :: IS_NODE_DEFINED,IS_GRNOD_DEFINED
       INTEGER              :: NDETPS,NDETSG,NECRAN,NDETPL,NDETCORD
       CHARACTER*ncharkey   :: KEY, KEY2
 C-----------------------------------------------
@@ -99,12 +100,14 @@ C-----------------------------------------------
 
        CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID=DET_ID, UNIT_ID=UID,KEYWORD2=KEY,KEYWORD3=KEY2)
        IF (LEN_TRIM(KEY) > 0) KEY = KEY(1:7)
-       IF (LEN_TRIM(KEY2) > 0) KEY2 = KEY2(1:4)
+       IF (LEN_TRIM(KEY2) > 0) KEY2 = KEY2(1:5)
 
         IS_ENCRYPTED= .FALSE.
         IS_AVAILABLE = .FALSE.
         IS_NODE_DEFINED = .FALSE.
+        IS_GRNOD_DEFINED = .FALSE.
         IF(KEY2(1:4)=='NODE')IS_NODE_DEFINED = .TRUE.
+        IF(KEY2(1:3)=='SET')IS_GRNOD_DEFINED = .TRUE.
         CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
         !---------------------------------!
         !             READING             !
@@ -116,6 +119,13 @@ C-----------------------------------------------
           XC=ZERO
           YC=ZERO
           ZC=ZERO
+        ELSEIF(IS_GRNOD_DEFINED)THEN
+          CALL HM_GET_FLOATV('rad_det_time', ALT, IS_AVAILABLE, LSUBMODEL,UNITAB)
+          CALL HM_GET_INTV('rad_det_materialid', MAT, IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_INTV('rad_det_grnod1', uID1, IS_AVAILABLE, LSUBMODEL)
+          XC=ZERO
+          YC=ZERO
+          ZC=ZERO
         ELSE
           CALL HM_GET_FLOATV('rad_det_locationA_X', XC, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('rad_det_locationA_Y', YC, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -123,6 +133,9 @@ C-----------------------------------------------
           CALL HM_GET_FLOATV('rad_det_time', ALT, IS_AVAILABLE, LSUBMODEL,UNITAB)
           CALL HM_GET_INTV('rad_det_materialid', MAT, IS_AVAILABLE, LSUBMODEL)
         ENDIF
+
+      IF (ALT > INFINITY) ALT= INFINITY
+      IF (ALT < -INFINITY)ALT=-INFINITY
 
         IF(IS_NODE_DEFINED)THEN
           NODE_ID1=USR2SYS(uID1,ITABM1,MESS,DET_ID)
@@ -132,19 +145,36 @@ C-----------------------------------------------
             ZC = X(3,NODE_ID1)
           ENDIF
           IF(NODE_ID1==0)THEN
-            CALL ANCMSG(MSGID   = 104,MSGTYPE = MSGERROR,ANMODE  = ANINFO,
-     .                  C1      = '/DFS/DETPOINT/NODE',
-     .                  I1      = DET_ID,
-     .                  C2      = 'INVALID NODE_ID')
+            CALL ANCMSG(MSGID=104, MSGTYPE=MSGERROR, ANMODE=ANINFO, C1='/DFS/DETPOINT/NODE', I1=DET_ID, C2='INVALID NODE_ID')
           ENDIF
         ENDIF
+
+        ! /DFS/DETPOINT/GRNOD
+        ! check if provided group identifier does exist
+        internal_ID = 0
+        IF(IS_GRNOD_DEFINED)THEN
+          NNOD = 0
+          DO I=1,NGRNOD
+            IF (IGRNOD(I)%ID == uID1) THEN
+              internal_ID = I
+              NNOD = IGRNOD(I)%NENTITY
+              DETONATORS%POINT(IDET)%NNOD = NNOD
+              ALLOCATE(DETONATORS%POINT(IDET)%NODLIST(NNOD))
+              !filling nodlist
+              NNOD=NODGRNR5(uID1,internal_ID,DETONATORS%POINT(IDET)%NODLIST,IGRNOD,ITABM1,MESS)
+              EXIT
+            ENDIF
+          ENDDO
+          IF(internal_ID == 0)THEN
+            CALL ANCMSG(MSGID=104, MSGTYPE=MSGERROR, ANMODE=ANINFO, C1='/DFS/DETPOINT/SET', I1=DET_ID, C2='INVALID SET_ID')
+          ENDIF
+        ENDIF
+
         !---------------------------------!
         !      CHECKING USER FLAGS        !
         !      +INTERNAL ID               !
         !---------------------------------!
         MDET=MAT !bak
-        IF (ALT >  INFINITY)ALT= INFINITY
-        IF (ALT < -INFINITY)ALT=-INFINITY
         UNUSED=0
         IF(MAT > 0)UNUSED=UNUSED_MAT_DETONATOR(MAT,NUMMAT,IPM)
         IF (MAT < 0) THEN
@@ -173,6 +203,8 @@ C-----------------------------------------------
             WRITE(IOUT,1001)
           ELSEIF(IS_NODE_DEFINED)THEN
             WRITE(IOUT,1401) DET_ID,uID1,XC,YC,ZC,ALT,MDET
+          ELSEIF(IS_GRNOD_DEFINED)THEN
+            WRITE(IOUT,1402) DET_ID,uID1,NNOD,ALT,MDET
           ELSE
             WRITE(IOUT,1400) DET_ID,XC,YC,ZC,ALT,MDET
           ENDIF
@@ -182,6 +214,7 @@ C-----------------------------------------------
           DETONATORS%POINT(IDET)%XDET = XC
           DETONATORS%POINT(IDET)%YDET = YC
           DETONATORS%POINT(IDET)%ZDET = ZC
+          DETONATORS%POINT(IDET)%GRNOD_ID = internal_ID
         END IF
 
       ENDDO! next IDET
@@ -207,5 +240,11 @@ C-----------------------------------------------
      &          ' Z-COORDINATE             =',1PG20.13,/5X,
      &          'LIGHTING TIME             =',1PG20.13,/5X,
      &          'EXPLOSIVE MATERIAL NUMBER =',I10 )
-C-----------------------------------------------
+ 1402 FORMAT(///'DETONATION POINT           ',I10,/5X,
+     &          '----------------           ',/5X,
+     &          'SET ID                    =',I10     ,/5X,
+     &          ' NUMBER OF NODES          =',I10,/5X,
+     &          'LIGHTING TIME             =',1PG20.13,/5X,
+     &          'EXPLOSIVE MATERIAL NUMBER =',I10 )
+C-----------------------------------------------            
       END SUBROUTINE

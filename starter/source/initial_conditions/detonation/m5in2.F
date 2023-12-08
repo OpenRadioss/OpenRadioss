@@ -80,7 +80,7 @@ C-----------------------------------------------
      .   YLP1,  ZLP1, XLP2, YLP2, ZLP2, XL0, YL0, ZL0, XL1, YL1, ZL1,
      .    XL2,   YL2,  ZL2, PS1, PS2, DL1, DL2, S1, S2, S3, DETO,
      .     NX,    NY,   NZ , NN, VDET
-      INTEGER :: NODE1, NODE2, NODE3, NODE4, II
+      INTEGER :: NODE1, NODE2, NODE3, NODE4, II, GRNOD_ID, INOD, NNOD, NODE_ID
 C-----------------------------------------------
 C
       NDETPS = DETONATORS%N_DET_POINT
@@ -128,25 +128,44 @@ C
          END DO
 
         !---------------------------------!
-        ! LIGHTING TIME FOR /DFS/DETPOIN  !
+        ! LIGHTING TIME FOR /DFS/DETPOINT !
         !---------------------------------!
         IF(NDETPS /= 0) THEN
           DO I=LFT,LLT
             DO N=1,NDETPS
               MTL=DETONATORS%POINT(N)%MAT
+              GRNOD_ID=DETONATORS%POINT(N)%GRNOD_ID
               IF(MTL == 0 .OR. MTL == MAT(I) .OR. MTL == M151_ID) THEN
-                ALT=DETONATORS%POINT(N)%TDET
-                XLP=DETONATORS%POINT(N)%XDET
-                YLP=DETONATORS%POINT(N)%YDET
-                ZLP=DETONATORS%POINT(N)%ZDET
-                DL(I) =(XC(I)-XLP)**2+(YC(I)-YLP)**2+(ZC(I)-ZLP)**2
-                DL(I)=SQRT(DL(I))
-                BT(I) =ALT+DL(I)/PM(38,MAT(I))
-                IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I)
-                HAS_DETONATOR(I)=.TRUE.
-              END IF
-            END DO
-          END DO
+                !--- SINGLE NODE ---!
+                IF(GRNOD_ID == 0)THEN
+                  ALT=DETONATORS%POINT(N)%TDET
+                  XLP=DETONATORS%POINT(N)%XDET
+                  YLP=DETONATORS%POINT(N)%YDET
+                  ZLP=DETONATORS%POINT(N)%ZDET
+                  DL(I) =(XC(I)-XLP)**2+(YC(I)-YLP)**2+(ZC(I)-ZLP)**2
+                  DL(I)=SQRT(DL(I))
+                  BT(I) =ALT+DL(I)/PM(38,MAT(I))
+                  IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I)
+                  HAS_DETONATOR(I)=.TRUE.
+                !--- GROUP OF NODE ---!
+                ELSE
+                  NNOD = DETONATORS%POINT(N)%NNOD
+                  ALT=DETONATORS%POINT(N)%TDET
+                  HAS_DETONATOR(I)=.TRUE.
+                  DO INOD=1,NNOD
+                    NODE_ID=DETONATORS%POINT(N)%NODLIST(INOD)
+                    XLP=X(1,NODE_ID)
+                    YLP=X(2,NODE_ID)
+                    ZLP=X(3,NODE_ID)
+                    DL(I) =(XC(I)-XLP)**2+(YC(I)-YLP)**2+(ZC(I)-ZLP)**2
+                    DL(I)=SQRT(DL(I))
+                    BT(I) =ALT+DL(I)/PM(38,MAT(I))
+                    IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I)
+                  ENDDO !next INOD
+                ENDIF
+              ENDIF !(MTL == 0 .OR. MTL == MAT(I) .OR. MTL == M151_ID)
+            END DO !next N
+          END DO !next I
          ENDIF
 
         !---------------------------------!

@@ -86,6 +86,11 @@ C-----------------------------------------------
             WRITE(VARNAME,'(A,I0,A)') 'DFS_DETPOINT_',K ,'__ZDET_'
             TEMP_DOUBLE = DETONATORS%POINT(K)%ZDET
             IF(TEMP_DOUBLE/=ZERO)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+
+            WRITE(VARNAME,'(A,I0,A)') 'DFS_DETPOINT_',K ,'__GRNOD_ID_'
+            TEMP_INTEGER = DETONATORS%POINT(K)%GRNOD_ID
+            IF(TEMP_INTEGER > 0)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+
         ENDDO !next K                                                                   
 
         !/DFS/DETLINE
