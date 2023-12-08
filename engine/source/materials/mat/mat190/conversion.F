@@ -612,18 +612,19 @@ C
          DO J=1,6
            DO K=1,6
              
-             T1DA2  =  -FAC1_DA2 *( J2(I)**2 * DAT32(I,J,K) -THREE_HALF *J2(I) * J3(I) * DAT22(I,J,K)  )
+                T1DA2  =  -FAC1_DA2 *( J2(I)**2 * DAT32(I,J,K) -THREE_HALF *J2(I) * J3(I) * DAT22(I,J,K)  )
 
-             T2DA2  =  -FAC2_DA2 * SIX*THREE * J2(I) * J3(I) * DAT2(I,K)*DAT2(I,J)
-
-             T3DA2  =  -FAC1_DA2 *THREE_HALF*J3(I) *DAT2(I,K)*DAT2(I,J)
-             
-             T4DA2  =  -FAC2_DA2 * TWO * TWENTY7 * J3(I)  * DAT3(I,J) *DAT3(I,K)
-
-             T5DA2  =   FAC3_DA2 * THREE * TWENTY7 * J3(I)**2 * DAT3(I,K)*  DAT2(I,J) 
-     .                  +FAC1_DA2 * THREE_HALF * J2(I) *  DAT3(I,K)*  DAT2(I,J) 
-
-             T6DA2  =   FAC2_DA2 *THREE * FOUR * J2(I)**2 * DAT3(I,J) * DAT2(I,K)
+                T2DA2  =  -FAC2_DA2 * THREE*THREE * J2(I) * J3(I) * DAT2(I,K)*DAT2(I,J)
+   
+                T3DA2  =  -FAC1_DA2 *THREE_HALF*J3(I) *DAT2(I,K)*DAT2(I,J)
+                
+                T4DA2  =  -FAC2_DA2 * TWO * TWENTY7 * J3(I) * DAT3(I,J) *DAT3(I,K)
+   
+                T5DA2  =   FAC3_DA2 * THREE * TWENTY7 * J3(I)**2 * DAT3(I,K)*  DAT2(I,J) 
+     .                  +FAC1_DA2 * THREE_HALF * J2(I) * DAT3(I,K)*  DAT2(I,J) 
+   
+                T6DA2  =   FAC2_DA2 *THREE * TWO * J2(I)**2 * DAT3(I,J) * DAT2(I,K)
+   
 
              DA2(I,J,K) =  ( T1DA2 + T2DA2 + T3DA2 +  T4DA2 + T5DA2 + T6DA2)
             ENDDO

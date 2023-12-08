@@ -184,7 +184,7 @@ C-------------------------------------------
       END IF
 c
       ! Properties compatibility
-      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ORTHOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
 C-------------------------------------------
 C Output File Print
 C-------------------------------------------
