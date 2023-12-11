@@ -162,6 +162,8 @@ C  smstr
 C
 C  icpre/icstr
 C
+C      ICPRE = 0  
+      IF (IHBE == 14 .AND. ICSTR == 0) ICSTR = 10
       IF (IHBE == 14 .AND.
      .    (ICSTR /= 1.AND.ICSTR /= 10.AND.ICSTR /= 100)) THEN
          CALL ANCMSG(MSGID=677,
