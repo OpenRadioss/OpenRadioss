@@ -342,40 +342,11 @@ c  deplacement relatif
          XX = MAX(XSLV(1,I)-XMSR(4,I),XMSR(1,I)-XSLV(4,I),ZERO)
          XY = MAX(XSLV(2,I)-XMSR(5,I),XMSR(2,I)-XSLV(5,I),ZERO)
          XZ = MAX(XSLV(3,I)-XMSR(6,I),XMSR(3,I)-XSLV(6,I),ZERO)
-c  deplacement relatif + gap
-c        XXG = MAX(XSLV(7,I)-XMSR(10,I),XMSR(7,I)-XSLV(10,I),ZERO)
-c        XYG = MAX(XSLV(8,I)-XMSR(11,I),XMSR(8,I)-XSLV(11,I),ZERO)
-c        XZG = MAX(XSLV(9,I)-XMSR(12,I),XMSR(9,I)-XSLV(12,I),ZERO)
-c  deplacement relatif + pene-gap (PENE_OLD(3,i))
-c        XXP = MAX(XSLV(13,I)-XMSR(4,I),XMSR(1,I)-XSLV(16,I),ZERO)
-c        XYP = MAX(XSLV(14,I)-XMSR(5,I),XMSR(2,I)-XSLV(17,I),ZERO)
-c        XZP = MAX(XSLV(15,I)-XMSR(6,I),XMSR(3,I)-XSLV(18,I),ZERO)
-c
-c        DEPLA_MAX = SQRT(XX**2+XY*2+XZ*2) + MAX(gap,pene-gap)
-c
-c        D0 = SQRT(XX**2+XY**2+XZ**2) 
-c        D1 = SQRT(XXG**2+XYG**2+XZG**2) 
-c        D2 = SQRT(XXP**2+XYP**2+XZP**2)
-c        D3 = XXG+XY+XZ
-c        D4 = XX+XYG+XZ
-c        D5 = XX+XY+XZG
-c        D6 = XXP+XY+XZ
-c        D7 = XX+XYP+XZ
-c        D8 = XX+XY+XZP
 c
 c        DEPLA_MAX + MAX(gap,pene-gap) < 
 c             min(D0+max(gapmax,penmax), max(D1,D2) , max(D3:D8))
 
          D0 = SQRT(XX**2+XY**2+XZ**2)
-c         D1 = SQRT(XXG**2+XYG**2+XZG**2)
-c         D2 = SQRT(XXP**2+XYP**2+XZP**2)
-c         D3 = XXG+XY+XZ
-c         D4 = XX+XYG+XZ
-c         D5 = XX+XY+XZG
-c         D6 = XXP+XY+XZ
-c         D7 = XX+XYP+XZ
-c         D8 = XX+XY+XZP
-
          VX = MAX(VSLV(1,I)-VMSR(4,I),VMSR(1,I)-VSLV(4,I),ZERO)
          VY = MAX(VSLV(2,I)-VMSR(5,I),VMSR(2,I)-VSLV(5,I),ZERO)
          VZ = MAX(VSLV(3,I)-VMSR(6,I),VMSR(3,I)-VSLV(6,I),ZERO)
@@ -389,9 +360,13 @@ C
 c VMAXDT can be optimize : VMAXDT is a local overestimate of relative 
 c velocity between local main nodes and ALL secnd nodes
 c (no need to communicate VMAXDT in SPMD)
-         VMAXDT = ONEP01*VV*DT1
+         MARGE0 = INTBUF_TAB(I)%VARIABLES(25) !starter value i25buc_vox1.F
+         VMAXDT = ONEP01*MIN(MAX(D0,MARGE0),VV*DT1) !heuristic to limit VMAXDT
+! If VMAXDT > MARGE0, the run is likely diverging. 
+! At next cycle DIST0 should also be negative, triggering 
+! a new collision detection search. 
          INTBUF_TAB(I)%VARIABLES(24) = VMAXDT
-         MARGE0 = INTBUF_TAB(I)%VARIABLES(25)
+         
 
          DIST0 = MARGE0 - ONEP01*(D0 + VMAXDT + MAXDGAP(I))
 
