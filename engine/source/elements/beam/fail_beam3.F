@@ -190,5 +190,17 @@ c---------------
 c-------------
       END SELECT
 c-----------
+      DO I= 1,NEL
+          IF (OFF(I) == FOUR_OVER_5) THEN
+#include "lockon.inc"
+            WRITE(IOUT, 1000) NGL(I),TIME
+            WRITE(ISTDO,1000) NGL(I),TIME
+#include "lockoff.inc" 
+          END IF
+      END DO
+c------------------
+ 1000 FORMAT(1X,'DELETED BEAM ELEMENT ',I10,1X,'AT TIME :',1PE12.4)
+
+
       RETURN
       END SUBROUTINE FAIL_BEAM3
