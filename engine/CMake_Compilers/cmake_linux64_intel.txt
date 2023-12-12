@@ -28,8 +28,6 @@ set ( RELNAME ${arch}${mpi_suf})
 # ---------------------
 #H3D
 set (h3d_inc "-I${source_directory}/../extlib/h3d/includes")
-<<<<<<< HEAD
-=======
 
 #ZLIB
 set (zlib_inc "-I${source_directory}/../extlib/zlib/linux64/include")
@@ -38,8 +36,6 @@ set (zlib_lib "${source_directory}/../extlib/zlib/linux64/lib/libz.a")
 if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
 set ( wo_linalg "-DWITHOUT_LINALG" )
 endif()
->>>>>>> dd3133b59 (File compression:)
-
 
 #
 # compiler Flags
