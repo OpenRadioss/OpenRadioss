@@ -246,10 +246,10 @@ C       SPMD: only process 0 is writing
 C--------Multidomains : offset for th file------------------------------
           IF ((IRAD2R==1).AND.(R2R_SIU==1)) THEN
             IF (SEEK_FLAG(SEEK_ID)==1) THEN     
-              CALL FSEEK_C(SEEK0(SEEK_ID))
+              CALL FSEEK_C_RD(SEEK0(SEEK_ID))
               SEEK_FLAG(SEEK_ID) = 0
             ELSE
-              CALL FSEEK_C(SEEKC(SEEK_ID))          
+              CALL FSEEK_C_RD(SEEKC(SEEK_ID))          
             ENDIF
           ENDIF
 C-----------------------------------------------------------------------              
