@@ -64,7 +64,7 @@ void file_init_();
 void open_c(int *ifil,int *len,int *mod);
 void close_c();
 
-void fseek_c(int * lseek);
+void fseek_c_rd(int * lseek);
 void fseek_end_c(int * lseek);
 void file_size(int * filesize);
 void filelen_sys(char * ffilnam,int *len,int * size);
@@ -300,7 +300,7 @@ void close_c__()
 
 // -------------------------------------------------------------------------------------
 
-void fseek_c(int * lseek){
+void fseek_c_rd(int * lseek){
 //! Determine file size
 //! -----------------------------------
 //! output : lseek - current file_size
@@ -308,16 +308,16 @@ void fseek_c(int * lseek){
   fseek(curfile,*lseek,SEEK_CUR);
 }
 
-void fseek_c_(int * lseek){
-  fseek_c(lseek);
+void fseek_c_rd_(int * lseek){
+  fseek_c_rd(lseek);
 }
    
-void fseek_c__(int * lseek){
-  fseek_c(lseek);
+void fseek_c_rd__(int * lseek){
+  fseek_c_rd(lseek);
 }
    
-void _FCALL FSEEK_C(int * lseek){
-  fseek_c(lseek);
+void _FCALL FSEEK_C_RD(int * lseek){
+  fseek_c_rd(lseek);
 }
    
 void fseek_end_c(int * lseek){
