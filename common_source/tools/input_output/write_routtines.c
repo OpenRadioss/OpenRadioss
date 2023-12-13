@@ -286,8 +286,14 @@ void close_c()
 //! Close the file
 //! ---------------
 {
-  close_buffer();     // In case of gzip - flush the remaining values in buffer
-  fclose(curfile);
+  if (outfile_mod[cur_nf] == 1){         // Close write with compression
+      close_buffer();                    // flush the remaining values in buffer
+      fclose(curfile);
+  }else if (outfile_mod[cur_nf] == 2){   // Close read with compression
+    gzclose(curfile);
+  }else{
+    fclose(curfile);    // Close with No compression
+  }
 }
 void _FCALL CLOSE_C()
 { close_c(); }
