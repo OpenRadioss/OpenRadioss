@@ -56,7 +56,8 @@ C-----------------------------------------------
       INTEGER NODTAGLOB(LENG)
       my_real
      . VG(3,LENG),VRG(3,LENG)
-      CHARACTER*100 LINE
+      CHARACTER(LEN=100) :: LINE
+      INTEGER LEN_LINE
 C-----------------------------------------------
 !
       IF (NSPMD > 1) THEN
@@ -71,9 +72,14 @@ C-----------------------------------------------
         WRITE(IUGEO,'(A)') '/INIVEL/NODE/1'
         WRITE(IUGEO,'(A)') 'INITIAL NODAL VELOCITY'
       ELSE
-        WRITE(IUGEO,'(A)') '/INIVEL/NODE/1'
-        WRITE(IUGEO,'(A)') 'INITIAL NODAL VELOCITY'
-        CALL STRS_TXT50(LINE,100)
+        ! Write STATE File in GZIP format
+        WRITE(LINE,'(A)') '/INIVEL/NODE/1'
+        LEN_LINE=LEN_TRIM(LINE)
+        CALL STRS_TXT50(LINE,LEN_LINE)
+!
+        WRITE(LINE,'(A)') 'INITIAL NODAL VELOCITY'
+        LEN_LINE=LEN_TRIM(LINE)
+        CALL STRS_TXT50(LINE,LEN_LINE)
       ENDIF
 !
       IF (NSPMD == 1) THEN
@@ -83,12 +89,17 @@ C-----------------------------------------------
                WRITE(IUGEO,'(2I10,1P3E20.9)') ITAB(I),0,(V(J,I),J=1,3)
                IF (IRODDL /= 0) WRITE(IUGEO,'(20X,1P3E20.9)') (VR(J,I),J=1,3)
              ELSE
+               ! Write STATE File in GZIP format
                WRITE(LINE,'(2I10,1P3E20.9)')  ITAB(I),0,(V(J,I),J=1,3)
-               CALL STRS_TXT50(LINE,100)
+               LEN_LINE=LEN_TRIM(LINE)
+               CALL STRS_TXT50(LINE,LEN_LINE)
+
                IF (IRODDL /= 0) THEN
                  WRITE(LINE,'(20X,1P3E20.9)')(VR(J,I),J=1,3)
-                 CALL STRS_TXT50(LINE,100)
+                 LEN_LINE=LEN_TRIM(LINE)
+                 CALL STRS_TXT50(LINE,LEN_LINE)
                END IF
+
              END IF
            END IF
         END DO
@@ -99,12 +110,17 @@ C-----------------------------------------------
                WRITE(IUGEO,'(2I10,1P3E20.9)') ITABG(I),0,(VG(J,I),J=1,3)
                IF (IRODDL /= 0) WRITE(IUGEO,'(20X,1P3E20.9)') (VRG(J,I),J=1,3)
              ELSE
-               WRITE(IUGEO,'(2I10,1P3E20.9)')  ITABG(I),0,(VG(J,I),J=1,3)
-               CALL STRS_TXT50(LINE,100)
+               ! Write STATE File in GZIP format
+               WRITE(LINE,'(2I10,1P3E20.9)')  ITABG(I),0,(VG(J,I),J=1,3)
+               LEN_LINE=LEN_TRIM(LINE)
+               CALL STRS_TXT50(LINE,LEN_LINE)
+
                IF (IRODDL /= 0) THEN
-                 WRITE(IUGEO,'(20X,1P3E20.9)')          (VRG(J,I),J=1,3)
-                 CALL STRS_TXT50(LINE,100)
+                 WRITE(LINE,'(20X,1P3E20.9)')          (VRG(J,I),J=1,3)
+                 LEN_LINE=LEN_TRIM(LINE)
+                 CALL STRS_TXT50(LINE,LEN_LINE)
                END IF
+
              END IF
           END IF
         END DO
