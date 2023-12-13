@@ -1,0 +1,23 @@
+#!/bin/bash
+command -v git-lfs >/dev/null 2>&1 || { echo >&2 "\nThis repository is configured for Git LFS but 'git-lfs' was not found on your path. If you no longer wish to use Git LFS, remove this hook by deleting .git/hooks/pre-push.\n"; exit 2; }
+git lfs pre-push "$@"
+
+CURRENT_USER=$(git config user.name)
+LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')
+if [ "$LAST_COMMIT_AUTHOR" != "$CURRENT_USER" ]; then
+  echo " "
+  echo " "
+  echo " "
+  echo "!!!!! DO NOT CREATE A PULL REQUEST !!!!!"
+  echo "You pushed a commit made by" $LAST_COMMIT_AUTHOR
+  echo "Maybe you squashed your work with his"
+  echo "Review your commits (git log) before creating a PR"
+  echo " "
+  echo " "
+  echo -e "\e[31mThank you" $CURRENT_USER "for reading the above message\e[0m"
+  echo " "
+  echo " "
+  echo " "
+fi
+
+exit 0
