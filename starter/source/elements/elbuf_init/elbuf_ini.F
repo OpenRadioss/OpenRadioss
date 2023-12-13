@@ -436,11 +436,11 @@ c
             ENDDO                                       
 c---
          ELSEIF (IGTYP > 28 .and. IGTYP < 32) THEN    ! User solid property                       
-            NUVAR   = MLAW_TAG(IMID)%NUVAR  
+            NUVAR    = MLAW_TAG(IMID)%NUVAR  
+            NVARTMP  = MLAW_TAG(IMID)%NVARTMP                                
             NUVAREOS = 0
             IEOS_TYPE = IPM(4,IMID)
             IF(IEOS_TYPE>0)NUVAREOS = EOS_TAG(IEOS_TYPE)%NVAR
-            NVARTMP = MLAW_TAG(IMID)%NVARTMP                                
             ELBUF_TAB(NG)%BUFLY(1)%ILAW = MLW                                          
             ELBUF_TAB(NG)%BUFLY(1)%IMAT = IMID                                        
             ELBUF_TAB(NG)%BUFLY(1)%IEOS = 0                                      
@@ -516,7 +516,7 @@ c---
               ILAW(IL) = MLW    ! same law type everywhere
               NUVAR   = MLAW_TAG(IMID)%NUVAR                                
               NVARTMP = MLAW_TAG(IMID)%NVARTMP                                
-              NFAIL    = IPM(220,IMAT(IL))
+              NFAIL   = IPM(220,IMAT(IL))
               ELBUF_TAB(NG)%BUFLY(IL)%ILAW = MLW
               ELBUF_TAB(NG)%BUFLY(IL)%IMAT = IMID       
               ELBUF_TAB(NG)%BUFLY(IL)%IEOS = IEOS        
@@ -607,12 +607,14 @@ c---      User Mat Buffer, Fail buffer, Visc buffer :  alloc + init
                 ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%MLAW = ELBUF_TAB(NG)%BUFLY(IL)%ILAW
                 ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%LawID = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
                 CALL MY_ALLOC(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR,NUVARM*NEL)                
+                CALL MY_ALLOC(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VARTMP,NVARTMP*NEL)                
                 CALL MY_ALLOC(ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR,NUVARV*NEL)                
                 CALL MY_ALLOC(ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VAR,NUVAREOS*NEL)                
 c
                 ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR(1:NUVARM*NEL) = ZERO
                 ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR(1:NUVARV*NEL) = ZERO
                 ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VAR(1:NUVAREOS*NEL) = ZERO
+                ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VARTMP(1:NVARTMP*NEL) = 0
 
                 LMAT  = LMAT  + NUVARM*NEL
                 LVISC = LVISC + NUVARV*NEL
@@ -1298,6 +1300,7 @@ c---      Layer variables
 c---      User Mat Buffer, Fail buffer, Visc buffer :  alloc + init
           DO IL = 1, NLAY
            NUVARM = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
+           NVARTMP= ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP
            NUVARV = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC
            NUVAREOS = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS 
            NFAIL  = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL
@@ -1308,11 +1311,13 @@ c---      User Mat Buffer, Fail buffer, Visc buffer :  alloc + init
                 ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%MLAW = ELBUF_TAB(NG)%BUFLY(IL)%ILAW
                 ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%LawID = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
                 CALL MY_ALLOC(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR,NUVARM*NEL)
+                CALL MY_ALLOC(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VARTMP,NVARTMP*NEL)
                 CALL MY_ALLOC(ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR,NUVARV*NEL)
                 CALL MY_ALLOC(ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VAR,NUVAREOS*NEL)
                 ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR = ZERO
                 ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR = ZERO
                 ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VAR = ZERO
+                ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VARTMP = 0
 c
                 LMAT  = LMAT  + NUVARM*NEL
                 LVISC = LVISC + NUVARV*NEL
@@ -1392,6 +1397,7 @@ C old stack IGEO(500+IL,IPID)
             ELBUF_TAB(NG)%INTLAY(IL)%IMAT = IMAT(IL)                          
             ELBUF_TAB(NG)%INTLAY(IL)%NFAIL= NFAIL                             
             ELBUF_TAB(NG)%INTLAY(IL)%NVAR_MAT = MLAW_TAG(IMAT(IL))%NUVAR          
+            ELBUF_TAB(NG)%INTLAY(IL)%NVARTMP  = MLAW_TAG(IMAT(IL))%NVARTMP          
             DO J = 1, NFAIL                                                   
               IRUPT  = IPM(111 + (J-1)*15, IMAT(IL))   ! modele de rupture           
               IDFAIL = IPM(236 + J, IMAT(IL))
@@ -1401,13 +1407,16 @@ C old stack IGEO(500+IL,IPID)
           ENDDO                                                               
 c
           DO IL = 1, NINTLAY                                                       
-            NUVARM = ELBUF_TAB(NG)%INTLAY(IL)%NVAR_MAT                            
+            NUVARM  = ELBUF_TAB(NG)%INTLAY(IL)%NVAR_MAT                            
+            NVARTMP = ELBUF_TAB(NG)%INTLAY(IL)%NVARTMP                            
 c            NUVARV = ELBUF_TAB(NG)%INTLAY(IL)%NVAR_VISC                           
             NFAIL = ELBUF_TAB(NG)%INTLAY(IL)%NFAIL                                
             DO IR = 1,NPTR                                                         
               DO IS = 1,NPTS                                                         
+                CALL MY_ALLOC(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VARTMP,NVARTMP*NEL)
                 CALL MY_ALLOC(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VAR,NUVARM*NEL)
                 ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VAR = ZERO                 
+                ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VARTMP = 0                 
 c                ALLOCATE(ELBUF_TAB(NG)%INTLAY(IL)%VISC(IR,IS)%                 
 c     .                   VAR(NUVARV*NEL) ,STAT=Stat)                               
 c
@@ -1974,8 +1983,8 @@ c
               ELBUF_TAB(NG)%BUFLY(IL)%IMAT = IMID                                  
               ELBUF_TAB(NG)%BUFLY(IL)%IEOS = IEOS                                  
               ELBUF_TAB(NG)%BUFLY(IL)%IVISC = MAT_PARAM(IMID)%VISC%ILAW                              
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT = MLAW_TAG(IMAT(IL))%NUVAR
-              ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP = MLAW_TAG(IMAT(IL))%NVARTMP
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT  = MLAW_TAG(IMAT(IL))%NUVAR
+              ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP   = MLAW_TAG(IMAT(IL))%NVARTMP
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = MAT_PARAM(IMID)%VISC%NUVAR  
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS = NUVAREOS           
               ELBUF_TAB(NG)%BUFLY(IL)%IPORO = 0
@@ -1986,6 +1995,7 @@ c---      User Mat Buffer, Fail buffer, Visc buffer :  alloc + init
 c
             DO IL = 1,NLAY
               NUVARM  = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
+              NVARTMP = ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP
               NUVAREOS= ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS
               NPTT    = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
               NFAIL   = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL
@@ -1997,8 +2007,10 @@ c
                     ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%MLAW = ELBUF_TAB(NG)%BUFLY(IL)%ILAW
                     ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%LawID =  ELBUF_TAB(NG)%BUFLY(IL)%IMAT
                     CALL MY_ALLOC(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR,NUVARM*NEL)
+                    CALL MY_ALLOC(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VARTMP,NVARTMP*NEL)
                     CALL MY_ALLOC(ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VAR,NUVAREOS*NEL)
                     ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR = ZERO
+                    ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VARTMP = 0
                     ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VAR = ZERO
                     LMAT  = LMAT  + NUVARM*NEL
 
