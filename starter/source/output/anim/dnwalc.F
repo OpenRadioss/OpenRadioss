@@ -25,7 +25,7 @@ Chd|  DNWALC                        source/output/anim/dnwalc.F
 Chd|-- called by -----------
 Chd|        DSECNOR                       source/output/anim/dsecnor.F  
 Chd|-- calls ---------------
-Chd|        WRITE_S_C                     source/output/tools/write_routines.c
+Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE DNWALC(X ,RWL ,MSR )                                   
 C-----------------------------------------------                        

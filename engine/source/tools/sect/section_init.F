@@ -26,10 +26,10 @@ Chd|-- called by -----------
 Chd|        RESOL_INIT                    source/engine/resol_init.F    
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        CLOSE_C                       source/output/tools/sortie_c.c
-Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
-Chd|        OPEN_C                        source/output/tools/sortie_c.c
-Chd|        READ_R_C                      source/output/tools/sortie_c.c
+Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
+Chd|        READ_R_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

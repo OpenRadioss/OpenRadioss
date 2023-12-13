@@ -164,7 +164,7 @@ Chd|  INTSTAMP_WRESTI               share/modules1/intstamp_mod.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE INTSTAMP_WRESTI(INTSTAMP, LENI, NODLOCAL)
 C-----------------------------------------------
@@ -278,7 +278,7 @@ Chd|====================================================================
 Chd|  INTSTAMP_RRESTI               share/modules1/intstamp_mod.F 
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        READ_I_C                      source/output/tools/write_routines.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE INTSTAMP_RRESTI(INTSTAMP)
 C-----------------------------------------------

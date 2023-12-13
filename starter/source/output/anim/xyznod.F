@@ -25,7 +25,7 @@ Chd|  XYZNOD                        source/output/anim/xyznod.F
 Chd|-- called by -----------
 Chd|        DD_ANI                        source/output/anim/dd_ani.F   
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/write_routines.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE XYZNOD(X)
 C-----------------------------------------------

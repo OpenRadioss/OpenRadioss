@@ -24,7 +24,7 @@ Chd|====================================================================
 Chd|  SPMD_RGATH                    source/mpi/anim/spmd_rgath.F  
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
        SUBROUTINE SPMD_RGATH(SBUF,NODGLOB,WEIGHT,NUM)
 C-----------------------------------------------

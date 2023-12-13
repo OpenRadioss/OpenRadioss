@@ -26,7 +26,7 @@ Chd|  ANI_TXT                       source/output/anim/generate/ani_txt.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
-Chd|        WRITE_C_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE ANI_TXT(TEXT,LEN)
 C-----------------------------------------------
@@ -56,7 +56,7 @@ Chd|  ANI_TXT50                     source/output/anim/generate/ani_txt.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
-Chd|        WRITE_C_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE ANI_TXT50(TEXT,LEN)
 C-----------------------------------------------

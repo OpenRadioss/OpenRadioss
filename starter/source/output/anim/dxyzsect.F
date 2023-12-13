@@ -29,7 +29,7 @@ Chd|        DXWALC                        source/output/anim/dxwalc.F
 Chd|        DXWALL                        source/output/anim/dxwall.F   
 Chd|        DXWALP                        source/output/anim/dxwalp.F   
 Chd|        DXWALS                        source/output/anim/dxwals.F   
-Chd|        WRITE_R_C                     source/output/tools/write_routines.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE DXYZSECT (NSTRF,RWBUF,NPRW  ,X    , XMIN,
      2                     YMIN ,ZMIN ,XMAX ,YMAX  , ZMAX,

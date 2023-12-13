@@ -37,9 +37,9 @@ Chd|        THSURF                        source/output/th/thsurf.F
 Chd|        WRITE_TH                      source/output/th/write_th.F   
 Chd|        WRTDES0                       source/output/th/wrtdes0.F    
 Chd|-- calls ---------------
-Chd|        EOR_C                         source/output/tools/sortie_c.c
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        EOR_C                         ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        STRI                          source/tools/univ/stri.F      
 Chd|        STRR                          source/tools/univ/strr.F      
 Chd|====================================================================

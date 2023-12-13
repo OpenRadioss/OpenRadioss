@@ -25,7 +25,7 @@ Chd|  READ_JOINT                    source/output/restart/read_joint.F
 Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        JOINT_MOD                     share/modules/joint_mod.F     
 Chd|        RESTMOD                       share/modules/restart_mod.F   
 Chd|====================================================================

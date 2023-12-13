@@ -73,7 +73,7 @@ Chd|        THCRREST                      source/output/restart/rdresb.F
 Chd|        USERWI_READ                   source/user_interface/userwindow_interface_routines.F
 Chd|        WIGEREST                      source/output/restart/rdresb.F
 Chd|-- calls ---------------
-Chd|        READ_DB_C                     source/output/tools/sortie_c.c
+Chd|        READ_DB_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE READ_DB(A,N)
 C lecture nombre reel : routine tampon
@@ -152,7 +152,7 @@ Chd|        RADIOSS2                      source/engine/radioss2.F
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|        READ_SENSORS                  source/output/restart/read_sensors.F
 Chd|-- calls ---------------
-Chd|        READ_DB_C                     source/output/tools/sortie_c.c
+Chd|        READ_DB_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE READ_DPDB(A,N)
 C lecture nombre reel : routine tampon

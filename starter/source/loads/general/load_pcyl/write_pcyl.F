@@ -4,7 +4,7 @@ Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        PLOAD_CYL_MOD                 ../common_source/modules/loads/pload_cyl_mod.F
 Chd|====================================================================

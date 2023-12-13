@@ -832,7 +832,7 @@ Chd|  SPMD_WRT_CUTD                 source/mpi/sections/spmd_section.F
 Chd|-- called by -----------
 Chd|        SECTION_IO                    source/tools/sect/section_io.F
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE SPMD_WRT_CUTD(NNOD   ,NSTRF ,D    ,DR    ,RG_CUT,
      2                         IAD_CUT,NSIZE ,NNODG,WEIGHT,IFLG  )
@@ -1019,7 +1019,7 @@ Chd|  SPMD_WRT_CUTF                 source/mpi/sections/spmd_section.F
 Chd|-- called by -----------
 Chd|        SECTION_IO                    source/tools/sect/section_io.F
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE SPMD_WRT_CUTF(NNOD  ,NSTRF,SECFCUM,RG_CUT,IAD_CUT,
      2                         NSIZE ,NNODG,WEIGHT ,IFLG )

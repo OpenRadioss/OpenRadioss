@@ -27,9 +27,9 @@ Chd|        SORTIE_MAIN                   source/output/sortie_main.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
-Chd|        CLOSE_C                       source/output/tools/sortie_c.c
-Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
-Chd|        OPEN_C                        source/output/tools/sortie_c.c
+Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
 Chd|        SPMD_OUTPITAB                 source/mpi/interfaces/spmd_outp.F
 Chd|        STAT_BEAM_MP                  source/output/sta/stat_beam_mp.F
 Chd|        STAT_BEAM_SPMD                source/output/sta/stat_beam_spmd.F

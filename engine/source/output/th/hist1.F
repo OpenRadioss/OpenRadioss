@@ -25,15 +25,15 @@ Chd|  HIST1                         source/output/th/hist1.F
 Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
-Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
-Chd|        EOR_C                         source/output/tools/sortie_c.c
-Chd|        FLU_FIL_C                     source/output/tools/sortie_c.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        EOR_C                         ../common_source/tools/input_output/write_routtines.c
+Chd|        FLU_FIL_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        FRETITL2                      source/input/freform.F        
 Chd|        MY_CTIME                      source/system/timer_c.c       
-Chd|        OPEN_C                        source/output/tools/sortie_c.c
-Chd|        WRITE_C_C                     source/output/tools/sortie_c.c
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        WRTDES                        source/output/th/wrtdes.F     
 Chd|        STRI                          source/tools/univ/stri.F      
 Chd|        STRR                          source/tools/univ/strr.F      

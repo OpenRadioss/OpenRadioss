@@ -26,8 +26,8 @@ Chd|-- called by -----------
 Chd|        DELNUMBC_PLY                  source/output/anim/generate/delnumbc_ply.F
 Chd|        PARSOR_PLY                    source/output/anim/generate/parsor_ply.F
 Chd|-- calls ---------------
-Chd|        WRITE_C_C                     source/output/tools/sortie_c.c
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
 Chd|====================================================================
       SUBROUTINE SPMD_IGET_PARTN_PLY(SIZE,NBF_L,NP,NBPART,IADG,

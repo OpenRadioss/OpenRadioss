@@ -25,7 +25,7 @@ Chd|  ANI_TXT                       source/output/anim/ani_txt.F
 Chd|-- called by -----------
 Chd|        GENANI1                       source/output/anim/genani1.F  
 Chd|-- calls ---------------
-Chd|        WRITE_C_C                     source/output/tools/write_routines.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE ANI_TXT(TEXT,LEN) 
 C-----------------------------------------------
@@ -56,7 +56,7 @@ Chd|  ANI_TXT50                     source/output/anim/ani_txt.F
 Chd|-- called by -----------
 Chd|        GENANI1                       source/output/anim/genani1.F  
 Chd|-- calls ---------------
-Chd|        WRITE_C_C                     source/output/tools/write_routines.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE ANI_TXT50(TEXT,LEN)
 C-----------------------------------------------

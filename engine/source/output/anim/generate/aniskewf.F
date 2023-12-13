@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        RAD_SPMD_RECV                 source/mpi/generic/rad_spmd_recv.F
 Chd|        RAD_SPMD_SEND                 source/mpi/generic/rad_spmd_send.F
 Chd|        SPMD_IGATH                    source/mpi/anim/spmd_igath.F  
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE ANISKEWF(GEO,SKEW,IPARG,IXR,DD_IAD,LRBUF)
 C-----------------------------------------------

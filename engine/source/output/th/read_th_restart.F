@@ -25,7 +25,7 @@ Chd|  READ_TH_RESTART               source/output/th/read_th_restart.F
 Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        TH_ALLOC                      ../common_source/modules/output/time_history_mod.F
 Chd|        TIME_HISTORY_MOD              ../common_source/modules/output/time_history_mod.F
 Chd|====================================================================

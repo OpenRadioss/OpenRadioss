@@ -25,10 +25,10 @@ Chd|  WRITE_MATPARAM                source/output/restart/write_matparam.F
 Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        WRITE_C_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        WRITE_DB                      source/output/tools/write_db.F
 Chd|        WRITE_FAILPARAM               source/output/restart/write_failparam.F
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        WRITE_MAT_TABLE               source/materials/tools/write_mat_table.F
 Chd|        WRITE_VISCPARAM               source/output/restart/write_viscparam.F
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F

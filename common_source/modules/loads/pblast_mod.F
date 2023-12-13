@@ -129,8 +129,7 @@ Chd|        ARRET                         starter/source/system/arret.F
 Chd|        ARRET                         engine/source/system/arret.F  
 Chd|        READ_DB                       starter/source/restart/ddsplit/wrrest.F
 Chd|        READ_DB                       engine/source/output/tools/read_db.F
-Chd|        READ_I_C                      starter/source/output/tools/write_routines.c
-Chd|        READ_I_C                      engine/source/output/tools/sortie_c.c
+Chd|        READ_I_C                      tools/input_output/write_routtines.c
 Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
 Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
 Chd|====================================================================
@@ -295,8 +294,7 @@ Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit
 Chd|-- calls ---------------
 Chd|        WRITE_DB                      starter/source/restart/ddsplit/wrrest.F
 Chd|        WRITE_DB                      engine/source/output/tools/write_db.F
-Chd|        WRITE_I_C                     starter/source/output/tools/write_routines.c
-Chd|        WRITE_I_C                     engine/source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     tools/input_output/write_routtines.c
 Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
 Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
 Chd|====================================================================
@@ -401,8 +399,7 @@ Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|        WRITE_DB                      starter/source/restart/ddsplit/wrrest.F
 Chd|        WRITE_DB                      engine/source/output/tools/write_db.F
-Chd|        WRITE_I_C                     starter/source/output/tools/write_routines.c
-Chd|        WRITE_I_C                     engine/source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     tools/input_output/write_routtines.c
 Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
 Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
 Chd|====================================================================

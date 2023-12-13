@@ -24,7 +24,7 @@ Chd|====================================================================
 Chd|  TABLE_RRESTI_MAT              source/materials/tools/table_rresti_mat.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|====================================================================

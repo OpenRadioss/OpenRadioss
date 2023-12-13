@@ -27,7 +27,7 @@ Chd|  SPMD_GATHER_XYZ16             source/mpi/anim/spmd_gather_xyz16.F
 Chd|-- called by -----------
 Chd|        XYZ16                         source/output/anim/generate/genani.F
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE SPMD_GATHER_XYZ16(V,NUM)
 C-----------------------------------------------

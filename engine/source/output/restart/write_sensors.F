@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        FRETITL                       source/input/freform.F        
 Chd|        WRITE_DB                      source/output/tools/write_db.F
 Chd|        WRITE_DPDB                    source/output/tools/write_db.F
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE WRITE_SENSORS(SENSORS)

@@ -25,7 +25,7 @@ Chd|  SPMD_FVB_ATIT                 source/mpi/anim/spmd_fvb_atit.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
-Chd|        WRITE_C_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|====================================================================
       SUBROUTINE SPMD_FVB_ATIT(CTEXT, STR, TITL, LTITL,MAXPART)

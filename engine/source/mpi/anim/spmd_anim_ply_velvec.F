@@ -26,7 +26,7 @@ Chd|  SPMD_ANIM_PLY_VELVEC          source/mpi/anim/spmd_anim_ply_velvec.F
 Chd|-- called by -----------
 Chd|        VELVEC                        source/output/anim/generate/velvec.F
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
 Chd|====================================================================
       SUBROUTINE SPMD_ANIM_PLY_VELVEC( NODGLOB,IPLY,

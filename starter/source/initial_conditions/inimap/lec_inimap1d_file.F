@@ -26,10 +26,11 @@ Chd|-- called by -----------
 Chd|        HM_READ_INIMAP1D              source/initial_conditions/inimap/hm_read_inimap1d.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        CLOSE_C                       source/output/tools/write_routines.c
-Chd|        CUR_FIL_C                     source/output/tools/write_routines.c
+Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
 Chd|        READ_DB                       source/restart/ddsplit/wrrest.F
-Chd|        READ_I_C                      source/output/tools/write_routines.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INIMAP1D_MOD                  share/modules1/inimap1d_mod.F 
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F

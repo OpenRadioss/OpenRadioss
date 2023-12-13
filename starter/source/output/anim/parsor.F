@@ -27,7 +27,7 @@ Chd|        DD_ANI                        source/output/anim/dd_ani.F
 Chd|-- calls ---------------
 Chd|        FACNOR                        source/output/anim/facnor.F   
 Chd|        FACNOR2                       source/output/anim/facnor.F   
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE PARSOR(X    ,D    ,XNORM ,IADD ,CDG  ,
      .                  BUFEL,IPARG,IXS   ,IXQ  ,IXC  ,

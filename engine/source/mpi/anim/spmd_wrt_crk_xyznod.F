@@ -25,7 +25,7 @@ Chd|  SPMD_WRT_CRK_XYZNOD           source/mpi/anim/spmd_wrt_crk_xyznod.F
 Chd|-- called by -----------
 Chd|        XYZNOD_CRK                    source/output/anim/generate/xyznod_crk.F
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
 Chd|====================================================================
        SUBROUTINE SPMD_WRT_CRK_XYZNOD(ICRK,NUM,NODGLOBXFE)

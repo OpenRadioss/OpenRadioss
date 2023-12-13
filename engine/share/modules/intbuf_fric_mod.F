@@ -75,7 +75,7 @@ Chd|  INTFRIC_WRESTI                share/modules/intbuf_fric_mod.F
 Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        INTBUF_FRIC_MOD               share/modules/intbuf_fric_mod.F
 Chd|====================================================================
       SUBROUTINE INTFRIC_WRESTI(INTBUF_FRIC_TAB)
@@ -196,7 +196,7 @@ Chd|  INTFRIC_RRESTI                share/modules/intbuf_fric_mod.F
 Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        INTBUF_FRIC_MOD               share/modules/intbuf_fric_mod.F
 Chd|====================================================================
       SUBROUTINE INTFRIC_RRESTI(INTBUF_FRIC_TAB)

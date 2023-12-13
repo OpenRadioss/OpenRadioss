@@ -29,7 +29,7 @@ Chd|        ANINIT                        source/output/analyse/analyse.c
 Chd|        BUILD_MSG                     source/output/message/build_msg.F
 Chd|        CHECK_MESSAGE_DEFINITION      ../common_source/modules/check_mod.F
 Chd|        CONTRL                        source/starter/contrl.F       
-Chd|        CUR_FIL_C                     source/output/tools/write_routines.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        DYN_USERLIB_INIT              source/user_interface/dyn_userlib.c
 Chd|        EXECARGCHECK                  source/starter/execargcheck.F 
 Chd|        FREFORM                       source/starter/freform.F      
@@ -47,6 +47,7 @@ Chd|        INITIME                       source/system/timer.F
 Chd|        INI_MSG                       source/output/message/inimsg.F
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        MY_EXIT                       source/output/analyse/analyse.c
+Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
 Chd|        PRHELPINFO                    source/starter/execargcheck.F 
 Chd|        PRINTCENTER                   source/starter/radioss_title.F
 Chd|        PRINTCPU                      source/system/printcpu.F      
@@ -65,7 +66,7 @@ Chd|        TRACE_IN1                     source/system/trace_back.F
 Chd|        TRACE_OUT1                    source/system/trace_back.F    
 Chd|        USER_WINDOWS_CLEAN            ../common_source/modules/user_windows_mod.F
 Chd|        USER_WINDOWS_INIT             ../common_source/modules/user_windows_mod.F
-Chd|        WRITE_C_C                     source/output/tools/write_routines.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        ANEND                         source/output/analyse/analyse_arret.F
 Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
 Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F

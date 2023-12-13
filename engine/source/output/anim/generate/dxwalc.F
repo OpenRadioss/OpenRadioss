@@ -27,7 +27,7 @@ Chd|-- called by -----------
 Chd|        DXYZSECT                      source/output/anim/generate/dxyzsect.F
 Chd|-- calls ---------------
 Chd|        SPMD_AGETMSR                  source/mpi/anim/spmd_agetmsr.F
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE DXWALC(X ,RWL ,MSR ,
      3            XMIN ,YMIN ,ZMIN  ,XMAX ,YMAX  ,

@@ -25,7 +25,7 @@ Chd|  W_IPARG                       source/restart/ddsplit/w_iparg.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE W_IPARG(IPARG,PROC,NGROUP_L,LEN_IA)
 C-----------------------------------------------

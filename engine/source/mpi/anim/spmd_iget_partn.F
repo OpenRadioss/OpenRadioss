@@ -41,8 +41,8 @@ Chd|        PARSORF                       source/output/anim/generate/parsorf.F
 Chd|        PARSORS                       source/output/anim/generate/parsors.F
 Chd|        PARSOR_CRK                    source/output/anim/generate/parsor_crk.F
 Chd|-- calls ---------------
-Chd|        WRITE_C_C                     source/output/tools/sortie_c.c
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE SPMD_IGET_PARTN(SIZE,NBF_L,NP,NBPART,IADG,SRBUF,IFLAG)
 C gather sur p0 du tableau wa en fonction des parts (IADG)

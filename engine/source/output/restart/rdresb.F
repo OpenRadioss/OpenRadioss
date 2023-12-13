@@ -27,7 +27,7 @@ Chd|        RADIOSS2                      source/engine/radioss2.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
-Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        DECOMPRESS_I_NNZ              ../common_source/comm/decompress_nnz.F
 Chd|        DECOMPRESS_R_NNZ              ../common_source/comm/decompress_nnz.F
 Chd|        EIGRREST                      source/output/restart/rdresb.F
@@ -49,7 +49,7 @@ Chd|        READ_DB                       source/output/tools/read_db.F
 Chd|        READ_DPDB                     source/output/tools/read_db.F 
 Chd|        READ_ELGROUP_PARAM            source/output/restart/read_elgroup_param.F
 Chd|        READ_FAILWAVE                 source/output/restart/read_failwave.F
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        READ_JOINT                    source/output/restart/read_joint.F
 Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
 Chd|        READ_NLOC_STRUCT              source/output/restart/read_nloc_struct.F
@@ -1400,7 +1400,7 @@ Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
 Chd|        MY_GETPID                     source/system/pid.c           
 Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        REDSQI                        source/output/tools/redsqi.F  
 Chd|        REDSQR                        source/output/tools/redsqr.F  
 Chd|        TMPENVF                       source/system/tmpenv_c.c      
@@ -1537,7 +1537,7 @@ Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
 Chd|        MY_GETPID                     source/system/pid.c           
 Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        REDSQI                        source/output/tools/redsqi.F  
 Chd|        REDSQR                        source/output/tools/redsqr.F  
 Chd|        TMPENVF                       source/system/tmpenv_c.c      
@@ -1627,7 +1627,7 @@ Chd|  DSRREST                       source/output/restart/rdresb.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        REDSQI                        source/output/tools/redsqi.F  
 Chd|        REDSQR                        source/output/tools/redsqr.F  
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
@@ -1783,7 +1783,7 @@ Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        REDSQI                        source/output/tools/redsqi.F  
 Chd|        REDSQR                        source/output/tools/redsqr.F  
 Chd|====================================================================
@@ -1904,7 +1904,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        SPMD_COMM_SPLIT               source/mpi/generic/spmd_comm_split.F
 Chd|        SPMD_FVB_COMM_PATTERN         source/mpi/airbags/spmd_fvb_comm_pattern.F
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
@@ -2454,7 +2454,7 @@ Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        REDSQI                        source/output/tools/redsqi.F  
 Chd|        REDSQR                        source/output/tools/redsqr.F  
 Chd|====================================================================
@@ -2503,7 +2503,7 @@ Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        REDSQI                        source/output/tools/redsqi.F  
 Chd|        REDSQR                        source/output/tools/redsqr.F  
 Chd|====================================================================
@@ -2552,7 +2552,7 @@ Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        REDSQI                        source/output/tools/redsqi.F  
 Chd|        REDSQR                        source/output/tools/redsqr.F  
 Chd|====================================================================
@@ -2601,7 +2601,7 @@ Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        REDSQI                        source/output/tools/redsqi.F  
 Chd|        REDSQR                        source/output/tools/redsqr.F  
 Chd|====================================================================
@@ -2653,7 +2653,7 @@ Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE PLYXFEM_RREST(MS_LAYER,ZI_LAYER,INOD,IEL,ICODE,ISKEW,
      .                         MSZ2)
@@ -2704,7 +2704,7 @@ Chd|  PLYXFEM_RRESTANIM             source/output/restart/rdresb.F
 Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
 Chd|====================================================================
       SUBROUTINE PLYXFEM_RRESTANIM()
@@ -2857,7 +2857,7 @@ Chd|  CRKXFEM_RREST                 source/output/restart/rdresb.F
 Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE CRKXFEM_RREST(INOD_CRKXFEM,IEL_CRKXFEM,NODLEVXF)
 C-----------------------------------------------
@@ -2889,7 +2889,7 @@ Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        RESTMOD                       share/modules/restart_mod.F   
 Chd|        XFEM2VARS_MOD                 share/modules/xfem2vars_mod.F 
 Chd|====================================================================
@@ -3333,7 +3333,7 @@ Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE STACK_RREST(IGEO,GEO,PM)
 C-----------------------------------------------
@@ -3369,7 +3369,7 @@ Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|====================================================================
       SUBROUTINE DRAPE_RREST(DRAPE_SH4N,DRAPE_SH3N,DRAPEG)
@@ -3514,7 +3514,7 @@ Chd|  PLY_INFO_REST                 source/output/restart/rdresb.F
 Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE PLY_INFO_REST(PLY_INFO)

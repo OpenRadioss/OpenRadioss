@@ -25,7 +25,7 @@ Chd|  DXWALS                        source/output/anim/dxwals.F
 Chd|-- called by -----------
 Chd|        DXYZSECT                      source/output/anim/dxyzsect.F 
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/write_routines.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE DXWALS(X ,RWL ,MSR)
 C-----------------------------------------------

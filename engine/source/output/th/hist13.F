@@ -25,11 +25,11 @@ Chd|  HIST13                        source/output/th/hist13.F
 Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
-Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
-Chd|        EOR_C                         source/output/tools/sortie_c.c
-Chd|        OPEN_C                        source/output/tools/sortie_c.c
-Chd|        WRITE_C_C                     source/output/tools/sortie_c.c
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        EOR_C                         ../common_source/tools/input_output/write_routtines.c
+Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        WRTDES                        source/output/th/wrtdes.F     
 Chd|        STRI                          source/tools/univ/stri.F      
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F

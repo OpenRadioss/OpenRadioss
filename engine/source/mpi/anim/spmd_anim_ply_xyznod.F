@@ -25,7 +25,7 @@ Chd|  SPMD_ANIM_PLY_XYZNOD          source/mpi/anim/spmd_anim_ply_xyznod.F
 Chd|-- called by -----------
 Chd|        XYZNOD_PLY                    source/output/anim/generate/xyznod_ply.F
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
 Chd|====================================================================
       SUBROUTINE SPMD_ANIM_PLY_XYZNOD( NODGLOB,IPLY, IDPLY,

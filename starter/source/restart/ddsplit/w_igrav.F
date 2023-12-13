@@ -26,7 +26,7 @@ Chd|  W_IGRAV                       source/restart/ddsplit/w_igrav.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE W_IGRAV(
      .  IGRAV,LGRAV,NODLOCAL,PROC,LLGRAV_L,LEN_IA,NUMNOD_L)

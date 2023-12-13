@@ -25,7 +25,7 @@ Chd|  DSRGNOR                       source/output/anim/generate/dsrgnor.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
-Chd|        WRITE_S_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE DSRGNOR(IGRSURF,BUFSF)

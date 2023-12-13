@@ -25,14 +25,15 @@ Chd|  DD_ANI                        source/output/anim/dd_ani.F
 Chd|-- called by -----------
 Chd|        DOMDEC1                       source/spmd/domain_decomposition/domdec1.F
 Chd|-- calls ---------------
-Chd|        CLOSE_C                       source/output/tools/write_routines.c
-Chd|        CUR_FIL_C                     source/output/tools/write_routines.c
+Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
 Chd|        PARSOR                        source/output/anim/parsor.F   
 Chd|        SCANOR                        source/output/anim/scanor.F   
 Chd|        SLAGCNT                       source/output/anim/slagcnt.F  
-Chd|        WRITE_C_C                     source/output/tools/write_routines.c
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
-Chd|        WRITE_R_C                     source/output/tools/write_routines.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        XYZNOD                        source/output/anim/xyznod.F   
 Chd|        XYZNOR                        source/output/anim/xyznor.F   
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F

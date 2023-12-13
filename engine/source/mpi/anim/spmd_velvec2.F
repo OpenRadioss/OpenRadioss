@@ -25,7 +25,7 @@ Chd|  SPMD_VELVEC2                  source/mpi/anim/spmd_velvec2.F
 Chd|-- called by -----------
 Chd|        VELVEC2                       source/output/anim/generate/velvec.F
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE SPMD_VELVEC2(V,NODGLOB,RBUF,NUMPOG)
 C-----------------------------------------------

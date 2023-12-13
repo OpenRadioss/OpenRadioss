@@ -33,13 +33,13 @@ Chd|        BUILD_MSG                     source/output/message/build_msg.F
 Chd|        CDK6BC3                       source/elements/sh3n/coquedk6/cdk6bc3.F
 Chd|        CFIELDREST                    source/output/restart/rdresb.F
 Chd|        CHECK_MESSAGE_DEFINITION      ../common_source/modules/check_mod.F
-Chd|        CLOSE_C                       source/output/tools/sortie_c.c
+Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
 Chd|        CONDRMAT                      source/materials/mat/mat013/condrmat.F
 Chd|        CONVRREST                     source/output/restart/rdresb.F
 Chd|        COQINI                        source/elements/shell/coqini.F
 Chd|        CRKXFEM_RREST                 source/output/restart/rdresb.F
 Chd|        CRKXFEM_RRESTANIM             source/output/restart/rdresb.F
-Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        DELETE_USER_FILE              source/user_interface/dyn_userlib.c
 Chd|        DRAPE_RREST                   source/output/restart/rdresb.F
 Chd|        DYN_USERLIB_INIT              source/user_interface/dyn_userlib.c
@@ -70,7 +70,7 @@ Chd|        LOADPREST                     source/output/restart/rdresb.F
 Chd|        MY_GETPID                     source/system/pid.c           
 Chd|        NFRREST                       source/output/restart/rdresb.F
 Chd|        NITSCHERREST                  source/output/restart/rdresb.F
-Chd|        OPEN_C                        source/output/tools/sortie_c.c
+Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
 Chd|        OPEN_F_SCRATCH_FILE           source/system/open_tempfile.F 
 Chd|        PLYXFEM_RAVUPLY               source/output/restart/rdresb.F
 Chd|        PLYXFEM_RREST                 source/output/restart/rdresb.F
@@ -83,7 +83,7 @@ Chd|        RADIARREST                    source/output/restart/rdresb.F
 Chd|        RADIOSS_TITLE                 source/engine/radioss_title.F 
 Chd|        RDRESA                        source/output/restart/rdresa.F
 Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|        READ_C_C                      source/output/tools/sortie_c.c
+Chd|        READ_C_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        READ_DB                       source/output/tools/read_db.F 
 Chd|        READ_DPDB                     source/output/tools/read_db.F 
 Chd|        READ_UNITS                    ../common_source/comm/write_units.F

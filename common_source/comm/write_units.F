@@ -28,8 +28,7 @@ Chd|        RESOL                         engine/source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        WRITE_DB                      starter/source/restart/ddsplit/wrrest.F
 Chd|        WRITE_DB                      engine/source/output/tools/write_db.F
-Chd|        WRITE_I_C                     starter/source/output/tools/write_routines.c
-Chd|        WRITE_I_C                     engine/source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE WRITE_UNITS(UNITAB)
 C============================================================================
@@ -76,8 +75,7 @@ Chd|        RADIOSS2                      engine/source/engine/radioss2.F
 Chd|-- calls ---------------
 Chd|        READ_DB                       starter/source/restart/ddsplit/wrrest.F
 Chd|        READ_DB                       engine/source/output/tools/read_db.F
-Chd|        READ_I_C                      starter/source/output/tools/write_routines.c
-Chd|        READ_I_C                      engine/source/output/tools/sortie_c.c
+Chd|        READ_I_C                      tools/input_output/write_routtines.c
 Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
 Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
 Chd|====================================================================

@@ -58,9 +58,9 @@ Chd|        ANIVFLOWP                     source/output/anim/generate/genani.F
 Chd|        ANI_TXT                       source/output/anim/generate/ani_txt.F
 Chd|        ANI_TXT50                     source/output/anim/generate/ani_txt.F
 Chd|        ARRET                         source/system/arret.F         
-Chd|        CLOSE_C                       source/output/tools/sortie_c.c
+Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
 Chd|        CNTSKEW                       source/output/anim/generate/aniskewf.F
-Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        CUTCNT                        source/tools/sect/cutcnt.F    
 Chd|        CUTFUNC                       source/tools/sect/cutfunc.F   
 Chd|        CUTFUNCE                      source/tools/sect/cutfunce.F  
@@ -107,7 +107,7 @@ Chd|        DSRGNOR                       source/output/anim/generate/dsrgnor.F
 Chd|        DXYZSECT                      source/output/anim/generate/dxyzsect.F
 Chd|        DXYZSPH                       source/output/anim/generate/dxyzsph.F
 Chd|        DXYZSRG                       source/output/anim/generate/dxyzsrg.F
-Chd|        FILE_SIZE                     source/output/tools/sortie_c.c
+Chd|        FILE_SIZE                     ../common_source/tools/input_output/write_routtines.c
 Chd|        FRETITL2                      source/input/freform.F        
 Chd|        NODALD                        source/output/anim/generate/nodald.F
 Chd|        NODALP                        source/output/anim/generate/nodalp.F
@@ -116,7 +116,7 @@ Chd|        NODALVFRAC                    source/output/anim/generate/nodalvfrac
 Chd|        NODALZVOL                     source/output/anim/generate/nodalzvol.F
 Chd|        NODAL_SCHLIEREN               source/output/anim/generate/nodal_schlieren.F
 Chd|        NORCUT                        source/tools/sect/norcut.F    
-Chd|        OPEN_C                        source/output/tools/sortie_c.c
+Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
 Chd|        PARCUT                        source/tools/sect/parcut.F    
 Chd|        PARSOR0                       source/output/anim/generate/parsor0.F
 Chd|        PARSORC                       source/output/anim/generate/parsorc.F
@@ -173,10 +173,10 @@ Chd|        VELVECC21                     source/output/anim/generate/velvec.F
 Chd|        VELVECC22                     source/output/anim/generate/velvec.F
 Chd|        VELVECC_MAX                   source/output/anim/generate/velvec.F
 Chd|        VELVECZ22                     source/output/anim/generate/velvecz22.F
-Chd|        WRITE_C_C                     source/output/tools/sortie_c.c
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
-Chd|        WRITE_S_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        XFECUT                        source/output/anim/generate/xfecut.F
 Chd|        XYZ16                         source/output/anim/generate/genani.F
 Chd|        XYZCUT                        source/tools/sect/xyzcut.F    
@@ -6660,7 +6660,7 @@ Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
 Chd|        SPMD_GATHER_XYZ16             source/mpi/anim/spmd_gather_xyz16.F
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE XYZ16(IXS,IXS10,IXS20,IXS16,X)
 C-----------------------------------------------
@@ -6773,7 +6773,7 @@ Chd|  XYZNOR16                      source/output/anim/generate/genani.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
-Chd|        WRITE_S_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE XYZNOR16(IXS,IXS10,IXS20,IXS16,X)
 C-----------------------------------------------
@@ -7117,7 +7117,7 @@ Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
 Chd|        SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE ANIMCALE(IANIM , MONVOL, VOLMON, NBF, EL2FA,
      .                    NBPART, IADG  , NBF_L )
@@ -7212,7 +7212,7 @@ Chd|  ALEVEC                        source/output/anim/generate/genani.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|====================================================================
       SUBROUTINE ALEVEC()

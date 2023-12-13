@@ -27,7 +27,7 @@ Chd|-- called by -----------
 Chd|        VELVEC                        source/output/anim/generate/velvec.F
 Chd|        VELVEC3                       source/output/anim/generate/velvec.F
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
        SUBROUTINE SPMD_VGATH(X,NODGLOB,WEIGHT,NUM)
 C-----------------------------------------------

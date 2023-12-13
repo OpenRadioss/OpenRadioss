@@ -25,7 +25,7 @@ Chd|  SPMD_WRT_XYZNOR               source/mpi/anim/spmd_wrt_xyznor.F
 Chd|-- called by -----------
 Chd|        XYZNOR                        source/output/anim/generate/xyznor.F
 Chd|-- calls ---------------
-Chd|        WRITE_S_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE SPMD_WRT_XYZNOR(XNORM,WEIGHT,NODGLOB,NUM)
 C-----------------------------------------------

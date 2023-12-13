@@ -25,10 +25,10 @@ Chd|  DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        CLOSE_C                       source/output/tools/write_routines.c
+Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
 Chd|        COMPRESS_I_NNZ                ../common_source/comm/compress_nnz.F
 Chd|        COMPRESS_R_NNZ                ../common_source/comm/compress_nnz.F
-Chd|        CUR_FIL_C                     source/output/tools/write_routines.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        C_BUFEL                       source/restart/ddsplit/c_bufel.F
 Chd|        C_CLUSTER                     source/restart/ddsplit/w_cluster.F
 Chd|        C_CRKADD                      source/restart/ddsplit/c_crkadd.F
@@ -89,7 +89,7 @@ Chd|        C_SPMD_NE_CONNECT             source/ale/spmd_ne_connect.F
 Chd|        C_VOIS                        source/restart/ddsplit/c_vois.F
 Chd|        EIGWRESTP                     source/restart/ddsplit/wrrest.F
 Chd|        ELAPSTIME_OMP                 source/system/timer.F         
-Chd|        FILE_SIZE_C                   source/output/tools/write_routines.c
+Chd|        FILE_SIZE_C                   ../common_source/tools/input_output/write_routtines.c
 Chd|        FVWRESTP                      source/restart/ddsplit/fvwrestp.F
 Chd|        FXBWRESTP                     source/restart/ddsplit/wrrest.F
 Chd|        F_NODLOC2                     source/restart/ddsplit/f_nodloc2.F
@@ -101,6 +101,7 @@ Chd|        INTSTAMP_WRESTR               share/modules1/intstamp_mod.F
 Chd|        IPARI_L_INI                   source/restart/ddsplit/ipari_l_ini.F
 Chd|        M_FLOW                        source/restart/ddsplit/m_flow.F
 Chd|        NFWRESTP                      source/restart/ddsplit/wrrest.F
+Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
 Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/loads/pblast_mod.F
 Chd|        SETLENWA                      source/restart/ddsplit/setlenwa.F
 Chd|        SPLIT_EBCS                    source/boundary_conditions/ebcs/split_ebcs.F
@@ -115,11 +116,11 @@ Chd|        TABLE_WRESTR                  source/tools/curve/table_tools.F
 Chd|        THSURF_WRITE_RESTART          ../common_source/modules/interfaces/th_surf_mod.F
 Chd|        WRCOMIP                       source/restart/ddsplit/wrcommp.F
 Chd|        WRCOMR                        source/restart/ddsplit/wrcomm.F
-Chd|        WRITE_C_C                     source/output/tools/write_routines.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|        WRITE_DPDB                    source/restart/ddsplit/wrrest.F
 Chd|        WRITE_ELGROUP_PARAM           source/restart/ddsplit/write_elgroup_param.F
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        WRITE_JOINT                   source/constraints/general/cyl_joint/write_joint.F
 Chd|        WRITE_MATPARAM                source/materials/mat/write_matparam.F
 Chd|        WRITE_NLOC_STRUCT             source/restart/ddsplit/write_nloc_struct.F

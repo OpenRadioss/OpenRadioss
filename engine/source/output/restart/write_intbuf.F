@@ -30,7 +30,7 @@ Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|        WRITE_DB                      source/output/tools/write_db.F
 Chd|        WRITE_INTBUF_T8               source/output/restart/write_intbuf.F
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE WRITE_INTBUF(INTBUF_TAB)  
@@ -1383,7 +1383,7 @@ Chd|  WRITE_INTBUF_T8               source/output/restart/write_intbuf.F
 Chd|-- called by -----------
 Chd|        WRITE_INTBUF                  source/output/restart/write_intbuf.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        INT8_MOD                      ../common_source/modules/interfaces/int8_mod.F
 Chd|====================================================================
       SUBROUTINE WRITE_INTBUF_T8(T8)  

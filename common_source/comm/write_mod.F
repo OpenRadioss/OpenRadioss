@@ -34,8 +34,7 @@ Chd|  WRITE_INTEGER                 comm/write_mod.F
 Chd|-- called by -----------
 Chd|        WRITE_SENSORS                 starter/source/tools/sensor/write_sensors.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     starter/source/output/tools/write_routines.c
-Chd|        WRITE_I_C                     engine/source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     tools/input_output/write_routtines.c
 Chd|====================================================================
         SUBROUTINE WRITE_INTEGER(A)
 C-----------------------------------------------
@@ -58,8 +57,7 @@ Chd|====================================================================
 Chd|  WRITE_INTEGER_1D              comm/write_mod.F              
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     starter/source/output/tools/write_routines.c
-Chd|        WRITE_I_C                     engine/source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     tools/input_output/write_routtines.c
 Chd|====================================================================
         SUBROUTINE WRITE_INTEGER_1D(A,N)
 C-----------------------------------------------
@@ -77,8 +75,7 @@ Chd|====================================================================
 Chd|  WRITE_INTEGER_2D              comm/write_mod.F              
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     starter/source/output/tools/write_routines.c
-Chd|        WRITE_I_C                     engine/source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     tools/input_output/write_routtines.c
 Chd|====================================================================
         SUBROUTINE WRITE_INTEGER_2D(A,N,M)
 C-----------------------------------------------
@@ -102,8 +99,7 @@ Chd|====================================================================
 Chd|  WRITE_INTEGER_3D              comm/write_mod.F              
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     starter/source/output/tools/write_routines.c
-Chd|        WRITE_I_C                     engine/source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     tools/input_output/write_routtines.c
 Chd|====================================================================
         SUBROUTINE WRITE_INTEGER_3D(A,L,N,M)
 C-----------------------------------------------

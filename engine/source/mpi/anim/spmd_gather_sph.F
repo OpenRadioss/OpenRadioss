@@ -27,7 +27,7 @@ Chd|  SPMD_GATHER_SPH               source/mpi/anim/spmd_gather_sph.F
 Chd|-- called by -----------
 Chd|        DXYZSPH                       source/output/anim/generate/dxyzsph.F
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE SPMD_GATHER_SPH(V,TV,NUM)
 C-----------------------------------------------

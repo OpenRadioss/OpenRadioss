@@ -25,9 +25,9 @@ Chd|  READ_VISCPARAM                source/output/restart/read_viscparam.F
 Chd|-- called by -----------
 Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
 Chd|-- calls ---------------
-Chd|        READ_C_C                      source/output/tools/sortie_c.c
+Chd|        READ_C_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        READ_MAT_TABLE                source/materials/tools/read_mat_table.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F

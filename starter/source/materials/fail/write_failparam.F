@@ -25,9 +25,9 @@ Chd|  WRITE_FAILPARAM               source/materials/fail/write_failparam.F
 Chd|-- called by -----------
 Chd|        WRITE_MATPARAM                source/materials/mat/write_matparam.F
 Chd|-- calls ---------------
-Chd|        WRITE_C_C                     source/output/tools/write_routines.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        WRITE_MAT_TABLE               source/materials/tools/write_mat_table.F
 Chd|        FAIL_PARAM_MOD                ../common_source/modules/mat_elem/fail_param_mod.F
 Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F

@@ -25,7 +25,7 @@ Chd|  W_FAILWAVE                    source/output/restart/w_failwave.F
 Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
 Chd|====================================================================
       SUBROUTINE W_FAILWAVE(FAILWAVE)

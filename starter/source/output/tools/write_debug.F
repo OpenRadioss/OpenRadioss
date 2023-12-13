@@ -31,7 +31,7 @@ Chd|  WRITE_I_C_DEBUG               source/output/tools/write_debug.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE WRITE_I_C_DEBUG(A,N,SA)
 ! Do not replace IMPLICIT NONE by an include here

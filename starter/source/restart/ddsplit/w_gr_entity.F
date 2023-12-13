@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        W_GROUP_STR                   source/restart/ddsplit/w_group_str.F
 Chd|-- calls ---------------
 Chd|        FRETITL                       source/starter/freform.F      
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE W_GR_ENTITY_E(IGR  ,NGR  ,LEN_IA ,LENIGR ,CEP,
@@ -141,7 +141,7 @@ Chd|-- called by -----------
 Chd|        W_GROUP_STR                   source/restart/ddsplit/w_group_str.F
 Chd|-- calls ---------------
 Chd|        FRETITL                       source/starter/freform.F      
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE W_GR_ENTITY_P(IGR  ,NGR  ,LEN_IA ,LENIGR ,CEP,
@@ -244,7 +244,7 @@ Chd|-- called by -----------
 Chd|        W_GROUP_STR                   source/restart/ddsplit/w_group_str.F
 Chd|-- calls ---------------
 Chd|        FRETITL                       source/starter/freform.F      
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE W_GR_ENTITY_N(IGR  ,NGR       ,LEN_IA ,LENIGR ,NODLOCAL,

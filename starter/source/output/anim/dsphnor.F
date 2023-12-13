@@ -25,7 +25,7 @@ Chd|  DSPHNOR                       source/output/anim/dsphnor.F
 Chd|-- called by -----------
 Chd|        GENANI1                       source/output/anim/genani1.F  
 Chd|-- calls ---------------
-Chd|        WRITE_S_C                     source/output/tools/write_routines.c
+Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE DSPHNOR(KXSP,X,SPBUF,NNSPH)                            
 C-----------------------------------------------                        

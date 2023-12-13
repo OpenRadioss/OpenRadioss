@@ -33,8 +33,8 @@ Chd|        ANISKEW                       source/output/anim/aniskew.F
 Chd|        ANISKEWF                      source/output/anim/aniskewf.F 
 Chd|        ANI_TXT                       source/output/anim/ani_txt.F  
 Chd|        ANI_TXT50                     source/output/anim/ani_txt.F  
-Chd|        CLOSE_C                       source/output/tools/write_routines.c
-Chd|        CUR_FIL_C                     source/output/tools/write_routines.c
+Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        DELNUMB0                      source/output/anim/delnumb0.F 
 Chd|        DELNUMBC                      source/output/anim/delnumbc.F 
 Chd|        DELNUMBF                      source/output/anim/delnumbf.F 
@@ -66,6 +66,7 @@ Chd|        DXYZSECT                      source/output/anim/dxyzsect.F
 Chd|        DXYZSPH                       source/output/anim/dxyzsph.F  
 Chd|        DXYZSRG                       source/output/anim/dxyzsrg.F  
 Chd|        FRETITL2                      source/starter/freform.F      
+Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
 Chd|        PARSOR0                       source/output/anim/parsor0.F  
 Chd|        PARSORC                       source/output/anim/parsorc.F  
 Chd|        PARSORF                       source/output/anim/parsorf.F  
@@ -74,10 +75,10 @@ Chd|        TENSOR0                       source/output/anim/tensor0.F
 Chd|        TENSORC                       source/output/anim/tensorc.F  
 Chd|        TENSORS                       source/output/anim/tensors.F  
 Chd|        VELVEC                        source/output/anim/velvec.F   
-Chd|        WRITE_C_C                     source/output/tools/write_routines.c
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
-Chd|        WRITE_R_C                     source/output/tools/write_routines.c
-Chd|        WRITE_S_C                     source/output/tools/write_routines.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        XYZ16                         source/output/anim/genani1.F  
 Chd|        XYZNOR                        source/output/anim/xyznor.F   
 Chd|        XYZNOR16                      source/output/anim/genani1.F  
@@ -2701,7 +2702,7 @@ Chd|  XYZ16                         source/output/anim/genani1.F
 Chd|-- called by -----------
 Chd|        GENANI1                       source/output/anim/genani1.F  
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/write_routines.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE XYZ16(IXS,IXS10,IXS20,IXS16,X)
 C-----------------------------------------------
@@ -2788,7 +2789,7 @@ Chd|  XYZNOR16                      source/output/anim/genani1.F
 Chd|-- called by -----------
 Chd|        GENANI1                       source/output/anim/genani1.F  
 Chd|-- calls ---------------
-Chd|        WRITE_S_C                     source/output/tools/write_routines.c
+Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE XYZNOR16(IXS,IXS10,IXS20,IXS16,X)
 C-----------------------------------------------

@@ -33,7 +33,7 @@ Chd|        DXWALP                        source/output/anim/generate/dxwalp.F
 Chd|        DXWALS                        source/output/anim/generate/dxwals.F
 Chd|        SPMD_AGETMSR                  source/mpi/anim/spmd_agetmsr.F
 Chd|        SPMD_AGET_SECT                source/mpi/anim/spmd_aget_sect.F
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE DXYZSECT (NSTRF,RWBUF,NPRW  ,X     ,XMIN ,
      2                     YMIN ,ZMIN  ,XMAX ,YMAX  , ZMAX,

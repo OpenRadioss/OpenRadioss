@@ -25,7 +25,7 @@ Chd|  CUTFUNC                       source/tools/sect/cutfunc.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE CUTFUNC(FUNC,IVOIS,AL,NODCUT)
 C-----------------------------------------------

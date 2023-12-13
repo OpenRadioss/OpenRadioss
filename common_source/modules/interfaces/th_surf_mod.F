@@ -91,8 +91,7 @@ Chd|-- called by -----------
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     starter/source/output/tools/write_routines.c
-Chd|        WRITE_I_C                     engine/source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE THSURF_WRITE_RESTART(TH_SURF,IFLAG)
 
@@ -151,8 +150,7 @@ Chd|  THSURF_READ_RESTART           modules/interfaces/th_surf_mod.F
 Chd|-- called by -----------
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|-- calls ---------------
-Chd|        READ_I_C                      starter/source/output/tools/write_routines.c
-Chd|        READ_I_C                      engine/source/output/tools/sortie_c.c
+Chd|        READ_I_C                      tools/input_output/write_routtines.c
 Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
 Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
 Chd|====================================================================

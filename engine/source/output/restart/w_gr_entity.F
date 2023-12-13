@@ -27,7 +27,7 @@ Chd|-- called by -----------
 Chd|        W_GROUP_STR                   source/output/restart/w_group_str.F
 Chd|-- calls ---------------
 Chd|        FRETITL                       source/input/freform.F        
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE W_GR_ENTITY(IGR,NGR,LENIGR)

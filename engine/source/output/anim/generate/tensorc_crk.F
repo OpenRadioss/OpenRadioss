@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        SIGROTA_XFE                   source/output/anim/generate/sigrota_xfe.F
 Chd|        SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
 Chd|        UROTOV                        source/airbag/uroto.F         
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================

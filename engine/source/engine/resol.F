@@ -78,7 +78,7 @@ Chd|        CHKMSIN                       source/output/outfile/chkmsin.F
 Chd|        CHKSTFN3N                     source/interfaces/interf/chkstfn3.F
 Chd|        CHKSTIFN                      source/interfaces/inter2d/chkstifn.F
 Chd|        CJOINT                        source/constraints/general/cyl_joint/cjoint.F
-Chd|        CLOSE_C                       source/output/tools/sortie_c.c
+Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
 Chd|        CLOSE_SOCK_C                  source/coupling/rad2rad/rad2rad_c.c
 Chd|        CLUSTERF                      source/output/cluster/clusterf.F
 Chd|        CNDINT                        source/model/remesh/cndint.F  

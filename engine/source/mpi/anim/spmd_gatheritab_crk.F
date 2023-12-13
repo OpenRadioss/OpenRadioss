@@ -25,7 +25,7 @@ Chd|  SPMD_GATHERITAB_CRK           source/mpi/anim/spmd_gatheritab_crk.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
 Chd|====================================================================
        SUBROUTINE SPMD_GATHERITAB_CRK(ICRK,NUM,IDMAXNOD,NODGLOBXFE)

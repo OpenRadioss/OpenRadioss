@@ -35,7 +35,7 @@ Chd|        COUNT_ARSZ_SPT                source/output/sty/outp_sp_t.F
 Chd|        COUNT_ARSZ_SPTT               source/output/sty/outp_sp_t.F 
 Chd|        COUNT_ARSZ_SS                 source/output/sty/outp_s_s.F  
 Chd|        COUNT_ARSZ_ST                 source/output/sty/outp_s_t.F  
-Chd|        FILELEN_SYS                   source/output/tools/sortie_c.c
+Chd|        FILELEN_SYS                   ../common_source/tools/input_output/write_routtines.c
 Chd|        OUTP_ARSZ_CS                  source/mpi/interfaces/spmd_outp.F
 Chd|        OUTP_ARSZ_CT                  source/mpi/interfaces/spmd_outp.F
 Chd|        OUTP_ARSZ_RS                  source/mpi/interfaces/spmd_outp.F

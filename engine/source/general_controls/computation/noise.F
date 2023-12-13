@@ -25,7 +25,7 @@ Chd|  NOISE                         source/general_controls/computation/noise.F
 Chd|-- called by -----------
 Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
 Chd|-- calls ---------------
-Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        INITNOISE                     source/general_controls/computation/initnoise.F
 Chd|        INITNOISE2                    source/general_controls/computation/initnoise.F
 Chd|        PNOISE                        source/general_controls/computation/pnoise.F

@@ -25,7 +25,7 @@ Chd|  CUTMASS                       source/tools/sect/cutmass.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE CUTMASS(NC,X,AL,NODCUT,NELCUT,VEL,V,IVOIS)
 C-----------------------------------------------

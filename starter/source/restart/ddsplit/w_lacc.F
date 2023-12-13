@@ -26,7 +26,7 @@ Chd|  W_LACC                        source/restart/ddsplit/w_lacc.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE W_LACC(LACCELM,NC,NODLOCAL,LEN_IA,CEL,CEP,PROC)
 C-----------------------------------------------

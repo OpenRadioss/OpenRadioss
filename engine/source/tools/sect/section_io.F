@@ -25,8 +25,8 @@ Chd|  SECTION_IO                    source/tools/sect/section_io.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
-Chd|        FLU_FIL_C                     source/output/tools/sortie_c.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        FLU_FIL_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        SECTION                       source/tools/sect/section.F   
 Chd|        SECTION_READ                  source/tools/sect/section_read.F
 Chd|        SECTION_READP                 source/tools/sect/section_readp.F
@@ -34,8 +34,8 @@ Chd|        SPMD_EXCH_CUT                 source/mpi/sections/spmd_section.F
 Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_WRT_CUTD                 source/mpi/sections/spmd_section.F
 Chd|        SPMD_WRT_CUTF                 source/mpi/sections/spmd_section.F
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE SECTION_IO (
      1    NSTRF  ,D      ,DR    ,V     ,VR      ,FSAV   ,

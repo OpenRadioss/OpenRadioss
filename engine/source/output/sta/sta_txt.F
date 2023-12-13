@@ -24,7 +24,7 @@ Chd|====================================================================
 Chd|  STRS_TXT                      source/output/sta/sta_txt.F   
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        WRITE_C_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE STRS_TXT(TEXT,LEN)
 C-----------------------------------------------
@@ -82,7 +82,7 @@ Chd|        STAT_S_STRAF                  source/output/sta/stat_s_straf.F
 Chd|        STAT_S_STRSF                  source/output/sta/stat_s_strsf.F
 Chd|        TAB_STRS_TXT50                source/output/sta/sta_txt.F   
 Chd|-- calls ---------------
-Chd|        WRITE_C_C_TXT                 source/output/tools/sortie_c.c
+Chd|        WRITE_C_C_TXT                 ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE STRS_TXT50(TEXT,LENGTH)
 C-----------------------------------------------

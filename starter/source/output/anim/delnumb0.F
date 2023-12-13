@@ -25,7 +25,7 @@ Chd|  DELNUMB0                      source/output/anim/delnumb0.F
 Chd|-- called by -----------
 Chd|        GENANI1                       source/output/anim/genani1.F  
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE DELNUMB0(IPARG   ,EL2FA   ,NBF     ,INUM    ,KXSP    )                                       
 C===============================================                        

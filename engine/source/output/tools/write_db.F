@@ -74,7 +74,7 @@ Chd|        W_BUFBRIC_22                  source/interfaces/int22/w_bufbric_22.F
 Chd|        W_CLUSTER                     source/output/cluster/w_cluster.F
 Chd|        W_ELBUF_STR                   source/elements/elbuf/w_elbuf_str.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB_C                    source/output/tools/sortie_c.c
+Chd|        WRITE_DB_C                    ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE WRITE_DB(A,N)
 C ecriture nombre reel : routine tampon
@@ -158,7 +158,7 @@ Chd|        WRITE_SENSORS                 source/output/restart/write_sensors.F
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|        W_ELBUF_STR                   source/elements/elbuf/w_elbuf_str.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB_C                    source/output/tools/sortie_c.c
+Chd|        WRITE_DB_C                    ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE WRITE_DPDB(A,N)
 C ecriture nombre reel : routine tampon

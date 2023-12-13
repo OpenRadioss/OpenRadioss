@@ -26,7 +26,7 @@ Chd|  W_ANIM_PLY                    source/restart/ddsplit/w_anim_ply.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        GET_PLY_NOD                   source/spmd/spmd_anim_ply_init.F
 Chd|        PLYXFEM_MOD                   share/modules1/plyxfem_mod.F  
 Chd|====================================================================

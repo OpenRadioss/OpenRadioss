@@ -25,7 +25,7 @@ Chd|  WRITE_JOINT                   source/output/restart/write_joint.F
 Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        JOINT_MOD                     share/modules/joint_mod.F     
 Chd|        RESTMOD                       share/modules/restart_mod.F   
 Chd|====================================================================

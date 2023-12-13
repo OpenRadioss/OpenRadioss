@@ -26,7 +26,7 @@ Chd|  W_IXALOC                      source/restart/ddsplit/w_ixaloc.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE W_IXALOC(IXA,NNOD,CEP,P,
      +                   NUMEL,NUMEL_L,NODLOCAL,LEN_IA)

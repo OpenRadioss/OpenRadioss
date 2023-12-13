@@ -25,7 +25,7 @@ Chd|  WRITE_TH_RESTART              source/output/th/write_th_restart.F
 Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TIME_HISTORY_MOD              ../common_source/modules/output/time_history_mod.F
 Chd|====================================================================

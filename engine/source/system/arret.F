@@ -414,8 +414,8 @@ Chd|        XFORC28                       source/elements/xelem/xforc28.F
 Chd|        GET_U_FUNC_X                  source/user_interface/ufunc.F 
 Chd|        GET_U_FUNC_Y                  source/user_interface/ufunc.F 
 Chd|-- calls ---------------
-Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
-Chd|        DELETE_TMPFILE                source/output/tools/sortie_c.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        DELETE_TMPFILE                ../common_source/tools/input_output/write_routtines.c
 Chd|        DELETE_USER_FILE              source/user_interface/dyn_userlib.c
 Chd|        ENGINE_USER_FINALIZE          source/user_interface/dyn_userlib.c
 Chd|        MY_EXIT                       source/system/my_exit.c       

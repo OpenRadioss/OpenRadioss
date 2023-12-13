@@ -39,7 +39,7 @@ Chd|        TENSORC_PLY                   source/output/anim/generate/tensorc_pl
 Chd|        TENSORS                       source/output/anim/generate/tensor6.F
 Chd|        TORSEUR                       source/output/anim/generate/torseur.F
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE SPMD_R4GET_PARTN(SIZE,NBF_L,NBPART,IADG,WAL,BUF)
 C gather sur p0 du tableau wa en fonction des parts (IADG)

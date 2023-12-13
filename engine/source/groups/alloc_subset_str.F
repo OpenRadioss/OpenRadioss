@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        SUBSET_INI                    source/groups/subset_ini.F    
 Chd|-- calls ---------------
 Chd|        FRETITL2                      source/input/freform.F        
-Chd|        READ_I_C                      source/output/tools/sortie_c.c
+Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================

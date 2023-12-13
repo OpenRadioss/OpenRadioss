@@ -30,8 +30,7 @@ Chd|        ARRET                         engine/source/system/arret.F
 Chd|        INTBUF_INI_T8                 interf/intbuf_ini.F           
 Chd|        READ_DB                       starter/source/restart/ddsplit/wrrest.F
 Chd|        READ_DB                       engine/source/output/tools/read_db.F
-Chd|        READ_I_C                      starter/source/output/tools/write_routines.c
-Chd|        READ_I_C                      engine/source/output/tools/sortie_c.c
+Chd|        READ_I_C                      tools/input_output/write_routtines.c
 Chd|        INTBUFDEF_MOD                 modules/intbufdef_mod.F       
 Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
 Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
@@ -2119,8 +2118,7 @@ Chd|  INTBUF_INI_T8                 interf/intbuf_ini.F
 Chd|-- called by -----------
 Chd|        INTBUF_INI                    common_source/interf/intbuf_ini.F
 Chd|-- calls ---------------
-Chd|        READ_I_C                      starter/source/output/tools/write_routines.c
-Chd|        READ_I_C                      engine/source/output/tools/sortie_c.c
+Chd|        READ_I_C                      tools/input_output/write_routtines.c
 Chd|        INT8_MOD                      modules/interfaces/int8_mod.F 
 Chd|====================================================================
       SUBROUTINE INTBUF_INI_T8(T8)  

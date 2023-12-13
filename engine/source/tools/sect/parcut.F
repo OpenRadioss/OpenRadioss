@@ -25,7 +25,7 @@ Chd|  PARCUT                        source/tools/sect/parcut.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE PARCUT(IXC,NELCUT)
 C-----------------------------------------------

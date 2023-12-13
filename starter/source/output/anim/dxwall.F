@@ -25,7 +25,7 @@ Chd|  DXWALL                        source/output/anim/dxwall.F
 Chd|-- called by -----------
 Chd|        DXYZSECT                      source/output/anim/dxyzsect.F 
 Chd|-- calls ---------------
-Chd|        WRITE_R_C                     source/output/tools/write_routines.c
+Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE DXWALL(X ,RWL ,MSR ,
      3            XMIN ,YMIN ,ZMIN  ,XMAX ,YMAX  ,

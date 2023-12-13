@@ -25,7 +25,7 @@ Chd|  W_CRKXFEM                     source/restart/ddsplit/w_crkxfem.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_I_C                     source/output/tools/write_routines.c
+Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE W_CRKXFEM(IELC_L,IELTG_L,INOD_L,NUMELC_L,
      .                     NUMELTG_L,NUMNOD_L,LEN_IA,NUMNODCRK_L,

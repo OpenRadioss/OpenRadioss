@@ -27,7 +27,7 @@ Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|-- calls ---------------
 Chd|        DNWALC                        source/output/anim/generate/dnwalc.F
 Chd|        DNWALS                        source/output/anim/generate/dnwals.F
-Chd|        WRITE_S_C                     source/output/tools/sortie_c.c
+Chd|        WRITE_S_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE DSECNOR(X    ,RWBUF,NPRW)
 C-----------------------------------------------

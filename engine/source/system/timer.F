@@ -958,13 +958,13 @@ Chd|  PRINTIME                      source/system/timer.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        CLOSE_C                       source/output/tools/sortie_c.c
-Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
+Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        ELAPSTIME                     source/system/timer.F         
-Chd|        FSEEK_END_C                   source/output/tools/sortie_c.c
+Chd|        FSEEK_END_C                   ../common_source/tools/input_output/write_routtines.c
 Chd|        GET_MEM_MAP_VAR               source/system/timer.F         
 Chd|        MAP_MEMORY                    ../common_source/comm/memory_use_c.c
-Chd|        OPEN_C                        source/output/tools/sortie_c.c
+Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
 Chd|        PRINT_SUMMARY                 source/system/timer.F         
 Chd|        RAD_SPMD_RECV                 source/mpi/generic/rad_spmd_recv.F
 Chd|        RAD_SPMD_SEND                 source/mpi/generic/rad_spmd_send.F
@@ -3610,11 +3610,11 @@ Chd|  ADD_ELAPSED_TIME_MON_OFF      source/system/timer.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        CLOSE_C                       source/output/tools/sortie_c.c
-Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
+Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        ELAPSTIME                     source/system/timer.F         
-Chd|        FSEEK_END_C                   source/output/tools/sortie_c.c
-Chd|        OPEN_C                        source/output/tools/sortie_c.c
+Chd|        FSEEK_END_C                   ../common_source/tools/input_output/write_routtines.c
+Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
 Chd|        WRITE_DPDB                    source/output/tools/write_db.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        TIME_MOD                      share/modules/time_mod.F      

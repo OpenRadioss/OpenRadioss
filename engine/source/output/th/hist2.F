@@ -26,9 +26,9 @@ Chd|-- called by -----------
 Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
 Chd|-- calls ---------------
 Chd|        BUFMONV                       source/output/th/hist2.F      
-Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
-Chd|        FLU_FIL_C                     source/output/tools/sortie_c.c
-Chd|        FSEEK_C                       source/output/tools/sortie_c.c
+Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        FLU_FIL_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        FSEEK_C_RD                    ../common_source/tools/input_output/write_routtines.c
 Chd|        SPMD_COLLECT_SEATBELT         source/mpi/output/spmd_collect_seatbelt.F
 Chd|        SPMD_GATHERV                  source/mpi/generic/spmd_gatherv.F
 Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
