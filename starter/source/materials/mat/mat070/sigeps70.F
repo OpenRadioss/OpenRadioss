@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        TABLE_MAT_VINTERP             source/materials/tools/table_mat_vinterp.F
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
+Chd|        TABLE_MAT_VINTERP_MOD         source/materials/tools/table_mat_vinterp.F
 Chd|====================================================================
       SUBROUTINE SIGEPS70(
      1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,

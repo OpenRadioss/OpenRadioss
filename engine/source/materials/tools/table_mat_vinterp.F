@@ -21,6 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+Chd|  TABLE_MAT_VINTERP_MOD         source/materials/tools/table_mat_vinterp.F
+Chd|-- called by -----------
+Chd|        ASSO_PLAS76                   source/materials/mat/mat076/asso_plas76.F
+Chd|        ASSO_QPLAS76C                 source/materials/mat/mat076/asso_qplas76c.F
+Chd|        CONDAMAGE                     source/materials/mat/mat190/condamage.F
+Chd|        CONVERSION                    source/materials/mat/mat190/conversion.F
+Chd|        NO_ASSO_LPLAS76C              source/materials/mat/mat076/no_asso_lplas76c.F
+Chd|        NO_ASSO_PLAS76                source/materials/mat/mat076/no_asso_plas76.F
+Chd|        NO_ASSO_QPLAS76C              source/materials/mat/mat076/no_asso_qplas76c.F
+Chd|        SIGEPS70                      source/materials/mat/mat070/sigeps70.F
+Chd|-- calls ---------------
+Chd|====================================================================
       MODULE TABLE_MAT_VINTERP_MOD
       CONTAINS
 Chd|====================================================================

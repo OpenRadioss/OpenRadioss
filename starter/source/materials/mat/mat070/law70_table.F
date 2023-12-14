@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        LAW70_UPD                     source/materials/mat/mat070/law70_upd.F
 Chd|-- calls ---------------
 Chd|        FUNC2D_DEINTERSECT            source/materials/tools/func2d_deintersect.F
+Chd|        TABLE_VALUES_2D               source/materials/tools/table_values_2d.F
 Chd|        UNIFY_ABSCISSA_2D             source/materials/tools/unify_abscissas_2d.F
 Chd|        VW_SMOOTH                     source/tools/curve/vw_smooth.F
 Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
