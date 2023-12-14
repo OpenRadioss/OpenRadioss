@@ -316,7 +316,7 @@ C         All secondary edges includes
           DO J = NEDGFT,NEDGLT
             I = EDGE_TYPE1_0(J)
 C
-            IF(LEDGE(LEDGE_RIGHT_SEG,I) /= 0) CYCLE
+            IF(SH_EDGE==1 .AND. LEDGE(LEDGE_TYPE,I) /= 1 .AND. LEDGE(LEDGE_RIGHT_SEG,I) /= 0) CYCLE
             ! Not a secondary edge
 C
             IRM =LEDGE(LEDGE_LEFT_SEG ,I)
