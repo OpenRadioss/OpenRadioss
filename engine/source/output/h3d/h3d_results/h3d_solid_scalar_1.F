@@ -2069,7 +2069,7 @@ C--------------------------------------------------
                !LAG: GBUF%VOL = V0,    GBUF%EINT=rho0.e
                IF (MLW == 151) THEN
                   DO I = 1, NEL
-                     VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I)  !
+                     VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT)  !
                      IS_WRITTEN_VALUE(I) = 1
                   ENDDO
                ELSE
