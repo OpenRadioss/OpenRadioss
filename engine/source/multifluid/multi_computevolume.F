@@ -223,7 +223,7 @@ C     Node 3
 C     Node 4
                   Y4(II) = XGRID(2, IX(5, II))
                   Z4(II) = XGRID(3, IX(5, II))
-                  NGL(II) = IX(NIXS, II)
+                  NGL(II) = IX(NIXQ, II)
                ENDDO
                CALL QVOLU2(
      1   GBUF%OFF, GBUF%AREA,VOLNEW,   NGL,
@@ -245,6 +245,7 @@ C     TRIANGLES
                      GBUF%AREA(II) = ABS(HALF * ((Y2(II) - Y1(II)) * (Z3(II) - Z1(II)) - 
      .                    (Z2(II) - Z1(II)) * (Y3(II) - Y1(II))))
                      VOLNEW(II) = GBUF%AREA(II)
+                     NGL(II) = IX(NIXTG, II)
                   ENDDO            
                ELSE IF (SYM == 1) THEN
 C     Axisymmetric case
@@ -261,6 +262,7 @@ C     Axisymmetric case
      .                    Y1(II) * (Z2(II) - Z3(II)) + 
      .                    Y2(II) * (Z3(II) - Z1(II)) + 
      .                    Y3(II) * (Z1(II) - Z2(II))) * ONE_OVER_6
+                     NGL(II) = IX(NIXTG, II)
                   ENDDO            
                ENDIF
             ENDIF
