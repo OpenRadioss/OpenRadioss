@@ -179,7 +179,7 @@ c---  self heating factor and temperatiure initialization
               IPOS_ETA(1:NEL,3) = VARTMP(1:NEL,5)
             END IF
 
-            CALL TABLE_VINTERP(TABLE(FUNC_ETA),NEL,IPOS_ETA,XVEC_ETA,FACT_ETA,DXDYV)          
+            CALL TABLE_VINTERP(TABLE(FUNC_ETA),NEL,NEL,IPOS_ETA,XVEC_ETA,FACT_ETA,DXDYV)          
       
             IF (NDIM_ETA > 1) VARTMP(1:NEL,4) = IPOS_ETA(1:NEL,2)
             IF (NDIM_ETA > 2) VARTMP(1:NEL,5) = IPOS_ETA(1:NEL,3)
@@ -218,7 +218,7 @@ c----------------------------------------------------
       IPOS(1:NEL,1) = VARTMP(1:NEL,1)
       IPOS(1:NEL,2) = 1
 c
-      CALL TABLE2D_VINTERP_LOG(TABLE(FUNC_YLD),ISMOOTH,NEL,IPOS,XVEC  ,YLD  ,HARDP,HARDR)               
+      CALL TABLE2D_VINTERP_LOG(TABLE(FUNC_YLD),ISMOOTH,NEL,NEL,IPOS,XVEC  ,YLD  ,HARDP,HARDR)               
 c
       YLD(1:NEL)   = YLD(1:NEL)   * YSCALE
       HARDP(1:NEL) = HARDP(1:NEL) * YSCALE
@@ -231,12 +231,12 @@ c        XVEC(1:NEL,1) = PLA(1:NEL)
         XVEC(1:NEL,2) = TREF
         IPOS(1:NEL,1) = VARTMP(1:NEL,2)
         IPOS(1:NEL,2) = VARTMP(1:NEL,3)
-        CALL TABLE_VINTERP(TABLE(FUNC_TEMP),NEL,IPOS,XVEC,YLD_TREF,DYDX)  
+        CALL TABLE_VINTERP(TABLE(FUNC_TEMP),NEL,NEL,IPOS,XVEC,YLD_TREF,DYDX)  
         VARTMP(1:NEL,2) = IPOS(1:NEL,1)     
         VARTMP(1:NEL,3) = IPOS(1:NEL,2)     
 c     
         XVEC(1:NEL,2) = TEMP(1:NEL)
-        CALL TABLE_VINTERP(TABLE(FUNC_TEMP),NEL,IPOS,XVEC,YLD_TEMP,DYDX)          
+        CALL TABLE_VINTERP(TABLE(FUNC_TEMP),NEL,NEL,IPOS,XVEC,YLD_TEMP,DYDX)          
 c     
         TFAC(1:NEL)  = YLD_TEMP(1:NEL) / YLD_TREF(1:NEL)      
         YLD(1:NEL)   = YLD(1:NEL)   * TFAC(1:NEL)      
@@ -299,7 +299,7 @@ c
             IPOS(II,2) = 1
           ENDDO
 c
-          CALL TABLE2D_VINTERP_LOG(TABLE(FUNC_YLD),ISMOOTH,NINDX,IPOS,XVEC,YLD_I,HARDP_I,HARDR_I)
+          CALL TABLE2D_VINTERP_LOG(TABLE(FUNC_YLD),ISMOOTH,NEL,NINDX,IPOS,XVEC,YLD_I,HARDP_I,HARDR_I)
 c
           DO II = 1, NINDX 
             I = INDEX(II)

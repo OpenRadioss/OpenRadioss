@@ -171,7 +171,7 @@ c
           XX1(1:NEL,1) = EPSQ(1:NEL)
           IPOS1(1:NEL,1) = 1
 c
-          CALL TABLE_VINTERP(TABLE(FUNC),NEL,IPOS1,XX1,SIGF,ETL)                   
+          CALL TABLE_VINTERP(TABLE(FUNC),NEL,NEL,IPOS1,XX1,SIGF,ETL)                   
 c
           DO II=1,NINDXT
             I = INDXT(II)
@@ -209,7 +209,7 @@ c
           XX1(1:NEL,1) = EPSQ(1:NEL)
           IPOS1(1:NEL,1) = 1
 c
-          CALL TABLE_VINTERP(TABLE(FUNC),NEL,IPOS1,XX1,SIGF,ETL)                    
+          CALL TABLE_VINTERP(TABLE(FUNC),NEL,NEL,IPOS1,XX1,SIGF,ETL)                    
 c
           DO II=1,NREAC
             I = INDXX(II)
@@ -237,7 +237,7 @@ c
         XX1(1:NEL,1) = EPSQ(1:NEL)
         IPOS1(1:NEL,1) = 1
 c
-        CALL TABLE_VINTERP(TABLE(FUNC),NEL,IPOS1,XX1,SIGF,ETL)                    
+        CALL TABLE_VINTERP(TABLE(FUNC),NEL,NEL,IPOS1,XX1,SIGF,ETL)                    
 c
         DO II=1,NINDXT
           I = INDXT(II)
@@ -307,7 +307,7 @@ c       reloading
           END IF
 
           IPOS1(1:NEL,1) = 1
-          CALL TABLE_VINTERP(TABLE(FUNCR),NEL,IPOS1,XX1,SIGF,ETX)                    
+          CALL TABLE_VINTERP(TABLE(FUNCR),NEL,NEL,IPOS1,XX1,SIGF,ETX)                    
 c
           IF (IRELOAD == 1) THEN! reloading follows loading curve
             DO II=1,NINDXR
@@ -352,7 +352,7 @@ c       unloading
           END DO
           IPOS1(1:NEL,1) = 1
 
-          CALL TABLE_VINTERP(TABLE(FUND),NEL,IPOS1,XX1,SIGF,ETU)                    
+          CALL TABLE_VINTERP(TABLE(FUND),NEL,NEL,IPOS1,XX1,SIGF,ETU)                    
 c
           DO II=1,NINDXU
             I = INDXU(II)

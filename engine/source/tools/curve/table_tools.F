@@ -603,7 +603,7 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-        SUBROUTINE TABLE_VINTERP(TABLE,NEL0,IPOS,XX,YY,DYDX1)
+        SUBROUTINE TABLE_VINTERP(TABLE,DIMX,NEL,IPOS,XX,YY,DYDX1)
 C-----------------------------------------------
         USE TABLE_MOD
         USE MESSAGE_MOD
@@ -614,25 +614,24 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        TYPE(TTABLE) TABLE
-        INTEGER NEL0
-        INTEGER, DIMENSION(:,:) :: IPOS
-        my_real, 
-     .       DIMENSION(:,:) :: XX
-        my_real
-     .       YY(*), DYDX1(*)
+      TYPE(TTABLE) TABLE
+      INTEGER ,INTENT(IN) :: NEL
+      INTEGER ,VALUE ,INTENT(IN) :: DIMX
+      INTEGER ,DIMENSION(DIMX,TABLE%NDIM)  :: IPOS
+      my_real ,DIMENSION(DIMX,TABLE%NDIM)  :: XX
+      my_real ,DIMENSION(NEL) :: YY, DYDX1
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        LOGICAL, DIMENSION(NEL0) :: NEED_TO_COMPUTE
-        INTEGER NDIM, K, NXK(4), I, IB(NEL0,2,2,2,2), 
+        LOGICAL, DIMENSION(NEL) :: NEED_TO_COMPUTE
+        INTEGER NDIM, K, NXK(4), I, IB(NEL,2,2,2,2), 
      .        IP,IN,IM,IL,P,N,M,L,N1,N12,N123
-        my_real :: DX2,R(NEL0,4),UNR(NEL0,4),DX2_0(NEL0)
+        my_real :: DX2,R(NEL,4),UNR(NEL,4),DX2_0(NEL)
         INTEGER :: J
         INTEGER :: NINDX_1,M_INDX1,NINDX_2,M_INDX2
-        INTEGER, DIMENSION(NEL0) :: INDX_1,INDX_2
+        INTEGER, DIMENSION(NEL) :: INDX_1,INDX_2
 C-----------------------------------------------
-        R(1:NEL0,1:4) = zero
+        R(1:NEL,1:4) = zero
         NDIM=TABLE%NDIM
         IF( SIZE(XX,2) < TABLE%NDIM )THEN
             CALL ANCMSG(MSGID=36,ANMODE=ANINFO,
@@ -645,13 +644,13 @@ C-----
         ENDDO
 
         DO K=1,NDIM
-            IPOS(1:NEL0,K)=MAX(IPOS(1:NEL0,K),1)
+            IPOS(1:NEL,K)=MAX(IPOS(1:NEL,K),1)
             NINDX_1 = 0
             M_INDX1 = 0
             NINDX_2 = 0
             M_INDX2 = NXK(K) + 1
 #include "vectorize.inc"
-            DO I=1,NEL0
+            DO I=1,NEL
                 M = IPOS(I,K) 
                 DX2_0(I) = TABLE%X(K)%VALUES(M) - XX(I,K)
                 IF(DX2_0(I) >= ZERO)THEN
@@ -699,7 +698,7 @@ C-----
 
         DO K=1,NDIM
 #include "vectorize.inc"
-            DO I=1,NEL0
+            DO I=1,NEL
                 N = IPOS(I,K)
                 R(I,K)   =(TABLE%X(K)%VALUES(N+1)-XX(I,K))/
      .                    (TABLE%X(K)%VALUES(N+1)-TABLE%X(K)%VALUES(N))
@@ -713,7 +712,7 @@ C
        N1  =NXK(1)
        N12 =NXK(1)*NXK(2)
        N123=N12   *NXK(3)
-       DO I=1,NEL0
+       DO I=1,NEL
          DO P=0,1
            IP=N123*(IPOS(I,4)-1+P)
            DO N=0,1
@@ -729,9 +728,9 @@ C
          END DO
        END DO
 C
-       UNR(1:NEL0,1:4)=ONE-R(1:NEL0,1:4)
+       UNR(1:NEL,1:4)=ONE-R(1:NEL,1:4)
 #include "vectorize.inc"
-       DO I=1,NEL0
+       DO I=1,NEL
 C
          YY(I)=
      .     R(I,4)*(R(I,3)*(R(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,1,1,1))
@@ -776,7 +775,7 @@ C-----
 C
        N1  =NXK(1)
        N12 =NXK(1)*NXK(2)
-       DO I=1,NEL0
+       DO I=1,NEL
         DO N=0,1
           IN=N12*(IPOS(I,3)-1+N)
           DO M=0,1
@@ -789,9 +788,9 @@ C
         END DO
        END DO
 C
-       UNR(1:NEL0,1:3)=ONE-R(1:NEL0,1:3)
+       UNR(1:NEL,1:3)=ONE-R(1:NEL,1:3)
 #include "vectorize.inc"
-      DO I=1,NEL0
+      DO I=1,NEL
 C
         YY(I)=
      .        (R(I,3)*(R(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,1,1,1))
@@ -819,7 +818,7 @@ C-----
        CASE(2)
 C
        N1  =NXK(1)
-       DO I=1,NEL0
+       DO I=1,NEL
          DO M=0,1
            IM=N1*(IPOS(I,2)-1+M)
            DO L=0,1
@@ -829,9 +828,9 @@ C
          END DO
        END DO
 C
-       UNR(1:NEL0,1:2)=ONE-R(1:NEL0,1:2)
+       UNR(1:NEL,1:2)=ONE-R(1:NEL,1:2)
 #include "vectorize.inc"
-       DO I=1,NEL0
+       DO I=1,NEL
 C
         YY(I)=
      .        (R(I,2)*(R(I,1)*TABLE%Y%VALUES(IB(I,1,1,1,1))
@@ -848,9 +847,9 @@ C
 C-----
        CASE(1)
 
-       UNR(1:NEL0,1:1)=ONE-R(1:NEL0,1:1)
+       UNR(1:NEL,1:1)=ONE-R(1:NEL,1:1)
 #include "vectorize.inc"
-       DO I=1,NEL0
+       DO I=1,NEL
 C
         YY(I)=  R(I,1)*TABLE%Y%VALUES(IPOS(I,1))
      .       +UNR(I,1)*TABLE%Y%VALUES(IPOS(I,1)+1)

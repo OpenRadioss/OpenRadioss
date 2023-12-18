@@ -263,7 +263,7 @@ c     check elements with triaxiality between SHRF and BIAXF) in case of SIZE_FL
 c
       IF (NDIM == 3) THEN
 c
-        CALL TABLE_VINTERP (TABLE(ITABLE),NINDX,IPOST3,XXV3,YYV,DXDYV)
+        CALL TABLE_VINTERP (TABLE(ITABLE),NEL,NINDX,IPOST3,XXV3,YYV,DXDYV)
 c
 #include "vectorize.inc"
         DO J=1,NINDX                           
@@ -275,7 +275,7 @@ c
 c
       ELSE IF (NDIM == 2) THEN
 c
-        CALL TABLE_VINTERP (TABLE(ITABLE),NINDX,IPOST2,XXV2,YYV,DXDYV)
+        CALL TABLE_VINTERP (TABLE(ITABLE),NEL,NINDX,IPOST2,XXV2,YYV,DXDYV)
 c
 #include "vectorize.inc"
         DO J=1,NINDX                           
@@ -287,7 +287,7 @@ c
 c
       ELSE IF (NDIM == 1) THEN
 c
-        CALL TABLE_VINTERP (TABLE(ITABLE),NINDX,IPOST1,XXV1,YYV,DXDYV)
+        CALL TABLE_VINTERP (TABLE(ITABLE),NEL,NINDX,IPOST1,XXV1,YYV,DXDYV)
 c
 #include "vectorize.inc"
         DO J=1,NINDX                           

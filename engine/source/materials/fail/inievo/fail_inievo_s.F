@@ -269,7 +269,7 @@ c
         END SELECT
         XVEC(1:NEL,2)   = EPSP(1:NEL)/SR_REF(J)
         IPOS(1:NEL,1:2) = 1
-        CALL TABLE_VINTERP(TABLE(TAB_ID(J)),NEL,IPOS,XVEC,EPSF,DEPSF)
+        CALL TABLE_VINTERP(TABLE(TAB_ID(J)),NEL,NEL,IPOS,XVEC,EPSF,DEPSF)
         EPSF(1:NEL) = EPSF(1:NEL)*FSCALE(J)
 c
         ! Compute the element size regularization factor 
@@ -290,7 +290,7 @@ c
               ENDDO            
           END SELECT
           IPOS(1:NEL,1:2) = 1
-          CALL TABLE_VINTERP(TABLE(TAB_EL(J)),NEL,IPOS,XVEC,SIZEFAC,DSIZE)
+          CALL TABLE_VINTERP(TABLE(TAB_EL(J)),NEL,NEL,IPOS,XVEC,SIZEFAC,DSIZE)
           SIZEFAC(1:NEL) = SIZEFAC(1:NEL)*ELSCAL(J)
           EPSF(1:NEL) = EPSF(1:NEL)*SIZEFAC(1:NEL)
         ENDIF

@@ -193,7 +193,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
-      CALL TABLE_VINTERP(TABLE(ITABLE),NEL0,IPOS,XX,YY,DYDX1)
+      CALL TABLE_VINTERP(TABLE(ITABLE),NEL0,NEL0,IPOS,XX,YY,DYDX1)
       RETURN
       END
 
@@ -233,7 +233,7 @@ C
       IPOS2(1:NEL0,1:XXDIM) = IPOS(1:NEL0,1:XXDIM)
       XX2(1:NEL0,1:XXDIM) = XX(1:NEL0,1:XXDIM)
 
-      CALL TABLE_VINTERP(TABLE(ITABLE),NEL0,IPOS2,XX2,YY,DYDX1)
+      CALL TABLE_VINTERP(TABLE(ITABLE),NEL0,NEL0,IPOS2,XX2,YY,DYDX1)
 
       DEALLOCATE(XX2)
       DEALLOCATE(IPOS2)

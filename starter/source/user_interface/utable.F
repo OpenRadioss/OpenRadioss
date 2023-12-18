@@ -111,6 +111,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
-      CALL TABLE_VINTERP(TABLE(ITABLE),NEL0,IPOS,XX,YY,DYDX1)
+      CALL TABLE_VINTERP(TABLE(ITABLE),NEL0,NEL0,IPOS,XX,YY,DYDX1)
       RETURN
       END

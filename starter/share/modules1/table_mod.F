@@ -144,15 +144,14 @@ C
      .         YY
         END SUBROUTINE TABLE_INTERP
 C
-        SUBROUTINE TABLE_VINTERP(TABLE,NEL,IPOS,XX,YY,DYDX)
+        SUBROUTINE TABLE_VINTERP(TABLE,DIMX,NEL,IPOS,XX,YY,DYDX)
         USE TABLE_MOD
         TYPE(TTABLE) TABLE
-        INTEGER NEL
-        INTEGER, DIMENSION(:,:) :: IPOS
-        my_real, 
-     .         DIMENSION(:,:) :: XX
-        my_real
-     .         YY(*), DYDX(*)
+        INTEGER ,INTENT(IN)                  :: NEL
+        INTEGER ,VALUE ,INTENT(IN)           :: DIMX
+        INTEGER ,DIMENSION(DIMX,TABLE%NDIM)  :: IPOS
+        my_real ,DIMENSION(DIMX,TABLE%NDIM)  :: XX
+        my_real ,DIMENSION(NEL)              :: YY, DYDX
         END SUBROUTINE TABLE_VINTERP
 C
         SUBROUTINE TABLE_INTERP_LAW76(TABLE,IPOS2,XX,R2,DYDX,YY)
