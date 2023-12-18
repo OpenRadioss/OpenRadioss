@@ -266,6 +266,15 @@ void open_c(int *ifil,int *len,int *mod)
         curfile=fopen(filnam,"r+");
      #endif
   }
+
+  if (*mod==8) {                           // Open Append mode - unzipped
+     #ifdef _WIN64
+        fopen_s(&curfile,filnam,"a");
+     #else
+        curfile=fopen(filnam,"a");
+     #endif
+  }
+
   outfile[cur_nf] = curfile;
   free(filnam);
 }
@@ -290,7 +299,7 @@ void close_c()
       close_buffer();                    // flush the remaining values in buffer
       fclose(curfile);
   }else if (outfile_mod[cur_nf] == 2){   // Close read with compression
-    gzclose(curfile);
+    gzclose((gzFile)curfile);
   }else{
     fclose(curfile);    // Close with No compression
   }
