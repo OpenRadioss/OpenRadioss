@@ -72,8 +72,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TTABLE)            :: TABLE
       INTEGER ,INTENT(IN)                 :: ISMOOTH,NEL
-      INTEGER ,DIMENSION(NEL,TABLE%NDIM)  :: IPOS
-      my_real ,DIMENSION(NEL,TABLE%NDIM)  :: XX
+      INTEGER ,DIMENSION(:,:)  :: IPOS
+      my_real ,DIMENSION(:,:)  :: XX
       my_real ,DIMENSION(NEL) :: YY, DYDX1, DYDX2
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
