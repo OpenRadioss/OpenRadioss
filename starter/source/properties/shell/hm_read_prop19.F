@@ -93,7 +93,6 @@ C-------------------------------------------------
       CALL HM_GET_FLOATV('orientangle2', GEO(212), IS_AVAILABLE, LSUBMODEL, UNITAB)  
 !     Line 2
       CALL HM_GET_INTV('table', DRAPE_ID, IS_AVAILABLE, LSUBMODEL)
-      CALL HM_GET_INTV('def_orth', IGEO(49), IS_AVAILABLE, LSUBMODEL)
       
       IF (IGEO(4) <= 0) IGEO(4) = 1   ! default value
       IGEO(44) = IGEO(4) ! Used with drape for OUPT
@@ -106,7 +105,7 @@ C-------------------------------------------------
          WRITE(IOUT, 1000) IG
       ELSE
          WRITE(IOUT, 2000) IG, IMID, GEO(1), GEO(2), IGEO(40), IGEO(41), IGEO(4),
-     .        GEO(212), DRAPE_ID, IGEO(49)
+     .        GEO(212), DRAPE_ID
       ENDIF
      
       GEO(2) = GEO(2) * PI / HUNDRED80
@@ -177,6 +176,5 @@ C-------------------------------------------------
      & 5X,'SHELL 3-nodes GROUP IDENTIFIER. . . . . . .  . .=',I10/,
      & 5X,'NUMBER OF INTEGRATION POINTS THROUGH LAYER.  . .=',I10/,
      & 5X,'ORTHOTROPY ANGLE BETWEEN (DIR 1,DIR 2). . . . . =',1PG20.13/,
-     & 5X,'DRAPE IDENTIFIER  . . . . . . . . . . . . .  . .=',I10/,
-     & 5X,'DEF_ORTH FLAG . . . . . . . . . . . . . . . . . =',I10/)
+     & 5X,'DRAPE IDENTIFIER  . . . . . . . . . . . . .  . .=',I10/)
       END SUBROUTINE HM_READ_PROP19
