@@ -360,12 +360,12 @@ C
 c VMAXDT can be optimize : VMAXDT is a local overestimate of relative 
 c velocity between local main nodes and ALL secnd nodes
 c (no need to communicate VMAXDT in SPMD)
-         MARGE0 = INTBUF_TAB(I)%VARIABLES(25) !starter value i25buc_vox1.F
          VMAXDT = ONEP01*VV*DT1                           
 ! If VMAXDT > MARGE0, the run is likely diverging. 
 ! At next cycle DIST0 should also be negative, triggering 
 ! a new collision detection search. 
          INTBUF_TAB(I)%VARIABLES(24) = VMAXDT
+         MARGE0 = INTBUF_TAB(I)%VARIABLES(25) !starter value i25buc_vox1.F
 
          DIST0 = MARGE0 - ONEP01*(D0 + VMAXDT + MAXDGAP(I))
 
