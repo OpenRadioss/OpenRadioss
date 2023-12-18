@@ -411,7 +411,7 @@ c              ENDIF
             END IF
           END DO 
 
-          LEDGMAX=HALF*LEDGMAX/N_SOL
+          IF(N_SOL > 0) LEDGMAX=HALF*LEDGMAX/N_SOL
 
  
           DEALLOCATE(EDGE_L2_TMP)
