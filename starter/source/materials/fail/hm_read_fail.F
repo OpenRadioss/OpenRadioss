@@ -405,7 +405,7 @@ c---
             CASE(2)
               CALL HM_READ_FAIL_TBUTCHER(
      .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB,MAT_ID    ,FAIL_ID  ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB         ,MAT_ID    ,FAIL_ID  ,
      .             LSUBMODEL,IXFEM)
 c---
             CASE(3)
@@ -440,44 +440,44 @@ c---
 c---
             CASE(8)
               CALL HM_READ_FAIL_SPALLING(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,MAT_ID    ,FAIL_ID  ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB    ,MAT_ID    ,FAIL_ID  ,
      .             LSUBMODEL)
 c---
             CASE(9)
               CALL HM_READ_FAIL_WIERZBICKI(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,MAT_ID    ,FAIL_ID  ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB    ,MAT_ID    ,FAIL_ID  ,
      .             LSUBMODEL)
 c---
             CASE(10)
               CALL HM_READ_FAIL_TENSSTRAIN(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,MAT_ID    ,FAIL_ID  ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB    ,MAT_ID    ,FAIL_ID  ,
      .             LSUBMODEL,UNIT_ID)
 c---
             CASE(11)
               CALL HM_READ_FAIL_ENERGY(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,MAT_ID         ,FAIL_ID   ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,MAT_ID    ,FAIL_ID   ,
      .             LSUBMODEL,UNITAB)
 c---
             CASE(13)
               CALL HM_READ_FAIL_CHANG(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,IXFEM          ,MAT_ID    ,FAIL_ID  ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,IXFEM     ,MAT_ID    ,FAIL_ID  ,
      .             LSUBMODEL,UNITAB)
 c---
             CASE(14)
               CALL HM_READ_FAIL_HASHIN(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,MAT_ID    ,FAIL_ID  ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB    ,MAT_ID    ,FAIL_ID  ,
      .             IFAILWAVE,LSUBMODEL)
 c---
             CASE(16)
               CALL HM_READ_FAIL_PUCK(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,IXFEM          ,MAT_ID    ,FAIL_ID  ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,IXFEM     ,MAT_ID    ,FAIL_ID  ,
      .             LSUBMODEL,UNITAB)
 c---
 c---
@@ -501,27 +501,27 @@ c---
 c---
             CASE(24)
               CALL HM_READ_FAIL_ORTHSTRAIN(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID   ,LSUBMODEL)
+     .             UPARAM   ,MAXPARAM ,NUPARAM    ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB     ,FAIL_ID   ,LSUBMODEL)
 c---
             CASE(25)
               CALL HM_READ_FAIL_NXT(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,MAT_ID         ,FAIL_ID   ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM    ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,MAT_ID     ,FAIL_ID   ,
      .             LSUBMODEL,UNITAB )
                    FAIL_TAG(IRUP)%LF_DAM = 1
 c---
             CASE(26)
               CALL HM_READ_FAIL_SNCONNECT(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,MAT_ID    ,FAIL_ID  ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM    ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB     ,MAT_ID    ,FAIL_ID  ,
      .             LSUBMODEL)
                    FAIL_TAG(IRUP)%LF_DAM = 3
 c---
             CASE(27)
               CALL HM_READ_FAIL_EMC(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,MAT_ID         ,FAIL_ID   ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM    ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,MAT_ID     ,FAIL_ID   ,
      .             LSUBMODEL,UNITAB)
 c---
             CASE(28)
@@ -537,27 +537,27 @@ C---
 c---
             CASE(30)
               CALL HM_READ_FAIL_BIQUAD(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,MAT_ID    ,LSUBMODEL,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB    ,MAT_ID    ,LSUBMODEL,
      .             TITR     )
 c---
             CASE(31)
               CALL HM_READ_FAIL_FABRIC(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,MAT_ID    ,FAIL_ID  ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB    ,MAT_ID    ,FAIL_ID  ,
      .             LSUBMODEL,UNIT_ID)
 c---
             CASE(32)
               CALL HM_READ_FAIL_HC_DSSE(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,MAT_ID         ,FAIL_ID   ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,MAT_ID    ,FAIL_ID   ,
      .             LSUBMODEL,UNITAB )
               FAIL_TAG(IRUP)%LF_DAM  = 1    ! damage factor for ANIM output
               FAIL_TAG(IRUP)%LF_INDX = 1    ! HC_DSSE zone index for ANIM output
 c---
             CASE(33)
               CALL HM_READ_MULLINS_OR(
-     .             UPARAM   ,MAXPARAM ,NUPARAM       ,NUVAR      ,MAT_ID    ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR   ,MAT_ID    ,
      .             FAIL_ID  ,LSUBMODEL,UNITAB) 
 C---
             CASE(34)
@@ -583,14 +583,14 @@ c---
 c---
            CASE(38)
               CALL HM_READ_FAIL_ORTHBIQUAD(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID   ,MAT_ID   ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM    ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB     ,FAIL_ID   ,MAT_ID   ,
      .             TITR     ,LSUBMODEL)
 c---
            CASE(39)
               CALL HM_READ_FAIL_GENE1(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID   ,MAT_ID   ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM    ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB     ,FAIL_ID   ,MAT_ID   ,
      .             TABLE    ,TITR     ,LSUBMODEL)
 c---
            CASE(40)
@@ -600,50 +600,50 @@ c---
 c---
            CASE(41)
               CALL HM_READ_FAIL_TAB2(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID   ,MAT_ID   ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB    ,FAIL_ID   ,MAT_ID   ,
      .             TABLE    ,TITR     ,LSUBMODEL)
 c---
            CASE(42)
               CALL HM_READ_FAIL_INIEVO(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID   ,MAT_ID   ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB    ,FAIL_ID   ,MAT_ID   ,
      .             TABLE    ,TITR     ,LSUBMODEL)
                    FAIL_TAG(IRUP)%LF_DAMINI = 1
 c---
             CASE(43)
               CALL HM_READ_FAIL_SYAZWAN(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,MAT_ID    ,FAIL_ID  ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB    ,MAT_ID    ,FAIL_ID  ,
      .             TITR     ,LSUBMODEL)
 c---
             CASE(44)
               CALL HM_READ_FAIL_TSAIWU(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID  ,MAT_ID    ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB    ,FAIL_ID  ,MAT_ID    ,
      .             TITR     ,LSUBMODEL)
 c---
             CASE(45)
               CALL HM_READ_FAIL_TSAIHILL(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID  ,MAT_ID    ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB    ,FAIL_ID  ,MAT_ID    ,
      .             TITR     ,LSUBMODEL)
 c---
             CASE(46)
               CALL HM_READ_FAIL_HOFFMAN(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID  ,MAT_ID    ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB    ,FAIL_ID  ,MAT_ID    ,
      .             TITR     ,LSUBMODEL)
 c---
             CASE(47)
               CALL HM_READ_FAIL_MAXSTRAIN(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
-     .             MAXFUNC  ,NFUNC    ,UNITAB         ,FAIL_ID  ,MAT_ID    ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB    ,FAIL_ID  ,MAT_ID    ,
      .             TITR     ,LSUBMODEL)
 c---
             CASE(48)
               CALL HM_READ_FAIL_ORTHENERG(
-     .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR    ,NFUNC     ,
+     .             UPARAM   ,MAXPARAM ,NUPARAM   ,NUVAR    ,NFUNC     ,
      .             UNITAB   ,LSUBMODEL)
 c
 c--------------------------------------------      

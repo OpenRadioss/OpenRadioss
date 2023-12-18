@@ -256,7 +256,7 @@ c
           XVEC(1:NEL,2)  = EPSP(1:NEL) * XSCALE
           IPOS0(1:NEL,1) = 1
           IPOS0(1:NEL,2) = 1
-          CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(1)),ISMOOTH,NEL,IPOS0,XVEC  ,YL0  ,HARDP,HARDR)               
+          CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(1)),ISMOOTH,NEL,NEL,IPOS0,XVEC  ,YL0  ,HARDP,HARDR)               
           YL0(1:NEL) = YL0(1:NEL)   * YSCALE
           ! Tabulation with Temperature
           IF (NUMTABL == 2) THEN
@@ -264,10 +264,10 @@ c
             XVEC(1:NEL,2)  = TINI
             IPOS0(1:NEL,1) = 1
             IPOS0(1:NEL,2) = 1
-            CALL TABLE_VINTERP(TABLE(ITABLE(2)),NEL,IPOS0,XVEC,YLD_TREF,DYDX)      
+            CALL TABLE_VINTERP(TABLE(ITABLE(2)),NEL,NEL,IPOS0,XVEC,YLD_TREF,DYDX)      
             ! Current temperature factor
             XVEC(1:NEL,2) = TEMP(1:NEL)
-            CALL TABLE_VINTERP(TABLE(ITABLE(2)),NEL,IPOS0,XVEC,YLD_TEMP,DYDX)
+            CALL TABLE_VINTERP(TABLE(ITABLE(2)),NEL,NEL,IPOS0,XVEC,YLD_TEMP,DYDX)
             TFAC(1:NEL)  = YLD_TEMP(1:NEL) / YLD_TREF(1:NEL)      
             YL0(1:NEL)   = YL0(1:NEL) * TFAC(1:NEL)
           ENDIF           
@@ -285,7 +285,7 @@ c
         XVEC(1:NEL,2) = EPSP(1:NEL) * XSCALE
         IPOS(1:NEL,1) = VARTMP(1:NEL,1)
         IPOS(1:NEL,2) = 1
-        CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(1)),ISMOOTH,NEL,IPOS,XVEC,YLD,HARDP,HARDR)
+        CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(1)),ISMOOTH,NEL,NEL,IPOS,XVEC,YLD,HARDP,HARDR)
         YLD(1:NEL)   = YLD(1:NEL)   * YSCALE
         HARDP(1:NEL) = HARDP(1:NEL) * YSCALE
         VARTMP(1:NEL,1) = IPOS(1:NEL,1)
@@ -295,12 +295,12 @@ c
           XVEC(1:NEL,2) = TINI
           IPOS(1:NEL,1) = VARTMP(1:NEL,2)
           IPOS(1:NEL,2) = VARTMP(1:NEL,3)
-          CALL TABLE_VINTERP(TABLE(ITABLE(2)),NEL,IPOS,XVEC,YLD_TREF,DYDX)  
+          CALL TABLE_VINTERP(TABLE(ITABLE(2)),NEL,NEL,IPOS,XVEC,YLD_TREF,DYDX)  
           VARTMP(1:NEL,2) = IPOS(1:NEL,1)     
           VARTMP(1:NEL,3) = IPOS(1:NEL,2)   
           ! Current temperature factor
           XVEC(1:NEL,2) = TEMP(1:NEL)
-          CALL TABLE_VINTERP(TABLE(ITABLE(2)),NEL,IPOS,XVEC,YLD_TEMP,DYDX)
+          CALL TABLE_VINTERP(TABLE(ITABLE(2)),NEL,NEL,IPOS,XVEC,YLD_TEMP,DYDX)
           TFAC(1:NEL)  = YLD_TEMP(1:NEL) / YLD_TREF(1:NEL)  
           YLD(1:NEL)   = YLD(1:NEL)   * TFAC(1:NEL)      
           HARDP(1:NEL) = HARDP(1:NEL) * TFAC(1:NEL) 
@@ -817,7 +817,7 @@ c
           XVEC(1:NEL,2) = EPSP(1:NEL) * XSCALE
           IPOS(1:NEL,1) = VARTMP(1:NEL,1)
           IPOS(1:NEL,2) = 1
-          CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(1)),ISMOOTH,NEL,IPOS,XVEC  ,YLD  ,HARDP,HARDR)               
+          CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(1)),ISMOOTH,NEL,NEL,IPOS,XVEC  ,YLD  ,HARDP,HARDR)               
           YLD(1:NEL)      = YLD(1:NEL) * YSCALE
           HARDP(1:NEL)    = HARDP(1:NEL) * YSCALE
           VARTMP(1:NEL,1) = IPOS(1:NEL,1)
@@ -827,12 +827,12 @@ c
             XVEC(1:NEL,2) = TINI
             IPOS(1:NEL,1) = VARTMP(1:NEL,2)
             IPOS(1:NEL,2) = VARTMP(1:NEL,3)
-            CALL TABLE_VINTERP(TABLE(ITABLE(2)),NEL,IPOS,XVEC,YLD_TREF,DYDX)  
+            CALL TABLE_VINTERP(TABLE(ITABLE(2)),NEL,NEL,IPOS,XVEC,YLD_TREF,DYDX)  
             VARTMP(1:NEL,2) = IPOS(1:NEL,1)     
             VARTMP(1:NEL,3) = IPOS(1:NEL,2)     
             ! Current temperature factor
             XVEC(1:NEL,2) = TEMP(1:NEL)
-            CALL TABLE_VINTERP(TABLE(ITABLE(2)),NEL,IPOS,XVEC,YLD_TEMP,DYDX)
+            CALL TABLE_VINTERP(TABLE(ITABLE(2)),NEL,NEL,IPOS,XVEC,YLD_TEMP,DYDX)
             TFAC(1:NEL)  = YLD_TEMP(1:NEL) / YLD_TREF(1:NEL)      
             YLD(1:NEL)   = YLD(1:NEL)   * TFAC(1:NEL)      
             HARDP(1:NEL) = HARDP(1:NEL) * TFAC(1:NEL) 

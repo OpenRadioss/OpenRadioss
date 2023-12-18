@@ -362,7 +362,7 @@ c
             XVEC(1:NEL,2) = EPSP(1:NEL)/EPSDOT_FLD
             !   -> Tensile yield stress in direction 1 (MD)
             IPOS(1:NEL,1:2) = 1
-            CALL TABLE2D_VINTERP_LOG(TABLE(tab_IDfld),Ismooth,NEL,IPOS,XVEC,E1FLD,DFLD,HARDR)
+            CALL TABLE2D_VINTERP_LOG(TABLE(tab_IDfld),Ismooth,NEL,NEL,IPOS,XVEC,E1FLD,DFLD,HARDR)
           ! Diagram using engineering strain
           ELSE
             ! In-plane tabulation with strain-rate
@@ -370,7 +370,7 @@ c
             XVEC(1:NEL,2) = EPSP(1:NEL)/EPSDOT_FLD
             !   -> Tensile yield stress in direction 1 (MD)
             IPOS(1:NEL,1:2) = 1
-            CALL TABLE2D_VINTERP_LOG(TABLE(tab_IDfld),Ismooth,NEL,IPOS,XVEC,E1FLD,DFLD,HARDR)
+            CALL TABLE2D_VINTERP_LOG(TABLE(tab_IDfld),Ismooth,NEL,NEL,IPOS,XVEC,E1FLD,DFLD,HARDR)
             E1FLD = LOG(ONE + E1FLD)
           ENDIF
         ELSE
@@ -381,7 +381,7 @@ c
             XVEC(1:NEL,2) = ALDT(1:NEL)/El_ref
             !   -> Tensile yield stress in direction 1 (MD)
             IPOS(1:NEL,1:2) = 1
-            CALL TABLE_VINTERP(TABLE(tab_IDfld),NEL,IPOS,XVEC,E1FLD,DFLD)
+            CALL TABLE_VINTERP(TABLE(tab_IDfld),NEL,NEL,IPOS,XVEC,E1FLD,DFLD)
           ! Diagram using engineering strains
           ELSE
             ! In-plane tabulation with strain-rate
@@ -389,7 +389,7 @@ c
             XVEC(1:NEL,2) = ALDT(1:NEL)/El_ref
             !   -> Tensile yield stress in direction 1 (MD)
             IPOS(1:NEL,1:2) = 1
-            CALL TABLE_VINTERP(TABLE(tab_IDfld),NEL,IPOS,XVEC,E1FLD,DFLD)
+            CALL TABLE_VINTERP(TABLE(tab_IDfld),NEL,NEL,IPOS,XVEC,E1FLD,DFLD)
             E1FLD = LOG(ONE + E1FLD)
           ENDIF
         ENDIF
