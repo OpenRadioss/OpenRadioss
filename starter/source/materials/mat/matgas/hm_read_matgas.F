@@ -36,7 +36,7 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matp
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MATGAS(PM, IPM, ID, TITR, KEY2, UNITAB, LSUBMODEL,MATPARAM )
+      SUBROUTINE HM_READ_MATGAS(PM, IPM, ID, TITR, KEY2, UNITAB, LSUBMODEL)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -44,7 +44,6 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
-      USE MATPARAM_DEF_MOD          
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,7 +65,6 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPM), INTENT(INOUT) :: PM
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       CHARACTER(LEN = ncharline), INTENT(IN) :: KEY2
-      TYPE (MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -326,10 +324,6 @@ C-----------------------------------------------
       PM(25) = CPE
       PM(26) = CPF
       PM(27) = R_IGC1 
-c
-      ! Properties compatibility
-      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
-      CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC")
 c
 !     *********
 !     Print out

@@ -155,6 +155,7 @@ C-----------------------------------------------
       ! Properties compatibility
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ALL")
       CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ALL")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")
 
       RETURN
  999  CALL ANCMSG(MSGID=55,
