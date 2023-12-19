@@ -277,7 +277,7 @@ C-----------------------------------------------
               write(ISTDO,FMT='(A,4I11)')
      .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
             endif
-            PBLAST_TAB(IL)%TAGMSG(I) = .TRUE.
+            PBLAST_TAB(IL)%TAGMSG(I) = 1
           ELSEIF(Z > 400. AND. PBLAST_TAB(IL)%TAGMSG(I) == 0)THEN
               if (N4 == 0)then
               write(IOUT,FMT='(A,3I11)')
