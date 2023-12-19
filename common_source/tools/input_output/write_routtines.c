@@ -228,7 +228,7 @@ void open_c(int *ifil,int *len,int *mod)
      }else{                                    // Not zipped file
 
        #ifdef _WIN64
-          fopen_s(&curfile,filnam,"r");
+          curfile=fopen(filnam,"r");
        #else
           curfile=fopen(filnam,"r");
        #endif
@@ -253,7 +253,7 @@ void open_c(int *ifil,int *len,int *mod)
                                                                                        // Several buffers can be opened at same time.
      }
      #ifdef _WIN64
-        fopen_s(&curfile,filnam,"w");
+        curfile=fopen(filnam,"w");
      #else
         curfile=fopen(filnam,"w");
      #endif
@@ -261,7 +261,7 @@ void open_c(int *ifil,int *len,int *mod)
 
   if (*mod==2) {                           // Open Read/Write : uncompressed
      #ifdef _WIN64
-        fopen_s(&curfile,filnam,"r+");
+        curfile=fopen(filnam,"r+");
      #else
         curfile=fopen(filnam,"r+");
      #endif
@@ -269,7 +269,7 @@ void open_c(int *ifil,int *len,int *mod)
 
   if (*mod==8) {                           // Open Append mode - unzipped
      #ifdef _WIN64
-        fopen_s(&curfile,filnam,"a");
+        curfile=fopen(filnam,"a");
      #else
         curfile=fopen(filnam,"a");
      #endif

@@ -2253,7 +2253,7 @@ int *sd;
   
 #ifdef _WIN64 
 
-
+    gethostname(PUF,512);
     hp = gethostbyname(PUF);
     
     memcpy ( &(server.sin_addr.s_addr), hp->h_addr,  hp->h_length);
