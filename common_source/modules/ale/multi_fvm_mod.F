@@ -263,6 +263,7 @@ C     Compression coefficient for phase advection
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: N4_VOIS
       my_real, DIMENSION(:, :, :), ALLOCATABLE :: FLUXES, SUBVOL_FLUXES, SUBMASS_FLUXES, SUBENER_FLUXES
       my_real, DIMENSION(:, :), ALLOCATABLE :: VEL
+      my_real, DIMENSION(:, :), ALLOCATABLE :: ACC
       my_real, DIMENSION(:), ALLOCATABLE :: SOUND_SPEED
       my_real, DIMENSION(:), ALLOCATABLE :: RHO, EINT, PRES
       my_real, DIMENSION(:), ALLOCATABLE :: TBURN, VOL

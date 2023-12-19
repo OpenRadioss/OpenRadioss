@@ -468,7 +468,8 @@ C-----------------------------------------------
         INTEGER ::  N_VECT_PCONT2_MAX = 0     
         INTEGER ::  N_VECT_CONT2_MIN  = 0            
         INTEGER ::  N_VECT_PCONT2_MIN  = 0
-        INTEGER ::  N_VECT_CONT2M  = 0     
+        INTEGER ::  N_VECT_CONT2M  = 0
+        INTEGER ::  N_VECT_ACC = 0  !FVM acceleration (law151, colocated scheme)
 
         INTEGER ::  SH_SCAL_ERR_THK = 0         !ANIM_CE(2156)
 

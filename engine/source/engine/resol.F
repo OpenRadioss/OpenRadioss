@@ -8919,6 +8919,7 @@ C===============================================================================
 
 !$OMP   PARALLEL PRIVATE(ITSK)
           ITSK = OMP_GET_THREAD_NUM()
+          CALL MULTI_VELOCITY_BACKUP(ITSK,MULTI_FVM,N2D,NUMELS,NUMELQ,NUMELTG)
           CALL INT18_LAW151_UPDATE(ITSK   ,MULTI_FVM,IGRBRIC  ,IPARI,IXS,
      1                             IGROUPS,IPARG    ,ELBUF_TAB,MULTI_FVM%FORCE_INT         ,
      2             X       ,          V       ,          MS         ,          KINET       ,

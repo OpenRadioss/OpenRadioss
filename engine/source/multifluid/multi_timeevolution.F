@@ -284,7 +284,7 @@ C     SUBMAT gradients
                CALL MULTI_FLUXES_COMPUTATION(NG, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .              PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, 
      .              MULTI_FVM%NBMAT, CURRENT_TIME, BUFMAT,
-     .              ID_GLOBAL_VOIS,NPF,TF) 
+     .              ID_GLOBAL_VOIS,NPF,TF)
             ENDIF
          ENDIF
       ENDDO                     ! DO NG = ITASK + 1, NGROUP, NTHREAD
@@ -357,7 +357,7 @@ C     -------------------------
 C     Multifluid law: update global values
 C     -------------------------
             CALL MULTI_UPDATE_GLOBAL(NG, ELBUF_TAB, IPARG, ITASK, MULTI_FVM, 
-     .           PARTSAV, IPARTS, GRESAV, IGRTH, GRTH, VOLNEW(1:NEL), PRED) 
+     .           PARTSAV, IPARTS, GRESAV, IGRTH, GRTH, VOLNEW(1:NEL), PRED, TIMESTEP)
 
             IF (MULTI_FVM%SYM == 0) THEN
                IX => IXS(1:NIXS, 1 + NFT:NEL + NFT)
