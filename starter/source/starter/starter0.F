@@ -182,7 +182,7 @@ C
 C
       TYPE(MULTI_FVM_STRUCT)                          :: MULTI_FVM
       TYPE(SUBMODEL_DATA) , DIMENSION(:), ALLOCATABLE :: LSUBMODEL
-      TYPE(DETONATOR_STRUCT_),TARGET                  :: DETONATORS
+      TYPE(DETONATORS_STRUCT_),TARGET                  :: DETONATORS
       TYPE(t_ebcs_tab)                                :: EBCS_TAB
       TYPE(OUTPUT_)                                   :: OUTPUT
 c      TYPE(SENSORS_) :: SENSORS    ! declared as global in USER_SENSOR_MOD

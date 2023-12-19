@@ -27,7 +27,7 @@ Chd|        READ_DFS_DETCORD              source/initial_conditions/detonation/r
 Chd|-- calls ---------------
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|====================================================================
-      SUBROUTINE DETCORD0(DETONATORS,ITAB,N2,ALT,X,VDET2,IOPT)
+      SUBROUTINE DETCORD0(DETONATOR_CORD,ALT,X,VDET2,IOPT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -39,56 +39,48 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: ITAB(*),IOPT,N2
+      INTEGER :: IOPT
       my_real :: ALT,VDET2,X(3,*)
-      TYPE(DETONATOR_STRUCT_)::DETONATORS
+      TYPE(DETONATOR_CORD_STRUCT_)::DETONATOR_CORD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: J,I,II,NDETCORD,NPE,NPE2
+      INTEGER :: J,I,NOD_ID,NNOD
       my_real :: XLP1,XLP2,YLP1,YLP2,ZLP1,ZLP2,D,XL0,YL0,ZL0
-      
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
-      NDETCORD = DETONATORS%NDETCORD
-      IF(NDETCORD == 0)RETURN
       IF(IOPT == 0)    RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 
-        NDETCORD = DETONATORS%NDETCORD
-        NPE = DETONATORS%NPE
-        NPE2 = DETONATORS%NPE2
-        J = 1
-        I = N2+J-1
-        DETONATORS%DCORD(I)= ALT
+
+       NNOD = DETONATOR_CORD%NUMNOD
 
        IF(IOPT == 1)THEN
-        DO J=1,NPE2-1 
+        DETONATOR_CORD%TDET_PATH(1) = ALT
+        DO J=1,NNOD-1
           !first point
-          I        = N2+J-1   
-          II       = DETONATORS%ICORD(I) 
-          XLP1     = X(1,II)  
-          YLP1     = X(2,II)  
-          ZLP1     = X(3,II)  
+          NOD_ID   = DETONATOR_CORD%NODES(J)
+          XLP1     = X(1,NOD_ID)
+          YLP1     = X(2,NOD_ID)
+          ZLP1     = X(3,NOD_ID)
           !second point
-          I        = I+1
-          II       = DETONATORS%ICORD(I)
-          XLP2     = X(1,II)       
-          YLP2     = X(2,II)
-          ZLP2     = X(3,II)
+          NOD_ID   = DETONATOR_CORD%NODES(J+1)
+          XLP2     = X(1,NOD_ID)
+          YLP2     = X(2,NOD_ID)
+          ZLP2     = X(3,NOD_ID)
           !distance P1-P2
           XL0      = (XLP1-XLP2)                                       
           YL0      = (YLP1-YLP2)                                       
           ZL0      = (ZLP1-ZLP2)        
           D        = XL0**2 + YL0**2 + ZL0**2
           D        = SQRT(D)
-          DETONATORS%DCORD(I) = DETONATORS%DCORD(I-1) + D/VDET2
+          DETONATOR_CORD%TDET_PATH(J+1) = DETONATOR_CORD%TDET_PATH(J) + D/VDET2
         ENDDO
        ELSE
-          DETONATORS%DCORD(N2+1:N2+NPE2-2) = ALT
+          DETONATOR_CORD%TDET_PATH(1:NNOD) = ALT
        ENDIF
 
 

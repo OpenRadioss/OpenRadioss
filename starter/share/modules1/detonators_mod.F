@@ -80,42 +80,96 @@ C-----------------------------------------------
 #include      "my_real.inc"
 C-----------------------------------------------    
 
-        TYPE DETONATOR_STRUCT_
-          !counts           
-          INTEGER :: NDETPS
-          INTEGER :: NDETSG
-          INTEGER :: NECRAN
-          INTEGER :: NPE
-          INTEGER :: NDETPL
-          INTEGER :: NDETCORD
-          !sizes
-          INTEGER :: NPE2
-          INTEGER :: SDECRAN 
-          INTEGER :: NDET        
-          INTEGER :: SIECRAN
-          INTEGER :: SICORD
-          !detonation times (burning times)
-          my_real, DIMENSION(:,:), ALLOCATABLE :: BURN                 
-          !specific for /dfs/wav_sha
-          INTEGER, DIMENSION(:), ALLOCATABLE :: IECRAN
-          my_real, DIMENSION(:), ALLOCATABLE :: DECRAN
-          !specific for /dfs/det_cord
-          INTEGER, DIMENSION(:), ALLOCATABLE :: ICORD
-          my_real, DIMENSION(:), ALLOCATABLE :: DCORD
-        END TYPE DETONATOR_STRUCT_
-        
+        ! --- /DFS/DETPOINT DATA STRUCTURE
+        TYPE DETONATOR_POINT_STRUCT_
+          LOGICAL :: IS_MAT_VALID = .FALSE.
+          INTEGER :: MAT = 0
+          my_real :: TDET
+          my_real :: XDET
+          my_real :: YDET
+          my_real :: ZDET
+        END TYPE DETONATOR_POINT_STRUCT_
+
+        ! --- /DFS/DETLINE DATA STRUCTURE
+        TYPE DETONATOR_LINE_STRUCT_
+          LOGICAL :: IS_MAT_VALID = .FALSE.
+          INTEGER :: MAT = 0
+          my_real :: TDET
+          my_real :: XDET_1
+          my_real :: YDET_1
+          my_real :: ZDET_1
+          my_real :: XDET_2
+          my_real :: YDET_2
+          my_real :: ZDET_2
+        END TYPE DETONATOR_LINE_STRUCT_
+
+       ! --- /DFS/DETPLANE DATA STRUCTURE
+        TYPE DETONATOR_PLANE_STRUCT_
+          LOGICAL :: IS_MAT_VALID = .FALSE.
+          INTEGER :: MAT = 0
+          my_real :: TDET
+          my_real :: XDET
+          my_real :: YDET
+          my_real :: ZDET
+          my_real :: NX
+          my_real :: NY
+          my_real :: NZ
+        END TYPE DETONATOR_PLANE_STRUCT_
+
+        ! --- /DFS/WAVE_SHAPER DATA STRUCTURE
+        TYPE DETONATOR_WAVE_SHAPER_STRUCT_
+          LOGICAL :: IS_MAT_VALID = .FALSE.
+          INTEGER :: MAT = 0
+          INTEGER :: NUMNOD
+          my_real :: XDET
+          my_real :: YDET
+          my_real :: ZDET
+          my_real :: VDET
+          my_real :: TDET
+          INTEGER,DIMENSION(:),ALLOCATABLE :: NODES
+          my_real,DIMENSION(:),ALLOCATABLE :: TIME
+          INTEGER,DIMENSION(:),ALLOCATABLE :: FLAG
+          INTEGER,DIMENSION(:),ALLOCATABLE :: IORDR
+        END TYPE DETONATOR_WAVE_SHAPER_STRUCT_
+
+        ! --- /DFS/DETCORD DATA STRUCTURE
+        TYPE DETONATOR_CORD_STRUCT_
+          LOGICAL :: IS_MAT_VALID = .FALSE.
+          INTEGER :: MAT = 0
+          INTEGER :: IOPT
+          INTEGER :: NUMNOD
+          INTEGER,DIMENSION(:),ALLOCATABLE :: NODES
+          my_real,DIMENSION(:),ALLOCATABLE :: TDET_PATH
+          my_real :: TDET
+          my_real :: VDET
+        END TYPE DETONATOR_CORD_STRUCT_
+
+        ! --- MAIN DATA STRUCTURE
+        TYPE DETONATORS_STRUCT_
+          !numbering
+          INTEGER :: N_DET !sum of all detonators
+          INTEGER :: N_DET_POINT !number of /DFS/DETPOINT
+          INTEGER :: N_DET_LINE !number of /DFS/DETLINE
+          INTEGER :: N_DET_WAVE_SHAPER !number of /DFS/WAVE_SHAPER
+          INTEGER :: N_DET_CORD !number of /DFS/DETCORD
+          INTEGER :: N_DET_PLANE !number of /DFS/DETPLANE
+          !all detonators
+          TYPE(DETONATOR_POINT_STRUCT_), DIMENSION(:), ALLOCATABLE :: POINT
+          TYPE(DETONATOR_LINE_STRUCT_), DIMENSION(:), ALLOCATABLE :: LINE
+          TYPE(DETONATOR_CORD_STRUCT_), DIMENSION(:), ALLOCATABLE :: CORD
+          TYPE(DETONATOR_WAVE_SHAPER_STRUCT_), DIMENSION(:), ALLOCATABLE :: WAVE_SHAPER
+          TYPE(DETONATOR_PLANE_STRUCT_), DIMENSION(:), ALLOCATABLE :: PLANE
+        END TYPE DETONATORS_STRUCT_
         
       CONTAINS
-      
-      
-C-----------------------------------------------   
+
 Chd|====================================================================
 Chd|  DEALLOCATE_DETONATORS         share/modules1/detonators_mod.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DEALLOCATE_DETONATORS(DET)
+      SUBROUTINE DEALLOCATE_DETONATORS(DETONATORS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -123,16 +177,39 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(DETONATOR_STRUCT_)::DET      
+      TYPE(DETONATORS_STRUCT_),INTENT(INOUT)::DETONATORS
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER IDET
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IF(ALLOCATED(DET%BURN))DEALLOCATE(DET%BURN)
-      IF(ALLOCATED(DET%IECRAN))DEALLOCATE(DET%IECRAN)
-      IF(ALLOCATED(DET%DECRAN))DEALLOCATE(DET%DECRAN)
-      IF(ALLOCATED(DET%ICORD))DEALLOCATE(DET%ICORD)
-      IF(ALLOCATED(DET%DCORD))DEALLOCATE(DET%DCORD)
-      
+      !working arrays for detonating cord
+      IF(DETONATORS%N_DET_CORD > 0)THEN
+        DO IDET=1,DETONATORS%N_DET_CORD
+          IF(ALLOCATED(DETONATORS%CORD(IDET)%NODES))DEALLOCATE(DETONATORS%CORD(IDET)%NODES)
+          IF(ALLOCATED(DETONATORS%CORD(IDET)%TDET_PATH))DEALLOCATE(DETONATORS%CORD(IDET)%TDET_PATH)
+        ENDDO
+      ENDIF
+
+      !working arrays for wave shaper
+      IF(DETONATORS%N_DET_WAVE_SHAPER > 0)THEN
+        DO IDET=1,DETONATORS%N_DET_WAVE_SHAPER
+          IF(ALLOCATED(DETONATORS%WAVE_SHAPER(IDET)%NODES))DEALLOCATE(DETONATORS%WAVE_SHAPER(IDET)%NODES)
+          IF(ALLOCATED(DETONATORS%WAVE_SHAPER(IDET)%TIME))DEALLOCATE(DETONATORS%WAVE_SHAPER(IDET)%TIME)
+          IF(ALLOCATED(DETONATORS%WAVE_SHAPER(IDET)%FLAG))DEALLOCATE(DETONATORS%WAVE_SHAPER(IDET)%FLAG)
+          IF(ALLOCATED(DETONATORS%WAVE_SHAPER(IDET)%IORDR))DEALLOCATE(DETONATORS%WAVE_SHAPER(IDET)%IORDR)
+        ENDDO
+      ENDIF
+
+      !general data structure
+      IF(ALLOCATED(DETONATORS%POINT)) DEALLOCATE(DETONATORS%POINT)
+      IF(ALLOCATED(DETONATORS%PLANE)) DEALLOCATE(DETONATORS%PLANE)
+      IF(ALLOCATED(DETONATORS%LINE))  DEALLOCATE(DETONATORS%LINE)
+      IF(ALLOCATED(DETONATORS%CORD))  DEALLOCATE(DETONATORS%CORD)
+      IF(ALLOCATED(DETONATORS%WAVE_SHAPER)) DEALLOCATE(DETONATORS%WAVE_SHAPER)
+
       END SUBROUTINE DEALLOCATE_DETONATORS
       
       END MODULE DETONATORS_MOD

@@ -118,7 +118,7 @@ C-----------------------------------------------
       TYPE(L_BUFEL_), TARGET  :: LBUF     
       TYPE(BUF_MAT_) :: MBUF
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
-      TYPE(DETONATOR_STRUCT_)::DETONATORS
+      TYPE(DETONATORS_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TARGET  :: BUFMAT
 C-----------------------------------------------

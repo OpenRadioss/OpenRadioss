@@ -60,10 +60,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPM(NPROPMI,NUMMAT),NGL(NEL),MAT(NEL), IPARG(NPARG),IFORM,NIX,IX(NIX,*)
       my_real PM(NPROPM,NUMMAT),UVAR(NEL,NUVAR),UPARAM(*), X(3,NUMNOD), BUFMAT(*), RHO0
-      INTEGER,INTENT(IN)                   :: NEL
+      INTEGER,INTENT(IN) :: NEL
       my_real,INTENT(INOUT) :: SIG(NEL,6)
       TYPE(G_BUFEL_), INTENT(INOUT),TARGET :: GBUF  
-      TYPE(DETONATOR_STRUCT_) :: DETONATORS
+      TYPE(DETONATORS_STRUCT_) :: DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

@@ -172,7 +172,7 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       INTEGER,INTENT(IN)::IS_DYNA
-      TYPE(DETONATOR_STRUCT_) :: DETONATORS
+      TYPE(DETONATORS_STRUCT_) :: DETONATORS
       TYPE(USER_WINDOWS_), INTENT(INOUT) :: USER_WINDOWS
       TYPE(MAT_ELEM_), INTENT(INOUT)     :: MAT_ELEM
 C-----------------------------------------------
@@ -947,17 +947,16 @@ C-----
 C---------------------------------------------------
 ! Counting /DFS
 C---------------------------------------------------
-      DETONATORS%NDETPS   = 0
-      DETONATORS%NDETSG   = 0
-      DETONATORS%NECRAN   = 0
-      DETONATORS%NDETPL   = 0
-      DETONATORS%NDETCORD = 0
-      CALL HM_OPTION_COUNT('/DFS/DETPOIN',DETONATORS%NDETPS) 
-      CALL HM_OPTION_COUNT('/DFS/DETLINE',DETONATORS%NDETSG)   
-      CALL HM_OPTION_COUNT('/DFS/WAV_SHA',DETONATORS%NECRAN)
-      CALL HM_OPTION_COUNT('/DFS/DETPLAN',DETONATORS%NDETPL)   
-      CALL HM_OPTION_COUNT('/DFS/DETCORD',DETONATORS%NDETCORD)
-      DETONATORS%NDET=DETONATORS%NDETPS+DETONATORS%NDETSG+DETONATORS%NECRAN+DETONATORS%NDETPL+DETONATORS%NDETCORD
+      CALL HM_OPTION_COUNT('/DFS/DETPOIN',DETONATORS%N_DET_POINT) 
+      CALL HM_OPTION_COUNT('/DFS/DETLINE',DETONATORS%N_DET_LINE)   
+      CALL HM_OPTION_COUNT('/DFS/WAV_SHA',DETONATORS%N_DET_WAVE_SHAPER)
+      CALL HM_OPTION_COUNT('/DFS/DETPLAN',DETONATORS%N_DET_PLANE)   
+      CALL HM_OPTION_COUNT('/DFS/DETCORD',DETONATORS%N_DET_CORD)
+      DETONATORS%N_DET=DETONATORS%N_DET_POINT
+     .                +DETONATORS%N_DET_LINE
+     .                +DETONATORS%N_DET_WAVE_SHAPER
+     .                +DETONATORS%N_DET_PLANE
+     .                +DETONATORS%N_DET_CORD
 C---------------------------------------------------
 ! /DFS/LASER
 C---------------------------------------------------
@@ -1286,12 +1285,12 @@ C=======================================================================
      .  '    NPRELOAD: NUMBER OF BOLT PRELOADINGS. . . . . . . . .',
      .  NPRELOAD
       ENDIF
-      IF(DETONATORS%NDET > 0)THEN
-        WRITE (IOUT,'(/(A,I10))') TITRE(141)(1:57),DETONATORS%NDETPS,
-     .                            TITRE(171)(1:57),DETONATORS%NDETSG,
-     .                            TITRE(172)(1:57),DETONATORS%NECRAN,
-     .                            TITRE(187)(1:57),DETONATORS%NDETCORD,
-     .                            TITRE(188)(1:57),DETONATORS%NDETPL
+      IF(DETONATORS%N_DET > 0)THEN
+        WRITE (IOUT,'(/(A,I10))') TITRE(141)(1:57),DETONATORS%N_DET_POINT,
+     .                            TITRE(171)(1:57),DETONATORS%N_DET_LINE,
+     .                            TITRE(172)(1:57),DETONATORS%N_DET_WAVE_SHAPER,
+     .                            TITRE(187)(1:57),DETONATORS%N_DET_CORD,
+     .                            TITRE(188)(1:57),DETONATORS%N_DET_PLANE
       ENDIF
       IF(NLASER > 0) WRITE (IOUT,'((A,I10))') TITRE(178)(1:57),NLASER
       WRITE (IOUT,'(4X,A,I10)') 

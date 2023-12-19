@@ -88,7 +88,7 @@ C-----------------------------------------------
      .   VNIGE(NCTRLMAX,*), BNIGE(NCTRLMAX,*),BUFMAT(*), TF(*),
      .   MSIG3D(NUMELIG3D,NCTRLMAX),KNOT(*),WIGE(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
-      TYPE(DETONATOR_STRUCT_)::DETONATORS
+      TYPE(DETONATORS_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
