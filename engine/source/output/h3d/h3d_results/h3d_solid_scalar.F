@@ -44,7 +44,7 @@ Chd|====================================================================
      .                  NV46            ,NERCVOIS     ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
      .                  STACK           ,ID_ELEM      ,ITY_ELEM  ,IPARTS      ,LAYER_INPUT ,
      .                  IR_INPUT        ,IS_INPUT     ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
-     .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,SFANI_CELL  ,
+     .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,
      .                  MULTI_FVM       , H3D_DATA    ,IDMDS     ,IMDSVAR     ,MDS_MATID   ,
      .                  ID              )
 C-----------------------------------------------
@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE H3D_MOD        
       USE MULTI_FVM_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE ALEANIM_MOD , ONLY : FANI_CELL_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,11 +82,11 @@ C-----------------------------------------------
      .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,*),
      .   IGEO(NPROPGI,*),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),IPARTS(*),ID,
      .   H3D_PART(*),IS_WRITTEN_SOLID(*),INFO1,LAYER_INPUT,IR_INPUT,IS_INPUT,IT_INPUT,
-     .   IUVAR_INPUT,SFANI_CELL,IDMDS,IMDSVAR,MDS_MATID(*)
+     .   IUVAR_INPUT,IDMDS,IMDSVAR,MDS_MATID(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
       CHARACTER*ncharline KEYWORD
-      my_real, INTENT(IN) :: FANI_CELL(SFANI_CELL)
+      TYPE(FANI_CELL_),INTENT(IN) :: FANI_CELL
       TYPE (H3D_DATABASE) :: H3D_DATA
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
@@ -156,7 +157,7 @@ c
      .                  NV46            ,NERCVOIS     ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
      .                  STACK           ,ID_ELEM      ,ITY_ELEM  ,IPARTS      ,LAYER_INPUT ,
      .                  IR_INPUT        ,IS_INPUT     ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
-     .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,SFANI_CELL  ,
+     .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,
      .                  MULTI_FVM       , H3D_DATA    ,NG        ,IDMDS       ,IMDSVAR     ,
      .                  MDS_MATID       ,ID           )
 

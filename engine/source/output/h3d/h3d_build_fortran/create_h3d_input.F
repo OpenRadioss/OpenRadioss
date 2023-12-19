@@ -32,6 +32,16 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|====================================================================
       SUBROUTINE CREATE_H3D_INPUT(H3D_DATA,IKAD,IKEY,IREC,NBC,KEY0,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8)
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is activating flags which are used by Engine
+C to make allocation or specific calculatations.
+C Example :
+C   H3D_DATA%N_VECT_CONT  = 1
+C   means /H3D/ELEM/VECT/CONT is defined and
+C   specific calculation & storage are requested
+C   to output this result
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
@@ -223,7 +233,15 @@ c vector
       IF(KEY2 == "ELEM" .OR. KEY2 == 'SOLID' .OR. KEY2 == 'QUAD')THEN
         IF (KEY3_GLOB == 'VECT/CONT') H3D_DATA%N_VECT_CONT  = 1
         IF (KEY3_GLOB == 'VECT/ACC') H3D_DATA%N_VECT_ACC  = 1
-        IF (KEY3_GLOB == 'TENS/EPSDOT') IEPSDOT = 1   
+        IF (KEY3_GLOB == 'TENS/EPSDOT') IEPSDOT = 1
+        IF (KEY3_GLOB == 'VORTX') H3D_DATA%SOL_SCAL_VORTX  = 1
+        IF (KEY3_GLOB == 'VORTY') H3D_DATA%SOL_SCAL_VORTY  = 1
+        IF (KEY3_GLOB == 'VORTZ') H3D_DATA%SOL_SCAL_VORTZ  = 1
+        IF (KEY3_GLOB == 'VORT') THEN
+          H3D_DATA%SOL_SCAL_VORTX  = 1
+          H3D_DATA%SOL_SCAL_VORTY  = 1
+          H3D_DATA%SOL_SCAL_VORTZ  = 1
+        ENDIF
       ENDIF
 c
       IF(KEY2 == 'SHELL') THEN

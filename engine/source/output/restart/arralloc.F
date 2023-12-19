@@ -133,7 +133,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IERR0,IERROR, NBMAT,I,NPT
+      INTEGER IERR0,IERROR, NBMAT,I,NPT,ISIZ1,ISIZ2
 C-----------------------------------------------
       IERROR = 0
 C pour eviter conflit avec IERR dans commun
@@ -1332,10 +1332,35 @@ C
         IF (IERR/=0) GOTO 1000
         FANI = 0  
 
-        ALLOCATE (FANI_CELL(SFANI_CELL),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        FANI_CELL = 0 
-        
+        ISIZ1=2
+        ISIZ2=NUMELQ+NUMELTG
+        IF(N2D == 0)THEN
+          ISIZ1=3
+          ISIZ2=NUMELS
+        ENDIF
+        !
+        IF(FANI_CELL%IS_VORT_X_REQUESTED)THEN
+          ALLOCATE (FANI_CELL%VORT_X(ISIZ2),STAT=IERR)
+          IF (IERR/=0) GOTO 1000
+          FANI_CELL%VORT_X(:) = ZERO
+        ENDIF
+        IF(FANI_CELL%IS_VORT_Y_REQUESTED)THEN
+          ALLOCATE (FANI_CELL%VORT_Y(ISIZ2),STAT=IERR)
+          IF (IERR/=0) GOTO 1000
+          FANI_CELL%VORT_Y(:) = ZERO
+        ENDIF
+        IF(FANI_CELL%IS_VORT_Z_REQUESTED)THEN
+          ALLOCATE (FANI_CELL%VORT_Z(ISIZ2),STAT=IERR)
+          IF (IERR/=0) GOTO 1000
+          FANI_CELL%VORT_Z(:) = ZERO
+        ENDIF
+        !
+        IF(FANI_CELL%IS_F18_FVM_REQUESTED)THEN
+          ALLOCATE (FANI_CELL%F18(ISIZ1,ISIZ2),STAT=IERR)
+          IF (IERR/=0) GOTO 1000
+          FANI_CELL%F18(:,:) = ZERO
+        ENDIF
+
         ALLOCATE (XCUT(SXCUT),STAT=IERR)
         IF (IERR/=0) GOTO 1000
         XCUT = 0  

@@ -125,7 +125,7 @@ Chd|====================================================================
      r            FNCONTP2  ,FTCONTP2    ,IBCL        ,ILOADP   ,LLOADP   ,
      s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ,DRAPEG,USER_WINDOWS,
      t            OUTPUT    ,DT          ,FSAVSURF    ,NSEG_LOADP,TABLE   ,
-     u            LOADS     )  
+     u            LOADS     ,SFANI)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -196,6 +196,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       LOGICAL LOUT
+      INTEGER, INTENT(IN) :: SFANI
       INTEGER IPARG(*), IXS(*), IXQ(*), IXC(*), IXT(*), IXP(*),
      .   IXS10(6,*) ,IXS16(8,*)  ,IXS20(12,*) ,INDX_CRK(*),
      .   IXR(*), IXTG(*), ITAB(*),ICUT(*),NSTRF(*),LPBY(*),
@@ -942,9 +943,9 @@ C----------------------
           TABFWR0(10) = TABFWR(10)
         ENDIF
         IF(NINTER+NEXMAD/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT > 0)THEN
-            CALL ANICON0(CONT,NUMNOD)
+            IF(SFANI >0)CALL ANICON0(CONT,NUMNOD)
             !law151 reaction forces can be output only with H3D (not ANIM files since vectores are at element centroids)
-            IF (MULTI_FVM%IS_USED .AND. H3D_DATA%N_VECT_CONT > 0)CALL ANICON0(FANI_CELL,NUMELS+NUMELQ) !/H3D/ELEM/VECT/CONT
+            IF (MULTI_FVM%IS_USED .AND. H3D_DATA%N_VECT_CONT > 0)CALL ANICON0(FANI_CELL%F18,NUMELS+NUMELQ) !/H3D/ELEM/VECT/CONT
         ENDIF
         IF(NINTSTAMP/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
             CALL ANICON2(FCONTG,NCONT,INDEXCONT)     

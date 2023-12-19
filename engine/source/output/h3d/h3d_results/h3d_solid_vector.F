@@ -44,7 +44,7 @@ Chd|====================================================================
      .                  NV46            ,NERCVOIS     ,NESDVOIS  ,LERCVOIS    ,LESDVOIS    ,
      .                  STACK           ,ID_ELEM      ,ITY_ELEM  ,IPARTS      ,LAYER_INPUT ,
      .                  IR_INPUT        ,IS_INPUT     ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
-     .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,SFANI_CELL  ,
+     .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,
      .                  H3D_DATA        ,MULTI_FVM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE STACK_MOD       
       USE H3D_MOD  
       USE MULTI_FVM_MOD
+      USE ALEANIM_MOD , ONLY : FANI_CELL_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,11 +81,11 @@ C-----------------------------------------------
      .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,NUMMAT),
      .   IGEO(NPROPGI,NUMGEO),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),IPARTS(*),
      .   H3D_PART(*),IS_WRITTEN_SOLID(*),INFO1,LAYER_INPUT,IR_INPUT,IS_INPUT,IT_INPUT,
-     .   IUVAR_INPUT,SFANI_CELL
+     .   IUVAR_INPUT
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
       CHARACTER*ncharline KEYWORD
-      my_real, INTENT(IN) :: FANI_CELL(SFANI_CELL)
+      TYPE(FANI_CELL_), INTENT(IN) :: FANI_CELL
       TYPE (H3D_DATABASE) :: H3D_DATA
       TYPE (MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
 C-----------------------------------------------
@@ -186,14 +187,11 @@ C--------------------------------------------------
 C--------------------------------------------------
             IF (KEYWORD == 'VECT/CONT') THEN
 C--------------------------------------------------
-               IF (MLW == 151) THEN
-                  IDX=NUMELS*(ANIM_SE(10)+ANIM_SE(4960)+ANIM_SE(4961)) !skip vorticity data
-                  ILEN=NUMELS+NUMELQ           
+               IF (MLW == 151) THEN         
                   DO I = 1, NEL
-                     IPOS = IDX+3*(NFT+I-1)
-                     VALUE(1) = FANI_CELL(IPOS+1)
-                     VALUE(2) = FANI_CELL(IPOS+2)
-                     VALUE(3) = FANI_CELL(IPOS+3)
+                     VALUE(1) = FANI_CELL%F18(1,I+NFT)
+                     VALUE(2) = FANI_CELL%F18(2,I+NFT)
+                     VALUE(3) = FANI_CELL%F18(3,I+NFT)
                      CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_SOLID,SOLID_VECTOR,I,OFFSET,NFT,VALUE)
                   ENDDO
                ENDIF
