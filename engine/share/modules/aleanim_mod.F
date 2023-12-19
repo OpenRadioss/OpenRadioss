@@ -35,7 +35,18 @@ Chd|====================================================================
       
 #include "my_real.inc"
 
-        my_real , 
-     .    DIMENSION(:), ALLOCATABLE ::  FANI_CELL
+        TYPE FANI_CELL_
+          LOGICAL IS_F18_FVM_REQUESTED
+          LOGICAL IS_VORT_X_REQUESTED
+          LOGICAL IS_VORT_Y_REQUESTED
+          LOGICAL IS_VORT_Z_REQUESTED
+          my_real,DIMENSION(:,:), ALLOCATABLE :: F18
+          my_real,DIMENSION(:), ALLOCATABLE :: VORT_X
+          my_real,DIMENSION(:), ALLOCATABLE :: VORT_Y
+          my_real,DIMENSION(:), ALLOCATABLE :: VORT_Z
+        END TYPE
+
+        TYPE(FANI_CELL_) :: FANI_CELL
+
 
       END MODULE ALEANIM_MOD

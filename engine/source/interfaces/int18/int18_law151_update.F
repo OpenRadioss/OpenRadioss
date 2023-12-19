@@ -99,7 +99,7 @@ C-----------------------------------------------
         NODL = (1 + ITASK) * NUMNOD / NTHREAD 
 
         !   1:NUMNOD --> classical x/v/mass
-        IF(IALE/=0) X_APPEND(1:3,NODF:NODL) = X(1:3,NODF:NODL)
+        X_APPEND(1:3,NODF:NODL) = X(1:3,NODF:NODL) !strcture nodes must also be updated
         V_APPEND(1:3,NODF:NODL) = V(1:3,NODF:NODL)
         MASS_APPEND(NODF:NODL) = MS(NODF:NODL)
         KINET_APPEND(NODF:NODL) = KINET(NODF:NODL)
@@ -218,7 +218,7 @@ C-----------------------------------------------
                 MASS = ELBUF_TAB(GROUP_ID)%GBUF%RHO(ILOC) * ELBUF_TAB(GROUP_ID)%GBUF%VOL(ILOC)
                 MASS_APPEND(NUMNOD + IBRIC) = ZERO!MASS
                 !   position
-                IF(IALE/=0) THEN
+                IF(IALE /= 0) THEN
                     X_APPEND(1, NUMNOD + IBRIC) = ZERO
                     X_APPEND(2, NUMNOD + IBRIC) = ZERO
                     X_APPEND(3, NUMNOD + IBRIC) = ZERO

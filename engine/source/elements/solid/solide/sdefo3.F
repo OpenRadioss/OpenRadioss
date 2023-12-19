@@ -58,7 +58,7 @@ C   W = 1/2 * (E - t(E))
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ALEANIM_MOD , ONLY : FANI_CELL
+      USE ALEANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -288,21 +288,19 @@ C-----------------------------------------------
       !VORTICITY OUTPUT /ANIM/ELEM/VORTX,VORTY,VORTZ
       IF(DT1/=ZERO)THEN
         FAC = FOUR/DT1
-        IF(ANIM_SE(10)==1)THEN
+        IF(FANI_CELL%IS_VORT_X_REQUESTED)THEN
           DO I=1,NEL
-            FANI_CELL(I+NFT) = FAC*WXX(I)
+            FANI_CELL%VORT_X(I+NFT) = FAC*WXX(I)
           ENDDO
         ENDIF
-        IF(ANIM_SE(4960)==1)THEN
-          IDX=(NUMELS)*ANIM_SE(10)
+        IF(FANI_CELL%IS_VORT_Y_REQUESTED)THEN
           DO I=1,NEL
-            FANI_CELL(IDX+I+NFT) = FAC*WYY(I)
+            FANI_CELL%VORT_Y(I+NFT) = FAC*WYY(I)
           ENDDO
         ENDIF
-        IF(ANIM_SE(4961)==1)THEN
-          IDX = (NUMELS)*(ANIM_SE(10)+ANIM_SE(4960))
+        IF(FANI_CELL%IS_VORT_Z_REQUESTED)THEN
           DO I=1,NEL
-            FANI_CELL(IDX+I+NFT) = FAC*WZZ(I)
+            FANI_CELL%VORT_Z(I+NFT) = FAC*WZZ(I)
           ENDDO
         ENDIF
       ENDIF

@@ -56,6 +56,7 @@ C-----------------------------------------------
       USE ALEFVM_MOD  
       USE MULTI_FVM_MOD   
       USE ALE_CONNECTIVITY_MOD
+      USE ALEANIM_MOD , ONLY : FANI_CELL_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +83,7 @@ C-----------------------------------------------
       my_real
      .   FUNC(*), MASS(*) ,PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),
      .   EHOUR(*),ANIM(*), SPBUF(*),X(3,NUMNOD),V(3,NUMNOD), W(3,NUMNOD),BUFMAT(*)
-      my_real, INTENT(IN) :: FANI_CELL(SFANI_CELL)
+      TYPE(FANI_CELL_), INTENT(IN) :: FANI_CELL
       INTEGER IPARG(NPARG,*),EL2FA(*),IXS(NIXS,NUMELS),IFUNC,NBF,ISPH3D,
      .        NBPART,IADG(NSPMD,*),IPM(NPROPMI,NUMMAT),
      .        IPART(LIPART1,*),IPARTSP(*),BUF,IGEO(NPROPGI,NUMGEO)
@@ -302,14 +303,13 @@ C               VISCOSITE TURBULENTE
                 ENDDO                                               
 c-----------
               ELSEIF(IFUNC == 10)THEN
-C               VORTICITE-X
+C               VORTICITY-X
                 DO I=LFT,LLT     
-                  EVAR(I) = FANI_CELL(I+NFT)                 
+                  EVAR(I) = FANI_CELL%VORT_X(I+NFT)                 
                 ENDDO
 C
 c-----------
-              ELSEIF((IFUNC == 11.OR.IFUNC == 12.OR.IFUNC == 13)
-     .                                      .AND.MLW == 24)THEN
+              ELSEIF((IFUNC == 11.OR.IFUNC == 12.OR.IFUNC == 13) .AND.MLW == 24)THEN
 C                dam 1 2 3
                  DO I=LFT,LLT
                    EVAR(I) = LBUF%DAM(JJ(IFUNC-10) + I)
@@ -1327,17 +1327,15 @@ c-----------
                 ENDIF  
 c-----------
               ELSEIF(IFUNC == 4960)THEN
-                !VORTICITE-Y
-                IDX = ANIM_SE(10)*NUMELS 
+                !VORTICITY-Y
                 DO I=LFT,LLT
-                  EVAR(I) = FANI_CELL(IDX+I+NFT)                 
+                  EVAR(I) = FANI_CELL%VORT_Y(I+NFT)                 
                 ENDDO     
 c-----------
               ELSEIF(IFUNC == 4961)THEN
-                !VORTICITE-Z
-                IDX = (ANIM_SE(10)+ANIM_SE(4960))*NUMELS 
+                !VORTICITY-Z
                 DO I=LFT,LLT
-                  EVAR(I) = FANI_CELL(IDX+I+NFT)                 
+                  EVAR(I) = FANI_CELL%VORT_Z(I+NFT)                 
                 ENDDO   
 c-----------
               ELSEIF(IFUNC == 4962)THEN

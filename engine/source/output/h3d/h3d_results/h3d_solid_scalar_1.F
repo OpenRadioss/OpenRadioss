@@ -50,7 +50,7 @@ Chd|====================================================================
      .                  NV46            ,NERCVOIS     ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
      .                  STACK           ,ID_ELEM      ,ITY_ELEM  ,IPARTS      ,LAYER_INPUT ,
      .                  IR_INPUT        ,IS_INPUT     ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
-     .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,SFANI_CELL  ,
+     .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,
      .                  MULTI_FVM       , H3D_DATA    ,NG        ,IDMDS       ,IMDSVAR     ,
      .                  MDS_MATID       ,ID           )
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE ALE_CONNECTIVITY_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
+      USE ALEANIM_MOD , ONLY : FANI_CELL_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,11 +93,11 @@ C-----------------------------------------------
      .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,*),
      .   IGEO(NPROPGI,*),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),IPARTS(*),ID,
      .   H3D_PART(*),IS_WRITTEN_SOLID(*),INFO1,LAYER_INPUT,IR_INPUT,IS_INPUT,IT_INPUT,
-     .   IUVAR_INPUT,SFANI_CELL,NG,IDMDS,IMDSVAR,MDS_MATID(*)
+     .   IUVAR_INPUT,NG,IDMDS,IMDSVAR,MDS_MATID(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
       CHARACTER*ncharline KEYWORD
-      my_real, INTENT(IN) :: FANI_CELL(SFANI_CELL)
+      TYPE(FANI_CELL_), INTENT(IN) :: FANI_CELL
       TYPE (H3D_DATABASE) :: H3D_DATA
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
@@ -483,10 +484,10 @@ C               VISCOSITE TURBULENTE
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'VORTX')THEN
 C--------------------------------------------------
-C               VORTICITE-X
+C               VORTICITY-X
                 IF(MLW /= 151)THEN
                   DO I=1,NEL    
-                    VALUE(I) = FANI_CELL(I+NFT)  
+                    VALUE(I) = FANI_CELL%VORT_X(I+NFT)  
                     IS_WRITTEN_VALUE(I) = 1  
                   ENDDO
                 ELSEIF(MLW == 151)THEN
@@ -523,11 +524,10 @@ C               VORTICITE-X
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'VORTY')THEN
 C--------------------------------------------------
-C               VORTICITE-Y
+C               VORTICITY-Y
                 IF(MLW /= 151)THEN
-                  IDX = MIN(1,ANIM_SE(10)+H3D_DATA%SOL_SCAL_VORTX)*NUMELS 
                   DO I=1,NEL    
-                    VALUE(I) = FANI_CELL(IDX+I+NFT)  
+                    VALUE(I) = FANI_CELL%VORT_Y(I+NFT)  
                     IS_WRITTEN_VALUE(I) = 1  
                   ENDDO
                 ELSEIF(MLW == 151)THEN
@@ -565,11 +565,10 @@ C               VORTICITE-Y
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'VORTZ')THEN
 C--------------------------------------------------
-C               VORTICITE-Z
+C               VORTICITY-Z
                 IF(MLW /= 151)THEN
-                  IDX = (MIN(1,ANIM_SE(10)+H3D_DATA%SOL_SCAL_VORTX)+ MIN(1,ANIM_SE(4960)+H3D_DATA%SOL_SCAL_VORTY) )*NUMELS 
                   DO I=1,NEL    
-                    VALUE(I) = FANI_CELL(IDX+I+NFT)  
+                    VALUE(I) = FANI_CELL%VORT_Z(I+NFT)  
                     IS_WRITTEN_VALUE(I) = 1  
                   ENDDO
                 ELSEIF(MLW == 151)THEN

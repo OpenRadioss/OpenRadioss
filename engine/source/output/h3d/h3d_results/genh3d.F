@@ -2710,7 +2710,7 @@ c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INF
      .                    NV46      ,NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
      .                    STACK     ,SOLID_ID  ,SOLID_ITY     ,IPARTS       ,LAYER      ,
      .                    IR        ,IS        ,IT            ,IUVAR        ,H3D_DATA%OUTPUT_LIST(I)%PART,
-     .                    IS_WRITEN_SOLID,INFO1,KEYWORD       ,FANI_CELL    ,SFANI_CELL ,
+     .                    IS_WRITEN_SOLID,INFO1,KEYWORD       ,FANI_CELL    ,
      .                    MULTI_FVM, H3D_DATA  ,IDMDS         ,IMDSVAR      ,MDS_MATID  ,
      .                    OBJECT_ID)
 c
@@ -2761,7 +2761,7 @@ c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INF
      .                    NV46      ,NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
      .                    STACK     ,SOLID_ID  ,SOLID_ITY     ,IPARTS       ,LAYER      ,
      .                    IR        ,IS        ,IT            ,IUVAR        ,H3D_DATA%OUTPUT_LIST(I)%PART,
-     .                    IS_WRITEN_SOLID,INFO1,KEYWORD       ,FANI_CELL    ,SFANI_CELL ,
+     .                    IS_WRITEN_SOLID,INFO1,KEYWORD       ,FANI_CELL    ,
      .                    H3D_DATA, MULTI_FVM)
 c
           IF (NSPMD > 1 ) THEN

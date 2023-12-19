@@ -176,9 +176,8 @@ C-----------------------------------------------
      .   CS(MVSIZ),C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),C4(MVSIZ),
      .   CX,CY,CFI,AUX,PHI1(MVSIZ), PHI2(MVSIZ), PHI3(MVSIZ),
      .   PHI4(MVSIZ),DX, DTI
-      INTEGER JSUB,KSUB,JJ,KK,IN,NSUB,IBID,IDX,ILEN,IPOS,ITASK,NELFT,NELLT
-      my_real
-     .   FSAVSUB1(15,NISUB),IMPX,IMPY,IMPZ,PP1,PP2,PP3,PP4,BID
+      INTEGER JSUB,KSUB,JJ,KK,IN,NSUB,IBID,ITASK,NELFT,NELLT
+      my_real FSAVSUB1(15,NISUB),IMPX,IMPY,IMPZ,PP1,PP2,PP3,PP4,BID
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -771,16 +770,12 @@ C---------------------------------
            !   /H3D/ELEM/VECT/CONT WITH LAW151 (COLOCATED SCHEME)                       
            IF (MULTI_FVM%IS_USED) THEN 
              IF(H3D_DATA%N_VECT_CONT  > 0)THEN                                                 
-               IDX=NUMELS*(ANIM_SE(10)+ANIM_SE(4960)+ANIM_SE(4961)) !skip vorticity data  
-               ILEN=NUMELS+NUMELQ                                                         
-               DO I=1,JLT                                                                 
-                 IPOS=NSVG(I)
-                 IF(IPOS>0) THEN ! local cell
-                      IPOS=IPOS-NUMNOD                                                         
-                      IPOS = IDX+3*(IPOS-1)                                                    
-                      FANI_CELL(IPOS+1)=FANI_CELL(IPOS+1)-FXI(I)                               
-                      FANI_CELL(IPOS+2)=FANI_CELL(IPOS+2)-FYI(I)                               
-                      FANI_CELL(IPOS+3)=FANI_CELL(IPOS+3)-FZI(I)                               
+               DO I=1,JLT
+                 JG=NSVG(I)-NUMNOD
+                 IF(JG>0) THEN ! local cell
+                    FANI_CELL%F18(1,JG)=FANI_CELL%F18(1,JG)-FXI(I)
+                    FANI_CELL%F18(2,JG)=FANI_CELL%F18(2,JG)-FYI(I)
+                    FANI_CELL%F18(3,JG)=FANI_CELL%F18(3,JG)-FZI(I)
                   ENDIF
                ENDDO     
              ENDIF                                                                 

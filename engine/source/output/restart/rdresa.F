@@ -202,6 +202,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE PINCHTYPE_MOD
       USE ALE_MOD
+      USE ALEANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -518,8 +519,6 @@ C---------------------------------------------------------
      .          + 6*NUMNOD*MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT)  
      .          + 3*NUMNOD*MIN(1,ANIM_V(13)+H3D_DATA%N_VECT_CONT2)
      .          + 6*NUMNOD*MIN(1,ANIM_V(27)+H3D_DATA%N_VECT_PCONT2)  
-      SFANI_CELL = (NUMELS)*(ANIM_SE(10)+ANIM_SE(4960)+ANIM_SE(4961)) !ALE : 3D-Vorticity        
-      SFANI_CELL = SFANI_CELL+(NUMELS+NUMELQ)*3*(H3D_DATA%N_VECT_CONT) !ALE : FSI reaction force  /H3D/ELEM/VECT/CONT
 
       SXCUT = 7*NCUTS
       SANIN = NUMNOD*( 
@@ -533,6 +532,19 @@ C
 C     Work Array private to sph : WAPSH(LWASPH)
       SWASPH = LWASPH
 C
+      !/H3D/ELEM/VORT,X,Y,Z
+      FANI_CELL%IS_VORT_X_REQUESTED = .FALSE.
+      FANI_CELL%IS_VORT_Y_REQUESTED = .FALSE.
+      FANI_CELL%IS_VORT_Z_REQUESTED = .FALSE.
+      IF(ANIM_SE(10) == 1   .OR. H3D_DATA%SOL_SCAL_VORTX == 1)FANI_CELL%IS_VORT_X_REQUESTED=.TRUE.
+      IF(ANIM_SE(4960) == 1 .OR. H3D_DATA%SOL_SCAL_VORTY == 1)FANI_CELL%IS_VORT_Y_REQUESTED=.TRUE.
+      IF(ANIM_SE(4961) == 1 .OR. H3D_DATA%SOL_SCAL_VORTZ == 1)FANI_CELL%IS_VORT_Z_REQUESTED=.TRUE.
+
+      ! /H3D/ELEM/VECT/CONT
+      ! INTER18 REACTION FORCES ON CELL CENTROIDS
+      FANI_CELL%IS_F18_FVM_REQUESTED = .FALSE.
+      IF(H3D_DATA%N_VECT_CONT == 1)FANI_CELL%IS_F18_FVM_REQUESTED = .TRUE.
+
       M16STAK = 0
       IF(NUMELS16/=0)THEN
         NPE = 16
