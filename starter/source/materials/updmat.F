@@ -254,7 +254,7 @@ c------------------
 c------------------
             CALL LAW70_UPD(MATPARAM ,TITR     ,MAT_ID   ,NPARAM   ,UPARAM   ,
      .                     NFUNC    ,IFUNC    ,NPC      ,PLD      ,EMAX     ,
-     .                     IOUT     )       
+     .                     NFUNCT   ,FUNC_ID  ,IOUT     )       
             PM(24,IMAT) = EMAX
 c          
 c------------------

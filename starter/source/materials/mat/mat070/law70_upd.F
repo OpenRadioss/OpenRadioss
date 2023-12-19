@@ -34,7 +34,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE LAW70_UPD(MAT_PARAM,TITR     ,MAT_ID   ,NUPARAM  ,UPARAM   ,
      .                     NFUNC    ,IFUNC    ,NPC      ,PLD      ,EMAX     ,
-     .                     IOUT     )
+     .                     NFUNCT   ,FUNC_ID  ,IOUT     )
 C----------------------------------------------- 
 C   M o d u l e s
 C-----------------------------------------------
@@ -48,19 +48,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  MAT_ID,NFUNC,NUPARAM,IOUT
-!      INTEGER  STF,SNPC
-      INTEGER ,DIMENSION(NFUNC)   :: IFUNC
-      INTEGER :: NPC(*)
-      my_real PLD(*) 
+      INTEGER ,INTENT(IN) :: MAT_ID
+      INTEGER ,INTENT(IN) :: NFUNC
+      INTEGER ,INTENT(IN) :: NFUNCT
+      INTEGER ,INTENT(IN) :: NUPARAM
+      INTEGER ,INTENT(IN) :: IOUT
+      INTEGER ,DIMENSION(NFUNC)  ,INTENT(IN) :: IFUNC
+      INTEGER ,DIMENSION(NFUNCT) ,INTENT(IN) :: FUNC_ID
+      INTEGER ,INTENT(IN)  :: NPC(*)
+      my_real ,INTENT(IN)  :: PLD(*) 
       my_real ,INTENT(OUT) :: EMAX
-      CHARACTER*nchartitle :: TITR
-      TYPE (MATPARAM_STRUCT_)     ,INTENT(INOUT) :: MAT_PARAM
+      CHARACTER*nchartitle ,INTENT(IN):: TITR
       my_real ,DIMENSION(NUPARAM) ,INTENT(INOUT) :: UPARAM
+      TYPE (MATPARAM_STRUCT_)     ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,K,NDIM,NLOAD,NULOAD,NCURV,IPT,NPT,LMAX,FUNC_ID,
+      INTEGER :: I,J,K,NDIM,NLOAD,NULOAD,NCURV,IPT,NPT,LMAX,FUNC_N,
      .           IC1,IC2,IZERO,IERROR,NTABLE,IS_ENCRYPTED,IFLAG0,IFLAG,ICHK
       INTEGER ,PARAMETER :: LOAD   = 1
       INTEGER ,PARAMETER :: UNLOAD = 2
@@ -94,10 +98,10 @@ c     Loading functions
 c------------------------------------------------------      
       LMAX = 0
       DO I = 1,NLOAD
-        FUNC_ID = IFUNC(I)
+        FUNC_N = IFUNC(I)
         RATE(I) = UPARAM(I + 8)
         YFAC(I) = UPARAM(I + 8 + NFUNC)
-        LEN(I)  = (NPC(FUNC_ID+1) - NPC(FUNC_ID)) / 2
+        LEN(I)  = (NPC(FUNC_N+1) - NPC(FUNC_N)) / 2
         LMAX    = MAX(LMAX,LEN(I))
       END DO
       ALLOCATE (XI(LMAX,NLOAD))
@@ -106,9 +110,9 @@ c     build X,Y vectors from loading functions
 c     skip negative function values (only positive part is taken into account and symmetrized)
 c     check and enforce passing through (0,0)
       DO I = 1,NLOAD
-        FUNC_ID = IFUNC(I)
-        IC1 = NPC(FUNC_ID)
-        IC2 = NPC(FUNC_ID+1) - 2
+        FUNC_N = IFUNC(I)
+        IC1 = NPC(FUNC_N)
+        IC2 = NPC(FUNC_N+1) - 2
         IPT = 0
         IZERO = 0
         DO J = IC1,IC2,2
@@ -175,9 +179,9 @@ c
         ALLOCATE (YI(LMAX,NULOAD))
 c
         DO I = 1,NULOAD
-          FUNC_ID = FUNC(I)
-          IC1 = NPC(FUNC_ID)
-          IC2 = NPC(FUNC_ID+1) - 2
+          FUNC_N = FUNC(I)
+          IC1 = NPC(FUNC_N)
+          IC2 = NPC(FUNC_N+1) - 2
           IPT = 0
           IZERO = 0
           DO J = IC1,IC2,2
@@ -333,14 +337,14 @@ c------------------------------------
         WRITE(IOUT,1001)
         NDIM = MAT_PARAM%TABLE(LOAD)%NDIM
         IF (NDIM == 1) THEN
-          WRITE(IOUT,1101) IFUNC(1)
+          WRITE(IOUT,1101) FUNC_ID(IFUNC(1))
           DO J=1,SIZE(MAT_PARAM%TABLE(LOAD)%X(1)%VALUES)
             WRITE(IOUT,2000) MAT_PARAM%TABLE(LOAD)%X(1)%VALUES(J),
      .                       MAT_PARAM%TABLE(LOAD)%Y1D(J)
           END DO  
         ELSE
           DO I=1,NLOAD
-            WRITE(IOUT,1102) IFUNC(I),RATE(I)
+            WRITE(IOUT,1102) FUNC_ID(IFUNC(I)),RATE(I)
             DO J=1,SIZE(MAT_PARAM%TABLE(LOAD)%X(1)%VALUES)
               WRITE(IOUT,2000) MAT_PARAM%TABLE(LOAD)%X(1)%VALUES(J),
      .                         MAT_PARAM%TABLE(LOAD)%Y2D(J,I)
@@ -350,7 +354,7 @@ c------------------------------------
 c
         IF (NULOAD == 1) THEN
           WRITE(IOUT,1002)
-          WRITE(IOUT,1101) IFUNC(1+NLOAD)
+          WRITE(IOUT,1101) FUNC_ID(IFUNC(1+NLOAD))
           DO J=1,SIZE(MAT_PARAM%TABLE(UNLOAD)%X(1)%VALUES)
             WRITE(IOUT,2000) MAT_PARAM%TABLE(UNLOAD)%X(1)%VALUES(J),
      .                       MAT_PARAM%TABLE(UNLOAD)%Y1D(J)
@@ -359,14 +363,14 @@ c
           WRITE(IOUT,1002)
           NDIM = MAT_PARAM%TABLE(UNLOAD)%NDIM
           IF (NDIM == 1) THEN
-            WRITE(IOUT,1101) IFUNC(1+NLOAD)
+            WRITE(IOUT,1101) FUNC_ID(IFUNC(1+NLOAD))
             DO J=1,SIZE(MAT_PARAM%TABLE(UNLOAD)%X(1)%VALUES)
               WRITE(IOUT,2000) MAT_PARAM%TABLE(UNLOAD)%X(1)%VALUES(J),
      .                         MAT_PARAM%TABLE(UNLOAD)%Y1D(J)
             END DO  
           ELSE
             DO I=1,NULOAD
-              WRITE(IOUT,1102) IFUNC(I+NLOAD),RATE(I+NLOAD)
+              WRITE(IOUT,1102) FUNC_ID(IFUNC(I+NLOAD)),RATE(I+NLOAD)
               DO J=1,SIZE(MAT_PARAM%TABLE(UNLOAD)%X(1)%VALUES)
                 WRITE(IOUT,2000) MAT_PARAM%TABLE(UNLOAD)%X(1)%VALUES(J),
      .                           MAT_PARAM%TABLE(UNLOAD)%Y2D(J,I)
