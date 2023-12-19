@@ -1153,7 +1153,7 @@ c-------
 c-------
           CASE ('GAS')
              ILAW = 999
-             CALL HM_READ_MATGAS(PM(1, I), IPM(1, I),MAT_ID, TITR, KEY2, UNITAB, LSUBMODEL,MATPARAM )
+             CALL HM_READ_MATGAS(PM(1, I), IPM(1, I),MAT_ID, TITR, KEY2, UNITAB, LSUBMODEL)
 c-------
           CASE ('LAW29','USER1')
             ILAW  = 29
