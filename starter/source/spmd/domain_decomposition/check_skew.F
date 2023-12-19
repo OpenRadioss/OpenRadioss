@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        HM_ENTITY_REFERENCE_NUMBER    source/devtools/hm_reader/hm_entity_reference_number.F
 Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
 Chd|        SKEW_MOD                      share/modules1/skew_mod.F     
+Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
         SUBROUTINE CHECK_SKEW(IXR,IGEO,ISKN,CEP,ISKWP,NSKWP,TAG_SKN,MULTIPLE_SKEW,
      .                        R_SKEW,IPM,OFFSET)

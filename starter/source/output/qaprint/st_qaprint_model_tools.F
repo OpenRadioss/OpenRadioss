@@ -30,6 +30,7 @@ Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.
 Chd|        FUNC2D_MOD                    share/modules1/func2d_mod.F   
 Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
+Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE ST_QAPRINT_MODEL_TOOLS(NOM_OPT   ,INOM_OPT  ,

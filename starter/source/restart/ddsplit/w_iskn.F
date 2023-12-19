@@ -28,6 +28,7 @@ Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
+Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE W_ISKN(ISKN,NUMSKW,NSPH  ,IFRAME,NUMFRAM,NODLOCAL,
      2                  P   ,NUMNOD,CEPSP  ,LEN_IA  )
