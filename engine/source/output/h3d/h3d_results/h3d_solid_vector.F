@@ -199,6 +199,18 @@ C--------------------------------------------------
                ENDIF
             ENDIF
 C--------------------------------------------------
+            IF (KEYWORD == 'VECT/ACC') THEN
+C--------------------------------------------------
+               IF (MLW == 151 .AND. ALLOCATED(MULTI_FVM%ACC)) THEN
+                  DO I = 1, NEL
+                     VALUE(1) = MULTI_FVM%ACC(1, I + NFT)
+                     VALUE(2) = MULTI_FVM%ACC(2, I + NFT)
+                     VALUE(3) = MULTI_FVM%ACC(3, I + NFT)
+                     CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_SOLID,SOLID_VECTOR,I,OFFSET,NFT,VALUE)
+                  ENDDO
+               ENDIF
+            ENDIF
+C--------------------------------------------------
          ENDIF
        ENDIF
 
