@@ -28,7 +28,7 @@ Chd|        ECRAN2                        source/initial_conditions/detonation/e
 Chd|-- calls ---------------
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|====================================================================
-      INTEGER FUNCTION IOMBR(DETONATORS,X,IECR,DDMX,VDET_ARG)
+      INTEGER FUNCTION IOMBR(DETONATOR_WAVE_SHAPER,X,IECR,DDMX,VDET_ARG)
       USE DETONATORS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -41,7 +41,7 @@ C-----------------------------------------------
       INTEGER IECR(*)
       my_real X(3,NUMNOD)
       my_real VDET_ARG
-      TYPE(DETONATOR_STRUCT_) :: DETONATORS
+      TYPE(DETONATOR_WAVE_SHAPER_STRUCT_) :: DETONATOR_WAVE_SHAPER
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -51,12 +51,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER JOMBR, KOMBR, II, I,NPE
-      my_real YLD, ZLD, DD, D2, EPS, DD_UP, DD_DOWN, 
+      my_real YLD, ZLD, DD, D2, EPS, DD_UP, DD_DOWN,
      .        Y2, Z2,  Y1, Z1, CROSS_PROD_1,CROSS_PROD_2,
      .        D1, Y12, Z12, A1, A2, A3, Y3, Z3, D3
 C-----------------------------------------------
 
-      NPE = DETONATORS%NPE !number of points
+      NPE = DETONATOR_WAVE_SHAPER%NUMNOD !number of points
       IOMBR=0 !function result
       JOMBR=0
       KOMBR=0
@@ -65,7 +65,7 @@ C-----------------------------------------------
       YLD=YL-YD
       ZLD=ZL-ZD
       DD=YLD**2+ZLD**2 !distance from source
-      
+
       IF(DD > DDMX)THEN
        IOMBR=2  !function result
        GOTO 999
@@ -92,7 +92,7 @@ C-----------------------------------------------
         Z2=X(3,II)
         CROSS_PROD_2=YLD*(Z2-ZD)-ZLD*(Y2-YD)
         D2=(Y2-YD)*YLD+(Z2-ZD)*ZLD
-        IF(CROSS_PROD_1*CROSS_PROD_2 <= EPS)THEN 
+        IF(CROSS_PROD_1*CROSS_PROD_2 <= EPS)THEN
            !Pi-1 and Pi in different half planes of boundary (DL)
          IF(D2 > DD_UP .AND. D1 > DD_UP)THEN
            !Pi-1 and Pi after L
@@ -120,7 +120,7 @@ C-----------------------------------------------
              ELSEIF(ABS(D3) <= EPS)THEN
                !intersection in extremity D
                IF(A3 > EPS)JOMBR=1
-             ELSEIF(ABS(D3-DD) <= EPS)THEN               
+             ELSEIF(ABS(D3-DD) <= EPS)THEN
                !intersection in extremity L
                IF(A3 < -EPS)KOMBR=1
              ELSE

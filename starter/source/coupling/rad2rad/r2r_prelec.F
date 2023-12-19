@@ -110,7 +110,7 @@ C-----------------------------------------------
         TYPE (GROUP_)  , DIMENSION(NGRTRUS) :: IGRTRUSS
         TYPE (GROUP_)  , DIMENSION(NGRBEAM) :: IGRBEAM
         TYPE (GROUP_)  , DIMENSION(NGRSPRI) :: IGRSPRING
-        TYPE(DETONATOR_STRUCT_),TARGET,INTENT(IN) :: DETONATORS
+        TYPE(DETONATORS_STRUCT_),TARGET,INTENT(IN) :: DETONATORS
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -1322,23 +1322,14 @@ C
 C--------------------------------------------------------------------C
 C------Prereading of detonation points-------------------------------C
 C--------------------------------------------------------------------C
-C
-        CALL HM_OPTION_START('/DFS')
-C
-        DO I=1,DETONATORS%NDET+NLASER
-C
-          CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                            OPTION_ID = ID,
-     .                            KEYWORD2 = KEY)
-C
-          IF (KEY(1:7)=='DETPOIN') THEN
-            CALL HM_GET_INTV('rad_det_node1', NOD, IS_AVAILABLE, LSUBMODEL)
-            IF (NOD>0) THEN
-              NOD=USR2SYS(NOD,ITABM1,MESS,ID)
-              IF (TAGNO(NPART+NOD) == -1) CALL MODIF_TAG(TAGNO(NPART+NOD),0,MODIF)
-            ENDIF
+        CALL HM_OPTION_START('/DFS/DETPOIN')
+        DO I=1,DETONATORS%N_DET_POINT
+          CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID = ID,KEYWORD2 = KEY)
+          CALL HM_GET_INTV('rad_det_node1', NOD, IS_AVAILABLE, LSUBMODEL)
+          IF (NOD>0) THEN
+            NOD=USR2SYS(NOD,ITABM1,MESS,ID)
+            IF (TAGNO(NPART+NOD) == -1) CALL MODIF_TAG(TAGNO(NPART+NOD),0,MODIF)
           ENDIF
-C
         ENDDO
 
 C------------------------------------------------------------------

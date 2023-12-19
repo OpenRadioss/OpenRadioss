@@ -51,7 +51,7 @@ C-----------------------------------------------
       my_real  
      .   PM(NPROPM,*),UVAR(*),
      .   UPARAM(*), X(3,*), BUFMAT(*), RHO0, TB(*)
-      TYPE(DETONATOR_STRUCT_) :: DETONATORS
+      TYPE(DETONATORS_STRUCT_) :: DETONATORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

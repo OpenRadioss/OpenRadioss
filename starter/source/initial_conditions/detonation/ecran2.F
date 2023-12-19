@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|        IOMBR                         source/initial_conditions/detonation/iombr.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|====================================================================
-      SUBROUTINE ECRAN2(DETONATORS,N1,NP1,X,VDET)
+      SUBROUTINE ECRAN2(DETONATOR_WAVE_SHAPER,X,VDET)
 C-----------------------------------------------
       USE DETONATORS_MOD
 C-----------------------------------------------
@@ -41,8 +41,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real  X(3,NUMNOD)
       my_real,INTENT(IN)::VDET
-      TYPE(DETONATOR_STRUCT_),TARGET ::DETONATORS
-      INTEGER,INTENT(IN) :: N1,NP1
+      TYPE(DETONATOR_WAVE_SHAPER_STRUCT_),TARGET ::DETONATOR_WAVE_SHAPER
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -61,11 +60,11 @@ C-----------------------------------------------
       INTEGER,EXTERNAL :: IOMBR
 C-----------------------------------------------
 
-      NPE=DETONATORS%NPE
-      IECR => DETONATORS%IECRAN(N1:N1+NPE-1)
-      IORDR => DETONATORS%IECRAN(NP1:NP1+NPE-1) 
-      DTIME => DETONATORS%DECRAN(1:)   
-            
+      NPE=DETONATOR_WAVE_SHAPER%NUMNOD
+      IECR => DETONATOR_WAVE_SHAPER%NODES(1:NPE)
+      IORDR => DETONATOR_WAVE_SHAPER%IORDR(1:NPE)
+      DTIME => DETONATOR_WAVE_SHAPER%TIME(1:NPE)
+
 C---------------------------------------
 C     COMPUTING DETONATION:TIME FOR ONE ELEMENT (CENTROID)
 C---------------------------------------
@@ -75,26 +74,26 @@ C            yes if no crossing with the screen (IOMBR returns 0)
 C             no otherwise (IOMBR return 1)
 C---------------------------------------
       DDMX=EP20
-      IF(IOMBR(DETONATORS,X,IECR,DDMX,VDET) == 0)RETURN   !Vdet is optional velocity from origin (default is material velocity VDTO)
+      IF(IOMBR(DETONATOR_WAVE_SHAPER,X,IECR,DDMX,VDET) == 0)RETURN   !Vdet is optional velocity from origin (default is material velocity VDTO)
 
 C-----------------------------------------
 C     2) DETONATION ORIGIN:EACH POINT OF THE SCREEN PATH
 C-----------------------------------------
       DTOS=EP20
-      
-      NPE=DETONATORS%NPE
+
+      NPE=DETONATOR_WAVE_SHAPER%NUMNOD
       DO J=1,NPE
         I=IORDR(J)
         II=IECR(I)
         YD=X(2,II)
         ZD=X(3,II)
         DTO0=DTIME(I)
-        IF(IOMBR(DETONATORS,X,IECR,DDMX,VDTO) == 0)THEN
+        IF(IOMBR(DETONATOR_WAVE_SHAPER,X,IECR,DDMX,VDTO) == 0)THEN
           DTOS= MIN(DTOS,DTO) !keep minimum value (first arrival time)
         ENDIF
       END DO !J=1,NPE
-      
+
       DTO=DTOS
-      
+
       RETURN
       END

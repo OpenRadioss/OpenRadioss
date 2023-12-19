@@ -56,19 +56,19 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(*),MAT(*),NIX,IX(NIX,*)
-      INTEGER,INTENT(IN) :: M151_ID      
-      my_real
-     .   PM(NPROPM,NUMMAT), TB(*),X(3,*),VDET2
-      TYPE(DETONATOR_STRUCT_)::DETONATORS     
+      INTEGER,INTENT(IN) :: M151_ID
+      my_real PM(NPROPM,NUMMAT), TB(*),X(3,*),VDET2
+      TYPE(DETONATORS_STRUCT_)::DETONATORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, MTL, N1, NP1, MT, MPR, NEL, 
-     .        NDET2D, JJ(MVSIZ),N2,NP2,IOPT,NPE,NPE2,
+      INTEGER I, N, MTL, MT, MPR, NEL,
+     .        N2,NP2,IOPT,NPE,NPE2,
      .        NDETPS, NDETSG, NECRAN, NDETPL, NDETCORD
+      LOGICAL HAS_DETONATOR(MVSIZ)
       my_real
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), 
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), 
+     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ),
+     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ),
      .   XC(MVSIZ), YC(MVSIZ), ZC(MVSIZ), BT(MVSIZ),
      .   DL(MVSIZ), ALT, XLP, YLP, ZLP, XLP1,
      .   YLP1,  ZLP1, XLP2, YLP2, ZLP2, XL0, YL0, ZL0, XL1, YL1, ZL1,
@@ -78,23 +78,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C=======================================================================
 C
-      NDET2D=5 !Types of detonator for 2D analysis (point/line/plan/shadow/cord)
-      NDETPS = DETONATORS%NDETPS
-      NDETSG = DETONATORS%NDETSG
-      NECRAN = DETONATORS%NECRAN
-      NDETPL = DETONATORS%NDETPL
-      NDETCORD = DETONATORS%NDETCORD
-      
-                                         !------------------------------------!                 
-      IF(DETONATORS%NDET == 0) THEN      !-> TDET=0 IF NO DETONATOR DEFINED   !                 
-                                         !------------------------------------!                 
+      NDETPS = DETONATORS%N_DET_POINT
+      NDETSG = DETONATORS%N_DET_LINE
+      NECRAN = DETONATORS%N_DET_WAVE_SHAPER
+      NDETPL = DETONATORS%N_DET_PLANE
+      NDETCORD = DETONATORS%N_DET_CORD
+
+                                         !------------------------------------!
+      IF(DETONATORS%N_DET == 0) THEN      !-> TDET=0 IF NO DETONATOR DEFINED   !
+                                         !------------------------------------!
+         !default detonation time
          DO I=LFT,LLT
            TB(I)=ZERO
          END DO
-      
+
            !-----------------------------------------------!
       ELSE !-> LIGHTING TIME CALCULATION                   !
-           !-----------------------------------------------! 
+           !-----------------------------------------------!
 
          DO I = LFT, LLT
             II = I + NFT
@@ -114,47 +114,47 @@ C
         !--------------------------------------------------!
          DO I=LFT,LLT
           TB(I)=EP37
-          JJ(I)=NDET2D ! will be removed -1 for each detonator associated to this elem  
+          HAS_DETONATOR(I)=.FALSE. ! will be removed -1 for each detonator associated to this elem
           XC(I)=ZERO
           YC(I)=THIRD*(Y1(I)+Y2(I)+Y3(I))
           ZC(I)=THIRD*(Z1(I)+Z2(I)+Z3(I))
          END DO
-       
+
         !---------------------------------!
         ! LIGHTING TIME FOR /DFS/DETPOIN  !
-        !---------------------------------!      
-        IF(DETONATORS%NDETPS > 0) THEN     
+        !---------------------------------!
+        IF(NDETPS > 0) THEN
           DO I=LFT,LLT
             DO N=1,NDETPS
-              MTL=DETONATORS%BURN(2,N)
+              MTL=DETONATORS%POINT(N)%MAT
               IF(MTL == 0 .OR. MTL == MAT(I) .OR. MTL == M151_ID) THEN
-                ALT=DETONATORS%BURN(1,N)
-                XLP=DETONATORS%BURN(3,N)
-                YLP=DETONATORS%BURN(4,N)
-                ZLP=DETONATORS%BURN(5,N)     
+                ALT=DETONATORS%POINT(N)%TDET
+                XLP=DETONATORS%POINT(N)%XDET
+                YLP=DETONATORS%POINT(N)%YDET
+                ZLP=DETONATORS%POINT(N)%ZDET
                 DL(I) =(XC(I)-XLP)**2+(YC(I)-YLP)**2+(ZC(I)-ZLP)**2
                 DL(I)=SQRT(DL(I))
                 BT(I) =ALT+DL(I)/PM(38,MAT(I))
                 IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I)
-                  JJ(I)=JJ(I)-1
-                END IF   
+                  HAS_DETONATOR(I)= .TRUE.
+                END IF
             END DO
-          END DO      
-         ENDIF      
-      
-        !---------------------------------! 
+          END DO
+         ENDIF
+
+        !---------------------------------!
         ! LIGHTING TIME FOR /DFS/DETLINE  !
         !---------------------------------!
-        IF(DETONATORS%NDETSG > 0) THEN
-          DO N=NDETPS+1,NDETPS+NDETSG
-          ALT=DETONATORS%BURN(1,N)
-          MTL=DETONATORS%BURN(2,N)
-          XLP1=DETONATORS%BURN(3,N)
-          YLP1=DETONATORS%BURN(4,N)
-          ZLP1=DETONATORS%BURN(5,N)
-          XLP2=DETONATORS%BURN(6,N)
-          YLP2=DETONATORS%BURN(7,N)
-          ZLP2=DETONATORS%BURN(8,N)
+        IF(NDETSG > 0) THEN
+          DO N=1,NDETSG
+          ALT=DETONATORS%LINE(N)%TDET
+          MTL=DETONATORS%LINE(N)%MAT
+          XLP1=DETONATORS%LINE(N)%XDET_1
+          YLP1=DETONATORS%LINE(N)%YDET_1
+          ZLP1=DETONATORS%LINE(N)%ZDET_1
+          XLP2=DETONATORS%LINE(N)%XDET_2
+          YLP2=DETONATORS%LINE(N)%YDET_2
+          ZLP2=DETONATORS%LINE(N)%ZDET_2
           DO I=LFT,LLT
             IF(MTL == 0 .OR. MTL == MAT(I) .OR. MTL == M151_ID) THEN
               XL0 =(XLP1-XLP2)
@@ -180,101 +180,95 @@ C
               ENDIF
               BT(I) =ALT+DL(I)/PM(38,MAT(I))
               IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I)
-                JJ(I)=JJ(I)-1
+                HAS_DETONATOR(I)=.TRUE.
               END IF
            END DO
           END DO
         ENDIF
-      
-        !---------------------------------! 
+
+        !---------------------------------!
         ! LIGHTING TIME FOR /DFS/WAV_SHA  !
         !---------------------------------!
         IF(NECRAN > 0) THEN
-          N1=1
-          DO N=NDETPS+NDETSG+1,NDETPS+NDETSG+NECRAN
-            ALT=DETONATORS%BURN(1,N)
-            MTL=NINT(DETONATORS%BURN(2,N))
-            VDET =DETONATORS%BURN(3,N)
-            YD =DETONATORS%BURN(4,N)
-            ZD =DETONATORS%BURN(5,N)
-            NPE=NINT(DETONATORS%BURN(6,N))
-            NP1=NINT(DETONATORS%BURN(7,N))
+          DO N=1,NECRAN
+            ALT=DETONATORS%WAVE_SHAPER(N)%TDET
+            MTL=DETONATORS%WAVE_SHAPER(N)%MAT
+            VDET =DETONATORS%WAVE_SHAPER(N)%VDET
+            YD =DETONATORS%WAVE_SHAPER(N)%YDET
+            ZD =DETONATORS%WAVE_SHAPER(N)%ZDET
+            NPE=DETONATORS%WAVE_SHAPER(N)%NUMNOD
             DTO0=ALT
-            VDTO=PM(38,MAT(1)) 
+            VDTO=PM(38,MAT(1))
             IF(VDET == ZERO)VDET=PM(38,MAT(1)) !optional detonation velocity
             !---detonation time for screen points
-            CALL ECRAN1(DETONATORS,N1,NP1,X,VDET)
+            CALL ECRAN1(DETONATORS%WAVE_SHAPER(N),X,VDET)
             !---detonation times for elements
             DO I=LFT,LLT
-            IF(MTL /= MAT(I) .AND .MTL /= 0 .AND. MTL /= M151_ID) CYCLE
-              YD =DETONATORS%BURN(4,N)
-              ZD =DETONATORS%BURN(5,N)            
+            IF(MTL /= MAT(I) .AND. MTL /= 0 .AND. MTL /= M151_ID) CYCLE
+              YD =DETONATORS%WAVE_SHAPER(N)%YDET
+              ZD =DETONATORS%WAVE_SHAPER(N)%ZDET
               DTO0=ALT
               YL=YC(I)
               ZL=ZC(I)
-              CALL ECRAN2(DETONATORS,N1,NP1,X,VDET)
+              CALL ECRAN2(DETONATORS%WAVE_SHAPER(N),X,VDET)
               BT(I) =DTO
               IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I)
-              JJ(I)=JJ(I)-1
+              HAS_DETONATOR(I)= .TRUE.
             END DO
-            N1=N1+NPE
           END DO
         ENDIF
 
-        !---------------------------------! 
+        !---------------------------------!
         ! LIGHTING TIME FOR /DFS/DETPLAN  !
         !---------------------------------!
-        IF(DETONATORS%NDETPL > 0) THEN
-          DO N=NDETPS+NDETSG+NECRAN+1,NDETPS+NDETSG+NECRAN+NDETPL
-            ALT=DETONATORS%BURN(1,N)
-            MTL=NINT(DETONATORS%BURN(2,N))
-            XLP=DETONATORS%BURN(3,N)
-            YLP=DETONATORS%BURN(4,N)
-            ZLP=DETONATORS%BURN(5,N)
-            NX=DETONATORS%BURN(6,N)
-            NY=DETONATORS%BURN(7,N)
-            NZ=DETONATORS%BURN(8,N)
+        IF(NDETPL > 0) THEN
+          DO N=1,NDETPL
+            ALT=DETONATORS%PLANE(N)%TDET
+            MTL=DETONATORS%PLANE(N)%MAT
+            XLP=DETONATORS%PLANE(N)%XDET
+            YLP=DETONATORS%PLANE(N)%YDET
+            ZLP=DETONATORS%PLANE(N)%ZDET
+            NX=DETONATORS%PLANE(N)%NX
+            NY=DETONATORS%PLANE(N)%NY
+            NZ=DETONATORS%PLANE(N)%NZ
             NN=SQRT(NX**2+NY**2+NZ**2)
             NN=MAX(NN,EM20)
             DL1=XLP*NX + YLP*NY + ZLP*NZ
-            DL1 = DL1/NN 
+            DL1 = DL1/NN
             DO I=LFT,LLT
-              IF(MTL == 0.OR.MTL == MAT(I) .OR. MTL == M151_ID) THEN
+              IF(MTL == 0 .OR. MTL == MAT(I) .OR. MTL == M151_ID) THEN
                 ! DL = (OC.ON) / ||ON||
-             ! C: centroid
-             ! P: detonation base
-             ! N: detonation vector
-                DL(I) = (XC(I)-XLP)*NX + (YC(I)-YLP)*NY +
-     .                  (ZC(I)-ZLP)*NZ
+               ! C: centroid
+               ! P: detonation base
+               ! N: detonation vector
+                DL(I) = (XC(I)-XLP)*NX + (YC(I)-YLP)*NY + (ZC(I)-ZLP)*NZ
                 DL(I) = ABS(DL(I))
                 DL(I) = DL(I)/NN
                 BT(I) =ALT+DL(I)/PM(38,MAT(I))
                 IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I)
-                  JJ(I)=JJ(I)-1
+                HAS_DETONATOR(I)= .TRUE.
                 END IF
             END DO
           END DO
         ENDIF
 
-        !---------------------------------! 
+        !---------------------------------!
         ! LIGHTING TIME FOR /DFS/DETCORD  !
         !---------------------------------!
-        IF(DETONATORS%NDETCORD > 0) THEN
+        IF(NDETCORD > 0) THEN
           N2        = 1
-          DO N=NDETPS+NDETSG+NECRAN+NDETPL+1,NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD
-            ALT     = DETONATORS%BURN(1,N)
-            MTL     = NINT(DETONATORS%BURN(2,N))
-            VDET2   = DETONATORS%BURN(3,N)
-            IOPT    = NINT(DETONATORS%BURN(4,N))                        
-            NPE2    = NINT(DETONATORS%BURN(6,N))
-            NP2     = NINT(DETONATORS%BURN(7,N))
+          DO N=1,NDETCORD
+            ALT     = DETONATORS%CORD(N)%TDET
+            MTL     = DETONATORS%CORD(N)%MAT
+            VDET2   = DETONATORS%CORD(N)%VDET
+            IOPT    = DETONATORS%CORD(N)%IOPT
             DTO0    = ALT
             MT      = MTL
             IF(MT == 0)MT=MAT(1)
             VDTO    = PM(38,MT)
             IF(MTL /= MAT(1) .AND. MTL /= 0 .AND. MTL /= M151_ID) CYCLE
             DTO0    = ALT
-            CALL DETCORD(DETONATORS,N2,NPE2,X, MTL, XC,YC,ZC,VDTO,VDET2,ALT,BT,TB,JJ,IOPT,IX,NIX)            
+            CALL DETCORD(DETONATORS%CORD(N),X,XC,YC,ZC,VDTO,VDET2,ALT,BT,TB,HAS_DETONATOR,IOPT)
             N2      = N2+NPE2
           END DO! next N
         ENDIF
@@ -283,18 +277,18 @@ C
       END IF !-> LIGHTING TIME COMPUTATION COMPLETE !
              !--------------------------------------!
 
-      !---------------------------------! 
+      !---------------------------------!
       !    ELEM WITHOUT DETONATOR       !
-      !---------------------------------!  
-      IF(DETONATORS%NDET > 0)THEN
+      !---------------------------------!
+      IF(DETONATORS%N_DET > 0)THEN
         DO I=LFT,LLT
-          IF (JJ(I)==NDET2D) TB(I)=ZERO
-        END DO 
+          IF (.NOT. HAS_DETONATOR(I)) TB(I)=ZERO
+        END DO
       ENDIF
-                       
-      !---------------------------------! 
+
+      !---------------------------------!
       !            PRINTOUT             !
-      !---------------------------------!  
+      !---------------------------------!
       IF(IPRI >= 3)THEN
         MPR =0
         DO I=LFT,LLT

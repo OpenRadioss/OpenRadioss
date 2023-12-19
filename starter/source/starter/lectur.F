@@ -610,7 +610,7 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT)             :: MULTI_FVM
       TYPE(SUBMODEL_DATA)                :: LSUBMODEL(NSUBMOD)
       INTEGER,INTENT(IN)                 ::IS_DYNA
-      TYPE(DETONATOR_STRUCT_),TARGET     :: DETONATORS
+      TYPE(DETONATORS_STRUCT_),TARGET     :: DETONATORS
       TYPE(T_EBCS_TAB), INTENT(INOUT)    :: EBCS_TAB
       INTEGER,INTENT(IN)                 ::NB_SEATBELT_SHELLS
       INTEGER,INTENT(INOUT)              ::SEATBELT_CONVERTED_ELEMENTS(3,NB_SEATBELT_SHELLS)
@@ -4843,7 +4843,7 @@ C--------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       !new Reader
       CALL READ_DETONATORS(ITABM1   ,ITAB   ,IGRNOD  ,
-     .                     IPM      ,X      ,IXQ     ,IXS    ,UNITAB,
+     .                     IPM      ,X      ,UNITAB  ,
      .                     LSUBMODEL,DETONATORS)
       CALL TRACE_OUT1()
 C--------------------------------------------

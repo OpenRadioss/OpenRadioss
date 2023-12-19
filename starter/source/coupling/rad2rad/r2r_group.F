@@ -105,7 +105,7 @@ C-----------------------------------------------
         INTEGER ,INTENT(IN) :: SEATBELT_SHELL_TO_SPRING(NUMELC,2)
         my_real :: PM_STACK(*)
         TYPE (NLOCAL_STR_) ,INTENT(IN)  :: NLOC_DMG
-        TYPE(DETONATOR_STRUCT_),TARGET,INTENT(IN) :: DETONATORS
+        TYPE(DETONATORS_STRUCT_),TARGET,INTENT(IN) :: DETONATORS
 C-----------------------------------------------
 !      TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD2
         TYPE (GROUP_)  , DIMENSION(NGROU)   :: IGRNOD2

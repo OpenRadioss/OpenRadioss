@@ -344,7 +344,7 @@ C-----------------------------------------------
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE (ADMAS_)  , DIMENSION(NODMAS)  :: IPMAS
       TYPE (INIVOL_) , DIMENSION(NINIVOL) :: INIVOL
-      TYPE (DETONATOR_STRUCT_) :: DETONATORS
+      TYPE (DETONATORS_STRUCT_) :: DETONATORS
       TYPE (DRAPE_)  , DIMENSION(NUMELC_DRAPE + NUMELTG_DRAPE):: DRAPE 
       TYPE (DRAPEG_)                            :: DRAPEG 
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
