@@ -226,6 +226,7 @@ Chd|        MOVFRA_IMP                    source/tools/skew/movfram.F
 Chd|        MPI_MIN_REAL_BEGIN            share/modules/mpi_tools_mod.F 
 Chd|        MPI_MIN_REAL_END              share/modules/mpi_tools_mod.F 
 Chd|        MULTI_DEALLOCATE              source/multifluid/multi_deallocate.F
+Chd|        MULTI_VELOCITY_BACKUP         source/multifluid/multi_velocity_backup.F
 Chd|        MVOLUDT                       source/airbag/mvoludt.F       
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        NEWSKW                        source/tools/skew/newskw.F    

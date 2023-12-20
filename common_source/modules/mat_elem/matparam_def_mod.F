@@ -127,7 +127,7 @@ Chd|        HM_READ_MAT79                 starter/source/materials/mat/mat079/hm
 Chd|        HM_READ_MAT80                 starter/source/materials/mat/mat080/hm_read_mat80.F
 Chd|        HM_READ_MAT81                 starter/source/materials/mat/mat081/hm_read_mat81.F
 Chd|        HM_READ_MAT82                 starter/source/materials/mat/mat082/hm_read_mat82.F
-Chd|        HM_READ_MAT83                 starter/source/materials/mat/mat083/hm_read_law83.F
+Chd|        HM_READ_MAT83                 starter/source/materials/mat/mat083/hm_read_mat83.F
 Chd|        HM_READ_MAT84                 starter/source/materials/mat/mat084/hm_read_mat84.F
 Chd|        HM_READ_MAT87                 starter/source/materials/mat/mat087/hm_read_mat87.F
 Chd|        HM_READ_MAT88                 starter/source/materials/mat/mat088/hm_read_mat88.F
@@ -137,7 +137,6 @@ Chd|        HM_READ_MAT93                 starter/source/materials/mat/mat093/hm
 Chd|        HM_READ_MAT94                 starter/source/materials/mat/mat094/hm_read_mat94.F
 Chd|        HM_READ_MAT95                 starter/source/materials/mat/mat095/hm_read_mat95.F
 Chd|        HM_READ_MAT97                 starter/source/materials/mat/mat097/hm_read_mat97.F
-Chd|        HM_READ_MATGAS                starter/source/materials/mat/matgas/hm_read_matgas.F
 Chd|        HM_READ_MAT_99                starter/source/materials/mat/matuser/hm_read_mat_user_99.F
 Chd|        HM_READ_VISC                  starter/source/materials/visc/hm_read_visc.F
 Chd|        INITIA                        starter/source/elements/initia/initia.F

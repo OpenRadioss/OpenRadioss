@@ -121,7 +121,7 @@ Chd|        HM_READ_MAT79                 source/materials/mat/mat079/hm_read_ma
 Chd|        HM_READ_MAT80                 source/materials/mat/mat080/hm_read_mat80.F
 Chd|        HM_READ_MAT81                 source/materials/mat/mat081/hm_read_mat81.F
 Chd|        HM_READ_MAT82                 source/materials/mat/mat082/hm_read_mat82.F
-Chd|        HM_READ_MAT83                 source/materials/mat/mat083/hm_read_law83.F
+Chd|        HM_READ_MAT83                 source/materials/mat/mat083/hm_read_mat83.F
 Chd|        HM_READ_MAT84                 source/materials/mat/mat084/hm_read_mat84.F
 Chd|        HM_READ_MAT87                 source/materials/mat/mat087/hm_read_mat87.F
 Chd|        HM_READ_MAT88                 source/materials/mat/mat088/hm_read_mat88.F
@@ -131,7 +131,6 @@ Chd|        HM_READ_MAT93                 source/materials/mat/mat093/hm_read_ma
 Chd|        HM_READ_MAT94                 source/materials/mat/mat094/hm_read_mat94.F
 Chd|        HM_READ_MAT95                 source/materials/mat/mat095/hm_read_mat95.F
 Chd|        HM_READ_MAT97                 source/materials/mat/mat097/hm_read_mat97.F
-Chd|        HM_READ_MATGAS                source/materials/mat/matgas/hm_read_matgas.F
 Chd|        HM_READ_MAT_99                source/materials/mat/matuser/hm_read_mat_user_99.F
 Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F
 Chd|-- calls ---------------

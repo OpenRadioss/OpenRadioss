@@ -175,6 +175,7 @@ Chd|        MULTI_TIMEEVOLUTION           engine/source/multifluid/multi_timeevo
 Chd|        MULTI_UPDATE_GLOBAL           engine/source/multifluid/multi_update_global.F
 Chd|        MULTI_UPDATE_PARTIAL          engine/source/multifluid/multi_update_partial.F
 Chd|        MULTI_VAR2BUF                 engine/source/multifluid/multi_var2buf.F
+Chd|        MULTI_VELOCITY_BACKUP         engine/source/multifluid/multi_velocity_backup.F
 Chd|        RADIOSS2                      engine/source/engine/radioss2.F
 Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
 Chd|        RDRESA                        engine/source/output/restart/rdresa.F

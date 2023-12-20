@@ -230,6 +230,7 @@ Chd|        LECTUR                        source/input/lectur.F
 Chd|        LOAD_PRESSURE                 source/loads/general/load_pressure/load_pressure.F
 Chd|        MANCTR                        source/input/manctr.F         
 Chd|        MONVOL0                       source/airbag/monvol0.F       
+Chd|        MULTI_ALLOCATE                source/multifluid/multi_allocate.F
 Chd|        PBILAN                        source/elements/beam/pbilan.F 
 Chd|        PBLAST                        source/loads/pblast/pblast.F  
 Chd|        PBLAST_1                      source/loads/pblast/pblast_1.F
