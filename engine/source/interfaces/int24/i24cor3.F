@@ -995,6 +995,7 @@ C--- fixing min(stif) with Inacti=-1
           END IF
 c      STIF_R(I) = MIN(STIF_S,STF(L))/MAX(EM20,STIF(I))
           STIF(I) = MIN(STIF_S,STF(L))
+          IF(IGSTI==2) STIF(I) = HALF*(STIF_S+STF(L))
          ENDDO
       ELSEIF (IGSTI==-1)THEN
          DO I=1,JLT
@@ -1016,8 +1017,8 @@ c      STIF_R(I) = MIN(STIF_S,STF(L))/MAX(EM20,STIF(I))
          FB = MAX(ZERO,THREE*TNCY-TWO)
          F_PFIT = EM04*(FA+FAB)+FB
          STIF(1:JLT)=F_PFIT*STIF(1:JLT)
-         IF (FB >ZERO) IKNON(1:JLT) = 1 ! -> nonlinear stiff
-      ELSEIF (INACTI==-1)THEN
+         IF (FB >ZERO.AND.IGSTI/=2) IKNON(1:JLT) = 1 ! -> nonlinear stiff
+      ELSEIF (INACTI==-1.AND.IGSTI/=2)THEN
          IKNON(1:JLT) = 1 
       ELSEIF (IGSTI ==-1)THEN
          DO I=1,JLT

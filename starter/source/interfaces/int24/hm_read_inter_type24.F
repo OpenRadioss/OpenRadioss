@@ -456,8 +456,13 @@ C-------tempo: Isurf <- ILEV=IPARI(20) -----
 
 C------ consisting w/ manuel         
         IF (IREM24I2==0) IREM24I2 = 3
-
-        IF (INACTI==-1.AND.(IGSTI==0.OR.IGSTI==1000)) IGSTI = 4
+C--------auto stif w/ Press-fit
+        IF (INACTI==-1) THEN
+          IGSTI = 4
+        ELSEIF (INACTI==-2) THEN ! using high stif
+         IGSTI = 2
+         INACTI=-1
+        END IF
         IPARI(20)=ILEV
         IPARI(34)=IGSTI
         IPARI(47) = INTTH
@@ -811,6 +816,7 @@ C
 
 C........* PRINT INTERFACES INPUT *.....................
 
+       IF (INACTI==-1.AND.IGSTI==2) INACTI=-2 ! just for printing
        IDUM =IEDGE
        IF (IEDGE/=1000.AND.IEDGE>0)IDUM =MIN(1,IEDGE)
 
