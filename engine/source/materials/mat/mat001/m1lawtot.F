@@ -137,25 +137,25 @@ C------------[F] = [MF]+ 1 ----ISMSTR10,11,12
       IF (ISMSTR == 10) THEN
        IF (ISELECT>0) THEN
         DO I=1,NEL
-           ES1(I)=ETOTSH(I,1)
-           ES2(I)=ETOTSH(I,2)
-           ES3(I)=ETOTSH(I,3)
-           ES4(I)=ETOTSH(I,4)
-           ES6(I)=ETOTSH(I,6)
-           ES5(I)=ETOTSH(I,5)
+          ES1(I)=ETOTSH(I,1)*OFF(I)
+          ES2(I)=ETOTSH(I,2)*OFF(I)
+          ES3(I)=ETOTSH(I,3)*OFF(I)
+          ES4(I)=ETOTSH(I,4)*OFF(I)
+          ES6(I)=ETOTSH(I,6)*OFF(I)
+          ES5(I)=ETOTSH(I,5)*OFF(I)
         ENDDO
        ELSE
         DO I=1,NEL
-           ES1(I)=MFXX(I)*(TWO+MFXX(I))+MFXY(I)*MFXY(I)+MFXZ(I)*MFXZ(I)
-           ES2(I)=MFYY(I)*(TWO+MFYY(I))+MFYX(I)*MFYX(I)+MFYZ(I)*MFYZ(I)
-           ES3(I)=MFZZ(I)*(TWO+MFZZ(I))+MFZX(I)*MFZX(I)+MFZY(I)*MFZY(I)
-           ES4(I)=MFXY(I)+MFYX(I)+MFXX(I)*MFYX(I)+MFXY(I)*MFYY(I)+MFXZ(I)*MFYZ(I)
-           ES6(I)=MFXZ(I)+MFZX(I)+MFXX(I)*MFZX(I)+MFXY(I)*MFZY(I)+MFXZ(I)*MFZZ(I)
-           ES5(I)=MFZY(I)+MFYZ(I)+MFZX(I)*MFYX(I)+MFZY(I)*MFYY(I)+MFZZ(I)*MFYZ(I)
+          ES1(I)=(MFXX(I)*(TWO+MFXX(I))+MFXY(I)*MFXY(I)+MFXZ(I)*MFXZ(I))*OFF(I)
+          ES2(I)=(MFYY(I)*(TWO+MFYY(I))+MFYX(I)*MFYX(I)+MFYZ(I)*MFYZ(I))*OFF(I)
+          ES3(I)=(MFZZ(I)*(TWO+MFZZ(I))+MFZX(I)*MFZX(I)+MFZY(I)*MFZY(I))*OFF(I)
+          ES4(I)=(MFXY(I)+MFYX(I)+MFXX(I)*MFYX(I)+MFXY(I)*MFYY(I)+MFXZ(I)*MFYZ(I))*OFF(I)
+          ES6(I)=(MFXZ(I)+MFZX(I)+MFXX(I)*MFZX(I)+MFXY(I)*MFZY(I)+MFXZ(I)*MFZZ(I))*OFF(I)
+          ES5(I)=(MFZY(I)+MFYZ(I)+MFZX(I)*MFYX(I)+MFZY(I)*MFYY(I)+MFZZ(I)*MFYZ(I))*OFF(I)
         ENDDO
        END IF !(ISELECT>0) THEN
         CALL M1ISMSTR10_PON(NEL   , ES1 , ES2 ,ES3 ,ES4  ,
-     1                     ES5   ,ES6  ,EPSTH, C1  ,G   ,SIGTMP)
+     1                     ES5   ,ES6  ,EPSTH, C1  ,G    ,SIGTMP)
         IF(IPRES==1.AND.IRESP==1)THEN 
           DO I=1,NEL
            FF = -MIN(SIG(I,1),SIG(I,2),SIG(I,3))
@@ -172,7 +172,7 @@ C------------[F] = [MF]+ 1 ----ISMSTR10,11,12
         NLAR = 0
        IF (ISELECT>0) THEN
         DO I=1,NEL
-          IF (OFFG0(I)<=ONE) THEN
+          IF (OFFG0(I)<=ONE.AND.OFF(I)/=ZERO) THEN
            NLAR =NLAR+1
            INDEX(NLAR)=I
            ES1(NLAR)=ETOTSH(I,1)
@@ -186,7 +186,7 @@ C------------[F] = [MF]+ 1 ----ISMSTR10,11,12
         ENDDO
        ELSE
         DO I=1,NEL
-          IF (OFFG0(I)<=ONE) THEN
+          IF (OFFG0(I)<=ONE.AND.OFF(I)/=ZERO) THEN
            NLAR =NLAR+1
            INDEX(NLAR)=I
            ES1(NLAR)=MFXX(I)*(TWO+MFXX(I))+MFXY(I)*MFXY(I)+MFXZ(I)*MFXZ(I)
