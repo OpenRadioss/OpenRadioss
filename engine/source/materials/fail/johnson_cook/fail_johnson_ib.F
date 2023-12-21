@@ -79,13 +79,14 @@ C=======================================================================
 c-----------------------------
       DO I=1,NEL
         IF (OFF(I) == ONE .and. FOFF(I) == 1 .and. DPLA(I) > ZERO) THEN
-          P    = THIRD*SIGNXX(I)
-          SVM  = SQRT(THREE*(HALF*SIGNXX(I)**2 + SIGNXY(I)**2 + SIGNZX(I)**2))
+          P   = THIRD*SIGNXX(I)
+          SVM = SIGNXX(I)**2 + THREE*(SIGNXY(I)**2 + SIGNZX(I)**2)
+          SVM = SQRT(SVM)
           EPSF = D3 * P / MAX(EM20, SVM)
           EPSF = D1 + D2 * EXP(EPSF)
           IF (D4 /= ZERO)  EPSF = EPSF * (ONE + D4*LOG(MAX(ONE,EPSD(I)/EPSD0)))
           IF (D5 /= ZERO)  EPSF = EPSF * (ONE + D5*TSTAR(I))                  
-          IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I) / EPSF  
+          IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I) / EPSF
           IF (DFMAX(I) >= ONE) THEN ! total damage in integration point
             NINDX = NINDX + 1
             INDX(NINDX) = I  

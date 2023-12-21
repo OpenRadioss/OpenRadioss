@@ -88,7 +88,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDEL,IDEV,IFLAG,INDX(MVSIZ),IADBUF,NINDX,
+      INTEGER I,J,IDEL,IDEV,ISOLID,INDX(MVSIZ),IADBUF,NINDX,
      .        NINDEX,INDEX(MVSIZ),IR,IFAIL,JJ
       my_real 
      .        D1,D2,D3,D4,D5,
@@ -100,15 +100,15 @@ C--------------------------------------------------------------
       D4 = UPARAM(4)
       D5 = UPARAM(5)
       EPSP0 = UPARAM(6)
-      IFLAG = INT(UPARAM(8)) 
+      ISOLID = INT(UPARAM(8)) 
 
 C-----------------------------------------------
       IDEL=0
       IDEV=0
       SCALE = ZERO
-      IF(IFLAG==1)THEN
+      IF(ISOLID==1)THEN
         IDEL=1
-      ELSEIF(IFLAG==2)THEN
+      ELSEIF(ISOLID==2)THEN
        IDEV =1
       END IF
 C...
@@ -122,7 +122,7 @@ C
       IF(IDEL==1)THEN
        NINDX=0  
        DO I=1,NEL
-        IF(IFLAG==1.AND.OFF(I)==ONE)THEN
+        IF(ISOLID==1.AND.OFF(I)==ONE)THEN
          IF(DPLA(I)/=ZERO)THEN
            P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
            SXX = SIGNXX(I) - P
@@ -132,7 +132,7 @@ C
      .            +SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
            SVM=SQRT(THREE*SVM)
            EPSF = D3*P/MAX(EM20,SVM)
-           EPSF = (D1 + D2*EXP(EPSF))
+           EPSF = D1 + D2*EXP(EPSF)
            IF(D4/=ZERO) EPSF = EPSF * (ONE + D4*LOG(MAX(ONE,EPSP(I)/EPSP0))) ! if d4=0, epsp is not correctly defined
            IF(D5/=ZERO) EPSF = EPSF * (ONE + D5*TSTAR(I)) ! if d5=0, tsart is not correctly defined
            IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
@@ -160,7 +160,7 @@ Cc deviatoric will be vanished
        NINDX=0 
        NINDEX = 0 
        DO I=1,NEL 
-        IF(IFLAG==2.AND.OFF(I)==ONE)THEN 
+        IF(ISOLID==2.AND.OFF(I)==ONE)THEN 
          IF(DFMAX(I)<ONE.AND.DPLA(I)/=ZERO)THEN
           P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           SXX = SIGNXX(I) - P
