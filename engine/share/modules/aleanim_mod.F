@@ -23,9 +23,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ALEANIM_MOD                   share/modules/aleanim_mod.F   
 Chd|-- called by -----------
+Chd|        DFUNCS                        source/output/anim/generate/dfunc6.F
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
+Chd|        H3D_SOLID_SCALAR              source/output/h3d/h3d_results/h3d_solid_scalar.F
+Chd|        H3D_SOLID_SCALAR_1            source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+Chd|        H3D_SOLID_VECTOR              source/output/h3d/h3d_results/h3d_solid_vector.F
 Chd|        I18FOR3                       source/interfaces/int18/i18for3.F
+Chd|        INIRESA                       source/output/restart/rdresa.F
 Chd|        RESTALLOC                     source/output/restart/arralloc.F
 Chd|        SDEFO3                        source/elements/solid/solide/sdefo3.F
 Chd|        SORTIE_MAIN                   source/output/sortie_main.F   

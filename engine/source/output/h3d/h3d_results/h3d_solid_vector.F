@@ -27,6 +27,7 @@ Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|-- calls ---------------
 Chd|        H3D_WRITE_VECTOR              source/output/h3d/h3d_results/h3d_write_vector.F
 Chd|        INITBUF                       share/resol/initbuf.F         
+Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F   
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         

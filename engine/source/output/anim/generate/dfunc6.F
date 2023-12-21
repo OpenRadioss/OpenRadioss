@@ -31,6 +31,7 @@ Chd|        SCHLIEREN_BUFFER_GATHERING    source/output/anim/generate/schlieren_
 Chd|        SPMD_R4GET_PARTN              source/mpi/anim/spmd_r4get_partn.F
 Chd|        SROTORTH                      source/elements/solid/srotorth.F
 Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F   
 Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F

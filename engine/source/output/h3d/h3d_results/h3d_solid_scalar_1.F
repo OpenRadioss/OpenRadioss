@@ -31,6 +31,7 @@ Chd|        OUTPUT_SCHLIEREN              source/output/anim/generate/output_sch
 Chd|        SROTORTH                      source/elements/solid/srotorth.F
 Chd|        THS_MAREA                     source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 Chd|        THS_VOL                       source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F   
 Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F

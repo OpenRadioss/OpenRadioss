@@ -189,6 +189,7 @@ Chd|  INIRESA                       source/output/restart/rdresa.F
 Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
+Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F   
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
