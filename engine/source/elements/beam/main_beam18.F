@@ -113,10 +113,9 @@ C     STRAIN RATE
 C-------------------
       ISRATE = IPM(3,IMAT)                      
       ASRATE = MIN(ONE, PM(9,IMAT)*DTIME)
-c
+c     calculate total strain rate on neutral fiber position
       DO I = 1,NEL                                              
-        EPSDI  = HALF*(EXX(I)**2) + (HALF*EXY(I))**2 + (HALF*EXZ(I))**2
-        EPSDI  = AL(I)*SQRT(THREE*EPSDI)/THREE_HALF                         
+        EPSDI  = SQRT(EXX(I)**2 + HALF*(EXY(I)**2 + EXZ(I)**2))                       
         IF (ISRATE > 0) THEN                                    
           EPSD(I)= ASRATE*EPSDI + (ONE - ASRATE)*EPSD(I)
         ELSE       
