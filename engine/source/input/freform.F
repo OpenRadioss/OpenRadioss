@@ -151,7 +151,7 @@ C-----------------------------------------------
 C   L o c a l   P a r a m e t e r s
 C-----------------------------------------------
       INTEGER NKEY, NUM_ALE_KEY2
-      PARAMETER (NKEY = 91)
+      PARAMETER (NKEY = 92)
       PARAMETER (NUM_ALE_KEY2 = 22)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -168,10 +168,10 @@ C-----------------------------------------------
      .   NFVMESH,KSTATF,KSHVER,KABF,KDTSDE,
      .   KAABF,KBABF,KCABF,KDABF,KEABF,KFABF,KGABF,KHABF,KIABF,NFVMODI,
      .   KUPWIND,KTHERMAL,KH3D,KREPORT,KNEGVOL,KADYREL,KDT1TET10,KPERF,
-     .   KDYNAIN,KDTTSH,KMASS
+     .   KDYNAIN,KDTTSH,KMASS,KSENSOR
       INTEGER
-     .   IKEY, I, II, I1, J1, J2, K,KK, M, N, NCT, IKOLD, NBC, K3, K4,
-     .   NUBCS1,NUBCS2, IR,IDT,NELTGOF,
+     .   IKEY,I,II,I1,J,J1,J2,K,KK,M,N, NCT, IKOLD, NBC, K3, K4,
+     .   NUBCS1,NUBCS2, IR,IDT,NELTGOF,IREC,
      .   IAL, NINTOF, NELSOF, NDEL, NOF,ITTYP, NCPRI0,NCPRI_HEAD0,
      .   NELQOF, NELCOF, NELTOF, NELPOF, NELROF, NUM_BCS, NINTCH,
      .   NRBYNF, NBCS1, NBCS2, NRBYON, NRBYOF, NINIV,NINIVT,
@@ -179,7 +179,7 @@ C-----------------------------------------------
      .   NSPHOF,NALEOF,NEULEROF,NTHERMOF, IDTGRX,ibid, M1, M2, IFORM,
      .   GR_ID, NLINKOFF,IS_PREVKEYA_NCHARKEY,IS_KEYA_NCHARKEY, IFLAG,
      .   DT_CTRL_COMPATIBILITY(3), LOWMACH_OPT,IO_ERR, NITERP, IOK_READ,
-     .   ID_BAG, IERR1, ID_DT_OPTION, FVMBAG_L_TYPE, INUM,INTDT
+     .   ID_BAG, IERR1, ID_DT_OPTION, FVMBAG_L_TYPE, INUM,INTDT,NBSENS
       INTEGER :: BCS_SK_FR(10000),VEL_SK_FR(10000),NSLASH(NKEY)
       INTEGER :: NBALEOFF, NBALEON, NBPARTALEON, NBPARTALEOFF     
       my_real
@@ -223,7 +223,7 @@ C-----------------------------------------------
      .     'EABF '   ,'FABF'    ,'GABF'    ,'HABF'    ,'IABF'    ,
      .     'UPWIN'   ,'THERM'   ,'H3D'     ,'REPOR'   ,'NEGVO'  ,
      .     'ADYRE'   ,'DT1TE'   ,'PERF'    ,'DYNAI'   ,'DTTSH'   ,
-     .     'MASS '    /
+     .     'MASS '   ,'SENS ' /
 
       DATA KRUN/1/    ,KTITLE/2/    ,KDT/3/       ,KTFILE/4/   ,KPRINT/5/  ,
      .     KRFILE/6/  ,KVERS/7/     ,                           KALE/10/   ,
@@ -243,7 +243,7 @@ C-----------------------------------------------
      .     KEABF/76/  ,KFABF/77/    ,KGABF/78/    ,KHABF/79/   ,KIABF/80/  ,
      .     KUPWIND/81/,KTHERMAL/82/ ,KH3D/83/     ,KREPORT/84/ ,KNEGVOL/85/,
      .     KADYREL/86/,KDT1TET10/87/,KPERF/88/    ,KDYNAIN/89/ ,KDTTSH/90/ ,
-     .     KMASS/91/
+     .     KMASS/91/  ,KSENSOR/92/
 
       DATA KEYALE/
      .     'BCS  '   ,'CLOSE'   ,'GRID '   ,'LINK '   ,'MAT  '   ,
@@ -2279,6 +2279,38 @@ C--------------------
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
         READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A)',ERR=9990)KEY2
         IF(KEY2(1:5)=='RESET'.AND.IRUNN>1.AND.MCHECK==0) IMASSI = 1
+      END IF
+      
+C--------------------
+C  /SENS/RESET
+C--------------------
+      IKEY   = KSENSOR
+      SENSORS%NRESET = 0
+      IREC = IKAD(IKEY)
+      IF (IKAD(IKEY) /= IKAD(IKEY+1)) THEN
+        READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A,37X,I10)',ERR=9990) KEY2,NBC
+        IF (KEY2(1:5)=='RESET') THEN
+          IREC = IREC+1
+          NBSENS = 0
+          DO I=1,NBC
+            READ(IUSC1,REC=IREC+I-1,FMT='(A)',ERR=9990)CARTE
+            NBSENS = NBSENS + NVAR(CARTE)
+          ENDDO
+          IF (NBSENS == 0) THEN 
+            SENSORS%NRESET = SENSORS%NSENSOR
+          ELSE          
+            SENSORS%NRESET = NBSENS
+            ALLOCATE(SENSORS%RESET(NBSENS))
+            NBSENS = 0
+            DO I=1,NBC
+              READ(IUSC1,REC=IREC+I-1,FMT='(A)',ERR=9990)CARTE
+              CALL WRIUSC2(IREC+I-1,1,KEY0(IKEY))
+              READ(IUSC2,*,ERR=9990,END=9990)
+     .            (SENSORS%RESET(J+NBSENS),J=1,NVAR(CARTE))
+              NBSENS = NBSENS + NVAR(CARTE)
+            ENDDO
+          END IF
+        END IF
       END IF
       
 C--------------------

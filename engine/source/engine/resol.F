@@ -1973,7 +1973,7 @@ c  Equivalent nodal force
 C========================================================================================
 C Initialize SENSORS & communication buffers.
 C Play Time & Logical sensors.
-
+C Reinitialise sensor variables defined in /SENS/RESET
 
        K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
        K2=K1+NUMELS
@@ -1990,8 +1990,8 @@ C Play Time & Logical sensors.
 
        CALL SENSOR_INIT(SUBSETS,IPARG,NGROUC,
      .                  IPART(K3),IPART(K8),IPART(K1),IPART(K2),IPART(K4),
-     .                  IPART(K5) ,IPART(K6),NSENSOR,SENSORS%SENSOR_TAB,
-     .                  TT        ,DT2      )
+     .                  IPART(K5) ,IPART(K6),SENSORS,TT ,DT2 ,IOUT )
+C========================================================================================
 
 C save the Python functions into the Python interpreter dictionarry
        CALL PYTHON_REGISTER(PYTHON)
