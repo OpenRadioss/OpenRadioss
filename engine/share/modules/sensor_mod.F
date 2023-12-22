@@ -331,6 +331,7 @@ c
         INTEGER :: NSTAT
         INTEGER :: NOUTP
         INTEGER :: NANIM
+        INTEGER :: NRESET
         INTEGER :: ANIM_ID
         my_real :: ANIM_DT
 
@@ -340,6 +341,7 @@ c
         INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: STAT
         INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: OUTP
         INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: ANIM
+        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: RESET
         INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: STOP_TMP
         INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: OUTP_TMP
         INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: STAT_TMP

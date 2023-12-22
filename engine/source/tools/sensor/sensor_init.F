@@ -32,8 +32,8 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
         SUBROUTINE SENSOR_INIT( SUBSET,IPARG,NGROUC,
      .                          IPARTC,IPARTTG,IPARTS,IPARTQ,IPARTT,
-     .                          IPARTP,IPARTR,NSENSOR,SENSOR_TAB,
-     .                          TIME  ,TIMESTEP)
+     .                          IPARTP,IPARTR,SENSORS,TIME  ,TIMESTEP,
+     .                          IOUT  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -52,22 +52,24 @@ C-----------------------------------------------
 #include "com04_c.inc"
 #include "task_c.inc"
 #include "parit_c.inc"
+#include "comlock.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real ,INTENT(IN) :: TIME,TIMESTEP
       TYPE (SUBSET_) , DIMENSION(NSUBS), INTENT(IN) :: SUBSET
-      INTEGER, INTENT(IN) :: NGROUC,NSENSOR
+      INTEGER, INTENT(IN) :: NGROUC
+      INTEGER, INTENT(IN) :: IOUT
       INTEGER, DIMENSION(*), TARGET, INTENT(IN) :: IPARTC,IPARTTG,IPARTS,IPARTQ
       INTEGER, DIMENSION(*), TARGET, INTENT(IN) :: IPARTT,IPARTP,IPARTR
       INTEGER, DIMENSION(NPARG,*), INTENT(IN) :: IPARG
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), INTENT(IN) :: SENSOR_TAB
+      TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: BOOL
       INTEGER :: I,K,J,IC,IG,NG,NP,IJK,KJI
-      INTEGER :: TYP,IPART,IPART_2,ISUBS,IGRN,NBR_GROUP
+      INTEGER :: TYP,IPART,IPART_2,ISUBS,IGRN,NBR_GROUP,NSENSOR
       INTEGER :: NFT,NF1,ITY,NEL
       INTEGER, DIMENSION(:), POINTER :: IPART_POINTER
       INTEGER :: NUMBER_PART_GROUP,NUMBER_PART_GROUP_2
@@ -78,7 +80,7 @@ C-----------------------------------------------
 
       INTEGER :: ISURF
       INTEGER :: SURF_DIST_SENSOR,ENERGY_SENSOR,SENSOR_TEMP
-      INTEGER, DIMENSION(NSENSOR) :: INDX_SURF_DIST_SENSOR,INDX_ENERGY,INDX_TEMP
+      INTEGER, DIMENSION(SENSORS%NSENSOR) :: INDX_SURF_DIST_SENSOR,INDX_ENERGY,INDX_TEMP
       INTEGER :: SIZE_COMM17_MIN_MAX,SIZE_COMM17_MEAN
 
 !   *********************************************
@@ -122,13 +124,14 @@ c
       SURF_DIST_SENSOR = 0
       ENERGY_SENSOR    = 0
       SENSOR_TEMP      = 0
+      NSENSOR = SENSORS%NSENSOR
       INDX_SURF_DIST_SENSOR(1:NSENSOR) = 0
       INDX_ENERGY(1:NSENSOR) = 0
       INDX_TEMP(1:NSENSOR)   = 0
       !   -----------------------------------------
       !   count the number of sensors by type
       DO K=1,NSENSOR
-          TYP = SENSOR_TAB(K)%TYPE
+          TYP = SENSORS%SENSOR_TAB(K)%TYPE
           !   -------------------- 
           IF (TYP==14) THEN
               !   sensor energy
@@ -136,14 +139,14 @@ c
               INDX_ENERGY(ENERGY_SENSOR) = K
           ELSE IF (TYP==16) THEN
               !   distance to surface
-              ISURF = SENSOR_TAB(K)%IPARAM(2)         
+              ISURF = SENSORS%SENSOR_TAB(K)%IPARAM(2)         
               IF (ISURF/=0) THEN
                   SURF_DIST_SENSOR = SURF_DIST_SENSOR + 1
                   INDX_SURF_DIST_SENSOR(SURF_DIST_SENSOR) = K
               ENDIF
           ELSE IF (TYP==17) THEN
               !   sensor temperature
-              IGRN = SENSOR_TAB(K)%IPARAM(1)
+              IGRN = SENSORS%SENSOR_TAB(K)%IPARAM(1)
               IF (IGRN > 0) THEN
                   SENSOR_TEMP = SENSOR_TEMP + 1
                   INDX_TEMP(SENSOR_TEMP) = K
@@ -179,11 +182,11 @@ c
              !   get the /PART id for each sensor
              DO I=1,ENERGY_SENSOR
                     K = INDX_ENERGY(I)
-                    TYP = SENSOR_TAB(K)%TYPE
+                    TYP = SENSORS%SENSOR_TAB(K)%TYPE
                     !   --------------------    
                     !   sensor energy
-                    IPART  = SENSOR_TAB(K)%IPARAM(1)
-                    ISUBS  = SENSOR_TAB(K)%IPARAM(2)
+                    IPART  = SENSORS%SENSOR_TAB(K)%IPARAM(1)
+                    ISUBS  = SENSORS%SENSOR_TAB(K)%IPARAM(2)
                     IF(IPART>0) THEN
                     !   only one part per sensor
                         SENSOR_STRUCT(K)%TYP = 1
@@ -397,22 +400,60 @@ c
       !   ---------------------
 
 C ---------------------------------------------------------------------
+C   Reinitalize sensors defined in /SENS/RESET
+c----------------------------------------------------------------------
+      IF (NSENSOR > 0 ) THEN
+        IF (SENSORS%NRESET == NSENSOR) THEN
+          DO I=1,NSENSOR
+            SENSORS%SENSOR_TAB(I)%STATUS = 0        
+            SENSORS%SENSOR_TAB(I)%TSTART = 1.E20
+            SENSORS%SENSOR_TAB(I)%TCRIT  = 1.E20
+            SENSORS%SENSOR_TAB(I)%VALUE  = ZERO     
+            SENSORS%SENSOR_TAB(I)%VAR(:) = ZERO
+#include "lockon.inc"
+             WRITE (IOUT,100) SENSORS%SENSOR_TAB(I)%SENS_ID
+#include "lockoff.inc"
+          ENDDO
+        ELSE IF (SENSORS%NRESET > 0) THEN
+          DO J=1,SENSORS%NRESET
+            DO I=1,NSENSOR
+              IF (SENSORS%RESET(J) == SENSORS%SENSOR_TAB(I)%SENS_ID) THEN
+                SENSORS%SENSOR_TAB(I)%STATUS = 0        
+                SENSORS%SENSOR_TAB(I)%TSTART = 1.E20
+                SENSORS%SENSOR_TAB(I)%TCRIT  = 1.E20
+                SENSORS%SENSOR_TAB(I)%VALUE  = ZERO     
+                SENSORS%SENSOR_TAB(I)%VAR(:) = ZERO
+#include "lockon.inc"
+             WRITE (IOUT,100) SENSORS%SENSOR_TAB(I)%SENS_ID
+#include "lockoff.inc"
+                EXIT
+              END IF
+            ENDDO
+          ENDDO
+        END IF
+        IF (ALLOCATED(SENSORS%RESET)) DEALLOCATE (SENSORS%RESET)
+        SENSORS%NRESET = 0
+      ENDIF
+
+C ---------------------------------------------------------------------
 C Play Sensors which could be active at TT=0
 c----------------------------------------------------------------------
       IF (NSENSOR > 0 ) THEN
-         DO I=1,NSENSOR
-             ! Time Sensor if TT=0
-             TYP    = SENSOR_TAB(I)%TYPE
-             IF (TYP == 0) THEN 
-               CALL SENSOR_TIME(SENSOR_TAB(I) ,TIME   ,TIMESTEP)
-             ENDIF
-         ENDDO
+        DO I=1,NSENSOR
+            ! Time Sensor if TT=0
+            TYP    = SENSORS%SENSOR_TAB(I)%TYPE
+            IF (TYP == 0) THEN 
+              CALL SENSOR_TIME(SENSORS%SENSOR_TAB(I) ,TIME   ,TIMESTEP)
+            ENDIF
+        ENDDO
      
-         ! Logical Sensors can be active at TT=0
-         CALL SENSOR_LOGICAL(NSENSOR,SENSOR_TAB)
+        ! Logical Sensors can be active at TT=0
+        CALL SENSOR_LOGICAL(NSENSOR,SENSORS%SENSOR_TAB)
       ELSE
-         LOGICAL_SENSOR_COUNT=0
+        LOGICAL_SENSOR_COUNT=0
       ENDIF
+c-----------------------------------------------------------------------      
+100   FORMAT(' SENSOR NUMBER ',I10,' ,IS RESET TO THE INITIAL STATE')
 c-----------
       RETURN
       END SUBROUTINE SENSOR_INIT
