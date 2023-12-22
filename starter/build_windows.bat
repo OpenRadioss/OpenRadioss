@@ -131,7 +131,29 @@ if %debug%==0 (
 )
 
 cmake -G Ninja -DVS_BUILD=1 %dc% -DEXEC_NAME=%starter% -Darch=%arch% -Dprecision=%prec% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% ..
+
+if errorLevel=1 (
+
+  echo.
+  echo.
+  echo Errors in CMAKE configuration !!!
+  echo.
+  cd ..
+  exit /b 1
+)
+
 ninja %verbose% -j %jobs%
+
+if errorLevel=1 (
+
+  echo.
+  echo.
+  echo Errors in build encontered !!!
+  echo.
+  cd ..
+  exit /b 1
+)
+   
 
 cd ..
 
