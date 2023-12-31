@@ -11,6 +11,7 @@ export CC=armclang
 export CXX=armclang++
 export Fortran_COMPILER=armflang
 export FC=armflang
+export NCPU=$(nproc)
 
 #echo "Checking if compiler is in PATH"
 #echo `which $CC`
@@ -29,10 +30,10 @@ cd /opt
 git lfs install
 git clone --depth 1 --branch main https://github.com/OpenRadioss/OpenRadioss.git
 cd /opt/OpenRadioss/starter
-./build_script.sh -arch=linuxa64 -nt=80 -static-link
+./build_script.sh -arch=linuxa64 -nt=$NCPU -static-link
 cd /opt/OpenRadioss/engine
-./build_script.sh -arch=linuxa64 -nt=80 -static-link
-./build_script.sh -arch=linuxa64 -mpi=ompi -nt=80 -static-link
+./build_script.sh -arch=linuxa64 -nt=$NCPU -static-link
+./build_script.sh -arch=linuxa64 -mpi=ompi -nt=$NCPU -static-link
 cd /opt/OpenRadioss/tools/anim_to_vtk/linux64
 ./build.bash
 cd /opt/OpenRadioss/tools/th_to_csv/linux64
