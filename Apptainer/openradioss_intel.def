@@ -27,16 +27,17 @@ export CPP=icpx
 export Fortran_COMPILER=ifx
 export MKLROOT=/opt/intel/oneapi/mkl/2022.1.0
 export I_MPI_ROOT=/opt/intel/oneapi/mpi/2021.6.0
+export NCPU=$(nproc)
 
 cd /opt
 git lfs install
 git clone https://github.com/OpenRadioss/OpenRadioss.git
 cd OpenRadioss
 cd /opt/OpenRadioss/starter
-./build_script.sh -arch=linux64_intel -nt=8
+./build_script.sh -arch=linux64_intel -nt=$NCPU
 cd /opt/OpenRadioss/engine
-./build_script.sh -arch=linux64_intel -nt=8
-./build_script.sh -arch=linux64_intel -mpi=impi -nt=8
+./build_script.sh -arch=linux64_intel -nt=$NCPU
+./build_script.sh -arch=linux64_intel -mpi=impi -nt=$NCPU
 cd /opt/OpenRadioss/tools/anim_to_vtk/linux64
 ./build.bash
 cd /opt/OpenRadioss/tools/th_to_csv/linux64

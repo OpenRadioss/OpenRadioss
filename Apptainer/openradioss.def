@@ -8,6 +8,8 @@ gcc gcc-gfortran gcc-c++ make cmake perl git-lfs \
 wget git patch diffutils libxcrypt-compat \
 which python
 
+export NCPU=$(nproc)
+
 cd /tmp
 wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz
 tar xzvf openmpi-4.1.2.tar.gz
@@ -20,10 +22,10 @@ cd /opt
 git lfs install
 git clone --depth 1 --branch main https://github.com/OpenRadioss/OpenRadioss.git
 cd /opt/OpenRadioss/starter
-./build_script.sh -arch=linux64_gf
+./build_script.sh -arch=linux64_gf -nt=$NCPU
 cd /opt/OpenRadioss/engine
-./build_script.sh -arch=linux64_gf
-./build_script.sh -arch=linux64_gf -mpi=ompi
+./build_script.sh -arch=linux64_gf -nt=$NCPU
+./build_script.sh -arch=linux64_gf -mpi=ompi -nt=$NCPU
 cd /opt/OpenRadioss/tools/anim_to_vtk/linux64
 ./build.bash
 cd /opt/OpenRadioss/tools/th_to_csv/linux64
