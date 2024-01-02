@@ -112,7 +112,9 @@ C         STIFI was not set at time=0 (not read from restart)
           IF((TT==ZERO.OR.STIFI(NIN)%P(NI)>ZERO).AND.IRTLM_FI(NIN)%P(4,NI)==LOC_PROC)THEN
             NODFI = NODFI + 1
             NN = RENUM(NI)
-            IREM(1,NN) = -IREM(1,NN)
+            IF( NN >0)THEN
+              IREM(1,NN) = -IREM(1,NN)
+            ENDIF
           END IF
         END DO
 C
