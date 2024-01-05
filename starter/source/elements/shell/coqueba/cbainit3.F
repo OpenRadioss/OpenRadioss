@@ -361,6 +361,12 @@ c
      6          GBUF%PLA,THKE    ,IGTYP    ,NEL   ,ISIGSH  ,
      7          E1X   ,E2X      ,E3X      ,E1Y   ,E2Y  ,E3Y,
      8          E1Z   ,E2Z      ,E3Z     ,DIR_A  ,DIR_B,POSLY )
+           IF (ITHKSHEL == 2) THEN
+             DO I=LFT,LLT
+               GBUF%STRA(I+JJ(1:8))=GBUF%STRA(I+JJ(1:8))+
+     .                              FOURTH*GBUF%STRPG(PTS+I+JJ(1:8))
+             END DO
+           END IF 
           ELSEIF ( ITHKSHEL == 1 .AND. IHBE == 11 ) THEN
            CALL THICKINI(LFT     ,LLT   ,NFT    ,PTSHEL,NUMELC,
      2                   GBUF%THK,THKE  ,IXC    ,NIXC  ,NSIGSH,
