@@ -264,7 +264,7 @@ C-----------------------------------------------
       INTEGER I,NPAR,IADBUF,IADVIS,NFUNC,NUMTABL,ISRATE,MX,IPG,NPTR,NPTS,
      .  IBID,IBIDON1,IBIDON2,IBIDON3,IBIDON4 ,N48,NIX,ILAW_USER,IGTYP,
      .  NVARF,IR,IP,IRUPT,IMAT,ISVIS,IVISC,NUVARV,NUPARV,ISEQ,IADRUPBUF,IDEV,
-     .  IFORM
+     .  IFORM,L_PLANL
       my_real 
      .E1,E2,E3,E4,E5,E6,BID1,BID3,Q1,Q2,Q3,SS1,SS2,SS3,SS4,SS5,
      . SS6,WXXF,WYYF,WZZF,P2,EPSP,DAV,ASRATE,C1(MVSIZ),
@@ -331,6 +331,7 @@ C=======================================================================
       ISEQ   = ELBUF_TAB(NG)%BUFLY(ILAY)%L_SEQ
       INLOC  = IPARG(78,NG)
       DMG_FLAG = ELBUF_TAB(NG)%BUFLY(ILAY)%L_DMGSCL
+      L_PLANL = ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLANL
       ! Make sure that the non-local variable increment is positive
       IF (INLOC > 0) THEN 
         DO I = 1,NEL
@@ -1289,13 +1290,14 @@ C
      C                  EBUF%VAR,NVAREOS)
 C
       ELSEIF (MTN == 76) THEN
-        CALL SIGEPS76(NEL      ,NPAR     ,NUVAR    ,NFUNC    ,IFUNC    ,NGL      ,
-     .                NPF      ,TF       ,TT       ,DT1      ,UPARAM   ,MATPARAM ,
-     .                RHO0     ,RHO      ,DPLA     ,ET       ,SSP      ,SIGY     ,
-     .                DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6      ,
-     .                SO1      ,SO2      ,SO3      ,SO4      ,SO5      ,SO6      ,
-     .                S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
-     .                UVAR     ,OFF      ,EPSD     ,DEFP     ,INLOC    ,VARNL    )
+        CALL SIGEPS76(NEL      ,NPAR     ,NUVAR    ,NFUNC    ,IFUNC    ,NGL       ,
+     .                NPF      ,TF       ,TT       ,DT1      ,UPARAM   ,MATPARAM  ,
+     .                RHO0     ,DPLA     ,ET       ,SSP      ,SIGY     ,UVAR      ,
+     .                DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6       ,
+     .                SO1      ,SO2      ,SO3      ,SO4      ,SO5      ,SO6       ,
+     .                S1       ,S2       ,S3       ,S4       ,S5       ,S6        ,
+     .                OFF      ,EPSD     ,DEFP     ,INLOC    ,L_PLANL  ,LBUF%PLANL,
+     .                LBUF%DMG ,IDEL7NOK )
 c
       ELSEIF (MTN == 78) THEN
           CALL SIGEPS78(NEL ,NPAR,NUVAR,NFUNC,IFUNC,NPF ,
