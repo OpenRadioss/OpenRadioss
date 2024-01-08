@@ -1505,16 +1505,16 @@ c
 
             CALL SIGEPS76C(
      1         JLT      ,NUPARAM0  ,NUVAR    ,NFUNC    ,IFUNC    ,
-     2         NPF      ,TF       ,MATPARAM ,TT       ,DT1      ,
-     3         UPARAM0   ,UVAR     ,RHO      ,OFF      ,NGL      ,
-     4         DEPSXX   ,DEPSYY   ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
+     2         NPF      ,TF        ,MATPARAM ,TT       ,DT1      ,
+     3         UPARAM0  ,UVAR      ,RHO      ,OFF      ,NGL      ,
+     4         DEPSXX   ,DEPSYY    ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
      5         LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      6         SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      7         SSP      ,THKN     ,THKLYL   ,LBUF%PLA ,EPSP     ,
-     8         ETSE     ,GS       ,SIGY     ,INLOC    ,VARNL(1,IT))
+     8         ETSE     ,GS       ,SIGY     ,INLOC    ,BUFLY%L_PLANL,
+     9         LBUF%PLANL,VARNL(1,IT),LBUF%DMG,IDEL7NOK)
 c
                EPSPL(1:NEL) = EPSP(1:NEL)
-     
 c
           ELSEIF (ILAW == 78) THEN
               CALL SIGEPS78C(

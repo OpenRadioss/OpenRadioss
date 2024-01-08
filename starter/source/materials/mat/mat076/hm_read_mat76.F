@@ -237,7 +237,7 @@ c-----------------------------------------------
       UPARAM(29) = YFAC(2)
 c
       NUPARAM = 29 
-      NUVAR   = 9
+      NUVAR   = 7
       NFUNC   = 2
       NUMTABL = 3
 c                
@@ -258,6 +258,8 @@ c
       MTAG%L_EPSD = 1
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
+      MTAG%G_DMG  = 1
+      MTAG%L_DMG  = 1
 c
       MATPARAM%NTABLE = 3
       IF (ICAS == 0) THEN 

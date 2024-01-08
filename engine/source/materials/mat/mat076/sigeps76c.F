@@ -39,206 +39,191 @@ Chd|====================================================================
      5     SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7     SOUNDSP ,THK     ,THKLY   ,PLA     ,EPSP    ,
-     8     ETSE    ,GS      ,YLD     ,INLOC   ,DPLANL  )
+     8     ETSE    ,GS      ,YLD     ,INLOC   ,L_PLANL ,
+     9     PLANL   ,DPLANL  ,DMG     ,IDEL7NOK)
+C-----------------------------------------------
+C   M o d u l e s
 C-----------------------------------------------
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C---------+---------+---+---+--------------------------------------------
-C VAR     | SIZE    |TYP| RW| DEFINITION
-C---------+---------+---+---+--------------------------------------------
-C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
-C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
-C---------+---------+---+---+--------------------------------------------
-C NFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW
-C IFUNC   | NFUNC   | I | R | FUNCTION INDEX 
-C NPF     |  *      | I | R | FUNCTION ARRAY   
-C TF      |  *      | F | R | FUNCTION ARRAY 
-C---------+---------+---+---+--------------------------------------------
-C TIME    |  1      | F | R | CURRENT TIME
-C TIMESTEP|  1      | F | R | CURRENT TIME STEP
-C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
-C RHO0    | NEL     | F | R | INITIAL DENSITY
-C THKLY   | NEL     | F | R | LAYER THICKNESS
-C ...     |         |   |   |
-C DEPSXX  | NEL     | F | R | STRAIN INCREMENT XX
-C DEPSYY  | NEL     | F | R | STRAIN INCREMENT YY
-C ...     |         |   |   |
-C SIGOXX  | NEL     | F | R | OLD ELASTO PLASTIC STRESS XX 
-C SIGOYY  | NEL     | F | R | OLD ELASTO PLASTIC STRESS YY
-C ...     |         |   |   |    
-C---------+---------+---+---+--------------------------------------------
-C SIGNXX  | NEL     | F | W | NEW ELASTO PLASTIC STRESS XX
-C SIGNYY  | NEL     | F | W | NEW ELASTO PLASTIC STRESS YY
-C ...     |         |   |   |
-C SOUNDSP | NEL     | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
-C---------+---------+---+---+--------------------------------------------
-C THK     | NEL     | F |R/W| THICKNESS
-C PLA     | NEL     | F |R/W| PLASTIC STRAIN
-C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
-C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
-C---------+---------+---+---+--------------------------------------------
-C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr17_c.inc"
-#include      "units_c.inc"
+C   G l o b a l   P a r a m e t e r s
+C-----------------------------------------------
+#include      "tabsiz_c.inc"
 #include      "comlock.inc"
+#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: NEL,NFUNC,NUPARAM,NUVAR,INLOC
-      INTEGER ,DIMENSION(NFUNC)  ,INTENT(IN)  :: IFUNC
-      INTEGER :: NGL(NEL)
-      my_real :: TIME,TIMESTEP
-      my_real :: UPARAM(NUPARAM)
-      my_real ,DIMENSION(NEL) :: RHO0,THKLY,GS,EPSP,
+      INTEGER, INTENT(IN) :: NEL,NFUNC,NUPARAM,NUVAR,INLOC,L_PLANL
+      INTEGER, INTENT(INOUT) :: IDEL7NOK
+      INTEGER, DIMENSION(NFUNC), INTENT(IN) :: IFUNC
+      INTEGER, DIMENSION(NEL), INTENT(IN) :: NGL
+      my_real, INTENT(IN) :: TIME,TIMESTEP
+      my_real, DIMENSION(NUPARAM), INTENT(IN) :: UPARAM
+      my_real ,DIMENSION(NEL), INTENT(IN) :: RHO0,THKLY,GS,
      .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX,DPLANL
-      TYPE (MATPARAM_STRUCT_) , TARGET  :: MATPARAM
-C-----------------------------------------------
-C   O U T P U T   A r g u m e n t s
-C-----------------------------------------------
-      my_real ,DIMENSION(NEL) ,INTENT(OUT) :: SOUNDSP,ETSE,PLA,
-     .    SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
-C-----------------------------------------------
-C   I N P U T   O U T P U T   A r g u m e n t s 
-C-----------------------------------------------
-      my_real :: UVAR(NEL,NUVAR), OFF(NEL),THK(NEL),YLD(NEL)
+      my_real, DIMENSION(L_PLANL*NEL), INTENT(IN) :: PLANL
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: 
+     .   EPSP,PLA,SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,SOUNDSP,
+     .   ETSE,OFF,YLD,THK,DMG
+      my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
+      TYPE(MATPARAM_STRUCT_), INTENT(IN), TARGET :: MATPARAM
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
-      INTEGER  NPF(*)
-      my_real  FINTER, TF(*)
+      INTEGER :: NPF(SNPC)
+      my_real :: FINTER,TF(STF)
       EXTERNAL FINTER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IFORM,IQUAD,ICONV,NDIM,NPT,NINDX,NUMTABL,INDX(NEL)
-      my_real :: E,DF,EPSPF,EPSPR,YFAC2
-      my_real ,DIMENSION(NEL) :: DEZZ,DPLA,H,PLA_DAM
-      TYPE(TABLE_4D_), DIMENSION(:) , POINTER :: TABLE
-c-----------------------------------------
-c     UVAR(1)  : EPSPT
-c     UVAR(2)  : EPSPC
-c     UVAR(3)  : EPSPS
-c     UVAR(4)  : EPDT
-c     UVAR(5)  : EPDC
-c     UVAR(6)  : EPDS
-c     UVAR(7)  : DAM
-c     UVAR(8)  : DPLANL
+      INTEGER :: I,IFORM,IQUAD,NUMTABL,NINDX,INDX(NEL)
+      my_real :: DF,EPSPF,EPSPR,YFAC2
+      my_real ,DIMENSION(NEL) :: DEZZ,DPLA,PLA_DAM,
+     .  SIG0XX,SIG0YY,SIG0XY,SIG0YZ,SIG0ZX
+      TYPE(TABLE_4D_), DIMENSION(:), POINTER :: TABLE
 C=======================================================================
-c     PARAMETERS INITIALIZATION
-c-----------------------------------------
-      E      = UPARAM(1)                       
-      EPSPF  = UPARAM(10)       !   Failure plastic strain           
-      EPSPR  = UPARAM(11)       !   rupture plastic strain                  
-      IFORM  = NINT(UPARAM(13))
-      IQUAD  = NINT(UPARAM(14))
-      YFAC2  = UPARAM(29)
-      DPLA(1:NEL) = ZERO ! Initialization of the plastic strain increment
+c
+      !====================================================================
+      ! - PARAMETERS INITIALIZATION
+      !====================================================================
+      EPSPF = UPARAM(10)       !   Failure plastic strain           
+      EPSPR = UPARAM(11)       !   Rupture plastic strain                  
+      IFORM = NINT(UPARAM(13)) ! Flag for plasticity 
+                               !   = 0 associated (with quadratic yield criterion only)
+                               !   = 1 not associated     
+      IQUAD = NINT(UPARAM(14)) ! Flag for quadratic yield criterion
+      YFAC2 = UPARAM(29)       ! Damage function scale factor
+      DPLA(1:NEL) = ZERO       ! Initialization of the plastic strain increment
       ETSE(1:NEL) = ONE
       DO I = 1,NEL
-        IF(OFF(I) < EM01) OFF(I)=ZERO
-        IF(OFF(I) < ONE)   OFF(I)=OFF(I)*FOUR_OVER_5  
+        IF (OFF(I) < EM01) OFF(I) = ZERO
+        IF (OFF(I) <  ONE) OFF(I) = OFF(I)*FOUR_OVER_5  
       ENDDO
 c
+      ! Table parameters
       NUMTABL =  MATPARAM%NTABLE
       TABLE   => MATPARAM%TABLE(1:NUMTABL)
-c--------------------------------------------------------------      
-      IF (IFORM == 1) THEN  ! associated plastic flow, quadratic yld
+c
+      !====================================================================
+      ! - COMPUTE INITIAL UNDAMAGED STRESSES
+      !====================================================================
+      DO I = 1,NEL 
+        SIG0XX(I) = SIGOXX(I)/MAX(ONE-DMG(I),EM20)
+        SIG0YY(I) = SIGOYY(I)/MAX(ONE-DMG(I),EM20)
+        SIG0XY(I) = SIGOXY(I)/MAX(ONE-DMG(I),EM20)
+        SIG0YZ(I) = SIGOYZ(I)/MAX(ONE-DMG(I),EM20)
+        SIG0ZX(I) = SIGOZX(I)/MAX(ONE-DMG(I),EM20)
+      ENDDO
+c
+      !====================================================================
+      ! - ELASTO-PLASTIC BEHAVIOR
+      !====================================================================  
+      IF (IFORM == 1) THEN  ! Associated plastic flow, Quadratic yield criterion
         CALL ASSO_QPLAS76C(
      .       NEL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,
      .       NPF     ,TF      ,NUMTABL ,TABLE   ,
      .       TIME    ,TIMESTEP,UPARAM  ,UVAR    ,RHO0    ,
      .       DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
-     .       SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
+     .       SIG0XX  ,SIG0YY  ,SIG0XY  ,SIG0YZ  ,SIG0ZX  ,
      .       SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      .       PLA     ,DPLA    ,EPSP    ,OFF     ,GS      ,
      .       YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  )
 c
-      ELSE   ! IFORM = 0 => non associated plastic flow
-        IF (IQUAD == 1) THEN    ! quadratic yld form
+      ELSE   ! Non-associated plastic flow
+        IF (IQUAD == 1) THEN ! Quadratic yield criterion
           CALL NO_ASSO_QPLAS76C(
      .       NEL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,
      .       NPF     ,TF      ,NUMTABL ,TABLE   ,
      .       TIME    ,TIMESTEP,UPARAM  ,UVAR    ,RHO0    ,
      .       DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
-     .       SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
+     .       SIG0XX  ,SIG0YY  ,SIG0XY  ,SIG0YZ  ,SIG0ZX  ,
      .       SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      .       PLA     ,DPLA    ,EPSP    ,OFF     ,GS      ,
      .       YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  )
-        ELSE                 ! associated plastic flow
+        ELSE                 ! Non-quadratic yield criterion
           CALL NO_ASSO_LPLAS76C(
      .       NEL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,
      .       NPF     ,TF      ,NUMTABL ,TABLE   ,
      .       TIME    ,TIMESTEP,UPARAM  ,UVAR    ,RHO0    ,
      .       DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
-     .       SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
+     .       SIG0XX  ,SIG0YY  ,SIG0XY  ,SIG0YZ  ,SIG0ZX  ,
      .       SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      .       PLA     ,DPLA    ,EPSP    ,OFF     ,GS      ,
      .       YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  )
         ENDIF
-      ENDIF    ! IFORM
-c--------------------------------------------------------------      
-c     update damage
-c--------------------------------------------------------------
+      ENDIF
+c
+      !====================================================================
+      ! - UPDATE DAMAGE VARIABLE
+      !====================================================================
       NINDX = 0      
       IF (INLOC > 0) THEN 
-        PLA_DAM(1:NEL) = UVAR(1:NEL,8)
+        PLA_DAM(1:NEL) = PLANL(1:NEL)
       ELSE
         PLA_DAM(1:NEL) = PLA(1:NEL)
       ENDIF
+      ! Tabulated damage
       IF (IFUNC(2) > 0) THEN
         DO I=1,NEL
-          UVAR(I,7) = ABS(YFAC2)* FINTER(IFUNC(2),PLA_DAM(I),NPF,TF,DF)
-          UVAR(I,7) = MIN(UVAR(I,7),ONE)
-          IF (UVAR(I,7) >= ONE) THEN 
+          DMG(I) = ABS(YFAC2)* FINTER(IFUNC(2),PLA_DAM(I),NPF,TF,DF)
+          DMG(I) = MIN(DMG(I),ONE)
+          IF (DMG(I) >= ONE) THEN 
             IF (OFF(I) == ONE) THEN 
               OFF(I) = FOUR_OVER_5
               IDEL7NOK    = 1
               NINDX       = NINDX+1
               INDX(NINDX) = I
             ENDIF
-            UVAR(I,7) = ONE
-            SIGNXX(I) = ZERO
-            SIGNYY(I) = ZERO
-            SIGNXY(I) = ZERO
-            SIGNYZ(I) = ZERO
-            SIGNZX(I) = ZERO
           ENDIF 
         ENDDO 
+      ! Analytical damage
       ELSE
         DO I=1,NEL
-          IF (PLA_DAM(I) >= EPSPR) THEN
+          IF (PLA_DAM(I) >= EPSPF) THEN 
+            DMG(I) = (PLA_DAM(I) - EPSPF)/ (EPSPR - EPSPF)
+            DMG(I) = MIN(DMG(I),ONE)
+          ENDIF
+          IF (DMG(I) >= ONE) THEN 
             IF (OFF(I) == ONE) THEN 
-              OFF(I)      = FOUR_OVER_5
+              OFF(I) = FOUR_OVER_5
               IDEL7NOK    = 1
               NINDX       = NINDX+1
               INDX(NINDX) = I
             ENDIF
-            UVAR(I,7)   = ONE
-            SIGNXX(I)   = ZERO
-            SIGNYY(I)   = ZERO
-            SIGNXY(I)   = ZERO
-            SIGNYZ(I)   = ZERO
-            SIGNZX(I)   = ZERO
-          ELSEIF (PLA_DAM(I) >= EPSPF) THEN  
-            UVAR(I,7) = (PLA_DAM(I) - EPSPF)/ (EPSPR - EPSPF)
           ENDIF
         ENDDO
       ENDIF
-C-------------------------------------------------------------------------------
+c
+      !====================================================================
+      ! - COMPUTE DAMAGED STRESSES
+      !====================================================================
+      DO I = 1,NEL 
+        SIGNXX(I) = SIGNXX(I)*(ONE-DMG(I))
+        SIGNYY(I) = SIGNYY(I)*(ONE-DMG(I))
+        SIGNXY(I) = SIGNXY(I)*(ONE-DMG(I))
+        SIGNYZ(I) = SIGNYZ(I)*(ONE-DMG(I))
+        SIGNZX(I) = SIGNZX(I)*(ONE-DMG(I))
+      ENDDO
+c  
+      !====================================================================
+      ! - HOURGLASS COEFFICIENT AND THICKNESS UPDATE
+      !====================================================================  
       DO I=1,NEL
-c       IF(DPLA(I) > ZERO) ETSE(I)= AA1(1) / (AA1(I) + E)
         IF (DPLA(I) > ZERO) THEN 
-          ETSE(I) = HALF   !H(I) / (H(I)+E)!HALF   ! ?????
+          ETSE(I) = HALF
         ENDIF
         THK(I) = THK(I) + DEZZ(I)*THKLY(I)*OFF(I) 
       ENDDO  
-c-----------     
+c  
+      !====================================================================
+      ! - PRINTOUT ELEMENT DELETION
+      !====================================================================    
       IF (NINDX > 0) THEN
         DO I=1,NINDX
 #include "lockon.inc"
