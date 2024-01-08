@@ -428,6 +428,155 @@ C------to see if need rotate EVAR, Isolid=16 incompatible to orthotropic
              IF(IOK_PART(I) == 1 ) IS_WRITTEN_SKIN(NSKIN+I) = IS_WRITTEN_TENSOR(I)
            END DO
            NSKIN = NSKIN + NEL
+C-----------------------------------------------
+          ELSEIF (KEYWORD == 'TENS/STRAIN/OUTER_AVERAGE') THEN
+C-----------------------------------------------
+            IS_WRITTEN_TENSOR(1:NEL) = 1
+C-------- grp skin_inf first
+              ILAY=(1+NLAY)/2
+              IT = 1
+              MLWI = MLW
+              IF (IGTYP == 22) THEN
+               PID = IXS(NIXS-1,1 + NFT)
+               MID = IGEO(100+ILAY,PID)
+               MLWI=NINT(PM(19,MID))
+              END IF
+           IF (JHBE==15) THEN
+              IR = 1
+              IS = 1
+              LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
+               IF (MLWI == 12 .OR. MLWI == 14) THEN
+                 DO I=1,NEL               
+                  EVAR(1:2,I) = LBUF%EPE(JJ(1:2) + I)       
+                  EVAR(3,I)   = HALF*LBUF%EPE(JJ(4) + I)
+                 ENDDO                   
+               ELSEIF (MLWI /= 49 ) THEN                 
+                 DO I=1,NEL               
+                  EVAR(1:2,I) = LBUF%STRA(JJ(1:2) + I)       
+                  EVAR(3,I)   = HALF*LBUF%STRA(JJ(4) + I)
+                 ENDDO                   
+               ELSE
+                IS_WRITTEN_TENSOR(1:NEL) = 0
+               END IF               
+C------to see if need rotate EVARL              
+           ELSE ! 14,16
+             DO IR=1,NPTR
+               DO IS=1,NPTS
+                  LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)         
+                  IF (MLWI == 12 .OR. MLWI == 14) THEN
+                    DO I=1,NEL               
+                     EVAR(1:2,I) = EVAR(1:2,I)+LBUF%EPE(JJ(1:2) + I)       
+                     EVAR(3,I)   = EVAR(3,I)+HALF*LBUF%EPE(JJ(4) + I)
+                    ENDDO                   
+                  ELSEIF (MLWI /= 49 ) THEN                 
+                    DO I=1,NEL               
+                     EVAR(1:2,I) = EVAR(1:2,I)+LBUF%STRA(JJ(1:2) + I)       
+                     EVAR(3,I)   = EVAR(3,I)+ HALF*LBUF%STRA(JJ(4) + I)
+                    ENDDO                   
+                  ELSE
+                   IS_WRITTEN_TENSOR(1:NEL) = 0
+                  END IF               
+               ENDDO 
+             ENDDO
+           END IF               
+           EVAR(1:3,1:NEL) = F_EXP*EVAR(1:3,1:NEL)
+C------to see if need rotate EVAR, Isolid=16 incompatible to orthotropic              
+           IF (KCVT==2) THEN
+              IF(IOR_TSH==1)THEN
+                DO I=1,NEL
+                 DIR(I,1:2)= GBUF%GAMA(JJ(1:2) + I)
+                ENDDO
+              ELSEIF(IOR_TSH==2)THEN
+                IF(JHBE==14)THEN
+                 IR = 1
+                 IS = 1
+                END IF
+                LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)         
+                DO I=1,NEL
+                 DIR(I,1:2)= LBUF%GAMA(JJ(1:2) + I)
+                ENDDO
+              END IF
+              CALL TSH_DIR2(X,IXS,DIR,DIRB,ICSTR,NEL)
+              CALL ROTO_SIG2D(1,NEL,EVAR,DIRB)
+           END IF !(KCVT==2) THEN
+           DO I=1,NEL
+             SKIN_TENSOR(1:3,NSKIN+I) = EVAR(1:3,I)
+             IF(IOK_PART(I) == 1 ) IS_WRITTEN_SKIN(NSKIN+I) = IS_WRITTEN_TENSOR(I)
+           END DO
+           NSKIN = NSKIN + NEL
+           EVAR(1:3,1:NEL) = ZERO
+C-------- grp skin_sup 
+              ILAY=(1+NLAY)/2
+              IT = 1
+              MLWI = MLW
+              IF (IGTYP == 22) THEN
+               PID = IXS(NIXS-1,1 + NFT)
+               MID = IGEO(100+ILAY,PID)
+               MLWI=NINT(PM(19,MID))
+              END IF
+           IF (JHBE==15) THEN
+              IR = 1
+              IS = 1
+              LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
+               IF (MLWI == 12 .OR. MLWI == 14) THEN
+                 DO I=1,NEL               
+                  EVAR(1:2,I) = LBUF%EPE(JJ(1:2) + I)       
+                  EVAR(3,I)   = HALF*LBUF%EPE(JJ(4) + I)
+                 ENDDO                   
+               ELSEIF (MLWI /= 49 ) THEN                 
+                 DO I=1,NEL               
+                  EVAR(1:2,I) = LBUF%STRA(JJ(1:2) + I)       
+                  EVAR(3,I)   = HALF*LBUF%STRA(JJ(4) + I)
+                 ENDDO                   
+               ELSE
+                IS_WRITTEN_TENSOR(1:NEL) = 0
+               END IF               
+C------to see if need rotate EVARL              
+           ELSE ! 14,16
+             DO IR=1,NPTR
+               DO IS=1,NPTS
+                  LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)         
+                  IF (MLWI == 12 .OR. MLWI == 14) THEN
+                    DO I=1,NEL               
+                     EVAR(1:2,I) = EVAR(1:2,I)+LBUF%EPE(JJ(1:2) + I)       
+                     EVAR(3,I)   = EVAR(3,I)+HALF*LBUF%EPE(JJ(4) + I)
+                    ENDDO                   
+                  ELSEIF (MLWI /= 49 ) THEN                 
+                    DO I=1,NEL               
+                     EVAR(1:2,I) = EVAR(1:2,I)+LBUF%STRA(JJ(1:2) + I)       
+                     EVAR(3,I)   = EVAR(3,I)+ HALF*LBUF%STRA(JJ(4) + I)
+                    ENDDO                   
+                  ELSE
+                   IS_WRITTEN_TENSOR(1:NEL) = 0
+                  END IF               
+               ENDDO 
+             ENDDO
+           END IF               
+           EVAR(1:3,1:NEL) = F_EXP*EVAR(1:3,1:NEL)
+C------to see if need rotate EVAR, Isolid=16 incompatible to orthotropic              
+           IF (KCVT==2) THEN
+              IF(IOR_TSH==1)THEN
+                DO I=1,NEL
+                 DIR(I,1:2)= GBUF%GAMA(JJ(1:2) + I)
+                ENDDO
+              ELSEIF(IOR_TSH==2)THEN
+                IF(JHBE==14)THEN
+                 IR = 1
+                 IS = 1
+                END IF
+                LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)         
+                DO I=1,NEL
+                 DIR(I,1:2)= LBUF%GAMA(JJ(1:2) + I)
+                ENDDO
+              END IF
+              CALL TSH_DIR2(X,IXS,DIR,DIRB,ICSTR,NEL)
+              CALL ROTO_SIG2D(1,NEL,EVAR,DIRB)
+           END IF !(KCVT==2) THEN
+           DO I=1,NEL
+             SKIN_TENSOR(1:3,NSKIN+I) = EVAR(1:3,I)
+             IF(IOK_PART(I) == 1 ) IS_WRITTEN_SKIN(NSKIN+I) = IS_WRITTEN_TENSOR(I)
+           END DO
+           NSKIN = NSKIN + NEL
           END IF  !(KEYWORD
         ENDIF !IF (ITY == 1.AND.(IGTYP==20 
 C           

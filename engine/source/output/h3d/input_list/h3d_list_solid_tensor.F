@@ -167,5 +167,10 @@ c-----------------------------------------------
       H3D_KEYWORD_SOLID_TENSOR(I)%TEXT1  = 'Min_Strain'
       H3D_KEYWORD_SOLID_TENSOR(I)%COMMENT  = 'Minimum (P3) Strain tensor over time&ipt'
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SOLID_TENSOR(I)%KEY3  = 'TENS/STRAIN/OUTER_AVERAGE'
+      H3D_KEYWORD_SOLID_TENSOR(I)%IS_SKIN  = 1
+      H3D_KEYWORD_SOLID_TENSOR(I)%TEXT1  = 'Outer Average Strain'
+c-----------------------------------------------
       NKEY=I
       END
