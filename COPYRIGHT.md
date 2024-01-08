@@ -1,5 +1,5 @@
     OpenRadioss Software
-    Copyright (C) 1986-2023 Altair Engineering Inc.  
+    Copyright (C) 1986-2024 Altair Engineering Inc.  
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by
