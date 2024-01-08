@@ -143,7 +143,7 @@ c
       IF (PTHK == ZERO) PTHK  = EM06
 c
       ! Check SFLAG formulation parameter
-      IF (SFLAG == 0)   SFLAG = 1
+      IF (SFLAG == 0)   SFLAG = 2
 c
 c---------------------------------------------------
 c     pre definition for user-input data when only 
