@@ -38,9 +38,7 @@ Chd|        FVELSURF                      source/airbag/fvelsurf.F
 Chd|        FVINJECT                      source/airbag/fvinject.F      
 Chd|        FVNODI                        source/airbag/fvmbag1.F       
 Chd|        FVVENTHOLE                    source/airbag/fvventhole.F    
-Chd|        HYPERMESH_TETRA               stub/fvmbags_stub.F           
-Chd|        LOAD_MESHGEMS_LIBRARY         stub/fvmbags_stub.F           
-Chd|        MESHGEMS_TETRA                stub/fvmbags_stub.F           
+Chd|        HYPERMESH_TETRA               stub/fvmbags_stub.F                    
 Chd|        MONVOL_CHECK_DELETE_DUPLICATEDsource/airbag/monvol_check_delete_duplicated.F
 Chd|        MONVOL_TRIANGULATE_SURFACE    source/airbag/monvol_triangulate_surface.F
 Chd|        WRITEMESH                     source/airbag/writeMesh.F     
@@ -160,7 +158,7 @@ C
       CHARACTER*20 VENTTITLE
       INTEGER :: NB_TETRA, NB_VERTICES, NB_EXTRA_VERTICES
       INTEGER :: EXT_SURFID, INT_SURFID
-      LOGICAL :: FOUND, MGM_USED
+      LOGICAL :: FOUND
       INTEGER :: SIZE1, SIZE2,LENGTH
       INTEGER :: COMM_TAG(NVOLU), NCOMMU
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: IBAGJET_SAVE
@@ -238,21 +236,6 @@ C     FVMABG2 are in fact FVMBAG1 with simplified input
          ENDIF
          IF (KMESH(N) >= 2) TETRAMESHER_USED = .TRUE.
       ENDDO
-      MGM_USED = .FALSE.
-      DO N = 1, NVOLU
-         IF (KMESH(N) == 2 .OR. KMESH(N) == 4) THEN
-            MGM_USED = .TRUE.
-         ENDIF
-      ENDDO
-C------------------------------------------
-C     If meshgems is to be used, then
-C     replace bufalei by bufalei_mgm
-C------------------------------------------
-      IF (MGM_USED) THEN
-C     MESHGEMS TETRAMESHER
-         RET_VAL=0
-         CALL LOAD_MESHGEMS_LIBRARY(RET_VAL)
-      ENDIF
 
       DO N=1,NVOLU
          ITYPE = T_MONVOL(N)%TYPE
@@ -362,10 +345,6 @@ C
             IF (KMESH(N) >= 2) THEN
 !     Automatic tetrameshing
                SELECT CASE (KMESH(N))
-               CASE (2, 4)
-!     Meshgems (2), Meshgems + writing of mesh as an include file (4)
-                  CALL MESHGEMS_TETRA(T_MONVOL(N), NIXS, N, KMESH(N),
-     .                 NB_EXTRA_VERTICES, NB_TETRA, NB_VERTICES)
                CASE (12, 14) 
 !     Hypermesh (12), Hypermesh + writing of mesh as an include file (14)
                   CALL HYPERMESH_TETRA(T_MONVOL(N), NIXS, N, KMESH(N),
