@@ -163,6 +163,17 @@ C--         seatbelt elements - dir1 defined by N1 and ADD_NODE (can be either N
               VY(I) = X(2,NOD)-X(2,N1)
               VZ(I) = X(3,NOD)-X(3,N1)
             ENDDO    
+          CASE (25)
+C--         y' of cylintrical sys (using only x1,y1,z1)
+            ISK = IGEO(2,PID)  ! 
+            DO I=JFT,JLT 
+              E11 = X1(I)-SKEW(10,ISK)
+              E12 = Y1(I)-SKEW(11,ISK)
+              E13 = Z1(I)-SKEW(12,ISK)
+              VX(I) = SKEW(8,ISK)*E13 - SKEW(9,ISK)*E12
+              VY(I) = SKEW(9,ISK)*E11 - SKEW(7,ISK)*E13
+              VZ(I) = SKEW(7,ISK)*E12 - SKEW(8,ISK)*E11
+            ENDDO    
          END SELECT
 C---    read property data
         IF (IGTYP == 9) THEN
