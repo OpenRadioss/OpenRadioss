@@ -312,7 +312,7 @@ c     Check skew ID
      .              I2=IDSK)
         ENDIF
       ENDIF
-      IF (IRP==22.AND.ISK==0) THEN
+      IF ((IRP==22.OR.IRP==25).AND.ISK==0) THEN
         CALL ANCMSG(MSGID=1923,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
