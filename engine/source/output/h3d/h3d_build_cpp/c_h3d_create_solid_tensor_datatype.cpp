@@ -119,6 +119,7 @@ void c_h3d_create_solid_tensor_datatype_(int *cpt_data, char *name1, int *size1,
 
     if( strncmp(cname,"Strain",6)  == 0 ) tensor_type = H3D_DS_STRAIN;
     if( strncmp(cname,"Stress",6)  == 0 ) tensor_type = H3D_DS_STRESS;
+    if( strncmp(cname,"Strn rate",9)  == 0 ) tensor_type = H3D_DS_STRAIN;
     if( strncmp(cname,"CornerStrain",12)  == 0 ) tensor_type = H3D_DS_STRAIN;
     if( strncmp(cname,"CornerStress",12)  == 0 ) tensor_type = H3D_DS_STRESS;
 
