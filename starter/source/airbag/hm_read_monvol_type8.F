@@ -584,6 +584,8 @@ C     ==============
 
       IF(TSWITCH == ZERO) TSWITCH=EP20
       IF (KMESH == 0) KMESH=14
+      IF (KMESH == 2) KMESH=12  ! KMESH=2 is deprecated, set to 12.
+      IF (KMESH == 4) KMESH=14  ! KMESH=4 is deprecated, set to 14.
       IF (IBRIC /= 0) THEN      !IF IBRIC is not 0 and KMESH has been set to 2, KMESH is ignored
          KMESH = 1
       ENDIF
