@@ -96,6 +96,7 @@ void c_h3d_create_quad_tensor_datatype_(int *cpt_data, char *name1, int *size1, 
     ccomment[*s_comment]='\0';  
 
     if( strncmp(cname,"Strain",6)  == 0 ) tensor_type = H3D_DS_STRAIN; 
+    if( strncmp(cname,"Strn rate",9)  == 0 ) tensor_type = H3D_DS_STRAIN;
 
     char * LAYERPOOL = new char [100];
     LAYERPOOL[0] ='\0'; 

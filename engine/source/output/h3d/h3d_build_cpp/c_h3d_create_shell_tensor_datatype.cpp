@@ -116,7 +116,7 @@ void c_h3d_create_shell_tensor_datatype_(int *cpt_data, char *name1, int *size1,
 
     if( strncmp(cname,"Strain",6)  == 0 ) tensor_type = H3D_DS_STRAIN_2D;
     if( strncmp(cname,"Stress",6)  == 0 ) tensor_type = H3D_DS_STRESS_2D;
-
+    if( strncmp(cname,"Strn rate",9)  == 0 ) tensor_type = H3D_DS_STRAIN_2D;
 
     H3D_ID layer_pool_id = H3D_NULL_ID;
 
