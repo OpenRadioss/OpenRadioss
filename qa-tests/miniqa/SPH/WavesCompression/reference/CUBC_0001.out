@@ -8,29 +8,26 @@
 **                                                                    **
 **                                                                    **
 **                                                                    **
-**                Linux 64 bits, GNU compiler, OpenMPI                **
+**                    Linux 64 bits, GNU compiler                     **
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
+**                                                                    **
 ************************************************************************
 ** OpenRadioss Software                                               **
-** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** COPYRIGHT (C) 1986-2024 Altair Engineering, Inc.                   **
 ** Licensed under GNU Affero General Public License.                  **
 ** See License file.                                                  **
 ************************************************************************
  
- NUMBER OF SPMD DOMAINS           4
- NUMBER OF THREADS PER DOMAIN     2
- NUMBER OF HMPP PROCESSES         8
+ NUMBER OF SPMD DOMAINS           1
+ NUMBER OF THREADS PER DOMAIN     1
+ NUMBER OF HMPP PROCESSES         1
   
  COMPUTATION HARDWARE DESCRIPTION
   
- CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
-   1   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
-   2   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
-   3   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
-   4   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+ HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+ fr-kelpie0.europe.altair.com   13th Gen Intel(R) Core(TM) i7-13850HX (x86_64), 2303 MHz,  16046 MB RAM,      0 MB swap
   
 ************************************************************************
 
@@ -103,6 +100,7 @@
 
  TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .   0.000000    
  TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .   3.000000    
+ TIME TO STOP ANIMATION-FILE PLOTS. . . . . . . .  0.1000000E+21
  SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . .          0
  TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. .   0.000000    
 
@@ -171,89 +169,86 @@
 
  NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
 
- 23/11/2022
+ 11/01/2024
  ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.0000E+00
    CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
        0   0.000      0.8008     NODE      659381   0.0%  0.4994E-02  0.4276       0.000       0.000       0.000       597.9       0.000    
      ANIMATION FILE: CUBCA001 WRITTEN
-       1  0.8008      0.6710     NODE      659383   0.1%  0.1938E-01  0.4134       0.000       0.000       0.000       597.9       0.000    
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1472E+01
-       2   1.472      0.6636     NODE      659383  -0.0%  0.3270E-01  0.3999       0.000       0.000       0.000       597.9       0.000    
-       3   2.135      0.6578     NODE      659383   0.0%  0.4546E-01  0.3873       0.000       0.000       0.000       597.9       0.000    
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.2793E+01
-       4   2.793      0.6547     NODE      659383   0.1%  0.5781E-01  0.3753       0.000       0.000       0.000       597.9       0.000    
-       5   3.448      0.6541     NODE      675665   0.2%  0.7007E-01  0.3633       0.000       0.000       0.000       597.9       0.000    
+       1  0.8008      0.7222     NODE      626419   0.1%  0.1964E-01  0.4134       0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1523E+01
+       2   1.523      0.7222     NODE      659383   0.1%  0.3401E-01  0.3989       0.000       0.000       0.000       597.9       0.000    
+       3   2.245      0.7114     NODE      659383   0.1%  0.4787E-01  0.3853       0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.2957E+01
+       4   2.957      0.6970     NODE      626429   0.2%  0.6119E-01  0.3723       0.000       0.000       0.000       597.9       0.000    
+       5   3.654      0.6946     NODE      626423   0.3%  0.7426E-01  0.3596       0.000       0.000       0.000       597.9       0.000    
      ANIMATION FILE: CUBCA002 WRITTEN
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.4102E+01
-       6   4.102      0.6525     NODE      659383   0.3%  0.8245E-01  0.3512       0.000       0.000       0.000       597.9       0.000    
-       7   4.754      0.6505     NODE      659385   0.3%  0.9478E-01  0.3392       0.000       0.000       0.000       597.9       0.000    
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.5405E+01
-       8   5.405      0.6503     NODE      675667   0.4%  0.1069      0.3272       0.000       0.000       0.000       597.9       0.000    
-       9   6.055      0.6496     NODE      675667   0.4%  0.1189      0.3154       0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.4348E+01
+       6   4.348      0.6909     NODE      626423   0.4%  0.8741E-01  0.3468       0.000       0.000       0.000       597.9       0.000    
+       7   5.039      0.6689     NODE      626421   0.4%  0.1004      0.3340       0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.5708E+01
+       8   5.708      0.6757     NODE      626421   0.5%  0.1128      0.3218       0.000       0.000       0.000       597.9       0.000    
+       9   6.384      0.6666     NODE      626423   0.5%  0.1253      0.3096       0.000       0.000       0.000       597.9       0.000    
      ANIMATION FILE: CUBCA003 WRITTEN
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.6705E+01
-      10   6.705      0.6478     NODE      659387   0.5%  0.1309      0.3036       0.000       0.000       0.000       597.9       0.000    
-      11   7.353      0.6461     NODE      659387   0.5%  0.1428      0.2919       0.000       0.000       0.000       597.9       0.000    
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.7999E+01
-      12   7.999      0.6462     NODE      659387   0.5%  0.1546      0.2802       0.000       0.000       0.000       597.9       0.000    
-      13   8.645      0.6455     NODE      675669   0.6%  0.1664      0.2686       0.000       0.000       0.000       597.9       0.000    
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.9290E+01
-      14   9.290      0.6452     NODE      659389   0.6%  0.1782      0.2570       0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.7050E+01
+      10   7.050      0.6662     NODE      626423   0.6%  0.1375      0.2976       0.000       0.000       0.000       597.9       0.000    
+      11   7.716      0.6674     NODE      626425   0.6%  0.1498      0.2855       0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.8384E+01
+      12   8.384      0.6512     NODE      659387   0.7%  0.1620      0.2735       0.000       0.000       0.000       597.9       0.000    
+      13   9.035      0.6457     NODE      659389   0.7%  0.1738      0.2618       0.000       0.000       0.000       597.9       0.000    
      ANIMATION FILE: CUBCA004 WRITTEN
-      15   9.936      0.6456     NODE      659591   0.6%  0.1899      0.2454       0.000       0.000       0.000       597.9       0.000    
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1058E+02
-      16   10.58      0.6447     NODE      659189   0.7%  0.2016      0.2339       0.000       0.000       0.000       597.9       0.000    
-      17   11.23      0.6448     NODE      659391   0.7%  0.2133      0.2223       0.000       0.000       0.000       597.9       0.000    
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1187E+02
-      18   11.87      0.6448     NODE      659391   0.7%  0.2249      0.2108       0.000       0.000       0.000       597.9       0.000    
-      19   12.52      0.6452     NODE      659593   0.8%  0.2366      0.1993       0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.9681E+01
+      14   9.681      0.6452     NODE      659389   0.8%  0.1856      0.2503       0.000       0.000       0.000       597.9       0.000    
+      15   10.33      0.6617     NODE      642707   0.8%  0.1974      0.2387       0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1099E+02
+      16   10.99      0.6479     NODE      659391   0.8%  0.2094      0.2268       0.000       0.000       0.000       597.9       0.000    
+      17   11.64      0.6473     NODE      659391   0.9%  0.2211      0.2153       0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1228E+02
+      18   12.28      0.6502     NODE      659391   0.9%  0.2328      0.2038       0.000       0.000       0.000       597.9       0.000    
      ANIMATION FILE: CUBCA005 WRITTEN
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1316E+02
-      20   13.16      0.6448     NODE      659393   0.8%  0.2483      0.1878       0.000       0.000       0.000       597.9       0.000    
-      21   13.81      0.6447     NODE      659393   0.8%  0.2599      0.1763       0.000       0.000       0.000       597.9       0.000    
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1445E+02
-      22   14.45      0.6455     NODE      659395   0.9%  0.2715      0.1648       0.000       0.000       0.000       597.9       0.000    
-      23   15.10      0.6448     NODE      659395   0.9%  0.2831      0.1533       0.000       0.000       0.000       597.9       0.000    
+      19   12.93      0.6770     NODE      643111   1.0%  0.2446      0.1922       0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1361E+02
+      20   13.61      0.6626     NODE      626631   1.0%  0.2568      0.1801       0.000       0.000       0.000       597.9       0.000    
+      21   14.27      0.6711     NODE      643113   1.0%  0.2688      0.1683       0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1494E+02
+      22   14.94      0.6625     NODE      626633   1.1%  0.2809      0.1564       0.000       0.000       0.000       597.9       0.000    
+      23   15.61      0.6697     NODE      626435   1.1%  0.2928      0.1447       0.000       0.000       0.000       597.9       0.000    
      ANIMATION FILE: CUBCA006 WRITTEN
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1574E+02
-      24   15.74      0.6455     NODE      659395   0.9%  0.2947      0.1419       0.000       0.000       0.000       597.9       0.000    
-      25   16.39      0.6453     NODE      659397   1.0%  0.3063      0.1305       0.000       0.000       0.000       597.9       0.000    
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1703E+02
-      26   17.03      0.6449     NODE      659397   1.0%  0.3178      0.1190       0.000       0.000       0.000       597.9       0.000    
-      27   17.68      0.6457     NODE      643117   1.0%  0.3294      0.1076       0.000       0.000       0.000       597.9       0.000    
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1832E+02
-      28   18.32      0.6450     NODE      659399   1.1%  0.3409      0.9626E-01   0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1628E+02
+      24   16.28      0.6704     NODE      643115   1.2%  0.3048      0.1329       0.000       0.000       0.000       597.9       0.000    
+      25   16.95      0.6629     NODE      642715   1.2%  0.3168      0.1211       0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1761E+02
+      26   17.61      0.6612     NODE      659397   1.3%  0.3286      0.1094       0.000       0.000       0.000       597.9       0.000    
+      27   18.27      0.6550     NODE      659391   1.3%  0.3403      0.9791E-01   0.000       0.000       0.000       597.9       0.000    
      ANIMATION FILE: CUBCA007 WRITTEN
-      29   18.97      0.6447     NODE      659397   1.1%  0.3524      0.8490E-01   0.000       0.000       0.000       597.9       0.000    
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1961E+02
-      30   19.61      0.6455     NODE      659399   1.1%  0.3638      0.7360E-01   0.000       0.000       0.000       597.9       0.000    
-      31   20.26      0.6449     NODE      659401   1.1%  0.3752      0.6239E-01   0.000       0.000       0.000       597.9       0.000    
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.2090E+02
-      32   20.90      0.6448     NODE      659401   1.2%  0.3864      0.5135E-01   0.000       0.000       0.000       597.9       0.000    
-      33   21.55      0.6453     NODE      659403   1.2%  0.3972      0.4061E-01   0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.1893E+02
+      28   18.93      0.6483     NODE      659399   1.3%  0.3516      0.8664E-01   0.000       0.000       0.000       597.9       0.000    
+      29   19.57      0.6539     NODE      659399   1.5%  0.3641      0.7498E-01   0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.2023E+02
+      30   20.23      0.6631     NODE      659393   1.5%  0.3763      0.6291E-01   0.000       0.000       0.000       597.9       0.000    
+      31   20.89      0.6641     NODE      659393   1.6%  0.3882      0.5112E-01   0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.2155E+02
+      32   21.55      0.6714     NODE      643121   1.6%  0.3997      0.3980E-01   0.000       0.000       0.000       597.9       0.000    
      ANIMATION FILE: CUBCA008 WRITTEN
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.2219E+02
-      34   22.19      0.6449     NODE      659403   1.2%  0.4075      0.3042E-01   0.000       0.000       0.000       597.9       0.000    
-      35   22.84      0.6449     NODE      659403   1.3%  0.4168      0.2119E-01   0.000       0.000       0.000       597.9       0.000    
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.2348E+02
-      36   23.48      0.6453     NODE      659405   1.4%  0.4260      0.1280E-01   0.000       0.000       0.000       597.9       0.000    
-      37   24.13      0.6452     NODE      659405   1.4%  0.4328      0.5965E-02   0.000       0.000       0.000       597.9       0.000    
+      33   22.23      0.6676     NODE      659395   1.7%  0.4107      0.2903E-01   0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.2289E+02
+      34   22.89      0.6611     NODE      659395   1.7%  0.4206      0.1935E-01   0.000       0.000       0.000       597.9       0.000    
+      35   23.56      0.6717     NODE      659205   1.7%  0.4288      0.1128E-01   0.000       0.000       0.000       597.9       0.000    
+      36   24.23      0.6660     NODE      627047   1.8%  0.4349      0.5275E-02   0.000       0.000       0.000       597.9       0.000    
      ANIMATION FILE: CUBCA009 WRITTEN
-      38   24.77      0.6456     NODE      659403   1.4%  0.4370      0.1849E-02   0.000       0.000       0.000       597.9       0.000    
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.2542E+02
-      39   25.42      0.6457     NODE      659403   1.4%  0.4382      0.6878E-03   0.000       0.000       0.000       597.9       0.000    
-      40   26.06      0.6447     NODE      659405   1.5%  0.4364      0.2503E-02   0.000       0.000       0.000       597.9       0.000    
-      41   26.71      0.6449     NODE      659405   1.5%  0.4319      0.7065E-02   0.000       0.000       0.000       597.9       0.000    
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.2735E+02
-      42   27.35      0.6454     NODE      659405   1.5%  0.4251      0.1397E-01   0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.2489E+02
+      37   24.89      0.6567     NODE      659391   1.8%  0.4381      0.2109E-02   0.000       0.000       0.000       597.9       0.000    
+      38   25.55      0.6540     NODE      659409   1.9%  0.4390      0.1645E-02   0.000       0.000       0.000       597.9       0.000    
+      39   26.20      0.6479     NODE      659393   1.9%  0.4367      0.3956E-02   0.000       0.000       0.000       597.9       0.000    
+      40   26.85      0.6488     NODE      659393   1.9%  0.4314      0.9217E-02   0.000       0.000       0.000       597.9       0.000    
+      41   27.50      0.6531     NODE      659393   1.9%  0.4237      0.1694E-01   0.000       0.000       0.000       597.9       0.000    
      ANIMATION FILE: CUBCA010 WRITTEN
-      43   28.00      0.6455     NODE      659401   1.6%  0.4174      0.2221E-01   0.000       0.000       0.000       597.9       0.000    
-      44   28.64      0.6453     NODE      659401   1.6%  0.4084      0.3131E-01   0.000       0.000       0.000       597.9       0.000    
- ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.2929E+02
-      45   29.29      0.6452     NODE      659399   1.7%  0.3986      0.4119E-01   0.000       0.000       0.000       597.9       0.000    
-      46   29.93      0.6450     NODE      659399   1.7%  0.3884      0.5143E-01   0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.2815E+02
+      42   28.15      0.6713     NODE      659393   1.9%  0.4142      0.2651E-01   0.000       0.000       0.000       597.9       0.000    
+      43   28.82      0.6964     NODE      626833   1.9%  0.4033      0.3749E-01   0.000       0.000       0.000       597.9       0.000    
+ ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS AT TIME =  0.2952E+02
+      44   29.52      0.7046     NODE      626833   2.0%  0.3925      0.4892E-01   0.000       0.000       0.000       597.9       0.000    
 
-     RESTART FILES: CUBC_0001_[0001-0004].rst WRITTEN
+     RESTART FILES: CUBC_0001_[0001-0001].rst WRITTEN
      -------------
 
   
@@ -263,30 +258,19 @@
                         ** SUMMARY **
   
  #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
-   1   .9161E-03 .1106E-02 .7112E-01 .4293E-01 .6807E-02 .1352E-02 .6308E+00
-   2   .8723E-03 .9838E-03 .6407E-01 .6013E-01 .1805E-01 .1251E-02 .6544E+00
-   3   .1003E-02 .1114E-02 .6943E-01 .6379E-01 .1153E-01 .1386E-02 .6596E+00
-   4   .1027E-02 .1054E-02 .5752E-01 .6128E-01 .2459E-01 .1208E-02 .6554E+00
-  
-                 ** SPMD COM. TIME **
-  
- #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
-   1   .6266E-03 .0000E+00 .0000E+00 .3069E-03 .9335E-03 .1480E+00
-   2   .5382E-03 .0000E+00 .0000E+00 .2859E-03 .8242E-03 .1259E+00
-   3   .6188E-03 .0000E+00 .0000E+00 .3420E-03 .9608E-03 .1457E+00
-   4   .5521E-03 .0000E+00 .0000E+00 .3180E-03 .8700E-03 .1328E+00
+   1   .2880E-03 .5040E-03 .7817E-01 .4387E-01 .1732E-02 .8230E-03 .6781E+00
   
  
                    ** CUMULATIVE CPU TIME SUMMARY **
   
  CONTACT SORTING.............: .0000E+00     0.00 % 
- CONTACT FORCES..............: .3709E-03     0.01 % 
- ELEMENT FORCES..............: .3819E-02     0.15 % 
- KINEMATIC COND..............: .4258E-02     0.16 % 
- INTEGRATION.................: .2621E+00    10.08 % 
- ASSEMBLING..................: .5197E-02     0.20 % 
- OTHERS (including I/O)......: .2324E+01    89.39 % 
- TOTAL.......................: .2600E+01   100.00 % 
+ CONTACT FORCES..............: .5108E-04     0.01 % 
+ ELEMENT FORCES..............: .2880E-03     0.04 % 
+ KINEMATIC COND..............: .5040E-03     0.07 % 
+ INTEGRATION.................: .7817E-01    11.53 % 
+ ASSEMBLING..................: .8230E-03     0.12 % 
+ OTHERS (including I/O)......: .5983E+00    88.23 % 
+ TOTAL.......................: .6781E+00   100.00 % 
   
   
                            ** ELAPSED TIME **
@@ -295,51 +279,29 @@
                         ** SUMMARY **
   
  #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
-   1   .5929E-03 .6120E-03 .3612E-01 .4705E-01 .3669E-02 .7200E-03 .3523E+00
-   2   .5157E-03 .5241E-03 .3254E-01 .4545E-01 .9511E-02 .6579E-03 .3561E+00
-   3   .6056E-03 .5903E-03 .3478E-01 .4621E-01 .6099E-02 .7007E-03 .3523E+00
-   4   .5402E-03 .5399E-03 .2954E-01 .4542E-01 .1238E-01 .6339E-03 .3561E+00
-  
-        ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
- MIN   .5157E-03 .5241E-03 .2954E-01 .4542E-01 .3669E-02 .6339E-03 .3523E+00
- MAX   .6056E-03 .6120E-03 .3612E-01 .4705E-01 .1238E-01 .7200E-03 .3561E+00
- AVG   .5636E-03 .5666E-03 .3324E-01 .4603E-01 .7915E-02 .6781E-03 .3542E+00
-  
-                 ** SPMD COM. TIME **
-  
- #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
-   1   .2982E-03 .0000E+00 .0000E+00 .1921E-03 .4903E-03 .1392E+00
-   2   .2507E-03 .0000E+00 .0000E+00 .1598E-03 .4105E-03 .1153E+00
-   3   .2937E-03 .0000E+00 .0000E+00 .1835E-03 .4772E-03 .1354E+00
-   4   .2572E-03 .0000E+00 .0000E+00 .1606E-03 .4179E-03 .1174E+00
-  
-        FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
- MIN   .2507E-03 .0000E+00 .0000E+00 .1598E-03 .4105E-03 .1153E+00
- MAX   .2982E-03 .0000E+00 .0000E+00 .1921E-03 .4903E-03 .1392E+00
- AVG   .2749E-03 .0000E+00 .0000E+00 .1740E-03 .4490E-03 .1268E+00
+   1   .3426E-03 .5126E-03 .7821E-01 .4392E-01 .1946E-02 .7817E-03 .6785E+00
   
                    ** MEMORY USAGE STATISTICS **
   
- TOTAL MEMORY USED .........................:      232 MB
- MAXIMUM MEMORY PER PROCESSOR...............:       58 MB
- MINIMUM MEMORY PER PROCESSOR...............:       58 MB
- AVERAGE MEMORY PER PROCESSOR...............:       58 MB
+ TOTAL MEMORY USED .........................:       54 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:       54 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       54 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       54 MB
   
                    ** DISK USAGE STATISTICS **
   
- TOTAL DISK SPACE USED .....................:          2 MB
+ TOTAL DISK SPACE USED .....................:          1 MB
  ANIMATION/H3D/TH/OUTP SIZE ................:          0 MB
- RESTART FILE SIZE .........................:          2 MB
+ RESTART FILE SIZE .........................:          1 MB
   
                    ** COMPUTE TIME INFORMATION **
                         ** CURRENT ENGINE **
   
- EXECUTION STARTED .........................:      2022/11/23  16:24:00
- EXECUTION COMPLETED .......................:      2022/11/23  16:24:01
+ EXECUTION STARTED .........................:      2024/01/11  15:55:37
+ EXECUTION COMPLETED .......................:      2024/01/11  15:55:38
   
- ELAPSED TIME     =          0.48 s
+ ELAPSED TIME     =          0.70 s
                           0:00:00
- ESTIMATED SPEEDUP=          5.43
 
 
 
@@ -347,13 +309,13 @@
 
 
 
-     TOTAL NUMBER OF CYCLES  :      47
+     TOTAL NUMBER OF CYCLES  :      45
 
   
                    ** COMPUTE RUNTIME INFORMATION SUMMARY **
   
-        STARTER RUNTIME =          0.66s (00:00:00)
- # 001   ENGINE RUNTIME =          0.48s (00:00:00)
+        STARTER RUNTIME =          0.40s (00:00:00)
+ # 001   ENGINE RUNTIME =          0.70s (00:00:00)
  ------------------------------ 
- STARTER+ENGINE RUNTIME =          1.14s (00:00:01)
+ STARTER+ENGINE RUNTIME =          1.10s (00:00:01)
   

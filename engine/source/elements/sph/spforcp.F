@@ -291,10 +291,10 @@ C         artitifial viscosity.
           DIVVJ=ABS(WA(13,M))
           ROTVJ=WA(14,M)
           FJ   =DIVVJ/MAX(EM20,DIVVJ+ROTVJ)
-C          MUIJ=MIN(MUIJ,ZERO)
+          MUIJ=MIN(MUIJ,ZERO)
           MUIJ=MUIJ*(FI+FJ)*HALF
           SSP=(WA(8,N)+WA(8,M))*HALF
-          MUIJ2=MIN(MUIJ,ZERO)*MIN(MUIJ,ZERO)
+          MUIJ2=MUIJ*MUIJ
           PIJ =(QA*MUIJ2-QB*SSP*MUIJ)*TWO/MAX(EM20,RHOI+RHOJ)
           FACT=MM*PIJ
 C---------
@@ -465,11 +465,11 @@ C WA(13) <=> WAR(9) ; WA(14) <=> WAR(10)
           DIVVJ=ABS(WAR(9,NN))
           ROTVJ=WAR(10,NN)
           FJ   =DIVVJ/MAX(EM20,DIVVJ+ROTVJ)
-C          MUIJ=MIN(MUIJ,ZERO)
+          MUIJ=MIN(MUIJ,ZERO)
           MUIJ=MUIJ*(FI+FJ)*HALF
 C WA(8) <=> WAR(7)
           SSP=(WA(8,N)+WAR(7,NN))*HALF
-          MUIJ2=MIN(MUIJ,ZERO)*MIN(MUIJ,ZERO)
+          MUIJ2=MUIJ*MUIJ
           PIJ =(QA*MUIJ2-QB*SSP*MUIJ)*TWO/MAX(EM20,RHOI+RHOJ)
           FACT=MM*PIJ
 C---------
@@ -662,10 +662,10 @@ C          artitifial viscosity.
            DIVVJ=ABS(WA(13,SM))
            ROTVJ=WA(14,SM)
            FJ=DIVVJ/MAX(EM20,DIVVJ+ROTVJ)
-C           MUIJ=MIN(MUIJ,ZERO)
+           MUIJ=MIN(MUIJ,ZERO)
            MUIJ=MUIJ*(FI+FJ)*HALF
            SSP=(WA(8,N)+WA(8,SM))*HALF
-           MUIJ2=MIN(MUIJ,ZERO)*MIN(MUIJ,ZERO)
+           MUIJ2=MUIJ*MUIJ
            PIJ =(QA*MUIJ2-QB*SSP*MUIJ)*TWO/MAX(EM20,RHOI+RHOJ)
            FACT=MM*PIJ
 C---------
@@ -848,11 +848,11 @@ C WA(13) <=> WAR(9) ; WA(14) <=> WAR(10)
            DIVVJ=ABS(WAR(9,SM))
            ROTVJ=WAR(10,SM)
            FJ=DIVVJ/MAX(EM20,DIVVJ+ROTVJ)
-C           MUIJ=MIN(MUIJ,ZERO)
+           MUIJ=MIN(MUIJ,ZERO)
            MUIJ=MUIJ*(FI+FJ)*HALF
 C WA(8) <=> WAR(7)
            SSP=(WA(8,N)+WAR(7,SM))*HALF
-           MUIJ2=MIN(MUIJ,ZERO)*MIN(MUIJ,ZERO)
+           MUIJ2=MUIJ*MUIJ
            PIJ =(QA*MUIJ2-QB*SSP*MUIJ)*TWO/MAX(EM20,RHOI+RHOJ)
            FACT=MM*PIJ
 C---------
