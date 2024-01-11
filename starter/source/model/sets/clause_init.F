@@ -58,6 +58,17 @@ C-----------------------------------------------
       CLAUSE%NB_SURF_SEG= 0         ! CLAUSE nb of surfacce's segments
       CLAUSE%NB_LINE_SEG= 0         ! CLAUSE nb of line/edge's segments
       CLAUSE%NB_RBODY= 0            ! CLAUSE nb of Rbodys
+
+      CLAUSE%NB_ELLIPSE= 0          ! CLAUSE nb of Ellipses within a SET (max = 1, one per /SET)
+      CLAUSE%ELLIPSE_IAD_BUFR= 0
+      CLAUSE%ELLIPSE_ID_MADYMO=0
+      CLAUSE%ELLIPSE_N=0
+      CLAUSE%ELLIPSE_XC=0
+      CLAUSE%ELLIPSE_YC=0
+      CLAUSE%ELLIPSE_ZC=0
+      CLAUSE%ELLIPSE_A=0
+      CLAUSE%ELLIPSE_B=0
+      CLAUSE%ELLIPSE_C=0
 !---
       IF(ALLOCATED( CLAUSE%NODE ))          DEALLOCATE( CLAUSE%NODE )
       IF(ALLOCATED( CLAUSE%PART ))          DEALLOCATE( CLAUSE%PART )
@@ -76,6 +87,7 @@ C-----------------------------------------------
       IF(ALLOCATED( CLAUSE%LINE_ELTYP ))    DEALLOCATE( CLAUSE%LINE_ELTYP )
       IF(ALLOCATED( CLAUSE%LINE_ELEM ))     DEALLOCATE( CLAUSE%LINE_ELEM )
       IF(ALLOCATED( CLAUSE%RBODY ))         DEALLOCATE( CLAUSE%RBODY )
+      IF(ALLOCATED( CLAUSE%ELLIPSE_SKEW ))  DEALLOCATE( CLAUSE%ELLIPSE_SKEW )
 C-----
       RETURN
       END

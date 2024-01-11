@@ -91,6 +91,7 @@ C-----------------------------------------------
       SET(IGS)%NB_LINE_SEG= 0         ! SET nb of line/edge's segments
       SET(IGS)%HAS_SURF_SEG= 0        ! Flag if a surface was created from surface (QA Print)
       SET(IGS)%HAS_LINE_SEG= 0        ! Flag if a line was created from surface (QA Print)
+      SET(IGS)%NB_ELLIPSE=0           ! Flag nb of ellipses (one per /SET)
 C-----
       RETURN
       END

@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        FILL_GR                       source/model/sets/fill_gr.F   
 Chd|        FILL_LINE                     source/model/sets/fill_gr.F   
 Chd|        FILL_SURF                     source/model/sets/fill_gr.F   
+Chd|        FILL_SURF_ELLIPSE             source/model/sets/fill_gr_surf_ellipse.F
 Chd|        HM_GROUP_IS_USED              source/devtools/hm_reader/hm_group_is_used.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
@@ -36,8 +37,9 @@ Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SURF_MOD                      share/modules1/surf_mod.F     
 Chd|====================================================================
       SUBROUTINE FILL_IGR(SET,
-     .                    IGRSURF ,IGRNOD  ,IGRSLIN  ,IGRPART ,IGRBRIC, IGRQUAD ,   
-     .                    IGRSH4N ,IGRSH3N ,IGRTRUSS ,IGRBEAM ,IGRSPRING)
+     .                    IGRSURF ,IGRNOD  ,IGRSLIN  ,IGRPART ,IGRBRIC  ,IGRQUAD,   
+     .                    IGRSH4N ,IGRSH3N ,IGRTRUSS ,IGRBEAM ,IGRSPRING,BUFSF  ,
+     .                    LISURF1 )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -80,6 +82,8 @@ C-----------------------------------------------
       TYPE (GROUP_)  , INTENT(INOUT):: IGRBEAM(*)
       TYPE (GROUP_)  , INTENT(INOUT):: IGRSPRING(*)
       TYPE (SET_), DIMENSION(NSETS),INTENT(INOUT) :: SET
+      INTEGER, INTENT(IN) :: LISURF1
+      MY_REAL, INTENT(INOUT) :: BUFSF(LISURF1*(NSURF+NSETS))
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -228,7 +232,8 @@ C-----------------------------------------------
          ! Surfaces
          CALL HM_GROUP_IS_USED('/SURF',5,SET(IGS)%SET_ID,IS_USED)
          IF(IS_USED .OR. DOQA == 1)THEN
-           CALL FILL_SURF(SET(IGS),IGRSURF,NSURF)
+           IF (SET(IGS)%NB_ELLIPSE == 0) CALL FILL_SURF(SET(IGS),IGRSURF,NSURF)
+           IF (SET(IGS)%NB_ELLIPSE > 0)  CALL FILL_SURF_ELLIPSE(SET(IGS),IGRSURF,NSURF,BUFSF,LISURF1,NSURF)
          ENDIF
 
          IF(DOQA == 0) THEN              ! if qa_print keep SET memory
@@ -236,6 +241,17 @@ C-----------------------------------------------
            IF(ALLOCATED (SET(IGS)%SURF_ELTYP )) DEALLOCATE ( SET(IGS)%SURF_ELTYP )
            IF(ALLOCATED (SET(IGS)%SURF_ELEM ))  DEALLOCATE ( SET(IGS)%SURF_ELEM )
            SET(IGS)%NB_SURF_SEG = 0
+           ! ellipse surface
+           IF(ALLOCATED (SET(IGS)%ELLIPSE_SKEW )) DEALLOCATE ( SET(IGS)%ELLIPSE_SKEW )
+           SET(IGS)%ELLIPSE_A = ZERO
+           SET(IGS)%ELLIPSE_B = ZERO
+           SET(IGS)%ELLIPSE_C = ZERO
+           SET(IGS)%ELLIPSE_XC = ZERO
+           SET(IGS)%ELLIPSE_YC = ZERO
+           SET(IGS)%ELLIPSE_ZC = ZERO
+           SET(IGS)%ELLIPSE_N = ZERO
+           SET(IGS)%ELLIPSE_IAD_BUFR = 0
+           SET(IGS)%ELLIPSE_ID_MADYMO = 0
          ENDIF
 
          ! Lines

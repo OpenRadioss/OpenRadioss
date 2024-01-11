@@ -524,94 +524,116 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     SURFACES
 C-----------------------------------------------
-      IF( CLAUSE%NB_SURF_SEG > 0) THEN
 
-        IF( SET%NB_SURF_SEG > 0 ) THEN
+      !------------------------!
+      !    SURFACES  -ELLIPSE- !
+      !------------------------!
+      IF ( SET%NB_ELLIPSE > 0 ) THEN
 
-            !
-            ! Low level CPP routines / One per operator
-            ! The result is held in CPP Structure 
-            ! until SET is reallocated and unstacked
-            !
-            IF ( CLAUSE_OPERATOR == SET_ADD) THEN                            
+         SET%ELLIPSE_IAD_BUFR = CLAUSE%ELLIPSE_IAD_BUFR
+         SET%ELLIPSE_ID_MADYMO = CLAUSE%ELLIPSE_ID_MADYMO
+         SET%ELLIPSE_N = CLAUSE%ELLIPSE_N
+         SET%ELLIPSE_XC = CLAUSE%ELLIPSE_XC
+         SET%ELLIPSE_YC = CLAUSE%ELLIPSE_YC
+         SET%ELLIPSE_ZC = CLAUSE%ELLIPSE_ZC
+         SET%ELLIPSE_A = CLAUSE%ELLIPSE_A
+         SET%ELLIPSE_B = CLAUSE%ELLIPSE_B
+         SET%ELLIPSE_C = CLAUSE%ELLIPSE_C
+         CALL MY_ALLOC(SET%ELLIPSE_SKEW,9)
+         SET%ELLIPSE_SKEW(1:9) = CLAUSE%ELLIPSE_SKEW(1:9)
+      ELSE
+        !------------------------!
+        !    classic SURFACES    !
+        !------------------------!
+        IF( CLAUSE%NB_SURF_SEG > 0) THEN
 
-                CALL UNION_SURFACE( SET%SURF_NODES(1,1), SET%SURF_NODES(1,2), 
-     .                              SET%SURF_NODES(1,3), SET%SURF_NODES(1,4),
-     .                              SET%SURF_ELTYP, SET%SURF_ELEM, SET%NB_SURF_SEG,
-     .                              CLAUSE%SURF_NODES(1,1), CLAUSE%SURF_NODES(1,2), 
-     .                              CLAUSE%SURF_NODES(1,3), CLAUSE%SURF_NODES(1,4),
-     .                              CLAUSE%SURF_ELTYP, CLAUSE%SURF_ELEM, CLAUSE%NB_SURF_SEG,
-     .                              NS  )
+          IF( SET%NB_SURF_SEG > 0 ) THEN
 
-            ELSEIF ( CLAUSE_OPERATOR == SET_DELETE) THEN
+              !
+              ! Low level CPP routines / One per operator
+              ! The result is held in CPP Structure 
+              ! until SET is reallocated and unstacked
+              !
+              IF ( CLAUSE_OPERATOR == SET_ADD) THEN                            
 
-                CALL DELETE_SURFACE(SET%SURF_NODES(1,1), SET%SURF_NODES(1,2), 
-     .                              SET%SURF_NODES(1,3), SET%SURF_NODES(1,4),
-     .                              SET%SURF_ELTYP, SET%SURF_ELEM, SET%NB_SURF_SEG,
-     .                              CLAUSE%SURF_NODES(1,1), CLAUSE%SURF_NODES(1,2), 
-     .                              CLAUSE%SURF_NODES(1,3), CLAUSE%SURF_NODES(1,4),
-     .                              CLAUSE%SURF_ELTYP, CLAUSE%SURF_ELEM, CLAUSE%NB_SURF_SEG,
-     .                              NS  )
+                  CALL UNION_SURFACE( SET%SURF_NODES(1,1), SET%SURF_NODES(1,2), 
+     .                                SET%SURF_NODES(1,3), SET%SURF_NODES(1,4),
+     .                                SET%SURF_ELTYP, SET%SURF_ELEM, SET%NB_SURF_SEG,
+     .                                CLAUSE%SURF_NODES(1,1), CLAUSE%SURF_NODES(1,2), 
+     .                                CLAUSE%SURF_NODES(1,3), CLAUSE%SURF_NODES(1,4),
+     .                                CLAUSE%SURF_ELTYP, CLAUSE%SURF_ELEM, CLAUSE%NB_SURF_SEG,
+     .                                NS  )
 
-            ELSEIF ( CLAUSE_OPERATOR == SET_INTERSECT)THEN
+              ELSEIF ( CLAUSE_OPERATOR == SET_DELETE) THEN
 
-                CALL INTERSECT_SURFACE( SET%SURF_NODES(1,1), SET%SURF_NODES(1,2), 
-     .                                  SET%SURF_NODES(1,3), SET%SURF_NODES(1,4),
-     .                                  SET%SURF_ELTYP, SET%SURF_ELEM, SET%NB_SURF_SEG,
-     .                                  CLAUSE%SURF_NODES(1,1), CLAUSE%SURF_NODES(1,2), 
-     .                                  CLAUSE%SURF_NODES(1,3), CLAUSE%SURF_NODES(1,4),
-     .                                  CLAUSE%SURF_ELTYP, CLAUSE%SURF_ELEM, CLAUSE%NB_SURF_SEG,
-     .                                  NS )
-            ELSE
-                print*,'Unknown clause operator'
+                  CALL DELETE_SURFACE(SET%SURF_NODES(1,1), SET%SURF_NODES(1,2), 
+     .                                SET%SURF_NODES(1,3), SET%SURF_NODES(1,4),
+     .                                SET%SURF_ELTYP, SET%SURF_ELEM, SET%NB_SURF_SEG,
+     .                                CLAUSE%SURF_NODES(1,1), CLAUSE%SURF_NODES(1,2), 
+     .                                CLAUSE%SURF_NODES(1,3), CLAUSE%SURF_NODES(1,4),
+     .                                CLAUSE%SURF_ELTYP, CLAUSE%SURF_ELEM, CLAUSE%NB_SURF_SEG,
+     .                                NS  )
+
+              ELSEIF ( CLAUSE_OPERATOR == SET_INTERSECT)THEN
+
+                  CALL INTERSECT_SURFACE( SET%SURF_NODES(1,1), SET%SURF_NODES(1,2), 
+     .                                    SET%SURF_NODES(1,3), SET%SURF_NODES(1,4),
+     .                                    SET%SURF_ELTYP, SET%SURF_ELEM, SET%NB_SURF_SEG,
+     .                                    CLAUSE%SURF_NODES(1,1), CLAUSE%SURF_NODES(1,2), 
+     .                                    CLAUSE%SURF_NODES(1,3), CLAUSE%SURF_NODES(1,4),
+     .                                    CLAUSE%SURF_ELTYP, CLAUSE%SURF_ELEM, CLAUSE%NB_SURF_SEG,
+     .                                    NS )
+              ELSE
+                  print*,'Unknown clause operator'
+              ENDIF
+
+              DEALLOCATE(SET%SURF_NODES)
+              DEALLOCATE(SET%SURF_ELTYP)
+              DEALLOCATE(SET%SURF_ELEM)
+
+              CALL MY_ALLOC(SET%SURF_NODES,NS,4)
+              CALL MY_ALLOC  (SET%SURF_ELTYP,NS)
+              CALL MY_ALLOC  (SET%SURF_ELEM,NS)
+
+              SET%NB_SURF_SEG = NS
+
+              CALL GET_MERGED_SURFACE(SET%SURF_NODES(1,1), 
+     .                                SET%SURF_NODES(1,2),
+     .                                SET%SURF_NODES(1,3),
+     .                                SET%SURF_NODES(1,4),
+     .                                SET%SURF_ELTYP,
+     .                                SET%SURF_ELEM)
+
+          ELSE      ! SET WAS EMPTY FILL it with Clause if SET_ADD operator
+
+            IF ( CLAUSE_OPERATOR == SET_ADD) THEN
+              IF (ALLOCATED (SET%SURF_NODES) ) DEALLOCATE(SET%SURF_NODES)
+              IF (ALLOCATED (SET%SURF_ELTYP) ) DEALLOCATE(SET%SURF_ELTYP)
+              IF (ALLOCATED (SET%SURF_ELEM) ) DEALLOCATE(SET%SURF_ELEM)
+
+              NEW_SIZE = CLAUSE%NB_SURF_SEG
+              CALL MY_ALLOC(SET%SURF_NODES,NEW_SIZE,4)
+              CALL MY_ALLOC  (SET%SURF_ELTYP,NEW_SIZE)
+              CALL MY_ALLOC  (SET%SURF_ELEM,NEW_SIZE)
+
+              SET%NB_SURF_SEG = NEW_SIZE
+              SET%SURF_NODES(1:NEW_SIZE,1:4) = CLAUSE%SURF_NODES(1:NEW_SIZE,1:4)
+              SET%SURF_ELTYP(1:NEW_SIZE)     = CLAUSE%SURF_ELTYP(1:NEW_SIZE)
+              SET%SURF_ELEM(1:NEW_SIZE)      = CLAUSE%SURF_ELEM(1:NEW_SIZE)
+
             ENDIF
-
-            DEALLOCATE(SET%SURF_NODES)
-            DEALLOCATE(SET%SURF_ELTYP)
-            DEALLOCATE(SET%SURF_ELEM)
-
-            CALL MY_ALLOC(SET%SURF_NODES,NS,4)
-            CALL MY_ALLOC  (SET%SURF_ELTYP,NS)
-            CALL MY_ALLOC  (SET%SURF_ELEM,NS)
-
-            SET%NB_SURF_SEG = NS
-
-            CALL GET_MERGED_SURFACE(SET%SURF_NODES(1,1), 
-     .                              SET%SURF_NODES(1,2),
-     .                              SET%SURF_NODES(1,3),
-     .                              SET%SURF_NODES(1,4),
-     .                              SET%SURF_ELTYP,
-     .                              SET%SURF_ELEM)
-
-        ELSE      ! SET WAS EMPTY FILL it with Clause if SET_ADD operator
-
-          IF ( CLAUSE_OPERATOR == SET_ADD) THEN
-            IF (ALLOCATED (SET%SURF_NODES) ) DEALLOCATE(SET%SURF_NODES)
-            IF (ALLOCATED (SET%SURF_ELTYP) ) DEALLOCATE(SET%SURF_ELTYP)
-            IF (ALLOCATED (SET%SURF_ELEM) ) DEALLOCATE(SET%SURF_ELEM)
-
-            NEW_SIZE = CLAUSE%NB_SURF_SEG
-            CALL MY_ALLOC(SET%SURF_NODES,NEW_SIZE,4)
-            CALL MY_ALLOC  (SET%SURF_ELTYP,NEW_SIZE)
-            CALL MY_ALLOC  (SET%SURF_ELEM,NEW_SIZE)
-
-            SET%NB_SURF_SEG = NEW_SIZE
-            SET%SURF_NODES(1:NEW_SIZE,1:4) = CLAUSE%SURF_NODES(1:NEW_SIZE,1:4)
-            SET%SURF_ELTYP(1:NEW_SIZE)     = CLAUSE%SURF_ELTYP(1:NEW_SIZE)
-            SET%SURF_ELEM(1:NEW_SIZE)      = CLAUSE%SURF_ELEM(1:NEW_SIZE)
-
           ENDIF
-        ENDIF
-      ELSE             
-        IF ( CLAUSE_OPERATOR == SET_INTERSECT) THEN              ! SET : Intersection with Empty clause gives Empty SET
+        ELSE             
+          IF ( CLAUSE_OPERATOR == SET_INTERSECT) THEN              ! SET : Intersection with Empty clause gives Empty SET
             IF (SET%NB_SURF_SEG > 0)THEN
                IF(ALLOCATED(SET%SURF_NODES)) DEALLOCATE(SET%SURF_NODES)
                IF(ALLOCATED(SET%SURF_ELTYP)) DEALLOCATE(SET%SURF_ELTYP)
                IF(ALLOCATED(SET%SURF_ELEM)) DEALLOCATE(SET%SURF_ELEM)
                SET%NB_SURF_SEG=0
             ENDIF
+          ENDIF
         ENDIF
-      ENDIF
+      ENDIF ! IF ( SET%NB_ELLIPSE > 0 )
 C-----------------------------------------------
 C     LINES
 C-----------------------------------------------

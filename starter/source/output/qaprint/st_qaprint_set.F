@@ -389,6 +389,32 @@ C-----------------------------------------------
                 ELSEIF (IGRSURF(IGR)%ELTYP(N) == 1 ) THEN ! SOLID
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IXS(NIXS,IGRSURF(IGR)%ELEM(N)),0.0_8)
                 ENDIF ! IF (IGRSURF(IGR)%ELTYP(N) == 3 )
+
+                IF(SET(IGS)%NB_ELLIPSE == 1)THEN
+                  WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'Ellipse_Xc = '
+                  TEMP_DOUBLE = SET(IGS)%ELLIPSE_XC
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                  WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'Ellipse_Yc = '
+                  TEMP_DOUBLE = SET(IGS)%ELLIPSE_YC
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                  WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'Ellipse_Zc = '
+                  TEMP_DOUBLE = SET(IGS)%ELLIPSE_ZC
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                  WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'Ellipse_a = '
+                  TEMP_DOUBLE = SET(IGS)%ELLIPSE_A
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                  WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'Ellipse_b = '
+                  TEMP_DOUBLE = SET(IGS)%ELLIPSE_B
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                  WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'Ellipse_c = '
+                  TEMP_DOUBLE = SET(IGS)%ELLIPSE_C
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                  WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'Ellipse_N'
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SET(IGS)%ELLIPSE_N,0.0_8)
+                  WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'Ellipse_Skew_ID'
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SET(IGS)%ELLIPSE_ID_MADYMO,0.0_8)
+                ENDIF
+
               ENDDO
             ENDIF ! IF (NB_SURF_SEG > 0)
 !---
