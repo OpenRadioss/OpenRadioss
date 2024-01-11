@@ -12,10 +12,10 @@
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
+**                                                                    **
 ************************************************************************
 ** OpenRadioss Software                                               **
-** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** COPYRIGHT (C) 1986-2024 Altair Engineering, Inc.                   **
 ** Licensed under GNU Affero General Public License.                  **
 ** See License file.                                                  **
 ************************************************************************
@@ -24,7 +24,7 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+ fr-kelpie0.europe.altair.com   13th Gen Intel(R) Core(TM) i7-13850HX (x86_64), 2303 MHz,  16046 MB RAM,      0 MB swap
   
 ************************************************************************
 
@@ -38,7 +38,7 @@ WARNING ID : 100214
 DESCRIPTION :  
 -- BLOCK: /IOFLAG
 -- LINE: 10                   0         0         0         0         0
-unsupported field exits
+unsupported field exists
 SOLUTION :     
     Please check input format and fields description defined in the Reference Guide.
 
@@ -136,9 +136,6 @@ SOLUTION :
 
     INTEG8 : 8 GAUSS POINT CONDENSED INTEGRATION . . . . .         0
     IPARITH: PARALLEL ARITHMETIC FLAG (2 OFF, 1 0N). . . .         1
-    ISUB   : (OLD) SUBCYCLING (1:YES 0:NO) . . . . . . . .         0
-    MSHSUB : MEMORY ALLOCATION FOR (NEW) SHELLS SUBCYCLING
-                                         (1:YES 0:NO). . .         0
     IUSERW : GENERAL USER WINDOW FLAG. . . . . . . . . . .         0
     ISOLID : DEFAULT BRICK FORMULATION FLAG. . . . . . . .         1
     ITET4  : DEFAULT TETRA4 FORMULATION FLAG . . . . . . .      1000
@@ -178,14 +175,11 @@ SOLUTION :
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
-    NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
- 
-     INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
-  
 
 
     LOAD CURVES
@@ -211,14 +205,14 @@ SOLUTION :
     NUMBER OF MATERIALS. . . . . . . . . =         1
 
 
-       ELASTIC PLASTIC HYDRODYNAMIC    
-       ----------------------------    
-
-
 
      CUIVRE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
         MATERIAL NUMBER . . . . . . . . . . . .=         1
         MATERIAL LAW. . . . . . . . . . . . . .=         3
+
+       ELASTIC PLASTIC HYDRODYNAMIC    
+       ----------------------------    
+
 
        INITIAL DENSITY . . . . . . . . . . . .=  8.930000000000    
        REFERENCE DENSITY . . . . . . . . . . .=  8.930000000000    
@@ -256,11 +250,8 @@ SOLUTION :
      C5. . . . . . . . . . . . . . . . . . . .=  0.000000000000    
      INITIAL INTERNAL ENERGY PER UNIT VOLUME .=  0.000000000000    
      INITIAL PRESSURE. . . . . . . . . . . . .=  0.000000000000    
-     INITIAL DENSITY . . . . . . . . . . . . .=  8.930000000000    
-     REFERENCE DENSITY . . . . . . . . . . . .=  8.930000000000    
      PRESSURE SHIFT. . . . . . . . . . . . . .=  0.000000000000    
-
-
+     EOS REFERENCE DENSITY . . . . . . . . . .=  8.930000000000    
 
 
         NODAL POINT COORDINATES                                                          
@@ -1779,7 +1770,7 @@ SOLUTION :
 
 
 
-         PROPERTY SETS (HM_READER)
+         PROPERTY SETS
          -------------
 
 
@@ -1803,11 +1794,11 @@ myprop
 
 PART:         1,New PART 1
 ----
-     PROPERTY:         1,myprop
-     MATERIAL:         1,CUIVRE
-     SUBSET  :         0
- VIRT. THICKN:  0.000000000000    
- SPH SMOOTHING LENGTH: 0.4536092089829    
+     PROPERTY    :         1 (TYPE 34),myprop
+     MATERIAL    :         1 (LAW  03),CUIVRE
+     SUBSET      :         0
+     FRAMEWORK   :         LAGRANGE
+ SPH SMOOTHING LENGTH:    0.4536092089829    
 
  SPH CELLS             
  ----------------------
@@ -5029,7 +5020,7 @@ END OF CELL TRACEBACK
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
- DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR BROADWELL PROCESSOR
  
  SPH DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
   
@@ -5037,10 +5028,7 @@ END OF CELL TRACEBACK
   EDGES FOUND  =       8116
   
  #PROC   ELT WEIGHT
-   1     325
-   2     327
-   3     320
-   4     324
+   1    1296
   
            3D - SPH CELL GROUPS 
            -------------------- 
@@ -5049,16 +5037,15 @@ END OF CELL TRACEBACK
 
        1        3      128        1        1       51        1
        2        3      128      129        1       51        1
-       3        3       69      257        1       51        1
-       4        3      128      326        1       51        1
-       5        3      128      454        1       51        1
-       6        3       71      582        1       51        1
-       7        3      128      653        1       51        1
-       8        3      128      781        1       51        1
-       9        3       64      909        1       51        1
-      10        3      128      973        1       51        1
-      11        3      128     1101        1       51        1
-      12        3       68     1229        1       51        1
+       3        3      128      257        1       51        1
+       4        3      128      385        1       51        1
+       5        3      128      513        1       51        1
+       6        3      128      641        1       51        1
+       7        3      128      769        1       51        1
+       8        3      128      897        1       51        1
+       9        3      128     1025        1       51        1
+      10        3      128     1153        1       51        1
+      11        3       16     1281        1       51        1
 
 
        RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
@@ -5461,12 +5448,11 @@ PART MASS & INERTIA
 -------------------
 
 
-PART :          1New PART 1
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
-  597.9076374050      5443.556612505      5443.556612505      684.1126493231     4.4408920985006E-16-2.1953449227418E-14-9.4612927571173E-16
- X           Y           Z           Kin. Energy Vx         Vy         Vz
- 1.9125524476105E-17-3.1566399620755E-18  5.043475971776     0.4275986352913      0.000000000000      0.000000000000    -3.7491917790242E-02
+PART :          1, New PART 1
+            Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
+  5.97907637E+02  5.44355661E+03  5.44355661E+03  6.84112649E+02 -2.88657986E-15  4.70155054E-14  2.52358035E-14
+               X               Y               Z     Kin. Energy              Vx              Vy              Vz
+  3.54657784E-17  1.91255245E-17  5.04347597E+00  4.27598635E-01  0.00000000E+00  0.00000000E+00 -3.74919178E-02
 
 
 PART ELEMENT/MATERIAL PARAMETER REVIEW:
@@ -5564,31 +5550,31 @@ SPHCEL      P_SPMD       NAME
          ------------------------
 
       TIME STEP       ELEMENT NUMBER
-  0.4924478425832             675879
+  0.4924478425832             676495
   0.4924478425832             593455
-  0.4924478425832             676087
-  0.4924478425832             676085
-  0.4924478425832             676083
-  0.4924478425832             676081
-  0.4924478425832             675885
-  0.4924478425832             675883
-  0.4924478425832             675881
-  0.4924478425832             675685
-  0.4924478425832             676283
-  0.4924478425832             675683
-  0.4924478425832             675681
-  0.4924478425832             675679
-  0.4924478425832             675483
-  0.4924478425832             675481
-  0.4924478425832             675479
-  0.4924478425832             675283
-  0.4924478425832             676281
-  0.4924478425832             676285
+  0.4924478425832             691149
+  0.4924478425832             691147
+  0.4924478425832             691145
+  0.4924478425832             691143
+  0.4924478425832             691141
+  0.4924478425832             691139
+  0.4924478425832             676497
+  0.4924478425832             676493
+  0.4924478425832             691153
+  0.4924478425832             676491
+  0.4924478425832             676489
+  0.4924478425832             676487
+  0.4924478425832             676485
+  0.4924478425832             676483
+  0.4924478425832             676481
+  0.4924478425832             676479
+  0.4924478425832             691151
+  0.4924478425832             691155
+  0.4924478425832             691345
+  0.4924478425832             691157
   0.4924478425832             691359
-  0.4924478425832             676287
-  0.4924478425832             691761
-  0.4924478425832             691759
-  0.4924478425832             691563
+  0.4924478425832             691357
+  0.4924478425832             691355
 
 
          NODAL TIME STEP (estimation)
@@ -5794,33 +5780,7 @@ SPHCEL      P_SPMD       NAME
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        123 MB
-
-
-
- STATISTICS ON DOMAIN DECOMPOSITION 
- ---------------------------------- 
-
-AVERAGE NB. OF BOUNDARY NODES :     0
-STANDARD DEVIATION            :     0
-
-AVERAGE NUMBER OF LOCAL NODES :     324
-STANDARD DEVIATION            :       3
-
-AVERAGE NB. OF SPH PARTICLES  :     324
-STANDARD DEVIATION            :       3
-
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    1           325                     0                     0
-    2           327                     0                     0
-    3           320                     0                     0
-    4           324                     0                     0
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
- ----------------------------------------------------
- NUMBER OF NODES................. :         325
- TOTAL NUMBER OF NODES FOR COMM.. :           0
- NUMBER OF SMOOTH PARTICLES...... :         325
+    STARTER MEMORY USAGE        129 MB
 
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
@@ -5829,52 +5789,7 @@ STANDARD DEVIATION            :       3
         MEMORY USED FOR INTEGERS         5 MB 
         TOTAL MEMORY EVALUATION         10 MB 
                                             
-        RESTART FILE SIZE         0 MB
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
- ----------------------------------------------------
- NUMBER OF NODES................. :         327
- TOTAL NUMBER OF NODES FOR COMM.. :           0
- NUMBER OF SMOOTH PARTICLES...... :         327
-
-
-     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
-     --------------------------------------------------------
-        MEMORY USED FOR REALS            5 MB 
-        MEMORY USED FOR INTEGERS         5 MB 
-        TOTAL MEMORY EVALUATION         10 MB 
-                                            
-        RESTART FILE SIZE         0 MB
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
- ----------------------------------------------------
- NUMBER OF NODES................. :         320
- TOTAL NUMBER OF NODES FOR COMM.. :           0
- NUMBER OF SMOOTH PARTICLES...... :         320
-
-
-     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
-     --------------------------------------------------------
-        MEMORY USED FOR REALS            5 MB 
-        MEMORY USED FOR INTEGERS         5 MB 
-        TOTAL MEMORY EVALUATION         10 MB 
-                                            
-        RESTART FILE SIZE         0 MB
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
- ----------------------------------------------------
- NUMBER OF NODES................. :         324
- TOTAL NUMBER OF NODES FOR COMM.. :           0
- NUMBER OF SMOOTH PARTICLES...... :         324
-
-
-     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
-     --------------------------------------------------------
-        MEMORY USED FOR REALS            5 MB 
-        MEMORY USED FOR INTEGERS         5 MB 
-        TOTAL MEMORY EVALUATION         10 MB 
-                                            
-        RESTART FILE SIZE         0 MB
+        RESTART FILE SIZE         1 MB
 
 
      RESTART FILES CUBC_0000 WRITTEN
@@ -5886,20 +5801,20 @@ STANDARD DEVIATION            :       3
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .3922E+00   .1696E+00   .2198E-01   .0000E+00   .0000E+00   .0000E+00   .2903E-04
+.0000E+00   .2479E+00   .1062E+00   .2825E-02   .0000E+00   .0000E+00   .0000E+00   .3994E-05
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1144E+07   .1914E+00   .1517E-01   .0000E+00   .0000E+00   .0000E+00   .1201E-04
+.0000E+00   .1858E+05   .1123E+00   .3866E-02   .0000E+00   .0000E+00   .0000E+00   .4117E-05
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2022/11/23  16:23:59
- EXECUTION COMPLETED    :      2022/11/23  16:24:00
+ EXECUTION STARTED      :      2024/01/11  15:55:36
+ EXECUTION COMPLETED    :      2024/01/11  15:55:37
   
- ELAPSED TIME...........=          0.66 s
+ ELAPSED TIME...........=          0.40 s
                                00:00:00
   
 ------------------------------------------------------------------------
