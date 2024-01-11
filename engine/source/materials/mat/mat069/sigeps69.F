@@ -109,7 +109,9 @@ C----------------------------------------------------------------
      .   MU(5),AL(5),DWDL(3),T(MVSIZ,3),RV(MVSIZ),AV(MVSIZ,6),DIRPRV(MVSIZ,3,3)
        my_real  
      .   GI(100),BETA(100),H0(100),H(100),C0(MVSIZ,6),C1(MVSIZ,6),AA,SV(MVSIZ,6),
-     .   CC,FAC,INVDT,FFT(3)
+     .   CC,FAC,INVDT,FFT(3),P_FAC(NEL),NU_1,AMIN,LAM_AL(3),GTMAX(NEL),GVMAX,ETV
+      my_real, DIMENSION(NEL,3) :: CII
+      DOUBLE PRECISION AMAX1
 C----------------------------------------------------------------
 C SET INITIAL MATERIAL CONSTANTS
       MU(1)  = UPARAM(1)
@@ -134,6 +136,8 @@ C
         GMAX  = GMAX  + MU(I)*AL(I)
       ENDDO
 C
+      GVMAX = ZERO
+      ETV   = ZERO
 C add viscosity using /visc/prony
       IF (IVISC > 0) THEN 
          NPRONY = INT(UPARVIS(1))
@@ -141,39 +145,11 @@ c
          DO I=1,NPRONY
           GI(I)    = UPARVIS(1 + I)
           BETA(I)  = UPARVIS(1 + NPRONY + I)
-          GMAX = GMAX + GI(I)
+          GVMAX = GVMAX + GI(I)
          ENDDO 
+         ETV = MIN(GVMAX,RBULK)/GMAX
        ENDIF             
 C
-cC     ([F]=[M_F]+[1]) -----
-c      IF (ISMSTR == 10) THEN
-cC--------- [B]=[F][F]^t strain-----
-c        DO I=1,NEL
-c         EPSXX(I) = MFXX(I)*(TWO+MFXX(I))
-c     .            + MFXY(I)*MFXY(I)+MFXZ(I)*MFXZ(I)
-c         EPSYY(I) = MFYY(I)*(TWO+MFYY(I))
-c     .            + MFYX(I)*MFYX(I)+MFYZ(I)*MFYZ(I)
-c         EPSZZ(I) = MFZZ(I)*(TWO+MFZZ(I))
-c     .            + MFZX(I)*MFZX(I)+MFZY(I)*MFZY(I)
-c         EPSXY(I) = TWO*(MFXY(I)+MFYX(I)+MFXX(I)*MFYX(I)
-c     .            +       MFXY(I)*MFYY(I)+MFXZ(I)*MFYZ(I))
-c         EPSZX(I) = TWO*(MFXZ(I)+MFZX(I)+MFXX(I)*MFZX(I)
-c     .            +       MFXY(I)*MFZY(I)+MFXZ(I)*MFZZ(I))
-c         EPSYZ(I) = TWO*(MFZY(I)+MFYZ(I)+MFZX(I)*MFYX(I)
-c     .            +       MFZY(I)*MFYY(I)+MFZZ(I)*MFYZ(I))
-c        ENDDO
-c        IF(IDTMIN(1)==3)THEN
-c         DO I=1,NEL
-c    IF (OFFG(I) <=ONE) CYCLE
-c           EPSXX(I)=MFXX(I)
-c           EPSYY(I)=MFYY(I)
-c           EPSZZ(I)=MFZZ(I)
-c           EPSXY(I)=MFXY(I)+MFYX(I)
-c           EPSZX(I)=MFXZ(I)+MFZX(I)
-c           EPSYZ(I)=MFZY(I)+MFYZ(I)
-c         ENDDO
-c  END IF
-c      ENDIF
 C
       DO I=1,NEL
         AV(I,1)=EPSXX(I)
@@ -239,6 +215,13 @@ C        ET(I) = ZERO
           ET(I) = MAX(ONE,ET(I)/GMAX)
         ENDDO
       ENDIF
+c--- avoid buckling
+      P_FAC(1:NEL) = ONE
+      NU_1 = FOURTY*(HALF-(3*RBULK-GMAX)/(6*RBULK+GMAX))
+      DO I=1,NEL
+        AMIN = MIN(EV(I,1),EV(I,2),EV(I,3))
+        IF (AMIN<ZEP2) P_FAC(I) = MAX(ONE,NU_1/MAX(EM20,AMIN))
+      ENDDO
 C----------------
       DO I=1,NEL
         RV(I) = EV(I,1)*EV(I,2)*EV(I,3)
@@ -266,10 +249,33 @@ C----THERM STRESS COMPUTATION-----
           P(I) = RBULK*FSCALE*FINTER(KFP,RV(I),NPF,TF,DPDMU)
         ELSE
 *         BULK MODULE IS CONSTANT
-          P(I)=RBULK
+          P(I)=P_FAC(I)*RBULK
         ENDIF
       ENDDO
 c
+      ! For HEPH Hourglass treatment and soundspeed computation
+      GTMAX(1:NEL) = GMAX + GVMAX
+      ETI(1:NEL) = ZERO
+      CII(1:NEL,1:3) = ZERO
+      DO II = 1,NORDRE
+        IF (MU(II)*AL(II) /= ZERO) THEN
+          DO I=1,NEL
+            LAM_AL(1) = EXP(AL(II)*LOG(EVM1(I)))
+            LAM_AL(2) = EXP(AL(II)*LOG(EVM2(I)))
+            LAM_AL(3) = EXP(AL(II)*LOG(EVM3(I)))
+            AMAX = THIRD*(LAM_AL(1)+LAM_AL(2)+LAM_AL(3))
+            CII(I,1:3) = CII(I,1:3) + MU(II)*AL(II)*(LAM_AL(1:3)+AMAX)
+          ENDDO
+        ENDIF
+      ENDDO
+      ! Note: 2GT=3/2 Cii (factor 3 already inside CII)      
+      AMAX1 = 0.81*HALF/GMAX
+      DO I = 1,NEL
+        AMAX = AMAX1*MAX(CII(I,1),CII(I,2),CII(I,3))
+        ETI(I) = MAX(ONE,AMAX) 
+        GTMAX(I) = GMAX*ETI(I) + GVMAX
+        ET(I) = ETI(I)+ETV
+      ENDDO
       DO I=1,NEL
         DWDL(1) = ZERO                             
         DWDL(2) = ZERO                                
@@ -420,7 +426,7 @@ C
 C-----------------------------------------------------------
 C     set sound speed & viscosity
       DO I=1,NEL
-        SOUNDSP(I) = SQRT((TWO_THIRD*GMAX+P(I))/RHO(I))
+        SOUNDSP(I) = SQRT((TWO_THIRD*GTMAX(I)+P(I))/RHO(I))
         VISCMAX(I) = ZERO
       ENDDO
 C-----------      

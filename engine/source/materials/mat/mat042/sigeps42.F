@@ -88,7 +88,7 @@ C  L O C A L  V A R I A B L E S
 C----------------------------------------------------------------
       INTEGER I,II,J,K,KFP,NPRONY,IFORM
       my_real TENSIONCUT,AMAX,GVMAX,GMAX,FFAC,TRACE,RBULK,DPDMU,
-     .  AA,CC,FAC,INVE,ETV,RV_PUI
+     .  AA,CC,FAC,INVE,ETV,RV_PUI,AMIN,NU_1
       my_real, DIMENSION(3) :: LAM_AL,FFT
       my_real, DIMENSION(5) :: AL_TAB,MU_TAB
       my_real, DIMENSION(100) :: GI,TAUX
@@ -101,6 +101,7 @@ C----------------------------------------------------------------
       my_real, DIMENSION(MVSIZ,3) :: EVV 
       my_real, DIMENSION(MVSIZ,6) :: AV
       my_real, DIMENSION(MVSIZ,3,3) :: DIRPRV
+      my_real, DIMENSION(NEL) :: P_FAC
       DOUBLE PRECISION AMAX1
       !=======================================================================
 c  
@@ -233,6 +234,14 @@ c
           RV(I) = RV(I) - EPSTH3(I) 
         ENDDO
       ENDIF
+c--- avoid buckling
+      P_FAC(1:NEL) = ONE
+      NU_1 = FOURTY*(HALF-(3*RBULK-GMAX)/(6*RBULK+GMAX))
+      DO I=1,NEL
+        AMIN = MIN(EV(I,1),EV(I,2),EV(I,3))
+        IF (AMIN<ZEP2) P_FAC(I) = MAX(ONE,NU_1/MAX(EM20,AMIN))
+      ENDDO
+!        
 c 
       ! Compute normalized (deviatoric) stretches and bulk modulus
       ! (Deviatoric principal stretches = lambda_bar_i)
@@ -255,7 +264,7 @@ c
           P(I) = RBULK*FFAC*FINTER(KFP,RV(I),NPF,TF,DPDMU)
         ! Constant bulk modulus
         ELSE
-          P(I) = RBULK
+          P(I) = P_FAC(I)*RBULK
         ENDIF
       ENDDO
 c
