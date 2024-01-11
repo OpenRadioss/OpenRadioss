@@ -834,8 +834,6 @@ C-----------------------------------------------
      .   GAUGE(LLGAUGE,*),WAGAP(2,*),RTHBUF(*),FORNEQS(3,*),IN0(*),
      .   DPL0CLD(*),VEL0CLD(*)
       my_real , INTENT(IN) :: DGAPLOADINT(NINTER*NLOADP_HYD)
-      my_real, DIMENSION(2) :: XX
-      my_real yy
       TYPE (CLUSTER_) ,DIMENSION(*) :: CLUSTER
       TYPE(PRGRAPH) :: GRAPHE(*)
       TYPE(TTABLE) :: TABLE(*)
@@ -997,7 +995,7 @@ C----
       my_real
      .   TTMP,DMCP(NUMGEO)
       data TTMP /0.0/
-      INTEGER LWIBEM, LWRBEM, IERROR, IERROR2
+      INTEGER LWIBEM, LWRBEM, IERROR, IERROR2, INTER_ERRORS
       INTEGER, DIMENSION(:), ALLOCATABLE :: WIBEM
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: WRBEM
@@ -3495,7 +3493,7 @@ C===============================================================================
         ITYPTSTT= ITYPTST
         ITSK = OMP_GET_THREAD_NUM()
            CALL INTTRI(
-     1     IPARI   ,X_A     ,W     ,
+     1     IPARI   ,X_A     ,W     , INTER_ERRORS,
      2     V       ,MS      ,IN      ,IAD_ELEM  ,
      3     FR_ELEM ,VR      ,ISENDTO ,IRCVFROM  ,
      4     NEWFRONT  ,ITSK    ,WA      ,DT2TT     ,
@@ -3530,6 +3528,14 @@ C
 #include "lockoff.inc"
 
 !$OMP END PARALLEL
+        IF(INTER_ERRORS > 0) THEN
+          CALL SORTIE_ERROR(
+     1     V        ,NODGLOB    ,WEIGHT     ,ITAB       ,MS          ,
+     2     MS0      ,10         ,PARTSAV    ,IPART      ,PM          ,
+     3     IGEO     )
+           CALL ARRET(2)
+        ENDIF
+
 
 C========================================================================================
 
