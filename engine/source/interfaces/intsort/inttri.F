@@ -100,7 +100,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE INTTRI(
-     1       IPARI    ,X       ,W       ,
+     1       IPARI    ,X       ,W       , ERRORS, 
      2       V        ,MS      ,IN      ,IAD_ELEM ,
      3       FR_ELEM  ,VR      ,ISENDTO ,IRECVFROM,
      4       NEWFRONT ,ITASK   ,WAG     ,DT2T     ,
@@ -170,6 +170,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: ERRORS !< number of interfaces that could not be sorted
       INTEGER, INTENT(in) :: NODNX_SMS_SIZ
       INTEGER IPARI(NPARI,*), IXS(*), IXS16(*), IXS20(*),
      .        ITAB(*),
@@ -636,12 +637,15 @@ C
 C
 C Communication critere de tri
 C
+      ERRORS = 0 
       CALL INTCRIT(
-     1    IPARI   ,NEWFRONT ,ISENDTO  ,NSENSOR  ,
+     1    ERRORS, IPARI   ,NEWFRONT ,ISENDTO  ,NSENSOR  , 
      2    IRECVFROM ,DT2T    ,NELTST  ,ITYPTST  ,ITAB      ,
      3    XSLV      ,XMSR    ,VSLV    ,VMSR     ,INTLIST   ,
      4    NBINTC    ,SIZE_T  ,SENSORS%SENSOR_TAB,DELTA_PMAX_GAP,
      5    INTBUF_TAB,DELTA_PMAX_GAP_NODE,IDEL7NOK_SAV,MAXDGAP)
+
+
 C
 C (barriere par interface)
       IF(NINTSTAMP/=0)THEN
@@ -664,6 +668,7 @@ C
 
 C Fin Partie non parallele smt
 !$OMP END SINGLE
+      IF(ERRORS > 0) RETURN
 
       IF(IMPL_S/=1)THEN
 

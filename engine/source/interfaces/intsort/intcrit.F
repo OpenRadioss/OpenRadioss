@@ -39,7 +39,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE INTCRIT(
-     1  IPARI  ,NEWFRONT,ISENDTO,NSENSOR ,
+     1  ERRORS, IPARI  ,NEWFRONT,ISENDTO,NSENSOR ,
      2  IRCVFROM,DT2T   ,NELTST ,ITYPTST ,ITAB   ,
      3  XSLV    ,XMSR   ,VSLV   ,VMSR    ,INTLIST,
      4  NBINTC  ,SIZE_T ,SENSOR_TAB,DELTA_PMAX_GAP,
@@ -70,6 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: ERRORS !< number of errors (vmaxdt too high, ...)
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARI(NPARI,*),
      .        NELTST,ITYPTST,NBINTC,INTLIST(*),NEWFRONT(*), ITAB(*),
@@ -371,16 +372,15 @@ c (no need to communicate VMAXDT in SPMD)
 
          INTBUF_TAB(I)%VARIABLES(5) = DIST0
 
-         IF(ISPMD == 0 .AND. VMAXDT > TEN * MARGE0) THEN
-           WRITE(ISTDO,'(A,I10)') "WARNING: NODAL VELOCITY IS TOO HIGH
+         IF(VMAXDT > TEN * MARGE0) THEN
+           ! assuming that MARGE0 is identical on all processors
+           ERRORS = ERRORS + 1
+           IF(ISPMD == 0) THEN
+             WRITE(ISTDO,'(A,I10)') "ERROR: NODAL VELOCITY IS TOO HIGH
      . FOR INTERFACE",IPARI(15,I) 
-           WRITE(ISTDO,'(A)') "ADVICE: USE /STOP TO FIND NODES WITH
-     . LARGEST VELOCITY"
-           WRITE(IOUT,'(A,I10)') "WARNING: NODAL VELOCITY IS TOO HIGH
+             WRITE(IOUT,'(A,I10)') "ERROR: NODAL VELOCITY IS TOO HIGH
      . FOR INTERFACE",IPARI(15,I) 
-           WRITE(IOUT,'(A)') "ADVICE: USE /STOP TO FIND NODES WITH
-     . LARGEST VELOCITY"
-C          IF(VMAXDT > HUNDRED * MARGE0) CALL ARRET(2)
+           ENDIF
          ENDIF
 
 
