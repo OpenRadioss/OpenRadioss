@@ -182,6 +182,9 @@ c
         IBOX(IAD)%X2      = ZERO
         IBOX(IAD)%Y2      = ZERO
         IBOX(IAD)%Z2      = ZERO
+        IBOX(IAD)%SURFIAD = 0
+        IBOX(IAD)%NENTITY = 0
+        IBOX(IAD)%BOXIAD  = 0
 c
       ENDDO
 

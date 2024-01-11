@@ -3140,13 +3140,17 @@ C--------------------------------------------
 
 
       SBUFSF = 0
+      IF(NSURF+NSETS > 0)THEN
+        ALLOCATE(RWORK(LISURF1*(NSURF+NSETS))    ,STAT=stat)
+        RWORK = ZERO
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                            MSGTYPE=MSGERROR,
+     .                            C1='RWORK')
+      ENDIF
+
       IF(NSURF > 0)THEN
         WRITE(ISTDO,'(A)')' .. SURFACES '
         ERR_CATEGORY='SURFACES DEFINITION'
-        ALLOCATE(RWORK(LISURF1*NSURF)    ,STAT=stat)
-        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR,
-     .                         C1='RWORK')
 c
 C- Isogeometric Elements
         IADTABIGE = 0
@@ -3210,7 +3214,6 @@ C
         SRIGE = 0
         SXIGE = 0
         SVIGE = 0
-        RWORK  = ZERO
         IDXIGECNT = IDXIGECNT + 1
         IDXIGE1   = MOD(IDXIGECNT,2)
         IDXIGE2   = MOD(IDXIGECNT+1,2)
@@ -3437,17 +3440,6 @@ C---      fill next level
           CALL HM_READ_SURFSURF(IGRSURF, INSEG, FLAGG, ICOUNT, ITER, NSETS, LSUBMODEL)
 C---
         ENDDO
-        ALLOCATE(BUFSF(SBUFSF)       ,STAT=stat)
-        IF(STAT /= 0) THEN
-          CALL ANCMSG(MSGID=727,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANSTOP,
-     .                C1='BUFSF')
-        ENDIF
-        IF(SBUFSF > 0) BUFSF = RWORK(1:SBUFSF)
-        IF(ALLOCATED(RWORK)) DEALLOCATE(RWORK)
-      ELSE
-        ALLOCATE(BUFSF(SBUFSF)       ,STAT=stat)
       ENDIF
 
       NSEGS=NPART
@@ -3619,7 +3611,6 @@ C--------------------------------------------
         WRITE(ISTDO,'(A)')' .. SET'
         ERR_CATEGORY='SET'
 
-
         CALL HM_SET(SET      ,LSUBMODEL ,INV_GROUP ,MAP_TABLES,IPART     ,
      *              IGRSURF  ,IGRNOD    ,IGRSLIN   ,IGRPART  ,IGRBRIC   ,
      *              IGRQUAD  ,IGRSH4N   ,IGRSH3N   ,IGRTRUSS ,IGRBEAM   ,
@@ -3630,10 +3621,26 @@ C--------------------------------------------
      *              IXT      ,IXP       ,IXR       ,IXX      ,KXX       ,
      *              KXSP     ,IXS20     ,IXS16     ,GEO      ,ITABM1    ,
      *              IBOX     ,SKEW      ,IPARTQ    ,IPARTT   ,IPARTP    ,
-     *              IPARTR   ,SUBSETS   ,RBY_MSN   )
-
+     *              IPARTR   ,SUBSETS   ,RBY_MSN   ,ISKWN    ,RTRANS    ,
+     *              UNITAB   ,RWORK     ,SBUFSF    ,SISKWN   ,SSKEW     )
 C        IF(ALLOCATED(RBY_MSN)) DEALLOCATE(RBY_MSN)
       ENDIF
+      
+      IF (NSURF+NSETS > 0) THEN
+        IF(SBUFSF > 0) THEN
+          ALLOCATE(BUFSF(SBUFSF)       ,STAT=stat)
+          BUFSF = RWORK(1:SBUFSF)
+          IF(STAT /= 0) THEN
+            CALL ANCMSG(MSGID=727,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANSTOP,
+     .                  C1='BUFSF')
+          ENDIF
+        ENDIF
+      ELSE
+        ALLOCATE(BUFSF(0))
+      ENDIF
+      IF(ALLOCATED(RWORK)) DEALLOCATE(RWORK)
 C--------------------------------------------
       CALL STOPTIME(17,1)
 C--------------------------------------------

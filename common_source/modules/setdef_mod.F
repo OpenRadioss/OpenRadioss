@@ -97,7 +97,8 @@ Chd|-- calls ---------------
 Chd|====================================================================
       MODULE SETDEF_MOD
 C----------------------------------------------------------------------- 
-#include "nchar_c.inc"    
+#include "nchar_c.inc" 
+#include "my_real.inc"   
 c=======================================================================      
 !---------
 !   SET DATA STRUCTURE
@@ -156,6 +157,17 @@ C-----------------------------------------------------------------------
         INTEGER   :: NB_LINE_SEG      ! SET nb of line/edge's segments
 !
         INTEGER   :: NB_RBODY         ! SET nb of Rbody
+
+        INTEGER   :: NB_ELLIPSE       ! CLAUSE nb of Ellipses within a SET (max = 1, one per /SET)
+        INTEGER   :: ELLIPSE_IAD_BUFR
+        INTEGER   :: ELLIPSE_ID_MADYMO
+        INTEGER   :: ELLIPSE_N
+        MY_REAL   :: ELLIPSE_XC
+        MY_REAL   :: ELLIPSE_YC
+        MY_REAL   :: ELLIPSE_ZC
+        MY_REAL   :: ELLIPSE_A
+        MY_REAL   :: ELLIPSE_B
+        MY_REAL   :: ELLIPSE_C
 !
         INTEGER, DIMENSION(:), ALLOCATABLE  ::   NODE
         INTEGER, DIMENSION(:), ALLOCATABLE  ::   PART
@@ -177,6 +189,8 @@ C-----------------------------------------------------------------------
         INTEGER, DIMENSION(:,:), ALLOCATABLE  :: LINE_NODES ! dim = (NB_LINE_SEG,2)
         INTEGER, DIMENSION(:)  , ALLOCATABLE  :: LINE_ELTYP ! dim = (NB_LINE_SEG)
         INTEGER, DIMENSION(:)  , ALLOCATABLE  :: LINE_ELEM  ! dim = (NB_LINE_SEG)
+
+        MY_REAL, DIMENSION(:)  , ALLOCATABLE  :: ELLIPSE_SKEW
 !==============================================================
 !       SET HIERARCHY
         INTEGER   :: FATHER
