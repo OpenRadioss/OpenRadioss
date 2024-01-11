@@ -652,6 +652,7 @@ Chd|        M20DCOD                       source/system/fsdcod.F
 Chd|        M75INIT                       source/materials/mat/mat075/m75init.F
 Chd|        MASS_FLUID_QD                 source/fluid/mass-fluid_qd.F  
 Chd|        MASS_FLUID_TG                 source/fluid/mass-fluid_tg.F  
+Chd|        MAT11CHECK                    source/materials/mat/mat011/mat11check.F
 Chd|        MATFUN_USR2SYS                source/materials/tools/matfun_usr2sys.F
 Chd|        MATINI                        source/materials/mat_share/matini.F
 Chd|        MATTAB_USR2SYS                source/materials/tools/mattab_usr2sys.F

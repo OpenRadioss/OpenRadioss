@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  NRF51INI                      source/materials/mat/mat051/nrf51ini.F
+Chd|  MAT11CHECK                    source/materials/mat/mat011/mat11check.F
 Chd|-- called by -----------
-Chd|        M51INIT                       source/materials/mat/mat051/m51init.F
+Chd|        MATINI                        source/materials/mat_share/matini.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F

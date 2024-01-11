@@ -48,6 +48,7 @@ Chd|        ININTR                        starter/source/interfaces/interf1/inin
 Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        M51INIT                       starter/source/materials/mat/mat051/m51init.F
+Chd|        MAT11CHECK                    starter/source/materials/mat/mat011/mat11check.F
 Chd|        MATINI                        starter/source/materials/mat_share/matini.F
 Chd|        MULTIFLUID_INIT2              starter/source/multifluid/multifluid_init2.F
 Chd|        MULTIFLUID_INIT2T             starter/source/multifluid/multifluid_init2t.F
