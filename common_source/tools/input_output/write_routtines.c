@@ -614,7 +614,6 @@ void write_c_c_txt(char *w,int *len)
 
   mod = outfile_mod[cur_nf];
 
-  printf("%s",buf);
   write_buffer((unsigned char*)buf,sizeof(unsigned char),*len+1);
   free (buf);
 }
