@@ -757,86 +757,24 @@ c
               ELSE IF (ITENS == 3 .OR. ITENS == 4) THEN    
                 ! /TENS/STRESS/UPPER
                 ! /TENS/STRESS/LOWER
-
-                IF (ITENS == 3) THEN   ! upper
-                  IF (IGTYP == 1 .OR. IGTYP == 9) THEN
-                    IL  = 1
-                    IPT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
-                  ELSE IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN
-                    IL  = ELBUF_TAB(NG)%NLAY
+                IF (NPT /= 0) THEN 
+                  IF (ITENS == 3) THEN   ! upper
+                    IF (IGTYP == 1 .OR. IGTYP == 9) THEN
+                      IL  = 1
+                      IPT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+                    ELSE IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN
+                      IL  = ELBUF_TAB(NG)%NLAY
+                      IPT = 1
+                    ELSE IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
+                      IL  = ELBUF_TAB(NG)%NLAY
+                      IPT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+                    END IF
+                  ELSE IF (ITENS == 4) THEN   ! lower
                     IPT = 1
-                  ELSE IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
-                    IL  = ELBUF_TAB(NG)%NLAY
-                    IPT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
-                  END IF
-                ELSE IF (ITENS == 4) THEN   ! lower
-                  IPT = 1
-                  IL  = 1
-                END IF
-                IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT                          
-                IVISC = IPM(222,IMAT)
-                DO I=1,NEL  
-                  DO IR=1,NPTR                
-                    DO IS=1,NPTS 
-                      LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IPT) 
-                      SIGE(I,1) = SIGE(I,1) + LBUF%SIG(JJ(1) + I) / NPG
-                      SIGE(I,2) = SIGE(I,2) + LBUF%SIG(JJ(2) + I) / NPG
-                      SIGE(I,3) = SIGE(I,3) + LBUF%SIG(JJ(3) + I) / NPG
-                    ENDDO                 
-                  ENDDO   
-                ENDDO
-                IF (IVISC > 0) THEN
-                  DO I=1,NEL  
-                    DO IR=1,NPTR                
-                      DO IS=1,NPTS 
-                        LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IPT) 
-                        SIGE(I,1) = SIGE(I,1) + LBUF%VISC(JJ(1) + I) / NPG
-                        SIGE(I,2) = SIGE(I,2) + LBUF%VISC(JJ(2) + I) / NPG
-                        SIGE(I,3) = SIGE(I,3) + LBUF%VISC(JJ(3) + I) / NPG
-                      ENDDO                 
-                    ENDDO
-                  ENDDO
-                END IF
-                MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
-                IF (MAT_ORTH == 2) THEN
-                 IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP ==52)) THEN
-                   DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%LBUF_DIR(IPT)%DIRA 
-                 ELSE
-                   DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA 
-                 ENDIF  
-                 CALL UROTO_TENS2D(NEL,SIGE,DIR_A)
-                END IF
-c
-                DO I=LFT,LLT
-                  N = I + NFT
-                  R4(1) = SIGE(I,1)
-                  R4(2) = SIGE(I,2)
-                  R4(3) = SIGE(I,3)
-                  R4(3) = R4(3) * INVERT(EL2FA(NNI+N))
-                  TENS(1,EL2FA(NNI+N)) = R4(1)
-                  TENS(2,EL2FA(NNI+N)) = R4(2)
-                  TENS(3,EL2FA(NNI+N)) = R4(3)
-                ENDDO
-c            
-              ELSE IF (ITENS > 100 .AND. ITENS < 201) THEN
-                ! /TENS/STRESS/NPT     <=> IGTYP = 1,9
-                ! /TENS/STRESS/ILAY    <=> IGTYP = 10,11,16
-                ! /TENS/STRESS/PLY_ID  <=> IGTYP = 17
-
-                IPT = ITENS-100
-                IF (IGTYP == 51 .OR. IGTYP == 52 .OR. IGTYP == 17) THEN
-                  INPUT_ERROR = 1  ! IGTYP 51,52 does not support this syntax
-                ELSE
-                  IF (IGTYP == 1 .OR. IGTYP == 9) THEN
                     IL  = 1
-                    IPT = MIN(IPT, ELBUF_TAB(NG)%BUFLY(1)%NPTT)
-                  ELSE IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN
-                    IL  = MIN(IPT, ELBUF_TAB(NG)%NLAY)
-                    IPT = 1
                   END IF
-c
                   IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT                          
-                  IVISC = IPM(222,IMAT)    
+                  IVISC = IPM(222,IMAT)
                   DO I=1,NEL  
                     DO IR=1,NPTR                
                       DO IS=1,NPTS 
@@ -861,10 +799,87 @@ c
                   END IF
                   MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
                   IF (MAT_ORTH == 2) THEN
-                    DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA  
-                    CALL UROTO_TENS2D(NEL,SIGE,DIR_A)
+                   IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP ==52)) THEN
+                     DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%LBUF_DIR(IPT)%DIRA 
+                   ELSE
+                     DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA 
+                   ENDIF  
+                   CALL UROTO_TENS2D(NEL,SIGE,DIR_A)
                   END IF
+                ELSE 
+                  DO I=1,NEL  
+                    SIGE(I,1) = GBUF%FOR(JJ(1)+I)
+                    SIGE(I,2) = GBUF%FOR(JJ(2)+I)
+                    SIGE(I,3) = GBUF%FOR(JJ(3)+I)
+                  ENDDO               
+                ENDIF
 c
+                DO I=LFT,LLT
+                  N = I + NFT
+                  R4(1) = SIGE(I,1)
+                  R4(2) = SIGE(I,2)
+                  R4(3) = SIGE(I,3)
+                  R4(3) = R4(3) * INVERT(EL2FA(NNI+N))
+                  TENS(1,EL2FA(NNI+N)) = R4(1)
+                  TENS(2,EL2FA(NNI+N)) = R4(2)
+                  TENS(3,EL2FA(NNI+N)) = R4(3)
+                ENDDO
+c            
+              ELSE IF (ITENS > 100 .AND. ITENS < 201) THEN
+                ! /TENS/STRESS/NPT     <=> IGTYP = 1,9
+                ! /TENS/STRESS/ILAY    <=> IGTYP = 10,11,16
+                ! /TENS/STRESS/PLY_ID  <=> IGTYP = 17
+
+                IPT = ITENS-100
+                IF (IGTYP == 51 .OR. IGTYP == 52 .OR. IGTYP == 17) THEN
+                  INPUT_ERROR = 1  ! IGTYP 51,52 does not support this syntax
+                ELSE
+                  IF (NPT /= 0) THEN 
+                    IF (IGTYP == 1 .OR. IGTYP == 9) THEN
+                      IL  = 1
+                      IPT = MIN(IPT, ELBUF_TAB(NG)%BUFLY(1)%NPTT)
+                    ELSE IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN
+                      IL  = MIN(IPT, ELBUF_TAB(NG)%NLAY)
+                      IPT = 1
+                    END IF
+c  
+                    IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT                          
+                    IVISC = IPM(222,IMAT)    
+                    DO I=1,NEL  
+                      DO IR=1,NPTR                
+                        DO IS=1,NPTS 
+                          LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IPT) 
+                          SIGE(I,1) = SIGE(I,1) + LBUF%SIG(JJ(1) + I) / NPG
+                          SIGE(I,2) = SIGE(I,2) + LBUF%SIG(JJ(2) + I) / NPG
+                          SIGE(I,3) = SIGE(I,3) + LBUF%SIG(JJ(3) + I) / NPG
+                        ENDDO                 
+                      ENDDO   
+                    ENDDO
+                    IF (IVISC > 0) THEN
+                      DO I=1,NEL  
+                        DO IR=1,NPTR                
+                          DO IS=1,NPTS 
+                            LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IPT) 
+                            SIGE(I,1) = SIGE(I,1) + LBUF%VISC(JJ(1) + I) / NPG
+                            SIGE(I,2) = SIGE(I,2) + LBUF%VISC(JJ(2) + I) / NPG
+                            SIGE(I,3) = SIGE(I,3) + LBUF%VISC(JJ(3) + I) / NPG
+                          ENDDO                 
+                        ENDDO
+                      ENDDO
+                    END IF
+                    MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
+                    IF (MAT_ORTH == 2) THEN
+                      DIR_A => ELBUF_TAB(NG)%BUFLY(IL)%DIRA  
+                      CALL UROTO_TENS2D(NEL,SIGE,DIR_A)
+                    END IF
+                  ELSE 
+                    DO I=1,NEL  
+                      SIGE(I,1) = GBUF%FOR(JJ(1)+I)
+                      SIGE(I,2) = GBUF%FOR(JJ(2)+I)
+                      SIGE(I,3) = GBUF%FOR(JJ(3)+I)
+                    ENDDO
+                  ENDIF
+c 
                   DO I=LFT,LLT
                     N = I + NFT
                     R4(1) = SIGE(I,1)

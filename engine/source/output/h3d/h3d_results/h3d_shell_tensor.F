@@ -293,15 +293,10 @@ c
 c
               IF (MPT == 0) THEN !  ILAYER=NULL, NPT=NULL
                 ISELECT = 1
-                IF (IPT == 1 ) THEN
-                  FACTOR = -ONE  ! lower
-                ELSE ! IF (IPT_INPUT == -3) THEN  
-                  FACTOR = ONE   ! upper
-                END IF
                 DO I=1,NEL
-                  SIGE(I,1) =  GBUF%FOR(JJ(1)+I) + SIX*GBUF%MOM(JJ(1)+I) * FACTOR
-                  SIGE(I,2) =  GBUF%FOR(JJ(2)+I) + SIX*GBUF%MOM(JJ(2)+I) * FACTOR 
-                  SIGE(I,3) =  GBUF%FOR(JJ(3)+I) + SIX*GBUF%MOM(JJ(3)+I) * FACTOR                  
+                  SIGE(I,1) =  GBUF%FOR(JJ(1)+I)
+                  SIGE(I,2) =  GBUF%FOR(JJ(2)+I)
+                  SIGE(I,3) =  GBUF%FOR(JJ(3)+I)              
                 ENDDO 
 c
               ELSE IF (ILAY == -1 .AND. IPLY == -1 .AND. IPT == -1) THEN
