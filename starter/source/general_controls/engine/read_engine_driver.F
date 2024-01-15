@@ -59,10 +59,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        CHARACTER FILNAM*512
-       INTEGER I,IOUT_1RAD,LEN_FILNAM,CPT,NRUN
+       INTEGER I,IOUT_1RAD,LEN_FILNAM,CPT,NRUN,NPARITH_ENG
 C=======================================================================
 C WRITE /ANIM OPTIONS THAT ARE IN MEMORY(HM MODEL) IN 1.RAD FILE 
 C=======================================================================
+       CALL HM_DEBUG_PRINT_OPTION('/PARITH')
 C-----------------------------------------------
 C OPEN 1.rad FILE
 C-----------------------------------------------
@@ -144,6 +145,17 @@ C--------------------------------------------------
 C WRITE VERS OPTIONS IN 1.RAD FILE
 C--------------------------------------------------
       DO CPT=1,NVERS_ENG
+        CALL CPP_GLOBAL_ENTITY_SDI_WRITE(IS_DYNA)
+      ENDDO
+C--------------------------------------------------
+C START BROWSING PARITH OPTION
+C--------------------------------------------------
+      CALL HM_OPTION_COUNT('/PARITH',NPARITH_ENG)
+      CALL HM_OPTION_START('/PARITH')
+C--------------------------------------------------
+C WRITE PARITH OPTIONS IN 1.RAD FILE
+C--------------------------------------------------
+      DO CPT=1,NPARITH_ENG
         CALL CPP_GLOBAL_ENTITY_SDI_WRITE(IS_DYNA)
       ENDDO
 C-----------------------------------------------
