@@ -126,6 +126,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "timeri_c.inc"
 #include      "scr18_c.inc"
+#include      "scr05_c.inc"
 C-----------------------------------------------
 C   l o c a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -222,11 +223,12 @@ C
      .    MFYY(MVSIZ,5),MFYZ(MVSIZ,5),MFZY(MVSIZ,5),
      .    MFZZ(MVSIZ,5),MFZX(MVSIZ,5),MFXZ(MVSIZ,5),DIVDE(MVSIZ),
      .    NU(MVSIZ),FAC(MVSIZ),FACP(MVSIZ),E0(MVSIZ),C1,DVM(MVSIZ),
-     .    VISP(MVSIZ),FACDB,RBID(MVSIZ),SIGP(NEL,6)
+     .    VISP(MVSIZ),FACDB,RBID(MVSIZ),SIGP(NEL,6),
+     .    FLD(MVSIZ),STI_C(MVSIZ),CAQ,LL(MVSIZ),OFFG,FQMAX
 c
       my_real VARNL(NEL),DELTAX4(MVSIZ)
 c     Flag Bolt Preloading
-      INTEGER IBOLTP,NBPRELD,II(6)
+      INTEGER IBOLTP,NBPRELD,II(6),ISCTL,ISTAB(MVSIZ)
       my_real, 
      .  DIMENSION(:), POINTER :: BPRELD
 C-----
@@ -352,6 +354,8 @@ C
            IF (IGEO(35,NGEO(1))>0) CNS2=CNS2-ABS(GEO(17,NGEO(1)))
          END IF 
       END IF 
+      ISCTL = IGEO(97,NGEO(1))
+      IF (ISMSTR < 10.OR. ISROT == 1) ISCTL = 0 ! only for T10
 C     
       CALL S10NX3(
      1   NX,      NEL,     NPT)
@@ -754,6 +758,37 @@ C-----------!!!-seperate LBUF%SIGL=LBUF%SIG,w/ npt>0 ISM12_11
           END DO
          END IF !(IOFFS == 1) THEN
        END IF 
+C----------------------------
+C     distorsion control  
+C----------------------------
+      IF (ISCTL > 0) THEN
+         CNS2=ZEP05
+         MX = MXT(1)
+         C1 =PM(32,MX)+ONEP333*PM(22,MX)
+         FQMAX = EP03
+         IF (MTN==42.OR.MTN==69) FQMAX = FOURTY
+         DO I=LFT,LLT
+          LL(I) = VOLN(I)**THIRD
+          OFFG = MIN(ABS(GBUF%OFF(I)),OFF(I))
+          CAQ=CNS2*GBUF%RHO(I)*LL(I)
+          FLD(I)=FOURTH*CAQ*CXX(I)*OFFG
+          STI_C(I) = C1 * LL(I) *OFFG
+         ENDDO
+         CALL SCRE_SIG3(GBUF%SIG, C1, ISTAB,GBUF%OFF,ISMSTR ,NEL)
+         IF (ISMSTR>=11)  ! XX,YY,ZZ now current conf.
+     *     CALL S10GET_X3(
+     1          X,     XDP,      DR,    NUMNOD,
+     2         XX,      YY,      ZZ,        NC,
+     3      ISROT,   IRESP,    NEL )
+         CALL S10FOR_DISTOR(
+     .         STIG,   FLD  ,   STI_C,
+     .          XX ,     YY ,     ZZ ,   
+     .          VX ,     VY ,     VZ ,     
+     .          FX ,     FY ,     FZ ,     
+     .          XX0,     YY0,     ZZ0,
+     .         CNS2,   ISTAB,    LL  ,
+     .        FQMAX,    NEL )
+      ENDIF
 c-----------------------------
       IF(NFILSOL/=0) CALL SXFILLOPT(
      1   NPE,      GBUF%FILL,STIG,     FX,

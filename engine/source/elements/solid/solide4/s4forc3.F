@@ -143,7 +143,7 @@ C
       my_real
      .   DT2T
       my_real
-     .   PM(NPROPM,*), GEO(NPROPG,*), X(*), A(*), V(*), MS(*), W(*), FLUX(6,*),
+     .   PM(NPROPM,*), GEO(NPROPG,*), X(3,*), A(*), V(*), MS(*), W(*), FLUX(6,*),
      .   FLU1(*), VEUL(*), FV(*), TF(*), BUFMAT(*),
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*), FSKYM(*),
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),
@@ -226,7 +226,8 @@ C-----------------------------------------------
      .  VX0(MVSIZ,4),VY0(MVSIZ,4),VZ0(MVSIZ,4),
      .  MFXX(MVSIZ),MFXY(MVSIZ),MFYX(MVSIZ),
      .  MFYY(MVSIZ),MFYZ(MVSIZ),MFZY(MVSIZ),
-     .  MFZZ(MVSIZ),MFZX(MVSIZ),MFXZ(MVSIZ),BID(MVSIZ),AMU(MVSIZ)
+     .  MFZZ(MVSIZ),MFZX(MVSIZ),MFXZ(MVSIZ),BID(MVSIZ),AMU(MVSIZ),
+     .  FLD(MVSIZ),STI_C(MVSIZ),CAQ,LL(MVSIZ),C1,MU,FQMAX
       my_real, 
      .  DIMENSION(:), POINTER :: EINT
 
@@ -240,7 +241,7 @@ C
 
 C----- 
 c     Flag Bolt Preloading
-      INTEGER IBOLTP,NBPRELD,II(6)
+      INTEGER IBOLTP,NBPRELD,II(6),ISCTL,ISTAB(MVSIZ),PID,MX
       my_real, 
      .  DIMENSION(:), POINTER :: BPRELD
 C-----------------------------------------------
@@ -261,7 +262,9 @@ C
       BPRELD =>GBUF%BPRELD(1:NBPRELD*NEL)
 C-----------
       NF1 = NFT+1
-      IGTYP = IGEO(11,IXS(10,NF1))   
+      PID = IXS(10,NF1)
+      IGTYP = IGEO(11,PID)   
+      ISCTL = IGEO(97,PID)
 c
       CALL S4COOR3(
      1   X,         IXS(1,NF1),V,         W,
@@ -753,6 +756,52 @@ c--------------------------
      6   PZ4,     MXT(LFT),ITASK,   DT2T,
      7   GBUF%VOL,NFT)
       ENDIF 
+C----------------------------
+C     distorsion control  
+C----------------------------
+      IF (ISCTL > 0) THEN
+         MU=ZEP05
+         MX = MXT(1)
+         C1 =PM(32,MX)+ONEP333*PM(22,MX)
+         FQMAX = EP03
+         IF (MTN==42.OR.MTN==69) FQMAX = EP02
+         DO I=LFT,LLT
+          LL(I) = VOLN(I)**THIRD
+          CAQ=MU*GBUF%RHO(I)*LL(I)
+          FLD(I)=FOURTH*CAQ*CXX(I)*OFF(I)
+          STI_C(I) = C1 * LL(I) *OFF(I)
+         ENDDO
+         CALL SCRE_SIG3(GBUF%SIG, C1, ISTAB,GBUF%OFF,ISMSTR ,NEL)
+         IF (ISMSTR==1.OR.ISMSTR>=11)  THEN ! XX,YY,ZZ now current conf.
+#include "vectorize.inc"
+            DO I=1,NEL
+              X1(I) =X(1,NC1(I))
+              Y1(I) =X(2,NC1(I))
+              Z1(I) =X(3,NC1(I))
+              X2(I) =X(1,NC2(I))
+              Y2(I) =X(2,NC2(I))
+              Z2(I) =X(3,NC2(I))
+              X3(I) =X(1,NC3(I))
+              Y3(I) =X(2,NC3(I))
+              Z3(I) =X(3,NC3(I))
+              X4(I) =X(1,NC4(I))
+              Y4(I) =X(2,NC4(I))
+              Z4(I) =X(3,NC4(I))
+            ENDDO
+          ENDIF
+         CALL S4FOR_DISTOR(
+     .     X1,        X2,        X3,        X4,
+     .     Y1,        Y2,        Y3,        Y4,
+     .     Z1,        Z2,        Z3,        Z4,
+     .     VX1,       VX2,       VX3,       VX4,
+     .     VY1,       VY2,       VY3,       VY4,
+     .     VZ1,       VZ2,       VZ3,       VZ4,
+     .     F11,       F12,       F13,       F14,
+     .     F21,       F22,       F23,       F24,
+     .     F31,       F32,       F33,       F34,
+     .     STI,       FLD,     STI_C,        LL,
+     .      MU,     ISTAB,      NEL )
+      ENDIF
 C --------------------------
       IF(NFILSOL/=0) CALL S4FILLOPT(
      1   GBUF%FILL,STI,      F11,      F21,
