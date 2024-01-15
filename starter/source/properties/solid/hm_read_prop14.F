@@ -326,6 +326,12 @@ C--------------------------------------------------
          IHBE=0                                                        
          CALL ANCMSG(MSGID=324, MSGTYPE=MSGWARNING,  ANMODE=ANINFO_BLIND_2, I1=ID,  C1=TITR, I2=IHBE_OLD, I3=IHBE)
       ENDIF                                                            
+C--- temporarly using DTMIN   
+      IGEO(97) = 0
+      IF (DTMIN<ZERO) THEN
+        IGEO(97) = 1
+        DTMIN=ZERO
+      END IF
 
       ! --default QA,QB (PSEUDO VISCOSITY)  ---  
       ! igeo(31)  flag for default qa qb for law 70  can be used for other law
