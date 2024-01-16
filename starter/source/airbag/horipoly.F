@@ -147,6 +147,7 @@ C
 C Creation de la liste des noeuds
       NN=0
       LMAX=ZERO
+      KSMIN = 0
       DO I=1,NEDGE
          II=LEDGE(I)
          NN=NN+1

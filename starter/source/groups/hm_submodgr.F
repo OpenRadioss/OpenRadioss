@@ -121,7 +121,7 @@ C-------------------------
      .                  C2=TITR1,
      .                  C3=TITR,
      .                  C4='SUBMODEL',
-     .                  I2=J10(J))                                              
+     .                  I2=JJ)
         ENDIF                                                
       ENDDO 
       IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)

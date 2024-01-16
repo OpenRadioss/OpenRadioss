@@ -898,18 +898,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL LOUT
-      CHARACTER FILNAM*100,OPTION*256
+      CHARACTER FILNAM*100
       INTEGER NODFT, NODLT,  I, N,  
      .   K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K, ISK,
      .   N0, N1, NN,  NNOD, NSENSOR,
-     .   ISYNC, J,
+     .   ISYNC, 
      .   NELTST,ITYPTST,NWAFT, NBNCL, NBIKL,
      .   NBNODL, NBNODLR,GREFTSK,GRELTSK,
      .   ISTOP,  NFIA, NFEA, NFOA, NDMA, NDIN,
-     .   NFNCA, NFTCA,NDMA2, NUVAR,NUVARI,NFNCA2, NFTCA2,
+     .   NFNCA, NFTCA,NDMA2, NFNCA2, NFTCA2,
      .   L1,L2,L3,LL1,LL2,LL3,NFT2,LISENDP_PXFEM,
      .   LIRECVP_PXFEM,NDAMA2,FLG_KJ2,NCONT,BID,K12,IVAD,IAD_GREL,
-     .   FLG_KJ2_RAZ,I_EXCH_FLG_RAZ,SIZE_OPT
+     .   FLG_KJ2_RAZ,I_EXCH_FLG_RAZ
       INTEGER :: LISENDP_CRK,LIRECVP_CRK
       INTEGER :: I13A,I13B,I13C,I13D,I13E,I13F,I13G,I13H,I13I
       INTEGER :: I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,I15K
@@ -918,10 +918,10 @@ C-----------------------------------------------
      .        I87L,I87M,I87N,IMSCH,IAD1B,IAD1,IAD2,I2MSCH, ISMSCH, ONOFP
       INTEGER CPLXIT,  ADRNOD, ONOF, ONFELT, ICH,IFLGADM, MADENDREQUEST
       CHARACTER*13 CDUM
-      INTEGER IDUM1, KRNFRM, KPNODE, KN, DIM6, DIM_EXCH
+      INTEGER IDUM1, DIM6, DIM_EXCH
       
       my_real
-     .        RDUM1,MADUF,XN,RBUF(10)
+     .        RDUM1,MADUF,RBUF(10)
       INTEGER LLT1,IWIOUT
       INTEGER KSPH1,KSPH21,KSPH22,KSPH23,IUN,
      .        KSPACTIV,KSP2SORT,NELTSA,ITYPTSA,IDTNOD
@@ -944,7 +944,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE, TARGET :: CNEL,ADDCNEL,ADDTMPL
       INTEGER, DIMENSION(:),ALLOCATABLE ::
      .        ISENDP_CRK,IRECVP_CRK
-      INTEGER NSPHACTG,nd,SPH_IORD1
+      INTEGER NSPHACTG,SPH_IORD1
       INTEGER, DIMENSION(1), TARGET :: IMP_DUM
 C----
       my_real,
@@ -962,8 +962,8 @@ C----
       my_real
      .   DT2T,
      .   DT2SAVE,  MAS, BB, TFEXC,TREST,DTREST,
-     .   DMAST, DINERT,DTU, RFACTOR, RFMAX,FACTB,DAMPT,
-     .   DTFNOD, DTMNOD, XSENS(12,SENSORS%NSENSOR),DAMPA3
+     .   DMAST, DINERT, FACTB,DAMPT,
+     .   XSENS(12,SENSORS%NSENSOR),DAMPA3
       my_real
      .   FXBMVN(LENCP),FXBSV(LENLM),FXBSE(15*NFXBODY),DXANCG(3,NUMNOD),
      .   FXBMCD(LENMCD),FXBFP(LENVAR),FXBFC(LENLM),FXBEFW(NFXBODY),
@@ -978,14 +978,13 @@ C----
      .     I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,I15K,
      .     I87A,I87B,I87C,I87D,I87E,I87F,I87G,I87H,I87I,I87J,I87K,I87L,
      .     I87M,I87N,I15ATH,I35ATH,LAG_SEC,NFT2,NDAMA2
-      INTEGER NDDL0,NNZK0,LENQMV,NV46,NUM_IMP(NINTER),NINT7,NT_IMP,NT_RW,
+      INTEGER NDDL0,NNZK0,LENQMV,NV46,NUM_IMP(NINTER),NINT7,NT_IMP,
      .        LI1,LI2,LI3,LI4,LI5,LI6,
      .        LIF,NNDL,IT,NMC2,LI13,DIRUL(NFXVEL),NUM_IMP1(NINTER),
      .        FR_RBE2M(SFR_RBE2),R2SIZE,
      .        NUM_IMPL(NINTER,NTHREAD), I_OPT_STOK(NINTER),IT_T,NTMP
       INTEGER
-     .        IER1,NDS,IBUCK,NMRBE2,NTHOLD,
-     .        NN1
+     .        IER1,NDS,IBUCK,NMRBE2,NTHOLD
       SAVE
      .        NMRBE2,R2SIZE,NINT7
       INTEGER, DIMENSION(:),POINTER :: NS_IMP,NE_IMP,IND_IMP
@@ -1006,9 +1005,6 @@ C----
      .       , DIMENSION(:), ALLOCATABLE :: WRFLOW
       SAVE LWIFLOW, LWRFLOW, WIFLOW, WRFLOW
       INTEGER SIZ, R2R_ON
-      INTEGER NDDLG0, NNZKG0, NNMAXG, NNZKG, NNMAX, NDDL0P(NSPMD),
-     .        NNZK0P(NSPMD), NDDLP(NSPMD), NNZKP(NSPMD),
-     .        NNMAXP(NSPMD), NDDLPMAX
       INTEGER, DIMENSION(:), ALLOCATABLE :: CDDLP
 #if defined(MUMPS5)
       TYPE(DMUMPS_STRUC) MUMPS_PAR
@@ -1051,7 +1047,7 @@ C Parith/ON specific
 C End Parith/ON specific
       INTEGER FR_SMS(NSPMD+1), FR_RMS(NSPMD+1)
       INTEGER, POINTER, DIMENSION(:) :: PTR_SMS
-      INTEGER NMT0,IROTG,NMT,NMP,NTH0
+      INTEGER NMT0,IROTG,NMT,NMP
       my_real
      .      , DIMENSION(:), ALLOCATABLE :: RRBE3
       DOUBLE PRECISION
@@ -1153,10 +1149,6 @@ C---Nitsche Method----
 C----------------------------------------------------------------------------------
 C IMPVEL/FGEO
       INTEGER FXVEL_FGEO
-C----------------------------------------------------------------------------------
-C MDS Table
-      INTEGER, DIMENSION(:), ALLOCATABLE :: MDS_OUTPUT_TABLE
-      INTEGER MAX_DEPVAR
 C-----------------------------------------------------------------------------------
       INTEGER IFLAG, COMPTREAC ! Flag for computing reaction forces
 !     1. Storing Freac=Fint+Fext+Fcont
@@ -1242,7 +1234,7 @@ C-------------------------------------------------------------------------------
       ENDIF
       FLG_KJ2 = 0
       I_EXCH_FLG_RAZ = 0
-      
+      NULLIFY(X_A) 
       NELTST  = 0
       ITYPTST = 0
       DT2T    = 0
@@ -2762,8 +2754,8 @@ C
             NE_IMP=>IMPBUF_TAB%CAND_E 
            IND_IMP=>IMPBUF_TAB%INDSUBT
                X_A=>X
-                   FEXT_IMP=>IMPBUF_TAB%AC
-                   R_IMP=>IMPBUF_TAB%R_IMP
+               FEXT_IMP=>IMPBUF_TAB%AC
+               R_IMP=>IMPBUF_TAB%R_IMP
            ALLOCATE(FAC_K(0), IPIV_K(0))
          IF (IMUMPSV >0.OR.(ISOLV==7.AND.NSPMD>1)) THEN
 #if defined(MUMPS5) 
@@ -2822,7 +2814,7 @@ C------ one routine for EIG
       ELSE
          IMPL_S0 = 0
          X_A=>X
-                 IMP_DUM(1)=0
+         IMP_DUM(1)=0
          NS_IMP => IMP_DUM 
          NE_IMP => IMP_DUM 
          IND_IMP=> IMP_DUM
@@ -3038,12 +3030,9 @@ C----------------------------------
         NSGDONE=1
         THKNOD(NODFT:NODLT)=ZERO
 C       /---------------/
-        CALL MY_BARRIER
 C       /---------------/
-        IF(ITASK==0)THEN
           CALL THICKVAR(IPARG,ELBUF_TAB,IXC,IXTG,THKSH4,
      .                  THKSH3,THKNOD,THKE,SH4TREE,SH3TREE)
-        END IF
 
         IF(NSPMD>1) THEN
           SIZE = 1
@@ -7080,9 +7069,6 @@ C----------------------
               CALL STOPTIME(6,1)
             ENDIF
           ENDIF
-C        /---------------/
-          CALL MY_BARRIER
-C        /---------------/
         ENDIF
         IF(IERR==1)CALL ARRET(2)
 
@@ -9039,7 +9025,9 @@ C--- //0 ----------------
          MSTOP_DT_THERM = 1
       ENDIF
        
+#if defined(MYREAL8) && !defined(WITHOUT_LINALG)
  300  CONTINUE
+#endif
  
 C---------------
 C     END OF RUN
@@ -9850,4 +9838,3 @@ c-----------
 
       RETURN
       END
-
