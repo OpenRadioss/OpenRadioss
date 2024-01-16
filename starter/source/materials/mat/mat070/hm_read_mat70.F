@@ -1,3 +1,4 @@
+
 Copyright>        OpenRadioss
 Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
 Copyright>
@@ -35,14 +36,14 @@ Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is
 Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
 Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_spource/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT70(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
      .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
-     .                         PM     ,IPM      ,MATPARAM ,NVARTMP  )
+     .                         PM     ,MATPARAM ,NVARTMP  )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -85,7 +86,6 @@ C-----------------------------------------------
       INTEGER, INTENT(INOUT)                :: ISRATE,NFUNC,MAXFUNC,MAXUPARAM,
      .                                         NUPARAM,NUVAR,NVARTMP,IMATVIS
       INTEGER, INTENT(INOUT)                :: IFUNC(MAXFUNC)
-      INTEGER, INTENT(INOUT)                :: IPM(NPROPMI)
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
       INTEGER,INTENT(IN)                    :: MAT_ID
       CHARACTER*nchartitle,INTENT(IN)       :: TITR
@@ -94,7 +94,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NRATEN,J,I,NRATEP,IUNLOAD,IFLAG,IETANG,ISTIF,I2017_2,NL,ISORT
+      INTEGER NRATEN,J,I,NRATEP,IUNLOAD,ITENS,IETANG,NL,ISORT
       my_real E,NU,G,C1,VISC, VISCV,EXPO,HYS,
      .        RHO0,RHOR,E0,EMAX,EPSMAX,FCUT,A1,A2,AA
       INTEGER ,DIMENSION(MAXFUNC) :: PERM
@@ -105,9 +105,6 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
-      ISTIF = 0
-      I2017_2 = 0
-      IPM(3) = 1
       IMATVIS = 2
 
       RATE(1:MAXFUNC) = ZERO
@@ -121,7 +118,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_NU'    ,NU       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('E_Max'     ,EMAX     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EPS'   ,EPSMAX   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_INTV('Itens'       ,IFLAG    ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV('Itens'       ,ITENS    ,IS_AVAILABLE, LSUBMODEL)
       !line-3
       CALL HM_GET_FLOATV('MAT_asrate',FCUT     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV('ISRATE'      ,ISRATE   ,IS_AVAILABLE, LSUBMODEL)
@@ -259,14 +256,14 @@ c
       END IF
 c---------------------------------------------------------------------------
 c
-      IF (FCUT == 0) FCUT = INFINITY
+      IF (FCUT > ZERO) ISRATE = 1
+      IF (FCUT == ZERO) FCUT = INFINITY
       NL = NRATEP + NRATEN
-      IF(IFLAG > 0) THEN
-         NL = NRATEP + NRATEN  +1
+      IF (ITENS > 0) THEN
+         NL = NRATEP + NRATEN + 1
          RATE(NL) = ZERO
-         CALL HM_GET_INT_ARRAY_INDEX('FUN_A1'        ,IFUNC(NL)    ,NL,IS_AVAILABLE, LSUBMODEL)
-         CALL HM_GET_FLOAT_ARRAY_INDEX('FScale11'    ,YFAC(NL)     ,NL,IS_AVAILABLE, LSUBMODEL, UNITAB)   
-         !units
+         CALL HM_GET_INT_ARRAY_INDEX('FUN_A1'     ,IFUNC(NL) ,NL,IS_AVAILABLE, LSUBMODEL)
+         CALL HM_GET_FLOAT_ARRAY_INDEX('FScale11' ,YFAC(NL)  ,NL,IS_AVAILABLE, LSUBMODEL,UNITAB)   
          IF (YFAC(NL) == ZERO) YFAC(NL) = ONE
       ENDIF 
       
@@ -309,24 +306,17 @@ C
       UPARAM(2*NL + 10)= EXPO
       UPARAM(2*NL + 11) = HYS
       UPARAM(2*NL + 12) = EMAX
-      UPARAM(2*NL + 13) = IFLAG
-      UPARAM(2*NL + 14) = I2017_2
+      UPARAM(2*NL + 13) = ITENS
+      UPARAM(2*NL + 14) = 0  ! not used
 C
       C1 = E0/THREE/(ONE - TWO*NU)
       NFUNC = NL 
       NUPARAM =16 + 2*NL  
-      IF (IS_ENCRYPTED) UPARAM(NUPARAM) = 1
+      IF (IS_ENCRYPTED) UPARAM(16 + 2*NL) = 1
 C
       PARMAT(1) = C1
       PARMAT(2) = E0
       PARMAT(3) = NU
-C      
-      IF(ISTIF > 0) THEN
-        C1=EMAX/THREE/(ONE - TWO*NU)
-        PARMAT(1) = C1
-        PARMAT(2) = EMAX 
-      ENDIF
-C
       PARMAT(4) = ISRATE
       PARMAT(5) = FCUT
 C     Formulation for solid elements time step computation.
@@ -335,7 +325,6 @@ C     Formulation for solid elements time step computation.
 C
       NUVAR   = 10
       NVARTMP = 6
-      ISRATE = 1
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
       CALL INIT_MAT_KEYWORD(MATPARAM,"SMALL_STRAIN")
@@ -356,11 +345,11 @@ c------------------------------------
       ELSE
         WRITE(IOUT,1050)RHO0      
         WRITE(IOUT,1100)E0,NU,EMAX,EPSMAX
-        WRITE(IOUT,1200)FCUT,ISRATE,NRATEP,NRATEN,IUNLOAD,EXPO,HYS,IFLAG
+        WRITE(IOUT,1200)FCUT,ISRATE,NRATEP,NRATEN,IUNLOAD,EXPO,HYS,ITENS
         WRITE(IOUT,1300)(IFUNC(J),RATE(J),YFAC(J),J=1,NRATEP)
         WRITE(IOUT,1400)(IFUNC(J+NRATEP),RATE(J+NRATEP),YFAC(J+NRATEP),
      .                 J=1,NRATEN)
-        IF(IFLAG > 0) THEN
+        IF(ITENS > 0) THEN
            WRITE(IOUT,1500)IFUNC(NL),YFAC(NL)        
         ENDIF
       ENDIF

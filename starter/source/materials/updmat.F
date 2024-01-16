@@ -206,7 +206,7 @@ c
         IFUNC   => IPM(10+1:10+NFUNC,IMAT)
         ITABLE  => IPM(226+1:226+NUMTABL,IMAT)
 c        
-        IF (NFUNC > 0 ) THEN 
+        IF (NFUNC > 0) THEN 
           CALL MATFUN_USR2SYS(TITR,MAT_ID,NFUNC,IFUNC,FUNC_ID  )
         ENDIF
         IF (ILAW /= 73 .and. ILAW /= 74 .and. ILAW /= 80) THEN
@@ -253,10 +253,8 @@ c------------------
           CASE (70) 
 c------------------
             CALL LAW70_UPD(MATPARAM ,TITR     ,MAT_ID   ,NPARAM   ,UPARAM   ,
-     .                     NFUNC    ,IFUNC    ,NPC      ,PLD      ,EMAX     ,
-     .                     NFUNCT   ,FUNC_ID  ,IOUT     )       
-            PM(24,IMAT) = EMAX
-c          
+     .                     NFUNC    ,IFUNC    ,NPC      ,PLD      ,IOUT     ,
+     .                     NFUNCT   ,FUNC_ID  ,NPROPM   ,PM(1,IMAT))       
 c------------------
           CASE (76) 
 c------------------

@@ -779,7 +779,7 @@ c-------
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC    ,MAXFUNC  ,NFUNC    ,PARMAT   ,
      .           UNITAB   ,MAT_ID   ,TITR     ,MTAG     ,LSUBMODEL,
-     .           PM(1,I)  ,IPM(1,I) ,MATPARAM ,NVARTMP  )
+     .           PM(1,I)  ,MATPARAM ,NVARTMP  )
 c-------
           CASE ('LAW71')
             ILAW  = 71             
