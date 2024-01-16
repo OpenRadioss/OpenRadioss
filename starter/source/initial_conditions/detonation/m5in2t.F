@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, MTL, MT, MPR, NEL,
-     .        N2,NP2,IOPT,NPE,NPE2,
+     .        NP2,IOPT,NPE,
      .        NDETPS, NDETSG, NECRAN, NDETPL, NDETCORD
       LOGICAL HAS_DETONATOR(MVSIZ)
       my_real
@@ -256,7 +256,6 @@ C
         ! LIGHTING TIME FOR /DFS/DETCORD  !
         !---------------------------------!
         IF(NDETCORD > 0) THEN
-          N2        = 1
           DO N=1,NDETCORD
             ALT     = DETONATORS%CORD(N)%TDET
             MTL     = DETONATORS%CORD(N)%MAT
@@ -269,7 +268,6 @@ C
             IF(MTL /= MAT(1) .AND. MTL /= 0 .AND. MTL /= M151_ID) CYCLE
             DTO0    = ALT
             CALL DETCORD(DETONATORS%CORD(N),X,XC,YC,ZC,VDTO,VDET2,ALT,BT,TB,HAS_DETONATOR,IOPT)
-            N2      = N2+NPE2
           END DO! next N
         ENDIF
 
