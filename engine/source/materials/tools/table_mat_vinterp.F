@@ -95,6 +95,7 @@ C-----
 c
       DO K=1,NDIM
         IPOS(1:NEL,K) = MAX(IPOS(1:NEL,K),1)
+c        IPOS(1:NEL,K) = MIN(IPOS(1:NEL,K),LDIM(K)-1)
         NINDX_1 = 0
         MINDX_1 = 0
         NINDX_2 = 0
