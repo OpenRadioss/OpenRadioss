@@ -132,12 +132,14 @@ C--- due to /INIBRI/EREF
           ELSE
             IF (MTN /= 115) THEN 
               DO I=1,NEL
+                IF(OFFG(I)==ZERO.AND.VOLN(I)==ONE) VOLN(I)=VOLO(I)
                 DVOL(I) = VOLN(I)-(RHO0/RHON(I))*VOLO(I)
                 RHON(I) = RHO0*(VOLO(I)/VOLN(I))
                 EINT(I) = EINT(I)*VOLO(I)
               ENDDO
             ELSE
               DO I=1,NEL
+                IF(OFFG(I)==ZERO.AND.VOLN(I)==ONE) VOLN(I)=VOLO(I)
                 DVOL(I) = VOLN(I)-(RHON(I+NEL)/RHON(I))*VOLO(I)
                 RHON(I) = RHON(I+NEL)*(VOLO(I)/VOLN(I))
                 EINT(I) = EINT(I)*VOLO(I)
@@ -233,7 +235,7 @@ C------VOLDP doesn't change after switching to small strain,modifying VOL0DP to
           DVDP = DIVDE(I)*(VOLO(I)/VOLN(I))
           VOL0DP(I)=VOL0DP(I)-DVDP*VOLDP(I)
          ELSEIF(OFFG(I)==ZERO) THEN
-          VOLDP(I)=ONE
+          VOLDP(I)=VOLO(I)
          ELSE
           DVDP = VOLDP(I)-(RHO0/RHON_OLD(I))*VOL0DP(I)
           DVOL(I) = DVDP
