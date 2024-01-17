@@ -386,7 +386,9 @@ C
      .  FDELTAX(MVSIZ) ,FLUX0(MVSIZ,6),FLU01(MVSIZ)
       my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
       my_real :: DT2T_lay(2)
-      my_real :: CONDE(MVSIZ),AMU(MVSIZ),DIVDE(MVSIZ),L_MAX(MVSIZ)
+      my_real :: CONDE(MVSIZ),AMU(MVSIZ),DIVDE(MVSIZ),L_MAX(MVSIZ),
+     .           STI_C(MVSIZ),LL(MVSIZ),FLD(MVSIZ),
+     .           CNS2,RHO0_1,NU,C1,CAQ,FQMAX
       my_real, DIMENSION(:), POINTER :: EINT
       my_real :: ELEM_MASS
       my_real :: SUM_EPS(9),SUM_M
@@ -395,7 +397,8 @@ C
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF  
 C
-      INTEGER IALEFVM_FLG, IFVM22, IMAT, INLOC, L_NLOC, J, IPOS(8),PID,NN_DEL
+      INTEGER IALEFVM_FLG, IFVM22, IMAT, INLOC, L_NLOC, J, IPOS(8),PID,
+     .         NN_DEL,ISCTL,ISTAB(MVSIZ)
 C
       INTEGER IBOLTP,NBPRELD,ISM12_11  ! IBOLTP Flag Bolt Preloading
       my_real, DIMENSION(:), POINTER :: BPRELD
@@ -485,6 +488,8 @@ C Gather nodal variables Belytschko co-rotational formulation
       IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
      .        NN_DEL=8
       IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=8
+C      
+      ISCTL = IGEO(97,PID)
 C
       IF ((ISMSTR >= 10.AND.ISMSTR <= 12).AND.JLAG > 0) THEN
 C Gather initial coordinates total strain formulation
@@ -1553,6 +1558,57 @@ C Transform forces from convected frame to global frame
      8   FF34,    FF35,    FF36,    FF37,
      9   FF38,    NEL)
         ENDIF 
+      ENDIF
+C----------------------------
+C     distorsion control  
+C----------------------------
+      IF (ISCTL > 0) THEN
+         CNS2=ZEP05
+         IMAT = MXT(1)
+         C1 =PM(32,IMAT)+ONEP333*PM(22,IMAT)
+         FQMAX = EP03
+         IF (MTN==42.OR.MTN==69) FQMAX = EP02
+         DO I=LFT,LLT
+          LL(I) = VOLN(I)**THIRD
+          CAQ=CNS2*GBUF%RHO(I)*LL(I)
+          FLD(I)=FOURTH*CAQ*CXX(I)*OFF(I)
+          STI_C(I) = C1 * LL(I) *OFF(I)
+         ENDDO
+         CALL SCRE_SIG3(GBUF%SIG, C1, ISTAB,GBUF%OFF,ISMSTR ,NEL)
+C        get actual configuration from x(3,*) for small strain option
+!      xj now is the current config in global sys, xx0 is in global sys excepting ismstr=11 
+         IF (ISMSTR == 1.OR.ISMSTR >= 11) 
+     .     CALL S8GET_X3(      
+     .     NC1,      NC2,      NC3,      NC4,
+     .     NC5,      NC6,      NC7,      NC8,
+     .      X1,       X2,       X3,       X4,      
+     .      X5,       X6,       X7,       X8,      
+     .      Y1,       Y2,       Y3,       Y4,      
+     .      Y5,       Y6,       Y7,       Y8,      
+     .      Z1,       Z2,       Z3,       Z4,      
+     .      Z5,       Z6,       Z7,       Z8,      
+     .       X,      XDP,   NUMNOD,     NEL )
+         CALL S8FOR_DISTOR(
+     .   X1,      X2,      X3,      X4,      
+     .   X5,      X6,      X7,      X8,      
+     .   Y1,      Y2,      Y3,      Y4,      
+     .   Y5,      Y6,      Y7,      Y8,      
+     .   Z1,      Z2,      Z3,      Z4,      
+     .   Z5,      Z6,      Z7,      Z8,      
+     .   VX1,     VX2,     VX3,     VX4,
+     .   VX5,     VX6,     VX7,     VX8,
+     .   VY1,     VY2,     VY3,     VY4,
+     .   VY5,     VY6,     VY7,     VY8,
+     .   VZ1,     VZ2,     VZ3,     VZ4,
+     .   VZ5,     VZ6,     VZ7,     VZ8,
+     .   F11,     F12,     F13,     F14,
+     .   F15,     F16,     F17,     F18,
+     .   F21,     F22,     F23,     F24,
+     .   F25,     F26,     F27,     F28,
+     .   F31,     F32,     F33,     F34,
+     .   F35,     F36,     F37,     F38,
+     .   STI,   STI_C,   FLD  ,    CNS2,
+     .   LL ,   ISTAB,   FQMAX,    NEL)
       ENDIF
 C
       IF(NFILSOL/=0) CALL SFILLOPT(
