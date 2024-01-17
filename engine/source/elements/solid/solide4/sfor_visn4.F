@@ -21,6 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+Chd|  SFOR_VISN4                    source/elements/solid/solide4/sfor_visn4.F
+Chd|-- called by -----------
+Chd|        S4FOR_DISTOR                  source/elements/solid/solide4/s4for_distor.F
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE SFOR_VISN4(VC ,    FLD,   TOL_V,    IFC1,
      .                      VX1,    VX2,     VX3,     VX4,
      .                      VY1,    VY2,     VY3,     VY4,

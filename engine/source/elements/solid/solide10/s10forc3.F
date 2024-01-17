@@ -39,6 +39,8 @@ Chd|        S10DERIT3                     source/elements/solid/solide10/s10deri
 Chd|        S10DIVDE12                    source/elements/solid/solide10/s10divde12.F
 Chd|        S10DVM12                      source/elements/solid/solide10/s10dvm12.F
 Chd|        S10FINT3                      source/elements/solid/solide10/s10fint3.F
+Chd|        S10FOR_DISTOR                 source/elements/solid/solide10/s10for_distor.F
+Chd|        S10GET_X3                     source/elements/solid/solide10/s10get_x3.F
 Chd|        S10LEN3                       source/elements/solid/solide10/s10len3.F
 Chd|        S10MALLA3                     source/elements/solid/solide10/s10malla3.F
 Chd|        S10MALLB3                     source/elements/solid/solide10/s10mallb3.F
@@ -55,6 +57,7 @@ Chd|        S10UPD11T12                   source/elements/solid/solide10/s10upd1
 Chd|        S10_ICP                       source/elements/solid/solide4_sfem/s10_icp.F
 Chd|        S4THERM_ITET1                 source/elements/solid/solide4/s4therm-itet1.F
 Chd|        S8E_SIGP                      source/elements/solid/solide8e/s8e_sig.F
+Chd|        SCRE_SIG3                     source/elements/solid/solide/scre_sig3.F
 Chd|        SGCOOR10                      source/elements/solid/solide10/sgcoor10.F
 Chd|        SGEODEL3                      source/elements/solid/solide/sgeodel3.F
 Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F

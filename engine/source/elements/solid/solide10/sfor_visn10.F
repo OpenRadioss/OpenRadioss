@@ -21,6 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+Chd|  SFOR_VISN10                   source/elements/solid/solide10/sfor_visn10.F
+Chd|-- called by -----------
+Chd|        S10FOR_DISTOR                 source/elements/solid/solide10/s10for_distor.F
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE SFOR_VISN10(VC ,    FLD,   TOL_V,     MU ,    
      .                       VX ,     VY,      VZ,   IFCTL,
      .                    FOR_T1, FOR_T2,  FOR_T3,  FOR_T4,

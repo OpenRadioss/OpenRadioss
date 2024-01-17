@@ -21,6 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+Chd|  SFOR_N2STRIA                  source/elements/solid/solide4/sfor_n2stria.F
+Chd|-- called by -----------
+Chd|        S4FOR_DISTOR                  source/elements/solid/solide4/s4for_distor.F
+Chd|-- calls ---------------
+Chd|        SFOR_N2S3                     source/elements/solid/solide4/sfor_n2s3.F
+Chd|====================================================================
       SUBROUTINE SFOR_N2STRIA(XC,      YC,     ZC, 
      .                        X1,      X2,     X3,
      .                        Y1,      Y2,     Y3,

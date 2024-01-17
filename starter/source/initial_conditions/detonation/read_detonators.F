@@ -23,9 +23,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  READ_DETONATORS               source/initial_conditions/detonation/read_detonators.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
+Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
 Chd|        PRELECDET                     source/initial_conditions/detonation/prelecdet.F
@@ -34,11 +35,12 @@ Chd|        READ_DFS_DETLINE              source/initial_conditions/detonation/r
 Chd|        READ_DFS_DETPLAN              source/initial_conditions/detonation/read_dfs_detplan.F
 Chd|        READ_DFS_DETPOINT             source/initial_conditions/detonation/read_dfs_detpoint.F
 Chd|        READ_DFS_WAVE_SHAPER          source/initial_conditions/detonation/read_dfs_wave_shaper.F
+Chd|        ID                            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
+Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE READ_DETONATORS(ITABM1     ,ITAB   ,IGRNOD,
      .                           IPM        ,X      ,UNITAB,

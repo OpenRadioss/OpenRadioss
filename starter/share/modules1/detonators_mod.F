@@ -56,7 +56,6 @@ Chd|        READ_DFS_DETLINE              source/initial_conditions/detonation/r
 Chd|        READ_DFS_DETPLAN              source/initial_conditions/detonation/read_dfs_detplan.F
 Chd|        READ_DFS_DETPOINT             source/initial_conditions/detonation/read_dfs_detpoint.F
 Chd|        READ_DFS_WAVE_SHAPER          source/initial_conditions/detonation/read_dfs_wave_shaper.F
-Chd|        REMOVE_DET                    source/initial_conditions/detonation/remove_det.F
 Chd|        S10INIT3                      source/elements/solid/solide10/s10init3.F
 Chd|        S16INIT3                      source/elements/thickshell/solide16/s16init3.F
 Chd|        S20INIT3                      source/elements/solid/solide20/s20init3.F

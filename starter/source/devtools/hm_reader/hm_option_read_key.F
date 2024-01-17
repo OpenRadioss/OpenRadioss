@@ -216,6 +216,11 @@ Chd|        READ_BOX_CYL                  source/model/box/read_box_cyl.F
 Chd|        READ_BOX_RECT                 source/model/box/read_box_rect.F
 Chd|        READ_BOX_SPHER                source/model/box/read_box_spher.F
 Chd|        READ_DETONATORS               source/initial_conditions/detonation/read_detonators.F
+Chd|        READ_DFS_DETCORD              source/initial_conditions/detonation/read_dfs_detcord.F
+Chd|        READ_DFS_DETLINE              source/initial_conditions/detonation/read_dfs_detline.F
+Chd|        READ_DFS_DETPLAN              source/initial_conditions/detonation/read_dfs_detplan.F
+Chd|        READ_DFS_DETPOINT             source/initial_conditions/detonation/read_dfs_detpoint.F
+Chd|        READ_DFS_WAVE_SHAPER          source/initial_conditions/detonation/read_dfs_wave_shaper.F
 Chd|        READ_EBCS                     source/boundary_conditions/ebcs/read_ebcs.F
 Chd|        READ_EULER_MAT                source/materials/ale/read_euler_mat.F
 Chd|        READ_IMPDISP                  source/constraints/general/impvel/read_impdisp.F

@@ -46,6 +46,7 @@ Chd|        S4DERITO3                     source/elements/solid/solide4/s4derito
 Chd|        S4FILLOPT                     source/elements/solid/solide4/s4fillopt.F
 Chd|        S4FINT3                       source/elements/solid/solide4/s4fint3.F
 Chd|        S4FINT_REG                    source/elements/solid/solide4/s4fint_reg.F
+Chd|        S4FOR_DISTOR                  source/elements/solid/solide4/s4for_distor.F
 Chd|        S4MALLA3                      source/elements/solid/solide4/s4mall3.F
 Chd|        S4RCOOR12                     source/elements/solid/solide4/s4rcoor12.F
 Chd|        S4SAV12                       source/elements/solid/solide4/s4sav12.F
@@ -53,6 +54,7 @@ Chd|        S4SAV3                        source/elements/solid/solide4/s4sav3.F
 Chd|        S4THERM                       source/elements/solid/solide4/s4therm.F
 Chd|        S4UPD11T12                    source/elements/solid/solide4/s4upd11t12.F
 Chd|        S4VOLN_M                      source/elements/solid/solide4_sfem/s4voln_m.F
+Chd|        SCRE_SIG3                     source/elements/solid/solide/scre_sig3.F
 Chd|        SGCOOR3                       source/elements/solid/solide/sgcoor3.F
 Chd|        SGEODEL3                      source/elements/solid/solide/sgeodel3.F
 Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F
