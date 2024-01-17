@@ -276,7 +276,9 @@ C 8-nodes solid connectivities
      .  R1_FREE(MVSIZ),R3_DAM(MVSIZ),R4_FREE(MVSIZ),OFFG0(MVSIZ),AMU(MVSIZ),
      .  XGXA(MVSIZ),XGYA(MVSIZ),XGZA(MVSIZ),
      .  XGXYA(MVSIZ),XGYZA(MVSIZ),XGZXA(MVSIZ),
-     .  XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ),CNS2,RHO0_1,NU,L_MAX(MVSIZ)
+     .  XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ),
+     .  STI_C(MVSIZ),LL(MVSIZ),L_MAX(MVSIZ),FLD(MVSIZ),
+     .  CNS2,RHO0_1,NU,C1,CAQ,FQMAX
       my_real, 
      .  DIMENSION(:), POINTER :: EINT
 C-----
@@ -285,7 +287,7 @@ C-----
 C-----
 C----- 
 C     IBOLTP : flag bolt preloading
-      INTEGER IBOLTP,NBPRELD,IMAT,ISM12_11,NN_DEL,PID
+      INTEGER IBOLTP,NBPRELD,IMAT,ISM12_11,NN_DEL,PID,ISCTL,ISTAB(MVSIZ)
       my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: BPRELD,DNL
       my_real :: P(MVSIZ)      
@@ -355,6 +357,7 @@ C
          CNS2 = ZEP02
          IF (IGEO(35,NGEO(1))>0) CNS2=CNS2-ABS(GEO(17,NGEO(1)))
       END IF
+      ISCTL = IGEO(97,PID)
 C Total strain Pij are in global system for ISMSTR=10,12 and in local system for ISMSTR=11
       IF ((ISMSTR >= 10.AND.ISMSTR <= 12).AND.JLAG > 0) THEN
         CALL SGCOOR3(
@@ -783,8 +786,30 @@ C Update ET for /VISC/PRONY
         END IF
       END IF
 C
+      IF (ISCTL > 0) THEN
+         CALL SZHOUR_CTL(
+     .       PM, GBUF%RHO,     OFF,     VX1,
+     .       VX2,     VX3,     VX4,     VX5,
+     .       VX6,     VX7,     VX8,     VY1,
+     .       VY2,     VY3,     VY4,     VY5,
+     .       VY6,     VY7,     VY8,     VZ1,
+     .       VZ2,     VZ3,     VZ4,     VZ5,
+     .       VZ6,     VZ7,     VZ8,     F11,
+     .       F21,     F31,     F12,     F22,
+     .       F32,     F13,     F23,     F33,
+     .       F14,     F24,     F34,     F15,
+     .       F25,     F35,     F16,     F26,
+     .       F36,     F17,     F27,     F37,
+     .       F18,     F28,     F38,     PX1H1,
+     .       PX1H2,   PX1H3,   PX2H1,   PX2H2,
+     .       PX2H3,   PX3H1,   PX3H2,   PX3H3,
+     .       PX4H1,   PX4H2,   PX4H3,   VOLN,
+     .  GBUF%HOURG,   MTN,      DT1 ,    MXT,     
+     .      CXX, GBUF%EINT ,  NPROPM, NUMMAT,
+     .  GBUF%STRHG,   JAC1,     JAC5,   JAC9,
+     .    GBUF%VOL,  NEL )
 C Anti hourglass forces
-      IF (ISORTH>0) THEN
+      ELSEIF (ISORTH>0) THEN
        IF (MTN>=28) THEN
         IADBUF = IPM(7,MXT(1))
        ELSE
@@ -1035,6 +1060,57 @@ C Transform forces from convected frame to global frame
      7   F28,     F31,     F32,     F33,
      8   F34,     F35,     F36,     F37,
      9   F38,     NEL)
+C----------------------------
+C     distorsion control  
+C----------------------------
+      IF (ISCTL > 0) THEN  ! think about degenerated element
+         CNS2=ZEP05
+         C1 =PM(32,IMAT)+ONEP333*PM(22,IMAT)
+         FQMAX = EP03
+         IF (MTN==42.OR.MTN==69) FQMAX = EP02
+         DO I=LFT,LLT
+          LL(I) = VOLN(I)**THIRD
+          CAQ=CNS2*GBUF%RHO(I)*LL(I)
+          FLD(I)=FOURTH*CAQ*CXX(I)*OFF(I)
+          STI_C(I) = C1 * LL(I) *OFF(I)
+         ENDDO
+         CALL SCRE_SIG3(GBUF%SIG, C1, ISTAB,GBUF%OFF,ISMSTR ,NEL)
+C        get actual configuration from x(3,*) for small strain option
+!      xj now is the current config in global sys, xx0 is in global sys excepting ismstr=11 
+         IF (ISMSTR == 1.OR.ISMSTR >= 11) 
+     .     CALL S8GET_X3(      
+     .     NC1,      NC2,      NC3,      NC4,
+     .     NC5,      NC6,      NC7,      NC8,
+     .      X1,       X2,       X3,       X4,      
+     .      X5,       X6,       X7,       X8,      
+     .      Y1,       Y2,       Y3,       Y4,      
+     .      Y5,       Y6,       Y7,       Y8,      
+     .      Z1,       Z2,       Z3,       Z4,      
+     .      Z5,       Z6,       Z7,       Z8,      
+     .       X,      XDP,   NUMNOD,     NEL )
+         CALL S8FOR_DISTOR(
+     .   X1,      X2,      X3,      X4,      
+     .   X5,      X6,      X7,      X8,      
+     .   Y1,      Y2,      Y3,      Y4,      
+     .   Y5,      Y6,      Y7,      Y8,      
+     .   Z1,      Z2,      Z3,      Z4,      
+     .   Z5,      Z6,      Z7,      Z8,      
+     .   VX1,     VX2,     VX3,     VX4,
+     .   VX5,     VX6,     VX7,     VX8,
+     .   VY1,     VY2,     VY3,     VY4,
+     .   VY5,     VY6,     VY7,     VY8,
+     .   VZ1,     VZ2,     VZ3,     VZ4,
+     .   VZ5,     VZ6,     VZ7,     VZ8,
+     .   F11,     F12,     F13,     F14,
+     .   F15,     F16,     F17,     F18,
+     .   F21,     F22,     F23,     F24,
+     .   F25,     F26,     F27,     F28,
+     .   F31,     F32,     F33,     F34,
+     .   F35,     F36,     F37,     F38,
+     .   STI,   STI_C,   FLD  ,    CNS2,
+     .   LL ,   ISTAB,   FQMAX,    NEL )
+      ENDIF
+C----------------------------
 C
       IF(NFILSOL/=0) CALL SFILLOPT(
      1   GBUF%FILL,STI,      F11,      F21,

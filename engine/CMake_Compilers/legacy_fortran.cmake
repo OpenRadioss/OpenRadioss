@@ -859,6 +859,7 @@ set_source_files_properties( ${source_directory}/source/elements/solid/solide/sr
 set_source_files_properties( ${source_directory}/source/elements/solid/solide/smalla3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/solid/solide/frho3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/solid/solide/srcoor3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/source/elements/solid/solide/s8get_x3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/solid/solide8/s8forc3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/solid/sconnect/suser43.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/solid/sconnect/smom43.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
