@@ -538,7 +538,7 @@ C
       DO I = 1,NEL
         K1 = (SIGNXX(I) + A03*SIGNYY(I))/TWO
         K2 = SQRT(((SIGNXX(I) - A03*SIGNYY(I))/TWO)**TWO + (A12*SIGNXY(I))**TWO)
-        SEQ_OUTPUT(I) = A01*ABS(K1+K2)**M + A01*ABS(K1-K2)**M + A02*ABS(TWO*K2)**M
+        SEQ_OUTPUT(I) = A01*ABS(K1+K2)**M + A01*ABS(K1-K2)**M + A02*ABS(K2)**M
         IF (SEQ_OUTPUT(I) > ZERO) THEN 
           SEQ_OUTPUT(I) = (HALF*SEQ_OUTPUT(I))**(ONE/M)
         ELSE
