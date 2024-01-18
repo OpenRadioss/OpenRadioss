@@ -20,6 +20,10 @@ IF (%1) == () GOTO ERROR
 :ARG_LOOP
 IF (%1) == () GOTO END_ARG_LOOP
 
+   IF %1==-arch (
+       set arch=%2
+    )
+
    IF %1==-prec (
        set prec=%2 
     )
@@ -166,7 +170,8 @@ GOTO END_STARTER
   echo.
   echo Use with arguments : 
   echo     -arch=[build architecture]          : set architecture : default  Windows 64 bit
-  echo            -arch=win64       (SMP executable / Windows X86-64 - Intel OneAPI)
+  echo            -arch=win64       (SMP executable / Windows X86-64 - Intel OneAPI - Legay Fortran Compiler)
+  echo            -arch=win64_ifx   (SMP executable / Windows X86-64 - Intel OneAPI - Intel ifx)
   echo.
   echo     -prec=[dp,sp]                       : set precision - dp (default),sp
   echo     -static-link                        : Compiler runtime is linked in binary

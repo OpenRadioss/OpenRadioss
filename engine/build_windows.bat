@@ -27,6 +27,10 @@ IF (%1) == () GOTO ERROR
 :ARG_LOOP
 IF (%1) == () GOTO END_ARG_LOOP
 
+   IF %1==-arch (
+       set arch=%2
+    )
+
    IF %1==-prec (
        set prec=%2 
     )
@@ -185,7 +189,9 @@ GOTO END
   echo Use with arguments : 
   echo     -arch=[build architecture]          : set architecture : default  Windows 64 bit
   echo           -arch=win64                     (SMP executable / Intel OneAPI / Windows X86-64)
-  echo           -arch=win64       -mpi=impi     (Intel MPI OneAPI executable / Intel OneAPI / Windows X86-64)
+  echo           -arch=win64       -mpi=impi     (Intel MPI OneAPI executable / Intel OneAPI / Fortran legacy compiler / Intel MPI / Windows X86-64)
+  echo           -arch=win64_ifx                 (Intel MPI OneAPI executable / Intel OneAPI / Ifx compiler / Windows X86-64)
+  echo           -arch=win64_ifx   -mpi=impi     (Intel MPI OneAPI executable / Intel OneAPI / Ifx compiler  / Intel MPI / Windows X86-64)
   echo .
   echo     -mpi=[smp,impi]                     : set MPI version
   echo     -prec=[dp,sp]                       : set precision - dp (default),sp
