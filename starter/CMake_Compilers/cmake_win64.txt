@@ -70,13 +70,24 @@ message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")
 
 #Generic Compilation flags
 ###########################
+message (STATUS "CMake Generators:${CMAKE_GENERATOR} ")
+
+if ( CMAKE_GENERATOR STREQUAL "Ninja" )
+   # /fpp has issues with longer file path.
+   # Ninja has already preprocessed the files and CMAKES hardcode /fpp in the beginning.
+   # set /nofpp invalidates hardcoded /fpp
+   set(FPP_FLAG "/nofpp")
+else()
+   set(FPP_FLAG "/fpp")
+endif()
+
 set(VECT_OPT "/nologo /Qaxsse3 /O2 /fp:precise /Qftz /Qopenmp")
-set(Fortran "/fpp /extend-source /assume:buffered_io")
+set(Fortran "${FPP_FLAG}  /extend-source /assume:buffered_io")
 # 
 if ( debug STREQUAL "1" )
  
 # Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 /fpp /Od /debug:all /Qftz /extend-source /assume:buffered_io /Qopenmp  ${ADF} /traceback" )
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 ${FPP_FLAG} /Od /debug:all /Qftz /extend-source /assume:buffered_io /Qopenmp  ${ADF} /traceback" )
 
 # C source files
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback  ${zlib_inc}" )
