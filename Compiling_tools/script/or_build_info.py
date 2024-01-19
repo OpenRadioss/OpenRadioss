@@ -35,7 +35,9 @@ if __name__ == "__main__":
       if (size == 2):
         msg=argument[1]
 
+  arch_len=len(arch)
   line='       DATA BNAME/\"'+arch+'\"/\n'
+  line_len='       DATA LENBNAM/'+str(arch_len)+'/\n'
   msg_line='       DATA  MSGO/\''+msg+'\'/\n'
 
   #grep GITHUB_SHA variable
@@ -63,6 +65,7 @@ if __name__ == "__main__":
     include_file.write("       DATA BTIME/__TIME__/\n")
     include_file.write("\n")
     include_file.write(line)
+    include_file.write(line_len)
     include_file.write("\n")
     include_file.write(btag)
     include_file.write("       PARAMETER (PMSG=0)\n")
