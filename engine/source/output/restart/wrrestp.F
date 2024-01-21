@@ -140,6 +140,7 @@ C-----------------------------------------------
       USE OUTPUT_MOD
       USE INTERFACES_MOD
       USE PYTHON_FUNCT_MOD
+      USE DAMP_MOD
 C ecriture restart pour version spmd
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1441,6 +1442,13 @@ C--------------------------------------
         CALL WRITE_DB(DPL0CLD,6*LOADS%NLOAD_CLOAD)
         CALL WRITE_DB(VEL0CLD,6*LOADS%NLOAD_CLOAD)
       ENDIF
+C--------------------------------------
+C   /DAMP/VREL
+C--------------------------------------
+      IF (NDAMP_VREL > 0) THEN
+        CALL WRITE_I_C(ID_DAMP_VREL,NDAMP_VREL)
+        CALL WRITE_I_C(FR_DAMP_VREL,NDAMP_VREL*(NSPMD+2)) 
+      ENDIF         
 C--------------------------------------
       IF(ISPMD==0)THEN
         WRITE (IOUT,1000)  FILNAMG(1:LENG)

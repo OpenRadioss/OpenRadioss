@@ -702,7 +702,8 @@ C-----------------------------------------------
      .        LENIGRTRUS_L,LENIGRBEAM_L,LENIGRSPRI_L,
      .        LENIGRSH3N_L,LENISURF_L,LENISLIN_L,NBCSCYC_L,LLBCSCYC_L,NS_DIFF,
      .        N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,
-     .        N_SEATBELT_L,N_SEATBELT_2D_L,NUMSH4N_L,NUMSH3N_L,NCLOAD_L,NPLOAD_L
+     .        N_SEATBELT_L,N_SEATBELT_2D_L,NUMSH4N_L,NUMSH3N_L,NCLOAD_L,NPLOAD_L,
+     .        NDAMP_VREL_L,IDAMP_VREL_L(NDAMP)   
       INTEGER IPARI_L(NPARI,MAX(1,NINTER))
       INTEGER NCONV_L,NFXTEMP_L,NRADIA_L,NFXFLUX_L
       INTEGER , DIMENSION(:), ALLOCATABLE:: NUMLOCGROUP,NUMLOCCLUSTER
@@ -1680,6 +1681,13 @@ C--------------------------------------
        NPLOAD_L = 0
        IF (LOADS%NLOAD_PLOAD>0)
      .   CALL C_NLOADS(CEP,P-1,LOADS%NLOAD_PLOAD,NPLOAD_L)
+C--------------------------------------
+C counts /DAMP/VREL
+C--------------------------------------    
+      NDAMP_VREL_L = 0 
+      IDAMP_VREL_L(1:NDAMP) = 0 
+      IF (NDAMP > 0) CALL C_DAMPVREL(DAMPR,IGRNOD,P,IDAMP_VREL_L,NDAMP_VREL_L,
+     .                               NGRNOD,NDAMP,NRDAMP)
 C--------------------------------------------
 C Open Restart FILE
 C--------------------------------------------
@@ -1768,7 +1776,7 @@ C--------------------------------------------
      3   ALE_CONNECTIVITY,N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
      5   NUMSH4N_L,NUMSH3N_L,INTERFACES%PARAMETERS,SENSORS,LOADS_PER_PROC%NLOAD_CYL,
-     6   NCLOAD_L,NPLOAD_L)
+     6   NCLOAD_L,NPLOAD_L,NDAMP_VREL_L)
      
 
       CALL WRCOMR(LMXVREA,LVARREA,TABVREA,MSNDP(P),P,INTERFACES%PARAMETERS)
@@ -2709,7 +2717,6 @@ C--------------------------------------------
       IF (NDAMP>0) THEN
         CALL WRITE_DB(DAMPR,NRDAMP*NDAMP)
         LEN_AM = LEN_AM + NRDAMP*NDAMP
-
         IF(IRODDL>0)THEN
           CALL W_RNNLOC(DAMP,NODGLOB,NUMNOD_L,6,LEN_AM)
         ELSE
@@ -3262,6 +3269,13 @@ C--------------------------------------------
         CALL W_DISP0_VEL0_CLOAD(VEL0CLD,CEP    ,P-1   ,NCLOAD_L,LEN_AM,
      .                          OFF    ,LEN_CEP,LOADS%NLOAD_CLOAD)
       ENDIF
+C--------------------------------------------
+C /DAMP/VREL
+C--------------------------------------------
+      IF (NDAMP_VREL_L>0) THEN       
+        CALL W_DAMPVREL(DAMPR,IGRNOD,IDAMP_VREL_L,NDAMP_VREL_L,LEN_IA,
+     .                  NGRNOD,NDAMP,NRDAMP,NSPMD)
+      ENDIF      
 C-----------------------------------------------
 C FLOW
 C-----------------------------------------------

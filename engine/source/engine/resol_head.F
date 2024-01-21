@@ -107,6 +107,7 @@ C-----------------------------------------------
       USE INTERFACES_MOD
       USE DT_MOD
       USE PYTHON_FUNCT_MOD
+      USE DAMP_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -266,7 +267,8 @@ C
      L  XCELL           , XFACE         ,NE_NERCVOIS    ,NE_NESDVOIS    ,NE_LERCVOIS    ,NE_LESDVOIS ,IBCSCYC          ,LBCSCYC   ,
      M  T_MONVOL        ,ID_GLOBAL_VOIS ,FACE_VOIS      ,TAGSLV_RBY     ,DYNAIN_DATA    ,FCONT_MAX   ,EBCS_TAB         ,DIFFUSION ,
      N  KLOADPINTER     ,LOADPINTER     ,IN0            ,DGAPLOADINT    ,DRAPEG         ,USER_WINDOWS ,OUTPUT          ,INTERFACES,
-     O  DT              ,LOADS          ,PYTHON         ,DPL0CLD        ,VEL0CLD)
+     O  DT              ,LOADS          ,PYTHON         ,DPL0CLD        ,VEL0CLD        ,
+     P  NDAMP_VREL      ,ID_DAMP_VREL   ,FR_DAMP_VREL)
 C
       CALL TRACE_OUT(2)
 C

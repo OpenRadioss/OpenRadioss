@@ -66,6 +66,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE LOADS_MOD
       USE MAT_ELEM_MOD
+      USE DAMP_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1782,6 +1783,9 @@ C /LOAD/CLOAD
 C /LOAD/PLOAD
       NEXT       = NEXT + 1
       LOADS%NLOAD_PLOAD = TABVINT(NEXT)
+C-----/DAMP/VREL
+      NEXT       = NEXT + 1
+      NDAMP_VREL = TABVINT(NEXT)   
 C--------------------------------------
       RETURN
       END

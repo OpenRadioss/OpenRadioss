@@ -93,6 +93,7 @@ C-----------------------------------------------
       USE OUTPUTS_MOD
       USE ALE_MOD
       USE LOADS_MOD
+      USE DAMP_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -985,6 +986,7 @@ C
         ALLOCATE (LBCSCYC(SLBCSCYC),STAT=IERR)
         IF (IERR/=0) GOTO 1000
         LBCSCYC = 0  
+
 C   -----------------------------------------------
 C             allocations flottantes
 C   -----------------------------------------------
@@ -2281,6 +2283,11 @@ C-------TMAX(H3D) -----
          ELSE
            ALLOCATE(DPL0CLD(0),VEL0CLD(0))
          END IF
+C-------/DAMP/VREL----------------------         
+        ALLOCATE (ID_DAMP_VREL(NDAMP_VREL),STAT=IERR)
+        IF (IERR/=0) GOTO 1000    
+        ALLOCATE (FR_DAMP_VREL(NDAMP_VREL*(NSPMD+2)),STAT=IERR)
+        IF (IERR/=0) GOTO 1000          
 C
 C  DEBUG MEMORY ALLOCATIONS
 C
