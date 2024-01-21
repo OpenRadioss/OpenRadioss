@@ -98,7 +98,8 @@ Chd|====================================================================
       SUBROUTINE RDRESB( AF               ,IAF      ,LVARREA      ,XDP             ,IRUNN      ,
      .                   MULTI_FVM        ,H3D_DATA ,PINCH_DATA , 
      .                   ALE_CONNECTIVITY ,T_MONVOL ,SENSORS      ,EBCS_TAB        ,DYNAIN_DATA,
-     .                   USER_WINDOWS     ,OUTPUT   ,INTERFACES   ,LOADS           ,MAT_ELEM   ,PYTHON)
+     .                   USER_WINDOWS     ,OUTPUT   ,INTERFACES   ,LOADS           ,MAT_ELEM   ,
+     .                   PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -134,6 +135,7 @@ C-----------------------------------------------
       USE INTERFACES_MOD
       USE SENSOR_MOD
       USE LOADS_MOD
+      USE DAMP_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -188,7 +190,7 @@ C-----------------------------------------------
       TYPE(SENSORS_)        ,INTENT(INOUT)                 :: SENSORS
       TYPE(LOADS_)          ,INTENT(INOUT)                 :: LOADS
       TYPE(MAT_ELEM_)       ,INTENT(INOUT)                 :: MAT_ELEM
-      TYPE(PYTHON_)         ,INTENT(INOUT)                 :: PYTHON
+      TYPE(PYTHON_)         ,INTENT(INOUT)                 :: PYTHON  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1389,6 +1391,14 @@ C--------------------------------------
         CALL READ_DB(DPL0CLD,6*LOADS%NLOAD_CLOAD)
         CALL READ_DB(VEL0CLD,6*LOADS%NLOAD_CLOAD)
       ENDIF
+C--------------------------------------
+C   /DAMP/VREL
+C--------------------------------------
+      IF (NDAMP_VREL > 0) THEN
+        CALL READ_I_C(ID_DAMP_VREL,NDAMP_VREL)
+        CALL READ_I_C(FR_DAMP_VREL,NDAMP_VREL*(NSPMD+2)) 
+      ENDIF       
+C      
 C
       RETURN
       END

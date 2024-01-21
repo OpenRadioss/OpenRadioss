@@ -586,7 +586,8 @@ Chd|====================================================================
      L  XCELL, XFACE, NE_NERCVOIS, NE_NESDVOIS, NE_LERCVOIS, NE_LESDVOIS,IBCSCYC  ,LBCSCYC,
      M  T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,DYNAIN_DATA,FCONT_MAX,EBCS_TAB,DIFFUSION,
      N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT,INTERFACES,
-     O  DT         ,LOADS     , PYTHON, DPL0CLD        ,VEL0CLD)
+     O  DT        ,LOADS     , PYTHON, DPL0CLD,VEL0CLD,
+     P  NDAMP_VREL,ID_DAMP_VREL,FR_DAMP_VREL)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -893,7 +894,9 @@ c
       TYPE (INTERFACES_) ,INTENT(INOUT)                  :: INTERFACES
       TYPE (DT_) ,INTENT(INOUT)                          :: DT
       TYPE(MAT_ELEM_)   ,INTENT(INOUT)                   :: MAT_ELEM
-      TYPE(PYTHON_)  ,INTENT(INOUT)                     :: PYTHON
+      TYPE(PYTHON_)  ,INTENT(INOUT)                      :: PYTHON
+C
+      INTEGER ,INTENT(IN) :: NDAMP_VREL,ID_DAMP_VREL(NDAMP_VREL),FR_DAMP_VREL(NSPMD+2,NDAMP_VREL)     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -7295,13 +7298,15 @@ C-----------------------------------------------
      .                 3+IRODDL*3,VMD     ,
      .                 VR      ,A       ,AR      ,MS        ,IN      ,
      .                 DAMPR   ,DAMP    ,IGRNOD  ,WEIGHT    ,TAGSLV_RBY,
-     .                 SKEW    ,ICONTACT,IDAMP_RDOF_TAB)
+     .                 SKEW    ,ICONTACT,IDAMP_RDOF_TAB     ,NDAMP_VREL,ID_DAMP_VREL,
+     .                 FR_DAMP_VREL,IPARIT,ISPMD)
          ELSE
            CALL DAMPING51(
      .                 3+IRODDL*3,V       ,
      .                 VR      ,A       ,AR      ,MS        ,IN      ,
      .                 DAMPR   ,DAMP    ,IGRNOD  ,WEIGHT    ,TAGSLV_RBY,
-     .                 SKEW    ,ICONTACT,IDAMP_RDOF_TAB)
+     .                 SKEW    ,ICONTACT,IDAMP_RDOF_TAB     ,NDAMP_VREL,ID_DAMP_VREL,
+     .                 FR_DAMP_VREL,IPARIT,ISPMD)
          END IF
 !$OMP END SINGLE
 

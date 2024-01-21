@@ -62,6 +62,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE PARAMETERS_MOD
       USE SENSOR_MOD
+      USE DAMP_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1734,6 +1735,9 @@ C /LOAD/CLOAD
 C /LOAD/PLOAD
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = LOADS%NLOAD_PLOAD
+C-----/DAMP/VREL
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT) = NDAMP_VREL      
 C----------------------------------------------------------------
 C    warning to radioss developers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------
