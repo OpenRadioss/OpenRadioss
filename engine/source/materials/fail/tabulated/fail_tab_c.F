@@ -180,12 +180,12 @@ C=======================================================================
 C-------------------------------------------------------------------
 c     Failure strain value - function interpolation
 C-------------------------------------------------------------------
-      ITABLE    = IFUNC(1)
+      ITABLE    = UPARAM(23)
 c---- Scale functions       
-      IFUN_EL   = IFUNC(2)
-      IFUN_TEMP = IFUNC(3)
+      IFUN_EL   = IFUNC(1)
+      IFUN_TEMP = IFUNC(2)
 c---- Instability function
-      INSTABIL  = IFUNC(5)
+      INSTABIL  = UPARAM(24)
 c---------------------------
       IF (P_THICK > ZERO .and. IFAIL_SH > 1 .and. IGTYP <= 10) THEN
         PTHKF = P_THICK
@@ -406,12 +406,12 @@ c----   Fading exponent
         DO J=1,NINDX                           
           I = INDX(J)  
           LAMBDA = UVAR(I,5) / EL_REF
-          FADE_EXPO = FINTER(IFUNC(6),LAMBDA,NPF,TF,DF) 
+          FADE_EXPO = FINTER(IFUNC(4),LAMBDA,NPF,TF,DF) 
         ENDDO
       ENDIF
 c-----------------------------------------------------------------------------
       NINDX_2 = 0
-      ID_DD = IFUNC(4)
+      ID_DD = IFUNC(3)
       IF (ID_DD /= 0 ) THEN
 #include "vectorize.inc"
         DO J=1,NINDX                           

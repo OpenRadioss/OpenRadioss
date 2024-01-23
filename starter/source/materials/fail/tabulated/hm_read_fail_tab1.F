@@ -37,7 +37,8 @@ Chd|====================================================================
       SUBROUTINE HM_READ_FAIL_TAB1(
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR  ,IFUNC    ,
      .           MAXFUNC  ,NFUNC    ,UNITAB   ,ID     ,FAIL_ID  ,
-     .           LSUBMODEL,IXFEM    )
+     .           LSUBMODEL,IXFEM    ,TABLE    ,NTABLE ,MAT_ID   ,
+     .           TITR     )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -59,6 +60,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
+      USE TABLE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,22 +69,27 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
+#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER,INTENT(IN)  :: ID,FAIL_ID,MAXFUNC,MAXUPARAM
+      INTEGER,INTENT(IN)  :: ID,FAIL_ID,MAXFUNC,MAXUPARAM,NTABLE,
+     .                       MAT_ID
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
 C OUTPUT ARGUMENTS
       INTEGER,INTENT(INOUT) :: NUPARAM,NUVAR,NFUNC,IXFEM
       INTEGER,INTENT(INOUT) :: IFUNC(MAXFUNC)
       my_real,INTENT(INOUT) :: UPARAM(MAXUPARAM)
+      CHARACTER TITR*nchartitle
+      TYPE(TTABLE) TABLE(NTABLE)    
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  :: ISHELL,ISOLID,DMG_FLAG,INST_FLAG,
-     .            IFUN_DMG,IFUN_EPSF,IFUN_STAB,IFUN_SIZE,IFUN_TEMP
+     .            IFUN_DMG,ITAB_EPSF,ITAB_STAB,IFUN_SIZE,IFUN_TEMP,
+     .            INT_ITAB_EPSF,INT_ITAB_STAB
       my_real  :: P_THICKFAIL,P_THINNFAIL,SCALE_TEMP,SCALE_EL,EL_REF,
      .            Y1SCALE,X1SCALE,Y2SCALE,X2SCALE,DCRIT,DD,DN,DADV,
      .            ECRIT,FADE_EXPO,FSCAL_UNIT,SHRF,BIAXF
@@ -113,10 +120,10 @@ Card2
       CALL HM_GET_FLOATV ('Dadv'        ,DADV        ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
       CALL HM_GET_INTV   ('fct_IDd'     ,IFUN_DMG    ,IS_AVAILABLE,LSUBMODEL)
 Card3
-      CALL HM_GET_INTV   ('table1_ID'   ,IFUN_EPSF   ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV   ('table1_ID'   ,ITAB_EPSF   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('Xscale1'     ,Y1SCALE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
       CALL HM_GET_FLOATV ('Xscale2'     ,X1SCALE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_INTV   ('table2_ID'   ,IFUN_STAB   ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV   ('table2_ID'   ,ITAB_STAB   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('Xscale3'     ,Y2SCALE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
       CALL HM_GET_FLOATV ('Xscale4'     ,X2SCALE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
 Card4
@@ -133,22 +140,29 @@ Card5
       CALL HM_GET_FLOATV ('Biax_limit'  ,BIAXF       ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
 c-----------------------------------------------------------------------
       ! Error massage: 'table1_ID' is mandatory:
-      IF (IFUN_EPSF == 0) THEN
+      IF (ITAB_EPSF == 0) THEN
         CALL ANCMSG(MSGID=2068,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND,
      .              I1=ID)
       ENDIF
-      !
-      IFUNC(1) = IFUN_EPSF
-      IFUNC(2) = IFUN_SIZE
-      IFUNC(3) = IFUN_TEMP
-      IFUNC(4) = IFUN_DMG
-      IFUNC(5) = IFUN_STAB
+      ! Save functions IDs
+      IFUNC(1) = IFUN_SIZE
+      IFUNC(2) = IFUN_TEMP
+      IFUNC(3) = IFUN_DMG
       IF (FADE_EXPO  <  ZERO) THEN
-        IFUNC(6) = INT(ABS(FADE_EXPO))
+        IFUNC(4) = INT(ABS(FADE_EXPO))
         ELSE
-        IFUNC(6) = 0
+        IFUNC(4) = 0
+      ENDIF
+      ! -> Tables IDs conversion
+      INT_ITAB_EPSF = ITAB_EPSF
+      IF (ITAB_EPSF > 0) THEN
+        CALL MATTAB_USR2SYS(TITR,MAT_ID,TABLE,1,INT_ITAB_EPSF)
+      ENDIF
+      INT_ITAB_STAB = ITAB_STAB
+      IF (ITAB_STAB > 0) THEN
+        CALL MATTAB_USR2SYS(TITR,MAT_ID,TABLE,1,INT_ITAB_STAB)
       ENDIF
 c-----------------------------------------------------------------------
 c     Set default parameter values
@@ -163,7 +177,7 @@ c-----------------------------------------------------------------------
      .               I1=ID)
       ENDIF
       IF (DD == ONE  ) DD = 0.999
-      IF (IFUN_STAB > 0) THEN
+      IF (ITAB_STAB > 0) THEN
         ECRIT = ZERO
       ELSEIF (ECRIT == ZERO) THEN
         ECRIT = DD
@@ -222,10 +236,12 @@ c-----------------------------------------------------------------------
       UPARAM(20)= INST_FLAG
       UPARAM(21)= SHRF
       UPARAM(22)= BIAXF
+      UPARAM(23)= INT_ITAB_EPSF
+      UPARAM(24)= INT_ITAB_STAB
 c
 c-----------------------------------------------------------------------
-      NFUNC   = 6
-      NUPARAM = 22
+      NFUNC   = 4
+      NUPARAM = 24
       NUVAR   = 8
 c
 c     UVAR storage:
@@ -241,9 +257,9 @@ c-----------------------------------------------------------------------
       IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE 
-        WRITE(IOUT, 1001) IFUNC(1), Y1SCALE, X1SCALE
-        IF (IFUNC(5) /= 0) THEN
-          WRITE(IOUT, 1002) IFUNC(5), Y2SCALE, X2SCALE
+        WRITE(IOUT, 1001) ITAB_EPSF, Y1SCALE, X1SCALE
+        IF (ITAB_STAB /= 0) THEN
+          WRITE(IOUT, 1002) ITAB_STAB, Y2SCALE, X2SCALE
         ENDIF
         IF (IXFEM > 0) WRITE(IOUT, 1003) IXFEM,DADV
         WRITE(IOUT, 1004) P_THICKFAIL,P_THINNFAIL
@@ -258,8 +274,8 @@ c-----------------------------------------------------------------------
           WRITE(IOUT, 1007) INT(ABS(FADE_EXPO))
         ENDIF
         WRITE(IOUT, 1008) DMG_FLAG,
-     .                    IFUNC(3),SCALE_TEMP,
-     .                    IFUNC(2),SCALE_EL,EL_REF,SHRF,BIAXF,INST_FLAG
+     .                    IFUNC(2),SCALE_TEMP,
+     .                    IFUNC(1),SCALE_EL,EL_REF,SHRF,BIAXF,INST_FLAG
 c       for shell
         IF (IXFEM == 0) THEN
           IF(ISHELL == 1) THEN
