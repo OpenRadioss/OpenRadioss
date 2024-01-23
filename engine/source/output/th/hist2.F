@@ -402,11 +402,11 @@ C                                    [Izx Iyz Izz]   {ZZMOM}
                 ELSEIF(K==25) THEN 
                   WA(II)=PARTSAV(25,I)
                 ELSEIF(K==29) THEN 
-                  WA(II)=PARTSAV(3,M)/MAX(PARTSAV(6,M),EM20)
+                  WA(II)=PARTSAV(3,I)/MAX(PARTSAV(6,I),EM20)
                 ELSEIF(K==30) THEN 
-                  WA(II)=PARTSAV(4,M)/MAX(PARTSAV(6,M),EM20)
+                  WA(II)=PARTSAV(4,I)/MAX(PARTSAV(6,I),EM20)
                 ELSEIF(K==31) THEN 
-                  WA(II)=PARTSAV(5,M)/MAX(PARTSAV(6,M),EM20)
+                  WA(II)=PARTSAV(5,I)/MAX(PARTSAV(6,I),EM20)
                 ELSEIF(K > 0 .AND. SIZE(PARTSAV,1) >= K) THEN
                   WA(II)=PARTSAV(K,I)
                 ELSE 

@@ -4367,7 +4367,7 @@ c PLY=NULL ILAYER=IL NPT=NULL
                     DO IR=1,NPTR                                                                
                       DO IT=1,NPTT
                         IPT = IT
-                        FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IPT)
+                        FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IPT)
                         DO IFAIL=1,NFAIL                                                          
                           IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
                             DO I=1,NEL
