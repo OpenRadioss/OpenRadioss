@@ -57,7 +57,8 @@ Chd|====================================================================
       INTEGER NEL,NUPARAM,NUVAR,JTHE,NUMTABL,ITABLE(NUMTABL),NVARTMP
       INTEGER ,DIMENSION(NEL), INTENT(IN)    :: NGL
       my_real 
-     .   TIME,TIMESTEP,VARTMP(NEL,NVARTMP)
+     .   TIME,TIMESTEP
+      INTEGER, INTENT(INOUT) :: VARTMP(NEL,NVARTMP)
       my_real,DIMENSION(NUPARAM), INTENT(IN) :: 
      .   UPARAM
       my_real,DIMENSION(NEL), INTENT(IN)     :: 
