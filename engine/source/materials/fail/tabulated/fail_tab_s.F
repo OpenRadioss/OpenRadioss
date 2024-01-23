@@ -141,7 +141,8 @@ C-----------------------------------------------
         SC_EL   = UPARAM(8)
         EL_REF  = UPARAM(9)
         Y1SCALE = UPARAM(12) 
-        X1SCALE = UPARAM(13) 
+        X1SCALE = UPARAM(13)
+        ITABLE  = UPARAM(23)
 c---
         IDEL = 0
         IDEV = 0
@@ -181,7 +182,6 @@ C----
             XX0(I,2)=EPSP(I) *X1SCALE
             XX0(I,3)=THETA
         ENDDO
-        ITABLE = IFUNC(1)
 
         CALL TABLE_VINTERP(TABLE(ITABLE),NEL,NEL,IPOS,XX0,YY,DYDX)
         EPSF(1:NEL) = YY(1:NEL)*Y1SCALE
@@ -189,8 +189,8 @@ C----
 
 c---- Scale functions       
         DO I=1,NEL
-            IFUN_EL   = IFUNC(2)
-            IFUN_TEMP = IFUNC(3)
+            IFUN_EL   = IFUNC(1)
+            IFUN_TEMP = IFUNC(2)
 c----   element length scale function
             IF (IFUN_EL > 0) THEN
                 LAMBDA = ALDT(I) / EL_REF                     
@@ -215,7 +215,7 @@ C
         IF (IDEL == 1)THEN
             NINDX = 0  
             NINDX_2 = 0  
-            ID_DD = IFUNC(4)
+            ID_DD = IFUNC(3)
             ! --------------
             ! need to split the loop to vectorize the ID_DD==0 loop
             IF(ID_DD /= 0 )THEN
@@ -269,7 +269,7 @@ C----
                     INDX_2(NINDX_2) = I
                     DP(I) = ZERO
                     IF (UVAR(I,1) < DCRIT)THEN
-                        ID_DD = IFUNC(4)
+                        ID_DD = IFUNC(3)
                         IF(ID_DD /= 0 )THEN
                             DP(I) = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
                         ELSE

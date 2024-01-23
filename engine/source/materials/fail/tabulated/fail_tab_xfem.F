@@ -207,12 +207,12 @@ c
 C-------------------------------------------------------------------
 c     Failure strain value - function interpolation
 C-------------------------------------------------------------------
-      ITABLE = IFUNC(1)
+      ITABLE = UPARAM(23)
 c---- Scale functions       
-      IFUN_EL   = IFUNC(2)
-      IFUN_TEMP = IFUNC(3)
+      IFUN_EL   = IFUNC(1)
+      IFUN_TEMP = IFUNC(2)
 c---- Instability function
-      INSTABIL  = IFUNC(5)
+      INSTABIL  = UPARAM(24)
 c
 c---  failure strain interpolation
       DO I=1,NEL
@@ -256,7 +256,7 @@ C----   Instability function
 C----   Fading exponent
         IF (FADE_EXPO < ZERO) THEN
            LAMBDA = UVAR(I,5) / EL_REF
-           FADE_EXPO = FINTER(IFUNC(6),LAMBDA,NPF,TF,DF) 
+           FADE_EXPO = FINTER(IFUNC(4),LAMBDA,NPF,TF,DF) 
         ENDIF
 C----         
       ENDDO
@@ -265,7 +265,7 @@ C-------------------------------------------------------------------
             IF (IXFEM == 1 .OR. IXFEM == 2) THEN 
               DO I=1,NEL
                 IF (ISHELL == 1 .AND. OFF(I)==ONE) THEN
-                  ID_DD = IFUNC(NFUNC)
+                  ID_DD = IFUNC(3)
                   IF(ID_DD /= 0 )THEN
                     DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
                   ELSE
@@ -333,7 +333,7 @@ C-------------------------------
               DO I=1,NEL
                 IF (OFF(I) == ONE)THEN
                   IF (UVAR(I,1) < DCRIT) THEN
-                    ID_DD = IFUNC(NFUNC)
+                    ID_DD = IFUNC(3)
                     IF(ID_DD /= 0 )THEN
                       DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
                     ELSE
@@ -415,7 +415,7 @@ C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
               DO I=1,NEL
                 IF (OFF(I)==ONE .AND. (ISHELL==2 .OR. ISHELL==3))THEN
                   IF (UVAR(I,1) < DCRIT) THEN
-                     ID_DD = IFUNC(NFUNC)
+                     ID_DD = IFUNC(3)
                     IF(ID_DD /= 0 )THEN
                       DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
                     ELSE

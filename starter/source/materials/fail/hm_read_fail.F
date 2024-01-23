@@ -497,7 +497,8 @@ c---
               CALL HM_READ_FAIL_TAB1(
      .             UPARAM   ,MAXPARAM ,NUPARAM    ,NUVAR     ,IFUNC    ,
      .             MAXFUNC  ,NFUNC    ,UNITAB     ,MAT_ID    ,FAIL_ID  ,
-     .             LSUBMODEL,IXFEM    )
+     .             LSUBMODEL,IXFEM    ,TABLE      ,NTABLE    ,MAT_ID   ,
+     .             TITR     )
 c---
             CASE(24)
               CALL HM_READ_FAIL_ORTHSTRAIN(
