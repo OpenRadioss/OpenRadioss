@@ -92,8 +92,9 @@ C-----------------------------------------------
       INTEGER I,II,J,JJ,N,NPT,NPTI,IGTYP,IPID,PID,ISK,IPANG,IPPHI,
      . IIGEO,IADR,IPTHK,IPPOS,IPDIR,IMAT_LY,ILAW_LY,IPPID,IPMAT,ILAY,
      . DEF_ORTH(MVSIZ),N1,N2,IRP,POS,NOD,IL,IT,NSLICE,IPT_ALL,NPTT,
-     . IE, IP,IPID_PLY
-      my_real V(MVSIZ),E11,E12,E13,NE1,VX0,VY0,VZ0
+     . IE, IP,IPID_PLY,N3,N4
+      my_real V(MVSIZ),E11,E12,E13,NE1,VX0,VY0,VZ0,
+     .        XC(MVSIZ),YC(MVSIZ),ZC(MVSIZ)
       CHARACTER*nchartitle, TITR1
       
       TYPE (DRAPE_PLY_)  , POINTER :: DRAPE_PLY 
@@ -164,12 +165,32 @@ C--         seatbelt elements - dir1 defined by N1 and ADD_NODE (can be either N
               VZ(I) = X(3,NOD)-X(3,N1)
             ENDDO    
           CASE (25)
-C--         y' of cylintrical sys (using only x1,y1,z1)
-            ISK = IGEO(2,PID)  ! 
+C--         y' of cylintrical sys (using xc,yc,zc)
+            ISK = IGEO(2,PID)  
+            IF (NIX > NIXTG) THEN
+              DO I=JFT,JLT 
+                N1=IX(2,I)
+                N2=IX(3,I)
+                N3=IX(4,I)
+                N4=IX(5,I)
+                XC(I) = FOURTH*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
+                YC(I) = FOURTH*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
+                ZC(I) = FOURTH*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))
+              ENDDO    
+            ELSE
+              DO I=JFT,JLT 
+                N1=IX(2,I)
+                N2=IX(3,I)
+                N3=IX(4,I)
+                XC(I) = THIRD*(X(1,N1)+X(1,N2)+X(1,N3))
+                YC(I) = THIRD*(X(2,N1)+X(2,N2)+X(2,N3))
+                ZC(I) = THIRD*(X(3,N1)+X(3,N2)+X(3,N3))
+              ENDDO    
+            END IF
             DO I=JFT,JLT 
-              E11 = X1(I)-SKEW(10,ISK)
-              E12 = Y1(I)-SKEW(11,ISK)
-              E13 = Z1(I)-SKEW(12,ISK)
+              E11 = XC(I)-SKEW(10,ISK)
+              E12 = YC(I)-SKEW(11,ISK)
+              E13 = ZC(I)-SKEW(12,ISK)
               VX(I) = SKEW(8,ISK)*E13 - SKEW(9,ISK)*E12
               VY(I) = SKEW(9,ISK)*E11 - SKEW(7,ISK)*E13
               VZ(I) = SKEW(7,ISK)*E12 - SKEW(8,ISK)*E11
