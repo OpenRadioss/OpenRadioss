@@ -87,7 +87,8 @@ C-----------------------------------------------
      .        ILAY,IPT_ALL,IPT,PTN,JDIR,ILAW,NPTT,IT
       my_real 
      .         TXX,TYY,TZZ,TXY,TYZ,TZX,UXX,UYY,UZZ,UXY,UYZ,UZX,A,B,C,
-     .         E1(6),E2(6),Z1,Z2,Z0,AA,S6(6),POSI(MVSIZ,NPT)
+     .         E1(6),E2(6),Z1,Z2,Z0,AA,S6(6),POSI(MVSIZ,NPT),
+     .         FORJ(5),MOMJ(3),TJ,UNPT,NPGI
       CHARACTER*nchartitle, TITR1
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY    
@@ -125,6 +126,7 @@ C=======================================================================
         END IF
         IF(SIGSH(NVSHELL - 1 ,II) == ZERO ) CYCLE
 c
+        NPGI=NINT(SIGSH(NVSHELL,II))
         NPTI=NINT(SIGSH(2,II))
         IF(SIGSH(3,II) /= ZERO) THEN
           THK(I)=SIGSH(3,II)
@@ -138,7 +140,7 @@ c
           HH(I,3)= SIGSH(16,II)
         ENDIF
   
-        IF(NPT /= NPTI ) THEN
+        IF(NPT /= NPTI .AND. NPT/=0.OR.NPGI>1) THEN
                 IPID=IX(NIX-1,NFT+I)
                 PID=IGEO(1,IPID)            
                 CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID),LTITR)
@@ -218,6 +220,25 @@ c             error out
         IF (ISIGSH==0) CYCLE
         IF (NPT == 0) THEN
            IF(SIGSH(17,II) == ONE)THEN
+            IF (NPTI>1) THEN
+             UNPT = ONE/NPTI
+              FORJ(1:5) = ZERO
+              MOMJ(1:3) = ZERO
+               DO IT=1,NPTI
+                 PT = 22 + 6*(IT-1)
+                 S6(1:2)=SIGSH(PT:PT+1,II)
+                 S6(3)=SIGSH(INISHVAR+IT,II)
+                 S6(4:6)=SIGSH(PT+2:PT+4,II)
+                 TJ=SIX*SIGSH(INISHVAR+NPTI+IT,II)
+                CALL CG2LSIG(
+     7          E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
+     8          E1Z    ,E2Z   ,E3Z   ,S6    )
+                FORJ(1:5) = FORJ(1:5) + UNPT*S6(1:5)
+                IF (TJ>ZERO) MOMJ(1:3) = S6(1:3)/TJ
+               ENDDO
+               SIGSH(22:26,II)=FORJ(1:5)
+               SIGSH(27:29,II)=MOMJ(1:3)
+            ELSE
              TXX = SIGSH(22,II)
              TYY = SIGSH(23,II)
              TZZ = SIGSH(18,II)
@@ -263,6 +284,7 @@ C
               SIGSH(28,II) = UXX
               SIGSH(29,II) = UYY
               SIGSH(30,II) = UXY
+            END IF !(NPTI>1) THEN
           ENDIF
           FOR(I,1)=SIGSH(22,II)
           FOR(I,2)=SIGSH(23,II)
