@@ -93,7 +93,8 @@ C-----------------------------------------------
      . S4(LAYNPT_MAX*LAY_MAX),SM(LAYNPT_MAX*LAY_MAX),PG2I,PG,FM,S6(6),
      . POSI(MVSIZ,NPT)
       my_real 
-     .    E1(6),E2(6),Z1,Z2,Z0,AA,E1G(6,4),E2G(6,4),Z1G(4),Z2G(4),UNG
+     .    E1(6),E2(6),Z1,Z2,Z0,AA,E1G(6,4),E2G(6,4),Z1G(4),Z2G(4),UNG,
+     .    FORJ(5,4),MOMJ(3,4),TJ,UNPT
 C--------------------------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -140,7 +141,7 @@ C=======================================================================
         EINT(I,1)=SIGSH(4,II)
         EINT(I,2)=SIGSH(5,II)
 C for IGTYP == 51, NPT now =NPTI
-        IF (NPT /= NPTI .OR. NPG /= NPGI) THEN
+        IF ((NPT /= NPTI.AND.NPT/=0) .OR. NPG /= NPGI) THEN
              IPID1=IX(NIX-1,NFT+I) 
              PID1=IGEO(1,IPID1)
              CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IPID1),LTITR)
@@ -285,6 +286,69 @@ c                error out
 C--- in global sys modifying directly SIGSH
         IF(SIGSH(17,II) == ONE)THEN
           IF (NPT == 0)THEN
+           IF (NPTI>1) THEN
+            UNPT = ONE/NPTI
+            IF (NPG>1) THEN
+              IF (IHBE == 23) THEN      !  QEPH-----
+                PT = 22 
+                FORJ(1:5,1:4) = ZERO
+                MOMJ(1:3,1:4) = ZERO
+                DO IT=1,NPTI
+                  DO IP=1,NPG
+                    S6(1:6)=SIGSH(PT:PT+5,II)
+                    CALL CG2LSIG(
+     *              E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
+     *              E1Z    ,E2Z   ,E3Z   ,S6    )
+                    TJ=SIX*SIGSH(PT+7,II)
+                    PT = PT + 8
+                    FORJ(1:5,IP) = FORJ(1:5,IP) + UNPT*S6(1:5)
+                    IF (TJ>ZERO) MOMJ(1:3,IP) = S6(1:3)/TJ
+                  END DO 
+                ENDDO
+               DO IP =1,NPG
+                PTN= 22 + 9*(IP-1)
+                SIGSH(PTN:PTN+4,II)=FORJ(1:5,IP)
+                SIGSH(PTN+5,II)=ZERO
+                SIGSH(PTN+6:PTN+8,II)=MOMJ(1:3,IP)
+               END DO !IP =1,NPG
+              ELSE
+                PT = 22 + 8*(IPG -1)
+                FORJ(1:5,1) = ZERO
+                MOMJ(1:3,1) = ZERO
+                DO IT=1,NPTI
+                  S6(1:6)=SIGSH(PT:PT+5,II)
+                  CALL CG2LSIG(
+     *            E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
+     *            E1Z    ,E2Z   ,E3Z   ,S6    )
+                  TJ=SIX*SIGSH(PT+7,II)
+                  PT = PT + 8
+                  FORJ(1:5,1) = FORJ(1:5,1) + UNPT*S6(1:5)
+                  IF (TJ>ZERO) MOMJ(1:3,1) = S6(1:3)/TJ
+                ENDDO
+                FOR(I,1:5)=FORJ(1:5,1)
+                MOM(I,1:3)=MOMJ(1:3,1)
+              END IF ! IHBE
+            ELSE
+C------ Q4,T3 
+              FORJ(1:5,1) = ZERO
+              MOMJ(1:3,1) = ZERO
+               DO IT=1,NPTI
+                 PT = 22 + 6*(IT-1)
+                 S6(1:2)=SIGSH(PT:PT+1,II)
+                 S6(3)=SIGSH(INISHVAR+IT,II)
+                 S6(4:6)=SIGSH(PT+2:PT+4,II)
+                 TJ=SIX*SIGSH(INISHVAR+NPTI+IT,II)
+                CALL CG2LSIG(
+     7          E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
+     8          E1Z    ,E2Z   ,E3Z   ,S6    )
+                FORJ(1:5,1) = FORJ(1:5,1) + UNPT*S6(1:5)
+                IF (TJ>ZERO) MOMJ(1:3,1) = S6(1:3)/TJ
+               ENDDO
+               SIGSH(22:26,II)=FORJ(1:5,1)
+               SIGSH(27:29,II)=MOMJ(1:3,1)
+            END IF !(NPG>1) THEN
+           ELSE ! NPTI=0
+C            
             IF (NPG>1) THEN
               IF (IHBE == 23) THEN
                DO IP =1,NPG
@@ -340,6 +404,7 @@ C---MOM
      8           E1Z    ,E2Z   ,E3Z   ,S6    )
               SIGSH(27:29,II)=S6(1:3)
             END IF ! NPG
+           END IF !(NPTI>1) THEN
           ELSE
 C-------npt>1       
             IF (NPG>1) THEN
@@ -362,7 +427,7 @@ C-------npt>1
                        CALL LOC2ORTH(S6,DIR_A,DIR_B,JJ,ILAW,IGTYP,NEL)
                        SIGSH(PTN:PTN+4,II) = S6(1:5)
                        SIGSH(PTN+5,II) = SIGSH(PT+6,II)
-                       POSI(I,IPT)=SIGSH(PT+8,II)
+                       POSI(I,IPT)=SIGSH(PT+7,II)
                        PT = PT + 8
                        PTN = PTN + 6
                      END DO !IT=1,NPG

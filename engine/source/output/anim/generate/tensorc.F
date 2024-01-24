@@ -807,10 +807,13 @@ c
                    CALL UROTO_TENS2D(NEL,SIGE,DIR_A)
                   END IF
                 ELSE 
+                  A2 = ZERO
+                  IF (ITENS == 3) A2 = SIX   ! upper
+                  IF (ITENS == 4) A2 = -SIX   ! lower
                   DO I=1,NEL  
-                    SIGE(I,1) = GBUF%FOR(JJ(1)+I)
-                    SIGE(I,2) = GBUF%FOR(JJ(2)+I)
-                    SIGE(I,3) = GBUF%FOR(JJ(3)+I)
+                   SIGE(I,1) =  GBUF%FOR(JJ(1)+I) + GBUF%MOM(JJ(1)+I) * A2
+                   SIGE(I,2) =  GBUF%FOR(JJ(2)+I) + GBUF%MOM(JJ(2)+I) * A2 
+                   SIGE(I,3) =  GBUF%FOR(JJ(3)+I) + GBUF%MOM(JJ(3)+I) * A2                  
                   ENDDO               
                 ENDIF
 c
