@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HM_READ_PRETHGROU             source/output/th/hm_read_prethgrou.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/starter/lectur.F
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
@@ -31,7 +31,7 @@ Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_re
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
+Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_PRETHGROU(IFI,NVARTOT,LSUBMODEL,IFLAG)
 C-----------------------------------------------

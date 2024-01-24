@@ -21,6 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+Chd|  S8GET_X3                      source/elements/solid/solide/s8get_x3.F
+Chd|-- called by -----------
+Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
+Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
+Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
+Chd|-- calls ---------------
+Chd|====================================================================
       SUBROUTINE S8GET_X3(
      .   NC1,      NC2,      NC3,      NC4,
      .   NC5,      NC6,      NC7,      NC8,

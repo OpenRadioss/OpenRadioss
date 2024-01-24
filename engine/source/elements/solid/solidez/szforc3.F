@@ -37,10 +37,13 @@ Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        MOD_CLOSE                     source/elements/solid/solide/mod_close.F
 Chd|        NSVIS_SM12                    source/elements/solid/solide10/nsvis_sm12.F
 Chd|        S11DEFO3                      source/elements/solid/solide/s11defo3.F
+Chd|        S8FOR_DISTOR                  source/elements/solid/solide/s8for_distor.F
+Chd|        S8GET_X3                      source/elements/solid/solide/s8get_x3.F
 Chd|        S8SAV12                       source/elements/solid/solide/s8sav12.F
 Chd|        S8SAV3                        source/elements/solid/solide/s8sav3.F
 Chd|        S8UPD11T12                    source/elements/solid/solide/s8upd11t12.F
 Chd|        SCOOR_CP2SP                   source/elements/solid/solidez/scoor_cp2sp.F
+Chd|        SCRE_SIG3                     source/elements/solid/solide/scre_sig3.F
 Chd|        SCUMU3                        source/elements/solid/solide/scumu3.F
 Chd|        SCUMU3P                       source/elements/solid/solide/scumu3p.F
 Chd|        SDEFO3                        source/elements/solid/solide/sdefo3.F
@@ -75,6 +78,7 @@ Chd|        SZDERIT3                      source/elements/solid/solidez/szderi3.
 Chd|        SZDERITO3                     source/elements/solid/solidez/szderi3.F
 Chd|        SZHOUR3                       source/elements/solid/solidez/szhour3.F
 Chd|        SZHOUR3_OR                    source/elements/solid/solidez/szhour3_or.F
+Chd|        SZHOUR_CTL                    source/elements/solid/solidez/szhour_ctl.F
 Chd|        SZORDEF3                      source/elements/solid/solidez/szordef3.F
 Chd|        SZTORTH3                      source/elements/solid/solidez/sztorth3.F
 Chd|        VISC_ET                       source/elements/solid/solidez/visc_et.F

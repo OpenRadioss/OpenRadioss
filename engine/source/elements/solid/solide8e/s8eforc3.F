@@ -61,7 +61,9 @@ Chd|        S8ETOTSH10                    source/elements/solid/solide8e/s8etots
 Chd|        S8EVIS3                       source/elements/solid/solide8e/s8evis3.F
 Chd|        S8E_SIGP                      source/elements/solid/solide8e/s8e_sig.F
 Chd|        S8E_SIG_A                     source/elements/solid/solide8e/s8e_sig_a.F
+Chd|        S8FOR_DISTOR                  source/elements/solid/solide/s8for_distor.F
 Chd|        S8FUPD11T12                   source/elements/solid/solide8e/s8fupd11t12.F
+Chd|        S8GET_X3                      source/elements/solid/solide/s8get_x3.F
 Chd|        S8SAV12                       source/elements/solid/solide/s8sav12.F
 Chd|        S8SAV3                        source/elements/solid/solide/s8sav3.F
 Chd|        S8SAVSR3                      source/elements/solid/solide/s8savsr3.F
@@ -74,6 +76,7 @@ Chd|        S8ZZERO3                      source/elements/solid/solide8z/s8zzero
 Chd|        SBILAN                        source/elements/solid/solide/sbilan.F
 Chd|        SCOOR3                        source/elements/solid/solide/scoor3.F
 Chd|        SCOOR_CP2SP                   source/elements/solid/solidez/scoor_cp2sp.F
+Chd|        SCRE_SIG3                     source/elements/solid/solide/scre_sig3.F
 Chd|        SCUMU3                        source/elements/solid/solide/scumu3.F
 Chd|        SCUMU3P                       source/elements/solid/solide/scumu3p.F
 Chd|        SDLENMAX                      source/elements/solid/solide/sdlenmax.F

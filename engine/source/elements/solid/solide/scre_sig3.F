@@ -25,6 +25,9 @@ Chd|  SCRE_SIG3                     source/elements/solid/solide/scre_sig3.F
 Chd|-- called by -----------
 Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
 Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.F
+Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
+Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
+Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SCRE_SIG3(SIG,   SIG_C,  ISTAB,  OFFG , ISMSTR , NEL)
