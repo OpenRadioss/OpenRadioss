@@ -33,6 +33,7 @@ Chd|        PHELPINFO                     source/engine/execargcheck.F
 Chd|        READ_MSGFILE                  source/output/message/read_msgfile.F
 Chd|        UPCASE                        source/engine/execargcheck.F  
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
+Chd|        COMMAND_LINE_ARGS_MOD         share/modules/command_line_args.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================

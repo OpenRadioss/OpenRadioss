@@ -228,6 +228,7 @@ Chd|        IND_KTOT                      source/implicit/ind_glob_k.F
 Chd|        INIPAR                        source/mpi/init/inipar.F      
 Chd|        INI_K0H                       source/implicit/imp_solv.F    
 Chd|        INI_KISC                      source/implicit/lin_solv.F    
+Chd|        INTER7_COLLISION_DETECTION    source/interfaces/inter7_collision_detection.F
 Chd|        INTER_COUNT_NODE_CURV         source/interfaces/generic/inter_count_node_curv.F
 Chd|        JOINT_BLOCK_STIFFNESS         source/elements/joint/joint_block_stiffness.F
 Chd|        KTBUF_INI                     source/implicit/imp_init.F    

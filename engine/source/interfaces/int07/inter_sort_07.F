@@ -26,7 +26,8 @@ Chd|-- called by -----------
 Chd|        INTER_SORT                    source/interfaces/generic/inter_sort.F
 Chd|-- calls ---------------
 Chd|        I7BUCE                        source/interfaces/intsort/i7buce.F
-Chd|        INTER7_COLLISION_DETECTION                    source/interfaces/intsort/i7buce.F
+Chd|        I7BUCE_VOX                    source/interfaces/intsort/i7buce.F
+Chd|        INTER7_COLLISION_DETECTION    source/interfaces/inter7_collision_detection.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SPMD_CELL_EXCHANGE            source/mpi/generic/spmd_cell_exchange.F
 Chd|        SPMD_RNUMCD                   source/mpi/interfaces/spmd_i7tool.F
@@ -34,8 +35,10 @@ Chd|        SPMD_TRI7GAT                  source/mpi/interfaces/spmd_int.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
+Chd|        COMMAND_LINE_ARGS_MOD         share/modules/command_line_args.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        INTER7_COLLISION_DETECTION_MODsource/interfaces/inter7_collision_detection.F
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

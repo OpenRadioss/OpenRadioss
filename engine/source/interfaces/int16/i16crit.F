@@ -29,6 +29,7 @@ Chd|        I10BOX                        source/interfaces/int16/i16crit.F
 Chd|        I16BOX                        source/interfaces/int16/i16crit.F
 Chd|        I20BOX                        source/interfaces/int16/i16crit.F
 Chd|        I8BOX                         source/interfaces/int16/i16crit.F
+Chd|        I16MAIN_MOD                   source/interfaces/int16/i16main.F
 Chd|====================================================================
        SUBROUTINE I16CRIT(
      1       X      ,NSV    ,NELEM ,NSN   ,EMINX  ,

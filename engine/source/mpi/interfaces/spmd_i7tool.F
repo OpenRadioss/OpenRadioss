@@ -29,6 +29,7 @@ Chd|        I23TRIVOX                     source/interfaces/intsort/i23trivox.F
 Chd|        I24TRIVOX                     source/interfaces/intsort/i24trivox.F
 Chd|        I7TRI                         source/interfaces/intsort/i7tri.F
 Chd|        I7TRIVOX                      source/interfaces/intsort/i7trivox.F
+Chd|        INTER7_COLLISION_DETECTION    source/interfaces/inter7_collision_detection.F
 Chd|-- calls ---------------
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================

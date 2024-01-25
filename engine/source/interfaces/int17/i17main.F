@@ -20,6 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  I17MAIN_MOD                   source/interfaces/int17/i17main.F
+Chd|-- called by -----------
+Chd|        I17MAIN                       source/interfaces/int17/i17main.F
+Chd|-- calls ---------------
+Chd|====================================================================
       MODULE I17MAIN_MOD
 #include "my_real.inc"
          my_real :: XSLVG(7), XMSRG(7)
@@ -35,6 +41,7 @@ Chd|        I17LAGM                       source/interfaces/int17/i17lagm.F
 Chd|        I21LAGM                       source/interfaces/int17/i21lagm.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        I17MAIN_MOD                   source/interfaces/int17/i17main.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I17MAIN(

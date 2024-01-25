@@ -483,7 +483,6 @@ Chd|        OUTPUT_MOD                    ../common_source/modules/output/output
 Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
-Chd|        PYTHON_FUNCT_MOD              ../common_source/modules/python_mod.F
 Chd|        RAD2R_MOD                     share/modules/rad2r.F         
 Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
 Chd|        RESOLSAV_MOD                  share/modules/resol_mod.F     

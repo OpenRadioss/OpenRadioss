@@ -38,7 +38,6 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
-Chd|        PYTHON_FUNCT_MOD              ../common_source/modules/python_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================

@@ -27,7 +27,6 @@ Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
-Chd|        PYTHON_FUNCT_MOD              ../common_source/modules/python_mod.F
 Chd|====================================================================
       SUBROUTINE LAG_FXV(IBFV   ,VEL    ,SKEW   ,NPF    ,TF     ,
      2                   BLL    ,IADLL  ,LLL    ,JLL    ,SLL    ,
@@ -162,7 +161,6 @@ Chd|        LAG_MULTP                     source/tools/lagmul/lag_mult.F
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
-Chd|        PYTHON_FUNCT_MOD              ../common_source/modules/python_mod.F
 Chd|====================================================================
       SUBROUTINE LAG_FXVP(IBFV   ,VEL    ,SKEW   ,NPF    ,TF     ,
      2                    LAGCOMC,LAGCOMK,NC     ,NODGLOB,WEIGHT ,

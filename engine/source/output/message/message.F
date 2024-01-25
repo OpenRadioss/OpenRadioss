@@ -171,6 +171,7 @@ Chd|        IMP_STOP                      source/implicit/imp_solv.F
 Chd|        IND_KTOT                      source/implicit/ind_glob_k.F  
 Chd|        INI_K0H                       source/implicit/imp_solv.F    
 Chd|        INI_KISC                      source/implicit/lin_solv.F    
+Chd|        INTER7_COLLISION_DETECTION    source/interfaces/inter7_collision_detection.F
 Chd|        INTER_COUNT_NODE_CURV         source/interfaces/generic/inter_count_node_curv.F
 Chd|        IQELA2                        source/ale/inter/iqela2.F     
 Chd|        KTBUF_INI                     source/implicit/imp_init.F    

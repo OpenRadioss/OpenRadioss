@@ -20,11 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  INTER7_CANDIDATE_PAIRS_MOD    source/interfaces/intsort/inter7_candidate_pairs.F
+Chd|-- called by -----------
+Chd|        INTER7_COLLISION_DETECTION    source/interfaces/inter7_collision_detection.F
+Chd|-- calls ---------------
+Chd|====================================================================
       MODULE INTER7_CANDIDATE_PAIRS_MOD
       CONTAINS
 
 !! \brief get the list of candidates for all segment
 
+Chd|====================================================================
+Chd|  INTER7_CANDIDATE_PAIRS        source/interfaces/intsort/inter7_candidate_pairs.F
+Chd|-- called by -----------
+Chd|        INTER7_COLLISION_DETECTION    source/interfaces/inter7_collision_detection.F
+Chd|-- calls ---------------
+Chd|        COLLISION_MOD                 source/interfaces/intsort/collision_mod.F
+Chd|        INTER7_FILTER_CAND_MOD        source/interfaces/intsort/inter7_filter_cand.F
+Chd|====================================================================
         SUBROUTINE INTER7_CANDIDATE_PAIRS(
      &                                    nsn          ,
      &                                    oldnum       ,
@@ -602,6 +616,11 @@ C#endif
         end
 
 !! \brief write the data to a file
+Chd|====================================================================
+Chd|  INTER7_SERIALIZE              source/interfaces/intsort/inter7_candidate_pairs.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
         SUBROUTINE INTER7_SERIALIZE(      filename     , 
      &                                    nsn          ,
      &                                    oldnum       ,
@@ -800,6 +819,11 @@ C-----------------------------------------------
           close(unitNum)
         end subroutine
 !! \brief write the data to a file
+Chd|====================================================================
+Chd|  INTER7_DESERIALIZE            source/interfaces/intsort/inter7_candidate_pairs.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
         SUBROUTINE INTER7_DESERIALIZE(    filename     , 
      &                                    nsn          ,
      &                                    oldnum       ,

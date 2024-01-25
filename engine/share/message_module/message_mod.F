@@ -261,6 +261,7 @@ Chd|        INI_KISC                      source/implicit/lin_solv.F
 Chd|        INI_MSG                       source/output/message/ini_msg.F
 Chd|        INT18_LAW151_INIT             source/interfaces/int18/int18_law151_init.F
 Chd|        INT18_LAW151_OMP_ACCUMULATION source/interfaces/int18/int18_law151_omp_accumulation.F
+Chd|        INTER7_COLLISION_DETECTION    source/interfaces/inter7_collision_detection.F
 Chd|        INTER_COUNT_NODE_CURV         source/interfaces/generic/inter_count_node_curv.F
 Chd|        INTER_MINMAX_NODE             source/interfaces/generic/inter_minmax_node.F
 Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F

@@ -22,10 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 Chd|====================================================================
-Chd|  I7_PENETRATION                       source/interfaces/intsort/i7pen3.F
+Chd|  INTER7_PENETRATION_MOD        source/interfaces/intsort/inter7_penetration.F
 Chd|-- called by -----------
-Chd|        I7STO                         source/interfaces/intsort/i7sto.F
+Chd|        INTER7_FILTER_CAND            source/interfaces/intsort/inter7_filter_cand.F
 Chd|-- calls ---------------
+Chd|        COLLISION_MOD                 source/interfaces/intsort/collision_mod.F
 Chd|====================================================================
       MODULE INTER7_PENETRATION_MOD
       contains

@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
 Chd|        INT_STARTIME                  source/system/timer_interf.F  
 Chd|        INT_STOPTIME                  source/system/timer_interf.F  
+Chd|        COMMAND_LINE_ARGS_MOD         share/modules/command_line_args.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F

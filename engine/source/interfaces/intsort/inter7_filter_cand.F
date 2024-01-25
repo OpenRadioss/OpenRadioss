@@ -21,18 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  I7STO                         source/interfaces/intsort/i7sto.F
+Chd|  INTER7_FILTER_CAND_MOD        source/interfaces/intsort/inter7_filter_cand.F
 Chd|-- called by -----------
-Chd|        I7TRI                         source/interfaces/intsort/i7tri.F
-Chd|        I7TRIVOX                      source/interfaces/intsort/i7trivox.F
+Chd|        INTER7_CANDIDATE_PAIRS        source/interfaces/intsort/inter7_candidate_pairs.F
 Chd|-- calls ---------------
-Chd|        I7COR3T                       source/interfaces/int07/i7cor3t.F
-Chd|        I7PEN3                        source/interfaces/intsort/i7pen3.F
 Chd|====================================================================
       MODULE INTER7_FILTER_CAND_MOD
       contains
 !! \brief broad phase filtering of candidate pairs
 !! \details input: nodes and segment sharing the same voxel, output: filtered candidate pairs
+Chd|====================================================================
+Chd|  INTER7_FILTER_CAND            source/interfaces/intsort/inter7_filter_cand.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        COLLISION_MOD                 source/interfaces/intsort/collision_mod.F
+Chd|        INTER7_GATHER_CAND_MOD        source/interfaces/int07/inter7_gather_cand.F
+Chd|        INTER7_PENETRATION_MOD        source/interfaces/intsort/inter7_penetration.F
+Chd|====================================================================
         SUBROUTINE INTER7_FILTER_CAND(
      1        j_stok,irect  ,x     ,nsv   ,ii_stok,
      2        cand_n,cand_e ,mulnsn,margin  ,

@@ -20,6 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  ASSPAR2_MOD                   source/assembly/asspar2.F     
+Chd|-- called by -----------
+Chd|        ASSPAR2                       source/assembly/asspar2.F     
+Chd|-- calls ---------------
+Chd|====================================================================
       MODULE ASSPAR2_MOD
          INTEGER :: INTDONE
       END MODULE
@@ -33,6 +39,7 @@ Chd|        IDP_LOCK                      source/system/machine.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        ORDER_V                       source/assembly/asspar2.F     
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
+Chd|        ASSPAR2_MOD                   source/assembly/asspar2.F     
 Chd|====================================================================
       SUBROUTINE ASSPAR2( 
      2   A          ,AR         ,ITASK      ,NODFT     ,

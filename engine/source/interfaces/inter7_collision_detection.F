@@ -21,19 +21,26 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  INTER7_COLLISION_DETECTION                    source/interfaces/intsort/i7buce.F
+Chd|  INTER7_COLLISION_DETECTION_MODsource/interfaces/inter7_collision_detection.F
 Chd|-- called by -----------
-Chd|        I7MAIN_TRI                    source/interfaces/intsort/i7main_tri.F
+Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
+Chd|-- calls ---------------
+Chd|====================================================================
+       MODULE INTER7_COLLISION_DETECTION_MOD
+       CONTAINS
+Chd|====================================================================
+Chd|  INTER7_COLLISION_DETECTION    source/interfaces/inter7_collision_detection.F
+Chd|-- called by -----------
 Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
-Chd|        I7TRIVOX                      source/interfaces/intsort/i7trivox.F
+Chd|        INTER7_CANDIDATE_PAIRS        source/interfaces/intsort/inter7_candidate_pairs.F
+Chd|        SPMD_OLDNUMCD                 source/mpi/interfaces/spmd_i7tool.F
+Chd|        INTER7_CANDIDATE_PAIRS_MOD    source/interfaces/intsort/inter7_candidate_pairs.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-       MODULE INTER7_COLLISION_DETECTION_MOD
-       CONTAINS
        SUBROUTINE INTER7_COLLISION_DETECTION(
      1   X        ,IRECT   ,NSV     ,INACTI   ,CAND_P  ,
      2   NMN      ,NRTM    ,NSN     ,CAND_E   ,CAND_N  ,

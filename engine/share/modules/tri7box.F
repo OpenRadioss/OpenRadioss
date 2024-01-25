@@ -223,6 +223,7 @@ Chd|        INIT_TRIM                     source/interfaces/intsort/init_trim.F
 Chd|        INT18_ALLOC                   source/interfaces/int18/int18_alloc.F
 Chd|        INT18_LAW151_OMP_ACCUMULATION source/interfaces/int18/int18_law151_omp_accumulation.F
 Chd|        INTCRIT                       source/interfaces/intsort/intcrit.F
+Chd|        INTER7_COLLISION_DETECTION    source/interfaces/inter7_collision_detection.F
 Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
 Chd|        INTMASS_UPDATE                source/interfaces/interf/intmass_update.F
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F

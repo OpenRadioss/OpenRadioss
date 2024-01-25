@@ -37,7 +37,6 @@ Chd|        UPCASE                        source/starter/execargcheck.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        GRP_SIZE_MOD                  share/modules1/grp_size_mod.F 
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        PYTHON_FUNCT_MOD              ../common_source/modules/python_mod.F
 Chd|        RANDOM_MOD                    share/modules1/random_mod.F   
 Chd|====================================================================
       SUBROUTINE EXECARGCHECK()

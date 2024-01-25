@@ -50,7 +50,6 @@ Chd|        RBY_DECOND                    source/tools/lagmul/lag_rby_cond.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        PYTHON_FUNCT_MOD              ../common_source/modules/python_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE LAG_MULT(
@@ -420,7 +419,6 @@ Chd|        SPMD_SG_MULT                  source/mpi/lag_multipliers/spmd_lag.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        PYTHON_FUNCT_MOD              ../common_source/modules/python_mod.F
 Chd|====================================================================
       SUBROUTINE LAG_MULTP(
      1       IPARI  ,X        ,A        ,

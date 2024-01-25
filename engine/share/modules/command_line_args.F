@@ -20,6 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  COMMAND_LINE_ARGS_MOD         share/modules/command_line_args.F
+Chd|-- called by -----------
+Chd|        EXECARGCHECK                  source/engine/execargcheck.F  
+Chd|        INTER_SORT                    source/interfaces/generic/inter_sort.F
+Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
+Chd|-- calls ---------------
+Chd|====================================================================
       MODULE COMMAND_LINE_ARGS_MOD
         INTEGER :: GOT_PREVIEW = 0
       END MODULE COMMAND_LINE_ARGS_MOD

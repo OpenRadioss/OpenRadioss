@@ -20,16 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  INTER7_GATHER_CAND_MOD        source/interfaces/int07/inter7_gather_cand.F
+Chd|-- called by -----------
+Chd|        INTER7_FILTER_CAND            source/interfaces/intsort/inter7_filter_cand.F
+Chd|-- calls ---------------
+Chd|        COLLISION_MOD                 source/interfaces/intsort/collision_mod.F
+Chd|====================================================================
       MODULE INTER7_GATHER_CAND_MOD
       CONTAINS
-Chd|====================================================================
-Chd|  I7COR3T                       source/interfaces/int07/i7cor3t.F
-Chd|-- called by -----------
-Chd|        I10STO                        source/interfaces/intsort/i10sto.F
-Chd|        I7STO                         source/interfaces/intsort/i8sto.F
-Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F
-Chd|====================================================================
         subroutine inter7_gather_cand(jlt     ,x     ,irect ,nsv   ,cand_e ,
      1                     cand_n  ,igap  ,gap   ,x1    ,x2     ,
      2                     x3      ,x4    ,y1    ,y2    ,y3     ,
