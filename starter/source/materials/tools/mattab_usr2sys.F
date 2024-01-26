@@ -25,6 +25,7 @@ Chd|  MATTAB_USR2SYS                source/materials/tools/mattab_usr2sys.F
 Chd|-- called by -----------
 Chd|        HM_READ_FAIL_GENE1            source/materials/fail/gene1/hm_read_fail_gene1.F
 Chd|        HM_READ_FAIL_INIEVO           source/materials/fail/inievo/hm_read_fail_inievo.F
+Chd|        HM_READ_FAIL_TAB1             source/materials/fail/tabulated/hm_read_fail_tab1.F
 Chd|        HM_READ_FAIL_TAB2             source/materials/fail/tabulated/hm_read_fail_tab2.F
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|-- calls ---------------
