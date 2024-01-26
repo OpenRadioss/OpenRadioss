@@ -874,6 +874,7 @@ C
             Z1 = X(3,IRECT(1,L))
             X2 = X(1,IRECT(2,L))
             Y2 = X(2,IRECT(2,L))
+            Z2 = X(3,IRECT(2,L))
 C
             XC = X1 * H(1) + X2 * H(2)
             YC = Y1 * H(1) + Y2 * H(2)

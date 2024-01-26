@@ -1350,11 +1350,11 @@ C        ANALYSE 2D : Axisymetrie
             RBY(2,NRB)=ZERO
             RBY(3,NRB)=ZERO
             RBY(4,NRB)=ZERO
-            RBY(5,NRB)=RBY(5,NRB)+IN(N)+(ZZ+XX)*MS(N)
+            RBY(5,NRB)=RBY(5,NRB)+IN(N)+ZZ*MS(N) 
             RBY(6,NRB)=ZERO
             RBY(7,NRB)=ZERO
             RBY(8,NRB)=ZERO
-            RBY(9,NRB)=RBY(9,NRB)+IN(N)+(XX+YY)*MS(N)
+            RBY(9,NRB)=RBY(9,NRB)+IN(N)+YY*MS(N)
            ELSEIF(NI>0)THEN
 C MAIN DE SOUS RBY
             YY=(X(2,N)-X(2,M))*(X(2,N)-X(2,M))
@@ -1364,11 +1364,11 @@ C MAIN DE SOUS RBY
             RBY(2,NRB)=ZERO
             RBY(3,NRB)=ZERO
             RBY(4,NRB)=ZERO
-            RBY(5,NRB)=RBY(5,NRB)+(ZZ+XX)*MS(N)+RBY(21,NI)
+            RBY(5,NRB)=RBY(5,NRB)+ZZ*MS(N)+RBY(21,NI)
             RBY(6,NRB)=ZERO
             RBY(7,NRB)=ZERO
             RBY(8,NRB)=ZERO
-            RBY(9,NRB)=RBY(9,NRB)+(XX+YY)*MS(N)+RBY(25,NI)
+            RBY(9,NRB)=RBY(9,NRB)+YY*MS(N)+RBY(25,NI)
            ENDIF
          ENDDO
 C
