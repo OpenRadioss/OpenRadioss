@@ -361,7 +361,7 @@ Chd|====================================================================
      C INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D   KLOADPINTER  , LOADPINTER ,DGAPLOADINT     ,S_LOADPINTER, LEN_CEP ,DYNAIN_DATA,
      E   DRAPEG       ,USER_WINDOWS,OUTPUT          ,INTERFACES  ,NUMBER_LOAD_CYL,
-     F   LOADS_PER_PROC, PYTHON,DPL0CLD,VEL0CLD)
+     F   LOADS_PER_PROC, PYTHON,DPL0CLD,VEL0CLD,NAMES_AND_TITLES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -409,6 +409,7 @@ C-----------------------------------------------
       USE INTERFACES_MOD
       USE SUBMODEL_MOD , ONLY : NSUBMOD
       USE PYTHON_FUNCT_MOD
+      USE NAMES_AND_TITLES_MOD,only: NAMES_AND_TITLES_,LTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -418,7 +419,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com05_c.inc"
 #include      "com10_c.inc"
 #include      "com_xfem1.inc"
 #include      "eigcom.inc"
@@ -656,6 +656,7 @@ C-----------------------------------------------
         INTEGER, INTENT(IN) :: NUMBER_LOAD_CYL ! sum of load segment number
         TYPE(LOADS_),INTENT(IN)    :: LOADS ! initial structure of load cyl
         TYPE(LOADS_),INTENT(INOUT) :: LOADS_PER_PROC ! structure of load cyl for for the current proc P
+        TYPE(NAMES_AND_TITLES_),INTENT(IN) :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -813,6 +814,8 @@ C
       TYPE(t_connectivity_ext1) :: ee_connect_l
 C-----------------------------------------------
       TYPE(SEATBELT_REMOTE_NODES_STRUCT) ANCHOR_REMOTE_L,ANCHOR_REMOTE_SEND_L
+C-----------------------------------------------
+      INTEGER, DIMENSION(LTITLE) :: ITITLE   !< Store the title in Integer to be written in Restart files
 C=======================================================================
 C ALLOCATION
 C ----------
@@ -1785,8 +1788,10 @@ C--------------------------------------------
 C--------------------------------------
 C     write TEXT
 C--------------------------------------
-      CALL WRITE_I_C(TEXT,LCOM05)
-      LEN_IA = LEN_IA + LCOM05
+      DO I=1,LTITLE
+        ITITLE(I) = ICHAR( NAMES_AND_TITLES%TITLE(I:I) )
+      ENDDO
+      CALL WRITE_I_C(ITITLE,LTITLE)
 C--------------------------------------
 C     Write HEADER.
 C--------------------------------------

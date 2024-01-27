@@ -43,7 +43,7 @@ Chd|====================================================================
       SUBROUTINE RDRESA(ITSTV1 , LHEADER, LVARINT, LVARREA, PRADIOS,
      .                  PRESFIL,MULTI_FVM,H3D_DATA,
      .                  PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
-     .                  MAT_ELEM  )
+     .                  MAT_ELEM, NAMES_AND_TITLES  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE LOADS_MOD
       USE MAT_ELEM_MOD
+      USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,LTITLE   !< NAMES_AND_TITLES host the input deck names and titles for outputs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,7 +68,6 @@ C-----------------------------------------------
 #include      "r4r8_p.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com05_c.inc"
 #include      "scr03_c.inc"
 #include      "scr14_c.inc"
 #include      "warn_c.inc"
@@ -80,11 +80,12 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(PINCH) :: PINCH_DATA
-      TYPE (DYNAIN_DATABASE),INTENT(INOUT) :: DYNAIN_DATA
-      TYPE (INTERFACES_)    ,INTENT(INOUT) :: INTERFACES
-      TYPE (SENSORS_)       ,INTENT(INOUT) :: SENSORS
-      TYPE (LOADS_)         ,INTENT(INOUT) :: LOADS
-      TYPE (MAT_ELEM_)      ,INTENT(INOUT) :: MAT_ELEM
+      TYPE (DYNAIN_DATABASE),INTENT(INOUT)   :: DYNAIN_DATA
+      TYPE (INTERFACES_)    ,INTENT(INOUT)   :: INTERFACES
+      TYPE (SENSORS_)       ,INTENT(INOUT)   :: SENSORS
+      TYPE (LOADS_)         ,INTENT(INOUT)   :: LOADS
+      TYPE (MAT_ELEM_)      ,INTENT(INOUT)   :: MAT_ELEM
+      TYPE (NAMES_AND_TITLES_),INTENT(INOUT) :: NAMES_AND_TITLES
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -95,24 +96,25 @@ C-----------------------------------------------
       INTEGER   TABHEAD(LMXHEAD),TABVINT(LMXVINT)
       my_real
      .        PROBINT
+      INTEGER,DIMENSION(LTITLE) :: ITITLE
 C-----------------------------------------------
       DO I=1,LMXVINT
         TABVINT(I)=0
       ENDDO
 C-----------------------------------------------
-C     LECTURE TEXTE
+C     Read Restart File
 C-----------------------------------------------
       CALL CUR_FIL_C(0)
-      CALL READ_I_C(TEXT,LCOM05)
 C-----------------------------------------------
-C     LECTURE DE L'ENTETE
+      CALL READ_I_C(ITITLE,LTITLE)   !< input deck title
+      DO I=1,LTITLE
+        NAMES_AND_TITLES%TITLE(I:I) = CHAR(ITITLE(I))
+      ENDDO
+C-----------------------------------------------
+C     Read Header
 C-----------------------------------------------
         CALL READ_I_C(LHEADER,1)
-C       warning to radioss developers:
-C       IF(LHEADER>LMXHEAD)THEN
-C         WRITE(*,*) ' ** RADIOSS INTERNAL ERROR'
-C         CALL ARRET(7)
-C       ENDIF
+
         CALL READ_I_C(TABHEAD,LHEADER)
 C       RADIOSS FILE R/W
       PRADIOS=TABHEAD(1)
@@ -123,7 +125,7 @@ C       RESTART FILE
 C       ITESTV
       ITESTV =TABHEAD(3)
       ITESTV = IABS(ITESTV)
-C itestv +/- suivant ir4r8 courant
+C itestv +/- depending on R4R8 (single/double precision)
       IF (IR4R8==2) ITESTV = -ITESTV
       IF(ITESTV/=ITSTV1.AND.DEBUG(2)<2)RETURN
 C-----
@@ -157,15 +159,9 @@ C ------------------------------------------
         CALL ARRET(2)
       ENDIF
 
-C-----------------------------------------------
-C     LECTURE DES VARIABLES ENTIERES.
-C-----------------------------------------------
-C      warning to radioss developers:
-C      IF(LVARINT>LMXVINT)THEN
-C        WRITE(*,*) ' ** RADIOSS INTERNAL ERROR'
-C        CALL ARRET(7)
-C      ENDIF
-C-----
+C----------------------------
+C     Read integer variables
+C----------------------------
       CALL READ_I_C(TABVINT,LVARINT)
       CALL RDCOMI(TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
      .            INTERFACES%PARAMETERS,SENSORS,LOADS  ,MAT_ELEM)

@@ -104,7 +104,7 @@ Chd|====================================================================
      .           H3D_DATA      ,INTBUF_FRIC_TAB,SUBSET,
      .           PINCH_DATA    ,ALE_CONNECTIVITY, T_MONVOL,
      .           SENSORS       ,EBCS_TAB  ,DYNAIN_DATA,USER_WINDOWS,OUTPUT,
-     .           INTERFACES    ,LOADS     ,PYTHON)
+     .           INTERFACES    ,LOADS     ,PYTHON, NAMES_AND_TITLES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -142,7 +142,7 @@ C-----------------------------------------------
       USE INTERFACES_MOD
       USE PYTHON_FUNCT_MOD
       USE DAMP_MOD
-C ecriture restart pour version spmd
+      USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,LTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -174,6 +174,7 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(LOADS_)          ,INTENT(IN)                   :: LOADS
       TYPE(MAT_ELEM_)       ,INTENT(IN)                   :: MAT_ELEM
       TYPE(PYTHON_)         ,INTENT(INOUT)                :: PYTHON
+      TYPE(NAMES_AND_TITLES_),INTENT(IN)                  :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -181,7 +182,6 @@ C-----------------------------------------------
 #include      "couple_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com05_c.inc"
 #include      "com06_c.inc"
 #include      "com_xfem1.inc"
 #include      "intstamp_c.inc"
@@ -228,6 +228,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NVOLU) :: NTRI
       INTEGER :: II, NS_DIFF, ITMP
       INTEGER :: MY_SIZE
+      INTEGER,DIMENSION(LTITLE) :: ITITLE
 C-----------------------------------------------
 C     Python interface
 C-----------------------------------------------
@@ -335,9 +336,12 @@ C--------------------------------------
       END DO
       CALL WRITE_C_C(IFILNAM,LEN)
 C--------------------------------------
-C     ECRITURE DU TEXTE
+C     Deck title
 C--------------------------------------
-      CALL WRITE_I_C(TEXT,LCOM05)
+      DO I=1,LTITLE
+        ITITLE(I) = ICHAR( NAMES_AND_TITLES%TITLE(I:I) )
+      ENDDO
+      CALL WRITE_I_C(ITITLE,LTITLE)
 C--------------------------------------
 C     ECRITURE DU HEADER.
 C--------------------------------------

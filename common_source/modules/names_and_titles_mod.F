@@ -79,12 +79,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
           TYPE(NAMES_AND_TITLES_),INTENT(OUT) :: NAMES_AND_TITLES
 C-----------------------------------------------
-          NAMES_AND_TITLES%TITLE=''
-          NAMES_AND_TITLES%ROOTNAME=''
+          NAMES_AND_TITLES%TITLE=' '
+          NAMES_AND_TITLES%ROOTNAME=' '
           NAMES_AND_TITLES%ROOTNAME_LENGTH=0
-          NAMES_AND_TITLES%CHRUN=''
-          NAMES_AND_TITLES%CHRUN0=''
-          NAMES_AND_TITLES%VERS=''
+          NAMES_AND_TITLES%CHRUN=' '
+          NAMES_AND_TITLES%CHRUN0=' '
+          NAMES_AND_TITLES%VERS=' '
         END SUBROUTINE NAMES_AND_TITLE_INIT
 
       END MODULE NAMES_AND_TITLES_MOD

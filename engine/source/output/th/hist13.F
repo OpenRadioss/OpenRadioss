@@ -37,11 +37,12 @@ Chd|====================================================================
       SUBROUTINE HIST13(IPARG ,IXS  ,IXQ  ,IXC    ,IXT    ,
      2                  IXP   ,IXR  ,IWA  ,ITAB   ,PM     ,
      3                  NPBY  ,IXTG ,IRFE ,LACCELM,
-     4                  IPARI ,IPART,ITHGRP ,ITHBUF,CHRUN_OLD)
+     4                  IPARI ,IPART,ITHGRP ,ITHBUF,CHRUN_OLD,NAMES_AND_TITLES)
 C=======================================================================
 C   OLD TH V3 RADIOSS INPUT V3 or V4
 C=======================================================================
       USE INOUTFILE_MOD
+      USE NAMES_AND_TITLES_MOD,only:NAMES_AND_TITLES_,LTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,7 +51,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "com05_c.inc"
 #include      "com10_c.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
@@ -72,6 +72,7 @@ C-----------------------------------------------
 
       my_real PM(NPROPM,NUMMAT)
       CHARACTER CHRUN_OLD*2
+      TYPE(NAMES_AND_TITLES_),INTENT(IN) :: NAMES_AND_TITLES   !< NAMES_AND_TITLES host the input deck names and titles for outputs+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -79,13 +80,13 @@ C-----------------------------------------------
      .   NG, II, N, IH, ITY, NEL, NFT, K, MTN, NACCELV,NINTERS,
      .   IRUNR,NN,IAD,J,ITYP
 
-      my_real TITLE(20)
-      CHARACTER EOR*8, CH8*8, CARD*80, FILNAM*100, BLA*7
-
+      CHARACTER EOR*8, CH8*8, FILNAM*100, BLA*7
+      CHARACTER(LEN=LTITLE) :: CARD
+      my_real,DIMENSION(20) :: TITLE
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
-      
-      INTEGER  NGLV, NMTV, NINV, NRWV, NRBV, NNODV, NSCV, NELQV, NELSV, NELCV, NELTV, NELPV, NELRV, NELTGV, NELURV      
+      INTEGER, DIMENSION(20) :: TEXT
+      INTEGER  NGLV, NMTV, NINV, NRWV, NRBV, NNODV, NSCV, NELQV, NELSV, NELCV, NELTV, NELPV, NELRV, NELTGV, NELURV
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -106,8 +107,7 @@ C-----------------------------------------------
 C
       FILNAM=ROOTNAM(1:ROOTLEN)//'T'//CHRUN_OLD
 C
-      WRITE(CARD,'(20A4)')TEXT
-      READ(CARD,'(20A4)')TITLE
+      CARD(1:LTITLE)=NAMES_AND_TITLES%TITLE(1:LTITLE)
 C      ICODE=3017
 C      ICODE=3023
       ICODE=3030
@@ -147,6 +147,7 @@ C
       ENDIF
 C
       IF(ITFORM==0)THEN
+        READ(CARD,'(20A4)')TITLE
         WRITE(IUHIS)ICODE,TITLE
       ELSEIF(ITFORM==1)THEN
         CH8=STRI(ICODE)

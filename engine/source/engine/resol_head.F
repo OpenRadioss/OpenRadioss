@@ -72,7 +72,7 @@ Chd|====================================================================
      .           DRAPE_SH4N  ,DRAPE_SH3N  ,T_MONVOL       ,SENSORS    ,EBCS_TAB        ,
      .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS    ,
      .           OUTPUT      ,INTERFACES  ,DT             ,LOADS      ,MAT_ELEM        ,
-     .           PYTHON)
+     .           PYTHON      ,NAMES_AND_TITLES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -109,6 +109,7 @@ C-----------------------------------------------
       USE DT_MOD
       USE PYTHON_FUNCT_MOD
       USE DAMP_MOD
+      USE NAMES_AND_TITLES_MOD,only:NAMES_AND_TITLES_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -166,6 +167,7 @@ C     REAL
       TYPE(LOADS_)    ,INTENT(INOUT)          :: LOADS
       TYPE(MAT_ELEM_) ,INTENT(INOUT)          :: MAT_ELEM
       TYPE(PYTHON_)   , INTENT(INOUT)         :: PYTHON
+      TYPE(NAMES_AND_TITLES_),INTENT(INOUT)   :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -269,7 +271,7 @@ C
      M  T_MONVOL        ,ID_GLOBAL_VOIS ,FACE_VOIS      ,TAGSLV_RBY     ,DYNAIN_DATA    ,FCONT_MAX   ,EBCS_TAB         ,DIFFUSION ,
      N  KLOADPINTER     ,LOADPINTER     ,IN0            ,DGAPLOADINT    ,DRAPEG         ,USER_WINDOWS ,OUTPUT          ,INTERFACES,
      O  DT              ,LOADS          ,PYTHON         ,DPL0CLD        ,VEL0CLD        ,
-     P  NDAMP_VREL      ,ID_DAMP_VREL   ,FR_DAMP_VREL)
+     P  NDAMP_VREL      ,ID_DAMP_VREL   ,FR_DAMP_VREL        ,NAMES_AND_TITLES)
 C
       CALL TRACE_OUT(2)
 C

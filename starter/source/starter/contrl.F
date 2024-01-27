@@ -88,7 +88,7 @@ Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
-      SUBROUTINE CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM)
+      SUBROUTINE CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM,NAMES_AND_TITLES)
 C----------------------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -113,6 +113,7 @@ C-----------------------------------------------
       USE USER_WINDOWS_MOD
       USE ALE_MOD
       USE MAT_ELEM_MOD
+      USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -129,7 +130,6 @@ C-----------------------------------------------
 #include      "warn_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com05_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "com09_c.inc"
@@ -175,6 +175,7 @@ C-----------------------------------------------
       TYPE(DETONATORS_STRUCT_) :: DETONATORS
       TYPE(USER_WINDOWS_), INTENT(INOUT) :: USER_WINDOWS
       TYPE(MAT_ELEM_), INTENT(INOUT)     :: MAT_ELEM
+      TYPE(NAMES_AND_TITLES_),INTENT(INOUT) :: NAMES_AND_TITLES   !< NAMES_AND_TITLES host the input deck names and titles for outputs
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -246,8 +247,10 @@ C=======================================================================
       ENDIF
 !     Standard output
       WRITE(ISTDO,'(A)') LINE(1:LEN_TRIM(LINE))
-!     For 0.out title writing
-      READ(LINE(1:LEN_TRIM(LINE)),'(20A4)') TEXT
+
+      ! Store the input deck title in Structure
+      NAMES_AND_TITLES%TITLE(1:LEN_TRIM(LINE))=LINE(1:LEN_TRIM(LINE))
+
       IMOT=0
       REEL=ZEP66  
 C=======================================================================
@@ -1213,7 +1216,7 @@ C---------------------------------------------------
 C=======================================================================
 C     Writing to 0000.out FILE
 C=======================================================================
-      WRITE (IOUT,'(//,1X,20A4)')TEXT
+      WRITE (IOUT,'(A)') TRIM(NAMES_AND_TITLES%TITLE)
       WRITE (IOUT,'(//A/A/,(A,1PG20.13))')TITRE(110),TITRE(111)
       WRITE (IOUT,'(A,I10)')  TITRE(117)(1:57),IPRI,
      .      TITRE(120)(1:57),INVERS_SRC

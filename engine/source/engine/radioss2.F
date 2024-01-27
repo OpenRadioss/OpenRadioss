@@ -203,6 +203,7 @@ C-----------------------------------------------
       USE DT_MOD
       USE LOADS_MOD
       USE PYTHON_FUNCT_MOD
+      USE NAMES_AND_TITLES_MOD, only: NAMES_AND_TITLES_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -349,6 +350,8 @@ C MDS Table
 #endif
       TYPE(T_DIFFUSION) :: DIFFUSION
       TYPE(t_segvar) :: SEGVAR
+C----------------------------------------------------------------------------------
+      TYPE(NAMES_AND_TITLES_) :: NAMES_AND_TITLES  !< NAMES_AND_TITLES host the input deck names and titles for outputs
 C------------------------------------------------------------------
 C to build a IBM PARALLEL version
 C In starter : define install parameter nspmd 
@@ -368,6 +371,8 @@ C------------------------------------------------
       CALL CHECK_MESSAGE_DEFINITION()
 C
       CALL INITIME()
+c
+      CALL NAMES_AND_TITLE_INIT(NAMES_AND_TITLES)
 C------------------------------------------------
 C   VERSIO(2) used for Time History output
 c      DATA VERSIO(2)/'VERSION 5.2main,                    '/
@@ -845,7 +850,7 @@ C------------------------------------------------
       CALL RDRESA(ITSTV1 ,LHEADER ,LVARINT ,LVARREA ,PRADIOS ,
      .            PRESFIL, MULTI_FVM, H3D_DATA,
      .            PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
-     .            MAT_ELEM )
+     .            MAT_ELEM,NAMES_AND_TITLES )
 C------------------------------------------------
 C     Test of .rst file compatibility
 C------------------------------------------------
@@ -1529,7 +1534,7 @@ C------------------------------------------------
      F              IGRPART,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G              MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
      H              MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
-     I              DYNAIN_DATA,DT ,LOADS ,OUTPUT)
+     I              DYNAIN_DATA,DT ,LOADS ,OUTPUT,NAMES_AND_TITLES)
 
 C------------------------------------------------
 C Close & Delete scratch file
@@ -1648,7 +1653,7 @@ C------------------------------------------------
      3                 SUBSETS ,OUTPUT%TH%ITHGRP  ,OUTPUT%TH%ITHBUF  ,IGEO,
      4                 IPM     ,IPART   ,LIPART1  ,8,
      5                 12      ,ITFORM  ,ITHFLAG ,ITHVAR,
-     6                 IFILTITL,OUTPUT%TH%SITHBUF)
+     6                 IFILTITL,OUTPUT%TH%SITHBUF ,NAMES_AND_TITLES)
           WA(1:SWA) = ZERO
 C   Multiple th files
             IF(NTHGRP01(1)/=0)THEN
@@ -1671,7 +1676,7 @@ C   Multiple th files
      3                    SUBSETS  ,OUTPUT%TH%ITHGRPA ,OUTPUT%TH%ITHBUFA ,IGEO ,
      4                    IPM      ,IPART(1+LIPART1*(NPART+NTHPART)) ,2  ,1    ,
      5                    1       ,AFORM(1)           ,ITHFLAG       ,ITHVAR,
-     6                    IFILTITL,OUTPUT%TH%SITHBUFA )
+     6                    IFILTITL,OUTPUT%TH%SITHBUFA ,NAMES_AND_TITLES)
             END IF
 
             IF(NTHGRP01(2)/=0)THEN
@@ -1694,7 +1699,7 @@ C   Multiple th files
      3                   SUBSETS ,OUTPUT%TH%ITHGRPB ,OUTPUT%TH%ITHBUFB ,IGEO ,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+2*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(2)          ,ITHFLAG          ,ITHVAR,
-     6                   IFILTITL,OUTPUT%TH%SITHBUFB)
+     6                   IFILTITL,OUTPUT%TH%SITHBUFB,NAMES_AND_TITLES)
             END IF
 
             IF(NTHGRP01(3)/=0)THEN
@@ -1717,7 +1722,7 @@ C   Multiple th files
      3                   SUBSETS ,OUTPUT%TH%ITHGRPC ,OUTPUT%TH%ITHBUFC ,IGEO ,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+4*(NPART+NTHPART)) ,2 ,1,
      5                   1       ,AFORM(3)          ,ITHFLAG           ,ITHVAR,
-     6                   IFILTITL,OUTPUT%TH%SITHBUFC)
+     6                   IFILTITL,OUTPUT%TH%SITHBUFC,NAMES_AND_TITLES)
             END IF
 
             IF(NTHGRP01(4)/=0)THEN
@@ -1740,7 +1745,7 @@ C   Multiple th files
      3                   SUBSETS ,OUTPUT%TH%ITHGRPD ,OUTPUT%TH%ITHBUFD ,IGEO,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+6*(NPART+NTHPART)) ,2 ,1,
      5                   1       ,AFORM(4)          ,ITHFLAG           ,ITHVAR,
-     6                   IFILTITL ,OUTPUT%TH%SITHBUFD)
+     6                   IFILTITL ,OUTPUT%TH%SITHBUFD,NAMES_AND_TITLES)
             END IF
 
             IF(NTHGRP01(5)/=0)THEN
@@ -1763,7 +1768,7 @@ C   Multiple th files
      3                   SUBSETS ,OUTPUT%TH%ITHGRPE ,OUTPUT%TH%ITHBUFE ,IGEO,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+8*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(5)          ,ITHFLAG           ,ITHVAR,
-     6                   IFILTITL,OUTPUT%TH%SITHBUFE)
+     6                   IFILTITL,OUTPUT%TH%SITHBUFE,NAMES_AND_TITLES)
             END IF
 
             IF(NTHGRP01(6)/=0)THEN
@@ -1786,7 +1791,7 @@ C   Multiple th files
      3                   SUBSETS ,OUTPUT%TH%ITHGRPF ,OUTPUT%TH%ITHBUFF ,IGEO ,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+10*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(6)          ,ITHFLAG           ,ITHVAR,
-     6                   IFILTITL,OUTPUT%TH%SITHBUFF)
+     6                   IFILTITL,OUTPUT%TH%SITHBUFF,NAMES_AND_TITLES)
             END IF
 
             IF(NTHGRP01(7)/=0)THEN
@@ -1809,7 +1814,7 @@ C   Multiple th files
      3                   SUBSETS ,OUTPUT%TH%ITHGRPG ,OUTPUT%TH%ITHBUFG ,IGEO ,
      4                   IPM,IPART(1+LIPART1*(NPART+NTHPART)+12*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(7)          ,ITHFLAG           ,ITHVAR,
-     6                   IFILTITL,OUTPUT%TH%SITHBUFG )
+     6                   IFILTITL,OUTPUT%TH%SITHBUFG ,NAMES_AND_TITLES)
             END IF
 
             IF(NTHGRP01(8)/=0)THEN
@@ -1832,7 +1837,7 @@ C   Multiple th files
      3                   SUBSETS  ,OUTPUT%TH%ITHGRPH ,OUTPUT%TH%ITHBUFH ,IGEO,
      4                   IPM      ,IPART(1+LIPART1*(NPART+NTHPART)+14*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(8)           ,ITHFLAG           ,ITHVAR,
-     6                   IFILTITL,OUTPUT%TH%SITHBUFH)
+     6                   IFILTITL,OUTPUT%TH%SITHBUFH,NAMES_AND_TITLES)
             END IF
 
             IF(NTHGRP01(9)/=0)THEN
@@ -1855,7 +1860,7 @@ C   Multiple th files
      3                   SUBSETS ,OUTPUT%TH%ITHGRPI ,OUTPUT%TH%ITHBUFI ,IGEO,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+16*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(9)          ,ITHFLAG           ,ITHVAR,
-     6                   IFILTITL,OUTPUT%TH%SITHBUFI)
+     6                   IFILTITL,OUTPUT%TH%SITHBUFI,NAMES_AND_TITLES)
             END IF
         ELSE
           WRITE(CHR_OLD,'(I2.2)')IRUNN
@@ -1863,7 +1868,7 @@ C   Multiple th files
      1           IPARG ,IXS ,IXQ ,IXC ,IXT ,
      2           IXP ,IXR ,WA  ,ITAB ,PM  ,
      3           NPBYL ,IXTG ,IRFE    ,LACCELM ,
-     4           IPARI ,IPART ,OUTPUT%TH%ITHGRP ,OUTPUT%TH%ITHBUF ,CHR_OLD)
+     4           IPARI ,IPART ,OUTPUT%TH%ITHGRP ,OUTPUT%TH%ITHBUF ,CHR_OLD,NAMES_AND_TITLES)
         ENDIF
 
         IF(NABFILE /= 0) THEN
@@ -1877,7 +1882,7 @@ C   Multiple th files
      2                    WA            ,PM               ,GEO              ,IPART,
      3                    SUBSETS       ,OUTPUT%TH%ITHGRP ,OUTPUT%TH%ITHBUF ,IGEO,
      4                    IPM           ,IPART            ,LIPART1          ,8,
-     5                    12            ,ITHVAR           ,ITHFLAG )
+     5                    12            ,ITHVAR           ,ITHFLAG,NAMES_AND_TITLES )
             FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.abf'
             LONG = 9
             LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -1910,7 +1915,7 @@ c
      2                      WA            ,PM                ,GEO               ,IPART,
      3                      SUBSETS       ,OUTPUT%TH%ITHGRPA ,OUTPUT%TH%ITHBUFA ,IGEO,
      4                      IPM           ,IPART(1+LIPART1*(NPART+NTHPART))     ,2,1,
-     5                      1             ,ITHVAR            ,ITHFLAG)
+     5                      1             ,ITHVAR            ,ITHFLAG,NAMES_AND_TITLES)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_a.abf'
               LONG = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -1940,7 +1945,7 @@ c
      2                      WA            ,PM               ,GEO               ,IPART,
      3                      SUBSETS       ,OUTPUT%TH%ITHGRPB,OUTPUT%TH%ITHBUFB ,IGEO,
      4                      IPM           ,IPART(1+LIPART1*(NPART+NTHPART)+2*(NPART+NTHPART)),2,1,
-     5                      1             ,ITHVAR           ,ITHFLAG)
+     5                      1             ,ITHVAR           ,ITHFLAG,NAMES_AND_TITLES)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_b.abf'
               LONG = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -1971,7 +1976,7 @@ c
      2                      WA            ,PM      ,GEO        ,IPART ,
      3                      SUBSETS       ,OUTPUT%TH%ITHGRPC   ,OUTPUT%TH%ITHBUFC ,IGEO,
      4                      IPM           ,IPART               ,2 ,1,
-     5                      1             ,ITHVAR              ,ITHFLAG)
+     5                      1             ,ITHVAR              ,ITHFLAG,NAMES_AND_TITLES)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_c.abf'
               LONG = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -2001,7 +2006,7 @@ c
      2                       WA            ,PM      ,GEO        ,IPART,
      3                       SUBSETS       ,OUTPUT%TH%ITHGRPD   ,OUTPUT%TH%ITHBUFD ,IGEO,
      4                       IPM           ,IPART   ,2     ,1   ,
-     5                       1             ,ITHVAR  ,ITHFLAG)
+     5                       1             ,ITHVAR  ,ITHFLAG,NAMES_AND_TITLES)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_d.abf'
               LONG = 11
             LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -2029,7 +2034,7 @@ c
      2                       WA            ,PM     ,GEO       ,IPART,
      3                       SUBSETS       ,OUTPUT%TH%ITHGRPE ,OUTPUT%TH%ITHBUFE ,IGEO,
      4                       IPM           ,IPART             ,2     ,1     ,
-     5                       1             ,ITHVAR            ,ITHFLAG)
+     5                       1             ,ITHVAR            ,ITHFLAG,NAMES_AND_TITLES)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_e.abf'
               LONG = 11
             LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -2058,7 +2063,7 @@ c
      2                      WA  ,PM  ,GEO ,IPART ,
      3                      SUBSETS ,OUTPUT%TH%ITHGRPF,OUTPUT%TH%ITHBUFF,IGEO    ,
      4                      IPM   ,IPART   ,2     ,1     ,
-     5                      1   ,ITHVAR,ITHFLAG)
+     5                      1   ,ITHVAR,ITHFLAG,NAMES_AND_TITLES)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_f.abf'
               LONG = 11
             LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -2087,7 +2092,7 @@ c
      2                      WA  ,PM  ,GEO ,IPART ,
      3                      SUBSETS ,OUTPUT%TH%ITHGRPG,OUTPUT%TH%ITHBUFG,IGEO    ,
      4                      IPM     ,IPART   ,2     ,1     ,
-     5                      1       ,ITHVAR,ITHFLAG)
+     5                      1       ,ITHVAR,ITHFLAG,NAMES_AND_TITLES)
      
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_g.abf'
               LONG = 11
@@ -2121,7 +2126,7 @@ c
      2                      WA            ,PM                  ,GEO              ,IPART,
      3                      SUBSETS       ,OUTPUT%TH%ITHGRPH  ,OUTPUT%TH%ITHBUFH ,IGEO,
      4                      IPM   ,IPART  ,2                  ,1     ,
-     5                      1     ,ITHVAR ,ITHFLAG )
+     5                      1     ,ITHVAR ,ITHFLAG ,NAMES_AND_TITLES)
      
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_h.abf'
               LONG = 11
@@ -2154,7 +2159,7 @@ c
      2                      WA            ,PM                 ,GEO               ,IPART,
      3                      SUBSETS       ,OUTPUT%TH%ITHGRPI  ,OUTPUT%TH%ITHBUFI ,IGEO    ,
      4                      IPM           ,IPART(1+LIPART1*(NPART+NTHPART)+16*(NPART+NTHPART)),2,1,
-     5                      1             ,ITHVAR                                ,ITHFLAG)
+     5                      1             ,ITHVAR ,ITHFLAG,NAMES_AND_TITLES)
      
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_i.abf'
               LONG = 11
@@ -2224,7 +2229,8 @@ C---------------------------------------------------------------------
      .                   FORNEQS      ,PINCH_DATA      ,ALE_CONNECTIVITY,
      .                   DRAPE_SH4N   ,DRAPE_SH3N      ,T_MONVOL        ,SENSORS    ,EBCS_TAB        ,
      .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    ,
-     .                   OUTPUT       ,INTERFACES      ,DT              ,LOADS      ,MAT_ELEM  , PYTHON)
+     .                   OUTPUT       ,INTERFACES      ,DT              ,LOADS      ,MAT_ELEM  , PYTHON,
+     .                   NAMES_AND_TITLES)
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")
