@@ -90,10 +90,10 @@ if ( debug STREQUAL "1" )
 set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 ${FPP_FLAG} /Od /debug:all /Qftz /extend-source /assume:buffered_io /Qopenmp  ${ADF} /traceback" )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback  ${zlib_inc}" )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback ${zlib_inc}" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback  ${zlib_inc}" )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback ${zlib_inc}" )
 
 
 elseif ( debug STREQUAL "chkb" )
@@ -102,10 +102,10 @@ elseif ( debug STREQUAL "chkb" )
 set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "/nologo ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 /fpp /Od /debug:all /check:bounds /check:uninit /Qftz /extend-source /assume:buffered_io /Qopenmp  ${ADF} /traceback" )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "/nologo ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all  /Qftz  /Qopenmp /traceback " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "/nologo ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all  /Qftz  /Qopenmp /traceback  ${zlib_inc}" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "/nologo ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback" )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "/nologo ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback  ${zlib_inc}" )
 
 else ()
 

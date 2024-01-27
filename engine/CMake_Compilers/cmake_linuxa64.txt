@@ -7,7 +7,6 @@
 # ---------------
 
 
-
 # General machine flag setting
 set ( cppmach "-DCPP_mach=CPP_p4linux964" ) 
 set ( cpprel  "-DCPP_rel=70" )
@@ -111,7 +110,7 @@ set_source_files_properties(${c_source_files}   PROPERTIES COMPILE_FLAGS "-g -O0
 # CXX source files
 set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-g -O0 ${Vect_opt} ${wo_linalg} ${precision_flag} ${mpi_flag} ${cppmach} ${cpprel} ${zlib_inc} ${h3d_inc} -std=c++11" )
 
-else if ( debug STREQUAL "asan" )
+elseif ( debug STREQUAL "asan" )
 # Fortran
 set_source_files_properties( ${source_files}    PROPERTIES COMPILE_FLAGS "-g -O0 ${Vect_opt} ${Vect_precise} ${wo_linalg} ${precision_flag} ${Fortran} ${mpi_flag} ${cppmach} ${cpprel} ${h3d_inc}" )
 

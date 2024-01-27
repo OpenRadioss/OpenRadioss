@@ -32,7 +32,9 @@ if (STDOUT STREQUAL 1)
    message(" Print output files in Stdout")
 endif()
 
-
+if ( NOT ${DEBUG} STREQUAL "optimized")
+  set (debug_option "-debug ${DEBUG}")
+endif()
 
 
 set (Test_script "${CMAKE_CURRENT_SOURCE_DIR}/qa_tools/or_execute.py")
