@@ -1,158 +1,158 @@
-add_test(NAME 1.01 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/ACCELEROMETRES -test_id 1.01 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.01 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/ACCELEROMETRES -test_id 1.01 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.02 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/AIRBAG/jetting41b -test_id 1.02  -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.02 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/AIRBAG/jetting41b -test_id 1.02  -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.03 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/ALE2D/bar2_v41 -test_id 1.03 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.03 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/ALE2D/bar2_v41 -test_id 1.03 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.04 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/COQUES3N/ct3a -test_id 1.04 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.04 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/COQUES3N/ct3a -test_id 1.04 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.05 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/CRASH/crashtriangles -test_id 1.05 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.05 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/CRASH/crashtriangles -test_id 1.05 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.06 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/CRASH/crashsection/box1_42  -test_id 1.06 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.06 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/CRASH/crashsection/box1_42  -test_id 1.06 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.07 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/INT_2/pl_dam_ilev  -test_id 1.07 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.07 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/INT_2/pl_dam_ilev  -test_id 1.07 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.08 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/INT_7/friction  -test_id 1.08 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.08 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/INT_7/friction  -test_id 1.08 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.09 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/INT_7/idel7=2  -test_id 1.09 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.09 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/INT_7/idel7=2  -test_id 1.09 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.10 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/INT_7/small_boule -test_id 1.10 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.10 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/INT_7/small_boule -test_id 1.10 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.12 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/INT_7/igsti/small_boule_igsti -test_id 1.12 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.12 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/INT_7/igsti/small_boule_igsti -test_id 1.12 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.13 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/int357 -test_id 1.13 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.13 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/int357 -test_id 1.13 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.15 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/KIN_CONSTRAINTS/RBODY/ROTA -test_id 1.15 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.15 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/KIN_CONSTRAINTS/RBODY/ROTA -test_id 1.15 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.16 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/FOAM/FOAM429/input_100/isolid_101 -test_id 1.16 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.16 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/FOAM/FOAM429/input_100/isolid_101 -test_id 1.16 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.17 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI2/BESH/input_44 -test_id 1.17 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.17 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI2/BESH/input_44 -test_id 1.17 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.18 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI12/test1 -test_id 1.18 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.18 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI12/test1 -test_id 1.18 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.19 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI13/solide -test_id 1.19 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.19 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI13/solide -test_id 1.19 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.20 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI14 -test_id 1.20 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.20 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI14 -test_id 1.20 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.21 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI21 -test_id 1.21 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.21 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI21 -test_id 1.21 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.22 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI22/sol2223/version_100 -test_id 1.22 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.22 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI22/sol2223/version_100 -test_id 1.22 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.23 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI25/test_crasurv_bloc/input_44 -test_id 1.23 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.23 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI25/test_crasurv_bloc/input_44 -test_id 1.23 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.24 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI27/B_POKE_9 -test_id 1.24 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.24 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI27/B_POKE_9 -test_id 1.24 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.25 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI35/NewTests/Coques/test2 -test_id 1.25 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.25 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI35/NewTests/Coques/test2 -test_id 1.25 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.26 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI38/DMAFNLIN/input_44/isolid_1 -test_id 1.26 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.26 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI38/DMAFNLIN/input_44/isolid_1 -test_id 1.26 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.27 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI44/solides_8pt -test_id 1.27 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.27 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI44/solides_8pt -test_id 1.27 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.28 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI49/bar2_v44/loi_4_49 -test_id 1.28 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.28 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI49/bar2_v44/loi_4_49 -test_id 1.28 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.29 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI50/test1/pid_6/input_44 -test_id 1.29 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.29 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI50/test1/pid_6/input_44 -test_id 1.29 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.30 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI62/cisaillement -test_id 1.30 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.30 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI62/cisaillement -test_id 1.30 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.31 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI66/test_shell -test_id 1.31 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.31 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI66/test_shell -test_id 1.31 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.32 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI68/cisaillement/test1/input_51 -test_id 1.32 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.32 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI68/cisaillement/test1/input_51 -test_id 1.32 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.33 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI76/shell/test1/compression -test_id 1.33 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.33 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI76/shell/test1/compression -test_id 1.33 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.34 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/onefile_rad -test_id 1.34 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.34 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/onefile_rad -test_id 1.34 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.35 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/OPTIONS/damp/damping_all_nodes/input_44 -test_id 1.35 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.35 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/OPTIONS/damp/damping_all_nodes/input_44 -test_id 1.35 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.36 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/OPTIONS/desacti/test2/version_5 -test_id 1.36 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.36 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/OPTIONS/desacti/test2/version_5 -test_id 1.36 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.37 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/OPTIONS/frame_or_skew/MOV/frame -test_id 1.37 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.37 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/OPTIONS/frame_or_skew/MOV/frame -test_id 1.37 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.38 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/REFERENCE_STATE_FILES/REFSTA/SOLIDES/law42 -test_id 1.38 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.38 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/REFERENCE_STATE_FILES/REFSTA/SOLIDES/law42 -test_id 1.38 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.39 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RESSORT/couple -test_id 1.39 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.39 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RESSORT/couple -test_id 1.39 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.40 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RESSORT/prop_type8/ecrouissage -test_id 1.40 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.40 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RESSORT/prop_type8/ecrouissage -test_id 1.40 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.41 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RESSORT/prop_type25/input_51 -test_id 1.41 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.41 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RESSORT/prop_type25/input_51 -test_id 1.41 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.42 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RESSORT/prop_type32/ILOCK2 -test_id 1.42 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.42 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RESSORT/prop_type32/ILOCK2 -test_id 1.42 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.43 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RESSORT/kjoint2 -test_id 1.43 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.43 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RESSORT/kjoint2 -test_id 1.43 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.44 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RESTART/cra2 -test_id 1.44 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.44 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RESTART/cra2 -test_id 1.44 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.45 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RUPTURE/Wierzbcki/User_law/shell/input_51 -test_id 1.45 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.45 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RUPTURE/Wierzbcki/User_law/shell/input_51 -test_id 1.45 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.46 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SOLIDES/inibri_stress -test_id 1.46 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.46 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SOLIDES/inibri_stress -test_id 1.46 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.47 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SOLIDES/TYPE6_LAW28 -test_id 1.47 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.47 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SOLIDES/TYPE6_LAW28 -test_id 1.47 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.48 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SOLIDES/nv_elts/poutre_flex/flexion/H101 -test_id 1.48 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.48 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SOLIDES/nv_elts/poutre_flex/flexion/H101 -test_id 1.48 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.49 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SOLIDES/nv_elts/poutre_flex/flexion/H112 -test_id 1.49 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.49 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SOLIDES/nv_elts/poutre_flex/flexion/H112 -test_id 1.49 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.50 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SOLIDES/nv_elts/poutre_flex/flexion/HEPH/icpre_1 -test_id 1.50 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.50 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SOLIDES/nv_elts/poutre_flex/flexion/HEPH/icpre_1 -test_id 1.50 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.51 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SOLIDES/nv_elts/poutre_flex/flexion/HSEPH -test_id 1.51 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.51 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SOLIDES/nv_elts/poutre_flex/flexion/HSEPH -test_id 1.51 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.52 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SOLIDES/nv_elts/poutre_flex/flexion/PA6 -test_id 1.52 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.52 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SOLIDES/nv_elts/poutre_flex/flexion/PA6 -test_id 1.52 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.53 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SUBMODEL/TRANSF -test_id 1.53 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.53 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SUBMODEL/TRANSF -test_id 1.53 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.54 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SUBMODEL/update_v_100/ACTIV -test_id 1.54 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.54 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SUBMODEL/update_v_100/ACTIV -test_id 1.54 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.55 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SUBMODEL/update_v_100/PLOAD -test_id 1.55 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.55 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SUBMODEL/update_v_100/PLOAD -test_id 1.55 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.56 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SUBMODEL/update_v_100/FAIL/Jonhson_Cook -test_id 1.56 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.56 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SUBMODEL/update_v_100/FAIL/Jonhson_Cook -test_id 1.56 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.57 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/FLUIDE_NEW/COMPA1B -test_id 1.57 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.57 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/FLUIDE_NEW/COMPA1B -test_id 1.57 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.59 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/FLUIDE_NEW/EBCS/INIV -test_id 1.59 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.59 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/FLUIDE_NEW/EBCS/INIV -test_id 1.59 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.64 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SPH/WavesCompression -test_id 1.64 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.64 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SPH/WavesCompression -test_id 1.64 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.65 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/OPTIONS/NEW_BOX_V11/BOX_GRBRICK -test_id 1.65 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.65 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/OPTIONS/NEW_BOX_V11/BOX_GRBRICK -test_id 1.65 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.66 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/OPTIONS/NEW_BOX_V11/BOX_GRSHEL -test_id 1.66 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.66 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/OPTIONS/NEW_BOX_V11/BOX_GRSHEL -test_id 1.66 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.67 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/OPTIONS/damp/new_test_v11 -test_id 1.67 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.67 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/OPTIONS/damp/new_test_v11 -test_id 1.67 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.68 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/EOS/EOS_PUFF_2 -test_id 1.68 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.68 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/EOS/EOS_PUFF_2 -test_id 1.68 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.69 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RUPTURE/FAIL_TAB/ELEM_SAMP -test_id 1.69 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.69 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RUPTURE/FAIL_TAB/ELEM_SAMP -test_id 1.69 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.70 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LEAK_MAT/run2_LAW19_quads -test_id 1.70 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.70 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LEAK_MAT/run2_LAW19_quads -test_id 1.70 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.71 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LEAK_MAT/run2_LAW58_quads -test_id 1.71 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.71 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LEAK_MAT/run2_LAW58_quads -test_id 1.71 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.72 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/INT_7/fpenmax -test_id 1.72 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.72 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/INT_7/fpenmax -test_id 1.72 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.73 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/PROP/spring_beam_Hardening7/Type4/Hardening7 -test_id 1.73 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.73 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/PROP/spring_beam_Hardening7/Type4/Hardening7 -test_id 1.73 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.74 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/PROP/spring_beam_Hardening7/Type8/Hardening6 -test_id 1.74 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.74 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/PROP/spring_beam_Hardening7/Type8/Hardening6 -test_id 1.74 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.75 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/PROP/spring_beam_Hardening7/Type13/Hardening7 -test_id 1.75 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.75 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/PROP/spring_beam_Hardening7/Type13/Hardening7 -test_id 1.75 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.77 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/PROP/PROPSOL_ORTH_Istrain -test_id 1.76 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.77 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/PROP/PROPSOL_ORTH_Istrain -test_id 1.76 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.78 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI51/JWL/01-PG_degenerated/01b_dP-E -test_id 1.78 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.78 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI51/JWL/01-PG_degenerated/01b_dP-E -test_id 1.78 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.79 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI51/JWL/01-PG_degenerated/01a_P-E -test_id 1.79 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.79 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/LOIS/LOI51/JWL/01-PG_degenerated/01a_P-E -test_id 1.79 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.80 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/AMS/boxbeam -test_id 1.80 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.80 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/AMS/boxbeam -test_id 1.80 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.81 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/INT_7/igsti/small_boule_igsti/dtmin_02 -test_id 1.81 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.81 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/INT_7/igsti/small_boule_igsti/dtmin_02 -test_id 1.81 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.82 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/IMPOSED/IMPDISP_FGEO -test_id 1.82 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.82 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/IMPOSED/IMPDISP_FGEO -test_id 1.82 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.84 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SMOKE_TEST -test_id 1.84 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.84 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/SMOKE_TEST -test_id 1.84 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.85 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RESTART/int7_small_boule_rst -test_id 1.85 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.85 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/RESTART/int7_small_boule_rst -test_id 1.85 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.87 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/INT_22/1D_U-SURF_9ELEMS_LAW6_Linear_EOS_EULER_0.FVM -test_id 1.87 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.87 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/INTERF/INT_22/1D_U-SURF_9ELEMS_LAW6_Linear_EOS_EULER_0.FVM -test_id 1.87 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.88 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/AMS/auto_element_selection -test_id 1.88 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.88 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/AMS/auto_element_selection -test_id 1.88 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 
-add_test(NAME 1.89 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/PYTHON/FUNCT_PYTHON -test_id 1.89 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} -debug ${DEBUG})
+add_test(NAME 1.89 COMMAND ${Python_EXECUTABLE} ${Test_script} -deck_dir miniqa/PYTHON/FUNCT_PYTHON -test_id 1.89 -arch ${arch} -mpi ${MPI} -np ${NP} -stdout ${STDOUT} -prec ${PREC} -keep ${KEEP} ${debug_option})
 

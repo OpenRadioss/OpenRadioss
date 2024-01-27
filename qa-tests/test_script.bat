@@ -9,8 +9,8 @@ set verbose=""
 set stdout="-DSTDOUT=0"
 set keep_results=0
 set clean=0
-set debug=""
-set ddebug=""
+set debug=0
+set ddebug=0
 
 rem Argument loop
 :ARG_LOOP
@@ -90,7 +90,7 @@ if exist %test_directory% (
 )
 
 if %debug%==0 (
-    set ddebug=''
+    set ddebug=Optimized
 ) else (
 
    if %debug%==1 (
@@ -103,6 +103,7 @@ if %debug%==0 (
 
 rem MPI=smp,impi,ompi : depending on the flavors
 rem cmake -DMPI=impi -DNP=4 ..
+echo ddebug= %ddebug%
 
 cmake -Darch=%arch% -DPREC=%prec% -DMPI=%mpi%  -DNP=%np% %stdout% -DKEEP=%keep_results% -DDEBUG=%ddebug% ..
 ctest -C Release --output-on-failure --timeout 600 %tests% %verbose%

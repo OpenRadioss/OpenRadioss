@@ -145,10 +145,10 @@ elseif ( debug STREQUAL "chkb" )
 set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "/nologo /Qopenmp /Od /debug:all /check:bounds /check:uninit /Qftz /fpp /extend-source /assume:buffered_io ${precision_flag} ${Fortran} ${mpi_flag} ${MUMPS_flags} -DMETIS5 ${cppmach} ${cpprel}" )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "/nologo /Qopenmp /Od /debug:all /Qftz ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel}" )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "/nologo /Qopenmp /Od /debug:all /Qftz ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} ${zlib_inc}" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "/nologo /Qopenmp /Od /debug:all /Qftz ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} /Qstd=c++11" )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "/nologo /Qopenmp /Od /debug:all /Qftz ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} ${zlib_inc} /Qstd=c++11" )
 
 
 else ()
