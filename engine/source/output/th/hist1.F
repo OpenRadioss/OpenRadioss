@@ -46,13 +46,14 @@ Chd|====================================================================
      3                 SUBSET,ITHGRP,ITHBUF,IGEO ,
      4                 IPM  ,IPARTH ,NPARTH ,NVPARTH ,
      5                 NVSUBTH ,ITTYP,ITHFLAG,ITHVAR,IFILTITL,
-     6                 SITHBUF)
+     6                 SITHBUF,NAMES_AND_TITLES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE INOUTFILE_MOD
       USE TH_MOD
+      USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,LTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,7 +62,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "com05_c.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
 #include      "scr05_c.inc"
@@ -91,6 +91,7 @@ C     REAL
      .   PM(NPROPM,*),GEO(NPROPG,*)
       CHARACTER FILNAM*100
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
+      TYPE(NAMES_AND_TITLES_),INTENT(IN) :: NAMES_AND_TITLES  !< NAMES_AND_TITLES host the input deck names and titles for outputs
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -101,10 +102,13 @@ C-----------------------------------------------
      .   SEEK_LOC,IPART1,IPART2    
 C     REAL
       my_real
-     .   TITLE(20),TIT40(10),TIT80(20),TIT100(25)
-      CHARACTER EOR*8, CH8*8, CARD*80, BLA*7, CH8M*8, CH8L*8, CH8T*8 
+     .   TIT40(10),TIT80(20),TIT100(25)
+      my_real,DIMENSION(20) :: TITLE
+      CHARACTER EOR*8, CH8*8,BLA*7, CH8M*8, CH8L*8, CH8T*8 
+      CHARACTER (LEN=LTITLE) :: CARD
       CHARACTER CH80*80,TITL*100,VAR*10
       INTEGER :: LEN_TMP_NAME, TITLSUM
+      INTEGER, DIMENSION(20) :: TEXT
       CHARACTER(len=2148) :: TMP_NAME
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -116,8 +120,7 @@ C-----------------------------------------------
       DATA EOR/'ZZZZZEOR'/
 C=======================================================================
 C
-      WRITE(CARD,'(20A4)')TEXT
-      READ(CARD,'(20A4)')TITLE
+      CARD(1:LTITLE)=NAMES_AND_TITLES%TITLE(1:LTITLE)
 C      ICODE=3017
 C      ICODE=3023
 C      ICODE=3030
@@ -180,8 +183,8 @@ C
       ENDIF
 C-------TITRE------------
       IF(ITTYP==0)THEN
-       WRITE(IUNIT)ICODE,TITLE
-
+        READ(CARD,'(20A4)')TITLE
+        WRITE(IUNIT)ICODE,TITLE
       ELSEIF(ITTYP==1)THEN
         CH8=STRI(ICODE)
         WRITE(IUNIT,'(A)')FILNAM(1:ROOTLEN+LONG)         
@@ -211,8 +214,8 @@ C-------ivers date------------
          ITITLE(I)=ICHAR(CH80(I:I))
       ENDDO
       IF(ITTYP==0)THEN
-        READ(CH80,'(20A4)')TITLE
-      WRITE(IUNIT)TITLE
+        READ(CH80,'(20A4)')TITLE  
+        WRITE(IUNIT)TITLE  
       ELSEIF(ITTYP==1)THEN
         WRITE(IUNIT,'(A)')CH80
       ELSEIF(ITTYP==2)THEN

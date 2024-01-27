@@ -103,6 +103,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE OUTPUT_MOD
       USE MAT_ELEM_MOD
+      USE NAMES_AND_TITLES_MOD, only: NAMES_AND_TITLES_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -191,6 +192,7 @@ c      TYPE(SENSORS_) :: SENSORS    ! declared as global in USER_SENSOR_MOD
       CHARACTER GLOBAL_PATH*(ncharline+2048)
       INTEGER :: LEN_CWD
       INTEGER*4 GETCWD, STATUS_CWD
+      TYPE(NAMES_AND_TITLES_)   :: NAMES_AND_TITLES    !< NAMES_AND_TITLES host the input deck names and titles for outputs
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -214,6 +216,8 @@ C     Constants
     
 C     timers initialization
       CALL INITIME()
+c
+      CALL NAMES_AND_TITLE_INIT(NAMES_AND_TITLES)
 C=======================================================================
 C while waiting IOUT to be initialized set to stdout 
 C Needs to be done in the early beginning
@@ -791,7 +795,7 @@ c 2d seatbelt translation
 C-------------------------------------------------------------------
 C     Control variables (count options)
 C-------------------------------------------------------------------
-      CALL CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM)
+      CALL CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM,NAMES_AND_TITLES)
 C-------------------------------------------------------------------
 C     Parameters modification and parameters write (-HSTP_READ -HSTP_WRITE ARGUMENTS)
 C-------------------------------------------------------------------
@@ -887,7 +891,7 @@ C--------------------------------------------------
         CALL LECTUR(
      .       MULTI_FVM                   ,LSUBMODEL         ,IS_DYNA          ,DETONATORS   ,EBCS_TAB,
      .       SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS,NB_DYNA_INCLUDE  ,USER_WINDOWS ,OUTPUT  ,
-     .       MAT_ELEM                     )
+     .       MAT_ELEM,NAMES_AND_TITLES  )
 
 c       stop CPU timer for lectur
         CALL STOPTIME(2,1)

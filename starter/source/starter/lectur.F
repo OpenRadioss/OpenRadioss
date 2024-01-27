@@ -518,7 +518,7 @@ Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.
 Chd|====================================================================
       SUBROUTINE LECTUR(MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA         ,DETONATORS   ,EBCS_TAB,
      .                  SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT  ,
-     .                  MAT_ELEM)
+     .                  MAT_ELEM,NAMES_AND_TITLES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -599,6 +599,7 @@ C-----------------------------------------------
       USE READ_FUNCT_PYTHON_MOD
       USE PYTHON_FUNCT_MOD
       USE INTER_CAND_MOD
+      USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -606,16 +607,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(MULTI_FVM_STRUCT)             :: MULTI_FVM
-      TYPE(SUBMODEL_DATA)                :: LSUBMODEL(NSUBMOD)
-      INTEGER,INTENT(IN)                 ::IS_DYNA
+      TYPE(MULTI_FVM_STRUCT)              :: MULTI_FVM
+      TYPE(SUBMODEL_DATA)                 :: LSUBMODEL(NSUBMOD)
+      INTEGER,INTENT(IN)                  ::IS_DYNA
       TYPE(DETONATORS_STRUCT_),TARGET     :: DETONATORS
-      TYPE(T_EBCS_TAB), INTENT(INOUT)    :: EBCS_TAB
-      INTEGER,INTENT(IN)                 ::NB_SEATBELT_SHELLS
-      INTEGER,INTENT(INOUT)              ::SEATBELT_CONVERTED_ELEMENTS(3,NB_SEATBELT_SHELLS)
-      INTEGER,INTENT(IN)                 ::NB_DYNA_INCLUDE
-      TYPE(USER_WINDOWS_), INTENT(INOUT) :: USER_WINDOWS
-      TYPE(OUTPUT_),  INTENT(INOUT)      :: OUTPUT
+      TYPE(T_EBCS_TAB), INTENT(INOUT)     :: EBCS_TAB
+      INTEGER,INTENT(IN)                  ::NB_SEATBELT_SHELLS
+      INTEGER,INTENT(INOUT)               ::SEATBELT_CONVERTED_ELEMENTS(3,NB_SEATBELT_SHELLS)
+      INTEGER,INTENT(IN)                  ::NB_DYNA_INCLUDE
+      TYPE(USER_WINDOWS_), INTENT(INOUT)  :: USER_WINDOWS
+      TYPE(OUTPUT_),  INTENT(INOUT)       :: OUTPUT
+      TYPE(NAMES_AND_TITLES_),INTENT(INOUT) :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -872,7 +874,6 @@ C-----------------------------------------------
       INTEGER NLINES,NUSERWI,USERWI_ID
       INTEGER SCR_FILE_NAME_LEN
       CHARACTER(LEN=ncharkey) :: KEY
-      CHARACTER TITLE*nchartitle
 C-----------------------------------------------
 C Model Checker Memory
       DATA IUN/1/
@@ -10186,7 +10187,7 @@ C--------------------------------------------
      .         X      ,IXS    ,IXQ    ,IXC    ,IXT    ,
      .         IXP    ,IXR    ,IXTG   ,ITAB   ,PM     ,
      .         GEO    ,MS     ,IXS10  ,IGEO  ,IPM    ,
-     .         KXSP    ,IPART  ,IPARTSP )
+     .         KXSP    ,IPART  ,IPARTSP,NAMES_AND_TITLES )
       MWA = ZERO
 C--------------------------------------------
 C     ECRITURE FICHIER ANIM
@@ -10734,7 +10735,7 @@ c
      C         INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP,DYNAIN_DATA,
      E         DRAPEG       ,USER_WINDOWS ,OUTPUT        ,INTERFACES  ,NUMBER_LOAD_CYL ,
-     F         LOADS_PER_PROC(P), PYTHON,DPL0CLD,VEL0CLD)
+     F         LOADS_PER_PROC(P), PYTHON,DPL0CLD,VEL0CLD ,NAMES_AND_TITLES)
       GOTO 220
  221  CONTINUE
 

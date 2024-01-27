@@ -587,7 +587,7 @@ Chd|====================================================================
      M  T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,DYNAIN_DATA,FCONT_MAX,EBCS_TAB,DIFFUSION,
      N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT,INTERFACES,
      O  DT        ,LOADS     , PYTHON, DPL0CLD,VEL0CLD,
-     P  NDAMP_VREL,ID_DAMP_VREL,FR_DAMP_VREL)
+     P  NDAMP_VREL,ID_DAMP_VREL,FR_DAMP_VREL, NAMES_AND_TITLES )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -669,6 +669,7 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE FORCE_MOD , ONLY : FORCE
       USE ARRAY_MOD , ONLY : array_type
+      USE NAMES_AND_TITLES_MOD, only: NAMES_AND_TITLES_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -895,6 +896,7 @@ c
       TYPE (DT_) ,INTENT(INOUT)                          :: DT
       TYPE(MAT_ELEM_)   ,INTENT(INOUT)                   :: MAT_ELEM
       TYPE(PYTHON_)  ,INTENT(INOUT)                      :: PYTHON
+      TYPE(NAMES_AND_TITLES_),INTENT(INOUT)              :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
 C
       INTEGER ,INTENT(IN) :: NDAMP_VREL,ID_DAMP_VREL(NDAMP_VREL),FR_DAMP_VREL(NSPMD+2,NDAMP_VREL)     
 C-----------------------------------------------
@@ -5403,7 +5405,7 @@ C   MADYMO_DEL is globalized with SPMD_ALLGLOB_ISUM9
 C   if Positive, all domains send the info during Time Step exchange
 C   
 C   --------------------------------------------------------
-C   Don't communicate IDEL7NOK if already done. (IDEL7NG >0)
+C   Do not communicate IDEL7NOK if already done. (IDEL7NG >0)
 C  ---------------------------------------------------------
 
         MADYMO_DEL_GLOBAL=0
@@ -9105,7 +9107,7 @@ C--------------------------------------------------------
      .                 H3D_DATA  , INTBUF_FRIC_TAB,SUBSETS,
      .                 PINCH_DATA, ALE_CONNECTIVITY, T_MONVOL,
      .                 SENSORS   , EBCS_TAB   ,DYNAIN_DATA ,USER_WINDOWS,OUTPUT        ,
-     .                 INTERFACES, LOADS      ,PYTHON)
+     .                 INTERFACES, LOADS      ,PYTHON, NAMES_AND_TITLES)
 
           IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
           CALL FVWREST()
@@ -9387,7 +9389,7 @@ C--------------------------------------------------------
      .                 H3D_DATA   ,INTBUF_FRIC_TAB ,SUBSETS   ,
      .                 PINCH_DATA ,ALE_CONNECTIVITY, T_MONVOL ,
      .                 SENSORS    ,EBCS_TAB        ,DYNAIN_DATA,USER_WINDOWS,OUTPUT        ,
-     .                 INTERFACES ,LOADS           ,PYTHON)
+     .                 INTERFACES ,LOADS           ,PYTHON, NAMES_AND_TITLES)
 
         IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
         CALL FVWREST()
@@ -9525,7 +9527,7 @@ C--------------------------------------------------------
      .                    H3D_DATA   ,INTBUF_FRIC_TAB,SUBSETS     ,
      .                    PINCH_DATA ,ALE_CONNECTIVITY, T_MONVOL ,
      .                    SENSORS    ,EBCS_TAB      ,DYNAIN_DATA ,USER_WINDOWS,OUTPUT         ,
-     .                    INTERFACES ,LOADS         ,PYTHON)
+     .                    INTERFACES ,LOADS         ,PYTHON, NAMES_AND_TITLES)
 
               IF (NFLOW>0) CALL NFWREST(IFLOW, RFLOW)
               CALL FVWREST()

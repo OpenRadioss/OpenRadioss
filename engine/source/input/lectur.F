@@ -92,7 +92,7 @@ Chd|====================================================================
      F                  IGRPART ,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
      H                  MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
-     I                  DYNAIN_DATA,DT ,LOADS ,OUTPUT)
+     I                  DYNAIN_DATA,DT ,LOADS ,OUTPUT,NAMES_AND_TITLES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -118,6 +118,7 @@ C-----------------------------------------------
       USE OUTPUT_MOD
       USE FXB_MOD
       USE MY_ALLOC_MOD
+      USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -199,6 +200,7 @@ C-----------------------------------------------
       TYPE (DT_), INTENT(INOUT)              :: DT
       TYPE (LOADS_), INTENT(IN)              :: LOADS
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+      TYPE(NAMES_AND_TITLES_),INTENT(INOUT) :: NAMES_AND_TITLES  !< NAMES_AND_TITLES host the input deck names and titles for outputs
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2530,7 +2532,7 @@ C---------------------------------------------------------
 C---------------------------------------------------------
 C     FILTERED SAMPLED OUTPUT
 C---------------------------------------------------------
-      IF(NNOISE > 0)CALL LECNOISE(INOISE,ITABM1)
+      IF(NNOISE > 0)CALL LECNOISE(INOISE,ITABM1,NAMES_AND_TITLES)
       NNOISER=NNOISE
 C---------------------------------------------------------
 C     MADYMO COUPLING GENERAL DATA (CONVERSION FACTORS).
