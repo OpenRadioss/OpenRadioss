@@ -205,6 +205,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE FVBAG_MOD , only:FVBAG_DATA, FVDATA, NFVBAG, AIRBAGS_TOTAL_FVM_IN_H3D, FVSPMD
+        USE H3D_ONED_SCALAR_MOD, ONLY: H3D_ONED_SCALAR
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
         USE PLYXFEM_MOD
         USE MESSAGE_MOD
@@ -340,72 +341,39 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        my_real, DIMENSION(:), ALLOCATABLE :: WAFT  , MAS   , XNORM,
-     .                                        XMASS1, XMASS2, XMASS3,
-     .                                        XFUNC1, XFUNC2, XFUNC3,
-     .                                        XUSR, WAFT_P
-        INTEGER IAD(SIAD),INVERT(SINVERT),MATER(SMATER),EL2FA(SEL2FA),
+        my_real, DIMENSION(:), ALLOCATABLE :: WAFT  , MAS   
+        INTEGER IAD(SIAD),INVERT(SINVERT),EL2FA(SEL2FA),
      .          IADG(NSPMD,SIADG),
-     .          UIX(SUIX)      ,NFACPTX(3,SNFACPTX),
-     .          IXEDGE(SIXEDGE), IXFACET(SIXFACET), IXSOLID(SIXSOLID),
-     .          INUMX1(SNUMX1) , INUMX2(SNUMX2)   , INUMX3(SNUMX3),
-     .          IOFFX1(SOFFX1) , IOFFX2(SOFFX2)   , IOFFX3(SOFFX3),
-     .          SZ16,SHFT16,IADGPS,NSN,IADISO     , IG3DSOLID(SIG3DSOLID),
      .          FIRST_NODE_IG3D
-        REAL
-     .         , DIMENSION(:), ALLOCATABLE :: WA4, MAS4
-        my_real
-     .     X_TEMP(3,64*NUMELIG3D),D_TEMP(3,64*NUMELIG3D),
-     .     V_TEMP(3,64*NUMELIG3D),A_TEMP(3,64*NUMELIG3D),TABSTRESL(6,64*NUMELIG3D),
-     .     BID_TEMP(3,64*NUMELIG3D)
-
 
         my_real ,DIMENSION (:), ALLOCATABLE :: CBUF
         INTEGER ,DIMENSION (:), ALLOCATABLE :: ICBUF
         SAVE CBUF,ICBUF
 
-        CHARACTER*80 STR, MES*30, CAUX,TITL*100, H3DTITLE
+        CHARACTER*80 STR, MES*30, TITL*100, H3DTITLE
         CHARACTER(LEN=NCHARLINE100):: KEYWORD
-        CHARACTER CH_H3D*4,FILNAM*100, CHANIM1*4
-        INTEGER I, NBF, NBPART, MAGIC, J, IFUNC, FILEN, NPSOL,NSENSOR,
-     .          NODCUT,NELCUT,LENR,LENI,LENCUT,IXEL,
-     .          MIC1,MIC2,MIC3,MIC4,MIC5,MAC1,MAC2,MAC3,NPSPR,N,K,
-     .          I3000, NESCT,NERBY,NERWL,NNWL,TMPNBF,ISK(6),
-     .          NESBW2,NEL,NFT,ITY,NG,OUI,LAYER,IPT,GAUSS,ID_PLY,IUVAR,
+        CHARACTER CH_H3D*4,FILNAM*100
+        INTEGER I, NBF, NBPART, MAGIC, J, IFUNC, FILEN, NSENSOR,
+     .          NELCUT,
+     .          N,K,
+     .          NERBY,ISK(6),
+     .          LAYER,IPT,GAUSS,ID_PLY,IUVAR,
      .          ALL_SUB_CHILDS,IDMDS,IMDSVAR,ID
         INTEGER II,II_L,INC,P,NSLARB_L,NDMA2,NUMELS_T,NSKEWA,NB1D,
      .          M1,M2,M3,M,M01,NBONED_T, NBF_L, LEN, NUMELT_T,
      .          NUMELR_T, NUMELP_T
-        INTEGER ISECT,NESCT1,IRBY,NERBY1,IRWL,NERWL1,NERBE2,NERBE3,
-     .          NERBE2_1,NERBE3_1
-        INTEGER NSURG,NESRG, NNSRG, NESRG1, NNSRG1,ISRG,ISRF,ISRK
-        INTEGER NSMAD,NESMD, NNSMD, NESMD1, NNSMD1,ISMD
-        INTEGER NENT,OFFSI,OFFSRF,OFFSRV
-        INTEGER NESPH,NNSPH,INSPH,NESPHG,NNSPHG,SNNSPHG,SZNNSPH,SHFTSPH
+        INTEGER NERBE2,NERBE3
         INTEGER I161,I16A,I16B,I16C,I16D,I16E,I16F,I16G,I16H,I16I,I16J,
      .          I16K,I16L,I16M,I16N
-        INTEGER MXSUBS,NSECTSA
-        INTEGER IPRT, IAUX
-        INTEGER IFLAG1D,NNNSRG,NNN,BUF
-        INTEGER NANIMONED_L,IUS,NANIM3D_L
-        INTEGER ISPH3D,M4,N0
+        INTEGER NNN
+        INTEGER ISPH3D
         INTEGER SBUFSPM,SBUFRECVM,SBUFSPO,SPORBY,N_OUTP_DATA,LEN_H3DTITLE,N_H3D_PART_LIST
         my_real
      .     CDG(3),XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX, SCALE,
      .     RVAL
-        INTEGER K1, KK1, K2, KIBJET, KIBHOL, IADHOL, KK2, KRBJET, KRBHOL,
-     .          RADHOL, ITYP, KI1, KR1, NCA, NTG, NJET, NVENT, NTGI
-        my_real
-     .         , DIMENSION(:,:), ALLOCATABLE :: VFLU    , VVAR1   , AFLU,
-     .                           VFLU_ALE, FANREACT, FANREACR
-
-        INTEGER IADI, IADR, NINOUT, NNO, II1, II2, IR1, NNO_L, NNN_L,
-     .          II3, II4
-        INTEGER NNS, NNI, NNT, NNA, NBA, KI2, KR2
-        INTEGER FVOFF(2,NFVBAG), INOD(4), INORM(3), NFVTR, NFVNOD,
-     .          NFVPART, NFVSUBS, IDMAX, KK, NN, FVIAD, JJ, OFFPART,
-     .          ELOFF, IDCMAX, NND, NBID1, NBID2, NBID3, NFVNODT, IDP,
-     .          NBPART2D, ISUBG,EMPSIZPL,IRUNN,IR,IS,IT,INTER_INPUT,INTERSKID,
+        INTEGER 
+     .          JJ, 
+     .          NBPART2D, ISUBG,IR,IS,IT,INTER_INPUT,INTERSKID,
      .          NI, ITYSKID, INTERFRIC
 
         INTEGER, DIMENSION(:), ALLOCATABLE :: SHELL_ID,SHELL_ID_P,
@@ -422,7 +390,7 @@ C-----------------------------------------------
      .                                        ISOLNOD,ISOLNOD_P
         INTEGER, DIMENSION(:), ALLOCATABLE :: IS_WRITEN_NODE_FVM,NODE_ID_FVM
         INTEGER  INFO1,INFO2,IS_CORNER_DATA, COMPID_RBODIES, COMPID_RBE2S, COMPID_RBE3S, MAX_PART_ID
-        INTEGER  CPT,ERROR_LOAD,NUMNOD_H3DPART,WORK(70000)
+        INTEGER  ERROR_LOAD,NUMNOD_H3DPART,WORK(70000)
 c a mettre en allocatable
         INTEGER, DIMENSION(:,:), ALLOCATABLE ::
      .           IXC_P,
@@ -468,7 +436,7 @@ c a mettre en allocatable
         INTEGER, DIMENSION(:), ALLOCATABLE :: ITAB_P
 
         INTEGER :: IAD_H3DPART,IAD_P,NUMNODG0,IP0 ,NIXSKIN
-        INTEGER :: NUMELC_P(NSPMD),DISP(NSPMD),NUMNOD_P(NSPMD)
+        INTEGER :: NUMELC_P(NSPMD),NUMNOD_P(NSPMD)
 
 
 
@@ -2411,12 +2379,11 @@ c          IF(ISPMD == 0) print *,'nodal scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO
 
 c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT_LIST(I)%PART(1:NPART)
 
-            CALL H3D_ONED_SCALAR(ELBUF_TAB   ,IFUNC  ,IPARG    ,GEO  ,
-     .                  IXT          ,IXP    ,IXR    ,PM   ,
-     .                  ANIN(NDMA2+1),ONED_SCALAR,
-     .                  ONED_ID      ,ONED_ITY,INFO1 ,INFO2    , IS_WRITEN_ONED  ,
-     .                  IPARTT ,IPARTP,IPARTR,H3D_DATA%OUTPUT_LIST(I)%PART,
-     .                  KEYWORD, X , D   ,IPT)
+            CALL H3D_ONED_SCALAR(ELBUF_TAB   ,IPARG    ,GEO  , IXT,
+     .               IXP    ,IXR    ,PM   ,  ANIN(NDMA2+1),
+     .               ONED_SCALAR,   ONED_ID      ,ONED_ITY,
+     .               IS_WRITEN_ONED  ,    IPARTT ,IPARTP,IPARTR,H3D_DATA%OUTPUT_LIST(I)%PART,
+     .               KEYWORD, X , D   ,IPT)
 
 c
             IF (NSPMD > 1 ) THEN
@@ -2905,16 +2872,12 @@ c-----
 c          IF(ISPMD == 0)  print *,'SPH scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO1',INFO1,'INFO2',INFO2
 
             CALL H3D_SPH_SCALAR(
-     .                      ELBUF_TAB ,SPH_SCALAR,IFUNC         ,IPARG        ,GEO        ,
+     .                      ELBUF_TAB ,SPH_SCALAR,IFUNC         ,IPARG        ,
      .                      KXSP      ,PM        ,IPART         ,
-     .                      EL2FA     ,NBF       ,IAD          ,
-     .                      NBF_L     ,EANI      ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
-     .                      IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
-     .                      INVERT    ,X         ,V             ,W            ,
-     .                      NV46      ,NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
-     .                      STACK     ,SPH_ID  ,IPARTSP      ,IUVAR      ,
-     .                      H3D_DATA%OUTPUT_LIST(I)%PART,IS_WRITEN_SPH,INFO1,KEYWORD,SPBUF,
-     .                      OBJECT_ID )
+     .                      IPM       ,
+     .                      SPH_ID  ,IPARTSP      ,IUVAR      ,H3D_DATA%OUTPUT_LIST(I)%PART,
+     .                      IS_WRITEN_SPH,KEYWORD,SPBUF, OBJECT_ID )
+
 c
             IF (NSPMD > 1 ) THEN
               CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
@@ -2994,16 +2957,15 @@ c         IF(ISPMD == 0)  print *,'QUAD scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO1
 c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT_LIST(I)%PART(1:NPART)
 
             CALL H3D_QUAD_SCALAR(
-     .                       ELBUF_TAB ,QUAD_SCALAR ,IFUNC      ,IPARG,GEO    ,
-     .                       IXQ       ,IXC       ,IXTG          ,PM       ,
-     .                       EL2FA     ,NBF       ,IAD          ,
-     .                       NBF_L     ,EANI      ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
-     .                       IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
-     .                       INVERT    ,X         ,V             ,W            ,ALE_CONNECT,
-     .                       NV46      ,NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
-     .                       STACK     ,QUAD_ID  ,INFO1        ,INFO2      ,
-     .                       IS_WRITEN_QUAD,IPARTQ ,IPARTTG     ,LAYER        ,IPT        ,
-     .                       ID_PLY     ,GAUSS     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD,
+     .                       ELBUF_TAB ,QUAD_SCALAR ,IPARG,
+     .                       IXQ       ,PM       ,
+     .                       EANI      ,
+     .                       IPM       ,
+     .                       X         ,V             ,W            ,ALE_CONNECT,
+     .                       NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
+     .                       QUAD_ID  ,
+     .                       IS_WRITEN_QUAD,IPARTQ ,LAYER        ,
+     .                       IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD,
      .                       BUFMAT     ,MULTI_FVM ,IR           ,IS           ,IT         ,
      .                       OBJECT_ID  )
 c

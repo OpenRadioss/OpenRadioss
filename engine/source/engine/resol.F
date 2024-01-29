@@ -617,6 +617,7 @@ C-----------------------------------------------
       USE CHECK_MOD
       USE ACCELERATION_DP_MOD 
       USE ALE_CONNECTIVITY_MOD
+      USE ALEANIM_MOD 
       USE DYNLIB_MOD
       USE MONVOL_STRUCT_MOD
       USE DRAPE_MOD
@@ -642,6 +643,8 @@ C-----------------------------------------------
       USE DEBUG_CHKSM_MOD ,  ONLY : SPMD_FLUSH_ACCEL
       USE DT_MOD
       USE PYTHON_FUNCT_MOD
+      USE PYTHON_REGISTER_MOD, ONLY : PYTHON_REGISTER
+      USE FUNCT_PYTHON_UPDATE_ELEMENTS_MOD, ONLY : FUNCT_PYTHON_UPDATE_ELEMENTS
       USE OUTMAX_MOD
       USE FORCE_MOD , ONLY : FORCE
       USE ARRAY_MOD , ONLY : array_type
@@ -1994,7 +1997,42 @@ C Reinitialise sensor variables defined in /SENS/RESET
 C========================================================================================
 
 C save the Python functions into the Python interpreter dictionarry
-       CALL PYTHON_REGISTER(PYTHON)
+       CALL PYTHON_REGISTER(PYTHON,ITAB,NUMNOD,
+     .                      IXS, NIXS, NUMELS, 
+     .                      IXC, NIXC, NUMELC, 
+     .                      IXP, NIXP, NUMELP, 
+     .                      IXT, NIXT, NUMELT, 
+     .                      IXQ, NIXQ, NUMELQ, 
+     .                      IXTG, NIXTG, NUMELTG, 
+     .                      IXR, NIXR, NUMELR, 
+     .                      IPARG, NGROUP, NPARG, MVSIZ)
+
+       K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
+       K2=K1+NUMELS
+       K3=K2+NUMELQ
+       K4=K3+NUMELC
+       K5=K4+NUMELT
+       K6=K5+NUMELP
+       K7=K6+NUMELR
+       K8=K7
+       K9=K8+NUMELTG
+       CALL FUNCT_PYTHON_UPDATE_ELEMENTS(PYTHON, ISPMD, 
+     .          N2D,  NGROUP,  NIXC, NIXTG, NIXS,NIXQ, 
+     .          NUMGEO, NUMELC, NUMELTG, NUMELS, NUMELQ, NUMMAT, NUMNOD,  
+     .          NPARG, NPROPG, NPROPM, NPROPMI, NPROPGI,  
+     .          SNERCVOIS, SNESDVOIS, SLERCVOIS, SLESDVOIS,  
+     .          STHKE, SEANI, NPART, 
+     .          ELBUF_TAB   ,IPARG       ,GEO        ,  
+     .          IXC         ,IXTG      , IXS, IXQ, PM          ,BUFMAT     ,  
+     .          EANI,  
+     .          IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,  
+     .          X           ,V         ,W           ,ALE_CONNECTIVITY,  
+     .          NERCVOIS    ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,  
+     .          n0phas, nvphas, STACK       ,           
+     .          IPART(K3:K4-1),IPART(K1:K2-1),IPART(K8:K9-1), IPART(K2:K3-1), 
+     .          D           , MULTI_FVM ,  
+     .          MAT_ELEM%MAT_PARAM , FANI_CELL)
+
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -2992,7 +3030,8 @@ C First: try with reduced bounding box
         CALL ENGINE_USER_INITIALIZE(NSPMD_USER,NTASK_USER,ISPMD_USER)
       ENDIF
       ! ----------------------
-
+      CALL PYTHON_UPDATE_TIME(TT,DT2)
+      CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD, X=X,A=A,V=V,D=D,DR=DR,VR=VR)
 C=======================================================================
 
 C----------------------------------------
@@ -3220,7 +3259,7 @@ C----------------------------------
 C       FUNCTIONS
 C----------------------------------
         IF(NFUNCT /= 0.AND.IALE+IEULER+ITHERM+NEBCS>0) THEN
-            CALL TIMFUN(FV, NPC, TF)
+            CALL TIMFUN(PYTHON,FV, NPC, TF)
             IF(EBCS_TAB%nebcs_loc/=0) THEN
                 !!! Need to "extrapolate values" whenever current time
                 !!! is lower than minimum defined time function or greater than
@@ -3283,7 +3322,7 @@ C
      2                    V      ,X       ,SKEWS%SKEW   ,AR      ,VR        ,
      3                    NSENSOR,SENSORS%SENSOR_TAB ,WEIGHT ,TFEXC   ,IADS(I87J),
      4                    FSKY   , FSKY   ,FEXT   ,H3D_DATA,
-     5                    PINCH_DATA%APINCH, PINCH_DATA%VPINCH)  
+     5                    PINCH_DATA%APINCH, PINCH_DATA%VPINCH, PYTHON)  
         ENDIF
 C
         IF (IMONM > 0) CALL STOPTIME(41,1)
@@ -3299,7 +3338,7 @@ C
           ENDIF
           CALL FORCEFINGEO(IBFV ,NPC    ,TF      ,A    ,V    ,X     ,
      2                     VEL  ,SENSORS%SENSOR_TAB ,FSKY ,FEXT ,ITABM1,
-     3                     H3D_DATA,NSENSOR)
+     3                     H3D_DATA,NSENSOR,PYTHON)
           IF(IMON>0) THEN
             IF(IMONM > 0) CALL STOPTIME(44,1)
             CALL STOPTIME(4,1)
@@ -3318,7 +3357,7 @@ C-------------------------------------------------------------------
      2                V       ,X                 ,XFRAME     ,MS         ,
      3                NSENSOR ,SENSORS%SENSOR_TAB,TFEXC      ,IADS(I87M) ,
      4                FSKY    ,FSKY              ,LLOADP     ,FEXT       ,H3D_DATA  ,
-     5                OUTPUT%TH%TH_SURF)
+     5                OUTPUT%TH%TH_SURF, PYTHON)
 !$OMP END PARALLEL
         IF (IMONM > 0) CALL STOPTIME(41,1)
         IF (IMON>0) CALL STOPTIME(4,1)
@@ -3378,7 +3417,7 @@ C----------------------------------------------
             IF (IMONM > 0) CALL STARTIME(41,1)
               CALL CONVEC(IBCV  ,FCONV   ,NPC   ,TF   , X     ,
      1                  TEMP    ,NSENSOR,SENSORS%SENSOR_TAB,FTHE, IADS(I87K),
-     2                  FTHESKY)
+     2                  FTHESKY, PYTHON)
             IF (IMONM > 0) CALL STOPTIME(41,1)
             IF (IMON>0) CALL STOPTIME(4,1)
           ENDIF
@@ -3390,7 +3429,7 @@ C-----------------------------------------------------------
             IF (IMONM > 0) CALL STARTIME(41,1)
             CALL RADIATION(IBCR,   FRADIA, NPC,     TF,   X         ,
      1                     TEMP,   NSENSOR,SENSORS%SENSOR_TAB, FTHE, IADS(I87L),
-     2                     FTHESKY)
+     2                     FTHESKY, PYTHON)
             IF (IMONM > 0) CALL STOPTIME(41,1)
             IF (IMON>0) CALL STOPTIME(4,1)
           ENDIF
@@ -3408,7 +3447,7 @@ C-------------------------------------------------
           IF (IMON>0) CALL STARTIME(4,1)
           IF (IMONM > 0) CALL STARTIME(41,1)
           CALL FIXFLUX(IBFFLUX, FBFFLUX,  NPC,  TF,     X,     IXS,
-     1                 NSENSOR,SENSORS%SENSOR_TAB, FTHE, IADS(I87N), FTHESKY)
+     1                 NSENSOR,SENSORS%SENSOR_TAB, FTHE, IADS(I87N), FTHESKY, PYTHON)
           IF (IMONM > 0) CALL STOPTIME(41,1)
           IF (IMON>0) CALL STOPTIME(4,1)
         ENDIF
@@ -3812,7 +3851,7 @@ C
      M          IGRBRIC    ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS    ,EBCS_TAB         ,ALE_CONNECTIVITY, DIFFUSION,
      N          MAT_ELEM   ,H3D_DATA,DT , OUTPUT , NEED_COMM_INTER18,IDTMINS,IRESP,
      O          IDTMIN     ,MAXFUNC ,IMON_MAT        ,USERL_AVAIL      ,heat_meca       ,
-     P          impl_s     , idyna )
+     P          impl_s     , idyna , PYTHON)
 
            IF(INT22 /=0)  call my_barrier !INTER22in input files  - get also IDT_INT22
 #include "lockon.inc"
@@ -4742,8 +4781,9 @@ C
             CALL LOAD_PRESSURE (ILOADP    ,LOADP     ,LLOADP  ,NPC    ,TF       ,
      2                          A         ,V         ,X       ,SKEWS%SKEW   ,SENSORS%SENSOR_TAB,
      3                          IADS(I87M),FSKY      ,FANI(1,1+NFEA),TAGNCONT ,NSENSOR   ,
-     4                          LOADP_HYD_INTER,H3D_DATA ,
+     4                          LOADP_HYD_INTER,H3D_DATA , PYTHON, 
      5                          NPRESLOAD ,LOADP_TAGDEL,OUTPUT%TH%TH_SURF)
+
 
           IF (IMONM > 0) CALL STOPTIME(41,1)
            IF (IMON>0) CALL STOPTIME(4,1)
@@ -6884,6 +6924,7 @@ C-----------------------------------------------
      .    CALL TEMPUR(TEMP ,MCP,FTHE,NODFTSK,NODLTSK,WEIGHT,MCP_OFF)
 !$OMP END PARALLEL
 
+
 C------------------------------------------
 C       DT_DC for thick-shell 
 C-----------------------------------------------
@@ -7021,6 +7062,8 @@ C-----------------------------------------------
       END IF
 
       IF (IMON>0) CALL STOPTIME(7,1)
+      CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD,A=A,V=V,AR=AR,VR=VR)
+
 C------------------------------
 C         GRAVITE / ACCEL. BASE
 C------------------------------
@@ -7080,7 +7123,7 @@ C===============================================================================
 
 !$OMP PARALLEL PRIVATE(ITSK)
           ITSK = OMP_GET_THREAD_NUM()
-          CALL CFIELD_1(ICFIELD  ,CFIELD,NPC   ,TF    ,A,
+          CALL CFIELD_1(PYTHON,ICFIELD  ,CFIELD,NPC   ,TF    ,A,
      2                    V     ,X     ,XFRAME  ,MS,SENSORS%SENSOR_TAB,
      3                    WEIGHT,LCFIELD,ITSK ,IFRAME,NSENSOR)
 !$OMP END PARALLEL
@@ -8112,6 +8155,33 @@ C===============================================================================
 
       END IF
 
+       K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
+       K2=K1+NUMELS
+       K3=K2+NUMELQ
+       K4=K3+NUMELC
+       K5=K4+NUMELT
+       K6=K5+NUMELP
+       K7=K6+NUMELR
+       K8=K7
+       K9=K8+NUMELTG
+       CALL FUNCT_PYTHON_UPDATE_ELEMENTS(PYTHON, ISPMD, 
+     .          N2D,  NGROUP,  NIXC, NIXTG, NIXS,NIXQ, 
+     .          NUMGEO, NUMELC, NUMELTG, NUMELS, NUMELQ, NUMMAT, NUMNOD,  
+     .          NPARG, NPROPG, NPROPM, NPROPMI, NPROPGI,  
+     .          SNERCVOIS, SNESDVOIS, SLERCVOIS, SLESDVOIS,  
+     .          STHKE, SEANI, NPART, 
+     .          ELBUF_TAB   ,IPARG       ,GEO        ,  
+     .          IXC         ,IXTG, IXS  ,IXQ ,PM          ,BUFMAT     ,  
+     .          EANI,  
+     .          IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,  
+     .          X           ,V         ,W           ,ALE_CONNECTIVITY,  
+     .          NERCVOIS    ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,  
+     .          N0PHAS, NVPHAS, STACK       ,           
+     .          IPART(K3:K4-1),IPART(K1:K2-1) ,IPART(K8:K9-1),IPART(K1:K2-1), 
+     .          D           , MULTI_FVM ,  
+     .          MAT_ELEM%MAT_PARAM, FANI_CELL)
+
+
 C
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -8481,6 +8551,10 @@ C------------
         ENDIF
        ENDIF
       ENDIF
+C ---------------------------------
+      CALL PYTHON_UPDATE_TIME(TT,DT2)
+
+C ---------------------------------
 C----------------------------------
 C       IMPLICITE SOLVER
 C----------------------------------
@@ -8816,7 +8890,7 @@ C===============================================================================
      2         W               ,WA            ,WB          ,RBY         ,SKEWS%SKEW       ,
      3         PM              ,XLAS          ,MS          ,FSAV        ,
      4         A               ,TF            ,RWBUF       ,
-     5         DT2SAVE         ,
+     5         DT2SAVE         , PYTHON, 
      6         IPARG           ,IXS           ,IXQ         ,NODPOR      ,
      7         ISKEW           ,ICODT         ,ELBUF_TAB   ,
      8         NPC             ,LINALE        ,NPRW        ,LAS         ,
@@ -8857,7 +8931,7 @@ C===============================================================================
         ENDIF
       ENDIF
 
-
+      CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD,X= X, D=D, DR=DR)
 C========================================================================================
 C                                   NON PARALLEL SECTION (SMP)
 C========================================================================================
@@ -8918,7 +8992,6 @@ c----------------------------------------------------------------------
            CALL SPMD_EXCH_CRKVEL(IAD_ELEM ,FR_ELEM ,INOD_CRK ,ITAB   ,
      .                           X        ,V       ,VR       )
          ENDIF
-
 C========================================================================================
 C                                   PARALLEL SECTION (SMP)
 C========================================================================================

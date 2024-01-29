@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alefvm_mod         ../common_source/modules/ale/alefvm_mod.F
       !||    sensor_mod         ../engine/share/modules/sensor_mod.F
       !||====================================================================
-      SUBROUTINE ALEFVM_GRAV_INIT(
+      SUBROUTINE ALEFVM_GRAV_INIT(PYTHON, 
      1                          AGRV, IGRV, LGRAV, NSENSOR,SENSOR_TAB,
      2                          IXS , ITASK, NPC , TF    ,SKEW    ,
      3                          ITAB )
@@ -46,6 +46,7 @@ C This subroutine is treating an uncut cell.
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE PYTHON_FUNCT_MOD
       USE ALEFVM_MOD
       USE SENSOR_MOD
 C-----------------------------------------------
@@ -72,6 +73,7 @@ C finite volume scheme (IALEFVM==1)
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(PYTHON_) , INTENT(IN) :: PYTHON
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER :: IXS(NIXS,*), IGRV(NIGRV,*), ITASK,LGRAV(*),NPC(*),ITAB(*)
       my_real :: AGRV(LFACGRV,*),TF(*)
@@ -83,6 +85,7 @@ C-----------------------------------------------
       my_real          :: TS,AA,FCX,FCY,VV,A0,DYDX,GAMA,TFEXTT
       my_real          :: M_CELL(MVSIZ),ACCEL(3,MVSIZ),SKEW(LSKEW,*)
       my_real,EXTERNAL :: FINTER      
+      INTEGER           :: ISMOOTH
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
@@ -111,7 +114,7 @@ C-----------------------------------------------
 
         ISENS=0
         DO K=1,NSENSOR
-          IF(IGRV(6,NL)==SENSOR_TAB(K)%SENS_ID) ISENS=K  ! do it in starter !!!
+          IF(IGRV(6,NL)==SENSOR_TAB(K)%SENS_ID) ISENS=K  
         ENDDO
         IF(ISENS==0)THEN
           TS  = TT
@@ -119,10 +122,20 @@ C-----------------------------------------------
           TS  = TT-SENSOR_TAB(ISENS)%TSTART
           IF(TS<0.0)CYCLE
         ENDIF
+        ISMOOTH = 0
+        IF (IFUNC > 0) ISMOOTH = NPC(2*NFUNCT+IFUNC+1)
 
         IF (IFUNC > 0) THEN
-          A0    = FCY*FINTER(IFUNC,(TS-DT1)*FCX,NPC,TF,DYDX)
-          GAMA  = FCY*FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
+          IF(ISMOOTH >= 0) THEN
+            A0    = FCY*FINTER(IFUNC,(TS-DT1)*FCX,NPC,TF,DYDX)
+            GAMA  = FCY*FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
+          ELSE IF (ISMOOTH < 0) THEN
+            ISMOOTH = -ISMOOTH ! the id the python function is saved in the position of ISMOOTH in the NPC array 
+            CALL PYTHON_CALL_FUNCT1D(PYTHON, ISMOOTH,(TS-DT1)*FCX, A0)
+            CALL PYTHON_CALL_FUNCT1D(PYTHON, ISMOOTH,TS*FCX, GAMA)
+            A0 = FCY*A0
+            GAMA = FCY*GAMA
+          ENDIF
         ELSE
           A0   = FCY
           GAMA = FCY

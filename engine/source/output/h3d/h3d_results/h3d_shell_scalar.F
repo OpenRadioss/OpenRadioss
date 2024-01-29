@@ -67,9 +67,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+C N2D,  NGROUP,
 #include      "com01_c.inc"
+C NUMGEO, NUMELC, NUMELTG, NUMMAT, NUMNOD,
 #include      "com04_c.inc"
+C NPARG, NPROPG, NNPROPM, NPROPMI, NPROPGI,
 #include      "param_c.inc"
+C SNERCVOIS, SNESDVOIS, SLERCVOIS, SLESDVOIS
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -117,7 +121,7 @@ C-----------------------------------------------
         !     LOOP OVER ELEM GROUPS & OUTPUT DATA               !
         !-------------------------------------------------------!
         DO NG=1,NGROUP
-          CALL H3D_SHELL_SCALAR_1(
+          CALL H3D_SHELL_SCALAR_1(.FALSE.,
      .                     ELBUF_TAB   ,SHELL_SCALAR,IPARG       ,GEO        ,
      .                     IXC       ,IXTG      ,PM          ,BUFMAT     ,
      .                     EHOUR       ,

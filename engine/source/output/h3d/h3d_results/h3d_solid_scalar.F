@@ -111,7 +111,7 @@ C
 c
         DO 900 NG=1,NGROUP
 
-          CALL H3D_SOLID_SCALAR_1(
+          CALL H3D_SOLID_SCALAR_1(.FALSE.,
      .                    ELBUF_TAB       ,SOLID_SCALAR ,IPARG       ,
      .                    IXS          ,PM          ,BUFMAT      ,
      .                    EHOUR        ,

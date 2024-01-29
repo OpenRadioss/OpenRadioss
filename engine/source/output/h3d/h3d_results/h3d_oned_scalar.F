@@ -30,10 +30,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
       !||====================================================================
+      MODULE H3D_ONED_SCALAR_MOD
+        CONTAINS
       SUBROUTINE H3D_ONED_SCALAR(
-     .                  ELBUF_TAB      , IFUNC   , IPARG    , GEO   , IXT     ,
+     .                  ELBUF_TAB      , IPARG    , GEO   , IXT     ,
      .                  IXP            , IXR     , PM    , ANIM    ,
-     .                  ONED_SCALAR    , ID_ELEM , ITY_ELEM , INFO1 , INFO2   , 
+     .                  ONED_SCALAR    , ID_ELEM , ITY_ELEM ,  
      .                  IS_WRITTEN_ONED, IPARTT  , IPARTP   , IPARTR, H3D_PART,
      .                  KEYWORD        , X       , D        ,IPT)
 C-----------------------------------------------
@@ -49,9 +51,13 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
+!ngroup
 #include      "com01_c.inc"
+!NUMELP, NUMELT, NUMELR
 #include      "com04_c.inc"
+!ANIM_FE
 #include      "scr14_c.inc"
+! nparg, npropm, npropg,
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -61,11 +67,10 @@ C     REAL
      .   PM(NPROPM,*), GEO(NPROPG,*),
      .   ANIM(*),ONED_SCALAR(*),X(3,*),D(3,*)
       INTEGER IPARG(NPARG,*),
-     .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),IFUNC,
-     .        NANIM1D_L,IPT,
+     .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
+     .        IPT,
      .        IS_WRITTEN_ONED(*),ID_ELEM(*),ITY_ELEM(*),
      .        IPARTT(*) ,IPARTP(*),IPARTR(*),H3D_PART(*)
-      INTEGER BUF,INFO1,INFO2
 C
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       CHARACTER(LEN=NCHARLINE100) :: KEYWORD
@@ -74,22 +79,17 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   EVAR(MVSIZ), MASS(MVSIZ) ,
-     .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE(MVSIZ),
+     .   MASS(MVSIZ) ,
+     .   OFF, VALUE(MVSIZ),
      .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, XM, DAMMX, VOL,   
      .   FOR, AREA, FEQ, EPLAS, RHO0, A0, XX1, YY1, ZZ1, AL0,EFRAC
-      INTEGER I, II, NG, NEL, NFT, IAD, ITY, LFT, NPT, ISS, ISC,
-     .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5, 
-     .        NB6, NB7, NB8, NB9, NB10, NB11, NB12, NB13, NB14, NB15,
-     .        NB16, LLL,NUVAR,IGTYP,IFAIL,
-     .        ISTRAIN,NN, K1, K2,JTURB,MT,JALE, IMID, IALEL,IPID,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NF,
-     .        OFFSET,K,INC,KK,IHBE,ISROT,ILAYER,IR,IS,JJ(6),IOK_PART(MVSIZ),
+      INTEGER I,  NG, NEL, NFT,  ITY,  NPT,  
+     .        N,   MLW,   
+     .        IGTYP,IFAIL,
+     .        IPID,
+     .        NN1,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
+     .        OFFSET,K,KK,ILAYER,IR,IS,JJ(6),IOK_PART(MVSIZ),
      .        IS_WRITTEN_VALUE(MVSIZ),N1, N2
-      REAL R4
-C
-      TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_),POINTER :: LBUF
 C-----------------------------------------------
 C
       NN1 = 1
@@ -109,10 +109,7 @@ C
         IGTYP =IPARG(38,NG)
         IFAIL =IPARG(43,NG)
 C---
-        GBUF => ELBUF_TAB(NG)%GBUF
-C---
         NFT   =IPARG(3,NG)
-!
         DO I=1,6
           JJ(I) = NEL*(I-1)
         ENDDO
@@ -195,7 +192,7 @@ C-----------------------------------------------
                   ELSEIF (MLW == 5) THEN
                     DO I=1,NEL
                       N = I + NFT
-                      MASS(I) = GBUF%MASS(I)
+                      MASS(I) = ELBUF_TAB(NG)%GBUF%MASS(I)
                     ENDDO
                   ELSE
                     DO I=1,NEL
@@ -205,8 +202,6 @@ C-----------------------------------------------
                   ENDIF ! IF(MLW)
                 ENDIF ! IF (ITY)
             ENDIF
-C-----------
-!
 C-----------------------------------------------
 C       TRUSS
 C-----------------------------------------------
@@ -223,8 +218,8 @@ C--------------------------------------------------
 C--------------------------------------------------
            IF(MLW/=1)THEN
             DO  I=1,NEL
-              OFF = GBUF%OFF(I)
-              VALUE(I) = GBUF%PLA(I)
+              OFF = ELBUF_TAB(NG)%GBUF%OFF(I)
+              VALUE(I) = ELBUF_TAB(NG)%GBUF%PLA(I)
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
            ENDIF
@@ -232,22 +227,22 @@ C--------------------------------------------------
           ELSEIF(KEYWORD == 'ENER')THEN
 C--------------------------------------------------
             DO I=1,NEL
-             VALUE(I) =GBUF%EINT(I)/MAX(EM30,MASS(I))
+             VALUE(I) =ELBUF_TAB(NG)%GBUF%EINT(I)/MAX(EM30,MASS(I))
              IS_WRITTEN_VALUE(I) = 1
             ENDDO
 C--------------------------------------------------
           ELSEIF(KEYWORD == 'EINT')THEN
 C--------------------------------------------------
             DO I=1,NEL
-             VALUE(I) =GBUF%EINT(I)
+             VALUE(I) =ELBUF_TAB(NG)%GBUF%EINT(I)
              IS_WRITTEN_VALUE(I) = 1
             ENDDO
 C--------------------------------------------------
           ELSEIF(KEYWORD == 'VONM')THEN
 C--------------------------------------------------
             DO I=1,NEL
-             FOR = GBUF%FOR(I)
-             AREA = GBUF%AREA(I)
+             FOR = ELBUF_TAB(NG)%GBUF%FOR(I)
+             AREA = ELBUF_TAB(NG)%GBUF%AREA(I)
              FEQ = FOR*FOR
              VALUE(I) = SQRT(FEQ)/AREA
              IS_WRITTEN_VALUE(I) = 1
@@ -256,34 +251,34 @@ C--------------------------------------------------
           ELSEIF(KEYWORD == 'SIGX')THEN  
 C--------------------------------------------------
             DO I=1,NEL                 
-             VALUE(I) = GBUF%FOR(I) / GBUF%AREA(I)
+             VALUE(I)=(ELBUF_TAB(NG)%GBUF%FOR(I))/(ELBUF_TAB(NG)%GBUF%AREA(I))
              IS_WRITTEN_VALUE(I) = 1
             ENDDO
 C--------------------------------------------------
           ELSEIF(KEYWORD == 'DT')THEN 
 C--------------------------------------------------
-            IF(GBUF%G_DT>0)THEN                      
+            IF(ELBUF_TAB(NG)%GBUF%G_DT>0)THEN                      
               DO I=1,NEL
-                VALUE(I) = GBUF%DT(I)
+                VALUE(I) = ELBUF_TAB(NG)%GBUF%DT(I)
                 IS_WRITTEN_VALUE(I) = 1
              ENDDO 
             ENDIF
 C--------------------------------------------------
-          ELSEIF (KEYWORD == 'AMS'.AND.(GBUF%G_ISMS>0)) THEN 
+          ELSEIF (KEYWORD == 'AMS'.AND.(ELBUF_TAB(NG)%GBUF%G_ISMS>0)) THEN 
 C--------------------------------------------------                      
               DO I=1,NEL
-                VALUE(I) = GBUF%ISMS(I)
+                VALUE(I) = ELBUF_TAB(NG)%GBUF%ISMS(I)
                 IS_WRITTEN_VALUE(I) = 1
               ENDDO 
 C--------------------------------------------------
           ELSEIF(KEYWORD == 'OFF')THEN  
 C--------------------------------------------------                     
             DO I=1,NEL
-              IF (GBUF%G_OFF > 0) THEN
-                IF(GBUF%OFF(I) > ONE) THEN
-                  VALUE(I) = GBUF%OFF(I) - ONE
-                ELSEIF((GBUF%OFF(I) >= ZERO .AND. GBUF%OFF(I) <= ONE)) THEN
-                  VALUE(I) = GBUF%OFF(I)
+              IF (ELBUF_TAB(NG)%GBUF%G_OFF > 0) THEN
+                IF(ELBUF_TAB(NG)%GBUF%OFF(I) > ONE) THEN
+                  VALUE(I) = ELBUF_TAB(NG)%GBUF%OFF(I) - ONE
+                ELSEIF((ELBUF_TAB(NG)%GBUF%OFF(I) >= ZERO .AND. ELBUF_TAB(NG)%GBUF%OFF(I) <= ONE)) THEN
+                  VALUE(I) = ELBUF_TAB(NG)%GBUF%OFF(I)
                 ELSE
                   VALUE(I) = -ONE
                 ENDIF
@@ -333,28 +328,26 @@ C--------------------------------------------------
                 IR = 1
                 IS = 1
                 NPT  = IPARG(6,NG)
-                IF (IPT == -1 .AND. GBUF%G_PLA > 0) THEN
+                IF (IPT == -1 .AND. ELBUF_TAB(NG)%GBUF%G_PLA > 0) THEN
                   DO  I=1,NEL
                     EPLAS = ZERO
                     DO K = 1,NPT
-                      LBUF => ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(IR,IS,K)
-                      EPLAS = EPLAS + LBUF%PLA(I)
+                      EPLAS = EPLAS + ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(IR,IS,K)%PLA(I)
                     ENDDO
                     VALUE(I) = EPLAS/NPT
                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO
 !   ILAYER=NULL,   NPT=IPT
-                ELSEIF ( IPT <= NPT .AND. IPT > 0 .AND. GBUF%G_PLA > 0) THEN
-                  LBUF => ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(IR,IS,IPT)
+                ELSEIF ( IPT <= NPT .AND. IPT > 0 .AND. ELBUF_TAB(NG)%GBUF%G_PLA > 0) THEN
                   DO  I=1,NEL
-                    VALUE(I) = LBUF%PLA(I)
+                    VALUE(I) = ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(IR,IS,IPT)%PLA(I)
                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO
-                ENDIF ! IF (IPT == -1 .AND. GBUF%G_PLA > 0)
+                ENDIF ! IF (IPT == -1 .AND. ELBUF_TAB(NG)%GBUF%G_PLA > 0)
               ELSE ! (IGTYP == 3)
                 DO  I=1,NEL
-                  OFF = GBUF%OFF(I)
-                  VALUE(I) = GBUF%PLA(I)
+                  OFF = ELBUF_TAB(NG)%GBUF%OFF(I)
+                  VALUE(I) = ELBUF_TAB(NG)%GBUF%PLA(I)
                   IS_WRITTEN_VALUE(I) = 1
                 ENDDO
               ENDIF ! IF (IGTYP == 18)
@@ -363,8 +356,8 @@ C--------------------------------------------------
           ELSEIF(KEYWORD == 'ENER')THEN
 C--------------------------------------------------
             DO I=1,NEL
-ca mass a recalculer !!        VALUE(I) = (GBUF%EINT(I) + GBUF%EINT(I)) / MAX(EM30,MASS(NFT+I))
-             VALUE = (GBUF%EINT(I) + GBUF%EINT(I)) 
+ca mass a recalculer !!        VALUE(I) = (ELBUF_TAB(NG)%GBUF%EINT(I) + ELBUF_TAB(NG)%GBUF%EINT(I)) / MAX(EM30,MASS(NFT+I))
+             VALUE = (ELBUF_TAB(NG)%GBUF%EINT(I) + ELBUF_TAB(NG)%GBUF%EINT(I)) 
              IS_WRITTEN_VALUE(I) = 1
            
             ENDDO
@@ -374,8 +367,8 @@ C--------------------------------------------------
             DO I=1,NEL
               N  = I + NFT
               IPID = IXP(5,N)
-              VOL = GEO(1,IPID)*GBUF%LENGTH(I)
-              VALUE(I) = (GBUF%EINT(I)+GBUF%EINT(I+NEL))/MAX(VOL,EM20)
+              VOL = GEO(1,IPID)*ELBUF_TAB(NG)%GBUF%LENGTH(I)
+              VALUE(I) = (ELBUF_TAB(NG)%GBUF%EINT(I)+ELBUF_TAB(NG)%GBUF%EINT(I+NEL))/MAX(VOL,EM20)
               IS_WRITTEN_VALUE(I) = 1             
             ENDDO              
 C--------------------------------------------------
@@ -387,10 +380,10 @@ C--------------------------------------------------
              B1 = GEO(2,IXP(5,N))
              B2 = GEO(18,IXP(5,N))
              B3 = GEO(4,IXP(5,N))
-             F1 = GBUF%FOR(JJ(1)+I)
-             M1 = GBUF%MOM(JJ(1) + I)
-             M2 = GBUF%MOM(JJ(2) + I)
-             M3 = GBUF%MOM(JJ(3) + I)
+             F1 = ELBUF_TAB(NG)%GBUF%FOR(JJ(1)+I)
+             M1 = ELBUF_TAB(NG)%GBUF%MOM(JJ(1) + I)
+             M2 = ELBUF_TAB(NG)%GBUF%MOM(JJ(2) + I)
+             M3 = ELBUF_TAB(NG)%GBUF%MOM(JJ(3) + I)
              YEQ= F1*F1 + THREE* A1 *
      +                  ( M1*M1 / MAX(B3,EM30)
      +                  + M2*M2 / MAX(B1,EM30)
@@ -403,7 +396,7 @@ C--------------------------------------------------
 C--------------------------------------------------
             DO I=1,NEL
              N = I + NFT
-             VALUE(I) = GBUF%FOR(JJ(1)+I) / GEO(1,IXP(5,N))
+             VALUE(I) = ELBUF_TAB(NG)%GBUF%FOR(JJ(1)+I) / GEO(1,IXP(5,N))
              IS_WRITTEN_VALUE(I) = 1
             ENDDO
 C--------------------------------------------------
@@ -411,7 +404,7 @@ C--------------------------------------------------
 C--------------------------------------------------
             DO I=1,NEL
              N = I + NFT
-             VALUE(I) = GBUF%FOR(JJ(2)+I) / GEO(1,IXP(5,N))
+             VALUE(I) = ELBUF_TAB(NG)%GBUF%FOR(JJ(2)+I) / GEO(1,IXP(5,N))
              IS_WRITTEN_VALUE(I) = 1
             ENDDO
 C--------------------------------------------------
@@ -419,28 +412,28 @@ C--------------------------------------------------
 C--------------------------------------------------
             DO I=1,NEL
              N = I + NFT
-             VALUE(I) = GBUF%FOR(JJ(3)+I) / GEO(1,IXP(5,N))
+             VALUE(I) = ELBUF_TAB(NG)%GBUF%FOR(JJ(3)+I) / GEO(1,IXP(5,N))
              IS_WRITTEN_VALUE(I) = 1
             ENDDO
 C--------------------------------------------------
           ELSEIF(KEYWORD == 'DT')THEN 
 C--------------------------------------------------                      
             DO I=1,NEL
-              VALUE(I) = GBUF%DT(I)
+              VALUE(I) = ELBUF_TAB(NG)%GBUF%DT(I)
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
 C--------------------------------------------------
-          ELSEIF (KEYWORD == 'AMS'.AND.(GBUF%G_ISMS>0)) THEN 
+          ELSEIF (KEYWORD == 'AMS'.AND.(ELBUF_TAB(NG)%GBUF%G_ISMS>0)) THEN 
 C--------------------------------------------------                      
               DO I=1,NEL
-                VALUE(I) = GBUF%ISMS(I)
+                VALUE(I) = ELBUF_TAB(NG)%GBUF%ISMS(I)
               IS_WRITTEN_VALUE(I) = 1
               ENDDO 
 C--------------------------------------------------
           ELSEIF(KEYWORD == 'OFF')THEN  
 C--------------------------------------------------                     
             DO I=1,NEL
-              VALUE(I) = GBUF%OFF(I)
+              VALUE(I) = ELBUF_TAB(NG)%GBUF%OFF(I)
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
 C--------------------------------------------------
@@ -457,20 +450,18 @@ C--------------------------------------------------
                   DO  I=1,NEL
                     EFRAC = ZERO
                     DO K = 1,NPT
-                      LBUF  => ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(IR,IS,K)
-                      EFRAC = EFRAC + LBUF%FRAC(I)
+                      EFRAC = EFRAC + ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(IR,IS,K)%FRAC(I)
                     ENDDO
                     VALUE(I) = EFRAC/NPT
                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO
 !   ILAYER=NULL,   NPT=IPT
                 ELSEIF ( IPT <= NPT .AND. IPT > 0 ) THEN
-                  LBUF => ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(IR,IS,IPT)
                   DO  I=1,NEL
-                    VALUE(I) = LBUF%FRAC(I)
+                    VALUE(I) =  ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(IR,IS,IPT)%FRAC(I)
                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO
-                ENDIF ! IF (IPT == -1 .AND. GBUF%G_PLA > 0)
+                ENDIF ! IF (IPT == -1 .AND. ELBUF_TAB(NG)%GBUF%G_PLA > 0)
             ENDIF !(MLW /= 71) 
            ENDIF !(IGTYP == 18) 
 C--------------------------------------------------
@@ -487,20 +478,19 @@ C--------------------------------------------------
                   DO  I=1,NEL
                     EFRAC = ZERO
                     DO K = 1,NPT
-                      LBUF  => ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(IR,IS,K)
-                      EFRAC = EFRAC + LBUF%PLA(I)
+                      EFRAC = EFRAC + ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(IR,IS,K)%PLA(I)
                     ENDDO
                     VALUE(I) = EFRAC/NPT
                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO
 !   ILAYER=NULL,   NPT=IPT
                 ELSEIF ( IPT <= NPT .AND. IPT > 0 ) THEN
-                  LBUF => ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(IR,IS,IPT)
+                  
                   DO  I=1,NEL
-                    VALUE(I) = LBUF%PLA(I)
+                    VALUE(I) = ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(IR,IS,IPT)%PLA(I)
                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO
-                ENDIF ! IF (IPT == -1 .AND. GBUF%G_PLA > 0)
+                ENDIF ! IF (IPT == -1 .AND. ELBUF_TAB(NG)%GBUF%G_PLA > 0)
             ENDIF !(MLW /= 71) 
            ENDIF !(IGTYP == 18) 
 
@@ -508,7 +498,7 @@ C--------------------------------------------------
           ELSEIF(KEYWORD == 'FRACTION/MARTENSITE/TMAX')THEN  
 C--------------------------------------------------                     
             DO I=1,NEL
-              VALUE(I) = GBUF%MAXFRAC(I)
+              VALUE(I) = ELBUF_TAB(NG)%GBUF%MAXFRAC(I)
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
 C--------------------------------------------------
@@ -536,7 +526,7 @@ C--------------------------------------------------
           ELSEIF(KEYWORD == 'EPSD')THEN  
 C--------------------------------------------------                     
             DO I=1,NEL
-              VALUE(I) = GBUF%EPSD(I)
+              VALUE(I) = ELBUF_TAB(NG)%GBUF%EPSD(I)
               IS_WRITTEN_VALUE(I) = 1
             ENDDO          
 C--------------------------------------------------
@@ -544,7 +534,7 @@ C--------------------------------------------------
 C--------------------------------------------------
             IF (IGTYP == 3) THEN
               DO I=1,NEL
-                VALUE(I) = GBUF%FAIL(1)%DAMMX(I)
+                VALUE(I) = ELBUF_TAB(NG)%GBUF%FAIL(1)%DAMMX(I)
                 IS_WRITTEN_VALUE(I) = 1
               ENDDO
             ELSE IF (IGTYP == 18) THEN
@@ -577,48 +567,48 @@ C--------------------------------------------------
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
 C             XM cannot be zero (was checked in starter).
-              VALUE(I) = GBUF%EINT(I)*XM
+              VALUE(I) = ELBUF_TAB(NG)%GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
            ELSEIF (MLW==2) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
 C             XM cannot be zero (was checked in starter).
-              VALUE(I) = GBUF%EINT(I)*XM
+              VALUE(I) = ELBUF_TAB(NG)%GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
            ELSEIF (MLW==3) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
 C             XM cannot be zero (was checked in starter).
-              VALUE(I) = GBUF%EINT(I)*XM
+              VALUE(I) = ELBUF_TAB(NG)%GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
            ELSEIF (MLW==4) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
 C             XM cannot be zero (was checked in starter).
-              VALUE(I) = GBUF%EINT(I)*XM
+              VALUE(I) = ELBUF_TAB(NG)%GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
            ELSEIF (MLW==5) THEN
 C           user springs.
             DO  I=1,NEL
-              VALUE(I) = GBUF%EINT(I)/MAX(EM30,GBUF%MASS(I))
+              VALUE(I) = ELBUF_TAB(NG)%GBUF%EINT(I)/MAX(EM30,ELBUF_TAB(NG)%GBUF%MASS(I))
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
-Cmw51e4+++  Spring axi
+C           Spring axi
            ELSEIF (MLW==6) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
 C             XM cannot be zero (was checked in starter).
-              VALUE(I) = GBUF%EINT(I)*XM
+              VALUE(I) = ELBUF_TAB(NG)%GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
            ELSEIF (MLW==7) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
-              VALUE(I) = GBUF%EINT(I)*XM
+              VALUE(I) = ELBUF_TAB(NG)%GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
            ENDIF
@@ -646,24 +636,24 @@ C--------------------------------------------------
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
 C--------------------------------------------------
-          ELSEIF(KEYWORD == 'DT' .AND. GBUF%G_DT/=0)THEN  
+          ELSEIF(KEYWORD == 'DT' .AND. ELBUF_TAB(NG)%GBUF%G_DT/=0)THEN  
 C--------------------------------------------------                     
             DO I=1,NEL
-              VALUE(I) = GBUF%DT(I)
+              VALUE(I) = ELBUF_TAB(NG)%GBUF%DT(I)
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
 C--------------------------------------------------
-          ELSEIF (KEYWORD == 'AMS'.AND.(GBUF%G_ISMS>0)) THEN   
+          ELSEIF (KEYWORD == 'AMS'.AND.(ELBUF_TAB(NG)%GBUF%G_ISMS>0)) THEN   
 C--------------------------------------------------                    
             DO I=1,NEL
-              VALUE(I) = GBUF%ISMS(I)
+              VALUE(I) = ELBUF_TAB(NG)%GBUF%ISMS(I)
               IS_WRITTEN_VALUE(I) = 1
             ENDDO 
 C--------------------------------------------------
           ELSEIF(KEYWORD == 'OFF')THEN  
 C--------------------------------------------------                     
             DO I=1,NEL
-              VALUE(I) = GBUF%OFF(I)
+              VALUE(I) = ELBUF_TAB(NG)%GBUF%OFF(I)
               IS_WRITTEN_VALUE(I) = 1
             ENDDO 
 C--------------------------------------------------
@@ -694,6 +684,9 @@ C--------------------------------------------------
      .    CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_ONED,ONED_SCALAR,NEL,OFFSET,NFT,
      .               VALUE,IS_WRITTEN_VALUE)
       ENDDO ! DO NG=1,NGROUP
+
  
       RETURN
       END
+
+      END MODULE

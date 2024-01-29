@@ -55,7 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2     W               ,WA            ,WB         ,RBY        ,SKEW       ,
      3     PM              ,XLAS          ,MS         ,FSAV       ,
      4     A               ,TF            ,RWBUF      ,
-     5     DT2SAVE         ,
+     5     DT2SAVE         ,PYTHON, 
      6     IPARG           ,IXS           ,IXQ        ,NODPOR     ,
      7     ISKEW           ,ICODT         ,ELBUF_TAB  ,
      8     NPF             ,LINALE        ,NPRW       ,LAS        ,
@@ -91,6 +91,7 @@ C      Consequently X is defined here X(3,SX/3) instead of X(3,NUMNOD) as usuall
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
+      USE PYTHON_FUNCT_MOD
       USE ELBUFDEF_MOD
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
@@ -117,6 +118,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(PYTHON_), INTENT(inout) :: PYTHON
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       INTEGER ISKEW(*), IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),
      .     NPF(*),LAS(*), IPARG(NPARG,NGROUP), IPARI(NPARI,NINTER),
@@ -364,7 +366,7 @@ C-----------------------
             IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(4,1)
             CALL RGWAL1(
      1           X                   ,A                      ,V          ,W       ,RWBUF           ,
-     2           NPRW(1+NNPRW*NRWALL),NPRW                   ,
+     2           NPRW(1+NNPRW*NRWALL),NPRW                   , PYTHON, 
      3           ICODT               ,ISKEW                  ,SKEW       ,MS      ,FSAV(1,NINTER+1),
      4           IXS                 ,IXQ                    ,ELBUF_TAB  ,IPARG   ,
      5           PM                  ,ALE_CONNECTIVITY%NALE  ,TF         ,NPF     ,WEIGHT          ,

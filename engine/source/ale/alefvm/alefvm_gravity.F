@@ -78,7 +78,6 @@ C-----------------------------------------------
       INTEGER          :: ISENS,NVERTEX,INOd,II
       my_real          :: TS,A0, TFEXTT
       my_real          :: M_CELL(MVSIZ),ACCEL(3,MVSIZ),SKEW(LSKEW,*)
-      my_real,EXTERNAL :: FINTER  
       LOGICAL          :: debug_outp
       INTEGER          :: idbf,idbl    
 C-----------------------------------------------

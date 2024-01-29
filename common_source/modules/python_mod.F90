@@ -48,9 +48,11 @@
       !||====================================================================
       module python_funct_mod
         use iso_c_binding
+        use python_element_mod
         integer, parameter :: max_line_length = 500 !< the maximum length of a line of code of python function
         integer, parameter :: max_num_lines = 1000 !< the maximum number of lines of python function
         integer, parameter :: max_code_length = max_line_length*max_num_lines
+        integer, parameter :: max_variable_length = 100
 ! global variable
         integer :: python_error !< true if the starter command line had the option "-python"
 ! use iso_c_binding to bind python_init to cpp_python_init and python_finalize to cpp_python_finalize
@@ -84,8 +86,64 @@
             character(kind=c_char), dimension(*) :: name
             integer(kind=c_int), intent(out) :: error
           end subroutine python_check_function
-        end interface
 
+          subroutine python_update_time(time,dt) bind(c, name="cpp_python_update_time")
+            use iso_c_binding
+#ifdef MYREAL8
+            real(kind = c_double), value, intent(in) :: time
+            real(kind = c_double), value, intent(in) :: dt
+#else
+            real(kind = c_float), value, intent(in) :: time
+            real(kind = c_float), value, intent(in) :: dt
+#endif
+          end subroutine python_update_time
+
+          !interface for    void cpp_python_update_nodal_entities(char *name, int len_name, my_real *values)
+          subroutine python_set_node_values(numnod, name_len, name, val) bind(c, name="cpp_python_update_nodal_entity")
+            use iso_c_binding
+            integer(kind=c_int), value, intent(in) :: numnod
+            integer(kind=c_int), value, intent(in) :: name_len
+            character(kind=c_char), dimension(name_len), intent(in) :: name
+#ifdef MYREAL8
+            real(kind=c_double), dimension(3,numnod), intent(in) :: val
+#else
+            real(kind=c_float), dimension(3,numnod), intent(in) :: val
+#endif
+          end subroutine python_set_node_values
+
+          subroutine python_get_number_of_nodes(number_of_nodes) bind(c, name="cpp_python_get_number_of_nodes")
+            use iso_c_binding
+            integer(kind=c_int), intent(out) :: number_of_nodes
+          end subroutine python_get_number_of_nodes
+
+          subroutine python_get_nodes(nodes_global_ids) &
+            bind(c, name="cpp_python_get_nodes")
+            use iso_c_binding
+            integer(kind=c_int), intent(inout) :: nodes_global_ids(*)
+          end subroutine python_get_nodes
+
+
+
+          !interface for    void cpp_create_node_mapping(int * itab, int *num_nodes)
+          subroutine python_create_node_mapping(itab, num_nodes) &
+            bind(c, name="cpp_python_create_node_mapping")
+            use iso_c_binding
+            integer(kind=c_int), intent(in) :: num_nodes
+            integer(kind=c_int), intent(in) :: itab(*)
+          end subroutine python_create_node_mapping
+        end interface
+        interface python_call_funct1D
+          module procedure python_call_funct1D_sp
+          module procedure python_call_funct1D_dp
+        end interface python_call_funct1D
+
+        interface python_deriv_funct1D
+          module procedure python_deriv_funct1D_sp
+          module procedure python_deriv_funct1D_dp
+        end interface python_deriv_funct1D
+! ----------------------------------------------------------------------------------------------------------------------
+!                                               Type definitions
+! ----------------------------------------------------------------------------------------------------------------------
 !! \brief the python function structure: it contains the python code in plain text
         type :: python_function
           character(kind=c_char), dimension(:), allocatable :: name !< the name of the python function
@@ -97,25 +155,15 @@
           integer :: num_return !< the number of return values of the function (1 for 1D function)
           integer :: user_id !< the user id of the function
         end type python_function
-
+! ----------------------------------------------------------------------------------------------------------------------
 !! \brief the python structure: it contains the python functions
         type python_
           type(python_function), dimension(:), allocatable :: functs !< the python functions
           integer :: funct_offset !< the local id of the python function starts after the id of other kind of functions
           integer :: nb_functs !< the number of python functions
+          type(python_element) :: elements !< element quantities requested from Python code
         end type python_
-
-
-        interface python_call_funct1D
-          module procedure python_call_funct1D_sp
-          module procedure python_call_funct1D_dp
-        end interface python_call_funct1D
-
-        interface python_deriv_funct1D
-          module procedure python_deriv_funct1D_sp
-          module procedure python_deriv_funct1D_dp
-        end interface python_deriv_funct1D
-
+! ----------------------------------------------------------------------------------------------------------------------
 
       contains
 
@@ -131,6 +179,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
+!         use python_element_mod, only : element_serialize, element_get_size
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -141,7 +190,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,pos,len_name,len_code, ierr
+          integer :: i,pos,len_name,len_code, ierr,elsize
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -151,7 +200,11 @@
             buffer_size = buffer_size + 6! 5 integers: len_name, len_code, num_lines, num_args, num_return
             buffer_size = buffer_size + python%functs(i)%len_name + python%functs(i)%len_code
           enddo
+          elsize = 0
+          !elsize = element_get_size(python%elements%global)
+          buffer_size = buffer_size + elsize
 ! allocate the buffer
+
           if(allocated(buffer)) deallocate(buffer)
           allocate(buffer(buffer_size), stat = ierr)
           if(ierr /= 0) then
@@ -178,6 +231,9 @@
               pos = pos + python%functs(i)%len_code
             enddo
           endif
+!         call element_serialize(python%elements%global,buffer(pos:pos+elsize-1),elsize)
+
+
         end subroutine python_serialize
 
 !! \brief deserialize python_function (for I/O)
@@ -188,6 +244,10 @@
       !||    rdresb               ../engine/source/output/restart/rdresb.F
       !||====================================================================
         subroutine python_deserialize(python, buffer)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Module
+! ----------------------------------------------------------------------------------------------------------------------
+!         use python_element_mod, only : element_deserialize
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -226,9 +286,12 @@
                 pos = pos + python%functs(i)%len_code
               endif
             enddo
+!           call element_deserialize(python%elements%global,buffer(pos:))
           endif
 
         end subroutine python_deserialize
+
+
 
 !! \brief Initialize the python function
 !! \details allocate funct%name and funct%code, and copy the name and code from the input file
@@ -258,6 +321,7 @@
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           name=" "
+
           call python_register_function(name, code, num_lines)
           allocate(funct%name(len_trim(name)),stat = ierr)
           if(ierr == 0) then
@@ -276,50 +340,6 @@
           funct%num_lines = num_lines
         end subroutine
 
-!! \brief Register the python functions saved in the python structure into the python interpreter dictionary
-      !||====================================================================
-      !||    python_register            ../common_source/modules/python_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    resol                      ../engine/source/engine/resol.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
-        subroutine python_register(py)
-          implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                     Arguments
-! ----------------------------------------------------------------------------------------------------------------------
-          type(python_),                     intent(in) :: py !< the Fortran structure that holds the python function
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Local variables
-! ----------------------------------------------------------------------------------------------------------------------
-          character(len=max_line_length) :: name
-!         character(kind=c_char,len=max_code_length) :: code
-          character(kind=c_char, len=:), allocatable :: code
-          integer                        :: i,n,ierror
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                      Body
-! ----------------------------------------------------------------------------------------------------------------------
-          allocate(character(kind=c_char, len=max_code_length) :: code)
-
-          ierror = 0 ! if python error = 1 => python_initialize will do nothing, because python is not avaiable
-          ! i.e. starter without -python option
-          if(py%nb_functs>0) call python_initialize(ierror)
-
-          if(py%nb_functs > 0 .and. ierror == 1) then
-            ! stops the program if python_initialize failed and there are python functions
-            write(6,*) "ERROR: python_register: python_initialize failed"
-            !stop
-          endif
-          do n = 1, py%nb_functs
-            do i = 1, py%functs(n)%len_code
-              code(i:i) = py%functs(n)%code(i)
-            end do
-            code(py%functs(n)%len_code+1:py%functs(n)%len_code+1) = c_null_char
-            call python_register_function(name, code, py%functs(n)%num_lines)
-          end do
-
-          deallocate(code)
-        end subroutine
 
 !! \brief Evaluate the python function
 !! \details the python function is called with one argument and one return value  (double precision version)
@@ -344,7 +364,9 @@
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           argin(1) = x
+!$OMP CRITICAL
           call python_call_function(py%functs(funct_id)%name, 1, argin, 1, argout)
+!$OMP END CRITICAL
           y = argout(1)
         end subroutine
 
@@ -372,7 +394,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           argin(1) = dble(x)
           ! the double precision function is called, then the result is converted to single
+!$OMP CRITICAL
           call python_call_function(py%functs(funct_id)%name, 1, argin, 1, argout)
+!$OMP END CRITICAL
           y = real(argout(1),kind(1.0))
         end subroutine
 
@@ -454,6 +478,84 @@
           y = real(argout,kind(1.0))
         end subroutine
 
+!! \brief update variables known by python functions
+        subroutine python_update_nodal_entity(numnod, name, name_len, val)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Module
+! ----------------------------------------------------------------------------------------------------------------------
+          use iso_c_binding
+! --------------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Included files
+! ----------------------------------------------------------------------------------------------------------------------
+#include "my_real.inc"
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          integer,                                     intent(in) :: numnod !< the number of nodes
+          integer,                                     intent(in) :: name_len !< the length of the name
+          character(kind=c_char), dimension(name_len), intent(in) :: name      !< the name of the variable
+          my_real, dimension(3,numnod),                intent(in) :: val !< the values
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          character(kind=c_char), dimension(name_len+1)        :: temp_name
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          temp_name(1:name_len) = name
+          temp_name(name_len+1:name_len+1) = c_null_char
+          call python_set_node_values(numnod, name_len, temp_name, val)
+        end subroutine
+
+
+!! \brief update variables known by python functions
+        subroutine python_update_nodal_entities(numnod,X, A, D, DR, V, VR, AR)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Module
+! ----------------------------------------------------------------------------------------------------------------------
+          use iso_c_binding, only : c_double
+! --------------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Included files
+! ----------------------------------------------------------------------------------------------------------------------
+#include "my_real.inc"
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          integer,                                 intent(in) :: numnod !< the number of nodes
+          my_real, optional,  dimension(3,numnod), intent(in) :: X !< the coordinates
+          my_real, optional,  dimension(3,numnod), intent(in) :: A !< the acceleration
+          my_real, optional,  dimension(3,numnod), intent(in) :: D !< the displacement
+          my_real, optional,  dimension(3,numnod), intent(in) :: DR !< the rotational? relative? displacement
+          my_real, optional,  dimension(3,numnod), intent(in) :: V !< the velocity
+          my_real, optional,  dimension(3,numnod), intent(in) :: VR !< the rotational? relative? velocity
+          my_real, optional,  dimension(3,numnod), intent(in) :: AR !< the acceleration
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+
+          if(present(X))  call python_update_nodal_entity(numnod,"C",1, X)
+          if(present(A))  call python_update_nodal_entity(numnod,"A",1, A)
+          if(present(D))  call python_update_nodal_entity(numnod,"D",1, D)
+          if(present(DR)) call python_update_nodal_entity(numnod,"DR",2, DR)
+          if(present(V))  call python_update_nodal_entity(numnod,"V",1, V)
+          if(present(VR)) call python_update_nodal_entity(numnod,"VR",2, VR)
+          if(present(AR)) call python_update_nodal_entity(numnod,"AR",2, AR)
+
+        end subroutine
+
+
+
 
         ! unit test
       !||====================================================================
@@ -493,8 +595,6 @@
           py%nb_functs = 1
           py%funct_offset = 0
           call python_funct_init(py%functs(1), code, len_trim(code),3)
-          !            write(6,*) "Fortran name=", py%functs(1)%name
-          !            write(6,*) "Fortran code = ", py%functs(1)%code(1:len_trim(code))
           call python_serialize(py, buffer, buffer_size) ! write into buffer
           call python_deserialize(py2, buffer) ! read from buffer
 

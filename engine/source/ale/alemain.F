@@ -104,10 +104,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      M         IGRBRIC     ,NLOC_DMG    ,ID_GLOBAL_VOIS,FACE_VOIS ,EBCS_TAB  ,ALE_CONNECTIVITY, 
      N         DIFFUSION   ,MAT_ELEM    ,H3D_DATA      ,DT   ,OUTPUT,NEED_COMM_INTER18,IDTMINS,
      O         IRESP       ,IDTMIN      ,MAXFUNC       ,IMON_MAT,    
-     P         USERL_AVAIL ,heat_meca   ,impl_s        ,idyna)
+     P         USERL_AVAIL ,heat_meca   ,impl_s        ,idyna, PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE PYTHON_FUNCT_MOD
       USE INITBUF_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD
@@ -222,6 +223,7 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: XCELL(3,SXCELL)
       TYPE (DT_) ,INTENT(INOUT)  :: DT
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+      TYPE(PYTHON_) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -590,7 +592,7 @@ C     ------------------------
 C     -------------------------
 C     Gravity terms
 C     -------------------------
-               CALL ALEFVM_GRAV_INIT(
+               CALL ALEFVM_GRAV_INIT(PYTHON, 
      1              AGRAV, IGRV    , LGRAV, SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
      2              IXS  , ITASK   , NPC  , TF    , SKEW   ,
      3              ITAB 
@@ -753,7 +755,7 @@ C
           IF(ALEFVM_Param%IEnabled > 0) THEN
             !GRAVITY INIT
             ! VERTEX(4,1:NUMNOD) = ZERO  !-> not needed, nodes remain the same ones and VERTEX is initialized on allocation
-            CALL ALEFVM_GRAV_INIT(
+            CALL ALEFVM_GRAV_INIT(PYTHON, 
      1                           AGRAV, IGRV    , LGRAV, SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
      2                           IXS  , ITASK   , NPC  , TF    , SKEW   ,
      3                           ITAB 

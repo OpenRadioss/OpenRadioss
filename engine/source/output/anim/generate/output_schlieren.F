@@ -222,8 +222,10 @@ C-----------------------------------------------
             A1 =Yi(2)*(Zi(3)-Zi(4))+Yi(3)*(Zi(4)-Zi(2))+Yi(4)*(Zi(2)-Zi(3))
             A2 =Yi(2)*(Zi(4)-Zi(1))+Yi(4)*(Zi(1)-Zi(2))+Yi(1)*(Zi(2)-Zi(4))
             AREA(I)=(A1+A2)* HALF
+          ELSE IF (ELBUF_TAB(NG)%GBUF%G_AREA >= I) THEN
+            AREA(I)=ELBUF_TAB(NG)%GBUF%AREA(I)
           ELSE
-           AREA(I)=ELBUF_TAB(NG)%GBUF%AREA(I)
+            AREA(I) = ZERO
           ENDIF
         ENDDO                                                                                                                       
       ELSEIF(N2D>0 .AND. ITYP==7)THEN !triangles

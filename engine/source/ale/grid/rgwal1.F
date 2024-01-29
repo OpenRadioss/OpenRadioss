@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||====================================================================
       SUBROUTINE RGWAL1(X       ,A  ,V    ,W    ,RWBUF   ,
-     2                  LPRW    ,NPRW  , 
+     2                  LPRW    ,NPRW  , PYTHON,  
      3                  ICODT   ,ISKEW  ,SKEW    ,MS    ,FSAV    ,
      4                  IXS     ,IXQ  ,ELBUF_TAB,IPARG  ,
      5                  PM      ,NALE  ,TF    ,NPF    ,WEIGHT  ,
@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE PYTHON_FUNCT_MOD
       USE ELBUFDEF_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -54,6 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(PYTHON_), INTENT(inout) :: PYTHON
       INTEGER LPRW(*), NPRW(*), IXS(NIXS,NUMELS),
      .        IXQ(NIXQ,NUMELQ),IPARG(NPARG,NGROUP),
      .        ICODT(*), ISKEW(*), NALE(*),NPF(*),
@@ -68,6 +70,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K, N, N2, N3, N4, ITYP, NE, NSN, IFUNC, NPOINT, NTAG(NUMNOD)
       my_real TEMP,TIME,BID,E(NUMNOD)
+      INTEGER :: ISMOOTH
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -87,8 +90,14 @@ C-----------------------
               NE  =NINT(RWBUF(8,N))
               IFUNC=NINT(RWBUF(9,N))
               TIME = TT * RWBUF(16,N)
-              NPOINT=(NPF(IFUNC+1)-NPF(IFUNC))/2
-              CALL INTERP(TF(NPF(IFUNC)),TIME,NPOINT,TEMP,BID)
+              ISMOOTH = NPF(2*NFUNCT+IFUNC+1)
+              IF(ISMOOTH >= 0) THEN
+                NPOINT=(NPF(IFUNC+1)-NPF(IFUNC))/2
+                CALL INTERP(TF(NPF(IFUNC)),TIME,NPOINT,TEMP,BID)
+              ELSE 
+                ISMOOTH = -ISMOOTH
+                CALL PYTHON_CALL_FUNCT1D(PYTHON, ISMOOTH,TIME, TEMP)
+              ENDIF
               TEMP = TEMP * RWBUF(10,N)
               CALL RGWATH(
      1          X       ,V       ,W       ,RWBUF(1,N),LPRW(K)    ,

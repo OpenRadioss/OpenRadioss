@@ -39,11 +39,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE LOAD_PRESSURE (ILOADP          ,LOADP       ,LLOADP   ,NPC     ,TF        ,
      2                          A               ,V           ,X       ,SKEW     ,SENSOR_TAB,
      3                          IADC            ,FSKY        ,FEXT    ,TAGNCONT ,NSENSOR   ,
-     4                          LOADP_HYD_INTER , H3D_DATA   ,
+     4                          LOADP_HYD_INTER , H3D_DATA   , PYTHON, 
      5                          NPRESLOAD       ,LOADP_TAGDEL,TH_SURF)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
+      USE PYTHON_FUNCT_MOD
       USE H3D_MOD
       USE SENSOR_MOD
       USE TH_SURF_MOD , ONLY : TH_SURF_
@@ -71,6 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(PYTHON_), INTENT(inout) :: PYTHON
       INTEGER, INTENT(IN) :: NPRESLOAD,NSENSOR
       INTEGER NPC(*),LLOADP(SLLOADP)
       INTEGER ILOADP(SIZLOADP,*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD),LOADP_HYD_INTER(NLOADP_HYD),IADC(*)
@@ -86,6 +88,7 @@ C-----------------------------------------------
      .        IAD ,NP ,IFUNC ,NPRES ,NINTERP ,IDIR ,INORM ,NPL ,IANIM,IFLOAD,
      .        SEGCONT ,N ,IADN , IJK ,UP_BOUND,TAGN1,TAGN2,TAGN3,TAGN4,NUMPRESLOAD,
      .        IDEL, NSEGPL, NS, KSURF,NIDXLOAD
+      INTEGER :: IS_TABULATED
       my_real
      .   NX, NY, NZ,  AA, FX, FY, FZ, DYDX, TS,
      .   TFEXTT,F1, FCX,FCY,NORM,AREA 
@@ -130,7 +133,14 @@ C
            ENDIF    
 
 
-           F1 = FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
+           IS_TABULATED = NPC(2*NFUNCT+IFUNC+1)
+           IF(IS_TABULATED >= 0) THEN
+             F1 = FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
+           ELSE 
+             IS_TABULATED = -IS_TABULATED
+             CALL PYTHON_CALL_FUNCT1D(PYTHON, IS_TABULATED,TS*FCX, F1)
+           ENDIF
+
            AA = FCY*F1  
 
            DO N=1, NPRES/4
@@ -492,8 +502,14 @@ C
           ENDDO
           ! -------------
 
+           IS_TABULATED = NPC(2*NFUNCT+IFUNC+1)
+           IF(IS_TABULATED >= 0) THEN
+             F1 = FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
+           ELSE 
+             IS_TABULATED = -IS_TABULATED
+             CALL PYTHON_CALL_FUNCT1D(PYTHON, IS_TABULATED,TS*FCX, F1)
+           ENDIF
 
-           F1 = FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
            AA = FCY*F1  
 
            DO N=1, NPRES/4

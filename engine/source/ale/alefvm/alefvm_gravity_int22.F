@@ -82,7 +82,6 @@ C-----------------------------------------------
       INTEGER          :: IADF,IADL,ISENS,N1,NVERTEX,INOd,II, NIN
       my_real          :: TS,AA,FCX,FCY,VV,A0,DYDX,GAMA,TFEXTT
       my_real          :: M_CELL(MVSIZ),ACCEL(3,MVSIZ),SKEW(LSKEW,*)
-      my_real,EXTERNAL :: FINTER  
       LOGICAL          :: debug_outp
       INTEGER          :: idbf,idbl , MCELL   
 C-----------------------------------------------

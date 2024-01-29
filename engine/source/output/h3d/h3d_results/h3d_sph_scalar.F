@@ -35,15 +35,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod              ../engine/share/modules/stack_mod.F
       !||====================================================================
       SUBROUTINE H3D_SPH_SCALAR(
-     .                  ELBUF_TAB ,SPH_SCALAR      ,IFUNC     ,IPARG       ,GEO        ,
+     .                  ELBUF_TAB ,SPH_SCALAR      ,IFUNC     ,IPARG       ,
      .                  KXSP      ,PM        ,IPART       ,
-     .                  EL2FA     ,NBF       ,IADP        ,
-     .                  NBF_L     ,EHOUR     ,ANIM      ,NBPART      ,IADG       ,
-     .                  IPM       ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
-     .                  INVERT    ,X         ,V         ,W           ,
-     .                  NV46      ,NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
-     .                  STACK     ,ID_ELEM   ,IPARTSP   ,IUVAR_INPUT ,H3D_PART    ,
-     .                  IS_WRITTEN_SPH,INFO1,KEYWORD    ,SPBUF       ,ID          )
+     .                  IPM       ,
+     .                  ID_ELEM   ,IPARTSP   ,IUVAR_INPUT ,H3D_PART    ,
+     .                  IS_WRITTEN_SPH,KEYWORD    ,SPBUF       ,ID          )
+
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,61 +69,46 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .   SPH_SCALAR(*),X(3,*),V(3,*),W(3,*),THKE(*),EHOUR(*),GEO(NPROPG,*),
-     .   ANIM(*),PM(NPROPM,*),ERR_THK_SH4(*), ERR_THK_SH3(*)
-      INTEGER IPARG(NPARG,*),KXSP(NISP,*),EL2FA(*),IFUNC,NBF,
-     .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,*),
-     .   IGEO(NPROPGI,*),INVERT(*), NV46,ID_ELEM(*),IPARTSP(*),
-     .   H3D_PART(*),IS_WRITTEN_SPH(*),INFO1,IUVAR_INPUT,IPART(LIPART1,*)
+     .   SPH_SCALAR(*),
+     .   PM(NPROPM,*)
+      INTEGER IPARG(NPARG,*),KXSP(NISP,*),IFUNC,
+     .   IPM(NPROPMI,*),
+     .   ID_ELEM(*),IPARTSP(*),
+     .   H3D_PART(*),IS_WRITTEN_SPH(*),IUVAR_INPUT,IPART(LIPART1,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
-      TYPE (STACK_PLY) :: STACK
       CHARACTER(NCHARLINE100) :: KEYWORD
       INTEGER, INTENT(IN) :: ID
+      my_real :: SPBUF(NSPBUF,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .   EVAR(MVSIZ),DAM1(MVSIZ),DAM2(MVSIZ),
-     .   WPLA(MVSIZ),DMAX(MVSIZ),WPMAX(MVSIZ),FAIL(MVSIZ),
-     .   EPST1(MVSIZ),EPST2(MVSIZ),EPSF1(MVSIZ),EPSF2(MVSIZ),
-     .   USER(NUMELS),VALUE(MVSIZ),SPBUF(NSPBUF,*),MASS(MVSIZ),PRES(MVSIZ)
+     .   VALUE(MVSIZ),MASS(MVSIZ),PRES(MVSIZ)
       my_real
-     .   OFF, P,VONM2,S1,S2,S12,S3,DMGMX,FAC,
-     .   DIR1_1,DIR1_2,DIR2_1,DIR2_2,AA,BB,V1,V2,V3,X21,X32,X34,
-     .   X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41,SUMA,VR,VS,X31,Y31,
-     .   Z31,E11,E12,E13,E21,E22,E23,SUM,AREA,X2L,VAR,
-     .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,RX,RY,RZ,SX,SY,SZ,
-     .   VG(5),VLY(5),VE(5),S11,S22,S33,S4,S5,S6,VONM,GAMA(6),
-     .   T11,T21,T31,T12,T22,T32,T13,T23,T33,
-     .   PHI,TETA,PSI,DAMMAX,EVAR_TMP,FF0,GG0,HH0,LL0,MM0,NN0,CRIT,MASS0,VOL
-      INTEGER I,I1,II,J,NG,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
-     .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
-     .        N,NN,K,K1,K2,JTURB,MT,IMID,IPID,ISH3N,NNI,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
-     .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
-     .        IIGEO,IADI,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),
-     .        LERCVOIS(*),LESDVOIS(*),NB_PLYOFF,IUVAR,IPRT,IADBUF,
-     .        NUPARAM,IMAT,IEOS
-      INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
-     .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),NPT_ALL,IPLY,
-     .        ID_ELEM_TMP(MVSIZ),NIX,ISOLNOD,NPTG,TSHELL,TSH_ORT,
-     .        IOK_PART(MVSIZ),JJ(6),IRUPT,IOK,NPG_PLANE,NUMLAY,IJK,IIR,
+     .   P,VONM2,S1,S2,S3,
+     .   S11,S22,S33,S4,S5,S6,VONM,
+     .   MASS0,VOL
+      INTEGER I,NG,NEL,NPTR,NPTS,NPTT,NLAY,
+     .        IR,MLW, NUVAR,IUS,NFAIL,
+     .        N,K,JTURB,MT,
+     .        OFFSET, 
+     .        IUVAR,IPRT,
+     .        IEOS
+      INTEGER            
+     .        NPTG,
+     .        IOK_PART(MVSIZ),JJ(6),
      .        IS_WRITTEN_VALUE(MVSIZ),IPOS,ITRIMAT,NVAREOS
-      REAL R4
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
       TYPE(BUF_MAT_)  ,POINTER :: MBUF      
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      TYPE(BUF_FAIL_) ,POINTER :: FBUF 
       TYPE(BUF_EOS_)  ,POINTER :: EBUF
-      my_real, DIMENSION(:), POINTER  :: UVARF,DAMF,DFMAX,TDELE
-      TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
+      my_real, DIMENSION(:), POINTER  :: DFMAX
 C-----------------------------------------------
       DO I=1,NUMSPH
          IS_WRITTEN_SPH(I) = 0
       ENDDO
 c
-      DO 900 NG=1,NGROUP
+      DO NG=1,NGROUP
 
         CALL INITBUF(IPARG    ,NG      ,                    
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
@@ -253,7 +235,7 @@ C--------------------------------------------------
               ELSEIF (KEYWORD(1:4) == 'ENTH')THEN
 C-------------------------------------------------- 
                DO I=1,NEL
-                 PRES(I) = - (GBUF%SIG(JJ(1) + I)+ GBUF%SIG(JJ(2) + I) + GBUF%SIG(JJ(3) + I))*THIRD
+                 PRES(I) = -(GBUF%SIG(JJ(1)+I)+ GBUF%SIG(JJ(2)+I) + GBUF%SIG(JJ(3)+I))*THIRD
                ENDDO
                !GBUF%EINT is rho.e           
                IF(KEYWORD == 'ENTH')THEN
@@ -608,7 +590,7 @@ C--------------------------------------------------
           ENDIF
        ENDIF
 
- 900  CONTINUE   ! NG 
+      ENDDO  ! NG 
 C-----------------------------------------------
       RETURN
       END
