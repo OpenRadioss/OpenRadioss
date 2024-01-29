@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    schlieren_mod          ../engine/share/modules/schlieren_mod.F
       !||    stack_mod              ../engine/share/modules/stack_mod.F
       !||====================================================================
-      SUBROUTINE H3D_SHELL_SCALAR_1(
+      SUBROUTINE H3D_SHELL_SCALAR_1( CALLED_FROM_PYTHON,
      .                  ELBUF_TAB   ,SHELL_SCALAR,IPARG       ,GEO        ,
      .                  IXC       ,IXTG      ,PM          ,BUFMAT     ,
      .                  EHOUR     ,
@@ -81,6 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        logical, intent(in) :: CALLED_FROM_PYTHON
         my_real,INTENT(IN),TARGET :: BUFMAT(*)
         my_real
      .     SHELL_SCALAR(*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),D(3,NUMNOD),THKE(*),EHOUR(*),GEO(NPROPG,NUMGEO),
@@ -186,17 +187,19 @@ c
             IF (ITY == 3) OFFSET = 0
             IF (ITY == 7) OFFSET = NUMELC
 c
-            DO  I=1,NEL
-              IF (ITY == 3) THEN
-                ID_ELEM(OFFSET+NFT+I) = IXC(NIXC,NFT+I)
-                ITY_ELEM(OFFSET+NFT+I) = 3
-                IF( H3D_PART(IPARTC(NFT+I)) == 1) IOK_PART(I) = 1
-              ELSEIF (ITY == 7) THEN
-                ID_ELEM(OFFSET+NFT+I) = IXTG(NIXTG,NFT+I)
-                ITY_ELEM(OFFSET+NFT+I) = 7
-                IF( H3D_PART(IPARTTG(NFT+I)) == 1) IOK_PART(I) = 1
-              ENDIF
-            ENDDO
+            IF(.NOT. CALLED_FROM_PYTHON) THEN
+              DO  I=1,NEL
+                IF (ITY == 3) THEN
+                  ID_ELEM(OFFSET+NFT+I) = IXC(NIXC,NFT+I)
+                  ITY_ELEM(OFFSET+NFT+I) = 3
+                  IF( H3D_PART(IPARTC(NFT+I)) == 1) IOK_PART(I) = 1
+                ELSEIF (ITY == 7) THEN
+                  ID_ELEM(OFFSET+NFT+I) = IXTG(NIXTG,NFT+I)
+                  ITY_ELEM(OFFSET+NFT+I) = 7
+                  IF( H3D_PART(IPARTTG(NFT+I)) == 1) IOK_PART(I) = 1
+                ENDIF
+              ENDDO
+            ENDIF
 
             IF( IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN
               NPT = 1
@@ -248,7 +251,11 @@ c
 C---------------------
             DO I=1,NEL
               VALUE(I) = ZERO
-              SHELL_SCALAR(OFFSET+NFT+I) = ZERO   ! Default = zero in all cases !
+              IF(.NOT. CALLED_FROM_PYTHON) THEN 
+                SHELL_SCALAR(OFFSET+NFT+I) = ZERO   ! Default = zero in all cases !
+              ELSE
+                SHELL_SCALAR(1:MVSIZ) = ZERO
+              ENDIF
             ENDDO
 C-----------------------------------------------
 C Mass computation
@@ -475,7 +482,11 @@ C--------------------------------------------------
                 ENDDO
               ELSE
                 DO I=1,NEL
-                  PRES(I) = - (GBUF%SIG(JJ(1) + I)+ GBUF%SIG(JJ(2) + I) + GBUF%SIG(JJ(3) + I))*THIRD
+                  IF(GBUF%G_SIG > 0) THEN
+                    PRES(I) = - (GBUF%SIG(JJ(1) + I)+ GBUF%SIG(JJ(2) + I) + GBUF%SIG(JJ(3) + I))*THIRD
+                  ELSE
+                    PRES(I) = ZERO
+                  ENDIF
                 ENDDO
               ENDIF
               !GBUF%EINT is rho.e
@@ -487,10 +498,12 @@ C--------------------------------------------------
                   ENDDO
                 ELSE
                   IF(N2D == 0)THEN
-                    DO I=1,NEL
-                      VALUE(I) = GBUF%EINT(I)/GBUF%RHO(I) + PRES(I)*GBUF%VOL(I)
-                      IS_WRITTEN_VALUE(I) = 1
-                    ENDDO
+                    IF(GBUF%G_RHO > 0 .AND. GBUF%G_VOL > 0 )THEN
+                      DO I=1,NEL
+                        VALUE(I) = GBUF%EINT(I)/GBUF%RHO(I) + PRES(I)*GBUF%VOL(I)
+                        IS_WRITTEN_VALUE(I) = 1
+                      ENDDO
+                    ENDIF
                   ENDIF
                 ENDIF
               ELSEIF(KEYWORD == 'ENTHV')THEN
@@ -501,11 +514,12 @@ C--------------------------------------------------
                   ENDDO
                 ELSE
                   IF(N2D == 0)THEN
+                    if(GBUF%G_EINT > 0 .AND. GBUF%G_RHO > 0 .AND. GBUF%G_VOL > 0) THEN
                     DO I=1,NEL
-                      N = I + NFT
                       VALUE(I) = GBUF%EINT(I)/GBUF%VOL(I)/GBUF%RHO(I) + PRES(I)
                       IS_WRITTEN_VALUE(I) = 1
                     ENDDO
+                    endif
                   ENDIF
                 ENDIF
               ELSEIF(KEYWORD == 'ENTHM')THEN
@@ -517,11 +531,13 @@ C--------------------------------------------------
                   ENDDO
                 ELSE
                   IF(N2D == 0)THEN
-                    DO I=1,NEL
-                      MASS(I)=GBUF%RHO(I)*GBUF%VOL(I)
-                      VALUE(I) = (GBUF%EINT(I)/GBUF%RHO(I) + PRES(I)*GBUF%VOL(I))/MASS(I)
-                      IS_WRITTEN_VALUE(I) = 1
-                    ENDDO
+                    IF(GBUF%G_RHO > 0 .AND. GBUF%G_VOL > 0 .AND. GBUF%G_EINT > 0) THEN
+                      DO I=1,NEL
+                        MASS(I)=GBUF%RHO(I)*GBUF%VOL(I)
+                        VALUE(I) = (GBUF%EINT(I)/GBUF%RHO(I) + PRES(I)*GBUF%VOL(I))/MASS(I)
+                        IS_WRITTEN_VALUE(I) = 1
+                      ENDDO
+                    ENDIF
                   ENDIF
                 ENDIF
               ENDIF
@@ -5944,7 +5960,11 @@ C--------------------------------------------------
 C--------------------------------------------------
             ENDIF  ! KEYWORD
 C--------------------------------------------------
-            CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_SHELL,SHELL_SCALAR,NEL,OFFSET,NFT,VALUE,IS_WRITTEN_VALUE)
+            IF(CALLED_FROM_PYTHON) THEN
+              SHELL_SCALAR(1:MVSIZ) = VALUE(1:MVSIZ)
+            ELSE
+              CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_SHELL,SHELL_SCALAR,NEL,OFFSET,NFT,VALUE,IS_WRITTEN_VALUE)
+            ENDIF
           ENDIF  ! ITY
 c
 C-----------------------------------------------

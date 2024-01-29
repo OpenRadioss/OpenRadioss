@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
       !||    schlieren_mod          ../engine/share/modules/schlieren_mod.F
       !||====================================================================
-      SUBROUTINE H3D_SOLID_SCALAR_1(
+      SUBROUTINE H3D_SOLID_SCALAR_1(CALLED_FROM_PYTHON,
      .                  ELBUF_TAB       ,SOLID_SCALAR ,IPARG       ,
      .                  IXS          ,PM          ,BUFMAT      ,
      .                  EHOUR        ,
@@ -89,6 +89,7 @@ C argument for initbuf
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        LOGICAL, INTENT(IN) :: CALLED_FROM_PYTHON
         my_real
      .     SOLID_SCALAR(*),X(3,*),V(3,*),W(3,*),EHOUR(*),
      .     PM(NPROPM,*)
@@ -194,13 +195,15 @@ C-----------------------------------------------
 
             IF (ITY == 1) OFFSET = 0
 c
-            DO  I=1,NEL
-              IF (ITY == 1) THEN
-                ID_ELEM(OFFSET+NFT+I) = IXS(NIXS,NFT+I)
-                ITY_ELEM(OFFSET+NFT+I) = 1
-                IF( H3D_PART(IPARTS(NFT+I)) == 1) IOK_PART(I) = 1
-              ENDIF
-            ENDDO
+            IF(.NOT. CALLED_FROM_PYTHON) THEN
+              DO  I=1,NEL
+                IF (ITY == 1) THEN
+                  ID_ELEM(OFFSET+NFT+I) = IXS(NIXS,NFT+I)
+                  ITY_ELEM(OFFSET+NFT+I) = 1
+                  IF( H3D_PART(IPARTS(NFT+I)) == 1) IOK_PART(I) = 1
+                ENDIF
+              ENDDO
+            ENDIF
 c
             ILAY = LAYER_INPUT
             IUVAR = IUVAR_INPUT
@@ -290,10 +293,13 @@ C--------------------------------------------------
                   ENDDO
                 ELSE
                   DO I=1,NEL
-                    VALUE(I) = ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)%PLA(I)
-                    IS_WRITTEN_VALUE(I) = 1
+                    IF(ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLA > 0) THEN
+                      VALUE(I) = ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)%PLA(I)
+                      IS_WRITTEN_VALUE(I) = 1
+                    ENDIF
                   ENDDO
                 ENDIF
+
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'WPLA' .AND. (MLW == 12 .OR. MLW == 14 .OR. MLW == 25))THEN
 C--------------------------------------------------
@@ -2862,8 +2868,12 @@ C--------------------------------------------------
 C--------------------------------------------------
               ENDIF
 C--------------------------------------------------
-              CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_SOLID,SOLID_SCALAR,NEL,OFFSET,NFT,
+              IF(CALLED_FROM_PYTHON) THEN
+                 SOLID_SCALAR(1:MVSIZ) = VALUE(1:MVSIZ)
+              ELSE
+                CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_SOLID,SOLID_SCALAR,NEL,OFFSET,NFT,
      .           VALUE,IS_WRITTEN_VALUE)
+              ENDIF
             ENDIF
           ENDIF
         ENDIF

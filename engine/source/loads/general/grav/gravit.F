@@ -120,6 +120,8 @@ C
             ISMOOTH = -ISMOOTH ! the id the python function is saved in the position of ISMOOTH in the NPC array 
             CALL PYTHON_CALL_FUNCT1D(PYTHON, ISMOOTH,(TS-DT1)*FCX, A0)
             CALL PYTHON_CALL_FUNCT1D(PYTHON, ISMOOTH,TS*FCX, GAMA)
+            A0 = FCY * A0
+            GAMA = FCY * GAMA
           ENDIF
         ELSE
           A0   = FCY

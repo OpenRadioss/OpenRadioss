@@ -72,7 +72,7 @@
           logical :: is_available
           integer :: nlines
           integer :: nb_funct
-          integer :: i,j,l,k
+          integer :: i,j,l
           integer :: func_id
           integer :: position_in_code
           character(kind=c_char, len=:), allocatable :: code
@@ -110,7 +110,7 @@
               call hm_get_intv('Number_of_datalines' ,nlines ,is_available, lsubmodel)
               python%functs(i)%num_lines = nlines
               python%functs(i)%user_id = func_id
-!          write(6,*) "Python test: funct_id",func_id,"nlines",nlines
+!             write(6,*) "Python test: funct_id",func_id,"nlines",nlines
               position_in_code = 1
               if(nlines > 0) then
                 ! create tempo file
@@ -129,9 +129,9 @@
                 npc(l + 1) = npc(l)
                 npc(total_nb_funct + l + 1) = func_id
                 npc(2 * total_nb_funct + l + 1) = -i
-!            write(6,*) "Python test: code",code(1:position_in_code-1)
+!               write(6,*) "Python test: code",code(1:position_in_code-1)
                 call python_funct_init(python%functs(i), code, position_in_code, nlines)
-!            write(6,*) "Check python function"
+!               write(6,*) "Check python function"
                 call python_check_function(python%functs(i)%name,error)
                 if(error > 0 .and. error_old == 0) then
                   ! converts python%functs(i)%name of type  character(kind=c_char), dimension(:), allocatable :: name
@@ -143,10 +143,11 @@
                   &I1=func_id)
                 endif
 
-                argin(1) = 2.0D0
-                call python_call_function(python%functs(i)%name, 1, argin, 1,argout)
-                !           write(6,*) "results =",argout(1)
-                call python_call_funct1D(python,i,argin(1), argout(1))
+!               argin(1) = 2.0D0
+!               call python_call_function(python%functs(i)%name, 1, argin, 1,argout)
+!               write(6,*) "results =",argout(1)
+!               call python_call_funct1D(python,i,argin(1), argout(1))
+!               write(6,*) "results =",argout(1)
               else
               endif
             enddo

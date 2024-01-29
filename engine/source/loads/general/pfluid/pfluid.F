@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                  V          ,X          ,XFRAME ,MS     ,       
      3                  NSENSOR    ,SENSOR_TAB ,TFEXC  ,IADC   ,
      4                  FSKY       ,FSKYV      ,LLOADP ,FEXT   ,H3D_DATA   ,
-     5                  TH_SURF    )
+     5                  TH_SURF    ,PYTHON )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
@@ -78,6 +78,7 @@ C  -3- "PART-3. PARITH/ON, vectorial code"
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
+      USE PYTHON_FUNCT_MOD
       USE H3D_MOD 
       USE SENSOR_MOD
       USE TH_SURF_MOD , ONLY : TH_SURF_
@@ -118,6 +119,7 @@ C-----------------------------------------------
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
+      TYPE(PYTHON_) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -127,8 +129,9 @@ C-----------------------------------------------
       my_real NX, NY, NZ, AA,FX, FY, FZ, DYDX, TS,
      .        SIXTH,TFEXTT,X_OLD,XSENS,FCX,FCY,
      .        FCX1,FCY1,FCX2,FCY2,VEL,VSEG,FINTER,
-     .        CENTROID_DEPTH,PVEL,NORM,NSIGN,AREA,PA,MASS,AN,VN
+     .        CENTROID_DEPTH,PVEL,NORM,NSIGN,AREA,PA,MASS,AN,VN,PVEL0
       EXTERNAL FINTER
+      INTEGER :: ISMOOTH
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -196,10 +199,17 @@ C---------------------------------------
               K3=3*DIR_HSP                                                                         
               ! hydrostatic pressure                                                               
               IF(FUN_HSP /= 0)THEN                                                                
-                 CENTROID_DEPTH =                 (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/FOUR)
-                 CENTROID_DEPTH = CENTROID_DEPTH +(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/FOUR)
-                 CENTROID_DEPTH = CENTROID_DEPTH +(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/FOUR)              
-                 AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX) 
+                CENTROID_DEPTH =                 (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/FOUR)
+                CENTROID_DEPTH = CENTROID_DEPTH +(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/FOUR)
+                CENTROID_DEPTH = CENTROID_DEPTH +(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/FOUR)              
+                ISMOOTH = 0
+                IF (FUN_HSP > 0) ISMOOTH = NPC(2*NFUNCT+FUN_HSP+1)
+                IF(ISMOOTH < 0) THEN
+                  CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX , AA)
+                  AA = AA*FCY
+                ELSE
+                  AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX) 
+                ENDIF
               ENDIF  
               !normal vector                                                                              
               NX=(X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))        
@@ -220,13 +230,27 @@ C---------------------------------------
 
               !VEL,PVEL, and NSIGN
               IF(FUN_VEL /= 0)THEN                                                                
-                 VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG                             
+                ISMOOTH = 0
+                IF (FUN_VEL > 0) ISMOOTH = NPC(2*NFUNCT+FUN_VEL+1)
+                IF(ISMOOTH < 0) THEN
+                  CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,TT*FCX2, VEL)
+                  VEL = VEL*FCY2 - VSEG
+                ELSE
+                  VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG                             
+                ENDIF
               ELSE                                                                                 
                  VEL =  -VSEG                                                                     
               ENDIF                                                                                                
               IF(FUN_CX /= 0)  THEN                                                                   
                 PVEL = ( (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-(NY/NORM)*VEL*XFRAME(K2,IFRA2)-(NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2 )                               
-                PVEL=PVEL*FCY1*FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO  
+                ISMOOTH = 0
+                IF (FUN_CX > 0) ISMOOTH = NPC(2*NFUNCT+FUN_CX+1)
+                IF(ISMOOTH < 0) THEN
+                  CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,TT*FCX1, PVEL0)
+                  PVEL = PVEL*PVEL0*FCY1/TWO
+                ELSE
+                  PVEL=PVEL*FCY1*FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO  
+                ENDIF
               ENDIF                                      
               NSIGN = VEL*(NX*XFRAME(K1,IFRA2) + NY*XFRAME(K2,IFRA2) +  NZ*XFRAME(K3,IFRA2))   !  <Vseg.d,n>  where d is flow direction X,Y,Z    ! IFRA2=1 is general frame, IFRA2 in [2:NFRAME+1] are for user frames
               NSIGN = SIGN(ONE,NSIGN)                                              
@@ -347,7 +371,14 @@ C
                  CENTROID_DEPTH =                (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/THREE)                  
                  CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/THREE)
                  CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/THREE)                      
-                 AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX) 
+                 ISMOOTH = 0
+                 IF (FUN_HSP > 0) ISMOOTH = NPC(2*NFUNCT+FUN_HSP+1)
+                 IF(ISMOOTH < 0) THEN
+                   CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH, (CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX ,AA   )
+                   AA = AA*FCY
+                 ELSE
+                   AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX) 
+                 ENDIF
               ENDIF  
               !normal vector                                                                                                                                                                                           
               NX   = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))                                                                                                                         
@@ -368,13 +399,27 @@ C
                                                                                                                                                                                                                        
               ! VEL,PVEL,and NSIGN                                                                                                                                                                                     
               IF(FUN_VEL /= 0)THEN                                                                                                                                                                                     
-                 VEL = FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG                                                                                                                                                 
+                 ISMOOTH = 0
+                 IF (FUN_VEL > 0) ISMOOTH = NPC(2*NFUNCT+FUN_VEL+1)
+                 IF(ISMOOTH < 0) THEN
+                   CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,TT*FCX2 , VEL   )
+                   VEL = VEL*FCY2 - VSEG
+                 ELSE
+                  VEL = FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG                                                                                                                                                 
+                 ENDIF
               ELSE                                                                                                                                                                                                     
                  VEL = -VSEG                                                                                                                                                                                           
               ENDIF                                                                                                                                                                                                    
               IF(FUN_CX /= 0)THEN                                                                                                                                                                                      
                 PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-(NY/NORM)*VEL*XFRAME(K2,IFRA2)-(NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )                                                                                        
-                PVEL=PVEL*FCY1*FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO                                                                                                                                                  
+                ISMOOTH = 0
+                IF (FUN_CX > 0) ISMOOTH = NPC(2*NFUNCT+FUN_CX+1)
+                IF(ISMOOTH < 0) THEN
+                  CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,TT*FCX1 , PVEL0)
+                  PVEL = PVEL*PVEL0*FCY1/TWO
+                ELSE
+                  PVEL=PVEL*FCY1*FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO                                                                                                                                                  
+                ENDIF
               ENDIF                                                                                                                                                                                                    
               NSIGN = VEL*(NX*XFRAME(K1,IFRA2) + NY*XFRAME(K2,IFRA2) +  NZ*XFRAME(K3,IFRA2))   !  <Vseg.d,n>  where d is flow direction X,Y,Z    ! IFRA2=1 is general frame, IFRA2 in [2:NFRAME+1] are for user frames 
               NSIGN = SIGN(ONE,NSIGN)                                                                                                                                                                                  
@@ -556,7 +601,15 @@ C---------------------------------------
                  CENTROID_DEPTH =                (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/FOUR)
                  CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/FOUR)
                  CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/FOUR)
-                 AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
+                 ISMOOTH = 0
+                 IF (FUN_HSP > 0) ISMOOTH = NPC(2*NFUNCT+FUN_HSP+1)
+                 IF(ISMOOTH < 0) THEN
+                   CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,  (CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX , AA  )
+                   AA = AA*FCY
+                 ELSE
+                  AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
+                 ENDIF
+
                ENDIF
                !normal vector
                NX   = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2))-(X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
@@ -577,13 +630,27 @@ C---------------------------------------
                
                !VEL, PVEL, and NSIGN
                IF(FUN_VEL /= 0)THEN
-                  VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG
+                 ISMOOTH = 0
+                 IF (FUN_VEL > 0) ISMOOTH = NPC(2*NFUNCT+FUN_VEL+1)
+                 IF(ISMOOTH < 0) THEN
+                   CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH, TT*FCX2 ,VEL )
+                   VEL = VEL*FCY2 - VSEG
+                 ELSE
+                   VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG
+                 ENDIF
                ELSE
                   VEL =  -VSEG
                ENDIF
                IF(FUN_CX /= 0)THEN   
                  PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2) -(NY/NORM)*VEL*XFRAME(K2,IFRA2)-(NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )
-                 PVEL = PVEL * FCY1*FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
+                 ISMOOTH = 0
+                 IF (FUN_CX > 0) ISMOOTH = NPC(2*NFUNCT+FUN_CX+1)
+                 IF(ISMOOTH < 0) THEN
+                   CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,TT*FCX1, PVEL0)
+                   PVEL = PVEL*PVEL0*FCY1/TWO
+                 ELSE
+                   PVEL=PVEL*FCY1*FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO  
+                 ENDIF
                ENDIF                                                                        
                NSIGN = VEL*(NX*XFRAME(K1,IFRA2) + NY*XFRAME(K2,IFRA2) +  NZ*XFRAME(K3,IFRA2))   !  <Vseg.d,n>  where d is flow direction X,Y,Z    ! IFRA2=1 is general frame, IFRA2 in [2:NFRAME+1] are for user frames
                NSIGN = SIGN(ONE,NSIGN)    
@@ -707,7 +774,14 @@ C
                  CENTROID_DEPTH =                  (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/THREE)
                  CENTROID_DEPTH = CENTROID_DEPTH + (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/THREE)
                  CENTROID_DEPTH = CENTROID_DEPTH + (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/THREE)
-                 AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
+                 IF (FUN_HSP > 0) ISMOOTH = NPC(2*NFUNCT+FUN_HSP+1)
+                 IF(ISMOOTH < 0) THEN
+                   CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX , AA)
+                   AA = AA*FCY
+                 ELSE
+                   AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX) 
+                 ENDIF
+
                ENDIF
 
                !normal vector
@@ -729,13 +803,27 @@ C
                
                !VEL, PVEL, and NSIGN
                IF(FUN_VEL /= 0)THEN
-                  VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX)- VSEG
+                 ISMOOTH = 0
+                 IF (FUN_VEL > 0) ISMOOTH = NPC(2*NFUNCT+FUN_VEL+1)
+                 IF(ISMOOTH < 0) THEN
+                   CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH, TT*FCX2 ,VEL )
+                   VEL = VEL*FCY2 - VSEG
+                 ELSE
+                   VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG
+                 ENDIF
                ELSE
                   VEL =  -VSEG
                ENDIF
                IF(FUN_CX /= 0) THEN  
                  PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-(NY/NORM)*VEL*XFRAME(K2,IFRA2)-(NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )
-                 PVEL = PVEL * FCY1*FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
+                 ISMOOTH = 0
+                 IF (FUN_CX > 0) ISMOOTH = NPC(2*NFUNCT+FUN_CX+1)
+                 IF(ISMOOTH < 0) THEN
+                   CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,TT*FCX1, PVEL0)
+                   PVEL = PVEL*PVEL0*FCY1/TWO
+                 ELSE
+                   PVEL=PVEL*FCY1*FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO  
+                 ENDIF
                ENDIF                                                                       
                NSIGN = VEL*(NX*XFRAME(K1,IFRA2) + NY*XFRAME(K2,IFRA2) +  NZ*XFRAME(K3,IFRA2))   !  <Vseg.d,n>  where d is flow direction X,Y,Z    ! IFRA2=1 is general frame, IFRA2 in [2:NFRAME+1] are for user frames
                NSIGN = SIGN(ONE,NSIGN)    
@@ -887,7 +975,13 @@ C-----------------------------------
                  CENTROID_DEPTH =          (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/FOUR)
                  CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/FOUR)
                  CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/FOUR)
-                 AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
+                 IF (FUN_HSP > 0) ISMOOTH = NPC(2*NFUNCT+FUN_HSP+1)
+                 IF(ISMOOTH < 0) THEN
+                   CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX , AA)
+                   AA = AA*FCY
+                 ELSE
+                   AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX) 
+                 ENDIF
                ENDIF
                
                !normal vector
@@ -909,13 +1003,28 @@ C-----------------------------------
                
                !VEL,PVEL and NSIGN  
                IF(FUN_VEL /= 0)THEN
-                  VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG
+                 ISMOOTH = 0
+                 IF (FUN_VEL > 0) ISMOOTH = NPC(2*NFUNCT+FUN_VEL+1)
+                 IF(ISMOOTH < 0) THEN
+                   CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH, TT*FCX2 ,VEL )
+                   VEL = VEL*FCY2 - VSEG
+                 ELSE
+                   VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG
+                 ENDIF
                ELSE
                   VEL =  -VSEG
                ENDIF
                IF(FUN_CX /= 0) THEN  
                  PVEL = (-NX/NORM*VEL*XFRAME(K1,IFRA2)- (NY/NORM)*VEL*XFRAME(K2,IFRA2)-(NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2
-                 PVEL = PVEL * FCY1*FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
+                 ISMOOTH = 0
+                 IF (FUN_CX > 0) ISMOOTH = NPC(2*NFUNCT+FUN_CX+1)
+                 IF(ISMOOTH < 0) THEN
+                   CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,TT*FCX1, PVEL0)
+                   PVEL = PVEL*PVEL0*FCY1/TWO
+                 ELSE
+                   PVEL = PVEL * FCY1*FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
+                 ENDIF
+
                ENDIF                                                                        
                NSIGN = VEL*(NX*XFRAME(K1,IFRA2) + NY*XFRAME(K2,IFRA2) +  NZ*XFRAME(K3,IFRA2))   !  <Vseg.d,n>  where d is flow direction X,Y,Z    ! IFRA2=1 is general frame, IFRA2 in [2:NFRAME+1] are for user frames
                NSIGN = SIGN(ONE,NSIGN)    
@@ -1042,7 +1151,14 @@ C
                  CENTROID_DEPTH =                (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/THREE)
                  CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/THREE)
                  CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/THREE)
-                 AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX)
+                 IF (FUN_HSP > 0) ISMOOTH = NPC(2*NFUNCT+FUN_HSP+1)
+                 IF(ISMOOTH < 0) THEN
+                   CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX , AA)
+                   AA = AA*FCY
+                 ELSE
+                   AA = FCY*FINTER(FUN_HSP,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX,NPC,TF,DYDX) 
+                 ENDIF
+
                ENDIF
                
                !normal vector
@@ -1064,13 +1180,28 @@ C
                
                !VEL,PVEL, and NSIGN
                IF(FUN_VEL /= 0)THEN
-                  VEL = FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG
+                 ISMOOTH = 0
+                 IF (FUN_VEL > 0) ISMOOTH = NPC(2*NFUNCT+FUN_VEL+1)
+                 IF(ISMOOTH < 0) THEN
+                   CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH, TT*FCX2 ,VEL )
+                   VEL = VEL*FCY2 - VSEG
+                 ELSE
+                   VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX) - VSEG
+                 ENDIF
                ELSE
                   VEL = -VSEG
                ENDIF
                IF(FUN_CX /= 0)THEN   
                  PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-(NY/NORM)*VEL*XFRAME(K2,IFRA2)-(NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )
-                 PVEL = PVEL * FCY1* FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
+                 ISMOOTH = 0
+                 IF (FUN_CX > 0) ISMOOTH = NPC(2*NFUNCT+FUN_CX+1)
+                 IF(ISMOOTH < 0) THEN
+                   CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,TT*FCX1, PVEL0)
+                   PVEL = PVEL*PVEL0*FCY1/TWO
+                 ELSE
+                   PVEL = PVEL * FCY1* FINTER(FUN_CX,TT*FCX1,NPC,TF,DYDX)/TWO
+                 ENDIF
+
                ENDIF                                                                       
                NSIGN = VEL*(NX*XFRAME(K1,IFRA2) + NY*XFRAME(K2,IFRA2) +  NZ*XFRAME(K3,IFRA2))   !  <Vseg.d,n>  where d is flow direction X,Y,Z    ! IFRA2=1 is general frame, IFRA2 in [2:NFRAME+1] are for user frames
                NSIGN = SIGN(ONE,NSIGN)    

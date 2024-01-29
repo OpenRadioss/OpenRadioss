@@ -41,13 +41,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                  V      ,X       ,SKEW   ,AR      ,VR    ,
      3                  NSENSOR,SENSOR_TAB ,WEIGHT ,TFEXC   ,IADC  ,
      4                  FSKY   ,FSKYV   ,FEXT   ,H3D_DATA,
-     5                  APINCH ,VPINCH)
+     5                  APINCH ,VPINCH, PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE H3D_MOD
       USE PINCHTYPE_MOD  
       USE SENSOR_MOD
+      USE PYTHON_FUNCT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,6 +85,7 @@ C-----------------------------------------------
      .   APINCH(3,*),VPINCH(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      TYPE(PYTHON_) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -138,8 +140,11 @@ C----------------
 !!          F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
           IF (ISMOOTH == 0) THEN
             F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
-          ELSE
+          ELSE IF(ISMOOTH > 0) THEN
             F1 = FINTER_SMOOTH(N5,TS*FCX,NPC,TF,DYDX)
+          ELSE 
+            ISMOOTH = -ISMOOTH ! the id the python function is saved in the position of ISMOOTH in the NPC array 
+            CALL PYTHON_CALL_FUNCT1D(PYTHON, ISMOOTH,(TS)*FCX, F1)
           ENDIF ! IF (ISMOOTH == 0)
           N_OLD = N5
           X_OLD = TS
