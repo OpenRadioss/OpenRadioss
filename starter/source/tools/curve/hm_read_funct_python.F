@@ -127,7 +127,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
                 argin(1) = 2.0D0
                 call python_call_function(python%functs(i)%name, 1, argin, 1,argout)
                 !           write(6,*) "results =",argout(1)
-                call python_call_funct1D(python,i,argin(1), argout(1))
+!             call python_call_funct1D(python,i,argin(1), argout(1))
 !            write(6,*) "results =",argout(1)
               else
               endif

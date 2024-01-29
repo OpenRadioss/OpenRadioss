@@ -43,6 +43,7 @@ Chd|====================================================================
       USE CHECK_MOD
       USE INOUTFILE_MOD
       USE COMMAND_LINE_ARGS_MOD
+      USE PYTHON_FUNCT_MOD 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,7 +74,7 @@ C-----------------------------------------------
        CHARACTER :: LAST_LETTER,SEPARATOR
        CHARACTER(LEN=2096) ARGS2,ARGS_REDUCE,ARGP
        CHARACTER(LEN=4096) ULIBC
-       PARAMETER (LENLIST=19)
+       PARAMETER (LENLIST=20)
        CHARACTER(LEN=12):: ARGLIST(LENLIST)
        EXTERNAL IARGC
        DATA ARGLIST/
@@ -87,10 +88,12 @@ C-----------------------------------------------
      .    '-DYLIB',
      .    '-MEM-MAP' ,
      .    '-INSPIRE',
+     .    '-PYTHON',
      .    '-PREVIEW',
      .    '-INSPIRE_ALM','-NORST',
      .    '-MDS_LIBPATH'/
 C-----------------------------------------------
+       PYTHON_ERROR = 1
        IDUM=-1
        GOT_INPUT = 0
        GOT_NTH = 0
@@ -203,6 +206,8 @@ C------------------------------------------------
 C -MEM-MAP
           CASE ( '-MEM-MAP')
              GOT_MEM_MAP=1
+            CASE('-PYTHON')
+             PYTHON_ERROR = 0
           CASE ( '-PREVIEW')  
              GOT_PREVIEW=1
           CASE ( '-INSPIRE_ALM')

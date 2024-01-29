@@ -2172,6 +2172,22 @@ New PROP 1
 #---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
 /FUNCT_PYTHON/3
 def myfun2(x):
+    #print(f"TIME: {TIME:.16f}, DT: {DT:.16f}")
+    #print(f"CX_100: {CX_100:16f}")
+    #print(f"DX_100: {DX_100:16f}")
+    #print(f"DRX_100: {DRX_100:16f}")
+    #print(f"VX_100: {VX_100:16f}")
+    #print(f"VRX_100: {VRX_100:16f}")
+    #print(f"AX_100: {AX_100:16f}")
+    #print(f"ARX_100: {ARX_100:16f}")
+    #  CX_101,  CY_201,  CZ_301
+    #  DX_102,  DY_202,  DZ_302
+    # DRX_103, DRY_203, DRZ_303
+    #  VX_104,  VY_204 , VZ_304
+    # VRX_105, VRY_205, VRZ_305
+    #  AX_106,  AY_206,  AZ_306
+    # ARX_107, ARY_207, ARZ_307
+
     return x
 
 /FUNCT_PYTHON/1
@@ -2186,6 +2202,7 @@ def myfun(x):
     else:
         d = myfun2(x) # it is possible to call other functions within a function
         return d*d*d*(10-15*d+6*d*d)
+
 
 #---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
 /FUNCT/2
