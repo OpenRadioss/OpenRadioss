@@ -2007,7 +2007,7 @@ C Reinitialise sensor variables defined in /SENS/RESET
 C========================================================================================
 
 C save the Python functions into the Python interpreter dictionarry
-       CALL PYTHON_REGISTER(PYTHON)
+       CALL PYTHON_REGISTER(PYTHON,ITAB,NUMNOD)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -3002,7 +3002,8 @@ C First: try with reduced bounding box
         CALL ENGINE_USER_INITIALIZE(NSPMD_USER,NTASK_USER,ISPMD_USER)
       ENDIF
       ! ----------------------
-
+      CALL PYTHON_UPDATE_TIME(TT,DT2)
+      CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD, X=X,A=A,V=V,D=D,DR=DR,VR=VR)
 C=======================================================================
 
 C----------------------------------------
@@ -6886,6 +6887,7 @@ C-----------------------------------------------
      .    CALL TEMPUR(TEMP ,MCP,FTHE,NODFTSK,NODLTSK,WEIGHT,MCP_OFF)
 !$OMP END PARALLEL
 
+
 C------------------------------------------
 C       DT_DC for thick-shell 
 C-----------------------------------------------
@@ -7023,6 +7025,8 @@ C-----------------------------------------------
       END IF
 
       IF (IMON>0) CALL STOPTIME(7,1)
+      CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD,A=A,V=V,AR=AR,VR=VR)
+
 C------------------------------
 C         GRAVITE / ACCEL. BASE
 C------------------------------
@@ -8483,6 +8487,10 @@ C------------
         ENDIF
        ENDIF
       ENDIF
+C ---------------------------------
+      CALL PYTHON_UPDATE_TIME(TT,DT2)
+
+C ---------------------------------
 C----------------------------------
 C       IMPLICITE SOLVER
 C----------------------------------
@@ -8684,6 +8692,8 @@ C----------------------------------------------------------------
             ENDIF
           ENDIF
         ENDIF
+c     CALL PYTHON_UPDATE_GLOBALS(TT,DT2V)
+
 C------------------------------------------
 C         SYNCHRONISATION SUR V TT ET NCYCLE (implicite)
 C----------------------------
@@ -8859,7 +8869,7 @@ C===============================================================================
         ENDIF
       ENDIF
 
-
+      CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD,X= X, D=D, DR=DR)
 C========================================================================================
 C                                   NON PARALLEL SECTION (SMP)
 C========================================================================================
@@ -8920,7 +8930,6 @@ c----------------------------------------------------------------------
            CALL SPMD_EXCH_CRKVEL(IAD_ELEM ,FR_ELEM ,INOD_CRK ,ITAB   ,
      .                           X        ,V       ,VR       )
          ENDIF
-
 C========================================================================================
 C                                   PARALLEL SECTION (SMP)
 C========================================================================================

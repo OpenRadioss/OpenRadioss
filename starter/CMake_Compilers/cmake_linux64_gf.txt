@@ -84,7 +84,7 @@ set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "${FSANIT
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O0 -g -fopenmp " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc}  -O0 -g  -fopenmp -std=c++11  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc}  -O0 -g  -fopenmp -std=c++14  -D_GLIBCXX_USE_CXX11_ABI=0 " )
 
 elseif ( debug STREQUAL "asan" )
 
@@ -102,7 +102,7 @@ set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "${FSANIT
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O0 -g -fopenmp ${zlib_inc}" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel}  -O0 -g  -fopenmp  ${zlib_inc} -std=c++11  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel}  -O0 -g  -fopenmp ${zlib_inc} -std=c++14 -D_GLIBCXX_USE_CXX11_ABI=0 ")
 
 else ()
 
@@ -117,7 +117,7 @@ set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${preci
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O2 -fopenmp " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O2 -fopenmp -std=c++11  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O2 -fopenmp -std=c++14  -D_GLIBCXX_USE_CXX11_ABI=0 " )
 
 endif()
 
