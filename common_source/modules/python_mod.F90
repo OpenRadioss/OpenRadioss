@@ -83,6 +83,49 @@
             character(kind=c_char), dimension(*) :: name
             integer(kind=c_int), intent(out) :: error
           end subroutine python_check_function
+
+          subroutine python_update_time(time,dt) bind(c, name="cpp_python_update_time")
+            use iso_c_binding
+#ifdef MYREAL8
+            real(kind = c_double), value, intent(in) :: time
+            real(kind = c_double), value, intent(in) :: dt
+#else
+            real(kind = c_float), value, intent(in) :: time
+            real(kind = c_float), value, intent(in) :: dt
+#endif
+          end subroutine python_update_time
+
+          !interface for    void cpp_python_update_nodal_entities(char *name, int len_name, my_real *values)
+          subroutine python_set_node_values(numnod, name_len, name, val) bind(c, name="cpp_python_update_nodal_entity")
+            use iso_c_binding
+            integer(kind=c_int), value, intent(in) :: numnod
+            integer(kind=c_int), value, intent(in) :: name_len
+            character(kind=c_char), dimension(name_len), intent(in) :: name
+#ifdef MYREAL8
+            real(kind=c_double), dimension(3,numnod), intent(in) :: val
+#else
+            real(kind=c_float), dimension(3,numnod), intent(in) :: val
+#endif
+          end subroutine python_set_node_values
+
+          subroutine python_get_number_of_nodes(number_of_nodes) bind(c, name="cpp_python_get_number_of_nodes")
+            use iso_c_binding
+            integer(kind=c_int), intent(out) :: number_of_nodes
+          end subroutine python_get_number_of_nodes
+
+          subroutine python_get_nodes(nodes_global_ids) &
+            bind(c, name="cpp_python_get_nodes")
+            use iso_c_binding
+            integer(kind=c_int), intent(inout) :: nodes_global_ids(*)
+          end subroutine python_get_nodes
+
+          !interface for    void cpp_create_node_mapping(int * itab, int *num_nodes)
+          subroutine python_create_node_mapping(itab, num_nodes) &
+            bind(c, name="cpp_python_create_node_mapping")
+            use iso_c_binding
+            integer(kind=c_int), intent(in) :: num_nodes
+            integer(kind=c_int), intent(in) :: itab(*)
+          end subroutine python_create_node_mapping
         end interface
 
 !! \brief the python function structure: it contains the python code in plain text
@@ -216,6 +259,8 @@
 
         end subroutine python_deserialize
 
+
+
 !! \brief Initialize the python function
 !! \details allocate funct%name and funct%code, and copy the name and code from the input file
         subroutine python_funct_init(funct, code, len_code, num_lines)
@@ -237,6 +282,7 @@
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           name=" "
+
           call python_register_function(name, code, num_lines)
           allocate(funct%name(len_trim(name)),stat = ierr)
           if(ierr == 0) then
@@ -255,20 +301,22 @@
           funct%num_lines = num_lines
         end subroutine
 
+
 !! \brief Register the python functions saved in the python structure into the python interpreter dictionary
-        subroutine python_register(py)
+        subroutine python_register(py, itab, numnod)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(python_),                     intent(in) :: py !< the Fortran structure that holds the python function
+          integer,                           intent(in) :: numnod !< the global number of nodes
+          integer,                           intent(in) :: itab(numnod) !< the global node ids
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          character(len=max_line_length) :: name
+          character(len=max_line_length)             :: name
           character(kind=c_char,len=max_code_length) :: code
-          integer                        :: i,n,ierror
-!         double precision, dimension(1) :: argin, argout
+          integer                                    :: i,n,ierror
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -288,6 +336,10 @@
             code(py%functs(n)%len_code+1:py%functs(n)%len_code+1) = c_null_char
             call python_register_function(name, code, py%functs(n)%num_lines)
           end do
+          ! creates a mapping between the global node ids and the local node ids
+          !write(6,*) "python create node mapping"
+          call python_create_node_mapping(itab, numnod)
+
         end subroutine
 
 !! \brief Evaluate the python function
@@ -403,6 +455,82 @@
           call python_deriv_funct1D_dp(py, funct_id, argin, argout)
           y = real(argout,kind(1.0))
         end subroutine
+
+!! \brief update variables known by python functions
+        subroutine python_update_nodal_entities(numnod,X, A, D, DR, V, VR, AR)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Module
+! ----------------------------------------------------------------------------------------------------------------------
+          use iso_c_binding, only : c_double
+! --------------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Included files
+! ----------------------------------------------------------------------------------------------------------------------
+#include "my_real.inc"
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          integer,                                 intent(in) :: numnod !< the number of nodes
+          my_real, optional,  dimension(3,numnod), intent(in) :: X !< the coordinates
+          my_real, optional,  dimension(3,numnod), intent(in) :: A !< the acceleration
+          my_real, optional,  dimension(3,numnod), intent(in) :: D !< the displacement
+          my_real, optional,  dimension(3,numnod), intent(in) :: DR !< the rotational? relative? displacement
+          my_real, optional,  dimension(3,numnod), intent(in) :: V !< the velocity
+          my_real, optional,  dimension(3,numnod), intent(in) :: VR !< the rotational? relative? velocity
+          my_real, optional,  dimension(3,numnod), intent(in) :: AR !< the acceleration
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+
+          if(present(X))  call python_update_nodal_entity(numnod,"C",1, X)
+          if(present(A))  call python_update_nodal_entity(numnod,"A",1, A)
+          if(present(D))  call python_update_nodal_entity(numnod,"D",1, D)
+          if(present(DR)) call python_update_nodal_entity(numnod,"DR",2, DR)
+          if(present(V))  call python_update_nodal_entity(numnod,"V",1, V)
+          if(present(VR)) call python_update_nodal_entity(numnod,"VR",2, VR)
+          if(present(AR)) call python_update_nodal_entity(numnod,"AR",2, AR)
+
+        end subroutine
+
+!! \brief update variables known by python functions
+        subroutine python_update_nodal_entity(numnod, name, name_len, val)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Module
+! ----------------------------------------------------------------------------------------------------------------------
+          use iso_c_binding
+! --------------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Included files
+! ----------------------------------------------------------------------------------------------------------------------
+#include "my_real.inc"
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          integer,                                     intent(in) :: numnod !< the number of nodes
+          integer,                                     intent(in) :: name_len !< the length of the name
+          character(kind=c_char), dimension(name_len), intent(in) :: name      !< the name of the variable
+          my_real, dimension(3,numnod),                intent(in) :: val !< the values
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          character(kind=c_char), dimension(name_len+1)        :: temp_name
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          temp_name(1:name_len) = name
+          temp_name(name_len+1:name_len+1) = c_null_char
+          call python_set_node_values(numnod, name_len, temp_name, val)
+        end subroutine
+
 
 
         ! unit test

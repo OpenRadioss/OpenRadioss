@@ -10102,6 +10102,7 @@ c build structure surfaces specific Inlet Outlet
 !     Split the surface & add the MONVOL nodes
 !     on a given processor
 !--------------------------------------------
+      CALL PYTHON_DUPLICATE_NODES(ITAB,NUMNOD,NSPMD) ! nodes used in the python functions must be on all processors
       CALL IGRSURF_SPLIT(SCEP,CEP,T_MONVOL,IGRSURF,IGRSURF_PROC)
 C--------------------------------------------
 C     DOMAIN DECOMPOSITION 2 (DEFINITION DES FRONTIERES)
