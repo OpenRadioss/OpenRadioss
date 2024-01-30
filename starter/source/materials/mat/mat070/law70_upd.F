@@ -139,6 +139,9 @@ c     check and enforce passing through (0,0)
           XI(IPT,I) = S1
           YI(IPT,I) = T1
         END DO
+        IPT = IPT + 1
+        XI(IPT,I) = S2
+        YI(IPT,I) = T2
         LEN(I) = IPT
       END DO
 c------------------------------------------------------      
@@ -213,6 +216,9 @@ c
             XI(IPT,I) = S1
             YI(IPT,I) = T1
           END DO
+          IPT = IPT + 1
+          XI(IPT,I) = S2
+          YI(IPT,I) = T2
           LEN(I) = IPT
         END DO
 c------------------------------------------------------      
