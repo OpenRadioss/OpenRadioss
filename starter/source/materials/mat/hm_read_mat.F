@@ -1260,8 +1260,8 @@ c-------
             MTAG%L_PLA  = 1
             CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")
             ! Properties compatibility
-            CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ALL")
-            CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ALL")
+            CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
+            CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC")
 !
             CALL HM_READ_MAT_MDS(ILAW,I,MAT_ID,
      .                           UPARAM,MAXUPARAM,NUPARAM,
