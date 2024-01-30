@@ -179,7 +179,8 @@ c--------------------------------------------------
         ENDIF
 
         MTN = IPM(2,IMAT)  
-        IF(MTN/=3.AND.MTN/=4.AND.MTN/=6.AND.MTN/=10.AND.MTN/=12.AND.MTN/=49.AND.MTN/=102.AND.MTN/=103) THEN       
+        IF (MTN/=3  .AND. MTN/=4   .AND. MTN/=6 .AND. MTN/=10 .AND. MTN/=12 .AND. 
+     .      MTN/=49 .AND. MTN/=102 .AND. MTN/=103 .AND. MTN/=109) THEN       
           CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)                                                                        
           CALL ANCMSG(MSGID=824,                                                                                                  
      .                MSGTYPE=MSGERROR,                                                                                           
