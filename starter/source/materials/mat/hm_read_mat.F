@@ -663,7 +663,7 @@ c-------
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID    ,TITR     ,MTAG    ,LSUBMODEL,
-     .           PM(1,I)  ,IPM(1,I)  ,MATPARAM )
+     .           PM(1,I)  ,MATPARAM )
 c-------
           CASE ('LAW52','GURSON')
             ILAW  = 52 

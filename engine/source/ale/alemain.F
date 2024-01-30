@@ -289,6 +289,7 @@ C  IOUTPRT (assembly report)
           DO NG=ITASK+1,NGROUP,NTHREAD
              IF (TT > ZERO .AND. IPARG(76, NG) == 1) CYCLE ! --> OFF
              IF(IPARG(8,NG) == 1) CYCLE
+             ISOLNOD=IPARG(28,NG)
              CALL INITBUF(
      1          IPARG   ,NG      ,
      2          MTN     ,NEL     ,NFT     ,IAD      ,ITY     ,

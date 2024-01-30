@@ -30,12 +30,11 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE LECM51__CHECK_INITIAL_STATE(   
      .   AV,  R0,     C0,   C1,   C2, C3, C4,   C5,
-     .   E0,  PM,   RHO0, RHOR, IEXP, JTHE,PEXT,IFLG,
-     .   A0,  A1,     A2,  PLA,
+     .   E0,  PM,   RHO0, RHOR, IEXP, PEXT,IFLG,
+     .   A1,     A2,  PLA,
      .   ID,  TITR,
      .   SSP1,SSP2, SSP3, SSP4,
      .   LC1 ,LC2 ,  LC3,  LC4,
-     .   TCARP,
      .   P0a          )
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -59,21 +58,20 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real   
      . AV(4),R0(4), C0(4), C1(4),C2(4), C3(4),
-     . A0(4), A1(4),A2(4),
+     . A1(4),A2(4),
      . C4(4),C5(4), E0(4), PM(4), PEXT,  RHO0, RHOR,
      . SSP(4),LC(4),
      . SSP1,SSP2,SSP3,SSP4,
      . LC1,LC2,LC3,LC4,
-     . TCARP,
      . P0a(4)
-      INTEGER IEXP, JTHE, IFLG,PLA(4)
+      INTEGER IEXP, IFLG,PLA(4)
       INTEGER ID
       CHARACTER*nchartitle,TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER i,j, TEST1,TEST2,TEST3,TEST4,TEST5,
-     .        TEST6,TEST7,TEST8,TEST9, IMAX,IPLA(4)
+     .        TEST6, IMAX,IPLA(4)
      
       my_real SUM, P0b, err
       
@@ -100,9 +98,6 @@ C===============================================|
       TEST4=0    !Unbalanced Pressure  t=0              
       TEST5=0    !Global density = mean(rho_i)
       TEST6=0    !C1,C4,C5 >=0,  C1>0 phase 4
-      TEST8=0    !Perfect Gas cavitation pressure
-      TEST8=0    !
-      TEST9=0    !
 
       IF(IFLG==6)THEN
         SUM=0

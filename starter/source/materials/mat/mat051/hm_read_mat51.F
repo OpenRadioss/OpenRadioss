@@ -46,7 +46,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT51(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
      .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
-     .                         PM     ,IPM      ,MATPARAM )
+     .                         PM     ,MATPARAM )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -58,7 +58,6 @@ C
 C     NAME            DESCRIPTION
 C
 C     PM              MATERIAL ARRAY(REAL)
-C     IPM             MATERIAL ARRAY(INTEGER)
 C     ISRATE          FLAG FOR STRAIN RATE FILTERING
 C     IMATVIS         FLAG FOR VISCOSITY
 C     UNITAB          UNITS ARRAY
@@ -96,7 +95,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)          :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
-      INTEGER, INTENT(INOUT)          :: IPM(NPROPMI),ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,IMATVIS
+      INTEGER, INTENT(INOUT)          :: ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,IMATVIS
       TYPE(MLAW_TAG_),INTENT(INOUT)   :: MTAG
       INTEGER,INTENT(IN)              :: MAT_ID
       CHARACTER*nchartitle,INTENT(IN) :: TITR
@@ -557,10 +556,10 @@ C-----------------------------------------------
      .        CC     , EPDR      ,CM       ,  T0      , TMELT   ,
      .        THETL  , SPH       ,PLAMX    ,  SIGMX   , XKA     ,
      .        XKB    , NU        ,A0       ,  A1      , A2      ,
-     .        AMX    , BUNL      ,MUMX     ,
+     .        AMX    ,
      .        B1     , B2        ,R1       ,  R2,       W,
      .        VDET   , PCJ       ,IBFRAC   ,  PEXT,     VIS,
-     .        VISV   , IS_ENCRYPTED,LSUBMODEL,  UNITAB)
+     .        VISV   , LSUBMODEL,  UNITAB)
         CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('DAMP1' ,FAC_UNIT_SPH   ,1 ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !Shear Modulus for DPRAG input
         IF(GG(1)==ZERO.AND.IPLA(1)==2)GG(1)=Y(1)/TWO/(ONE+NU(1))
@@ -783,12 +782,11 @@ C     !============================!
       IF (IFLG /= 12) THEN
         CALL LECM51__CHECK_INITIAL_STATE(
      .   AV, RHO0_,  C0,  C1,  C2, C3, C4,  C5,
-     .   E0, PM, RHO0, RHOR, IEXP, JTHE,PEXT, IFLG,
-     .   A0, A1, A2, IPLA,
+     .   E0, PM, RHO0, RHOR, IEXP, PEXT, IFLG,
+     .   A1, A2, IPLA,
      .   MAT_ID ,TITR,
      .   SSP(1),SSP(2),SSP(3),SSP(4),
      .   LC(1), LC(2), LC(3), LC(4),
-     .   TCARP,
      .   Pini)
         !Inferior Boundary for Energy. It ensure EOS stability.
         !Inf(Eint), def=-INFINITY

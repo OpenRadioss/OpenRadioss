@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE COMPUTE_BFRAC(TIME,XL,TBURN,UPARAM,
      .          V1,
-     .          RHO1,RHO10,MAS1,BFRAC)
+     .          RHO1,RHO10,BFRAC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -38,7 +38,7 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real 
      .          TIME,XL,TBURN,
-     .          V1, RHO1, RHO10, MAS1, 
+     .          V1, RHO1, RHO10,
      .          UPARAM(*),BFRAC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

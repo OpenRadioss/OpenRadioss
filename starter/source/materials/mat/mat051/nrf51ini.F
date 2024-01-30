@@ -30,7 +30,7 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_conne
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE NRF51INI(IPM             ,     PM,      X, NIX,     IX,
-     .                    ALE_CONNECTIVITY, BUFMAT, UPARAM, NV46,  RHO0,
+     .                    ALE_CONNECTIVITY, BUFMAT, UPARAM, RHO0,
      .                    UVAR            , NUVAR , NEL   , RHO , NUMEL
      .                   )
 C-----------------------------------------------
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN)    :: NUMEL,NIX,IX(NIX,NUMEL),IPM(NPROPMI,NUMMAT),NV46,NUVAR,NEL
+      INTEGER,INTENT(IN)    :: NUMEL,NIX,IX(NIX,NUMEL),IPM(NPROPMI,NUMMAT),NUVAR,NEL
       my_real               :: PM(NPROPM,NUMMAT), X(3,NUMNOD),  UPARAM(*),  RHO0
       my_real,TARGET        :: BUFMAT(*)
       my_real,INTENT(INOUT) :: UVAR(NEL,NUVAR), RHO(NEL)
@@ -97,7 +97,7 @@ C-----------------------------------------------
      .   GG1v,GG2v,GG3v,
      .   DPDMU1v, DPDMU2v,DPDMU3v,
      .   PEXT, PEXTv, P0_NRF, P0_NRFv, AVSUM,
-     .   LC,Xmin,Ymin,Zmin,Xmax,Ymax,Zmax, SSP0,TCP, TMP,
+     .   LC,Xmin,Ymin,Zmin,Xmax,Ymax,Zmax, SSP0, TMP,
      .   AV(4)
      
       my_real,POINTER,DIMENSION(:) :: UPRM
