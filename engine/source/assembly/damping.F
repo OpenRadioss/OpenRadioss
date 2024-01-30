@@ -25,6 +25,7 @@ Chd|  DAMPING51                     source/assembly/damping.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
+Chd|        DAMPING_VREF                  source/assembly/damping_vref.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE DAMPING51(

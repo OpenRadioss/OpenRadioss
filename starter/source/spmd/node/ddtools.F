@@ -246,6 +246,7 @@ Chd|====================================================================
 Chd|  NLOCAL                        source/spmd/node/ddtools.F    
 Chd|-- called by -----------
 Chd|        C_CRKEDGE                     source/restart/ddsplit/c_crkedge.F
+Chd|        C_DAMPVREL                    source/restart/ddsplit/c_dampvrel.F
 Chd|        C_DOMS10                      source/spmd/domdec2.F         
 Chd|        C_FRONT                       source/restart/ddsplit/c_front.F
 Chd|        C_FVBAG                       source/airbag/c_fvbag.F       
@@ -303,6 +304,7 @@ Chd|        SPMDSET                       source/constraints/general/rbody/spmds
 Chd|        SPMD_USERWI_REST              source/user_interface/user_windows_tools.F
 Chd|        THPINIT                       source/output/th/thpinit.F    
 Chd|        WRWEIGHT_RM                   source/restart/ddsplit/wrweight_rm.F
+Chd|        W_DAMPVREL                    source/restart/ddsplit/w_dampvrel.F
 Chd|        W_FBFT                        source/restart/ddsplit/w_fbft.F
 Chd|        W_FI                          source/restart/ddsplit/w_fi.F 
 Chd|        W_FIXVEL                      source/restart/ddsplit/w_fixvel.F

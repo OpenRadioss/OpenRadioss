@@ -41,6 +41,7 @@ Chd|        CREATE_MAP_TABLES             starter/source/model/sets/map_tables.F
 Chd|        CREATE_SUBS_CLAUSE            starter/source/model/sets/create_subs_clause.F
 Chd|        CREATE_SUBS_LIST              starter/source/model/sets/create_subs_clause.F
 Chd|        CREATE_SUBS_LIST_G            starter/source/model/sets/create_subs_clause.F
+Chd|        C_DAMPVREL                    starter/source/restart/ddsplit/c_dampvrel.F
 Chd|        C_GROUP_STR                   starter/source/restart/ddsplit/c_group_str.F
 Chd|        C_GR_ENTITY_E                 starter/source/model/group/c_gr_entity.F
 Chd|        C_GR_ENTITY_N                 starter/source/model/group/c_gr_entity.F
@@ -412,6 +413,7 @@ Chd|        TGRTAILS                      starter/source/elements/truss/tgrtails
 Chd|        THPRIN_SUB                    starter/source/output/th/thprin.F
 Chd|        TH_SURF_LOAD_PRESSURE         starter/source/output/th/th_surf_load_pressure.F
 Chd|        TSURFTAG                      starter/source/groups/tsurftag.F
+Chd|        W_DAMPVREL                    starter/source/restart/ddsplit/w_dampvrel.F
 Chd|        W_FRONT                       starter/source/restart/ddsplit/w_front.F
 Chd|        W_GROUP_STR                   starter/source/restart/ddsplit/w_group_str.F
 Chd|        W_GR_ENTITY_E                 starter/source/restart/ddsplit/w_gr_entity.F
@@ -452,6 +454,8 @@ Chd|        ANIM_NODAL_CONTOUR_FVMBAGS    engine/source/output/anim/generate/ani
 Chd|        DAMPING                       engine/source/assembly/damping.F
 Chd|        DAMPING44                     engine/source/assembly/damping.F
 Chd|        DAMPING51                     engine/source/assembly/damping.F
+Chd|        DAMPING_VREF                  engine/source/assembly/damping_vref.F
+Chd|        DAMPVREF_SUM6                 engine/source/assembly/dampvref_sum6.F
 Chd|        DESACTI                       engine/source/elements/desacti.F
 Chd|        DIM_GLOB_K                    engine/source/implicit/ind_glob_k.F
 Chd|        DSRGCNT                       engine/source/output/anim/generate/dsrgcnt.F

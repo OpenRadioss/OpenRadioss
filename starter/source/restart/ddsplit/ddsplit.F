@@ -34,6 +34,7 @@ Chd|        C_CLUSTER                     source/restart/ddsplit/w_cluster.F
 Chd|        C_CRKADD                      source/restart/ddsplit/c_crkadd.F
 Chd|        C_CRKEDGE                     source/restart/ddsplit/c_crkedge.F
 Chd|        C_CRKXFEM                     source/restart/ddsplit/c_crkxfem.F
+Chd|        C_DAMPVREL                    source/restart/ddsplit/c_dampvrel.F
 Chd|        C_DRAPE                       source/restart/ddsplit/c_drape.F
 Chd|        C_EIG                         source/restart/ddsplit/c_eig.F
 Chd|        C_ELIG3D                      source/restart/ddsplit/c_elig3d.F
@@ -138,6 +139,7 @@ Chd|        W_BUFBRIC_22                  source/interfaces/inter3d1/w_bufbric_2
 Chd|        W_BUFEL                       source/restart/ddsplit/w_bufel.F
 Chd|        W_CLUSTER                     source/restart/ddsplit/w_cluster.F
 Chd|        W_CRKXFEM                     source/restart/ddsplit/w_crkxfem.F
+Chd|        W_DAMPVREL                    source/restart/ddsplit/w_dampvrel.F
 Chd|        W_DISP0_VEL0_CLOAD            source/restart/ddsplit/w_disp0_vel0_cload.F
 Chd|        W_DRAPE                       source/restart/ddsplit/w_drape.F
 Chd|        W_ELBUF_STR                   source/restart/ddsplit/w_elbuf_str.F

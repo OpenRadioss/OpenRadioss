@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        AIRBAGB                       source/airbag/airbag2.F       
 Chd|        AIRBAGB1                      source/airbag/airbagb1.F      
 Chd|        ASS18                         source/interfaces/int18/ass18.F
+Chd|        DAMPVREF_SUM6                 source/assembly/dampvref_sum6.F
 Chd|        PORO                          source/ale/porous/poro.F      
 Chd|        RBYACT                        source/constraints/general/rbody/rbyact.F
 Chd|        RBYPID                        source/constraints/general/rbody/rbypid.F

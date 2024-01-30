@@ -21,14 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  W_DAMPING                       source/restart/ddsplit/w_seatbelts.F
+Chd|  C_DAMPVREL                    source/restart/ddsplit/c_dampvrel.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
-Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
+Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE C_DAMPVREL(DAMPR,IGRNOD,PROC,IDAMP_VREL,NDAMP_VREL_L,
      .                      NGRNOD,NDAMP,NRDAMP)

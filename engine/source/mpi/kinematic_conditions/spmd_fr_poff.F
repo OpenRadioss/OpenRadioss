@@ -24,6 +24,7 @@ C
 Chd|====================================================================
 Chd|  SPMD_FR_POFF                  source/mpi/kinematic_conditions/spmd_fr_poff.F
 Chd|-- called by -----------
+Chd|        DAMPING_VREF                  source/assembly/damping_vref.F
 Chd|        MV_MATV                       source/airbag/monv_imp0.F     
 Chd|-- calls ---------------
 Chd|====================================================================

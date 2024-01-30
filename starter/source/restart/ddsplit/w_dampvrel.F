@@ -1,12 +1,11 @@
 Chd|====================================================================
-Chd|  W_DAMPING                       source/restart/ddsplit/w_seatbelts.F
+Chd|  W_DAMPVREL                    source/restart/ddsplit/w_dampvrel.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
+Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE W_DAMPVREL(DAMPR,IGRNOD,IDAMP_VREL_L,NDAMP_VREL_L,LEN_IA,
      .                      NGRNOD,NDAMP,NRDAMP,NSPMD)

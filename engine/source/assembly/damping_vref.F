@@ -21,10 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  DAMPING51                     source/assembly/damping.F     
+Chd|  DAMPING_VREF                  source/assembly/damping_vref.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        DAMPING51                     source/assembly/damping.F     
 Chd|-- calls ---------------
+Chd|        DAMPVREF_SUM6                 source/assembly/dampvref_sum6.F
+Chd|        MY_BARRIER                    source/system/machine.F       
+Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
+Chd|        SPMD_FR_POFF                  source/mpi/kinematic_conditions/spmd_fr_poff.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE DAMPING_VREF(IGRNOD,V,A,MS,DAMPR,

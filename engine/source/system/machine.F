@@ -80,6 +80,7 @@ Chd|        CHKLOAD                       source/interfaces/chkload.F
 Chd|        CHKMSR3N                      source/interfaces/interf/chkstfn3.F
 Chd|        CHKMSR3NB                     source/interfaces/interf/chkstfn3.F
 Chd|        CNDINT                        source/model/remesh/cndint.F  
+Chd|        DAMPING_VREF                  source/assembly/damping_vref.F
 Chd|        DYNA_IVFAC                    source/implicit/imp_dyna.F    
 Chd|        EFLUX3_INT22_FVM              source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
 Chd|        ERR_THK                       source/elements/shell/err_thk.F

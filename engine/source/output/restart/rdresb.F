@@ -67,6 +67,7 @@ Chd|        USERWI_READ                   source/user_interface/userwindow_inter
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
+Chd|        DAMP_MOD                      share/modules/damp_mod.F      
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       

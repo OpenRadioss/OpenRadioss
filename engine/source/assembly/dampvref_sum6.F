@@ -21,10 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  DAMPING51                     source/assembly/damping.F     
+Chd|  DAMPVREF_SUM6                 source/assembly/dampvref_sum6.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        DAMPING_VREF                  source/assembly/damping_vref.F
 Chd|-- calls ---------------
+Chd|        SUM_6_FLOAT                   source/system/parit.F         
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE DAMPVREF_SUM6(IGRNOD,V,A,MS,WEIGHT,

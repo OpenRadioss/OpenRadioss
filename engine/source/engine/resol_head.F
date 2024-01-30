@@ -30,6 +30,7 @@ Chd|        TRACE_IN                      source/system/trace_back.F
 Chd|        TRACE_OUT                     source/system/trace_back.F    
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
+Chd|        DAMP_MOD                      share/modules/damp_mod.F      
 Chd|        DIFFUSION_MOD                 share/modules/diffusion_mod.F 
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   

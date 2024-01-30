@@ -21,33 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SEATBELT_MOD                  modules/seatbelt_mod.F        
+Chd|  DAMP_MOD                      share/modules/damp_mod.F      
 Chd|-- called by -----------
-Chd|        CREATE_SEATBELT               starter/source/tools/seatbelts/create_seatbelt.F
-Chd|        C_SEATBELTS                   starter/source/restart/ddsplit/c_seatbelts.F
-Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        HM_READ_RETRACTOR             starter/source/tools/seatbelts/hm_read_retractor.F
-Chd|        HM_READ_SLIPRING              starter/source/tools/seatbelts/hm_read_slipring.F
-Chd|        INI_SEATBELT                  starter/source/tools/seatbelts/ini_seatbelt.F
-Chd|        LECTUR                        starter/source/starter/lectur.F
-Chd|        NEW_SEATBELT                  starter/source/tools/seatbelts/new_seatbelt.F
-Chd|        RGRHEAD                       starter/source/elements/spring/rgrhead.F
-Chd|        RGRTAILS                      starter/source/elements/spring/rgrtails.F
-Chd|        RINIT3                        starter/source/elements/spring/rinit3.F
-Chd|        ST_QAPRINT_SEATBELTS          starter/source/output/qaprint/st_qaprint_seatbelts.F
-Chd|        W_SEATBELTS                   starter/source/restart/ddsplit/w_seatbelts.F
-Chd|        HIST2                         engine/source/output/th/hist2.F
-Chd|        KINE_SEATBELT_FORCE           engine/source/tools/seatbelts/kine_seatbelt_force.F
-Chd|        KINE_SEATBELT_VEL             engine/source/tools/seatbelts/kine_seatbelt_vel.F
-Chd|        MATERIAL_FLOW                 engine/source/tools/seatbelts/material_flow.F
-Chd|        R23L114DEF3                   engine/source/elements/spring/r23l114def3.F
-Chd|        RDRESB                        engine/source/output/restart/rdresb.F
-Chd|        RESOL                         engine/source/engine/resol.F  
-Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
-Chd|        SPMD_COLLECT_SEATBELT         engine/source/mpi/output/spmd_collect_seatbelt.F
-Chd|        SPMD_EXCH_A_SEATBELT          engine/source/mpi/seatbelts/spmd_exch_a_seatbelt.F
-Chd|        UPDATE_SLIPRING               engine/source/tools/seatbelts/update_slipring.F
-Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
+Chd|        RDCOMI                        source/output/restart/rdcomm.F
+Chd|        RDRESB                        source/output/restart/rdresb.F
+Chd|        RESOL_HEAD                    source/engine/resol_head.F    
+Chd|        RESTALLOC                     source/output/restart/arralloc.F
+Chd|        WRCOMI                        source/output/restart/wrcomm.F
+Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE DAMP_MOD

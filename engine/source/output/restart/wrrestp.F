@@ -68,6 +68,7 @@ Chd|        W_SURF_STR                    source/output/restart/w_surf_str.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
+Chd|        DAMP_MOD                      share/modules/damp_mod.F      
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F

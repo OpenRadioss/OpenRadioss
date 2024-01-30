@@ -30,6 +30,7 @@ Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mo
 Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
+Chd|        DAMP_MOD                      share/modules/damp_mod.F      
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
