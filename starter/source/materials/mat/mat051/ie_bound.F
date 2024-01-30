@@ -43,20 +43,23 @@ C MU0      |  1   | EXPANSION STATE WHERE TO COMPUTE LOWER LIMIT       C
 C          |      | AT THIS POINT PRESSURE IS ZERO AND THEN dE IS ZERO C
 C P0       |  1   | SIMPLIFICATION FOR 0-DEGREE POLYNOMIAL COEFFICIENT C
 C----------+------+----------------------------------------------------C
-C
+
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       P0=PEXT+C0
       MU0=-ONE
       PCRIT=ZERO
       C45=MAX(C4,C5)
       IE_BOUND=-INFINITY !default : no minimum 
-      E0_ref = ZERO
-      P0_ref = ZERO 
-      C1_ref = ZERO
+      E0_ref=ZERO
+      P0_ref=ZERO
+      C1_ref=ZERO
 
       !===================!
       !   NO MATERIAL     !
       !===================!
-      IF( (C0==ZERO).AND.(C1==ZERO).AND.(C2==ZERO).AND.(C3==ZERO).AND.(C4==ZERO).AND.(C5==ZERO) )THEN
+      IF( (C0 == ZERO) .AND. (C1 == ZERO) .AND. (C2 == ZERO) .AND. (C3 == ZERO) .AND. (C4 == ZERO) .AND. (C5 == ZERO))THEN
         IE_BOUND = ZERO
         RETURN      
       END IF      
@@ -66,7 +69,7 @@ C
       !  =>Einf = E0      ! 
       ! dE=-(dP+Pext)dV=0 !           
       !===================!
-      IF(ABS(P0+C4*E0)<EM20)THEN
+      IF(ABS(P0+C4*E0) < EM20)THEN
         IE_BOUND = E0
         RETURN      
       END IF 
@@ -76,7 +79,7 @@ C
       ! IE_BOUND DOES NOT !
       ! EXISTS            !
       !===================!
-      IF ((PM+PEXT)>EM20) THEN
+      IF ((PM+PEXT) > EM20) THEN
       !In this case extremum does not exists. Pressure (P+Pext) will never be zero, then dE>0 is never zero and E has no extremum. limit E(->-1) = -INFINITY
         IE_BOUND=-INFINITY         
         RETURN
@@ -91,9 +94,9 @@ C
       !===================!
       !    PERFECT GAS    !
       !===================!
-      IF((C2==ZERO).AND.(C3==ZERO).AND.(P0==C1).AND.(C4/=ZERO).AND.(C4==C5))THEN
+      IF((C2 == ZERO) .AND. (C3 == ZERO) .AND. (P0 == C1) .AND. (C4 /= ZERO) .AND. (C4 == C5))THEN
        !this condition describes all formulation possible for a perfect gas, included relative pressure and relative energy.
-        IF (C1==0)THEN
+        IF (C1 == 0)THEN
         !total energy
           IE_BOUND = ZERO
         ELSE
@@ -107,8 +110,8 @@ C
       ! INCOMPRESSIBLE GAS   !
       ! LINEAR ELASTIC SOLID !      
       !======================! 
-      IF((C2==ZERO).AND.(C3==ZERO).AND.(C4==ZERO).AND.(C5==ZERO).AND.(C1/=ZERO))THEN 
-        IF (P0<C1)THEN
+      IF((C2 == ZERO) .AND. (C3 == ZERO) .AND. (C4 == ZERO) .AND. (C5 == ZERO) .AND. (C1 /= ZERO))THEN
+        IF (P0 < C1)THEN
              x=-P0/C1  !C1-P0>0 then x  > -1, extremum is well defined
              IE_BOUND = -1/(1+x)*P0+C1/(1+x)+C1*LOG(1+x)+E0+P0-C1
         ELSE
@@ -127,7 +130,7 @@ C
       ! MIE-GRUNEISEN        !
       ! GAMMA CONSTANT       !      
       !======================! 
-      IF((C1>ZERO).AND.(C4>=C5).AND.(C5>ZERO))THEN
+      IF((C1 > ZERO) .AND. (C4 >= C5) .AND. (C5 > ZERO))THEN
       !similar to E0=0
       !P=P0      +        C1x + C2x+C3x+(C4+C5x)(dE+E0)
       !P=P0+C4E0 + (C1+C5E0)x + C2x+C3x+(C4+C5x) dE    : solving dE then puis on ajoute E0
@@ -141,21 +144,21 @@ C
         END IF
       
       ! existing condition for C4/=1 et C4/=2
-      IF((C4/=1).AND.(C4/=2))THEN
+      IF((C4 /= 1) .AND. (C4 /= 2))THEN
         !diverging test (expansion)
-        IF(C1-P0<ZERO)THEN
+        IF(C1-P0 < ZERO)THEN
           IE_BOUND=-INFINITY
           GOTO 100
         END IF
         !diverging test (compression)
         x=(-4*C2+2*C1+2*C4*P0+2*C4*C2-3*C4*C1-3*C4**2*P0+6*C3+C4**2*C1+C4**3*P0)/(2+C4**2-3*C4)
-        IF(x<ZERO)THEN
+        IF(x < ZERO)THEN
           IE_BOUND=-INFINITY
           GOTO 100
         END IF
         !expansion extremum
-        IF(P0>=ZERO)THEN
-          IF (C1==P0)THEN
+        IF(P0 >= ZERO)THEN
+          IF (C1 == P0)THEN
             IE_BOUND=-C1/C4   !limite en mu=-1
             GOTO 100
           ELSE !extremum in  ] -1 et 0 [
@@ -166,7 +169,7 @@ C
             END IF !(C1==P0)
           END IF !(P0>=ZERO)
         !extremum in compression
-        IF(P0<ZERO)THEN
+        IF(P0 < ZERO)THEN
         !extremum estimation in compression (C2,C3 needed) :
         IE_BOUND=-INFINITY ! ameliorer
           !find an estimator
@@ -174,35 +177,35 @@ C
           GOTO 100
         END IF
         
-      ELSEIF((C4==ONE).OR.(C4==TWO))THEN
+      ELSEIF((C4 == ONE) .OR. (C4 == TWO))THEN
         !diverging test in expansion
-        IF(C1-P0<ZERO)THEN
+        IF(C1-P0 < ZERO)THEN
           IE_BOUND=-INFINITY
           GOTO 100
         END IF
         !diverging test in compression
           !diverge if dominant coefficient is negative
-        IF (C3<ZERO)THEN
+        IF (C3 < ZERO)THEN
           IE_BOUND = -INFINITY
           GOTO 100
         END IF
           !diverge if dominant coefficient is negative
-        IF(C3==ZERO)THEN
-          IF (C2<ZERO)THEN
+        IF(C3 == ZERO)THEN
+          IF (C2 < ZERO)THEN
             IE_BOUND=-INFINITY
             GOTO 100
           END IF
         END IF
         ! otherwise extremum does exist
         ! expansion if P0>0
-        IF(P0>=ZERO)THEN
+        IF(P0 >= ZERO)THEN
            !C1**2-P0^2 is here necessarily positive because C1-P0>0 C1>0 P0>0
           x=-(C1+P0-SQRT(C1**2-P0**2))/(C1+P0)
-          IE_BOUND=(1+x)*(1/2*C1+1/2*P0)-1/2*(C1+2*C1*x+P0)/(1+x)
+          IE_BOUND=(1+x)*(HALF*C1+HALF*P0)-HALF*(C1+2*C1*x+P0)/(1+x)
           GOTO 100
         END IF
         ! compression
-        IF(P0<ZERO)THEN
+        IF(P0 < ZERO)THEN
         !extremum estimation in compression (C2,C3 needed) :
         IE_BOUND=-INFINITY ! to improve
           !find an estimator
@@ -212,8 +215,8 @@ C
       END IF !condition for C4 (1 or 2)
       END IF !mie gruneisen gamma constant
       
-  100 IF (E0_ref/=ZERO)THEN 
-        IF(IE_BOUND/=-INFINITY)IE_BOUND=IE_BOUND+E0_ref   
+  100 IF (E0_ref /= ZERO)THEN
+        IF(IE_BOUND /= -INFINITY)IE_BOUND=IE_BOUND+E0_ref
         C1=C1_ref 
         E0=E0_ref
       END IF

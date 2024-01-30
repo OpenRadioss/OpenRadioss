@@ -1023,10 +1023,9 @@ c
           !FACQ0 = ZERO
           CALL SIGEPS51(NEL       ,NPAR        ,NUVAR   ,NFUNC ,IFUNC     ,                         
      .                  NPF       ,TF          ,TT      ,DT1   ,UPARAM    ,NUMEL     ,              
-     .                  RHO0      ,RHO         ,VOL     ,EINT  ,SIGY      ,VK        ,              
+     .                  RHO       ,VOL         ,EINT    ,VK    ,
      .                  EP1       ,EP2         ,EP3     ,EP4   ,EP5       ,EP6       ,              
-     .                  DE1       ,DE2         ,DE3     ,DE4   ,DE5       ,DE6       ,              
-     .                  ES1       ,ES2         ,ES3     ,ES4   ,ES5       ,ES6       ,              
+     .                  DE1       ,DE2         ,DE3     ,DE4   ,DE5       ,DE6       ,
      .                  SO1       ,SO2         ,SO3     ,SO4   ,SO5       ,SO6       ,              
      .                  S1        ,S2          ,S3      ,S4    ,S5        ,S6        ,              
      .                  SV1       ,SV2         ,SV3     ,SV4   ,SV5       ,SV6       ,              
@@ -1034,8 +1033,8 @@ c
      .                  W         ,X           ,IX      ,N48   ,NIX       ,JTHE      ,              
      .                  GEO       ,PID         ,ILAY    ,NG    ,ELBUF_TAB , PM       ,              
      .                  IPARG     ,ALE_CONNECT ,BUFVOIS ,IPM   ,BUFMAT    ,STIFN     ,              
-     .                  VD2       ,VDX         ,VDY     ,VDZ   ,MAT       ,GBUF%TAG22,              
-     .                  GBUF%QVIS ,DVOL        ,QOLD    ,NV46)                              
+     .                  VD2       ,VDX         ,VDY     ,VDZ   ,
+     .                  GBUF%QVIS ,DVOL        ,QOLD    ,NV46  )
       ELSEIF (MTN == 52) THEN
         IDEV = 1
         CALL MSTRAIN_RATE(NEL    ,ISRATE ,ASRATE ,EPSD   ,IDEV   ,

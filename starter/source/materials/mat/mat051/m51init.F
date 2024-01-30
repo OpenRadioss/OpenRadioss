@@ -204,7 +204,7 @@ C-----------------------------------------------
         ENDIF
         CALL NRF51INI (
      .                  IPM              , PM    , X     , NIX     ,  IX,
-     .                  ALE_CONNECTIVITY , BUFMAT, UPARAM, NV46    ,  RHO0,
+     .                  ALE_CONNECTIVITY , BUFMAT, UPARAM, RHO0    ,
      .                  UVAR             , NUVAR , NEL   , GBUF%RHO, NUMEL
      .                )
       ENDIF      

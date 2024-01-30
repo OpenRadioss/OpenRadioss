@@ -30,28 +30,26 @@ Chd|====================================================================
      .    C0      ,C1     ,C2      ,C3       ,C4     , C5   ,GG,
      .    VOLUME  ,DVOL   ,VOLD    ,V        ,
      .    RHO     ,MASA   ,RHOA0   ,RHOA     ,DD     , MU   ,MUP1,
-     .    POLD    ,PEXT   ,P       ,PM       ,PP     , Q    ,QOLD ,QQ ,
-     .    RHO0E   ,EINTA  ,SOUNDSP ,VISCMAX  ,XL     , SSP, 
-     .    QA      ,QB     ,E_INF   ,IPLA1    ,UPARAM , EPX )
+     .    POLD    ,PEXT   ,P       ,PM       ,PP     , Q    ,QQ ,
+     .    RHO0E   ,EINTA  ,SOUNDSP ,VISCMAX  ,XL     , SSP,
+     .    QA      ,QB     ,UPARAM  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   I N P U T   O U T P U T   A r g u m e n t s 
+C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
-      my_real :: C0,C1,C2,C3,C5,C4,GG,VOLUME,DVOL,VOLD,RHO,MASA ,RHOA0,DD,MU, POLD,Q,QOLD,PEXT,P,PM
-      my_real :: RHO0E,EINTA ,SOUNDSP,VISCMAX,XL,RHOA,V,SSP,PP,QQ, QA,QB, E_INF,UPARAM(*),EPX,PNE1
-      INTEGER :: IPLA1
+      my_real :: C0,C1,C2,C3,C5,C4,GG,VOLUME,DVOL,VOLD,RHO,MASA ,RHOA0,DD,MU, POLD,Q,PEXT,P,PM
+      my_real :: RHO0E,EINTA ,SOUNDSP,VISCMAX,XL,RHOA,V,SSP,PP,QQ, QA,QB,UPARAM(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: ibug
-      my_real :: AA,BB,DPDV,DPDMU,V0,QAL,QBL,MUP1,MUMX,G43,BULK, BULK2
+      my_real :: AA,BB,DPDV,DPDMU,V0,QAL,QBL,MUP1,MUMX,BULK, BULK2
 C------------------------
       MUMX    = UPARAM(20)
       BULK    = UPARAM(21)
-      BULK2   = UPARAM(21) 
+      BULK2   = UPARAM(21)
 C------------------------
       V0      = MASA / RHOA0
       DVOL    = VOLUME - VOLD
@@ -77,9 +75,9 @@ C------------------------
 ! EINTA   = EINTA - (POLD+PEXT+PEXT)*BB
 
       P       = ( C0 + C1*MU+ MAX(MU,ZERO)*(C2*MU + C3*MU*MU) + AA*EINTA )!  /  (ONE+AA*BB)
-      P       = MAX(P,PM)      
-! EINTA   = EINTA - P*BB          
-! EINTA   = MAX(EINTA, E_INF*V0)  
+      P       = MAX(P,PM)
+! EINTA   = EINTA - P*BB
+! EINTA   = MAX(EINTA, E_INF*V0)
 
 
       DPDV    = (-(C1 + (C2 + C2 + THREE*C3*MU)*MAX(ZERO,MU) + C5*RHO0E )*MUP1*MUP1 -(C4 + C5*MU)*(P+PEXT) )   /   V0
@@ -95,66 +93,7 @@ C------------------------
 
       RETURN
       END
-Chd|====================================================================
-Chd|  DPDV_POLY51                   source/materials/mat/mat051/polynomial51.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE DPDV_POLY51 (C01,C11,C21,C31,TC31,C41,C51,
-     .          V10,V1,V1OLD,MU1,EINT1,RHO0E1,
-     .          Q1,Q1OLD,PEXT,P1,PM1,P1I,
-     .          RHO1,RHO10,MAS1,DVDP1,DPDV1,
-     .          IPLA1, UPARAM, EPX)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   I N P U T   O U T P U T   A r g u m e n t s 
-C-----------------------------------------------
-      my_real 
-     .   C01,C11,C21,C31,TC31,C41,C51,
-     .   V10,V1,V1OLD,MU1,EINT1,RHO0E1,
-     .   Q1,Q1OLD,PEXT,P1,PM1,P1I,
-     .   RHO1,RHO10,MAS1,DVDP1,DPDV1,MUP1,
-     .   UPARAM(*),EPX
-      INTEGER IPLA1
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER ibug
-      my_real 
-     .   AA,BB,BULK,BULK2,MUMX
-C------------------------
-      MUMX  = UPARAM(20)
-      BULK  = UPARAM(21)
-      BULK2 = UPARAM(21)
-C------------------------
-      RHO1=MAS1/V1
-      MUP1=RHO1/RHO10
-      MU1 =MUP1 - ONE
 
-      AA = (C41 + C51*MU1)/V10
-c pression sur ancien volume 
-      P1I     = ( C01 + C11*MU1+ MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1)+ AA*EINT1 )
-      P1I     = MAX(P1I,PM1)
-      DPDV1   = (-(C11 + (C21 + C21 + TC31*MU1)*MAX(ZERO,MU1) + C51*RHO0E1 )*MUP1*MUP1 -(C41 + C51*MU1)*(P1I+PEXT) )  /    V10
-!      IF(DPDV1>=ZERO)THEN
-!        DPDV1 = (-(C11 + (C21 + C21 + TC31*MU1)*MAX(ZERO,MU1) + C51*RHO0E1 )*MUP1*MUP1) / V10
-!      ENDIF
-     
-      IF(ABS(DPDV1)<EM20)THEN
-        DVDP1 = ZERO
-      ELSE
-        DVDP1 = ONE/DPDV1
-      ENDIF
-
-      RETURN
-      END
-      
-      
-      
-      
 Chd|====================================================================
 Chd|  POLY51                        source/materials/mat/mat051/polynomial51.F
 Chd|-- called by -----------
@@ -162,35 +101,32 @@ Chd|        SIGEPS51                      source/materials/mat/mat051/sigeps51.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE POLY51 (C01,C11,C21,C31,C41,C51,GG1,
-     .          VOLUME,V10,V1,V1OLD,MU1,MUP1,EINT1,
-     .          P1OLD,Q1,Q1OLD,PEXT,P1,PM1,P1I,
+     .          V10,V1,V1OLD,MU1,MUP1,EINT1,
+     .          PEXT,P1,PM1,P1I,
      .          RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E_INF,
-     .          IPLA1, UPARAM, EPX ,FLAG, GRUN)
+     .          UPARAM ,FLAG, GRUN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   I N P U T   O U T P U T   A r g u m e n t s 
+C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
-      my_real 
+      my_real
      .   C01,C11,C21,C31,C41,C51,GG1,
-     .   VOLUME,V10,V1,V1OLD,MU1,EINT1,
-     .   P1OLD,Q1,Q1OLD,PEXT,P1,PM1,P1I,
+     .   V10,V1,V1OLD,MU1,EINT1,
+     .   PEXT,P1,PM1,P1I,
      .   RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1,MUP1,E_INF,
-     .   UPARAM(*),EPX,GRUN
-      INTEGER IPLA1, FLAG
+     .   UPARAM(*),GRUN
+      INTEGER FLAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ibug
-      my_real 
-     .   AA,BB,DVDP1I,
-     .   BULK,BULK2,MUMX,PNE1
+      my_real  AA,BB,DVDP1I,BULK,BULK2,MUMX
 C------------------------
       MUMX  = UPARAM(20)
       BULK  = UPARAM(21)
-      BULK2 = UPARAM(21) 
+      BULK2 = UPARAM(21)
 C------------------------
       DVDP1I = DVDP1
       IF (FLAG == 1) RHO1   = MAS1/V1
@@ -206,12 +142,12 @@ C------------------------
       ENDIF
       P1     = MAX(P1,PM1)
       IF (FLAG == 1)  EINT1  = EINT1 - P1*BB
-      IF (FLAG == 1)  EINT1  = MAX(EINT1, E_INF*V10) 
-      
-      DPDV1  = (-(C11 + (C21 + C21 + THREE*C31*MU1)*MAX(ZERO,MU1) + C51*EINT1/V10 )*MUP1*MUP1 -(C41 + C51*MU1)*(P1+PEXT) ) /  V10 
+      IF (FLAG == 1)  EINT1  = MAX(EINT1, E_INF*V10)
+
+      DPDV1  = (-(C11 + (C21 + C21 + THREE*C31*MU1)*MAX(ZERO,MU1) + C51*EINT1/V10 )*MUP1*MUP1 -(C41 + C51*MU1)*(P1+PEXT) ) /  V10
       SSP1   = (-DPDV1*V1/MUP1 + TWO_THIRD*GG1)/RHO10
       SSP1   = SQRT(ABS(SSP1))
-            
+
       GRUN = RHO10 / RHO1 * (C41 - C51) + C51
       !----------------------------------------------------------------!
       ! Linearizing dvdp (iterative Newton convergence with order 1)   !
@@ -227,13 +163,13 @@ C------------------------
 !      IF(ABS(V1 - V1OLD)/VOLUME > EM06.AND.ABS(P1-P1I)>EM20)THEN
 !        DVDP1 = (V1 - V1OLD) / (P1-P1I)
 !      ENDIF
- 
+
       IF(ABS(DPDV1)<EM20)THEN
         DVDP1 = ZERO
       ELSE
         DVDP1 = ONE/DPDV1
       ENDIF
-      
+
       !   |dV/dP| is adjust for stability
       IF(DVDP1<TWO*DVDP1I)THEN
 !!!        DVDP1 = TWO*DVDP1I
@@ -246,56 +182,10 @@ C     unstable        DVDP1 = TWO*DVDP1I
       ELSEIF(DVDP1>HALF*DVDP1I)THEN
 !!        DVDP1 = HALF*DVDP1I
       ENDIF
-      
+
 !      IF(DVDP1/=ZERO)THEN
 !         DPDV1 = ONE / DVDP1
 !      ENDIF
-
-      RETURN
-      END
-Chd|====================================================================
-Chd|  POLY51_EINT                   source/materials/mat/mat051/polynomial51.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE POLY51_EINT (C01,C11,C21,C31,C41,C51,GG1,
-     .          VOLUME,V10,V1,V1OLD,MU1,MUP1,EINT1,
-     .          P1OLD,Q1,Q1OLD,PEXT,P1,PM1,P1I,
-     .          RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E_INF,
-     .          IPLA1, UPARAM, EPX ,FLAG, GRUN)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   I N P U T   O U T P U T   A r g u m e n t s 
-C-----------------------------------------------
-      my_real 
-     .   C01,C11,C21,C31,C41,C51,GG1,
-     .   VOLUME,V10,V1,V1OLD,MU1,EINT1,
-     .   P1OLD,Q1,Q1OLD,PEXT,P1,PM1,P1I,
-     .   RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1,MUP1,E_INF,
-     .   UPARAM(*),EPX,GRUN
-      INTEGER IPLA1, FLAG
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      my_real 
-     .   AA
-      MUP1   = RHO1/RHO10
-      MU1    = MUP1 - ONE
-      GRUN = RHO10 / RHO1 * (C41 - C51) + C51
-      IF (GRUN == ZERO) THEN
-         RETURN
-      ELSE
-         AA     = (C41 + C51*MU1)/V10
-         !P1 = ( C01 + C11*MU1 + MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1) + AA*EINT1 )
-
-         EINT1 = (P1 - (C01 + C11*MU1 + MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1))) / AA
-         DPDV1  = (-(C11 + (C21 + C21 + THREE*C31*MU1)*MAX(ZERO,MU1) + C51*EINT1/V10 )*MUP1*MUP1 -(C41 + C51*MU1)*(P1+PEXT) ) /  V10 
-         SSP1   = (-DPDV1*V1/MUP1 + TWO_THIRD*GG1)/RHO10
-         SSP1   = SQRT(ABS(SSP1))
-      ENDIF
 
       RETURN
       END

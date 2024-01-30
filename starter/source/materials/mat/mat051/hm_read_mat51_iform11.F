@@ -37,10 +37,10 @@ Chd|====================================================================
      .    CC,     EPDR,      CM,       T0,     TMELT,
      .    THETL,  SPH,       PLAMX,    SIGMX,  XKA,
      .    XKB,    NU,        A0,       A1,     A2 ,
-     .    AMX,    BUNL,      MUMX,    
+     .    AMX,
      .    B1    , B2    ,    R1     ,  R2     ,W,
      .    VDET  , PCJ   ,    IBFRAC ,  PEXT   ,VIS,
-     .    VISV   ,IS_ENCRYPTED,LSUBMODEL,UNITAB) 
+     .    VISV   ,LSUBMODEL,UNITAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -49,15 +49,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"     
-C-----------------------------------------------    
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IPLA(4), J
+      INTEGER IPLA(4)
       my_real
      .    AV(4),   RHO0_(4), E0(4),    PM(4),    C0(4)   ,
      .    C1(4),   C2(4),   C3(4),    C4(4),    C5(4)   ,
@@ -65,11 +62,10 @@ C-----------------------------------------------
      .    CC(4),   EPDR(4), CM(4),    T0(4),    TMELT(4),
      .    THETL(4),SPH(4) , PLAMX(4), SIGMX(4), XKA(4)  ,
      .    XKB(4),  NU(4),   A0(4),    A1(4),    A2(4)   ,
-     .    AMX(4),  BUNL(4), MUMX(4), 
+     .    AMX(4),
      .    B1,B2,R1,R2,W,VDET,PCJ,IBFRAC,
      .    PEXT,VIS,VISV
       my_real BID
-      LOGICAL,INTENT(INOUT) :: IS_ENCRYPTED
       TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   L o c a l   P a r a m e t e r s

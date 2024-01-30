@@ -28,28 +28,28 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE JCOOK51 (NEL   ,SIGD     ,PLAS   ,TEMP   ,VOL  ,
      .                    DEPS  ,EPD      ,UPARAM ,VOLUME ,EINT ,
-     .                    DE    ,TIMESTEP ,OFF    ,IX     ,NFT  ,
+     .                    DE    ,TIMESTEP ,OFF    ,
      .                    VFRAC )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   I N P U T   O U T P U T   A r g u m e n t s 
+C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL, IX(NIXS,*),NFT
-      my_real 
+      INTEGER NEL
+      my_real
      .   SIGD(6,NEL),DEPS(6,NEL),PLAS(NEL),TEMP(NEL),EPD(NEL),
      .   VOL(NEL),UPARAM(*) ,VOLUME(NEL),EINT(NEL) , TIMESTEP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
-       my_real 
-     .   P,S1,S2,S3,G2,G3,VM,DPLA,R,DY,CMX,TSTAR,
+      INTEGER I
+       my_real
+     .   G2,G3,VM,DPLA,R,DY,CMX,TSTAR,
      .   G,Y0,B,N,CC,EPDR,CM,TMELT,THETL,PLAMX,SIGMX,
      .   VM2X,T0,EPS0,BEPS0PNM1,CTE,FACT,EINC,BETA
-      my_real 
+      my_real
      .   Y(NEL),H(NEL),VM2(NEL),DE(NEL),SIGDO(6,NEL),OFF(NEL),VFRAC(NEL),VOL_AVG
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -65,7 +65,7 @@ C-----------------------------------------------
       THETL     = UPARAM(9)
       PLAMX     = UPARAM(10)
       SIGMX     = UPARAM(11)
-      T0        = UPARAM(13)  
+      T0        = UPARAM(13)
       G2        = TWO*G
       G3        = THREE*G
       VM2X      = ZERO
@@ -107,7 +107,7 @@ C-----------------------------------------------
 
             DY    = zero
             Y(I)  = CTE * (Y0 + DY)
-            H(I)  = zero            
+            H(I)  = zero
           ELSE
             DY    = B * PLAS(I)**N
             Y(I)  = CTE * (Y0 + DY)
@@ -147,11 +147,11 @@ C-----------------------------------------------
              !--------------
              ! critere
              !--------------
-             IF(VM2(I) > Y(I)*Y(I) .AND. Y(I) /= ZERO)THEN      
-                VM      = SQRT(VM2(I))                          
-                DPLA    = (VM-Y(I)) / (G3+H(I))                 
-                PLAS(I) = PLAS(I) + DPLA                        
-                R       = (Y(I) + H(I) * DPLA) / MAX(VM,EM15)   
+             IF(VM2(I) > Y(I)*Y(I) .AND. Y(I) /= ZERO)THEN
+                VM      = SQRT(VM2(I))
+                DPLA    = (VM-Y(I)) / (G3+H(I))
+                PLAS(I) = PLAS(I) + DPLA
+                R       = (Y(I) + H(I) * DPLA) / MAX(VM,EM15)
                 !--------------
                 ! projection
                 !--------------
@@ -162,29 +162,29 @@ C-----------------------------------------------
                 SIGD(5,I) = SIGD(5,I) * R  * OFF(I)
                 SIGD(6,I) = SIGD(6,I) * R  * OFF(I)
               ENDIF
-              IF(VFRAC(I) < BETA) PLAS(I) = ZERO                                          
-              !--------------                                                                       
-              ! energie                                                                             
-              !--------------                                                                       
-              FACT    = ONE! VFRAC(I) 
-              VOL_AVG = HALF*(VFRAC(I)*VOLUME(I)+VOL(I))    
-              
-              EINC    = HALF    *HALF*VOL_AVG*                                                          
-     .                       ( (SIGDO(1,I)+SIGD(1,I)) * DEPS(1,I)                                   
-     .                       + (SIGDO(2,I)+SIGD(2,I)) * DEPS(2,I)                                   
-     .                       + (SIGDO(3,I)+SIGD(3,I)) * DEPS(3,I)                                   
-     .                       + (SIGDO(4,I)+SIGD(4,I)) * DEPS(4,I)                                   
-     .                       + (SIGDO(5,I)+SIGD(5,I)) * DEPS(5,I)                                   
-     .                       + (SIGDO(6,I)+SIGD(6,I)) * DEPS(6,I))  
-              EINT(I) = EINT(I) + EINC                                                              
+              IF(VFRAC(I) < BETA) PLAS(I) = ZERO
+              !--------------
+              ! energie
+              !--------------
+              FACT    = ONE! VFRAC(I)
+              VOL_AVG = HALF*(VFRAC(I)*VOLUME(I)+VOL(I))
+
+              EINC    = HALF    *HALF*VOL_AVG*
+     .                       ( (SIGDO(1,I)+SIGD(1,I)) * DEPS(1,I)
+     .                       + (SIGDO(2,I)+SIGD(2,I)) * DEPS(2,I)
+     .                       + (SIGDO(3,I)+SIGD(3,I)) * DEPS(3,I)
+     .                       + (SIGDO(4,I)+SIGD(4,I)) * DEPS(4,I)
+     .                       + (SIGDO(5,I)+SIGD(5,I)) * DEPS(5,I)
+     .                       + (SIGDO(6,I)+SIGD(6,I)) * DEPS(6,I))
+              EINT(I) = EINT(I) + EINC
            ELSE
-             SIGD(1,I) = ZERO        
-             SIGD(2,I) = ZERO        
-             SIGD(3,I) = ZERO        
-             SIGD(4,I) = ZERO        
-             SIGD(5,I) = ZERO        
-             SIGD(6,I) = ZERO        
-           ENDIF 
+             SIGD(1,I) = ZERO
+             SIGD(2,I) = ZERO
+             SIGD(3,I) = ZERO
+             SIGD(4,I) = ZERO
+             SIGD(5,I) = ZERO
+             SIGD(6,I) = ZERO
+           ENDIF
         ENDDO
 
       RETURN

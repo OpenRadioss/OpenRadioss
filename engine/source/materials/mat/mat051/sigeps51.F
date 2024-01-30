@@ -42,21 +42,20 @@ Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cu
 Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE SIGEPS51 (
-     1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC    ,
-     2     NPF    ,TF     ,TIME    ,TIMESTEP,UPARAM   ,NUMEL  ,
-     3     RHO0   ,RHO    ,VOLUME  ,EINT    ,SIGY     ,VEL_O  ,
-     4     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
-     5     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
-     6     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ    ,EPSZX  ,
-     7     SIGOXX ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ   ,SIGOZX ,
-     8     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
-     9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ   ,SIGVZX ,
-     A     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NFT      ,V      ,
-     B     W      ,X      ,IX      ,N48     ,NIX      ,JTHE   ,
-     C     GEO    ,PID    ,ILAY    ,NG      ,ELBUF_TAB,PM     ,
-     D     IPARG  ,ALE_CONNECT  ,BUFVOIS ,IPM     ,BUFMAT   ,STIFN  ,
-     E     VD2    ,VDX    ,VDY     ,VDZ     ,MAT      ,TAG22  ,
-     F     QVIS   , DDVOL ,QQOLD   ,NV46)
+     1     NEL    ,NUPARAM     ,NUVAR   ,NFUNC   ,IFUNC    ,
+     2     NPF    ,TF          ,TIME    ,TIMESTEP,UPARAM   ,NUMEL  ,
+     3     RHO    ,VOLUME       ,EINT   ,VEL_O   ,
+     4     EPSPXX ,EPSPYY      ,EPSPZZ  ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
+     5     DEPSXX ,DEPSYY      ,DEPSZZ  ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
+     7     SIGOXX ,SIGOYY      ,SIGOZZ  ,SIGOXY  ,SIGOYZ   ,SIGOZX ,
+     8     SIGNXX ,SIGNYY      ,SIGNZZ  ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
+     9     SIGVXX ,SIGVYY      ,SIGVZZ  ,SIGVXY  ,SIGVYZ   ,SIGVZX ,
+     A     SOUNDSP,VISCMAX     ,UVAR    ,OFF     ,NFT      ,V      ,
+     B     W      ,X           ,IX      ,N48     ,NIX      ,JTHE   ,
+     C     GEO    ,PID         ,ILAY    ,NG      ,ELBUF_TAB,PM     ,
+     D     IPARG  ,ALE_CONNECT ,BUFVOIS ,IPM     ,BUFMAT   ,STIFN  ,
+     E     VD2    ,VDX         ,VDY     ,VDZ     ,
+     F     QVIS   , DDVOL      ,QQOLD   ,NV46)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,7 +64,7 @@ C-----------------------------------------------
       USE I22TRI_MOD
       USE ALE_CONNECTIVITY_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
-C-----------------------------------------------      
+C-----------------------------------------------
 ! ARTIFICIAL VISCO :  EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
 ! NON UTILISE      :  EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX
 ! PLASTICITY       :  DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
@@ -93,7 +92,6 @@ C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
 C UVAR    | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
-C RHO0    | NEL     | F | R | INITIAL DENSITY
 C RHO     | NEL     | F | R | DENSITY
 C VOLUME  | NEL     | F | R | VOLUME
 C EINT    | NEL     | F | R | TOTAL INTERNAL ENERGY
@@ -102,9 +100,6 @@ C EPSPYY  | NEL     | F | R | STRAIN RATE YY
 C ...     |         |   |   |
 C DEPSXX  | NEL     | F | R | STRAIN INCREMENT XX
 C DEPSYY  | NEL     | F | R | STRAIN INCREMENT YY
-C ...     |         |   |   |
-C EPSXX   | NEL     | F | R | STRAIN XX
-C EPSYY   | NEL     | F | R | STRAIN YY
 C ...     |         |   |   |
 C SIGOXX  | NEL     | F | R | OLD ELASTO PLASTIC STRESS XX
 C SIGOYY  | NEL     | F | R | OLD ELASTO PLASTIC STRESS YY
@@ -169,17 +164,15 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 C-----------------------------------------------
       INTEGER NEL, NUPARAM, NUVAR,NFT,N48,NIX,JTHE,NUMEL,
-     .        IX(NIX,NUMEL), PID(NEL), ILAY, NG,IPARG(SIPARG),MAT(NEL),
+     .        IX(NIX,NUMEL), PID(NEL), ILAY, NG,IPARG(SIPARG),
      .        IPM(NPROPMI,NUMMAT),NV46
       my_real
-     .   TIME,TIMESTEP,UPARAM(NUPARAM),SIGY(NEL),VK(NEL),PM(NPROPM,NUMMAT),
-     .   RHO(NEL),RHO0(NEL),VOLUME(NEL),EINT(NEL),BUFVOIS(*),QVIS(NEL),DDVOL(NEL),QQOLD(NEL),
+     .   TIME,TIMESTEP,UPARAM(NUPARAM),VK(NEL),PM(NPROPM,NUMMAT),
+     .   RHO(NEL),VOLUME(NEL),EINT(NEL),BUFVOIS(*),QVIS(NEL),DDVOL(NEL),QQOLD(NEL),
      .   EPSPXX(NEL),EPSPYY(NEL),EPSPZZ(NEL),
      .   EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL),
      .   DEPSXX(NEL),DEPSYY(NEL),DEPSZZ(NEL),
      .   DEPSXY(NEL),DEPSYZ(NEL),DEPSZX(NEL),
-     .   EPSXX(NEL) ,EPSYY(NEL) ,EPSZZ(NEL) ,
-     .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOZZ(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
      .   V(3,NUMNOD),W(3,NUMNOD),X(3,NUMNOD),GEO(NPROPG,NUMGEO), BUFMAT(*),
@@ -257,7 +250,7 @@ C-----------------------------------------------
      .   EIV(0:4,MVSIZ), RHOV(0:4,MVSIZ), PV(0:4,MVSIZ), TV(0:4,MVSIZ),RHO0V(0:4,MVSIZ),
      .   AVV(0:4,MVSIZ), SSPv(0:4,MVSIZ),EPSPv(0:4,MVSIZ),
      .   RHOC2(4),RHOC20,ROC,
-     .   alpha, myVAR, PP(MVSIZ), PP0(MVSIZ), PFAR, TAG22(MVSIZ), dbVOLD(4), dbVOLD_f(4), Tol51,
+     .   alpha, myVAR, PP(MVSIZ), PP0(MVSIZ), PFAR, dbVOLD(4), dbVOLD_f(4), Tol51,
      .   XL1,XL2,XL3,XL4,QAL1,QAL2,QAL3,QAL4,QBL1,QBL2,QBL3,QBL4,DD2,
      .   TOL, TOL2, ERROR, ERROR2, COEF1, COEF2, COEF3, COEF4,
      .   STEP, DV1, DV2, DV3, DV4,
@@ -304,9 +297,9 @@ C
       MU1P1  = ONE
       MU2P1  = ONE
       MU3P1  = ONE
-      MU4P1  = ONE   
-      
-      GBUF   => ELBUF_TAB(NG)%GBUF           
+      MU4P1  = ONE
+
+      GBUF   => ELBUF_TAB(NG)%GBUF
       LBUF   => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
       BUFLY  => ELBUF_TAB(NG)%BUFLY(ILAY)
 C
@@ -662,15 +655,15 @@ C         |==================================!
                 IVOI  = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
                 ML    = 51
                 IFORM = 1000
-                IF(IVOI /= 0)            ML     = NINT(PM(19,IX(1,IVOI)))
-                IF(IVOI /= 0)            IADBUF = IPM(7,IX(1,IVOI))
-                IF(IVOI /= 0.AND.ML==51) IFORM  = BUFMAT(IADBUF+31-1)
-                IF(ML==51.AND.IFORM<=1)  EXIT
+                IF(IVOI /= 0) ML = NINT(PM(19,IX(1,IVOI)))
+                IF(IVOI /= 0) IADBUF = IPM(7,IX(1,IVOI))
+                IF(IVOI /= 0 .AND. ML == 51) IFORM = NINT(BUFMAT(IADBUF+31-1))
+                IF(ML == 51 .AND. IFORM <= 1)  EXIT
                ENDDO
                XN = ZERO
                YN = ZERO
                ZN = ZERO
-               IF(ML==51 .AND. IFORM<=1)THEN
+               IF(ML == 51 .AND. IFORM <= 1)THEN
                 IX1 = IX(ICF3D(1,J)+1,II)
                 IX2 = IX(ICF3D(2,J)+1,II)
                 IX3 = IX(ICF3D(3,J)+1,II)
@@ -696,15 +689,15 @@ C         |==================================!
                IVOI  =  ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
                ML    = 51
                IFORM = 1000
-               IF(IVOI /= 0)            ML     = NINT(PM(19,IX(1,IVOI)))
-               IF(IVOI /= 0)            IADBUF = IPM(7,IX(1,IVOI))
-               IF(IVOI /= 0.AND.ML==51) IFORM  = BUFMAT(IADBUF+31-1)     !si voisin est materiau 51 alors on recupere UPARAM(31)=IFLG (IFLG=0,1 pour IFROM=0,1ou10)
-               IF(ML==51.AND.IFORM<=1)  EXIT                             ! si materiau voisin est loi 51 Iform=1 ou 10 alors on a trouve
+               IF(IVOI /= 0) ML = NINT(PM(19,IX(1,IVOI)))
+               IF(IVOI /= 0) IADBUF = IPM(7,IX(1,IVOI))
+               IF(IVOI /= 0 .AND. ML == 51) IFORM = BUFMAT(IADBUF+31-1)     !si voisin est materiau 51 alors on recupere UPARAM(31)=IFLG (IFLG=0,1 pour IFROM=0,1ou10)
+               IF(ML == 51 .AND. IFORM <= 1)  EXIT                             ! si materiau voisin est loi 51 Iform=1 ou 10 alors on a trouve
               ENDDO
               XN = ZERO
               YN = ZERO
               ZN = ZERO
-              IF(ML==51 .AND. IFORM<=1)THEN
+              IF(ML == 51 .AND. IFORM <= 1)THEN
                 IX1 = IX(ICF2D(1,J)+1,II)
                 IX2 = IX(ICF2D(2,J)+1,II)
                 XN   = ZERO
@@ -716,13 +709,13 @@ C         |==================================!
               ENDIF
             ENDIF
             ! sauvegarde de la quantite de mouvement imposee
-            IF(ALEFVM_Param%IEnabled  /=  0)THEN
+            IF(ALEFVM_Param%IEnabled /= 0)THEN
               MOM = RHO(I) * VEL_IN * VOLUME(I)
               GBUF%MOM(NEL*(1-1)+I) = -MOM * XN
               GBUF%MOM(NEL*(2-1)+I) = -MOM * YN
               GBUF%MOM(NEL*(3-1)+I) = -MOM * ZN
             ELSE
-              IF(N2D==0)THEN
+              IF(N2D == 0)THEN
                 V(1:3,IX1) = VEL_IN * (/XN,YN,ZN/)
                 V(1:3,IX2) = VEL_IN * (/XN,YN,ZN/)
                 V(1:3,IX3) = VEL_IN * (/XN,YN,ZN/)
@@ -761,7 +754,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
           PP0(I) = C01 * AV1(I) + C02 * AV2(I) + C03 * AV3(I)
         ENDDO
 
-        IF(TIME == 0.0)THEN
+        IF(TIME == ZERO)THEN
           DO I=1,NEL
             SIGOXX(I) = -PP0(I)
             SIGOYY(I) = -PP0(I)
@@ -776,7 +769,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
         DO I=1,NEL
           DD = -EPSPXX(I)-EPSPYY(I)-EPSPZZ(I)
-          BBB = ONE - ALPHA          
+          BBB = ONE - ALPHA
           IF(DD > ZERO)THEN
             SIGNXX(I) = SIGOXX(I)
             SIGNYY(I) = SIGOYY(I)
@@ -784,7 +777,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
             SIGNXY(I) = SIGOXY(I)
             SIGNYZ(I) = SIGOYZ(I)
             SIGNZX(I) = SIGOZX(I)
-            IF(IOPT==1)RHO(I) =
+            IF(IOPT == 1)RHO(I) =
      .        ALPHA*(RHO1 * AV1(I) + RHO2 * AV2(I) + RHO3 * AV3(I))+ BBB*RHO(I)
           ELSE
             AAA = -ALPHA * PP0(I)
@@ -887,7 +880,7 @@ C         |====================!
 C         |==================================!
 C         |     ELEMENT  OUTPUT  (IFLG == 3) !
 C         |==================================!
-          IF(IOPT==0)RHO(I) = RHO1 * AV1(I) + RHO2 * AV2(I) + RHO3 * AV3(I)
+          IF(IOPT == 0)RHO(I) = RHO1 * AV1(I) + RHO2 * AV2(I) + RHO3 * AV3(I)
           EEE        = VOLUME(I) * (E01 * AV1(I) + E02 * AV2(I) + E03 * AV3(I))
           TFEXTT     = ZERO ! TFEXTT + EEE - EINT(I)
           EINT(I)    = EEE
@@ -916,7 +909,7 @@ C                                                                           C
 C===========================================================================C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
-      ELSEIF(IFLG == 4.or.IFLG == 5)THEN
+      ELSEIF(IFLG == 4 .OR. IFLG == 5)THEN
         ! Conditions d'arret pour gaz parfait ou liquide selon la phase
         ABCS  = TIME / UPARAM(38)
         IAV1  = IFUNC(1)
@@ -950,19 +943,19 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
           E01f  = ONE
           E02f  = ONE
           E03f  = ONE
-        IF(IRHO1/=0)RHO1f = FINTER(IRHO1,ABCS,NPF,TF,DYDX)
-        IF(IRHO2/=0)RHO2f = FINTER(IRHO2,ABCS,NPF,TF,DYDX)
-        IF(IRHO3/=0)RHO3f = FINTER(IRHO3,ABCS,NPF,TF,DYDX)
-        IF(IE1/=0)E01f = FINTER(IE1,ABCS,NPF,TF,DYDX)
-        IF(IE2/=0)E02f = FINTER(IE2,ABCS,NPF,TF,DYDX)
-        IF(IE3/=0)E03f = FINTER(IE3,ABCS,NPF,TF,DYDX)
+        IF(IRHO1 /= 0)RHO1f = FINTER(IRHO1,ABCS,NPF,TF,DYDX)
+        IF(IRHO2 /= 0)RHO2f = FINTER(IRHO2,ABCS,NPF,TF,DYDX)
+        IF(IRHO3 /= 0)RHO3f = FINTER(IRHO3,ABCS,NPF,TF,DYDX)
+        IF(IE1 /= 0)E01f = FINTER(IE1,ABCS,NPF,TF,DYDX)
+        IF(IE2 /= 0)E02f = FINTER(IE2,ABCS,NPF,TF,DYDX)
+        IF(IE3 /= 0)E03f = FINTER(IE3,ABCS,NPF,TF,DYDX)
         DO I=1,NEL
           E01=E01f
           E02=E02f
           E03=E03f
           RHO1=RHO1f
           RHO2=RHO2f
-          RHO3=RHO3f                    
+          RHO3=RHO3f
           MU1=RHO1*UVAR(I,20+K1)/RHO10 - ONE
           P1 = ( C01 + C11*MU1+ MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1) + (C41 + C51*MU1)*E01*UVAR(I,21+K1)*RHO10/RHO1/UVAR(I,20+K1) )
           P1 = MAX(P1,PM1)
@@ -1032,7 +1025,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
           !===============================!
           IF(AV1(I) > ZERO)THEN
             !---GAZ
-            IF((IFLG == 4.and.C41 /= ZERO).or. (IFLG == 5.and.C41 /= ZERO.and.C11 == ZERO))THEN
+            IF((IFLG == 4.and.C41 /= ZERO).or. (IFLG == 5 .AND. C41 /= ZERO .AND. C11 == ZERO))THEN
               U21 = MIN(U2,VCRT1)
               GV1 = C41/2/(C41+1)*RHO1A*U21/P1A
               IF(GV1 > EM4)THEN
@@ -1051,7 +1044,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
             !---LIQUID
             ELSE
               FAC = (C11 + HALF*RHO10*U2)
-              IF(FAC/=ZERO)THEN
+              IF(FAC /= ZERO)THEN
                 RHO1 = RHO1A*C11/FAC
                 P1   = P1A - HALF*RHO1*U2
                 E01  = E01A + (ONE - RHO1/RHO1A)*P1
@@ -1090,7 +1083,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
           !     material 2 computation    !
           !===============================!
           IF(AV2(I) > ZERO)THEN
-            IF((IFLG == 4.and.C42 /= ZERO).or. (IFLG == 5.and.C42 /= ZERO.and.C12 == ZERO))THEN
+            IF((IFLG == 4.and.C42 /= ZERO).or. (IFLG == 5 .AND. C42 /= ZERO .AND. C12 == ZERO))THEN
               U22 = MIN(U2,VCRT2)
               GV2 = C42/2/(C42+1)*RHO2A*U22/P2A
               IF(GV2 > EM4)THEN
@@ -1107,7 +1100,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
               ENDIF
             ELSE
               FAC = (C12 + HALF*RHO20*U2)
-              IF(FAC/=ZERO)THEN
+              IF(FAC /= ZERO)THEN
                 RHO2 = RHO2A*C12/FAC
                 P2   = P2A - HALF*RHO2*U2
                 E02  = E02A + (ONE - RHO2/RHO2A)*P2
@@ -1146,7 +1139,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
           !     material 3 computation    !
           !===============================!
           IF(AV3(I) > ZERO)THEN
-            IF((IFLG == 4.and.C43 /= ZERO).or. (IFLG == 5.and.C43 /= ZERO.and.C13 == ZERO))THEN
+            IF((IFLG == 4 .AND. C43 /= ZERO) .OR. (IFLG == 5 .AND. C43 /= ZERO .AND. C13 == ZERO))THEN
               U23 = MIN(U2,VCRT3)
               GV3 = C43/2/(C43+1)*RHO3A*U23/P3A
               IF(GV3 > EM4)THEN
@@ -1163,7 +1156,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
               ENDIF
             ELSE
               FAC = (C13 + HALF*RHO30*U2)
-              IF(FAC/=ZERO)THEN
+              IF(FAC /= ZERO)THEN
                 RHO3 = RHO3A*C13/FAC
                 P3   = P3A - HALF*RHO3*U2
                 E03  = E03A + (ONE - RHO3/RHO3A)*P3
@@ -1372,14 +1365,14 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
         ENDIF
 
         IF(TIMESTEP > EM20)THEN
-          BETA   = TIMESTEP/MAX(UPARAM(71),TIMESTEP)
-          IF(UPARAM(71)>=EP20)BETA=ZERO  ! default : Tcalpha=EP20 => BETA = 0
-          ALPHA  = TIMESTEP/UPARAM(70)
+          BETA = TIMESTEP/MAX(UPARAM(71),TIMESTEP)
+          IF(UPARAM(71) >= EP20)BETA=ZERO  ! default : Tcalpha=EP20 => BETA = 0
+          ALPHA = TIMESTEP/UPARAM(70)
         ELSE
-          BETA   = ONE
-          ALPHA  = ONE
-        ENDIF  
-       
+          BETA = ONE
+          ALPHA = ONE
+        ENDIF
+
         !RHOC2(1)  = MAX(RHO1*SSP1*SSP1,EM20)
         !RHOC2(2)  = MAX(RHO2*SSP2*SSP2,EM20)
         !RHOC2(3)  = MAX(RHO3*SSP3*SSP3,EM20)
@@ -1387,22 +1380,22 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
         STIFN(1:NEL) = ZERO
 
-        !     Recherche des quantits voisines
-        !     et calcul de la vitesse normale  la face.
-        IF(N2D==0)THEN
+        !     Search adjacent quantities
+        !     and comput enormal velocity at boundary face
+        IF(N2D == 0)THEN
           CALL M51VOIS3(PM   ,  IPARG  ,IX      ,ALE_CONNECT   ,ELBUF_TAB ,V    ,
      2                  X    ,  VEL_N  ,W       ,VEL     ,VD2  ,
-     3                  MAT  ,  RHOV   ,PV      ,VDX     ,VDY       ,VDZ  ,
-     4                  EIV  ,  TV     ,BUFVOIS ,IFLG    ,AVV       ,RHO0V,
-     5                  IPM    ,BUFMAT  ,UVAR    ,NEL       ,NUVAR,
+     3                  RHOV ,  PV     ,VDX     ,VDY     ,VDZ  ,
+     4                  EIV  ,  TV     ,BUFVOIS ,AVV     ,RHO0V,
+     5                  IPM    ,BUFMAT ,NEL     ,
      6                  NV46 ,  SSPv   ,EPSPv   ,P0_NRFv)
         ELSE
           CALL M51VOIS2(PM   ,  IPARG  ,IX      ,ALE_CONNECT   ,ELBUF_TAB ,V    ,
-     2                  X    ,  VEL_N  ,W       ,VEL     ,VD2  ,
-     3                  MAT  ,  RHOV   ,PV      ,VDX     ,VDY       ,VDZ  ,
-     4                  EIV  ,  TV     ,BUFVOIS ,IFLG    ,AVV       ,RHO0V,
-     5                  IPM    ,BUFMAT  ,UVAR    ,NEL       ,NUVAR,
-     6                  NV46 ,  SSPv   ,EPSPv   ,P0_NRFv)
+     2                  X    ,  VEL_N  ,W       ,VEL           ,VD2  ,
+     3                  RHOV ,  PV     ,VDX     ,VDY           ,VDZ  ,
+     4                  EIV  ,  TV     ,BUFVOIS ,AVV           ,RHO0V,
+     5                  IPM  ,  BUFMAT ,UVAR    ,NEL           ,NUVAR,
+     6                  NV46 ,  SSPv   ,EPSPv   ,P0_NRFv )
         ENDIF
 
         IF(TIME == ZERO) THEN
@@ -1470,18 +1463,18 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
             IF(AVV(3,I)>EM06)RHOC20=RHOC20 + AVV(3,I)/RHOC2(3)
             IF(AVV(4,I)>EM06)RHOC20=RHOC20 + AVV(4,I)/RHOC2(4)
             RHOC20=ONE/RHOC20 !average stiffness
-            RHO(I) = AVV(1,I)*RHOV(1,I)+ AVV(2,I)*RHOV(2,I)+ AVV(3,I)*RHOV(3,I) + AVV(4,I)*RHOV(4,I)  
+            RHO(I) = AVV(1,I)*RHOV(1,I)+ AVV(2,I)*RHOV(2,I)+ AVV(3,I)*RHOV(3,I) + AVV(4,I)*RHOV(4,I)
             !RHOC2(1)  = MAX(EM20,RHOV(1,I)*SSPV(1,I)*SSPV(1,I))
             !RHOC2(2)  = MAX(EM20,RHOV(2,I)*SSPV(2,I)*SSPV(2,I))
             !RHOC2(3)  = MAX(EM20,RHOV(3,I)*SSPV(3,I)*SSPV(3,I))
-            !RHOC2(4)  = MAX(EM20,RHOV(4,I)*SSPV(4,I)*SSPV(4,I)) 
+            !RHOC2(4)  = MAX(EM20,RHOV(4,I)*SSPV(4,I)*SSPV(4,I))
             !RHOC2_    = ONE/(AVV(1,I)/RHOC2(1)+AVV(2,I)/RHOC2(2)+AVV(3,I)/RHOC2(3)  + AVV(4,I)/RHOC2(4))
-            !SOUNDSP(I) = RHOC2_/RHO(I)                                                                                     
+            !SOUNDSP(I) = RHOC2_/RHO(I)
             SOUNDSP(I)  = SSPV(0,I)
             MACH        = VEL_N(I) / SOUNDSP(I)
             ISUPERSONIC = 0
             IF(MACH>=ONE .AND. VEL_N(I)>ZERO)THEN
-             !vitesse sortante supersonique : etat = etat voisin
+             !outgoing supersonic velocity : state = adjacent state
               ISUPERSONIC = 1
               P           = PV(0,I)
               EINT(I)     = EIV(0,I)
@@ -1493,20 +1486,20 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
               DP0   = (P0_NRF-P0_NRFv(I)) ! assuming rho0*g(t)*(z-zvois) = cst ; otherwise complicated: get g(t) and compute z-zvois
               P     = ONE/(ONE+ALPHA)*(POLD+ROC*(VEL_N(I)-VEL_O(I)))+ALPHA*(PV(0,I)+DP0)/(ALPHA + ONE)
             ENDIF
-            
-            IF(VEL_N(I)<ZERO)THEN     !flux rentrant relaxation du pourcentage volumique  
-               KK = N0PHAS 
-               AVV(1,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV1(I)                                                                        
+
+            IF(VEL_N(I)<ZERO)THEN     !incoming flux. relaxation of volume fraction
+               KK = N0PHAS
+               AVV(1,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV1(I)
                KK = N0PHAS + NVPHAS
-               AVV(2,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV2(I)                                                                        
+               AVV(2,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV2(I)
                KK = N0PHAS + 2*NVPHAS
-               AVV(3,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV3(I)                                                                        
+               AVV(3,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV3(I)
                KK = N0PHAS + 3*NVPHAS
                AVV(4,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV4(I)
-            ELSE  
-                        
-            ENDIF   
-          ENDIF 
+            ELSE
+
+            ENDIF
+          ENDIF
           EEE       = EIV(0,I) * VOLUME(I)
           RHO(I)    = RHOV(0,I)
           SIGNXX(I) = -P
@@ -1527,8 +1520,8 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
             LBUF%PLA(I) = EPSPv(0,I)
             UVAR(I,1)  =  EPSPv(0,I)
           ENDIF
-          UVAR(I,2)  =  ZERO
-          UVAR(I,3)  =  ZERO
+          UVAR(I,2) = ZERO
+          UVAR(I,3) = ZERO
 
 C         |====================!
 C         |     material 1     !
@@ -1608,8 +1601,8 @@ C         |====================!
 
 C         |==================================!
 
-          TFEXTT     = ZERO !TFEXTT + EEE - EINT(I)
-          EINT(I)    = EEE
+          TFEXTT = ZERO !TFEXTT + EEE - EINT(I)
+          EINT(I) = EEE
           VISCMAX(I) = ZERO
         ENDDO
 C
@@ -1751,7 +1744,7 @@ C=======================================================================
           DEPS(5,I) = DEPSYZ(I)
           DEPS(6,I) = DEPSZX(I)
           EPD(I)=OFF(I)*MAX(   ABS(EPSPXX(I)),   ABS(EPSPYY(I)),   ABS(EPSPZZ(I)),
-     .         HALF*ABS(EPSPXY(I)),HALF*ABS(EPSPYZ(I)),HALF*ABS(EPSPZX(I))) 
+     .         HALF*ABS(EPSPXY(I)),HALF*ABS(EPSPYZ(I)),HALF*ABS(EPSPZX(I)))
         ENDDO
         IF(BUFLY%L_EPSD > 0)THEN
           DO I=1,NEL
@@ -1785,17 +1778,15 @@ C=======================================================================
            CASE (1)
              CALL JCOOK51 (NEL  ,SIGD     ,PLAS1       ,TEMP   ,VOL  ,
      .                     DEPS ,EPD      ,UPARAM(101) ,VOLUME ,EINT0,
-     .                     DE   ,TIMESTEP ,OFF         ,IX     ,NFT  ,
+     .                     DE   ,TIMESTEP ,OFF         ,
      .                     VFRAC)
            CASE (2)
               CALL DPRAG51
-     .            (NEL    ,SIGD   ,TEMP       ,VOL     ,EPSEQ1  ,
-     .             DEPS   ,EPD    ,UPARAM(101),VOLUME  ,EINT0   ,PLAS1 ,
-     .             UVAR   ,NUVAR  ,KK         ,RHO10   ,
-     .             C01    ,C11    ,C21        ,C31     ,PM1     ,PP    ,
-     .             SIGOXX ,SIGOYY ,SIGOZZ     ,SIGOXY  ,SIGOYZ  ,SIGOZX,
-     .             SIGNXX ,SIGNYY ,SIGNZZ     ,SIGNXY  ,SIGNYZ  ,SIGNZX,
-     .             OFF    ,PEXT   ,TIMESTEP   ,DE)
+     .            (NEL    ,SIGD       ,VOL        ,EPSEQ1  ,
+     .             DEPS   ,UPARAM(101),VOLUME     ,EINT0   ,PLAS1 ,
+     .             UVAR   ,NUVAR      ,KK         ,RHO10   ,
+     .             C01    ,C11        ,C21        ,C31     ,PM1   ,PP    ,
+     .             OFF    ,PEXT       ,TIMESTEP   ,DE)
         END SELECT
         DO I=1,NEL
 
@@ -1843,17 +1834,15 @@ C=======================================================================
            CASE (1)
              CALL JCOOK51 (NEL  ,SIGD     ,PLAS2       ,TEMP   ,VOL  ,
      .                     DEPS ,EPD      ,UPARAM(151) ,VOLUME ,EINT0,
-     .                     DE   ,TIMESTEP ,OFF         ,IX     ,NFT  ,
+     .                     DE   ,TIMESTEP ,OFF         ,
      .                     VFRAC)
            CASE (2)
              CALL DPRAG51
-     .            (NEL    ,SIGD   ,TEMP       ,VOL     ,EPSEQ2  ,
-     .             DEPS   ,EPD    ,UPARAM(151),VOLUME  ,EINT0   ,PLAS2 ,
-     .             UVAR   ,NUVAR  ,KK         ,RHO20   ,
-     .             C02    ,C12    ,C22        ,C32     ,PM2     ,PP    ,
-     .             SIGOXX ,SIGOYY ,SIGOZZ     ,SIGOXY  ,SIGOYZ  ,SIGOZX,
-     .             SIGNXX ,SIGNYY ,SIGNZZ     ,SIGNXY  ,SIGNYZ  ,SIGNZX,
-     .             OFF    ,PEXT   ,TIMESTEP   ,DE)
+     .            (NEL    ,SIGD       ,VOL        ,EPSEQ2  ,
+     .             DEPS   ,UPARAM(151),VOLUME     ,EINT0   ,PLAS2 ,
+     .             UVAR   ,NUVAR      ,KK         ,RHO20   ,
+     .             C02    ,C12        ,C22        ,C32     ,PM2     ,PP    ,
+     .             OFF    ,PEXT       ,TIMESTEP   ,DE)
         END SELECT
         DO I=1,NEL
          !inter22
@@ -1898,17 +1887,15 @@ C=======================================================================
            CASE (1)
              CALL JCOOK51 (NEL  ,SIGD    ,PLAS3       ,TEMP   ,VOL  ,
      .                     DEPS ,EPD     ,UPARAM(201) ,VOLUME ,EINT0,
-     .                     DE   ,TIMESTEP,OFF         ,IX     ,NFT  ,
+     .                     DE   ,TIMESTEP,OFF         ,
      .                     VFRAC)
            CASE (2)
              CALL DPRAG51
-     .            (NEL    ,SIGD   ,TEMP       ,VOL     ,EPSEQ3  ,
-     .             DEPS   ,EPD    ,UPARAM(201),VOLUME  ,EINT0   ,PLAS3 ,
-     .             UVAR   ,NUVAR  ,KK         ,RHO30   ,
-     .             C03    ,C13    ,C23        ,C33     ,PM3     ,PP    ,
-     .             SIGOXX ,SIGOYY ,SIGOZZ     ,SIGOXY  ,SIGOYZ  ,SIGOZX,
-     .             SIGNXX ,SIGNYY ,SIGNZZ     ,SIGNXY  ,SIGNYZ  ,SIGNZX,
-     .             OFF    ,PEXT   ,TIMESTEP   ,DE)
+     .            (NEL    ,SIGD        ,VOL        ,EPSEQ3  ,
+     .             DEPS   ,UPARAM(201) ,VOLUME     ,EINT0   ,PLAS3 ,
+     .             UVAR   ,NUVAR       ,KK         ,RHO30   ,
+     .             C03    ,C13         ,C23        ,C33     ,PM3   ,PP    ,
+     .             OFF    ,PEXT        ,TIMESTEP   ,DE)
         END SELECT
         DO I=1,NEL
          !inter22
@@ -2073,28 +2060,10 @@ C=======================================================================
 !           endif
 !         endif
 
-Cmtheta.f
-c              SPH     =PM(69,MAT(I))
-c              EINT0   =PM(23,MAT(I))
-c              THETA(I)=PM(79,MAT(I))
-c              PLIM    =PC(I)-C0(I)-PSH(I)
-c              IF(C1(I) > ABS(PLIM/1.E36))THEN
-c              DMU = MIN(AMU(I)-PLIM/C1(I),ZERO)
-c              ELSE
-c              DMU =0.
-c              ENDIF
-c              ECOLD   =(C0(I)+PSH(I)+0.5*C1(I)*AMU(I))*AMU(I)
-c                   +0.5*DMU*(C0(I)+PSH(I)+C1(I)*AMU(I)-PC(I))
-c                   +EINT0
-c              THETA(I)=THETA(I) + (EINT(I)*DF(I)-ECOLD)/SPH
-Cmtemp.fc               ECOLD=-300.*SPH(I)
-c              IF(AMU(I) > 0.) ECOLD=ECOLD*(1.+C4(I)*AMU(I)*(1-AMU(I)))
-c             1                         +0.5*C1(I)*AMU2(I)
-c              THETA(I)=(EINT(I)-ECOLD)/SPH(I)
-C
+
 C=======================================================================
 c  THERMAL CONDUCTION BETWEEN THE MATERIALS
-c     --> Energy is here corrected with TdH
+c     --> Energy should here corrected with TdH
 c                    (dE = dW+dQ = -PdV+TdH)
 C=======================================================================
         IF(JTHE == 1)THEN
@@ -2140,17 +2109,6 @@ C=======================================================================
         dbVOLD(2) = V2OLD
         dbVOLD(3) = V3OLD
         dbVOLD(4) = V4OLD
-
-        !inter22 : Polyhedra strain rate trace estimation
-!        IF(INT22>0)THEN
-!          IF(TAG22(I) > ZERO)THEN
-!            VOLD = BRICK_LIST(1,NINT(TAG22(I)))%Vold_SCell
-!            VOLD = SUM(dbVOLD(:))
-!            DD   = VOLUME(I)**THIRD
-!            DD   = (DD - VOLD**THIRD) / DD
-!            DD   = -THREE*DD*UNDT
-!          ENDIF
-!        ENDIF
 
         IF(INT22 > 0)DD=ZERO
 
@@ -2371,9 +2329,9 @@ C=======================================================================
      .            C01,C11,C21,C31,C41,C51,GG1,
      .            VOLUME(I),DVOL,V1OLD,V1,
      .            RHO(I),MAS1 ,RHO10,RHO1,DD,MU1,MU1P1,
-     .            POLD,PEXT,P1,PM1,P,Q1,QOLD,Q,
+     .            POLD,PEXT,P1,PM1,P,Q1,Q,
      .            RHO0E1,EINT1 ,SOUNDSP(I),VISCMAX(I),XL ,SSP1,
-     .            QA,QB, E1_INF,IPLA1,UPARAM(101),PLAS1(I))
+     .            QA,QB,UPARAM(101))
 
 
          !==========================================
@@ -2388,9 +2346,9 @@ C=======================================================================
      .           C02,C12,C22,C32,C42,C52,GG2,
      .           VOLUME(I),DVOL,V2OLD,V2,
      .           RHO(I),MAS2 ,RHO20,RHO2,DD,MU2,MU2P1,
-     .           POLD,PEXT,P2,PM2,P,Q2,QOLD,Q,
+     .           POLD,PEXT,P2,PM2,P,Q2,Q,
      .           RHO0E2,EINT2 ,SOUNDSP(I),VISCMAX(I),XL ,SSP2,
-     .           QA,QB, E2_INF,IPLA2,UPARAM(151),PLAS2(I))
+     .           QA,QB,UPARAM(151))
          !==========================================
          ! The only material is MAT3 (sol, liq, gas)
          !==========================================
@@ -2403,9 +2361,9 @@ C=======================================================================
      .           C03,C13,C23,C33,C43,C53,GG3,
      .           VOLUME(I),DVOL,V3OLD,V3,
      .           RHO(I),MAS3 ,RHO30,RHO3,DD,MU3,MU3P1,
-     .           POLD,PEXT,P3,PM3,P,Q3,QOLD,Q,
+     .           POLD,PEXT,P3,PM3,P,Q3,Q,
      .           RHO0E3,EINT3 ,SOUNDSP(I),VISCMAX(I),XL ,SSP3,
-     .           QA,QB, E3_INF,IPLA3,UPARAM(201),PLAS3(I))
+     .           QA,QB,UPARAM(201))
          !===========================================
          ! The only material is MAT4 (High Explosive)
          !===========================================
@@ -2419,7 +2377,7 @@ C     Computation of burnt fraction
 C---------------------------------------------------
             CALL JWLUN51 (TIME,XL,TBURN,UPARAM,DD,MU4,MU4P1,
      .           VOLUME(I),DVOL, V4OLD,EINT4,VISCMAX(I),
-     .           P4OLD(I),Q4,Q4OLD,PEXT,P4,PM4,
+     .           Q4,PEXT,P4,PM4,
      .           RHO(I),RHO40,MAS4,SOUNDSP(I),
      .           P,Q,RHO4,V4,SSP4,
      .           QA,QB,BFRAC(I))
@@ -2494,37 +2452,37 @@ C     Gruneisen coefficient : GRUN = 1 / RHO * Dp / De (cst rho)
 C     MAT1
           IF (V1  >  ZERO) THEN
              CALL POLY51 (C01,C11,C21,C31,C41,C51,GG1,
-     .            VOLUME(I),V10,V1,V1I,MU1,MU1P1,EINT1,
-     .            P1OLD(I),Q1,Q1OLD,PEXT,P1,PM1,P1I,
+     .            V10,V1,V1I,MU1,MU1P1,EINT1,
+     .            PEXT,P1,PM1,P1I,
      .            RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E1_INF,
-     .            IPLA1,UPARAM(101),PLAS1(I), 0, GRUN1)
+     .            UPARAM(101), 0, GRUN1)
           ENDIF
 C     MAT2
           IF (V2  >  ZERO) THEN
              CALL POLY51 (C02,C12,C22,C32,C42,C52,GG2,
-     .            VOLUME(I),V20,V2,V2I,MU2,MU2P1,EINT2,
-     .            P2OLD(I),Q2,Q2OLD,PEXT,P2,PM2,P2I,
+     .            V20,V2,V2I,MU2,MU2P1,EINT2,
+     .            PEXT,P2,PM2,P2I,
      .            RHO2,RHO20,MAS2,SSP2,DVDP2,DPDV2, E2_INF,
-     .            IPLA2,UPARAM(151),PLAS2(I), 0, GRUN2)
+     .            UPARAM(151), 0, GRUN2)
           ENDIF
 C     MAT3
           IF (V3  >  ZERO) THEN
              CALL POLY51 (C03,C13,C23,C33,C43,C53,GG3,
-     .            VOLUME(I),V30,V3,V3I,MU3,MU3P1,EINT3,
-     .            P3OLD(I),Q3,Q3OLD,PEXT,P3,PM3,P3I,
+     .            V30,V3,V3I,MU3,MU3P1,EINT3,
+     .            PEXT,P3,PM3,P3I,
      .            RHO3,RHO30,MAS3,SSP3,DVDP3,DPDV3, E3_INF,
-     .            IPLA3,UPARAM(201),PLAS3(I), 0, GRUN3)
+     .            UPARAM(201), 0, GRUN3)
           ENDIF
 C     MAT4 : High Explosive
           IF (V4  >  ZERO) THEN
 C---------------------------------------------------
 C     Computation of burnt fraction
 C---------------------------------------------------
-             CALL COMPUTE_BFRAC(TIME, XL, TBURN, UPARAM, V4, RHO4, RHO40, MAS4, BFRAC(I))
+             CALL COMPUTE_BFRAC(TIME, XL, TBURN, UPARAM, V4, RHO4, RHO40, BFRAC(I))
 
-             CALL JWL51 (TIME,XL,TBURN,UPARAM,
-     .            VOLUME(I),V4,V4I,MU4,MU4P1,EINT4,
-     .            P4OLD(I),Q4,Q4OLD,PEXT,P4,PM4,P4I,
+             CALL JWL51 (UPARAM,
+     .            V4,V4I,MU4,MU4P1,EINT4,
+     .            P4OLD(I),PEXT,P4,PM4,
      .            RHO4,RHO40,MAS4,SSP4,DVDP4,DPDV4,
      .            BFRAC(I),V40, 0, GRUN4)
           ENDIF
@@ -2658,38 +2616,38 @@ C---------------------------------------------------
             !===========================================
             IF (V1  >  ZERO) THEN
                 CALL POLY51 (C01,C11,C21,C31,C41,C51,GG1,
-     .                        VOLUME(I),V10,V1,V1I,MU1,MU1P1,EINT1,
-     .                        P1OLD(I),Q1,Q1OLD,PEXT,P1,PM5,P1I,
+     .                        V10,V1,V1I,MU1,MU1P1,EINT1,
+     .                        PEXT,P1,PM5,P1I,
      .                        RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E1_INF,
-     .                        IPLA1,UPARAM(101),PLAS1(I), 0, GRUN1)
+     .                        UPARAM(101), 0, GRUN1)
             ENDIF
             !===========================================
             !       material 2 - Polynomial EOS
             !===========================================
             IF (V2  >  ZERO) THEN
                 CALL POLY51 (C02,C12,C22,C32,C42,C52,GG2,
-     .                        VOLUME(I),V20,V2,V2I,MU2,MU2P1,EINT2,
-     .                        P2OLD(I),Q2,Q2OLD,PEXT,P2,PM5,P2I,
+     .                        V20,V2,V2I,MU2,MU2P1,EINT2,
+     .                        PEXT,P2,PM5,P2I,
      .                        RHO2,RHO20,MAS2,SSP2,DVDP2,DPDV2, E2_INF,
-     .                        IPLA2,UPARAM(151),PLAS2(I), 0, GRUN2)
+     .                        UPARAM(151), 0, GRUN2)
             ENDIF
             !===========================================
             !       material 3 - Polynomial EOS
             !===========================================
             IF (V3  >  ZERO) THEN
                 CALL POLY51 (C03,C13,C23,C33,C43,C53,GG3,
-     .                        VOLUME(I),V30,V3,V3I,MU3,MU3P1,EINT3,
-     .                        P3OLD(I),Q3,Q3OLD,PEXT,P3,PM5,P3I,
+     .                        V30,V3,V3I,MU3,MU3P1,EINT3,
+     .                        PEXT,P3,PM5,P3I,
      .                        RHO3,RHO30,MAS3,SSP3,DVDP3,DPDV3, E3_INF,
-     .                        IPLA3,UPARAM(201),PLAS3(I), 0, GRUN3)
+     .                        UPARAM(201), 0, GRUN3)
             ENDIF
             !===========================================
             !       material 4 - Polynomial EOS
             !===========================================
             IF (V4  >  ZERO)THEN
-                CALL JWL51 (TIME,XL,TBURN,UPARAM,
-     .                      VOLUME(I),V4,V4I,MU4,MU4P1,EINT4,
-     .                      P4OLD(I),Q4,Q4OLD,PEXT,P4,PM5,P4I,
+                CALL JWL51 (UPARAM,
+     .                      V4,V4I,MU4,MU4P1,EINT4,
+     .                      P4OLD(I),PEXT,P4,PM5,
      .                      RHO4,RHO40,MAS4,SSP4,DVDP4,DPDV4,
      .                      BFRAC(I),V40, 0, GRUN4)
             ENDIF
@@ -2854,9 +2812,9 @@ C=======================================================================
 
         !---------------------------------------------------------------------------------------------!
         !ENERGY INTEGRATION WITH PRESSURE CONTRIBUTION IS DONE AT ENT OF MULAW SUBROUTINE             !
-        !---------------------------------------------------------------------------------------------!        
+        !---------------------------------------------------------------------------------------------!
         !EINT(I) = EINT(I) - (PEXT+PEXT+QOLD+Q)*DVOL*HALF !Attention : Q est retranche ici car stocke dans Svis pour mulaw et sfint
-     
+
         !---------------------------!
         !   TOTAL STRESS TENSOR     !
         !---------------------------!
@@ -2894,9 +2852,9 @@ C=======================================================================
         !---------------------------!
         !   VISCOUS STRESS TENSOR   !
         !---------------------------!
-        SIGVXX(I) = TWO*RHO(I)*VISA1*EPSPXX(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))      
-        SIGVYY(I) = TWO*RHO(I)*VISA1*EPSPYY(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))              
-        SIGVZZ(I) = TWO*RHO(I)*VISA1*EPSPZZ(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))              
+        SIGVXX(I) = TWO*RHO(I)*VISA1*EPSPXX(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))
+        SIGVYY(I) = TWO*RHO(I)*VISA1*EPSPYY(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))
+        SIGVZZ(I) = TWO*RHO(I)*VISA1*EPSPZZ(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))
         SIGVXY(I) = RHO(I)* VISA1 * EPSPXY(I)
         SIGVYZ(I) = RHO(I)* VISA1 * EPSPYZ(I)
         SIGVZX(I) = RHO(I)* VISA1 * EPSPZX(I)
@@ -3136,13 +3094,6 @@ C         IF(V4/VOLUME(I)  <  EM03)UVAR(I,14+KK)=ZERO
        ELSE
          GBUF%TEMP(I) = UVAR(I,2)
        ENDIF
-
-
-       !provisoire : tracking mat 1 | mat B in animation files
-        !IF(INT22>0)THEN
-        !  GBUF  => ELBUF_TAB(NG)%GBUF
-        !  UVAR(I,1)=GBUF%TAG22(I)
-        !ENDIF
 
         QVIS(I) = QQOLD(I)
 
