@@ -76,7 +76,7 @@ Chd|====================================================================
      C   DZY,     DZZ,     ICP,     DET0,
      D   JFAC,    NU,      IDEGE,   OFFG,
      E   ISEL_V,  I_SH,    NEL,     ISMSTR,
-     F   JCVT)
+     F   JCVT,    MTN ,    DIV0 )
 C                                                                     12
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -94,7 +94,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT(IN) :: ISMSTR
-      INTEGER, INTENT(IN) :: JCVT
+      INTEGER, INTENT(IN) :: JCVT,MTN
       INTEGER ISEL_V,I_SH,ICP,IDEGE(*)
 C     REAL
       my_real
@@ -143,6 +143,7 @@ C     REAL
      .   BYY5(*),BYY6(*),BYY7(*),BYY8(*),
      .   BZZ1(*),BZZ2(*),BZZ3(*),BZZ4(*),
      .   BZZ5(*),BZZ6(*),BZZ7(*),BZZ8(*),OFFG(*),DET0(*),JFAC(*),NU(*)
+      my_real, DIMENSION(MVSIZ), INTENT(IN) :: DIV0
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -157,11 +158,11 @@ C     REAL
      .   VLZ5(MVSIZ), VLZ6(MVSIZ), VLZ7(MVSIZ), VLZ8(MVSIZ)
       my_real
      .   JAC_59_68, JAC_67_49, JAC_48_57,
-     .   AJ11, AJ22, AJ33,DET(MVSIZ),FAC,BASE
+     .   AJ11, AJ22, AJ33,DET(MVSIZ),FAC,BASE,DDIV
 C-----------------------------------------------
       IF (JCVT > 0 ) THEN
         DO I=1,NEL
-               IF(OFFG(I)<=ONE) CYCLE
+         IF(OFFG(I)<=ONE) CYCLE
          VLX1(I)=R11(I)*VX1(I)+R21(I)*VY1(I)+R31(I)*VZ1(I)
          VLY1(I)=R12(I)*VX1(I)+R22(I)*VY1(I)+R32(I)*VZ1(I)
          VLZ1(I)=R13(I)*VX1(I)+R23(I)*VY1(I)+R33(I)*VZ1(I)
@@ -216,7 +217,7 @@ C-----------------------------------------------
 C   
       IF (I_SH>0) THEN
        DO I=1,NEL
-              IF(OFFG(I)<=ONE) CYCLE
+        IF(OFFG(I)<=ONE) CYCLE
         DXY(I) =PXY1(I)*VLX1(I)+PXY2(I)*VLX2(I)
      +         +PXY3(I)*VLX3(I)+PXY4(I)*VLX4(I)
      +         +PXY5(I)*VLX5(I)+PXY6(I)*VLX6(I)
@@ -244,7 +245,7 @@ C
        ENDDO
       ELSE
        DO I=1,NEL
-              IF(OFFG(I)<=ONE) CYCLE
+        IF(OFFG(I)<=ONE) CYCLE
         DXY(I) =PY1(I)*VLX1(I)+PY2(I)*VLX2(I)+PY3(I)*VLX3(I)+PY4(I)*VLX4(I)
      +         +PY5(I)*VLX5(I)+PY6(I)*VLX6(I)+PY7(I)*VLX7(I)+PY8(I)*VLX8(I)
         DXZ(I) =PZ1(I)*VLX1(I)+PZ2(I)*VLX2(I)+PZ3(I)*VLX3(I)+PZ4(I)*VLX4(I)
@@ -261,7 +262,7 @@ C
       END IF !(ISMSTR==11) THEN
 C     
        DO I=1,NEL
-              IF(OFFG(I)<=ONE) CYCLE
+        IF(OFFG(I)<=ONE) CYCLE
         DXX(I) =PX1(I)*VLX1(I)+PX2(I)*VLX2(I)+PX3(I)*VLX3(I)+PX4(I)*VLX4(I)
      .         +PX5(I)*VLX5(I)+PX6(I)*VLX6(I)+PX7(I)*VLX7(I)+PX8(I)*VLX8(I)
         DYY(I) =PY1(I)*VLY1(I)+PY2(I)*VLY2(I)+PY3(I)*VLY3(I)+PY4(I)*VLY4(I)
@@ -269,39 +270,51 @@ C
         DZZ(I) =PZ1(I)*VLZ1(I)+PZ2(I)*VLZ2(I)+PZ3(I)*VLZ3(I)+PZ4(I)*VLZ4(I)
      .         +PZ5(I)*VLZ5(I)+PZ6(I)*VLZ6(I)+PZ7(I)*VLZ7(I)+PZ8(I)*VLZ8(I)
        ENDDO
-             IF (ISEL_V>0) THEN
+       IF (ISEL_V>0) THEN
 #include   "nofusion.inc"
-       DO I=1,NEL
-              IF(OFFG(I)<=ONE) CYCLE
-        DYY(I) =DYY(I)+BXY1(I)*VLX1(I)+BXY2(I)*VLX2(I)
-     +                +BXY3(I)*VLX3(I)+BXY4(I)*VLX4(I)
-     +                +BXY5(I)*VLX5(I)+BXY6(I)*VLX6(I)
-     +                +BXY7(I)*VLX7(I)+BXY8(I)*VLX8(I)
-        DZZ(I) =DZZ(I)+BXZ1(I)*VLX1(I)+BXZ2(I)*VLX2(I)
-     +                +BXZ3(I)*VLX3(I)+BXZ4(I)*VLX4(I)
-     +                +BXZ5(I)*VLX5(I)+BXZ6(I)*VLX6(I)
-     +                +BXZ7(I)*VLX7(I)+BXZ8(I)*VLX8(I)
-        DXX(I) =DXX(I)+BYX1(I)*VLY1(I)+BYX2(I)*VLY2(I)
-     +                +BYX3(I)*VLY3(I)+BYX4(I)*VLY4(I)
-     +                +BYX5(I)*VLY5(I)+BYX6(I)*VLY6(I)
-     +                +BYX7(I)*VLY7(I)+BYX8(I)*VLY8(I)
-        DZZ(I) =DZZ(I)+BYZ1(I)*VLY1(I)+BYZ2(I)*VLY2(I)
-     +                +BYZ3(I)*VLY3(I)+BYZ4(I)*VLY4(I)
-     +                +BYZ5(I)*VLY5(I)+BYZ6(I)*VLY6(I)
-     +                +BYZ7(I)*VLY7(I)+BYZ8(I)*VLY8(I)
-        DXX(I) =DXX(I)+BZX1(I)*VLZ1(I)+BZX2(I)*VLZ2(I)
-     +                +BZX3(I)*VLZ3(I)+BZX4(I)*VLZ4(I)
-     +                +BZX5(I)*VLZ5(I)+BZX6(I)*VLZ6(I)
-     +                +BZX7(I)*VLZ7(I)+BZX8(I)*VLZ8(I)
-        DYY(I) =DYY(I)+BZY1(I)*VLZ1(I)+BZY2(I)*VLZ2(I)
-     +                +BZY3(I)*VLZ3(I)+BZY4(I)*VLZ4(I)
-     +                +BZY5(I)*VLZ5(I)+BZY6(I)*VLZ6(I)
-     +                +BZY7(I)*VLZ7(I)+BZY8(I)*VLZ8(I)
-       ENDDO
-             END IF !(ISEL_V>0) THEN
+         DO I=1,NEL
+          IF(OFFG(I)<=ONE) CYCLE
+          DYY(I) =DYY(I)+BXY1(I)*VLX1(I)+BXY2(I)*VLX2(I)
+     +                  +BXY3(I)*VLX3(I)+BXY4(I)*VLX4(I)
+     +                  +BXY5(I)*VLX5(I)+BXY6(I)*VLX6(I)
+     +                  +BXY7(I)*VLX7(I)+BXY8(I)*VLX8(I)
+          DZZ(I) =DZZ(I)+BXZ1(I)*VLX1(I)+BXZ2(I)*VLX2(I)
+     +                  +BXZ3(I)*VLX3(I)+BXZ4(I)*VLX4(I)
+     +                  +BXZ5(I)*VLX5(I)+BXZ6(I)*VLX6(I)
+     +                  +BXZ7(I)*VLX7(I)+BXZ8(I)*VLX8(I)
+          DXX(I) =DXX(I)+BYX1(I)*VLY1(I)+BYX2(I)*VLY2(I)
+     +                  +BYX3(I)*VLY3(I)+BYX4(I)*VLY4(I)
+     +                  +BYX5(I)*VLY5(I)+BYX6(I)*VLY6(I)
+     +                  +BYX7(I)*VLY7(I)+BYX8(I)*VLY8(I)
+          DZZ(I) =DZZ(I)+BYZ1(I)*VLY1(I)+BYZ2(I)*VLY2(I)
+     +                  +BYZ3(I)*VLY3(I)+BYZ4(I)*VLY4(I)
+     +                  +BYZ5(I)*VLY5(I)+BYZ6(I)*VLY6(I)
+     +                  +BYZ7(I)*VLY7(I)+BYZ8(I)*VLY8(I)
+          DXX(I) =DXX(I)+BZX1(I)*VLZ1(I)+BZX2(I)*VLZ2(I)
+     +                  +BZX3(I)*VLZ3(I)+BZX4(I)*VLZ4(I)
+     +                  +BZX5(I)*VLZ5(I)+BZX6(I)*VLZ6(I)
+     +                  +BZX7(I)*VLZ7(I)+BZX8(I)*VLZ8(I)
+          DYY(I) =DYY(I)+BZY1(I)*VLZ1(I)+BZY2(I)*VLZ2(I)
+     +                  +BZY3(I)*VLZ3(I)+BZY4(I)*VLZ4(I)
+     +                  +BZY5(I)*VLZ5(I)+BZY6(I)*VLZ6(I)
+     +                  +BZY7(I)*VLZ7(I)+BZY8(I)*VLZ8(I)
+         ENDDO
+	   END IF !(ISEL_V>0) THEN
       IF (ICP==1) THEN
+       IF (MTN==1) THEN
         DO I=1,NEL
-               IF(OFFG(I)<=ONE) CYCLE
+         IF(IDEGE(I)>10.OR.OFFG(I)<=ONE) CYCLE
+         FAC=TWO_THIRD*NU(I)
+         BASE = DXX(I)+DYY(I)+DZZ(I)
+         DDIV = FAC*(DIV0(I)-BASE)
+         DXX(I) = DXX(I)+DDIV
+         DYY(I) = DYY(I)+DDIV
+         DZZ(I) = DZZ(I)+DDIV
+         JFAC(I)= ONE   ! used in fint3 later
+        ENDDO
+       ELSE
+        DO I=1,NEL
+         IF(OFFG(I)<=ONE) CYCLE
          AJ11=DXX(I)+ONE
          AJ22=DYY(I)+ONE
          AJ33=DZZ(I)+ONE
@@ -315,18 +328,19 @@ C-----F'=FAC*F=MF'+[1]-->MF'=FAC*MF+(FAC-ONE)*[1]
          BASE = DET0(I)/MAX(EM20,DET(I))
          JFAC(I)=EXP(FAC*LOG(MAX(EM20,BASE)))
         ENDDO
-       DO I=1,NEL
-        IF(IDEGE(I)>10.OR.OFFG(I)<=ONE) CYCLE
-        DXX(I) = JFAC(I)*DXX(I)+JFAC(I)-ONE
-        DYY(I) = JFAC(I)*DYY(I)+JFAC(I)-ONE
-        DZZ(I) = JFAC(I)*DZZ(I)+JFAC(I)-ONE
-        DXY(I) = JFAC(I)*DXY(I)
-        DYX(I) = JFAC(I)*DYX(I)
-        DZX(I) = JFAC(I)*DZX(I)
-        DXZ(I) = JFAC(I)*DXZ(I)
-        DYZ(I) = JFAC(I)*DYZ(I)
-        DZY(I) = JFAC(I)*DZY(I)
-       ENDDO
+        DO I=1,NEL
+         IF(IDEGE(I)>10.OR.OFFG(I)<=ONE) CYCLE
+         DXX(I) = JFAC(I)*DXX(I)+JFAC(I)-ONE
+         DYY(I) = JFAC(I)*DYY(I)+JFAC(I)-ONE
+         DZZ(I) = JFAC(I)*DZZ(I)+JFAC(I)-ONE
+         DXY(I) = JFAC(I)*DXY(I)
+         DYX(I) = JFAC(I)*DYX(I)
+         DZX(I) = JFAC(I)*DZX(I)
+         DXZ(I) = JFAC(I)*DXZ(I)
+         DYZ(I) = JFAC(I)*DYZ(I)
+         DZY(I) = JFAC(I)*DZY(I)
+        ENDDO
+       END IF !(MTN==1) THEN
       END IF !(ICP==1) THEN
 C
       RETURN

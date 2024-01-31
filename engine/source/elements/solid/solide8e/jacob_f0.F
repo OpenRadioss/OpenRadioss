@@ -39,7 +39,7 @@ Chd|====================================================================
      7   VY4,     VY5,     VY6,     VY7,
      8   VY8,     VZ1,     VZ2,     VZ3,
      9   VZ4,     VZ5,     VZ6,     VZ7,
-     A   VZ8,     NEL)
+     A   VZ8,    DIV0,     NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,11 +60,10 @@ C     REAL
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
      .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), DET0(*)
+      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: DIV0
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
-C     REAL
 C                                                                     12
       my_real
      .   DXX(MVSIZ), DXY(MVSIZ), DXZ(MVSIZ),
@@ -89,5 +88,7 @@ C-----------
      1   DET0,    DXX,     DXY,     DXZ,
      2   DYX,     DYY,     DYZ,     DZX,
      3   DZY,     DZZ,     NEL)
+C       
+       DIV0(1:NEL) = DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL)
       RETURN
       END
