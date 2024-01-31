@@ -515,7 +515,7 @@ c
                 RBUF_L(L_REL+1:L_REL+NEL*LY_DIRB) = BUFLY%DIRB(1:NEL*LY_DIRB)        
                   L_REL = L_REL+NEL*LY_DIRB
               ENDIF                                         
-              IF(LY_CRKDIR > 0) RBUF_L(L_REL+1:L_REL+NEL*LY_CRKDIR) = BUFLY%DIRB(1:NEL*LY_CRKDIR)        
+              IF(LY_CRKDIR > 0) RBUF_L(L_REL+1:L_REL+NEL*LY_CRKDIR) = BUFLY%CRKDIR(1:NEL*LY_CRKDIR)        
                 L_REL = L_REL+NEL*LY_CRKDIR                                    
 
             IF (NPG > 1) THEN
