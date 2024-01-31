@@ -206,8 +206,8 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LCO, NF1, IFLAG, I, 
-     .     ILAY,IP,IR,IS,IT,MPT,NPTR,NPTS,NPTT,ICR,ICS,ICT,j
+      INTEGER NF1, IFLAG, I, 
+     .     ILAY,IP,IR,IS,IT,MPT,NPTR,NPTS,NPTT,J
       INTEGER IBID,IBIDV(1), MX, IFVM22
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
       my_real
@@ -237,14 +237,13 @@ C Variables utilisees en argument par les materiaux.
 C Variables utilisees en argument par les materiaux si SPH uniquement.
       my_real
      .   MUVOID(MVSIZ)
-      INTEGER IOFFS, N,ITET
+      INTEGER IOFFS, ITET
       my_real
      .   OFFS(MVSIZ),DSV(MVSIZ),SDV(MVSIZ),L_MAX(MVSIZ)
 C-----
 C Variables utilisees dans les routines solides uniquement (en arguments).
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
-     .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ),
-     .        MAT(MVSIZ)
+     .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
      
       DOUBLE PRECISION 
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
@@ -295,7 +294,7 @@ C Variables utilisees dans les routines solides uniquement (en arguments).
      .   WI,SMAX(MVSIZ),VOLG(MVSIZ),PP(MVSIZ),BID(MVSIZ)
       my_real
      .   SIGY(MVSIZ), ET(MVSIZ), NU(MVSIZ),NU1(MVSIZ),
-     . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
+     . R1_FREE(MVSIZ),R3_FREE(MVSIZ)
       my_real
      .   VX0(MVSIZ,8),VY0(MVSIZ,8),VZ0(MVSIZ,8),
      .   TEMPEL(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ)
@@ -332,7 +331,7 @@ c-----------------------------------------------------
      .   BZZ1(MVSIZ),BZZ2(MVSIZ),BZZ3(MVSIZ),BZZ4(MVSIZ),
      .   BZZ5(MVSIZ),BZZ6(MVSIZ),BZZ7(MVSIZ),BZZ8(MVSIZ)
 C
-      INTEGER NNEGA,INDEX(MVSIZ),ISELECT,ipr,iel,ISEL_V,ISM12_11,ICPT
+      INTEGER NNEGA,INDEX(MVSIZ),ISELECT,ISEL_V,ISM12_11
       my_real
      .   PXY1(MVSIZ),PXY2(MVSIZ),PXY3(MVSIZ),PXY4(MVSIZ),
      .   PXY5(MVSIZ),PXY6(MVSIZ),PXY7(MVSIZ),PXY8(MVSIZ),
@@ -372,8 +371,8 @@ C
      .   PX3H1(MVSIZ), PX3H2(MVSIZ), PX3H3(MVSIZ),PX3H4(MVSIZ),  
      .   PX4H1(MVSIZ), PX4H2(MVSIZ), PX4H3(MVSIZ),PX4H4(MVSIZ),  
      .   SIGP(NEL,6),AMU(MVSIZ),JR_1(MVSIZ),JS_1(MVSIZ),JT_1(MVSIZ),
-     .   FLD(MVSIZ),CAQ,SIG_A(MVSIZ,3),RHO0,NUT(MVSIZ),RHO0_1,CNS2,NU0,
-     .   STI_C(MVSIZ),LL(MVSIZ),FQMAX
+     .   FLD(MVSIZ),CAQ,SIG_A(MVSIZ,3),RHO0_1,CNS2,NU0,
+     .   STI_C(MVSIZ),LL(MVSIZ),FQMAX,DIV0(MVSIZ)
       DOUBLE PRECISION 
      .   VOLP(MVSIZ,NNPT)
 
@@ -381,7 +380,7 @@ C-----
 C     Variables utilis  es pour le non-local
       my_real,
      .  DIMENSION(:,:), ALLOCATABLE :: VAR_REG
-      INTEGER :: INLOC, L_NLOC, INOD(8), IPOS(8), IMAT,II(6),NN_DEL,PID
+      INTEGER :: INLOC, L_NLOC, INOD(8), IPOS(8), IMAT,NN_DEL,PID
       my_real,
      .  DIMENSION(:), POINTER :: DNL
       my_real 
@@ -447,7 +446,7 @@ C
      9 0.613371432700590,0.836031107326636,0.968160239507626/
 C
 c     Flag Bolt Preloading
-      INTEGER IBOLTP,NBPRELD,LLPIJ,ISCTL
+      INTEGER IBOLTP,NBPRELD,ISCTL
       my_real, 
      .  DIMENSION(:), POINTER :: BPRELD
 C-----------------------------------------------
@@ -481,8 +480,6 @@ C-------v termes will be calculated like HEPH
       ELSE
        ISELECT=0
       ENDIF
-      ICPT = ICP
-      IF (IINT==2.AND.MTN==1.AND.ISMSTR>=11) ICPT=0
 c      ipr=0
 c      iel=1        
 C-----------
@@ -613,12 +610,8 @@ c------ Sigy of GBUF%SIG is not good, take the ip of min(e_ps)
        ENDDO
       ENDIF 
       CNS2 = ZERO
-      NUT(LFT:LLT) =NU0
       IF (IINT==2.AND.ICP==1.AND.MTN==1.AND.
      .               (ISMSTR==10.OR.ISMSTR==12)) THEN
-        DO I=LFT,LLT
-          NUT(I) = TWO_THIRD*NU0*NU0
-        ENDDO
         IF (ISMSTR==12) THEN
           RHO0_1 =PM( 1,MX)
           CNS2 = ZEP02
@@ -705,7 +698,7 @@ C
      7   VY0(1,4),VY0(1,5),VY0(1,6),VY0(1,7),
      8   VY0(1,8),VZ0(1,1),VZ0(1,2),VZ0(1,3),
      9   VZ0(1,4),VZ0(1,5),VZ0(1,6),VZ0(1,7),
-     A   VZ0(1,8),NEL)
+     A   VZ0(1,8),DIV0,    NEL)
 C-----don't do it w/ degenerated elm   
          IF (IDTS6==0)  CALL DEGENES8(
      1   IXS(1,NF1),IDEG,      NEL)
@@ -855,9 +848,9 @@ C
      8   MFXX(1,IP),MFXY(1,IP),MFXZ(1,IP),MFYX(1,IP),
      9   MFYY(1,IP),MFYZ(1,IP),MFZX(1,IP),MFZY(1,IP),
      A   MFZZ(1,IP),ICP,       DETF0,     JFAC(1,IP),
-     B   NUT,       ISELECT,   IDEG,      BXX(1,IP),
+     B   NU,        ISELECT,   IDEG,      BXX(1,IP),
      C   BYY(1,IP), BZZ(1,IP), GBUF%OFF,  NEL,
-     D   ISMSTR)
+     D   ISMSTR,    MTN,       DIV0 )
 C     
          IF (JCVT > 0.AND.(ISMSTR==10.OR.ISMSTR==12)) THEN
           CALL SORDEFT3(LFT,LLT,MFXX(1,IP), MFXY(1,IP), MFXZ(1,IP),
@@ -1319,10 +1312,10 @@ C--------- modified [B] is saved in GBUF%ETOTSH verify for Ismstr=11 !!!!!
      7   VZ0(1,5),  VZ0(1,6),  VZ0(1,7),  VZ0(1,8),
      8   MFXX(1,IP),MFXY(1,IP),MFXZ(1,IP),MFYX(1,IP),
      9   MFYY(1,IP),MFYZ(1,IP),MFZX(1,IP),MFZY(1,IP),
-     A   MFZZ(1,IP),ICPT,      DETF0,     JFAC(1,IP),
+     A   MFZZ(1,IP),ICP,       DETF0,     JFAC(1,IP),
      B   NU,        ISELECT,   IDEG,      BXX(1,IP),
      C   BYY(1,IP), BZZ(1,IP), GBUF%OFF,  NEL,
-     D   ISMSTR)
+     D   ISMSTR,    MTN,       DIV0 )
          ELSEIF (ISMSTR==12) THEN
           CALL S8EDEFOT12(
      1   PX1(1,IP), PX2(1,IP), PX3(1,IP), PX4(1,IP),
@@ -1371,10 +1364,10 @@ C--------- modified [B] is saved in GBUF%ETOTSH verify for Ismstr=11 !!!!!
      9   R22,       R23,       R31,       R32,
      A   R33,       MFXX(1,IP),MFXY(1,IP),MFXZ(1,IP),
      B   MFYX(1,IP),MFYY(1,IP),MFYZ(1,IP),MFZX(1,IP),
-     C   MFZY(1,IP),MFZZ(1,IP),ICPT,      DETF0,
+     C   MFZY(1,IP),MFZZ(1,IP),ICP,       DETF0,
      D   JFAC(1,IP),NU,        IDEG,      GBUF%OFF,
      E   ISEL_V,    ISELECT,   NEL,       ISMSTR,
-     F   JCVT)
+     F   JCVT,      MTN,       DIV0 )
          END IF !(ISMSTR==11) THEN
          CALL S8EDEFO3(
      1   PX1(1,IP),  PX2(1,IP),  PX3(1,IP),  PX4(1,IP),
@@ -1621,7 +1614,7 @@ C----------------------------
      5   F34,       F15,       F25,       F35,
      6   F16,       F26,       F36,       F17,
      7   F27,       F37,       F18,       F28,
-     8   F38,       VOLN,      QVIS,      ICPT,
+     8   F38,       VOLN,      QVIS,      ICP,
      9   JFAC(1,IP),NEL,       ISELECT,   IDEG,
      A   SIG_A,     ISEL_V,    ISMSTR)
           CALL S8EFMOY3(
@@ -1705,7 +1698,7 @@ c-------------------
         END DO 
        END DO
       END IF   ! IOFFS == 1
-      IF(ICPT==1.AND.ISMSTR/=10.AND.ISMSTR/=12) THEN
+      IF(ICP==1.AND.ISMSTR/=10.AND.ISMSTR/=12) THEN
        CALL S8ZFINTP3(
      1   PXC1,    PXC2,    PXC3,    PXC4,
      2   PYC1,    PYC2,    PYC3,    PYC4,

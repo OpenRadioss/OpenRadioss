@@ -75,7 +75,7 @@ Chd|====================================================================
      A   DZZ,     ICP,     DET0,    JFAC,
      B   NU,      I_SH,    IDEGE,   DXX_A,
      C   DYY_A,   DZZ_A,   OFFG,    NEL,
-     D   ISMSTR)
+     D   ISMSTR,  MTN,     DIV0)
 C                                                                     12
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -92,7 +92,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
-      INTEGER, INTENT(IN) :: ISMSTR
+      INTEGER, INTENT(IN) :: ISMSTR,MTN
       INTEGER ICP,I_SH,IDEGE(*)
 C     REAL
       my_real
@@ -138,6 +138,7 @@ C     REAL
      .   BYY5(*),BYY6(*),BYY7(*),BYY8(*),
      .   BZZ1(*),BZZ2(*),BZZ3(*),BZZ4(*),
      .   BZZ5(*),BZZ6(*),BZZ7(*),BZZ8(*),DET0(*),JFAC(*),NU(*),OFFG(*)
+      my_real, DIMENSION(MVSIZ), INTENT(IN) :: DIV0
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -176,19 +177,19 @@ C---- this sub_routine has been called 2 times, one for Ismstr=10,12 another for
        ENDDO
       ELSE
        DO I=1,NEL
-              IF (ISMSTR==12.AND.OFFG(I)>ONE) CYCLE
-       DXY(I) =PY1(I)*VX1(I)+PY2(I)*VX2(I)+PY3(I)*VX3(I)+PY4(I)*VX4(I)
-     +        +PY5(I)*VX5(I)+PY6(I)*VX6(I)+PY7(I)*VX7(I)+PY8(I)*VX8(I)
-       DXZ(I) =PZ1(I)*VX1(I)+PZ2(I)*VX2(I)+PZ3(I)*VX3(I)+PZ4(I)*VX4(I)
-     +        +PZ5(I)*VX5(I)+PZ6(I)*VX6(I)+PZ7(I)*VX7(I)+PZ8(I)*VX8(I)
-       DYX(I) =PX1(I)*VY1(I)+PX2(I)*VY2(I)+PX3(I)*VY3(I)+PX4(I)*VY4(I)
-     +        +PX5(I)*VY5(I)+PX6(I)*VY6(I)+PX7(I)*VY7(I)+PX8(I)*VY8(I)
-       DYZ(I) =PZ1(I)*VY1(I)+PZ2(I)*VY2(I)+PZ3(I)*VY3(I)+PZ4(I)*VY4(I)
-     +        +PZ5(I)*VY5(I)+PZ6(I)*VY6(I)+PZ7(I)*VY7(I)+PZ8(I)*VY8(I)
-       DZX(I) =PX1(I)*VZ1(I)+PX2(I)*VZ2(I)+PX3(I)*VZ3(I)+PX4(I)*VZ4(I)
-     +        +PX5(I)*VZ5(I)+PX6(I)*VZ6(I)+PX7(I)*VZ7(I)+PX8(I)*VZ8(I)
-       DZY(I) =PY1(I)*VZ1(I)+PY2(I)*VZ2(I)+PY3(I)*VZ3(I)+PY4(I)*VZ4(I)
-     +        +PY5(I)*VZ5(I)+PY6(I)*VZ6(I)+PY7(I)*VZ7(I)+PY8(I)*VZ8(I)
+         IF (ISMSTR==12.AND.OFFG(I)>ONE) CYCLE
+         DXY(I) =PY1(I)*VX1(I)+PY2(I)*VX2(I)+PY3(I)*VX3(I)+PY4(I)*VX4(I)
+     +          +PY5(I)*VX5(I)+PY6(I)*VX6(I)+PY7(I)*VX7(I)+PY8(I)*VX8(I)
+         DXZ(I) =PZ1(I)*VX1(I)+PZ2(I)*VX2(I)+PZ3(I)*VX3(I)+PZ4(I)*VX4(I)
+     +          +PZ5(I)*VX5(I)+PZ6(I)*VX6(I)+PZ7(I)*VX7(I)+PZ8(I)*VX8(I)
+         DYX(I) =PX1(I)*VY1(I)+PX2(I)*VY2(I)+PX3(I)*VY3(I)+PX4(I)*VY4(I)
+     +          +PX5(I)*VY5(I)+PX6(I)*VY6(I)+PX7(I)*VY7(I)+PX8(I)*VY8(I)
+         DYZ(I) =PZ1(I)*VY1(I)+PZ2(I)*VY2(I)+PZ3(I)*VY3(I)+PZ4(I)*VY4(I)
+     +          +PZ5(I)*VY5(I)+PZ6(I)*VY6(I)+PZ7(I)*VY7(I)+PZ8(I)*VY8(I)
+         DZX(I) =PX1(I)*VZ1(I)+PX2(I)*VZ2(I)+PX3(I)*VZ3(I)+PX4(I)*VZ4(I)
+     +          +PX5(I)*VZ5(I)+PX6(I)*VZ6(I)+PX7(I)*VZ7(I)+PX8(I)*VZ8(I)
+         DZY(I) =PY1(I)*VZ1(I)+PY2(I)*VZ2(I)+PY3(I)*VZ3(I)+PY4(I)*VZ4(I)
+     +          +PY5(I)*VZ5(I)+PY6(I)*VZ6(I)+PY7(I)*VZ7(I)+PY8(I)*VZ8(I)
        ENDDO
       END IF !(ISMSTR==11) THEN
 C
@@ -231,13 +232,13 @@ C
        ENDDO
       ELSE
        DO I=1,NEL
-              IF (ISMSTR==12.AND.OFFG(I)>ONE) CYCLE
-       DXX(I) =PX1(I)*VX1(I)+PX2(I)*VX2(I)+PX3(I)*VX3(I)+PX4(I)*VX4(I)
-     .        +PX5(I)*VX5(I)+PX6(I)*VX6(I)+PX7(I)*VX7(I)+PX8(I)*VX8(I)
-       DYY(I) =PY1(I)*VY1(I)+PY2(I)*VY2(I)+PY3(I)*VY3(I)+PY4(I)*VY4(I)
-     .        +PY5(I)*VY5(I)+PY6(I)*VY6(I)+PY7(I)*VY7(I)+PY8(I)*VY8(I)
-       DZZ(I) =PZ1(I)*VZ1(I)+PZ2(I)*VZ2(I)+PZ3(I)*VZ3(I)+PZ4(I)*VZ4(I)
-     .        +PZ5(I)*VZ5(I)+PZ6(I)*VZ6(I)+PZ7(I)*VZ7(I)+PZ8(I)*VZ8(I)
+         IF (ISMSTR==12.AND.OFFG(I)>ONE) CYCLE
+         DXX(I) =PX1(I)*VX1(I)+PX2(I)*VX2(I)+PX3(I)*VX3(I)+PX4(I)*VX4(I)
+     .          +PX5(I)*VX5(I)+PX6(I)*VX6(I)+PX7(I)*VX7(I)+PX8(I)*VX8(I)
+         DYY(I) =PY1(I)*VY1(I)+PY2(I)*VY2(I)+PY3(I)*VY3(I)+PY4(I)*VY4(I)
+     .          +PY5(I)*VY5(I)+PY6(I)*VY6(I)+PY7(I)*VY7(I)+PY8(I)*VY8(I)
+         DZZ(I) =PZ1(I)*VZ1(I)+PZ2(I)*VZ2(I)+PZ3(I)*VZ3(I)+PZ4(I)*VZ4(I)
+     .          +PZ5(I)*VZ5(I)+PZ6(I)*VZ6(I)+PZ7(I)*VZ7(I)+PZ8(I)*VZ8(I)
        ENDDO
       END IF !(ICP==11) THEN
 C   
@@ -301,7 +302,41 @@ C
       END IF !(I_SH>1) THEN
 C      
       IF (ICP==1) THEN
-       CALL JACOB_J33(
+       IF (ISMSTR==11) THEN
+        DO I=1,NEL
+         FAC=TWO_THIRD*NU(I)
+         IF (IDEGE(I)>10.OR.MIN(DXX(I),DYY(I),DZZ(I))<-ZEP85) FAC=EM02
+         BASE = DXX(I)+DYY(I)+DZZ(I)
+         JFAC(I)=FAC*(DIV0(I)-BASE)
+         DXX(I) = DXX(I)+JFAC(I)
+         DYY(I) = DYY(I)+JFAC(I)
+         DZZ(I) = DZZ(I)+JFAC(I)
+        ENDDO
+       ELSEIF (MTN==1) THEN
+         CALL JACOB_J33(
+     1   DET,     DXX,     DXY,     DXZ,
+     2   DYX,     DYY,     DYZ,     DZX,
+     3   DZY,     DZZ,     NEL)
+        DO I=1,NEL
+         FAC=TWO_THIRD*NU(I)
+         BASE = DET0(I)/MAX(EM20,DET(I))
+         IF (MIN(DXX(I),DYY(I),DZZ(I))<-ZEP85) FAC=FAC*FAC
+         JFAC(I)=EXP(FAC*LOG(MAX(EM20,BASE)))
+        ENDDO
+        DO I=1,NEL
+         IF(IDEGE(I)>10.OR.(ISMSTR==12.AND.OFFG(I)>ONE)) CYCLE
+         DXX(I) = JFAC(I)*DXX(I)+JFAC(I)-ONE
+         DYY(I) = JFAC(I)*DYY(I)+JFAC(I)-ONE
+         DZZ(I) = JFAC(I)*DZZ(I)+JFAC(I)-ONE
+         DXY(I) = JFAC(I)*DXY(I)
+         DYX(I) = JFAC(I)*DYX(I)
+         DZX(I) = JFAC(I)*DZX(I)
+         DXZ(I) = JFAC(I)*DXZ(I)
+         DYZ(I) = JFAC(I)*DYZ(I)
+         DZY(I) = JFAC(I)*DZY(I)
+        ENDDO
+       ELSE
+         CALL JACOB_J33(
      1   DET,     DXX,     DXY,     DXZ,
      2   DYX,     DYY,     DYZ,     DZX,
      3   DZY,     DZZ,     NEL)
@@ -311,20 +346,20 @@ C-----F'=FAC*F=MF'+[1]-->MF'=FAC*MF+(FAC-ONE)*[1]
          BASE = DET0(I)/MAX(EM20,DET(I))
          IF(ISMSTR==12.AND.OFFG(I)>ONE) BASE=ONE
          JFAC(I)=EXP(FAC*LOG(MAX(EM20,BASE)))
-c         JFAC(I)=(DET0(I)/MAX(EM20,DET(I)))**FAC
         ENDDO
-       DO I=1,NEL
-        IF(IDEGE(I)>10.OR.(ISMSTR==12.AND.OFFG(I)>ONE)) CYCLE
-        DXX(I) = JFAC(I)*DXX(I)+JFAC(I)-ONE
-        DYY(I) = JFAC(I)*DYY(I)+JFAC(I)-ONE
-        DZZ(I) = JFAC(I)*DZZ(I)+JFAC(I)-ONE
-        DXY(I) = JFAC(I)*DXY(I)
-        DYX(I) = JFAC(I)*DYX(I)
-        DZX(I) = JFAC(I)*DZX(I)
-        DXZ(I) = JFAC(I)*DXZ(I)
-        DYZ(I) = JFAC(I)*DYZ(I)
-        DZY(I) = JFAC(I)*DZY(I)
-       ENDDO
+        DO I=1,NEL
+         IF(IDEGE(I)>10.OR.(ISMSTR==12.AND.OFFG(I)>ONE)) CYCLE
+         DXX(I) = JFAC(I)*DXX(I)+JFAC(I)-ONE
+         DYY(I) = JFAC(I)*DYY(I)+JFAC(I)-ONE
+         DZZ(I) = JFAC(I)*DZZ(I)+JFAC(I)-ONE
+         DXY(I) = JFAC(I)*DXY(I)
+         DYX(I) = JFAC(I)*DYX(I)
+         DZX(I) = JFAC(I)*DZX(I)
+         DXZ(I) = JFAC(I)*DXZ(I)
+         DYZ(I) = JFAC(I)*DYZ(I)
+         DZY(I) = JFAC(I)*DZY(I)
+        ENDDO
+       END IF !(ISMSTR==11) THEN
       END IF !(ICP==1) THEN
 C
       RETURN
