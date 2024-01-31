@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  COMPUTE_BFRAC                 source/materials/mat/mat051/bfrac.F
+Chd|  COMPUTE_BFRAC                 source/materials/mat/mat051/compute_bfrac.F
 Chd|-- called by -----------
 Chd|        SIGEPS51                      source/materials/mat/mat051/sigeps51.F
 Chd|-- calls ---------------

@@ -25,7 +25,7 @@ Chd|  SIGEPS51                      source/materials/mat/mat051/sigeps51.F
 Chd|-- called by -----------
 Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
-Chd|        COMPUTE_BFRAC                 source/materials/mat/mat051/bfrac.F
+Chd|        COMPUTE_BFRAC                 source/materials/mat/mat051/compute_bfrac.F
 Chd|        DPRAG51                       source/materials/mat/mat051/dprag51.F
 Chd|        JCOOK51                       source/materials/mat/mat051/jcook51.F
 Chd|        JWL51                         source/materials/mat/mat051/jwl51.F
