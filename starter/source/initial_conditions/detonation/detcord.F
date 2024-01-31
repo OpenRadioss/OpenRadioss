@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: IOPT
-      my_real :: X(3,*),XC(MVSIZ),YC(MVSIZ),ZC(MVSIZ),BT(MVSIZ),VDET,VDET2,ALT,TB(*)
+      my_real :: X(3,*),XC(MVSIZ),YC(MVSIZ),ZC(MVSIZ),BT(MVSIZ),VDET,VDET2,ALT,TB(MVSIZ)
       TYPE(DETONATOR_CORD_STRUCT_)::DETONATOR_CORD
       LOGICAL HAS_DETONATOR(MVSIZ)
 C-----------------------------------------------
@@ -88,7 +88,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       NNOD = DETONATOR_CORD%NUMNOD
-      DTOS = EP30
+      DTOS = EP20
 
       IF(IOPT == 2)THEN
       !INSTANTANEOUS IGNITION OF THE WHOLE CORD
@@ -134,7 +134,7 @@ C-----------------------------------------------
           END DO !next I
         END DO !J=1,NNOD
 
-      ELSEIF(IOPT==1)THEN
+      ELSEIF(IOPT == 1)THEN
       ! DETONATING CORD HAS ITS OWN DETONATION VELOCITY ALONG THE PATH
         DO J=1,NNOD-1
           !first node
@@ -190,7 +190,7 @@ C-----------------------------------------------
           END DO !next I
         END DO !J=1,NNOD
 
-      ELSEIF(IOPT==3)THEN
+      ELSEIF(IOPT == 3)THEN
 
         !CATMULL-ROM PARAMETER
         ! ALPHA = 0.0 : uniform
@@ -222,24 +222,24 @@ C-----------------------------------------------
         !===END POINTS===!
         ptr=>USER_SPLINE_PATH%control_point(0:NPTS+1,1:3)
         !ADDING FIRST END POINTS - BENDING ENERGY MINIMUM
-        ptr(1+0,1)=0.5*(5.*ptr(1+1,1)-4.*ptr(1+2,1)+ptr(1+3,1))
-        ptr(1+0,2)=0.5*(5.*ptr(1+1,2)-4.*ptr(1+2,2)+ptr(1+3,2))
-        ptr(1+0,3)=0.5*(5.*ptr(1+1,3)-4.*ptr(1+2,3)+ptr(1+3,3))
+        ptr(1+0,1)=HALF*(FIVE*ptr(1+1,1)-FOUR*ptr(1+2,1)+ptr(1+3,1))
+        ptr(1+0,2)=HALF*(FIVE*ptr(1+1,2)-FOUR*ptr(1+2,2)+ptr(1+3,2))
+        ptr(1+0,3)=HALF*(FIVE*ptr(1+1,3)-FOUR*ptr(1+2,3)+ptr(1+3,3))
         !ADDING LAST END POINTS - BENDING ENERGY MINIMUM
-        ptr(1+NPTS+1,1)=0.5*(1.*ptr(1+NPTS-2,1)-4.*ptr(1+NPTS-1,1)+5.*ptr(1+NPTS,1))
-        ptr(1+NPTS+1,2)=0.5*(1.*ptr(1+NPTS-2,2)-4.*ptr(1+NPTS-1,2)+5.*ptr(1+NPTS,2))
-        ptr(1+NPTS+1,3)=0.5*(1.*ptr(1+NPTS-2,3)-4.*ptr(1+NPTS-1,3)+5.*ptr(1+NPTS,3))
+        ptr(1+NPTS+1,1)=HALF*(1.*ptr(1+NPTS-2,1)-FOUR*ptr(1+NPTS-1,1)+FIVE*ptr(1+NPTS,1))
+        ptr(1+NPTS+1,2)=HALF*(1.*ptr(1+NPTS-2,2)-FOUR*ptr(1+NPTS-1,2)+FIVE*ptr(1+NPTS,2))
+        ptr(1+NPTS+1,3)=HALF*(1.*ptr(1+NPTS-2,3)-FOUR*ptr(1+NPTS-1,3)+FIVE*ptr(1+NPTS,3))
 
         !DEFINE KNOTS
         DO J=1,NSEG
-          CALL CR_SPLINE_KNOTS(PTR(1+J,1:3), KNOTS, ALPHA)
+          CALL CR_SPLINE_KNOTS(PTR(J  ,1), KNOTS, ALPHA)
           USER_SPLINE_PATH%knots(J,1:4)=KNOTS(1:4)
         ENDDO
 
        !COMPUTE DISTANCE FROM CENTROID Z TO CONTROL POINT ptr(1+:)
        !  idist(J) is the shortest point in PT from Z(J)
        DO J=LFT,LLT
-         DIST(J)  = 1E30
+         DIST(J)  = 1E20
          IDIST(J) = 0
          DO I=1,NPTS
            XX = XC(J)-PTR(1+I,1)
@@ -253,7 +253,7 @@ C-----------------------------------------------
          ENDDO
        ENDDO
 
-       !CALCUL DES LONGUEUR DE SPLINE
+       !SPLINE LENGTHES
        DO I=1,NSEG
          LOCAL_PT(1,1:3)=PTR(1+I-1,1:3)
          LOCAL_PT(2,1:3)=PTR(1+I+0,1:3)
@@ -262,7 +262,7 @@ C-----------------------------------------------
          T=1.0
          CALL CR_SPLINE_LENGTH(LOCAL_PT,ALPHA,T,LEN)
          USER_SPLINE_PATH%length(I) = LEN
-         IF(I>1)THEN
+         IF(I > 1)THEN
            USER_SPLINE_PATH%cumulative_length(I) = USER_SPLINE_PATH%cumulative_length(I-1)  + LEN
          ELSE
            USER_SPLINE_PATH%cumulative_length(1) =  LEN
@@ -271,13 +271,13 @@ C-----------------------------------------------
          !print *, "len =", len
        ENDDO
 
-       !PROJECTION DES POINTS TESTS
+       !TEST POINT PROJECTIONS
        DO J=LFT,LLT
-         !point le plus proche : IDIST(J)
+         !nearest point : IDIST(J)
          I=IDIST(J)
          I=MIN(I,NSEG)
          K=I
-         T=0.5
+         T=HALF
          LOCAL_PT(1,1:3)=PTR(1+I-1,1:3)
          LOCAL_PT(2,1:3)=PTR(1+I+0,1:3)
          LOCAL_PT(3,1:3)=PTR(1+I+1,1:3)
@@ -297,7 +297,7 @@ C-----------------------------------------------
            LOCAL_PT(4,1:3)=PTR(1+I+2,1:3)
            CALL CR_SPLINE_POINT_PROJ(LOCAL_PT,ZP(1:3),ALPHA,ZH2,DIST2,T2)
            CALL CR_SPLINE_LENGTH(LOCAL_PT,ALPHA,T2,LEN2)
-           IF(DIST2<DIST1)THEN
+           IF(DIST2 < DIST1)THEN
              C(1:3)=ZH2(1:3)
              T=T2
              K=I
@@ -307,7 +307,7 @@ C-----------------------------------------------
          !print *, "point=", ZP(1:3)
          !print *, "    ->", C(1:3)
          !!CALL CR_SPLINE_LENGTH(LOCAL_PT,ALPHA,T,LEN)
-         IF(K>1)LEN=LEN+USER_SPLINE_PATH%cumulative_length(K-1)
+         IF(K > 1)LEN=LEN+USER_SPLINE_PATH%cumulative_length(K-1)
          BT(J) = DETONATOR_CORD%TDET_PATH(1) + LEN/VDET2
          IF(BT(J) < ABS(TB(J))) TB(J)=-BT(J)
        ENDDO
