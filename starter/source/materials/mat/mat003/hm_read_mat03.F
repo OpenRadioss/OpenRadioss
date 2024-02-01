@@ -194,6 +194,9 @@ C-----------------------------------------------
       MTAG%G_TEMP  = 1
       MTAG%L_TEMP  = 1
 
+      ! Material compatibility with /EOS
+      CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
+
       ! EOS/Thermo keyword
       CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
 

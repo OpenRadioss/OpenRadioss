@@ -168,8 +168,8 @@ c-------------------------------------------------------------------
 c-------------------------------------------------------------------
 c     /EOS : Equations of State P=P(µ,E)
 c-------------------------------------------------------------------
-      CALL HM_READ_EOS(IPM      ,PM       ,BUFMAT   ,BUFLEN   ,IADBUF   ,
-     .                 EOS_TAG  ,UNITAB   ,LSUBMODEL)
+      CALL HM_READ_EOS(MAT_ELEM%MAT_PARAM ,IPM      ,PM       ,BUFMAT   ,
+     .                 BUFLEN   ,IADBUF   ,EOS_TAG  ,UNITAB   ,LSUBMODEL)
 
 c-------------------------------------------------------------------
 c     /FAIL : Failure Models

@@ -147,8 +147,14 @@ C     Reading submaterial IDS and corresponding volumic fractions
       MTAG%L_RHO = 1
 
       ! MATPARAM keywords
-      CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
+
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
+
+      ! Material compatibility with /EOS option
+      CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
+
+      ! EOS/Thermo keyword for pressure treatment in elements
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
 
       ! Properties compatibility
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
