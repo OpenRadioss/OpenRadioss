@@ -173,7 +173,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
             IE = DRAPEG%INDX(NUMELC + I)
             IF(IE == 0) CYCLE   
             NPT_DRP = DRAPE(IE)%NPLY_DRAPE
-            NPT = IWORKSH(1,NUMELC + I)   
+            NPT     = DRAPE(IE)%NPLY   
             ALLOCATE(XNUM_DRAPE(I)%INDX_PLY(NPT)) 
             ALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY(NPT_DRP))        
             XNUM_DRAPE(I)%INDX_PLY= 0     
@@ -237,7 +237,8 @@ C
            IE = DRAPEG%INDX(NUMELC + I)  
            XNUM_DRAPEG%INDX(I) = IE                                             
            IF(IE == 0) CYCLE                                                    
-           NPT = IWORKSH(1,NUMELC + I)                                          
+           NPT = DRAPE(IE)%NPLY   
+           XNUM_DRAPE(I)%NPLY = NPT                                       
            XNUM_DRAPE(I)%INDX_PLY(1:NPT) = DRAPE(IE)%INDX_PLY(1:NPT)            
            NPT = DRAPE(IE)%NPLY_DRAPE                                           
            XNUM_DRAPE(I)%NPLY_DRAPE = NPT                                       
@@ -252,7 +253,7 @@ C
                XNUM_DRAPE(I)%DRAPE_PLY(JJ)%RDRAPE(KK,1)=DRAPE_PLY%RDRAPE(KK,1)  
                XNUM_DRAPE(I)%DRAPE_PLY(JJ)%RDRAPE(KK,2)=DRAPE_PLY%RDRAPE(KK,2)  
              ENDDO  
-             DEALLOCATE(DRAPE_PLY%IDRAPE, DRAPE_PLY%RDRAPE)                                                            
+             DEALLOCATE(DRAPE_PLY%IDRAPE, DRAPE_PLY%RDRAPE)   
            ENDDO 
              DEALLOCATE(DRAPE(IE)%DRAPE_PLY)  
              DEALLOCATE(DRAPE(IE)%INDX_PLY)  
@@ -566,7 +567,8 @@ C
          DRAPEG%INDX(NUMELC + I) = 0
          IF(IE0 == 0) CYCLE
          IE = IE + 1
-         NPT = IWORKSH(1,NUMELC + I) ! number of layer shell
+         NPT = XNUM_DRAPE(INDEX(I))%NPLY ! number of layer shell
+         DRAPE(IE)%NPLY = NPT
          DRAPEG%INDX(NUMELC + I)= IE
          ALLOCATE(DRAPE(IE)%INDX_PLY(NPT))   
          DRAPE(IE)%INDX_PLY(1:NPT) =  XNUM_DRAPE(INDEX(I))%INDX_PLY(1:NPT)                                  

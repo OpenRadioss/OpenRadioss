@@ -176,7 +176,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
            IEL = DRAPEG%INDX(NUMELC + I)
            IF(IEL == 0) CYCLE                                                                         
            NPT_DRP = DRAPE(IEL)%NPLY_DRAPE
-           NPT = IWORKSH(1,NUMELC + I)                                               
+           NPT = DRAPE(IEL)%NPLY                                              
            ALLOCATE(XNUM_DRAPE(I)%INDX_PLY(NPT))                                              
            ALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY(NPT_DRP))        
             XNUM_DRAPE(I)%INDX_PLY= 0                                                       
@@ -241,7 +241,8 @@ C
              IEL = DRAPEG%INDX(NUMELC + I)  
              XNUM_DRAPEG%INDX(I) = IEL  
              IF(IEL == 0) CYCLE
-             NPT = IWORKSH(1,NUMELC + I)                                        
+             NPT =  DRAPE(IEL)%NPLY
+             XNUM_DRAPE(I)%NPLY = NPT                                    
              XNUM_DRAPE(I)%INDX_PLY(1:NPT) = DRAPE(IEL)%INDX_PLY(1:NPT)          
              NPT = DRAPE(IEL)%NPLY_DRAPE 
              XNUM_DRAPE(I)%NPLY_DRAPE = NPT                                     
@@ -553,7 +554,8 @@ C
           DRAPEG%INDX(NUMELC + I)= 0                                              
           IF(IEL0 == 0) CYCLE                                                              
           IEL = IEL + 1                                                                     
-          NPT = IWORKSH(1,NUMELC + I) ! number of layer shell                             
+          NPT =  XNUM_DRAPE(INDEX(I))%NPLY
+          DRAPE(IEL)%NPLY  = NPT                              
           DRAPEG%INDX(NUMELC + I)= IEL
           ALLOCATE(DRAPE(IEL)%INDX_PLY(NPT))                                
           DRAPE(IEL)%INDX_PLY(1:NPT) =  XNUM_DRAPE(INDEX(I))%INDX_PLY(1:NPT)                                 

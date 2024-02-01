@@ -77,7 +77,8 @@ C-----------------------------------------------
      .        JJPID,JSTACK,JPID,ITG,IPMAT_IPLY,ISH3N,J4N,J3N,IPOS,
      .        MAT_LY,NLAY,NPTT,IPIDL,IT,ILAY,IPTHK_NPTT,IPPOS_NPTT,
      .        IINT,IPID_LY,IPDIR ,NS_STACK0 ,NPT_STACK0,IS0,JS,PIDS,IP,
-     .        II1,II2,JJ1,JJ2
+     .        II1,II2,JJ1,JJ2,II3,II4,II5,JJ3,JJ4,JJ5, NKEY,IREST,IBIT,IKEY,
+     .        NBIT 
       INTEGER  IPIDPLY(NUMGEO+NUMPLY),IDGR4N(NUMGEO+NUMPLY),WORK(70000),
      .         INDX_SH(NUMELC+NUMELTG),PID_SH(NUMELC+NUMELTG),
      .         NFIRST(NUMELC+NUMELTG),
@@ -93,8 +94,9 @@ C-----------------------------------------------
      .         POS_IT(100),POS_NPTT,THK_NPTT,POS_0,THINNING,POS
      
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI
-      INTEGER, DIMENSION (:) ,ALLOCATABLE ::ICSH,INDX,
-     .                                     ICSH_STACK,IDSTACK
+      INTEGER, DIMENSION (:) ,ALLOCATABLE ::INDX,
+     .                                       ICSH_STACK,IDSTACK
+      INTEGER , DIMENSION(:,:), ALLOCATABLE :: ACTIV_PLY
       TYPE (STACK_PLY) :: STACK, IWORKS
       TYPE(STACK_INFO_ ) , DIMENSION (1:NPROP_STACK) :: STACK_INFO
       CHARACTER*nchartitle,
@@ -170,7 +172,7 @@ c
       TYPE(TMP_WORK)     , DIMENSION(:), POINTER :: IWORK_T
 C=======================================================================
 C    For Shell
-C-----------------------------------------------   
+C-----------------------------------------------  
        NS_STACK = 0
        NPT_STACK = 0
        ALLOCATE(IWORK_T(NUMELC+NUMELTG))
@@ -188,12 +190,9 @@ C
                IPIDPLY(NPLY) = I
                IDGR4N(NPLY)  = IGEO(40,I) ! groupe shell 4N id
                IDGR3N(NPLY)  = IGEO(41,I) ! groupe shell 3N id
-!!               IF(IDGRS(NPLY) > 0) IMIXTE = 1
-!!            ELSEIF(IGTYP == 17) THEN
-!!               NS0 = NS0 + 1
-!!               PIDSTACK(NS0) =  I  
            ENDIF
          ENDDO
+        
 C  transformation d'id groupe     
           DO 10 I=1,NPLY
 C shell 4N id group          
@@ -221,32 +220,13 @@ C !GR  T3
              ENDIF  ! ID > 0 
 10      CONTINUE       
 C  
-C stockage de Geo
-C 
-!old         DO I=1,NUMGEO
-!old           IGTYP=IGEO(11,I)
-!old           IF(IGTYP == 17 .OR. IGTYP == 51) THEN
-!old              IPPID  = 100
-!old              IPMAT  = 300
-!old              IPMAT_IPLY = 500
-!old              IPANG  = 200
-!old              IPTHK  = 400
-!old              IPPOS  = 600
-!old              IPDIR  = 800
-!old              N1 = INT(GEO(6,I))
-!old              IADI(I) = IPPID
-!old              IADR(I) = IPANG
-!old              DO J=1,N1
-!old                  GEO0(J,I)        = GEO(IPANG + J,I)
-!old                  GEO0(N1 + J,I)   = GEO(IPTHK + J,I) 
-!old                  GEO0(2*N1 + J,I) = GEO(IPPOS + J,I)
-!old                  GEO0(3*N1 + J,I) = GEO(IPDIR + J,I)  ! angle (DIR1,DIR2) - for compatibility of l58 with PID51)
-!old                  IGEO0(J,I)       = IGEO(IPPID+J,I)
-!old                  IGEO0(N1+J,I)    = IGEO(IPMAT+J,I)
-!old                  IGEO0(2*N1+J,I)  = IGEO(IPMAT_IPLY+J,I)
-!old              ENDDO
-!old           ENDIF 
-!old         ENDDO
+          NBIT =  BIT_SIZE(NPLY)
+          IREST = MOD(NPLY,NBIT)
+          NKEY = NPLY / NBIT
+          IF(IREST > 0) NKEY = NKEY + 1
+          ! 
+          ALLOCATE( ACTIV_PLY(NUMELC+NUMELTG,NKEY))
+          IF(NUMELC + NUMELTG > 0)ACTIV_PLY = 0
 C tag o  f ply element 
          NSHQ4 = 0
          DO I=1,NUMELC
@@ -349,8 +329,6 @@ C
 C
          ENDDO  ! iply  
 C #####################################################"
-           ALLOCATE(ICSH(NUMELC+NUMELTG))
-           IF(NUMELC + NUMELTG > 0)ICSH = 0
            DO I=1,NUMELC 
              PID   = IXC(6,I)
              IGTYP = IGEO(11,PID) 
@@ -382,6 +360,13 @@ C #####################################################"
               J4N = J
               IDPLY = IPIDPLY(I) 
               NSTACK = IGEO(42, IDPLY)
+              IKEY = I / NBIT   ! 32 or 64  bits
+              IF(MOD(I,NBIT) > 0 ) IKEY = IKEY + 1 
+              IKEY = MIN(IKEY, NKEY)
+              IBIT = I - (IKEY - 1)*NBIT  ! Bit corresponding to PLy 
+               ! First key Ply form 1 to NBIT
+               ! 2dn NBIT - 2*NBIT
+               ! .... etc 
               IF(J > 0 .AND. NSTACK > 0 ) THEN
                 NEL = IGRSH4N(J)%NENTITY
 C eleme  nt type Q4 or T3 
@@ -397,7 +382,7 @@ C eleme  nt type Q4 or T3
                                  IWORKSH (1,IDSHEL) = IWORKSH(1,IDSHEL) + 1
                                  NPT = IWORKSH (1,IDSHEL)
                                  IWORK_T(IDSHEL)%IPT(NPT) = IDPLY
-                                 ICSH(IDSHEL) = ICSH(IDSHEL) + IDPLY*IDPLY
+                                 ACTIV_PLY(IDSHEL,IKEY) = IBSET(ACTIV_PLY(IDSHEL,IKEY),IBIT)
                                 GOTO 101
                              ENDIF 
                           ENDDO
@@ -422,7 +407,7 @@ C eleme  nt type T3
                                 IWORKSH(1,IDSHEL) =   IWORKSH(1,IDSHEL ) + 1
                                 NPT = IWORKSH(1,IDSHEL)
                                  IWORK_T(IDSHEL)%IPT(NPT) = IDPLY
-                                 ICSH(IDSHEL) = ICSH(IDSHEL) + IDPLY*IDPLY
+                                 ACTIV_PLY(IDSHEL,IKEY) = IBSET(ACTIV_PLY(IDSHEL,IKEY),IBIT)
                                 GOTO 202
                              ENDIF 
                           ENDDO
@@ -441,7 +426,7 @@ C
                                 IWORKSH(1,II) = IWORKSH(1,II) + 1
                                 NPT = IWORKSH(1,II)
                                 IWORK_T(II)%IPT(NPT) = IDPLY
-                                ICSH(II) = ICSH(II) + IDPLY*IDPLY
+                                 ACTIV_PLY(II,IKEY) = IBSET(ACTIV_PLY(II,IKEY),IBIT)
                                 GOTO 333
                              ENDIF 
                           ENDDO
@@ -458,7 +443,7 @@ C
                                  IWORKSH(1,ITG) = IWORKSH(1,ITG) + 1
                                  NPT = IWORKSH(1,ITG)
                                  IWORK_T(ITG)%IPT(NPT) = IDPLY
-                                 ICSH(ITG) = ICSH(ITG) + IDPLY*IDPLY
+                                 ACTIV_PLY(ITG,IKEY) = IBSET(ACTIV_PLY(ITG,IKEY),IBIT)
                                 GOTO 404
                              ENDIF 
                           ENDDO
@@ -497,38 +482,41 @@ C
 C        
 C
 C   
-         ALLOCATE(INDX(2*NSH),ITRI(3,NSH))
+         ALLOCATE(INDX(2*NSH),ITRI(2+NKEY,NSH))
          INDX = 0  
          ITRI = 0
+          !! 
          DO I = 1,NSH
            INDX(I) = I
            II = INDX_SH(I)
            ITRI(1,I) = PID_SH(I)
-           ITRI(2,I) = ICSH(II)
-           ITRI(3,I) = IWORKSH(1,II)
+           ITRI(2,I) = IWORKSH(1,II)
+           DO J=1,NKEY
+             ITRI(2+J,I) = ACTIV_PLY(II,J)
+           ENDDO
          ENDDO
 C        
          MODE = 0
 C            
-          CALL MY_ORDERS(MODE, WORK, ITRI, INDX, NSH , 3)
+          NKEY = NKEY + 2
+          CALL MY_ORDERS(MODE, WORK, ITRI, INDX, NSH , NKEY)
           NS = 1 
           NFIRST(1) = 1
           NLAST(1) = 1
           DO I=2,NSH
-           II=ITRI(1,INDX(I))
-           JJ=ITRI(1,INDX(I-1))
-           II1=ITRI(2,INDX(I))
-           JJ1=ITRI(2,INDX(I-1))
-           II2=ITRI(3,INDX(I))
-           JJ2=ITRI(3,INDX(I-1))
-           IF(II /= JJ .OR. II1 /= JJ1  .OR.  II2 /= JJ2) THEN    
-               NS = NS + 1
-               NFIRST(NS) = I
-               NLAST(NS) = NFIRST(NS) 
-            ELSE
-               NLAST(NS) = NLAST(NS) + 1
-            ENDIF
-          ENDDO
+             DO IKEY = 1, NKEY
+               II = ITRI(IKEY,INDX(I))
+               JJ = ITRI(IKEY,INDX(I-1))
+               IF(II /= JJ) THEN
+                  NS = NS + 1
+                  NFIRST(NS) = I
+                  NLAST(NS) = NFIRST(NS)
+                  EXIT
+               ELSEIF(IKEY == NKEY) THEN
+                 NLAST(NS) = NLAST(NS) + 1
+               ENDIF
+             ENDDO
+          ENDDO          
 C
 C  substack 
 C 
@@ -716,7 +704,7 @@ cc          ENDIF  !  IF (IGTYP == 51) THEN
 C============================================================================
         ENDDO ! DO IS = 1,NS 
 C           
-        DEALLOCATE(ICSH,INDX,ITRI)
+        DEALLOCATE(INDX,ITRI,ACTIV_PLY)
        ENDIF
 C 
 C   pccommp part
@@ -766,8 +754,15 @@ C !GR  T3
               ENDDO
              ENDIF  ! ID > 0           
 11      CONTINUE 
-        !!  stop
-C 
+
+         ! Size of NPLY '(32 or 64)  
+          NBIT =  BIT_SIZE(NPLY)
+          IREST = MOD(NPLY,NBIT)
+          NKEY = NPLY / NBIT
+          IF(IREST > 0) NKEY = NKEY + 1
+          ! 
+          ALLOCATE( ACTIV_PLY(NUMELC+NUMELTG,NKEY))
+          IF(NUMELC + NUMELTG > 0)ACTIV_PLY = 0
 C 
 C tag of ply element        
           ALLOCATE(ICSH_STACK(NUMELC + NUMELTG) )
@@ -846,8 +841,6 @@ C  message d'erreur
 C
 !!         ENDDO  ! iply    
 !------------------------------------------------
-           ALLOCATE(ICSH(NUMELC+NUMELTG))
-           IF(NUMELC+NUMELTG > 0) ICSH = 0
            IF(NUMELC+NUMELTG > 0) ICSH_STACK = 0
            DO I=1,NUMELC 
              PID = IXC(6,I)
@@ -878,11 +871,17 @@ C
               J4N = J
               IDPLY = IPIDPLY(I) 
               IDS = IGEO_STACK(42, IDPLY)
-             IF(J > 0 .AND. IDS > 0 ) THEN
-              NEL = IGRSH4N(J)%NENTITY
+              !
+              IKEY = I / NBIT   ! 32 or 64  bits
+              IF(MOD(I,NBIT) > 0 ) IKEY = IKEY + 1 
+              IKEY = MIN(IKEY, NKEY)
+              IBIT = I - (IKEY - 1)*NBIT  ! Bit corresponding to PLy 
+              !
+              IF(J > 0 .AND. IDS > 0 ) THEN
+                NEL = IGRSH4N(J)%NENTITY
 C element type Q4 
 !!              ITY = IGRN(4,J)
-              ITY = IGRSH4N(J)%GRTYPE
+                ITY = IGRSH4N(J)%GRTYPE
                  DO  II = 1,NEL
                    IDSHEL = IGRSH4N(J)%ENTITY(II)
                    PID = IXC(6,IDSHEL)
@@ -892,15 +891,15 @@ C element type Q4
                           IWORKSH (1,IDSHEL) = IWORKSH(1,IDSHEL) + 1
                           NPT = IWORKSH (1,IDSHEL)
                           IWORK_T(IDSHEL)%IPT(NPT) = IDPLY
-                          ICSH(IDSHEL) = ICSH(IDSHEL) + IDPLY*IDPLY 
                           ICSH_STACK(IDSHEL) = IDS
+                          ACTIV_PLY(IDSHEL,IKEY) = IBSET(ACTIV_PLY(IDSHEL,IKEY),IBIT)
                       ELSEIF(ICSH_STACK(IDSHEL) == IDS) THEN
                           IWORKSH (1,IDSHEL) = IWORKSH(1,IDSHEL) + 1
                           NPT = IWORKSH (1,IDSHEL)
                           IWORK_T(IDSHEL)%IPT(NPT) = IDPLY
-                          ICSH(IDSHEL) = ICSH(IDSHEL) + IDPLY*IDPLY
-                      ELSE
+                          ACTIV_PLY(IDSHEL,IKEY) = IBSET(ACTIV_PLY(IDSHEL,IKEY),IBIT)
 C  message d'erreur      
+                      ELSE
                         IPID_1=IGEO_STACK(1,ICSH_STACK(IDSHEL))
                         NGL =IXC(NIXC,IDSHEL)
                         CALL ANCMSG(MSGID=1152,
@@ -932,13 +931,13 @@ C element type T3
                           IWORKSH(1,IDSHEL) =   IWORKSH(1,IDSHEL ) + 1
                           NPT = IWORKSH(1,IDSHEL)
                           IWORK_T(IDSHEL)%IPT(NPT) = IDPLY
-                          ICSH(IDSHEL) = ICSH(IDSHEL) + IDPLY*IDPLY
                           ICSH_STACK(IDSHEL) = IDS
+                          ACTIV_PLY(IDSHEL,IKEY) = IBSET(ACTIV_PLY(IDSHEL,IKEY),IBIT)
                       ELSEIF(ICSH_STACK(IDSHEL) == IDS) THEN
                            IWORKSH(1,IDSHEL) =   IWORKSH(1,IDSHEL ) + 1
                            NPT = IWORKSH(1,IDSHEL)
                            IWORK_T(IDSHEL)%IPT(NPT) = IDPLY
-                           ICSH(IDSHEL) = ICSH(IDSHEL) + IDPLY*IDPLY
+                           ACTIV_PLY(IDSHEL,IKEY) = IBSET(ACTIV_PLY(IDSHEL,IKEY),IBIT)
                       ELSE
 C  message d'erreur
                         IPID_1=IGEO_STACK(1,ICSH_STACK(IDSHEL))
@@ -989,39 +988,41 @@ C
 C       
 C
 C
-          ALLOCATE(INDX(2*NSH),ITRI(3,NSH))
+          ALLOCATE(INDX(2*NSH),ITRI(2+NKEY,NSH))
           INDX = 0  
           ITRI = 0
           DO I = 1,NSH
             INDX(I) = I
             II = INDX_SH(I)
             ITRI(1,I) = PID_SH(I)
-            ITRI(2,I) = ICSH(II)
-            ITRI(3,I) = IWORKSH(1,II)
+            ITRI(2,I) = IWORKSH(1,II)
+            DO J=1,NKEY
+              ITRI(2+J,I) = ACTIV_PLY(II,J)
+            ENDDO
           ENDDO
 C          
            MODE = 0
+           NKEY = NKEY + 2
 !!         WORK = 0 
-           CALL MY_ORDERS(MODE, WORK, ITRI, INDX, NSH , 3)
+           CALL MY_ORDERS(MODE, WORK, ITRI, INDX, NSH , NKEY)
 C       
            NS = 1
            NFIRST(1) = 1
            NLAST(1) = 1
            DO I=2,NSH
-             II=ITRI(1,INDX(I))
-             JJ=ITRI(1,INDX(I-1))
-             II1=ITRI(2,INDX(I))
-             JJ1=ITRI(2,INDX(I-1))
-             II2=ITRI(3,INDX(I))
-             JJ2=ITRI(3,INDX(I-1))
-             IF(II /= JJ .OR. II1 /= JJ1  .OR.  II2 /= JJ2) THEN    
-                NS = NS + 1
-                NFIRST(NS) = I
-                NLAST(NS) = NFIRST(NS) 
-             ELSE
-                NLAST(NS) = NLAST(NS) + 1
-             ENDIF
-           ENDDO
+             DO IKEY = 1, NKEY
+               II = ITRI(IKEY,INDX(I))
+               JJ = ITRI(IKEY,INDX(I-1))
+               IF(II /= JJ) THEN
+                  NS = NS + 1
+                  NFIRST(NS) = I
+                  NLAST(NS) = NFIRST(NS)
+                  EXIT
+               ELSEIF(IKEY == NKEY) THEN
+                 NLAST(NS) = NLAST(NS) + 1
+               ENDIF
+             ENDDO
+          ENDDO 
 C
 C  sous stack 
 C    
@@ -1061,7 +1062,7 @@ C
 !!              MAIN_PID(2,IS) =  IWORKSH(1,II) ! npt
               NPT = IWORKSH(1,II)
               IIS = II               
-C              
+C            
              DO I= NFIRST(IS) , NLAST(IS)
                  ID = INDX(I)
                  II = INDX_SH(ID)
@@ -1243,7 +1244,8 @@ C---
             ENDDO   
         ENDDO ! DO IS = 1,NS
 C---
-         DEALLOCATE(ICSH,INDX,ITRI,IDSTACK, ICSH_STACK)
+         DEALLOCATE(INDX,ITRI,IDSTACK, ICSH_STACK)
+         DEALLOCATE(ACTIV_PLY)
        ENDIF
        DO I=1,NUMELC + NUMELTG
             NPT = IWORKSH(1,I)

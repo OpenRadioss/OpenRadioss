@@ -81,9 +81,10 @@ c-------
       END TYPE DRAPEG_  
       
       TYPE DRAPE_WORK_
-        INTEGER                              ::  IDSTACK
-        INTEGER, DIMENSION(:)  , ALLOCATABLE ::  PLYID
-        INTEGER, DIMENSION(:)  , ALLOCATABLE ::  NPT_LAY
+        INTEGER                              ::  IDSTACK  ! idstack
+        INTEGER, DIMENSION(:)  , ALLOCATABLE ::  PLYID    ! Id ply
+        INTEGER, DIMENSION(:)  , ALLOCATABLE ::  NPT_PLY  ! Number of int point
+        INTEGER, DIMENSION(:)  , ALLOCATABLE ::  PLYNUM   ! Number of ply 
       END TYPE DRAPE_WORK_
       
       INTEGER :: NUMELC_DRAPE    ,NUMELTG_DRAPE , SCDRAPE, STDRAPE
