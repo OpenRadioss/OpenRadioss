@@ -199,13 +199,13 @@ C
          DO I =1, NEL
            IEL0 = DRAPEG%INDX(I + NFT)
            IF(IEL0 == 0) CYCLE 
-           NPT = IWORKSH(1,I + NFT)
+           NPT = DRAPE(IEL0)%NPLY
            NPT_DRP = DRAPE(IEL0)%NPLY_DRAPE
            ALLOCATE(XNUM_DRAPE(I)%INDX_PLY(NPT))
            ALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY(NPT_DRP))        
            XNUM_DRAPE(I)%INDX_PLY= 0                                       
            DO J = 1,NPT_DRP                            
-                NSLICE = DRAPE(IEL0)%DRAPE_PLY(J)%NSLICE    
+                NSLICE = DRAPE(IEL0)%DRAPE_PLY(J)%NSLICE   
                 ALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY(J)%RDRAPE(NSLICE,2))    
                 ALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY(J)%IDRAPE(NSLICE,3)) 
                 XNUM_DRAPE(I)%DRAPE_PLY(J)%RDRAPE = 0             
@@ -244,7 +244,8 @@ C
             IEL0 = DRAPEG%INDX(NFT + I)  
             XNUM_DRAPEG%INDX(I) = IEL0
             IF(IEL0 == 0) CYCLE  
-            NPT = IWORKSH(1,NFT + I)                                   
+            NPT = DRAPE(IEL0)%NPLY 
+            XNUM_DRAPE(I)%NPLY = NPT                          
             XNUM_DRAPE(I)%INDX_PLY(1:NPT) = DRAPE(IEL0)%INDX_PLY(1:NPT)
             NPT = DRAPE(IEL0)%NPLY_DRAPE                                      
             XNUM_DRAPE(I)%NPLY_DRAPE = NPT 
@@ -348,7 +349,7 @@ C
                DRAPEG%INDX(NFT + I)= 0
                IF(IEL0 == 0) CYCLE
                IEL = IEL + 1
-               NPT = IWORKSH(1,NFT + I) ! number of layer shell
+               NPT = XNUM_DRAPE(INDEX(I))%NPLY ! number of layer shell
                ALLOCATE(DRAPE(IEL)%INDX_PLY(NPT)) 
                DRAPE(IEL)%INDX_PLY = 0
                DRAPEG%INDX(NFT + I)= IEL

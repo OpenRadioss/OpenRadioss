@@ -173,7 +173,7 @@ C----------------------------------------------------------
            IE = DRAPEG%INDX(I)
            IF(IE == 0) CYCLE                                                                      
            NPT_DRP = DRAPE(IE)%NPLY_DRAPE  
-           NPT = IWORKSH(1,I)                                              
+           NPT     = DRAPE(IE)%NPLY                                             
            ALLOCATE(XNUM_DRAPE(I)%INDX_PLY(NPT))                                              
            ALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY(NPT_DRP))        
            XNUM_DRAPE(I)%INDX_PLY = 0
@@ -235,7 +235,8 @@ C
             IE = DRAPEG%INDX(I)
             XNUM_DRAPEG%INDX(I) = DRAPEG%INDX(I)                                
             IF(IE == 0) CYCLE                                                   
-            NPT = IWORKSH(1,I)                                   
+            NPT = DRAPE(IE)%NPLY 
+            XNUM_DRAPE(I)% NPLY  = NPT                        
             XNUM_DRAPE(I)%INDX_PLY(1:NPT) = DRAPE(IE)%INDX_PLY(1:NPT)
             NPT = DRAPE(IE)%NPLY_DRAPE                                      
             XNUM_DRAPE(I)%NPLY_DRAPE = NPT           
@@ -533,13 +534,14 @@ C
          DRAPEG%INDX(I)= 0
          IF(IE0 == 0) CYCLE
          IE = IE + 1
-         NPT = IWORKSH(1,I) ! number of layer shell 
+         NPT = XNUM_DRAPE(INDEX(I))% NPLY    ! number of layer shell 
+         DRAPE(IE)%NPLY = NPT
          DRAPEG%INDX(I)= IE
          ALLOCATE(DRAPE(IE)%INDX_PLY(NPT)) 
          DRAPE(IE)%INDX_PLY(1:NPT) =  XNUM_DRAPE(INDEX(I))%INDX_PLY(1:NPT)                                  
          NPT = XNUM_DRAPE(INDEX(I))%NPLY_DRAPE       ! NPT_DRP                                      
          ALLOCATE(DRAPE(IE)%DRAPE_PLY(NPT))  
-         DRAPE(IE)%NPLY_DRAPE= NPT             
+         DRAPE(IE)%NPLY_DRAPE= NPT       
          DO JJ = 1, NPT         
            DRAPE_PLY => DRAPE(IE)%DRAPE_PLY(JJ)                                  
            NSLICE = XNUM_DRAPE(INDEX(I))%DRAPE_PLY(JJ)%NSLICE                            

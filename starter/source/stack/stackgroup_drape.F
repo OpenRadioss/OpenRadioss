@@ -79,30 +79,34 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
       TYPE (GROUP_)  , DIMENSION(NGRSHEL) :: IGRSH4N
-      TYPE (DRAPE_)  , DIMENSION(NUMELC + NUMELTG)  , TARGET :: DRAPE
-      TYPE (DRAPEG_)                                 , TARGET :: DRAPEG
+      TYPE (DRAPE_)  , DIMENSION(NUMELC + NUMELTG)    , TARGET :: DRAPE
+      TYPE (DRAPEG_)                                  , TARGET :: DRAPEG
       TYPE(DRAPE_WORK_) , DIMENSION(NUMELC + NUMELTG) , TARGET :: IWORK_T
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,II,IGTYP,ID,JD,IDPLY,NEL,
-     .        IAD,ITY,IDSHEL,PID,IS,IDS,NSH,MODE,NS,JJ,NGEO_STACK,
+     .        IAD,ITY,IDSHEL,PID,IS,IDS,NSH,MODE,JJ,NGEO_STACK,
      .        IGRTYP,N1,IPMAT,IPANG,IPTHK,IIGEO,NSS,IPPOS,NPT,IIS,NP,
      .        JJPID,JSTACK,JPID,ITG,IPMAT_IPLY,ISH3N,J4N,J3N,IPOS,
      .        MAT_LY,NLAY,NPTT,IPIDL,IT,ILAY,IPTHK_NPTT,IPPOS_NPTT,
      .        IINT,IPID_LY,IPDIR ,NS_STACK0 ,NPT_STACK0,IS0,JS,PIDS,IP,
-     .       II1,II2,JJ1,JJ2,NSLICE,IE_DRP,NPT_LAY,IPNPT_LAY
+     .        II1,II2,JJ1,JJ2,NSLICE,IE_DRP,NPT_LAY,IPNPT_LAY,
+     .        IBIT, NKEY, IKEY,IREST,N_PLY,NBIT,NPLY,NS_TOTAL,NS_FIRST,
+     .        NS_SUB, NSTACK,I1,I2,IES
       INTEGER , DIMENSION(:), ALLOCATABLE ::  WORK,INDX_SH,PID_SH,
-     .                                        NFIRST,NLAST,ISUBSTACK,IPTPLY
+     .                                        NFIRST,NLAST,ISUBSTACK,IPTPLY,
+     .                                        NFIRST1,NLAST1,NFIRST2,NLAST2,
+     .                                        INDX1,INDX_TOTAL
       INTEGER  :: NBFI,IPPID,NGL,IPID_1,NUMS,IPWEIGHT,IPTHKLY,NSHQ4,NSHT3  
       my_real
      .         THICKT,ZSHIFT,TMIN,TMAX,DT,THK_LY,POS_LY,THK_IT(100),
      .         POS_IT(100),POS_NPTT,THK_NPTT,POS_0,THINNING,POS
      
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI
-      INTEGER, DIMENSION (:) ,ALLOCATABLE ::ICSH,INDX,IDSTACK
+      INTEGER, DIMENSION(:,:) ,ALLOCATABLE   :: ITRI,ACTIV_PLY
+      INTEGER, DIMENSION(:)   ,ALLOCATABLE   ::INDX,IDSTACK,INDX_SUB
       TYPE (STACK_PLY) :: STACK, IWORKS
-      TYPE(STACK_INFO_ ) , DIMENSION (1:NPROP_STACK) :: STACK_INFO
+      TYPE (STACK_INFO_ ) , DIMENSION (1:NPROP_STACK) :: STACK_INFO
       TYPE (DRAPE_PLY_),  POINTER :: DRAPE_PLY
       CHARACTER*nchartitle,
      .   TITR,TITR1
@@ -177,22 +181,27 @@ C-----------------------------------------------
        NPT_STACK = 0
 C
        ALLOCATE (INDX_SH(NUMELC+NUMELTG),PID_SH(NUMELC+NUMELTG),
-     .            NFIRST(NUMELC+NUMELTG) ,NLAST(NUMELC+NUMELTG),
      .            ISUBSTACK(NUMGEO+NUMSTACK),
-     .            IPTPLY(NUMGEO+NUMPLY), WORK(70000) ) 
+     .            IPTPLY(NUMGEO+NUMPLY), WORK(70000) )
          
        WORK = 0       
        INDX_SH = 0    
-       PID_SH = 0     
-       NFIRST = 0     
-       NLAST = 0      
+       PID_SH = 0    
        ISUBSTACK = 0  
        IPTPLY = 0     
        INDX_SH = 0    
        PID_SH = 0 
        !! Type51 and TYPE17    
        IF(IPART_STACK > 0) THEN
-         NSH = 0                  
+       !
+          NPLY = 0
+         DO I = 1, NUMGEO                                                  
+           IGTYP=IGEO(11,I)                                               
+           NSTACK = IGEO(42,I)  ! number of stack where ply is attached   
+           IF (IGTYP == 19 .AND. NSTACK > 0) NPLY = NPLY+1                
+         ENDDO                                                             
+        !!
+         NSH = 0                 
          DO I=1,NUMELC
              PID = IXC(6,I)
              IGTYP = IGEO(11,PID)
@@ -213,8 +222,13 @@ C
             ENDIF  
          ENDDO  
 C #####################################################" 
-           ALLOCATE(ICSH(NUMELC + NUMELTG))
-           IF(( NUMELC + NUMELTG) > 0)ICSH = 0
+           NBIT =  BIT_SIZE(NPLY)
+           IREST = MOD(NPLY,NBIT)
+           NKEY = NPLY / NBIT
+           IF(IREST > 0) NKEY = NKEY + 1
+           ALLOCATE( ACTIV_PLY(NUMELC+NUMELTG,NKEY))
+           IF(NUMELC + NUMELTG > 0)ACTIV_PLY = 0
+           !!
            DO I=1,NSH
              II = INDX_SH(I) 
              PID = PID_SH(I)
@@ -223,32 +237,41 @@ C #####################################################"
              IE_DRP = DRAPEG%INDX(II)
              IF(IGTYP == 17) THEN
               IF(NPT > 0) THEN
-                 ALLOCATE(IWORK_T(II)%NPT_LAY(NPT))
-                 IWORK_T(II)%NPT_LAY = 0
+                 ALLOCATE(IWORK_T(II)%NPT_PLY(NPT))
+                 IWORK_T(II)%NPT_PLY = 0
                  DO J=1,NPT
+                   N_PLY = IWORK_T(II)%PLYNUM(J)
+                   IKEY = N_PLY / NBIT   ! 32 or 64  bits
+                   IF(MOD(N_PLY,NBIT) > 0 ) IKEY = IKEY + 1 
+                   IKEY = MIN(IKEY, NKEY)
+                   IBIT = N_PLY - (IKEY - 1)*NBIT  ! Bit corresponding to PLy 
                    IDPLY = IWORK_T(II)%PLYID(J)
-                   ICSH(II) = ICSH(II) + IDPLY*IDPLY
-                   IWORK_T(II)%NPT_LAY(J) = 1
+                   IWORK_T(II)%NPT_PLY(J) = 1
+                   ACTIV_PLY(II,IKEY) = IBSET(ACTIV_PLY(II,IKEY),IBIT)
                  ENDDO
               ENDIF 
              ELSEIF(IGTYP == 51) THEN
-              ALLOCATE(IWORK_T(II)%NPT_LAY(NPT))
-              IWORK_T(II)%NPT_LAY = 0
+              ALLOCATE(IWORK_T(II)%NPT_PLY(NPT))
+              IWORK_T(II)%NPT_PLY = 0
               IF(IE_DRP > 0 .AND. NPT > 0) THEN
                 DO J=1,NPT
-                 IP = DRAPE(IE_DRP)%INDX_PLY(J)
+                 IP    = DRAPE(IE_DRP)%INDX_PLY(J)
+                 N_PLY = IWORK_T(II)%PLYNUM(J)
+                 IKEY  = N_PLY / NBIT   ! 32 or 64  bits
+                 IF(MOD(N_PLY,NBIT) > 0 ) IKEY = IKEY + 1 
+                 IKEY  = MIN(IKEY, NKEY)
+                 IBIT  = N_PLY - (IKEY - 1)*NBIT  ! Bit corresponding to PLy 
+                 ACTIV_PLY(II,IKEY) = IBSET(ACTIV_PLY(II,IKEY),IBIT)
                  IF(IP > 0 ) THEN                            
                     DRAPE_PLY => DRAPE(IE_DRP)%DRAPE_PLY(IP)
                     NSLICE = DRAPE_PLY%NSLICE
-                    IDPLY = IWORK_T(II)%PLYID(J) 
-                    ICSH(II) = ICSH(II) + NSLICE*IDPLY*IDPLY
-                    IWORK_T(II)%NPT_LAY(J) = NSLICE
+                    IDPLY = IWORK_T(II)%PLYID(J)
+                    IWORK_T(II)%NPT_PLY(J) = NSLICE
                     IGEO(44,IDPLY) = MAX(IGEO(4,IDPLY),NSLICE)
                  ELSE
                     IDPLY = IWORK_T(II)%PLYID(J)
                     NPT_LAY = IGEO(4,IDPLY) 
-                    ICSH(II) = ICSH(II) + NPT_LAY*IDPLY*IDPLY
-                    IWORK_T(II)%NPT_LAY(J) = NPT_LAY
+                    IWORK_T(II)%NPT_PLY(J) = NPT_LAY
                  ENDIF
                 ENDDO  
               ELSE
@@ -256,55 +279,139 @@ C #####################################################"
                  DO J=1,NPT
                    IDPLY = IWORK_T(II)%PLYID(J)
                    NPT_LAY  = IGEO(4,IDPLY)  
-                   ICSH(II) = ICSH(II) + NPT_LAY*IDPLY*IDPLY
-                   IWORK_T(II)%NPT_LAY(J) = NPT_LAY
+                   IWORK_T(II)%NPT_PLY(J) = NPT_LAY
+                   N_PLY = IWORK_T(II)%PLYNUM(J)
+                   IKEY  = N_PLY / NBIT   ! 32 or 64  bits
+                   IF(MOD(N_PLY,NBIT) > 0 ) IKEY = IKEY + 1 
+                   IKEY  = MIN(IKEY, NKEY)
+                   IBIT  = N_PLY - (IKEY - 1)*NBIT  ! Bit corresponding to PLy 
+                   ACTIV_PLY(II,IKEY) = IBSET(ACTIV_PLY(II,IKEY),IBIT) 
                  ENDDO
                ENDIF 
               ENDIF 
               ENDIF ! IGTYP   
              ENDDO
 !!###########################################################"  
-         ALLOCATE(INDX(2*NSH),ITRI(3,NSH))
-         INDX = 0  
-         ITRI = 0
+         ALLOCATE(INDX(2*NSH),ITRI(2 + NKEY,NSH),INDX_TOTAL(NSH))
+         ALLOCATE (NFIRST(NSH) ,NLAST(NSH),
+     .             NFIRST1(NSH) ,NLAST1(NSH))
+         IF(NSH > 0) THEN
+           INDX       = 0  
+           ITRI       = 0
+           INDX_TOTAL = 0
+           NLAST      = 0
+           NFIRST     = 0
+           NFIRST1    = 0
+           NLAST1     = 0 
+         ENDIF   
          DO I = 1,NSH
            INDX(I) = I
            II = INDX_SH(I)
            ITRI(1,I) = PID_SH(I)
-           ITRI(2,I) = ICSH(II)
-           ITRI(3,I) = IWORKSH(1,II)
+           ITRI(2,I) = IWORKSH(1,II)
+           DO J=1,NKEY
+             ITRI(2+J,I) = ACTIV_PLY(II,J)
+           ENDDO
          ENDDO
 C        
          MODE = 0
 C            
-          CALL MY_ORDERS(MODE, WORK, ITRI, INDX, NSH , 3)
-          NS = 1 
-          NFIRST(1) = 1
-          NLAST(1) = 1
+          NKEY = NKEY + 2
+          CALL MY_ORDERS(MODE, WORK, ITRI, INDX, NSH , NKEY)
+          NS_FIRST = 1 
+          NFIRST1(1) = 1
+          NLAST1(1) = 1
           DO I=2,NSH
-           II=ITRI(1,INDX(I))
-           JJ=ITRI(1,INDX(I-1))
-           II1=ITRI(2,INDX(I))
-           JJ1=ITRI(2,INDX(I-1))
-           II2=ITRI(3,INDX(I))
-           JJ2=ITRI(3,INDX(I-1))
-           IF(II /= JJ .OR. II1 /= JJ1  .OR.  II2 /= JJ2) THEN    
-               NS = NS + 1
-               NFIRST(NS) = I
-               NLAST(NS) = NFIRST(NS) 
-            ELSE
-               NLAST(NS) = NLAST(NS) + 1
-            ENDIF
-          ENDDO
-C
+             DO IKEY = 1, NKEY
+               II = ITRI(IKEY,INDX(I))
+               JJ = ITRI(IKEY,INDX(I-1))
+               IF(II /= JJ) THEN
+                  NS_FIRST = NS_FIRST + 1
+                  NFIRST1(NS_FIRST) = I
+                  NLAST1(NS_FIRST) = NFIRST1(NS_FIRST)
+                  EXIT
+               ELSEIF(IKEY == NKEY) THEN
+                 NLAST1(NS_FIRST) = NLAST1(NS_FIRST) + 1
+               ENDIF
+             ENDDO
+          ENDDO    
+          DEALLOCATE (ITRI)
+          !! sorting dependenping on numebr of slice = int point by ply for Type51
+          NS_TOTAL     = 0
+          NS_SUB       = 0
+          !!  
+          DO IS =1,NS_FIRST
+               ID    = NFIRST1(IS)
+               I     = INDX(ID)
+               II    = INDX_SH(I)
+               PID   = PID_SH(I)
+               IGTYP = IGEO(11,PID)
+               NKEY  = IWORKSH(1,II)
+               IF(IGTYP == 51) THEN
+                   NSH = NLAST1(IS) - NFIRST1(IS) + 1
+                   ALLOCATE(INDX1(2*NSH),ITRI(NKEY,NSH),INDX_SUB(NSH))
+                   INDX1 = 0
+                   ITRI = 0
+                   I1 = 0
+                   DO I= NFIRST1(IS), NLAST1(IS)
+                       ID = INDX(I)
+                       II = INDX_SH(ID)
+                       I1 = I1 + 1
+                       INDX1(I1) = I1
+                       INDX_SUB(I1) = ID
+                       DO J=1,NKEY
+                            ITRI(J,I1) = IWORK_T(II)%NPT_PLY(J)
+                       ENDDO
+                   ENDDO
+                   MODE = 0
+                   CALL MY_ORDERS(MODE, WORK, ITRI, INDX1, NSH , NKEY)
+                   ALLOCATE (NFIRST2(NSH) ,NLAST2(NSH))
+                   NS_SUB = 1 
+                   NFIRST2(1) = 1
+                   NLAST2(1)  = 1    
+                   DO I=2,NSH                                        
+                      DO IKEY = 1, NKEY                              
+                        II = ITRI(IKEY,INDX1(I))                      
+                        JJ = ITRI(IKEY,INDX1(I-1))                 
+                        IF(II /= JJ) THEN                            
+                           NS_SUB = NS_SUB + 1                   
+                           NFIRST2(NS_SUB) = I                     
+                           NLAST2(NS_SUB) = NFIRST2(NS_SUB)
+                           EXIT                                      
+                        ELSEIF(IKEY == NKEY) THEN                    
+                          NLAST2(NS_SUB) = NLAST2(NS_SUB) + 1    
+                        ENDIF                                        
+                      ENDDO                                    
+                   ENDDO 
+                   !!
+                   DO IIS = 1,NS_SUB 
+                      NS_TOTAL = NS_TOTAL + 1
+                      NFIRST(NS_TOTAL) = NFIRST1(IS) + NFIRST2(IIS) - 1
+                      NLAST(NS_TOTAL ) = NFIRST1(IS) + NLAST2(IIS)  - 1
+                      DO I = NFIRST2(IIS),NLAST2(IIS)
+                         I2  = NFIRST1(IS) + I - 1 
+                         INDX_TOTAL(I2) = INDX_SUB(INDX1(I)) ! 
+                     ENDDO
+                   ENDDO  
+                   DEALLOCATE(INDX1,NFIRST2,NLAST2, ITRI,INDX_SUB)
+               ELSE
+                 NS_TOTAL = NS_TOTAL + 1
+                 NFIRST(NS_TOTAL) = NFIRST1(IS)
+                 NLAST(NS_TOTAL ) = NLAST1(IS)
+                 DO I= NFIRST1(IS), NLAST1(IS)
+                     INDX_TOTAL(I) = INDX(I)
+                 ENDDO 
+               ENDIF
+          END DO
+          DEALLOCATE(NFIRST1,NLAST1)
 C  substack 
 C 
           NPT_STACK =  0
-          NS_STACK = NS
+          NS_STACK = NS_TOTAL         
 C
-          DO IS = 1,NS 
+          DO IS = 1,NS_TOTAL 
             ID  = NFIRST(IS)
-            I = INDX(ID)
+            I = INDX_TOTAL(ID)
             II  = INDX_SH(I)
             NPT = IWORKSH(1,II)
             NPT_STACK = MAX(NPT_STACK,NPT)
@@ -316,21 +423,21 @@ C
           IWORKS%IGEO = 0
           IWORKS%GEO = ZERO
 C         
-          DO IS = 1,NS
+          DO IS = 1,NS_TOTAL
             NGEO_STACK = NUMGEO + IS
             ID  = NFIRST(IS)
 C          
-            I = INDX(ID)
+            I = INDX_TOTAL(ID)
             II  = INDX_SH(I)
             PID =  PID_SH(I)
 !!            MAIN_PID(1,IS) =  PID_SH(II)  ! pid
 !!            MAIN_PID(2,IS) =  IWORKSH(1,II) ! npt
             NPT = IWORKSH(1,II)
 !C            ISUBSTACK(PID) = ISUBSTACK(PID) + 1
-            IIS = II 
+            IES = II 
 C          
             DO I= NFIRST(IS) , NLAST(IS)
-              ID = INDX(I)
+              ID = INDX_TOTAL(I)
               II = INDX_SH(ID)
               IWORKSH(2,II) = NGEO_STACK 
               IWORKSH(3,II) = IS  ! compter for all stack
@@ -351,7 +458,7 @@ C geometric property for each sub stack
                 JPID  = STACK_INFO(NUMS)%PID(J)
                 IF(NP <= NPT) THEN
                  DO JJ = 1,NPT
-                   JJPID =  IWORK_T(IIS)%PLYID(JJ)
+                   JJPID =  IWORK_T(IES)%PLYID(JJ)
                    IF(JJPID == JPID) THEN
                      NP = NP + 1
                      IPTPLY(NP) = J 
@@ -379,7 +486,7 @@ C geometric property
               IWORKS%IGEO(IPPID      + J,IS)  = STACK_INFO(NUMS)%PID(JSTACK) 
               IWORKS%IGEO(IPMAT      + J,IS)  = STACK_INFO(NUMS)%MID(JSTACK) 
               IWORKS%IGEO(IPMAT_IPLY + J,IS)  = STACK_INFO(NUMS)%MID_IP(JSTACK) 
-              IWORKS%IGEO(IPNPT_LAY  + J,IS)  = IWORK_T(II)%NPT_LAY(J) ! npt per laye
+              IWORKS%IGEO(IPNPT_LAY  + J,IS)  = IWORK_T(IES)%NPT_PLY(J) ! npt per laye
               IWORKS%GEO(IPANG       + J,IS)  = STACK_INFO(NUMS)%ANG(JSTACK)
               IWORKS%GEO(IPTHK       + J,IS)  = STACK_INFO(NUMS)%THK(JSTACK)
               IWORKS%GEO(IPPOS       + J,IS)  = STACK_INFO(NUMS)%POS(JSTACK)
@@ -387,6 +494,7 @@ C geometric property
               IWORKS%GEO(IPTHKLY     + J,IS)  = STACK_INFO(NUMS)%THKLY(JSTACK)
               IWORKS%GEO(IPWEIGHT    + J,IS)  = STACK_INFO(NUMS)%WEIGHT(JSTACK)
              ENDDO
+             
 C                      
 C to be  clarified later IPOS > 0 
             IPOS = IGEO(99,PID) 
@@ -439,14 +547,14 @@ C---
 C  update the shell thickness   NDRAPE =0         
 C---
               DO I= NFIRST(IS) , NLAST(IS)
-                ID = INDX(I)
+                ID = INDX_TOTAL(I)
                 II = INDX_SH(ID)
                 IF (THK(II) == ZERO) THK(II) = THICKT
               ENDDO             
 C============================================================================
-        ENDDO ! DO IS = 1,NS 
+        ENDDO ! DO IS = 1,NS_TOTAL 
 C           
-        DEALLOCATE(ICSH,INDX,ITRI)
+        DEALLOCATE(INDX,NFIRST,NLAST,INDX_TOTAL,ACTIV_PLY)
        ENDIF
 C 
 C   pccommp part
@@ -456,13 +564,15 @@ C---
        NPT_STACK0 = NPT_STACK
 C       
        IF(IPART_PCOMPP > 0) THEN
-!------------------------------------------------
-        ALLOCATE(ICSH(NUMELC+NUMELTG))
-        IF(NUMELC+NUMELTG > 0) ICSH = 0
 !!!------------------------------------------
-       !!          
-         NSH = 0
-C                
+         NPLY = 0
+         NSTACK = 0
+         DO I = 1, NUMPLY
+           IDS  = IGEO_STACK(42,NUMSTACK + I)
+           IF (IDS > 0) NPLY = NPLY+1
+         ENDDO     
+         !  
+         NSH = 0              
          DO I=1,NUMELC
              PID = IXC(6,I)
              IGTYP = IGEO(11,PID)
@@ -483,83 +593,179 @@ C
             ENDIF  
          ENDDO  
 C #####################################################"
+           NBIT =  BIT_SIZE(NPLY)
+           IREST = MOD(NPLY,NBIT)
+           NKEY = NPLY / NBIT
+           IF(IREST > 0) NKEY = NKEY + 1
+           ALLOCATE( ACTIV_PLY(NUMELC+NUMELTG,NKEY))
+           IF(NUMELC + NUMELTG > 0)ACTIV_PLY = 0
            DO I=1,NSH
              II = INDX_SH(I) 
              NPT = IWORKSH(1,II)
              IE_DRP = DRAPEG%INDX(II)             
-             ALLOCATE(IWORK_T(II)%NPT_LAY(NPT))
-             IWORK_T(II)%NPT_LAY = 0
+             ALLOCATE(IWORK_T(II)%NPT_PLY(NPT))
+             IWORK_T(II)%NPT_PLY = 0
              IF(IE_DRP > 0 .AND. NPT > 0) THEN
                DO J=1,NPT
                  IP = DRAPE(IE_DRP)%INDX_PLY(J) 
+                 N_PLY = IWORK_T(II)%PLYNUM(J)
+                 IKEY  = N_PLY / NBIT   ! 32 or 64  bits
+                 IF(MOD(N_PLY,NBIT) > 0 ) IKEY = IKEY + 1 
+                 IKEY  = MIN(IKEY, NKEY)
+                 IBIT  = N_PLY - (IKEY - 1)*NBIT  ! Bit corresponding to PLy 
+                 ACTIV_PLY(II,IKEY) = IBSET(ACTIV_PLY(II,IKEY),IBIT)
                  IF(IP > 0 ) THEN                            
                     DRAPE_PLY => DRAPE(IE_DRP)%DRAPE_PLY(IP)
                     NSLICE = DRAPE_PLY%NSLICE
                     IDPLY = IWORK_T(II)%PLYID(J) 
-                    ICSH(II) = ICSH(II) + NSLICE*IDPLY*IDPLY
-                    IWORK_T(II)%NPT_LAY(J) = NSLICE
+                    IWORK_T(II)%NPT_PLY(J) = NSLICE
                     PLY_INFO(2,IDPLY - NUMSTACK)  =  MAX(PLY_INFO(2,IDPLY - NUMSTACK),NSLICE)
                  ELSE
                     IDPLY = IWORK_T(II)%PLYID(J) 
                     NPT_LAY = IGEO_STACK(4,IDPLY)
-                    ICSH(II) = ICSH(II) + NPT_LAY*IDPLY*IDPLY
-                    IWORK_T(II)%NPT_LAY(J) = NPT_LAY
+                    IWORK_T(II)%NPT_PLY(J) = NPT_LAY
                  ENDIF
                ENDDO  
              ELSE
                IF(NPT > 0) THEN
                  DO J=1,NPT
+                    N_PLY = IWORK_T(II)%PLYNUM(J)                                                                    
+                    IKEY  = N_PLY / NBIT   ! 32 or 64  bits
+                    IF(MOD(N_PLY,NBIT) > 0 ) IKEY = IKEY + 1 
+                    IKEY  = MIN(IKEY, NKEY)
+                    IBIT  = N_PLY - (IKEY - 1)*NBIT  ! Bit corresponding to PLy 
+                    ACTIV_PLY(II,IKEY) = IBSET(ACTIV_PLY(II,IKEY),IBIT)
                     IDPLY = IWORK_T(II)%PLYID(J)
                     NPT_LAY = IGEO_STACK(4,IDPLY)
-                    ICSH(II) = ICSH(II) + NPT_LAY*IDPLY*IDPLY
-                    IWORK_T(II)%NPT_LAY(J) = NPT_LAY
+                    IWORK_T(II)%NPT_PLY(J) = NPT_LAY
                  ENDDO
                ENDIF 
              ENDIF   
             ENDDO  
 !!###########################################################"  
-          ALLOCATE(INDX(2*NSH),ITRI(3,NSH))
-          INDX = 0  
-          ITRI = 0
-          DO I = 1,NSH
-            INDX(I) = I
-            II = INDX_SH(I)
-            ITRI(1,I) = PID_SH(I)
-            ITRI(2,I) = ICSH(II)
-            ITRI(3,I) = IWORKSH(1,II)
-          ENDDO
-C          
-           MODE = 0
-!!         WORK = 0 
-           CALL MY_ORDERS(MODE, WORK, ITRI, INDX, NSH , 3)
-C       
-           NS = 1
-           NFIRST(1) = 1
-           NLAST(1) = 1
-           DO I=2,NSH
-             II=ITRI(1,INDX(I))
-             JJ=ITRI(1,INDX(I-1))
-             II1=ITRI(2,INDX(I))
-             JJ1=ITRI(2,INDX(I-1))
-             II2=ITRI(3,INDX(I))
-             JJ2=ITRI(3,INDX(I-1))
-             IF(II /= JJ .OR. II1 /= JJ1  .OR.  II2 /= JJ2) THEN    
-                NS = NS + 1
-                NFIRST(NS) = I
-                NLAST(NS) = NFIRST(NS) 
-             ELSE
-                NLAST(NS) = NLAST(NS) + 1
-             ENDIF
+         ALLOCATE(INDX(2*NSH),ITRI(2 + NKEY,NSH),INDX_TOTAL(NSH))
+         ALLOCATE (NFIRST(NSH) ,NLAST(NSH),
+     .             NFIRST1(NSH) ,NLAST1(NSH))
+         IF(NSH > 0) THEN
+           INDX       = 0  
+           ITRI       = 0
+           INDX_TOTAL = 0
+           NLAST      = 0
+           NFIRST     = 0
+           NFIRST1    = 0
+           NLAST1     = 0 
+         ENDIF 
+          !! sorting dependenping on numebr of number & type of ply 
+         DO I = 1,NSH
+           INDX(I) = I
+           II = INDX_SH(I)
+           ITRI(1,I) = PID_SH(I)
+           ITRI(2,I) = IWORKSH(1,II)
+           DO J=1,NKEY
+             ITRI(2+J,I) = ACTIV_PLY(II,J)
            ENDDO
+         ENDDO
+C        
+         MODE = 0
+C            
+          NKEY = NKEY + 2
+C       
+          CALL MY_ORDERS(MODE, WORK, ITRI, INDX, NSH , NKEY)
+          NS_FIRST = 1 
+          NFIRST1(1) = 1
+          NLAST1(1) = 1
+          DO I=2,NSH
+             DO IKEY = 1, NKEY
+               II = ITRI(IKEY,INDX(I))
+               JJ = ITRI(IKEY,INDX(I-1))
+               IF(II /= JJ) THEN
+                  NS_FIRST = NS_FIRST + 1
+                  NFIRST1(NS_FIRST) = I
+                  NLAST1(NS_FIRST) = NFIRST1(NS_FIRST)
+                  EXIT
+               ELSEIF(IKEY == NKEY) THEN
+                 NLAST1(NS_FIRST) = NLAST1(NS_FIRST) + 1
+               ENDIF
+             ENDDO
+          ENDDO    
+          DEALLOCATE (ITRI)
+          !! sorting dependenping on numebr of slice by ply = int point by ply for Type51
+          NS_TOTAL     = 0
+          NS_SUB       = 0
+          !!  
+          DO IS =1,NS_FIRST
+               ID    = NFIRST1(IS)
+               I     = INDX(ID)
+               II    = INDX_SH(I)
+               PID   = PID_SH(I)
+               IGTYP = IGEO(11,PID)
+               NKEY  = IWORKSH(1,II)
+               IF(IGTYP == 51) THEN
+                   NSH = NLAST1(IS) - NFIRST1(IS) + 1
+                   ALLOCATE(INDX1(2*NSH),ITRI(NKEY,NSH),INDX_SUB(NSH))
+                   INDX1 = 0
+                   ITRI = 0
+                   I1 = 0
+                   DO I= NFIRST1(IS), NLAST1(IS)
+                       ID = INDX(I)
+                       II = INDX_SH(ID)
+                       I1 = I1 + 1
+                       INDX1(I1) = I1
+                       INDX_SUB(I1) = ID
+                       DO J=1,NKEY
+                            ITRI(J,I1) = IWORK_T(II)%NPT_PLY(J)
+                       ENDDO
+                   ENDDO
+                   MODE = 0
+                   CALL MY_ORDERS(MODE, WORK, ITRI, INDX1, NSH , NKEY)
+                   ALLOCATE (NFIRST2(NSH) ,NLAST2(NSH))
+                   NS_SUB = 1 
+                   NFIRST2(1) = 1
+                   NLAST2(1)  = 1                        
+                   DO I=2,NSH                                        
+                      DO IKEY = 1, NKEY                              
+                        II = ITRI(IKEY,INDX1(I))                      
+                        JJ = ITRI(IKEY,INDX1(I-1))                    
+                        IF(II /= JJ) THEN                            
+                           NS_SUB = NS_SUB + 1                   
+                           NFIRST2(NS_SUB) = I                     
+                           NLAST2(NS_SUB) = NFIRST2(NS_SUB)
+                           EXIT                                      
+                        ELSEIF(IKEY == NKEY) THEN                    
+                          NLAST2(NS_SUB) = NLAST2(NS_SUB) + 1    
+                        ENDIF                                        
+                      ENDDO                                    
+                   ENDDO 
+                   !!
+                   DO IIS = 1,NS_SUB 
+                      NS_TOTAL = NS_TOTAL + 1
+                      NFIRST(NS_TOTAL) = NFIRST1(IS) + NFIRST2(IIS) - 1
+                      NLAST(NS_TOTAL ) = NFIRST1(IS) + NLAST2(IIS)  - 1
+                      DO I = NFIRST2(IIS),NLAST2(IIS)
+                         I2  =  NFIRST1(IS) + I - 1 
+                         INDX_TOTAL(I2) = INDX_SUB(INDX1(I)) ! 
+                     ENDDO
+                   ENDDO  
+                   DEALLOCATE(INDX1,NFIRST2,NLAST2, ITRI,INDX_SUB)
+               ELSE
+                 NS_TOTAL = NS_TOTAL + 1
+                 NFIRST(NS_TOTAL) = NFIRST1(IS)
+                 NLAST(NS_TOTAL ) = NLAST1(IS)
+                 DO I= NFIRST1(IS), NLAST1(IS)
+                     INDX_TOTAL(I) = INDX(I)
+                 ENDDO 
+               ENDIF
+          END DO
+          DEALLOCATE(NFIRST1,NLAST1)
 C
 C  sous stack 
 C    
-           ALLOCATE(IDSTACK(NS))
+           ALLOCATE(IDSTACK(NS_TOTAL))
            IDSTACK = 0
-           NS_STACK = NS_STACK + NS 
-           DO IS = 1,NS
+           NS_STACK = NS_STACK + NS_TOTAL 
+           DO IS = 1,NS_TOTAL
              ID  = NFIRST(IS)
-             I = INDX(ID)
+             I = INDX_TOTAL(ID)
              II  = INDX_SH(I)
              NPT = IWORKSH(1,II)
              NPT_STACK = MAX(NPT_STACK,NPT)
@@ -578,21 +784,21 @@ C
            STACK%GEO = ZERO
            STACK%PM = ZERO
 C         
-           DO IS = 1,NS
+           DO IS = 1,NS_TOTAL
 C a changer        
               NGEO_STACK = NUMGEO + NUMSTACK + NUMPLY +  IS  !!!!!!! limit id i will change it 
               ID  = NFIRST(IS)
 C              
-              I = INDX(ID)
+              I = INDX_TOTAL(ID)
               II  = INDX_SH(I)
               PID =  PID_SH(I)
 !!              MAIN_PID(1,IS) =  PID_SH(II)  ! pid
 !!              MAIN_PID(2,IS) =  IWORKSH(1,II) ! npt
               NPT = IWORKSH(1,II)
-              IIS = II               
+              IES = II               
 C              
              DO I= NFIRST(IS) , NLAST(IS)
-                 ID = INDX(I)
+                 ID = INDX_TOTAL(I)
                  II = INDX_SH(ID)
                  IWORKSH(2,II) = NGEO_STACK 
                  IWORKSH(3,II) = NS_STACK0 + IS   ! compter for all stack
@@ -615,7 +821,7 @@ C
                  JPID = STACK_INFO(NUMS)%PID(J)
                  IF(NP <= NPT) THEN
                   DO JJ = 1,NPT
-                    JJPID =  IWORK_T(IIS)%PLYID(JJ)
+                    JJPID =  IWORK_T(IES)%PLYID(JJ)
                     IF(JJPID == JPID) THEN
                       NP = NP + 1
                       IPTPLY(NP) = J 
@@ -648,7 +854,7 @@ C stack id
             STACK%IGEO(IPPID+J       ,IIS)  = STACK_INFO(NUMS)%PID(JS)
             STACK%IGEO(IPMAT + J     ,IIS)  = STACK_INFO(NUMS)%MID(JS)
             STACK%IGEO(IPMAT_IPLY+J  ,IIS)  = STACK_INFO(NUMS)%MID_IP(JS)
-            STACK%IGEO(IPNPT_LAY  + J,IIS)  = IWORK_T(II)%NPT_LAY(J) ! npt per laye 
+            STACK%IGEO(IPNPT_LAY  + J,IIS)  = IWORK_T(IES)%NPT_PLY(J) ! npt per laye 
             STACK%GEO(IPANG + J      ,IIS)  = STACK_INFO(NUMS)%ANG(JS)
             STACK%GEO(IPTHK + J      ,IIS)  = STACK_INFO(NUMS)%THK(JS)
             STACK%GEO(IPPOS + J      ,IIS)  = STACK_INFO(NUMS)%POS(JS)
@@ -714,7 +920,7 @@ C  update the shell thickness if /DRAPE defined
 C---
 !!  (NDRAPE == 0) 
               DO I= NFIRST(IS) , NLAST(IS)
-                ID = INDX(I)
+                ID = INDX_TOTAL(I)
                 II = INDX_SH(ID)
                 IF (THK(II) == ZERO) THK(II) = THICKT
               ENDDO
@@ -727,14 +933,14 @@ C---
             ENDDO   
         ENDDO ! DO IS = 1,NS
 C---
-         DEALLOCATE(ICSH,INDX,ITRI,IDSTACK)
+         DEALLOCATE(INDX,NFIRST,NLAST,INDX_TOTAL,IDSTACK,ACTIV_PLY)
        ENDIF
 C
        DO I=1,NUMELC + NUMELTG 
              NPT = IWORKSH(1,I) 
             IF(NPT > 0) THEN
               DEALLOCATE(IWORK_T(I)%PLYID)
-              DEALLOCATE(IWORK_T(I)%NPT_LAY)
+              DEALLOCATE(IWORK_T(I)%NPT_PLY)
             ENDIF  
        ENDDO
        IF(IPART_STACK > 0) THEN  
@@ -795,7 +1001,7 @@ C
 C for restart       
        IF(IPART_PCOMPP > 0 .AND. IPART_STACK == 0) IPART_STACK = 1
        
-       DEALLOCATE (INDX_SH,PID_SH,NFIRST ,NLAST,ISUBSTACK,
+       DEALLOCATE (INDX_SH,PID_SH,ISUBSTACK,
      .                IPTPLY, WORK ) 
 C--------
       RETURN

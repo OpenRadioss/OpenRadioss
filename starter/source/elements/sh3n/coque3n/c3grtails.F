@@ -189,7 +189,7 @@ C
          DO I =1, NEL
            IEL0 = DRAPEG%INDX(NUMELC + I + NFT)
            IF(IEL0 == 0) CYCLE 
-           NPT = IWORKSH(1,NUMELC + I + NFT) 
+           NPT     = DRAPE(IEL0)%NPLY
            NPT_DRP = DRAPE(IEL0)%NPLY_DRAPE                                               
            ALLOCATE(XNUM_DRAPE(I)%INDX_PLY(NPT))                                              
            ALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY(NPT_DRP))        
@@ -233,7 +233,8 @@ C
             IEL0 = DRAPEG%INDX(NUMELC + NFT + I)                                                  
             XNUM_DRAPEG%INDX(I) = IEL0                              
             IF(IEL0 == 0) CYCLE                                                   
-            NPT = IWORKSH(1,NUMELC + NFT + I)                                   
+            NPT = DRAPE(IEL0)%NPLY
+            XNUM_DRAPE(I)%NPLY  = NPT                                
             XNUM_DRAPE(I)%INDX_PLY(1:NPT) = DRAPE(IEL0)%INDX_PLY(1:NPT)
             NPT = DRAPE(IEL0)%NPLY_DRAPE                                      
             XNUM_DRAPE(I)%NPLY_DRAPE = NPT           
@@ -326,7 +327,8 @@ C
             DRAPEG%INDX(NUMELC + NFT + I)= 0                                         
             IF(IEL0 == 0) CYCLE                                                               
             IEL = IEL + 1                                                                      
-            NPT = IWORKSH(1,NUMELC + NFT + I) ! number of layer shell                                 
+            NPT = XNUM_DRAPE(INDEX(I))%NPLY ! number of layer shell 
+            DRAPE(IEL)%NPLY = NPT                              
             DRAPEG%INDX(NUMELC + NFT + I)= IEL  
             ALLOCATE(DRAPE(IEL)%INDX_PLY(NPT)) 
             DRAPE(IEL)%INDX_PLY = 0                            

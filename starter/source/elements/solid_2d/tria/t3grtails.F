@@ -190,7 +190,7 @@ C
          DO I =1, NEL
            IEL0 = DRAPEG%INDX(NUMELC + I + NFT)
            IF(IEL0 == 0) CYCLE 
-           NPT = IWORKSH(1,NUMELC + I + NFT) 
+           NPT = DRAPE(IEL0)%NPLY 
            NPT_DRP = DRAPE(IEL0)%NPLY_DRAPE                                               
            ALLOCATE(XNUM_DRAPE(I)%INDX_PLY(NPT_DRP))                                              
            ALLOCATE(XNUM_DRAPE(I)%DRAPE_PLY(NPT_DRP))        
@@ -233,8 +233,9 @@ C
            !drape structure                                                      
            IEL0 = DRAPEG%INDX(NUMELC + NFT + I)
            XNUM_DRAPEG%INDX(I) = IEL0                                              
-           IF(IEL0 == 0) CYCLE                                                     
-           NPT = IWORKSH(1,NUMELC + NFT + I)  
+           IF(IEL0 == 0) CYCLE   
+           NPT = DRAPE(IEL0)%NPLY
+           XNUM_DRAPE(I)%NPLY  =  NPT 
            XNUM_DRAPE(I)%INDX_PLY(1:NPT) = DRAPE(IEL0)%INDX_PLY(1:NPT)             
            NPT = DRAPE(IEL)%NPLY_DRAPE                                            
            XNUM_DRAPE(I)%NPLY_DRAPE = NPT                                        
@@ -324,7 +325,8 @@ C
             SH3ANG(NFT+I) = ANGLE(INDEX(I))                   
             IF(XNUM_DRAPEG%INDX(INDEX(I)) == 0) CYCLE
             IEL = IEL + 1                                                                      
-            NPT = IWORKSH(1,NUMELC + NFT + I) ! number of layer shell                                 
+            NPT = XNUM_DRAPE(INDEX(I))%NPLY ! number of ply 
+            DRAPE(IEL)%NPLY = NPT                                    
             DRAPEG%INDX(NUMELC + NFT + I)= IEL
             ALLOCATE(DRAPE(IEL)%INDX_PLY(NPT))                                 
             DRAPE(IEL)%INDX_PLY(1:NPT) =  XNUM_DRAPE(INDEX(I))%INDX_PLY(1:NPT)

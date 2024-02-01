@@ -118,7 +118,7 @@ C
                IDGR3N(NPLY)  = IGEO(41,I) ! groupe shell 3N id
            ENDIF
          ENDDO
-C  transformation d'id groupe     
+C  transformation d'id groupe    
           DO 10 I=1,NPLY
 C shell 4N id group          
             ID = IDGR4N(I)
@@ -194,7 +194,6 @@ C eleme  nt type Q4 or T3
 C eleme  nt type T3 
                   ITY = IGRSH3N(J)%GRTYPE
                    DO 200 II = 1,NEL
-
                      ISH3N = IGRSH3N(J)%ENTITY(II)
                      PID = IXTG(5,ISH3N)
                      IGTYP = IGEO(11,PID)
@@ -247,11 +246,13 @@ C #####################################################"
            DO I=1,NUMELC  
              PID   = IXC(6,I)
              IGTYP = IGEO(11,PID) 
-             NPT   = IWORKSH(1,I)
+             NPT   = IWORKSH(1,I)    
              IF(IGTYP == 17 .OR. IGTYP == 51  .AND. NPT > 0) THEN
                ALLOCATE(IWORK_T(I)%PLYID(NPT))
+               ALLOCATE(IWORK_T(I)%PLYNUM(NPT))
                IWORK_T(I)%PLYID = 0
-               IWORKSH(1,I) = 0
+               IWORKSH(1,I)     = 0
+               IWORK_T(I)%PLYNUM    = 0
              ENDIF   
            ENDDO  
            ! sh3n element          
@@ -262,8 +263,10 @@ C #####################################################"
              NPT   = IWORKSH(1,II)
              IF((IGTYP == 17 .OR. IGTYP == 51) .AND. NPT > 0) THEN
                ALLOCATE(IWORK_T(II)%PLYID(NPT))
+               ALLOCATE(IWORK_T(II)%PLYNUM(NPT))
                IWORK_T(II)%PLYID = 0
-               IWORKSH(1,II) = 0
+               IWORKSH(1,II)     = 0
+               IWORK_T(II)%PLYNUM    = 0
              ENDIF   
            ENDDO  
 !    ply to element
@@ -288,6 +291,7 @@ C eleme  nt type Q4 or T3
                                  IWORKSH (1,IDSHEL) = IWORKSH(1,IDSHEL) + 1
                                  NPT = IWORKSH (1,IDSHEL)
                                  IWORK_T(IDSHEL)%PLYID(NPT) = IDPLY
+                                 IWORK_T(IDSHEL)%PLYNUM(NPT) = I
                                 GOTO 101
                              ENDIF 
                           ENDDO
@@ -312,6 +316,7 @@ C eleme  nt type T3
                                 IWORKSH(1,IDSHEL) =   IWORKSH(1,IDSHEL ) + 1
                                  NPT = IWORKSH(1,IDSHEL)
                                  IWORK_T(IDSHEL)%PLYID(NPT) = IDPLY
+                                 IWORK_T(IDSHEL)%PLYNUM(NPT) = I
                                 GOTO 202
                              ENDIF 
                           ENDDO
@@ -330,6 +335,7 @@ C
                                 IWORKSH(1,II) = IWORKSH(1,II) + 1
                                 NPT = IWORKSH(1,II)
                                 IWORK_T(II)%PLYID(NPT) = IDPLY
+                                IWORK_T(II)%PLYNUM(NPT) = I
                                 GOTO 333
                              ENDIF 
                           ENDDO
@@ -346,6 +352,7 @@ C
                                  IWORKSH(1,ITG) = IWORKSH(1,ITG) + 1
                                  NPT = IWORKSH(1,ITG)
                                  IWORK_T(ITG)%PLYID(NPT) = IDPLY
+                                 IWORK_T(ITG)%PLYNUM(NPT)    = I
                                 GOTO 404
                              ENDIF 
                           ENDDO
@@ -476,9 +483,11 @@ C
              NPT   = IWORKSH(1,I)
              IF(IGTYP == 52 .AND. NPT > 0) THEN
                ALLOCATE(IWORK_T(I)%PLYID(NPT))
+               ALLOCATE(IWORK_T(I)%PLYNUM(NPT))
                IWORK_T(I)%PLYID   = 0
                IWORK_T(I)%IDSTACK = 0
                IWORKSH(1,I)       = 0
+               IWORK_T(I)%PLYNUM      = 0
              ENDIF  
            ENDDO
            DO I=1, NUMELTG  
@@ -488,9 +497,11 @@ C
              NPT   = IWORKSH(1,II)
              IF(IGTYP == 52 .AND. NPT > 0) THEN
                 ALLOCATE(IWORK_T(II)%PLYID(NPT) )
+               ALLOCATE(IWORK_T(II)%PLYNUM(NPT))
                 IWORK_T(II)%PLYID   = 0
                 IWORK_T(II)%IDSTACK = 0
                 IWORKSH(1,II)       = 0
+               IWORK_T(II)%PLYNUM      = 0
               ENDIF  
            ENDDO
 C
@@ -514,10 +525,12 @@ C element type Q4
                           NPT = IWORKSH (1,IDSHEL)
                           IWORK_T(IDSHEL)%PLYID(NPT) = IDPLY
                           IWORK_T(IDSHEL)%IDSTACK = IDS
+                          IWORK_T(IDSHEL)%PLYNUM(NPT) = I
                       ELSEIF(IWORK_T(IDSHEL)%IDSTACK == IDS) THEN
                           IWORKSH (1,IDSHEL) = IWORKSH(1,IDSHEL) + 1
                           NPT = IWORKSH (1,IDSHEL)
                           IWORK_T(IDSHEL)%PLYID(NPT) = IDPLY
+                          IWORK_T(IDSHEL)%PLYNUM(NPT) = I
                       ELSE
 C  message d'erreur      
                         IPID_1=IGEO_STACK(1,IWORK_T(IDSHEL)%IDSTACK)
@@ -552,10 +565,12 @@ C element type T3
                           NPT = IWORKSH(1,IDSHEL)
                           IWORK_T(IDSHEL)%PLYID(NPT) = IDPLY
                           IWORK_T(IDSHEL)%IDSTACK= IDS
+                          IWORK_T(IDSHEL)%PLYNUM(NPT) = I
                       ELSEIF(IWORK_T(IDSHEL)%IDSTACK == IDS) THEN
                            IWORKSH(1,IDSHEL) =   IWORKSH(1,IDSHEL ) + 1
                            NPT = IWORKSH(1,IDSHEL)
                            IWORK_T(IDSHEL)%PLYID(NPT) = IDPLY
+                           IWORK_T(IDSHEL)%PLYNUM(NPT) = I
                       ELSE
 C  message d'erreur
                         IPID_1=IGEO_STACK(1,IWORK_T(IDSHEL)%IDSTACK)
