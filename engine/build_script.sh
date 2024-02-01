@@ -395,6 +395,17 @@ fi
 
 make -j ${threads} ${verbose}
 return_value=$?
+
+if [ $debug == 'asan' ]
+then
+    echo " "
+    echo "Warning:"
+    echo "--------"
+    echo "Build was made with debug configuration."
+    echo "To enable optimization, add -release flag."
+    echo " "
+fi
+
 if [ $return_value -ne 0 ]
 then
    echo " " 
