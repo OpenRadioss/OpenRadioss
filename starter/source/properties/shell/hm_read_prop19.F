@@ -168,13 +168,13 @@ C-------------------------------------------------
      &    5X,'CONFIDENTIAL DATA'//)
  2000 FORMAT(
      & 5X,'LAYER PROPERTY SET ',/,
-     & 5X,'PROPERTY SET NUMBER . . . . . . . . . . . .  . .=',I10/,
-     & 5X,'MATERIAL NUMBER . . . . . . . . . . . . . .  . .=',I10/,
-     & 5X,'LAYER THICKNESS . . . . . . . . . . . . . . .  .=',1PG20.13/,
-     & 5X,'INCRMENTAL ANGLE (DIR 1,PROJ(DIR 1 / SHELL). . .=',1PG20.13/,      
-     & 5X,'SHELL 4-nodes GROUP IDENTIFIER. . . . . . .  . .=',I10/,
-     & 5X,'SHELL 3-nodes GROUP IDENTIFIER. . . . . . .  . .=',I10/,
-     & 5X,'NUMBER OF INTEGRATION POINTS THROUGH LAYER.  . .=',I10/,
+     & 5X,'PROPERTY SET NUMBER . . . . . . . . . . . . . . =',I10/,
+     & 5X,'MATERIAL NUMBER . . . . . . . . . . . . . . . . =',I10/,
+     & 5X,'LAYER THICKNESS . . . . . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'INCREMENTAL ANGLE (DIR 1,PROJ(DIR 1 / SHELL). . =',1PG20.13/,      
+     & 5X,'SHELL 4-nodes GROUP IDENTIFIER. . . . . . . . . =',I10/,
+     & 5X,'SHELL 3-nodes GROUP IDENTIFIER. . . . . . . . . =',I10/,
+     & 5X,'NUMBER OF INTEGRATION POINTS THROUGH LAYER. . . =',I10/,
      & 5X,'ORTHOTROPY ANGLE BETWEEN (DIR 1,DIR 2). . . . . =',1PG20.13/,
-     & 5X,'DRAPE IDENTIFIER  . . . . . . . . . . . . .  . .=',I10/)
+     & 5X,'DRAPE IDENTIFIER  . . . . . . . . . . . . . . . =',I10/)
       END SUBROUTINE HM_READ_PROP19
