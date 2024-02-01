@@ -982,7 +982,7 @@ C   springs
      . 'D2G_Z   ','D1L_X   ','D1L_Y   ','D1L_Z   ','D2L_X   ',
      . 'D2L_Y   ','D2L_Z   ','R1G_X   ','R1G_Y   ','R1G_Z   ',
      . 'R2G_X   ','R2G_Y   ','R2G_Z   ','R1L_X   ','R1L_Y   ',
-     . 'G1L_Z   ','G2L_X   ','G2L_Y   ','G2L_Z   ','LENGTH  ',
+     . 'R1L_Z   ','R2L_X   ','R2L_Y   ','R2L_Z   ','LENGTH  ',
      . 'FAIL    '/
 
       DATA VARNS/
