@@ -53,11 +53,12 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_EOS(
-     .           IPM      ,PM       ,BUFMAT   ,BUFLEN   ,IADBUF   ,
-     .           EOS_TAG  ,UNITAB   ,LSUBMODEL)
+     .           MAT_PARAM   ,IPM      ,PM       ,BUFMAT   ,
+     .           BUFLEN      ,IADBUF   ,EOS_TAG  ,UNITAB   ,LSUBMODEL)
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
+      USE MATPARAM_DEF_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD            
@@ -83,6 +84,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(INOUT) :: IPM
       my_real ,DIMENSION(NPROPM ,NUMMAT) ,INTENT(INOUT) :: PM
       my_real ,DIMENSION(*)              ,INTENT(INOUT) :: BUFMAT
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       TYPE(EOS_TAG_),DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG
       TYPE(SUBMODEL_DATA) ,DIMENSION(*)  ,INTENT(IN)    :: LSUBMODEL
 C-----------------------------------------------
@@ -278,6 +280,7 @@ c---
         END SELECT
 c
         IPM(4,IMAT) = IEOS
+        MAT_PARAM(IMAT)%IEOS = IEOS
 c--------------------------------------------------
 c
       ENDDO      !  HM_NEOS

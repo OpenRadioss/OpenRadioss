@@ -84,6 +84,9 @@ c
         MAT_ELEM%MAT_PARAM(IMAT)%PROP_SPRING = 0
         MAT_ELEM%MAT_PARAM(IMAT)%PROP_TRUSS  = 0
         MAT_ELEM%MAT_PARAM(IMAT)%PROP_SPH    = 0       
+c
+        ! Options compatibility flags
+        MAT_ELEM%MAT_PARAM(IMAT)%COMPATIBILITY_EOS = 0
 c        
       END DO
 c-----------

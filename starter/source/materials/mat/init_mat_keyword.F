@@ -252,6 +252,9 @@ c
 c
         CASE ("SPH")               ! Compatibility with /PROP/TYPE 34
           MATPARAM%PROP_SPH = 1         
+c          
+        CASE ("EOS")      
+          MATPARAM%COMPATIBILITY_EOS = 1 ! Compatibility with option /EOS
 c
         CASE DEFAULT      
           ! write error : keyword not recognized"

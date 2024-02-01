@@ -241,13 +241,16 @@ c
         INTEGER     :: STRAIN_FORMULATION   ! "total", "incremental"
         INTEGER     :: IPRES                ! "hydrostatic",hydro_eos","hook"
         INTEGER     :: ORTHOTROPY           ! "isotropic", "orthotropic", "anisotropic"
-        ! ------- properties compatibility flags
+        ! ------- compatibility flags
         INTEGER     :: PROP_SOLID           ! "solid_isotropic","solid_orthotropic","solid_composite","solid_cohesive"   ,"solid_porous","solid_all"
         INTEGER     :: PROP_SHELL           ! "shell_isotropic","shell_orthotropic","shell_composite","shell_anisotropic","shell_all"
         INTEGER     :: PROP_BEAM            ! "beam_classic"   ,"beam_integrated"  ,"beam_all"
         INTEGER     :: PROP_SPRING          ! "spring_predit"  ,"spring_material"  ,"spring_all"
         INTEGER     :: PROP_TRUSS           ! "truss"
         INTEGER     :: PROP_SPH             ! "sph"
+        INTEGER     :: COMPATIBILITY_EOS    ! "eos"
+!        INTEGER     :: COMPATIBILITY_VISC   ! "visc"
+!        INTEGER     :: COMPATIBILITY_NLOC   ! "nloc"
         ! --------------------------------- !  
         INTEGER     :: NLOC                 ! non-local variable regularization flag
         INTEGER     :: IFAILWAVE            ! failwave propagation flag

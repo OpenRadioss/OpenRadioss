@@ -146,7 +146,13 @@ C-----------------------------------------------
       PARMAT(1) = C1
 
       ! MATPARAM keywords
+
+      ! Material compatibility with /EOS option
+      CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
+
+      ! EOS/Thermo keyword for pressure treatment in elements
       CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
+
       ! Properties compatibility 
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_POROUS")     
 

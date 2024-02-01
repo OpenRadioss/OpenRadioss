@@ -167,9 +167,13 @@ C-----------------------------------------------
       
       IPM(04)=IEOS
 
-      ! EOS/Thermo keyword
-      CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
+      ! Material compatibility with /EOS option
+      CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
+
+      ! EOS/Thermo keyword for pressure treatment in elements
       CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
+
+      CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
 
       ! Properties compatibility
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_POROUS")

@@ -342,9 +342,13 @@ C---- Buffer Size for specific element buffer allocations
       MTAG%L_PLA   = 1     ! /TH(VPLA)
       MTAG%L_EPSQ  = 1     ! /TH(EPSP) 
       
-      ! EOS/Thermo keyword
-      CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
+      ! Material compatibility with /EOS option
+      CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
+
+      ! EOS/Thermo keyword for pressure treatment in elements
       CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
+
+      CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
 
       ! Properties compatibility
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")

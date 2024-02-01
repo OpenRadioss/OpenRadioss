@@ -60,8 +60,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NG,IGTYP,PID,PROP_ID,NLAY,IL,IMAT,ILAW,MAT_ID,K,ITY,ISNOD,NFT
-      LOGICAL :: COMPAT_ELEM,COMPAT_PROP
+      INTEGER :: NG,IGTYP,PID,PROP_ID,NLAY,IL,IMAT,ILAW,IEOS,MAT_ID,K,ITY,ISNOD,NFT
+      LOGICAL :: COMPAT_ELEM,COMPAT_PROP,COMPAT_EOS
       CHARACTER (LEN = 10) :: ELTYP
 c
       !===============================================================================
@@ -90,12 +90,15 @@ c
             ! Layer parameters                                         
             IMAT   = ELBUF_STR(NG)%BUFLY(IL)%IMAT  ! -> Material internal ID 
             ILAW   = ELBUF_STR(NG)%BUFLY(IL)%ILAW  ! -> Material law type
+            IEOS   = MAT_PARAM(IMAT)%IEOS
             MAT_ID = IPM(1,IMAT) ! -> Material user ID
 c
             ! ==============================================================
             ! CHECK MATERIAL LAW AND ELEMENT COMPATIBILITY
             ! ==============================================================
             COMPAT_ELEM = .TRUE. 
+            COMPAT_EOS  = .TRUE.
+c
             SELECT CASE (ITY)
               ! ------------------------------------------------------------
               ! SOLID ELEMENTS
@@ -221,8 +224,15 @@ c
               CASE (34)
                 IF (MAT_PARAM(IMAT)%PROP_SPH /= 1) COMPAT_PROP = .FALSE.
             END SELECT   
-            ! ==============================================================
 c
+            ! ==============================================================
+            ! CHECK MATERIAL LAW COMPATIBILITY WITH /EOS option
+            ! ==============================================================
+             IF (IEOS > 0 .and. MAT_PARAM(IMAT)%COMPATIBILITY_EOS == 0) THEN              
+               COMPAT_EOS = .FALSE.
+             END IF
+c
+          ! ==============================================================  
             ! ==============================================================
             ! SAVE ERROR MESSAGES IF NOT COMPATIBLE
             ! ==============================================================
@@ -245,6 +255,12 @@ c
      .                    I3=MAT_ID,    
      .                    I4=ILAW,
      .                    PRMOD=MSG_CUMU)
+            ENDIF
+            ! -> Not compatible with /EOS option
+            IF (.NOT. COMPAT_EOS) THEN 
+              CALL ANCMSG(MSGID=824,  MSGTYPE=MSGERROR, ANMODE=ANINFO,                                                                                            
+     .                  I1=MAT_ID,                                                                                              
+     .                  C1=' ',I2=ILAW)                                                                                           
             ENDIF
             ! ==============================================================
           ENDDO
@@ -334,8 +350,7 @@ c
             ! ------------------------------------------------------------  
             CASE DEFAULT 
               COMPAT_ELEM = .TRUE.
-          END SELECT 
-          ! ==============================================================  
+          END SELECT ! IGTYP
 c
           ! Property parameters
           PROP_ID = IGEO(1,PID) ! -> Property user ID

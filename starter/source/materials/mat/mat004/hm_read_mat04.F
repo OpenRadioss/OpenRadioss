@@ -241,7 +241,10 @@ C     Formulation for solid elements time step computation.
       MTAG%L_TEMP = 1
       MTAG%L_EPSD = 1   
 
-      ! EOS/Thermo keyword
+      ! Material compatibility with /EOS option
+      CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
+
+      ! EOS/Thermo keyword for pressure treatment in elements
       CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
 
       ! Properties compatibility
