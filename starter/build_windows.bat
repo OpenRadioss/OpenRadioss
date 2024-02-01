@@ -169,6 +169,15 @@ if errorLevel=1 (
 
 ninja %verbose% -j %jobs%
 
+if %debug%==chkb (
+    echo.
+    echo Warning:
+    echo --------
+    echo Build was made with debug configuration.
+    echo To enable optimization, add -release flag.
+    echo.
+)
+
 if errorLevel=1 (
 
   echo.
