@@ -237,7 +237,7 @@ c             error out
                 IF (TJ>ZERO) MOMJ(1:3) = S6(1:3)/TJ
                ENDDO
                SIGSH(22:26,II)=FORJ(1:5)
-               SIGSH(27:29,II)=MOMJ(1:3)
+               SIGSH(28:30,II)=MOMJ(1:3)
             ELSE
              TXX = SIGSH(22,II)
              TYY = SIGSH(23,II)
