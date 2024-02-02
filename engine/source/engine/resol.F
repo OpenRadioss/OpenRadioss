@@ -3517,16 +3517,12 @@ C
           DT2T = DT2TT
           NELTST = NELTSTT
           ITYPTST= ITYPTSTT
-          ENDIF
+        ENDIF
 #include "lockoff.inc"
 
 !$OMP END PARALLEL
         IF(INTER_ERRORS > 0) THEN
-          CALL SORTIE_ERROR(
-     1     V        ,NODGLOB    ,WEIGHT     ,ITAB       ,MS          ,
-     2     MS0      ,10         ,PARTSAV    ,IPART      ,PM          ,
-     3     IGEO     )
-           CALL ARRET(2)
+           MSTOP = 2
         ENDIF
 
 
