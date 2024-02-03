@@ -47,6 +47,7 @@ Chd|        INITIME                       source/system/timer.F
 Chd|        INI_MSG                       source/output/message/inimsg.F
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        MY_EXIT                       source/output/analyse/analyse.c
+Chd|        NAMES_AND_TITLE_INIT          ../common_source/modules/names_and_titles_mod.F
 Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
 Chd|        PRHELPINFO                    source/starter/execargcheck.F 
 Chd|        PRINTCENTER                   source/starter/radioss_title.F

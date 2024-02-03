@@ -71,6 +71,8 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  NAMES_AND_TITLE_INIT          modules/names_and_titles_mod.F
 Chd|-- called by -----------
+Chd|        STARTER0                      starter/source/starter/starter0.F
+Chd|        RADIOSS2                      engine/source/engine/radioss2.F
 Chd|-- calls ---------------
 Chd|====================================================================
         SUBROUTINE NAMES_AND_TITLE_INIT(NAMES_AND_TITLES)

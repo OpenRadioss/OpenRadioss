@@ -68,6 +68,7 @@ Chd|        LECTUR                        source/input/lectur.F
 Chd|        LF_CONVERT_C_FLAT             source/engine/lf_convert_c.c  
 Chd|        LOADPREST                     source/output/restart/rdresb.F
 Chd|        MY_GETPID                     source/system/pid.c           
+Chd|        NAMES_AND_TITLE_INIT          ../common_source/modules/names_and_titles_mod.F
 Chd|        NFRREST                       source/output/restart/rdresb.F
 Chd|        NITSCHERREST                  source/output/restart/rdresb.F
 Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
