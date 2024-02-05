@@ -42,13 +42,13 @@ Chd|====================================================================
 C-----------------------------------------------
             ! Global parameters for strings
             PARAMETER (NCHARKEY      = 20)
-            PARAMETER (NCHARLINE     = 100)
+            PARAMETER (NCHARLINE     = 500)
             PARAMETER (NCHARTITLE    = 500)
             PARAMETER (LINE120       = 120)
             PARAMETER (NCHARFIELD    = 20)
 
             ! Parameters for NAMES_AND_TITLES type
-            PARAMETER (LTITLE        = 80)
+            PARAMETER (LTITLE        = 100)
             PARAMETER (LROOTNAME     = 80)
             PARAMETER (LCHRUN        = 4)
             PARAMETER (LCHRUN0       = 2)
