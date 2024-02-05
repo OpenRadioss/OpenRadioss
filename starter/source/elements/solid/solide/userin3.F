@@ -33,7 +33,8 @@ Chd|====================================================================
      .   IX      ,NIX     ,NSIGI   ,NUVAR   ,NEL     ,
      .   NSIGS   ,IUSER   ,IDEF    ,STRAGLOB,JHBE    ,
      .   IGTYP   ,X       ,BUFGAMA ,PT      ,SIGB    ,
-     .   L_SIGB  ,IMAT    ,IPM     ,BUFMAT  )
+     .   L_SIGB  ,IMAT    ,IPM     ,BUFMAT  ,PLA     ,
+     .   L_PLA   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,10 +51,12 @@ C-----------------------------------------------
       INTEGER IPM(NPROPMI,*)
       INTEGER NIX, N, JPS,IUSER,NSIGS,IDEF,JHBE,IGTYP,L_SIGB,IMAT
       INTEGER IX(NIX,*), NSIGI, NUVAR,NEL,STRAGLOB(*),PT(*)
+      INTEGER, INTENT(IN) :: L_PLA
 C     REAL
       my_real
      .   SIGSP(NSIGI,*),SIGI(NSIGS,NEL),UVAR(NEL),
      .   EPS(NEL,6),X(3,*),BUFGAMA(*),SIGB(NEL*L_SIGB),BUFMAT(*)
+      my_real, INTENT(INOUT), DIMENSION(NEL*L_PLA) :: PLA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -102,8 +105,14 @@ c
                 IPS = IPSU + NRATE + 5                               
                 SIGB(IPP) = SIGSP(IPS + IUS, JJ)                        
               ENDDO
-            ENDIF                                                     
-c                        
+            ENDIF
+          ELSEIF (MTN == 112) THEN             
+            NVAR_TMP = SIGSP(NVSOLID1 + NVSOLID2 + 3, JJ)              
+            IPSU = NVSOLID1 + NVSOLID2 + 4                              
+            DO IUS = 1, NVAR_TMP                                            
+              IPP = I + IUS*NEL                                     
+              PLA(IPP) = SIGSP(IPSU + IUS, JJ)                          
+            ENDDO                                                         
           ELSE IF (MTN >= 28) THEN     
             NVAR_TMP = SIGSP(NVSOLID1 + NVSOLID2 + 3, JJ)                 
             IPSU = NVSOLID1 + NVSOLID2 + 4                              

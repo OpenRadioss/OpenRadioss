@@ -333,6 +333,8 @@ C
               NUVAR = NUVAR + 18 ! backstress will be printed in /AUX
             ELSEIF (MLW == 87) THEN
               NUVAR = ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT + 12 ! backstress will be printed in /AUX
+            ELSEIF (MLW == 112) THEN
+              NUVAR = 3
             ELSE IF (MLW == 36) THEN
               NUVAR = 6  ! backstress will be printed in /AUX
             END IF
@@ -515,6 +517,7 @@ C      10: /inibri/aux/full
 C------------------------------
       IF (STAT_S(6)==1) THEN
         DO NG=1,NGROUP
+          MLW =IPARG(1,NG)  
           ITY =IPARG(5,NG)
           IF(ITY==1) THEN
             NEL   =IPARG(2,NG)
@@ -525,9 +528,13 @@ C------------------------------
             NPTT = ELBUF_TAB(NG)%NPTT
             NPT  = NLAY*NPTR*NPTS*NPTT
 c
-            DO I=1,NEL
-              NUVAR  = MAX(NUVAR,IPM(8,IXS(1,I+NFT)))
-            ENDDO
+            IF (MLW == 112) THEN 
+              NUVAR = 3
+            ELSE
+              DO I=1,NEL
+                NUVAR  = MAX(NUVAR,IPM(8,IXS(1,I+NFT)))
+              ENDDO
+            ENDIF
             WASZ2 = WASZ2 + NEL * (11 + NPT * NUVAR)
           ENDIF
         ENDDO

@@ -194,7 +194,20 @@ c
                     ENDDO
                   ENDDO
                 ENDDO  !  DO ILAY=1,NPT
-
+c
+              ELSE IF (ELBUF_STR%BUFLY(1)%ILAW == 112) THEN
+                KK  = NVSHELL + 4 +(IPG-1)*NVARS*NPI
+                DO ILAY=1,NLAY
+                  NPTT  = ELBUF_STR%BUFLY(ILAY)%NPTT
+                  DO IT=1,NPTT
+                    DO J = 1,3
+                      KK = KK + 1
+                      JJ = I + J*NEL
+                      ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT)%PLA(JJ) = SIGSH(KK,II)
+                    ENDDO
+                  ENDDO
+                ENDDO  !  DO ILAY=1,NPT
+c
               ELSE ! ILAW
                 IPT_ALL = 0
                 DO ILAY=1,NLAY

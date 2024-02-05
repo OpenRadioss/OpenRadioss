@@ -411,7 +411,8 @@ c
      .           IXS      ,NIXS    ,NSIGI    ,NUVAR    ,NEL     ,
      .           NSIGS    ,IUSER   ,IDEF     ,STRAGLOB ,JHBE    ,
      .           IGTYP    ,X       ,GBUF%GAMA,PTSOL    ,LBUF%SIGB,
-     .           L_SIGB   ,MAT(1)  ,IPM      ,BUFMAT   )
+     .           L_SIGB   ,MAT(1)  ,IPM      ,BUFMAT   ,LBUF%PLA,
+     .           L_PLA    )
           CALL SMASS3(
      .         GBUF%RHO   ,MAS        ,PARTSAV    ,X          ,V        ,
      .         IPARTS(NF1),MSS(1,NF1) ,VOLU       ,

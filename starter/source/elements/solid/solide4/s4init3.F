@@ -114,7 +114,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NF1,IBID,I,IGTYP,IREP,NCC, IP, NUVAR, IDEF,
-     .   NUVARR ,JHBE,IPID1,NPTR,NPTS,NPTT,NLAY,L_SIGB
+     .   NUVARR ,JHBE,IPID1,NPTR,NPTS,NPTT,NLAY,L_SIGB,L_PLA
       INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ), IXT4(MVSIZ,4)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
       INTEGER NSPHDIR,NCELF,NCELL,IBOLTP
@@ -155,6 +155,7 @@ c
       NPTT  = ELBUF_STR%NPTT
       NLAY  = ELBUF_STR%NLAY
       L_SIGB= ELBUF_STR%BUFLY(1)%L_SIGB
+      L_PLA = ELBUF_STR%BUFLY(1)%L_PLA
       NF1=NFT+1
       IF(MTN>=28)THEN
         NUVAR = IPM(8,IXS(1,NF1))
@@ -255,7 +256,8 @@ C
      .         IXS     ,NIXS    ,NSIGI    ,NUVAR    ,NEL     ,
      .         NSIGS   ,IUSER   ,IDEF     ,STRAGLOB ,JHBE    ,
      .         IGTYP   ,X       ,GBUF%GAMA,PTSOL    ,LBUF%SIGB,
-     .         L_SIGB  ,MAT(1)  ,IPM      ,BUFMAT   )
+     .         L_SIGB  ,MAT(1)  ,IPM      ,BUFMAT   ,LBUF%PLA,  
+     .         L_PLA   )
 c
           CALL S4MASS3(
      1      GBUF%RHO   ,MAS       ,PARTSAV,X   ,V,

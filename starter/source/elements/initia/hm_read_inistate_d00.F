@@ -445,7 +445,7 @@ C---------
                   ENDIF
                   IF ((ILAW == 36 .and. (NUVAR < 4 .or. NUVARD00 > 3) .and. 
      .                 NUVARD00 < NUVAR) .or. 
-     .                (ILAW /= 36 .and. ILAW /= 78 .and. ILAW /= 87 .and. NUVARD00 < NUVAR)) THEN
+     .                (ILAW /= 36 .and. ILAW /= 78 .and. ILAW /= 87 .and. ILAW /= 112 .and. NUVARD00 < NUVAR)) THEN
                     CALL ANCMSG(MSGID=695,
      .                          MSGTYPE=MSGERROR,
      .                          ANMODE=ANINFO,
@@ -2928,7 +2928,7 @@ C----------
                     ENDIF
                     IF ((ILAW == 36 .and. (NUVAR < 4 .or. NUVARD00 > 3) .and. 
      .                   NUVARD00 < NUVAR) .or.  
-     .                  (ILAW /= 36 .and. ILAW /= 78 .and. ILAW /= 87 .and. NUVARD00 < NUVAR)) THEN
+     .                  (ILAW /= 36 .and. ILAW /= 78 .and. ILAW /= 87 .and. ILAW /= 112 .and. NUVARD00 < NUVAR)) THEN
                       CALL ANCMSG(MSGID=695,
      .                            MSGTYPE=MSGERROR,
      .                            ANMODE=ANINFO,
@@ -4036,7 +4036,7 @@ C----------
                     ENDIF
                     IF ((ILAW == 36 .and. (NUVAR < 4 .or. NUVARD00 > 3) .and. 
      .                   NUVARD00 < NUVAR) .or.
-     .                  (ILAW /= 36 .and. ILAW /= 78 .and. ILAW /= 87 .and. NUVARD00 < NUVAR)) THEN
+     .                  (ILAW /= 36 .and. ILAW /= 78 .and. ILAW /= 87 .and. ILAW /= 112 .and. NUVARD00 < NUVAR)) THEN
                       CALL ANCMSG(MSGID=695,
      .                            MSGTYPE=MSGERROR,
      .                            ANMODE=ANINFO,
