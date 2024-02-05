@@ -76,7 +76,7 @@ C-----------------------------------------------
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      my_real, DIMENSION(:)  ,POINTER :: UVAR,SIGA,SIGB,SIGC 
+      my_real, DIMENSION(:)  ,POINTER :: UVAR,SIGA,SIGB,SIGC
 C-----------------------------------------------
       DATA DELIMIT(1:60)
      ./'#---1----|----2----|----3----|----4----|----5----|----6----|'/
@@ -239,6 +239,25 @@ c
                       DO IVAR=1,BUFLY%L_SIGB
                         JJ = JJ + 1
                         WA(JJ) = SIGB((IVAR-1)*NEL + I)
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                ENDDO
+              ENDDO  ! DO IL = 1,NLAY
+c
+            ELSEIF (MLW == 112) THEN     ! STA/AUX 
+              MY_NUVAR = 3
+              JJ = JJ + 1
+              WA(JJ) = MY_NUVAR 
+c
+              DO IS=1,NPTS
+                DO IR=1,NPTR                                                       
+                  DO IL = 1,NLAY
+                    NPTT  = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+                    DO IT=1,NPTT
+                      DO IVAR=1,3
+                        JJ = JJ + 1
+                        WA(JJ) = ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%PLA(I + IVAR*NEL)
                       ENDDO
                     ENDDO
                   ENDDO

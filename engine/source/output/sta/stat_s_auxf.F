@@ -121,7 +121,9 @@ C          JHBE   = IGEO(10,PID)
           IF (JHBE==17.AND.IINT==2) JHBE = 18
           IF (MLW < 28) THEN 
             NUVAR = 0
-          ELSE
+          ELSEIF (MLW == 112) THEN 
+            NUVAR = 3
+          ELSE 
             NUVAR = IPM(8,IXS(1,NFT+1))   
           ENDIF
 c-------------------------------
@@ -146,12 +148,19 @@ c
               IS = 1 
               DO IT=1,NPTT                                         
                DO IL=1,NLAY                                               
-                DO IR=1,NPTR                                             
-                   MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
-                   DO IUS = 1,NUVAR   
-                     WA(JJ + 1) = MBUF%VAR(I + (IUS-1)*NEL)
-                     JJ = JJ +1                                     
-                   ENDDO                                             
+                DO IR=1,NPTR      
+                  IF (MLW == 112) THEN
+                    DO IUS = 1,3
+                      WA(JJ + 1) = ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%PLA(I + IUS*NEL)
+                      JJ = JJ +1                          
+                    ENDDO
+                  ELSE                                        
+                    MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
+                    DO IUS = 1,NUVAR   
+                      WA(JJ + 1) = MBUF%VAR(I + (IUS-1)*NEL)
+                      JJ = JJ +1                                     
+                    ENDDO     
+                  ENDIF                                        
                 ENDDO                                                 
                ENDDO                                                    
               ENDDO                 
@@ -180,11 +189,18 @@ C             pointeur de fin de zone dans WA
                DO IT=1,NPTT
                 DO IS=1,NPTS
                  DO IR=1,NPTR
-                    MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
-                    DO IUS = 1,NUVAR   
-                      WA(JJ + 1) = MBUF%VAR(I + (IUS-1)*NEL)
-                      JJ = JJ +1                                     
-                    ENDDO                                             
+                    IF (MLW == 112) THEN
+                      DO IUS = 1,3
+                        WA(JJ + 1) = ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%PLA(I + IUS*NEL)
+                        JJ = JJ +1                          
+                      ENDDO
+                    ELSE 
+                      MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
+                      DO IUS = 1,NUVAR   
+                        WA(JJ + 1) = MBUF%VAR(I + (IUS-1)*NEL)
+                        JJ = JJ +1                                     
+                      ENDDO            
+                    ENDIF                                 
                  ENDDO                                                   
                 ENDDO                                                    
                ENDDO                 

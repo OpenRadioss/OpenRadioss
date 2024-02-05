@@ -149,7 +149,6 @@ c
             IPT_ALL = IPT_ALL + NPTT
           ENDDO  !  DO ILAY=1,NPT
 c
-c
         ELSE IF (ELBUF_STR%BUFLY(1)%ILAW == 87) THEN  ! backstress is no more stored in uvar
           L_SIGB = ELBUF_STR%BUFLY(1)%L_SIGB
           NUVAR  = ELBUF_STR%BUFLY(1)%NVAR_MAT
@@ -171,6 +170,21 @@ c
               DO J = 1,L_SIGB
                 JJ = (J-1)*NEL + I
                 SIGB(JJ) = SIGSH(KK + J ,II)
+              ENDDO
+            ENDDO
+            IPT_ALL = IPT_ALL + NPTT
+          ENDDO  !  DO ILAY=1,NPT
+c
+        ELSE IF (ELBUF_STR%BUFLY(1)%ILAW == 112) THEN  ! backstress is no more stored in uvar
+          IPT_ALL = 0
+          DO ILAY=1,NLAY
+            NPTT  = ELBUF_STR%BUFLY(ILAY)%NPTT
+            DO IT=1,NPTT
+              IPT  = IPT_ALL + IT
+              KK = NVSHELL + 4 + (IPT-1)*NVARS
+              DO J = 1,3
+                JJ = I + J*NEL
+                ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT)%PLA(JJ) = SIGSH(KK + J,II)
               ENDDO
             ENDDO
             IPT_ALL = IPT_ALL + NPTT

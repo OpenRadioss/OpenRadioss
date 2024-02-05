@@ -461,6 +461,13 @@ c
                     IPP = I + (IUS -1)*NEL
                     SIGB(IPP) = SIGSP(IPSU + NRATE + IUS, JJ)                        
                   ENDDO 
+                ELSEIF (MTN == 112) THEN 
+                  NVAR_TMP = SIGSP(NVSOLID1 + NVSOLID2 + 3, JJ)  
+                  IPSU = NVSOLID1 + NVSOLID2 + 4 + (IPT - 1)*NVAR_TMP
+                  DO IUS = 1, NVAR_TMP             
+                    IPP = I + IUS*NEL
+                    EPSP(IPP) = SIGSP(IPSU + IUS, JJ)          
+                  ENDDO 
                 ELSE IF (MTN /= 36) THEN
                   NVAR_TMP = SIGSP(NVSOLID1 + NVSOLID2 + 3, JJ)  
                   IPSU = NVSOLID1 + NVSOLID2 + 4 + (IPT - 1)*NVAR_TMP
