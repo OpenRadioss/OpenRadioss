@@ -18,6 +18,41 @@ elseif ( mpiver STREQUAL "impi")
   #MPI     
   set (mpi_flag "-DMPI -I$ENV{I_MPI_ROOT}/include/ ")
   set (mpi_lib "-L$ENV{I_MPI_ROOT}/lib -L$ENV{I_MPI_ROOT}/lib/release  -lmpi -lmpifort")
+elseif (mpiver STREQUAL "ompi")
+  # OpenMPI
+
+  # Default setting. OpenMPI was build in /opt/openmpi
+  set (mpi_inc "-I/opt/openmpi/include/")
+  set (mpi_lib "-L/opt/openmpi/lib -lmpi -lmpi_mpifh" )
+
+    if (mpi_os STREQUAL "1")
+      # OpenMPI was installed via an OS package - includes & libraries are already in PATH.
+      set (mpi_inc " ")
+      set (mpi_lib "-lmpi -lmpi_mpifh" )
+    else()
+      if ( DEFINED mpi_root )
+        #OpenMPI was installed in a different directory than /opt/openmpi/bin - mpi_root set in build_script
+        set (mpi_inc "-I${mpi_root}/include/")
+        set (mpi_lib "-L${mpi_root}/lib -lmpi -lmpi_mpifh" )        
+      else()
+        set (mpi_inc "-I/opt/openmpi/include/")
+        set (mpi_lib "-L/opt/openmpi/lib -lmpi -lmpi_mpifh" )
+
+        if ( DEFINED mpi_incdir ) 
+            # Define specific include directory
+            set (mpi_inc "-I${mpi_incdir}")
+        endif()
+        if ( DEFINED mpi_libdir )
+            # Define specific lib directory
+            set (mpi_lib "-L${mpi_libdir} -lmpi -lmpi_mpifh")
+        endif()
+      endif()
+    endif()
+
+
+  set (mpi_flag "-DMPI  ${mpi_inc}")
+  set (mpi_suf "_${mpiver}" )
+
 else()
   message( FATAL_ERROR "\n ERROR : -mpi=${mpiver} not available for this platform\n\n" )
 endif()
