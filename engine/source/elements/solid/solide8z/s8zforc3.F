@@ -327,7 +327,7 @@ C   Variables utilisees dans les routines solides uniquement (en arguments).
       my_real, DIMENSION(MVSIZ,NNPT) :: AJI7,AJI8,AJI9
       INTEGER NNEGA,INDEX(MVSIZ)
       my_real
-     .   AJ7(MVSIZ) , AJ8(MVSIZ) , AJ9(MVSIZ),L_MAX(MVSIZ) 
+     .   AJ7(MVSIZ) , AJ8(MVSIZ) , AJ9(MVSIZ),L_MAX(MVSIZ),DIV0(MVSIZ) 
 C----- 
 
 c
@@ -623,7 +623,7 @@ C------Ismstr 10,12
      7   VY0(1,4),VY0(1,5),VY0(1,6),VY0(1,7),
      8   VY0(1,8),VZ0(1,1),VZ0(1,2),VZ0(1,3),
      9   VZ0(1,4),VZ0(1,5),VZ0(1,6),VZ0(1,7),
-     A   VZ0(1,8),NEL)
+     A   VZ0(1,8),DIV0,    NEL)
         IF (IDTS6==0)  CALL DEGENES8(
      1   IXS(1,NF1),IDEG,      NEL)
          DO I=LFT,LLT
