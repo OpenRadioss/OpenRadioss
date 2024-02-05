@@ -7657,23 +7657,19 @@ C--------------------
 C      RBE3
 C--------------------
       IF (NRBE3>0) THEN
-        CALL MY_BARRIER
         IF (ITASK==0) THEN
           CALL RBE3V(IRBE3 ,LRBE3 ,X    ,A     ,AR    ,
      1                 V   ,VR    ,FRBE3,SKEW  )
         ENDIF
-        CALL MY_BARRIER
       ENDIF
 C--------------------
 C      RBE2
 C--------------------
       IF (NRBE2>0) THEN
-        CALL MY_BARRIER
         IF (ITASK==0) THEN
         CALL RBE2V(IRBE2 ,LRBE2 ,X    ,A     ,AR    ,
      1             V     ,VR    ,SKEW )
         ENDIF
-        CALL MY_BARRIER
       ENDIF
 C--------------------------------------------------
 C  DAA  normal accelerations
@@ -8793,9 +8789,6 @@ c
 C
           IF (NSPMD > 1)       ! exchange ENRTAG
      .      CALL SPMD_CRK_ADV(IAD_ELEM ,FR_ELEM ,INOD_CRK ,ENRTAG)
-c         /---------------/
-          CALL MY_BARRIER
-c         /---------------/
 
 C========================================================================================
 C                                   PARALLEL SECTION (SMP)
@@ -8810,17 +8803,11 @@ c         USE ENRTAG => set positive enrichments
      .                   NODENR   ,ENRTAG   ,NODLEVXF   ,PROCNE_CRK    )
 !$OMP END PARALLEL
 
-c         /---------------/
-          CALL MY_BARRIER
-c         /---------------/
 c         set TAGXP after updating enrichments
           CALL UPXFEM_TAGXP(XFEM_TAB,
      .         IPARG        ,IXC        ,NGROUC      ,IGROUC  ,IXTG    ,
      .         IADC_CRK     ,IEL_CRK    ,INOD_CRK    ,ELCUTC  ,NODEDGE ,
      .         ENRTAG       ,CRKEDGE    ,XEDGE4N     ,XEDGE3N ,ITAB    )
-C         /---------------/
-          CALL MY_BARRIER
-C         /---------------/
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
           ITSK = OMP_GET_THREAD_NUM()
           NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -8830,9 +8817,6 @@ c         update velocities of phantom elements
      .                     X        ,V        ,VR       ,A        ,AR       ,
      .                     ITAB     )
 !$OMP END PARALLEL
-c         /---------------/
-          CALL MY_BARRIER
-c         /---------------/
 
 C========================================================================================
 C                                   NON PARALLEL SECTION (SMP)
@@ -8848,9 +8832,6 @@ c----------------------------------------------------------------------
            CALL SPMD_EXCH_CRKVEL(IAD_ELEM ,FR_ELEM ,INOD_CRK ,ITAB   ,
      .                           X        ,V       ,VR       )
          ENDIF
-C         /---------------/
-          CALL MY_BARRIER
-C         /---------------/
 
 C========================================================================================
 C                                   PARALLEL SECTION (SMP)
