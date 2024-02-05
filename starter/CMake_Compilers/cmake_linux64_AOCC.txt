@@ -6,6 +6,10 @@
 # Executable name
 # ---------------
 
+# Note that AOCC compiler's advanced optimization flags such as march=zen3 (or zen4) can be passed 
+# by using -addflag option with the build_script.sh
+
+
 set ( RELNAME ${arch}  )
 
 

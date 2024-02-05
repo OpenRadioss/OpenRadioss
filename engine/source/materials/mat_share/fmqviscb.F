@@ -69,7 +69,9 @@ C-----------------------------------------------
 C
       INTEGER NELTST,ITYPTST,PID(*),MAT(*),NEL,NGL(*)
       my_real DT2T
-      my_real PM(NPROPM,NUMMAT),GEO(NPROPG,NUMGEO),DELTAX(*),SSP(*),AIRE(*),QVIS(*),VIS(*),UVAR(NEL,*),OFF(*),VD2(*),OFFG(*)
+      my_real PM(NPROPM,NUMMAT),
+     .        GEO(NPROPG,NUMGEO),DELTAX(*),SSP(*),
+     .        AIRE(*),QVIS(*),VIS(*),UVAR(NEL,*),OFF(*),VD2(*),OFFG(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -77,7 +79,8 @@ C-----------------------------------------------
       my_real AL(MVSIZ),
      .        DTX(MVSIZ), AD(MVSIZ), QX(MVSIZ), CX(MVSIZ),SSP_EQ(MVSIZ),
      .        RHO0(MVSIZ),DTMIN(MVSIZ),QA, QB, VISI, FACQ,QAA,
-     .        CNS1, CNS2, SPH, AK1, BK1, AK2, BK2, TLI, AKK, XMU, TMU, RPR,
+     .        CNS1, CNS2, SPH, AK1, BK1, AK2, BK2, 
+     .        TLI, AKK, XMU, TMU, RPR,
      .        ATU, QAD, QBD, QAAP,DD
       my_real TIDT,TVOL,TRHO,TAIRE, DTINV
 C-----------------------------------------------
