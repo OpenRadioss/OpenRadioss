@@ -796,7 +796,7 @@ c 2d seatbelt translation
 C-------------------------------------------------------------------
 C     Control variables (count options)
 C-------------------------------------------------------------------
-      CALL CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM,NAMES_AND_TITLES)
+      CALL CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM,NAMES_AND_TITLES,LIPART1)
 C-------------------------------------------------------------------
 C     Parameters modification and parameters write (-HSTP_READ -HSTP_WRITE ARGUMENTS)
 C-------------------------------------------------------------------

@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
-      CHARACTER*ncharline, INTENT(INOUT) :: XRFILE
+      CHARACTER (LEN=ncharline), INTENT(INOUT) :: XRFILE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -88,7 +88,7 @@ Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
-      SUBROUTINE CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM,NAMES_AND_TITLES)
+      SUBROUTINE CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM,NAMES_AND_TITLES,LIPART1)
 C----------------------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -113,7 +113,7 @@ C-----------------------------------------------
       USE USER_WINDOWS_MOD
       USE ALE_MOD
       USE MAT_ELEM_MOD
-      USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_
+      USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,LTITLE,NCHARLINE,NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -122,7 +122,6 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -176,6 +175,7 @@ C-----------------------------------------------
       TYPE(USER_WINDOWS_), INTENT(INOUT) :: USER_WINDOWS
       TYPE(MAT_ELEM_), INTENT(INOUT)     :: MAT_ELEM
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT) :: NAMES_AND_TITLES   !< NAMES_AND_TITLES host the input deck names and titles for outputs
+      INTEGER,INTENT(IN) ::  LIPART1  !< Number of variables of IPART
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -192,10 +192,16 @@ C-----------------------------------------------
       INTEGER IARCHS(8)
       INTEGER IS_BEGIN,SCHAR
       my_real DTINI, DTX ,RBID
-      CHARACTER CART*ncharline, XRFILE*ncharline,KEY*ncharline,KEY2*ncharline,TMPLINE*ncharline
-      CHARACTER TITR*nchartitle,MESS*40, ERRMSG*40
+      CHARACTER (LEN=NCHARLINE) :: CART
+      CHARACTER (LEN=NCHARLINE) :: XRFILE      ! NCHARLINE as #define is set to 500 in Starter
+      CHARACTER (LEN=NCHARLINE) :: KEY
+      CHARACTER (LEN=NCHARLINE) :: KEY2
+      CHARACTER (LEN=NCHARLINE) :: TMPLINE
+      CHARACTER (LEN=NCHARLINE) :: LINE
+      CHARACTER (LEN=NCHARTITLE) :: TITR
       CHARACTER (LEN=255) :: STR_NBTHREADS
-
+      CHARACTER MESS*40, ERRMSG*40
+C-----------------------------------------------
 C OpenMP specific
 #if defined(_OPENMP)
        INTEGER OMP_GET_THREAD_NUM, OMP_GET_NUM_THREADS,NTHREAD1
@@ -216,6 +222,7 @@ C
       INTEGER :: NALEMUSCL
       INTEGER :: NB_INISHE,NB_INISH3,NB_INIBRI,NB_INIQUAD,
      .           NB_INIBEAM,NB_INITRUSS,NB_INISPRIG
+      INTEGER :: LEN_LINE
       CHARACTER*20 UNIT_NAME
       INTEGER IS_U_STRING
 C-----------------------------------------------
@@ -249,7 +256,8 @@ C=======================================================================
       WRITE(ISTDO,'(A)') LINE(1:LEN_TRIM(LINE))
 
       ! Store the input deck title in Structure
-      NAMES_AND_TITLES%TITLE(1:LEN_TRIM(LINE))=LINE(1:LEN_TRIM(LINE))
+      LEN_LINE= MIN(LEN_TRIM(LINE),LTITLE)   ! Truncate to LTITLE
+      NAMES_AND_TITLES%TITLE(1:LEN_LINE)=LINE(1:LEN_LINE)
 
       IMOT=0
       REEL=ZEP66  
