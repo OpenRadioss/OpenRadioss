@@ -98,6 +98,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE TABLE_MOD
+      USE HM_READ_FRACTAL_DMG_MOD
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -121,7 +122,7 @@ C-----------------------------------------------
       TYPE (TTABLE)  ,INTENT(IN) :: TABLE(NTABLE)    
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       TYPE (SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -341,8 +342,12 @@ c
               CALL HM_READ_FAIL_ENERGY(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB)
 c
-            !!  ELSEIF (KEY(1:6) == '') THEN 
-            !!     IRUPT = 12                     ! not used
+            ELSEIF (KEY(1:11) == 'FRACTAL_DMG') THEN 
+              IRUPT = 12                    
+              CALL HM_READ_FRACTAL_DMG(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   ,IOUT    )
+              FAIL_TAG(IRUPT)%LF_DAM    = 1
+              FAIL_TAG(IRUPT)%LF_DAMMX  = 1
 c     
             ELSEIF (KEY(1:5) == 'CHANG') THEN
               IRUPT = 13

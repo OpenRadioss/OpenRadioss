@@ -32,13 +32,21 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matp
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE UPDFAIL(MAT_PARAM ,NUMMAT ,NFUNCT ,NTABLE ,FUNC_ID ,TABLE )
+      module updfail_mod
+      contains
+!
+      SUBROUTINE UPDFAIL(MAT_PARAM ,NUMMAT ,NFUNCT ,NTABLE ,FUNC_ID ,TABLE ,
+     .                   FAIL_FRACTAL,NGRSHEL   ,NGRSH3N,IGRSH4N,IGRSH3N,
+     .                   IXC    ,IXTG      ,NUMELC ,NUMELTG )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE TABLE_MOD
       USE MESSAGE_MOD
+      USE GROUPDEF_MOD
+      USE RANDOM_WALK_DEF_MOD
+      USE RANDOM_WALK_DMG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,17 +54,30 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NUMMAT   ! total number of material models 
-      INTEGER ,INTENT(IN) :: NFUNCT   ! total number of system functions   
-      INTEGER ,INTENT(IN) :: NTABLE   ! total number of system function tables   
-      INTEGER ,DIMENSION(NFUNCT)      ,INTENT(IN) :: FUNC_ID
-      TYPE(TTABLE), DIMENSION(NTABLE) ,INTENT(IN) :: TABLE
+      INTEGER ,INTENT(IN) :: NUMMAT     !< total number of material models 
+      INTEGER ,INTENT(IN) :: NFUNCT     !< total number of system functions   
+      INTEGER ,INTENT(IN) :: NTABLE     !< total number of system function tables   
+      INTEGER ,INTENT(IN) :: NGRSHEL    !< number of 4n shell element groups
+      INTEGER ,INTENT(IN) :: NGRSH3N    !< number of 3n shell element groups
+      INTEGER ,INTENT(IN) :: NUMELC     !< number of system 4n shell elements
+      INTEGER ,INTENT(IN) :: NUMELTG    !< number of system 3n shell elements
+      INTEGER ,DIMENSION(NFUNCT)        ,INTENT(IN) :: FUNC_ID
+      INTEGER ,DIMENSION(NIXC,NUMELC)   ,INTENT(IN) :: IXC
+      INTEGER ,DIMENSION(NIXTG,NUMELTG) ,INTENT(IN) :: IXTG
+      TYPE(TTABLE), DIMENSION(NTABLE)   ,INTENT(IN) :: TABLE
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(INOUT), TARGET :: MAT_PARAM
+      TYPE (GROUP_)  ,DIMENSION(NGRSHEL)  :: IGRSH4N
+      TYPE (GROUP_)  ,DIMENSION(NGRSH3N)  :: IGRSH3N
+      TYPE (FAIL_FRACTAL_) ,INTENT(INOUT) :: FAIL_FRACTAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IMAT,IR,NFAIL
+      INTEGER IMAT,MAT_ID,IR,NFAIL,IFRAC,NFAIL_FRACTAL
 C=======================================================================
+!     replace function and table Ids by system numbers in matparam%fail structure
+!------------------------------------------------
+      NFAIL_FRACTAL = 0
+!
       DO IMAT=1,NUMMAT
         NFAIL  = MAT_PARAM(IMAT)%NFAIL
         IF (NFAIL > 0) THEN
@@ -102,10 +123,38 @@ c
                 ENDIF 
               ENDIF
             ENDIF 
+!           count number of /fail/fractal_dmg models
+            IF (MAT_PARAM(IMAT)%FAIL(IR)%IRUPT == 12) THEN
+              NFAIL_FRACTAL = NFAIL_FRACTAL + 1
+            END IF
 c
           ENDDO
         ENDIF
       ENDDO
+!------------------------------------------------
+!     fractal damage model initialization
+!------------------------------------------------
+      FAIL_FRACTAL%NFAIL = NFAIL_FRACTAL
+      ALLOCATE(FAIL_FRACTAL%FRACTAL(NFAIL_FRACTAL))
+      
+      IF (NFAIL_FRACTAL > 0) THEN
+        IFRAC = 0
+        DO IMAT=1,NUMMAT
+          NFAIL  = MAT_PARAM(IMAT)%NFAIL
+          IF (NFAIL > 0) THEN
+            MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+            DO IR = 1,NFAIL
+              IF (MAT_PARAM(IMAT)%FAIL(IR)%IRUPT == 12) THEN
+                IFRAC = IFRAC + 1
+                CALL RANDOM_WALK_DMG(FAIL_FRACTAL%FRACTAL(IFRAC),MAT_PARAM(IMAT)%FAIL(IR),
+     .               NGRSHEL,NGRSH3N,IGRSH4N,IGRSH3N,
+     .               IMAT   ,NIXC   ,IXC    ,NIXTG  ,IXTG  ,NUMELC ,NUMELTG)
+              END IF
+            ENDDO
+          ENDIF
+        ENDDO
+      ENDIF
 c-----------
       RETURN
       END
+      END MODULE updfail_mod
