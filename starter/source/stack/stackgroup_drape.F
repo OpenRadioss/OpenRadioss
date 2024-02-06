@@ -590,7 +590,7 @@ C
                  NSH = NSH +  1
                  INDX_SH(NSH) = I + NUMELC
                  PID_SH(NSH) = PID
-            ENDIF  
+             ENDIF  
          ENDDO  
 C #####################################################"
            NBIT =  BIT_SIZE(NPLY)
@@ -700,61 +700,52 @@ C
                PID   = PID_SH(I)
                IGTYP = IGEO(11,PID)
                NKEY  = IWORKSH(1,II)
-               IF(IGTYP == 51) THEN
-                   NSH = NLAST1(IS) - NFIRST1(IS) + 1
-                   ALLOCATE(INDX1(2*NSH),ITRI(NKEY,NSH),INDX_SUB(NSH))
-                   INDX1 = 0
-                   ITRI = 0
-                   I1 = 0
-                   DO I= NFIRST1(IS), NLAST1(IS)
-                       ID = INDX(I)
-                       II = INDX_SH(ID)
-                       I1 = I1 + 1
-                       INDX1(I1) = I1
-                       INDX_SUB(I1) = ID
-                       DO J=1,NKEY
-                            ITRI(J,I1) = IWORK_T(II)%NPT_PLY(J)
-                       ENDDO
+               NSH = NLAST1(IS) - NFIRST1(IS) + 1
+               ALLOCATE(INDX1(2*NSH),ITRI(NKEY,NSH),INDX_SUB(NSH))
+               INDX1 = 0
+               ITRI = 0
+               I1 = 0
+               DO I= NFIRST1(IS), NLAST1(IS)
+                   ID = INDX(I)
+                   II = INDX_SH(ID)
+                   I1 = I1 + 1
+                   INDX1(I1) = I1
+                   INDX_SUB(I1) = ID
+                   DO J=1,NKEY
+                        ITRI(J,I1) = IWORK_T(II)%NPT_PLY(J)
                    ENDDO
-                   MODE = 0
-                   CALL MY_ORDERS(MODE, WORK, ITRI, INDX1, NSH , NKEY)
-                   ALLOCATE (NFIRST2(NSH) ,NLAST2(NSH))
-                   NS_SUB = 1 
-                   NFIRST2(1) = 1
-                   NLAST2(1)  = 1                        
-                   DO I=2,NSH                                        
-                      DO IKEY = 1, NKEY                              
-                        II = ITRI(IKEY,INDX1(I))                      
-                        JJ = ITRI(IKEY,INDX1(I-1))                    
-                        IF(II /= JJ) THEN                            
-                           NS_SUB = NS_SUB + 1                   
-                           NFIRST2(NS_SUB) = I                     
-                           NLAST2(NS_SUB) = NFIRST2(NS_SUB)
-                           EXIT                                      
-                        ELSEIF(IKEY == NKEY) THEN                    
-                          NLAST2(NS_SUB) = NLAST2(NS_SUB) + 1    
-                        ENDIF                                        
-                      ENDDO                                    
-                   ENDDO 
-                   !!
-                   DO IIS = 1,NS_SUB 
-                      NS_TOTAL = NS_TOTAL + 1
-                      NFIRST(NS_TOTAL) = NFIRST1(IS) + NFIRST2(IIS) - 1
-                      NLAST(NS_TOTAL ) = NFIRST1(IS) + NLAST2(IIS)  - 1
-                      DO I = NFIRST2(IIS),NLAST2(IIS)
-                         I2  =  NFIRST1(IS) + I - 1 
-                         INDX_TOTAL(I2) = INDX_SUB(INDX1(I)) ! 
-                     ENDDO
-                   ENDDO  
-                   DEALLOCATE(INDX1,NFIRST2,NLAST2, ITRI,INDX_SUB)
-               ELSE
-                 NS_TOTAL = NS_TOTAL + 1
-                 NFIRST(NS_TOTAL) = NFIRST1(IS)
-                 NLAST(NS_TOTAL ) = NLAST1(IS)
-                 DO I= NFIRST1(IS), NLAST1(IS)
-                     INDX_TOTAL(I) = INDX(I)
-                 ENDDO 
-               ENDIF
+               ENDDO
+               MODE = 0
+               CALL MY_ORDERS(MODE, WORK, ITRI, INDX1, NSH , NKEY)
+               ALLOCATE (NFIRST2(NSH) ,NLAST2(NSH))
+               NS_SUB = 1
+               NFIRST2(1) = 1
+               NLAST2(1)  = 1
+               DO I=2,NSH
+                  DO IKEY = 1, NKEY
+                    II = ITRI(IKEY,INDX1(I))
+                    JJ = ITRI(IKEY,INDX1(I-1))
+                    IF(II /= JJ) THEN
+                       NS_SUB = NS_SUB + 1
+                       NFIRST2(NS_SUB) = I
+                       NLAST2(NS_SUB) = NFIRST2(NS_SUB)
+                       EXIT
+                    ELSEIF(IKEY == NKEY) THEN
+                      NLAST2(NS_SUB) = NLAST2(NS_SUB) + 1
+                    ENDIF
+                  ENDDO
+               ENDDO
+               !!
+               DO IIS = 1,NS_SUB
+                  NS_TOTAL = NS_TOTAL + 1
+                  NFIRST(NS_TOTAL) = NFIRST1(IS) + NFIRST2(IIS) - 1
+                  NLAST(NS_TOTAL ) = NFIRST1(IS) + NLAST2(IIS)  - 1
+                  DO I = NFIRST2(IIS),NLAST2(IIS)
+                     I2  =  NFIRST1(IS) + I - 1
+                     INDX_TOTAL(I2) = INDX_SUB(INDX1(I)) !
+                 ENDDO
+               ENDDO  
+               DEALLOCATE(INDX1,NFIRST2,NLAST2, ITRI,INDX_SUB)
           END DO
           DEALLOCATE(NFIRST1,NLAST1)
 C
