@@ -1931,12 +1931,12 @@ c stress gps
        IF(ANIM_N(IADGPS+6)==1) CALL ANI_TXT('GPS SIGXZ',9)
 c stress isogeo
        IADISO = IAD_GPS+300
-       IF(ANIM_N(IADISO+1)==1) CALL ANI_TXT('STRESS ISOGEO SIGXX',20)
-       IF(ANIM_N(IADISO+2)==1) CALL ANI_TXT('STRESS ISOGEO SIGYY',20)
-       IF(ANIM_N(IADISO+3)==1) CALL ANI_TXT('STRESS ISOGEO SIGZZ',20)
-       IF(ANIM_N(IADISO+4)==1) CALL ANI_TXT('STRESS ISOGEO SIGXY',20)
-       IF(ANIM_N(IADISO+5)==1) CALL ANI_TXT('STRESS ISOGEO SIGZY',20)
-       IF(ANIM_N(IADISO+6)==1) CALL ANI_TXT('STRESS ISOGEO SIGXZ',20)
+       IF(ANIM_N(IADISO+1)==1) CALL ANI_TXT('STRESS ISOGEO SIGXX',19)
+       IF(ANIM_N(IADISO+2)==1) CALL ANI_TXT('STRESS ISOGEO SIGYY',19)
+       IF(ANIM_N(IADISO+3)==1) CALL ANI_TXT('STRESS ISOGEO SIGZZ',19)
+       IF(ANIM_N(IADISO+4)==1) CALL ANI_TXT('STRESS ISOGEO SIGXY',19)
+       IF(ANIM_N(IADISO+5)==1) CALL ANI_TXT('STRESS ISOGEO SIGZY',19)
+       IF(ANIM_N(IADISO+6)==1) CALL ANI_TXT('STRESS ISOGEO SIGXZ',19)
 c strain gps
        IADGPS = IAD_GPS+400
        IF(ANIM_N(IADGPS+1)==1) CALL ANI_TXT('GPSTRAIN EPSXX',14)
@@ -2019,14 +2019,14 @@ C-----------------------------------------------
         IF(ANIM_CE(2145)==1) CALL ANI_TXT('FVMBAG - Mass',13)
         IF(ANIM_CE(2146)==1) CALL ANI_TXT('FVMBAG - Pressure',17)
         IF(ANIM_CE(2147)==1)
-     .     CALL ANI_TXT('FVMBAG - Fluid velocity X',26)
+     .     CALL ANI_TXT('FVMBAG - Fluid velocity X',25)
         IF(ANIM_CE(2148)==1)
-     .     CALL ANI_TXT('FVMBAG - Fluid velocity Y',26)
+     .     CALL ANI_TXT('FVMBAG - Fluid velocity Y',25)
         IF(ANIM_CE(2149)==1)
-     .     CALL ANI_TXT('FVMBAG - Fluid velocity Z',26)
+     .     CALL ANI_TXT('FVMBAG - Fluid velocity Z',25)
         IF(ANIM_CE(2150)==1) CALL ANI_TXT('FVMBAG - Density',16)
         IF(ANIM_CE(2151)==1)
-     .     CALL ANI_TXT('FVMBAG - Specific Energy',25)
+     .     CALL ANI_TXT('FVMBAG - Specific Energy',24)
         IF(ANIM_CE(2152)==1) CALL ANI_TXT('FVMBAG - Sound Speed',20)
         IF(ANIM_CE(2153)==1) CALL ANI_TXT('FVMBAG - Gama',13)
         IF(ANIM_CE(2154)==1)
@@ -2057,14 +2057,13 @@ C
            ENDIF
         ENDDO
         IF(ANIM_CE(10240)==1) CALL  ANI_TXT('INTER PLY - MIN-DAMAGE',22)     
-        IF(ANIM_CE(10241)==1) CALL  ANI_TXT('INTER PLY -SIGZZ',17) 
-        IF(ANIM_CE(10242)==1) CALL  ANI_TXT('INTER PLY -SIGYZ',17) 
-        IF(ANIM_CE(10243)==1) CALL  ANI_TXT('INTER PLY -SIGXZ',17)    
-        IF(ANIM_CE(10244)==1) CALL  ANI_TXT('INTER PLY -EPSZZ',17) 
-        IF(ANIM_CE(10245)==1) CALL  ANI_TXT('INTER PLY -EPSYZ',17) 
-        IF(ANIM_CE(10246)==1) CALL  ANI_TXT('INTER PLY -EPSXZ',17) 
-        IF(ANIM_CE(10247)==1) CALL  ANI_TXT('INTER PLY -EINT',16)
-       
+        IF(ANIM_CE(10241)==1) CALL  ANI_TXT('INTER PLY -SIGZZ',16) 
+        IF(ANIM_CE(10242)==1) CALL  ANI_TXT('INTER PLY -SIGYZ',16) 
+        IF(ANIM_CE(10243)==1) CALL  ANI_TXT('INTER PLY -SIGXZ',16)    
+        IF(ANIM_CE(10244)==1) CALL  ANI_TXT('INTER PLY -EPSZZ',16) 
+        IF(ANIM_CE(10245)==1) CALL  ANI_TXT('INTER PLY -EPSYZ',16) 
+        IF(ANIM_CE(10246)==1) CALL  ANI_TXT('INTER PLY -EPSXZ',16) 
+        IF(ANIM_CE(10247)==1) CALL  ANI_TXT('INTER PLY -EINT',15)
         IF(ANIM_CE(10248)==1) CALL ANI_TXT('Volumetric Fraction 1',21)
         IF(ANIM_CE(10249)==1) CALL ANI_TXT('Volumetric Fraction 2',21)
         IF(ANIM_CE(10250)==1) CALL ANI_TXT('Volumetric Fraction 3',21)
@@ -2073,17 +2072,16 @@ C
 C-----------------------------------------------
 C   ELEMENT FAILURE COEFFECIENT : NXT CRITRIA
 C-----------------------------------------------
-        IF(ANIM_CE(10253)==1) CALL  ANI_TXT('NXT FAILURE FACTOR',19)
-        IF(ANIM_CE(10254)==1) CALL  ANI_TXT('SIGMA1/h',9)
-        IF(ANIM_CE(10255)==1) CALL  ANI_TXT('SIGMA2/h',9)
+        IF(ANIM_CE(10253)==1) CALL  ANI_TXT('NXT FAILURE FACTOR',18)
+        IF(ANIM_CE(10254)==1) CALL  ANI_TXT('SIGMA1/h',8)
+        IF(ANIM_CE(10255)==1) CALL  ANI_TXT('SIGMA2/h',8)
 C-----------------------------------------------
 C   DAMAGE FACTOR : MAX of ALL CRITRIA BY LAYER
 C-----------------------------------------------
-C 
         IF(ANIM_CE(10256)==1) CALL ANI_TXT('MAX DAMAGE ELEMENT',18)
-        IF(ANIM_CE(10257)==1) CALL ANI_TXT('MAX DAMAGE UPPER',18)
-        IF(ANIM_CE(10258)==1) CALL ANI_TXT('MAX DAMAGE LOWER',18)
-        IF(ANIM_CE(10259)==1) CALL ANI_TXT('MAX DAMAGE MEMBRANE',21)
+        IF(ANIM_CE(10257)==1) CALL ANI_TXT('MAX DAMAGE UPPER',16)
+        IF(ANIM_CE(10258)==1) CALL ANI_TXT('MAX DAMAGE LOWER',16)
+        IF(ANIM_CE(10259)==1) CALL ANI_TXT('MAX DAMAGE MEMBRANE',19)
         DO I=10260,10359
            IF(ANIM_CE(I)==1)THEN
             II = I - 10259
@@ -2092,9 +2090,9 @@ C
             CALL ANI_TXT(MES,20)
            ENDIF
         ENDDO   
-        IF(ANIM_CE(10360)==1) CALL ANI_TXT('NXT FAILURE FACTOR UPPER',25)
-        IF(ANIM_CE(10361)==1) CALL ANI_TXT('NXT FAILURE FACTOR LOWER',25)
-        IF(ANIM_CE(10362)==1) CALL ANI_TXT('NXT FAILURE FACTOR MEMBRANE',28)
+        IF(ANIM_CE(10360)==1) CALL ANI_TXT('NXT FAILURE FACTOR UPPER',24)
+        IF(ANIM_CE(10361)==1) CALL ANI_TXT('NXT FAILURE FACTOR LOWER',24)
+        IF(ANIM_CE(10362)==1) CALL ANI_TXT('NXT FAILURE FACTOR MEMBRANE',27)
         DO I=10363,10462
            IF(ANIM_CE(I)==1)THEN
             II = I - 10362
@@ -2103,9 +2101,9 @@ C
             CALL ANI_TXT(MES,32)
            ENDIF
         ENDDO  
-        IF(ANIM_CE(10463)==1) CALL ANI_TXT('SIGMA1/h UPPER',15)
-        IF(ANIM_CE(10464)==1) CALL ANI_TXT('SIGMA1/h LOWER',15)
-        IF(ANIM_CE(10465)==1) CALL ANI_TXT('SIGMA1/h MEMBRANE',18)
+        IF(ANIM_CE(10463)==1) CALL ANI_TXT('SIGMA1/h UPPER',14)
+        IF(ANIM_CE(10464)==1) CALL ANI_TXT('SIGMA1/h LOWER',14)
+        IF(ANIM_CE(10465)==1) CALL ANI_TXT('SIGMA1/h MEMBRANE',17)
         DO I=10466,10565
            IF(ANIM_CE(I)==1)THEN
             II = I - 10465
@@ -2114,9 +2112,9 @@ C
             CALL ANI_TXT(MES,22)
            ENDIF
         ENDDO 
-        IF(ANIM_CE(10566)==1) CALL ANI_TXT('SIGMA2/h UPPER',15)
-        IF(ANIM_CE(10567)==1) CALL ANI_TXT('SIGMA2/h LOWER',15)
-        IF(ANIM_CE(10568)==1) CALL ANI_TXT('SIGMA2/h MEMBRANE',18)
+        IF(ANIM_CE(10566)==1) CALL ANI_TXT('SIGMA2/h UPPER',14)
+        IF(ANIM_CE(10567)==1) CALL ANI_TXT('SIGMA2/h LOWER',14)
+        IF(ANIM_CE(10568)==1) CALL ANI_TXT('SIGMA2/h MEMBRANE',17)
         DO I=10569,10668
            IF(ANIM_CE(I)==1)THEN
             II = I - 10568
@@ -2180,10 +2178,10 @@ C-----------------------------------------------
         IF(ANIM_CE(11889)==1)CALL ANI_TXT('Detonation Time',15) 
         
         !multumaterial law 20 ouptus
-        IF(ANIM_CE(11890)==1)CALL ANI_TXT('Density-1',15) 
-        IF(ANIM_CE(11891)==1)CALL ANI_TXT('Density-2',15) 
-        IF(ANIM_CE(11892)==1)CALL ANI_TXT('Density-3',15) 
-        IF(ANIM_CE(11893)==1)CALL ANI_TXT('Density-4',15)                         
+        IF(ANIM_CE(11890)==1)CALL ANI_TXT('Density-1',9) 
+        IF(ANIM_CE(11891)==1)CALL ANI_TXT('Density-2',9) 
+        IF(ANIM_CE(11892)==1)CALL ANI_TXT('Density-3',9) 
+        IF(ANIM_CE(11893)==1)CALL ANI_TXT('Density-4',9)                         
 
         IF(ANIM_CE(11894)==1)CALL ANI_TXT('Specific Energy-1',17)                         
         IF(ANIM_CE(11895)==1)CALL ANI_TXT('Specific Energy-2',17)                         
@@ -3778,9 +3776,9 @@ c       Stress output in material (orthotropic) coordinates
 c-----------------------------------------------------------
         IDX = 3120 + 3*MX_PLY_ANIM
 
-        IF (ANIM_CT(IDX+1)==1) CALL ANI_TXT('Mstress (membrane)',17)
-        IF (ANIM_CT(IDX+2)==1) CALL ANI_TXT('Mstress (upper)',14)
-        IF (ANIM_CT(IDX+3)==1) CALL ANI_TXT('Mstress (lower)',14)
+        IF (ANIM_CT(IDX+1)==1) CALL ANI_TXT('Mstress (membrane)',18)
+        IF (ANIM_CT(IDX+2)==1) CALL ANI_TXT('Mstress (upper)',15)
+        IF (ANIM_CT(IDX+3)==1) CALL ANI_TXT('Mstress (lower)',15)
 c
         IDX = 3120 + 3*MX_PLY_ANIM + 3
         DO I = IDX+1,IDX+100
@@ -4540,10 +4538,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   LAW51 OUTPUTS
 C-----------------------------------------------
-        IF(ANIM_SE(4897)==1)CALL ANI_TXT('Density-1',15) 
-        IF(ANIM_SE(4898)==1)CALL ANI_TXT('Density-2',15) 
-        IF(ANIM_SE(4899)==1)CALL ANI_TXT('Density-3',15) 
-        IF(ANIM_SE(4900)==1)CALL ANI_TXT('Density-4',15)                         
+        IF(ANIM_SE(4897)==1)CALL ANI_TXT('Density-1',9) 
+        IF(ANIM_SE(4898)==1)CALL ANI_TXT('Density-2',9) 
+        IF(ANIM_SE(4899)==1)CALL ANI_TXT('Density-3',9) 
+        IF(ANIM_SE(4900)==1)CALL ANI_TXT('Density-4',9)                         
 
         IF(ANIM_SE(4901)==1)CALL ANI_TXT('Specific Energy-1',17)                         
         IF(ANIM_SE(4902)==1)CALL ANI_TXT('Specific Energy-2',17)                         
@@ -5128,7 +5126,7 @@ C-----------------------------------------------
        ENDDO
 !       
        IF (ANIM_FE(123)==1) CALL ANI_TXT('Strain X ',9)! For TRUSS element only
-       IF (ANIM_FE(124)==1) CALL ANI_TXT('Strain rate ',11)
+       IF (ANIM_FE(124)==1) CALL ANI_TXT('Strain rate',11)
        IF (ANIM_FE(125)==1) CALL ANI_TXT('Damage ',7)
 !
       ENDIF

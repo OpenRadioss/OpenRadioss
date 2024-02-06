@@ -143,6 +143,7 @@ C-----------------------------------------------
      .   NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,KHBE,KCVT,NUVARTH,
      .   CPT,PID,ISVIS,TSHELL,TSH_ORT,ICSIG,IVISC,NPTL,IL,KK(6)
       INTEGER :: NITER,IADB,NN,IADV,NVAR,ITYP,IJK,IS_ALE
+      INTEGER :: NODE
       my_real
      .   S11,S22,S33,S12,S23,S13,
      .   R11,R22,R33,R12,R21,R23,R32,R13,R31,
@@ -272,20 +273,26 @@ C--------------------------------------------------
             TMP_2(1:MVSIZ,1:3) = ZERO
             DO J=1,8
              DO  I=1,NEL
-              TMP_2(I,1)=TMP_2(I,1) + V(1,IXS(J+1,I+NFT))-W(1,IXS(J+1,I+NFT))
-              TMP_2(I,2)=TMP_2(I,2) + V(2,IXS(J+1,I+NFT))-W(2,IXS(J+1,I+NFT))
-              TMP_2(I,3)=TMP_2(I,3) + V(3,IXS(J+1,I+NFT))-W(3,IXS(J+1,I+NFT))
+               NODE = IXS(J+1,I+NFT)
+               IF(NODE > 0 .AND. NODE <= NUMNOD) THEN
+                  TMP_2(I,1)=TMP_2(I,1) + V(1,IXS(J+1,I+NFT))-W(1,IXS(J+1,I+NFT))
+                  TMP_2(I,2)=TMP_2(I,2) + V(2,IXS(J+1,I+NFT))-W(2,IXS(J+1,I+NFT))
+                  TMP_2(I,3)=TMP_2(I,3) + V(3,IXS(J+1,I+NFT))-W(3,IXS(J+1,I+NFT))
+               ENDIF 
              ENDDO
             ENDDO
           ELSE
           !euler and lagrange
             TMP_2(1:MVSIZ,1:3) = ZERO
             DO J=1,8
-             DO  I=1,NEL
-              TMP_2(I,1)=TMP_2(I,1)+V(1,IXS(J+1,I+NFT))
-              TMP_2(I,2)=TMP_2(I,2)+V(2,IXS(J+1,I+NFT))
-              TMP_2(I,3)=TMP_2(I,3)+V(3,IXS(J+1,I+NFT))
-             ENDDO
+              DO  I=1,NEL
+                NODE = IXS(J+1,I+NFT)
+                IF(NODE > 0 .AND. NODE <= NUMNOD) THEN
+                  TMP_2(I,1)=TMP_2(I,1)+V(1,IXS(J+1,I+NFT))
+                  TMP_2(I,2)=TMP_2(I,2)+V(2,IXS(J+1,I+NFT))
+                  TMP_2(I,3)=TMP_2(I,3)+V(3,IXS(J+1,I+NFT))
+                ENDIF
+              ENDDO
             ENDDO
           ENDIF
 C------------------------------------
