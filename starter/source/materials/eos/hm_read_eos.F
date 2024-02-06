@@ -180,17 +180,6 @@ c--------------------------------------------------
      .                C2='EOS MODEL',
      .                C3= TITR)                             
         ENDIF
-
-        MTN = IPM(2,IMAT)  
-        IF (MTN/=3  .AND. MTN/=4   .AND. MTN/=6 .AND. MTN/=10 .AND. MTN/=12 .AND. 
-     .      MTN/=49 .AND. MTN/=102 .AND. MTN/=103 .AND. MTN/=109) THEN       
-          CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)                                                                        
-          CALL ANCMSG(MSGID=824,                                                                                                  
-     .                MSGTYPE=MSGERROR,                                                                                           
-     .                ANMODE=ANINFO,                                                                                              
-     .                I1=IPM(1,IMAT),                                                                                                
-     .                C1=TITR,I2=MTN)                                                                                             
-        ENDIF                                                                      
 c--------------------------------------------------
 c       Read EOS model
 c--------------------------------------------------
@@ -286,7 +275,6 @@ c--------------------------------------------------
 c
       ENDDO      !  HM_NEOS
 c--------------------------------------------------
-c
       DO I=1,NUMMAT-1
         MTN = IPM(2,I)
         IF (MTN /= 42) PM(100,I) = PM(32,I)

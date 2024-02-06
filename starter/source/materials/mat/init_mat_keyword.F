@@ -149,13 +149,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER(LEN=*) ::  KEYWORD
-      TYPE(MATPARAM_STRUCT_) :: MATPARAM
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IMAT
 C=======================================================================
-      SELECT CASE(KEYWORD)
+      SELECT CASE (KEYWORD)
 c---
         CASE ("COMPRESSIBLE")      
           MATPARAM%COMPRESSIBILITY = 1

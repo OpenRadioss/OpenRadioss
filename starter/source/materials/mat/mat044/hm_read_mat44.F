@@ -279,6 +279,8 @@ C
       CALL INIT_MAT_KEYWORD(MATPARAM,"BEAM_ALL")   
       CALL INIT_MAT_KEYWORD(MATPARAM,"TRUSS")         
 C
+      ! Material compatibility with /EOS option
+      CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
 c-----------------
       WRITE(IOUT,1000) TRIM(TITR),MAT_ID,44
       WRITE(IOUT,1100)
