@@ -76,7 +76,7 @@ c
         NLAY  = ELBUF_STR(NG)%NLAY  ! -> Number of layers 
 c
         !-----------------------------------------------------------------
-        ! Solid, Shell, Beam and SPH
+        ! Solid, Shell, Integrated Beam and SPH
         !-----------------------------------------------------------------
         IF (NLAY > 0) THEN
 c
