@@ -610,6 +610,8 @@ C-----------------------------------------------
       USE INTER_OFFSET_ITAG_MOD, ONLY:INTER_OFFSET_ITAG
       USE CHK_SHELL_OFFSET_MOD, ONLY:CHK_SHELL_OFFSET
       USE SHELL_OFFSETP_MOD, ONLY:SHELL_OFFSETP
+      USE UPDFAIL_MOD
+      USE RANDOM_WALK_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -880,8 +882,6 @@ C
       TYPE (DYNAIN_DATABASE)   :: DYNAIN_DATA
       TYPE (INTERFACES_)       :: INTERFACES
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
-
-
 C-----------------------------------------------
       CHARACTER(LEN=4096) :: SCR_FILE_NAME
       CHARACTER(LEN=ncharline) :: RLINE
@@ -1161,6 +1161,7 @@ C SEATBELTS
       INTEGER :: NDAMP_VREL_RBY
 
       TYPE(INTER_CAND_) :: INTER_CAND
+      TYPE (FAIL_FRACTAL_) :: FAIL_FRACTAL
 c=======================================================================
 !    
       PYTHON%NB_FUNCTS = 0
@@ -2079,7 +2080,7 @@ c------------------------------------
 c---------------------------------------------------------------
       CALL READ_MATERIAL_MODELS(
      .     MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,EOS_TAG   ,
-     .     RWORK       ,SBUFMAT  ,IPM      ,PM       ,UNITAB    ,
+     .     RWORK       ,SBUFMAT  ,IPM      ,PM        ,UNITAB    ,
      .     MULTI_FVM   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL ,
      .     TABLE       ,NPC      )
 c---------------------------------------------------------------
@@ -3656,6 +3657,8 @@ C--------------------------------------------
      *              IBOX     ,SKEW      ,IPARTQ    ,IPARTT   ,IPARTP    ,
      *              IPARTR   ,SUBSETS   ,RBY_MSN   ,ISKWN    ,RTRANS    ,
      *              UNITAB   ,RWORK     ,SBUFSF    ,SISKWN   ,SSKEW     )
+     
+     
 C        IF(ALLOCATED(RBY_MSN)) DEALLOCATE(RBY_MSN)
       ENDIF
       
@@ -5438,7 +5441,9 @@ c------------------------------------------------------------------------
      .            NPC      ,TF      ,SENSORS   ,NLOC_DMG ,MLAW_TAG ,
      .            MAT_ELEM%MAT_PARAM)
 c
-      CALL UPDFAIL(MAT_ELEM%MAT_PARAM ,NUMMAT ,NFUNCT ,NTABLE ,NPC1 ,TABLE )
+      CALL UPDFAIL(MAT_ELEM%MAT_PARAM ,NUMMAT ,NFUNCT ,NTABLE ,NPC1 ,TABLE ,
+     .             FAIL_FRACTAL,NGRSHEL   ,NGRSH3N,IGRSH4N ,IGRSH3N,
+     .             IXC    ,IXTG      ,NUMELC ,NUMELTG )
 C
       CALL TRACE_OUT1()
 C------------------------------------------------------------------------
@@ -8574,7 +8579,7 @@ C
      &            KNOD2EL1D  , NOD2EL1D       , EBCS_TAB         , RBY_INIAXIS        , ALEA     ,
      &            KNOD2ELC   , NOD2ELC        , DR               , SLRBODY            , DRAPEG   ,
      &            IPARI      , INTBUF_TAB     , INTERFACES       , MAT_ELEM%MAT_PARAM ,
-     &            NPRELOAD_A , PRELOAD_A      )
+     &            NPRELOAD_A , PRELOAD_A      , FAIL_FRACTAL     )
 
 
       IF(NINTER>0.AND.NUMELIG3D>0) THEN

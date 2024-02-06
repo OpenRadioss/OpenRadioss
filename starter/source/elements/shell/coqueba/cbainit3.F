@@ -77,7 +77,7 @@ Chd|====================================================================
      D           RNOISE   ,DRAPE    ,SH4ANG  ,GEO_STACK,
      E           IGEO_STACK,STRC    ,PERTURB  ,IYLDINI ,ELE_AREA,
      F           NLOC_DMG ,NG       ,GROUP_PARAM, IDRAPE , DRAPEG,
-     G           MAT_PARAM)
+     G           MAT_PARAM,FAIL_FRACTAL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -90,6 +90,8 @@ C-----------------------------------------------
       USE GROUP_PARAM_MOD      
       USE DRAPE_MOD        
       USE MATPARAM_DEF_MOD
+      USE RANDOM_WALK_DEF_MOD
+      USE FRACTAL_DMG_INIT_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -136,6 +138,7 @@ C-----------------------------------------------
       TYPE (DRAPE_)  ::  DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
       TYPE (DRAPEG_) ::  DRAPEG
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+      TYPE (FAIL_FRACTAL_) ,INTENT(IN) :: FAIL_FRACTAL
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSHEL) :: IGRSH4N
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
@@ -402,6 +405,13 @@ c
         ENDDO  ! IR = 1,NPTR
       ENDDO   ! IS = 1,NPTS
 c-----------------------------------------------------------------------
+c     Failure model initialisation
+c-----------------------------------------------------------------------
+c     set element damage initialized in /FAIL/FRACTAL_DMG
+      IF (FAIL_FRACTAL%NFAIL > 0) THEN
+        CALL FRACTAL_DMG_INIT(ELBUF_STR,MAT_PARAM,FAIL_FRACTAL,
+     .       NUMMAT ,NUMELC  ,NEL      ,NFT      ,NGL    ,ITY      )
+      ENDIF
 c     tag edge elements in local UVAR for /FAIL/ALTER (XFEM)
       IF (IFAIL > 0 .and. IHBE > 20 .AND. IHBE < 29) THEN
         CALL FAIL_WINDSHIELD_INIT(ELBUF_STR,MAT_PARAM,
