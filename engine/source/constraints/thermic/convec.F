@@ -294,6 +294,8 @@ C
             FTHESKY(IAD1) = ZERO
             IAD2 = IAD(2,NL)
             FTHESKY(IAD2) = ZERO
+            N3 = IBCV(3,NL)
+            N4 = IBCV(4,NL)
             IF(N4 > 0)THEN
               IAD3 = IAD(3,NL)
               FTHESKY(IAD3) = ZERO

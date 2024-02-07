@@ -502,6 +502,7 @@ C------------------------------------------------------------------
       USE_IFXM = 0
       USE_IFXS = 0
       USE_IEIGM = 0
+      MAX_DEPVAR=0
 C--------------------------------------------------
 C Initialize ProcessID variable for scratch filesqq
       CALL MY_GETPID(MY_PID)
