@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        CONTRBE2                      source/constraints/general/rbe2/hm_read_rbe2.F
 Chd|        CONTRBE3                      source/constraints/general/rbe3/contrbe3.F
 Chd|        CONTRL                        source/starter/contrl.F       
+Chd|        CREATE_ELLIPSE_CLAUSE         source/model/sets/create_ellipse_clause.F
 Chd|        GROUPS_GET_ELEM_LIST          source/groups/groups_get_elem_list.F
 Chd|        GROUPS_GET_NENTITY            source/groups/groups_get_nentity.F
 Chd|        HM_ADMLIST                    source/groups/hm_admlist.F    

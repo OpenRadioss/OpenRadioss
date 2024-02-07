@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        FAIL_PARAM_MOD                common_source/modules/mat_elem/fail_param_mod.F
 Chd|        MATPARAM_DEF_MOD              common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        VISC_PARAM_MOD                common_source/modules/mat_elem/visc_param_mod.F
+Chd|        CREATE_ELLIPSE_CLAUSE         starter/source/model/sets/create_ellipse_clause.F
 Chd|        WRITE_FAILPARAM               starter/source/materials/fail/write_failparam.F
 Chd|        WRITE_MATPARAM                starter/source/materials/mat/write_matparam.F
 Chd|        WRITE_VISCPARAM               starter/source/materials/mat/write_viscparam.F

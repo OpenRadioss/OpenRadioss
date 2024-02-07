@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|-- called by -----------
+Chd|        CREATE_ELLIPSE_CLAUSE         source/model/sets/create_ellipse_clause.F
 Chd|        HM_PROP_READ21                source/properties/thickshell/hm_read_prop21.F
 Chd|        HM_READ_ACTIV                 source/tools/activ/hm_read_activ.F
 Chd|        HM_READ_ADMAS                 source/tools/admas/hm_read_admas.F

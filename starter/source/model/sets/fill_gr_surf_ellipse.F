@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FILL_SURF_ELLIPSE             source/model/sets/fill_gr_surf_ellipse.F 
+Chd|  FILL_SURF_ELLIPSE             source/model/sets/fill_gr_surf_ellipse.F
 Chd|-- called by -----------
 Chd|        FILL_IGR                      source/model/sets/fill_igr.F  
 Chd|-- calls ---------------

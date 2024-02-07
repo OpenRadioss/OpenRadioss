@@ -30,8 +30,8 @@ Chd|        CLAUSE_INIT                   source/model/sets/clause_init.F
 Chd|        CREATE_BOX_CLAUSE             source/model/sets/create_box_clause.F
 Chd|        CREATE_ELEMENT_FROM_PART      source/model/sets/create_element_from_part.F
 Chd|        CREATE_ELEM_ALL_CLAUSE        source/model/sets/create_elem_all_clause.F
-Chd|        CREATE_ELT_CLAUSE             source/model/sets/create_element_clause.F
 Chd|        CREATE_ELLIPSE_CLAUSE         source/model/sets/create_ellipse_clause.F
+Chd|        CREATE_ELT_CLAUSE             source/model/sets/create_element_clause.F
 Chd|        CREATE_LINE_FROM_ELEMENT      source/model/sets/create_line_from_element.F
 Chd|        CREATE_LINE_FROM_SURFACE      source/model/sets/create_line_from_surface.F
 Chd|        CREATE_NODE_ALL_CLAUSE        source/model/sets/create_node_all_clause.F

@@ -76,6 +76,7 @@ Chd|        CMATINI4                      source/materials/mat_share/cmatini4.F
 Chd|        CONTRL                        source/starter/contrl.F       
 Chd|        CORTHINI                      source/elements/shell/coque/corthini.F
 Chd|        CREATE_CHILD                  source/coupling/rad2rad/r2r_fork.F
+Chd|        CREATE_ELLIPSE_CLAUSE         source/model/sets/create_ellipse_clause.F
 Chd|        CREATE_ELT_LIST               source/model/sets/create_element_clause.F
 Chd|        CREATE_MAP_TABLES             source/model/sets/map_tables.F
 Chd|        CREATE_NODE_LIST              source/model/sets/create_node_clause.F

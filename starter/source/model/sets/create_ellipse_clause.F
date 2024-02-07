@@ -26,12 +26,14 @@ Chd|-- called by -----------
 Chd|        HM_SET                        source/model/sets/hm_set.F    
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
+Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
+Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
+Chd|        SUBROTPOINT                   source/model/submodel/subrot.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
 Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
-Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|====================================================================
       SUBROUTINE CREATE_ELLIPSE_CLAUSE(ID        ,TITLE    ,SUB_ID   ,SKEW   ,RTRANS,
      .                                 CLAUSE    ,NRTRANS  ,LSUBMODEL,UNITAB ,ISKN  ,

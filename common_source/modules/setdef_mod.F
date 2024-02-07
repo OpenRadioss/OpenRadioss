@@ -30,6 +30,7 @@ Chd|        COPY_LIST_IN_CAUSE            starter/source/model/sets/create_eleme
 Chd|        CREATE_BOX_CLAUSE             starter/source/model/sets/create_box_clause.F
 Chd|        CREATE_ELEMENT_FROM_PART      starter/source/model/sets/create_element_from_part.F
 Chd|        CREATE_ELEM_ALL_CLAUSE        starter/source/model/sets/create_elem_all_clause.F
+Chd|        CREATE_ELLIPSE_CLAUSE         starter/source/model/sets/create_ellipse_clause.F
 Chd|        CREATE_ELT_BOX                starter/source/model/sets/create_elt_box.F
 Chd|        CREATE_ELT_CLAUSE             starter/source/model/sets/create_element_clause.F
 Chd|        CREATE_ELT_LIST               starter/source/model/sets/create_element_clause.F
@@ -77,6 +78,7 @@ Chd|        FILL_GR                       starter/source/model/sets/fill_gr.F
 Chd|        FILL_IGR                      starter/source/model/sets/fill_igr.F
 Chd|        FILL_LINE                     starter/source/model/sets/fill_gr.F
 Chd|        FILL_SURF                     starter/source/model/sets/fill_gr.F
+Chd|        FILL_SURF_ELLIPSE             starter/source/model/sets/fill_gr_surf_ellipse.F
 Chd|        HM_READ_INIVOL                starter/source/initial_conditions/inivol/hm_read_inivol.F
 Chd|        HM_SET                        starter/source/model/sets/hm_set.F
 Chd|        INSERT_CLAUSE_IN_SET          starter/source/model/sets/insert_clause_in_set.F

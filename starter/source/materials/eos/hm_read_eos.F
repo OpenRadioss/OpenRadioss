@@ -49,6 +49,7 @@ Chd|        HM_READ_EOS_TABULATED         source/materials/eos/hm_read_eos_tabul
 Chd|        HM_READ_EOS_TILLOTSON         source/materials/eos/hm_read_eos_tillotson.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================

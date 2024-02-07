@@ -116,6 +116,7 @@ C---
 Chd|====================================================================
 Chd|  SUBROTPOINT                   source/model/submodel/subrot.F
 Chd|-- called by -----------
+Chd|        CREATE_ELLIPSE_CLAUSE         source/model/sets/create_ellipse_clause.F
 Chd|        HM_READ_FRM                   source/tools/skew/hm_read_frm.F
 Chd|        HM_READ_PBLAST                source/loads/pblast/hm_read_pblast.F
 Chd|        HM_READ_RWALL_CYL             source/constraints/general/rwall/hm_read_rwall_cyl.F

@@ -29,6 +29,7 @@ Chd|        CONTRBE2                      source/constraints/general/rbe2/hm_rea
 Chd|        CONTRBE3                      source/constraints/general/rbe3/contrbe3.F
 Chd|        CONTRL                        source/starter/contrl.F       
 Chd|        CREATE_BOX_CLAUSE             source/model/sets/create_box_clause.F
+Chd|        CREATE_ELLIPSE_CLAUSE         source/model/sets/create_ellipse_clause.F
 Chd|        CREATE_ELT_BOX                source/model/sets/create_elt_box.F
 Chd|        CREATE_ELT_CLAUSE             source/model/sets/create_element_clause.F
 Chd|        CREATE_ELT_LIST               source/model/sets/create_element_clause.F

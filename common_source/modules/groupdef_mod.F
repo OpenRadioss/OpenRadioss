@@ -64,6 +64,7 @@ Chd|        FILL_GR                       starter/source/model/sets/fill_gr.F
 Chd|        FILL_IGR                      starter/source/model/sets/fill_igr.F
 Chd|        FILL_LINE                     starter/source/model/sets/fill_gr.F
 Chd|        FILL_SURF                     starter/source/model/sets/fill_gr.F
+Chd|        FILL_SURF_ELLIPSE             starter/source/model/sets/fill_gr_surf_ellipse.F
 Chd|        FVBAG_TAGELE                  starter/source/airbag/fvmbag1.F
 Chd|        FVBAG_VERTEX                  starter/source/spmd/domain_decomposition/grid2mat.F
 Chd|        FVBRIC0                       starter/source/airbag/fvbric0.F

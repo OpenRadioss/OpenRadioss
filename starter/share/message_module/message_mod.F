@@ -112,6 +112,7 @@ Chd|        CREATE_BOX_CLAUSE             source/model/sets/create_box_clause.F
 Chd|        CREATE_CHILD                  source/coupling/rad2rad/r2r_fork.F
 Chd|        CREATE_ELEMENT_FROM_PART      source/model/sets/create_element_from_part.F
 Chd|        CREATE_ELEM_ALL_CLAUSE        source/model/sets/create_elem_all_clause.F
+Chd|        CREATE_ELLIPSE_CLAUSE         source/model/sets/create_ellipse_clause.F
 Chd|        CREATE_ELT_BOX                source/model/sets/create_elt_box.F
 Chd|        CREATE_ELT_CLAUSE             source/model/sets/create_element_clause.F
 Chd|        CREATE_ELT_LIST               source/model/sets/create_element_clause.F
@@ -184,6 +185,7 @@ Chd|        FILL_IGR                      source/model/sets/fill_igr.F
 Chd|        FILL_INTERCEP                 source/spmd/node/ddtools.F    
 Chd|        FILL_LINE                     source/model/sets/fill_gr.F   
 Chd|        FILL_SURF                     source/model/sets/fill_gr.F   
+Chd|        FILL_SURF_ELLIPSE             source/model/sets/fill_gr_surf_ellipse.F
 Chd|        FINDELE                       source/boundary_conditions/ebcs/findele.F
 Chd|        FIND_DT1BRICK_ENGINE          source/starter/contrl.F       
 Chd|        FIND_DT_ENGINE                source/coupling/rad2rad/r2r_speedup.F

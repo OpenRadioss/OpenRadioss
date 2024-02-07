@@ -29,6 +29,7 @@ Chd|        CGRTAILS                      starter/source/elements/shell/coque/cg
 Chd|        FAIL_INIT                     starter/source/materials/fail/fail_init.F
 Chd|        FILL_BUFFER_51_0              starter/source/materials/mat/mat051/fill_buffer_51_0.F
 Chd|        FUNC_COMP                     starter/source/materials/mat/mat076/law76_upd.F
+Chd|        HM_READ_EOS                   starter/source/materials/eos/hm_read_eos.F
 Chd|        HM_READ_MAT                   starter/source/materials/mat/hm_read_mat.F
 Chd|        HM_READ_MAT00                 starter/source/materials/mat/mat000/hm_read_mat00.F
 Chd|        HM_READ_MAT01                 starter/source/materials/mat/mat001/hm_read_mat01.F
