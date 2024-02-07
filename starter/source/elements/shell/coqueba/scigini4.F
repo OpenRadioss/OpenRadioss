@@ -297,8 +297,8 @@ C--- in global sys modifying directly SIGSH
                   DO IP=1,NPG
                     S6(1:6)=SIGSH(PT:PT+5,II)
                     CALL CG2LSIG(
-     *              E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
-     *              E1Z    ,E2Z   ,E3Z   ,S6    )
+     7              E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
+     8              E1Z(I) ,E2Z(I),E3Z(I),S6   )
                     TJ=SIX*SIGSH(PT+7,II)
                     PT = PT + 8
                     FORJ(1:5,IP) = FORJ(1:5,IP) + UNPT*S6(1:5)
@@ -318,8 +318,8 @@ C--- in global sys modifying directly SIGSH
                 DO IT=1,NPTI
                   S6(1:6)=SIGSH(PT:PT+5,II)
                   CALL CG2LSIG(
-     *            E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
-     *            E1Z    ,E2Z   ,E3Z   ,S6    )
+     7            E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
+     8            E1Z(I) ,E2Z(I),E3Z(I),S6   )
                   TJ=SIX*SIGSH(PT+7,II)
                   PT = PT + 8
                   FORJ(1:5,1) = FORJ(1:5,1) + UNPT*S6(1:5)
@@ -339,8 +339,8 @@ C------ Q4,T3
                  S6(4:6)=SIGSH(PT+2:PT+4,II)
                  TJ=SIX*SIGSH(INISHVAR+NPTI+IT,II)
                 CALL CG2LSIG(
-     7          E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
-     8          E1Z    ,E2Z   ,E3Z   ,S6    )
+     7          E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
+     8          E1Z(I) ,E2Z(I),E3Z(I),S6   )
                 FORJ(1:5,1) = FORJ(1:5,1) + UNPT*S6(1:5)
                 IF (TJ>ZERO) MOMJ(1:3,1) = S6(1:3)/TJ
                ENDDO
@@ -357,14 +357,14 @@ C
 !              
                 S6(1:6)=SIGSH(PT:PT+5,II)
                 CALL CG2LSIG(
-     7           E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
-     8           E1Z    ,E2Z   ,E3Z   ,S6    )
+     7            E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
+     8            E1Z(I) ,E2Z(I),E3Z(I),S6   )
                 SIGSH(PTN:PTN+4,II)=S6(1:5)
                 SIGSH(PTN+5,II)=SIGSH(PT+12,II)
                 S6(1:6)=SIGSH(PT+6:PT+11,II)
                 CALL CG2LSIG(
-     7           E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
-     8           E1Z    ,E2Z   ,E3Z   ,S6    )
+     7              E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
+     8              E1Z(I) ,E2Z(I),E3Z(I),S6   )
                 SIGSH(PTN+6:PTN+8,II)=S6(1:3)
                END DO !IP =1,NPG
               ELSE
@@ -373,16 +373,16 @@ C
                 LBUF => ELBUF_STR%BUFLY(1)%LBUF(IR,IS,1)
                 S6(1:6)=SIGSH(PT:PT+5,II)
                 CALL CG2LSIG(
-     7           E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
-     8           E1Z    ,E2Z   ,E3Z   ,S6    )
+     7              E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
+     8              E1Z(I) ,E2Z(I),E3Z(I),S6   )
 C     
                 IF (NPG<4) S6(4:5)=ZERO 
                 FOR(I,1:5)=S6(1:5)
                 IF (L_PLA > 0) LBUF%PLA(I)=SIGSH(PT+12,II)
                 S6(1:6)=SIGSH(PT+6:PT+11,II)
                 CALL CG2LSIG(
-     7           E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
-     8           E1Z    ,E2Z   ,E3Z   ,S6    )
+     7              E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
+     8              E1Z(I) ,E2Z(I),E3Z(I),S6   )
                  MOM(I,1:3)=S6(1:3)
               END IF ! IHBE
 C------------NPG=1               
@@ -391,8 +391,8 @@ C------------NPG=1
               S6(3)=SIGSH(18,II)
               S6(4:6)=SIGSH(24:26,II)
               CALL CG2LSIG(
-     7           E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
-     8           E1Z    ,E2Z   ,E3Z   ,S6    )
+     7           E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
+     8           E1Z(I) ,E2Z(I),E3Z(I),S6   )
               SIGSH(22:26,II)=S6(1:5)
 C---MOM              
               S6(1:2)=SIGSH(28:29,II)
@@ -400,8 +400,8 @@ C---MOM
               S6(4)=SIGSH(30,II)
               S6(5:6)=SIGSH(20:21,II)
               CALL CG2LSIG(
-     7           E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
-     8           E1Z    ,E2Z   ,E3Z   ,S6    )
+     7           E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
+     8           E1Z(I) ,E2Z(I),E3Z(I),S6   )
               SIGSH(27:29,II)=S6(1:3)
             END IF ! NPG
            END IF !(NPTI>1) THEN
@@ -422,8 +422,8 @@ C-------npt>1
                      DO IP=1,NPG
                        S6(1:6)=SIGSH(PT:PT+5,II)
                        CALL CG2LSIG(
-     7                 E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
-     8                 E1Z    ,E2Z   ,E3Z   ,S6    )
+     7                 E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
+     8                 E1Z(I) ,E2Z(I),E3Z(I),S6   )
                        CALL LOC2ORTH(S6,DIR_A,DIR_B,JJ,ILAW,IGTYP,NEL)
                        SIGSH(PTN:PTN+4,II) = S6(1:5)
                        SIGSH(PTN+5,II) = SIGSH(PT+6,II)
@@ -449,8 +449,8 @@ C----------unlike QEPH, SIGSH can't be updated w/ reduced dim
                      IPT =IPT_ALL+IT
                        S6(1:6)=SIGSH(PT:PT+5,II)
                        CALL CG2LSIG(
-     7                 E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
-     8                 E1Z    ,E2Z   ,E3Z   ,S6    )
+     7                 E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
+     8                 E1Z(I) ,E2Z(I),E3Z(I),S6   )
 C---------no transvers shear for DKT
                       IF (NPG<4) S6(4:5)=ZERO 
                        CALL LOC2ORTH(S6,DIR_A,DIR_B,JJ,ILAW,IGTYP,NEL)
@@ -478,8 +478,8 @@ C------ Q4,T3
                    S6(4:6)=SIGSH(PT+2:PT+4,II)
                    POSI(I,IPT)=SIGSH(INISHVAR+NPT+IPT,II)
                   CALL CG2LSIG(
-     7            E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
-     8            E1Z    ,E2Z   ,E3Z   ,S6    )
+     7              E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
+     8              E1Z(I) ,E2Z(I),E3Z(I),S6   )
                   CALL LOC2ORTH(S6,DIR_A,DIR_B,JJ,ILAW,IGTYP,NEL)
                   SIGSH(PT:PT+4,II) = S6(1:5)
                  ENDDO
