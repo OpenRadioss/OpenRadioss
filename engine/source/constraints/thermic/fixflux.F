@@ -342,7 +342,11 @@ C
 C----------------------------
 C       IMPOSED VOLUMIC FLUX
 C----------------------------
-             WRITE(IOUT,'(//A)') ' VOLUMIC HEAT FLUX IS NOT COMPATIBLE WITH /PARITH/ON : USE /PARITH/OFF'
+             WRITE(IOUT,'(//A)') ' VOLUMIC HEAT FLUX IS NOT 
+     . COMPATIBLE WITH /PARITH/ON: USE /PARITH/OFF'
+             WRITE(6,*) ' VOLUMIC HEAT FLUX IS NOT ',
+     .                   'COMPATIBLE WITH /PARITH/ON: USE /PARITH/OFF'
+             CALL FLUSH(6)
              CALL ARRET(2)
            ENDIF
         ENDDO       
