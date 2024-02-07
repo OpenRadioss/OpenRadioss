@@ -231,8 +231,8 @@ c             error out
                  S6(4:6)=SIGSH(PT+2:PT+4,II)
                  TJ=SIX*SIGSH(INISHVAR+NPTI+IT,II)
                 CALL CG2LSIG(
-     7          E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
-     8          E1Z    ,E2Z   ,E3Z   ,S6    )
+     7           E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
+     8           E1Z(I) ,E2Z(I),E3Z(I),S6   )
                 FORJ(1:5) = FORJ(1:5) + UNPT*S6(1:5)
                 IF (TJ>ZERO) MOMJ(1:3) = S6(1:3)/TJ
                ENDDO
@@ -353,8 +353,8 @@ C
                   S6(3)=SIGSH(PTN,II)
                   S6(4:6)=SIGSH(PT+2:PT+4,II)
                   CALL CG2LSIG(
-     7            E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
-     8            E1Z    ,E2Z   ,E3Z   ,S6    )
+     7            E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
+     8            E1Z(I) ,E2Z(I),E3Z(I),S6   )
                   CALL LOC2ORTH(S6,DIR_A,DIR_B,JJ,ILAW,IGTYP,NEL)
                   SIGSH(PT:PT+4,II) = S6(1:5)
                   POSI(I,IPT)=SIGSH(PTN+NPT,II)
