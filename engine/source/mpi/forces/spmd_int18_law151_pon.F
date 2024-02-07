@@ -196,6 +196,7 @@ C
                                 IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
                                     L = L + 1
                                     BBUFS(L) = -NSVFI(NIN)%P(IDEB+N)
+                                    NSVFI(NIN)%P(IDEB+N) = -NSVFI(NIN)%P(IDEB+N)
                                     DO IJ=1,6
                                        BBUFS(L+IJ)  = MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(1,IJ,IDEB+N)
                                        BBUFS(L+6+IJ)  = MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(2,IJ,IDEB+N)
