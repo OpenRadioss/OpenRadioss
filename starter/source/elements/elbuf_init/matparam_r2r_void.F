@@ -83,6 +83,8 @@ c
         MATPARAM_TAB(I)%PROP_SPRING        = MATPARAM_INI(I)%PROP_SPRING
         MATPARAM_TAB(I)%PROP_TRUSS         = MATPARAM_INI(I)%PROP_TRUSS
         MATPARAM_TAB(I)%PROP_SPH           = MATPARAM_INI(I)%PROP_SPH
+c
+        MATPARAM_TAB(I)%COMPATIBILITY_EOS  = MATPARAM_INI(I)%COMPATIBILITY_EOS
       ENDDO
 c
 c     Fill matparam for additional rad2rad void materials
@@ -121,6 +123,7 @@ c
         MATPARAM_TAB(I)%PROP_SPRING        = 2
         MATPARAM_TAB(I)%PROP_TRUSS         = 1
         MATPARAM_TAB(I)%PROP_SPH           = 1 
+        MATPARAM_TAB(I)%COMPATIBILITY_EOS  = 0
       ENDDO
 c-----------------------------------------------
       RETURN
