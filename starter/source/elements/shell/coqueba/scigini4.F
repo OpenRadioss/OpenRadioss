@@ -94,7 +94,7 @@ C-----------------------------------------------
      . POSI(MVSIZ,NPT)
       my_real 
      .    E1(6),E2(6),Z1,Z2,Z0,AA,E1G(6,4),E2G(6,4),Z1G(4),Z2G(4),UNG,
-     .    FORJ(5,4),MOMJ(3,4),TJ,UNPT
+     .    FORJ(5,4),MOMJ(3,4),TJ,UNPT,F2MJ(4),F2M
 C--------------------------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -292,7 +292,7 @@ C--- in global sys modifying directly SIGSH
               IF (IHBE == 23) THEN      !  QEPH-----
                 PT = 22 
                 FORJ(1:5,1:4) = ZERO
-                MOMJ(1:3,1:4) = ZERO
+                F2MJ(1:4) = ZERO
                 DO IT=1,NPTI
                   DO IP=1,NPG
                     S6(1:6)=SIGSH(PT:PT+5,II)
@@ -302,10 +302,14 @@ C--- in global sys modifying directly SIGSH
                     TJ=SIX*SIGSH(PT+7,II)
                     PT = PT + 8
                     FORJ(1:5,IP) = FORJ(1:5,IP) + UNPT*S6(1:5)
-                    IF (TJ>ZERO) MOMJ(1:3,IP) = S6(1:3)/TJ
+                    IF (TJ>ZERO) THEN
+                      F2MJ(J) = ONE/TJ
+                      MOMJ(1:3,IP) = S6(1:3)
+                    END IF 
                   END DO 
                 ENDDO
                DO IP =1,NPG
+                MOMJ(1:3,IP) = F2MJ(J)*(MOMJ(1:3,IP)-FORJ(1:3,IP))
                 PTN= 22 + 9*(IP-1)
                 SIGSH(PTN:PTN+4,II)=FORJ(1:5,IP)
                 SIGSH(PTN+5,II)=ZERO
@@ -314,7 +318,7 @@ C--- in global sys modifying directly SIGSH
               ELSE
                 PT = 22 + 8*(IPG -1)
                 FORJ(1:5,1) = ZERO
-                MOMJ(1:3,1) = ZERO
+                F2M = ZERO
                 DO IT=1,NPTI
                   S6(1:6)=SIGSH(PT:PT+5,II)
                   CALL CG2LSIG(
@@ -323,15 +327,18 @@ C--- in global sys modifying directly SIGSH
                   TJ=SIX*SIGSH(PT+7,II)
                   PT = PT + 8
                   FORJ(1:5,1) = FORJ(1:5,1) + UNPT*S6(1:5)
-                  IF (TJ>ZERO) MOMJ(1:3,1) = S6(1:3)/TJ
+                  IF (TJ>ZERO) THEN
+                    F2M = ONE/TJ
+                    MOMJ(1:3,1) = S6(1:3)
+                  END IF 
                 ENDDO
                 FOR(I,1:5)=FORJ(1:5,1)
-                MOM(I,1:3)=MOMJ(1:3,1)
+                MOM(I,1:3)=F2M*(MOMJ(1:3,1)-FORJ(1:3,1))
               END IF ! IHBE
             ELSE
 C------ Q4,T3 
               FORJ(1:5,1) = ZERO
-              MOMJ(1:3,1) = ZERO
+              F2M = ZERO
                DO IT=1,NPTI
                  PT = 22 + 6*(IT-1)
                  S6(1:2)=SIGSH(PT:PT+1,II)
@@ -342,10 +349,13 @@ C------ Q4,T3
      7          E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
      8          E1Z(I) ,E2Z(I),E3Z(I),S6   )
                 FORJ(1:5,1) = FORJ(1:5,1) + UNPT*S6(1:5)
-                IF (TJ>ZERO) MOMJ(1:3,1) = S6(1:3)/TJ
+                IF (TJ>ZERO) THEN
+                  F2M = ONE/TJ
+                  MOMJ(1:3,1) = S6(1:3)
+                END IF 
                ENDDO
                SIGSH(22:26,II)=FORJ(1:5,1)
-               SIGSH(27:29,II)=MOMJ(1:3,1)
+               SIGSH(28:30,II)=F2M*(MOMJ(1:3,1)-FORJ(1:3,1))
             END IF !(NPG>1) THEN
            ELSE ! NPTI=0
 C            
@@ -402,7 +412,7 @@ C---MOM
               CALL CG2LSIG(
      7           E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
      8           E1Z(I) ,E2Z(I),E3Z(I),S6   )
-              SIGSH(27:29,II)=S6(1:3)
+              SIGSH(28:30,II)=S6(1:3)
             END IF ! NPG
            END IF !(NPTI>1) THEN
           ELSE
