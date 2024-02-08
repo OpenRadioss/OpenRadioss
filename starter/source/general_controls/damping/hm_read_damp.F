@@ -37,7 +37,8 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_DAMP(DAMPR  ,IGRNOD, ISKN,LSUBMODEL,UNITAB)
+      SUBROUTINE HM_READ_DAMP(DAMPR,IGRNOD, ISKN,LSUBMODEL,UNITAB,NPBY,
+     .                        SNPC1,NPC1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,6 +66,7 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
       INTEGER ISKN(LISKN,*)
+      INTEGER, INTENT(IN) :: SNPC1,NPC1(SNPC1),NPBY(NNPBY,NRBYKIN)
       my_real
      .  DAMPR(NRDAMP,*)
 C-----------------------------------------------
@@ -79,10 +81,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ID,JGRN,ISK,FL_VREL
       INTEGER NB_PAS,RANGE,FLINT,FLG_PRI,SUB_INDEX
+      INTEGER FUNC_ID,RBODY_ID,IRBY,IFUN,IGR
       my_real
      .   FACTB,TSTART,TSTOP,
      .   ALPHA,BETA,ALPHA_Y,BETA_Y,ALPHA_Z,BETA_Z,ALPHA_XX,BETA_XX,ALPHA_YY,
-     .   BETA_YY,ALPHA_ZZ,BETA_ZZ,CDAMP_MX,CDAMP_MY,CDAMP_MZ
+     .   BETA_YY,ALPHA_ZZ,BETA_ZZ,CDAMP_MX,CDAMP_MY,CDAMP_MZ,
+     .   DV2_MX,DV2_MY,DV2_MZ,FREQ,XSCALE
       CHARACTER  TITR*nchartitle,KEY*nchartitle
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
@@ -144,7 +148,7 @@ C--------------------------------------------------
           WRITE(IOUT,1300)
           WRITE(IOUT,1400) NB_PAS
           WRITE(IOUT,1600) RANGE
-          IDAMP_RDOF = IDAMP_RDOF+1
+          IDAMP_RDOF = IDAMP_RDOF+1 
           KCONTACT = 1
           DAMPR(19,I) = NB_PAS
           DAMPR(20,I) = RANGE
@@ -157,22 +161,74 @@ C--------------------------------------------------
           CALL HM_GET_INTV('grnod_id',JGRN,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('skew_id',ISK,IS_AVAILABLE,LSUBMODEL)
           IF(ISK == 0 .AND. SUB_INDEX .NE. 0 ) ISK = LSUBMODEL(SUB_INDEX)%SKEW
+          CALL HM_GET_INTV('RbodyID',RBODY_ID,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('FuncID',FUNC_ID,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
           CALL HM_GET_FLOATV('Tstart',TSTART,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('Tstop',TSTOP,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Freq',FREQ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Xscale',XSCALE,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('Alpha_x',CDAMP_MX,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('Alpha_y',CDAMP_MY,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('Alpha_z',CDAMP_MZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Alpha2_x',DV2_MX,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Alpha2_y',DV2_MY,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Alpha2_z',DV2_MZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C--------------------------------------------------
           IF (CDAMP_MY == ZERO) CDAMP_MY = CDAMP_MX
           IF (CDAMP_MZ == ZERO) CDAMP_MZ = CDAMP_MX
+          IF (DV2_MY == ZERO) DV2_MY = DV2_MX
+          IF (DV2_MZ == ZERO) DV2_MZ = DV2_MX
+          IF (XSCALE == ZERO) XSCALE = ONE
+C---------RBODY ID user----------------------------
+          IRBY=0
+          IF (RBODY_ID /= 0) THEN  
+            DO J=1,NRBYKIN
+              IF (RBODY_ID == NPBY(6,J)) THEN
+                IRBY=J                     
+                EXIT
+              ENDIF 
+            ENDDO
+            IF (IRBY == 0)THEN  !  Rbody not found    
+              CALL ANCMSG(MSGID=3048,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO,
+     .                  I1=ID,
+     .                  C1=TITR,
+     .                  I2=RBODY_ID)                        
+            ENDIF
+          ENDIF
+C---------FUNC ID user-----------------------------
+          IFUN=0    
+          IF (FUNC_ID /= 0) THEN  
+            DO J=1,NFUNCT
+              IF (FUNC_ID == NPC1(J)) THEN
+                IFUN=J                  
+                EXIT
+              ENDIF 
+            ENDDO
+            IF (IFUN == 0)THEN  !  Function not found    
+              CALL ANCMSG(MSGID=3049,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO,
+     .                  I1=ID,
+     .                  C1=TITR,
+     .                  I2=FUNC_ID)                           
+            ENDIF
+          ENDIF
 C--------------------------------------------------     
           WRITE(IOUT,1700)
           DAMPR(19,I) = 0
           DAMPR(20,I) = 0
           DAMPR(21,I) = 1
+          DAMPR(22,I) = DV2_MX
+          DAMPR(23,I) = DV2_MY
+          DAMPR(24,I) = DV2_MZ
+          DAMPR(25,I) = IRBY
+          DAMPR(26,I) = IFUN
+          DAMPR(27,I) = XSCALE
           FULL_FORMAT = .TRUE.               
         ELSE
 C--------------------------------------------------
@@ -223,7 +279,8 @@ C
 C
         DAMPR(1,I) = ID
         INGR2USR => IGRNOD(1:NGRNOD)%ID
-        DAMPR(2,I) = NGR2USR(JGRN,INGR2USR,NGRNOD)
+        IGR = NGR2USR(JGRN,INGR2USR,NGRNOD)
+        DAMPR(2,I) = IGR
         DAMPR(3,I) = ALPHA
         DAMPR(4,I) = BETA
         IF (DAMPR(2,I) == 0) THEN
@@ -321,8 +378,16 @@ C--       /DAMP/VREL
             DAMPR(12,I) = ZERO
             DAMPR(13,I) = ZERO
             DAMPR(14,I) = ZERO
-            WRITE (IOUT,1800) JGRN,ISKN(4,ISK),
-     .                        CDAMP_MX,CDAMP_MY,CDAMP_MZ,TSTART,TSTOP
+            WRITE (IOUT,1800) JGRN,ISKN(4,ISK),RBODY_ID,FUNC_ID,
+     .                        CDAMP_MX,CDAMP_MY,CDAMP_MZ,
+     .                        DV2_MX,DV2_MY,DV2_MZ,
+     .                        FREQ,TSTART,TSTOP
+            IF (FREQ == ZERO) FREQ = EP20
+            DAMPR(28,I) = FREQ
+            IF (IRBY > 0) THEN
+C--           Main node is sticked on proc with damped nodes
+              CALL SPMDSET(IRBY,NPBY,NNPBY,IGRNOD(IGR)%ENTITY,IGRNOD(IGR)%NENTITY,0)   
+            ENDIF              
           ENDIF
         ENDIF
         DAMPR(16,I) = FACTB
@@ -370,10 +435,16 @@ C---
  1600 FORMAT( 10X,'EXTENSION OF NODES SELECTION . ',I10,/)
  1700 FORMAT(/,10X,'RAYLEIGH DAMPING WITH RELATIVE VELOCITIES')
  1800 FORMAT( 10X,'NODE GROUP ID . . . . . . . . .',I10
-     .       /10X,'SKEW ID . . . . . . . . .   . .',I10
+     .       /10X,'SKEW ID . . . . . . . . . . . .',I10
+     .       /10X,'RBODY ID . . . . . . . . . . . ',I10
+     .       /10X,'DAMPING FUNCTION ID . . . . . .',I10
      .       /10X,'MASS DAMPING COEFFICIENT IN X-DIRECTION. . . . . .',1PG20.13
      .       /10X,'MASS DAMPING COEFFICIENT IN Y-DIRECTION. . . . . .',1PG20.13
      .       /10X,'MASS DAMPING COEFFICIENT IN Z-DIRECTION. . . . . .',1PG20.13
+     .       /10X,'QUADRATIC MASS DAMPING COEFFICIENT IN X-DIRECTION.',1PG20.13
+     .       /10X,'QUADRATIC MASS DAMPING COEFFICIENT IN Y-DIRECTION.',1PG20.13
+     .       /10X,'QUADRATIC MASS DAMPING COEFFICIENT IN Z-DIRECTION.',1PG20.13
+     .       /10X,'DAMPING FREQUENCY . . . . . . . . . . . . . . . . ',1PG20.13
      .       /10X,'START TIME . . . . . . . . . . . . . . . . . . . .',1PG20.13
      .       /10X,'STOP TIME  . . . . . . . . . . . . . . . . . . . .',1PG20.13)         
 C---
