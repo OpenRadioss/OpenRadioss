@@ -489,7 +489,6 @@ Chd|  MIXTURE_EQUILIBRIUM           source/materials/mat/mat041/sigeps41.F
 Chd|-- called by -----------
 Chd|        SIGEPS41                      source/materials/mat/mat041/sigeps41.F
 Chd|-- calls ---------------
-Chd|        FTNCH                         source/materials/mat/mat041/sigeps41.F
 Chd|        JWL_EOS_STATE                 source/materials/mat/mat041/sigeps41.F
 Chd|====================================================================
       SUBROUTINE MIXTURE_EQUILIBRIUM(
@@ -652,7 +651,6 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  JWL_EOS_STATE                 source/materials/mat/mat041/sigeps41.F
 Chd|-- called by -----------
-Chd|        FTNCH                         source/materials/mat/mat041/sigeps41.F
 Chd|        MIXTURE_EQUILIBRIUM           source/materials/mat/mat041/sigeps41.F
 Chd|-- calls ---------------
 Chd|====================================================================
