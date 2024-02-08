@@ -39,11 +39,14 @@ Chd|====================================================================
      4   IGRSURF  ,BUFSF  ,ICODR  ,ISKEW  ,SKEW    ,
      5   KIND     ,IAD_RBY,FR_RBY6,RBY6   ,IRBKIN_L,
      6   NRBYKIN_L,NATIV_SMS,DIMFB,FBSAV6 ,STABSEN ,
-     7   TABSENSOR,NODREAC,FTHREAC,CPTREAC)
+     7   TABSENSOR,NODREAC,FTHREAC,CPTREAC,DAMPR   ,
+     8   SDAMP    ,DAMP   ,NDAMP_VREL,ID_DAMP_VREL,IGRNOD,
+     9   TAGSLV_RBY,IPARIT,TFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
+      USE damping_vref_rby_mod
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,11 +78,17 @@ C     REAL
       DOUBLE PRECISION
      .        FBSAV6(12,6,DIMFB),RBID(12,6)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+C
+      INTEGER ,INTENT(IN) :: NDAMP_VREL,IPARIT,SDAMP
+      INTEGER ,INTENT(IN) :: ID_DAMP_VREL(NDAMP_VREL),TAGSLV_RBY(NUMNOD)
+      my_real, INTENT(INOUT) :: DAMPR(NRDAMP,NDAMP),DAMP(SDAMP),TFEXT
+      TYPE(GROUP_), INTENT(IN) :: IGRNOD(NGRNOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  J,K,N,KK,N2,ILAGM,
-     .         ISU,ADRSRF,IM, L, LSEND, LRECV, NRBDIM,IPARSENS,ISECT
+     .         ISU,ADRSRF,IM, L, LSEND, LRECV, NRBDIM,IPARSENS,ISECT,
+     .         DIM     
 C-------------------------------------
 C INIT RBY6 to ZERO for desactivated Rigid Bodies (non multi-thread)
 C-------------------------------------
@@ -240,6 +249,21 @@ c
       ENDDO
 
 !$OMP END DO
+   
+C-------------------------------------
+C Treatment of /DAMP/VREL with rigid body
+C-------------------------------------
+      IF ((NDAMP_VREL > 0).AND.(NRBYKIN_L > 0)) THEN
+!$OMP SINGLE               
+        DIM = 3+3*IRODDL    
+        CALL damping_vref_rby(IGRNOD    ,NGRNOD   ,V        ,VR        ,A         ,
+     .                        X         ,MS       ,STIFN    ,DAMPR     ,NRDAMP    ,
+     .                        NDAMP     ,NDAMP_VREL,NUMNOD  ,DT1       ,ID_DAMP_VREL,
+     .                        TT        ,NNPBY    ,NRBYKIN  ,NPBY      ,RBY6      ,
+     .                        TAGSLV_RBY,IPARIT   ,WEIGHT   ,LSKEW     ,NUMSKW    ,
+     .                        DIM       ,DAMP     ,SKEW     ,TFEXT)
+!$OMP END SINGLE
+      ENDIF 
 
       IF (NSPMD > 1) THEN
 

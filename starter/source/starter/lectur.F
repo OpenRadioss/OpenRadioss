@@ -909,7 +909,7 @@ C======================================================================|
      .    ITRI1,ITRI2,ITRI3,INDEX,
      .    INDEX1,INDEX2,IWD,IWEIG,INUM,EADD,ITR1,ITR2,XEP,
      .    IPARTTHI,IPARTIG3D,IEDGESH4,IEDGESH3,IELCRK4,IELCRK3
-      INTEGER BID13(1)
+      INTEGER BID13(1),SNPC1
       INTEGER L0,L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,L11,L12,SIXTG0,
      .    SIXS0,SIXS10,SIXS20,SIXS16,SIWORK,SIWORK2,SIEXTAG,
      .    NUMCLD,NUMPRES,NUMLINK,NUMGRAV,NUMRBYMOU,
@@ -1413,7 +1413,7 @@ C--------------------------------------------
         SDR = 3*NUMNOD*MAX(IRODDL,IRODDL0)
       ELSE
         SDR = 0
-      ENDIF
+      ENDIF 
       IF(FLAG_GOTO == 1) GOTO 258
 C--------------------------------------------
       IF(NDAMP > 0) THEN
@@ -1826,8 +1826,10 @@ C     ipart
 c
       IF(NFUNCT+2<=SNPC-NFUNCT) THEN
         NPC1   => NPC(NFUNCT+2:SNPC-NFUNCT)
+        SNPC1 = SNPC-2*NFUNCT+1
       ELSE
         NPC1   => NPC
+        SNPC1 = SNPC
       END IF
 
 212      IF(SIXS0+SIXS10>SIXS0) THEN
@@ -4196,14 +4198,6 @@ C--------------------------------------------------------------------------
      .            ICODE  ,IPARTQ  ,IGRQUAD ,IPM     ,IGEO    )
       IF(ALLOCATED(IWORK)) DEALLOCATE(IWORK)
       CALL TRACE_OUT1()
-C------------------------------------------------------------------
-C     RAYLEIGH DAMPING
-C--------------------------------------------
-      ERR_MSG='DAMPING'
-      ERR_CATEGORY='DAMPING'
-      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF(NDAMP > 0) CALL HM_READ_DAMP(DAMPR   ,IGRNOD  ,ISKWN,LSUBMODEL,UNITAB)
-      CALL TRACE_OUT1()
 C--------------------------------------------
 C     MULTI-POINT CONSTRAINTS (1)
 C--------------------------------------------
@@ -5374,7 +5368,7 @@ C------------------------------------------------------------------------
      .            IBFV     ,ISKEW    ,ISKWN    ,SENSORS   ,
      .            ITABM1   ,SKEW     ,LACCELM  ,BID13     ,BUFGEO   ,
      .            IBCSLAG  ,IGEO     ,IPM      ,
-     .            DAMPR    ,IBFTEMP  ,IBCV     ,IBFV      ,
+     .            IBFTEMP  ,IBCV     ,IBFV      ,
      .            IBCR     ,TABLE    ,NPC1     ,NPC       ,TF       ,
      .            NOM_OPT(LNOPT1*INOM_OPT(3)+1),IBFFLUX   )
 C
@@ -7403,7 +7397,7 @@ C read /INIBRI/FILL before interfaces stiffness
      5                         MULTI_FVM%X_APPEND,MULTI_FVM%V_APPEND,MULTI_FVM%MASS_APPEND,MULTI_FVM%KINET_APPEND)
 
 C
-C fill interface structure to be used by sorting
+C fill interface structure to be used by sorting 
 c set INTERCEP for INT7 only to avoid bug with INT20 dur to renumerotation
 c in I20NLG (other interface types still done in SET_INTERCEP)
         CALL FILL_INTERCEP(IPARI,INTBUF_TAB,INTERCEP)
@@ -7620,30 +7614,42 @@ C
 C--------------------------------------------
 C     LECTURE DES FUSIONS DE RIGID BODY
 C--------------------------------------------
-        IF(NRBMERGE > 0) THEN
-          CALL HM_READ_MERGE(
+      IF(NRBMERGE > 0) THEN
+        CALL HM_READ_MERGE(
      .      MGRBY,SMGRBY ,NPBY,LPBY   ,SLRBODY,
      .      RBY  ,NOM_OPT,INOM_OPT(30),IGRNOD ,
      .      ITAB ,ITABM1 ,LGRAV       ,IGRV   ,
      .      LSUBMODEL)
-        ENDIF
+      ENDIF
 C--------------------------------------------
 C     CHECK DES STRUCTURES RIGIDES
 C--------------------------------------------
-        IF(NRBYKIN > 0) THEN
-          CALL CHECKRBY(
+      IF(NRBYKIN > 0) THEN
+        CALL CHECKRBY(
      1       RBY    ,NPBY    ,LPBY   ,ITAB   ,
      2       D      ,IDDLEVEL,NOM_OPT,SLRBODY)
-        ENDIF
+      ENDIF
 C--------------------------------------------
 C     LECTURE RB LAGRANGE
 C--------------------------------------------
-        IF(NRBYLAG > 0) THEN
+      IF(NRBYLAG > 0) THEN
          CALL HM_READ_RBODY_LAGMUL(RBYL    ,NPBYL   ,LPBYL   ,IGRNOD   ,LSUBMODEL ,
      .                             ITAB    ,ITABM1  ,D       ,IKINE1LAG,NOM_OPT)
+      ENDIF
+      CALL TRACE_OUT1()
+C------------------------------------------------------------------
+C     RAYLEIGH DAMPING
+C--------------------------------------------
+      IF (NDAMP > 0) THEN
+        IF(IDDLEVEL==0)THEN
+          ERR_MSG='DAMPING'
+          ERR_CATEGORY='DAMPING'
+          CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
+          IF(NDAMP > 0) CALL HM_READ_DAMP(DAMPR,IGRNOD,ISKWN,LSUBMODEL,UNITAB,NPBY,
+     .                                    SNPC1,NPC1)
+          CALL TRACE_OUT1()
         ENDIF
-C
-        CALL TRACE_OUT1()
+      ENDIF
 C--------------------------------------------
       IF(NINTER > 0) THEN
 C--------------------------------------------

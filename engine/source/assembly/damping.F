@@ -72,12 +72,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: NEED_COMPUTE
-      INTEGER I,J,N,ND,IGR,ISK,FL_VREL
+      INTEGER I,J,N,ND,IGR,ISK,FL_VREL,ID_RBY,ID_FUNC
       my_real, DIMENSION(3) :: DAMP_A,DAMP_B
       my_real, DIMENSION(3) :: DA_,DW_LOCAL,OMEGA_,BETASDT_
 C     REAL
       my_real :: AA,DW,DA,BETASDT,OMEGA,FACTB,DAMPT,D_TSTART,D_TSTOP,
-     .           V_REF(3,NDAMP),A_REF(3,NDAMP),V_REFSKW(3),A_REFSKW(3)
+     .           V_REF(3,NDAMP),A_REF(3,NDAMP),V_REFSKW(3),A_REFSKW(3),
+     .           FREQ,FACT,DAM(3),DARM(3),DFM,GET_U_FUNC,DXDY
+C
+      EXTERNAL GET_U_FUNC      
 C-----------------------------------------------
 C     C = a M + b K
 C======================================================================|
@@ -103,6 +106,7 @@ C-----------------------------------------------
         D_TSTART = DAMPR(17,ND)
         D_TSTOP  = DAMPR(18,ND)
         FL_VREL = NINT(DAMPR(21,ND))
+        ID_RBY = NINT(DAMPR(25,ND))        
 C
         IF (TT>=D_TSTART .AND. TT<=D_TSTOP) THEN
 C
@@ -215,14 +219,21 @@ C----- Damping seulement pour les noeuds en contact avec temporisation -----
                     ENDDO
                 END IF
 C
-              ELSEIF (FL_VREL == 1) THEN
-C-------------Damping using local ref velocity - trans dof only ----
+              ELSEIF ((FL_VREL == 1).AND.(ID_RBY == 0)) THEN               
+C-------------Damping using average relative velocity - trans dof only ----
 C
 C---------------alpha = Cdamp_M / dt--------------
+                FREQ = MIN(4*PI*DAMPR(28,ND),ONE/DT1)
+                ID_FUNC = NINT(DAMPR(26,ND))
+                IF (ID_FUNC > 0) THEN
+                  FACT = GET_U_FUNC(ID_FUNC,TT,DXDY)
+                ELSE
+                  FACT = ONE
+                ENDIF
                 IF (DT1 > ZERO) THEN
-                  DAMP_A(1) = DAMPR(3,ND)/DT1
-                  DAMP_A(2) = DAMPR(5,ND)/DT1
-                  DAMP_A(3) = DAMPR(7,ND)/DT1    
+                  DAMP_A(1) = FACT*DAMPR(3,ND)*FREQ
+                  DAMP_A(2) = FACT*DAMPR(5,ND)*FREQ
+                  DAMP_A(3) = FACT*DAMPR(7,ND)*FREQ    
                 ELSE      
                   DAMP_A(1) = ZERO
                   DAMP_A(2) = ZERO
@@ -468,8 +479,8 @@ C--------------------------------------------------------
      .                    +SKEW(9,ISK)*DAMPSKW(3,I)
                 END DO
 C
-              ELSEIF (FL_VREL == 1) THEN
-C-------------Damping using local ref velocity - trans dof only ----
+              ELSEIF ((FL_VREL == 1).AND.(ID_RBY == 0)) THEN
+C-------------Damping using average relative velocity - trans dof only ----
 C
 #include "vectorize.inc"
                 DO N=1,IGRNOD(IGR)%NENTITY
@@ -498,10 +509,17 @@ C
      .                      +SKEW(9,ISK)*A_REF(3,ND)
 C
 C---------------alpha = Cdamp_M / dt--------------
+                FREQ = MIN(4*PI*DAMPR(28,ND),ONE/DT1)
+                ID_FUNC = NINT(DAMPR(26,ND))
+                IF (ID_FUNC > 0) THEN
+                  FACT = GET_U_FUNC(ID_FUNC,TT,DXDY)
+                ELSE
+                  FACT = ONE
+                ENDIF
                 IF (DT1 > ZERO) THEN
-                  DAMP_A(1) = DAMPR(3,ND)/DT1
-                  DAMP_A(2) = DAMPR(5,ND)/DT1
-                  DAMP_A(3) = DAMPR(7,ND)/DT1    
+                  DAMP_A(1) = FACT*DAMPR(3,ND)*FREQ
+                  DAMP_A(2) = FACT*DAMPR(5,ND)*FREQ
+                  DAMP_A(3) = FACT*DAMPR(7,ND)*FREQ    
                 ELSE      
                   DAMP_A(1) = ZERO
                   DAMP_A(2) = ZERO

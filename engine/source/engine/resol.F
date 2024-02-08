@@ -898,7 +898,7 @@ c
       TYPE(PYTHON_)  ,INTENT(INOUT)                      :: PYTHON
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT)              :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
 C
-      INTEGER ,INTENT(IN) :: NDAMP_VREL,ID_DAMP_VREL(NDAMP_VREL),FR_DAMP_VREL(NSPMD+2,NDAMP_VREL)     
+      INTEGER ,INTENT(IN) :: NDAMP_VREL,ID_DAMP_VREL(NDAMP_VREL),FR_DAMP_VREL(NSPMD+2,NDAMP_VREL)    
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -5641,7 +5641,9 @@ C===============================================================================
      4      IGRSURF  ,BUFSF  ,ICODR  ,ISKEW,SKEW          ,
      5      KINDRBY  ,IAD_RBY,FR_RBY6,RBY6 ,IRBKIN_L      ,
      6      NRBYKIN_L,NATIV_SMS,SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN     ,
-     7      SENSORS%TABSENSOR,NODREAC,FTHREAC,CPTREAC)
+     7      SENSORS%TABSENSOR,NODREAC,FTHREAC,CPTREAC     ,DAMPR,
+     8      SDAMP    ,DAMP   ,NDAMP_VREL,ID_DAMP_VREL     ,IGRNOD      ,
+     9      TAGSLV_RBY,IPARIT,TFEXT)
 
 !$OMP END PARALLEL
           IF (IMON>0) CALL STOPTIME(4,1)

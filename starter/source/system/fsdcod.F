@@ -39,7 +39,7 @@ Chd|====================================================================
      .                  IBFV      ,ISKEW     ,ISKN      ,SENSORS   ,
      .                  ITABM1    ,SKEW      ,LACCELM   ,INSEL     ,BUFGEO  ,
      .                  IBCSLAG   ,IGEO      ,IPM       ,
-     .                  DAMPR     ,IBFT      ,IBCV      ,IBFVEL    ,
+     .                  IBFT      ,IBCV      ,IBFVEL    ,
      .                  IBCR      ,TABLE     ,NPC1      ,NPC       ,PLD     ,
      .                  NOM_OPT   ,IBFFLUX   )  
 C-----------------------------------------------
@@ -80,7 +80,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NIFT,NFXTEMP) ,INTENT(INOUT) :: IBFT
       my_real
      .   PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),SKEW(LSKEW,*),
-     .   DAMPR(NRDAMP,*), PLD(*),BUFMAT(*)
+     .   PLD(*),BUFMAT(*)
       TYPE(TTABLE) , DIMENSION(NTABLE) :: TABLE
       DOUBLE PRECISION BUFGEO(*)
       INTEGER NOM_OPT(LNOPT1,*)
@@ -1711,23 +1711,6 @@ c        CALL ANSTCKI(NOSKEW)
 c        CALL ANCERR(137,ANINFO_BLIND_1)
 c 890  CONTINUE
 C
-C     Raileigh DAMPING
-C
-c      IF(NRDAMP>=15)THEN
-c       DO 670 I=1,NDAMP
-c        NOSKEW=NINT(DAMPR(15,I))
-c        DO 675 J=0,NUMSKW
-c          IF(NOSKEW == ISKN(4,J+1)) THEN
-c            DAMPR(15,I)=J+1
-c            GO TO 670
-c          ENDIF
-c 675    CONTINUE
-c        CALL ANSTCKC(16,'RAILEIGH DAMPING')
-c        CALL ANSTCKI(NOSKEW)
-c        CALL ANCERR(137,ANINFO_BLIND_1)
-c 670   CONTINUE
-c      END IF
-
 C=======================================================================
 C
 C    (III) SENSOR NUMBERING

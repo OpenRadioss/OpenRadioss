@@ -57,7 +57,7 @@ C     REAL
       my_real , DIMENSION(NUMNOD*IRODDL), INTENT(IN) ::IN 
       my_real , DIMENSION(NUMNOD), INTENT(INOUT) ::STIFN 
       my_real , DIMENSION(NUMNOD*IRODDL), INTENT(INOUT) ::STIFR 
-      my_real , DIMENSION(NRDAMP,NDAMP), INTENT(IN) ::DAMPR 
+      my_real , DIMENSION(NRDAMP,NDAMP), INTENT(IN) ::DAMPR
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD), INTENT(IN) :: IGRNOD
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C-----------------------------------------------
       INTEGER N,I,J,ISK,IGR,ND,K,L,LL
       my_real FACTB,DAMPBR,DAMPAR,D_TSTART,D_TSTOP,DAMPT,
      .   DT2N(NUMNOD),BB,COEFF,DTN,DTN2,DAMPAI,DAMPBI,DT0,DAMPA3,
-     .   ALPHA05,BETA1,DTMAX,FAC,DTMI1,DTMI2,BBI,FACI     
+     .   ALPHA05,BETA1,DTMAX,FAC,DTMI1,DTMI2,BBI,FACI,FL_VREL,ID_RBY   
 C----------------------------------------------------------
         DTMI1 = DTMIN1(11)
         DTMAX = EP04
@@ -82,7 +82,7 @@ c--
 C--       
           IF (DAMPR(19,I)/=0) CYCLE                                               
           D_TSTART = DAMPR(17,I)
-          D_TSTOP  = DAMPR(18,I)
+          D_TSTOP  = DAMPR(18,I)         
           IF ((TT<D_TSTART).OR.(TT>D_TSTOP)) CYCLE
           IGR   = NINT(DAMPR(2,I))
           DTN = DTMAX
@@ -101,6 +101,11 @@ C--
           DAMPBI = MAX(DAMPBI,DAMPR(10,I),DAMPR(12,I),DAMPR(14,I))
           DAMPT = DT0*DAMPR(16,I)
           DAMPBI = MIN(DAMPBI,DAMPT)
+C--          
+C--       /DAMP/VREL with RBDOY - stability computed in rbyfor.F
+          FL_VREL = NINT(DAMPR(21,I))
+          ID_RBY = NINT(DAMPR(25,I)) 
+          IF ((FL_VREL==1).AND.(ID_RBY > 0)) CYCLE   
 C--
           IF (DTMI2 > ZERO) THEN
             BBI = DAMPBI+HALF*DAMPAI*DTMI2*DTMI2
@@ -135,7 +140,7 @@ C--
                 STIFR(ND) =STIFR(ND)*COEFF
               END IF                               
             END DO      
-          END IF                               
+          END IF                                             
         END DO !I=1,NDAMP
 C----------global damping
         IF(IDAMP>0.OR.ISTAT==3)THEN
