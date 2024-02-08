@@ -88,7 +88,7 @@ C-----------------------------------------------
       my_real 
      .         TXX,TYY,TZZ,TXY,TYZ,TZX,UXX,UYY,UZZ,UXY,UYZ,UZX,A,B,C,
      .         E1(6),E2(6),Z1,Z2,Z0,AA,S6(6),POSI(MVSIZ,NPT),
-     .         FORJ(5),MOMJ(3),TJ,UNPT,NPGI
+     .         FORJ(5),MOMJ(3),TJ,UNPT,NPGI,F2M
       CHARACTER*nchartitle, TITR1
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY    
@@ -223,7 +223,7 @@ c             error out
             IF (NPTI>1) THEN
              UNPT = ONE/NPTI
               FORJ(1:5) = ZERO
-              MOMJ(1:3) = ZERO
+              F2M = ZERO
                DO IT=1,NPTI
                  PT = 22 + 6*(IT-1)
                  S6(1:2)=SIGSH(PT:PT+1,II)
@@ -234,10 +234,13 @@ c             error out
      7           E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
      8           E1Z(I) ,E2Z(I),E3Z(I),S6   )
                 FORJ(1:5) = FORJ(1:5) + UNPT*S6(1:5)
-                IF (TJ>ZERO) MOMJ(1:3) = S6(1:3)/TJ
+                IF (TJ>ZERO) THEN
+                  F2M = ONE/TJ
+                  MOMJ(1:3) = S6(1:3)
+                END IF 
                ENDDO
                SIGSH(22:26,II)=FORJ(1:5)
-               SIGSH(28:30,II)=MOMJ(1:3)
+               SIGSH(28:30,II)=F2M*(MOMJ(1:3)-FORJ(1:3))
             ELSE
              TXX = SIGSH(22,II)
              TYY = SIGSH(23,II)
