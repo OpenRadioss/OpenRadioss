@@ -26,8 +26,8 @@ Chd|-- called by -----------
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
 Chd|-- calls ---------------
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE FAIL_SETOFF_C(ELBUF_STR,MAT_ELEM ,GEO      ,PID      ,

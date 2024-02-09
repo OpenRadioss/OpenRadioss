@@ -24,6 +24,7 @@ Chd/        HM_READ_FAIL_TBUTCHER         source/materials/fail/tuler_bucher/hm_
 Chd|====================================================================
 Chd|  FAIL_INIT                     source/materials/fail/fail_init.F
 Chd|-- called by -----------
+Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|-- calls ---------------
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================

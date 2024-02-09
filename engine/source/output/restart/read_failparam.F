@@ -28,7 +28,6 @@ Chd|-- calls ---------------
 Chd|        READ_C_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        READ_DB                       source/output/tools/read_db.F 
 Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        READ_MAT_TABLE                source/materials/tools/read_mat_table.F
 Chd|        FAIL_PARAM_MOD                ../common_source/modules/mat_elem/fail_param_mod.F
 Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
 Chd|====================================================================

@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  READ_MAT_TABLE                source/materials/tools/read_mat_table.F
 Chd|-- called by -----------
-Chd|        READ_FAILPARAM                source/output/restart/read_failparam.F
 Chd|        READ_MATPARAM                 source/output/restart/read_matparam.F
 Chd|        READ_VISCPARAM                source/output/restart/read_viscparam.F
 Chd|-- calls ---------------

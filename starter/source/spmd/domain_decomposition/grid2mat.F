@@ -42,6 +42,7 @@ Chd|        FRONT_MOD                     share/modules1/front_mod.F
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INTER_CAND_MOD                share/modules1/inter_cand_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F  
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F

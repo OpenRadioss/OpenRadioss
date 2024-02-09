@@ -53,9 +53,9 @@ Chd|        LAW158_INIT                   source/materials/mat/mat158/law158_ini
 Chd|        LAYINI1                       source/elements/shell/coqueba/layini1.F
 Chd|        THICKINI                      source/elements/shell/coqueba/thickini.F
 Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    

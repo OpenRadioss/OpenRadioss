@@ -55,7 +55,6 @@ Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
 Chd|        GENANI_MOD                    source/output/anim/generate/genani.F
@@ -64,7 +63,7 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
-Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F

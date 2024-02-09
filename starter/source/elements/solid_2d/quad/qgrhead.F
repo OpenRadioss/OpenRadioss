@@ -29,6 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE QGRHEAD(

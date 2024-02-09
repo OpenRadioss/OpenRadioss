@@ -30,7 +30,7 @@ Chd|        FAIL_COCKROFT_IB              source/materials/fail/cockroft_latham/
 Chd|        FAIL_ENERGY_IB                source/materials/fail/energy/fail_energy_ib.F
 Chd|        FAIL_JOHNSON_IB               source/materials/fail/johnson_cook/fail_johnson_ib.F
 Chd|        FAIL_TENSSTRAIN_IB            source/materials/fail/tensstrain/fail_tensstrain_ib.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|====================================================================
       SUBROUTINE FAIL_BEAM18(ELBUF_STR,FAIL     ,NUMMAT   ,NUMGEO   ,
      .                       NPROPM   ,NPROPG   ,SNPC     ,STF      ,

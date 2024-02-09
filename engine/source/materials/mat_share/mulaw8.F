@@ -20,6 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Chd|====================================================================
+Chd|  MULAW8_MOD                    source/materials/mat_share/mulaw8.F
+Chd|-- called by -----------
+Chd|        MMAIN8                        source/materials/mat_share/mmain8.F
+Chd|-- calls ---------------
+Chd|====================================================================
       MODULE MULAW8_MOD
       CONTAINS
 Chd|====================================================================
@@ -66,7 +72,7 @@ Chd|        SIGEPS60                      source/materials/mat/mat060/sigeps60.F
 Chd|        SIGEPS62                      source/materials/mat/mat062/sigeps62.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================

@@ -27,6 +27,7 @@ Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|        CALC_UNIAX                    source/materials/mat/mat098/lossfun_98.F
 Chd|        CALC_UNIAX_2                  source/materials/mat/mat098/lossfun_98.F
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
+Chd|        FAIL_TAB2SYS                  source/materials/tools/fail_tab2sys.F
 Chd|        FCT_FIBER                     source/materials/mat/mat098/lossfun_98.F
 Chd|        FCT_FIBER_2                   source/materials/mat/mat098/lossfun_98.F
 Chd|        FSDCOD                        source/system/fsdcod.F        
@@ -35,10 +36,7 @@ Chd|        FUNC_INTERS_SHEAR             source/tools/curve/func_inters.F
 Chd|        FUNC_MAXY                     source/tools/curve/func_maxy.F
 Chd|        FUNC_SLOPE                    source/tools/curve/func_slope.F
 Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
-Chd|        HM_READ_FAIL_GENE1            source/materials/fail/gene1/hm_read_fail_gene1.F
-Chd|        HM_READ_FAIL_INIEVO           source/materials/fail/inievo/hm_read_fail_inievo.F
 Chd|        HM_READ_FAIL_TAB1             source/materials/fail/tabulated/hm_read_fail_tab1.F
-Chd|        HM_READ_FAIL_TAB2             source/materials/fail/tabulated/hm_read_fail_tab2.F
 Chd|        HM_READ_FUNCT                 source/tools/curve/hm_read_funct.F
 Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
 Chd|        HM_READ_MAT190                source/materials/mat/mat190/hm_read_mat190.F
@@ -94,6 +92,7 @@ Chd|        TABLE_WRESTI                  source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTR                  source/tools/curve/table_tools.F
 Chd|        TABLE_ZERO                    source/tools/curve/table_tools.F
 Chd|        UNIFY_X                       source/tools/curve/func_slope.F
+Chd|        UPDFAIL                       source/materials/updfail.F    
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|        YMAX                          source/materials/mat/mat100/law100_upd.F
 Chd|        GET_U_NUMTABLE                source/user_interface/utable.F

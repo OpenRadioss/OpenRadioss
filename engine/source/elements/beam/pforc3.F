@@ -43,8 +43,8 @@ Chd|        PPXPY3                        source/elements/beam/ppxpy3.F
 Chd|        THERMEXPPG                    source/elements/beam/thermexpp.F
 Chd|        THERMEXPPI                    source/elements/beam/thermexpp.F
 Chd|        FINTER                        source/tools/curve/finter.F   
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|====================================================================
       SUBROUTINE PFORC3(
      1           ELBUF_STR,JFT      ,JLT      ,NEL      ,

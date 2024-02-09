@@ -30,11 +30,11 @@ Chd|        H3D_FLD_TSH                   source/output/h3d/h3d_results/h3d_fld_
 Chd|        H3D_PRE_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_skin_scalar.F
 Chd|        H3D_SOL_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
 Chd|        INITBUF                       share/resol/initbuf.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F 
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    

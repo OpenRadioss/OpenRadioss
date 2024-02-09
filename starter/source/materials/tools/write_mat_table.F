@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  WRITE_MAT_TABLE               source/materials/tools/write_mat_table.F
 Chd|-- called by -----------
-Chd|        WRITE_FAILPARAM               source/materials/fail/write_failparam.F
 Chd|        WRITE_MATPARAM                source/materials/mat/write_matparam.F
 Chd|        WRITE_VISCPARAM               source/materials/mat/write_viscparam.F
 Chd|-- calls ---------------

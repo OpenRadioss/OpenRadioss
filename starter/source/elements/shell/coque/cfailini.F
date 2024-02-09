@@ -29,6 +29,7 @@ Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
 Chd|-- calls ---------------
 Chd|        BIQUAD_COEFFICIENTS           source/materials/fail/biquad/biquad_coefficients.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================
       SUBROUTINE CFAILINI(ELBUF_STR,MAT_PARAM,
      .           NPTT    ,NLAY     ,SIGSH    ,NSIGSH  ,PTSH    ,
@@ -175,6 +176,7 @@ Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.
 Chd|-- calls ---------------
 Chd|        BIQUAD_COEFFICIENTS           source/materials/fail/biquad/biquad_coefficients.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================
       SUBROUTINE CFAILINI4(
      .           ELBUF_STR,NPTR    ,NPTS    ,NPTT     ,NLAY    ,

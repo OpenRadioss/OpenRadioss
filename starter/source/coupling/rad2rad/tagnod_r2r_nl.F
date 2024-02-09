@@ -25,6 +25,7 @@ Chd|  TAGNOD_R2R_NL                 source/coupling/rad2rad/tagnod_r2r_nl.F
 Chd|-- called by -----------
 Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
 Chd|-- calls ---------------
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE TAGNOD_R2R_NL(IXC,IXTG,IXS,IXS10,IXS20,IXS16,TAG_NLOCAL,MAT_PARAM)

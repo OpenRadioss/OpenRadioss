@@ -27,7 +27,7 @@ Chd|-- called by -----------
 Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FRETITL2                      source/starter/freform.F      
+Chd|        FAIL_INIT                     source/materials/fail/fail_init.F
 Chd|        HM_GET_BOOLV                  source/devtools/hm_reader/hm_get_boolv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
@@ -53,6 +53,7 @@ Chd|        HM_READ_FAIL_LADEVEZE         source/materials/fail/ladeveze/hm_read
 Chd|        HM_READ_FAIL_MAXSTRAIN        source/materials/fail/max_strain/hm_read_fail_maxstrain.F
 Chd|        HM_READ_FAIL_NXT              source/materials/fail/nxt/hm_read_fail_nxt.F
 Chd|        HM_READ_FAIL_ORTHBIQUAD       source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
+Chd|        HM_READ_FAIL_ORTHENERG        source/materials/fail/orthenerg/hm_read_fail_orthenerg.F
 Chd|        HM_READ_FAIL_ORTHSTRAIN       source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
 Chd|        HM_READ_FAIL_PUCK             source/materials/fail/puck/hm_read_fail_puck.F
 Chd|        HM_READ_FAIL_RTCL             source/materials/fail/rtcl/hm_read_fail_rtcl.F
@@ -72,9 +73,11 @@ Chd|        HM_READ_FAIL_VISUAL           source/materials/fail/visual/hm_read_f
 Chd|        HM_READ_FAIL_WIERZBICKI       source/materials/fail/wierzbicki/hm_read_fail_wierzbicki.F
 Chd|        HM_READ_FAIL_WILKINS          source/materials/fail/wilkins/hm_read_fail_wilkins.F
 Chd|        HM_READ_MULLINS_OR            source/materials/fail/mullins_or/hm_read_fail_mullins_or.F
+Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 

@@ -37,6 +37,7 @@ Chd|        INITWG_TRUSS                  source/spmd/domain_decomposition/initw
 Chd|        INITWG_X                      source/spmd/domain_decomposition/initwg_x.F
 Chd|        INIT_MID_PID_ARRAY            source/spmd/tools/init_mid_pid_array.F
 Chd|        DDWEIGHTS_MOD                 share/modules1/ddweights_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F  
 Chd|====================================================================
       SUBROUTINE INITWG(WD,PM,GEO,IXS,IXQ,

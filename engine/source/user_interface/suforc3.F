@@ -33,7 +33,7 @@ Chd|        SUCOOR3                       source/user_interface/suforc3.F
 Chd|        SUCUMU3                       source/user_interface/suforc3.F
 Chd|        SUCUMU3P                      source/user_interface/suforc3.F
 Chd|        SUSER43                       source/elements/solid/sconnect/suser43.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================

@@ -21,6 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
+Chd|  SIGEPS100_MOD                 source/materials/mat/mat100/sigeps100.F
+Chd|-- called by -----------
+Chd|        MULAW                         source/materials/mat_share/mulaw.F
+Chd|-- calls ---------------
+Chd|====================================================================
       MODULE SIGEPS100_MOD
       CONTAINS
 Chd|====================================================================

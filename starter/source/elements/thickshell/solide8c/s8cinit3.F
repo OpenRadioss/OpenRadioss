@@ -45,6 +45,7 @@ Chd|        SVALUE0                       source/elements/thickshell/solidec/sci
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE S8CINIT3(ELBUF_STR,MAS     ,IXS     ,PM       ,X        ,

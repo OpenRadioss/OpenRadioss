@@ -26,6 +26,7 @@ Chd|  DELM02LAW                     source/properties/composite_options/stack/de
 Chd|-- called by -----------
 Chd|        DELAMINATION                  source/properties/composite_options/stack/delamination.F
 Chd|-- calls ---------------
+Chd|        FAIL_PARAM_MOD                ../common_source/modules/mat_elem/fail_param_mod.F
 Chd|====================================================================
       SUBROUTINE DELM02LAW(FAIL    ,
      1     NEL    ,NUVAR  ,TIME   ,TIMESTEP ,

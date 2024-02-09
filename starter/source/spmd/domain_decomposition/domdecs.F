@@ -27,6 +27,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        INITWG                        source/spmd/domain_decomposition/initwg.F
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F  
 Chd|====================================================================

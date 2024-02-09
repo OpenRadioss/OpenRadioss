@@ -27,6 +27,7 @@ Chd|        H3D_SKIN_SCALAR               source/output/h3d/h3d_results/h3d_skin
 Chd|-- calls ---------------
 Chd|        FAIL_FLD_TSH                  source/materials/fail/fld/fail_fld_tsh.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|        FAIL_PARAM_MOD                ../common_source/modules/mat_elem/fail_param_mod.F
 Chd|====================================================================
       SUBROUTINE H3D_FLD_TSH(ELBUF_TAB,FAIL,
      .                       IR,IS,IT,ILAY,IFAIL,

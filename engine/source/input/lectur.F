@@ -58,7 +58,6 @@ Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        DT_MOD                        share/modules/dt_mod.F        
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        FXB_MOD                       share/modules/fxb_mod.F       
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
@@ -66,6 +65,7 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F

@@ -28,7 +28,6 @@ Chd|-- calls ---------------
 Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        WRITE_DB                      source/output/tools/write_db.F
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_MAT_TABLE               source/materials/tools/write_mat_table.F
 Chd|        FAIL_PARAM_MOD                ../common_source/modules/mat_elem/fail_param_mod.F
 Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
 Chd|====================================================================

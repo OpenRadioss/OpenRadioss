@@ -103,6 +103,8 @@ Chd|        EIGRLINE                      source/general_controls/computation/hm
 Chd|        ELSTAGBOXBOX                  source/model/box/boxbox.F     
 Chd|        ERROR_ALLOC                   source/system/error_alloc.F   
 Chd|        FACEBOX                       source/model/box/bigbox.F     
+Chd|        FAIL_FUN2SYS                  source/materials/tools/fail_fun2sys.F
+Chd|        FAIL_TAB2SYS                  source/materials/tools/fail_tab2sys.F
 Chd|        FILL_BUFFER_51                source/materials/mat/mat051/fill_buffer_51.F
 Chd|        FIND_DT1BRICK_ENGINE          source/starter/contrl.F       
 Chd|        FIND_YIELD_ENGINE             source/general_controls/computation/hm_read_sms.F

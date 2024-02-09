@@ -29,7 +29,7 @@ Chd|        FAIL_BEAM3                    source/elements/beam/fail_beam3.F
 Chd|        M1LAWP                        source/materials/mat/mat001/m1lawp.F
 Chd|        M2LAWP                        source/materials/mat/mat002/m2lawp.F
 Chd|        SIGEPS44P                     source/materials/mat/mat044/sigeps44p.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|====================================================================
       SUBROUTINE MAIN_BEAM3(
      .       ELBUF_STR,NEL      ,ILAW     ,JTHE     ,IFAIL    ,

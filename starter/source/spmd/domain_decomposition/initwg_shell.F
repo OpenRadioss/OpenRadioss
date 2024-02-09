@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        BIDON                         source/system/machine.F       
 Chd|        INTERLAGRAN                   source/spmd/domain_decomposition/grid2mat.F
 Chd|        DDWEIGHTS_MOD                 share/modules1/ddweights_mod.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F  
 Chd|====================================================================
       SUBROUTINE INITWG_SHELL(WD,PM,GEO,IXC,IGEO,SIZE_IRUP,

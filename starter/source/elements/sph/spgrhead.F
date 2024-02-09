@@ -32,6 +32,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        GET_U_GEO                     source/user_interface/uaccess.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPGRHEAD(KXSP    ,IXSP    ,IPARG     ,PM  ,IPART,

@@ -21,9 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FAIL_FUN2SYS                source/materials/tools/matfun_usr2sys.F
+Chd|  FAIL_FUN2SYS                  source/materials/tools/fail_fun2sys.F
 Chd|-- called by -----------
+Chd|        UPDFAIL                       source/materials/updfail.F    
 Chd|-- calls ---------------
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        FAIL_PARAM_MOD                ../common_source/modules/mat_elem/fail_param_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE FAIL_FUN2SYS(FAIL ,TITLE  ,MAT_ID ,NFUNCT  ,FUNC_ID  )
 C-----------------------------------------------

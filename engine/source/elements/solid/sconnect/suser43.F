@@ -44,8 +44,8 @@ Chd|        SMOM43                        source/elements/solid/sconnect/smom43.
 Chd|        SRROTA3                       source/elements/solid/solide/srrota3.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        LAW_USERSO                    source/user_interface/law_userso.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE SUSER43(

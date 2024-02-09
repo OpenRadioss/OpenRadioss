@@ -34,9 +34,9 @@ Chd|        THS_VOL                       source/output/h3d/h3d_results/h3d_soli
 Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F   
 Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F 
 Chd|        STACK_MOD                     share/modules/stack_mod.F     

@@ -35,7 +35,7 @@ Chd|        ENG_USERLIB_SET_LAWC_VAR_2    source/user_interface/dyn_userlib.c
 Chd|        ENG_USERLIB_SIGEPS99C         source/user_interface/dyn_userlib.c
 Chd|        ENG_USERLIB_SIGEPSC           source/user_interface/dyn_userlib.c
 Chd|        FAIL_BIQUAD_C                 source/materials/fail/biquad/fail_biquad_c.F
-Chd|        FAIL_CHANG_C             source/materials/fail/changchang/fail_changchang_c.F
+Chd|        FAIL_CHANGCHANG_C             source/materials/fail/changchang/fail_changchang_c.F
 Chd|        FAIL_COCKROFT_C               source/materials/fail/cockroft_latham/fail_cockroft_c.F
 Chd|        FAIL_ENERGY_C                 source/materials/fail/energy/fail_energy_c.F
 Chd|        FAIL_FABRIC_C                 source/materials/fail/fabric/fail_fabric_c.F
@@ -83,9 +83,9 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        UROTOV                        source/airbag/uroto.F         
 Chd|        XFEM_CRK_DIR                  source/elements/xfem/xfem_crk_dir.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
 Chd|        LAW_USERSH                    source/user_interface/law_usersh.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     

@@ -39,6 +39,7 @@ Chd|        NINTRI                        source/system/nintrr.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 

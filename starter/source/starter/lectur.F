@@ -434,6 +434,7 @@ Chd|        TRACE_IN1                     source/system/trace_back.F
 Chd|        TRACE_OUT1                    source/system/trace_back.F    
 Chd|        TRIINTFRIC                    source/interfaces/interf1/trintfric.F
 Chd|        UPDATE_WEIGHT_RBE3            source/spmd/domain_decomposition/update_weight_rbe3.F
+Chd|        UPDFAIL                       source/materials/updfail.F    
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|        UPGRADE_IXINT                 source/interfaces/interf1/upgrade_ixint.F
 Chd|        XFEM_CRACK_INIT               source/elements/xfem/xfem_crack_init.F

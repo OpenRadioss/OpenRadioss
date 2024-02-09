@@ -21,9 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FAIL_TAB2SYS                source/materials/tools/matfun_usr2sys.F
+Chd|  FAIL_TAB2SYS                  source/materials/tools/fail_tab2sys.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        FAIL_PARAM_MOD                ../common_source/modules/mat_elem/fail_param_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE FAIL_TAB2SYS(FAIL ,TITLE  ,MAT_ID ,NTABL  ,TABLE )
 C-----------------------------------------------

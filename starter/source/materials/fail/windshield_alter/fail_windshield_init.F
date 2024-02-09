@@ -28,8 +28,8 @@ Chd|        CBAINIT3                      source/elements/shell/coqueba/cbainit3
 Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
 Chd|-- calls ---------------
 Chd|        NGR2USRN                      source/system/nintrr.F        
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|====================================================================
       SUBROUTINE FAIL_WINDSHIELD_INIT(ELBUF_STR,MAT_PARAM,
      .            NEL      ,NFT      ,ITY      ,IGRSH4N  ,IGRSH3N  )

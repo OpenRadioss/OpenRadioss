@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        FAIL_BEAM18                   source/elements/beam/fail_beam18.F
 Chd|        M2LAWPI                       source/materials/mat/mat002/m2lawpi.F
 Chd|        MULAW_IB                      source/elements/beam/mulaw_ib.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|====================================================================
       SUBROUTINE MAIN_BEAM18(ELBUF_STR,
      1                  NEL     ,NPT     ,MTN     ,IMAT    ,

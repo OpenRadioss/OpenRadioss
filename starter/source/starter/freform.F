@@ -1569,7 +1569,6 @@ Chd|        ECRSUB2                       source/model/assembling/hm_read_subset
 Chd|        FSDCOD                        source/system/fsdcod.F        
 Chd|        GENANI1                       source/output/anim/genani1.F  
 Chd|        HIREORBE3                     source/constraints/general/rbe3/hm_read_rbe3.F
-Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|        HM_READ_FXB1                  source/constraints/fxbody/hm_read_fxb.F
 Chd|        HM_READ_INISTATE_D00          source/elements/initia/hm_read_inistate_d00.F
 Chd|        HM_READ_INTSUB                source/output/subinterface/hm_read_intsub.F

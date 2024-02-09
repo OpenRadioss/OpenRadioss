@@ -29,7 +29,7 @@ Chd|        FAIL_BIQUAD_B                 source/materials/fail/biquad/fail_biqu
 Chd|        FAIL_ENERGY_B                 source/materials/fail/energy/fail_energy_b.F
 Chd|        FAIL_JOHNSON_B                source/materials/fail/johnson_cook/fail_johnson_b.F
 Chd|        FAIL_TENSSTRAIN_B             source/materials/fail/tensstrain/fail_tensstrain_b.F
-Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
+Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|====================================================================
       SUBROUTINE FAIL_BEAM3(ELBUF_STR    ,FAIL    ,NUMMAT  ,
      .                  NPROPM  ,SNPC    ,STF     ,

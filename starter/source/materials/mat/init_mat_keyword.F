@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
 Chd|-- called by -----------
+Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
 Chd|        HM_READ_MAT00                 source/materials/mat/mat000/hm_read_mat00.F
 Chd|        HM_READ_MAT01                 source/materials/mat/mat001/hm_read_mat01.F
