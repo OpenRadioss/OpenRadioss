@@ -282,7 +282,7 @@ C--------------------------------------------------
          ENDIF
          
          !check compatibility between material law and property
-         IF (((IGTYP==43) .and. ((ILAW/=59 .and. ILAW/=83 .and. ILAW/=116 .and. ILAW/=117 .AND. ILAW /=120) .and. 
+         IF (((IGTYP==43) .and. ((ILAW/=59 .and. ILAW/=83 .and. ILAW/=116 .and. ILAW/=117 .AND. ILAW /=120.AND.ILAW/=169) .and. 
      .       (USER_LAW .eqv. .false. ) ).eqv. .true.) .or.
      .       ((ILAW==59 .or. ILAW==83 .or. ILAW==116 .or. ILAW==117) .and. IGTYP/=43) .or.
      .        (ILAW==1 .and. (IGTYP==9.OR.IGTYP==10.OR.IGTYP==11.OR.IGTYP==16.OR.
