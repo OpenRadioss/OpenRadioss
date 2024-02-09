@@ -216,7 +216,11 @@ C-----------------------------------------------
             DO  I=LFT,LLT
               N = I + NFT
               OFF = GBUF%OFF(I)
-              FUNC(EL2FA(NN7+N)) = GBUF%PLA(I)
+              IF(GBUF%G_PLA > 0) THEN
+                FUNC(EL2FA(NN7+N)) = GBUF%PLA(I)
+              ELSE
+                FUNC(EL2FA(NN7+N)) = 0
+              ENDIF
             ENDDO
              ENDIF
            ELSE

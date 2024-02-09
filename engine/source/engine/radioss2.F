@@ -854,7 +854,7 @@ C------------------------------------------------
      .            PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
      .            MAT_ELEM,NAMES_AND_TITLES )
 
-      IF(NFXFLUX>0 .AND. IPARIT > 0 .OR. IPARIT == -1) THEN 
+      IF(NFXFLUX>0 .AND. (IPARIT > 0 .OR. IPARIT == -1)) THEN 
         IPARIT=0
         IF(ISPMD == 0) WRITE(6,*) "WARNING: /IMPFLUX is not compatible with /PARITH/ON, switching to /PARITH/OFF"
       ENDIF
