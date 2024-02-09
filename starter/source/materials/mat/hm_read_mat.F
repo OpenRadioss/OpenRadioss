@@ -178,6 +178,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE HM_OPTION_READ_MOD
       USE TABLE_MOD
+      USE HM_READ_MAT169_ARUP_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1139,6 +1140,12 @@ c-------
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
      .           MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
      .           PM(1,I)  ,LSUBMODEL,MAT_ID   ,TITR     ,MATPARAM )
+c-------
+          CASE ('LAW169','ARUP_ADHESIVE')
+            ILAW  = 169  
+            CALL HM_READ_MAT169_ARUP(MTAG     ,
+     .           MATPARAM  ,   PARMAT , NUVAR  ,  UNITAB    ,LSUBMODEL,
+     .           MAT_ID    ,TITR      , PM(1,I)    ,IOUT     , NPROPM)    
 c-------
           CASE ('LAW190','FOAM_DUBOIS')
             ILAW  = 190  

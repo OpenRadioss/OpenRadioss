@@ -64,13 +64,15 @@ Chd|====================================================================
      G FZ1      ,FZ2   ,FZ3    ,FZ4    ,FZ5    ,FZ6    ,FZ7    ,FZ8    ,
      H STIFM    ,STIFR ,VISCM  ,VISCR  ,PARTSAV,IPARTS ,BUFMAT ,IOUTPRT,
      L IFAILURE ,NPF   ,TF     ,IPM    ,IGEO   ,NPG    ,NEL    ,JSMS   ,
-     M DMELS    ,PM    ,GEO    ,ITASK  ,JTHE   ,TABLE  ,MAT_PARAM)
+     M DMELS    ,PM    ,GEO    ,ITASK  ,JTHE   ,TABLE  ,MAT_PARAM,
+     N IDTMINS,DTFACS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
       USE LAW_USERSO
+      USE SIGEPS169_CONNECT_MOD
 C-------------------------------------------------------------------------
 C     This subroutine compute user 8 nodes solids forces and moments.
 C----------+---------+---+---+--------------------------------------------
@@ -152,6 +154,8 @@ C----------------------------------------------------------
       INTEGER NGL(NEL),IPARTS(*),NPF(*),IPM(NPROPMI,*),
      .  IGEO(NPROPGI,*),ITASK
       TARGET  :: IPM
+      INTEGER  :: IDTMINS
+      my_real  :: DTFACS
       my_real
      .  TIME,TIMESTEP,PARTSAV(NPSAV,*),DMELS(*),PM(NPROPM,*),
      .  STIFM(*) ,STIFR(*) , VISCM(*) ,VISCR(*) ,FR_WAVE(*),TF(*),             
@@ -434,7 +438,7 @@ c
      2        UPARAM   ,UVAR     ,AREA     ,GBUF%OFF ,LBUF%OFF ,   
      3        EPSZZ    ,EPSYZ    ,EPSZX    ,DEPSZZ   ,DEPSYZ   ,DEPSZX   ,
      4        SIGNZZ   ,SIGNYZ   ,SIGNZX   ,STIFM    ,DMELS    ,LBUF%DMG ,
-     5        IPG      ,ISOLIDF  ,NGL      ,NFUNC    ,IFUNC    ,NPF      ,TF)
+     5        IPG      ,ISOLIDF  ,NGL      ,NFUNC    ,IFUNC    ,NPF    ,TF)
 
           CASE (120) ! TAPO model
             CALL SIGEPS120_CONNECT_MAIN(
@@ -451,8 +455,16 @@ c           mean Gauss point values for element output
               GBUF%EPSD(IEL) = GBUF%EPSD(IEL) + FOURTH*LBUF%EPSD(IEL)
             ENDDO 
 C-----------------------------------------------
+          CASE (169) ! MAT_ARUP_ADHESIVE
 
-
+           CALL SIGEPS169_CONNECT(
+     1        NEL      ,TIME     ,MAT_PARAM(IMAT)%UPARAM, MAT_PARAM(IMAT)%IPARAM ,
+     2        MAT_PARAM(IMAT)%NIPARAM     ,MAT_PARAM(IMAT)%NUPARAM    ,STIFM    ,
+     3        AREA     ,GBUF%OFF ,NUVAR   ,UVAR     ,IPG     ,
+     4        DEPSZZ   ,DEPSYZ   ,DEPSZX  ,EPSZZ    ,EPSYZ    ,EPSZX   ,
+     5        SIG0ZZ   ,SIG0YZ   ,SIG0ZX  ,SIGNZZ   ,SIGNYZ   ,SIGNZX  ,
+     6        LBUF%PLA ,IOUT     ,JSMS       ,LBUF%DMG,NGL    ,DMELS   ,IDTMINS,DTFACS)
+C-----------------------------------------------
          CASE (99)
 c
           IF (USERL_AVAIL>0) THEN

@@ -46,7 +46,8 @@ Chd|====================================================================
      6           FSKY     ,FR_WAVE  ,IADS    ,EANI    ,STIFN   ,
      7           STIFR    ,FX       ,FY      ,FZ      ,IFAILURE,
      8           MTN      ,IGTYP    ,NPT     ,JSMS    ,MSSA    ,
-     9           DMELS    ,ITASK    ,IOUTPRT ,JTHE    ,TABLE )
+     9           DMELS    ,ITASK    ,IOUTPRT ,JTHE    ,TABLE   ,
+     A           IDTMINS  ,DTFACS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,6 +79,8 @@ C-----------------------------------------------
       INTEGER LFT, LLT,NEL,NFT,MTN,IGTYP,IFAILURE,NPT, JSMS,IOUTPRT,JTHE
       INTEGER IXS(NIXS,*), IPARG(*), NPF(*),IADS(8,*),
      .        IPARTS(*), IGEO(NPROPGI,*), IPM(NPROPMI,*),ITASK
+      INTEGER ,INTENT(INOUT) :: IDTMINS
+      my_real ,INTENT(INOUT) :: DTFACS
 C     REAL
 C     REAL
       my_real
@@ -405,7 +408,8 @@ C-----------
      G  FZ(1,1),FZ(1,2),FZ(1,3),FZ(1,4),FZ(1,5),FZ(1,6),FZ(1,7),FZ(1,8),     
      H  STI    ,STIR   ,VISCM  ,VISCR  ,PARTSAV,IPARTS ,BUFMAT ,IOUTPRT,     
      L  IFAILURE,NPF   ,TF     ,IPM    ,IGEO   ,NPT    ,NEL    ,JSMS   ,     
-     M  DMELS  ,PM     ,GEO    ,ITASK  ,JTHE   ,TABLE  ,MAT_PARAM)   
+     M  DMELS  ,PM     ,GEO    ,ITASK  ,JTHE   ,TABLE  ,MAT_PARAM      ,
+     N  IDTMINS,DTFACS)   
        IF(NFILSOL/=0) THEN
         CALL SFILLOPT(
      1   GBUF%FILL,STI,      FX(1,1),  FX(1,2),
