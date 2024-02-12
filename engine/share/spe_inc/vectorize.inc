@@ -55,6 +55,5 @@ CDIR$ IVDEP
 #endif
 
 #elif 1
-Ceric pas de dependance
 #endif
 
