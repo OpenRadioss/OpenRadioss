@@ -561,7 +561,7 @@ C     npsav not used by starter
       NPSAV  = 0
       NR2R = 2
       NISP    = 8
-      NSPBUF  = 12
+      NSPBUF  = 13
       NISPCOND= 6
       KVOISPH = 0
 c 2 new values for ISPHIO, NSEG and IAS for inlet outlet in spmd

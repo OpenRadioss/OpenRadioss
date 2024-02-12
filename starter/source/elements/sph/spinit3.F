@@ -126,7 +126,15 @@ c
           IG  =IPART(2,IPRT)
           MP    =GET_U_GEO(1,IG)
           RHO(I)=PM(1,IMAT)
-          VOL(I)=MP/RHO(I)
+          IF (NINT(SPBUF(13,N))==1) THEN
+C--         type = 1 - particle with mass input            
+            VOL(I)=SPBUF(12,N)/RHO(I)
+          ELSEIF (NINT(SPBUF(13,N))==2) THEN  
+C--         type = 2 - particle with volume input            
+            VOL(I)=SPBUF(12,N)
+          ELSE  
+            VOL(I)=MP/RHO(I)
+          ENDIF
           IF(NSPCOND/=0) VOL(I)=VOL(I)/ISPTAG(N)
           MASS(I)   =RHO(I)*VOL(I)
           SPBUF(2,N) =RHO(I)
@@ -188,7 +196,7 @@ C--------------------------------------------------
         Z1(I)=X(3,INOD)
        ENDDO
 C--------------------------------------------------
-       IF(ISORTH/=0)THEN
+       IF(ISORTH/=0)THEN 
          CALL SPORTH3(IPART ,IPARTSP(NFT+1) ,IGEO ,GBUF%GAMA,SKEW,
      .                NEL   )
        END IF
@@ -249,8 +257,8 @@ C--------------------------------------------------
      .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AIRE, 
      .     GBUF%VOL, DTX, IGEO,IGTYP)
 
-       DO I=LFT,LLT
-         DTELEM(NDEPAR+I)=DTX(I)
+       DO I=LFT,LLT 
+         DTELEM(NDEPAR+I)=DTX(I) 
          STI = TWO * MASS(I) / MAX(EM20,DTX(I)*DTX(I))
          STIFN(KXSP(3,I+NFT))=STIFN(KXSP(3,I+NFT))+STI
        ENDDO

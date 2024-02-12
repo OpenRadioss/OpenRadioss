@@ -162,7 +162,7 @@ C
 
       IF(QA==ZERO)QA=TWO
       IF(QB==ZERO)QB=ONE
-      IF (ZSTAB>0) NSPBUF=13
+      IF (ZSTAB>0) NSPBUF=14
 C
       IF(ISK /= 0)THEN
         DO K=1,NUMSKW
