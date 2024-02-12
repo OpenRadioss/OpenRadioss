@@ -472,9 +472,12 @@ C             ASSERT(IED <= NEDGE)
               IM = INTBUF_TAB(N)%LEDGE(10+(IED-1)*NLEDGE)
 C             ASSERT( (IM == 1 .OR. IM == -1) )
               TYPEDG = INTBUF_TAB(N)%LEDGE((IED-1)*NLEDGE+7)
-              IF(TYPEDG == 1) THEN 
+              IF(TYPEDG == 1 .AND. IE > 0) THEN 
                  NN1 = INTBUF_TAB(N)%ADMSR(JE+(IE-1)*4)
                  NN2 = INTBUF_TAB(N)%ADMSR(MOD(JE,4)+1+(IE-1)*4)
+              ELSE
+                 NN1 = 0
+                 NN2 = 0
               ENDIF
 
 C C====================================================
@@ -691,7 +694,7 @@ C             WRITE(6,*) "Out:",INTBUF_TAB(N)%LEDGE((IED-1)*NLEDGE+8),L
 
 C Send Normal of nodes of second edge : edge solid
 
-              IF(TYPEDG == 1) THEN 
+              IF(TYPEDG == 1 .AND. NN1 > 0) THEN 
 
                 BUFFERS(NI25)%SEND_BUF(L+PP+1)  = INTBUF_TAB(N)%E2S_NOD_NORMAL(3*(NN1-1)+1)
                 BUFFERS(NI25)%SEND_BUF(L+PP+2)  = INTBUF_TAB(N)%E2S_NOD_NORMAL(3*(NN1-1)+2)
