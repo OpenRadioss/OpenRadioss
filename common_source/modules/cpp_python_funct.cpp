@@ -20,62 +20,8 @@
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <sstream>
-#include <cstring>
-#include <vector>
-#include <set>
-#include <map>
-#include <unordered_map>
-#include <regex>
+#include "radioss_py.hpp"
 #ifndef PYTHON_DISABLED
-// #include <Python.h>
-#ifdef _WIN32
-/* Windows includes */
-#include <windows.h>
-#else
-#include <dlfcn.h>
-#include <dirent.h>
-#endif
-
-#ifdef MYREAL8 
-//double precision define my_real as double
-typedef double my_real;
-#else
-typedef float my_real;
-#endif
-// the maximum length of a line of code of python function
-#define max_line_length 500
-// the maximum number of lines of python function
-#define max_num_lines 1000
-#define max_code_length max_line_length *max_num_lines
-
-typedef void *PyObject;
-
-typedef PyObject (*T_PyDict_GetItemString)(PyObject *, const char *);
-typedef int (*T_PyCallable_Check)(PyObject *);
-typedef PyObject (*T_PyTuple_New)(int);
-typedef PyObject (*T_PyFloat_FromDouble)(double);
-typedef PyObject (*T_PyObject_CallObject)(PyObject *, PyObject *);
-typedef void (*T_Py_Initialize)();
-typedef void (*T_Py_Finalize)();
-typedef PyObject *(*T_PyImport_AddModule)(const char *);
-typedef PyObject *(*T_PyModule_GetDict)(PyObject *);
-typedef int (*T_PyRun_SimpleString)(const char *);
-typedef int (*T_PyTuple_SetItem)(PyObject *, int, PyObject *);
-typedef void (*T_Py_DecRef)(PyObject *);
-typedef double (*T_PyFloat_AsDouble)(PyObject *);
-typedef int (*T_PyDict_SetItemString)(PyObject *, const char *, PyObject *);
-//    load_function(handle, "PyErr_Fetch", PyErr_Fetch, python_initialized);
-typedef void (*T_PyErr_Fetch)(PyObject **, PyObject **, PyObject **);
-//    load_function(handle, "PyErr_Display", PyErr_Display, python_initialized);
-typedef void (*T_PyErr_Display)(PyObject *, PyObject *, PyObject *);
-//    load_function(handle, "PyErr_Occurred", PyErr_Occurred, python_initialized);
-typedef int (*T_PyArg_ParseTuple)(PyObject *, const char *, ...);
-typedef PyObject *(*T_Py_BuildValue)(const char *, ...);
-typedef PyObject *(*T_PyErr_Occurred)();
 
 // Note on the python library used:
 //
@@ -83,6 +29,30 @@ typedef PyObject *(*T_PyErr_Occurred)();
 // - if the previous check fails, we check that PYTHONHOME is defined and that it points to a valid python library (that contains /lib/libpython*.[so|dll]])
 // - For Linux if the previous check fails, we look for a python library in the default locations (LD_LIBRARY_PATH)
 
+//====================================================
+//                   Global Variables
+//====================================================
+PyObject *pDict = nullptr;
+bool python_initialized = false;
+
+// user ids of the nodes that are used in the python functions
+std::set<int> nodes_uid;
+
+// mapping between user ids and local ids
+std::unordered_map<int, int> nodes_uid_to_local_id;
+
+// pointers to Fortran variables
+my_real *C; // coordinates
+my_real *D; // displacement
+my_real *V;
+my_real *A;
+my_real *DR;
+my_real *VR;
+my_real *AR;
+
+//====================================================
+//                   Internal Functions
+//====================================================
 // load a function from a dynamic library
 #ifdef _WIN32
 template <typename T>
@@ -110,75 +80,35 @@ void load_function(void *handle, const std::string &func_name, T &func_ptr, bool
 }
 #endif
 
-T_Py_Initialize Py_Initialize;
-T_Py_Finalize Py_Finalize;
-T_PyDict_GetItemString PyDict_GetItemString;
-T_PyCallable_Check PyCallable_Check;
-T_PyTuple_New PyTuple_New;
-T_PyFloat_FromDouble PyFloat_FromDouble;
-T_PyObject_CallObject PyObject_CallObject;
-T_PyImport_AddModule PyImport_AddModule;
-T_PyModule_GetDict PyModule_GetDict;
-T_PyRun_SimpleString PyRun_SimpleString;
-T_PyTuple_SetItem PyTuple_SetItem;
-T_Py_DecRef Py_DecRef;
-T_PyFloat_AsDouble PyFloat_AsDouble;
-T_PyDict_SetItemString PyDict_SetItemString;
-T_PyErr_Fetch PyErr_Fetch;
-T_PyErr_Display PyErr_Display;
-T_PyErr_Occurred PyErr_Occurred;
-T_PyArg_ParseTuple PyArg_ParseTuple;
-T_Py_BuildValue Py_BuildValue;
-
-
-// global variables
-PyObject *pDict = nullptr;
-bool python_initialized = false;
-
-// user ids of the nodes that are used in the python functions
-std::set<int> nodes_uid;
-
-// mapping between user ids and local ids
-std::unordered_map<int, int> nodes_uid_to_local_id;
-
-// pointers to Fortran variables
-my_real *C; //coordinates
-my_real *D; //displacement
-my_real *V;
-my_real *A;
-my_real *DR;
-my_real *VR;
-my_real *AR;
-
 // Function to extract numbers based on the pattern and fill the global set
 void extract_uid(const std::string &input)
 {
-      //    Coordinates     CX_n,  CY_n,  CZ_n
-      //    Displacement    DX_n,  DY_n,  DZ_n
-      //    DisplacementR  DRX_n, DRY_n, DRZ_n
-      //    Velocity        VX_n,  VY_n , VZ_n
-      //    VelocityR      VRX_n, VRY_n, VRZ_n
-      //    Acceleration    AX_n,  AY_n,  AZ_n
-      //    AccelerationR  ARX_n, ARY_n, ARZ_n
-      // Regex pattern: non-alphanumeric or start of line, followed by A[XYZ] and underscore and numbers
-         //std::cout<<"input: "<<input<<std::endl; 
-         std::regex pattern(R"((?:[^a-zA-Z0-9]|^)[ACDV][R]*[XYZ]_[0-9]+)");
-     
-           auto begin = std::sregex_iterator(input.begin(), input.end(), pattern);
-           auto end = std::sregex_iterator();
-     
-           for (auto i = begin; i != end; ++i)
-           {
-               auto match = *i;
-               std::string match_str = match.str();
-               size_t underscore_pos = match_str.find('_');
-               if (underscore_pos != std::string::npos)
-               {
-                   int number = std::stoi(match_str.substr(underscore_pos + 1));
-                   nodes_uid.insert(number);
-                   //std::cout<<"[PYTHON] uid found: "<<number<<std::endl;
-               }
-           }
+    //    Coordinates     CX_n,  CY_n,  CZ_n
+    //    Displacement    DX_n,  DY_n,  DZ_n
+    //    DisplacementR  DRX_n, DRY_n, DRZ_n
+    //    Velocity        VX_n,  VY_n , VZ_n
+    //    VelocityR      VRX_n, VRY_n, VRZ_n
+    //    Acceleration    AX_n,  AY_n,  AZ_n
+    //    AccelerationR  ARX_n, ARY_n, ARZ_n
+    // Regex pattern: non-alphanumeric or start of line, followed by A[XYZ] and underscore and numbers
+    // std::cout<<"input: "<<input<<std::endl;
+    std::regex pattern(R"((?:[^a-zA-Z0-9]|^)[ACDV][R]*[XYZ]_[0-9]+)");
+
+    auto begin = std::sregex_iterator(input.begin(), input.end(), pattern);
+    auto end = std::sregex_iterator();
+
+    for (auto i = begin; i != end; ++i)
+    {
+        auto match = *i;
+        std::string match_str = match.str();
+        size_t underscore_pos = match_str.find('_');
+        if (underscore_pos != std::string::npos)
+        {
+            int number = std::stoi(match_str.substr(underscore_pos + 1));
+            nodes_uid.insert(number);
+            // std::cout<<"[PYTHON] uid found: "<<number<<std::endl;
+        }
+    }
 }
 
 // Here is the list of the function that are loaded from the Python library
@@ -204,8 +134,8 @@ void load_functions(T handle, bool &python_initialized)
     load_function(handle, "PyErr_Fetch", PyErr_Fetch, python_initialized);
     load_function(handle, "PyErr_Display", PyErr_Display, python_initialized);
     load_function(handle, "PyErr_Occurred", PyErr_Occurred, python_initialized);
-    load_function(handle, "PyArg_ParseTuple",PyArg_ParseTuple, python_initialized);
-    load_function(handle, "Py_BuildValue",Py_BuildValue, python_initialized);
+    load_function(handle, "PyArg_ParseTuple", PyArg_ParseTuple, python_initialized);
+    load_function(handle, "Py_BuildValue", Py_BuildValue, python_initialized);
 }
 
 // call a python function with a list of arguments
@@ -230,18 +160,18 @@ PyObject *call_python_function(const char *func_name, double *args, int num_args
         }
         else
         {
-            //  convet func_name to a string    
+            //  convet func_name to a string
             std::string func_name_str(func_name);
-            std::cout << "ERROR in Python function "<<func_name_str<<": function execution failed" << std::endl;
-            if (PyErr_Occurred()) 
+            std::cout << "ERROR in Python function " << func_name_str << ": function execution failed" << std::endl;
+            if (PyErr_Occurred())
             {
                 // Fetch the error
                 PyObject *pType, *pValue, *pTraceback;
                 PyErr_Fetch(&pType, &pValue, &pTraceback);
-          
+
                 // Print the error
                 PyErr_Display(pType, pValue, pTraceback);
-          
+
                 // Decrement reference counts for the error objects
                 Py_DecRef(pType);
                 Py_DecRef(pValue);
@@ -285,30 +215,35 @@ std::string extract_function_name(const std::string &signature)
     return signature.substr(startPos, endPos - startPos);
 }
 
-
-static PyObject* getEntity(PyObject *self, PyObject *args) {
-    const char* name;
+static PyObject *getEntity(PyObject *self, PyObject *args)
+{
+    const char *name;
     int node_id;
 
-    if (!PyArg_ParseTuple(args, "si", &name, &node_id)) {
+    if (!PyArg_ParseTuple(args, "si", &name, &node_id))
+    {
         return NULL; // Error parsing arguments
     }
 
     auto it = nodes_uid_to_local_id.find(node_id);
-    if (it == nodes_uid_to_local_id.end()) {
-        std::cout <<" ERROR in Python function: node with id "<<node_id<<" is not available"<<std::endl;
+    if (it == nodes_uid_to_local_id.end())
+    {
+        std::cout << " ERROR in Python function: node with id " << node_id << " is not available" << std::endl;
         return NULL;
     }
     int node_local_id = it->second;
     int pos = 3 * node_local_id;
 
-    if (strcmp(name, "displacement") == 0) {
+    if (strcmp(name, "displacement") == 0)
+    {
         return Py_BuildValue("(ddd)", D[pos], D[pos + 1], D[pos + 2]);
-    } else if (strcmp(name, "velocity") == 0) {
+    }
+    else if (strcmp(name, "velocity") == 0)
+    {
         return Py_BuildValue("(ddd)", V[pos], V[pos + 1], V[pos + 2]);
     } // ... (continue with other conditions)
 
-    std::cout<<"ERROR in Python function: invalid entity name"<<std::endl;
+    std::cout << "ERROR in Python function: invalid entity name" << std::endl;
     return NULL;
 }
 
@@ -734,14 +669,14 @@ extern "C"
     // return the number of nodes that are used in the python functions
     void cpp_python_get_number_of_nodes(int *num_nodes)
     {
-        if( !python_initialized )
+        if (!python_initialized)
         {
             *num_nodes = 0;
-        } else
+        }
+        else
         {
             *num_nodes = nodes_uid.size();
         }
-
     }
 
     // return the list of nodes (user ids) that are used in the python functions
@@ -762,7 +697,7 @@ extern "C"
     void cpp_python_create_node_mapping(int *itab, int *num_nodes)
     {
         // print number of nodes and python_initialized
-        //std::cout << "Number of nodes: " << *num_nodes << " python_initialized" << python_initialized << std::endl;
+        // std::cout << "Number of nodes: " << *num_nodes << " python_initialized" << python_initialized << std::endl;
         if (python_initialized)
         {
             // loop over the set
@@ -775,7 +710,7 @@ extern "C"
                     if (itab[i] == node_uid)
                     {
                         nodes_uid_to_local_id[node_uid] = i;
-                        //std::cout << "Node uid: " << node_uid << " local id: " << i << std::endl;
+                        // std::cout << "Node uid: " << node_uid << " local id: " << i << std::endl;
                         found = true;
                         break;
                     }
@@ -791,13 +726,13 @@ extern "C"
     // values is an array of size (3*numnod) containing the values of the nodal entities
     void cpp_python_update_nodal_entity(int numnod, int name_len, char *name, my_real *values)
     {
-        if(!python_initialized)
+        if (!python_initialized)
         {
             return;
         }
         double x_values, y_values, z_values;
         // loop over the map nodes_uid_to_local_id
-        for(auto it = nodes_uid_to_local_id.begin(); it != nodes_uid_to_local_id.end(); ++it)
+        for (auto it = nodes_uid_to_local_id.begin(); it != nodes_uid_to_local_id.end(); ++it)
         {
             int node_uid = it->first;
             int local_id = it->second;
@@ -809,14 +744,14 @@ extern "C"
             PyObject *py_z_values = static_cast<PyObject *>(PyFloat_FromDouble(z_values));
             if (!py_x_values || !py_y_values || !py_z_values)
             {
-                std::cout<< "ERROR: Failed to create Python objects from C++ doubles." << std::endl;
+                std::cout << "ERROR: Failed to create Python objects from C++ doubles." << std::endl;
                 return;
             }
             // Set the Python global variables in the main module's dictionary
             std::string x_name = std::string(name) + "X_" + std::to_string(node_uid);
             std::string y_name = std::string(name) + "Y_" + std::to_string(node_uid);
             std::string z_name = std::string(name) + "Z_" + std::to_string(node_uid);
-            //std::cout<<" write to python: "<<x_name<<" "<<y_name<<" "<<z_name<<std::endl;
+            // std::cout<<" write to python: "<<x_name<<" "<<y_name<<" "<<z_name<<std::endl;
             PyDict_SetItemString(pDict, x_name.c_str(), py_x_values);
             PyDict_SetItemString(pDict, y_name.c_str(), py_y_values);
             PyDict_SetItemString(pDict, z_name.c_str(), py_z_values);
@@ -831,18 +766,18 @@ extern "C"
     }
 
     // initialize the global variables found in the python function
-    void cpp_python_copy_pointers(int * numnod, my_real *x,my_real *d, my_real *v, my_real *a, my_real *dr, my_real *vr, my_real *ar)
+    void cpp_python_copy_pointers(int *numnod, my_real *x, my_real *d, my_real *v, my_real *a, my_real *dr, my_real *vr, my_real *ar)
     {
-         C = x;
-         D = d;
-         V = v;
-         A = a;
-         DR = dr;
-         VR = vr;
-         AR = ar;
-    } 
+        C = x;
+        D = d;
+        V = v;
+        A = a;
+        DR = dr;
+        VR = vr;
+        AR = ar;
+    }
 
-    } // extern "C"
+} // extern "C"
 
 #else
 // dummy functions
@@ -874,14 +809,13 @@ extern "C"
     {
         //        std::cout << "ERROR: python not enabled" << std::endl;
     }
-    void cpp_python_update_time(double TIME, double DT){}
-    void cpp_python_get_number_of_nodes(int *num_nodes){}
+    void cpp_python_update_time(double TIME, double DT) {}
+    void cpp_python_get_number_of_nodes(int *num_nodes) {}
     // return the list of nodes (user ids) that are used in the python functions
-    void cpp_python_get_nodes(int *nodes_uid_array){}
-    void cpp_python_create_node_mapping(int *itab, int *num_nodes){}
+    void cpp_python_get_nodes(int *nodes_uid_array) {}
+    void cpp_python_create_node_mapping(int *itab, int *num_nodes) {}
 
-    void cpp_python_copy_pointers(int * numnod, my_real *x,my_real *d, my_real *v, my_real *a, my_real *dr, my_real *vr, my_real *ar){]}
-
+    void cpp_python_copy_pointers(int *numnod, my_real *x, my_real *d, my_real *v, my_real *a, my_real *dr, my_real *vr, my_real *ar) {] }
 }
 
 #endif
