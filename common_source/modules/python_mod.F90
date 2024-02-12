@@ -126,6 +126,16 @@
             integer(kind=c_int), intent(in) :: num_nodes
             integer(kind=c_int), intent(in) :: itab(*)
           end subroutine python_create_node_mapping
+          subroutine python_copy_pointers(numnod,x,d,v,a,dr,vr,ar) bind(c, name="cpp_python_copy_pointers")
+            use iso_c_binding
+            integer(kind=c_int), value, intent(in) :: numnod !< number of nodes
+#ifdef MYREAL8
+            real(kind=c_double), dimension(3,numnod), intent(in) :: x,d,v,a,dr,vr,ar
+#else
+            real(kind=c_float), dimension(3,numnod), intent(in) :: x,d,v,a,dr,vr,ar
+#endif
+          end subroutine python_copy_pointers
+
         end interface
 
 !! \brief the python function structure: it contains the python code in plain text
@@ -339,6 +349,7 @@
           ! creates a mapping between the global node ids and the local node ids
           !write(6,*) "python create node mapping"
           call python_create_node_mapping(itab, numnod)
+
 
         end subroutine
 

@@ -2883,12 +2883,13 @@ C-------------------------------
         CALL SAV_BUF_POINT(D,15)
         CALL SAV_BUF_POINT(V,16)
         CALL SAV_BUF_POINT(A,17)
-        CALL SAV_BUF_POINT(V,16)
-        CALL SAV_BUF_POINT(A,17)
         CALL SAV_BUF_POINT(WEIGHT,18)
         CALL SAV_BUF_POINT(IPM,19)
         CALL SAV_BUF_POINT(IGEO,20)
-
+C-----------------------------------------------
+C       POINTERS FOR PYTHON FUNCTIONS
+C-----------------------------------------------
+        CALL PYTHON_COPY_POINTERS(NUMNOD,X,D,V,A,DR,VR,AR)
 C ----------------------------------------------
 C Specific Initializations
 C ----------------------------------------------

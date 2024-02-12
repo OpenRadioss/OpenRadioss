@@ -28,6 +28,7 @@
 #include <vector>
 #include <set>
 #include <map>
+#include <unordered_map>
 #include <regex>
 #ifndef PYTHON_DISABLED
 // #include <Python.h>
@@ -72,6 +73,8 @@ typedef void (*T_PyErr_Fetch)(PyObject **, PyObject **, PyObject **);
 //    load_function(handle, "PyErr_Display", PyErr_Display, python_initialized);
 typedef void (*T_PyErr_Display)(PyObject *, PyObject *, PyObject *);
 //    load_function(handle, "PyErr_Occurred", PyErr_Occurred, python_initialized);
+typedef int (*T_PyArg_ParseTuple)(PyObject *, const char *, ...);
+typedef PyObject *(*T_Py_BuildValue)(const char *, ...);
 typedef PyObject *(*T_PyErr_Occurred)();
 
 // Note on the python library used:
@@ -124,6 +127,10 @@ T_PyDict_SetItemString PyDict_SetItemString;
 T_PyErr_Fetch PyErr_Fetch;
 T_PyErr_Display PyErr_Display;
 T_PyErr_Occurred PyErr_Occurred;
+T_PyArg_ParseTuple PyArg_ParseTuple;
+T_Py_BuildValue Py_BuildValue;
+
+
 // global variables
 PyObject *pDict = nullptr;
 bool python_initialized = false;
@@ -132,7 +139,16 @@ bool python_initialized = false;
 std::set<int> nodes_uid;
 
 // mapping between user ids and local ids
-std::map<int, int> nodes_uid_to_local_id;
+std::unordered_map<int, int> nodes_uid_to_local_id;
+
+// pointers to Fortran variables
+my_real *C; //coordinates
+my_real *D; //displacement
+my_real *V;
+my_real *A;
+my_real *DR;
+my_real *VR;
+my_real *AR;
 
 // Function to extract numbers based on the pattern and fill the global set
 void extract_uid(const std::string &input)
@@ -188,6 +204,8 @@ void load_functions(T handle, bool &python_initialized)
     load_function(handle, "PyErr_Fetch", PyErr_Fetch, python_initialized);
     load_function(handle, "PyErr_Display", PyErr_Display, python_initialized);
     load_function(handle, "PyErr_Occurred", PyErr_Occurred, python_initialized);
+    load_function(handle, "PyArg_ParseTuple",PyArg_ParseTuple, python_initialized);
+    load_function(handle, "Py_BuildValue",Py_BuildValue, python_initialized);
 }
 
 // call a python function with a list of arguments
@@ -265,6 +283,33 @@ std::string extract_function_name(const std::string &signature)
     }
     // Extract the function name
     return signature.substr(startPos, endPos - startPos);
+}
+
+
+static PyObject* getEntity(PyObject *self, PyObject *args) {
+    const char* name;
+    int node_id;
+
+    if (!PyArg_ParseTuple(args, "si", &name, &node_id)) {
+        return NULL; // Error parsing arguments
+    }
+
+    auto it = nodes_uid_to_local_id.find(node_id);
+    if (it == nodes_uid_to_local_id.end()) {
+        std::cout <<" ERROR in Python function: node with id "<<node_id<<" is not available"<<std::endl;
+        return NULL;
+    }
+    int node_local_id = it->second;
+    int pos = 3 * node_local_id;
+
+    if (strcmp(name, "displacement") == 0) {
+        return Py_BuildValue("(ddd)", D[pos], D[pos + 1], D[pos + 2]);
+    } else if (strcmp(name, "velocity") == 0) {
+        return Py_BuildValue("(ddd)", V[pos], V[pos + 1], V[pos + 2]);
+    } // ... (continue with other conditions)
+
+    std::cout<<"ERROR in Python function: invalid entity name"<<std::endl;
+    return NULL;
 }
 
 // Search for the Python library in the directory specified by the environment variable RAD_PYTHON_PATH
@@ -786,6 +831,16 @@ extern "C"
     }
 
     // initialize the global variables found in the python function
+    void cpp_python_copy_pointers(int * numnod, my_real *x,my_real *d, my_real *v, my_real *a, my_real *dr, my_real *vr, my_real *ar)
+    {
+         C = x;
+         D = d;
+         V = v;
+         A = a;
+         DR = dr;
+         VR = vr;
+         AR = ar;
+    } 
 
     } // extern "C"
 
@@ -824,6 +879,8 @@ extern "C"
     // return the list of nodes (user ids) that are used in the python functions
     void cpp_python_get_nodes(int *nodes_uid_array){}
     void cpp_python_create_node_mapping(int *itab, int *num_nodes){}
+
+    void cpp_python_copy_pointers(int * numnod, my_real *x,my_real *d, my_real *v, my_real *a, my_real *dr, my_real *vr, my_real *ar){]}
 
 }
 
