@@ -283,6 +283,7 @@ C-----------------------------------------------
       CHARACTER*10 CPID
       CHARACTER*6 CISPMD
       INTEGER MY_PID
+      INTEGER NFXFLUX_GLOB
 
       CHARACTER ABC(26)*1, FILNAMTH*100, FILTH*3, LINE*256,
      .          FILNAMABF*100,FILNAMABF_TMP*100
@@ -854,10 +855,6 @@ C------------------------------------------------
      .            PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
      .            MAT_ELEM,NAMES_AND_TITLES )
 
-      IF(NFXFLUX>0 .AND. (IPARIT > 0 .OR. IPARIT == -1)) THEN 
-        IPARIT=0
-        IF(ISPMD == 0) WRITE(6,*) "WARNING: /IMPFLUX is not compatible with /PARITH/ON, switching to /PARITH/OFF"
-      ENDIF
 C------------------------------------------------
 C     Test of .rst file compatibility
 C------------------------------------------------
@@ -888,6 +885,20 @@ C end init rdresa after call xtime0
       CALL TRACE_OUT(17)
 
       CALL INIPAR(ITID,3,NNODES,INPUTNAM,GOT_INPUT,NBTASK)
+
+      IF(NSPMD > 1 ) THEN
+        CALL SPMD_ALLREDUCE_INT(NFXFLUX,NFXFLUX_GLOB,1,"SUM ")
+      ELSE
+        NFXFLUX_GLOB = NFXFLUX
+      ENDIF
+      IF(NFXFLUX_GLOB >0 .AND. (IPARIT > 0 .OR. IPARIT == -1)) THEN
+        IPARIT=0
+        IF(ISPMD == 0) THEN
+          WRITE(6,*) "WARNING: /IMPFLUX is not compatible with",
+     .               " /PARITH/ON, switching to /PARITH/OFF"
+        ENDIF
+      ENDIF
+
       IF(ISPMD==0) THEN
 
        WRITE(IOUT, '(1X,A,I5)')'NUMBER OF SPMD DOMAINS       ',
