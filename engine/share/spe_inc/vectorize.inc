@@ -22,38 +22,30 @@
       !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 #include "hardware.inc"
 
+#if CPP_mach == CPP_p4win64
 
-#if CPP_mach == CPP_ymp || CPP_mach == CPP_ymp_spmd || CPP_mach == CPP_c90 || CPP_mach == CPP_t90 || CPP_mach == CPP_t90_i3e || CPP_mach == CPP_cx1 || CPP_mach == CPP_cx1_spmd
-CDIR$ IVDEP
-#elif CPP_mach == CPP_cvx
-C$DIR NO_RECURRENCE
-#elif CPP_mach == CPP_sx4 ||  CPP_mach == CPP_sx4_i3e ||  CPP_mach == CPP_sx5_spmd
-*VDIR NODEP
-#elif CPP_mach == CPP_vpp || CPP_mach == CPP_vpp_spmd
-!OCL NOVREC
-#elif CPP_mach == CPP_sun25
-C$pragma SUN pipeloop=0
-#elif CPP_mach == CPP_sgi6 && CPP_rel == 50
-CDIR$ IVDEP
-#elif CPP_mach == CPP_p4linux964 || CPP_mach == p4win64
+!DIR$ IVDEP       
 
-#ifdef COMP_GFORTRAN
+#elif CPP_mach == CPP_p4linux964
+
+#if defined(COMP_GFORTRAN)
+
 !$OMP SIMD
-#else
 
-#ifdef COMP_AOCC
+#elif defined(COMP_AOCC)
+
 !$OMP SIMD
+
+#elif defined(COMP_ARMFLANG)
+
+!DIR$ IVDEP
+
 #else
 
-#ifdef COMP_ARMFLANG
 !DIR$ IVDEP
-#else
-!DIR$ IVDEP
-#endif
 
-#endif
 #endif
 
 #elif 1
+       This case should not be possible
 #endif
-
