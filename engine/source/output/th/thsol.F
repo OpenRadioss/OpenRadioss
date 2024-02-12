@@ -254,7 +254,7 @@ C------
            KK(I) = NEL*(I-1)
          ENDDO
 !
-C--------
+C------
          IF (MTE /= 0 .AND. MTE /= 13) THEN
           ISOLNOD=IPARG(28,NG)
           IS_ALE = IPARG(7,NG)
@@ -267,9 +267,8 @@ C         KCVT  2 CO-ROTATIONAL FORMULATION, ORTHOTROPIC CASE
           IF (KCVT == 1 .AND. ISORTH > 0) KCVT= 2
           IF (MTE >=28) NUVAR  = IPM(8,IXS(1,NFT+1))
 C------------------------------------
-C--------------------------------------------------
-          IF(IS_ALE /= 0)THEN
-          !ale
+          IF(IS_ALE > 0 .AND. IS_ALE /= 3)THEN
+          !general ale case (law77 excluded)
             TMP_2(1:MVSIZ,1:3) = ZERO
             DO J=1,8
              DO  I=1,NEL
@@ -282,7 +281,7 @@ C--------------------------------------------------
              ENDDO
             ENDDO
           ELSE
-          !euler and lagrange
+          !euler, lagrange, and law77
             TMP_2(1:MVSIZ,1:3) = ZERO
             DO J=1,8
               DO  I=1,NEL
@@ -319,9 +318,6 @@ C               get related 'ii'
 c-----------
              IF (IH > IADB+NN) GOTO 666
 c-----------
-c              N1=NB10+I-1
-c              N2=NB11+I-1
-c              N3=NB12+I-1
               DO L=1,239552
                 WWA(L)=ZERO
               ENDDO

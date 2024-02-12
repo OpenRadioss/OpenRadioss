@@ -350,7 +350,8 @@ C     -------------------------
             GBUF => ELBUF_TAB(NG)%GBUF
 C     -------------------------  
 C     Volume computation
-C     -------------------------  
+C     -------------------------
+            VOLNEW(1:MVSIZ) = ZERO
             CALL MULTI_COMPUTEVOLUME(NEL, NG, IPARG, MULTI_FVM%SYM, 
      .           ELBUF_TAB, IXS, IXQ, IXTG, VOLNEW, XGRID)
 C     -------------------------  
