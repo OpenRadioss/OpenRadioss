@@ -199,349 +199,357 @@ c-------------------------------------------------
       CALL HM_OPTION_START('FAILURE')      
 c
       DO IFAIL = 1,HM_NBFAIL
+        IMAT = FAIL_MAT_NUM(IFAIL)
 c
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                          OPTION_ID = FAIL_ID, ! read in optional line if added
-     .                          UNIT_ID   = UNIT_ID    ,
-     .                          KEYWORD2  = KEY    )
+     .                            OPTION_ID = FAIL_ID, ! read in optional line if added
+     .                            UNIT_ID   = UNIT_ID    ,
+     .                            KEYWORD2  = KEY    )
 c
-        ! CHECK IF Unit_ID exists
-        IUNIT = 1
-        IF (UNIT_ID > 0) THEN
-          IFLAGUNIT = 0
-          DO IUNIT=1,NUNITS
-            IF (UNITAB%UNIT_ID(IUNIT) == UNIT_ID) THEN
-              IFLAGUNIT = 1
-              UNIT_ID = IUNIT
-              EXIT
+        IF (IMAT == 0) THEN     ! MAT_ID not found for this failure model
+          CALL ANCMSG(MSGID=3048,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
+     .                 I1= MAT_ID,
+     .                 C1= KEY   )
+c
+        ELSE IF (IMAT > 0) THEN      
+c
+          ! CHECK IF Unit_ID exists
+          IUNIT = 1
+          IF (UNIT_ID > 0) THEN
+            IFLAGUNIT = 0
+            DO IUNIT=1,NUNITS
+              IF (UNITAB%UNIT_ID(IUNIT) == UNIT_ID) THEN
+                IFLAGUNIT = 1
+                UNIT_ID = IUNIT
+                EXIT
+              ENDIF
+            ENDDO
+            IF (IFLAGUNIT == 0) THEN
+              CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
+     .                    I1= MAT_ID,
+     .                    I2= UNIT_ID,
+     .                    C1='MATERIAL',
+     .                    C2='FAILURE MODEL',
+     .                    C3=' ')
             ENDIF
-          ENDDO
-          IF (IFLAGUNIT == 0) THEN
-            CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                  I1= MAT_ID,
-     .                  I2= UNIT_ID,
-     .                  C1='MATERIAL',
-     .                  C2='FAILURE MODEL',
-     .                  C3=' ')
           ENDIF
-        ENDIF
 c
-        CALL HM_GET_INTV('mat_id' ,MAT_ID ,IS_AVAILABLE,LSUBMODEL)
-        CALL HM_GET_BOOLV ('ID_CARD_EXIST',IS_ID_LINE,IS_AVAILABLE)
-        IF ( .NOT.  (IS_ID_LINE)) FAIL_ID = 0
+          CALL HM_GET_INTV('mat_id' ,MAT_ID ,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_BOOLV ('ID_CARD_EXIST',IS_ID_LINE,IS_AVAILABLE)
+          IF ( .NOT.  (IS_ID_LINE)) FAIL_ID = 0
 c
-        IMAT  = FAIL_MAT_NUM(IFAIL)
-        IXFEM     = 0
-        ILOC      = 0
-        IFAILWAVE = 0
+          IXFEM     = 0
+          ILOC      = 0
+          IFAILWAVE = 0
 c
-        IF (MAT_PARAM(IMAT)%MAT_ID == MAT_ID) THEN
-          MAT_PARAM(IMAT)%NFAIL = MAT_PARAM(IMAT)%NFAIL + 1
-          IFL   = MAT_PARAM(IMAT)%NFAIL
-          ILAW  = MAT_PARAM(IMAT)%ILAW
-c-----------------------------------------------------------------------
+          IF (MAT_PARAM(IMAT)%MAT_ID == MAT_ID) THEN
+            MAT_PARAM(IMAT)%NFAIL = MAT_PARAM(IMAT)%NFAIL + 1
+            IFL   = MAT_PARAM(IMAT)%NFAIL
+            ILAW  = MAT_PARAM(IMAT)%ILAW
+c-------  ----------------------------------------------------------------
 c
-          IF (KEY(1:5) == 'JOHNS') THEN
-            IRUPT = 1
-            CALL HM_READ_FAIL_JOHNSON(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,ILAW   ,IRUPT   ,IXFEM    ,
-     .           MAT_PARAM(IMAT)%TITLE ,LSUBMODEL ,UNITAB )
+            IF (KEY(1:5) == 'JOHNS') THEN
+              IRUPT = 1
+              CALL HM_READ_FAIL_JOHNSON(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,ILAW   ,IRUPT   ,IXFEM    ,
+     .             MAT_PARAM(IMAT)%TITLE ,LSUBMODEL ,UNITAB )
 c---
 c     
-          ELSEIF (KEY(1:5) == 'TBUTC') THEN 
-            IRUPT = 2    
-            CALL HM_READ_FAIL_TBUTCHER(MAT_PARAM(IMAT)%FAIL(IFL), 
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
-     .           LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:5) == 'TBUTC') THEN 
+              IRUPT = 2    
+              CALL HM_READ_FAIL_TBUTCHER(MAT_PARAM(IMAT)%FAIL(IFL), 
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
+     .             LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:5) == 'WILKI') THEN
-            IRUPT = 3             
-            CALL HM_READ_FAIL_WILKINS(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:5) == 'WILKI') THEN
+              IRUPT = 3             
+              CALL HM_READ_FAIL_WILKINS(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:5) == 'USER1') THEN
-            IRUPT = 4    
-            UNITAB_SUB(1) = UNITAB%UNIT_ID(IUNIT)
-            UNITAB_SUB(2) = UNITAB%FAC_M(IUNIT)
-            UNITAB_SUB(3) = UNITAB%FAC_L(IUNIT)
-            UNITAB_SUB(4) = UNITAB%FAC_T(IUNIT)
-            IUSER_KEY = KEY(1:LEN_TRIM(KEY))
-            CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
+            ELSEIF (KEY(1:5) == 'USER1') THEN
+              IRUPT = 4    
+              UNITAB_SUB(1) = UNITAB%UNIT_ID(IUNIT)
+              UNITAB_SUB(2) = UNITAB%FAC_M(IUNIT)
+              UNITAB_SUB(3) = UNITAB%FAC_L(IUNIT)
+              UNITAB_SUB(4) = UNITAB%FAC_T(IUNIT)
+              IUSER_KEY = KEY(1:LEN_TRIM(KEY))
+              CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
 !
-            CALL HM_READ_FAIL_USER(MAT_PARAM(IMAT)%FAIL(IFL), 
-     .           IRUPT,IUSER_KEY,USERL_AVAIL,
-     .           LSUBMODEL,UNITAB_SUB,MAT_ID)
+              CALL HM_READ_FAIL_USER(MAT_PARAM(IMAT)%FAIL(IFL), 
+     .             IRUPT,IUSER_KEY,USERL_AVAIL,
+     .             LSUBMODEL,UNITAB_SUB,MAT_ID)
 c     
-          ELSEIF (KEY(1:5) == 'USER2') THEN
-            IRUPT = 5
-            UNITAB_SUB(1) = UNITAB%UNIT_ID(IUNIT)
-            UNITAB_SUB(2) = UNITAB%FAC_M(IUNIT)
-            UNITAB_SUB(3) = UNITAB%FAC_L(IUNIT)
-            UNITAB_SUB(4) = UNITAB%FAC_T(IUNIT)
-            IUSER_KEY = KEY(1:LEN_TRIM(KEY))
-            CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
+            ELSEIF (KEY(1:5) == 'USER2') THEN
+              IRUPT = 5
+              UNITAB_SUB(1) = UNITAB%UNIT_ID(IUNIT)
+              UNITAB_SUB(2) = UNITAB%FAC_M(IUNIT)
+              UNITAB_SUB(3) = UNITAB%FAC_L(IUNIT)
+              UNITAB_SUB(4) = UNITAB%FAC_T(IUNIT)
+              IUSER_KEY = KEY(1:LEN_TRIM(KEY))
+              CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
 !
-            CALL HM_READ_FAIL_USER(MAT_PARAM(IMAT)%FAIL(IFL), 
-     .           IRUPT,IUSER_KEY,USERL_AVAIL,
-     .           LSUBMODEL,UNITAB_SUB,MAT_ID)
+              CALL HM_READ_FAIL_USER(MAT_PARAM(IMAT)%FAIL(IFL), 
+     .             IRUPT,IUSER_KEY,USERL_AVAIL,
+     .             LSUBMODEL,UNITAB_SUB,MAT_ID)
 c     
-          ELSEIF (KEY(1:5) == 'USER3') THEN
-            IRUPT = 6               
-            UNITAB_SUB(1) = UNITAB%UNIT_ID(IUNIT)
-            UNITAB_SUB(2) = UNITAB%FAC_M(IUNIT)
-            UNITAB_SUB(3) = UNITAB%FAC_L(IUNIT)
-            UNITAB_SUB(4) = UNITAB%FAC_T(IUNIT)
-            IUSER_KEY = KEY(1:LEN_TRIM(KEY))
-            CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
+            ELSEIF (KEY(1:5) == 'USER3') THEN
+              IRUPT = 6               
+              UNITAB_SUB(1) = UNITAB%UNIT_ID(IUNIT)
+              UNITAB_SUB(2) = UNITAB%FAC_M(IUNIT)
+              UNITAB_SUB(3) = UNITAB%FAC_L(IUNIT)
+              UNITAB_SUB(4) = UNITAB%FAC_T(IUNIT)
+              IUSER_KEY = KEY(1:LEN_TRIM(KEY))
+              CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
 !
-            CALL HM_READ_FAIL_USER(MAT_PARAM(IMAT)%FAIL(IFL), 
-     .           IRUPT,IUSER_KEY,USERL_AVAIL,
-     .           LSUBMODEL,UNITAB_SUB,MAT_ID)
+              CALL HM_READ_FAIL_USER(MAT_PARAM(IMAT)%FAIL(IFL), 
+     .             IRUPT,IUSER_KEY,USERL_AVAIL,
+     .             LSUBMODEL,UNITAB_SUB,MAT_ID)
 c     
-          ELSEIF (KEY(1:3) == 'FLD') THEN
-            IRUPT = 7    
-            CALL HM_READ_FAIL_FLD(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
-     .           LSUBMODEL,UNITAB   )
-            CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
-            FAIL_TAG(IRUPT)%LF_DAM  = 1    ! damage factor for ANIM output
-            FAIL_TAG(IRUPT)%LF_INDX = 1    ! FLD zone index for ANIM output
+            ELSEIF (KEY(1:3) == 'FLD') THEN
+              IRUPT = 7    
+              CALL HM_READ_FAIL_FLD(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
+     .             LSUBMODEL,UNITAB   )
+              CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
+              FAIL_TAG(IRUPT)%LF_DAM  = 1    ! damage factor for ANIM output
+              FAIL_TAG(IRUPT)%LF_INDX = 1    ! FLD zone index for ANIM output
 c     
-          ELSEIF (KEY(1:5) == 'SPALL') THEN
-            IRUPT = 8    
-            CALL HM_READ_FAIL_SPALLING(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:5) == 'SPALL') THEN
+              IRUPT = 8    
+              CALL HM_READ_FAIL_SPALLING(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:6) == 'WIERZB') THEN
-            IRUPT = 9 
-            CALL HM_READ_FAIL_WIERZBICKI(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:6) == 'WIERZB') THEN
+              IRUPT = 9 
+              CALL HM_READ_FAIL_WIERZBICKI(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:8) == 'TENSSTRA') THEN
-            IRUPT = 10
-            CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
-            CALL HM_READ_FAIL_TENSSTRAIN(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           LSUBMODEL,UNITAB   ,UNIT_ID  )
+            ELSEIF (KEY(1:8) == 'TENSSTRA') THEN
+              IRUPT = 10
+              CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
+              CALL HM_READ_FAIL_TENSSTRAIN(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             LSUBMODEL,UNITAB   ,UNIT_ID  )
 c     
-          ELSEIF (KEY(1:6) == 'ENERGY') THEN
-            IRUPT = 11
-            CALL HM_READ_FAIL_ENERGY(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   ,UNIT_ID  )
+            ELSEIF (KEY(1:6) == 'ENERGY') THEN
+              IRUPT = 11
+              CALL HM_READ_FAIL_ENERGY(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   ,UNIT_ID  )
 c
-          !!  ELSEIF (KEY(1:6) == '') THEN 
-          !!     IRUPT = 12                     ! not used
+            !!  ELSEIF (KEY(1:6) == '') THEN 
+            !!     IRUPT = 12                     ! not used
 c     
-          ELSEIF (KEY(1:5) == 'CHANG') THEN
-            IRUPT = 13
-            CALL HM_READ_FAIL_CHANG(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           LSUBMODEL,UNITAB   ,UNIT_ID  )
+            ELSEIF (KEY(1:5) == 'CHANG') THEN
+              IRUPT = 13
+              CALL HM_READ_FAIL_CHANG(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             LSUBMODEL,UNITAB   ,UNIT_ID  )
 c     
-          ELSEIF (KEY(1:6) == 'HASHIN') THEN
-            IRUPT = 14
-            CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
-            CALL HM_READ_FAIL_HASHIN(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,IFAILWAVE,
-     .           LSUBMODEL,UNITAB   ,UNIT_ID  )
+            ELSEIF (KEY(1:6) == 'HASHIN') THEN
+              IRUPT = 14
+              CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
+              CALL HM_READ_FAIL_HASHIN(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,IFAILWAVE,
+     .             LSUBMODEL,UNITAB   ,UNIT_ID  )
 c     
-          !!  ELSEIF (KEY(1:6) == '') THEN   
-          !!     IRUPT = 15                      ! not used
+            !!  ELSEIF (KEY(1:6) == '') THEN   
+            !!     IRUPT = 15                      ! not used
 c     
-          ELSEIF (KEY(1:4) == 'PUCK') THEN
-               IRUPT = 16 
-            CALL HM_READ_FAIL_PUCK(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           LSUBMODEL,UNITAB   ,UNIT_ID  )
+            ELSEIF (KEY(1:4) == 'PUCK') THEN
+                 IRUPT = 16 
+              CALL HM_READ_FAIL_PUCK(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             LSUBMODEL,UNITAB   ,UNIT_ID  )
 c     
-          !! ELSEIF (KEY(1:10) == '') THEN
-          !!       IRUPT = 17                     ! not used
+            !! ELSEIF (KEY(1:10) == '') THEN
+            !!       IRUPT = 17                     ! not used
 c     
-          ELSEIF (KEY(1:8) == 'LAD_DAMA') THEN
-            IRUPT = 18
-            CALL HM_READ_FAIL_LADEVEZE(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           LSUBMODEL,UNITAB   ,UNIT_ID  )
+            ELSEIF (KEY(1:8) == 'LAD_DAMA') THEN
+              IRUPT = 18
+              CALL HM_READ_FAIL_LADEVEZE(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             LSUBMODEL,UNITAB   ,UNIT_ID  )
 c     
-          !!   ELSEIF (KEY(1:8) == ' ') THEN   ! not used
-          !!     IRUPT = 19
+            !!   ELSEIF (KEY(1:8) == ' ') THEN   ! not used
+            !!     IRUPT = 19
 c     
-          ELSEIF (KEY(1:7) == 'CONNECT') THEN
-            IRUPT = 20
-            CALL HM_READ_FAIL_CONNECT(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,UNIT_ID ,
-     .           LSUBMODEL,UNITAB   ,UNIT_ID  )
+            ELSEIF (KEY(1:7) == 'CONNECT') THEN
+              IRUPT = 20
+              CALL HM_READ_FAIL_CONNECT(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,UNIT_ID ,
+     .             LSUBMODEL,UNITAB   ,UNIT_ID  )
 c     
-          !! ELSEIF (KEY(1:10) == ' ') THEN 
-          !!       IRUPT = 21                     ! not used
+            !! ELSEIF (KEY(1:10) == ' ') THEN 
+            !!       IRUPT = 21                     ! not used
 c     
-          !! ELSEIF (KEY(1:8) == ' ') THEN 
-          !!       IRUPT = 22                     ! not used 
+            !! ELSEIF (KEY(1:8) == ' ') THEN 
+            !!       IRUPT = 22                     ! not used 
 c     
-          ELSEIF (KEY(1:4) == 'TAB1') THEN
-            IRUPT = 23 
-            CALL HM_READ_FAIL_TAB1(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
-     .           LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:4) == 'TAB1') THEN
+              IRUPT = 23 
+              CALL HM_READ_FAIL_TAB1(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
+     .             LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:4) == 'TAB2') THEN
-            IRUPT = 41
-            CALL HM_READ_FAIL_TAB2(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,MAT_PARAM(IMAT)%TITLE,
-     .           LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:4) == 'TAB2') THEN
+              IRUPT = 41
+              CALL HM_READ_FAIL_TAB2(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,MAT_PARAM(IMAT)%TITLE,
+     .             LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:3) == 'TAB') THEN
-            IRUPT = 37
-            CALL HM_READ_FAIL_TAB_OLD(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
-     .           LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:3) == 'TAB') THEN
+              IRUPT = 37
+              CALL HM_READ_FAIL_TAB_OLD(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
+     .             LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:10) == 'ORTHSTRAIN') THEN
-            IRUPT = 24 
-            CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
-            CALL HM_READ_FAIL_ORTHSTRAIN(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,IRUPT    ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:10) == 'ORTHSTRAIN') THEN
+              IRUPT = 24 
+              CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
+              CALL HM_READ_FAIL_ORTHSTRAIN(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,IRUPT    ,LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:3) == 'NXT') THEN
-            IRUPT = 25   
-            CALL HM_READ_FAIL_NXT(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           LSUBMODEL,UNITAB   )
-            FAIL_TAG(IRUPT)%LF_DAM = 1
+            ELSEIF (KEY(1:3) == 'NXT') THEN
+              IRUPT = 25   
+              CALL HM_READ_FAIL_NXT(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             LSUBMODEL,UNITAB   )
+              FAIL_TAG(IRUPT)%LF_DAM = 1
 c     
-          ELSEIF (KEY(1:9) == 'SNCONNECT') THEN
-            IRUPT = 26
-            CALL HM_READ_FAIL_SNCONNECT(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
-            FAIL_TAG(IRUPT)%LF_DAM = 3
+            ELSEIF (KEY(1:9) == 'SNCONNECT') THEN
+              IRUPT = 26
+              CALL HM_READ_FAIL_SNCONNECT(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+              FAIL_TAG(IRUPT)%LF_DAM = 3
 c     
-          ELSEIF (KEY(1:3) == 'EMC') THEN
-            IRUPT = 27 
-            CALL HM_READ_FAIL_EMC(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:3) == 'EMC') THEN
+              IRUPT = 27 
+              CALL HM_READ_FAIL_EMC(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:5) == 'ALTER') THEN
-            IRUPT = 28
-            CALL HM_READ_FAIL_ALTER(MAT_PARAM(IMAT)%FAIL(IFL)   ,FAIL_TAG  ,
-     .           MAXFAIL  ,MAT_ID   ,FAIL_ID  ,IRUPT  ,IXFEM     ,
-     .           IFAILWAVE,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:5) == 'ALTER') THEN
+              IRUPT = 28
+              CALL HM_READ_FAIL_ALTER(MAT_PARAM(IMAT)%FAIL(IFL)   ,FAIL_TAG  ,
+     .             MAXFAIL  ,MAT_ID   ,FAIL_ID  ,IRUPT  ,IXFEM     ,
+     .             IFAILWAVE,LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:8) == 'SAHRAEI') THEN
-            IRUPT = 29
-            CALL HM_READ_FAIL_SAHRAEI(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:8) == 'SAHRAEI') THEN
+              IRUPT = 29
+              CALL HM_READ_FAIL_SAHRAEI(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:6) == 'BIQUAD') THEN
-            IRUPT = 30
-            CALL HM_READ_FAIL_BIQUAD(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:6) == 'BIQUAD') THEN
+              IRUPT = 30
+              CALL HM_READ_FAIL_BIQUAD(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:6) == 'FABRIC') THEN
-            IRUPT = 31
-            CALL HM_READ_FAIL_FABRIC(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,UNIT_ID ,
-     .           LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:6) == 'FABRIC') THEN
+              IRUPT = 31
+              CALL HM_READ_FAIL_FABRIC(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,UNIT_ID ,
+     .             LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:7) == 'HC_DSSE') THEN
-            IRUPT = 32
-            CALL HM_READ_FAIL_HC_DSSE(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
-            FAIL_TAG(IRUPT)%LF_DAM  = 1    ! damag
-            FAIL_TAG(IRUPT)%LF_INDX = 1    ! HC_DSc     
-          ELSEIF (KEY(1:10) == 'MULLINS_OR') THEN
-            IRUPT = 33
-            CALL HM_READ_MULLINS_OR(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:7) == 'HC_DSSE') THEN
+              IRUPT = 32
+              CALL HM_READ_FAIL_HC_DSSE(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+              FAIL_TAG(IRUPT)%LF_DAM  = 1    ! damag
+              FAIL_TAG(IRUPT)%LF_INDX = 1    ! HC_DSc     
+            ELSEIF (KEY(1:10) == 'MULLINS_OR') THEN
+              IRUPT = 33
+              CALL HM_READ_MULLINS_OR(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:9) == 'COCKCROFT') THEN
-            IRUPT = 34
-            CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
-            CALL HM_READ_FAIL_COCKCROFT(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:9) == 'COCKCROFT') THEN
+              IRUPT = 34
+              CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
+              CALL HM_READ_FAIL_COCKCROFT(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:6) == 'GURSON') THEN
-            IRUPT = 35
-            CALL HM_READ_FAIL_GURSON(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,ILOC   ,
-     .           MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:6) == 'GURSON') THEN
+              IRUPT = 35
+              CALL HM_READ_FAIL_GURSON(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,ILOC   ,
+     .             MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:6) == 'VISUAL') THEN
-            IRUPT = 36
-            CALL HM_READ_FAIL_VISUAL(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:6) == 'VISUAL') THEN
+              IRUPT = 36
+              CALL HM_READ_FAIL_VISUAL(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:10) == 'ORTHBIQUAD') THEN
-            IRUPT = 38
-            CALL HM_READ_FAIL_ORTHBIQUAD(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:10) == 'ORTHBIQUAD') THEN
+              IRUPT = 38
+              CALL HM_READ_FAIL_ORTHBIQUAD(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:5) == 'GENE1') THEN
-            IRUPT = 39
-            CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
-            CALL HM_READ_FAIL_GENE1(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:5) == 'GENE1') THEN
+              IRUPT = 39
+              CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
+              CALL HM_READ_FAIL_GENE1(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:4) == 'RTCL') THEN
-            IRUPT = 40
-            CALL HM_READ_FAIL_RTCL(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:4) == 'RTCL') THEN
+              IRUPT = 40
+              CALL HM_READ_FAIL_RTCL(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
 c     
-          ELSEIF (KEY(1:6) == 'INIEVO') THEN
-            IRUPT = 42
-            CALL HM_READ_FAIL_INIEVO(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB   )
-            FAIL_TAG(IRUPT)%LF_DAMINI = 1
+            ELSEIF (KEY(1:6) == 'INIEVO') THEN
+              IRUPT = 42
+              CALL HM_READ_FAIL_INIEVO(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB   )
+              FAIL_TAG(IRUPT)%LF_DAMINI = 1
 c
-          ELSEIF (KEY(1:7) == 'SYAZWAN') THEN
-            IRUPT = 43
-            CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
-            CALL HM_READ_FAIL_SYAZWAN(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:7) == 'SYAZWAN') THEN
+              IRUPT = 43
+              CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
+              CALL HM_READ_FAIL_SYAZWAN(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .             MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB   )
 c
-          ELSEIF (KEY(1:6) == 'TSAIWU') THEN
-            IRUPT = 44
-            CALL HM_READ_FAIL_TSAIWU(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:6) == 'TSAIWU') THEN
+              IRUPT = 44
+              CALL HM_READ_FAIL_TSAIWU(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
 c
-          ELSEIF (KEY(1:8) == 'TSAIHILL') THEN
-            IRUPT = 45
-            CALL HM_READ_FAIL_TSAIHILL(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:8) == 'TSAIHILL') THEN
+              IRUPT = 45
+              CALL HM_READ_FAIL_TSAIHILL(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
 c
-          ELSEIF (KEY(1:7) == 'HOFFMAN') THEN
-            IRUPT = 46
-            CALL HM_READ_FAIL_HOFFMAN(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:7) == 'HOFFMAN') THEN
+              IRUPT = 46
+              CALL HM_READ_FAIL_HOFFMAN(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
 c
-          ELSEIF (KEY(1:9) == 'MAXSTRAIN') THEN
-            IRUPT = 47
-            CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
-            CALL HM_READ_FAIL_MAXSTRAIN(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+            ELSEIF (KEY(1:9) == 'MAXSTRAIN') THEN
+              IRUPT = 47
+              CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
+              CALL HM_READ_FAIL_MAXSTRAIN(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
 c
-          ELSEIF(KEY(1:9) == 'ORTHENERG')THEN
-            IRUPT = 48
-            CALL HM_READ_FAIL_ORTHENERG(MAT_PARAM(IMAT)%FAIL(IFL),
-     .           FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+            ELSEIF(KEY(1:9) == 'ORTHENERG')THEN
+              IRUPT = 48
+              CALL HM_READ_FAIL_ORTHENERG(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
 c
-          ENDIF
-c---------
-c                 
-          NLOC_DMG%IMOD     = MAX(NLOC_DMG%IMOD, ILOC)
-          FAILWAVE%WAVE_MOD = MAX(FAILWAVE%WAVE_MOD,IFAILWAVE)
+            ENDIF
+c-------  --
+c                   
+            NLOC_DMG%IMOD     = MAX(NLOC_DMG%IMOD, ILOC)
+            FAILWAVE%WAVE_MOD = MAX(FAILWAVE%WAVE_MOD,IFAILWAVE)
       
-          MAT_PARAM(IMAT)%IFAILWAVE = IFAILWAVE
-          MAT_PARAM(IMAT)%NLOC      = ILOC
-          MAT_PARAM(IMAT)%IXFEM     = IXFEM
-          IF (IXFEM == 1) ICRACK3D  = 1
+            MAT_PARAM(IMAT)%IFAILWAVE = IFAILWAVE
+            MAT_PARAM(IMAT)%NLOC      = ILOC
+            MAT_PARAM(IMAT)%IXFEM     = IXFEM
+            IF (IXFEM == 1) ICRACK3D  = 1
 c
-        ENDIF ! MAT_ID
+          ENDIF ! MAT_ID
+        ENDIF   ! IMAT > 0
 c
       END DO  ! IFAIL        
 c------------------------------
