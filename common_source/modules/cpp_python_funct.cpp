@@ -136,7 +136,11 @@ void load_functions(T handle, bool &python_initialized)
     load_function(handle, "PyErr_Occurred", PyErr_Occurred, python_initialized);
     load_function(handle, "PyArg_ParseTuple", PyArg_ParseTuple, python_initialized);
     load_function(handle, "Py_BuildValue", Py_BuildValue, python_initialized);
+    load_function(handle, "PyCFunction_New", PyCFunction_New, python_initialized);
+    load_function(handle, "PyObject_SetAttrString", PyObject_SetAttrString, python_initialized);
+
 }
+
 
 // call a python function with a list of arguments
 PyObject *call_python_function(const char *func_name, double *args, int num_args)
@@ -234,17 +238,125 @@ static PyObject *getEntity(PyObject *self, PyObject *args)
     int node_local_id = it->second;
     int pos = 3 * node_local_id;
 
-    if (strcmp(name, "displacement") == 0)
+    if (strcmp(name, "displacement") == 0 || strcmp(name, "D") == 0) // Displacement
     {
         return Py_BuildValue("(ddd)", D[pos], D[pos + 1], D[pos + 2]);
     }
-    else if (strcmp(name, "velocity") == 0)
+    else if (strcmp(name, "velocity") == 0 || strcmp(name, "V") == 0)
     {
         return Py_BuildValue("(ddd)", V[pos], V[pos + 1], V[pos + 2]);
-    } // ... (continue with other conditions)
+    } 
+    else if(strcmp(name, "acceleration") == 0 || strcmp(name, "A") == 0)
+    {
+        return Py_BuildValue("(ddd)", A[pos], A[pos + 1], A[pos + 2]);
+    }
+    else if (strcmp(name, "coordinates") == 0 || strcmp(name, "C") == 0)
+    {
+        return Py_BuildValue("(ddd)", C[pos], C[pos + 1], C[pos + 2]);
+    }
+    else if (strcmp(name, "displacement R") == 0 || strcmp(name, "DR") == 0)
+    {
+        return Py_BuildValue("(ddd)", DR[pos], DR[pos + 1], DR[pos + 2]);
+    }
+    else if (strcmp(name, "velocity R") == 0 || strcmp(name, "VR") == 0)
+    {
+        return Py_BuildValue("(ddd)", VR[pos], VR[pos + 1], VR[pos + 2]);
+    }
+    else if (strcmp(name, "acceleration R") == 0 || strcmp(name, "AR") == 0)
+    {
+        return Py_BuildValue("(ddd)", AR[pos], AR[pos + 1], AR[pos + 2]);
+    }
+    else if (strcmp(name, "displacement X") == 0 || strcmp(name, "DX") == 0)
+    {
+        return Py_BuildValue("d", D[pos]);
+    } else if(strcmp(name, "displacement Y") == 0 || strcmp(name, "DY") == 0)
+    {
+        return Py_BuildValue("d", D[pos + 1]);
+    } else if(strcmp(name, "displacement Z") == 0 || strcmp(name, "DZ") == 0)
+    {
+        return Py_BuildValue("d", D[pos + 2]);
+    }
+    else if (strcmp(name, "velocity X") == 0 || strcmp(name, "VX") == 0)
+    {
+        return Py_BuildValue("d", V[pos]);
+    } else if(strcmp(name, "velocity Y") == 0 || strcmp(name, "VY") == 0)
+    {
+        return Py_BuildValue("d", V[pos + 1]);
+    } else if(strcmp(name, "velocity Z") == 0 || strcmp(name, "VZ") == 0)
+    {
+        return Py_BuildValue("d", V[pos + 2]);
+    }
+    else if (strcmp(name, "acceleration X") == 0 || strcmp(name, "AX") == 0)
+    {
+        return Py_BuildValue("d", A[pos]);
+    } else if(strcmp(name, "acceleration Y") == 0 || strcmp(name, "AY") == 0)
+    {
+        return Py_BuildValue("d", A[pos + 1]);
+    } else if(strcmp(name, "acceleration Z") == 0 || strcmp(name, "AZ") == 0)
+    {
+        return Py_BuildValue("d", A[pos + 2]);
+    }
+    else if (strcmp(name, "coordinates X") == 0 || strcmp(name, "CX") == 0)
+    {
+        return Py_BuildValue("d", C[pos]);
+    } else if(strcmp(name, "coordinates Y") == 0 || strcmp(name, "CY") == 0)
+    {
+        return Py_BuildValue("d", C[pos + 1]);
+    } else if(strcmp(name, "coordinates Z") == 0 || strcmp(name, "CZ") == 0)
+    {
+        return Py_BuildValue("d", C[pos + 2]);
+    }
+    else if (strcmp(name, "displacement R X") == 0 || strcmp(name, "DRX") == 0)
+    {
+        return Py_BuildValue("d", DR[pos]);
+    } else if (strcmp(name, "displacement R Y") == 0 || strcmp(name, "DRY") == 0)
+    {
+        return Py_BuildValue("d", DR[pos + 1]);
+    } else if (strcmp(name, "displacement R Z") == 0 || strcmp(name, "DRZ") == 0)
+    {
+        return Py_BuildValue("d", DR[pos + 2]);
+    }
+    else if (strcmp(name, "velocity R X") == 0 || strcmp(name, "VRX") == 0)
+    {
+        return Py_BuildValue("d", VR[pos]);
+    } else if (strcmp(name, "velocity R Y") == 0 || strcmp(name, "VRY") == 0)
+    {
+        return Py_BuildValue("d", VR[pos + 1]);
+    } else if (strcmp(name, "velocity R Z") == 0 || strcmp(name, "VRZ") == 0)
+    {
+        return Py_BuildValue("d", VR[pos + 2]);
+    }
+    else if (strcmp(name, "acceleration R X") == 0 || strcmp(name, "ARX") == 0)
+    {
+        return Py_BuildValue("d", AR[pos]);
+    } else if (strcmp(name, "acceleration R Y") == 0 || strcmp(name, "ARY") == 0)
+    {
+        return Py_BuildValue("d", AR[pos + 1]);
+    } else if (strcmp(name, "acceleration R Z") == 0 || strcmp(name, "ARZ") == 0)
+    {
+        return Py_BuildValue("d", AR[pos + 2]);
+    }
+    else
+    {
+        std::cout << "ERROR in Python function: invalid entity name" << std::endl;
+        return NULL;
+    }
+// ... continue for all other conditions
 
     std::cout << "ERROR in Python function: invalid entity name" << std::endl;
     return NULL;
+}
+
+void initialize_python()
+{
+// Create a Python function object from the C++ function
+    PyMethodDef methodDef = {"getEntity", getEntity, METH_VARARGS, "Get entity data"};
+    PyObject *pythonFunction = PyCFunction_New(&methodDef, NULL);
+
+    // Inject the function into the Python interpreter's global namespace
+    PyObject *mainModule = PyImport_AddModule("__main__");
+    PyObject_SetAttrString(mainModule, "getEntity", pythonFunction);
+    
 }
 
 // Search for the Python library in the directory specified by the environment variable RAD_PYTHON_PATH
@@ -327,7 +439,7 @@ void python_load_library()
                 {
                     // std::cout << "Python library found at " << full_dll_path << std::endl;
                     FindClose(hFind);
-                    Py_Initialize();
+                    initialize_python();
                     return;
                 }
                 FreeLibrary(handle);
@@ -337,7 +449,7 @@ void python_load_library()
     }
     else
     {
-        Py_Initialize();
+        initialize_python();
     }
 }
 
@@ -403,7 +515,7 @@ void python_load_library()
                             {
                                 std::cout << "Python library found at " << full_so_path << std::endl;
                                 closedir(dir);
-                                Py_Initialize();
+                                initialize_python();
                                 return;
                             }
                             dlclose(handle);
