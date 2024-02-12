@@ -37,13 +37,13 @@ Chd|        UDOUBLE                       source/system/sysfus.F
 Chd|        USR2SYS                       source/system/sysfus.F        
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
+Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F  
 Chd|====================================================================
       SUBROUTINE HM_READ_SPHCEL(ITAB    ,ITABM1  ,IPART ,
      2                  IPARTSP ,IPM     ,IGEO  ,KXSP    ,IXSP    ,
      3                  NOD2SP, RESERVEP ,IXS   ,IPARTS  ,ISOLNOD ,
      4                  SPH2SOL ,SOL2SPH ,IRST  ,X       ,SOL2SPH_TYP,
-     5                  LSUBMODEL)
+     5                  LSUBMODEL,SPBUF)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -103,6 +103,7 @@ C-----------------------------------------------
       my_real
      .        X(3,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
+      my_real, INTENT(INOUT) :: SPBUF(NSPBUF,NUMSPH)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -172,11 +173,12 @@ C      FILL OTHER STRUCTURES + CHECKS
 C--------------------------------------------------
       DO I=1,NSPHCEL
 C--------------------------------------------------
-C      FOR _SP _DP PURPOSE
+C       STORAGE OF MASS PER PARTICULE
 C--------------------------------------------------
-c        MASS(I) = HM_MASS(I)
+        SPBUF(12,I) = HM_MASS(I)
+        SPBUF(13,I) = TYPE(I)
 C--------------------------------------------------
-C      INTERNAL PART ID
+C       INTERNAL PART ID
 C--------------------------------------------------
         IF( IPART(4,INDEX_PART) /= IPARTSP(I) )THEN  
           DO J=1,NPART                            
@@ -194,6 +196,7 @@ C--------------------------------------------------
         ENDIF 
         IDNOD = KXSP(3,I)
         INOD=USR2SYS(IDNOD,ITABM1,MESS,ID)
+        SPBUF(12,I) = 4.56e-1+0.01*SQRT(MAX(EM20,(X(1,INOD)+1.283)**2+(X(2,INOD)+1.283)**2))
         KXSP(3,I)=INOD
         NCELL=NCELL+1
         IPARTSP(NCELL)=INDEX_PART

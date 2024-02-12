@@ -117,8 +117,8 @@ C Solidds to SPH, no interaction if both particles are inactive
           IF(IACT==1) THEN
 C-- W(DP)-- DP is the distance of the PPV in initial configuration
 C-- DD = DP/H
-            IF (SPBUF(13,N)>EM30) THEN
-              DD = SPBUF(13,N)
+            IF (SPBUF(14,N)>EM30) THEN
+              DD = SPBUF(14,N)
             ELSE
               DD=TWO/THREE
             ENDIF
