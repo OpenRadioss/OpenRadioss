@@ -205,11 +205,13 @@ c
      .                            OPTION_ID = FAIL_ID, ! read in optional line if added
      .                            UNIT_ID   = UNIT_ID    ,
      .                            KEYWORD2  = KEY    )
+        CALL HM_GET_INTV('mat_id' ,MAT_ID ,IS_AVAILABLE,LSUBMODEL)
 c
         IF (IMAT == 0) THEN     ! MAT_ID not found for this failure model
-          CALL ANCMSG(MSGID=3048,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
-     .                 I1= MAT_ID,
-     .                 C1= KEY   )
+          CALL ANCMSG(MSGID=3050,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
+     .                 C1= KEY   ,
+     .                 I1= FAIL_ID,
+     .                 I2= MAT_ID)
 c
         ELSE IF (IMAT > 0) THEN      
 c
