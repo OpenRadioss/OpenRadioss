@@ -39,7 +39,7 @@ bool python_initialized = false;
 std::set<int> nodes_uid;
 
 // mapping between user ids and local ids
-std::unordered_map<int, int> nodes_uid_to_local_id;
+std::map<int, int> nodes_uid_to_local_id;
 
 // pointers to Fortran variables
 my_real *C; // coordinates
@@ -81,33 +81,68 @@ void load_function(void *handle, const std::string &func_name, T &func_ptr, bool
 #endif
 
 // Function to extract numbers based on the pattern and fill the global set
+// void extract_uid(const std::string &input)
+//{
+//    Coordinates     CX_n,  CY_n,  CZ_n
+//    Displacement    DX_n,  DY_n,  DZ_n
+//    DisplacementR  DRX_n, DRY_n, DRZ_n
+//    Velocity        VX_n,  VY_n , VZ_n
+//    VelocityR      VRX_n, VRY_n, VRZ_n
+//    Acceleration    AX_n,  AY_n,  AZ_n
+//    AccelerationR  ARX_n, ARY_n, ARZ_n
+// Regex pattern: non-alphanumeric or start of line, followed by A[XYZ] and underscore and numbers
+// std::cout<<"input: "<<input<<std::endl;
+//    std::regex pattern(R"((?:[^a-zA-Z0-9]|^)[ACDV][R]*[XYZ]_[0-9]+)");
+//
+//    auto begin = std::sregex_iterator(input.begin(), input.end(), pattern);
+//    auto end = std::sregex_iterator();
+//
+//    for (auto i = begin; i != end; ++i)
+//    {
+//        auto match = *i;
+//        std::string match_str = match.str();
+//        size_t underscore_pos = match_str.find('_');
+//        if (underscore_pos != std::string::npos)
+//        {
+//            int number = std::stoi(match_str.substr(underscore_pos + 1));
+//            nodes_uid.insert(number);
+//            // std::cout<<"[PYTHON] uid found: "<<number<<std::endl;
+//        }
+//    }
+//
+//}
+
 void extract_uid(const std::string &input)
 {
-    //    Coordinates     CX_n,  CY_n,  CZ_n
-    //    Displacement    DX_n,  DY_n,  DZ_n
-    //    DisplacementR  DRX_n, DRY_n, DRZ_n
-    //    Velocity        VX_n,  VY_n , VZ_n
-    //    VelocityR      VRX_n, VRY_n, VRZ_n
-    //    Acceleration    AX_n,  AY_n,  AZ_n
-    //    AccelerationR  ARX_n, ARY_n, ARZ_n
-    // Regex pattern: non-alphanumeric or start of line, followed by A[XYZ] and underscore and numbers
-    // std::cout<<"input: "<<input<<std::endl;
-    std::regex pattern(R"((?:[^a-zA-Z0-9]|^)[ACDV][R]*[XYZ]_[0-9]+)");
 
-    auto begin = std::sregex_iterator(input.begin(), input.end(), pattern);
-    auto end = std::sregex_iterator();
+    std::regex pattern_variable(R"((?:[^a-zA-Z0-9]|^)[ACDV][R]*[XYZ]_[0-9]+)");
+    std::regex pattern_decorator(R"(@requires_node\([^,]+,\s*(\d+)\))");
 
-    for (auto i = begin; i != end; ++i)
+    std::smatch matches;
+
+    // Check for old pattern
+    auto begin_variable = std::sregex_iterator(input.begin(), input.end(), pattern_variable);
+    auto end_variable = std::sregex_iterator();
+    for (auto i = begin_variable; i != end_variable; ++i)
     {
-        auto match = *i;
-        std::string match_str = match.str();
+        std::string match_str = i->str();
         size_t underscore_pos = match_str.find('_');
         if (underscore_pos != std::string::npos)
         {
             int number = std::stoi(match_str.substr(underscore_pos + 1));
             nodes_uid.insert(number);
-            // std::cout<<"[PYTHON] uid found: "<<number<<std::endl;
+            std::cout << "[PYTHON] uid found: " << number << std::endl;
         }
+    }
+
+    // Check for new pattern
+    auto begin_decorator = std::sregex_iterator(input.begin(), input.end(), pattern_decorator);
+    auto end_decorator = std::sregex_iterator();
+    for (auto i = begin_decorator; i != end_decorator; ++i)
+    {
+        int number = std::stoi(i->str(1));
+        nodes_uid.insert(number);
+        std::cout << "[PYTHON] uid found: " << number << std::endl;
     }
 }
 
@@ -135,12 +170,10 @@ void load_functions(T handle, bool &python_initialized)
     load_function(handle, "PyErr_Display", PyErr_Display, python_initialized);
     load_function(handle, "PyErr_Occurred", PyErr_Occurred, python_initialized);
     load_function(handle, "PyArg_ParseTuple", PyArg_ParseTuple, python_initialized);
-    load_function(handle, "Py_BuildValue", Py_BuildValue, python_initialized);
-    load_function(handle, "PyCFunction_New", PyCFunction_New, python_initialized);
-    load_function(handle, "PyObject_SetAttrString", PyObject_SetAttrString, python_initialized);
-
+    // load_function(handle, "Py_BuildValue", Py_BuildValue, python_initialized);
+    // load_function(handle, "PyCFunction_New", PyCFunction_New, python_initialized);
+    // load_function(handle, "PyObject_SetAttrString", PyObject_SetAttrString, python_initialized);
 }
-
 
 // call a python function with a list of arguments
 PyObject *call_python_function(const char *func_name, double *args, int num_args)
@@ -219,144 +252,234 @@ std::string extract_function_name(const std::string &signature)
     return signature.substr(startPos, endPos - startPos);
 }
 
-static PyObject *getEntity(PyObject *self, PyObject *args)
-{
-    const char *name;
-    int node_id;
-
-    if (!PyArg_ParseTuple(args, "si", &name, &node_id))
-    {
-        return NULL; // Error parsing arguments
-    }
-
-    auto it = nodes_uid_to_local_id.find(node_id);
-    if (it == nodes_uid_to_local_id.end())
-    {
-        std::cout << " ERROR in Python function: node with id " << node_id << " is not available" << std::endl;
-        return NULL;
-    }
-    int node_local_id = it->second;
-    int pos = 3 * node_local_id;
-
-    if (strcmp(name, "displacement") == 0 || strcmp(name, "D") == 0) // Displacement
-    {
-        return Py_BuildValue("(ddd)", D[pos], D[pos + 1], D[pos + 2]);
-    }
-    else if (strcmp(name, "velocity") == 0 || strcmp(name, "V") == 0)
-    {
-        return Py_BuildValue("(ddd)", V[pos], V[pos + 1], V[pos + 2]);
-    } 
-    else if(strcmp(name, "acceleration") == 0 || strcmp(name, "A") == 0)
-    {
-        return Py_BuildValue("(ddd)", A[pos], A[pos + 1], A[pos + 2]);
-    }
-    else if (strcmp(name, "coordinates") == 0 || strcmp(name, "C") == 0)
-    {
-        return Py_BuildValue("(ddd)", C[pos], C[pos + 1], C[pos + 2]);
-    }
-    else if (strcmp(name, "displacement R") == 0 || strcmp(name, "DR") == 0)
-    {
-        return Py_BuildValue("(ddd)", DR[pos], DR[pos + 1], DR[pos + 2]);
-    }
-    else if (strcmp(name, "velocity R") == 0 || strcmp(name, "VR") == 0)
-    {
-        return Py_BuildValue("(ddd)", VR[pos], VR[pos + 1], VR[pos + 2]);
-    }
-    else if (strcmp(name, "acceleration R") == 0 || strcmp(name, "AR") == 0)
-    {
-        return Py_BuildValue("(ddd)", AR[pos], AR[pos + 1], AR[pos + 2]);
-    }
-    else if (strcmp(name, "displacement X") == 0 || strcmp(name, "DX") == 0)
-    {
-        return Py_BuildValue("d", D[pos]);
-    } else if(strcmp(name, "displacement Y") == 0 || strcmp(name, "DY") == 0)
-    {
-        return Py_BuildValue("d", D[pos + 1]);
-    } else if(strcmp(name, "displacement Z") == 0 || strcmp(name, "DZ") == 0)
-    {
-        return Py_BuildValue("d", D[pos + 2]);
-    }
-    else if (strcmp(name, "velocity X") == 0 || strcmp(name, "VX") == 0)
-    {
-        return Py_BuildValue("d", V[pos]);
-    } else if(strcmp(name, "velocity Y") == 0 || strcmp(name, "VY") == 0)
-    {
-        return Py_BuildValue("d", V[pos + 1]);
-    } else if(strcmp(name, "velocity Z") == 0 || strcmp(name, "VZ") == 0)
-    {
-        return Py_BuildValue("d", V[pos + 2]);
-    }
-    else if (strcmp(name, "acceleration X") == 0 || strcmp(name, "AX") == 0)
-    {
-        return Py_BuildValue("d", A[pos]);
-    } else if(strcmp(name, "acceleration Y") == 0 || strcmp(name, "AY") == 0)
-    {
-        return Py_BuildValue("d", A[pos + 1]);
-    } else if(strcmp(name, "acceleration Z") == 0 || strcmp(name, "AZ") == 0)
-    {
-        return Py_BuildValue("d", A[pos + 2]);
-    }
-    else if (strcmp(name, "coordinates X") == 0 || strcmp(name, "CX") == 0)
-    {
-        return Py_BuildValue("d", C[pos]);
-    } else if(strcmp(name, "coordinates Y") == 0 || strcmp(name, "CY") == 0)
-    {
-        return Py_BuildValue("d", C[pos + 1]);
-    } else if(strcmp(name, "coordinates Z") == 0 || strcmp(name, "CZ") == 0)
-    {
-        return Py_BuildValue("d", C[pos + 2]);
-    }
-    else if (strcmp(name, "displacement R X") == 0 || strcmp(name, "DRX") == 0)
-    {
-        return Py_BuildValue("d", DR[pos]);
-    } else if (strcmp(name, "displacement R Y") == 0 || strcmp(name, "DRY") == 0)
-    {
-        return Py_BuildValue("d", DR[pos + 1]);
-    } else if (strcmp(name, "displacement R Z") == 0 || strcmp(name, "DRZ") == 0)
-    {
-        return Py_BuildValue("d", DR[pos + 2]);
-    }
-    else if (strcmp(name, "velocity R X") == 0 || strcmp(name, "VRX") == 0)
-    {
-        return Py_BuildValue("d", VR[pos]);
-    } else if (strcmp(name, "velocity R Y") == 0 || strcmp(name, "VRY") == 0)
-    {
-        return Py_BuildValue("d", VR[pos + 1]);
-    } else if (strcmp(name, "velocity R Z") == 0 || strcmp(name, "VRZ") == 0)
-    {
-        return Py_BuildValue("d", VR[pos + 2]);
-    }
-    else if (strcmp(name, "acceleration R X") == 0 || strcmp(name, "ARX") == 0)
-    {
-        return Py_BuildValue("d", AR[pos]);
-    } else if (strcmp(name, "acceleration R Y") == 0 || strcmp(name, "ARY") == 0)
-    {
-        return Py_BuildValue("d", AR[pos + 1]);
-    } else if (strcmp(name, "acceleration R Z") == 0 || strcmp(name, "ARZ") == 0)
-    {
-        return Py_BuildValue("d", AR[pos + 2]);
-    }
-    else
-    {
-        std::cout << "ERROR in Python function: invalid entity name" << std::endl;
-        return NULL;
-    }
-// ... continue for all other conditions
-
-    std::cout << "ERROR in Python function: invalid entity name" << std::endl;
-    return NULL;
-}
+// static PyObject *getEntity(PyObject *self, PyObject *args)
+//{
+//     const char *name;
+//     int node_id;
+//     std::cout<<"Entering getEntity"<<std::endl;
+//
+//     if (!PyArg_ParseTuple(args, "si", &name, &node_id))
+//     {
+//         std::cout<<" Error parsing arguments"<<std::endl;
+//         return Py_BuildValue("d", 0.0);
+//     }
+//     std::cout<<"arguments parsed"<<std::endl;
+//     auto it = nodes_uid_to_local_id.find(node_id);
+//     if (it == nodes_uid_to_local_id.end())
+//     {
+//         std::cout << " ERROR in Python function: node with id " << node_id << " is not available" << std::endl;
+//         return Py_BuildValue("d", 0.0);
+//         //return NULL;
+//     }
+//     int node_local_id = it->second;
+//     int pos = 3 * node_local_id;
+//     std::cout<<"Local id ="<<node_local_id<<std::endl;
+//
+//     if (strcmp(name, "displacement") == 0 || strcmp(name, "D") == 0) // Displacement
+//     {
+//         return Py_BuildValue("(ddd)", D[pos], D[pos + 1], D[pos + 2]);
+//     }
+//     else if (strcmp(name, "velocity") == 0 || strcmp(name, "V") == 0)
+//     {
+//         return Py_BuildValue("(ddd)", V[pos], V[pos + 1], V[pos + 2]);
+//     }
+//     else if(strcmp(name, "acceleration") == 0 || strcmp(name, "A") == 0)
+//     {
+//         return Py_BuildValue("(ddd)", A[pos], A[pos + 1], A[pos + 2]);
+//     }
+//     else if (strcmp(name, "coordinates") == 0 || strcmp(name, "C") == 0)
+//     {
+//         return Py_BuildValue("(ddd)", C[pos], C[pos + 1], C[pos + 2]);
+//     }
+//     else if (strcmp(name, "displacement R") == 0 || strcmp(name, "DR") == 0)
+//     {
+//         return Py_BuildValue("(ddd)", DR[pos], DR[pos + 1], DR[pos + 2]);
+//     }
+//     else if (strcmp(name, "velocity R") == 0 || strcmp(name, "VR") == 0)
+//     {
+//         return Py_BuildValue("(ddd)", VR[pos], VR[pos + 1], VR[pos + 2]);
+//     }
+//     else if (strcmp(name, "acceleration R") == 0 || strcmp(name, "AR") == 0)
+//     {
+//         return Py_BuildValue("(ddd)", AR[pos], AR[pos + 1], AR[pos + 2]);
+//     }
+//     else if (strcmp(name, "displacement X") == 0 || strcmp(name, "DX") == 0)
+//     {
+//         return Py_BuildValue("d", D[pos]);
+//     } else if(strcmp(name, "displacement Y") == 0 || strcmp(name, "DY") == 0)
+//     {
+//         return Py_BuildValue("d", D[pos + 1]);
+//     } else if(strcmp(name, "displacement Z") == 0 || strcmp(name, "DZ") == 0)
+//     {
+//         return Py_BuildValue("d", D[pos + 2]);
+//     }
+//     else if (strcmp(name, "velocity X") == 0 || strcmp(name, "VX") == 0)
+//     {
+//         return Py_BuildValue("d", V[pos]);
+//     } else if(strcmp(name, "velocity Y") == 0 || strcmp(name, "VY") == 0)
+//     {
+//         return Py_BuildValue("d", V[pos + 1]);
+//     } else if(strcmp(name, "velocity Z") == 0 || strcmp(name, "VZ") == 0)
+//     {
+//         return Py_BuildValue("d", V[pos + 2]);
+//     }
+//     else if (strcmp(name, "acceleration X") == 0 || strcmp(name, "AX") == 0)
+//     {
+//         return Py_BuildValue("d", A[pos]);
+//     } else if(strcmp(name, "acceleration Y") == 0 || strcmp(name, "AY") == 0)
+//     {
+//         return Py_BuildValue("d", A[pos + 1]);
+//     } else if(strcmp(name, "acceleration Z") == 0 || strcmp(name, "AZ") == 0)
+//     {
+//         return Py_BuildValue("d", A[pos + 2]);
+//     }
+//     else if (strcmp(name, "coordinates X") == 0 || strcmp(name, "CX") == 0)
+//     {
+//         return Py_BuildValue("d", C[pos]);
+//     } else if(strcmp(name, "coordinates Y") == 0 || strcmp(name, "CY") == 0)
+//     {
+//         return Py_BuildValue("d", C[pos + 1]);
+//     } else if(strcmp(name, "coordinates Z") == 0 || strcmp(name, "CZ") == 0)
+//     {
+//         return Py_BuildValue("d", C[pos + 2]);
+//     }
+//     else if (strcmp(name, "displacement R X") == 0 || strcmp(name, "DRX") == 0)
+//     {
+//         return Py_BuildValue("d", DR[pos]);
+//     } else if (strcmp(name, "displacement R Y") == 0 || strcmp(name, "DRY") == 0)
+//     {
+//         return Py_BuildValue("d", DR[pos + 1]);
+//     } else if (strcmp(name, "displacement R Z") == 0 || strcmp(name, "DRZ") == 0)
+//     {
+//         return Py_BuildValue("d", DR[pos + 2]);
+//     }
+//     else if (strcmp(name, "velocity R X") == 0 || strcmp(name, "VRX") == 0)
+//     {
+//         return Py_BuildValue("d", VR[pos]);
+//     } else if (strcmp(name, "velocity R Y") == 0 || strcmp(name, "VRY") == 0)
+//     {
+//         return Py_BuildValue("d", VR[pos + 1]);
+//     } else if (strcmp(name, "velocity R Z") == 0 || strcmp(name, "VRZ") == 0)
+//     {
+//         return Py_BuildValue("d", VR[pos + 2]);
+//     }
+//     else if (strcmp(name, "acceleration R X") == 0 || strcmp(name, "ARX") == 0)
+//     {
+//         return Py_BuildValue("d", AR[pos]);
+//     } else if (strcmp(name, "acceleration R Y") == 0 || strcmp(name, "ARY") == 0)
+//     {
+//         return Py_BuildValue("d", AR[pos + 1]);
+//     } else if (strcmp(name, "acceleration R Z") == 0 || strcmp(name, "ARZ") == 0)
+//     {
+//         return Py_BuildValue("d", AR[pos + 2]);
+//     }
+//     else
+//     {
+//         std::cout << "ERROR in Python function: invalid entity name" << std::endl;
+//         return Py_BuildValue("d", 0.0);
+//     }
+//// ... continue for all other conditions
+//
+//    std::cout << "ERROR in Python function: invalid entity name" << std::endl;
+//    return Py_BuildValue("d", 0.0);
+//}
 
 void initialize_python()
 {
-// Create a Python function object from the C++ function
-    PyMethodDef methodDef = {"getEntity", getEntity, METH_VARARGS, "Get entity data"};
-    PyObject *pythonFunction = PyCFunction_New(&methodDef, NULL);
+    Py_Initialize();
+    //    std::cout<<" Python initialized"<<std::endl;
+    //// Create a Python function object from the C++ function
+    //    PyMethodDef methodDef = {"getEntity", getEntity, METH_VARARGS, "Get entity data"};
+    //    std::cout<<"methodDef done"<<std::endl;
+    //
+    //    PyObject *pythonFunction = PyCFunction_New(&methodDef, NULL);
+    //    std::cout<<"PyCFunction_New done"<<std::endl;
+    //    PyObject * mainModule = PyImport_AddModule("__main__");
+    //    PyObject_SetAttrString(mainModule, "getEntity", pythonFunction);
+    //    std::cout<<" getEntity function registered in Python"<<std::endl;
+    //        PyRun_SimpleString(
+    //        "import sys\n"
+    //        "print('Python version')\n"
+    //        "print(sys.version)\n"
+    //        "print('Version info.')\n"
+    //        "print(sys.version_info)\n"
+    //        "result = getEntity('displacement', 100)\n"
+    //        "print(result)"
+    //    );
+    //    std::cout<<"Success: getEntity function called in Python"<<std::endl;
 
-    // Inject the function into the Python interpreter's global namespace
-    PyObject *mainModule = PyImport_AddModule("__main__");
-    PyObject_SetAttrString(mainModule, "getEntity", pythonFunction);
-    
+    // definition for the decorator @requires_node
+    //        std::cout<<"Entering requires_node"<<std::endl;
+    PyRun_SimpleString(
+        "def requires_node(name, node_id):\n"
+        "    def decorator(func):\n"
+        "        def wrapper(*args, **kwargs):\n"
+        "            kwargs[name] = node_id\n"
+        "            return func(*args, **kwargs)\n"
+        "        return wrapper\n"
+        "    return decorator\n");
+    //    COORDINATES     CX_n,  CY_n,  CZ_n
+    //    DISPLACEMENTS    DX_n,  DY_n,  DZ_n
+    //    DISPLACEMENTS_R  DRX_n, DRY_n, DRZ_n
+    //    VELOCITIES        VX_n,  VY_n , VZ_n
+    //    VELOCITIES_R     VRX_n, VRY_n, VRZ_n
+    //    ACCELERATIONS    AX_n,  AY_n,  AZ_n
+    //    ACCELERATIONS_R  ARX_n, ARY_n, ARZ_n
+
+    PyRun_SimpleString(
+        "def getEntity(name, node_id):\n"
+        "    if(node_id not in DISPLACEMENTS ):\n"
+        "        raise ValueError('Node with id {} is not available'.format(node_id))\n"
+        "    elif(name == 'coordinates'):\n"
+        "        return COORDINATES[node_id]\n"
+        "    elif(name == 'displacements'):\n"
+        "        return DISPLACEMENTS[node_id]\n"
+        "    elif(name == 'velocities'):\n"
+        "        return VELOCITIES[node_id]\n"
+        "    elif(name == 'accelerations'):\n"
+        "        return ACCELERATIONS[node_id]\n"
+        "    elif(name == 'rotational displacements'):\n"
+        "        return DISPLACEMENTS_R[node_id]\n"
+        "    elif(name == 'rotational velocities'):\n"
+        "        return VELOCTIES_R[node_id]\n"
+        "    elif(name == 'rotational accelerations'):\n"
+        "        return ACCELERATION_R[node_id]\n"
+        "    elif(name == 'X displacement'):\n"
+        "        return DISPLACEMENTS[node_id][0]\n"
+        "    elif(name == 'Y displacement'):\n"
+        "        return DISPLACEMENTS[node_id][1]\n"
+        "    elif(name == 'Z displacement'):\n"
+        "        return DISPLACEMENTS[node_id][2]\n"
+        "    elif(name == 'X velocity'):\n"
+        "        return VELOCITIES[node_id][0]\n"
+        "    elif(name == 'Y velocity'):\n"
+        "        return VELOCITIES[node_id][1]\n"
+        "    elif(name == 'Z velocity'):\n"
+        "        return VELOCITIES[node_id][2]\n"
+        "    elif(name == 'X acceleration'):\n"
+        "        return ACCELERATIONS[node_id][0]\n"
+        "    elif(name == 'Y acceleration'):\n"
+        "        return ACCELERATIONS[node_id][1]\n"
+        "    elif(name == 'Z acceleration'):\n"
+        "        return ACCELERATIONS[node_id][2]\n"
+        "    elif(name == 'X coordinate'):\n"
+        "        return COORDINATES[node_id][0]\n"
+        "    elif(name == 'Y coordinate'):\n"
+        "        return COORDINATES[node_id][1]\n"
+        "    elif(name == 'Z coordinate'):\n"
+        "        return COORDINATES[node_id][2]\n"
+        "    else:\n"
+        "        raise ValueError('Invalid entity name: {}'.format(name))\n" 
+    );
+    PyRun_SimpleString(
+        "COORDINATES = {}\n"
+        "DISPLACEMENTS = {}\n"
+        "VELOCITIES = {}\n"
+        "ACCELERATIONS = {}\n"
+        "DISPLACEMENTS_R = {}\n"
+        "VELOCITIES_R = {}\n"
+        "ACCELERATIONS_R ={}\n");
+
 }
 
 // Search for the Python library in the directory specified by the environment variable RAD_PYTHON_PATH
@@ -552,7 +675,7 @@ void python_load_library()
                 if (python_initialized)
                 {
                     std::cout << "Python library found " << name << std::endl;
-                    Py_Initialize();
+                    initialize_python();
                     return;
                 }
                 dlclose(handle);
@@ -561,7 +684,7 @@ void python_load_library()
     }
     else // if python_initialized == true we have found the library in RAD_PYTHON_PATH
     {
-        Py_Initialize();
+        initialize_python();
     }
 }
 #endif
@@ -610,7 +733,14 @@ extern "C"
         PyObject *py_DT = static_cast<PyObject *>(PyFloat_FromDouble(0.0));
         PyDict_SetItemString(pDict, "TIME", py_TIME);
         PyDict_SetItemString(pDict, "DT", py_DT);
-
+        std::string initCommand =
+            std::string("COORDINATES = {}\n") +
+            "DISPLACEMENTS = {}\n" +
+            "VELOCITIES = {}\n" +
+            "ACCELERATIONS = {}\n" +
+            "DISPLACEMENTS_R = {}\n" +
+            "VELOCITIES_R = {}\n" +
+            "ACCELERATIONS_R = {}\n";
         // loop over the set of nodes
         for (auto node_uid : nodes_uid)
         {
@@ -643,7 +773,18 @@ extern "C"
                 if (py_z_values != nullptr)
                     Py_DecRef(py_z_values);
             }
+            initCommand +=
+                "COORDINATES["+std::to_string(node_uid)+"] = [0.0, 0.0, 0.0]\n" +
+                "COORDINATES["+std::to_string(node_uid)+"] = [0.0, 0.0, 0.0]\n" +
+                "DISPLACEMENTS["+std::to_string(node_uid)+"] = [0.0, 0.0, 0.0]\n" +
+                "VELOCITIES["+std::to_string(node_uid)+"] = [0.0, 0.0, 0.0]\n" +
+                "ACCELERATIONS["+std::to_string(node_uid)+"] = [0.0, 0.0, 0.0]\n" +
+                "DISPLACEMENTS_R["+std::to_string(node_uid)+"] = [0.0, 0.0, 0.0]\n" +
+                "VELOCITIES_R["+std::to_string(node_uid)+"] = [0.0, 0.0, 0.0]\n" +
+                "ACCELERATIONS_R["+std::to_string(node_uid)+"] = [0.0, 0.0, 0.0]\n";
+
         }
+        PyRun_SimpleString(initCommand.c_str());
     }
 
     // register a function in the python dictionary
@@ -659,6 +800,7 @@ extern "C"
             std::cout << "Make sure that the following python code is safe" << std::endl;
         }
 
+        bool signature_found = false;
         for (int i = 0; current_line < num_lines;)
         {
             tmp_string.clear();
@@ -668,8 +810,11 @@ extern "C"
                 tmp_string += code[i];
                 i++;
             }
-            if (current_line == 0)
+            if (!signature_found && tmp_string.find("def") == 0)
             {
+                signature_found = true;
+                // print tmp_string
+                std::cout << "tmp_string: " << tmp_string << std::endl;
                 std::string function_name = extract_function_name(tmp_string);
                 if (function_name.empty())
                 {
@@ -844,6 +989,43 @@ extern "C"
         }
         double x_values, y_values, z_values;
         // loop over the map nodes_uid_to_local_id
+        std::string command;
+        std::string full_name;
+        std::string short_name = std::string(name);
+        if (short_name == "A")
+        {
+            full_name = "ACCELERATIONS";
+        }
+        else if (short_name == "V")
+        {
+            full_name = "VELOCITIES";
+        }
+        else if (short_name == "D")
+        {
+            full_name = "DISPLACEMENTS";
+        }
+        else if (short_name == "DR")
+        {
+            full_name = "DISPLACEMENTS_R";
+        }
+        else if (short_name == "VR")
+        {
+            full_name = "VELOCITIES_R";
+        }
+        else if (short_name == "AR")
+        {
+            full_name = "ACCELERATIONS_R";
+        }
+        else if (short_name == "C")
+        {
+            full_name = "COORDINATES";
+        }
+        else
+        {
+            std::cout << "PYTHON ERROR: invalid entity name: " << name << std::endl;
+            return;
+        }
+
         for (auto it = nodes_uid_to_local_id.begin(); it != nodes_uid_to_local_id.end(); ++it)
         {
             int node_uid = it->first;
@@ -867,6 +1049,15 @@ extern "C"
             PyDict_SetItemString(pDict, x_name.c_str(), py_x_values);
             PyDict_SetItemString(pDict, y_name.c_str(), py_y_values);
             PyDict_SetItemString(pDict, z_name.c_str(), py_z_values);
+
+            // A[local_id] = [AX_n, AY_n, AZ_n]
+            command += full_name + "[" + std::to_string(node_uid) +
+                       "] = [" + std::string(name) + "X_" + std::to_string(node_uid) +
+                       ", " + std::string(name) + "Y_" + std::to_string(node_uid) +
+                       ", " + std::string(name) + "Z_" + std::to_string(node_uid) +
+                       "]\n";
+           // std::cout<<command<<std::endl;
+
             // Release the Python objects
             if (py_x_values != nullptr)
                 Py_DecRef(py_x_values);
@@ -875,6 +1066,7 @@ extern "C"
             if (py_z_values != nullptr)
                 Py_DecRef(py_z_values);
         }
+        PyRun_SimpleString(command.c_str());
     }
 
     // initialize the global variables found in the python function
