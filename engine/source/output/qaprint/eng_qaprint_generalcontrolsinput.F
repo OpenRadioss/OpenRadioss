@@ -27,7 +27,7 @@ Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|====================================================================
-      SUBROUTINE ENG_QAPRINT_GENERALCONTROLSINPUT(IRUNN,OUTPUT)
+      SUBROUTINE ENG_QAPRINT_GENERALCONTROLSINPUT(IRUNN,OUTPUT,IPARIT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -54,6 +54,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRUNN
+      INTEGER,INTENT(IN)::  IPARIT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -191,6 +192,13 @@ C-----------------------------------------------
         WRITE(VARNAME,'(A)') 'DEMXK'
         TEMP_DOUBLE = DEMXK
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+      ENDIF
+C-----------------------------------------------
+C     QA PRINT FOR VERS INPUT
+C-----------------------------------------------
+      IF (MYQAKEY('/PARITH')) THEN
+        WRITE(VARNAME,'(A)') 'KEYWORD2'
+        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPARIT,0.0_8)
       ENDIF
 
 
