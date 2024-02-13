@@ -124,7 +124,7 @@ Chd|====================================================================
      r            FNCONTP2  ,FTCONTP2    ,IBCL        ,ILOADP   ,LLOADP   ,
      s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ,DRAPEG,USER_WINDOWS,
      t            OUTPUT    ,DT          ,FSAVSURF    ,NSEG_LOADP,TABLE   ,
-     u            LOADS     ,SFANI)
+     u            LOADS     ,SFANI       ,IPARIT      )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -277,6 +277,7 @@ C-----------------------------------------------
       TYPE (LOADS_)   , INTENT(IN)          :: LOADS
       TYPE (TTABLE),DIMENSION(NTABLE)  ,INTENT(IN) :: TABLE
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
+      INTEGER,INTENT(IN)::  IPARIT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1917,7 +1918,7 @@ C     to avoid double points (end of ilastanim/=2)
 C----------------------------------------------
 C     Driver to QAPRINT 
 C----------------------------------------------
-      CALL ENG_QAPRINT_DRIVER(IRUNN_BIS ,SENSORS,DT,OUTPUT)
+      CALL ENG_QAPRINT_DRIVER(IRUNN_BIS ,SENSORS,DT,OUTPUT,IPARIT)
 C-------------------------------------------------------
 C     TRAITEMENT SUR FSAV NON CUMULE
 C-------------------------------------------------------
