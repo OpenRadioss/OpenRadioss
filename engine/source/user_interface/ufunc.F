@@ -144,6 +144,7 @@ Chd|  GET_U_FUNC                    source/user_interface/ufunc.F
 Chd|-- called by -----------
 Chd|        AIRBAGB                       source/airbag/airbag2.F       
 Chd|        AIRBAGB1                      source/airbag/airbagb1.F      
+Chd|        DAMPING51                     source/assembly/damping.F     
 Chd|        FVBAG1                        source/airbag/fvbag1.F        
 Chd|        FVVENT0                       source/airbag/fvvent0.F       
 Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
