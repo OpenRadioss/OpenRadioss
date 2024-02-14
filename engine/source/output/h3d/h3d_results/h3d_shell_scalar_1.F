@@ -1836,14 +1836,23 @@ c ILAYER=NULL NPT=NULL
                          ENDDO
                        ENDIF ! igtyp 
                      ENDIF  ! ity
-                  ELSE
-                    NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
-                    DO IT=1,NPTT
-                      DO  I=1,NEL 
-                        VALUE(I) = VALUE(I) + ABS(BUFLY%LBUF(1,1,IT)%PLA(I))/NPTT
-                        IS_WRITTEN_VALUE(I) = 1
+                  ELSE ! NPG == 1
+                   IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+                      NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
+                      DO IT=1,NPTT
+                        DO  I=1,NEL 
+                          VALUE(I) = VALUE(I) + ABS(BUFLY%LBUF(1,1,IT)%PLA(I))/NPTT
+                          IS_WRITTEN_VALUE(I) = 1
+                        ENDDO
                       ENDDO
-                    ENDDO
+                    ELSE
+                      NPTT = BUFLY%NPTT  ! 
+                      IPT = IABS(NPTT)/2 + 1
+                      DO  I=1,NEL 
+                          VALUE(I) =  ABS(BUFLY%LBUF(1,1,IPT)%PLA(I))
+                          IS_WRITTEN_VALUE(I) = 1
+                      ENDDO
+                    ENDIF  
                   ENDIF ! npg
                  ENDIF ! BUFLY%L_PLA 
 c PLY=IPLY NPT=IPT
@@ -2100,14 +2109,23 @@ c ILAYER=NULL NPT=NULL
                          ENDDO
                        ENDIF ! igtyp 
                      ENDIF  ! ity
-                  ELSE
-                    NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
-                    DO IT=1,NPTT
-                      DO  I=1,NEL 
-                        VALUE(I) = VALUE(I) + ABS(BUFLY%LBUF(1,1,IT)%PLA(I))/NPTT
-                        IS_WRITTEN_VALUE(I) = 1
-                      ENDDO
-                    ENDDO
+                  ELSE ! NPG == 1
+                    IF(IGTYP == 51 .OR. IGTYP == 52)THEN
+                        NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
+                        DO IT=1,NPTT
+                          DO  I=1,NEL 
+                            VALUE(I) = VALUE(I) + ABS(BUFLY%LBUF(1,1,IT)%PLA(I))/NPTT
+                           IS_WRITTEN_VALUE(I) = 1
+                          ENDDO
+                        ENDDO
+                      ELSE
+                        NPTT = BUFLY%NPTT  ! 
+                        IPT = IABS(NPTT/2) + 1
+                        DO  I=1,NEL 
+                            VALUE(I) = ABS(BUFLY%LBUF(1,1,IPT)%PLA(I))
+                           IS_WRITTEN_VALUE(I) = 1
+                        ENDDO
+                      ENDIF  
                   ENDIF ! npg
                  ENDIF ! BUFLY%L_PLA 
 c PLY=IPLY NPT=IPT
