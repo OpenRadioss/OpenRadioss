@@ -1065,13 +1065,21 @@ c---
                          ENDDO
                        ENDIF ! igtyp 
                      ENDIF  ! ity
-                  ELSE
-                    NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
-                    DO IT=1,NPTT
-                      DO  I=1,NEL 
-                        EVAR(I) = EVAR(I) + ABS(BUFLY%LBUF(1,1,IT)%PLA(I))/NPTT
+                  ELSE ! NPG == 1
+                    IF(IGTYP == 51 .OR. IGTYP == 52) THEN   
+                      NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
+                      DO IT = 1,NPTT
+                       DO  I=1,NEL 
+                          EVAR(I) = EVAR(I) + ABS(BUFLY%LBUF(1,1,IT)%PLA(I))/NPTT
+                       ENDDO
                       ENDDO
-                    ENDDO
+                    ELSE                 
+                      NPTT = BUFLY%NPTT  !
+                      IPT = IABS(NPTT)/2 + 1
+                      DO  I=1,NEL 
+                        EVAR(I) = ABS(BUFLY%LBUF(1,1,IPT)%PLA(I))
+                      ENDDO
+                    ENDIF ! igtyp
                   ENDIF ! npg
                  ENDIF ! BUFLY%L_PLA 
               ENDIF  ! GBUF
@@ -3963,7 +3971,7 @@ C
 ! it's the plastic work  /ANIM/ELEM/WPLA ( ifunc=4*MX_PLY_ANIM +13245)           
               IF (GBUF%G_PLA > 0) THEN
                 ! for law25, plastic work < 0 if the layer has reached failure-p !
-                 ILAY = 1
+                ILAY = 1
                 IF (NLAY > 1) ILAY = IABS(NLAY)/2 + 1
                  BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
                  IF (BUFLY%L_PLA > 0) THEN
@@ -4003,13 +4011,21 @@ C
                          ENDDO
                        ENDIF ! igtyp 
                      ENDIF  ! ity
-                  ELSE
-                    NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
-                    DO IT=1,NPTT
-                      DO  I=1,NEL 
-                        EVAR(I) = EVAR(I) + ABS(BUFLY%LBUF(1,1,IT)%PLA(I))/NPTT
-                      ENDDO
-                    ENDDO
+                  ELSE ! NPG == 1
+                    IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+                      NPTT = BUFLY%NPTT  ! needed for PID51 (new shell prop)
+                      DO IT=1,NPTT
+                        DO  I=1,NEL 
+                          EVAR(I) = EVAR(I) + ABS(BUFLY%LBUF(1,1,IT)%PLA(I))/NPTT
+                        ENDDO
+                     ENDDO
+                    ELSE
+                     NPTT = BUFLY%NPTT  !
+                     IPT = IABS(NPTT)/2 + 1
+                     DO I=1,NEL 
+                          EVAR(I) =  ABS(BUFLY%LBUF(1,1,IPT)%PLA(I))/NPTT
+                     ENDDO
+                   ENDIF
                   ENDIF ! npg
                  ENDIF ! BUFLY%L_PLA 
               ENDIF  ! gbuf
