@@ -794,7 +794,11 @@ C-----------------------------------------------
                   IF (N4 == 0)THEN
                     WRITE(IOUT,FMT='(A,3I11)')
      .               "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
+                    WRITE(ISTDO,FMT='(A,3I11)')
+     .               "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
                   ELSE
+                    WRITE(IOUT,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",
+     .               ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                     WRITE(ISTDO,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",
      .               ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                   ENDIF
@@ -803,7 +807,11 @@ C-----------------------------------------------
                   IF (N4==0)THEN
                     WRITE(IOUT,FMT='(A,3I11)')
      .               "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
+                    WRITE(ISTDO,FMT='(A,3I11)')
+     .               "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
                   ELSE
+                    WRITE(IOUT,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",
+     .               ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                     WRITE(ISTDO,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",
      .               ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                   ENDIF
