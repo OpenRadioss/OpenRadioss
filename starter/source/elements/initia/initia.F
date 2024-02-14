@@ -3643,6 +3643,7 @@ C-------- shell
           ITHK =IPARG(28,NG) 
           IPLAS =IPARG(29,NG) 
           IGMAT =IGEO(98,IPID)
+          NPT = IPARG(6,NG)
           QF = ZERO
           QM = ZERO
           QR = ZERO
