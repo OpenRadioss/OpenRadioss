@@ -2367,7 +2367,7 @@ C-----------------------------------------------
      .   XX,YY,ZZ,XY,XZ,YZ,LM(MVSIZ),
      .   MY13(MVSIZ),MX13(MVSIZ),
      .   V13(MVSIZ,2),V24(MVSIZ,2),AREA(MVSIZ),AREA_I(MVSIZ),
-     .   VHI(MVSIZ,3),V13X,V24X,VHIX,BXV2,BYV1
+     .   VHI(MVSIZ,3),V13X,V24X,VHIX,BXV2,BYV1,TOLH
       my_real 
      .   XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),YL2(MVSIZ),
      .   YL3(MVSIZ),YL4(MVSIZ),Z1(MVSIZ),OFF_L,
@@ -2383,11 +2383,13 @@ C-----------------------------------------------
 C----------------------------------------------
       IF(IRESP == 1)THEN
         TOL=EM7
+        TOLH= TWO*EM6
       ELSE
         TOL=EM8
+        TOLH= EM12
       END IF
 C
-            IF (IINT==0.AND.TT==ZERO) THEN
+      IF (IINT==0.AND.TT==ZERO) THEN
        DO I=JFT,JLT           
          HOURG(I,1) = X(1,IXC(3,I))-X(1,IXC(2,I))  
          HOURG(I,2) = X(2,IXC(3,I))-X(2,IXC(2,I))  
@@ -2399,7 +2401,7 @@ C
          HOURG(I,8) = X(2,IXC(5,I))-X(2,IXC(2,I))  
          HOURG(I,9) = X(3,IXC(5,I))-X(3,IXC(2,I))  
        ENDDO    
-            END IF
+      END IF
 C    
        DO I=JFT,JLT           
          X0G2(I) = HOURG(I,1)
@@ -2563,8 +2565,10 @@ C  HOURGLASS STRAIN RATE
 C----------------------------------
         HG1=VHI(I,1)-MX13(I)*VDEF1-MY13(I)*BYV1     
         HG2=VHI(I,2)-MX13(I)*BXV2 -MY13(I)*VDEF2
-          HOURG(I,11) = HG1
+        HOURG(I,11) = HG1
         HOURG(I,12) = HG2
+        IF (ABS(HG1)<TOLH) HOURG(I,11) = ZERO
+        IF (ABS(HG2)<TOLH) HOURG(I,12) = ZERO
       ENDDO
 C
       RETURN
