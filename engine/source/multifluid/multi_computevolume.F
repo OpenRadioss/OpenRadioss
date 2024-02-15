@@ -69,6 +69,7 @@ C-----------------------------------------------
       my_real :: X6(MVSIZ), Y6(MVSIZ), Z6(MVSIZ)
       my_real :: X7(MVSIZ), Y7(MVSIZ), Z7(MVSIZ)
       my_real :: X8(MVSIZ), Y8(MVSIZ), Z8(MVSIZ)
+      my_real :: Y124(MVSIZ), Y234(MVSIZ)
       my_real :: JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ) 
       my_real :: JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ) 
       my_real :: B1, B2, B3, B4
@@ -223,13 +224,17 @@ C     Node 3
 C     Node 4
                   Y4(II) = XGRID(2, IX(5, II))
                   Z4(II) = XGRID(3, IX(5, II))
+
+                  Y234(II)=Y2(II)+Y3(II)+Y4(II)
+                  Y124(II)=Y1(II)+Y2(II)+Y4(II)
+
                   NGL(II) = IX(NIXQ, II)
                ENDDO
                CALL QVOLU2(
      1   GBUF%OFF, GBUF%AREA,VOLNEW,   NGL,
-     2   Y1,       Y2,       Y3,       Y4,
-     3   Z1,       Z2,       Z3,       Z4,
-     4   DUMMY,    DUMMY,    NEL,      JMULT,
+     2   Y1,       Y2,       Y3,        Y4,
+     3   Z1,       Z2,       Z3,        Z4,
+     4   Y234,   Y124,      NEL,     JMULT,
      5   JCVT)
             ELSEIF (ITY == 7) THEN
 C     TRIANGLES
