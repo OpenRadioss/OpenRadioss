@@ -26,10 +26,10 @@ Chd|-- called by -----------
 Chd|        SIGEPS25C                     source/materials/mat/mat025/sigeps25c.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE M25CRAK(JFT  ,JLT   ,PM   ,OFF   ,DAMT ,DIR ,
-     2                   IMATLY,ILAYER,THLY ,DAMCR ,DMAXT,
-     3                   NGL  ,STRP1 ,STRP2,PLY_ID,IGTYP,NEL ,
-     4                   IPG  )
+      SUBROUTINE M25CRAK(JFT   ,JLT   ,OFF   ,DAMT  ,DIR ,
+     2                   ILAYER,IPG   ,THLY  ,DAMCR ,DMAXT ,
+     3                   NGL   ,STRP1 ,STRP2 ,PLY_ID,IGTYP ,NEL ,
+     4                   EPST1 ,EPST2 ,EPSM1 ,EPSM2 ,DMAX  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,11 +49,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NGL(MVSIZ), IMATLY,IPG
-      INTEGER JFT, JLT, ILAYER,PLY_ID,IGTYP,NEL
-C     REAL
+      INTEGER NGL(MVSIZ)
+      INTEGER JFT,JLT,IPG,ILAYER,PLY_ID,IGTYP,NEL
+      my_real ,INTENT(IN) :: EPST1,EPST2,EPSM1,EPSM2,DMAX
       my_real
-     .   PM(NPROPM,*), DAMT(NEL,2), DIR(NEL,2), OFF(*),
+     .   DAMT(NEL,2), DIR(NEL,2), OFF(*),
      .   THLY(*), DAMCR(MVSIZ,2), DMAXT(*),
      .   STRP1(*),STRP2(*)
 C-----------------------------------------------
@@ -61,22 +61,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, MX, NINDX, IDIR
       INTEGER INDX(MVSIZ)
-C     REAL
-      my_real
-     .     DAM1, DAM2
-C     REAL
-      my_real
-     .   EPST1(MVSIZ),EPST2(MVSIZ),EPSM1(MVSIZ),EPSM2(MVSIZ),
-     .   DMAX(MVSIZ)
+      my_real :: DAM1, DAM2
 C-----------------------------------------------
-C
-      DO 10 I=JFT,JLT
-      EPST1(I)  =PM(60,IMATLY)
-      EPST2(I)  =PM(61,IMATLY)
-      EPSM1(I)  =PM(62,IMATLY)
-      EPSM2(I)  =PM(63,IMATLY)
-      DMAX(I)   =PM(64,IMATLY)
-   10 CONTINUE
+
 C.....STRAINS IN ORTHOTROPIC DIRECTIONS
 C      DO 20 I=JFT,JLT
 C      STRP1(I) = DIR(I,1)*DIR(I,1)*STRN1(I)
@@ -89,7 +76,7 @@ C   20 CONTINUE
 C.....GATHER DIRECTION 1
       NINDX=0
       DO 40 I=JFT,JLT
-      IF(STRP1(I)<EPST1(I)
+      IF(STRP1(I)<EPST1
      +  .OR.DAMT(I,1)>ZERO.OR.OFF(I)<ONE) GO TO 40
        NINDX=NINDX+1
        INDX(NINDX)=I
@@ -99,10 +86,10 @@ C.....1.FIRST FAILURE DIRECTION 1
        IDIR=1
        DO 50 J=1,NINDX
        I=INDX(J)
-       DAM1=(STRP1(I)-EPST1(I))/(EPSM1(I)-EPST1(I))
-       DAM2= DAM1*EPSM1(I)/STRP1(I)
-       DAMT(I,1)= MIN(DAM2,DMAX(I))
-       IF(DAMT(I,1)==DMAX(I).AND.IMCONV==1)THEN
+       DAM1=(STRP1(I)-EPST1)/(EPSM1-EPST1)
+       DAM2= DAM1*EPSM1/STRP1(I)
+       DAMT(I,1)= MIN(DAM2,DMAX)
+       IF(DAMT(I,1)==DMAX.AND.IMCONV==1)THEN
 !
 #include "lockon.inc"
          IF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
@@ -122,7 +109,7 @@ C.....1.FIRST FAILURE DIRECTION 1
 C.....GATHER DIRECTION 2
       NINDX=0
       DO 70 I=JFT,JLT
-      IF(STRP2(I)<EPST2(I)
+      IF(STRP2(I)<EPST2
      +  .OR.DAMT(I,2)>ZERO.OR.OFF(I)<ONE) GO TO 70
        NINDX=NINDX+1
        INDX(NINDX)=I
@@ -132,10 +119,10 @@ C.....1.FIRST FAILURE DIRECTION 2
        IDIR=2
        DO 80 J=1,NINDX
        I=INDX(J)
-       DAM1=(STRP2(I)-EPST2(I))/(EPSM2(I)-EPST2(I))
-       DAM2= DAM1*EPSM2(I)/STRP2(I)
-       DAMT(I,2)= MIN(DAM2,DMAX(I))
-       IF(DAMT(I,2)==DMAX(I).AND.IMCONV==1)THEN
+       DAM1=(STRP2(I)-EPST2)/(EPSM2-EPST2)
+       DAM2= DAM1*EPSM2/STRP2(I)
+       DAMT(I,2)= MIN(DAM2,DMAX)
+       IF(DAMT(I,2)==DMAX.AND.IMCONV==1)THEN
 !
 #include "lockon.inc"
          IF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
@@ -156,7 +143,7 @@ C.....DOMMAGE GLOBAL
       DO 100 I=JFT,JLT
       DAMCR(I,1)=DAMCR(I,1)+THLY(I)*DAMT(I,1)
       DAMCR(I,2)=DAMCR(I,2)+THLY(I)*DAMT(I,2)
-      DMAXT(I)  =DMAXT(I)  +THLY(I)*DMAX(I)
+      DMAXT(I)  =DMAXT(I)  +THLY(I)*DMAX
   100 CONTINUE
 C            
       RETURN

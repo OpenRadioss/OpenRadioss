@@ -240,7 +240,8 @@ C-----------------------------------------------
       INTEGER :: IJ1,IJ2,IJ3,IJ4,IJ5
       INTEGER :: IJ(5),IFLAG(1)
       INTEGER ,DIMENSION(MAXFUNC) :: IFUNC
-      INTEGER ,DIMENSION(MVSIZ)   :: IFAIL,MATF,IOFF_DUCT,NFIS1,NFIS2,NFIS3
+      INTEGER ,DIMENSION(MVSIZ)   :: IFAIL,MATF,IOFF_DUCT
+      INTEGER ,DIMENSION(NEL)     :: NFIS1,NFIS2,NFIS3
 c
       my_real 
      .   SIGDMG(MVSIZ,5),DAMCR(MVSIZ,2),SIGKSI(MVSIZ,5),TENS(MVSIZ,5),
@@ -1081,13 +1082,13 @@ C------------------------------------------
            IF (IGTYP /= 1 .and. IGTYP /= 9) THEN
             IF (IXFEM == 1 .AND. IXLAY > 0) NPTTOT = ELBUF_STR%BUFLY(IXLAY)%NPTT
 !         INTEGRATION BY LAYERS
-            CALL SIGEPS25C(
-     1        JFT         ,JLT      ,PM          ,OFF      ,GSTR      ,
+            CALL SIGEPS25C(MATPARAM ,
+     1        JFT         ,JLT      ,PM(1,IMAT)  ,OFF      ,GSTR      ,
      2        DIR_A(JDIR) ,THKLY(JPOS),IMAT        ,DT1C     ,SHF       ,
      3        IPRONY      ,NGL      ,THK0        ,EXX      ,OFF_OLD   ,
      4        EYY         ,EXY      ,EXZ         ,EYZ      ,KXX       ,
      5        KYY         ,KXY      ,POSLY(1,IPT),EPSPL    ,RHO       ,
-     6        SSP         ,IPM      ,BUFMAT      ,DT_INV   ,LBUF%OFF  ,
+     6        SSP         ,BUFMAT   ,DT1         ,DT_INV      ,LBUF%OFF ,
      7        SIGY        ,ZCFAC    ,NPTT        ,ILAYER   ,DAMCR     ,
      8        NFIS1       ,NFIS2    ,NFIS3       ,DMAXT    ,WPLAR     ,
      9        NPTTOT      ,IGTYP    ,NEL         ,LBUF%VISC,LBUF%SIGPLY,
@@ -1098,10 +1099,11 @@ C------------------------------------------
      E        PLY_EXX     ,PLY_EYY  ,PLY_EXY     ,PLY_EXZ  ,PLY_EYZ   ,
      F        PLY_F       ,LBUF%PLA ,LBUF%DAM    ,LBUF%CRAK,GBUF%IERR ,
      G        IOFF_DUCT   ,IFAILURE ,PLY_ID      ,IPG      ,LBUF%TSAIWU,
-     H        MATPARAM    )
+     H        TT          ,IMCONV   ,IOUT        )
+!
           ELSEIF (IGTYP == 9) THEN
 !           INTEGRATION BY POINTS (through thickness)
-            CALL SIGEPS25CP(
+            CALL SIGEPS25CP(MATPARAM ,
      1                      JFT     ,JLT    ,PM       ,OFF     ,DIR_A(JDIR) ,
      2                      SHF     ,NPT    ,NGL      ,IPT     ,OFF_OLD     ,
      3                      THK0    ,EPSPL  ,SIGY     ,ZCFAC   ,NEL    ,
@@ -2741,7 +2743,7 @@ C  SHEAR DELAMINATION
 C----------------------------
 C is an obsolete option (still present for backward compatibility)
         IF (IGMAT == 0) 
-     .    CALL M25DELAM(JFT,JLT,PM,GSTR,GBUF%DAMDL,MAT,NGL,NEL)
+     .    CALL M25DELAM(MAT_ELEM%MAT_PARAM(IMAT),JFT,JLT,GSTR,GBUF%DAMDL,MAT,NGL,NEL)
 !
         IF (ISHPLYXFEM > 0) THEN
           MX = MAT(JFT)

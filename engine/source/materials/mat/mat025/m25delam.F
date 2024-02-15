@@ -27,7 +27,11 @@ Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE M25DELAM(JFT,JLT,PM,GSTR,DAMDL,MAT,NGL,NEL)
+      SUBROUTINE M25DELAM(MAT_PARAM,JFT,JLT,GSTR,DAMDL,MAT,NGL,NEL)
+!-----------------------------------------------
+!   m o d u l e s
+!-----------------------------------------------
+      use matparam_def_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,8 +54,8 @@ C-----------------------------------------------
       INTEGER JFT, JLT,NEL
       INTEGER MAT(MVSIZ),NGL(MVSIZ)
 C     REAL
-      my_real
-     .   PM(NPROPM,*), DAMDL(*), GSTR(NEL,8)
+      my_real :: DAMDL(*), GSTR(NEL,8)
+      type (matparam_struct_) ,intent(in) :: mat_param
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -66,9 +70,9 @@ C--------------------------------------------------
 C   E q u i v a l e n c e
 C--------------------------------------------------
       MX = MAT(JFT)
-      SHRDAM_1  =PM(65,MX)
-      SHRMAX_1  =PM(66,MX)
-      SHRDMAX_1 =PM(67,MX)
+      SHRDAM_1  =  mat_param%uparam(27) !   PM(65,MX)
+      SHRMAX_1  =  mat_param%uparam(28) !   PM(66,MX)
+      SHRDMAX_1 =  mat_param%uparam(29) !   PM(67,MX)
 C      
 C      shrdam=0.0655/1.3
 C      shrmax=shrdam+0.01

@@ -27,7 +27,7 @@ Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|-- calls ---------------
 Chd|        M25CPLRP2                     source/materials/mat/mat025/m25cplrc2.F
 Chd|====================================================================
-      SUBROUTINE SIGEPS25CP(
+      SUBROUTINE SIGEPS25CP(MAT_PARAM,
      1                      JFT    ,JLT    ,PM       ,OFF    ,DIR    ,
      2                      SHF    ,NPT    ,NGL      ,IPT    ,OFF_OLD,
      3                      THK0   ,EPSPL  ,SIGY     ,ZCFAC  ,NEL    ,
@@ -36,6 +36,10 @@ Chd|====================================================================
      6                      SIGNXX ,SIGNYY ,SIGNXY   ,SIGNYZ ,SIGNZX ,
      7                      IMAT   ,WPLAR  ,IOFF_DUCT,PLA    ,ISRATE ,
      8                      TSAIWU )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,6 +67,7 @@ C     REAL
      .   SIGOYZ(NEL),SIGOZX(NEL),SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
      .   SIGNYZ(NEL),SIGNZX(NEL),WPLAR(MVSIZ),OFF_OLD(MVSIZ),PLA(NEL),
      .   TSAIWU(NEL)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -71,34 +76,40 @@ C     REAL
       my_real
      .   YLD(MVSIZ),ETSE(MVSIZ),DEGMB(MVSIZ),CB(MVSIZ),CN(MVSIZ),
      .   E11(MVSIZ),E22(MVSIZ),NU12(MVSIZ),NU21(MVSIZ),G12(MVSIZ),
-     .   G23(MVSIZ),G31(MVSIZ),DE(MVSIZ),F1(MVSIZ),F2(MVSIZ),
+     .   G23(MVSIZ),G31(MVSIZ),F1(MVSIZ),F2(MVSIZ),DE(MVSIZ),
      .   F12(MVSIZ),F11(MVSIZ),F22(MVSIZ),F33(MVSIZ),SIGT1(MVSIZ),
      .   SIGT2(MVSIZ),FMAX(MVSIZ),WWPLA(MVSIZ),WPLAMX(MVSIZ),
      .   CC(MVSIZ),EPDR(MVSIZ),WPLAREF(MVSIZ),
-     .   E11_1,E22_1,NU12_1,NU21_1,G12_1,G23_1,G31_1,DE_1,CB_1,CN_1,
+     .   E11_1,E22_1,NU12_1,NU21_1,G12_1,G23_1,G31_1,CB_1,CN_1,
      .   CC_1,EPDR_1,F1_1,F2_1,F11_1,F22_1,F33_1,F12_1,SIGT1_1,SIGT2_1
 C=======================================================================
-      E11_1   =PM(33,IMAT)
-      E22_1   =PM(34,IMAT)
-      NU12_1  =PM(35,IMAT)
-      NU21_1  =PM(36,IMAT)
-      G12_1   =PM(37,IMAT)
-      G23_1   =PM(38,IMAT)
-      G31_1   =PM(39,IMAT)
-      DE_1    =PM(44,IMAT)
-      CB_1    =PM(46,IMAT)
-      CN_1    =PM(47,IMAT)
-      CC_1    =PM(50,IMAT)
-      EPDR_1  =PM(51,IMAT)
-      ICC_1   =NINT(PM(53,IMAT))
-      F1_1    =PM(54,IMAT)
-      F2_1    =PM(55,IMAT)
-      F11_1   =PM(56,IMAT)
-      F22_1   =PM(57,IMAT)
-      F33_1   =PM(58,IMAT)
-      F12_1   =PM(59,IMAT)
-      SIGT1_1 =PM(60,IMAT)
-      SIGT2_1 =PM(61,IMAT)
+      ICC_1   = MAT_PARAM%IPARAM(3)  ! NINT(PM(53,IMAT))
+
+      E11_1   = mat_param%uparam(1)     !        PM(33,IMAT) 
+      E22_1   = mat_param%uparam(2)     !        PM(34,IMAT) 
+      NU12_1  = mat_param%uparam(4)     !        PM(35,IMAT) 
+      NU21_1  = mat_param%uparam(5)     !        PM(36,IMAT) 
+      G12_1   = mat_param%uparam(6)     !        PM(37,IMAT) 
+      G23_1   = mat_param%uparam(7)     !        PM(38,IMAT) 
+      G31_1   = mat_param%uparam(8)     !        PM(39,IMAT) 
+      CB_1    = mat_param%uparam(30)    !        PM(46,IMAT) 
+      CN_1    = mat_param%uparam(31)    !        PM(47,IMAT) 
+      CC_1    = mat_param%uparam(10)    !        PM(50,IMAT) 
+      EPDR_1  = mat_param%uparam(11)    !        PM(51,IMAT) 
+      F1_1    = mat_param%uparam(21)    !        PM(54,IMAT) 
+      F2_1    = mat_param%uparam(22)    !        PM(55,IMAT) 
+      F11_1   = mat_param%uparam(23)    !        PM(56,IMAT) 
+      F22_1   = mat_param%uparam(24)    !        PM(57,IMAT) 
+      F33_1   = mat_param%uparam(25)    !        PM(58,IMAT) 
+      F12_1   = mat_param%uparam(26)    !        PM(59,IMAT) 
+      SIGT1_1 = mat_param%uparam(12)    !        PM(60,IMAT) 
+      SIGT2_1 = mat_param%uparam(13)    !        PM(61,IMAT) 
+!
+      DO I=JFT,JLT
+        WPLAREF(I) = mat_param%uparam(9)     !     PM(68,IMAT) 
+        WPLAMX(I)  = mat_param%uparam(20)    !     PM(41,IMAT) 
+        FMAX(I)    = mat_param%uparam(32)    !     PM(49,IMAT) 
+      ENDDO
 !
       DO I=JFT,JLT
         E11(I)   =E11_1
@@ -108,7 +119,6 @@ C=======================================================================
         G12(I)   =G12_1
         G23(I)   =G23_1
         G31(I)   =G31_1
-        DE(I)    =DE_1
         CB(I)    =CB_1
         CN(I)    =CN_1
         CC(I)    =CC_1
@@ -123,12 +133,7 @@ C=======================================================================
         SIGT1(I) =SIGT1_1
         SIGT2(I) =SIGT2_1
         YLD(I)   =ONE/SQRT(F33_1)
-      ENDDO
-!
-      DO I=JFT,JLT
-        WPLAREF(I)=PM(68,IMAT)
-        WPLAMX(I) =PM(41,IMAT)
-        FMAX(I)   =PM(49,IMAT)
+        DE(I)    =ONE
       ENDDO
 !
 !     CONTRAINTES PLASTIQUEMENT ADMISSIBLES

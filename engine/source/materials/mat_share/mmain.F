@@ -1512,10 +1512,12 @@ c
      G   LBUF%EPSD,ITY,      JTUR,     JTHE,
      H   JHBE,     JCVT,     JSPH,     ISMSTR,
      I   JSMS,     NPG )
-C     like law25 for shell + S33 = EPS33*E33
+
       ELSEIF (MTN == 25) THEN
-        CALL M25LAW(
-     1   PM,         MAT,        OFF,        LBUF%SIG,
+C       like law25 for shell + S33 = EPS33*E33
+
+        CALL M25LAW(MAT_ELEM%MAT_PARAM(IMAT),
+     1   PM(1,IMAT), OFF,        LBUF%SIG,
      2   LBUF%EINT,  S1,         S2,         S3,
      3   S4,         S5,         S6,         DXX,
      4   DYY,        DZZ,        D4,         D5,
@@ -1523,11 +1525,10 @@ C     like law25 for shell + S33 = EPS33*E33
      6   SX,         SY,         SZ,         TX,
      7   TY,         TZ,         GAMA,       VOLN,
      8   CXX,        LBUF%VOL,   LBUF%EPSD,  LBUF%PLA,
-     9   LBUF%DAM,   LBUF%CRAK,  LBUF%STRA,  DEFP,
-     A   SIGY,       SIGL,       NGL,        ILAY,
-     B   LBUF%OFF,   LBUF%SEQ,   NEL,        IPM,
-     C   IPG,        LBUF%TSAIWU,NFT,        NPT,
-     D   JCVT,       JSPH,       ISORTH)
+     9   LBUF%DAM,   LBUF%STRA,  SIGL,       NGL,        
+     A   ILAY,       NPT,        LBUF%OFF,   NEL,     IPG,        
+     B   LBUF%TSAIWU,NFT,   JCVT,       JSPH,       ISORTH)
+
         IF (JSPH == 0) THEN
           CALL MQVISCB(
      1   PM,       OFF,      LBUF%RHO, LBUF%RK,

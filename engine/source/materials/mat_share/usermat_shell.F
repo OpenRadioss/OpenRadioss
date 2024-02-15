@@ -2096,7 +2096,7 @@ C  SHEAR DELAMINATION
 C----------------------------
 C is an obsolete option (just for the past)
         IF (IGMAT == 0) 
-     .    CALL M25DELAM(JFT,JLT,PM,GSTR,GBUF%DAMDL,MAT,NGL,NEL)
+     .    CALL M25DELAM(MAT_ELEM%MAT_PARAM(IMAT),JFT,JLT,GSTR,GBUF%DAMDL,MAT,NGL,NEL)
 !
         IF (ISHPLYXFEM > 0) THEN
           MX = MAT(JFT)

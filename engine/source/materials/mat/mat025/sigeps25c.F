@@ -30,28 +30,30 @@ Chd|        M25CRAK                       source/materials/mat/mat025/m25crak.F
 Chd|        PRONY25C                      source/materials/mat/mat025/prony25c.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================
-      SUBROUTINE SIGEPS25C(
-     1                    JFT      ,JLT     ,PM       ,OFF     ,GSTR    ,
-     2                    DIR      ,THLY    ,IMATLY   ,DT1C    ,SHF     ,
-     3                    IPRONY   ,NGL     ,THK0     ,EXX     ,OFF_OLD ,
-     4                    EYY      ,EXY     ,EXZ      ,EYZ     ,KXX     ,
-     5                    KYY      ,KXY     ,ZZ       ,EPSPL   ,RHO0    ,
-     6                    SOUNDSP  ,IPM     ,UPARAM   ,DT_INV  ,OFFL    ,
-     7                    SIGY     ,ZCFAC   ,NPTT     ,ILAY    ,DAMCR   ,
-     8                    NFIS1    ,NFIS2   ,NFIS3    ,DMAXT   ,WPLAR   ,
-     9                    NPTTOT   ,IGTYP   ,NEL      ,SIGV    ,SIGPLY  ,
-     A                    SIGOXX   ,SIGOYY  ,SIGOXY   ,SIGOYZ  ,SIGOZX  ,
-     B                    SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ  ,SIGNZX  ,
-     C                    SIGVXX   ,SIGVYY  ,SIGVXY   ,SIGVYZ  ,SIGVZX  ,
-     D                    ISRATE   ,UVARV   ,ISHPLYXFEM,IPT    ,SEQ_OUTP,
-     E                    PLY_EXX  ,PLY_EYY ,PLY_EXY  ,PLY_EXZ ,PLY_EYZ ,
-     F                    PLY_F    ,PLA     ,DAMT     ,CRAK    ,IERR    ,
-     G                    IOFF_DUCT,IFAILURE,PLY_ID   ,IPG     ,TSAIWU  ,
-     H                    MAT_PARAM)
+      SUBROUTINE SIGEPS25C(MAT_PARAM,
+     1                     JFT      ,JLT     ,PM       ,OFF     ,GSTR    ,
+     2                     DIR      ,THLY    ,IMATLY   ,DT1C    ,SHF     ,
+     3                     IPRONY   ,NGL     ,THK0     ,EXX     ,OFF_OLD ,
+     4                     EYY      ,EXY     ,EXZ      ,EYZ     ,KXX     ,
+     5                     KYY      ,KXY     ,ZZ       ,EPSPL   ,RHO0    ,
+     6                     SOUNDSP  ,UPARAM  ,DT1      ,DT_INV  ,OFFL    ,
+     7                     SIGY     ,ZCFAC   ,NPTT     ,ILAY    ,DAMCR   ,
+     8                     NFIS1    ,NFIS2   ,NFIS3    ,DMAXT   ,WPLAR   ,
+     9                     NPTTOT   ,IGTYP   ,NEL      ,SIGV    ,SIGPLY  ,
+     A                     SIGOXX   ,SIGOYY  ,SIGOXY   ,SIGOYZ  ,SIGOZX  ,
+     B                     SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ  ,SIGNZX  ,
+     C                     SIGVXX   ,SIGVYY  ,SIGVXY   ,SIGVYZ  ,SIGVZX  ,
+     D                     ISRATE   ,UVARV   ,ISHPLYXFEM,IPT    ,SEQ_OUTP,
+     E                     PLY_EXX  ,PLY_EYY ,PLY_EXY  ,PLY_EXZ ,PLY_EYZ ,
+     F                     PLY_F    ,PLA     ,DAMT     ,CRAK    ,IERR    ,
+     G                     IOFF_DUCT,IFAILURE,PLY_ID   ,IPG     ,TSAIWU  ,
+     H                     TT       ,IMCONV  ,IOUT     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MATPARAM_DEF_MOD
+      use mat25_tsaiwu_c_mod
+      use mat25_crasurv_c_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,13 +71,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT,JLT,NEL,IMATLY,ISRATE,IPRONY,PLY_ID,
+      INTEGER JFT,JLT,NEL,IMATLY,ISRATE,IPRONY,PLY_ID,IMCONV,IOUT,
      .   IR,IS,IT,IPT,NPTT,NPTTOT,ILAY,IGTYP,IFAILURE,ISHPLYXFEM,IPG
-      INTEGER NGL(MVSIZ),IERR(NEL),IPM(NPROPMI,*),
-     .        NFIS1(MVSIZ),NFIS2(MVSIZ),NFIS3(MVSIZ),IOFF_DUCT(MVSIZ)
+      INTEGER NGL(MVSIZ),IERR(NEL),
+     .        NFIS1(NEL),NFIS2(NEL),NFIS3(NEL),IOFF_DUCT(MVSIZ)
 C     REAL
+      my_real ,INTENT(IN) :: TT
+      my_real ,INTENT(IN) :: DT1
       my_real
-     .   PM(NPROPM,*),OFF(*),OFF_OLD(*),GSTR(NEL,8),DIR(*),
+     .   PM(NPROPM),OFF(*),OFF_OLD(*),GSTR(NEL,8),DIR(*),
      .   THLY(*),DT1C(*),SHF(*),THK0(MVSIZ),EXX(MVSIZ),EYY(MVSIZ),
      .   EXY(MVSIZ),EXZ(MVSIZ),EYZ(MVSIZ),KXX(MVSIZ),KYY(MVSIZ),
      .   KXY(MVSIZ),ZZ(*),EPSPL(*),RHO0(*),SOUNDSP(*),UPARAM(*),
@@ -94,19 +98,31 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,JJ,IADBUF,NPMAX,MX,IOFF,JOFF,FAILNPT,NPRONY
-      INTEGER II(5)
-C
-      my_real ZT,RATIO,KV
+      INTEGER I,IOFF,JOFF,FAILNPT,NPRONY,IFLAG
+      my_real :: ZT,RATIO,KV
+      my_real :: EPST1,EPST2,EPSM1,EPSM2,DMAX
       my_real
      .   EPS(MVSIZ,5),STRN1(MVSIZ),STRN2(MVSIZ),STRN3(MVSIZ),
      .   STRP1(MVSIZ),STRP2(MVSIZ),SIGE(MVSIZ,5),
      .   DTINV,EPSPXX(MVSIZ),ETSE(MVSIZ),YLD(MVSIZ),
      .   EPSPYY(MVSIZ),EPSPXY(MVSIZ),EPSPYZ(MVSIZ),EPSPZX(MVSIZ),
      .   SIG(NEL,5),SIGPE(MVSIZ,5)
-      my_real
-     .       , DIMENSION(:), ALLOCATABLE :: GV,BETA
+      my_real ,DIMENSION(:), ALLOCATABLE :: GV,BETA
 C=======================================================================
+C     Formulation flag
+C-----------------------------------------------------------
+
+      IFLAG = MAT_PARAM%IPARAM(1)    ! IFLAG=0 : Tsai-Wu  , IFLAG=1 : Crasurv
+      IOFF  = NINT(PM(42))
+
+      epst1 = pm(60)     !  mat_param%uparam(13)
+      epst2 = pm(61)     !  mat_param%uparam(14)
+      epsm1 = pm(62)     !  mat_param%uparam(15)
+      epsm2 = pm(63)     !  mat_param%uparam(16)
+      dmax  = pm(64)     !  mat_param%uparam(12)
+c
+      RATIO = PM(188)
+C-----------------------------------------------------------
 C     PLASTICITE AUX POINTS D'INTEGRATION
 C-----------------------------------------------------------
 C
@@ -114,7 +130,6 @@ C     DEFORMATIONS INCREMENTALES
 C
 C  Check visco elastic model 
 C             
-      NPMAX = 0
       IF (MAT_PARAM%IVISC == 1) THEN   ! PRONY model
         NPRONY = MAT_PARAM%VISC%IPARAM(1)
         KV     = MAT_PARAM%VISC%UPARAM(1)
@@ -173,18 +188,38 @@ C-----------------------
         SIG(I,4)=SIGOYZ(I)
         SIG(I,5)=SIGOZX(I)
       ENDDO
-!
-      CALL M25CPLRC(JFT     ,JLT     ,PM      ,OFF     ,SIG   ,
-     2              PLA     ,DIR     ,IMATLY  ,DAMT    ,CRAK  ,
-     3              NFIS1   ,NFIS2   ,NFIS3   ,ILAY    ,SHF   ,
-     4              NGL     ,EPS     ,IGTYP   ,WPLAR   ,STRN1 ,
-     5              STRN2   ,STRN3   ,STRP1   ,STRP2   ,SIGE  ,
-     6              EPSPL   ,ISRATE  ,OFFL    ,YLD     ,ETSE  ,
-     7              IERR    ,SEQ_OUTP,ISHPLYXFEM,PLY_EXX(1,IPT),PLY_EYY(1,IPT),
-     8              PLY_EXY(1,IPT),SIGPLY,SIGPE,PLY_ID ,NEL   ,
-     9              SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX,
-     A              IPG     ,TSAIWU  )
-!----------------------------------
+!-----------------------------------------------------------------------
+      IF (IFLAG == 0) THEN    ! Tsai-Wu
+        CALL MAT25_TSAIWU_C(MAT_PARAM,
+     1                      NEL      ,OFF     ,SIG     ,
+     2                      PLA      ,DIR     ,DAMT    ,CRAK    ,
+     3                      NFIS1    ,NFIS2   ,NFIS3   ,ILAY    ,SHF   ,
+     4                      NGL      ,EPS     ,IGTYP   ,WPLAR   ,STRN1 ,
+     5                      STRN2    ,STRN3   ,STRP1   ,STRP2   ,SIGE  ,
+     6                      EPSPL    ,ISRATE  ,OFFL    ,YLD     ,ETSE  ,
+     7                      ISHPLYXFEM,PLY_EXX(1,IPT),PLY_EYY(1,IPT),
+     8                      PLY_EXY(1,IPT),SIGPLY,SIGPE,PLY_ID ,
+     9                      SIGNXX   ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX,
+     A                      IPG      ,TSAIWU  ,IPLYXFEM,TT      ,DT1   ,
+     B                      IMCONV  ,MVSIZ   ,IOUT    )
+      
+      ELSE    ! Crasurv 
+      
+        CALL MAT25_CRASURV_C(MAT_PARAM,
+     1                       NEL      ,OFF     ,SIG     ,
+     2                       PLA      ,DIR     ,DAMT    ,CRAK    ,
+     3                       NFIS1    ,NFIS2   ,NFIS3   ,ILAY    ,SHF   ,
+     4                       NGL      ,EPS     ,IGTYP   ,WPLAR   ,STRN1 ,
+     5                       STRN2    ,STRN3   ,STRP1   ,STRP2   ,SIGE  ,
+     6                       EPSPL    ,ISRATE  ,OFFL    ,YLD     ,ETSE  ,
+     7                       IERR     ,ISHPLYXFEM,PLY_EXX(1,IPT),PLY_EYY(1,IPT),
+     8                       PLY_EXY(1,IPT),SIGPLY,SIGPE,PLY_ID ,
+     9                       SIGNXX   ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX,
+     A                       IPG      ,TSAIWU  ,IPLYXFEM,TT      ,DT1   ,
+     B                       IMCONV  ,MVSIZ   ,IOUT    )
+
+      END IF
+!-----------------------------------------------------------------------
         IF (IPLYXFEM == 1) THEN
 #include "vectorize.inc" 
           DO I=JFT,JLT
@@ -240,10 +275,10 @@ C-----------------------
 C-----------------------
 C     TENSILE RUPTURE
 C-----------------------
-      CALL M25CRAK(JFT      ,JLT   ,PM      ,OFF    ,DAMT    ,DIR ,
-     1             IMATLY   ,ILAY  ,THLY    ,DAMCR  ,DMAXT   ,
-     2             NGL      ,STRP1 ,STRP2   ,PLY_ID ,IGTYP   ,NEL ,
-     3             IPG      )
+      CALL M25CRAK(JFT     ,JLT    ,OFF     ,DAMT    ,DIR ,
+     1             ILAY    ,IPG    ,THLY    ,DAMCR  ,DMAXT   ,
+     2             NGL     ,STRP1  ,STRP2   ,PLY_ID ,IGTYP   ,NEL ,
+     3             EPST1   ,EPST2  ,EPSM1   ,EPSM2  ,DMAX  )
 C-----------------------
       DEALLOCATE(GV,BETA)
 C----  -------------------
@@ -256,8 +291,6 @@ C----------------------------
       DO I=JFT,JLT
         IF (OFF(I) == OFF_OLD(I) .and. OFF(I) > ZERO) THEN
           IF (OFF(I) == ONE) THEN
-            IOFF = NINT(PM(42,IMATLY))
-            RATIO = PM(188,IMATLY)
             IF (RATIO < ZERO) THEN
               FAILNPT = NPTTOT - 1   ! NPTT =MAX(NPTT) for IGTYP=51
             ELSE

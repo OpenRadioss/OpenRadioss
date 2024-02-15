@@ -29,8 +29,8 @@ Chd|        M25CPLA                       source/materials/mat/mat025/m25cpla.F
 Chd|        MREPLOC                       source/materials/mat_share/mreploc.F
 Chd|        MROTENS                       source/materials/mat_share/mrotens.F
 Chd|====================================================================
-      SUBROUTINE M25LAW(
-     1   PM,        MAT,       OFF,       SIG,
+      SUBROUTINE M25LAW(MAT_PARAM,
+     1   PM,        OFF,       SIG,
      2   EINT,      S01,       S02,       S03,
      3   S04,       S05,       S06,       D1,
      4   D2,        D3,        D4,        D5,
@@ -38,11 +38,15 @@ Chd|====================================================================
      6   SX,        SY,        SZ,        TX,
      7   TY,        TZ,        GAMA,      VNEW,
      8   SSP,       VOL,       EPSP,      WPLA,
-     9   DAMT,      CRAK,      EPST,      DEFP,
-     A   SIGY,      SIGL,      NGL,       ILAY,
-     B   FLAY,      SEQ_OUTPUT,NEL,       IPM,
-     C   IPG,       TSAIWU,    NFT,       NPT,
-     D   JCVT,      JSPH,      ISORTH)
+     9   DAMT,      EPST,      SIGL,      NGL,       
+     A   ILAY,      NPT,       FLAY,      NEL,     IPG,
+     B   TSAIWU,    NFT,       JCVT,      JSPH,    ISORTH)
+!-----------------------------------------------
+!   M o d u l e s
+!-----------------------------------------------
+      use matparam_def_mod
+      use mat25_tsaiwu_s_mod
+      use mat25_crasurv_s_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,25 +72,26 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JCVT
       INTEGER, INTENT(IN) :: JSPH
       INTEGER, INTENT(IN) :: ISORTH
-      INTEGER MAT(MVSIZ), NGL(MVSIZ),IPM(NPROPMI,*),ILAY,NEL,IPG
+      INTEGER NGL(MVSIZ),ILAY,NEL,IPG
 C     REAL
       my_real
-     .   PM(NPROPM,*),OFF(*), SIG(NEL,6), WPLA(*), GAMA(MVSIZ,6), 
-     .   EINT(*), DAMT(NEL,2), CRAK(*),  EPSP(*),
+     .   PM(NPROPM),OFF(*), SIG(NEL,6), WPLA(*), GAMA(MVSIZ,6), 
+     .   EINT(*), DAMT(NEL,2), EPSP(*),
      .   RX(*) ,RY(*),RZ(*) ,SX(*),SY(*),SZ(*),
-     .   TX(*) ,TY(*) ,TZ(*),DEFP(*), SIGY(*),SEQ_OUTPUT(*)
+     .   TX(*) ,TY(*) ,TZ(*)
       my_real
      .   D1(*), D2(*), D3(*), D4(*),
      .   D5(*), D6(*),
      .   S01(*),S02(*),S03(*),S04(*),S05(*),s06(*),
      .   VOl(*),VNEW(*),SSP(*),EPST(NEL,6),SIGL(MVSIZ,6),FLAY(*),
      .   TSAIWU(NEL)
+      type (matparam_struct_) ,intent(in) :: mat_param
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NFIS1(MVSIZ), NFIS2(MVSIZ), NFIS3(MVSIZ), INDX(MVSIZ)
+      INTEGER NFIS1(NEL), NFIS2(NEL), NFIS3(NEL), INDX(NEL)
       INTEGER I, J, JADR, J1, J2, J3, JJ, II, I2, NINDX, I1,
-     .   IOFF,JOFF,MX,IDIR,ISRATE
+     .   IOFF,JOFF,IDIR,IFLAG
 C     REAL
       my_real
      .   DEGMB(MVSIZ),DEGFX(MVSIZ),
@@ -103,55 +108,58 @@ C     REAL
      .   ZT, WMC, VISC, DTINV ,EPD,DAV,DAM1,DAM2,DT5,
      .   EPST1_1,EPST2_1,EPSM1_1,EPSM2_1,DMAX_1,SSP_1
 C=======================================================================
-C
-       DO  I=1,NEL
-         WPLAR(I)=ZERO
-         NFIS1(I)=0
-         NFIS2(I)=0
-         NFIS3(I)=0
-!         DAMCR(I,1)=ZERO
-!         DAMCR(I,2)=ZERO
-         DMAXT(I)=ZERO
-       ENDDO  
+C     Formulation flag
+      I = NPT
+
+      IFLAG = MAT_PARAM%IPARAM(1)    ! IFLAG=0 : Tsai-Wu  , IFLAG=1 : Crasurv
+
+      EPST1_1  = mat_param%uparam(12)   ! PM(60)
+      EPST2_1  = mat_param%uparam(13)   ! PM(61)
+      EPSM1_1  = mat_param%uparam(14)   ! PM(62)
+      EPSM2_1  = mat_param%uparam(15)   ! PM(63)
+      DMAX_1   = mat_param%uparam(18)   ! PM(64)
+      
+      SSP_1   = PM(27)
+C-----------------------------------------------------------
+      DO  I=1,NEL
+        WPLAR(I)=ZERO
+        NFIS1(I)=0
+        NFIS2(I)=0
+        NFIS3(I)=0
+        DMAXT(I)=ZERO
+      ENDDO  
 C-----------------------------------------------------------
 C     STRAIN RATE FILTERING (EQUIVALENT EPSP)
 C-----------------------------------------------------------
-       MX = MAT(1)
-       ISRATE = IPM(3,MX)
-       ASRATE = PM(9,MX)*DT1     
-       ASRATE = ASRATE / (ASRATE + ONE)   
-       DO I=1,NEL                                                                                                    
-         IF(ISRATE >= 1)THEN                                     
-           DAV = -THIRD*(D1(I)+D2(I)+D3(I))                         
-           EPD = HALF*((D1(I)+DAV )**2+(D2(I)+DAV)**2          
-     .                                   +(D3(I)+DAV)**2)           
-     .            + FOURTH*(D4(I)**2+D5(I)**2+D6(I)**2)              
-           EPD = SQRT(THREE*EPD)/THREE_HALF                        
-           EPSP(I) = ASRATE*EPD + (ONE - ASRATE)*EPSP(I)     
-         ELSE                                                       
-           EPSP(I)=OFF(I)* MAX( ABS(D1(I)), ABS(D2(I)), ABS(D3(I)), 
-     .     HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))   
-         ENDIF                                         
-       ENDDO                                                        
+      ASRATE = PM(9)*DT1     
+      ASRATE = ASRATE / (ASRATE + ONE)   
+      DO I=1,NEL                                                                                                    
+        DAV = -THIRD*(D1(I)+D2(I)+D3(I))                         
+        EPD = HALF*((D1(I)+DAV )**2+(D2(I)+DAV)**2          
+     .                                +(D3(I)+DAV)**2)           
+     .         + FOURTH*(D4(I)**2+D5(I)**2+D6(I)**2)              
+        EPD = SQRT(THREE*EPD)/THREE_HALF                        
+        EPSP(I) = ASRATE*EPD + (ONE - ASRATE)*EPSP(I)     
+      ENDDO                                                        
 C--------------------------------------------
 C     STRESS TRANSFORMATION (GLOBAL -> FIBER)
-C-------------------------------------------- 
-       
-        DO I=1,NEL
-          EP1(I) = D1(I)*DT1
-          EP2(I) = D2(I)*DT1
-          EP3(I) = D3(I)*DT1
-          EP4(I) = D4(I)*DT1
-          EP5(I) = D5(I)*DT1
-          EP6(I) = D6(I)*DT1 
-          S1(I) = SIG(I,1)
-          S2(I) = SIG(I,2)
-          S3(I) = SIG(I,3)
-          S4(I) = SIG(I,4)
-          S5(I) = SIG(I,5)
-          S6(I) = SIG(I,6)
-        ENDDO
-      IF(ISORTH > 0 .AND. JCVT == 0) THEN
+C--------------------------------------------        
+      DO I=1,NEL
+        EP1(I) = D1(I)*DT1
+        EP2(I) = D2(I)*DT1
+        EP3(I) = D3(I)*DT1
+        EP4(I) = D4(I)*DT1
+        EP5(I) = D5(I)*DT1
+        EP6(I) = D6(I)*DT1 
+        S1(I) = SIG(I,1)
+        S2(I) = SIG(I,2)
+        S3(I) = SIG(I,3)
+        S4(I) = SIG(I,4)
+        S5(I) = SIG(I,5)
+        S6(I) = SIG(I,6)
+      ENDDO
+!
+      IF (ISORTH > 0 .AND. JCVT == 0) THEN
         CALL MREPLOC(
      1   GAMA,    R11,     R12,     R13,
      2   R21,     R22,     R23,     R31,
@@ -180,45 +188,47 @@ C stress
      .               R31,R32,R33) 
        ENDIF  
 C-----------------------------------------------------------
-C-----------------------
 C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
-C-----------------------
-      CALL M25CPLA(1, NEL ,PM   , MAT ,NGL, OFF,
+C-----------------------------------------------------------
+      IF (IFLAG == 0) THEN    ! Tsai-Wu
+        CALL MAT25_TSAIWU_S(mat_param   ,
+     1             NEL  ,NGL, OFF,
      2             S1   ,S2   ,S3  ,S4   ,S5   ,S6    ,
      3             EP1  ,EP2  ,EP3 ,EP4  , EP5 ,EP6,
-     4             EPST ,DAMT ,CRAK ,NFIS1  ,NFIS2    ,NFIS3,
+     4             EPST ,DAMT ,NFIS1  ,NFIS2    ,NFIS3,
      5             WPLAR    ,EPSP, WPLA, SIGL, ILAY,FLAY,
-     6             SEQ_OUTPUT,NEL, IPG ,TSAIWU)
-C      
-        IF(ISORTH > 0 .AND. JCVT == 0) THEN
-         CALL MROTENS(1,NEL,
-     .              S1 ,S2 ,S3 ,
-     .              S4 ,S5 ,S6 ,
-     .              R11,R21,R31,
-     .              R12,R22,R32,
-     .              R13,R23,R33 )
-        ENDIF
+     6             IPG ,TSAIWU,TT,
+     7             IMCONV  ,MVSIZ   ,IOUT    )
+      
+      ELSE    ! Crasurv 
+      
+        CALL MAT25_CRASURV_S(mat_param   ,
+     1             NEL  ,NGL, OFF,
+     2             S1   ,S2   ,S3  ,S4   ,S5   ,S6    ,
+     3             EP1  ,EP2  ,EP3 ,EP4  , EP5 ,EP6,
+     4             EPST ,DAMT ,NFIS1  ,NFIS2    ,NFIS3,
+     5             WPLAR    ,EPSP, WPLA, SIGL, ILAY,FLAY,
+     6             IPG ,TSAIWU,TT,
+     7             IMCONV  ,MVSIZ   ,IOUT    )
+
+      END IF
+!-----------------------------------------------------------------------
+      IF (ISORTH > 0 .AND. JCVT == 0) THEN
+        CALL MROTENS(1,NEL,S1 ,S2 ,S3 ,S4 ,S5 ,S6 ,
+     .            R11,R21,R31,R12,R22,R32,R13,R23,R33 )
+      ENDIF
      
-          DO I=1,NEL
-              SIG(I,1) = S1(I)*OFF(I)
-              SIG(I,2) = S2(I)*OFF(I)
-              SIG(I,3) = S3(I)*OFF(I)
-              SIG(I,4) = S4(I)*OFF(I)
-              SIG(I,5) = S5(I)*OFF(I)
-              SIG(I,6) = S6(I)*OFF(I)
-          ENDDO
-          
-         
+      DO I=1,NEL
+        SIG(I,1) = S1(I)*OFF(I)
+        SIG(I,2) = S2(I)*OFF(I)
+        SIG(I,3) = S3(I)*OFF(I)
+        SIG(I,4) = S4(I)*OFF(I)
+        SIG(I,5) = S5(I)*OFF(I)
+        SIG(I,6) = S6(I)*OFF(I)
+      ENDDO
 C-----------------------
 C     TENSILE RUPTURE
 C-----------------------
-      MX        =MAT(1)
-      EPST1_1  =PM(60,MX)
-      EPST2_1  =PM(61,MX)
-      EPSM1_1  =PM(62,MX)
-      EPSM2_1  =PM(63,MX)
-      DMAX_1   =PM(64,MX)
-      SSP_1 = PM(27,MX)
       DO  I=1,NEL
          EPST1(I)  =EPST1_1
          EPST2(I)  =EPST2_1
@@ -298,10 +308,9 @@ C----------------------------
       ENDDO
 
       NINDX=0
-      MX = MAT(1)
        DO  I=1,NEL
            IF(OFF(I)==ONE) THEN
-             IOFF=NINT(PM(42,MX))
+             IOFF = mat_param%iparam(2)  ! NINT(PM(42))
              IF(IOFF < 0) IOFF=-(IOFF+1)
              JOFF=0
 c             IF(IOFF == 0 .AND. WPLAR(I) >= ONE) JOFF=1
