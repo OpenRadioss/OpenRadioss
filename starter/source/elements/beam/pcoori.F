@@ -62,10 +62,11 @@ C-----------------------------------------------
       INTEGER I
       my_real
      .   XP1, XP2, XP3, XNOR1, XP4, XP5, XP6, 
-     .   XNOR2, XNORM, DET1, DET2, DET3, DET, XX,YY,ZZ
+     .   XNOR2, XNORM, DET1, DET2, DET3, DET, XX,YY,ZZ,TOL
 C=======================================================================
 C     CONNECTIVITES ET MATERIEL                   |
 C--------------------------------------------------
+      TOL=TWO*EM06
       DO 10 I=LFT,LLT
       MXT(I)=NCP(1,I)
       NC1(I)=NCP(2,I)
@@ -125,14 +126,20 @@ C      CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
          DET2=XP2*XP6-XP3*XP5
          DET3=XP3*XP4-XP1*XP6
          DET= SQRT(DET1**2+DET2**2+DET3**2)
-         IF(DET<EM20) THEN
-          CALL ANCMSG(MSGID=224,
-     .                MSGTYPE=MSGERROR,
+         IF (DET<TOL) THEN
+           CALL ANCMSG(MSGID=3051,
+     .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
-     .                I1=NCP(6,I))
-         ENDIF
+     .                I1=NCP(6,I),
+     .                PRMOD=MSG_CUMU)
+           NC3(I)=NC2(I)
+         END IF
        ENDIF
  30   CONTINUE
+      CALL ANCMSG(MSGID=3051,
+     .                  MSGTYPE=MSGWARNING,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  PRMOD=MSG_PRINT)
 c-----------
       RETURN
       END
