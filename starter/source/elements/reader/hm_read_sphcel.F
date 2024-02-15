@@ -196,7 +196,6 @@ C--------------------------------------------------
         ENDIF 
         IDNOD = KXSP(3,I)
         INOD=USR2SYS(IDNOD,ITABM1,MESS,ID)
-        SPBUF(12,I) = 4.56e-1+0.01*SQRT(MAX(EM20,(X(1,INOD)+1.283)**2+(X(2,INOD)+1.283)**2))
         KXSP(3,I)=INOD
         NCELL=NCELL+1
         IPARTSP(NCELL)=INDEX_PART
