@@ -94,7 +94,10 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_VECTOR(I)%TEXT1  = 'Pressure vector'
       H3D_KEYWORD_SHELL_VECTOR(I)%COMMENT  = 'External pressure vector on the Skin of shell'
 c-----------------------------------------------
-
+      I = I + 1
+      H3D_KEYWORD_SHELL_VECTOR(I)%KEY3  = 'VECT/ACC'
+      H3D_KEYWORD_SHELL_VECTOR(I)%TEXT1  = 'Element Acceleration'
+      H3D_KEYWORD_SHELL_VECTOR(I)%COMMENT  = 'Element acceleration for FVM solver'
 
 
 c-----------------------------------------------

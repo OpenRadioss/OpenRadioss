@@ -195,14 +195,24 @@ C--------------------------------------------------
                         VALUE(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I) 
                         VALUE(2) = GBUF%MOM(JJ(2) + I) / GBUF%RHO(I)
                         VALUE(3) = GBUF%MOM(JJ(3) + I) / GBUF%RHO(I)
-                        CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_SHELL,SHELL_VECTOR,I,OFFSET,NFT,
-     .                       VALUE)
+                        CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_SHELL,SHELL_VECTOR,I,OFFSET,NFT,VALUE)
                      ENDIF
                   ENDDO
                ENDIF
-c 
+C--------------------------------------------------
+            ELSEIF (KEYWORD == 'VECT/ACC') THEN
+C--------------------------------------------------
+               IF (MLW == 151 .AND. ALLOCATED(MULTI_FVM%ACC)) THEN
+                  DO I = 1, NEL
+                     VALUE(1) = MULTI_FVM%ACC(1, I + NFT)
+                     VALUE(2) = MULTI_FVM%ACC(2, I + NFT)
+                     VALUE(3) = MULTI_FVM%ACC(3, I + NFT)
+                     CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_SHELL,SHELL_VECTOR,I,OFFSET,NFT,VALUE)
+                  ENDDO
+               ENDIF
+C--------------------------------------------------
             ENDIF  ! KEYWORD
-          ENDIF  ! ITY 
+         ENDIF  ! ITY
 c
 C-----------------------------------------------
        ENDIF     ! MLW /= 13  
