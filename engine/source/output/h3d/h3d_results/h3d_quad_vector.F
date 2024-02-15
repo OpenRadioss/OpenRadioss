@@ -216,8 +216,20 @@ C--------------------------------------------------
 C                OUTPUT TENSOR STORED IN GLOBAL SYSTEM TO BE TRANSFERRED IN THE ELEMENT LOCAL ONE
                  CALL QROTA_VECT(X,IXQ(1,NFT+1),JCVT,EVAR,GBUF%GAMA,NEL)
                ENDIF
-c 
+C--------------------------------------------------
+            ELSEIF (KEYWORD == 'VECT/ACC') THEN
+C--------------------------------------------------
+               IF (MLW == 151 .AND. ALLOCATED(MULTI_FVM%ACC)) THEN
+                  DO I = 1, NEL
+                     EVAR(1,I) = MULTI_FVM%ACC(1, I + NFT)
+                     EVAR(2,I) = MULTI_FVM%ACC(2, I + NFT)
+                     EVAR(3,I) = MULTI_FVM%ACC(3, I + NFT)
+                     IS_WRITTEN_VECTOR(I) = 1
+                  ENDDO
+               ENDIF
+C--------------------------------------------------
             ENDIF  ! KEYWORD
+
           ENDIF  ! ITY 
 C-----------------------------------------------
           CALL H3D_WRITE_VECTORS(IOK_PART,IS_WRITTEN_QUAD,QUAD_VECTOR,NEL,0,NFT,

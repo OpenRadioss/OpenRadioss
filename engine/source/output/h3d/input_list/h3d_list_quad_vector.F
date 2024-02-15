@@ -62,5 +62,10 @@ c-----------------------------------------------
       H3D_KEYWORD_QUAD_VECTOR(I)%TEXT1  = 'Element Velocity'
       H3D_KEYWORD_QUAD_VECTOR(I)%COMMENT  = 'Element velocity for FVM solver'
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_QUAD_VECTOR(I)%KEY3  = 'VECT/ACC'
+      H3D_KEYWORD_QUAD_VECTOR(I)%TEXT1  = 'Element Acceleration'
+      H3D_KEYWORD_QUAD_VECTOR(I)%COMMENT  = 'Element acceleration for FVM solver'
+c-----------------------------------------------
       NKEY=I
       END
