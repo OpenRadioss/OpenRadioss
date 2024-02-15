@@ -79,6 +79,12 @@ C-----------------------------------------------
 !       ----------------------------------------
 
 
+Chd|====================================================================
+Chd|  SPMD_ALLREDUCE_INT            source/mpi/generic/spmd_allreduce_db.F
+Chd|-- called by -----------
+Chd|        RADIOSS2                      source/engine/radioss2.F      
+Chd|-- calls ---------------
+Chd|====================================================================
         SUBROUTINE SPMD_ALLREDUCE_INT(VALUE,RES,MY_SIZE,MY_OPERATION)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

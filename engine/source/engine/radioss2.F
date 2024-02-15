@@ -95,6 +95,7 @@ Chd|        RTHBUFREST                    source/output/restart/rdresb.F
 Chd|        SETIGNORECORE                 source/system/traceback_handler.c
 Chd|        SET_STACK_VALUES              source/system/machine.F       
 Chd|        SPMD_ALLREDUCE_DB             source/mpi/generic/spmd_allreduce_db.F
+Chd|        SPMD_ALLREDUCE_INT            source/mpi/generic/spmd_allreduce_db.F
 Chd|        SPMD_REDUCE_DB                source/mpi/generic/spmd_reduce_db.F
 Chd|        SPMD_RST_CHECK                source/mpi/init/spmd_rst_check.F
 Chd|        STACK_RREST                   source/output/restart/rdresb.F
