@@ -1,27 +1,27 @@
-Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
-Copyright>    
-Copyright>        This program is free software: you can redistribute it and/or modify
-Copyright>        it under the terms of the GNU Affero General Public License as published by
-Copyright>        the Free Software Foundation, either version 3 of the License, or
-Copyright>        (at your option) any later version.
-Copyright>    
-Copyright>        This program is distributed in the hope that it will be useful,
-Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
-Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-Copyright>        GNU Affero General Public License for more details.
-Copyright>    
-Copyright>        You should have received a copy of the GNU Affero General Public License
-Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-Copyright>    
-Copyright>    
-Copyright>        Commercial Alternative: Altair Radioss Software 
-Copyright>    
-Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
-Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C macro definition to find indexes in remote structure of edges
-C LEDGEFIE and IREM 
+      !Copyright>        OpenRadioss
+      !Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
+      !Copyright>    
+      !Copyright>        This program is free software: you can redistribute it and/or modify
+      !Copyright>        it under the terms of the GNU Affero General Public License as published by
+      !Copyright>        the Free Software Foundation, either version 3 of the License, or
+      !Copyright>        (at your option) any later version.
+      !Copyright>    
+      !Copyright>        This program is distributed in the hope that it will be useful,
+      !Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+      !Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      !Copyright>        GNU Affero General Public License for more details.
+      !Copyright>    
+      !Copyright>        You should have received a copy of the GNU Affero General Public License
+      !Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+      !Copyright>    
+      !Copyright>    
+      !Copyright>        Commercial Alternative: Altair Radioss Software 
+      !Copyright>    
+      !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
+      !Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
+      !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+      !C macro definition to find indexes in remote structure of edges
+      !C LEDGEFIE and IREM 
 
 #define E_GLOBAL_ID 1
 #define E_LEFT_SEG 2
@@ -68,7 +68,7 @@ C LEDGEFIE and IREM
 #define E_STIFE_MSDT_FI 41
 #define E_RBUF_SIZE 41
 
-C macro for LEDGE
+      !C macro for LEDGE
 
 #define LEDGE_LEFT_SEG 1
 #define LEDGE_LEFT_ID 2 

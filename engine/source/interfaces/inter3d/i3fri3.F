@@ -220,6 +220,8 @@ C
 C
 #include "atomic.inc"
         ECONTV = ECONTV + ECONVT ! Frictional contact energy
+#include "atomend.inc"
+#include "atomic.inc"
         FSAV(27) = FSAV(27) + ECONVT
 #include "atomend.inc"
 C---------------------------------
@@ -721,6 +723,8 @@ C
       IF (INCONV==1) THEN
 #include "atomic.inc"
         ECONTV = ECONTV + ECONVT ! Frictional contact energy
+#include "atomend.inc"
+#include "atomic.inc"
         FSAV(27) = FSAV(27) + ECONVT
 #include "atomend.inc"
 C---------------------------------
