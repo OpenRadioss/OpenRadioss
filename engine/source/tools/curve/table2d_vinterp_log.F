@@ -82,7 +82,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  NXK(2), IB(2,2,NEL) 
       INTEGER :: I,I1,I2,J1,J2,K,N,M,L,IN,IM,IL,N1,IL1,IL2,NDIM
-      my_real :: DX1,DX2,YA1,YA2,YB1,YB2,X1_1,X1_2,X2_1,X2_2,
+      my_real :: DX1,DX2,YA1,YA2,YB1,YB2,X1_1,X1_2,X2_1,X2_2,XX2,
      .           X1,X2,Y1,Y2,R1,R2,UNR1,UNR2
       TYPE(TTABLE_XY)                ,POINTER :: TY
       TYPE(TTABLE_XY), DIMENSION(:)  ,POINTER :: TX
@@ -200,9 +200,11 @@ c
             X1_2 = TX(1)%VALUES(I2)                                
             X2_1 = TX(2)%VALUES(J1)                                  
             X2_2 = TX(2)%VALUES(J2)
+            XX2  = MAX(XX(I,2), EM10)
+            X2_1 = MAX(X2_1, EM10)                                
 c            
             R1   = (X1_2 - XX(I,1)) / (X1_2 - X1_1)
-            R2   = (LOG10(X2_2) - LOG10(XX(I,2))) / (LOG10(X2_2) - LOG10(X2_1))
+            R2   = (LOG10(X2_2) - LOG10(XX2)) / (LOG10(X2_2) - LOG10(X2_1))
             UNR1 = ONE - R1                                                  
             UNR2 = ONE - R2                                                              
 c                                         
@@ -229,9 +231,11 @@ c
             X1_2 = TX(1)%VALUES(I2)                                
             X2_1 = TX(2)%VALUES(J1)                                  
             X2_2 = TX(2)%VALUES(J2)
+            XX2  = MAX(XX(I,2), EM10)
+            X2_1 = MAX(X2_1, EM10)                                
 c            
             R1   = (X1_2 - XX(I,1)) / (X1_2 - X1_1)
-            R2   = (LOG(X2_2) - LOG(XX(I,2))) / (LOG(X2_2) - LOG(X2_1))
+            R2   = (LOG(X2_2) - LOG(XX2)) / (LOG(X2_2) - LOG(X2_1))
             UNR1 = ONE - R1                                                  
             UNR2 = ONE - R2                                                              
 c                                         
