@@ -5,7 +5,7 @@ set arch=win64
 set dc=
 set dc_suf=
 set prec=dp
-set debug=chkb
+set debug=0
 set release=0
 set static=0
 set MPI="-DMPI=smp"
@@ -87,7 +87,7 @@ Rem Engine name
 if %prec%==sp   ( set sp_suffix=_sp)
 
 if %debug%==0 (
-    set debug_suffix=''
+    set debug_suffix=
 ) else (
 
    if %debug%==1 (
@@ -228,13 +228,13 @@ GOTO END
   echo     -prec=[dp,sp]                       : set precision - dp (default),sp
   echo     -static-link                        : Compiler runtime is linked in binary
   echo     -debug=[0,1,chkb]                   : debug version 
-  echo                                              0: no debug flags
+  echo                                              0: no debug flags (default)
   echo                                              1: usual debug flag
-  echo                                              chkb: check bounds build (default)
+  echo                                              chkb: check bounds build
   echo     -release                            : set build for release (optimized)
   echo.
   echo Execution control 
-  echo     -nt [N,all]        : Run build with N Threads, all : takes all ressources of machine
+  echo     -nt=[N,all]        : Run build with N Threads, all : takes all ressources of machine
   echo     -verbose           : Verbose build
   echo     -clean             : clean build directory
   echo.
