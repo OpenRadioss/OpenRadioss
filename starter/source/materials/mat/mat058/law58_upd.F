@@ -85,13 +85,14 @@ C----------------------------
         DO I=1,SENSORS%NSENSOR
           IF (SENS_ID == SENSORS%SENSOR_TAB(I)%SENS_ID) THEN
             ISENS = I
-            UPARAM(25) = ISENS
             EXIT
           END IF
         ENDDO
-        IF (ISENS == 0)  
-     .    CALL ANCMSG(MSGID=1240,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
+        IF (ISENS == 0) THEN 
+          CALL ANCMSG(MSGID=1240,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
      .          I1=MAT_ID,C1=TITR,I2=ISENS) 
+        END IF
+        UPARAM(25) = ISENS
       ENDIF
 c---------------------------------------------------------------
       KC   = ZERO
