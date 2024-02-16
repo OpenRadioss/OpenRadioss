@@ -37,9 +37,9 @@ function my_help()
   echo " -prec=[dp|sp]                       : set precision - dp (default) |sp "
   echo " -static-link                        : Fortran, C & C++ runtime are linked in binary"
   echo " -debug=[0|1|asan]                   : debug version for gfortran"
-  echo "                                          0 : no debug flags "
+  echo "                                          0 : no debug flags (default)"
   echo "                                          1 : usual debug flag"
-  echo "                                          asan : gfortran address sanitizer (default)"
+  echo "                                          asan : gfortran address sanitizer"
   echo " -release                            : Set build for release (optimized)"
   echo " "
   echo " -addflag=\"list of additional flags\" : add compiler flags to usual set"
@@ -69,8 +69,8 @@ arch=none
 prec=dp
 threads=1
 got_arch=0
-debug=asan
-ddebug="_asan"
+debug=0
+ddebug=""
 sanitize=0
 jenkins_release=0
 no_rr_clean=0

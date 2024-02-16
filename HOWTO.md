@@ -266,10 +266,13 @@ See [here](./CONTRIBUTING.md) if you want to contribute to OpenRadioss.
 
 The default for Radioss builds are:
 
-* on Linux with with Gfortran : debug with Adress Sanitizer
-* on Windows with Intel Compiler : debug with Check bounds flag
+* Linux with with Gfortran : Optimized for release usage
+* Windows with Intel Compiler : Optimized for release usage
 
-To enable builds with Optimized executable : add -release to the build_script command line.
+Recommendations for developpers is to build OpenRadioss with :
+
+* Address Sanitizer for Linux / Gfortran : -debug=asan
+* Check Bounds executable for Windows users : -debug=chkb
 
 ### Building on Linux
 
