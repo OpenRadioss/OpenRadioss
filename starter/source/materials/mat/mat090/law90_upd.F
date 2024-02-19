@@ -112,7 +112,7 @@ c----------------
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
 1002   FORMAT(
-     & 5X,'MAXIMAM YOUNG''S MODULUS. . . . . . . .=',1PG20.13/)
+     & 5X,'MAXIMUM YOUNG''S MODULUS. . . . . . . .=',1PG20.13/)
 1003   FORMAT(
      & 5X,'YOUNG''S MODULUS FOR HG COMPUTE . . . .=',1PG20.13/)
 
