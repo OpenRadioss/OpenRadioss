@@ -303,13 +303,13 @@ C--- in global sys modifying directly SIGSH
                     PT = PT + 8
                     FORJ(1:5,IP) = FORJ(1:5,IP) + UNPT*S6(1:5)
                     IF (TJ>ZERO) THEN
-                      F2MJ(J) = ONE/TJ
+                      F2MJ(IP) = ONE/TJ
                       MOMJ(1:3,IP) = S6(1:3)
                     END IF 
                   END DO 
                 ENDDO
                DO IP =1,NPG
-                MOMJ(1:3,IP) = F2MJ(J)*(MOMJ(1:3,IP)-FORJ(1:3,IP))
+                MOMJ(1:3,IP) = F2MJ(IP)*(MOMJ(1:3,IP)-FORJ(1:3,IP))
                 PTN= 22 + 9*(IP-1)
                 SIGSH(PTN:PTN+4,II)=FORJ(1:5,IP)
                 SIGSH(PTN+5,II)=ZERO
