@@ -208,6 +208,12 @@ c
               XVEC(1:NEL,2)   = TRIAX(1:NEL)
               XVEC(1:NEL,3)   = ZERO
               IPOS(1:NEL,1:3) = 1
+              ! Scale factor vs element size vs triaxiality vs Lode parameter
+            CASE(3)
+              XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
+              XVEC(1:NEL,2)   = TRIAX(1:NEL)
+              XVEC(1:NEL,3)   = XI(1:NEL)
+              IPOS(1:NEL,1:3) = 1
           END SELECT            
         ENDIF
         CALL TABLE_VINTERP(TABLE(ITAB_SIZE),NEL,NEL,IPOS,XVEC,SIZEFAC,DSIZE)
