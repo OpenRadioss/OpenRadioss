@@ -32,7 +32,7 @@ Chd|====================================================================
       SUBROUTINE SIGEPS44(
      1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,
-     3     VOLUME ,EINT   ,
+     3     VOLUME ,EINT   ,IEOS    ,
      4     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
      5     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      6     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
@@ -96,6 +96,7 @@ C---------+---------+---+---+--------------------------------------------
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
+      INTEGER ,INTENT(IN) :: IEOS
       INTEGER NEL, NUPARAM, NUVAR,IPT,NVARTMP,
      .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*), IPLA,IEXPAN,
      .   ISRATE
@@ -139,7 +140,7 @@ C-----------------------------------------------
       INTEGER I,IADBUF,ICC,VFLAG,IPOS(MVSIZ),IAD(MVSIZ),ILEN(MVSIZ),IDEV
       my_real
      . E,NU,P,DAV,VM,R,EPST,E1,E2,E3,E4,E5,E6,C,CD,D,
-     .        Y,YP,E42,E52,E62,EPST2,RQ,C1,C2,C3,
+     .        Y,YP,E42,E52,E62,EPST2,RQ,BULK,
      .        G,G2,G3,EPSGM,EPMAX,SMAX(MVSIZ),FAIL(MVSIZ),
      .        EPSR1,EPSR2,YLD(MVSIZ),H(MVSIZ),DFDPLA(MVSIZ),
      .        CA,CB,CN,CC,CP,DPLA,YSCALE,DPDT
@@ -162,9 +163,7 @@ C-----------------------------------------------
       G         = UPARAM(16)
       G2        = UPARAM(17)
       G3        = UPARAM(18)
-      C1        = UPARAM(19)
-      C2        = UPARAM(20)
-      C3        = UPARAM(21)
+      BULK      = UPARAM(19)
       EPSGM     = UPARAM(22)
       VFLAG     = NINT(UPARAM(23))
       YSCALE    = UPARAM(24)
@@ -190,7 +189,7 @@ C-----------------------------------------------
         SIGNYZ(I)  = SIGOYZ(I)+G *DEPSYZ(I)
         SIGNZX(I)  = SIGOZX(I)+G *DEPSZX(I)
 C
-        SOUNDSP(I) = SQRT((C1+ FOUR*G/THREE)/RHO0(I))
+        SOUNDSP(I) = SQRT((BULK+ FOUR*G/THREE)/RHO0(I))
         VISCMAX(I) = ZERO
         DPLA1(I)   = ZERO        
       ENDDO
@@ -342,11 +341,9 @@ C-----------------------------------------------
      1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2     
         VM = SQRT(THREE*VM)
         R  = MIN(ONE,YLD(I)/ MAX(VM,EM20))
-c        P = C1(I) * (RHO(I)/RHO0(I)-1.)
-        P  = C1 * AMU(I) ! AMU is computed by taking into account thermal strain
-        SIGNXX(I) = SIGNXX(I)*R-P
-        SIGNYY(I) = SIGNYY(I)*R-P
-        SIGNZZ(I) = SIGNZZ(I)*R-P
+        SIGNXX(I) = SIGNXX(I)*R
+        SIGNYY(I) = SIGNYY(I)*R
+        SIGNZZ(I) = SIGNZZ(I)*R
         SIGNXY(I) = SIGNXY(I)*R
         SIGNYZ(I) = SIGNYZ(I)*R
         SIGNZX(I) = SIGNZX(I)*R
@@ -359,11 +356,9 @@ c        P = C1(I) * (RHO(I)/RHO0(I)-1.)
      1              +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
         VM = SQRT(THREE*VM)
         R  = MIN(ONE,YLD(I)/ MAX(VM,EM20))
-c        P = C1(I) * (RHO(I)/RHO0(I)-ONE)
-        P  = C1 * AMU(I) ! AMU is computed by taking into account thermal strain
-        SIGNXX(I) = SIGNXX(I)*R-P
-        SIGNYY(I) = SIGNYY(I)*R-P
-        SIGNZZ(I) = SIGNZZ(I)*R-P
+        SIGNXX(I) = SIGNXX(I)*R
+        SIGNYY(I) = SIGNYY(I)*R
+        SIGNZZ(I) = SIGNZZ(I)*R
         SIGNXY(I) = SIGNXY(I)*R
         SIGNYZ(I) = SIGNYZ(I)*R
         SIGNZX(I) = SIGNZX(I)*R
@@ -378,15 +373,13 @@ c        P = C1(I) * (RHO(I)/RHO0(I)-ONE)
         R  = MIN(ONE,YLD(I)/ MAX(VM,EM20))
 C       plastic strain increment.
         DPLA = (ONE - R)*VM/MAX(G3+H(I),EM20)
-C       actual yield stress.
+C       actual yield stress
         YLD(I) = YLD(I) + DPLA*H(I)
         IF (PLA(I) >= EPMAX) YLD(I)=ZERO
         R = MIN(ONE,YLD(I)/ MAX(VM,EM20))
-c        P = C1(I) * (RHO(I)/RHO0(I) - ONE)
-        P = C1 * AMU(I) ! AMU is computed by taking into account thermal strain
-        SIGNXX(I) = SIGNXX(I)*R-P
-        SIGNYY(I) = SIGNYY(I)*R-P
-        SIGNZZ(I) = SIGNZZ(I)*R-P
+        SIGNXX(I) = SIGNXX(I)*R
+        SIGNYY(I) = SIGNYY(I)*R
+        SIGNZZ(I) = SIGNZZ(I)*R
         SIGNXY(I) = SIGNXY(I)*R
         SIGNYZ(I) = SIGNYZ(I)*R
         SIGNZX(I) = SIGNZX(I)*R
@@ -394,18 +387,32 @@ c        P = C1(I) * (RHO(I)/RHO0(I) - ONE)
         DPLA1(I)  = DPLA
        ENDDO
       ENDIF
-C-----------
-      DO I=1,NEL
+C----------------------------------
+      ! update total stress tensor       
+      IF (IEOS == 0) THEN 
+        DO I = 1, NEL
+          ! P = BULK(I) * (RHO(I)/RHO0(I) - ONE)
+          P = BULK * AMU(I) ! AMU is computed by taking into account thermal strain
+          SIGNXX(I) = SIGNXX(I) - P
+          SIGNYY(I) = SIGNYY(I) - P 
+          SIGNZZ(I) = SIGNZZ(I) - P 
+          SIGNXY(I) = SIGNXY(I)
+          SIGNYZ(I) = SIGNYZ(I)
+          SIGNZX(I) = SIGNZX(I)
+        ENDDO
+      ELSE      ! EOS is used => law calculates deviatoric stress only
+        CONTINUE
+      END IF                
+C----------------------------------
+      IF (VFLAG == 1) THEN   ! plastic strain rate filtering
+        DO I=1,NEL
+          DPDT    = DPLA1(I) / MAX(EM20,TIMESTEP)
+          EPSP(I) = ASRATE * DPDT + (ONE - ASRATE) * EPSP(I)
+        ENDDO
+      ENDIF
 C
-C      PLASTIC STRAIN RATE
-       IF (VFLAG == 1) THEN 
-         DPDT    = DPLA1(I) / MAX(EM20,TIMESTEP)
-         EPSP(I) = ASRATE * DPDT + (ONE - ASRATE) * EPSP(I)
-       ENDIF
-C
-       SIGY(I) = MAX(SIGY(I),YLD(I))
-      ENDDO
       DO I=1,NEL
+        SIGY(I) = MAX(SIGY(I),YLD(I))
         IF(OFF(I)<ONE) IDEL7NOK = 1
       ENDDO
 C-----------

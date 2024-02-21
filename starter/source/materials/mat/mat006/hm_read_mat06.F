@@ -97,7 +97,6 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       COUNT = 0
       IS_EOS=.FALSE.
-      IEOS=0
       PMIN=ZERO
       RHOR=ZERO
       IS_ENCRYPTED=.false.
@@ -126,6 +125,7 @@ C-----------------------------------------------
          CALL HM_GET_FLOATV('MAT_EA'      ,E0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
          CALL HM_GET_FLOATV('MAT_PSH'     ,PSH    ,IS_AVAILABLE, LSUBMODEL, UNITAB)                                             
       ELSE
+         IEOS=0
          E0 = ZERO
          C0 = ZERO
          C1 = ZERO
@@ -166,7 +166,8 @@ C-----------------------------------------------
       PM(104)=C0 - PSH
       
       IPM(04)=IEOS
-
+      MATPARAM%IEOS = IEOS
+!
       ! Material compatibility with /EOS option
       CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
 

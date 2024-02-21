@@ -139,9 +139,11 @@ C-----------------------------------------------
         IEOS = 13
         IPM(4)=IEOS
         EOS_TAG(IEOS)%L_MU = 1
+        MATPARAM%IEOS = IEOS
       ELSE
         IFORM=2 !new format (Eos defined from /EOS option)
         IREC = IREC+1
+        MATPARAM%IEOS = 18   ! linear EOS is used by default 
       ENDIF
 
       E0 = ZERO

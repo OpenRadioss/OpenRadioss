@@ -85,7 +85,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED,IS_EOS, EOS_EMBEDDED
-      INTEGER JTUR, I, EMPTY_LINE,COUNT,IEOS,LAW6_OPT
+      INTEGER JTUR, I, IEOS,EMPTY_LINE,COUNT,LAW6_OPT
       INTEGER JTHE, IFLAGR
       my_real
      .    YOUNG,NU,SIG0,CB,CN,SIGM,EPSM,T0,TMELT,PMIN,
@@ -99,7 +99,6 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       COUNT = 0
       IS_EOS=.FALSE.
-      IEOS=0
       EOS_EMBEDDED=.FALSE.
       BULK=ZERO
       
@@ -149,16 +148,19 @@ C-----------------------------------------------
            CALL HM_GET_FLOATV('MAT_C5'       ,C5       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
            CALL HM_GET_FLOATV('MAT_E0'       ,E0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
            CALL HM_GET_FLOATV('MAT_PSH'      ,PSH      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-            BULK  = C1
-            PM(23)= E0
-            PM(31)= C0-PSH
-            PM(32)= C1
-            PM(33)= C2
-            PM(34)= C3
-            PM(35)= C4
-            PM(36)= C5
-            PM(88)= ZERO 
-            IEOS = 1 ! POLYNOMIAL EOS         
+           BULK  = C1
+           PM(23)= E0
+           PM(31)= C0-PSH
+           PM(32)= C1
+           PM(33)= C2
+           PM(34)= C3
+           PM(35)= C4
+           PM(36)= C5
+           PM(88)= ZERO 
+           IEOS = 1 ! POLYNOMIAL EOS
+           MATPARAM%IEOS = IEOS
+        ELSE        
+          MATPARAM%IEOS = 18   ! linear EOS is used by default 
         ENDIF
 
       IF (PMIN==ZERO) PMIN=-EP20

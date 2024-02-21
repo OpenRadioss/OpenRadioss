@@ -173,7 +173,10 @@ C-----------------------------------------------
         PM(88)= PSH                                                                                 
         IEOS = 1 ! POLYNOMIAL EOS    
         IPM(4) = IEOS
-       ENDIF                                                                                        
+        MATPARAM%IEOS = IEOS
+      ELSE
+        MATPARAM%IEOS = 18   ! linear EOS is used by default 
+      ENDIF                                                                                        
      
       IF (PMIN==ZERO) PMIN=-EP20
       IF (RHOR==ZERO) RHOR=RHO0

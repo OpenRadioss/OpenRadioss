@@ -630,8 +630,8 @@ c-----Tstar computation for Jonhson Cook failure : T* = (T-T0)/(TM-T0)----
 C-----------------------------------
 C     EOS PART1
 C-----------------------------------
-      IF (MTN == 3.OR.MTN == 4.OR.MTN == 6.OR.MTN==10.OR.MTN==17.OR.MTN == 49.OR.MTN == 102.OR.MTN == 103) THEN
-        EOSTYP= IPM(4,IMAT)
+      EOSTYP = MAT_ELEM%MAT_PARAM(IMAT)%IEOS
+      IF (EOSTYP > 0) THEN
         CALL EOSMAIN(0       ,NEL      ,EOSTYP  ,PM        ,OFF      ,LBUF%EINT,
      2               LBUF%RHO,RHO0     ,AMU     ,AMU2      ,ESPE     ,
      3               DVOL    ,DF       ,VOLN    ,MAT       ,PSH      ,
@@ -1209,7 +1209,7 @@ c     .             LBUF%QVIS,LBUF%VOL,MBUF%VAR,STIFN   )
         ENDIF
       ELSEIF (MTN == 12) THEN
 C       TSAI 3D Complet
-        EOSTYP= IPM(4,IMAT)
+        EOSTYP  = MAT_ELEM%MAT_PARAM(IMAT)%IEOS
         STRD1(1:NEL*3) => LBUF%EPE(1:NEL*3)
         STRD2(1:NEL*3) => LBUF%EPE(1+NEL*3:NEL*6)
         CALL M12LAW(
@@ -1754,17 +1754,21 @@ c
 C-----------------------------------
 C     EOS PART2
 C-----------------------------------
-      IF (MTN == 3.OR.MTN == 4.OR.MTN == 6.OR.MTN==10.OR.MTN==17.OR.MTN == 49.OR.MTN == 102.OR.MTN == 103) THEN
-         IF (MTN /= 6 .AND. MTN /= 17) THEN
-            PNEW(:) = ZERO
-         ENDIF
+!     IF (MTN == 3.OR.MTN == 4.OR.MTN == 6.OR.MTN==10.OR.MTN==17.OR.MTN == 49.OR.MTN == 102.OR.MTN == 103) THEN
+      EOSTYP = MAT_ELEM%MAT_PARAM(IMAT)%IEOS
+      IF (EOSTYP > 0) THEN
+        IF (MTN /= 6 .AND. MTN /= 17) THEN
+          PNEW(:) = ZERO
+        ENDIF
         CALL EOSMAIN(1       ,NEL      ,EOSTYP  ,PM       ,OFF      ,LBUF%EINT,
      2               LBUF%RHO,RHO0     ,AMU     ,AMU2     ,ESPE     ,
      3               DVOL    ,DF       ,VOLN    ,MAT      ,PSH      ,
      4               PNEW    ,DPDM     ,DPDE    ,LBUF%TEMP,ECOLD    ,
      5               BUFMAT  ,LBUF%SIG ,LBUF%MU ,MTN      ,POLD     ,
      6               NPF     ,TF       ,EBUF%VAR,NVAREOS)
+!
         CALL EOSUPDA(OFF  ,LBUF%SIG ,LBUF%EINT, LBUF%VOL ,PNEW,NEL)
+!
       ELSEIF(l_MULAW_CALLED)THEN
         IF(l_MULAW_CALLED)THEN
          DO I=1,NEL
