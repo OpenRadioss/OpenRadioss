@@ -241,7 +241,11 @@ C-----------------------------------------------
 c---------------------------   
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
-c
+
+!---------------------------------------------------------   
+      MATPARAM%IEOS = 18   ! linear EOS is used by default 
+!---------------------------------------------------------   
+
       CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
 
       ! Material compatibility with /EOS option

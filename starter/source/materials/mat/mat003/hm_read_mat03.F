@@ -159,7 +159,10 @@ C-----------------------------------------------
         PM(35)= C4                                                                                  
         PM(36)= C5                                                                                  
         PM(88)= PSH                                                                                 
-        IEOS = 1 ! POLYNOMIAL EOS                                                                   
+        IEOS = 1 ! POLYNOMIAL EOS
+         MATPARAM%IEOS = IEOS
+       ELSE
+         MATPARAM%IEOS = 18 ! linear EOS is used by default
        ENDIF                                                                                        
      
       IF (PMIN==ZERO) PMIN=-EP20

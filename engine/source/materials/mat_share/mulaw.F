@@ -955,7 +955,7 @@ c
       ELSEIF (MTN == 44) THEN
         CALL SIGEPS44(NEL ,NPAR,NUVAR,NFUNC,IFUNC,
      2                  NPF ,TF  ,TT,DT1,UPARAM,
-     3                  RHO0,RHO ,VOLN,EINT,
+     3                  RHO0,RHO ,VOLN,EINT,MATPARAM%IEOS,
      4                  EP1 ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,
      5                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
      6                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
@@ -1284,7 +1284,7 @@ C
      8                  S1      ,S2     ,S3    ,S4    ,S5    ,S6  ,
      9                  SV1     ,SV2    ,SV3   ,SV4   ,SV5   ,SV6 ,
      A                  SSP     ,VIS    ,UVAR  ,OFF   ,DVOL  ,VOL ,
-     B                  PM      ,IPM    ,MAT   ,PSH   ,BUFMAT,
+     B                  PM      ,IPM    ,MAT   ,PSH   ,BUFMAT,MATPARAM%IEOS,
      C                  EBUF%VAR,NVAREOS)
 C
       ELSEIF (MTN == 76) THEN
@@ -1712,7 +1712,7 @@ C
      5        DE1      ,DE2     ,DE3      ,DE4      ,DE5      ,DE6      , 
      6        SO1      ,SO2     ,SO3      ,SO4      ,SO5      ,SO6      , 
      7        S1       ,S2      ,S3       ,S4       ,S5       ,S6       ,
-     8        INLOC    ,VARNL   )
+     8        INLOC    ,VARNL   ,MATPARAM%IEOS)
 C
       ELSEIF (MTN == 111) THEN 
           CALL SIGEPS111(NEL ,NPAR,NUVAR,NFUNC,IFUNC,
