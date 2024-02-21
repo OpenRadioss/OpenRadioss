@@ -92,6 +92,7 @@ C-----------------------------------------------
       IGRSURF(IGRS)%ISH4N3N = 0
       IGRSURF(IGRS)%NSEG_R2R_ALL = 0
       IGRSURF(IGRS)%NSEG_R2R_SHARE = 0
+      IGRSURF(IGRS)%IAD_IGE = 0
 !
 !     not printout empty group
 !
