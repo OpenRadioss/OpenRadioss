@@ -99,6 +99,7 @@ C-----------------------------------------------
 C     S o u r c e   L i n e s
 C-----------------------------------------------
       IPM(4) = 15
+      MATPARAM%IEOS = 15
       TBEGIN = ZERO
       TEND = INFINITY
       IBFRAC = 0

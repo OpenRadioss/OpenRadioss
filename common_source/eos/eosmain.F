@@ -63,7 +63,6 @@ C depending on EOSTYP(INTEGER) value.
       !------------------------------------!                
       !  IEOS     !    EOS                 !             
       !-----------!------------------------!  
-      !   0       !     LINEAR             ! 2019.0                
       !   1       !     POLYNOMIAL         !             
       !   2       !     GRUNEISEN          !             
       !   3       !     TILLOTSON          !             
@@ -81,6 +80,7 @@ C depending on EOSTYP(INTEGER) value.
       !  15       !     JWL                ! internal use : INIMAP   
       !  16       !     IDEALGAS_VT        ! 2022.0
       !  17       !     TABULATED          ! 2022.2
+      !  18       !     LINEAR             ! 2019.0                
       !------------------------------------!  
 !
 !  input   EINT(:) :  rho.e   (law151    , unit J/m**3)
@@ -148,7 +148,7 @@ C-----------------------------------------------
            
       SELECT CASE (EOSTYP)
 
-        CASE (0)
+        CASE (18)
          !--------------------------------------------------!
          !         LINEAR EOS                               !
          !--------------------------------------------------! 

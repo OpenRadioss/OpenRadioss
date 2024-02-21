@@ -188,10 +188,6 @@ c-----------------------------
         EOS_key = KEY2(1:LEN_TRIM(KEY2))
         SELECT CASE (EOS_key)
 c---
-          CASE ('LINEAR')
-            IEOS = 0                          
-            CALL HM_READ_EOS_LINEAR(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
-c---
           CASE ('POLYNOMIAL')
             IEOS = 1     
             CALL HM_READ_EOS_POLYNOMIAL(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                 
@@ -254,8 +250,11 @@ c---
 c---
           CASE ('TABULATED')
             IEOS = 17     
-            CALL HM_READ_EOS_TABULATED(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                
-                                               
+            CALL HM_READ_EOS_TABULATED(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                                                              
+c---
+          CASE ('LINEAR')
+            IEOS = 18                          
+            CALL HM_READ_EOS_LINEAR(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
 c---
           CASE DEFAULT
             IEOS = -1 

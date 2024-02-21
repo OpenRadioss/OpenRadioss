@@ -196,7 +196,7 @@ C-----------------------------------------------
           ELSE
             IF(MLN == 3 .OR. MLN == 4 .OR. MLN == 5 .OR. MLN == 6 .OR. MLN == 10 .OR. MLN == 102)THEN
               IF(MLN /= 5)THEN
-                IF(EOS_TYPE == 0 .OR. EOS_TYPE == 1 .OR. EOS_TYPE == 7 .OR. EOS_TYPE == 10)THEN
+                IF(EOS_TYPE == 18 .OR. EOS_TYPE == 1 .OR. EOS_TYPE == 7 .OR. EOS_TYPE == 10)THEN
                 ELSE
                 chain1='SUBMATERIAL COMPATIBLE EOS:POLYNOMIAL, IDEAL-GAS, STIFFENED-GAS'
                 CALL ANCMSG(MSGID=99,
@@ -290,8 +290,8 @@ C-----------------------------------------------
          IF(MLN /= 5)THEN
            SELECT CASE(EOS_TYPE)
                !EOS PARAMETERS DEPENDS ON 'EOS_TYPE'
-               CASE(0,1)                   !0:/EOS/LINEAR
-                 RHO    = PM_(1)           !1:/EOS/POLYNOMIAL
+               CASE(1,18)                  !18:/EOS/LINEAR
+                 RHO    = PM_(1)           !1 :/EOS/POLYNOMIAL
                  E0     = PM_(23)
                  C0     = PM_(104)   !C0-PSH
                  C1     = PM_(32)

@@ -85,7 +85,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER JTUR, I, EMPTY_LINE,COUNT,IEOS,LAW6_OPT
+      INTEGER JTUR, I, EMPTY_LINE,COUNT,LAW6_OPT
       my_real RHO0, VIS, BID, PSH, C0, C1, C2, C3, C4, C5, PMIN, E0, RK0,
      .        SSL, CTM, SK, SE, RPR, CT1, CT2, CT3, AK, E, A, B, YP0, YP1,
      .        MU,RHOR
@@ -93,7 +93,6 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       COUNT = 0
-      IEOS = 0
       JTUR=PM(70)
 !---
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
@@ -198,7 +197,9 @@ C-----------------------------------------------
       PM(86)=SE                                            
       PM(95)=RPR                                           
       PM(87)=RK0/RHO0  
-      
+!---------------------------------------------------------   
+      MATPARAM%IEOS = 18   ! linear EOS is used by default 
+!---------------------------------------------------------        
       ! Material compatibility with /EOS option
       CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
 

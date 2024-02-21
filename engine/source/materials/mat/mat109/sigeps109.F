@@ -38,7 +38,7 @@ Chd|====================================================================
      5     DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      6     SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     8     INLOC   ,DPLANL  )
+     8     INLOC   ,DPLANL  ,IEOS    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,6 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: IEOS
       INTEGER NEL,NUPARAM,NUVAR,NVARTMP,NUMTABL,JTHE,INLOC
       INTEGER ,DIMENSION(NUMTABL),INTENT(IN)  :: ITABLE
       INTEGER ,DIMENSION(NEL)    ,INTENT(IN)  :: NGL
@@ -320,16 +321,9 @@ c
          ENDDO              
 c            
         END DO   !  ITER = 1,NITER
-c        
+!
         DO II = 1, NINDX 
           I = INDEX(II)
-          SIGNXX(I) = SXX(I) + SIGM(I)
-          SIGNYY(I) = SYY(I) + SIGM(I)
-          SIGNZZ(I) = SZZ(I) + SIGM(I)
-          SIGNXY(I) = SXY(I)
-          SIGNYZ(I) = SYZ(I)
-          SIGNZX(I) = SZX(I)
-c
           PLA(I) = PLA(I) + MAX(DPLA(I), ZERO)
           ET(I)  = HARDP(I) / (HARDP(I) + YOUNG)
         ENDDO                      
@@ -341,9 +335,29 @@ c
             TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*DPLA(I)
           ENDDO                      
         ENDIF
-c
 c            
-      END IF     !  NINDX > 0
+      END IF     !  NINDX > 0  (plasticity)
+!
+      ! update total stress tensor       
+      IF (IEOS == 0) THEN 
+        DO I = 1, NEL
+          SIGNXX(I) = SXX(I) + SIGM(I)
+          SIGNYY(I) = SYY(I) + SIGM(I)
+          SIGNZZ(I) = SZZ(I) + SIGM(I)
+          SIGNXY(I) = SXY(I)
+          SIGNYZ(I) = SYZ(I)
+          SIGNZX(I) = SZX(I)
+        ENDDO
+      ELSE      ! EOS is used => law calculates deviatoric stress only
+        DO I = 1, NEL
+          SIGNXX(I) = SXX(I)
+          SIGNYY(I) = SYY(I)
+          SIGNZZ(I) = SZZ(I)
+          SIGNXY(I) = SXY(I)
+          SIGNYZ(I) = SYZ(I)
+          SIGNZX(I) = SZX(I)
+        ENDDO
+      END IF                
 c
       SOUNDSP(1:NEL)= SQRT((BULK + FOUR_OVER_3*G) / RHO(1:NEL))
       SIGY(1:NEL)   = YLD(1:NEL)

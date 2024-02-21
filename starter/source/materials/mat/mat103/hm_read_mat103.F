@@ -190,7 +190,9 @@ C   flag activation
       MTAG%L_EPSD = 1
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
-C------------------------------------------------- 
+!---------------------------------------------------------   
+      MATPARAM%IEOS = 18   ! linear EOS is used by default 
+!---------------------------------------------------------   
       !MATPARAM keywords
 
       ! Material compatibility with /EOS option

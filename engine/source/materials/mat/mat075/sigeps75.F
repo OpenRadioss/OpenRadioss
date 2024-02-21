@@ -33,7 +33,7 @@ Chd|====================================================================
        SUBROUTINE SIGEPS75(
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
-     3      VNEW   , EINT   , MUOLD   ,
+     3      VNEW   , EINT   , MUOLD   , 
      4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
      5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
@@ -41,8 +41,8 @@ Chd|====================================================================
      8      SIGNXX , SIGNYY , SIGNZZ  , SIGNXY, SIGNYZ, SIGNZX,
      9      SIGVXX , SIGVYY , SIGVZZ  , SIGVXY, SIGVYZ, SIGVZX,
      A      SOUNDSP, VISCMAX, UVAR    , OFF   , DVOL  , VOL0  ,
-     B      PM     , IPM    , MAT     , PSH   , BUFMAT, VAREOS,
-     C      NVAREOS)
+     B      PM     , IPM    , MAT     , PSH   , BUFMAT, EOSTYP,
+     C      VAREOS ,NVAREOS)
 C
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
@@ -106,6 +106,7 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
+      INTEGER ,INTENT(IN) :: EOSTYP
       INTEGER NEL, NUPARAM, NUVAR, IPM(NPROPMI,NUMGEO), MAT(NEL)
       INTEGER,INTENT(IN) ::NVAREOS
 C
@@ -146,7 +147,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L o c a l   V a r i a b l e s
 C----------------------------------------------------------------
-      INTEGER I, EOSTYP, ITER, MATS(NEL),IPLA(NEL), MXS, IFLAG1,
+      INTEGER I, ITER, MATS(NEL),IPLA(NEL), MXS, IFLAG1,
      .        IFLAG2, ITEMAX, IMAX, IPLAS
       my_real
      .   DFS(NEL), MUS(NEL), MU2S(NEL), DPDM(NEL), ECOLD(NEL),
@@ -176,7 +177,6 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       IFLAG1=NINT(UPARAM(7))
       IFLAG2=NINT(UPARAM(8))
       ITEMAX=NINT(UPARAM(17))
-      EOSTYP=IPM(4,MXS)
       DO I=1,NEL
          MATS(I) = MXS
          RHOS0(I)= PM(89,MXS)
