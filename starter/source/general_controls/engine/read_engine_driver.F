@@ -25,7 +25,6 @@ Chd|  READ_ENGINE_DRIVER            source/general_controls/engine/read_engine_d
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        HM_DEBUG_PRINT_OPTION         source/devtools/hm_reader/hm_debug_print_option.F
 Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
