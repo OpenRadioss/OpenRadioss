@@ -371,26 +371,27 @@ C-----------------------------------------------
               WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'SURFACE_NB_SEG'
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NB_SURF_SEG,0.0_8)
               DO N = 1,NB_SURF_SEG
-                WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_NODE_1'
-                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IGRSURF(IGR)%NODES(N,1)),0.0_8)
-                WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_NODE_2'
-                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IGRSURF(IGR)%NODES(N,2)),0.0_8)
-                WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_NODE_3'
-                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IGRSURF(IGR)%NODES(N,3)),0.0_8)
-                WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_NODE_4'
-                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IGRSURF(IGR)%NODES(N,4)),0.0_8)
-                WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_ELTYP'
-                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IGRSURF(IGR)%ELTYP(N),0.0_8)
-                WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_ELEM'
-                IF (IGRSURF(IGR)%ELTYP(N) == 3 ) THEN ! SH4N
-                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IXC(NIXC,IGRSURF(IGR)%ELEM(N)),0.0_8)
-                ELSEIF (IGRSURF(IGR)%ELTYP(N) == 7 ) THEN ! SH3N
-                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IXTG(NIXTG,IGRSURF(IGR)%ELEM(N)),0.0_8)
-                ELSEIF (IGRSURF(IGR)%ELTYP(N) == 1 ) THEN ! SOLID
-                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IXS(NIXS,IGRSURF(IGR)%ELEM(N)),0.0_8)
-                ENDIF ! IF (IGRSURF(IGR)%ELTYP(N) == 3 )
+                IF(SET(IGS)%NB_ELLIPSE == 0)THEN
+                  WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_NODE_1'
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IGRSURF(IGR)%NODES(N,1)),0.0_8)
+                  WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_NODE_2'
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IGRSURF(IGR)%NODES(N,2)),0.0_8)
+                  WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_NODE_3'
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IGRSURF(IGR)%NODES(N,3)),0.0_8)
+                  WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_NODE_4'
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IGRSURF(IGR)%NODES(N,4)),0.0_8)
+                  WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_ELTYP'
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IGRSURF(IGR)%ELTYP(N),0.0_8)
+                  WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_ELEM'
+                  IF (IGRSURF(IGR)%ELTYP(N) == 3 ) THEN ! SH4N
+                    CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IXC(NIXC,IGRSURF(IGR)%ELEM(N)),0.0_8)
+                  ELSEIF (IGRSURF(IGR)%ELTYP(N) == 7 ) THEN ! SH3N
+                    CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IXTG(NIXTG,IGRSURF(IGR)%ELEM(N)),0.0_8)
+                  ELSEIF (IGRSURF(IGR)%ELTYP(N) == 1 ) THEN ! SOLID
+                    CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IXS(NIXS,IGRSURF(IGR)%ELEM(N)),0.0_8)
+                  ENDIF ! IF (IGRSURF(IGR)%ELTYP(N) == 3 )
 
-                IF(SET(IGS)%NB_ELLIPSE == 1)THEN
+                ELSE IF(SET(IGS)%NB_ELLIPSE == 1)THEN
                   WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'Ellipse_Xc = '
                   TEMP_DOUBLE = SET(IGS)%ELLIPSE_XC
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
