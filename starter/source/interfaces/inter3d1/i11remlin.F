@@ -329,6 +329,8 @@ C
 CC END DO NRTM
         DEALLOCATE(DIST1,TAGNOD,ORIGIN)
 C
+      ELSE
+        I_START = NRTM  ! avoid infinite loop later
       ENDIF
 C
       RETURN
