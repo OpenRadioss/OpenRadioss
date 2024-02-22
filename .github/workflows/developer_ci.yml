@@ -25,7 +25,7 @@ jobs:
     # DEV ONLY # runs-on: ["build","dev_devci"]
     runs-on: ["build","developer_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:ompi411-devts11
+      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:cos8-ompi411-devts11
       credentials: 
         username: ${{secrets.DOCKER_REGISTRY_USER}}
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
@@ -80,7 +80,7 @@ jobs:
           md5sum exec/* || echo "Nothing in exec/" 
 
       # Get last git modifications, WS is not persistent here
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           lfs: 'true'
           ref: refs/pull/${{ github.event.number }}/merge
@@ -116,11 +116,11 @@ jobs:
           cd ..
           md5sum exec/* || exit 1
 
-      # Upload artifact 
+      # Upload artifact (since V4 we can't upload artifact using the same name, each one must be unique) 
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: bins-${{ matrix.os }}-${{ matrix.precision }}
+          name: bins-${{ matrix.os }}-${{ matrix.precision }}-${{ matrix.build }}
           path: exec
 
   qa:
@@ -128,7 +128,7 @@ jobs:
     # DEV ONLY # runs-on: ["qa_${{ matrix.os }}","dev"]
     runs-on: ["qa_${{ matrix.os }}","developer_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/qa-linux64_gf:ompi411
+      image: fr-qafactorydev.europe.altair.com/qa-linux64_gf:cos8-ompi411
       credentials: 
         username: ${{secrets.DOCKER_REGISTRY_USER}}
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
@@ -155,7 +155,7 @@ jobs:
     steps:
 
       # Get git related to the commit
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           lfs: 'true'
           ref: refs/pull/${{ github.event.number }}/merge
@@ -164,11 +164,26 @@ jobs:
         run: |
           rm -rf exec
 
-      # Download artifacts
-      - uses: actions/download-artifact@v3
+      # Download artifacts (since V4 we must download all needed artifacts, we could do it using wildcard but it doesn't work ... see https://github.com/actions/download-artifact/issues/337)
+      # Using hard name waiting for this issue to be fixed
+      # - name: Download artifacts
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: bins-${{ matrix.os }}-${{ matrix.precision }}-*
+      #     path: exec
+      #     merge-multiple: true
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
         with:
-          name: bins-${{ matrix.os }}-${{ matrix.precision }}
+          name: bins-${{ matrix.os }}-${{ matrix.precision }}-starter_linux64_gf
           path: exec
+          merge-multiple: true
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: bins-${{ matrix.os }}-${{ matrix.precision }}-engine_linux64_gf_ompi
+          path: exec
+          merge-multiple: true
 
       - name: Running qa
         run: |
