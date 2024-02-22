@@ -1394,7 +1394,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
      2                  X    ,  VEL_N  ,W       ,VEL           ,VD2  ,
      3                  RHOV ,  PV     ,VDX     ,VDY           ,VDZ  ,
      4                  EIV  ,  TV     ,BUFVOIS ,AVV           ,RHO0V,
-     5                  IPM  ,  BUFMAT ,UVAR    ,NEL           ,NUVAR,
+     5                  IPM  ,  BUFMAT ,NEL     ,
      6                  NV46 ,  SSPv   ,EPSPv   ,P0_NRFv )
         ENDIF
 
