@@ -69,38 +69,30 @@ C
         IF(IGRELE(I)%ID==IGU)IG=I
       ENDDO
 C
-C     IF(IG==0)THEN
-C        CALL ANCMSG(MSGID=171,
-C    .               MSGTYPE=MSGERROR,
-C    .               ANMODE=ANINFO,
-C    .               C1= MESS,
-C    .               I1= ID,
-C    .               C2= TITR,
-C    .               C3= MOT,
-C    .               I2=IGU)
-C           RETURN
-C     ENDIF
-C
-      IF (NFRAM > 0 .OR. ISTYP >= 1) THEN
-        DO L=1,IGRELE(IG)%NENTITY
-          IE=IGRELE(IG)%ENTITY(L)
-          IF ( TAGELEMS(IE) /= 0 ) ELEGROR = ELEGROR + 1
-        ENDDO
+      IF(IG /= 0) THEN
+        IF (NFRAM > 0 .OR. ISTYP >= 1) THEN
+          DO L=1,IGRELE(IG)%NENTITY
+            IE=IGRELE(IG)%ENTITY(L)
+            IF ( TAGELEMS(IE) /= 0 ) ELEGROR = ELEGROR + 1
+          ENDDO
+        ELSE
+          ELEGROR=IGRELE(IG)%NENTITY
+        ENDIF
+        J = 0
+        IF (NFRAM > 0 .OR. ISTYP >= 1) THEN
+          DO I=1,IGRELE(IG)%NENTITY
+            IF (TAGELEMS(IGRELE(IG)%ENTITY(I)) == 1 ) THEN
+                J = J + 1
+              IBUF(1,J)=IGRELE(IG)%ENTITY(I)
+              ENDIF
+          ENDDO
+        ELSE
+          DO I=1,IGRELE(IG)%NENTITY
+            IBUF(1,I)=IGRELE(IG)%ENTITY(I)
+          ENDDO
+        ENDIF
       ELSE
-        ELEGROR=IGRELE(IG)%NENTITY
-      ENDIF
-      J = 0
-      IF (NFRAM > 0 .OR. ISTYP >= 1) THEN
-        DO I=1,IGRELE(IG)%NENTITY
-          IF (TAGELEMS(IGRELE(IG)%ENTITY(I)) == 1 ) THEN
-              J = J + 1
-            IBUF(1,J)=IGRELE(IG)%ENTITY(I)
-            ENDIF
-        ENDDO
-      ELSE
-        DO I=1,IGRELE(IG)%NENTITY
-          IBUF(1,I)=IGRELE(IG)%ENTITY(I)
-        ENDDO
+        ELEGROR = 0
       ENDIF
 C
       RETURN
