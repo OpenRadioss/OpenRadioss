@@ -25,6 +25,7 @@ Chd|  SIGEPS57C                     source/materials/mat/mat057/sigeps57c.F
 Chd|-- called by -----------
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|-- calls ---------------
+Chd|        DCPPM_UPC                     source/materials/mat/mat057/sigeps57c.F
 Chd|        VINTER                        source/tools/curve/vinter.F   
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
