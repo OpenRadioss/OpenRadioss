@@ -52,5 +52,8 @@ C-----------------------------------------------
       DO I=1,SMESSAGESFILE
         MESSAGESFILE(I)=MESSAGESDATA(I)
       END DO
+
+      ! Allocation is done in starter_message_description.inc
+      DEALLOCATE(MESSAGESDATA)
       RETURN
       END SUBROUTINE
