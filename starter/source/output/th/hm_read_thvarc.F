@@ -46,7 +46,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD      
+      USE HM_OPTION_READ_MOD   
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,16 +59,21 @@ C-----------------------------------------------
 C-----------------------------------------------
       INTEGER NV,NVG,IVAR(*),IVARG(18,*),NV0
       CHARACTER*10,TARGET :: VARE(NV),VARG(NVG)
-      CHARACTER VAR*10
-        INTEGER JREC,NVAR,TRU,N,L,M,I,J,K,OK,TAG(0:250000)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
-      LOGICAL IS_AVAILABLE
+      CHARACTER*nchartitle TITR
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      LOGICAL IS_AVAILABLE
+      INTEGER,DIMENSION(:),ALLOCATABLE :: TAG
+      CHARACTER VAR*10
+      INTEGER JREC,NVAR,TRU,N,L,M,I,J,K,OK
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+      ! Tag must start from 0
+      ALLOCATE(TAG(0:NV))
 C
       ! Number of variables indicated by the user
       CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
@@ -158,5 +163,6 @@ C---------  --------------------------------------------------------------------
       
       HM_THVARC=NVAR
        
+      DEALLOCATE(TAG)
       RETURN
       END

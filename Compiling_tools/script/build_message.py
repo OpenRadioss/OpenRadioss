@@ -49,8 +49,11 @@ for line in f_in:
      count=count+1
 
 # write number of lines in array
-headline='      CHARACTER*ncharline MESSAGESDATA('+str(count)+')\n'
+headline='      CHARACTER(LEN=ncharline),DIMENSION(:),ALLOCATABLE :: MESSAGESDATA\n'
 f_out.write(headline)
+headline='      ALLOCATE(MESSAGESDATA('+str(count)+'))\n'
+f_out.write(headline)
+
 
 #rewind iput file and proceed with writing
 f_in.seek(0)

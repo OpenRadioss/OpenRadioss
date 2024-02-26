@@ -78,6 +78,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MAT_ELEM_MOD            
       USE MESSAGE_MOD          
       USE STACK_MOD
@@ -163,9 +164,8 @@ C-----------------------------------------------
       INTEGER, ALLOCATABLE, DIMENSION(:) :: INDX     
       PARAMETER (LAYNPT_MAX = 10)
       PARAMETER (LAY_MAX = 100)
-      INTEGER MATLY(MVSIZ*LAY_MAX)
-      my_real
-     .   POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX)
+      INTEGER, DIMENSION(:),ALLOCATABLE::MATLY
+      my_real, DIMENSION(:,:),ALLOCATABLE :: POSLY
 C-----------------------------------------------
       my_real,
      .  DIMENSION(:) ,POINTER :: UVAR,DIR1,DIR2
@@ -174,6 +174,10 @@ C-----------------------------------------------
       TYPE(BUF_LAY_) ,POINTER :: BUFLY 
       TYPE(L_BUFEL_DIR_), POINTER :: LBUF_DIR
 C=======================================================================
+      ! Allocate buffers
+      CALL MY_ALLOC(MATLY,MVSIZ*LAY_MAX)
+      CALL MY_ALLOC(POSLY,MVSIZ,LAY_MAX*LAYNPT_MAX)
+
       GBUF  => ELBUF_STR%GBUF
       BUFLY => ELBUF_STR%BUFLY(1)
 c
@@ -627,6 +631,9 @@ C---
       IF (ALLOCATED(DIR_B))    DEALLOCATE(DIR_B)
       IF (ALLOCATED(DIR_A))    DEALLOCATE(DIR_A)
       IF (ALLOCATED(INDX))     DEALLOCATE(INDX)
+
+      DEALLOCATE(MATLY)
+      DEALLOCATE(POSLY)
 C------------
       RETURN
       END

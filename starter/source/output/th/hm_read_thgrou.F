@@ -68,6 +68,7 @@ Chd|====================================================================
      E      MAP_TABLES    ,IFLAG         ,PTR_NOPT_SLIPRING,PTR_NOPT_RETRACTOR,SENSORS       ,
      F      INTERFACES    ,IPARI)
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE MONVOL_STRUCT_MOD
@@ -159,14 +160,20 @@ C-----------------------------------------------
       PARAMETER (NVARPA = 31)
       PARAMETER (NVARF1 = 18,NVARFR = 24,NVARGAU = 8,NVARCLUS=11,NVARFLOW=1,
      .           NVARSURF = 5,NVARSLIP=6,NVARRET=3)
-      CHARACTER*10 VARN(NVARN),VARS(NVARS),VARC(NVARC),VART(NVART)
+      CHARACTER*10 VARN(NVARN),VART(NVART)
       CHARACTER*10 VARP(NVARP),VARR(NVARR),VARUR(NVARUR)
+      CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE::VARS
+      CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE::VARC
       CHARACTER*10 VARS1(196),VARS2(567), VARS3(369), VARS4(492),
-     .             VARS5(22),VARS6(118692),VARS7(118692),VARN1(19),
+     .             VARS5(22),VARN1(19),
      .             VARN2(9),
      .             VARNPINCH(9),
-     .             VARSG1(202),VARSG2(19782),VARSG3(19782),VARSG4(1),
+     .             VARSG1(202),VARSG4(1),
      .             VARS8(516),VARS9(6),VARSNLOC(2)
+      CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE::VARS6
+      CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE::VARS7
+      CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE::VARSG2
+      CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE::VARSG3
       CHARACTER*10 VARNS(NVARNS),VARSPH(NVARSPH)
       CHARACTER*10 VARIN(NVARIN),VARRW(NVARRW),VARRB(NVARRB)
       CHARACTER*10 VARAC(NVARAC),VARSE(NVARSE),VARJO(NVARJO)
@@ -193,7 +200,7 @@ C-----------------------------------------------
       PARAMETER (NVARF1G = 3,NVARFRG = 4,NVARGAUG = 1,NVARCLUSG=2,NVARFLOWG=1,
      .           NVARSURFG = 1,NVARSLIPG=1,NVARRETG = 1)
       PARAMETER (NVARSENS = 1,NVARSENSG = 1)
-      CHARACTER*10 VARNG(NVARNG),VARSG(NVARSG)
+      CHARACTER*10 VARNG(NVARNG)
       CHARACTER*10 VARCG(NVARCG),VARTG(NVARTG)
       CHARACTER*10 VARPG(NVARPG),VARRG(NVARRG),VARURG(NVARURG)
       CHARACTER*10 VARNSG(NVARNSG),VARSPG(NVARSPG)
@@ -205,8 +212,10 @@ C-----------------------------------------------
       CHARACTER*10 VARF1G(NVARF1G),VARFRG(NVARFRG),VARGAUG(NVARGAUG)
       CHARACTER*10 VARCLUSG(NVARCLUSG),VARFLOWG(NVARFLOWG)
       CHARACTER*10 VARSURFG(NVARSURFG),VARSLIPG(NVARSLIPG),VARRETG(NVARRETG)
+      INTEGER,DIMENSION(:,:),ALLOCATABLE :: IVARSG
+      CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE:: VARSG
 C-----------------------------------------------
-      INTEGER IVARNG(18,NVARNG),IVARSG(18,NVARSG)
+      INTEGER IVARNG(18,NVARNG)
       INTEGER IVARCG(18,NVARCG),IVARTG(18,NVARTG)
       INTEGER IVARPG(18,NVARPG),IVARRG(18,NVARRG),IVARURG(18,NVARURG)
       INTEGER IVARNSG(18,NVARNSG),IVARSPG(18,NVARSPG),IVNS2R(18,NVARNSG)
@@ -251,6 +260,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   TH VARIABLES
 C-----------------------------------------------
+      ! Allocate temporary Arrays
+      ! Character Arrays - ue ALLOCATEkm
+      ALLOCATE(VARS6(118692))
+      ALLOCATE(VARS7(118692))
+      ALLOCATE(VARSG2(19782))
+      ALLOCATE(VARSG3(19782))
+      ALLOCATE(VARS(NVARS))
+      ALLOCATE(VARC(NVARC))
+      ALLOCATE(VARSG(NVARSG))
+
+      ! INTEGER Arrays - use MY_ALLOC
+      CALL MY_ALLOC(IVARSG,18,NVARSG)
 C   nodes
       DATA VARN1/'DX      ','DY      ','DZ      ',
      .           'VX      ','VY      ','VZ      ',
@@ -553,7 +574,6 @@ C
      .'IE_MAT2 ','DEN_MAT2','VOL_MAT2','PLA_MAT2','TEM_MAT2'/
 C Definition of VARS6 : strain for /PROP/TYPE22
 C=======================================================================
-      
       DO J=1,200
         IF (J <= 9) THEN
           WRITE(CHJ,'(I1.1)')J
@@ -3122,5 +3142,17 @@ C Recherche des ID doubles
 C-------------------------------------
       CALL UDOUBLE(ITHGRP,NITHGR,NTHGRP2,MESS,0,BID)
 C
+
+      ! Deallocate Variables
+      DEALLOCATE(VARS6)
+      DEALLOCATE(VARS7)
+      DEALLOCATE(VARSG2)
+      DEALLOCATE(VARSG3)
+      DEALLOCATE(VARS)
+      DEALLOCATE(VARC)
+      DEALLOCATE(VARSG)
+      DEALLOCATE(IVARSG)
+      
+
       RETURN
       END
