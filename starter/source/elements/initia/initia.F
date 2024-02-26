@@ -1952,8 +1952,7 @@ C---------------------------------
      2                    IPART(I15A), IPART(I15B),   X      ,   IXS    ,   IXQ,
      3                    IXTG,        PM         ,   IPM    ,   BUFMAT ,   MULTI_FVM,
      4                    ALE_CONNECTIVITY, NV46       ,   IGRSURF,   ITAB   ,   EBCS_TAB,
-     5                    NPC        , PLD
-     .                    )
+     5                    NPC        , PLD             ,MAT_PARAM)
       ENDIF
 
 C---------------------------------------------------
@@ -1970,7 +1969,7 @@ C---------------------------------
      .                     IPART(I15B) ,X         ,V       ,IXS     ,IXQ        , 
      .                     IXTG        ,PM        ,IPM     ,BUFMAT  ,MULTI_FVM  ,
      .                     PLD         ,NPC       ,IGRBRIC ,IGRQUAD ,IGRSH3N    ,
-     .                     NPTS)
+     .                     NPTS        ,MAT_PARAM )
       ENDIF
 C---------------------------------
 C Initialization on 2D functions

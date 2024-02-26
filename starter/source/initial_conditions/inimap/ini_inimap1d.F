@@ -38,7 +38,7 @@ Chd|====================================================================
      .                        IPARTQ   ,XGRID     ,VEL    ,IXS     ,IXQ      ,
      .                        IXTG     ,PM        ,IPM    ,BUFMAT  ,MULTI_FVM, 
      .                        PLD      ,NPC       ,IGRBRIC,IGRQUAD ,IGRSH3N  ,
-     .                        NPTS     )
+     .                        NPTS     ,MAT_PARAM )
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,6 +78,7 @@ C-----------------------------------------------
       my_real, INTENT(IN), TARGET :: PLD(2, NPTS/2)
       my_real, INTENT(INOUT) :: VEL(3, *)
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (GROUP_)  , DIMENSION(NGRQUAD) :: IGRQUAD
@@ -882,7 +884,8 @@ C     Compute EINT from pressure
                      CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, IMAT), EINT(:, IMAT), 
      .                    ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1 + NEL * (9 + KPHASE - 1):NEL + NEL * (9 + KPHASE - 1)), 
      .                    IFIRST, ILAST, ELEM_LIST, 
-     .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP,NPC,PLD,EBUF%VAR,NVAREOS)
+     .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP,NPC,PLD,EBUF%VAR,NVAREOS,
+     .                    MAT_PARAM)
                      DO II = IFIRST, ILAST
                         ELEMID = ELEM_LIST(II)
                         RES = EINT(ELEMID - NFT, IMAT)
@@ -934,7 +937,12 @@ Chd|-- calls ---------------
 Chd|        EOSMAIN                       ../common_source/eos/eosmain.F
 Chd|====================================================================
       SUBROUTINE SOLVE_EINT(MATID, NFT,    NEL, PRESIN, EINT, RHO,   IFIRST, ILAST, ELEM_LIST, IPM, 
-     .                      PM   , BUFMAT, MLW, NG,     IMAT, THETA, NPC,    TF, VAREOS, NVAREOS)
+     .                      PM   , BUFMAT, MLW, NG,     IMAT, THETA, NPC,    TF, VAREOS, NVAREOS,
+     .                      MAT_PARAM)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -956,11 +964,12 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: IMAT !debug purpose
       INTEGER,INTENT(IN)::NPC(SNPC)
       my_real,INTENT(IN)::TF(STF)
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: II, ELEMID, LOCALID, REMAINING_ELTS, ITER, MAX_ITER
-      INTEGER :: EOSTYPE, MAT(NEL)
+      INTEGER :: II, ELEMID, EOSTYPE,LOCALID, REMAINING_ELTS, ITER, MAX_ITER
+      INTEGER :: MAT(NEL)
       my_real :: VOL(NEL), ERROR(NEL), TOL, OFF(NEL), RHOZERO(NEL), RHO0
       my_real :: MU(NEL), DF(NEL), MU2(NEL), ESPE(NEL), DVOL(NEL), PSH(NEL),
      .     SSP(NEL), DPDE(NEL), ECOLD(NEL), PRES(NEL), POLD(NEL)
@@ -976,6 +985,7 @@ C-----------------------------------------------
 C     S o u r c e   L i n e s
 C-----------------------------------------------
 
+      EOSTYPE = MAT_PARAM(MATID)%IEOS  ! should use that except law5 with intenal EOS
       EOSTYPE = IPM(4, MATID)
       RHO0 = PM(1, MATID)
 

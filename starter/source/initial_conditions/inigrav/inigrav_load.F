@@ -43,7 +43,7 @@ Chd|====================================================================
      1                        IPARTS    ,IPARTQ ,X       ,IXS    ,IXQ      ,
      2                        IXTG      ,PM     ,IPM     ,BUFMAT ,MULTI_FVM,
      3                        ALE_CONNECTIVITY ,NV46   ,IGRSURF ,ITAB   ,EBCS_TAB,
-     4                        NPF       ,TF)
+     4                        NPF       ,TF    ,MAT_PARAM)
 C-----------------------------------------------
 C   Description
 C-----------------------------------------------
@@ -75,6 +75,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE EBCS_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -110,6 +111,7 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       INTEGER,INTENT(IN)::NPF(SNPC)
       my_real,INTENT(IN)::TF(STF)      
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -421,7 +423,7 @@ C-----------------------------------------------
            CASE (3, 4, 6, 10, 49)      !Material law defined with Equations Of States 
               RHO0 = PM(1,MATID)                  
               CALL INIGRAV_EOS(NEL,NEL2, NG, MATID, IPM, GRAV0, RHO0, DEPTH, PM, BUFMAT(IADBUF), 
-     .                         ELBUF_TAB, PSURF, LIST , PGRAV, 0 ,MLW, NPF, TF)
+     .                         ELBUF_TAB, PSURF, LIST , PGRAV, 0 ,MLW, NPF, TF ,NUMMAT,MAT_PARAM)
           !=======================================!
           !     MM-ALE 37                         !
           !=======================================! 

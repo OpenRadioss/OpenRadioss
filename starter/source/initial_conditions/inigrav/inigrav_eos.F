@@ -29,11 +29,12 @@ Chd|        EOSMAIN                       ../common_source/eos/eosmain.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INIGRAV_EOS(NELG, NEL, NG, MATID, IPM, GRAV0, RHO0, DEPTH, PM, BUFMAT,
-     .                       ELBUF_TAB,PSURF,LIST,PRES,IMAT,MLW,NPF,TF)
+     .                       ELBUF_TAB,PSURF,LIST,PRES,IMAT,MLW,NPF,TF,NUMMAT,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,6 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN)    :: NUMMAT
       INTEGER, INTENT(IN)    :: NEL, NG, MATID, IPM(NPROPMI, *), LIST(NEL),NELG, IMAT, MLW
       my_real, INTENT(IN)    :: GRAV0, DEPTH(*), PM(NPROPM, *), BUFMAT(*),PSURF
       my_real, INTENT(INOUT) :: PRES(NEL)
@@ -54,6 +56,7 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: RHO0     
       INTEGER,INTENT(IN)::NPF(SNPC)
       my_real,INTENT(IN)::TF(STF)       
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -89,6 +92,7 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
         NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS
       ENDIF
       
+      EOSTYPE          = MAT_PARAM(MATID)%IEOS  ! should use that except law5 with intenal EOS
       EOSTYPE          = IPM(4, MATID)
       ITER             = 0
       MAX_ITER         = 30

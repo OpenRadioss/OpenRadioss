@@ -1284,8 +1284,8 @@ C
      8                  S1      ,S2     ,S3    ,S4    ,S5    ,S6  ,
      9                  SV1     ,SV2    ,SV3   ,SV4   ,SV5   ,SV6 ,
      A                  SSP     ,VIS    ,UVAR  ,OFF   ,DVOL  ,VOL ,
-     B                  PM      ,IPM    ,MAT   ,PSH   ,BUFMAT,MATPARAM%IEOS,
-     C                  EBUF%VAR,NVAREOS)
+     B                  PM      ,IPM    ,MAT   ,PSH   ,BUFMAT,
+     C                  EBUF%VAR,NVAREOS,MAT_ELEM%MAT_PARAM)
 C
       ELSEIF (MTN == 76) THEN
         CALL SIGEPS76(NEL      ,NPAR     ,NUVAR    ,NFUNC    ,IFUNC    ,NGL       ,
