@@ -98,8 +98,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     S o u r c e   L i n e s
 C-----------------------------------------------
-      IPM(4) = 15
-      MATPARAM%IEOS = 15
+      IPM(4) = 15       ! internal EOS TYPE
+!      MATPARAM%IEOS = 15
       TBEGIN = ZERO
       TEND = INFINITY
       IBFRAC = 0
@@ -262,8 +262,11 @@ C-----------------------------------------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
       ! Properties compatibility
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
-      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")
-      
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")      
+
+      ! Material compatibility with /EOS option
+      CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
+
       !======== LISTING OUTPUT
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,5
       WRITE(IOUT,1000)     

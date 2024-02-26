@@ -41,8 +41,8 @@ Chd|====================================================================
      8      SIGNXX , SIGNYY , SIGNZZ  , SIGNXY, SIGNYZ, SIGNZX,
      9      SIGVXX , SIGVYY , SIGVZZ  , SIGVXY, SIGVYZ, SIGVZX,
      A      SOUNDSP, VISCMAX, UVAR    , OFF   , DVOL  , VOL0  ,
-     B      PM     , IPM    , MAT     , PSH   , BUFMAT, EOSTYP,
-     C      VAREOS ,NVAREOS)
+     B      PM     , IPM    , MAT     , PSH   , BUFMAT,
+     C      VAREOS ,NVAREOS ,MAT_PARAM)
 C
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
@@ -94,6 +94,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -106,7 +107,6 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER ,INTENT(IN) :: EOSTYP
       INTEGER NEL, NUPARAM, NUVAR, IPM(NPROPMI,NUMGEO), MAT(NEL)
       INTEGER,INTENT(IN) ::NVAREOS
 C
@@ -125,6 +125,7 @@ C
      .      PSH(NEL)   , BUFMAT(*)  , MUOLD(NEL)
      
       my_real,INTENT(INOUT) :: VAREOS(NVAREOS*NEL)
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
@@ -148,7 +149,7 @@ C----------------------------------------------------------------
 C  L o c a l   V a r i a b l e s
 C----------------------------------------------------------------
       INTEGER I, ITER, MATS(NEL),IPLA(NEL), MXS, IFLAG1,
-     .        IFLAG2, ITEMAX, IMAX, IPLAS
+     .        IFLAG2, ITEMAX, IMAX, IPLAS, EOSTYP
       my_real
      .   DFS(NEL), MUS(NEL), MU2S(NEL), DPDM(NEL), ECOLD(NEL),
      .   THETA(NEL), DPDE(NEL)
@@ -191,6 +192,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       UNSURN=UPARAM(14)
       XI    =UPARAM(15)
       ETA   =UPARAM(16)
+      EOSTYP = MAT_PARAM(MXS)%IEOS  ! LAW 75 uses /EOS defined in another law !!!
 C
       DO I=1,NEL
          ALPHAOLD(I)= UVAR(I,3)
