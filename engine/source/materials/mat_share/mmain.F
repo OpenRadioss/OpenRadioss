@@ -2047,6 +2047,15 @@ C strain rate
               EP5(I) = TWO*EP5(I)
               EP6(I) = TWO*EP6(I)
             ENDDO
+            ! Strain tensor increment
+            DO I = 1,NEL
+              DE1(I) = EP1(I)*DT1
+              DE2(I) = EP2(I)*DT1
+              DE3(I) = EP3(I)*DT1
+              DE4(I) = EP4(I)*DT1 
+              DE5(I) = EP5(I)*DT1
+              DE6(I) = EP6(I)*DT1
+            ENDDO 
           ELSE          !  strain rate
             DO I=1,NEL
               EP1(I) = DXX(I)
@@ -2055,6 +2064,15 @@ C strain rate
               EP4(I) = HALF*D4(I)
               EP5(I) = HALF*D5(I)
               EP6(I) = HALF*D6(I)
+            ENDDO 
+            ! Strain tensor increment
+            DO I = 1,NEL
+              DE1(I) = EP1(I)*DT1
+              DE2(I) = EP2(I)*DT1
+              DE3(I) = EP3(I)*DT1
+              DE4(I) = TWO*EP4(I)*DT1 
+              DE5(I) = TWO*EP5(I)*DT1
+              DE6(I) = TWO*EP6(I)*DT1
             ENDDO              
           ENDIF  
 c
@@ -2070,15 +2088,7 @@ c----
           NFUNC  = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%NFUNC 
           IFUNC(1:NFUNC) = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%IFUNC(1:NFUNC)         
           NTABL_FAIL =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%NTABLE
-          ITABL_FAIL => MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%TABLE(1:NTABL_FAIL)
-          DO I = 1,NEL
-            DE1(I) = DXX(I)*DT1
-            DE2(I) = DYY(I)*DT1
-            DE3(I) = DZZ(I)*DT1
-            DE4(I) = DXY(I)*DT1 
-            DE5(I) = DYZ(I)*DT1
-            DE6(I) = DZX(I)*DT1
-          ENDDO 
+          ITABL_FAIL => MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%TABLE(1:NTABL_FAIL)           
 c
           IF (IRUPT == 1)THEN                                            
 C  --- Johnson cook              
