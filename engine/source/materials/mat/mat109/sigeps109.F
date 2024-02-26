@@ -321,9 +321,16 @@ c
          ENDDO              
 c            
         END DO   !  ITER = 1,NITER
-!
+c        
         DO II = 1, NINDX 
           I = INDEX(II)
+          SIGNXX(I) = SXX(I) + SIGM(I)
+          SIGNYY(I) = SYY(I) + SIGM(I)
+          SIGNZZ(I) = SZZ(I) + SIGM(I)
+          SIGNXY(I) = SXY(I)
+          SIGNYZ(I) = SYZ(I)
+          SIGNZX(I) = SZX(I)
+c
           PLA(I) = PLA(I) + MAX(DPLA(I), ZERO)
           ET(I)  = HARDP(I) / (HARDP(I) + YOUNG)
         ENDDO                      
@@ -335,27 +342,18 @@ c
             TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*DPLA(I)
           ENDDO                      
         ENDIF
-c            
+c
       END IF     !  NINDX > 0  (plasticity)
-!
-      ! update total stress tensor       
-      IF (IEOS == 0) THEN 
+!-----------------------------------------------------------------------------
+      ! if EOS is used, material law calculates only deviatoric stress tensor
+      IF (IEOS > 0) THEN
         DO I = 1, NEL
-          SIGNXX(I) = SXX(I) + SIGM(I)
-          SIGNYY(I) = SYY(I) + SIGM(I)
-          SIGNZZ(I) = SZZ(I) + SIGM(I)
-          SIGNXY(I) = SXY(I)
-          SIGNYZ(I) = SYZ(I)
-          SIGNZX(I) = SZX(I)
-        ENDDO
-      ELSE      ! EOS is used => law calculates deviatoric stress only
-        DO I = 1, NEL
-          SIGNXX(I) = SXX(I)
-          SIGNYY(I) = SYY(I)
-          SIGNZZ(I) = SZZ(I)
-          SIGNXY(I) = SXY(I)
-          SIGNYZ(I) = SYZ(I)
-          SIGNZX(I) = SZX(I)
+          SIGNXX(I) = SIGNXX(I) - SIGM(I)
+          SIGNYY(I) = SIGNYY(I) - SIGM(I)
+          SIGNZZ(I) = SIGNZZ(I) - SIGM(I)
+          SIGNXY(I) = SIGNXY(I)
+          SIGNYZ(I) = SIGNYZ(I)
+          SIGNZX(I) = SIGNZX(I)
         ENDDO
       END IF                
 c
