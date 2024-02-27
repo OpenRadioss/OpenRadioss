@@ -230,7 +230,7 @@ c=======================================================================
 #include "vectorize.inc"
         DO I=1,NEL
           IPOS(I,1) = VARTMP(I,2)
-          IPOS(I,2) = 1
+          IPOS(I,2) = VARTMP(I,5)
           XVEC(I,1) = MIN(EPST(I), EPSSMAX)
           XVEC(I,2) = EPSP(I)
 c          XVEC(I,2) = MIN(EPSP(I), EPSPMAX)
@@ -242,6 +242,7 @@ c
       ELSE IF (NLOAD == 1) THEN  ! static only
 c
         IPOS(:,1) = VARTMP(:,2)
+        IPOS(:,2) = VARTMP(:,5)
         DO I=1,NEL
           XVEC(I,1)  = MIN(EPST(I), EPSSMAX)
         ENDDO
@@ -271,7 +272,7 @@ c=======================================================================
 #include "vectorize.inc"
           DO I=1,NEL
             IPOS(I,1) = VARTMP(I,3)
-            IPOS(I,2) = 1
+            IPOS(I,2) = VARTMP(I,6)
             XVEC(I,1) = MIN(EPST(I), EPSSMAX)
             XVEC(I,2) = EPSP(I) ! MAX(MIN(EPSP(I), EPSPMAX), EPSP0)
           ENDDO
@@ -280,6 +281,7 @@ c
 c
         ELSE IF (NUNLOAD == 1) THEN
           IPOS(:,1) = VARTMP(:,3)
+          IPOS(:,2) = VARTMP(:,6)
           DO I=1,NEL
             XVEC(I,1) = EPST(I) !  MAX(MIN(EPST(I), EPSSMAX),EPSP0) 
           ENDDO
