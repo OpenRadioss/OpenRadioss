@@ -1218,6 +1218,8 @@ C-------------------------------------------------------------------------------
         INTEGER, DIMENSION(NINTER) :: INTER18_LIST ! list of interface 18
         TYPE(array_type), DIMENSION(:), ALLOCATABLE :: XCELL_REMOTE ! remote data structure for interface 18 
         ! ----------
+
+        my_real, DIMENSION(:), ALLOCATABLE :: FSKY_L
       DATA IUN/1/
 C-----------------------------------------------------------------------------------       
 C Uncomment for Debug - ITAB is copied in Debug Module.
@@ -4944,7 +4946,7 @@ c     Parallel update of crack
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-
+      IF(IPARIT==1) ALLOCATE( FSKY_L(NISKY) )
       DTNOD_NLOCAL = EP20
 !$OMP PARALLEL
 !$OMP+PRIVATE(ITSK,NODFTSK,NODLTSK,PARTFTSK,PARTLTSK,GREFTSK,GRELTSK,NODFTSK_2,NODLTSK_2,NODFT_NL,NODLT_NL)
@@ -4975,7 +4977,7 @@ C------------------------
      8       DMSPH  ,CONDN   ,CONDNSKY  ,CONDNSKYI,
      9       MS_2D,ICNDS10  ,
      A       STIFND ,FORNEQS ,FORNEQSKY ,NFACNIT,NODFTSK_2,
-     B       NODLTSK_2)   
+     B       NODLTSK_2,FSKY_L)   
 
 !   ----------------------------------
 !   Accumulation of acceleration for Nlocal option : parith/on
@@ -5038,6 +5040,7 @@ C
 
 !$OMP END PARALLEL
 C
+      IF(IPARIT==1) DEALLOCATE( FSKY_L )
       IF (IMON>0) CALL STOPTIME(9,1)
       CALL TRACE_OUT(15)
 C========================================================================================
