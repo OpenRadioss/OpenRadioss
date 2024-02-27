@@ -197,8 +197,6 @@ C-----------------------------------------------
       PM(86)=SE                                            
       PM(95)=RPR                                           
       PM(87)=RK0/RHO0  
-!---------------------------------------------------------   
-      MATPARAM%IEOS = 18   ! linear EOS is used by default 
 !---------------------------------------------------------        
       ! Material compatibility with /EOS option
       CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
