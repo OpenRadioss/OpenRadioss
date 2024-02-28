@@ -153,12 +153,15 @@ Chd|        HM_READ_MAT97                 starter/source/materials/mat/mat097/hm
 Chd|        HM_READ_MAT_99                starter/source/materials/mat/matuser/hm_read_mat_user_99.F
 Chd|        HM_READ_NONLOCAL              starter/source/materials/nonlocal/hm_read_nonlocal.F
 Chd|        HM_READ_VISC                  starter/source/materials/visc/hm_read_visc.F
+Chd|        INIGRAV_EOS                   starter/source/initial_conditions/inigrav/inigrav_eos.F
+Chd|        INIGRAV_LOAD                  starter/source/initial_conditions/inigrav/inigrav_load.F
 Chd|        INITIA                        starter/source/elements/initia/initia.F
 Chd|        INITWG                        starter/source/spmd/domain_decomposition/initwg.F
 Chd|        INITWG_SHELL                  starter/source/spmd/domain_decomposition/initwg_shell.F
 Chd|        INITWG_SOLID                  starter/source/spmd/domain_decomposition/initwg_solid.F
 Chd|        INITWG_TRI                    starter/source/spmd/domain_decomposition/initwg_tri.F
 Chd|        INIT_MAT_KEYWORD              starter/source/materials/mat/init_mat_keyword.F
+Chd|        INI_INIMAP1D                  starter/source/initial_conditions/inimap/ini_inimap1d.F
 Chd|        LAW104_UPD                    starter/source/materials/mat/mat104/law104_upd.F
 Chd|        LAW190_UPD                    starter/source/materials/mat/mat190/law190_upd.F
 Chd|        LAW70_UPD                     starter/source/materials/mat/mat070/law70_upd.F
@@ -182,6 +185,7 @@ Chd|        SGRHEAD                       starter/source/elements/solid/solide/s
 Chd|        SGRTAILS                      starter/source/elements/solid/solide/sgrtails.F
 Chd|        SIGEPS70                      starter/source/materials/mat/mat070/sigeps70.F
 Chd|        SINIT3                        starter/source/elements/solid/solide/sinit3.F
+Chd|        SOLVE_EINT                    starter/source/initial_conditions/inimap/ini_inimap1d.F
 Chd|        SPGRHEAD                      starter/source/elements/sph/spgrhead.F
 Chd|        SPGRTAILS                     starter/source/elements/sph/spgrtails.F
 Chd|        SUINIT3                       starter/source/elements/elbuf_init/suinit3.F
@@ -203,6 +207,7 @@ Chd|        SIGEPS190                     engine/source/materials/mat/mat190/sig
 Chd|        SIGEPS25C                     engine/source/materials/mat/mat025/sigeps25c.F
 Chd|        SIGEPS66C                     engine/source/materials/mat/mat066/sigeps66c.F
 Chd|        SIGEPS70                      engine/source/materials/mat/mat070/sigeps70.F
+Chd|        SIGEPS75                      engine/source/materials/mat/mat075/sigeps75.F
 Chd|        SIGEPS76                      engine/source/materials/mat/mat076/sigeps76.F
 Chd|        SIGEPS76C                     engine/source/materials/mat/mat076/sigeps76c.F
 Chd|        TENSORC                       engine/source/output/anim/generate/tensorc.F

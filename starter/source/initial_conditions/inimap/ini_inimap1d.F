@@ -31,6 +31,7 @@ Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mo
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INIMAP1D_MOD                  share/modules1/inimap1d_mod.F 
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
@@ -935,6 +936,7 @@ Chd|-- called by -----------
 Chd|        INI_INIMAP1D                  source/initial_conditions/inimap/ini_inimap1d.F
 Chd|-- calls ---------------
 Chd|        EOSMAIN                       ../common_source/eos/eosmain.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================
       SUBROUTINE SOLVE_EINT(MATID, NFT,    NEL, PRESIN, EINT, RHO,   IFIRST, ILAST, ELEM_LIST, IPM, 
      .                      PM   , BUFMAT, MLW, NG,     IMAT, THETA, NPC,    TF, VAREOS, NVAREOS,
