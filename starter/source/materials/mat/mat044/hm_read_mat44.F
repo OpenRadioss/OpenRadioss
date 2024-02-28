@@ -262,6 +262,7 @@ c-----------------
       PM(89) = RHO0
       PM(27) = SQRT(A1/RHO0)  ! sound speed estimation
       PM(100)= BULK      
+      PM(37) = -EP20          ! PMIN in case of EOS           
 c-----------------
 c     Element buffer variable allocation
 c-----------------
