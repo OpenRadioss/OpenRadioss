@@ -99,6 +99,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       COUNT = 0
       IS_EOS=.FALSE.
+      IEOS = 0
       EOS_EMBEDDED=.FALSE.
       BULK=ZERO
       
@@ -158,9 +159,6 @@ C-----------------------------------------------
            PM(36)= C5
            PM(88)= ZERO 
            IEOS = 1 ! POLYNOMIAL EOS
-           MATPARAM%IEOS = IEOS
-        ELSE        
-          MATPARAM%IEOS = 18   ! linear EOS is used by default 
         ENDIF
 
       IF (PMIN==ZERO) PMIN=-EP20
