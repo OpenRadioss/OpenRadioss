@@ -1028,6 +1028,7 @@ c-------
      .           LSUBMODEL ) 
                  PM(1 ,I) = RHO               
                  PM(89,I) = RHO               
+                 PM(37,I) = -EP20               
 c-------     
           CASE ('LAW110','VEGTER')
             ILAW = 110
