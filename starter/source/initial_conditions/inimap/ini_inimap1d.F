@@ -852,7 +852,8 @@ C     Compute EINT from pressure
                   EBUF => ELBUF_TAB(NG)%BUFLY(1)%EOS(1,1,1)
                   NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS 
                   CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, 1), GBUF%EINT, GBUF%RHO, IFIRST, ILAST, ELEM_LIST, 
-     .                 IPM, PM, BUFMAT, MLW,NG,0,SUBMAT(1)%TEMP,NPC,PLD, EBUF%VAR, NVAREOS)
+     .                 IPM, PM, BUFMAT, MLW,NG,0,SUBMAT(1)%TEMP,NPC,PLD, EBUF%VAR, NVAREOS,
+     .                    MAT_PARAM)
                ELSE IF (MLW == 151) THEN
                   DO IMAT = 1, NBMAT
                      IF (ITY  ==  1) THEN
@@ -867,7 +868,8 @@ C     Compute EINT from pressure
                      NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS                      
                      CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, IMAT), ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%EINT, 
      .                    ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%RHO, IFIRST, ILAST, ELEM_LIST, 
-     .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP,NPC,PLD,EBUF%VAR,NVAREOS)
+     .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP,NPC,PLD,EBUF%VAR,NVAREOS,
+     .                    MAT_PARAM)
                   ENDDO
                ELSE
                   DO IMAT = 1, NBMAT

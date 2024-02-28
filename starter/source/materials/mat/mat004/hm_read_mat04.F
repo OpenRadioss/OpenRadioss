@@ -175,9 +175,7 @@ C-----------------------------------------------
         IPM(4) = IEOS
         MATPARAM%IEOS = IEOS
       ELSE
-        IPM(4) = 18
-        MATPARAM%IEOS = 18   ! linear EOS is used by default 
-        IEOS = 1 ! POLYNOMIAL EOS    
+        IEOS = 0 ! Linear EOS is used by default 
         IPM(4) = IEOS
         MATPARAM%IEOS = IEOS
       ENDIF                                                                                        
