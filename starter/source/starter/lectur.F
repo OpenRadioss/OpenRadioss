@@ -601,6 +601,7 @@ C-----------------------------------------------
       USE PYTHON_FUNCT_MOD
       USE INTER_CAND_MOD
       USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_
+      USE damping_rby_spmdset_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -7649,6 +7650,7 @@ C--------------------------------------------
      .                                    SNPC1,NPC1)
           CALL TRACE_OUT1()
         ENDIF
+        CALL DAMPING_RBY_SPMDSET(IGRNOD,NGRNOD,NDAMP,NRDAMP,DAMPR,NNPBY,NRBYKIN,NPBY)      
       ENDIF
 C--------------------------------------------
       IF(NINTER > 0) THEN

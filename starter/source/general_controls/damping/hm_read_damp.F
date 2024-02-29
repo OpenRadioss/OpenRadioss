@@ -383,12 +383,9 @@ C--       /DAMP/VREL
      .                        CDAMP_MX,CDAMP_MY,CDAMP_MZ,
      .                        DV2_MX,DV2_MY,DV2_MZ,
      .                        FREQ,TSTART,TSTOP
-            IF (FREQ == ZERO) FREQ = EP20
             DAMPR(28,I) = FREQ
-            IF (IRBY > 0) THEN
-C--           Main node is sticked on proc with damped nodes
-              CALL SPMDSET(IRBY,NPBY,NNPBY,IGRNOD(IGR)%ENTITY,IGRNOD(IGR)%NENTITY,0)   
-            ENDIF              
+            DAMPR(29,I) = ZERO
+            DAMPR(30,I) = ZERO            
           ENDIF
         ENDIF
         DAMPR(16,I) = FACTB

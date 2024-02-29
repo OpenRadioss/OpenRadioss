@@ -42,7 +42,8 @@ C
       INTEGER , ALLOCATABLE , DIMENSION(:) :: ID_DAMP_VREL ! ID of ∕DAMP/VREL in DAMP list
       INTEGER , ALLOCATABLE , DIMENSION(:) :: FR_DAMP_VREL ! SPMD communications for /DAMP/VREL
 C
-      INTEGER :: NDAMP_VREL ! Number of /DAMP/VREL      
+      INTEGER :: NDAMP_VREL     ! Number of /DAMP/VREL      
+      INTEGER :: NDAMP_VREL_RBY ! Number of /DAMP/VREL with rigid body
 C
 c---------------
       END MODULE  DAMP_MOD
