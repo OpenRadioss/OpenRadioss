@@ -32,10 +32,10 @@
 !
         subroutine damping_vref_sum6_rby(nsn,igr,id_rby,isk,im,                  &
                                          igrnod,ngrnod,v,vr,a,                   &
-                                         x,ms,stifn,numnod,tagslv_rby,           &
-                                         nrbykin,rby6,iparit,weight,lskew,       &
+                                         x,ms,dt1,numnod,tagslv_rby,             &
+                                         nrbykin,rby6,rby6_c,weight,lskew,       &
                                          numskw,skew,damp_a,dim,damp,            &
-                                         dw,dt1,damp_a2)
+                                         dw,damp_a2,iparit,size_rby6_c)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -67,19 +67,20 @@
           integer,                                   intent(in) :: lskew                       !< first dimension of array skew
           integer,                                   intent(in) :: numskw                      !< number of skews
           integer,                                   intent(in) :: dim                         !< first dimension of array damp
+          integer,                                   intent(in) :: size_rby6_c                 !< dimension of array rby6c 
           my_real,                                   intent(in) :: damp_a(3)                   !< damping coefficient in 3 directions                                         
           my_real,                                   intent(in) :: v(3,numnod)                 !< nodal velocity
           my_real,                                   intent(in) :: vr(3,numnod)                !< nodal rotational velocity
           my_real,                                intent(inout) :: a(3,numnod)                 !< nodal force
           my_real,                                   intent(in) :: x(3,numnod)                 !< node position
           my_real,                                   intent(in) :: ms(numnod)                  !< nodal mass
-          my_real,                                intent(inout) :: stifn(numnod)               !< nodal stiffness
           my_real,                                   intent(in) :: skew(lskew,numskw)          !< main structure for skews
           my_real,                                intent(inout) :: damp(dim,numnod)            !< damping force at previous time step
           my_real,                                intent(inout) :: dw                          !< increment of external forces work
           my_real,                                   intent(in) :: dt1                         !< time step
           my_real,                                   intent(in) :: damp_a2(3)                  !< quadratic damping coefficient in 3 directions
           double precision,                       intent(inout) :: rby6(8,6,nrbykin)           !< working array for rigid body assembly
+          double precision,                       intent(inout) :: rby6_c(2,6,size_rby6_c)         !< working array for rigid body damping assembly
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -87,7 +88,7 @@
           my_real :: v_refmx,v_refmy,v_refmz,fdamp_x,fdamp_y,fdamp_z
           my_real :: fdamp_x_old,fdamp_y_old,fdamp_z_old
           my_real :: dvskw_x,dvskw_y,dvskw_z,fskw_x,fskw_y,fskw_z,dv_x,dv_y,dv_z
-          my_real :: dist2,dt2n,fac,bb,stif_damp,stifr_damp
+          my_real :: dist2,dt2n,fac,bb,stif_damp,stifr_damp,cc
           my_real :: f1(nsn),f2(nsn),f3(nsn),f4(nsn),f5(nsn),f6(nsn),f7(nsn),f8(nsn)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -106,19 +107,11 @@
 #include "vectorize.inc"
           do n=1,nsn           
             i=igrnod(igr)%entity(n)
-            if (tagslv_rby(i)==0) then                
-              fac = one     
-              if (stifn(i) > em20) then    
-                dist2 =(x(1,i)-x(1,im))**2+(x(2,i)-x(2,im))**2+(x(3,i)-x(3,im))**2      
-                dt2n = sqrt(two*ms(i)/stifn(i))     
-                bb=half*max(damp_a(1),damp_a(2),damp_a(3))*dt2n
-                fac = sqrt(bb*bb+one) -bb
-              endif  
-              stif_damp = stifn(i)/fac**2
-              stifr_damp = stif_damp*dist2
-              stifn(i) = stifn(i) + stif_damp
-              f1(n) =  stif_damp*weight(i)
-              f2(n) =  stifr_damp*weight(i) 
+            if (tagslv_rby(i)==0) then                    
+              cc = ms(i)*max(damp_a(1),damp_a(2),damp_a(3))
+              dist2 =(x(1,i)-x(1,im))**2+(x(2,i)-x(2,im))**2+(x(3,i)-x(3,im))**2
+              f1(n) = cc*weight(i)
+              f2(n) = cc*dist2*weight(i)
             endif              
           enddo
 !
@@ -206,8 +199,8 @@
 
           if (iparit > 0) then
 !--------   PARITH/ON assembly -----            
-            call SUM_6_FLOAT(1,nsn,f1,rby6(1,1,id_rby),8)
-            call SUM_6_FLOAT(1,nsn,f2,rby6(2,1,id_rby),8)
+            call SUM_6_FLOAT(1,nsn,f1,rby6_c(1,1,id_rby),2)
+            call SUM_6_FLOAT(1,nsn,f2,rby6_c(2,1,id_rby),2)
             call SUM_6_FLOAT(1,nsn,f3,rby6(3,1,id_rby),8)
             call SUM_6_FLOAT(1,nsn,f4,rby6(4,1,id_rby),8)
             call SUM_6_FLOAT(1,nsn,f5,rby6(5,1,id_rby),8)
@@ -218,14 +211,14 @@
 !--------   PARITH/OFF assembly -----            
 #include "vectorize.inc"
             do n=1,nsn
-              rby6(1,1,id_rby) = rby6(1,1,id_rby) + f1(n) 
-              rby6(2,1,id_rby) = rby6(2,1,id_rby) + f2(n)
+              rby6_c(1,1,id_rby) = rby6_c(1,1,id_rby) + f1(n)
+              rby6_c(2,1,id_rby) = rby6_c(2,1,id_rby) + f2(n)              
               rby6(3,1,id_rby) = rby6(3,1,id_rby) + f3(n)
               rby6(4,1,id_rby) = rby6(4,1,id_rby) + f4(n)
               rby6(5,1,id_rby) = rby6(5,1,id_rby) + f5(n)
               rby6(6,1,id_rby) = rby6(6,1,id_rby) + f6(n)
               rby6(7,1,id_rby) = rby6(7,1,id_rby) + f7(n)
-              rby6(8,1,id_rby) = rby6(8,1,id_rby) + f8(n)   
+              rby6(8,1,id_rby) = rby6(8,1,id_rby) + f8(n)     
             enddo                  
           endif  
 !

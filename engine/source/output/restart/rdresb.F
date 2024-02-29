@@ -1395,9 +1395,14 @@ C--------------------------------------
 C--------------------------------------
 C   /DAMP/VREL
 C--------------------------------------
+      NDAMP_VREL_RBY = 0
       IF (NDAMP_VREL > 0) THEN
         CALL READ_I_C(ID_DAMP_VREL,NDAMP_VREL)
         CALL READ_I_C(FR_DAMP_VREL,NDAMP_VREL*(NSPMD+2)) 
+        DO I=1,NDAMP_VREL
+          J = ID_DAMP_VREL(I)    
+          IF (NINT(DAMPR(NRDAMP*(J-1)+25)) > 0) NDAMP_VREL_RBY = NDAMP_VREL_RBY + 1
+        ENDDO    
       ENDIF       
 C      
 C

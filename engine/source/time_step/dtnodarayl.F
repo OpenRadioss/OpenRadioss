@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE DTNODARAYL(MS       ,IN    ,STIFN ,STIFR ,DT2T     ,
-     1                      IGRNOD   ,DAMPR )
+     1                      IGRNOD   ,DAMPR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
+C     REAL 
       my_real , INTENT(IN) :: DT2T 
       my_real , DIMENSION(NUMNOD), INTENT(IN) ::MS 
       my_real , DIMENSION(NUMNOD*IRODDL), INTENT(IN) ::IN 
@@ -102,10 +102,12 @@ C--
           DAMPT = DT0*DAMPR(16,I)
           DAMPBI = MIN(DAMPBI,DAMPT)
 C--          
-C--       /DAMP/VREL with RBDOY - stability computed in rbyfor.F
+C--       /DAMP/VREL with RBDOY - max damping coefficient computed in rbyfor.F or damping.F
           FL_VREL = NINT(DAMPR(21,I))
-          ID_RBY = NINT(DAMPR(25,I)) 
-          IF ((FL_VREL==1).AND.(ID_RBY > 0)) CYCLE   
+          IF (FL_VREL==1) THEN
+            DAMPAI = DAMPR(30,I)
+            DAMPBI = ZERO
+          ENDIF  
 C--
           IF (DTMI2 > ZERO) THEN
             BBI = DAMPBI+HALF*DAMPAI*DTMI2*DTMI2
@@ -115,13 +117,13 @@ C--
           END IF                               
           DO J=1,IGRNOD(IGR)%NENTITY
             ND=IGRNOD(IGR)%ENTITY(J)
-            BB=DAMPBI/DT2N(ND)+HALF*DAMPAI*DT2N(ND)
-            FAC = SQRT(BB*BB+ONE) -BB
-            IF (FAC*DT2N(ND) < DTMI2) THEN
-              FAC = MAX(FAC,FACI)
-            END IF
-            COEFF =ONE/FAC**2
-            IF(STIFN(ND)>ZERO .AND. MS(ND)>ZERO)THEN
+            IF(STIFN(ND)>EM20 .AND. MS(ND)>ZERO)THEN
+              BB=DAMPBI/DT2N(ND)+HALF*DAMPAI*DT2N(ND)
+              FAC = SQRT(BB*BB+ONE) -BB
+              IF (FAC*DT2N(ND) < DTMI2) THEN
+                FAC = MAX(FAC,FACI)
+              END IF
+              COEFF =ONE/FAC**2
               STIFN(ND) =STIFN(ND)*COEFF
             END IF                               
           END DO
@@ -161,7 +163,7 @@ C------- still factor HALF* in another program
           END IF                               
           DO ND=1,NUMNOD
             COEFF =ONE
-            IF(STIFN(ND)>ZERO .AND. MS(ND)>ZERO)THEN
+            IF(STIFN(ND)>EM20 .AND. MS(ND)>ZERO)THEN
               DT2N(ND) = SQRT(TWO*MS(ND)/STIFN(ND))
               DT2N(ND) = MIN(DTMAX,DT2N(ND))
               BB  = BETA1/DT2N(ND) + ALPHA05*DT2N(ND)
@@ -176,7 +178,7 @@ C------- still factor HALF* in another program
           IF (IRODDL/=0) THEN
             DO ND=1,NUMNOD
               COEFF =ONE
-              IF(STIFR(ND)>ZERO .AND. IN(ND)>ZERO)THEN
+              IF(STIFR(ND)>EM20 .AND. IN(ND)>ZERO)THEN
                 DT2N(ND) = SQRT(TWO*IN(ND)/STIFR(ND))
                 DT2N(ND) = MIN(DTMAX,DT2N(ND))
                 BB  = BETA1/DT2N(ND) + ALPHA05*DT2N(ND)

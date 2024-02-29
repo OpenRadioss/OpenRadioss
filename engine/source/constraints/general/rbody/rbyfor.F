@@ -41,12 +41,13 @@ Chd|====================================================================
      6   NRBYKIN_L,NATIV_SMS,DIMFB,FBSAV6 ,STABSEN ,
      7   TABSENSOR,NODREAC,FTHREAC,CPTREAC,DAMPR   ,
      8   SDAMP    ,DAMP   ,NDAMP_VREL,ID_DAMP_VREL,IGRNOD,
-     9   TAGSLV_RBY,IPARIT,TFEXT)
+     9   TAGSLV_RBY,IPARIT,TFEXT,NDAMP_VREL_RBY,SIZE_RBY6_C)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE damping_vref_rby_mod
+      USE damping_vref_rby_stiff_mod
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,7 +69,7 @@ C-----------------------------------------------
       INTEGER ICODR(*),ISKEW(*),WEIGHT(*),LPBY(*),NPBY(NNPBY,*),
      .        KIND(NRBYKIN),FR_RBY6(*),IAD_RBY(*),IRBKIN_L(*),
      .        NRBYKIN_L, NATIV_SMS(*),DIMFB,STABSEN,TABSENSOR(*),
-     .        NODREAC(*),CPTREAC
+     .        NODREAC(*),CPTREAC,NDAMP_VREL_RBY,SIZE_RBY6_C
 C     REAL
       my_real
      .   RBY(NRBY,*) ,A(3,*) ,AR(3,*) ,X(3,*) ,VR(3,*),FSAV(NTHVKI,*),
@@ -88,7 +89,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  J,K,N,KK,N2,ILAGM,
      .         ISU,ADRSRF,IM, L, LSEND, LRECV, NRBDIM,IPARSENS,ISECT,
-     .         DIM     
+     .         DIM 
+      DOUBLE PRECISION RBY6_C(2,6,SIZE_RBY6_C)      
 C-------------------------------------
 C INIT RBY6 to ZERO for desactivated Rigid Bodies (non multi-thread)
 C-------------------------------------
@@ -105,11 +107,11 @@ C-------------------------------------
             RBY6(5,K,N) = ZERO
             RBY6(6,K,N) = ZERO
             RBY6(7,K,N) = ZERO
-            RBY6(8,K,N) = ZERO          
+            RBY6(8,K,N) = ZERO 
           ENDDO
         ENDIF
       ENDDO
-!$OMP END SINGLE
+!$OMP END SINGLE 
 C-------------------------------------
 C CALCUL FORCE SUPER RIGID BODIES (non multi-thread)
 C-------------------------------------
@@ -251,17 +253,17 @@ c
 !$OMP END DO
    
 C-------------------------------------
-C Treatment of /DAMP/VREL with rigid body
+C Contribution of damping forces from /DAMP/VREL
 C-------------------------------------
-      IF ((NDAMP_VREL > 0).AND.(NRBYKIN_L > 0)) THEN
-!$OMP SINGLE               
+      IF ((NDAMP_VREL_RBY > 0).AND.(NRBYKIN_L > 0)) THEN
+!$OMP SINGLE
         DIM = 3+3*IRODDL    
         CALL damping_vref_rby(IGRNOD    ,NGRNOD   ,V        ,VR        ,A         ,
-     .                        X         ,MS       ,STIFN    ,DAMPR     ,NRDAMP    ,
-     .                        NDAMP     ,NDAMP_VREL,NUMNOD  ,DT1       ,ID_DAMP_VREL,
+     .                        X         ,MS       ,DAMPR    ,NRDAMP    ,NDAMP     ,
+     .                        NDAMP_VREL,IPARIT   ,NUMNOD  ,DT1       ,ID_DAMP_VREL,
      .                        TT        ,NNPBY    ,NRBYKIN  ,NPBY      ,RBY6      ,
-     .                        TAGSLV_RBY,IPARIT   ,WEIGHT   ,LSKEW     ,NUMSKW    ,
-     .                        DIM       ,DAMP     ,SKEW     ,TFEXT)
+     .                        RBY6_C    ,TAGSLV_RBY,WEIGHT  ,LSKEW     ,NUMSKW    ,
+     .                        DIM       ,DAMP     ,SKEW     ,TFEXT     ,SIZE_RBY6_C)
 !$OMP END SINGLE
       ENDIF 
 
@@ -274,11 +276,17 @@ C
 C Comm non multi-thread
 C
 C flag to enable/disable all to all communication for RBY.
-           IF(NINTSTAMP == 0) THEN
-C routine A2A de calcul Parith/ON de A AR STIFN STIFR noeuds main RB
-            NRBDIM=8
-            CALL SPMD_EXCH_A_RB6(
-     1        NRBDIM,IAD_RBY,FR_RBY6,IAD_RBY(NSPMD+1),RBY6)
+          IF(NINTSTAMP == 0) THEN
+            IF (NDAMP_VREL_RBY == 0) THEN
+C routine A2A for Parith/ON computation of A AR STIFN STIFR on main nodes of RB
+              NRBDIM=8
+              CALL SPMD_EXCH_A_RB6(NRBDIM,IAD_RBY,FR_RBY6,IAD_RBY(NSPMD+1),RBY6)
+            ELSE
+C routine A2A for Parith/ON computation of A AR STIFN STIFR C CR on main nodes of RB for /DAMP/VREL
+              NRBDIM=10
+              CALL SPMD_EXCH_A_RB6_VREL(NRBDIM,IAD_RBY,FR_RBY6,IAD_RBY(NSPMD+1),RBY6,
+     .                                  RBY6_C,SIZE_RBY6_C)
+            ENDIF      
 C routine G/S de calcul Parith/ON de A AR STIFN STIFR noeuds main RB
           ELSE
             CALL SPMD_EXCH_A_RB6G(NPBY,RBY6)
@@ -326,7 +334,16 @@ c
       ENDDO
 
 !$OMP END DO
-
+C      
+C-------------------------------------
+C Computation of stability of main node for DAMP/VREL
+C-------------------------------------
+      IF (NDAMP_VREL_RBY > 0) THEN
+!$OMP SINGLE               
+        call damping_vref_rby_stiff(NUMNOD,NNPBY,NRBYKIN,NRBYKIN_L,NPBY,
+     .                              RBY6_C,MS,IN,STIFN,STIFR,SIZE_RBY6_C)
+!$OMP END SINGLE
+      ENDIF 
 C
       RETURN
       END

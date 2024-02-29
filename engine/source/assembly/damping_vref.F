@@ -81,8 +81,6 @@ C
      .                       NUMNOD,NDAMP)
         ENDDO
 C
-        CALL MY_BARRIER
-C
         DO ND = 1, NDAMP_VREL
           ID = ID_DAMP_VREL(ND)
           IF ((NSPMD>1).AND.(FR_DAMP_VREL(ISPMD+1,ND)==1)) THEN
@@ -125,8 +123,6 @@ C
             SUML(7,ND) = SUML(7,ND) + MS(I)*WEIGHT(I)
           ENDDO 
         ENDDO
-C
-        CALL MY_BARRIER
 C
         DO ND = 1, NDAMP_VREL
           ID = ID_DAMP_VREL(ND)
