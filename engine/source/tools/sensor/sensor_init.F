@@ -410,9 +410,7 @@ c----------------------------------------------------------------------
             SENSORS%SENSOR_TAB(I)%TCRIT  = 1.E20
             SENSORS%SENSOR_TAB(I)%VALUE  = ZERO     
             SENSORS%SENSOR_TAB(I)%VAR(:) = ZERO
-#include "lockon.inc"
-             WRITE (IOUT,100) SENSORS%SENSOR_TAB(I)%SENS_ID
-#include "lockoff.inc"
+            IF (ISPMD == 0) WRITE (IOUT,100) SENSORS%SENSOR_TAB(I)%SENS_ID
           ENDDO
         ELSE IF (SENSORS%NRESET > 0) THEN
           DO J=1,SENSORS%NRESET
@@ -423,9 +421,7 @@ c----------------------------------------------------------------------
                 SENSORS%SENSOR_TAB(I)%TCRIT  = 1.E20
                 SENSORS%SENSOR_TAB(I)%VALUE  = ZERO     
                 SENSORS%SENSOR_TAB(I)%VAR(:) = ZERO
-#include "lockon.inc"
-             WRITE (IOUT,100) SENSORS%SENSOR_TAB(I)%SENS_ID
-#include "lockoff.inc"
+                IF (ISPMD == 0) WRITE (IOUT,100) SENSORS%SENSOR_TAB(I)%SENS_ID
                 EXIT
               END IF
             ENDDO
