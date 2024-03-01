@@ -156,12 +156,9 @@ C
       END
 C
 Chd|====================================================================
-Chd|  SPMD_EXCH_A_RB6_VREL               source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
+Chd|  SPMD_EXCH_A_RB6_VREL          source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
 Chd|-- called by -----------
 Chd|        RBYFOR                        source/constraints/general/rbody/rbyfor.F
-Chd|        SMS_ENCIN_2                   source/ams/sms_encin_2.F      
-Chd|        SMS_MASS_SCALE_2              source/ams/sms_mass_scale_2.F 
-Chd|        SMS_PCG                       source/ams/sms_pcg.F          
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================

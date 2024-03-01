@@ -394,6 +394,7 @@ Chd|        SPMD_CHKW                     source/mpi/generic/spmd_chkw.F
 Chd|        SPMD_EXCHM_SMS                source/mpi/ams/spmd_sms.F     
 Chd|        SPMD_EXCH_A_RB6               source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
 Chd|        SPMD_EXCH_A_RB6G              source/mpi/kinematic_conditions/spmd_exch_a_rb6g.F
+Chd|        SPMD_EXCH_A_RB6_VREL          source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
 Chd|        SPMD_EXCH_EFRIC               source/mpi/interfaces/spmd_exch_efric.F
 Chd|        SPMD_EXCH_FA                  source/mpi/elements/spmd_exch_dttsh.F
 Chd|        SPMD_EXCH_I24                 source/mpi/interfaces/spmd_exch_i24.F

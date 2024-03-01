@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        RGBODFP                       source/constraints/general/rbody/rgbodfp.F
 Chd|        SPMD_EXCH_A_RB6               source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
 Chd|        SPMD_EXCH_A_RB6G              source/mpi/kinematic_conditions/spmd_exch_a_rb6g.F
+Chd|        SPMD_EXCH_A_RB6_VREL          source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F

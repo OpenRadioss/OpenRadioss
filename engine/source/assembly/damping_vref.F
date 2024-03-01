@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        DAMPING51                     source/assembly/damping.F     
 Chd|-- calls ---------------
 Chd|        DAMPVREF_SUM6                 source/assembly/dampvref_sum6.F
-Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
 Chd|        SPMD_FR_POFF                  source/mpi/kinematic_conditions/spmd_fr_poff.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F

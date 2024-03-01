@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPMDSET                       source/constraints/general/rbody/spmdset.F
 Chd|-- called by -----------
-Chd|        HM_READ_DAMP                  source/general_controls/damping/hm_read_damp.F
 Chd|        HM_READ_RBODY                 source/constraints/general/rbody/hm_read_rbody.F
 Chd|        TRIRBMERGE                    source/constraints/general/merge/hm_read_merge.F
 Chd|-- calls ---------------
