@@ -27,7 +27,7 @@ Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_drive
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE ST_QAPRINT_NODES(ITAB,X,IMERGE,MERGE_NODE_TOL,MERGE_NODE_TAB,NMERGE_TOT)
+      SUBROUTINE ST_QAPRINT_NODES(ITAB,X,IMERGE,MERGE_NODE_TOL,MERGE_NODE_TAB,NMERGE_TOT,MS)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -47,7 +47,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: ITAB(*),IMERGE(*),MERGE_NODE_TAB(4,*),NMERGE_TOT
       my_real, INTENT(IN) ::
-     .                       X(3,NUMNOD),MERGE_NODE_TOL(*)
+     .                       X(3,NUMNOD),MERGE_NODE_TOL(*),MS(NUMNOD)
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -92,6 +92,19 @@ C
           ENDDO
 C
         ENDIF
+C
+      ELSEIF (MYQAKEY('NODES_MASS')) THEN
+C
+        DO I=1,NUMNOD
+C
+          MY_ID = ITAB(I)
+          CALL QAPRINT('NODE_ID', MY_ID,0.0_8)
+C
+          WRITE(VARNAME,'(A)') 'MASS_'
+          TEMP_DOUBLE = MS(I)
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+C
+        END DO ! DO I=1,NUMNOD        
 C
       END IF
 C-----------------------------------------------
