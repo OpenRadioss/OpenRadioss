@@ -182,6 +182,8 @@ C--------------------------------------------------
           IF (DV2_MY == ZERO) DV2_MY = DV2_MX
           IF (DV2_MZ == ZERO) DV2_MZ = DV2_MX
           IF (XSCALE == ZERO) XSCALE = ONE
+          ALPHA = ZERO
+          BETA = ZERO
 C---------RBODY ID user----------------------------
           IRBY=0
           IF (RBODY_ID /= 0) THEN  
@@ -325,7 +327,7 @@ C--       reduced format only for /DAMP and /DAMP/INTER
           IF ((FLINT==0).AND.(FL_VREL==0)) THEN
 C--         /DAMP
             FACTB = ONE
-            FLG_PRI = 1
+            FLG_PRI = 1 
             DAMPR(3,I) = ALPHA
             DAMPR(4,I) = BETA
             DAMPR(5,I) = ALPHA_Y

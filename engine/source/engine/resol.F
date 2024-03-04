@@ -587,7 +587,7 @@ Chd|====================================================================
      M  T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,DYNAIN_DATA,FCONT_MAX,EBCS_TAB,DIFFUSION,
      N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT,INTERFACES,
      O  DT        ,LOADS     , PYTHON, DPL0CLD,VEL0CLD,
-     P  NDAMP_VREL,ID_DAMP_VREL,FR_DAMP_VREL,NDAMP_VREL_RBY,NAMES_AND_TITLES )
+     P  NDAMP_VREL,ID_DAMP_VREL,FR_DAMP_VREL,NDAMP_VREL_RBY,NDAMP_VREL_RBYG,NAMES_AND_TITLES )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -898,7 +898,7 @@ c
       TYPE(PYTHON_)  ,INTENT(INOUT)                      :: PYTHON
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT)              :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
 C
-      INTEGER ,INTENT(IN) :: NDAMP_VREL,NDAMP_VREL_RBY
+      INTEGER ,INTENT(IN) :: NDAMP_VREL,NDAMP_VREL_RBY,NDAMP_VREL_RBYG
       INTEGER ,INTENT(IN) :: ID_DAMP_VREL(NDAMP_VREL),FR_DAMP_VREL(NSPMD+2,NDAMP_VREL)    
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1151,7 +1151,9 @@ C---Nitsche Method----
       my_real
      .         DTNOD_NLOCAL
       INTEGER, DIMENSION(:),ALLOCATABLE ::IBUFPDEL, NINDEXPDEL
+      
       DOUBLE PRECISION :: argin,argout
+      DOUBLE PRECISION, DIMENSION(:,:,:),ALLOCATABLE :: RBY6_C
 C----------------------------------------------------------------------------------
 C IMPVEL/FGEO
       INTEGER FXVEL_FGEO
@@ -1276,11 +1278,12 @@ C exit flag for MaDyMo coupling
       LSKYI_COUNT = 0
       FLAG_SLIPRING_UPDATE = 0
       FLAG_RETRACTOR_UPDATE = 0
-      IF (NDAMP_VREL_RBY > 0) THEN
+      IF (NDAMP_VREL_RBYG > 0) THEN
         SIZE_RBY6_C = NRBYKIN
       ELSE
         SIZE_RBY6_C = 0
-      ENDIF  
+      ENDIF
+      ALLOCATE(RBY6_C(2,6,SIZE_RBY6_C))  
 c
       IF(ISPMD==0)THEN
           DO I = 1,NUMMPC
@@ -5652,7 +5655,8 @@ C===============================================================================
      6      NRBYKIN_L,NATIV_SMS,SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN     ,
      7      SENSORS%TABSENSOR,NODREAC,FTHREAC,CPTREAC     ,DAMPR,
      8      SDAMP    ,DAMP   ,NDAMP_VREL,ID_DAMP_VREL     ,IGRNOD      ,
-     9      TAGSLV_RBY,IPARIT,TFEXT,NDAMP_VREL_RBY,SIZE_RBY6_C)
+     9      TAGSLV_RBY,IPARIT,TFEXT     ,NDAMP_VREL_RBY   ,NDAMP_VREL_RBYG,
+     A      SIZE_RBY6_C,RBY6_C)
 
 !$OMP END PARALLEL
           IF (IMON>0) CALL STOPTIME(4,1)

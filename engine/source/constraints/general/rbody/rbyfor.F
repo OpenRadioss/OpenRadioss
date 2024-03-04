@@ -42,7 +42,8 @@ Chd|====================================================================
      6   NRBYKIN_L,NATIV_SMS,DIMFB,FBSAV6 ,STABSEN ,
      7   TABSENSOR,NODREAC,FTHREAC,CPTREAC,DAMPR   ,
      8   SDAMP    ,DAMP   ,NDAMP_VREL,ID_DAMP_VREL,IGRNOD,
-     9   TAGSLV_RBY,IPARIT,TFEXT,NDAMP_VREL_RBY,SIZE_RBY6_C)
+     9   TAGSLV_RBY,IPARIT,TFEXT,NDAMP_VREL_RBY,NDAMP_VREL_RBYG,
+     A   SIZE_RBY6_C,RBY6_C)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,13 +71,14 @@ C-----------------------------------------------
       INTEGER ICODR(*),ISKEW(*),WEIGHT(*),LPBY(*),NPBY(NNPBY,*),
      .        KIND(NRBYKIN),FR_RBY6(*),IAD_RBY(*),IRBKIN_L(*),
      .        NRBYKIN_L, NATIV_SMS(*),DIMFB,STABSEN,TABSENSOR(*),
-     .        NODREAC(*),CPTREAC,NDAMP_VREL_RBY,SIZE_RBY6_C
+     .        NODREAC(*),CPTREAC,NDAMP_VREL_RBY,NDAMP_VREL_RBYG,
+     .        SIZE_RBY6_C
 C     REAL
       my_real
      .   RBY(NRBY,*) ,A(3,*) ,AR(3,*) ,X(3,*) ,VR(3,*),FSAV(NTHVKI,*),
      .   IN(*) ,STIFN(*),STIFR(*),FANI(3,*),MS(*),V(3,*) ,
      .   BUFSF(*), SKEW(LSKEW,*),FTHREAC(6,*)
-      DOUBLE PRECISION RBY6(8,6,NRBYKIN)
+      DOUBLE PRECISION RBY6(8,6,NRBYKIN),RBY6_C(2,6,SIZE_RBY6_C)
       DOUBLE PRECISION
      .        FBSAV6(12,6,DIMFB),RBID(12,6)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -90,8 +92,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  J,K,N,KK,N2,ILAGM,
      .         ISU,ADRSRF,IM, L, LSEND, LRECV, NRBDIM,IPARSENS,ISECT,
-     .         DIM 
-      DOUBLE PRECISION RBY6_C(2,6,SIZE_RBY6_C)      
+     .         DIM    
 C-------------------------------------
 C INIT RBY6 to ZERO for desactivated Rigid Bodies (non multi-thread)
 C-------------------------------------
@@ -278,7 +279,7 @@ C Comm non multi-thread
 C
 C flag to enable/disable all to all communication for RBY.
           IF(NINTSTAMP == 0) THEN
-            IF (NDAMP_VREL_RBY == 0) THEN
+            IF (NDAMP_VREL_RBYG == 0) THEN
 C routine A2A for Parith/ON computation of A AR STIFN STIFR on main nodes of RB
               NRBDIM=8
               CALL SPMD_EXCH_A_RB6(NRBDIM,IAD_RBY,FR_RBY6,IAD_RBY(NSPMD+1),RBY6)
