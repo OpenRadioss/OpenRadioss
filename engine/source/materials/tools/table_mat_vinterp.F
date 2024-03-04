@@ -73,9 +73,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      LOGICAL, DIMENSION(NEL) :: NEED_TO_COMPUTE
+      LOGICAL :: NEED_TO_COMPUTE
       INTEGER  I,J,K,L,M,N,I1,I2,J1,J2,K1,K2,L1,L2,NDIM
-      INTEGER :: MINDX_1,MINDX_2
       INTEGER :: NINDX_1,NINDX_2
       INTEGER, DIMENSION(NEL) :: INDX_1,INDX_2
       INTEGER, DIMENSION(4)   :: LDIM
@@ -95,11 +94,8 @@ C-----
 c
       DO K=1,NDIM
         IPOS(1:NEL,K) = MAX(IPOS(1:NEL,K),1)
-c        IPOS(1:NEL,K) = MIN(IPOS(1:NEL,K),LDIM(K)-1)
         NINDX_1 = 0
-        MINDX_1 = 0
         NINDX_2 = 0
-        MINDX_2 = LDIM(K) + 1
 #include "vectorize.inc"
         DO I=1,NEL
           M  = IPOS(I,K) 
@@ -107,44 +103,42 @@ c        IPOS(1:NEL,K) = MIN(IPOS(1:NEL,K),LDIM(K)-1)
           IF (DX >= ZERO)THEN
             NINDX_1 = NINDX_1 + 1
             INDX_1(NINDX_1) = I
-            MINDX_1 = MAX(MINDX_1,M)
           ELSE
             NINDX_2 = NINDX_2 + 1
             INDX_2(NINDX_2) = I
-            MINDX_2 = MIN(MINDX_2,M)
           ENDIF
         ENDDO
 
-        NEED_TO_COMPUTE(1:NINDX_1) = .TRUE.
-        DO N = MINDX_1,1,-1
-#include "vectorize.inc"
-          DO J=1,NINDX_1
-            IF(NEED_TO_COMPUTE(J)) THEN
-              I = INDX_1(J)
-              M = IPOS(I,K)
-              DX = TABLE%X(K)%VALUES(N) - XX(I,K)
-              IF (DX < ZERO .OR. N <= 1) THEN 
-                IPOS(I,K)=MAX(N,1)
-                NEED_TO_COMPUTE(J) = .FALSE.
-              ENDIF
-            ENDIF
+
+        DO J=1,NINDX_1
+          I = INDX_1(J)
+          M = IPOS(I,K)
+          NEED_TO_COMPUTE = .TRUE.
+          DO WHILE (NEED_TO_COMPUTE )
+             DX = TABLE%X(K)%VALUES(M) - XX(I,K)
+             IF (DX < ZERO .OR. M <= 1 ) THEN
+                IPOS(I,K) = MAX(M,1)
+                NEED_TO_COMPUTE = .FALSE.
+             ELSE
+                M=M-1
+             ENDIF
           ENDDO
         ENDDO
+
 c
-        NEED_TO_COMPUTE(1:NINDX_2) = .TRUE.
-c
-        DO N=MINDX_2,LDIM(K)
-#include "vectorize.inc"
-          DO J=1,NINDX_2
-            IF (NEED_TO_COMPUTE(J)) THEN
-              I = INDX_2(J)
-              M = IPOS(I,K) 
-              DX = TABLE%X(K)%VALUES(N) - XX(I,K)
-              IF (DX >= ZERO .OR. N == LDIM(K)) THEN
-                IPOS(I,K) = N-1
-                NEED_TO_COMPUTE(J) = .FALSE.
-              ENDIF
-            ENDIF
+
+        DO J=1,NINDX_2
+          I = INDX_2(J)
+          M = IPOS(I,K) 
+          NEED_TO_COMPUTE = .TRUE.
+          DO WHILE (NEED_TO_COMPUTE )
+             DX = TABLE%X(K)%VALUES(M) - XX(I,K)
+             IF (DX >= ZERO .OR. M == LDIM(K)) THEN
+                IPOS(I,K) = M-1
+                NEED_TO_COMPUTE = .FALSE.
+             ELSE
+                M=M+1
+             ENDIF
           ENDDO
         ENDDO
 
