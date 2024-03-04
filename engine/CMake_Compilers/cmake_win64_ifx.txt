@@ -38,7 +38,7 @@ set ( mpiver "${MPI}" )
     #MPI     
     set (I_MPI_ROOT "$ENV{I_MPI_ROOT}")
     set (mpi_inc "-I\"${I_MPI_ROOT}/include\" ")
-    set (mpi_lib "\"${I_MPI_ROOT}/lib/release/impi.lib\"")
+    set (mpi_lib "impi.lib")
     set (mpi_flag "-DMPI ${mpi_inc}")
    
     #MKL
