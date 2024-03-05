@@ -69,6 +69,15 @@ C-----------------------------------------------
       CLAUSE%ELLIPSE_A=0
       CLAUSE%ELLIPSE_B=0
       CLAUSE%ELLIPSE_C=0
+
+      CLAUSE%NB_PLANE= 0          ! CLAUSE nb of Planes within a SET (max = 1, one per /SET)
+      CLAUSE%PLANE_IAD_BUFR= 0
+      CLAUSE%PLANE_XM=0
+      CLAUSE%PLANE_YM=0
+      CLAUSE%PLANE_ZM=0
+      CLAUSE%PLANE_XM1=0
+      CLAUSE%PLANE_YM1=0
+      CLAUSE%PLANE_ZM1=0
 !---
       IF(ALLOCATED( CLAUSE%NODE ))          DEALLOCATE( CLAUSE%NODE )
       IF(ALLOCATED( CLAUSE%PART ))          DEALLOCATE( CLAUSE%PART )

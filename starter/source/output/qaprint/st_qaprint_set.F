@@ -371,7 +371,7 @@ C-----------------------------------------------
               WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'SURFACE_NB_SEG'
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NB_SURF_SEG,0.0_8)
               DO N = 1,NB_SURF_SEG
-                IF(SET(IGS)%NB_ELLIPSE == 0)THEN
+                IF(SET(IGS)%NB_ELLIPSE == 0 .AND. SET(IGS)%NB_PLANE== 0)THEN
                   WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_NODE_1'
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IGRSURF(IGR)%NODES(N,1)),0.0_8)
                   WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_NODE_2'
@@ -414,6 +414,25 @@ C-----------------------------------------------
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SET(IGS)%ELLIPSE_N,0.0_8)
                   WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'Ellipse_Skew_ID'
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SET(IGS)%ELLIPSE_ID_MADYMO,0.0_8)
+                ELSE IF(SET(IGS)%NB_PLANE == 1)THEN
+                  WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'Plane_XM = '
+                  TEMP_DOUBLE = SET(IGS)%PLANE_XM
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                  WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'PLANE_YM = '
+                  TEMP_DOUBLE = SET(IGS)%PLANE_YM
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                  WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'PLANE_ZM = '
+                  TEMP_DOUBLE = SET(IGS)%PLANE_ZM
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                  WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'PLANE_XM1 = '
+                  TEMP_DOUBLE = SET(IGS)%PLANE_XM1
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                  WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'PLANE_YM1 = '
+                  TEMP_DOUBLE = SET(IGS)%PLANE_YM1
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                  WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'PLANE_ZM1 = '
+                  TEMP_DOUBLE = SET(IGS)%PLANE_ZM1
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
                 ENDIF
 
               ENDDO

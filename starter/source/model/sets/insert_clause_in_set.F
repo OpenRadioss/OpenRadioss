@@ -525,6 +525,7 @@ C-----------------------------------------------
 C     SURFACES
 C-----------------------------------------------
 
+
       !------------------------!
       !    SURFACES  -ELLIPSE- !
       !------------------------!
@@ -541,6 +542,20 @@ C-----------------------------------------------
          SET%ELLIPSE_C = CLAUSE%ELLIPSE_C
          CALL MY_ALLOC(SET%ELLIPSE_SKEW,9)
          SET%ELLIPSE_SKEW(1:9) = CLAUSE%ELLIPSE_SKEW(1:9)
+
+      !------------------------!
+      !    SURFACES  -PLANE- !
+      !------------------------!
+      ELSEIF ( SET%NB_PLANE > 0 ) THEN
+
+         SET%PLANE_IAD_BUFR = CLAUSE%PLANE_IAD_BUFR
+         SET%PLANE_XM = CLAUSE%PLANE_XM
+         SET%PLANE_YM = CLAUSE%PLANE_YM
+         SET%PLANE_ZM = CLAUSE%PLANE_ZM
+         SET%PLANE_XM1 = CLAUSE%PLANE_XM1
+         SET%PLANE_YM1 = CLAUSE%PLANE_YM1
+         SET%PLANE_ZM1 = CLAUSE%PLANE_ZM1
+
       ELSE
         !------------------------!
         !    classic SURFACES    !
