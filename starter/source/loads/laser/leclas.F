@@ -52,7 +52,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
 #include      "com04_c.inc"
-#include      "sysunit.inc"
 #include      "tabsiz_c.inc"
 #include      "titr_c.inc"
 C-----------------------------------------------
@@ -109,7 +108,7 @@ C-----------------------------------------------
           !---------------------------------!
           !             UNITS               !
           !---------------------------------!
-          DO J=1,NUNITS
+          DO J=1,UNITAB%NUNITS
             IF (UNITAB%UNIT_ID(J) == UID) THEN    
               FAC_M = UNITAB%FAC_M(J)
               FAC_L = UNITAB%FAC_L(J)

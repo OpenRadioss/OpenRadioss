@@ -83,7 +83,6 @@ C-----------------------------------------------
 #include      "scr23_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -326,7 +325,7 @@ C-------------------------
               NSEG=0
               IADBOX = 1
               IFLAGUNIT = 0
-              DO J=1,NUNITS
+              DO J=1,UNITAB%NUNITS
                 IF (UNITAB%UNIT_ID(J) == UID) THEN
                   FAC_L = UNITAB%FAC_L(J)
                   IFLAGUNIT = 1

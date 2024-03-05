@@ -75,7 +75,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -278,9 +277,9 @@ C
         ISRATE = 1
         IF (VP == 0) VP = 2
         IF (VP == 1) THEN
-          ASRATE = 1.0D4*FAC_T_WORK
+          ASRATE = 1.0D4*UNITAB%FAC_T_WORK
         ELSE
-          IF (ASRATE == ZERO) ASRATE = 1.0D4*FAC_T_WORK
+          IF (ASRATE == ZERO) ASRATE = 1.0D4*UNITAB%FAC_T_WORK
         ENDIF  
       ELSE
         ISRATE = 0

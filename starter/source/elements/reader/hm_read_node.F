@@ -98,7 +98,6 @@ C-----------------------------------------------
 #include      "titr_c.inc"
 #include      "sphcom.inc"
 #include      "remesh_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -184,7 +183,7 @@ C---------------------------------------------------
           IF(UID_NOD(N) /= UID )THEN
             UID = UID_NOD(N)
             IFLAGUNIT = 0
-            DO J=1,NUNITS
+            DO J=1,UNITAB%NUNITS
               IF (UNITAB%UNIT_ID(J) == UID) THEN
                 FAC_L = UNITAB%FAC_L(J)
                 IFLAGUNIT = 1
@@ -251,7 +250,7 @@ C---------------------------------------------------
           IF(UID_NOD(N) /= UID )THEN
             UID = UID_NOD(N)
             IFLAGUNIT = 0
-            DO J=1,NUNITS
+            DO J=1,UNITAB%NUNITS
               IF (UNITAB%UNIT_ID(J) == UID) THEN
                 FAC_L = UNITAB%FAC_L(J)
                 IFLAGUNIT = 1
@@ -345,7 +344,7 @@ C---------------------------------------------------
           IF(UID_NOD(I) /= UID )THEN
             UID = UID_NOD(I)
             IFLAGUNIT = 0
-            DO J=1,NUNITS
+            DO J=1,UNITAB%NUNITS
               IF (UNITAB%UNIT_ID(J) == UID) THEN
                 FAC_L = UNITAB%FAC_L(J)
                 IFLAGUNIT = 1

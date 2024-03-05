@@ -50,7 +50,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "sysunit.inc"
 #include      "scr17_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
@@ -283,9 +282,9 @@ C-----------------------------------------------
 
 !     ***********************************
 !     Units for hard-coded default values
-      FAC_M = FAC_M_WORK
-      FAC_L = FAC_L_WORK
-      FAC_T = FAC_T_WORK
+      FAC_M = UNITAB%FAC_M_WORK
+      FAC_L = UNITAB%FAC_L_WORK
+      FAC_T = UNITAB%FAC_T_WORK
       FAC_CP = FAC_L * FAC_L / (FAC_T * FAC_T)
 
       R_IGC1 = R_IGC / FAC_M / FAC_L / FAC_L * (FAC_T * FAC_T)

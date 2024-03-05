@@ -73,7 +73,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -157,7 +156,7 @@ C-----------------------------------------------
       G = E/TWO/(ONE+NU) 
       NUPARAM   = 14
       UPARAM(1) = A0
-      UPARAM(2) = ONE/FAC_T_WORK
+      UPARAM(2) = ONE/UNITAB%FAC_T_WORK
       UPARAM(3) = G
       UPARAM(4) = M1
       UPARAM(5) = M2

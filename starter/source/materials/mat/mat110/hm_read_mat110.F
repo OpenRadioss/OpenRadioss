@@ -59,7 +59,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 C
 C-----------------------------------------------
@@ -421,11 +420,11 @@ c---------------------
         ! Set strain-rate filtering
         ISRATE  = 1
         ! Default cutting frequency
-        IF ((ASRATE == ZERO).OR.(Ivflag == 1)) ASRATE = 10000.0D0*FAC_T_WORK
+        IF ((ASRATE == ZERO).OR.(Ivflag == 1)) ASRATE = 10000.0D0*UNITAB%FAC_T_WORK
       ENDIF
       ! Boltzmann constant
       KBOLTZ = 8.6173303*EM5 ! eV/K (~J/K)
-      KBOLTZ = KBOLTZ/(FAC_M_WORK*FAC_L_WORK*FAC_L_WORK/(FAC_T_WORK*FAC_T_WORK))
+      KBOLTZ = KBOLTZ/(UNITAB%FAC_M_WORK*UNITAB%FAC_L_WORK*UNITAB%FAC_L_WORK/(UNITAB%FAC_T_WORK*UNITAB%FAC_T_WORK))
       ! Kinematic hardening factor
       IF (FISOKIN > ONE)   FISOKIN = ONE
       IF (FISOKIN < ZERO) FISOKIN = ZERO

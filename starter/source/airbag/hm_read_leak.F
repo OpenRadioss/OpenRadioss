@@ -54,7 +54,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -103,7 +102,7 @@ c
 c
         ! Checking unit IDs
         IFLAGUNIT = 0
-        DO IUNIT=1,NUNITS                           
+        DO IUNIT=1,UNITAB%NUNITS                           
           IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN
             IFLAGUNIT = 1               
             EXIT                                

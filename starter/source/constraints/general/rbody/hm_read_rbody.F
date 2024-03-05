@@ -83,7 +83,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "scr03_c.inc"
 #include      "param_c.inc"
-#include      "sysunit.inc"
 #include      "r2r_c.inc"
 #include      "sphcom.inc"
 #include      "sms_c.inc"
@@ -204,7 +203,7 @@ C
         NRB = NRB + 1
 C-------
         IFLAGUNIT = 0
-        DO J=1,NUNITS
+        DO J=1,UNITAB%NUNITS
           IF (UNITAB%UNIT_ID(J) == UID) THEN
             IFLAGUNIT = 1
             EXIT

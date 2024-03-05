@@ -165,7 +165,6 @@ C-----------------------------------------------
       USE INTBUF_MOD
       USE DSGRAPH_MOD
       USE RESTMOD
-      USE UNITS_MOD
       USE INTSTAMP_GLOB_MOD
       USE TABLE_GLOB_MOD
       USE MESSAGE_MOD
@@ -206,6 +205,7 @@ C-----------------------------------------------
       USE LOADS_MOD
       USE PYTHON_FUNCT_MOD
       USE NAMES_AND_TITLES_MOD, only: NAMES_AND_TITLES_
+      USE UNITAB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -355,6 +355,7 @@ C MDS Table
       TYPE(t_segvar) :: SEGVAR
 C----------------------------------------------------------------------------------
       TYPE(NAMES_AND_TITLES_) :: NAMES_AND_TITLES  !< NAMES_AND_TITLES host the input deck names and titles for outputs
+      TYPE(UNIT_TYPE_) :: UNITAB !< units conversion
 C------------------------------------------------------------------
 C to build a IBM PARALLEL version
 C In starter : define install parameter nspmd 
@@ -2249,7 +2250,7 @@ C---------------------------------------------------------------------
      .                   DRAPE_SH4N   ,DRAPE_SH3N      ,T_MONVOL        ,SENSORS    ,EBCS_TAB        ,
      .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    ,
      .                   OUTPUT       ,INTERFACES      ,DT              ,LOADS      ,MAT_ELEM  , PYTHON,
-     .                   NAMES_AND_TITLES)
+     .                   NAMES_AND_TITLES, UNITAB)
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")

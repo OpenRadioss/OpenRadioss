@@ -188,7 +188,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "tablen_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "userlib.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
@@ -282,7 +281,7 @@ C--------------------------------------------------
 C       CHECK IF UID EXISTS
 C--------------------------------------------------
         IFLAGUNIT = 0
-        DO IUNIT=1,NUNITS
+        DO IUNIT=1,UNITAB%NUNITS
           IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN
             IFLAGUNIT = 1
             EXIT

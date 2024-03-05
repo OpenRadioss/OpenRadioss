@@ -61,6 +61,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD      
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD          
+      USE UNITAB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,7 +71,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -81,7 +81,7 @@ C-----------------------------------------------
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
       INTEGER,INTENT(IN)                    :: MAT_ID
       CHARACTER*nchartitle,INTENT(IN)       :: TITR
-      my_real,INTENT(IN)                    :: UNITAB(LUNIT,NUNITS)
+      TYPE(UNIT_TYPE_), INTENT(IN)          :: UNITAB
       TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(NSUBMOD)
       TYPE(MATPARAM_STRUCT_),INTENT(INOUT)  :: MATPARAM
 C-----------------------------------------------
@@ -124,8 +124,8 @@ C-----------------------------------------------
       
       !unit needed for millers extension
       IFLAGUNIT = 0                            
-      DO J=1,NUNITS                            
-        IF (NINT(UNITAB(1,J)) == UID) THEN     
+      DO J=1,UNITAB%NUNITS                            
+        IF (UNITAB%UNIT_ID(J) == UID) THEN     
           IFLAGUNIT = 1                        
           EXIT                                 
         ENDIF                                  

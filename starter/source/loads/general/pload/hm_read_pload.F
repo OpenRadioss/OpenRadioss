@@ -65,7 +65,6 @@ C-----------------------------------------------
 #include      "scr03_c.inc"
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
-#include      "sysunit.inc"
 #include      "r2r_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -156,7 +155,7 @@ C--------------------------------------------------
         CALL HM_GET_FLOATV_DIM('magnitude',FAC_FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C--------------------------------------------------
         IFLAGUNIT = 0                  
-        DO J=1,NUNITS                           
+        DO J=1,UNITAB%NUNITS                           
           IF (UNITAB%UNIT_ID(J) == UID) THEN                     
             IFLAGUNIT = 1                       
             EXIT                                

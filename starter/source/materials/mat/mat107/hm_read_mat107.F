@@ -58,7 +58,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 C
 C-----------------------------------------------
@@ -314,7 +313,7 @@ c
       PARMAT(4) = ZERO
       PARMAT(5) = ZERO
       ASRATE = ZERO
-      IF (ITAB > 0) ASRATE = 10000.0D0*FAC_T_WORK
+      IF (ITAB > 0) ASRATE = 10000.0D0*UNITAB%FAC_T_WORK
 c
       ! Elasticity parameter
       !  Plane stress elastic constant

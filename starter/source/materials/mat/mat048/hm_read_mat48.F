@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD          
       USE HM_OPTION_READ_MOD 
+      USE UNITAB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,13 +68,12 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN)    :: MAT_ID,MAXUPARAM
-      my_real, DIMENSION(LUNIT,NUNITS) ,INTENT(IN) :: UNITAB
+      TYPE(UNIT_TYPE_), INTENT(in) :: UNITAB
       my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       INTEGER, INTENT(INOUT)  :: NUPARAM,NUVAR,ISRATE,NFUNC

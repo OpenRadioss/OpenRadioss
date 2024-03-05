@@ -587,7 +587,7 @@ Chd|====================================================================
      M  T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,DYNAIN_DATA,FCONT_MAX,EBCS_TAB,DIFFUSION,
      N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT,INTERFACES,
      O  DT        ,LOADS     , PYTHON, DPL0CLD,VEL0CLD,
-     P  NDAMP_VREL,ID_DAMP_VREL,FR_DAMP_VREL,NDAMP_VREL_RBY,NDAMP_VREL_RBYG,NAMES_AND_TITLES )
+     P  NDAMP_VREL,ID_DAMP_VREL,FR_DAMP_VREL,NDAMP_VREL_RBY,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -597,7 +597,6 @@ C-----------------------------------------------
       USE ICONTACT_MOD
       USE REMESH_MOD
       USE HEAT_MOD
-      USE UNITS_MOD
       USE SMS_MOD
       USE SMS_PCG_PROJ
       USE THK_MOD
@@ -670,6 +669,7 @@ C-----------------------------------------------
       USE FORCE_MOD , ONLY : FORCE
       USE ARRAY_MOD , ONLY : array_type
       USE NAMES_AND_TITLES_MOD, only: NAMES_AND_TITLES_
+      USE UNITAB_MOD, ONLY : UNIT_TYPE_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -848,6 +848,7 @@ C-----------------------------------------------
       TYPE (SPSYM_STRUCT) :: XSPSYM,VSPSYM,WSMCOMP
       TYPE (STACK_PLY) :: STACK
       TYPE (MPI_MIN_REAL_STRUCT) :: MPI_BUF
+      TYPE(UNIT_TYPE_) :: UNITAB !structure containing units conversion ratios
       INTEGER MIN_TAB(4)
       my_real :: DT2R
 C

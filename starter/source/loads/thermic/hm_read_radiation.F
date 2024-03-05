@@ -56,7 +56,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -98,7 +97,7 @@ C--------------------------------------------------
      .                       OPTION_ID = ID,
      .                       OPTION_TITR = TITR)
         IFLAGUNIT = 0                                           
-        DO J=1,NUNITS                           
+        DO J=1,UNITAB%NUNITS                           
           IF (UNITAB%UNIT_ID(J) == UID) THEN       
             IFLAGUNIT = 1                       
             EXIT                                
@@ -132,8 +131,8 @@ C--------------------------------------------------
         IF (FCY == ZERO) FCY = FCY_DIM
         IF(TSTOP == ZERO) TSTOP= EP30 * TSTOP_DIM      
 C
-        FAC_M = FAC_M_WORK
-        FAC_T = FAC_T_WORK
+        FAC_M = UNITAB%FAC_M_WORK
+        FAC_T = UNITAB%FAC_T_WORK
         SIGMA=STEFBOLTZ*(FAC_T*FAC_T*FAC_T)/FAC_M
 C
         IS=0                                                     

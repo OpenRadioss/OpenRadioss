@@ -77,7 +77,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
@@ -158,7 +157,7 @@ c    input check
 C------------
 c
       IF (FCUT == ZERO) THEN
-        FCUT = 500.0D0*FAC_T_WORK
+        FCUT = 500.0D0*UNITAB%FAC_T_WORK
       END IF 
       ISRAT  = 0
       ISRATE = 0

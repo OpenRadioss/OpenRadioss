@@ -174,7 +174,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "eigcom.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -239,7 +238,7 @@ C=====================================================================
         CALL HM_GET_FLOATV('Tol',TOL,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
          IFLAGUNIT = 0                                           
-         DO J=1,NUNITS                          
+         DO J=1,UNITAB%NUNITS                          
            IF (UNITAB%UNIT_ID(J) == UID) THEN
              FAC_T = UNITAB%FAC_T(J)
              IFLAGUNIT = 1                      

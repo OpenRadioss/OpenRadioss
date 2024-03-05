@@ -30,7 +30,7 @@ Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
 Chd|====================================================================
-      SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,MS_ND,P,INTER_PARAMETERS)
+      SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,MS_ND,P,INTER_PARAMETERS, UNITAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -38,6 +38,7 @@ C-----------------------------------------------
       USE OUTPUTS_MOD
       USE ALE_MOD
       USE PARAMETERS_MOD
+      USE UNITAB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,6 +48,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LMXVREA,LVARREA, I
       my_real TABVREA(*),MS_ND
+      TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -57,7 +59,6 @@ C-----------------------------------------------
 #include      "scr18_c.inc"
 #include      "sms_c.inc"
 #include      "sphcom.inc"
-#include      "sysunit.inc"
 #include      "inter22.inc"
 #include      "mmale51_c.inc"
 #include      "thermal_c.inc"
@@ -142,9 +143,9 @@ C
       LVARREA= 105
       TABVREA(106)=DWMAD
       LVARREA=106
-      TABVREA(107)=FAC_MASS
-      TABVREA(108)=FAC_LENGTH
-      TABVREA(109)=FAC_TIME
+      TABVREA(107)=UNITAB%FAC_MASS
+      TABVREA(108)=UNITAB%FAC_LENGTH
+      TABVREA(109)=UNITAB%FAC_TIME
       TABVREA(110)=T1SH
       TABVREA(111) =  ALE%UPWIND%UPWSM
       RVARINT = 111

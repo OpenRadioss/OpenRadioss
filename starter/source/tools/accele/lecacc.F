@@ -62,7 +62,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
 #include      "com04_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------
@@ -103,7 +102,7 @@ C---------------------------------------------------
         NOM_OPT(1, I) = ID
         CALL FRETITL(TITR, NOM_OPT(LNOPT1-LTITR+1, I), LTITR)
         FOUND = .FALSE.
-          DO J=1,NUNITS
+          DO J=1,UNITAB%NUNITS
             IF (UNITAB%UNIT_ID(J) == UID) THEN  
               FOUND = .TRUE.  
               EXIT

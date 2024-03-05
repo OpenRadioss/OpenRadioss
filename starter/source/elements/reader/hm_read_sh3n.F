@@ -86,7 +86,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "param_c.inc"
 #include      "remesh_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -212,7 +211,7 @@ C--------------------------------------------------
             IF(UID_SH3N(N) /= UID )THEN
               UID = UID_SH3N(N)
               IFLAGUNIT = 0          
-              DO J=1,NUNITS                         
+              DO J=1,UNITAB%NUNITS                         
                 IF (UNITAB%UNIT_ID(J) == UID) THEN  
                   FAC_L = UNITAB%FAC_L(J)                 
                   IFLAGUNIT = 1                     

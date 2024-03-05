@@ -73,8 +73,6 @@ C     NIMV, NRVOLU
 #include      "param_c.inc"
 C     IIN
 #include      "units_c.inc"
-C     LUNIT
-#include      "sysunit.inc"
 C     IPRI
 #include      "scr03_c.inc"  
 C-----------------------------------------------
@@ -449,7 +447,7 @@ C     ==============
 
       IF (AMU == ZERO) AMU = EM02
       IF (PEXT == ZERO) THEN
-         PEXT = 101325.D0 * (FAC_L_WORK * FAC_T_WORK * FAC_T_WORK) / FAC_M_WORK
+         PEXT = 101325.D0 * (UNITAB%FAC_L_WORK * UNITAB%FAC_T_WORK * UNITAB%FAC_T_WORK) / UNITAB%FAC_M_WORK
       ENDIF
 
       PINI = PEXT

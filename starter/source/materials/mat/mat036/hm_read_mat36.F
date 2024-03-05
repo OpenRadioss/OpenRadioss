@@ -78,7 +78,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -227,7 +226,7 @@ c-------------------------
         ENDIF
 c
         IF (FCUT == ZERO .or. VP == 1) THEN
-          FCUT = 10000.0D0*FAC_T_WORK
+          FCUT = 10000.0D0*UNITAB%FAC_T_WORK
         END IF 
       ENDIF
       ISRATE = MAX(ISRATE,ISRAT) 

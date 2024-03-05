@@ -58,7 +58,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "nchar_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 C
 C-----------------------------------------------
@@ -361,7 +360,7 @@ c
       LTYPER0 = MAX(LTYPER0,1) 
 c 
       ! Default strain rate cutoff frequency
-      IF (FCUT == ZERO) FCUT = 5000.0D0*FAC_T_WORK
+      IF (FCUT == ZERO) FCUT = 5000.0D0*UNITAB%FAC_T_WORK
 c
 c--------------------------
 c     Filling buffer tables

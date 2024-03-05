@@ -58,7 +58,6 @@ C-----------------------------------------------
 #include      "random_c.inc"
 #include      "sphcom.inc"
 #include      "sms_c.inc"
-#include      "sysunit.inc"
 #include      "eigcom.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -423,7 +422,7 @@ C     /UNIT
 C-----------------------------------------------
       IF (MYQAKEY('/UNIT')) THEN
 C
-        DO MY_UNIT=1,NUNITS
+        DO MY_UNIT=1,UNITAB%NUNITS
 C
           TITR(1:nchartitle)=''
           MY_ID = UNITAB%UNIT_ID(MY_UNIT)
@@ -454,7 +453,7 @@ C           VARNAME: variable name in ref.extract (without blanks)
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
           END IF
 C
-        END DO ! MY_UNIT=1,NUNITS
+        END DO ! MY_UNIT=1,UNITAB%NUNITS
 C
       END IF
 C-----------------------------------------------

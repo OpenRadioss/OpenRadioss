@@ -81,7 +81,7 @@ Chd|====================================================================
      3   ALE_CONNECTIVITY,N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
      5   NUMSH4N_L,NUMSH3N_L,INTER_PARAMETERS,SENSORS,NLOAD_CYL,
-     6   NCLOAD_L,NPLOAD_L,NDAMP_VREL_L)
+     6   NCLOAD_L,NPLOAD_L,NDAMP_VREL_L, UNITAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -99,6 +99,7 @@ C-----------------------------------------------
       USE PARAMETERS_MOD
       USE SENSOR_MOD
       USE SUBMODEL_MOD , ONLY : NSUBMOD
+      USE UNITAB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -152,6 +153,7 @@ C-----------------------------------------------
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
       TYPE (PARAMETERS_) ,INTENT(INOUT)     :: INTER_PARAMETERS
       TYPE (SENSORS_)    ,INTENT(IN)        :: SENSORS
+      TYPE (UNIT_TYPE_), INTENT(IN)         :: UNITAB
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -179,7 +181,6 @@ C-----------------------------------------------
 #include      "sms_c.inc"
 #include      "sphcom.inc"
 #include      "spmd_c.inc"
-#include      "sysunit.inc"
 #include      "tabsiz_c.inc"
 #include      "thermal_c.inc"
 C-----------------------------------------------
@@ -1179,11 +1180,11 @@ C Defense Lic Flag
       TABVINT(LVARINT)=LIRNUR
 C     Unit info
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=LUNIT
+      TABVINT(LVARINT)= 4 ! old LUNIT, deprecated 
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=NUNIT0
+      TABVINT(LVARINT)=UNITAB%NUNIT0
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=NUNITS
+      TABVINT(LVARINT)=UNITAB%NUNITS
 C
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=LSH4TRIM

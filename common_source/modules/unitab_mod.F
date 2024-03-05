@@ -380,11 +380,18 @@ c define type NLOCAL_STRUCT_ for nodal variable regularization
 c=======================================================================      
 c 
       TYPE UNIT_TYPE_
-        INTEGER     :: NUNITS                             ! Number of UNIT options in input deck 
+        INTEGER     :: NUNIT0 ! number of /UNIT
+        INTEGER     :: NUNITS !                           ! Number of UNIT options in input deck  (NUNIT0 + NBSUBMOD + 1)
         INTEGER, DIMENSION(:)   , ALLOCATABLE :: UNIT_ID  ! (NUNITS) Unit user ID
         my_real, DIMENSION(:)   , ALLOCATABLE :: FAC_M    ! (NUNITS) Mass Unit
         my_real, DIMENSION(:)   , ALLOCATABLE :: FAC_L    ! (NUNITS) Length Unit    
         my_real, DIMENSION(:)   , ALLOCATABLE :: FAC_T    ! (NUNITS) Temperature Unit
+        my_real :: FAC_M_WORK
+        my_real :: FAC_L_WORK
+        my_real :: FAC_T_WORK
+        my_real :: FAC_MASS
+        my_real :: FAC_LENGTH
+        my_real :: FAC_TIME
       END TYPE UNIT_TYPE_
 c---------------
 c     MODE = 0 => no variable regularization, no structure allocation

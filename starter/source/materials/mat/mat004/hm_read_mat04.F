@@ -41,10 +41,11 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFTAG_MOD !MAXEOS
+      USE ELBUFTAG_MOD 
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD          
+      USE UNITAB_MOD
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -66,7 +67,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "scr03_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -76,7 +76,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NPROPMI) ,INTENT(INOUT)   :: IPM
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)   :: PM
-      my_real, DIMENSION(LUNIT,NUNITS) ,INTENT(IN) :: UNITAB
+      TYPE(UNIT_TYPE_) ,INTENT(IN) :: UNITAB
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG
       TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG    

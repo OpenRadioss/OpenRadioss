@@ -48,7 +48,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
-c
+      USE UNITAB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,13 +60,12 @@ C-----------------------------------------------
 C     REAL
       TYPE(TTABLE) ,INTENT(INOUT) :: TABLE(*)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
-      my_real, INTENT(IN) :: UNITAB(LUNIT, NUNITS)
+      TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

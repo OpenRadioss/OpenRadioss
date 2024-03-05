@@ -59,7 +59,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
 #include      "sphcom.inc"
-#include      "sysunit.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -128,7 +127,7 @@ c       check UNIT ID
 c-----------------------
         IF (UID > 0) THEN
           FLAGUNIT = 0
-          DO IUNIT=1,NUNITS
+          DO IUNIT=1,UNITAB%NUNITS
             IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN
               FLAGUNIT = 1
               EXIT

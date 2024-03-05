@@ -63,7 +63,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -136,7 +135,7 @@ c--------------------------------------------------
 c       Check UNIT_ID
 c--------------------------------------------------
         FLAGUNIT = 0
-        DO IUNIT=1,NUNITS
+        DO IUNIT=1,UNITAB%NUNITS
           IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN
             FLAGUNIT = 1
             EXIT
