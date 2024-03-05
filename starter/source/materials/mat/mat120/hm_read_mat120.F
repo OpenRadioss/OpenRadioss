@@ -73,7 +73,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 C----------------------------------------------- 
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -154,7 +153,7 @@ c-------------------
       ISRATE = 0
       FCUT   = ZERO
       IF (CC > ZERO) THEN
-        FCUT = 1000.0D0 * FAC_T_WORK
+        FCUT = 1000.0D0 * UNITAB%FAC_T_WORK
       END IF
       IF (EXP_N == ZERO) EXP_N = ONE  
       IF (IFORM == 0) IFORM = 1  

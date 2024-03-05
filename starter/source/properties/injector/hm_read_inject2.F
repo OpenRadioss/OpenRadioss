@@ -61,7 +61,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
 #include      "tablen_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -408,7 +407,7 @@ C Calcul des caracteristiques initiales du melange
       END DO                                               
       DO I=1,NGASES                                        
        IF (MOL_TOT == ZERO) THEN                           
-         INIT_MASS    = EM09 / FAC_M_WORK                  
+         INIT_MASS    = EM09 / UNITAB%FAC_M_WORK                  
        ELSE                                                
          IF (F_IDMF(2,I) == 0) THEN                        
            MOL_INI=MOLFR(I)                                

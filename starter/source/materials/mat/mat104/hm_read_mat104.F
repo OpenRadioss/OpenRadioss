@@ -54,7 +54,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 C-----------------------------------------------
@@ -117,7 +116,7 @@ c---------------------------------------------------
       IF (YLD0 == ZERO) YLD0 = INFINITY
       ! Cutting frequency
       IF (FCUT == ZERO) THEN 
-        FCUT = 10000.0D0*FAC_T_WORK
+        FCUT = 10000.0D0*UNITAB%FAC_T_WORK
       ENDIF
       ASRATE = TWO*PI*FCUT
       ! If the inviscid plastic strain-rate is zero, no Johnson-Cook model

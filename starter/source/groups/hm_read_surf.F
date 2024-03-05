@@ -98,7 +98,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "remesh_c.inc"
-#include      "sysunit.inc"
 #include      "ige3d_c.inc"
 #include      "sphcom.inc"
 #include      "tabsiz_c.inc"
@@ -470,7 +469,7 @@ C
             NSEG=0                                                     
             IADBOX = 1                                                 
             IFLAGUNIT = 0                                              
-            DO J=1,NUNITS                                              
+            DO J=1,UNITAB%NUNITS                                              
               IF (UNITAB%UNIT_ID(J) == UID) THEN                       
                 FAC_L = UNITAB%FAC_L(J)                                
                 IFLAGUNIT = 1                                          
@@ -1079,7 +1078,7 @@ C=======================================================================
      .                            SUBMODEL_ID = SUB_ID)     
             IGRSURF(IGS)%TITLE = TITR
             IFLAGUNIT = 0
-            DO J=1,NUNITS
+            DO J=1,UNITAB%NUNITS
               IF (UNITAB%UNIT_ID(J) == UID) THEN
                 FAC_L = UNITAB%FAC_L(J)
                 IFLAGUNIT = 1

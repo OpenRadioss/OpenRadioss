@@ -77,7 +77,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -159,7 +158,7 @@ C-----------------------------------------------
       IF (HYS  == ZERO) HYS = ONE
       IF (RHOR==ZERO) RHOR=RHO0
       IF (FCUT == ZERO .AND. NFUNC > 1 ) THEN
-        FCUT = EP03*FAC_T_WORK
+        FCUT = EP03*UNITAB%FAC_T_WORK
         ISMOOTH = 1  
       ENDIF
       IF(ISMOOTH == 0 .AND. FCUT > ZERO .AND. NFUNC > 1) ISMOOTH = 1

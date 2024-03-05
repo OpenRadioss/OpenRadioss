@@ -52,7 +52,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "param_c.inc"
 #include      "tablen_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -155,7 +154,7 @@ C
       ELSE
         ! If no filtering frequency is given but the flag is activated
         IF (Fsmooth /= 0) THEN
-          FCUT  = 100000.0D0*FAC_T_WORK  
+          FCUT  = 100000.0D0*UNITAB%FAC_T_WORK  
         ! If no filtering frequency and no flag is activated => no filtering
         ELSE
           FCUT  = ZERO

@@ -56,7 +56,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -205,15 +204,15 @@ c-----------------------------
       IREG = MIN(IREG,2)
       IREG = MAX(IREG,1)
       ! Strain rate parameters
-      FC0     = TEN*EP06*FAC_T_WORK*FAC_T_WORK*FAC_L_WORK/FAC_M_WORK
+      FC0     = TEN*EP06*UNITAB%FAC_T_WORK*UNITAB%FAC_T_WORK*UNITAB%FAC_L_WORK/UNITAB%FAC_M_WORK
       ! -> For tension
-      EPST0   = 30.0D0*EM06*FAC_T_WORK
-      EPSTMAX = ONE*FAC_T_WORK 
+      EPST0   = 30.0D0*EM06*UNITAB%FAC_T_WORK
+      EPSTMAX = ONE*UNITAB%FAC_T_WORK 
       DELTAS  = ONE / (ONE + EIGHT*(FC/FC0))
       BETAS   = EXP(SIX*DELTAS - TWO)
       ! -> For compression
-      EPSC0   = 30.0D0*EM06*FAC_T_WORK
-      EPSCMAX = 30.0D0*FAC_T_WORK 
+      EPSC0   = 30.0D0*EM06*UNITAB%FAC_T_WORK
+      EPSCMAX = 30.0D0*UNITAB%FAC_T_WORK 
       ALPHAS  = ONE / (FIVE + NINE*(FC/FC0))
       GAMMAS  = EXP(6.156D0*ALPHAS - TWO)  
       ! Strain rate effect check
@@ -224,7 +223,7 @@ c-----------------------------
         ISRATE  = 1
         ! Strain rate filtering frequency
         IF (ASRATE == ZERO) THEN 
-          ASRATE = 10000.0D0*FAC_T_WORK  
+          ASRATE = 10000.0D0*UNITAB%FAC_T_WORK  
         ENDIF
       ELSE 
         ISRATE  = 0

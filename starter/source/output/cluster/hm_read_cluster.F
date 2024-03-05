@@ -57,7 +57,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "scr17_c.inc"
@@ -111,7 +110,7 @@ c
 c
         IFLAGUNIT = 0                             
         IF (UID > 0) THEN                         
-          DO J=1,NUNITS                           
+          DO J=1,UNITAB%NUNITS                           
             IF (UNITAB%UNIT_ID(J) == UID) THEN    
               IFLAGUNIT = 1                       
               EXIT                                

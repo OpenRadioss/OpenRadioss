@@ -68,7 +68,6 @@ C-----------------------------------------------
 #include      "sphcom.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -153,7 +152,7 @@ C
      .                            NUMSKW+2+I),LTITR)
 C
         IFLAGUNIT = 0
-        DO J=1,NUNITS
+        DO J=1,UNITAB%NUNITS
           IF (UNITAB%UNIT_ID(J) == UID) THEN                 
             IFLAGUNIT = 1
             EXIT

@@ -55,7 +55,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -139,16 +138,16 @@ c--------------------
       END IF 
 c--------------------             
       IF (GRAVITY == ZERO) THEN
-        FAC_GRAV  = FAC_T_WORK**2 / FAC_L_WORK
+        FAC_GRAV  = UNITAB%FAC_T_WORK**2 / UNITAB%FAC_L_WORK
         GRAVITY   = DEF_GRAVITY * FAC_GRAV
       END IF
       IF (HIC_CRIT == ZERO) HIC_CRIT = INFINITY
       IF (PERIOD == ZERO) THEN
         PERIOD = 0.036     ! m/s
-        PERIOD = PERIOD / FAC_T_WORK
+        PERIOD = PERIOD / UNITAB%FAC_T_WORK
       END IF
 c
-      Time_Unit = FAC_T_WORK
+      Time_Unit = UNITAB%FAC_T_WORK
 c-------------------------------                          
       SENSOR_PTR%TYPE    = SENS_TYPE
       SENSOR_PTR%SENS_ID = SENS_ID

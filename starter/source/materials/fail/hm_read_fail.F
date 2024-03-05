@@ -106,7 +106,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "com_xfem1.inc"
 #include      "nchar_c.inc"
 #include      "userlib.inc"
@@ -219,7 +218,7 @@ c
           IUNIT = 1
           IF (UNIT_ID > 0) THEN
             IFLAGUNIT = 0
-            DO IUNIT=1,NUNITS
+            DO IUNIT=1,UNITAB%NUNITS
               IF (UNITAB%UNIT_ID(IUNIT) == UNIT_ID) THEN
                 IFLAGUNIT = 1
                 UNIT_ID = IUNIT

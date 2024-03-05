@@ -69,7 +69,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -166,7 +165,7 @@ c
         ! If plastic strain is chosen, filtering by default
         ISRAT     = 1
         ISRATE    = MAX(ISRATE,ISRAT) 
-        ASRATE    = 10000.0D0*FAC_T_WORK
+        ASRATE    = 10000.0D0*UNITAB%FAC_T_WORK
       ELSE
         IF (ASRATE /= ZERO) THEN
           ! If a filtering frequency is given by the user
@@ -177,7 +176,7 @@ c
           IF (ISRAT /= 0) THEN
             ISRAT     = 1
             ISRATE    = MAX(ISRATE,ISRAT) 
-            ASRATE    = 10000.0D0*FAC_T_WORK  
+            ASRATE    = 10000.0D0*UNITAB%FAC_T_WORK  
           ! If no filtering frequency and no flag is activated => no filtering
           ELSE
             ISRAT     = 0

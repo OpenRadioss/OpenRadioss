@@ -267,6 +267,7 @@ C     First option to be read in order to convert other options.
 C=======================================================================
       WRITE(ISTDO,'(A)')TITRE(12)
       CALL HM_OPTION_COUNT('/UNIT',NUNIT0)
+      UNITAB%NUNIT0 = NUNIT0
 c
       CALL HM_OPTION_COUNT('/BEGIN',IS_BEGIN)
 

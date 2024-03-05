@@ -82,7 +82,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -286,9 +285,9 @@ C-----------------------------------------------
         IF(SUB_ID /= 0)CALL SUBROTPOINT(XDET,YDET,ZDET,RTRANS,SUB_ID,LSUBMODEL)
 
         !units
-        FAC_M_bb = FAC_MASS*EP03
-        FAC_L_bb = FAC_LENGTH*EP02
-        FAC_T_bb = FAC_TIME*EP06
+        FAC_M_bb = UNITAB%FAC_MASS*EP03
+        FAC_L_bb = UNITAB%FAC_LENGTH*EP02
+        FAC_T_bb = UNITAB%FAC_TIME*EP06
         FAC_P_bb = FAC_M_bb/FAC_L_bb/FAC_T_bb/FAC_T_bb
         FAC_I_bb = FAC_P_bb*FAC_T_bb !/FAC_M_bb**THIRD
         W13      = (WTNT*FAC_M_bb)**THIRD

@@ -55,7 +55,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -231,9 +230,9 @@ c
       FAIL%UPARAM(30)= SIG_INI 
       FAIL%UPARAM(31)= PSCALE
       FAIL%UPARAM(32)= PFLAG
-      FAIL%UPARAM(33)= FAC_M_WORK
-      FAIL%UPARAM(34)= FAC_L_WORK
-      FAIL%UPARAM(35)= FAC_T_WORK
+      FAIL%UPARAM(33)= UNITAB%FAC_M_WORK
+      FAIL%UPARAM(34)= UNITAB%FAC_L_WORK
+      FAIL%UPARAM(35)= UNITAB%FAC_T_WORK
 c---------------------------
       FAIL_TAG%LF_DIR = 2
       FAIL_TAG%LF_DAM = 1

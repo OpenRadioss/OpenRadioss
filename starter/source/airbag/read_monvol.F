@@ -80,7 +80,6 @@ C     NSUBDOM
 C     NIMV, NRVOLU
 #include      "param_c.inc"
 C     LUNIT, NUNITS
-#include      "sysunit.inc"
 C     IOUT
 #include      "units_c.inc"
 C-----------------------------------------------
@@ -132,7 +131,7 @@ C     Multidomain -> skip untagged monvols
          CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,II),LTITR)
 C     Check units
          FOUND = .FALSE.
-         DO JJ = 1, NUNITS
+         DO JJ = 1,UNITAB%NUNITS
             IF (UNITAB%UNIT_ID(JJ) == UID) THEN
                FOUND = .TRUE.
                LOCAL_UID = JJ

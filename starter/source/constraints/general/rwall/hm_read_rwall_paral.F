@@ -76,7 +76,6 @@ C-----------------------------------------------
 #include      "scr03_c.inc"
 #include      "scr17_c.inc"
 #include      "param_c.inc"
-#include      "sysunit.inc"
 #include      "tabsiz_c.inc"
 #include      "r2r_c.inc"
 C-----------------------------------------------
@@ -142,7 +141,7 @@ C
 C
         ! Checking flag unit
         IFLAGUNIT = 0        
-        DO J=1,NUNITS                           
+        DO J=1,UNITAB%NUNITS                           
           IF (UNITAB%UNIT_ID(J) == UID) THEN          
             IFLAGUNIT = 1                         
             EXIT                                

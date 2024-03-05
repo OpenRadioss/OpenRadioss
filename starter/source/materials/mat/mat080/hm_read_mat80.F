@@ -64,7 +64,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "sysunit.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
@@ -323,7 +322,7 @@ c------------------------------------------------------------------------
       ENDIF
 C
       NUVAR = 44
-      IF (ISRATE > 0 .AND. FCUT == ZERO)  FCUT = EP05*FAC_T_WORK  ! default : force filtering
+      IF (ISRATE > 0 .AND. FCUT == ZERO)  FCUT = EP05*UNITAB%FAC_T_WORK  ! default : force filtering
       IF (FLAG_LOC == 0) FLAG_LOC = 2
       IF (YSCALE1 == ZERO)YSCALE1 = ONE
       IF (YSCALE2 == ZERO)YSCALE2 = ONE

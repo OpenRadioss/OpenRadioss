@@ -82,7 +82,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "titr_c.inc"
 #include      "remesh_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -152,7 +151,7 @@ C--------------------------------------------------
         IF(UID_QUAD(I) /= UID )THEN
           UID = UID_QUAD(I)
           IFLAGUNIT = 0          
-          DO J=1,NUNITS                         
+          DO J=1,UNITAB%NUNITS                         
             IF (UNITAB%UNIT_ID(J) == UID) THEN  
               FAC_L = UNITAB%FAC_L(J)                 
               IFLAGUNIT = 1                     

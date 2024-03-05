@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD          
+      USE UNITAB_MOD
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -64,7 +65,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*nchartitle ,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
-      my_real, DIMENSION(*), INTENT(IN) :: UNITAB
+      TYPE(UNIT_TYPE_), INTENT(in) :: UNITAB
       INTEGER, INTENT(IN) :: MAT_ID
       INTEGER, INTENT(INOUT) :: IPM(NPROPMI)
       my_real, INTENT(INOUT) :: PM(NPROPM)     

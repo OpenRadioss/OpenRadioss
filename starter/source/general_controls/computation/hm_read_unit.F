@@ -88,6 +88,7 @@ C----------------------------------------------
       WRITE(IOUT,1000)
 C
       UNITAB%NUNITS = NUNIT0+NSUBMOD+1
+      UNITAB%NUNIT0 = NUNIT0
       ALLOCATE(UNITAB%UNIT_ID(NUNIT0+NSUBMOD+1))
       ALLOCATE(UNITAB%FAC_M  (NUNIT0+NSUBMOD+1))
       ALLOCATE(UNITAB%FAC_L  (NUNIT0+NSUBMOD+1))
@@ -148,6 +149,14 @@ C
       FAC_MASS   = FAC_M_WORK
       FAC_LENGTH = FAC_L_WORK
       FAC_TIME   = FAC_T_WORK
+
+      UNITAB%FAC_MASS   = FAC_M_WORK
+      UNITAB%FAC_LENGTH = FAC_L_WORK
+      UNITAB%FAC_TIME   = FAC_T_WORK
+
+      UNITAB%FAC_M_WORK = FAC_M_WORK
+      UNITAB%FAC_L_WORK = FAC_L_WORK
+      UNITAB%FAC_T_WORK = FAC_T_WORK
       NUNITS     = 1
       IWRITE     = 1
 C
@@ -482,7 +491,7 @@ C---
 
         WRITE(IOUT,1003) KEYMI,KEYLI,KEYTI,
      .                   FAC_M_INPUT,FAC_L_INPUT,FAC_T_INPUT
-        DO I=2,NUNITS
+        DO I=2,UNITAB%NUNITS
 c------------------------------------------------------------    
           DO K=1,20
             FIELD1(K:K) = FIELD11(I-1)(K:K)
@@ -585,7 +594,7 @@ c-----------------------------------------------------------
 C
 C     transformation en valeurs relatives par rapport aux unites globales
 C
-      DO N=1,NUNITS
+      DO N=1,UNITAB%NUNITS
         IF (N >= 2) THEN
 
           IF (UNITAB%FAC_M(N) == ZERO) THEN

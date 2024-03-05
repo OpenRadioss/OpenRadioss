@@ -42,7 +42,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C----------------------------------------------- 
@@ -54,7 +53,16 @@ C-----------------------------------------------
       INTEGER I,UID
       my_real FAC_M,FAC_L,FAC_T
 C----------------------------------------------- 
-      DO I=1,NUNITS
+      CALL WRITE_I_C(UNITAB%NUNITS,1)
+      CALL WRITE_I_C(UNITAB%NUNIT0,1)
+      CALL WRITE_DB(UNITAB%FAC_M_WORK,1)
+      CALL WRITE_DB(UNITAB%FAC_L_WORK,1)
+      CALL WRITE_DB(UNITAB%FAC_T_WORK,1)
+      CALL WRITE_DB(UNITAB%FAC_MASS,1)
+      CALL WRITE_DB(UNITAB%FAC_LENGTH,1)
+      CALL WRITE_DB(UNITAB%FAC_TIME,1)
+
+      DO I=1,UNITAB%NUNITS
         UID = UNITAB%UNIT_ID(I)
         FAC_M = UNITAB%FAC_M(I)
         FAC_L = UNITAB%FAC_L(I)
@@ -92,7 +100,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "sysunit.inc"
 #include      "warn_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -104,11 +111,21 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,UID
       my_real FAC_M,FAC_L,FAC_T
+      INTEGER :: NUNITS 
 C----------------------------------------------- 
+      CALL READ_I_C(NUNITS,1)
+      UNITAB%NUNITS = NUNITS 
+      CALL READ_I_C(UNITAB%NUNIT0,1)
       ALLOCATE(UNITAB%UNIT_ID(NUNITS))
       ALLOCATE(UNITAB%FAC_M(NUNITS))
       ALLOCATE(UNITAB%FAC_L(NUNITS))
       ALLOCATE(UNITAB%FAC_T(NUNITS))
+      CALL READ_DB(UNITAB%FAC_M_WORK,1)
+      CALL READ_DB(UNITAB%FAC_L_WORK,1)
+      CALL READ_DB(UNITAB%FAC_T_WORK,1)
+      CALL READ_DB(UNITAB%FAC_MASS,1)
+      CALL READ_DB(UNITAB%FAC_LENGTH,1)
+      CALL READ_DB(UNITAB%FAC_TIME,1)
 
       DO I=1,NUNITS
 
@@ -121,7 +138,6 @@ C-----------------------------------------------
         UNITAB%FAC_M(I) = FAC_M
         UNITAB%FAC_L(I) = FAC_L
         UNITAB%FAC_T(I) = FAC_T
-
       ENDDO
 C----------------------------------------------- 
       END

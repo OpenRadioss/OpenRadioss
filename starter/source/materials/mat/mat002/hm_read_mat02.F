@@ -76,7 +76,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -268,9 +267,9 @@ C-----------------------------------------------
         ENDIF
       ELSE      ! small material database, materials as in /FAIL/BiQUAD
         IF (MFLAG >= 1) THEN ! Mild Seel unit = Ton, sec, mm
-          FAC_M = FAC_M_WORK                        
-          FAC_L = FAC_L_WORK
-          FAC_T = FAC_T_WORK
+          FAC_M = UNITAB%FAC_M_WORK                        
+          FAC_L = UNITAB%FAC_L_WORK
+          FAC_T = UNITAB%FAC_T_WORK
           FAC_PRES = FAC_M/ (FAC_L*FAC_T*FAC_T)                      
           FAC_DENS = FAC_M/ (FAC_L*FAC_L*FAC_L)
           SELECT CASE (MFLAG)
@@ -394,7 +393,7 @@ C-----
       IF (VP == 1) THEN
         ! If plastic strain is chosen, filtering by default
         ISRATE    = 1
-        ASRATE    = 10000.0D0*FAC_T_WORK
+        ASRATE    = 10000.0D0*UNITAB%FAC_T_WORK
         FCUT      = ASRATE
       ELSE
         IF (CC == ZERO)THEN

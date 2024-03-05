@@ -51,7 +51,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "sysunit.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
 C----------------------------------------------------------------
@@ -145,7 +144,7 @@ card12
       
       DR = 8.314 ! J/K/mol
 
-      DR = DR * FAC_T_WORK* FAC_T_WORK / FAC_M_WORK /FAC_L_WORK / FAC_L_WORK
+      DR = DR * UNITAB%FAC_T_WORK* UNITAB%FAC_T_WORK / UNITAB%FAC_M_WORK /UNITAB%FAC_L_WORK / UNITAB%FAC_L_WORK
       NUPARAM = 42 
 C----------------------------------------------- 
 C     USER MATERIAL PARAMETERS DEFINITION   

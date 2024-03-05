@@ -86,7 +86,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 #include      "scry_c.inc"
-#include      "sysunit.inc"
 #include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -304,7 +303,7 @@ C---------
      .                            KEYWORD2 = KEY)
 !
           IFLAGUNIT = 0
-          DO IUNIT=1,NUNITS
+          DO IUNIT=1,UNITAB%NUNITS
             IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
               IFLAGUNIT = 1
               EXIT
@@ -1970,7 +1969,7 @@ C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
           IF (KEY2 /= ' ') GLOB = .TRUE.
 !
           IFLAGUNIT = 0
-          DO IUNIT=1,NUNITS
+          DO IUNIT=1,UNITAB%NUNITS
             IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
               IFLAGUNIT = 1
               EXIT
@@ -3135,7 +3134,7 @@ C         tri des elts du D00 par ID croissant (on ne trie qu'une fois)
 !
 !          WRITE(iout,*) 'MIRC',KEY(1:LEN_TRIM(KEY))
 !
-          DO IUNIT=1,NUNITS
+          DO IUNIT=1,UNITAB%NUNITS
             IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
               IFLAGUNIT = 1
               EXIT
@@ -4233,7 +4232,7 @@ C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
      .                            KEYWORD2 = KEY)
 !
           IFLAGUNIT = 0
-          DO IUNIT=1,NUNITS
+          DO IUNIT=1,UNITAB%NUNITS
             IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
               IFLAGUNIT = 1
               EXIT
@@ -4334,7 +4333,7 @@ C---------
      .                            KEYWORD2 = KEY)
 !
           IFLAGUNIT = 0
-          DO IUNIT=1,NUNITS
+          DO IUNIT=1,UNITAB%NUNITS
             IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
               IFLAGUNIT = 1
               EXIT
@@ -4534,7 +4533,7 @@ C tri local des elts du D00 par ID croissant (on ne trie qu'une fois)
      .                            KEYWORD2 = KEY)
 !
           IFLAGUNIT = 0
-          DO IUNIT=1,NUNITS
+          DO IUNIT=1,UNITAB%NUNITS
             IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
               IFLAGUNIT = 1
               EXIT
@@ -4733,7 +4732,7 @@ C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
      .                            KEYWORD2 = KEY)
 !
            IFLAGUNIT = 0
-           DO IUNIT=1,NUNITS
+           DO IUNIT=1,UNITAB%NUNITS
              IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
                IFLAGUNIT = 1
                EXIT

@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
+      USE UNITAB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +59,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "param_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: MAT_ID
       INTEGER, DIMENSION(NPROPMI) ,INTENT(INOUT) :: IPM
       my_real, DIMENSION(NPROPM)  ,INTENT(INOUT) :: PM
-      my_real, DIMENSION(LUNIT,NUNITS) ,INTENT(IN) :: UNITAB
+      TYPE(UNIT_TYPE_) ,INTENT(IN) :: UNITAB
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT) :: MTAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
@@ -180,9 +180,9 @@ C     GRAY
 C--------------------------------------
 !
       !translation from Working unit System to {big bang} unit system
-      FAC_M_bb = FAC_MASS*EP03
-      FAC_L_bb = FAC_LENGTH*EP02 
-      FAC_T_bb = FAC_TIME*EP06
+      FAC_M_bb = UNITAB%FAC_MASS*EP03
+      FAC_L_bb = UNITAB%FAC_LENGTH*EP02 
+      FAC_T_bb = UNITAB%FAC_TIME*EP06
 !
       IF (A == ZERO)    A = GAM0-HALF
       IF (GAM0M == ZERO) GAM0M = GAM0

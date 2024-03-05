@@ -64,7 +64,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "remesh_c.inc"
 #include      "sphcom.inc"
-#include      "sysunit.inc"
 #include      "drape_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s

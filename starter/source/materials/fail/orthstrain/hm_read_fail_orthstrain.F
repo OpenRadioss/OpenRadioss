@@ -53,7 +53,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -175,7 +174,7 @@ c
       IF (PTHKF  == ZERO) PTHKF = ONE-EM06
       PTHKF = MIN(PTHKF, ONE)
       PTHKF = MAX(PTHKF,-ONE)
-      IF (FCUT  == ZERO) FCUT = 10000.0D0*FAC_T_WORK
+      IF (FCUT  == ZERO) FCUT = 10000.0D0*UNITAB%FAC_T_WORK
 !
       IDAM = 0
       ISOLID = 0

@@ -86,7 +86,6 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
 #include      "units_c.inc"
-#include      "sysunit.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -151,7 +150,7 @@ c--------------------------------------------------
 c       CHECK IF UNIT_ID EXISTS
 c--------------------------------------------------
         IFLAGUNIT = 0
-        DO IUNIT=1,NUNITS
+        DO IUNIT=1,UNITAB%NUNITS
           IF (UNITAB%UNIT_ID(IUNIT) == UNIT_ID) THEN
             IFLAGUNIT = 1
             EXIT
