@@ -41,6 +41,7 @@ Chd|        CREATE_NODE_FROM_RBODY        source/model/sets/create_node_from_rbo
 Chd|        CREATE_NODE_FROM_SEG          source/model/sets/create_node_from_seg.F
 Chd|        CREATE_PART_ALL_CLAUSE        source/model/sets/create_part_all_clause.F
 Chd|        CREATE_PART_CLAUSE            source/model/sets/create_part_clause.F
+Chd|        CREATE_PLANE_CLAUSE           source/model/sets/create_plane_clause.F
 Chd|        CREATE_RBODY_CLAUSE           source/model/sets/create_rbody_clause.F
 Chd|        CREATE_SEG_CLAUSE             source/model/sets/create_seg_clause.F
 Chd|        CREATE_SETCOL_ARRAY           source/model/sets/create_setcol_clause.F
@@ -111,6 +112,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SET_SCRATCH_MOD
       USE UNITAB_MOD
+      USE CREATE_PLANE_CLAUSE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -811,7 +813,15 @@ C-----------------------------------------------
      .                                        IAD          ,NTRANSF      ,NUMSKW   ,LISKN  ,LSKEW ,
      .                                        SSKEW        ,SISKWN       ,NSPCOND  ,NUMSPH )
   
-  
+              CASE ( 'PLANE' )
+                  
+                   ! PLANE surface definition
+                   !-----------------------
+                   SET(IGS)%NB_PLANE = 1
+                   CALL CREATE_PLANE_CLAUSE(CLAUSE%SET_ID ,CLAUSE%TITLE ,SUB_ID  ,CLAUSE ,LSUBMODEL,
+     .                                      UNITAB        ,IAD          ,NRTRANS ,NTRANSF,RTRANS   )
+
+
               CASE DEFAULT
 
                   CALL ANCMSG(MSGID=1906,ANMODE=ANSTOP,

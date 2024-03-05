@@ -92,6 +92,26 @@ C-----------------------------------------------
       SET(IGS)%HAS_SURF_SEG= 0        ! Flag if a surface was created from surface (QA Print)
       SET(IGS)%HAS_LINE_SEG= 0        ! Flag if a line was created from surface (QA Print)
       SET(IGS)%NB_ELLIPSE=0           ! Flag nb of ellipses (one per /SET)
+
+      SET(IGS)%NB_ELLIPSE= 0          ! SET nb of Ellipses (max = 1, one per /SET)
+      SET(IGS)%ELLIPSE_IAD_BUFR= 0    ! surface buffer adress in SET
+      SET(IGS)%ELLIPSE_ID_MADYMO=0    ! ID of Madymo surface
+      SET(IGS)%ELLIPSE_N=0            ! Degree of the hyper-ellipsoid
+      SET(IGS)%ELLIPSE_XC=0           ! Center coordinate X of the hyper-ellipsoid
+      SET(IGS)%ELLIPSE_YC=0           ! Center coordinate Y of the hyper-ellipsoid
+      SET(IGS)%ELLIPSE_ZC=0           ! Center coordinate Z of the hyper-ellipsoid
+      SET(IGS)%ELLIPSE_A=0            ! Semi-axis length along X direction of the hyper-ellipsoid
+      SET(IGS)%ELLIPSE_B=0            ! Semi-axis length along Y direction of the hyper-ellipsoid
+      SET(IGS)%ELLIPSE_C=0            ! Semi-axis length along Z direction of the hyper-ellipsoid
+
+      SET(IGS)%NB_PLANE= 0            ! SET nb of Planes (max = 1, one per /SET)
+      SET(IGS)%PLANE_IAD_BUFR= 0      ! surface buffer adress in SET
+      SET(IGS)%PLANE_XM=0             ! X coordinate of M (end of normal vector) in PLANE surface
+      SET(IGS)%PLANE_YM=0             ! Y coordinate of M (end of normal vector) in PLANE surface
+      SET(IGS)%PLANE_ZM=0             ! Z coordinate of M (end of normal vector) in PLANE surface
+      SET(IGS)%PLANE_XM1=0            ! X coordinate of M1 (head of normal vector) in PLANE surface
+      SET(IGS)%PLANE_YM1=0            ! Y coordinate of M1 (head of normal vector) in PLANE surface
+      SET(IGS)%PLANE_ZM1=0            ! Z coordinate of M1 (head of normal vector) in PLANE surface
 C-----
       RETURN
       END
