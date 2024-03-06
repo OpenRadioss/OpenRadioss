@@ -202,7 +202,7 @@ C----- Damping seulement pour les noeuds en contact avec temporisation -----
                                 DA_(2) = AR(2,I) - DAMP_A(2)*VR(2,I) - BETASDT_(2) *(AR(2,I)-DAMP(5,I))
                                 DA_(2) = DA_(2) * OMEGA_(2) - AR(2,I)
                                 DAMP(5,I) = AR(2,I)
-                                AR(2,I) = AR(2,I) + DA_(2)
+                                AR(2,I) = AR(2,I) + DA_(2) 
                                 ! --------------
                                 DA_(3) = AR(3,I) - DAMP_A(3)*VR(3,I) - BETASDT_(3) *(AR(3,I)-DAMP(6,I))
                                 DA_(3) = DA_(3) * OMEGA_(3) - AR(3,I)
@@ -582,8 +582,7 @@ C
                     ASKW(3,I) = ASKW(3,I) + DA_(3)
                     DW_LOCAL(3)=DA_(3)*(VSKW(3,I)+HALF*ASKW(3,I)*DT1)
 C
-                    DW =DW +MS(I)*(DW_LOCAL(1)+DW_LOCAL(2)+DW_LOCAL(3))*DT12*WEIGHT(I)                
-                    DW =DW +MS(I)*DA*(V(1,I)+HALF*A(1,I)*DT1)*DT12*WEIGHT(I)                       
+                    DW =DW +MS(I)*(DW_LOCAL(1)+DW_LOCAL(2)+DW_LOCAL(3))*DT12*WEIGHT(I)                     
                   ENDIF
                 ENDDO
 C-------------------------------------------------

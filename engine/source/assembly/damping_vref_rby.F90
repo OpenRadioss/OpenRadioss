@@ -80,14 +80,15 @@
           my_real,                                   intent(in) :: tt                          !< current time
           my_real,                                intent(inout) :: damp(dim,numnod)            !< damping force at previous time step 
           my_real,                                   intent(in) :: skew(lskew,numskw)          !< main structure for skews
-          my_real,                                intent(inout) :: tfext                       !< external forces work
+          double precision,                       intent(inout) :: tfext                       !< external forces work
           double precision,                       intent(inout) :: rby6(8,6,nrbykin)           !< working array for rigid body assembly
           double precision,                       intent(inout) :: rby6_c(2,6,size_rby6_c)     !< working array for rigid body damping assembly  
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: nd,id,igr,isk,id_rby,id_func,im,nsn
-          my_real :: freq,damp_a(3),damp_a2(3),fact,get_u_func,dxdy,dw,dtini
+          my_real :: freq,damp_a(3),damp_a2(3),fact,get_u_func,dxdy,dtini,t_start,t_stop
+          double precision :: dw
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -103,8 +104,10 @@
 !
             id = id_damp_vrel(nd)
             id_rby = nint(dampr(25,id))
+            t_start = dampr(17,id)
+            t_stop  = dampr(18,id)
 !            
-            if (id_rby > 0) then
+            if ((id_rby > 0).and.(tt>=t_start).and.(tt<=t_stop)) then
               igr   = nint(dampr(2,id))
               isk   = nint(dampr(15,id))
               id_func = nint(dampr(26,id))
@@ -157,7 +160,7 @@
 !
           enddo
 !
-          tfext = tfext + dw           
+          tfext = tfext + dw        
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine damping_vref_rby

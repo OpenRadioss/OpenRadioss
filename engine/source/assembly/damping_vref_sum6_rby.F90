@@ -40,7 +40,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use GROUPDEF_MOD , only: GROUP_
-          use constant_mod , only: pi,one,zero,two,half,em20
+          use constant_mod , only: pi,one,zero,two,half,em20,four
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -76,7 +76,7 @@
           my_real,                                   intent(in) :: ms(numnod)                  !< nodal mass
           my_real,                                   intent(in) :: skew(lskew,numskw)          !< main structure for skews
           my_real,                                intent(inout) :: damp(dim,numnod)            !< damping force at previous time step
-          my_real,                                intent(inout) :: dw                          !< increment of external forces work
+          double precision,                       intent(inout) :: dw                          !< increment of external forces work
           my_real,                                   intent(in) :: dt1                         !< time step
           my_real,                                   intent(in) :: damp_a2(3)                  !< quadratic damping coefficient in 3 directions
           double precision,                       intent(inout) :: rby6(8,6,nrbykin)           !< working array for rigid body assembly
@@ -89,7 +89,7 @@
           my_real :: fdamp_x_old,fdamp_y_old,fdamp_z_old
           my_real :: dvskw_x,dvskw_y,dvskw_z,fskw_x,fskw_y,fskw_z,dv_x,dv_y,dv_z
           my_real :: dist2,dt2n,fac,bb,stif_damp,stifr_damp,cc
-          my_real :: f1(nsn),f2(nsn),f3(nsn),f4(nsn),f5(nsn),f6(nsn),f7(nsn),f8(nsn)
+          my_real :: f1(nsn),f2(nsn),f3(nsn),f4(nsn),f5(nsn),f6(nsn),f7(nsn),f8(nsn),f9(nsn),f10(nsn)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------                   
@@ -102,6 +102,8 @@
           f6(1:nsn) =  zero
           f7(1:nsn) =  zero
           f8(1:nsn) =  zero
+          f9(1:nsn) =  zero
+          f10(1:nsn) =  zero
 
 !-------- computation of nodal stiffness ----- 
 #include "vectorize.inc"
@@ -112,6 +114,8 @@
               dist2 =(x(1,i)-x(1,im))**2+(x(2,i)-x(2,im))**2+(x(3,i)-x(3,im))**2
               f1(n) = cc*weight(i)
               f2(n) = cc*dist2*weight(i)
+              f9(n) = four*cc*cc*weight(i)/ms(i)
+              f10(n) = four*cc*cc*dist2*weight(i)/ms(i)
             endif              
           enddo
 !
@@ -143,7 +147,7 @@
                 a(3,i) = a(3,i)+fdamp_z              
                 dw = dw + dt1*half*((fdamp_x+fdamp_x_old)*(v(1,i)-v_refmx)       &
                            +(fdamp_y+fdamp_y_old)*(v(2,i)-v_refmy)               &
-                           +(fdamp_z+fdamp_z_old)*(v(3,i)-v_refmz))*weight(i)                            
+                           +(fdamp_z+fdamp_z_old)*(v(3,i)-v_refmz))*weight(i)                                                                    
 !                    
                 f3(n) = -fdamp_x*weight(i)
                 f4(n) = -fdamp_y*weight(i)
@@ -207,6 +211,8 @@
             call SUM_6_FLOAT(1,nsn,f6,rby6(6,1,id_rby),8)
             call SUM_6_FLOAT(1,nsn,f7,rby6(7,1,id_rby),8)
             call SUM_6_FLOAT(1,nsn,f8,rby6(8,1,id_rby),8)
+            call SUM_6_FLOAT(1,nsn,f9,rby6(1,1,id_rby),8)
+            call SUM_6_FLOAT(1,nsn,f10,rby6(2,1,id_rby),8)
           else 
 !--------   PARITH/OFF assembly -----            
 #include "vectorize.inc"
@@ -218,7 +224,9 @@
               rby6(5,1,id_rby) = rby6(5,1,id_rby) + f5(n)
               rby6(6,1,id_rby) = rby6(6,1,id_rby) + f6(n)
               rby6(7,1,id_rby) = rby6(7,1,id_rby) + f7(n)
-              rby6(8,1,id_rby) = rby6(8,1,id_rby) + f8(n)     
+              rby6(8,1,id_rby) = rby6(8,1,id_rby) + f8(n)
+              rby6(1,1,id_rby) = rby6(1,1,id_rby) + f9(n)
+              rby6(2,1,id_rby) = rby6(2,1,id_rby) + f10(n)      
             enddo                  
           endif  
 !
