@@ -343,7 +343,8 @@ C-------------------------------------
       IF (NDAMP_VREL_RBY > 0) THEN
 !$OMP SINGLE               
         call damping_vref_rby_stiff(NUMNOD,NNPBY,NRBYKIN,NRBYKIN_L,NPBY,
-     .                              RBY6_C,MS,IN,STIFN,STIFR,SIZE_RBY6_C)
+     .                              RBY6_C,MS,IN,STIFN,STIFR,SIZE_RBY6_C,  
+     .                              IRBKIN_L )
 !$OMP END SINGLE
       ENDIF 
 C
