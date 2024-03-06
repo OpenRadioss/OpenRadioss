@@ -31,7 +31,7 @@
 !=======================================================================================================================
 !
         subroutine damping_vref_rby_stiff(numnod,nnpby,nrbykin,nrbykin_l,npby,                       &
-                                          rby6_c,ms,in,stifn,stifr,size_rby6_c)
+                                          rby6_c,ms,in,stifn,stifr,size_rby6_c,irbkin_l)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -52,7 +52,8 @@
           integer,                                   intent(in) :: nrbykin                     !< number of rigid bodies
           integer,                                   intent(in) :: nrbykin_l                   !< number of rigid bodies on this proc         
           integer,                                   intent(in) :: npby(nnpby,nrbykin)         !< main structure for rigid bodies
-          integer,                                   intent(in) :: size_rby6_c                 !< dimension of array rby6c 
+          integer,                                   intent(in) :: size_rby6_c                 !< dimension of array rby6c
+          integer,                                   intent(in) :: irbkin_l(nrbykin)           !< local global id of rigid_body 
           my_real,                                   intent(in) :: ms(numnod)                  !< nodal mass
           my_real,                                   intent(in) :: in(numnod)                  !< nodal inertia      
           my_real,                                intent(inout) :: stifn(numnod)               !< nodal stiffness
@@ -61,21 +62,22 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: nd,m
+          integer :: nd,m,n
           my_real :: c_tot,cr_tot,dd,fac
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------        
 !         
-          do nd=1,nrbykin_l
+          do n=1,nrbykin_l
 
+            nd = irbkin_l(n)
             if(npby(7,nd)>0) THEN
-!
+
               m = npby(1,nd)
 
               c_tot = rby6_c(1,1,nd)+rby6_c(1,2,nd)+rby6_c(1,3,nd)+rby6_c(1,4,nd)+rby6_c(1,5,nd)+rby6_c(1,6,nd)
               cr_tot= rby6_c(2,1,nd)+rby6_c(2,2,nd)+rby6_c(2,3,nd)+rby6_c(2,4,nd)+rby6_c(2,5,nd)+rby6_c(2,6,nd)
-!            
+
               dd = c_tot/sqrt(two*stifn(m)*ms(m))
               fac = sqrt(one + dd*dd) - dd
               stifn(m) = stifn(m) / fac**2
