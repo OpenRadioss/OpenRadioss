@@ -195,7 +195,8 @@ Chd|====================================================================
      J                  FXB_MATRIX ,FXB_MATRIX_ADD,FXB_LAST_ADRESS,PTR_NOPT_FXB,R_SKEW,
      K                  KNOD2EL1D  ,NOD2EL1D     ,EBCS_TAB     ,RBY_INIAXIS  ,ALEA    ,
      L                  KNOD2ELC   ,NOD2ELC      ,DR           ,SLRBODY      , DRAPEG ,
-     M                  IPARI      ,INTBUF_TAB   ,INTERFACES   ,MAT_PARAM    )
+     M                  IPARI      ,INTBUF_TAB   ,INTERFACES   ,MAT_PARAM    ,NPRELOAD_A,
+     N                  PRELOAD_A  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -322,6 +323,7 @@ C
       INTEGER NOM_OPT(LNOPT1,*),PTR_NOPT_RBE2,PTR_NOPT_ADM,
      .        PTR_NOPT_FUN,IOPT
       INTEGER FXBNOD(*), FXANI(2,*),ITAGND(*)
+      INTEGER,INTENT(IN) :: NPRELOAD_A
 C
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP,NXEL) :: XFEM_TAB
@@ -350,6 +352,7 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE(INTBUF_STRUCT_) , INTENT(IN   ) ::  INTBUF_TAB(NINTER)
       TYPE(INTERFACES_) , INTENT(INOUT   ) ::  INTERFACES
+      TYPE(PREL1D_) , INTENT(IN   ), DIMENSION(NPRELOAD_A) ::  PRELOAD_A
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1407,7 +1410,7 @@ C 2D multifluid law
      5                INR       ,STIFINT     ,STR(NFT+1),IGEO     ,SIGRS      ,
      6                NSIGRS    ,IMERGE2     ,IADMERGE2 ,MSRT(NFT+1),IXR_KJ   ,
      7                NOM_OPT(1,IOPT),STRR   ,PTSPRI    ,IPM       , PM     ,
-     8                BUFMAT    ,R_SKEW)
+     8                BUFMAT    ,R_SKEW      ,PRELOAD_A(IBOLTP),IBOLTP    )          
         !----------------------------------------!
         !   ITY == 7                SH3N or TRIA !
         !----------------------------------------!

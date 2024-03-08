@@ -45,7 +45,13 @@ C-----------------------------------------------
      .   DIMENSION(:),ALLOCATABLE :: PRELOAD
       my_real,
      .   DIMENSION(:),ALLOCATABLE :: VPRELOAD
-
+      INTEGER,
+     .   DIMENSION(:),ALLOCATABLE :: IPRELOAD1
+!--------------
+      TYPE PREL1D_
+        INTEGER   :: sens_id, fun_id
+        my_real   :: preload, damp
+      END TYPE PREL1D_
 
 C-----------------------------------------------
       END MODULE BPRELOAD_MOD

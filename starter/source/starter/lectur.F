@@ -602,6 +602,7 @@ C-----------------------------------------------
       USE INTER_CAND_MOD
       USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_
       USE damping_rby_spmdset_mod
+      USE HM_READ_PRELOAD_AXIAL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -930,7 +931,7 @@ C======================================================================|
       TYPE(INTBUF_STRUCT_),DIMENSION(:),ALLOCATABLE :: INTBUF_TAB
       TYPE(SCRATCH_STRUCT_),DIMENSION(:),ALLOCATABLE :: INSCR
 C---  Bolt preloading
-      INTEGER SIPRELOAD, SPRELOAD   !NUMPRELOAD,
+      INTEGER SIPRELOAD, SPRELOAD  !NUMPRELOAD,
 
 c---  Element Buffer  --------------------------------------------------
       TYPE(ELBUF_STRUCT_),DIMENSION(:)  ,ALLOCATABLE :: ELBUF_TAB
@@ -972,6 +973,10 @@ C PINCHING
 C For /H3D/STRESS/TENS/OUTER
       INTEGER, ALLOCATABLE, DIMENSION(:) :: TAG_SKINS6
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: SEATBELT_SHELL_TO_SPRING
+C---  Bolt preload/axial
+      INTEGER                                  :: NPRELOAD_A
+      INTEGER, ALLOCATABLE, DIMENSION(:)       :: ITAGPRLD_SPRING
+      TYPE(PREL1D_), DIMENSION(:), ALLOCATABLE :: PRELOAD_A
 C======================================================================|
 C   Allocations AM (Reels)
 C======================================================================|
@@ -4955,9 +4960,10 @@ C--------------------------------------------
       ERR_CATEGORY='BOLT PRELOADING'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 c
-
+      NPRELOAD_A = NPRELOAD
+      CALL HM_PRE_READ_PRELOAD_AXIAL(NGRSPRI,IGRSPRING,NPRELOAD_A,LSUBMODEL)
       NUMPRELOAD  = NPRELOAD
-      IF(NPRELOAD /= 0) THEN
+      IF(NPRELOAD > NPRELOAD_A) THEN
        IF(NSECT /= 0)THEN
         CALL PRELECSEC4BOLT(SNSTRF,SSECBUF,IGRNOD,ITABM1,0,
      .                      NOM_OPT(LNOPT1*INOM_OPT(8)+1),IGRBRIC,LSUBMODEL)
@@ -5014,6 +5020,19 @@ c
      .                          MSGTYPE= MSGERROR,
      .                               C1= 'IFLAG_BPRELOAD')
       ENDIF
+!      /PRELOAD/AXIAL  2 int 2 real per preload, itag_spring...
+       ALLOCATE(PRELOAD_A(NPRELOAD_A)    ,STAT=stat)
+       ALLOCATE(ITAGPRLD_SPRING(NUMELR)  ,STAT=stat)
+       IF(STAT /= 0) CALL ANCMSG(MSGID= 268,ANMODE=ANINFO,
+     .                          MSGTYPE= MSGERROR,
+     .                               C1= 'PRELOAD_AXIAL')
+! itagpre_spring(nsprint), itagpre_beam(nbeam) : id of preload/axial; used for element grouping
+       CALL HM_READ_PRELOAD_AXIAL(                                     
+     .        NPRELOAD_A,    NGRSPRI,    IGRSPRING, ITAGPRLD_SPRING,  
+     .        UNITAB    ,  LSUBMODEL,    PRELOAD_A, IXR            ,
+     .        NIXR      ,  NUMELR   ,    NPC      ,NFUNCT          ,
+     .        SNPC      , SENSORS   )
+       NPRELOAD = NPRELOAD - NPRELOAD_A
       CALL TRACE_OUT1()
 C-------------------------------------------------
 C     LECTURE DES LIENS RIGIDES
@@ -6122,7 +6141,7 @@ C
      2      ITR1    ,EADD   ,INDEX1 ,ITRI1   ,
      4      IPARTR  ,ND     ,IGRSURF,IGRSPRING,
      5      CEP(OFF),XEP    ,IRESOFF,
-     6      TAGPRT_SMS, CLUSTERS,IPM,R_SKEW)
+     6      TAGPRT_SMS, CLUSTERS,IPM,R_SKEW,ITAGPRLD_SPRING)
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------
@@ -6145,7 +6164,8 @@ C
      2      ND       ,DD_TMP     ,IDX      ,INUM     ,
      3      INDEX1   ,CEP(OFF)   ,IPARTR   ,ITR1     ,
      4      IGRSURF  ,IGRSPRING  ,IRESOFF  ,TAGPRT_SMS ,NOD2EL1D,
-     5      IPM , CLUSTERS,R_SKEW,IPRI)
+     5      IPM , CLUSTERS,R_SKEW,IPRI     ,ITAGPRLD_SPRING,
+     6      PRELOAD_A,NPRELOAD_A)
           OFF = OFF + NUMELR
         ENDIF
 C
@@ -8468,7 +8488,8 @@ C
      J            FXB_MATRIX,FXB_MATRIX_ADD,FXB_LAST_ADRESS,INOM_OPT(11),R_SKEW,
      K            KNOD2EL1D,NOD2EL1D  ,EBCS_TAB  ,RBY_INIAXIS,ALEA  ,
      L            KNOD2ELC,NOD2ELC    ,DR        ,SLRBODY , DRAPEG  ,
-     M            IPARI   ,INTBUF_TAB ,INTERFACES,MAT_ELEM%MAT_PARAM) 
+     M            IPARI   ,INTBUF_TAB ,INTERFACES,MAT_ELEM%MAT_PARAM,
+     N            NPRELOAD_A,PRELOAD_A) 
 
 
       IF(NINTER>0.AND.NUMELIG3D>0) THEN

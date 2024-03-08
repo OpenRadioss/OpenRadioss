@@ -132,6 +132,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE DT_MOD
       USE OUTPUT_MOD
+      USE PRELOAD_AXIAL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -215,7 +216,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       DOUBLE PRECISION, POINTER :: pFBSAV6
-      INTEGER INDXOF(MVSIZ), IERROR, NV46
+      INTEGER INDXOF(MVSIZ), IERROR, NV46,IPREID,FUN_ID,SENS_ID
       INTEGER I,II,J,N, NG, NVC, MLW, JFT, JLT,ISOLNOD,ITHK,IPLA,IFAIL,
      .   K1, K2, KAD,NF1,IPRI, NELEM, OFFSET, NSGRP, K,
      .   K0, K3, K5, K6, K7, K8, K9, NSG, NEL, KFTS,IOFC, ISTRA,
@@ -224,7 +225,7 @@ C-----------------------------------------------
      .   L17,L18,L19,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29,L30,
      .   ICP,ICS,IMATVIS,IEXPAN,NPTS,MPT,NPTT,NPTR,NPT0,IG,OFF_IGRTH,
      .   NCTRL,DIM6,IPARSENS,ISECT,GAMA(6),PX,PY,PZ,ISENS_ENERGY
-      my_real BID,QMVBID
+      my_real BID,QMVBID,PRELOAD1
       my_real VOLN(MVSIZ)
       my_real, ALLOCATABLE, DIMENSION(:,:) :: FX,FY,FZ,MX,MY,MZ
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -324,6 +325,7 @@ C
         IGRE    = IPARG(51,NG)                                        
         ISPH2SOL = 0
         IPARTSPH = IPARG(69,NG)
+        IPREID   = IPARG(72,NG)  
         IFORMDT  = IPARG(73,NG)  
 C
         IF (ITY==1) ICP = NSG                                       
@@ -1233,6 +1235,16 @@ C----6---------------------------------------------------------------7---------8
              K1=1 + 6*(NUMELC+NUMELTG)*IEPSDOT + 15*(NUMELT+NUMELP+NFT)
              OFF_IGRTH = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP
 c
+          IF (IPREID>0) THEN
+             FUN_ID = IPARG(73,NG)
+             SENS_ID= IPARG(74,NG) 
+             CALL GET_PRELOAD_AXIAL(
+     1           FUN_ID        ,SENS_ID       ,NPC          ,SNPC          ,
+     2           TF            ,STF           ,SENSORS      ,TT            ,
+     3           PRELOAD1)
+          ELSE
+             PRELOAD1 =ZERO
+          END IF
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .     CALL SENSOR_ENERGY_PART(IPARTR(NF1) ,SUBSET ,IPRI)
          IF(IGTYP == 23) THEN
@@ -1270,7 +1282,7 @@ c
      D   MY(1,2),             MZ(1,1),             MZ(1,2),             GRESAV,
      E   GRTH,                IGRTH(OFF_IGRTH+NF1),MSRT(NF1),           DMELRT(NF1),
      F   ITASK,               H3D_DATA,            JSMS,                NFT,
-     G   IAD,                 IGRE)
+     G   IAD,                 IGRE                ,PRELOAD1 )
              
          ENDIF
 C
