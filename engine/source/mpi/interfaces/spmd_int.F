@@ -58,6 +58,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -218,6 +219,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -225,9 +227,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -257,7 +256,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,INFO,I,NOD, DT_CST, LOC_PROC,P,IDEB,
      .        SIZ,J, L, BUFSIZ, LEN, NB, IERROR1, IAD,
-     .        STATUS(MPI_STATUS_SIZE),IERROR,REQ_SB(NSPMD),
+     .        IERROR,REQ_SB(NSPMD),
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
      .        REQ_RD(NSPMD),REQ_SD(NSPMD),REQ_SD2(NSPMD),
      .        REQ_RC(NSPMD),REQ_SC(NSPMD),
@@ -324,15 +323,15 @@ C
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
               MSGTYP = MSGOFF 
-              CALL MPI_ISEND(
+              CALL SPMD_ISEND(
      .          CRVOXEL(0,0,LOC_PROC),
      .          (LRVOXEL+1)*(LRVOXEL+1),
-     .          MPI_INTEGER,
-     .          IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,REQ_SC(P),IERROR)
+     .          
+     .          IT_SPMD(P),MSGTYP,REQ_SC(P))
               MSGTYP = MSGOFF2 
-              CALL MPI_ISEND(
-     .          BMINMA(1,LOC_PROC),6        ,REAL  ,IT_SPMD(P),MSGTYP,
-     .          MPI_COMM_WORLD    ,REQ_SB(P),IERROR)
+              CALL SPMD_ISEND(
+     .          BMINMA(1,LOC_PROC),6          ,IT_SPMD(P),MSGTYP,
+     .          REQ_SB(P))
             ENDIF
           ENDIF
         ENDDO
@@ -348,15 +347,14 @@ C
               NBIRECV=NBIRECV+1
               IRINDEXI(NBIRECV)=P
               MSGTYP = MSGOFF 
-              CALL MPI_IRECV(
+              CALL SPMD_IRECV(
      .          CRVOXEL(0,0,P),
      .         (LRVOXEL+1)*(LRVOXEL+1),
-     .          MPI_INTEGER,
-     .          IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,REQ_RC(NBIRECV),IERROR)
+     .          IT_SPMD(P),MSGTYP,REQ_RC(NBIRECV))
               MSGTYP = MSGOFF2 
-              CALL MPI_IRECV(
-     .          BMINMA(1,P)   ,6              ,REAL  ,IT_SPMD(P),MSGTYP,
-     .          MPI_COMM_WORLD,REQ_RB(NBIRECV),IERROR)
+              CALL SPMD_IRECV(
+     .          BMINMA(1,P)   ,6                ,IT_SPMD(P),MSGTYP,
+     .          REQ_RB(NBIRECV))
             ENDIF
           ENDIF
         ENDDO
@@ -430,9 +428,9 @@ C-----for   NBINFLG
       
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
-          CALL MPI_WAITANY(NBIRECV,REQ_RB,INDEXI,STATUS,IERROR)
+          CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
           P=IRINDEXI(INDEXI)
-          CALL MPI_WAIT(REQ_RC(INDEXI),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_RC(INDEXI))
 C Traitement special sur d.d. ne consever que les noeuds internes
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
@@ -506,8 +504,8 @@ C
 C Envoi taille msg
 C
           MSGTYP = MSGOFF3 
-          CALL MPI_ISEND(NBOX(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                 MPI_COMM_WORLD,REQ_SD(P),IERROR)
+          CALL SPMD_ISEND(NBOX(P),1,IT_SPMD(P),MSGTYP,
+     .                 REQ_SD(P))
 C
 C Alloc buffer
 C
@@ -760,14 +758,14 @@ C
 
             MSGTYP = MSGOFF4
 
-            CALL MPI_ISEND(
-     1        RBUF(P)%P(1),NB*RSIZ,REAL,IT_SPMD(P),MSGTYP,
-     2        MPI_COMM_WORLD,REQ_SD2(P),ierror)
+            CALL SPMD_ISEND(
+     1        RBUF(P)%P(1),NB*RSIZ,IT_SPMD(P),MSGTYP,
+     2        REQ_SD2(P))
      
             MSGTYP = MSGOFF5
-            CALL MPI_ISEND(
-     1        IBUF(P)%P(1),NB*ISIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2        MPI_COMM_WORLD,REQ_SD3(P),ierror)
+            CALL SPMD_ISEND(
+     1        IBUF(P)%P(1),NB*ISIZ,IT_SPMD(P),MSGTYP,
+     2        REQ_SD3(P))
          
           ENDIF
 C
@@ -795,8 +793,8 @@ C
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(LOC_PROC/=P) THEN
               MSGTYP = MSGOFF3 
-              CALL MPI_RECV(NSNFI(NIN)%P(P),1,MPI_INTEGER,IT_SPMD(P),
-     .                      MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+              CALL SPMD_RECV(NSNFI(NIN)%P(P),1,IT_SPMD(P),
+     .                      MSGTYP)
               IF(NSNFI(NIN)%P(P)>0) THEN
                 L=L+1
                 ISINDEXI(L)=P
@@ -824,20 +822,20 @@ C
             LEN = NSNFI(NIN)%P(P)*RSIZ
             MSGTYP = MSGOFF4 
               
-            CALL MPI_IRECV(
-     1        XREM(1,IDEB),LEN,REAL,IT_SPMD(P),
-     2        MSGTYP,MPI_COMM_WORLD,REQ_RD(L),IERROR)
+            CALL SPMD_IRECV(
+     1        XREM(1,IDEB),LEN,IT_SPMD(P),
+     2        MSGTYP,REQ_RD(L))
      
             LEN2 = NSNFI(NIN)%P(P)*ISIZ
             MSGTYP = MSGOFF5 
-            CALL MPI_IRECV(
-     1        IREM(1,IDEB),LEN2,MPI_INTEGER,IT_SPMD(P),
-     2        MSGTYP,MPI_COMM_WORLD,REQ_RD2(L),IERROR)
+            CALL SPMD_IRECV(
+     1        IREM(1,IDEB),LEN2,IT_SPMD(P),
+     2        MSGTYP,REQ_RD2(L))
             IDEB = IDEB + NSNFI(NIN)%P(P)           
           ENDDO
           DO L = 1, NBIRECV
-            CALL MPI_WAITANY(NBIRECV,REQ_RD,INDEXI,STATUS,IERROR)
-            CALL MPI_WAITANY(NBIRECV,REQ_RD2,INDEXI,STATUS,IERROR)
+            CALL SPMD_WAITANY(NBIRECV,REQ_RD,INDEXI)
+            CALL SPMD_WAITANY(NBIRECV,REQ_RD2,INDEXI)
           ENDDO
 
           !set specifics IREM and XREM indexes for INT24 sorting
@@ -851,8 +849,8 @@ C
         DO P = 1, NSPMD
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
-              CALL MPI_WAIT(REQ_SB(P),STATUS,IERROR)
-              CALL MPI_WAIT(REQ_SC(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SB(P))
+              CALL SPMD_WAIT(REQ_SC(P))
             ENDIF
           ENDIF
         ENDDO
@@ -862,11 +860,11 @@ C
         DO P = 1, NSPMD
           IF(IRCVFROM(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
-              CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SD(P))
               IF(NBOX(P)/=0) THEN
-                CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
+                CALL SPMD_WAIT(REQ_SD2(P))
                 DEALLOCATE(RBUF(P)%p)
-                CALL MPI_WAIT(REQ_SD3(P),STATUS,IERROR)
+                CALL SPMD_WAIT(REQ_SD3(P))
                 DEALLOCATE(IBUF(P)%p)
               END IF
             ENDIF
@@ -910,6 +908,7 @@ C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
       USE MULTI_FVM_MOD
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -917,9 +916,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -951,7 +947,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,INFO,I,NOD, DT_CST, LOC_PROC,P,IDEB,
      .        SIZ,J, L, BUFSIZ, LEN, NB, IERROR1, IAD,
-     .        STATUS(MPI_STATUS_SIZE),IERROR,REQ_SB(NSPMD),
+     .        IERROR,REQ_SB(NSPMD),
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
      .        REQ_RD(NSPMD),REQ_SD(NSPMD),REQ_SD2(NSPMD),
      .        REQ_RC(NSPMD),REQ_SC(NSPMD),
@@ -1018,15 +1014,15 @@ C
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
               MSGTYP = MSGOFF 
-              CALL MPI_ISEND(
+              CALL SPMD_ISEND(
      .          CRVOXEL(0,0,LOC_PROC),
      .          (LRVOXEL+1)*(LRVOXEL+1),
-     .          MPI_INTEGER,
-     .          IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,REQ_SC(P),IERROR)
+     .          
+     .          IT_SPMD(P),MSGTYP,REQ_SC(P))
               MSGTYP = MSGOFF2 
-              CALL MPI_ISEND(
-     .          BMINMA(1,LOC_PROC),6        ,REAL  ,IT_SPMD(P),MSGTYP,
-     .          MPI_COMM_WORLD    ,REQ_SB(P),IERROR)
+              CALL SPMD_ISEND(
+     .          BMINMA(1,LOC_PROC),6          ,IT_SPMD(P),MSGTYP,
+     .          REQ_SB(P))
             ENDIF
           ENDIF
         ENDDO
@@ -1042,15 +1038,14 @@ C
               NBIRECV=NBIRECV+1
               IRINDEXI(NBIRECV)=P
               MSGTYP = MSGOFF 
-              CALL MPI_IRECV(
+              CALL SPMD_IRECV(
      .          CRVOXEL(0,0,P),
      .         (LRVOXEL+1)*(LRVOXEL+1),
-     .          MPI_INTEGER,
-     .          IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,REQ_RC(NBIRECV),IERROR)
+     .          IT_SPMD(P),MSGTYP,REQ_RC(NBIRECV))
               MSGTYP = MSGOFF2 
-              CALL MPI_IRECV(
-     .          BMINMA(1,P)   ,6              ,REAL  ,IT_SPMD(P),MSGTYP,
-     .          MPI_COMM_WORLD,REQ_RB(NBIRECV),IERROR)
+              CALL SPMD_IRECV(
+     .          BMINMA(1,P)   ,6                ,IT_SPMD(P),MSGTYP,
+     .          REQ_RB(NBIRECV))
             ENDIF
           ENDIF
         ENDDO
@@ -1098,9 +1093,9 @@ C -- IDTMINS_INT /= 0
       
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
-          CALL MPI_WAITANY(NBIRECV,REQ_RB,INDEXI,STATUS,IERROR)
+          CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
           P=IRINDEXI(INDEXI)
-          CALL MPI_WAIT(REQ_RC(INDEXI),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_RC(INDEXI))
 
           L = IDEB
           NBOX(P) = 0
@@ -1141,8 +1136,8 @@ C
 C Envoi taille msg
 C
           MSGTYP = MSGOFF3 
-          CALL MPI_ISEND(NBOX(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                 MPI_COMM_WORLD,REQ_SD(P),IERROR)
+          CALL SPMD_ISEND(NBOX(P),1,IT_SPMD(P),MSGTYP,
+     .                 REQ_SD(P))
 C
 C Alloc buffer
 C
@@ -1283,14 +1278,14 @@ C
 
             MSGTYP = MSGOFF4
 
-            CALL MPI_ISEND(
-     1        RBUF(P)%P(1),NB*RSIZ,REAL,IT_SPMD(P),MSGTYP,
-     2        MPI_COMM_WORLD,REQ_SD2(P),ierror)
+            CALL SPMD_ISEND(
+     1        RBUF(P)%P(1),NB*RSIZ,IT_SPMD(P),MSGTYP,
+     2        REQ_SD2(P))
      
             MSGTYP = MSGOFF5
-            CALL MPI_ISEND(
-     1        IBUF(P)%P(1),NB*ISIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2        MPI_COMM_WORLD,REQ_SD3(P),ierror)
+            CALL SPMD_ISEND(
+     1        IBUF(P)%P(1),NB*ISIZ,IT_SPMD(P),MSGTYP,
+     2        REQ_SD3(P))
          
           ENDIF
         ENDDO
@@ -1307,8 +1302,8 @@ C
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(LOC_PROC/=P) THEN
               MSGTYP = MSGOFF3 
-              CALL MPI_RECV(NSNFI(NIN)%P(P),1,MPI_INTEGER,IT_SPMD(P),
-     .                      MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+              CALL SPMD_RECV(NSNFI(NIN)%P(P),1,IT_SPMD(P),
+     .                      MSGTYP)
               IF(NSNFI(NIN)%P(P)>0) THEN
                 L=L+1
                 ISINDEXI(L)=P
@@ -1336,20 +1331,20 @@ C
             LEN = NSNFI(NIN)%P(P)*RSIZ
             MSGTYP = MSGOFF4 
               
-            CALL MPI_IRECV(
-     1        XREM(1,IDEB),LEN,REAL,IT_SPMD(P),
-     2        MSGTYP,MPI_COMM_WORLD,REQ_RD(L),IERROR)
+            CALL SPMD_IRECV(
+     1        XREM(1,IDEB),LEN,IT_SPMD(P),
+     2        MSGTYP,REQ_RD(L))
      
             LEN2 = NSNFI(NIN)%P(P)*ISIZ
             MSGTYP = MSGOFF5 
-            CALL MPI_IRECV(
-     1        IREM(1,IDEB),LEN2,MPI_INTEGER,IT_SPMD(P),
-     2        MSGTYP,MPI_COMM_WORLD,REQ_RD2(L),IERROR)
+            CALL SPMD_IRECV(
+     1        IREM(1,IDEB),LEN2,IT_SPMD(P),
+     2        MSGTYP,REQ_RD2(L))
             IDEB = IDEB + NSNFI(NIN)%P(P)           
           ENDDO
           DO L = 1, NBIRECV
-            CALL MPI_WAITANY(NBIRECV,REQ_RD,INDEXI,STATUS,IERROR)
-            CALL MPI_WAITANY(NBIRECV,REQ_RD2,INDEXI,STATUS,IERROR)
+            CALL SPMD_WAITANY(NBIRECV,REQ_RD,INDEXI)
+            CALL SPMD_WAITANY(NBIRECV,REQ_RD2,INDEXI)
           ENDDO
 
           !set specifics IREM and XREM indexes for INT24 sorting
@@ -1363,8 +1358,8 @@ C
         DO P = 1, NSPMD
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
-              CALL MPI_WAIT(REQ_SB(P),STATUS,IERROR)
-              CALL MPI_WAIT(REQ_SC(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SB(P))
+              CALL SPMD_WAIT(REQ_SC(P))
             ENDIF
           ENDIF
         ENDDO
@@ -1374,11 +1369,11 @@ C
         DO P = 1, NSPMD
           IF(IRCVFROM(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
-              CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SD(P))
               IF(NBOX(P)/=0) THEN
-                CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
+                CALL SPMD_WAIT(REQ_SD2(P))
                 DEALLOCATE(RBUF(P)%p)
-                CALL MPI_WAIT(REQ_SD3(P),STATUS,IERROR)
+                CALL SPMD_WAIT(REQ_SD3(P))
                 DEALLOCATE(IBUF(P)%p)
               END IF
             ENDIF
@@ -1421,16 +1416,11 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   M e s s a g e   P a s s i n g
-C-----------------------------------------------
-#ifdef  MPI
-#include "mpif.h"
-#endif
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1463,7 +1453,7 @@ C-----------------------------------------------
 #ifdef  MPI
       INTEGER MSGTYP,INFO,I,NOD, DT_CST, LOC_PROC,P,IDEB,
      .        SIZ,J, L, BUFSIZ, LEN, NB, IERROR1, IAD,
-     .        STATUS(MPI_STATUS_SIZE),IERROR,REQ_SB(NSPMD),
+     .        IERROR,REQ_SB(NSPMD),
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
      .        REQ_RD(NSPMD),REQ_SD(NSPMD),REQ_SD2(NSPMD),
      .        REQ_RC(NSPMD),REQ_SC(NSPMD),
@@ -1544,15 +1534,15 @@ C
 
             IF(P/=LOC_PROC) THEN
               MSGTYP = MSGOFF 
-              CALL MPI_ISEND(
+              CALL SPMD_ISEND(
      .          CRVOXEL(0,0,LOC_PROC),
      .          (LRVOXEL+1)*(LRVOXEL+1),
-     .          MPI_INTEGER,
-     .          IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,REQ_SC(P),IERROR)
+     .          
+     .          IT_SPMD(P),MSGTYP,REQ_SC(P))
               MSGTYP = MSGOFF2 
-              CALL MPI_ISEND(
-     .          BMINMA(1,LOC_PROC),6        ,REAL  ,IT_SPMD(P),MSGTYP,
-     .          MPI_COMM_WORLD    ,REQ_SB(P),IERROR)
+              CALL SPMD_ISEND(
+     .          BMINMA(1,LOC_PROC),6          ,IT_SPMD(P),MSGTYP,
+     .          REQ_SB(P))
             ENDIF
           ENDIF
         ENDDO
@@ -1568,15 +1558,15 @@ C
               NBIRECV=NBIRECV+1
               IRINDEXI(NBIRECV)=P
               MSGTYP = MSGOFF 
-              CALL MPI_IRECV(
+              CALL SPMD_IRECV(
      .          CRVOXEL(0,0,P),
      .         (LRVOXEL+1)*(LRVOXEL+1),
-     .          MPI_INTEGER,
-     .          IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,REQ_RC(NBIRECV),IERROR)
+     .          
+     .          IT_SPMD(P),MSGTYP,REQ_RC(NBIRECV))
               MSGTYP = MSGOFF2 
-              CALL MPI_IRECV(
-     .          BMINMA(1,P)   ,6              ,REAL  ,IT_SPMD(P),MSGTYP,
-     .          MPI_COMM_WORLD,REQ_RB(NBIRECV),IERROR)
+              CALL SPMD_IRECV(
+     .          BMINMA(1,P)   ,6                ,IT_SPMD(P),MSGTYP,
+     .          REQ_RB(NBIRECV))
             ENDIF
           ENDIF
         ENDDO
@@ -1640,9 +1630,9 @@ C---CAREA ouptu
       
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
-          CALL MPI_WAITANY(NBIRECV,REQ_RB,INDEXI,STATUS,IERROR)
+          CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
           P=IRINDEXI(INDEXI)
-          CALL MPI_WAIT(REQ_RC(INDEXI),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_RC(INDEXI))
 C Traitement special sur d.d. ne consever que les noeuds internes
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
@@ -1775,8 +1765,8 @@ C
 C Envoi taille msg
 C
           MSGTYP = MSGOFF3 
-          CALL MPI_ISEND(NBOX(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                 MPI_COMM_WORLD,REQ_SD(P),IERROR)
+          CALL SPMD_ISEND(NBOX(P),1,IT_SPMD(P),MSGTYP,
+     .                 REQ_SD(P))
 C
 C Alloc buffer
 C
@@ -2115,14 +2105,14 @@ C NITSCHE
               ENDIF
 
             MSGTYP = MSGOFF4
-            CALL MPI_ISEND(
-     1        RBUF(P)%P(1),NB*RSIZ,REAL,IT_SPMD(P),MSGTYP,
-     2        MPI_COMM_WORLD,REQ_SD2(P),ierror)
+            CALL SPMD_ISEND(
+     1        RBUF(P)%P(1),NB*RSIZ,IT_SPMD(P),MSGTYP,
+     2        REQ_SD2(P))
      
             MSGTYP = MSGOFF5
-            CALL MPI_ISEND(
-     1        IBUF(P)%P(1),NB*ISIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2        MPI_COMM_WORLD,REQ_SD3(P),ierror)
+            CALL SPMD_ISEND(
+     1        IBUF(P)%P(1),NB*ISIZ,IT_SPMD(P),MSGTYP,
+     2        REQ_SD3(P))
          
           ENDIF
         ENDDO
@@ -2138,8 +2128,8 @@ C
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(LOC_PROC/=P) THEN
               MSGTYP = MSGOFF3 
-              CALL MPI_RECV(NSNFI(NIN)%P(P),1,MPI_INTEGER,IT_SPMD(P),
-     .                      MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+              CALL SPMD_RECV(NSNFI(NIN)%P(P),1,IT_SPMD(P),
+     .                      MSGTYP)
 
               IF(NSNFI(NIN)%P(P)>0) THEN
                 L=L+1
@@ -2169,21 +2159,21 @@ C
             LEN = NSNFI(NIN)%P(P)*RSIZ
             MSGTYP = MSGOFF4 
               
-            CALL MPI_IRECV(
-     1        XREM(1,IDEB),LEN,REAL,IT_SPMD(P),
-     2        MSGTYP,MPI_COMM_WORLD,REQ_RD(L),IERROR)
+            CALL SPMD_IRECV(
+     1        XREM(1,IDEB),LEN,IT_SPMD(P),
+     2        MSGTYP,REQ_RD(L))
      
             LEN2 = NSNFI(NIN)%P(P)*ISIZ
             MSGTYP = MSGOFF5 
-            CALL MPI_IRECV(
-     1        IREM(1,IDEB),LEN2,MPI_INTEGER,IT_SPMD(P),
-     2        MSGTYP,MPI_COMM_WORLD,REQ_RD2(L),IERROR)
+            CALL SPMD_IRECV(
+     1        IREM(1,IDEB),LEN2,IT_SPMD(P),
+     2        MSGTYP,REQ_RD2(L))
               
             IDEB = IDEB + NSNFI(NIN)%P(P)           
           ENDDO
           DO L = 1, NBIRECV
-            CALL MPI_WAITANY(NBIRECV,REQ_RD,INDEXI,STATUS,IERROR)
-            CALL MPI_WAITANY(NBIRECV,REQ_RD2,INDEXI,STATUS,IERROR)
+            CALL SPMD_WAITANY(NBIRECV,REQ_RD,INDEXI)
+            CALL SPMD_WAITANY(NBIRECV,REQ_RD2,INDEXI)
           ENDDO
 
           !set specifics IREM and XREM indexes for INT24 sorting
@@ -2217,8 +2207,8 @@ C
         DO P = 1, NSPMD
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
-              CALL MPI_WAIT(REQ_SB(P),STATUS,IERROR)
-              CALL MPI_WAIT(REQ_SC(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SB(P))
+              CALL SPMD_WAIT(REQ_SC(P))
             ENDIF
           ENDIF
         ENDDO
@@ -2228,11 +2218,11 @@ C
         DO P = 1, NSPMD
           IF(IRCVFROM(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
-              CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SD(P))
               IF(NBOX(P)/=0) THEN
-                CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
+                CALL SPMD_WAIT(REQ_SD2(P))
                 DEALLOCATE(RBUF(P)%p)
-                CALL MPI_WAIT(REQ_SD3(P),STATUS,IERROR)
+                CALL SPMD_WAIT(REQ_SD3(P))
                 DEALLOCATE(IBUF(P)%p)
               END IF
             ENDIF
@@ -2271,15 +2261,11 @@ C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
       USE H3D_MOD
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   M e s s a g e   P a s s i n g
-C-----------------------------------------------
-#ifdef  MPI
-#endif
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -3051,6 +3037,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
       USE MULTI_FVM_MOD
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3594,16 +3581,11 @@ C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
       USE OUTPUTS_MOD
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   M e s s a g e   P a s s i n g
-C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -3628,7 +3610,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,INFO,I,NOD, DT_CST, LOC_PROC,P,IDEB,
      .        J, L, BUFSIZ, LEN, NB, IERROR1,
-     .        STATUS(MPI_STATUS_SIZE),IERROR,REQ_SB(NSPMD),
+     .        IERROR,REQ_SB(NSPMD),
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
      .        REQ_RD(NSPMD),REQ_SD(NSPMD),REQ_SD2(NSPMD),
      .        INDEXI,ISINDEXI(NSPMD),INDEX(NUMNOD),NBOX(NSPMD),
@@ -3676,9 +3658,9 @@ C
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
               MSGTYP = MSGOFF
-              CALL MPI_ISEND(
-     .          BMINMA(1,LOC_PROC),6        ,REAL  ,IT_SPMD(P),MSGTYP,
-     .          MPI_COMM_WORLD    ,REQ_SB(P),IERROR)
+              CALL SPMD_ISEND(
+     .          BMINMA(1,LOC_PROC),6          ,IT_SPMD(P),MSGTYP,
+     .          REQ_SB(P))
             ENDIF
           ENDIF
         ENDDO
@@ -3694,9 +3676,9 @@ C
               MSGTYP = MSGOFF
               NBIRECV=NBIRECV+1
               IRINDEXI(NBIRECV)=P
-              CALL MPI_IRECV(
-     .          BMINMA(1,P)   ,6              ,REAL  ,IT_SPMD(P),MSGTYP,
-     .          MPI_COMM_WORLD,REQ_RB(NBIRECV),IERROR)
+              CALL SPMD_IRECV(
+     .          BMINMA(1,P)   ,6                ,IT_SPMD(P),MSGTYP,
+     .          REQ_RB(NBIRECV))
             ENDIF
           ENDIF
         ENDDO
@@ -3724,7 +3706,7 @@ c IDTMINS_INT /= 0
       IDEB = 1
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
-          CALL MPI_WAITANY(NBIRECV,REQ_RB,INDEXI,STATUS,IERROR)
+          CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
           P=IRINDEXI(INDEXI)
 C Traitement special sur d.d. ne consever que les noeuds internes
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
@@ -3774,8 +3756,8 @@ C
 C Envoi taille msg
 C
           MSGTYP = MSGOFF2 
-          CALL MPI_ISEND(NBOX(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                 MPI_COMM_WORLD,REQ_SD(P),IERROR)
+          CALL SPMD_ISEND(NBOX(P),1,IT_SPMD(P),MSGTYP,
+     .                 REQ_SD(P))
 C
 C Alloc buffer
 C
@@ -3853,14 +3835,14 @@ C -- IDTMINS_INT /= 0
               ENDIF
 
             MSGTYP = MSGOFF3 
-            CALL MPI_ISEND(
-     1        RBUF(P)%P(1),NB*RSIZ,REAL,IT_SPMD(P),
-     2        MSGTYP,MPI_COMM_WORLD,REQ_SD2(P),ierror)
+            CALL SPMD_ISEND(
+     1        RBUF(P)%P(1),NB*RSIZ,IT_SPMD(P),
+     2        MSGTYP,REQ_SD2(P))
      
             MSGTYP = MSGOFF4
-            CALL MPI_ISEND(
-     1        IBUF(P)%P(1),NB*ISIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2        MPI_COMM_WORLD,REQ_SD3(P),ierror) 
+            CALL SPMD_ISEND(
+     1        IBUF(P)%P(1),NB*ISIZ,IT_SPMD(P),MSGTYP,
+     2        REQ_SD3(P)) 
          
           ENDIF
         ENDDO
@@ -3876,8 +3858,8 @@ C
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(LOC_PROC/=P) THEN
               MSGTYP = MSGOFF2 
-              CALL MPI_RECV(NSNFI(NIN)%P(P),1,MPI_INTEGER,IT_SPMD(P),
-     .                      MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+              CALL SPMD_RECV(NSNFI(NIN)%P(P),1,IT_SPMD(P),
+     .                      MSGTYP)
               IF(NSNFI(NIN)%P(P)>0) THEN
                 L=L+1
                 ISINDEXI(L)=P
@@ -3907,22 +3889,22 @@ C
             LEN = NSNFI(NIN)%P(P)*RSIZ
             MSGTYP = MSGOFF3 
               
-            CALL MPI_IRECV(
-     1        XREM(1,IDEB),LEN,REAL,IT_SPMD(P),
-     2        MSGTYP,MPI_COMM_WORLD,REQ_RD(L),IERROR)
+            CALL SPMD_IRECV(
+     1        XREM(1,IDEB),LEN,IT_SPMD(P),
+     2        MSGTYP,REQ_RD(L))
      
             LEN2 = NSNFI(NIN)%P(P)*ISIZ
             MSGTYP = MSGOFF4 
-            CALL MPI_IRECV(
-     1        IREM(1,IDEB),LEN2,MPI_INTEGER,IT_SPMD(P),
-     2        MSGTYP,MPI_COMM_WORLD,REQ_RD2(L),IERROR) 
+            CALL SPMD_IRECV(
+     1        IREM(1,IDEB),LEN2,IT_SPMD(P),
+     2        MSGTYP,REQ_RD2(L)) 
          
             IDEB = IDEB + NSNFI(NIN)%P(P)
               
           ENDDO
           DO L = 1, NBIRECV
-            CALL MPI_WAITANY(NBIRECV,REQ_RD,INDEXI,STATUS,IERROR)
-              CALL MPI_WAITANY(NBIRECV,REQ_RD2,INDEXI,STATUS,IERROR)
+            CALL SPMD_WAITANY(NBIRECV,REQ_RD,INDEXI)
+              CALL SPMD_WAITANY(NBIRECV,REQ_RD2,INDEXI)
           ENDDO
 
         ENDIF
@@ -3932,7 +3914,7 @@ C
         DO P = 1, NSPMD
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
-              CALL MPI_WAIT(REQ_SB(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SB(P))
             ENDIF
           ENDIF
         ENDDO
@@ -3942,11 +3924,11 @@ C
         DO P = 1, NSPMD
           IF(IRCVFROM(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
-              CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SD(P))
               IF(NBOX(P)/=0) THEN
-                CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
+                CALL SPMD_WAIT(REQ_SD2(P))
                 DEALLOCATE(RBUF(P)%p)
-                  CALL MPI_WAIT(REQ_SD3(P),STATUS,IERROR)
+                  CALL SPMD_WAIT(REQ_SD3(P))
                 DEALLOCATE(IBUF(P)%p)
               END IF
             ENDIF
@@ -3978,6 +3960,7 @@ C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
       USE H3D_MOD
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4294,6 +4277,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4442,16 +4426,11 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   M e s s a g e   P a s s i n g
-C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -4481,7 +4460,7 @@ C-----------------------------------------------
       INTEGER MSGTYP,INFO,I, LOC_PROC,P,IDEB,
      .        MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4,
      .        SIZ,J, L, LEN, NB, IERROR1, IAD,
-     .        STATUS(MPI_STATUS_SIZE),IERROR,REQ_SB(NSPMD),
+     .        IERROR,REQ_SB(NSPMD),
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
      .        REQ_RD(NSPMD),REQ_SD(NSPMD),REQ_SD2(NSPMD),
      .        REQ_RC(NSPMD),REQ_SC(NSPMD),
@@ -4546,15 +4525,12 @@ C
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
               MSGTYP = MSGOFF 
-              CALL MPI_ISEND(
+              CALL SPMD_ISEND(
      .          CRVOXEL(0,0,LOC_PROC),
      .          (LRVOXEL+1)*(LRVOXEL+1),
-     .          MPI_INTEGER,
-     .          IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,REQ_SC(P),IERROR)
+     .          IT_SPMD(P),MSGTYP,REQ_SC(P))
               MSGTYP = MSGOFF2 
-              CALL MPI_ISEND(
-     .          BMINMA(1,LOC_PROC),6        ,REAL  ,IT_SPMD(P),MSGTYP,
-     .          MPI_COMM_WORLD    ,REQ_SB(P),IERROR)
+              CALL SPMD_ISEND(BMINMA(1,LOC_PROC),6,IT_SPMD(P),MSGTYP,REQ_SB(P))
             ENDIF
           ENDIF
         ENDDO
@@ -4570,15 +4546,14 @@ C
               NBIRECV=NBIRECV+1
               IRINDEXI(NBIRECV)=P
               MSGTYP = MSGOFF 
-              CALL MPI_IRECV(
+              CALL SPMD_IRECV(
      .          CRVOXEL(0,0,P),
      .         (LRVOXEL+1)*(LRVOXEL+1),
-     .          MPI_INTEGER,
-     .          IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,REQ_RC(NBIRECV),IERROR)
+     .          IT_SPMD(P),MSGTYP,REQ_RC(NBIRECV))
               MSGTYP = MSGOFF2 
-              CALL MPI_IRECV(
-     .          BMINMA(1,P)   ,6              ,REAL  ,IT_SPMD(P),MSGTYP,
-     .          MPI_COMM_WORLD,REQ_RB(NBIRECV),IERROR)
+              CALL SPMD_IRECV(
+     .          BMINMA(1,P)   ,6,IT_SPMD(P),MSGTYP,
+     .          REQ_RB(NBIRECV))
             ENDIF
           ENDIF
         ENDDO
@@ -4628,11 +4603,11 @@ C
     
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
-          CALL MPI_WAITANY(NBIRECV,REQ_RB,INDEXI,STATUS,IERROR)
+          CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
           P=IRINDEXI(INDEXI) 
 
 
-          CALL MPI_WAIT(REQ_RC(INDEXI),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_RC(INDEXI))
 C Traitement special sur d.d. ne consever que les noeuds internes
 !          DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
 !            NOD = FR_ELEM(J)
@@ -4703,8 +4678,8 @@ C
 C Envoi taille msg
 C
           MSGTYP = MSGOFF3 
-          CALL MPI_ISEND(NBOX(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                 MPI_COMM_WORLD,REQ_SD(P),IERROR)
+          CALL SPMD_ISEND(NBOX(P),1,IT_SPMD(P),MSGTYP,
+     .                 REQ_SD(P))
 C
 C Alloc buffer
 C
@@ -4869,14 +4844,14 @@ C-- SUBINTERFACES
             ENDIF
 C                                
             MSGTYP = MSGOFF4 
-            CALL MPI_ISEND(
-     1        RBUF(P)%P(1),NB*RSIZ,REAL,IT_SPMD(P),MSGTYP,
-     2        MPI_COMM_WORLD,REQ_SD2(P),ierror)
+            CALL SPMD_ISEND(
+     1        RBUF(P)%P(1),NB*RSIZ,IT_SPMD(P),MSGTYP,
+     2        REQ_SD2(P))
              
                MSGTYP = MSGOFF4
-            CALL MPI_ISEND(
-     1        IBUF(P)%P(1),NB*ISIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2        MPI_COMM_WORLD,REQ_SD3(P),ierror)     
+            CALL SPMD_ISEND(
+     1        IBUF(P)%P(1),NB*ISIZ,IT_SPMD(P),MSGTYP,
+     2        REQ_SD3(P))     
           ENDIF !ENDIF NB > 0
         ENDDO !ENDDO KK = 1, NBIRECV
       ENDIF !ENDIF SENDTO(NIN,LOC_PROC)/=0
@@ -4892,8 +4867,7 @@ C
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(LOC_PROC/=P) THEN
               MSGTYP = MSGOFF3 
-              CALL MPI_RECV(NSNFI(NIN)%P(P),1,MPI_INTEGER,IT_SPMD(P),
-     .                      MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+              CALL SPMD_RECV(NSNFI(NIN)%P(P),1,IT_SPMD(P),MSGTYP)
               IF(NSNFI(NIN)%P(P)>0) THEN
                 L=L+1
                 ISINDEXI(L)=P
@@ -4920,21 +4894,17 @@ C
             P = ISINDEXI(L)
             LEN = NSNFI(NIN)%P(P)*RSIZ
             MSGTYP = MSGOFF4 
-            CALL MPI_IRECV(
-     1        XREM(1,IDEB),LEN,REAL,IT_SPMD(P),
-     2        MSGTYP,MPI_COMM_WORLD,REQ_RD(L),IERROR)
+            CALL SPMD_IRECV(XREM(1,IDEB),LEN,IT_SPMD(P),MSGTYP,REQ_RD(L))
      
             LEN2 = NSNFI(NIN)%P(P)*ISIZ
             MSGTYP = MSGOFF4
-            CALL MPI_IRECV(
-     1        IREM(1,IDEB),LEN2,MPI_INTEGER,IT_SPMD(P),
-     2        MSGTYP,MPI_COMM_WORLD,REQ_RD2(L),IERROR) 
+            CALL SPMD_IRECV(IREM(1,IDEB),LEN2,IT_SPMD(P),MSGTYP,REQ_RD2(L)) 
         
             IDEB = IDEB + NSNFI(NIN)%P(P)
           ENDDO
           DO L = 1, NBIRECV
-            CALL MPI_WAITANY(NBIRECV,REQ_RD,INDEXI,STATUS,IERROR)
-            CALL MPI_WAITANY(NBIRECV,REQ_RD2,INDEXI,STATUS,IERROR)      
+            CALL SPMD_WAITANY(NBIRECV,REQ_RD,INDEXI)
+            CALL SPMD_WAITANY(NBIRECV,REQ_RD2,INDEXI)      
           ENDDO
         ENDIF
       ENDIF
@@ -4943,8 +4913,8 @@ C
         DO P = 1, NSPMD
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
-              CALL MPI_WAIT(REQ_SB(P),STATUS,IERROR)
-              CALL MPI_WAIT(REQ_SC(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SB(P))
+              CALL SPMD_WAIT(REQ_SC(P))
             ENDIF
           ENDIF
         ENDDO
@@ -4954,18 +4924,17 @@ C
         DO P = 1, NSPMD
           IF(IRCVFROM(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
-              CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SD(P))
               IF(NBOX(P)/=0) THEN
-                CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
+                CALL SPMD_WAIT(REQ_SD2(P))
                 DEALLOCATE(RBUF(P)%p)
-                CALL MPI_WAIT(REQ_SD3(P),STATUS,IERROR)
+                CALL SPMD_WAIT(REQ_SD3(P))
                 DEALLOCATE(IBUF(P)%p)
               END IF
             ENDIF
           ENDIF
         ENDDO
       ENDIF
-C
 #endif
       RETURN
       END
@@ -4991,6 +4960,7 @@ C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
       USE OUTPUTS_MOD
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -5451,6 +5421,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -5596,6 +5567,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -5722,112 +5694,3 @@ C
 C
 C END SPMD_TRI24VOX0
 C
-Chd|====================================================================
-Chd|  SPMD_EXCH_SLID                source/mpi/interfaces/spmd_int.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE SPMD_EXCH_SLID(
-     1   IAD_FRNOR,FR_NOR,IPARI ,LENS, BUFS  ,
-     2   IADBUFS  ,LENR  ,BUFR  ,IADBUFR )
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------------------------
-C   M e s s a g e   P a s s i n g
-C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "task_c.inc"
-#include      "spmd_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER IAD_FRNOR(NINTER25,*), FR_NOR(*),
-     .        IPARI(NPARI,*), LENS, LENR, 
-     .        IADBUFS(NINTER25,NSPMD+1), IADBUFR(NSPMD+1)
-      INTEGER BUFS(LENS), BUFR(LENR)
-C-----------------------------------------------
-C   L o c a l  V a r i a b l e s
-C-----------------------------------------------
-#ifdef MPI
-      INTEGER NI, NI25, NTY,
-     .        MSGTYP, I, LOC_PROC, IERROR, L0,
-     .        SIZ, L, J,NBIRECV, NBISEND, II, MSGOFF,
-     .        REQ_R(NSPMD),REQ_S(NSPMD),IRINDEX(NSPMD),
-     .        ISINDEX(NSPMD), STATUS(MPI_STATUS_SIZE), ICOMM(NSPMD)
-      INTEGER SBUF(LENS)
-      DATA MSGOFF/6015/
-C-----------------------------------------------
-C   S o u r c e  L i n e s
-C-----------------------------------------------
-C
-      LOC_PROC = ISPMD + 1
-C
-      L = 0
-      NBISEND = 0
-      DO I = 1, NSPMD
-        ICOMM(I)=0
-        L0 = L+1
-        IF(I/=LOC_PROC)THEN
-          NI25 = 0
-          DO NI = 1, NINTER
-            NTY = IPARI(7,NI)
-            IF(NTY/=25) CYCLE
-            NI25 = NI25 + 1
-            ICOMM(I) = ICOMM(I) + IAD_FRNOR(NI25,I+1)-IAD_FRNOR(NI25,I) 
-            IF(IADBUFS(NI25,I+1)-IADBUFS(NI25,I)>0) THEN
-              DO J=IADBUFS(NI25,I),IADBUFS(NI25,I+1)-1
-                L = L + 1
-                SBUF(L)=BUFS(J)
-              END DO
-            ENDIF
-          END DO
-          SIZ = L - L0 + 1
-          IF(ICOMM(I) > 0)THEN
-            MSGTYP = MSGOFF
-            NBISEND = NBISEND + 1
-            ISINDEX(NBISEND)=I
-            CALL MPI_ISEND(
-     S      SBUF(L0),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_S(I),IERROR)
-          ENDIF
-        ENDIF
-      ENDDO
-
-C
-      NBIRECV = 0
-      L = 1
-      DO I = 1, NSPMD
-        IADBUFR(I)=L
-        IF(ICOMM(I) > 0)THEN
-          SIZ = NSNT25 + ICOMM(I)
-          MSGTYP = MSGOFF
-          NBIRECV = NBIRECV + 1
-          IRINDEX(NBIRECV) = I
-          CALL MPI_RECV(
-     S        BUFR(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G        MPI_COMM_WORLD,STATUS,IERROR)
-          CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
-          L = L + SIZ
-        ENDIF
-      ENDDO
-      IADBUFR(NSPMD+1)=L
-C
-      DO II=1,NBISEND
-        I = ISINDEX(II)
-        CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
-      ENDDO
-C
-#endif
-      RETURN
-      END
-

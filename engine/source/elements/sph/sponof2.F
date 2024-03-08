@@ -805,7 +805,7 @@ c TAG_SPH set to 1
 c 2) treatment of remote neighbours only
          IF(NSPMD>1)
      .      CALL SPMD_SPHGETVOIS_OFF(OFF_SPH, TAG_SPH,
-     .                                 KXSP, IXSP,ITAB)
+     .                                 KXSP, IXSP)
 C-------------------------------------------
 #include "atomic.inc"
        TFEXT=TFEXT+TFEXTT

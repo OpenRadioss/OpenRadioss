@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE TRI7BOX
       USE TRI25EBOX
       USE MESSAGE_MOD
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -215,15 +216,13 @@ C
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
               MSGTYP = MSGOFF 
-              CALL MPI_ISEND(
+              CALL SPMD_ISEND(
      .          CRVOXEL25(0,0,1,LOC_PROC),
      .          2*(LRVOXEL25+1)*(LRVOXEL25+1),
-     .          MPI_INTEGER,
-     .          IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,REQ_SC(P),IERROR)
+     .          IT_SPMD(P),MSGTYP,REQ_SC(P))
               MSGTYP = MSGOFF2 
-              CALL MPI_ISEND(
-     .          BMINMA(1,LOC_PROC),6        ,REAL  ,IT_SPMD(P),MSGTYP,
-     .          MPI_COMM_WORLD    ,REQ_SB(P),IERROR)
+              CALL SPMD_ISEND(
+     .          BMINMA(1,LOC_PROC),6          ,IT_SPMD(P),MSGTYP,REQ_SB(P))
             ENDIF
           ENDIF
         ENDDO
@@ -239,15 +238,14 @@ C
               NBIRECV=NBIRECV+1
               IRINDEXI(NBIRECV)=P
               MSGTYP = MSGOFF 
-              CALL MPI_IRECV(
+              CALL SPMD_IRECV(
      .          CRVOXEL25(0,0,1,P),
      .         2*(LRVOXEL+1)*(LRVOXEL+1),
-     .          MPI_INTEGER,
-     .          IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,REQ_RC(NBIRECV),IERROR)
+     .          IT_SPMD(P),MSGTYP,REQ_RC(NBIRECV))
               MSGTYP = MSGOFF2 
-              CALL MPI_IRECV(
-     .          BMINMA(1,P)   ,6              ,REAL  ,IT_SPMD(P),MSGTYP,
-     .          MPI_COMM_WORLD,REQ_RB(NBIRECV),IERROR)
+              CALL SPMD_IRECV(
+     .          BMINMA(1,P)   ,6                ,IT_SPMD(P),MSGTYP,
+     .          REQ_RB(NBIRECV))
             ENDIF
           ENDIF
         ENDDO
@@ -339,9 +337,9 @@ C-----for   NBINFLG
       
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
-          CALL MPI_WAITANY(NBIRECV,REQ_RB,INDEXI,STATUS,IERROR)
+          CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
           P=IRINDEXI(INDEXI)
-          CALL MPI_WAIT(REQ_RC(INDEXI),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_RC(INDEXI))
 C Traitement special sur d.d. ne consever que les noeuds internes
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
@@ -507,8 +505,7 @@ C
 C Envoi taille msg
 C
           MSGTYP = MSGOFF3 
-          CALL MPI_ISEND(NBOX(1,P),2,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                 MPI_COMM_WORLD,REQ_SD(P),IERROR)
+          CALL SPMD_ISEND(NBOX(1,P),2,IT_SPMD(P),MSGTYP,REQ_SD(P))
 C
 C Alloc buffer
 C
@@ -936,26 +933,26 @@ C
             IF( NB > 0 ) THEN
 C             WRITE(6,*) "Sends",NB,"nodes to",P-1
               MSGTYP = MSGOFF4
-              CALL MPI_ISEND(
-     1          RBUF(P)%P(1),NB*RSIZ,REAL,IT_SPMD(P),MSGTYP,
-     2          MPI_COMM_WORLD,REQ_SD2(P),ierror)
+              CALL SPMD_ISEND(
+     1          RBUF(P)%P(1),NB*RSIZ,IT_SPMD(P),MSGTYP,
+     2          REQ_SD2(P))
               
               MSGTYP = MSGOFF5
-              CALL MPI_ISEND(
-     1          IBUF(P)%P(1),NB*ISIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2          MPI_COMM_WORLD,REQ_SD3(P),ierror)
+              CALL SPMD_ISEND(
+     1          IBUF(P)%P(1),NB*ISIZ,IT_SPMD(P),MSGTYP,
+     2          REQ_SD3(P))
             ENDIF
             IF(NB_EDGE > 0) THEN
 
               MSGTYP = MSGOFF6
-              CALL MPI_ISEND(
-     1          IBUF_EDGE(P)%P(1),E_IBUF_SIZE*NB_EDGE ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2          MPI_COMM_WORLD,REQ_SD4(P),ierror)
+              CALL SPMD_ISEND(
+     1          IBUF_EDGE(P)%P(1),E_IBUF_SIZE*NB_EDGE ,IT_SPMD(P),MSGTYP,
+     2          REQ_SD4(P))
               
               MSGTYP = MSGOFF7
-              CALL MPI_ISEND(
-     1          RBUF_EDGE(P)%P(1),E_RBUF_SIZE*NB_EDGE ,REAL,IT_SPMD(P),MSGTYP,
-     2          MPI_COMM_WORLD,REQ_SD5(P),ierror)
+              CALL SPMD_ISEND(
+     1          RBUF_EDGE(P)%P(1),E_RBUF_SIZE*NB_EDGE ,IT_SPMD(P),MSGTYP,
+     2          REQ_SD5(P))
             ENDIF  ! NB_EDGE > 0
 c         ENDIF
 C
@@ -981,18 +978,15 @@ C   reception  des donnees XREM
 C
       NEDGE_REMOTE = 0
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
-C       WRITE(6,*) __FILE__,__LINE__,ISPMD
         NSNR = 0
         L=0
         DO P = 1, NSPMD
           NSNFI(NIN)%P(P) = 0
           IF(IEDGE /= 0) NSNFIE(NIN)%P(P) = 0
           IF(ISENDTO(NIN,P)/=0) THEN
-C           WRITE(6,*) __FILE__,__LINE__,ISPMD
             IF(LOC_PROC/=P) THEN
               MSGTYP = MSGOFF3 
-              CALL MPI_RECV(NBOX2(1,P),2,MPI_INTEGER,IT_SPMD(P),
-     .                      MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+              CALL SPMD_RECV(NBOX2(1,P),2,IT_SPMD(P),MSGTYP)
               NSNFI(NIN)%P(P) = NBOX2(1,P)
 
               IF(IEDGE /= 0) THEN
@@ -1050,15 +1044,15 @@ C
               LEN = NSNFI(NIN)%P(P)*RSIZ
               MSGTYP = MSGOFF4 
               NBIRECV_NODE = NBIRECV_NODE + 1
-              CALL MPI_IRECV(
-     1          XREM(1,IDEB),LEN,REAL,IT_SPMD(P),
-     2          MSGTYP,MPI_COMM_WORLD,REQ_RD(NBIRECV_NODE),IERROR)
+              CALL SPMD_IRECV(
+     1          XREM(1,IDEB),LEN,IT_SPMD(P),
+     2          MSGTYP,REQ_RD(NBIRECV_NODE))
               
               LEN2 = NSNFI(NIN)%P(P)*ISIZ
               MSGTYP = MSGOFF5 
-              CALL MPI_IRECV(
-     1          IREM(1,IDEB),LEN2,MPI_INTEGER,IT_SPMD(P),
-     2          MSGTYP,MPI_COMM_WORLD,REQ_RD2(NBIRECV_NODE),IERROR)
+              CALL SPMD_IRECV(
+     1          IREM(1,IDEB),LEN2,IT_SPMD(P),
+     2          MSGTYP,REQ_RD2(NBIRECV_NODE))
               IDEB = IDEB + NSNFI(NIN)%P(P)                   
             ENDIF
 
@@ -1068,15 +1062,15 @@ C
               LEN2 = EDGE_FI(NIN)%P(P)*E_IBUF_SIZE
               NBIRECV_EDGE = NBIRECV_EDGE + 1
 
-              CALL MPI_IRECV(
-     1          IREM_EDGE(1,IDEB_EDGE),LEN2,MPI_INTEGER,IT_SPMD(P),
-     2          MSGTYP,MPI_COMM_WORLD,REQ_RD4(NBIRECV_EDGE),IERROR)
+              CALL SPMD_IRECV(
+     1          IREM_EDGE(1,IDEB_EDGE),LEN2,IT_SPMD(P),
+     2          MSGTYP,REQ_RD4(NBIRECV_EDGE))
               
               MSGTYP = MSGOFF7 
               LEN2 = EDGE_FI(NIN)%P(P)*E_RBUF_SIZE
-              CALL MPI_IRECV(
-     1          XREM_EDGE(1,IDEB_EDGE),LEN2,REAL,IT_SPMD(P),
-     2          MSGTYP,MPI_COMM_WORLD,REQ_RD5(NBIRECV_EDGE),IERROR)
+              CALL SPMD_IRECV(
+     1          XREM_EDGE(1,IDEB_EDGE),LEN2,IT_SPMD(P),
+     2          MSGTYP,REQ_RD5(NBIRECV_EDGE))
                 IDEB_EDGE = IDEB_EDGE + EDGE_FI(NIN)%P(p)
              ENDIF
              ENDIF
@@ -1084,10 +1078,10 @@ C
 
 
           
-          CALL MPI_WAITALL(NBIRECV_NODE,REQ_RD ,MPI_STATUSES_IGNORE,IERROR)
-          CALL MPI_WAITALL(NBIRECV_NODE,REQ_RD2,MPI_STATUSES_IGNORE,IERROR)
-          CALL MPI_WAITALL(NBIRECV_EDGE,REQ_RD4,MPI_STATUSES_IGNORE,IERROR)
-          CALL MPI_WAITALL(NBIRECV_EDGE,REQ_RD5,MPI_STATUSES_IGNORE,IERROR)
+          CALL SPMD_WAITALL(NBIRECV_NODE,REQ_RD )
+          CALL SPMD_WAITALL(NBIRECV_NODE,REQ_RD2)
+          CALL SPMD_WAITALL(NBIRECV_EDGE,REQ_RD4)
+          CALL SPMD_WAITALL(NBIRECV_EDGE,REQ_RD5)
 
           !set specifics IREM and XREM indexes for INT24 sorting
           IF(ISIZ > 5 .AND. NSNR > 0) THEN
@@ -1102,8 +1096,8 @@ C
         DO P = 1, NSPMD
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
-              CALL MPI_WAIT(REQ_SB(P),STATUS,IERROR)
-              CALL MPI_WAIT(REQ_SC(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SB(P))
+              CALL SPMD_WAIT(REQ_SC(P))
             ENDIF
           ENDIF
         ENDDO
@@ -1113,17 +1107,17 @@ C
         DO P = 1, NSPMD
           IF(IRCVFROM(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
-              CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+              CALL SPMD_WAIT(REQ_SD(P))
               IF(NBOX(1,P) > 0) THEN
-                CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
+                CALL SPMD_WAIT(REQ_SD2(P))
                 DEALLOCATE(RBUF(P)%p)
-                CALL MPI_WAIT(REQ_SD3(P),STATUS,IERROR)
+                CALL SPMD_WAIT(REQ_SD3(P))
                 DEALLOCATE(IBUF(P)%p)                   
               ENDIF
               IF(NBOX(2,P) > 0) THEN
-                CALL MPI_WAIT(REQ_SD4(P),STATUS,IERROR)
+                CALL SPMD_WAIT(REQ_SD4(P))
                 DEALLOCATE(IBUF_EDGE(P)%p)                   
-                CALL MPI_WAIT(REQ_SD5(P),STATUS,IERROR)
+                CALL SPMD_WAIT(REQ_SD5(P))
                 DEALLOCATE(RBUF_EDGE(P)%p)                   
               END IF
             ENDIF
