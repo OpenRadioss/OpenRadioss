@@ -88,8 +88,8 @@ c     read law keyword and keywords of failure modes
         FAIL%KEYWORD(I:I) = CHAR(NAME(I))
       END DO
 c           
+      ALLOCATE (FAIL%MODE(NMOD))
       IF (NMOD > 0) THEN
-        ALLOCATE (FAIL%MODE(NMOD))
         DO J = 1,NMOD
           CALL READ_C_C(NAME,NCHARTITLE)
           DO I = 1,NCHARTITLE
@@ -100,26 +100,26 @@ c
 c
 c     read model parameters
 c
+      ALLOCATE (FAIL%UPARAM(NUPARAM))
       IF (NUPARAM > 0) THEN
-        ALLOCATE (FAIL%UPARAM(NUPARAM))
         CALL READ_DB (FAIL%UPARAM ,NUPARAM)
       END IF
+      ALLOCATE (FAIL%IPARAM(NIPARAM))
       IF (NIPARAM > 0) THEN
-        ALLOCATE (FAIL%IPARAM(NIPARAM))
         CALL READ_I_C(FAIL%IPARAM ,NIPARAM)
       END IF
 c      
 c     read functions
 c
+      ALLOCATE (FAIL%IFUNC(NFUNC))
       IF (NFUNC > 0) THEN
-        ALLOCATE (FAIL%IFUNC(NFUNC))
         CALL READ_I_C(FAIL%IFUNC,NFUNC)
       END IF
 c      
 c     read function tables
 c
+      ALLOCATE (FAIL%TABLE(NUMTABL))
       IF (NUMTABL > 0) THEN
-        ALLOCATE (FAIL%TABLE(NUMTABL))
         CALL READ_I_C(FAIL%TABLE,NUMTABL)
       END IF
 c-----------
