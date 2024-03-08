@@ -2095,6 +2095,8 @@ c           Allocate thermal strain and Thermal internal energy
           ENDIF     
 C
           IF (ISMS_SELEC >= 1) GBUF%G_ISMS  = 1
+c        Bolt /PRELOAD/AXIAL
+          IF (IBOLTP>0) GBUF%G_BPRELD = 2
 c-------------------------------------------------
 c       taille du tableau local ELBUF pour restart
 c-------------------------------------------------
@@ -2121,6 +2123,7 @@ C
           LGLOB = LGLOB + GBUF%G_THK_I
           LGLOB = LGLOB + GBUF%G_MAXFRAC
           LGLOB = LGLOB + GBUF%G_MAXEPS    
+          LGLOB = LGLOB + GBUF%G_BPRELD    
 
           IF (NPG > 1) THEN                    ! not actually used
             LGLOB = LGLOB + GBUF%G_FORPG

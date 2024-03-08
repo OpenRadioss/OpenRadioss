@@ -63,13 +63,14 @@ Chd|====================================================================
      .                  INR      ,STIFINT  ,STR      ,IGEO   ,SIGRS ,
      .                  NSIGRS   ,IMERGE2  ,IADMERGE2,MSRT   ,IXR_KJ,
      .                  NOM_OPT  ,STRR     ,PTSPRI   ,IPM    ,PM   ,
-     .                  UPARAM   ,R_SKEW)
+     .                  UPARAM   ,R_SKEW   ,PRELOAD_A,IPRELD )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE SEATBELT_MOD
+      USE BPRELOAD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,6 +100,7 @@ C-----------------------------------------------
      .        IADMERGE2(NUMNOD+1),IXR_KJ(5,*),PTSPRI(*),
      .        IPM(NPROPMI,*),R_SKEW(*)
       INTEGER NOM_OPT(LNOPT1,*)
+      INTEGER , INTENT (IN   )  :: IPRELD
 C     REAL
       my_real
      .   X(3,*), GEO(NPROPG,*), XMAS(*), PLD(*), XIN(*),
@@ -108,6 +110,7 @@ C     REAL
      .   PM(NPROPM,*)
 C
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      TYPE(PREL1D_) ,      TARGET :: PRELOAD_A
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -140,7 +143,7 @@ C     REAL
      .     NSPRG23 /0/,NSPRG27/0/
       INTEGER MINIDL, MAXIDL,IPID
       my_real 
-     .     NOISE,BIDON,MAS2
+     .     NOISE,BIDON,MAS2,UNDAMP
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
@@ -1529,16 +1532,17 @@ C
           STIFN(I2)=STIFN(I2)+STI
         END IF 
       ENDDO
-      IDS = 42
-c      CALL ANCHECK(IDS)
-C
-      IDS = 43
-c      CALL ANCHECK(IDS)
-C
-      IDS = 40
-c      CALL ANCHECK(IDS)
-      IDS = 37
-c      CALL ANCHECK(IDS)
+!
+      IF (IPRELD>0) THEN
+        DO I=LFT,LLT
+           J=I+NFT
+           I0=IXR(1,J)
+           XM=GEO(1,I0)*XL(I)
+           UNDAMP = XM*XL(I)/DTELEM(NDEPAR+I)
+           GBUF%BPRELD(I)     = PRELOAD_A%preload
+           GBUF%BPRELD(I+NEL) = UNDAMP*PRELOAD_A%damp
+        ENDDO
+      END IF
 C-----
  1000 FORMAT('LIST OF POSSIBLE CNODES MERGED WITH NODE OF ID=',I10)
 C-----

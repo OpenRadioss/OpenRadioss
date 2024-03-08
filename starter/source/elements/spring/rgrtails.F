@@ -37,7 +37,8 @@ Chd|====================================================================
      2    ND      ,DD_IAD   ,IDX     ,INUM    ,
      3    INDEX   ,CEP      ,IPARTR  ,ITR1    ,
      4    IGRSURF ,IGRSPRING,IRESOFF ,TAGPRT_SMS,NOD2EL1D,
-     5    IPM     ,CLUSTERS ,R_SKEW,PRINT_FLAG)
+     5    IPM     ,CLUSTERS ,R_SKEW,PRINT_FLAG,
+     6    ITAGPRLD_SPRING,PRELOAD_A,NPRELOAD_A)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,6 +46,7 @@ C-----------------------------------------------
       USE R2R_MOD
       USE CLUSTER_MOD
       USE SEATBELT_MOD
+      USE BPRELOAD_MOD
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -79,12 +81,15 @@ C-----------------------------------------------
      .        DD_IAD(NSPMD+1,*),INUM(9,*),INDEX(*),CEP(*),
      .        IRESOFF(*),TAGPRT_SMS(*),NOD2EL1D(*),IPM(NPROPMI,*),R_SKEW(*)
       INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
+      INTEGER,INTENT(IN) :: NPRELOAD_A
+      INTEGER ,INTENT(INOUT), DIMENSION(NUMELR) :: ITAGPRLD_SPRING
       my_real
      .   GEO(NPROPG,*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSPRI)  :: IGRSPRING
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
       TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTERS
+      TYPE(PREL1D_) ,DIMENSION(NPRELOAD_A) ::  PRELOAD_A
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -93,7 +98,7 @@ C      INTEGER NMTV(4), NGR1, NG, ISSN, MTNN, I, NE1, N, NFIX,
      .        PID, NEL_PREC, II, P, NEL, IGTYP,NB,
      .        MODE, WORK(70000),NN,J,MID,
      .        ITAG(2*NUMELT+2*NUMELP+3*NUMELR),
-     .        NGP(NSPMD+1),IPARTR2R
+     .        NGP(NSPMD+1),IPARTR2R,IPRLD
       INTEGER :: CLUSTER_TYP,CLUSTER_NEL
       INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_CLUSTER
 
@@ -233,6 +238,11 @@ C
           SEATBELT_TAB(I)%SPRING(J) = ITR1(SEATBELT_TAB(I)%SPRING(J))
         ENDDO
       ENDDO
+C REORDERING FOR ITAGPRLD_SPRING
+      DO I=1,NUMELR
+        IF (ITAGPRLD_SPRING(I) ==0) CYCLE
+        ITAGPRLD_SPRING(I) = ITR1(ITAGPRLD_SPRING(I))
+      ENDDO
 C
 C-------------------------------------------------------------------------
 C phase 2 : bornage en groupe de mvsiz
@@ -263,6 +273,7 @@ C Multidomains - spring not duplicated
                 MID  = IXR(5,II)
                 MTNN = IPM(2,MID)
               ENDIF
+              IPRLD = ITAGPRLD_SPRING(II)
 C
               CALL ZEROIN(1,NPARG,IPARG(1,NGROUP))
 C
@@ -289,6 +300,13 @@ C
                 END IF
               END IF
               IPARG(52,NGROUP)=JSMS
+C          /PRELOAD/AXIAL              
+              IPARG(72,NGROUP)= IPRLD
+              
+              IF ( IPRLD>0 ) THEN
+                IPARG(73,NGROUP)= PRELOAD_A(IPRLD)%fun_id
+                IPARG(74,NGROUP)= PRELOAD_A(IPRLD)%sens_id
+              END IF
 C
               NFT = NFT + NE1
   220       CONTINUE

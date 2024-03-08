@@ -84,7 +84,7 @@ C-----------------------------------------------
       my_real
      .   TDEB,TFIN, LOADVAL,
      .   X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,N3,AREA(NPRELOAD)
-      CHARACTER MESS*40,TITR*nchartitle
+      CHARACTER MESS*40,TITR*nchartitle,KEY*ncharline
 C-----------------------------------------------
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
@@ -107,8 +107,10 @@ C-----------------------------------------------
         CALL HM_OPTION_READ_KEY(LSUBMODEL, 
      .                          OPTION_ID      = ID, 
      .                          UNIT_ID        = UID,
-     .                          OPTION_TITR    = TITR)           
+     .                          OPTION_TITR    = TITR,           
+     .                          KEYWORD2       = KEY)
 C
+         IF (KEY(1:LEN_TRIM(KEY))=='AXIAL') CYCLE
         ! Checking unit ID
         IFLAGUNIT = 0 
 C

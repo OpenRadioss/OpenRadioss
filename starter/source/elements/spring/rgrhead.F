@@ -35,7 +35,7 @@ Chd|====================================================================
      2       ITR1    ,EADD   ,INDEX  ,ITRI     ,
      3       IPARTR  ,ND     ,IGRSURF,IGRSPRING,
      4       CEP     ,XEP    ,IRESOFF,TAGPRT_SMS, CLUSTERS,
-     5       IPM     ,R_SKEW)
+     5       IPM     ,R_SKEW ,ITAGPRLD_SPRING)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,6 +78,7 @@ C-----------------------------------------------
 C     REAL OU REAL*8
       my_real
      .    GEO(NPROPG,*)
+      INTEGER ,INTENT(INOUT), DIMENSION(NUMELR) ::ITAGPRLD_SPRING
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSPRI)  :: IGRSPRING
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
@@ -88,7 +89,7 @@ C-----------------------------------------------
       INTEGER 
      .        I, K, NG, ISSN, NPN, NN, N, MID, PID ,
      .        II, J, II3,JJ3,II2,JJ2,JJ,L,II4,JJ4,IGTYP,
-     .        IFLAG_GTYP,
+     .        IFLAG_GTYP,IPRLD,
      .        MSKMTN,MSKISN,MSKPID, MODE, WORK(70000)
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
@@ -141,7 +142,9 @@ C
           IFLAG_GTYP = 1
           MID = IXR(5,II)  
           MTN = IPM(2,MID)      
-        ENDIF  
+        ENDIF
+        IPRLD = ITAGPRLD_SPRING(II)
+        IF (IPRLD>0) IFLAG_GTYP = 1+IPRLD
           
 !!        MID = 0
 !!        IF(IGTYP == 23) MID = IXR(5,II)
@@ -238,6 +241,11 @@ C
         ENDDO
       ENDDO
 
+C REORDERING FOR ITAGPRLD_SPRING
+      DO I=1,NUMELR
+        IF (ITAGPRLD_SPRING(I) ==0) CYCLE
+        ITAGPRLD_SPRING(I) = ITR1(ITAGPRLD_SPRING(I))
+      ENDDO
 C--------------------------------------------------------------
 C         DETERMINATION DES SUPER_GROUPES
 C--------------------------------------------------------------
