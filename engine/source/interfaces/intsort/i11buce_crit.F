@@ -81,7 +81,7 @@ C Partie non parallele smt
 C
 !$OMP SINGLE
 
-          CALL SPMD_GET_PENIS(NRTS,PENIS,NIN)
+          CALL SPMD_GET_PENIS(PENIS,NIN)
 
 C Fin Partie non parallele smt
 !$OMP END SINGLE

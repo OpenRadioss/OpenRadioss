@@ -200,9 +200,8 @@ C
      4          ITAB, INTBUF_TAB(I)%NLG )
             ELSEIF(NTY==25) THEN
               CALL SPMD_GET_STIF25(
-     1          NEWFRONT(I)  ,INTBUF_TAB(I)%I_STOK(1) ,
-     2          INTBUF_TAB(I)%CAND_N,INTBUF_TAB(I)%STFNS,
-     3          IPARI(5,I),I,ISENDTO,IRCVFROM,INTBUF_TAB(I)%NSV,
+     1          NEWFRONT(I)  , INTBUF_TAB(I)%STFNS,IPARI(5,I),
+     3          I,ISENDTO,IRCVFROM,INTBUF_TAB(I)%NSV,
      4          ITAB)
             ENDIF
           ENDIF

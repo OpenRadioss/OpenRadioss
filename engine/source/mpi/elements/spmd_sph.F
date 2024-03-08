@@ -29,7 +29,10 @@ Chd|====================================================================
       SUBROUTINE SPMD_EXCH_A_SOL2SPH(
      1   A6       ,ITAG   ,IAD_ELEM ,FR_ELEM,SIZE,
      2   LENR     )
-C--------------------------------------
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,9 +79,9 @@ C
         SIZ = SIZE*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
         IF(SIZ/=0)THEN
           MSGTYP = MSGOFF 
-          CALL MPI_IRECV(
-     S      RBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R(I),IERROR)
+          CALL SPMD_IRECV(
+     S      RBUF(L),SIZ,IT_SPMD(I),MSGTYP,
+     G      REQ_R(I))
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
@@ -126,9 +129,9 @@ C   test si msg necessaire a envoyer a completer par test interface
           MSGTYP = MSGOFF 
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
-          CALL MPI_ISEND(
-     S      SBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_S(I),IERROR)
+          CALL SPMD_ISEND(
+     S      SBUF(L),SIZ,IT_SPMD(I),MSGTYP,
+     G      REQ_S(I))
        ENDIF
 C--------------------------------------------------------------------
       ENDDO
@@ -139,7 +142,7 @@ C
 C   test si msg necessaire a envoyer a completer par test interface
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(NB_NOD>0)THEN
-          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_R(I),STATUS)
           L = IAD_RECV(I)
           CALL MPI_GET_COUNT(STATUS,MPI_DOUBLE_PRECISION,SIZ,ierror)
           SIZ = SIZ/SIZE
@@ -178,206 +181,9 @@ C   wait terminaison isend
 C
       DO I = 1, NSPMD
         IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
-          CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_S(I))
         ENDIF
       ENDDO
-C
-#endif
-      RETURN
-      END
-Chd|====================================================================
-Chd|  SPMD_SPHBOX                   source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SPHBOX                        share/modules/sphbox.F        
-Chd|====================================================================
-      SUBROUTINE SPMD_SPHBOX(KXSP ,SPBUF,WSP2SORT,BMINMAL,X)
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-      USE SPHBOX
-      USE MESSAGE_MOD
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   M e s s a g e   P a s s i n g
-C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "task_c.inc"
-#include      "sphcom.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER KXSP(NISP,*), WSP2SORT(*)
-      my_real 
-     .        X(3,*),BMINMAL(*), SPBUF(NSPBUF,*)
-C-----------------------------------------------
-C   L o c a l  V a r i a b l e s
-C-----------------------------------------------
-#ifdef MPI
-      INTEGER P, KK, I, J, NOD, N, MSGTYP, LOC_PROC, NBIRECV,
-     .        IERROR, IERROR1, L, LEN, IDEB, INDEXI, NB,
-     .        REQ_RB(NSPMD), REQ_SB(NSPMD), REQ_SD(NSPMD),
-     .        REQ_RD(NSPMD), REQ_SD2(NSPMD),
-     .        IRINDEXI(NSPMD), ISINDEXI(NSPMD), NBO(NSPMD), 
-     .        INDEX(NSP2SORT), STATUS(MPI_STATUS_SIZE),MSGOFF,
-     .        MSGOFF2,MSGOFF3
-      my_real 
-     .        BMINMA(6,NSPMD)  
-      TYPE(real_pointer5), DIMENSION(NSPMD) :: BUF
-      DATA MSGOFF/2001/
-      DATA MSGOFF2/2002/
-      DATA MSGOFF3/2003/
-C-----------------------------------------------
-C   S o u r c e  L i n e s
-C-----------------------------------------------
-C
-      LOC_PROC = ISPMD + 1
-C
-      BMINMA(1,LOC_PROC) = BMINMAL(1)
-      BMINMA(2,LOC_PROC) = BMINMAL(2)
-      BMINMA(3,LOC_PROC) = BMINMAL(3)
-      BMINMA(4,LOC_PROC) = BMINMAL(4)
-      BMINMA(5,LOC_PROC) = BMINMAL(5)
-      BMINMA(6,LOC_PROC) = BMINMAL(6)
-C
-      DO P = 1, NSPMD
-        IF(P/=LOC_PROC) THEN
-          MSGTYP = MSGOFF
-          CALL MPI_ISEND(
-     .      BMINMA(1,LOC_PROC),6        ,REAL  ,IT_SPMD(P),MSGTYP,
-     .      MPI_COMM_WORLD    ,REQ_SB(P),IERROR)
-        END IF
-      END DO
-C
-      NBIRECV=0
-      DO P = 1, NSPMD
-        IF(LOC_PROC/=P) THEN
-          MSGTYP = MSGOFF
-          NBIRECV=NBIRECV+1
-          IRINDEXI(NBIRECV)=P
-          CALL MPI_IRECV(
-     .      BMINMA(1,P)   ,6              ,REAL  ,IT_SPMD(P),MSGTYP,
-     .      MPI_COMM_WORLD,REQ_RB(NBIRECV),IERROR)
-        END IF
-      END DO
-C
-      DO KK = 1, NBIRECV
-        CALL MPI_WAITANY(NBIRECV,REQ_RB,INDEXI,STATUS,IERROR)
-        P=IRINDEXI(INDEXI)
-        NBO(P) = 0
-        NB = 0
-        DO I=1, NSP2SORT
-          N=WSP2SORT(I)
-          NOD=KXSP(3,N)
-          IF(X(1,NOD)<=BMINMA(1,P)) THEN
-           IF(X(1,NOD)>=BMINMA(4,P)) THEN
-            IF(X(2,NOD)<=BMINMA(2,P)) THEN
-             IF(X(2,NOD)>=BMINMA(5,P)) THEN
-              IF(X(3,NOD)<=BMINMA(3,P)) THEN
-               IF(X(3,NOD)>=BMINMA(6,P)) THEN
-                 NB = NB + 1
-                 INDEX(NB) = N
-               ENDIF
-              ENDIF
-             ENDIF
-            ENDIF
-           ENDIF
-          ENDIF
-        END DO
-        NBO(P) = NB
-        MSGTYP = MSGOFF2
-        CALL MPI_ISEND(NBO(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                 MPI_COMM_WORLD,REQ_SD(P),IERROR)
-C
-        IF (NB>0) THEN
-          ALLOCATE(BUF(P)%P(SIZSPT*NB),STAT=IERROR)
-          IF(IERROR/=0) THEN
-            CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-            CALL ARRET(2)
-          END IF
-          L = 0
-          DO J = 1, NB
-            N = INDEX(J)
-            NOD = KXSP(3,N)
-            BUF(P)%P(L+1) = N
-            BUF(P)%P(L+2) = SPBUF(1,N)
-            BUF(P)%P(L+3) = X(1,NOD)
-            BUF(P)%P(L+4) = X(2,NOD)
-            BUF(P)%P(L+5) = X(3,NOD)
-            BUF(P)%P(L+6) = KXSP(8,N)
-            L = L + SIZSPT
-          END DO
-          MSGTYP = MSGOFF3
-          CALL MPI_ISEND(BUF(P)%P(1),L,REAL,IT_SPMD(P),MSGTYP,
-     .                   MPI_COMM_WORLD,REQ_SD2(P),IERROR)
-        END IF  
-      END DO
-C   
-      NSPHR = 0
-      L=0
-      DO P = 1, NSPMD
-        PSPHR(P) = 0
-        IF(LOC_PROC/=P) THEN
-          MSGTYP = MSGOFF2
-          CALL MPI_RECV(PSPHR(P),1,MPI_INTEGER,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
-          IF(PSPHR(P)>0) THEN
-            L=L+1
-            ISINDEXI(L)=P
-            NSPHR = NSPHR + PSPHR(P)
-          END IF
-        END IF
-      END DO
-      NBIRECV=L
-C
-      IF(NSPHR>0) THEN
-        IF(ALLOCATED(XSPHR))DEALLOCATE(XSPHR)
-        ALLOCATE(XSPHR(SIZSPT,NSPHR),STAT=IERROR)
-        IF(IERROR/=0) THEN
-          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-          CALL ARRET(2)
-        END IF
-        IDEB = 1
-        DO L = 1, NBIRECV
-          P = ISINDEXI(L)
-          LEN = PSPHR(P)*SIZSPT
-          MSGTYP = MSGOFF3
-          CALL MPI_IRECV(XSPHR(1,IDEB),LEN,REAL,IT_SPMD(P),
-     .                   MSGTYP,MPI_COMM_WORLD,REQ_RD(L),IERROR)
-          IDEB = IDEB + PSPHR(P)
-        END DO
-        DO L = 1, NBIRECV
-          CALL MPI_WAITANY(NBIRECV,REQ_RD,INDEXI,STATUS,IERROR)
-        END DO
-      END IF  
-C
-      DO P = 1, NSPMD
-        IF(P/=LOC_PROC) THEN
-          CALL MPI_WAIT(REQ_SB(P),STATUS,IERROR)
-        ENDIF
-      END DO
-C
-      DO P = 1, NSPMD
-        IF(P/=LOC_PROC) THEN
-          CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
-          IF(NBO(P)/=0) THEN
-            CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
-            DEALLOCATE(BUF(P)%P)
-          END IF
-        END IF
-      END DO
 C
 #endif
       RETURN
@@ -401,6 +207,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
       USE MESSAGE_MOD
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -427,7 +234,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP, LOC_PROC, P,
      .        IERROR,N,IDEB, 
-     .        REQ_SD(NSPMD), STATUS(MPI_STATUS_SIZE),MSGOFF
+     .        REQ_SD(NSPMD), MSGOFF
 
        DATA MSGOFF/2028/
 C-----------------------------------------------
@@ -441,8 +248,8 @@ C-----------------------------------------------
         DO P = 1, NSPMD
           IF(PSPHR(P)/=0) THEN
             MSGTYP = MSGOFF
-            CALL MPI_IRECV(DKR(IDEB+1),PSPHR(P),REAL,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,REQ_RECV(P),IERROR)
+            CALL SPMD_IRECV(DKR(IDEB+1),PSPHR(P),IT_SPMD(P),
+     .                  MSGTYP,REQ_RECV(P))
             IDEB = IDEB + PSPHR(P)
           END IF
         ENDDO
@@ -454,22 +261,22 @@ C-----------------------------------------------
              DKS(IDEB+N) = TAB_DK(LSPHS(IDEB+N))
            ENDDO
            MSGTYP = MSGOFF
-           CALL MPI_ISEND(
-     .         DKS(IDEB+1),PSPHS(P),REAL,IT_SPMD(P),MSGTYP,
-     .         MPI_COMM_WORLD,REQ_SD(P),IERROR)
+           CALL SPMD_ISEND(
+     .         DKS(IDEB+1),PSPHS(P),IT_SPMD(P),MSGTYP,
+     .         REQ_SD(P))
            IDEB = IDEB + PSPHS(P)
           ENDIF
         ENDDO
 
         DO P = 1, NSPMD
           IF(PSPHR(P)/=0) THEN
-            CALL MPI_WAIT(REQ_RECV(P),STATUS,IERROR)
+            CALL SPMD_WAIT(REQ_RECV(P))
           END IF
         ENDDO
 
         DO P = 1, NSPMD
           IF(PSPHS(P)/=0) THEN
-            CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+            CALL SPMD_WAIT(REQ_SD(P))
           END IF
         ENDDO
    
@@ -491,6 +298,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -511,7 +319,6 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER P, I, MSGTYP, LOC_PROC, IERROR,
-     .        STATUS(MPI_STATUS_SIZE),
      .        IDEB,REQ_SD(NSPMD),MSGOFF,MSGOFF2
       DATA MSGOFF/2006/
 C-----------------------------------------------
@@ -525,9 +332,9 @@ C
       DO P = 1, NSPMD
         IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF 
-          CALL MPI_ISEND(
-     S      ISPHR(IDEB),PSPHR(P),MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_SD(P),IERROR)
+          CALL SPMD_ISEND(
+     S      ISPHR(IDEB),PSPHR(P),IT_SPMD(P),MSGTYP,
+     G      REQ_SD(P))
           IDEB = IDEB + PSPHR(P)
         END IF
       END DO
@@ -538,8 +345,8 @@ C
       DO P = 1, NSPMD
         IF(PSPHS(P)/=0)THEN
           MSGTYP = MSGOFF 
-          CALL MPI_RECV(ISPHS(IDEB),PSPHS(P),MPI_INTEGER,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+          CALL SPMD_RECV(ISPHS(IDEB),PSPHS(P),IT_SPMD(P),
+     .                  MSGTYP)
           IDEB = IDEB + PSPHS(P)
         END IF
       END DO
@@ -547,7 +354,7 @@ C
 
        DO P = 1, NSPMD
         IF(PSPHR(P)/=0)THEN
-          CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_SD(P))
         END IF
       END DO
 C
@@ -567,6 +374,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -595,7 +403,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER P, I, N, IDEB, MSGTYP, LOC_PROC,
      .        IERROR, ICELL, INOD,
-     .        REQ_SD(NSPMD), STATUS(MPI_STATUS_SIZE),MSGOFF
+     .        REQ_SD(NSPMD), MSGOFF
        my_real
      .        BUFS(6,NSPHS), BUFR(6,NSPHR)
        DATA MSGOFF/2008/
@@ -621,9 +429,9 @@ ctmp+1
           BUFS(6,N+IDEB) = IPARTSP(ICELL)    
         END DO
         MSGTYP = MSGOFF
-        CALL MPI_ISEND(
-     S      BUFS(1,IDEB+1),PSPHS(P)*6,REAL,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_SD(P),IERROR)
+        CALL SPMD_ISEND(
+     S      BUFS(1,IDEB+1),PSPHS(P)*6,IT_SPMD(P),MSGTYP,
+     G      REQ_SD(P))
         IDEB = IDEB + PSPHS(P)
 ctmp+1
        ENDIF
@@ -635,8 +443,7 @@ C
       DO P = 1, NSPMD
         IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
-          CALL MPI_RECV(BUFR,6*PSPHR(P),REAL,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+          CALL SPMD_RECV(BUFR,6*PSPHR(P),IT_SPMD(P), MSGTYP)
           DO N = 1, PSPHR(P)
             XSPHR(2,IDEB+N) = BUFR(1,N)
             XSPHR(3,IDEB+N) = BUFR(2,N)
@@ -654,7 +461,7 @@ C
       DO P = 1, NSPMD
 ctmp+1        IF(PSPHR(P)/=0)THEN
         IF(PSPHS(P)/=0)THEN
-          CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_SD(P))
         END IF
       END DO
 C  
@@ -674,6 +481,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -703,7 +511,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
      .        IERROR, ICELL,
-     .        REQ_SD(NSPMD), STATUS(MPI_STATUS_SIZE),MSGOFF
+     .        REQ_SD(NSPMD), MSGOFF
        my_real
      .        BUFS(15+6*SPH_IORD1,NSPHS),BUFR(15+6*SPH_IORD1,NSPHR)
        DATA MSGOFF/2010/
@@ -742,9 +550,9 @@ C               INOD = KXSP(3,ICELL)
               END IF
             END DO
             MSGTYP = MSGOFF
-            CALL MPI_ISEND(
-     S        BUFS(1,IDEB+1),NN*15,REAL,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,REQ_SD(P),IERROR)
+            CALL SPMD_ISEND(
+     S        BUFS(1,IDEB+1),NN*15,IT_SPMD(P),MSGTYP,
+     G        REQ_SD(P))
             IDEB = IDEB + PSPHS(P)
           END IF
         END DO
@@ -782,9 +590,9 @@ C               INOD = KXSP(3,ICELL)
               END IF
             END DO
             MSGTYP = MSGOFF
-            CALL MPI_ISEND(
-     S        BUFS(1,IDEB+1),NN*21,REAL,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,REQ_SD(P),IERROR)
+            CALL SPMD_ISEND(
+     S        BUFS(1,IDEB+1),NN*21,IT_SPMD(P),MSGTYP,
+     G        REQ_SD(P))
             IDEB = IDEB + PSPHS(P)
           END IF
         END DO        
@@ -797,8 +605,8 @@ C
         DO P = 1, NSPMD
           IF(PSPHR(P)/=0)THEN
             MSGTYP = MSGOFF
-            CALL MPI_RECV(BUFR,15*PSPHR(P),REAL,IT_SPMD(P),
-     .                    MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+            CALL SPMD_RECV(BUFR,15*PSPHR(P),IT_SPMD(P),
+     .                    MSGTYP)
             NN = 0
             DO N = 1, PSPHR(P)
               IF(ISPHR(IDEB+N)==1) THEN
@@ -831,7 +639,7 @@ C
                 WACOMPR(15,IDEB+N)=ZERO
                 WACOMPR(16,IDEB+N)=ZERO
               END IF
-            END DO	  
+            END DO
             IDEB = IDEB + PSPHR(P)
           END IF
         END DO
@@ -840,8 +648,8 @@ C
         DO P = 1, NSPMD
           IF(PSPHR(P)/=0)THEN
             MSGTYP = MSGOFF
-            CALL MPI_RECV(BUFR,21*PSPHR(P),REAL,IT_SPMD(P),
-     .                    MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+            CALL SPMD_RECV(BUFR,21*PSPHR(P),IT_SPMD(P),
+     .                    MSGTYP)
             NN = 0
             DO N = 1, PSPHR(P)
               IF(ISPHR(IDEB+N)==1) THEN
@@ -874,7 +682,7 @@ C
                 WACOMPR(15,IDEB+N)=BUFR(20,NN)
                 WACOMPR(16,IDEB+N)=BUFR(21,NN)
               END IF
-            END DO	  
+            END DO
             IDEB = IDEB + PSPHR(P)
           END IF
         END DO        
@@ -884,7 +692,7 @@ C Wait terminaison
 C
       DO P = 1, NSPMD
         IF(PSPHS(P)/=0)THEN
-          CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_SD(P))
         END IF
       END DO
 C  
@@ -904,6 +712,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -930,7 +739,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
      .        IERROR, ICELL,
-     .        REQ_SD(NSPMD), STATUS(MPI_STATUS_SIZE),MSGOFF
+     .        REQ_SD(NSPMD), MSGOFF
        my_real
      .        BUFS(NSPHS), BUFR(NSPHR)
        DATA MSGOFF/2011/
@@ -954,9 +763,9 @@ C             INOD = KXSP(3,ICELL)
             END IF
           END DO
           MSGTYP = MSGOFF
-          CALL MPI_ISEND(
-     S      BUFS(IDEB+1),NN,REAL,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_SD(P),IERROR)
+          CALL SPMD_ISEND(
+     S      BUFS(IDEB+1),NN,IT_SPMD(P),MSGTYP,
+     G      REQ_SD(P))
           IDEB = IDEB + PSPHS(P)
         END IF
       END DO
@@ -967,8 +776,8 @@ C
       DO P = 1, NSPMD
         IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
-          CALL MPI_RECV(BUFR,PSPHR(P),REAL,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+          CALL SPMD_RECV(BUFR,PSPHR(P),IT_SPMD(P),
+     .                  MSGTYP)
           NN = 0
           DO N = 1, PSPHR(P)
             IF(ISPHR(IDEB+N)==1) THEN
@@ -985,7 +794,7 @@ C Wait terminaison
 C
       DO P = 1, NSPMD
         IF(PSPHS(P)/=0)THEN
-          CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_SD(P))
         END IF
       END DO
 C  
@@ -1005,6 +814,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1033,7 +843,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
      .        IERROR, ICELL, INOD,MSGOFF,
-     .        REQ_SD(NSPMD), STATUS(MPI_STATUS_SIZE)
+     .        REQ_SD(NSPMD)
        my_real
      .        BUFS(4,NSPHS), BUFR(4,NSPHR)
        DATA MSGOFF/2012/
@@ -1061,9 +871,9 @@ ctmp+1
           END IF
         END DO
         MSGTYP = MSGOFF
-        CALL MPI_ISEND(
-     S      BUFS(1,IDEB+1),NN*4,REAL,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_SD(P),IERROR)
+        CALL SPMD_ISEND(
+     S      BUFS(1,IDEB+1),NN*4,IT_SPMD(P),MSGTYP,
+     G      REQ_SD(P))
         IDEB = IDEB + PSPHS(P)
 ctmp+1
        END IF
@@ -1075,8 +885,8 @@ C
       DO P = 1, NSPMD
         IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
-          CALL MPI_RECV(BUFR,4*PSPHR(P),REAL,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+          CALL SPMD_RECV(BUFR,4*PSPHR(P),IT_SPMD(P),
+     .                  MSGTYP)
           NN = 0
           DO N = 1, PSPHR(P)
             IF(ISPHR(IDEB+N)==1) THEN
@@ -1096,7 +906,7 @@ C
       DO P = 1, NSPMD
 ctmp+1        IF(PSPHR(P)/=0)THEN
         IF(PSPHS(P)/=0)THEN
-          CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_SD(P))
         END IF
       END DO
 C  
@@ -1116,6 +926,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1144,7 +955,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
      .        IERROR, ICELL, INOD,
-     .        REQ_SD(NSPMD), STATUS(MPI_STATUS_SIZE),MSGOFF
+     .        REQ_SD(NSPMD), MSGOFF
        my_real
      .        BUFS(5,NSPHS), BUFR(5,NSPHR)
        DATA MSGOFF/2013/
@@ -1173,9 +984,9 @@ ctmp+1
           END IF
         END DO
         MSGTYP = MSGOFF
-        CALL MPI_ISEND(
-     S      BUFS(1,IDEB+1),NN*5,REAL,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_SD(P),IERROR)
+        CALL SPMD_ISEND(
+     S      BUFS(1,IDEB+1),NN*5,IT_SPMD(P),MSGTYP,
+     G      REQ_SD(P))
         IDEB = IDEB + PSPHS(P)
 ctmp+1
        END IF
@@ -1187,8 +998,9 @@ C
       DO P = 1, NSPMD
         IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
-          CALL MPI_RECV(BUFR,5*PSPHR(P),REAL,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+         ! spmd_recv_reals(buf, count, source, tag, comm)
+
+          CALL SPMD_RECV(BUFR,5*PSPHR(P),IT_SPMD(P), MSGTYP)
           NN = 0
           DO N = 1, PSPHR(P)
             IF(ISPHR(IDEB+N)==1) THEN
@@ -1209,7 +1021,7 @@ C
       DO P = 1, NSPMD
 ctmp+1        IF(PSPHR(P)/=0)THEN
         IF(PSPHS(P)/=0)THEN
-          CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_SD(P))
         END IF
       END DO
 C  
@@ -1229,6 +1041,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1257,7 +1070,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER P, I, N, IDEB, MSGTYP, LOC_PROC,
      .        IERROR, ICELL, INOD,
-     .        REQ_SD(NSPMD), STATUS(MPI_STATUS_SIZE),MSGOFF
+     .        REQ_SD(NSPMD), MSGOFF
        my_real
      .        BUFS(NSPHS), BUFR(NSPHR)
        DATA MSGOFF/2014/
@@ -1277,9 +1090,9 @@ C
           BUFS(N+IDEB) = SPBUF(1,ICELL)
         END DO
         MSGTYP = MSGOFF
-        CALL MPI_ISEND(
-     S      BUFS(IDEB+1),PSPHS(P),REAL,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_SD(P),IERROR)
+        CALL SPMD_ISEND(
+     S      BUFS(IDEB+1),PSPHS(P),IT_SPMD(P),MSGTYP,
+     G      REQ_SD(P))
         IDEB = IDEB + PSPHS(P)
        ENDIF
       END DO
@@ -1290,8 +1103,8 @@ C
       DO P = 1, NSPMD
         IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
-          CALL MPI_RECV(BUFR,PSPHR(P),REAL,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+          CALL SPMD_RECV(BUFR,PSPHR(P),IT_SPMD(P),
+     .                  MSGTYP)
           DO N = 1, PSPHR(P)
             XSPHR(2,IDEB+N) = BUFR(N)
           END DO
@@ -1303,7 +1116,7 @@ C Wait terminaison
 C
       DO P = 1, NSPMD
         IF(PSPHS(P)/=0)THEN
-          CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_SD(P))
         END IF
       END DO
 C  
@@ -1320,6 +1133,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_ALL_DMAX(V,LEN)
 C max tableau V de taille LEN de type my_real
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1344,15 +1158,14 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE), I, IERROR
+      INTEGER I, IERROR
       my_real
      .        VTMP(LEN)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF (LEN > 0) THEN
-        CALL MPI_ALLREDUCE(V,VTMP,LEN,REAL,MPI_MAX,
-     .                     MPI_COMM_WORLD,IERROR)
+        CALL SPMD_ALLREDUCE(V,VTMP,LEN,SPMD_MAX)
         DO I = 1, LEN
             V(I) = VTMP(I)
         END DO
@@ -1374,6 +1187,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1400,7 +1214,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
      .        IERROR, ICELL,
-     .        REQ_SD(NSPMD), STATUS(MPI_STATUS_SIZE),MSGOFF
+     .        REQ_SD(NSPMD), MSGOFF
        my_real
      .        BUFS(2,NSPHS), BUFR(2,NSPHR)
        DATA MSGOFF/2015/
@@ -1424,9 +1238,9 @@ C
             END IF
           END DO
           MSGTYP = MSGOFF
-          CALL MPI_ISEND(
-     S      BUFS(1,IDEB+1),2*NN,REAL,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_SD(P),IERROR)
+          CALL SPMD_ISEND(
+     S      BUFS(1,IDEB+1),2*NN,IT_SPMD(P),MSGTYP,
+     G      REQ_SD(P))
           IDEB = IDEB + PSPHS(P)
         END IF
       END DO
@@ -1437,8 +1251,8 @@ C
       DO P = 1, NSPMD
         IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
-          CALL MPI_RECV(BUFR,PSPHR(P)*2,REAL,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+          CALL SPMD_RECV(BUFR,PSPHR(P)*2,IT_SPMD(P),
+     .                  MSGTYP)
           NN = 0
           DO N = 1, PSPHR(P)
             IF(ISPHR(IDEB+N)==1) THEN
@@ -1455,7 +1269,7 @@ C Wait terminaison
 C
       DO P = 1, NSPMD
         IF(PSPHS(P)/=0)THEN
-          CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_SD(P))
         END IF
       END DO
 C  
@@ -1475,6 +1289,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1502,7 +1317,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
      .        IERROR, ICELL,
-     .        REQ_SD(NSPMD), STATUS(MPI_STATUS_SIZE),MSGOFF
+     .        REQ_SD(NSPMD), MSGOFF
        my_real
      .        BUFS(7+6*SPH_IORD1,NSPHS), BUFR(7+6*SPH_IORD1,NSPHR)
        DATA MSGOFF/2016/
@@ -1533,9 +1348,9 @@ C               INOD = KXSP(3,ICELL)
               END IF
             END DO
             MSGTYP = MSGOFF
-            CALL MPI_ISEND(
-     S        BUFS(1,IDEB+1),NN*7,REAL,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,REQ_SD(P),IERROR)
+            CALL SPMD_ISEND(
+     S        BUFS(1,IDEB+1),NN*7,IT_SPMD(P),MSGTYP,
+     G        REQ_SD(P))
             IDEB = IDEB + PSPHS(P)
           END IF
         END DO
@@ -1565,9 +1380,9 @@ C               INOD = KXSP(3,ICELL)
               END IF
             END DO
             MSGTYP = MSGOFF
-            CALL MPI_ISEND(
-     S        BUFS(1,IDEB+1),NN*13,REAL,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,REQ_SD(P),IERROR)
+            CALL SPMD_ISEND(
+     S        BUFS(1,IDEB+1),NN*13,IT_SPMD(P),MSGTYP,
+     G        REQ_SD(P))
             IDEB = IDEB + PSPHS(P)
           END IF
         END DO        
@@ -1580,8 +1395,8 @@ C
         DO P = 1, NSPMD
           IF(PSPHR(P)/=0)THEN
             MSGTYP = MSGOFF
-            CALL MPI_RECV(BUFR,7*PSPHR(P),REAL,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+            CALL SPMD_RECV(BUFR,7*PSPHR(P),IT_SPMD(P),
+     .                  MSGTYP)
             NN = 0
             DO N = 1, PSPHR(P)
               IF(ISPHR(IDEB+N)==1) THEN
@@ -1615,8 +1430,8 @@ C
         DO P = 1, NSPMD
           IF(PSPHR(P)/=0)THEN
             MSGTYP = MSGOFF
-            CALL MPI_RECV(BUFR,13*PSPHR(P),REAL,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+            CALL SPMD_RECV(BUFR,13*PSPHR(P),IT_SPMD(P),
+     .                  MSGTYP)
             NN = 0
             DO N = 1, PSPHR(P)
               IF(ISPHR(IDEB+N)==1) THEN
@@ -1651,7 +1466,7 @@ C Wait terminaison
 C
       DO P = 1, NSPMD
         IF(PSPHS(P)/=0)THEN
-          CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_SD(P))
         END IF
       END DO
 C  
@@ -1671,6 +1486,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1700,7 +1516,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
      .        IERROR, ICELL,
-     .        REQ_SD(NSPMD), STATUS(MPI_STATUS_SIZE),MSGOFF
+     .        REQ_SD(NSPMD), MSGOFF
        my_real
      .        BUFS(10,NSPHS), BUFR(10,NSPHR)
        DATA MSGOFF/2017/
@@ -1735,9 +1551,9 @@ c IMPOSE value
             END IF
           END DO
           MSGTYP = MSGOFF
-          CALL MPI_ISEND(
-     S      BUFS(1,IDEB+1),NN*10,REAL,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_SD(P),IERROR)
+          CALL SPMD_ISEND(
+     S      BUFS(1,IDEB+1),NN*10,IT_SPMD(P),MSGTYP,
+     G      REQ_SD(P))
           IDEB = IDEB + PSPHS(P)
         END IF
       END DO
@@ -1748,8 +1564,8 @@ C
       DO P = 1, NSPMD
         IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
-          CALL MPI_RECV(BUFR,10*PSPHR(P),REAL,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+          CALL SPMD_RECV(BUFR,10*PSPHR(P),IT_SPMD(P),
+     .                  MSGTYP)
           NN = 0
           DO N = 1, PSPHR(P)
             IF(ISPHR(IDEB+N)==1) THEN
@@ -1776,7 +1592,7 @@ C Wait terminaison
 C
       DO P = 1, NSPMD
         IF(PSPHS(P)/=0)THEN
-          CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_SD(P))
         END IF
       END DO
 C  
@@ -1792,11 +1608,12 @@ Chd|-- calls ---------------
 Chd|        SPHBOX                        share/modules/sphbox.F        
 Chd|====================================================================
       SUBROUTINE SPMD_SPHGETVOIS_OFF(OFF_SPH, TAG_SPH,
-     .                               KXSP, IXSP,ITAB)
+     .                               KXSP, IXSP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1819,7 +1636,7 @@ C-----------------------------------------------
       INTEGER 
      .        OFF_SPH(NUMSPH), TAG_SPH(NSPHR),
      .        TAG_SPHR(NSPHS), KXSP(NISP,*),
-     .        IXSP(KVOISPH,*),ITAB(*)
+     .        IXSP(KVOISPH,*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -1827,7 +1644,7 @@ C-----------------------------------------------
       INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
      .        IERROR, ICELL, INOD,
      .        REQ_SD(NSPMD), REQ_SD2(NSPMD),
-     .        STATUS(MPI_STATUS_SIZE),J,
+     .        J,
      .        NVOISS1, NVOISS2,KNOD,K, JK,
      .        NVOIS1, NVOIS2, SM,MSGOFF,MSGOFF2
        INTEGER
@@ -1847,9 +1664,9 @@ C send TAG_SPH
       DO P = 1, NSPMD
         IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
-          CALL MPI_ISEND(
-     S      TAG_SPH(IDEB),PSPHR(P),MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_SD(P),IERROR)
+          CALL SPMD_ISEND(
+     S      TAG_SPH(IDEB),PSPHR(P),IT_SPMD(P),MSGTYP,
+     G      REQ_SD(P))
           IDEB = IDEB + PSPHR(P)
         END IF
       END DO
@@ -1860,8 +1677,8 @@ C
       DO P = 1, NSPMD
         IF(PSPHS(P)/=0)THEN
           MSGTYP = MSGOFF
-          CALL MPI_RECV(TAG_SPHR(IDEB),PSPHS(P),MPI_INTEGER,
-     .                 IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+          CALL SPMD_RECV(TAG_SPHR(IDEB),PSPHS(P),
+     .                 IT_SPMD(P),MSGTYP)
           IDEB = IDEB + PSPHS(P)
         END IF
       END DO
@@ -1879,9 +1696,9 @@ c OFF_SPH set to 1 in sponof2 if cell is deleted
         END DO
 
         MSGTYP = MSGOFF2
-        CALL MPI_ISEND(
-     S      BUFS(IDEB+1),NN,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_SD2(P),IERROR)
+        CALL SPMD_ISEND(
+     S      BUFS(IDEB+1),NN,IT_SPMD(P),MSGTYP,
+     G      REQ_SD2(P))
         IDEB = IDEB + PSPHS(P)
        END IF
       END DO
@@ -1892,8 +1709,8 @@ C
       DO P = 1, NSPMD
         IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF2
-          CALL MPI_RECV(BUFR(IDEB+1),PSPHR(P),MPI_INTEGER,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+          CALL SPMD_RECV(BUFR(IDEB+1),PSPHR(P),IT_SPMD(P),
+     .                  MSGTYP)
            IDEB = IDEB + PSPHR(P)
         END IF
       END DO
@@ -1977,10 +1794,10 @@ C Wait terminaison
 C
       DO P = 1, NSPMD
         IF(PSPHR(P)/=0)THEN
-          CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_SD(P))
         END IF
         IF(PSPHS(P)/=0)THEN
-          CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_SD2(P))
         END IF
       END DO
  
@@ -2000,6 +1817,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2027,7 +1845,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER P, I, N, IDEB, MSGTYP, LOC_PROC,
      .        IERROR, ICELL, INOD,
-     .        REQ_SD(NSPMD), STATUS(MPI_STATUS_SIZE),MSGOFF
+     .        REQ_SD(NSPMD), MSGOFF
        INTEGER
      .        BUFS(NSPHS), BUFR(NSPHR)
        DATA MSGOFF/2020/
@@ -2046,9 +1864,9 @@ c Get IMPOSE value KXSP(2,ICELL)/(NGROUP+1)
            BUFS(N+IDEB) = KXSP(2,ICELL)/(NGROUP+1)
         END DO
         MSGTYP = MSGOFF
-        CALL MPI_ISEND(
-     S      BUFS(IDEB+1),PSPHS(P)*1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_SD(P),IERROR)
+        CALL SPMD_ISEND(
+     S      BUFS(IDEB+1),PSPHS(P)*1,IT_SPMD(P),MSGTYP,
+     G      REQ_SD(P))
         IDEB = IDEB + PSPHS(P)
        ENDIF
       END DO
@@ -2059,8 +1877,8 @@ C
       DO P = 1, NSPMD
         IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
-          CALL MPI_RECV(BUFR,1*PSPHR(P),MPI_INTEGER,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+          CALL SPMD_RECV(BUFR,1*PSPHR(P),IT_SPMD(P),
+     .                  MSGTYP)
           DO N = 1, PSPHR(P)
             XSPHR(12,IDEB+N) = BUFR(N)
           END DO
@@ -2072,7 +1890,7 @@ C Wait terminaison
 C
       DO P = 1, NSPMD
         IF(PSPHS(P)/=0)THEN
-          CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_SD(P))
         END IF
       END DO
 C  
@@ -2095,6 +1913,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2130,8 +1949,7 @@ C-----------------------------------------------
       INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
      .        IERROR, ICELL, INOD,
      .        REQ_SD(NSPMD), REQ_SD2(NSPMD),
-     .        REQ_SD3(NSPMD),
-     .        STATUS(MPI_STATUS_SIZE)
+     .        REQ_SD3(NSPMD)
 
       INTEGER, 
      .      DIMENSION(:,:), ALLOCATABLE :: TMP_IPPV
@@ -2291,9 +2109,9 @@ c      IF(IPPVR>0)THEN
         DO P = 1, NSPMD
           IF(PSPHR(P)/=0)THEN
             MSGTYP = MSGOFF
-            CALL MPI_ISEND(
-     S        MYPSPHS(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,REQ_SD(P),IERROR)
+            CALL SPMD_ISEND(
+     S        MYPSPHS(P),1,IT_SPMD(P),MSGTYP,
+     G        REQ_SD(P))
           END IF
         END DO
 C
@@ -2302,8 +2120,8 @@ C
         DO P = 1, NSPMD
           IF(PSPHS(P)/=0)THEN
             MSGTYP = MSGOFF
-            CALL MPI_RECV(MYPSPHR(P),1,MPI_INTEGER,IT_SPMD(P),
-     .                    MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+            CALL SPMD_RECV(MYPSPHR(P),1,IT_SPMD(P),
+     .                    MSGTYP)
           END IF
         END DO
 
@@ -2311,9 +2129,9 @@ C
           IF(MYPSPHS(P)/=0)THEN
             MSGTYP = MSGOFF2
             IDEB = MYPSPHS2(P)
-            CALL MPI_ISEND(
-     S        SEND_IPPV(IDEB),MYPSPHS(P),MPI_INTEGER,
-     .        IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,REQ_SD2(P),IERROR)
+            CALL SPMD_ISEND(
+     S        SEND_IPPV(IDEB),MYPSPHS(P),
+     .        IT_SPMD(P),MSGTYP,REQ_SD2(P))
           END IF
         END DO
 C Reception flag cellules off
@@ -2322,9 +2140,9 @@ C
         DO P = 1, NSPMD
           IF(MYPSPHR(P)/=0)THEN
             MSGTYP = MSGOFF2
-            CALL MPI_RECV(
-     .        REC_IPPV(IDEB),MYPSPHR(P),MPI_INTEGER,
-     .        IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+            CALL SPMD_RECV(
+     .        REC_IPPV(IDEB),MYPSPHR(P),
+     .        IT_SPMD(P),MSGTYP)
             IDEB = IDEB + MYPSPHR(P)
           END IF
         END DO
@@ -2333,10 +2151,10 @@ C Wait terminaison
 C
         DO P = 1, NSPMD
           IF(PSPHR(P)/=0)THEN
-            CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
+            CALL SPMD_WAIT(REQ_SD(P))
           END IF
           IF(MYPSPHS(P)/=0)THEN
-            CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
+            CALL SPMD_WAIT(REQ_SD2(P))
           END IF
         END DO
 C
@@ -2523,9 +2341,9 @@ C------
 c envoi
         MSGTYP = MSGOFF3
         SIZ =  MYPSPHR(P)*12
-        CALL MPI_ISEND(
-     S      BUFS(1,IDEB2+1),SIZ,REAL,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_SD3(P),IERROR)
+        CALL SPMD_ISEND(
+     S      BUFS(1,IDEB2+1),SIZ,IT_SPMD(P),MSGTYP,
+     G      REQ_SD3(P))
         IDEB2= IDEB2+MYPSPHR(P)
           ENDIF
           IDEB = IDEB + PSPHS(P)
@@ -2539,8 +2357,8 @@ C
           IF(MYPSPHS(P)/=0)THEN
           MSGTYP = MSGOFF3
           SIZ = 12*MYPSPHS(P)
-          CALL MPI_RECV(BUFR,SIZ,REAL,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+          CALL SPMD_RECV(BUFR,SIZ,IT_SPMD(P),
+     .                  MSGTYP)
           DO N = 1, MYPSPHS(P)
             INDICE1 = SEND_IPPV2(IDEB+N)
             DSPHR(1,INDICE1) = BUFR(1,N)
@@ -2564,7 +2382,7 @@ C Wait terminaison
 C
       DO P = 1, NSPMD
          IF(MYPSPHR(P)/=0)THEN
-          CALL MPI_WAIT(REQ_SD3(P),STATUS,IERROR)
+          CALL SPMD_WAIT(REQ_SD3(P))
         END IF
       END DO
 C  
@@ -2590,6 +2408,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2671,101 +2490,6 @@ c        indice des voxels occupes par la facette
 
       ENDDO
 
-C
-#endif
-      RETURN
-      END
-C
-Chd|====================================================================
-Chd|  SPMD_SPH_GAUGE                source/mpi/elements/spmd_sph.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE SPMD_SPH_GAUGE(LGAUGE,GAUGE)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------------------------
-C   M e s s a g e   P a s s i n g
-C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "param_c.inc"
-#include      "task_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER LGAUGE(3,*)
-      my_real 
-     .   GAUGE(LLGAUGE,*)
-C-----------------------------------------------
-C   L o c a l  V a r i a b l e s
-C-----------------------------------------------
-#ifdef MPI
-      INTEGER MSGTYP,MSGOFF,IERROR,LOC_PROC,NN,L,I,K,N,II,J,
-     .        IDEB,SIZ,A_AR,NBIRECV,INDEX,
-     .        IRINDEX(NSPMD),REQ_R(NSPMD),IAD_RECV(NSPMD),
-     .        STATUS(MPI_STATUS_SIZE)
-      my_real
-     .        BUF(LLGAUGE+1,NBGAUGE*NSPMD) 
-      DATA MSGOFF/2027/
-C-----------------------------------------------
-C   S o u r c e  L i n e s
-C-----------------------------------------------
-      LOC_PROC = ISPMD + 1
-      IF (LOC_PROC==1) THEN
-        IDEB = 1
-        NBIRECV = 0
-        DO I = 2, NSPMD
-            IAD_RECV(I) = IDEB
-            NBIRECV = NBIRECV + 1
-            IRINDEX(NBIRECV) = I
-            NN = NBGAUGE
-            SIZ = (LLGAUGE+1)*NN
-            MSGTYP = MSGOFF
-            CALL MPI_IRECV(
-     S        BUF(1,IDEB),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G        MPI_COMM_WORLD,REQ_R(NBIRECV),IERROR)
-              IDEB = IDEB + NN
-        END DO
-C
-        DO II = 1, NBIRECV
-          CALL MPI_WAITANY(NBIRECV,REQ_R,INDEX,STATUS,IERROR)
-          I = IRINDEX(INDEX)
-          L = IAD_RECV(I)
-          NN = NBGAUGE
-          DO N = L, L+NN-1
-            K = NINT(BUF(1,N))
-            IF(LGAUGE(1,K) < -NUMELS)THEN
-              DO J = 10, 13
-                GAUGE(J,K) = GAUGE(J,K)+BUF(J+1,N)
-              END DO
-            ENDIF
-          END DO
-        END DO
-C
-      ELSE
-        K = 0
-        DO N = 1, NBGAUGE
-           K = K + 1
-           BUF(1,K) = N
-           DO J = 1, LLGAUGE
-             BUF(J+1,K) = GAUGE(J,N)
-           END DO
-        END DO
-        SIZ = (LLGAUGE+1)*K
-        MSGTYP=MSGOFF
-        CALL MPI_SEND(
-     S     BUF,SIZ,REAL,IT_SPMD(1),MSGTYP,
-     G     MPI_COMM_WORLD,IERROR)
-      END IF
 C
 #endif
       RETURN
