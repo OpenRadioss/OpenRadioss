@@ -76,7 +76,7 @@ C-----------------------------------------------
       PARAMETER (MAX_NPTT = 100)
       my_real
      .   THK_IT(MAX_NPTT*NLAY,MVSIZ),POS_IT(MAX_NPTT,MVSIZ),ZSHIFT,THK_NPTT,
-     .   THKL,POS_NPTT,POS_0,THICKT,THINNING,THK_LY(MVSIZ),POS_LY(MVSIZ),
+     .   THKL,POS_NPTT,POS_0,THICKT,THINNING,THK_LY(MVSIZ),
      .   THKLY,RATIO_THKLY(MVSIZ,NPT)
 C
       TYPE (DRAPE_PLY_)             , POINTER   :: DRAPE_PLY
@@ -194,7 +194,6 @@ c----
                          POSLY(I,N) = POSLY(I,N-1)            
      .                     + HALF*(RATIO_THKLY(I,N)+RATIO_THKLY(I,N-1))
                    ENDIF ! IF (N == 1) 
-                   POS_LY(I)  = POSLY(I,ILAY)
                 ELSE 
                     IP= DRAPE(IE)%INDX_PLY(N)
                     IF(IP > 0) THEN
@@ -261,8 +260,7 @@ c         stack addresses
                  IF(IINT == 1) THEN 
                   DO I=JFT,JLT
                     MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material
-                    THK_LY(I)  = STACK%GEO(IPTHK  + ILAY,ISUBSTACK)  ! layer thickness ratio                    
-                    POS_LY(I)  = STACK%GEO(IPPOS  + ILAY,ISUBSTACK)  ! layer position ratio                     
+                    THK_LY(I)  = STACK%GEO(IPTHK  + ILAY,ISUBSTACK)  ! layer thickness ratio                   
                     RATIO_THKLY(I,ILAY) = THK_LY(I)                                                             
                     JMLY = (ILAY-1)*JLT + I                                                                     
                     DO IT=1,NPTT                                                                                
@@ -281,7 +279,6 @@ c         stack addresses
                    DO I=JFT,JLT
                     MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material
                     THK_LY(I)  = STACK%GEO(IPTHK  + ILAY,ISUBSTACK)  ! layer thickness ratio                  
-                    POS_LY(I)  = STACK%GEO(IPPOS  + ILAY,ISUBSTACK)  ! layer position ratio                   
                     MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material                         
                     RATIO_THKLY(I,ILAY) = THK_LY(I)                                                           
                     JMLY = (ILAY-1)*JLT + I                                                                   
@@ -314,7 +311,6 @@ c         stack addresses
                     MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material
                     IF(IE == 0) THEN
                        THK_LY(I)  = STACK%GEO(IPTHK  + ILAY,ISUBSTACK)  ! layer thickness ratio
-                       POS_LY(I)  = STACK%GEO(IPPOS  + ILAY,ISUBSTACK)  ! layer position ratio
                        RATIO_THKLY(I,ILAY) = THK_LY(I)
                        JMLY = (ILAY-1)*JLT + I
                        DO IT=1,NPTT
@@ -378,7 +374,6 @@ c         stack addresses
                     MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material
                     IF(IE == 0) THEN
                        THK_LY(I)  = STACK%GEO(IPTHK  + ILAY,ISUBSTACK)  ! layer thickness ratio
-                       POS_LY(I)  = STACK%GEO(IPPOS  + ILAY,ISUBSTACK)  ! layer position ratio
                        MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material
                        RATIO_THKLY(I,ILAY) = THK_LY(I)
                        JMLY = (ILAY-1)*JLT + I

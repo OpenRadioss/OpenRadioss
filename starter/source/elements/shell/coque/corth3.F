@@ -137,7 +137,8 @@ C
             IDIR = 0
             DO N=1,NLAY                            
              NPTT =  ELBUF_STR%BUFLY(N)%NPTT
-             DO IT=1,NPTT                          
+             DO IT=1,NPTT 
+              DIR1 => ELBUF_STR%BUFLY(N)%LBUF_DIR(IT)%DIRA                         
               J = IDIR + (IT-1)*NEL*2
               DO I=JFT,JLT                        
                 AA = DIR1(J+I)                    
@@ -231,7 +232,7 @@ C---              Axe II
                 ELSE  ! IREP = 0 within PID51
                  DO IT = 1, NPTT
                   J = IDIR + (IT-1)*NEL*2
-                  LBUF_DIR =>ELBUF_STR%BUFLY(N)%LBUF_DIR(IT)    
+                  LBUF_DIR => ELBUF_STR%BUFLY(N)%LBUF_DIR(IT)    
                   DIR1 => LBUF_DIR%DIRA
                   DO I=JFT,JLT                          
                     DIR_A(J+I) = DIR1(I)                   
