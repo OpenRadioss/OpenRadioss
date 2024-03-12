@@ -29,7 +29,6 @@ Chd|        FILL_GR                       source/model/sets/fill_gr.F
 Chd|        FILL_LINE                     source/model/sets/fill_gr.F   
 Chd|        FILL_SURF                     source/model/sets/fill_gr.F   
 Chd|        FILL_SURF_ELLIPSE             source/model/sets/fill_gr_surf_ellipse.F
-Chd|        FILL_SURF_PLANE               source/model/sets/fill_gr_surf_plane.F
 Chd|        HM_GROUP_IS_USED              source/devtools/hm_reader/hm_group_is_used.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
