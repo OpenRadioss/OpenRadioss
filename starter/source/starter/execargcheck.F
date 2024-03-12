@@ -1078,9 +1078,10 @@ C machine.inc include
         INTEGER RDFLEXCOMP
 
 C variables inutiles mais definies dans machine.inc
-        INTEGER IBUILTIN,NSPMD,BMUL0,IEXPM,ICRAY,IRESP,IMACH,IRFORM,LENBT,READER_ID
+        INTEGER IBUILTIN,NSPMD,IEXPM,ICRAY,IRESP,IMACH,IRFORM,LENBT,READER_ID
         INTEGER READER_COMMIT_ID_SIZE,READER_COMMIT_ID_LEN
         CHARACTER(LEN=128):: READER_COMMIT_ID
+        my_real :: BMUL0
 C-----------------------------------------------
 #include "machine.inc"
 C-----------------------------------------------

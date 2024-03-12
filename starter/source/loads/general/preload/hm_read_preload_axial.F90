@@ -52,7 +52,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer i,j,nld,iset,nn,id,uid,ifun,is,np
+        integer i,nld,iset,nn,id,uid,ifun,is,np
         character (len=nchartitle) :: titr
         character (len=ncharline)  :: key
 !

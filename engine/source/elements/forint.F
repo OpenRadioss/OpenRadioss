@@ -212,6 +212,7 @@ C-----------------------------------------------
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       INTEGER, INTENT(IN) :: NODADT,IDTMIN(102)
       my_real, INTENT(IN) :: DTFAC1(102),DTMIN1(102)
+      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -227,12 +228,12 @@ C-----------------------------------------------
      .   NCTRL,DIM6,IPARSENS,ISECT,GAMA(6),PX,PY,PZ,ISENS_ENERGY
       my_real BID,QMVBID,PRELOAD1
       my_real VOLN(MVSIZ)
-      my_real, ALLOCATABLE, DIMENSION(:,:) :: FX,FY,FZ,MX,MY,MZ
+      my_real, ALLOCATABLE, DIMENSION(:,:) :: FX,FY,FZ,MX,MY,MZ,JFAC
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C======================================================================|
        ALLOCATE(FX(MVSIZ,64),FY(MVSIZ,64),FZ(MVSIZ,64),STAT=IERROR)
        ALLOCATE(MX(MVSIZ,4),MY(MVSIZ,4),MZ(MVSIZ,4),STAT=IERROR)
+       ALLOCATE(JFAC(MVSIZ,729)) ! for solid 8z
 !
        IF(IERROR/=0)THEN
         CALL ANCMSG(MSGID=246,ANMODE=ANINFO)
@@ -906,7 +907,7 @@ c            IF (NPTR==0) NPTR=IINT
      I         ITASK      ,ISTRA    ,TEMP       ,FTHE       ,
      J         FTHESKY    ,IEXPAN    ,IGEO     ,NPT0       ,GRESAV     ,
      K         GRTH       ,IGRTH(NF1),MSSA(NF1),DMELS(NF1) ,TABLE      ,
-     L         XDP        ,VOLN      ,CONDN    ,CONDNSKY   ,
+     L         XDP        ,VOLN      ,CONDN    ,CONDNSKY   ,JFAC,
      M         D          ,SENSORS   ,IPRI     ,MAt_ELEM   ,IBID,DT )
 C
             IF (NSECT > 0) THEN
@@ -1418,7 +1419,7 @@ C             ROTATION IF COROTA SYSTEM
   250   CONTINUE
       END DO
 C
-      DEALLOCATE(FX,FY,FZ,MX,MY,MZ)
+      DEALLOCATE(FX,FY,FZ,MX,MY,MZ,JFAC)
 
 C-----------
       RETURN

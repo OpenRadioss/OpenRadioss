@@ -95,9 +95,9 @@ C-----------------------------------------------
       CHARACTER*100 LINE
       my_real
      .   SIG(6)
-      my_real
-     .   THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX),
-     .   THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX)
+      my_real, dimension(:,:), allocatable ::
+     .   THKLY,POSLY,
+     .   THK_LY
       my_real, 
      .   DIMENSION(:),POINTER  :: STRAIN    
       my_real 
@@ -120,6 +120,9 @@ C-----------------------
      .             DYNAIN_DATA%DYNAIN_NUMELTG)),STAT=IERR)
       ALLOCATE(PTWA_P0(0:MAX(1,DYNAIN_DATA%DYNAIN_NUMELC_G,
      .         DYNAIN_DATA%DYNAIN_NUMELTG_G)),STAT=IERR)
+      ALLOCATE( THKLY(MVSIZ,LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX))
+      ALLOCATE( THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX))
+
 C*********************************************
 C     4-NODE SHELLS
 C*********************************************
@@ -819,5 +822,8 @@ C
 C
       DEALLOCATE(PTWA,PTWA_P0)
 C
+      DEALLOCATE( THKLY,POSLY)
+      DEALLOCATE( THK_LY)
+
       RETURN
       END

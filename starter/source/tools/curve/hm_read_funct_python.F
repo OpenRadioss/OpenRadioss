@@ -58,7 +58,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           integer :: i,j,l,k
           integer :: func_id
           integer :: position_in_code
-          character(kind=c_char,len=max_code_length) :: code
+!         character(kind=c_char,len=max_code_length) :: code
+          character(kind=c_char, len=:), allocatable :: code
           integer :: line_len
           integer :: error,error_old
           double precision :: argin(1), argout(1)
@@ -66,6 +67,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      body
 ! ----------------------------------------------------------------------------------------------------------------------
+          allocate(character(kind=c_char, len=max_code_length) :: code)
           call hm_option_count('/FUNCT_PYTHON', nb_funct)
           allocate(python%functs(nb_funct))
           python%nb_functs = nb_funct
@@ -133,7 +135,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
               endif
             enddo
           endif
-
+          deallocate(code)
           return
 
         end

@@ -65,9 +65,9 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, FIRST, LAST, IRM, IEDG, I1, I2, I3, I4, LENR
+      INTEGER I, J, FIRST, LAST, IRM, IEDG, I1, I2, I3, I4 
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        JRM, JEDG, NEDG, IS1, IS2, ISH, SOL_EDGE
+     .        JRM, JEDG, IS1, IS2, ISH, SOL_EDGE
 C     REAL
       REAL*4
      .     X0(MVSIZ), Y0(MVSIZ), Z0(MVSIZ),

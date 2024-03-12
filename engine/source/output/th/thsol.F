@@ -153,9 +153,10 @@ C-----------------------------------------------
      .   X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
      .   X5,Y5,Z5,X6,Y6,Z6,X7,Y7,Z7,X8,Y8,Z8, CS,SN,VAR,PLAG
         my_real
-     .   WWA(239554),A_GAUSS(9,9),SIGP(7,81,9), USER(100),
+     .   A_GAUSS(9,9),SIGP(7,81,9), USER(100),
      .   STRAIN(6),GAMA(6),EVAR_TMP(6),EVAR(6),SIGG(6),
      .   VEL(3),V(3,*),W(3,*),TMP_2(MVSIZ,3),BFRAC,SSP
+        my_real, DIMENSION(:), ALLOCATABLE :: WWA
 C----
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -193,6 +194,7 @@ C--------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+        ALLOCATE(WWA(239554))
 
         IJK = 0
         DO NITER=1,NTHGRP2
@@ -2255,6 +2257,7 @@ C -----
 !   -------------------------------
             ENDIF
         ENDDO
+      DEALLOCATE(WWA)
 C-----------
       RETURN
       END

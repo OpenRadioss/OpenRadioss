@@ -266,14 +266,16 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           character(len=max_line_length) :: name
-          character(kind=c_char,len=max_code_length) :: code
+!         character(kind=c_char,len=max_code_length) :: code
+          character(kind=c_char, len=:), allocatable :: code
           integer                        :: i,n,ierror
-!         double precision, dimension(1) :: argin, argout
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          allocate(character(kind=c_char, len=max_code_length) :: code)
+
           ierror = 0 ! if python error = 1 => python_initialize will do nothing, because python is not avaiable
-          ! i.e. starter without -python option
+            ! i.e. starter without -python option
           if(py%nb_functs>0) call python_initialize(ierror)
 
           if(py%nb_functs > 0 .and. ierror == 1) then
@@ -288,6 +290,8 @@
             code(py%functs(n)%len_code+1:py%functs(n)%len_code+1) = c_null_char
             call python_register_function(name, code, py%functs(n)%num_lines)
           end do
+
+          deallocate(code)
         end subroutine
 
 !! \brief Evaluate the python function

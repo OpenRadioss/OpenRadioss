@@ -108,7 +108,7 @@ Chd|====================================================================
      I                    ITASK    ,ISTRAIN,TEMP   ,FTHE    , 
      J                    FTHESKY  ,IEXPAN ,IGEO   ,NNPT    ,GRESAV  ,
      K                    GRTH     ,IGRTH  ,MSSA   ,DMELS   ,TABLE   ,
-     L                    XDP      ,VOLN   ,CONDN  ,CONDNSKY  ,
+     L                    XDP      ,VOLN   ,CONDN  ,CONDNSKY  ,JFAC,
      M                    D        ,SENSORS,IOUTPRT,MAT_ELEM,H3D_STRAIN,
      N                    DT       )
 C-----------------------------------------------
@@ -176,6 +176,7 @@ C
      .    MFXX(MVSIZ,729),MFXY(MVSIZ,729),MFYX(MVSIZ,729),
      .    MFYY(MVSIZ,729),MFYZ(MVSIZ,729),MFZY(MVSIZ,729),
      .    MFZZ(MVSIZ,729),MFZX(MVSIZ,729),MFXZ(MVSIZ,729),
+     .    JFAC(MVSIZ,729),
      .    TEMP(*), FTHE(*), FTHESKY(*),GRESAV(*), MSSA(*), DMELS(*),VOLN(MVSIZ),
      .    CONDN(*),CONDNSKY(*),D(*)
       TYPE(TTABLE) TABLE(*)
@@ -301,7 +302,7 @@ C   Variables utilisees dans les routines solides uniquement (en arguments).
       my_real
      .  DXY(MVSIZ),DYX(MVSIZ),
      .  DYZ(MVSIZ),DZY(MVSIZ),
-     .  DZX(MVSIZ),DXZ(MVSIZ),DETF0(MVSIZ),JFAC(MVSIZ,729),DIVDE(MVSIZ)
+     .  DZX(MVSIZ),DXZ(MVSIZ),DETF0(MVSIZ),DIVDE(MVSIZ)
       my_real
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
