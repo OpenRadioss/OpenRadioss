@@ -37,7 +37,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT49(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM    ,PM       ,
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE ,MATPARAM )
+     .           MAT_ID    ,TITR     ,ISRATE ,MATPARAM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,13 +79,12 @@ C-----------------------------------------------
       TYPE(UNIT_TYPE_), INTENT(in) :: UNITAB
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG
-      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG   
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED,IS_EOS, EOS_EMBEDDED
-      INTEGER JTUR, I, IEOS,EMPTY_LINE,COUNT,LAW6_OPT
+      INTEGER JTUR, I, IEOS,EMPTY_LINE,COUNT
       INTEGER JTHE, IFLAGR
       my_real
      .    YOUNG,NU,SIG0,CB,CN,SIGM,EPSM,T0,TMELT,PMIN,
@@ -140,7 +139,7 @@ C-----------------------------------------------
       ENDIF          
 
 
-        IF(EOS_EMBEDDED)THEN
+        IF(EOS_EMBEDDED)THEN   ! POLYNOMIAL EOS
            CALL HM_GET_FLOATV('MAT_C0'       ,C0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
            CALL HM_GET_FLOATV('MAT_C1'       ,C1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
            CALL HM_GET_FLOATV('MAT_C2'       ,C2       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
@@ -157,8 +156,11 @@ C-----------------------------------------------
            PM(34)= C3
            PM(35)= C4
            PM(36)= C5
-           PM(88)= ZERO 
-           IEOS = 1 ! POLYNOMIAL EOS
+           PM(88)= ZERO
+        ELSE
+          IEOS   = 18 ! Linear EOS is used by default 
+          MATPARAM%IEOS = IEOS          
+          IPM(4)        = IEOS    ! keep this temporarily for output and fluid sections
         ENDIF
 
       IF (PMIN==ZERO) PMIN=-EP20

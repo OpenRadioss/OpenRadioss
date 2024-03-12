@@ -36,9 +36,8 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT12(
-     .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM     ,PM,
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE,
-     .           MATPARAM  )
+     .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM     ,PM      ,
+     .           MAT_ID    ,TITR     ,ISRATE   ,MATPARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -80,7 +79,6 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)   :: PM
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG
-      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG      
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT)        :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -366,7 +364,11 @@ c
       MTAG%G_TSAIWU = 1
       MTAG%L_TSAIWU = 1
 
-      ! MATPARAM Keywords
+!-------------------------------------------------------------
+      MATPARAM%IEOS = 18    ! linear by default
+      
+      ! MATPARAM Keywords    
+      
       CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
       CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")
 

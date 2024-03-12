@@ -37,7 +37,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT06(
      .           LSUBMODEL ,MTAG6    ,UNITAB   ,IPM     ,PM,
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE,
+     .           MAT_ID    ,TITR     ,ISRATE,
      .           ITYP      ,MTAG17   ,MATPARAM )
 C-----------------------------------------------
 C   M o d u l e s
@@ -80,7 +80,6 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)   :: PM
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG6,MTAG17
-      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG  
       INTEGER,INTENT(IN)                           :: ITYP 
       TYPE(MATPARAM_STRUCT_),INTENT(INOUT)         :: MATPARAM   
 C-----------------------------------------------
@@ -115,7 +114,7 @@ C-----------------------------------------------
       IF(INVERS_INIT<2018)IS_EOS=.TRUE.  !no embedded EoS before up to format 2017
       
       IF (IS_EOS) THEN
-         IEOS = 1 !polynomial EOS
+         IEOS = 1   ! polynomial EOS
          CALL HM_GET_FLOATV('MAT_C0'      ,C0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_C1'      ,C1     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_C2'      ,C2     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -125,7 +124,6 @@ C-----------------------------------------------
          CALL HM_GET_FLOATV('MAT_EA'      ,E0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
          CALL HM_GET_FLOATV('MAT_PSH'     ,PSH    ,IS_AVAILABLE, LSUBMODEL, UNITAB)                                             
       ELSE
-         IEOS=0
          E0 = ZERO
          C0 = ZERO
          C1 = ZERO
@@ -134,6 +132,7 @@ C-----------------------------------------------
          C4 = ZERO
          C5 = ZERO
          PSH =ZERO
+         IEOS = 0
       ENDIF
       
       IF (PMIN == ZERO) PMIN=-INFINITY
@@ -165,9 +164,10 @@ C-----------------------------------------------
       PM(88)=PSH      
       PM(104)=C0 - PSH
       
-      IPM(04)=IEOS
-      MATPARAM%IEOS = IEOS
-!
+!-------------------------------------------------------------
+      MATPARAM%IEOS = IEOS    ! linear by default
+      IPM(4)        = IEOS    ! keep this temporarily for output and fluid sections
+
       ! Material compatibility with /EOS option
       CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
 

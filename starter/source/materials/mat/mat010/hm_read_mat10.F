@@ -137,14 +137,16 @@ C-----------------------------------------------
       IF(COUNT == 5) THEN
         IFORM= 1 !old format (embedded EoS : C0,C1,C2, ... parameters)
         IEOS = 13
-        IPM(4)=IEOS
         EOS_TAG(IEOS)%L_MU = 1
         MATPARAM%IEOS = IEOS
       ELSE
         IFORM=2 !new format (Eos defined from /EOS option)
+        IEOS = 18   ! linear EOS is used by default 
         IREC = IREC+1
-        MATPARAM%IEOS = 18   ! linear EOS is used by default 
       ENDIF
+!
+      MATPARAM%IEOS = IEOS
+      IPM(4)        = IEOS    ! keep this temporarily for output and fluid sections
 
       E0 = ZERO
 

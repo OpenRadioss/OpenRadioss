@@ -371,13 +371,13 @@ c-------
             ILAW=3
             CALL HM_READ_MAT03(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I) ,
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE    ,MATPARAM)
+     .           MAT_ID    ,TITR     ,ISRATE    ,MATPARAM)
 c-------
           CASE ('LAW4','LAW04', 'HYD_JCOOK')
             ILAW=4
             CALL HM_READ_MAT04(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I)  ,
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE    ,MATPARAM )
+     .           MAT_ID    ,TITR     ,ISRATE    ,MATPARAM )
 c-------
           CASE ('JWL','LAW5','LAW05')
             ILAW = 5
@@ -391,7 +391,7 @@ c-------
             ILAW  = 6  
             CALL HM_READ_MAT06(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE    ,1      ,
+     .           MAT_ID    ,TITR     ,ISRATE    ,1      ,
      .           MTAG      ,MATPARAM )
 c-------
           CASE ('K-EPS')
@@ -400,7 +400,7 @@ c-------
             PM(70,I) =JTUR+EM01
             CALL HM_READ_MAT06_KEPS(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE    ,1      ,
+     .           MAT_ID    ,TITR     ,ISRATE    ,1      ,
      .           MTAG      ,MATPARAM )      
 c-------
           CASE ('LAW10','DPRAG1')
@@ -427,8 +427,7 @@ c-------
             ILAW = 12  
             CALL HM_READ_MAT12(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I),
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE,
-     .           MATPARAM  )
+     .           MAT_ID    ,TITR     ,ISRATE   ,MATPARAM  )
 c-------
           CASE ('LAW13','RIGID')
             ILAW = 13  
@@ -645,7 +644,7 @@ c-------
             ILAW=49
             CALL HM_READ_MAT49(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM(1,I)  ,PM(1,I) ,
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE    ,MATPARAM)
+     .           MAT_ID    ,TITR     ,ISRATE    ,MATPARAM)
 c-------
           CASE ('LAW50','VISC_HONEY')
             ILAW  = 50  
@@ -1027,7 +1026,6 @@ c-------
      .           LSUBMODEL ) 
                  PM(1 ,I) = RHO               
                  PM(89,I) = RHO               
-                 PM(37,I) = -EP20               
 c-------     
           CASE ('LAW110','VEGTER')
             ILAW = 110
@@ -1270,6 +1268,12 @@ c-------
 #endif        
         END SELECT
 c-----------------------------------------------------------------------
+        ! Set Pmin default value to -INF for EOS compatible materials
+        
+        IF (MATPARAM%COMPATIBILITY_EOS == 1 .and. PM(37,I) == ZERO) PM(37,I) = -EP20               
+
+c-----------------------------------------------------------------------
+
         IF (ILAW == 99) THEN
           WRITE(IOUT,2000) TITR,MAT_ID,IUSER_LAW
         ENDIF

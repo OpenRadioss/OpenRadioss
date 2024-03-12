@@ -264,9 +264,6 @@ C-----------------------------------------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
       CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")      
 
-      ! Material compatibility with /EOS option
-      CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
-
       !======== LISTING OUTPUT
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,5
       WRITE(IOUT,1000)     

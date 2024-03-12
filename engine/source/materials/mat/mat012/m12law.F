@@ -332,7 +332,7 @@ C-------------------------
          SO6(I)=T6(I)
       ENDDO
 C
-      IF (EOSTYP == 0) THEN   ! linear EOS by default
+      IF (EOSTYP == 18) THEN   ! linear EOS by default
         DO  I=1,NEL
           T1(I)=T1(I)+D11(I)*E1(I)+D12(I)*E2(I)+D13(I)*E3(I)
           T2(I)=T2(I)+D12(I)*E1(I)+D22(I)*E2(I)+D23(I)*E3(I)

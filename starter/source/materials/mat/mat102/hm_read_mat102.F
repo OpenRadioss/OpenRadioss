@@ -241,6 +241,12 @@ C-----------------------------------------------
 c---------------------------   
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
+!---------------------------------------------------------   
+      !MATPARAM keywords
+      
+      MATPARAM%IEOS = 18  ! Linear EOS is used by default 
+      
+!---------------------------------------------------------   
 
       CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
 

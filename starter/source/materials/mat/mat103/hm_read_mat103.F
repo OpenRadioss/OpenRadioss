@@ -191,6 +191,10 @@ C   flag activation
       MTAG%L_PLA  = 1
 !---------------------------------------------------------   
       !MATPARAM keywords
+      
+      MATPARAM%IEOS = 18  ! Linear EOS is used by default 
+      
+!---------------------------------------------------------   
 
       ! Material compatibility with /EOS option
       CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")

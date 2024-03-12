@@ -37,7 +37,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT03(
      .           LSUBMODEL ,MTAG     ,UNITAB   ,IPM    ,PM      ,
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE ,MATPARAM)
+     .           MAT_ID    ,TITR     ,ISRATE ,MATPARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,7 +79,6 @@ C-----------------------------------------------
       TYPE(UNIT_TYPE_) ,INTENT(IN) :: UNITAB
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG
-      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG  
       TYPE(MATPARAM_STRUCT_),INTENT(INOUT)         :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -133,7 +132,7 @@ C-----------------------------------------------
         !CHECK IF OLD CARD FORMAT 100 IS USED (OBSOLETE)                                                               
         ! MAKES IT  COMPATIBLE + WARNING                                                                               
         !----------------------------------------------------                                                          
-      IF(EOS_EMBEDDED)THEN                                                                          
+      IF(EOS_EMBEDDED)THEN            ! POLYNOMIAL EOS                                                               
         IF(INVERS_INIT>=140) THEN                                                                 
           CALL ANCMSG(MSGID=1072,                                                                   
      .                MSGTYPE=MSGERROR,                                                             
@@ -160,10 +159,12 @@ C-----------------------------------------------
         PM(36)= C5                                                                                  
         PM(88)= PSH                                                                                 
         IEOS = 1 ! POLYNOMIAL EOS
-         MATPARAM%IEOS = IEOS
        ELSE
-         MATPARAM%IEOS = 18 ! linear EOS is used by default
+         IEOS = 18     ! linear EOS is used by default
        ENDIF                                                                                        
+!
+      MATPARAM%IEOS = IEOS
+      IPM(4)        = IEOS  ! keep this temporarily for output and fluid sections
      
       IF (PMIN==ZERO) PMIN=-EP20
       IF (RHOR==ZERO) RHOR=RHO0
