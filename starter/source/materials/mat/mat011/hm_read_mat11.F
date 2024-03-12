@@ -300,9 +300,6 @@ C----------------------
       MTAG%L_VK    = 1   ! NB13   
       MTAG%L_EINS  = 1   ! NB14  
       
-      ! Material compatibility with /EOS option
-      CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
-
       ! EOS/Thermo keyword for pressure treatment in elements
       CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
 

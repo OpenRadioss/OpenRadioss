@@ -147,9 +147,6 @@ C-----------------------------------------------
 
       ! MATPARAM keywords
 
-      ! Material compatibility with /EOS option
-      CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
-
       ! EOS/Thermo keyword for pressure treatment in elements
       CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
 

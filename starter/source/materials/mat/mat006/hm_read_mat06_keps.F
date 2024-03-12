@@ -36,7 +36,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT06_KEPS(
      .           LSUBMODEL ,MTAG6    ,UNITAB   ,IPM     ,PM,
-     .           MAT_ID    ,TITR     ,EOS_TAG  ,ISRATE,
+     .           MAT_ID    ,TITR     ,ISRATE,
      .           ITYP      ,MTAG17   ,MATPARAM )
 C-----------------------------------------------
 C   M o d u l e s
@@ -78,7 +78,6 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)   :: PM
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG6,MTAG17
-      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG  
       INTEGER,INTENT(IN)                           :: ITYP    
       TYPE(MATPARAM_STRUCT_),INTENT(INOUT)         :: MATPARAM   
 C-----------------------------------------------
@@ -154,9 +153,9 @@ C-----------------------------------------------
       ENDIf
             
       IF(MU < ZERO)THEN
-        PM(31) = -PSH + C0+C1*MU+         C3*MU**3+(C4+C5*MU)*E0
+        PM(31) = -PSH + C0+C1*MU + C3*MU**3+(C4+C5*MU)*E0
       ELSE
-        PM(31) = -PSH + C0+C1*MU+C2*MU**2+C3*MU**3+(C4+C5*MU)*E0
+        PM(31) = -PSH + C0+C1*MU + C2*MU**2+C3*MU**3+(C4+C5*MU)*E0
       ENDIF
 
       PM(80)=INFINITY
@@ -199,6 +198,7 @@ C-----------------------------------------------
       PM(87)=RK0/RHO0  
 !---------------------------------------------------------   
       MATPARAM%IEOS = 18   ! linear EOS is used by default 
+      IPM(4)        = 18   ! keep this temporarily for output and fluid sections
 !---------------------------------------------------------        
       ! Material compatibility with /EOS option
       CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")

@@ -631,7 +631,7 @@ C-----------------------------------
 C     EOS PART1
 C-----------------------------------
       EOSTYP = MAT_ELEM%MAT_PARAM(IMAT)%IEOS
-      IF (EOSTYP > 0) THEN
+      IF (EOSTYP > 0 .and. MTN /=12 ) THEN
         CALL EOSMAIN(0       ,NEL      ,EOSTYP  ,PM        ,OFF      ,LBUF%EINT,
      2               LBUF%RHO,RHO0     ,AMU     ,AMU2      ,ESPE     ,
      3               DVOL    ,DF       ,VOLN    ,MAT       ,PSH      ,
@@ -1756,7 +1756,7 @@ C     EOS PART2
 C-----------------------------------
 !     IF (MTN == 3.OR.MTN == 4.OR.MTN == 6.OR.MTN==10.OR.MTN==17.OR.MTN == 49.OR.MTN == 102.OR.MTN == 103) THEN
       EOSTYP = MAT_ELEM%MAT_PARAM(IMAT)%IEOS
-      IF (EOSTYP > 0) THEN
+      IF (EOSTYP > 0 .and. MTN /=12 ) THEN
         IF (MTN /= 6 .and. MTN /= 17) THEN
           PNEW(:) = ZERO
         ENDIF
