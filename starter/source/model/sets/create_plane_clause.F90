@@ -38,7 +38,6 @@
           use MESSAGE_MOD
           use HM_OPTION_READ_MOD
           use UNITAB_MOD
-          use MY_ALLOC_MOD
           use NAMES_AND_TITLES_MOD
           use CONSTANT_MOD
 ! ----------------------------------------------------------------------------------------------------------------------

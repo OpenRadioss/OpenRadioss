@@ -107,9 +107,11 @@ C-----------------------------------------------
      .   DIMENSION(:),POINTER  :: DIR_A,DIR_B    
       my_real 
      .   QT(9,MVSIZ),TENS(6),ZH,THKP ,THK0(MVSIZ)   
-      my_real
-     .   THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX),
-     .   THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX)
+
+      my_real, dimension(:,:), allocatable ::
+     .   THKLY,POSLY,
+     .   THK_LY
+
       my_real, ALLOCATABLE, DIMENSION(:) , TARGET :: DIRA,DIRB
 C-----------------------------------------------
       PARAMETER (PG = .577350269189626)
@@ -119,6 +121,10 @@ C-----------------------------------------------
      ./'#---1----|----2----|----3----|----4----|----5----|----6----|'/
       DATA DELIMIT(61:100)
      ./'----7----|----8----|----9----|----10---|'/
+
+      ALLOCATE( THKLY(MVSIZ,LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX))
+      ALLOCATE( THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX))
+
 C=======================================================================
 C     4-NODE SHELLS
 C-----------------------------------------------
@@ -1028,6 +1034,9 @@ C
           ENDIF  !  IF (IOFF >= 1)
         ENDDO  !  DO N=1,STAT_NUMELTG_G
       ENDIF  !  IF (ISPMD == 0.AND.LEN > 0)
+      DEALLOCATE( THKLY,POSLY)
+      DEALLOCATE( THK_LY)
+
 C
       RETURN
       END

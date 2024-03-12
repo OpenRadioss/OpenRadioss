@@ -127,7 +127,7 @@ C-----------------------------------------------
       INTEGER II, KRK, LL, I, J, K, L ,N, IH, IP, NG, MTE, NUVAR,
      .        NC1, NC2, NC3, NC4,  NEL, MTN1,KK(6),IJ,NPTR,NPTS,
      .        IR,IS,JJ(6),NITER,IADB,NN,IADV,NVAR,ITYP,IJK,IS_ALE
-      my_real WWA(239552),
+      my_real
      .        SY , SZ, TY , TZ, SUMA,
      .        Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .        R11,R12,R13,R21,R22,R23,R31,R32,R33,
@@ -136,12 +136,14 @@ C-----------------------------------------------
      .        S1,S2,S3,S4,
      .        T1,T2,T3,T4,CS,CT,EVAR(6),GAMA(6),
      .        TMP(3,4),VEL(3),SSP,BFRAC
+      my_real, dimension(:), allocatable :: WWA
       TYPE(L_BUFEL_) ,POINTER :: LBUF,LBUF1,LBUF2
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF  
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+        ALLOCATE(WWA(239552))
         IJK = 0
         DO NITER=1,NTHGRP2
             ITYP=ITHGRP(2,NITER)
@@ -557,6 +559,7 @@ c --------------
             ENDIF
  666    continue    
         ENDDO
+      DEALLOCATE(WWA)
 C-----------
       RETURN
       END

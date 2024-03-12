@@ -99,9 +99,9 @@ C-----------------------------------------------
       my_real   
      .   PG,MPG,QPG(2,4),
      .   SK(2),ST(2),MK(2),MT(2),SHK(2),SHT(2),ZZ
-      my_real
-     .   THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX),
-     .   THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX)
+      my_real, dimension(:,:), allocatable ::
+     .   THKLY,POSLY,
+     .   THK_LY
       my_real
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ), 
      .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ), 
@@ -132,6 +132,9 @@ C-----------------------
      .             DYNAIN_DATA%DYNAIN_NUMELTG)),STAT=IERR)
       ALLOCATE(PTWA_P0(0:MAX(1,DYNAIN_DATA%DYNAIN_NUMELC_G,
      .         DYNAIN_DATA%DYNAIN_NUMELTG_G)),STAT=IERR)
+      ALLOCATE( THKLY(MVSIZ,LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX))
+      ALLOCATE( THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX))
+
 C*********************************************
 C     4-NODE SHELLS
 C*********************************************
@@ -1880,6 +1883,9 @@ C
         ENDDO  !  DO N=1,DYNAIN_NUMELTG_G
       ENDIF  !  IF (ISPMD == 0.AND.LEN > 0)
 C
+      DEALLOCATE( THKLY,POSLY)
+      DEALLOCATE( THK_LY)
+
       DEALLOCATE(PTWA,PTWA_P0)
 C
       RETURN

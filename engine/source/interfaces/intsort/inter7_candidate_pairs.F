@@ -1113,7 +1113,8 @@ C-----------------------------------------------
           external OMP_GET_THREAD_NUM, OMP_GET_NUM_THREADS
 
           my_real ::  xyzm(12) !< bounding box
-          integer :: voxel(8000000)
+!         integer :: voxel(8000000)
+          integer, dimension(:), allocatable :: voxel
           integer, dimension(:), allocatable :: next_nod,ifpen
           integer :: eshift,i_mem,i, itask, s_irem, s_xrem 
           my_real, dimension(:,:), allocatable :: xrem
@@ -1124,7 +1125,8 @@ C-----------------------------------------------
           i_mem = 0
           eshift = 0
           ii_stok_ref = 0
-
+    
+          allocate(voxel(8000000))
 
           call INTER7_DESERIALIZE(        filename     , 
      &                                    nsn          ,
@@ -1264,6 +1266,8 @@ C-----------------------------------------------
           write(6,*) "Elapsed time =", end_time - start_time 
 
           call compare_cand(cand_n, cand_e, ii_stok, cand_n_ref, cand_e_ref, ii_stok_ref)
+
+          deallocate(voxel)
 
         end subroutine
 

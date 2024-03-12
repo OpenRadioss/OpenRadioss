@@ -101,9 +101,10 @@ C-----------------------------------------------
      .   DIMENSION(:),POINTER  :: STRAIN    
       my_real 
      .   QT(9,MVSIZ),STRAING(6),ZH,THKP ,THK0(MVSIZ)   
-      my_real
-     .   THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX),
-     .   THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX)
+      my_real, dimension(:,:), allocatable ::
+     .   THKLY,POSLY,
+     .   THK_LY
+
 C-----------------------------------------------
       DATA DELIMIT(1:60)
      ./'#---1----|----2----|----3----|----4----|----5----|----6----|'/
@@ -112,6 +113,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     4-NODE SHELLS
 C-----------------------------------------------
+      ALLOCATE( THKLY(MVSIZ,LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX))
+      ALLOCATE( THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX))
+
       JJ = 0
       IF(STAT_NUMELC==0) GOTO 200
 
@@ -706,6 +710,8 @@ C----- 2nd point
 
         ENDDO        
       ENDIF
+      DEALLOCATE( THKLY,POSLY)
+      DEALLOCATE( THK_LY)
 
       RETURN
       END
