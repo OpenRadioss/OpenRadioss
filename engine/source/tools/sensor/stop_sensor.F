@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (SENSORS_)       ,INTENT(IN)    :: SENSORS
+      TYPE (SENSORS_)       ,INTENT(INOUT)    :: SENSORS
       TYPE (H3D_DATABASE)   ,INTENT(INOUT) :: H3D_DATA
       TYPE (DYNAIN_DATABASE),INTENT(INOUT) :: DYNAIN_DATA
       TYPE(OUTPUT_) ,INTENT(INOUT) :: OUTPUT !< output structure
@@ -71,17 +71,25 @@ C-----------------------------------------------
 C=======================================================================
 C     /STOP/LSENSOR : set output timer flags after sensor activation
 C-----------------------------------------------
-      IF (SENSORS%NSTOP > 0 .and. ISPMD == 0) THEN
+      IF (SENSORS%NSTOP > 0 ) THEN
         DO I=1,SENSORS%NSTOP
-          ISENS = SENSORS%STOP(I)
+          ISENS = SENSORS%STOP(I)         
           IF (SENSORS%SENSOR_TAB(ISENS)%STATUS == 1) THEN
-            IF (NSTH   > 0) OUTPUT%TH%THIS  = TT
-            IF (NSANIM > 0) TANIM = TT
-            IF (NSSTAT > 0) TSTAT = TT
-            IF (NSOUTP > 0) TOUTP = TT
-            IF (NSH3D  > 0) H3D_DATA%TH3D = TT
+            IF(ISPMD == 0)THEN
+               CALL ANCMSG(MSGID=234,ANMODE=ANINFO,
+     .                  I1 = SENSORS%SENSOR_TAB(ISENS)%SENS_ID)
+            ENDIF
+
+            MSTOP=1        ! Stops the computation at the end of cycle
+            MREST = 1
+
+            IF (SENSORS%STOP_NSTH   > 0) OUTPUT%TH%THIS  = TT
+            IF (SENSORS%STOP_NSANIM > 0) TANIM = TT
+            IF (SENSORS%STOP_NSSTAT > 0) TSTAT = TT
+            IF (SENSORS%STOP_NSOUTP > 0) TOUTP = TT
+            IF (SENSORS%STOP_NSH3D  > 0) H3D_DATA%TH3D = TT
             IF (NSDYNANIN > 0) DYNAIN_DATA%TDYNAIN = TT
-            IF (NSABF > 0) THEN   !IF ABF FILE
+            IF (SENSORS%STOP_NSABF > 0) THEN   !IF ABF FILE
               DO J=1,10 
                 IF (ABFILE(J) >= 0) THEN
                    TABFIS(J) = TT

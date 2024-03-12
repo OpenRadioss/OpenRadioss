@@ -530,23 +530,6 @@ C-----------------------------------------------
              IF(MOUTP(I)==1)  MOUTPT=1
           ENDDO
         ENDIF
-C-----------------------------------------------
-C       /STOP/LSENSOR
-C-----------------------------------------------
-        IF (SENSORS%NSTOP > 0) THEN
-          DO I=1,SENSORS%NSTOP
-            ISENS = SENSORS%STOP(I)
-            IF (SENSORS%SENSOR_TAB(ISENS)%STATUS == 1) THEN
-              CALL ANCMSG(MSGID=234,ANMODE=ANINFO,
-     .                    I1 = SENSORS%SENSOR_TAB(ISENS)%SENS_ID)
-              IWARN = IWARN+1
-              MSTOP = 1
-              MREST = 1
-              IPRI  = 0
-              IF (NSANIM/=0) MDESS = 1
-            ENDIF
-          ENDDO
-        ENDIF
 C
         IF((NERR_POSIT==0.AND.ABS(ERR)>DEMXK).OR.
      .     (NERR_POSIT==1.AND.ERR>DEMXK))THEN

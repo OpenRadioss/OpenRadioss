@@ -841,7 +841,7 @@ C-------------------------------------------
         ALLOCATE(SENSORS%STOP(SENSORS%NSTOP))
         SENSORS%STOP(:) = 0
       END IF
-      IF (ISPMD == 0 .AND. MCHECK == 0) THEN
+      IF (MCHECK == 0) THEN
         IF (SENSORS%NSTOP > 0) THEN
           DO K=1,SENSORS%NSTOP
             IERR = 1

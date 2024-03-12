@@ -333,6 +333,12 @@ c
         INTEGER :: NANIM
         INTEGER :: NRESET
         INTEGER :: ANIM_ID
+        INTEGER :: STOP_NSTH      !< /STOP/LSENSOR - Write time history file
+        INTEGER :: STOP_NSANIM    !< /STOP/LSENSOR - Write animation file
+        INTEGER :: STOP_NSSTAT    !< /STOP/LSENSOR - Write State file
+        INTEGER :: STOP_NSOUTP    !< /STOP/LSENSOR - Write State file   
+        INTEGER :: STOP_NSH3D     !< /STOP/LSENSOR - Write h3d state
+        INTEGER :: STOP_NSABF     !< /STOP/LSENSOR - Write abf file
         my_real :: ANIM_DT
 
         TYPE (SENSOR_STR_) ,DIMENSION(:) ,ALLOCATABLE :: SENSOR_TAB
