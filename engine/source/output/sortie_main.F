@@ -481,7 +481,7 @@ C----------------------------------------------------
       IF ((TT>=TANIM .AND. TT<=TANIM_STOP).OR. ! NUMELCRK > NUMELCRK2 .or.   !  => ANIM par fissure avance
      .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15 .OR.
-     .   (MSTOP == 1  .AND. ICTLSTOP == 0) .OR. 
+     .   (MSTOP == 1 .AND. TANIM < EP30 .AND. ICTLSTOP == 0) .OR.   ! If MSTOP==1 + TANIM == EP30, no animation file should be written.
      .   MSTOP == 2 .OR. DT2<=ZERO )THEN
        IANIM=IANIM+1
 C      N1 = 1

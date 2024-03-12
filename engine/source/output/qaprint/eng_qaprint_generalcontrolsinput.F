@@ -27,13 +27,14 @@ Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|====================================================================
-      SUBROUTINE ENG_QAPRINT_GENERALCONTROLSINPUT(IRUNN,OUTPUT,IPARIT)
+      SUBROUTINE ENG_QAPRINT_GENERALCONTROLSINPUT(IRUNN,OUTPUT,IPARIT,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
       USE MESSAGE_MOD
       USE OUTPUT_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,6 +63,7 @@ C-----------------------------------------------
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+      TYPE(SENSORS_), INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -143,22 +145,22 @@ C-----------------------------------------------
 !        ENDDO
 
         WRITE(VARNAME,'(A)') 'NSANIM'
-        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NSANIM,0.0_8)
+        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SENSORS%STOP_NSANIM,0.0_8)
 
         WRITE(VARNAME,'(A)') 'NSTH'
-        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NSTH,0.0_8)
+        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SENSORS%STOP_NSTH,0.0_8)
 
         WRITE(VARNAME,'(A)') 'NSSTAT'
-        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NSSTAT,0.0_8)
+        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SENSORS%STOP_NSSTAT,0.0_8)
 
         WRITE(VARNAME,'(A)') 'NSOUTP'
-        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NSOUTP,0.0_8)
+        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SENSORS%STOP_NSOUTP,0.0_8)
 
         WRITE(VARNAME,'(A)') 'NSABF'
-        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NSABF,0.0_8)
+        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SENSORS%STOP_NSABF,0.0_8)
 
         WRITE(VARNAME,'(A)') 'NSH3D'
-        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NSH3D,0.0_8)
+        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SENSORS%STOP_NSH3D,0.0_8)
 
         WRITE(VARNAME,'(A)') 'NTH'
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NTH,0.0_8)

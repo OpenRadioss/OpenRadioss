@@ -27,12 +27,10 @@ C...mis a 0 par defaut en spmd
       COMMON /SCR07/ IFREEF , MDESS, MREST , MSTOP , MANIM ,
      .               IFOP   , ITOP , LLLINK, LLINAL, RAD_IPFAIL,
      .               MCHECK , NTH  , NANIM , IRPREV, WMCHECK,NABFILE,
-     .               NSANIM , NSTH , NSSTAT, NSOUTP, NSABF,
-     .               ICTLSTOP,NERR_POSIT,NSH3D,
+     .               ICTLSTOP,NERR_POSIT,
      .               NSDYNANIN
       INTEGER IFREEF, MDESS, MREST , MSTOP , MANIM ,
      .        IFOP  , ITOP , LLLINK, LLINAL, RAD_IPFAIL,
-     .        MCHECK, NTH  , NANIM, IRPREV, WMCHECK,NABFILE,NSANIM,
-     .        NSTH, NSSTAT, NSOUTP, NSABF, 
-     .        ICTLSTOP,NERR_POSIT,NSH3D,NSDYNANIN
+     .        MCHECK, NTH  , NANIM, IRPREV, WMCHECK,NABFILE,
+     .        ICTLSTOP,NERR_POSIT,NSDYNANIN
 

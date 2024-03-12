@@ -705,6 +705,14 @@ C-----------------------
 C-----------------------
 C     /STOP
 C-----------------------
+      ! Initialize SENSORS Write variables
+      SENSORS%STOP_NSANIM = 0
+      SENSORS%STOP_NSTH= 0
+      SENSORS%STOP_NSSTAT = 0
+      SENSORS%STOP_NSOUTP = 0
+      SENSORS%STOP_NSABF = 0 
+      SENSORS%STOP_NSH3D = 0
+
       IKEY=KSTOP
 c     
       IF (IKAD(IKEY)/=IKAD(IKEY+1))THEN
@@ -723,12 +731,14 @@ c        First line
 c        Second line
           IOK_READ = 0
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-          READ(IUSC2,*,ERR=148,END=148)NSANIM,NSTH,NSSTAT,NSOUTP,NSABF,NSH3D,NSDYNANIN
+          READ(IUSC2,*,ERR=148,END=148)SENSORS%STOP_NSANIM,SENSORS%STOP_NSTH,SENSORS%STOP_NSSTAT,
+     .                                 SENSORS%STOP_NSOUTP,SENSORS%STOP_NSABF,SENSORS%STOP_NSH3D,NSDYNANIN
           IOK_READ = 1
 c        Ensure Backward compatibility : without NSH3D
 148       IF (IOK_READ == 0) THEN
             CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-            READ(IUSC2,*,ERR=9990,END=9990)NSANIM,NSTH,NSSTAT,NSOUTP,NSABF
+            READ(IUSC2,*,ERR=9990,END=9990)SENSORS%STOP_NSANIM,SENSORS%STOP_NSTH,SENSORS%STOP_NSSTAT,
+     .                                     SENSORS%STOP_NSOUTP,SENSORS%STOP_NSABF
           ENDIF
            K=K+1
         ELSE
