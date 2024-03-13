@@ -93,7 +93,7 @@ C-----------------------------------------------
       PARAMETER (VSIZE = 8192)
       PARAMETER (NBCC = 20)
       INTEGER I,J,K,L,N,NC,IDEB,LB,KK,J1,J2,JJ1,JJ2,NN,
-     .        NL,IFT,ILT,KFT,KLT,IVSIZE,
+     .        NL,IFT,ILT,KFT,KLT,
      .        NISKYFT,NISKYLT,NFSKYFT,NFSKYLT,
      .        K1,K2,K3,K4,K5,K6,K7,K8,K9,K0,I0,IJK,NF,
      .        NCT,DIFFADD,NDLT,NDFT,NI,LJ,KKEND,JJ,NSTART,
@@ -105,12 +105,11 @@ C-----------------------------------------------
       INTEGER :: VIND_SIZE
       INTEGER, DIMENSION(:), ALLOCATABLE :: VIND1,VIND2,VIND3
       INTEGER :: CHUNK_NODE,CHUNK_ISKY,CHUNK_NODE_1
+      INTEGER, PARAMETER :: IVSIZE = 32
 C-----------------------------------------------
 C Partie ELEMENT
 C-----------------------------------------------
-     
-      IVSIZE = 32
-
+    
       VIND_SIZE=MAX(NODLT-NODFT+1,IVSIZE)
       ALLOCATE(VIND1(VIND_SIZE))
       ALLOCATE(VIND2(VIND_SIZE))
@@ -122,7 +121,7 @@ C-----------------------------------------------
       if( CHUNK_NODE_1<2) CHUNK_NODE_1 = (NUMNOD+1)/NTHREAD
       CHUNK_NODE_1 = max(1,CHUNK_NODE_1)
 
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE_1) 
+!$OMP DO SCHEDULE(guided)
       DO N = 1,NUMNOD+1
         ADSKYI(N) = 0
       ENDDO
@@ -157,7 +156,7 @@ C-----------------------------------------------
       IF(ITHERM_FE == 0 ) THEN
         ! --------------
         IF(ALE%SUB%IFSUBM==0)THEN
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE)
+!$OMP DO SCHEDULE(guided)
           DO N = 1,NUMNOD 
             NCT = ADDCNE(N)-1
             NC = ADDCNE(N+1)-ADDCNE(N)
@@ -175,7 +174,7 @@ C-----------------------------------------------
 !$OMP END DO
         ! --------------
         ELSEIF(N2D/=0)THEN
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE)
+!$OMP DO SCHEDULE(guided)
           DO N = 1,NUMNOD
             NCT = ADDCNE(N)-1
             NC = ADDCNE(N+1)-ADDCNE(N)
@@ -194,7 +193,7 @@ C-----------------------------------------------
 !$OMP END DO
         ! --------------
         ELSE
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE)
+!$OMP DO SCHEDULE(guided)
           DO N = 1,NUMNOD
             NCT = ADDCNE(N)-1
             NC = ADDCNE(N+1)-ADDCNE(N)
@@ -219,7 +218,7 @@ C-----------------------------------------------
         IF(NODADT_THERM == 1) THEN
           ! --------------
           IF(ALE%SUB%IFSUBM==0)THEN
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE)
+!$OMP DO SCHEDULE(guided)
             DO N = 1,NUMNOD
               NCT = ADDCNE(N)-1
               NC = ADDCNE(N+1)-ADDCNE(N)
@@ -239,7 +238,7 @@ C-----------------------------------------------
 !$OMP END DO
           ! --------------
           ELSEIF(N2D/=0)THEN
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE)
+!$OMP DO SCHEDULE(guided)
             DO N = 1,NUMNOD
               NCT = ADDCNE(N)-1
               NC = ADDCNE(N+1)-ADDCNE(N)
@@ -260,7 +259,7 @@ C-----------------------------------------------
 !$OMP END DO
           ! --------------
           ELSE
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE)
+!$OMP DO SCHEDULE(guided)
             DO N = 1,NUMNOD
               NCT = ADDCNE(N)-1
               NC = ADDCNE(N+1)-ADDCNE(N)
@@ -285,7 +284,7 @@ C-----------------------------------------------
         ELSE ! NODADT_THERM/=1
           ! --------------
           IF(ALE%SUB%IFSUBM==0)THEN
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE)
+!$OMP DO SCHEDULE(guided)
             DO N = 1,NUMNOD
               NCT = ADDCNE(N)-1
               NC = ADDCNE(N+1)-ADDCNE(N)
@@ -304,7 +303,7 @@ C-----------------------------------------------
 !$OMP END DO
           ! --------------
           ELSEIF(N2D/=0)THEN
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE)
+!$OMP DO SCHEDULE(guided)
             DO N = 1,NUMNOD
               NCT = ADDCNE(N)-1
               NC = ADDCNE(N+1)-ADDCNE(N)
@@ -324,7 +323,7 @@ C-----------------------------------------------
 !$OMP END DO
           ! --------------
           ELSE
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE)
+!$OMP DO SCHEDULE(guided)
             DO N = 1,NUMNOD
               NCT = ADDCNE(N)-1
               NC = ADDCNE(N+1)-ADDCNE(N)
@@ -352,7 +351,7 @@ C-----------------------------------------------
       ! ------------------------------ 
       ! simplified flow
       IF(IALELAG > 0) THEN
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE)
+!$OMP DO SCHEDULE(guided)
         DO N = 1,NUMNOD
           NCT = ADDCNE(N)-1
           NC = ADDCNE(N+1)-ADDCNE(N)
@@ -371,7 +370,7 @@ C-----------------------------------------------
 C     SUPPRESS MASS DELETED SOLIDS (SOLIDS to SPH)
 C-----------------------------------------------
       IF(SOL2SPH_FLAG/=0)THEN
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE)
+!$OMP DO SCHEDULE(guided)
         DO N = 1,NUMNOD
           NCT = ADDCNE(N)-1
           NC = ADDCNE(N+1)-ADDCNE(N)
@@ -386,7 +385,7 @@ C     FORCES D'ELEMENTS  by ply
 C-----------------------------------------------
 
       IF(IPLYXFEM > 0) THEN
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE)
+!$OMP DO SCHEDULE(guided)
         DO N = 1,NUMNOD
           IL = INOD_PXFEM(N)
           IF(IL > 0) THEN
@@ -409,14 +408,14 @@ C-----------------------------------------------
 
 C masse stocke dans FSKY(1) et A(1) utilise pour cumul en 2D
       IF(N2D/=0) THEN
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE)
+!$OMP DO SCHEDULE(guided)
         DO I = 1,NUMNOD
           MS(I) = A(1,I)
           A(1,I) = ZERO
         ENDDO
 !$OMP END DO
       ELSEIF(ALE%SUB%IFSUBM==1)THEN
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE)
+!$OMP DO SCHEDULE(guided)
         DO I = 1,NUMNOD
           MS(I) = MS(I) + MSNF(I)
         ENDDO
@@ -424,7 +423,7 @@ C masse stocke dans FSKY(1) et A(1) utilise pour cumul en 2D
       ENDIF
 C
       IF(IALELAG > 0) THEN
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE)
+!$OMP DO SCHEDULE(guided)
         DO I = 1,NUMNOD
           MSF(I) = MSF(I) + MSNF(I)
         ENDDO
@@ -447,7 +446,7 @@ C-----------------------------------------------
 C Partie NITSCHE ELEM FORNEQS
 C-----------------------------------------------
       IF(NITSCHE /= 0) THEN
-!$OMP DO SCHEDULE(dynamic,CHUNK_NODE)
+!$OMP DO SCHEDULE(guided)
         DO N = 1,NUMNOD !NODFT, NODLT
           NCT = ADDCNE(N)-1
           NC = ADDCNE(N+1)-ADDCNE(N)
@@ -489,14 +488,14 @@ C-----------------------------------------------
 C Partie //
 C-----------------------------------------------
         DO L=1,NFSKYI
-!$OMP DO SCHEDULE(guided,CHUNK_ISKY)
+!$OMP DO SCHEDULE(guided)
           DO I=1,NISKY
             J = ISKY(I) ! address for N per contribution
             FSKY_L(J) = FSKYI(I,L) ! FSKYT : contribution triée par noeud
           END DO
 !$OMP END DO
           call my_barrier()
-!$OMP DO SCHEDULE(guided,CHUNK_ISKY)
+!$OMP DO SCHEDULE(guided)
           DO I=1,NISKY
             FSKYI(I,L) = FSKY_L(I)
           END DO
