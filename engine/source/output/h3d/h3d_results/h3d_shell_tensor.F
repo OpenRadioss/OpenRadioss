@@ -43,7 +43,7 @@ Chd|====================================================================
      4                   IGEO     ,IXTG  ,IPM   ,STACK,ID_ELEM   ,ITY_ELEM  ,INFO1,
      5                   INFO2    ,IS_WRITTEN_SHELL,IPARTC ,IPARTTG     ,LAYER_INPUT ,IPT_INPUT  ,
      6                   PLY_INPUT,GAUSS_INPUT,IUVAR_INPUT,H3D_PART, KEYWORD,D    ,
-     7                   ID       ,BUFMAT   ,MATPARAM_TAB)
+     7                   ID       ,BUFMAT   ,MATPARAM_TAB,GEO, DRAPE_SH4N, DRAPE_SH3N, DRAPEG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,11 +76,13 @@ C-----------------------------------------------
      .   LAYER_INPUT ,IPT_INPUT,GAUSS_INPUT,PLY_INPUT,ID
       my_real, INTENT(IN),TARGET :: BUFMAT(SBUFMAT)
       my_real
-     .   TENS(3,*),EPSDOT(6,*),X(3,*),SHELL_TENSOR(3,*),D(3,*)
+     .   TENS(3,*),EPSDOT(6,*),X(3,*),SHELL_TENSOR(3,*),D(3,*),GEO(NPROPG,NUMGEO)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
-      CHARACTER(LEN=NCHARLINE100):: KEYWORD
+       CHARACTER(LEN=NCHARLINE100):: KEYWORD
+      TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE (DRAPEG_)  :: DRAPEG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -89,7 +92,9 @@ C-----------------------------------------------
      .        ILAY,IR,IS,IT,NPTR,NPTS,NPTT,NLAY,NPG,IPLY,IDRAPE,
      .        IPID,NS1,NS2,ISTRE,IADBUF,NUPARAM,IMAT,NNI,N0,
      .        IHBE,IREP,BUF,ISROT,IVISC,IGTYP,ISUBSTACK,
-     .        ID_PLY,IPANG,IPPOS,IPTHK,OFFSET,ISELECT,MAT_ORTH
+     .        ID_PLY,IPANG,IPPOS,IPTHK,OFFSET,ISELECT,MAT_ORTH,
+     .        IXLAY,IXFEM,LAYNPT_MAX,NUMEL_DRAPE,SEDRAPE,NLAY_MAX,
+     .        IPT_ALL,ISLICE,PTS,IPG,LENS,MPT0
       INTEGER        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,I1
       INTEGER PID(MVSIZ),MAT(MVSIZ),IOK_PART(MVSIZ),JJ(15)
       my_real ,DIMENSION(3,MVSIZ) :: STRAIN
@@ -100,6 +105,10 @@ C-----------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       my_real, DIMENSION(:) ,POINTER  :: UPARAM,DIR_A,DIR_B
+      !
+      INTEGER, DIMENSION(:) , ALLOCATABLE :: MATLY   !!  MATLY(MVSIZ*LAY_MAX)
+      my_real, DIMENSION(:) , ALLOCATABLE :: THKLY   !!  THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX)
+      my_real, DIMENSION(:,:), ALLOCATABLE :: POSLY,THK_LY
 C-----------------------------------------------
       ! material orthotropy defined in MATPARAM data structure
       ! MATPARAM%ORTHOTROPY
@@ -138,7 +147,8 @@ C       IF(ANIM_K == 0.AND.IPARG(8,NG) == 1)GOTO 490
         ISROT   = IPARG(41,NG)
         ISUBSTACK = IPARG(71,NG)
         IDRAPE = ELBUF_TAB(NG)%IDRAPE
-        IOK_PART(1:NEL) = 0   
+        NPT   = IABS(IPARG(6,NG))
+        IOK_PART(1:NEL) = 0  
 !
         DO I=1,15
           JJ(I) = NEL*(I-1)
@@ -199,6 +209,7 @@ C
             ISTRE = 1
             NPT   = IABS(IPARG(6,NG))
             MPT   = MAX(1,NPT)
+            MPT0  = MPT
             IF (NPT == 0) MPT = 0
 C
             IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN
@@ -245,7 +256,9 @@ C        STRESS
 C------------------------
             IF (KEYWORD == 'TENS/STRESS/MEMB' .OR.
      .          KEYWORD == 'TENS/STRESS/BEND' .OR.
-     .          KEYWORD == 'TENS/STRESS' ) THEN
+     .          KEYWORD == 'TENS/STRESS'      .OR.
+     .          KEYWORD == 'TENS/STRAIN'      .OR.
+     .          KEYWORD == 'TENS/MSTRAIN'      ) THEN
               IF (ITY == 3) THEN
                 IPID = IXC(6,NFT+1)
                 DO I=1,NEL
@@ -261,6 +274,44 @@ C------------------------
               ENDIF
 c
               IREP = IGEO(6,IPID)
+            ENDIF 
+           IF( KEYWORD == 'TENS/STRAIN' .OR.  KEYWORD == 'TENS/MSTRAIN') THEN
+           !Npt_max
+            LAYNPT_MAX = 1
+            IXLAY = 0 
+            IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+              DO ILAY=1,NLAY
+                  LAYNPT_MAX = MAX(LAYNPT_MAX ,ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT)
+              ENDDO  
+            ENDIF
+             NLAY_MAX   = MAX(NLAY,NPT)
+             ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
+     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
+               MATLY = 0
+               THKLY = ZERO
+               POSLY = ZERO
+               THK_LY = ZERO
+c                 
+            ! computing position of slice or Ply
+             IF(ITY == 7) THEN
+                      NUMEL_DRAPE = NUMELTG_DRAPE
+                      SEDRAPE = STDRAPE
+                      CALL LAYINI(
+     .                   ELBUF_TAB(NG),1      ,NEL              ,GEO    ,IGEO    ,
+     .                   MAT          ,PID    ,THKLY            ,MATLY  ,POSLY   ,
+     .                   IGTYP        ,IXFEM  ,IXLAY            ,NLAY   ,MPT0     ,
+     .                   ISUBSTACK    ,STACK  ,DRAPE_SH3N       ,NFT    ,GBUF%THK,
+     .                   NEL         ,THK_LY ,DRAPEG%INDX_SH3N ,SEDRAPE,NUMEL_DRAPE   )
+              ELSE ! ITY = 3
+                     NUMEL_DRAPE = NUMELC_DRAPE  
+                     SEDRAPE = SCDRAPE
+                    CALL LAYINI(
+     .                  ELBUF_TAB(NG),1      ,NEL             ,GEO    ,IGEO    ,
+     .                  MAT          ,PID    ,THKLY           ,MATLY  ,POSLY   ,
+     .                  IGTYP        ,IXFEM  ,IXLAY           ,NLAY   ,MPT0     ,
+     .                  ISUBSTACK    ,STACK  ,DRAPE_SH4N      ,NFT    ,GBUF%THK ,
+     .                   NEL         ,THK_LY ,DRAPEG%INDX_SH4N,SEDRAPE ,NUMEL_DRAPE     )      
+             ENDIF 
             ENDIF 
 C--------------------------------------------------
             IF (KEYWORD == 'TENS/STRESS/MEMB') THEN
@@ -630,11 +681,11 @@ c
 c               PLY=IPLY NPT=IPT
 
               ELSE IF (IPLY > 0 .AND. IPT > 0) THEN     
-
                 IF (IGTYP == 17 .OR. IGTYP == 19  .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
                   IPANG = 1
                   IPTHK  = IPANG + NLAY
                   IPPOS  = IPTHK + NLAY
+                  IPT_ALL = 0
                   DO J=1,NLAY
                     BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                     NPTT = BUFLY%NPTT
@@ -644,29 +695,71 @@ c               PLY=IPLY NPT=IPT
                       ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
                     ENDIF
                     IF (ID_PLY  == IPLY .AND. IPT <= NPTT) THEN
-                      FACTOR = STACK%GEO(IPPOS+J,ISUBSTACK)
-     .                 + HALF*(((2*IPT-ONE)/NPTT)-ONE) * STACK%GEO(IPTHK+J,ISUBSTACK)
-                      DO I=1,NEL
-                        N = I + NFT
-                        THK = GBUF%THK(I)
-                        VALUE(1) = GBUF%STRA(JJ(1)+I) + FACTOR*GBUF%STRA(JJ(6)+I) * THK
-                        VALUE(2) = GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) * THK
-                        VALUE(3) = GBUF%STRA(JJ(3)+I) + FACTOR*GBUF%STRA(JJ(8)+I) * THK
-                        VALUE(3) = VALUE(3) * HALF 
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
+                      ISLICE =  IPT_ALL + IPT
+                      IF(NPG > 1) THEN
+                        LENS = NEL*GBUF%G_STRPG/NPG
+                        DO I=1,NEL
+                          N = I + NFT
+                          THK = GBUF%THK(I)
+                          FACTOR = POSLY(I,ISLICE)
+                          VALUE(1:3) = ZERO
+                          DO IPG = 1, NPG
+                             PTS = (IPG -1)*LENS
+                             VALUE(1) = VALUE(1)+ GBUF%STRPG(PTS + JJ(1)+I) + FACTOR*GBUF%STRPG(PTS + JJ(6)+I) * THK
+                             VALUE(2) = VALUE(2)+ GBUF%STRPG(PTS + JJ(2)+I) + FACTOR*GBUF%STRPG(PTS + JJ(7)+I) * THK
+                             VALUE(3) = VALUE(3)+ GBUF%STRPG(PTS + JJ(3)+I) + FACTOR*GBUF%STRPG(PTS + JJ(8)+I) * THK
+                          ENDDO
+                            VALUE(3) = VALUE(3) * HALF 
+                            CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
      .                                           SHELL_TENSOR,I,OFFSET,NFT,VALUE)
-                      ENDDO
+                        ENDDO
+                       ELSE
+                        DO I=1,NEL
+                          N = I + NFT
+                          THK = GBUF%THK(I)
+                          FACTOR = POSLY(I,ISLICE)
+                          VALUE(1) = GBUF%STRA(JJ(1)+I) + FACTOR*GBUF%STRA(JJ(6)+I) * THK
+                          VALUE(2) = GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) * THK
+                          VALUE(3) = GBUF%STRA(JJ(3)+I) + FACTOR*GBUF%STRA(JJ(8)+I) * THK
+                          VALUE(3) = VALUE(3) * HALF 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
+     .                                           SHELL_TENSOR,I,OFFSET,NFT,VALUE)
+                        ENDDO                    
+                       ENDIF ! NPG 
                     ENDIF  
+                    IPT_ALL = IPT_ALL + NPTT
                   ENDDO
                 ENDIF
 c
               ELSEIF (ILAY > 0 .AND. ILAY <= NLAY .AND. IPLY == -1) THEN
 c               ILAYER=IL  PLY=NULL NPT=NULL
                 IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN
-                  FACTOR = HALF*(((2*ILAY-ONE)/NLAY)-ONE)
+                 IF(NPG > 1) THEN
+                  LENS = NEL*GBUF%G_STRPG/NPG
                   DO I=1,NEL
                     N = I + NFT
                     THK = GBUF%THK(I)
+                    FACTOR = POSLY(I,ILAY)
+                    J  = EL2FA(NNI+N)
+                    VALUE(1:3) = ZERO
+                    DO IPG = 1, NPG
+                      PTS = (IPG -1)*LENS
+                      VALUE(1) = VALUE(1)+ GBUF%STRPG(PTS + JJ(1)+I) + FACTOR*GBUF%STRPG(PTS + JJ(6)+I) * THK
+                      VALUE(2) = VALUE(2)+ GBUF%STRPG(PTS + JJ(2)+I) + FACTOR*GBUF%STRPG(PTS + JJ(7)+I) * THK
+                      VALUE(3) = VALUE(3)+ GBUF%STRPG(PTS + JJ(3)+I) + FACTOR*GBUF%STRPG(PTS + JJ(8)+I) * THK
+                    ENDDO
+                      VALUE(1) = VALUE(1)/NPG
+                      VALUE(2) = VALUE(2)/NPG
+                      VALUE(3) = VALUE(3)/NPG                   
+                      VALUE(3) = VALUE(3) * HALF 
+                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
+     .                                       SHELL_TENSOR,I,OFFSET,NFT,VALUE)
+                  ENDDO
+                 ELSE
+                  DO I=1,NEL
+                    N = I + NFT
+                    THK = GBUF%THK(I)
+                    FACTOR = POSLY(I,ILAY)
                     J  = EL2FA(NNI+N)
                     VALUE(1) = GBUF%STRA(JJ(1)+I) + FACTOR*GBUF%STRA(JJ(6)+I) * THK
                     VALUE(2) = GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) * THK
@@ -675,15 +768,35 @@ c               ILAYER=IL  PLY=NULL NPT=NULL
                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
      .                                       SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                   ENDDO
+                 ENDIF ! NPG 
                 ENDIF
 c
               ELSEIF (IPT <= MPT .AND. IPT > 0) THEN
 c               NPT=IPT    PLY=NULL ILAYER=NULL 
                 IF (IGTYP == 1 .OR. IGTYP == 9) THEN 
-                  FACTOR = HALF*(((2*IPT-ONE)/MPT)-ONE)
+                 IF(NPG > 1) THEN
+                  LENS = NEL*GBUF%G_STRPG/NPG
                   DO I=1,NEL
                     N = I + NFT
                     THK = GBUF%THK(I)
+                    FACTOR = POSLY(I,IPT)
+                    J  = EL2FA(NNI+N)
+                    VALUE(1:3) = ZERO
+                    DO IPG =1,NPG
+                      PTS = (IPG -1)*LENS
+                      VALUE(1) = VALUE(1)+ GBUF%STRPG(PTS + JJ(1)+I) + FACTOR*GBUF%STRPG(PTS + JJ(6)+I) * THK
+                      VALUE(2) = VALUE(2)+ GBUF%STRPG(PTS + JJ(2)+I) + FACTOR*GBUF%STRPG(PTS + JJ(7)+I) * THK
+                      VALUE(3) = VALUE(3)+ GBUF%STRPG(PTS + JJ(3)+I) + FACTOR*GBUF%STRPG(PTS + JJ(8)+I) * THK
+                    ENDDO 
+                    VALUE(3) = VALUE(3) * HALF 
+                    CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
+     .                                       SHELL_TENSOR,I,OFFSET,NFT,VALUE)
+                  ENDDO
+                 ELSE 
+                   DO I=1,NEL
+                    N = I + NFT
+                    THK = GBUF%THK(I)
+                    FACTOR = POSLY(I,IPT)
                     J  = EL2FA(NNI+N)
                     VALUE(1) = GBUF%STRA(JJ(1)+I) + FACTOR*GBUF%STRA(JJ(6)+I) * THK
                     VALUE(2) = GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) * THK
@@ -692,6 +805,7 @@ c               NPT=IPT    PLY=NULL ILAYER=NULL
                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
      .                                       SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                   ENDDO
+                 ENDIF ! NPG
                 ENDIF
               ENDIF
 C--------------------------------------------------
@@ -706,6 +820,7 @@ c
                   IPANG = 1
                   IPTHK  = IPANG + NLAY
                   IPPOS  = IPTHK + NLAY
+                  IPT_ALl = 0
                   DO J=1,NLAY
                     BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                     NPTT = BUFLY%NPTT
@@ -716,15 +831,33 @@ c
                     ENDIF
                     IF (ID_PLY  == IPLY .AND. IPT <= NPTT) THEN
                       ILAY = J
-                      FACTOR = STACK%GEO(IPPOS+ILAY,ISUBSTACK)
-     .                       + HALF*(((2*IPT-ONE)/NPTT)-ONE) * STACK%GEO(IPTHK+ILAY,ISUBSTACK)
-                      DO I=1,NEL
-                        THK = GBUF%THK(I)
-                        EPSM(I,1) = GBUF%STRA(JJ(1)+I) + FACTOR*GBUF%STRA(JJ(6)+I) * THK
-                        EPSM(I,2) = GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) * THK
-                        EPSM(I,3) = GBUF%STRA(JJ(3)+I) + FACTOR*GBUF%STRA(JJ(8)+I) * THK
-                        EPSM(I,3) = EPSM(I,3) * HALF 
-                      ENDDO
+                      ISLICE = IPT_ALL + IPT
+                      IF(NPG > 1) THEN
+                         LENS = NEL*GBUF%G_STRPG/NPG
+                         DO I=1,NEL
+                          THK = GBUF%THK(I)
+                          FACTOR = POSLY(I,ISLICE)
+                          EPSM(I,1:3) = ZERO
+                          DO IPG = 1, NPG
+                            PTS = (IPG -1)*LENS
+                            EPSM(I,1) = EPSM(I,1)+ GBUF%STRPG(PTS + JJ(1)+I) + FACTOR*GBUF%STRPG(PTS + JJ(6)+I) * THK
+                            EPSM(I,2) = EPSM(I,2)+ GBUF%STRPG(PTS + JJ(2)+I) + FACTOR*GBUF%STRPG(PTS + JJ(7)+I) * THK
+                            EPSM(I,3) = EPSM(I,3)+ GBUF%STRPG(PTS + JJ(3)+I) + FACTOR*GBUF%STRPG(PTS + JJ(8)+I) * THK
+                          ENDDO
+                          EPSM(I,1) = EPSM(I,1)/NPG
+                          EPSM(I,2) = EPSM(I,2)/NPG
+                          EPSM(I,3) = HALF*EPSM(I,3)/NPG  
+                         ENDDO     
+                      ELSE
+                        DO I=1,NEL
+                          THK = GBUF%THK(I)
+                          FACTOR = POSLY(I,ISLICE)
+                          EPSM(I,1) = GBUF%STRA(JJ(1)+I) + FACTOR*GBUF%STRA(JJ(6)+I) * THK
+                          EPSM(I,2) = GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) * THK
+                          EPSM(I,3) = GBUF%STRA(JJ(3)+I) + FACTOR*GBUF%STRA(JJ(8)+I) * THK
+                          EPSM(I,3) = EPSM(I,3) * HALF 
+                        ENDDO
+                      ENDIF ! NPG 
                       IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT                          
                       MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
                       IF (MAT_ORTH > 0) THEN                 
@@ -741,21 +874,40 @@ c
                       ELSE IF (MAT_ORTH == 3) THEN   ! anisotropic (law 58,158 only)
                         CALL ROTO_TENS2D_ANISO(NEL,EPSM,DIR_A,DIR_B)
                       END IF
-                    ENDIF  
+                    ENDIF 
+                    IPT_ALL = IPT_ALL + NPTT 
                   ENDDO
                 ENDIF
 c
               ELSEIF (ILAY > 0 .AND. ILAY <= NLAY .AND. IPLY == -1 .AND. IPT == -1) THEN
 c               PLY=NULL ILAYER=IL NPT=NULL
                 IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN
-                  FACTOR = HALF*(((2*ILAY-ONE)/NLAY)-ONE)
-                  DO I=1,NEL
-                    THK = GBUF%THK(I)
-                    EPSM(I,1) = GBUF%STRA(JJ(1)+I) + FACTOR*GBUF%STRA(JJ(6)+I) * THK
-                    EPSM(I,2) = GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) * THK
-                    EPSM(I,3) = GBUF%STRA(JJ(3)+I) + FACTOR*GBUF%STRA(JJ(8)+I) * THK
-                    EPSM(I,3) = EPSM(I,3) * HALF 
-                  ENDDO
+                  IF(NPG > 1) THEN
+                    LENS = NEL*GBUF%G_STRPG/NPG 
+                    DO I=1,NEL
+                       THK = GBUF%THK(I)
+                       FACTOR = POSLY(I,ILAY)
+                       EPSM(I,1:3) = ZERO
+                       DO IPG = 1, NPG
+                        PTS = (IPG -1)*LENS
+                        EPSM(I,1) = EPSM(I,1)+ GBUF%STRPG(PTS + JJ(1)+I) + FACTOR*GBUF%STRPG(PTS + JJ(6)+I) * THK
+                        EPSM(I,2) = EPSM(I,2)+ GBUF%STRPG(PTS + JJ(2)+I) + FACTOR*GBUF%STRPG(PTS + JJ(7)+I) * THK
+                        EPSM(I,3) = EPSM(I,3)+ GBUF%STRPG(PTS + JJ(3)+I) + FACTOR*GBUF%STRPG(PTS + JJ(8)+I) * THK
+                       ENDDO
+                       EPSM(I,1) = EPSM(I,1)/NPG
+                       EPSM(I,2) = EPSM(I,2)/NPG
+                       EPSM(I,3) = HALF*EPSM(I,3)/NPG  
+                    ENDDO
+                  ELSE
+                     DO I=1,NEL
+                       THK = GBUF%THK(I)
+                       FACTOR = POSLY(I,ILAY)
+                       EPSM(I,1) = GBUF%STRA(JJ(1)+I) + FACTOR*GBUF%STRA(JJ(6)+I) * THK
+                       EPSM(I,2) = GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) * THK
+                       EPSM(I,3) = GBUF%STRA(JJ(3)+I) + FACTOR*GBUF%STRA(JJ(8)+I) * THK
+                       EPSM(I,3) = EPSM(I,3) * HALF 
+                      ENDDO
+                  ENDIF
                   IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT                          
                   MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
                   IF (MAT_ORTH > 0) THEN                 
@@ -772,14 +924,32 @@ c
               ELSEIF (IPT > 0 .AND. IPT <= MPT .AND. IPLY == -1 .AND. ILAY == -1) THEN
 c               PLY=NULL ILAYER=NULL NPT=IPT
                 IF (IGTYP == 1 .OR. IGTYP == 9) THEN 
-                  FACTOR = HALF*(((2*IPT-ONE)/MPT)-ONE)
-                  DO I=1,NEL
-                    THK = GBUF%THK(I)
-                    EPSM(I,1) = GBUF%STRA(JJ(1)+I) + FACTOR*GBUF%STRA(JJ(6)+I) * THK
-                    EPSM(I,2) = GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) * THK
-                    EPSM(I,3) = GBUF%STRA(JJ(3)+I) + FACTOR*GBUF%STRA(JJ(8)+I) * THK
-                    EPSM(I,3) = EPSM(I,3) * HALF 
-                  ENDDO
+                  IF(NPG > 1) THEN
+                    LENS = NEL*GBUF%G_STRPG/NPG 
+                    DO I=1,NEL
+                       THK = GBUF%THK(I)
+                       FACTOR = POSLY(I,IPT)
+                       EPSM(I,1:3) = ZERO
+                       DO IPG = 1, NPG
+                        PTS = (IPG -1)*LENS
+                        EPSM(I,1) = EPSM(I,1)+ GBUF%STRPG(PTS + JJ(1)+I) + FACTOR*GBUF%STRPG(PTS + JJ(6)+I) * THK
+                        EPSM(I,2) = EPSM(I,2)+ GBUF%STRPG(PTS + JJ(2)+I) + FACTOR*GBUF%STRPG(PTS + JJ(7)+I) * THK
+                        EPSM(I,3) = EPSM(I,3)+ GBUF%STRPG(PTS + JJ(3)+I) + FACTOR*GBUF%STRPG(PTS + JJ(8)+I) * THK
+                       ENDDO
+                       EPSM(I,1) = EPSM(I,1)/NPG
+                       EPSM(I,2) = EPSM(I,2)/NPG
+                       EPSM(I,3) = HALF*EPSM(I,3)/NPG  
+                    ENDDO
+                  ELSE
+                    DO I=1,NEL
+                      THK = GBUF%THK(I)
+                      FACTOR = POSLY(I,IPT)
+                      EPSM(I,1) = GBUF%STRA(JJ(1)+I) + FACTOR*GBUF%STRA(JJ(6)+I) * THK
+                      EPSM(I,2) = GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) * THK
+                      EPSM(I,3) = GBUF%STRA(JJ(3)+I) + FACTOR*GBUF%STRA(JJ(8)+I) * THK
+                      EPSM(I,3) = EPSM(I,3) * HALF 
+                     ENDDO
+                  ENDIF
                   IMAT = ELBUF_TAB(NG)%BUFLY(1)%IMAT                          
                   MAT_ORTH = MATPARAM_TAB(IMAT)%ORTHOTROPY
                   IF (MAT_ORTH == 2) THEN
@@ -1952,6 +2122,8 @@ C-----------------------------------------------
           ELSE
           ENDIF ! IF (MLW /= 13)
         ENDIF ! IF(ITY == 2)
+         IF(KEYWORD  =='TENS/STRAIN'.OR.
+     .      KEYWORD == 'TENS/MSTRAIN')DEALLOCATE(MATLY, THKLY,POSLY,THK_LY)
  490  CONTINUE
  500  CONTINUE
 C-----------------------------------------------
