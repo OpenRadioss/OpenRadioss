@@ -106,9 +106,11 @@
 !=======================================================================================================================
         subroutine hm_read_preload_axial(                                     &
                    npreload_a,    ngrspri,    igrspring, itagprld_spring,     &
-                   unitab    ,  lsubmodel,    preload_a, ixr            ,     &
-                   nixr      ,  numelr   ,    npc      , nfunct         ,     &
-                   snpc      , sensors   )
+                   unitab    ,  lsubmodel,    preload_a, numelr         ,     &
+                   snpc      ,  npc      ,    nfunct   , sensors        ,     &
+                    ngrbeam  , igrbeam   ,    numelp   , itagprld_beam  ,     &
+                   ngrtrus   , igrtruss  ,   numelt    , itagprld_truss ,     &
+                   iout      )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -132,14 +134,21 @@
 ! ----------------------------------------------------------------------------------------------------------------------
         integer, intent (in   )                         :: ngrspri          !< number of spring elem group
         type (group_)  , dimension(ngrspri)             :: igrspring        !< array of spring group
+        integer, intent (in   )                         :: ngrbeam          !< number of beam elem group
+        type (group_)  , dimension(ngrbeam)             :: igrbeam          !< array of beam group
+        integer, intent (in   )                         :: ngrtrus          !< number of truss elem group
+        type (group_)  , dimension(ngrtrus)             :: igrtruss         !< array of truss group
         integer, intent (in   )                         :: numelr           !< number spring element
-        integer, intent (in   )                         :: nixr             !< diemsion of ixr
-        integer, intent (in   ) ,dimension(nixr,numelr) :: ixr              !< spring elem connectivity
+        integer, intent (in   )                         :: numelp           !< number beam element
+        integer, intent (in   )                         :: numelt           !< number truss element
         integer, intent (in   )                         :: nfunct           !< number of function
         integer, intent (in   )                         :: snpc             !< dimension of npc
         integer, intent (in   ) ,dimension(snpc)        :: npc              !< index pointer of function
         integer, intent (inout) ,dimension(numelr)      :: itagprld_spring  !< tag spring element using /PRELOAD
+        integer, intent (inout) ,dimension(numelp)      :: itagprld_beam    !< tag beam element using /PRELOAD
+        integer, intent (inout) ,dimension(numelt)      :: itagprld_truss   !< tag truss element using /PRELOAD
         integer, intent (inout)                         :: npreload_a       !< number of /PRELOAD/AXIAL
+        integer, intent (in   )                         :: iout             !< id of out file
         type (prel1d_), target ,dimension(npreload_a)   :: preload_a        !< structrue data of /PRELOAD/AXIAL
         type (unit_type_),intent(in)                    :: unitab           !< structrue data of unity
         type (sensors_) ,intent(in)                     :: sensors          !< structrue data of sensor
@@ -147,7 +156,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer i,j,nld,iset,nn,id,uid,ifun,is,np,iflagunit,isens
+        integer i,j,nld,iset,nn,id,uid,ifun,is,np,iflagunit,isens,itype
         character (len=nchartitle) :: titr
         character (len=ncharline)  :: key
         my_real loadval,damp
@@ -158,7 +167,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------                   
 !
         is_available = .false.
-        itagprld_spring = 0
+        write(iout,2000)
 !
         call hm_option_start('/PRELOAD/AXIAL')       
 !
@@ -168,8 +177,7 @@
           call hm_option_read_key(lsubmodel,                                   & 
                                   option_id      = id,                         & 
                                   unit_id        = uid,                        &
-                                  option_titr    = titr,                       &
-                                  keyword2       = key)
+                                  option_titr    = titr)
 !       
           iflagunit = 0 
 !       
@@ -221,18 +229,67 @@
             do is=1,ngrspri
                 if (iset==igrspring(is)%ID) then
                   nn = is
+                  itype = 6
                   exit
                 endif
-             enddo 
+            enddo 
           endif
-!        
-          call initag_preload_a(                                               &
-                            igrspring(nn)%nentity,igrspring(nn)%entity,        &
-                            ixr                  ,nixr                ,        &
-                            numelr               ,i                   ,        &
-                            itagprld_spring      )
+          if (iset > 0 .and. nn==0) then
+            do is=1,ngrbeam
+                if (iset==igrbeam(is)%ID) then
+                  nn = is
+                  itype = 5
+                  exit
+                endif
+            enddo 
+          endif
+          if (iset > 0 .and. nn==0) then
+            do is=1,ngrtrus
+                if (iset==igrtruss(is)%ID) then
+                  nn = is
+                  itype = 4
+                  exit
+                endif
+            enddo 
+          endif
+          if (nn==0) then
+            call ancmsg(msgid=3052,anmode=aninfo,msgtype=msgerror,              &
+                        i2=iset,i1=id,c1=titr) 
+          else
+            select case (itype)
+              case(4)
+                 np=igrtruss(nn)%nentity 
+                 do j=1,np
+                   is = igrtruss(nn)%entity(j)      ! sys_id alread
+                   if(is>0) itagprld_truss(is)=i
+                 enddo
+                 key ='TRUSS'
+              case(5)
+                 np=igrbeam(nn)%nentity 
+                 do j=1,np
+                   is = igrbeam(nn)%entity(j)      
+                   if(is>0) itagprld_beam(is)=i
+                 enddo
+                 key ='BEAM'
+              case(6)
+                 np=igrspring(nn)%nentity 
+                 do j=1,np
+                   is = igrspring(nn)%entity(j)      
+                   if(is>0) itagprld_spring(is)=i
+                 enddo
+                 key ='SPRING'
+            end select 
+          end if
+!          
+          write(iout,'(I10,1X,I10,4X,A6,1X,I10,1X,I10,2(1X,1PE10.3))')         &
+                       id,iset,key,isens,ifun,loadval,Damp
         enddo 
-!---
+!
+ 2000 FORMAT(//                                                                &
+      '     BOLT 1D-ELEMENT PRELOADINGS  '/                                    &
+      '     ----------------  '/                                               &
+      '        ID     SET_ID   1D-ELEM    SENS_ID    FUNC_ID    PRELOAD       DAMP ')
+!-----------
         end subroutine hm_read_preload_axial
 ! ======================================================================================================================
 !                                                   PROCEDURES

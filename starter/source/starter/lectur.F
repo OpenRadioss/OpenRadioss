@@ -976,6 +976,8 @@ C For /H3D/STRESS/TENS/OUTER
 C---  Bolt preload/axial
       INTEGER                                  :: NPRELOAD_A
       INTEGER, ALLOCATABLE, DIMENSION(:)       :: ITAGPRLD_SPRING
+      INTEGER, ALLOCATABLE, DIMENSION(:)       :: ITAGPRLD_BEAM
+      INTEGER, ALLOCATABLE, DIMENSION(:)       :: ITAGPRLD_TRUSS
       TYPE(PREL1D_), DIMENSION(:), ALLOCATABLE :: PRELOAD_A
 C======================================================================|
 C   Allocations AM (Reels)
@@ -5027,16 +5029,25 @@ c
 !      /PRELOAD/AXIAL  2 int 2 real per preload, itag_spring...
        ALLOCATE(PRELOAD_A(NPRELOAD_A)    ,STAT=stat)
        ALLOCATE(ITAGPRLD_SPRING(NUMELR)  ,STAT=stat)
+       ALLOCATE(ITAGPRLD_BEAM(NUMELP)  ,STAT=stat)
+       ALLOCATE(ITAGPRLD_TRUSS(NUMELT)  ,STAT=stat)
        IF(STAT /= 0) CALL ANCMSG(MSGID= 268,ANMODE=ANINFO,
      .                          MSGTYPE= MSGERROR,
      .                               C1= 'PRELOAD_AXIAL')
-! itagpre_spring(nsprint), itagpre_beam(nbeam) : id of preload/axial; used for element grouping
-       CALL HM_READ_PRELOAD_AXIAL(                                     
+! itagprld_spring(nsprint), itagpre_beam(nbeam) : id of preload/axial; used for element grouping
+        ITAGPRLD_SPRING = 0
+        ITAGPRLD_BEAM   = 0
+        ITAGPRLD_TRUSS  = 0
+       IF (NPRELOAD_A > 0) THEN
+         CALL HM_READ_PRELOAD_AXIAL(                                     
      .        NPRELOAD_A,    NGRSPRI,    IGRSPRING, ITAGPRLD_SPRING,  
-     .        UNITAB    ,  LSUBMODEL,    PRELOAD_A, IXR            ,
-     .        NIXR      ,  NUMELR   ,    NPC      ,NFUNCT          ,
-     .        SNPC      , SENSORS   )
-       NPRELOAD = NPRELOAD - NPRELOAD_A
+     .        UNITAB    ,  LSUBMODEL,    PRELOAD_A, NUMELR         ,
+     .        SNPC      ,  NPC      ,    NFUNCT   , SENSORS        ,
+     .        NGRBEAM   , IGRBEAM   ,    NUMELP   , ITAGPRLD_BEAM  ,
+     .        NGRTRUS   , IGRTRUSS  ,    NUMELT   , ITAGPRLD_TRUSS ,
+     .        IOUT     )
+         NPRELOAD = NPRELOAD - NPRELOAD_A
+       END IF 
       CALL TRACE_OUT1()
 C-------------------------------------------------
 C     LECTURE DES LIENS RIGIDES
@@ -6045,7 +6056,7 @@ C
      2      ITR1    ,EADD   ,INDEX1 ,ITRI1  ,
      3      IPARTT  ,ND     ,IGRSURF,IGRTRUSS,
      4      CEP(OFF),XEP    ,ITRUOFF,
-     5      TAGPRT_SMS)
+     5      TAGPRT_SMS,ITAGPRLD_TRUSS)
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------
@@ -6068,7 +6079,8 @@ C
      2      EADD   ,ND      ,DD_TMP   ,IDX     ,
      3      INUM   ,INDEX1  ,CEP(OFF) ,IPARTT  ,
      4      ITR1   ,IGRSURF ,IGRTRUSS ,ITRUOFF  ,
-     5      TAGPRT_SMS,NOD2EL1D,IPRI)
+     5      TAGPRT_SMS,NOD2EL1D,IPRI,ITAGPRLD_TRUSS,
+     6      PRELOAD_A,NPRELOAD_A)
           OFF = OFF + NUMELT
       ENDIF
 C
@@ -6093,7 +6105,8 @@ C-----
      1   IXP      ,PM       ,GEO      ,INUM     ,
      2   ITR1     ,EADD     ,INDEX1   ,ITRI1    ,IPARTP   ,
      3   ND       ,IGRSURF  ,IGRBEAM  ,CEP(OFF) ,
-     4   XEP      ,IGEO     ,IPOUOFF  ,TAGPRT_SMS , IPM )
+     4   XEP      ,IGEO     ,IPOUOFF  ,TAGPRT_SMS , IPM   ,
+     5   ITAGPRLD_BEAM)
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------
@@ -6117,7 +6130,8 @@ C
      3      INUM   ,INDEX1  ,CEP(OFF)   ,IPARTP  ,
      4      ITR1   ,IGRSURF ,IGRBEAM    ,IGEO    ,
      5      IPM    ,IPOUOFF ,TAGPRT_SMS,
-     6      NOD2EL1D, IPRI)
+     6      NOD2EL1D, IPRI  ,ITAGPRLD_BEAM,PRELOAD_A,
+     7      NPRELOAD_A)
           OFF = OFF + NUMELP
         ENDIF
 C

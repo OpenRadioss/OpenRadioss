@@ -1385,7 +1385,8 @@ C 2D multifluid law
      1                IXT    ,PM         ,X        ,GEO    ,MS     ,
      2                DTELEM ,NFT        ,NEL      ,STIFN  ,PARTSAV,
      3                V      ,IPART(I15D),MST      ,STIFINT,STT    ,
-     4                IGEO   ,NSIGTRUSS  ,SIGTRUSS ,PTTRUSS)
+     4                IGEO   ,NSIGTRUSS  ,SIGTRUSS ,PTTRUSS,
+     5                PRELOAD_A(IBOLTP),IBOLTP    )
         !----------------------------------------!
         !   ITY == 5                        BEAM !
         !----------------------------------------!
@@ -1396,7 +1397,7 @@ C 2D multifluid law
      3                STIFN      ,STIFR    ,PARTSAV ,V       ,IPART(I15E),
      4                MSP        ,INP      ,IGEO    ,STIFINT ,STRP       ,
      5                NSIGBEAM   ,SIGBEAM  ,PTBEAM  ,IUSER   ,MCP        ,
-     6                MCPP       ,TEMP     )
+     6                MCPP       ,TEMP     ,PRELOAD_A(IBOLTP),IBOLTP    )
         !----------------------------------------!
         !   ITY == 6                      SPRING !
         !----------------------------------------!

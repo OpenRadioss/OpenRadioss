@@ -41,7 +41,8 @@ Chd|====================================================================
      3    INUM   ,INDEX  ,CEP      ,IPARTP   ,
      4    ITR1   ,IGRSURF,IGRBEAM  ,IGEO     ,
      5    IPM    ,IPOUOFF,TAGPRT_SMS ,
-     6    NOD2EL1D,PRINT_FLAG)
+     6    NOD2EL1D,PRINT_FLAG,ITAGPRLD_BEAM,
+     7    PRELOAD_A,NPRELOAD_A)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -50,6 +51,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE REORDER_MOD
       USE MATPARAM_DEF_MOD
+      USE BPRELOAD_MOD
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -87,12 +89,15 @@ C-----------------------------------------------
      .        IPM(NPROPMI,*),IPOUOFF(*),
      .        TAGPRT_SMS(*),NOD2EL1D(*),IGEO(NPROPGI,*)
       INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
+      INTEGER, INTENT(IN) :: NPRELOAD_A
+      INTEGER ,INTENT(INOUT), DIMENSION(NUMELP) :: ITAGPRLD_BEAM
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*)
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBEAM)  :: IGRBEAM
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
+      TYPE(PREL1D_) ,DIMENSION(NPRELOAD_A) :: PRELOAD_A
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -100,7 +105,7 @@ C-----------------------------------------------
      .        MID, PID, NEL_PREC, II, P, NEL,NB,NIP,IGTYP,
      .        MODE,NN, J,
      .        ITAG(2*NUMELT+2*NUMELP+3*NUMELR),
-     .        NGP(NSPMD+1),IPARTR2R,NUVAR,IE,ID1
+     .        NGP(NSPMD+1),IPARTR2R,NUVAR,IE,ID1,IPRLD
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR,TITR1
@@ -215,6 +220,11 @@ C
           END IF
         END IF
       END DO
+C REORDERING FOR ITAGPRLD_BEAM
+      DO I=1,NUMELP
+        IF (ITAGPRLD_BEAM(I) ==0) CYCLE
+        ITAGPRLD_BEAM(I) = ITR1(ITAGPRLD_BEAM(I))
+      ENDDO
 C
 C-------------------------------------------------------------------------
 C phase 2 : bornage en groupe de mvsiz
@@ -245,6 +255,7 @@ cc       LB_L = LBUFEL
               IGTYP = IGEO(11,PID)
               IF (IGTYP == 18) NIP = IGEO(3,PID)
               CALL ZEROIN(1,NPARG,IPARG(1,NGROUP))
+              IPRLD = ITAGPRLD_BEAM(II)
 
               NE1 = MIN( NVSIZ, NEL + NEL_PREC - NFT)
 C---
@@ -298,6 +309,13 @@ C             thermal material expansion
               ENDIF
               ! Property internal ID
               IPARG(62,NGROUP) = PID
+C          /PRELOAD/AXIAL              
+              IPARG(72,NGROUP)= IPRLD
+              
+              IF ( IPRLD>0 ) THEN
+                IPARG(73,NGROUP)= PRELOAD_A(IPRLD)%fun_id
+                IPARG(74,NGROUP)= PRELOAD_A(IPRLD)%sens_id
+              END IF
 
               JSMS=0
               IF(ISMS/=0)THEN

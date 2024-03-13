@@ -35,12 +35,14 @@ Chd|====================================================================
      2    EADD    ,ND     ,DD_IAD  ,IDX       ,
      3    INUM    ,INDEX  ,CEP     ,IPARTT    ,
      4    ITR1    ,IGRSURF,IGRTRUSS,ITRUOFF   ,
-     5    TAGPRT_SMS,NOD2EL1D,PRINT_FLAG)
+     5    TAGPRT_SMS,NOD2EL1D,PRINT_FLAG      ,
+     6    ITAGPRLD_TRUSS,PRELOAD_A ,NPRELOAD_A)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE R2R_MOD
+      USE BPRELOAD_MOD
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -77,11 +79,14 @@ C-----------------------------------------------
      .        ITRUOFF(*),
      .        TAGPRT_SMS(*),NOD2EL1D(*)
       INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
+      INTEGER, INTENT(IN) :: NPRELOAD_A
+      INTEGER ,INTENT(INOUT), DIMENSION(NUMELT) ::ITAGPRLD_TRUSS
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRTRUS)  :: IGRTRUSS
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
+      TYPE(PREL1D_)  ,DIMENSION(NPRELOAD_A):: PRELOAD_A
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -89,7 +94,7 @@ C-----------------------------------------------
      .        MID, PID, NEL_PREC, II, P, NEL,NB,
      .        MODE, WORK(70000),NN, J,
      .        ITAG(2*NUMELT+2*NUMELP+3*NUMELR),
-     .        NGP(NSPMD+1),IPARTR2R
+     .        NGP(NSPMD+1),IPARTR2R,IPRLD
       DATA NFIX/5/
 C=======================================================================
 C
@@ -197,6 +202,11 @@ C
           END IF
         END IF
       END DO
+C REORDERING FOR ITAGPRLD_TRUSS
+      DO I=1,NUMELT
+        IF (ITAGPRLD_TRUSS(I) ==0) CYCLE
+        ITAGPRLD_TRUSS(I) = ITR1(ITAGPRLD_TRUSS(I))
+      ENDDO
 C
 C-------------------------------------------------------------------------
 C phase 2 : bornage en groupe de mvsiz
@@ -224,6 +234,7 @@ C ngroup global
               IF (NSUBDOM>0) IPARTR2R = TAG_MAT(MID)
               ISSN=0
               IF(GEO(5,PID)/=0.)ISSN=1
+              IPRLD = ITAGPRLD_TRUSS(II)
 C
               CALL ZEROIN(1,NPARG,IPARG(1,NGROUP))
 C
@@ -237,6 +248,13 @@ c                                        other groups using old buffer
               IPARG(9,NGROUP) = ISSN
 C reperage groupe/processeur
               IPARG(32,NGROUP)= P-1
+C          /PRELOAD/AXIAL              
+              IPARG(72,NGROUP)= IPRLD
+              
+              IF ( IPRLD>0 ) THEN
+                IPARG(73,NGROUP)= PRELOAD_A(IPRLD)%fun_id
+                IPARG(74,NGROUP)= PRELOAD_A(IPRLD)%sens_id
+              END IF
 C         flag for group of duplicated elements in multidomains
               IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
 C

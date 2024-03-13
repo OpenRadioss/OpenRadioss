@@ -64,12 +64,14 @@ Chd|====================================================================
      F           JSMS     ,IGRE     ,NFT      ,IFAIL    ,
      G           SBUFMAT  ,SNPC     ,STF      ,NUMMAT   ,
      H           NUMGEO   ,IOUT     ,ISTDO    ,IDEL7NOK ,
-     I           IDYNA    ,IMCONV   ,IMPL_S   ,MAT_PARAM)
+     I           IDYNA    ,IMCONV   ,IMPL_S   ,MAT_PARAM,
+     J           PRELD1   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE H3D_MOD
+      USE PRELOAD_AXIAL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,6 +115,7 @@ C-----------------------------------------------
      .   MX2(MVSIZ),MY2(MVSIZ),MZ2(MVSIZ),
      .   GRESAV(*),MSP(*),DMELP(*),TEMP(*),FTHE(*),
      .   FTHESKY(*)
+      my_real, INTENT(IN)          :: PRELD1
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (H3D_DATABASE) :: H3D_DATA
@@ -137,7 +140,7 @@ C-----------------------------------------------
      .   F22(MVSIZ), F31(MVSIZ), F32(MVSIZ), 
      .   M11(MVSIZ), M12(MVSIZ), M21(MVSIZ),
      .   M22(MVSIZ), M31(MVSIZ), M32(MVSIZ),TEMPEL(MVSIZ),DTEMP(MVSIZ),
-     .   FSCAL_ALPHA,ETH(MVSIZ),DEINTTH,ALPHA,DF
+     .   FSCAL_ALPHA,ETH(MVSIZ),DEINTTH,ALPHA,DF,VL12(MVSIZ),DTINV
 C
       my_real ::  KC,PHIX, CA,CB, AREA, FPHI(MVSIZ,2),DIE(MVSIZ)
       my_real ,DIMENSION(:) ,POINTER :: UVAR
@@ -299,6 +302,16 @@ C--------------------------
      9   X1,       X2,       Y1,       Y2,
      A   Z1,       Z2,       ITASK,    H3D_DATA,
      B   IGRE)
+C-------------------------
+C     /PRELOAD/AXIAL
+C-------------------------
+        IF (PRELD1>ZERO) THEN
+           DTINV = DT1/MAX(DT1**2,EM20)  
+           DO I=1,NEL
+              VL12(I) = EXX(I)*DTINV
+           ENDDO
+           CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,F1 )
+        END IF
 C----------------------------
 C     FORCES INTERNES
 C----------------------------

@@ -109,6 +109,7 @@ C-----------------------------------------------
      .                          OPTION_TITR    = TITR,           
      .                          KEYWORD2       = KEY)
 C
+         IUGRP(I) = 0
          IF (KEY(1:LEN_TRIM(KEY))=='AXIAL') CYCLE
         ! Checking unit ID
         IFLAGUNIT = 0 
@@ -258,6 +259,7 @@ c
 c-----------------------------output------------------------------------------
    90  WRITE (IOUT,2000)
        DO I=I1,I2
+         IF (IUGRP(I)==0) CYCLE
          WRITE (IOUT,'(I10,1X,I10,1X,1PE10.3,1X,I10,6(1X,1PE10.3))') I,
      .        IUGRP(I), AREA(I), IDSENSOR(I), NX(I), NY(I), NZ(I), LVAL(I), TS(I), TE(I)
        ENDDO
