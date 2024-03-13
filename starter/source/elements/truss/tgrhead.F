@@ -33,7 +33,7 @@ Chd|====================================================================
      2       ITR1,   EADD, INDEX,   ITRI    ,      
      3       IPARTT, ND,   IGRSURF, IGRTRUSS,
      4       CEP,    XEP,  ITRUOFF ,
-     5       TAGPRT_SMS)
+     5       TAGPRT_SMS,ITAGPRLD_TRUSS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,6 +71,7 @@ C-----------------------------------------------
      .        EADD(*),ITR1(*),INDEX(*),ITRI(4,*),
      .        ND, CEP(*), XEP(*),
      .        ITRUOFF(*), TAGPRT_SMS(*)
+      INTEGER ,INTENT(INOUT), DIMENSION(NUMELT) ::ITAGPRLD_TRUSS
 C     REAL OU REAL*8
       my_real
      .    PM(NPROPM,*), GEO(NPROPG,*)
@@ -84,7 +85,7 @@ C-----------------------------------------------
      .        I, K,  MLN, NG, ISSN, NN, N, MID, PID ,
      .        II, J, II2,JJ2,JJ,L,II3,JJ3,NGROU,
      .        MSKMLN,MSKISN,MSKPID, MSKMID, MODE,
-     .        WORK(70000)
+     .        WORK(70000),IPRLD
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
 C
@@ -125,6 +126,8 @@ C
         PID= IXT(4,II)
         ISSN = 0
         IF(GEO(5,PID)/=0.) ISSN=1
+        IPRLD = ITAGPRLD_TRUSS(II)
+        IF (IPRLD>0) MLN = MLN+IPRLD
 C
         ISSN=MY_SHIFTL(ISSN,6)
         MLN=MY_SHIFTL(MLN,21)
@@ -190,6 +193,11 @@ C
         DO J=1,NN
           IGRTRUSS(I)%ENTITY(J) = ITR1(IGRTRUSS(I)%ENTITY(J))
         ENDDO
+      ENDDO
+C REORDERING FOR ITAGPRLD_TRUSS
+      DO I=1,NUMELT
+        IF (ITAGPRLD_TRUSS(I) ==0) CYCLE
+        ITAGPRLD_TRUSS(I) = ITR1(ITAGPRLD_TRUSS(I))
       ENDDO
 C
 C--------------------------------------------------------------

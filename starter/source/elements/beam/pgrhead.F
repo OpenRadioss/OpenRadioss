@@ -32,7 +32,8 @@ Chd|====================================================================
      1       IXP    ,PM     ,GEO     ,INUM    ,
      2       ITR1   ,EADD   ,INDEX   ,ITRI    ,IPARTP  ,      
      3       ND     ,IGRSURF,IGRBEAM ,CEP     ,
-     4       XEP    ,IGEO   ,IPOUOFF ,TAGPRT_SMS ,IPM)
+     4       XEP    ,IGEO   ,IPOUOFF ,TAGPRT_SMS ,IPM  ,
+     5       ITAGPRLD_BEAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,6 +70,7 @@ C-----------------------------------------------
      .        EADD(*),ITR1(*),INDEX(*),ITRI(5,NUMELP),
      .        ND, CEP(*), XEP(*),IPOUOFF(*),
      .        TAGPRT_SMS(*),IPM(NPROPMI,NUMMAT)
+      INTEGER ,INTENT(INOUT), DIMENSION(NUMELP) ::ITAGPRLD_BEAM
       my_real PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBEAM)  :: IGRBEAM
@@ -80,7 +82,7 @@ C-----------------------------------------------
      .        I, K,  MLN, NG, ISSN, NN, N, MID, PID,IGTYP,
      .        II, J, II2,JJ2,JJ,L,II3,JJ3,II4,JJ4,II5,JJ5,NPG,MODE,
      .        WORK(70000)
-      INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
+      INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND,IPRLD
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
@@ -112,8 +114,9 @@ C
         PID= IXP(5,II)
         ISSN = 0
         IF(GEO(5,PID)/=ZERO) ISSN=1
+        IPRLD = ITAGPRLD_BEAM(II)
         NPG   = IGEO(3,PID)
-        IGTYP = IGEO(11,PID)
+        IGTYP = IGEO(11,PID) + IPRLD
         JTHE = NINT(PM(71,MID))
         IEXPAN = IPM(218,MID)
 c
@@ -189,6 +192,11 @@ C
         DO J=1,NN
           IGRBEAM(I)%ENTITY(J) = ITR1(IGRBEAM(I)%ENTITY(J))
         ENDDO
+      ENDDO
+C REORDERING FOR ITAGPRLD_BEAM
+      DO I=1,NUMELP
+        IF (ITAGPRLD_BEAM(I) ==0) CYCLE
+        ITAGPRLD_BEAM(I) = ITR1(ITAGPRLD_BEAM(I))
       ENDDO
 C
 C--------------------------------------------------------------

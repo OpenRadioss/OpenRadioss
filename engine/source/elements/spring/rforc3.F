@@ -134,7 +134,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JSMS
       my_real DT2T ,
      .   GEO(NPROPG,*),X(*),F(*),TF(*),SKEW(LSKEW,*),FSKY(*),
-     .   VR(*), V(*), AR(*), STIFN(*),STIFR(*),MS(*), IN(*),
+     .   VR(*), V(3,*), AR(*), STIFN(*),STIFR(*),MS(*), IN(*),
      .   ANIM(*),PARTSAV(*),TANI(15,*),
      .   FR_WAVE(*),BUFMAT(*),BUFGEO(*),PM(*),RBY(*),
      .   FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
@@ -267,6 +267,15 @@ C
      5   NEL,               IGRE)
         CALL R1TORS(
      1   GBUF%FOR(II(1)),TANI,           H3D_DATA,       NEL)
+!        
+        IF (PRELD1>ZERO) THEN
+           DO I=JFT,JLT
+              VL12(I) = (V(1,NC2(I))-V(1,NC1(I)))*EX(I)+
+     1                  (V(2,NC2(I))-V(2,NC1(I)))*EY(I)+
+     2                  (V(3,NC2(I))-V(3,NC1(I)))*EZ(I)
+           ENDDO
+           CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,GBUF%FOR)
+        END IF
         IF (IPARIT == 0) THEN
           CALL R1CUM3(
      1   F,              GBUF%FOR(II(1)),STI,            STIFN,
@@ -333,6 +342,15 @@ C
      5   NEL,               IGRE)
         CALL R1TORS(
      1   GBUF%FOR(II(1)),TANI,           H3D_DATA,       NEL)
+!        
+        IF (PRELD1>ZERO) THEN
+           DO I=JFT,JLT
+              VL12(I) = (V(1,NC2(I))-V(1,NC1(I)))*EX(I)+
+     1                  (V(2,NC2(I))-V(2,NC1(I)))*EY(I)+
+     2                  (V(3,NC2(I))-V(3,NC1(I)))*EZ(I)
+           ENDDO
+           CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,GBUF%FOR)
+        END IF
         IF (IPARIT == 0) THEN
           CALL R1CUM3(
      1   F,              GBUF%FOR(II(1)),STI,            STIFN,
@@ -397,6 +415,15 @@ C
      5   NEL,               IGRE)
         CALL R1TORS(
      1   GBUF%FOR(II(1)),TANI,           H3D_DATA,       NEL)
+!        
+        IF (PRELD1>ZERO) THEN
+           DO I=JFT,JLT
+              VL12(I) = (V(1,NC2(I))-V(1,NC1(I)))*EX(I)+
+     1                  (V(2,NC2(I))-V(2,NC1(I)))*EY(I)+
+     2                  (V(3,NC2(I))-V(3,NC1(I)))*EZ(I)
+           ENDDO
+           CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,GBUF%FOR)
+        END IF
         IF (IPARIT == 0) THEN
           CALL R1CUM3(
      1   F,              GBUF%FOR(II(1)),STI,            STIFN,

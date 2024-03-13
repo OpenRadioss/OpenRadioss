@@ -55,7 +55,7 @@ Chd|====================================================================
      D   MY1,       MY2,       MZ1,       MZ2,
      E   GRESAV,    GRTH,      IGRTH,     MSRT,
      F   DMELRT,    H3D_DATA,  JSMS,      IGRE,
-     G   NFT)
+     G   NFT,       PRELD1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,6 +63,7 @@ C-----------------------------------------------
       USE TABLE_MOD
       USE H3D_MOD
       USE SENSOR_MOD
+      USE PRELOAD_AXIAL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -96,6 +97,7 @@ C-----------------------------------------------
      .   MX1(MVSIZ),MY1(MVSIZ),MZ1(MVSIZ),
      .   MX2(MVSIZ),MY2(MVSIZ),MZ2(MVSIZ),GRESAV(*),
      .   MSRT(*), DMELRT(*)
+      my_real, INTENT(IN)          :: PRELD1
       DOUBLE PRECISION XDP(3,*)
       TYPE(TTABLE) TABLE(*)
 C
@@ -126,7 +128,7 @@ C     REAL
      .   RY1(MVSIZ),RY2(MVSIZ),RZ1(MVSIZ),RZ2(MVSIZ),XIN(MVSIZ),
      .   AK(MVSIZ),XKM(MVSIZ),XCM(MVSIZ),XKR(MVSIZ),
      .   EX2(MVSIZ),EY2(MVSIZ),EZ2(MVSIZ),VX1(MVSIZ),VX2(MVSIZ),
-     .   VY1(MVSIZ),VY2(MVSIZ),VZ1(MVSIZ),VZ2(MVSIZ)
+     .   VY1(MVSIZ),VY2(MVSIZ),VZ1(MVSIZ),VZ2(MVSIZ),VL12(MVSIZ)
       INTEGER IGTYP,I,I0,NUVAR,IADBUF
       DOUBLE PRECISION
      .   X1DP(3,MVSIZ),X2DP(3,MVSIZ),X3DP(3,MVSIZ),
@@ -254,6 +256,14 @@ C
      1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
      2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
      3   H3D_DATA,       NEL)
+! preloading
+        IF (PRELD1>ZERO) THEN
+           DO I=JFT,JLT
+              VL12(I) = (VX2(I)-VX1(I))*EXX(I)+
+     1                  (VY2(I)-VY1(I))*EYX(I)+(VZ2(I)-VZ1(I))*EZX(I)
+           ENDDO
+           CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,GBUF%FOR)
+        END IF
         IF (IPARIT == 0) THEN
           CALL R4CUM3(
      1   F,              GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),

@@ -1129,6 +1129,16 @@ C----6---------------------------------------------------------------7---------8
              K1=1 + 6*(NUMELC+NUMELTG)*IEPSDOT+15*NFT
              OFF_IGRTH = NUMELS+NUMELQ+NUMELC
 C
+          IF (IPREID>0) THEN
+             FUN_ID = IPARG(73,NG)
+             SENS_ID= IPARG(74,NG) 
+             CALL GET_PRELOAD_AXIAL(
+     1           FUN_ID        ,SENS_ID       ,NPC          ,SNPC          ,
+     2           TF            ,STF           ,SENSORS      ,TT            ,
+     3           PRELOAD1)
+          ELSE
+             PRELOAD1 =ZERO
+          END IF
 !
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .     CALL SENSOR_ENERGY_PART(IPARTT(NF1) ,SUBSET ,IPRI)
@@ -1144,7 +1154,7 @@ c
      8   GRTH,                IGRTH(OFF_IGRTH+NF1),MSTR(NF1),           DMELTR(NF1),
      9   IPRI,                IPM,                 NPC,                 TF,
      A   ITASK,               H3D_DATA,            NFT,                 MTN,
-     B   JSMS,                IGRE)
+     B   JSMS,                IGRE,                PRELOAD1 )
 C
              IF (NSECT > 0) THEN
               K0=NSTRF(25)
@@ -1178,6 +1188,16 @@ C----6---------------------------------------------------------------7---------8
              OFF_IGRTH = NUMELS+NUMELQ+NUMELC+NUMELT
              K1=1 + 6*(NUMELC+NUMELTG)*IEPSDOT + 15*(NUMELT+NFT)
 C
+          IF (IPREID>0) THEN
+             FUN_ID = IPARG(73,NG)
+             SENS_ID= IPARG(74,NG) 
+             CALL GET_PRELOAD_AXIAL(
+     1           FUN_ID        ,SENS_ID       ,NPC          ,SNPC          ,
+     2           TF            ,STF           ,SENSORS      ,TT            ,
+     3           PRELOAD1)
+          ELSE
+             PRELOAD1 =ZERO
+          END IF
 !
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .      CALL SENSOR_ENERGY_PART(IPARTP(NF1) ,SUBSET ,IPRI)
@@ -1200,7 +1220,8 @@ c
      F         JSMS         ,IGRE                ,NFT           ,IFAIL      ,
      G         SBUFMAT      ,SNPC                ,STF           ,NUMMAT     ,
      H         NUMGEO       ,IOUT                ,ISTDO         ,IDEL7NOK   ,
-     I         IDYNA        ,IMCONV              ,IMPL_S        ,MAT_ELEM%MAT_PARAM)
+     I         IDYNA        ,IMCONV              ,IMPL_S        ,MAT_ELEM%MAT_PARAM,
+     J         PRELOAD1 )
 C 
              IF (NSECT > 0) THEN
               K0=NSTRF(25)
@@ -1264,7 +1285,7 @@ c
      D   MY(1,1),              MY(1,2),              MZ(1,1),              MZ(1,2),
      E   GRESAV,               GRTH,                 IGRTH(OFF_IGRTH+NF1), MSRT(NF1),
      F   DMELRT(NF1),          FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
-     G   JSMS,                 IGRE,                 NFT)
+     G   JSMS,                 IGRE,                 NFT,               PRELOAD1 )
          ELSE
           CALL RFORC3(
      1   ELBUF_TAB(NG),       JFT,                 JLT,                 NEL,

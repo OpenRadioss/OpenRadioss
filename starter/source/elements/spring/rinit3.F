@@ -1535,14 +1535,43 @@ C
       ENDDO
 !
       IF (IPRELD>0) THEN
-        DO I=LFT,LLT
-           J=I+NFT
-           I0=IXR(1,J)
-           XM=GEO(1,I0)*XL(I)
-           UNDAMP = XM*XL(I)/DTELEM(NDEPAR+I)
-           GBUF%BPRELD(I)     = PRELOAD_A%preload
-           GBUF%BPRELD(I+NEL) = UNDAMP*PRELOAD_A%damp
-        ENDDO
+        SELECT CASE (IGTYP)
+          CASE(4,13,26,27)
+            DO I=LFT,LLT
+              J=I+NFT
+              I0=IXR(1,J)
+              XM=GEO(1,I0)*XL(I)
+              UNDAMP = XM/DTELEM(NDEPAR+I)
+              GBUF%BPRELD(I)     = PRELOAD_A%preload
+              GBUF%BPRELD(I+NEL) = UNDAMP*PRELOAD_A%damp
+            ENDDO
+          CASE(23)
+            IF (MTN==113) THEN  
+              DO I=LFT,LLT
+                XM=GBUF%MASS(I)
+                UNDAMP = XM/DTELEM(NDEPAR+I)
+                GBUF%BPRELD(I)     = PRELOAD_A%preload
+                GBUF%BPRELD(I+NEL) = UNDAMP*PRELOAD_A%damp
+              ENDDO
+            ELSE
+              CALL ANCMSG(MSGID=3053,
+     .                  MSGTYPE=MSGWARNING,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID,
+     .                  I2=IGTYP,
+     .                  C1=TITR)
+              GBUF%BPRELD(LFT:2*LLT)  = ZERO
+            END IF
+          CASE DEFAULT
+            CALL ANCMSG(MSGID=3053,
+     .                  MSGTYPE=MSGWARNING,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID,
+     .                  I2=IGTYP,
+     .                  C1=TITR)
+           GBUF%BPRELD(LFT:2*LLT)  = ZERO
+        END SELECT 
+!
       END IF
 C-----
  1000 FORMAT('LIST OF POSSIBLE CNODES MERGED WITH NODE OF ID=',I10)
