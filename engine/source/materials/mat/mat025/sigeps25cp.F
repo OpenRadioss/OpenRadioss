@@ -27,15 +27,18 @@ Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|-- calls ---------------
 Chd|        M25CPLRP2                     source/materials/mat/mat025/m25cplrc2.F
 Chd|====================================================================
-      SUBROUTINE SIGEPS25CP(
-     1                      JFT    ,JLT    ,PM       ,OFF    ,DIR    ,
-     2                      SHF    ,NPT    ,NGL      ,IPT    ,OFF_OLD,
-     3                      THK0   ,EPSPL  ,SIGY     ,ZCFAC  ,NEL    ,
-     4                      DEPSXX ,DEPSYY ,DEPSXY   ,DEPSYZ ,DEPSZX ,
-     5                      SIGOXX ,SIGOYY ,SIGOXY   ,SIGOYZ ,SIGOZX ,
-     6                      SIGNXX ,SIGNYY ,SIGNXY   ,SIGNYZ ,SIGNZX ,
-     7                      IMAT   ,WPLAR  ,IOFF_DUCT,PLA    ,ISRATE ,
-     8                      TSAIWU )
+      SUBROUTINE SIGEPS25CP(MAT_PARAM,
+     1                      JFT    ,JLT    ,OFF    ,DIR    ,
+     2                      SHF    ,NPT    ,NGL    ,IPT    ,OFF_OLD,
+     3                      THK0   ,EPSPL  ,SIGY   ,ZCFAC  ,NEL    ,
+     4                      DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX ,
+     5                      SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX ,
+     6                      SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX ,
+     7                      WPLAR  ,IOFF_DUCT,PLA  ,ISRATE ,TSAIWU )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,22 +55,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT,JLT,NPT,NEL,IMAT,IPT
+      INTEGER JFT,JLT,NPT,NEL,IPT
       INTEGER NGL(MVSIZ),IOFF_DUCT(MVSIZ),ISRATE
-C     REAL
       my_real
-     .   THK0(MVSIZ),PM(NPROPM,*),
+     .   THK0(MVSIZ),
      .   OFF(*),DIR(*),SHF(*),EPSPL(*),SIGY(*),ZCFAC(MVSIZ,2),
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
      .   DEPSZX(MVSIZ),SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),
      .   SIGOYZ(NEL),SIGOZX(NEL),SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
      .   SIGNYZ(NEL),SIGNZX(NEL),WPLAR(MVSIZ),OFF_OLD(MVSIZ),PLA(NEL),
      .   TSAIWU(NEL)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ICC(MVSIZ),I,ILAYER,ICC_1
-C     REAL
       my_real
      .   YLD(MVSIZ),ETSE(MVSIZ),DEGMB(MVSIZ),CB(MVSIZ),CN(MVSIZ),
      .   E11(MVSIZ),E22(MVSIZ),NU12(MVSIZ),NU21(MVSIZ),G12(MVSIZ),
@@ -75,30 +77,32 @@ C     REAL
      .   F12(MVSIZ),F11(MVSIZ),F22(MVSIZ),F33(MVSIZ),SIGT1(MVSIZ),
      .   SIGT2(MVSIZ),FMAX(MVSIZ),WWPLA(MVSIZ),WPLAMX(MVSIZ),
      .   CC(MVSIZ),EPDR(MVSIZ),WPLAREF(MVSIZ),
-     .   E11_1,E22_1,NU12_1,NU21_1,G12_1,G23_1,G31_1,DE_1,CB_1,CN_1,
+     .   E11_1,E22_1,NU12_1,NU21_1,G12_1,G23_1,G31_1,CB_1,CN_1,
      .   CC_1,EPDR_1,F1_1,F2_1,F11_1,F22_1,F33_1,F12_1,SIGT1_1,SIGT2_1
 C=======================================================================
-      E11_1   =PM(33,IMAT)
-      E22_1   =PM(34,IMAT)
-      NU12_1  =PM(35,IMAT)
-      NU21_1  =PM(36,IMAT)
-      G12_1   =PM(37,IMAT)
-      G23_1   =PM(38,IMAT)
-      G31_1   =PM(39,IMAT)
-      DE_1    =PM(44,IMAT)
-      CB_1    =PM(46,IMAT)
-      CN_1    =PM(47,IMAT)
-      CC_1    =PM(50,IMAT)
-      EPDR_1  =PM(51,IMAT)
-      ICC_1   =NINT(PM(53,IMAT))
-      F1_1    =PM(54,IMAT)
-      F2_1    =PM(55,IMAT)
-      F11_1   =PM(56,IMAT)
-      F22_1   =PM(57,IMAT)
-      F33_1   =PM(58,IMAT)
-      F12_1   =PM(59,IMAT)
-      SIGT1_1 =PM(60,IMAT)
-      SIGT2_1 =PM(61,IMAT)
+      ICC_1   = MAT_PARAM%IPARAM(3)
+!
+      E11_1   = MAT_PARAM%UPARAM(1)      !  PM(33)
+      E22_1   = MAT_PARAM%UPARAM(2)      !  PM(34)
+      NU12_1  = MAT_PARAM%UPARAM(4)      !  PM(35)
+      NU21_1  = MAT_PARAM%UPARAM(5)      !  PM(36)
+      G12_1   = MAT_PARAM%UPARAM(6)      !  PM(37)
+      G23_1   = MAT_PARAM%UPARAM(7)      !  PM(38)
+      G31_1   = MAT_PARAM%UPARAM(8)      !  PM(39)
+      CC_1    = MAT_PARAM%UPARAM(10)     !  PM(50)
+      EPDR_1  = MAT_PARAM%UPARAM(11)     !  PM(51)
+      SIGT1_1 = MAT_PARAM%UPARAM(12)     !  PM(60)
+      SIGT2_1 = MAT_PARAM%UPARAM(13)     !  PM(61)
+                                
+      CB_1    = MAT_PARAM%UPARAM(27)     !  PM(46)
+      CN_1    = MAT_PARAM%UPARAM(28)     !  PM(47)
+
+      F1_1    = MAT_PARAM%UPARAM(21)     !  PM(54)
+      F2_1    = MAT_PARAM%UPARAM(22)     !  PM(55)
+      F11_1   = MAT_PARAM%UPARAM(23)     !  PM(56)
+      F22_1   = MAT_PARAM%UPARAM(24)     !  PM(57)
+      F33_1   = MAT_PARAM%UPARAM(25)     !  PM(58)
+      F12_1   = MAT_PARAM%UPARAM(26)     !  PM(59)
 !
       DO I=JFT,JLT
         E11(I)   =E11_1
@@ -108,7 +112,7 @@ C=======================================================================
         G12(I)   =G12_1
         G23(I)   =G23_1
         G31(I)   =G31_1
-        DE(I)    =DE_1
+        DE(I)    = ONE
         CB(I)    =CB_1
         CN(I)    =CN_1
         CC(I)    =CC_1
@@ -126,9 +130,9 @@ C=======================================================================
       ENDDO
 !
       DO I=JFT,JLT
-        WPLAREF(I)=PM(68,IMAT)
-        WPLAMX(I) =PM(41,IMAT)
-        FMAX(I)   =PM(49,IMAT)
+        WPLAREF(I)= MAT_PARAM%UPARAM(9)      !  PM(68)
+        WPLAMX(I) = MAT_PARAM%UPARAM(20)     !  PM(41)
+        FMAX(I)   = MAT_PARAM%UPARAM(29)     !  PM(49)
       ENDDO
 !
 !     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
@@ -158,16 +162,13 @@ C----------------------------
 C     TEST DE RUPTURE DUCTILE
 C---------------------------
       DO I=JFT,JLT
-!!        IF (OFF(I) < EM01) OFF(I) = ZERO
-!!        IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
-          IF ( OFF(I) == OFF_OLD(I) .and. OFF_OLD(I) < EM01 ) OFF(I)=ZERO
-          IF ( OFF(I) == OFF_OLD(I) .and. OFF_OLD(I) < ONE ) OFF(I)=OFF(I)*FOUR_OVER_5
+        IF ( OFF(I) == OFF_OLD(I) .and. OFF_OLD(I) < EM01 ) OFF(I)=ZERO
+        IF ( OFF(I) == OFF_OLD(I) .and. OFF_OLD(I) < ONE ) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 !
       DO I=JFT,JLT
         IF (OFF(I) == ONE .AND. WPLAR(I) >= WPLAMX(I)) THEN
           OFF(I)=FOUR_OVER_5
-!!        OFF(I)=OFF(I)*FOUR_OVER_5
           IOFF_DUCT(I) = 1
         ENDIF ! IF (OFF(I) == ONE .AND. WPLAR(I) >= WPLAMX(I))
       ENDDO

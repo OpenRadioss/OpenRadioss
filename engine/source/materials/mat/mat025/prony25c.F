@@ -70,7 +70,7 @@ C-----------------------------------------------
 C
       INTEGER NEL ,NPRONY,IGTYP
       my_real
-     .   TIME,TIMESTEP(*),KV,GV(NPRONY),BETA(NPRONY),
+     .   TIME,TIMESTEP,KV,GV(NPRONY),BETA(NPRONY),
      .   RHO0(*),EPSPXX(*),EPSPYY(*),
      .   EPSPXY(*),EPSPYZ(*),EPSPZX(*),SIGV(NEL,5),DIR(NEL,2)
 C-----------------------------------------------
@@ -124,8 +124,8 @@ C
 C
        DO J=1,NPRONY
          DO I=  1,NEL
-          AA(I,J)=  EXP(-BETA(J)*TIMESTEP(I)) 
-          BB(I,J)=TIMESTEP(I)*GV(J)*EXP(-HALF*BETA(J)*TIMESTEP(I))
+          AA(I,J)=  EXP(-BETA(J)*TIMESTEP) 
+          BB(I,J)=TIMESTEP*GV(J)*EXP(-HALF*BETA(J)*TIMESTEP)
 C
 C  for computing epszz_dot (sigzz=0)
 C

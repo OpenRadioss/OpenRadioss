@@ -242,7 +242,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(MVSIZ)   :: IFAIL,MATF,IOFF_DUCT,NFIS1,NFIS2,NFIS3
 c
       my_real 
-     .   SIGDMG(MVSIZ,5),DAMCR(MVSIZ,2),SIGKSI(MVSIZ,5),TENS(MVSIZ,5),
+     .   SIGDMG(MVSIZ,5),SIGKSI(MVSIZ,5),TENS(MVSIZ,5),
      .   EINT_LOC(2,MVSIZ)
       my_real ,DIMENSION(MVSIZ) :: 
      .   FPSXX,FPSYY,FPSZZ,FPSXY,FPSYX,EPCHK,EPSPDT,DT_INV,COPY_PLA,PLA0,
@@ -251,7 +251,7 @@ c
      .   EPSYZ ,EPSZX ,EPSPXX,EPSPYY,EPSPXY,EPSPYZ,EPSPZX,SIGOXX,
      .   SIGOYY,SIGOXY,SIGOYZ,SIGOZX,SIGNXX,SIGNYY,SIGNXY,SIGNYZ,
      .   SIGNZX,SIGVXX,SIGVYY,SIGVXY,SIGVYZ,SIGVZX,
-     .   WMC, EPSPL, YLD,DPLA,VOL0, COEF,HARDM,LA0,G_IMP,VISC,WPLAR,DMAXT,
+     .   WMC, EPSPL, YLD,DPLA,VOL0, COEF,HARDM,LA0,G_IMP,VISC,WPLAR,
      .   EPSP_LOC,SIGNXX_FAIL,SIGNYY_FAIL,SIGNXY_FAIL,SIGNYZ_FAIL,
      .   SIGNZX_FAIL,AREAMIN,DAREAMIN,DMG_GLOB_SCALE,DMG_LOC_SCALE,ET_IMP, EPSTHTOT
       my_real, DIMENSION(NEL,5) :: DMG_ORTH_SCALE
@@ -405,9 +405,6 @@ c
           NFIS1(JFT:JLT)=0
           NFIS2(JFT:JLT)=0
           NFIS3(JFT:JLT)=0
-          DAMCR(JFT:JLT,1)= ZERO
-          DAMCR(JFT:JLT,2)= ZERO
-          DMAXT(JFT:JLT)  = ZERO
       ENDIF
       OFF_OLD(JFT:JLT) = OFF(JFT:JLT)
       IOFF_DUCT(JFT:JLT) = 0
@@ -1078,16 +1075,16 @@ C------------------------------------------
            IF (IGTYP /= 1 .and. IGTYP /= 9) THEN
             IF (IXFEM == 1 .AND. IXLAY > 0) NPTTOT = ELBUF_STR%BUFLY(IXLAY)%NPTT
 !         INTEGRATION BY LAYERS
-            CALL SIGEPS25C(
-     1        JFT         ,JLT      ,PM          ,OFF      ,GSTR      ,
-     2        DIR_A(JDIR) ,THKLY(JPOS),IMAT        ,DT1C     ,SHF       ,
-     3        IPRONY      ,NGL      ,THK0        ,EXX      ,OFF_OLD   ,
+            CALL SIGEPS25C(MATPARAM ,
+     1        NEL         ,PM(1,IMAT)  ,OFF      ,GSTR      ,
+     2        DIR_A(JDIR) ,THKLY(JPOS),TT        ,DT1      ,SHF       ,
+     3        NGL         ,THK0        ,EXX      ,OFF_OLD   ,
      4        EYY         ,EXY      ,EXZ         ,EYZ      ,KXX       ,
      5        KYY         ,KXY      ,POSLY(1,IPT),EPSPL    ,RHO       ,
-     6        SSP         ,IPM      ,BUFMAT      ,DT_INV   ,LBUF%OFF  ,
-     7        SIGY        ,ZCFAC    ,NPTT        ,ILAYER   ,DAMCR     ,
-     8        NFIS1       ,NFIS2    ,NFIS3       ,DMAXT    ,WPLAR     ,
-     9        NPTTOT      ,IGTYP    ,NEL         ,LBUF%VISC,LBUF%SIGPLY,
+     6        SSP         ,BUFMAT   ,LBUF%OFF    ,
+     7        SIGY        ,ZCFAC    ,NPTT        ,ILAYER   ,
+     8        NFIS1       ,NFIS2    ,NFIS3       ,WPLAR    ,
+     9        NPTTOT      ,IGTYP    ,LBUF%VISC,LBUF%SIGPLY,
      A        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      B        SIGNXX      ,SIGNYY   ,SIGNXY      ,SIGNYZ   ,SIGNZX    ,
      C        SIGVXX      ,SIGVYY   ,SIGVXY      ,SIGVYZ   ,SIGVZX    ,
@@ -1095,18 +1092,18 @@ C------------------------------------------
      E        PLY_EXX     ,PLY_EYY  ,PLY_EXY     ,PLY_EXZ  ,PLY_EYZ   ,
      F        PLY_F       ,LBUF%PLA ,LBUF%DAM    ,LBUF%CRAK,GBUF%IERR ,
      G        IOFF_DUCT   ,IFAILURE ,PLY_ID      ,IPG      ,LBUF%TSAIWU,
-     H        MATPARAM    )
+     H        IMCONV      ,IOUT     )
+
           ELSEIF (IGTYP == 9) THEN
 !           INTEGRATION BY POINTS (through thickness)
-            CALL SIGEPS25CP(
-     1                      JFT     ,JLT    ,PM       ,OFF     ,DIR_A(JDIR) ,
-     2                      SHF     ,NPT    ,NGL      ,IPT     ,OFF_OLD     ,
-     3                      THK0    ,EPSPL  ,SIGY     ,ZCFAC   ,NEL    ,
-     4                      DEPSXX  ,DEPSYY ,DEPSXY   ,DEPSYZ  ,DEPSZX ,
+            CALL SIGEPS25CP(MATPARAM ,
+     1        JFT     ,JLT    ,OFF      ,DIR_A(JDIR) ,
+     2        SHF     ,NPT    ,NGL      ,IPT     ,OFF_OLD     ,
+     3        THK0    ,EPSPL  ,SIGY     ,ZCFAC   ,NEL    ,
+     4        DEPSXX  ,DEPSYY ,DEPSXY   ,DEPSYZ  ,DEPSZX ,
      5        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
-     6                      SIGNXX  ,SIGNYY ,SIGNXY   ,SIGNYZ  ,SIGNZX ,
-     7                      IMAT    ,WPLAR  ,IOFF_DUCT,LBUF%PLA,ISRATE ,
-     8                      LBUF%TSAIWU)
+     6        SIGNXX  ,SIGNYY ,SIGNXY   ,SIGNYZ  ,SIGNZX ,
+     7        WPLAR  ,IOFF_DUCT,LBUF%PLA,ISRATE ,LBUF%TSAIWU)
            ENDIF ! IF (IGTYP)
 C        
        ELSEIF (ILAW == 34) THEN
