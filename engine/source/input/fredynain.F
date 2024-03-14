@@ -39,6 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE STATE_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +54,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr16_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -62,9 +62,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NBC, K, IKEY, N1, KK, IV2(10), J
-      CHARACTER KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey, KEY5*ncharkey, 
-     .          KEY6*ncharkey,KEY7*ncharkey, KEY8*ncharkey, CARTE*ncharline, 
-     .          LINE*line120
+      CHARACTER(LEN=120) :: LINE
+      CHARACTER(LEN=NCHARKEY) :: KEY2
+      CHARACTER(LEN=NCHARKEY) :: KEY3
+      CHARACTER(LEN=NCHARKEY) :: KEY4
+      CHARACTER(LEN=NCHARKEY) :: KEY5
+      CHARACTER(LEN=NCHARKEY) :: KEY6
+      CHARACTER(LEN=NCHARKEY) :: KEY7
+      CHARACTER(LEN=NCHARKEY) :: KEY8
+      CHARACTER(LEN=NCHARLINE100) :: CARTE
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
 C-----------------------------------------------
 C   S o u r c e   L i n e s 

@@ -38,6 +38,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,7 +53,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr07_c.inc"
 #include      "units_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -61,7 +61,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, NBC, K, KK, NS, K4,IKEY, M1, M2,IERR
-      CHARACTER KEYA*80, CARTE*ncharline, KEY2*5, KEY3*5, KEY4*5
+      CHARACTER KEYA*80, KEY2*5, KEY3*5, KEY4*5
+      CHARACTER(LEN=NCHARLINE100) :: CARTE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -175,6 +176,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -197,8 +199,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, NBC, K, KK, NS, K4,IKEY, M1, M2, IFORM,IERR
-      CHARACTER KEYA*80, CARTE*ncharline, KEY1*5, KEY2*5, KEY3*5,
-     .          KEY4*5, IOPT*5
+      CHARACTER KEYA*80, KEY1*5, KEY2*5, KEY3*5, KEY4*5, IOPT*5
+      CHARACTER(LEN=NCHARLINE100) :: CARTE
 C
       K=0
       IERR=0

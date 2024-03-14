@@ -28,24 +28,25 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE REDKEY1_H3D(KEY,KEY0,NKEY,CARTE,IKEY,IR)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nchar_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NKEY, IKEY, IR, IOK
-      CHARACTER CARTE*ncharline
-      CHARACTER KEY(*)*ncharkey, KEY0(NKEY)*5
+      CHARACTER(LEN=NCHARLINE100) :: CARTE
+      CHARACTER(LEN=NCHARKEY) :: KEY(*)
+      CHARACTER KEY0(NKEY)*5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IKEYO, J, JK, I
-      CHARACTER KEYO(9)*ncharkey
+      CHARACTER(LEN=NCHARKEY) :: KEYO(9)
 C-----------------------------------------------
       IR=0
 C
@@ -55,13 +56,13 @@ C
    5  KEY(J)=' '
       JK=0
 C
-      DO 10 I=1,ncharline
+      DO 10 I=1,NCHARLINE100
       IF(CARTE(I:I)=='/')THEN
        JK=JK+1
        J=0
       ELSEIF(CARTE(I:I)/=' ')THEN
        J=J+1
-       IF(J<=ncharkey)KEY(JK)(J:J)=CARTE(I:I)
+       IF(J<=NCHARKEY)KEY(JK)(J:J)=CARTE(I:I)
       ENDIF
  10   CONTINUE
 C

@@ -121,6 +121,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
       USE LAW_USERSO
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
@@ -143,7 +144,6 @@ C-----------------------------------------------
 #include      "impl1_c.inc"
 #include      "timeri_c.inc"
 #include      "scr18_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -244,7 +244,7 @@ C----
 !
       CHARACTER OPTION*256
       INTEGER SIZE
-      CHARACTER IUSER_KEY*ncharline
+      CHARACTER(LEN=NCHARLINE100)::IUSER_KEY 
 C=======================================================================
       GBUF   => ELBUF_TAB(NG)%GBUF           
       LBUF   => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IPTR,IPTS,IPTT)

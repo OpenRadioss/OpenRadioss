@@ -36,6 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,13 +50,13 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J, NBC, K, IKEY, NBCCON
       my_real ULENGTH,UTIME,UMASS,TRAX,TRAY,TRAZ,ROTXX,ROTYY,ROTZZ,ROTXY,ROTXZ,ROTYZ
-      CHARACTER KEY2*5,CARTE*ncharline,ONCOD*5
+      CHARACTER KEY2*5,ONCOD*5
+      CHARACTER(LEN=NCHARLINE100):: CARTE
       PARAMETER (NBCCON=1)
       DATA ONCOD/'ONOFF'/
 C-----------------------------------------------

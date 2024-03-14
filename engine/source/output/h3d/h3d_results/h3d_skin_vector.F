@@ -51,11 +51,11 @@ C-----------------------------------------------
       USE H3D_INC_MOD
       USE LOADS_MOD
       USE TABLE_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "nchar_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -74,7 +74,7 @@ C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  ,INTENT(IN) :: NSENSOR
-      CHARACTER*ncharline KEYWORD
+      CHARACTER(LEN=NCHARLINE100):: KEYWORD
       my_real
      .   SKIN_VECTOR(3,*),TF(*),X(3,*),V(3,*)
       TYPE (H3D_DATABASE) :: H3D_DATA

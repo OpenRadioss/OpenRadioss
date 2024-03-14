@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE OUTPUTS_MOD
       USE GROUPDEF_MOD , only: GROUP_
       USE FVBAG_MOD , only : FVBAG_DATA
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,7 +84,6 @@ C-----------------------------------------------
 #include      "sphcom.inc"
 #include      "sms_c.inc"
 #include      "intstamp_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -102,9 +102,9 @@ C-----------------------------------------------
      .   INTERSKID,NINTERSKID,ITYSKID
       INTEGER ,INTENT(IN) :: IPARTSP(NUMSPH),IPARTR(NUMELR),IPARTP(NUMELP),
      .                       IPARTT(NUMELT),IPARTS(NUMELS),IPARTQ(NUMELQ)
-      INTEGER ,INTENT(IN) :: KXSP(NISP,NUMSPH),IXR(NIXR,NUMELR),IXP(NIXP,NUMELP),
-     .                       IXT(NIXT,NUMELT)
-      CHARACTER*ncharline KEYWORD
+      INTEGER ,INTENT(IN) :: KXSP(NISP,NUMSPH),IXR(NIXR,NUMELR),
+     .                       IXP(NIXP,NUMELP),IXT(NIXT,NUMELT)
+      CHARACTER(LEN=NCHARLINE100) :: KEYWORD
       TYPE (H3D_DATABASE) :: H3D_DATA
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       INTEGER ,INTENT(IN) :: N_H3D_PART_LIST

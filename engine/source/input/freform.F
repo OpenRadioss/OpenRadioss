@@ -103,6 +103,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE DT_MOD
       USE OUTPUT_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -187,12 +188,12 @@ C-----------------------------------------------
      .   A1, A2, A3, VM, DTFACA,DTMINA, vt, TMP,DTFAC_AMS,
      .   LAMBDA,L_TYPE
       CHARACTER KEY(9)*5, TITLE*81, KEY1*5, KEY2*5,KEY3*5,   CH4*4, KEY4*5, KEY5*5, StrIAL*32
-      CHARACTER(LEN=ncharline) :: KEYA
-      CHARACTER(LEN=ncharline) :: CARTE,KEYW,MOT1,LINE
-      CHARACTER(LEN=ncharkey), DIMENSION(9) :: KEY_H3D
+      CHARACTER(LEN=NCHARLINE100) :: KEYA
+      CHARACTER(LEN=NCHARLINE100) :: CARTE,KEYW,MOT1,LINE
+      CHARACTER(LEN=NCHARKEY), DIMENSION(9) :: KEY_H3D
       CHARACTER(LEN=5), DIMENSION(NKEY) :: KEY0
       CHARACTER(LEN=5), DIMENSION(24)  ::  KEYALE
-      CHARACTER(len=ncharline) :: STRING_RESTART
+      CHARACTER(len=NCHARLINE100) :: STRING_RESTART
       LOGICAL :: lFOUND
       REAL(KIND=8) :: DTHIS0
       REAL(KIND=8), DIMENSION(9) :: DTHIS01
@@ -322,8 +323,8 @@ C     FLAG for Hybrid CST + AMS
 C---------------------------------------------------
 C     ENUMERATION OF CARDS BY OPTION
 C---------------------------------------------------
-   10 READ(ISTDI,'(A)',END=20) KEYA(1:ncharline)
-        WRITE(IUSC_TMP,'(A)') KEYA(1:ncharline)
+   10 READ(ISTDI,'(A)',END=20) KEYA(1:NCHARLINE100)
+        WRITE(IUSC_TMP,'(A)') KEYA(1:NCHARLINE100)
         IF(KEYA(1:4)=='/END')GOTO 20
         NCT=NCT+1
         IF(KEYA(1:1)=='#')GOTO 10

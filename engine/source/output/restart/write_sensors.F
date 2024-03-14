@@ -36,6 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SENSOR_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,7 +44,6 @@ C-----------------------------------------------
 #include "scr07_c.inc"
 #include "scr17_c.inc"
 #include "task_c.inc"
-#include "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -54,7 +54,7 @@ C-----------------------------------------------
       INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR,TYP
       INTEGER, DIMENSION(LTITR) :: ITITLE
       my_real, DIMENSION(:), ALLOCATABLE :: RBUF
-      CHARACTER(LEN = nchartitle) :: TITLE
+      CHARACTER(LEN = NCHARTITLE) :: TITLE
       TYPE (SENSOR_STR_) ,POINTER :: SENSOR
 C=======================================================================
       NFIX = 11

@@ -29,36 +29,36 @@ Chd|        ARRET                         source/system/arret.F
 Chd|====================================================================
       SUBROUTINE FREDEC2I(LINE,ID)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nchar_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      CHARACTER*ncharline LINE
+      CHARACTER(LEN=NCHARLINE100) :: LINE
       INTEGER ID
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER*ncharline MOT
+      CHARACTER(LEN=NCHARLINE100) MOT
       INTEGER I,J1,J2,J
       MOT=' '
       I=2
       DO WHILE(LINE(I:I)/='/')
         I=I+1
-        IF(I>ncharline) GOTO 900
+        IF(I>NCHARLINE100) GOTO 900
       ENDDO
       I=I+1
-      IF(I>ncharline) GOTO 900
+      IF(I>NCHARLINE100) GOTO 900
       J1=I
       DO WHILE(LINE(I:I)/='/')
         I=I+1
-        IF(I>ncharline) GOTO 900
+        IF(I>NCHARLINE100) GOTO 900
       ENDDO
       J2=I-1
 C      

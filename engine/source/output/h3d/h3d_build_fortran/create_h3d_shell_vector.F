@@ -35,14 +35,11 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nchar_c.inc"  
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -52,13 +49,12 @@ C-----------------------------------------------
       INTEGER IPART(LIPART1,*)
       CHARACTER(LEN=STEXT1) :: TEXT1
       CHARACTER(LEN=SCOMMENT) :: COMMENT
-      CHARACTER(LEN=ncharline) :: KEY3_GLOB
+      CHARACTER(LEN=NCHARLINE100) :: KEY3_GLOB
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
-#include      "nchar_c.inc"  
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -66,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER(LEN=ncharline) :: CARTE,CARTE1,TEXT
+      CHARACTER(LEN=NCHARLINE100) :: CARTE,CARTE1,TEXT
       INTEGER I,J,L,N_H3D_PART,STEXT
 C=========================================================================
       TEXT = ''

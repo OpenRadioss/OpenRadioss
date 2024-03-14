@@ -65,7 +65,6 @@ C-----------------------------------------------
 #include      "scr18_c.inc"
 #include      "scrnoi_c.inc"
 #include      "scrcut_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

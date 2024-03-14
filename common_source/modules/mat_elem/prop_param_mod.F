@@ -29,9 +29,9 @@ Chd|        PLY_PARAM_MOD                 modules/mat_elem/ply_param_mod.F
 Chd|====================================================================
       MODULE PROP_PARAM_MOD
         USE PLY_PARAM_MOD
+        USE NAMES_AND_TITLES_MOD, ONLY: NCHARTITLE
 C----------------------------------------------------------------------- 
 #include "my_real.inc"
-#include "nchar_c.inc"
 c=======================================================================      
       ! list of index values for IGEO   (integer array)
 !      INTEGER ,PARAMETER  :: IGEO_IGTYP  = 
@@ -63,7 +63,7 @@ c=======================================================================
 c----------------------------------------------------------------------- 
 c 
       TYPE PROP_PARAM_                      ! (NUMGEO)
-        CHARACTER(len=nchartitle) :: TITLE  ! Property title
+        CHARACTER(len=NCHARTITLE) :: TITLE  ! Property title
         INTEGER     :: PROP_ID
         INTEGER     :: NLAY   
         

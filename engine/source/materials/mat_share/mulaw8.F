@@ -118,7 +118,6 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "scr19_c.inc"
 #include      "timeri_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -186,8 +185,6 @@ C-----------------------------------------------
 !
       CHARACTER OPTION*256
       INTEGER SIZE
-      CHARACTER IUSER_KEY*ncharline
-
       INTEGER :: NRATE
       my_real :: FISOKIN
       my_real, DIMENSION(NEL), TARGET :: VECNUL

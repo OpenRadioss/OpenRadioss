@@ -37,20 +37,20 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "units_c.inc"
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IKAD(0:*),KINIV,NINIV
       CHARACTER KEY0(*)*5
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "units_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -60,7 +60,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,M,N,NBC,K,K3,IV1(40),IKEY,JJ,ISK,IFM,IOS,IGN
       my_real V,VTX,VTY,VTZ
-      CHARACTER CARTE*ncharline, KEY2*5, KEY3*5
+      CHARACTER KEY2*5, KEY3*5
+      CHARACTER(LEN=NCHARLINE100)::CARTE
 C-----------------------------------------------
       K=0
       IOS = 0

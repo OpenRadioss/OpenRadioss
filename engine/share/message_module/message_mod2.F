@@ -28,11 +28,12 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE MESSAGE_MOD2
-#include      "nchar_c.inc"
+C
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARLINE
       TYPE TMESSAGE
 C message size
         INTEGER SMESSAGE
-        CHARACTER*ncharline,DIMENSION(:), ALLOCATABLE :: MESSAGE
+        CHARACTER(LEN=NCHARLINE100),DIMENSION(:), ALLOCATABLE :: MESSAGE
 C dimension : size
       END TYPE TMESSAGE
 c
@@ -61,7 +62,7 @@ C better than a durty one
       PARAMETER (ANINFO_BLIND_2=4)
       PARAMETER (ANINFO_MSG    =4)
 
-      CHARACTER*ncharline, DIMENSION(:), ALLOCATABLE :: MESSAGESFILE
+      CHARACTER(LEN=NCHARLINE), DIMENSION(:), ALLOCATABLE :: MESSAGESFILE
       INTEGER SMESSAGESFILE   
 
       INTEGER NCHAROUT

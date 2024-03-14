@@ -38,25 +38,18 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
       USE MULTI_FVM_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nchar_c.inc"  
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        INTEGER NB_KEY,CPT_KEY
-       CHARACTER(LEN=ncharkey) ::  KEY2,KEY2_READ
-       CHARACTER(LEN=ncharline) ::  KEY3_READ,KEY3_GLOB
+       CHARACTER(LEN=NCHARKEY) ::  KEY2,KEY2_READ
+       CHARACTER(LEN=NCHARLINE100) ::  KEY3_READ,KEY3_GLOB
        TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

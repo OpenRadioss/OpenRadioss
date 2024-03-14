@@ -618,8 +618,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       MODULE GROUPDEF_MOD
 C----------------------------------------------------------------------- 
-#include "nchar_c.inc"     
-!#include "nchara_c.inc"   !!!  engine
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARTITLE
 c=======================================================================      
 !---------
 !   NEW DATA STRUCTURE
@@ -644,7 +643,7 @@ C=======================================================================
 !---TIME HISTORY ( /TH et /ATH )
         INTEGER, DIMENSION(:)   ,ALLOCATABLE :: NVARTH ! - ! nb of subset TH/ATH variable
 !---
-        CHARACTER :: TITLE*nchartitle ! SUBSET title
+        CHARACTER(LEN=NCHARTITLE) :: TITLE ! SUBSET title
       END TYPE SUBSET_
 C-----------------------------------------------------------------------
 
@@ -657,7 +656,7 @@ C=======================================================================
 C-----------------------------------------------------------------------
       TYPE GROUP_
         INTEGER   :: ID ! - GROUP identifier
-        CHARACTER :: TITLE*nchartitle ! GROUP title
+        CHARACTER(LEN=NCHARTITLE) :: TITLE ! GROUP title
         INTEGER   :: SET_GROUP ! need to not printout empty set groups
         INTEGER   :: NENTITY ! - Entities' number of one the GROUP (NODES, ELEMENTS, PARTS)
         INTEGER, DIMENSION(:),ALLOCATABLE :: ENTITY   ! -Entity identifier (node, element or part)
@@ -702,7 +701,7 @@ C=======================================================================
 C-----------------------------------------------------------------------
       TYPE SURF_
         INTEGER   :: ID ! - SURFACE (or LINE) identifier
-        CHARACTER :: TITLE*nchartitle ! SURF title
+        CHARACTER(LEN=NCHARTITLE) :: TITLE ! SURF title
         INTEGER   :: NSEG ! - Number of surfaces (lines) within  /SURF
         INTEGER   :: NSEG_IGE    ! Number of iso-surfaces
         INTEGER   :: IAD_IGE    ! Pointer to fictive node in IGA tabulars

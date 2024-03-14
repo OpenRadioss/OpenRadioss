@@ -39,6 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SENSOR_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +56,6 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -66,7 +66,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NBC, K, IKEY, N1, N
       CHARACTER KEY2*5, KEY3*5, KEY4*5
-      CHARACTER  CART*ncharline,LINE*ncharline
+      CHARACTER(LEN=NCHARLINE100)::CART
+      CHARACTER(LEN=NCHARLINE100)::LINE
 C
       IKEY=KOUTP
       TOUTP0 = ZERO

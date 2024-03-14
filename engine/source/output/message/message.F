@@ -368,7 +368,11 @@ Chd|====================================================================
      .                  R5    ,R6    ,R7    ,R8    ,R9   ,
      .                  C1    ,C2    ,C3    ,C4    ,
      .                  C5    ,C6    ,C7    ,C8    ,C9    )
-      USE MESSAGE_MOD2 
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MESSAGE_MOD2
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C Usage sample :
 C      USE MESSAGE_MOD 
@@ -398,7 +402,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "nchar_c.inc"
+#include      "units_c.inc"
+#include      "comlock.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -422,23 +427,18 @@ C-----------------------------------------------
      .                 C1,C2,C3,C4,
      .                 C5,C6,C7,C8,C9
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "units_c.inc"
-#include      "comlock.inc"
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER             IBUF(10)
       my_real             RBUF(10)
-      CHARACTER*ncharline CBUF(10)
+      CHARACTER(LEN=NCHARLINE100):: CBUF(10)
 C
-      CHARACTER*ncharline TMPLINE,MYFMT,TMPBUF
+      CHARACTER(LEN=NCHARLINE100):: TMPLINE,MYFMT,TMPBUF
       CHARACTER(LEN=NCHAROUT) ::  TMPOUT
       INTEGER ITYPE,ILINE,I,I0,J,J0,SBUFMSG(2),IFILE,IOLD,
      .        INDXI,INDXR,INDXC,INDXTMPOUT,BUFLEN,
      .        STMP
-      CHARACTER*ncharline BUFMSG(2,100),BUFFMT(2,100)
+      CHARACTER(LEN=NCHARLINE100):: BUFMSG(2,100),BUFFMT(2,100)
 C
       WRITE(ISTDO,'(/A,I10)')'MESSAGE ID : ',MSGID
       IF (IOUT/=0) THEN
