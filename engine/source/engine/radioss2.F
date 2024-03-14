@@ -880,10 +880,6 @@ C      CALL TRACE_IN(19,0,ZERO)
 C      IF(ISPMD==0) CALL XTIME0(NNODES)
 C      CALL TRACE_OUT(19)
 
-      CALL TRACE_IN(17,1,ZERO)
-C end init rdresa after call xtime0
-      CALL INIRESA(H3D_DATA,PINCH_DATA)
-      CALL TRACE_OUT(17)
 
       CALL INIPAR(ITID,3,NNODES,INPUTNAM,GOT_INPUT,NBTASK)
 
@@ -899,6 +895,12 @@ C end init rdresa after call xtime0
      .               " /PARITH/ON, switching to /PARITH/OFF"
         ENDIF
       ENDIF
+
+      CALL TRACE_IN(17,1,ZERO)
+C end init rdresa after call xtime0
+      CALL INIRESA(H3D_DATA,PINCH_DATA)
+      CALL TRACE_OUT(17)
+
 
       IF(ISPMD==0) THEN
 
