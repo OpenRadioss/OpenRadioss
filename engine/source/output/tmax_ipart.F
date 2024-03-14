@@ -37,6 +37,7 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE H3D_MOD
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARKEY
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,7 +49,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "scr17_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -65,7 +65,10 @@ C-----------------------------------------------
       INTEGER IH3D,NG,ITY,NFT,IKEY,K_LEN,ID_INPUT,ID,NH3D_P
 
       INTEGER :: NKPART(NPART,3),NOPART(3)
-      CHARACTER  KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey, KEY5*ncharkey
+      CHARACTER(LEN=NCHARKEY) :: KEY2
+      CHARACTER(LEN=NCHARKEY) :: KEY3
+      CHARACTER(LEN=NCHARKEY) :: KEY4
+      CHARACTER(LEN=NCHARKEY) :: KEY5
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C----------------------------------------------- 

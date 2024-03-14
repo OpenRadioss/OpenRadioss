@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE OUTMAX_MOD
       USE FVBAG_MOD , only : FVBAG_DATA, NFVBAG
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +79,6 @@ C-----------------------------------------------
 #include      "scr16_c.inc"
 #include      "param_c.inc"
 #include      "sphcom.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -99,7 +99,7 @@ C-----------------------------------------------
      .   IXC(NIXC,NUMELC),IXTG(NIXTG,NUMELTG),IPARTC(*),IPARTTG(*),IFLOW(*),
      .   IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),NV46,MONVOL(SMONVOL),NPBY(NNPBY,*),
      .   IPARI(NPARI,NINTER),WEIGHT(*),NODGLOB(*)
-      CHARACTER*ncharline KEYWORD
+      CHARACTER(LEN=NCHARLINE100):: KEYWORD
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
       my_real , INTENT(IN) :: AR(3,NUMNOD)
       INTEGER ,INTENT(IN) :: IPARTSP(NUMSPH),IPARTR(NUMELR),IPARTP(NUMELP),

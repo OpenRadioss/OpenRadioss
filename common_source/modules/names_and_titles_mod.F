@@ -41,11 +41,12 @@ Chd|====================================================================
       MODULE NAMES_AND_TITLES_MOD
 C-----------------------------------------------
             ! Global parameters for strings
-            PARAMETER (NCHARKEY      = 20)
-            PARAMETER (NCHARLINE     = 500)
-            PARAMETER (NCHARTITLE    = 500)
-            PARAMETER (LINE120       = 120)
-            PARAMETER (NCHARFIELD    = 20)
+            PARAMETER (NCHARKEY      = 20)                      ! Max lengts of KEY input
+            PARAMETER (NCHARLINE     = 500)                     ! Line read & write for Starter. Includes & titles can have up to 500 chars
+            PARAMETER (NCHARLINE100  = 100)                     ! Line Read & write for Engine. Must be kept at size 100
+            PARAMETER (NCHARTITLE    = 500)                     ! Titles / and path
+            PARAMETER (LINE120       = 120)                     ! Line of size 120 / exists in some parts of code
+            PARAMETER (NCHARFIELD    = 20)                      ! lengts of a field for Float input storage / 20
 
             ! Parameters for NAMES_AND_TITLES type
             PARAMETER (LTITLE        = 100)

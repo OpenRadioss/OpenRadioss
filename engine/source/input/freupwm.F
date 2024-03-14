@@ -46,6 +46,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE ALE_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,12 +60,11 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IKEY,ID
-      CHARACTER TMPLINE*ncharline
+      CHARACTER(LEN=NCHARLINE100):: TMPLINE
       CHARACTER KEY2*5, KEY3*5,KEY4*5
 C
       IKEY=KUPWM

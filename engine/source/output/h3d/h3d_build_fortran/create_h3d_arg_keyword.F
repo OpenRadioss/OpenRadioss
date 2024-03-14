@@ -39,17 +39,17 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IS_ALL, IS_UPPER, IS_LOWER, S_ARG, VALUE, IS_ARG, IS_ARG_ALL, IS_ARG_LOWER, IS_ARG_UPPER,
      .        IS_DEF, IS_ARG_DEF
-      CHARACTER(LEN=ncharkey) ::  KEY2, KEY3, KEY4,KEY5,KEY6,KEY7,KEY8
+      CHARACTER(LEN=NCHARKEY) ::  KEY2, KEY3, KEY4,KEY5,KEY6,KEY7,KEY8
       CHARACTER(LEN=S_ARG) ::  ARG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

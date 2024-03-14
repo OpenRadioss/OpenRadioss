@@ -35,6 +35,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE STACK_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,13 +47,15 @@ C-----------------------------------------------
 #include      "scr14_c.inc"
 #include      "scr25_c.inc"
 #include      "sms_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JERR, IXITKEY
-      CHARACTER KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey, 
-     .          KEY5*ncharkey, KEY6*ncharkey
+      CHARACTER(LEN=NCHARKEY) :: KEY2
+      CHARACTER(LEN=NCHARKEY) :: KEY3
+      CHARACTER(LEN=NCHARKEY) :: KEY4
+      CHARACTER(LEN=NCHARKEY) :: KEY5
+      CHARACTER(LEN=NCHARKEY) :: KEY6
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

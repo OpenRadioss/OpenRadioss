@@ -223,6 +223,7 @@ Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE SENSOR_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY:NCHARTITLE
 !$COMMENT
 !       SENSOR_MOD :
 !              create the structure for the sensor energy
@@ -235,7 +236,6 @@ C-----------------------------------------------
 C   m y _ r e a l
 C-----------------------------------------------
 #include "my_real.inc"
-#include "nchar_c.inc"
 C-----------------------------------------------
 C     fixed array sizes
 C-----------------------------------------------
@@ -257,7 +257,7 @@ C-----------------------------------------------
         INTEGER :: STATUS      !   sensor status
                                !          = 0   : deactivated
                                !          = 1   : activated at TSTART
-        CHARACTER(LEN = nchartitle) :: TITLE
+        CHARACTER(LEN = NCHARTITLE) :: TITLE
         my_real :: TCRIT       !   time when activation criterion is met
         my_real :: TMIN        !   time duration of crit value before activation
         my_real :: TDELAY      !   time delay before activation (after Tmin)

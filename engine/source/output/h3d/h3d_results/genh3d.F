@@ -154,6 +154,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE FVBAG_MOD , only:FVBAG_DATA, FVDATA, NFVBAG, AIRBAGS_TOTAL_FVM_IN_H3D, FVSPMD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
       USE PLYXFEM_MOD
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD
@@ -309,7 +310,7 @@ C-----------------------------------------------
       SAVE CBUF,ICBUF
 
       CHARACTER*80 STR, MES*30, CAUX,TITL*100, H3DTITLE
-      CHARACTER*ncharline KEYWORD
+      CHARACTER(LEN=NCHARLINE100):: KEYWORD
       CHARACTER CH_H3D*4,FILNAM*100, CHANIM1*4
       INTEGER I, NBF, NBPART, MAGIC, J, IFUNC, FILEN, NPSOL,NSENSOR,
      .        NODCUT,NELCUT,LENR,LENI,LENCUT,IXEL,

@@ -56,11 +56,11 @@ C-----------------------------------------------
       USE STACK_MOD      
       USE MULTI_FVM_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -83,7 +83,7 @@ C-----------------------------------------------
      .   MDS_MATID(*),IMDSVAR,NERCVOIS(SNERCVOIS),NESDVOIS(SNESDVOIS),LERCVOIS(SLERCVOIS),LESDVOIS(SLESDVOIS)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
-      CHARACTER*ncharline KEYWORD
+      CHARACTER(LEN=NCHARLINE100):: KEYWORD
       TYPE (MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       my_real,INTENT(IN) :: BUFMAT(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT

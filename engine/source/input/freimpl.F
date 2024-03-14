@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE IMP_PCG_PROJ
       USE IMP_SPBRM
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,7 +67,6 @@ C-----------------------------------------------
 #include      "com06_c.inc"
 #include      "buckcom.inc"
 #include      "scr06_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -75,7 +75,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NBC, K, IKEY,IM,J,NJ,KK, IOERR,E_ID
-      CHARACTER  CARTE*ncharline,TITLE*72, KEY2*5, KEY3*5, KEY4*5
+      CHARACTER  TITLE*72, KEY2*5, KEY3*5, KEY4*5
+      CHARACTER(LEN=NCHARLINE100)::CARTE
       my_real
      .   TMP
 C----------------------------------------

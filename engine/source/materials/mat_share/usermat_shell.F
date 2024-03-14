@@ -113,6 +113,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
       USE LAW_USERSH
       USE TABLE_MOD
       USE MAT_ELEM_MOD
@@ -141,7 +142,6 @@ C-----------------------------------------------
 #include      "userlib.inc"
 #include      "com_xfem1.inc"
 #include      "timeri_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -252,7 +252,7 @@ c----
 !
       CHARACTER OPTION*256
       INTEGER SIZE
-      CHARACTER IUSER_KEY*ncharline
+      CHARACTER (LEN=NCHARLINE100):: IUSER_KEY
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------

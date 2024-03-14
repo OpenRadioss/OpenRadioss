@@ -32,19 +32,16 @@ C-----------------------------------------------
 C  M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nchar_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN)              :: ID,ITYPE,SBUFMSG
-      CHARACTER*ncharline, INTENT(IN) :: BUFMSG(SBUFMSG)
+      CHARACTER(LEN=NCHARLINE100), INTENT(IN) :: BUFMSG(SBUFMSG)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -70,10 +67,10 @@ C-----------------------------------------------
           JDX=1
           MESSAGES(ITYPE,ID)%MESSAGE(I)=' '
           J=1
-          DO WHILE(J<=ncharline)
+          DO WHILE(J<=NCHARLINE100)
             IF (BUFMSG(I)(J:J)==achar(92)) then !'\') THEN
 C             => skip \ print next
-              IF (J<ncharline) THEN
+              IF (J<NCHARLINE100) THEN
                 J=J+1 
                 IF (BUFMSG(I)(J:J)=='n') THEN
                   MESSAGES(ITYPE,ID)%MESSAGE(I)(JDX:JDX)=CHAR(10)

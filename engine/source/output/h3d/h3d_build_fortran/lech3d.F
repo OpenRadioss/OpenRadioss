@@ -96,10 +96,22 @@ C-----------------------------------------------
       USE STACK_MOD    
       USE H3D_INC_MOD
       USE LOADS_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com04_c.inc"
+#include      "com08_c.inc"
+#include      "param_c.inc"
+#include      "scr17_c.inc"
+#include      "task_c.inc"
+#include      "com01_c.inc"
+#include      "spmd_c.inc"
+#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -113,18 +125,6 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
       TYPE (LOADS_), INTENT(IN)    :: LOADS
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com04_c.inc"
-#include      "com08_c.inc"
-#include      "param_c.inc"
-#include      "scr17_c.inc"
-#include      "task_c.inc"
-#include      "com01_c.inc"
-#include      "spmd_c.inc"
-#include      "vect01_c.inc"
-#include      "nchar_c.inc"  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -152,9 +152,17 @@ C-----------------------------------------------
      .        IS_MODEL_NPT,IS_MODEL_PLY,IS_MODEL_LAYER,ISKIND,IOUTER,IPEXT,
      .        IS_ID,ID,ID_MAX,IS_ID_ALL,NINEFRIC,N19,IFAIL,CPT_IRUP,CPT_IRUP2
       INTEGER MLW,NEL,NG,JTURB,NLAY,NUVAR,IPLY,IMAT,ISUBSTACK,ID_PLY_TMP
-      CHARACTER  KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey, KEY5*ncharkey, KEY6*ncharkey,
-     .           KEY7*ncharkey,KEY8*ncharkey,KEY3_GLOB*ncharline,KEY3_READ*ncharline, 
-     .           KEY2_READ*ncharkey
+
+      CHARACTER(LEN=NCHARKEY)::KEY2
+      CHARACTER(LEN=NCHARKEY)::KEY3
+      CHARACTER(LEN=NCHARKEY)::KEY4
+      CHARACTER(LEN=NCHARKEY)::KEY5
+      CHARACTER(LEN=NCHARKEY)::KEY6
+      CHARACTER(LEN=NCHARKEY)::KEY7
+      CHARACTER(LEN=NCHARKEY)::KEY8
+      CHARACTER(LEN=NCHARKEY)::KEY2_READ
+      CHARACTER(LEN=NCHARLINE100)::KEY3_READ
+      CHARACTER(LEN=NCHARLINE100)::KEY3_GLOB
 
       CHARACTER*64 MDS_LABEL_TMP
       
@@ -488,7 +496,7 @@ c
 C-------------------------------------------------- 
 C SEARCH '=' character
 C-------------------------------------------------- 
-         DO I=1,ncharkey
+         DO I=1,NCHARKEY
            IF ( KEY3(I:I) == '=' ) IS_CHAR_KEY3 = 0
            IF ( KEY3(I:I) /= ' ' ) IS_EMPTY_KEY3 = 0
            IF ( KEY4(I:I) == '=' ) IS_CHAR_KEY4 = 0
@@ -627,7 +635,7 @@ C--------------------------------------------------
 C-------------------------------------------------- 
          CPT = 0
          IF ( IS_CHAR_KEY3 == 1 .AND. IS_EMPTY_KEY3 == 0) THEN
-           DO I=1,ncharkey
+           DO I=1,NCHARKEY
              IF ( KEY3(I:I) /= ' ' ) THEN 
                CPT = CPT + 1
                KEY3_GLOB(CPT:CPT) = KEY3(I:I)
@@ -637,7 +645,7 @@ C--------------------------------------------------
          IF ( IS_CHAR_KEY4 == 1 .AND. IS_EMPTY_KEY4 == 0 ) THEN
            CPT = CPT + 1
            KEY3_GLOB(CPT:CPT) = '/'
-           DO I=1,ncharkey
+           DO I=1,NCHARKEY
              IF ( KEY4(I:I) /= ' ' ) THEN 
                CPT = CPT + 1
                KEY3_GLOB(CPT:CPT) = KEY4(I:I)
@@ -647,7 +655,7 @@ C--------------------------------------------------
          IF ( IS_CHAR_KEY5 == 1 .AND. IS_EMPTY_KEY5 == 0 ) THEN
            CPT = CPT + 1
            KEY3_GLOB(CPT:CPT) = '/'
-           DO I=1,ncharkey
+           DO I=1,NCHARKEY
              IF ( KEY5(I:I) /= ' ' ) THEN 
                CPT = CPT + 1
                KEY3_GLOB(CPT:CPT) = KEY5(I:I)
@@ -657,7 +665,7 @@ C--------------------------------------------------
          IF ( IS_CHAR_KEY6 == 1 .AND. IS_EMPTY_KEY6 == 0 ) THEN
            CPT = CPT + 1
            KEY3_GLOB(CPT:CPT) = '/'
-           DO I=1,ncharkey
+           DO I=1,NCHARKEY
              IF ( KEY6(I:I) /= ' ' ) THEN 
                CPT = CPT + 1
                KEY3_GLOB(CPT:CPT) = KEY6(I:I)
@@ -667,7 +675,7 @@ C--------------------------------------------------
          IF ( IS_CHAR_KEY7 == 1 .AND. IS_EMPTY_KEY7 == 0 ) THEN
            CPT = CPT + 1
            KEY3_GLOB(CPT:CPT) = '/'
-           DO I=1,ncharkey
+           DO I=1,NCHARKEY
              IF ( KEY7(I:I) /= ' ' ) THEN 
                CPT = CPT + 1
                KEY3_GLOB(CPT:CPT) = KEY7(I:I)
@@ -677,7 +685,7 @@ C--------------------------------------------------
          IF ( IS_CHAR_KEY8 == 1 .AND. IS_EMPTY_KEY8 == 0 ) THEN
            CPT = CPT + 1
            KEY3_GLOB(CPT:CPT) = '/'
-           DO I=1,ncharkey
+           DO I=1,NCHARKEY
              IF ( KEY8(I:I) /= ' ' ) THEN 
                CPT = CPT + 1
                KEY3_GLOB(CPT:CPT) = KEY8(I:I)

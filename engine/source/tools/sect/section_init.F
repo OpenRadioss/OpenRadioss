@@ -40,6 +40,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INOUTFILE_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +66,8 @@ C-----------------------------------------------
       INTEGER I,J,IR, N, IR1, IR2, IFILNAM(2548),LROOTLEN,LEN,K0,ID_SEC
       my_real
      .   TT1, TT2, TT3, TMP(20)
-      CHARACTER FILNAM*500,LCHRUN*2,LCHRUN_P1*2,CH_IDSEC*10
+      CHARACTER(LEN=NCHARLINE100) ::  FILNAM
+      CHARACTER LCHRUN*2,LCHRUN_P1*2,CH_IDSEC*10
       LOGICAL FEXIST
       REAL*4 R4
       INTEGER :: LEN_TMP_NAME
@@ -86,7 +88,7 @@ C-----------------------------------------------
           WRITE(LCHRUN,'(I2.2)')IRUN
           LROOTLEN=0
           DO I=1,500
-c ncharline of starter =500
+c
             FILNAM(I:I)=CHAR(NOM_SECT((J-1)*500+I))
             IF(FILNAM(I:I)/=' ')LROOTLEN=LROOTLEN+1
           ENDDO
@@ -116,7 +118,7 @@ C    FILNAM=ROOTNAM(1:ROOTLEN)//'SC'//CHRUN
             WRITE(LCHRUN,'(I2.2)')IRUN
             LROOTLEN=0
             DO I=1,500
-c ncharline of starter =500
+c
               IF(CHAR(NOM_SECT((J-1)*500+I))/=' ')THEN
                 LROOTLEN=LROOTLEN+1
                 FILNAM(LROOTLEN:LROOTLEN)=CHAR(NOM_SECT((J-1)*500+I))
@@ -152,7 +154,7 @@ C-----------------------------------------------
        IF(NSTRF(2)>=1)THEN
         LROOTLEN=0
         DO I=1,500
-c ncharline of starter =500
+c
           FILNAM(I:I)=CHAR(NOM_SECT((ISECTR-1)*500+I))
           IF(FILNAM(I:I)/=' ')LROOTLEN=LROOTLEN+1
         ENDDO

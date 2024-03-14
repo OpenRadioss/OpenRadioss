@@ -38,6 +38,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
       USE H3D_MOD         
       USE INOUTFILE_MOD
       USE SENSOR_MOD
@@ -77,7 +78,8 @@ C-----------------------------------------------
       INTEGER J,MANIM0, MREST0, MSTOP0, MFILR, MCYCLE, LK2, IKEY, WMCHECK0, 
      .   MSG_R2R, R2R_MSTOP_LOC,ICTLSTOP0, MH3D0,SENS_ID
       my_real TMPMAN(50), TMAN,TMAN_LOC
-      CHARACTER FILNAM*100, CARTE*ncharline, KEY2*80, FMT*80, KEY0(NKEY)*5,REC*1
+      CHARACTER FILNAM*100, KEY2*80, FMT*80, KEY0(NKEY)*5,REC*1
+      CHARACTER(LEN=NCHARLINE100)::CARTE
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
 C-----------------------------------------------

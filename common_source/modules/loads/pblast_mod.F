@@ -3719,6 +3719,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3728,7 +3729,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 !#include      "com04_c.inc"
 #include      "units_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -3753,7 +3753,7 @@ C-----------------------------------------------
       DATA cst_255_div_ln_Z1_on_ZN/-38.147316611455952998/
       DATA log10_ /2.30258509299405000000/
       DATA FAC_unit/3.966977216838196139019/
-      CHARACTER*ncharline :: MSGOUT
+      CHARACTER(LEN=NCHARLINE) :: MSGOUT
       INTEGER,EXTERNAL :: DICHOTOMIC_SEARCH_R_DESC,DICHOTOMIC_SEARCH_R_ASC
 
 C-----------------------------------------------

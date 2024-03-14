@@ -33,6 +33,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,13 +47,13 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------      
       INTEGER K, IKEY, II, NB_PARTS, KK
-      CHARACTER CARTE*ncharline, KEY1*5, KEY2*5, KEY3*5,
-     .          KEY4*5, IOPT*5   
+      CHARACTER KEY1*5, KEY2*5, KEY3*5,
+     .          KEY4*5, IOPT*5
+      CHARACTER(LEN=NCHARLINE100) :: CARTE
       INTEGER, DIMENSION(:), ALLOCATABLE :: PART_IDS
       K = 0
       IKEY = KALEONOFF

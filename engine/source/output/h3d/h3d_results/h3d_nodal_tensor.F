@@ -52,6 +52,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
       USE ELBUFDEF_MOD 
       USE OUTMAX_MOD
 C-----------------------------------------------
@@ -65,7 +66,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "sphcom.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -73,15 +73,15 @@ C-----------------------------------------------
       my_real
      .   NODAL_TENSOR(*),MASS(*),GEO(NPROPG,*),
      .   PM(NPROPM,*),ANIN(*),TEMP(*),RFLOW(*),VOLMON(*), DIAG_SMS(*),MS(*),
-     .   PDAMA2(2,*),X(*),STIFR(*),STIFN(*),A(3,*),D(3,*),V(3,*), CONT(3,*),
-     .   FCONTG(3,*), FINT(3,*), FEXT(3,*),BUFMAT(*)
+     .   PDAMA2(2,*),X(*),STIFR(*),STIFN(*),A(3,*),D(3,*),V(3,*), 
+     .   CONT(3,*),FCONTG(3,*), FINT(3,*), FEXT(3,*),BUFMAT(*)
       INTEGER IPARG(NPARG,*),IFUNC,NODE_ID(*),
      .   INFO1,INFO2,IS_WRITTEN_NODE(*),H3D_PART(*),ITAB(*),
      .   IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),IPARTTG(*),IFLOW(*),
      .   IXS(NIXS,*),IXQ(NIXQ,*),NV46,MONVOL(*),
      .   IXS10(6,*) ,IXS16(8,*) ,IXS20(12,*) ,
      .   IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),IAD_ELEM(2,*),FR_ELEM(*),WEIGHT(*)
-      CHARACTER*ncharline KEYWORD
+      CHARACTER(LEN=NCHARLINE100) :: KEYWORD
       INTEGER ,INTENT(IN) :: IPARTSP(NUMSPH),IPARTR(NUMELR),IPARTP(NUMELP),
      .                       IPARTT(NUMELT),IPARTS(NUMELS),IPARTQ(NUMELQ)
       INTEGER ,INTENT(IN) :: KXSP(NISP,NUMSPH)

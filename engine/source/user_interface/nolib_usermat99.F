@@ -45,15 +45,15 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE LAW_USERSH
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------      
 #include      "implicit_f.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      CHARACTER,INTENT(INOUT) :: IUSER_KEY*ncharline
+      CHARACTER(LEN=NCHARLINE100),INTENT(INOUT) :: IUSER_KEY
       INTEGER,INTENT(IN) :: ILAW_USER
 C-----------------------------------------------
 C   S o u r c e   L i n e s

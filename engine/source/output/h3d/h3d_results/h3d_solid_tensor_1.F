@@ -52,7 +52,8 @@ C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD    
       USE SCHLIEREN_MOD 
-      USE STACK_MOD               
+      USE STACK_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +66,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "param_c.inc"
 #include      "scr17_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -79,7 +79,7 @@ C     REAL
      .   ISPH3D,IGEO(NPROPGI,*),IS_WRITTEN_SOLID(*),ID_ELEM(*),ITY_ELEM(*),
      .   H3D_PART(*),INFO1,LAYER_INPUT,IR_INPUT,IS_INPUT,IT_INPUT,NG,IS_CORNER_DATA,ID  
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
-      CHARACTER*ncharline KEYWORD
+      CHARACTER(NCHARLINE100) :: KEYWORD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 

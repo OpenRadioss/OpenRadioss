@@ -45,11 +45,11 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "nchar_c.inc"
 #include      "units_c.inc"
 #include      "scr14_c.inc"
 C-----------------------------------------------
@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER IKAD(0:*),IKEY,IREC
       INTEGER NBC
       CHARACTER KEY0(*)*5 
-      CHARACTER(LEN=ncharkey) :: KEY2, KEY3, KEY4, KEY5,KEY6,KEY7,KEY8
+      CHARACTER(LEN=NCHARKEY) :: KEY2, KEY3, KEY4, KEY5,KEY6,KEY7,KEY8
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -67,7 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER(LEN=ncharline):: CARTE,CARTE1,KEY3_GLOB
+      CHARACTER(LEN=NCHARLINE100):: CARTE,CARTE1,KEY3_GLOB
       INTEGER I,J,L,N_H3D_PART,CPT,
      .      IS_CHAR_KEY3,IS_CHAR_KEY4,IS_CHAR_KEY5,IS_CHAR_KEY6,IS_CHAR_KEY7,IS_CHAR_KEY8,
      .      IS_EMPTY_KEY3,IS_EMPTY_KEY4,IS_EMPTY_KEY5,IS_EMPTY_KEY6,IS_EMPTY_KEY7,IS_EMPTY_KEY8
@@ -120,7 +120,7 @@ C--------------------------------------------------
       IS_CHAR_KEY8 = 1
       IS_EMPTY_KEY8 = 1
       KEY3_GLOB = ''
-      DO I=1,ncharkey
+      DO I=1,NCHARKEY
         IF ( KEY3(I:I) == '=' ) IS_CHAR_KEY3 = 0
         IF ( KEY3(I:I) /= ' ' ) IS_EMPTY_KEY3 = 0
         IF ( KEY4(I:I) == '=' ) IS_CHAR_KEY4 = 0
@@ -137,7 +137,7 @@ C--------------------------------------------------
 C-------------------------------------------------- 
       CPT = 0
       IF ( IS_CHAR_KEY3 == 1 .AND. IS_EMPTY_KEY3 == 0) THEN
-        DO I=1,ncharkey
+        DO I=1,NCHARKEY
           IF ( KEY3(I:I) /= ' ' ) THEN 
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY3(I:I)
@@ -147,7 +147,7 @@ C--------------------------------------------------
       IF ( IS_CHAR_KEY4 == 1 .AND. IS_EMPTY_KEY4 == 0 ) THEN
         CPT = CPT + 1
         KEY3_GLOB(CPT:CPT) = '/'
-        DO I=1,ncharkey
+        DO I=1,NCHARKEY
           IF ( KEY4(I:I) /= ' ' ) THEN 
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY4(I:I)
@@ -157,7 +157,7 @@ C--------------------------------------------------
       IF ( IS_CHAR_KEY5 == 1 .AND. IS_EMPTY_KEY5 == 0 ) THEN
         CPT = CPT + 1
         KEY3_GLOB(CPT:CPT) = '/'
-        DO I=1,ncharkey
+        DO I=1,NCHARKEY
           IF ( KEY5(I:I) /= ' ' ) THEN 
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY5(I:I)
@@ -167,7 +167,7 @@ C--------------------------------------------------
       IF ( IS_CHAR_KEY6 == 1 .AND. IS_EMPTY_KEY6 == 0 ) THEN
         CPT = CPT + 1
         KEY3_GLOB(CPT:CPT) = '/'
-        DO I=1,ncharkey
+        DO I=1,NCHARKEY
           IF ( KEY6(I:I) /= ' ' ) THEN 
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY6(I:I)
@@ -177,7 +177,7 @@ C--------------------------------------------------
       IF ( IS_CHAR_KEY7 == 1 .AND. IS_EMPTY_KEY7 == 0 ) THEN
         CPT = CPT + 1
         KEY3_GLOB(CPT:CPT) = '/'
-        DO I=1,ncharkey
+        DO I=1,NCHARKEY
           IF ( KEY7(I:I) /= ' ' ) THEN 
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY7(I:I)
@@ -187,7 +187,7 @@ C--------------------------------------------------
       IF ( IS_CHAR_KEY8 == 1 .AND. IS_EMPTY_KEY8 == 0 ) THEN
         CPT = CPT + 1
         KEY3_GLOB(CPT:CPT) = '/'
-        DO I=1,ncharkey
+        DO I=1,NCHARKEY
           IF ( KEY8(I:I) /= ' ' ) THEN 
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY8(I:I)

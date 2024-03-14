@@ -34,6 +34,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE GROUPDEF_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,7 +42,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "nchar_c.inc"
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
 #include      "tabsiz_c.inc"
@@ -55,7 +55,7 @@ C-----------------------------------------------
       INTEGER ISU,I,J,K,ERR,L_SURF,ID,NSEG,TYPE,ID_MADYMO,IAD_BUFR,
      .        NB_MADYMO,TYPE_MADYMO,LEVEL,TH_SURF,ISH4N3N,NSEG_R2R_ALL,
      .        NSEG_R2R_SHARE,NODE,ELTYP,ELEM,ITITLE(LTITR)
-      CHARACTER(LEN=nchartitle) :: TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, ALLOCATABLE, DIMENSION (:)  ::  ISURFI
 C-----------------------------------------------
       DO ISU=1,NSURF

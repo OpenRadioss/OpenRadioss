@@ -36,6 +36,7 @@ Chd|====================================================================
 c
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +56,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "remesh_c.inc"
 #include      "sphcom.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -83,11 +83,12 @@ C-----------------------------------------------
      . MEAN,SD,MEAN_INPUT,SD_INPUT,TEMP,INTERV,
      . VALUE,INCR_X,INCR_Y,
      . X_MINVALUE, X_MAXVALUE, Y_MINVALUE, Y_MAXVALUE
-      CHARACTER*ncharline CHAR(100)
-      CHARACTER*ncharline CHAR1(100)
-      CHARACTER*ncharline CHAR2
+      CHARACTER(LEN=NCHARLINE) :: CHAR(100)
+      CHARACTER(LEN=NCHARLINE) :: CHAR1(100)
+      CHARACTER(LEN=NCHARLINE) :: CHAR2
+      CHARACTER(LEN=NCHARLINE) :: TXT_X
+      CHARACTER(LEN=NCHARLINE) :: TXT_Y
       CHARACTER*1 SYMBOL
-      CHARACTER*ncharline TXT_X, TXT_Y
       INTEGER, DIMENSION(:,:),  ALLOCATABLE :: GRID
 C--------------------------------------------------------------
 C GENERIC ROUTINE TO PLOT CURVES OR HISTOGRAMS IN .out files

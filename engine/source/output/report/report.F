@@ -34,6 +34,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INOUTFILE_MOD
       USE USER_INTERFACE_MOD
+      USE NAMES_AND_TITLES_MOD, ONLY: LPATH
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,7 +69,7 @@ C-----------------------------------------------
 
       CHARACTER FILNAM*100,MVWNAM*100
       CHARACTER LINE*200
-      CHARACTER CWD*ncharline
+      CHARACTER(LEN=LPATH) :: CWD
       CHARACTER*100  FMW
       CHARACTER*8  DATE
       CHARACTER*10  TIME

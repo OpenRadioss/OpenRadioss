@@ -33,6 +33,10 @@ Chd|====================================================================
      .                   INFO2   , IS_WRITTEN_ONED, IPARTT  , IPARTP   , IPARTR,
      .                   H3D_PART, KEYWORD        )
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -43,7 +47,6 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -54,7 +57,7 @@ C     REAL
      .   IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
      .   IS_WRITTEN_ONED(*),ID_ELEM(*),ITY_ELEM(*),
      .        IPARTT(*) ,IPARTP(*),IPARTR(*),H3D_PART(*)
-      CHARACTER*ncharline KEYWORD
+      CHARACTER(LEN=NCHARLINE100) :: KEYWORD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
