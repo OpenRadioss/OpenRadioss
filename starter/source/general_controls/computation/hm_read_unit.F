@@ -83,10 +83,19 @@ C     UNITAB(2)         Mass unit
 C     UNITAB(3)         Length unit
 C     UNITAB(4)         Time unit
 C=======================================================================
+      UNITE = 0
+      DO I = 1, NUNIT0+NSUBMOD
+C                     12345678901234567890
+        FIELD11(I) = '                    '
+        FIELD22(I) = '                    '
+        FIELD33(I) = '                    '
+      ENDDO
+
       IS_AVAILABLE = .FALSE.
 C----------------------------------------------
       WRITE(IOUT,1000)
 C
+      UNITE = 0
       UNITAB%NUNITS = NUNIT0+NSUBMOD+1
       UNITAB%NUNIT0 = NUNIT0
       ALLOCATE(UNITAB%UNIT_ID(NUNIT0+NSUBMOD+1))
@@ -491,7 +500,7 @@ C---
 
         WRITE(IOUT,1003) KEYMI,KEYLI,KEYTI,
      .                   FAC_M_INPUT,FAC_L_INPUT,FAC_T_INPUT
-        DO I=2,UNITAB%NUNITS
+        DO I=2,NUNITS
 c------------------------------------------------------------    
           DO K=1,20
             FIELD1(K:K) = FIELD11(I-1)(K:K)
@@ -594,7 +603,7 @@ c-----------------------------------------------------------
 C
 C     transformation en valeurs relatives par rapport aux unites globales
 C
-      DO N=1,UNITAB%NUNITS
+      DO N=1,NUNITS
         IF (N >= 2) THEN
 
           IF (UNITAB%FAC_M(N) == ZERO) THEN
@@ -621,6 +630,8 @@ C
       UNITAB%FAC_M(1)   = FAC_M_INPUT / FAC_MASS  
       UNITAB%FAC_L(1)   = FAC_L_INPUT / FAC_LENGTH  
       UNITAB%FAC_T(1)   = FAC_T_INPUT / FAC_TIME 
+
+      UNITAB%NUNITS = NUNITS
 C-----
       RETURN
 C-----
