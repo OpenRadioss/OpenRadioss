@@ -332,6 +332,7 @@ Chd|        STAT_INIMAP1D_FILE_SPMD       source/output/sta/stat_inimap1d_file_s
 Chd|        STAT_INIMAP1D_SPMD            source/output/sta/stat_inimap1d_spmd.F
 Chd|        STAT_INIMAP2D_FILE_SPMD       source/output/sta/stat_inimap2d_file_spmd.F
 Chd|        STAT_INIMAP2D_SPMD            source/output/sta/stat_inimap2d_spmd.F
+Chd|        STOP_SENSOR                   source/tools/sensor/stop_sensor.F
 Chd|        SUFORC3                       source/user_interface/suforc3.F
 Chd|        SWITCH_TO_DTNODA              source/time_step/switch_to_dtnoda.F
 Chd|        TABLE2D_VINTERP_LOG           source/tools/curve/table2d_vinterp_log.F

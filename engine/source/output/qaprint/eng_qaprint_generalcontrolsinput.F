@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE ENG_QAPRINT_GENERALCONTROLSINPUT(IRUNN,OUTPUT,IPARIT,SENSORS)
 C-----------------------------------------------

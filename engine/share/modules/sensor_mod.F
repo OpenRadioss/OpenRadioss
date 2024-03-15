@@ -52,6 +52,7 @@ Chd|        DYNA_WEX                      source/implicit/imp_dyna.F
 Chd|        ECRIT                         source/output/ecrit.F         
 Chd|        ENG_QAPRINT_ANIMINPUT         source/output/qaprint/eng_qaprint_animinput.F
 Chd|        ENG_QAPRINT_DRIVER            source/output/qaprint/eng_qaprint_driver.F
+Chd|        ENG_QAPRINT_GENERALCONTROLSINPUTsource/output/qaprint/eng_qaprint_generalcontrolsinput.F
 Chd|        FILTER_SAE211                 source/tools/sensor/filter_sae211.F
 Chd|        FIXFINGEO                     source/constraints/general/impvel/fixfingeo.F
 Chd|        FIXFLUX                       source/constraints/thermic/fixflux.F

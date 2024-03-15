@@ -154,7 +154,6 @@ Chd|        STACK_MOD                     share/modules/stack_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|        TIME_MOD                      share/modules/time_mod.F      
-Chd|        UNITS_MOD                     share/modules/units_mod.F     
 Chd|        USER_INTERFACE_MOD            share/modules/user_interface_mod.F
 Chd|====================================================================
       SUBROUTINE RADIOSS2(IDATA,MIDATA,RDATA,MRDATA) 

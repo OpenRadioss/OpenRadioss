@@ -500,7 +500,6 @@ Chd|        THGRELEM_MOD                  share/modules/thgrelem_mod.F
 Chd|        THK_MOD                       share/modules/thk_mod.F       
 Chd|        THREAC_MOD                    share/modules/threac_mod.F    
 Chd|        TIME_MOD                      share/modules/time_mod.F      
-Chd|        UNITS_MOD                     share/modules/units_mod.F     
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|        XFEM2VARS_MOD                 share/modules/xfem2vars_mod.F 
 Chd|        i22EDGE_MOD                   ../common_source/modules/interfaces/cut-cell-buffer_mod.F
