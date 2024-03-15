@@ -222,6 +222,7 @@ C-----------------------------------------------
       USE ARRAY_MOD
       USE INTERFACES_MOD
       USE INTBUFDEF_MOD 
+      USE init_seatbelt_rbodies_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -827,8 +828,7 @@ C Seat belts initialization :
 C--------------------------------------------
       IF (N_SEATBELT > 0) CALL INI_SEATBELT(IPARG,ELBUF_TAB,KNOD2EL1D,NOD2EL1D,IXR,
      .                                      X,ITAB,IPM,ALEA,KNOD2ELC,
-     .                                      NOD2ELC,IXC,NPBY,LPBY,SLRBODY,
-     .                                      ICODE)
+     .                                      NOD2ELC,IXC)
 C-----------------------------------------------------
 C     INITIALISATION DES BUFFERS DES ELEMENTS
 C     INITIALISATION DES MASSES ET DES INERTIES
@@ -2082,6 +2082,10 @@ C-------------------------------------
         CALL RETRIRBY(NPBY  ,LPBY   ,
      .                RBY   ,NOM_OPT)
       ENDIF
+C--------------------------------------------
+C Seat belts initialization :
+C--------------------------------------------
+      IF (N_SEATBELT > 0) CALL INIT_SEATBELT_RBODIES(NNPBY,NRBODY,NPBY,SLRBODY,LPBY,SICODE,ICODE,NSLIPRING)
 C-------------------------------------
 C Initialization of rigid materials
 C-------------------------------------

@@ -35,8 +35,7 @@ Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.
 Chd|====================================================================
       SUBROUTINE INI_SEATBELT(IPARG,ELBUF_TAB,KNOD2EL1D,NOD2EL1D,IXR,
      .                        X,ITAB,IPM,ALEA,KNOD2ELC,
-     .                        NOD2ELC,IXC,NPBY,LPBY,SLRBODY,
-     .                        ICODE)
+     .                        NOD2ELC,IXC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,7 +60,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,NGROUP),KNOD2EL1D(*),NOD2EL1D(*),IXR(NIXR,*),ITAB(*),IPM(NPROPMI,*),
      .        KNOD2ELC(*),NOD2ELC(*),IXC(NIXC,*)
-      INTEGER, INTENT(IN) :: NPBY(NNPBY,NRBODY),SLRBODY,LPBY(SLRBODY),ICODE(SICODE)
       my_real               :: X(3,*),ALEA(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
@@ -94,49 +92,6 @@ C-----Reset of TAG_RES from SEATBELT_TAB structure------------------------------
         DO J=1,SEATBELT_TAB(I)%NSPRING
           TAG_RES(SEATBELT_TAB(I)%SPRING(J)) = I
         ENDDO 
-      ENDDO
-
-C-----------------------------------------------------------------------------------
-C
-C-----Check of rbodies for 2d sliprings  -------------------------------------------
-C
-      DO I=1,NSLIPRING
-        IF (SLIPRING(I)%NFRAM > 1) THEN
-          IDRB = 0
-          NFOUND_RBY = 0
-          NFOUND_BCS = 0
-          DO J=1,SLIPRING(I)%NFRAM
-            NOD = SLIPRING(I)%FRAM(J)%ANCHOR_NODE
-C---        check of RBodies ---
-            L = 0
-            DO N=1,NRBODY
-              NSL=NPBY(2,N)
-              DO K=1,NSL              
-                IF ((LPBY(K+L)==NOD).AND.((IDRB==0).OR.(IDRB == N))) THEN
-                  NFOUND_RBY  = NFOUND_RBY  + 1
-                  IDRB = N
-                ENDIF
-              ENDDO
-              L = L+NSL
-            ENDDO
-C---        check of BCS ---
-            IC = ICODE(NOD)
-            IC1=IC/512
-            IC2=(IC-512*IC1)/64
-            BCS_X = IC1/4
-            BCS_Y = (IC1-4*BCS_X)/2
-            BCS_Z = IC1-4*BCS_X-2*BCS_Y
-            IF (BCS_X*BCS_Y*BCS_Z > 0) NFOUND_BCS = NFOUND_BCS + 1
-          ENDDO
-          IF (NFOUND_RBY ==SLIPRING(I)%NFRAM) THEN
-            SLIPRING(I)%RBODY = IDRB
-          ELSEIF (NFOUND_BCS /= SLIPRING(I)%NFRAM) THEN
-            CALL ANCMSG(MSGID=2081,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO_BLIND_1,
-     .                  I1=SLIPRING(I)%ID) 
-          ENDIF
-        ENDIF
       ENDDO
 C
 C-----Preparation for SPMD computation  ---------------------------------------------
