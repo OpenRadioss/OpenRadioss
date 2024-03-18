@@ -227,11 +227,13 @@ C
 C MATERIAUX NON FLUIDES CXX->SPP
       IF (IET > 1 ) THEN
 C------now when IHKT=2, w.r.t. Isolid=1, fac=0.2*0.006666 ~0.001     
+#include "novectorize_gfortran.inc"
        DO I=1,NEL
          FCL(I)=ONEP1*CAQ(I)*RHO(I)*VOL(I)**THIRD
          FCL(I)=ZEP00666666667*FCL(I)*CXX(I)
        ENDDO
       ELSE
+#include "novectorize_gfortran.inc"
        DO I=1,NEL
          FCL(I)=CAQ(I)*RHO(I)*VOL(I)**THIRD
          FCL(I)=ZEP00666666667*FCL(I)*CXX(I)
