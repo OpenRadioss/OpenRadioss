@@ -4,6 +4,10 @@
   * [System prerequisites](#system-prerequisites)
   * [Compiler and development tools](#compiler-and-development-tools)
   * [OpenMPI installation](#openmpi-installation)
+* [Build environment on Linux ARM64](#build-environment-on-linux-arm64)
+  * [System prerequisites](#system-prerequisites-for-linux-arm64)
+  * [Compiler and development tools](#compiler-and-development-tools-for-linux-arm64)
+  * [OpenMPI installation](#openmpi-installation-for-linux-arm64)
 * [Build environment on Windows](#build-environment-on-windows)
   * [Compiler environment](#compiler-environment)
   * [Build environment using cmd DOS shell](#build-environment-using-cmd-dos-shell)
@@ -13,6 +17,7 @@
   * [Build defaults](#build-defaults)
   * [Get the source](#get-the-source)
   * [Building on Linux](#building-on-linux)
+  * [Building on Linux Arm64](#building-on-linux-arm64)
   * [Build OpenRadioss on Windows with cmd Shell](#build-openradioss-on-windows-with-cmd-shell)
   * [Build OpenRadioss with Visual Studio](#build-openradioss-with-visual-studio)
   * [Build OpenRadioss with cygwin](#build-openradioss-with-cygwin)
@@ -105,6 +110,76 @@ It is recommended to build and install OpenMPI from OpenMPI website using gcc co
             cd openmpi-4.1.2
 
 3. Build and install OpenMPI
+
+**you need root or sudo rights on your computer**.
+
+        ./configure --prefix=/opt/openmpi
+        make
+        make install
+
+## Build environment on Linux ARM64
+
+### System prerequisites for linux ARM64
+
+This version works on ARMv8-A and higher architectures using Linux OS:
+
+For the supported Hardware list, visit :
+
+<https://developer.arm.com/Tools%20and%20Software/Arm%20Compiler%20for%20Linux#Supported-Devices>
+
+The Linux ARM64 version is built using armflang and armclang compiler.
+They are available for following Linux version :
+
+* RHEL 7, RHEL 8, RHEL 9 for ARM64
+* Suse SLES 15 for ARM64
+* Ubuntu 20.04, Ubuntu 22.04 for ARM64
+
+### Compiler and development tools for Linux Arm64
+
+#### Development environment
+
+* Install Development tools on your machine
+  * cmake
+  * Makefile
+  * Python
+  * git
+  * git-lfs
+
+* ARM compilers and ARM PErformance libraries are need. They are available on ARM Website :
+<https://developer.arm.com/Tools%20and%20Software/Arm%20Compiler%20for%20Linux>
+
+  Download and Install ARM Compilers and ARM Performance libraries
+
+  Check ARMFlang Compiler documentation for installation instructions.
+
+  <https://developer.arm.com/documentation/101380/2304/?lang=en>
+
+### OpenMPI installation for Linux Arm64
+
+OpenMPI is needed to build OpenRadioss with OpenMPI support.
+It is recommended to build and install OpenMPI from OpenMPI website using gcc compiler.
+
+1. Download OpenMPI tarball from  [www.openmpi.org](https://www.open-mpi.org/software/ompi/v4.1)
+   prefered version is [OpenMPI v4.1.2](https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz)
+
+            wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz
+
+2. Decompress and enter the folder:
+
+            tar -xvzf openmpi-4.1.2.tar.gz
+            cd openmpi-4.1.2
+
+3. Build and install OpenMPI
+
+Load the gcc/gfortran compiler module from ArmFlang installation using module environment tool:
+
+* Find the available GNU compiler with:
+
+        module avail
+
+* Load the gnu compiler with module environment tool: here an example with gnu 11.2.0
+
+        module load gnu/11.2.0
 
 **you need root or sudo rights on your computer**.
 
@@ -345,6 +420,165 @@ Recommendations for developpers is to build OpenRadioss with :
             ./build_script.sh -arch=linux64_gf -release 
 
 * OpenRadioss Engine: **engine_linux64_gf** or **engine_linux64_gf_ompi** binary will be copied in **OpenRadioss/exec** directory
+
+* Advanced script flags can be used to build OpenRadioss Engine: launch `./build_script.sh` without arguments:
+
+        []$ ./build_script.sh
+        
+        
+         build_script
+         ------------
+
+         Use with arguments :
+         -arch=[build architecture]
+        
+                 -arch=linux64_gf                (SMP executable / Gfortran compiler / Linux X86-64)
+                 -arch=linux64_gf  -mpi=ompi     (OpenMPI executable / Gfortran compiler / Linux X86-64)
+                 -arch=linux64_AOCC  -mpi=ompi     (OpenMPI executable / AOCC compiler / Linux X86-64)
+                 -arch=linux64_intel                (SMP executable / Intel compiler / Linux X86-64)
+                 -arch=linux64_intel  -mpi=impi     (MPI executable / Intel compiler / Linux X86-64)
+                 -arch=linuxa64_gf               (SMP executable / Armflang compiler / Linux ARM64)
+                 -arch=linuxa64_gf -mpi=ompi     (OpenMPI executable / Armflang compiler / Linux X86-64)
+                 -arch=win64                     (SMP executable / Intel OneAPI / Windows X86-64)
+                 -arch=win64       -mpi=impi     (Intel MPI OneAPI executable / Intel OneAPI / Windows X86-64)
+        
+         MPI libraries
+         -mpi=[mpi]
+                 not set   : SMP (default)
+                 -mpi=ompi : OpenMPI
+        
+                 Controlling MPI Libraries - if need choose one of the 3 Option Set
+                                            If no options set, recommended OpenMPI directories         are used (default)
+                   1. -mpi-os                             : link with default MPI version         installed on system
+                                                    libraries are in default installation
+                   2. -mpi-root=[directory]               : set rootname to link with specific MPI installation
+                   3. -mpi-include=[directory]            : set include directory where to find mpif.h and mpi.h
+                      -mpi-libdir=[directory]             : set library directory where to find mpi libraries
+        
+         -prec=[dp|sp]                       : set precision - dp (default) |sp
+         -static-link                        : Fortran, C & C++ runtime are linked in binary
+         -debug=[0|1|asan]                   : debug version for gfortran
+                                                  0 : no debug flags
+                                                  1 : usual debug flag
+                                                  asan : gfortran address sanitizer (default)
+         -release                            : Set build for release (optimized)
+        
+         -addflag="list of additional flags" : add compiler flags to usual set
+        
+         Execution control
+         -nt=[threads]      : number of threads for build
+         -verbose           : Verbose build
+         -clean             : clean build directory
+        
+          MUMPS linear solver: available only for dp, with mpi
+         -mumps_root=[path_to_mumps]          : path_to_mumps/lib/libdmumps.a must exist
+         -scalapack_root=[path to scalapack]  : path_to_scalapack/libscalapack.a must exist
+         -lapack_root=[path to lapack]  : path_to_lapack/liblapack.a must exist
+        
+         -no-python : do not link with python
+
+  * `-arch`: you will find the list of possible architectures
+
+  MPI libraries
+
+  * `-mpi` controls the MPI flavor
+
+  More Flags to control the MPI installation. Per default OpenMPI is installed in /opt/openmpi.
+
+  Additional ways are possible:
+
+  * `-mpi-os`: `mpif.h` is found in default system installation, as well as the libraries
+  * `-mpi-root`: set this flag to set a new root directory where OpenMPI can be found.
+  * `-mpi-include`: set the directory where OpenMPI includes can be found
+  * `-mpi-libdir`: set the Directory where OpenMPI libraries can be found
+
+  Other controls
+
+  * `-prec=[dp|sp]`: controls the OpenRadioss Floating Point Precision
+    * `dp`: double Precision - Floats in 64 bits (default)
+    * `sp`: activates the Extended Single Precision Version (32bit)
+  * `-static-link`: Runtime libraries are statically linked in Executable (easier when executable is used on different computers).  
+  * `-debug=1`: activates debug build (-O0 + usual debug flags).
+  * `-release`: Set build for release (optimized)
+  * `-addflag="list of additionnal flags"`: add compiler flags to usual set for all files
+
+  Execution Control
+
+  * `-nt=N` use N threads to fasten build
+  * `-verbose`: compilation process is in Verbose mode
+  * `-clean`: deletes compilation files and execution.
+
+### Building on Linux Arm64
+
+#### OpenRadioss Starter on Linux Arm64
+
+* Enter the OpenRadioss/starter directory
+
+            cd OpenRadioss/starter
+
+* Launch `build_script.sh` to proceed to the compilation
+
+  Usual build is make with:
+
+            ./build_script.sh -arch=linuxa64 -release
+
+* OpenRadioss Starter: **starter_linuxa64** binary will be copied in **OpenRadioss/exec** directory
+
+* Advanced script flags can be used to build OpenRadioss: run `./build_script.sh` without arguments:
+
+       []$ ./build_script.sh
+
+       Use with arguments :
+       -arch=[build architecture]
+                -arch=linux64_gf  (SMP executable / Gfortran compiler)
+                -arch=linux64_AOCC (SMP executable / AOCC compiler)
+                -arch=linuxa64    (SMP executable / ARM Linux - Armflang compiler)
+                -arch=win64       (SMP executable / Windows X86-64 - Intel OneAPI)
+       
+        -prec=[dp|sp]                       : set precision - dp (default) |sp
+        -static-link                        : Fortran, C & C++ runtime are linked in binary
+        -debug=[0|1|asan]                   : debug version for gfortran
+                                                 0 : no debug flags (default)
+                                                 1 : usual debug flag
+                                                 asan : gfortran address sanitizer (default)
+        -release                            : Set build for release (optimized)
+
+        -addflag="list of additional flags" : add compiler flags to usual set
+
+        Execution control
+        -nt=[threads]      : number of threads for build
+        -verbose           : Verbose build
+        -clean             : clean build directory
+
+        -no-python : do not link with python
+
+  * `-arch`: you will find the list of possible architectures
+  * `-prec`: controls the OpenRadioss Floating Point Precision : dp : double Precision - Floats in 64 bits (default),  sp activates the Extended Single Precision Version (32bit)
+  * `-static-link`: Runtime libraries are statically linked in Executable (easier when executable is used on different computers).
+  * `-debug=[0|1|asan]`: activates debug build (-O0 + usual debug flags).
+  * `-release`:  Set build for release (optimized)
+  * `-addflag="list of additional flags"`: add compiler flags to usual set for all files
+
+  Execution Control
+
+  * `-nt=N` use N threads to fasten build
+  * `-verbose`: compilation process is in Verbose mode
+  * `-clean`: deletes compilation files and execution.
+
+#### Building OpenRadioss Engine on Linux Arm64
+
+* Enter the OpenRadioss/engine directory
+
+* Launch `build_script.sh` to proceed to the compilation
+  To build OpenRadioss Engine with OpenMPI support
+
+            ./build_script.sh -arch=linuxa64 -mpi=ompi -release
+  
+  To build OpenRadioss without OpenMPI support (SMP parallelism):
+
+            ./build_script.sh -arch=linuxa64 -release 
+
+* OpenRadioss Engine: **engine_linuxa64** or **engine_linuxa64_ompi** binary will be copied in **OpenRadioss/exec** directory
 
 * Advanced script flags can be used to build OpenRadioss Engine: launch `./build_script.sh` without arguments:
 
