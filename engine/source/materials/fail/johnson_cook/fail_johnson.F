@@ -77,7 +77,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,JJ,IDEL,IDEV,IFLAG,NINDX,IR,IFAIL,ISOLID
       INTEGER ,DIMENSION(NEL) :: INDX
-      my_real :: D1,D2,D3,D4,D5,EPSP0,P,EPSF,SVM,SCALE,SXX,SYY,SZZ
+      my_real :: D1,D2,D3,D4,D5,EPSP0,P,EPSF,SVM,SCALE,SXX,SYY,SZZ,EPSF_MIN
 C--------------------------------------------------------------
       D1 = UPARAM(1)
       D2 = UPARAM(2)
@@ -86,6 +86,7 @@ C--------------------------------------------------------------
       D5 = UPARAM(5)
       EPSP0 = UPARAM(6)
       ISOLID = INT(UPARAM(8)) 
+      EPSF_MIN = UPARAM(12)
 
 C-----------------------------------------------
       IDEL=0
@@ -120,6 +121,7 @@ C
            EPSF = D1 + D2*EXP(EPSF)
            IF(D4/=ZERO) EPSF = EPSF * (ONE + D4*LOG(MAX(ONE,EPSP(I)/EPSP0))) ! if d4=0, epsp is not correctly defined
            IF(D5/=ZERO) EPSF = EPSF * (ONE + D5*TSTAR(I)) ! if d5=0, tsart is not correctly defined
+           EPSF = MAX(EPSF,EPSF_MIN)
            IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
          ENDIF
          IF(DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
@@ -158,6 +160,7 @@ Cc deviatoric will be vanished
      .           D2*EXP(EPSF))*(ONE 
      .                  + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
      .                    *(ONE + D5*TSTAR(I))
+          EPSF = MAX(EPSF,EPSF_MIN)
           IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
           IF(DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
            NINDX=NINDX+1

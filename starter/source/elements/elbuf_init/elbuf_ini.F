@@ -1961,7 +1961,8 @@ C---
               BUFLY%NPTT = NPTT
               ALLOCATE(BUFLY%LBUF(NPTR,NPTS,NPTT))  
               ALLOCATE(BUFLY%MAT (NPTR,NPTS,NPTT))
-              ALLOCATE(BUFLY%EOS (NPTR,NPTS,NPTT))       
+              ALLOCATE(BUFLY%EOS (NPTR,NPTS,NPTT))
+              ALLOCATE(BUFLY%FAIL(NPTR,NPTS,NPTT))         
             ENDDO
 C---
 c
@@ -1993,8 +1994,8 @@ c
               NVARTMP = ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP
               NUVAREOS= ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS
               NPTT    = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
-              NFAIL   = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL
-              IF (NFAIL == 1) ALLOCATE(BUFLY%FAIL(NPTR,NPTS,NPTT))                
+              NFAIL   = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL                                                
+              IRUPT   = MAT_PARAM(IMAT(IL))%FAIL(1)%IRUPT   ! Failure model type    
               
               DO IR = 1,NPTR                                       
                 DO IS = 1,NPTS                                      
@@ -2213,7 +2214,7 @@ c
           IF (IGTYP == 3 .and. IFAIL > 0) THEN
              ALLOCATE(ELBUF_TAB(NG)%GBUF%FAIL(1))
 c
-             ELBUF_TAB(NG)%GBUF%FAIL(1)%ILAWF = MAT_PARAM(IMID)%FAIL(J)%IRUPT                                           
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%ILAWF = MAT_PARAM(IMID)%FAIL(1)%IRUPT                                           
              GFAIL = GFAIL + 1 
 c
              ELBUF_TAB(NG)%GBUF%FAIL(1)%IDFAIL = MAT_PARAM(IMID)%FAIL(1)%FAIL_ID

@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IFAIL_SH,ISOLID
-      my_real D1,D2,D3,D4,D5,EPSP0,UNIT_T,DADV,PTHKF
+      my_real D1,D2,D3,D4,D5,EPSP0,UNIT_T,DADV,PTHKF,EPSF_MIN
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
       IS_ENCRYPTED = .FALSE.
@@ -89,9 +89,10 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV         ('D4'           ,D4      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV         ('D5'           ,D5      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV         ('Epsilon_Dot_0',EPSP0   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV           ('Ifail_sh'     ,IFAIL_SH  ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV           ('Ifail_sh'     ,IFAIL_SH,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV           ('Ifail_so'     ,ISOLID  ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV         ('Dadv         ',DADV    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV         ('EPSF_MIN'     ,EPSF_MIN,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV         ('Dadv'         ,DADV    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV           ('Ixfem'        ,IXFEM   ,IS_AVAILABLE,LSUBMODEL)
 !
       ! CHECK COMPATIBILITY WITH MATERIAL LAW
@@ -117,7 +118,7 @@ c----------------------------------
       FAIL%KEYWORD = 'JOHNSON-COOK' 
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
-      FAIL%NUPARAM = 11
+      FAIL%NUPARAM = 12
       FAIL%NIPARAM = 0
       FAIL%NUVAR   = 0
       FAIL%NFUNC   = 0
@@ -141,6 +142,7 @@ c
       FAIL%UPARAM(9) = 0 ! not used
       FAIL%UPARAM(10)= DADV
       FAIL%UPARAM(11)= IXFEM
+      FAIL%UPARAM(12)= EPSF_MIN
 c---------------------------
 c     OUTPUT
 c---------------------------
@@ -154,14 +156,14 @@ C---
 C for shell      
 C---
         IF (IXFEM == 0)THEN
-          WRITE(IOUT, 1000)D1,D2,D3,D4,D5
+          WRITE(IOUT, 1000)D1,D2,D3,D4,D5,EPSF_MIN
           IF (IFAIL_SH == 1)THEN
             WRITE(IOUT, 1100)
           ELSEIF(IFAIL_SH == 2)THEN
             WRITE(IOUT, 1200)
           ENDIF
         ELSE
-          WRITE(IOUT, 1010)D1,D2,D3,D4,D5,IXFEM,DADV
+          WRITE(IOUT, 1010)D1,D2,D3,D4,D5,IXFEM,DADV,EPSF_MIN
           WRITE(IOUT, 1400)
         END IF
 C---
@@ -186,13 +188,15 @@ c-----------------------------------------------------------
      & 5X,'FAILURE MODEL. . . . . . . . . . . .=',I10/
      & 5X,'FAIL_ID. . . . . . . . . . . . . . .=',I10/)
  1000 FORMAT(
-     & 5X,'     XFEM JOHNSON COOK DAMAGE MODEL     ',/,
-     & 5X,'     ------------------------------     ',/,
-     & 5X,'FIRST FAILURE PARAMETER (D1).. . . . . =',E12.4/
-     & 5X,'SECOND FAILURE PARAMETER(D2). . . . . .=',E12.4/
-     & 5X,'THIRD FAILURE PARAMETER (D3). . . . . .=',E12.4/
-     & 5X,'FORTH FAILURE PARAMETER (D4). . . . . .=',E12.4/
-     & 5X,'FIFTH FAILURE PARAMETER (D5).   . . . .=',E12.4//)
+     & 5X,'  ----------------------------------------------------   ',/
+     & 5X,'           FAILURE CRITERION : JOHNSON-COOK              ',/,
+     & 5X,'  ----------------------------------------------------   ',/
+     & 5X,'FIRST  FAILURE PARAMETER (D1). . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'SECOND FAILURE PARAMETER (D2). . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'THIRD  FAILURE PARAMETER (D3). . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'FORTH  FAILURE PARAMETER (D4). . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'FIFTH  FAILURE PARAMETER (D5). . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'LOWER PLASTIC STRAIN AT FAILURE (EPSF_MIN). . . . . . . =',1PG20.13//)
  1100 FORMAT(
      & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE') 
  2100 FORMAT(
@@ -206,15 +210,17 @@ c-----------------------------------------------------------
      & 5X,'   DEVIATORIC STRESS IN SOLID WILL VANISH AFTER FAILURE')    
 C
  1010 FORMAT(
-     & 5X,'     XFEM JOHNSON COOK DAMAGE MODEL     ',/,
-     & 5X,'     ------------------------------     ',/,
-     & 5X,'FIRST  FAILURE PARAMETER(D1). . . . . .=',E12.4/
-     & 5X,'SECOND FAILURE PARAMETER(D2). . . . . .=',E12.4/
-     & 5X,'THIRD  FAILURE PARAMETER(D3). . . . . .=',E12.4/
-     & 5X,'FORTH  FAILURE PARAMETER(D4). . . . . .=',E12.4/
-     & 5X,'FIFTH  FAILURE PARAMETER(D5). . . . . .=',E12.4/
-     & 5X,'FLAG XFEM . . . . . . . . . . . . . . .=',I10/,
-     & 5X,'CRITICAL ADVANCEMENT VALUE. . . . . . .=',E12.4//)
+     & 5X,'  ----------------------------------------------------   ',/
+     & 5X,'         FAILURE CRITERION : X-FEM JOHNSON-COOK          ',/,
+     & 5X,'  ----------------------------------------------------   ',/
+     & 5X,'FIRST  FAILURE PARAMETER (D1). . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'SECOND FAILURE PARAMETER (D2). . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'THIRD  FAILURE PARAMETER (D3). . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'FORTH  FAILURE PARAMETER (D4). . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'FIFTH  FAILURE PARAMETER (D5). . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'FLAG XFEM. . . . . . . . . . . . . . . . . . . . . . . .=',I10/
+     & 5X,'CRITICAL ADVANCEMENT VALUE . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'LOWER PLASTIC STRAIN AT FAILURE (EPSF_MIN). . . . . . . =',1PG20.13//)
 C-----------
       RETURN
       END
