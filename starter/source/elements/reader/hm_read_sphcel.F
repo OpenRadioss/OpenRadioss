@@ -43,7 +43,7 @@ Chd|====================================================================
      2                  IPARTSP ,IPM     ,IGEO  ,KXSP    ,IXSP    ,
      3                  NOD2SP, RESERVEP ,IXS   ,IPARTS  ,ISOLNOD ,
      4                  SPH2SOL ,SOL2SPH ,IRST  ,X       ,SOL2SPH_TYP,
-     5                  LSUBMODEL,SPBUF)
+     5                  LSUBMODEL,SPBUF  ,UNITAB)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -71,6 +71,7 @@ C     KXSP(5,*)              :NVOIS  :   NOMBRE DE CANDIDATS RETENUS PAR LE BUCK
 C     KXSP(6,*)              :NVOISS :   NOMBRE DE VOISINS DANS LA PARTIE SYMETRIQUE.
 C     KXSP(7,*)              :NVOISS :   NOMBRE DE CANDIDATS RETENUS DANS LA PARTIE SYMETRIQUE.
 C     KXSP(NISP,*)           :ID     :   ID DE LA CELLULE.
+C     UNITAB          UNIT ARRAY 
 C-----------------------------------------------
 C     IXSP(1:KVOISPH,*)      :IVOIS  :   NOS DES VOISINS. 
 C-----------------------------------------------
@@ -79,6 +80,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
+      USE UNITAB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,6 +106,7 @@ C-----------------------------------------------
      .        X(3,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       my_real, INTENT(INOUT) :: SPBUF(NSPBUF,NUMSPH)
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -114,7 +117,7 @@ C-----------------------------------------------
      .        INDEX_PART,UID,IFLAGUNIT
 C     REAL
       my_real
-     .       BID
+     .       BID,FAC_M
       CHARACTER MESS*40,KEY*ncharkey
       LOGICAL IS_AVAILABLE
 
@@ -132,6 +135,7 @@ C     REAL
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_SPH
       INTEGER, DIMENSION(:), ALLOCATABLE :: TYPE
       REAL*8, DIMENSION(:), ALLOCATABLE :: HM_MASS
+      INTEGER, DIMENSION(:), ALLOCATABLE :: UID_SPH
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -146,6 +150,10 @@ C--------------------------------------------------
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='SUB_SPH')
+      ALLOCATE (UID_SPH(NUMSPH),STAT=stat)
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                             MSGTYPE=MSGERROR,
+     .                             C1='UID_SPH') 
       ALLOCATE (TYPE(NUMSPH),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
@@ -155,6 +163,7 @@ C--------------------------------------------------
      .                             MSGTYPE=MSGERROR,
      .                             C1='HM_MASS') 
       SUB_SPH(1:NUMSPH) = 0
+      UID_SPH(1:NUMSPH) = 0
       HM_MASS(1:NUMSPH) = ZERO
       TYPE(1:NUMSPH) = 0
       INDEX_PART = 1
@@ -163,7 +172,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      READING QUADS INPUTS IN HM STRUCTURE
 C-------------------------------------------------- 
-      CALL CPP_SPHCEL_READ(KXSP,NISP,IPARTSP,SUB_SPH,TYPE,HM_MASS)
+      CALL CPP_SPHCEL_READ(KXSP,NISP,IPARTSP,SUB_SPH,TYPE,HM_MASS,UID_SPH)
 C--------------------------------------------------
       CALL HM_OPTION_COUNT('/SPHCEL',NSPHCEL)
       NCELL=0
@@ -172,6 +181,32 @@ C--------------------------------------------------
 C      FILL OTHER STRUCTURES + CHECKS
 C--------------------------------------------------
       DO I=1,NSPHCEL
+C--------------------------------------------------
+C      SUBMODEL OFFSET
+C--------------------------------------------------
+        IF(SUB_SPH(I) /= 0)THEN
+          IF(UID_SPH(I) == 0 .AND. LSUBMODEL(SUB_SPH(I))%UID /= 0) 
+     .         UID_SPH(I) = LSUBMODEL(SUB_SPH(I))%UID
+        ENDIF
+C--------------------------------------------------
+C      UNITS
+C--------------------------------------------------
+        FAC_M = ONE
+        IF(UID_SPH(I) /= UID )THEN
+          UID = UID_SPH(I)
+          IFLAGUNIT = 0          
+          DO J=1,UNITAB%NUNITS                         
+            IF (UNITAB%UNIT_ID(J) == UID) THEN  
+              FAC_M = UNITAB%FAC_M(J)                 
+              IFLAGUNIT = 1                     
+            ENDIF                               
+          ENDDO                                  
+          IF (UID/=0.AND.IFLAGUNIT==0) THEN
+            CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
+     .                  I1=UID,C1='/SPHCELL')
+          ENDIF 
+        ENDIF 
+        HM_MASS(I) = HM_MASS(I) * FAC_M
 C--------------------------------------------------
 C       STORAGE OF MASS PER PARTICULE
 C--------------------------------------------------
@@ -211,6 +246,7 @@ C--------------------------------------------------
       ENDDO
 C-------------------------------------
        IF(ALLOCATED(SUB_SPH)) DEALLOCATE(SUB_SPH)
+       IF(ALLOCATED(UID_SPH)) DEALLOCATE(UID_SPH)
        IF(ALLOCATED(TYPE)) DEALLOCATE(TYPE)
        IF(ALLOCATED(HM_MASS)) DEALLOCATE(HM_MASS)
 C-------------------------------------
