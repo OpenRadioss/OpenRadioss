@@ -96,7 +96,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,NINDX
       INTEGER ,DIMENSION(NEL) :: INDX
-      my_real :: D1,D2,D3,D4,D5,EPSP0,P,EPSF,SVM
+      my_real :: D1,D2,D3,D4,D5,EPSP0,P,EPSF,SVM,EPSF_MIN
 C=======================================================================
       NINDX   = 0  
       D1      = UPARAM(1)
@@ -105,6 +105,7 @@ C=======================================================================
       D4      = UPARAM(4)
       D5      = UPARAM(5)
       EPSP0   = UPARAM(6)
+      EPSF_MIN = UPARAM(12)
 c-----------------------------
       DO I=1,NEL
         IF (OFF(I) == ONE .and. FOFF(I) == 1 .and. DPLA(I) > ZERO) THEN
@@ -115,6 +116,7 @@ c-----------------------------
           EPSF = (D1 + D2*EXP(EPSF))
           IF(D4/=ZERO) EPSF = EPSF * (ONE + D4*LOG(MAX(ONE,EPSP(I)/EPSP0))) ! if d4=0, epsp is not correctly defined
           IF(D5/=ZERO) EPSF = EPSF * (ONE + D5*TSTAR(I)) ! if d5=0, tstart is not correctly defined
+          EPSF = MAX(EPSF,EPSF_MIN)
           IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF  
           IF (DFMAX(I) >= ONE) THEN
             NINDX = NINDX + 1

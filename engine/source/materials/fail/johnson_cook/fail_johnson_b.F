@@ -64,7 +64,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,NINDX
       INTEGER ,DIMENSION(NEL) :: INDX
-      my_real :: D1,D2,D3,D4,D5,EPSD0,EPSF
+      my_real :: D1,D2,D3,D4,D5,EPSD0,EPSF,EPSF_MIN
 C=======================================================================
       NINDX = 0  
       D1    = UPARAM(1)
@@ -73,13 +73,15 @@ C=======================================================================
       D4    = UPARAM(4)
       D5    = UPARAM(5)
       EPSD0 = UPARAM(6)
+      EPSF_MIN = UPARAM(12)
 c-----------------------------
       DO I=1,NEL
         IF (OFF(I) == ONE .and. DPLA(I) > ZERO) THEN
           EPSF = D3 * PRESSURE(I) / MAX(EM20, SVM(I))
           EPSF = D1 + D2 * EXP(EPSF)
           IF (D4 /= ZERO)  EPSF = EPSF * (ONE + D4*LOG(MAX(ONE,EPSD(I)/EPSD0)))
-          IF (D5 /= ZERO)  EPSF = EPSF * (ONE + D5*TSTAR(I))                  
+          IF (D5 /= ZERO)  EPSF = EPSF * (ONE + D5*TSTAR(I))        
+          EPSF = MAX(EPSF,EPSF_MIN)   
           IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I) / EPSF  
           IF (DFMAX(I) >= ONE) THEN ! total damage in integration point
             NINDX = NINDX + 1

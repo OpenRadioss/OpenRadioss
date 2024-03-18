@@ -99,7 +99,7 @@ C-----------------------------------------------
       INTEGER I,J,K,L,JJ,ISHELL,NINDX,NINDXP,IADR,LAYXFEM
       INTEGER INDX(NEL),INDXP(NEL),RFLAG(NEL),RFLAGP(NEL)
       my_real D1,D2,D3,D4,D5,EPSP0,P,EPSF,SVM,THK_TMP,
-     .    DADV,CC,BB,CR,ORM,SS1,SS2
+     .    DADV,CC,BB,CR,ORM,SS1,SS2,EPSF_MIN
       CHARACTER (LEN=3) :: XCHAR
 C=======================================================================
       IADR = (IPT-1)*NEL
@@ -112,6 +112,7 @@ c
       D5      = UPARAM(5)
       EPSP0   = UPARAM(6)
       DADV    = UPARAM(10)
+      EPSF_MIN = UPARAM(12)
       ISHELL  = INT(UPARAM(7))
 c-----------------------------
       LAYXFEM = IXFEM
@@ -159,7 +160,8 @@ C---------------
                 EPSF = D3*P/MAX(EM20,SVM)                                       
                 EPSF = (D1 + D2*EXP(EPSF))*(ONE                                       
      .                     + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))                   
-     .                     * (ONE + D5*TSTAR(I))                                
+     .                     * (ONE + D5*TSTAR(I))     
+                EPSF = MAX(EPSF,EPSF_MIN)  
                 IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF              
 c                                                                               
                 IF (IXEL == 0) THEN                                             
@@ -268,7 +270,8 @@ c
                 EPSF = D3*P/MAX(EM20,SVM)                            
                 EPSF = (D1 + D2*EXP(EPSF))*(ONE                       
      .                     + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))       
-     .                     * (ONE + D5*TSTAR(I))                    
+     .                     * (ONE + D5*TSTAR(I))     
+                EPSF = MAX(EPSF,EPSF_MIN)
                 IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF  
 c
                 IF (IXEL == 0) THEN                                  
@@ -329,7 +332,8 @@ c
                   EPSF = D3*P/MAX(EM20,SVM)                                       
                   EPSF = (D1 + D2*EXP(EPSF))*(ONE                                       
      .                       + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))                   
-     .                       * (ONE + D5*TSTAR(I))                                
+     .                       * (ONE + D5*TSTAR(I))    
+                  EPSF = MAX(EPSF,EPSF_MIN)          
                   IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
 c                                                                                 
                   IF (IXEL == 0) THEN                                             
