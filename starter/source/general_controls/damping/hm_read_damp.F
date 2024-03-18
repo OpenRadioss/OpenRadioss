@@ -38,7 +38,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_DAMP(DAMPR,IGRNOD, ISKN,LSUBMODEL,UNITAB,NPBY,
-     .                        SNPC1,NPC1)
+     .                        SNPC1,NPC1,NDAMP_VREL_RBY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,6 +67,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
       INTEGER ISKN(LISKN,*)
       INTEGER, INTENT(IN) :: SNPC1,NPC1(SNPC1),NPBY(NNPBY,NRBYKIN)
+      INTEGER, INTENT(INOUT) :: NDAMP_VREL_RBY
       my_real
      .  DAMPR(NRDAMP,*)
 C-----------------------------------------------
@@ -187,12 +188,13 @@ C--------------------------------------------------
 C---------RBODY ID user----------------------------
           IRBY=0
           IF (RBODY_ID /= 0) THEN  
+            NDAMP_VREL_RBY = NDAMP_VREL_RBY + 1           
             DO J=1,NRBYKIN
               IF (RBODY_ID == NPBY(6,J)) THEN
                 IRBY=J                     
                 EXIT
               ENDIF 
-            ENDDO
+            ENDDO  
             IF (IRBY == 0)THEN  !  Rbody not found    
               CALL ANCMSG(MSGID=3048,
      .                  MSGTYPE=MSGERROR,
@@ -200,7 +202,11 @@ C---------RBODY ID user----------------------------
      .                  I1=ID,
      .                  C1=TITR,
      .                  I2=RBODY_ID)                        
-            ENDIF
+            ENDIF 
+            IF (NRBMERGE > 0) THEN
+C             RBODY merge - user ID of RBY is stored      
+              IRBY = RBODY_ID
+            ENDIF                         
           ENDIF
 C---------FUNC ID user-----------------------------
           IFUN=0    

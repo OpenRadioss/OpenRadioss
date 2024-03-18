@@ -1138,6 +1138,8 @@ C
       INTEGER , DIMENSION(:), ALLOCATABLE :: INDXSH  
       INTEGER :: NUMBER_LOAD_CYL
       INTEGER :: S_NOD2ELS,S_NOD2ELTG,S_NOD2EL1D
+C SEATBELTS      
+      INTEGER :: NDAMP_VREL_RBY
 
       TYPE(INTER_CAND_) :: INTER_CAND
 c=======================================================================
@@ -1171,6 +1173,8 @@ c=======================================================================
       FLG_SPLIT = 0
       NVARTOTMAX = 0
       NXLAYMAX = 0   ! max layer nb in parts xfem
+C     /DAMP/VREL + RBY      
+      NDAMP_VREL_RBY = 0
 C lic. Init
       LIDFS = 0
 C bc heat
@@ -7667,10 +7671,9 @@ C--------------------------------------------
           ERR_CATEGORY='DAMPING'
           CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
           IF(NDAMP > 0) CALL HM_READ_DAMP(DAMPR,IGRNOD,ISKWN,LSUBMODEL,UNITAB,NPBY,
-     .                                    SNPC1,NPC1)
+     .                                    SNPC1,NPC1,NDAMP_VREL_RBY)
           CALL TRACE_OUT1()
-        ENDIF
-        CALL DAMPING_RBY_SPMDSET(IGRNOD,NGRNOD,NDAMP,NRDAMP,DAMPR,NNPBY,NRBYKIN,NPBY)      
+        ENDIF     
       ENDIF
 C--------------------------------------------
       IF(NINTER > 0) THEN
@@ -8737,6 +8740,13 @@ C
       DEALLOCATE(MS_PLY0,ZI_PLY0,MSZ20,ITAGSH)
       DEALLOCATE(ITAGND_SHXFEM)
       CALL TRACE_OUT1()
+C-------------------------------------
+C     /DAMP/VREL with RBY
+C-------------------------------------
+      IF (NDAMP_VREL_RBY > 0) THEN
+        CALL damping_rby_spmdset(IGRNOD,NGRNOD,NDAMP,NRDAMP,DAMPR,NNPBY,
+     .                           NRBODY,NPBY,NRBMERGE) 
+      ENDIF       
 c-------------------------------------------------------------------
 c-------------------------------------------------------------------
 C     XFEM for crack propagation within shell (mono + multi layers)
