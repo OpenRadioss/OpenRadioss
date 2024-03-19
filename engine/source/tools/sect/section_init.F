@@ -40,7 +40,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INOUTFILE_MOD
-      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C-----------------------------------------------
       INTEGER I,J,IR, N, IR1, IR2, IFILNAM(2548),LROOTLEN,LEN,K0,ID_SEC
       my_real
      .   TT1, TT2, TT3, TMP(20)
-      CHARACTER(LEN=NCHARLINE100) ::  FILNAM
+      CHARACTER(LEN=NCHARTITLE) ::  FILNAM
       CHARACTER LCHRUN*2,LCHRUN_P1*2,CH_IDSEC*10
       LOGICAL FEXIST
       REAL*4 R4
