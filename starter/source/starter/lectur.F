@@ -5809,7 +5809,7 @@ C---------------------------
       NUMSPHK8     =    NUMSPH
 ! working int8 to avoid integer overflow for large models
       EMAX = MAX(23*NUMELCK8,24*NUMELTGK8+1,29*NUMELSK8+1,19*NUMELRK8,
-     .           18*NUMELPK8+1,16*NUMELTK8,19*NUMELQK8,
+     .           18*NUMELPK8+1,17*NUMELTK8,19*NUMELQK8,
      .           15*NUMELXK8+1,24*NUMELIG3DK8+1,NUMSPHK8) + 1
 
       ALLOCATE(IPARGTMP(NPARG,NUMEL)    ,STAT=stat)
@@ -6039,8 +6039,8 @@ C------
        K2 = 8*NUMELT
        K3 = 9*NUMELT+1
        K4 = 11*NUMELT+1
-       K5 = 15*NUMELT+1
-       K6 = 16*NUMELT+1
+       K5 = 16*NUMELT+1
+       K6 = 17*NUMELT+1
        !warning: please also update any index change
        !         for MODIF option (MODIF_SPMD.F)
        IWORK  = 0
