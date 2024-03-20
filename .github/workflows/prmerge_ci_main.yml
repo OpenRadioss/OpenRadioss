@@ -58,7 +58,7 @@ jobs:
 
       # Get last git modifications, don't clean before (way to keep persistent obj files)
       - name: Checkout git sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
@@ -120,7 +120,7 @@ jobs:
 
       # Upload artifact
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: tools-${{ env.os }}
           path: ${{ env.WORKDIR }}/exec
@@ -167,7 +167,7 @@ jobs:
 
       # Get last git modifications, don't clean before (way to keep persistent obj files)
       - name: Checkout git sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
@@ -219,7 +219,7 @@ jobs:
 
       # Upload artifact
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: tools-${{ env.os }}
           path: ${{ env.WORKDIR }}/exec
@@ -302,7 +302,7 @@ jobs:
 
       # Get last git modifications, don't clean before (way to keep persistent obj files)
       - name: Checkout git sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
@@ -375,7 +375,7 @@ jobs:
 
       # Upload artifact
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}
           path: ${{ env.WORKDIR }}/exec
@@ -451,7 +451,7 @@ jobs:
 
       # Get git related to the commit
       - name: Checkout git sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           lfs: 'true'
 
@@ -460,7 +460,7 @@ jobs:
           rm -rf exec
 
       # Download artifacts
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}
           path: exec
@@ -654,7 +654,7 @@ jobs:
           
       # Get last git modifications, don't clean before (way to keep persistent obj files)
       - name: Checkout git sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
@@ -708,7 +708,7 @@ jobs:
           "
       # Upload artifact
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}
           path: ${{ env.WORKDIR }}/exec
@@ -771,13 +771,13 @@ jobs:
 
       # Get git related to the commit
       - name: Checkout git sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           lfs: 'true'
 
       # Get OpenRadioss extras from dedicated repository
       - name: Checkout git EXTRA sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           lfs: 'true'
           clean: 'false'
@@ -794,7 +794,7 @@ jobs:
           "
 
       # Download artifacts
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}
           path: exec
@@ -927,14 +927,14 @@ jobs:
 
       # Get last git modifications, don't clean before (way to go faster)
       - name: Checkout git sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           clean: 'false'
           lfs: 'true'
 
       # Get OpenRadioss extras from dedicated repository
       - name: Checkout git EXTRA sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           lfs: 'true'
           clean: 'false'
@@ -943,7 +943,7 @@ jobs:
           token: '${{ secrets.EXTRA_REPOSITORY_PAT }}'
 
       # Download ALL artifacts
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           path: exec_tmp
 

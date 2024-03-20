@@ -80,7 +80,7 @@ jobs:
           md5sum exec/* || echo "Nothing in exec/" 
 
       # Get last git modifications, WS is not persistent here
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           lfs: 'true'
           ref: refs/pull/${{ github.event.number }}/merge
@@ -118,7 +118,7 @@ jobs:
 
       # Upload artifact 
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}
           path: exec
@@ -155,7 +155,7 @@ jobs:
     steps:
 
       # Get git related to the commit
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           lfs: 'true'
           ref: refs/pull/${{ github.event.number }}/merge
@@ -165,7 +165,7 @@ jobs:
           rm -rf exec
 
       # Download artifacts
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}
           path: exec
