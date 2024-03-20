@@ -73,7 +73,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD
       USE FVMBAG_MESHCONTROL_MOD
-      USE OMP_LIB
+!     USE OMP_LIB
       USE SENSOR_MOD
       USE ANIM_MOD
 C-----------------------------------------------
