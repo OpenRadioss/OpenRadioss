@@ -33,6 +33,7 @@ Chd|        PCOORI                        source/elements/beam/pcoori.F
 Chd|        PEVECI                        source/elements/beam/peveci.F 
 Chd|        PIBUF3                        source/elements/beam/pibuf3.F 
 Chd|        PMASS                         source/elements/beam/pmass.F  
+Chd|        BPRELOAD_MOD                  share/modules1/bpreload_mod.F 
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================

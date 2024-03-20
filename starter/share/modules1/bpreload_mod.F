@@ -25,12 +25,16 @@ Chd|  BPRELOAD_MOD                  share/modules1/bpreload_mod.F
 Chd|-- called by -----------
 Chd|        INITIA                        source/elements/initia/initia.F
 Chd|        LECTUR                        source/starter/lectur.F       
+Chd|        PGRTAILS                      source/elements/beam/pgrtails.F
+Chd|        PINIT3                        source/elements/beam/pinit3.F 
 Chd|        RGRTAILS                      source/elements/spring/rgrtails.F
 Chd|        RINIT3                        source/elements/spring/rinit3.F
 Chd|        S10INIT3                      source/elements/solid/solide10/s10init3.F
 Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
 Chd|        S8ZINIT3                      source/elements/solid/solide8z/s8zinit3.F
 Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
+Chd|        TGRTAILS                      source/elements/truss/tgrtails.F
+Chd|        TINIT3                        source/elements/truss/tinit3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE BPRELOAD_MOD
