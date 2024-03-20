@@ -42,7 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE FVBAG_MOD , only: FVBAG_DATA, AIRBAGS_TOTAL_FVM_IN_H3D
-      USEGROUPDEF_MOD , only:GROUP_
+      USE GROUPDEF_MOD , only:GROUP_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
