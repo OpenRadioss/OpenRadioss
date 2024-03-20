@@ -48,7 +48,7 @@ C     ISEL(NSELT)       TABLEAU DESPOUTRES CHOISIS POUR TH         E/S
 C     ITR1(NSELT)       TABLEAU DE TRAVAIL                         E/S
 C     EADD(NUMELT)      TABLEAU DES ADRESSES DANS IDAM CHGT DAMIER   S
 C     INDEX(NUMELT)     TABLEAU DE TRAVAIL                         E/S
-C     ITRI(4,NUMELT)    TABLEAU DE TRAVAIL                         E/S
+C     ITRI(5,NUMELT)    TABLEAU DE TRAVAIL                         E/S
 C     IPARTT(NUMELT)    TABLEAU PART                               E/S
 C     CEP(NUMELT)    TABLEAU PROC                               E/S
 C     XEP(NUMELT)    TABLEAU PROC                               E/S
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER IXT(5,*),ISEL(*),INUM(7,*),IPARTT(*),
-     .        EADD(*),ITR1(*),INDEX(*),ITRI(4,*),
+     .        EADD(*),ITR1(*),INDEX(*),ITRI(5,*),
      .        ND, CEP(*), XEP(*),
      .        ITRUOFF(*), TAGPRT_SMS(*)
       INTEGER ,INTENT(INOUT), DIMENSION(NUMELT) ::ITAGPRLD_TRUSS
@@ -82,8 +82,8 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER 
-     .        I, K,  MLN, NG, ISSN, NN, N, MID, PID ,
-     .        II, J, II2,JJ2,JJ,L,II3,JJ3,NGROU,
+     .        I,J,K,L,NG, ISSN, NN,N,MLN,MID,PID ,NGROU,
+     .        II,JJ,II2,JJ2,II3,JJ3,II4,JJ4,II5,JJ5,
      .        MSKMLN,MSKISN,MSKPID, MSKMID, MODE,
      .        WORK(70000),IPRLD
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
@@ -101,7 +101,6 @@ C----------------------------------------------------------
 C
       DO I=1,NUMELT
         EADD(I)=1
-        ITRI(4,I)=I
         INDEX(I)=I
         INUM(1,I)=IPARTT(I)
         INUM(2,I)=ITRUOFF(I)
@@ -146,6 +145,12 @@ C
 C       JSMS=MY_SHIFTL(JSMS,0)
         ITRI(3,I) = JSMS
 C       NEXT=MY_SHIFTL(NEXT,1)
+c
+C       key4
+        ITRI(4,I) = MID
+C       key5
+        ITRI(5,I) = PID
+
       ENDDO
 C
       MODE=0
@@ -211,12 +216,18 @@ C--------------------------------------------------------------
         JJ2=ITRI(2,INDEX(I-1))
         II3=ITRI(3,INDEX(I))
         JJ3=ITRI(3,INDEX(I-1))
-        IF(II/=JJ.OR.II2/=JJ2.OR.II3/=JJ3) THEN
+        II4=ITRI(4,INDEX(I))
+        JJ4=ITRI(4,INDEX(I-1))
+        II5=ITRI(5,INDEX(I))
+        JJ5=ITRI(5,INDEX(I-1))
+        
+        IF (II/=JJ   .OR. II2/=JJ2 .OR. II3/=JJ3  .OR.
+     .      II4/=JJ4 .OR. II5/=JJ5) THEN
           ND=ND+1
           EADD(ND)=I
         ENDIF
       ENDDO
       EADD(ND+1) = NUMELT+1
-C
+c-----------
       RETURN
       END
