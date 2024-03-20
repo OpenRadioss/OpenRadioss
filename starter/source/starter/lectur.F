@@ -5808,7 +5808,7 @@ C---------------------------
       NUMELIG3DK8  =    NUMELIG3D
       NUMSPHK8     =    NUMSPH
 ! working int8 to avoid integer overflow for large models
-      EMAX = MAX(23*NUMELCK8,24*NUMELTGK8+1,29*NUMELSK8+1,18*NUMELRK8,
+      EMAX = MAX(23*NUMELCK8,24*NUMELTGK8+1,29*NUMELSK8+1,19*NUMELRK8,
      .           18*NUMELPK8+1,16*NUMELTK8,19*NUMELQK8,
      .           15*NUMELXK8+1,24*NUMELIG3DK8+1,NUMSPHK8) + 1
 
@@ -6142,8 +6142,8 @@ C
         K2 = 10*NUMELR
         K3 = 11*NUMELR+1
         K4 = 13*NUMELR+1
-        K5 = 17*NUMELR+1
-        K6 = 18*NUMELR+1
+        K5 = 18*NUMELR+1
+        K6 = 19*NUMELR+1
         !warning: please also update any index change
         !         for MODIF option (MODIF_SPMD.F)
        IWORK  = 0

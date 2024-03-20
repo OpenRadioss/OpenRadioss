@@ -72,7 +72,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER IXR(NIXR,*),ISEL(*),INUM(9,*),IPARTR(*),
-     .        EADD(*),ITR1(*),INDEX(*),ITRI(4,*),
+     .        EADD(*),ITR1(*),INDEX(*),ITRI(5,*),
      .        ND, CEP(*), XEP(*),IRESOFF(*),R_SKEW(*),
      .        TAGPRT_SMS(*), IGEO(NPROPGI,*),IPM(NPROPMI,*)
 C     REAL OU REAL*8
@@ -87,8 +87,8 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER 
-     .        I, K, NG, ISSN, NPN, NN, N, MID, PID ,
-     .        II, J, II3,JJ3,II2,JJ2,JJ,L,II4,JJ4,IGTYP,
+     .        I,J,K,L, NG, ISSN, NPN, NN, N, MID, PID ,IGTYP,
+     .        II,JJ,II2,JJ2,II3,JJ3,II4,JJ4,II5,JJ5,
      .        IFLAG_GTYP,IPRLD,
      .        MSKMTN,MSKISN,MSKPID, MODE, WORK(70000)
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
@@ -109,7 +109,7 @@ C----------------------------------------------------------
 C
       DO I=1,NUMELR
         EADD(I)=1
-        ITRI(4,I)=I
+        ITRI(5,I)=I
         INDEX(I)=I
         INUM(1,I)=IPARTR(I)
         INUM(2,I)=IXR(1,I)
@@ -132,22 +132,19 @@ C
       
       DO I = 1, NUMELR
         II = I
-        PID= IXR(1,II)
-        MTN= NINT(GEO(8,PID))
+        PID  = IXR(1,II)
+        MID  = IXR(5,II)  
+        MTN  = NINT(GEO(8,PID))
         ISSN = 0
         IF(GEO(5,PID)/=ZERO) ISSN=1
         IGTYP = IGEO(11,PID)
         IFLAG_GTYP = 0
         IF(IGTYP == 23)THEN
           IFLAG_GTYP = 1
-          MID = IXR(5,II)  
           MTN = IPM(2,MID)      
         ENDIF
         IPRLD = ITAGPRLD_SPRING(II)
         IF (IPRLD>0) IFLAG_GTYP = 1+IPRLD
-          
-!!        MID = 0
-!!        IF(IGTYP == 23) MID = IXR(5,II)
 C
         JSMS = 0
         IF(ISMS/=0)THEN
@@ -169,10 +166,12 @@ C
         ITRI(3,I)=IRESOFF(I)   
 C        
         ITRI(4,I)=IFLAG_GTYP
+C        
+        ITRI(5,I)=MID
       ENDDO
 C
       MODE=0
-      CALL MY_ORDERS( MODE, WORK, ITRI, INDEX, NUMELR , 4)
+      CALL MY_ORDERS( MODE, WORK, ITRI, INDEX, NUMELR , 5)
 C
       DO I=1,NUMELR
         IPARTR(I) =INUM(1,INDEX(I))
@@ -263,9 +262,12 @@ C
         II4=ITRI(4,INDEX(I))
         JJ4=ITRI(4,INDEX(I-1))
 
+        II5=ITRI(5,INDEX(I))
+        JJ5=ITRI(5,INDEX(I-1))
+
         MTN = NINT(GEO(8,II2))       
-        IF(II/=JJ.OR.(II2/=JJ2 .AND.MTN==5).OR.(II3/=JJ3) .OR.
-     .                                                II4/=JJ4) THEN
+        IF (II /=JJ  .OR. II2/=JJ2 .OR. II3/=JJ3 .OR.
+     .      II4/=JJ4 .OR. II5/=JJ5) THEN
           ND=ND+1
           EADD(ND)=I
         ENDIF
