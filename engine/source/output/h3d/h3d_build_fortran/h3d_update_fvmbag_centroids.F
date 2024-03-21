@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|-- calls ---------------
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
+Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE H3D_UPDATE_FVMBAG_CENTROIDS(H3DTITLE,LEN_H3DTITLE,IH3D,MONVOL,VOLMON, NFVBAG, SMONVOL, SVOLMON,
      .                                       FVDATA_P, AIRBAGS_NODE_ID_SHIFT)

@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        H3D_NODAL_VECTOR              source/output/h3d/h3d_results/h3d_nodal_vector.F
 Chd|-- calls ---------------
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
+Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE ANIM_NODAL_VECTOR_FVMBAGS(KEY, WA4, MONVOL,VOLMON, FVDATA, NFVBAG, SMONVOL, SVOLMON,
      .                                     AIRBAGS_TOTAL_FVM_IN_H3D, IS_WRITTEN_NODE_FVM, AIRBAGS_NODE_ID_SHIFT )

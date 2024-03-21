@@ -452,6 +452,7 @@ Chd|        ALLOC_LINE_STR                engine/source/groups/alloc_line_str.F
 Chd|        ALLOC_SUBSET_STR              engine/source/groups/alloc_subset_str.F
 Chd|        ALLOC_SURF_STR                engine/source/groups/alloc_surf_str.F
 Chd|        ANIM_NODAL_CONTOUR_FVMBAGS    engine/source/output/anim/generate/anim_nodal_contour_fvmbags.F
+Chd|        ANIM_NODAL_VECTOR_FVMBAGS     engine/source/output/anim/generate/anim_nodal_vector_fvmbags.F
 Chd|        DAMPING                       engine/source/assembly/damping.F
 Chd|        DAMPING44                     engine/source/assembly/damping.F
 Chd|        DAMPING51                     engine/source/assembly/damping.F
@@ -478,8 +479,10 @@ Chd|        FORINTC                       engine/source/elements/forintc.F
 Chd|        GENANI                        engine/source/output/anim/generate/genani.F
 Chd|        GENH3D                        engine/source/output/h3d/h3d_results/genh3d.F
 Chd|        GROUP_INI                     engine/source/groups/group_ini.F
+Chd|        H3D_CREATE_FVMBAG_CENTROIDS   engine/source/output/h3d/h3d_build_fortran/h3d_create_fvmbag_centroids.F
 Chd|        H3D_NODAL_SCALAR              engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
 Chd|        H3D_NODAL_VECTOR              engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
+Chd|        H3D_UPDATE_FVMBAG_CENTROIDS   engine/source/output/h3d/h3d_build_fortran/h3d_update_fvmbag_centroids.F
 Chd|        H3D_VELVECZ22                 engine/source/output/h3d/h3d_results/h3d_velvecz22.F
 Chd|        HIST1                         engine/source/output/th/hist1.F
 Chd|        HIST2                         engine/source/output/th/hist2.F
