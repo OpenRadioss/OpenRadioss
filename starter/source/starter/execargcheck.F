@@ -64,6 +64,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        INTEGER ARGN
        INTEGER PHELPI,PEXECI,PINPUTI,PNCPUI, PNTHI, PTIMER, PUSERLNAMI,MDS_PATHI
+       INTEGER :: MDS_DIRI            !< Flag for -mdsdir - stores Iteration in command line
        INTEGER I,STRL,STRLN,ERR,LENLIST,ISIN,STRLNA,BEGIN
        INTEGER IDUM
        LOGICAL :: CONDITION
@@ -79,7 +80,7 @@ C-----------------------------------------------
        INTEGER :: RANDM_SEED,RANDM_ALEA
        REAL(kind=8) :: RANDM_SEED_NBR,RANDM_ALEA_NBR
        INTEGER :: GOT_GRP_SIZE
-       PARAMETER (LENLIST=30)
+       PARAMETER (LENLIST=31)
        CHARACTER (LEN=12) ::  ARGLIST(LENLIST)
        EXTERNAL IARGC
        DATA ARGLIST/
@@ -91,7 +92,7 @@ C-----------------------------------------------
      .    '-ERROR_MSG','-EM',
      .    '-NOTRAP' ,  '-TIMER',
      .    '-DYNAMIC_LIB', '-DYLIB',
-     .    '-MDS_LIBPATH',
+     .    '-MDS_LIBPATH', '-MDSDIR',
      .    '-MEM-MAP' ,  '-INSPIRE', '-DD_TUNING',
      .    '-INSPIRE_ALM' , '-FLUSH_RST', '-CHECK',
      .    '-HSTP_READ' , '-HSTP_WRITE', '-RXALEA', '-RSEED',
@@ -133,6 +134,7 @@ c
        PTIMER = 0
        PUSERLNAMI = 0
        MDS_PATHI = 0
+       MDS_DIRI = 0
 !       ------------------------
 !      domdec optimization
        DOMDEC_TUNING = 0
@@ -247,6 +249,10 @@ C -MDS_LIBPATH
             CASE ( '-MDS_LIBPATH')
                 IF (MDS_PATHI==0) MDS_PATHI=I
 C------------------------------------------------
+C -MDSDIR
+            CASE ( '-MDSDIR')
+                IF (MDS_DIRI==0) MDS_DIRI=I
+C------------------------------------------------
 C -MEM-MAP
             CASE ( '-MEM-MAP')
                 GOT_MEM_MAP=1
@@ -306,7 +312,7 @@ C Check if argument string is a variable to an argument
      *             ARGP == '-TIMER' .OR. ARGP =='-DYLIB'.OR.
      *             ARGP == '-DYNAMIC_LIB' .OR. ARGP == '-DD_TUNING'.OR.
      *             ARGP == '-RSEED' .OR. ARGP == '-RXALEA'.OR.
-     *             ARGP == '-GRP_SIZE' .OR. ARGP == '-MDS_LIBPATH'  )THEN 
+     *             ARGP == '-GRP_SIZE' .OR. ARGP == '-MDS_LIBPATH' .OR. ARGP == '-MDSDIR'  )THEN 
                  ERR = 0
                ELSE
                  ERR = 1
@@ -702,6 +708,45 @@ C               CALL PRHELPINFO()
          ENDIF     !         IF (MDS_PATHI+1  > ARGN) THEN
        ENDIF
  4000  CONTINUE
+C------------------------------------------------
+C -MDSDIR
+C------------------------------------------------
+       IF (MDS_DIRI /= 0)THEN
+
+        IF (MDS_DIRI+1  > ARGN) THEN
+
+C          Case -DYLIB is last argument in the list.
+
+           CALL GET_COMMAND_ARGUMENT(MDS_DIRI,ARGP)       
+           STRLN=LEN_TRIM(ARGP) 
+C           CALL PRHELPINFO()
+           WRITE(6,'(A)') ' '
+           WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',ARGP(1:STRLN)
+           GLOBAL_ERROR = 1
+
+        ELSE
+
+            CALL GET_COMMAND_ARGUMENT(MDS_DIRI+1,MDS_PATH)       
+            MDS_PATH_LEN=LEN_TRIM(MDS_PATH)
+            ! check if -mdsdir has got an argument or if the next string is an input command
+            ULIBC=''
+            ULIBC(1:MDS_PATH_LEN) = MDS_PATH(1:MDS_PATH_LEN)
+            CALL UPCASE(ULIBC)
+            ISIN = 0
+            CALL ISANARGUMENT(ARGLIST,LENLIST,ULIBC,ISIN)
+            IF ( ISIN==1 )THEN
+                  CALL GET_COMMAND_ARGUMENT(MDS_DIRI,ARGP)       !GETARG(PUSERLNAMI,ARGP)
+                  STRLN=LEN_TRIM(ARGP) 
+                  WRITE(6,'(A)') ' '
+                  WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
+     *                         ARGP(1:STRLN)
+                  GLOBAL_ERROR = 1
+
+            ENDIF 
+
+        ENDIF 
+       ENDIF
+
 C------------------------------------------------
 C -TIME SET (hidden option)
 C------------------------------------------------
@@ -1175,7 +1220,7 @@ C-----------------------------------------------
      *                  'Disable error trapping'
        WRITE(6,'(A,A)') '  -dynamic_lib [FILE] / -dylib [FILE] : ',
      *                  'Set name to the dynamic library for Radioss User Interface'
-       WRITE(6,'(A,A)') '  -mds_libpath [PATH]                 : ',
+       WRITE(6,'(A,A)') '  -mdsdir [PATH] / -mds_libpath [PATH]                 : ',
 #ifdef _WIN32
      *                  'Set directory to MDS Library (default is %ALTAIR_HOME%/hwsolver/MultiscaleDesigner/%arch%)'
 #else
