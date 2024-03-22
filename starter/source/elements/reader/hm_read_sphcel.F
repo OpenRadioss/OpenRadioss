@@ -43,7 +43,7 @@ Chd|====================================================================
      2                  IPARTSP ,IPM     ,IGEO  ,KXSP    ,IXSP    ,
      3                  NOD2SP, RESERVEP ,IXS   ,IPARTS  ,ISOLNOD ,
      4                  SPH2SOL ,SOL2SPH ,IRST  ,X       ,SOL2SPH_TYP,
-     5                  LSUBMODEL,SPBUF  ,UNITAB)
+     5                  LSUBMODEL,SPBUF  ,UNITAB,IPRI    )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -72,6 +72,7 @@ C     KXSP(6,*)              :NVOISS :   NOMBRE DE VOISINS DANS LA PARTIE SYMETR
 C     KXSP(7,*)              :NVOISS :   NOMBRE DE CANDIDATS RETENUS DANS LA PARTIE SYMETRIQUE.
 C     KXSP(NISP,*)           :ID     :   ID DE LA CELLULE.
 C     UNITAB          UNIT ARRAY 
+C     IPRI            PRINT FLAG (in 0.out file)
 C-----------------------------------------------
 C     IXSP(1:KVOISPH,*)      :IVOIS  :   NOS DES VOISINS. 
 C-----------------------------------------------
@@ -107,6 +108,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       my_real, INTENT(INOUT) :: SPBUF(NSPBUF,NUMSPH)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      INTEGER, INTENT(IN) :: IPRI
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -200,7 +202,7 @@ C--------------------------------------------------
               FAC_M = UNITAB%FAC_M(J)                 
               IFLAGUNIT = 1                     
             ENDIF                               
-          ENDDO                                  
+          ENDDO                      
           IF (UID/=0.AND.IFLAGUNIT==0) THEN
             CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=UID,C1='/SPHCELL')
@@ -437,21 +439,23 @@ C-------------------------------------
       I1=1
       I2=MIN0(50,NUMSPH)
 C
-   90 WRITE (IOUT,300)
-      DO 100 I=I1,I2
-       IPRT=IPARTSP(I)
-       MID =IPM(1,IPART(1,IPRT))
-       PID =IGEO(1,IPART(2,IPRT))
-       WRITE (IOUT,'(6(I10,1X))') I,KXSP(NISP,I),MID,PID,
-     .                           KXSP(3,I),ITAB(KXSP(3,I))
-  100 CONTINUE
-      IF(I2==NUMSPH)GOTO 200
-      I1=I1+50
-      I2=MIN0(I2+50,NUMSPH)
-      GOTO 90
+      IF(IPRI>=5) THEN
+   90   WRITE (IOUT,300)
+        DO 100 I=I1,I2
+         IPRT=IPARTSP(I)
+         MID =IPM(1,IPART(1,IPRT))
+         PID =IGEO(1,IPART(2,IPRT))
+         WRITE (IOUT,'(6(I10,1X))') I,KXSP(NISP,I),MID,PID,
+     .                             KXSP(3,I),ITAB(KXSP(3,I))
+  100   CONTINUE
+        IF(I2==NUMSPH)GOTO 200
+        I1=I1+50
+        I2=MIN0(I2+50,NUMSPH)
+        GOTO 90
 C
- 200  CONTINUE
-      WRITE (IOUT,'(A)') 'END OF CELL TRACEBACK'
+ 200    CONTINUE
+        WRITE (IOUT,'(A)') 'END OF CELL TRACEBACK'
+      ENDIF
 C
  300  FORMAT(/' SPH CELLS             '/
      +        ' ----------------------'/

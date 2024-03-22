@@ -2980,7 +2980,7 @@ c limit INTEGER 32 bits ((2^31)-1), we add a security marge of 5%
      2              IPARTSP ,IPM    ,IGEO    ,KXSP    ,IXSP    ,
      3              NOD2SP, RESERVEP,IXS     ,IPARTS  ,EANI    ,
      4              SPH2SOL,SOL2SPH ,IRST    ,X       ,SOL2SPH_TYP,
-     5              LSUBMODEL,SPBUF ,UNITAB  )
+     5              LSUBMODEL,SPBUF ,UNITAB  ,IPRI   )
 
       ELSE
         SSPBUF  = 0
