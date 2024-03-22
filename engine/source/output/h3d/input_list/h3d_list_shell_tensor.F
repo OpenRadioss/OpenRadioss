@@ -169,6 +169,16 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_TENSOR(I)%IS_PLY_ALL = 1
       H3D_KEYWORD_SHELL_TENSOR(I)%TEXT1  = 'Mstress'
 c-----------------------------------------------
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_TENSOR(I)%KEY3  = 'TENS/MSTRAIN'
+      H3D_KEYWORD_SHELL_TENSOR(I)%IS_LAYER = 1
+      H3D_KEYWORD_SHELL_TENSOR(I)%IS_LAYER_ALL = 1
+      H3D_KEYWORD_SHELL_TENSOR(I)%IS_IPT = 1
+      H3D_KEYWORD_SHELL_TENSOR(I)%IS_IPT_ALL = 1
+      H3D_KEYWORD_SHELL_TENSOR(I)%IS_PLY = 1
+      H3D_KEYWORD_SHELL_TENSOR(I)%IS_PLY_ALL = 1
+      H3D_KEYWORD_SHELL_TENSOR(I)%TEXT1  = 'Mstrain'
 
       NKEY=I
       END
