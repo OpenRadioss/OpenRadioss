@@ -86,7 +86,7 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,DIMENSION(NEL), INTENT(INOUT) :: FOFF,FLD_IDX
       my_real ,DIMENSION(NEL), INTENT(INOUT) :: DFMAX
-      my_real ,DIMENSION(NEL), INTENT(OUT)   :: DAM,TDEL
+      my_real ,DIMENSION(NEL), INTENT(INOUT) :: DAM,TDEL
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------

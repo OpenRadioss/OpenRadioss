@@ -29,7 +29,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|====================================================================
       SUBROUTINE INITVARS_AUTO(
-     .                         ELBUF_STR,MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
+     .                         ELBUF_STR,MLAW_TAG ,PROP_TAG ,
      .                         GMAT     ,GLAW     ,IGTYP    ,JMULT    ,IFAIL    , 
      .                         IEOS     ,EOS_TAG  ,ISNOD)
 C-----------------------------------------------
@@ -56,7 +56,6 @@ C-----------------------------------------------
       TYPE(MLAW_TAG_)    ,TARGET ,DIMENSION(NUMMAT)     :: MLAW_TAG
       TYPE(EOS_TAG_)     ,TARGET ,DIMENSION(0:MAXEOS)   :: EOS_TAG
       TYPE(PROP_TAG_)    ,TARGET ,DIMENSION(0:MAXPROP)  :: PROP_TAG
-      TYPE(FAIL_TAG_)    ,TARGET ,DIMENSION(0:MAXFAIL ) :: FAIL_TAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -66,7 +65,6 @@ C-----------------------------------------------
       TYPE(MLAW_TAG_)    , POINTER :: MTAG
       TYPE(EOS_TAG_)     , POINTER :: ETAG
       TYPE(PROP_TAG_)    , POINTER :: PTAG
-      TYPE(FAIL_TAG_)    , POINTER :: FTAG 
 C-----------------------------------------------------------------------
 c     GMAT - globat material number
 c     GLAW - globat material law model

@@ -623,11 +623,13 @@ c
                 LEOS  = LEOS  + NUVAREOS*NEL
                 
                 ALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(NFAIL))
+                MX = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
 
                 DO J = 1,NFAIL
                   FLOC=>ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(J)         
 c
-                  FLOC%ILAWF = MAT_PARAM(MX)%FAIL(J)%IRUPT                                          
+                  IRUPT = MAT_PARAM(MX)%FAIL(J)%IRUPT
+                  FLOC%ILAWF = IRUPT                                          
                   LFAIL = LFAIL + 1 
 c
                   FLOC%IDFAIL = MAT_PARAM(MX)%FAIL(J)%FAIL_ID
@@ -779,7 +781,7 @@ c        Corotational reference coordinates (isolid 19)
 C                            
 c----------------------------------------------------
           CALL INITVARS_AUTO(
-     .         ELBUF_TAB(NG),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
+     .         ELBUF_TAB(NG),MLAW_TAG ,PROP_TAG ,
      .         IMID         ,MLW      ,IGTYP    ,JMULT    ,IFAIL  ,
      .         IEOS         ,EOS_TAG  ,ISNOD    )  
 c-------------------------------------------------
@@ -1323,15 +1325,18 @@ c
                 LEOS = LEOS + NUVAREOS*NEL
 
                 ALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(NFAIL))
+                MX = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
                 DO J = 1,NFAIL
                   FLOC=>ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(J)         
-                  FLOC%ILAWF = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT  
+                  
+                  IRUPT = MAT_PARAM(MX)%FAIL(J)%IRUPT
+                  FLOC%ILAWF = IRUPT 
                   LFAIL = LFAIL + 1 
 c
-                  FLOC%IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID 
+                  FLOC%IDFAIL = MAT_PARAM(MX)%FAIL(J)%FAIL_ID 
                   LFAIL = LFAIL + 1 
 c
-                  FLOC%NVAR  = MAT_PARAM(IMAT(IL))%FAIL(J)%NUVAR                       
+                  FLOC%NVAR  = MAT_PARAM(MX)%FAIL(J)%NUVAR                       
                   CALL MY_ALLOC(FLOC%VAR,FLOC%NVAR*NEL)
                   FLOC%VAR = ZERO     
                   LFAIL = LFAIL + FLOC%NVAR*NEL + 1 
@@ -1543,7 +1548,7 @@ c           Allocate Orthotropic Beta angle (dyna input format)
           ENDIF                   
 c----------------------------------------------------
           CALL INITVARS_AUTO(
-     .         ELBUF_TAB(NG),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
+     .         ELBUF_TAB(NG),MLAW_TAG ,PROP_TAG ,
      .         IMID         ,MLW      ,IGTYP    ,JMULT    ,IFAIL  ,
      .         IEOS         ,EOS_TAG  ,ISNOD    )  
 c-------------------------------------------------
@@ -1995,7 +2000,6 @@ c
               NUVAREOS= ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS
               NPTT    = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
               NFAIL   = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL                                                
-              IRUPT   = MAT_PARAM(IMAT(IL))%FAIL(1)%IRUPT   ! Failure model type    
               
               DO IR = 1,NPTR                                       
                 DO IS = 1,NPTS                                      
@@ -2011,10 +2015,11 @@ c
                     LMAT  = LMAT  + NUVARM*NEL
 
                     IF (NFAIL == 1) THEN
+                      IRUPT   = MAT_PARAM(IMAT(IL))%FAIL(1)%IRUPT   ! Failure model type    
                       ALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(NFAIL))
                       FLOC   => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(1)         
 c
-                      FLOC%ILAWF = MAT_PARAM(IMAT(IL))%FAIL(1)%IRUPT                                            
+                      FLOC%ILAWF = IRUPT                                            
                       LFAIL = LFAIL + 1 
 c
                       FLOC%IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(1)%FAIL_ID 
@@ -2071,7 +2076,7 @@ c-------------------------------------------------
           CALL ZEROVARS_AUTO(ELBUF_TAB(NG))
 c-------------------------------------------------
           CALL INITVARS_AUTO(
-     .         ELBUF_TAB(NG),MLAW_TAG ,PROP_TAG ,FAIL_TAG ,
+     .         ELBUF_TAB(NG),MLAW_TAG ,PROP_TAG ,
      .         IMID         ,MLW      ,IGTYP    ,JMULT    ,IFAIL  ,
      .         IEOS         ,EOS_TAG  ,ISNOD    )  
 C---
