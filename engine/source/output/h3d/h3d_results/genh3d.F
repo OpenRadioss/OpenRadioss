@@ -148,8 +148,8 @@ Chd|====================================================================
      3                  MDS_MATID,FNCONTP2 ,FTCONTP2    ,IBCL        ,ILOADP    ,
      4                  LLOADP   ,FAC      ,SENSORS     ,TAGNCONT    ,LOADP_HYD_INTER,
      5                  XFRAME   ,FORC     ,AR          ,CSEFRIC     ,CSEFRICG  ,
-     6                  CSEFRIC_STAMP,CSEFRICG_STAMP    ,TABLE       ,IFRAME    ,
-     7                  LOADS    )
+     6                  CSEFRIC_STAMP,CSEFRICG_STAMP    ,TABLE       ,IFRAME    ,LOADS,
+     7                  DRAPE_SH4N, DRAPE_SH3N, DRAPEG  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -176,6 +176,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE MY_ALLOC_MOD
       USE OUTMAX_MOD
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -282,6 +283,8 @@ C-----------------------------------------------
       my_real , INTENT(IN) :: AR(SAR)
       my_real , INTENT(IN) :: CSEFRIC(NINEFRIC,S_EFRICINT) ,CSEFRICG(S_EFRIC),
      .                        CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG) ,CSEFRICG_STAMP(S_EFRICG)
+      TYPE (DRAPE_) , INTENT(IN)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE (DRAPEG_), INTENT(IN)  :: DRAPEG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2656,7 +2659,7 @@ c         IF(ISPMD == 0)   print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPU
      .                 IGEO     ,IXTG  ,IPM   ,STACK ,SHELL_ID   ,SHELL_ITY    ,INFO1,
      .                 INFO2    ,IS_WRITEN_SHELL ,IPARTC ,IPARTTG     ,LAYER        ,IPT        ,
      .                 ID_PLY     ,GAUSS     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART ,KEYWORD,D    ,
-     .                 OBJECT_ID  ,BUFMAT    ,MAT_PARAM)
+     .                 OBJECT_ID  ,BUFMAT    ,MAT_PARAM,GEO ,DRAPE_SH4N, DRAPE_SH3N, DRAPEG)
 
 c
           IF (NSPMD > 1 ) THEN
