@@ -64,9 +64,9 @@ C-----------------------------------------------
       INTEGER IPRINT, LP,IndexDesign0
 
       my_real 
-     .      STIFF,STIFFC,STIFFT, EMAX, EMIN,EINI,
+     .      STIFF,STIFFC,STIFFT, EMAX_CURVE, EMIN_CURVE,EINI_CURVE,
      .     STIFFMIN,STIFFMAX,STIFFINI,STFAVG,SCALEFAC,E0,
-     .     EPSMAX,EC_MAX
+     .     EPSMAX,EC_MAX,EMAX
 
       COMMON /MINCFPRT/IPRINT, LP
       COMMON /INDEX_SQP/IndexDesign0
@@ -75,25 +75,32 @@ C=======================================================================
       IFUNC => IPM(10+1:10+NFUNC)
 C=======================================================================
 c
-           EMAX = ZERO
-           EMIN = EP20
-           EINI = ZERO
+           EMAX_CURVE = ZERO
+           EMIN_CURVE = EP20
+           EINI_CURVE = ZERO
            EPSMAX = ONE
           DO J = 1, NFUNC 
               SCALEFAC= UPARAM(10 + NFUNC + J )  
               CALL FUNC_SLOPE(IFUNC(J),SCALEFAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STFAVG)  
-              EMAX = MAX(EMAX,  STIFFMAX )
-              EMIN = MIN(EMIN,  STIFFMIN)
-              EINI = MAX(EINI, STIFFINI)
+              EMAX_CURVE = MAX(EMAX_CURVE,  STIFFMAX )
+              EMIN_CURVE = MIN(EMIN_CURVE,  STIFFMIN)
+              EINI_CURVE = MAX(EINI_CURVE, STIFFINI)
           ENDDO ! NFUNC 
-          E0 = UPARAM(1)
-          EC_MAX = MAX(E0,EMAX)
-          IF(EMAX <= E0) THEN
+          E0 = UPARAM(1) 
+          IF(E0 < EINI_CURVE) THEN
+             E0 = EINI_CURVE
+             UPARAM(1) = E0   
+             CALL ANCMSG(MSGID=865, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
+     .                 I1=MAT_ID,
+     .                 C1=TITR,
+     .                 R1=E0)
+          ENDIF   
+          IF(EMAX_CURVE <= E0) THEN
             EMAX = E0
           ELSE  
-!!          EMAX= MIN(EMAX, HUNDRED*E0) 
-           EMAX = HUNDRED*E0 ! by default value 
-          ENDIF   
+           EMAX = MIN(EMAX_CURVE,HUNDRED*E0 ) !
+          ENDIF 
+          EC_MAX = MAX(E0,EMAX)  
           UPARAM(11 + 2*NFUNC) = EMAX
           UPARAM(12 + 2*NFUNC) = EPSMAX
           PM(24) = EC_MAX
