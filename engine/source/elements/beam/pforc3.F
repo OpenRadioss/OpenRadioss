@@ -311,6 +311,7 @@ C-------------------------
               VL12(I) = EXX(I)*DTINV
            ENDDO
            CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,F1 )
+           GBUF%FOR(1:NEL) = F1(1:NEL) 
         END IF
 C----------------------------
 C     FORCES INTERNES

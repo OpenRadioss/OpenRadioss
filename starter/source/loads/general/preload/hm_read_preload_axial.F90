@@ -227,7 +227,8 @@
           nn = 0
           if (iset > 0) then
             do is=1,ngrspri
-                if (iset==igrspring(is)%ID) then
+                if (igrspring(is)%nentity == 0) cycle ! at least 1 empty gr_elem created in Radioss 
+                if (iset==igrspring(is)%ID ) then
                   nn = is
                   itype = 6
                   exit
@@ -236,6 +237,7 @@
           endif
           if (iset > 0 .and. nn==0) then
             do is=1,ngrbeam
+                if (igrbeam(is)%nentity == 0) cycle
                 if (iset==igrbeam(is)%ID) then
                   nn = is
                   itype = 5
@@ -245,6 +247,7 @@
           endif
           if (iset > 0 .and. nn==0) then
             do is=1,ngrtrus
+                if (igrtruss(is)%nentity == 0) cycle
                 if (iset==igrtruss(is)%ID) then
                   nn = is
                   itype = 4

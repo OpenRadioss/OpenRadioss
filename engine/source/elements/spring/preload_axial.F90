@@ -59,7 +59,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
         integer i,j,nld,isens
-        my_real t_start,t_stop,t_shift,deri
+        my_real t_start,t_stop,t_shift,deri,tt
 ! ----------------------------------------------------------------------------------------------------------------------
 !           e x t e r n a l   f u n c t i o n s
 ! ----------------------------------------------------------------------------------------------------------------------                   
@@ -76,8 +76,9 @@
         if (sens_id>0) then
           t_shift = sensors%sensor_tab(sens_id)%tstart
         end if
-        if (time>=(t_start+t_shift).and.time<(t_stop+t_shift)) then
-          preload1= finter(fun_id,time,npc,tf,deri)
+        tt = time-t_shift
+        if (tt>=t_start.and.tt<t_stop) then
+          preload1= finter(fun_id,tt,npc,tf,deri)
         end if
 !---
         end subroutine get_preload_axial
@@ -115,7 +116,7 @@
         do i=1,nel
           y_scal = bpreload(i,1)
           damp   = bpreload(i,2)
-          f1(i) = y_scal*preload1 -damp*v12(i)
+          f1(i) = y_scal*preload1 + damp*v12(i)
         end do
 !---
 
