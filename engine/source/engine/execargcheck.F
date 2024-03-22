@@ -64,6 +64,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        INTEGER ARGN
        INTEGER PHELPI,PEXECI,PINPUTI, PNTHI,PUSERLNAMI,MDS_PATHI
+       INTEGER :: MDS_DIRI             !< Flag for -mdsdir - stores Iteration in command line
        INTEGER I,STRL,STRLN,ERR,LENLIST,ISIN,BEGIN,IERRMSG
        INTEGER IDUM
        CHARACTER*2096  ARGS,INPUTC,INPUTR,MSG,STRING
@@ -73,7 +74,7 @@ C-----------------------------------------------
        CHARACTER :: LAST_LETTER,SEPARATOR
        CHARACTER(LEN=2096) ARGS2,ARGS_REDUCE,ARGP
        CHARACTER(LEN=4096) ULIBC
-       PARAMETER (LENLIST=19)
+       PARAMETER (LENLIST=20)
        CHARACTER(LEN=12):: ARGLIST(LENLIST)
        EXTERNAL IARGC
        DATA ARGLIST/
@@ -89,7 +90,7 @@ C-----------------------------------------------
      .    '-INSPIRE',
      .    '-PREVIEW',
      .    '-INSPIRE_ALM','-NORST',
-     .    '-MDS_LIBPATH'/
+     .    '-MDS_LIBPATH','-MDSDIR'/
 C-----------------------------------------------
        IDUM=-1
        GOT_INPUT = 0
@@ -108,6 +109,7 @@ C-----------------------------------------------
        GOT_INSPIRE_ALM=0
        MDS_PATH_LEN = 0
        MDS_PATHI = 0
+       MDS_DIRI = 0
        GOT_PREVIEW= 0
 
        ! Initialize MDS_PATH Array
@@ -184,6 +186,7 @@ C------------------------------------------------
 C Madymo Option
           CASE ( '--')
              ERR = 0
+C------------------------------------------------
 C -NTHREAD, -NT
           CASE ( '-NTHREAD')
              IF (PNTHI==0) PNTHI = I
@@ -199,6 +202,10 @@ C------------------------------------------------
 C -MDS_LIBPATH
             CASE ( '-MDS_LIBPATH')
                 IF (MDS_PATHI==0) MDS_PATHI=I
+C------------------------------------------------
+C -MDSDIR
+            CASE ( '-MDSDIR')
+                IF (MDS_DIRI==0) MDS_DIRI=I
 C------------------------------------------------
 C -MEM-MAP
           CASE ( '-MEM-MAP')
@@ -224,11 +231,11 @@ C Lignes de commande qui ne sont pas definies
                CALL UPCASE(ARGP)
                STRLN=LEN_TRIM(ARGP)
 C Check if argument string is a variable to an argument
-               IF (ARGP == '-I'      .OR. ARGP =='-INPUT' .OR.
-     *             ARGP == '-RST'    .OR. ARGP =='-NT'    .OR.
-     *             ARGP == '-NTHREAD'.OR. 
-     *             ARGP == '-DYLIB'  .OR. ARGP =='-DYNAMIC_LIB'.OR.
-     *             ARGP == '-MDS_LIBPATH')THEN
+               IF (ARGP == '-I'           .OR. ARGP =='-INPUT' .OR.
+     *             ARGP == '-RST'         .OR. ARGP =='-NT'    .OR.
+     *             ARGP == '-NTHREAD'     .OR. 
+     *             ARGP == '-DYLIB'       .OR. ARGP =='-DYNAMIC_LIB'.OR.
+     *             ARGP == '-MDS_LIBPATH' .OR. ARGP == '-MDSDIR' )THEN
                  ERR = 0
                ELSE
                  ERR = 1
@@ -502,7 +509,39 @@ C check if -mds has got an argument or if the next string is an input command
 
          ENDIF     !         IF (MDS_PATHI+1  > ARGN) THEN
        ENDIF
- 4000  CONTINUE
+C------------------------------------------------
+C -MDSDIR
+C------------------------------------------------
+      IF (MDS_DIRI /= 0)THEN
+
+        IF (MDS_DIRI+1  > ARGN) THEN
+
+C          Case -DYLIB is last argument in the list.
+           CALL GET_COMMAND_ARGUMENT(MDS_DIRI,ARGP)
+           STRLN=LEN_TRIM(ARGP) 
+           CALL PHELPINFO(1,ARGP,STRLN)
+
+        ELSE
+
+           CALL GET_COMMAND_ARGUMENT(MDS_DIRI+1,MDS_PATH)       
+           MDS_PATH_LEN=LEN_TRIM(MDS_PATH)
+
+           !  check if -mdsdir has got an argument or if the next string is an input command
+           ULIBC=''
+           ULIBC(1:MDS_PATH_LEN) = MDS_PATH(1:MDS_PATH_LEN)
+           CALL UPCASE(ULIBC)
+           ISIN = 0
+           CALL ISANARGUMENT(ARGLIST,LENLIST,ULIBC,ISIN)
+
+           IF ( ISIN==1 )THEN
+              CALL GETARG(MDS_DIRI,ARGP)
+              STRLN=LEN_TRIM(ARGP) 
+              CALL PHELPINFO(1,ARGP,STRLN)
+              CALL ARRET(7)
+           ENDIF 
+
+        ENDIF     !         IF (MDS_DIRI+1  > ARGN) THEN
+      ENDIF
 C------------------------------------------------
 
        END
@@ -809,7 +848,7 @@ C    *                  'Set GPU device number'
      *                  'Do not write restart files'
        WRITE(6,'(A,A)') '  -dynamic_lib [FILE] / -dylib [FILE] : ',
      *                  'Set name to the dynamic library for Radioss User Interface'
-       WRITE(6,'(A,A)') '  -mds_libpath [PATH]                 : ',
+       WRITE(6,'(A,A)') '  -mdsdir [PATH] / -mds_libpath [PATH]                 : ',
 #ifdef _WIN32
      *                  'Set directory to MDS Library (default is %ALTAIR_HOME%/hwsolver/MultiscaleDesigner/%arch%)'
 #else
