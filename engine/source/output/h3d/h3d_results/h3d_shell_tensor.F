@@ -76,13 +76,14 @@ C-----------------------------------------------
      .   LAYER_INPUT ,IPT_INPUT,GAUSS_INPUT,PLY_INPUT,ID
       my_real, INTENT(IN),TARGET :: BUFMAT(SBUFMAT)
       my_real
-     .   TENS(3,*),EPSDOT(6,*),X(3,*),SHELL_TENSOR(3,*),D(3,*),GEO(NPROPG,NUMGEO)
+     .   TENS(3,*),EPSDOT(6,*),X(3,*),SHELL_TENSOR(3,*),D(3,*)
+      my_real, INTENT(IN) :: GEO(NPROPG,NUMGEO)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
        CHARACTER(LEN=NCHARLINE100):: KEYWORD
-      TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
-      TYPE (DRAPEG_)  :: DRAPEG
+      TYPE (DRAPE_) , INTENT(IN) :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE (DRAPEG_), INTENT(IN) :: DRAPEG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
