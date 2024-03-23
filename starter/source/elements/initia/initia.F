@@ -1477,15 +1477,15 @@ C         SPH cells
           JSPH=1
           ISPH2SOL=IPARG(69,NG)
           CALL SPINIT3(ITY   ,SPBUF    ,KXSP     ,X     ,GEO    ,
-     2             MS        ,NPC      ,PLD      ,IN    ,SKEW   ,
-     3             DTELEM    ,NEL      ,STIFN    ,STIFR ,IGEO     ,
+     2             MS      ,NPC        ,PLD      ,IN    ,SKEW   ,
+     3             DTELEM  ,NEL        ,STIFN    ,STIFR ,IGEO     ,
      4             PARTSAV ,V          ,IPART(I15J),BUFMAT,
      5             PM      ,ITAB       ,MSR        ,INR   ,IXSP   ,
-     6                 NOD2SP  ,IPARG(1,NG),ALE_CONNECTIVITY      ,DETONATORS  ,
-     7                 SIGSPH  ,ISPTAG     ,IPART      ,
-     8                 IPM     ,NSIGSPH    ,PTSPH      ,NPC   ,
-     9                 PLD     ,ELBUF_TAB(NG),MCP,TEMP ,ILOADP,
-     A                 FACLOAD)
+     6             NOD2SP  ,IPARG(1,NG),ALE_CONNECTIVITY      ,DETONATORS  ,
+     7             SIGSPH  ,ISPTAG     ,IPART      ,
+     8             IPM     ,NSIGSPH    ,PTSPH      ,NPC   ,
+     9             PLD     ,ELBUF_TAB(NG),MCP,TEMP ,ILOADP,
+     A             FACLOAD ,STIFINT    ,I7STIFS)
         !----------------------------------------------------------!
         !   ITY == 100   Pulley PID28 + User elements PID 29-30-31 !
         !----------------------------------------------------------!
