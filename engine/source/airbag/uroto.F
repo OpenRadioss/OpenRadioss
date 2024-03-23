@@ -67,7 +67,6 @@ C
 Chd|====================================================================
 Chd|  UROTOV                        source/airbag/uroto.F         
 Chd|-- called by -----------
-Chd|        M25CPLRC                      source/materials/mat/mat025/m25cplrc.F
 Chd|        M32PLAS                       source/materials/mat/mat032/m32plas.F
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        SIGROTA                       source/output/anim/generate/sigrota.F

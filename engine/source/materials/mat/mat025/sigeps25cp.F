@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|-- calls ---------------
 Chd|        M25CPLRP2                     source/materials/mat/mat025/m25cplrc2.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================
       SUBROUTINE SIGEPS25CP(MAT_PARAM,
      1                      JFT    ,JLT    ,OFF    ,DIR    ,

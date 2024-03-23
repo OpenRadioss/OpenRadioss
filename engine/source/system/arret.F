@@ -361,7 +361,6 @@ Chd|        SPMD_INITFI                   source/mpi/interfaces/spmd_i7tool.F
 Chd|        SPMD_INT18_LAW151_PON         source/mpi/forces/spmd_int18_law151_pon.F
 Chd|        SPMD_RST_CHECK                source/mpi/init/spmd_rst_check.F
 Chd|        SPMD_SD_XV                    source/mpi/nodes/spmd_sd_xv.F 
-Chd|        SPMD_SPHBOX                   source/mpi/elements/spmd_sph.F
 Chd|        SPMD_SPHGAT                   source/mpi/sph/spmd_sphgat.F  
 Chd|        SPMD_SPHGAT_old               source/mpi/sph/spmd_sphgat.F  
 Chd|        SPMD_SPHVOX                   source/mpi/sph/spmd_sphvox.F  

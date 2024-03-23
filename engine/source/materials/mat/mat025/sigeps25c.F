@@ -25,7 +25,6 @@ Chd|  SIGEPS25C                     source/materials/mat/mat025/sigeps25c.F
 Chd|-- called by -----------
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|-- calls ---------------
-Chd|        M25CPLRC                      source/materials/mat/mat025/m25cplrc.F
 Chd|        M25CRAK                       source/materials/mat/mat025/m25crak.F
 Chd|        PRONY25C                      source/materials/mat/mat025/prony25c.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F

@@ -293,7 +293,6 @@ Chd|        LINE_INI                      source/groups/line_ini.F
 Chd|        LOADPREST                     source/output/restart/rdresb.F
 Chd|        L_DIR02                       source/constraints/general/impvel/fv_imp0.F
 Chd|        M13LAW                        source/materials/mat/mat013/m13law.F
-Chd|        M25CPLRC                      source/materials/mat/mat025/m25cplrc.F
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        MPI_MIN_REAL_BEGIN            share/modules/mpi_tools_mod.F 
 Chd|        MPI_MIN_REAL_END              share/modules/mpi_tools_mod.F 
@@ -440,7 +439,6 @@ Chd|        SPMD_INT18_LAW151_PON         source/mpi/forces/spmd_int18_law151_po
 Chd|        SPMD_LAGBOUNDS_EXCH_I22       source/mpi/interfaces/spmd_lagbounds_exch_i22.F
 Chd|        SPMD_RST_CHECK                source/mpi/init/spmd_rst_check.F
 Chd|        SPMD_SD_XV                    source/mpi/nodes/spmd_sd_xv.F 
-Chd|        SPMD_SPHBOX                   source/mpi/elements/spmd_sph.F
 Chd|        SPMD_SPHGAT                   source/mpi/sph/spmd_sphgat.F  
 Chd|        SPMD_SPHGAT_old               source/mpi/sph/spmd_sphgat.F  
 Chd|        SPMD_SPHGETDK                 source/mpi/elements/spmd_sph.F

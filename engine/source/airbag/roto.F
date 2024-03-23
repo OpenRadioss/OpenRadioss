@@ -69,7 +69,6 @@ C
 Chd|====================================================================
 Chd|  ROTOV                         source/airbag/roto.F          
 Chd|-- called by -----------
-Chd|        M25CPLRC                      source/materials/mat/mat025/m25cplrc.F
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
 Chd|-- calls ---------------

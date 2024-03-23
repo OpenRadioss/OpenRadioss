@@ -139,11 +139,11 @@ C
 Chd|====================================================================
 Chd|  SPMD_GET_STIF                 source/mpi/interfaces/send_cand.F
 Chd|-- called by -----------
-Chd|        IMP_ICOMCRIT                  source/implicit/imp_int_k.F
+Chd|        IMP_ICOMCRIT                  source/implicit/imp_int_k.F   
 Chd|        INTCRIT                       source/interfaces/intsort/intcrit.F
 Chd|-- calls ---------------
 Chd|        SPMD_SD_STFN                  source/mpi/interfaces/send_cand.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_GET_STIF(
      .    NEWFRONT,I_STOK ,CAND_N  ,STFN ,NSN ,
@@ -282,7 +282,7 @@ Chd|-- called by -----------
 Chd|        INTCRIT                       source/interfaces/intsort/intcrit.F
 Chd|-- calls ---------------
 Chd|        SPMD_SD_STFN25                source/mpi/interfaces/send_cand.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_GET_STIF25(
      .    NEWFRONT,STFN ,NSN ,
@@ -406,7 +406,7 @@ Chd|-- called by -----------
 Chd|        INTCRIT                       source/interfaces/intsort/intcrit.F
 Chd|-- calls ---------------
 Chd|        SPMD_SD_STFA20                source/mpi/interfaces/send_cand.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_GET_STIF20(
      1    NEWFRONT,I_STOK ,CAND_N  ,STFA ,NSN ,
@@ -543,11 +543,11 @@ C
 Chd|====================================================================
 Chd|  SPMD_GET_STIF11               source/mpi/interfaces/send_cand.F
 Chd|-- called by -----------
-Chd|        IMP_ICOMCRIT                  source/implicit/imp_int_k.F
+Chd|        IMP_ICOMCRIT                  source/implicit/imp_int_k.F   
 Chd|        INTCRIT                       source/interfaces/intsort/intcrit.F
 Chd|-- calls ---------------
 Chd|        SPMD_SD_STFN11                source/mpi/interfaces/send_cand.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_GET_STIF11(
      .    NEWFRONT,I_STOK ,CAND_S  ,STFS  ,NRTS ,
@@ -686,7 +686,7 @@ Chd|-- called by -----------
 Chd|        INTCRIT                       source/interfaces/intsort/intcrit.F
 Chd|-- calls ---------------
 Chd|        SPMD_SD_STFN20E               source/mpi/interfaces/send_cand.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_GET_STIF20E(
      .    NEWFRONT,I_STOK ,CAND_S  ,STFS  ,NLINSA ,
@@ -825,7 +825,7 @@ Chd|  SPMD_SD_STFN                  source/mpi/interfaces/send_cand.F
 Chd|-- called by -----------
 Chd|        SPMD_GET_STIF                 source/mpi/interfaces/send_cand.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE  SPMD_SD_STFN(
      1   LOC_PROC,PMAIN ,LENX ,CAND_N,NSV    ,
@@ -967,7 +967,7 @@ Chd|  SPMD_SD_STFN25                source/mpi/interfaces/send_cand.F
 Chd|-- called by -----------
 Chd|        SPMD_GET_STIF25               source/mpi/interfaces/send_cand.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE  SPMD_SD_STFN25(
      1   LOC_PROC,PMAIN ,LENX ,NSV    ,
@@ -1092,7 +1092,7 @@ Chd|  SPMD_SD_STFA20                source/mpi/interfaces/send_cand.F
 Chd|-- called by -----------
 Chd|        SPMD_GET_STIF20               source/mpi/interfaces/send_cand.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE  SPMD_SD_STFA20(
      1   LOC_PROC,PMAIN ,LENX ,CAND_N,NSV    ,
@@ -1234,7 +1234,7 @@ Chd|  SPMD_SD_STFN11                source/mpi/interfaces/send_cand.F
 Chd|-- called by -----------
 Chd|        SPMD_GET_STIF11               source/mpi/interfaces/send_cand.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE  SPMD_SD_STFN11(
      1   LOC_PROC,PMAIN ,LENX ,CAND_S,IRECTS ,
@@ -1395,7 +1395,7 @@ Chd|  SPMD_SD_STFN20E               source/mpi/interfaces/send_cand.F
 Chd|-- called by -----------
 Chd|        SPMD_GET_STIF20E              source/mpi/interfaces/send_cand.F
 Chd|-- calls ---------------
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE  SPMD_SD_STFN20E(
      1   LOC_PROC,PMAIN ,LENX ,CAND_S,IXLINS ,
@@ -1563,12 +1563,12 @@ Chd|-- called by -----------
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
-Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F
+Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SPMD_IFRONT_STAMP(
      1   IPARI   ,NSENSOR ,INTBUF_TAB, RETRI,TEMP    ,SENSOR_TAB  ,
@@ -1948,15 +1948,15 @@ C
 Chd|====================================================================
 Chd|  SPMD_I21TEMPCOM               source/mpi/interfaces/send_cand.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F
+Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
-Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F
+Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SPMD_I21TEMPCOM(IPARI,TEMP,INTBUF_TAB,NSENSOR,SENSOR_TAB)
 C============================================================================
@@ -2141,18 +2141,18 @@ C
 Chd|====================================================================
 Chd|  SPMD_I21FTHECOM               source/mpi/interfaces/send_cand.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F
+Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        INTCONTP                      source/mpi/interfaces/spmd_i7tool.F
 Chd|        SORTINT                       source/mpi/interfaces/spmd_i7tool.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
-Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F
+Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_I21FTHECOM(IPARI    ,FTHE  ,INTBUF_TAB,SENSOR_TAB,NISKYFI ,
      .                           FTHESKYI ,ISKY  ,FSKYI     ,CONDNSKYI ,NSENSOR )
@@ -2611,9 +2611,9 @@ Chd|-- called by -----------
 Chd|        I11BUCE_CRIT                  source/interfaces/intsort/i11buce_crit.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_GET_PENIS(PENIS,NIN)
 C-----------------------------------------------
@@ -2783,9 +2783,9 @@ Chd|-- called by -----------
 Chd|        I20BUCE_CRIT                  source/interfaces/intsort/i20buce_crit.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_GET_PENIS20(NSV,IXLINS,PENIS,PENISE,PENIA,NIN)
 C-----------------------------------------------
