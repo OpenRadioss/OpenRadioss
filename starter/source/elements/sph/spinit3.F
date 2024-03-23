@@ -43,7 +43,7 @@ Chd|====================================================================
      .                   SIGSPH  ,ISPTAG   ,IPART,
      .                   IPM     ,NSIGSPH  ,PTSPH  ,NPF   ,
      .                   TF      ,ELBUF_STR,MCP    ,TEMP  ,ILOADP ,
-     .                   FACLOAD)
+     .                   FACLOAD ,STIFINT  ,I7STIFS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -83,6 +83,8 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,*)
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
+      INTEGER,INTENT(IN) :: I7STIFS
+      my_real,INTENT(INOUT) :: STIFINT(NUMNOD)
       TYPE(DETONATORS_STRUCT_)::DETONATORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -213,7 +215,7 @@ C--------------------------------------------------
      .            GBUF    ,LBUF   ,MBUF       ,ELBUF_STR,ILOADP ,
      .            FACLOAD, DELTAX)
 C--------------------------------------------------
-C      Diametre initial (Fichiers Y)
+C      INITIAL DIAMETER (Y files )
 C--------------------------------------------------
        IF(ISIGI==3.OR.ISIGI==4.OR.ISIGI==5)THEN
          DO I=LFT,LLT
@@ -226,7 +228,7 @@ C--------------------------------------------------
          ENDDO
        ENDIF
 C----------------------------------------
-C     INITIALISATION DE LA THERMIQUE
+C     INITIALISATION OF THERMAL BEHAVIOR
 C----------------------------------------
       IF(JTHE > 0)THEN
         DO I=LFT,LLT
@@ -242,11 +244,11 @@ C----------------------------------------
         ENDDO
       END IF
 C--------------------------------------------------
-C     INITIALISATION DES MASSES.
+C     INITIALISATION OF MASSES
 C--------------------------------------------------
       CALL SPPART3(XMAS,PARTSAV,NC1,MASS,X,V,IPARTSP(NF1))
 C--------------------------------------------------
-C     CALCUL DES DT ELEMENTAIRES
+C     ELEMENTARY TIME STEP COMPUTATION
 C--------------------------------------------------
        NDEPAR=NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELTG
      .       +NUMELX+NFT
@@ -262,6 +264,16 @@ C--------------------------------------------------
          STI = TWO * MASS(I) / MAX(EM20,DTX(I)*DTX(I))
          STIFN(KXSP(3,I+NFT))=STIFN(KXSP(3,I+NFT))+STI
        ENDDO
+C----------------------------------------------
+C     INITIALISATION OF NODAL STIFFNESSES FOR CONTACT
+C----------------------------------------------
+      IF(I7STIFS/=0)THEN
+        DO I=LFT,LLT
+          N = I+NFT
+C         stiff = 0.5*Bulk*VOL**1/3 (SPH only one element per node - no summation needed)        
+          STIFINT(KXSP(3,I+NFT))= HALF*PM(32,MXT(I))*VOL(I)**THIRD
+        ENDDO
+      ENDIF         
 C--------------------------------------------------
       DO I=LFT,LLT
         N=NFT+I
