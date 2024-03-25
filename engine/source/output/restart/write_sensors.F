@@ -137,8 +137,11 @@ c--------------------------------------
 c--------------------------------------
 c       Write sensor lists in engine output options (/STOP/LSENSOR, /STAT/LSENSOR...)
 c       in case of chkpoint restart
+        IF (WMCHECK == 1) THEN
+           CALL WRITE_I_C(SENSORS%STOP ,SENSORS%NSTOP) ! Must be read at any chkpt restart
+        ENDIF
+
         IF (ISPMD == 0 .and. WMCHECK == 1) THEN
-          CALL WRITE_I_C(SENSORS%STOP ,SENSORS%NSTOP)
           CALL WRITE_I_C(SENSORS%STAT ,SENSORS%NSTAT)
           CALL WRITE_I_C(SENSORS%OUTP ,SENSORS%NOUTP)
           CALL WRITE_I_C(SENSORS%ANIM ,SENSORS%NANIM)
