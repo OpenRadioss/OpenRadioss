@@ -616,6 +616,7 @@ Chd|        LAW76_UPD                     source/materials/mat/mat076/law76_upd.
 Chd|        LAW77_UPD                     source/materials/mat/mat077/law77_upd.F
 Chd|        LAW87_UPD                     source/materials/mat/mat087/law87_upd.F
 Chd|        LAW88_UPD                     source/materials/mat/mat088/law88_upd.F
+Chd|        LAW90_UPD                     source/materials/mat/mat090/law90_upd.F
 Chd|        LAW92_NLSQF                   source/materials/mat/mat092/law92_nlsqf.F
 Chd|        LCGEO19                       source/elements/shell/coque/lcgeo19.F
 Chd|        LECACC                        source/tools/accele/lecacc.F  
