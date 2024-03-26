@@ -87,7 +87,8 @@ C-----------------------------------------------
       INTEGER I,J,K,L,LL,NL,ISU1,ISU2,NOD1,NRTM,NRTS,NSN,NMN,
      .        NLINSA,NLINMA,ILEV,NLN,ISYM,
      .        NLINS,NLINM,LINE1,LINE2,STAT,IL,IG,N,II
-      INTEGER TAG(NUMNOD),TAGS(NUMNOD),
+      INTEGER, DIMENSION(:), ALLOCATABLE  ::  TAG,TAGS
+      INTEGER 
      .        NSU1,NLS1,NLS2,NRTM_SH,ETYP,NRTM0,
      .        IMBIN,IM,IDEB,ISN
 C-----------------------------------------------
@@ -98,6 +99,7 @@ C-----------------------------------------------
 C
       CHARACTER MESS*40
       DATA MESS/'INTERFACE INPUT                         '/
+C-----------------------------------------------
       NSN   = 0
       NMN   = 0
       NRTM  = 0
@@ -260,6 +262,7 @@ C=======================================================================
 c-----------------------------------------------------------------
 c     tag noeuds surfaces S1 S2; 1,2 on S1,S2, 3 on both (ILEV=1)
 c-----------------------------------------------------------------
+      ALLOCATE(TAG(NUMNOD),TAGS(NUMNOD))
       DO I=1,NUMNOD
         TAG(I)=0 ! initialisation
         TAGS(I)=0 ! initialisation
@@ -412,6 +415,8 @@ C----------due the fact that NRTM is modified w/ shell seg
         IPARI(35) = NLN
         IPARI(42) = NRTM_SH
       END IF
+
+      DEALLOCATE(TAG,TAGS)
 C
       RETURN
       END

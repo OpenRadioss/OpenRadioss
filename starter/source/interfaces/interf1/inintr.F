@@ -135,14 +135,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, JINSCR, NIN, ITABM1, IWRN, I
-      INTEGER NTY, NSN2T, NMN2T,IKINE1(3*NUMNOD),ID,
+      INTEGER NTY, NSN2T, NMN2T,ID,
      .        NSNET  ,NMNET  ,MULTIMP, IREMNODE, NREMNODE,
      .        NREMN(NINTER),NREMN_OLD(NINTER),IEDG,IEDGN,ST2_CONNEC,
      .        REMNODE_SIZE,LEN_FILNAM,REMNODE_SIZE_EDG,IREMNODE_EDG
       CHARACTER*(2148) FILNAM
       CHARACTER*nchartitle,
      .        TITR
-      INTEGER, DIMENSION(:),ALLOCATABLE :: REMNODE,KREMNODE,T2_ADD_CONNEC,T2_CONNEC
+      INTEGER, DIMENSION(:),ALLOCATABLE :: REMNODE,KREMNODE,T2_ADD_CONNEC,T2_CONNEC,IKINE1
       
       INTEGER :: NS
       INTEGER :: NSN,NMN
@@ -176,6 +176,7 @@ C
       I_MEM = 0
       RESORT = 0
       NREMNODE = 0
+      ALLOCATE(IKINE1(3*NUMNOD))
       DO I=1,3*NUMNOD
         IKINE1(I) = 0
       ENDDO
@@ -571,7 +572,7 @@ c               WRITE(6,*) "Stiff=",min_stiff,avg_stiff(N),main_stiff
       ENDIF ! N2D
 
 C
-      DEALLOCATE(T2_ADD_CONNEC,T2_CONNEC)
+      DEALLOCATE(T2_ADD_CONNEC,T2_CONNEC,IKINE1)
 C
       RETURN
       END

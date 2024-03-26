@@ -49,10 +49,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      INTEGER WORK(70000), INDX(2*NUMNOD)
+      INTEGER WORK(70000)
+      INTEGER, DIMENSION(:), ALLOCATABLE :: INDX
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
+      ALLOCATE(INDX(2*NUMNOD))
       DO I = 1, NUMNOD
         INDX(I) = I
       END DO
@@ -76,6 +78,7 @@ C    .                I1=ITABM1(I))
         END IF
         ITABM1(NUMNOD+I) = INDX(I)
       END DO
+      DEALLOCATE(INDX)
 
       RETURN
       END
