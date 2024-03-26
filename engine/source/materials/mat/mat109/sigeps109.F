@@ -34,7 +34,7 @@ Chd|====================================================================
      1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,NVARTMP ,NUMTABL ,
      2     UPARAM  ,UVAR    ,VARTMP  ,ITABLE  ,TABLE   ,JTHE    ,
      3     TIME    ,TIMESTEP,OFF     ,RHO     ,PLA     ,DPLA    ,
-     4     SOUNDSP ,SIGY    ,ET      ,TEMP    ,EPSP    ,
+     4     SOUNDSP ,SIGY    ,ET      ,TEMP    ,EPSP    ,DPDM    ,
      5     DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      6     SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
@@ -62,7 +62,7 @@ C-----------------------------------------------
 c
       my_real  :: TIME,TIMESTEP
       my_real,DIMENSION(NUPARAM) ,INTENT(IN)  :: UPARAM
-      my_real,DIMENSION(NEL)     ,INTENT(IN)  :: RHO,OFF,
+      my_real,DIMENSION(NEL)     ,INTENT(IN)  :: RHO,DPDM,OFF,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX,DPLANL
       my_real ,DIMENSION(NEL)    ,INTENT(OUT) ::  SOUNDSP,SIGY,ET,
@@ -346,20 +346,22 @@ c
       END IF     !  NINDX > 0  (plasticity)
 !-----------------------------------------------------------------------------
       ! if EOS is used, material law calculates only deviatoric stress tensor
+      !                 sound speed depends on pressure derivative over volume change
+      !                 calculated in EOS
       IF (IEOS > 0) THEN
-        DO I = 1, NEL
-          SIGNXX(I) = SIGNXX(I) - SIGM(I)
-          SIGNYY(I) = SIGNYY(I) - SIGM(I)
-          SIGNZZ(I) = SIGNZZ(I) - SIGM(I)
-          SIGNXY(I) = SIGNXY(I)
-          SIGNYZ(I) = SIGNYZ(I)
-          SIGNZX(I) = SIGNZX(I)
-        ENDDO
+        SIGNXX(1:NEL) = SIGNXX(1:NEL) - SIGM(1:NEL)
+        SIGNYY(1:NEL) = SIGNYY(1:NEL) - SIGM(1:NEL)
+        SIGNZZ(1:NEL) = SIGNZZ(1:NEL) - SIGM(1:NEL)
+        SIGNXY(1:NEL) = SIGNXY(1:NEL)
+        SIGNYZ(1:NEL) = SIGNYZ(1:NEL)
+        SIGNZX(1:NEL) = SIGNZX(1:NEL)
+        SOUNDSP(1:NEL)= SQRT((DPDM(1:NEL) + FOUR_OVER_3*G) / RHO(1:NEL))
+      ELSE 
+        SOUNDSP(1:NEL)= SQRT((BULK + FOUR_OVER_3*G) / RHO(1:NEL))
       END IF                
 c
-      SOUNDSP(1:NEL)= SQRT((BULK + FOUR_OVER_3*G) / RHO(1:NEL))
-      SIGY(1:NEL)   = YLD(1:NEL)
-      EPSP(1:NEL)   = ALPHA*DPLA(1:NEL)*DTINV + ALPHI*EPSP(1:NEL)
+      SIGY(1:NEL) = YLD(1:NEL)
+      EPSP(1:NEL) = ALPHA*DPLA(1:NEL)*DTINV + ALPHI*EPSP(1:NEL)
       IF (INLOC > 0) THEN 
         IF (JTHE == 0 .AND. BETA > ZERO) THEN 
           DO I = 1,NEL     

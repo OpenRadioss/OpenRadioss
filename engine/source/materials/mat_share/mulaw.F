@@ -954,8 +954,8 @@ c
 c
       ELSEIF (MTN == 44) THEN
         CALL SIGEPS44(NEL ,NPAR,NUVAR,NFUNC,IFUNC,
-     2                  NPF ,TF  ,TT,DT1,UPARAM,
-     3                  RHO0,RHO ,VOLN,EINT,MATPARAM%IEOS,
+     2                  NPF ,TF  ,TT,DT1,UPARAM,RHO0,RHO ,
+     3                  VOLN,EINT,MATPARAM%IEOS,DPDM   ,
      4                  EP1 ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,
      5                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
      6                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
@@ -1708,7 +1708,7 @@ C
      1        NEL      ,NGL     ,NPAR     ,NUVAR    ,NVARTMP  ,NUMTABL  ,
      2        UPARAM   ,UVAR    ,VARTMP   ,ITABLE   ,TABLE    ,JTHE     ,
      3        TT       ,DT1     ,OFF      ,RHO0     ,LBUF%PLA ,DPLA     , 
-     4        SSP      ,SIGY    ,ET       ,EL_TEMP  ,EPSD     ,
+     4        SSP      ,SIGY    ,ET       ,EL_TEMP  ,EPSD     ,DPDM     ,
      5        DE1      ,DE2     ,DE3      ,DE4      ,DE5      ,DE6      , 
      6        SO1      ,SO2     ,SO3      ,SO4      ,SO5      ,SO6      , 
      7        S1       ,S2      ,S3       ,S4       ,S5       ,S6       ,
