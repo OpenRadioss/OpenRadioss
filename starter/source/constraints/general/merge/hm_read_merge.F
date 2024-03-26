@@ -137,7 +137,7 @@ C-----------------------------------------------
       CHARACTER MYSTRING*100,MYLOOP*200
       CHARACTER MESS*40,MESS2*40,TITR*nchartitle,KEY2*ncharkey
       TYPE(RBMERGE_), DIMENSION(:), ALLOCATABLE :: RBMERGE
-      INTEGER, DIMENSION(NUMNOD) :: ITAG, WORK
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG, WORK
       INTEGER IWORK(70000)
       LOGICAL   IS_AVAILABLE
 C-----------------------------------------------
@@ -147,6 +147,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       DATA MESS/'RIGID BODY MERGE DEFINITION             '/
 C-----------------------------------------------
+      ALLOCATE(ITAG(NUMNOD),WORK(NUMNOD))
       J = 0
       N = 0
       NOPT = 0
@@ -534,7 +535,7 @@ C------------------------------------
      .                  RBY    ,NOM_OPT, ITAB,IBGR,IGRV)
       ENDIF
 c
-      DEALLOCATE(RBMERGE)
+      DEALLOCATE(RBMERGE,WORK,ITAG)
 cC-----------
       RETURN
 C
@@ -744,8 +745,8 @@ C     REAL
      .   RBY_TMP(NRBY,NRBYKIN)
       my_real
      .     BID, DX, DY, DZ, DMSTR, DELT, DTMP
-      INTEGER NBSECONDARY, IDIR, IKINE1(3*NUMNOD), NSL, NSL_XTRA
-      INTEGER, DIMENSION(NUMNOD) :: ITAG 
+      INTEGER NBSECONDARY, IDIR, NSL, NSL_XTRA
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
       INTEGER, DIMENSION(NXTRA_NODE) :: LIST_XTRA 
       CHARACTER MESS*40,TITR*nchartitle    
 C-----------------------------------------------
@@ -757,6 +758,7 @@ C-----------------------------------------------
 !   RBMERGE(IRBM)%FLAG_MAIN   :: Flag relating the rigid option merge to the MAIN
 !   RBMERGE(IRBM)%IDSECONDARY(J) :: SECONDARY rigid bodys attached to the MAIN
 C-----------------------------------------------
+      ALLOCATE(ITAG(NUMNOD))
       INDEX(1:NRBYKIN) = 0
       OFFSET = 0
       OFFSETID = 0
@@ -965,6 +967,7 @@ C-------------------------------------
 
       ENDDO
 C
+      DEALLOCATE(ITAG)
       RETURN
 C
 1000  FORMAT(/5X,'MAIN RIGID BODY ID ',I10)

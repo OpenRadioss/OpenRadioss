@@ -410,11 +410,13 @@ C-----------------------------------------------
       INTEGER I, N, K, NSL,NM, NI, NMT,M,IROT,ID,IMO,IC0,NZ,
      .        J, P,IAD,NS,NN,II,IT,IADS,IERR1,IAD1,IC,NIT,I0,I1
 C
-      INTEGER ITAG(NUMNOD),LCOPY(SLRBE2),ICOPY(NRBE2L,NRBE2),
-     .        NHIE,IORDER(NRBE2),INDICE(NRBE2),ITAG1(NRBE2),
-     .        IAD_N(NUMNOD+1)
+      INTEGER LCOPY(SLRBE2),ICOPY(NRBE2L,NRBE2),
+     .        NHIE,IORDER(NRBE2),INDICE(NRBE2),ITAG1(NRBE2)
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG,IAD_N
 C========================================================================|
 C--------re-ordering if with hierarchy---------------------------------------
+      ALLOCATE(ITAG(NUMNOD))
+      ALLOCATE(IAD_N(NUMNOD+1))
       NC=0
       DO I=1,NUMNOD
        ITAG(I)=0
@@ -526,6 +528,8 @@ C----------reodering---
         ENDDO
         IAD1 =IAD1+NSL
       ENDDO
+      DEALLOCATE(ITAG,IAD_N)
+
 C
       RETURN
       END SUBROUTINE REORBE2
