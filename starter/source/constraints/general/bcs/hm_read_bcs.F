@@ -78,13 +78,14 @@ C-----------------------------------------------
       INTEGER I,JJ(12), IC, NC, N, NUSR, IS, IC1, IC2, IC3, IC4,
      .        NOSYS, J,J10(10),IGR,IGRS,ISU,IBCALE,J6(6),K,
      .        IC0, IC01, IC02, IC03, IC04, ID ,ILAGM, NBCSLAG,
-     .        IKINE1(3*NUMNOD),SUB_ID,
+     .        SUB_ID,
      .        CHKCOD,ISERR,NOD,S_STRING,SUB_INDEX
       INTEGER IUN,IGR1,IGRS1,IGR2,IGRS2,IAD_L,NBY_NI,NBCSCYCI,ICYC,IS0
       CHARACTER MESS*40,KEY*ncharkey,STRING*ncharfield,CODE*7,
      .        KEY2*ncharkey
       CHARACTER TITR*nchartitle,OPT*8
       LOGICAL IS_AVAILABLE
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IKINE1
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -107,6 +108,7 @@ C
         ISKEW(I)=-1
       ENDDO
 C
+      ALLOCATE(IKINE1(3 * NUMNOD))
       DO I=1,3*NUMNOD
         IKINE1(I) = 0
       ENDDO
@@ -256,5 +258,6 @@ C----- in SKEW 1:9 (x',y',z'); 10:12 (X0,Y0,Z0)
         END IF !(IBCSCYC == 0 )THEN
       ENDDO
 C
+      DEALLOCATE(IKINE1)
       RETURN
       END

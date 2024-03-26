@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER I,JJ(12), IC, NC, N, NUSR, IS, IC1, IC2, IC3, IC4,
      .        NOSYS, J,J10(10),IGR,IGRS,ISU,IBCALE,J6(6),K,
      .        IC0, IC01, IC02, IC03, IC04, ID ,ILAGM,
-     .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,IKINE1(3*NUMNOD),SUB_ID,
+     .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,SUB_ID,
      .        CHKCOD,ISERR,NOD
       INTEGER IUN
       CHARACTER MESS*40,KEY*ncharkey,STRING*ncharfield,CODE*7,

@@ -75,13 +75,14 @@ C-----------------------------------------------
       INTEGER I,JJ(12), IC, NC, N, NUSR, IS, IC1, IC2, IC3, IC4,
      .        NOSYS, J,J10(10),IGR,IGRS,ISU,IBCALE,J6(6),K,
      .        IC0, IC01, IC02, IC03, IC04, ID ,ILAGM, NBCSLAG,
-     .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,IKINE1(3*NUMNOD),SUB_ID,
+     .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,SUB_ID,
      .        CHKCOD,ISERR,NOD,SUB_INDEX,NNOD
       INTEGER IUN
       CHARACTER MESS*40,KEY*ncharkey,STRING*ncharfield,CODE*7,
      .        KEY2*ncharkey
       CHARACTER TITR*nchartitle,OPT*8
       LOGICAL IS_AVAILABLE
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IKINE1
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -99,6 +100,7 @@ C
       IS_AVAILABLE = .FALSE.
       FLAG_FMT = 0
 C
+      ALLOCATE(IKINE1(3*NUMNOD))
       DO I=1,3*NUMNOD
         IKINE1(I) = 0
       ENDDO
@@ -199,6 +201,6 @@ C
 C
       ENDDO
    
-
+      DEALLOCATE(IKINE1)
       RETURN
       END

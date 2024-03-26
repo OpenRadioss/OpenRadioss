@@ -1874,11 +1874,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,NN(4),NJ,ITAG(NUMNOD),NS
+      INTEGER I, J,NN(4),NJ,NS
 C     REAL
       my_real
-     .   NORM(3,NUMNOD),R(3),S(3),T(3),DET
+     .   R(3),S(3),T(3),DET
+      my_real, DIMENSION(:,:), ALLOCATABLE :: NORM
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG  
 C=======================================================================
+       ALLOCATE(NORM(3,NUMNOD),ITAG(NUMNOD))
        DO I=1,NUMNOD
         NORM(1,I) = ZERO
         NORM(2,I) = ZERO
@@ -1946,6 +1949,7 @@ C
         PEN_OLD(3,I) = NORM(3,NS)
        ENDDO
 C-----------
+       DEALLOCATE(NORM,ITAG)
       RETURN
       END
 Chd|====================================================================
