@@ -811,6 +811,7 @@ c               NPT=IPT    PLY=NULL ILAYER=NULL
                  ENDIF ! NPG
                 ENDIF
               ENDIF
+              DEALLOCATE(MATLY, THKLY,POSLY,THK_LY)
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/MSTRAIN') THEN  ! strain tensor output in material coordinate system
 C--------------------------------------------------
@@ -967,6 +968,7 @@ c---
      .             IS_WRITTEN_SHELL,SHELL_TENSOR,EPSM     )
 
               DEALLOCATE (EPSM)
+              DEALLOCATE(MATLY, THKLY,POSLY,THK_LY)
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/EPSDOT/MEMB') THEN  
 C--------------------------------------------------
@@ -2125,8 +2127,6 @@ C-----------------------------------------------
           ELSE
           ENDIF ! IF (MLW /= 13)
         ENDIF ! IF(ITY == 2)
-         IF(KEYWORD  =='TENS/STRAIN'.OR.
-     .      KEYWORD == 'TENS/MSTRAIN')DEALLOCATE(MATLY, THKLY,POSLY,THK_LY)
  490  CONTINUE
  500  CONTINUE
 C-----------------------------------------------
