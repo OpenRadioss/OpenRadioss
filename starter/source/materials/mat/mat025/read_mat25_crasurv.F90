@@ -504,7 +504,8 @@
       pm(26) = five_over_6
       pm(27) = ssp               !  mat_param%ssp
       pm(32) = c1                !  mat_param%bulk
-!     ! used in elements
+!
+!     ! still used in elements
       pm(33) = e11               !  mat_param%e11
       pm(34) = e22               !  mat_param%e22
       pm(186)= e33               !  mat_param%e33
@@ -513,6 +514,13 @@
       pm(37) = g12               !  mat_param%g12
       pm(38) = g23               !  mat_param%g23
       pm(39) = g31               !  mat_param%g31
+!     ! still used in outputs
+      pm(60) = epst1             !  mat_param%uparam(12) 
+      pm(61) = epst2             !  mat_param%uparam(13) 
+      pm(98) = epsf1             !  mat_param%uparam(16) 
+      pm(99) = epsf2             !  mat_param%uparam(17) 
+      pm(41) = wplamx            !  mat_param%uparam(20) 
+      pm(64) = dmax              !  mat_param%uparam(18) 
 !-----------------------------------------
 !     formulation for solid elements time step computation.
       fac  = one/(one - n12*n21)
