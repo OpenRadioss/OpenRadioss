@@ -42,8 +42,8 @@ Chd|====================================================================
      6   NRBYKIN_L,NATIV_SMS,DIMFB,FBSAV6 ,STABSEN ,
      7   TABSENSOR,NODREAC,FTHREAC,CPTREAC,DAMPR   ,
      8   SDAMP    ,DAMP   ,NDAMP_VREL,ID_DAMP_VREL,IGRNOD,
-     9   TAGSLV_RBY,IPARIT,TFEXT,NDAMP_VREL_RBY,NDAMP_VREL_RBYG,
-     A   SIZE_RBY6_C,RBY6_C)
+     9   TAGSLV_RBY,IPARIT,TFEXT,NDAMP_VREL_RBYG,SIZE_RBY6_C,
+     A   RBY6_C)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,8 +71,7 @@ C-----------------------------------------------
       INTEGER ICODR(*),ISKEW(*),WEIGHT(*),LPBY(*),NPBY(NNPBY,*),
      .        KIND(NRBYKIN),FR_RBY6(*),IAD_RBY(*),IRBKIN_L(*),
      .        NRBYKIN_L, NATIV_SMS(*),DIMFB,STABSEN,TABSENSOR(*),
-     .        NODREAC(*),CPTREAC,NDAMP_VREL_RBY,NDAMP_VREL_RBYG,
-     .        SIZE_RBY6_C
+     .        NODREAC(*),CPTREAC,NDAMP_VREL_RBYG,SIZE_RBY6_C
 C     REAL
       my_real
      .   RBY(NRBY,*) ,A(3,*) ,AR(3,*) ,X(3,*) ,VR(3,*),FSAV(NTHVKI,*),
@@ -257,7 +256,7 @@ c
 C-------------------------------------
 C Contribution of damping forces from /DAMP/VREL
 C-------------------------------------
-      IF ((NDAMP_VREL_RBY > 0).AND.(NRBYKIN_L > 0)) THEN
+      IF ((NDAMP_VREL_RBYG > 0).AND.(NRBYKIN_L > 0)) THEN
 !$OMP SINGLE
         DIM = 3+3*IRODDL    
         CALL damping_vref_rby(IGRNOD    ,NGRNOD   ,V        ,VR        ,A         ,
@@ -340,7 +339,7 @@ C
 C-------------------------------------
 C Computation of stability of main node for DAMP/VREL
 C-------------------------------------
-      IF (NDAMP_VREL_RBY > 0) THEN
+      IF (NDAMP_VREL_RBYG > 0) THEN
 !$OMP SINGLE               
         call damping_vref_rby_stiff(NUMNOD,NNPBY,NRBYKIN,NRBYKIN_L,NPBY,
      .                              RBY6_C,MS,IN,STIFN,STIFR,SIZE_RBY6_C,  
