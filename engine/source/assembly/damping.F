@@ -66,7 +66,7 @@ C     REAL
      .   V(3,*), VR(3,*), A(3,*), AR(3,*) ,MS(*), IN(*),
      .   DAMPR(NRDAMP,*), DAMP(DIM,*), SKEW(LSKEW,*)
       my_real,
-     .   DIMENSION(3,NUMNOD) :: VSKW,ASKW,DAMPSKW
+     .   DIMENSION(:,:), ALLOCATABLE :: VSKW,ASKW,DAMPSKW
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
 C-----------------------------------------------
@@ -85,6 +85,10 @@ C
 C-----------------------------------------------
 C     C = a M + b K
 C======================================================================|
+      ALLOCATE(VSKW(3,NUMNOD))
+      ALLOCATE(ASKW(3,NUMNOD))
+      ALLOCATE(DAMPSKW(3,NUMNOD))
+
 
       IF(IDTMINS==2.OR.IDTMINS_INT/=0)GOTO 1000
 C      
@@ -822,6 +826,10 @@ C
 #include "lockon.inc"
          TFEXT = TFEXT + DW
 #include "lockoff.inc"
+      DEALLOCATE(VSKW)
+      DEALLOCATE(ASKW)
+      DEALLOCATE(DAMPSKW)
+
 C
       RETURN
       END
