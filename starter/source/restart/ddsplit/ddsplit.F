@@ -3250,8 +3250,9 @@ C
 C-----------------------------------------------
 C EIG
 C-----------------------------------------------
-      IF (NEIG>0)
-     .   CALL EIGWRESTP(EIGIPM_L, EIGIBUF_L, EIGRPM, LEIBUF_L,LEN_AM)
+      IF (NEIG>0)THEN
+        CALL EIGWRESTP(EIGIPM_L, EIGIBUF_L, EIGRPM, LEIBUF_L,LEN_AM)
+      ENDIF
 C--------------------------------------------
 C SEATBELTS - SLIPRING / RETRACTOR
 C--------------------------------------------

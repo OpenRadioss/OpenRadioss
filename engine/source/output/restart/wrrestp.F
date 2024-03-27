@@ -104,7 +104,8 @@ Chd|====================================================================
      .           H3D_DATA      ,INTBUF_FRIC_TAB,SUBSET,
      .           PINCH_DATA    ,ALE_CONNECTIVITY, T_MONVOL,
      .           SENSORS       ,EBCS_TAB  ,DYNAIN_DATA,USER_WINDOWS,OUTPUT,
-     .           INTERFACES    ,LOADS     ,PYTHON, NAMES_AND_TITLES)
+     .           INTERFACES    ,LOADS     ,PYTHON, NAMES_AND_TITLES,
+     .           EIGIPM        ,EIGIBUF   ,EIGRPM, NEIPM, LEIBUF, NERPM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -150,6 +151,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: NEIPM, LEIBUF, NERPM
+      INTEGER, INTENT(INOUT) :: EIGIPM(NEIPM,NEIG),EIGIBUF(LEIBUF),EIGRPM(NERPM,NEIG)
       INTEGER IAF(*),ICH,ADDCNE(*)
       my_real
      .   AF(*)
@@ -1328,6 +1331,12 @@ C--------------------------------------
 C FXBODY (moved from resol.F)
 C--------------------------------------
       IF (NFXBODY>0) CALL FXBWREST(ICH)
+C--------------------------------------
+C EIGEN MODES
+C--------------------------------------
+      IF (NEIG>0) THEN
+         CALL EIGWREST(EIGIPM, EIGIBUF, EIGRPM)
+      ENDIF
 C--------------------------------------
 C SEATBELTS - SLIPRING / RETRACTOR
 C--------------------------------------
