@@ -90,6 +90,13 @@ C-----------------------------------------------
 C                                                                     12
       my_real
      .   FKT(NEL),DX,DY,DZ,DCJ_0,DCJ
+      my_real, DIMENSION(NEL)   :: 
+     .                        XS1,     XS2,     XS3,
+     .                        YS1,     YS2,     YS3,
+     .                        ZS1,     ZS2,     ZS3,
+     .                        XS4,     XS5,     XS6,
+     .                        YS4,     YS5,     YS6,
+     .                        ZS4,     ZS5,     ZS6
 C----------------------------
          FKT(1:NEL) = ONE
         IFC2(1:NEL) = IFC1(1:NEL)
@@ -107,39 +114,58 @@ C----------------------------
          END DO
 C
        IF (IFCTL1==1) THEN
+         XS1(1:NEL) = X1(1:NEL)
+         XS2(1:NEL) = X2(1:NEL)
+         XS3(1:NEL) = X3(1:NEL)
+         XS4(1:NEL) = X4(1:NEL)
+         XS5(1:NEL) = X5(1:NEL)
+         XS6(1:NEL) = X6(1:NEL)
+         YS1(1:NEL) = Y1(1:NEL)
+         YS2(1:NEL) = Y2(1:NEL)
+         YS3(1:NEL) = Y3(1:NEL)
+         YS4(1:NEL) = Y4(1:NEL)
+         YS5(1:NEL) = Y5(1:NEL)
+         YS6(1:NEL) = Y6(1:NEL)
+         ZS1(1:NEL) = Z1(1:NEL)
+         ZS2(1:NEL) = Z2(1:NEL)
+         ZS3(1:NEL) = Z3(1:NEL)
+         ZS4(1:NEL) = Z4(1:NEL)
+         ZS5(1:NEL) = Z5(1:NEL)
+         ZS6(1:NEL) = Z6(1:NEL)
+C         
          NIMPA = 0
 C------ 1,4,6         
          CALL SFOR_N2S3(XC1,     YC1,    ZC1,FORC_N1,     
-     .                   X1,      Y1,     Z1, FOR_T1, 
-     .                   X4,      Y4,     Z4, FOR_T4,
-     .                   X6,      Y6,     Z6, FOR_T6,
+     .                  XS1,     YS1,    ZS1, FOR_T1, 
+     .                  XS4,     YS4,    ZS4, FOR_T4,
+     .                  XS6,     YS6,    ZS6, FOR_T6,
      .                STIF0,    IFC2,  IFCTL, PENMIN,
      .               PENREF,     FKT,     LL, FQMAX ,
      .                 NEL)
          NIMPA = NIMPA + IFCTL
 C------ 2,5,4         
          CALL SFOR_N2S3(XC2,     YC2,    ZC2,FORC_N2,     
-     .                   X2,      Y2,     Z2, FOR_T2, 
-     .                   X5,      Y5,     Z5, FOR_T5,
-     .                   X4,      Y4,     Z4, FOR_T4,
+     .                  XS2,     YS2,    ZS2, FOR_T2, 
+     .                  XS5,     YS5,    ZS5, FOR_T5,
+     .                  XS4,     YS4,    ZS4, FOR_T4,
      .                STIF0,    IFC2,  IFCTL, PENMIN,
      .               PENREF,     FKT,     LL, FQMAX ,
      .                 NEL)
          NIMPA = NIMPA + IFCTL
 C------ 3,6,5         
          CALL SFOR_N2S3(XC3,     YC3,    ZC3,FORC_N3,     
-     .                   X3,      Y3,     Z3, FOR_T3, 
-     .                   X6,      Y6,     Z6, FOR_T6,
-     .                   X5,      Y5,     Z5, FOR_T5,
+     .                  XS3,     YS3,    ZS3, FOR_T3, 
+     .                  XS6,     YS6,    ZS6, FOR_T6,
+     .                  XS5,     YS5,    ZS5, FOR_T5,
      .                STIF0,    IFC2,  IFCTL, PENMIN,
      .               PENREF,     FKT,     LL, FQMAX ,
      .                 NEL)
          NIMPA = NIMPA + IFCTL
 C------ 4,5,6         
          CALL SFOR_N2S3( XC,      YC,     ZC, FORC_N,     
-     .                   X4,      Y4,     Z4, FOR_T4, 
-     .                   X5,      Y5,     Z5, FOR_T5,
-     .                   X6,      Y6,     Z6, FOR_T6,
+     .                  XS4,     YS4,    ZS4, FOR_T4, 
+     .                  XS5,     YS5,    ZS5, FOR_T5,
+     .                  XS6,     YS6,    ZS6, FOR_T6,
      .                STIF0,    IFC2,  IFCTL, PENMIN,
      .               PENREF,     FKT,     LL, FQMAX ,
      .                 NEL)
