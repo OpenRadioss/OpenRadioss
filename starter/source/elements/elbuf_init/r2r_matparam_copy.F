@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  MATPARAM_R2R_VOID             source/elements/elbuf_init/matparam_r2r_void.F
+Chd|  R2R_MATPARAM_COPY             source/elements/elbuf_init/r2r_matparam_copy.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================
-      SUBROUTINE MATPARAM_R2R_VOID(MATPARAM_TAB, MATPARAM_INI, NUMMAT0  ,NUMMAT  )
+      SUBROUTINE R2R_MATPARAM_COPY(MATPARAM_TAB, MATPARAM_INI, NUMMAT0  ,NUMMAT  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,15 +45,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+      INTEGER I,NUPARAM,NIPARAM
 C=======================================================================
 c     Copy matparam from standard materials
 c
       DO I = 1,NUMMAT0
+        NUPARAM = MATPARAM_INI(I)%NUPARAM
+        NIPARAM = MATPARAM_INI(I)%NIPARAM
         MATPARAM_TAB(I)%ILAW               = MATPARAM_INI(I)%ILAW
         MATPARAM_TAB(I)%MAT_ID             = MATPARAM_INI(I)%MAT_ID
-        MATPARAM_TAB(I)%NUPARAM            = MATPARAM_INI(I)%NUPARAM 
-        MATPARAM_TAB(I)%NIPARAM            = MATPARAM_INI(I)%NIPARAM
+        MATPARAM_TAB(I)%NUPARAM            = NUPARAM 
+        MATPARAM_TAB(I)%NIPARAM            = NIPARAM
         MATPARAM_TAB(I)%NFUNC              = MATPARAM_INI(I)%NFUNC
         MATPARAM_TAB(I)%NTABLE             = MATPARAM_INI(I)%NTABLE  
         MATPARAM_TAB(I)%NSUBMAT            = MATPARAM_INI(I)%NSUBMAT
@@ -85,6 +87,19 @@ c
         MATPARAM_TAB(I)%PROP_SPH           = MATPARAM_INI(I)%PROP_SPH
 c
         MATPARAM_TAB(I)%COMPATIBILITY_EOS  = MATPARAM_INI(I)%COMPATIBILITY_EOS
+c
+        ALLOCATE(MATPARAM_TAB(I)%UPARAM(NUPARAM))
+        IF (NUPARAM > 0) THEN
+          MATPARAM_TAB(I)%UPARAM(1:NUPARAM) = MATPARAM_INI(I)%UPARAM(1:NUPARAM)
+        END IF
+!
+        ALLOCATE(MATPARAM_TAB(I)%IPARAM(NIPARAM))
+        IF (NIPARAM > 0) THEN
+          MATPARAM_TAB(I)%IPARAM(1:NIPARAM) = MATPARAM_INI(I)%IPARAM(1:NIPARAM)
+        END IF
+        
+        ! to be completed with further evolution of MATPARAM
+        
       ENDDO
 c
 c     Fill matparam for additional rad2rad void materials

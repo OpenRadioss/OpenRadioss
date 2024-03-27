@@ -13,7 +13,7 @@ Copyright>        GNU Affero General Public License for more details.
 Copyright>
 Copyright>        You should have received a copy of the GNU Affero General Public License
 Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-Copyright>
+Copyright>r
 Copyright>
 Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>
@@ -2373,7 +2373,7 @@ c       complete mlaw_tag for new void materials
          ALLOCATE(MPARAM_R2R(NUMMAT))
          CALL INIT_MLAW_TAG(MTAG_R2R   ,NUMMAT)
          MTAG_R2R(1:NUMMAT0) = MTAG_INI(1:NUMMAT0)
-         CALL MATPARAM_R2R_VOID(MPARAM_R2R, MPARAM_INI   ,NUMMAT0 ,NUMMAT)
+         CALL R2R_MATPARAM_COPY(MPARAM_R2R, MPARAM_INI   ,NUMMAT0 ,NUMMAT)
          MLAW_TAG(1:NUMMAT)     => MTAG_R2R(1:NUMMAT)
          MAT_ELEM%MAT_PARAM(1:NUMMAT) => MPARAM_R2R(1:NUMMAT)
          MAT_ELEM%NUMMAT = NUMMAT
