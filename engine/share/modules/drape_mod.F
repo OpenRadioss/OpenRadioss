@@ -51,8 +51,10 @@ Chd|        EIGCOND                       stub/eigcond.F
 Chd|        EIGP                          stub/eigp.F                   
 Chd|        FORINTC                       source/elements/forintc.F     
 Chd|        GENDYNAIN                     source/output/dynain/gendynain.F
+Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|        GENOUTP                       source/output/sty/genoutp.F   
 Chd|        GENSTAT                       source/output/sta/genstat.F   
+Chd|        H3D_SHELL_TENSOR              source/output/h3d/h3d_results/h3d_shell_tensor.F
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
 Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
 Chd|        IMP_GLOB_K                    source/implicit/imp_glob_k.F  

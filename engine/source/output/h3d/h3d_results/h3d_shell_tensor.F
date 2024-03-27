@@ -27,12 +27,14 @@ Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|-- calls ---------------
 Chd|        H3D_WRITE_SH_TENSOR           source/output/h3d/h3d_results/h3d_write_sh_tensor.F
 Chd|        H3D_WRITE_SH_TENSOR_ARRAY     source/output/h3d/h3d_results/h3d_write_sh_tensor_array.F
+Chd|        LAYINI                        source/elements/shell/coque/layini.F
 Chd|        ROTO_TENS2D                   source/materials/tools/roto_tens2d.F
 Chd|        ROTO_TENS2D_ANISO             source/materials/tools/roto_tens2d_aniso.F
 Chd|        SH3_TSTRAIN                   source/output/h3d/h3d_results/h3d_shell_tensor.F
 Chd|        SH4_TSTRAIN                   source/output/h3d/h3d_results/h3d_shell_tensor.F
 Chd|        UROTO_TENS2D                  source/materials/tools/uroto_tens2d.F
 Chd|        UROTO_TENS2D_ANISO            source/materials/tools/uroto_tens2d_aniso.F
+Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     

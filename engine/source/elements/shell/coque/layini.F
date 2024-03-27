@@ -29,6 +29,7 @@ Chd|        CNCOEFORT                     source/elements/sh3n/coquedk/cncoef3.F
 Chd|        C_TF_NE                       source/output/sty/c_tf_ne.F   
 Chd|        DYNAIN_C_STRAG                source/output/dynain/dynain_c_strag.F
 Chd|        DYNAIN_C_STRSG                source/output/dynain/dynain_c_strsg.F
+Chd|        H3D_SHELL_TENSOR              source/output/h3d/h3d_results/h3d_shell_tensor.F
 Chd|        STAT_C_STRAFG                 source/output/sta/stat_c_strafg.F
 Chd|        STAT_C_STRSFG                 source/output/sta/stat_c_strsfg.F
 Chd|-- calls ---------------
