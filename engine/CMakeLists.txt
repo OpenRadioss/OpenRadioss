@@ -139,6 +139,11 @@ if (NOT DEFINED arch)
    set (arch "linux64_gf")
 endif ()
 
+if (NOT DEFINED EXEC_NAME)
+   set (EXEC_NAME "openradioss_engine")
+endif ()
+
+
 if ( NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/CMake_Compilers${cdir}/cmake_${arch}.txt )
    message(STATUS "CMake_Compilers${cdir}/cmake_${arch}.txt  file not found ")
    set (arch "none")
