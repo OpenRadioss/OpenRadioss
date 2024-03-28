@@ -147,9 +147,19 @@ Chd|====================================================================
           my_real :: EP(9) ! L=GRAD V
           my_real :: LD(6) ! D = 1/2*( L + t(L) ) !strain rate
           my_real :: LW(3) ! W = 1/2*( L - t(L) ) !rotation
+          my_real :: ITM_L(6) ! inertia tensor matrix (Ixx,Iyy,Izz,-Ixy,-Iyz,-Ixz)
+          my_real :: X_min_max(6) ! Xmin,Ymin,Zmin,Xmax,Ymax,Zmax
+          my_real :: X_min_max_GRID(6)
+          my_real :: BETA0(6)
           my_real :: COG_L(3) ! mass * X accumulation
           my_real :: MOM_L(3) ! mass * VEL accumulation
           my_real :: SUM_M    ! mass accumulation
+          my_real :: SUM_VOL   ! volume accumulation
+          my_real :: MS_ELEM_MEAN_0
+          my_real :: EIGENVEC(3,3)
+          my_real :: LD_NORM
+          INTEGER :: NUM_ELEM_ALE
+          INTEGER :: NUM_NODE_ALE_L
         END TYPE
 
         ! GRID FORMULATION PARAMETERS

@@ -394,7 +394,8 @@ C
      .           CNS2,RHO0_1,NU,C1,CAQ,FQMAX
       my_real, DIMENSION(:), POINTER :: EINT
       my_real :: ELEM_MASS
-      my_real :: SUM_EPS(9),SUM_M
+      my_real :: SUM_EPS(9),SUM_M,SUM_VOL
+      INTEGER :: NUM_ELEM_ALE
 C
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -1108,9 +1109,11 @@ C
       ! /ALE/GRID/MASSFLOW - BUFFER UPDATED
       !---------------------------------------------
       ! this grid formulation needs an averaged tensor (E=GRAD U)
-      IF(ALE%GRID%NWALE == 7)THEN
+      IF(ALE%GRID%NWALE == 7 .AND. JALE == 1)THEN
         SUM_EPS(1:9) = ZERO
         SUM_M = ZERO
+        SUM_VOL = ZERO
+        NUM_ELEM_ALE = NEL
         DO I=1,NEL
           ELEM_MASS = GBUF%RHO(I)*GBUF%VOL(I)
           SUM_EPS(1) = SUM_EPS(1) + ELEM_MASS*DXX(I)
@@ -1123,6 +1126,7 @@ C
           SUM_EPS(8) = SUM_EPS(8) + ELEM_MASS*DZX(I)
           SUM_EPS(9) = SUM_EPS(9) + ELEM_MASS*DZY(I)
           SUM_M = SUM_M + ELEM_MASS
+          SUM_VOL = SUM_VOL + GBUF%VOL(I)
         ENDDO
 #include "lockon.inc"
       ALE%GRID%MASSFLOW_DATA%EP(1) = ALE%GRID%MASSFLOW_DATA%EP(1) + SUM_EPS(1)
@@ -1135,6 +1139,9 @@ C
       ALE%GRID%MASSFLOW_DATA%EP(8) = ALE%GRID%MASSFLOW_DATA%EP(8) + SUM_EPS(8)
       ALE%GRID%MASSFLOW_DATA%EP(9) = ALE%GRID%MASSFLOW_DATA%EP(9) + SUM_EPS(9)
       ALE%GRID%MASSFLOW_DATA%SUM_M = ALE%GRID%MASSFLOW_DATA%SUM_M + SUM_M
+      ALE%GRID%MASSFLOW_DATA%SUM_VOL = ALE%GRID%MASSFLOW_DATA%SUM_VOL + SUM_VOL
+      ALE%GRID%MASSFLOW_DATA%NUM_ELEM_ALE = ALE%GRID%MASSFLOW_DATA%NUM_ELEM_ALE + NUM_ELEM_ALE
+
 #include "lockoff.inc"
       ENDIF!(ALE%GRID%NWALE == 7)
 

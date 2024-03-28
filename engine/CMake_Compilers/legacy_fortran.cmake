@@ -92,6 +92,8 @@ set_source_files_properties( ${source_directory}/source/ale/grid/alew.F PROPERTI
 set_source_files_properties( ${source_directory}/source/ale/grid/alew2.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/ale/grid/spmd_exch_massflow_data.F PROPERTIES COMPILE_FLAGS "${unused_dummy_arg_strict_flags}" )
 set_source_files_properties( ${source_directory}/source/ale/grid/spmd_exch_massflow_data2.F PROPERTIES COMPILE_FLAGS "${unused_dummy_arg_strict_flags}" )
+set_source_files_properties( ${source_directory}/source/ale/grid/spmd_exch_massflow_data3.F90 PROPERTIES COMPILE_FLAGS "${unused_dummy_arg_strict_flags}" )
+set_source_files_properties( ${source_directory}/source/ale/grid/spmd_exch_massflow_data4.F90 PROPERTIES COMPILE_FLAGS "${unused_dummy_arg_strict_flags}" )
 set_source_files_properties( ${source_directory}/source/ale/grid/rgwal1.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/ale/grid/alewdx_grid_bcs.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/ale/grid/wpor.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )

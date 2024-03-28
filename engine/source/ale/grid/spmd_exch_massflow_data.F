@@ -77,7 +77,7 @@ C-----------------------------------------------
      .            REQ_RC(NSPMD),REQ_SC(NSPMD),
      .            ISINDEXI(NSPMD)
       INTEGER :: LOC_PROC, ISIZE
-      my_real :: RBUF(10,NSPMD)
+      my_real :: RBUF(12,NSPMD)
       DATA MSGOFF/2205/
 C-----------------------------------------------
 C   P r e c o n d i t i o n
@@ -88,10 +88,12 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 !$OMP SINGLE
         LOC_PROC=ISPMD+1
-        RBUF(1:10,1:NSPMD) = ZERO
-        RBUF(1:9,LOC_PROC) = DOMAIN_DATA%EP(1:9) !sum(mass*epsilon)
-        RBUF(10,LOC_PROC) = DOMAIN_DATA%SUM_M    !sum(mass)
-        ISIZE=10
+        RBUF(1:11,1:NSPMD) = ZERO
+        RBUF(1:9,LOC_PROC) = DOMAIN_DATA%EP(1:9)     !sum(mass*epsilon)
+        RBUF(10,LOC_PROC) = DOMAIN_DATA%SUM_M        !sum(mass)
+        RBUF(11,LOC_PROC) = DOMAIN_DATA%SUM_VOL      !sum(volume)
+        RBUF(12,LOC_PROC) = DOMAIN_DATA%NUM_ELEM_ALE !sum(ALE_ELEM)
+        ISIZE=12
         !-------------------------------------------!
         ! SENDING %EP(1:9)                          !
         !-------------------------------------------!
@@ -127,6 +129,8 @@ C-----------------------------------------------
         !-------------------------------------------!
         DOMAIN_DATA%EP(1:9)=ZERO
         DOMAIN_DATA%SUM_M=ZERO
+        DOMAIN_DATA%SUM_VOL=ZERO
+        DOMAIN_DATA%NUM_ELEM_ALE=ZERO
 
         DO P=1,NSPMD
           DOMAIN_DATA%EP(1) = DOMAIN_DATA%EP(1) + RBUF(1,P)
@@ -139,6 +143,8 @@ C-----------------------------------------------
           DOMAIN_DATA%EP(8) = DOMAIN_DATA%EP(8) + RBUF(8,P)
           DOMAIN_DATA%EP(9) = DOMAIN_DATA%EP(9) + RBUF(9,P)
           DOMAIN_DATA%SUM_M = DOMAIN_DATA%SUM_M + RBUF(10,P)
+          DOMAIN_DATA%SUM_VOL = DOMAIN_DATA%SUM_VOL + RBUF(11,P)
+          DOMAIN_DATA%NUM_ELEM_ALE = DOMAIN_DATA%NUM_ELEM_ALE + RBUF(12,P)
         ENDDO
 
         !CALL FLUSH(6)
