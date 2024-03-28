@@ -164,7 +164,7 @@ C-----------------------------------------------
 
        
          WRITE(IOUT,1001)ID, TRIM(TITR)       
-         WRITE(IOUT,1118)SURF,NSEG
+         WRITE(IOUT,1118)SURF,NSEG,TCAR_P,TCAR_VF
          
       
 C-----------
@@ -174,7 +174,9 @@ C-----------
 
  1118 FORMAT(
      .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
-     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/)
+     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,
+     .        '    TCAR_P  . . . . . . . . . . . . . . . . . ',E20.12,/,
+     .        '    TCAT_ALPHA  . . . . . . . . . . . . . . . ',E20.12,/)
 
       END SUBROUTINE
 

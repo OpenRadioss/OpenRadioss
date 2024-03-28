@@ -194,7 +194,10 @@ C-----------------------------------------------
           ENDDO
           Vold = EBCS%vold(IS)
           Vnew = FAC1 * (TMP(1)*XN + TMP(2)*YN + TMP(3)*ZN)
-          IF(TIME == ZERO) Vold=Vnew
+          IF(TIME == ZERO) THEN
+            Vold=ZERO !relative velocity
+            Vnew=ZERO !relative velocity  : 0 with MASSFLOW
+          ENDIF
           !-- storage for next cycle
           EBCS%vold(IS) = Vnew  
           !Static-PRessure (increment)
@@ -216,7 +219,7 @@ C-----------------------------------------------
                bFOUND = .TRUE.                              
                EXIT                                         
              ENDIF                                          
-          ENDDO                                             
+          ENDDO
           IF(.NOT.bFOUND)CYCLE !next I                 
           GBUF    => ELBUF_TAB(NGRP)%GBUF        
           LBUF    => ELBUF_TAB(NGRP)%BUFLY(1)%LBUF(1,1,1)   
@@ -288,9 +291,11 @@ C-----------------------------------------------
             ELSE
               RHOC2 = RHO*SSP*SSP 
               ROC   =SQRT(RHO*RHOC2)
+C              PP    = Pold + (ROC*(Vnew-Vold)) !+ALPHA*(Pvois+DP0)/(ALPHA + ONE)
               PP    = ONE/(ONE+ALPHA)*(Pold+ROC*(Vnew-Vold))+ALPHA*(Pvois+DP0)/(ALPHA + ONE)
+
             ENDIF
-            EBCS%pold(IS) = PP   
+            EBCS%pold(IS) = PP
             
             IF(SEGVAR%nbmat > 0)THEN
               !Volume Fractions update
