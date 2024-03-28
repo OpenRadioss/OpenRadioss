@@ -256,7 +256,9 @@ c
 c          
         CASE ("EOS")      
           MATPARAM%COMPATIBILITY_EOS = 1 ! Compatibility with option /EOS
-c
+c       
+        CASE ("VISC")      
+          MATPARAM%COMPATIBILITY_VISC = 1 ! Compatibility with option /VISC
         CASE DEFAULT      
           ! write error : keyword not recognized"
 c---
