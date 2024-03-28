@@ -742,6 +742,7 @@ C
           IF(ALE%GRID%NWALE == 7) THEN
              ALE%GRID%MASSFLOW_DATA%EP(1:9)=ZERO
              ALE%GRID%MASSFLOW_DATA%SUM_M = ZERO
+             ALE%GRID%MASSFLOW_DATA%NUM_ELEM_ALE = 0
           ENDIF
 
          !---------------------------------------------
