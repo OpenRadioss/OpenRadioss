@@ -261,8 +261,8 @@ C----------------------------------------
             CALL MY_BARRIER
             CALL ALEW7(
      1           X       ,V       ,W      ,MS      ,ALE_CONNECTIVITY%NALE,
-     2           NODFT   ,NODLT   ,WEIGHT ,NUMNOD  ,
-     3           SX      ,SV      ,SW     ,NSPMD)
+     2           NODFT   ,NODLT   ,WEIGHT ,NUMNOD  ,DT1                  ,
+     3           SX      ,SV      ,SW     ,NSPMD   )
             CALL MY_BARRIER
 
 

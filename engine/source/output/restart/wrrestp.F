@@ -1323,11 +1323,14 @@ C--------------------------------------
 #endif
 C--------------------------------------
 C ALE LINKS
-!      print *,"wrrestp.F: WRITE_I_C, SLINALE=", SLINALE
+C--------------------------------------
       IF(SLINALE > 0)THEN
         CALL WRITE_I_C(LINALE,SLINALE)
       END IF
-C
+C--------------------------------------
+C ALE GRID
+C--------------------------------------
+      CALL WRITE_ALE_GRID()
 C--------------------------------------
 C FXBODY (moved from resol.F)
 C--------------------------------------

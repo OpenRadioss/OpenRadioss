@@ -157,6 +157,7 @@ C-----------------------------------------------
       my_real RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ)
 
       INTEGER, DIMENSION(MVSIZ) :: MAT,NC1,NC2,NC3,NC4,NGL,NGEO
+      INTEGER :: NUM_ELEM_ALE
       my_real, DIMENSION(MVSIZ) :: F11, F12, F21, F22
       my_real, DIMENSION(MVSIZ) :: AX1, AX2
       my_real, DIMENSION(MVSIZ) :: T11, T12, T13, T14, T21, T22, T23, T24
@@ -185,7 +186,7 @@ C-----------------------------------------------
 
       ! ale grid formulation 7 (massflow)
       my_real :: ELEM_MASS
-      my_real :: SUM_EPS(9),SUM_M
+      my_real :: SUM_EPS(9),SUM_M,SUM_VOL
 
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------
@@ -457,9 +458,11 @@ C---------------------------------------------
 C /ALE/GRID/MASSFLOW - BUFFER UPDATED
 C---------------------------------------------
       ! this grid formulation needs an averaged tensor (E=GRAD U)
-      IF(ALE%GRID%NWALE == 7)THEN
+      IF(ALE%GRID%NWALE == 7 .AND. JALE == 1)THEN
         SUM_EPS(1:9) = ZERO
         SUM_M = ZERO
+        SUM_VOL = ZERO
+        NUM_ELEM_ALE = NEL
         DO I=1,NEL
           ELEM_MASS = GBUF%RHO(I)*GBUF%VOL(I)
           SUM_EPS(2) = SUM_EPS(2) + ELEM_MASS*EYY(I)
@@ -467,6 +470,7 @@ C---------------------------------------------
           SUM_EPS(6) = SUM_EPS(6) + ELEM_MASS*DYZ(I)
           SUM_EPS(9) = SUM_EPS(9) + ELEM_MASS*DZY(I)
           SUM_M = SUM_M + ELEM_MASS
+          SUM_VOL = SUM_VOL + GBUF%VOL(I)
         ENDDO
 #include "lockon.inc"
         ALE%GRID%MASSFLOW_DATA%EP(2) = ALE%GRID%MASSFLOW_DATA%EP(2) + SUM_EPS(2)
@@ -475,6 +479,8 @@ C---------------------------------------------
         ALE%GRID%MASSFLOW_DATA%EP(6) = ALE%GRID%MASSFLOW_DATA%EP(6) + SUM_EPS(6)
         ALE%GRID%MASSFLOW_DATA%EP(9) = ALE%GRID%MASSFLOW_DATA%EP(9) + SUM_EPS(9)
         ALE%GRID%MASSFLOW_DATA%SUM_M = ALE%GRID%MASSFLOW_DATA%SUM_M + SUM_M
+        ALE%GRID%MASSFLOW_DATA%SUM_VOL = ALE%GRID%MASSFLOW_DATA%SUM_VOL + SUM_VOL
+        ALE%GRID%MASSFLOW_DATA%NUM_ELEM_ALE = ALE%GRID%MASSFLOW_DATA%NUM_ELEM_ALE + NUM_ELEM_ALE
 #include "lockoff.inc"
       ENDIF!(ALE%GRID%NWALE == 7)
 
