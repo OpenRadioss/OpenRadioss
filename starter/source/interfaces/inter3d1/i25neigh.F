@@ -1002,9 +1002,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,IW,I1,I2,I3,MG,M,IP,IGTYP
       my_real
-     .   WA(NUMNOD),DX
+     .   DX
+      my_real, DIMENSION(:), ALLOCATABLE :: WA
 C init 
 C
+       ALLOCATE(WA(NUMNOD))
        DO I=1,NUMNOD
         WA(I)=ZERO
        END DO
@@ -1100,7 +1102,7 @@ C
           GAPMSAV(I) = GAP_M(I)
         ENDDO
       ENDIF
-
+      DEALLOCATE(WA)
 C        
       RETURN
       END

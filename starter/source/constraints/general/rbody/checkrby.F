@@ -69,10 +69,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,L,K,KK,M,N,NSL,NSKEW,IC,
      .   ISPHER,IDIR,P,IG,ID,ICDG,NSL_XTRA,
-     .   IKINE1(3*NUMNOD),NRB,NUMSL_TMP
+     .   NRB,NUMSL_TMP
       CHARACTER TITR*nchartitle
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TABSL
-      INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX
+      INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,IKINE1
       INTEGER IWORK(70000),IOLD
       INTEGER IFLAGI1,IFLAGDBL,IRB
 C-----------------------------------
@@ -105,6 +105,7 @@ C=======================================================================
       KK=0
       NRB = 0
 C
+      ALLOCATE(IKINE1(3*NUMNOD))
       DO I=1,3*NUMNOD
         IKINE1(I) = 0
       ENDDO
@@ -191,6 +192,7 @@ C
 C------------------------------------
       IF(ALLOCATED(TABSL))DEALLOCATE(TABSL)
       IF(ALLOCATED(INDEX))DEALLOCATE(INDEX)
+      IF(ALLOCATED(IKINE1)) DEALLOCATE(IKINE1)
 C------------------------------------
       RETURN
 C
