@@ -153,10 +153,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(INOUT) :: NEIPM, LEIBUF, NERPM
-      INTEGER, INTENT(INOUT) :: EIGIPM(NEIPM,NEIG),EIGIBUF(LEIBUF),EIGRPM(NERPM,NEIG)
+      INTEGER, INTENT(INOUT) :: EIGIPM(NEIPM,NEIG),EIGIBUF(LEIBUF)
+      my_real, INTENT(INOUT) :: EIGRPM(NERPM,NEIG)
       INTEGER IAF(*),ICH,ADDCNE(*)
-      my_real
-     .   AF(*)
+      my_real  AF(*)
       DOUBLE PRECISION XDP(*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP)      :: ELBUF_TAB
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP,NXEL) :: XFEM_TAB
