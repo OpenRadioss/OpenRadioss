@@ -591,31 +591,33 @@ C
         ENDIF
 C
 C---    Check projection
-        DO I=JFT,JLT
-          V(I) =VX(I)*E3X(I)+VY(I)*E3Y(I)+VZ(I)*E3Z(I)
-          VX(I)=VX(I)-V(I)*E3X(I)
-          VY(I)=VY(I)-V(I)*E3Y(I)
-          VZ(I)=VZ(I)-V(I)*E3Z(I)
-          V(I) =SQRT(VX(I)*VX(I)+VY(I)*VY(I)+VZ(I)*VZ(I))
-        ENDDO
+        IF(IRP /= 26 ) THEN
+            DO I=JFT,JLT
+              V(I) =VX(I)*E3X(I)+VY(I)*E3Y(I)+VZ(I)*E3Z(I)
+              VX(I)=VX(I)-V(I)*E3X(I)
+              VY(I)=VY(I)-V(I)*E3Y(I)
+              VZ(I)=VZ(I)-V(I)*E3Z(I)
+              V(I) =SQRT(VX(I)*VX(I)+VY(I)*VY(I)+VZ(I)*VZ(I))
+            ENDDO
 C
-        DO I=JFT,JLT
-          IF (V(I) < EM3 .AND. IORTHLOC(I) == 0 .AND.
-     .                                   DEF_ORTH(I) /=  0)THEN
-            PID = IX(NIX-1,I)
-            V(I)= MAX(V(I),EM20)
-            CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,PID),LTITR)
-            CALL ANCMSG(MSGID=197,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO,
-     .                  I1=IGEO(1,PID),
-     .                  C1=TITR1,
-     .                  I2=IX(NIX,I))
-          ENDIF
-          VX(I)=VX(I)/V(I)
-          VY(I)=VY(I)/V(I)
-          VZ(I)=VZ(I)/V(I)
-        ENDDO
+            DO I=JFT,JLT
+              IF (V(I) < EM3 .AND. IORTHLOC(I) == 0 .AND.
+     .                                       DEF_ORTH(I) /=  0)THEN
+                PID = IX(NIX-1,I)
+                V(I)= MAX(V(I),EM20)
+                CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,PID),LTITR)
+                CALL ANCMSG(MSGID=197,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO,
+     .                      I1=IGEO(1,PID),
+     .                      C1=TITR1,
+     .                      I2=IX(NIX,I))
+              ENDIF
+              VX(I)=VX(I)/V(I)
+              VY(I)=VY(I)/V(I)
+              VZ(I)=VZ(I)/V(I)
+            ENDDO
+         ENDIF ! IRP   
 C
 C----Beta angle computation(dyna input format)
 C
