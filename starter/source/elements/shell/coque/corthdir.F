@@ -128,7 +128,7 @@ C---      shell 3N
         ENDIF
 C---    vecteur de projection dans repere elementaire
         IRP = IGEO(14,IPROP)
-        IF(IRP == 26 .AND. (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52)) THEN
+        IF(IRP == 26 ) THEN
            DO I=LFT,LLT
              VR(I)= ONE
              VS(I)= ZERO
