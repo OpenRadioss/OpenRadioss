@@ -265,7 +265,7 @@
           end if
           call spmd_out(tag,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_send_reals
 ! ======================================================================================================================
         subroutine spmd_send_ints(buf, buf_count, dest, tag, comm)
           implicit none
@@ -285,7 +285,7 @@
           end if
           call spmd_out(tag,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_send_ints
 ! ======================================================================================================================
         subroutine spmd_send_doubles(buf, buf_count, dest, tag, comm)
           implicit none
@@ -306,7 +306,7 @@
           end if
           call spmd_out(tag,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_send_doubles
 ! ======================================================================================================================
         subroutine spmd_recv_reals(buf, buf_count, source, tag, comm)
           implicit none
@@ -327,6 +327,7 @@
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_recv_reals
+! ======================================================================================================================
         subroutine spmd_recv_reals2D(buf, buf_count, source, tag, comm)
           implicit none
 #ifdef MPI
@@ -387,6 +388,7 @@
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_recv_doubles
+! ======================================================================================================================
         subroutine spmd_recv_doubles2D(buf, buf_count, source, tag,  comm)
           implicit none
 #ifdef MPI
@@ -746,7 +748,7 @@
             used_comm = MPI_COMM_WORLD
           endif
 
-          call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)
+          call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
 #endif
         end subroutine
