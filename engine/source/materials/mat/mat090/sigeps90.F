@@ -125,7 +125,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  
      .     II,I,J,K,I1,J1,J2,IFLAG,ILOAD(MVSIZ,3),
-     .     IDAM,INDX_L(MVSIZ),INDX_UNL(MVSIZ),NE_L,NE_UNL
+     .     IDAM,INDX_L(MVSIZ),INDX_UNL(MVSIZ),NE_L,NE_UNL,
+     .     TFLAG
       my_real
      . E0,AA,G,NU,SHAPE,HYS,
      . YFAC,YFACJ1,YFACJ2,RATEJ1,RATEJ2, EPSE,EP1,
@@ -151,6 +152,7 @@ C-----------------------------------------------
         IDAM    =  UPARAM(10)
         E_MAX   =  UPARAM(2*NFUNC + 11)
         ALPHA   =  UPARAM(2*NFUNC + 13)
+        TFLAG   =  UPARAM(2*NFUNC + 14)
 C       
         IF(TIME == ZERO )UVAR(1:NEL,8) = E0
 C           
@@ -249,7 +251,8 @@ C computing energy increase
         DO K=1,3
             DO I=1,NEL
                 EPSE = STRAIN(I,K)                                          
-                SQSTAT(I,K) = YFAC*FINTER(IFUNC(1),EPSE,NPF,TF,DF(K))       
+                SQSTAT(I,K) = YFAC*FINTER(IFUNC(1),EPSE,NPF,TF,DF(K))    
+                IF(TFLAG == 2 .AND. STRAIN(I,K) < ZERO ) SQSTAT(I,K) = E0*STRAIN(I,K) 
 C compute current energy
                 QUASI_EINT(I)= QUASI_EINT(I) + HALF*STRAIN(I,K)*SQSTAT(I,K)
             ENDDO
@@ -308,6 +311,7 @@ C case with unloading stress-strain curve
                     DO I=1,NEL
                         EPSE = STRAIN(I,K)
                         S(I,K) = YFAC*FINTER(IFUNC(1),EPSE,NPF,TF,DF(K))
+                        IF(TFLAG == 2 .AND. STRAIN(I,K) < ZERO ) S(I,K) = E0*STRAIN(I,K) 
                         EMAX(I) = MAX(EMAX(I), YFAC*DF(K))
                         EMIN(I) = MAX(EMIN(I), YFAC*DF(K))
                     ENDDO
@@ -327,11 +331,13 @@ C case with unloading stress-strain curve
                         IF(ILOAD(I,K) == -1) THEN
                             YFAC = UPARAM(NFUNC + 11)
                             S(I,K) = YFAC*FINTER(IFUNC(1),EPSE,NPF,TF,DF(K)) 
+                            IF(TFLAG == 2 .AND. STRAIN(I,K) < ZERO ) S(I,K) = E0*STRAIN(I,K) 
                             EMAX(I) = MAX(EMAX(I), YFAC*DF(K))
                         ELSE
                             IF(STRAINRATE(I,K) < UPARAM(11)) THEN
                                 YFAC = UPARAM(NFUNC + 11)
                                 S(I,K) = YFAC*FINTER(IFUNC(1),EPSE,NPF,TF,DF(K)) 
+                                IF(TFLAG == 2 .AND. STRAIN(I,K) < ZERO ) S(I,K) = E0*STRAIN(I,K) 
                                 EMAX(I) = MAX(EMAX(I), YFAC*DF(K)) 
                                 EMIN(I) = MIN(EMIN(I), YFAC*DF(K)) 
                             ELSE
@@ -352,6 +358,7 @@ C case with unloading stress-strain curve
                                 EMIN(I) = MIN(EMIN(I), YFACJ2*DF(K))
                                 FAC    = (STRAINRATE(I,K) - RATEJ1)/(RATEJ2 - RATEJ1)
                                 S(I,K) = SJ1 + FAC*(SJ2 - SJ1)
+                               IF(TFLAG == 2 .AND. STRAIN(I,K) < ZERO ) S(I,K) = E0*STRAIN(I,K) 
                             ENDIF ! strainrate    
                         ENDIF !ILOAD
                     ENDDO ! K
@@ -375,7 +382,8 @@ C unloading with damage based on the energy.
                 DO K=1,3
                     DO I=1,NEL
                         EPSE = STRAIN(I,K)
-                        SQSTAT(I,K) = YFAC*FINTER(IFUNC(1),EPSE,NPF,TF,DF(K)) 
+                        SQSTAT(I,K) = YFAC*FINTER(IFUNC(1),EPSE,NPF,TF,DF(K))
+                        IF(TFLAG == 2 .AND. STRAIN(I,K) < ZERO ) SQSTAT(I,K) = E0*STRAIN(I,K)  
                         S(I,K) = SQSTAT(I,K)
                         EMAX(I) = MAX(EMAX(I), YFAC*DF(K))
                         EMIN(I) = MIN(EMIN(I), YFAC*DF(K))
@@ -399,7 +407,8 @@ C
                     EMIN(I) = EP20
                     DO K=1,3
                         EPSE = STRAIN(I,K)
-                        SQSTAT(I,K) = YFAC*FINTER(IFUNC(1),EPSE,NPF,TF,DF(K)) 
+                        SQSTAT(I,K) = YFAC*FINTER(IFUNC(1),EPSE,NPF,TF,DF(K))
+                        IF(TFLAG == 2 .AND. STRAIN(I,K) < ZERO ) SQSTAT(I,K) = E0*STRAIN(I,K)  
                         S(I,K) = SQSTAT(I,K)
                         EMAX(I) = MAX(EMAX(I), YFAC*DF(K))
                         EMIN(I) = MIN(EMIN(I), YFAC*DF(K))
@@ -422,7 +431,8 @@ C compute current energy
                                                                                   
                     DO K=1,3                                                     
                         EPSE = STRAIN(I,K)                                         
-                        SQSTAT(I,K) = YFAC*FINTER(IFUNC(1),EPSE,NPF,TF,DF(K))      
+                        SQSTAT(I,K) = YFAC*FINTER(IFUNC(1),EPSE,NPF,TF,DF(K))   
+                        IF(TFLAG == 2 .AND. STRAIN(I,K) < ZERO ) SQSTAT(I,K) = E0*STRAIN(I,K)   
                         EMAX(I) = MAX(EMAX(I),YFAC*DF(K))                                
                         EMIN(I) = MIN(EMIN(I),YFAC*DF(K))                                
 C                                                                                 
@@ -449,7 +459,8 @@ C
                             !! E2 = YFACJ2*DF(K)                                     
                             FAC    = (STRAINRATE(I,K) - RATEJ1)/(RATEJ2 - RATEJ1)    
                             S(I,K) = SJ1 + FAC*(SJ2 - SJ1)                           
-                            !! EMIN(I) = MIN(EMIN(I),E1 + FAC*(E2 - E1))                   
+                            !! EMIN(I) = MIN(EMIN(I),E1 + FAC*(E2 - E1)) 
+                             IF(TFLAG == 2 .AND. STRAIN(I,K) < ZERO ) S(I,K) = E0*STRAIN(I,K)                  
                          ENDIF ! strainrate                                       
                     ENDDO  ! K                              
                 ENDDO 
