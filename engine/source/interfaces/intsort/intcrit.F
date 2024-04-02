@@ -84,6 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      LOGICAL, DIMENSION(NINTER) :: FORCE_COMPUTATION
       INTEGER I,J,KK,IGN,IGE,
      .        IAD,K,N,IADD,ICOMP,NTY,NME,NMES,NMET,
      .        NBNEW, LISTNEW(NBINTC), ISENS, INTERACT,DELTA_PMAX_GAP_NOD
@@ -100,7 +101,7 @@ C-----------------------------------------------
           DELTA_PMAX_GAP_SAV(1:NINTER)=DELTA_PMAX_GAP(1:NINTER)
           DELTA_PMAX_GAP_NOD=0
       ENDIF
-
+      FORCE_COMPUTATION(1:NINTER) = .FALSE.
 C
 C Precalcul des interfaces utiles
 C
@@ -170,6 +171,8 @@ C
         IF (NTY/=24.AND.NTY/=25)THEN
          INTBUF_TAB(I)%VARIABLES(8)=TZINF(KK)
         ENDIF
+
+        IF(NTY==25.AND.NEWFRONT(I)==-2) FORCE_COMPUTATION(I) = .TRUE.
 C
 C Comm supplementaire sur partie stiffness
 C
@@ -205,6 +208,8 @@ C
      4          ITAB)
             ENDIF
           ENDIF
+        ELSE
+          NEWFRONT(I) = 0
         ENDIF
 
 C=======================================================================
@@ -389,7 +394,7 @@ c (no need to communicate VMAXDT in SPMD)
 
 
 
-         IF(DIST0<=ZERO.OR.KFORSMS/=0) THEN
+         IF(DIST0<=ZERO.OR.KFORSMS/=0.OR.FORCE_COMPUTATION(I)) THEN
 C DIST = -1
            INTBUF_TAB(I)%VARIABLES(5) = -ONE
 c

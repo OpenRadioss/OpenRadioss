@@ -429,7 +429,7 @@
 #include "mpif.h"
 #endif
           integer, intent(in) :: buf_count, source, tag
-          integer, dimension(buf_count), intent(out) :: buf
+          integer, dimension(buf_count), intent(inout) :: buf
           integer, intent(in), optional :: comm
           integer :: ierr
 #ifdef MPI
@@ -449,7 +449,7 @@
 #include "mpif.h"
 #endif
           integer, intent(in) :: buf_count, source, tag
-          double precision, dimension(buf_count), intent(out) :: buf
+          double precision, dimension(buf_count), intent(inout) :: buf
           integer, intent(in), optional :: comm
           integer :: ierr
 #ifdef MPI
@@ -469,7 +469,7 @@
 #include "mpif.h"
 #endif
           integer, intent(in) :: buf_count, source, tag
-          double precision, dimension(buf_count,1), intent(out) :: buf
+          double precision, dimension(buf_count,1), intent(inout) :: buf
           integer, intent(in), optional :: comm
           integer :: ierr
 #ifdef MPI
@@ -491,7 +491,7 @@
 #endif
           integer, intent(in) :: buf_count, dest, tag
           real, dimension(buf_count), intent(in) :: buf
-          integer, intent(out) :: request
+          integer, intent(inout) :: request
           integer, intent(in), optional :: comm
 #ifdef MPI
           integer :: ierr
@@ -512,7 +512,7 @@
 #endif
           integer, intent(in) :: buf_count, dest, tag
           integer, dimension(buf_count), intent(in) :: buf
-          integer, intent(out) :: request
+          integer, intent(inout) :: request
           integer, intent(in), optional :: comm
           integer :: ierr
 #ifdef MPI
@@ -533,7 +533,7 @@
 #endif
           integer, intent(in) :: buf_count, dest, tag
           double precision, dimension(buf_count), intent(in) :: buf
-          integer, intent(out) :: request
+          integer, intent(inout) :: request
           integer, intent(in), optional :: comm
           integer :: ierr
 #ifdef MPI
@@ -553,8 +553,8 @@
 #include "mpif.h"
 #endif
           integer, intent(in) :: buf_count, source, tag
-          real, dimension(buf_count), intent(out) :: buf
-          integer, intent(out) :: request
+          real, dimension(buf_count), intent(inout) :: buf
+          integer, intent(inout) :: request
           integer, intent(in), optional :: comm
           integer :: ierr
 #ifdef MPI
@@ -574,8 +574,8 @@
 #include "mpif.h"
 #endif
           integer, intent(in) :: buf_count, source, tag
-          integer, dimension(buf_count), intent(out) :: buf
-          integer, intent(out) :: request
+          integer, dimension(buf_count), intent(inout) :: buf
+          integer, intent(inout) :: request
           integer, intent(in), optional :: comm
 #ifdef MPI
           integer :: ierr
@@ -595,8 +595,8 @@
 #include "mpif.h"
 #endif
           integer, intent(in) :: buf_count, source, tag
-          double precision, dimension(buf_count), intent(out) :: buf
-          integer, intent(out) :: request
+          double precision, dimension(buf_count), intent(inout) :: buf
+          integer, intent(inout) :: request
           integer, intent(in), optional :: comm
 #ifdef MPI
           integer :: ierr
@@ -658,7 +658,7 @@
 #endif
           integer, intent(in) :: source, tag
           integer, intent(in), optional :: comm
-          integer, dimension(MPI_STATUS_SIZE), intent(out) :: status
+          integer, dimension(MPI_STATUS_SIZE), intent(inout) :: status
           integer :: ierr
 #ifdef MPI
           call spmd_in(tag)
@@ -677,7 +677,7 @@
 #include "mpif.h"
 #endif
           real, intent(in) :: sendbuf(*)
-          real, intent(out) :: recvbuf(*)
+          real, intent(inout) :: recvbuf(*)
           integer, intent(in) :: buf_count, operation, root
           integer, intent(in), optional :: comm
           integer :: ierr, mpi_op, used_comm
@@ -703,7 +703,7 @@
 #include "mpif.h"
 #endif
           integer, intent(in) :: sendbuf(*)
-          integer, intent(out) :: recvbuf(*)
+          integer, intent(inout) :: recvbuf(*)
           integer, intent(in) :: buf_count, operation, root
           integer, intent(in), optional :: comm
           integer :: ierr, mpi_op, used_comm
@@ -729,7 +729,7 @@
 #include "mpif.h"
 #endif
           double precision, intent(in) :: sendbuf(*)
-          double precision, intent(out) :: recvbuf(*)
+          double precision, intent(inout) :: recvbuf(*)
           integer, intent(in) :: buf_count, operation, root
           integer, intent(in), optional :: comm
           integer :: ierr, mpi_op, used_comm
@@ -755,7 +755,7 @@
 #include "mpif.h"
 #endif
           integer, intent(in) :: sendbuf(*)
-          integer, intent(out) :: recvbuf(*)
+          integer, intent(inout) :: recvbuf(*)
           integer, intent(in) :: buf_count, operation
           integer, intent(in), optional :: comm
           integer :: ierr, mpi_op, used_comm
@@ -781,7 +781,7 @@
 #include "mpif.h"
 #endif
           double precision, intent(in) :: sendbuf(*)
-          double precision, intent(out) :: recvbuf(*)
+          double precision, intent(inout) :: recvbuf(*)
           integer, intent(in) :: buf_count, operation
           integer, intent(in), optional :: comm
           integer :: ierr, mpi_op, used_comm
@@ -807,7 +807,7 @@
 #include "mpif.h"
 #endif
           real, intent(in) :: sendbuf(*)
-          real, intent(out) :: recvbuf(*)
+          real, intent(inout) :: recvbuf(*)
           integer, intent(in) :: buf_count, operation
           integer, intent(in), optional :: comm
           integer :: ierr, mpi_op, used_comm
@@ -893,7 +893,7 @@
 #ifdef MPI
 #include "mpif.h"
 #endif
-          real,  intent(out) :: buf
+          real,  intent(inout) :: buf
           integer, intent(in) :: buf_count, source, tag
           integer, intent(in), optional :: comm
           integer :: ierr
@@ -913,7 +913,7 @@
 #ifdef MPI
 #include "mpif.h"
 #endif
-          integer, intent(out) :: buf
+          integer, intent(inout) :: buf
           integer, intent(in) :: buf_count, source, tag
           integer, intent(in), optional :: comm
           integer :: ierr
@@ -933,7 +933,7 @@
 #ifdef MPI
 #include "mpif.h"
 #endif
-          double precision, intent(out) :: buf
+          double precision, intent(inout) :: buf
           integer, intent(in) :: buf_count, source, tag
           integer, intent(in), optional :: comm
           integer :: ierr
@@ -955,7 +955,7 @@
 #endif
           real,  intent(in) :: buf
           integer, intent(in) :: buf_count, dest, tag
-          integer, intent(out) :: request
+          integer, intent(inout) :: request
           integer, intent(in), optional :: comm
           integer :: ierr
 #ifdef MPI
@@ -976,7 +976,7 @@
 #endif
           integer, intent(in) :: buf_count, dest, tag
           integer, intent(in) :: buf
-          integer, intent(out) :: request
+          integer, intent(inout) :: request
           integer, intent(in), optional :: comm
           integer :: ierr
 #ifdef MPI
@@ -997,7 +997,7 @@
 #endif
           integer, intent(in) :: buf_count, dest, tag
           double precision, intent(in) :: buf
-          integer, intent(out) :: request
+          integer, intent(inout) :: request
           integer, intent(in), optional :: comm
           integer :: ierr
 #ifdef MPI
@@ -1017,8 +1017,8 @@
 #include "mpif.h"
 #endif
           integer, intent(in) :: buf_count, source, tag
-          real,    intent(out) :: buf
-          integer, intent(out) :: request
+          real,    intent(inout) :: buf
+          integer, intent(inout) :: request
           integer, intent(in), optional :: comm
           integer :: ierr
 #ifdef MPI
@@ -1037,9 +1037,9 @@
 #ifdef MPI
 #include "mpif.h"
 #endif
-          integer, intent(out) :: buf
+          integer, intent(inout) :: buf
           integer, intent(in) :: buf_count, source, tag
-          integer, intent(out) :: request
+          integer, intent(inout) :: request
           integer, intent(in), optional :: comm
           integer :: ierr
 #ifdef MPI
@@ -1058,9 +1058,9 @@
 #ifdef MPI
 #include "mpif.h"
 #endif
-          double precision, intent(out) :: buf
+          double precision, intent(inout) :: buf
           integer, intent(in) :: buf_count, source, tag
-          integer, intent(out) :: request
+          integer, intent(inout) :: request
           integer, intent(in), optional :: comm
           integer :: ierr
 #ifdef MPI
@@ -1080,7 +1080,7 @@
 #include "mpif.h"
 #endif
           real, intent(in) :: sendbuf
-          real, intent(out) :: recvbuf
+          real, intent(inout) :: recvbuf
           integer, intent(in) :: buf_count, operation, root
           integer, intent(in), optional :: comm
           integer :: ierr, mpi_op, used_comm
@@ -1107,7 +1107,7 @@
 #include "mpif.h"
 #endif
           integer, intent(in) :: sendbuf
-          integer, intent(out) :: recvbuf
+          integer, intent(inout) :: recvbuf
           integer, intent(in) :: buf_count, operation, root
           integer, intent(in), optional :: comm
           integer :: ierr, mpi_op, used_comm
@@ -1133,7 +1133,7 @@
 #include "mpif.h"
 #endif
           double precision, intent(in) :: sendbuf
-          double precision, intent(out) :: recvbuf
+          double precision, intent(inout) :: recvbuf
           integer, intent(in) :: buf_count, operation, root
           integer, intent(in), optional :: comm
           integer :: ierr, mpi_op, used_comm
@@ -1159,7 +1159,7 @@
 #include "mpif.h"
 #endif
           integer, intent(in) :: sendbuf
-          integer, intent(out) :: recvbuf
+          integer, intent(inout) :: recvbuf
           integer, intent(in) :: buf_count, operation
           integer, intent(in), optional :: comm
           integer :: ierr, mpi_op, used_comm
@@ -1185,7 +1185,7 @@
 #include "mpif.h"
 #endif
           double precision, intent(in) :: sendbuf
-          double precision, intent(out) :: recvbuf
+          double precision, intent(inout) :: recvbuf
           integer, intent(in) :: buf_count, operation
           integer, intent(in), optional :: comm
           integer :: ierr, mpi_op, used_comm
@@ -1211,7 +1211,7 @@
 #include "mpif.h"
 #endif
           real, intent(in) :: sendbuf
-          real, intent(out) :: recvbuf
+          real, intent(inout) :: recvbuf
           integer, intent(in) :: buf_count, operation
           integer, intent(in), optional :: comm
           integer :: ierr, mpi_op, used_comm

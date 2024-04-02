@@ -53,6 +53,12 @@ if ( DEFINED MPI )
 
     set (mpi_suf "_${mpiver}" )
     set (mpi_flag "-DMPI ${mpi_inc}")
+  elseif ( mpiver STREQUAL "impi")
+  # Intel MPI 
+  set (mpi_suf "_${mpiver}" )
+  #MPI     
+  set (mpi_flag "-DMPI -I$ENV{I_MPI_ROOT}/include/ ")
+  set (mpi_lib "-L$ENV{I_MPI_ROOT}/lib -L$ENV{I_MPI_ROOT}/lib/release  -lmpi -lmpifort")
   else()
     message( FATAL_ERROR "\n ERROR : -mpi=${mpiver} not available for this platform\n\n" )
   endif()

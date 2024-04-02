@@ -642,7 +642,10 @@ c            ! =2 edge to surface candidate
         integer ::   S_ISEG_PXFEM !  ISEG_PXFEM:       :      24
         integer ::   S_ISEG_PLY   !  ISEG_PLY          :      24
 
-        integer ::   S_ICONT_I    !  NSN not detected pene_ini <0 :   24
+        integer ::   S_ICONT_I    !  NSN not detected pene_ini <0 :   24, 25
+        integer ::   S_IELEM_M    !  2*NRTM element connected to main segment :   25
+        integer ::   S_PROC_MVOISIN!  4*NRTM proc of neighbhoor segment :   25
+
 C---- edge        
         integer ::   S_IRTSE      !  (5,NRTSE)
         integer ::   S_IS2SE      !  (2,NSNE)
@@ -948,9 +951,12 @@ C--------to be cleaned later
         integer, DIMENSION(:) , POINTER ::  CANDM_E2S  
         integer, DIMENSION(:) , POINTER ::  CANDS_E2S
         integer, DIMENSION(:) , POINTER ::  IFPEN_E   
+
         integer, DIMENSION(:) , POINTER ::  IFPEN_E2S      
         integer, DIMENSION(:), ALLOCATABLE :: EDGE_TYPE1
         integer, DIMENSION(:), ALLOCATABLE :: EDGE_TYPE1_0
+        integer, DIMENSION(:) , POINTER ::  IELEM_M    
+        integer, DIMENSION(:) , POINTER ::  PROC_MVOISIN   
 C---- INTER FRICTION PARTS
         integer, DIMENSION(:) , POINTER ::  IPARTFRICS 
         integer, DIMENSION(:) , POINTER ::  IPARTFRICM

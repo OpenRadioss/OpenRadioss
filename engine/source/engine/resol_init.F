@@ -153,7 +153,8 @@ Chd|====================================================================
      4  IGRBEAM ,IGRSPRING,IGRPART  ,FORNEQS  ,INT7ITIED ,
      5  FXVEL_FGEO,FAILWAVE,NLOC_DMG,PINCH_DATA,SLLOADP  ,
      6  TAGSLV_RBY,NFNCA2 ,NFTCA2  ,IN0  ,SORT_COMM,STACK,OUTPUT,
-     7  THKE ,SFR_ELEM ,SH_OFFSET_TAB)
+     7  THKE ,SFR_ELEM ,SH_OFFSET_TAB,
+     8  NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -298,6 +299,10 @@ C-----------------------------------------------
      .  I8A(3,3,*),I8AR(3,3,*),I8STIFN(3,*),I8STIFR(3,*),
      .  I8VISCN(3,*)
 C
+
+      LOGICAL, INTENT(inout) :: NEED_COMM_INT25_SOLID_EROSION !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
+      INTEGER, INTENT(inout) :: COMM_INT25_SOLID_EROSION !< integer, sub-communicator related to interface type 25 with solid erosion
+C
       DOUBLE PRECISION XDP(3,*)     
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP)      :: ELBUF_TAB
@@ -427,7 +432,7 @@ C
      6       ISLEN20T,NBINT20 ,IRLEN20E,ISLEN20E,FR_RBY  ,
      7       FR_RBY6 ,NPBY    ,IRBKIN_L,NRBYKIN_L,KINDRBY,
      8       NSENSOR ,SENSORS%SENSOR_TAB,LBUFIDEL24, INTBUF_TAB,
-     9       SORT_COMM)
+     9       SORT_COMM,NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION )
 C
         IF(IDEL7NG>0.OR.IRAD2R>0.OR.ALEMUSCL_Param%IALEMUSCL>0.OR.PDEL>0) THEN
            CALL CHKINIT(

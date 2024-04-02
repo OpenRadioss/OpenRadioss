@@ -56,7 +56,7 @@ Chd|====================================================================
      F              IT19       ,KXIG3D ,IXIG3D        ,INTFRIC  ,IPARTS   ,
      G              TAGPRT_FRIC,IPARTFRICS,IPARTFRICM ,INTBUF_FRIC_TAB,NRT_IGE,
      I              IREM_GAP   ,GAPM_MX,GAPS_MX       ,GAPM_L_MX,GAPS_L_MX,
-     J              IPARTT     ,IPARTP ,IPARTR        )
+     J              IPARTT     ,IPARTP ,IPARTR        ,ELEM_LINKED_TO_SEGMENT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -104,10 +104,11 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NUMELT), INTENT(IN) :: IPARTT
       INTEGER, DIMENSION(NUMELP), INTENT(IN) :: IPARTP
       INTEGER, DIMENSION(NUMELR), INTENT(IN) :: IPARTR
-      INTEGER ID
+      INTEGER, INTENT(IN) ::  ID
       CHARACTER*nchartitle, TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE (SURF_) :: IGRSURF
+      INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -121,9 +122,11 @@ C-----------------------------------------------
       my_real
      .   DXM, GAPMX, GAPMN, AREA, VOL, DX, GAPM, DDX, 
      .   GAPTMP, GAPSCALE,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
-     .   SLSFAC,XL
+     .   SLSFAC,XL,IELEM(2)
       my_real, dimension(:), allocatable :: GAP_S_L_TMP
       INTEGER, DIMENSION(:),ALLOCATABLE  :: TAGELEMS,INDEXE
+      LOGICAL :: PRINT_ERROR
+      INTEGER, DIMENSION(4) :: NODE_ID
       DATA JPERM/2,3,4,1/
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -640,9 +643,26 @@ C----------------------------------                                             
 C----------------------
 C       SOLID ELEMENTS
 C----------------------
+        PRINT_ERROR = .FALSE.
         CALL INSOL3D(X     ,IRECT ,IXS      ,NINT    ,NELS,INRT,
      .               AREA  ,NOINT ,KNOD2ELS ,NOD2ELS ,0   ,
-     .               IXS10 ,IXS16 ,IXS20    ,TAGELEMS,INDEXE,NINV)
+     .               IXS10 ,IXS16 ,IXS20    ,TAGELEMS,INDEXE,NINV,IELEM,
+     .               ELEM_LINKED_TO_SEGMENT ,PRINT_ERROR)
+        IF(PRINT_ERROR) THEN
+          NODE_ID(1:4) = ITAB(IRECT(1:4,INRT))
+          
+          CALL ANCMSG(MSGID=3062,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=ID,
+     .                I2=NODE_ID(1),
+     .                I3=NODE_ID(2),
+     .                I4=NODE_ID(3),
+     .                I5=NODE_ID(4),
+     .                C1=TITR ,
+     .                PRMOD=MSG_PRINT)
+        ENDIF
+
         !----------------!
         !  NELS > 0      !
         !----------------!

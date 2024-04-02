@@ -64,7 +64,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITABM1    ! array of global id
         TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT ! structure for shooting node algo  
         TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    ! interface data         
-         INTEGER, DIMENSION(NINTER), INTENT(inout) :: NEWFRONT   ! array for sorting : 1 --> need to sort the interface NIN
+         INTEGER, DIMENSION(NINTER), INTENT(inout) :: NEWFRONT   !< flag to force some exchanges related to S nodes between processor (if a S node becomes a shooting node - all interface) / force the collision detection algo if a new segment is activated for the (interface 25 + solid erosion)
         INTEGER, DIMENSION(NIXS,NUMELS), INTENT(in) :: IXS   ! solid array
         INTEGER, DIMENSION(NIXC,NUMELC), INTENT(in) :: IXC   ! shell array
         INTEGER, DIMENSION(NIXT,NUMELT), INTENT(in) :: IXT! truss array

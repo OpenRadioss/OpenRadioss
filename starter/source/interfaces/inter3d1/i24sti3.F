@@ -51,7 +51,7 @@ Chd|====================================================================
      H PM_STACK, IWORKSH ,INTFRIC ,TAGPRT_FRIC,IPARTFRICS,
      G IPARTFRICM,INTBUF_FRIC_TAB ,INTNITSCHE,NRTS,IRECTS,
      I IELNRTS ,ADRECTS ,FACNRTS  ,NMN       ,MSR ,
-     J IPARTT ,IPARTP   ,IPARTR   )
+     J IPARTT ,IPARTP   ,IPARTR   ,ELEM_LINKED_TO_SEGMENT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -99,6 +99,7 @@ C     REAL
       INTEGER, DIMENSION(NUMELT), INTENT(IN) :: IPARTT
       INTEGER, DIMENSION(NUMELP), INTENT(IN) :: IPARTP
       INTEGER, DIMENSION(NUMELR), INTENT(IN) :: IPARTR
+      INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
       CHARACTER*nchartitle,
      .   TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
@@ -727,7 +728,7 @@ C------------------------------------
 C     GAP STIF FACES MAIN
 C------------------------------------
       IF (ILEV==2) THEN
-C------------ISU1 first      
+C------------ISU1 first
        NRT1=IGRSURF2%NSEG
        CALL I24GAPM(
      1 X     ,IRECT ,STF   ,IXS   ,PM    ,
@@ -744,7 +745,7 @@ C------------ISU1 first
      F GAPMX  , GAPMN  ,GAPSCALE  ,NSHIF   ,GAPMAX_M,
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT    ,
      H PM_STACK, IWORKSH,INTFRIC ,TAGPRT_FRIC,IPARTFRICS,
-     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB )
+     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB ,ELEM_LINKED_TO_SEGMENT)
        NRT2=IGRSURF%NSEG
        NSHIF = NRT1
        CALL I24GAPM(
@@ -763,7 +764,7 @@ C------------ISU1 first
      F GAPMX  , GAPMN  ,GAPSCALE  ,NSHIF   ,GAPMAX_M,
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT  ,
      H PM_STACK , IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
-     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB )
+     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB ,ELEM_LINKED_TO_SEGMENT)
       ELSE
        CALL I24GAPM(
      1 X     ,IRECT ,STF   ,IXS   ,PM    ,
@@ -780,7 +781,7 @@ C------------ISU1 first
      F GAPMX  , GAPMN  ,GAPSCALE  ,NSHIF   ,GAPMAX_M,
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT ,
      H PM_STACK , IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
-     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB )
+     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB ,ELEM_LINKED_TO_SEGMENT)
       END IF
 
 
@@ -878,7 +879,7 @@ C     CALCULATE NODAL NORMAL FOR SECONDARY NODES
 C---------------------------------------------
       IF (INACTI/=0) THEN
        CALL I24NORMNS(
-     1 X     ,IRECT ,NRT   ,NSN   ,NSV   ,PEN_OLD)
+     1 X     ,IRECT ,NRT   ,NSN   ,NSV   ,PEN_OLD, STF)
 C------nodal part_id      
         DO I=1,NUMNOD
          TAGB(I)=0
@@ -1096,7 +1097,7 @@ Chd|====================================================================
      F GAPMX  , GAPMN  ,GAPSCALE  ,NSHIFT  ,GAPMAX_M,
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT    ,
      H PM_STACK , IWORKSH ,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
-     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB )
+     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,ELEM_LINKED_TO_SEGMENT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1130,6 +1131,7 @@ C-----------------------------------------------
      .   ITAB(*), IXS10(6,*),MSEGTYP(*), IXS16(*), IXS20(*),NSHIFT,
      .   IGEO(NPROPGI,*),NRTT,IWORKSH(3,*),TAGPRT_FRIC(*),IPARTFRICS(*),
      .   IPARTFRICM(*),IPARTS(*)
+      INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
 C     REAL
       my_real
      .   STFAC, GAP,BGAPSMX,GAPS1 ,GAPS2,GAPMX ,GAPMN ,GAPSCALE
@@ -1156,7 +1158,9 @@ C     REAL
       my_real
      .   AREA, VOL, DX, GAPM, DDX, 
      .   GAPTMP, SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
-     .   XL,STIFC,ST
+     .   XL,STIFC,ST,IELEM(2)
+      LOGICAL :: PRINT_ERROR
+      INTEGER, DIMENSION(4) :: NODE_ID
 C----------------------
       NREV=0
       IPGMAT = 700
@@ -1305,10 +1309,25 @@ C ----Friction model ------
           ENDIF
 C-------coating shell  stif=max(sol,shell)         
           IF (MSEGTYP(I)>NRTT) THEN
+             PRINT_ERROR = .FALSE.
              CALL INSOL3D(X,IRECT,IXS,NINT,NELS,I   ,
      .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
      .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE,
-     .            NINV)
+     .            NINV,IELEM,ELEM_LINKED_TO_SEGMENT,PRINT_ERROR)
+             IF(PRINT_ERROR) THEN
+                NODE_ID(1:4) = ITAB(IRECT(1:4,I))
+          
+                CALL ANCMSG(MSGID=3062,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=ID,
+     .                I2=NODE_ID(1),
+     .                I3=NODE_ID(2),
+     .                I4=NODE_ID(3),
+     .                I5=NODE_ID(4),
+     .                C1=TITR ,
+     .                PRMOD=MSG_PRINT)
+             ENDIF
            IF(NELS/=0) THEN
             MT=IXS(1,NELS)
             IF(MT>0)THEN
@@ -1415,10 +1434,25 @@ C -----Friction model ------
 C------------------------------------
 C-------coating shell  stif=max(sol,shell)         
           IF (MSEGTYP(I)>NRTT) THEN
+             PRINT_ERROR = .FALSE.
              CALL INSOL3D(X,IRECT,IXS,NINT,NELS,I   ,
      .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
      .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE ,
-     .            NINV)
+     .            NINV,IELEM,ELEM_LINKED_TO_SEGMENT,PRINT_ERROR)
+             IF(PRINT_ERROR) THEN
+                NODE_ID(1:4) = ITAB(IRECT(1:4,I))
+          
+                CALL ANCMSG(MSGID=3062,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=ID,
+     .                I2=NODE_ID(1),
+     .                I3=NODE_ID(2),
+     .                I4=NODE_ID(3),
+     .                I5=NODE_ID(4),
+     .                C1=TITR ,
+     .                PRMOD=MSG_PRINT)
+             ENDIF
            IF(NELS/=0) THEN
             MT=IXS(1,NELS)
             IF(MT>0)THEN
@@ -1452,10 +1486,25 @@ C------------------------------------
 C----------------------
 C     ELEMENTS SOLIDES
 C----------------------
+       PRINT_ERROR = .FALSE.
        CALL INSOL3D(X,IRECT,IXS,NINT,NELS,I   ,
      .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
      .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE,
-     .            NINV)
+     .            NINV ,IELEM,ELEM_LINKED_TO_SEGMENT,PRINT_ERROR)
+       IF(PRINT_ERROR) THEN
+            NODE_ID(1:4) = ITAB(IRECT(1:4,I))
+          
+            CALL ANCMSG(MSGID=3062,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=ID,
+     .                I2=NODE_ID(1),
+     .                I3=NODE_ID(2),
+     .                I4=NODE_ID(3),
+     .                I5=NODE_ID(4),
+     .                C1=TITR ,
+     .                PRMOD=MSG_PRINT)
+       ENDIF
       IF(NELS/=0) THEN
        MT=IXS(1,NELS)
        IF(INTTH > 0 ) IELES(I) = NELS
@@ -1855,7 +1904,7 @@ Chd|        NORMV3                        source/interfaces/inter3d1/i24tools.F
 Chd|        NORMVEC                       source/interfaces/inter3d1/i24sti3.F
 Chd|====================================================================
       SUBROUTINE I24NORMNS(
-     1 X     ,IRECT ,NRT   ,NSN   ,NSV   ,PEN_OLD)
+     1 X     ,IRECT ,NRT   ,NSN   ,NSV   ,PEN_OLD, STF)
 C============================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1871,6 +1920,7 @@ C-----------------------------------------------
       INTEGER NRT,IRECT(4,*),NSN,NSV(*)
       my_real
      .   X(3,*),PEN_OLD(5,NSN)
+      my_real  , INTENT(IN) :: STF(NRT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1889,6 +1939,7 @@ C=======================================================================
         ITAG(I) =0
        ENDDO
        DO I=1,NRT
+        IF(STF(I) > ZERO) THEN
           DO J=1,4
             NN(J)=IRECT(J,I)
             ITAG(NN(J)) =ITAG(NN(J))+1
@@ -1934,20 +1985,21 @@ C------Node 3,4
              NORM(J,NN(3)) = NORM(J,NN(3))+T(J)
             END DO
           END IF
+        ENDIF
       ENDDO
 C----re-normalizing---       
-       DO I=1,NUMNOD
+      DO I=1,NUMNOD
         IF (ITAG(I) >1) THEN
          CALL NORMV3(NORM(1,I),DET)
         END IF
-       ENDDO
+      ENDDO
 C       
-       DO I=1,NSN
+      DO I=1,NSN
         NS = NSV(I)
         PEN_OLD(1,I) = NORM(1,NS)
         PEN_OLD(2,I) = NORM(2,NS)
         PEN_OLD(3,I) = NORM(3,NS)
-       ENDDO
+      ENDDO
 C-----------
        DEALLOCATE(NORM,ITAG)
       RETURN

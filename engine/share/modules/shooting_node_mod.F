@@ -55,6 +55,7 @@ C-----------------------------------------------
         TYPE remote_elm
             INTEGER, DIMENSION(:), ALLOCATABLE :: REMOTE_ELM_M  ! list of remote element for the main edges
             INTEGER, DIMENSION(:), ALLOCATABLE :: REMOTE_ELM_S  ! list of remote element for the secondary edges
+            INTEGER, DIMENSION(:), ALLOCATABLE :: NB_ELM_M      ! number of element connected to the segmet/surface (only for interface 25)
         END TYPE remote_elm
 
         TYPE shooting_node_type 
@@ -90,7 +91,12 @@ C-----------------------------------------------
             INTEGER :: SIZE_REMOTE_SURF ! size of array REMOTE_SURF
             INTEGER :: NUMBER_REMOTE_SURF ! number of potential rmote surface for type 24 & 25
             INTEGER, DIMENSION(:), ALLOCATABLE :: REMOTE_SURF ! list of potential rmote surface for type 24 & 25
+            INTEGER :: SIZE_NEW_SURF ! size of array NEW_SURF
+            INTEGER :: NUMBER_NEW_SURF ! number of new active surface for type 25
+            INTEGER, DIMENSION(:), ALLOCATABLE :: NEW_SURF ! list of new active surface for type 25
             ! ------------------------------
+            ! ------------------------------
+
             ! ------------------------------
             ! working array
             INTEGER, DIMENSION(:), ALLOCATABLE :: GLOBAL_NB_ELEM_OFF    ! number of deactivated element for each omp thread

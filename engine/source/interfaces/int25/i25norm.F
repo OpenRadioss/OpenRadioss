@@ -36,7 +36,7 @@ Chd|====================================================================
      4                    TAGNOD    ,IAD_ELEM,FR_ELEM ,ADMSR    ,KNOR2MSR ,
      5                    NOR2MSR   ,FLAGREMN,KREMNOR ,REMNOR   ,IEDGE    ,
      6                    NEDGE,LEDGE,NRTM_FREE,FREE_IRECT_ID,I_STOK_E2S  ,
-     7                    CANDM_E2S  ,CANDS_E2S  ,MVOISIN ,E2S_ACTNOR,NADMSR ,
+     7                    CANDM_E2S  ,CANDS_E2S  ,MVOISIN ,E2S_ACTNOR,NADMSR ,STFM,
      8                    NUMBER_EDGE_TYPE1,NUMBER_EDGE_TYPE1_0,EDGE_TYPE1,EDGE_TYPE1_0 )
 C-----------------------------------------------
 C   M o d u l e s
@@ -78,6 +78,8 @@ C-----------------------------------------------
 C     REAL
       my_real
      .        STFNS(*)
+      my_real, INTENT(IN):: STFM(NRTM)
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -135,7 +137,7 @@ C
 C             considerer L ET tous les segments voisins (cf glissement)
                   DO NL=KNOR2MSR(NOR)+1,KNOR2MSR(NOR+1)
                     LVOIS= NOR2MSR(NL)
-                    IF(TAGMSR(LVOIS)==0) THEN
+                    IF(TAGMSR(LVOIS)==0.AND.STFM(LVOIS) > ZERO) THEN
                       ACTNOR(LVOIS)=1
 
                       DO K=1,4
@@ -163,11 +165,13 @@ C                                  IRTLM(4,N) is INTERCEP
 C             considerer L ET tous les segments voisins (cf glissement)
                   DO NL=KNOR2MSR(NOR)+1,KNOR2MSR(NOR+1)
                     LVOIS= NOR2MSR(NL)
-                    ACTNOR(LVOIS)=1
-                    DO K=1,4
-                       NOD=IRECT(K,LVOIS)
-                       TAGNOD(NOD)=1
-                    END DO
+                    IF(STFM(LVOIS) > ZERO) THEN
+                       ACTNOR(LVOIS)=1
+                       DO K=1,4
+                          NOD=IRECT(K,LVOIS)
+                          TAGNOD(NOD)=1
+                       END DO
+                    ENDIF
                   END DO 
                 END DO
              END IF
@@ -199,7 +203,7 @@ C
 C             considerer L ET tous les segments voisins (cf glissement)
                 DO NL=KNOR2MSR(NOR)+1,KNOR2MSR(NOR+1)
                   LVOIS= NOR2MSR(NL)
-                  IF(TAGMSR(LVOIS)==0) THEN
+                  IF(TAGMSR(LVOIS)==0.AND.STFM(LVOIS) > ZERO) THEN
                     ACTNOR(LVOIS)=1
 
                     DO K=1,4
@@ -232,12 +236,15 @@ C
 C             considerer L ET tous les segments voisins (cf glissement)
                 DO NL=KNOR2MSR(NOR)+1,KNOR2MSR(NOR+1)
                   LVOIS= NOR2MSR(NL)
-                  ACTNOR(LVOIS)=1
+                  IF(STFM(LVOIS) > ZERO) THEN
 
-                  DO K=1,4
-                     NOD=IRECT(K,LVOIS)
-                     TAGNOD(NOD)=1
-                  END DO
+                     ACTNOR(LVOIS)=1
+
+                     DO K=1,4
+                        NOD=IRECT(K,LVOIS)
+                        TAGNOD(NOD)=1
+                     END DO
+                  ENDIF
 
                 END DO
               END DO
@@ -564,7 +571,7 @@ C
           END IF
 
 C
-          IF(STIFM(IRM) /= ZERO) THEN
+          IF(STIFM(IRM) > ZERO) THEN
 C
             X1=X(1,IX1)
             Y1=X(2,IX1)
@@ -816,7 +823,7 @@ C
       LIMIT_CASE = .FALSE. 
       DO I=1,NRTM_FREE
         IRM = FREE_IRECT_ID(I) 
-        IF(STIFM(IRM)==ZERO)CYCLE
+        IF(STIFM(IRM) <= ZERO)CYCLE
         DO IEDG=1,4
           IF(MVOISIN(IEDG,IRM)==0)THEN
             IF(.NOT.(IRECT(3,IRM)==IRECT(4,IRM).AND.IEDG==3))THEN
@@ -992,7 +999,7 @@ C             WNOD_NORMAL(1:3,1:4,IRM) = RZERO
            ENDIF
 
 C
-          IF(STIFM(IRM) == 0) THEN
+          IF(STIFM(IRM) <= 0) THEN
             WNOD_NORMAL(1:3,1:4,IRM) = RZERO
           ELSE
             DO J=1,4
@@ -1037,7 +1044,7 @@ C
 C
       DO IRM=NRTMFT,NRTMLT
 C
-C       IF(ACTNOR(IRM)==0 .OR. STIFM(IRM)==ZERO) CYCLE
+C       IF(ACTNOR(IRM)==0 .OR. STIFM(IRM)<=ZERO) CYCLE
 
 ! Nod Normal should be received even if IRM 
 C is deleted
@@ -1046,14 +1053,14 @@ C (i.e. ISPMD is PMAIN)
 
         IF(ACTNOR(IRM)==0) CYCLE
 
-        IF(STIFM(IRM) == ZERO) THEN
+        IF(STIFM(IRM) <= ZERO) THEN
           NOD_NORMAL(1:3,1:4,IRM) = RZERO 
         ENDIF
 
         DO J=1,4
           JRM =MVOISIN(J,IRM)
 C         DEBUG_E2E(INT_CHECKSUM(IDS,4,1) == D_EM,JRM)
-          IF(JRM<0 .AND. STIFM(IRM) == 0 ) THEN
+          IF(JRM<0 .AND. STIFM(IRM) <= 0 ) THEN
             NOD_NORMAL(1,J,IRM) = WNOD_NORMAL(1,J,IRM)
             NOD_NORMAL(2,J,IRM) = WNOD_NORMAL(2,J,IRM)
             NOD_NORMAL(3,J,IRM) = WNOD_NORMAL(3,J,IRM)
