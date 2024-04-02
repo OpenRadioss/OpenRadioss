@@ -61,14 +61,14 @@ C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(G_BUFEL_), POINTER :: GBUF
       INTEGER :: II, NGL(MVSIZ), ISOLNOD
-      my_real :: X1(MVSIZ), Y1(MVSIZ), Z1(MVSIZ)
-      my_real :: X2(MVSIZ), Y2(MVSIZ), Z2(MVSIZ)
-      my_real :: X3(MVSIZ), Y3(MVSIZ), Z3(MVSIZ)
-      my_real :: X4(MVSIZ), Y4(MVSIZ), Z4(MVSIZ)
-      my_real :: X5(MVSIZ), Y5(MVSIZ), Z5(MVSIZ)
-      my_real :: X6(MVSIZ), Y6(MVSIZ), Z6(MVSIZ)
-      my_real :: X7(MVSIZ), Y7(MVSIZ), Z7(MVSIZ)
-      my_real :: X8(MVSIZ), Y8(MVSIZ), Z8(MVSIZ)
+      DOUBLE PRECISION :: X1(MVSIZ), Y1(MVSIZ), Z1(MVSIZ)
+      DOUBLE PRECISION :: X2(MVSIZ), Y2(MVSIZ), Z2(MVSIZ)
+      DOUBLE PRECISION :: X3(MVSIZ), Y3(MVSIZ), Z3(MVSIZ)
+      DOUBLE PRECISION :: X4(MVSIZ), Y4(MVSIZ), Z4(MVSIZ)
+      DOUBLE PRECISION :: X5(MVSIZ), Y5(MVSIZ), Z5(MVSIZ)
+      DOUBLE PRECISION :: X6(MVSIZ), Y6(MVSIZ), Z6(MVSIZ)
+      DOUBLE PRECISION :: X7(MVSIZ), Y7(MVSIZ), Z7(MVSIZ)
+      DOUBLE PRECISION :: X8(MVSIZ), Y8(MVSIZ), Z8(MVSIZ)
       my_real :: Y124(MVSIZ), Y234(MVSIZ)
       my_real :: JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ) 
       my_real :: JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ) 
