@@ -67,7 +67,7 @@ C-----------------------------------------------
       my_real 
      .      STIFF,STIFFC,STIFFT, EMAX_CURVE, EMIN_CURVE,EINI_CURVE,
      .     STIFFMIN,STIFFMAX,STIFFINI,STFAVG,SCALEFAC,E0,
-     .     EPSMAX,EC_MAX,EMAX
+     .     EPSMAX,EC_MAX,EMAX,G,C1,NU
 
       COMMON /MINCFPRT/IPRINT, LP
       COMMON /INDEX_SQP/IndexDesign0
@@ -104,7 +104,13 @@ c
           EC_MAX = MAX(E0,EMAX)  
           UPARAM(11 + 2*NFUNC) = EMAX
           UPARAM(12 + 2*NFUNC) = EPSMAX
+          NU = UPARAM(5)
+          C1 = E0/THREE/(ONE - TWO*NU)
+          G  = HALF*E0/(ONE + NU) 
+          PM(20) = E0
+          PM(22) = G
           PM(24) = EC_MAX
+          PM(32) = C1     
 !
          WRITE(IOUT,1000)
          WRITE(IOUT,1001) TRIM(TITR),MAT_ID,90   

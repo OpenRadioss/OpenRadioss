@@ -92,7 +92,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IFLAG,IDAM ,ISMOOTH     
+      INTEGER I,J,IFLAG,IDAM ,ISMOOTH ,TFLAG   
       my_real E0,NU,FCUT,G,C1,SHAPE,HYS,ALPHA
       my_real RATE(1000),YFAC(1000),YFAC_DIM(1000)
       my_real :: RHO0, RHOR,FCUT_UNIT
@@ -117,7 +117,8 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('Fcut'      ,FCUT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_SHAPE' ,SHAPE   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Hys'       ,HYS     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_ALPHA' ,ALPHA     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA' ,ALPHA   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_INTV  ('MAT_TFLAG' ,TFLAG   ,IS_AVAILABLE, LSUBMODEL)
 !   IDAM  ---> not documented, not included within LAW90.cfg
 !!      CALL HM_GET_INTV  ('IDAM'      ,IDAM    ,IS_AVAILABLE, LSUBMODEL)
 !
@@ -128,6 +129,7 @@ C-----------------------------------------------
      .                I1=ID,
      .                C1=TITR)
       ENDIF 
+      IF(TFLAG == 0) TFLAG = 1
 !
 !... fonction de charge      
 !
@@ -180,7 +182,9 @@ C-----------------------------------------------
       END DO
       NUPARAM =13 + 2*NFUNC  
       UPARAM(NUPARAM) = ALPHA
-!
+      NUPARAM = NUPARAM + 1
+      UPARAM(NUPARAM) = TFLAG 
+!    
       C1=E0/THREE/(ONE - TWO*NU)
       PARMAT(1) = C1
       PARMAT(2) = E0
@@ -200,7 +204,7 @@ C
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1100)RHO0                                                     
-        WRITE(IOUT,1150)E0,NU
+        WRITE(IOUT,1150)E0,NU, TFLAG
         WRITE(IOUT,1200)FCUT,ISMOOTH,SHAPE,HYS,ALPHA
         WRITE(IOUT,1300)(IFUNC(J),RATE(J),YFAC(J),J=1,NFUNC)
       ENDIF
@@ -228,7 +232,10 @@ c-----------------
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1150 FORMAT(
      & 5X,'INITIAL YOUNG''S MODULUS. . . . . . . .=',1PG20.13/,
-     & 5X,'POISSON''S RATIO. . . . . . . . . . . .=',1PG20.13/)
+     & 5X,'POISSON''S RATIO. . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'TENSILE STRESS FLAG . . . . . . . . . .=',I10/,
+     & 10X, '1 : FOLLOW THE INPUT CURVE ' /,
+     & 10X, '2 : FOLLOW E0 '/ )
  1200 FORMAT(
      & 5X,'STRAIN RATE COEFFICIENT . . . . . . . .=',1PG20.13/,
      & 5X,'FLAG FOR FILTERING STRAIN RATE  . . . .=',I10/,
