@@ -668,6 +668,8 @@ C-----------------------------------------------
       USE BCS_MOD , ONLY : BCS
       USE INTER_SH_OFFSET_MOD , only:SH_OFFSET_
       USE OFFSET_NPROJ_MOD
+      USE get_neighbour_surface_mod , only : get_neighbour_surface
+      USE spmd_mod , only : SPMD_MAX,spmd_allreduce
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1221,8 +1223,11 @@ C-------------------------------------------------------------------------------
         INTEGER, DIMENSION(NINTER) :: INTER18_LIST ! list of interface 18
         TYPE(array_type), DIMENSION(:), ALLOCATABLE :: XCELL_REMOTE ! remote data structure for interface 18 
         ! ----------
-
         my_real, DIMENSION(:), ALLOCATABLE :: FSKY_L
+        LOGICAL :: NEED_COMM_INT25_SOLID_EROSION !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
+        INTEGER :: COMM_INT25_SOLID_EROSION !< integer, sub-communicator related to interface type 25 with solid erosion
+
+        INTEGER :: CHECK_NEIGH_FLAG,CHECK_NEIGH_FLAG_RES
       DATA IUN/1/
 C-----------------------------------------------------------------------------------       
 C Uncomment for Debug - ITAB is copied in Debug Module.
@@ -2011,6 +2016,9 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+      NEED_COMM_INT25_SOLID_EROSION = .FALSE.
+      COMM_INT25_SOLID_EROSION = 0
+
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,N1,GREFTSK,GRELTSK)
@@ -2088,8 +2096,8 @@ C
      4   IGRBEAM ,IGRSPRING,IGRPART  ,FORNEQS  ,INT7ITIED,
      5   FXVEL_FGEO,FAILWAVE,NLOC_DMG,PINCH_DATA ,SLLOADP,
      6   TAGSLV_RBY,NFNCA2  ,NFTCA2  ,IN0 ,SORT_COMM,STACK,OUTPUT,
-     7   THKE   ,SFR_ELEM  ,SH_OFFSET_TAB )
-
+     7   THKE   ,SFR_ELEM  ,SH_OFFSET_TAB,
+     8   NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION )
 
 !$OMP END PARALLEL
 C========================================================================================
@@ -2290,6 +2298,7 @@ C------------IF adaptive Mesh : check if there are elements eroded after trimmin
               INDSEGLO(2:NINTER+1)=0
               INDSEGLO(1)=1
           ENDIF
+          CHECK_NEIGH_FLAG_RES = 0
 
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
@@ -2367,6 +2376,21 @@ C Init var parallel SMP
      .                                                   SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT )
            CALL MY_BARRIER()
+            IF(NINTER25/=0.AND.INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN
+              IF(ITSK==0) THEN
+                IF(NEED_COMM_INT25_SOLID_EROSION) THEN
+                  CHECK_NEIGH_FLAG = SHOOT_STRUCT%NUMBER_NEW_SURF
+                  CALL SPMD_ALLREDUCE(CHECK_NEIGH_FLAG,CHECK_NEIGH_FLAG_RES,1,SPMD_MAX,COMM_INT25_SOLID_EROSION)
+               ENDIF
+               IF(CHECK_NEIGH_FLAG_RES > 0 ) THEN
+                  call get_neighbour_surface( ispmd,nspmd,ninter25,npari,ninter,  
+     .                                        nbintc,nixs,numnod,numels,s_elem_state,nbddedgt,nbddedg_max,  
+     .                                        elem_state,ipari,intlist,itab,itabm1,newfront,ixs,iad_elem,x,         
+     .                                        intbuf_tab,interfaces%spmd_arrays,shoot_struct  )
+                ENDIF
+              ENDIF
+              CALL MY_BARRIER()
+            ENDIF
           ENDIF
           ! ---------------------
 
@@ -3551,7 +3575,7 @@ C===============================================================================
      H     IXTG      ,SENSORS,DELTA_PMAX_GAP,INTBUF_TAB,
      I     DELTA_PMAX_GAP_NODE,IAD_FRNOR,FR_NOR,
      J     NB25_CANDT,NB25_IMPCT,NB25_DST1,NB25_DST2,INTLIST25,
-     K     IAD_FREDG,FR_EDG,MAIN_PROC,NATIV_SMS,I_OPT_STOK ,
+     K     INTERFACES%SPMD_ARRAYS%IAD_FREDG,INTERFACES%SPMD_ARRAYS%FR_EDG,MAIN_PROC,NATIV_SMS,I_OPT_STOK ,
      L     MULTI_FVM,IPARG  ,ELBUF_TAB, H3D_DATA, T2MAIN_SMS,
      M     LSKYI_SMS_NEW    ,FORNEQS  ,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
      N     T2FAC_SMS,ICODT,ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR,
@@ -5301,6 +5325,7 @@ C                                     PARALLEL SECTION (SMP)
 C========================================================================================
           IF (IMONM > 0 ) CALL STARTIME(29,1)
           NINDEXP = 0
+          CHECK_NEIGH_FLAG_RES = 0
 
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
@@ -5332,6 +5357,7 @@ C WA local  : utilise de 1 a NUMNOD
 
           ! ---------------------
           ! check if a surface/edge must be deactivated and save the surface/edge id 
+
           IF(ITSK==0) THEN 
                 CALL FIND_SURFACE_INTER( ITAB  ,SHOOT_STRUCT  ,IXS  ,IXS(L1)  ,IXC  ,
      .                                   IXTG  ,
@@ -5358,6 +5384,7 @@ C WA local  : utilise de 1 a NUMNOD
           ! ---------------------
           ! loop over the surface id and deactivate the surface
           ! ONLY FOR LOCAL SURFACE / LOCAL ELEMENT
+
           CALL CHECK_SURFACE_STATE( ITSK,SHOOT_STRUCT%SAVE_SURFACE_NB,SHOOT_STRUCT%SAVE_SURFACE,
      .                              SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                              IPARI,GEO,
@@ -5374,13 +5401,28 @@ C WA local  : utilise de 1 a NUMNOD
           ! ---------------------
 
           ! ---------------------
-          ! exchange of deactivated surfaces (ie. 4 nodes) to deactivate to deactivate the neighbourhood
+          ! exchange of deactivated surfaces (ie. 4 nodes) to deactivate to the neighbourhood
           ! ONLY FOR REMOTE SURFACE + interface type 24 or 25
           IF(INT24USE>0.OR.NINTER25/=0) THEN 
             IF(ITSK==0) CALL CHECK_REMOTE_SURFACE_STATE( SHOOT_STRUCT%NUMBER_REMOTE_SURF,SHOOT_STRUCT%REMOTE_SURF,
      .                                                   SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
-     .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT )
-           CALL MY_BARRIER()
+     .                                                   IPARI,IAD_ELEM,SHOOT_STRUCT  )
+            CALL MY_BARRIER()
+            IF(NINTER25/=0.AND.INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN
+              IF(ITSK==0) THEN
+                IF(NEED_COMM_INT25_SOLID_EROSION) THEN
+                  CHECK_NEIGH_FLAG = SHOOT_STRUCT%NUMBER_NEW_SURF
+                  CALL SPMD_ALLREDUCE(CHECK_NEIGH_FLAG,CHECK_NEIGH_FLAG_RES,1,SPMD_MAX,COMM_INT25_SOLID_EROSION)
+                ENDIF
+               IF(CHECK_NEIGH_FLAG_RES > 0 ) THEN
+                  call get_neighbour_surface( ispmd,nspmd,ninter25,npari,ninter,  
+     .                                         nbintc,nixs,numnod,numels,s_elem_state,nbddedgt,nbddedg_max,  
+     .                                         elem_state,ipari,intlist,itab,itabm1,newfront,ixs,iad_elem,x,         
+     .                                         intbuf_tab,interfaces%spmd_arrays,shoot_struct  )
+               ENDIF
+              ENDIF
+              CALL MY_BARRIER()
+            ENDIF
           ENDIF
           ! ---------------------
         ENDIF
@@ -7283,7 +7325,7 @@ C-----------------------------------------------
           IF (NS10E>0.AND.(IDAMP/=0.OR.NDAMP>0.OR.ISTAT/=0)) THEN
             CALL S10GETVDM(ICNDS10,V,VND,VMD)
           END IF
-          
+
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
@@ -7744,7 +7786,7 @@ C--- //0 ----------------
           ENDIF
         ENDIF
       ENDIF
-C----      
+C----    
       IF (NS10E>0) CALL S10CNDI2A(ICNDS10 ,ITAGND ,A      )
 C------------------------
 C         INTERFACES TIED
@@ -8692,7 +8734,7 @@ C----------------------------------
 C       ITET2 of S10 Kinematic
 C----------------------------------
        IF (NS10E > 0) CALL S10CNDV(ICNDS10,VND   ,V   )
-       
+
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C==========================================================================================

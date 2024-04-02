@@ -100,6 +100,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+        LOGICAL :: TYPE_INTER
         INTEGER :: NIN,ITY,NSN,NMN,NRTM,NRTS,IDEL,IDELKEEP
         INTEGER :: I,J
         INTEGER :: NODE_ID,SHIFT,SHIFT_INTER,NEXT_INTER
@@ -434,20 +435,26 @@ C-----------------------------------------------
             NRTM = IPARI(4,NIN) ! number of main surfaces/edges
             NRTS = IPARI(3,NIN) ! number of secondary edges
             IDEL = IPARI(17,NIN)! idel option
-            ! ---------------------------
-            IF((ITY==11.OR.ITY==7.OR.ITY==10.OR.ITY==22.OR.ITY==24.OR.ITY==25).AND.(IDEL==1)) THEN
+            TYPE_INTER = (ITY==7.OR.ITY==10.OR.ITY==22.OR.ITY==24) ! interface 7/10/11/22/24/25 with idel=1
+            TYPE_INTER = (TYPE_INTER.OR.(ITY==25.AND.IPARI(100,NIN)==0)) ! interface  7/10/11/22/24/25 with idel=1
+            TYPE_INTER = (TYPE_INTER.AND.(IDEL==1)) ! interface  7/10/11/22/24/25 with idel=1
+            ! ----------------------------------------
+            IF((TYPE_INTER.AND.(IDEL==1)).OR.(ITY==25.AND.IPARI(100,NIN)/=0)) THEN
                 IF(.NOT.ALLOCATED(SHOOT_STRUCT%INTER)) ALLOCATE(SHOOT_STRUCT%INTER(NINTER))
                 ALLOCATE( SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M(NRTM) )
                 SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M(1:NRTM) = 0
                 ALLOCATE( SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_S(NRTS) )
                 SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_S(1:NRTS) = 0
+                IF(ITY==25.AND.IPARI(100,NIN)/=0) THEN
+                  IF(.NOT.ALLOCATED(SHOOT_STRUCT%INTER)) ALLOCATE(SHOOT_STRUCT%INTER(NINTER))
+                  ALLOCATE( SHOOT_STRUCT%INTER(NIN)%NB_ELM_M(NRTM) )
+                  SHOOT_STRUCT%INTER(NIN)%NB_ELM_M(1:NRTM) = 0
+                ENDIF
             ENDIF
-            ! ---------------------------
+            ! ----------------------------------------
             
-            ! ---------------------------
-            IF( ((ITY==11.OR.ITY==7.OR.ITY==10.OR.ITY==22.OR.ITY==24.OR.ITY==25).AND.(IDEL==1)) .AND.NSPMD>1) THEN
-
-
+            ! ----------------------------------------
+            IF( (TYPE_INTER.OR.(ITY==25.AND.IPARI(100,NIN)/=0)).AND.NSPMD>1 ) THEN
                 DO I=1,NSPMD
                     IF(.NOT.ALLOCATED(BUFFER_SECOND(I)%INT_ARRAY_1D)) THEN
                         BUFFER_SECOND(I)%SIZE_INT_ARRAY_1D = NUMNOD/4+1
@@ -458,7 +465,7 @@ C-----------------------------------------------
                         CALL ALLOC_1D_ARRAY(BUFFER_MAIN(I))
                     ENDIF
                 ENDDO
-                IF(ITY==7.OR.ITY==10.OR.ITY==22.OR.ITY==24.OR.ITY==25) NB_NODE_SURF = 4
+                NB_NODE_SURF = 4
                 IF(ITY==11) NB_NODE_SURF = 2
                 ! ------------------------------------
                 ! loop over the M edge
@@ -617,7 +624,21 @@ C-----------------------------------------------
                 ENDIF ! type 11 : secondary nodes
                 ! ------------------------------------
             ENDIF ! type 11 or 7 + idel = 1 + nspmd > 1
-            ! ---------------------------
+            ! ----------------------------------------
+
+            ! ----------------------------------------
+            IF(ITY==25.AND.IPARI(100,NIN)/=0) THEN
+              DO I=1,NRTM
+                ! check if the current segment is an internal segment
+                IF(INTBUF_TAB(NIN)%STFM(I)<ZERO) THEN
+                  SHOOT_STRUCT%INTER(NIN)%NB_ELM_M(I) = SHOOT_STRUCT%INTER(NIN)%NB_ELM_M(I) + 1
+                  IF(INTBUF_TAB(NIN)%IELEM_M(2*(I-1)+2)/=0) THEN
+                    SHOOT_STRUCT%INTER(NIN)%NB_ELM_M(I) = SHOOT_STRUCT%INTER(NIN)%NB_ELM_M(I) + 1
+                  ENDIF
+                ENDIF
+              ENDDO
+            ENDIF ! type 25 with solid erosion
+            ! ----------------------------------------
         ENDDO
         ! ---------------------------
         IF(NSPMD>1) THEN
@@ -746,5 +767,13 @@ C-----------------------------------------------
         SHOOT_STRUCT%SIZE_REMOTE_SURF = 0 ! size of array of REMOTE_SURF (list of potential remote deactivated surfaces)
         ALLOCATE( SHOOT_STRUCT%REMOTE_SURF( SHOOT_STRUCT%SIZE_REMOTE_SURF ) ) ! list of potential remote deactivated surfaces
         ! ---------------------------
+
+        ! ---------------------------
+        ! Only for interface type 25
+        SHOOT_STRUCT%NUMBER_NEW_SURF = 0 ! number of new active segment/surface for interface type 25
+        SHOOT_STRUCT%SIZE_NEW_SURF = 0 ! size of array of NEW_SURF 
+        ALLOCATE( SHOOT_STRUCT%NEW_SURF( SHOOT_STRUCT%SIZE_NEW_SURF ) ) ! list of new active segment/surface
+        ! ---------------------------
+
         RETURN
         END SUBROUTINE INIT_NODAL_STATE

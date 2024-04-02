@@ -108,7 +108,7 @@ C=======================================================================
 
       DO NE=1,NRTM
 C on ne retient pas les facettes detruites
-        IF(STF(NE) == ZERO)CYCLE
+        IF(STF(NE) <= ZERO)CYCLE
          AAA = MARGE+CURV_MAX(NE)+VMAXDT
      +       + MAX(MAX(PMAX_GAP,BGAPSMX+GAP_M(NE))+DGAPLOAD,DRAD)
 
@@ -278,7 +278,7 @@ C=======================================================================
 !$OMP DO
       DO IE = 1, NEDGE
 C check with :
-        IF(STFE(IE) == ZERO ) CYCLE
+        IF(STFE(IE) <= ZERO ) CYCLE
         IF(LEDGE(9,IE) == 0) CYCLE ! not main of secnd edge 
 
         M1 = LEDGE(1,IE)

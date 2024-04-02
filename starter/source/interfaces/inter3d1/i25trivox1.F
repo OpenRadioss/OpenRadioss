@@ -39,7 +39,8 @@ Chd|====================================================================
      8      IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,INACTI,
      9      IPARTS  ,NPARTNS ,LPARTNS ,IELEM ,ICODE   ,
      A      ISKEW   ,DRAD, IS_LARGE_NODE, LARGE_NODE  ,
-     B      NB_LARGE_NODES,PEN_OLD      , DGAPLOAD,NRTMT,FLAG_REMOVED_NODE)
+     B      NB_LARGE_NODES,PEN_OLD      , DGAPLOAD,NRTMT,FLAG_REMOVED_NODE,
+     C      IELEM_M)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -103,7 +104,7 @@ C-----------------------------------------------
      .        IRECT(4,*), VOXEL(NBX+2,NBY+2,NBZ+2),II_STOK,ITAB(*),
      .        NBINFLG(*),MBINFLG(*),ILEV,MSEGTYP(*),
      .        IREMNODE,FLAGREMNODE,KREMNODE(*),REMNODE(*),
-     .        INACTI, IPARTS(*), NPARTNS(*), LPARTNS(*), IELEM(*), ICODE(*), ISKEW(*)
+     .        INACTI, IPARTS(*), NPARTNS(*), LPARTNS(*), ICODE(*), ISKEW(*)
       LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
 C     REAL
       my_real
@@ -116,6 +117,7 @@ C     REAL
       INTEGER :: IS_LARGE_NODE(NSN) ! tag nodes that have large research distance wrt solids
       INTEGER :: NB_LARGE_NODES
       INTEGER , INTENT(IN) :: NRTMT
+      INTEGER  , INTENT(IN) :: IELEM_M(2,NRTM), IELEM(NRTM)
 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -148,6 +150,7 @@ C-----------------------------------------------
       ALLOCATE(IIX(NSN))
       ALLOCATE(IIY(NSN))
       ALLOCATE(IIZ(NSN))
+
 C
 C Phase initiale de construction de BPE et BPN deplacee de I7BUCE => I7TRI
 C
@@ -223,6 +226,8 @@ C-----------------------------------------------
 
 
       DO NE=1,NRTM
+        IF(IELEM_M(2,NE) /=0) CYCLE
+
 c
 c     il est possible d'ameliorer l'algo en decoupant la facette
 c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
@@ -420,11 +425,10 @@ c               IF(INACTI==5.OR.INACTI==-1)THEN Do it for all inacti
                       IPS=IPM
                     END IF
                   END DO
+
                   IF(IPM==IPS) GOTO 300
                 END IF
 c               END IF
-
-
 
 c    sousestimation de la distance**2 pour elimination de candidats
 

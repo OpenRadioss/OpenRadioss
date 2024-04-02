@@ -151,7 +151,7 @@ C-----------------------------------------------
      .        IV_LOC, NW_L, ILW, NIMP, ILP, NBE, NAD, NRTS, NRTM,
      .        NNG, IADD, NOD,
      .        ISHIFT, LSHIFT, NADMSR, NADMSR_L, NI, NTY, NI25, NBDDNOR,
-     .        LCSRECT_L, NBDDEDG, NRTM_L, IC, IK0, IKN, IK,IJK
+     .        LCSRECT_L, NBDDEDG, NRTM_L, IC, IK0, IKN, IK,IJK,NB
       LOGICAL PSEARCH
      
       INTEGER SPLIST
@@ -326,7 +326,7 @@ C---------------------------------------------------------------------
       ALLOCATE(NESDVOIS(NSPMD+1))
       ALLOCATE(NPORGEO(NUMGEO))
       ALLOCATE(NPSEGCOM(NSPMD+1))
-      ALLOCATE(PROCNOR(ADDCSRECT(NUMNOR+1)))
+      ALLOCATE(PROCNOR(NBCCNOR))
       ALLOCATE(PROC_REM(NBDDACC+NBDDKIN))
       ALLOCATE(PROC_REM1(NBDDNRBYM))
       ALLOCATE(RG_CUT(NNODL_L))
@@ -2383,37 +2383,6 @@ C
           IAD_EDGE(I+1)=IAD_EDGE(I)+FR_NBEDGE(I)
         ENDDO
 C
-ccccccc        IED_FR = 0
-ccccccc        SHIFT_EDG = 0
-ccccccc        OK = 0
-ccccccc        IAD_EDGE(1) = 1
-ccccccc        DO P = 1,NSPMD
-ccccccc          IED_FR = 0
-ccccccc          IF(P /= PROC)THEN
-ccccccc            DO I=1,NB_FREDGE
-ccccccc              IED_GL = TAG_IED_FR0(1,I)
-ccccccc              IF(IEDGE_TMP(2,IED_GL) > 0)THEN
-ccccccc                IF(TAG_IED_FR0(2,I) == P)THEN
-ccccccc                   IED_FR = IEDGE_TMP(2,IED_GL)
-ccccccc                   IED_FR = IED_FR + SHIFT_EDG
-ccccccc                   FR_EDGE(IED_FR) = EDGELOCAL(IED_GL)
-ccccccc                   OK = OK + 1
-ccccccc                ENDIF
-ccccccc              ELSEIF(IEDGE_TMP(2,IED_GL) == 0)THEN
-ccccccc                IF(TAG_IED_FR0(2,I) == P)THEN
-ccccccc                  IED_FR = IED_FR + 1
-ccccccc
-ccccccc                  IEDGE_TMP(2,IED_GL) = IED_FR
-ccccccc                  FR_EDGE(IED_FR+SHIFT_EDG) = EDGELOCAL(IED_GL)
-ccccccc                  OK = OK + 1
-ccccccc                ENDIF
-ccccccc             ENDIF ! IF(IEDGE_TMP(2,IED_GL) > 0)THEN
-ccccccc            ENDDO ! DO I=1,NB_FREDGE
-ccccccc            SHIFT_EDG = OK
-ccccccc          ENDIF ! IF(P /= PROC)THEN
-ccccccc          IAD_EDGE(P+1) = OK+1
-ccccccc        ENDDO ! DO P = 1,NSPMD
-C
         DO P = 1, NSPMD
           FR_NBEDGE(NSPMD+1) = FR_NBEDGE(NSPMD+1) +  FR_NBEDGE(P)
         ENDDO
@@ -2470,7 +2439,7 @@ C     Frontiers vs vertices
                 NADMSR_L=NADMSR_L+1
                 TAG_SM(N4)=NADMSR_L
               END IF
-            ENDIF
+            ENDIF    
           ENDDO 
           
           
@@ -2484,9 +2453,7 @@ C     Frontiers vs vertices
           DO I = 1, NADMSR_L         
             N = TAG_MS(I) + ISHIFT
 
-            ADDCSRECT_L(NL+1)=ADDCSRECT_L(NL)+ADDCSRECT(N+1)-ADDCSRECT(N)
-            NL = NL + 1
-
+            NB = 0
             TAGP(1:NSPMD)=0
             DO J = ADDCSRECT(N), ADDCSRECT(N+1)-1
                K = CSRECT(J)
@@ -2499,7 +2466,10 @@ C     Frontiers vs vertices
                ENDIF
                LCSRECT_L = LCSRECT_L + 1
                PROCNOR(LCSRECT_L)=P
+               NB = NB +1
             ENDDO
+            ADDCSRECT_L(NL+1)=ADDCSRECT_L(NL)+NB
+            NL = NL + 1
           ENDDO
 C
           DO I = 1, NBDDNOR
@@ -2719,7 +2689,7 @@ C
       CALL WRITE_I_C(FR_EDG,2*NBDDEDGT)
       LEN_IA = LEN_IA + 2*NBDDEDGT
       CALL WRITE_I_C(IAD_FREDG,(NSPMD+1)*NINTER25)
-      LEN_IA = LEN_IA + (NSPMD+1)*NINTER25
+      LEN_IA = LEN_IA + (NSPMD+1)*NINTER25      
 C
       IF(NUMSKW>0)THEN
         CALL WRITE_I_C(ISKWP,NUMSKW+1)

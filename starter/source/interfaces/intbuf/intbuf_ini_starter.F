@@ -69,7 +69,7 @@ C-----------------------------------------------
      .        FLAGREMNODE,NRTSE,NADMSR,IEDGE4,NRTM_FE,NRTM_IGE,NRTS_FE,
      .        NRTS_IGE,NSN_FE,NSN_IGE,NMN_FE,NMN_IGE,INTFRIC,NREMNOR,IVIS2,
      .        NEDGE,INTNITSCHE,ITHK,IFLAGLOADP,NREMNODE_EDG,NREMNODE_E2S,
-     .        ISTIF_MSDT
+     .        ISTIF_MSDT,IDEL_SOLID
 C-----------------------------------------------
 
       DO NIN = 1,NINTER 
@@ -192,6 +192,9 @@ C=======================================================================
         INTBUF_TAB(NIN)%S_REMNODE_EDG  = 0 
         INTBUF_TAB(NIN)%S_KREMNODE_E2S = 0 
         INTBUF_TAB(NIN)%S_REMNODE_E2S  = 0 
+        INTBUF_TAB(NIN)%S_IELEM_M      = 0 
+        INTBUF_TAB(NIN)%S_PROC_MVOISIN = 0 
+
 !type2
         INTBUF_TAB(NIN)%S_MSEGTYP2     = 0
 C=======================================================================
@@ -433,6 +436,8 @@ C   T25 transient gap for main side
         IFLAGLOADP = IPARI(95,NIN)
         
         ISTIF_MSDT = IPARI(97,NIN)
+        IDEL_SOLID = IPARI(100,NIN)
+
         
 
 cc        print*,'-------INTBUF_INI_STARTER NI ITYP PROC',NIN,ITYP,PROC                                     
@@ -1587,7 +1592,9 @@ C----   size real arrays
                INTBUF_TAB(NIN)%S_STIFMSDT_EDG   = NEDGE 
             ENDIF
           ENDIF
-
+!   Erosion for solids
+          INTBUF_TAB(NIN)%S_IELEM_M  = 2*NRTM
+          INTBUF_TAB(NIN)%S_PROC_MVOISIN  = 4*NRTM             
 
         ENDIF !END ALL INTERFACE TYPES
 
@@ -1835,6 +1842,10 @@ C---------to be cleaned later
           INTBUF_TAB(NIN)%CANDM_E2S(1:INTBUF_TAB(NIN)%S_CANDM_E2S) = 0 
           CALL MY_ALLOC(INTBUF_TAB(NIN)%CANDS_E2S,INTBUF_TAB(NIN)%S_CANDS_E2S) !KD(44)
           INTBUF_TAB(NIN)%CANDS_E2S(1:INTBUF_TAB(NIN)%S_CANDS_E2S) = 0 
+          CALL MY_ALLOC(INTBUF_TAB(NIN)%IELEM_M,INTBUF_TAB(NIN)%S_IELEM_M) 
+          INTBUF_TAB(NIN)%IELEM_M(1:INTBUF_TAB(NIN)%S_IELEM_M) = 0              
+          CALL MY_ALLOC(INTBUF_TAB(NIN)%PROC_MVOISIN,INTBUF_TAB(NIN)%S_PROC_MVOISIN) 
+          INTBUF_TAB(NIN)%PROC_MVOISIN(1:INTBUF_TAB(NIN)%S_PROC_MVOISIN) = 0            
 !type7 11 19 24 25 : friction parts
           CALL MY_ALLOC(INTBUF_TAB(NIN)%IPARTFRICS,INTBUF_TAB(NIN)%S_IPARTFRICS) 
           INTBUF_TAB(NIN)%IPARTFRICS(1:INTBUF_TAB(NIN)%S_IPARTFRICS) = 0 

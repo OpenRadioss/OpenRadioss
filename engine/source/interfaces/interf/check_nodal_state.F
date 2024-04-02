@@ -50,7 +50,7 @@ C-----------------------------------------------
         INTEGER, INTENT(in) :: ITASK ! omp thread ID
         INTEGER, INTENT(in) :: SIZE_SEC_NODE    ! size of INTER_SEC_NODE & SEC_NODE_ID
         INTEGER, DIMENSION(2*NUMNOD), INTENT(in) :: ITAG    ! tag of node : 0 if secondary node is deactivated, 1 if secondary node is activated
-        INTEGER, DIMENSION(NINTER), INTENT(inout) :: NEWFRONT   ! array for sorting : 1 --> need to sort the interface NIN
+        INTEGER, DIMENSION(NINTER), INTENT(inout) :: NEWFRONT   !< flag to force some exchanges related to S nodes between processor (if a S node becomes a shooting node - all interface) / force the collision detection algo if a new segment is activated for the (interface 25 + solid erosion)
         TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    ! interface data
 !   shift to point to INTER_SEC_NODE/SEC_NODE_ID arrays & number of interface per node:
 !   SHIFT_S_NODE(i) = index to NTER_SEC_NODE/SEC_NODE_ID for node_id = i
@@ -92,7 +92,7 @@ C-----------------------------------------------
 
                 IF(INTBUF_TAB(NIN)%STFNS(NODE_ID)>ZERO) THEN    ! check the current state of the node
                     INTBUF_TAB(NIN)%STFNS(NODE_ID) = -INTBUF_TAB(NIN)%STFNS(NODE_ID) ! nodal state change
-                    NEWFRONT(NIN) = -1  ! force the sorting of the interface NIN for the next cycle
+                    NEWFRONT(NIN) = -1  ! force some exchanges for S node of the interface NIN for the next cycle
                 ENDIF
             ENDDO        
         ENDDO

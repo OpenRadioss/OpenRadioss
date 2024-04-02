@@ -446,6 +446,7 @@ C
 
       DO  NIN=1,NINTER
         NTY=IPARI(7,NIN)
+        
         IF(NTY/=25) CYCLE
  
         NINTER25 = NINTER25 + 1
@@ -476,7 +477,7 @@ C
 
         NRTLM_L(1:NSPMD)=0
         DO K=1,NRTM
-          P = INTERCEP(1,NIN)%P(K)          
+          P = INTERCEP(1,NIN)%P(K)       
           NRTLM_L(P)=NRTLM_L(P)+1
           IRTLM_L(K)=NRTLM_L(P)
         ENDDO

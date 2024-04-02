@@ -1924,6 +1924,9 @@ C
 C-----/DAMP/VREL
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NDAMP_VREL_L        
+C  
+      LVARINT       = LVARINT + 1
+      TABVINT(LVARINT) = INTER_PARAMETERS%INT25_EROSION_SOLID
 C----------------------------------------------------------------
 C    warning to radioss developers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------

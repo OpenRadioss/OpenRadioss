@@ -1787,6 +1787,10 @@ C /LOAD/PLOAD
 C-----/DAMP/VREL
       NEXT       = NEXT + 1
       NDAMP_VREL = TABVINT(NEXT)   
+!
+      NEXT       = NEXT + 1
+      INTER_PARAMETERS%INT25_EROSION_SOLID   = TABVINT(NEXT)
+C
 C--------------------------------------
       RETURN
       END

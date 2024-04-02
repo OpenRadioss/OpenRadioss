@@ -87,7 +87,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(2,3), TARGET :: EDGES_TRI ! definition of edge for triangle & spring type12
         INTEGER, DIMENSION(2,1), TARGET :: EDGES_2DELM ! definition of edge for 2d element : truss/beam/spring
         INTEGER, DIMENSION(2,2), TARGET :: EDGES_SPRING_TYP12 ! definition of edge spring type 12
-        INTEGER,DIMENSION(:,:), POINTER :: POINTER_EDGE,IX
+        INTEGER,DIMENSION(:,:), POINTER :: POINTER_EDGE,IX,IX_TETRA10
 
         LOGICAL :: NO_EDGE,DO_COMPUTATION
         INTEGER :: SHIFT,SHIFT_ELM,OLD_SIZE
@@ -102,75 +102,75 @@ C-----------------------------------------------
         INTEGER, DIMENSION(4) :: LOCAL_NODE
         INTEGER :: GROUP_NUMBER
         INTEGER :: KIND_SOLID
-
-        DATA EDGES_SHELL/1,2,
-     .                   2,3,
-     .                   3,4,
-     .                   4,1/
-
-        DATA EDGES_TRI/1,2,
-     .                 2,3,
-     .                 3,1/
-        DATA EDGES_SPRING_TYP12/1,2,
-     .                          2,3/
-
-        DATA EDGES_2DELM/1,2/
-
-        DATA EDGES_TETRA4/2,3,
-     .                    3,6,
-     .                    2,6,
-     .                    2,5,
-     .                    3,5,
-     .                    6,5/
-
-        DATA EDGES_PENTA6/1,2,
-     .                    2,3,
-     .                    3,1,
-     .                    2,6,
-     .                    6,5,
-     .                    5,1,
-     .                    3,7,
-     .                    7,6,
-     .                    7,5/
-
-        DATA EDGES_SOL/1,2,
-     .                 2,3,
-     .                 3,4,
-     .                 4,1,
-     .                 2,6,
-     .                 6,5,
-     .                 5,1,
-     .                 3,7,
-     .                 7,6,
-     .                 4,8,
-     .                 8,7,
-     .                 5,8/
-
-        DATA EDGES_TETRA10/ 1,11,
-     .                     11,14,
-     .                     14,1 ,
-     .                      3,11,
-     .                     11,15,
-     .                     15,3 ,
-     .                      5,14,
-     .                     14,15,
-     .                     15,5 ,
-     .                      1,13,
-     .                     13,14,
-     .                      6,13,
-     .                     13,16,
-     .                     16,6 ,
-     .                     14,16,
-     .                     16,5 ,
-     .                     11,12,
-     .                     12,3 ,
-     .                      6,12,
-     .                     12,13,
-     .                     11,13,
-     .                     12,15,
-     .                     12,16,
-     .                     15,16/
 C-----------------------------------------------
+        EDGES_SHELL(1:2,1) = (/1,2/)
+        EDGES_SHELL(1:2,2) = (/2,3/)
+        EDGES_SHELL(1:2,3) = (/3,4/)
+        EDGES_SHELL(1:2,4) = (/4,1/)
+
+        EDGES_TRI(1:2,1) = (/1,2/)
+        EDGES_TRI(1:2,2) = (/2,3/)
+        EDGES_TRI(1:2,3) = (/3,1/)
+
+        EDGES_SPRING_TYP12(1:2,1) = (/1,2/)
+        EDGES_SPRING_TYP12(1:2,2) = (/2,3/)
+
+        EDGES_2DELM(1:2,1) = (/1,2/)
+
+        EDGES_TETRA4(1:2,1) = (/2,3/)
+        EDGES_TETRA4(1:2,2) = (/3,6/)
+        EDGES_TETRA4(1:2,3) = (/2,6/)
+        EDGES_TETRA4(1:2,4) = (/2,5/)
+        EDGES_TETRA4(1:2,5) = (/3,5/)
+        EDGES_TETRA4(1:2,6) = (/6,5/)
+
+        EDGES_PENTA6(1:2,1) = (/1,2/)
+        EDGES_PENTA6(1:2,2) = (/2,3/)
+        EDGES_PENTA6(1:2,3) = (/3,1/)
+        EDGES_PENTA6(1:2,4) = (/2,6/)
+        EDGES_PENTA6(1:2,5) = (/6,5/)
+        EDGES_PENTA6(1:2,6) = (/5,1/)
+        EDGES_PENTA6(1:2,7) = (/3,7/)
+        EDGES_PENTA6(1:2,8) = (/7,6/)
+        EDGES_PENTA6(1:2,9) = (/7,5/)
+
+        EDGES_SOL(1:2,1) = (/1,2/)
+        EDGES_SOL(1:2,2) = (/2,3/)
+        EDGES_SOL(1:2,3) = (/3,4/)
+        EDGES_SOL(1:2,4) = (/4,1/)
+        EDGES_SOL(1:2,5) = (/2,6/)
+        EDGES_SOL(1:2,6) = (/6,5/)
+        EDGES_SOL(1:2,7) = (/5,1/)
+        EDGES_SOL(1:2,8) = (/3,7/)
+        EDGES_SOL(1:2,9) = (/7,6/)
+        EDGES_SOL(1:2,10) = (/4,8/)
+        EDGES_SOL(1:2,11) = (/8,7/)
+        EDGES_SOL(1:2,12) = (/5,8/)
+
+        EDGES_TETRA10(1:2,1) = (/1,11/)
+        EDGES_TETRA10(1:2,2) = (/11,14/)
+        EDGES_TETRA10(1:2,3) = (/14,1 /)
+        EDGES_TETRA10(1:2,4) = (/ 3,11/)
+        EDGES_TETRA10(1:2,5) = (/11,15/)
+        EDGES_TETRA10(1:2,6) = (/15,3 /)
+        EDGES_TETRA10(1:2,7) = (/ 5,14/)
+        EDGES_TETRA10(1:2,8) = (/14,15/)
+        EDGES_TETRA10(1:2,9) = (/15,5 /)
+        EDGES_TETRA10(1:2,10) = (/ 1,13/)
+        EDGES_TETRA10(1:2,11) = (/13,14/)
+        EDGES_TETRA10(1:2,12) = (/ 6,13/)
+        EDGES_TETRA10(1:2,13) = (/13,16/)
+        EDGES_TETRA10(1:2,14) = (/16,6 /)
+        EDGES_TETRA10(1:2,15) = (/14,16/)
+        EDGES_TETRA10(1:2,16) = (/16,5 /)
+        EDGES_TETRA10(1:2,17) = (/11,12/)
+        EDGES_TETRA10(1:2,18) = (/12,3 /)
+        EDGES_TETRA10(1:2,19) = (/ 6,12/)
+        EDGES_TETRA10(1:2,20) = (/12,13/)
+        EDGES_TETRA10(1:2,21) = (/11,13/)
+        EDGES_TETRA10(1:2,22) = (/12,15/)
+        EDGES_TETRA10(1:2,23) = (/12,16/)
+        EDGES_TETRA10(1:2,24) = (/15,16/)
 
         ! --------------------------
         OFFSET_SOLID = 0
@@ -219,6 +219,7 @@ C-----------------------------------------------
             DO_COMPUTATION = .TRUE.
             ! ----------------------
             KIND_SOLID = 0
+            IX_TETRA10 => NULL()
             IF(ELEM_ID<=NUMELS8) THEN
                 ! solid element : 8 nodes --> 12 edges
                 !     o----o
@@ -277,7 +278,8 @@ C-----------------------------------------------
                 !  /  +    + \                /   \ /   \
                 ! o-----------o              o---- o ----o
                 EDGE_NUMBER = 24 ! number of edge
-                IX => IXS10(1:6,1:NUMELS10)
+                IX => IXS(1:NIXS,1:NUMELS)
+                IX_TETRA10 => IXS10(1:6,1:NUMELS10)
                 POINTER_EDGE => EDGES_TETRA10(1:2,1:24)
                 SHIFT_ELM = NUMELS8
             ELSEIF(ELEM_ID<=NUMELS) THEN
@@ -373,7 +375,11 @@ C-----------------------------------------------
                     ! MAIN NODE
                     ! Initialization of edge/proc for the first node
                     N = POINTER_EDGE(1,K)                ! get the node of the edge
-                    NODE_ID = IX(N+1,ELEM_ID-SHIFT_ELM)    ! get the node ID  
+                    IF(N<10) THEN
+                      NODE_ID = IX(N+1,ELEM_ID-SHIFT_ELM) ! get the node ID  
+                    ELSE
+                      NODE_ID = IX_TETRA10(N-10,ELEM_ID-SHIFT_ELM) ! get the node ID  
+                    ENDIF
                     NODE_ID_1 = NODE_ID
                     LOCAL_NODE(1) = NODE_ID
                     NB_EDGE_1 = SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NODE_ID)   ! get the number of edge of the node
@@ -386,7 +392,11 @@ C-----------------------------------------------
                     ! ------------------
                     ! Initialization of edge/proc for the second node
                     N = POINTER_EDGE(2,K)                ! get the node of the edge
-                    NODE_ID = IX(N+1,ELEM_ID-SHIFT_ELM)    ! get the node ID 
+                    IF(N<10) THEN
+                      NODE_ID = IX(N+1,ELEM_ID-SHIFT_ELM) ! get the node ID  
+                    ELSE
+                      NODE_ID = IX_TETRA10(N-10,ELEM_ID-SHIFT_ELM) ! get the node ID  
+                    ENDIF
                     NODE_ID_2 = NODE_ID 
                     LOCAL_NODE(2) = NODE_ID
                     NB_EDGE_2 = SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NODE_ID)   ! get the number of edge of the node
@@ -433,7 +443,11 @@ C-----------------------------------------------
                     ! SECONDARY NODE
                     ! Initialization of edge/proc for the first node
                     N = POINTER_EDGE(1,K)                ! get the node of the edge
-                    NODE_ID = IX(N+1,ELEM_ID-SHIFT_ELM)    ! get the node ID  
+                    IF(N<10) THEN
+                      NODE_ID = IX(N+1,ELEM_ID-SHIFT_ELM) ! get the node ID  
+                    ELSE
+                      NODE_ID = IX_TETRA10(N-10,ELEM_ID-SHIFT_ELM) ! get the node ID  
+                    ENDIF
                     LOCAL_NODE(3) = NODE_ID
                     NB_EDGE_1 = SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NODE_ID+1) - SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NODE_ID)   ! get the number of edge of the node
                     SHIFT = SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NODE_ID)
@@ -441,7 +455,11 @@ C-----------------------------------------------
                     ! ------------------
                     ! Initialization of edge/proc for the second node
                     N = POINTER_EDGE(2,K)                ! get the node of the edge
-                    NODE_ID = IX(N+1,ELEM_ID-SHIFT_ELM)    ! get the node ID  
+                    IF(N<10) THEN
+                      NODE_ID = IX(N+1,ELEM_ID-SHIFT_ELM) ! get the node ID  
+                    ELSE
+                      NODE_ID = IX_TETRA10(N-10,ELEM_ID-SHIFT_ELM) ! get the node ID  
+                    ENDIF
                     LOCAL_NODE(4) = NODE_ID
                     NB_EDGE_2 = SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NODE_ID+1) - SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NODE_ID)   ! get the number of edge of the node
                     SHIFT = SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NODE_ID)

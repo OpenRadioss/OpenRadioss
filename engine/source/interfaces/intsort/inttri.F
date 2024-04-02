@@ -184,7 +184,7 @@ C-----------------------------------------------
      .        IND_IMP(*),NUM_IMP(*),RENUM(*), NSNFIOLD(NSPMD),
      .        NODNX_SMS(NODNX_SMS_SIZ),IKINE(NUMNOD),I_MEM,COUNT_REMSLV(*),
      .        COUNT_REMSLVE(*), IXTG(NIXTG,*),DELTA_PMAX_GAP_NODE(*),
-     .        IAD_FRNOR(*), FR_NOR(*), IAD_FREDG(*), FR_EDG(*), 
+     .        IAD_FRNOR(NINTER25,*), FR_NOR(*), IAD_FREDG(NINTER25,*), FR_EDG(*), 
      .        NB25_CANDT(PARASIZ), NB25_IMPCT(PARASIZ), 
      .        NB25_DST1(PARASIZ), NB25_DST2(PARASIZ), IPARG(NPARG,*),
      .        INTLIST25(*), MAIN_PROC(*), NATIV_SMS(*), I_OPT_STOK(NINTER),
@@ -1302,7 +1302,7 @@ C statistique interface
           NB25_DST1(ITASK+1)  = 0
           NB25_DST2(ITASK+1)  = 0
         ENDIF
-      
+
         CALL I25MAIN_SLID(
      1      IPARI    ,IAD_ELEM ,FR_ELEM   ,ITAB     ,SENSORS%SENSOR_TAB,
      2      NSENSOR  ,INTLIST25,INTBUF_TAB ,IAD_FRNOR,FR_NOR ,

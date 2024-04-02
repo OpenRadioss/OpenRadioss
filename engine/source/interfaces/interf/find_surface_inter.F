@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: I,J,K,N,IJK
-        INTEGER :: NODE_ID,ELEM_ID
+        INTEGER :: NODE_ID,NODE_ID_2,ELEM_ID
         INTEGER :: OFFSET_SOLID,OFFSET_QUAD,OFFSET_SHELL,OFFSET_TRUSS
         INTEGER :: OFFSET_BEAM,OFFSET_SPRING,OFFSET_TRIANGLE,OFFSET_UR
         INTEGER, DIMENSION(4,6), TARGET :: FACES ! definition of faces for solid
@@ -77,7 +77,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(3,4), TARGET :: FACES4 ! definition of faces for tetra10
         INTEGER, DIMENSION(3,16), TARGET :: FACES10 ! definition of faces for tetra10
         INTEGER, DIMENSION(4,1), TARGET :: FACES_SHELL ! definition of face for shell/quad/triangle
-        INTEGER,DIMENSION(:,:), POINTER :: POINTER_FACE,IX
+        INTEGER,DIMENSION(:,:), POINTER :: POINTER_FACE,IX,IX_TETRA10
 
         LOGICAL :: DO_COMPUTATION
         INTEGER :: SHIFT,SHIFT_ELM,OLD_SIZE
@@ -94,40 +94,44 @@ C-----------------------------------------------
         INTEGER, DIMENSION(4) :: LIST_NODE_ID,PERM_LIST_NODE_ID,NB_APPAREANCE
         LOGICAL :: NEED_COMPUTE
         INTEGER :: N1,N2,N3,N4
-        DATA FACES_SHELL/1,2,3,4/
-
-        DATA FACES/1,2,3,4,   
-     .             1,2,6,5,  
-     .             2,3,7,6,  
-     .             3,4,8,7, 
-     .             1,5,8,4,  
-     .             5,6,7,8/  
-        DATA FACES4/2,3,6,   
-     .             2,3,5,  
-     .             2,6,5,
-     .             3,6,5/
-        DATA FACES6/1,2,3,1,   !-> tri
-     .             1,2,6,5,    !->quad
-     .             2,3,7,6,    !->quad
-     .             3,4,8,7,    !->quad
-     .             5,6,7,5/    !->tri
-        DATA FACES10/1,11,14,
-     .               3,11,15,
-     .               5,14,15,
-     .               11,14,15,
-     .               1,13,14,
-     .               6,13,16,
-     .               5,14,16,
-     .               13,14,16,
-     .               3,11,12,
-     .               6,12,13,
-     .               1,11,13,
-     .               11,12,13,
-     .               3,12,15,
-     .               6,12,16,
-     .               5,15,16,
-     .               12,15,16/
 C-----------------------------------------------
+
+        FACES_SHELL(1:4,1) = (/1,2,3,4/)
+
+        FACES(1:4,1) = (/1,2,3,4/)
+        FACES(1:4,2) = (/1,2,6,5/)
+        FACES(1:4,3) = (/2,3,7,6/)
+        FACES(1:4,4) = (/3,4,8,7/)
+        FACES(1:4,5) = (/1,5,8,4/)
+        FACES(1:4,6) = (/5,6,7,8/)
+
+        FACES4(1:3,1) = (/2,3,6/)
+        FACES4(1:3,2) = (/2,3,5/)
+        FACES4(1:3,3) = (/2,6,5/)
+        FACES4(1:3,4) = (/3,6,5/)
+
+        FACES6(1:4,1) = (/1,2,3,1/)    !-> tri
+        FACES6(1:4,2) = (/1,2,6,5/)    !->quad
+        FACES6(1:4,3) = (/2,3,7,6/)    !->quad
+        FACES6(1:4,4) = (/3,4,8,7/)    !->quad
+        FACES6(1:4,5) = (/5,6,7,5/)    !->tri
+
+        FACES10(1:3,1) = (/1,11,14/) 
+        FACES10(1:3,2) = (/3,11,15/) 
+        FACES10(1:3,3) = (/5,14,15/) 
+        FACES10(1:3,4) = (/11,14,15/) 
+        FACES10(1:3,5) = (/1,13,14/) 
+        FACES10(1:3,6) = (/6,13,16/) 
+        FACES10(1:3,7) = (/5,14,16/) 
+        FACES10(1:3,8) = (/13,14,16/) 
+        FACES10(1:3,9) = (/3,11,12/) 
+        FACES10(1:3,10) = (/6,12,13/) 
+        FACES10(1:3,11) = (/1,11,13/) 
+        FACES10(1:3,12) = (/11,12,13/) 
+        FACES10(1:3,13) = (/3,12,15/) 
+        FACES10(1:3,14) = (/6,12,16/) 
+        FACES10(1:3,15) = (/5,15,16/) 
+        FACES10(1:3,16) = (/12,15,16/) 
 
         ! --------------------------
         OFFSET_SOLID = 0
@@ -166,6 +170,7 @@ C-----------------------------------------------
             ELEM_ID = SHOOT_STRUCT%GLOBAL_ELEM_INDEX(I) ! get the id of the deleted element
             DO_COMPUTATION = .TRUE.
             KIND_SOLID = 0
+            IX_TETRA10 => NULL()
             ! ----------------------
             IF(ELEM_ID<=NUMELS8) THEN
                 ! solid element : 8 nodes --> 6 surfaces
@@ -228,10 +233,12 @@ C-----------------------------------------------
                 !  /  +    + \                /   \ /   \
                 ! o-----------o              o---- o ----o
                 SURFACE_NUMBER = 16 ! number of surface
-                IX => IXS10(1:6,1:NUMELS10)
+                IX => IXS(1:NIXS,1:NUMELS)
+                IX_TETRA10 => IXS10(1:6,1:NUMELS10)
                 POINTER_FACE => FACES10(1:3,1:16)
                 NODE_SURF_NB = 3  ! number of node per surface
                 SHIFT_ELM = NUMELS8
+                KIND_SOLID = 10
             ELSEIF(ELEM_ID<=NUMELS) THEN
                 ! other solid element : at least 8 nodes --> 6 surfaces
                 !     o----o
@@ -339,24 +346,22 @@ C-----------------------------------------------
                   IF(NEED_COMPUTE) THEN
 
                     ! ------------------
+                    ! get the node ids
+                    DO J=1,NODE_SURF_NB
+                      N = POINTER_FACE(J,K)                ! get the node of the surfaces
+                      IF(N<10) THEN
+                        NODE_ID = IX(N+1,ELEM_ID-SHIFT_ELM)  ! get the node ID
+                      ELSE
+                        NODE_ID = IX_TETRA10(N-10,ELEM_ID-SHIFT_ELM)  ! get the node ID    
+                      ENDIF
+                      LOCAL_NODE(J) =  NODE_ID                      
+                    ENDDO
+                    IF(NODE_SURF_NB==3) LOCAL_NODE(4) = LOCAL_NODE(3)
+                    ! ------------------
+
+                    ! ------------------
                     ! first node of the surface face(1:4,k)
-                    J = 1
-                    N = POINTER_FACE(J,K)                ! get the node of the surfaces
-                    NODE_ID = IX(N+1,ELEM_ID-SHIFT_ELM)    ! get the node ID    
-
-                    N1 =  NODE_ID
-                    N = POINTER_FACE(2,K) 
-                    N2 = IX(N+1,ELEM_ID-SHIFT_ELM) 
-                    N = POINTER_FACE(3,K) 
-                    N3 = IX(N+1,ELEM_ID-SHIFT_ELM) 
-                    IF(NODE_SURF_NB==4) THEN
-                        N = POINTER_FACE(4,K)
-                        N4 = IX(N+1,ELEM_ID-SHIFT_ELM) 
-                    ELSE
-                        N4 = N3
-                    ENDIF
-
-                    LOCAL_NODE(1) = NODE_ID     
+                    NODE_ID = LOCAL_NODE(1)
          
                     NB_RESULT_INTERSECT = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID)   ! get the number of surface of the node
                     SHIFT = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID)
@@ -378,8 +383,7 @@ C-----------------------------------------------
                         INTERSECT_1(1:NB_SURFACE_1) = RESULT_INTERSECT(1:NB_RESULT_INTERSECT)
 
                         N = POINTER_FACE(J,K)                ! get the node of the surfaces
-                        NODE_ID = IX(N+1,ELEM_ID-SHIFT_ELM)    ! get the node ID  
-                        LOCAL_NODE(J) = NODE_ID
+                        NODE_ID = LOCAL_NODE(J)    ! get the node ID  
                         ! -----------------------         
                         ! intersection of surface 
                         NB_SURFACE_2 = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID)   ! get the number of surface of the node

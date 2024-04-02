@@ -125,7 +125,7 @@ C
 C
 C       For computing LBP, LCP, FAR=2, etc
 C
-        IF(STIF(I) == ZERO)CYCLE
+        IF(STIF(I) <= ZERO)CYCLE
 C    
         X0N(I,1) = XX(I,1) - XX(I,5)
         Y0N(I,1) = YY(I,1) - YY(I,5)
@@ -153,7 +153,7 @@ C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I=1,JLT
 C
-        IF(STIF(I) == ZERO)CYCLE
+        IF(STIF(I) <= ZERO)CYCLE
 C
         XI0V(I) = XX(I,5) - XI(I)
         YI0V(I) = YY(I,5) - YI(I)
@@ -241,7 +241,7 @@ C
 #include  "vectorize.inc"
       DO I=1,JLT
 C
-        IF(STIF(I) == ZERO)CYCLE
+        IF(STIF(I) <= ZERO)CYCLE
 C
         AAA      = ONE/MAX(EM30,X0N(I,1)*X0N(I,1)+Y0N(I,1)*Y0N(I,1)+Z0N(I,1)*Z0N(I,1))
         HLC(I,1) = LC(I,1)*ABS(LC(I,1))*AAA
@@ -274,7 +274,7 @@ C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I=1,JLT
 C
-        IF(STIF(I) == ZERO)CYCLE
+        IF(STIF(I) <= ZERO)CYCLE
 C
         X12(I) = XX(I,I2) - XX(I,I1)
         Y12(I) = YY(I,I2) - YY(I,I1)
@@ -317,7 +317,7 @@ C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I =1,JLT
 C          
-        IF (STIF(I) == ZERO)CYCLE
+        IF (STIF(I) <= ZERO)CYCLE
 C
         LAP  = ONE-LBP(I,IT)-LCP(I,IT)
 C
@@ -342,7 +342,7 @@ C--------------------------------------------------------
       N4N=0
       DO I=1,JLT
 C
-       IF(STIF(I) == ZERO)CYCLE
+       IF(STIF(I) <= ZERO)CYCLE
 C
        IF(IX3(I)/=IX4(I))THEN
          N4N = N4N+1
@@ -426,7 +426,7 @@ C     Look for closest sub-triangle
 C--------------------------------------------------------
       DO I=1,JLT
 C
-        IF(STIF(I) == ZERO)CYCLE
+        IF(STIF(I) <= ZERO)CYCLE
 C
 C       Erase Subtria (cf intersections)
         SUBTRIA(I)=0
@@ -477,7 +477,7 @@ C--------------------------------------------------------
       IBCZ(1:JLT)=0
       DO I=1,JLT
 C
-        IF(STIF(I) == ZERO)CYCLE
+        IF(STIF(I) <= ZERO)CYCLE
 C
         IF(.NOT.(ETYP(I)==0 .OR. ETYP(I) > NRTM))CYCLE ! only solids including coating shell.
 C
@@ -530,7 +530,7 @@ C-----
       PREC=ONE-EM04
       DO I=1,JLT
 C
-        IF(STIF(I) == ZERO)CYCLE
+        IF(STIF(I) <= ZERO)CYCLE
 C
         IT = SUBTRIA(I)
         IF(PENT(I,IT) == ZERO)CYCLE
@@ -548,7 +548,7 @@ C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I =1,JLT
 C          
-        IF (STIF(I) == ZERO)CYCLE
+        IF (STIF(I) <= ZERO)CYCLE
 C
         IT=SUBTRIA(I)
         IF(PENT(I,IT)==ZERO) CYCLE
@@ -784,7 +784,7 @@ C
 C--------------------------------------------------------
       DO I=1,JLT
 C
-        IF(STIF(I) == ZERO)CYCLE
+        IF(STIF(I) <= ZERO)CYCLE
 C
         IT  = SUBTRIA(I)
         IF(IT/=0.AND.PENT(I,IT)==ZERO) IT=0

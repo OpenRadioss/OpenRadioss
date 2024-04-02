@@ -300,6 +300,10 @@ C=======================================================================
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_KREMNODE_E2S
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_REMNODE_E2S
+      N = N+1
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_IELEM_M
+      N = N+1
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_PROC_MVOISIN
 
 C=======================================================================
 C real arrays sizes
@@ -926,6 +930,7 @@ C ----------------------------------------
 
       RETURN
       END
+
 Chd|====================================================================
 Chd|  COPY_IVAL                     source/restart/ddsplit/inter_tools.F
 Chd|-- called by -----------
@@ -5803,11 +5808,13 @@ Chd|        NLOCAL                        source/spmd/node/ddtools.F
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE PREPARE_SPLIT_I25(PROC     , INTBUF_TAB  , IPARI       ,
-     .                            INTERCEP , TAG_NODE_2RY, TAG_SEGM    ,
-     .                            TAG_SEGM2, TAG_NM      , TAG_NODE_MSR,
-     .                            TAG_SCRATCH, TAG_SM ,KNOR2MSR,NOR2MSR,
-     .                            TAG_NODE_2RY2,NINDX_NM,INDX_NM,NINDX_SCRT,INDX_SCRT)
+      SUBROUTINE PREPARE_SPLIT_I25(PROC     , INTBUF_TAB   , IPARI          ,
+     .                            INTERCEP  , TAG_NODE_2RY , TAG_SEGM       ,
+     .                            TAG_SEGM2 , TAG_NM       , TAG_NODE_MSR   ,
+     .                            TAG_SCRATCH, TAG_SM       ,KNOR2MSR       ,
+     .                            NOR2MSR    ,TAG_NODE_2RY2,NINDX_NM        ,
+     .                            INDX_NM    ,NINDX_SCRT   ,INDX_SCRT       ,
+     .                            NRTM_L)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -5840,7 +5847,7 @@ C-----------------------------------------------
       INTEGER 
      .        NSN,NRTM,NMN,
      .        I,J,K,L,N,N1,N2,N3,N4,E,
-     .        CNSN_L,CNRTM_L,CNMN_L,NADMSR_L
+     .        CNSN_L,CNRTM_L,CNMN_L,NADMSR_L,NRTM_L
 C ----------------------------------------
       NRTM = IPARI(4)
       NSN  = IPARI(5)
@@ -5925,7 +5932,7 @@ C ----------------------------------------
             NADMSR_L=NADMSR_L+1
             TAG_SM(N4)=NADMSR_L
           END IF
-        ENDIF
+        ENDIF       
       ENDDO 
 
       CNMN_L = 0 
@@ -5950,7 +5957,7 @@ C
             N = TAG_SM(INTBUF_TAB%ADMSR(4*(I-1)+4))
             KNOR2MSR(N) = KNOR2MSR(N) + 1
           END IF
-        END IF
+        END IF  
       END DO
 C
       DO I=1,NADMSR_L
