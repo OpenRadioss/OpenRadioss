@@ -55,9 +55,7 @@ C======================================================================|
 C Set Global parameters
 C Set the new NREMNODE parameter for the given Interface
       IPARI(62) = NREMNODE
-
-      IF(NTY/=11 .AND. NTY/=25) INTBUF_TAB%KREMNODE(1:INTBUF_TAB%S_KREMNODE)=0
-
+      
       OLD_SIZE = INTBUF_TAB%S_REMNODE
       ALLOCATE (OLD_TAB(OLD_SIZE))
       !save values

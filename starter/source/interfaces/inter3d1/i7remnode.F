@@ -474,8 +474,8 @@ c
                       GAPV(IRECT(L,SEG1))=MAX(DRAD,GAPV(IRECT(L,SEG1))+DGAPLOAD)
                     ELSEIF(IGAP==3)THEN
                       GAPV(IRECT(L,SEG1))=GAPSECND(IRECT(L,SEG1))+GAP_M(I)
-                      GAPV(IRECT(L,SEG1))=
-     .                   MIN(GAP_S_L_TMP(IRECT(L,SEG1))+GAP_M_L(I),GAPV(I))
+                      GAPV(IRECT(L,SEG1))= MIN(GAP_S_L_TMP(IRECT(L,SEG1))+GAP_M_L(I)
+     .                                        ,GAPV(IRECT(L,SEG1)))
                       GAPV(IRECT(L,SEG1))=MIN(GAPMAX,GAPV(IRECT(L,SEG1)))
                       GAPV(IRECT(L,SEG1))=MAX(GAPMIN,GAPV(IRECT(L,SEG1)))
                       GAPV(IRECT(L,SEG1))=MAX(DRAD,GAPV(IRECT(L,SEG1))+DGAPLOAD)
