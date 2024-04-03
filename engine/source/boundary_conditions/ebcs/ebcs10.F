@@ -40,6 +40,7 @@ Chd|====================================================================
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
       USE SEGVAR_MOD
+      USE ALE_MOD , only : ALE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -195,8 +196,10 @@ C-----------------------------------------------
           Vold = EBCS%vold(IS)
           Vnew = FAC1 * (TMP(1)*XN + TMP(2)*YN + TMP(3)*ZN)
           IF(TIME == ZERO) THEN
-            Vold=ZERO !relative velocity
-            Vnew=ZERO !relative velocity  : 0 with MASSFLOW
+            IF(ALE%GRID%NWALE == 7)THEN
+              Vold = ZERO ! 0.0 with /ALE/GRID/MASSFLOW
+            ENDIF
+            Vold = Vnew
           ENDIF
           !-- storage for next cycle
           EBCS%vold(IS) = Vnew  
