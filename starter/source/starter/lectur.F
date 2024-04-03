@@ -311,7 +311,6 @@ Chd|        LGMINI_I7                     source/tools/lagmul/lgmini_i7.F
 Chd|        LGMINI_RWL                    source/tools/lagmul/lgmini_rwl.F
 Chd|        LINE_DECOMP                   source/model/group/line_decomp.F
 Chd|        M20DCOD                       source/system/fsdcod.F        
-Chd|        MATPARAM_R2R_VOID             source/elements/elbuf_init/matparam_r2r_void.F
 Chd|        MERGE                         source/model/submodel/merge.F 
 Chd|        MERGE_NODE                    source/elements/nodes/merge_node.F
 Chd|        MONVOL_ALLOCATE               share/modules1/monvol_struct_mod.F
@@ -352,6 +351,7 @@ Chd|        R2R_CHECK                     source/coupling/rad2rad/r2r_check.F
 Chd|        R2R_CLEAN_INTER               source/coupling/rad2rad/r2r_clean_inter.F
 Chd|        R2R_DOMDEC                    source/coupling/rad2rad/r2r_domdec.F
 Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
+Chd|        R2R_MATPARAM_COPY             source/elements/elbuf_init/r2r_matparam_copy.F
 Chd|        R2R_NOM_OPT                   source/coupling/rad2rad/routines_r2r.F
 Chd|        R2R_SPEEDUP                   source/coupling/rad2rad/r2r_speedup.F
 Chd|        R2R_SPLIT                     source/coupling/rad2rad/r2r_split.F

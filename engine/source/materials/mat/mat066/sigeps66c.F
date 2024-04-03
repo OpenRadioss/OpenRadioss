@@ -25,7 +25,6 @@ Chd|  SIGEPS66C                     source/materials/mat/mat066/sigeps66c.F
 Chd|-- called by -----------
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|-- calls ---------------
-Chd|        PRONY_MODELC                  source/materials/mat/mat066/prony_modelc.F
 Chd|        VINTER                        source/tools/curve/vinter.F   
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F

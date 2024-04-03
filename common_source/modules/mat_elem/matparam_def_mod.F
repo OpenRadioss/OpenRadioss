@@ -168,12 +168,12 @@ Chd|        LAW70_UPD                     starter/source/materials/mat/mat070/la
 Chd|        LAW76_UPD                     starter/source/materials/mat/mat076/law76_upd.F
 Chd|        LAW77_UPD                     starter/source/materials/mat/mat077/law77_upd.F
 Chd|        LEC_INISTATE                  starter/source/elements/initia/lec_inistate.F
-Chd|        MATPARAM_R2R_VOID             starter/source/elements/elbuf_init/matparam_r2r_void.F
 Chd|        MULAW                         starter/source/materials/mat_share/mulaw.F
 Chd|        PGRTAILS                      starter/source/elements/beam/pgrtails.F
 Chd|        QGRHEAD                       starter/source/elements/solid_2d/quad/qgrhead.F
 Chd|        QGRTAILS                      starter/source/elements/solid_2d/quad/qgrtails.F
 Chd|        R2R_GROUP                     starter/source/coupling/rad2rad/r2r_group.F
+Chd|        R2R_MATPARAM_COPY             starter/source/elements/elbuf_init/r2r_matparam_copy.F
 Chd|        S10INIT3                      starter/source/elements/solid/solide10/s10init3.F
 Chd|        S16INIT3                      starter/source/elements/thickshell/solide16/s16init3.F
 Chd|        S20INIT3                      starter/source/elements/solid/solide20/s20init3.F

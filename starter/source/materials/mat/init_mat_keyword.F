@@ -133,6 +133,7 @@ Chd|        HM_READ_MAT94                 source/materials/mat/mat094/hm_read_ma
 Chd|        HM_READ_MAT95                 source/materials/mat/mat095/hm_read_mat95.F
 Chd|        HM_READ_MAT97                 source/materials/mat/mat097/hm_read_mat97.F
 Chd|        HM_READ_MAT_99                source/materials/mat/matuser/hm_read_mat_user_99.F
+Chd|        HM_READ_VISC                  source/materials/visc/hm_read_visc.F
 Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F
 Chd|-- calls ---------------
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F

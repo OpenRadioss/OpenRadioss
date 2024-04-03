@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  PRONY_MODELC                  source/materials/mat/mat066/prony_modelc.F
 Chd|-- called by -----------
-Chd|        SIGEPS66C                     source/materials/mat/mat066/sigeps66c.F
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|-- calls ---------------
 Chd|====================================================================

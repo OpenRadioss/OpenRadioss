@@ -26,8 +26,7 @@ Chd|-- called by -----------
 Chd|        ALEWDX                        source/ale/grid/alewdx.F      
 Chd|-- calls ---------------
 Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        SPMD_EXCH_MASSFLOW_DATA       source/ale/grid/spmd_exch_massflow_data.F
-Chd|        SPMD_EXCH_MASSFLOW_DATA2      source/ale/grid/spmd_exch_massflow_data2.F
+Chd|        VALPVEC                       source/materials/mat/mat033/sigeps33.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE ALEW7(

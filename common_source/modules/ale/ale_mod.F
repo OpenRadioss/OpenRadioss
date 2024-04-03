@@ -121,8 +121,6 @@ Chd|        SFINT3                        engine/source/elements/solid/solide/sf
 Chd|        SFORC3                        engine/source/elements/solid/solide/sforc3.F
 Chd|        SHVIS3                        engine/source/elements/solid/solide/shvis3.F
 Chd|        SIGEPS46                      engine/source/materials/mat/mat046/sigeps46.F
-Chd|        SPMD_EXCH_MASSFLOW_DATA       engine/source/ale/grid/spmd_exch_massflow_data.F
-Chd|        SPMD_EXCH_MASSFLOW_DATA2      engine/source/ale/grid/spmd_exch_massflow_data2.F
 Chd|        SPMD_SD_XV                    engine/source/mpi/nodes/spmd_sd_xv.F
 Chd|        SPMD_SEGCOM                   engine/source/mpi/fluid/spmd_cfd.F
 Chd|        SRHO3                         engine/source/elements/solid/solide/srho3.F

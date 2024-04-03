@@ -77,6 +77,7 @@ Chd|        FAIL_WILKINS_C                source/materials/fail/wilkins/fail_wil
 Chd|        FAIL_WIND_FRWAVE              source/materials/fail/alter/fail_wind_frwave.F
 Chd|        FAIL_WIND_XFEM                source/materials/fail/alter/fail_wind_xfem.F
 Chd|        M25DELAM                      source/materials/mat/mat025/m25delam.F
+Chd|        PRONY_MODELC                  source/materials/mat/mat066/prony_modelc.F
 Chd|        PUTSIGNORC3                   source/elements/shell/coqueba/cmatc3.F
 Chd|        ROTOV                         source/airbag/roto.F          
 Chd|        SIGEPS01C                     source/materials/mat/mat001/sigeps01c.F
