@@ -167,6 +167,10 @@ c----
           IPANG  =  1
           IPTHK  =  IPANG + NPT
           IPPOS  =  IPTHK + NPT 
+          IPOS = IGEO(99,PID(1))
+          ZSHIFT  = GEO(199,PID(1))                
+          THICKT  = STACK%GEO(1,ISUBSTACK)
+          IF (IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)     
           IF(IDRAPE == 0 ) THEN
             DO N=1,NPT                                
               IADR = (N-1)*JLT                        
@@ -189,7 +193,7 @@ c----
                    THKLY   = STACK%GEO (IPTHK + N ,ISUBSTACK)*THICKT 
                    RATIO_THKLY(I,N) = THKLY/THK(I)   
                    IF (N == 1) THEN
-                         POSLY(I,N) = -HALF + HALF*RATIO_THKLY(I,N)
+                         POSLY(I,N) = ZSHIFT + HALF*RATIO_THKLY(I,N)
                    ELSE
                          POSLY(I,N) = POSLY(I,N-1)            
      .                     + HALF*(RATIO_THKLY(I,N)+RATIO_THKLY(I,N-1))
@@ -206,7 +210,7 @@ c----
                        THKLY = THKLY/THK(I)  ! layer thickness ratio
                        RATIO_THKLY(I,N) = THKLY
                        IF (N == 1) THEN
-                         POSLY(I,N) = -HALF + HALF*RATIO_THKLY(I,N)
+                         POSLY(I,N) = ZSHIFT + HALF*RATIO_THKLY(I,N)
                        ELSE
                          POSLY(I,N) = POSLY(I,N-1)            
      .                     + HALF*(RATIO_THKLY(I,N)+RATIO_THKLY(I,N-1))
@@ -217,7 +221,7 @@ c----
                        THKLY = THKLY/THK(I)  ! layer thickness ratio
                        RATIO_THKLY(I,N) = THKLY
                        IF (N == 1) THEN
-                         POSLY(I,N) = -HALF + HALF*RATIO_THKLY(I,N)
+                         POSLY(I,N) = ZSHIFT + HALF*RATIO_THKLY(I,N)
                        ELSE
                          POSLY(I,N) = POSLY(I,N-1)            
      .                      + HALF*(RATIO_THKLY(I,N)+RATIO_THKLY(I,N-1))
@@ -240,15 +244,7 @@ c         stack addresses
           IPOS = IGEO(99,PID(1))
           ZSHIFT  = GEO(199,PID(1))                
           THICKT  = STACK%GEO(1,ISUBSTACK)
-          IF(IPOS == 0 )THEN                         
-            ZSHIFT = - HALF                           
-          ELSEIF(IPOS == 2 )THEN                      
-            ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)     
-          ELSEIF(IPOS == 3) THEN                      
-            ZSHIFT = -ONE                             
-          ELSEIF(IPOS == 4) THEN                      
-            ZSHIFT = ZERO                             
-          ENDIF 
+          IF (IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)     
           IF(IDRAPE == 0) THEN
               DO ILAY=1,NLAY
                 NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT

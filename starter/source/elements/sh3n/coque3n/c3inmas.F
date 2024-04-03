@@ -426,15 +426,7 @@ C---         Test stability condition for mass
         IPOS = IGEO(99,IPROP)                   
         THICKT  = STACK%GEO(1,ISUBSTACK)
         ZSHIFT = GEO(199,IPROP)
-        IF(IPOS == 0 )THEN                           
-          ZSHIFT = - HALF                             
-        ELSEIF(IPOS == 2 )THEN  
-          ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)       
-        ELSEIF(IPOS == 3) THEN                        
-          ZSHIFT = -ONE                               
-        ELSEIF(IPOS == 4) THEN                        
-          ZSHIFT = ZERO                               
-        ENDIF  
+        IF(IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)       
         IF(IDRAPE == 0) THEN
            DO I=LFT,LLT
              EM(I)=ZERO
@@ -630,6 +622,10 @@ C---      Test stability condition for inertia
           ENDIF                                 
         ENDDO  
       ELSEIF (IGTYP == 17) THEN
+        IPOS = IGEO(99,IPROP)                  
+        THICKT  = STACK%GEO(1,ISUBSTACK)
+        ZSHIFT  = GEO(199,IPROP)
+        IF(IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)       
          IF(IDRAPE == 0 ) THEN
            DO I=LFT,LLT
              XI(I)=ZERO
@@ -701,7 +697,7 @@ C---         Test stability condition for inertia
                    RATIO_THKLY(N,I) = THKLY/THK(I)                     
                  ENDIF
                  IF (N == 1) THEN                                    
-                     LAYPOS(N,I) = -HALF + HALF*RATIO_THKLY(N,I)     
+                     LAYPOS(N,I) = ZSHIFT + HALF*RATIO_THKLY(N,I)     
                  ELSE                                                
                      LAYPOS(N,I) = LAYPOS(N-1,I) + HALF*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))  
                  ENDIF ! IF (N == 1)                                 
@@ -741,15 +737,7 @@ C---         Test stability condition for inertia
         IPOS = IGEO(99,IPROP)                  
         THICKT  = STACK%GEO(1,ISUBSTACK)
         ZSHIFT  = GEO(199,IPROP)
-        IF(IPOS == 0 )THEN                           
-          ZSHIFT = - HALF                             
-        ELSEIF(IPOS == 2 )THEN                        
-          ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)       
-        ELSEIF(IPOS == 3) THEN                        
-          ZSHIFT = -ONE                               
-        ELSEIF(IPOS == 4) THEN                        
-          ZSHIFT = ZERO                               
-        ENDIF 
+        IF(IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)       
         IF(IDRAPE == 0) THEN
            DO I=LFT,LLT
              XI(I)=ZERO

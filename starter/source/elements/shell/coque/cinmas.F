@@ -557,15 +557,7 @@ C
         IPOS = IGEO(99,IPROP)                   
         THICKT = STACK%GEO(1,ISUBSTACK)
         ZSHIFT = GEO(199,IPROP)
-        IF(IPOS == 0 )THEN                           
-          ZSHIFT = -HALF                             
-        ELSEIF(IPOS == 2 )THEN                        
-          ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)       
-        ELSEIF(IPOS == 3) THEN                        
-          ZSHIFT = -ONE                               
-        ELSEIF(IPOS == 4) THEN                        
-          ZSHIFT = ZERO                               
-        ENDIF  
+        IF(IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)       
         IF(IDRAPE == 0 ) THEN                                  
           DO I=LFT,LLT
             EMS(I)=ZERO
@@ -945,6 +937,10 @@ C----------------------------------------------
         IPTHK  =  IPANG + NPT
         IPPOS  =  IPTHK + NPT
         NTHK   =  IPPOS + NPT          
+        IPOS = IGEO(99,IPROP)                   
+        THICKT  = STACK%GEO(1,ISUBSTACK)
+        ZSHIFT = GEO(199,IPROP)
+        IF(IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)       
 C         
         IF(IDRAPE == 0) THEN
            DO I=LFT,LLT
@@ -997,7 +993,7 @@ C
                    MATLY  = STACK%IGEO(I2,ISUBSTACK)                     
                    RATIO_THKLY(N) = THKLY/THK(I)                         
                    IF (N == 1) THEN                                      
-                     POSLY(N) = -HALF + HALF*RATIO_THKLY(N)              
+                     POSLY(N) = ZSHIFT + HALF*RATIO_THKLY(N)              
                    ELSE                                                  
                     POSLY(N) = POSLY(N-1)                               
      .                 + HALF*(RATIO_THKLY(N)+RATIO_THKLY(N-1))          
@@ -1016,7 +1012,7 @@ C
                    MATLY  = STACK%IGEO(I2,ISUBSTACK)                     
                    RATIO_THKLY(N) = THKLY/THK(I)                         
                    IF (N == 1) THEN                                      
-                     POSLY(N) = -HALF + HALF*RATIO_THKLY(N)              
+                     POSLY(N) = ZSHIFT + HALF*RATIO_THKLY(N)              
                    ELSE                                                  
                     POSLY(N) = POSLY(N-1)                               
      .                 + HALF*(RATIO_THKLY(N)+RATIO_THKLY(N-1))          
@@ -1040,15 +1036,7 @@ C
         IPOS = IGEO(99,IPROP)                   
         THICKT  = STACK%GEO(1,ISUBSTACK)
         ZSHIFT = GEO(199,IPROP)
-        IF(IPOS == 0 )THEN                           
-          ZSHIFT = - HALF                             
-        ELSEIF(IPOS == 2 )THEN                        
-          ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)       
-        ELSEIF(IPOS == 3) THEN                        
-          ZSHIFT = -ONE                               
-        ELSEIF(IPOS == 4) THEN                        
-          ZSHIFT = ZERO                               
-        ENDIF          
+        IF(IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)       
 C       
         IF(IDRAPE == 0) THEN  
            DO I=LFT,LLT
