@@ -637,6 +637,16 @@ C
         IGTYP=IGEO(11,CPT)
         NUMS= NUMGEO_STACK(CPT)
         IF (IGTYP == 17 .OR. IGTYP == 51 ) THEN
+C--- generalizing ZSHIFT ! kepp only IPOS= 2 as before
+          IPOS =IGEO(99,CPT) 
+          IF(IPOS == 0 )THEN                         
+            ZSHIFT = - HALF                           
+          ELSEIF(IPOS == 3) THEN                      
+            ZSHIFT = -ONE                             
+          ELSEIF(IPOS == 4) THEN                      
+            ZSHIFT = ZERO                             
+          ENDIF
+          GEO(199, CPT) = ZSHIFT
           N1 = IGEO(4,CPT)
           DO 100 J =1 , N1
 C ply of stack JPID           

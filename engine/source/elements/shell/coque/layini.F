@@ -284,6 +284,10 @@ c----
           IPANG  =  1
           IPTHK  =  IPANG + NPT
           IPPOS  =  IPTHK + NPT 
+          IPOS   = IGEO(99,PID(1))
+          THICKT  = STACK%GEO(1,ISUBSTACK)
+          ZSHIFT = GEO(199, PID(1))
+          IF (IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)     
           
           IF(IDRAPE == 0) THEN
              DO N=1,NPT                                
@@ -312,7 +316,7 @@ c----
                      THKLY(J)   = STACK%GEO (IPTHK + N ,ISUBSTACK)*THICKT  
                      RATIO_THKLY(I,N) = THKLY(J)/THK(I)   
                      IF (N == 1) THEN
-                       POSLY(I,N) = -HALF + HALF*RATIO_THKLY(I,N)
+                       POSLY(I,N) = ZSHIFT + HALF*RATIO_THKLY(I,N)
                      ELSE
                        POSLY(I,N) = POSLY(I,N-1)            
      .                   + HALF*(RATIO_THKLY(I,N)+RATIO_THKLY(I,N-1))
@@ -327,7 +331,7 @@ c----
                      THKLY(J) = THKLY(J)/THK(I)  ! layer thickness ratio
                      RATIO_THKLY(I,N) = THKLY(J)
                      IF (N == 1) THEN
-                       POSLY(I,N) = -HALF + HALF*RATIO_THKLY(I,N)
+                       POSLY(I,N) = ZSHIFT + HALF*RATIO_THKLY(I,N)
                      ELSE
                        POSLY(I,N) = POSLY(I,N-1)            
      .                   + HALF*(RATIO_THKLY(I,N)+RATIO_THKLY(I,N-1))
@@ -352,15 +356,7 @@ c
           IPOS = IGEO(99,PID(1))
           THICKT   = STACK%GEO(1,ISUBSTACK)
           ZSHIFT = GEO(199, PID(1))
-          IF(IPOS == 0 )THEN                         
-            ZSHIFT = - HALF                           
-          ELSEIF(IPOS == 2 )THEN                      
-            ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)     
-          ELSEIF(IPOS == 3) THEN                      
-            ZSHIFT = -ONE                             
-          ELSEIF(IPOS == 4) THEN                      
-            ZSHIFT = ZERO                             
-          ENDIF 
+          IF (IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)     
           IF(IDRAPE == 0) THEN
                 IPT_ALL = 0
                 DO ILAY=1,NLAY
