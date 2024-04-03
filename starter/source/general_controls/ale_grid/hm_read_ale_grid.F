@@ -81,10 +81,12 @@ C-----------------------------------------------
       INTEGER :: NALE_GRID, II, NITER,NTETRA4
       CHARACTER :: KEY*ncharkey
       LOGICAL :: IS_AVAILABLE
+      LOGICAL :: IS_DEFINED_ALE_GRID
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 !     Initializations
+      IS_DEFINED_ALE_GRID = .FALSE.
       ALE%GRID%NWALE = 0
       ALPHA = ZERO
       GAMMA = ZERO
@@ -99,6 +101,7 @@ C-----------------------------------------------
       DO II = 1, NALE_GRID
          CALL HM_OPTION_READ_KEY(LSUBMODEL, KEYWORD3 = KEY)
          IF (KEY(1:5) == 'DONEA') THEN
+            IS_DEFINED_ALE_GRID = .TRUE.
             IF(NUMTETRA4 > 0) ALE%GLOBAL%NALENOVS=12
             CALL HM_GET_FLOATV('Alpha', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('GAMMA', GAMMA, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -111,6 +114,7 @@ C-----------------------------------------------
             IF (VGY == ZERO) VGY = ONE
             IF (VGZ == ZERO) VGZ = ONE
          ELSEIF (KEY(1:4) == 'DISP') THEN
+            IS_DEFINED_ALE_GRID = .TRUE.
             ALE%GRID%NWALE = 1
             CALL HM_GET_FLOATV('MAT_EPS', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('VEL_X', VGX, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -122,6 +126,7 @@ C-----------------------------------------------
             IF (VGY == ZERO) VGY = ONE
             IF (VGZ == ZERO) VGZ = ONE
          ELSEIF (KEY(1:6) == 'SPRING') THEN
+            IS_DEFINED_ALE_GRID = .TRUE.
             IF (N2D /= 0) THEN
                CALL ANCMSG(MSGID = 787, MSGTYPE=MSGERROR, ANMODE=ANINFO,C1='SPRING')
             ENDIF
@@ -136,6 +141,7 @@ C-----------------------------------------------
             DT_INPUT = ALPHA
             ALPHA = ALPHA / (-VGX + SQRT(VGX * VGX + ONE))
          ELSEIF (KEY(1:8) == 'STANDARD') THEN
+            IS_DEFINED_ALE_GRID = .TRUE.
             ALE%GRID%NWALE = 4
             CALL HM_GET_FLOATV('deltaT_min', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('MAT_GAMAi', GAMMA, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -153,8 +159,10 @@ C-----------------------------------------------
      .                     C1='** NON-LINEAR FACTOR MUST BE BETWEEN 0 AND 1 (2ND FIELD)')
             ENDIF
          ELSEIF (KEY(1:4) == 'ZERO') THEN
+            IS_DEFINED_ALE_GRID = .TRUE.
             ALE%GRID%NWALE = 3
          ELSEIF (KEY(1:9) == 'LAPLACIAN') THEN
+            IS_DEFINED_ALE_GRID = .TRUE.
             ALE%GRID%NWALE = 5
             CALL HM_GET_FLOATV('LAMBDA', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_INTV('Niter', NITER, IS_AVAILABLE, LSUBMODEL)
@@ -166,8 +174,10 @@ C-----------------------------------------------
             IF (GAMMA /= ONE .AND. GAMMA /= TWO) GAMMA = ONE
             IF (VGX <= ZERO) VGX = ONE
          ELSEIF (KEY(1:6) == 'VOLUME') THEN
+            IS_DEFINED_ALE_GRID = .TRUE.
             ALE%GRID%NWALE = 6
          ELSEIF (KEY(1:8) == 'MASSFLOW') THEN
+            IS_DEFINED_ALE_GRID = .TRUE.
             ALE%GRID%NWALE = 7
             CALL HM_GET_FLOATV('SCALE_DEF', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('SCALE_ROT', GAMMA, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -180,15 +190,13 @@ C-----------------------------------------------
 
       ENDDO
 
-       ! NO /ALE/GRID formulation => DEFAULT = DONEA & its default values are set here
-       IF(ALE%GRID%NWALE==0 .OR. ALE%GRID%NWALE==-1)THEN
-         ALE%GRID%NWALE=0
-         CALL HM_OPTION_COUNT('/TETRA4', NTETRA4)
-         IF(NTETRA4 > 0) ALE%GLOBAL%NALENOVS=12
-         IF(GAMMA == ZERO) GAMMA=HUNDRED
-         IF(VGX == ZERO)   VGX=ONE
-         IF(VGY == ZERO)   VGY=ONE
-         IF(VGZ == ZERO)   VGZ=ONE
+       ! NO /ALE/GRID formulation => DEFAULT:'DISP' & its default values are set here
+       IF(.NOT. IS_DEFINED_ALE_GRID .OR. NALE_GRID == 0)THEN
+         ALE%GRID%NWALE = 1
+         ALPHA = INFINITY
+         VGX = ONE
+         VGY = ONE
+         VGZ = ONE
        ENDIF
 
       END SUBROUTINE HM_READ_ALE_GRID
