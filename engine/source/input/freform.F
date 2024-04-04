@@ -173,21 +173,22 @@ C-----------------------------------------------
       INTEGER
      .   IKEY,I,II,I1,J,J1,J2,K,KK,M,N, NCT, IKOLD, NBC, K3, K4,
      .   NUBCS1,NUBCS2, IR,IDT,NELTGOF,IREC,
-     .   IAL, NINTOF, NELSOF, NDEL, NOF,ITTYP, NCPRI0,NCPRI_HEAD0,
+     .   IALE_GRID_FORM, NINTOF, NELSOF, NDEL, NOF,ITTYP, NCPRI0,NCPRI_HEAD0,
      .   NELQOF, NELCOF, NELTOF, NELPOF, NELROF, NUM_BCS, NINTCH,
      .   NRBYNF, NBCS1, NBCS2, NRBYON, NRBYOF, NINIV,NINIVT,
      .   INTCH_IFOP,IUSC_TMP,INTCH_ITOP,NBTOPFOP,KONOFF,NINTNOF,NINTSOF,
      .   NSPHOF,NALEOF,NEULEROF,NTHERMOF, IDTGRX,ibid, M1, M2, IFORM,
      .   GR_ID, NLINKOFF,IS_PREVKEYA_NCHARKEY,IS_KEYA_NCHARKEY, IFLAG,
      .   DT_CTRL_COMPATIBILITY(3), LOWMACH_OPT,IO_ERR, NITERP, IOK_READ,
-     .   ID_BAG, IERR1, ID_DT_OPTION, FVMBAG_L_TYPE, INUM,INTDT,NBSENS
+     .   ID_BAG, IERR1, ID_DT_OPTION, FVMBAG_L_TYPE, INUM,INTDT,NBSENS,
+     .   NUM_ALE_GRID
       INTEGER :: BCS_SK_FR(10000),VEL_SK_FR(10000),NSLASH(NKEY)
       INTEGER :: NBALEOFF, NBALEON, NBPARTALEON, NBPARTALEOFF     
       my_real
      .   TSTOP0,DTFAC0, DTMIN0, ALP, GAM,
      .   A1, A2, A3, VM, DTFACA,DTMINA, vt, TMP,DTFAC_AMS,
      .   LAMBDA,L_TYPE
-      CHARACTER KEY(9)*5, TITLE*81, KEY1*5, KEY2*5,KEY3*5,   CH4*4, KEY4*5, KEY5*5, StrIAL*32
+      CHARACTER KEY(9)*5, TITLE*81, KEY1*5, KEY2*5,KEY3*5,   CH4*4, KEY4*5, KEY5*5, StringALE*32
       CHARACTER(LEN=NCHARLINE100) :: KEYA
       CHARACTER(LEN=NCHARLINE100) :: CARTE,KEYW,MOT1,LINE
       CHARACTER(LEN=NCHARKEY), DIMENSION(9) :: KEY_H3D
@@ -1606,22 +1607,37 @@ C--------------------
       A2=ZERO
       A3=ZERO
       VM=ZERO
-      IAL=-1
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
-       READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A32)',ERR=9990)StrIAL
-       IF(StrIAL(1:4)=='GRID')StrIAL(1:5)=StrIAL(7:11)          !Shift String "/ALE  /GRID /*****    => StrIAL = '*****' , len=5
+      IALE_GRID_FORM=-1
+      NUM_ALE_GRID = 0
+      K = 0
+      DO WHILE (IKAD(IKEY) + K /= IKAD(IKEY + 1))
+       READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(1X,A,1X,A,1X,A)',ERR=9990)KEY1,KEY2,KEY3
+       IF(KEY1(1:3) /= 'ALE')THEN
+         ! read next line
+         K = K + 1
+         CYCLE
+       ENDIF
+       IF(KEY2(1:4)=='GRID')THEN
+         ! case "/ALE  /GRID /....."
+         StringALE(1:5)=KEY3(1:5)         
+       ELSE
+         ! case "/ALE  /....." (obsolete)
+         StringALE(1:5)=KEY2(1:5)
+       ENDIF
        CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY)) 
        !---------------------------------------!
        !    '/ALE/GRID/DONEA'                  !
        !---------------------------------------!
-       IF(StrIAL(1:5)=='DONEA'.OR.StrIAL(1:1)=='0')THEN
-        IAL=0
+       IF(StringALE(1:5)=='DONEA'.OR.StringALE(1:1)=='0')THEN
+        NUM_ALE_GRID = NUM_ALE_GRID + 1
+        IALE_GRID_FORM=0
         READ(IUSC2,*,ERR=9990,END=9990)ALP,GAM,A1,A2,A3,VM
        !---------------------------------------!
        !    '/ALE/GRID/DISP'                   !
        !---------------------------------------!
-       ELSEIF(StrIAL(1:4)=='DISP'.OR.StrIAL(1:1)=='1')THEN
-        IAL=1
+       ELSEIF(StringALE(1:4)=='DISP'.OR.StringALE(1:1)=='1')THEN
+        NUM_ALE_GRID = NUM_ALE_GRID + 1
+        IALE_GRID_FORM=1
         READ(IUSC2,*,ERR=1161,END=1161)ALP,A1,A2,A3,VM  !format kept for backward compatibility
         IF(ALP/=ZERO.OR.VM/=ZERO.OR.A1/=ZERO.OR.A2/=ZERO.OR.A3/=ZERO)GOTO 1162
  1161   REWIND(IUSC2)
@@ -1632,39 +1648,73 @@ C--------------------
        !---------------------------------------!
        !    '/ALE/GRID/SPRING'                 !
        !---------------------------------------!
-       ELSEIF(StrIAL(1:5)=='SPRIN'.OR.StrIAL(1:1)=='2')THEN
-        IAL=2
+       ELSEIF(StringALE(1:5)=='SPRIN'.OR.StringALE(1:1)=='2')THEN
+        NUM_ALE_GRID = NUM_ALE_GRID + 1
+        IALE_GRID_FORM=2
         READ(IUSC2,*,ERR=9990,END=9990)ALP,GAM,A1,A2,VM
         A3=ZERO
        !---------------------------------------!
        !    '/ALE/GRID/ZERO'                   !
        !---------------------------------------!
-       ELSEIF(StrIAL(1:4)=='ZERO'.OR.StrIAL(1:1)=='3')THEN
-        IAL=3
+       ELSEIF(StringALE(1:4)=='ZERO'.OR.StringALE(1:1)=='3')THEN
+        NUM_ALE_GRID = NUM_ALE_GRID + 1
+        IALE_GRID_FORM=3
        !---------------------------------------!
        !    '/ALE/GRID/STANDARD'               !
        !---------------------------------------!
-       ELSEIF(StrIAL(1:5)=='STAND'.OR.StrIAL(1:1)=='4')THEN
-        IAL=4
+       ELSEIF(StringALE(1:5)=='STAND'.OR.StringALE(1:1)=='4')THEN
+        NUM_ALE_GRID = NUM_ALE_GRID + 1
+        IALE_GRID_FORM=4
         READ(IUSC2,*,ERR=9990,END=9990)ALP,GAM,A1,A2
         A3=ZERO
         VM=ZERO
        !---------------------------------------!
        !    '/ALE/GRID/LAPLACIAN               !
        !---------------------------------------!
-       ELSEIF(StrIAL(1:5)=='LAPLA'.OR.StrIAL(1:1)=='5')THEN
-        IAL=1
+       ELSEIF(StringALE(1:5)=='LAPLA')THEN
+        NUM_ALE_GRID = NUM_ALE_GRID + 1
+        IALE_GRID_FORM=5
         READ(IUSC2,*,ERR=9990,END=9990)ALP,A1,A2
         IF(ALP==ZERO)ALP=ONE
         IF(NINT(A1)<=ZERO)A1=ONE
         IF(A2/=ONE .AND. A2/=TWO)A2=ONE
+       !---------------------------------------!
+       !    '/ALE/GRID/VOLUME'                 !
+       !---------------------------------------!
+       ELSEIF(StringALE(1:4)=='VOLUM')THEN
+        NUM_ALE_GRID = NUM_ALE_GRID + 1
+        IALE_GRID_FORM=6
+       !---------------------------------------!
+       !    '/ALE/GRID/MASSFLOW'               !
+       !---------------------------------------!
+       ELSEIF(StringALE(1:4)=='MASSF')THEN
+        NUM_ALE_GRID = NUM_ALE_GRID + 1
+        IALE_GRID_FORM=7
+        READ(IUSC2,*,ERR=9990,END=9990)ALP,GAM
+        IF(ALP == ZERO)ALP = ONE
+        IF(GAM == ZERO)GAM = ONE
+       ELSE
+        !not a keyword related to grid formulation
        ENDIF
-       !defining new grid formulation
-       IF(IAL>=0)ALE%GRID%NWALE_ENGINE=IAL
-      ELSE  !nwale<0 nwale is unchanged. its value will be set to TABVINT(264) in rdcomm sub.
-        ALE%GRID%NWALE_ENGINE=-1
-      ENDIF
+       K = K + 1
+      ENDDO
+      !---------------------------------------!
       WRITE(IIN,'(1P6E10.3)')ALP,GAM,A1,A2,A3,VM
+      !---------------------------------------!
+      !defining new grid formulation
+      IF(IALE_GRID_FORM /= -1)THEN
+        ALE%GRID%NWALE_ENGINE=IALE_GRID_FORM
+      ELSE  !nwale<0 nwale is unchanged. its value will be set to TABVINT(264) in rdcomm sub.
+         ALE%GRID%NWALE_ENGINE=-1
+      ENDIF
+      !---------------------------------------!
+      IF(NUM_ALE_GRID > 1)THEN
+        CALL ANCMSG(MSGID=263,ANMODE=ANINFO)
+        CALL ARRET(2)
+      ENDIF
+      !---------------------------------------!
+
+
 
       !---------------------------------------!
       !    '/ALE/LOWMACH                      !
@@ -1901,10 +1951,10 @@ C-----------------------
       ALE%GLOBAL%ISFINT = 0 !not yet read communicated in engine
       DO WHILE (IKAD(IKEY) + K /= IKAD(IKEY + 1))
 
-       READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A32)',ERR=9990)StrIAL
-       IF(StrIAL(1:5)/='SOLVE')EXIT
-       READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(13X,A32)',ERR=9990)StrIAL
-       IF(StrIAL(1:4)/='FINT')EXIT
+       READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A32)',ERR=9990)StringALE
+       IF(StringALE(1:5)/='SOLVE')EXIT
+       READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(13X,A32)',ERR=9990)StringALE
+       IF(StringALE(1:4)/='FINT')EXIT
        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)LINE
        READ(LINE,FMT='(7X,A5,1X,A5,1X,I5)',ERR=9990)KEY2,KEY3,IFORM
        IF(IFORM==2)THEN
