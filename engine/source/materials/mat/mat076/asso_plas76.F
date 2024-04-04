@@ -31,8 +31,8 @@ Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|        TABLE_MAT_VINTERP_MOD         source/materials/tools/table_mat_vinterp.F
 Chd|====================================================================
       SUBROUTINE ASSO_PLAS76(
-     1     NEL     ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,
-     2     NPF     ,TF     ,TIME    ,TIMESTEP,UPARAM  ,
+     1     NEL     ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NVARTMP ,
+     2     NPF     ,TF     ,TIME    ,TIMESTEP,UPARAM  ,VARTMP  ,
      3     RHO0    ,PLA    ,DPLA    ,ET      ,NUMTABL ,TABLE   ,
      3     DEPSXX  ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      4     SIGOXX  ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
@@ -52,10 +52,10 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "tabsiz_c.inc"
 C=======================================================================
-C-----------------------------------------------
 C   I N P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR,NFUNC,NUMTABL
+      INTEGER ,INTENT(IN)    :: NVARTMP
       my_real,INTENT(IN) :: TIME,TIMESTEP
       my_real,DIMENSION(NUPARAM),INTENT(IN) :: UPARAM(NUPARAM)
       my_real,DIMENSION(NEL),INTENT(IN) :: 
@@ -65,6 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
       my_real,DIMENSION(NEL),INTENT(OUT) ::
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX,
      .   SOUNDSP,DPLA,ET
@@ -79,10 +80,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
-      INTEGER NPF(SNPC), IFUNC(NFUNC)
-      my_real
-     .   FINTER,TF(STF)
-      EXTERNAL FINTER
+      INTEGER :: NPF(SNPC), IFUNC(NFUNC)
+      my_real :: TF(STF)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -90,10 +89,8 @@ C-----------------------------------------------
       INTEGER ,PARAMETER :: FUNC_TRAC  = 1
       INTEGER ,PARAMETER :: FUNC_COMP  = 2
       INTEGER ,PARAMETER :: FUNC_SHEAR = 3
-      INTEGER ,DIMENSION(NEL)   :: INDX
-      INTEGER ,DIMENSION(NEL,2) :: IPOS
-      my_real
-     .    G,AA1,AA2,C1,NUPC,XFAC
+      INTEGER ,DIMENSION(NEL)   :: INDX,IAD,ILEN
+      my_real :: G,AA1,AA2,C1,NUPC,XFAC
       my_real ,DIMENSION(NEL) :: PLAT,PLAC,PLAS,EPSPT,EPSPC,EPSPS,SIGT,
      .    SIGS,DSIGS_DP,SIGC,DSIGC_DP,SDXX,SDYY,SDZZ,SDXY,SDYZ,SDZX,DSIGT_DP,
      .    NUP,P,SVM,A0,A1,A2,PHI,DPLAC,DPLAT,DPLAS
@@ -106,6 +103,7 @@ C-----------------------------------------------
      .    DPDT_C,DPDT_S,DPDT_T,DPDT,DF,DLAM,CC,EPDT_MIN,
      .    EPDT_MAX,EPDC_MAX,EPDC_MIN,EPDS_MIN,EPDS_MAX,ASRATE
       my_real ,DIMENSION(NEL,2)   :: XVEC
+      my_real ,DIMENSION(NEL,1)   :: XVEC1
       my_real ,DIMENSION(NUMTABL) :: TFAC
       my_real ,DIMENSION(NFUNC)   :: YFAC
       LOGICAL :: CONV(NEL)
@@ -173,23 +171,20 @@ C
       ! Computation of yield stresses
       XVEC(1:NEL,1)   = PLAT(1:NEL)
       XVEC(1:NEL,2)   = EPSPT(1:NEL)*XFAC
-      IPOS(1:NEL,1:2) = 1
-      CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,IPOS,XVEC,SIGT,DSIGT_DP)
+      CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,VARTMP(1,1),XVEC,SIGT,DSIGT_DP)
       SIGT     = SIGT*TFAC(1)
       DSIGT_DP = DSIGT_DP*TFAC(1)
       IF (TABLE(FUNC_COMP)%NOTABLE > 0) THEN 
         XVEC(1:NEL,1)   = PLAC(1:NEL)
         XVEC(1:NEL,2)   = EPSPC(1:NEL)*XFAC
-        IPOS(1:NEL,1:2) = 1
-        CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,IPOS,XVEC,SIGC,DSIGC_DP)
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,VARTMP(1,3),XVEC,SIGC,DSIGC_DP)
         SIGC     = SIGC*TFAC(2)
         DSIGC_DP = DSIGC_DP*TFAC(2)
       ENDIF
       IF (TABLE(FUNC_SHEAR)%NOTABLE > 0) THEN 
         XVEC(1:NEL,1)   = PLAS(1:NEL)
         XVEC(1:NEL,2)   = EPSPS(1:NEL)*XFAC
-        IPOS(1:NEL,1:2) = 1
-        CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,IPOS,XVEC,SIGS,DSIGS_DP)
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,VARTMP(1,5),XVEC,SIGS,DSIGS_DP)
         SIGS     = SIGS*TFAC(3)
         DSIGS_DP = DSIGS_DP*TFAC(3) 
       ENDIF 
@@ -418,23 +413,20 @@ C
           ! Update yield stresses
           XVEC(1:NEL,1)   = PLAT(1:NEL)
           XVEC(1:NEL,2)   = EPSPT(1:NEL)*XFAC
-          IPOS(1:NEL,1:2) = 1
-          CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,IPOS,XVEC,SIGT,DSIGT_DP)
+          CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,VARTMP(1,1),XVEC,SIGT,DSIGT_DP)
           SIGT     = SIGT*TFAC(1)
           DSIGT_DP = DSIGT_DP*TFAC(1)
           IF (TABLE(FUNC_COMP)%NOTABLE > 0) THEN 
             XVEC(1:NEL,1)   = PLAC(1:NEL)
             XVEC(1:NEL,2)   = EPSPC(1:NEL)*XFAC
-            IPOS(1:NEL,1:2) = 1
-            CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,IPOS,XVEC,SIGC,DSIGC_DP)
+            CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,VARTMP(1,3),XVEC,SIGC,DSIGC_DP)
             SIGC(1:NEL)     = SIGC*TFAC(2)
             DSIGC_DP(1:NEL) = DSIGC_DP*TFAC(2)
           ENDIF
           IF (TABLE(FUNC_SHEAR)%NOTABLE > 0) THEN 
             XVEC(1:NEL,1)   = PLAS(1:NEL)
             XVEC(1:NEL,2)   = EPSPS(1:NEL)*XFAC
-            IPOS(1:NEL,1:2) = 1
-            CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,IPOS,XVEC,SIGS,DSIGS_DP)
+            CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,VARTMP(1,5),XVEC,SIGS,DSIGS_DP)
             SIGS(1:NEL)     = SIGS*TFAC(3)
             DSIGS_DP(1:NEL) = DSIGS_DP*TFAC(3)
           ENDIF 
@@ -477,11 +469,13 @@ c-----------------------------------------------
 c     Update plastic Poisson coefficient
 c-----------------------------------------------
       IF (IFUNC(1) > 0) THEN
-        DO I=1,NEL
-          NUP(I) = FINTER(IFUNC(1),PLA(I),NPF,TF,DF) * YFAC(1)
-          NUP(I)    = MAX(ZERO, MIN(NUP(I), HALF))
-          UVAR(I,7) = NUP(I)
-        ENDDO
+        IAD(1:NEL)  = NPF(IFUNC(1))   / 2 + 1
+        ILEN(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD(1:NEL) - VARTMP(1:NEL,8)
+!
+        CALL VINTER(TF,IAD,VARTMP(1:NEL,8),ILEN,NEL,PLA,DF,NUP)
+!        
+        UVAR(1:NEL,7) = YFAC(1) * NUP(1:NEL)
+        UVAR(1:NEL,7) = MAX(ZERO, MIN(NUP(1:NEL), HALF))
       END IF
 c      
       !====================================================================

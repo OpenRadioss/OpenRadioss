@@ -1509,7 +1509,8 @@ c
      6         SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      7         SSP      ,THKN     ,THKLYL   ,LBUF%PLA ,EPSP     ,
      8         ETSE     ,GS       ,SIGY     ,INLOC    ,BUFLY%L_PLANL,
-     9         LBUF%PLANL,VARNL(1,IT),LBUF%DMG,IDEL7NOK)
+     9         LBUF%PLANL,VARNL(1,IT),LBUF%DMG,IDEL7NOK,
+     A         NVARTMP  ,VARTMP   )
 c
                EPSPL(1:NEL) = EPSP(1:NEL)
 c

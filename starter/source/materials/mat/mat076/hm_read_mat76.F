@@ -41,7 +41,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT76(UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,IFUNC    , 
      .                         MAXFUNC  ,NFUNC    ,PARMAT   ,UNITAB   ,ID       , 
      .                         MTAG     ,TITR     ,LSUBMODEL,PM       ,ISRATE   ,
-     .                         MATPARAM ,MAXTABL  ,NUMTABL  ,ITABLE   )                     
+     .                         MATPARAM ,MAXTABL  ,NUMTABL  ,ITABLE   ,NVARTMP  )                     
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -83,8 +83,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN)    :: ID,MAXFUNC,MAXTABL,MAXUPARAM
-      INTEGER, INTENT(INOUT) :: NFUNC,NUMTABL,NUPARAM,NUVAR,ISRATE
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM     
+      INTEGER, INTENT(INOUT) :: NFUNC
+      INTEGER, INTENT(INOUT) :: NUMTABL
+      INTEGER, INTENT(INOUT) :: NUPARAM
+      INTEGER, INTENT(INOUT) :: NUVAR
+      INTEGER, INTENT(INOUT) :: NVARTMP
+      INTEGER, INTENT(INOUT) :: ISRATE
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM     
       my_real, DIMENSION(100)    ,INTENT(INOUT)     :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)  :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT)  :: IFUNC
@@ -237,6 +242,7 @@ c-----------------------------------------------
 c
       NUPARAM = 29 
       NUVAR   = 7
+      NVARTMP = 8
       NFUNC   = 2
       NUMTABL = 3
 c                

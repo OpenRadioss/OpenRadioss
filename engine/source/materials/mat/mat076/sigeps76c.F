@@ -40,7 +40,8 @@ Chd|====================================================================
      6     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7     SOUNDSP ,THK     ,THKLY   ,PLA     ,EPSP    ,
      8     ETSE    ,GS      ,YLD     ,INLOC   ,L_PLANL ,
-     9     PLANL   ,DPLANL  ,DMG     ,IDEL7NOK)
+     9     PLANL   ,DPLANL  ,DMG     ,IDEL7NOK,
+     A     NVARTMP ,VARTMP  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -58,12 +59,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,NFUNC,NUPARAM,NUVAR,INLOC,L_PLANL
-      INTEGER, INTENT(INOUT) :: IDEL7NOK
-      INTEGER, DIMENSION(NFUNC), INTENT(IN) :: IFUNC
-      INTEGER, DIMENSION(NEL), INTENT(IN) :: NGL
-      my_real, INTENT(IN) :: TIME,TIMESTEP
-      my_real, DIMENSION(NUPARAM), INTENT(IN) :: UPARAM
+      INTEGER ,INTENT(IN)    :: NEL,NFUNC,NUPARAM,NUVAR,INLOC,L_PLANL
+      INTEGER ,INTENT(INOUT) :: IDEL7NOK
+      INTEGER ,INTENT(IN)    :: NVARTMP
+      INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
+      INTEGER ,DIMENSION(NFUNC), INTENT(IN) :: IFUNC
+      INTEGER ,DIMENSION(NEL)  , INTENT(IN) :: NGL
+      my_real ,INTENT(IN) :: TIME,TIMESTEP
+      my_real ,DIMENSION(NUPARAM), INTENT(IN) :: UPARAM
       my_real ,DIMENSION(NEL), INTENT(IN) :: RHO0,THKLY,GS,
      .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX,DPLANL
@@ -77,12 +80,12 @@ C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
       INTEGER :: NPF(SNPC)
-      my_real :: FINTER,TF(STF)
-      EXTERNAL FINTER
+      my_real :: TF(STF)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IFORM,IQUAD,NUMTABL,NINDX,INDX(NEL)
+      INTEGER :: I,IFORM,IQUAD,NUMTABL,NINDX
+      INTEGER ,DIMENSION(NEL)   :: INDX,IAD,ILEN
       my_real :: DF,EPSPF,EPSPR,YFAC2
       my_real ,DIMENSION(NEL) :: DEZZ,DPLA,PLA_DAM,
      .  SIG0XX,SIG0YY,SIG0XY,SIG0YZ,SIG0ZX
@@ -133,7 +136,8 @@ c
      .       SIG0XX  ,SIG0YY  ,SIG0XY  ,SIG0YZ  ,SIG0ZX  ,
      .       SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      .       PLA     ,DPLA    ,EPSP    ,OFF     ,GS      ,
-     .       YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  )
+     .       YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  ,
+     .       NVARTMP ,VARTMP  )
 c
       ELSE   ! Non-associated plastic flow
         IF (IQUAD == 1) THEN ! Quadratic yield criterion
@@ -145,7 +149,8 @@ c
      .       SIG0XX  ,SIG0YY  ,SIG0XY  ,SIG0YZ  ,SIG0ZX  ,
      .       SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      .       PLA     ,DPLA    ,EPSP    ,OFF     ,GS      ,
-     .       YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  )
+     .       YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  ,
+     .       NVARTMP ,VARTMP  )
         ELSE                 ! Non-quadratic yield criterion
           CALL NO_ASSO_LPLAS76C(
      .       NEL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,
@@ -155,7 +160,8 @@ c
      .       SIG0XX  ,SIG0YY  ,SIG0XY  ,SIG0YZ  ,SIG0ZX  ,
      .       SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      .       PLA     ,DPLA    ,EPSP    ,OFF     ,GS      ,
-     .       YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  )
+     .       YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  ,
+     .       NVARTMP ,VARTMP  )
         ENDIF
       ENDIF
 c
@@ -168,12 +174,18 @@ c
       ELSE
         PLA_DAM(1:NEL) = PLA(1:NEL)
       ENDIF
-      ! Tabulated damage
+!
       IF (IFUNC(2) > 0) THEN
+        ! Tabulated damage
+        IAD(1:NEL)  = NPF(IFUNC(2))   / 2 + 1
+        ILEN(1:NEL) = NPF(IFUNC(2)+1) / 2 - IAD(1:NEL) - VARTMP(1:NEL,7)
+!
+        CALL VINTER(TF,IAD,VARTMP(1:NEL,7),ILEN,NEL,PLA_DAM,DF,DMG)
+!        
+        DMG(1:NEL) = ABS(YFAC2)*DMG(1:NEL)
         DO I=1,NEL
-          DMG(I) = ABS(YFAC2)* FINTER(IFUNC(2),PLA_DAM(I),NPF,TF,DF)
-          DMG(I) = MIN(DMG(I),ONE)
           IF (DMG(I) >= ONE) THEN 
+            DMG(I) = ONE
             IF (OFF(I) == ONE) THEN 
               OFF(I) = FOUR_OVER_5
               IDEL7NOK    = 1

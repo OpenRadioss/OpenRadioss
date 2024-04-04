@@ -38,7 +38,7 @@ Chd|====================================================================
      4           SIGOXX  ,SIGOYY  ,SIGOZZ   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,
      5           SIGNXX  ,SIGNYY  ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      6           OFF     ,EPSD    ,PLA      ,INLOC    ,L_PLANL  ,PLANL    ,
-     7           DMG     ,IDEL7NOK)
+     7           DMG     ,IDEL7NOK,NVARTMP ,VARTMP  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,8 +56,10 @@ C-----------------------------------------------
 C=======================================================================
       INTEGER, INTENT(IN) :: NEL,NFUNC,NUPARAM,NUVAR,INLOC,L_PLANL
       INTEGER, INTENT(INOUT) :: IDEL7NOK
+      INTEGER ,INTENT(IN)    :: NVARTMP
       INTEGER, DIMENSION(NFUNC), INTENT(IN) :: IFUNC
       INTEGER, DIMENSION(NEL), INTENT(IN) :: NGL
+      INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
       my_real, INTENT(IN) :: TIME,TIMESTEP
       my_real, DIMENSION(NUPARAM), INTENT(IN) :: UPARAM
       my_real, DIMENSION(NEL), INTENT(IN) :: 
@@ -74,14 +76,14 @@ C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
       INTEGER :: NPF(SNPC)
-      my_real :: TF(STF),FINTER
-      EXTERNAL FINTER
+      my_real :: TF(STF)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,IFORM,NUMTABL,NINDX,INDX(NEL)
+      INTEGER ,DIMENSION(NEL) :: IAD,ILEN
       my_real :: DF,EPSPF,EPSPR,YFAC2
-      my_real,DIMENSION(NEL) :: PLA_DAM,SIG0XX,SIG0YY,
+      my_real ,DIMENSION(NEL) :: PLA_DAM,SIG0XX,SIG0YY,
      .   SIG0ZZ,SIG0XY,SIG0YZ,SIG0ZX
       TYPE(TABLE_4D_),DIMENSION(:),POINTER :: TABLE
 C=======================================================================
@@ -121,8 +123,8 @@ c
       !====================================================================
       IF (IFORM == 1) THEN  ! Associated plastic flow, Quadratic yield criterion
         CALL ASSO_PLAS76(     
-     1      NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,
-     2      NPF    ,TF     ,TIME    ,TIMESTEP,UPARAM  ,
+     1      NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NVARTMP,
+     2      NPF    ,TF     ,TIME    ,TIMESTEP,UPARAM  ,VARTMP ,
      3      RHO0   ,PLA    ,DPLA    ,ET      ,NUMTABL ,TABLE  ,
      3      DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      4      SIG0XX ,SIG0YY ,SIG0ZZ  ,SIG0XY  ,SIG0YZ  ,SIG0ZX ,
@@ -130,8 +132,8 @@ c
      6      SOUNDSP,UVAR   ,OFF     ,EPSD    ,YLD    )
       ELSE ! Non-associated plastic flow
         CALL NO_ASSO_PLAS76(
-     1      NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,
-     2      NPF    ,TF     ,TIME    ,TIMESTEP,UPARAM  ,
+     1      NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NVARTMP,
+     2      NPF    ,TF     ,TIME    ,TIMESTEP,UPARAM  ,VARTMP ,
      3      RHO0   ,PLA    ,DPLA    ,ET      ,NUMTABL ,TABLE  ,
      3      DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      4      SIG0XX ,SIG0YY ,SIG0ZZ  ,SIG0XY  ,SIG0YZ  ,SIG0ZX ,
@@ -148,12 +150,18 @@ c
       ELSE
         PLA_DAM(1:NEL) = PLA(1:NEL)
       ENDIF
-      ! Tabulated damage
+!
       IF (IFUNC(2) > 0) THEN
+        ! Tabulated damage
+        IAD(1:NEL)  = NPF(IFUNC(2))   / 2 + 1
+        ILEN(1:NEL) = NPF(IFUNC(2)+1) / 2 - IAD(1:NEL) - VARTMP(1:NEL,7)
+!
+        CALL VINTER(TF,IAD,VARTMP(1:NEL,7),ILEN,NEL,PLA_DAM,DF,DMG)
+!        
+        DMG(1:NEL) = ABS(YFAC2)*DMG(1:NEL)
         DO I=1,NEL
-          DMG(I) = ABS(YFAC2)*FINTER(IFUNC(2),PLA_DAM(I),NPF,TF,DF)
-          DMG(I) = MIN(DMG(I),ONE)
           IF (DMG(I) >= ONE) THEN 
+            DMG(I) = ONE
             IF (OFF(I) == ONE) THEN 
               OFF(I)      = FOUR_OVER_5
               IDEL7NOK    = 1
@@ -162,8 +170,9 @@ c
             ENDIF
           ENDIF 
         ENDDO
-      ! Analytical damage
-      ELSE 
+!     
+      ELSE  ! Analytical damage
+!           
         DO I = 1,NEL
           IF (PLA_DAM(I) >= EPSPF) THEN 
             DMG(I) = (PLA_DAM(I) - EPSPF)/ (EPSPR - EPSPF)
@@ -207,5 +216,4 @@ c------------------------------------------------------
  1000 FORMAT(1X,'RUPTURE (SAMP) OF SOLID ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'RUPTURE (SAMP) OF SOLID ELEMENT NUMBER ',I10,'AT TIME :',G11.4)  
 c------------------------------------------------------      
-c
       END
