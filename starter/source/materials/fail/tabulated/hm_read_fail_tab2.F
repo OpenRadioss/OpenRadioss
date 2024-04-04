@@ -70,10 +70,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  :: ITAB_EPSF,FAILIP,ITAB_INST,
-     .            IFUN_EXP,ITAB_SIZE,IREG,IFUN_RATE,IFUN_DLIM
+     .            IFUN_EXP,ITAB_SIZE,IREG,IFUN_RATE,IFUN_DLIM,IFUN_TEMP  
       my_real  :: FCRIT,PTHKFAIL,DN,DCRIT,ECRIT,EXP_REF,EXPO,EL_REF,SR_REF1,
      .            FSCALE_EL,SHRF,BIAXF,SR_REF2,FSCALE_SR,CJC,FSCALE_DLIM,
-     .            LENGTH_UNIT,RATE_UNIT
+     .            LENGTH_UNIT,RATE_UNIT,TEMP_REF,FSCALE_TEMP,TEMP_UNIT
 C-----------------------------------------------
       LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
@@ -99,7 +99,10 @@ Card2
 Card3
       CALL HM_GET_INTV   ('FCT_EXP'     ,IFUN_EXP    ,IS_AVAILABLE,LSUBMODEL) 
       CALL HM_GET_FLOATV ('EXP_REF'     ,EXP_REF     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV ('EXP'         ,EXPO        ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('EXP'         ,EXPO        ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_INTV   ('FCT_TEMP'    ,IFUN_TEMP   ,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_FLOATV ('TEMP_REF'    ,TEMP_REF    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('FSCALE_TEMP' ,FSCALE_TEMP ,IS_AVAILABLE,LSUBMODEL,UNITAB)   
 Card4
       CALL HM_GET_INTV   ('TAB_EL'      ,ITAB_SIZE   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('IREG'        ,IREG        ,IS_AVAILABLE,LSUBMODEL)
@@ -134,8 +137,13 @@ C-------------------------------------------------------------------------------
       IF ((IFUN_EXP  > 0).AND.(EXP_REF == ZERO)) THEN
         CALL HM_GET_FLOATV_DIM('EXP_REF' ,LENGTH_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
         EXP_REF = ONE*LENGTH_UNIT
-      ENDIF      
+      ENDIF    
       IF (EXPO == ZERO) EXPO = ONE   
+      IF (TEMP_REF == ZERO) THEN
+        CALL HM_GET_FLOATV_DIM('TEMP_REF' ,TEMP_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        TEMP_REF = ONE*TEMP_UNIT
+      ENDIF       
+      IF (FSCALE_TEMP == ZERO) FSCALE_TEMP = ONE  
       IF (IREG == 0)    IREG = 1
       IF ((ITAB_SIZE > 0).AND.(EL_REF == ZERO)) THEN
         CALL HM_GET_FLOATV_DIM('EL_REF' ,LENGTH_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -163,10 +171,10 @@ C-------------------------------------------------------------------------------
       FAIL%KEYWORD = 'TAB2' 
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
-      FAIL%NUPARAM = 21
+      FAIL%NUPARAM = 23
       FAIL%NIPARAM = 0
       FAIL%NUVAR   = 3
-      FAIL%NFUNC   = 3
+      FAIL%NFUNC   = 4
       FAIL%NTABLE  = 3
       FAIL%NMOD    = 0
       FAIL%PTHK    = PTHKFAIL
@@ -196,11 +204,14 @@ c
       FAIL%UPARAM(18) = SR_REF2
       FAIL%UPARAM(19) = FSCALE_SR
       FAIL%UPARAM(20) = CJC
-      FAIL%UPARAM(21) = FSCALE_DLIM      
+      FAIL%UPARAM(21) = FSCALE_DLIM 
+      FAIL%UPARAM(22) = TEMP_REF
+      FAIL%UPARAM(23) = FSCALE_TEMP
 c
       FAIL%IFUNC(1) = IFUN_EXP
       FAIL%IFUNC(2) = IFUN_RATE
       FAIL%IFUNC(3) = IFUN_DLIM
+      FAIL%IFUNC(4) = IFUN_TEMP
 c
       FAIL%TABLE(1) = ITAB_EPSF
       FAIL%TABLE(2) = ITAB_INST
@@ -234,6 +245,11 @@ c-----------------------------------------------------------------------
         ELSE 
           WRITE(IOUT,1010) EXPO
         ENDIF
+        ! Temperature scaling definition
+        IF (IFUN_TEMP > 0) THEN 
+          WRITE(IOUT,1020)
+          WRITE(IOUT,1021) IFUN_TEMP,TEMP_REF,FSCALE_TEMP
+        ENDIF        
         ! Element size scaling definition
         IF (ITAB_SIZE > 0) THEN 
           WRITE(IOUT,1011) IREG
@@ -243,6 +259,7 @@ c-----------------------------------------------------------------------
             WRITE(IOUT,1013) ITAB_SIZE,EL_REF,FSCALE_EL
           ENDIF
         ENDIF
+        ! Strain rate scaling definition
         IF (IFUN_RATE > 0) THEN 
           WRITE(IOUT,1014)
           WRITE(IOUT,1015) IFUN_RATE,SR_REF2,FSCALE_SR
@@ -250,12 +267,14 @@ c-----------------------------------------------------------------------
           WRITE(IOUT,1014)
           WRITE(IOUT,1016) SR_REF2,CJC
         ENDIF
+        ! Damage limit definition
         IF (IFUN_DLIM > 0) THEN 
           WRITE(IOUT,1017)
           WRITE(IOUT,1018) IFUN_DLIM,FSCALE_DLIM
         ENDIF 
+        ! Element deletion control parameters
         WRITE(IOUT,1019) FAILIP,PTHKFAIL
-        WRITE(IOUT,1020)
+        WRITE(IOUT,1022)
       ENDIF  ! IS_ENCRYPTED             
 c-----------------------------------------------------------------------
  1000 FORMAT(
@@ -318,7 +337,7 @@ c-----------------------------------------------------------------------
  1015 FORMAT(
      & 5X,'STRAIN RATE SCALING FUNCTION  . . . . . . . . . . . . . =',I10/,
      & 5X,'    REFERENCE STRAIN RATE . . . . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'    SCALE FACTOR STRAIN RATE SCALING  . . . . . . . . . =',1PG20.13/)
+     & 5X,'    STRAIN RATE DEPENDENCY SCALE FACTOR . . . . . . . . =',1PG20.13/)
  1016 FORMAT(
      & 5X,'JOHNSON-COOK STRAIN RATE SCALING                         ',/,
      & 5X,'    REFERENCE STRAIN RATE . . . . . . . . . . . . . . . =',1PG20.13/,
@@ -339,6 +358,14 @@ c-----------------------------------------------------------------------
      & 5X,'  > 0.0 : FRACTION OF FAILED THICKNESS                   ',/,
      & 5X,'  < 0.0 : FRACTION OF FAILED INTG. POINTS OR LAYERS      ',/) 
  1020 FORMAT(
+     & 5X,'                                                         ',/,
+     & 5X,'TEMPERATURE SCALING DEFINITION:                          ',/,
+     & 5X,'-------------------------------                          ',/) 
+ 1021 FORMAT(
+     & 5X,'TEMPERATURE SCALING FUNCTION  . . . . . . . . . . . . . =',I10/,
+     & 5X,'    REFERENCE TEMPERATURE . . . . . . . . . . . . . . . =',1PG20.13/,
+     & 5X,'    TEMPERATURE DEPENDENCY SCALE FACTOR . . . . . . . . =',1PG20.13/)
+ 1022 FORMAT(
      & 5X,' --------------------------------------------------------',/)   
 c-----------------------------------------------------------------------
       END

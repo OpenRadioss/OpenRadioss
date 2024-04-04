@@ -36,6 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE TABLE_MOD
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,12 +59,16 @@ C=======================================================================
         NFAIL  = MAT_PARAM(IMAT)%NFAIL
         IF (NFAIL > 0) THEN
           DO IR = 1,NFAIL
+c
+            ! Function(s) User IDs into internal IDs 
             IF (MAT_PARAM(IMAT)%FAIL(IR)%NFUNC > 0) THEN
               CALL FAIL_FUN2SYS(MAT_PARAM(IMAT)%FAIL(IR) ,
      .                          MAT_PARAM(IMAT)%TITLE    ,
      .                          MAT_PARAM(IMAT)%MAT_ID   ,
      .                          NFUNCT  ,FUNC_ID  )
             END IF
+c
+            ! Table(s) User IDs into internal IDs            
             IF (MAT_PARAM(IMAT)%FAIL(IR)%NTABLE > 0) THEN
               CALL MATTAB_USR2SYS(MAT_PARAM(IMAT)%TITLE    ,
      .                            MAT_PARAM(IMAT)%MAT_ID, 
@@ -71,6 +76,29 @@ C=======================================================================
      .                            MAT_PARAM(IMAT)%FAIL(IR)%NTABLE ,
      .                            MAT_PARAM(IMAT)%FAIL(IR)%TABLE  )
             END IF
+c
+            ! /FAIL/TAB2 temperature dependency check
+            IF (MAT_PARAM(IMAT)%FAIL(IR)%IRUPT == 41) THEN 
+              ! Check if temperature dependency is defined twice: in EPSF table and FCT_TEMP
+              IF ((TABLE(MAT_PARAM(IMAT)%FAIL(IR)%TABLE(1))%NDIM == 3) .AND. 
+     .            (MAT_PARAM(IMAT)%FAIL(IR)%IFUNC(4) > 0)) THEN 
+                CALL ANCMSG(MSGID=3055, 
+     .                      MSGTYPE=MSGWARNING, 
+     .                      ANMODE=ANINFO_BLIND,
+     .                      I1=MAT_PARAM(IMAT)%MAT_ID,
+     .                      C1=MAT_PARAM(IMAT)%TITLE)   
+              ENDIF 
+              ! Check if temperature dependency is defined twice: in INST table and FCT_TEMP
+              IF ((TABLE(MAT_PARAM(IMAT)%FAIL(IR)%TABLE(2))%NDIM == 3) .AND. 
+     .            (MAT_PARAM(IMAT)%FAIL(IR)%IFUNC(4) > 0)) THEN 
+                CALL ANCMSG(MSGID=3056, 
+     .                      MSGTYPE=MSGWARNING, 
+     .                      ANMODE=ANINFO_BLIND,
+     .                      I1=MAT_PARAM(IMAT)%MAT_ID,
+     .                      C1=MAT_PARAM(IMAT)%TITLE)   
+              ENDIF 
+            ENDIF 
+c
           ENDDO
         ENDIF
       ENDDO

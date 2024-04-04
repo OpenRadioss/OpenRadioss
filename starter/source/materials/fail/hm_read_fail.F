@@ -243,6 +243,9 @@ c
           ILOC      = 0
           IFAILWAVE = 0
 c
+          ! Printing out material ID, failure criterion type and ID
+          WRITE(IOUT,1000) MAT_ID,ADJUSTR(KEY(1:10)),FAIL_ID
+c
           IF (MAT_PARAM(IMAT)%MAT_ID == MAT_ID) THEN
             MAT_PARAM(IMAT)%NFAIL = MAT_PARAM(IMAT)%NFAIL + 1
             IFL   = MAT_PARAM(IMAT)%NFAIL
@@ -557,4 +560,10 @@ c------------------------------
       DEALLOCATE (FAIL_MAT_NUM)
 C-----------       
       RETURN
+C-----------       
+ 1000 FORMAT(//
+     & 5X,'MAT_ID . . . . . . . . . . . . . . .=',I10/
+     & 5X,'FAILURE MODEL TYPE . . . . . . . . .=',A/
+     & 5X,'FAIL_ID. . . . . . . . . . . . . . .=',I10/)
+C-----------  
       END
