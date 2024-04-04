@@ -42,7 +42,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT90(UPARAM  ,MAXUPARAM,NUPARAM ,NUVAR    ,IFUNC    ,
      .                         MAXFUNC ,NFUNC    ,PARMAT  ,UNITAB   ,ID       ,
      .                         TITR    ,ISRATE   ,PM      ,IMATVIS  ,LSUBMODEL,
-     .                         MTAG    ,MATPARAM )
+     .                         MTAG    ,MATPARAM ,NVARTMP )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -84,6 +84,7 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       my_real, INTENT(INOUT)          :: PARMAT(100),UPARAM(MAXUPARAM),PM(NPROPM)
       INTEGER, INTENT(INOUT)          :: IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,ISRATE,IMATVIS
+      INTEGER, INTENT(INOUT)          :: NVARTMP
       INTEGER, INTENT(IN)             :: ID
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)
@@ -193,7 +194,8 @@ C-----------------------------------------------
       PARMAT(5) = FCUT
 
       ISRATE = ISMOOTH 
-      NUVAR = 10
+      NUVAR   = 10
+      NVARTMP = NFUNC*3
         ! MTAG variable activation   
       MTAG%G_EPSD = 1
       MTAG%L_EPSD = 1

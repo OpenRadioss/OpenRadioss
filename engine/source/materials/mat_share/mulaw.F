@@ -1428,7 +1428,7 @@ C-------------------
      3                  EP1 ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,
      4                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
      5                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
-     6                  SSP ,VIS ,UVAR,ISMSTR,
+     6                  SSP ,VIS ,UVAR,NVARTMP,VARTMP ,ISMSTR,
      7                  ISRATE,ASRATE, GBUF%OFF ,IHET ,ET ,EPSD  ) 
 C      
       ELSEIF (MTN == 92) THEN 

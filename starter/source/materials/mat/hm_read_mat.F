@@ -915,7 +915,7 @@ c-------
      .           UPARAM  ,MAXUPARAM  ,NUPARAM ,NUVAR    ,IFUNC ,
      .           MAXFUNC ,NFUNC      ,PARMAT  ,UNITAB   ,MAT_ID ,
      .           TITR    ,ISRATE     ,PM(1,I) ,IMATVIS  ,LSUBMODEL,
-     .           MTAG    ,MATPARAM   )
+     .           MTAG    ,MATPARAM   ,NVARTMP )
 c-------
           CASE ('LAW92')
             ILAW = 92
