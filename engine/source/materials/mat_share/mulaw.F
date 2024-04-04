@@ -1295,7 +1295,7 @@ C
      .                SO1      ,SO2      ,SO3      ,SO4      ,SO5      ,SO6       ,
      .                S1       ,S2       ,S3       ,S4       ,S5       ,S6        ,
      .                OFF      ,EPSD     ,DEFP     ,INLOC    ,L_PLANL  ,LBUF%PLANL,
-     .                LBUF%DMG ,IDEL7NOK )
+     .                LBUF%DMG ,IDEL7NOK ,NVARTMP  ,VARTMP   )
 c
       ELSEIF (MTN == 78) THEN
           CALL SIGEPS78(NEL ,NPAR,NUVAR,NFUNC,IFUNC,NPF ,

@@ -38,7 +38,8 @@ Chd|====================================================================
      .     SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      .     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      .     PLA     ,DPLA    ,EPSD    ,OFF     ,GS      ,
-     .     YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  )
+     .     YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  ,
+     .     NVARTMP, VARTMP  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,6 +57,7 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,NFUNC,NUMTABL,INLOC
+      INTEGER, INTENT(IN) :: NVARTMP
       INTEGER, DIMENSION(NFUNC), INTENT(IN) :: IFUNC
       my_real, INTENT(IN) :: TIME,TIMESTEP
       my_real, DIMENSION(NUPARAM), INTENT(IN) :: UPARAM
@@ -71,14 +73,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
+      INTEGER, DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: VARTMP
+      my_real, DIMENSION(NEL,NUVAR)  , INTENT(INOUT) :: UVAR
       my_real, DIMENSION(NEL), INTENT(INOUT) :: OFF,YLD,PLA,EPSD,SOUNDSP
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
       INTEGER :: NPF(SNPC)
-      my_real :: FINTER, TF(STF)
-      EXTERNAL FINTER
+      my_real :: TF(STF)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -86,9 +88,8 @@ C-----------------------------------------------
       INTEGER ,PARAMETER :: FUNC_TRAC  = 1
       INTEGER ,PARAMETER :: FUNC_COMP  = 2
       INTEGER ,PARAMETER :: FUNC_SHEAR = 3
-      INTEGER, DIMENSION(NEL)   :: INDX
-      INTEGER, DIMENSION(NEL,2) :: IPOS
-      my_real :: LAM,DLAM,DF1,EPSDOT,DA0,DA1,DA2,DYDX,
+      INTEGER, DIMENSION(NEL)   :: INDX,IAD,ILEN
+      my_real :: LAM,DLAM,EPSDOT,DA0,DA1,DA2,DYDX,
      .  CA,CB,AA,BB,CC,A1S,A1C,A1T,A2S,A2C,A2T,E,NU,NU1,NUPC,XFAC,
      .  YY,DX2,DFDSIGDLAM,YLD_NORM,EPD_MIN,EPD_MAX,
      .  NORMXX,NORMYY,NORMXY,NORMZZ,NORMYZ,NORMZX,ALFA,ALFI,DTINV,
@@ -180,26 +181,20 @@ c
       ! Computation of yield stresses
       XVEC(1:NEL,1) = EPSPT(1:NEL)
       XVEC(1:NEL,2) = EPDT(1:NEL)
-      IPOS(1:NEL,1) = 1
-      IPOS(1:NEL,2) = 1
-      CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,IPOS,XVEC,SIGT,DFT)
+      CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,VARTMP(1,1),XVEC,SIGT,DFT)
       SIGT(1:NEL) = SIGT(1:NEL) * TFAC(1)
       DFT(1:NEL)  = DFT(1:NEL)  * TFAC(1)
-      IPOS(1:NEL,1) = 1
-      IPOS(1:NEL,2) = 1
       IF (TABLE(FUNC_COMP)%NOTABLE  > 0) THEN
         XVEC(1:NEL,1) = EPSPC(1:NEL)
         XVEC(1:NEL,2) = EPDC(1:NEL)
-        CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,IPOS,XVEC,SIGC,DFC)
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,VARTMP(1,3),XVEC,SIGC,DFC)
         SIGC(1:NEL) = SIGC(1:NEL) * TFAC(2)
         DFC(1:NEL)  = DFC(1:NEL)  * TFAC(2)
       END IF
-      IPOS(1:NEL,1) = 1
-      IPOS(1:NEL,2) = 1
       IF (TABLE(FUNC_SHEAR)%NOTABLE > 0) THEN
         XVEC(1:NEL,1) = EPSPS(1:NEL)
         XVEC(1:NEL,2) = EPDS(1:NEL)
-        CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,IPOS,XVEC,SIGS,DFS)
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,VARTMP(1,5),XVEC,SIGS,DFS)
         SIGS(1:NEL) = SIGS(1:NEL) * TFAC(3)
         DFS(1:NEL)  = DFS(1:NEL)  * TFAC(3)
       END IF
@@ -373,26 +368,20 @@ c
           ! Update Yld values and criterion with new plastic strain and strain rate  
           XVEC(1:NEL,1) = EPSPT(1:NEL)
           XVEC(1:NEL,2) = EPDT(1:NEL)
-          IPOS(1:NEL,1) = 1
-          IPOS(1:NEL,2) = 1
-          CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,IPOS,XVEC,SIGT,DFT)
+          CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,VARTMP(1,1),XVEC,SIGT,DFT)
           SIGT(1:NEL) = SIGT(1:NEL) * TFAC(1)
           DFT(1:NEL)  = DFT(1:NEL)  * TFAC(1)
-          IPOS(1:NEL,1) = 1
-          IPOS(1:NEL,2) = 1
           IF (TABLE(FUNC_COMP)%NOTABLE  > 0) THEN
             XVEC(1:NEL,1) = EPSPC(1:NEL)
             XVEC(1:NEL,2) = EPDC(1:NEL)
-            CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,IPOS,XVEC,SIGC,DFC)
+            CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,VARTMP(1,3),XVEC,SIGC,DFC)
             SIGC(1:NEL) = SIGC(1:NEL) * TFAC(2)
             DFC(1:NEL)  = DFC(1:NEL)  * TFAC(2)
           END IF
-          IPOS(1:NEL,1) = 1
-          IPOS(1:NEL,2) = 1
           IF (TABLE(FUNC_SHEAR)%NOTABLE > 0) THEN
             XVEC(1:NEL,1) = EPSPS(1:NEL)
             XVEC(1:NEL,2) = EPDS(1:NEL)
-            CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,IPOS,XVEC,SIGS,DFS)
+            CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,VARTMP(1,5),XVEC,SIGS,DFS)
             SIGS(1:NEL) = SIGS(1:NEL) * TFAC(3)
             DFS(1:NEL)  = DFS(1:NEL)  * TFAC(3)
           END IF
@@ -447,11 +436,13 @@ c
       ! - UPDATE PLASTIC POISSON RATIO
       !====================================================================
       IF (IFUNC(1) > 0) THEN
-        DO I=1,NEL
-          NUP(I)    = FINTER(IFUNC(1),PLA(I),NPF,TF,DYDX) * YFAC(1)
-          NUP(I)    = MAX(ZERO, MIN(NUP(I), HALF))
-          UVAR(I,7) = NUP(I)
-        ENDDO
+        IAD(1:NEL)  = NPF(IFUNC(1))   / 2 + 1
+        ILEN(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD(1:NEL) - VARTMP(1:NEL,8)
+!
+        CALL VINTER(TF,IAD,VARTMP(1:NEL,8),ILEN,NEL,PLA,DYDX,NUP)
+!        
+        UVAR(1:NEL,7) = YFAC(1) * NUP(1:NEL)
+        UVAR(1:NEL,7) = MAX(ZERO, MIN(NUP(1:NEL), HALF))
       END IF
 c 
       !====================================================================
