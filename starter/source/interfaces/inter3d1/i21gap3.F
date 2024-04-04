@@ -97,7 +97,7 @@ C     REAL
       my_real, DIMENSION(:), ALLOCATABLE :: THK_PART_NODS
 C--------------------------------------------------------------
       DXM=ZERO
-      NDX=ZERO
+      NDX = 0
       GAPMX=EP30
       GAPMN=EP30
       GAPS1=ZERO

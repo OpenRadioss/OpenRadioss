@@ -123,7 +123,7 @@ c----------------------------
 C---------------------------------------------------------------------
       PN1  = NPC(IFUNC(1))
       PN2  = NPC(IFUNC(1)+1)
-      LENC = HALF*(PN2 - PN1) ! 
+      LENC = (PN2 - PN1) / 2 
       !DIRECTION CHAINE  = FMINC
       DO I = 1,LENC
        II = 2*(I-1)

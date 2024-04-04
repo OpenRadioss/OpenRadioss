@@ -66,7 +66,7 @@ C-----------------------------------------------
       INTEGER VAL_TEST
 C=======================================================================
       ALLOCATE(INTBUF_SIZE(L_INTBUF_SIZE_MAX))
-      INTBUF_SIZE(1:L_INTBUF_SIZE_MAX) = ZERO
+      INTBUF_SIZE(1:L_INTBUF_SIZE_MAX) = 0
 
       DO NI= 1, NINTER
 

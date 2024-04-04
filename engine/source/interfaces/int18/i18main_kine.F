@@ -557,7 +557,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIN,JTASK ,LINDMAX,NMN     ,
      .        NB_JLT,NB_JLT_NEW,NB_STOK_N,NRTMDIM
-      INTEGER IPARI(NPARI), KINET(*),ITAB(*),STIFN(*)
+      INTEGER IPARI(NPARI), KINET(*),ITAB(*)
+      my_real :: STIFN(*)
       INTEGER, INTENT(in) :: S_XCELL_REMOTE
       my_real, DIMENSION(S_XCELL_REMOTE), INTENT(in) :: XCELL_REMOTE
       my_real
@@ -787,11 +788,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIN,JTASK ,LINDMAX,
      .        NB_JLT,NB_JLT_NEW,NB_STOK_N
-      INTEGER IPARI(NPARI), STIFN(*),
+      INTEGER IPARI(NPARI), 
      .        ITAB(*)
       my_real
      .   X(3,*), V(3,*), A(3,*), MS(*),
-     .   MTF(14,*),CAND_SAV(8,*)
+     .   MTF(14,*),CAND_SAV(8,*),STIFN(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1023,11 +1024,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIN,JTASK ,
      .        NB_JLT,NB_JLT_NEW,NB_STOK_N
-      INTEGER IPARI(NPARI), STIFN(*),
+      INTEGER IPARI(NPARI), 
      .        ITAB(*), ISKEW(*), LCOD(*)
       my_real
      .   X(3,*), V(3,*), A(3,*), MS(*),
-     .   MTF(14,*),CAND_SAV(8,*), SKEW(*)
+     .   MTF(14,*),CAND_SAV(8,*), SKEW(*), STIFN(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1175,10 +1176,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIN,JTASK ,
      .        NB_JLT,NB_JLT_NEW,NB_STOK_N
-      INTEGER IPARI(NPARI), STIFN(*),
+      INTEGER IPARI(NPARI), 
      .        ITAB(*), ISKEW(*), LCOD(*) ,SLVNDTAG(*)
       my_real
-     .   X(3,*), V(3,*), A(3,*), MS(*),
+     .   X(3,*), V(3,*), A(3,*), MS(*), STIFN(*),
      .   MTF(14,*),CAND_SAV(8,*), FSAV(*),FCONT(3,*), SKEW(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA

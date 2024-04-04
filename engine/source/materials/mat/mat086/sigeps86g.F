@@ -272,11 +272,11 @@ C
         J1 = JJ(I)
         J2 = J1+1
         IPOS1(I) = NINT(UVAR(I,J1))
-        IAD1(I)  = HALF*NPF(IFUNC(J1)) + 1
-        ILEN1(I) = HALF*NPF(IFUNC(J1)+1) - IAD1(I) - IPOS1(I)
+        IAD1(I)  = NPF(IFUNC(J1))/2 + 1
+        ILEN1(I) = NPF(IFUNC(J1)+1)/2 - IAD1(I) - IPOS1(I)
         IPOS2(I) = NINT(UVAR(I,J2))
-        IAD2(I)  = HALF*NPF(IFUNC(J2)) + 1
-        ILEN2(I) = HALF*NPF(IFUNC(J2)+1) - IAD2(I) - IPOS2(I)
+        IAD2(I)  = NPF(IFUNC(J2))/2 + 1
+        ILEN2(I) = NPF(IFUNC(J2)+1)/2 - IAD2(I) - IPOS2(I)
        ENDDO
       ELSE
        DO I=1,NEL

@@ -2665,6 +2665,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       IF (INFO == 1) GOTO 400
 C
       VMIN=EP30
+      IMIN=1
       DO I=1,NPOLH
          IF (VOLU(I) <= ZERO) CYCLE
          IF (VOLU(I) < VMIN) THEN

@@ -79,7 +79,7 @@ C-----------------------------------------------
 C
           DO II=1,NSN        
             J = INTBUF_TAB(N)%NSV(II)
-            IF (ILEV /=25 .and. ILEV/=26 .and. ILEV/=27 .and. ILEV/=28) TAGHIER(J) = ONE
+            IF (ILEV /=25 .and. ILEV/=26 .and. ILEV/=27 .and. ILEV/=28) TAGHIER(J) = 1
           ENDDO
          ENDIF
       ENDDO
@@ -93,7 +93,7 @@ C
             NMN  = IPARI(6,N)
             DO II=1,NMN        
               J=INTBUF_TAB(N)%MSR(II)
-              IF (TAGHIER(J) == ONE) THEN
+              IF (TAGHIER(J) == 1) THEN
                 CALL ANCMSG(MSGID=556,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
@@ -120,7 +120,7 @@ C
             DO II=1,NSN        
               J = INTBUF_TAB(N)%NSV(II)
 C-- Only secnds nodes with AMS are checked
-              IF (NATIV_SMS(J)/=0) TAGHIER(J) = ONE
+              IF (NATIV_SMS(J)/=0) TAGHIER(J) = 1 
             ENDDO
           ENDIF
         ENDDO

@@ -50,12 +50,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, ITAG(NB_NODE), J, JJ, ICMAX, NC, I1, I2, I3, IFOUND
+      INTEGER I, J, JJ, ICMAX, NC, I1, I2, I3, IFOUND
       INTEGER K, KK, ITY
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: CNS
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
 C-------------------------------------------------------------------
 C SEARCH SHELL ELEMENT TO WHICH BAG TRIANGLE BELONGS
 C-------------------------------------------------------------------
+      ALLOCATE(ITAG(NB_NODE))
       IF (.NOT. FLAG) THEN
          DO I=1,NB_NODE
             ITAG(I)=0
@@ -103,7 +105,7 @@ C
          ENDDO   
 C     
          DO I=1,NB_NODE
-            ITAG(I)=ZERO
+            ITAG(I) = 0
          ENDDO
          DO I=1,NEL
             I1=ELEM(1,I)
@@ -224,7 +226,7 @@ C
  100        CONTINUE
             ELTG(I)=IFOUND
          ENDDO
-C     
+         DEALLOCATE(ITAG)
          DEALLOCATE(CNS)
 C-----------------------
 C     STORE MATERIAL NUMBER

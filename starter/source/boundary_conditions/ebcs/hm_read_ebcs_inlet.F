@@ -77,7 +77,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ISU,SENS,MONVOL,SURF,NGR2USR,IPRES,IRHO,NOD,IAD,J,K1,K2,NSEG,IENER,IVX,IVY,IVZ,IALPHA
-      INTEGER LISTE(NUMNOD), IMAT,IVEL_TYP,U_IALPHA,U_IRHO,U_IPRES,IFLAGUNIT,FLAG_FMT,CHECK_CUMUL_VF(2)
+      INTEGER LISTE(NUMNOD), IMAT,IVEL_TYP,U_IALPHA,U_IRHO,U_IPRES,IFLAGUNIT,FLAG_FMT
+      my_real :: CHECK_CUMUL_VF(2)
       my_real C,PRES,RHO,LCAR,R1,R2,ENER,VX,VY,VZ, ALPHA
       CHARACTER MESS*40,KEY*ncharkey,chain*9, chain1*64
       EXTERNAL NGR2USR
@@ -278,7 +279,7 @@ C-----------------------------------------------
             EBCS%fvm_inlet_data%VAL_VEL(2)  =  VY
             EBCS%fvm_inlet_data%FUNC_VEL(3) = IVZ
             EBCS%fvm_inlet_data%VAL_VEL(3)  =  VZ
-            CHECK_CUMUL_VF(1:2)=ZERO
+            CHECK_CUMUL_VF(1:2) = ZERO
             DO IMAT = 1, MULTI_FVM%NBMAT
                CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalevf_n', ALPHA ,IMAT,IS_AVAILABLE,LSUBMODEL,UNITAB)
                CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalerho_n',RHO   ,IMAT,IS_AVAILABLE,LSUBMODEL,UNITAB)

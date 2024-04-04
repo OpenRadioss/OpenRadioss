@@ -56,12 +56,17 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, ITAG(NB_NODE), J, JJ, ICMAX, NC, I1, I2, I3, IFOUND
+      INTEGER I, II, J, JJ, ICMAX, NC, I1, I2, I3, IFOUND
       INTEGER K, KK, ITY, N1, N2, N3, IEL, ILAW, MAT, LEAK
       INTEGER J1, J2, J3, NNT_TMP
-      INTEGER ITAGC(NUMELC), ITAGTG(NUMELTG)
       CHARACTER*6 TITL
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: CNS
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG,ITAGC,ITAGTG
+
+
+      ALLOCATE(ITAG(NB_NODE))
+      ALLOCATE(ITAGC(NUMELC))
+      ALLOCATE(ITAGTG(NUMELTG))
 C
       DO I=1,NB_NODE
          ITAG(I)=0
@@ -212,7 +217,7 @@ C
       ENDDO   
 C
       DO I=1,NB_NODE
-         ITAG(I)=ZERO
+         ITAG(I) = 0
       ENDDO
 C
       NNT_TMP = 0
@@ -366,6 +371,10 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
  1300 FORMAT(/5X,'FV POINT',4X,'FLAG',1X,'ELEM/NODE',2X,'NODE')
 C
       DEALLOCATE(CNS)
+      DEALLOCATE(ITAG)
+      DEALLOCATE(ITAGC)
+      DEALLOCATE(ITAGTG)
+
 C     
       RETURN
       END

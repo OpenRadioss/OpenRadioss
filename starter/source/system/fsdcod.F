@@ -775,8 +775,8 @@ C
              XSCALE=GEO(39,I)
              LOAD=IGEO(101,I)
              UNLOAD=IGEO(103,I)
-             NP1  = (NPC(LOAD+1)-NPC(LOAD))*HALF
-             NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*HALF
+             NP1  = (NPC(LOAD+1)-NPC(LOAD)) / 2
+             NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD)) / 2
              ALPHA1=ZERO  
              ALPHA2=ZERO             
 c---
@@ -912,8 +912,8 @@ c
              XSCALE=GEO(39,I)
              LOAD=IGEO(101,I)
              UNLOAD=IGEO(103,I)
-             NP1  = (NPC(LOAD+1)-NPC(LOAD))*HALF
-             NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*HALF
+             NP1  = (NPC(LOAD+1)-NPC(LOAD)) / 2
+             NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD)) / 2
              ALPHA1=ZERO  
              ALPHA2=ZERO             
 c---

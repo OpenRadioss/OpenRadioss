@@ -380,7 +380,7 @@ C        checking (search for multiply define) and compacting INIQUA
                   END IF
                 END IF
               END DO
-              ID_QUAD_SIGI(JSYS)=ZERO
+              ID_QUAD_SIGI(JSYS) = 0
             ELSE
               IE  =JE
               ISYS=JSYS
@@ -399,7 +399,7 @@ C        checking (search for multiply define) and compacting INIQUA
                 DO K=8,10
                   SIGI(K,COMPT)=SIGI(K,J)
                 END DO
-                ID_QUAD_SIGI(J)=ZERO
+                ID_QUAD_SIGI(J) = 0
               END IF
             END IF
           END DO
