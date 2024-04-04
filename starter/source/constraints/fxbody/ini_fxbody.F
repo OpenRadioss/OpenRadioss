@@ -925,7 +925,7 @@ C
       ENDDO
 C
       RETURN
-9999  CALL ANCMSG(MSGID=566,
+      CALL ANCMSG(MSGID=566,
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANINFO,
      .            I1=ID,

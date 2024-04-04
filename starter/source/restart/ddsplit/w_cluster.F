@@ -71,7 +71,7 @@ C=======================================================================
       ALLOCATE(RLCLUSTER(NCLUSTER_L)) ! Real Lengths of local CLUSTERs
       J = 0
       ILCLUSTER(1:NCLUSTER_L)  = 0 
-      RLCLUSTER(1:NCLUSTER_L) =  ZERO
+      RLCLUSTER(1:NCLUSTER_L) =  0
       RLCLUSTER_MAX = 0
       ILCLUSTER_MAX = 0
 

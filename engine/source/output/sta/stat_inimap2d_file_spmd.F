@@ -325,7 +325,7 @@ C-----------------------------------------------
              !STATE_INIMAP_BUF(1)%CELL_IDS(K) = CELL_ID 
              WORK(K,1) = P0(2)   
              WORK(K,2) = P0(3)                                                           
-             WORK(K,3) = CELL_ID              
+             WORK(K,3) = CELL_ID             !bug in sp 
              GET_CELL_FOM_CENTROID(1,K) = NG                                              
              GET_CELL_FOM_CENTROID(2,K) = I                                                                     
              K=K+1                                                                                     
@@ -415,7 +415,7 @@ C-----------------------------------------------
               NPAR = IPM(9,IMAT)                                                                                                
               NUVAR = IPM(8,IMAT)                                                                                               
               UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)             
-              KK = N0PHAS + (UPARAM(276+ISUBMAT)-1)*NVPHAS  
+              KK = N0PHAS + (UPARAM(276+ISUBMAT)-1)*NVPHAS !bug in SP 
               MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)  
               STATE_INIMAP_BUF(1)%SUBMAT(ISUBMAT)%VFRAC(K) = MBUF%VAR(NEL*(01+KK-1)+I)
               STATE_INIMAP_BUF(1)%SUBMAT(ISUBMAT)%RHO(K) = MBUF%VAR(NEL*(12+KK-1)+I)
@@ -615,7 +615,7 @@ C-----------------------------------------------
             J=J+1
             WORK(J,1) = STATE_INIMAP_BUF(I)%POS_CENTROIDS(K) 
             WORK(J,2) = STATE_INIMAP_BUF(I)%POS2_CENTROIDS(K)              
-            WORK(J,3) = FLOAT(STATE_INIMAP_BUF(I)%CELL_IDS(K))
+            WORK(J,3) = FLOAT(STATE_INIMAP_BUF(I)%CELL_IDS(K)) ! bug in SP if CELL_ID > 16M
             NBMAT = STATE_INIMAP_BUF(I)%NSUBMAT
             DO JJ=1,NBMAT
               WORK(J,3+ 4*(JJ-1)+1) = STATE_INIMAP_BUF(I)%SUBMAT(JJ)%VFRAC(K)

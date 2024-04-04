@@ -184,7 +184,7 @@ C------------ call anyway, if coating shell MSEGTYP(L)=MSEGTYP(L)+1
             WRITE(IOUT,FMT=FMW_4I)(ITAB(IRECT(K,I)),K=1,4)
           ENDDO
         ENDIF
-#endif HYPERMESH_LIB
+#endif
       ENDIF
 C=======================================================================
 c     NOEUDS

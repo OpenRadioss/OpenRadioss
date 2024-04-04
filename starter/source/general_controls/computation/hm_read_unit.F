@@ -626,7 +626,7 @@ C
 
         ENDIF
       ENDDO
-      UNITAB%UNIT_ID(1) = ZERO        
+      UNITAB%UNIT_ID(1) = 0
       UNITAB%FAC_M(1)   = FAC_M_INPUT / FAC_MASS  
       UNITAB%FAC_L(1)   = FAC_L_INPUT / FAC_LENGTH  
       UNITAB%FAC_T(1)   = FAC_T_INPUT / FAC_TIME 

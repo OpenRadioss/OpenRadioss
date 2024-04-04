@@ -125,9 +125,9 @@ C
       DO I=1,NN1   
         N = LIST1(I)
         NN  = USRTOS(ITAB(N),ITABM1)
-        NOBX(I) = (X(1,NN)-XMIN)/DBUC
-        NOBY(I) = (X(2,NN)-YMIN)/DBUC
-        NOBZ(I) = (X(3,NN)-ZMIN)/DBUC
+        NOBX(I) = INT( (X(1,NN)-XMIN)/DBUC)
+        NOBY(I) = INT( (X(2,NN)-YMIN)/DBUC)
+        NOBZ(I) = INT( (X(3,NN)-ZMIN)/DBUC)
       ENDDO
 C  
       IF (FLAG == 1) THEN
@@ -137,18 +137,18 @@ C--     destinations are cnodes (NN2 = NUMCNOD)
         DO I=1,NN2
           N = LIST2(I)       
           NN  = USRTOSC(ITABC(N),ITABM1)
-          NOBCX(N) = (X(1,NN)-XMIN)/DBUC
-          NOBCY(N) = (X(2,NN)-YMIN)/DBUC
-          NOBCZ(N) = (X(3,NN)-ZMIN)/DBUC
+          NOBCX(N) =INT( (X(1,NN)-XMIN)/DBUC)
+          NOBCY(N) =INT( (X(2,NN)-YMIN)/DBUC)
+          NOBCZ(N) =INT( (X(3,NN)-ZMIN)/DBUC)
         ENDDO
       ELSE
 C--     destinations are nodes
         DO I=1,NN2
           N = LIST2(I)       
           NN  = USRTOS(ITAB(N),ITABM1)
-          NOBCX(I) = (X(1,NN)-XMIN)/DBUC
-          NOBCY(I) = (X(2,NN)-YMIN)/DBUC
-          NOBCZ(I) = (X(3,NN)-ZMIN)/DBUC
+          NOBCX(I) = INT( (X(1,NN)-XMIN)/DBUC)
+          NOBCY(I) = INT( (X(2,NN)-YMIN)/DBUC)
+          NOBCZ(I) = INT( (X(3,NN)-ZMIN)/DBUC)
         ENDDO
       ENDIF 
 C  

@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, ITABINV(NUMNOD), ITAGINJ(NN), IINJ, JINJ,
-     .        ISU, NELSU, IAD, IEL, NG1, NG2, NG3, NG4, N1, N2, N3, N4,
+     .        ISU, NELSU,  IEL, NG1, NG2, NG3, NG4, N1, N2, N3, N4,
      .        NALL, NN1, NN2, IERROR, INOD
 C
       DO I=1,NUMNOD

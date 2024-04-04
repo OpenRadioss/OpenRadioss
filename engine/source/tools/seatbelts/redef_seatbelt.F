@@ -166,7 +166,7 @@ C-------------------------------------
         DO J=1,NEL_LOC
           I = INDEXA(J)                                          
           FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
+          NP2  = (NPF(FUND+1)-NPF(FUND))/2                       
           AN3Y0(J)= ZERO
           DXELA(J)=DX(I)-DPX(I)
           IF (((DXELA(J) >= ZERO).OR.(FXEP(I) >= ZERO)).AND.(FUND > 0)) THEN
@@ -217,7 +217,7 @@ C--- Compression - perfectly plastic behavior
          I = INDEXA(J)
          IF(IFUNC(I)/=0.AND.IECROU(I)== 10)THEN
           FUND = IFUNC2(I)     ! N3 curve for unloading                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
+          NP2  = (NPF(FUND+1)-NPF(FUND))/2                      
           AN3Y0(J)= ZERO
           DXELA(J)=DX(I)-DPX(I)
           IF (((DXELA(J) >= ZERO).OR.(FXEP(I) >= ZERO)).AND.(FUND > 0)) THEN
@@ -313,7 +313,7 @@ C-------------------------------------
         DO J=1,NEL_LOC
           I = INDEXA(J)                                          
           FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
+          NP2  = (NPF(FUND+1)-NPF(FUND)) / 2                       
           AN3Y0(J)= ZERO
           DXELA(J)=DX(I)-DPX(I)
           XXB = 0
@@ -406,7 +406,7 @@ C----       Crossing of the yield line
           I = INDEXA(J)
           IF(IFUNC(I)/= 0.AND.IECROU(I)== 12)THEN                                           
             FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-            NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
+            NP2  = (NPF(FUND+1)-NPF(FUND)) / 2                       
             AN3Y0(J)= ZERO
             DXELA(J)=DX(I)-DPX(I)
             XXB = 0
@@ -638,13 +638,13 @@ C--------------------------------------------------------------------
         DO J=1,NEL_LOC
           I = INDEXA(J)
           FX(I)= (AK(I)*FX(I) + XC(I)*DVX(J)) *OFF(I)
-          E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(J)) * HALF
+          E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(J)) / 2
         ENDDO
       ELSE
         DO J=1,NEL_LOC
           I = INDEXA(J)
           FX(I)= FX(I)  *AK(I)* OFF(I)
-          E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(J)) * HALF
+          E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(J)) / 2
         ENDDO
       ENDIF
 c-------------------------  

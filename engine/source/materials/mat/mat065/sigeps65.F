@@ -226,8 +226,8 @@ c----  find yield values
         DO I1=1,NRATE
           FUNC = IFUNC(I1)
           FUND = IFUNC(I1+NRATE)
-          NP1  = (NPF(FUNC+1)-NPF(FUNC))*HALF
-          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF
+          NP1  = (NPF(FUNC+1)-NPF(FUNC))/2
+          NP2  = (NPF(FUND+1)-NPF(FUND))/2
 c---
           DO J=3,NP1
             J1=2*(J-2)
@@ -375,20 +375,20 @@ c         loading curves
           IPOSC2(I) = NINT(UVAR(I,N0+J2))
           EPSC1(I)  = UVAR(I,N1+J1)
           EPSC2(I)  = UVAR(I,N1+J2)
-          IADC1(I)  = HALF*NPF(IPM(10+J1,MX)) + 1
-          IADC2(I)  = HALF*NPF(IPM(10+J2,MX)) + 1
-          ILENC1(I) = HALF*NPF(IPM(10+J1,MX)+1)-IADC1(I)-IPOSC1(I)
-          ILENC2(I) = HALF*NPF(IPM(10+J2,MX)+1)-IADC2(I)-IPOSC2(I)
+          IADC1(I)  = NPF(IPM(10+J1,MX))/2 + 1
+          IADC2(I)  = NPF(IPM(10+J2,MX))/2 + 1
+          ILENC1(I) = NPF(IPM(10+J1,MX)+1)/2-IADC1(I)-IPOSC1(I)
+          ILENC2(I) = NPF(IPM(10+J2,MX)+1)/2-IADC2(I)-IPOSC2(I)
 c         unloading curves
           IPOSD1(I) = NINT(UVAR(I,N2+J1))          
           IPOSD2(I) = NINT(UVAR(I,N2+J2))
           EPSD1(I)  = UVAR(I,N3+J1)
           EPSD2(I)  = UVAR(I,N3+J2)
-          IADD1(I)  = HALF*NPF(IPM(10+NRATE+J1,MX)) + 1
-          IADD2(I)  = HALF*NPF(IPM(10+NRATE+J2,MX)) + 1
-          ILEND1(I) = HALF*NPF(IPM(10+NRATE+J1,MX)+1)
+          IADD1(I)  = NPF(IPM(10+NRATE+J1,MX))/2 + 1
+          IADD2(I)  = NPF(IPM(10+NRATE+J2,MX))/2 + 1
+          ILEND1(I) = NPF(IPM(10+NRATE+J1,MX)+1)/2
      .              - IADD1(I) - IPOSD1(I)
-          ILEND2(I) = HALF*NPF(IPM(10+NRATE+J2,MX)+1)
+          ILEND2(I) = NPF(IPM(10+NRATE+J2,MX)+1)/2
      .              - IADD2(I) - IPOSD2(I)
         ELSE
           SIGYLD(I) = SIGY1
@@ -397,10 +397,10 @@ c         unloading curves
           EPSC1(I)  = UVAR(I,N1+J1)
           EPSD1(I)  = UVAR(I,N3+J1)
 
-          IADC1(I)  = HALF*NPF(IPM(10+J1,MX)) + 1
-          IADD1(I)  = HALF*NPF(IPM(10+NRATE+J1,MX)) + 1
-          ILENC1(I) = HALF*NPF(IPM(10+J1,MX)+1)-IADC1(I)-IPOSC1(I)
-          ILEND1(I) = HALF*NPF(IPM(10+NRATE+J1,MX)+1)
+          IADC1(I)  = NPF(IPM(10+J1,MX))/2 + 1
+          IADD1(I)  = NPF(IPM(10+NRATE+J1,MX))/2 + 1
+          ILENC1(I) = NPF(IPM(10+J1,MX)+1)/2-IADC1(I)-IPOSC1(I)
+          ILEND1(I) = NPF(IPM(10+NRATE+J1,MX)+1)/2
      .              - IADD1(I) - IPOSD1(I)
         ENDIF
       ENDDO                                         

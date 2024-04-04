@@ -157,7 +157,6 @@ C
               GO TO 120
             END IF
            END DO
- 100       CONTINUE
            CALL ANCMSG(MSGID=21,ANMODE=ANINFO_BLIND,
      .                 I1=-IDTGRS)
            CALL ARRET(2)

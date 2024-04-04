@@ -491,7 +491,7 @@ C     ==============
                FPA(II) = ONE
                FPZ(II) = ONE
             ENDIF
-            IVEL(II) = ZERO
+            IVEL(II) = 0
             FVEL(II) = THREE100 * UNITAB%FAC_T_WORK / UNITAB%FAC_L_WORK
          ENDDO
       ENDIF
@@ -521,7 +521,7 @@ C     ==============
               EXIT
            ENDIF
         ENDDO
-        IJET(II)=0
+        IJET(II) = 0
         IF(.NOT.lFOUND)CALL ANCMSG(MSGID=847,ANMODE=ANINFO,MSGTYPE=MSGERROR,I2=IJET(II),I1=T_MONVOLN%ID,C1=T_MONVOLN%TITLE)
         DO JJ=1,NFUNCT
            IF (IVEL(II)==NPC(JJ)) T_MONVOLN%IBAGJET(11, II)=JJ

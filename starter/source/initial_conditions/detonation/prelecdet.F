@@ -115,7 +115,7 @@ C-----------------------------------------------
         ALLOCATE(DETONATORS%WAVE_SHAPER(K)%TIME(NNOD_WAV_SHA))
         DETONATORS%WAVE_SHAPER(K)%NODES(:) = 0
         DETONATORS%WAVE_SHAPER(K)%IORDR(:) = 0
-        DETONATORS%WAVE_SHAPER(K)%FLAG(:) = ZERO
+        DETONATORS%WAVE_SHAPER(K)%FLAG(:) = 0 
         DETONATORS%WAVE_SHAPER(K)%TIME(:) = ZERO
       END DO
 

@@ -94,12 +94,12 @@ C
          NC(I,9) =IXS10(5,I)
          NC(I,10)=IXS10(6,I)
         ELSE
-         NC(I,5) =ZERO
-         NC(I,6) =ZERO
-         NC(I,7) =ZERO
-         NC(I,8) =ZERO
-         NC(I,9) =ZERO
-         NC(I,10)=ZERO
+         NC(I,5) = 0
+         NC(I,6) = 0
+         NC(I,7) = 0
+         NC(I,8) = 0
+         NC(I,9) = 0
+         NC(I,10)= 0
         ENDIF
         DTELEM(I)=EP30
         STI(I)=ZERO
@@ -278,12 +278,12 @@ C
          NC(I,9) =IXS10(5,I)
          NC(I,10)=IXS10(6,I)
         ELSE
-         NC(I,5) =ZERO
-         NC(I,6) =ZERO
-         NC(I,7) =ZERO
-         NC(I,8) =ZERO
-         NC(I,9) =ZERO
-         NC(I,10)=ZERO
+         NC(I,5) = 0
+         NC(I,6) = 0
+         NC(I,7) = 0
+         NC(I,8) = 0
+         NC(I,9) = 0
+         NC(I,10)= 0
         ENDIF
         DTELEM(I)=EP30
         STI(I)=ZERO

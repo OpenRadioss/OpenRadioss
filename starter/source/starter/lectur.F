@@ -696,7 +696,7 @@ C-----------------------------------------------
 
       INTEGER II,I,J,KK,N, NPTS, NMNT, NRTMT_25,MLW,
      .   NUMEL, IFIP, IS_EULER,NB_EULER_GROUPS,
-     .   K5B,NAIRWA,NTHWA, LWASPIO, LEN_G,LEN_M,LEN,
+     .   NAIRWA,NTHWA, LWASPIO, LEN_G,LEN_M,LEN,
      .   IADBUF, IADGEO, NUVAR, NUVARI,
      .   NS_I7,NEL,ND,AUX,NS_I21,
      .   NPT,NS_I11,
@@ -2971,10 +2971,10 @@ c limit INTEGER 32 bits ((2^31)-1), we add a security marge of 5%
      .                               ANMODE=ANSTOP,
      .                               MSGTYPE=MSGERROR,
      .                         C1='RESERVEP')
-          RESERVEP(1:NBPARTINLET) = ZERO
+          RESERVEP(1:NBPARTINLET) = 0 
         ELSE
           ALLOCATE(RESERVEP(1))
-          RESERVEP(1)=ZERO
+          RESERVEP(1) = 0
         ENDIF
         KXSP   = 0
         IXSP   = 0
@@ -3895,15 +3895,9 @@ C--------------------------------------------
          FLAG_GOTO = 1
 
 C-----on realloue le tableau FRONT-------------
-c         GOTO 206 ! plus besoin de reallouer, on flushe simplement sur new numnod
          CALL INI_IFRONT()
          IENTRY2(1:NUMNOD) = -1
          FLAGKIN(1:NUMNOD) = 0
-
-207      CONTINUE !plus utilise
-c         DO I=1,NUMNOD
-c          FRONT(I,1)=FRONT_R2R(I)
-c        ENDDO
 
 cc r2r with new IFRONT
          DO I=1,NUMNOD
@@ -5116,14 +5110,14 @@ C--------------------------------------------
 
        ALLOCATE(TAB_UMP_OLD(7,TAILLE_OLD),STAT=stat)
        ALLOCATE(CPUTIME_MP_OLD(TAILLE_OLD),STAT=stat)
-       TAB_UMP_OLD = ZERO
+       TAB_UMP_OLD = 0 
        CPUTIME_MP_OLD = ZERO
 
        CALL LEC_DDW(FILNAM,LEN_FILNAM,TAB_UMP_OLD,CPUTIME_MP_OLD)
 
        CALL PRELEC_DDW_POIN(FILNAM,LEN_FILNAM)
        ALLOCATE(POIN_UMP_OLD(NUMMAT_OLD), STAT=stat)
-       POIN_UMP_OLD = ZERO
+       POIN_UMP_OLD = 0
 
         CALL LEC_DDW_POIN(FILNAM,LEN_FILNAM,POIN_UMP_OLD)
       ELSE
@@ -5859,7 +5853,7 @@ C---------------------------------
         K3 = K2 + NUMELS+1
         K4 = K3 + NUMELS*2
         K5 = K4 + NUMELS*7
-        K5B= K4 + NUMELS
+        !K5B= K4 + NUMELS
         K6 = K5 + NUMELS
         !warning: please also update any index change
         !         for MODIF option (MODIF_SPMD.F)
@@ -10155,11 +10149,11 @@ c build structure surfaces specific Inlet Outlet
          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                              MSGTYPE=MSGERROR,
      .                         C1='IBUFSSG_IO')
-         IBUFSSG_IO(1:SIBUFSSG_IO) = ZERO
+         IBUFSSG_IO(1:SIBUFSSG_IO) = 0
          CALL SET_IBUFSSG_IO(ISPHIO, IGRSURF, IBUFSSG_IO)
       ELSE
          ALLOCATE(IBUFSSG_IO(1))
-         SIBUFSSG_IO = ZERO
+         SIBUFSSG_IO = 0
       ENDIF
 
 !--------------------------------------------

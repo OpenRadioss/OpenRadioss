@@ -382,7 +382,7 @@ C---------------------
         THK=THK+GEO(IPTHK+K)
       ENDDO
 C--------------
-       IERRS = THK*EP02
+       IERRS = INT(THK*EP02)
        IF (IABS(IERRS-100)>1) THEN
         CALL ANCMSG(MSGID=675,
      .              MSGTYPE=MSGERROR,

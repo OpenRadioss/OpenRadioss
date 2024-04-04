@@ -333,7 +333,7 @@ C-----------------------------------------------
              !STATE_INIMAP_BUF(1)%CELL_IDS(K) = CELL_ID 
              WORK(K,1) = P0(2)   
              WORK(K,2) = P0(3)                                                           
-             WORK(K,3) = CELL_ID              
+             WORK(K,3) = CELL_ID  ! bug in sp if CELL_ID > 16M 
              GET_CELL_FOM_CENTROID(1,K) = NG                                              
              GET_CELL_FOM_CENTROID(2,K) = I                                                                     
              K=K+1                                                                                     
@@ -350,7 +350,7 @@ C-----------------------------------------------
       DO K=1,NUM_CENTROIDS
         STATE_INIMAP_BUF(1)%POS_CENTROIDS(K)  = WORK(IDX(K),1)
         STATE_INIMAP_BUF(1)%POS2_CENTROIDS(K) = WORK(IDX(K),2)                                                       
-        STATE_INIMAP_BUF(1)%CELL_IDS(K)       = WORK(K,3)      
+        STATE_INIMAP_BUF(1)%CELL_IDS(K)       = WORK(K,3) ! bug in SP if WORK(K,3) > 16M 
       ENDDO
       IF(ALLOCATED(WORK))DEALLOCATE(WORK)
 
@@ -423,7 +423,7 @@ C-----------------------------------------------
               NPAR = IPM(9,IMAT)                                                                                                
               NUVAR = IPM(8,IMAT)                                                                                               
               UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)             
-              KK = N0PHAS + (UPARAM(276+ISUBMAT)-1)*NVPHAS  
+              KK = N0PHAS + (UPARAM(276+ISUBMAT)-1)*NVPHAS ! bug in SP if   (UPARAM(276+ISUBMAT)-1)*NVPHAS > 16M
               MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)  
               STATE_INIMAP_BUF(1)%SUBMAT(ISUBMAT)%VFRAC(K) = MBUF%VAR(NEL*(01+KK-1)+I)
               STATE_INIMAP_BUF(1)%SUBMAT(ISUBMAT)%RHO(K) = MBUF%VAR(NEL*(12+KK-1)+I)
