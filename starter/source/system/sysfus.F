@@ -130,7 +130,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IU,ID
       CHARACTER MESS*40
-      INTEGER ITABM1(*)     
+      INTEGER ITABM1(*)
+      LOGICAL :: HAS_SEARCH_FAILED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -154,7 +155,13 @@ C-----------------------------------------------
         JINF=1
         JSUP=NUMNOD
         J=MAX(1,NUMNOD/2)
-   10   IF(JSUP<=JINF.AND.(IU-ITABM1(J))/=0) THEN
+        HAS_SEARCH_FAILED=.FALSE.
+   10   IF(J == 0)THEN
+         HAS_SEARCH_FAILED = .TRUE.
+        ELSE
+          IF(JSUP <= JINF .AND. (IU-ITABM1(J)) /= 0) HAS_SEARCH_FAILED=.TRUE.
+        ENDIF
+        IF(HAS_SEARCH_FAILED) THEN
           IF ((NSUBDOM>0).AND.(FLG_SPLIT==1)) THEN
 C-----  -------Multidomaines -> On check dans la liste des noeuds suprimes-----
             NN=R2R_SYS(IU,ITABM1,MESS)
