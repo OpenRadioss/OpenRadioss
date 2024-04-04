@@ -82,17 +82,19 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,INDX(NEL),NINDX,ITAB_EPSF,
      .        ITAB_INST,ITAB_SIZE,IREG,
-     .        IPOS(NEL,3),NDIM
+     .        IPOS(NEL,3),NDIM,IPOS2(NEL),
+     .        IAD(NEL),ILEN(NEL)
       my_real 
      .        FCRIT  ,DN,DCRIT,ECRIT,EXP_REF,EXPO,EL_REF,
      .        SR_REF1,FSCALE_EL,SHRF,BIAXF  ,SR_REF2,
-     .        FSCALE_SR,CJC,FSCALE_DLIM
+     .        FSCALE_SR,CJC,FSCALE_DLIM,TEMP_REF, FSCALE_TEMP
       my_real
      .        LAMBDA,FAC,DF,INST(NEL)  ,DC(NEL)     ,L0(NEL)     ,
      .        TRIAX(NEL)  ,XI(NEL)     ,EPSF(NEL)   ,EPSL(NEL)   ,
      .        DEPSF(NEL)  ,DEPSL(NEL)  ,XVEC(NEL,3) ,DPL_DEF     ,
      .        COS3THETA   ,P           ,SVM         ,SIZEFAC(NEL),
-     .        RATEFAC(NEL),DSIZE(NEL)  ,SOFTEXP(NEL),DLIM(NEL)   
+     .        RATEFAC(NEL),DSIZE(NEL)  ,SOFTEXP(NEL),DLIM(NEL)   ,
+     .        TEMPFAC(NEL),TEMPFAC2(NEL),DFT(NEL)   ,VAR(NEL)
 C!--------------------------------------------------------------
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
@@ -104,7 +106,7 @@ C!--------------------------------------------------------------
       ECRIT         = UPARAM(8)
       EXP_REF       = UPARAM(9)
       EXPO          = UPARAM(10)
-      ITAB_SIZE = NINT(UPARAM(11))
+      ITAB_SIZE     = NINT(UPARAM(11))
       IREG          = NINT(UPARAM(12))
       EL_REF        = UPARAM(13)
       SR_REF1       = UPARAM(14)
@@ -115,6 +117,8 @@ C!--------------------------------------------------------------
       FSCALE_SR     = UPARAM(19)
       CJC           = UPARAM(20)
       FSCALE_DLIM   = UPARAM(21)
+      TEMP_REF      = UPARAM(22)
+      FSCALE_TEMP   = UPARAM(23)
 c
       ITAB_EPSF = ITABLF(1)
       ITAB_INST = ITABLF(2)
@@ -155,7 +159,7 @@ c
         IF (COS3THETA < -ONE ) COS3THETA = -ONE
         IF (COS3THETA > ONE  ) COS3THETA =  ONE
         XI(I) = ONE - TWO*ACOS(COS3THETA)/PI
-
+c
       ENDDO
 c      
       !====================================================================
@@ -174,6 +178,20 @@ c
         ENDDO
       ELSE
         SOFTEXP(1:NEL) = EXPO
+      ENDIF
+c
+      ! Compute the temperature dependency factor
+      IF (IFUNC(4) > 0) THEN 
+        VAR(1:NEL)   = TEMP(1:NEL)/TEMP_REF
+        IPOS2(1:NEL) = 1
+        IAD(1:NEL)   = NPF(IFUNC(4)) / 2 + 1
+        ILEN(1:NEL)  = NPF(IFUNC(4)+1) / 2 - IAD(1:NEL) - IPOS2(1:NEL)
+        CALL VINTER2(TF,IAD,IPOS2,ILEN,NEL,VAR,DFT,TEMPFAC)
+        TEMPFAC(1:NEL) = FSCALE_TEMP*TEMPFAC(1:NEL)
+        TEMPFAC2(1:NEL) = TEMPFAC(1:NEL)
+      ELSE
+        TEMPFAC(1:NEL)  = ONE
+        TEMPFAC2(1:NEL) = ONE
       ENDIF
 c
       ! Compute the element size regularization factor 
@@ -280,12 +298,13 @@ c
             XVEC(1:NEL,2)   = XI(1:NEL)
             XVEC(1:NEL,3)   = ZERO
             IPOS(1:NEL,1:3) = 1
-          ! Failure plastic strain vs temperature vs triaxiality vs Lode parameter
+          ! Failure plastic strain vs triaxiality vs Lode parameter vs temperature
           CASE (3)
             XVEC(1:NEL,1)   = TRIAX(1:NEL)
             XVEC(1:NEL,2)   = XI(1:NEL)
-            XVEC(1:NEL,3)   = TEMP(1:NEL)
+            XVEC(1:NEL,3)   = TEMP(1:NEL)/TEMP_REF
             IPOS(1:NEL,1:3) = 1
+            TEMPFAC(1:NEL)  = ONE
         END SELECT
         CALL TABLE_VINTERP(TABLE(ITAB_EPSF),NEL,NEL,IPOS,XVEC,EPSF,DEPSF)
         EPSF(1:NEL) = EPSF(1:NEL)*FCRIT
@@ -315,8 +334,9 @@ c
           CASE(3)
             XVEC(1:NEL,1)   = TRIAX(1:NEL)
             XVEC(1:NEL,2)   = XI(1:NEL)
-            XVEC(1:NEL,3)   = TEMP(1:NEL)
-            IPOS(1:NEL,1:3) = 1            
+            XVEC(1:NEL,3)   = TEMP(1:NEL)/TEMP_REF
+            IPOS(1:NEL,1:3) = 1  
+            TEMPFAC2(1:NEL) = ONE         
         END SELECT
         CALL TABLE_VINTERP(TABLE(ITAB_INST),NEL,NEL,IPOS,XVEC,EPSL,DEPSL)
         EPSL(1:NEL) = EPSL(1:NEL)*ECRIT
@@ -342,7 +362,7 @@ c
           IF (INST(I)  == ZERO) INST(I)  = EM20
 c
           ! Compute failure strain damage variable
-          DPL_DEF  = DPLA(I)/MAX(EPSF(I)*RATEFAC(I)*SIZEFAC(I),EM20)
+          DPL_DEF  = DPLA(I)/MAX(EPSF(I)*RATEFAC(I)*SIZEFAC(I)*TEMPFAC(I),EM20)
           DFMAX(I) = DFMAX(I) + DPL_DEF*DN*(DFMAX(I)**(ONE-(ONE/DN)))
           DFMAX(I) = MIN(DFMAX(I),DLIM(I))
           IF (DFMAX(I) >= ONE) THEN 
@@ -354,7 +374,7 @@ c
 c
           ! Compute the controle necking instability damage
           IF ((ITAB_INST > 0).OR.(ECRIT > ZERO)) THEN 
-            DPL_DEF = DPLA(I)/MAX(EPSL(I)*RATEFAC(I)*SIZEFAC(I),EM20)
+            DPL_DEF = DPLA(I)/MAX(EPSL(I)*RATEFAC(I)*SIZEFAC(I)*TEMPFAC2(I),EM20)
             INST(I) = INST(I) + DPL_DEF*DN*(INST(I)**(ONE-(ONE/DN)))
             INST(I) = MIN(INST(I),ONE)
             IF ((INST(I) >= ONE).AND.(DC(I) == ONE)) THEN 
