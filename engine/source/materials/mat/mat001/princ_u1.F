@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  PRINC_U1                      source/materials/mat/mat001/princ_u1.F
 Chd|-- called by -----------
 Chd|        M1ISMSTR11                    source/materials/mat/mat001/m1ismstr11.F
+Chd|        U_FROM_F3                     source/output/h3d/h3d_results/h3d_solid_tensor_1.F
 Chd|-- calls ---------------
 Chd|        VALPVECOP_V                   source/materials/mat/mat033/sigeps33.F
 Chd|====================================================================

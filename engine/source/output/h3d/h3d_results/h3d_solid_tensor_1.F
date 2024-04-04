@@ -5168,6 +5168,7 @@ Chd|        S6_TSTRAIN                    source/output/h3d/h3d_results/h3d_soli
 Chd|        S8_TSTRAIN                    source/output/h3d/h3d_results/h3d_solid_tensor_1.F
 Chd|        T4_TSTRAIN                    source/output/h3d/h3d_results/h3d_solid_tensor_1.F
 Chd|-- calls ---------------
+Chd|        PRINC_U1                      source/materials/mat/mat001/princ_u1.F
 Chd|====================================================================
       SUBROUTINE U_FROM_F3(F,STRAIN,NEL )
 C-----------------------------------------------

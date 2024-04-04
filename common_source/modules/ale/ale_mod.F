@@ -78,6 +78,7 @@ Chd|        AMOMTN3                       engine/source/elements/solid/solide/am
 Chd|        ASSPAR2                       engine/source/assembly/asspar2.F
 Chd|        ASSPAR4                       engine/source/assembly/asspar4.F
 Chd|        DTNODA                        engine/source/time_step/dtnoda.F
+Chd|        EBCS10                        engine/source/boundary_conditions/ebcs/ebcs10.F
 Chd|        EBCS_VOL2SEG                  engine/source/boundary_conditions/ebcs/ebcs_vol2seg.F
 Chd|        EMOMT2                        engine/source/ale/euler2d/emomt2.F
 Chd|        EMOMT3B                       engine/source/elements/solid/solide/emomt3b.F
