@@ -186,6 +186,8 @@ C-----------------------------------------------
             IF (VGX == ZERO) VGX = ONE
             IF (VGY == ZERO) VGY = ONE
             IF (VGZ == ZERO) VGZ = ONE
+         ELSE
+           !invalid keyword : error message managed by Reader itself
          ENDIF
 
       ENDDO
@@ -197,6 +199,12 @@ C-----------------------------------------------
          VGX = ONE
          VGY = ONE
          VGZ = ONE
+       ENDIF
+
+       IF(NALE_GRID > 1)THEN
+         ! multiple definition of /ALE/GRID : error message eliminates any ambiguity
+          CALL ANCMSG(MSGID = 1118, MSGTYPE = MSGERROR, ANMODE = ANINFO,
+     .    C1='ONLY A SINGLE DEFINITION OF GRID SMOOTHING ALGORITHM IS ALLOWED')
        ENDIF
 
       END SUBROUTINE HM_READ_ALE_GRID
