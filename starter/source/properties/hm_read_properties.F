@@ -639,6 +639,7 @@ C
         IF (IGTYP == 17 .OR. IGTYP == 51 ) THEN
 C--- generalizing ZSHIFT ! kepp only IPOS= 2 as before
           IPOS =IGEO(99,CPT) 
+          ZSHIFT = GEO(199, CPT)
           IF(IPOS == 0 )THEN                         
             ZSHIFT = - HALF                           
           ELSEIF(IPOS == 3) THEN                      
