@@ -144,9 +144,6 @@ set (F_O3_AXSSE3 " -O3 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_fl
 # rad2rad_c.c 
 set (C_BASIC "${cppmach} ${cpprel}" )
 set_source_files_properties( ${source_directory}/source/coupling/rad2rad/rad2rad_c.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
-set_source_files_properties( ${source_directory}//source/output/tools/sortie_c.c PROPERTIES COMPILE_FLAGS ${C_BASIC})
-# ieee.cpp
-set_source_files_properties( ${source_directory}/source/output/tools/ieee.cpp PROPERTIES COMPILE_FLAGS ${C_BASIC})
 
 
 set (C_BASIC "${cppmach} ${cpprel} -std=c90" )
@@ -271,6 +268,9 @@ set_source_files_properties( ${source_directory}/source/airbag/fvbag.F PROPERTIE
 set_source_files_properties( ${source_directory}/source/airbag/fvbag0.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
 set_source_files_properties( ${source_directory}/source/airbag/fvbag1.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
 set_source_files_properties( ${source_directory}/source/airbag/fvbag2.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
+
+set (C_BASIC "${cppmach} ${cpprel}" )
+set_source_files_properties( ${source_directory}/source/output/tools/ieee.cpp PROPERTIES COMPILE_FLAGS " -O1 ${C_BASIC}")
 
 endif()
 
