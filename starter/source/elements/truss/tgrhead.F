@@ -200,9 +200,9 @@ C
         ENDDO
       ENDDO
 C REORDERING FOR ITAGPRLD_TRUSS
+      INUM(2,1:NUMELT)=ITAGPRLD_TRUSS(1:NUMELT)
       DO I=1,NUMELT
-        IF (ITAGPRLD_TRUSS(I) ==0) CYCLE
-        ITAGPRLD_TRUSS(I) = ITR1(ITAGPRLD_TRUSS(I))
+        ITAGPRLD_TRUSS(I) =INUM(2,INDEX(I))
       ENDDO
 C
 C--------------------------------------------------------------

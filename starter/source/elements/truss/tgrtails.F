@@ -140,6 +140,13 @@ C
           ITR1(NFT+INDEX(I)) = NFT+I
         ENDDO
 
+C REORDERING FOR ITAGPRLD_TRUSS
+        DO I=1,NEL
+          INUM(2,I) = ITAGPRLD_TRUSS(NFT+I)
+        ENDDO
+        DO I=1,NEL
+          ITAGPRLD_TRUSS(NFT+I) = INUM(2,INDEX(I))
+        ENDDO
 C dd-iad
         P = CEP(NFT+INDEX(1))
         NB = 1
@@ -203,11 +210,6 @@ C
           END IF
         END IF
       END DO
-C REORDERING FOR ITAGPRLD_TRUSS
-      DO I=1,NUMELT
-        IF (ITAGPRLD_TRUSS(I) ==0) CYCLE
-        ITAGPRLD_TRUSS(I) = ITR1(ITAGPRLD_TRUSS(I))
-      ENDDO
 C
 C-------------------------------------------------------------------------
 C phase 2 : bornage en groupe de mvsiz

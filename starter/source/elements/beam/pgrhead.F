@@ -194,9 +194,9 @@ C
         ENDDO
       ENDDO
 C REORDERING FOR ITAGPRLD_BEAM
+      INUM(8,1:NUMELP)=ITAGPRLD_BEAM(1:NUMELP)
       DO I=1,NUMELP
-        IF (ITAGPRLD_BEAM(I) ==0) CYCLE
-        ITAGPRLD_BEAM(I) = ITR1(ITAGPRLD_BEAM(I))
+        ITAGPRLD_BEAM(I) = INUM(8,INDEX(I))
       ENDDO
 C
 C--------------------------------------------------------------

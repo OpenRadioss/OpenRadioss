@@ -55,7 +55,7 @@ Chd|====================================================================
      D   MY1,       MY2,       MZ1,       MZ2,
      E   GRESAV,    GRTH,      IGRTH,     MSRT,
      F   DMELRT,    H3D_DATA,  JSMS,      IGRE,
-     G   NFT,       PRELD1)
+     G   NFT,       PRELD1,    STF_F)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -97,7 +97,7 @@ C-----------------------------------------------
      .   MX1(MVSIZ),MY1(MVSIZ),MZ1(MVSIZ),
      .   MX2(MVSIZ),MY2(MVSIZ),MZ2(MVSIZ),GRESAV(*),
      .   MSRT(*), DMELRT(*)
-      my_real, INTENT(IN)          :: PRELD1
+      my_real, INTENT(IN)          :: PRELD1,STF_F
       DOUBLE PRECISION XDP(3,*)
       TYPE(TTABLE) TABLE(*)
 C
@@ -262,7 +262,7 @@ C
               VL12(I) = (VX2(I)-VX1(I))*EXX(I)+
      1                  (VY2(I)-VY1(I))*EYX(I)+(VZ2(I)-VZ1(I))*EZX(I)
            ENDDO
-           CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,GBUF%FOR)
+           CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,STF_F,GBUF%FOR)
         END IF
         IF (IPARIT == 0) THEN
           CALL R4CUM3(

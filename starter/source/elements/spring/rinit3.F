@@ -124,7 +124,7 @@ C-----------------------------------------------
      3   UIX(4,MVSIZ),
      .   NB2A ,NB2B ,NB4A ,NB4B ,NB6A ,NB6B,NB7A,NB7B,NB8A ,NB8B,NB9A, 
      .    NB9B ,NB10A,NB10B,NB11A,NB11B,NB12A,NB12B,NB13A,NB13B,NB18,
-     .    IMAT,K1,K11,K14,K12,K13,IADBUF,IMASS,SLIP,FRA
+     .    IMAT,K1,K11,K14,K12,K13,IADBUF,IMASS,SLIP,FRA,IH
 C     REAL
       my_real
      .   DT, DTC, XKM, XCM, XKR, XCR, XM, XINE,  EX, EY, EZ,
@@ -1536,15 +1536,25 @@ C
 !
       IF (IPRELD>0) THEN
         SELECT CASE (IGTYP)
-          CASE(4,13,26,27)
+          CASE(4,13)
+            J=1+NFT
+            I0=IXR(1,J)
+            IH = NINT(GEO(7,I0))
             DO I=LFT,LLT
-              J=I+NFT
-              I0=IXR(1,J)
               XM=GEO(1,I0)*XL(I)
               UNDAMP = XM/DTELEM(NDEPAR+I)
               GBUF%BPRELD(I)     = PRELOAD_A%preload
               GBUF%BPRELD(I+NEL) = UNDAMP*PRELOAD_A%damp
             ENDDO
+            IF (IH==0.OR.IH==8) THEN
+              CALL ANCMSG(MSGID=3057,
+     .                  MSGTYPE=MSGWARNING,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID,
+     .                  I2=IH,
+     .                  C1=TITR)
+              GBUF%BPRELD(LFT:2*LLT)  = ZERO
+            END IF 
           CASE(23)
             IF (MTN==113) THEN  
               DO I=LFT,LLT

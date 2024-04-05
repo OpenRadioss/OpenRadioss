@@ -95,7 +95,7 @@ Chd|====================================================================
      D   MY2,       MZ1,       MZ2,       GRESAV,
      E   GRTH,      IGRTH,     MSRT,      DMELRT,
      F   ITASK,     H3D_DATA,  JSMS,      NFT,
-     G   IAD,       IGRE,      PRELD1 )
+     G   IAD,       IGRE,      PRELD1,    STF_F)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -142,7 +142,7 @@ C-----------------------------------------------
      .   MX1(MVSIZ),MY1(MVSIZ),MZ1(MVSIZ),
      .   MX2(MVSIZ),MY2(MVSIZ),MZ2(MVSIZ),GRESAV(*),
      .   MSRT(*), DMELRT(*)
-      my_real, INTENT(IN)          :: PRELD1
+      my_real, INTENT(IN)          :: PRELD1,STF_F
       DOUBLE PRECISION XDP(3,*)
       TYPE(TTABLE) TABLE(*)
 C
@@ -274,7 +274,7 @@ C
      1                  (V(2,NC2(I))-V(2,NC1(I)))*EY(I)+
      2                  (V(3,NC2(I))-V(3,NC1(I)))*EZ(I)
            ENDDO
-           CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,GBUF%FOR)
+           CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,STF_F,GBUF%FOR)
         END IF
         IF (IPARIT == 0) THEN
           CALL R1CUM3(
@@ -343,14 +343,6 @@ C
         CALL R1TORS(
      1   GBUF%FOR(II(1)),TANI,           H3D_DATA,       NEL)
 !        
-        IF (PRELD1>ZERO) THEN
-           DO I=JFT,JLT
-              VL12(I) = (V(1,NC2(I))-V(1,NC1(I)))*EX(I)+
-     1                  (V(2,NC2(I))-V(2,NC1(I)))*EY(I)+
-     2                  (V(3,NC2(I))-V(3,NC1(I)))*EZ(I)
-           ENDDO
-           CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,GBUF%FOR)
-        END IF
         IF (IPARIT == 0) THEN
           CALL R1CUM3(
      1   F,              GBUF%FOR(II(1)),STI,            STIFN,
@@ -416,14 +408,6 @@ C
         CALL R1TORS(
      1   GBUF%FOR(II(1)),TANI,           H3D_DATA,       NEL)
 !        
-        IF (PRELD1>ZERO) THEN
-           DO I=JFT,JLT
-              VL12(I) = (V(1,NC2(I))-V(1,NC1(I)))*EX(I)+
-     1                  (V(2,NC2(I))-V(2,NC1(I)))*EY(I)+
-     2                  (V(3,NC2(I))-V(3,NC1(I)))*EZ(I)
-           ENDDO
-           CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,GBUF%FOR)
-        END IF
         IF (IPARIT == 0) THEN
           CALL R1CUM3(
      1   F,              GBUF%FOR(II(1)),STI,            STIFN,
@@ -705,7 +689,7 @@ C
               VL12(I) = (VX2(I)-VX1(I))*EXX(I)+
      1                  (VY2(I)-VY1(I))*EYX(I)+(VZ2(I)-VZ1(I))*EZX(I)
            ENDDO
-           CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,GBUF%FOR)
+           CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,STF_F,GBUF%FOR)
         END IF
         IF (IPARIT == 0) THEN
           CALL R4CUM3(
