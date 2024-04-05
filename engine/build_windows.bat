@@ -50,7 +50,7 @@ IF (%1) == () GOTO END_ARG_LOOP
 
    IF %1==-mpi (
        set MPI="-DMPI=%2"
-       set pmi=%2
+       set pmpi=%2
        set got_mpi=1
    )
 
@@ -104,7 +104,7 @@ if  %release%==1 (
     set debug=0
 )
 
-if %got_mpi%==1 ( set mpi_suffix=_%pmi%)
+if %got_mpi%==1 ( set mpi_suffix=_%pmpi%)
 
 if %cbuild%==0 (
    set engine=engine_%arch%%mpi_suffix%%sp_suffix%%debug_suffix%

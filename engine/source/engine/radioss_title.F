@@ -86,7 +86,7 @@ C-----------------------------------------------
        IF (IRESP == 1) THEN
          CALL PRINTCENTER("Extended Single Precision Version",33,IOUT,2)
        ELSE
-         CALL PRINTCENTER(" ",0,IOUT,0)
+         CALL PRINTCENTER("Double Precision Version",24,IOUT,2)
        ENDIF
         IF (PMSG ==1)THEN
          CALL PRINTCENTER(MSGO,LEN_MSG,IOUT,2)

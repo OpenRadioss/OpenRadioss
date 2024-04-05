@@ -1204,39 +1204,39 @@ C-----------------------------------------------
        WRITE(6,'(A,A)') 'RADIOSS Starter version ',VERS(1:LEN_VERS)
        WRITE(6,'(A)') ' '
        WRITE(6,'(A)')   'Command line arguments help: '
-       WRITE(6,'(A,A)') '  -help           / -h                : ',
+       WRITE(6,'(A,A)') '  -help           / -h                 : ',
      *                  'Print this message'
-       WRITE(6,'(A,A)') '  -version        / -v                : ',
+       WRITE(6,'(A,A)') '  -version        / -v                 : ',
      *                  'Print RADIOSS release information'
-       WRITE(6,'(A,A)') '  -input [FILE]   / -i [FILE]         : ',
+       WRITE(6,'(A,A)') '  -input [FILE]   / -i [FILE]          : ',
      *                  'Set RADIOSS Starter input file'
-       WRITE(6,'(A,A)') '  -nspmd [INTEGER] / -np [INTEGER]    : ',
+       WRITE(6,'(A,A)') '  -nspmd [INTEGER] / -np [INTEGER]     : ',
      *                  'Set Number of RADIOSS SPMD domains '
-       WRITE(6,'(A,A)') '  -nthread [INTEGER] / -nt [INTEGER]  : ',
+       WRITE(6,'(A,A)') '  -nthread [INTEGER] / -nt [INTEGER]   : ',
      *                  'Set Number of SMP threads per SPMD domain'
-       WRITE(6,'(A,A)') '  -check                              : ',
+       WRITE(6,'(A,A)') '  -check                               : ',
      *                  'Check run - no restart file written'
-       WRITE(6,'(A,A)') '  -notrap                             : ',
+       WRITE(6,'(A,A)') '  -notrap                              : ',
      *                  'Disable error trapping'
-       WRITE(6,'(A,A)') '  -dynamic_lib [FILE] / -dylib [FILE] : ',
+       WRITE(6,'(A,A)') '  -dynamic_lib [FILE] / -dylib [FILE]  : ',
      *                  'Set name to the dynamic library for Radioss User Interface'
-       WRITE(6,'(A,A)') '  -mdsdir [PATH] / -mds_libpath [PATH]                 : ',
+       WRITE(6,'(A,A)') '  -mdsdir [PATH] / -mds_libpath [PATH] : ',
 #ifdef _WIN32
      *                  'Set directory to MDS Library (default is %ALTAIR_HOME%/hwsolver/MultiscaleDesigner/%arch%)'
 #else
      *                  'Set directory to MDS Library (default is $ALTAIR_HOME/hwsolver/MultiscaleDesigner/$arch)'
 #endif
-       WRITE(6,'(A,A)') '  -outfile=[PATH]                     : ',
+       WRITE(6,'(A,A)') '  -outfile=[PATH]                      : ',
      *                  'Set output file directory for all output and created files'
-       WRITE(6,'(A,A)') '  -hstp_write                         : ',
+       WRITE(6,'(A,A)') '  -hstp_write                          : ',
      *                  'Write the xml file hst_input.hstp with the parameters for HyperStudy'
-       WRITE(6,'(A,A)') '  -hstp_read                          : ',
+       WRITE(6,'(A,A)') '  -hstp_read                           : ',
      *                  'Read the xml file hst_input.hstp with the parameters from HyperStudy'
-       WRITE(6,'(A,A)') '  -rxalea [real value]                : ',
+       WRITE(6,'(A,A)') '  -rxalea [real value]                 : ',
      *                  'Activation of nodal random noise with a [value] alea'
-       WRITE(6,'(A,A)') '  -rseed [real value]                 : ',
+       WRITE(6,'(A,A)') '  -rseed [real value]                  : ',
      *                  'Optional value, set the seed value for nodal random noise'
-       WRITE(6,'(A,A)') '  -python                             : ',
+       WRITE(6,'(A,A)') '  -python                              : ',
      *                  'Python function in model is safe and can be used'
 
        WRITE(6,'(A)') ' '

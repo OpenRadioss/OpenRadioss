@@ -832,30 +832,28 @@ C-----------------------------------------------
        WRITE(6,'(A,A)') 'RADIOSS Engine version ',VERS(1:LEN_VERS)
        WRITE(6,'(A)') ' '
        WRITE(6,'(A)')   'Command line arguments help: '
-       WRITE(6,'(A,A)') '  -help         / -h                  : ',
+       WRITE(6,'(A,A)') '  -help         / -h                   : ',
      *                  'Print this message'
-       WRITE(6,'(A,A)') '  -version      / -v                  : ',
+       WRITE(6,'(A,A)') '  -version      / -v                   : ',
      *                  'Print RADIOSS release information'
-       WRITE(6,'(A,A)') '  -input [FILE] / -i [FILE]           : ',
+       WRITE(6,'(A,A)') '  -input [FILE] / -i [FILE]            : ',
      *                  'Set RADIOSS Engine input file'
-       WRITE(6,'(A,A)') '  -nthread [INTEGER] / -nt [INTEGER]  : ',
+       WRITE(6,'(A,A)') '  -nthread [INTEGER] / -nt [INTEGER]   : ',
      *                  'Set Number of SMP threads per SPMD domain'
-C       WRITE(6,'(A,A)') '  -gpuid [INTEGER]                    : ',
-C    *                  'Set GPU device number'
-       WRITE(6,'(A,A)') '  -notrap                             : ',
+       WRITE(6,'(A,A)') '  -notrap                              : ',
      *                  'Disable error trapping'
-       WRITE(6,'(A,A)') '  -norst                              : ',
+       WRITE(6,'(A,A)') '  -norst                               : ',
      *                  'Do not write restart files'
-       WRITE(6,'(A,A)') '  -dynamic_lib [FILE] / -dylib [FILE] : ',
+       WRITE(6,'(A,A)') '  -dynamic_lib [FILE] / -dylib [FILE]  : ',
      *                  'Set name to the dynamic library for Radioss User Interface'
-       WRITE(6,'(A,A)') '  -mdsdir [PATH] / -mds_libpath [PATH]                 : ',
+       WRITE(6,'(A,A)') '  -mdsdir [PATH] / -mds_libpath [PATH] : ',
 #ifdef _WIN32
      *                  'Set directory to MDS Library (default is %ALTAIR_HOME%/hwsolver/MultiscaleDesigner/%arch%)'
 #else
      *                  'Set directory to MDS Library (default is $ALTAIR_HOME/hwsolver/MultiscaleDesigner/$arch)'
 #endif
 
-       WRITE(6,'(A,A)') '  -outfile=[PATH]                     : ',
+       WRITE(6,'(A,A)') '  -outfile=[PATH]                      : ',
      *                  'Set output file directory for all output and created files'
        WRITE(6,'(A)') ' '
 
