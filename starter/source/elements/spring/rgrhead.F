@@ -241,9 +241,9 @@ C
       ENDDO
 
 C REORDERING FOR ITAGPRLD_SPRING
+      INUM(8,1:NUMELR)=ITAGPRLD_SPRING(1:NUMELR)
       DO I=1,NUMELR
-        IF (ITAGPRLD_SPRING(I) ==0) CYCLE
-        ITAGPRLD_SPRING(I) = ITR1(ITAGPRLD_SPRING(I))
+        ITAGPRLD_SPRING(I) =INUM(8,INDEX(I))
       ENDDO
 C--------------------------------------------------------------
 C         DETERMINATION DES SUPER_GROUPES

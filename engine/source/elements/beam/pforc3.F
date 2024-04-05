@@ -65,7 +65,7 @@ Chd|====================================================================
      G           SBUFMAT  ,SNPC     ,STF      ,NUMMAT   ,
      H           NUMGEO   ,IOUT     ,ISTDO    ,IDEL7NOK ,
      I           IDYNA    ,IMCONV   ,IMPL_S   ,MAT_PARAM,
-     J           PRELD1   )
+     J           PRELD1   ,STF_F    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -115,7 +115,7 @@ C-----------------------------------------------
      .   MX2(MVSIZ),MY2(MVSIZ),MZ2(MVSIZ),
      .   GRESAV(*),MSP(*),DMELP(*),TEMP(*),FTHE(*),
      .   FTHESKY(*)
-      my_real, INTENT(IN)          :: PRELD1
+      my_real, INTENT(IN)          :: PRELD1,STF_F
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (H3D_DATABASE) :: H3D_DATA
@@ -310,7 +310,7 @@ C-------------------------
            DO I=1,NEL
               VL12(I) = EXX(I)*DTINV
            ENDDO
-           CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,F1 )
+           CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,STF_F,F1 )
            GBUF%FOR(1:NEL) = F1(1:NEL) 
         END IF
 C----------------------------

@@ -156,6 +156,13 @@ C initialisation dd_iad
           IPOUOFF(NFT+I)=INUM(8,INDEX(I))
           ITR1(NFT+INDEX(I)) = NFT+I
         ENDDO
+C REORDERING FOR ITAGPRLD_BEAM
+        DO I=1,NEL
+          INUM(8,I) = ITAGPRLD_BEAM(NFT+I) 
+        ENDDO
+        DO I=1,NEL
+          ITAGPRLD_BEAM(NFT+I) = INUM(8,INDEX(I))
+        ENDDO
 C dd-iad
         P = CEP(NFT+INDEX(1))
         NB = 1
@@ -221,11 +228,6 @@ C
           END IF
         END IF
       END DO
-C REORDERING FOR ITAGPRLD_BEAM
-      DO I=1,NUMELP
-        IF (ITAGPRLD_BEAM(I) ==0) CYCLE
-        ITAGPRLD_BEAM(I) = ITR1(ITAGPRLD_BEAM(I))
-      ENDDO
 C
 C-------------------------------------------------------------------------
 C phase 2 : bornage en groupe de mvsiz

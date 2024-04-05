@@ -226,7 +226,7 @@ C-----------------------------------------------
      .   L17,L18,L19,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29,L30,
      .   ICP,ICS,IMATVIS,IEXPAN,NPTS,MPT,NPTT,NPTR,NPT0,IG,OFF_IGRTH,
      .   NCTRL,DIM6,IPARSENS,ISECT,GAMA(6),PX,PY,PZ,ISENS_ENERGY
-      my_real BID,QMVBID,PRELOAD1
+      my_real BID,QMVBID,PRELOAD1,STF_F
       my_real VOLN(MVSIZ)
       my_real, ALLOCATABLE, DIMENSION(:,:) :: FX,FY,FZ,MX,MY,MZ,JFAC
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -1136,7 +1136,7 @@ C
              CALL GET_PRELOAD_AXIAL(
      1           FUN_ID        ,SENS_ID       ,NPC          ,SNPC          ,
      2           TF            ,STF           ,SENSORS      ,TT            ,
-     3           PRELOAD1)
+     3           PRELOAD1      ,STF_F         )
           ELSE
              PRELOAD1 =ZERO
           END IF
@@ -1155,7 +1155,7 @@ c
      8   GRTH,                IGRTH(OFF_IGRTH+NF1),MSTR(NF1),           DMELTR(NF1),
      9   IPRI,                IPM,                 NPC,                 TF,
      A   ITASK,               H3D_DATA,            NFT,                 MTN,
-     B   JSMS,                IGRE,                PRELOAD1 )
+     B   JSMS,                IGRE,                PRELOAD1,            STF_F )
 C
              IF (NSECT > 0) THEN
               K0=NSTRF(25)
@@ -1195,7 +1195,7 @@ C
              CALL GET_PRELOAD_AXIAL(
      1           FUN_ID        ,SENS_ID       ,NPC          ,SNPC          ,
      2           TF            ,STF           ,SENSORS      ,TT            ,
-     3           PRELOAD1)
+     3           PRELOAD1      ,STF_F         )
           ELSE
              PRELOAD1 =ZERO
           END IF
@@ -1222,7 +1222,7 @@ c
      G         SBUFMAT      ,SNPC                ,STF           ,NUMMAT     ,
      H         NUMGEO       ,IOUT                ,ISTDO         ,IDEL7NOK   ,
      I         IDYNA        ,IMCONV              ,IMPL_S        ,MAT_ELEM%MAT_PARAM,
-     J         PRELOAD1 )
+     J         PRELOAD1     ,STF_F  )
 C 
              IF (NSECT > 0) THEN
               K0=NSTRF(25)
@@ -1263,7 +1263,7 @@ c
              CALL GET_PRELOAD_AXIAL(
      1           FUN_ID        ,SENS_ID       ,NPC          ,SNPC          ,
      2           TF            ,STF           ,SENSORS      ,TT            ,
-     3           PRELOAD1)
+     3           PRELOAD1      ,STF_F         )
           ELSE
              PRELOAD1 =ZERO
           END IF
@@ -1286,7 +1286,8 @@ c
      D   MY(1,1),              MY(1,2),              MZ(1,1),              MZ(1,2),
      E   GRESAV,               GRTH,                 IGRTH(OFF_IGRTH+NF1), MSRT(NF1),
      F   DMELRT(NF1),          FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
-     G   JSMS,                 IGRE,                 NFT,               PRELOAD1 )
+     G   JSMS,                 IGRE,                 NFT,               PRELOAD1   ,
+     H   STF_F )
          ELSE
           CALL RFORC3(
      1   ELBUF_TAB(NG),       JFT,                 JLT,                 NEL,
@@ -1304,7 +1305,7 @@ c
      D   MY(1,2),             MZ(1,1),             MZ(1,2),             GRESAV,
      E   GRTH,                IGRTH(OFF_IGRTH+NF1),MSRT(NF1),           DMELRT(NF1),
      F   ITASK,               H3D_DATA,            JSMS,                NFT,
-     G   IAD,                 IGRE                ,PRELOAD1 )
+     G   IAD,                 IGRE                ,PRELOAD1 ,           STF_F )
              
          ENDIF
 C

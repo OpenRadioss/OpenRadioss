@@ -49,7 +49,7 @@ Chd|====================================================================
      8   GRTH,     IGRTH,    MSTR,     DMELTR,
      9   IOUTPRT,  IPM,      NPF,      TF,
      A   ITASK,    H3D_DATA, NFT,      MTN,
-     B   JSMS,     IGRE,     PRELD1 )
+     B   JSMS,     IGRE,     PRELD1,   STF_F)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C-----------------------------------------------
      .   BUFMAT(*),PM(*),GEO(NPROPG,*),X(*),F(*),V(*),PARTSAV(*),TF(*),
      .   STIFN(*),FSKY(*),TANI(15,*),FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
      .   FX2(MVSIZ),FY2(MVSIZ),FZ2(MVSIZ),GRESAV(*),MSTR(*),DMELTR(*)
-      my_real, INTENT(IN)          :: PRELD1
+      my_real, INTENT(IN)          :: PRELD1,STF_F
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -192,7 +192,7 @@ C-------------------------
 C     /PRELOAD/AXIAL
 C-------------------------
         IF (PRELD1>ZERO) THEN
-           CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,EPS,GBUF%FOR)
+          CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,EPS,STF_F,GBUF%FOR)
         END IF
 C-------------------------
 C     ASSEMBLE

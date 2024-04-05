@@ -150,6 +150,13 @@ C
           R_SKEW(NFT+I)=INUM(9,INDEX(I))
           ITR1(NFT+INDEX(I)) = NFT+I
         ENDDO
+C REORDERING FOR ITAGPRLD_SPRING
+       DO I=1,NEL
+         INUM(8,I)=ITAGPRLD_SPRING(NFT+I)
+       ENDDO
+       DO I=1,NEL
+         ITAGPRLD_SPRING(NFT+I) =INUM(8,INDEX(I))
+       ENDDO
 C dd-iad
         P = CEP(NFT+INDEX(1))
         NB = 1
@@ -238,11 +245,6 @@ C
         DO J=1,NN
           SEATBELT_TAB(I)%SPRING(J) = ITR1(SEATBELT_TAB(I)%SPRING(J))
         ENDDO
-      ENDDO
-C REORDERING FOR ITAGPRLD_SPRING
-      DO I=1,NUMELR
-        IF (ITAGPRLD_SPRING(I) ==0) CYCLE
-        ITAGPRLD_SPRING(I) = ITR1(ITAGPRLD_SPRING(I))
       ENDDO
 C
 C-------------------------------------------------------------------------
