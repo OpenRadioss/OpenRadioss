@@ -2418,8 +2418,8 @@ c-----------
      .22X,'IXX',18X,'IYY',18X,'IZZ',18X,'IXY',18X,'IYZ',18X,'IZX')
  1300 FORMAT(
      .       5X,' ADDED NODAL NON-STRUCTURAL MASSES '   /
-     .       5X,'-----------------------------------'   //)
- 1400 FORMAT(//1X,' TOTAL ADDED MASS = ',1PG20.13//)
+     .       5X,'-----------------------------------'   /)
+ 1400 FORMAT(5X,' TOTAL ADDED MASS = ',1PG20.13//)
  1500 FORMAT(//
      . 5X,'KJOINT2 SPRING DEFINITION',/
      . 5X,'------------------------'/)
