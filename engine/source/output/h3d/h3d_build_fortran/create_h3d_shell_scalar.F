@@ -25,19 +25,19 @@ Chd|  CREATE_H3D_SHELL_SCALAR       source/output/h3d/h3d_build_fortran/create_h
 Chd|-- called by -----------
 Chd|        LECH3D                        source/output/h3d/h3d_build_fortran/lech3d.F
 Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        ARRET                         source/system/arret.F
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|====================================================================
       SUBROUTINE CREATE_H3D_SHELL_SCALAR(H3D_DATA,ID_SHELL_SCALAR ,N1       ,N2       ,ID_INPUT ,TEXT1  ,
      .                                       STEXT1       ,COMMENT    ,SCOMMENT  ,IPART    ,KEY3_GLOB ,
      .                                       LAYER    ,IPT    ,PLY             ,GAUSS    ,IUVAR       ,
      .                                       IDMDS    ,IVARMDS,ID_MAT_MDS,MDS_LABEL, SMDS_LABEL       ,
-     .                                       ID       )
+     .                                       ID       ,MODE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE H3D_MOD
-      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+        USE H3D_MOD
+        USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,15 +45,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (H3D_DATABASE) :: H3D_DATA
-      INTEGER ID_SHELL_SCALAR,ID_INPUT,STEXT1,N1,N2,SCOMMENT,
-     .        LAYER,IPT,PLY,IUVAR,GAUSS,IDMDS,IVARMDS,SMDS_LABEL,
-     .        ID_MAT_MDS,ID
-      INTEGER IPART(LIPART1,*)
-      CHARACTER(LEN=STEXT1) ::  TEXT1
-      CHARACTER(LEN=NCHARLINE100) :: KEY3_GLOB
-      CHARACTER(LEN=SCOMMENT) :: COMMENT
-      CHARACTER(LEN=64) :: MDS_LABEL
+        TYPE (H3D_DATABASE) :: H3D_DATA
+        INTEGER ID_SHELL_SCALAR,ID_INPUT,STEXT1,N1,N2,SCOMMENT,
+     .          LAYER,IPT,PLY,IUVAR,GAUSS,IDMDS,IVARMDS,SMDS_LABEL,
+     .          ID_MAT_MDS,ID
+        INTEGER IPART(LIPART1,*)
+        CHARACTER(LEN=STEXT1) ::  TEXT1
+        CHARACTER(LEN=NCHARLINE100) :: KEY3_GLOB
+        CHARACTER(LEN=SCOMMENT) :: COMMENT
+        CHARACTER(LEN=64) :: MDS_LABEL
+        INTEGER ,INTENT(IN) :: MODE
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -62,77 +63,78 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER NVAR
+        INTEGER NVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER(LEN=NCHARLINE100) :: CARTE,CARTE1,TEXT
-      INTEGER I,J,L,N_H3D_PART,STEXT
+        CHARACTER(LEN=NCHARLINE100) :: CARTE,CARTE1,TEXT
+        INTEGER I,J,L,N_H3D_PART,STEXT
 C=========================================================================
-      TEXT = ''
-      STEXT = 0
+        TEXT = ''
+        STEXT = 0
 
-      H3D_DATA%N_OUTP_H3D = H3D_DATA%N_OUTP_H3D + 1
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%OK = 1
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%KEYWORD = KEY3_GLOB
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%N_OUTP = H3D_DATA%N_OUTP_H3D + 3
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%ETYPE = 2
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%OUTP_TYPE = 1
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%LAYER = LAYER
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%IPT = IPT
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PLY = PLY
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%IUVAR = IUVAR
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%IDMDS = IDMDS
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%IDMATMDS = ID_MAT_MDS
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%IMDSVAR = IVARMDS
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%MDSVAR_NAME = TRIM(MDS_LABEL)
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%SMDSVAR_NAME = SMDS_LABEL
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%GAUSS = GAUSS
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%OBJECT_ID = ID
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%S_STRING1 = STEXT1
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%STRING1(1:STEXT1) = TEXT1(1:STEXT1)
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%S_COMMENT = SCOMMENT
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%COMMENT(1:SCOMMENT) = COMMENT(1:SCOMMENT)
+        H3D_DATA%N_OUTP_H3D = H3D_DATA%N_OUTP_H3D + 1
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%OK = 1
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%KEYWORD = KEY3_GLOB
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%N_OUTP = H3D_DATA%N_OUTP_H3D + 3
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%ETYPE = 2
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%OUTP_TYPE = 1
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%LAYER = LAYER
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%IPT = IPT
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PLY = PLY
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%IUVAR = IUVAR
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%IDMDS = IDMDS
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%IDMATMDS = ID_MAT_MDS
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%IMDSVAR = IVARMDS
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%MDSVAR_NAME = TRIM(MDS_LABEL)
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%SMDSVAR_NAME = SMDS_LABEL
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%GAUSS = GAUSS
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%OBJECT_ID = ID
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%S_STRING1 = STEXT1
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%STRING1(1:STEXT1) = TEXT1(1:STEXT1)
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%S_COMMENT = SCOMMENT
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%COMMENT(1:SCOMMENT) = COMMENT(1:SCOMMENT)
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%MODE = MODE
 
-      N_H3D_PART = H3D_DATA%INPUT_LIST(ID_INPUT)%NB_PART
-      H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%N_H3D_PART_LIST = N_H3D_PART
+        N_H3D_PART = H3D_DATA%INPUT_LIST(ID_INPUT)%NB_PART
+        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%N_H3D_PART_LIST = N_H3D_PART
 
-      IF (N_H3D_PART /= 0 )
-     .       ALLOCATE(H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART_LIST(N_H3D_PART))
-      ALLOCATE(H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(NPART))
+        IF (N_H3D_PART /= 0 )
+     .         ALLOCATE(H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART_LIST(N_H3D_PART))
+        ALLOCATE(H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(NPART))
 c
 c      DO I=1,N_H3D_PART
 c        H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART_LIST(I) =
 c     .        H3D_DATA%INPUT_LIST(ID_INPUT)%PART_LIST(I)
 c
 c      ENDDO
-      IF (N_H3D_PART /= 0 ) THEN
-        DO I=1,NPART
-          H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(I) = 0
-        ENDDO
-      ELSE
-        DO I=1,NPART
-          H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(I) = 1
-        ENDDO
-      ENDIF
+        IF (N_H3D_PART /= 0 ) THEN
+          DO I=1,NPART
+            H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(I) = 0
+          ENDDO
+        ELSE
+          DO I=1,NPART
+            H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(I) = 1
+          ENDDO
+        ENDIF
 
 c      DO J=1,N_H3D_PART
 c        print *,'ds la construct_lect',H3D_DATA%INPUT_LIST(ID_INPUT)%PART_LIST(J)
 c      ENDDO
- 
-      DO J=1,N_H3D_PART
-        DO I=1,NPART
-          IF(H3D_DATA%INPUT_LIST(ID_INPUT)%PART_LIST(J) == IPART(4,I)) THEN
+
+        DO J=1,N_H3D_PART
+          DO I=1,NPART
+            IF(H3D_DATA%INPUT_LIST(ID_INPUT)%PART_LIST(J) == IPART(4,I)) THEN
               H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(I) = 1
-          ENDIF
+            ENDIF
+          ENDDO
         ENDDO
-      ENDDO
 
 c      DO J=1,NPART
 c        print *,'ds la construct',H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(J)
 c      ENDDO
 
-      RETURN
- 999  print *,'error lecture'
-      CALL ARRET(0)
+        RETURN
+ 999    print *,'error lecture'
+        CALL ARRET(0)
       END

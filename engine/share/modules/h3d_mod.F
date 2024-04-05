@@ -353,6 +353,8 @@ c
           INTEGER ::  IS_MDSVAR = 0 
           INTEGER ::  IS_MDSVAR_ALL = 0 
           INTEGER ::  IS_MDSVAR_DEF = 0  
+          INTEGER ::  IS_MODE = 0 
+          INTEGER ::  IS_MODE_ALL = 0 
 c
       END TYPE H3D_KEYWORD
 C-----------------------------------------------
@@ -414,6 +416,7 @@ C-----------------------------------------------
           INTEGER ::  IS = 0
           INTEGER ::  IT = 0
           INTEGER ::  OBJECT_ID = 0
+          INTEGER ::  MODE = 0
           INTEGER ::  IS_CORNER_DATA = 0
           CHARACTER(LEN=80) ::  STRING1 = ''
           INTEGER ::   S_STRING1 = 0
