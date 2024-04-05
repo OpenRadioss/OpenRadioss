@@ -121,6 +121,10 @@ set_source_files_properties( ${source_directory}/source/elements/sph/nbsph.F PRO
 #lectur.F
 set_source_files_properties( ${source_directory}/source/starter/lectur.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
 
+set (C_BASIC "${cppmach} ${cpprel}" )
+set_source_files_properties( ${source_directory}/source/output/tools/ieee.cpp PROPERTIES COMPILE_FLAGS " -O1 ${C_BASIC}")
+
+
 endif()
 set_source_files_properties( ${source_directory}/source/system/rad_sys_call.c PROPERTIES COMPILE_FLAGS "${precision_flag} -std=c90 ${cppmach} ${cpprel} ")
 
