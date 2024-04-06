@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ASSO_QPLAS76C                 source/materials/mat/mat076/asso_qplas76c.F
 Chd|        NO_ASSO_LPLAS76C              source/materials/mat/mat076/no_asso_lplas76c.F
 Chd|        NO_ASSO_QPLAS76C              source/materials/mat/mat076/no_asso_qplas76c.F
-Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        VINTER                        source/tools/curve/vinter.F   
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|====================================================================
       SUBROUTINE SIGEPS76C(

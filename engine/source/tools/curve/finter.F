@@ -27,8 +27,6 @@ Chd|-- called by -----------
 Chd|        AIRBAGA                       source/airbag/airbag1.F       
 Chd|        AIRBAGA1                      source/airbag/airbaga1.F      
 Chd|        ALEFVM_GRAV_INIT              source/ale/alefvm/alefvm_grav_init.F
-Chd|        ASSO_PLAS76                   source/materials/mat/mat076/asso_plas76.F
-Chd|        ASSO_QPLAS76C                 source/materials/mat/mat076/asso_qplas76c.F
 Chd|        CFIELD_1                      source/loads/general/load_centri/cfield.F
 Chd|        CFIELD_IMP                    source/loads/general/load_centri/cfield_imp.F
 Chd|        CMAIN3                        source/materials/mat_share/cmain3.F
@@ -105,9 +103,6 @@ Chd|        M21LAW                        source/materials/mat/mat021/m21law.F
 Chd|        MAT87C_TABULATED_PLAS_SR      source/materials/mat/mat087/mat87c_tabulated_plas_sr.F
 Chd|        MAT87C_TABULATED_TOTALSR      source/materials/mat/mat087/mat87c_tabulated_totalsr.F
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
-Chd|        NO_ASSO_LPLAS76C              source/materials/mat/mat076/no_asso_lplas76c.F
-Chd|        NO_ASSO_PLAS76                source/materials/mat/mat076/no_asso_plas76.F
-Chd|        NO_ASSO_QPLAS76C              source/materials/mat/mat076/no_asso_qplas76c.F
 Chd|        PFLUID                        source/loads/general/pfluid/pfluid.F
 Chd|        PFORC3                        source/elements/beam/pforc3.F 
 Chd|        R26SIG                        source/elements/spring/r26sig.F
@@ -145,8 +140,6 @@ Chd|        SIGEPS66C                     source/materials/mat/mat066/sigeps66c.
 Chd|        SIGEPS69                      source/materials/mat/mat069/sigeps69.F
 Chd|        SIGEPS73C                     source/materials/mat/mat073/sigeps73c.F
 Chd|        SIGEPS74                      source/materials/mat/mat074/sigeps74.F
-Chd|        SIGEPS76                      source/materials/mat/mat076/sigeps76.F
-Chd|        SIGEPS76C                     source/materials/mat/mat076/sigeps76c.F
 Chd|        SIGEPS77                      source/materials/mat/mat077/sigeps77.F
 Chd|        SIGEPS78                      source/materials/mat/mat078/sigeps78.F
 Chd|        SIGEPS80                      source/materials/mat/mat080/sigeps80.F
