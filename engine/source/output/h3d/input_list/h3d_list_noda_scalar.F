@@ -205,7 +205,8 @@ c-----------------------------------------------
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'SSP'
-      H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Nodal Sound Speed'     
+      H3D_KEYWORD_NODAL_SCALAR(I)%TEXT1  = 'Nodal Sound Speed'
+      H3D_KEYWORD_NODAL_SCALAR(I)%COMMENT  = 'Element Sound Speed reported to node'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_SCALAR(I)%KEY3  = 'INTERNAL.ID'

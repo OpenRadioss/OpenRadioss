@@ -2558,27 +2558,35 @@ C-----------------------------------------------
               WA4(N)=TEMP(N)
              ENDDO
            ELSE
-             ! Nodal Pressure (from elems and/or fvmbags)
+             ! Nodal Pressure (from elems ; ANIM not compatible with fvmbag centroids)
              IF (I==3) THEN
                IF(N2D==0)CALL NODALP(I, WA4, WA4_FVM, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,NUMELS,ITAB,NV46,MONVOL,VOLMON,
      .                               0, IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD, FVDATA, SWA4, 0)
                IF(N2D/=0)CALL NODALP(I, WA4, WA4_FVM, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,NUMELQ,ITAB,NV46,MONVOL,VOLMON,
      .                               0, IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD, FVDATA, SWA4, 0)
              ENDIF
-             ! Nodal Density (from elems and/or fvmbags)
+             ! Nodal Density (from elems ; ANIM not compatible with fvmbag centroids)
              IF (I==4) THEN
                IF(N2D==0)CALL NODALD(I, WA4, WA4_FVM, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,NUMELS,ITAB,NV46,MONVOL,VOLMON,
      .                               0, IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD, FVDATA, SWA4, 0) 
                IF(N2D/=0)CALL NODALD(I, WA4, WA4_FVM, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,NUMELQ,ITAB,NV46,MONVOL,VOLMON,
      .                               0, IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD, FVDATA, SWA4, 0) 
              ENDIF
-             ! Nodal Temperature (from elems and/or fvmbags)
+             ! Nodal Temperature (from elems ; ANIM not compatible with fvmbag centroids)
              IF (I==6) THEN
                IF(N2D==0)CALL NODALT(I, WA4, WA4_FVM, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,NUMELS,ITAB,NV46,MONVOL,VOLMON,
      .                               0, IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD, FVDATA, SWA4, 0)
                IF(N2D/=0)CALL NODALT(I, WA4, WA4_FVM, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,NUMELQ,ITAB,NV46,MONVOL,VOLMON,
      .                               0, IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD, FVDATA, SWA4, 0)
              ENDIF
+             ! Nodal sound speed (from elems ; ANIM not compatible with fvmbag centroids)
+             IF (I==30) THEN
+               IF(N2D==0)CALL NODALSSP(I, WA4, WA4_FVM, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,NUMELS,ITAB,NV46,MONVOL,VOLMON,
+     .                               0, IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD, FVDATA, SWA4, 0, MULTI_FVM)
+               IF(N2D/=0)CALL NODALSSP(I, WA4, WA4_FVM, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,NUMELQ,ITAB,NV46,MONVOL,VOLMON,
+     .                               0, IS_WRITTEN_NODE, IS_WRITTEN_NODE_FVM, ISPMD, FVDATA, SWA4, 0, MULTI_FVM)
+             ENDIF
+             
 
              !Then Monitored Volumes (Pressure,Density,Temperature,Sound Speed)
              CALL ANIMBALE(I, WA4, MONVOL, VOLMON ,2)

@@ -31,11 +31,11 @@ Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
-      SUBROUTINE NODALSSP(IFUNC          , WA4               , WA4_FVM, IFLOW   , RFLOW,  
-     .                    IPARG          , ELBUF_TAB         , IX     , NIX     , NUMEL, 
-     .                    ITAB           , NV46              , MONVOL , VOLMON  , AIRBAGS_TOTAL_FVM_IN_H3D,
-     .                    IS_WRITTEN_NODE,IS_WRITTEN_NODE_FVM, ISPMD  , FVDATA_P,
-     .                    SWA4           , AIRBAGS_NODE_ID_SHIFT) 
+      SUBROUTINE NODALSSP(IFUNC          , WA4                  , WA4_FVM, IFLOW   , RFLOW,
+     .                    IPARG          , ELBUF_TAB            , IX     , NIX     , NUMEL,
+     .                    ITAB           , NV46                 , MONVOL , VOLMON  , AIRBAGS_TOTAL_FVM_IN_H3D,
+     .                    IS_WRITTEN_NODE,IS_WRITTEN_NODE_FVM   , ISPMD  , FVDATA_P,
+     .                    SWA4           , AIRBAGS_NODE_ID_SHIFT, MULTI_FVM)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -49,9 +49,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD  
-      USE FVBAG_MOD , only:FVBAG_DATA,NFVBAG  
-      USE GROUPDEF_MOD , only:GROUP_      
+      USE ELBUFDEF_MOD
+      USE FVBAG_MOD , only:FVBAG_DATA,NFVBAG
+      USE GROUPDEF_MOD , only:GROUP_
+      USE MULTI_FVM_MOD , ONLY : MULTI_FVM_STRUCT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +77,8 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: MONVOL(SMONVOL) 
       my_real,INTENT(IN) :: VOLMON(SVOLMON)
       INTEGER,INTENT(INOUT) :: IS_WRITTEN_NODE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D),IS_WRITTEN_NODE(NUMNOD)   
-      TYPE(FVBAG_DATA),INTENT(IN) :: FVDATA_P (NFVBAG)         
+      TYPE(FVBAG_DATA),INTENT(IN) :: FVDATA_P (NFVBAG)
+      TYPE (MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -95,12 +97,13 @@ C-----------------------------------------------
 C------------------------------------------------------------------
 C        DEFAULT - ALL ELEMS (HEXA,PENTA, SHELL, QUAD, ..)
 C           expand elem pressure to elem nodes
-C------------------------------------------------------------------      
-         !not available - post-processing can expand elemen value to nodes
+C------------------------------------------------------------------
+        CALL ANIM_NODAL_SSP_ELEMS(WA4,SWA4,IPARG,ELBUF_TAB,IX,NIX,NUMEL,IS_WRITTEN_NODE,
+     .                            MULTI_FVM, NPARG, NGROUP, NUMNOD)
          
 C------------------------------------------------------------------
 C        /MONVOL/FVMBAG*
-C           set pressure from polyhedra centroids
+C           set pressure from polyhedra centroids (H3D only)
 C------------------------------------------------------------------
         IF(NFVBAG > 0 .AND. ISPMD == 0 .AND. AIRBAGS_TOTAL_FVM_IN_H3D > 0)THEN
           CALL ANIM_NODAL_CONTOUR_FVMBAGS('SSP ', WA4_FVM, MONVOL , VOLMON                  , FVDATA_P           , 
