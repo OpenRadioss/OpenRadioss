@@ -74,6 +74,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD   
       USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
+      USE LAW50_UPD_MOD  
       USE LAW190_UPD_MOD  
       USE VISC_PARAM_MOD
 C-----------------------------------------------
@@ -228,6 +229,10 @@ c-------------------------
           CASE (42) 
 c------------------
             CALL LAW42_UPD(IOUT,TITR,MAT_ID,UPARAM,PM(1,IMAT),GAMA_INF)        
+c-------------------------
+          CASE (50) 
+c------------------
+            CALL LAW50_UPD(MATPARAM,NPARAM,UPARAM,NFUNC,IFUNC,SNPC,STF,NPC,PLD)        
 c-------------------------
           CASE (58) 
 c------------------

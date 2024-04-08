@@ -998,14 +998,14 @@ c
       ELSEIF (MTN == 50) THEN
           CALL SIGEPS50(NEL ,NPAR,NUVAR,NFUNC,IFUNC,
      .                  NPF ,TF  ,TT,DT1,UPARAM,
-     .                  RHO0,RHO ,VOLN,EINT,
+     .                  RHO0,RHO ,VOLN,EINT,NVARTMP ,VARTMP  ,
      .                  EP1 ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,
      .                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
      .                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
      .                  SO1 ,SO2 ,SO3 ,SO4  ,SO5  ,SO6 ,
      .                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
      .                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
-     .                  SSP ,VIS ,UVAR,OFF  ,AMU )
+     .                  SSP ,VIS ,UVAR,OFF  ,AMU  ,MATPARAM)
       ELSEIF (MTN == 51) THEN
           IF (N2D == 0) THEN
             N48 = 8

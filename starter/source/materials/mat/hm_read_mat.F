@@ -652,7 +652,7 @@ c-------
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
      .           MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
      .           PM(1,I)  ,LSUBMODEL,ISRATE   ,MAT_ID   ,TITR     ,
-     .           MATPARAM )
+     .           MATPARAM ,NVARTMP  )
 c-------
           CASE ('LAW51','MULTIMAT','TRIMAT')
             ILAW = 51
