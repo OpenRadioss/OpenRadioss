@@ -39,7 +39,7 @@ Chd|====================================================================
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
      .           MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
      .           PM       ,LSUBMODEL,ISRATE   ,MAT_ID   ,TITR     ,
-     .           MATPARAM )
+     .           MATPARAM ,NVARTMP  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -77,9 +77,10 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       INTEGER, INTENT(INOUT)                       :: ISRATE
-      INTEGER, INTENT(INOUT)                         :: NUPARAM,NUVAR,NFUNC
-      INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT)   :: IFUNC
-      my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)   :: UPARAM
+      INTEGER, INTENT(INOUT)                       :: NUPARAM,NUVAR,NFUNC
+      INTEGER, INTENT(INOUT)                       :: NVARTMP
+      INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT) :: IFUNC
+      my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT) :: UPARAM
       my_real, DIMENSION(100),INTENT(INOUT) :: PARMAT
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT) :: MTAG
@@ -381,6 +382,7 @@ c---------------------------
       NFUNC   = 30
       NUPARAM = 81
       NUVAR   = 10
+      NVARTMP = 12
 c-----------------
       DMIN       = MIN(E11*E22, E22*E33,E11*E33)
       DMAX       = MAX(E11,E22,E33)
