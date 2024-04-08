@@ -2103,21 +2103,20 @@ c          IF(ISPMD == 0) print *,'nodal scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO
 
 c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT_LIST(I)%PART(1:NPART)
 
-            CALL H3D_NODAL_SCALAR(
-     .                     ELBUF_TAB         ,NODAL_SCALAR  ,IFUNC          ,IPARG                        ,GEO       ,
-     .                     MAS               ,PM            ,ANIN           ,ITAB                         ,NODE_ID   ,
-     .                     INFO1             ,INFO2         ,IS_WRITEN_NODE ,H3D_DATA%OUTPUT_LIST(I)%PART ,IPARTC    ,
-     .                     IPARTTG           ,IXC           ,IXTG           ,TEMP                         ,IFLOW     ,
-     .                     RFLOW             ,IXS           ,IXQ            ,NV46                         ,MONVOL    ,
-     .                     VOLMON            ,ALE_CONNECT   ,DIAG_SMS       ,MS                           ,PDAMA2    ,
-     .                     X                 ,STIFR         ,STIFN          ,KEYWORD                      ,H3D_DATA  ,
-     .                     NPBY              ,RBY           ,INTERSKID      ,H3D_DATA%N_SCAL_SKID         ,PSKIDS  ,
-     .                     NODGLOB           ,ITYSKID       ,IPARTSP        ,IPARTR                       ,IPARTP  ,
-     .                     IPARTT            ,IPARTS        ,IPARTQ         ,KXSP                         ,IXR     ,
-     .                     IXP               ,IXT           ,N_H3D_PART_LIST,INTERFRIC                    ,CSEFRIC ,
-     .                     CSEFRICG          ,CSEFRIC_STAMP ,CSEFRICG_STAMP ,NODAL_SCALAR_FVM             ,
-     .                     AIRBAGS_TOTAL_FVM_IN_H3D_G,
-     .                     IS_WRITEN_NODE_FVM,ISPMD         ,FVDATA_P       ,USER_NOD_ID%FVMBAG_SHIFT )
+          CALL H3D_NODAL_SCALAR(
+     .      ELBUF_TAB         ,NODAL_SCALAR  ,IFUNC          ,IPARG                        ,GEO                       ,
+     .      MAS               ,PM            ,ANIN           ,ITAB                         ,NODE_ID                   ,
+     .      INFO1             ,INFO2         ,IS_WRITEN_NODE ,H3D_DATA%OUTPUT_LIST(I)%PART ,IPARTC                    ,
+     .      IPARTTG           ,IXC           ,IXTG           ,TEMP                         ,IFLOW                     ,
+     .      RFLOW             ,IXS           ,IXQ            ,NV46                         ,MONVOL                    ,
+     .      VOLMON            ,ALE_CONNECT   ,DIAG_SMS       ,MS                           ,PDAMA2                    ,
+     .      X                 ,STIFR         ,STIFN          ,KEYWORD                      ,H3D_DATA                  ,
+     .      NPBY              ,RBY           ,INTERSKID      ,H3D_DATA%N_SCAL_SKID         ,PSKIDS                    ,
+     .      NODGLOB           ,ITYSKID       ,IPARTSP        ,IPARTR                       ,IPARTP                    ,
+     .      IPARTT            ,IPARTS        ,IPARTQ         ,KXSP                         ,IXR                       ,
+     .      IXP               ,IXT           ,N_H3D_PART_LIST,INTERFRIC                    ,CSEFRIC                   ,
+     .      CSEFRICG          ,CSEFRIC_STAMP ,CSEFRICG_STAMP ,NODAL_SCALAR_FVM             ,AIRBAGS_TOTAL_FVM_IN_H3D_G,
+     .      IS_WRITEN_NODE_FVM,ISPMD         ,FVDATA_P       ,USER_NOD_ID%FVMBAG_SHIFT     ,MULTI_FVM )
 
 c
             IF (NSPMD > 1 ) THEN

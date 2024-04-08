@@ -54,7 +54,7 @@ Chd|====================================================================
      .                  IPARTT             ,IPARTS       ,IPARTQ          ,KXSP                   ,IXR     ,
      .                  IXP                ,IXT          ,N_H3D_PART_LIST ,INTERFRIC              ,CSEFRIC ,
      .                  CSEFRICG           ,CSEFRIC_STAMP,CSEFRICG_STAMP  ,NODAL_SCALAR_FVM       ,AIRBAGS_TOTAL_FVM_IN_H3D,
-     .                  IS_WRITTEN_NODE_FVM,ISPMD        ,FVDATA_P        ,AIRBAGS_NODE_ID_SHIFT) 
+     .                  IS_WRITTEN_NODE_FVM,ISPMD        ,FVDATA_P        ,AIRBAGS_NODE_ID_SHIFT  ,MULTI_FVM)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -70,6 +70,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD , only: GROUP_
       USE FVBAG_MOD , only : FVBAG_DATA
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+      USE MULTI_FVM_MOD , ONLY : MULTI_FVM_STRUCT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,6 +114,7 @@ C-----------------------------------------------
      .                         CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG) ,CSEFRICG_STAMP(S_EFRICG)
       INTEGER,INTENT(INOUT) :: IS_WRITTEN_NODE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)
       TYPE(FVBAG_DATA), INTENT(IN) :: FVDATA_P
+      TYPE (MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -311,26 +313,26 @@ c
            IF(N2D==0)CALL NODALSSP(IFUNC,VALUE_NUMNOD_REAL,VALUE_NUMNOD_REAL_FVM,IFLOW  ,RFLOW,
      .                             IPARG,ELBUF_TAB        ,IXS                  ,NIXS   ,NUMELS,
      .                             ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
-     .                             IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P,
-     .                           NUMNOD                 ,AIRBAGS_NODE_ID_SHIFT) 
+     .                             IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD  ,FVDATA_P,
+     .                             NUMNOD                 ,AIRBAGS_NODE_ID_SHIFT,MULTI_FVM)
            IF(N2D/=0)CALL NODALSSP(IFUNC,VALUE_NUMNOD_REAL,VALUE_NUMNOD_REAL_FVM,IFLOW  ,RFLOW ,
      .                             IPARG,ELBUF_TAB        ,IXQ                  ,NIXQ   ,NUMELQ,
      .                             ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
-     .                             IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P,
-     .                           NUMNOD                 ,AIRBAGS_NODE_ID_SHIFT) 
+     .                             IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD  ,FVDATA_P,
+     .                             NUMNOD                 ,AIRBAGS_NODE_ID_SHIFT,MULTI_FVM)
          ENDIF   
          !Nodal Sound Speed
          IF (KEYWORD == 'DT') THEN
            IF(N2D==0)CALL NODALDT(IFUNC,VALUE_NUMNOD_REAL,VALUE_NUMNOD_REAL_FVM,IFLOW  ,RFLOW,
      .                            IPARG,ELBUF_TAB        ,IXS                  ,NIXS   ,NUMELS,
      .                            ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
-     .                            IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P,
-     .                           NUMNOD                 ,AIRBAGS_NODE_ID_SHIFT) 
+     .                            IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD  ,FVDATA_P,
+     .                            NUMNOD                 ,AIRBAGS_NODE_ID_SHIFT)
            IF(N2D/=0)CALL NODALDT(IFUNC,VALUE_NUMNOD_REAL,VALUE_NUMNOD_REAL_FVM,IFLOW  ,RFLOW ,
      .                            IPARG,ELBUF_TAB        ,IXQ                  ,NIXQ   ,NUMELQ,
      .                            ITAB ,NV46             ,MONVOL               ,VOLMON ,AIRBAGS_TOTAL_FVM_IN_H3D,
-     .                            IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD, FVDATA_P,
-     .                           NUMNOD                 ,AIRBAGS_NODE_ID_SHIFT) 
+     .                            IS_WRITTEN_NODE        ,IS_WRITTEN_NODE_FVM  ,ISPMD  ,FVDATA_P,
+     .                            NUMNOD                 ,AIRBAGS_NODE_ID_SHIFT)
          ENDIF  
          !Nodal Sound Speed
          IF (KEYWORD == 'VOL') THEN
