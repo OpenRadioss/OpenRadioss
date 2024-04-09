@@ -75,9 +75,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), INTENT(IN), TARGET :: ELBUF_STR
-      INTEGER, INTENT(IN) :: NEL, NSIGS, IPARG(*), IXTG(NIXTG, *), 
+      INTEGER, INTENT(IN) :: NEL, NSIGS,  IXTG(NIXTG, *), 
      .     IGEO(*), PTSH3N(*), NPF(*), ILOADP(SIZLOADP, *),
      .     IPART(LIPART1, *), IPARTTG(*), IPM(NPROPMI, *)
+      INTEGER, INTENT(INOUT) :: IPARG(*)
       INTEGER, INTENT(OUT) :: NVC
       my_real, INTENT(IN) :: XGRID(3, *), FACLOAD(LFACLOAD, *)
       my_real,INTENT(INOUT) :: PM(NPROPM, *)

@@ -143,9 +143,13 @@ C-----------------------------------------------
         my_real, DIMENSION(:), ALLOCATABLE :: CURV_MAX
      
       LOGICAL :: TYPE18
+      INTEGER (KIND=8) :: IONE,IHUNDRED !< Integer constants in INTEGER 8 for comparisions
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+      IONE=1        !< Constant init
+      IHUNDRED=100  !< Constant init
+
       ALLOCATE( INDEX(NRTM) )
       ALLOCATE( CURV_MAX(NRTM) )
       TYPE18=.FALSE.
@@ -499,9 +503,9 @@ c        print *,'final NBx:',NBX,NBY,NBZ,RES8,AAA
 c 100  CONTINUE
 
         IF(RES8 > LVOXEL8) THEN
-          NBX = MIN(100,MAX(NBX8,1))
-          NBY = MIN(100,MAX(NBY8,1))
-          NBZ = MIN(100,MAX(NBZ8,1))
+          NBX = MIN(IHUNDRED,MAX(NBX8,IONE))
+          NBY = MIN(IHUNDRED,MAX(NBY8,IONE))
+          NBZ = MIN(IHUNDRED,MAX(NBZ8,IONE))
         ENDIF
 
 c        print *,'init voxel:',NBX,NBY,NBZ,NBX*NBY*NBZ
