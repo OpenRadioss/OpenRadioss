@@ -70,8 +70,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IFAIL_SH,ISOLID
+      INTEGER IFAIL_SH,ISOLID,I
       my_real D1,D2,D3,D4,D5,EPSP0,UNIT_T,DADV,PTHKF,EPSF_MIN
+      my_real TRIAX,EPSF,DEPSF_DTRIAX
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
       IS_ENCRYPTED = .FALSE.
@@ -100,6 +101,29 @@ C--------------------------------------------------
         CALL ANCMSG(MSGID=3001, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND,
      .              I1=MAT_ID,
      .              C1=TITR)         
+      ENDIF
+!
+      ! Check the Johnson-Cook Failure criterion 
+      TRIAX = ONE
+      EPSF  = D1 + D2*EXP(D3*TRIAX)
+      ! -> Check if criterion reaches negative values
+      IF ((EPSF <= ZERO).AND.(EPSF_MIN == ZERO)) THEN 
+        DO I = 1,10
+          DEPSF_DTRIAX = D2*D3*EXP(D3*TRIAX)
+          TRIAX = TRIAX - EPSF/DEPSF_DTRIAX
+          TRIAX = MIN(TRIAX, ONE)
+          TRIAX = MAX(TRIAX,-ONE)
+          EPSF  = D1 + D2*EXP(D3*TRIAX)
+        ENDDO 
+        ! -> Print warning message
+        IF ((ABS(EPSF) < EM06) .AND. (TRIAX < ONE) .AND. (TRIAX > -ONE)) THEN 
+          CALL ANCMSG(MSGID=3058, 
+     .                MSGTYPE=MSGWARNING, 
+     .                ANMODE=ANINFO_BLIND,
+     .                I1=MAT_ID,
+     .                C1=TITR,
+     .                R1=TRIAX)  
+        ENDIF
       ENDIF
 !
       IF (EPSP0 == ZERO) EPSP0=EM20
