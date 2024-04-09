@@ -108,7 +108,8 @@ C-----------------------------------------------
      .   GAPSCALE,GAPMAX,STMIN,STMAX,PADM, ANGLADM, CADM,
      .   PERCENT_SIZE,PENMAX,PENMIN,VISC,VISCF,FPENMAX,DTMIN,
      .   RSTH,TINT, XTHE, FRAD, DRAD,XFRICTH,FHEATS,FHEATM,
-     .   EDG_ANGL,VISCFLUID,SIGMAXADH,VISCADHFACT,XTHE_UNIT
+     .   EDG_ANGL,VISCFLUID,SIGMAXADH,VISCADHFACT,XTHE_UNIT,
+     .   EDGE_SCALE_GAP 
       CHARACTER KEY1*ncharkey
       LOGICAL IS_AVAILABLE
 !
@@ -198,6 +199,7 @@ C
       FHEATS= ZERO
       FHEATM= ZERO
       DTMIN=ZERO
+      EDGE_SCALE_GAP = ZERO
 C
       IASSIGN = 1
 C
@@ -318,6 +320,10 @@ C
          CALL HM_GET_FLOATV('D_RAD',DRAD,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('Fmax',FHEATS,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('HEAT_AL',FHEATM,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      ENDIF
+C
+      IF(NTYP ==  19) THEN
+          CALL HM_GET_FLOATV('EDGE_SCALE_GAP',EDGE_SCALE_GAP,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
 C
 C--------------------------------------------------
@@ -955,9 +961,9 @@ C
 C---- printout for TYPE19
         IF (NTYP == 19) THEN 
           IF (IGAP == 4) THEN
-            WRITE(IOUT,1552) IEDGE,GAP
+            WRITE(IOUT,1552) IEDGE,EDGE_SCALE_GAP,GAP
           ELSE
-            WRITE(IOUT,1551) IEDGE
+            WRITE(IOUT,1551) IEDGE,EDGE_SCALE_GAP
           ENDIF
         ENDIF
 
@@ -1293,9 +1299,11 @@ C
      .       '  Frictional heat transfer on SECONDARY surface . ',1PG20.13/,
      .       '  Frictional heat transfer on MAIN surface. ',1PG20.13/)
  1551 FORMAT(
-     .       '    EDGES SELECTION FLAG . . . . . . . . . . . ',I5/)
+     .       '    EDGES SELECTION FLAG . . . . . . . . . . . ',I5/,
+     .       '    EDGE TO EDGE GAP SCALE FACTOR. . . . . . . ',1PG20.13/)
  1552 FORMAT(
      .       '    EDGES SELECTION FLAG . . . . . . . . . . . ',I5/,
+     .       '    EDGE TO EDGE GAP SCALE FACTOR. . . . . . . ',1PG20.13/,
      .       '    CONSTANT GAP FOR EDGE TO EDGE CONTACT . . .',1PG20.13/,
      .       '    VARIABLE GAP FOR NODE TO SURFACE CONTACT (IGAP=2)',/)
       END
