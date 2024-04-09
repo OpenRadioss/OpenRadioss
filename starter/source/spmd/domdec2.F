@@ -2930,7 +2930,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER P, NACTIVE, J
       INTEGER (KIND=8) MEMTOTAL,RTOBYTES,ITOBYTES,MBYTE
-      DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE ::AVERAGE,DEVIATION   
+      DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE ::AVERAGE,DEVIATION
+      INTEGER STAVALUE
 C-----------------------------------------------
       NACTIVE=50
 C Double of float to Bytes conversion
@@ -3059,7 +3060,8 @@ C
      .    WRITE(IOUT,*)'NUMBER OF SMOOTH PARTICLES...... :',DDSTAT(17,P)
         WRITE(IOUT,*)
         DDSTAT(18,P)=MAX(DDSTAT(18,P),1310720)              ! 5 Mo en entiers / 4 bytes
-        DDSTAT(19,P)=MAX(DDSTAT(19,P),5242880/RTOBYTES)     ! 5 Mo en flottants
+        STAVALUE=INT(5242880/RTOBYTES)
+        DDSTAT(19,P)=MAX(DDSTAT(19,P),STAVALUE)     ! 5 Mo en flottants
         MEMTOTAL=DDSTAT(19,P)*RTOBYTES + DDSTAT(18,P) * ITOBYTES
         IF( GOT_INSPIRE_ALM == 1)THEN
           WRITE(IOUT,1201)P,
@@ -3095,6 +3097,7 @@ C
       ELSE
         P=1
         DDSTAT(18,P)=MAX(DDSTAT(18,P),1310720)              ! 5 Mo en entiers / 4 bytes
+        STAVALUE=INT(5242880/RTOBYTES)
         DDSTAT(19,P)=MAX(DDSTAT(19,P),5242880/RTOBYTES)     ! 5 Mo en flottants
         MEMTOTAL=DDSTAT(19,P)*RTOBYTES+DDSTAT(18,P)*ITOBYTES
 

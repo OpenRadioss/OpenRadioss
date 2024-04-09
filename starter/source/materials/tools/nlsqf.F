@@ -1304,7 +1304,7 @@ c        avolid dx to be too small
          WRITE(IOUT, *) 'AVE_SLOPE = ', AVE_SLOPE
        ENDIF
        mu_max = AVE_SLOPE
-       IF(ICOMP == 0 ) mu_max = max(AVE_SLOPE, 20.0)
+       IF(ICOMP == 0 ) mu_max = max(AVE_SLOPE, TWENTY)
        IF (LAWID == 1) THEN
          DO I = 1, NMUAL/2
            ! mu_i

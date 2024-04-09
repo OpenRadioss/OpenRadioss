@@ -108,8 +108,11 @@ C     REAL
       INTEGER NBX,NBY,NBZ
       INTEGER, DIMENSION(:), ALLOCATABLE :: IS_LARGE_NODE,LARGE_NODE, TAGNOD
       INTEGER :: NB_LARGE_NODES
-      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8   
+      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
+      INTEGER (KIND=8) :: IONE,IHUNDRED !< Integer constants in INTEGER 8 for comparisions
 C-----------------------------------------------
+      IONE=1
+      IHUNDRED=100
       GAPMAX=EP30
       GAPMIN=ZERO
 C-------use temporarily GAP_N(1,*)=V/A
@@ -309,9 +312,9 @@ C
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
       
       IF(RES8 > LVOXEL8) THEN
-        NBX = MIN(100,MAX(NBX8,1))
-        NBY = MIN(100,MAX(NBY8,1))
-        NBZ = MIN(100,MAX(NBZ8,1))
+        NBX = MIN(IHUNDRED,MAX(NBX8,IONE))
+        NBY = MIN(IHUNDRED,MAX(NBY8,IONE))
+        NBZ = MIN(IHUNDRED,MAX(NBZ8,IONE))
       END IF
 
 

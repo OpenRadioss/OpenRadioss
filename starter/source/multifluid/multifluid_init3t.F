@@ -73,10 +73,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), INTENT(IN), TARGET :: ELBUF_STR
       INTEGER, INTENT(IN) :: NEL, NSIGS, NSIGI, IXS(NIXS, *), IGEO(NPROPGI, *), IPM(NPROPMI, *), 
-     .     IPARG(*), 
      .     IPARTS(*), PTSOL(*), NPF(*), IPART(LIPART1, *), ILOADP(SIZLOADP, *)
-      my_real, INTENT(IN) :: XREFS(8, 3, *), X(3, *), GEO(NPROPG, *),  
+      INTEGER, INTENT(INOUT) :: IPARG(*)
+      my_real, INTENT(IN) :: X(3, *), GEO(NPROPG, *),  
      .     FACLOAD(LFACLOAD, *), TF(*), SKEW(LSKEW, *), SIGI(NSIGI, *), BUFMAT(*)
+      my_real, INTENT(INOUT) :: XREFS(8, 3, *)
       my_real,INTENT(INOUT) :: PM(NPROPM, *)
       my_real, INTENT(INOUT) :: WMA(*), PARTSAV(20, *), MAS(*), V(*), 
      .     MSNF(*), MCPS(8, *), MSSF(8, *), MSS(8, *), MSSA(*)

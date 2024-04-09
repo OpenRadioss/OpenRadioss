@@ -94,14 +94,16 @@ C
       INTEGER NB_OLD(2,I_ADD_MAX+1)
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8 
+      INTEGER (KIND=8) :: IONE,IHUNDRED
       INTEGER NB_N_B
       INTEGER IADFIN,II,L
       my_real :: XMAX,YMAX,ZMAX
       my_real :: XMIN,YMIN,ZMIN,XTMP
       my_real :: BMINMA(6)
       my_real :: DD,DX1,DY1,DZ1,DD1,MARGE_ST,TZINF_ST
-
-
+C Initializeing constant
+      IONE=1
+      IHUNDRED=100
 C-----------------------------------------------
 C   definition from TRI7BOX module
 C-----------------------------------------------      
@@ -303,9 +305,9 @@ c     MARGE = TZINF - MAX(MAXGAP,DRAD)
       END IF
           
       IF(RES8 > LVOXEL8) THEN
-        NBX = MIN(100,MAX(NBX8,1))
-        NBY = MIN(100,MAX(NBY8,1))
-        NBZ = MIN(100,MAX(NBZ8,1))
+        NBX = MIN(IHUNDRED,MAX(NBX8,IONE))
+        NBY = MIN(IHUNDRED,MAX(NBY8,IONE))
+        NBZ = MIN(IHUNDRED,MAX(NBZ8,IONE))
       END IF
       
       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)

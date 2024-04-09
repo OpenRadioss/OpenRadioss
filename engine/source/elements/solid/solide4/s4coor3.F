@@ -70,6 +70,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JEUL
       INTEGER, INTENT(IN) :: JLAG
       INTEGER, INTENT(IN) ::  NEL
+      INTEGER, INTENT(IN) ::  IXS(NIXS,*)
       my_real
      .   X(3,*),V(3,*),W(3,*), VIS(MVSIZ),
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), 
@@ -88,7 +89,6 @@ C-----------------------------------------------
      .  RHOO(MVSIZ)
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .        MXT(MVSIZ), NGL(MVSIZ),NGEO(MVSIZ)
-      INTEGER IXS(NIXS,*)
       
       DOUBLE PRECISION 
      .   XDP(3,*), SAV(NEL,9),
