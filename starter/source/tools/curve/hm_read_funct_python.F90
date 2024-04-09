@@ -1,30 +1,30 @@
-Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
-Copyright>
-Copyright>        This program is free software: you can redistribute it and/or modify
-Copyright>        it under the terms of the GNU Affero General Public License as published by
-Copyright>        the Free Software Foundation, either version 3 of the License, or
-Copyright>        (at your option) any later version.
-Copyright>
-Copyright>        This program is distributed in the hope that it will be useful,
-Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
-Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-Copyright>        GNU Affero General Public License for more details.
-Copyright>
-Copyright>        You should have received a copy of the GNU Affero General Public License
-Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-Copyright>
-Copyright>
-Copyright>        Commercial Alternative: Altair Radioss Software
-Copyright>
-Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
-Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       module read_funct_python_mod
       contains
 !! \details Read the python function defined by /FUNCT_PYTHON/
-        subroutine hm_read_funct_python(python,npc,snpc,total_nb_funct,
-     .                               lsubmodel,nbsubmod)
+        subroutine hm_read_funct_python(python,npc,snpc,total_nb_funct,&
+        &lsubmodel,nbsubmod)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -32,13 +32,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           USE SUBMODEL_MOD
           USE HM_OPTION_READ_MOD
           USE PYTHON_FUNCT_MOD
-          use iso_c_binding , only : c_char
+          USE NAMES_AND_TITLES_MOD, only : ncharline, nchartitle
+          use iso_c_binding , only : c_char, c_null_char
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                  included files
-! ----------------------------------------------------------------------------------------------------------------------
-! defines ncharline
-#include "nchar_c.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -58,12 +54,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           integer :: i,j,l,k
           integer :: func_id
           integer :: position_in_code
-!         character(kind=c_char,len=max_code_length) :: code
           character(kind=c_char, len=:), allocatable :: code
           integer :: line_len
           integer :: error,error_old
           double precision :: argin(1), argout(1)
-          character*nchartitle titr !function name
+!         character(len=:), allocatable :: titr !function name
+          character(len=nchartitle) :: titr !function name
+
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -77,9 +74,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           if(nb_funct > 0) then
             error_old = python_error
             if(python_error > 0) then
-              call ancmsg(MSGID=3039,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_2)
+              call ancmsg(MSGID=3039,&
+              &MSGTYPE=MSGERROR,&
+              &ANMODE=ANINFO_BLIND_2)
             endif
 
             call python_initialize(python_error)
@@ -119,18 +116,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
                   ! converts python%functs(i)%name of type  character(kind=c_char), dimension(:), allocatable :: name
                   ! initialize titr with "/FUNCT_PYTHON"
                   titr = repeat(' ',nchartitle)
-                  call ancmsg(MSGID=3038,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_2,
-     .                 I1=func_id)
+                  call ancmsg(MSGID=3038,&
+                  &MSGTYPE=MSGERROR,&
+                  &ANMODE=ANINFO_BLIND_2,&
+                  &I1=func_id)
                 endif
 
-!            write(6,*) "Python test",error
                 argin(1) = 2.0D0
                 call python_call_function(python%functs(i)%name, 1, argin, 1,argout)
                 !           write(6,*) "results =",argout(1)
                 call python_call_funct1D(python,i,argin(1), argout(1))
-!            write(6,*) "results =",argout(1)
               else
               endif
             enddo
