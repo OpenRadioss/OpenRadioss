@@ -47,7 +47,7 @@ Chd|====================================================================
      .                  IR_INPUT        ,IS_INPUT     ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
      .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,
      .                  MULTI_FVM       , H3D_DATA    ,IDMDS     ,IMDSVAR     ,MDS_MATID   ,
-     .                  ID              ,MODE         )
+     .                  ID              ,MAT_PARAM    ,MODE         )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,6 +60,7 @@ C-----------------------------------------------
         USE ALE_CONNECTIVITY_MOD
         USE ALEANIM_MOD , ONLY : FANI_CELL_
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+        USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,6 +92,7 @@ C-----------------------------------------------
         TYPE (H3D_DATABASE) :: H3D_DATA
         TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
         TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+        TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
         INTEGER ,INTENT(IN) :: MODE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -161,7 +163,7 @@ c
      .                    IR_INPUT        ,IS_INPUT     ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
      .                    IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,
      .                    MULTI_FVM       , H3D_DATA    ,NG        ,IDMDS       ,IMDSVAR     ,
-     .                    MDS_MATID       ,ID           ,MODE     )
+     .                    MDS_MATID       ,ID           ,MAT_PARAM ,MODE     )
 
  900    CONTINUE   ! NG
 C-----------------------------------------------

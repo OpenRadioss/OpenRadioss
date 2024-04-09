@@ -138,7 +138,6 @@ extern "C"
                 RES_STRING = strcat(RES_STRING, cname);
 #endif
 
-                printf("mode : %d \n", *mode);
                 if (*mode > 0)
                 {
                         sprintf(MODE_STRING, " mode %d", *mode);

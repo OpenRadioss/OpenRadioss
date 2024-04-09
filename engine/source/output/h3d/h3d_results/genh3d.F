@@ -2723,7 +2723,7 @@ c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INF
      .                      IR        ,IS        ,IT            ,IUVAR        ,H3D_DATA%OUTPUT_LIST(I)%PART,
      .                      IS_WRITEN_SOLID,INFO1,KEYWORD       ,FANI_CELL    ,
      .                      MULTI_FVM, H3D_DATA  ,IDMDS         ,IMDSVAR      ,MDS_MATID  ,
-     .                      OBJECT_ID ,MODE     )
+     .                      OBJECT_ID ,MAT_PARAM ,MODE          )
 c
             IF (NSPMD > 1 ) THEN
               CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
