@@ -27,6 +27,7 @@ Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
 Chd|-- calls ---------------
 Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
+Chd|        VINTER2                       source/tools/curve/vinter.F   
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
 Chd|        TABLE_MOD                     share/modules/table_mod.F     

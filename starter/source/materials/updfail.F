@@ -25,9 +25,11 @@ Chd|  UPDFAIL                       source/materials/updfail.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
+Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FAIL_FUN2SYS                  source/materials/tools/fail_fun2sys.F
 Chd|        MATTAB_USR2SYS                source/materials/tools/mattab_usr2sys.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE UPDFAIL(MAT_PARAM ,NUMMAT ,NFUNCT ,NTABLE ,FUNC_ID ,TABLE )

@@ -23,10 +23,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  LECH3D                        source/output/h3d/h3d_build_fortran/lech3d.F
 Chd|-- called by -----------
-Chd|        LECTUR                        source/input/lectur.F
+Chd|        LECTUR                        source/input/lectur.F         
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        CREATE_H3D_1D_SCALAR          source/output/h3d/h3d_build_fortran/create_h3d_1d_scalar.F
 Chd|        CREATE_H3D_1D_TENSOR          source/output/h3d/h3d_build_fortran/create_h3d_1d_tensor.F
 Chd|        CREATE_H3D_1D_TORSOR          source/output/h3d/h3d_build_fortran/create_h3d_1d_torsor.F
@@ -71,15 +71,15 @@ Chd|        H3D_LIST_SOLID_VECTOR         source/output/h3d/input_list/h3d_list_
 Chd|        H3D_LIST_SPH_SCALAR           source/output/h3d/input_list/h3d_list_sph_scalar.F
 Chd|        H3D_LIST_SPH_TENSOR           source/output/h3d/input_list/h3d_list_sph_tensor.F
 Chd|        H3D_SKIN_DIM                  source/output/h3d/h3d_results/h3d_skin_ixskin.F
-Chd|        INITBUF                       share/resol/initbuf.F
+Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F
-Chd|        INITBUF_MOD                   share/resol/initbuf.F
+Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F
+Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE LECH3D(GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
      .                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,

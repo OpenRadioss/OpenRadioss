@@ -25,8 +25,8 @@ Chd|  CREATE_H3D_SHELL_SCALAR       source/output/h3d/h3d_build_fortran/create_h
 Chd|-- called by -----------
 Chd|        LECH3D                        source/output/h3d/h3d_build_fortran/lech3d.F
 Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F
+Chd|        ARRET                         source/system/arret.F         
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE CREATE_H3D_SHELL_SCALAR(H3D_DATA,ID_SHELL_SCALAR ,N1       ,N2       ,ID_INPUT ,TEXT1  ,
      .                                       STEXT1       ,COMMENT    ,SCOMMENT  ,IPART    ,KEY3_GLOB ,

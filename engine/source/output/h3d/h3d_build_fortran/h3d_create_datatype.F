@@ -25,7 +25,7 @@ Chd|  H3D_CREATE_DATATYPE           source/output/h3d/h3d_build_fortran/h3d_crea
 Chd|-- called by -----------
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|-- calls ---------------
-Chd|        H3D_MOD                       share/modules/h3d_mod.F
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE H3D_CREATE_DATATYPE(H3D_DATA,IPARI)
 C-----------------------------------------------

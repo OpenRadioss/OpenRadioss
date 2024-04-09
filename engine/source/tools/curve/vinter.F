@@ -108,6 +108,8 @@ Chd|  VINTER2                       source/tools/curve/vinter.F
 Chd|-- called by -----------
 Chd|        FAIL_ORTHSTRAIN               source/materials/fail/orthstrain/fail_orthstrain_s.F
 Chd|        FAIL_ORTHSTRAIN_C             source/materials/fail/orthstrain/fail_orthstrain_c.F
+Chd|        FAIL_TAB2_C                   source/materials/fail/tabulated/fail_tab2_c.F
+Chd|        FAIL_TAB2_S                   source/materials/fail/tabulated/fail_tab2_s.F
 Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_tab_c.F
 Chd|        M36ITER_IMP                   source/materials/mat/mat036/m36iter_imp.F
 Chd|        MAT121C_NEWTON                source/materials/mat/mat121/mat121c_newton.F
