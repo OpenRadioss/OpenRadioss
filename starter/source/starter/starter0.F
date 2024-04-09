@@ -210,7 +210,7 @@ C=======================================================================
 #include      "archloops.inc"
 C -------------------------------------------------
 C First task check the exec arguments (fill common)
-      CALL EXECARGCHECK()
+      CALL EXECARGCHECK(OUTPUT)
 C -------------------------------------------------
 C     Constants
       CALL INICONSTANT

@@ -85,7 +85,10 @@ Chd|====================================================================
 C
             TYPE (TH_SURF_) TH_SURF
 C
+            INTEGER  DUMP_THNMS1_FILE
+C
          END TYPE TH_
+
 
          CONTAINS
 
