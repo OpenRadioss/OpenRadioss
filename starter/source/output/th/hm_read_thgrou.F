@@ -66,7 +66,7 @@ Chd|====================================================================
      C      IPARTS        ,IPARTQ        ,IPARTC           ,IPARTT            ,IPARTP        ,IPARTR ,
      D      IPARTG        ,IPARTX        ,IPARTSP          ,IPARTIG3D         ,LITHBUFMX     ,
      E      MAP_TABLES    ,IFLAG         ,PTR_NOPT_SLIPRING,PTR_NOPT_RETRACTOR,SENSORS       ,
-     F      INTERFACES    ,IPARI)
+     F      INTERFACES    ,IPARI         ,DUMP_THNMS1_FILE  )
 C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE MESSAGE_MOD
@@ -77,6 +77,8 @@ C-----------------------------------------------
       USE MAPPING_OPTION_MOD
       USE SENSOR_MOD
       USE INTERFACES_MOD
+      USE th_titles_mod
+      USE write_thnms1_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -125,6 +127,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE (SURF_)   , DIMENSION(NSURF) :: IGRSURF
+      INTEGER, INTENT(IN)::  DUMP_THNMS1_FILE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -134,7 +137,8 @@ C-----------------------------------------------
      .        NVALL,TAGP,TAGS,IFIX_TMP,IBID,NIN
       CHARACTER TITR*nchartitle,MESS*40,KEY*ncharline,COPT*ncharline,
      .        TITR1*nchartitle
-      INTEGER NVARN,NVARS,NVARC,NVART,NVARP,NVARR,NVARUR
+      INTEGER NVARN,NVARN1,NVARN1A,NVARN2,NVARNPINCH,NVARS,NVARC,NVART,NVARP,NVARR,NVARUR
+      INTEGER NVARS1,NVARS2,NVARS3,NVARS4,NVARS5,NVARS6,NVARS7,NVARS8,NVARS9,NVARSNLOC
       INTEGER NVARNS,NVARSPH
       INTEGER NVARIN,NVARRW,NVARRB,NVARAC,NVARSE,NVARJO,NVARFX,NVARFXM
       INTEGER NVARAB,NVARMV4,NVARMV,NVARPA,NVARMVENT,NVARSENS,NVARSENSG
@@ -150,7 +154,10 @@ C-----------------------------------------------
       INTEGER IVARRIV(18,NVARRIVG)
       CHARACTER*10 VARRIV(NVARRIV),VARRIVG(NVARRIVG)
 C-----------------------------------------------
-      PARAMETER (NVARN = 637,NVARS =239554 ,NVARC = 37856,NVART = 6)
+      PARAMETER (NVARN = 637,NVARN1 = 19,NVARN1A = 600,NVARN2 = 9 ,NVARNPINCH = 9)
+      PARAMETER (NVARS1 = 196,NVARS2 = 567,NVARS3 = 369,NVARS4 = 492,NVARS5 = 22)
+      PARAMETER (NVARS6 = 97200,NVARS7 = 97200,NVARS8 = 516,NVARS9 = 6,NVARSNLOC = 2)
+      PARAMETER (NVARS =239554 ,NVARC = 37856,NVART = 6)
       PARAMETER (NVARP = 337,NVARR = 66,NVARUR = 12)
       PARAMETER (NVARNS = 4,NVARSPH = 41)
       PARAMETER (NVARIN = 29,NVARRW = 6,NVARRB =15,NVARFX =4)
@@ -164,12 +171,13 @@ C-----------------------------------------------
       CHARACTER*10 VARP(NVARP),VARR(NVARR),VARUR(NVARUR)
       CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE::VARS
       CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE::VARC
-      CHARACTER*10 VARS1(196),VARS2(567), VARS3(369), VARS4(492),
-     .             VARS5(22),VARN1(19),
-     .             VARN2(9),
-     .             VARNPINCH(9),
+      CHARACTER*10 VARS1(NVARS1),VARS2(NVARS2), VARS3(NVARS3), VARS4(NVARS4),
+     .             VARS5(NVARS5),VARS8(NVARS8),VARS9(NVARS9),
+     .             VARN1(NVARN1),VARN1A(NVARN1A),
+     .             VARN2(NVARN2),
+     .             VARNPINCH(NVARNPINCH),
      .             VARSG1(202),VARSG4(1),
-     .             VARS8(516),VARS9(6),VARSNLOC(2)
+     .             VARSNLOC(NVARSNLOC)
       CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE::VARS6
       CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE::VARS7
       CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE::VARSG2
@@ -248,6 +256,21 @@ C-----------------------------------------------
        LOGICAL :: IS_AVAILABLE
       INTEGER, DIMENSION(:), POINTER :: IPARTEL_P
       CHARACTER THFILE*4
+      
+      CHARACTER(LEN=100),DIMENSION(:),ALLOCATABLE:: VARN1_TITLE,VARN1A_TITLE,VARN2_TITLE,VARNPINCH_TITLE,
+     .                              VARP_TITLE,VARR_TITLE,VART_TITLE,
+     .                              VARS1_TITLE,VARS2_TITLE,VARS3_TITLE,VARS4_TITLE,
+     .                              VARS5_TITLE,VARS6_TITLE,VARS7_TITLE,VARS8_TITLE,VARS9_TITLE,
+     .                              VARC_TITLE,
+     .                              VARSNLOC_TITLE,VARNS_TITLE,VARSPH_TITLE,
+     .                              VARIN_TITLE,VARRW_TITLE,VARRB_TITLE,
+     .                              VARMV_TITLE,VARSE_TITLE,VARAC_TITLE,
+     .                              VARJO_TITLE,VARMVENT_TITLE,
+     .                              VARPA_TITLE,VARFX_TITLE,
+     .                              VARGAU_TITLE,VARFR_TITLE,
+     .                              VARSLIP_TITLE,VARRET_TITLE,
+     .                              VARCLUS_TITLE,VARFLOW_TITLE,
+     .                              VARSURF_TITLE,VARSENS_TITLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -257,13 +280,55 @@ C   D a t a
 C-----------------------------------------------
       DATA MESS/'TH GROUP DEFINITION                     '/
       DATA IUN/1/
+      
+C-----------------------------------------------
+C   TH TITLES
+C   DON T MISS TO ADD TH TITLES FOR NEW TH OPTIONS 
+C-----------------------------------------------
+      ALLOCATE(VARN1_TITLE(NVARN1),VARN1A_TITLE(NVARN1A),VARN2_TITLE(NVARN2),VARNPINCH_TITLE(NVARNPINCH),
+     .         VARP_TITLE(NVARP),VARR_TITLE(NVARR),VART_TITLE(NVART),
+     .         VARS1_TITLE(NVARS1),VARS2_TITLE(NVARS2),VARS3_TITLE(NVARS3),VARS4_TITLE(NVARS4),
+     .         VARS5_TITLE(NVARS5),VARS6_TITLE(NVARS6),VARS7_TITLE(NVARS7),VARS8_TITLE(NVARS8),VARS9_TITLE(NVARS9),
+     .         VARC_TITLE(NVARC),
+     .         VARSNLOC_TITLE(NVARSNLOC),VARNS_TITLE(NVARNS),VARSPH_TITLE(NVARSPH),
+     .         VARIN_TITLE(NVARIN),VARRW_TITLE(NVARRW),VARRB_TITLE(NVARRB),
+     .         VARMV_TITLE(NVARMV),VARSE_TITLE(NVARSE),VARAC_TITLE(NVARAC),
+     .         VARJO_TITLE(NVARJO),VARMVENT_TITLE(NVARMVENT),
+     .         VARPA_TITLE(NVARPA),VARFX_TITLE(NVARFX),
+     .         VARGAU_TITLE(NVARGAU),VARFR_TITLE(NVARFR),
+     .         VARSLIP_TITLE(NVARSLIP),VARRET_TITLE(NVARRET),
+     .         VARCLUS_TITLE(NVARCLUS),VARFLOW_TITLE(NVARFLOW),
+     .         VARSURF_TITLE(NVARSURF),VARSENS_TITLE(1))
+
+      CALL TH_TITLES(
+     1      NVARN1        ,NVARN1A       ,NVARN2           ,NVARNPINCH        ,NVARS1           ,
+     1      NVARS2        ,NVARS3        ,NVARS4           ,NVARS5            ,NVARS6           ,
+     1      NVARS7        ,NVARS8        ,NVARS9           ,NVARSNLOC         ,
+     1      NVARP         ,NVARR         ,NVART            ,NVARNS            ,NVARSPH          ,
+     2      NVARIN        ,NVARRW        ,NVARRB           ,NVARMV            ,NVARSE           ,
+     3      NVARAC        ,NVARJO        ,NVARMVENT        ,NVARPA            ,NVARFX           ,
+     4      NVARGAU       ,NVARFR        ,NVARSLIP         ,NVARRET           ,NVARCLUS         ,
+     5      NVARFLOW      ,NVARSURF      ,NVARC            ,NVARSENS          ,
+     a      VARN1_TITLE   ,VARN1A_TITLE  ,VARN2_TITLE      ,
+     a      VARNPINCH_TITLE,VARP_TITLE   ,VARR_TITLE       ,VART_TITLE        ,
+     6      VARS1_TITLE   ,VARS2_TITLE   ,VARS3_TITLE      ,VARS4_TITLE       ,VARS5_TITLE      ,
+     6      VARS6_TITLE   ,VARS7_TITLE   ,VARS8_TITLE      ,VARS9_TITLE       ,VARSNLOC_TITLE   ,
+     6      VARC_TITLE    ,
+     7      VARNS_TITLE   ,VARSPH_TITLE  ,VARIN_TITLE      ,
+     8      VARRW_TITLE   ,VARRB_TITLE   ,VARMV_TITLE      ,VARSE_TITLE       ,VARAC_TITLE      ,
+     9      VARJO_TITLE   ,VARMVENT_TITLE,VARPA_TITLE      ,VARFX_TITLE       ,VARGAU_TITLE     ,
+     A      VARFR_TITLE   ,VARSLIP_TITLE ,VARRET_TITLE     ,VARCLUS_TITLE     ,VARFLOW_TITLE    ,
+     B      VARSURF_TITLE ,VARSENS_TITLE )
+
 C-----------------------------------------------
 C   TH VARIABLES
 C-----------------------------------------------
       ! Allocate temporary Arrays
       ! Character Arrays - ue ALLOCATEkm
-      ALLOCATE(VARS6(118692))
-      ALLOCATE(VARS7(118692))
+      ALLOCATE(VARS6(97200))
+      VARS6(1:97200) = ' '
+      ALLOCATE(VARS7(97200))
+      VARS7(1:97200) = ' '
       ALLOCATE(VARSG2(19782))
       ALLOCATE(VARSG3(19782))
       ALLOCATE(VARS(NVARS))
@@ -1678,36 +1743,36 @@ C-----------------------------------------------
 C  Brick
 C ------------------------------------------
 C   (VARS1, VARS2, VARS3, VARS4, VARS5, VARS6, VARS7 )----> VARS
-      DO I=1,196
+      DO I=1,NVARS1
        VARS(I) = VARS1(I)
       ENDDO
 C
-      DO I=1,567
-       VARS(196+ I) = VARS2(I)
+      DO I=1,NVARS2
+       VARS(NVARS1+ I) = VARS2(I)
       ENDDO
 C
-      DO I=1,369
-       VARS(196+ 567 + I) = VARS3(I)
+      DO I=1,NVARS3
+       VARS(NVARS1+ NVARS2 + I) = VARS3(I)
       ENDDO
-      DO I=1,492
-       VARS(196+ 567 + 369 + I) = VARS4(I)
+      DO I=1,NVARS4
+       VARS(NVARS1+ NVARS2 + NVARS3 + I) = VARS4(I)
       ENDDO
-      DO I=1,22
+      DO I=1,NVARS5
        VARS(1624 + I) = VARS5(I)
       ENDDO
-      DO I=1,97200
+      DO I=1,NVARS6
        VARS(1646 + I) = VARS6(I)
       ENDDO
-      DO I=1,97200
+      DO I=1,NVARS7
        VARS(98846 + I) = VARS7(I)
       ENDDO
-      DO I=1,516
+      DO I=1,NVARS8
        VARS(239030 + I) = VARS8(I)
       ENDDO
-      DO I=1,6
+      DO I=1,NVARS9
        VARS(239546 + I) = VARS9(I)
       ENDDO
-      DO I=1,2
+      DO I=1,NVARSNLOC
        VARS(239552 + I) = VARSNLOC(I)
       ENDDO
 C   (VARSG1, VARSG2, VARSG3 )----> VARSG
@@ -2080,22 +2145,25 @@ C   end . ivcg = ivcg  + 4*99*60 + 5 + 99  + 100
 C--------------fin --------------------
 C--------------fin --------------------
 C  ---- node + displacement by ply for shell
-      DO I=1,19
+      DO I=1,NVARN1
        VARN(I) = VARN1(I)
       ENDDO
        DO J= 1,200
         WRITE(CHJJ,'(I3.3)')J
           VAR ='DX_'//CHJJ
-          VARN(19 + (J-1)*3  + 1 )= VAR
+          VARN(NVARN1 + (J-1)*3  + 1 )= VAR
+          VARN1A((J-1)*3  + 1 )= VAR
           VAR ='DY_'//CHJJ
-          VARN(19 + (J-1)*3  + 2) = VAR
+          VARN(NVARN1 + (J-1)*3  + 2) = VAR
+          VARN1A((J-1)*3  + 2 )= VAR
           VAR ='DZ_'//CHJJ
-          VARN(19 + (J-1)*3  + 3) = VAR
+          VARN(NVARN1 + (J-1)*3  + 3) = VAR
+          VARN1A((J-1)*3  + 3 )= VAR
        ENDDO
-      DO I=1,9
+      DO I=1,NVARN2
        VARN(619+I) = VARN2(I)
       ENDDO
-      DO I=1,9 
+      DO I=1,NVARNPINCH 
        VARN(628+I) = VARNPINCH(I)
       ENDDO
       NNOD = 0
@@ -3142,7 +3210,45 @@ C Recherche des ID doubles
 C-------------------------------------
       CALL UDOUBLE(ITHGRP,NITHGR,NTHGRP2,MESS,0,BID)
 C
+C-------------------------------------
+C Write th.nms1 file
+C-------------------------------------
 
+      IF(DUMP_THNMS1_FILE == 1) THEN
+        CALL WRITE_THNMS1(
+     1      NVARN1        ,NVARN1A       ,NVARN2           ,NVARNPINCH        ,NVARS1           ,
+     2      NVARS2        ,NVARS3        ,NVARS4           ,NVARS5            ,NVARS6           ,
+     3      NVARS7        ,NVARS8        ,NVARS9           ,NVARSNLOC         ,
+     4      NVARP         ,NVARR         ,NVART            ,NVARNS            ,NVARSPH          ,
+     5      NVARIN        ,NVARRW        ,NVARRB           ,NVARMV            ,NVARSE           ,
+     5      NVARAC        ,NVARJO        ,NVARMVENT        ,NVARPA            ,NVARFX           ,
+     6      NVARGAU       ,NVARFR        ,NVARSLIP         ,NVARRET           ,NVARCLUS         ,
+     7      NVARFLOW      ,NVARSURF      ,NVARC            ,NVARSENS          ,
+     8      VARN1_TITLE   ,VARN1A_TITLE  ,VARN2_TITLE      ,
+     9      VARNPINCH_TITLE,VARP_TITLE   ,VARR_TITLE       ,VART_TITLE        ,
+     A      VARS1_TITLE   ,VARS2_TITLE   ,VARS3_TITLE      ,VARS4_TITLE       ,VARS5_TITLE      ,
+     B      VARS6_TITLE   ,VARS7_TITLE   ,VARS8_TITLE      ,VARS9_TITLE       ,VARSNLOC_TITLE   ,
+     C      VARC_TITLE    ,
+     D      VARNS_TITLE   ,VARSPH_TITLE  ,VARIN_TITLE      ,
+     E      VARRW_TITLE   ,VARRB_TITLE   ,VARMV_TITLE      ,VARSE_TITLE       ,VARAC_TITLE      ,
+     F      VARJO_TITLE   ,VARMVENT_TITLE,VARPA_TITLE      ,VARFX_TITLE       ,VARGAU_TITLE     ,
+     G      VARFR_TITLE   ,VARSLIP_TITLE ,VARRET_TITLE     ,VARCLUS_TITLE     ,VARFLOW_TITLE    ,
+     H      VARSURF_TITLE ,VARSENS_TITLE ,
+     I      VARN1         ,VARN1A        ,VARN2            ,VARNPINCH        ,
+     J      VARP          ,VARR          ,VART             ,VARS1             ,VARS2            ,
+     K      VARS3         ,VARS4         ,VARS5            ,VARS6             ,VARS7            ,
+     L      VARS8         ,VARS9         ,VARSNLOC         ,
+     M      VARC          ,
+     N      VARNS         ,VARSPH        ,VARIN            ,
+     O      VARRW         ,VARRB         ,VARMV            ,VARSE             ,VARAC            ,
+     P      VARJO         ,VARMVENT      ,VARPA            ,VARFX             ,VARGAU           ,
+     Q      VARFR         ,VARSLIP       ,VARRET           ,VARCLUS           ,VARFLOW          ,
+     R      VARSURF       ,VARSENS       )
+      ENDIF
+C-------------------------------------
+
+
+     
       ! Deallocate Variables
       DEALLOCATE(VARS6)
       DEALLOCATE(VARS7)
@@ -3152,6 +3258,21 @@ C
       DEALLOCATE(VARC)
       DEALLOCATE(VARSG)
       DEALLOCATE(IVARSG)
+      
+      DEALLOCATE(VARN1_TITLE,VARN1A_TITLE,VARN2_TITLE,VARNPINCH_TITLE,
+     .           VARP_TITLE,VARR_TITLE,VART_TITLE,
+     .           VARS1_TITLE,VARS2_TITLE,VARS3_TITLE,VARS4_TITLE,
+     .           VARS5_TITLE,VARS6_TITLE,VARS7_TITLE,VARS8_TITLE,VARS9_TITLE,
+     .           VARC_TITLE,
+     .           VARNS_TITLE,VARSPH_TITLE,
+     .           VARIN_TITLE,VARRW_TITLE,VARRB_TITLE,
+     .           VARMV_TITLE,VARSE_TITLE,VARAC_TITLE,
+     .           VARJO_TITLE,VARMVENT_TITLE,
+     .           VARPA_TITLE,VARFX_TITLE,
+     .           VARGAU_TITLE,VARFR_TITLE,
+     .           VARSLIP_TITLE,VARRET_TITLE,
+     .           VARCLUS_TITLE,VARFLOW_TITLE,
+     .           VARSURF_TITLE,VARSENS_TITLE)
       
 
       RETURN
