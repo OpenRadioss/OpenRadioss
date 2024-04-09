@@ -91,14 +91,16 @@ c
      .                      C1=MAT_PARAM(IMAT)%TITLE)   
               ENDIF 
               ! Check if temperature dependency is defined twice: in INST table and FCT_TEMP
-              IF ((TABLE(MAT_PARAM(IMAT)%FAIL(IR)%TABLE(2))%NDIM == 3) .AND. 
-     .            (MAT_PARAM(IMAT)%FAIL(IR)%IFUNC(4) > 0)) THEN 
-                CALL ANCMSG(MSGID=3056, 
-     .                      MSGTYPE=MSGWARNING, 
-     .                      ANMODE=ANINFO_BLIND,
-     .                      I1=MAT_PARAM(IMAT)%MAT_ID,
-     .                      C1=MAT_PARAM(IMAT)%TITLE)   
-              ENDIF 
+              IF (MAT_PARAM(IMAT)%FAIL(IR)%TABLE(2) > 0) THEN 
+                IF ((TABLE(MAT_PARAM(IMAT)%FAIL(IR)%TABLE(2))%NDIM == 3) .AND. 
+     .              (MAT_PARAM(IMAT)%FAIL(IR)%IFUNC(4) > 0)) THEN 
+                  CALL ANCMSG(MSGID=3056, 
+     .                        MSGTYPE=MSGWARNING, 
+     .                        ANMODE=ANINFO_BLIND,
+     .                        I1=MAT_PARAM(IMAT)%MAT_ID,
+     .                        C1=MAT_PARAM(IMAT)%TITLE)   
+                ENDIF 
+              ENDIF
             ENDIF 
 c
           ENDDO
