@@ -49,12 +49,11 @@ C-----------------------------------------------
      .        X1, Y1, Z1, X2, Y2, Z2, DD, TOLE
       INTEGER P_REF(6)
       DATA P_REF /1,5,1,2,3,4/
-      my_real
-     .        DLAMCH
-      EXTERNAL DLAMCH
-C
-C     TOLE=DLAMCH('Epsmach')
+#ifdef MYREAL8
       TOLE=EM10
+#else
+      TOLE=EM5
+#endif
 C Intersection triangle-box
       NVERTS=3
       DO I=1,NVERTS
