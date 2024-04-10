@@ -111,6 +111,7 @@ Chd|        FILE_SIZE                     ../common_source/tools/input_output/wr
 Chd|        FRETITL2                      source/input/freform.F        
 Chd|        NODALD                        source/output/anim/generate/nodald.F
 Chd|        NODALP                        source/output/anim/generate/nodalp.F
+Chd|        NODALSSP                      source/output/anim/generate/nodalssp.F
 Chd|        NODALT                        source/output/anim/generate/nodalt.F
 Chd|        NODALVFRAC                    source/output/anim/generate/nodalvfrac.F
 Chd|        NODALZVOL                     source/output/anim/generate/nodalzvol.F

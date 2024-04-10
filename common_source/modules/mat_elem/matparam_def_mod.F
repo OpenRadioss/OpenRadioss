@@ -200,6 +200,7 @@ Chd|        EIGP                          engine/stub/eigp.F
 Chd|        GENANI                        engine/source/output/anim/generate/genani.F
 Chd|        GENH3D                        engine/source/output/h3d/h3d_results/genh3d.F
 Chd|        H3D_SHELL_TENSOR              engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
+Chd|        H3D_SOLID_SCALAR              engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
 Chd|        HIST2                         engine/source/output/th/hist2.F
 Chd|        IMP_BUCK                      engine/source/implicit/imp_buck.F
 Chd|        S4VOLN_M                      engine/source/elements/solid/solide4_sfem/s4voln_m.F

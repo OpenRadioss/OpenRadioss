@@ -27,6 +27,7 @@ Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        VALPVECDP_V                   source/materials/mat/mat033/sigeps33.F
 Chd|        VALPVEC_V                     source/materials/mat/mat033/sigeps33.F
+Chd|        VINTER2                       source/tools/curve/vinter.F   
 Chd|====================================================================
       SUBROUTINE SIGEPS90(
      1     NEL    ,NUVAR   ,NFUNC   ,IFUNC   ,NPF    ,

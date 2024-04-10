@@ -116,6 +116,7 @@ Chd|        H3D_GENE_KEYWORD              engine/source/output/h3d/input_list/h3
 Chd|        H3D_LIST_QUAD_SCALAR          engine/source/output/h3d/input_list/h3d_list_quad_scalar.F
 Chd|        H3D_LIST_SHELL_SCALAR         engine/source/output/h3d/input_list/h3d_list_shell_scalar.F
 Chd|        H3D_LIST_SOLID_SCALAR         engine/source/output/h3d/input_list/h3d_list_solid_scalar.F
+Chd|        H3D_NODAL_SCALAR              engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
 Chd|        H3D_QUAD_SCALAR               engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
 Chd|        H3D_QUAD_VECTOR               engine/source/output/h3d/h3d_results/h3d_quad_vector.F
 Chd|        H3D_SHELL_SCALAR              engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
@@ -176,6 +177,7 @@ Chd|        MULTI_UPDATE_GLOBAL           engine/source/multifluid/multi_update_
 Chd|        MULTI_UPDATE_PARTIAL          engine/source/multifluid/multi_update_partial.F
 Chd|        MULTI_VAR2BUF                 engine/source/multifluid/multi_var2buf.F
 Chd|        MULTI_VELOCITY_BACKUP         engine/source/multifluid/multi_velocity_backup.F
+Chd|        NODALSSP                      engine/source/output/anim/generate/nodalssp.F
 Chd|        RADIOSS2                      engine/source/engine/radioss2.F
 Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
 Chd|        RDRESA                        engine/source/output/restart/rdresa.F

@@ -130,6 +130,7 @@ Chd|        SIGEPS56                      source/materials/mat/mat056/sigeps56.F
 Chd|        SIGEPS60                      source/materials/mat/mat060/sigeps60.F
 Chd|        SIGEPS68                      source/materials/mat/mat068/sigeps68.F
 Chd|        SIGEPS70                      source/materials/mat/mat070/sigeps70.F
+Chd|        SIGEPS90                      source/materials/mat/mat090/sigeps90.F
 Chd|        SIGEPS96                      source/materials/mat/mat096/sigeps96.F
 Chd|        SIGEPS96C                     source/materials/mat/mat096/sigeps96c.F
 Chd|-- calls ---------------
