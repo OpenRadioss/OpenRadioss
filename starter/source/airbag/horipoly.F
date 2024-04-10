@@ -47,8 +47,11 @@ C-----------------------------------------------
       my_real
      .        X1, Y1, Z1, X2, Y2, Z2, ZL1, ZL2, TOLE, DD 
 C
-*      TOLE=DLAMCH('Epsmach')
+#ifdef MYREAL8
       TOLE=EM10   
+#else
+      TOLE=EM5
+#endif
       NN=IPOLY(2)
       NNSP=0
       DO I=1,NN
@@ -138,12 +141,12 @@ C-----------------------------------------------
      .        SS, VVX, VVY, VVZ, SS1, X2, Y2, Z2, YLMIN, YLMAX, XSMIN1,
      .        XSMIN2, XX, YY, ZZ, YLSEC, XS, YS, LMAX, LL
 C
-      my_real
-     .        DLAMCH
-      EXTERNAL DLAMCH
 C
-*      TOLE=DLAMCH('Epsmach')
+#ifdef MYREAL8
       TOLE=EM10   
+#else
+      TOLE=EM5
+#endif
 C Creation de la liste des noeuds
       NN=0
       LMAX=ZERO
