@@ -95,9 +95,14 @@ if ( NOT DEFINED WITH_LINEAR_ALGEBRA)
 set ( wo_linalg "-DWITHOUT_LINALG" )
 endif()
 
+if ( CMAKE_C_COMPILER_VERSION  VERSION_GREATER 18)
+ set (veclib "-fveclib=none")
+else()
+ set (veclib "-fno-simdmath")
+endif()
 
 set(Vect_opt "-march=armv8-a  -D COMP_ARMFLANG=1 -D ARCH_CPU=ARM -fopenmp")
-set(Vect_precise "-nofma -ffp-contract=off -fno-unsafe-math-optimizations -fno-fast-math -fno-simdmath")
+set(Vect_precise "-nofma -ffp-contract=off -fno-unsafe-math-optimizations -fno-fast-math ${veclib}")
 set(Fortran "-ffixed-line-length-none")
 
 if ( debug STREQUAL "1" )
@@ -165,6 +170,16 @@ set_source_files_properties( ${source_directory}/source/input/redkey0.F PROPERTI
 set_source_files_properties( ${source_directory}/source/interfaces/inter3d/i3fri3.F PROPERTIES COMPILE_FLAGS ${F_O1})
 
 set_source_files_properties( ${source_directory}/source/output/restart/arralloc.F PROPERTIES COMPILE_FLAGS ${F_O2})
+
+
+if ( CMAKE_C_COMPILER_VERSION  VERSION_GREATER 18)
+# Armflang 24 / llvm 18 - c3bilan.F
+  set_source_files_properties( ${source_directory}/source/elements/sh3n/coque3n/c3bilan.F PROPERTIES COMPILE_FLAGS ${F_O0})
+
+  set_source_files_properties( ${source_directory}/source/assembly/damping_vref_rby.F90  PROPERTIES COMPILE_FLAGS ${F_O2})
+
+  set_source_files_properties( ${source_directory}/source/assembly/damping_vref_sum6_rby.F90  PROPERTIES COMPILE_FLAGS ${F_O0})
+endif()
 
 endif()
 

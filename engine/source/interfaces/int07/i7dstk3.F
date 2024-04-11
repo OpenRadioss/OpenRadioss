@@ -398,7 +398,6 @@ C---------------------
           ENDIF
         ENDDO
        ENDIF
-#include  "vectorize.inc"
         DO I=1,JLT
          IF(PENE2(I)>ZERO.AND.STIF(I)/=ZERO)THEN
           JLT_NEW = JLT_NEW + 1

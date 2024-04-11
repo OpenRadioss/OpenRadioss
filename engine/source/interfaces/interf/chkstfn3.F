@@ -699,7 +699,6 @@ C
           LLT   = NEL
           IF(ITY == 1) THEN
            IF (MLW/=0) THEN
-#include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I
               IF (ABS(GBUF%OFF(I)) == ONE .OR.
@@ -833,7 +832,6 @@ C Void elements never break and doesn't have ELBUF
             ENDIF
 C
           ELSEIF(ITY == 2) THEN
-#include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFQ
               IF(ABS(GBUF%OFF(I))>=ONE) THEN
@@ -862,7 +860,6 @@ C
 C    
           ELSEIF(ITY == 3)THEN
            IF(MLW/=0)THEN
-#include "vectorize.inc"
             DO I = LFT,LLT 
               IE = NFT+I+OFC
               IF(NADMESH/=0) THEN
@@ -897,7 +894,7 @@ C
               ENDIF
             ENDDO
            ELSEIF ((R2R_SIU == 0).OR.(IPARTR2R > 0)) THEN
-C Void elements never break and doesn't have ELBUF
+C Void elements never break and doesn t have ELBUF
 #include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFC
@@ -911,7 +908,6 @@ C Void elements never break and doesn't have ELBUF
 C
           ELSEIF(ITY == 4)THEN
             IF ((R2R_SIU == 0).OR.(IPARTR2R > 0)) THEN
-#include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFT
               IF (ABS(GBUF%OFF(I)) >= ONE) THEN
@@ -941,7 +937,6 @@ C
 C
           ELSEIF(ITY == 5)THEN
             IF ((R2R_SIU == 0).OR.(IPARTR2R > 0)) THEN
-#include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFP
               IF (ABS(GBUF%OFF(I)) >= ONE) THEN
@@ -971,7 +966,6 @@ C
 C
           ELSEIF(ITY == 6)THEN
             IF ((R2R_SIU == 0).OR.(IPARTR2R > 0)) THEN
-#include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFR
               IF (ABS(GBUF%OFF(I)) >= ONE) THEN
@@ -1009,7 +1003,6 @@ C
 C
           ELSEIF(ITY == 7)THEN
            IF(MLW/=0)THEN
-#include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFTG
 
@@ -3814,7 +3807,6 @@ C-----------------------------------------------
      .NTY==5.OR.NTY==20.OR.NTY==3.OR.NTY==24.OR.NTY==25)THEN
         IF(IDEL==2)THEN
           NIND_SEGLO = 0
-#include "vectorize.inc"
           DO J = 1, NINDG
             NN = BUFS(J)
             IF(NN > 0) THEN
@@ -3829,7 +3821,6 @@ C suivant facette main ou second
           END DO
         ELSEIF(IDEL == 1)THEN
           NIND_SEGLO = 0
-#include "vectorize.inc"
           DO J = 1, NINDG
             NN = BUFS(J)
             IF(NN == 0) THEN

@@ -228,7 +228,6 @@ C
       NB_NCN1= 0
       ADDNN= ADD(1,I_ADD)
       IF(IGAP==0)THEN
-#include "vectorize.inc"
         DO I=1,NB_NC
           J = BPN(I)
           IF(J <= NSN) THEN
@@ -253,7 +252,6 @@ C           ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
       ELSE !IF(IGAP == 0)
 
         GAPSMX = ZERO
-#include "vectorize.inc"
         DO I=1,NB_NC
           J = BPN(I)
           IF(J <= NSN) THEN
@@ -299,7 +297,6 @@ C
         NB_ECN= 0
         ADDNE= ADD(2,I_ADD)
         IF(NB_NCN1==0) THEN
-#include "vectorize.inc"
           DO I=1,NB_EC
             NE = BPE(I)
             XX1=XA(DIR, IRECT(1,NE))
@@ -314,7 +311,6 @@ C            ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
             ENDIF
           ENDDO
         ELSEIF(NB_NCN==0) THEN
-#include "vectorize.inc"
           DO I=1,NB_EC
             NE = BPE(I)
             XX1=XA(DIR, IRECT(1,NE))
@@ -329,7 +325,6 @@ C            ON STOCKE DANS LE BAS DE LA PILE BP
             ENDIF
           ENDDO
         ELSE
-#include "vectorize.inc"
           DO I=1,NB_EC
             NE = BPE(I)
             XX1=XA(DIR, IRECT(1,NE))
@@ -356,7 +351,6 @@ C Optimisation gap variable
         NB_ECN= 0
         ADDNE= ADD(2,I_ADD)
         IF(NB_NCN1==0) THEN
-#include "vectorize.inc"
           DO I=1,NB_EC
             NE = BPE(I)
             XX1=XA(DIR, IRECT(1,NE))
@@ -373,7 +367,6 @@ C             ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
             ENDIF
           ENDDO
         ELSEIF(NB_NCN==0) THEN
-#include "vectorize.inc"
           DO I=1,NB_EC
             NE = BPE(I)
             XX1=XA(DIR, IRECT(1,NE))
@@ -390,7 +383,6 @@ C             ON STOCKE DANS LE BAS DE LA PILE BP
             ENDIF
           ENDDO
         ELSE
-#include "vectorize.inc"
           DO I=1,NB_EC
             NE = BPE(I)
             XX1=XA(DIR, IRECT(1,NE))
@@ -1038,7 +1030,6 @@ c
       NB_NCN= 0
       NB_NCN1= 0
       ADDNN= ADD(1,I_ADD)
-#include "vectorize.inc"
       DO I=1,NB_NC
         NN = BPN(I)
         IF(NN<=NLINSA) THEN
@@ -1107,7 +1098,6 @@ c        il est possible que Timin=Ximin ...
       NB_ECN1= 0
       ADDNE= ADD(2,I_ADD)
       IF(NB_NCN1==0) THEN
-#include "vectorize.inc"
         DO I=1,NB_EC
          NE = BPE(I)
          XX1=XA(DIR, IXLINM(1,NE))
@@ -1126,7 +1116,6 @@ C          ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
          ENDIF
         ENDDO
       ELSEIF(NB_NCN==0) THEN
-#include "vectorize.inc"
         DO I=1,NB_EC
          NE = BPE(I)
          XX1=XA(DIR, IXLINM(1,NE))
@@ -1146,7 +1135,6 @@ C          ON STOCKE DANS LE BAS DE LA PILE BP
          ENDIF
         ENDDO
       ELSE
-#include "vectorize.inc"
         DO I=1,NB_EC
          NE = BPE(I)
          XX1=XA(DIR, IXLINM(1,NE))

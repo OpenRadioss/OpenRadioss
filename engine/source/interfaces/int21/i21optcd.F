@@ -131,7 +131,6 @@ C
        NLT = NLS
        NLS=0
        IF(ICURV==3)THEN
-#include      "vectorize.inc"
         DO LS = NLF, NLT
           IS = LISTI(LS)
           I=JS+IS

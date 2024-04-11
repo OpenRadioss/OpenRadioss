@@ -393,7 +393,6 @@ c
       NB_NCN= 0
       NB_NCN1= 0
       ADDNN= ADD(1,I_ADD)
-#include "vectorize.inc"
       DO I=1,NB_NC
         NN = BPN(I)
         IF(NN<=NRTS) THEN
@@ -424,7 +423,6 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
          END IF
         END IF
       ENDDO
-#include "vectorize.inc"
       DO I=1,NB_NC
         NN = BPN(I)
         IF(NN<=NRTS) THEN
@@ -484,7 +482,6 @@ c        il est possible que Timin=Ximin ...
       NB_ECN1= 0
       ADDNE= ADD(2,I_ADD)
       IF(NB_NCN1==0) THEN
-#include "vectorize.inc"
        DO I=1,NB_EC
         NE = BPE(I)
         XX1=X(DIR, IRECTM(1,NE))
@@ -503,7 +500,6 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
         ENDIF
        ENDDO
       ELSEIF(NB_NCN==0) THEN
-#include "vectorize.inc"
        DO I=1,NB_EC
         NE = BPE(I)
         XX1=X(DIR, IRECTM(1,NE))
@@ -523,7 +519,6 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
         ENDIF
        ENDDO
       ELSE
-#include "vectorize.inc"
        DO I=1,NB_EC
         NE = BPE(I)
         XX1=X(DIR, IRECTM(1,NE))
@@ -542,7 +537,6 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
          ENDIF
         ENDIF
        ENDDO
-#include "vectorize.inc"
        DO I=1,NB_EC
         NE = BPE(I)
         XX1=X(DIR, IRECTM(1,NE))

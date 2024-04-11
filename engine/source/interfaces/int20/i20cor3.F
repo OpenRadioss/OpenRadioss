@@ -768,7 +768,6 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
 
       ENDDO
       IF(IDTMINS/=2)THEN
-#include      "vectorize.inc"
        DO I=1,JLT
         IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
           JLT_NEW = JLT_NEW + 1
@@ -810,7 +809,6 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
         ENDIF
        ENDDO
       ELSE
-#include      "vectorize.inc"
        DO I=1,JLT
         IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
           JLT_NEW = JLT_NEW + 1

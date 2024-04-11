@@ -153,7 +153,6 @@ C necessaire pour gap TYPE5
        ENDDO
        NLS=0
        IF(ICURV/=0)THEN
-#include      "vectorize.inc"
         DO LS = NLF, NLT
           IS = LISTI(LS)
           I=JS+IS
@@ -245,7 +244,6 @@ C
           ENDIF
         ENDDO
 C
-#include      "vectorize.inc"
         DO LS=NLF,NLS
           IS=LIST(LS)
           XI=X(1,IG(IS))
@@ -287,7 +285,6 @@ C necessaire pour gap TYPE5
           ENDDO
 C
           IF(ICURV/=0)THEN
-#include      "vectorize.inc"
            DO LS = NLF, NLT
             IS = LISTI(LS)
             I=JS+IS
@@ -383,7 +380,6 @@ C
             ENDIF
            ENDDO
 C
-#include      "vectorize.inc"
            DO LS=NLF,NLS
             IS=LIST(LS)
             I=JS+IS

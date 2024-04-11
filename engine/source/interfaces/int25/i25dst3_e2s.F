@@ -779,7 +779,6 @@ C
       EJ_NEW=0
       INDX1(1:4*MVSIZ) = -666
       EDGE_ID_CP(1:2,1:MVSIZ) = EDGE_ID(1:2,1:MVSIZ)
-#include      "vectorize.inc"
           DO I=1,JLT
           DO EJ=1,4
 

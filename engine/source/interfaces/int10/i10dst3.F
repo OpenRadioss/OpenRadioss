@@ -354,7 +354,6 @@ C
            CAND_F(3,INDEX(I))=ZERO   
          ENDIF
         ENDDO
-#include      "vectorize.inc"
         DO I=1,JLT
          IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
           JLT_NEW = JLT_NEW + 1
@@ -482,7 +481,6 @@ C ---------
            CAND_F(3,INDEX(I))=ZERO   
          ENDIF
         ENDDO
-#include      "vectorize.inc"
         DO I=1,JLT
          IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
           JLT_NEW = JLT_NEW + 1

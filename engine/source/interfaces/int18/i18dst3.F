@@ -476,7 +476,6 @@ C-----------------------------------------------
             CAND_P(INDEX(I))=0
           ENDIF
        ENDDO
-#include   "vectorize.inc"
         DO I=1,JLT
          IF(PENE2(I) /= ZERO.AND.STIF(I) /= ZERO)THEN
           JLT_NEW         = JLT_NEW + 1

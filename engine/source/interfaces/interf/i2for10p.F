@@ -53,7 +53,6 @@ C     REAL
       my_real
      .   SS,TT,XMSI,STFN,FXI,FYI,FZI,SP,SM,TP,TM,H1, H2, H3, H4,H21, H22, H23, H24
 C=======================================================================
-#include "vectorize.inc"
       DO II=1,NSN
         I=NSV(II)                      
         IF (I > 0) THEN                                           
@@ -252,7 +251,6 @@ C-----------------------------------------------
         IN(J)=MAX(EM20,IN(J))
       ENDDO
 C
-#include "vectorize.inc"
       DO II=1,NSN
         I=NSV(II)
         IF (I > 0) THEN
