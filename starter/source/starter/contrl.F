@@ -114,6 +114,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE MAT_ELEM_MOD
       USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,LTITLE,NCHARLINE,NCHARTITLE
+      USE BCS_MOD , only : BCS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -790,6 +791,7 @@ C---------------------------------------------------
       CALL HM_OPTION_COUNT('/BCS',NUMBCS)
       CALL HM_OPTION_COUNT('/NBCS',NUMBCSN)
       NBCSKIN = NUMBCS - NBCSLAG
+      CALL HM_OPTION_COUNT('/BCS/WALL',BCS%NUM_WALL)      
 C---------------------------------------------------
 C     KINEMATIC CONDITIONS
 C---------------------------------------------------

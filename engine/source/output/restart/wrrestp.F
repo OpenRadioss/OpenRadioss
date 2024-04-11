@@ -145,6 +145,7 @@ C-----------------------------------------------
       USE PYTHON_FUNCT_MOD
       USE DAMP_MOD
       USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,LTITLE
+      USE BCS_MOD , only : BCS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -568,7 +569,6 @@ C--------------------------------------
               CALL EBCS_TAB%tab(II)%poly%write_data(leni, lenr)
            ENDDO
         ENDIF
-        ! -------------
         ! -----------------------------
 
         CALL WRITE_I_C(LACCELM,SLACCELM)
@@ -958,9 +958,21 @@ C--------------------------------------
 C----------------------------------
       CALL WRITE_I_C(TAG_SKINS6,NUMELS)
 C--------------------------------------
+C /BCS/CYCLIC
+C--------------------------------------
       IF(NBCSCYC > 0)THEN
         CALL WRITE_I_C(IBCSCYC,SIBCSCYC)
         CALL WRITE_I_C(LBCSCYC,SLBCSCYC)
+      ENDIF
+C--------------------------------------
+C /BCS/WALL
+C--------------------------------------
+      ITMP = BCS%NUM_WALL
+      CALL WRITE_I_C(ITMP,1)
+      IF(BCS%NUM_WALL > 0)THEN
+        DO I=1, BCS%NUM_WALL
+          CALL WRITE_BCS_WALL(BCS%WALL(I))
+        ENDDO
       ENDIF
 C--------------------------------------
 C     ECRITURE DES VARIABLES REELLES

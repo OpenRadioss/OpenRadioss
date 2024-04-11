@@ -137,6 +137,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE LOADS_MOD
       USE DAMP_MOD
+      USE BCS_MOD , ONLY : BCS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -874,10 +875,20 @@ C----------------------------------
 C----------------------------------
       CALL READ_I_C(TAG_SKINS6,NUMELS)
 C----------------------------------
+C /BCS/CYCLIC
+C----------------------------------
       IF(NBCSCYC > 0)THEN
         CALL READ_I_C(IBCSCYC,SIBCSCYC)
         CALL READ_I_C(LBCSCYC,SLBCSCYC)
       END IF
+C----------------------------------
+C /BCS/WALL
+C----------------------------------
+      CALL READ_I_C(ITMP,1)
+      BCS%NUM_WALL = ITMP
+      IF(BCS%NUM_WALL > 0)THEN
+        CALL READ_BCS_WALL()
+      ENDIF
 C----------------------------------
 C     LECTURE DES VARIABLES REELLES
 C--------------------------------------

@@ -669,6 +669,7 @@ C-----------------------------------------------
       USE ARRAY_MOD , ONLY : array_type
       USE NAMES_AND_TITLES_MOD, only: NAMES_AND_TITLES_
       USE UNITAB_MOD, ONLY : UNIT_TYPE_
+      USE BCS_MOD , ONLY : BCS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -9825,6 +9826,8 @@ C
         CALL FREE_PINCH(PINCH_DATA)
 
         CALL DEALLOCATE_JOINT()
+
+        CALL BCS%DEALLOCATE()
  
         RETURN
       ENDIF    ! MSTOP/=0     

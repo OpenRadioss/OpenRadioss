@@ -361,7 +361,8 @@ Chd|====================================================================
      C INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D   KLOADPINTER  , LOADPINTER ,DGAPLOADINT     ,S_LOADPINTER, LEN_CEP ,DYNAIN_DATA,
      E   DRAPEG       ,USER_WINDOWS,OUTPUT          ,INTERFACES  ,NUMBER_LOAD_CYL,
-     F   LOADS_PER_PROC, PYTHON,DPL0CLD,VEL0CLD,NAMES_AND_TITLES)
+     F   LOADS_PER_PROC, PYTHON    ,DPL0CLD         ,VEL0CLD     ,NAMES_AND_TITLES,
+     G   BCS_PER_PROC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -410,6 +411,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , ONLY : NSUBMOD
       USE PYTHON_FUNCT_MOD
       USE NAMES_AND_TITLES_MOD,only: NAMES_AND_TITLES_,LTITLE
+      USE BCS_MOD , ONLY : BCS_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -656,6 +658,7 @@ C-----------------------------------------------
         INTEGER, INTENT(IN) :: NUMBER_LOAD_CYL ! sum of load segment number
         TYPE(LOADS_),INTENT(IN)    :: LOADS ! initial structure of load cyl
         TYPE(LOADS_),INTENT(INOUT) :: LOADS_PER_PROC ! structure of load cyl for for the current proc P
+        TYPE(BCS_STRUCT_),INTENT(INOUT) :: BCS_PER_PROC
         TYPE(NAMES_AND_TITLES_),INTENT(IN) :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -2673,9 +2676,7 @@ C--------------------------------------
 C--------------------------------------
 C     Isogeo                                      
 C--------------------------------------
-      IF (NUMELIG3D>0)
-     .  CALL W_ELIG3D(KXIG3D,NUMELIG3D,ISUMNIG3D_L,IXIG3D,
-     +              P-1,NODLOCAL,LEN_IA)
+      IF (NUMELIG3D>0) CALL W_ELIG3D(KXIG3D,NUMELIG3D,ISUMNIG3D_L,IXIG3D,P-1,NODLOCAL,LEN_IA)
 C--------------------------------------
 C TAG_SKINS6 : used for /H3D/STRESS/TENS/OUTER
 C--------------------------------------
@@ -2683,9 +2684,11 @@ C--------------------------------------
 C--------------------------------------
 C     /BCS/CYCLIC
 C--------------------------------------
-      IF (NBCSCYC_L > 0)
-     .    CALL W_IBCSCYC(IBCSCYC,LBCSCYC,NODLOCAL ,P-1,LLBCSCYC_L,
-     .                   NBCSCYC_L,LEN_IA )
+      IF (NBCSCYC_L > 0) CALL W_IBCSCYC(IBCSCYC,LBCSCYC,NODLOCAL ,P-1,LLBCSCYC_L,NBCSCYC_L,LEN_IA )
+C--------------------------------------------
+C BCS/WALL
+C--------------------------------------------
+      CALL W_BCS_PROC(BCS_PER_PROC,CEL,SCEL,LEN_IA,LEN_AM)
 C--------------------------------------
 C     Write REAL variable                               
 C--------------------------------------
@@ -3234,7 +3237,7 @@ C--------------------------------------
 C--------------------------------------
 C ALE LINKS
 C--------------------------------------
-      CALL WRITE_ALE_GRID()    
+      CALL WRITE_ALE_GRID()
 C-----------------------------------------------
 C FXBODY
 C-----------------------------------------------
