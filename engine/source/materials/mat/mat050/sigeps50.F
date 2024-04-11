@@ -26,8 +26,9 @@ Chd|-- called by -----------
 Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|-- calls ---------------
-Chd|        INTEREPSP                     source/materials/mat/mat050/sigeps50.F
-Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        TABLE_MAT_VINTERP             source/materials/tools/table_mat_vinterp.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
+Chd|        TABLE_MAT_VINTERP_MOD         source/materials/tools/table_mat_vinterp.F
 Chd|====================================================================
       SUBROUTINE SIGEPS50 (
      1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NPF    ,
