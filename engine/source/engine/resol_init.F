@@ -176,6 +176,7 @@ C-----------------------------------------------
       USE OUTPUTS_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE OUTPUT_MOD
+      USE NLOC_COUNT_SOLNOD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -322,7 +323,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IMUEL, I, J, K, NG, NINT7,NNOD,K2S,K0,IAD1,IDUM,LLL,
      .        LRBUF, LIBUF, ITY, IAD, NNBEM, ITYP,IROTG,NS,LF,LT,LL,L,
-     .        L1,L2,ISECTR,NFR,IC,ICR,NISUB, NI25,NBR,NSENSOR
+     .        L1,L2,ISECTR,NFR,IC,ICR,NISUB, NI25,NBR,NSENSOR,INLOC
       INTEGER JD(50),KD(50),JFI,KFI,NMN,II,NINOUT,NNO,NEL,IFLGADM,
      .        NAD_SMS(NUMNOD),MAD_SMS(NUMNOD),N,JJ,KK, NFT, ISOLNOD,NBS
       INTEGER, DIMENSION(SENSORS%NSENSOR) :: INDEX_SENSOR
@@ -1130,6 +1131,8 @@ C-----------------------
        ! Non-local regularization is activated
        IF (NLOC_DMG%IMOD > 0) THEN
          CALL SPMD_SUB_BOUNDARIES(NLOC_DMG,IAD_ELEM,FR_ELEM)
+         CALL NLOC_COUNT_SOLNOD(NGROUP   ,NPARG    ,IPARG    ,
+     .                ELBUF_TAB,IXS      ,NIXS     ,NUMELS   )
        ENDIF
 C       
        DO I=1,NLOADP_B

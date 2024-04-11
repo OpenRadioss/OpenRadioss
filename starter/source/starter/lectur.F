@@ -10485,22 +10485,11 @@ C----------------------------------------------------------------------
             NLOC_DMG%ADDCNE(0:NLOC_DMG%NNOD+1) = 0
             ! Filling ADDCNE for non-local nodes
             CALL BUILD_ADDCNEL_SUB(ADDCNE  ,CNE      ,NLOC_DMG%ADDCNE,NLOC_DMG%INDX,NLOC_DMG%NNOD)
-!             WRITE(*,*) "NLOC_DMG%ADDCNE(1:8) = ", NLOC_DMG%ADDCNE(1:8)
-!             WRITE(*,*) "ADDCNE(1:8) = ", ADDCNE(1:8)
-!             WRITE(*,*) "NLOC_DMG%ADDCNE(FIN) = ", NLOC_DMG%ADDCNE(NLOC_DMG%NNOD+1-8:NLOC_DMG%NNOD+1)
-!             WRITE(*,*) "ADDCNE(FIN) = ", ADDCNE(NUMNOD+1-8:NUMNOD+1)
             ! Allocation of CNE for non-local nodes
             IF(.NOT.ALLOCATED(NLOC_DMG%CNE)) ALLOCATE(NLOC_DMG%CNE(NLOC_DMG%ADDCNE(NLOC_DMG%NNOD+1)-1))
             NLOC_DMG%CNE(1:NLOC_DMG%ADDCNE(NLOC_DMG%NNOD+1)-1) = 0
-!             WRITE(*,*) 'SIZE NL = ', SIZE(NLOC_DMG%CNE)
-!             WRITE(*,*) 'SIZE_L = ', SIZE(CNE)
             ! Filling CNE for non-local nodes
             CALL BUILD_CNEL_SUB(NLOC_DMG%CNE,NLOC_DMG%ADDCNE,CNE,ADDCNE,NLOC_DMG%INDX,NLOC_DMG%NNOD)
-!             WRITE(*,*) 'NLOC_DMG%CNE(1:8) = ', NLOC_DMG%CNE(1:8)
-!             WRITE(*,*) 'CNE(1:8) = ', CNE(ADDCNE(NLOC_DMG%INDX(1)):ADDCNE(NLOC_DMG%INDX(1))+7)
-!             WRITE(*,*) 'NLOC_DMG%CNE(FIN) = ', NLOC_DMG%CNE(NLOC_DMG%ADDCNE(NLOC_DMG%NNOD+1)-1-8:
-!      .                                         NLOC_DMG%ADDCNE(NLOC_DMG%NNOD+1)-1)
-!             WRITE(*,*) 'CNE(FIN) = ', CNE(ADDCNE(NLOC_DMG%INDX(NLOC_DMG%NNOD)+1)-8-1:ADDCNE(NLOC_DMG%INDX(NLOC_DMG%NNOD)+1)-1)
           ENDIF
 C--------------------------------------------
 C     Multidomains -> transfert de la domdec

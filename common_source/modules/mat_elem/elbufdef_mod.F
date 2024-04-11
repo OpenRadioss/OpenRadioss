@@ -984,6 +984,11 @@ c---
         my_real, DIMENSION(:,:), POINTER :: VNLTH  ! Non-local velocities
         my_real, DIMENSION(:,:), POINTER :: FNLTH  ! Non-local forces
       END TYPE BUF_NLOCTS_
+!     Non-local buffer for brick elements geometry configuration
+      TYPE BUF_NLOCS_
+        INTEGER, DIMENSION(:)  , ALLOCATABLE :: NL_ISOLNOD ! Number of effective nodes (NEL)
+        INTEGER, DIMENSION(:,:), ALLOCATABLE :: NL_SOLNOD  ! Identifiers of effectives nodes (8,NEL)
+      END TYPE BUF_NLOCS_
 !--------------------------------------------------------------------------------
 
       TYPE BUF_EOS_
@@ -1205,8 +1210,9 @@ c--------------------
         TYPE (BUF_LAY_)   , DIMENSION(:)   , POINTER :: BUFLY  ! BUFLY(NLAY) layer variables 
         TYPE (BUF_INTLAY_), DIMENSION(:)   , POINTER :: INTLAY ! inter-layer (NLAY-1)
         TYPE (BUF_XFEM_)  , DIMENSION(:)   , POINTER :: XFEM   ! XFEM (NXEL)
-        TYPE (BUF_NLOC_)  , DIMENSION(:,:) , POINTER :: NLOC   ! NLOC (NPTR,NPTS)
-        TYPE (BUF_NLOCTS_), DIMENSION(:,:) , POINTER :: NLOCTS ! NLOC (NPTR,NPTS)
+        TYPE (BUF_NLOC_)  , DIMENSION(:,:) , POINTER :: NLOC   ! Non-local thickness specific structure for shells
+        TYPE (BUF_NLOCTS_), DIMENSION(:,:) , POINTER :: NLOCTS ! Non-local thickness specific structure for thickshells
+        TYPE (BUF_NLOCS_)                            :: NLOCS  ! Non-local structure of brick element geometry configuration
       END TYPE ELBUF_STRUCT_
 c
 c---------------
