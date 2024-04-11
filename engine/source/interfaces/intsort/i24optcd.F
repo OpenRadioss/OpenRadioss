@@ -213,7 +213,6 @@ C
        NLT = NLS
        NLS=0
        IF(ICURV/=0)THEN
-#include      "vectorize.inc"
         DO LS = NLF, NLT
           IS = LISTI(LS)
           I=JS+IS
@@ -307,7 +306,6 @@ C
           ENDIF
         ENDDO
        ELSE
-#include      "vectorize.inc"
         DO LS = NLF, NLT
 C   conserver LISTI et LIST pour optimiser le code genere (IA64)
           IS = LISTI(LS)
@@ -373,7 +371,6 @@ C which was deleted.
 C
         NLT=NLS
         NLS=0
-#include      "vectorize.inc"
         DO LS=NLF,NLT
           IS=LIST(LS)
           I=JS+IS
@@ -409,7 +406,6 @@ c PMAX_GAP is not used here (node not in contact)
           ENDIF
         ENDDO
 C
-#include      "vectorize.inc"
         DO LS=NLF,NLS
           IS=LIST(LS)
           I=JS+IS
@@ -518,7 +514,6 @@ c a faire     EDGE_L(IS)=EDGE_L2FI(NIN)%P(CAND_N(I)-NSN)
             ENDDO
           ENDIF
           IF(ICURV/=0)THEN
-#include      "vectorize.inc"
            DO LS = NLF, NLT
             IS = LISTI(LS)
             I=JS+IS
@@ -613,7 +608,6 @@ CC--             Count of contact connections for AMS (+ additional connections 
            END DO
           ELSE
            NLS=0
-#include      "vectorize.inc"
            DO LS = NLF, NLT
             IS = LISTI(LS)
             I=JS+IS
@@ -677,7 +671,6 @@ c      write(iout,*)'i24optcd 3'
            NLF=1
            NLT=NLS
            NLS=0
-#include      "vectorize.inc"
            DO LS=NLF,NLT
             IS=LIST(LS)
             I=JS+IS
@@ -714,7 +707,6 @@ c PMAX_GAP is not used here (node not in contact)
             ENDIF
            ENDDO
 C
-#include      "vectorize.inc"
 c      write(iout,*)'i24optcd 4'
            DO LS=NLF,NLS
             IS=LIST(LS)

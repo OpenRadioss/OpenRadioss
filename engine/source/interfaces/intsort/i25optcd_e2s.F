@@ -307,7 +307,6 @@ C
        NLT = NLS
        NLS = 0
 C ======== LOCAL TIRM 1
-#include      "vectorize.inc"
        DO LS = NLF, NLT
          IS = LISTI(LS)
          I = JS + IS
@@ -372,7 +371,6 @@ C
        NLT=NLS
        NLS=0
 C ======== LOCAL TIRM 2
-#include      "vectorize.inc"
        DO LS=NLF,NLT
           IS=LIST(LS)
           I=JS+IS
@@ -405,7 +403,6 @@ C
        NLT = NLS
        NLS=0
 C ======== LOCAL TIRM 3
-#include      "vectorize.inc"
        DO LS=NLF,NLT
           IS=LIST(LS)
           I=JS+IS
@@ -454,7 +451,6 @@ C =========  REMOTE
 C
          NLS=0
 C =========  REMOTE TRIM 1
-#include      "vectorize.inc"
          DO LS = NLF, NLT
 C   conserver LISTI et LIST pour optimiser le code genere (IA64)
           IS = LISTI(LS)
@@ -505,7 +501,6 @@ C
         NLT=NLS
         NLS=0
 C ============= REMOTE TRIM 2
-#include      "vectorize.inc"
         DO LS=NLF,NLT
           IS=LIST(LS)
           I=JS+IS
@@ -541,7 +536,6 @@ C ============= REMOTE TRIM 2
           ENDIF
         ENDDO
 C ================ REMOTE TRIM 3
-#include      "vectorize.inc"
         DO LS=NLF,NLS
           IS=LIST(LS)
           I=JS+IS

@@ -104,7 +104,6 @@ C     TRANSMISES AUX NOEUDS MAINS SOUS
 C     FORME DE MASSES 
 C------------------------------
 C
-#include "vectorize.inc"
       DO II=1,NSN
        K = INDXC(II)                                      
        IF (K == 0) CYCLE                                  

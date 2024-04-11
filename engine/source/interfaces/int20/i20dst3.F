@@ -684,7 +684,6 @@ C
        IF(IDTMINS/=2)THEN
         IF(INTTH == 0 ) THEN
          IF(ICURV==0.AND.IADM==0 )THEN
-#include   "vectorize.inc"
           DO I=1,JLT
            IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
             JLT_NEW = JLT_NEW + 1
@@ -733,7 +732,6 @@ C
            ENDIF
           ENDDO
          ELSE    ! 
-#include  "vectorize.inc"
           DO I=1,JLT
            IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
             JLT_NEW = JLT_NEW + 1
@@ -800,7 +798,6 @@ C
          ENDIF
        ELSE
          IF(IADM == 0 )THEN
-#include   "vectorize.inc"
           DO I=1,JLT
            IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
             JLT_NEW = JLT_NEW + 1
@@ -870,7 +867,6 @@ C
            ENDIF
           ENDDO
          ELSE    ! 
-#include  "vectorize.inc"
           DO I=1,JLT
            IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
             JLT_NEW = JLT_NEW + 1
@@ -943,7 +939,6 @@ C
 C------ IDTMINS=2
         IF(INTTH == 0 ) THEN
          IF(ICURV==0.AND.IADM==0 )THEN
-#include   "vectorize.inc"
           DO I=1,JLT
            IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
             JLT_NEW = JLT_NEW + 1
@@ -994,7 +989,6 @@ C
            ENDIF
           ENDDO
          ELSE    ! 
-#include  "vectorize.inc"
           DO I=1,JLT
            IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
             JLT_NEW = JLT_NEW + 1
@@ -1063,7 +1057,6 @@ C
          ENDIF
        ELSE
          IF(IADM == 0 )THEN
-#include   "vectorize.inc"
           DO I=1,JLT
            IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
             JLT_NEW = JLT_NEW + 1
@@ -1135,7 +1128,6 @@ C
            ENDIF
           ENDDO
          ELSE    ! 
-#include  "vectorize.inc"
           DO I=1,JLT
            IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
             JLT_NEW = JLT_NEW + 1

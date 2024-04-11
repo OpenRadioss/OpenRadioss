@@ -214,7 +214,6 @@ C--------------------------------------------------------
        PENE2(I) = GAP2 - NX(I)*NX(I) - NY(I)*NY(I) - NZ(I)*NZ(I)
        PENE2(I) = MAX(ZERO,PENE2(I)) 
       ENDDO
-#include  "vectorize.inc"
       DO I=1,JLT
         IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
           JLT_NEW = JLT_NEW + 1

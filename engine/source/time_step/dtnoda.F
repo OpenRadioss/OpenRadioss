@@ -267,7 +267,6 @@ C
           ELSEIF(IDTMIN(11)==3.OR.IDTMIN(11)==8)THEN
 C----------------------------------------------------------
             IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0) THEN
-#include      "vectorize.inc"
               DO K=1,KMAX
                 IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K) 
@@ -289,7 +288,6 @@ C----------------------------------------------------------
                 ENDIF
               ENDDO
             ELSE
-#include      "vectorize.inc"
               DO K=1,KMAX
                 IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K) 
@@ -694,7 +692,6 @@ C
            ELSEIF(IDTMIN(11)==3.OR.IDTMIN(11)==8)THEN
 C----------------------------------------------------------
              IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0) THEN
-#include      "vectorize.inc"
                DO K=1,KMAX
                 IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K) 
@@ -711,7 +708,6 @@ C----------------------------------------------------------
                 ENDIF
                ENDDO
              ELSE
-#include      "vectorize.inc"
                DO K=1,KMAX
                 IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K) 

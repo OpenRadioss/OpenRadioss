@@ -69,7 +69,6 @@ C     REAL
      .   H(4),H2(4)
 C-----------------------------------------------
       IF (NIR==2) THEN
-#include "vectorize.inc"
         DO II=1,NSN
           I=NSV(II)
           IF(I>0)THEN
@@ -150,7 +149,6 @@ C stokage ZERO pour noeuds delete par idel2
         ENDDO
 C   NIR = 4
       ELSE
-#include "vectorize.inc"
         DO II=1,NSN
           I=NSV(II)
           IF(I>0)THEN
@@ -322,7 +320,6 @@ C   sauvegarde de la masse initiale
       ENDDO
 C
       IF (NIR==2) THEN
-#include "vectorize.inc"
         DO II=1,NSN
           I=NSV(II)
           IF(I>0) THEN
@@ -385,7 +382,6 @@ C
         ENDDO
 C   NIR = 4
       ELSE
-#include "vectorize.inc"
         DO II=1,NSN
           I=NSV(II)
           IF(I>0)THEN
@@ -549,7 +545,6 @@ C   sauvegarde de la masse initiale
       ENDDO
 C
       IF (NIR==2) THEN
-#include "vectorize.inc"
         DO II=1,NSN
           I=NSV(II)
           I3=3*I
@@ -595,7 +590,6 @@ C
         ENDDO
 C   NIR = 4
       ELSE
-#include "vectorize.inc"
         DO II=1,NSN
           I=NSV(II)
           L = IRTL(II)
@@ -735,14 +729,13 @@ C     MINER(II) initialise a MS(J) dans resol_init
           ADI(J) = ADI(J)*MINER(II)
         ENDDO
       ENDIF
-#include "vectorize.inc"
+
       DO II=1,NMN
         J=MSR(II)
         IN(J)=MAX(EM20,IN(J))
       ENDDO
 C
       IF (NIR == 2) THEN
-#include "vectorize.inc"
         DO II=1,NSN
           I=NSV(II)
           IF(I>0)THEN
@@ -853,7 +846,7 @@ C stokage ZERO pour noeuds delete par idel2
           ENDIF
         ENDDO
       ELSE
-#include "vectorize.inc"
+
         DO II=1,NSN
           I=NSV(II)
           IF(I>0)THEN
@@ -1045,7 +1038,6 @@ C-----------------------------------------------
         IN(J)=MAX(EM20,IN(J))
       ENDDO
 C
-#include "vectorize.inc"
       DO II=1,NSN
         I=NSV(II)
         IF (WEIGHT(I)==1) THEN
@@ -1263,7 +1255,6 @@ C     TRANSMISES AUX NOEUDS MAINS SOUS
 C     FORME DE MASSES
 C------------------------------
 C
-#include "vectorize.inc"
       DO II=1,NSN
         I=NSV(II)
         IF(I>0)THEN
@@ -1552,7 +1543,6 @@ C-----------------------------------------------
       INTEGER II,I,NN
 C-----------------------------------------------
 C
-#include "vectorize.inc"
       DO II=1,NSN
         I=NSV(II)
         IF (WEIGHT(I)==1) THEN
@@ -1608,7 +1598,6 @@ C-----------------------------------------------
       INTEGER I, II
 C     REAL
 C-----------------------------------------------
-#include "vectorize.inc"
       DO II=1,NSN
         I=NSV(II)
         IF(I>0)THEN

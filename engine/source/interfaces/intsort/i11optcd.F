@@ -145,7 +145,6 @@ C
        NLF = 1
        NLT = NLS
        NLS=0
-#include      "vectorize.inc"
        DO LS = NLF, NLT
          IS = LISTI(LS)
          I=JS+IS
@@ -177,7 +176,6 @@ C
 C
        NLT=NLS
        NLS=0
-#include      "vectorize.inc"
        DO LS=NLF,NLT
           IS=LIST(LS)
           I=JS+IS
@@ -202,7 +200,6 @@ C
           ENDIF
        ENDDO
 C
-#include      "vectorize.inc"
        DO LS=NLF,NLS
           IS=LIST(LS)
           I=JS+IS
@@ -249,7 +246,6 @@ C
          ENDIF
 C
          NLS=0
-#include      "vectorize.inc"
          DO LS = NLF, NLT
 C   conserver LISTI et LIST pour optimiser le code genere (IA64)
           IS = LISTI(LS)
@@ -282,7 +278,6 @@ C
         NLF=1
         NLT=NLS
         NLS=0
-#include      "vectorize.inc"
         DO LS=NLF,NLT
           IS=LIST(LS)
           I=JS+IS
@@ -307,7 +302,6 @@ C
           ENDIF
         ENDDO
 C
-#include      "vectorize.inc"
         DO LS=NLF,NLS
           IS=LIST(LS)
           I=JS+IS
