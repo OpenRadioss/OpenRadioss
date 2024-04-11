@@ -83,11 +83,12 @@ C-----------------------------------------------
       INTEGER I,J,K,NG,NEL,NFT,ITY,NPTT,ILOC,INOD,NNOD,NDEPAR,IMAT,
      .        L_NLOC,POS,NDD,ISOLID,N,NUMELS_NL,IGTYP,NUMELC_NL,NDDMAX,
      .        NUMELTG_NL,NPTR,NPTS,IR,IS,ISOLNOD,IO_ERR1,LEN_TMP_NAME,
-     .        WORK(70000),IDEB,IDEBS,IDEBC,IDEBT,IADBUF,MATSIZE
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAGNOD
+     .        WORK(70000),IDEB,IDEBS,IDEBC,IDEBT,IADBUF,MATSIZE,ERROR
+      INTEGER, DIMENSION(8) :: IDXND,NODE_ID
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAGNOD,SOLNOD
       INTEGER, DIMENSION(:),   ALLOCATABLE :: INDX,IDXI,NMAT,NDDL,
      .                                        POSI,ITRI,INDEX,TAGTET,
-     .                                        TAGPENT
+     .                                        TAGPENT,ISLNOD
       INTEGER, DIMENSION(:,:), POINTER     :: IADS
       my_real
      .   DENS, DTMIN, LEN, SSPNL,NTH1, NTH2,
@@ -104,6 +105,7 @@ C-----------------------------------------------
       TYPE(BUF_NLOCTS_), POINTER           :: BUFNLTS
       my_real, DIMENSION(:,:), POINTER     :: 
      .   MASSTH
+      LOGICAL, DIMENSION(8) :: BOOL
       ! Damping ratio ZETA 
       ! ZETA = 0     : Undamped
       ! 0 < ZETA < 1 : Underdamped
@@ -333,6 +335,8 @@ c
         ALLOCATE( NDDL(NUMNOD) )  
         ALLOCATE( NMAT(NUMNOD) ) 
         ALLOCATE( POSI(NUMNOD+1) )
+        ALLOCATE( ISLNOD(NUMELS))
+        ALLOCATE( SOLNOD(8,NUMELS))
         ALLOCATE( VOLN_S(8,NUMELS) )
         ALLOCATE( VOLN_C(4,NUMELC) )
         ALLOCATE( VOLN_TG(3,NUMELTG) )
@@ -466,33 +470,59 @@ c
                 ENDDO
               ! Brick element
               ELSEIF (ISOLNOD == 8) THEN
-                  ! Loop over elements
-                  DO I = 1,NEL
-                    ! Loop over brick nodes
-                    DO J = 1,8
-                      ! Number of the nodes
-                      K = J + 1
-                      INOD = IXS(K,I+NFT)
-                      ! Tag the node as non-local
-                      TAGNOD(INOD,1) = 1
-                      ! Tag the number of additional d.o.fs
-                      TAGNOD(INOD,2) = NPTT
-                      ! If already written and different => error
-                      IF ((TAGNOD(INOD,3) /= 0).AND.(TAGNOD(INOD,3) /= IMAT)) THEN
-                        CALL ANCMSG(MSGID=1656,MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_1,I1=INOD,I2=IMAT,I3=TAGNOD(INOD,3))                  
-                      ENDIF
-                      ! Tag the material law id of the node
-                      TAGNOD(INOD,3) = IMAT
-                      ! Computation of the volume associated to the node
-                      VOLN_S(J,I+NFT) = ONE_OVER_8 * VOL(I)
-                    ENDDO      
+                ! Loop over elements
+                DO I = 1,NEL
+                  ! Reset counters
+                  ISLNOD(I+NFT) = 0 
+                  SOLNOD(1:8,I+NFT) = 0
+                  ! Loop over brick nodes to save nodes IDs
+                  DO J=1,8
+                    NODE_ID(J) = IXS(1+J,I+NFT)
                   ENDDO
-                ELSE
+                  ! Sort and find only effective nodes IDs (to detect degenerated bricks)
+                  CALL MYQSORT_INT(8,NODE_ID,IDXND,ERROR)
+                  BOOL(1:8) = .FALSE.
+                  BOOL(IDXND(1)) = .TRUE.
+                  DO J=2,8
+                    IF (NODE_ID(J) /= NODE_ID(J-1)) THEN
+                      BOOL(IDXND(J))=.TRUE.
+                    ENDIF
+                  ENDDO
+                  ! Store effective nodes to compute masses
+                  DO J = 1,8
+                    IF (BOOL(J)) THEN 
+                      ISLNOD(I+NFT) = ISLNOD(I+NFT) + 1
+                      SOLNOD(ISLNOD(I+NFT),I+NFT) = IXS(1+J,I+NFT)
+                    ENDIF 
+                  ENDDO
+                  ! Loop over brick nodes
+                  DO J = 1,ISLNOD(I+NFT)
+                    ! Number of the nodes
+                    INOD = SOLNOD(J,I+NFT)
+                    ! Tag the node as non-local
+                    TAGNOD(INOD,1) = 1 
+                    ! Tag the number of additional d.o.fs
+                    IF (IGTYP == 20 .OR. IGTYP == 21) THEN 
+                      TAGNOD(INOD,2) = NPTT
+                    ELSE
+                      TAGNOD(INOD,2) = 1
+                    ENDIF 
+                    ! If already written and different => error
+                    IF ((TAGNOD(INOD,3) /= 0).AND.(TAGNOD(INOD,3) /= IMAT)) THEN
+                      CALL ANCMSG(MSGID=1656,MSGTYPE=MSGERROR,
+     .                 ANMODE=ANINFO_BLIND_1,I1=INOD,I2=IMAT,I3=TAGNOD(INOD,3))                  
+                    ENDIF
+                    ! Tag the material law id of the node
+                    TAGNOD(INOD,3) = IMAT
+                    ! Computation of the volume associated to the node
+                    VOLN_S(J,I+NFT) = (ONE/ISLNOD(I+NFT)) * VOL(I)
+                  ENDDO      
+                ENDDO
+              ELSE
                 ! Quadratic formulations not supported
-                  CALL ANCMSG(MSGID=1659,MSGTYPE=MSGERROR,
+                CALL ANCMSG(MSGID=1659,MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND)                 
-                ENDIF
+              ENDIF
             ! For 4-nodes shell elements
             ELSEIF (ITY == 3) THEN
               ! Non-supported property
@@ -694,8 +724,8 @@ C
               ENDDO     
             ELSE
               ! Loop over element nodes
-              DO K = 1,8
-                N = IXS(K+1,I)
+              DO K = 1,ISLNOD(I)
+                N = SOLNOD(K,I)
                 VOLN(N) = VOLN(N) + VOLN_S(K,I)
               ENDDO 
             ENDIF
@@ -997,6 +1027,8 @@ c
        IF (ALLOCATED(ITRI))    DEALLOCATE(ITRI)
        IF (ALLOCATED(TAGTET))  DEALLOCATE(TAGTET)
        IF (ALLOCATED(TAGPENT)) DEALLOCATE(TAGPENT)
+       IF (ALLOCATED(ISLNOD))  DEALLOCATE(ISLNOD)
+       IF (ALLOCATED(SOLNOD))  DEALLOCATE(SOLNOD)
        IF (ALLOCATED(VOLN_S))  DEALLOCATE(VOLN_S)
        IF (ALLOCATED(VOLN_C))  DEALLOCATE(VOLN_C)
        IF (ALLOCATED(VOLN_TG)) DEALLOCATE(VOLN_TG)

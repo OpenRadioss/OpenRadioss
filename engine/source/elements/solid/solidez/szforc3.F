@@ -293,6 +293,7 @@ C-----
 C     IBOLTP : flag bolt preloading
       INTEGER IBOLTP,NBPRELD,IMAT,ISM12_11,NN_DEL,PID,ISCTL,ISTAB(MVSIZ)
       my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
+      my_real :: NL_NBNOD
       my_real, DIMENSION(:), POINTER :: BPRELD,DNL
       my_real :: P(MVSIZ)      
 C-----------------------------------------------
@@ -633,27 +634,29 @@ C-----------------------------------------------------------------------
       IPTT = 1 
       IP = 1
 C
-C Compute regularized non local variable in Gauss point
+c===========================================================================
+c     Computation of the non-local variable at Gauss point from nodal d.o.fs
+c===========================================================================
       IF (INLOC > 0) THEN
         L_NLOC = NLOC_DMG%L_NLOC
         DNL  => NLOC_DMG%DNL(1:L_NLOC) ! DNL = non local variable increment
         DO I=1,NEL
-          INOD(1) = NLOC_DMG%IDXI(NC1(I))
-          INOD(2) = NLOC_DMG%IDXI(NC2(I))
-          INOD(3) = NLOC_DMG%IDXI(NC3(I))
-          INOD(4) = NLOC_DMG%IDXI(NC4(I))
-          INOD(5) = NLOC_DMG%IDXI(NC5(I))
-          INOD(6) = NLOC_DMG%IDXI(NC6(I))
-          INOD(7) = NLOC_DMG%IDXI(NC7(I))
-          INOD(8) = NLOC_DMG%IDXI(NC8(I))
-          DO J = 1, 8
+          ! Recover non-local d.o.fs position
+          INOD(1:8) = 0
+          IPOS(1:8) = 0
+          DO J = 1,ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
+            INOD(J) = NLOC_DMG%IDXI(ELBUF_TAB(NG)%NLOCS%NL_SOLNOD(J,I))
             IPOS(J) = NLOC_DMG%POSI(INOD(J))
           ENDDO
-          VAR_REG(I) = DNL(IPOS(1)) + DNL(IPOS(2)) + DNL(IPOS(3)) + DNL(IPOS(4)) 
-     .               + DNL(IPOS(5)) + DNL(IPOS(6)) + DNL(IPOS(7)) + DNL(IPOS(8))
-          VAR_REG(I) = VAR_REG(I)*ONE_OVER_8
+          ! Computation of non-local variable at intg. point
+          VAR_REG(I) = ZERO
+          NL_NBNOD = ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
+          DO J = 1, ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
+            VAR_REG(I) = VAR_REG(I) + DNL(IPOS(J))/NL_NBNOD
+          ENDDO
         ENDDO
       ENDIF
+c===========================================================================
 C
       IF(IBOLTP /= 0) CALL BOLTST(IP    ,BPRELD    ,LBUF%SIG  ,TT     ,NEL   ,
      .                            NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
@@ -1026,18 +1029,19 @@ C Compute nodal internal forces
      I   N6Z,     BID,     P,       IXS,
      J   NEL,     NFT,     JALE,    JEUL)
 C
-C Virtual internal forces of regularized non local dof 
+c===========================================================================
+c     Computation of the internal non-local forces
+c===========================================================================
       IF (INLOC > 0) THEN  
         CALL SFINT_REG(
-     1   NLOC_DMG,VAR_REG, NEL,     OFF,
-     2   VOLN,    NC1,     NC2,     NC3,
-     3   NC4,     NC5,     NC6,     NC7,
-     4   NC8,     PX1,     PX2,     PX3,
-     5   PX4,     PY1,     PY2,     PY3,
-     6   PY4,     PZ1,     PZ2,     PZ3,
-     7   PZ4,     IMAT,    ITASK,   DT2T,
-     8   GBUF%VOL,NFT)
-      ENDIF      
+     1    NLOC_DMG ,VAR_REG  ,NEL      ,OFF      ,
+     2    VOLN     ,ELBUF_TAB(NG)%NLOCS,GBUF%VOL ,
+     3    PX1      ,PX2      ,PX3      ,PX4      ,     
+     4    PY1      ,PY2      ,PY3      ,PY4      ,
+     5    PZ1      ,PZ2      ,PZ3      ,PZ4      ,
+     6    IMAT     ,ITASK    ,DT2T     ,NFT      )
+      ENDIF    
+c===========================================================================  
 C
 C Finite element heat transfert
       IF(JTHE < 0) THEN

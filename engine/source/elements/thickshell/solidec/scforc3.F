@@ -261,6 +261,7 @@ C-----
       INTEGER INLOC,L_NLOC,IPOS(8),INOD(8)
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: DNL
+      my_real :: NL_NBNOD
 C-----
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9),W_NEWTON(9,9),A_NEWTON(9,9)
@@ -610,33 +611,31 @@ C-------------------------------------------
       ENDDO
       IF(JTHE<0) THEM(1:NEL,1:8) =ZERO
 c
-C---------------------------------------------------------
-C Compute non-local variable increment at each Gauss point 
-C---------------------------------------------------------
+c===========================================================================
+c     Computation of the non-local variable at Gauss point from nodal d.o.fs
+c===========================================================================
       IF (INLOC > 0) THEN  
         L_NLOC = NLOC_DMG%L_NLOC
         DNL => NLOC_DMG%DNL(1:L_NLOC) ! DNL = non local variable increment
         DO ILAY=1,NLAY
           DO I=1,NEL
-            INOD(1) = NLOC_DMG%IDXI(NC1(I))
-            INOD(2) = NLOC_DMG%IDXI(NC2(I))
-            INOD(3) = NLOC_DMG%IDXI(NC3(I))
-            INOD(4) = NLOC_DMG%IDXI(NC4(I))
-            INOD(5) = NLOC_DMG%IDXI(NC5(I))
-            INOD(6) = NLOC_DMG%IDXI(NC6(I))
-            INOD(7) = NLOC_DMG%IDXI(NC7(I))
-            INOD(8) = NLOC_DMG%IDXI(NC8(I))
-            DO J = 1, 8
+            ! Recover non-local d.o.fs position
+            INOD(1:8) = 0
+            IPOS(1:8) = 0
+            DO J = 1,ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
+              INOD(J) = NLOC_DMG%IDXI(ELBUF_TAB(NG)%NLOCS%NL_SOLNOD(J,I))
               IPOS(J) = NLOC_DMG%POSI(INOD(J))+ILAY-1
             ENDDO
-            VAR_REG(I,ILAY) = DNL(IPOS(1)) + DNL(IPOS(2)) + DNL(IPOS(3)) + 
-     .                        DNL(IPOS(4)) + DNL(IPOS(5)) + DNL(IPOS(6)) +
-     .                        DNL(IPOS(7)) + DNL(IPOS(8))
-            VAR_REG(I,ILAY) = VAR_REG(I,ILAY)*ONE_OVER_8
+            ! Computation of non-local variable at intg. point
+            VAR_REG(I,ILAY) = ZERO
+            NL_NBNOD = ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
+            DO J = 1, ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
+              VAR_REG(I,ILAY) = VAR_REG(I,ILAY) + DNL(IPOS(J))/NL_NBNOD
+            ENDDO 
           ENDDO
         ENDDO     
       ENDIF 
-C---------------------------------------------------------
+c===========================================================================
 c
 C-------------------------------------------------
 C Loop on integration points through the thickness
@@ -826,28 +825,27 @@ C-----------------------------
       ENDDO  !  ILAY=1,NLAY
 C-----------------------------
 c
-C-------------------------------
-C Non-local specific computation
-C-------------------------------
+c===========================================================================
+c     Computation of the internal non-local forces
+c===========================================================================
       IF (INLOC > 0) THEN 
         ! Computation of thickshell area
         CALL SDLENSH(VOLN,LLSH,AREA ,
-     .     X1, X2, X3, X4, X5, X6, X7, X8,
-     .     Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .     Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8, NEL)  
+     .    X1, X2, X3, X4, X5, X6, X7, X8,
+     .    Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
+     .    Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8, NEL)  
         ! Non-local internal forces 
         CALL SCFINT_REG(
-     1      NLOC_DMG ,VAR_REG  ,NEL     ,OFF     ,
-     2      VOLG     ,NC1      ,NC2     ,NC3     ,
-     3      NC4      ,NC5      ,NC6     ,NC7     ,
-     4      NC8      ,PX1      ,PX2     ,PX3     ,
-     5      PX4      ,PY1      ,PY2     ,PY3     ,
-     6      PY4      ,PZ1      ,PZ2     ,PZ3     ,
-     7      PZ4      ,MXT(LFT) ,ITASK   ,DT2T    ,
-     8      GBUF%VOL ,NFT      ,NLAY    ,W_GAUSS ,
-     9      A_GAUSS  ,AREA     ,ELBUF_TAB(NG)%NLOCTS(1,1))
+     1    NLOC_DMG ,VAR_REG  ,NEL     ,OFF     ,
+     2    VOLG     ,ELBUF_TAB(NG)%NLOCS,AREA   ,
+     3    PX1      ,PX2      ,PX3     ,PX4     ,
+     4    PY1      ,PY2      ,PY3     ,PY4     ,
+     5    PZ1      ,PZ2      ,PZ3     ,PZ4     ,
+     6    MXT(LFT) ,ITASK    ,DT2T    ,GBUF%VOL,
+     7    NFT      ,NLAY     ,W_GAUSS ,A_GAUSS ,
+     8    ELBUF_TAB(NG)%NLOCTS(1,1))
       ENDIF
-C--------------------------
+c===========================================================================  
 c
       IF (IOFFS == 1)THEN
         DO I=1,NEL

@@ -30,7 +30,7 @@ Chd|        READ_DPDB                     source/output/tools/read_db.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        H3D_INC_MOD                   share/modules/h3d_inc_mod.F   
 Chd|====================================================================
-      SUBROUTINE ALLOCBUF_AUTO(ELBUF_STR,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC)
+      SUBROUTINE ALLOCBUF_AUTO(ELBUF_STR,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,ISOLNOD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -49,6 +49,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC
+      INTEGER, INTENT(IN) :: ISOLNOD
       TYPE(ELBUF_STRUCT_) , TARGET   :: ELBUF_STR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -484,7 +485,7 @@ c-------------------------------------------------
 c       allocation & read of layer variables
 c-------------------------------------------------
         ALLOCATE(BUFLY%DMG (NEL*LY_DMG)   ,STAT=ERR)                             
-          BUFLY%DMG(1:NEL*LY_DMG)  = RBUF(IAD+1:IAD+NEL*LY_DMG)                 
+        BUFLY%DMG(1:NEL*LY_DMG)  = RBUF(IAD+1:IAD+NEL*LY_DMG)                 
             IAD = IAD+NEL*LY_DMG                                                
         ALLOCATE(BUFLY%GAMA (NEL*LY_GAMA)   ,STAT=ERR)                             
           BUFLY%GAMA(1:NEL*LY_GAMA) = RBUF(IAD+1:IAD+NEL*LY_GAMA)            
@@ -990,6 +991,16 @@ c-------------------------------
 c         Non-local regularization in the thickshell thickness                
 c-------------------------------
       ELSEIF (ITY==1) THEN
+        ! Brick element geometry configuration for non-local
+        IF ((INLOC>0).AND.(ISOLNOD == 8)) THEN 
+          ALLOCATE(ELBUF_STR%NLOCS%NL_ISOLNOD(NEL))
+          ELBUF_STR%NLOCS%NL_ISOLNOD(1:NEL) = 0 
+          ALLOCATE(ELBUF_STR%NLOCS%NL_SOLNOD(8,NEL))  
+          ELBUF_STR%NLOCS%NL_SOLNOD(1:8,1:NEL) = 0
+        ELSE 
+          ALLOCATE(ELBUF_STR%NLOCS%NL_ISOLNOD(0))
+          ALLOCATE(ELBUF_STR%NLOCS%NL_SOLNOD(0,0))
+        ENDIF
         ! Number of integration points in the shell thickness
         NPTT = ELBUF_STR%NLAY
         IF ((INLOC>0).AND.(NPTT>1)) THEN

@@ -388,6 +388,7 @@ C
      .  FPZ1(MVSIZ),FPZ2(MVSIZ),FPZ3(MVSIZ),FPZ4(MVSIZ),
      .  FDELTAX(MVSIZ) ,FLUX0(MVSIZ,6),FLU01(MVSIZ)
       my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
+      my_real :: NL_NBNOD
       my_real :: DT2T_lay(2)
       my_real :: CONDE(MVSIZ),AMU(MVSIZ),DIVDE(MVSIZ),L_MAX(MVSIZ),
      .           STI_C(MVSIZ),LL(MVSIZ),FLD(MVSIZ),
@@ -809,27 +810,29 @@ C Element Temperature
         ENDDO
       ENDIF
 C
+c===========================================================================
+c     Computation of the non-local variable at Gauss point from nodal d.o.fs
+c===========================================================================
       IF (INLOC > 0) THEN
-C Compute Regularized non local variable in Gauss point
-        L_NLOC = NLOC_DMG%L_NLOC
-        DNL  => NLOC_DMG%DNL(1:L_NLOC) ! DNL = non local variable increment
+        L_NLOC = NLOC_DMG%L_NLOC       !< Size of the non-local tables
+        DNL  => NLOC_DMG%DNL(1:L_NLOC) !< Non-local variable increment
         DO I=1,NEL
-          INOD(1) = NLOC_DMG%IDXI(NC1(I))
-          INOD(2) = NLOC_DMG%IDXI(NC2(I))
-          INOD(3) = NLOC_DMG%IDXI(NC3(I))
-          INOD(4) = NLOC_DMG%IDXI(NC4(I))
-          INOD(5) = NLOC_DMG%IDXI(NC5(I))
-          INOD(6) = NLOC_DMG%IDXI(NC6(I))
-          INOD(7) = NLOC_DMG%IDXI(NC7(I))
-          INOD(8) = NLOC_DMG%IDXI(NC8(I))
-          DO J = 1, 8
+          ! Recover non-local d.o.fs position
+          INOD(1:8) = 0
+          IPOS(1:8) = 0
+          DO J = 1,ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
+            INOD(J) = NLOC_DMG%IDXI(ELBUF_TAB(NG)%NLOCS%NL_SOLNOD(J,I))
             IPOS(J) = NLOC_DMG%POSI(INOD(J))
           ENDDO
-          VAR_REG(I) = DNL(IPOS(1)) + DNL(IPOS(2)) + DNL(IPOS(3)) + DNL(IPOS(4)) 
-     .               + DNL(IPOS(5)) + DNL(IPOS(6)) + DNL(IPOS(7)) + DNL(IPOS(8))
-          VAR_REG(I) = VAR_REG(I)*ONE_OVER_8
+          ! Computation of non-local variable at intg. point
+          VAR_REG(I) = ZERO
+          NL_NBNOD = ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
+          DO J = 1, ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
+            VAR_REG(I) = VAR_REG(I) + DNL(IPOS(J))/NL_NBNOD
+          ENDDO
         ENDDO
       ENDIF
+c===========================================================================
 C
       IF (JALE == 3 .AND. JLAG > 0) THEN
 C Law 77 internal gas flow of open cell solved with ALE formulation
@@ -1517,18 +1520,19 @@ C Internal forces
           ENDIF    
       ENDIF ! IALEFVM_MAT > 1 
 C
+c===========================================================================
+c     Computation of the internal non-local forces
+c===========================================================================
       IF (INLOC > 0) THEN    
-C Virtual internal forces of regularized non local dof
         CALL SFINT_REG(
-     1   NLOC_DMG,VAR_REG, NEL,     OFF,
-     2   VOLN,    NC1,     NC2,     NC3,
-     3   NC4,     NC5,     NC6,     NC7,
-     4   NC8,     PX1,     PX2,     PX3,
-     5   PX4,     PY1,     PY2,     PY3,
-     6   PY4,     PZ1,     PZ2,     PZ3,
-     7   PZ4,     MXT(LFT),ITASK,   DT2T,
-     8   GBUF%VOL,NFT)
+     1    NLOC_DMG ,VAR_REG  ,NEL      ,OFF      ,
+     2    VOLN     ,ELBUF_TAB(NG)%NLOCS,GBUF%VOL ,    
+     3    PX1      ,PX2      ,PX3      ,PX4      ,     
+     4    PY1      ,PY2      ,PY3      ,PY4      ,
+     5    PZ1      ,PZ2      ,PZ3      ,PZ4      ,
+     6    MXT(LFT) ,ITASK    ,DT2T     ,NFT      )
       ENDIF 
+c===========================================================================  
 C
       IF (JTHE < 0) THEN
 C Finite element heat transfert forces
