@@ -126,16 +126,17 @@ C--------------------------------------------------
 C EXTRACT DATAS OF /BCS/... LINE
 C--------------------------------------------------
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                       OPTION_ID = ID,
-     .                       OPTION_TITR = TITR,
-     .                       SUBMODEL_INDEX = SUB_INDEX,
-     .                       KEYWORD2 = KEY)
+     .                          OPTION_ID = ID,
+     .                          OPTION_TITR = TITR,
+     .                          SUBMODEL_INDEX = SUB_INDEX,
+     .                          KEYWORD2 = KEY)
+        NOM_OPT(1,I)=ID
+        CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
+        IF (KEY(1:4) == 'WALL' ) CYCLE
         ILAGM = 0
         IF (KEY(1:6) == 'LAGMUL' ) ILAGM = 1
         ICYC = 0
         IF (KEY(1:6) == 'CYCLIC' ) ICYC = 1
-        NOM_OPT(1,I)=ID
-        CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------

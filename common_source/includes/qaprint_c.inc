@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 C========================================================================
 C     List of available keywords for QAPRINT
-      parameter (NQAKEYLIST_AVAIL=125)
+      parameter (NQAKEYLIST_AVAIL=126)
       CHARACTER (len=64), DIMENSION(NQAKEYLIST_AVAIL) :: QAKEYLIST_AVAIL
       DATA QAKEYLIST_AVAIL/
      .  'PROPERTIES'  , 'MATERIALS' ,'VELOCITIES','GRID_VELOCITIES','/RBODY'      , 
@@ -50,6 +50,8 @@ C     List of available keywords for QAPRINT
      .  '/SPH/INOUT'  ,'/ANIM/VERS' ,'INIMAP'    ,'/SLIPRING'      ,'/LOAD/PRESSURE',
      .  '/INIBRI'     ,'/INISHE'    ,'/INISH3'   ,'/INIQUA'        ,'/INIBEAM'    ,
      .  '/INITRUSS'   ,'/INISPRING' ,'/RETRACTOR','/SUBDOMAIN'     ,'/EXT/LINK'   ,
-     .  '/USERWI'     ,'IPARG'      ,'ALE'       ,'/PARITH'        ,'NODES_MASS' / 
+     .  '/USERWI'     ,'IPARG'      ,'ALE'       ,'/PARITH'        ,'NODES_MASS'  ,
+     .  '/BCS/WALL'
+     ./
 C========================================================================
 

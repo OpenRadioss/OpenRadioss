@@ -603,6 +603,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_
       USE damping_rby_spmdset_mod
       USE HM_READ_PRELOAD_AXIAL_MOD
+      USE BCS_MOD, ONLY : BCS, BCS_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1127,6 +1128,10 @@ c For /RANDOM --------------------------------------------------
       TYPE (LOADS_) :: LOADS ! global structure for /LOAD
       TYPE (LOADS_), DIMENSION(NSPMD) :: LOADS_PER_PROC ! local structure for each processor --> used for the restart operation
       ! -------------
+      ! BCS wall structure
+      TYPE (bcs_struct_), DIMENSION(NSPMD) :: BCS_PER_PROC
+      ! -------------
+
 C MERGE NODES
       INTEGER NMERGE_NODE_CAND,NMERGE_NODE_DEST,NMERGE_TOT,ALE_EULER
       INTEGER, DIMENSION(:), ALLOCATABLE :: MERGE_NODE_TAB
@@ -4175,6 +4180,8 @@ C PRINT /BCS
      .              IGRNOD   ,IBCSLAG ,LAG_NCF ,LAG_NKF ,LAG_NHF,
      .              IKINE1LAG,ISKWN,NOM_OPT(LNOPT1*INOM_OPT(16)+1), NBCSLAG)
       ENDIF
+
+C--------------------------------------
 C
       ALLOCATE(ICODEP(0),ISKEWP(0))
       CALL TRACE_OUT1()
@@ -4959,6 +4966,16 @@ c
       ENDIF
         ! -----------------
       CALL TRACE_OUT1()
+
+C--------------------------------------------
+C     /BCS/WALL - SLIDING BOUNDARY CONDITION
+C        (COLLOCATED SCHEME / LAW 151)
+C--------------------------------------------
+      IF(BCS%NUM_WALL /= 0) THEN
+C READ /BCS/WALL
+        CALL HM_READ_BCS_WALL(UNITAB, LSUBMODEL, IGRNOD, NGRNOD, SENSORS, ITABM1, NUMNOD, MULTI_FVM)
+      ENDIF
+
 C--------------------------------------------
 C     LECTURE DES PRELOADS
 C--------------------------------------------
@@ -7181,7 +7198,7 @@ C--------------------------------------------
      .     IALE  , IEULER, ITHERM, IALELAG,
      .     NIXQ  , NIXTG , NIXS  , ITAB   ,
      .     IXQ   , IXTG  , IXS   )
-C
+C--------------------------------------------
       IF(NSUBDOM > 0) THEN
 C---------------Deactivation of ALE flags if no more ALE elements in domain -------------C
         IF(ALE_EULER == 0) THEN
@@ -8449,64 +8466,64 @@ C
 C
       CALL STARTIME(14,1)
         
-      CALL INITIA(IPARG   ,ELBUF      ,MS        ,IN      ,V       ,
-     1            X       ,IXS        ,IXQ       ,IXC     ,IXT     ,
-     2            IXP     ,IXR        ,DETONATORS,GEO     ,PM      ,
-     3            RBY     ,NPBY       ,LPBY      ,NPC     ,NPTS    ,
-     4            TF      ,VEUL       ,ALE_CONNECTIVITY   ,SKEW    ,FILL    ,
-     5            IPART   ,ITAB       ,
-     6            IXTG    ,THKE       ,NLOC_DMG  ,GROUP_PARAM_TAB  ,
-     7            IGRNOD  ,IGRSURF    ,BUFSF     ,VR      ,
-     8            BUFMAT  ,XLAS       ,ILAS      ,DTELEM  ,MSS     ,
-     9            MSQ     ,MSC        ,MSTR      ,MSP     ,MSR     ,
-     A            MSTG    ,PTG        ,INC       ,
-     B            INP     ,INR        ,INTG      ,INDEX   ,
-     C            ITRI    ,KXX        ,IXX       ,XELEMWA ,
-     E            IWA     ,
-     F            KXSP    ,IXSP       ,NOD2SP    ,ISPCOND ,ICODE   ,
-     G            ISKEW   ,ISKWN      ,ISPSYM    ,XFRAME  ,ISPTAG  ,
-     H            SPBUF   ,MSSX       ,NSIGI     ,
-     I            NPBYL   ,LPBYL      ,RBYL      ,MSNF    ,MSSF    ,
-     J            NSIGSH  ,IGEO       ,IPM       ,NSIGS   ,
-     K            NSIGSPH ,VNS        ,VNSX      ,STC     ,STT     ,
-     L            STP     ,STR        ,STTG      ,STUR    ,BNS     ,
-     M            BNSX    ,VOLNOD     ,BVOLNOD   ,ETNOD   ,NSHNOD  ,
-     N            STIFINT ,FXBDEP     ,FXBVIT    ,FXBACC  ,FXBIPM  ,
-     O            FXBRPM  ,FXBELM     ,FXBSIG    ,FXBMOD  ,INS     ,
-     P            PTSHEL  ,PTSH3N     ,PTSOL     ,PTQUAD  ,
-     Q            WMA     ,PTSPH      ,FXBNOD    ,MBUFEL  ,MDEPL   ,
-     R            FXANI   ,NUMEL      ,NSIGRS    ,
-     T            SH4TREE ,SH3TREE    ,MCP       ,TEMP    ,
-     U            IMERGE2 ,IADMERGE2        ,
-     V            SLNRBM  ,NSLNRBM    ,RMSTIFN   ,RMSTIFR ,
-     U            MS_PLY0 ,ZI_PLY0    ,ITAGND_SHXFEM,ITAGSH  ,MCPC    ,
-     W            MCPTG   ,XREFC      ,XREFTG    ,XREFS   ,MSSA    ,
-     X            MSRT    ,IRBE2      ,LRBE2     ,USER_INIVOL  ,KVOL    , NBSUBMAT,
-     Y            IXS10,IXS16,IXS20,TOTADDMAS,
-     Z            IPMAS   ,STIFFN     ,MSZ20     ,ITAGN   ,SITAGE,
-     1            ITAGE   ,IXR_KJ     ,ELBUF_TAB,
-     2            NOM_OPT ,INOM_OPT(13),INOM_OPT(21),INOM_OPT(20),
-     3            SOL2SPH ,IRST       ,SH3TRIM   ,XFEM_TAB,
-     4            KXIG3D  ,IXIG3D     ,MSIG3D    ,KNOT    ,NCTRLMAX,
-     5            WIGE    ,STACK      ,
-     7            RNOISE  ,DRAPE    ,SH4ANG  ,SH3ANG  ,
-     8            GEO_STACK,IGEO_STACK,STIFINTR  ,STRC ,STRP    ,
-     8            STRR    ,STRTG      ,PERTURB   ,ITAGND  ,NATIV_SMS,
-     9            ILOADP  ,LOADP      ,PTSPRI    ,NSIGBEAM,
-     A            PTBEAM  ,NSIGTRUSS  ,PTTRUSS,
-     B            MULTI_FVM  ,SIGI    ,SIGSH     ,SIGSP    ,
-     C            SIGSPH  ,SIGRS      ,SIGBEAM   ,SIGTRUSS ,STRSGLOB,
-     D            STRAGLOB,ORTHOGLOB  ,ISIGSH    ,IYLDINI  ,KSIGSH3 ,
-     E            FAIL_INI,IUSOLYLD   ,IUSERL    ,IDDLEVEL ,INIMAP1D,
-     F            INIMAP2D,FUNC2D     ,FVM_INIVEL,TAGPRT_SMS,IGRBRIC,
-     G            IGRQUAD ,IGRSH4N    ,IGRSH3N   ,IGRPART  ,TOTMAS  ,
-     H            KNOTLOCPC,KNOTLOCEL ,VNIGE     ,BNIGE    ,FXBGLM  ,
-     I            FXBCPM  ,FXBCPS     ,FXBLM     ,FXBFLS   ,FXBDLS  ,
-     J            FXB_MATRIX,FXB_MATRIX_ADD,FXB_LAST_ADRESS,INOM_OPT(11),R_SKEW,
-     K            KNOD2EL1D,NOD2EL1D  ,EBCS_TAB  ,RBY_INIAXIS,ALEA  ,
-     L            KNOD2ELC,NOD2ELC    ,DR        ,SLRBODY , DRAPEG  ,
-     M            IPARI   ,INTBUF_TAB ,INTERFACES,MAT_ELEM%MAT_PARAM,
-     N            NPRELOAD_A,PRELOAD_A) 
+      CALL INITIA(IPARG      , ELBUF          , MS               , IN                 , V        ,
+     &            X          , IXS            , IXQ              , IXC                , IXT      ,
+     &            IXP        , IXR            , DETONATORS       , GEO                , PM       ,
+     &            RBY        , NPBY           , LPBY             , NPC                , NPTS     ,
+     &            TF         , VEUL           , ALE_CONNECTIVITY , SKEW               , FILL     ,
+     &            IPART      , ITAB           , SENSORS          , IWCIN2             ,
+     &            IXTG       , THKE           , NLOC_DMG         , GROUP_PARAM_TAB    ,
+     &            IGRNOD     , IGRSURF        , BUFSF            , VR                 ,
+     &            BUFMAT     , XLAS           , ILAS             , DTELEM             , MSS      ,
+     &            MSQ        , MSC            , MSTR             , MSP                , MSR      ,
+     &            MSTG       , PTG            , INC              ,
+     &            INP        , INR            , INTG             , INDEX              ,
+     &            ITRI       , KXX            , IXX              , XELEMWA            ,
+     &            IWA        ,
+     &            KXSP       , IXSP           , NOD2SP           , ISPCOND            , ICODE    ,
+     &            ISKEW      , ISKWN          , ISPSYM           , XFRAME             , ISPTAG   ,
+     &            SPBUF      , MSSX           , NSIGI            ,
+     &            NPBYL      , LPBYL          , RBYL             , MSNF               , MSSF     ,
+     &            NSIGSH     , IGEO           , IPM              , NSIGS              ,
+     &            NSIGSPH    , VNS            , VNSX             , STC                , STT      ,
+     &            STP        , STR            , STTG             , STUR               , BNS      ,
+     &            BNSX       , VOLNOD         , BVOLNOD          , ETNOD              , NSHNOD   ,
+     &            STIFINT    , FXBDEP         , FXBVIT           , FXBACC             , FXBIPM   ,
+     &            FXBRPM     , FXBELM         , FXBSIG           , FXBMOD             , INS      ,
+     &            PTSHEL     , PTSH3N         , PTSOL            , PTQUAD             ,
+     &            WMA        , PTSPH          , FXBNOD           , MBUFEL             , MDEPL    ,
+     &            FXANI      , NUMEL          , NSIGRS           ,
+     &            SH4TREE    , SH3TREE        , MCP              , TEMP               ,
+     &            IMERGE2    , IADMERGE2               ,
+     &            SLNRBM     , NSLNRBM        , RMSTIFN          , RMSTIFR            ,
+     &            MS_PLY0    , ZI_PLY0        , ITAGND_SHXFEM    , ITAGSH             , MCPC     ,
+     &            MCPTG      , XREFC          , XREFTG           , XREFS              , MSSA     ,
+     &            MSRT       , IRBE2          , LRBE2            , USER_INIVOL        , KVOL     , NBSUBMAT,
+     &            IXS10      , IXS16          , IXS20            , TOTADDMAS          ,
+     &            IPMAS      , STIFFN         , MSZ20            , ITAGN              , SITAGE   ,
+     &            ITAGE      , IXR_KJ         , ELBUF_TAB        ,
+     &            NOM_OPT    , INOM_OPT(13)   , INOM_OPT(21)     , INOM_OPT(20),
+     &            SOL2SPH    , IRST           , SH3TRIM          , XFEM_TAB           ,
+     &            KXIG3D     , IXIG3D         , MSIG3D           , KNOT               , NCTRLMAX,
+     &            WIGE       , STACK          ,
+     &            RNOISE     , DRAPE          , SH4ANG           , SH3ANG             ,
+     &            GEO_STACK  , IGEO_STACK     , STIFINTR         , STRC               , STRP     ,
+     &            STRR       , STRTG          , PERTURB          , ITAGND             , NATIV_SMS,
+     &            ILOADP     , LOADP          , PTSPRI           , NSIGBEAM           ,
+     &            PTBEAM     , NSIGTRUSS      , PTTRUSS          ,
+     &            MULTI_FVM  , SIGI           , SIGSH            , SIGSP              ,
+     &            SIGSPH     , SIGRS          , SIGBEAM          , SIGTRUSS           , STRSGLOB ,
+     &            STRAGLOB   , ORTHOGLOB      , ISIGSH           , IYLDINI            , KSIGSH3  ,
+     &            FAIL_INI   , IUSOLYLD       , IUSERL           , IDDLEVEL           , INIMAP1D ,
+     &            INIMAP2D   , FUNC2D         , FVM_INIVEL       , TAGPRT_SMS         , IGRBRIC  ,
+     &            IGRQUAD    , IGRSH4N        , IGRSH3N          , IGRPART            , TOTMAS   ,
+     &            KNOTLOCPC  , KNOTLOCEL      , VNIGE            , BNIGE              , FXBGLM   ,
+     &            FXBCPM     , FXBCPS         , FXBLM            , FXBFLS             , FXBDLS   ,
+     &            FXB_MATRIX , FXB_MATRIX_ADD , FXB_LAST_ADRESS  , INOM_OPT(11)       , R_SKEW   ,
+     &            KNOD2EL1D  , NOD2EL1D       , EBCS_TAB         , RBY_INIAXIS        , ALEA     ,
+     &            KNOD2ELC   , NOD2ELC        , DR               , SLRBODY            , DRAPEG   ,
+     &            IPARI      , INTBUF_TAB     , INTERFACES       , MAT_ELEM%MAT_PARAM ,
+     &            NPRELOAD_A , PRELOAD_A      )
 
 
       IF(NINTER>0.AND.NUMELIG3D>0) THEN
@@ -10340,8 +10357,9 @@ C----------------------------------------------
 C     Driver to reader of so-called "engine cards"
 C----------------------------------------------
 C      NGINE = 0 ! Number of Engine "cards", to be counted in contrl.F
-      IF((IS_DYNA /= 0 .OR. NB_DYNA_INCLUDE /= 0).AND.(NGINE+NANIM_ENG/=0)) 
-     .          CALL READ_ENGINE_DRIVER(IGRPART,IS_DYNA,NB_DYNA_INCLUDE)
+      IF((IS_DYNA /= 0 .OR. NB_DYNA_INCLUDE /= 0) .AND. (NGINE+NANIM_ENG /= 0))THEN
+        CALL READ_ENGINE_DRIVER(IGRPART,IS_DYNA,NB_DYNA_INCLUDE)
+      END IF
 C----------------------------------------------
 C     Driver to QAPRINT
 C----------------------------------------------
@@ -10631,7 +10649,12 @@ c         start CPU timer for ddsplit
           ! -----------------------------------------
           ! split the LOADS structure on the different processors
             CALL SPLIT_PCYL(LOADS%NLOAD_CYL,LOADS,LOADS_PER_PROC)
+            
           ! -----------------------------------------
+          ! split the BCs wall data structure
+            CALL SPLIT_BCS_WALL(BCS_PER_PROC, CEP, SCEP, NSPMD)
+          ! -----------------------------------------
+          ! split the LOADS structure on the different processors
 C Parallel
 
 !   -------------------------------------------------------------
@@ -10789,7 +10812,8 @@ c
      C         INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP,DYNAIN_DATA,
      E         DRAPEG       ,USER_WINDOWS ,OUTPUT        ,INTERFACES  ,NUMBER_LOAD_CYL ,
-     F         LOADS_PER_PROC(P), PYTHON,DPL0CLD,VEL0CLD ,NAMES_AND_TITLES)
+     F         LOADS_PER_PROC(P), PYTHON,DPL0CLD,VEL0CLD ,NAMES_AND_TITLES,
+     G         BCS_PER_PROC(P))
       GOTO 220
  221  CONTINUE
 
@@ -10804,6 +10828,12 @@ C
       DEALLOCATE( IGRSURF_PROC )
 
       IF( (NUMELS>0).AND.(IALE+IEULER+ITHERM+IALELAG/=0) ) CALL DEALLOCATE_SPLIT_CFD_SOLIDE(ALE_ELM)
+
+      CALL BCS%DEALLOCATE()
+      DO P=1,NSPMD
+        CALL BCS_PER_PROC(P)%DEALLOCATE()
+      ENDDO
+
       DEALLOCATE( ALE_ELM )
 
       DEALLOCATE( INDX_S )

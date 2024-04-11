@@ -43,6 +43,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
       USE R2R_MOD
+      USE BCS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -148,7 +149,8 @@ C-----------------------------------------------
       CHARACTER *nchartitle TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
-      INTEGER IADS
+      INTEGER TEMP_INTEGER
+      INTEGER IADS,ITMP
 C-----------------------------------------------
 C     Rigid Bodies
 C-----------------------------------------------
@@ -240,7 +242,6 @@ C
           MY_ID = ITAB(MY_NODE)
 C
           IF(ICODE(MY_NODE)/=0)THEN
-C
 C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0,I0)') 'ICODE_',MY_ID
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ICODE(MY_NODE),0.0_8)
@@ -485,6 +486,71 @@ C
 C
         END DO ! MY_CONSTRAINT=1,NBCSCYC
       END IF
+C-----------------------------------------------
+C     /BCS/WALL
+C-----------------------------------------------
+      IF (MYQAKEY('/BCS/WALL')) THEN
+        DO MY_CONSTRAINT=1,BCS%NUM_WALL
+
+          TITR(1:nchartitle)=''
+          MY_ID = BCS%WALL(MY_CONSTRAINT)%user_id
+          IF(LEN_TRIM(TITR)/=0)THEN
+            CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),MY_ID,0.0_8)
+          ELSE
+            CALL QAPRINT('A_BCS_WALL_FAKE_NAME',MY_ID,0.0_8)
+          END IF
+          !
+          WRITE(VARNAME,'(A,I0,A)') 'BCS_WALL_',MY_CONSTRAINT,'__IS_DEPENDING_ON_TIME_'
+          TEMP_INTEGER = BCS%WALL(MY_CONSTRAINT)%IS_DEPENDING_ON_TIME
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+          !
+          WRITE(VARNAME,'(A,I0,A)') 'BCS_WALL_',MY_CONSTRAINT,'__IS_DEPENDING_ON_SENSOR_'
+          TEMP_INTEGER = BCS%WALL(MY_CONSTRAINT)%IS_DEPENDING_ON_SENSOR
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+          !
+          WRITE(VARNAME,'(A,I0,A)') 'BCS_WALL_',MY_CONSTRAINT,'__GRNOD_ID_'
+          TEMP_INTEGER = BCS%WALL(MY_CONSTRAINT)%GRNOD_ID
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+          !
+          WRITE(VARNAME,'(A,I0,A)') 'BCS_WALL_',MY_CONSTRAINT,'__SENSOR_ID_'
+          TEMP_INTEGER = BCS%WALL(MY_CONSTRAINT)%SENSOR_ID
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+          !
+          WRITE(VARNAME,'(A,I0,A)') 'BCS_WALL_',MY_CONSTRAINT,'__TSTART_'
+          TEMP_DOUBLE = BCS%WALL(MY_CONSTRAINT)%TSTART
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+          !
+          WRITE(VARNAME,'(A,I0,A)') 'BCS_WALL_',MY_CONSTRAINT,'__TSTOP_'
+          TEMP_DOUBLE = BCS%WALL(MY_CONSTRAINT)%TSTOP
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+          !
+          WRITE(VARNAME,'(A,I0,A)') 'BCS_WALL_',MY_CONSTRAINT,'__LIST__SIZE_'
+          TEMP_INTEGER = BCS%WALL(MY_CONSTRAINT)%LIST%SIZE
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+          !
+          ITMP=TEMP_INTEGER
+          IF(ITMP == 1)THEN
+            WRITE(VARNAME,'(A,I0,A)') 'BCS_WALL_',MY_CONSTRAINT,'__LIST__ELEM_1_'
+            TEMP_INTEGER = BCS%WALL(MY_CONSTRAINT)%LIST%ELEM(1)
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+            !
+            WRITE(VARNAME,'(A,I0,A)') 'BCS_WALL_',MY_CONSTRAINT,'__LIST__FACE_1_'
+            TEMP_INTEGER = BCS%WALL(MY_CONSTRAINT)%LIST%FACE(1)
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+          ELSEIF(ITMP > 1)THEN
+            TEMP_INTEGER = BCS%WALL(MY_CONSTRAINT)%LIST%ELEM(1)
+            WRITE(VARNAME,'(A,I0,A,I0,A)') 'BCS_WALL_',MY_CONSTRAINT,'__LIST__ELEMS_  ',TEMP_INTEGER,'  ...'
+            TEMP_INTEGER = BCS%WALL(MY_CONSTRAINT)%LIST%ELEM(ITMP)
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+            !
+            TEMP_INTEGER = BCS%WALL(MY_CONSTRAINT)%LIST%FACE(1)
+            WRITE(VARNAME,'(A,I0,A,I0,A)') 'BCS_WALL_',MY_CONSTRAINT,'__LIST__FACES_  ',TEMP_INTEGER,'  ...'
+            TEMP_INTEGER = BCS%WALL(MY_CONSTRAINT)%LIST%FACE(ITMP)
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+          ENDIF
+
+        END DO ! MY_CONSTRAINT=1,BCS%NUM_WALL
+      END IF      
 C-----------------------------------------------
 C     /RWALL
 C-----------------------------------------------

@@ -159,7 +159,7 @@ Chd|====================================================================
           my_real :: LD_NORM
           INTEGER :: NUM_ELEM_ALE
           INTEGER :: NUM_NODE_ALE_L
-        END TYPE
+        END TYPE MASSFLOW_DATA_
 
         ! GRID FORMULATION PARAMETERS
         TYPE ALE_GRID_

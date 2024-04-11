@@ -139,63 +139,63 @@ Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE INITIA(IPARG      ,ELBUF        ,MS           ,IN           ,V       , 
-     1                  X          ,IXS          ,IXQ          ,IXC          ,IXT     , 
-     2                  IXP        ,IXR          ,DETONATORS   ,GEO          ,PM      , 
-     3                  RBY        ,NPBY         ,LPBY         ,NPC          ,NPTS    ,          
-     4                  PLD        ,VEUL         ,ALE_CONNECTIVITY ,SKEW     ,FILL    , 
-     5                  IPART      ,ITAB         , 
-     6                  IXTG       ,THK          ,NLOC_DMG     ,GROUP_PARAM_TAB,
-     7                  IGRNOD     ,IGRSURF      ,BUFSF        ,VR           , 
-     8                  BUFMAT     ,XLAS         ,LAS          ,DTELEM       ,MSS     ,
-     9                  MSQ        ,MSC          ,MST          ,MSP          ,MSR     , 
-     A                  MSTG       ,PTG          ,INC     , 
-     B                  INP        ,INR          ,INTG         ,INDEX   , 
-     C                  ITRI       ,KXX          ,IXX          ,XELEMWA      ,          
+      SUBROUTINE INITIA(IPARG      ,ELBUF         ,MS               ,IN             ,V         ,
+     1                  X          ,IXS           ,IXQ              ,IXC            ,IXT       ,
+     2                  IXP        ,IXR           ,DETONATORS       ,GEO            ,PM        ,
+     3                  RBY        ,NPBY          ,LPBY             ,NPC            ,NPTS      ,
+     4                  PLD        ,VEUL          ,ALE_CONNECTIVITY ,SKEW           ,FILL      ,
+     5                  IPART      ,ITAB          ,SENSORS          ,IWORKING_ARRAY ,
+     6                  IXTG       ,THK           ,NLOC_DMG         ,GROUP_PARAM_TAB,
+     7                  IGRNOD     ,IGRSURF       ,BUFSF            ,VR             ,
+     8                  BUFMAT     ,XLAS          ,LAS              ,DTELEM         ,MSS       ,
+     9                  MSQ        ,MSC           ,MST              ,MSP            ,MSR       ,
+     A                  MSTG       ,PTG           ,INC              ,
+     B                  INP        ,INR           ,INTG             ,INDEX          ,
+     C                  ITRI       ,KXX           ,IXX              ,XELEMWA        ,
      E                  IWA        ,
-     F                  KXSP       ,IXSP         ,NOD2SP       ,ISPCOND      ,ICODE   , 
-     G                  ISKEW      ,ISKN         ,ISPSYM       ,XFRAME       ,ISPTAG  , 
-     H                  SPBUF      ,MSSX         ,NSIGI        ,
-     I                  NPBYL      ,LPBYL        ,RBYL         ,MSNF         ,MSSF    , 
-     J                  NSIGSH     ,IGEO         ,IPM          ,NSIGS        ,          
-     K                  NSIGSPH    ,VNS          ,VNSX         ,STC          ,STT     , 
-     L                  STP        ,STR          ,STTG         ,STUR         ,BNS     , 
-     M                  BNSX       ,VOLNOD       ,BVOLNOD      ,ETNOD        ,NSHNOD  , 
-     N                  STIFINT    ,FXBDEP       ,FXBVIT       ,FXBACC       ,FXBIPM  , 
-     O                  FXBRPM     ,FXBELM       ,FXBSIG       ,FXBMOD       ,INS     , 
-     P                  PTSHEL     ,PTSH3N       ,PTSOL        ,PTQUAD  ,
-     Q                  WMA        ,PTSPH        ,FXBNOD       ,MBUFEL       ,MDEPL   , 
-     R                  FXANI      ,NUMEL        ,NSIGRS       ,
-     T                  SH4TREE    ,SH3TREE      ,MCP          ,TEMP         ,          
-     U                  IMERGE2    ,IADMERGE2    ,
-     V                  SLNRBM     ,NSLNRBM      ,RMSTIFN      ,RMSTIFR,
-     U                  MS_LAYER   ,ZI_LAYER     ,ITAG         ,ITAGEL       ,MCPC    ,
-     W                  MCPTG      ,XREFC        ,XREFTG       ,XREFS        ,MSSA    ,
-     X                  MSRT       ,IRBE2        ,LRBE2        ,INIVOL       ,KVOL    , NBSUBMAT,
-     Y                  IXS10      ,IXS16        ,IXS20        ,TOTADDMAS    ,
-     Z                  IPMAS      ,STIFN        ,MSZ2         ,ITAGN        ,SITAGE,
-     1                  ITAGE      ,IXR_KJ       ,ELBUF_TAB,
-     2                  NOM_OPT    ,PTR_NOPT_RBE2,PTR_NOPT_ADM ,PTR_NOPT_FUN ,
-     3                  SOL2SPH    ,IRST         ,SH3TRIM      ,XFEM_TAB     ,
-     4                  KXIG3D     ,IXIG3D       ,MSIG3D       ,KNOT         ,NCTRLMAX,
-     5                  WIGE       ,STACK        ,
-     7                  RNOISE     ,DRAPE       ,SH4ANG       ,SH3ANG ,
-     8                  GEO_STACK  ,IGEO_STACK   ,STIFINTR     ,STRC         ,STRP   ,
-     8                  STRR       ,STRTG        ,PERTURB      ,ITAGND       ,NATIV_SMS,
-     9                  ILOADP     ,FACLOAD      ,PTSPRI       ,NSIGBEAM ,
-     A                  PTBEAM     ,NSIGTRUSS    ,PTTRUSS      ,
-     B                  MULTI_FVM    ,SIGI         ,SIGSH        ,SIGSP    ,
-     C                  SIGSPH     ,SIGRS        ,SIGBEAM      ,SIGTRUSS     ,STRSGLOB ,
-     D                  STRAGLOB   ,ORTHOGLOB    ,ISIGSH       ,IYLDINI      ,KSIGSH3  ,
-     E                  FAIL_INI   ,IUSOLYLD     ,IUSER        ,IDDLEVEL     ,INIMAP1D ,
-     F                  INIMAP2D   ,FUNC2D,      FVM_INIVEL    ,TAGPRT_SMS   ,IGRBRIC  ,
-     G                  IGRQUAD    ,IGRSH4N      ,IGRSH3N      ,IGRPART      ,TOTMAS   ,
-     H                  KNOTLOCPC  ,KNOTLOCEL    ,VNIGE        ,BNIGE        ,FXBGLM, 
-     I                  FXBCPM     ,FXBCPS       ,FXBLM        ,FXBFLS       ,FXBDLS,
-     J                  FXB_MATRIX ,FXB_MATRIX_ADD,FXB_LAST_ADRESS,PTR_NOPT_FXB,R_SKEW,
-     K                  KNOD2EL1D  ,NOD2EL1D     ,EBCS_TAB     ,RBY_INIAXIS  ,ALEA    ,
-     L                  KNOD2ELC   ,NOD2ELC      ,DR           ,SLRBODY      , DRAPEG ,
-     M                  IPARI      ,INTBUF_TAB   ,INTERFACES   ,MAT_PARAM    ,NPRELOAD_A,
+     F                  KXSP       ,IXSP          ,NOD2SP           ,ISPCOND        ,ICODE     ,
+     G                  ISKEW      ,ISKN          ,ISPSYM           ,XFRAME         ,ISPTAG    ,
+     H                  SPBUF      ,MSSX          ,NSIGI            ,
+     I                  NPBYL      ,LPBYL         ,RBYL             ,MSNF           ,MSSF      ,
+     J                  NSIGSH     ,IGEO          ,IPM              ,NSIGS          ,
+     K                  NSIGSPH    ,VNS           ,VNSX             ,STC            ,STT       ,
+     L                  STP        ,STR           ,STTG             ,STUR           ,BNS       ,
+     M                  BNSX       ,VOLNOD        ,BVOLNOD          ,ETNOD          ,NSHNOD    ,
+     N                  STIFINT    ,FXBDEP        ,FXBVIT           ,FXBACC         ,FXBIPM    ,
+     O                  FXBRPM     ,FXBELM        ,FXBSIG           ,FXBMOD         ,INS       ,
+     P                  PTSHEL     ,PTSH3N        ,PTSOL            ,PTQUAD         ,
+     Q                  WMA        ,PTSPH         ,FXBNOD           ,MBUFEL         ,MDEPL     ,
+     R                  FXANI      ,NUMEL         ,NSIGRS           ,
+     T                  SH4TREE    ,SH3TREE       ,MCP              ,TEMP           ,
+     U                  IMERGE2    ,IADMERGE2     ,
+     V                  SLNRBM     ,NSLNRBM       ,RMSTIFN          ,RMSTIFR        ,
+     U                  MS_LAYER   ,ZI_LAYER      ,ITAG             ,ITAGEL         ,MCPC      ,
+     W                  MCPTG      ,XREFC         ,XREFTG           ,XREFS          ,MSSA      ,
+     X                  MSRT       ,IRBE2         ,LRBE2            ,INIVOL         ,KVOL      , NBSUBMAT,
+     Y                  IXS10      ,IXS16         ,IXS20            ,TOTADDMAS      ,
+     Z                  IPMAS      ,STIFN         ,MSZ2             ,ITAGN          ,SITAGE    ,
+     1                  ITAGE      ,IXR_KJ        ,ELBUF_TAB,
+     2                  NOM_OPT    ,PTR_NOPT_RBE2 ,PTR_NOPT_ADM     ,PTR_NOPT_FUN   ,
+     3                  SOL2SPH    ,IRST          ,SH3TRIM          ,XFEM_TAB       ,
+     4                  KXIG3D     ,IXIG3D        ,MSIG3D           ,KNOT           ,NCTRLMAX  ,
+     5                  WIGE       ,STACK         ,
+     7                  RNOISE     ,DRAPE         ,SH4ANG           ,SH3ANG ,
+     8                  GEO_STACK  ,IGEO_STACK    ,STIFINTR         ,STRC           ,STRP      ,
+     8                  STRR       ,STRTG         ,PERTURB          ,ITAGND         ,NATIV_SMS ,
+     9                  ILOADP     ,FACLOAD       ,PTSPRI           ,NSIGBEAM       ,
+     A                  PTBEAM     ,NSIGTRUSS     ,PTTRUSS          ,
+     B                  MULTI_FVM  ,SIGI          ,SIGSH            ,SIGSP          ,
+     C                  SIGSPH     ,SIGRS         ,SIGBEAM          ,SIGTRUSS       ,STRSGLOB  ,
+     D                  STRAGLOB   ,ORTHOGLOB     ,ISIGSH           ,IYLDINI        ,KSIGSH3   ,
+     E                  FAIL_INI   ,IUSOLYLD      ,IUSER            ,IDDLEVEL       ,INIMAP1D  ,
+     F                  INIMAP2D   ,FUNC2D        ,FVM_INIVEL       ,TAGPRT_SMS     ,IGRBRIC   ,
+     G                  IGRQUAD    ,IGRSH4N       ,IGRSH3N          ,IGRPART        ,TOTMAS    ,
+     H                  KNOTLOCPC  ,KNOTLOCEL     ,VNIGE            ,BNIGE          ,FXBGLM    ,
+     I                  FXBCPM     ,FXBCPS        ,FXBLM            ,FXBFLS         ,FXBDLS    ,
+     J                  FXB_MATRIX ,FXB_MATRIX_ADD,FXB_LAST_ADRESS  ,PTR_NOPT_FXB   ,R_SKEW    ,
+     K                  KNOD2EL1D  ,NOD2EL1D      ,EBCS_TAB         ,RBY_INIAXIS    ,ALEA      ,
+     L                  KNOD2ELC   ,NOD2ELC       ,DR               ,SLRBODY        ,DRAPEG    ,
+     M                  IPARI      ,INTBUF_TAB    ,INTERFACES       ,MAT_PARAM      ,NPRELOAD_A,
      N                  PRELOAD_A  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -223,6 +223,8 @@ C-----------------------------------------------
       USE INTERFACES_MOD
       USE INTBUFDEF_MOD 
       USE init_seatbelt_rbodies_mod
+      USE BCS_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -287,7 +289,8 @@ C-----------------------------------------------
      .        NUMEL,STAT,
      .        NCTRLMAX,NSIGBEAM,NSIGTRUSS
       INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,*),SLRBODY
-      INTEGER,INTENT(IN) :: IPARI(NPARI,NINTER) 
+      INTEGER,INTENT(IN) :: IPARI(NPARI,NINTER)
+      INTEGER,INTENT(IN) :: IWORKING_ARRAY(2*NUMNOD)  !lectur::IWCIN2 used here as working array
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
       my_real
      .   ELBUF(*), MS(*), IN(*), V(*), X(*), GEO(*),PM(NPROPM,*),
@@ -354,6 +357,7 @@ C-----------------------------------------------
       TYPE(INTBUF_STRUCT_) , INTENT(IN   ) ::  INTBUF_TAB(NINTER)
       TYPE(INTERFACES_) , INTENT(INOUT   ) ::  INTERFACES
       TYPE(PREL1D_) , INTENT(IN   ), DIMENSION(NPRELOAD_A) ::  PRELOAD_A
+      TYPE(SENSORS_) ,INTENT(IN)  :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -808,6 +812,14 @@ C-----------------------------------------------------
      .             NISP,SPHMAT,SPHPID,IPM,IGEO,
      .             'SPHCEL')
 
+C--------------------------------------------
+C  Initialisation of Wall_Boundary Conditions
+C--------------------------------------------
+      IF(BCS%NUM_WALL > 0)THEN
+        CALL INIT_BCS_WALL(IGRNOD,NGRNOD,NUMNOD,ALE_CONNECTIVITY,MULTI_FVM,
+     .                     IXS,NIXS,NUMELS, IXQ,NIXQ,NUMELQ, IXTG,NIXTG,NUMELTG, N2D,
+     .                     NGROUP,NPARG,IPARG,IWORKING_ARRAY)
+      ENDIF
 C---------------------------------------------------------
 C     Tri du vecteur de bolt Preloading
 C---------------------------------------------------------
@@ -921,17 +933,15 @@ C Initialize vectorization flags to zero for solid elements
             IPARG(41,NG) = 0
           ENDIF
         ENDIF
-        IF((NUMELS/=0).AND.(N2D/=0))THEN
-         CALL ANCMSG(MSGID=603,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO_BLIND_2)
+        IF((NUMELS/=0) .AND. (N2D/=0))THEN
+         CALL ANCMSG(MSGID=603, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_2)
         END IF
 C------------------------------------------------------------------------------
 C Warning : for a new element type perform the computation of mass and inertia 
 C           in parallel arithmetic in subroutine SPMD_MSIN
 C------------------------------------------------------------------------------
 C
-       IF ((MTN == 0 .AND. IGTYP /= 52 .AND. IGTYP /= 51)  .or. 
+       IF ((MTN == 0 .AND. IGTYP /= 52 .AND. IGTYP /= 51)  .or.
      .     (IGTYP == 0 .and. (ITY == 1 .or. ITY == 3 .or. ITY == 7)) ) THEN
           LFT=1
           LLT=NEL
@@ -1557,10 +1567,7 @@ C-----------
      & 5X,'CHARACTERISTIC TIME. . . . . . . . . . .=',E12.4//)
 
 C Add error message when y < zero and N2D=1
-      CALL ANCMSG(MSGID=1228,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                PRMOD=MSG_PRINT )
+      CALL ANCMSG(MSGID=1228,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,PRMOD=MSG_PRINT)
 
       USER_GRP_DOMAIN = 0
 C-------------------------------------------------
@@ -1584,10 +1591,7 @@ C--------------------------------------------
 C Warning : Elements initially in tension
 C--------------------------------------------
       IF (CPT_ELTENS /= 0) THEN
-         CALL ANCMSG(MSGID=863,
-     .               MSGTYPE=MSGWARNING,
-     .               ANMODE=ANINFO_BLIND_1,
-     .               I1=CPT_ELTENS)
+         CALL ANCMSG(MSGID=863,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=CPT_ELTENS)
       ENDIF
 C---------------------------------------------------------------
 C Additional nodal mass from added part mass : /ADMAS option
@@ -1952,13 +1956,12 @@ C---------------------------------
         NV46=4
         IF(N2D==0)NV46 = 6
         CALL INIGRAV_LOAD(
-     1                    ELBUF_TAB  , IPART      ,   IGRPART,   IPARG  ,   IPART(I15H),
-     2                    IPART(I15A), IPART(I15B),   X      ,   IXS    ,   IXQ,
-     3                    IXTG,        PM         ,   IPM    ,   BUFMAT ,   MULTI_FVM,
-     4                    ALE_CONNECTIVITY, NV46       ,   IGRSURF,   ITAB   ,   EBCS_TAB,
-     5                    NPC        , PLD             ,MAT_PARAM)
+     1                    ELBUF_TAB       , IPART      , IGRPART   ,   IPARG  ,   IPART(I15H),
+     2                    IPART(I15A)     , IPART(I15B), X         ,   IXS    ,   IXQ        ,
+     3                    IXTG            , PM         , IPM       ,   BUFMAT ,   MULTI_FVM  ,
+     4                    ALE_CONNECTIVITY, NV46       , IGRSURF   ,   ITAB   ,   EBCS_TAB   ,
+     5                    NPC             , PLD        , MAT_PARAM)
       ENDIF
-
 C---------------------------------------------------
 C Initialization of global detonation times (Law151)
 C---------------------------------------------------
@@ -2482,9 +2485,7 @@ C
 C
 C         WRITE(IOUT,*)' **ERROR INVALID PROPERTY NUMBER',IG
 C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
-           CALL ANCMSG(MSGID=59,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_2,
+           CALL ANCMSG(MSGID=59, MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
      .                 I1=IG,
      .                 C1=ELEM,
      .                 I2=IX(NE,I),

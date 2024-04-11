@@ -112,6 +112,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE SENSOR_MOD
       USE EBCS_MOD
+      USE BCS_MOD , only : BCS
       USE ALE_CONNECTIVITY_MOD
       USE DIFFUSION_MOD
       USE SEGVAR_MOD
@@ -406,6 +407,9 @@ C              Envoi X pour interface type 12 ?
      .                       ITAB  ,IPARG,IXS,SEGVAR,SKEW,ISKWN,INTBUF_TAB)
                CALL MY_BARRIER
             ENDIF
+            !------------------------------------------------!
+            ! ELEMENTARY BCS (/EBCS)                         !
+            !------------------------------------------------!
             IF(NEBCS > 0)THEN
                IF(ITASK == 0)THEN
                  I=1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG
@@ -483,6 +487,14 @@ C     Build FVM connectivities
 C     ------------------------
                CALL BUILD_CONNECTIVITY(ITASK, MULTI_FVM, ALE_CONNECTIVITY, IPARG)
                CALL MY_BARRIER
+C     -------------------------
+C     Wall boundary condition
+C     -------------------------
+!$OMP SINGLE
+               IF(BCS%NUM_WALL > 0)THEN
+                 CALL BCS_WALL_TRIGGER(TT,ALE_CONNECTIVITY,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
+               ENDIF
+!$OMP END SINGLE
 C     ---------------------
 C     Face data computation
 C     ---------------------
@@ -567,7 +579,18 @@ C     -------------------------
      2              IXS  , ITASK   , NPC  , TF    , SKEW   ,
      3              ITAB 
      .              )
+
+C     -------------------------
+C     Wall boundary condition
+C     -------------------------
+!$OMP SINGLE
+               IF(BCS%NUM_WALL > 0)THEN
+                 CALL BCS_WALL_TRIGGER(TT,ALE_CONNECTIVITY,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
+               ENDIF
+!$OMP END SINGLE
+
                CALL MY_BARRIER
+
                IF (MULTI_FVM%MUSCL  ==  1) THEN
 C     --------------------------------------------------
 C     Multifluid law time evolution --> Prediction phase
