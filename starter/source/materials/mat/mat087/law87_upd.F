@@ -74,7 +74,7 @@ C-----------------------------------------------
      .       DF1,DF2,DF3,DF13,DF23,DF33,DF15,DF25,DF35,F1,F2,
      .      AL1, AL2 , AL3 , AL4 ,
      .      AL5, AL6 , AL7 , AL8 ,
-     .      S00, S45 , S90 , SB  ,
+     .      S00, S45 , S90 , SB  ,DV1A7,DV11A8 , DW11A8,
      .      R00,R45  , R90 , RB  ,X1,X2,X11,X22 ,V1,V11,W11,TAL7,TAL8,
      .      ASWIFT ,EPSO,QVOCE,BETA,KO,ALPHA,NEXP,CONJTF4A8,TF4A8,DAL78(2),
      .      EXPV,KSWIFT,KVOCE,PUIS,PLA,RESIDU,G(2),DAL(8),DFTEST(6,6),DG(2,2),
@@ -118,10 +118,9 @@ c-----    Yield
           YIELD = FINTER(IFUNC(1),PLA,NPC,PLD,DYDX)
           SCALE = UPARAM(25+1+NFUNC)
           YIELD = YIELD * SCALE
-
       ENDIF  
 
-      !YIELD TO BE COMPUTED FROM VOCE OR TABULATED FOR 0.05 PLASTIC STRAIN
+      !YIELD TO BE COMPUTED FROM VOCE OR TABULATED FOR 0.002 PLASTIC STRAIN
       AL(1:8) = ONE
 
           !g1=2/3;
@@ -245,11 +244,10 @@ C
       ENDDO ! WHILE ITERATIONS
 
       !COMPUTE AL(7) AND AL(8)
-           X1=(AL(1)+AL(2))/3;
-           X2=(AL(1)-AL(2))/3;
-           X11=(AL(3)     + TWO*AL(4) + TWO*AL(5)+AL(6)      ) /NINE
-           X22=(TWO*AL(5)+      AL(6) - AL(3)     -TWO *AL(4))/THREE
-
+      X1=(AL(1)+AL(2))/3;
+      X2=(AL(1)-AL(2))/3;
+      X11=(AL(3)     + TWO*AL(4) + TWO*AL(5)+AL(6)      ) /NINE
+      X22=(TWO*AL(5)+      AL(6) - AL(3)     -TWO *AL(4))/THREE
 
       !BOUCLE
       RESIDU = EP30
@@ -261,26 +259,27 @@ C
       TAL8 = SQRT(MAX(ZERO,X22**2 + FOUR * AL(8)**2) )
       TF4A8=      (THREE*X11 + TAL8 ) / FOUR 
       CONJTF4A8 = (THREE*X11 - TAL8 ) / FOUR 
-           V1 =EXPA*(TAL7)**(EXPA-1)
-           V11=EXPA*(CONJTF4A8)*(ABS(CONJTF4A8))**(EXPA-2)
-           W11=EXPA*(TF4A8)*(ABS(TF4A8))**(EXPA-2)
+
+      V1 =EXPA*(TAL7)**(EXPA-1)
+      V11=EXPA*(CONJTF4A8)*(ABS(CONJTF4A8))**(EXPA-2)
+      W11=EXPA*(TF4A8)*(ABS(TF4A8))**(EXPA-2)
 
       F1= TAL7**EXPA + ABS(CONJTF4A8)**EXPA + ABS(TF4A8)**EXPA
-      F2 =v1* (X2**2/(TWO*TAL7) )   +  THREE_HALF*X11*(v11+w11) + HALF*(X22**2/TAL8) * (w11-v11)
+      F2 =v1* (X2**2/(TWO*TAL7) )   +  THREE_HALF*X11*(v11+w11) + HALF*(X22**2/TAL8) * (w11-v11)          
+      
+      G(1) = F1 - TWO*(YIELD/S45)**EXPA
+      G(2) = F2 - (TWO*EXPA/(ONE+R45))*(YIELD/S45)**EXPA  
 
-            
-           G(1) = F1 - TWO*(YIELD/S45)**EXPA
-           G(2) = F2 - (TWO*EXPA/(ONE+R45))*(YIELD/S45)**EXPA
+      DV1A7  = EXPA*(EXPA-ONE)*AL(7) * TAL7**(EXPA-3)
+      DV11A8 = -(EXPA*(EXPA-ONE)*AL(8) /TAL8 ) *  ABS(CONJTF4A8)**(EXPA-2)
+      DW11A8 =  (EXPA*(EXPA-ONE)*AL(8) /TAL8 ) *  ABS(TF4A8 ) **(EXPA-2)
+
       !DF(4,7)
-      DG(1,1) = EXPA * (AL(7)/(TWO*TAL7) )* ABS(TAL7)**(EXPA-1)
+      DG(1,1) = (EXPA * ABS(TAL7)**(EXPA-1)) * AL(7)/TAL7  
       !DF(4,8)
-      DG(1,2) = EXPA *( AL(8) /TAL8) * ( TF4A8 * ABS (TF4A8)**(EXPA-2) 
-     .                                - CONJTF4A8 *ABS (CONJTF4A8)**(EXPA-2)  )
-      DG(2,1) = (AL(7) * X2**2)/(TWO*TAL7) * (EXPA * (EXPA - ONE) * TAL7**(EXPA-3)
-     .                                        - V1 /TAL7/TAL7 )
-      DG(2,2) = (EXPA*(EXPA-ONE)*AL(8)/TAL8)
-     .         *(THREE_HALF*X11*(TF4A8-CONJTF4A8)+HALF*(X22**2/TAL8)*(TF4A8+CONJTF4A8))
-     .         - TWO*(W11-V11)*AL(8)*X22**2/TAL8**3
+      DG(1,2) = EXPA *( AL(8) /TAL8) * ( TF4A8 * ABS (TF4A8)**(EXPA-2) - CONJTF4A8 *ABS (CONJTF4A8)**(EXPA-2)  )                               
+      DG(2,1) = DV1A7 *  X2**2 /(TWO*TAL7) - FOUR * V1 * AL(7) * X2**2  / SQRT(MAX(ZERO,X2**2  + FOUR * AL(7)**2) )**3
+      DG(2,2) = THREE_HALF*X11 * (DV11A8 + DW11A8) + HALF * (X22**2/TAL8) * (DW11A8- DV11A8) - (W11 - V11)*AL(8)*X22**2/TAL8**3
 
       CALL INVERT (DG,DGINV,2,ERROR)
       CALL PRODMATVECT(DGINV, G, DAL78, 2)
@@ -303,7 +302,6 @@ C
       IF (IOK ==0) THEN
        DO K=1,8
         IF (AL(K) <= ZERO .OR. AL(K) > TEN)THEN
-
             IOK = 1
             CALL ANCMSG(MSGID=1608 ,
      .                MSGTYPE=MSGERROR,
@@ -396,7 +394,6 @@ C=======================================================================
      .   + ( ABS(G*AL(3)      + D*TWO*AL(4)) )**AA 
      .   + ( ABS(G*TWO*AL(5)+ D*AL(6)))**AA
 
-      !PRINT*, ' FK ', F
       RETURN
       END
 cc
