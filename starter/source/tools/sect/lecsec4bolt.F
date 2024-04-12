@@ -160,6 +160,7 @@ C
       CALL HM_OPTION_START('/SECT')
       
       DO I=1,NSECT
+        IGU = 0
         ISTYP = 0
         NG=NG+1
         LREC = LREC+3
