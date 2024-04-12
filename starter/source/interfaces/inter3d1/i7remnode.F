@@ -937,7 +937,7 @@ Chd|        ZERONM_TAGD                   source/interfaces/inter3d1/i7remnode.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE REMN_I2OP(IPARI,INTBUF_TAB,ITAB,NOM_OPT,NREMOV,IDDLEVEL,SKIP_TYPE25_EDGE_2_EDGE)
+      SUBROUTINE REMN_I2OP(LOWER_BOUND, UPPER_BOUND, IPARI,INTBUF_TAB,ITAB,NOM_OPT,NREMOV,IDDLEVEL,SKIP_TYPE25_EDGE_2_EDGE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -959,6 +959,7 @@ C-----------------------------------------------
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER, INTENT(in) :: IDDLEVEL
       INTEGER, INTENT(in) :: SKIP_TYPE25_EDGE_2_EDGE !< flag for interface 25 :( : if edge to edge is used by interface type 25, need to do the computation after the initialization of LEDGE array | (0) no interface 25 with e2e --> nodes can be removed, (1) interface 25 with e2e --> other interfaces can be treated, (2) only the interface type 25 with e2e is treated 
+      INTEGER, INTENT(in) :: LOWER_BOUND, UPPER_BOUND !< lower and upper bound of the loop, necessary because this subroutine may be called once for all interface, or interface by interface
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
@@ -1014,7 +1015,7 @@ C----like Irem_gap of int7, creat list of SECONDARY nodes to be removed per M_se
 C----------only during dimensioning
         IACT=0  
         TYP25_USE = 0
-        DO N=1,NINTER
+        DO N=LOWER_BOUND,UPPER_BOUND
                 NTY=IPARI(7,N)
                 IF7 =IPARI(54,N)
                 IF24=IPARI(63,N)
@@ -1034,7 +1035,7 @@ C----------only during dimensioning
                 ENDIF
         ENDDO
         IF (IACT==0) THEN
-                DO N=1,NINTER
+                DO N=LOWER_BOUND,UPPER_BOUND
                         NREMOV(N) = 0
                 ENDDO
                 RETURN
@@ -1141,7 +1142,7 @@ C-------tag int2 nodes------
         LIMIT = HUGE(N)
 
 C---------
-        DO N=1,NINTER
+        DO N=LOWER_BOUND,UPPER_BOUND
                     NTY=IPARI(7,N)
                     NSN   =IPARI(5,N)
                     NRTS  =IPARI(3,N)
