@@ -132,7 +132,7 @@ C-----------------------------------------------
      .          OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
      .          IIGEO,IADI,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),
      .          LERCVOIS(*),LESDVOIS(*),NB_PLYOFF,IUVAR,IDX,IPOS,ITRIMAT,
-     .          IALEFVM_FLG, IMAT,IADBUF,NUPARAM,ICSIG,NC(8),IEOS
+     .          IALEFVM_FLG, IMAT,IADBUF,NUPARAM,ICSIG,NC(8),IEOS,NMOD,MAT_ID
         INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
      .          PTE(4),PTP(4),PTMAT(4),PTVAR(4),NPT_ALL,IPLY,
      .          ID_ELEM_TMP(MVSIZ),NIX,ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,
@@ -1504,51 +1504,130 @@ c
                     VALUE(I) = ZERO
                   ENDDO
 c
-                  ! If nothing is specified by the user, computing a mean value
-                  IF (IR == -1 .AND. IS == -1 .AND. IT == -1 .AND. ILAY == -1) THEN
+                  ! If no MODE is requested 
+                  IF (MODE == -1) THEN 
+                    ! If nothing is specified by the user, computing a mean value
+                    IF (IR == -1 .AND. IS == -1 .AND. IT == -1 .AND. ILAY == -1) THEN
 c
-                    ! Filling the value table
-                    DO IL=1,NLAY
-                      DO IS=1,NPTS
-                        DO IT=1,NPTT
-                          DO IR=1,NPTR
-                            LBUF=>ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
-                            DO I=LFT,LLT
-                              VALUE(I) = VALUE(I) + LBUF%DMG(I)/NPTG
-                              IS_WRITTEN_VALUE(I) = 1
+                      ! Filling the value table
+                      DO IL=1,NLAY
+                        IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
+                        MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                        IF ((ID == -1) .OR. ((ID > 0).AND.(MAT_ID == ID))) THEN 
+                          DO IS=1,NPTS
+                            DO IT=1,NPTT
+                              DO IR=1,NPTR
+                                LBUF=>ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                                DO I=LFT,LLT
+                                  VALUE(I) = VALUE(I) + LBUF%DMG(I)/NPTG
+                                  IS_WRITTEN_VALUE(I) = 1
+                                ENDDO
+                              ENDDO
+                            ENDDO
+                          ENDDO
+                        ENDIF
+                      ENDDO
+c
+                    ! If integratiion point is specified by the user
+                    ELSEIF ( IR >= 0 .AND. IR <= NPTR .AND.
+     .                       IS >= 0 .AND. IS <= NPTS .AND.
+     .                       IT >= 0 .AND. IT <= NPTT) THEN
+c
+                      ! Filling the value table
+                      DO IL=1,NLAY
+                        IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
+                        MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                        IF ((ID == -1) .OR. ((ID > 0).AND.(MAT_ID == ID))) THEN 
+                          LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                          DO I=1,NEL
+                            VALUE(I) = VALUE(I) + LBUF%DMG(I)/NLAY
+                            IS_WRITTEN_VALUE(I) = 1
+                          ENDDO
+                        ENDIF
+                      ENDDO
+c
+                    ! If the layer is specified by the user
+                    ELSEIF (ILAY > 0 .AND. ILAY <= NLAY) THEN
+                      IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT
+                      MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                      IF ((ID == -1) .OR. ((ID > 0).AND.(MAT_ID == ID))) THEN 
+                        DO IS=1,NPTS
+                          DO IT=1,NPTT
+                            DO IR=1,NPTR
+                              LBUF=>ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
+                              DO I=LFT,LLT
+                                VALUE(I) = VALUE(I) + LBUF%DMG(I)/(NPTR*NPTS*NPTT)
+                                IS_WRITTEN_VALUE(I) = 1
+                              ENDDO
                             ENDDO
                           ENDDO
                         ENDDO
+                      ENDIF
+                    ENDIF
+c
+                  ! If MODE is requested (MODE > 0) with a specific ID (ID > 0)
+                  ELSE    
+                    ! If nothing is specified by the user, computing a mean value
+                    IF (IR == -1 .AND. IS == -1 .AND. IT == -1 .AND. ILAY == -1) THEN
+c
+                      ! Filling the value table
+                      DO IL=1,NLAY
+                        IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
+                        NMOD = MAT_PARAM(IMAT)%NMOD
+                        MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                        IF ((NMOD > 0 .AND. MODE <= NMOD) .AND. (MAT_ID == ID)) THEN 
+                          DO IS=1,NPTS
+                            DO IT=1,NPTT
+                              DO IR=1,NPTR
+                                LBUF=>ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                                DO I=LFT,LLT
+                                  VALUE(I) = VALUE(I) + LBUF%DMG(NEL*MODE+I)/NPTG
+                                  IS_WRITTEN_VALUE(I) = 1
+                                ENDDO
+                              ENDDO
+                            ENDDO
+                          ENDDO
+                        ENDIF
                       ENDDO
-                    ENDDO
 c
                     ! If integratiion point is specified by the user
-                  ELSEIF ( IR >= 0 .AND. IR <= NPTR .AND.
-     .                     IS >= 0 .AND. IS <= NPTS .AND.
-     .                     IT >= 0 .AND. IT <= NPTT) THEN
+                    ELSEIF ( IR >= 0 .AND. IR <= NPTR .AND.
+     .                       IS >= 0 .AND. IS <= NPTS .AND.
+     .                       IT >= 0 .AND. IT <= NPTT) THEN
 c
-                  ! Filling the value table
-                    DO IL=1,NLAY
-                      LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
-                      DO I=1,NEL
-                        VALUE(I) = VALUE(I) + LBUF%DMG(I)/NLAY
-                        IS_WRITTEN_VALUE(I) = 1
-                      ENDDO
-                    ENDDO
-c
-                    ! If the layer is specified by the user
-                  ELSEIF (ILAY > 0 .AND. ILAY <= NLAY) THEN
-                    DO IS=1,NPTS
-                      DO IT=1,NPTT
-                        DO IR=1,NPTR
-                          LBUF=>ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
-                          DO I=LFT,LLT
-                            VALUE(I) = VALUE(I) + LBUF%DMG(I)/(NPTR*NPTS*NPTT)
+                      ! Filling the value table
+                      DO IL=1,NLAY
+                        IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
+                        NMOD = MAT_PARAM(IMAT)%NMOD
+                        MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                        IF ((NMOD > 0 .AND. MODE <= NMOD) .AND. (MAT_ID == ID)) THEN 
+                          LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                          DO I=1,NEL
+                            VALUE(I) = VALUE(I) + LBUF%DMG(NEL*MODE+I)/NLAY
                             IS_WRITTEN_VALUE(I) = 1
                           ENDDO
-                        ENDDO
+                        ENDIF
                       ENDDO
-                    ENDDO
+c
+                    ! If the layer is specified by the user
+                    ELSEIF (ILAY > 0 .AND. ILAY <= NLAY) THEN
+                      IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT
+                      NMOD = MAT_PARAM(IMAT)%NMOD
+                      MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                      IF ((NMOD > 0 .AND. MODE <= NMOD) .AND. (MAT_ID == ID)) THEN 
+                        DO IS=1,NPTS
+                          DO IT=1,NPTT
+                            DO IR=1,NPTR
+                              LBUF=>ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
+                              DO I=LFT,LLT
+                                VALUE(I) = VALUE(I) + LBUF%DMG(NEL*MODE+I)/(NPTR*NPTS*NPTT)
+                                IS_WRITTEN_VALUE(I) = 1
+                              ENDDO
+                            ENDDO
+                          ENDDO
+                        ENDDO
+                      ENDIF
+                    ENDIF                    
                   ENDIF
 c
                 ENDIF

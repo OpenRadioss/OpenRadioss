@@ -37,10 +37,11 @@ Chd|====================================================================
      6   SX,        SY,        SZ,        TX,
      7   TY,        TZ,        GAMA,      VNEW,
      8   SSP,       VOL,       EPSP,      WPLA,
-     9   DAMT,      EPST,      SIGL,      TSAIWU,          
+     9   EPST,      SIGL,      TSAIWU,          
      A   FLAY,      NGL,       NEL,       NFT,             
      B   ILAY,      NPT,       IPG,
-     C   JCVT,      JSPH,      ISORTH)
+     C   JCVT,      JSPH,      ISORTH,    DMG,
+     D   L_DMG)
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
@@ -72,11 +73,12 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JCVT
       INTEGER, INTENT(IN) :: JSPH
       INTEGER, INTENT(IN) :: ISORTH
+      INTEGER, INTENT(IN) :: L_DMG
       INTEGER NGL(MVSIZ),ILAY,NEL,IPG
 C     REAL
       my_real
      .   PM(NPROPM),OFF(*), SIG(NEL,6), WPLA(*), GAMA(MVSIZ,6), 
-     .   EINT(*), DAMT(NEL,2), EPSP(*),
+     .   EINT(*), EPSP(*),
      .   RX(*) ,RY(*),RZ(*) ,SX(*),SY(*),SZ(*),
      .   TX(*) ,TY(*) ,TZ(*)
       my_real
@@ -86,6 +88,7 @@ C     REAL
      .   VOl(*),VNEW(*),SSP(*),EPST(NEL,6),SIGL(MVSIZ,6),FLAY(*),
      .   TSAIWU(NEL)
       type (matparam_struct_) ,intent(in) :: mat_param
+      my_real, DIMENSION(NEL,L_DMG) :: DMG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -193,9 +196,10 @@ C-----------------------------------------------------------
      1                    NEL    ,NGL   ,OFF  ,FLAY ,
      2                    S1     ,S2   ,S3    ,S4   ,S5   ,S6   ,
      3                    EP1    ,EP2  ,EP3   ,EP4  , EP5 ,EP6  ,
-     4                    EPST   ,DAMT ,NFIS1 ,NFIS2,NFIS3,
+     4                    EPST   ,NFIS1,NFIS2 ,NFIS3,
      5                    WPLAR  ,EPSP ,WPLA  ,SIGL ,ILAY ,IPG  ,
-     6                    TSAIWU ,TT   ,IMCONV,MVSIZ,IOUT )
+     6                    TSAIWU ,TT   ,IMCONV,MVSIZ,IOUT ,DMG  ,
+     7                    L_DMG  )
       
       ELSE    ! Crasurv 
       
@@ -203,9 +207,10 @@ C-----------------------------------------------------------
      1             NEL  ,NGL, OFF  ,FLAY ,
      2             S1   ,S2   ,S3  ,S4   ,S5   ,S6    ,
      3             EP1  ,EP2  ,EP3 ,EP4  , EP5 ,EP6,
-     4             EPST ,DAMT ,NFIS1  ,NFIS2    ,NFIS3,
+     4             EPST ,NFIS1,NFIS2,NFIS3,
      5             WPLAR,EPSP, WPLA, SIGL, ILAY,
-     6             IPG  ,TSAIWU,TT,IMCONV  ,MVSIZ   ,IOUT    )
+     6             IPG  ,TSAIWU,TT,IMCONV  ,MVSIZ   ,IOUT,
+     7             DMG  ,L_DMG )
 
       END IF
 !-----------------------------------------------------------------------
@@ -239,7 +244,7 @@ C.....GATHER DIRECTION 1
       NINDX=0
       DO  I=1,NEL
         IF(EPST(I,1) >= EPST1(I)
-     +    .AND. DAMT(I,1) == ZERO .AND. OFF(I) == ONE)THEN
+     +    .AND. DMG(I,2) == ZERO .AND. OFF(I) == ONE)THEN
           NINDX=NINDX+1
           INDX(NINDX)=I
         ENDIF  
@@ -251,8 +256,8 @@ C.....1.FIRST FAILURE DIRECTION 1
             I=INDX(J)
             DAM1=(EPST(I,1)-EPST1(I))/(EPSM1(I)-EPST1(I))
             DAM2= DAM1*EPSM1(I)/EPST(I,1)
-            DAMT(I,1)= MIN(DAM2,DMAX(I))
-            IF(DAMT(I,1)==DMAX(I).AND.IMCONV==1)THEN
+            DMG(I,2)= MIN(DAM2,DMAX(I))
+            IF(DMG(I,2)==DMAX(I).AND.IMCONV==1)THEN
 #include "lockon.inc"
                WRITE(IOUT, '(A,I1,A,I10,A,I3,A,I3,A,1PE11.4)')
      +        ' FAILURE-',IDIR,', ELEMENT #',NGL(I),
@@ -266,7 +271,7 @@ C.....GATHER DIRECTION 2
        NINDX=0
       DO  I=1,NEL
         IF(EPST(I,2) >= EPST2(I)
-     +         .AND. DAMT(I,2) == ZERO .AND. OFF(I) == ONE) THEN
+     +         .AND. DMG(I,3) == ZERO .AND. OFF(I) == ONE) THEN
           NINDX=NINDX+1
           INDX(NINDX)=I
         ENDIF  
@@ -278,8 +283,8 @@ C.....1.FIRST FAILURE DIRECTION 2
           I=INDX(J)
           DAM1=(EPST(I,2)-EPST2(I))/(EPSM2(I)-EPST2(I))
           DAM2= DAM1*EPSM2(I)/EPST(I,2)
-          DAMT(I,2)= MIN(DAM2,DMAX(I))
-          IF(DAMT(I,2) == DMAX(I) .AND. IMCONV == 1)THEN
+          DMG(I,3)= MIN(DAM2,DMAX(I))
+          IF(DMG(I,3) == DMAX(I) .AND. IMCONV == 1)THEN
 #include "lockon.inc"
               WRITE(IOUT, '(A,I1,A,I10,A,I3,A,I3,A,1PE11.4)')
      +        ' FAILURE-',IDIR,', ELEMENT #',NGL(I),
@@ -289,6 +294,27 @@ C.....1.FIRST FAILURE DIRECTION 2
           ENDIF      
         ENDDO
       ENDIF      
+C---------------------------
+C     GLOBAL FAILURE INDEX
+C---------------------------
+      IF (IFLAG == 0) THEN    ! Tsai-Wu
+        DO I=1,NEL
+          DMG(I,1) = MAX(DMG(I,2),DMG(I,3),DMG(I,4))
+        ENDDO
+      ELSE                    ! Crasurv 
+        DO I=1,NEL
+          DMG(I,1) = MAX(DMG(I,2),DMG(I,3),DMG(I,4))
+          IF (ABS(DMG(I,5)) >= ONE) THEN 
+            DMG(I,1) = MAX(ABS(DMG(I,5))-ONE,DMG(I,1)) 
+          ENDIF
+          IF (ABS(DMG(I,6)) >= ONE) THEN
+            DMG(I,1) = MAX(ABS(DMG(I,6))-ONE,DMG(I,1)) 
+          ENDIF
+          IF (DMG(I,7) >= ONE) THEN
+            DMG(I,1) = MAX(DMG(I,7)-ONE,DMG(I,1)) 
+          ENDIF
+        ENDDO
+      ENDIF       
 C----------------------------
 C     TEST DE RUPTURE 
 C----------------------------

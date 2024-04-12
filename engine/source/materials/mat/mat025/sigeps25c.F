@@ -44,9 +44,9 @@ Chd|====================================================================
      C                    SIGVXX   ,SIGVYY  ,SIGVXY   ,SIGVYZ  ,SIGVZX  ,
      D                    ISRATE   ,UVARV   ,ISHPLYXFEM,IPT    ,SEQ_OUTP,
      E                    PLY_EXX  ,PLY_EYY ,PLY_EXY  ,PLY_EXZ ,PLY_EYZ ,
-     F                    PLY_F    ,PLA     ,DAMT     ,CRAK    ,IERR    ,
+     F                    PLY_F    ,PLA     ,CRAK     ,IERR    ,
      G                    IOFF_DUCT,IFAILURE,PLY_ID   ,IPG     ,TSAIWU  ,
-     H                    IMCONV   ,IOUT     )
+     H                    IMCONV   ,IOUT    ,DMG      ,L_DMG   ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-----------------------------------------------
       INTEGER NEL,ISRATE,PLY_ID,
      .   IPT,NPTT,NPTTOT,ILAY,IGTYP,IFAILURE,ISHPLYXFEM,IPG
       INTEGER ,INTENT(IN) :: IMCONV
-      INTEGER ,INTENT(IN) :: IOUT
+      INTEGER ,INTENT(IN) :: IOUT,L_DMG
       INTEGER NGL(MVSIZ),IERR(NEL),IOFF_DUCT(MVSIZ)
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: NFIS1,NFIS2,NFIS3
       my_real ,INTENT(IN) :: TIME
@@ -91,9 +91,10 @@ C-----------------------------------------------
      .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*), 
      .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),SIGOYZ(NEL),
-     .   SIGOZX(NEL),PLA(NEL),DAMT(NEL,2),CRAK(NEL,2),SEQ_OUTP(NEL),
+     .   SIGOZX(NEL),PLA(NEL),CRAK(NEL,2),SEQ_OUTP(NEL),
      .   OFFL(NEL),SIGV(NEL,5),SIGPLY(NEL,3),TSAIWU(NEL)
       TYPE(MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
+      my_real, DIMENSION(NEL,L_DMG), INTENT(INOUT) :: DMG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -182,7 +183,7 @@ C-----------------------
       IF (IFLAG == 0) THEN    ! Tsai-Wu
         CALL MAT25_TSAIWU_C(MAT_PARAM,
      1                      NEL      ,OFF     ,SIG     ,
-     2                      PLA      ,DIR     ,DAMT    ,CRAK    ,
+     2                      PLA      ,DIR     ,CRAK    ,
      3                      NFIS1    ,NFIS2   ,NFIS3   ,ILAY    ,SHF   ,
      4                      NGL      ,EPS     ,IGTYP   ,WPLAR   ,STRN1 ,
      5                      STRN2    ,STRN3   ,STRP1   ,STRP2   ,SIGE  ,
@@ -191,13 +192,13 @@ C-----------------------
      8                      PLY_EXY(1,IPT),SIGPLY,SIGPE,PLY_ID ,
      9                      SIGNXX   ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX,
      A                      IPG      ,TSAIWU  ,IPLYXFEM,TIME    ,TIMESTEP,
-     B                      IMCONV   ,MVSIZ   ,IOUT    )
+     B                      IMCONV   ,MVSIZ   ,IOUT    ,DMG     ,L_DMG )
       
       ELSE    ! Crasurv 
       
         CALL MAT25_CRASURV_C(MAT_PARAM,
      1                       NEL      ,OFF     ,SIG     ,
-     2                       PLA      ,DIR     ,DAMT    ,CRAK    ,
+     2                       PLA      ,DIR     ,CRAK    ,
      3                       NFIS1    ,NFIS2   ,NFIS3   ,ILAY    ,SHF   ,
      4                       NGL      ,EPS     ,WPLAR   ,STRN1 ,
      5                       STRN2    ,STRN3   ,STRP1   ,STRP2   ,SIGE  ,
@@ -206,7 +207,7 @@ C-----------------------
      8                       PLY_EXY(1,IPT),SIGPLY,SIGPE,PLY_ID ,
      9                       SIGNXX   ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX,
      A                       IPG      ,TSAIWU  ,IPLYXFEM,TIME    ,TIMESTEP,
-     B                       IMCONV   ,MVSIZ   ,IOUT    )
+     B                       IMCONV   ,MVSIZ   ,IOUT    ,DMG     ,L_DMG )
 
       END IF
 !-----------------------------------------------------------------------
@@ -262,15 +263,36 @@ C-----------------------
 C-----------------------
 C     TENSILE RUPTURE
 C-----------------------
-      CALL M25CRAK(NEL   ,OFF   ,DAMT    ,DIR    ,ILAY    ,THLY  ,
-     .             NGL   ,STRP1 ,STRP2   ,PLY_ID ,IGTYP   ,
-     .             IPG   ,EPST1 ,EPST2   ,EPSM1  ,EPSM2   ,DMAX  )
+      CALL M25CRAK(NEL    ,OFF    ,DMG    ,L_DMG  ,DIR    ,ILAY   ,
+     .             THLY   ,NGL    ,STRP1  ,STRP2  ,PLY_ID ,IGTYP  ,
+     .             IPG    ,EPST1  ,EPST2  ,EPSM1  ,EPSM2  ,DMAX   )
 C-----------------------
       DEALLOCATE(GV,BETA)
 C----  -------------------
       DO I=1,NEL
         IF (OFF(I) == ZERO .AND. NPTT > 1) OFFL(I) = ZERO
       ENDDO
+C---------------------------
+C     GLOBAL FAILURE INDEX
+C---------------------------
+      IF (IFLAG == 0) THEN    ! Tsai-Wu
+        DO I=1,NEL
+          DMG(I,1) = MAX(DMG(I,2),DMG(I,3),DMG(I,4))
+        ENDDO
+      ELSE                    ! Crasurv 
+        DO I=1,NEL
+          DMG(I,1) = MAX(DMG(I,2),DMG(I,3),DMG(I,4))
+          IF (ABS(DMG(I,5)) >= ONE) THEN 
+            DMG(I,1) = MAX(ABS(DMG(I,5))-ONE,DMG(I,1)) 
+          ENDIF
+          IF (ABS(DMG(I,6)) >= ONE) THEN
+            DMG(I,1) = MAX(ABS(DMG(I,6))-ONE,DMG(I,1)) 
+          ENDIF
+          IF (DMG(I,7) >= ONE) THEN
+            DMG(I,1) = MAX(DMG(I,7)-ONE,DMG(I,1)) 
+          ENDIF
+        ENDDO
+      ENDIF 
 C----------------------------
 C     Failure test ---special treatment inside law25 ---
 C----------------------------

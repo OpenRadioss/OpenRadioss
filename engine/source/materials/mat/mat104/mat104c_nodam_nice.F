@@ -94,12 +94,9 @@ c
      .   HARDP,FHARD,FRATE,FTHERM,FDR,PHI0,PHI,DPLA_DLAM,
      .   DEZZ
       !=======================================================================
-      !       DRUCKER MATERIAL LAW WITH NO DAMAGE
+      !             DRUCKER - VOCE - JOHNSON-COOK MATERIAL LAW
       !=======================================================================
       !UVAR(1)   PHI    YIELD FUNCTION VALUE
-      !-  
-      !DEPIJ     PLASTIC STRAIN TENSOR COMPONENT
-      !DEPSIJ    TOTAL   STRAIN TENSOR COMPONENT (EL+PL)
       !=======================================================================
 c      
       !=======================================================================
@@ -271,24 +268,16 @@ c
         ! a plastic multiplier allowing to update internal variables to satisfy
         ! the consistency condition. 
         ! Its expression is : DLAMBDA = - (PHI + DPHI) / DPHI_DLAMBDA
-          ! -> PHI  : current value of yield function (known)
+        ! -> PHI  : current value of yield function (known)
         ! -> DPHI : yield function prediction (to compute)
         ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
         !                   into account of internal variables kinetic : 
         !                   plasticity, temperature and damage (to compute)
 c        
-          ! 1 - Computation of DPHI_DSIG the normal to the yield surface
+        ! 1 - Computation of DPHI_DSIG the normal to the yield surface
         !-------------------------------------------------------------  
 c        
-        ! Computation of the normal to the yield criterion NORM
-        ! flow direction (derivative dPhi / Dsig) 
-        ! HERE WE COMPUTE DPHI/DS with phi = (sigbar/sigy)**2 - 1       
-        ! on note dphi/dS=dF/dS                                        
-        ! Fdr = J2^3 - c*J3^2                                     
-        ! dPhi/dSig = dPhi/dFdr * (dFdr/dJ2 * dJ2/dSig + dFdr/dJ3 * dJ3/dSig)
-        ! dJ2/dSig = S    
-c        
-        ! Derivative with respect to the equivalent stress and trace
+        ! Derivative with respect to the equivalent stress
         YLD2I       = ONE/(YLD(I)**2)
         DPHI_DSIG   = TWO*SIGDR(I)*YLD2I
 c        
@@ -384,7 +373,7 @@ c
         DLAM = (DPHI + PHI(I)) / DENOM
         DLAM = MAX(DLAM, ZERO)
 c        
-          ! Plastic strains tensor update
+        ! Plastic strains tensor update
         DPXX = DLAM * NORMXX
         DPYY = DLAM * NORMYY
         DPZZ = DLAM * NORMZZ

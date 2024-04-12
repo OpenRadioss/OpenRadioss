@@ -1523,10 +1523,11 @@ C     like law25 for shell + S33 = EPS33*E33
      6   SX,         SY,         SZ,         TX,
      7   TY,         TZ,         GAMA,       VOLN,
      8   CXX,        LBUF%VOL,   LBUF%EPSD,  LBUF%PLA,
-     9   LBUF%DAM,   LBUF%STRA,  SIGL,       LBUF%TSAIWU,
-     A   LBUF%OFF,   NGL,        NEL,  NFT,          
-     B   ILAY    ,   NPT,        IPG,                   
-     C   JCVT,       JSPH,       ISORTH)
+     9   LBUF%STRA,  SIGL,       LBUF%TSAIWU,
+     A   LBUF%OFF,   NGL,        NEL,        NFT,          
+     B   ILAY,       NPT,        IPG,                   
+     C   JCVT,       JSPH,       ISORTH,     LBUF%DMG,
+     D   ELBUF_TAB(NG)%BUFLY(ILAY)%L_DMG)
 !
         IF (JSPH == 0) THEN
           CALL MQVISCB(

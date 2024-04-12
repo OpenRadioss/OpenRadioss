@@ -35,8 +35,8 @@
 
 ! ==========================================================================================
       subroutine mat25_crasurv_c(mat_param   ,                                &
-                 nel     ,off     ,sig   ,                                    &             
-                 wpla    ,dir     ,damt    ,crak  ,                           &            
+                 nel     ,off     ,sig     ,                                  &             
+                 wpla    ,dir     ,crak    ,                                  &            
                  nfis1   ,nfis2   ,nfis3   ,ilayer  ,shf   ,                  &            
                  ngl     ,eps     ,wplar   ,strn1 ,                           &            
                  strn2   ,strn3   ,strp1   ,strp2   ,sige  ,                  &            
@@ -45,13 +45,13 @@
                  ly_exy  ,sigply  ,sigpe   ,ply_id  ,                         &            
                  signxx  ,signyy  ,signxy  ,signyz  ,signzx,                  &            
                  ipg     ,tsaiwu  ,iplyxfem,time    ,timestep,                &            
-                 imconv  ,mvsiz   ,iout    )                              
+                 imconv  ,mvsiz   ,iout    ,dmg     ,l_dmg   )                              
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
       use matparam_def_mod
       use message_mod
-      use constant_mod ,only : zero,half,one,two,four,four_over_5
+      use constant_mod ,only : zero,half,one,two,four,four_over_5,three
       use constant_mod ,only : em10,em15,em20,ep20
 ! ------------------------------------------------------------------------------------------
       implicit none
@@ -77,6 +77,7 @@
       integer ,intent(in) :: ngl(mvsiz)                !< element ID table
       my_real ,intent(in) :: time                      !< current time
       my_real ,intent(in) :: timestep                  !< current time step
+      integer ,intent(in) :: l_dmg                     !< second dimension of damage table
       integer ,dimension(nel) ,intent(inout) :: outv   !< failure flag
       integer ,dimension(nel) ,intent(inout) :: nfis1  !< failure counter in 1st direction 
       integer ,dimension(nel) ,intent(inout) :: nfis2  !< failure counter in 2nd direction 
@@ -85,7 +86,6 @@
       my_real :: sig(nel,5)                            !< output stress tensor
       my_real :: wpla(nel)                             !< plastic work   
       my_real :: dir(nel,2)                            !< orthotropy directions
-      my_real :: damt(nel,2)                           !< damage coefficient 
       my_real :: crak(nel,2)                           !< ply Xfem failure criterion
       my_real :: shf(nel)                              !< transverse shear factor
       my_real :: epsp(nel)                             !< equivalent strain rate
@@ -111,6 +111,7 @@
       my_real :: signyz(mvsiz)                         !< stress component
       my_real :: signzx(mvsiz)                         !< stress component)
       my_real :: tsaiwu(mvsiz)                         !< Tsai-Wu criterion
+      my_real, intent(inout) :: dmg(nel,l_dmg)         !< damage related variables
       type (matparam_struct_) ,intent(in) :: mat_param !< material parameter structure
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
@@ -246,8 +247,8 @@
 !-------------------------------------------------------------------
       do i=1,nel
         fail_old(i)=0
-        if (damt(i,1)>=dmax)fail_old(i) = fail_old(i) + 1
-        if (damt(i,2)>=dmax)fail_old(i) = fail_old(i) + 2
+        if (dmg(i,2)>=dmax)fail_old(i) = fail_old(i) + 1
+        if (dmg(i,3)>=dmax)fail_old(i) = fail_old(i) + 2
         if (wpla(i)< zero) then
 !         wpla is negative in case of layer already reached failure-p :
           fail_old(i) = fail_old(i) + 4
@@ -354,8 +355,8 @@
 !-------------------------------------------------------------------
       if (ishplyxfem /= 0 .and. iplyxfem==2) then 
         do i=1,nel
-          de1(i) =one-max(zero ,sign(damt(i,1),sig(i,1)) )
-          de2(i) =one-max(zero ,sign(damt(i,2),sig(i,2)) )
+          de1(i) =one-max(zero ,sign(dmg(i,2),sig(i,1)) )
+          de2(i) =one-max(zero ,sign(dmg(i,3),sig(i,2)) )
           scale  =(half +sign(half,de1(i)-one))*(half+sign(half,de2(i)-one))
           s1(i)  = sig(i,1)/de1(i)-nu12*sig(i,2)*scale
           s2(i)  = sig(i,2)/de2(i)-nu21*sig(i,1)*scale
@@ -387,8 +388,8 @@
       else   ! without ply xfem
 !
         do i=1,nel
-          de1(i) = one-max( zero , sign(damt(i,1),sig(i,1)) )
-          de2(i) = one-max( zero , sign(damt(i,2),sig(i,2)) )
+          de1(i) = one-max( zero , sign(dmg(i,2),sig(i,1)) )
+          de2(i) = one-max( zero , sign(dmg(i,3),sig(i,2)) )
           scale  = (half +sign(half,de1(i)-one))*(half+sign(half,de2(i)-one))
           s1(i) = sig(i,1)/de1(i)-nu12*sig(i,2)*scale
           s2(i) = sig(i,2)/de2(i)-nu21*sig(i,1)*scale
@@ -413,24 +414,24 @@
 #include "vectorize.inc"
         do j=1,nindx
           i=index(j)
-          if (damt(i,1)/=zero) then
+          if (dmg(i,2)/=zero) then
            crak(i,1)= crak(i,1) + eps(i,1)+ epsply(i,1)
            dam1 = crak(i,1)/(epsm1-epst1)
            dam2 = dam1*epsm1/(crak(i,1)+epst1)
-           damt(i,1)= max(damt(i,1),dam2)
-           damt(i,1)= min(damt(i,1),dmax)      
+           dmg(i,2)= max(dmg(i,2),dam2)
+           dmg(i,2)= min(dmg(i,2),dmax)      
           endif
         enddo
 !
 #include "vectorize.inc"
         do j=1,nindx
           i=index(j)
-          if (damt(i,2)/=zero) then
+          if (dmg(i,3)/=zero) then
            crak(i,2) = crak(i,2) + eps(i,2) + epsply(i,2)
            dam1 = crak(i,2)/(epsm2-epst2)
            dam2 = dam1*epsm2/(crak(i,2)+epst2)
-           damt(i,2)= max(damt(i,2),dam2)
-           damt(i,2)= min(damt(i,2),dmax)
+           dmg(i,3)= max(dmg(i,3),dam2)
+           dmg(i,3)= min(dmg(i,3),dmax)
           endif
         enddo 
 !
@@ -439,31 +440,31 @@
 #include "vectorize.inc"
         do j=1,nindx
           i=index(j)
-          if (damt(i,1) /= zero) then
+          if (dmg(i,2) /= zero) then
            crak(i,1) = crak(i,1) + eps(i,1) 
            dam1 = crak(i,1)/(epsm1-epst1)
            dam2 = dam1*epsm1/(crak(i,1)+epst1)
-           damt(i,1) = max(damt(i,1),dam2)
-           damt(i,1) = min(damt(i,1),dmax)      
+           dmg(i,2) = max(dmg(i,2),dam2)
+           dmg(i,2) = min(dmg(i,2),dmax)      
           endif
         enddo
 !
         do j=1,nindx
           i=index(j)
-          if (damt(i,2) > zero) then
+          if (dmg(i,3) > zero) then
            crak(i,2) = crak(i,2) + eps(i,2)
            dam1 = crak(i,2)/(epsm2-epst2)
            dam2 = dam1*epsm2/(crak(i,2)+epst2)
-           damt(i,2) = max(damt(i,2),dam2)
-           damt(i,2) = min(damt(i,2),dmax)
+           dmg(i,3) = max(dmg(i,3),dam2)
+           dmg(i,3) = min(dmg(i,3),dmax)
           endif
         enddo       
       endif  ! ply xfem
 !
 !-----------------------------
       do i=1,nel
-        de1(i) = one - max(zero ,sign(damt(i,1),sig(i,1)) )
-        de2(i) = one - max(zero ,sign(damt(i,2),sig(i,2)) )
+        de1(i) = one - max(zero ,sign(dmg(i,2),sig(i,1)) )
+        de2(i) = one - max(zero ,sign(dmg(i,3),sig(i,2)) )
         scale1 = (half + sign(half,de1(i)-one))*(half+sign(half,de2(i)-one))
         scale2 = one - nu12*nu21*scale1
         a11(i) = e11*de1(i)/scale2
@@ -563,18 +564,34 @@
        soft(3)  = zero
        isoft(i) = 0 
        ! direction 1
-       if (strp1(i) <= -eps1c1) then
-         soft(1) = min(one,(strp1(i)+eps1c1)/(eps1c1-eps2c1))
+       ! -> failure index in compression
+       if ((strp1(i) < zero).and.(strp1(i) > -eps1c1)) then 
+         dmg(i,5) = max(-abs(strp1(i))/abs(eps1c1),-one)
+       elseif (strp1(i) <= -eps1c1) then
+         soft(1)  = min(one,(strp1(i)+eps1c1)/(eps1c1-eps2c1))
+         dmg(i,5) = max(-one-soft(1),-1.95d0)
+       ! -> failure index in tension
+       elseif (strp1(i) >= zero .and. strp1(i) < eps1t1) then 
+         dmg(i,5) = min(strp1(i)/eps1t1,one)
        else if (strp1(i) >= eps1t1) then
-         soft(1) = min(one,(strp1(i)-eps1t1)/(eps2t1-eps1t1))         
+         soft(1)  = min(one,(strp1(i)-eps1t1)/(eps2t1-eps1t1)) 
+         dmg(i,5) = min(one + soft(1),1.95d0)
        endif
        sigyt1 = min(sigyt1,(one -soft(1))*sigyt1+soft(1)*sigrst1)
        sigyc1 = min(sigyc1,(one -soft(1))*sigyc1+soft(1)*sigrsc1)
-       ! direction 2        
-       if (strp2(i) <= -eps1c2) then
-         soft(2) = min(one,(strp2(i)+eps1c2)/(eps1c2-eps2c2))
+       ! direction 2  
+       ! -> failure index in compression
+       if ((strp2(i) < zero).and.(strp2(i) > -eps1c2)) then 
+         dmg(i,6) = max(-abs(strp2(i))/abs(eps1c2),-one)
+       else if (strp2(i) <= -eps1c2) then
+         soft(2)  = min(one,(strp2(i)+eps1c2)/(eps1c2-eps2c2))
+         dmg(i,6) = max(- one - soft(2),-1.95d0)
+       ! -> failure index in tension
+       elseif (strp2(i) >= zero .and. strp2(i) < eps1t2) then 
+         dmg(i,6) = min(strp2(i)/eps1t2,one)
        else if (strp2(i) >= eps1t2) then
-         soft(2) = min(one,(strp2(i)-eps1t2)/(eps2t2-eps1t2))
+         soft(2)  = min(one,(strp2(i)-eps1t2)/(eps2t2-eps1t2))
+         dmg(i,6) = min(one + soft(2),1.95d0)
        endif
        sigyt2 = min(sigyt2,(one -soft(2))*sigyt2+soft(2)*sigrst2)
        sigyc2 = min(sigyc2,(one -soft(2))*sigyc2+soft(2)*sigrsc2)
@@ -582,11 +599,16 @@
        strp12 =-dir(i,1)*dir(i,2)*strn1(i)                        &
               + dir(i,2)*dir(i,1)*strn2(i)                        &
               + (dir(i,1)*dir(i,1)-dir(i,2)*dir(i,2))*strn3(i)
+       ! -> failure index in shear
        if (strp12 <= -eps1t12) then
-         soft(3) = min(one,(strp12+eps1t12)/(eps1t12-eps2t12))
+         soft(3)  = min(one,(strp12+eps1t12)/(eps1t12-eps2t12))
+         dmg(i,7) = min(one + soft(3),1.95d0)
        else if (strp12 >= eps1t12) then
-         soft(3) = min(one,(strp12-eps1t12)/(eps2t12-eps1t12))
-       endif
+         soft(3)  = min(one,(strp12-eps1t12)/(eps2t12-eps1t12))
+         dmg(i,7) = min(one + soft(3),1.95d0)
+       else
+         dmg(i,7) = min(abs(strp12)/eps1t12,one)
+       endif 
        sigyt12 = min(sigyt12,(one - soft(3))*sigyt12 + soft(3)*sigrst12)
        if (soft(1) + soft(2) + soft(3) > zero) isoft(i) = 1
 !
@@ -720,8 +742,12 @@
         sigyc1 = sigy0_c1 
         sigyc2 = sigy0_c2 
         sigyt12= sigy0_t12
+!
+        ! failure index for global maximum plastic work
+        if (wplamx(i) < ep20) dmg(i,4) = min(wpla(i)/wplamx(i),one)
 !                   
         if (imodwp == 0 .or. (imodwp > 0 .and. isoft(i) == 0)) then
+!
           ! direction 1       
           wpla1 = ep20
           if (t1(i) >= sigyt1 ) then
@@ -736,6 +762,16 @@
             wplamx(i) = wpla1
             icas(i) = id
           endif
+!
+          ! failure index in direction 1 update
+          if (wpla(i)/wplamx(i) >= 0.95d0) then 
+            dmg(i,5) = sign(two,dmg(i,5))
+          elseif (dmg(i,5) > one) then 
+            dmg(i,5) = max(dmg(i,5),one + wpla(i)/wplamx(i))
+          elseif (dmg(i,5) < -one) then 
+            dmg(i,5) = min(dmg(i,5),-one-wpla(i)/wplamx(i))
+          endif 
+!
           ! direction 2             
           wpla2 = ep20
           if (t2(i) >= sigyt2  ) then
@@ -749,6 +785,16 @@
             wplamx(i) = wpla2
             icas(i) = id
           endif
+!
+          ! failure index in direction 2 update
+          if (wpla(i)/wplamx(i) >= 0.95d0) then 
+            dmg(i,6) = sign(two,dmg(i,6))
+          elseif (dmg(i,6) > one) then 
+            dmg(i,6) = max(dmg(i,6),one + wpla(i)/wplamx(i))
+          elseif (dmg(i,6) < -one) then 
+            dmg(i,6) = min(dmg(i,6),-one-wpla(i)/wplamx(i))
+          endif 
+!
           ! shear 
           wpla3 = ep20
           if (abs(t3(i)) >= sigyt12) then
@@ -759,6 +805,13 @@
             wplamx(i) = wpla3
             icas(i) = id
           endif
+!
+          ! failure index in shear plane 12 update
+          if (wpla(i)/wplamx(i) >= 0.95d0) then 
+            dmg(i,7) = two
+          elseif (dmg(i,7) > one) then 
+            dmg(i,7) = max(dmg(i,7),one + wpla(i)/wplamx(i))
+          endif 
         else if (imodwp > 0) then  
           id = 1
           icas(i) = nint(sign(one,t1(i)))
@@ -787,19 +840,49 @@
              icas(i) = nint(sign(one,t1(i)) )
              if (icas(i) > 0 ) then
                 wplamx(i) = min(wplamx(i),wplamxt1(i))
+                ! update failure index in direction 1 (tension)
+                if (wpla(i)/wplamx(i) >= 0.95d0) then 
+                  dmg(i,5) = two
+                elseif (dmg(i,5) > one) then 
+                  dmg(i,5) = max(dmg(i,5),one + wpla(i)/wplamx(i))
+                endif 
              else
                 wplamx(i) = min(wplamx(i),wplamxc1(i))
+                ! update failure index in direction 1 (compression)
+                if (wpla(i)/wplamx(i) >= 0.95d0) then 
+                  dmg(i,5) = -two
+                elseif (dmg(i,5) < -one) then 
+                  dmg(i,5) = min(dmg(i,5),-one-wpla(i)/wplamx(i))
+                endif 
              endif 
             case(2)
              icas(i) = nint(sign(two,t2(i)) )
              if (icas(i) > 0 ) then
                wplamx(i) = min(wplamx(i),wplamxt2(i))
+               ! update failure index in direction 2 (tension)
+               if (wpla(i)/wplamx(i) >= 0.95d0) then 
+                 dmg(i,6) = two
+               elseif (dmg(i,6) > one) then 
+                 dmg(i,6) = max(dmg(i,6),one + wpla(i)/wplamx(i))
+               endif 
              else
                wplamx(i) = min(wplamx(i),wplamxc2(i))
+               ! update failure index in direction 2 (compression)
+               if (wpla(i)/wplamx(i) >= 0.95d0) then 
+                 dmg(i,6) = -two
+               elseif (dmg(i,6) < -one) then 
+                 dmg(i,6) = min(dmg(i,6),-one-wpla(i)/wplamx(i))
+               endif 
              endif 
             case(3)
               icas(i) = 3 
               wplamx(i) = min(wplamx(i),wplamxt12(i))
+              ! update failure index in plane 12 (shear)
+              if (wpla(i)/wplamx(i) >= 0.95d0) then 
+                dmg(i,7) = two
+              elseif (dmg(i,7) > one) then 
+                dmg(i,7) = max(dmg(i,7),one + wpla(i)/wplamx(i))
+              endif 
           end select 
         endif
       enddo 
@@ -807,12 +890,12 @@
       do i=1,nel
         ifail0 = mod(fail_old(i),8)
         if (wpla(i)>=wplamx(i) .or. ifail0 >= 4 ) wplar(i)= wplar(i)+one
-        if (wpla(i)>=wplamx(i) .or. ifail0 >= 4 .or. damt(i,1)>=dmax .or.    &
+        if (wpla(i)>=wplamx(i) .or. ifail0 >= 4 .or. dmg(i,2)>=dmax .or.    &
             crak(i,1) >= epsf1-epst1) nfis1(i) = nfis1(i)+1
-        if (wpla(i)>=wplamx(i) .or. ifail0 >= 4 .or. damt(i,2)>=dmax .or.    &
+        if (wpla(i)>=wplamx(i) .or. ifail0 >= 4 .or. dmg(i,3)>=dmax .or.    &
             crak(i,2) >= epsf2-epst2) nfis2(i)=nfis2(i)+1                
-        if (wpla(i)>=wplamx(i) .or. ifail0 >= 4 .or. damt(i,1)>=dmax .or.    &
-            crak(i,1)>=epsf1-epst1 .or. damt(i,2)>=dmax .or.                 &
+        if (wpla(i)>=wplamx(i) .or. ifail0 >= 4 .or. dmg(i,2)>=dmax .or.    &
+            crak(i,1)>=epsf1-epst1 .or. dmg(i,3)>=dmax .or.                 &
             crak(i,2)>=epsf2-epst2) nfis3(i) = nfis3(i)+1 
       enddo
 !
@@ -821,8 +904,8 @@
 !-------------------------------------------------------------------
       do i=1,nel
         fail = 0
-        if (damt(i,1) >= dmax)        fail = fail + 1
-        if (damt(i,2) >= dmax)        fail = fail + 2
+        if (dmg(i,2) >= dmax)         fail = fail + 1
+        if (dmg(i,3) >= dmax)         fail = fail + 2
         if (wpla(i)   >= wplamx(i))   fail = fail + 4
         if (crak(i,1) >= epsf1-epst1) fail = fail + 8
         if (crak(i,2) >= epsf2-epst2) fail = fail + 16

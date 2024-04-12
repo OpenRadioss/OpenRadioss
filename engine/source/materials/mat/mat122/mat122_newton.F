@@ -59,9 +59,11 @@ C-----------------------------------------------
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX,
      .   SOUNDSP,SIGY,ET
       my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
-     .   PLA,DPLA,EPSD,OFF,DMG,SEQ
+     .   PLA,DPLA,EPSD,OFF,SEQ
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
+      my_real ,DIMENSION(NEL,6), INTENT(INOUT) :: 
+     .   DMG
       INTEGER, DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: 
      .   VARTMP    
 C-----------------------------------------------
@@ -169,18 +171,18 @@ C
         DPXY(I) = ZERO
         DPYZ(I) = ZERO 
         DPZX(I) = ZERO
-        ! Damage variables
-        DF(I)   = UVAR(I,1)
-        D(I)    = UVAR(I,2)
-        DP(I)   = UVAR(I,3) 
-        Y(I)    = UVAR(I,4)
-        YP(I)   = UVAR(I,5)  
-        DFT(I)  = UVAR(I,6) 
-        DFC(I)  = UVAR(I,7)
-        DPY(I)  = UVAR(I,19)
-        DPZ(I)  = UVAR(I,20)
-        EPSPYY(I) = UVAR(I,21)
-        EPSPZZ(I) = UVAR(I,22)
+        ! Damage variables and user variables
+        DF(I)   = DMG(I,2)
+        D(I)    = DMG(I,3)
+        DP(I)   = DMG(I,4)
+        DFT(I)  = DMG(I,5)
+        DFC(I)  = DMG(I,6)
+        Y(I)    = UVAR(I,1)
+        YP(I)   = UVAR(I,2)  
+        DPY(I)  = UVAR(I,14)
+        DPZ(I)  = UVAR(I,15)
+        EPSPYY(I) = UVAR(I,16)
+        EPSPZZ(I) = UVAR(I,17)
       ENDDO 
 C
       ! Compute strain rate dependency factor 
@@ -275,27 +277,27 @@ c
         ! Yield stress
         SIGY(I) = SIGY0*(ONE + FR0(I)) + BETA*EXP(M*LOG(PLA(I)+EM20))
         ! Rate dependency on fiber failure
-        EFTI(I) = UVAR(I,8)
-        IF (UVAR(I,8) == ZERO)  EFTI(I) = EFTI0*(ONE + F11R(I))
-        EFTU(I) = UVAR(I,9)
-        IF (UVAR(I,9) == ZERO)  EFTU(I) = EFTU0*(ONE + F11R(I))
-        EFCI(I) = UVAR(I,10)
-        IF (UVAR(I,10) == ZERO) EFCI(I) = EFCI0*(ONE + F11R(I))
-        EFCU(I) = UVAR(I,11)
-        IF (UVAR(I,11) == ZERO) EFCU(I) = EFCU0*(ONE + F11R(I))
+        EFTI(I) = UVAR(I,3)
+        IF (UVAR(I,3) == ZERO)  EFTI(I) = EFTI0*(ONE + F11R(I))
+        EFTU(I) = UVAR(I,4)
+        IF (UVAR(I,4) == ZERO)  EFTU(I) = EFTU0*(ONE + F11R(I))
+        EFCI(I) = UVAR(I,5)
+        IF (UVAR(I,5) == ZERO) EFCI(I) = EFCI0*(ONE + F11R(I))
+        EFCU(I) = UVAR(I,6)
+        IF (UVAR(I,6) == ZERO) EFCU(I) = EFCU0*(ONE + F11R(I))
         ! Rate dependency on matrix failure
-        Y0(I) = UVAR(I,12)
-        IF (UVAR(I,12) == ZERO) Y0(I)  = Y00*SQRT(ONE + F12(I))
-        YC(I) = UVAR(I,13)
-        IF (UVAR(I,13) == ZERO) YC(I)  = YC0*SQRT(ONE + F12(I))
-        Y0P(I) = UVAR(I,14)
-        IF (UVAR(I,14) == ZERO) Y0P(I) = Y0P0*SQRT(ONE + F22(I))
-        YCP(I) = UVAR(I,15)
-        IF (UVAR(I,15) == ZERO) YCP(I) = YCP0*SQRT(ONE + F22(I))
-        Y0PC(I) = UVAR(I,16)
-        IF (UVAR(I,16) == ZERO) Y0PC(I) = Y0PC0*SQRT(ONE + F22(I))
-        YCPC(I) = UVAR(I,17)
-        IF (UVAR(I,17) == ZERO) YCPC(I) = YCPC0*SQRT(ONE + F22(I))
+        Y0(I) = UVAR(I,7)
+        IF (UVAR(I,7) == ZERO) Y0(I)  = Y00*SQRT(ONE + F12(I))
+        YC(I) = UVAR(I,8)
+        IF (UVAR(I,8) == ZERO) YC(I)  = YC0*SQRT(ONE + F12(I))
+        Y0P(I) = UVAR(I,9)
+        IF (UVAR(I,9) == ZERO) Y0P(I) = Y0P0*SQRT(ONE + F22(I))
+        YCP(I) = UVAR(I,10)
+        IF (UVAR(I,10) == ZERO) YCP(I) = YCP0*SQRT(ONE + F22(I))
+        Y0PC(I) = UVAR(I,11)
+        IF (UVAR(I,11) == ZERO) Y0PC(I) = Y0PC0*SQRT(ONE + F22(I))
+        YCPC(I) = UVAR(I,12)
+        IF (UVAR(I,12) == ZERO) YCPC(I) = YCPC0*SQRT(ONE + F22(I))
       ENDDO
 c      
       !========================================================================
@@ -460,8 +462,8 @@ c
           ELSEIF ((EPSF_EQ >= EFTI(I)).AND.(EPSF_EQ < EFTU(I))) THEN 
             DFT(I) = MAX(DFTU*((EPSF_EQ-EFTI(I))/(EFTU(I)-EFTI(I))),DFT(I))
             ! Save damage threshold in case of strain rate dependency
-            IF (UVAR(I,8) == ZERO) UVAR(I,8) = EFTI(I)
-            IF (UVAR(I,9) == ZERO) UVAR(I,9) = EFTU(I)
+            IF (UVAR(I,3) == ZERO) UVAR(I,3) = EFTI(I)
+            IF (UVAR(I,4) == ZERO) UVAR(I,4) = EFTU(I)
           ELSEIF (EPSF_EQ >= EFTU(I)) THEN 
             DFT(I) = MAX(ONE - (ONE - DFTU)*(EFTU(I)/EPSF_EQ),DFT(I))
           ENDIF
@@ -475,8 +477,8 @@ c
           ELSEIF ((ABS(EPSF_EQ) >= EFCI(I)).AND.(ABS(EPSF_EQ) < EFCU(I))) THEN 
             DFC(I) = MAX(DFCU*((ABS(EPSF_EQ)-EFCI(I))/(EFCU(I)-EFCI(I))),DFC(I))
             ! Save damage threshold in case of strain rate dependency
-            IF (UVAR(I,10) == ZERO) UVAR(I,10) = EFCI(I)
-            IF (UVAR(I,11) == ZERO) UVAR(I,11) = EFCU(I)
+            IF (UVAR(I,5) == ZERO) UVAR(I,5) = EFCI(I)
+            IF (UVAR(I,6) == ZERO) UVAR(I,6) = EFCU(I)
           ELSEIF (ABS(EPSF_EQ) >= EFCU(I)) THEN 
             DFC(I) = MAX(ONE - (ONE - DFCU)*(EFCU(I)/ABS(EPSF_EQ)),DFC(I))
           ENDIF  
@@ -505,10 +507,10 @@ c
             D(I) = MAX(Y(I)-Y0(I),ZERO)/MAX(YC(I),EM20)
             D(I) = MIN(D(I),DMAX)
             ! Save damage threshold in case of strain rate dependency
-            IF (UVAR(I,12) == ZERO) UVAR(I,12) = Y0(I)
-            IF (UVAR(I,13) == ZERO) UVAR(I,13) = YC(I)
+            IF (UVAR(I,7) == ZERO) UVAR(I,7) = Y0(I)
+            IF (UVAR(I,8) == ZERO) UVAR(I,8) = YC(I)
           ELSE
-            D(I) = ONE - (ONE - DMAX)*UVAR(I,4)/MAX(Y(I),EM20)
+            D(I) = ONE - (ONE - DMAX)*UVAR(I,1)/MAX(Y(I),EM20)
           ENDIF
           D(I) = MAX(D(I),ZERO)
           D(I) = MIN(D(I), ONE)
@@ -519,8 +521,8 @@ c
           IF (Y(I)>Y0(I)) THEN 
             D(I) = DSAT1*(ONE - EXP((Y0(I)-Y(I))/MAX(YC(I),EM20)))
             ! Save damage threshold in case of strain rate dependency
-            IF (UVAR(I,12) == ZERO) UVAR(I,12) = Y0(I)
-            IF (UVAR(I,13) == ZERO) UVAR(I,13) = YC(I)
+            IF (UVAR(I,7) == ZERO) UVAR(I,7) = Y0(I)
+            IF (UVAR(I,8) == ZERO) UVAR(I,8) = YC(I)
           ELSE 
             D(I) = ZERO
           ENDIF  
@@ -539,7 +541,7 @@ c
         VARTMP(1:NEL,1) = IPOS(1:NEL)
         DO I = 1,NEL 
           ! Save damage threshold in case of strain rate dependency
-          IF (UVAR(I,12) == ZERO .AND. D(I) /= ZERO) UVAR(I,12) = Y0(I)
+          IF (UVAR(I,7) == ZERO .AND. D(I) /= ZERO) UVAR(I,7) = Y0(I)
           D(I) = MAX(D(I),ZERO)
           D(I) = MIN(D(I), ONE) 
         ENDDO 
@@ -555,10 +557,10 @@ c
             DP(I) = MAX(YP(I)-Y0P(I),ZERO)/MAX(YCP(I),EM20)
             DP(I) = MIN(DP(I),DMAX)
             ! Save damage threshold in case of strain rate dependency
-            IF (UVAR(I,14) == ZERO) UVAR(I,14) = Y0P(I)
-            IF (UVAR(I,15) == ZERO) UVAR(I,15) = YCP(I)
+            IF (UVAR(I,9)  == ZERO) UVAR(I,9)  = Y0P(I)
+            IF (UVAR(I,10) == ZERO) UVAR(I,10) = YCP(I)
           ELSE
-            DP(I) = ONE - (ONE - DMAX)*UVAR(I,5)/MAX(YP(I),EM20)
+            DP(I) = ONE - (ONE - DMAX)*UVAR(I,2)/MAX(YP(I),EM20)
           ENDIF
           DP(I) = MAX(DP(I),ZERO)
           DP(I) = MIN(DP(I), ONE)
@@ -569,8 +571,8 @@ c
           IF (YP(I)>Y0P(I)) THEN 
             DP(I) = DSAT2*(ONE - EXP((Y0P(I)-YP(I))/MAX(YCP(I),EM20)))
             ! Save damage threshold in case of strain rate dependency
-            IF (UVAR(I,14) == ZERO) UVAR(I,14) = Y0P(I)
-            IF (UVAR(I,15) == ZERO) UVAR(I,15) = YCP(I)
+            IF (UVAR(I,9)  == ZERO) UVAR(I,9)  = Y0P(I)
+            IF (UVAR(I,10) == ZERO) UVAR(I,10) = YCP(I)
           ELSE 
             DP(I) = ZERO
           ENDIF
@@ -589,7 +591,7 @@ c
         VARTMP(1:NEL,2) = IPOS(1:NEL)
         DO I = 1,NEL 
           ! Save damage threshold in case of strain rate dependency
-          IF (UVAR(I,14) == ZERO .AND. DP(I) /= ZERO) UVAR(I,14) = Y0P(I)
+          IF (UVAR(I,9) == ZERO .AND. DP(I) /= ZERO) UVAR(I,9) = Y0P(I)
           DP(I) = MAX(DP(I),ZERO)
           DP(I) = MIN(DP(I), ONE)
         ENDDO
@@ -636,20 +638,20 @@ c
         SIGNYZ(I) = SIGNYZ(I)*(ONE -  D(I))
         SIGNZX(I) = SIGNZX(I)*(ONE -  D(I))
 c
-        ! -> Store internal variables
+        ! -> Store internal variables and damages
         ! ------------------------------------------ 
-        UVAR(I,1)  = DF(I)
-        UVAR(I,2)  = D(I) 
-        UVAR(I,3)  = DP(I)
-        UVAR(I,4)  = Y(I) 
-        UVAR(I,5)  = YP(I)
-        UVAR(I,6)  = DFT(I)
-        UVAR(I,7)  = DFC(I)
-        UVAR(I,19) = DPY(I)
-        UVAR(I,20) = DPZ(I)
-        UVAR(I,21) = EPSPYY(I)
-        UVAR(I,22) = EPSPZZ(I)
-        DMG(I) = MAX(DF(I),D(I),DP(I))
+        DMG(I,1)   = MAX(DF(I),D(I),DP(I))
+        DMG(I,2)   = DF(I)
+        DMG(I,3)   = D(I) 
+        DMG(I,4)   = DP(I)
+        DMG(I,5)   = DFT(I)
+        DMG(I,6)   = DFC(I)
+        UVAR(I,1)  = Y(I) 
+        UVAR(I,2)  = YP(I)
+        UVAR(I,14) = DPY(I)
+        UVAR(I,15) = DPZ(I)
+        UVAR(I,16) = EPSPYY(I)
+        UVAR(I,17) = EPSPZZ(I)        
 c
       ENDDO
       !=================================================================== 

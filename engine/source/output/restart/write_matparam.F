@@ -51,11 +51,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,NUMMAT,IMAT,IAD,NFIX,NUPARAM,NIPARAM,NUMTABL,NFAIL,LEN
+      INTEGER :: I,NUMMAT,IMAT,IAD,NFIX,NUPARAM,NIPARAM,NUMTABL,NFAIL,LEN,
+     .           NMOD,MOD
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
 C=======================================================================
-      NFIX   = 19
+      NFIX   = 20
       NUMMAT = MAT_ELEM%NUMMAT
       LEN    = NFIX*NUMMAT
       ALLOCATE (IBUF(LEN) )
@@ -83,6 +84,8 @@ c
         IBUF(IAD+17) = MAT_ELEM%MAT_PARAM(IMAT)%NLOC
         IBUF(IAD+18) = MAT_ELEM%MAT_PARAM(IMAT)%IFAILWAVE
         IBUF(IAD+19) = MAT_ELEM%MAT_PARAM(IMAT)%IXFEM
+c
+        IBUF(IAD+20) = MAT_ELEM%MAT_PARAM(IMAT)%NMOD
 c
         IAD = IAD + NFIX
       END DO
@@ -139,6 +142,20 @@ c
           END DO      
         END IF
       END DO      
+c      
+c     write damage modes
+c     
+      DO IMAT = 1,NUMMAT
+        NMOD = MAT_ELEM%MAT_PARAM(IMAT)%NMOD
+        IF (NMOD > 0) THEN
+          DO MOD = 1,NMOD
+            DO I=1,NCHARTITLE
+              NAME(I) = ICHAR(MAT_ELEM%MAT_PARAM(IMAT)%MODE(MOD)(I:I))
+            END DO
+            CALL WRITE_C_C(NAME,NCHARTITLE)
+          ENDDO 
+        ENDIF
+      ENDDO 
 c-----------
       RETURN
       END

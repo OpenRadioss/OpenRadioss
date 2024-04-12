@@ -34,14 +34,15 @@ Chd|        MAT104_NODAM_NICE             source/materials/mat/mat104/mat104_nod
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SIGEPS104(
-     1     NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,NPG     ,UELR    , 
      2     TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,LOFF    ,
      3     RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4     DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5     SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7     SIGY    ,ET      ,TEMPEL  ,VARNL   ,OFF     ,IPG     ,
-     8     DMG     ,TEMP    ,SEQ     ,NPG     ,UELR    ,INLOC   )
+     8     DMG     ,L_DMG   ,PLA_NL  ,L_PLANL ,PLAP_NL ,L_EPSDNL,
+     9     TEMP    ,SEQ     ,INLOC   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,20 +64,27 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR,JTHE,IPG,NPG,INLOC
       INTEGER ,DIMENSION(NEL), INTENT(IN) :: NGL
+      INTEGER ,INTENT(IN) :: L_DMG,L_PLANL,L_EPSDNL 
       my_real 
      .   TIME,TIMESTEP
-      my_real,DIMENSION(NUPARAM), INTENT(IN) :: 
+      my_real, DIMENSION(NUPARAM), INTENT(IN) :: 
      .   UPARAM
-      my_real,DIMENSION(NEL), INTENT(IN)     :: 
+      my_real, DIMENSION(NEL), INTENT(IN)     :: 
      .   RHO0,RHO,TEMPEL,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
-      my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
+      my_real, DIMENSION(NEL*L_PLANL), INTENT(IN) :: 
+     .   PLA_NL
+      my_real, DIMENSION(NEL*L_EPSDNL), INTENT(IN) :: 
+     .   PLAP_NL
+      my_real, DIMENSION(NEL), INTENT(OUT)   :: 
      .   SOUNDSP,SIGY,ET,
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
-      my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
-     .   PLA,DPLA,EPSD,VARNL,LOFF,OFF,DMG,TEMP,SEQ,UELR
-      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
+      my_real, DIMENSION(NEL), INTENT(INOUT)       :: 
+     .   PLA,DPLA,EPSD,VARNL,LOFF,OFF,TEMP,SEQ,UELR
+      my_real, DIMENSION(NEL*L_DMG), INTENT(INOUT) :: 
+     .   DMG
+      my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -87,19 +95,17 @@ c
       NICE    = NINT(UPARAM(11)) ! Plastic projection method
                                  !  = 1 => Nice method
                                  !  = 2 => Newton
-                                 !  = 3 => Nice method with elastic update
 c
       IGURSON = NINT(UPARAM(30)) ! Gurson switch flag: 
                                  !  = 0 => Drucker material law with no damage
-                                 !  = 1 => local Gurson damage model
-                                 !  = 2 => non local (Forest - micromorphic) damage model
-                                 !  = 3 => non local (Peerlings) damage model
+                                 !  = 1 => Local Gurson damage model
+                                 !  = 2 => Non local (Forest - micromorphic) damage model
+                                 !  = 3 => Non local (Peerlings) damage model
 c--------------------------                              
       SELECT CASE (IGURSON)
 c      
         CASE(0)   ! Drucker material law with no damage
-c
-c                        
+c                   
           IF ((NICE == 1).OR.(NICE == 3)) THEN
             CALL MAT104_NODAM_NICE(
      1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
@@ -133,17 +139,17 @@ c
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7         SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,TEMP    ,
-     8         SEQ     )
+     8         SEQ     ,PLA_NL  ,L_PLANL ,PLAP_NL ,L_EPSDNL)
           ELSE  ! Newton
             CALL MAT104_LDAM_NEWTON(
-     1           NEL     ,NGL     ,NUPARAM ,NUVAR   , 
-     2           TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,LOFF    ,
-     3           RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
-     4           DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
-     5           SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
-     6           SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7           SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,TEMP    ,
-     8           SEQ     )
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,LOFF    ,
+     3         RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
+     4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
+     5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
+     6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
+     7         SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,TEMP    ,
+     8         SEQ     ,PLA_NL  ,L_PLANL ,PLAP_NL ,L_EPSDNL)
           ENDIF
 c
         CASE(3)   ! Drucker material law with non local (Peerling) damage model
@@ -157,7 +163,7 @@ c
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7         SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,TEMP    ,
-     8         SEQ     )
+     8         SEQ     ,PLA_NL  ,PLAP_NL )
           ELSE  ! Newton
             CALL MAT104_NLDAM_NEWTON(
      1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
@@ -167,7 +173,7 @@ c
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7         SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,TEMP    ,
-     8         SEQ     )
+     8         SEQ     ,PLA_NL  ,PLAP_NL )
           ENDIF
 c
       END SELECT        

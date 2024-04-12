@@ -236,7 +236,7 @@ c--------------------------
       ! Number of material parameters
       NUPARAM = 36
       ! Number of user variables 
-      NUVAR = 18
+      NUVAR = 16
 c      
       ! Material parameters
       !  -> Elastic parameters   
@@ -299,8 +299,19 @@ c
       MTAG%L_PLA    = 1
       MTAG%G_EPSD   = 1
       MTAG%L_EPSD   = 1
-      MTAG%G_DMG    = 1
-      MTAG%L_DMG    = 1
+c
+      ! Tag for damage output
+      ! -> Number of output modes (stored in DMG(NEL,I), I>1)
+      MATPARAM%NMOD = 2
+      ! Total number of damage outputs
+      ! -> DMG(NEL,1) = Global damage output 
+      ! -> DMG(NEL,2:NMOD+1) = Damage modes output
+      MTAG%G_DMG = 1 + MATPARAM%NMOD
+      MTAG%L_DMG = 1 + MATPARAM%NMOD
+      ! -> Modes allocation and definition
+      ALLOCATE(MATPARAM%MODE(MATPARAM%NMOD))
+      MATPARAM%MODE(1) = "Tension damage"
+      MATPARAM%MODE(2) = "Compression damage"
 c
       CALL INIT_MAT_KEYWORD(MATPARAM ,"COMPRESSIBLE")
       CALL INIT_MAT_KEYWORD(MATPARAM ,"INCREMENTAL" )

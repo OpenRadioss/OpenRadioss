@@ -2231,9 +2231,21 @@ c
                             IF (BUFLY%L_DAM > 0 .OR. BUFLY%L_OFF > 0 ) THEN
                               DO I=LFT,LLT                                    
                                  J = IADR + I 
-                                 IF(IPM(2,MATLY(J)) == 15 .OR. IPM(2,MATLY(J)) == 25) THEN                                 
+                                 IF(IPM(2,MATLY(J)) == 15) THEN                                 
                                    DAM1(I)=LBUF%DAM(JJ(1)+I)                          
                                    DAM2(I)=LBUF%DAM(JJ(2)+I)                          
+                                   WPLA(I) = WPLA(I) + ABS(LBUF%PLA(I))/NPG        
+                                   DMAX(I) = PM(64,MATLY(J))                     
+                                   WPMAX(I)= PM(41,MATLY(J))                     
+                                   IF (DAM1(I) >= DMAX(I).OR.DAM2(I) >= DMAX(I)  
+     .                                .OR.WPLA(I) < ZERO.OR.WPLA(I) >= WPMAX(I) 
+     .                                .OR.OFFL(I) < ONE)   FAILG(I) = FAILG(I) + 1              
+                                   IF (FAILG(I) == NPG ) THEN                 
+                                       FAIL(I) = FAIL(I) + ONE                   
+                                   ENDIF  
+                                 ELSEIF (IPM(2,MATLY(J)) == 25) THEN                                 
+                                   DAM1(I)=LBUF%DMG(JJ(2)+I)                          
+                                   DAM2(I)=LBUF%DMG(JJ(3)+I)                          
                                    WPLA(I) = WPLA(I) + ABS(LBUF%PLA(I))/NPG        
                                    DMAX(I) = PM(64,MATLY(J))                     
                                    WPMAX(I)= PM(41,MATLY(J))                     
@@ -2270,9 +2282,18 @@ c
                         IF (BUFLY%L_DAM > 0 .OR.BUFLY%L_OFF > 0 ) THEN
                           DO I=LFT,LLT                                       
                             J = IADR + I 
-                            IF(IPM(2,MATLY(J)) == 15 .OR. IPM(2,MATLY(J)) == 25) THEN                                    
+                            IF (IPM(2,MATLY(J)) == 15) THEN                                    
                                DAM1(I) = LBUF%DAM(JJ(1)+I)
                                DAM2(I) = LBUF%DAM(JJ(2)+I)
+                               WPLA(I) = ABS(LBUF%PLA(I))                      
+                               DMAX(I) = PM(64,MATLY(J))                       
+                               WPMAX(I)= PM(41,MATLY(J))                       
+                               IF (DAM1(I) >= DMAX(I).OR.DAM2(I) >= DMAX(I).OR.
+     .                             WPLA(I) < ZERO.OR.WPLA(I) >= WPMAX(I) .OR.
+     .                             OFFL(I) < ONE )  FAIL(I) = FAIL(I) + ONE  
+                            ELSEIF (IPM(2,MATLY(J)) == 25) THEN                                    
+                               DAM1(I) = LBUF%DMG(JJ(2)+I)
+                               DAM2(I) = LBUF%DMG(JJ(3)+I)
                                WPLA(I) = ABS(LBUF%PLA(I))                      
                                DMAX(I) = PM(64,MATLY(J))                       
                                WPMAX(I)= PM(41,MATLY(J))                       
@@ -2515,8 +2536,8 @@ CC                  IF (IHBE == 11) THEN Batoz NPG = 4
                               EPSF1(I)= ONE/PM(98,MATLY(J))                               
                               EPSF2(I)= ONE/PM(99,MATLY(J))
 C   
-                              VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
-                              VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I)) 
+                              VG(1) = MAX(VG(1),LBUF%DMG(JJ(2)+I)*DMAX(I)) 
+                              VG(2) = MAX(VG(2),LBUF%DMG(JJ(3)+I)*DMAX(I)) 
                               VG(3)=MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I))
                               IF(LBUF%CRAK(JJ(1)+I) > ZERO) VG(4)=  MAX(VG(4),
      .                          (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I)) 
@@ -3425,8 +3446,8 @@ c
                             EPSF1(I)= ONE/PM(98,MATLY(IADR + I))             
                             EPSF2(I)= ONE/PM(99,MATLY(IADR + I))
 C   
-                            VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
-                            VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I)) 
+                            VG(1) = MAX(VG(1),LBUF%DMG(JJ(2)+I)*DMAX(I)) 
+                            VG(2) = MAX(VG(2),LBUF%DMG(JJ(3)+I)*DMAX(I)) 
                             VG(3)= MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I))
                             IF(LBUF%CRAK(JJ(1)+I) > ZERO) VG(4)=  MAX(VG(4),
      .                        (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I)) 
@@ -3672,8 +3693,8 @@ C
                         EPSF1(I)= ONE/PM(98,MATLY(J))                               
                         EPSF2(I)= ONE/PM(99,MATLY(J))
 C 
-                        VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I))
-                        VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I))
+                        VG(1) = MAX(VG(1),LBUF%DMG(JJ(2)+I)*DMAX(I))
+                        VG(2) = MAX(VG(2),LBUF%DMG(JJ(3)+I)*DMAX(I))
                         VG(3) = MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I))
                         IF (LBUF%CRAK(JJ(1)+I) > ZERO) VG(4) = MAX(VG(4),
      .                     (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I))
@@ -3761,8 +3782,8 @@ C
                         EPSF1(I)= ONE/PM(98,MATLY(J))                               
                         EPSF2(I)= ONE/PM(99,MATLY(J))
 C 
-                        VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I))
-                        VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I))
+                        VG(1) = MAX(VG(1),LBUF%DMG(JJ(2)+I)*DMAX(I))
+                        VG(2) = MAX(VG(2),LBUF%DMG(JJ(3)+I)*DMAX(I))
                         VG(3) = MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I))
                         IF (LBUF%CRAK(JJ(1)+I) > ZERO) VG(4) = MAX(VG(4),
      .                     (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I))
@@ -3849,8 +3870,8 @@ C
                         EPSF1(I)= ONE/PM(98,MATLY(J))                               
                         EPSF2(I)= ONE/PM(99,MATLY(J))
 C 
-                        VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I))
-                        VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I))
+                        VG(1) = MAX(VG(1),LBUF%DMG(JJ(2)+I)*DMAX(I))
+                        VG(2) = MAX(VG(2),LBUF%DMG(JJ(3)+I)*DMAX(I))
                         VG(3) = MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I))
                         IF (LBUF%CRAK(JJ(1)+I) > ZERO) VG(4) = MAX(VG(4),
      .                     (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I))
@@ -3938,8 +3959,8 @@ C
                           EPSF1(I)= ONE/PM(98,MATLY(J))                               
                           EPSF2(I)= ONE/PM(99,MATLY(J))
 C 
-                          VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I))
-                          VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I))
+                          VG(1) = MAX(VG(1),LBUF%DMG(JJ(2)+I)*DMAX(I))
+                          VG(2) = MAX(VG(2),LBUF%DMG(JJ(3)+I)*DMAX(I))
                           VG(3) = MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I))
                           IF (LBUF%CRAK(JJ(1)+I) > ZERO) VG(4) = MAX(VG(4),
      .                       (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I))

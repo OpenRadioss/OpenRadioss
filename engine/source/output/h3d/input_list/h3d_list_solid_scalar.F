@@ -342,8 +342,11 @@ c-----------------------------------------------
       H3D_KEYWORD_SOLID_SCALAR(I)%IS_IT_ALL  = 1
       H3D_KEYWORD_SOLID_SCALAR(I)%IS_LAYER  = 1
       H3D_KEYWORD_SOLID_SCALAR(I)%IS_LAYER_ALL  = 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_ID = 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_MODE = 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%IS_MODE_ALL = 1
       H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Damage'
-      H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = 'Damage variable for coupled damage models'
+      H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = 'Damage variable from material law'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'DAMINI'

@@ -65,7 +65,9 @@ C-----------------------------------------------
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX,
      .   SOUNDSP,SIGY,ET
       my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
-     .   PLA,DPLA,EPSD,OFF,DMG,SEQ
+     .   PLA,DPLA,EPSD,OFF,SEQ
+      my_real ,DIMENSION(NEL,6), INTENT(INOUT)     :: 
+     .   DMG
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
       INTEGER, DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: VARTMP 

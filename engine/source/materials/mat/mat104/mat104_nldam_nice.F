@@ -34,7 +34,7 @@ Chd|====================================================================
      5     SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7     SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,TEMP    ,
-     8     SEQ     )
+     8     SEQ     ,PLA_NL  ,PLAP_NL )
       !=======================================================================
       !      Implicit types
       !=======================================================================
@@ -55,14 +55,17 @@ Chd|====================================================================
       my_real,DIMENSION(NEL), INTENT(IN)     :: 
      .   RHO0,RHO,TEMPEL,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
-     .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
+     .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX,
+     .   PLA_NL,PLAP_NL
 c
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
      .   SOUNDSP,SIGY,ET,
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
 c
       my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
-     .   PLA,VARNL,DPLA,EPSD,OFF,TEMP,DMG,SEQ
+     .   PLA,VARNL,DPLA,EPSD,OFF,TEMP,SEQ
+      my_real ,DIMENSION(NEL,6), INTENT(INOUT)     ::
+     .   DMG
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
       !=======================================================================
@@ -95,27 +98,17 @@ c
      .   NORMXX,NORMYY,NORMXY,NORMZZ,NORMYZ,NORMZX,SIG_DFDSIG,SIGDR_OLD
 c
       DOUBLE PRECISION, DIMENSION(NEL) :: 
-     .   DLAM_NL,PLAP_NL,DPLA_NL,PLA_NL
+     .   DLAM_NL,DPLA_NL
       !=======================================================================
-      !       DRUCKER MATERIAL LAW WITH GURSON DAMAGE
-      !           USING NON LOCAL PEERLINGS METHOD
+      !       DRUCKER - VOCE - JOHNSON-COOK MATERIAL LAW WITH GURSON DAMAGE
+      !                   USING NON LOCAL PEERLINGS METHOD
       !=======================================================================
       !UVAR(1)   PHI      YIELD FUNCTION VALUE
-      !UVAR(2)   FG       DAMAGE OF CAVITIES GROWTH
-      !UVAR(3)   FN       DAMAGE OF CAVITIES NUCLEATION
-      !UVAR(4)   FSH      DAMAGE OF SHEAR
-      !UVAR(5)   FT       TOTAL DAMAGE (FG + FN + FSH)
-      !UVAR(6)   FS       EFFECTIVE DAMAGE FS = F(FT)
-      !UVAR(7)   PLA_NL   NON-LOCAL PLASTIC STRAIN
-      !UVAR(8)   PLAP_NL  NON-LOCAL PLASTIC STRAIN-RATE
-      !UVAR(9)   YLD      YIELD STRESS
+      !UVAR(2)   YLD      YIELD STRESS
       !-----------------------------------------------------------------------  
       !Warning VARNL(NEL) :
       !input  => VARNL = non-local plastic strain increment
       !output => VARNL = cumulated local plastic strain
-      !-----------------------------------------------------------------------  
-      !DEPIJ = PLASTIC STRAIN TENSOR COMPONENT
-      !DEPSIJ = TOTAL STRAIN  TENSOR COMPONENT (EL+PL)
       !=======================================================================
 c      
       !=======================================================================
@@ -170,29 +163,26 @@ c
       ! Recovering internal variables
       DO I=1,NEL
         ! If the element is failing
-        IF (OFF(I) < 0.001)   OFF(I) = ZERO
-        IF (OFF(I) < ONE)      OFF(I) = OFF(I)*FOUR_OVER_5
+        IF (OFF(I) < EM03)    OFF(I) = ZERO
+        IF (OFF(I) < ONE)     OFF(I) = OFF(I)*FOUR_OVER_5
         ! User inputs
         PHI0(I)   = UVAR(I,1)  ! Previous yield function value
-        FG(I)     = UVAR(I,2)  ! Growth damage
-        FN(I)     = UVAR(I,3)  ! Nucleation damage
-        FSH(I)    = UVAR(I,4)  ! Shear damage
-        FT(I)     = UVAR(I,5)  ! Total damage
-        FS(I)     = UVAR(I,6)  ! Effective damage
-        PLA_NL(I) = UVAR(I,7)  ! Non-local plastic strain
-        YLD(I)    = UVAR(I,9)  ! Previous yield stress
+        YLD(I)    = UVAR(I,2)  ! Previous yield stress
+        ! Damage variables
+        FG(I)     = DMG(I,2)   ! Growth damage
+        FN(I)     = DMG(I,3)   ! Nucleation damage
+        FSH(I)    = DMG(I,4)   ! Shear damage
+        FT(I)     = DMG(I,5)   ! Total damage
+        FS(I)     = DMG(I,6)   ! Effective damage
         ! Standard inputs
         D(I)      = Q1*FS(I)   ! Effective normalized damage
         DPLA(I)   = ZERO       ! Initialization of the plastic strain increment
-        ET(I)     = ONE         ! Initialization of hourglass coefficient
+        ET(I)     = ONE        ! Initialization of hourglass coefficient
         HARDP(I)  = ZERO       ! Initialization of hourglass coefficient
         IF (OFF(I) == ONE) THEN 
           DPLA_NL(I) = MAX(VARNL(I),ZERO)     ! Non-local plastic strain increment
-          PLA_NL(I)  = PLA_NL(I) + DPLA_NL(I) ! Non-local cumulated plastic strain 
-          PLAP_NL(I) = DPLA_NL(I) * DTI       ! Non-local plastic strain-rate
         ELSE 
           DPLA_NL(I) = ZERO
-          PLAP_NL(I) = ZERO
         ENDIF
       ENDDO
 c      
@@ -200,15 +190,15 @@ c
       IF (TIME == ZERO) THEN   
         TEMP(1:NEL) = TINI 
         IF (ISIGI == 0) THEN 
-          UVAR(1:NEL,5) = F0
-          FT(1:NEL)     = F0
-          DMG(1:NEL)    = F0/FR
+          DMG(1:NEL,5) = F0
+          FT(1:NEL)    = F0
+          DMG(1:NEL,1) = F0/FR
           IF (F0<FC) THEN 
-            UVAR(1:NEL,6) = F0
+            DMG(1:NEL,6) = F0
           ELSE
-            UVAR(1:NEL,6) = FC + (ONE/Q1-FC)*(F0-FC)/(FR-FC)
+            DMG(1:NEL,6) = FC + (ONE/Q1-FC)*(F0-FC)/(FR-FC)
           ENDIF
-          FS(1:NEL) = UVAR(1:NEL,6)
+          FS(1:NEL) = DMG(1:NEL,6)
         ENDIF
       ENDIF 
       IF (CP > ZERO) THEN     
@@ -507,26 +497,18 @@ c
         DSIGZX(I) = (ONE-D(I))*(DEPSZX(I)*G) 
         DLAM      = ZERO
 c        
-        ! Note     : in this part, the purpose is to compute for each iteration
+        ! Note: in this part, the purpose is to compute for each iteration
         ! a plastic multiplier allowing to update internal variables to satisfy
         ! the consistency condition. 
         ! Its expression is : DLAMBDA = - (PHI + DPHI) / DPHI_DLAMBDA
-          ! -> PHI  : current value of yield function (known)
+        ! -> PHI  : current value of yield function (known)
         ! -> DPHI : yield function prediction (to compute)
         ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
         !                   into account of internal variables kinetic : 
         !                   plasticity, temperature and damage (to compute)
 c        
-          ! 1 - Computation of DPHI_DSIG the normal to the yield surface
-        !-------------------------------------------------------------
-c        
-        ! Computation of the normal to the yield criterion NORM
-        ! flow direction (derivative dPhi / Dsig) 
-        ! HERE WE COMPUTE DPHI/DS with phi = (sigbar/sigy)**2 - 1       
-        ! on note dphi/dS=dF/dS                                        
-        ! Fdr = J2^3 - c*J3^2                                     
-        ! dPhi/dSig = dPhi/dFdr * (dFdr/dJ2 * dJ2/dSig + dFdr/dJ3 * dJ3/dSig)
-        ! dJ2/dSig = S     
+        ! 1 - Computation of DPHI_DSIG the normal to the yield surface
+        !-------------------------------------------------------------   
 c
         ! DPHI_DSIG already computed above
 c      
@@ -662,21 +644,19 @@ c
         ENDIF
         ! USR Outputs
         IF (DPLA(I) > ZERO) THEN 
-          UVAR(I,1) = PHI(I)          ! Yield function value
+          UVAR(I,1) = PHI(I)           ! Yield function value
         ELSE
           UVAR(I,1) = ZERO
         ENDIF
-        UVAR(I,2)  = FG(I)            ! Growth damage
-        UVAR(I,3)  = FN(I)            ! Nucleation damage
-        UVAR(I,4)  = FSH(I)           ! Shear damage
-        UVAR(I,5)  = MIN(FT(I),FR)    ! Total damage
-        UVAR(I,6)  = MIN(FS(I),ONE/Q1) ! Effective damage
-        UVAR(I,7)  = PLA_NL(I)        ! Non-local cumulated plastic strain
-        UVAR(I,8)  = PLAP_NL(I)       ! Non-local plastic strain-rate 
-        UVAR(I,9)  = YLD(I)           ! Yield stress
-        ! Standard outputs        
-        DMG(I)     = FT(I)/FR         ! Normalized total damage
-        SEQ(I)     = SIGDR(I)         ! SIGEQ
+        UVAR(I,2)  = YLD(I)            ! Yield stress
+        ! Standard outputs
+        DMG(I,1)   = FT(I)/FR          ! Normalized total damage
+        DMG(I,2)   = FG(I)             ! Growth damage
+        DMG(I,3)   = FN(I)             ! Nucleation damage 
+        DMG(I,4)   = FSH(I)            ! Shear damage
+        DMG(I,5)   = MIN(FT(I),FR)     ! Total damage
+        DMG(I,6)   = MIN(FS(I),ONE/Q1) ! Effective damage
+        SEQ(I)     = SIGDR(I)          ! Equivalent stress
         ! Plastic strain-rate (filtered)
         DPDT       = DPLA(I) / MAX(EM20,TIMESTEP)
         EPSD(I)    = AFILTR * DPDT + (ONE - AFILTR) * EPSD(I)

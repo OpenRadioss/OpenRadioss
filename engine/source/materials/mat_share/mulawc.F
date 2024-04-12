@@ -1093,9 +1093,9 @@ C------------------------------------------
      C        SIGVXX      ,SIGVYY   ,SIGVXY      ,SIGVYZ   ,SIGVZX    ,
      D        ISRATE      ,UVARV    ,ISHPLYXFEM  ,IPT      ,LBUF%SEQ  ,
      E        PLY_EXX     ,PLY_EYY  ,PLY_EXY     ,PLY_EXZ  ,PLY_EYZ   ,
-     F        PLY_F       ,LBUF%PLA ,LBUF%DAM    ,LBUF%CRAK,GBUF%IERR ,
+     F        PLY_F       ,LBUF%PLA ,LBUF%CRAK   ,GBUF%IERR,
      G        IOFF_DUCT   ,IFAILURE ,PLY_ID      ,IPG      ,LBUF%TSAIWU,
-     H        IMCONV      ,IOUT     )
+     H        IMCONV      ,IOUT     ,LBUF%DMG    ,BUFLY%L_DMG)
 
           ELSEIF (IGTYP == 9) THEN
 !           INTEGRATION BY POINTS (through thickness)
@@ -1652,14 +1652,15 @@ c
 c  
           ELSEIF (ILAW == 104 )THEN
             CALL SIGEPS104C(
-     1         JLT     ,NGL     ,IPG     ,ILAYER  ,IT      ,NUPARAM0 ,NUVAR   ,NFUNC   ,
-     2         IFUNC   ,NPF     ,TF      ,DT1C    ,TT      ,UPARAM0  ,UVAR    ,JTHE    ,
-     3         RHO     ,TEMPEL  ,LBUF%PLA,DPLA    ,SSP     ,LBUF%OFF,LBUF%EPSD,GS      ,
-     5         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,THKLYL  ,OFF     ,
-     6         LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
-     7         THKN    ,SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,VISCMX  ,SIGY    ,
-     8         ETSE    ,VARNL(1,IT)      ,LBUF%DMG,LBUF%TEMP        ,LBUF%SEQ,ELBUF_STR%NPTR,
-     9         ELBUF_STR%NPTS,ELBUF_STR%NPTT,BUFLY,INLOC   ,EPSPL   )
+     1         JLT     ,NGL     ,IPG     ,ILAYER  ,IT      ,NUPARAM0 ,NUVAR    ,
+     2         DT1C    ,TT      ,UPARAM0 ,UVAR    ,JTHE    ,RHO      ,TEMPEL   ,
+     3         LBUF%PLA,DPLA    ,SSP     ,LBUF%OFF,LBUF%EPSD,EPSPL   ,GS       ,
+     4         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,THKLYL   ,OFF      ,
+     5         LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
+     6         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKN     ,SIGY     ,
+     7         ETSE    ,VARNL(1,IT),LBUF%DMG,BUFLY%L_DMG,LBUF%TEMP,LBUF%SEQ,INLOC,
+     8         ELBUF_STR%NPTR,ELBUF_STR%NPTS,ELBUF_STR%NPTT,BUFLY    ,LBUF%PLANL,
+     9         BUFLY%L_PLANL ,LBUF%EPSDNL,BUFLY%L_EPSDNL)
 !
           ELSEIF (ILAW == 107 )THEN
             CALL SIGEPS107C(

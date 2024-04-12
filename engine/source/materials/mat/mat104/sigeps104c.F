@@ -35,13 +35,14 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|====================================================================
       SUBROUTINE SIGEPS104C(
      1     NEL     ,NGL     ,IPG     ,ILAY    ,IPT     ,NUPARAM ,NUVAR   ,
-     2     NFUNC   ,IFUNC   ,NPF     ,TF      ,TIMESTEP,TIME    ,UPARAM  ,
-     3     UVAR    ,JTHE    ,RHO     ,TEMPEL  ,PLA     ,DPLA    ,SOUNDSP ,
-     4     OFFL    ,EPSD    ,GS      ,DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,
-     5     DEPSZX  ,THKLY   ,OFF     ,SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,
-     6     SIGOZX  ,THK     ,SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7     VISCMAX ,SIGY    ,ET      ,VARNL   ,DMG     ,TEMP    ,SEQ     ,
-     8     NPTR    ,NPTS    ,NPTT    ,BUFLY   ,INLOC   ,EPSPL   )
+     2     TIMESTEP,TIME    ,UPARAM  ,UVAR    ,JTHE    ,RHO     ,TEMPEL  ,
+     3     PLA     ,DPLA    ,SOUNDSP ,OFFL    ,EPSD    ,EPSPL   ,GS      ,
+     4     DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,THKLY   ,OFF     ,
+     5     SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
+     6     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THK     ,SIGY    ,
+     7     ET      ,VARNL   ,DMG     ,L_DMG   ,TEMP    ,SEQ     ,INLOC   ,
+     8     NPTR    ,NPTS    ,NPTT    ,BUFLY   ,PLA_NL  ,L_PLANL ,PLAP_NL ,
+     9     L_EPSDNL)
      
       USE ELBUFDEF_MOD
 C-----------------------------------------------
@@ -57,55 +58,53 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,NUPARAM,NUVAR,NFUNC,JTHE,IPG,ILAY,IPT,INLOC
-      INTEGER NPF(*),NGL(NEL),IFUNC(NFUNC),NPTR,NPTS,NPTT
+      INTEGER NEL,NUPARAM,NUVAR,JTHE,IPG,ILAY,IPT,INLOC
+      INTEGER NGL(NEL),NPTR,NPTS,NPTT
+      INTEGER, INTENT(IN) :: L_PLANL,L_EPSDNL,L_DMG
       my_real 
-     .   TIMESTEP,TIME,TF(*),UPARAM(NUPARAM)
+     .   TIMESTEP,TIME,UPARAM(NUPARAM)
       my_real,DIMENSION(NEL), INTENT(IN) :: 
      .   RHO, 
      .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX,
      .   TEMPEL, THKLY,GS
-c
+      my_real, DIMENSION(NEL*L_PLANL), INTENT(IN) :: 
+     .   PLA_NL
+      my_real, DIMENSION(NEL*L_EPSDNL), INTENT(IN) :: 
+     .   PLAP_NL
+c 
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
      .   SOUNDSP,
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
 c
       my_real ,DIMENSION(NEL) :: 
-     .   SIGY,ET,VISCMAX
+     .   SIGY,ET
       my_real ,DIMENSION(NEL), INTENT(INOUT) :: 
-     .   PLA,EPSD,OFFL,THK,OFF,VARNL,DMG,TEMP,SEQ,DPLA,EPSPL
+     .   PLA,EPSD,OFFL,THK,OFF,VARNL,TEMP,SEQ,DPLA,EPSPL
+      my_real ,DIMENSION(NEL*L_DMG), INTENT(INOUT) :: 
+     .   DMG
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
-      TYPE(BUF_LAY_) :: BUFLY
+      TYPE(BUF_LAY_), INTENT(IN) :: BUFLY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,II,IGURSON,NSP,ITER,NITER,NINDX,NICE,INDEX(NEL),INDX(NEL),
      .        IR,IS,IT
 C=======================================================================
-c      UVAR(1)     
-c      UVAR(2)     
-C      DEPIJ = PLASTIC STRAIN TENSOR COMPONENT
-C      DEPSIJ = TOTAL STRAIN  TENSOR COMPONENT (EL+PL)
-C=======================================================================
-c  
        NICE    = NINT(UPARAM(11))! Plastic projection method
                                  !  = 1 => Nice method
                                  !  = 2 => Newton-iteration method
-                                 !  = 3 => Nice method with elastic update
-       IGURSON = NINT(UPARAM(30)) ! Gurson switch flag: 
+       IGURSON = NINT(UPARAM(30))! Gurson switch flag: 
                                  !  = 0 => Drucker material law with no damage model
-                                 !  = 1 => local Gurson damage model
-                                 !  = 2 => non local (Forest - micromorphic) damage model
-                                 !  = 3 => non local (Peerlings) damage model
+                                 !  = 1 => Local Gurson damage model
+                                 !  = 2 => Non local (Forest - micromorphic) damage model
+                                 !  = 3 => Non local (Peerlings) damage model
 c--------------------------                        
       SELECT CASE (IGURSON)
 c      
         CASE(0)
 c     
-c
-c
           IF ((NICE == 1).OR.(NICE == 3)) THEN 
             CALL MAT104C_NODAM_NICE(
      1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
@@ -139,18 +138,19 @@ c
      5         SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKLY   ,
      7         THK     ,SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,
-     8         TEMP    ,SEQ     )
+     8         TEMP    ,SEQ     ,PLA_NL  ,L_PLANL ,PLAP_NL ,L_EPSDNL)
           ELSE  ! Newton
             CALL MAT104C_LDAM_NEWTON(
-     1           NEL     ,NGL     ,NUPARAM ,NUVAR   , 
-     2           TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFFL    ,
-     3           GS      ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
-     4           DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
-     5           SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
-     6           SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKLY   ,
-     7           THK     ,SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,
-     8           TEMP    ,SEQ     )
-          ENDIF      
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFFL    ,
+     3         GS      ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
+     4         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
+     5         SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
+     6         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKLY   ,
+     7         THK     ,SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,
+     8         TEMP    ,SEQ     ,PLA_NL  ,L_PLANL ,PLAP_NL ,L_EPSDNL)
+          ENDIF  
+c    
         CASE(3)
 c
           IF ((NICE == 1).OR.(NICE == 3)) THEN 
@@ -162,17 +162,17 @@ c
      5         SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKLY   ,
      7         THK     ,SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,
-     8         TEMP    ,SEQ     )
+     8         TEMP    ,SEQ     ,PLA_NL  ,PLAP_NL )
           ELSE  ! Newton
             CALL MAT104C_NLDAM_NEWTON(
-     1           NEL     ,NGL     ,NUPARAM ,NUVAR   , 
-     2           TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFFL    ,
-     3           GS      ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
-     4           DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
-     5           SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
-     6           SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKLY   ,
-     7           THK     ,SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,
-     8           TEMP    ,SEQ     )
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFFL    ,
+     3         GS      ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
+     4         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
+     5         SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
+     6         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKLY   ,
+     7         THK     ,SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,
+     8         TEMP    ,SEQ     ,PLA_NL  ,PLAP_NL )
           ENDIF      
       END SELECT        
 c    

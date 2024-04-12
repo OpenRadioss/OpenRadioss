@@ -83,7 +83,7 @@ Chd|        STACK_MOD                     share/modules/stack_mod.F
 Chd|====================================================================
       SUBROUTINE LECH3D(GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
      .                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
-     .                  ELBUF_STR,STACK,IBCL,ILOADP,LLOADP,LOADS)
+     .                  ELBUF_STR,STACK,IBCL,ILOADP,LLOADP,LOADS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -97,6 +97,7 @@ C-----------------------------------------------
         USE H3D_INC_MOD
         USE LOADS_MOD
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY
+        USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -125,6 +126,7 @@ C-----------------------------------------------
         TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_STR
         TYPE (STACK_PLY) :: STACK
         TYPE (LOADS_), INTENT(IN)    :: LOADS
+        TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -153,6 +155,7 @@ C-----------------------------------------------
      .          IS_ID,ID,ID_MAX,IS_ID_ALL,NINEFRIC,N19,IFAIL,CPT_IRUP,CPT_IRUP2,
      .          IS_MODE,MODE,MODE_MAX,IS_MODE_ALL
         INTEGER MLW,NEL,NG,JTURB,NLAY,NUVAR,IPLY,IMAT,ISUBSTACK,ID_PLY_TMP
+        INTEGER CPT_MOD,NMOD,CPT_LAWID
 
         CHARACTER(LEN=NCHARKEY)::KEY2
         CHARACTER(LEN=NCHARKEY)::KEY3
@@ -202,6 +205,7 @@ c
         INTEGER, DIMENSION(:,:), ALLOCATABLE :: IS_LAYER_MAT
         LOGICAL :: FOUND
         CHARACTER*64 TEST_CHAIN
+        CHARACTER(LEN=NCHARTITLE), DIMENSION(:), ALLOCATABLE :: MODNAME
         CHARACTER*10 FAIL_NAME(50)
         DATA  FAIL_NAME/
      1   'JOHNSON   ','TBUTCHER  ','WILKINS   ','USER1     ','USER2     ',
@@ -897,7 +901,7 @@ C
                   IF(IGEO(11,K) == 10 .OR. IGEO(11,K) == 11 .OR. IGEO(11,K) == 16 ) THEN
                     NLAY_MAX = MAX(NLAY_MAX,IGEO(4,K))
                   ELSEIF(IGEO(11,K) == 20 .OR. IGEO(11,K) == 21 .OR. IGEO(11,K) == 22) THEN
-                    NLAY_MAX = MAX(NLAY_MAX,MIN(1,IGEO(30,K)))
+                    NLAY_MAX = MAX(NLAY_MAX,MAX(1,IGEO(30,K)))
                   ENDIF
                 ENDDO
                 DO K=1,NS_STACK ! type17,51 & 52
@@ -1191,6 +1195,52 @@ c
 c
                 ENDIF
               ENDIF
+c
+              !=====================================================================================
+              ! /H3D/ELEM/DAMG output definition
+              !=====================================================================================
+              ! -> Modes output definition
+              CPT_MOD = 0
+              CPT_LAWID = 0
+              IF ((KEY3_GLOB(1:4) == 'DAMG').AND.((IS_MODE > 0).OR.(IS_MODE_ALL > 0))) THEN 
+                ! Only available if the ID of the material law is given by user
+                ! -> Specific ID given by user
+                IF (IS_ID > 0) THEN 
+                  ! Recover the number of modes and their names
+                  IF (ALLOCATED(MODNAME)) DEALLOCATE(MODNAME)
+                  DO IMAT = 1,NUMMAT
+                    IF (MAT_PARAM(IMAT)%MAT_ID == ID) THEN 
+                      NMOD = MAT_PARAM(IMAT)%NMOD
+                      ALLOCATE(MODNAME(NMOD))
+                      MODNAME(1:NMOD) = MAT_PARAM(IMAT)%MODE(1:NMOD)
+                      MLW = MAT_PARAM(IMAT)%ILAW
+                      IF (IS_MODE_ALL > 0) THEN
+                        MODE_MAX = NMOD
+                      ELSEIF (IS_MODE > 0) THEN 
+                        MODE_MAX = 1 
+                      ENDIF
+                      IF ((NMOD > 0).AND.(MODE <= NMOD)) CPT_MOD = 1
+                    ENDIF
+                  ENDDO
+                ! Otherwise, printing error message
+                ELSE
+                  IF (ISPMD == 0) THEN 
+                    CALL ANCMSG(
+     .                     MSGID=306,
+     .                     C1='/H3D/'//KEY2//'/'//KEY3//'/'//KEY4//'/'//KEY5//'/'//KEY6,
+     .                     ANMODE=ANINFO)
+                    CALL ARRET(2)
+                  ENDIF                 
+                ENDIF
+              ELSEIF ((KEY3_GLOB(1:4) == 'DAMG').AND.(IS_ID > 0)) THEN 
+                DO IMAT = 1,NUMMAT
+                  IF (MAT_PARAM(IMAT)%MAT_ID == ID) THEN 
+                    MLW = MAT_PARAM(IMAT)%ILAW
+                    CPT_LAWID = 1
+                  ENDIF
+                ENDDO
+              ENDIF
+              !=====================================================================================
 c
               ALLOCATE (LAYER_INPUT(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
      .                   MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
@@ -1561,14 +1611,32 @@ c
      .                            UVAR_INPUT(K))
                       IS_SKING = 1
                     ELSE
-
+c
+                      ! ---------------------------------------------------------------------------------------------
+                      ! /H3D/ELEM/FAILURE Specific output name
+                      ! ---------------------------------------------------------------------------------------------
                       IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN
                         TEST_CHAIN = ''
                         WRITE(TEST_CHAIN,'(A,1X,A,1X,A)')
      *                        TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
                         H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1 = TEST_CHAIN
                       ENDIF
-
+c
+                      ! ---------------------------------------------------------------------------------------------
+                      ! /H3D/ELEM/DAMG Specific output name
+                      ! ---------------------------------------------------------------------------------------------
+                      IF ((KEY3_GLOB(1:4) == 'DAMG').AND.(CPT_MOD > 0)) THEN
+                        TEST_CHAIN = ''
+                        WRITE(TEST_CHAIN,'(A,A,A,A,A,I3)') "Damage",": ",TRIM(MODNAME(MODES_INPUT(K))),";"," LAW",MLW
+                        H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1 = TEST_CHAIN
+                      ELSEIF ((KEY3_GLOB(1:4) == 'DAMG').AND.(CPT_LAWID > 0)) THEN
+                        TEST_CHAIN = ''
+                        WRITE(TEST_CHAIN,'(A,A,A,I3)') "Damage:Global damage",";"," LAW",MLW
+                        H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1 = TEST_CHAIN
+                      ELSEIF ((KEY3_GLOB(1:4) == 'DAMG').AND.(CPT_MOD == 0).AND.(CPT_LAWID == 0)) THEN 
+                        H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1 = "Damage:Global damage"
+                      ENDIF 
+c
                       CALL CREATE_H3D_SHELL_SCALAR(H3D_DATA,H3D_KEYWORD_SHELL_SCALAR(J)%ID,N1,N2,ID_INPUT,
      .                           TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1),
      .                                                      H3D_KEYWORD_SHELL_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
@@ -1698,12 +1766,12 @@ C--------------------------------------------------
                       ENDIF
 
                       IF(H3D_KEYWORD_SOLID%IS_MODE == 1) THEN
-                        IF(MODE /= 0) MODES_INPUT(CPT_H3D) = MODE_MAX
+                        IF(MODE /= 0) MODES_INPUT(CPT_H3D) = MODE
                       ENDIF
 
                     ELSE
 C------ LAYER is not available for /SOLID/TENS/ in manuel, might be removed in the loop
-                      IF(NLAY_MAX + IR_MAX + IS_MAX + IT_MAX + NUVAR_MAX + NMDSVAR_MAX + ID_MAX /= 0)THEN
+                      IF(NLAY_MAX + IR_MAX + IS_MAX + IT_MAX + NUVAR_MAX + NMDSVAR_MAX + ID_MAX + MODE_MAX /= 0)THEN
                         DO K=1,MAX(1,IS_LAYER_ALL*MAX(NLAY_MAX,1))
                           DO L=1,MAX(1,IS_UVAR_ALL*MAX(NUVAR_MAX,1))
                             DO M=1,MAX(1,IS_IR_ALL*MAX(IR_MAX,1))
@@ -1711,7 +1779,7 @@ C------ LAYER is not available for /SOLID/TENS/ in manuel, might be removed in t
                                 DO O=1,MAX(1,IS_IT_ALL*MAX(IT_MAX,1))
                                   DO P=1,MAX(1,MAX(IS_MDSVAR_ALL,IS_MDSVAR_DEF)*MAX(NMDSVAR_MAX,1))
                                     DO Q=1,MAX(1,IS_ID_ALL*MAX(ID_MAX,1))
-                                      DO R=1,MAX(1,IS_ID_ALL*MAX(MODE_MAX,1))
+                                      DO R=1,MAX(1,IS_MODE_ALL*MAX(MODE_MAX,1))
                                         CPT_H3D = CPT_H3D + 1
 c
                                         LAYER_INPUT(CPT_H3D) = -1
@@ -1758,7 +1826,7 @@ c
                                         IF (IS_ID_ALL == 0 .AND. ID >= 1) IDS_INPUT(CPT_H3D) = ID
 
                                         MODES_INPUT(CPT_H3D) = -1
-                                        IF (IS_MODE_ALL == 1) MODES_INPUT(CPT_H3D) = Q
+                                        IF (IS_MODE_ALL == 1) MODES_INPUT(CPT_H3D) = R
                                         IF (IS_MODE_ALL == 0 .AND. MODE >= 1) MODES_INPUT(CPT_H3D) = MODE
 
                                         IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN
@@ -1819,14 +1887,32 @@ c
                       IS_SKING = 1
                     ELSE
                       IF (IS_MDSVAR ==1) MDS_LABEL_TMP = MDS_LABEL(MDSVAR_INPUT1(K), MDSVAR_INPUT(K))
-
+c
+                      ! ---------------------------------------------------------------------------------------------
+                      ! /H3D/ELEM/FAILURE Specific output name
+                      ! ---------------------------------------------------------------------------------------------
                       IF ((KEY3_GLOB(1:7) == 'FAILURE').AND.(CPT_IRUP > 0)) THEN
                         TEST_CHAIN = ''
                         WRITE(TEST_CHAIN,'(A,1X,A,1X,A)')
      *                        TRIM(H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1(1:7)),TRIM(FAIL_NAME(IRUP_H3D(K))),'Damage'
                         H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1 = TEST_CHAIN
                       ENDIF
-
+c
+                      ! ---------------------------------------------------------------------------------------------
+                      ! /H3D/ELEM/DAMG Specific output name
+                      ! ---------------------------------------------------------------------------------------------
+                      IF ((KEY3_GLOB(1:4) == 'DAMG').AND.(CPT_MOD > 0)) THEN
+                        TEST_CHAIN = ''
+                        WRITE(TEST_CHAIN,'(A,A,A,A,A,I3)') "Damage",": ",TRIM(MODNAME(MODES_INPUT(K))),";"," LAW",MLW
+                        H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1 = TEST_CHAIN
+                      ELSEIF ((KEY3_GLOB(1:4) == 'DAMG').AND.(CPT_LAWID > 0)) THEN
+                        TEST_CHAIN = ''
+                        WRITE(TEST_CHAIN,'(A,A,A,I3)') "Damage:Global damage",";"," LAW",MLW
+                        H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1 = TEST_CHAIN
+                      ELSEIF ((KEY3_GLOB(1:4) == 'DAMG').AND.(CPT_MOD == 0).AND.(CPT_LAWID == 0)) THEN 
+                        H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1 = 'Damage:Global damage'
+                      ENDIF     
+c
                       CALL CREATE_H3D_SOLID_SCALAR(H3D_DATA,H3D_KEYWORD_SOLID_SCALAR(J)%ID,ID_INPUT,
      .                            TRIM(H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1),
      .                                                 H3D_KEYWORD_SOLID_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,

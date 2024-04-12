@@ -267,7 +267,7 @@ C-----------------------------------------------
       INTEGER I,NPAR,NPARF,IADBUF,IADVIS,NFUNC,NUMTABL,ISRATE,IPG,NPTR,NPTS,
      .  IBID,IBIDON1,IBIDON2,IBIDON3,IBIDON4 ,N48,NIX,ILAW_USER,IGTYP,
      .  NVARF,IR,IRUPT,IMAT,ISVIS,IVISC,NUVARV,NUPARV,ISEQ,IDEV,NTABL_FAIL,
-     .  IFORM,L_PLANL
+     .  IFORM,L_PLANL,L_EPSDNL,L_DMG
       my_real 
      .E1,E2,E3,E4,E5,E6,BID1,BID3,Q1,Q2,Q3,SS1,SS2,SS3,SS4,SS5,
      . SS6,WXXF,WYYF,WZZF,P2,EPSP,DAV,ASRATE,C1(MVSIZ),
@@ -334,7 +334,9 @@ C=======================================================================
       ISEQ   = ELBUF_TAB(NG)%BUFLY(ILAY)%L_SEQ
       INLOC  = IPARG(78,NG)
       DMG_FLAG = ELBUF_TAB(NG)%BUFLY(ILAY)%L_DMGSCL
-      L_PLANL = ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLANL
+      L_DMG    = ELBUF_TAB(NG)%BUFLY(ILAY)%L_DMG
+      L_PLANL  = ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLANL
+      L_EPSDNL = ELBUF_TAB(NG)%BUFLY(ILAY)%L_EPSDNL
       ! Make sure that the non-local variable increment is positive
       IF (INLOC > 0) THEN 
         DO I = 1,NEL
@@ -1642,15 +1644,15 @@ C
 c
       ELSEIF (MTN == 104) THEN 
 c 
-        CALL SIGEPS104(NEL    ,NGL    ,NPAR   ,NUVAR  ,
+        CALL SIGEPS104(NEL    ,NGL    ,NPAR   ,NUVAR  ,NPG    ,GBUF%UELR,
      .                 TT     ,DT1    ,UPARAM ,UVAR   ,JTHE   ,LBUF%OFF,
      .                 RHO0   ,RHO    ,DEFP   ,DPLA   ,EPSD   ,SSP    ,
      .                 DE1    ,DE2    ,DE3    ,DE4    ,DE5    ,DE6    ,
      .                 SO1    ,SO2    ,SO3    ,SO4    ,SO5    ,SO6    ,
      .                 S1     ,S2     ,S3     ,S4     ,S5     ,S6     ,
      .                 SIGY   ,ET     ,TEMPEL ,VARNL  ,OFF    ,IPG    ,
-     .                 LBUF%DMG,LBUF%TEMP,LBUF%SEQ,NPG,GBUF%UELR      ,
-     .                 INLOC  )
+     .                 LBUF%DMG,L_DMG ,LBUF%PLANL,L_PLANL,LBUF%EPSDNL,L_EPSDNL,
+     .                 LBUF%TEMP,LBUF%SEQ,INLOC)
 c
       ELSEIF (MTN == 105) THEN
           IF (N2D == 0) THEN

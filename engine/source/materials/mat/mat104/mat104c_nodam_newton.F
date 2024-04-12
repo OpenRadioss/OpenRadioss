@@ -93,11 +93,7 @@ c
      .   HARDP,FHARD,FRATE,FTHERM,FDR,PHI0,PHI,DPLA_DLAM,
      .   DEZZ,DPHI_DLAM,DPXX,DPYY,DPXY,DPZZ,SIGDR2,YLD2I
       !=======================================================================
-      !       DRUCKER MATERIAL LAW WITH NO DAMAGE
-      !=======================================================================
-      !-  
-      !DEPIJ     PLASTIC STRAIN TENSOR COMPONENT
-      !DEPSIJ    TOTAL   STRAIN TENSOR COMPONENT (EL+PL)
+      !             DRUCKER - VOCE - JOHNSON-COOK MATERIAL LAW
       !=======================================================================
 c
       !=======================================================================
@@ -235,10 +231,10 @@ c
       ENDDO
 c      
       !====================================================================
-      ! - PLASTIC CORRECTION WITH BACKWARD EULER METHOD (NEWTON RESOLUTION)
+      ! - PLASTIC CORRECTION WITH CUTTING PLANE METHOD (SEMI-IMPLICIT)
       !====================================================================      
 c      
-      ! Number of Newton iterations
+      ! Number of iterations
       NITER = 3
 c
       ! Loop over yielding elements
@@ -264,25 +260,20 @@ c
         DO II=1,NINDX 
           I = INDEX(II)
 c        
-          ! Note     : in this part, the purpose is to compute for each iteration
+          ! Note: in this part, the purpose is to compute for each iteration
           ! a plastic multiplier allowing to update internal variables to satisfy
-          ! the consistency condition using the backward Euler implicit method
-          ! with a Newton-Raphson iterative procedure
+          ! the consistency condition using the cutting plane semi-implicit 
+          ! iterative procedure.
           ! Its expression at each iteration is : DLAMBDA = - PHI/DPHI_DLAMBDA
-                  ! -> PHI          : current value of yield function (known)
+          ! -> PHI          : current value of yield function (known)
           ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
           !                   into account of internal variables kinetic : 
           !                   plasticity, temperature and damage (to compute)
 c        
-                  ! 1 - Computation of DPHI_DSIG the normal to the yield surface
+          ! 1 - Computation of DPHI_DSIG the normal to the yield surface
           !-------------------------------------------------------------
-          ! Computation of the normal to the yield criterion NORM
-          ! flow direction (derivative dPhi / Dsig) 
-          ! HERE WE COMPUTE DPHI/DS with phi = (sigbar/sigy)**2 - 1       
-          ! on note dphi/dS=dF/dS                                        
-          ! Fdr = J2^3 - c*J3^2                                     
-          ! dPhi/dSig = dPhi/dFdr * (dFdr/dJ2 * dJ2/dSig + dFdr/dJ3 * dJ3/dSig)
-          ! dJ2/dSig = S   
+c
+          ! Derivative with respect to the equivalent stress
           YLD2I(I)  = ONE/(YLD(I)**2) 
           DPHI_DSIG = TWO*SIGDR(I)*YLD2I(I)   
 c          
@@ -425,7 +416,7 @@ c
       ENDDO 
       ! End of the loop over the iterations 
       !===================================================================
-      ! - END OF PLASTIC CORRECTION WITH NEWTON IMPLICIT ITERATIVE METHOD
+      ! - END OF PLASTIC CORRECTION WITH CUTTING PLANE ITERATIVE METHOD
       !=================================================================== 
 c
       ! Storing new values

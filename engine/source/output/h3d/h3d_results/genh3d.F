@@ -2556,7 +2556,7 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                       IS_WRITEN_SHELL,IPARTC ,IPARTTG     ,LAYER        ,IPT        ,
      .                       ID_PLY     ,GAUSS     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD,
      .                       D          ,MULTI_FVM ,IDMDS        ,IMDSVAR      ,MDS_MATID  ,
-     .                       OBJECT_ID  ,MODE)
+     .                       OBJECT_ID  ,MODE      ,MAT_PARAM    )
 c
             IF (NSPMD > 1 ) THEN
               CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
