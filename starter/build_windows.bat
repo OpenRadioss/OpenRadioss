@@ -78,7 +78,7 @@ if %debug%==0 (
 ) else (
 
    if %debug%==1 (
-    set debug_suffix='_db'
+    set debug_suffix=_db
    ) else (
     set debug_suffix=_%debug%
    )
