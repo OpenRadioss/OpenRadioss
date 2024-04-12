@@ -490,6 +490,7 @@ Chd|        SCHLIEREN_BUFFER_GATHERING    engine/source/output/anim/generate/sch
 Chd|        SCONNECT_OFF                  engine/source/elements/solid/sconnect/sconnect_off.F
 Chd|        SEATBELT_REDUCTION_FACTOR     engine/source/tools/seatbelts/seatbelt_reduction_factor.F
 Chd|        SEGGETV                       engine/source/interfaces/interf/seggetv.F
+Chd|        SFINT_REG                     engine/source/elements/solid/solide/sfint_reg.F
 Chd|        SHELL_LOCAL_FRAME             engine/source/output/dynain/shell_rota.F
 Chd|        SHELL_ROTA                    engine/source/output/dynain/shell_rota.F
 Chd|        SIGEPS02G                     engine/source/materials/mat/mat002/sigeps02g.F
