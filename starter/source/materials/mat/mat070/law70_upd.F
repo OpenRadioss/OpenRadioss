@@ -326,6 +326,7 @@ c------------------------------------
       K = 1
       DO WHILE (MAT_PARAM%TABLE(LOAD)%X(1)%VALUES(K) < EPSMAX .and. K < LEN(1)-1)
         K = K + 1
+        IF(K >= LEN(1) -1 )  EXIT
       END DO
       X1 = MAT_PARAM%TABLE(LOAD)%X(1)%VALUES(K-1)
       X2 = MAT_PARAM%TABLE(LOAD)%X(1)%VALUES(K)
