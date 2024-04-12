@@ -46,7 +46,7 @@ Chd|====================================================================
      .                  IS_WRITTEN_SHELL,IPARTC,IPARTTG   ,LAYER_INPUT ,IPT_INPUT  ,
      .                  PLY_INPUT   ,GAUSS_INPUT,IUVAR_INPUT,H3D_PART  ,KEYWORD    ,
      .                  D           , MULTI_FVM ,IDMDS    ,IMDSVAR     ,MDS_MATID  ,
-     .                  ID          ,MODE      )
+     .                  ID          ,MODE      ,MAT_PARAM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,6 +57,7 @@ C-----------------------------------------------
         USE MULTI_FVM_MOD
         USE ALE_CONNECTIVITY_MOD
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+        USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,6 +89,7 @@ C-----------------------------------------------
         my_real,INTENT(IN) :: BUFMAT(*)
         TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
         INTEGER ,INTENT(IN) :: MODE
+        TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -127,7 +129,7 @@ C-----------------------------------------------
      .                     IS_WRITTEN_SHELL,IPARTC,IPARTTG   ,LAYER_INPUT ,IPT_INPUT  ,
      .                     PLY_INPUT   ,GAUSS_INPUT,IUVAR_INPUT,H3D_PART  ,KEYWORD    ,
      .                     D           ,NG         ,MULTI_FVM,IDMDS       ,IMDSVAR    ,
-     .                     MDS_MATID   ,ID         ,MODE)
+     .                     MDS_MATID   ,ID         ,MODE     ,MAT_PARAM   )
         ENDDO
 C-----------------------------------------------
 

@@ -26,9 +26,9 @@ Chd|-- called by -----------
 Chd|        SIGEPS25C                     source/materials/mat/mat025/sigeps25c.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE M25CRAK(NEL   ,OFF   ,DAMT  ,DIR   ,ILAYER,THLY  ,
-     .                   NGL   ,STRP1 ,STRP2 ,PLY_ID,IGTYP ,
-     .                   IPG   ,EPST1 ,EPST2 ,EPSM1 ,EPSM2 ,DMAX)
+      SUBROUTINE M25CRAK(NEL   ,OFF   ,DMG   ,L_DMG ,DIR   ,ILAYER,
+     .                   THLY  ,NGL   ,STRP1 ,STRP2 ,PLY_ID,IGTYP ,
+     .                   IPG   ,EPST1 ,EPST2 ,EPSM1 ,EPSM2 ,DMAX  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,9 +49,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(MVSIZ)
-      INTEGER ILAYER,PLY_ID,IGTYP,NEL,IPG
+      INTEGER ILAYER,PLY_ID,IGTYP,NEL,IPG,L_DMG
       my_real ,INTENT(IN) :: EPST1,EPST2,EPSM1,EPSM2,DMAX
-      my_real :: DAMT(NEL,2), DIR(NEL,2), OFF(*),THLY(*),STRP1(*),STRP2(*)
+      my_real :: DIR(NEL,2), OFF(*),THLY(*),STRP1(*),STRP2(*)
+      my_real, DIMENSION(NEL,L_DMG), INTENT(INOUT) :: DMG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -61,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       NINDX=0
       DO I=1,NEL
-      IF (STRP1(I)<EPST1 .OR.DAMT(I,1)>ZERO.OR.OFF(I)<ONE) CYCLE
+      IF (STRP1(I)<EPST1 .OR.DMG(I,2)>ZERO.OR.OFF(I)<ONE) CYCLE
         NINDX=NINDX+1
         INDX(NINDX)=I
       END DO
@@ -73,8 +74,8 @@ C.....1.FIRST FAILURE DIRECTION 1
         I=INDX(J)
           DAM1=(STRP1(I)-EPST1)/(EPSM1-EPST1)
           DAM2= DAM1*EPSM1/STRP1(I)
-          DAMT(I,1)= MIN(DAM2,DMAX)
-          IF(DAMT(I,1)==DMAX.AND.IMCONV==1)THEN
+          DMG(I,2)= MIN(DAM2,DMAX)
+          IF(DMG(I,2)==DMAX.AND.IMCONV==1)THEN
 !
 #include "lockon.inc"
             IF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
@@ -95,7 +96,7 @@ C.....1.FIRST FAILURE DIRECTION 1
 C.....GATHER DIRECTION 2
       NINDX=0
       DO I=1,NEL
-        IF (STRP2(I)<EPST2 .OR.DAMT(I,2)>ZERO.OR.OFF(I)<ONE) CYCLE
+        IF (STRP2(I)<EPST2 .OR.DMG(I,3)>ZERO.OR.OFF(I)<ONE) CYCLE
         NINDX=NINDX+1
         INDX(NINDX)=I
       END DO
@@ -109,8 +110,8 @@ C.....1.FIRST FAILURE DIRECTION 2
           I=INDX(J)
           DAM1=(STRP2(I)-EPST2)/(EPSM2-EPST2)
           DAM2= DAM1*EPSM2/STRP2(I)
-          DAMT(I,2)= MIN(DAM2,DMAX)
-          IF (DAMT(I,2)==DMAX.AND.IMCONV==1) THEN
+          DMG(I,3)= MIN(DAM2,DMAX)
+          IF (DMG(I,3)==DMAX.AND.IMCONV==1) THEN
 !
 #include "lockon.inc"
             IF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN

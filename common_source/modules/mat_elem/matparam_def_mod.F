@@ -301,10 +301,13 @@ c
         INTEGER     :: NLOC                 ! non-local variable regularization flag
         INTEGER     :: IFAILWAVE            ! failwave propagation flag
         INTEGER     :: IXFEM                ! XFEM flag
+        ! --------------------------------- !
+        INTEGER     :: NMOD                 !number of rupture/damage modes
 c                        
         my_real           ,DIMENSION(:) ,ALLOCATABLE :: UPARAM   ! NUPARAM
         INTEGER           ,DIMENSION(:) ,ALLOCATABLE :: IPARAM   ! NIPARAM
         TYPE (TABLE_4D_)  ,DIMENSION(:) ,ALLOCATABLE :: TABLE    ! local function tables
+        CHARACTER(LEN=nchartitle) ,DIMENSION(:) ,ALLOCATABLE :: MODE   ! size NMOD
 c                
         TYPE (FAIL_PARAM_),DIMENSION(:) ,ALLOCATABLE :: FAIL     ! failure models (NFAIL)
         TYPE (VISC_PARAM_)                           :: VISC     ! viscosity model          

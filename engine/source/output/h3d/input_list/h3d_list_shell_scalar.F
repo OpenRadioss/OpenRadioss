@@ -119,15 +119,36 @@ c-----------------------------------------------
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'DAM1'
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER_ALL  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT_ALL  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY_ALL  = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Damage 1'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT = 'Damage in material direction 1'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'DAM2'
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER_ALL  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT_ALL  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY_ALL  = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Damage 2'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT = 'Damage in material direction 2'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'DAM3'
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER_ALL  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT_ALL  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY  = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY_ALL  = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Damage 3'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT = 'Damage in material direction 3'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'SIGX'
@@ -371,8 +392,11 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY_ALL = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER_ALL = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_ID = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_MODE = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_MODE_ALL = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1 = 'Damage'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT = 'Damage variable for coupled damage models'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT = 'Damage variable from material law'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3    = 'DAMG/MEMB'

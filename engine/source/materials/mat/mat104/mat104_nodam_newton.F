@@ -93,11 +93,7 @@ c
      .   PHI,FT,FS,FG,FN,FSH,DPLA_DLAM,DPHI_DLAM,PHI0,
      .   DPXX,DPYY,DPXY,DPYZ,DPZX,DPZZ,SIGDR2,YLD2I
       !=======================================================================
-      !       DRUCKER MATERIAL LAW WITH NO DAMAGE
-      !=======================================================================
-      !-  
-      !DEPIJ     PLASTIC STRAIN TENSOR COMPONENT
-      !DEPSIJ    TOTAL   STRAIN TENSOR COMPONENT (EL+PL)
+      !             DRUCKER - VOCE - JOHNSON-COOK MATERIAL LAW
       !=======================================================================
 c      
       !=======================================================================
@@ -135,12 +131,12 @@ c
 c      
       ! Recovering internal variables
       DO I=1,NEL
-        IF (OFF(I) < 0.1) OFF(I) = ZERO
-        IF (OFF(I) < ONE) OFF(I) = OFF(I)*FOUR_OVER_5
+        IF (OFF(I) < EM01) OFF(I) = ZERO
+        IF (OFF(I) <  ONE) OFF(I) = OFF(I)*FOUR_OVER_5
         ! Standard inputs
-        DPLA(I)  = ZERO      ! Initialization of the plastic strain increment
-        ET(I)    = ONE        ! Initialization of hourglass coefficient
-        HARDP(I) = ZERO      ! Initialization of hourglass coefficient
+        DPLA(I)  = ZERO    ! Initialization of the plastic strain increment
+        ET(I)    = ONE     ! Initialization of hourglass coefficient
+        HARDP(I) = ZERO    ! Initialization of hourglass coefficient
       ENDDO
 c      
       ! Initialization of temperature and self-heating weight factor
@@ -207,7 +203,7 @@ c
         SZX(I) = SIGNZX(I)
         ! Second deviatoric invariant
         J2(I) = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 )
-     .          +       SXY(I)**2 + SYZ(I)**2 + SZX(I)**2
+     .        +       SXY(I)**2 + SYZ(I)**2 + SZX(I)**2
         ! Third deviatoric invariant
         J3(I) = SXX(I) * SYY(I) * SZZ(I)  
      .        + SXY(I) * SYZ(I) * SZX(I) * TWO
@@ -238,10 +234,10 @@ c
       ENDDO
 c      
       !====================================================================
-      ! - PLASTIC CORRECTION WITH BACKWARD EULER METHOD (NEWTON RESOLUTION)
-      !====================================================================       
+      ! - PLASTIC CORRECTION WITH CUTTING PLANE METHOD (SEMI-IMPLICIT)
+      !====================================================================         
 c      
-      ! Number of maximum Newton iterations
+      ! Number of iterations
       NITER = 3
 c
       ! Loop over yielding elements
@@ -267,28 +263,22 @@ c
 #include "vectorize.inc" 
         ! Loop over yielding elements
         DO II=1,NINDX 
-          I = INDEX(II)
-        
-          ! Note     : in this part, the purpose is to compute for each iteration
+          I = INDEX(II)    
+c        
+          ! Note: in this part, the purpose is to compute for each iteration
           ! a plastic multiplier allowing to update internal variables to satisfy
-          ! the consistency condition using the backward Euler implicit method
-          ! with a Newton-Raphson iterative procedure
+          ! the consistency condition using the cutting plane semi-implicit 
+          ! iterative procedure.
           ! Its expression at each iteration is : DLAMBDA = - PHI/DPHI_DLAMBDA
-            ! -> PHI          : current value of yield function (known)
+          ! -> PHI          : current value of yield function (known)
           ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
           !                   into account of internal variables kinetic : 
           !                   plasticity, temperature and damage (to compute)
 c        
-            ! 1 - Computation of DPHI_DSIG the normal to the yield surface
+          ! 1 - Computation of DPHI_DSIG the normal to the yield surface
           !-------------------------------------------------------------
 c        
-          ! Computation of the normal to the yield criterion NORM
-          ! flow direction (derivative dPhi / Dsig) 
-          ! HERE WE COMPUTE DPHI/DS with phi = (sigbar/sigy)**2 - 1       
-          ! on note dphi/dS=dF/dS                                        
-          ! Fdr = J2^3 - c*J3^2                                     
-          ! dPhi/dSig = dPhi/dFdr * (dFdr/dJ2 * dJ2/dSig + dFdr/dJ3 * dJ3/dSig)
-          ! dJ2/dSig = S   
+          ! Derivative with respect to the equivalent stress
           YLD2I(I)  = ONE/(YLD(I)**2) 
           DPHI_DSIG = TWO*SIGDR(I)*YLD2I(I)
 c          
@@ -387,7 +377,7 @@ c
           ! Computation of the plastic multiplier
           DLAM = -PHI(I)/DPHI_DLAM(I)
 c          
-            ! Plastic strains tensor update
+          ! Plastic strains tensor update
           DPXX(I) = DLAM * NORMXX
           DPYY(I) = DLAM * NORMYY
           DPZZ(I) = DLAM * NORMZZ
@@ -448,7 +438,7 @@ c
       ENDDO 
       ! End of the loop over the iterations 
       !===================================================================
-      ! - END OF PLASTIC CORRECTION WITH NEWTON IMPLICIT ITERATIVE METHOD
+      ! - END OF PLASTIC CORRECTION WITH CUTTING PLANE ITERATIVE METHOD
       !===================================================================
 c      
       ! Storing new values

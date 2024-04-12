@@ -29,12 +29,12 @@ Chd|====================================================================
       SUBROUTINE MAT104C_LDAM_NEWTON(
      1     NEL     ,NGL     ,NUPARAM ,NUVAR   , 
      2     TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFF     ,
-     3     GS    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
+     3     GS      ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4     DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5     SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKLY   ,
      7     THK     ,SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     , 
-     8     TEMP    ,SEQ     )
+     8     TEMP    ,SEQ     ,PLA_NL  ,L_PLANL ,PLAP_NL ,L_EPSDNL)
       !=======================================================================
       !      Implicit types
       !=======================================================================
@@ -48,6 +48,7 @@ Chd|====================================================================
       !=======================================================================
       INTEGER NEL,NUPARAM,NUVAR,JTHE
       INTEGER ,DIMENSION(NEL), INTENT(IN)    :: NGL
+      INTEGER, INTENT(IN) :: L_PLANL,L_EPSDNL 
       my_real 
      .   TIME,TIMESTEP
       my_real,DIMENSION(NUPARAM), INTENT(IN) :: 
@@ -57,13 +58,19 @@ Chd|====================================================================
      .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX,
      .   GS, THKLY
+      my_real, DIMENSION(NEL*L_PLANL), INTENT(IN) :: 
+     .   PLA_NL
+      my_real, DIMENSION(NEL*L_EPSDNL), INTENT(IN) :: 
+     .   PLAP_NL
 c
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
      .   SOUNDSP,SIGY,ET,
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
 c
       my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
-     .   PLA,DPLA,VARNL,EPSD,OFF,THK,DMG,TEMP,SEQ
+     .   PLA,DPLA,VARNL,EPSD,OFF,THK,TEMP,SEQ
+      my_real ,DIMENSION(NEL,6), INTENT(INOUT) :: 
+     .   DMG 
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
       !=======================================================================
@@ -97,21 +104,10 @@ C
      .   SIGDR2,YLD2I,DPXX,DPYY,DPZZ,DPXY
 C
       DOUBLE PRECISION, DIMENSION(NEL) :: 
-     .   DLAM_NL,DDPNL,PLAP_NL,DPLA_NL,PLA_NL
+     .   DLAM_NL,DDPNL,DPLA_NL
       !=======================================================================
-      !       DRUCKER MATERIAL LAW WITH DAMAGE
-      !      USING LOCAL DAMAGE OF NON-LOCAL MICROMORPHIC METHOD
-      !=======================================================================
-      !UVAR(1)   FG      DAMAGE OF CAVITIES GROWTH
-      !UVAR(2)   FN      DAMAGE OF CAVITIES NUCLEATION
-      !UVAR(3)   FSH     DAMAGE OF SHEAR
-      !UVAR(4)   FT      TOTAL DAMAGE (FG + FN + FSH)
-      !UVAR(5)   FS      EFFECTIVE DAMAGE FS = F(FT)
-      !UVAR(6)  PLA_NL   NON-LOCAL PLASTIC STRAIN
-      !UVAR(7)  PLAP_NL  NON-LOCAL PLASTIC STRAIN-RATE
-      !-  
-      !DEPIJ     PLASTIC STRAIN TENSOR COMPONENT
-      !DEPSIJ    TOTAL   STRAIN TENSOR COMPONENT (EL+PL)
+      !     DRUCKER - VOCE - JOHNSON-COOK MATERIAL LAW WITH GURSON DAMAGE
+      !         USING LOCAL DAMAGE OR NON-LOCAL MICROMORPHIC METHOD
       !=======================================================================
 c
       !=======================================================================
@@ -170,28 +166,24 @@ c
       ! Recovering internal variables
       DO I=1,NEL
         ! If the element is failing
-        IF (OFF(I) < 0.1) OFF(I) = ZERO
+        IF (OFF(I) < EM03) OFF(I) = ZERO
         IF (OFF(I) < ONE)  OFF(I) = OFF(I)*FOUR_OVER_5
-        ! User inputs
-        FG(I)    = UVAR(I,1)  ! Growth damage
-        FN(I)    = UVAR(I,2)  ! Nucleation damage
-        FSH(I)   = UVAR(I,3)  ! Shear damage
-        FT(I)    = UVAR(I,4)  ! Total damage
-        FS(I)    = UVAR(I,5)  ! Effective damage
+        ! Damage variables
+        FG(I)    = DMG(I,2)   ! Growth damage
+        FN(I)    = DMG(I,3)   ! Nucleation damage
+        FSH(I)   = DMG(I,4)   ! Shear damage
+        FT(I)    = DMG(I,5)   ! Total damage
+        FS(I)    = DMG(I,6)   ! Effective damage
         ! Standard inputs
         D(I)     = Q1*FS(I)   ! Effective normalized damage
         DPLA(I)  = ZERO       ! Initialization of the plastic strain increment
-        ET(I)    = ONE         ! Initialization of hourglass coefficient
+        ET(I)    = ONE        ! Initialization of hourglass coefficient
         HARDP(I) = ZERO       ! Initialization of hourglass coefficient          
         IF (IGURSON == 2) THEN
-          PLA_NL(I)  = UVAR(I,6)  ! non local plastic strain
           IF (OFF(I) == ONE) THEN 
             DPLA_NL(I) = MAX(VARNL(I),ZERO)     ! Non-local plastic strain increment
-            PLA_NL(I)  = PLA_NL(I) + DPLA_NL(I) ! Non-local cumulated plastic strain 
-            PLAP_NL(I) = VARNL(I) * DTI         ! Non-local plastic strain-rate
           ELSE 
             DPLA_NL(I) = ZERO
-            PLAP_NL(I) = ZERO
           ENDIF
         ENDIF
       ENDDO
@@ -200,15 +192,15 @@ c
       IF (TIME == ZERO) THEN   
         TEMP(1:NEL) = TINI 
         IF (ISIGI == 0) THEN 
-          UVAR(1:NEL,4) = F0
-          FT(1:NEL)     = F0
-          DMG(1:NEL)    = F0/FR
+          DMG(1:NEL,5) = F0
+          FT(1:NEL)    = F0
+          DMG(1:NEL,1) = F0/FR
           IF (F0<FC) THEN 
-            UVAR(1:NEL,5) = F0
+            DMG(1:NEL,6) = F0
           ELSE
-            UVAR(1:NEL,5) = FC + (ONE/Q1-FC)*(F0-FC)/(FR-FC)
+            DMG(1:NEL,6) = FC + (ONE/Q1-FC)*(F0-FC)/(FR-FC)
           ENDIF
-          FS(1:NEL) = UVAR(1:NEL,5)
+          FS(1:NEL) = DMG(1:NEL,6)
         ENDIF
       ENDIF 
       IF (CP > ZERO) THEN     
@@ -234,8 +226,10 @@ c
       DO I = 1,NEL
         ! a) - Hardening law
         FHARD(I) = YLD0 + HARD*PLA(I) + QVOCE*(ONE-EXP(-BVOCE*PLA(I)))
-        IF ((IGURSON == 2).AND.(PLA_NL(I) - PLA(I) < ZERO)) THEN
-          FHARD(I) = FHARD(I) - HKHI*(PLA_NL(I) - PLA(I))     
+        IF (IGURSON == 2) THEN 
+          IF (PLA_NL(I) - PLA(I) < ZERO) THEN
+            FHARD(I) = FHARD(I) - HKHI*(PLA_NL(I) - PLA(I))     
+          ENDIF
         ENDIF
         ! b) - Correction factor for strain-rate dependence (Johnson-Cook)
         FRATE(I)  = ONE
@@ -318,10 +312,10 @@ c
       ENDDO
 c      
       !====================================================================
-      ! - PLASTIC CORRECTION WITH BACKWARD EULER METHOD (NEWTON RESOLUTION)
-      !====================================================================  
+      ! - PLASTIC CORRECTION WITH CUTTING PLANE METHOD (SEMI-IMPLICIT)
+      !====================================================================   
 c
-      ! Number of Newton iterations 
+      ! Number of iterations
       NITER = 3
 c      
       ! Loop over yielding elements
@@ -346,25 +340,18 @@ c
         DO II=1,NINDX 
           I = INDEX(II)
 c        
-          ! Note     : in this part, the purpose is to compute for each iteration
+          ! Note: in this part, the purpose is to compute for each iteration
           ! a plastic multiplier allowing to update internal variables to satisfy
-          ! the consistency condition using the backward Euler implicit method
-          ! with a Newton-Raphson iterative procedure
+          ! the consistency condition using the cutting plane semi-implicit 
+          ! iterative procedure.
           ! Its expression at each iteration is : DLAMBDA = - PHI/DPHI_DLAMBDA
-            ! -> PHI          : current value of yield function (known)
+          ! -> PHI          : current value of yield function (known)
           ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
           !                   into account of internal variables kinetic : 
           !                   plasticity, temperature and damage (to compute)
 c        
-            ! 1 - Computation of DPHI_DSIG the normal to the yield surface
-          !-------------------------------------------------------------
-          ! Computation of the normal to the yield criterion NORM
-          ! flow direction (derivative dPhi / Dsig) 
-          ! HERE WE COMPUTE DPHI/DS with phi = (sigbar/sigy)**2 - 1       
-          ! on note dphi/dS=dF/dS                                        
-          ! Fdr = J2^3 - c*J3^2                                     
-          ! dPhi/dSig = dPhi/dFdr * (dFdr/dJ2 * dJ2/dSig + dFdr/dJ3 * dJ3/dSig)
-          ! dJ2/dSig = S     
+          ! 1 - Computation of DPHI_DSIG the normal to the yield surface
+          !-------------------------------------------------------------   
 c              
           ! Derivative with respect to the equivalent stress and trace
           YLD2I(I)    = ONE/(YLD(I)**2)
@@ -415,8 +402,10 @@ c
           !     i) Derivative of the yield stress with respect to plastic strain dYLD / dPLA
           !     ----------------------------------------------------------------------------
           HARDP(I)  = HARD + QVOCE*BVOCE*EXP(-BVOCE*PLA(I))
-          IF ((IGURSON == 2).AND.(PLA_NL(I) - PLA(I) < ZERO)) THEN
-            HARDP(I) = HARDP(I) + HKHI   
+          IF (IGURSON == 2) THEN 
+            IF (PLA_NL(I) - PLA(I) < ZERO) THEN
+              HARDP(I) = HARDP(I) + HKHI   
+            ENDIF
           ENDIF      
           DYLD_DPLA = HARDP(I)*FRATE(I)*FTHERM(I)  
 c          
@@ -520,7 +509,7 @@ c
           ! Computation of the plastic multiplier
           DLAM = -PHI(I)/DPHI_DLAM(I)    
 c          
-            ! Plastic strains tensor update
+          ! Plastic strains tensor update
           DPXX(I)  = DLAM * NORMXX
           DPYY(I)  = DLAM * NORMYY
           DPZZ(I)  = DLAM * NORMZZ
@@ -581,8 +570,10 @@ c
 c          
           ! Hardening law update
           FHARD(I) = YLD0 + HARD * PLA(I) + QVOCE*(ONE-EXP(-BVOCE*PLA(I)))
-          IF ((IGURSON == 2).AND.(PLA_NL(I) - PLA(I) < ZERO)) THEN
-            FHARD(I) = FHARD(I) - HKHI*(PLA_NL(I) - PLA(I))     
+          IF (IGURSON == 2) THEN 
+            IF (PLA_NL(I) - PLA(I) < ZERO) THEN
+              FHARD(I) = FHARD(I) - HKHI*(PLA_NL(I) - PLA(I))  
+            ENDIF   
           ENDIF   
 c          
           ! Yield stress update
@@ -628,8 +619,8 @@ c
       ENDDO
       ! End of the loop over the iterations -
       !===================================================================
-      ! - END OF PLASTIC CORRECTION WITH NEWTON IMPLICIT ITERATIVE METHOD
-      !=================================================================== 
+      ! - END OF PLASTIC CORRECTION WITH CUTTING PLANE ITERATIVE METHOD
+      !===================================================================
 c      
       ! Storing new values
       DO I=1,NEL
@@ -643,26 +634,24 @@ c
           SIGNYZ(I)  = ZERO
           SIGNZX(I)  = ZERO
           SIGDR(I)   = ZERO
-        ENDIF
-        ! USR Outputs
-        UVAR(I,1)  = FG(I)            ! Growth damage
-        UVAR(I,2)  = FN(I)            ! Nucleation damage
-        UVAR(I,3)  = FSH(I)           ! Shear damage
-        UVAR(I,4)  = MIN(FT(I),FR)    ! Total damage  
-        UVAR(I,5)  = MIN(FS(I),ONE/Q1) ! Effective damage 
-        IF (IGURSON == 2) THEN
-          UVAR(I,6)  = PLA_NL(I)
-          UVAR(I,7)  = DPLA_NL(I)
-          VARNL(I)   = PLA(I)
-        ENDIF         
+        ENDIF      
         ! Standard outputs
-        DMG(I)     = FT(I)/FR         ! Normalized total damage
-        SEQ(I)     = SIGDR(I)         ! SIGEQ
+        DMG(I,1)   = FT(I)/FR          ! Normalized total damage
+        DMG(I,2)   = FG(I)             ! Growth damage
+        DMG(I,3)   = FN(I)             ! Nucleation damage 
+        DMG(I,4)   = FSH(I)            ! Shear damage
+        DMG(I,5)   = MIN(FT(I),FR)     ! Total damage
+        DMG(I,6)   = MIN(FS(I),ONE/Q1) ! Effective damage
+        SEQ(I)     = SIGDR(I)          ! Equivalent stress
         DPDT       = DPLA(I) / MAX(EM20,TIMESTEP)  
         ! Plastic strain-rate (filtered)
         EPSD(I)    = AFILTR * DPDT + (ONE - AFILTR) * EPSD(I)        
         ! Coefficient for hourglass
         ET(I)      = HARDP(I)*FRATE(I) / (HARDP(I)*FRATE(I) + YOUNG)
+        ! Variable to regularize (cumulated plastic strain)
+        IF (IGURSON == 2) THEN
+          VARNL(I)  = PLA(I)
+        ENDIF  
         ! Computation of the sound speed
         SOUNDSP(I) = SQRT((A11)/RHO(I))
         ! Storing the yield stress

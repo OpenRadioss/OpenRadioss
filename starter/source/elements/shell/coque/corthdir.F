@@ -83,7 +83,7 @@ C-----------------------------------------------
       my_real R,S,D1,D2,D11,D12,D21,D22,U1X,U1Y,U2X,U2Y,
      .        DET,W1X,W2X,W1Y,W2Y,CSP,SNP
       my_real,  DIMENSION(MVSIZ)      :: E11,E12,E13,E21,E22,E23,VR,VS
-      my_real,  DIMENSION(:), POINTER :: DIR1,DIR2,DIR_DMG      
+      my_real,  DIMENSION(:), POINTER :: DIR1,DIR2,DIR_DMG 
 C      
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF
@@ -197,12 +197,15 @@ C
           L_DMG = ELBUF_STR%BUFLY(1)%L_DMG
           IF(L_DMG > 0) THEN
             DO IL=1,NLAY
-              LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,1)
-              DIR_DMG => LBUF%DMG(1:L_DMG*LLT)
-              DIR_DMG(LFT:LLT) = ONE
-              IF(L_DMG > 1) DIR_DMG(LLT+1:L_DMG*LLT) = ZERO
+              ILAW = ELBUF_STR%BUFLY(IL)%ILAW
+              IF (ILAW == 27) THEN 
+                LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,1)
+                DIR_DMG => LBUF%DMG(1:L_DMG*LLT)
+                DIR_DMG(LFT:LLT) = ONE
+                IF(L_DMG > 1) DIR_DMG(LLT+1:L_DMG*LLT) = ZERO
+              ENDIF
             ENDDO
-          ENDIF  
+          ENDIF
           IF (IREP == 1) THEN
             DO I=LFT,LLT
               U1X = E11(I)*E1X(I)+E12(I)*E1Y(I)+E13(I)*E1Z(I)

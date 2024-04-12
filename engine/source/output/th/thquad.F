@@ -453,15 +453,17 @@ C              EPSXX,EPSYY,EPSZZ,EPSXY,EPSXZ,EPSYZ  =>  WWA(1618)
 C              L_EPSXX,L_EPSYY,L_EPSZZ,L_EPSXY,LEPSXZ,LEPSYZ  => WWA(239030)
 C------------------------------------------------------------------------------
 c EPS
-              EVAR(1:6)=ZERO         
-              DO IS=1,NPTS                   
-                DO IR=1,NPTR
-                 LBUF1 =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)        
-                 EVAR(1) = EVAR(1) + LBUF1%STRA(KK(1) + I)/NPT
-                 EVAR(2) = EVAR(2) + LBUF1%STRA(KK(2) + I)/NPT
-                 EVAR(4) = EVAR(4) + LBUF1%STRA(KK(4) + I)*HALF/NPT
+              EVAR(1:6)=ZERO
+              IF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN          
+                DO IS=1,NPTS                   
+                  DO IR=1,NPTR
+                   LBUF1 =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)        
+                   EVAR(1) = EVAR(1) + LBUF1%STRA(KK(1) + I)/NPT
+                   EVAR(2) = EVAR(2) + LBUF1%STRA(KK(2) + I)/NPT
+                   EVAR(4) = EVAR(4) + LBUF1%STRA(KK(4) + I)*HALF/NPT
+                  ENDDO
                 ENDDO
-              ENDDO
+              ENDIF
 
               IF (JCVT == 0) THEN
 C EPS IN THE GLOBAL SYSTEM
@@ -485,25 +487,27 @@ C EPS IN THE GLOBAL SYSTEM
                 ENDDO     
               ENDIF
 C EPS111, EPS121, EPS211, EPS221 IN THE GLOBAL SYSTEM
-              DO IS=1,NPTS                   
-                DO IR=1,NPTR
-                 LBUF1 =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1) 
-                 EVAR(1:6)=ZERO 
-                 EVAR(1) = LBUF1%STRA(KK(1) + I)
-                 EVAR(2) = LBUF1%STRA(KK(2) + I)
-                 EVAR(4) = LBUF1%STRA(KK(4) + I)
-                 IF (JCVT == 0) THEN
-                   DO J=1,6      
-                     WWA(239030+30+(IS-1)*6+(IR-1)*18+J) = EVAR(J)
-                   ENDDO
-                 ELSE
-                   IF(ITY == 2) CALL QROTA3(X,IXQ(1,N),JCVT,EVAR,GAMA,ISORTH)
-                   DO J=1,6      
-                     WWA(239030+30+(IS-1)*6+(IR-1)*18+J) = EVAR(J)
-                   ENDDO
-                 ENDIF  
+              IF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0) THEN 
+                DO IS=1,NPTS                   
+                  DO IR=1,NPTR
+                   LBUF1 =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1) 
+                   EVAR(1:6)=ZERO 
+                   EVAR(1) = LBUF1%STRA(KK(1) + I)
+                   EVAR(2) = LBUF1%STRA(KK(2) + I)
+                   EVAR(4) = LBUF1%STRA(KK(4) + I)
+                   IF (JCVT == 0) THEN
+                     DO J=1,6      
+                       WWA(239030+30+(IS-1)*6+(IR-1)*18+J) = EVAR(J)
+                     ENDDO
+                   ELSE
+                     IF(ITY == 2) CALL QROTA3(X,IXQ(1,N),JCVT,EVAR,GAMA,ISORTH)
+                     DO J=1,6      
+                       WWA(239030+30+(IS-1)*6+(IR-1)*18+J) = EVAR(J)
+                     ENDDO
+                   ENDIF  
+                  ENDDO
                 ENDDO
-              ENDDO
+              ENDIF
 C
 C                    
               IF (MTE==151) THEN !specific buffer with colocated scheme, generic storage from above are erased

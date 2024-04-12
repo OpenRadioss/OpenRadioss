@@ -68,6 +68,8 @@ c
         MAT_ELEM%MAT_PARAM(IMAT)%IFAILWAVE    = 0
         MAT_ELEM%MAT_PARAM(IMAT)%IXFEM        = 0
 c
+        MAT_ELEM%MAT_PARAM(IMAT)%NMOD         = 0        ! Number of damage modes
+c
 c       initialize viscosity parameters
 c
         MAT_ELEM%MAT_PARAM(IMAT)%VISC%ILAW    = 0
