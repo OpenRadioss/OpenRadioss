@@ -88,8 +88,8 @@ C-----------------------------------------------
       INTEGER  TAGELC(NUMELC),TAGELTG(NUMELTG),TAGELS(NUMELS)
       INTEGER  TAGNOD(NUMNOD),IFLAGUNIT
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID
-      INTEGER  I,J,IE,IN,IP,IR,NN,NITER,PARTID,UID,ITYP
-      INTEGER  SUB_ID,NNOD,SUB_INDEX,IMID, MAT_ID,MTN,NSOLID,NPT
+      INTEGER  I,J,IE,IN,IP,IR,NN,NITER,PARTID,UID,ITYP,ICOMPA
+      INTEGER  SUB_ID,NNOD,SUB_INDEX,IMID, MAT_ID,MTN,NSOLID,NPT,ISMSTR
 C     REAL
       my_real
      .  XTMP(3,NUMNOD)
@@ -226,7 +226,11 @@ C
      .                       I2=MTN )
                END IF
                NPT = IGEO(4,IPID)
-               IF( ((NSOLID /= 8 .AND.NSOLID /= 4) .OR.  NPT /= 1 )) THEN
+               ISMSTR = IGEO(5,IPID)
+               ICOMPA = 0
+               IF (NPT==1) ICOMPA = 1
+               IF (ISMSTR>=10.OR.ISMSTR<0) ICOMPA = 1
+               IF( ((NSOLID /= 8 .AND.NSOLID /= 4) .OR.  ICOMPA == 0 )) THEN
                     CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID),LTITR)
                     CALL ANCMSG(MSGID=2013,
      .                 MSGTYPE=MSGERROR,
