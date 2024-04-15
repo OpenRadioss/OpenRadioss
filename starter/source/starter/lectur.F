@@ -519,7 +519,7 @@ Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.
 Chd|====================================================================
       SUBROUTINE LECTUR(MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA         ,DETONATORS   ,EBCS_TAB,
      .                  SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT  ,
-     .                  MAT_ELEM,NAMES_AND_TITLES)
+     .                  MAT_ELEM,NAMES_AND_TITLES,DEFAULTS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -604,6 +604,12 @@ C-----------------------------------------------
       USE damping_rby_spmdset_mod
       USE HM_READ_PRELOAD_AXIAL_MOD
       USE BCS_MOD, ONLY : BCS, BCS_STRUCT_
+      USE DEFAULTS_MOD
+      USE DIM_SHELL_OFFSETP_MOD,ONLY:DIM_SHELL_OFFSETP
+      USE SHELL_OFFSET_INI_MOD,ONLY: SHELL_OFFSET_INI
+      USE INTER_OFFSET_ITAG_MOD, ONLY:INTER_OFFSET_ITAG
+      USE CHK_SHELL_OFFSET_MOD, ONLY:CHK_SHELL_OFFSET
+      USE SHELL_OFFSETP_MOD, ONLY:SHELL_OFFSETP
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -622,6 +628,7 @@ C-----------------------------------------------
       TYPE(USER_WINDOWS_), INTENT(INOUT)  :: USER_WINDOWS
       TYPE(OUTPUT_),  INTENT(INOUT)       :: OUTPUT
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT) :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
+      TYPE(DEFAULTS_),INTENT(INOUT)       :: DEFAULTS
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -864,6 +871,10 @@ C
       TYPE (DRAPEG_)                               :: DRAPEG
       TYPE(DRAPE_WORK_) ,DIMENSION(:), ALLOCATABLE   :: IWORK_T
       INTEGER :: EBCS_TAG_CELL_SPMD(NUMELQ+NUMELTG+NUMELS)
+C    ! DEF_SHELL / ioffset=1 treatment for contact  
+      INTEGER, DIMENSION(:),     ALLOCATABLE         :: ITAGOSET  
+      my_real, DIMENSION(:),     ALLOCATABLE, TARGET :: XYZ    
+      my_real, DIMENSION(:),     POINTER             :: X_C 
 C
       TYPE (DYNAIN_DATABASE)   :: DYNAIN_DATA
       TYPE (INTERFACES_)       :: INTERFACES
@@ -2203,7 +2214,7 @@ C
      .                          DBRWORK    , SBUFGEO     , ISKWN    , IGEO     ,IPM       ,
      .                          NPC        , TF          , UNITAB   , RTRANS   ,LSUBMODEL ,
      .                          PROP_TAG   , IPART       , KNOT     , IDRAPEID ,STACK_INFO,
-     .                          NUMGEOSTACK, NPROP_STACK , MULTI_FVM, IADGEO)
+     .                          NUMGEOSTACK, NPROP_STACK , MULTI_FVM, IADGEO   ,DEFAULTS)
 C
         ALLOCATE(BUFGEO(SBUFGEO)    ,STAT=stat)
         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
@@ -7202,6 +7213,40 @@ C---------------Deactivation of ALE flags if no more ALE elements in domain ----
       ENDIF
 C
 C--------------------------------------------
+C     shell offset projection  thke could be overwritten by /INI
+C--------------------------------------------
+C--------------------------------------------
+C     check if need offset treatment
+C--------------------------------------------
+      CALL CHK_SHELL_OFFSET(                                        
+     .                      NGROUP,    NPARG,      IPARG,        NPROPG,
+     .                      NUMGEO,      GEO,     DEFAULTS%SHELL%IOFFSET)
+      IF (DEFAULTS%SHELL%IOFFSET>0) THEN
+        IF (IDDLEVEL == 0) THEN 
+          NULLIFY(X_C) 
+          IF (DEFAULTS%SHELL%IOFFSET==1) THEN
+            ALLOCATE(ITAGOSET(NUMELC+NUMELTG), STAT=Stat)
+            ITAGOSET = 0
+            ALLOCATE(XYZ(3*NUMNOD), STAT=Stat)
+            XYZ(1:3*NUMNOD) = X(1:3*NUMNOD)
+            X_C=>XYZ
+          ELSE
+            ALLOCATE(ITAGOSET(0), STAT=Stat)
+            X_C=>X
+          END IF
+          CALL SHELL_OFFSETP(
+     .                NGROUP,    NPARG,      IPARG,        NPROPG,
+     .                NUMGEO,      GEO,     NUMELC,          NIXC,
+     .                   IXC,  NUMELTG,      NIXTG,          IXTG,
+     .                NUMNOD,      X_C,       THKE,      ITAGOSET,
+     .                DEFAULTS%SHELL)
+        END IF
+      ELSEIF (IDDLEVEL == 0) THEN
+        NULLIFY(X_C) 
+        X_C=>X
+      END IF
+C
+C--------------------------------------------
 C     LECTURE DES INTERFACES
 C--------------------------------------------
       ERR_MSG='INTERFACES'
@@ -7452,7 +7497,7 @@ c set INTERCEP for INT7 only to avoid bug with INT20 dur to renumerotation
 c in I20NLG (other interface types still done in SET_INTERCEP)
         CALL FILL_INTERCEP(IPARI,INTBUF_TAB,INTERCEP)
 C
-        CALL ININTR(IPARI     ,INSCR    ,X,V     ,IXS      ,IXQ      ,
+        CALL ININTR(IPARI     ,INSCR    ,X_C,V   ,IXS      ,IXQ      ,
      2               IXC      ,PM       ,GEO     ,ITAB     ,MS       ,
      3               IWORK    ,RWORK    ,IXTG    ,D        ,IXT      ,
      4               IXP      ,IXR      ,ALE_CONNECTIVITY  ,NELEMINT ,IDDLEVEL ,
@@ -8135,7 +8180,7 @@ C
      .               IPARTSP  ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .               FLAG_XFEM,IPARTIG3D,STACK    ,IGEO_STACK,
      .               IXT      ,IXP      ,IXR      ,KXX      ,GEO       ,
-     .               EOS_TAG  ,ISTR_24  ,IPRI)
+     .               EOS_TAG  ,ISTR_24  ,IPRI     ,DEFAULTS)
 C---
 C  if xfem
 c---
@@ -8151,7 +8196,7 @@ c
      .         IPARTSP                ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .         FLAG_XFEM              ,IPARTIG3D,STACK    ,IGEO_STACK,
      .         IXT                    ,IXP      ,IXR      ,KXX      ,GEO       ,
-     .         EOS_TAG                ,ISTR_24  ,IPRI)
+     .         EOS_TAG                ,ISTR_24  ,IPRI     ,DEFAULTS)
         ENDDO
       ELSE
         ALLOCATE(XFEM_TAB(0,0), STAT=Stat)
@@ -8177,7 +8222,17 @@ C--------------------------------------------
       IF(NUMELS>0) THEN
        CALL CHK_DTTSH(ELBUF_TAB,IXS ,IPARG ,D   )
       END IF
-C
+!-------ini of shell offset treatment      
+      IF (DEFAULTS%SHELL%IOFFSET>0) THEN
+        IF (DEFAULTS%SHELL%IOFFSET==1) CALL INTER_OFFSET_ITAG(                                 
+     .                 NINTER,    IPARI,      NPARI,       IGRSURF,
+     .                  NSURF,   NUMELC,    NUMELTG,      ITAGOSET)
+        CALL SHELL_OFFSET_INI(
+     .                NGROUP,    NPARG,      IPARG,        NPROPG,
+     .                NUMGEO,      GEO,     NUMELC,       NUMELTG,       
+     .               NPROPGI,     IGEO,   ITAGOSET,       ELBUF_TAB,
+     .               DEFAULTS%SHELL   )
+      END IF 
 C-----------------------------------------------------------
 C     ALLOCATION OF ARRAYS FOR INITIA - DEALLOCATED AFTER INTIA
 C-----------------------------------------------------------
@@ -8605,6 +8660,10 @@ C
       DEALLOCATE(ITRI)
       DEALLOCATE(KSYSUSR)
       DEALLOCATE(IWA)
+      IF (DEFAULTS%SHELL%IOFFSET==1) THEN
+        DEALLOCATE(ITAGOSET)
+        DEALLOCATE(XYZ)
+      END IF
 
 C
 C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

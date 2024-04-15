@@ -149,7 +149,7 @@ C 2D to avoid integer limitation
      
       TARGET :: 
      .    THKE,DAMPR,SKEW,EANI,FORC,WB,RBY,VOLMON,CFIELD,
-     .    LOADP
+     .    LOADP,X
 
       INTEGER, DIMENSION(:), ALLOCATABLE :: POIN_UMP
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAB_UMP

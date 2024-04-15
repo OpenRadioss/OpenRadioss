@@ -33,7 +33,7 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_DEFSHELL(LSUBMODEL)
+      SUBROUTINE HM_READ_DEFSHELL(LSUBMODEL,DEFAULTS_SHELL)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,16 +65,18 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE(SHELL_DEFAULTS_), INTENT(INOUT) :: DEFAULTS_SHELL
 C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NB_DEFSHELL,SUB_ID,NPTS_DD
+      INTEGER I,NB_DEFSHELL,SUB_ID,NPTS_DD,IOFFSET_D
       LOGICAL IS_AVAILABLE
 C============================================================================
       IS_AVAILABLE = .FALSE.
 C----------------------------------------------
       NPTS_DD = 0
+      IOFFSET_D = 0
       CALL HM_OPTION_COUNT('/DEF_SHELL',NB_DEFSHELL)
       CALL HM_OPTION_START('/DEF_SHELL')
       DO I=1,NB_DEFSHELL
@@ -86,6 +89,7 @@ C----------------------------------------------
           CALL HM_GET_INTV('Istrain',ISTR_D,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('ISH3N',ISH3N_D,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('Idrill',IDRIL_D,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('Ioffset',IOFFSET_D,IS_AVAILABLE,LSUBMODEL)
           EXIT
         ENDIF            
       ENDDO
@@ -93,6 +97,8 @@ C
 C     IF(ISTR_D==0)ISTR_D = 1
       ISTR_D = 1
       IF(NPTS_D==-1)NPTS_D=NPTS_DD
+      IF (IOFFSET_D==2) IOFFSET_D = 0
+      DEFAULTS_SHELL%IOFFSET = IOFFSET_D
 C--------------------------------------------------------------
       RETURN
       END 

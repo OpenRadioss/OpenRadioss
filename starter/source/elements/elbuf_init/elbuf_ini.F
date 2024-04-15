@@ -40,7 +40,7 @@ Chd|====================================================================
      .           IPARTSP   ,IXS      ,IXQ      ,IXC      ,IXTG      ,
      .           FLAG_XFEM ,IPARTIG3D,STACK    ,IGEO_STACK,
      .           IXT       ,IXP      ,IXR      ,KXX      ,GEO       ,
-     .           EOS_TAG   ,ISTR_24  ,PRINT_FLAG)
+     .           EOS_TAG   ,ISTR_24  ,PRINT_FLAG,DEFAULTS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD       
       USE STACK_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,6 +86,7 @@ C-----------------------------------------------
       TYPE(PROP_TAG_)    ,TARGET ,DIMENSION(0:MAXPROP)  :: PROP_TAG
       TYPE(FAIL_TAG_)    ,TARGET ,DIMENSION(0:MAXFAIL ) :: FAIL_TAG
       TYPE (STACK_PLY) :: STACK
+      TYPE(DEFAULTS_), INTENT(INOUT) :: DEFAULTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1454,6 +1456,7 @@ c----------------------------------------------------
           IF (JTHE      /= 0 .AND. NPG > 1) GBUF%G_TEMPG = NPG
           IF (ISMS_SELEC >= 1) GBUF%G_ISMS  = 1
           IF (JEUL+JALE /= 0 .AND. ISNOD >= 4) GBUF%G_MOM  = 3
+          IF (DEFAULTS%SHELL%IOFFSET == 1) GBUF%G_SH_IOFFSET  = 1
           IF (ITY == 3) THEN
             IF (JHBE <= 4) THEN
               GBUF%G_HOURG = 5
@@ -1715,6 +1718,7 @@ C ---add H3D/TMAX in BUFLEN
           LGLOB = LGLOB + GBUF%G_TM_DMG  
           LGLOB = LGLOB + 2*GBUF%G_TM_SIG  
           LGLOB = LGLOB + 2*GBUF%G_TM_STRA 
+          LGLOB = LGLOB + GBUF%G_SH_IOFFSET
 C
 c
           BUFLEN = BUFLEN + GBUF%NVAR_GLOB + 1 + LGLOB*NEL
