@@ -1180,6 +1180,14 @@ C Case total strain
                  CALL SGSAVINIEREF(ISOLNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
      .                             GBUF%SMSTR,GBUF%OFF,NEL)
               END IF
+              IF (NXREF > 0 .AND. JHBE == 17 ) THEN
+                CALL SREFSTA3(
+     1          ELBUF_TAB(NG),IXS        ,PM         ,GEO      ,IPARG(1,NG),  
+     2          IPM          ,IGEO       ,SKEW       ,X        ,XREFS     ,
+     3          NEL          ,IPART(I15A),IPART      ,BUFMAT   ,MAT_PARAM,              
+     6          NPC          ,PLD        ,NUMMAT     )
+                CALL SGSAVREF(ISOLNOD,XREFS(1,1,NFT+1),GBUF%SMSTR,NEL)
+              END IF
             END IF
             CALL S8ZINIT3(
      .           ELBUF_TAB(NG),MS        ,IXS     ,PM   ,X          ,

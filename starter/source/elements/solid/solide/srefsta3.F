@@ -162,7 +162,8 @@ C         message moved to hm_read_xref
           RETURN
         END IF
 
-        IF (JCVT <= 0 .OR. (JHBE/=1.AND.JHBE/=2.AND.JHBE/=24))THEN
+        IF (JCVT <= 0 .OR. (JHBE/=1.AND.JHBE/=2.
+     .      AND.JHBE/=24.AND.JHBE/=14.AND.JHBE/=17))THEN
           NITRS=NITSAV
 C         message
           RETURN
