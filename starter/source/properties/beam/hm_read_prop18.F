@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE defbeam_sect_new_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,6 +57,7 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr17_c.inc"
 #include      "tablen_c.inc"
+#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -73,10 +75,10 @@ C-----------------------------------------------
       CHARACTER STRING*ncharfield,CHROT*7
       INTEGER I,J,IP,INTR,INTS,NIP,NIPMAX,NC,NS,IPY,IPZ,IPA,IREF,ISECT,
      .        IRX,IR1X,IR1Y,IR1Z,IR2X,IR2Y,IR2Z,ISS
-      INTEGER IHBE,ISMSTR,ISHEAR
+      INTEGER IHBE,ISMSTR,ISHEAR,NB_DIM,ID_FORMAT,INTR_MAX
 C     REAL
       my_real
-     .    DM,DR,PY,PZ,AI,YI,ZI,WI,AREA,Y0,Z0,L1,L2,L3,L4,L5,L6,PUN
+     .    DM,DR,PY,PZ,AI,YI,ZI,WI,AREA,Y0,Z0,L(6),PUN
       my_real
      .    AREA_I,TIXX_I,TIYY_I,TIZZ_I, ARI,INI,RYI,RZI
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
@@ -116,8 +118,12 @@ C--------------------------------------------------
         CALL HM_GET_FLOATV('df',DR,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV('Y0',Y0,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV('Z0',Z0,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        CALL HM_GET_FLOATV('L1',L1,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        CALL HM_GET_FLOATV('L2',L2,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('L1',L(1),IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('L2',L(2),IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('L3',L(3),IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('L4',L(4),IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('L5',L(5),IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('L6',L(6),IS_AVAILABLE,LSUBMODEL,UNITAB)
 C--------------------------------------------------
 C
         GEO(3)=ISMSTR
@@ -151,7 +157,9 @@ C---
         NIP = MIN(NIP,NIPMAX)
 c------------------------
         IF (ISECT == 0) THEN
+C--------------------------------------------------
 C---      user-defined integration points
+C--------------------------------------------------
           DO IP = 1,NIP   
             CALL HM_GET_FLOAT_ARRAY_INDEX('Y_IP',PY,IP,IS_AVAILABLE,LSUBMODEL,UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('Z_IP',PZ,IP,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -171,37 +179,80 @@ C
             AREA = AREA + AI
           ENDDO
 
-        ELSE
-C---    predefined sections
-C--------------------------------------------------
-C OLD HIDDEN FLAGS - SET TO ZERO  
-          INTS = 0
-          L3 = ZERO 
-          L4 = ZERO 
-          L5 = ZERO 
-          L6 = ZERO  
-C-------------------------------------------------- 
+        ELSEIF (ISECT <= 6) THEN
+C          
+C--------------------------------------------------          
+C---    predefined sections (old - Isect = 1 to 6)
+C--------------------------------------------------  
 C
           IF (INTR == 0)  INTR = 2
-          IF (INTS == 0)  INTS = 2
-          IF (L1 == ZERO) THEN
-          CALL ANCMSG(MSGID=2092,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_1,
-     .              I1=IG,
-     .              C1=IDTITL)
+          IF ((L(2)==ZERO).AND.(L(1)> ZERO)) L(2) = L(1)
+C
+          CALL DEFBEAM_SECT(GEO,ISECT,INTR,NIP,AREA,L,IG,IDTITL)
+C
+C         Check of missing dimensions in input 
+          IF (L(1) == ZERO) THEN
+            CALL ANCMSG(MSGID=2092,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=IG,
+     .                  C1=IDTITL)
           ENDIF
-
-          IF (L2 == ZERO.AND. L1> ZERO) L2 = L1
-          IF (L3 == ZERO) L3 = ONE
-          IF (L4 == ZERO) L4 = ONE
-          IF (L5 == ZERO) L5 = ONE
-          IF (L6 == ZERO) L6 = ONE
-c
-          CALL DEFBEAM_SECT(GEO,ISECT,INTR,INTS,NIP,
-     .                    AREA,L1,L2,L3,L4,L5,L6,IG,IDTITL)
+C
+        ELSEIF ((ISECT >= 10).AND.(ISECT <= 31)) THEN
+C          
+C--------------------------------------------------          
+C---    predefined sections (new - Isect = 10 to 31)
+C--------------------------------------------------  
+C
+          CALL DEFBEAM_SECT_NEW(GEO,NPROPG,ISECT,INTR,INTR_MAX,NIP,AREA,L,NB_DIM)        
+C
+C         Checl of max intr
+          IF (INTR > INTR_MAX) THEN
+            CALL ANCMSG(MSGID=3060,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=IG,
+     .                  I2=INTR,
+     .                  I3=ISECT,    
+     .                  I4=INTR_MAX,     
+     .                  C1=IDTITL)           
+          ENDIF  
+C
+C         Check of missing dimensions in input 
+          DO I=1,NB_DIM
+            IF (L(I)==ZERO) THEN
+              CALL ANCMSG(MSGID=3059,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO_BLIND_1,
+     .                    I1=I,
+     .                    PRMOD=MSG_CUMU)           
+            ENDIF 
+          ENDDO
+          CALL ANCMSG(MSGID=3059,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=IG,
+     .                C1=IDTITL,
+     .                PRMOD=MSG_PRINT)       
+C     
+        ELSE
+C          
+C--------------------------------------------------          
+C---    Non supported values of Isect
+C--------------------------------------------------  
+C
+          CALL ANCMSG(MSGID=3061,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=IG,
+     .                I2=ISECT,
+     .                C1=IDTITL)            
+C               
         ENDIF
+c------------------------        
 c------------------------
+c
         IF (NIP > 100) THEN
           CALL ANCMSG(MSGID=977,
      .              MSGTYPE=MSGERROR,
@@ -210,6 +261,7 @@ c------------------------
      .              C1=IDTITL,
      .              I2=NIP)
         ENDIF
+        
 C---  coord isoparametriques et surfaces relatives des pts d'integration
         IF (ISECT == 0.AND.IREF == 0) THEN
           Y0 = ZERO      
@@ -247,8 +299,16 @@ C---compute for print
           ENDDO
           TIXX_I = TIYY_I + TIZZ_I
         IF(.NOT. IS_ENCRYPTED)THEN
-          WRITE(IOUT,1000)IG,ISS,IR1X,IR1Y,IR1Z,IR2X,IR2Y,IR2Z,DM,DR,ISECT,L1
-          IF(ISECT==1.OR.ISECT==3)WRITE(IOUT,1002)L2
+          WRITE(IOUT,1000)IG,ISS,IR1X,IR1Y,IR1Z,IR2X,IR2Y,IR2Z,DM,DR,ISECT,L(1)
+          IF(ISECT==1.OR.ISECT==3) THEN
+            WRITE(IOUT,1002) L(2)
+          ELSEIF ((ISECT >= 7).AND.(NB_DIM > 1)) THEN
+            IF (NB_DIM > 1) WRITE(IOUT,1002) L(2) 
+            IF (NB_DIM > 2) WRITE(IOUT,1203) L(3)      
+            IF (NB_DIM > 3) WRITE(IOUT,1204) L(4) 
+            IF (NB_DIM > 4) WRITE(IOUT,1205) L(5) 
+            IF (NB_DIM > 5) WRITE(IOUT,1206) L(6) 
+          ENDIF  
           WRITE(IOUT,1003)NIP
           DO IP=1,NIP
             WRITE(IOUT,1010) IP,Y0+GEO(IPY+IP),Z0+GEO(IPZ+IP),
@@ -323,7 +383,16 @@ C---
      & 5X,'MOMENT OF INERTIA IYY . . . . . . . . .=',1PG20.13/,
      & 5X,'MOMENT OF INERTIA IZZ . . . . . . . . .=',1PG20.13/,
      & 5X,'MOMENT OF INERTIA IXX . . . . . . . . .=',1PG20.13/)
-
+C     
+ 1203 FORMAT(   
+     & 5X,'THIRD SIZE OF SECTION L3. . . . . . . .=',1PG20.13)
+ 1204 FORMAT(   
+     & 5X,'FOURTH SIZE OF SECTION L4 . . . . . . .=',1PG20.13)
+ 1205 FORMAT(   
+     & 5X,'FIFTH SIZE OF SECTION L5. . . . . . . .=',1PG20.13)
+ 1206 FORMAT(   
+     & 5X,'SIXTH SIZE OF SECTION L6. . . . . . . .=',1PG20.13) 
+C
       END SUBROUTINE
 
 Chd|====================================================================
@@ -334,8 +403,8 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE DEFBEAM_SECT(GEO,ISECT,INTR,INTS,NIP,
-     .                        AREA,L1,L2,L3,L4,L5,L6,IG,IDTITL)
+      SUBROUTINE DEFBEAM_SECT(GEO,ISECT,INTR,NIP,
+     .                        AREA,L,IG,IDTITL)
 C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -349,10 +418,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ISECT,INTR,INTS,NIP,IG
+      INTEGER ISECT,INTR,NIP,IG
 C     REAL
       my_real
-     .   AREA,L1,L2,L3,L4,L5,L6
+     .   AREA,L(6)
       my_real
      .   GEO(NPROPG)
       CHARACTER IDTITL*nchartitle
@@ -489,7 +558,7 @@ c-----------------------
 c---------------
         CASE (1) ! basic rectangular section with Gauss integration rule      
 c---------------
-          AREA = L1*L2                                             
+          AREA = L(1)*L(2)                                             
 !         INER = AREA*AREA*ONE_OVER_12  
           IF (INTR < 1 .OR. INTR > 9) THEN                                    
 c           write error message                                               
@@ -500,8 +569,8 @@ c           write error message
             GEO(IPA+1) = AREA                                                   
           ELSE                                                                
             NIP = INTR*INTR                                                   
-            R1 = L1*HALF                                                    
-            R2 = L2*HALF                                                    
+            R1 = L(1)*HALF                                                    
+            R2 = L(2)*HALF                                                    
             AI = AREA*FOURTH
             IP = 0  
             DO I = 1,INTR                                                     
@@ -516,8 +585,8 @@ c           write error message
 c---------------
         CASE (2) ! basic circular section with Gauss integration rule         
 c---------------
-          AREA = PI*L1*L1                                                     
-!         INER = AREA*L1*L1*FOURTH
+          AREA = PI*L(1)*L(1)                                                     
+!         INER = AREA*L(1)*L(1)*FOURTH
           IF (INTR < 1 .OR. INTR > 9) THEN                                    
 c           write error message                                               
           ELSEIF (INTR == 1) THEN                                             
@@ -528,8 +597,8 @@ c           write error message
           ELSEIF (INTR == 2) THEN ! cercle divise en 4                                              
             NIP = INTR*INTR                                                   
             AI  = AREA/NIP                                                    
-            R1 = L1/SQR3                                                      
-            R1 = L1*SQR2*HALF                                               
+            R1 = L(1)/SQR3                                                      
+            R1 = L(1)*SQR2*HALF                                               
             DPHI = TWO*PI/NIP                                                
             PHI  = DPHI*HALF                                                
             DO IP = 1,NIP                                                      
@@ -545,7 +614,7 @@ c           write error message
             GEO(IPY+IP) = ZERO                                      
             GEO(IPZ+IP) = ZERO                                      
             GEO(IPA+IP) = AI*FOUR
-            R1  = L1*SQR3*HALF                                            
+            R1  = L(1)*SQR3*HALF                                            
             DPHI = PI*FOURTH                                               
             PHI  = ZERO                                             
             DO IP = 2,NIP                                                      
@@ -556,7 +625,7 @@ c           write error message
             ENDDO                                                             
           ELSEIF (INTR == 4) THEN                                             
             NIP = 7                                                           
-            R1 = L1*SQR2/SQR3                                                 
+            R1 = L(1)*SQR2/SQR3                                                 
             DPHI = PI*THIRD                                                   
             IP = 1                                                            
             GEO(IPY+IP) = ZERO                                                
@@ -577,7 +646,7 @@ c           write error message
             GEO(IPZ+IP) = ZERO                                                
             GEO(IPA+IP) = AREA/NINE                                           
             AI  = AREA*(SIXTEEN + SQR6)/360.                                     
-            R1  = SQRT((SIX-SQR6)/TEN)*L1                                      
+            R1  = SQRT((SIX-SQR6)/TEN)*L(1)                                      
             PHI = PI/FIVE                                                     
             DO IP = 2,11                                                       
               GEO(IPY+IP) = R1*COS(PHI*IP)                                     
@@ -585,7 +654,7 @@ c           write error message
               GEO(IPA+IP) = AI                                                
             ENDDO                                                             
             AI  = AREA*(SIXTEEN - SQR6)/360.                                     
-            R1 = SQRT((SIX+SQR6)/TEN)*L1                                      
+            R1 = SQRT((SIX+SQR6)/TEN)*L(1)                                      
             DO IP = 12,21                                                       
               GEO(IPY+IP) = R1*COS(PHI*IP)                                     
               GEO(IPZ+IP) = R1*SIN(PHI*IP)                                     
@@ -595,7 +664,7 @@ c           write error message
 c---------------
         CASE (3) ! basic rectangular section with Lobatto integration rule      
 c---------------
-          AREA = L1*L2                                             
+          AREA = L(1)*L(2)                                             
 !         INER = AREA*AREA*ONE_OVER_12  
           IF (INTR < 1 .OR. INTR > 9) THEN                                    
             CALL ANCMSG(MSGID=1878,
@@ -610,8 +679,8 @@ c---------------
             GEO(IPA+1) = AREA                                                   
           ELSE                                                                
             NIP = INTR*INTR                                                   
-            R1 = L1*HALF                                                    
-            R2 = L2*HALF                                                    
+            R1 = L(1)*HALF                                                    
+            R2 = L(2)*HALF                                                    
             AI = AREA*FOURTH
             IP = 0  
             DO I = 1,INTR                                                     
@@ -628,10 +697,10 @@ c---------------
           !POINTS RADIALS ALIGNES
           IF (INTR == 17) THEN
              NIP = 17
-             R1 = 0.5477225575*L1
-             R2 = 0.8062257748*L1
-             R3 = L1
-             D2 = A_LOBATTO(4,5)*L1
+             R1 = 0.5477225575*L(1)
+             R2 = 0.8062257748*L(1)
+             R3 = L(1)
+             D2 = A_LOBATTO(4,5)*L(1)
              PHI = ZERO
              DPHI= PI * FOURTH
              IP = 1                                                            
@@ -648,20 +717,20 @@ c---------------
              PHI = ZERO
              AI = PI * (R3*R3 - R2*R2)/EIGHT
              DO IP = 3,NIP,2                                                            
-              GEO(IPY+IP) = L1*COS(PHI)                                  
-              GEO(IPZ+IP) = L1*SIN(PHI)                                    
+              GEO(IPY+IP) = L(1)*COS(PHI)                                  
+              GEO(IPZ+IP) = L(1)*SIN(PHI)                                    
               GEO(IPA+IP) = AI                                                
               PHI = PHI + DPHI
              ENDDO  
           ELSEIF (INTR == 25) THEN 
              NIP = 25
-             R1 = 0.46291005*L1
-             R2 = 0.69006559*L1
-             R3 = 0.859124693*L1
-             R4 = L1
-             D2 = A_LOBATTO(5,7)*L1
-             D3 = A_LOBATTO(6,7)*L1
-             D4 = A_LOBATTO(7,7)*L1
+             R1 = 0.46291005*L(1)
+             R2 = 0.69006559*L(1)
+             R3 = 0.859124693*L(1)
+             R4 = L(1)
+             D2 = A_LOBATTO(5,7)*L(1)
+             D3 = A_LOBATTO(6,7)*L(1)
+             D4 = A_LOBATTO(7,7)*L(1)
              IP = 1                                                            
              GEO(IPY+IP) = ZERO                                      
              GEO(IPZ+IP) = ZERO                                      
@@ -698,7 +767,7 @@ c---------------
 c---------------
         CASE (5) ! circular section with points on edge         
 c---------------
-          AREA = PI*L1*L1                                                     
+          AREA = PI*L(1)*L(1)                                                     
           IF (INTR /= 1.AND. INTR /= 9 .AND. INTR /= 17 ) THEN 
             CALL ANCMSG(MSGID=1877,
      .              MSGTYPE=MSGERROR,
@@ -713,18 +782,18 @@ c---------------
             GEO(IPA+1) = AREA                                                    
           ELSEIF (INTR == 9) THEN                                              
             NIP = INTR
-            R2 = 0.57346235*L1                                                             
+            R2 = 0.57346235*L(1)                                                             
             IP = 1                                                            
             GEO(IPY+IP) = ZERO                                      
             GEO(IPZ+IP) = ZERO                                      
             GEO(IPA+IP) = PI*R2*R2
-            R1  =  0.7*L1                                   
+            R1  =  0.7*L(1)                                   
             DPHI = PI*HALF                                               
             PHI  = ZERO 
-            AI   = PI*(L1*L1 - R2*R2)/EIGHT                                          
+            AI   = PI*(L(1)*L(1) - R2*R2)/EIGHT                                          
             DO IP = 2,NIP-1,2                                                  
-              GEO(IPY+IP) = L1*SIN(PHI)                                       
-              GEO(IPZ+IP) = L1*COS(PHI)                                       
+              GEO(IPY+IP) = L(1)*SIN(PHI)                                       
+              GEO(IPZ+IP) = L(1)*COS(PHI)                                       
               GEO(IPA+IP) = AI                                                
               PHI = PHI + DPHI
             ENDDO  
@@ -737,10 +806,10 @@ c---------------
             ENDDO  
           ELSEIF (INTR == 17) THEN   ! POINTS RADIALS NON ALIGNES  
              NIP = INTR
-             R1 = 0.4472136*L1 ! rayon petit cercle
-             R2 = 0.774597 *L1 !rayon cercle moyen
-             R3 = L1   ! rayon de la section
-             D2 = HALF*L1 !distance au point d'integ
+             R1 = 0.4472136*L(1) ! rayon petit cercle
+             R2 = 0.774597 *L(1) !rayon cercle moyen
+             R3 = L(1)   ! rayon de la section
+             D2 = HALF*L(1) !distance au point d'integ
              AI = PI * (R3*R3 - R2*R2)/EIGHT
              PHI = ZERO
              DPHI= PI * FOURTH
@@ -749,8 +818,8 @@ c---------------
              GEO(IPZ+IP) = ZERO                                      
              GEO(IPA+IP) = PI*R1*R1
              DO IP = 2,NIP-1,2                                                  
-              GEO(IPY+IP) = L1*COS(PHI)                                       
-              GEO(IPZ+IP) = L1*SIN(PHI)                                       
+              GEO(IPY+IP) = L(1)*COS(PHI)                                       
+              GEO(IPZ+IP) = L(1)*SIN(PHI)                                       
               GEO(IPA+IP) = AI                                                
               PHI = PHI + DPHI
              ENDDO  
@@ -769,16 +838,16 @@ c---------------
             NC = 3+INTR   ! number of layers                                  
             NS = 4*NC     ! number of sections                                
             NIP = NC*NS                                                       
-            AREA = PI*L1*L1                                                   
+            AREA = PI*L(1)*L(1)                                                   
             AI   = AREA/NIP                                                   
             DPHI = PI*TWO/NS                                                 
             R1 = ZERO                                                         
-            R2 = L1 / SQRT(EM20+NC)                                           
+            R2 = L(1) / SQRT(EM20+NC)                                           
             IP = 0                                                            
             DO I = 1,NC                                                       
               LEN(I) = (R2 + R1*(SQR3-ONE)) / SQR3                             
               R1 = R2                                                         
-              R2 = L1*SQRT((I+ONE)/NC)                                         
+              R2 = L(1)*SQRT((I+ONE)/NC)                                         
               PHI  = ZERO                                                     
               DO J = 1,NS                                                     
                 IP = IP+1                                                     
