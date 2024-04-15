@@ -39,7 +39,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_PROP11(GEO       ,IGEO     ,PM       ,IPM      ,ISKN     ,
      .                   UNITAB    ,RTRANS   ,LSUBMODEL,SUB_ID   ,IDTITL   ,
-     .                   PROP_TAG  ,IG       ,IGTYP    )
+     .                   PROP_TAG  ,IG       ,IGTYP  ,DEFAULTS  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD  
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,6 +75,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       CHARACTER IDTITL*nchartitle
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
+      TYPE(DEFAULTS_),INTENT(INOUT) :: DEFAULTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -83,7 +85,7 @@ C-----------------------------------------------
      .   IDSK, ISK, IPANG, IPTHK, IPPOS, IPOS, IPMAT, IPWEIGHT,ISKN(LISKN,*),
      .   ISS, PID1,ISMSTR,ISROT,IBID,IGMAT,IHBEOUTP,IHBE_OLD,IRP
       my_real AN, VX, VY, VZ, THICKT, DT, TMIN, TMAX,WEIGHT,PTHK,CVIS,PUN,
-     .        PHI_I,THK_I,Z_I,WF_I
+     .        PHI_I,THK_I,Z_I,WF_I,ZSHIFT
       INTEGER ISH3N
       INTEGER ID,ID1,IUN
       CHARACTER*nchartitle,
@@ -412,6 +414,7 @@ C----------------------
         ENDDO
 C---  calcul epaisseur & position des couches
       IGEO(99) = IPOS
+      ZSHIFT = ZERO
       IF (IPOS > 0)THEN
         TMIN = EP20
         TMAX = -EP20
@@ -422,10 +425,13 @@ C---  calcul epaisseur & position des couches
           TMAX = MAX(TMAX,GEO(IPPOS+N)+DT)
         ENDDO
         THICKT = TMAX - TMIN
+        ZSHIFT = HALF*(TMAX + TMIN)
+        DT = ZERO
+        IF (DEFAULTS%SHELL%IOFFSET==3) DT = ZSHIFT
         GEO(200)=THICKT
         DO N=1,N1
           GEO(IPTHK+N)=GEO(IPTHK+N) / MAX(THICKT,EM20)
-          GEO(IPPOS+N)=GEO(IPPOS+N) / MAX(THICKT,EM20)
+          GEO(IPPOS+N)=(GEO(IPPOS+N)-DT) / MAX(THICKT,EM20)
         ENDDO
       ELSE
         THICKT = ZERO
@@ -443,6 +449,7 @@ C---      calcul automatique de position des couches
         ENDDO
         GEO(200)=THICKT
       ENDIF
+      GEO(199) = ZSHIFT
 C---  Test validite epaisseur
       IERREL=NINT(ABS((THICKT-GEO(1))/GEO(1))*EP02)
       IF(IERREL>10) THEN

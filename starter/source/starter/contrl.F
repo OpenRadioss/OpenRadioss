@@ -87,7 +87,7 @@ Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
-      SUBROUTINE CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM,NAMES_AND_TITLES,LIPART1)
+      SUBROUTINE CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM,NAMES_AND_TITLES,LIPART1,DEFAULTS)
 C----------------------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -114,6 +114,7 @@ C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,LTITLE,NCHARLINE,NCHARTITLE
       USE BCS_MOD , only : BCS
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -175,7 +176,8 @@ C-----------------------------------------------
       TYPE(USER_WINDOWS_), INTENT(INOUT) :: USER_WINDOWS
       TYPE(MAT_ELEM_), INTENT(INOUT)     :: MAT_ELEM
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT) :: NAMES_AND_TITLES   !< NAMES_AND_TITLES host the input deck names and titles for outputs
-      INTEGER,INTENT(IN) ::  LIPART1  !< Number of variables of IPART
+      INTEGER,INTENT(IN) ::  LIPART1                              !< Number of variables of IPART
+      TYPE(DEFAULTS_), INTENT(INOUT)      :: DEFAULTS             !< Defaults mod
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -450,7 +452,7 @@ C
 C-------------------------------------------------------------------
 C     READING OF SHELL PROPERTIES DEFAULT VALUES
 C-------------------------------------------------------------------
-      CALL HM_READ_DEFSHELL(LSUBMODEL)
+      CALL HM_READ_DEFSHELL(LSUBMODEL,DEFAULTS%SHELL)
 C-------------------------------------------------------------------
 C     READING OF SOLID PROPERTIES DEFAULT VALUES
 C-------------------------------------------------------------------

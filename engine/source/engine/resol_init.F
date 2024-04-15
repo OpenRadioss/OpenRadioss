@@ -152,7 +152,8 @@ Chd|====================================================================
      3  IGRBRIC ,IGRQUAD  ,IGRSH4N  ,IGRSH3N  ,IGRTRUSS   ,
      4  IGRBEAM ,IGRSPRING,IGRPART  ,FORNEQS  ,INT7ITIED ,
      5  FXVEL_FGEO,FAILWAVE,NLOC_DMG,PINCH_DATA,SLLOADP  ,
-     6  TAGSLV_RBY,NFNCA2 ,NFTCA2  ,IN0  ,SORT_COMM,STACK,OUTPUT)
+     6  TAGSLV_RBY,NFNCA2 ,NFTCA2  ,IN0  ,SORT_COMM,STACK,OUTPUT,
+     7  THKE ,SFR_ELEM ,SH_OFFSET_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -177,6 +178,8 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE OUTPUT_MOD
       USE NLOC_COUNT_SOLNOD_MOD
+      USE INTER_SH_OFFSET_INI_MOD , only : INTER_SH_OFFSET_INI
+      USE INTER_SH_OFFSET_MOD , only:SH_OFFSET_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -228,7 +231,7 @@ C-----------------------------------------------
      .        IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,NBINT20,IRLEN20E,
      .        ISLEN20E,R3SIZE,NELEM,LAG_SEC, NGRTH, NFT2,NMRBE2,
      .        INT18KINE,INT24USE,NDAMA2, NRBYKIN_L,IOLDSECT,LBUFIDEL24,
-     .        TABMP_L,TAGTRIMC(*),TAGTRIMTG(*), SLLOADP
+     .        TABMP_L,TAGTRIMC(*),TAGTRIMTG(*), SLLOADP,SFR_ELEM
       INTEGER 
      .        IXS(NIXS,*),IXS10(6,*) ,IXS20(12,*),IADS10(6,*),
      .        IADS20(12,*),IXS16(6,*) ,IADS16(12,*), IGEO(NPROPGI,*),
@@ -289,6 +292,8 @@ C-----------------------------------------------
      .   DMSPH(*),CONDN(*),CONDNSKY ,TAB_MAT(NGROUP),FORNEQS(3,*)
       my_real
      .   FXBFP(*), FXBEFW(*), FXBEDP(*), FXBGRP(*), FXBGRW(*),IN0(*)
+      my_real
+     .   THKE(NUMELC+NUMELTG)
       INTEGER*8 
      .  I8A(3,3,*),I8AR(3,3,*),I8STIFN(3,*),I8STIFR(3,*),
      .  I8VISCN(3,*)
@@ -318,6 +323,7 @@ C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
 C-----------------------------------------------
       TYPE(OUTPUT_),INTENT(INOUT)    :: OUTPUT
+      TYPE(sh_offset_)               :: SH_OFFSET_TAB   
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1168,6 +1174,15 @@ C-----------------------
           DEALLOCATE(ISEND,IRECV)
          END IF
        END IF
+C-----------------------
+C offset for contact
+C-----------------------
+        CALL INTER_SH_OFFSET_INI(                                     
+     .                     NGROUP,    NPARG,      IPARG,        NPROPG,
+     .                     NUMGEO,      GEO,     NUMELC,          NIXC,
+     .                        IXC,  NUMELTG,      NIXTG,          IXTG,
+     .                     NUMNOD,    NSPMD,   IAD_ELEM,       FR_ELEM,
+     .                   SFR_ELEM,     THKE,  ELBUF_TAB,    SH_OFFSET_TAB)
 !$OMP END SINGLE
 C-------------------------------------------
       RETURN

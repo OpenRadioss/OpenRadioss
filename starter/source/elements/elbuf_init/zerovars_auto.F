@@ -287,6 +287,9 @@ C seatbelts elements
       GBUF%G_TM_SIG =0
       IAD = IAD + 1
       GBUF%G_TM_STRA=0
+      IAD = IAD + 1
+! shell offset      
+      GBUF%G_SH_IOFFSET=0
 c---
       IAD = IAD + 1
       GBUF%NVAR_GLOB = IAD

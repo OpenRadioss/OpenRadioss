@@ -670,6 +670,8 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD, only: NAMES_AND_TITLES_
       USE UNITAB_MOD, ONLY : UNIT_TYPE_
       USE BCS_MOD , ONLY : BCS
+      USE INTER_SH_OFFSET_MOD , only:SH_OFFSET_
+      USE OFFSET_NPROJ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1161,6 +1163,10 @@ C IMPVEL/FGEO
 C----------------------------------------------------------------------------------
 C /DAMP/VREL
       INTEGER SIZE_RBY6_C     
+!  contact w/ offset  
+      my_real, DIMENSION(:),ALLOCATABLE, TARGET :: XYZ    
+      my_real, DIMENSION(:)  , POINTER :: X_C 
+      TYPE(sh_offset_)                   :: SH_OFFSET_TAB   
 C-----------------------------------------------------------------------------------
       INTEGER IFLAG, COMPTREAC ! Flag for computing reaction forces
 !     1. Storing Freac=Fint+Fext+Fcont
@@ -1249,6 +1255,7 @@ C-------------------------------------------------------------------------------
       FLG_KJ2 = 0
       I_EXCH_FLG_RAZ = 0
       NULLIFY(X_A) 
+      NULLIFY(X_C) 
       NELTST  = 0
       ITYPTST = 0
       DT2T    = 0
@@ -1976,7 +1983,6 @@ c  Equivalent nodal force
        ALLOCATE( INTER_STRUCT(NINTER) )
        ALLOCATE( SORT_COMM(NINTER) )
        CALL INTER_STRUCT_INIT(INTER_STRUCT,SORT_COMM)
-       
 
 
 C========================================================================================
@@ -2085,7 +2091,8 @@ C
      3   IGRBRIC ,IGRQUAD  ,IGRSH4N  ,IGRSH3N  ,IGRTRUSS   ,
      4   IGRBEAM ,IGRSPRING,IGRPART  ,FORNEQS  ,INT7ITIED,
      5   FXVEL_FGEO,FAILWAVE,NLOC_DMG,PINCH_DATA ,SLLOADP,
-     6   TAGSLV_RBY,NFNCA2  ,NFTCA2  ,IN0 ,SORT_COMM,STACK,OUTPUT )
+     6   TAGSLV_RBY,NFNCA2  ,NFTCA2  ,IN0 ,SORT_COMM,STACK,OUTPUT,
+     7   THKE   ,SFR_ELEM  ,SH_OFFSET_TAB )
 
 
 !$OMP END PARALLEL
@@ -2188,6 +2195,12 @@ C ---------------------
         ALLOCATE(MCLUSTER(3))
         MCLUSTER(1:3)=0
       ENDIF
+!
+       IF (SH_OFFSET_TAB%NSH_OSET > 0 .AND. IMPL_S==0) THEN
+           ALLOCATE(XYZ(3*NUMNOD)) 
+       ELSE
+           ALLOCATE(XYZ(0))  
+       ENDIF
 
       ! -------------------------
       ! initialization of SHOOT_STRUCT for 
@@ -2774,6 +2787,7 @@ C
             NE_IMP=>IMPBUF_TAB%CAND_E 
            IND_IMP=>IMPBUF_TAB%INDSUBT
                X_A=>X
+               X_C=>X
                FEXT_IMP=>IMPBUF_TAB%AC
                R_IMP=>IMPBUF_TAB%R_IMP
            ALLOCATE(FAC_K(0), IPIV_K(0))
@@ -2788,6 +2802,8 @@ C
           ALLOCATE(CDDLP(NDDL0))
          ENDIF
          IBUCK= IBUCKL
+!--- deactivate contact w/ offset         
+         SH_OFFSET_TAB%NSH_OSET = 0
 C----------------------------------
 C       EIGENSOLVER  [MONO THREAD]
 C----------------------------------
@@ -2839,6 +2855,11 @@ C------ one routine for EIG
          NE_IMP => IMP_DUM 
          IND_IMP=> IMP_DUM
          NUM_IMP=0
+         IF (SH_OFFSET_TAB%NSH_OSET > 0) THEN
+           X_C =>XYZ
+         ELSE  
+           X_C =>X
+         ENDIF  
       END IF !IF (IMPL_S==1.OR.NEIG>0) THEN
 C------------------------------------------------------
 C  Fin Implicit [MONO THREAD]
@@ -3026,7 +3047,10 @@ C
         DT_THERM=EP06
       IF(IMPL_S>0) THEN
        IF(NCYCLE>0) THEN
-                IF(ISMDISP==1) X_A=>IMPBUF_TAB%X_A
+         IF (ISMDISP==1) THEN 
+           X_A=>IMPBUF_TAB%X_A
+           X_C=>IMPBUF_TAB%X_A
+         END IF
         IF (IMON>0) CALL STARTIME(5,1)
         CALL IMP_FANIE(FANI  ,FEXT_IMP,NFIA  ,NFEA  ,NODFT ,NODLT,
      .                 H3D_DATA  )
@@ -3320,7 +3344,14 @@ C----------------------------------
      .         DT1       ,X         ,V         ,A         ,FEXT      ,
      .         H3D_DATA  ,CPTREAC   ,FTHREAC   ,NODREAC   ,FSKY      )
         ENDIF  
-c
+!-------------------------------------------------------------------
+!       offset projection for contact ! add smp // after
+!----------------------------------
+        IF (SH_OFFSET_TAB%NSH_OSET > 0) THEN
+           XYZ(1:3*NUMNOD) = X(1:3*NUMNOD)
+           CALL offset_nPROJ(NSPMD,NUMNOD,XYZ,SH_OFFSET_TAB)
+        ENDIF  
+!
         IF( NUMCONV + NUMRADIA > 0 .AND. ITHERM_FE > 0 )THEN
 
 C========================================================================================
@@ -3417,7 +3448,7 @@ C----------------------------------------
           L2 = L1+6*NUMELS10
           L3 = L2+12*NUMELS20
           CALL SPMD_I7XVCOM2(
-     1       IPARI  ,X       ,V       ,MS      ,
+     1       IPARI  ,X_C      ,V       ,MS      ,
      2       IMSCH  ,I2MSCH   ,DT2PREV ,INTLIST ,NBINTC  ,
      3       ISLEN7 ,IRLEN7   ,ISLEN11 ,IRLEN11 ,ISLEN17 ,
      4       IRLEN17 ,IXS     ,IXS(L3) ,NSENSOR ,
@@ -3501,7 +3532,7 @@ C===============================================================================
         ITYPTSTT= ITYPTST
         ITSK = OMP_GET_THREAD_NUM()
            CALL INTTRI(
-     1     IPARI   ,X_A     ,W     , INTER_ERRORS,
+     1     IPARI   ,X_C     ,W     , INTER_ERRORS,
      2     V       ,MS      ,IN      ,IAD_ELEM  ,
      3     FR_ELEM ,VR      ,ISENDTO ,IRCVFROM  ,
      4     NEWFRONT  ,ITSK    ,WA      ,DT2TT     ,
@@ -3919,7 +3950,7 @@ C----------------------------------------
          IADISK   = 1
         ENDIF
         CALL INTFOP8(
-     1      IPARI  ,X       ,A(1,1) ,
+     1      IPARI  ,X_C     ,A(1,1) ,
      2      ICODT  ,FSAV    ,WA(1),V         ,MS             ,
      3      DT2TT  ,NELTSTT ,ITYPTSTT   ,ITAB      ,STIFN(1)   ,
      4      NPC    ,TF      ,FSKYI     ,ISKY      ,VR              ,
@@ -4057,7 +4088,7 @@ C Init var parallel SMP
          IF(NPINCH == 0 )IDX_PINCH = 1
        
            CALL INTFOP2(
-     1     IPARI             ,X_A            ,A(1,NDTSK)     ,IGROUPS         ,ALE_CONNECTIVITY,
+     1     IPARI             ,X_C            ,A(1,NDTSK)     ,IGROUPS         ,ALE_CONNECTIVITY,
      2     ICODT             ,FSAV           ,V              ,MS              ,DT2TT           ,
      3     NELTSTT           ,ITYPTSTT       ,ITAB           ,STIFN(NDTSK)    ,TF              ,
      4     FSKYI             ,ISKY           ,VR             ,FANI            ,SECFCUM         ,

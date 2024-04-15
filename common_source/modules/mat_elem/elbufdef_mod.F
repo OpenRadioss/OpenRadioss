@@ -708,6 +708,7 @@ C
         integer  G_AMU
         INTEGER  G_TSAIWU
         INTEGER  G_DMGSCL
+        INTEGER  G_SH_IOFFSET
 c---
 C    - 1D - elem (TRUSS, BEAM, SPRING) 
         integer  G_AREA
@@ -822,6 +823,7 @@ C
         my_real, DIMENSION(:) , POINTER ::   ABURN 
         my_real, DIMENSION(:) , POINTER ::   MU 
         integer, DIMENSION(:) , POINTER ::   ISMS 
+        integer, DIMENSION(:) , POINTER ::   SH_IOFFSET 
         my_real, DIMENSION(:) , POINTER ::   BPRELD  ! Bolt preloading 
         my_real, DIMENSION(:) , POINTER ::   COR_NF  ! Corotational nodal forces 
         my_real, DIMENSION(:) , POINTER ::   COR_FR  ! Corotational frame 

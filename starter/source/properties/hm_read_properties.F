@@ -75,7 +75,7 @@ Chd|====================================================================
      .                  BUFGEO,LBUFGEO   ,ISKN ,IGEO ,IPM    ,
      .                  NPC   ,PLD   ,UNITAB ,RTRANS,LSUBMODEL  ,
      .                  PROP_TAG ,IPART ,KNOT,IDRAPEID,STACK_INFO,
-     .                  NUMGEO_STACK,NPROP_STACK, MULTI_FVM,IADBUF)
+     .                  NUMGEO_STACK,NPROP_STACK, MULTI_FVM,IADBUF,DEFAULTS)
 C============================================================================
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -92,6 +92,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE HM_OPTION_READ_MOD
       USE ALE_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -120,6 +121,7 @@ C-----------------------------------------------
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(STACK_INFO_ ) , DIMENSION (NPROP_STACK) :: STACK_INFO
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
+      TYPE(DEFAULTS_), INTENT(INOUT) :: DEFAULTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -397,7 +399,7 @@ C--------------------------------------------------
              IGTYP=11
              CALL HM_READ_PROP11(GEO(1,I)       ,IGEO(1,I)     ,PM       ,IPM      ,ISKN     ,
      .                   UNITAB    ,RTRANS   ,LSUBMODEL,SUB_ID   ,IDTITL   ,
-     .                   PROP_TAG  ,PROP_ID       ,IGTYP    )
+     .                   PROP_TAG  ,PROP_ID       ,IGTYP ,DEFAULTS   )
 c
           CASE ('TYPE12','SPR_PUL')
 C--------------------------------------------------
