@@ -323,17 +323,17 @@ C
             XA = ONE
             XB = TWO
             IF (DX(I) > ZERO) THEN
-              DLIM = DX(I) / DMX(I)
+              DLIM = DX(I) / (XL0(I)*DMX(I))
             ELSE
-              DLIM = DX(I) / DMN(I)
+              DLIM = DX(I) / (XL0(I)*DMN(I)) 
             ENDIF
           ELSE
             VFAIL = CC * (ABS(DV(I)/VRT(I)))**CN
             IF (IFAIL2(I) == 1) THEN
               IF (DX(I) > ZERO) THEN
-                DLIM = DX(I) / (DMX(I) + VFAIL)
+                DLIM = DX(I) / (XL0(I)*DMX(I) + VFAIL)
               ELSE
-                DLIM = DX(I) / (DMN(I) - VFAIL)
+                DLIM = DX(I) / (XL0(I)*DMN(I) - VFAIL)
               ENDIF
             ELSEIF (IFAIL2(I) == 2) THEN
               IF (FX(I) > ZERO) THEN
@@ -350,7 +350,7 @@ C
             CRIT(I) = MAX(CRIT(I),XA*DLIM)
           ELSE
 !         Multiaxial failure
-            CRIT(I)= CRIT(I) + XA *(DLIM/XL0(I))**XB
+            CRIT(I)= CRIT(I) + XA*DLIM**XB
           ENDIF
         ENDIF
       ENDDO
@@ -396,17 +396,17 @@ C
             XA = ONE
             XB = TWO
             IF (DY(I) > ZERO) THEN
-              DLIM = DY(I) / DMX(I)
+              DLIM = DY(I) / (XL0(I)*DMX(I))
             ELSE
-              DLIM = DY(I) / DMN(I)
+              DLIM = DY(I) / (XL0(I)*DMN(I))
             ENDIF
           ELSE
             VFAIL = CC * (ABS(DV(I)/VRT(I)))**CN
             IF (IFAIL2(I) == 1) THEN
               IF (DY(I) > ZERO) THEN
-                DLIM = DY(I) / (DMX(I) + VFAIL)
+                DLIM = DY(I) / (XL0(I)*DMX(I) + VFAIL)
               ELSE
-                DLIM = DY(I) / (DMN(I) - VFAIL)
+                DLIM = DY(I) / (XL0(I)*DMN(I) - VFAIL)
               ENDIF
             ELSEIF (IFAIL2(I) == 2) THEN
               IF (FY(I) > ZERO) THEN
@@ -423,7 +423,7 @@ C
             CRIT(I) = MAX(CRIT(I),XA*DLIM)
           ELSE
 !         Multiaxial failure
-            CRIT(I)= CRIT(I) + XA *(DLIM/XL0(I))**XB
+            CRIT(I)= CRIT(I) + XA*DLIM**XB
           ENDIF
         ENDIF
       ENDDO
@@ -469,17 +469,17 @@ C
             XA = ONE
             XB = TWO
             IF (DZ(I) > ZERO)THEN
-              DLIM = DZ(I) / DMX(I)
+              DLIM = DZ(I) / (XL0(I)*DMX(I))
             ELSE
-              DLIM = DZ(I) / DMN(I)
+              DLIM = DZ(I) / (XL0(I)*DMN(I))
             ENDIF
           ELSE
             VFAIL = CC * (ABS(DV(I)/VRT(I)))**CN
             IF (IFAIL2(I) == 1) THEN
               IF (DZ(I) > ZERO) THEN
-                DLIM = DZ(I) / (DMX(I) + VFAIL)
+                DLIM = DZ(I) / (XL0(I)*DMX(I) + VFAIL)
               ELSE
-                DLIM = DZ(I) / (DMN(I) - VFAIL)
+                DLIM = DZ(I) / (XL0(I)*DMN(I) - VFAIL)
               ENDIF
             ELSEIF (IFAIL2(I) == 2) THEN
               IF (FZ(I) > ZERO) THEN
@@ -496,7 +496,7 @@ C
             CRIT(I) = MAX(CRIT(I),XA*DLIM)
           ELSE
 !         Multiaxial failure
-            CRIT(I)= CRIT(I) + XA *(DLIM/XL0(I))**XB
+            CRIT(I)= CRIT(I) + XA *DLIM**XB
           ENDIF
         ENDIF
       ENDDO
@@ -585,17 +585,17 @@ C
             XA = ONE
             XB = TWO
             IF (RX(I) > ZERO) THEN
-              DLIM = RX(I) / DMX(I)
+              DLIM = RX(I) / (XL0(I)*DMX(I))
             ELSE
-              DLIM = RX(I) / DMN(I)
+              DLIM = RX(I) / (XL0(I)*DMN(I))
             ENDIF
           ELSE
             VFAIL = CC * (ABS(DV(I)/VRR(I)))**CN
             IF (IFAIL2(I) == 1) THEN
               IF (RX(I) > ZERO) THEN
-                DLIM = RX(I) / (DMX(I) + VFAIL)
+                DLIM = RX(I) / (XL0(I)*DMX(I) + VFAIL)
               ELSE
-                DLIM = RX(I) / (DMN(I) - VFAIL)
+                DLIM = RX(I) / (XL0(I)*DMN(I) - VFAIL)
               ENDIF
             ELSEIF (IFAIL2(I) == 2) THEN
               IF(XMOM(I)>0.)THEN
@@ -612,7 +612,7 @@ C
             CRIT(I) = MAX(CRIT(I),XA*DLIM)
           ELSE
 !         Multiaxial failure
-            CRIT(I)= CRIT(I) + XA *(DLIM/XL0(I))**XB
+            CRIT(I)= CRIT(I) + XA *DLIM**XB
           ENDIF
         ENDIF
       ENDDO
@@ -656,17 +656,17 @@ C
             XA = ONE
             XB = TWO
             IF (RY(I) > ZERO) THEN
-              DLIM = RY(I) / DMX(I)
+              DLIM = RY(I) / (XL0(I)*DMX(I))
             ELSE
-              DLIM = RY(I) / DMN(I)
+              DLIM = RY(I) / (XL0(I)*DMN(I))
             ENDIF
           ELSE
             VFAIL = CC * (ABS(DV(I)/VRR(I)))**CN
             IF (IFAIL2(I) == 1) THEN
               IF (RY(I) > ZERO) THEN
-                DLIM = RY(I) / (DMX(I) + VFAIL)
+                DLIM = RY(I) / (XL0(I)*DMX(I) + VFAIL)
               ELSE
-                DLIM = RY(I) / (DMN(I) - VFAIL)
+                DLIM = RY(I) / (XL0(I)*DMN(I) - VFAIL)
               ENDIF
             ELSEIF (IFAIL2(I) == 2) THEN
               IF (YMOM(I) > ZERO)THEN
@@ -683,7 +683,7 @@ C
             CRIT(I) = MAX(CRIT(I),XA*DLIM)
           ELSE
 !         Multiaxial failure
-            CRIT(I)= CRIT(I) + XA *(DLIM/XL0(I))**XB
+            CRIT(I)= CRIT(I) + XA *DLIM**XB
           ENDIF
         ENDIF
       ENDDO
@@ -727,17 +727,17 @@ C
             XA = ONE
             XB = TWO
             IF (RZ(I) > ZERO) THEN
-              DLIM = RZ(I) / DMX(I)
+              DLIM = RZ(I) / (XL0(I)*DMX(I))
             ELSE
-              DLIM = RZ(I) / DMN(I)
+              DLIM = RZ(I) / (XL0(I)*DMN(I))
             ENDIF
           ELSE
             VFAIL = CC * (ABS(DV(I)/VRR(I)))**CN
             IF (IFAIL2(I) == 1) THEN
               IF (RZ(I) > ZERO)THEN
-                DLIM = RZ(I) / (DMX(I) + VFAIL)
+                DLIM = RZ(I) / (XL0(I)*DMX(I) + VFAIL)
               ELSE
-                DLIM = RZ(I) / (DMN(I) - VFAIL)
+                DLIM = RZ(I) / (XL0(I)*DMN(I) - VFAIL)
               ENDIF
             ELSEIF (IFAIL2(I) == 2) THEN
               IF (ZMOM(I) > ZERO)THEN
@@ -754,7 +754,7 @@ C
             CRIT(I) = MAX(CRIT(I),XA*DLIM)
           ELSE
 !         Multiaxial failure
-            CRIT(I)= CRIT(I) + XA *(DLIM/XL0(I))**XB
+            CRIT(I)= CRIT(I) + XA *DLIM**XB
           ENDIF
         ENDIF
       ENDDO
