@@ -56,6 +56,7 @@ Chd|        HM_READ_THGRSENS              source/output/th/hm_read_thgrsens.F
 Chd|        INIEBCS                       source/boundary_conditions/ebcs/iniebcs.F
 Chd|        INIPARSEN                     source/tools/sensor/iniparsen.F
 Chd|        INISEN                        source/tools/sensor/inisen.F  
+Chd|        INITIA                        source/elements/initia/initia.F
 Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
 Chd|        INTER_DCOD_SENSOR             source/interfaces/reader/inter_dcod_sensor.F
 Chd|        LAW158_UPD                    source/materials/mat/mat158/law158_upd.F
