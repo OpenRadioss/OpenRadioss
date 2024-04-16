@@ -39,7 +39,7 @@ Chd|====================================================================
      .                  FSAV  ,  IFVMESH , ICONTACT , LGAUGE    ,
      .                  GAUGE ,  IGEO    , GEO      , PM        , IPM,
      .                  IPARG ,  IGROUPTG, IGROUPC  , ELBUF_TAB , FEXT,
-     .                  FLAG  ,  H3D_DATA, ITAB  )
+     .                  FLAG  ,  H3D_DATA, ITAB     ,WEIGHT)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB 
-      INTEGER,INTENT(IN) :: ITAB(NUMNOD)   
+      INTEGER,INTENT(IN) :: ITAB(NUMNOD), WEIGHT(NUMNOD) 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -296,7 +296,7 @@ C
      .                    MONVOL(K1), MONVOL(IADHOL), VOLMON(RADHOL),
      .                    X         , VOLMON(KK1)   , VOLMON(KRA5)  , MONVOL(KIA8), VOLMON(RADJET),
      .                    A         , LGAUGE        , GAUGE         , NNT         , FEXT          ,
-     .                    NSKIP     , H3D_DATA )
+     .                    NSKIP     , H3D_DATA      , WEIGHT)
 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
                MONVOL(K1-1+57)=1
