@@ -589,12 +589,12 @@ C---------------------------------------------------
       ENDIF
 
       PEXT =RVOLU(3)
+      DATAINJ(1:6,1:NJET)=ZERO
       IF(IVOLU(39) == 0) GO TO 250
 
 C---------------------------------------------------
 C Injecteurs
 C---------------------------------------------------
-      DATAINJ(1:6,1:NJET)=ZERO
       DO IEL=1,NELT
         IF (ITAGEL(IEL) > 0) THEN
           IINJ=ITAGEL(IEL)
