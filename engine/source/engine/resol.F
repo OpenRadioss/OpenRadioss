@@ -4292,7 +4292,7 @@ C
      .                FSAV(1,N), IFVMESH,  ICONTACT_OLD, LGAUGE            ,
      .                GAUGE    , IGEO,     GEO,          PM                , IPM ,
      .                IPARG    , IGROUPTG, IGROUPC,      ELBUF_TAB         , FEXT,
-     .                1        , H3D_DATA, ITAB)
+     .                1        , H3D_DATA, ITAB,         WEIGHT)
 C
           CALL TRACE_OUT(11)
         IF (IMONM > 0) CALL STOPTIME(50,1)
@@ -4619,7 +4619,7 @@ C
      .                FSAV(1,N), IFVMESH, ICONTACT_OLD,LGAUGE,
      .                GAUGE    , IGEO,    GEO,         PM,                  IPM,
      .                IPARG    , IGROUPTG,IGROUPC,     ELBUF_TAB,           FEXT,
-     .                2        , H3D_DATA,ITAB )
+     .                2        , H3D_DATA,ITAB,        WEIGHT)
            CALL MONVOL0(
      1      MONVOL     ,VOLMON     ,X_A            ,A         ,
      2      NPC        ,TF         ,V              ,WA        ,

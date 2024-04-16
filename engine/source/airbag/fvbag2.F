@@ -36,7 +36,7 @@ Chd|====================================================================
       SUBROUTINE FVBAG2(IFV,   ITYP, NNA,  NVENT, NJET, IVOLU, IBAGHOL, RBAGHOL,
      .                  X,    RVOLU, XXXA, NCONA, RBAGJET ,
      .                  A,    LGAUGE , GAUGE , NNT   ,FEXT   , NSKIP,
-     .                  H3D_DATA     ) 
+     .                  H3D_DATA, WEIGHT) 
 C
 C Broadcast data from PMAIN to other processors
 C Arrays sent:
@@ -68,6 +68,7 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
+#include      "parit_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -75,6 +76,7 @@ C-----------------------------------------------
       my_real RVOLU(*), X(3,*), XXXA(3,*), RBAGJET(NRBJET,*), RBAGHOL(NRBHOL,*)
       INTEGER NNT,LGAUGE(3,*) 
       INTEGER NSKIP          
+      INTEGER, INTENT(IN) :: WEIGHT(NUMNOD) !< 0: current mpi process does not own the node, 1: current mpi process owns the node
       my_real
      .        A(3,*),
      .        FEXT(3,*), 
@@ -152,14 +154,16 @@ C Point input (by coordinates) -not available
       DO I=1,FVSPMD(IFV)%NN_L+FVSPMD(IFV)%NNI_L
          I1=FVSPMD(IFV)%IBUF_L(1,I)
          I2=FVSPMD(IFV)%IBUF_L(2,I)
-         A(1,I2)=A(1,I2)+FVSPMD(IFV)%AAA(1,I1)
-         A(2,I2)=A(2,I2)+FVSPMD(IFV)%AAA(2,I1)
-         A(3,I2)=A(3,I2)+FVSPMD(IFV)%AAA(3,I1)
+         IF(WEIGHT(I2) > 0 .OR. IPARIT .NE. 0) THEN
+           A(1,I2)=A(1,I2)+FVSPMD(IFV)%AAA(1,I1)  
+           A(2,I2)=A(2,I2)+FVSPMD(IFV)%AAA(2,I1)
+           A(3,I2)=A(3,I2)+FVSPMD(IFV)%AAA(3,I1)
+         ENDIF
          IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT
-     .     +ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
-           FEXT(1,I2) = FEXT(1,I2)+FVSPMD(IFV)%AAA(1,I1)
-           FEXT(2,I2) = FEXT(2,I2)+FVSPMD(IFV)%AAA(2,I1)
-           FEXT(3,I2) = FEXT(3,I2)+FVSPMD(IFV)%AAA(3,I1)
+     .       +ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
+             FEXT(1,I2) = FEXT(1,I2)+FVSPMD(IFV)%AAA(1,I1)
+             FEXT(2,I2) = FEXT(2,I2)+FVSPMD(IFV)%AAA(2,I1)
+             FEXT(3,I2) = FEXT(3,I2)+FVSPMD(IFV)%AAA(3,I1)
          ENDIF
       ENDDO     
 
