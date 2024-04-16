@@ -123,7 +123,7 @@
         len(i) = ipt
       end do
 !
-      call law50_table(mat_param%table(1),ncurv,len,lmax,rate,yfac,xi,yi)      
+      call law50_table(mat_param%table(1),ncurv,len,lmax,rate,xi,yi)      
       
       deallocate (yi)
       deallocate (xi)
@@ -160,7 +160,7 @@
         len(i) = ipt
       end do
 !
-      call law50_table(mat_param%table(2),ncurv,len,lmax,rate,yfac,xi,yi)      
+      call law50_table(mat_param%table(2),ncurv,len,lmax,rate,xi,yi)      
       
       deallocate (yi)
       deallocate (xi)
@@ -197,7 +197,7 @@
         len(i) = ipt
       end do
 !
-      call law50_table(mat_param%table(3),ncurv,len,lmax,rate,yfac,xi,yi)      
+      call law50_table(mat_param%table(3),ncurv,len,lmax,rate,xi,yi)      
       
       deallocate (yi)
       deallocate (xi)
@@ -234,7 +234,7 @@
         len(i) = ipt
       end do
 !
-      call law50_table(mat_param%table(4),ncurv,len,lmax,rate,yfac,xi,yi)      
+      call law50_table(mat_param%table(4),ncurv,len,lmax,rate,xi,yi)      
       
       deallocate (yi)
       deallocate (xi)
@@ -271,7 +271,7 @@
         len(i) = ipt
       end do
 !
-      call law50_table(mat_param%table(5),ncurv,len,lmax,rate,yfac,xi,yi)      
+      call law50_table(mat_param%table(5),ncurv,len,lmax,rate,xi,yi)      
       
       deallocate (yi)
       deallocate (xi)
@@ -308,7 +308,7 @@
         len(i) = ipt
       end do
 !
-      call law50_table(mat_param%table(6),ncurv,len,lmax,rate,yfac,xi,yi)      
+      call law50_table(mat_param%table(6),ncurv,len,lmax,rate,xi,yi)      
       
       deallocate (yi)
       deallocate (xi)

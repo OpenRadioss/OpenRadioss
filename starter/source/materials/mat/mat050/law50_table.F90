@@ -35,7 +35,7 @@
 
 ! ======================================================================================================================
 
-      subroutine law50_table(table  ,nfunc  ,len     ,lmax   ,rate   ,yfac    ,xi     ,yi     )
+      subroutine law50_table(table  ,nfunc  ,len     ,lmax   ,rate   ,xi     ,yi     )
 
 !----------------------------------------------- 
 !     M o d u l e s
@@ -58,19 +58,19 @@
       integer ,intent(inout) :: lmax                      !< max size of function abscissa
       integer ,dimension(nfunc),intent(inout)    :: len   !< size table of all functions
       my_real ,dimension(nfunc) ,intent(in)      :: rate  !< second dimension values
-      my_real ,dimension(nfunc) ,intent(in)      :: yfac  !< scale factors of all functions
       my_real ,dimension(lmax,nfunc) ,intent(in) :: xi    !< x vectors by dimension
       my_real ,dimension(lmax,nfunc) ,intent(in) :: yi    !< y vectors by dimension
       type(table_4d_) ,intent(inout) ::  table            !< table structure
 !-----------------------------------------------
 !     L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer :: i,nptx
+      integer :: i,j,nptx,idebug
       my_real ,dimension(:)   ,allocatable :: xf
       my_real ,dimension(:,:) ,allocatable :: yf
 !=======================================================================
 !     create X,Y vectors for all curves and unify all abscissas
 !--------------------------------------------------------
+      idebug = 0 
       nptx = 0
       do i = 1,nfunc
         nptx = nptx + len(i)
@@ -102,7 +102,7 @@
         allocate (table%x(1)%values(nptx) )      
         allocate (table%y1d(nptx) )
         table%x(1)%values(1:nptx) = xf(1:nptx)
-        table%y1d(1:nptx) = yf(1:nptx,1) * yfac(1)
+        table%y1d(1:nptx) = yf(1:nptx,1)
       else
         table%ndim = 2
         allocate (table%x(table%ndim) )            
@@ -112,9 +112,22 @@
         table%x(1)%values(1:nptx)  = xf(1:nptx)   
         table%x(2)%values(1:nfunc) = rate(1:nfunc)
         do i = 1,nfunc
-          table%y2d(1:nptx,i) = yf(1:nptx,i) * yfac(i)
+          table%y2d(1:nptx,i) = yf(1:nptx,i)
         end do
-      end if      
+      end if 
+!--------------------
+      ! print tables
+      if (idebug == 1) then
+          print*,' '
+        if (table%ndim == 2) then
+          do i = 1, size(table%x(2)%values)
+            print*,' dimension, epsp', i,table%x(2)%values(i)
+            do j = 1,size(table%x(1)%values)
+              print*,table%x(1)%values(j),table%y2d(j,i)
+            end do
+          end do     
+        end if
+      end if
 !--------------------
       deallocate (xf)
       deallocate (yf)
