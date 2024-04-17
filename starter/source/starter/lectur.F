@@ -4748,12 +4748,12 @@ C
           FVM_INIVEL(I)%FLAG = .FALSE.
        ENDDO
 C
-        CALL HM_READ_INIVEL(V       ,W       ,ITAB   ,ITABM1  ,VR      ,
-     .              IGRNOD    ,IGRBRIC ,ISKWN    ,SKEW    ,IWORK    ,
-     .              X       ,UNITAB  ,LSUBMODEL,RTRANS,XFRAME  ,
-     .              IFRAME    ,VFLOW   ,WFLOW    ,KXSP    ,MULTI_FVM,
-     .              FVM_INIVEL,IGRQUAD ,IGRSH3N  ,RBY_MSN ,RBY_INIAXIS)
-        CALL INIVEL(V       ,VR      ,SVR_1 ,ITABM1     )
+        CALL HM_READ_INIVEL(V         , W      , ITAB     , ITABM1 , VR         ,
+     .                      IGRNOD    , IGRBRIC, ISKWN    , SKEW   , IWORK      ,
+     .                      X         , UNITAB , LSUBMODEL, RTRANS , XFRAME     ,
+     .                      IFRAME    , VFLOW  , WFLOW    , KXSP   , MULTI_FVM  ,
+     .                      FVM_INIVEL, IGRQUAD, IGRSH3N  , RBY_MSN, RBY_INIAXIS)
+        CALL INIVEL(V, VR, SVR_1, ITABM1)
 C
         IF(ALLOCATED(IWORK)) DEALLOCATE(IWORK)
         NINVEL  = SIWORK
