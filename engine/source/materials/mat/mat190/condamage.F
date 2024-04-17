@@ -106,7 +106,7 @@ C       COMPUTE T2 AND T3
 C
         AT3(I)=TWO*AH1(I)**3/TWENTY7 - AH1(I)*AH2(I)/THREE + AH3(I)
         AT2(I)=-AH2(I)+AH1(I)**2/THREE
-        AT2(I)=MAX(AT2(I),1.E-16)
+        AT2(I)=MAX(AT2(I),EM16)
 C
 C       COMPUTE COS(A)
 C

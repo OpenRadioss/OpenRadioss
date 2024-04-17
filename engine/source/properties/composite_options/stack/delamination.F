@@ -352,7 +352,7 @@ C reduction of mom  for shell
               DO JJ  =1,NBDEL + 1                                          
                  SCALE = SCALE + TH(JJ)**3                                 
               ENDDO   
-              SCALE = MAX(SCALE, 0.1)
+              SCALE = MAX(SCALE,EM01)
 C
               DEGFX(I) = - MOM(I,1)*KXX(I) - MOM(I,2)*KYY(I)                   
      +              - MOM(I,3)*KXY(I)                                     
