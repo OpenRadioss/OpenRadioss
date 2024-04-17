@@ -150,7 +150,7 @@
               if(l_tagnod(ixs(8,jj+nft)))then; icode = IBSET(icode,6); kk=kk+1 ; end if
               if(l_tagnod(ixs(9,jj+nft)))then; icode = IBSET(icode,7); kk=kk+1 ; end if
               if(kk < 4)cycle ! at least 4 nodes are requires to define a face
-              kk = nseg !number of identified faces
+              kk = 0 !number of identified faces
               !if(015 == IAND(icode,015))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 1 ; end if
               if(204 == IAND(icode,204))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 2 ; end if
               !if(240 == IAND(icode,240))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 3 ; end if
@@ -172,7 +172,7 @@
               if(l_tagnod(ixq(4,jj+nft)))then; icode = IBSET(icode,2); kk=kk+1 ; end if
               if(l_tagnod(ixq(5,jj+nft)))then; icode = IBSET(icode,3); kk=kk+1 ; end if
               if(kk < 2)cycle ! at least 4 nodes are requires to define a face
-              kk = nseg ! number of identified faces
+              kk = 0 ! number of identified faces
               if(03 == IAND(icode,03))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 1 ; end if
               if(06 == IAND(icode,06))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 2 ; end if
               if(12 == IAND(icode,12))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 3 ; end if
