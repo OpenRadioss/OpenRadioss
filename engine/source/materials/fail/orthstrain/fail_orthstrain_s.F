@@ -400,7 +400,7 @@ c     current variable initialisation
         IF (OFF(I) == ONE) THEN 
           DO J=1 ,12
             DAM(I,J)  = UVAR(I,J+12)
-            ODAM(I,J) = MIN(DAM(I,J),0.999)
+            ODAM(I,J) = MIN(DAM(I,J),ONE-EM3)
           ENDDO
           DO J=1 ,6
             SIGO(I,J) = UVAR(I,J)

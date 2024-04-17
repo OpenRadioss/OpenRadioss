@@ -2371,11 +2371,12 @@ c         END of FAILURE MODELS
 c-----------------------------------
 #include "vectorize.inc"
           DO I=JFT,JLT                                               
-            LBUF%SIG(IJ(1)+I) = SIGNXX(I) * SIGOFF(I)      
-            LBUF%SIG(IJ(2)+I) = SIGNYY(I) * SIGOFF(I)           
-            LBUF%SIG(IJ(3)+I) = SIGNXY(I) * SIGOFF(I)           
-            LBUF%SIG(IJ(4)+I) = SIGNYZ(I) * SIGOFF(I)           
-            LBUF%SIG(IJ(5)+I) = SIGNZX(I) * SIGOFF(I)           
+            ! IJ(K) = NEL*(K-1)
+            LBUF%SIG(NEL*(1-1)+I) = SIGNXX(I) * SIGOFF(I)      
+            LBUF%SIG(NEL*(2-1)+I) = SIGNYY(I) * SIGOFF(I)           
+            LBUF%SIG(NEL*(3-1)+I) = SIGNXY(I) * SIGOFF(I)           
+            LBUF%SIG(NEL*(4-1)+I) = SIGNYZ(I) * SIGOFF(I)           
+            LBUF%SIG(NEL*(5-1)+I) = SIGNZX(I) * SIGOFF(I)           
           ENDDO                                                      
 C
 c------------------------------------------------

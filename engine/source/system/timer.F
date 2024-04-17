@@ -160,11 +160,11 @@ C
           END IF
 C
           DO I = 1, NSPMD
-           TABTIME(MACRO_TIMER_TMP1,I) = MAX(ZERO,TABTIME(8,I)-TABTIME(20,I)
+           TABTIME(MACRO_TIMER_TMP1,I) = MAX(0.0,TABTIME(8,I)-TABTIME(20,I)
      .                                            -TABTIME(29,I)
      .                                            -TABTIME(76,I),
      .                                            +TABTIME(77,I))
-           TABTIME(MACRO_TIMER_TMP2,I) = MAX(ZERO,TABTIME(8,I)+
+           TABTIME(MACRO_TIMER_TMP2,I) = MAX(0.0,TABTIME(8,I)+
      .                               TABTIME(19,I)+TABTIME(3,I)
      .                              -TABTIME(29,I)-TABTIME(76,I))
 
@@ -466,8 +466,8 @@ C-----------------------------------------------
           DO I = 1, NSPMD
             DO J = 1, NFIELDS
               AVG(J)=AVG(J)+TABTIME(FIELDS(J),I)
-              DMIN(J)=MIN(DMIN(J)  ,TABTIME(FIELDS(J),I))
-              DMAX(J)=MAX(DMAX(J)  ,TABTIME(FIELDS(J),I))
+              DMIN(J)=MIN(DMIN(J)  ,DBLE(TABTIME(FIELDS(J),I)))
+              DMAX(J)=MAX(DMAX(J)  ,DBLE(TABTIME(FIELDS(J),I)))
             END DO
           END DO
           DO I=1,NFIELDS

@@ -254,7 +254,7 @@ c     variable initialisation, current time
       DO  J=1 ,6
         DO I=1, NEL
           DAM(I,J)  = UVAR(I,J)
-          ODAM(I,J) = MIN(DAM(I,J),0.999)
+          ODAM(I,J) = MIN(DAM(I,J),ONE-EM3)
           EPSP(I,J) = UVAR(I,J+6)
         ENDDO
       ENDDO  

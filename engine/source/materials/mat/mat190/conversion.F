@@ -172,7 +172,7 @@ C
         J3(I) = TWO*AH1(I)**3/TWENTY7 - AH1(I)*AH2(I)*THIRD +  AH3(I)
         J2(I) = -AH2(I) + THIRD*AH1(I)**2 
         TERM_SING = FOUR * J2(I)**3 - TWENTY7 *J3(I) **2
-        J2(I) = MAX(J2(I),1.E-16)
+        J2(I) = MAX(J2(I),EM16)
         ! J2 = -3*Q
         ! J3 = 2*R
         ! D   = Q**3 + R**2 must be negative or nul to have real solutions and define teta
