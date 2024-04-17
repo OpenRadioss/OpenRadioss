@@ -1059,7 +1059,8 @@ C----------------------------------------------------------
 C     solids with rotation
 C----------------------------------------------------------
       KROT = 0
-      CALL HM_PREREAD_INIVEL(KROT,LSUBMODEL)
+      CALL HM_OPTION_COUNT('/INIVEL/NODE',I)
+      IF(I > 0)KROT=1
       IRODDL=MIN(1,NUMELC+NUMELP+NRBODY+NUMELR+NUMELTG+NGJOINT+NUMMPC+NFXBODY+NUMELX+KROT)
       IRODDL0 = 0
       IISROT = 0
