@@ -1367,7 +1367,6 @@ Chd|        HM_READ_EIG                   source/general_controls/computation/hm
 Chd|        HM_READ_FXB2                  source/constraints/fxbody/hm_read_fxb.F
 Chd|        HM_READ_INIVEL                source/initial_conditions/general/inivel/hm_read_inivel.F
 Chd|        HM_READ_INJECT1               source/properties/injector/hm_read_inject1.F
-Chd|        HM_READ_INJECT2               source/properties/injector/hm_read_inject2.F
 Chd|        HM_READ_INTER_TYPE24          source/interfaces/int24/hm_read_inter_type24.F
 Chd|        HM_READ_MAT02                 source/materials/mat/mat002/hm_read_mat02.F
 Chd|        HM_READ_MONVOL_TYPE1          source/airbag/hm_read_monvol_type1.F
