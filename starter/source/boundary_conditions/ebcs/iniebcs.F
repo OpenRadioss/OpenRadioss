@@ -73,7 +73,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: MWA 
-      INTEGER I,JBUF,TYP,ID,ISU,NSEG,IDSU,IAD,K1,K2,K3,SENS,VOLU,J,NOD,KK,RBUF,LENMWA,ERR,ICELL
+      INTEGER I,TYP,ID,ISU,NSEG,IDSU,K1,SENS,VOLU,J,KK,LENMWA,ERR,ICELL
       INTEGER :: SIZ
       CLASS (T_EBCS), POINTER :: EBCS
 C=======================================================================
@@ -289,15 +289,15 @@ C=======================================================================
         IF(ISU>0)THEN
           IDSU = IGRSURF(ISU)%ID
           IF (N2D == 0) THEN
-             CALL FINDELE(ALE_CONNECTIVITY, 8, NIXS, 6, IDSU,ID,NSEG,IXS,
+             CALL FINDELE(ALE_CONNECTIVITY, 8, NIXS, IDSU,ID,NSEG,IXS,
      .            EBCS%iseg, EBCS%ielem, EBCS%itype,EBCS%iface, 
      .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)
           ELSEIF (NUMELQ /= 0) THEN
-             CALL FINDELE(ALE_CONNECTIVITY, 4, NIXQ, 4, IDSU,ID,NSEG,IXQ,
+             CALL FINDELE(ALE_CONNECTIVITY, 4, NIXQ, IDSU,ID,NSEG,IXQ,
      .            EBCS%iseg, EBCS%ielem,EBCS%itype, EBCS%iface,
      .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)           
           ELSEIF (NUMELTG /= 0 .AND. MULTI_FVM_IS_USED) THEN
-             CALL FINDELE(ALE_CONNECTIVITY, 3, NIXTG, 3, IDSU,ID,NSEG,IXTG,
+             CALL FINDELE(ALE_CONNECTIVITY, 3, NIXTG, IDSU,ID,NSEG,IXTG,
      .            EBCS%iseg, EBCS%ielem,EBCS%itype, EBCS%iface,
      .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)                  
           ENDIF
@@ -348,7 +348,7 @@ C-----------------------------------------------
       INTEGER, INTENT(OUT) :: IADD(*), INVC(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
-C---------------------`-------------------------
+C-----------------------------------------------
       INTEGER I, J, N
 C-----------------------------------------------
       IADD(1) = 1

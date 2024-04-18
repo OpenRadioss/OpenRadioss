@@ -35,8 +35,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_EBCS_FLUXOUT(LOCAL_ID, IGRSURF,
-     .     NPC, NOM_OPT, MULTI_FVM, UNITAB, ID, TITR, TYP, UID, LSUBMODEL, EBCS)
+      SUBROUTINE HM_READ_EBCS_FLUXOUT( IGRSURF, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, EBCS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -59,9 +58,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER LOCAL_ID, NPC(*)
-      INTEGER NOM_OPT(LNOPT1),ID,TYP,UID
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      INTEGER ID,UID
       TYPE (MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       TYPE (SURF_)   ,TARGET,  DIMENSION(NSURF)   :: IGRSURF
       CHARACTER*nchartitle, INTENT(IN) :: TITR
@@ -70,16 +68,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISU,SENS,MONVOL,SURF,NGR2USR,
-     .        IPRES,IRHO,NOD,IAD,J,K1,K2,NSEG,IENER,IVX,IVY,IVZ,IALPHA
-      INTEGER LISTE(NUMNOD), IMAT,U_IALPHA,U_IRHO,U_IPRES,IFLAGUNIT,FLAG_FMT,
-     .        CHECK_CUMUL_VF(2)
-      my_real
-     .   C,PRES,RHO,LCAR,R1,R2,ENER,VX,VY,VZ, ALPHA,
-     .   FAC_C,FAC_M,FAC_L,FAC_T
-      CHARACTER MESS*40,KEY*ncharkey,OPT*ncharkey,chain*9, chain1*64
+      INTEGER ISU,SURF,NGR2USR,J,NSEG
+      INTEGER IMAT,IFLAGUNIT
       EXTERNAL NGR2USR
-      LOGICAL FOUND,IS_AVAILABLE,IS_ENCRYPTED
+      LOGICAL IS_AVAILABLE,IS_ENCRYPTED
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -99,22 +91,13 @@ C-----------------------------------------------
       EBCS%FVM_INLET_DATA%VAL_PRES(1:21) = ZERO
       IFLAGUNIT=0
       DO J=1,UNITAB%NUNITS                                              
-        IF (UNITAB%UNIT_ID(J) == UID) THEN    
-          FAC_M = UNITAB%FAC_M(J)
-          FAC_L = UNITAB%FAC_L(J)
-          FAC_T = UNITAB%FAC_T(J)
-          FAC_C = FAC_M/ ( FAC_L * FAC_T * FAC_T )                                            
+        IF (UNITAB%UNIT_ID(J) == UID) THEN
           IFLAGUNIT = 1                                          
           EXIT                                                   
         ENDIF                                                    
       ENDDO                                                      
       IF (UID/=0.AND.IFLAGUNIT==0) THEN                      
-        CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,    
-     .              I2=UID,
-     .              I1=ID,
-     .              C1='EBCS',           
-     .              C2='EBCS',                           
-     .              C3=TITR)                                      
+        CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,I2=UID,I1=ID,C1='EBCS',C2='EBCS',C3=TITR)
       ENDIF  
       
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
@@ -139,44 +122,39 @@ C-----------------------------------------------
             WRITE(IOUT,*) ' ** ERROR EMPTY SURFACE',SURF
          ENDIF
         
-         IF(TYP==9) THEN
-            WRITE(IOUT,1019)ID,TRIM(TITR)
-            EBCS%fvm_inlet_data%FUNC_VEL(1) = -1
-            EBCS%fvm_inlet_data%VAL_VEL(1)  =  ZERO
-            EBCS%fvm_inlet_data%FUNC_VEL(2) = -1
-            EBCS%fvm_inlet_data%VAL_VEL(2)  =  ZERO
-            EBCS%fvm_inlet_data%FUNC_VEL(3) = -1
-            EBCS%fvm_inlet_data%VAL_VEL(3)  =  ZERO
-            EBCS%fvm_inlet_data%FORMULATION = 2
-            EBCS%fvm_inlet_data%VECTOR_VELOCITY = 1
-            DO IMAT = 1, MULTI_FVM%NBMAT
-               EBCS%fvm_inlet_data%FUNC_ALPHA(IMAT) = -1
-               EBCS%fvm_inlet_data%FUNC_RHO(IMAT)   = -1
-               EBCS%fvm_inlet_data%FUNC_PRES(IMAT)  = -1
-               EBCS%fvm_inlet_data%VAL_ALPHA(IMAT)  = ZERO
-               EBCS%fvm_inlet_data%VAL_RHO(IMAT)    = ZERO
-               EBCS%fvm_inlet_data%VAL_PRES(IMAT)   = ZERO
-            ENDDO
-         ENDIF
+
+         WRITE(IOUT,1019)ID,TRIM(TITR)
+         EBCS%fvm_inlet_data%FUNC_VEL(1) = -1
+         EBCS%fvm_inlet_data%VAL_VEL(1)  =  ZERO
+         EBCS%fvm_inlet_data%FUNC_VEL(2) = -1
+         EBCS%fvm_inlet_data%VAL_VEL(2)  =  ZERO
+         EBCS%fvm_inlet_data%FUNC_VEL(3) = -1
+         EBCS%fvm_inlet_data%VAL_VEL(3)  =  ZERO
+         EBCS%fvm_inlet_data%FORMULATION = 2
+         EBCS%fvm_inlet_data%VECTOR_VELOCITY = 1
+         DO IMAT = 1, MULTI_FVM%NBMAT
+            EBCS%fvm_inlet_data%FUNC_ALPHA(IMAT) = -1
+            EBCS%fvm_inlet_data%FUNC_RHO(IMAT)   = -1
+            EBCS%fvm_inlet_data%FUNC_PRES(IMAT)  = -1
+            EBCS%fvm_inlet_data%VAL_ALPHA(IMAT)  = ZERO
+            EBCS%fvm_inlet_data%VAL_RHO(IMAT)    = ZERO
+            EBCS%fvm_inlet_data%VAL_PRES(IMAT)   = ZERO
+         ENDDO
+
                  
          WRITE(IOUT,1118)SURF,NSEG
          IF (.NOT. MULTI_FVM%IS_USED) THEN
-               CALL ANCMSG(MSGID=1602,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO,
-     .              I1 = ID,
-     .              C1 = TRIM(TITR),
-     .              C2 = "ONLY COMPATIBLE WITH LAW 151")
+               CALL ANCMSG(MSGID=1602,MSGTYPE=MSGERROR,ANMODE=ANINFO,
+     .              I1 = ID,C1 = TRIM(TITR), C2 = "ONLY COMPATIBLE WITH LAW 151")
             ENDIF
                   
 C-----------
       RETURN
 C-----------
- 1019 FORMAT( //'FLUX OUT  EBCS NUMBER  . . . . . . . . . :',I8,1X,A)    
+ 1019 FORMAT( //'FLUX OUT  EBCS NUMBER  . . . . . . . . . :',I8,1X,A)
  1118 FORMAT(
      .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
      .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/)
 
-
-      END
+      END SUBROUTINE HM_READ_EBCS_FLUXOUT
 

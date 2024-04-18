@@ -31,8 +31,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|        INIGRAV                       share/modules1/inigrav_mod.F  
 Chd|====================================================================
       SUBROUTINE INIEBCS_NRF_TCAR(EBCS_TAB, 
-     .                    IPARG,X, IXS,IXQ,IXTG,
-     .                    IPARTS,IPARTQ,IPARTTG,
+     .                    X, IXS,IXQ,IXTG,
      .                    PM, IPM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -55,19 +54,16 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
-      INTEGER                       :: IPARG(NPARG,NGROUP)
       INTEGER,INTENT(IN),TARGET     :: IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ), IXTG(NIXTG,NUMELTG)
-      INTEGER, INTENT(IN)           :: IPARTS(NUMELS), IPARTQ(NUMELQ), IPARTTG(NUMELTG)      
       my_real, INTENT(IN)           :: X(3,NUMNOD)
       my_real,INTENT(IN)            :: PM(NPROPM,NUMMAT)
-      INTEGER,INTENT(IN)            :: IPM(NPROPMI,NUMMAT)      
-      TYPE (ELBUF_STRUCT_), TARGET  :: ELBUF_STR      
+      INTEGER,INTENT(IN)            :: IPM(NPROPMI,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: IMAT,MLN,IADBUF,IMAT_SUB,NIX,NELS,NBPHASE
-      INTEGER :: TAGMAT(NUMMAT+1),II, IFORM, NBMAT, KK
-      my_real :: TCP_REF,Xmin,Ymin,Zmin,Xmax,Ymax,Zmax,TMP,SSP0,SSP0MAX,LC,LC0MAX
+      INTEGER :: TAGMAT(NUMMAT+1),II, NBMAT, KK
+      my_real :: TCP_REF,Xmin,Ymin,Zmin,Xmax,Ymax,Zmax,SSP0,SSP0MAX,LC,LC0MAX
       INTEGER, DIMENSION(:, :), POINTER  :: IX      
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -101,15 +97,7 @@ C-----------------------------------------------
          TAGMAT(IMAT)=1                                                                                            
          MLN    = IPM(2,IMAT)                                                                                         
          IADBUF = IPM(7,IMAT)                                                                                         
-         IF(MLN == 51)THEN                                                                                           
-           !UPRM => BUFMAT(IADBUF:IADBUF+275)                                                                            
-           !TMP  = UPRM(31)                                                                                              
-           !IFORM = NINT(TMP)                                                                                            
-           !IF(IFORM>1)CYCLE                                                                                          
-           !SSP0 = UPRM(124) 
-           !SSP0 = MAX(SSP0,UPRM(174))                                                                                   
-           !SSP0 = MAX(SSP0,UPRM(224))                                                                                   
-           !SSP0 = MAX(SSP0,UPRM(273)) 
+         IF(MLN == 51)THEN
            SSP0=PM(27,IMAT)
            NBPHASE=MAX(NBPHASE,4)
          ELSEIF(MLN == 151)THEN

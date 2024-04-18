@@ -32,7 +32,7 @@ Chd|        IFACE2T                       source/ale/ale3d/iface.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE FINDELE(ALE_CONNECTIVITY, NNODE, NIX, NVOIS, IDSU,ID,NSEG,IX,
+      SUBROUTINE FINDELE(ALE_CONNECTIVITY, NNODE, NIX,  IDSU,ID,NSEG,IX,
      .                   ISEG,IELE,ITYPE,IFAC,SURF_NODES,IADD,INVC,PM,X,TYPE,IGEO)
 C-----------------------------------------------
 C   M o d u l e s
@@ -57,14 +57,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
-      INTEGER NNODE, NIX, NVOIS, IDSU,ID,NSEG,IX(NIX,*),ISEG(*),IELE(*),ITYPE(*),
+      INTEGER NNODE, NIX,  IDSU,ID,NSEG,IX(NIX,*),ISEG(*),IELE(*),ITYPE(*),
      .        IADD(*),INVC(*),IFAC(*),TYPE,SURF_NODES(NSEG,4)
       INTEGER,INTENT(IN) :: IGEO(NPROPGI,NUMGEO)
       my_real PM(NPROPM,NUMMAT),X(3,SX/3)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II,JJ,J,K,L,M,PP,NN,KK,NEL,IRECT(4),IAD,N,ALE,NF,IP(NNODE),TURBU,NEIGH,CON(8),IS
+      INTEGER II,JJ,J,K,M,PP,NN,KK,NEL,IRECT(4),IAD,N,ALE,NF,IP(NNODE),TURBU,NEIGH,CON(8),IS
       INTEGER IFACE, IFACE2, IFACE2T, JALE_FROM_MAT, JALE_FROM_PROP,MINUS
       my_real :: N1, N2, N3, DDS,AREA
       my_real :: XX1(4), XX2(4),XX3(4),XS1,YS1,ZS1,XC,YC,ZC
