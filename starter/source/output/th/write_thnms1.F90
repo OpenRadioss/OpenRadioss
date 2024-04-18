@@ -165,7 +165,7 @@
           character(len=10),                        intent(in) :: vars8(nvars8)
           character(len=10),                        intent(in) :: vars9(nvars9)
           character(len=10),                        intent(in) :: varsnloc(nvarsnloc)
-          character(len=100),                       intent(in) :: varc(nvarc)
+          character(len=10),                        intent(in) :: varc(nvarc)
           character(len=10),                        intent(in) :: varns(nvarns)
           character(len=10),                        intent(in) :: varsph(nvarsph)
           character(len=10),                        intent(in) :: varin(nvarin)
