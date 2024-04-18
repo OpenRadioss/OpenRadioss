@@ -233,7 +233,7 @@ C-----
 C   Variables utilisees dans les routines solides uniquement (en arguments).
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
-      INTEGER IDEG(MVSIZ)
+      INTEGER IDEG(MVSIZ),ICP0
       my_real
      .   OFF(MVSIZ) ,OFFL(MVSIZ) , RHOO(MVSIZ),
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
@@ -312,10 +312,10 @@ C   Variables utilisees dans les routines solides uniquement (en arguments).
      .   G1Z(MVSIZ),G2Z(MVSIZ),G3Z(MVSIZ)
       my_real
      .   WI,SMAX(MVSIZ),VOLG(MVSIZ),NU(MVSIZ),PP(MVSIZ),USB(MVSIZ),
-     .   VOLM(MVSIZ),SIGM(MVSIZ),DTI,BID(MVSIZ)
+     .   VOLM(MVSIZ),SIGM(MVSIZ),DTI,BID(MVSIZ),FAC_NU,NU_SP,NU0
       my_real
      .   SIGY(MVSIZ), SIGN(NEL,6),ET(MVSIZ), NU1(MVSIZ),
-     . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
+     . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ),DELTAXI(MVSIZ)
       my_real
      .   VX0(MVSIZ,8),VY0(MVSIZ,8),VZ0(MVSIZ,8)
       my_real
@@ -537,6 +537,14 @@ c
         USB(I)=EM01/C1
         IDEG(I)=0
       ENDDO
+!  for sound speed takeing into account nu
+      ICP0=MAT_ELEM%MAT_PARAM(MX)%COMPRESSIBILITY
+      FAC_NU = ONE
+      NU0 = PM(21,MX)
+      IF (IDT1SOL == 1.AND.(MTN==1.OR.ICP0 ==3)) THEN
+        NU_SP=SQRT((ONE-NU0)/(ONE+NU0))
+        FAC_NU = NU_SP/ZEP9
+      END IF
 c---------------------------      
       IF (ISMSTR >= 10.AND.ISMSTR <= 12) THEN
        IF (ISMSTR == 11) THEN
@@ -1132,6 +1140,7 @@ C
      2               NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
      3               TEMP,TEMPEL)
       ENDIF    
+       DELTAXI(1:NEL) = FAC_NU*DELTAX(1:NEL)   
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C     TIME STEP EST CALCULE ICI DT2T
@@ -1149,7 +1158,7 @@ C
      4   STI,          X,            DT2T,         NELTST,
      5   ITYPTST,      OFFSET,       NEL,          W,
      6   OFF,          NGEO,         MXT,          NGL,
-     7   VOLN,         VD2,          DVOL,         DELTAX,
+     7   VOLN,         VD2,          DVOL,         DELTAXI,
      8   VIS,          QVIS,         CXX,          S1,
      9   S2,           S3,           S4,           S5,
      A   S6,           DXX,          DYY,          DZZ,

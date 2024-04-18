@@ -298,7 +298,7 @@ C Variables utilisees dans les routines solides uniquement (en arguments).
       my_real
      .   VX0(MVSIZ,8),VY0(MVSIZ,8),VZ0(MVSIZ,8),
      .   TEMPEL(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ)
-      INTEGER NNPT,IDEG(MVSIZ),ISTAB(MVSIZ)
+      INTEGER NNPT,IDEG(MVSIZ),ISTAB(MVSIZ),ICP0
       PARAMETER (NNPT = 8)
       my_real
      .    MFXX(MVSIZ,NNPT),MFXY(MVSIZ,NNPT),MFYX(MVSIZ,NNPT),
@@ -371,8 +371,8 @@ C
      .   PX3H1(MVSIZ), PX3H2(MVSIZ), PX3H3(MVSIZ),PX3H4(MVSIZ),  
      .   PX4H1(MVSIZ), PX4H2(MVSIZ), PX4H3(MVSIZ),PX4H4(MVSIZ),  
      .   SIGP(NEL,6),AMU(MVSIZ),JR_1(MVSIZ),JS_1(MVSIZ),JT_1(MVSIZ),
-     .   FLD(MVSIZ),CAQ,SIG_A(MVSIZ,3),RHO0_1,CNS2,NU0,
-     .   STI_C(MVSIZ),LL(MVSIZ),FQMAX,DIV0(MVSIZ)
+     .   FLD(MVSIZ),CAQ,SIG_A(MVSIZ,3),RHO0_1,CNS2,NU0,FAC_NU,NU_SP,
+     .   STI_C(MVSIZ),LL(MVSIZ),FQMAX,DIV0(MVSIZ),DELTAXI(MVSIZ)
       DOUBLE PRECISION 
      .   VOLP(MVSIZ,NNPT)
 
@@ -578,6 +578,7 @@ C-----------
 
       MX = MXT(LFT)
       NU0=PM(21,MX)
+      ICP0=MAT_ELEM%MAT_PARAM(MX)%COMPRESSIBILITY
       IF (ICP == 2) THEN
        C1 =PM(32,MX)
        DO I=LFT,LLT
@@ -618,6 +619,13 @@ c------ Sigy of GBUF%SIG is not good, take the ip of min(e_ps)
           IF (IGEO(35,NGEO(1))>0) CNS2=CNS2-ABS(GEO(17,NGEO(1)))
         END IF
       END IF
+!  for sound speed takeing into account nu
+      FAC_NU = ONE
+      IF (IDT1SOL == 1.AND.(MTN==1.OR.ICP0 ==3)) THEN
+        NU_SP=SQRT((ONE-NU0)/(ONE+NU0))
+        FAC_NU = NU_SP/ZEP9
+      END IF
+!      
       CALL S8EPRST_INI(PR ,PS ,PT )
 C-------now [B](Pij) is always in global system w/ ISMSTR10
       IF (ISMSTR >= 10.AND.ISMSTR <= 12) THEN
@@ -1476,6 +1484,7 @@ C
      .           NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
      .           TEMP,TEMPEL)
       ENDIF 
+       DELTAXI(1:NEL) = FAC_NU*DELTAX(1:NEL)   
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C     TIME STEP EST CALCULE ICI DT2T
@@ -1493,7 +1502,7 @@ c
      4   STI,          X,            DT2T,         NELTST,
      5   ITYPTST,      OFFSET,       NEL,          W,
      6   OFF,          NGEO,         MXT,          NGL,
-     7   VOLN,         VD2,          DVOL,         DELTAX,
+     7   VOLN,         VD2,          DVOL,         DELTAXI,
      8   VIS,          QVIS,         CXX,          S1,
      9   S2,           S3,           S4,           S5,
      A   S6,           DXX,          DYY,          DZZ,
