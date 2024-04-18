@@ -193,7 +193,7 @@ C-----------------------------------------------
       INTEGER I,J,LCO,NF1,IFLAG,ILAY,IPTR,IPTS,IPTT,II(6)
       INTEGER IBID,IBIDV(1),ITET,IADBUF,IVISC,IP,NNOD
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),INOD(8),
-     .        IPOS(8), L_NLOC, INLOC
+     .        IPOS(8), L_NLOC, INLOC,ICP0
       my_real
      . VOLN(MVSIZ), VD2(MVSIZ) , DVOL(MVSIZ),DELTAX(MVSIZ),
      . VIS(MVSIZ) , QVIS(MVSIZ), CXX(MVSIZ) ,
@@ -204,7 +204,7 @@ C-----------------------------------------------
      . JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ),
      . JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ), JAC9(MVSIZ),
      . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ),
-     . CONDE(MVSIZ),DIVDE(MVSIZ)
+     . CONDE(MVSIZ),DIVDE(MVSIZ),DELTAXI(MVSIZ)
                  
       DOUBLE PRECISION 
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
@@ -221,7 +221,7 @@ C
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ)
 C
       my_real
-     .   MUVOID(MVSIZ)
+     .   MUVOID(MVSIZ),FAC_NU,NU_SP,NU0
 C-----
 C 8-nodes solid connectivities
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
@@ -361,6 +361,15 @@ C
          RHO0_1 =PM( 1,IMAT)
          CNS2 = ZEP02
          IF (IGEO(35,NGEO(1))>0) CNS2=CNS2-ABS(GEO(17,NGEO(1)))
+      END IF
+!  for sound speed takeing into account nu
+      IMAT = MXT(1)  
+      ICP0=MAT_ELEM%MAT_PARAM(IMAT)%COMPRESSIBILITY
+      FAC_NU = ONE
+      NU0 = PM(21,IMAT)
+      IF (IDT1SOL == 1.AND.(MTN==1.OR.ICP0 ==3)) THEN
+        NU_SP=SQRT((ONE-NU0)/(ONE+NU0))
+        FAC_NU = NU_SP/ZEP9
       END IF
       ISCTL = IGEO(97,PID)
 C Total strain Pij are in global system for ISMSTR=10,12 and in local system for ISMSTR=11
@@ -626,6 +635,7 @@ C Element temperature
         ENDDO
       ENDIF
 C
+       DELTAXI(1:NEL) = FAC_NU*DELTAX(1:NEL)   
 C-----------------------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
       ILAY = 1 
@@ -669,7 +679,7 @@ C Compute stresses according to the material law
      4   STI,         X,           DT2T,        NELTST,
      5   ITYPTST,     OFFSET,      NEL,         W,
      6   OFF,         NGEO,        MXT,         NGL,
-     7   VOLN,        VD2,         DVOL,        DELTAX,
+     7   VOLN,        VD2,         DVOL,        DELTAXI,
      8   VIS,         QVIS,        CXX,         S1,
      9   S2,          S3,          S4,          S5,
      A   S6,          DXX,         DYY,         DZZ,
