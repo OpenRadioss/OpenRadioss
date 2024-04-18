@@ -176,6 +176,12 @@ C-----------------------------------------------
             CELL_POSITION(1,I) =MAX(1,1+INT(NB_CELL_X*(X(1,I)-XMIN)/(XMAX-XMIN)))
             CELL_POSITION(2,I) =MAX(1,1+INT(NB_CELL_Y*(X(2,I)-YMIN)/(YMAX-YMIN)))
             CELL_POSITION(3,I) =MAX(1,1+INT(NB_CELL_Z*(X(3,I)-ZMIN)/(ZMAX-ZMIN)))
+
+            ! ensure that cell_position does not exceed the number of
+            ! cell (single precision issue)
+            CELL_POSITION(1,I) =MIN(CELL_POSITION(1,I),NB_CELL_X)
+            CELL_POSITION(2,I) =MIN(CELL_POSITION(2,I),NB_CELL_Y)
+            CELL_POSITION(3,I) =MIN(CELL_POSITION(3,I),NB_CELL_Z)
         ENDDO   
         !   ------------------
 
