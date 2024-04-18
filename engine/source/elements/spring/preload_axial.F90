@@ -82,7 +82,7 @@
         if (tt>=t_start.and.tt<t_stop) then
           preload1= finter(fun_id,tt,npc,tf,deri)
           t_stif = t_start + (t_stop-t_start)*two_third
-          stf_f = max(zero,(tt-t_stif))/(t_stop-t_stif)
+          stf_f = zero
         end if
 !---
         end subroutine get_preload_axial
