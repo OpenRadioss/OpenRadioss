@@ -28,7 +28,7 @@
 !! \details binary comparison (IAND) is done to identify relevant faces
       subroutine init_bcs_wall( igrnod, ngrnod, numnod, ale_connectivity, multi_fvm,&
                                 ixs,nixs,numels, ixq,nixq,numelq, ixtg,nixtg,numeltg, n2d ,  &
-                                ngroup, nparg, iparg, iworking_array)
+                                ngroup, nparg, iparg, iworking_array, ipri)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -46,6 +46,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
+      integer, intent(in) :: ipri                                                  !< flag from /IOFLAG input option
       integer, intent(in) :: ngrnod, numnod                                        !< sizes for array definition
       type (group_), dimension(ngrnod), target :: igrnod                           !< data buffer for gorup of nodes
       TYPE(t_ale_connectivity) :: ale_connectivity                                 !< data buffer for ale connectivities
@@ -80,11 +81,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      write(iout, 2010)
+      if(ipri >= 3)write(iout, 2010)
       is_tria = .false.
-      l_tagnod(1:numnod) = .false.
+
 
       do ii = 1, bcs%num_wall
+
+        l_tagnod(1:numnod) = .false.
 
         !RETRIEVE RELATED GRNOD
         internal_grnod_id = bcs%wall(ii)%grnod_id
@@ -232,32 +235,36 @@
               end if
         end do !next jj
 
-        !effective size & printout
-        bcs%wall(ii)%list%size = ipos
-        if(ipos > 0)then
-          write(iout, 2011)bcs%wall(ii)%user_id
-          write(iout, 2020)
-          write(iout, 2021)
-          do jj=1,ipos
-            ie = bcs%wall(ii)%list%elem(jj)
-            iv = adjacent_elem(jj)
-            ! convert intenal ids (ie,iv) into user ids
-            if(n2d==0)then
-              ie = ixs(nixs,ie)
-              iv = ixs(nixs,iv)
-            else
-              if(is_tria)then
-                ie = ixtg(nixtg,ie)
-                iv = ixtg(nixtg,iv)
-              else
-                ie = ixq(nixq,ie)
-                iv = ixq(nixq,iv)
-              end if
-            end if
-            ! print user ids
-            write(iout, fmt='(5X,I10,2X,I10)')ie,iv
-          end do
-          write(iout, 2022)
+        if(ipri >= 3)then
+          !effective size & printout
+           bcs%wall(ii)%list%size = ipos
+           if(ipos > 0)then
+             write(iout, 2011)bcs%wall(ii)%user_id
+             write(iout, 2019)ipos/2  ! elem_i/elem_j and elem_j/elem_i related to the same internal face
+             write(iout, 2020)
+             write(iout, 2021)
+             do jj=1,ipos
+               ie = bcs%wall(ii)%list%elem(jj)
+               iv = adjacent_elem(jj)
+               ! convert intenal ids (ie,iv) into user ids
+               if(n2d==0)then
+                 ie = ixs(nixs,ie)
+                 iv = ixs(nixs,iv)
+               else
+                 if(is_tria)then
+                   ie = ixtg(nixtg,ie)
+                   iv = ixtg(nixtg,iv)
+                 else
+                   ie = ixq(nixq,ie)
+                   iv = ixq(nixq,iv)
+                 end if
+               end if
+               ! print user ids
+               !  do no print elem_i/elem_j and elem_j/elem_i it is the same internal face
+               if(ie < iv)write(iout, fmt='(5X,I10,2X,I10)')ie,iv
+             end do
+             write(iout, 2022)
+           endif
         endif
 
         deallocate(adjacent_elem)
@@ -274,6 +281,7 @@
                   '    ------------------------------  ', /)
 
  2011 format(5X, 'bcs identifier . . . . . . . . . . . . =', I10)
+ 2019 format(5X, 'number of identified faces . . . . . . =', I10)
  2020 format(5X, 'list of identified faces :' )
  2021 format(5X, '      ELEM /      ELEM   ' )
  2022 format(5X)

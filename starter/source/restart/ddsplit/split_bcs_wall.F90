@@ -52,7 +52,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Preconditions
 ! ---------------------------------------------------------------------------------------------------------------------- 
-      if(bcs%num_wall == 0)return
+      bcs_per_proc(1:nspmd)%num_wall = bcs%num_wall
+      if(bcs%num_wall == 0)return !nothing to allocate and nothing to initialize
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------                   
@@ -63,7 +64,6 @@
 
       ! --- filling global parameters for bcs wall data structure on each domain
       do p=1,nspmd
-        bcs_per_proc(p)%num_wall = bcs%num_wall
         do ii=1,bcs%num_wall
           bcs_per_proc(p)%wall(ii)%is_enabled = bcs%wall(ii)%is_enabled
           bcs_per_proc(p)%wall(ii)%is_depending_on_time = bcs%wall(ii)%is_depending_on_time

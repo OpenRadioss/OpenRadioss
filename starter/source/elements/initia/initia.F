@@ -819,7 +819,7 @@ C--------------------------------------------
       IF(BCS%NUM_WALL > 0)THEN
         CALL INIT_BCS_WALL(IGRNOD,NGRNOD,NUMNOD,ALE_CONNECTIVITY,MULTI_FVM,
      .                     IXS,NIXS,NUMELS, IXQ,NIXQ,NUMELQ, IXTG,NIXTG,NUMELTG, N2D,
-     .                     NGROUP,NPARG,IPARG,IWORKING_ARRAY)
+     .                     NGROUP,NPARG,IPARG,IWORKING_ARRAY,IPRI)
       ENDIF
 C---------------------------------------------------------
 C     Tri du vecteur de bolt Preloading
