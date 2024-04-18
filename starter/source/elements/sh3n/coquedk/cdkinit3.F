@@ -203,7 +203,6 @@ C-----------------------------------------------
      .             PERTURB,IX1   ,IX2      ,IX3    ,
      .             X2L    ,X3L    ,Y3L   ,IDRAPE , INDX)
 C-----------------------------------------------
-      IF (MTN == 1 .OR. MTN == 3 .OR. MTN == 23) NPT = 0
       NPT_ALL = 0
       DO IL=1,NLAY
           NPT_ALL = NPT_ALL + ELBUF_STR%BUFLY(IL)%NPTT
