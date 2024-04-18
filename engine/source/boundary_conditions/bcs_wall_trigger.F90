@@ -90,9 +90,9 @@
               !---set wall to related face
               bcs%wall(ii)%list%adjacent_elem(jj) = ale_connectivity%ee_connect%connected(IAD + iface - 1)
               ale_connectivity%ee_connect%connected(IAD + iface - 1) = 0
-              write (iout ,1000) bcs%wall(ii)%user_id, time
-              write (istdo,1000) bcs%wall(ii)%user_id, time
             end do
+            write (iout ,1000) bcs%wall(ii)%user_id, time
+            write (istdo,1000) bcs%wall(ii)%user_id, time
           endif
 
         else
@@ -108,10 +108,9 @@
               iad = ale_connectivity%ee_connect%iad_connect(ielem)
               !---remove wall to related face
               ale_connectivity%ee_connect%connected(IAD + iface - 1) = bcs%wall(ii)%list%adjacent_elem(jj)
-               write (iout ,2000) bcs%wall(ii)%user_id, time
-               write (istdo,2000) bcs%wall(ii)%user_id, time
             end do
-
+            write (iout ,2000) bcs%wall(ii)%user_id, time
+            write (istdo,2000) bcs%wall(ii)%user_id, time
           endif
         endif !time
 
