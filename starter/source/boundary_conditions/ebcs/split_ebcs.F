@@ -37,7 +37,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
         SUBROUTINE SPLIT_EBCS( PROC_ID,LOCAL_NEBCS,LIST_OTHER_EBCS,NUMEL,
-     1                         CEP,IGRSURF,LOCAL_ELEMENT_ID,NODLOCAL,
+     1                         CEP,IGRSURF,LOCAL_ELEMENT_ID,
      2                         EBCS_TAB,EBCS_TAB_LOC_2)
 !$COMMENT
 !       SPLIT_EBCS description
@@ -82,7 +82,6 @@ C-----------------------------------------------
         INTEGER, DIMENSION(LOCAL_NEBCS), INTENT(IN) :: LIST_OTHER_EBCS ! list of parallelized ebcs
         INTEGER, DIMENSION(NUMEL), INTENT(IN) :: CEP ! connectivity element/proc 
         INTEGER, DIMENSION(NUMEL), INTENT(IN) :: LOCAL_ELEMENT_ID ! list of local element id (local to the current proc)
-        INTEGER, DIMENSION(NUMNOD), INTENT(IN) :: NODLOCAL ! array : 1 if the node is on the current proc, used here for debug
         TYPE (SURF_), DIMENSION(NSURF), TARGET, INTENT(IN) :: IGRSURF ! surface structure
         TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB,EBCS_TAB_LOC_2 ! ebcs structure
 C-----------------------------------------------

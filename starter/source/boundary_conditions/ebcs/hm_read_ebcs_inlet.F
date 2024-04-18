@@ -38,8 +38,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_EBCS_INLET(LOCAL_ID, IGRSURF,
-     .     NPC, NOM_OPT, MULTI_FVM, UNITAB, ID, TITR, TYP, UID, LSUBMODEL, KEY2, EBCS)
+      SUBROUTINE HM_READ_EBCS_INLET(IGRSURF,NPC, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, KEY2, EBCS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,12 +62,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER LOCAL_ID, NPC(*)
-      INTEGER NOM_OPT(LNOPT1),ID,TYP,UID
+      INTEGER  NPC(*)
+      INTEGER ID,UID
       TYPE (MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       TYPE (SURF_)   ,TARGET,  DIMENSION(NSURF)   :: IGRSURF
       CHARACTER, INTENT(IN) :: TITR*nchartitle
-      CHARACTER :: OPT*ncharkey
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       LOGICAL IS_AVAILABLE,IS_ENCRYPTED
       CHARACTER,INTENT(IN) :: KEY2*ncharkey
@@ -76,11 +74,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISU,SENS,MONVOL,SURF,NGR2USR,IPRES,IRHO,NOD,IAD,J,K1,K2,NSEG,IENER,IVX,IVY,IVZ,IALPHA
-      INTEGER LISTE(NUMNOD), IMAT,IVEL_TYP,U_IALPHA,U_IRHO,U_IPRES,IFLAGUNIT,FLAG_FMT
+      INTEGER ISU,SURF,NGR2USR,IPRES,IRHO,J,NSEG,IENER,IVX,IVY,IVZ,IALPHA
+      INTEGER IMAT,IVEL_TYP,U_IALPHA,U_IRHO,U_IPRES,IFLAGUNIT
       my_real :: CHECK_CUMUL_VF(2)
       my_real C,PRES,RHO,LCAR,R1,R2,ENER,VX,VY,VZ, ALPHA
-      CHARACTER MESS*40,KEY*ncharkey,chain*9, chain1*64
+      CHARACTER chain*9, chain1*64
       EXTERNAL NGR2USR
       LOGICAL FOUND
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
@@ -132,40 +130,40 @@ C-----------------------------------------------
       CALL HM_GET_INTV('entityid',  SURF  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('vel_flag',  EBCS%fvm_inlet_data%VECTOR_VELOCITY  ,IS_AVAILABLE,LSUBMODEL)
 
-         ISU=0
-         IVEL_TYP = EBCS%fvm_inlet_data%VECTOR_VELOCITY
-         INGR2USR => IGRSURF(1:NSURF)%ID
-         IF (SURF/=0) ISU=NGR2USR(SURF,INGR2USR,NSURF)
-         NSEG=0
-         IF (ISU/=0) NSEG=IGRSURF(ISU)%NSEG
-         IF(SURF==0)THEN
-            IERR=IERR+1
-            WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'  
-            WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'       
-         ELSEIF(ISU==0)THEN
-            IERR=IERR+1
-            WRITE(ISTDO,*)' ** ERROR SURFACE NOT FOUND, ID=',SURF
-            WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF        
-         ELSEIF(NSEG==0)THEN
-            IERR=IERR+1
-            WRITE(ISTDO,*)' ** ERROR EMPTY SURFACE',SURF
-            WRITE(IOUT,*) ' ** ERROR EMPTY SURFACE',SURF
-         ENDIF
-       
-         IF(TYP==8)WRITE(IOUT,1018)ID,TRIM(TITR)
-         IF (TYP == 8) THEN
-            IF (KEY2(1:2) == 'VP') THEN
-               EBCS%fvm_inlet_data%FORMULATION = 1
-               WRITE(IOUT,1021)
-            ELSEIF (KEY2(1:2) == 'VE') THEN
-               EBCS%fvm_inlet_data%FORMULATION = 2
-               WRITE(IOUT,1022)
-            ELSE
-               CALL ANCMSG(MSGID=1602,MSGTYPE=MSGERROR,ANMODE=ANINFO,
-     .              I1 = ID,
-     .              C1 = TRIM(TITR),
-     .              C2 = "AN INPUT FORMULATION HAS TO BE PROVIDED : VE, OR VP")
-            ENDIF
+      ISU=0
+      IVEL_TYP = EBCS%fvm_inlet_data%VECTOR_VELOCITY
+      INGR2USR => IGRSURF(1:NSURF)%ID
+      IF (SURF/=0) ISU=NGR2USR(SURF,INGR2USR,NSURF)
+      NSEG=0
+      IF (ISU/=0) NSEG=IGRSURF(ISU)%NSEG
+      IF(SURF==0)THEN
+         IERR=IERR+1
+         WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'
+         WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'
+      ELSEIF(ISU==0)THEN
+         IERR=IERR+1
+         WRITE(ISTDO,*)' ** ERROR SURFACE NOT FOUND, ID=',SURF
+         WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF
+      ELSEIF(NSEG==0)THEN
+         IERR=IERR+1
+         WRITE(ISTDO,*)' ** ERROR EMPTY SURFACE',SURF
+         WRITE(IOUT,*) ' ** ERROR EMPTY SURFACE',SURF
+      ENDIF
+
+      WRITE(IOUT,1018)ID,TRIM(TITR)
+
+      IF (KEY2(1:2) == 'VP') THEN
+         EBCS%fvm_inlet_data%FORMULATION = 1
+         WRITE(IOUT,1021)
+      ELSEIF (KEY2(1:2) == 'VE') THEN
+         EBCS%fvm_inlet_data%FORMULATION = 2
+         WRITE(IOUT,1022)
+      ELSE
+         CALL ANCMSG(MSGID=1602,MSGTYPE=MSGERROR,ANMODE=ANINFO,
+     .        I1 = ID,
+     .        C1 = TRIM(TITR),
+     .        C2 = "AN INPUT FORMULATION HAS TO BE PROVIDED : VE, OR VP")
+      ENDIF
             
       CALL HM_GET_FLOATV('rad_ebcs_fscale_vx',  VX  ,IS_AVAILABLE,LSUBMODEL,UNITAB)                
       CALL HM_GET_FLOATV('rad_ebcs_fscale_vy',  VY  ,IS_AVAILABLE,LSUBMODEL,UNITAB)                
@@ -174,228 +172,226 @@ C-----------------------------------------------
       CALL HM_GET_INTV('fct_IDvy',  IVY  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('fct_IDvz',  IVZ  ,IS_AVAILABLE,LSUBMODEL)
 
-            IF(IVEL_TYP==0)THEN
-              !NORMAL VELOCITY
-              IF(IVX>0)THEN
-               FOUND = .FALSE.
-               DO J=1,NFUNCT
-                 IF(IVX==NPC(J)) THEN 
-                   WRITE(IOUT,1133)IVX,VX
-                   IVX=J
-                   FOUND = .TRUE.
-                   EXIT
-                 ENDIF
-               ENDDO
-            ELSEIF(IVX==0)THEN
-                IF(VY/=ZERO.OR.VZ/=ZERO)THEN
-                !check that user is defining VX ocrrectly
-                  CALL ANCMSG(MSGID=1602,MSGTYPE=MSGERROR,ANMODE=ANINFO,
-     .                 I1 = ID,
-     .                 C1 = TRIM(TITR),
-     .                 C2 = "NORMAL VELOCITY MUST BE INPUT WITH COMPONENT-1 WHEN VEL_FLAG SET TO 0")                
-                ENDIF
-                WRITE(IOUT,1134)VX
-            ELSEIF(IVX==-1)THEN
-                WRITE(IOUT,1135)IVX
+      IF(IVEL_TYP==0)THEN
+        !NORMAL VELOCITY
+        IF(IVX>0)THEN
+          FOUND = .FALSE.
+          DO J=1,NFUNCT
+            IF(IVX==NPC(J)) THEN
+              WRITE(IOUT,1133)IVX,VX
+              IVX=J
+              FOUND = .TRUE.
+              EXIT
             ENDIF
-            IF(IVX<-1 .OR. (IVX>0.AND. .NOT.FOUND))THEN
-                 CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
-     .                       I1     = ID,
-     .                       C1     = TRIM(TITR),
-     .                       C2     = "INVALID FUNCTION ID FOR VELOCITY-X")
+          ENDDO
+        ELSEIF(IVX==0)THEN
+          IF(VY/=ZERO.OR.VZ/=ZERO)THEN
+          !check that user is defining VX ocrrectly
+            CALL ANCMSG(MSGID=1602,MSGTYPE=MSGERROR,ANMODE=ANINFO,
+     .           I1 = ID,
+     .           C1 = TRIM(TITR),
+     .           C2 = "NORMAL VELOCITY MUST BE INPUT WITH COMPONENT-1 WHEN VEL_FLAG SET TO 0")
+          ENDIF
+          WRITE(IOUT,1134)VX
+        ELSEIF(IVX==-1)THEN
+          WRITE(IOUT,1135)IVX
+        ENDIF
+
+        IF(IVX<-1 .OR. (IVX>0.AND. .NOT.FOUND))THEN
+           CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
+     .                 I1     = ID,
+     .                 C1     = TRIM(TITR),
+     .                 C2     = "INVALID FUNCTION ID FOR VELOCITY-X")
+        ENDIF
+
+      ELSE
+        !VELOCITY COMPONENTS
+        IF(IVX>0)THEN
+          FOUND = .FALSE.
+          DO J=1,NFUNCT
+            IF(IVX==NPC(J)) THEN
+              WRITE(IOUT,1121)IVX,VX
+              IVX=J
+              FOUND = .TRUE.
+              EXIT
             ENDIF
-            ELSE
-              !VELOCITY COMPONENTS
-              IF(IVX>0)THEN
-               FOUND = .FALSE.
-               DO J=1,NFUNCT
-                 IF(IVX==NPC(J)) THEN 
-                   WRITE(IOUT,1121)IVX,VX
-                   IVX=J
-                   FOUND = .TRUE.
-                   EXIT
-                 ENDIF
-               ENDDO
-              ELSEIF(IVX==0)THEN
-                WRITE(IOUT,1124)IVX
-              ELSEIF(IVX==-1)THEN
-                WRITE(IOUT,1127)IVX
-              ENDIF
-              IF(IVX<-1 .OR. (IVX>0.AND. .NOT.FOUND))THEN
-                 CALL ANCMSG(MSGID  = 1602, MSGTYPE= MSGERROR,ANMODE = ANINFO,
-     .                       I1     = ID,
-     .                       C1     = TRIM(TITR),
-     .                       C2     = "INVALID FUNCTION ID FOR VELOCITY-X")
-              ENDIF
+          ENDDO
+        ELSEIF(IVX==0)THEN
+          WRITE(IOUT,1124)IVX
+        ELSEIF(IVX==-1)THEN
+          WRITE(IOUT,1127)IVX
+        ENDIF
+        IF(IVX<-1 .OR. (IVX>0.AND. .NOT.FOUND))THEN
+                CALL ANCMSG(MSGID  = 1602, MSGTYPE= MSGERROR,ANMODE = ANINFO,
+     .                      I1     = ID,
+     .                      C1     = TRIM(TITR),
+     .                      C2     = "INVALID FUNCTION ID FOR VELOCITY-X")
+        ENDIF
+        IF(IVY>0)THEN
+         FOUND = .FALSE.
+         DO J=1,NFUNCT
+           IF(IVY==NPC(J)) THEN
+             WRITE(IOUT,1122)IVY,VY
+             IVY=J
+             FOUND = .TRUE.
+             EXIT
+           ENDIF
+         ENDDO
+        ELSEIF(IVY==0)THEN
+          WRITE(IOUT,1125)IVY
+        ELSEIF(IVY==-1)THEN
+          WRITE(IOUT,1128)IVY
+        ENDIF
+        IF(IVY<-1 .OR. (IVY>0.AND. .NOT.FOUND))THEN
+           CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
+     .                 I1     = ID,
+     .                 C1     = TRIM(TITR),
+     .                 C2     = "INVALID FUNCTION ID FOR VELOCITY-Y")
+        ENDIF
 
-              IF(IVY>0)THEN
-               FOUND = .FALSE.
-               DO J=1,NFUNCT
-                 IF(IVY==NPC(J)) THEN 
-                   WRITE(IOUT,1122)IVY,VY
-                   IVY=J
-                   FOUND = .TRUE.
-                   EXIT
-                 ENDIF
-               ENDDO
-              ELSEIF(IVY==0)THEN
-                WRITE(IOUT,1125)IVY
-              ELSEIF(IVY==-1)THEN
-                WRITE(IOUT,1128)IVY
-              ENDIF
-              IF(IVY<-1 .OR. (IVY>0.AND. .NOT.FOUND))THEN
-                 CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
-     .                       I1     = ID,
-     .                       C1     = TRIM(TITR),
-     .                       C2     = "INVALID FUNCTION ID FOR VELOCITY-Y")
-              ENDIF
-
-              IF(IVZ>0)THEN
-               FOUND = .FALSE.
-               DO J=1,NFUNCT
-                 IF(IVZ==NPC(J)) THEN 
-                   WRITE(IOUT,1123)IVZ,VZ
-                   IVZ=J
-                   FOUND = .TRUE.
-                   EXIT
-                 ENDIF
-               ENDDO
-              ELSEIF(IVZ==0)THEN
-                WRITE(IOUT,1126)IVZ
-              ELSEIF(IVZ==-1)THEN
-                WRITE(IOUT,1129)IVZ
-              ENDIF
-              IF(IVZ<-1 .OR. (IVZ>0.AND. .NOT.FOUND))THEN
-                 CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
-     .                       I1     = ID,
-     .                       C1     = TRIM(TITR),
-     .                       C2     = "INVALID FUNCTION ID FOR VELOCITY-Z")
-              ENDIF
+        IF(IVZ>0)THEN
+          FOUND = .FALSE.
+          DO J=1,NFUNCT
+            IF(IVZ==NPC(J)) THEN
+              WRITE(IOUT,1123)IVZ,VZ
+              IVZ=J
+              FOUND = .TRUE.
+              EXIT
             ENDIF
+          ENDDO
+        ELSEIF(IVZ==0)THEN
+          WRITE(IOUT,1126)IVZ
+        ELSEIF(IVZ==-1)THEN
+          WRITE(IOUT,1129)IVZ
+        ENDIF
 
-            EBCS%fvm_inlet_data%FUNC_VEL(1) = IVX
-            EBCS%fvm_inlet_data%VAL_VEL(1)  =  VX
-            EBCS%fvm_inlet_data%FUNC_VEL(2) = IVY
-            EBCS%fvm_inlet_data%VAL_VEL(2)  =  VY
-            EBCS%fvm_inlet_data%FUNC_VEL(3) = IVZ
-            EBCS%fvm_inlet_data%VAL_VEL(3)  =  VZ
-            CHECK_CUMUL_VF(1:2) = ZERO
-            DO IMAT = 1, MULTI_FVM%NBMAT
-               CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalevf_n', ALPHA ,IMAT,IS_AVAILABLE,LSUBMODEL,UNITAB)
-               CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalerho_n',RHO   ,IMAT,IS_AVAILABLE,LSUBMODEL,UNITAB)
-               CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalep_e_n',PRES  ,IMAT,IS_AVAILABLE,LSUBMODEL,UNITAB)
-               CALL HM_GET_INT_ARRAY_INDEX('fct_IDvf_n',   IALPHA,IMAT,IS_AVAILABLE,LSUBMODEL)
-               CALL HM_GET_INT_ARRAY_INDEX('fct_IDrho_n',  IRHO  ,IMAT,IS_AVAILABLE,LSUBMODEL)
-               CALL HM_GET_INT_ARRAY_INDEX('fct_IDp_e_n',  IPRES ,IMAT,IS_AVAILABLE,LSUBMODEL)
-               CHECK_CUMUL_VF(1)=CHECK_CUMUL_VF(1)+ABS(IALPHA)
-               CHECK_CUMUL_VF(2)=CHECK_CUMUL_VF(2)+ABS(ALPHA)
-               !user ids backup
-               U_IALPHA=IALPHA
-               U_IRHO  =IRHO
-               U_IPRES =IPRES
-               !check and get internal function id
-               IF(IALPHA>0)THEN
-                 FOUND = .FALSE.
-                 DO J=1,NFUNCT
-                    IF(IALPHA==NPC(J)) THEN 
-                       IALPHA=J
-                       FOUND=.TRUE.
-                       EXIT
-                    ENDIF
-                 ENDDO
-                 IF(.NOT.FOUND)THEN
-                    chain='SUBMAT-00'
-                    write(chain(8:9),'(i2)')IMAT
-                    chain1='INVALID FUNCTION ID FOR IALPHA & '//chain
-                    CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
-     .                          I1     = ID,
-     .                          C1     = TRIM(TITR),
-     .                          C2     = chain1)
-                 ENDIF
-               ENDIF
-               !check and get internal function id
-               IF(IRHO>0)THEN
-                 FOUND = .FALSE.
-                 DO J=1,NFUNCT
-                    IF(IRHO==NPC(J)) THEN 
-                       IRHO=J
-                       FOUND=.TRUE.
-                       EXIT
-                    ENDIF
-                 ENDDO
-                 IF(.NOT.FOUND)THEN
-                    chain='SUBMAT-00'
-                    write(chain(8:9),'(i2)')IMAT
-                    chain1='INVALID FUNCTION ID FOR IRHO & '//chain
-                    CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
-     .                          I1     = ID,
-     .                          C1     = TRIM(TITR),
-     .                          C2     = chain1)
-                 ENDIF
-               ENDIF
-               !check and get internal function id
-               IF(IPRES>0)THEN
-                 FOUND = .FALSE.
-                 DO J=1,NFUNCT
-                    IF(IPRES==NPC(J)) THEN 
-                       IPRES=J
-                       FOUND=.TRUE.
-                       EXIT
-                    ENDIF
-                 ENDDO
-                 IF(.NOT.FOUND)THEN
-                    chain='SUBMAT-00'
-                    write(chain(8:9),'(i2)')IMAT
-                    chain1='INVALID FUNCTION ID FOR IPRES & '//chain
-                    CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
-     .                          I1     = ID,
-     .                          C1     = TRIM(TITR),
-     .                          C2     = chain1)
-                 ENDIF
-               ENDIF
+        IF(IVZ<-1 .OR. (IVZ>0.AND. .NOT.FOUND))THEN
+          CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
+     .                I1     = ID,
+     .                C1     = TRIM(TITR),
+     .                C2     = "INVALID FUNCTION ID FOR VELOCITY-Z")
+        ENDIF
 
-              IF(ALPHA<ZERO)THEN
-                CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
-     .                      I1     = ID,                                                
-     .                      C1     = TRIM(TITR),                                        
-     .                      C2     = "VOLUME FRACTION CANNOT BE NEGATIVE") 
+      ENDIF
+
+      EBCS%fvm_inlet_data%FUNC_VEL(1) = IVX
+      EBCS%fvm_inlet_data%VAL_VEL(1)  =  VX
+      EBCS%fvm_inlet_data%FUNC_VEL(2) = IVY
+      EBCS%fvm_inlet_data%VAL_VEL(2)  =  VY
+      EBCS%fvm_inlet_data%FUNC_VEL(3) = IVZ
+      EBCS%fvm_inlet_data%VAL_VEL(3)  =  VZ
+      CHECK_CUMUL_VF(1:2) = ZERO
+
+      DO IMAT = 1, MULTI_FVM%NBMAT
+         CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalevf_n', ALPHA ,IMAT,IS_AVAILABLE,LSUBMODEL,UNITAB)
+         CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalerho_n',RHO   ,IMAT,IS_AVAILABLE,LSUBMODEL,UNITAB)
+         CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalep_e_n',PRES  ,IMAT,IS_AVAILABLE,LSUBMODEL,UNITAB)
+         CALL HM_GET_INT_ARRAY_INDEX('fct_IDvf_n',   IALPHA,IMAT,IS_AVAILABLE,LSUBMODEL)
+         CALL HM_GET_INT_ARRAY_INDEX('fct_IDrho_n',  IRHO  ,IMAT,IS_AVAILABLE,LSUBMODEL)
+         CALL HM_GET_INT_ARRAY_INDEX('fct_IDp_e_n',  IPRES ,IMAT,IS_AVAILABLE,LSUBMODEL)
+         CHECK_CUMUL_VF(1)=CHECK_CUMUL_VF(1)+ABS(IALPHA)
+         CHECK_CUMUL_VF(2)=CHECK_CUMUL_VF(2)+ABS(ALPHA)
+         !user ids backup
+         U_IALPHA=IALPHA
+         U_IRHO  =IRHO
+         U_IPRES =IPRES
+         !check and get internal function id
+         IF(IALPHA>0)THEN
+           FOUND = .FALSE.
+           DO J=1,NFUNCT
+              IF(IALPHA==NPC(J)) THEN
+                 IALPHA=J
+                 FOUND=.TRUE.
+                 EXIT
               ENDIF
-              IF(RHO<ZERO)THEN        
-                CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
-     .                      I1     = ID,                                                
-     .                      C1     = TRIM(TITR),                                        
-     .                      C2     = "MASS DENSITY CANNOT BE NEGATIVE")                             
-              ENDIF               
-
-               EBCS%fvm_inlet_data%FUNC_ALPHA(IMAT) = IALPHA
-               EBCS%fvm_inlet_data%FUNC_RHO(IMAT)   = IRHO
-               EBCS%fvm_inlet_data%FUNC_PRES(IMAT)  = IPRES
-               EBCS%fvm_inlet_data%VAL_ALPHA(IMAT)  = ALPHA
-               EBCS%fvm_inlet_data%VAL_RHO(IMAT)    = RHO
-               EBCS%fvm_inlet_data%VAL_PRES(IMAT)   = PRES
-               WRITE(IOUT,1130)IMAT
-               WRITE(IOUT,1131)U_IALPHA,U_IRHO,U_IPRES
-               WRITE(IOUT,1132)ALPHA,RHO,PRES
-            ENDDO
-            WRITE(IOUT, FMT='(/)' )
-            IF(CHECK_CUMUL_VF(1)==ZERO .AND. CHECK_CUMUL_VF(2)==ZERO)THEN
+           ENDDO
+           IF(.NOT.FOUND)THEN
+              chain='SUBMAT-00'
+              write(chain(8:9),'(i2)')IMAT
+              chain1='INVALID FUNCTION ID FOR IALPHA & '//chain
               CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
-     .                    I1     = ID,                                                  
-     .                    C1     = TRIM(TITR),                                          
-     .                    C2     = "INPUT VOLUME FRACTIONS ARE EMPTY")                
-            ENDIF
+     .                    I1     = ID,
+     .                    C1     = TRIM(TITR),
+     .                    C2     = chain1)
+           ENDIF
          ENDIF
+         !check and get internal function id
+         IF(IRHO>0)THEN
+           FOUND = .FALSE.
+           DO J=1,NFUNCT
+              IF(IRHO==NPC(J)) THEN
+                 IRHO=J
+                 FOUND=.TRUE.
+                 EXIT
+              ENDIF
+           ENDDO
+           IF(.NOT.FOUND)THEN
+              chain='SUBMAT-00'
+              write(chain(8:9),'(i2)')IMAT
+              chain1='INVALID FUNCTION ID FOR IRHO & '//chain
+              CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
+     .                    I1     = ID,
+     .                    C1     = TRIM(TITR),
+     .                    C2     = chain1)
+           ENDIF
+         ENDIF
+         !check and get internal function id
+         IF(IPRES>0)THEN
+           FOUND = .FALSE.
+           DO J=1,NFUNCT
+              IF(IPRES==NPC(J)) THEN
+                 IPRES=J
+                 FOUND=.TRUE.
+                 EXIT
+              ENDIF
+           ENDDO
+           IF(.NOT.FOUND)THEN
+              chain='SUBMAT-00'
+              write(chain(8:9),'(i2)')IMAT
+              chain1='INVALID FUNCTION ID FOR IPRES & '//chain
+              CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
+     .                    I1     = ID,
+     .                    C1     = TRIM(TITR),
+     .                    C2     = chain1)
+           ENDIF
+         ENDIF
+        IF(ALPHA<ZERO)THEN
+          CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
+     .                I1     = ID,
+     .                C1     = TRIM(TITR),
+     .                C2     = "VOLUME FRACTION CANNOT BE NEGATIVE")
+        ENDIF
+        IF(RHO<ZERO)THEN
+          CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
+     .                I1     = ID,
+     .                C1     = TRIM(TITR),
+     .                C2     = "MASS DENSITY CANNOT BE NEGATIVE")
+        ENDIF
+         EBCS%fvm_inlet_data%FUNC_ALPHA(IMAT) = IALPHA
+         EBCS%fvm_inlet_data%FUNC_RHO(IMAT)   = IRHO
+         EBCS%fvm_inlet_data%FUNC_PRES(IMAT)  = IPRES
+         EBCS%fvm_inlet_data%VAL_ALPHA(IMAT)  = ALPHA
+         EBCS%fvm_inlet_data%VAL_RHO(IMAT)    = RHO
+         EBCS%fvm_inlet_data%VAL_PRES(IMAT)   = PRES
+         WRITE(IOUT,1130)IMAT
+         WRITE(IOUT,1131)U_IALPHA,U_IRHO,U_IPRES
+         WRITE(IOUT,1132)ALPHA,RHO,PRES
+      ENDDO
+      WRITE(IOUT, FMT='(/)' )
+      IF(CHECK_CUMUL_VF(1)==ZERO .AND. CHECK_CUMUL_VF(2)==ZERO)THEN
+        CALL ANCMSG(MSGID  = 1602,MSGTYPE= MSGERROR,ANMODE = ANINFO,
+     .              I1     = ID,
+     .              C1     = TRIM(TITR),
+     .              C2     = "INPUT VOLUME FRACTIONS ARE EMPTY")
+      ENDIF
+
         
-         WRITE(IOUT,1118)SURF,NSEG
+      WRITE(IOUT,1118)SURF,NSEG
          
-         IF (.NOT. MULTI_FVM%IS_USED) THEN
-               CALL ANCMSG(MSGID=1602,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO,
-     .              I1 = ID,
-     .              C1 = TRIM(TITR),
-     .              C2 = "ONLY COMPATIBLE WITH LAW 151")
-            ENDIF
+      IF (.NOT. MULTI_FVM%IS_USED) THEN
+         CALL ANCMSG(MSGID=1602,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1 = ID,C1 = TRIM(TITR),
+     .               C2 = "ONLY COMPATIBLE WITH LAW 151")
+      ENDIF
       
 C-----------
       RETURN
@@ -449,7 +445,6 @@ C-----------
  1135 FORMAT(
      .        '    IVn FUNCTION ID . . . . . . . . . . . . . ',I2,/,
      .        '      Von Neumann BCS :  d/dn Vn = 0')
-
 
       END
 

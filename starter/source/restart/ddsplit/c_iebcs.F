@@ -29,7 +29,7 @@ Chd|        EBCS_MOD                      ../common_source/modules/boundary_cond
 Chd|====================================================================
        SUBROUTINE C_IEBCS(IXS, IXQ, IXTG, 
      .     NUMELS, NUMELQ, NUMELTG,
-     .     IPM, NEBCS, CEP, NUMEL, NUMEL_L, PROC, 
+     .      NEBCS, CEP, NUMEL,  PROC,
      .     IEBCS_NELEM_L, IEBCS_TYPE, IEBCS_LISTELEM_L, IEBCS_LISTFAC_L,IEBCS_LISTDP0_L, LENGTH, N2D,
      .     MULTI_FVM_IS_USED,FLAG,EBCS_TAB)
        USE EBCS_MOD
@@ -50,8 +50,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN), TARGET :: IXS(NIXS, NUMELS), IXQ(NIXQ, NUMELQ), IXTG(NIXTG, NUMELTG),
      .     NUMELS, NUMELQ, NUMELTG
-      INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
-      INTEGER, INTENT(IN) :: NEBCS, CEP(*), NUMEL, NUMEL_L, PROC, N2D
+      INTEGER, INTENT(IN) :: NEBCS, CEP(*), NUMEL, PROC, N2D
       INTEGER, INTENT(INOUT) :: LENGTH, IEBCS_NELEM_L(NEBCS), IEBCS_TYPE(NEBCS), 
      .     IEBCS_LISTELEM_L(*), IEBCS_LISTFAC_L(*)
       my_real, INTENT(INOUT) :: IEBCS_LISTDP0_L(*)

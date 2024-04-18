@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,KK,TYP,NSEG,NOD,RBUF,JBUF,K1,K2,K3,K4,MK1,MK2,MK3,MK4,MK5,MK6
+      INTEGER I,NSEG,NOD
       CLASS(t_ebcs), POINTER :: EBCS
       my_real RHO
       LOGICAL lFOUND_EBCS_NRF
@@ -80,7 +80,7 @@ C=======================================================================
              NOD = twf%nb_node
              RHO = twf%rho
              CALL INIEBCSP(NSEG, NOD, twf%iseg, twf%ielem, twf%elem_list, twf%node_list,
-     .            twf%la, IPARG, ELBUF_STR, twf%p0, RHO, X)
+     .            twf%la, IPARG, ELBUF_STR, twf%p0, X)
            TYPE IS (t_ebcs_nrf)
              lFOUND_EBCS_NRF = .TRUE.
              NSEG = twf%nb_elem
@@ -93,10 +93,7 @@ C=======================================================================
       ENDDO
       
        IF(lFOUND_EBCS_NRF)THEN
-          CALL INIEBCS_NRF_TCAR(EBCS_TAB,
-     .                       IPARG, X, IXS, IXQ, IXTG,
-     .                       IPARTS, IPARTQ, IPARTTG,
-     .                       PM, IPM) 
+          CALL INIEBCS_NRF_TCAR(EBCS_TAB,X, IXS, IXQ, IXTG,PM, IPM)
        ENDIF
       
       CALL INIGRAV_PARTS%destroy()

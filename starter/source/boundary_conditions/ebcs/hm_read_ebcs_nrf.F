@@ -36,8 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_EBCS_NRF(LOCAL_ID, IGRSURF,
-     .     NPC, NOM_OPT, MULTI_FVM, UNITAB, ID, TITR, TYP, UID, LSUBMODEL, EBCS)
+      SUBROUTINE HM_READ_EBCS_NRF(IGRSURF, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, EBCS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,28 +59,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER LOCAL_ID, NPC(*)
-      INTEGER NOM_OPT(LNOPT1),ID,TYP,UID
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      INTEGER ID,UID
       TYPE (MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       TYPE (SURF_)   ,TARGET,  DIMENSION(NSURF)   :: IGRSURF
       CHARACTER, INTENT(IN) :: TITR*nchartitle
-      CHARACTER :: OPT*ncharkey
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       LOGICAL IS_AVAILABLE,IS_ENCRYPTED
       TYPE(t_ebcs_nrf), INTENT(INOUT) :: EBCS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISU,SENS,MONVOL,SURF,NGR2USR,
+      INTEGER I,ISU,SENS,MONVOL,SURF,
      .        IPRES,IRHO,NOD,IAD,J,K1,K2,NSEG,IENER,IVX,IVY,IVZ,IALPHA
       INTEGER LISTE(NUMNOD), IMAT,IVEL_TYP,U_IALPHA,U_IRHO,U_IPRES,IFLAGUNIT,FLAG_FMT,
      .        CHECK_CUMUL_VF(2)
       my_real C,PRES,RHO,LCAR,R1,R2,ENER,VX,VY,VZ, ALPHA, TCAR_VF, TCAR_P
       CHARACTER MESS*40,KEY*ncharkey,chain*9, chain1*64
-      EXTERNAL NGR2USR
       LOGICAL FOUND
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
+      INTEGER, EXTERNAL :: NGR2USR
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -94,14 +91,8 @@ C-----------------------------------------------
         ENDIF                                                    
       ENDDO                                                      
       IF (UID/=0.AND.IFLAGUNIT==0) THEN                      
-        CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,    
-     .              I2=UID,
-     .              I1=ID,
-     .              C1='EBCS',           
-     .              C2='EBCS',                           
-     .              C3=TITR)                                      
-      ENDIF      
-
+        CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,I2=UID,I1=ID,C1='EBCS',C2='EBCS',C3=TITR)
+      ENDIF
     
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       CALL HM_GET_INTV('entityid',  SURF  ,IS_AVAILABLE,LSUBMODEL)
@@ -118,18 +109,18 @@ C-----------------------------------------------
         EBCS%is_multifluid = .TRUE.
       ENDIF 
       
-            EBCS%fvm_inlet_data%FUNC_VEL(1:3) = -1
-            EBCS%fvm_inlet_data%VAL_VEL(1:3)  =  ZERO
-            EBCS%fvm_inlet_data%FORMULATION = 2
-            EBCS%fvm_inlet_data%VECTOR_VELOCITY = 1
-            DO IMAT = 1, 21 !  MULTI_FVM%NBMAT       -> init from NBMAT+1,21 to avoid uninit values transmitted to starter
-               EBCS%fvm_inlet_data%FUNC_ALPHA(IMAT) = -1
-               EBCS%fvm_inlet_data%FUNC_RHO(IMAT)   = -1
-               EBCS%fvm_inlet_data%FUNC_PRES(IMAT)  = -1
-               EBCS%fvm_inlet_data%VAL_ALPHA(IMAT)  = ZERO
-               EBCS%fvm_inlet_data%VAL_RHO(IMAT)    = ZERO
-               EBCS%fvm_inlet_data%VAL_PRES(IMAT)   = ZERO
-            ENDDO                    
+       EBCS%fvm_inlet_data%FUNC_VEL(1:3) = -1
+       EBCS%fvm_inlet_data%VAL_VEL(1:3)  =  ZERO
+       EBCS%fvm_inlet_data%FORMULATION = 2
+       EBCS%fvm_inlet_data%VECTOR_VELOCITY = 1
+       DO IMAT = 1, 21 !  MULTI_FVM%NBMAT       -> init from NBMAT+1,21 to avoid uninit values transmitted to starter
+          EBCS%fvm_inlet_data%FUNC_ALPHA(IMAT) = -1
+          EBCS%fvm_inlet_data%FUNC_RHO(IMAT)   = -1
+          EBCS%fvm_inlet_data%FUNC_PRES(IMAT)  = -1
+          EBCS%fvm_inlet_data%VAL_ALPHA(IMAT)  = ZERO
+          EBCS%fvm_inlet_data%VAL_RHO(IMAT)    = ZERO
+          EBCS%fvm_inlet_data%VAL_PRES(IMAT)   = ZERO
+       ENDDO
       
          ISU=0
          INGR2USR => IGRSURF(1:NSURF)%ID
@@ -152,7 +143,7 @@ C-----------------------------------------------
          
          EBCS%nb_elem = NSEG
 
-         WRITE(IOUT,1001)ID, TRIM(TITR)       
+         WRITE(IOUT,1001)ID, TRIM(TITR)
          WRITE(IOUT,1118)SURF,NSEG,TCAR_P,TCAR_VF
          
       
@@ -167,5 +158,5 @@ C-----------
      .        '    TCAR_P  . . . . . . . . . . . . . . . . . ',E20.12,/,
      .        '    TCAT_ALPHA  . . . . . . . . . . . . . . . ',E20.12,/)
 
-      END SUBROUTINE
+      END SUBROUTINE HM_READ_EBCS_NRF
 

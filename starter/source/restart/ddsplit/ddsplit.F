@@ -998,7 +998,7 @@ C--------------------------------------
          ! mode 0 : count the number of entity/element
          CALL C_IEBCS(IXS, IXQ, IXTG,
      .        NUMELS, NUMELQ, NUMELTG,
-     .        IPM, NEBCS, CEP, NUMELS + NUMELQ + NUMELTG, NUMELS_L + NUMELQ_L + NUMELTG_L,
+     .        NEBCS, CEP, NUMELS + NUMELQ + NUMELTG,
      .        P-1, IEBCS_NELEM_L, IEBCS_TYPE, IEBCS_LISTELEM_L, IEBCS_LISTFAC_L,IEBCS_LISTDP0_L,IEBCSLGTH, N2D,
      .        MULTI_FVM%IS_USED,0,EBCS_TAB)
          ! --------------------
@@ -1017,7 +1017,7 @@ C        ALLOCATE
          IEBCSLGTH = 0
          CALL C_IEBCS(IXS, IXQ, IXTG,
      .        NUMELS, NUMELQ, NUMELTG,
-     .        IPM, NEBCS, CEP, NUMELS + NUMELQ + NUMELTG, NUMELS_L + NUMELQ_L + NUMELTG_L,
+     .        NEBCS, CEP, NUMELS + NUMELQ + NUMELTG,
      .        P-1, IEBCS_NELEM_L, IEBCS_TYPE, IEBCS_LISTELEM_L, IEBCS_LISTFAC_L,IEBCS_LISTDP0_L,IEBCSLGTH, N2D,
      .        MULTI_FVM%IS_USED,1,EBCS_TAB)
          ! --------------------
@@ -1106,7 +1106,7 @@ C        ALLOCATE
         ! --------------------
         ! additional computation for /NRF ebcs
          CALL SPLIT_EBCS(P,NEBCS_NRF,LIST_EBCS_NRF,SCEL,CEP,IGRSURF,
-     .                   CEL,NODLOCAL,EBCS_TAB,EBCS_TAB_LOC_2)
+     .                   CEL,EBCS_TAB,EBCS_TAB_LOC_2)
         ! --------------------
 !$OMP END CRITICAL
       ENDIF

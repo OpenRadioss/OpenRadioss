@@ -35,8 +35,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_EBCS_MONVOL(LOCAL_ID, IGRSURF,
-     .     NPC, NOM_OPT, MULTI_FVM, UNITAB, ID, TITR, TYP, UID, LSUBMODEL, EBCS)
+      SUBROUTINE HM_READ_EBCS_MONVOL(IGRSURF,MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, EBCS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,9 +59,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER LOCAL_ID, NPC(*)
-      INTEGER NOM_OPT(LNOPT1),ID,TYP,UID
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      INTEGER ID,UID
       TYPE (MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       TYPE (SURF_)   ,TARGET,  DIMENSION(NSURF)   :: IGRSURF
       CHARACTER*nchartitle, INTENT(IN) :: TITR
@@ -74,7 +72,7 @@ C-----------------------------------------------
       INTEGER NGR2USR,ISU,NSEG
       INTEGER SURF,SENS,MONVOL
       EXTERNAL NGR2USR
-      LOGICAL FOUND,IS_AVAILABLE,IS_ENCRYPTED
+      LOGICAL IS_AVAILABLE,IS_ENCRYPTED
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       INTEGER IFLAGUNIT,J
 C-----------------------------------------------
@@ -131,11 +129,8 @@ C-----------------------------------------------
      .        I1 = ID, C1 = TRIM(TITR), C2 = "NOT COMPATIBLE WITH LAW 151")
       ENDIF
 
-      IF(NSPMD > 1 .AND. (TYP==100.OR.TYP==0)) THEN
-         CALL ANCMSG(MSGID=755,
-     .        MSGTYPE=MSGERROR,
-     .        ANMODE=ANINFO,
-     .        C1='ELEMENTARY BOUNDARY CONDITIONS')
+      IF(NSPMD > 1 ) THEN
+         CALL ANCMSG(MSGID=755,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1='ELEMENTARY BOUNDARY CONDITIONS')
       ENDIF
       
 C-----------

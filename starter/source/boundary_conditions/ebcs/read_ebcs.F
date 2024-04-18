@@ -53,7 +53,7 @@ Chd|        RESTMOD                       share/modules1/restart_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE READ_EBCS(IGRSURF,MULTI_FVM,NPC1,IDX,LSUBMODEL,EBCS_TAB)
+      SUBROUTINE READ_EBCS(IGRSURF,MULTI_FVM,NPC1,LSUBMODEL,EBCS_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -85,22 +85,18 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (SURF_), DIMENSION(NSURF), TARGET, INTENT(IN) :: IGRSURF
       TYPE (MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
-      INTEGER, INTENT(IN) :: IDX, NPC1
-      INTEGER LOCAL_ID,JFI,RFI,JBUF,RBUF
-      INTEGER ID,TYP,UID
-
+      INTEGER, INTENT(IN) :: NPC1
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB
-!      INTEGER, INTENT(IN) :: IXQ(NIXQ,NUMELQ), IXTG(NIXTG,NUMELTG)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: IFI, KK, I, KAD
-      INTEGER STAT, II, SURF_ID, JJ
+      INTEGER :: LOCAL_ID
+      INTEGER :: ID,TYP,UID
+      INTEGER :: II, SURF_ID, JJ
       CHARACTER*nchartitle :: TITR    
       CHARACTER*ncharkey :: KEY, KEY2
       LOGICAL :: IS_AVAILABLE
-      INTEGER ::  INOD, NTAG, INODE, INDEX
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -127,8 +123,7 @@ C-----------------------------------------------
 
             select type (twf => EBCS_TAB%tab(ii)%poly)
             type is (t_ebcs_gradp0)
-              CALL HM_READ_EBCS_GRADP0(LOCAL_ID, IGRSURF,
-     .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
+              CALL HM_READ_EBCS_GRADP0(IGRSURF, NPC1, MULTI_FVM, UNITAB, ID, TITR, LSUBMODEL, twf)
             end select
 
          CASE ('PRES')  
@@ -138,8 +133,7 @@ C-----------------------------------------------
 
             select type (twf => EBCS_TAB%tab(ii)%poly)
             type is (t_ebcs_pres)
-              CALL HM_READ_EBCS_PRES(LOCAL_ID, IGRSURF,
-     .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
+              CALL HM_READ_EBCS_PRES(IGRSURF, NPC1,  MULTI_FVM, UNITAB, ID, TITR, LSUBMODEL, twf)
             end select
     
          CASE ('VALVIN')  
@@ -149,8 +143,7 @@ C-----------------------------------------------
 
             select type (twf => EBCS_TAB%tab(ii)%poly)
             type is (t_ebcs_valvin)
-              CALL HM_READ_EBCS_VALVIN(LOCAL_ID, IGRSURF,
-     .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
+              CALL HM_READ_EBCS_VALVIN(IGRSURF, NPC1, MULTI_FVM, UNITAB, ID, TITR, LSUBMODEL, twf)
             end select
     
          CASE ('VALVOUT')  
@@ -160,8 +153,7 @@ C-----------------------------------------------
 
             select type (twf => EBCS_TAB%tab(ii)%poly)
             type is (t_ebcs_valvout)
-              CALL HM_READ_EBCS_VALVOUT(LOCAL_ID, IGRSURF,
-     .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
+              CALL HM_READ_EBCS_VALVOUT( IGRSURF, NPC1, MULTI_FVM, UNITAB, ID, TITR,  LSUBMODEL, twf)
            end select
 
           CASE ('VEL')  
@@ -170,8 +162,7 @@ C-----------------------------------------------
             allocate (t_ebcs_vel :: EBCS_TAB%tab(ii)%poly)
             select type (twf => EBCS_TAB%tab(ii)%poly)
             type is (t_ebcs_vel)
-              CALL HM_READ_EBCS_VEL(LOCAL_ID, IGRSURF,
-     .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
+              CALL HM_READ_EBCS_VEL(IGRSURF, NPC1, MULTI_FVM, UNITAB, ID, TITR, LSUBMODEL, twf)
            end select
 
          CASE ('NORMV') 
@@ -180,8 +171,7 @@ C-----------------------------------------------
             select type (twf => EBCS_TAB%tab(ii)%poly)
 
             type is (t_ebcs_normv)
-              CALL HM_READ_EBCS_NORMV(LOCAL_ID, IGRSURF,
-     .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
+              CALL HM_READ_EBCS_NORMV( IGRSURF, NPC1, MULTI_FVM, UNITAB, ID, TITR, LSUBMODEL, twf)
            end select
 
          CASE ('INIP')  
@@ -190,8 +180,7 @@ C-----------------------------------------------
             allocate (t_ebcs_inip :: EBCS_TAB%tab(ii)%poly)
             select type (twf => EBCS_TAB%tab(ii)%poly)
             type is (t_ebcs_inip)
-              CALL HM_READ_EBCS_INIP(LOCAL_ID, IGRSURF,
-     .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
+              CALL HM_READ_EBCS_INIP(IGRSURF, MULTI_FVM, UNITAB, ID, TITR, LSUBMODEL, twf)
             end select
 
          CASE ('INIV')  
@@ -200,8 +189,7 @@ C-----------------------------------------------
             allocate (t_ebcs_iniv :: EBCS_TAB%tab(ii)%poly)
             select type (twf => EBCS_TAB%tab(ii)%poly)
             type is (t_ebcs_iniv)
-                CALL HM_READ_EBCS_INIV(LOCAL_ID, IGRSURF,
-     .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL,twf)
+                CALL HM_READ_EBCS_INIV(IGRSURF, MULTI_FVM, UNITAB, ID, TITR, LSUBMODEL, twf)
            end select
 
          CASE ('INLET')
@@ -211,8 +199,7 @@ C-----------------------------------------------
             select type (twf => EBCS_TAB%tab(ii)%poly)
             type is (t_ebcs_inlet)
 
-              CALL HM_READ_EBCS_INLET(LOCAL_ID, IGRSURF,
-     .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, KEY2, twf)
+              CALL HM_READ_EBCS_INLET(IGRSURF, NPC1, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, KEY2, twf)
            end select
 
          CASE ('FLUXOUT') 
@@ -221,8 +208,7 @@ C-----------------------------------------------
             allocate (t_ebcs_fluxout :: EBCS_TAB%tab(ii)%poly)
             select type (twf => EBCS_TAB%tab(ii)%poly)
             type is (t_ebcs_fluxout)
-              CALL HM_READ_EBCS_FLUXOUT(LOCAL_ID, IGRSURF,
-     .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
+              CALL HM_READ_EBCS_FLUXOUT(IGRSURF, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, twf)
             end select
 
          CASE ('NRF')
@@ -231,8 +217,7 @@ C-----------------------------------------------
             allocate (t_ebcs_nrf :: EBCS_TAB%tab(ii)%poly)
             select type (twf => EBCS_TAB%tab(ii)%poly)
             type is (t_ebcs_nrf)
-              CALL HM_READ_EBCS_NRF(LOCAL_ID, IGRSURF,
-     .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)     
+              CALL HM_READ_EBCS_NRF(IGRSURF, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, twf)
             end select
 
          CASE ('MONVOL')
@@ -241,8 +226,7 @@ C-----------------------------------------------
             allocate (t_ebcs_monvol :: EBCS_TAB%tab(ii)%poly)
             select type (twf => EBCS_TAB%tab(ii)%poly)
             type is (t_ebcs_monvol)
-              CALL HM_READ_EBCS_MONVOL(LOCAL_ID, IGRSURF,
-     .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
+              CALL HM_READ_EBCS_MONVOL(IGRSURF,MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
             end select
 
          CASE DEFAULT
@@ -280,5 +264,5 @@ C-----------------------------------------------
       RETURN
  1000 FORMAT(
      &     5X,'    ELEMENTARY BOUNDARY CONDITIONS'/,
-     &     5X,'    ------------------------------'//)
+     &     5X,'    ------------------------------')
       END SUBROUTINE

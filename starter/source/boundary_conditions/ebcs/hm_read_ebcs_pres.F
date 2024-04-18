@@ -36,8 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_EBCS_PRES(LOCAL_ID, IGRSURF,
-     .     NPC, NOM_OPT, MULTI_FVM, UNITAB, ID, TITR, TYP, UID, LSUBMODEL, EBCS)
+      SUBROUTINE HM_READ_EBCS_PRES( IGRSURF, NPC, MULTI_FVM, UNITAB, ID, TITR, LSUBMODEL, EBCS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,9 +60,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER LOCAL_ID, NPC(*)
-      INTEGER NOM_OPT(LNOPT1),ID,TYP,UID
-    
+      INTEGER NPC(*),ID
       TYPE (MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       TYPE (SURF_)   ,TARGET,  DIMENSION(NSURF)   :: IGRSURF
       CHARACTER, INTENT(IN) :: TITR*nchartitle
@@ -72,16 +69,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISU,SENS,MONVOL,SURF,NGR2USR,
-     .        IPRES,IRHO,NOD,IAD,J,K1,K2,NSEG,IENER,IVX,IVY,IVZ,IALPHA
-      INTEGER LISTE(NUMNOD), IMAT,IVEL_TYP,U_IALPHA,U_IRHO,U_IPRES,IFLAGUNIT,FLAG_FMT,
-     .        CHECK_CUMUL_VF(2)
-      my_real
-     .   C,PRES,RHO,LCAR,R1,R2,ENER,VX,VY,VZ, ALPHA,
-     .   FAC_C,FAC_M,FAC_L,FAC_T
-      CHARACTER MESS*40,KEY*ncharkey,OPT*ncharkey,chain*9, chain1*64
+      INTEGER ISU,SURF,NGR2USR,IPRES,IRHO,J,NSEG,IENER,IVX,IVY,IVZ
+      my_real C,PRES,RHO,LCAR,R1,R2,ENER,VX,VY,VZ
       EXTERNAL NGR2USR
-      LOGICAL FOUND
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_ENCRYPTED, IS_AVAILABLE
 C-----------------------------------------------
@@ -104,10 +94,6 @@ C-----------------------------------------------
       VX=ZERO
       VY=ZERO
       VZ=ZERO
-      FAC_M=ONE
-      FAC_L=ONE
-      FAC_T=ONE
-      FAC_C=ONE
       
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       CALL HM_GET_INTV('entityid',  SURF  ,IS_AVAILABLE,LSUBMODEL)

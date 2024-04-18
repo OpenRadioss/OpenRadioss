@@ -27,8 +27,7 @@ Chd|        INIEBCSP0                     source/boundary_conditions/ebcs/iniebc
 Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE INIEBCSP(NSEG,NOD,ISEG,IELEM,IRECT,LISTE,
-     .                    LA,IPARG,ELBUF_STR,P0,RHO,X)
+      SUBROUTINE INIEBCSP(NSEG,NOD,ISEG,IELEM,IRECT,LISTE,LA,IPARG,ELBUF_STR,P0,X)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,19 +45,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSEG,NOD,ISEG(NSEG),IRECT(4,NSEG),LISTE(NOD),IPARG(NPARG,*), IELEM(NSEG)
-      my_real
-     .     LA(3,NOD),P0(NOD),RHO,X(3,*)
+      my_real LA(3,NOD),P0(NOD),X(3,*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER                                         
-     .  N1,N2,N3,N4,I,N,IS,                                       
-     .  KSEG,NG1,NG2,NG3,NG4,ESEG,EAD,KTY,KLT,MFT,II(6)
-      my_real                                         
-     .  ORIENT, FAC, X13,Y13,Z13,X24,Y24,Z24, NX,NY,NZ,S,VN,P,DPDV                             
+      INTEGER N1,N2,N3,N4,I,N,IS,KSEG,NG1,NG2,NG3,NG4,ESEG,EAD,KTY,KLT,MFT,II(6)
+      my_real  ORIENT, FAC, X13,Y13,Z13,X24,Y24,Z24, NX,NY,NZ,P
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-C=======================================================================
+C-----------------------------------------------
       GBUF => ELBUF_STR%GBUF
 C   Initialisation de la surface nodale
           DO I=1,NOD
