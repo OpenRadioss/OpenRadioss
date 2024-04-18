@@ -93,7 +93,7 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
         NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS
       ENDIF
       
-      EOSTYPE          = MAT_PARAM(MATID)%IEOS   
+!     EOSTYPE          = MAT_PARAM(MATID)%IEOS   
       EOSTYPE          = IPM(4, MATID)    ! still used temporarily in this section
       ITER             = 0
       MAX_ITER         = 30
