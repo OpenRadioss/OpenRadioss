@@ -479,7 +479,7 @@ C-----------------------------------------------
                 MATID  = IPM(20 + IMAT, IX(1, 1))  
                 MATLAW = IPM(2, MATID)            
                 CALL INIGRAV_EOS(NEL,   NEL2 , NG   , MATID, IPM, GRAV0, RHO0, DEPTH, PM, BUFMAT(IADBUF), ELBUF_TAB, 
-     .                           PSURF, LIST , PGRAV, IMAT , MLW, NPF, TF,MAT_PARAM)
+     .                           PSURF, LIST , PGRAV, IMAT , MLW, NPF,TF,NUMMAT,MAT_PARAM)
               ENDDO
               ! GLOBAL STATE
               DO KK=1,NEL2
