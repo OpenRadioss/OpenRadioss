@@ -114,17 +114,31 @@ c  O   GS(NEL)           - out of plane shear isotropic shear modulus (for QEPH 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,IPID,J,J2,J3,JJ,MATLY(MVSIZ*100),NEL,L,IGMAT,IPGMAT
+      INTEGER I,MX,IPID,J,J2,J3,JJ,NEL,L,IGMAT,IPGMAT,
+     .        LAYNPT_MAX, NLAY_MAX,ILAY
 C     REAL
       my_real
      .   SHF(MVSIZ),NU(MVSIZ),G(MVSIZ),YM(MVSIZ),A11(MVSIZ),A12(MVSIZ),
      .   E11,E22,NU12,G31,G23,A22,WMC,FACG,COEF,WM
       my_real
-     .   THKLY(MVSIZ*100),POSLY(MVSIZ,100),FAC(MVSIZ),THK_LY(JLT-JFT+1,NPT),
-     .   HMLY(MVSIZ,4),HCLY(MVSIZ,2), HMORLY(MVSIZ,2),SFAC(MVSIZ)
+     .   FAC(MVSIZ),HMLY(MVSIZ,4),HCLY(MVSIZ,2), HMORLY(MVSIZ,2),SFAC(MVSIZ)
+      INTEGER, DIMENSION(:)   , ALLOCATABLE :: MATLY   !! 
+      my_real, DIMENSION(:)   , ALLOCATABLE :: THKLY   !! 
+      my_real, DIMENSION(:,:) , ALLOCATABLE :: POSLY,THK_LY  
 C-----------------------------------------------
       COEF =EM01
       NEL = JLT-JFT+1
+      ! Npt_max
+      LAYNPT_MAX = 1
+      IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+        DO ILAY=1,ELBUF_STR%NLAY
+           LAYNPT_MAX = MAX(LAYNPT_MAX , ELBUF_STR%BUFLY(ILAY)%NPTT)
+        ENDDO  
+      ENDIF
+      NLAY_MAX   = MAX(NLAY,NPT, ELBUF_STR%NLAY)
+      ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
+     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
+      
 C      IF (IHBE>=21.AND.IHBE<=29) COEF =EM03 
       IF(ITHK>0.AND.ISMDISP==0)THEN
         DO I=JFT,JLT
@@ -376,6 +390,7 @@ C          HZ(I)= HM(I,4)*FACG
          ENDDO
        END IF !(IDRIL>0) THEN
 C
+      DEALLOCATE(MATLY, THKLY, POSLY, THK_LY)
       RETURN
       END
 Chd|====================================================================

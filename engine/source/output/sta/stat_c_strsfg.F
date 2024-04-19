@@ -99,19 +99,16 @@ C-----------------------------------------------
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      INTEGER LAYNPT_MAX,LAY_MAX,ISUBSTACK,IPT_ALL,JDIR,L_DIRA,L_DIRB,IREP
-      PARAMETER (LAYNPT_MAX = 10)
-      PARAMETER (LAY_MAX = 100)
-      INTEGER MATLY(MVSIZ*LAY_MAX),ILAW
+      INTEGER LAYNPT_MAX,NLAY_MAX,ISUBSTACK,IPT_ALL,JDIR,L_DIRA,L_DIRB,IREP,
+     .    ILAW
       my_real, 
      .   DIMENSION(:),POINTER  :: DIR_A,DIR_B    
       my_real 
      .   QT(9,MVSIZ),TENS(6),ZH,THKP ,THK0(MVSIZ)   
 
-      my_real, dimension(:,:), allocatable ::
-     .   THKLY,POSLY,
-     .   THK_LY
-
+      INTEGER, DIMENSION(:)   , ALLOCATABLE :: MATLY   
+      my_real, DIMENSION(:)   , ALLOCATABLE :: THKLY    
+      my_real, DIMENSION(:,:) , ALLOCATABLE :: POSLY,THK_LY  
       my_real, ALLOCATABLE, DIMENSION(:) , TARGET :: DIRA,DIRB
 C-----------------------------------------------
       PARAMETER (PG = .577350269189626)
@@ -121,13 +118,11 @@ C-----------------------------------------------
      ./'#---1----|----2----|----3----|----4----|----5----|----6----|'/
       DATA DELIMIT(61:100)
      ./'----7----|----8----|----9----|----10---|'/
-
-      ALLOCATE( THKLY(MVSIZ,LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX))
-      ALLOCATE( THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX))
+!
 
 C=======================================================================
 C     4-NODE SHELLS
-C-----------------------------------------------
+C----------------------------------------------- 
       JJ = 0
       IF (STAT_NUMELC==0) GOTO 200
 C
@@ -176,6 +171,16 @@ C
          ELSE
           THK0(LFT:LLT) = THKE(LFT+NFT:LLT+NFT)
          END IF
+           ! Npt_max
+         LAYNPT_MAX = 1
+         IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+          DO ILAY=1, ELBUF_TAB(NG)%NLAY
+           LAYNPT_MAX = MAX(LAYNPT_MAX ,  ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT)
+          ENDDO  
+         ENDIF
+         NLAY_MAX   = MAX(NLAY,NPT,  ELBUF_TAB(NG)%NLAY)
+         ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
+     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
          NUMEL_DRAPE = NUMELC_DRAPE  
          SEDRAPE = SCDRAPE
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
@@ -509,7 +514,8 @@ C         pointeur de fin de zone dans WA
 c------- end loop over 4 node shell elements
         ENDIF ! ITY == 3
         IF (ALLOCATED(DIRB)) DEALLOCATE(DIRB)                                                          
-        IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)                                                          
+        IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)  
+        DEALLOCATE(MATLY, THKLY, POSLY, THK_LY)                                                        
       ENDDO   ! NG = 1, NGROUP
 C
  200  CONTINUE
@@ -697,7 +703,16 @@ C
           NF3 = NFT+NUMELC
           THK0(LFT:LLT) = THKE(LFT+NF3:LLT+NF3)
          END IF
-         
+         ! Npt_max
+          LAYNPT_MAX = 1
+         IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+          DO ILAY=1, ELBUF_TAB(NG)%NLAY
+           LAYNPT_MAX = MAX(LAYNPT_MAX ,  ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT)
+          ENDDO  
+         ENDIF
+         NLAY_MAX   = MAX(NLAY,NPT,  ELBUF_TAB(NG)%NLAY)
+         ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
+     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
          NUMEL_DRAPE = NUMELTG_DRAPE  
          SEDRAPE = STDRAPE
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
@@ -893,7 +908,8 @@ C         pointeur de fin de zone
           ENDDO  !  DO I=LFT,LLT
         ENDIF  !  IF (ITY == 7)
         IF (ALLOCATED(DIRB)) DEALLOCATE(DIRB)                                                          
-        IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)                                                          
+        IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)  
+         DEALLOCATE(MATLY, THKLY, POSLY, THK_LY)                                                        
       ENDDO  !  DO NG=1,NGROUP
 C
  300  CONTINUE
@@ -1034,8 +1050,6 @@ C
           ENDIF  !  IF (IOFF >= 1)
         ENDDO  !  DO N=1,STAT_NUMELTG_G
       ENDIF  !  IF (ISPMD == 0.AND.LEN > 0)
-      DEALLOCATE( THKLY,POSLY)
-      DEALLOCATE( THK_LY)
 
 C
       RETURN

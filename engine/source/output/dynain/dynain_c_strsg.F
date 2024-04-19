@@ -86,12 +86,14 @@ C-----------------------------------------------
      .   NPG,IPG,MPT,IPT,NPTR,NPTS,NPTT,NLAY,L_PLA,ITHK,
      .   IGTYP,NPT_ALL,IL,KK(12),LARGE,IREP,IPID,IVISC,
      .   IPMAT,IXFEM,IXLAY,ISUBSTACK,IPTT,IS_WRITTEN,
-     ,   LAYNPT_MAX,LAY_MAX,IERR,L_DIRA,L_DIRB,IORTH,
+     ,   LAYNPT_MAX,NLAY_MAX,IERR,L_DIRA,L_DIRB,IORTH,
      .   JDIR,ILAY,J1,J2,SEDRAPE,NUMEL_DRAPE
-      PARAMETER (LAYNPT_MAX = 10)
-      PARAMETER (LAY_MAX = 100)
+     
+      INTEGER, DIMENSION(:)   , ALLOCATABLE :: MATLY   !! 
+      my_real, DIMENSION(:)   , ALLOCATABLE :: THKLY   !! 
+      my_real, DIMENSION(:,:) , ALLOCATABLE :: POSLY,THK_LY   
       INTEGER ,  DIMENSION(:),ALLOCATABLE :: PTWA, PTWA_P0
-      INTEGER MATLY(MVSIZ*LAY_MAX),MAT(MVSIZ),PID(MVSIZ)
+      INTEGER MAT(MVSIZ),PID(MVSIZ)
       CHARACTER*80 DELIMIT
       CHARACTER*100 LINE
       my_real
@@ -99,9 +101,6 @@ C-----------------------------------------------
       my_real   
      .   PG,MPG,QPG(2,4),
      .   SK(2),ST(2),MK(2),MT(2),SHK(2),SHT(2),ZZ
-      my_real, dimension(:,:), allocatable ::
-     .   THKLY,POSLY,
-     .   THK_LY
       my_real
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ), 
      .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ), 
@@ -132,9 +131,6 @@ C-----------------------
      .             DYNAIN_DATA%DYNAIN_NUMELTG)),STAT=IERR)
       ALLOCATE(PTWA_P0(0:MAX(1,DYNAIN_DATA%DYNAIN_NUMELC_G,
      .         DYNAIN_DATA%DYNAIN_NUMELTG_G)),STAT=IERR)
-      ALLOCATE( THKLY(MVSIZ,LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX))
-      ALLOCATE( THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX))
-
 C*********************************************
 C     4-NODE SHELLS
 C*********************************************
@@ -175,19 +171,24 @@ C
 C
 C pre counting of all NPTT (especially for PID_51)
 C
+         ! Npt_max
+          LAYNPT_MAX = 1
           IF (IGTYP == 51 .OR. IGTYP == 52 ) THEN
             NPT_ALL = 0
             DO IL=1,NLAY
               NPT_ALL = NPT_ALL + ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+              LAYNPT_MAX = MAX(LAYNPT_MAX ,  ELBUF_TAB(NG)%BUFLY(IL)%NPTT)
             ENDDO
             MPT  = MAX(1,NPT_ALL)
           ENDIF
-
+          !
+          NLAY_MAX   = MAX(NLAY,NPT,  ELBUF_TAB(NG)%NLAY)
+          ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
+     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
           DO I=LFT,LLT
              MAT(I)=IXC(1,NFT+I)
              PID(I)=IXC(6,NFT+I)
           ENDDO
-
 C-------------------------------------------------
 C     RELATIVE POSITION OF INTEGRATION POINTS
 C         POSLY between -0.5, 0.5 : need to multiply by 2 for LSDYNA
@@ -1052,6 +1053,7 @@ C           Pointer last position of shell IE in WA
 
 c------- end loop over 4 node shell elements
         ENDIF ! ITY == 3
+        DEALLOCATE(MATLY, THKLY, POSLY, THK_LY) 
        ENDDO   ! NG = 1, NGROUP
       ENDIF  ! DYNAIN_NUMEL /= 0
 
@@ -1203,14 +1205,20 @@ C
 C
 C pre counting of all NPTT (especially for PID_51)
 C
-          IF (IGTYP == 51 .OR. IGTYP == 52) THEN
+          ! Npt_max
+          LAYNPT_MAX = 1
+          IF (IGTYP == 51 .OR. IGTYP == 52 ) THEN
             NPT_ALL = 0
             DO K=1,NLAY
               NPT_ALL = NPT_ALL + ELBUF_TAB(NG)%BUFLY(K)%NPTT
+              LAYNPT_MAX = MAX(LAYNPT_MAX ,  ELBUF_TAB(NG)%BUFLY(K)%NPTT)
             ENDDO
             MPT  = MAX(1,NPT_ALL)
           ENDIF
-
+          !
+          NLAY_MAX   = MAX(NLAY,NPT,  ELBUF_TAB(NG)%NLAY)
+          ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
+     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
           DO I=LFT,LLT
              MAT(I)=IXTG(1,NFT+I)
              PID(I)=IXTG(5,NFT+I)
@@ -1774,6 +1782,7 @@ C        pointer for last position for element IE
           IF (ALLOCATED(DIRA))     DEALLOCATE(DIRA)   
 
         ENDIF  !  IF (ITY == 7)
+        DEALLOCATE(MATLY, THKLY, POSLY, THK_LY) 
        ENDDO  !  DO NG=1,NGROUP
       ENDIF
 C
@@ -1883,9 +1892,6 @@ C
         ENDDO  !  DO N=1,DYNAIN_NUMELTG_G
       ENDIF  !  IF (ISPMD == 0.AND.LEN > 0)
 C
-      DEALLOCATE( THKLY,POSLY)
-      DEALLOCATE( THK_LY)
-
       DEALLOCATE(PTWA,PTWA_P0)
 C
       RETURN

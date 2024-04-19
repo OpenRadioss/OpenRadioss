@@ -93,17 +93,14 @@ C-----------------------------------------------
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      INTEGER LAYNPT_MAX,LAY_MAX,ISUBSTACK,IPT_ALL,NPTT,IT,IPT,NPT_ALL,MPT
-      PARAMETER (LAYNPT_MAX = 10)
-      PARAMETER (LAY_MAX = 100)
-      INTEGER MATLY(MVSIZ*LAY_MAX)
+      INTEGER LAYNPT_MAX,NLAY_MAX,ISUBSTACK,IPT_ALL,NPTT,IT,IPT,NPT_ALL,MPT
       my_real, 
      .   DIMENSION(:),POINTER  :: STRAIN    
       my_real 
      .   QT(9,MVSIZ),STRAING(6),ZH,THKP ,THK0(MVSIZ)   
-      my_real, dimension(:,:), allocatable ::
-     .   THKLY,POSLY,
-     .   THK_LY
+      INTEGER, DIMENSION(:)   , ALLOCATABLE :: MATLY   
+      my_real, DIMENSION(:)   , ALLOCATABLE :: THKLY    
+      my_real, DIMENSION(:,:) , ALLOCATABLE :: POSLY,THK_LY  
 
 C-----------------------------------------------
       DATA DELIMIT(1:60)
@@ -113,9 +110,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     4-NODE SHELLS
 C-----------------------------------------------
-      ALLOCATE( THKLY(MVSIZ,LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX))
-      ALLOCATE( THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX))
-
       JJ = 0
       IF(STAT_NUMELC==0) GOTO 200
 
@@ -162,6 +156,16 @@ C-----------------------------------------------
          ELSE
           THK0(LFT:LLT) = THKE(LFT+NFT:LLT+NFT)
          END IF
+         ! Npt_max
+         LAYNPT_MAX = 1
+         IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+           DO ILAY=1, NLAY
+             LAYNPT_MAX = MAX(LAYNPT_MAX ,  ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT)
+           ENDDO  
+         ENDIF
+         NLAY_MAX   = MAX(NLAY,NPT,  ELBUF_TAB(NG)%NLAY)
+         ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
+     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))   
          NUMEL_DRAPE = NUMELC_DRAPE  
          SEDRAPE = SCDRAPE
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
@@ -288,6 +292,7 @@ C         pointeur de fin de zone dans WA
 c
          ENDDO  ! I=LFT,LLT
        END IF   ! ITY==3
+       DEALLOCATE(MATLY, THKLY, POSLY, THK_LY) 
       ENDDO     ! NG=1,NGROUP
 
  200  CONTINUE
@@ -458,6 +463,16 @@ C-----------------------------------------------
           NF3 = NFT+NUMELC
           THK0(LFT:LLT) = THKE(LFT+NF3:LLT+NF3)
          END IF
+         ! Npt_max
+         LAYNPT_MAX = 1
+         IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+          DO ILAY=1, NLAY
+            LAYNPT_MAX = MAX(LAYNPT_MAX ,  ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT)
+          ENDDO  
+         ENDIF
+         NLAY_MAX   = MAX(NLAY,NPT,  ELBUF_TAB(NG)%NLAY)
+         ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
+     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))   
          NUMEL_DRAPE = NUMELTG_DRAPE  
          SEDRAPE = STDRAPE
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
@@ -586,6 +601,7 @@ C         pointeur de fin de zone
 c
          ENDDO  ! I=LFT,LLT
        END IF   ! ITY==3
+       DEALLOCATE(MATLY, THKLY, POSLY, THK_LY) 
       ENDDO     ! NG=1,NGROUP
 
  300  CONTINUE
@@ -710,8 +726,6 @@ C----- 2nd point
 
         ENDDO        
       ENDIF
-      DEALLOCATE( THKLY,POSLY)
-      DEALLOCATE( THK_LY)
 
       RETURN
       END

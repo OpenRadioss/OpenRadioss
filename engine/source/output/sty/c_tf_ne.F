@@ -63,8 +63,8 @@ C-----------------------------------------------
      .  IXFEM,ISUBSTACK,IXC(NIXC,*),
      .  IXTG(NIXTG,*),MPT
       my_real
-     .   WA(*),THKE(*),GEO(NPROPG,*),
-     .   THK_LY(NEL,MPT)
+     .   WA(*),THKE(*),GEO(NPROPG,*)
+       !
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
       TYPE(DRAPE_) :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
@@ -74,16 +74,18 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,IPT,I1,I2,I3,I4,I5,II(12),
      .        PTF,PTM,PTEP,PTS,NG,IR,IS,LENF,LENM,
-     .        LENS,MAT_1,PID_1,LAYNPT_MAX,LAY_MAX,IXLAY,IPT_ALL,
+     .        LENS,MAT_1,PID_1,LAYNPT_MAX,NLAY_MAX,IXLAY,IPT_ALL,
      .        JPOS,IT,NPTT,ILAY,SHIFT,SEDRAPE,NUMEL_DRAPE
-      INTEGER MAT(MVSIZ),PID(MVSIZ),MATLY(MVSIZ*NPT)
-      my_real
-     .   THKLY(MVSIZ*MPT),POSLY(MVSIZ,MPT)
+      INTEGER MAT(MVSIZ),PID(MVSIZ)
       my_real
      .   FUNC(6),QPG(2,4),PG,MPG,
      .   SIG0(6,MVSIZ),EPS(MVSIZ),MOM0(3,MVSIZ),
      .   SK(2,MVSIZ),ST(2,MVSIZ),MK(2,MVSIZ),MT(2,MVSIZ),
      .   SHK(2,MVSIZ),SHT(2,MVSIZ),Z01(11,11),ZZ
+      !
+      INTEGER, DIMENSION(:)   , ALLOCATABLE :: MATLY   
+      my_real, DIMENSION(:)   , ALLOCATABLE :: THKLY    
+      my_real, DIMENSION(:,:) , ALLOCATABLE :: POSLY,THK_LY  
       PARAMETER (PG = .577350269189626)
       PARAMETER (MPG=-.577350269189626)
       DATA QPG/MPG,MPG,PG,MPG,PG,PG,MPG,PG/
@@ -121,6 +123,16 @@ C-----------------------------------------------
         II(I) = NEL*(I-1)
       ENDDO
 !
+      ! Npt_max
+      LAYNPT_MAX = 1
+      IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+        DO ILAY=1,NLAY
+           LAYNPT_MAX = MAX(LAYNPT_MAX , ELBUF_STR%BUFLY(ILAY)%NPTT)
+        ENDDO  
+      ENDIF
+      NLAY_MAX   = MAX(NLAY,NPT, ELBUF_STR%NLAY)
+      ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
+     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
 C
       SHIFT = 1+NFT
       IF (ITY == 7) SHIFT = SHIFT + NUMELC
@@ -716,6 +728,7 @@ c---
 C----error message------
         ENDIF ! IF (IHBE == 23)
       ENDIF ! IF (IW == 0)
+      DEALLOCATE(MATLY, THKLY, POSLY, THK_LY)
 C-----------
       RETURN
       END
