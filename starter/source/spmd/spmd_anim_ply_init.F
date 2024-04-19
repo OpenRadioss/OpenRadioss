@@ -61,10 +61,13 @@ C-----------------------------------------------
       INTEGER IE,NG, ITY, LFT, LLT, NPT, N, I, J,
      .        IPRT, NEL, IAD, NPAR, NFT, IMID,IALEL,MTN,
      .        JJ, K, SH_IH, IHBE,BUF,ISHPLYXFEM,IPID,IPT,
-     .        IPLY,IPPID,JPID,TAG_ARRAY(NUMNOD),TAG_SHELLS(NUMELC),
+     .        IPLY,IPPID,JPID,
      .        NCOUNT,SHCOUNT,MATER(NPART),ISUBSTACK
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_ARRAY,TAG_SHELLS
 
 C-----------------------------------------------
+      ALLOCATE(TAG_ARRAY(NUMNOD))
+      ALLOCATE(TAG_SHELLS(NUMELC))
       DO I=1,NPART
         MATER(I)=0
       ENDDO
@@ -263,6 +266,8 @@ C          print*,'ND:',PLYNOD(K)%NODES(I),PLYNOD(K)%PLYNODID(I)
 C        ENDDO
 C      ENDDO
 
+      DEALLOCATE(TAG_ARRAY)
+      DEALLOCATE(TAG_SHELLS)
 
 
       RETURN
