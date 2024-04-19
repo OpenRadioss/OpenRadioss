@@ -40,7 +40,6 @@ Chd|        HM_OPTION_NEXT                source/devtools/hm_reader/hm_option_ne
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
 Chd|        HM_PRELCE16S                  source/elements/reader/hm_read_solid.F
-Chd|        HM_PREREAD_INIVEL             source/initial_conditions/general/inivel/hm_read_inivel.F
 Chd|        HM_PREREAD_NODE               source/elements/reader/hm_preread_node.F
 Chd|        HM_PREREAD_PART               source/model/assembling/hm_read_part.F
 Chd|        HM_PREREAD_PROPERTIES         source/properties/hm_preread_properties.F

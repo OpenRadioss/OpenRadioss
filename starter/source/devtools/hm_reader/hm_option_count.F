@@ -54,6 +54,7 @@ Chd|        HM_READ_IMPLICIT              source/general_controls/computation/hm
 Chd|        HM_READ_IMPVEL                source/constraints/general/impvel/hm_read_impvel.F
 Chd|        HM_READ_INISTA                source/initial_conditions/inista/hm_read_inista.F
 Chd|        HM_READ_INISTATE_D00          source/elements/initia/hm_read_inistate_d00.F
+Chd|        HM_READ_INIVEL                source/initial_conditions/general/inivel/hm_read_inivel.F
 Chd|        HM_READ_INTSUB                source/output/subinterface/hm_read_intsub.F
 Chd|        HM_READ_IOFLAG                source/general_controls/inputoutput/hm_read_ioflag.F
 Chd|        HM_READ_LAGMUL                source/tools/lagmul/hm_read_lagmul.F
