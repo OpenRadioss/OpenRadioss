@@ -98,17 +98,20 @@ void c_h3d_create_skins_(int *ITAB, int *NUMNOD, int *IPART, int *LIPART1,int *H
 
         for(i=0;i<*NUMELQ;i++)
           {
-          if(H3D_PART[IPARTQ[i] - 1] == 1)
+            if(H3D_PART[IPARTQ[i] - 1] == 1)
             {
-             elem_nodes = 4;
+              if(IPARTQ[i] > 0)
+              {
+                elem_nodes = 4;
 
-             if(IPART[*LIPART1 * (IPARTQ[i] - 1) + 3] != comp_id)
-             {
-             	comp_id = IPART[*LIPART1 * (IPARTQ[i] - 1) + 3];
-                j = i;
-             }
-             nbelems[j] = nbelems[j] + 1;
-             }
+                if(IPART[*LIPART1 * (IPARTQ[i] - 1) + 3] != comp_id)
+                {
+              	  comp_id = IPART[*LIPART1 * (IPARTQ[i] - 1) + 3];
+                  j = i;
+                }
+                nbelems[j] = nbelems[j] + 1;
+              }
+            }
           }
 
         comp_id = 0;
@@ -117,6 +120,8 @@ void c_h3d_create_skins_(int *ITAB, int *NUMNOD, int *IPART, int *LIPART1,int *H
 
         for(i=0;i<*NUMELQ;i++)  
         {
+          if(IPARTQ[i] > 0)
+          {
             if(H3D_PART[IPARTQ[i] - 1] == 1)
             {  
              elem_id = IXQ[*NIXQ * i + *NIXQ - 1];
@@ -163,7 +168,8 @@ void c_h3d_create_skins_(int *ITAB, int *NUMNOD, int *IPART, int *LIPART1,int *H
              	  rc = Hyper3DElementEnd(h3d_file);
              	  if( !rc ) throw rc;
              }
-
+             
+          }
         }
       }
 
