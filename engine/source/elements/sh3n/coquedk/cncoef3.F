@@ -529,14 +529,18 @@ c  O   HMFOR(NEL,6)      - suppermentary membrane-bending coupling modulus for o
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,IPID,J,J1,J2,J3,JJ,MATLY(MVSIZ*100),L,IGTYP,
-     .        ISUBSTACK,IGMAT,IPOS,IPT_ALL,ILAY,IPT,IT,NPTT
+      INTEGER I,MX,IPID,J,J1,J2,J3,JJ,L,IGTYP,
+     .        ISUBSTACK,IGMAT,IPOS,IPT_ALL,ILAY,IPT,IT,NPTT,
+     .        LAYNPT_MAX, NLAY_MAX
+            INTEGER MAT_IPLY(MVSIZ,NPT)
+      INTEGER, DIMENSION(:)   , ALLOCATABLE :: MATLY   !! 
+      my_real, DIMENSION(:)   , ALLOCATABLE :: THKLY   !! 
+      my_real, DIMENSION(:,:) , ALLOCATABLE :: POSLY,THK_LY
       my_real
      .   WMC,FACG,COEF,WM
       my_real
-     .   THKLY(MVSIZ*100),POSLY(MVSIZ,100),HMOR(MVSIZ,2),
-     .   HMLY(MVSIZ,4),HCLY(MVSIZ,2), HMORLY(MVSIZ,2),SHF(MVSIZ),
-     .   IZZ(MVSIZ),IZ(MVSIZ),THK_LY(JLT-JFT+1,NPT)
+     .   HMOR(MVSIZ,2),HMLY(MVSIZ,4),HCLY(MVSIZ,2), 
+     .   HMORLY(MVSIZ,2),SHF(MVSIZ),IZZ(MVSIZ),IZ(MVSIZ)
 C--------IORTH=2 -> HMFOR couplage non-null----------------
       IF (MTN == 19.OR.MTN == 15.OR.MTN == 25.OR.MTN == 119) THEN
         IORTH=1
@@ -546,6 +550,18 @@ C--------IORTH=2 -> HMFOR couplage non-null----------------
       IGTYP = IGEO(11,PID(1))
       IGMAT = IGEO(98,PID(1))
       IPOS  = IGEO(99,PID(1))
+C
+      ! Npt_max
+      LAYNPT_MAX = 1
+      IF(IGTYP == 51 .OR. IGTYP == 52) THEN
+        DO ILAY=1,NLAY
+           LAYNPT_MAX = MAX(LAYNPT_MAX , ELBUF_STR%BUFLY(ILAY)%NPTT)
+        ENDDO  
+      ENDIF
+      NLAY_MAX   = MAX(NLAY,NPT, ELBUF_STR%NLAY)
+      ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
+     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
+C
 C----------unify the factor ONE_OVER_12 after       
       IF (IORTH == 1) THEN
         HMFOR(JFT:JLT,1:6)=ZERO
@@ -803,6 +819,7 @@ C-----------
           END SELECT
         ENDIF !IF (MTN==19)
       ENDIF    ! IF (IORTH==1) THEN
+      DEALLOCATE(MATLY, THKLY, POSLY, THK_LY)
 C
       RETURN
       END
