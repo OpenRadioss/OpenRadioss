@@ -65,13 +65,14 @@
 
       do ii=1,bcs%num_wall
 
-        if(bcs%wall(ii)%is_depending_on_time)then
-          tstart = bcs%wall(ii)%tstart
-          tstop = bcs%wall(ii)%tstop
-        elseif(bcs%wall(ii)%is_depending_on_sensor)then
+        if(bcs%wall(ii)%is_depending_on_sensor)then
           sensor_id = bcs%wall(ii)%sensor_id
           tstart =  sensor_tab(sensor_id)%tstart
           tstop = sensor_tab(sensor_id)%value
+        else
+          !depending_on_time
+          tstart = bcs%wall(ii)%tstart
+          tstop = bcs%wall(ii)%tstop          
         end if
 
         is_enabled = bcs%wall(ii)%is_enabled

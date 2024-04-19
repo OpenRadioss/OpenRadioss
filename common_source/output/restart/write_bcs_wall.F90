@@ -51,11 +51,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------                   
 
       ! /BCS/WALL
-      !   when starting from a restart file we need to read these values 
+      !   when starting from a restart file we need to read these values
 
-          itmp(1) = bcsw%is_enabled             !implicit conversion
-          itmp(2) = bcsw%is_depending_on_time   !implicit conversion
-          itmp(3) = bcsw%is_depending_on_sensor !implicit conversion
+          itmp(1:3) = 0
+          if(bcsw%is_enabled) itmp(1) = 1
+          if(bcsw%is_depending_on_time) itmp(2) = 1
+          if(bcsw%is_depending_on_sensor) itmp(3) = 1
           itmp(4) = bcsw%user_id
           itmp(5) = bcsw%grnod_id
           itmp(6) = bcsw%sensor_id
