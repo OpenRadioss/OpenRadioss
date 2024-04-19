@@ -70,8 +70,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  TAGELC(NUMELC),TAGELTG(NUMELTG),TAGELS(NUMELS8)
-      INTEGER  TAGNOD(NUMNOD)
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGELC,TAGELTG,TAGELS
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNOD
       INTEGER  I,IX(8),IE,J,IN,ID,IP,IR,NN,PARTID,UID,ITYP
       INTEGER  SUB_ID,MM, NEL
       CHARACTER TITLE*ncharline,KEY1*ncharkey,KEY*ncharkey,MESS*40
@@ -82,6 +82,8 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS,R2R_SYS,NINTRI
 C=======================================================================
+
+      ALLOCATE(TAGELC(NUMELC),TAGELTG(NUMELTG),TAGELS(NUMELS8),TAGNOD(NUMNOD))
 C
       IS_AVAILABLE = .FALSE.
 C
@@ -308,27 +310,31 @@ C
       ENDDO
 C------------------------------------------
 C  CHECK COMPATIBILITY WITH XREF AND REFSTA
+
 C------------------------------------------
-      IF(IDDLEVEL == 1) RETURN
-      IF( NXREF /= 0) THEN
-        DO IN=1,NUMNOD
-           IF(TAGNOD(IN) == 0) CYCLE
-           IF(TAGXREF(IN) == 1) THEN
-             CALL ANCMSG(MSGID=1098,MSGTYPE=MSGERROR,ANMODE=ANINFO,
-     .                   I1=ITAB(IN))
-           ENDIF
-        ENDDO
-      ENDIF
-      IF( IREFSTA /= 0) THEN
-        DO IN=1,NUMNOD
-           IF(TAGNOD(IN) == 0) CYCLE
-           IF(TAGREFSTA(IN) == 1) THEN
-             CALL ANCMSG(MSGID=1099,MSGTYPE=MSGERROR,ANMODE=ANINFO,
-     .                   I1=ITAB(IN))
-           ENDIF
-        ENDDO
+
+      IF(IDDLEVEL == 1) THEN 
+        
+      ELSE
+        IF( NXREF /= 0) THEN
+          DO IN=1,NUMNOD
+             IF(TAGNOD(IN) == 0) CYCLE
+             IF(TAGXREF(IN) == 1) THEN
+               CALL ANCMSG(MSGID=1098,MSGTYPE=MSGERROR,ANMODE=ANINFO, I1=ITAB(IN))
+             ENDIF
+          ENDDO
+        ENDIF
+        IF( IREFSTA /= 0) THEN
+          DO IN=1,NUMNOD
+             IF(TAGNOD(IN) == 0) CYCLE
+             IF(TAGREFSTA(IN) == 1) THEN
+               CALL ANCMSG(MSGID=1099,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ITAB(IN))
+             ENDIF
+          ENDDO
+        ENDIF
       ENDIF
 C
+      DEALLOCATE(TAGELC,TAGELTG,TAGELS,TAGNOD)
       RETURN
  1000 FORMAT(//
      & 5X,'    REFERENCE STATE (EREF)  ',/

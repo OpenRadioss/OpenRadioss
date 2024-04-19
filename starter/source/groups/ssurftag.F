@@ -91,8 +91,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,J,K,JS,KS,II,JJ,K1,K2,LL,FACE(4),FC10(3),NN,KK,I1,
      .        NI(4),NS(4),MI(4),MS(4),NMIN,MMIN,NF,MF,IPERM,N1,N2,I
-      INTEGER NODTAG(NUMNOD),FASTAG(NUMELS),FACES(4,6),PWR(7),
+      INTEGER FACES(4,6),PWR(7),
      .        FACES10(3,6),NNS,ISHEL,ISEG
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NODTAG,FASTAG
 !     FLAG_PART : check for tagged part
       LOGICAL :: FLAG_PART      
 !     NUM_PART : number of tagged part 
@@ -113,6 +114,8 @@ C-----------------------------------------------
      .             4,5,1/
       DATA PWR/1,2,4,8,16,32,64/
 C=======================================================================
+      ALLOCATE(NODTAG(NUMNOD),FASTAG(NUMELS))
+
       FASTAG=0
 C
       IF(IEXT==1)THEN
@@ -504,6 +507,7 @@ C---
         ENDDO   !       end of JS_ELM=1,NUM_ELM
       ENDDO     !       end JS_PART=1,NUM_PART
 C-----------
+      DEALLOCATE(NODTAG,FASTAG)
       RETURN
       END
 
@@ -558,8 +562,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,J,K,JS,KS,II,JJ,K1,K2,LL,FACE(4),FC10(3),NN,KK,I1,
      .        NI(4),NS(4),MI(4),MS(4),NMIN,MMIN,NF,MF,IPERM,N1,N2,I
-      INTEGER NODTAG(NUMNOD),FACES(4,6),PWR(7),
-     .        FACES10(3,6),NNS
+      INTEGER FACES(4,6),PWR(7)
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NODTAG
+      INTEGER ::  FACES10(3,6),NNS
       DATA FACES/4,3,2,1,
      .           5,6,7,8,
      .           1,2,6,5,
@@ -573,8 +578,9 @@ C-----------------------------------------------
      .             1,2,3,
      .             4,5,1/
       DATA PWR/1,2,4,8,16,32,64/
-C=======================================================================
-      FASTAG=0
+Co=======================================================================
+        ALLOCATE(NODTAG(NUMNOD))
+        FASTAG=0
 C       Tag nodes External surface (solid)
         DO JS=1,NUMELS
           DO JJ=1,6
@@ -675,6 +681,7 @@ C                    FACTAG(JS) moins face jj
           END DO
         END DO
 C-----------
+      DEALLOCATE(NODTAG)
       RETURN
       END
 

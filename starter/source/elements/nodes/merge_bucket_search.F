@@ -60,10 +60,11 @@ C-----------------------------------------------
      .      IBZ,IBY,IBX,KS,
      .      NBOX,NBOY,NBOZ,NBX,NBY,NBZ,NBAND,IBOITE
 C
-      INTEGER 
-     .    NOBX(NUMNOD),NOBY(NUMNOD),NOBZ(NUMNOD),
-     .    NOBCX(NN2),NOBCY(NN2),NOBCZ(NN2),NUMNOD1,
-     .    TABS(NB_MERGE_NODE),TABC(NB_MERGE_NODE),TAG
+    ! Declaration of integer scalar variables
+      INTEGER :: NUMNOD1, TAG
+      INTEGER, ALLOCATABLE, DIMENSION(:) :: NOBX, NOBY, NOBZ
+      INTEGER, ALLOCATABLE, DIMENSION(:) :: NOBCX, NOBCY, NOBCZ
+      INTEGER, ALLOCATABLE, DIMENSION(:) :: TABS, TABC
 C 
       INTEGER, DIMENSION(:),POINTER     :: ITABC
       INTEGER, DIMENSION(:),ALLOCATABLE :: 
@@ -87,6 +88,14 @@ C - --> LIST1 / NN1 : list of nodes candidate for merging
 C - --> LIST2 / NN2 : list of destinations
 C=======================================================================
 C 
+      ALLOCATE(NOBX(NUMNOD))
+      ALLOCATE(NOBY(NUMNOD))
+      ALLOCATE(NOBZ(NUMNOD))
+      ALLOCATE(NOBCX(NN2))
+      ALLOCATE(NOBCY(NN2))
+      ALLOCATE(NOBCZ(NN2))
+      ALLOCATE(TABS(NB_MERGE_NODE))
+      ALLOCATE(TABC(NB_MERGE_NODE))
       DBUC = TWO*DBUC
       EPS=EM3*DBUC 
       XMIN=EP30
@@ -421,14 +430,19 @@ C
                           ENDDO   
                         ENDIF           
                       ENDDO 
-                      
                     ENDDO
-                   
                 ENDIF          
               ENDDO
             ENDIF 
           ENDDO
-
+       DEALLOCATE(NOBX)
+       DEALLOCATE(NOBY)
+       DEALLOCATE(NOBZ)
+       DEALLOCATE(NOBCX)
+       DEALLOCATE(NOBCY)
+       DEALLOCATE(NOBCZ)
+       DEALLOCATE(TABS)
+       DEALLOCATE(TABC)
 C--------
       RETURN
       END
