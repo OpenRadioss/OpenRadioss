@@ -339,7 +339,7 @@ c
             ELSEIF (KEY(1:6) == 'ENERGY') THEN
               IRUPT = 11
               CALL HM_READ_FAIL_ENERGY(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   ,UNIT_ID  )
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB)
 c
             !!  ELSEIF (KEY(1:6) == '') THEN 
             !!     IRUPT = 12                     ! not used
@@ -348,14 +348,14 @@ c
               IRUPT = 13
               CALL HM_READ_FAIL_CHANG(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             LSUBMODEL,UNITAB   ,UNIT_ID  )
+     .             LSUBMODEL,UNITAB)
 c     
             ELSEIF (KEY(1:6) == 'HASHIN') THEN
               IRUPT = 14
               CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
               CALL HM_READ_FAIL_HASHIN(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,IFAILWAVE,
-     .             LSUBMODEL,UNITAB   ,UNIT_ID  )
+     .             LSUBMODEL,UNITAB  )
 c     
             !!  ELSEIF (KEY(1:6) == '') THEN   
             !!     IRUPT = 15                      ! not used
@@ -364,7 +364,7 @@ c
                  IRUPT = 16 
               CALL HM_READ_FAIL_PUCK(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             LSUBMODEL,UNITAB   ,UNIT_ID  )
+     .             LSUBMODEL,UNITAB)
 c     
             !! ELSEIF (KEY(1:10) == '') THEN
             !!       IRUPT = 17                     ! not used
@@ -373,7 +373,7 @@ c
               IRUPT = 18
               CALL HM_READ_FAIL_LADEVEZE(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             LSUBMODEL,UNITAB   ,UNIT_ID  )
+     .             LSUBMODEL,UNITAB)  
 c     
             !!   ELSEIF (KEY(1:8) == ' ') THEN   ! not used
             !!     IRUPT = 19
@@ -382,7 +382,7 @@ c
               IRUPT = 20
               CALL HM_READ_FAIL_CONNECT(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,UNIT_ID ,
-     .             LSUBMODEL,UNITAB   ,UNIT_ID  )
+     .             LSUBMODEL,UNITAB)
 c     
             !! ELSEIF (KEY(1:10) == ' ') THEN 
             !!       IRUPT = 21                     ! not used
