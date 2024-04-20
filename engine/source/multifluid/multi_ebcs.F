@@ -31,7 +31,7 @@ Chd|        EBCS_MOD                      ../common_source/modules/boundary_cond
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, 
-     .     FUNC_VALUE, EBCS_TAB,NPF,TF)
+     .     FUNC_VALUE, EBCS_TAB,NPF,TF,FSAVSURF,NSURF)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -53,6 +53,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: NSURF
+      my_real,INTENT(INOUT) :: FSAVSURF(5,NSURF)
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       INTEGER, INTENT(IN) :: ITASK
       INTEGER, INTENT(IN) :: IXS(NIXS, *), IXQ(NIXQ, *), IXTG(NIXTG, *)
@@ -80,15 +82,15 @@ C-----------------------------------------------
 C     Inlet, outlet boundary condition
               CALL MULTI_INLET_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
-     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,NPF,TF)
+     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,twf%surf_id,NPF,TF,FSAVSURF)
             TYPE IS(t_ebcs_fluxout)
               CALL MULTI_INLET_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
-     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,NPF,TF)
+     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,twf%surf_id,NPF,TF,FSAVSURF)
             TYPE IS(t_ebcs_nrf)
               CALL MULTI_NRF_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
-     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,twf,NPF,TF)
+     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,twf,NPF,TF,FSAVSURF)
             CLASS DEFAULT
          END SELECT
       ENDDO

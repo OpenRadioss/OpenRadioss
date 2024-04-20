@@ -127,7 +127,7 @@ C-----------------------------------------------
 
         AIRBAG_OUTPUT = 0
         DO JJ = ITHGRP(7),ITHGRP(5)
-            IF(ITHBUF(JJ) ==2.OR.ITHBUF(JJ) ==3) AIRBAG_OUTPUT = 1
+            IF(ITHBUF(JJ) ==2 .OR. ITHBUF(JJ) ==3) AIRBAG_OUTPUT = 1  !massflow or velocity
         ENDDO
       
 C

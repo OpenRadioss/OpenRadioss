@@ -36,7 +36,7 @@ Chd|====================================================================
      .                 LISTE,NOD,IRECT,IELEM,IFACE,
      .                 RO0,EN0,
      .                 LA,MS,STIFN,EBCS,IPARG,ELBUF_TAB,MULTI_FVM,IXQ,IXS,IXTG,
-     .                 ITAB,NALE,ELEM_ADRESS,FSKY)
+     .                 ITAB,NALE,ELEM_ADRESS,FSKY,FSAVSURF)
       USE EBCS_MOD
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
@@ -58,6 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
       INTEGER,INTENT(IN) :: NSEG,NOD,ISEG(NSEG),LISTE(NOD),IRECT(4,NSEG),IELEM(NSEG),IFACE(NSEG)
       INTEGER,INTENT(IN) :: IXQ(NIXQ,NUMELQ),IXS(NIXS,NUMELS),IXTG(NIXTG,NUMELTG)
       INTEGER,INTENT(IN) :: ITAB(NUMNOD),NALE(NUMNOD)
@@ -89,6 +90,7 @@ C-----------------------------------------------
       LOGICAL bFOUND
       TYPE(BUF_MAT_)  ,POINTER :: MBUF  
       INTEGER :: ADRESS ! adress for parit/on array
+      INTEGER :: SURF_ID ! EBCS surface identifier
 C-----------------------------------------------
       DATA ICF_2d  /1,2,2,3,3,4,4,1/
       DATA ICF_3d  /1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
@@ -98,6 +100,7 @@ C-----------------------------------------------
       TCAR_P = EBCS%TCAR_P
       TCAR_VF = EBCS%TCAR_VF
       TIME = TT
+      SURF_ID = EBCS%SURF_ID
       
       ALPHA = DT1/TCAR_P
       BETA = DT1/MAX(DT1,TCAR_VF)
@@ -277,7 +280,10 @@ C-----------------------------------------------
             ENDDO
           ENDIF
           NBMAT=EBCS%NBMAT
-          
+
+          !/TH/SURF (massflow)
+          FSAVSURF(2,SURF_ID) = FSAVSURF(2,SURF_ID) + RHO*SURF*Vnew
+
           !segment data for flux of volumes ( upwind/ACONVE() )
           SEGVAR%RHO(KSEG)=RHO
           SEGVAR%EINT(KSEG)=EINT          

@@ -79,10 +79,19 @@ C-----------------------------------------------
      .        GRAV,Z(3),DEPTH,RHO,POLD,DELTA_P,RHO_LIQ,RHO_GAS,DOTPROD,BZ(3),HEIGHT,VOLD,
      .        F,Fp,mu,
      .        T0_(4),C0_(4),C1_(4),C2_(4),C3_(4),C4_(4),C5_(4),E0_(4),RHO0_(4),VF(4),P0(4),PEXT,PRES_0
+      LOGICAL IS_IFORM12
 C-----------------------------------------------
 
       IFLG  = NINT(UPARAM(55))
       IFORM = NINT(UPARAM(31))
+
+      !need to initialize element buffer with initial density for this specific case.
+      IS_IFORM12 = .FALSE.
+      IF(IFORM == 12)THEN
+        IFORM = 1
+        IFLG = 1
+        IS_IFORM12 = .TRUE.
+      ENDIF
 
       !---------------------------------!
       ! Test if only fluids are defined !
@@ -190,6 +199,12 @@ C-----------------------------------------------
         SIG(I,2) = -PRES_0      
         SIG(I,3) = -PRES_0                      
       ENDDO
+
+      IF(IS_IFORM12)THEN
+        DO I=1,NEL
+          GBUF%RHO(I) = VF(1)*RHO0_(1)+VF(2)*RHO0_(2)+VF(3)*RHO0_(3)+VF(4)*RHO0_(4)
+        ENDDO
+      ENDIF
 
       !---------------------------------!
       ! IFORM 6                         !

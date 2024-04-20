@@ -5235,11 +5235,11 @@ C--------------------------------------------
 
 
 C -------------------------------------------------
-C Check des surfaces pour les airbags
+C Check surfaces for airbags
 C -------------------------------------------------
-      CALL CHECK_SURF(IGRSURF,1)
+      CALL CHECK_SURF(IGRSURF,1,EBCS_TAB)
 C----------------------------------
-C     LECTURE DES VOLUMES MONITORES
+C     READER FOR MONITORED VOLUMES
 C----------------------------------
       ERR_MSG='MONITORED VOLUMES'
       ERR_CATEGORY='MONITORED VOLUMES'
@@ -9952,9 +9952,9 @@ C
       IF(ALLOCATED(ITHBUFTMP)) DEALLOCATE(ITHBUFTMP)
 C
 C -------------------------------------------------
-C Check des surfaces pour les sorties TH
+C Check surfaces for /TH/SURF option
 C -------------------------------------------------
-      CALL CHECK_SURF(IGRSURF,2)
+      CALL CHECK_SURF(IGRSURF,2,EBCS_TAB)
 C -------------------------------------------------
 C /TH/SURF : outputting Pressure and Area : 
 C -------------------------------------------------

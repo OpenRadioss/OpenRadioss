@@ -400,73 +400,11 @@ C-----------------------------------------------
 C-----------
       RETURN
 C-----------
- 1000 FORMAT( //'ZERO PRESSURE GRADIENT EBCS NUMBER . . . :',I8,1X,A)    
- 1001 FORMAT( //'IMPOSED PRESSURE EBCS NUMBER . . . . . . :',I8,1X,A)    
- 1002 FORMAT( //'INLET VALVE  EBCS NUMBER   . . . . . . . :',I8,1X,A)    
- 1003 FORMAT( //'OUTLET VALVE  EBCS NUMBER  . . . . . . . :',I8,1X,A)    
- 1004 FORMAT( //'IMPOSED VELOCITY . . . . . . . . . . . . :',I8,1X,A)    
- 1005 FORMAT( //'IMPOSED NORMAL VELOCITY EBCS NUMBER  . . :',I8,1X,A)    
- 1006 FORMAT( //'INITIAL PRESSURE EBCS NUMBER . . . . . . :',I8,1X,A)    
- 1007 FORMAT( //'INITIAL VELOCITY  EBCS NUMBER  . . . . . :',I8,1X,A)    
- 1018 FORMAT( //'FLUID INLET EBCS NUMBER .  . . . . . . . :',I8,1X,A)    
- 1019 FORMAT( //'FLUX OUT  EBCS NUMBER  . . . . . . . . . :',I8,1X,A)    
- 1020 FORMAT( //'AXIS (N2D = 1) EBCS NUMBER.  . . . . . . :',I8,1X,A)
+ 1018 FORMAT( //'FLUID INLET EBCS NUMBER .  . . . . . . . :',I8,1X,A)
  1021 FORMAT( '   VELOCITY & PRESSURE')    
- 1022 FORMAT( '   VELOCITY & ENERGY')  
-    
- 1101 FORMAT(
-     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
-     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,
-     .        '    SPEED OF SOUND  . . . . . . . . . . . . . ',E16.6,/,
-     .        '    IMPOSED PRESSURE  . . . . . . . . . . . . ',E16.6,/,
-     .        '    PRESSURE SCALING FUNCTION . . . . . . . . ',I8,/,
-     .        '    IMPOSED DENSITY . . . . . . . . . . . . . ',E16.6,/,
-     .        '    DENSITY SCALING FUNCTION  . . . . . . . . ',I8,/,
-     .        '    IMPOSED ENERGY  . . . . . . . . . . . . . ',E16.6,/,
-     .        '    ENERGY SCALING FUNCTION . . . . . . . . . ',I8,/,
-     .        '    CHARACTERISTIC LENGTH . . . . . . . . . . ',E16.6,/,
-     .        '    LINEAR RESISTANCE . . . . . . . . . . . . ',E16.6,/,
-     .        '    QUADRATIC RESISTANCE  . . . . . . . . . . ',E16.6,/)
- 1102 FORMAT(
-     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
-     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,
-     .        '    SPEED OF SOUND  . . . . . . . . . . . . . ',E16.6,/,
-     .        '    IMPOSED VELOCITY  . . . . . . . . . . . . ',E16.6,/,
-     .        '    VELOCITY SCALING FUNCTION . . . . . . . . ',I8,/,
-     .        '    IMPOSED DENSITY . . . . . . . . . . . . . ',E16.6,/,
-     .        '    DENSITY SCALING FUNCTION  . . . . . . . . ',I8,/,
-     .        '    IMPOSED ENERGY  . . . . . . . . . . . . . ',E16.6,/,
-     .        '    ENERGY SCALING FUNCTION . . . . . . . . . ',I8,/,
-     .        '    CHARACTERISTIC LENGTH . . . . . . . . . . ',E16.6,/)
- 1103 FORMAT(
-     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
-     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,
-     .        '    SPEED OF SOUND  . . . . . . . . . . . . . ',E16.6,/,
-     .        '    IMPOSED VELOCITY VX . . . . . . . . . . . ',E16.6,/,
-     .        '    VX SCALING FUNCTION . . . . . . . . . . . ',I8,/,
-     .        '    IMPOSED VELOCITY VY . . . . . . . . . . . ',E16.6,/,
-     .        '    VY SCALING FUNCTION . . . . . . . . . . . ',I8,/,
-     .        '    IMPOSED VELOCITY VZ . . . . . . . . . . . ',E16.6,/,
-     .        '    VZ SCALING FUNCTION . . . . . . . . . . . ',I8,/,
-     .        '    IMPOSED DENSITY . . . . . . . . . . . . . ',E16.6,/,
-     .        '    DENSITY SCALING FUNCTION  . . . . . . . . ',I8,/,
-     .        '    IMPOSED ENERGY  . . . . . . . . . . . . . ',E16.6,/,
-     .        '    ENERGY SCALING FUNCTION . . . . . . . . . ',I8,/,
-     .        '    CHARACTERISTIC LENGTH . . . . . . . . . . ',E16.6,/)
- 1104 FORMAT(
-     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
-     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,
-     .        '    DENSITY . . . . . . . . . . . . . . . . . ',E16.6,/,
-     .        '    SOUND SPEED . . . . . . . . . . . . . . . ',E16.6,/,
-     .        '    CHARACTERISTIC LENGTH . . . . . . . . . . ',E16.6,/)
+ 1022 FORMAT( '   VELOCITY & ENERGY')
  1118 FORMAT(
      .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
-     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/)
- 1008 FORMAT(//
-     .        'EBCS NUMBER :',I8,1X,A,/,    
-     .        '    CONNECTION TO MONITORED VOLUME. . . . . . ',I8,/,
-     .        '    THROUGH SURFACE . . . . . . . . . . . . . ',I8,/,
-     .        '    ACTIVATED BY SENSOR . . . . . . . . . . . ',I8,/,
      .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/)
  1121 FORMAT(
      .        '    IVx FUNCTION ID . . . . . . . . . . . . . ',I8,/,

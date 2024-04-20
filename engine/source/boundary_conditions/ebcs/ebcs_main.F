@@ -40,7 +40,7 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm
 Chd|====================================================================
       SUBROUTINE EBCS_MAIN(IGRSURF,SEGVAR,VOLMON,A,V,W,X,
      .                     FSAV,FV,WA,MS,STIFN,IPARG,ELBUF_TAB,EBCS_TAB,MULTI_FVM,IXQ,IXS,IXTG,
-     .                     ITAB,NALE,FSKY)
+     .                     ITAB,NALE,FSKY,FSAVSURF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,6 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      my_real,INTENT(INOUT) :: FSAVSURF(5,NSURF)
       INTEGER IPARG(NPARG,NGROUP)
       INTEGER,INTENT(IN) :: IXQ(NIXQ,NUMELQ),IXS(NIXS,NUMELS),IXTG(NIXTG,NUMELTG),ITAB(NUMNOD),NALE(NUMNOD)
       my_real
@@ -77,10 +78,22 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,TYP,ISU,NSEG,VOLU,NOD,J
       CLASS(t_ebcs), POINTER :: EBCS
+      LOGICAL HAS_TH
 C-----------------------------------------------
 C   S o u r  c e   L i n e s
 C-----------------------------------------------
- 
+
+      !/TH/SURF (RESET)
+      DO I = 1, NEBCS
+         IF(.NOT.EBCS_TAB%need_to_compute(I)) CYCLE
+         EBCS => EBCS_TAB%tab(i)%poly
+         HAS_TH = EBCS%has_th
+         IF(HAS_TH)THEN
+           ISU = EBCS%surf_id
+           FSAVSURF(1:5,ISU) = ZERO
+         ENDIF
+      ENDDO
+
       DO I = 1, NEBCS
          IF(.NOT.EBCS_TAB%need_to_compute(I)) CYCLE
          EBCS => EBCS_TAB%tab(i)%poly
@@ -147,7 +160,7 @@ C-----------------------------------------------
      .             twf%node_list,NOD,twf%elem_list,twf%ielem,twf%iface,
      .             twf%ro0,twf%en0,
      .             twf%la,MS,STIFN,twf,IPARG,ELBUF_TAB,MULTI_FVM,IXQ,IXS,IXTG,
-     .             ITAB, NALE, EBCS_PARITHON(I)%ELEM_ADRESS,FSKY)  
+     .             ITAB, NALE, EBCS_PARITHON(I)%ELEM_ADRESS,FSKY,FSAVSURF)
             end select  
          ELSE IF (TYP == 100) THEN
             SELECT TYPE(EBCS)
