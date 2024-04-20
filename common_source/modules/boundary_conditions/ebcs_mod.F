@@ -123,6 +123,7 @@ Chd|====================================================================
       logical :: debug_print = .false.
       logical :: is_multifluid = .false.
       logical :: has_ielem = .false.
+      logical :: has_th = .false.
 
 !     work tables
       logical :: has_la = .false.
@@ -556,7 +557,7 @@ C All allocatable subobjects are deallocated here:
       class (t_ebcs), intent(inout) :: this
       integer, intent(inout) :: leni, lenr
 
-      integer, dimension(7) :: integer_data 
+      integer, dimension(8) :: integer_data
       integer :: siz     
       integer_data(1) = this%type
       integer_data(2) = this%ebcs_id
@@ -567,10 +568,12 @@ C All allocatable subobjects are deallocated here:
       if(this%is_multifluid)integer_data(6) = 1
       integer_data(7) = 0
       if(this%has_ielem)integer_data(7) = 1
+      integer_data(8) = 0
+      if(this%has_th)integer_data(8) = 1
       if (this%debug_print) print*, "integer_data ", integer_data
 
-      call write_i_c(integer_data, 7)
-      leni = leni + 7
+      call write_i_c(integer_data, 8)
+      leni = leni + 8
 
 !     write node list
       if (this%debug_print) print*, "node_list ", this%node_list
@@ -736,11 +739,11 @@ C All allocatable subobjects are deallocated here:
       implicit none
       class (t_ebcs), intent(inout) :: this
 
-      integer, dimension(7) :: integer_data  
+      integer, dimension(8) :: integer_data
       integer :: ihas_la, ihas_iface, ihas_p0, ihas_dp0, ihas_ro0, ihas_en0, 
      .     ihas_pold, ihas_vold, ihas_v0, ihas_reso,siz
       
-      call read_i_c(integer_data, 7)
+      call read_i_c(integer_data, 8)
       this%type = integer_data(1)
       this%ebcs_id = integer_data(2)
       this%surf_id = integer_data(3)
@@ -750,6 +753,8 @@ C All allocatable subobjects are deallocated here:
       if(integer_data(6) == 1)this%is_multifluid=.true.
       this%has_ielem=.false.
       if(integer_data(7) == 1)this%has_ielem=.true.
+      this%has_th=.false.
+      if(integer_data(8) == 1)this%has_th=.true.
       if (this%debug_print) print*, "integer_data ", integer_data
 
 !     read node list

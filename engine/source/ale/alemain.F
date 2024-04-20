@@ -85,7 +85,7 @@ Chd|====================================================================
      6         IPARG       , NPC         ,IXS           ,IXQ       ,IXTG      ,IADS            ,IADQ    ,
      7         IFILL       , NODPOR      ,ICODT         ,ISKEW     ,IMS       ,
      8         NELTST      , ITYPTST     ,IPART         ,IPARTS    ,IPARTQ    ,ITASK           ,
-     A         NODFT       , NODLT       ,NBRCVOIS      ,TEMP      ,
+     A         NODFT       , NODLT       ,NBRCVOIS      ,TEMP      ,FSAVSURF  ,
      B         NBSDVOIS    , LNRCVOIS    ,LNSDVOIS      ,NERCVOIS  ,NESDVOIS  ,LERCVOIS        ,
      C         LESDVOIS    , ISIZXV      ,IAD_ELEM      ,FR_ELEM   ,FSKYM     ,MSNF            ,
      D         IPARI       , SEGVAR      ,ITAB          ,ISKWN     ,
@@ -153,6 +153,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      my_real,INTENT(INOUT) :: FSAVSURF(5,NSURF)
       INTEGER IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),IXTG(NIXTG,NUMELTG), ISKY(*),
      .   IFILL(NUMNOD,*), NPC(*), IPARG(NPARG,NGROUP),NODPOR(*),
      .   IADS(8,*),IADQ(4,*),ICODT(*),ISKEW(*), IMS(*),
@@ -417,7 +418,7 @@ C              Envoi X pour interface type 12 ?
      .                          A,V,W,X,FSAV(1,I),FV,
      .                          WA,MS,STIFN,IPARG,
      .                          ELBUF_TAB,EBCS_TAB,MULTI_FVM,IXQ,IXS,IXTG,
-     .                          ITAB,ALE_CONNECTIVITY%NALE,FSKY)
+     .                          ITAB,ALE_CONNECTIVITY%NALE,FSKY,FSAVSURF)
                ENDIF
                CALL MY_BARRIER
             ENDIF
@@ -604,7 +605,7 @@ C     --------------------------------------------------
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
      .                 ITAB, ITABM1, TT - DT1, 
      .                 STIFN, FSKY, IADS, FSKYM, 
-     .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF)
+     .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF,FSAVSURF)
 
                   CALL MY_BARRIER
 C     -------------------------
@@ -625,7 +626,7 @@ C     --------------------------------------------------
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
      .                 ITAB, ITABM1, TT - DT1, 
      .                 STIFN, FSKY, IADS, FSKYM, 
-     .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF)
+     .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF,FSAVSURF)
 
                   CALL MY_BARRIER
 C     -------------------------
@@ -644,7 +645,7 @@ C     -------------------------
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
      .                 ITAB, ITABM1, TT - DT1, 
      .                 STIFN, FSKY, IADS, FSKYM, 
-     .                 CONDN, CONDNSKY, BUFMAT, FV, .FALSE.,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF)
+     .                 CONDN, CONDNSKY, BUFMAT, FV, .FALSE.,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF,FSAVSURF)
                   CALL MY_BARRIER
 
                   IF (MULTI_FVM%NS_DIFF) THEN

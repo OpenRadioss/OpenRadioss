@@ -77,8 +77,7 @@ C-----------------------------------------------
      .        IPRES,IRHO,NOD,IAD,J,K1,K2,NSEG,IENER,IVX,IVY,IVZ,IALPHA
       INTEGER LISTE(NUMNOD), IMAT,IVEL_TYP,U_IALPHA,U_IRHO,U_IPRES,IFLAGUNIT,FLAG_FMT,
      .        CHECK_CUMUL_VF(2)
-      my_real
-     .   C,PRES,RHO,LCAR,R1,R2,ENER,VX,VY,VZ, ALPHA, TCAR_VF, TCAR_P
+      my_real C,PRES,RHO,LCAR,R1,R2,ENER,VX,VY,VZ, ALPHA, TCAR_VF, TCAR_P
       CHARACTER MESS*40,KEY*ncharkey,chain*9, chain1*64
       EXTERNAL NGR2USR
       LOGICAL FOUND
@@ -152,17 +151,7 @@ C-----------------------------------------------
          ENDIF
          
          EBCS%nb_elem = NSEG
-         !ALLOCATE(EBCS%DP0(NSEG))
 
-         !ALLOCATE(EBCS%p0(NSEG)) !done in iniebcs.F
-
-         !ALLOCATE(EBCS%v0(NSEG)) !done in iniebcs.F 
-         
-         !volume fraction buffer allocated in iniebcs_nrf_tcar
-         !EBCS%NBMAT=                 
-         !ALLOCATE(EBCS%PHASE_ALPHA(4*NSEG))
-
-       
          WRITE(IOUT,1001)ID, TRIM(TITR)       
          WRITE(IOUT,1118)SURF,NSEG,TCAR_P,TCAR_VF
          

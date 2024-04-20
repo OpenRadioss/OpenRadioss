@@ -31,7 +31,7 @@ Chd|        EBCS_MOD                      ../common_source/modules/boundary_cond
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE MULTI_NRF_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
-     .     FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,EBCS,NPF,TF)
+     .     FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,EBCS,NPF,TF,FSAVSURF)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -60,6 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      my_real,INTENT(INOUT) :: FSAVSURF(5,NSURF)
       INTEGER, INTENT(IN) :: EBCS_ID
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       INTEGER, INTENT(IN) :: ITASK, NELEM, ELEM_LIST(NELEM), FACE_LIST(NELEM)
@@ -89,13 +90,14 @@ C-----------------------------------------------
       my_real :: DUMMY(6), RHOII, PII, EINTII, VXII, VYII, VZII, SSPII, NORMAL_VELII, RHOJJ, SSPJJ, 
      .     P_JJ, NORMAL_VELJJ, VXJJ, VYJJ, VZJJ, VELII2, ALPHAII, SUB_RHOII, SUB_RHOEINTII, SUB_VIISTAR(3),
      .     SUB_FIISTAR(3), ALPHASTAR, SUB_RHOSTAR, SUB_PII, VELJJ2, SUB_ESTAR, EINTJJ
-      INTEGER :: IELEM_START, IELEM_END
+      INTEGER :: IELEM_START, IELEM_END, ID_SURF
       my_real :: TCAR_P, TCAR_VF,ALPHA,BETA,DP0,Vnew,Vold,Pvois,POld,MACH,RHOC2,ROC
 C-----------------------------------------------
 C     B e g i n n i n g   o f   s u b r o u t i n e
 C-----------------------------------------------
       TCAR_P = EBCS%TCAR_P
-      TCAR_VF = EBCS%TCAR_VF            
+      TCAR_VF = EBCS%TCAR_VF
+      ID_SURF = EBCS%SURF_ID
       
       ALPHA = DT1/TCAR_P
       BETA = DT1/MAX(DT1,TCAR_VF)
@@ -106,7 +108,7 @@ C-----------------------------------------------
       ENDIF
       
       
-            NBMAT = MULTI_FVM%NBMAT
+      NBMAT = MULTI_FVM%NBMAT
       IELEM_START = 1 + ITASK * NELEM / NTHREAD 
       IELEM_END = (1 + ITASK) * NELEM / NTHREAD
       DUMMY(1:6)=ZERO
@@ -214,8 +216,8 @@ C     VE formulation
               RHOC2 = RHOJJ*SSPII*SSPII 
               ROC   =SQRT(RHOJJ*RHOC2)
               P_JJ  = ONE/(ONE+ALPHA)*(Pold+ROC*(Vnew-Vold))+ALPHA*(Pvois+DP0)/(ALPHA + ONE)
-            ENDIF 
-            
+            ENDIF
+
             EBCS%pold(IELEM) = P_JJ
             
          IF (SSPJJ / RHOJJ  >  ZERO) THEN
@@ -428,12 +430,18 @@ C     Submaterial fluxes
                   MULTI_FVM%SUBENER_FLUXES(IMAT, KFACE, ELEMID) = 
      .                 (SUB_FIISTAR(3) - NORMALW * SUB_VIISTAR(3)) * SURF
                ENDDO
-            ENDIF     
+            ENDIF
+
          ELSE
             CALL ARRET(2)
 C     
          ENDIF
-      ENDDO
+
+         ! /TH/SURF (massflow)
+          FSAVSURF(2,ID_SURF) = FSAVSURF(2,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID)
+
+
+      ENDDO !next IELEM
 C-----------------------------------------------
 C     E n d   o f   s u b r o u t i n e 
 C-----------------------------------------------

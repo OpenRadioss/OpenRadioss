@@ -77,13 +77,13 @@ Chd|        TABLE_MOD                     share/modules/table_mod.F
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
 Chd|====================================================================
       SUBROUTINE SORTIE_MAIN(
-     1            PM        ,D           ,V          ,ALE_CONNECT     ,W        ,         
+     1            PM        ,D           ,V          ,ALE_CONNECT,W        ,
      2            ELBUF     ,IPARG       ,IXS        ,IXQ       ,IXC      ,         
      3            IXT       ,IXP         ,IXR        ,IXTG      ,WA       ,         
      4            ITAB      ,X           ,GEO        ,MS        ,A        ,         
      5            CONT      ,PARTSAV                 ,ICUT      ,XCUT     ,         
      6            FINT      ,FEXT        ,FOPT       ,ANIN      ,LPBY     ,         
-     7            NPBY      ,NSTRF       ,RWBUF      ,NPRW      ,
+     7            NPBY      ,NSTRF       ,RWBUF      ,NPRW      ,EBCS_TAB ,
      8            TANI      ,INOISE      ,BUFNOIS    ,RBY       ,NEFLSW   ,         
      9            NNFLSW    ,CRFLSW      ,FLSW       ,LOUT      ,                
      B            FSAV      ,SKEW        ,ELBUF_TAB  ,CLUSTER   ,                   
@@ -157,6 +157,7 @@ C-----------------------------------------------
       USE DT_MOD
       USE TABLE_MOD
       USE LOADS_MOD
+      USE EBCS_MOD , only : t_ebcs_tab
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -193,6 +194,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(t_ebcs_tab), TARGET, INTENT(IN) :: EBCS_TAB
       LOGICAL LOUT
       INTEGER, INTENT(IN) :: SFANI
       INTEGER IPARG(*), IXS(*), IXQ(*), IXC(*), IXT(*), IXP(*),
@@ -1011,7 +1013,7 @@ C         to avoid double points
      2                 IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,                                 
      5                 PARTSAV,ACCELM,NSENSOR  ,MAT_PARAM, 
-     6                 WEIGHT,IPART,IGRSURF,
+     6                 WEIGHT,IPART,IGRSURF,EBCS_TAB,
      7                 OUTPUT%TH%ITHGRPA, OUTPUT%TH%ITHBUFA, SUBSET,GEO  ,
      8                 KXX   ,IXR,
      9                 KXSP  ,NOD2SP ,SPBUF ,
@@ -1106,7 +1108,7 @@ C
      2                 IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                 PARTSAV,ACCELM,NSENSOR  ,MAT_PARAM,
-     6                 WEIGHT,IPART,IGRSURF,
+     6                 WEIGHT,IPART,IGRSURF,EBCS_TAB,
      7                 OUTPUT%TH%ITHGRPB,OUTPUT%TH%ITHBUFB,SUBSET,GEO  ,
      8                 KXX   ,IXR,
      9                 KXSP  ,NOD2SP ,SPBUF ,
@@ -1201,7 +1203,7 @@ C
      2                 IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                 PARTSAV,ACCELM,NSENSOR  ,MAT_PARAM,
-     6                 WEIGHT,IPART,IGRSURF,
+     6                 WEIGHT,IPART,IGRSURF,EBCS_TAB,
      7                 OUTPUT%TH%ITHGRPC,OUTPUT%TH%ITHBUFC,SUBSET,GEO  ,
      8                 KXX   ,IXR,
      9                 KXSP  ,NOD2SP ,SPBUF ,
@@ -1292,7 +1294,7 @@ C
      2                 IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                 PARTSAV,ACCELM,NSENSOR  ,MAT_PARAM,
-     6                 WEIGHT,IPART,IGRSURF,
+     6                 WEIGHT,IPART,IGRSURF,EBCS_TAB,
      7                 OUTPUT%TH%ITHGRPD,OUTPUT%TH%ITHBUFD,SUBSET,GEO  ,
      8                 KXX   ,IXR,
      9                 KXSP  ,NOD2SP ,SPBUF ,
@@ -1384,7 +1386,7 @@ C
      2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,NSENSOR  ,MAT_PARAM,
-     6                WEIGHT,IPART,IGRSURF,
+     6                WEIGHT,IPART,IGRSURF,EBCS_TAB,
      7                OUTPUT%TH%ITHGRPE,OUTPUT%TH%ITHBUFE,SUBSET,GEO  ,
      8                KXX   ,IXR,
      9                KXSP  ,NOD2SP ,SPBUF ,
@@ -1475,7 +1477,7 @@ C
      2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,NSENSOR  ,MAT_PARAM,
-     6                WEIGHT,IPART,IGRSURF,
+     6                WEIGHT,IPART,IGRSURF,EBCS_TAB,
      7                OUTPUT%TH%ITHGRPF,OUTPUT%TH%ITHBUFF,SUBSET,GEO  ,
      8                KXX   ,IXR,
      9                KXSP  ,NOD2SP ,SPBUF ,
@@ -1567,7 +1569,7 @@ C
      2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,NSENSOR  ,MAT_PARAM,
-     6                WEIGHT,IPART,IGRSURF,
+     6                WEIGHT,IPART,IGRSURF,EBCS_TAB,
      7                OUTPUT%TH%ITHGRPG,OUTPUT%TH%ITHBUFG,SUBSET,GEO  ,
      8                KXX   ,IXR,
      9                KXSP  ,NOD2SP ,SPBUF ,
@@ -1659,7 +1661,7 @@ C
      2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,NSENSOR  ,MAT_PARAM,
-     6                WEIGHT,IPART,IGRSURF,
+     6                WEIGHT,IPART,IGRSURF,EBCS_TAB,
      7                OUTPUT%TH%ITHGRPH,OUTPUT%TH%ITHBUFH,SUBSET,GEO  ,
      8                KXX   ,IXR,
      9                KXSP  ,NOD2SP ,SPBUF ,
@@ -1750,7 +1752,7 @@ C
      2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,NSENSOR  ,MAT_PARAM,
-     6                WEIGHT,IPART,IGRSURF,
+     6                WEIGHT,IPART,IGRSURF,EBCS_TAB,
      7                OUTPUT%TH%ITHGRPI,OUTPUT%TH%ITHBUFI,SUBSET,GEO  ,
      8                KXX   ,IXR,
      9                KXSP  ,NOD2SP ,SPBUF ,
@@ -1839,7 +1841,7 @@ C
      2                IXS  ,ELBUF,WA(N2),IPARG,SENSORS%SENSOR_TAB,
      4                FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                PARTSAV,ACCELM,NSENSOR  ,MAT_PARAM,
-     6                WEIGHT,IPART,IGRSURF,
+     6                WEIGHT,IPART,IGRSURF,EBCS_TAB,
      7                OUTPUT%TH%ITHGRP,OUTPUT%TH%ITHBUF,SUBSET,GEO  ,
      8                KXX   ,IXR,
      9                KXSP  ,NOD2SP ,SPBUF ,
