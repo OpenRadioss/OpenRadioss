@@ -138,21 +138,56 @@ They are available for following Linux version :
 
 #### Development environment
 
-* Install Development tools on your machine
-  * cmake
-  * Makefile
-  * Python
-  * git
-  * git-lfs
+##### Install Development tools on your machine
 
-* ARM compilers and ARM PErformance libraries are need. They are available on ARM Website :
-<https://developer.arm.com/Tools%20and%20Software/Arm%20Compiler%20for%20Linux>
+As root or sudo user:
 
-  Download and Install ARM Compilers and ARM Performance libraries
+On RHEL 8, Rocky Linux8, Suse...
 
-  Check ARMFlang Compiler documentation for installation instructions.
+     dnf install cmake
+     dnf install python
+     dnf install perl
+     dnf install git
+     dnf install git-lfs
+     dnf install environment-modules
 
-  <https://developer.arm.com/documentation/101380/2304/?lang=en>
+On Ubuntu 20.x, 22.x, 23.x...
+
+     apt-get update
+     apt-get upgrade
+     apt-get install build-essential
+     apt-get install gfortran
+     apt-get install cmake
+     apt-get install perl
+     apt-get install python3
+     apt-get install python-is-python3
+     apt-get install git
+     apt-get install git-lfs
+     apt-get install environment-modules
+
+##### Install ArmFlang compiler
+
+ARM compilers and ARM PErformance libraries are used to build OpenRadioss.
+ArmFlang 24.04 is recommended to build OpenRadioss. It uses the module system to setup the compiler.
+
+* ArmFlang compilers can be downloaded at:
+<https://developer.arm.com/downloads/-/arm-compiler-for-linux>
+* Follow ArmFlang installation instructions: <ttps://developer.arm.com/documentation/102621/0100>
+
+* To see the list of available modules and load the compiler settings type:
+
+      module list
+      module load acfl/24.04
+
+**Note:**
+
+* The module system was found not properly configured on some systems. If module command is nout found, add in your  .bashrc shell file:
+
+      source /etc/profile 
+
+* If the compiler could not be found with *module list*, add */opt/arm/modulefiles* in the *MODULEPATH* variable. Add this setting in your .bashrc file to have it permanent.
+
+      export MODULEPATH=$MODULEPATH:/opt/arm/modulefiles
 
 ### OpenMPI installation for Linux Arm64
 
