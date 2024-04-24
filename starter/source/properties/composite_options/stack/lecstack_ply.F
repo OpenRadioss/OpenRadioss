@@ -83,8 +83,8 @@ C-----------------------------------------------
       LOGICAL lFOUND
       CHARACTER IDTITL*nchartitle, MESS*40, TITR1*nchartitle
       INTEGER I, IG,IGTYP,J,IP,ISTRAIN,I8PT,ISK,ITU,IRB,IHON,IHBE,IPLAST,ITHK,K,N,IDS, IUNIT,UID,ISORTH
-      INTEGER NSTACK,ISTACK,NUMS,IFLAGUNIT,JPID,N1,SUB_ID,PID1,JPID1,JPID2,NISUB,II
-      my_real ANGL,RBID,FAC_L
+      INTEGER NSTACK,ISTACK,NUMS,IFLAGUNIT,JPID,N1,SUB_ID,PID1,JPID1,JPID2,NISUB,II,IPOS
+      my_real ANGL,RBID,FAC_L,ZSHIFT
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -253,7 +253,18 @@ C
         IGTYP=IGEO_STACK(11,I)
         NUMS= NUMGEO_STACK(NUMGEO + I)
         IF(IGTYP == 52) THEN
-          N1 = IGEO_STACK(4,I)
+          !--- generalizing ZSHIFT ! kepp only IPOS= 2 as before
+          IPOS =IGEO_STACK(99,I) 
+          ZSHIFT = GEO_STACK(199, I)
+          IF(IPOS == 0 )THEN                         
+            ZSHIFT = - HALF                           
+          ELSEIF(IPOS == 3) THEN                      
+            ZSHIFT = -ONE                             
+          ELSEIF(IPOS == 4) THEN                      
+            ZSHIFT = ZERO                             
+          ENDIF
+          GEO_STACK(199, I) = ZSHIFT
+          N1 = IGEO_STACK(4,I)          
           DO J =1 , N1
 C ply of stack JPID              
             JPID = STACK_INFO(NUMS)%PID(J)

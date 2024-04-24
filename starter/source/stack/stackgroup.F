@@ -653,15 +653,7 @@ C to be  clarified later IPOS > 0
      .                    IWORKS%GEO(IPTHK+J,IS)/MAX(THICKT,EM20)
                ENDDO
 C                
-               IF(IPOS == 0 )THEN
-                 ZSHIFT = - HALF
-               ELSEIF(IPOS == 2 )THEN
-                 ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)
-               ELSEIF(IPOS == 3) THEN
-                 ZSHIFT = -ONE
-               ELSEIF(IPOS == 4) THEN
-                 ZSHIFT = ZERO
-               ENDIF                   
+               IF(IPOS == 2 )ZSHIFT = ZSHIFT /MAX(THICKT,EM20)                  
 C---             calcul automatique de position des couches             
                  IWORKS%GEO(IPPOS+1,IS) = ZSHIFT + HALF*IWORKS%GEO(IPTHK+1,IS)
                  DO J=2,NPT                                               
@@ -1182,7 +1174,7 @@ C to be  clarified later IPOS > 0
      .                STACK%GEO(IPTHK+J,IIS)/MAX(THICKT,EM20)
                ENDDO
 C                
-              IF (IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)     
+              IF (IPOS == 2 ) ZSHIFT = ZSHIFT /MAX(THICKT,EM20)     
 C---             calcul automatique de position des couches             
                  STACK%GEO(IPPOS+1,IIS) = ZSHIFT +
      .                          HALF*STACK%GEO(IPTHK+1,IIS)
