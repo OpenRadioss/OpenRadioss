@@ -128,11 +128,11 @@ C-----------------------------------------------
      .  MSKIST,MSKIPL,MSKITH,MSKMID,MSKPID,MSKIRP,MSKTYP,IREP,
      .  IPT,IMATLY,II0,JJ0,ILEV,PRT,IADM,DIR,II4,JJ4,N1,
      .  NFAIL,IFAIL,IXFEM,INUM_R2R(1+R2R_SIU*NUMELC),
-     .  INUM_WORKC(3,NUMELC),II5,JJ5,
+     .  II5,JJ5,
      .  ISUBSTACK,IIGEO,IADI ,IPPID,NB_LAW58,IPMAT,
      .  IPERT,STAT,IP,NSLICE,KK,NPT_DRP,IE,IE0
-      my_real
-     .  ANGLE(NUMELC)
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: INUM_WORKC !(3,NUMELC)
+      my_real, DIMENSION(:), ALLOCATABLE :: ANGLE !(NUMELC)
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND,IPIDL
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2, INUM_PTSHEL
@@ -163,6 +163,8 @@ Clef 4---------------------------------
 C======================================================================|
 C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
 C----------------------------------------------------------
+      ALLOCATE(ANGLE(NUMELC))
+      ALLOCATE(INUM_WORKC(3,NUMELC))
       IF(NADMESH /= 0)THEN
         ALLOCATE( ISTOR(KSH4TREE+1,NUMELC) )
       ELSE
@@ -694,5 +696,7 @@ c
          DEALLOCATE( XNUM_DRAPE )      
       ENDIF
       IF(ALLOCATED(INUM_PTSHEL))DEALLOCATE(INUM_PTSHEL)
+
+      DEALLOCATE(ANGLE,INUM_WORKC)
       RETURN
       END

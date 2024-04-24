@@ -61,7 +61,6 @@ C     REAL
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,                 
      .        JJ, K, INOD, ISOLNOD ,NNN,                                
      .        N9,N10,N11,N12,N13,N14,N15,N16                            
-      INTEGER NP(NUMELS*8+24*NUMELS16+NUMSPH*8),BUF,BUFP                
 C-----------------------------------------------                        
 C                                                                       
       NN1 = 1                                                           
