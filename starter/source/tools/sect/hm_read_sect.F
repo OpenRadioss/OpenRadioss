@@ -120,14 +120,18 @@ C-----------------------------------------------
      .   NSEGQ,NSEGS,NSEGC,NSEGT,NSEGP,NSEGR,NSEGTG,I0,ID,
      .   IGU,IGS,IGUS,IGUQ,IGUC,IGUT,IGUP,IGUR,IGUTG,IFRAM,
      .   NNSK1,NNSK2,NNSK3,UID,IFLAGUNIT,IE,IADV,
-     .   TAGNODES(NUMNOD*2+NPART),ISU,NFRAM,JJ,IUN,
+     .   ISU,NFRAM,JJ,IUN,
      .   TAGELEM1,TAGELEM2,TAGELEM3,
-     .   TAGNDOUBL(NUMNOD),N1,CPT,
-     .   TAGELEMS(1+NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+
-     .   NUMELR+NUMELTG),NG,NOPRINT
-      INTEGER L0,ISTYP,SUB_ID,NODTAG(NUMNOD),ILEN
+     .   N1,CPT,
+     .   NG,NOPRINT
+      INTEGER L0,ISTYP,SUB_ID,ILEN
       my_real
      .   DELTAT,ALPHA,FAC_T,A,B,C,D,E,F,POS,R,MAXDT
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNODES !NUMNOD*2+NPART
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNDOUBL !NUMNOD
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGELEMS ! 1+NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELTG
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NODTAG ! NUMNOD
+
       CHARACTER MESS*40,TITR*nchartitle,CHAR8*ncharline
       CHARACTER KEY2*ncharfield
       my_real BID, XM, YM, ZM, X1, Y1, Z1, X2, Y2, Z2, NORM
@@ -140,12 +144,15 @@ C-----------------------------------------------
       INTEGER USR2SYS,NODGRNR5,ELEGROR,ELEGROR_SEATBELT,GRSIZE_ELE_TRANS
       EXTERNAL USR2SYS,NODGRNR5,ELEGROR,ELEGROR_SEATBELT,GRSIZE_ELE_TRANS
 C
-C
       DATA MESS/'SECTION DEFINITION                      '/
       DATA IUN/1/
 C-----------------------------------------------
 C   S o u r c e   F i l e s
 C-----------------------------------------------
+      ALLOCATE(TAGNODES( NUMNOD*2+NPART))
+      ALLOCATE(TAGNDOUBL(NUMNOD))
+      ALLOCATE(TAGELEMS(1+NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELTG))
+      ALLOCATE(NODTAG(NUMNOD))
       SNSTRF1 = 0
       NOPRINT = 0
       NFRAM = 0
@@ -684,6 +691,11 @@ C-------------------------------------------------------------
 
 C file rec length
       NSTRF(6)=LREC*4
+      DEALLOCATE(TAGNODES)
+      DEALLOCATE(TAGNDOUBL)
+      DEALLOCATE(TAGELEMS)
+      DEALLOCATE(NODTAG)
+
 
 C-------------------------------------------------------------
  2900 FORMAT(/' SECTION',I10,' ID',I10/
@@ -1024,7 +1036,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,L,ISU,IADV,IE,TAGELEM1,TAGELEM2,TAGELEM3,TAGNDOUBL(NUMNOD),TAGNODES(NUMNOD*2+NPART),NBPROJOK
+      INTEGER K,L,ISU,IADV,IE,TAGELEM1,TAGELEM2,TAGELEM3,NBPROJOK
+      !TAGNDOUBL(NUMNOD),TAGNODES(NUMNOD*2+NPART)
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNDOUBL, TAGNODES
       my_real  POS,PROJX,PROJY,PROJZ,P1,P2
 C-----------------------------------------------
 C   S o u r c e   F i l e s
@@ -1032,6 +1046,8 @@ C-----------------------------------------------
 C
 C List nodes related to section.
 C
+        ALLOCATE(TAGNDOUBL(NUMNOD))
+        ALLOCATE(TAGNODES(NUMNOD*2+NPART))
         TAGNDOUBL = 0
           TAGNODES  = 0
           IF (IGU1 /= 0) THEN
@@ -1131,6 +1147,8 @@ c
               ENDIF
             ENDDO
           ENDIF
+      DEALLOCATE(TAGNDOUBL)
+      DEALLOCATE(TAGNODES)
       RETURN
       END
 C

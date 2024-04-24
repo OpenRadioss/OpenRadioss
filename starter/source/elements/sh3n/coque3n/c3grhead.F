@@ -128,7 +128,7 @@ C-----------------------------------------------
      .   MSKIST, MSKIPL, MSKITH, MSKMID,MSKPID,MSKIRP,MSKTYP,IREP,
      .   II0,JJ0,ILEV,PRT,IADM,DIR,MSKIRB,IRB, II4, JJ4,
      .   IRUP,IXFEM,IWARNHB,IPT,IMATLY,IPID,ISH3N,
-     .   INUM_WORKSH(3,NUMELTG),II5,JJ5,ISUBSTACK,IIGEO,IADI,IPPID,
+     .   II5,JJ5,ISUBSTACK,IIGEO,IADI,IPPID,
      .   NB_LAW58,IPMAT,IPERT,STAT,IALEL, MT,NSLICE,KK,NPT_DRP,IE,
      .   IE0
 C     REAL OU REAL*8
@@ -136,12 +136,12 @@ C     REAL OU REAL*8
      .   TITR
 C
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2, INUM_PTSH3N
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: INUM_WORKSH ! 3,NUMELTG
 
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
-      my_real
-     . ANGLE(NUMELTG)
+      my_real, DIMENSION(:), ALLOCATABLE :: ANGLE ! NUMELTG
 Clef 1--------------------- ------------
       DATA MSKMLN /O'00777000000'/
       DATA MSKTYP /O'00000777000'/
@@ -159,8 +159,8 @@ Clef 4---------------------------------
       DATA MSKPID /O'07777777777'/
 C-----------------------------------------------
 C-----------------------------------------------
-
-C
+      ALLOCATE(ANGLE(NUMELTG))
+      ALLOCATE(INUM_WORKSH(3,NUMELTG))
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
        IWARNHB=0
         IF(NADMESH /= 0)THEN
@@ -733,5 +733,8 @@ C
          DEALLOCATE( XNUM_DRAPE )      
       ENDIF
       IF(ALLOCATED(INUM_PTSH3N))DEALLOCATE(INUM_PTSH3N)
+
+
+      DEALLOCATE(INUM_WORKSH, ANGLE)
       RETURN
       END

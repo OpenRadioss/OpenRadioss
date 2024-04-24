@@ -70,9 +70,11 @@ C     REAL
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        JJ, K, INOD, ISOLNOD ,NNN,IE1,IDBRICK,
      .        N9,N10,N11,N12,N13,N14,N15,N16,IPROP,PX,PY,PZ
-      INTEGER NP(NUMELS*8+24*NUMELS16+NUMSPH*8),BUF,BUFP,FIRST_NODE,L,M
+      INTEGER BUF,BUFP,FIRST_NODE,L,M
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NP
 C-----------------------------------------------
 C
+      ALLOCATE(NP(NUMELS*8+24*NUMELS16+NUMSPH*8))
       NN1 = 1
       NN2 = 1
       NN3 = NN2 + NUMELS
@@ -324,5 +326,6 @@ C
         END DO
       ENDIF
 C-----------------------------------------------
+      DEALLOCATE(NP)
       RETURN
       END

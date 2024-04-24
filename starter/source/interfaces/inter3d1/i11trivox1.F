@@ -138,17 +138,15 @@ C-----------------------------------------------
      .        XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, 
      .        YY1,YY2,ZZ1,ZZ2,
      .        AAA, DD,
-     .        XMAX_EDGS(NRTS), XMIN_EDGS(NRTS),   !cotes min/max des arrete seconds et mains
-     .        YMAX_EDGS(NRTS), YMIN_EDGS(NRTS),
-     .        ZMAX_EDGS(NRTS), ZMIN_EDGS(NRTS),
-     .        XMAX_EDGM(NRTM), XMIN_EDGM(NRTM),
-     .        YMAX_EDGM(NRTM), YMIN_EDGM(NRTM),
-     .        ZMAX_EDGM(NRTM), ZMIN_EDGM(NRTM),     
      .        XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB
-C
+      my_real, dimension(:), ALLOCATABLE :: XMAX_EDGS, XMIN_EDGS, YMAX_EDGS, YMIN_EDGS, ZMAX_EDGS, ZMIN_EDGS
+      my_real, dimension(:), ALLOCATABLE :: XMAX_EDGM, XMIN_EDGM, YMAX_EDGM, YMIN_EDGM, ZMAX_EDGM, ZMIN_EDGM
       INTEGER, DIMENSION(:), ALLOCATABLE ::  TAGREMLINE    
-C-----------------------------------------------
-C
+C-----------------------------------------------C
+       ALLOCATE(XMAX_EDGS(NRTS), XMIN_EDGS(NRTS), YMAX_EDGS(NRTS))
+       ALLOCATE(YMIN_EDGS(NRTS), ZMAX_EDGS(NRTS), ZMIN_EDGS(NRTS))
+       ALLOCATE(XMAX_EDGM(NRTM), XMIN_EDGM(NRTM), YMAX_EDGM(NRTM))
+       ALLOCATE(YMIN_EDGM(NRTM), ZMAX_EDGM(NRTM), ZMIN_EDGM(NRTM))
 C--- IREMGAP - array for tag of deactivated lines
       IF(FLAGREMNODE==2)THEN
         ALLOCATE(TAGREMLINE(NRTS))
@@ -511,7 +509,11 @@ C=======================================================================
       DEALLOCATE(LCHAIN_ELEM)
       DEALLOCATE(LCHAIN_LAST)
       IF(FLAGREMNODE==2) DEALLOCATE(TAGREMLINE)       
-C___________________________________________________________________________________________________________
+      
+      DEALLOCATE(XMAX_EDGS, XMIN_EDGS, YMAX_EDGS)
+      DEALLOCATE(YMIN_EDGS, ZMAX_EDGS, ZMIN_EDGS)
+      DEALLOCATE(XMAX_EDGM, XMIN_EDGM, YMAX_EDGM)
+      DEALLOCATE(YMIN_EDGM, ZMAX_EDGM, ZMIN_EDGM)
 
       RETURN   
       END

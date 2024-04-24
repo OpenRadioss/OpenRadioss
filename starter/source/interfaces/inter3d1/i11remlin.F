@@ -51,9 +51,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,LIN,ILIN,LEVEL,CPT,NBLIN,LIN1,L,CPT1,N,NBLIN_MAX,CPT_TOTAL
-      INTEGER ITAG(NRTM),
-     .        LISTLIN(NRTM),LISTLINTMP(NRTM),LISTLINTOTAL(NRTM),
-     .        IM1,IM2
+      INTEGER, dimension(:),ALLOCATABLE :: ITAG,LISTLIN,LISTLINTMP,LISTLINTOTAL
+      INTEGER ::  IM1,IM2
       INTEGER, DIMENSION(:),ALLOCATABLE ::
      .        KNOD2LIN,TAGNOD,ORIGIN
       my_real
@@ -63,6 +62,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 c Build inverse connectivity for segments - only at first pass (I_START=1)
 C-----------------------------------------------
+      ALLOCATE(ITAG(NRTM))
+      ALLOCATE(LISTLIN(NRTM))
+      ALLOCATE(LISTLINTMP(NRTM))
+      ALLOCATE(LISTLINTOTAL(NRTM))
 C
       CPT = 0
       IF (I_START ==1) THEN
@@ -332,6 +335,11 @@ C
       ELSE
         I_START = NRTM  ! avoid infinite loop later
       ENDIF
+
+      DEALLOCATE(ITAG)
+      DEALLOCATE(LISTLIN)
+      DEALLOCATE(LISTLINTMP)
+      DEALLOCATE(LISTLINTOTAL)
 C
       RETURN
       END

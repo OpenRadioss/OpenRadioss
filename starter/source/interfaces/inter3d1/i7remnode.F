@@ -382,7 +382,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,SEG,ISEG,LEVEL,CPT,NBSEG,SEG1,L,CPT1,N,
      .        NE,CPT_TOTAL,NS,LREMNORMAX
-      INTEGER LISTSEG(NRTM),LISTSEGTMP(NRTM),LISTSEGTOTAL(NRTM),CPTOPER
+      INTEGER :: CPTOPER
+      INTEGER, DIMENSION(:), ALLOCATABLE :: LISTSEG,LISTSEGTMP,LISTSEGTOTAL
       INTEGER :: JMAX,KMAX
       my_real
      .        MINDIST,DMAX,DIST,X0,Y0,Z0,X1,Y1,Z1,LMAX
@@ -392,6 +393,7 @@ C-----------------------------------------------
       CPTOPER   = 0
       CPT       = 0
       CPT_TOTAL = 0
+      ALLOCATE(LISTSEG(NRTM),LISTSEGTMP(NRTM),LISTSEGTOTAL(NRTM))
 C
       DO I=IFIRST,ILAST
 
@@ -574,6 +576,8 @@ C
         ITAGSEG(I)           = 0
 
       ENDDO
+      DEALLOCATE(LISTSEG,LISTSEGTMP,LISTSEGTOTAL)
+
 C
       RETURN
       END

@@ -144,9 +144,10 @@ C-----------------------------------------------
      .   PY1(MVSIZ),PY2(MVSIZ),PY3(MVSIZ),PY4(MVSIZ),
      .   PZ1(MVSIZ),PZ2(MVSIZ),PZ3(MVSIZ),PZ4(MVSIZ),VOLU(MVSIZ),
      .   X2L(MVSIZ),X3L(MVSIZ),Y2L(MVSIZ),Y3L(MVSIZ),
-     .   X31(MVSIZ),Y31(MVSIZ),Z31(MVSIZ), DELTAX(MVSIZ),STIFNTMP(NUMNOD),
+     .   X31(MVSIZ),Y31(MVSIZ),Z31(MVSIZ), DELTAX(MVSIZ),
      .   BIDON, NOISE, XL(MVSIZ),LENGTH,UINER(MVSIZ),MASSR(MVSIZ),
      .   XM, XINE,RATIO,STI,KX,EMS(MVSIZ),RHOR
+         my_real, DIMENSION(:), ALLOCATABLE :: STIFNTMP !numnod
       DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
@@ -161,6 +162,7 @@ C
       TYPE (STACK_PLY) :: STACK
       TYPE(G_BUFEL_),POINTER :: GBUF
 C-----------------------------------------------
+      ALLOCATE(STIFNTMP(NUMNOD))
       GBUF => ELBUF_STR%GBUF
 
       BIDBUF => NULL()
@@ -525,6 +527,7 @@ C Compute element time step and nodal time step
       ENDIF ! ITY element type
 C
       NXREF = NREFSTA
+      DEALLOCATE(STIFNTMP)
 C-----------
  1000 FORMAT('LIST OF POSSIBLE CNODES MERGED WITH NODE ID=',I10)
       RETURN

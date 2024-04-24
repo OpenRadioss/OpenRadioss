@@ -51,7 +51,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IEL, J, N, IGTYP, TAG8(NUMNOD), NN
+      INTEGER I, IEL, J, N, IGTYP, NN
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAG8
+
+      ALLOCATE(TAG8(NUMNOD))
 C
 C Remplissage de NDOF (cf DIM_GLOB_K dans ENGINE)
 C
@@ -181,6 +184,7 @@ C----   AMS
            ENDIF
         ENDDO
       END IF
+      DEALLOCATE(TAG8)
       RETURN
       END
 
