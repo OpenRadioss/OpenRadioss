@@ -56,9 +56,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IAD, IADL, NL, N, NLL, NN, IGRTMP(NIGRV,NGRAV),
-     .        LGRTMP(LLGRAV_L)
+      INTEGER I, J, IAD, IADL, NL, N, NLL, NN, IGRTMP(NIGRV,NGRAV)
+      INTEGER, DIMENSION(:), ALLOCATABLE :: LGRTMP ! LLGRAV_L
 C
+      ALLOCATE(LGRTMP(LLGRAV_L))
       IADL = 1
       DO I = 1, NGRAV
         NL = IGRAV(1,I)
@@ -87,6 +88,8 @@ C
       CALL WRITE_I_C(IGRTMP,NIGRV*NGRAV)
       CALL WRITE_I_C(LGRTMP,IADL-1)
       LEN_IA = LEN_IA + NIGRV*NGRAV + IADL-1
+
+      DEALLOCATE(LGRTMP)
 C
       RETURN
       END

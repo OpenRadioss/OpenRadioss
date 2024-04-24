@@ -559,7 +559,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, NM,NS,J,NSL,IAD,M
 C
-      INTEGER ITAG(NUMNOD),IADM_CP(NZ)
+      INTEGER IADM_CP(NZ)
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
+C========================================================================|
+      ALLOCATE(ITAG(NUMNOD))
 C========================================================================|
       DO I=1,NUMNOD
        ITAG(I)=0
@@ -587,6 +590,7 @@ C========================================================================|
       DO J=1,NZ
        IADM(J)=IADM_CP(J)
       ENDDO
+      DEALLOCATE(ITAG)
 C
       RETURN
       END SUBROUTINE SETIADM
@@ -617,10 +621,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, IM1,NS,J,NSL,IAD,M,IH1,K,NZ,II,IAD1
 C
-      INTEGER ITAG(NUMNOD),ITAG1(NRBE2),IAD_N(NUMNOD+1),
+      INTEGER ITAG1(NRBE2),
      .        LCOPY(SLRBE2),ICOPY(NRBE2L,NRBE2)
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG, IAD_N
 C========================================================================|
 C--------defining hierarchy---------------------------------------
+      ALLOCATE(ITAG(NUMNOD))
+      ALLOCATE(IAD_N(NUMNOD+1))
       DO I=1,NUMNOD
        ITAG(I)=0
       ENDDO
@@ -694,6 +701,7 @@ C----------reodering---
        ENDDO
       ENDDO
 C
+      DEALLOCATE(ITAG,IAD_N)
       RETURN
       END SUBROUTINE HIERARBE2
 Chd|====================================================================
@@ -1336,9 +1344,12 @@ C-----------------------------------------------
       INTEGER I, N, K, NSL,NM, NI, NMT,M,IROT,ID,IMO,IC0,NZ,NSLN,NSLJ,
      .        J, P,IAD,NS,NN,II,IT,IADS,IERR1,IAD1,IC,MJ,ICJ,NSJ,IADJ
 C
-      INTEGER ITAG(NUMNOD),ISAME
+      INTEGER ISAME
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
+
 C========================================================================|
 C--------merging RBE2 w/ the same NS/M (separated IC)--------------------
+      ALLOCATE(ITAG(NUMNOD))
       ITAG(1:NUMNOD)=0
 C--------if same node as several IND. of /RBE2------------
       NZ=0
@@ -1351,7 +1362,10 @@ C--------if same node as several IND. of /RBE2------------
          ITAG(NS)=ITAG(NS)+1
         ENDDO
       ENDDO
-      IF (NZ==0) RETURN
+      IF (NZ==0) THEN 
+         DEALLOCATE(ITAG)
+         RETURN
+      ENDIF
 C --------merge if same all excepting IC     
       DO I=1,NRBE2
         IAD = IRBE2(1,I)
@@ -1372,6 +1386,7 @@ C --------merge if same all excepting IC
         ENDDO
       ENDDO
 C
+      DEALLOCATE(ITAG)
       RETURN
       END SUBROUTINE RBE2_MERGE
 Chd|====================================================================

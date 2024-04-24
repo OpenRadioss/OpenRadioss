@@ -158,7 +158,7 @@ C-----------------------------------------------
      .        OPTIONS(40),NCOND,NFLAG,IWFLG,NODC,ICUR,IERR1,NEC,
      .        INWDCOUNT,ICCAND,ICNOD_SMS,ISOLBAR, ICKIN, NK, NKI,
      .        ICELEM, ICINTS, ICINTM, ICINT2, ICDDL, ICFSI, ICDEL, ICSOL,
-     .        IWKIN(NUMNOD),ICR2R,NUMEL_R2R, CEPCLUSTER,
+     .        ICR2R,NUMEL_R2R, CEPCLUSTER,
      .        NCONNX, CURR, PREV, NEXT, I1OLD, I2OLD, INC, IDB_METIS,
      .        NELIG3D,NCOND2,LSMS,  
      .        OFFC,OFFTG,K0,ITYP,                     
@@ -168,6 +168,7 @@ C-----------------------------------------------
      .        XADJ_OLD, ADJNCY_OLD, COLORS, ROOTS,
      .        POINTER_NEIGH,CONNECT_WEIGHT,TAGELEM,CNE,
      .        IWD_COPY
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IWKIN ! NUMNOD
       INTEGER TAILLE_LOCAL,PREV_NEIGH,C_NEIGH,POINT_DELETE,
      .        ELEMNODES(MAX_NB_NODES_PER_ELT),OFFELEM(10),WGHT 
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: CONNECTIVITY
@@ -232,6 +233,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
+      ALLOCATE(IWKIN(NUMNOD))
       number_of_added_edges = 0
       refused_numg = 0
       refused_numg0 = 0
@@ -2577,6 +2579,7 @@ C   un seul element ou elements non connectes ou un seul proc
           CEP(I) = 0
         ENDDO
       ENDIF
+      DEALLOCATE(IWKIN)
 C
  1000 FORMAT('#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.',
      .       '        INT2 W.         DOF W.') 
@@ -3130,9 +3133,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NVISIT, N, I
-      INTEGER FILE_V(NELEM), FILE_NEXT, ROOT, CURRENT
+      INTEGER FILE_NEXT, ROOT, CURRENT
+      INTEGER, DIMENSION(:), ALLOCATABLE :: FILE_V
 C-----------------------------------------------
-      
+      ALLOCATE(FILE_V(NELEM)) 
       DO N = 1, NELEM
         COLORS(N)=0
       END DO
@@ -3169,7 +3173,7 @@ c        END IF
           END DO            
         END DO
       END DO
-      
+      DEALLOCATE(FILE_V) 
       RETURN
       END
 

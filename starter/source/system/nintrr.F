@@ -630,9 +630,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,NEL,NOLD,K,
-     .        IWORK(70000),
-     .        INDEX(LENI*2) 
+     .        IWORK(70000)
+      INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX ! LENI*2
 C-----------------------
+        ALLOCATE(INDEX(LENI*2))
         DO I=1,NUMELS  
           IXS_S_IND(I) = IXS(NIXS,I)  
         ENDDO  
@@ -709,7 +710,7 @@ C-----------------------
         DO I=1,NUMELTG  
           IXTG_S_IND(I) = INDEX(I)  
         ENDDO  
-          
+        DEALLOCATE(INDEX) 
         RETURN
         END
 

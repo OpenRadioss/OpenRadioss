@@ -63,14 +63,16 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, L, N, KK, IKK, IKK2, NK, JWARN, ITYP, NE, NSL,
-     .        IK(10), RBWARN, RB2WARN, KRB, NSLRB, NKIN(NUMNOD),
-     .        NKINDOUBLE(NUMNOD),MARQUEUR(8192),
+     .        IK(10), RBWARN, RB2WARN, KRB, NSLRB,
+     .        MARQUEUR(8192),
      .        MARQUEURDOUBLE(13),J1,FLAG_IKCOND,MARQ2,MARQM2,
-     .        NS,NM,M,IAD,NUN,JJ,IKRW(NUMNOD),NIKRW
+     .        NS,NM,M,IAD,NUN,JJ,NIKRW
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NKINDOUBLE,NKIN,IKRW
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
 C-----------------------------------------------------------------
+      ALLOCATE(NKINDOUBLE(NUMNOD),NKIN(NUMNOD),IKRW(NUMNOD))
       MARQ2  = 0
       MARQM2 = 0
 C=======================================================================
@@ -1095,6 +1097,8 @@ C reset flag impact / wall
 ccc        IF(IWL(IKINE(I))==1)IKINE(I) = IKINE(I) - 4
         KINET(I)=IKINE(I)
       ENDDO
+      DEALLOCATE(NKINDOUBLE,NKIN,IKRW)
+
 C
 Cls
 Cls

@@ -104,13 +104,12 @@ C-----------------------------------------------
      .   NSEGQ,NSEGS,NSEGC,NSEGT,NSEGP,NSEGR,NSEGTG,I0,ID,
      .   IGU,IGS,IGUS,IGUQ,IGUC,IGUT,IGUP,IGUR,IGUTG,IFRAM,
      .   NNSK1,NNSK2,NNSK3,UID,IFLAGUNIT,IE,IADV,
-     .   TAGNODES(NUMNOD*2+NPART),ISU,NFRAM,JJ,IUN,
+     .   ISU,NFRAM,JJ,IUN,
      .   TAGELEM1,TAGELEM2,TAGELEM3,
-     .   TAGNDOUBL(NUMNOD),N1,CPT,
-     .   TAGELEMS(1+NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+
-     .   NUMELR+NUMELTG),NG,NOPRINT,ILEN
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,L0,ISTYP,SUB_ID,
-     .   NODTAG(NUMNOD)
+     .   N1,CPT,
+     .   NG,NOPRINT,ILEN
+      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,L0,ISTYP,SUB_ID
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NODTAG,TAGELEMS
       my_real
      .   DELTAT,ALPHA,FAC_T,A,B,C,D,E,F,POS,R
       CHARACTER MESS*40,TITR*nchartitle,CHAR8*ncharline
@@ -129,6 +128,9 @@ C
       DATA MESS/'SECTION DEFINITION                      '/
       DATA IUN/1/
 C=======================================================================
+      ALLOCATE(TAGELEMS(1+NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELTG))
+      ALLOCATE(NODTAG(NUMNOD))
+
       NOPRINT = 1
       FLAG_FMT = 0
       NFRAM = 0
@@ -567,5 +569,7 @@ C-------------------------------------------------------------
      + '        NUMBER OF SPRING ELEMENTS . . . . .',I8/
      + '   SPRING      N1      N2')
 C
+      DEALLOCATE(NODTAG)  
+      DEALLOCATE(TAGELEMS)
       RETURN
       END

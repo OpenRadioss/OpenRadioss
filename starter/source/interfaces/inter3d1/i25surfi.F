@@ -439,8 +439,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NR, IT, J, ETYP(NRTM0),ITYPE
+      INTEGER I, NR, IT, J, ITYPE
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ETYP
 C=======================================================================
+       ALLOCATE(ETYP(NRTM0))
 C------add asymmetric shell segs at end, change MSEGTYP
        DO I=1,NRTM0
         ETYP(I) = MSEGTYP(I)
@@ -490,6 +492,7 @@ C--------coating shell <=> MSEGTYP(I) > NRTM
         END IF
        END DO
 C------------------------------------------------------------
+      DEALLOCATE(ETYP)
       RETURN
       END
 

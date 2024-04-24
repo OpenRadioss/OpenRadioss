@@ -73,8 +73,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: ITAB(NUMNOD), IPART(LIPART1,*),IGEO(NPROPGI,NUMGEO), IXS(NIXS,NUMELS), IPART_STATE(NPART),
-     .                        IPARG(NPARG,*),IXQ(NIXQ,NUMELQ),IXTG(NIXTG,NUMELTG)
+      INTEGER,INTENT(IN) :: ITAB(NUMNOD), IPART(LIPART1,*),IGEO(NPROPGI,NUMGEO),
+     .  IXS(NIXS,NUMELS), IPART_STATE(NPART),
+     .  IPARG(NPARG,*),IXQ(NIXQ,NUMELQ),IXTG(NIXTG,NUMELTG)
       INTEGER, INTENT(INOUT) :: NODTAG(NUMNOD),
      .                          IPM(NPROPMI,*)
       INTEGER, TARGET :: IPARTS(*),IPARTQ(*),IPARTTG(*)
@@ -87,7 +88,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, JJ,J, IPRT0, IPRT, K, STAT_NUMELS_1, KK, INOD
       INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD, IOFF,NPT
-      INTEGER NP(24*(NUMELS+NUMELQ+NUMELTG))
       INTEGER NUM_CENTROIDS, IPOS,MLW,IFORM,NBMAT,NB2,ISUBMAT,NNOD,NNOD2
       INTEGER NUVAR,NUM_CELL
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
@@ -110,10 +110,6 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: WORK_INDX
       my_real :: LEN_(NSPMD),LEN_TOT,SHIFT_C_MIN,SHIFT_N_MIN
       INTEGER :: IDX1(21),IDX2(21),IDX3(21)
-C-----------------------------------------------
-C   P r e - C o n d i t i o n
-C-----------------------------------------------
-      !IF(NUMELS+NUMELQ+NUMELTG == 0)RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

@@ -109,8 +109,9 @@ C-----------------------------------------------
       INTEGER NDX, I, J, INRT, NELS, MT, JJ, JJJ, NELC,
      .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
      .   IP, NLEV, MYLEV, K, P, R, T,IAD,
-     .   TAGB(NUMNOD),NS,IGTYP,NRTT,NNOD,ISUBSTACK,IPFMAX,IPL,
+     .   NS,IGTYP,NRTT,NNOD,ISUBSTACK,IPFMAX,IPL,
      .   IPFLMAX,IPG,NELEM,STAT
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGB
       INTEGER JPERM(4)
 C     REAL
       my_real
@@ -126,6 +127,7 @@ C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
 C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
 C---------------------------------------------------------------
 C      NRT->NRT0
+      ALLOCATE(TAGB(NUMNOD))
       SLSFAC = STFAC
 C
       IF(IGAP==3)THEN
@@ -681,6 +683,8 @@ C
       END IF
 
       IF(INTTH > 0) DEALLOCATE(INRTIE)
+
+      DEALLOCATE(TAGB)
 
       RETURN
  1300 FORMAT(2X,'GAP MIN = ',1PG20.13)

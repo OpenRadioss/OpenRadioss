@@ -118,12 +118,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J10(10),BUFTMP(NUMNOD*2+NPART),ID_SUB
+      INTEGER J10(10),ID_SUB
+      INTEGER, DIMENSION(:), ALLOCATABLE :: BUFTMP ! NUMNOD*2+NPART
       INTEGER I,J,K,II,KK,N1,N2,ISU,ID,JREC,NNOD,NL,NTRI,IGS,IGRS,
      .        OK,IT0,IT1,IT2,IT3,IT4,IT5,IT6,
      .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,STAT,IT7,UID,IFLAGUNIT,
      .        IT8,SUB_ID,IADBOX,NN,LIST_IGR(NGRNOD),IDMIN,IDMAX,OFFSET,
      .        IT9,IDB,NENTITY,NLINES,JJ
+      
       MY_REAL
      .        XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,BID,FAC_L
       INTEGER, DIMENSION(:),ALLOCATABLE :: BUFTMP2
@@ -162,6 +164,7 @@ C    IGRNOD(IGS)%LEVEL  : Hierarchy level
 C    IGRNOD(IGS)%R2R_ALL   ! Multidomaines -> number of node(elems, parts) before split
 C    IGRNOD(IGS)%R2R_SHARE ! shared on boundary subdomain
 C-----------------------------------------------
+      ALLOCATE(BUFTMP(2*NUMNOD + NPART))
       IS_AVAILABLE = .FALSE.
       IT0=0
       IT1=0
@@ -732,5 +735,6 @@ C---
         ENDDO
       ENDIF
 C-----
+      DEALLOCATE(BUFTMP)
       RETURN
       END

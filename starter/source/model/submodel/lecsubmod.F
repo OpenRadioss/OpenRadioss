@@ -68,8 +68,9 @@ C-----------------------------------------------
       INTEGER I,J,ID,IDU,ISU,NTRANS,UID,
      .           ITRANSSUB,IDSUBOK(NSUBMOD),ISUBOK,IGU,I0,
      .           I1,N0,N1,IFLAGUNIT,IDNOD,NTAG,CTAG,INUM,SIDTRANS,
-     .           TAGNODSUB(NUMNOD),IDSUB,ITY,K,
+     .           IDSUB,ITY,K,
      .           CUR_SUBMOD,SUB_LEVEL,NUMNUSR,NUMNUSR2
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNODSUB ! NUMNOD
       INTEGER :: WORK(70000)
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,INDEX1,TAGNODSUB_TMP,IDNODSUB
       CHARACTER  KEY*ncharkey,CART*ncharline,MESS*ncharline,
@@ -87,6 +88,7 @@ C-----------------------------------------------
       INTEGER  USRTOS
       EXTERNAL USRTOS
 C=======================================================================
+      ALLOCATE(TAGNODSUB(NUMNOD))
       ISU = 0
       IS_AVAILABLE = .FALSE.
       UID = 0
@@ -295,6 +297,7 @@ C-------------------------
         IF (ALLOCATED(TAGNODSUB_TMP)) DEALLOCATE(TAGNODSUB_TMP)
         IF (ALLOCATED(IDNODSUB)) DEALLOCATE(IDNODSUB)
       ENDIF
+      DEALLOCATE(TAGNODSUB)
 C-------------------------
 c MAKE TRANSFORMATION ON SUBMODEL NODES
 C-------------------------   
