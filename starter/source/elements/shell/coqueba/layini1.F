@@ -169,8 +169,8 @@ c----
           IPPOS  =  IPTHK + NPT 
           IPOS = IGEO(99,PID(1))
           ZSHIFT  = GEO(199,PID(1))                
-          THICKT  = STACK%GEO(1,ISUBSTACK)
-          IF (IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)     
+          THICKT  = STACK%GEO(1,ISUBSTACK)  
+          IF(IPOS == 2 )  ZSHIFT = ZSHIFT /MAX(THICKT,EM20)
           IF(IDRAPE == 0 ) THEN
             DO N=1,NPT                                
               IADR = (N-1)*JLT                        
@@ -244,7 +244,7 @@ c         stack addresses
           IPOS = IGEO(99,PID(1))
           ZSHIFT  = GEO(199,PID(1))                
           THICKT  = STACK%GEO(1,ISUBSTACK)
-          IF (IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)     
+          IF(IPOS == 2 )ZSHIFT = ZSHIFT /MAX(THICKT,EM20)
           IF(IDRAPE == 0) THEN
               DO ILAY=1,NLAY
                 NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
