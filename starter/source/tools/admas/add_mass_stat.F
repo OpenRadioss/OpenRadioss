@@ -107,7 +107,6 @@ C
       TMP(1:NUMNOD) = PERM(1:NUMNOD)
 
       DEALLOCATE( PERM )
-      DEALLOCATE(DT)
 C
       NVAL = 20
       DO I=1,20
@@ -151,6 +150,7 @@ C
       ENDIF
 
 C-----------
+      DEALLOCATE( DT)
 
 C-----------
  2001 FORMAT(//,'     INITIAL ADDED MASS ESTIMATION for /DT/NODA/CST')
