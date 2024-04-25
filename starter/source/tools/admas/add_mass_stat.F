@@ -107,7 +107,7 @@ C
       TMP(1:NUMNOD) = PERM(1:NUMNOD)
 
       DEALLOCATE( PERM )
-      DEALLOCATE(NUMNOD)
+      DEALLOCATE(DT)
 C
       NVAL = 20
       DO I=1,20
