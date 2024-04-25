@@ -94,7 +94,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, JJ,J, IPRT0, IPRT, K, STAT_NUMELS_1, KK, INOD
       INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD, IOFF,NPT
-      INTEGER NP(24*(NUMELS+NUMELQ+NUMELTG))
       INTEGER NUM_CENTROIDS, IPOS,MLW,IFORM,NBMAT,NB2,ISUBMAT,NNOD,NNOD2
       INTEGER NUVAR,NUM_CELL
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
@@ -119,10 +118,6 @@ C-----------------------------------------------
       INTEGER :: LEN, LEN_TMP_NAME
       CHARACTER :: TMP_NAME*2048
       INTEGER :: IFILNAM(2048)
-C-----------------------------------------------
-C   P r e - C o n d i t i o n
-C-----------------------------------------------
-      !IF(NUMELS+NUMELQ+NUMELTG == 0)RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

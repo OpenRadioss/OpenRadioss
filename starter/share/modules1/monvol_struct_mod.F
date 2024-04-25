@@ -1370,7 +1370,7 @@ C-----------------------------------------------
             DO LL = KK + 1, NB_CON
                ELEM1ID = T_MONVOLN%EDGE_ELEM(T_MONVOLN%IAD_EDGE_ELEM(JJ) + KK - 1)
                ELEM2ID = T_MONVOLN%EDGE_ELEM(T_MONVOLN%IAD_EDGE_ELEM(JJ) + LL - 1)
-               IF (ELEM1ID * ELEM2ID /= 0) THEN
+               IF (ELEM1ID .NE.0 .AND. ELEM2ID .NE. 0) THEN
                   PAIR_LIST(IPAIR + 1) = ELEM1ID - 1
                   PAIR_LIST(IPAIR + 2) = ELEM2ID - 1
                   IPAIR = IPAIR + 2 

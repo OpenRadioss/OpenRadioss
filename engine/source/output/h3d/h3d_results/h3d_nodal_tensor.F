@@ -89,12 +89,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,IOK_PART(NUMNOD),LENR
+      INTEGER I,J,K,N,LENR
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS, IOK_PART 
       my_real
-     .   VALUE(6,NUMNOD)
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS    
-      my_real
-     .       , DIMENSION(:,:), ALLOCATABLE :: AFLU, VFLU
+     .       , DIMENSION(:,:), ALLOCATABLE :: AFLU, VFLU,VALUES
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: VGPS
 C-----------------------------------------------
@@ -103,9 +101,11 @@ C
       ALLOCATE(VFLU(3,NUMNOD))
       ALLOCATE(ITAGPS(NUMNOD))
       ALLOCATE(VGPS(NUMNOD))
+      ALLOCATE(VALUES(6,NUMNOD))
+      ALLOCATE(IOK_PART(NUMNOD))
 
 
-      VALUE(1:6,1:NUMNOD) = ZERO
+      VALUES(1:6,1:NUMNOD) = ZERO
 c
       DO  I=1,NUMNOD 
         NODE_ID(I) = ITAB(I)
@@ -206,12 +206,12 @@ C-----------------------------------------------
          ENDIF
          DO J=1,3
            DO N=1,NUMNOD
-             IF (ITAGPS(N)>0) VALUE(J,N)=VFLU(J,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) VALUES(J,N)=VFLU(J,N)/ITAGPS(N)
            ENDDO
          ENDDO
          DO J=4,6
            DO N=1,NUMNOD
-             IF (ITAGPS(N)>0) VALUE(J,N)=AFLU(J-3,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) VALUES(J,N)=AFLU(J-3,N)/ITAGPS(N)
            ENDDO
          ENDDO
 C-----------------------------------------------
@@ -242,12 +242,12 @@ C-----------------------------------------------
 
         DO J=1,3
           DO N=1,NUMNOD
-            IF (ITAGPS(N)>0) VALUE(J,N)=VFLU(J,N)/ITAGPS(N)
+            IF (ITAGPS(N)>0) VALUES(J,N)=VFLU(J,N)/ITAGPS(N)
           ENDDO
         ENDDO
         DO J=4,6
           DO N=1,NUMNOD
-            IF (ITAGPS(N)>0) VALUE(J,N)=AFLU(J-3,N)/ITAGPS(N)
+            IF (ITAGPS(N)>0) VALUES(J,N)=AFLU(J-3,N)/ITAGPS(N)
           ENDDO
         ENDDO
 C-----------------------------------------------
@@ -278,12 +278,12 @@ C-----------------------------------------------
 
         DO J=1,3
           DO N=1,NUMNOD
-            IF (VGPS(N)>ZERO) VALUE(J,N)=VFLU(J,N)/VGPS(N)
+            IF (VGPS(N)>ZERO) VALUES(J,N)=VFLU(J,N)/VGPS(N)
           ENDDO
         ENDDO
         DO J=4,6
           DO N=1,NUMNOD
-            IF (VGPS(N)>ZERO) VALUE(J,N)=AFLU(J-3,N)/VGPS(N)
+            IF (VGPS(N)>ZERO) VALUES(J,N)=AFLU(J-3,N)/VGPS(N)
           ENDDO
         ENDDO
 C-----------------------------------------------
@@ -314,30 +314,30 @@ C-----------------------------------------------
 
          DO J=1,3
            DO N=1,NUMNOD
-             IF (ITAGPS(N)>0) VALUE(J,N)=VFLU(J,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) VALUES(J,N)=VFLU(J,N)/ITAGPS(N)
            ENDDO
          ENDDO
          DO J=4,6
            DO N=1,NUMNOD
-             IF (ITAGPS(N)>0) VALUE(J,N)=AFLU(J-3,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) VALUES(J,N)=AFLU(J-3,N)/ITAGPS(N)
            ENDDO
          ENDDO
 C-----------------------------------------------
       ELSEIF(KEYWORD == 'GPS/TMAX') THEN
 C-----------------------------------------------
-         CALL GET_TM_GPS(VALUE,TM_NSIG1,NUMNOD,IOK_PART,IGPSTAG)
+         CALL GET_TM_GPS(VALUES,TM_NSIG1,NUMNOD,IOK_PART,IGPSTAG)
 C-----------------------------------------------
       ELSEIF(KEYWORD == 'GPS/TMIN') THEN
 C-----------------------------------------------
-         CALL GET_TM_GPS(VALUE,TM_NSIG3,NUMNOD,IOK_PART,IGPSTAG)
+         CALL GET_TM_GPS(VALUES,TM_NSIG3,NUMNOD,IOK_PART,IGPSTAG)
 C-----------------------------------------------
       ELSEIF(KEYWORD == 'GPSTRAIN/TMAX') THEN
 C-----------------------------------------------
-         CALL GET_TM_GPS(VALUE,TM_NSTRA1,NUMNOD,IOK_PART,IGPSTRATAG)
+         CALL GET_TM_GPS(VALUES,TM_NSTRA1,NUMNOD,IOK_PART,IGPSTRATAG)
 C-----------------------------------------------
       ELSEIF(KEYWORD == 'GPSTRAIN/TMIN') THEN
 C-----------------------------------------------
-         CALL GET_TM_GPS(VALUE,TM_NSTRA3,NUMNOD,IOK_PART,IGPSTRATAG)
+         CALL GET_TM_GPS(VALUES,TM_NSTRA3,NUMNOD,IOK_PART,IGPSTRATAG)
 C
 C-----------------------------------------------
 C
@@ -346,12 +346,14 @@ C
 
 
       CALL H3D_WRITE_TENSOR(IOK_PART,IS_WRITTEN_NODE,NODAL_TENSOR,NUMNOD,0,0,
-     .                                    VALUE,IOK_PART)
+     .                                    VALUES,IOK_PART)
 
       DEALLOCATE(AFLU)
       DEALLOCATE(VFLU)
       DEALLOCATE(VGPS)
       DEALLOCATE(ITAGPS)
+      DEALLOCATE(VALUES)
+      DEALLOCATE(IOK_PART)
 
       RETURN
       END
@@ -361,7 +363,7 @@ Chd|-- called by -----------
 Chd|        H3D_NODAL_TENSOR              source/output/h3d/h3d_results/h3d_nodal_tensor.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE GET_TM_GPS(VALUE,TM_NSIG,NNOD,IOK_PART,IGPSTAG)
+      SUBROUTINE GET_TM_GPS(VALUES,TM_NSIG,NNOD,IOK_PART,IGPSTAG)
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -370,7 +372,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NNOD
-      my_real, DIMENSION(6,NNOD) ,INTENT(OUT):: VALUE
+      my_real, DIMENSION(6,NNOD) ,INTENT(OUT):: VALUES
       my_real, DIMENSION(NNOD,6) ,INTENT(INOUT):: TM_NSIG
       INTEGER, DIMENSION(NNOD) ,INTENT(IN):: IGPSTAG
       INTEGER, DIMENSION(NNOD) ,INTENT(INOUT):: IOK_PART
@@ -386,7 +388,7 @@ C-----------------------------------------------
       DO  I=1,NNOD 
         IOK_PART(I) = MIN(IOK_PART(I),IGPSTAG(I))
         IF (IGPSTAG(I)==0) CYCLE
-        VALUE(1:6,I) = TM_NSIG(I,1:6)
+        VALUES(1:6,I) = TM_NSIG(I,1:6)
       ENDDO
 C      
       RETURN
