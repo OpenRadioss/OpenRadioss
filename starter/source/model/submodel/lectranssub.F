@@ -78,8 +78,9 @@ C-----------------------------------------------
       INTEGER I,I0,I1,I2,I3,I4,I5,I6,
      .          N0,N1,N2,N3,N4,N5,N6,IERROR,
      .   J,IS,ID,UID,IGU,IGS,NN,NTRANS,STAT,ITRANSSUB,IBID,
-     .   TAGNODSUB(NUMNOD),NTAG,CTAG,ISU,IDU,IDNOD,
+     .   NTAG,CTAG,ISU,IDU,IDNOD,
      .   INUM,K,CPT,ID_TRANSSUB,NUMNUSR
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNODSUB !NUMNOD
       INTEGER :: WORK(70000)
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,INDEX1,TAGNODSUB_TMP,IDNODSUB
 !!      INTEGER, ALLOCATABLE, DIMENSION(:) :: ITG
@@ -103,6 +104,7 @@ C=======================================================================
       ISU = 0
       TAGNODSUB = 0
       NUMNUSR = 0
+      ALLOCATE(TAGNODSUB(NUMNOD))
 
       IF(IS_DYNA /= 0)THEN
         CALL CPP_NODE_COUNT(NUMNUSR)
@@ -627,6 +629,7 @@ C-------------------------
         IF (ALLOCATED(IDNODSUB)) DEALLOCATE(IDNODSUB)
       ENDIF
 C-----------------------
+      DEALLOCATE(TAGNODSUB)
       RETURN
 C-----------------------
  100  FORMAT(//
