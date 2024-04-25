@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER I,N,COMPT,K,NVAL
       INTEGER :: IERROR
       INTEGER, DIMENSION(:), ALLOCATABLE :: PERM
-      my_real, DIMENSION(NUMNOD*2),TARGET ::
+      my_real, DIMENSION(:), ALLOCATABLE,TARGET ::
      .   DT
       my_real, DIMENSION(:),POINTER ::
      .   TMP
@@ -73,6 +73,7 @@ C-------------------------------------------------------------------------------
 C     DUPLICATED FROM OUTRIN - STATS ON ADDED MASS + TARGET NODAL TIME STEP ESTIMATION
 C--------------------------------------------------------------------------------------
 C
+      ALLOCATE(DT(2*NUMNOD))
       CALL MY_ALLOC(PERM,NUMNOD)
       MASS0_START = TOTMAS
       DTSCA = ZEP9
@@ -106,6 +107,7 @@ C
       TMP(1:NUMNOD) = PERM(1:NUMNOD)
 
       DEALLOCATE( PERM )
+      DEALLOCATE(NUMNOD)
 C
       NVAL = 20
       DO I=1,20
