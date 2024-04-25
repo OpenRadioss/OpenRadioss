@@ -101,10 +101,10 @@ C-----------------------------------------------
       INTEGER  NGR2USR,USRTOS
       EXTERNAL NGR2USR,USRTOS
 C=======================================================================
+      ALLOCATE(TAGNODSUB(NUMNOD))
       ISU = 0
       TAGNODSUB = 0
       NUMNUSR = 0
-      ALLOCATE(TAGNODSUB(NUMNOD))
 
       IF(IS_DYNA /= 0)THEN
         CALL CPP_NODE_COUNT(NUMNUSR)
