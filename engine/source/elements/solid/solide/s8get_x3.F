@@ -59,7 +59,7 @@ C-----------------------------------------------
 !     
       my_real, DIMENSION(3,NUMNOD), INTENT(IN) :: X
       DOUBLE PRECISION, DIMENSION(3,NUMNOD), INTENT(IN) ::XDP
-      DOUBLE PRECISION, DIMENSION(MVSIZ), INTENT(INOUT) ::
+      my_real, DIMENSION(MVSIZ), INTENT(INOUT) ::
      .    X1,       X2,       X3,       X4,      
      .    X5,       X6,       X7,       X8,      
      .    Y1,       Y2,       Y3,       Y4,      
