@@ -90,7 +90,7 @@ C-----------------------------------------------
      .   G12(NEL),EFTI(NEL),EFTU(NEL),EFCI(NEL),EFCU(NEL),
      .   F11(NEL),F22(NEL),F12(NEL),F11R(NEL),FR0(NEL),
      .   Y0(NEL),YC(NEL),Y0P(NEL),YCP(NEL),Y0PC(NEL),YCPC(NEL),
-     .   VAR(NEL),DPT(NEL),DPTC(NEL)
+     .   VAR(NEL),DPT(NEL),DPTC(NEL),EPSPYY(NEL)
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------      
@@ -179,6 +179,7 @@ C
         YP(I)   = UVAR(I,5)  
         DFT(I)  = UVAR(I,6) 
         DFC(I)  = UVAR(I,7)  
+        EPSPYY(I) = UVAR(I,21)
       ENDDO 
 C
       ! Compute strain rate dependency factor 
@@ -286,7 +287,6 @@ c
       DO I=1,NEL 
 c    
         ! Computation of the trial stress tensor  
-        SIGNXX(I) = SIGOXX(I)/MAX((ONE-DF(I)),EM20) + A11(I)*DEPSXX(I) + A12(I)*DEPSYY(I)
         SIGNYY(I) = SIGOYY(I)/MAX((ONE-DP(I)),EM20) + A12(I)*DEPSXX(I) + A22(I)*DEPSYY(I)
         SIGNXY(I) = SIGOXY(I)/MAX((ONE- D(I)),EM20) + G12(I)*DEPSXY(I)
         SIGNYZ(I) = SIGOYZ(I)/MAX(MIN(ONE-D(I),ONE-DP(I)),EM20) + G23*DEPSYZ(I)*SHF(I)
@@ -371,9 +371,11 @@ c
           ! Plastic strains tensor increment
           DPYY(I) = DLAM*NORMYY
           DPXY(I) = DLAM*NORMXY
+c
+          ! Total plastic strain along matrix direction
+          EPSPYY(I) = EPSPYY(I) + DPYY(I)
 c          
           ! Elasto-plastic stresses update   
-          SIGNXX(I) = SIGNXX(I) - A12(I)*DPYY(I)
           SIGNYY(I) = SIGNYY(I) - A22(I)*DPYY(I)
           SIGNXY(I) = SIGNXY(I) - DPXY(I)*G12(I)
 c          
@@ -411,7 +413,7 @@ c
         ! Fiber damage (direction 1)
         ! ------------------------------------------
         ! -> Fiber equivalent strain 
-        EPSF_EQ = EPSXX(I) + NU21*EPSYY(I)
+        EPSF_EQ = EPSXX(I) + NU21*(EPSYY(I)-EPSPYY(I))
         ! -> Tension 
         IF (EPSF_EQ >= ZERO) THEN 
           IF (EPSF_EQ < EFTI(I)) THEN 
@@ -612,10 +614,18 @@ c
 c
       DO I = 1,NEL
 c
+        ! Sound-speed
+        SOUNDSP(I) = SQRT(MAX(A11(I),A22(I))/RHO(I))
+c
+        ! Compute damaged plane stress stiffness matrix
+        A11(I) = A11(I)*(ONE - DF(I))
+        A12(I) = NU21*A11(I)*(ONE - DP(I))
+        A22(I) = A22(I)*(ONE - DP(I))
+c
         ! Update stresses with damage softening effect
         ! -------------------------------------------- 
-        SIGNXX(I) = SIGNXX(I)*(ONE - DF(I))
-        SIGNYY(I) = SIGNYY(I)*(ONE - DP(I))
+        SIGNXX(I) = A11(I)*EPSXX(I) + A12(I)*(EPSYY(I) - EPSPYY(I))
+        SIGNYY(I) = A12(I)*EPSXX(I) + A22(I)*(EPSYY(I) - EPSPYY(I))     
         SIGNXY(I) = SIGNXY(I)*(ONE -  D(I))
         SIGNYZ(I) = SIGNYZ(I)*MIN(ONE - D(I),ONE - DP(I))
         SIGNZX(I) = SIGNZX(I)*MIN(ONE - D(I),ONE - DP(I))
@@ -629,6 +639,7 @@ c
         UVAR(I,5) = YP(I)
         UVAR(I,6) = DFT(I)
         UVAR(I,7) = DFC(I)
+        UVAR(I,21) = EPSPYY(I) 
         DMG(I) = MAX(DF(I),D(I),DP(I))
 c
       ENDDO
@@ -636,8 +647,6 @@ c
 c
       ! Sound-speed and thickness update
       DO I=1,NEL
-        ! Sound-speed
-        SOUNDSP(I) = SQRT(MAX(A11(I),A22(I))/RHO(I))
         ! Coefficient for hourglass
         IF (DPLA(I)>ZERO) THEN 
           ETSE(I)  = H(I) / (H(I) + MAX(E1(I),E2(I)))

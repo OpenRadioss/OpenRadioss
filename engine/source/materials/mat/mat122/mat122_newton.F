@@ -31,7 +31,7 @@ Chd|====================================================================
      1     NEL     ,NUPARAM ,NUVAR   ,UPARAM  ,UVAR    ,RHO0    , 
      2     EPSXX   ,EPSYY   ,EPSZZ   ,PLA     ,DPLA    ,
      3     DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
-     4     SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
+     4     SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      5     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      6     OFF     ,SIGY    ,ET      ,DMG     ,SEQ     ,EPSD    ,
      7     SOUNDSP ,NFUNC   ,IFUNC   ,NPF     ,TF      ,NVARTMP ,
@@ -54,7 +54,7 @@ C-----------------------------------------------
       my_real,DIMENSION(NEL), INTENT(IN)     :: 
      .   RHO0,EPSXX,EPSYY,EPSZZ,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
-     .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
+     .   SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX,
      .   SOUNDSP,SIGY,ET
@@ -89,7 +89,8 @@ C-----------------------------------------------
      .   G12(NEL),EFTI(NEL),EFTU(NEL),EFCI(NEL),EFCU(NEL),
      .   F11(NEL),F22(NEL),F12(NEL),F11R(NEL),FR0(NEL),E3(NEL),
      .   Y0(NEL),YC(NEL),Y0P(NEL),YCP(NEL),Y0PC(NEL),YCPC(NEL),
-     .   DPY(NEL),DPZ(NEL),G23(NEL),G31(NEL),VAR(NEL)
+     .   DPY(NEL),DPZ(NEL),G23(NEL),G31(NEL),VAR(NEL),EPSPYY(NEL),
+     .   EPSPZZ(NEL)
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------      
@@ -178,6 +179,8 @@ C
         DFC(I)  = UVAR(I,7)
         DPY(I)  = UVAR(I,19)
         DPZ(I)  = UVAR(I,20)
+        EPSPYY(I) = UVAR(I,21)
+        EPSPZZ(I) = UVAR(I,22)
       ENDDO 
 C
       ! Compute strain rate dependency factor 
@@ -301,8 +304,6 @@ c
       DO I=1,NEL 
 c    
         ! Computation of the trial stress tensor  
-        SIGNXX(I) = SIGOXX(I)/MAX((ONE-DF(I)),EM20) 
-     .                 + S11(I)*DEPSXX(I) + S12(I)*DEPSYY(I) + S13(I)*DEPSZZ(I)
         SIGNYY(I) = SIGOYY(I)/MAX((ONE-DPY(I)),EM20) 
      .                 + S12(I)*DEPSXX(I) + S22(I)*DEPSYY(I) + S23(I)*DEPSZZ(I)
         SIGNZZ(I) = SIGOZZ(I)/MAX((ONE-DPZ(I)),EM20)
@@ -405,9 +406,12 @@ c
           DPXY(I) = DLAM*NORMXY
           DPYZ(I) = DLAM*NORMYZ
           DPZX(I) = DLAM*NORMZX  
+c
+          ! Total plastic strains along Y and Z
+          EPSPYY(I) = EPSPYY(I) + DPYY(I)
+          EPSPZZ(I) = EPSPZZ(I) + DPZZ(I)
 c          
           ! Elasto-plastic stresses update
-          SIGNXX(I) = SIGNXX(I) - (S12(I)*DPYY(I) + S13(I)*DPZZ(I))
           SIGNYY(I) = SIGNYY(I) - (S22(I)*DPYY(I) + S23(I)*DPZZ(I))
           SIGNZZ(I) = SIGNZZ(I) - (S23(I)*DPYY(I) + S33(I)*DPZZ(I))
           SIGNXY(I) = SIGNXY(I) - DPXY(I)*G12(I)
@@ -446,8 +450,9 @@ c
         ! Fiber damage (direction 1)
         ! ------------------------------------------
         ! -> Fiber equivalent strain 
-        EPSF_EQ = (ONE - NU23*NU32)*EPSXX(I) + (NU23*NU31 + NU21)*EPSYY(I) + 
-     .            (NU21*NU32 + NU31)*EPSZZ(I)  
+        EPSF_EQ = (ONE - NU23*NU32)*EPSXX(I) + 
+     .            (NU23*NU31 + NU21)*(EPSYY(I)-EPSPYY(I)) + 
+     .            (NU21*NU32 + NU31)*(EPSZZ(I)-EPSPZZ(I))  
         ! -> Tension 
         IF (EPSF_EQ >= ZERO) THEN 
           IF (EPSF_EQ < EFTI(I)) THEN 
@@ -591,6 +596,11 @@ c
       ENDIF
 c 
       DO I = 1,NEL
+c
+        ! Sound-speed
+        SOUNDSP(I) = SQRT(MAX(S11(I),S22(I),S33(I),
+     .                    TWO*G12(I),TWO*G23(I),TWO*G31(I))/RHO0(I))
+c
         ! Computation of effective DP for each transverse directions 
         IF (EPSYY(I) >= ZERO) THEN 
           DPY(I) = DP(I) 
@@ -603,11 +613,25 @@ c
           DPZ(I) = ZERO 
         ENDIF
 c
+        ! Compute damaged stiffness matrix
+        S11(I) = S11(I)*(ONE - DF(I))
+        S12(I) = S12(I)*(ONE - DF(I))*(ONE - DPY(I))
+        S13(I) = S13(I)*(ONE - DF(I))*(ONE - DPZ(I))
+        S22(I) = S22(I)*(ONE - DPY(I))
+        S23(I) = S23(I)*(ONE - DPY(I))*(ONE - DPZ(I))
+        S33(I) = S33(I)*(ONE - DPZ(I))   
+c
         ! Update stresses with damage softening effect
         ! -------------------------------------------- 
-        SIGNXX(I) = SIGNXX(I)*(ONE - DF(I))
-        SIGNYY(I) = SIGNYY(I)*(ONE - DPY(I))
-        SIGNZZ(I) = SIGNZZ(I)*(ONE - DPZ(I))
+        SIGNXX(I) = S11(I)*EPSXX(I) + 
+     .              S12(I)*(EPSYY(I) - EPSPYY(I)) + 
+     .              S13(I)*(EPSZZ(I) - EPSPZZ(I))
+        SIGNYY(I) = S12(I)*EPSXX(I) + 
+     .              S22(I)*(EPSYY(I) - EPSPYY(I)) + 
+     .              S23(I)*(EPSZZ(I) - EPSPZZ(I))
+        SIGNZZ(I) = S13(I)*EPSXX(I) + 
+     .              S23(I)*(EPSYY(I) - EPSPYY(I)) + 
+     .              S33(I)*(EPSZZ(I) - EPSPZZ(I))
         SIGNXY(I) = SIGNXY(I)*(ONE -  D(I))
         SIGNYZ(I) = SIGNYZ(I)*(ONE -  D(I))
         SIGNZX(I) = SIGNZX(I)*(ONE -  D(I))
@@ -623,6 +647,8 @@ c
         UVAR(I,7)  = DFC(I)
         UVAR(I,19) = DPY(I)
         UVAR(I,20) = DPZ(I)
+        UVAR(I,21) = EPSPYY(I)
+        UVAR(I,22) = EPSPZZ(I)
         DMG(I) = MAX(DF(I),D(I),DP(I))
 c
       ENDDO
@@ -630,9 +656,6 @@ c
 c
       ! Sound-speed and thickness update
       DO I=1,NEL
-        ! Sound-speed
-        SOUNDSP(I) = SQRT(MAX(S11(I),S22(I),S33(I),
-     .                    TWO*G12(I),TWO*G23(I),TWO*G31(I))/RHO0(I))
         ! Coefficient for hourglass
         IF (DPLA(I)>ZERO) THEN 
           ET(I) = H(I) / (H(I) + MAX(E1(I),E2(I),E3(I)))

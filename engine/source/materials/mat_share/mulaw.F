@@ -1783,7 +1783,7 @@ c
         CALL SIGEPS122(NEL    ,NPAR   ,NUVAR  ,UPARAM ,UVAR   ,RHO0   ,
      .                 ES1    ,ES2    ,ES3    ,DEFP   ,DPLA   ,      
      .                 DE1    ,DE2    ,DE3    ,DE4    ,DE5    ,DE6    ,
-     .                 SO1    ,SO2    ,SO3    ,SO4    ,SO5    ,SO6    ,
+     .                 SO2    ,SO3    ,SO4    ,SO5    ,SO6    ,
      .                 S1     ,S2     ,S3     ,S4     ,S5     ,S6     ,
      .                 OFF    ,SIGY   ,ET     ,LBUF%DMG,LBUF%SEQ,EPSD ,
      .                 SSP    ,NFUNC  ,IFUNC  ,NPF    ,TF     ,NVARTMP,
