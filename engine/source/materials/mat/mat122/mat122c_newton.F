@@ -246,7 +246,7 @@ c
           E1(I) = E10
         ! -> Compression
         ELSE 
-          E1(I) = E1C/(ONE + GAMMA*ABS(EPSXX(I)))
+          E1(I) = E1C/(ONE + (GAMMA*E1C*ABS(EPSXX(I))))
         ENDIF
         E1(I)  = E1(I)*(ONE + F11(I))
         ! Matrix (direction 2)
