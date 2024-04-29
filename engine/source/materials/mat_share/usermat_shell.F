@@ -589,6 +589,7 @@ c               total strain in element coord sys
                 DEPSYY(I) = R2*R2*T1 + S2*S2*T2 + TWO*R2*S2*T3  ! eps_y dir2           
                 EPSXX(I) = T1     
                 EPSYY(I) = T2   
+                EPSXY(I) = T3 * TWO   
               ENDDO
             ELSE  
               DO I=JFT,JLT
@@ -613,6 +614,7 @@ c             total true strain in global coord sys
                 ZT = ZZ(I)*THK0(I)
                 EPSXX(I)  = GSTR(I,1) + ZT*GSTR(I,6)
                 EPSYY(I)  = GSTR(I,2) + ZT*GSTR(I,7)    
+                EPSXY(I)  = GSTR(I,3) + ZT*GSTR(I,8)
               ENDDO
             ENDIF
 c------

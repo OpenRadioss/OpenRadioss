@@ -731,15 +731,9 @@ c               total strain in element coord sys
                 DEPSXX(I) = R1*R1*T1 + S1*S1*T2 + TWO*R1*S1*T3  ! eps_x dir1
                 DEPSYY(I) = R2*R2*T1 + S2*S2*T2 + TWO*R2*S2*T3  ! eps_y dir2           
 c
-!                DEPSYZ(I) = EYZ(I)  ! incremental
-!                DEPSZX(I) = EXZ(I)   
-c
                 EPSXX(I) = T1     
                 EPSYY(I) = T2   
-!       not IT dependant
-!                EPSXY(I) = ZERO
-!                EPSYZ(I) = ZERO                       
-!                EPSZX(I) = ZERO  
+                EPSXY(I) = T3 * TWO  ! gamma_xy
               ENDDO
             ELSE  
         !       ------------
@@ -753,13 +747,6 @@ c             strain rate in fiber coord sys
                 R2 = DIR_B(II)
                 S2 = DIR_B(II+NEL)
 C---
-!                EPSXX(I) = GSTR(I,1)      
-!                EPSYY(I) = GSTR(I,2)   
-!       not IT dependant 
-!                EPSXY(I) = ZERO
-!                EPSYZ(I) = ZERO                     
-!                EPSZX(I) = ZERO  
-C---
                 ZT = POSLY(I,IPT) *THK0(I)
                 T1 = EXX(I) + ZT*KXX(I)
                 T2 = EYY(I) + ZT*KYY(I)
@@ -767,26 +754,15 @@ C---
                 DEPSXY(I) = (R1*R2 + S1*S2) / (R1*S2 - R2*S1)   ! Tan(alpha_totale)
                 DEPSXX(I) = R1*R1*T1 + S1*S1*T2 + TWO*R1*S1*T3 ! delta_eps_x dir1
                 DEPSYY(I) = R2*R2*T1 + S2*S2*T2 + TWO*R2*S2*T3 ! delta_eps_y dir2
-c
-!       not IT dependant
-!                DEPSYZ(I) = EYZ(I)
-!                DEPSZX(I) = EXZ(I)   
-c---
-c               total true strain in global coord sys
-!                EPSXX(I)  = GSTR(I,1) + ZT*GSTR(I,6)
-!                EPSYY(I)  = GSTR(I,2) + ZT*GSTR(I,7)
-!       not IT dependant
-!                EPSXY(I)  = ZERO
-!                EPSYZ(I)  = ZERO
-!                EPSZX(I)  = ZERO    
               ENDDO
             ENDIF
             IF (FLAG_EPS) THEN
               DO I=JFT,JLT
 c             total true strain in global coord sys
                 ZT = POSLY(I,IPT) *THK0(I)
-                EPSXX(I)  = GSTR(I,1) + ZT*GSTR(I,6)
-                EPSYY(I)  = GSTR(I,2) + ZT*GSTR(I,7)    
+                EPSXX(I) = GSTR(I,1) + ZT*GSTR(I,6)
+                EPSYY(I) = GSTR(I,2) + ZT*GSTR(I,7)    
+                EPSXY(I) = GSTR(I,3) + ZT*GSTR(I,8)
               ENDDO
             ENDIF
 c------
@@ -818,16 +794,7 @@ c               total strain in element coord sys
                 DEPSXY(I) = (R1*R2 + S1*S2) / (R1*S2 - R2*S1)    ! Tan(alpha_totale)
                 DEPSXX(I) = R1*R1*T1 + S1*S1*T2 + TWO*R1*S1*T3  ! eps_x dir1
                 DEPSYY(I) = R2*R2*T1 + S2*S2*T2 + TWO*R2*S2*T3  ! eps_y dir2           
-c
-!                DEPSYZ(I) = EYZ(I)  ! incremental
-!                DEPSZX(I) = EXZ(I)   
-c
-!                EPSXX(I) = T1     
-!                EPSYY(I) = T2      
-!       not IT dependant
-!                EPSXY(I) = ZERO
-!                EPSYZ(I) = ZERO                       
-!                EPSZX(I) = ZERO  
+                EPSXY(I)  = T3 * TWO  ! gamma_xy
               ENDDO
             ELSE  
         !       ------------
@@ -840,13 +807,6 @@ c             strain rate in fiber coord sys
                 S1 = DIR_A(II+NEL)
                 R2 = DIR_B(II)
                 S2 = DIR_B(II+NEL)
-C
-!                EPSXX(I) = GSTR(I,1)      
-!                EPSYY(I) = GSTR(I,2)
-!       not IT dependant    
-!                EPSXY(I) = ZERO
-!                EPSYZ(I) = ZERO                     
-!                EPSZX(I) = ZERO  
 C---
                 ZT = POSLY(I,IPT) *THK0(I)
                 T1 = EXX(I) + ZT*KXX(I)
@@ -855,17 +815,6 @@ C---
                 DEPSXY(I) = (R1*R2 + S1*S2) / (R1*S2 - R2*S1)   ! Tan(alpha_totale)
                 DEPSXX(I) = R1*R1*T1 + S1*S1*T2 + TWO*R1*S1*T3 ! delta_eps_x dir1
                 DEPSYY(I) = R2*R2*T1 + S2*S2*T2 + TWO*R2*S2*T3 ! delta_eps_y dir2
-c
-!                DEPSYZ(I) = EYZ(I)
-!                DEPSZX(I) = EXZ(I)   
-c---
-c               total true strain in global coord sys
-!                EPSXX(I)  = GSTR(I,1) + ZT*GSTR(I,6)
-!                EPSYY(I)  = GSTR(I,2) + ZT*GSTR(I,7)
-!       not IT dependant
-!                EPSXY(I)  = ZERO
-!                EPSYZ(I)  = ZERO
-!                EPSZX(I)  = ZERO    
               ENDDO
             ENDIF ! IF (ISMSTR == 11) THEN
             IF (FLAG_EPS) THEN
@@ -873,8 +822,10 @@ c               total true strain in global coord sys
                         ZT = POSLY(I,IPT) *THK0(I)
                         T1 = GSTR(I,1) + ZT*GSTR(I,6)
                         T2 = GSTR(I,2) + ZT*GSTR(I,7)
+                        T3 = GSTR(I,3) + ZT*GSTR(I,8)
                         EPSXX(I) = T1     
                         EPSYY(I) = T2       
+                        EPSXY(I) = T3       
                 ENDDO
             ENDIF
            ELSE !        Igtyp 9/10/11/17/51   - NO law58
@@ -910,9 +861,6 @@ C
               DEPSXX(I)=EXX(I)+ZT*KXX(I)
               DEPSYY(I)=EYY(I)+ZT*KYY(I)
               DEPSXY(I)=EXY(I)+ZT*KXY(I)
-!       depsyz and zx are IT independant !
-!              DEPSYZ(I)=EYZ(I)
-!              DEPSZX(I)=EXZ(I)
             ENDDO
            ENDIF
 !
