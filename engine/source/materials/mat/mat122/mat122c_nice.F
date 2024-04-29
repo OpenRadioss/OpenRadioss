@@ -637,7 +637,14 @@ c
 
         ! Update stresses with damage softening effect
         ! -------------------------------------------- 
-        SIGNXX(I) = A11(I)*EPSXX(I) + A12(I)*(EPSYY(I) - EPSPYY(I))
+        ! -> If non-linear compression young modulus is used for fibers
+        IF (GAMMA > ZERO .AND. EPSXX(I) < ZERO) THEN 
+          SIGNXX(I) = -(ONE/GAMMA)*LOG(ONE + GAMMA*E1C*ABS(EPSXX(I)))*(ONE - DF(I))*(ONE + F11(I))
+        ! -> If linear elasticity is used for fibers
+        ELSE
+          SIGNXX(I) = A11(I)*EPSXX(I)
+        ENDIF
+        SIGNXX(I) = SIGNXX(I) + A12(I)*(EPSYY(I) - EPSPYY(I))
         SIGNYY(I) = A12(I)*EPSXX(I) + A22(I)*(EPSYY(I) - EPSPYY(I))            
         SIGNXY(I) = SIGNXY(I)*(ONE -  D(I))
         SIGNYZ(I) = SIGNYZ(I)*MIN(ONE - D(I),ONE - DP(I))
