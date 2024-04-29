@@ -3259,13 +3259,17 @@ C-------------------------------------------------------------------
           CALL TRACE_IN(10,0,ZERO)
         IF (IMON>0) CALL STARTIME(4,1)
         IF (IMONM > 0) CALL STARTIME(41,1)
-          CALL FORCE(IBCL   ,FORC    ,NPC    ,TF      ,A         ,
-     2               V      ,X       ,SKEW   ,AR      ,VR        ,
-     3               NSENSOR,SENSORS%SENSOR_TAB ,TFEXC   ,IADS(I87J),
-     4               FSKY   , FSKY   ,FEXT   ,H3D_DATA,
-     5               CPTREAC,FTHREAC,NODREAC ,OUTPUT%TH%TH_SURF ,FSAVSURF   ,
-     6               NSEG_LOADP,DPL0CLD ,VEL0CLD,D   ,DR,
-     7               NCONLD ,NUMNOD  ,NSURF  ,NFUNCT ,PYTHON=PYTHON)
+          CALL FORCE(
+     1               NIBCLD  ,IBCL     ,LFACCLD  ,FORC     ,SNPC     ,
+     2               NPC     ,STF      ,TF       ,A        ,V        ,
+     3               X       ,LSKEW    ,NUMSKW   ,SKEW     ,AR       ,
+     4               VR      ,NSENSOR  ,SENSORS%SENSOR_TAB ,TFEXC    ,IADS(I87J) ,
+     5               LSKY    ,FSKY     ,FEXT     ,H3D_DATA ,CPTREAC  ,
+     6               FTHREAC ,NODREAC  ,OUTPUT%TH%TH_SURF  ,FSAVSURF ,NSEG_LOADP ,
+     7               DPL0CLD ,VEL0CLD  ,D        ,DR       ,NCONLD   ,
+     8               NUMNOD  ,NSURF    ,NFUNCT   ,ANIM_V   ,OUTP_V   ,
+     9               IPARIT  ,TT       ,DT1      ,N2D      ,TFEXT    ,
+     A               IMPL_S  ,PYTHON=PYTHON)
 C
         IF (NPINCH > 0) THEN
           CALL FORCEPINCH(IBCL   ,FORC    ,NPC    ,TF      ,A         ,
@@ -8478,7 +8482,7 @@ C===============================================================================
      O  FRWL6  ,IRBE2  ,LRBE2 ,ICFIELD,LCFIELD,CFIELD,ELBUF_TAB,
      P  WEIGHT_MD, STACK,SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR,DRAPE_SH4N  , 
      Q  DRAPE_SH3N,H3D_DATA ,NDDL0,NNZK0,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC,
-     R  DRAPEG ,OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP,DPL0CLD,VEL0CLD)
+     R  DRAPEG ,OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP,DPL0CLD,VEL0CLD,SNPC,STF)
          MSTOP=2
 #else
         WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
@@ -8519,7 +8523,7 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
      Y  SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR,DRAPE_SH4N  , DRAPE_SH3N,
      Z  H3D_DATA,MULTI_FVM,IGRBRIC,IGRSH4N,IGRSH3N,IGRBEAM,FORNEQS,MAXDGAP,
      A  NDDL0   ,NNZK0 ,IT_T   ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC, DRAPEG,
-     B  INTERFACES,OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP,DPL0CLD,VEL0CLD)
+     B  INTERFACES,OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP,DPL0CLD,VEL0CLD,SNPC,STF)
 #else 
         WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
         CALL FLUSH(6)
