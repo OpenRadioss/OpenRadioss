@@ -31,7 +31,7 @@ Chd|====================================================================
      1     NEL     ,NUPARAM ,NUVAR   ,UPARAM  ,UVAR    ,RHO0    , 
      2     EPSXX   ,EPSYY   ,EPSZZ   ,PLA     ,DPLA    ,
      3     DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
-     4     SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
+     4     SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      5     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      6     OFF     ,SIGY    ,ET      ,DMG     ,SEQ     ,EPSD    ,
      7     SOUNDSP ,NFUNC   ,IFUNC   ,NPF     ,TF      ,NVARTMP ,
@@ -54,12 +54,14 @@ C-----------------------------------------------
       my_real,DIMENSION(NEL), INTENT(IN)     :: 
      .   RHO0,EPSXX,EPSYY,EPSZZ,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
-     .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
+     .   SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX,
      .   SOUNDSP,SIGY,ET
-      my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
-     .   PLA,DPLA,EPSD,OFF,DMG,SEQ
+      my_real ,DIMENSION(NEL), INTENT(INOUT) :: 
+     .   PLA,DPLA,EPSD,OFF,SEQ
+      my_real ,DIMENSION(NEL,6), INTENT(INOUT) :: 
+     .   DMG
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR  
       INTEGER, DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: 
@@ -91,7 +93,7 @@ C-----------------------------------------------
      .   Y0(NEL),YC(NEL),Y0P(NEL),YCP(NEL),Y0PC(NEL),YCPC(NEL),
      .   DPY(NEL),DPZ(NEL),G23(NEL),G31(NEL),SEQ0(NEL),PHI0(NEL),
      .   DSIGYY(NEL),DSIGZZ(NEL),DSIGXY(NEL),DSIGYZ(NEL),DSIGZX(NEL),
-     .   DPHI,VAR(NEL)
+     .   DPHI,VAR(NEL),EPSPYY(NEL),EPSPZZ(NEL)
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------      
@@ -166,7 +168,7 @@ C
         ! Old yield stress
         SEQ0(I) = SEQ(I)
         ! Previous yield stress
-        PHI0(I) = UVAR(I,18)
+        PHI0(I) = UVAR(I,13)
         ! Plastic strain increment
         DPLA(I) = ZERO
         DPYY(I) = ZERO
@@ -174,16 +176,18 @@ C
         DPXY(I) = ZERO
         DPYZ(I) = ZERO 
         DPZX(I) = ZERO
-        ! Damage variables
-        DF(I)   = UVAR(I,1)
-        D(I)    = UVAR(I,2)
-        DP(I)   = UVAR(I,3) 
-        Y(I)    = UVAR(I,4)
-        YP(I)   = UVAR(I,5)  
-        DFT(I)  = UVAR(I,6) 
-        DFC(I)  = UVAR(I,7)
-        DPY(I)  = UVAR(I,19)
-        DPZ(I)  = UVAR(I,20)
+        ! Damage variables and user variables
+        DF(I)   = DMG(I,2)
+        D(I)    = DMG(I,3)
+        DP(I)   = DMG(I,4)
+        DFT(I)  = DMG(I,5)
+        DFC(I)  = DMG(I,6)
+        Y(I)    = UVAR(I,1)
+        YP(I)   = UVAR(I,2)  
+        DPY(I)  = UVAR(I,14)
+        DPZ(I)  = UVAR(I,15)
+        EPSPYY(I) = UVAR(I,16)
+        EPSPZZ(I) = UVAR(I,17)
       ENDDO 
 C
       ! Compute strain rate dependency factor 
@@ -278,27 +282,27 @@ c
         ! Yield stress
         SIGY(I) = SIGY0*(ONE + FR0(I)) + BETA*EXP(M*LOG(PLA(I)+EM20))
         ! Rate dependency on fiber failure
-        EFTI(I) = UVAR(I,8)
-        IF (UVAR(I,8) == ZERO)  EFTI(I) = EFTI0*(ONE + F11R(I))
-        EFTU(I) = UVAR(I,9)
-        IF (UVAR(I,9) == ZERO)  EFTU(I) = EFTU0*(ONE + F11R(I))
-        EFCI(I) = UVAR(I,10)
-        IF (UVAR(I,10) == ZERO) EFCI(I) = EFCI0*(ONE + F11R(I))
-        EFCU(I) = UVAR(I,11)
-        IF (UVAR(I,11) == ZERO) EFCU(I) = EFCU0*(ONE + F11R(I))
+        EFTI(I) = UVAR(I,3)
+        IF (UVAR(I,3) == ZERO)  EFTI(I) = EFTI0*(ONE + F11R(I))
+        EFTU(I) = UVAR(I,4)
+        IF (UVAR(I,4) == ZERO)  EFTU(I) = EFTU0*(ONE + F11R(I))
+        EFCI(I) = UVAR(I,5)
+        IF (UVAR(I,5) == ZERO) EFCI(I) = EFCI0*(ONE + F11R(I))
+        EFCU(I) = UVAR(I,6)
+        IF (UVAR(I,6) == ZERO) EFCU(I) = EFCU0*(ONE + F11R(I))
         ! Rate dependency on matrix failure
-        Y0(I) = UVAR(I,12)
-        IF (UVAR(I,12) == ZERO) Y0(I)  = Y00*SQRT(ONE + F12(I))
-        YC(I) = UVAR(I,13)
-        IF (UVAR(I,13) == ZERO) YC(I)  = YC0*SQRT(ONE + F12(I))
-        Y0P(I) = UVAR(I,14)
-        IF (UVAR(I,14) == ZERO) Y0P(I) = Y0P0*SQRT(ONE + F22(I))
-        YCP(I) = UVAR(I,15)
-        IF (UVAR(I,15) == ZERO) YCP(I) = YCP0*SQRT(ONE + F22(I))
-        Y0PC(I) = UVAR(I,16)
-        IF (UVAR(I,16) == ZERO) Y0PC(I) = Y0PC0*SQRT(ONE + F22(I))
-        YCPC(I) = UVAR(I,17)
-        IF (UVAR(I,17) == ZERO) YCPC(I) = YCPC0*SQRT(ONE + F22(I))
+        Y0(I) = UVAR(I,7)
+        IF (UVAR(I,7) == ZERO) Y0(I)  = Y00*SQRT(ONE + F12(I))
+        YC(I) = UVAR(I,8)
+        IF (UVAR(I,8) == ZERO) YC(I)  = YC0*SQRT(ONE + F12(I))
+        Y0P(I) = UVAR(I,9)
+        IF (UVAR(I,9) == ZERO) Y0P(I) = Y0P0*SQRT(ONE + F22(I))
+        YCP(I) = UVAR(I,10)
+        IF (UVAR(I,10) == ZERO) YCP(I) = YCP0*SQRT(ONE + F22(I))
+        Y0PC(I) = UVAR(I,11)
+        IF (UVAR(I,11) == ZERO) Y0PC(I) = Y0PC0*SQRT(ONE + F22(I))
+        YCPC(I) = UVAR(I,12)
+        IF (UVAR(I,12) == ZERO) YCPC(I) = YCPC0*SQRT(ONE + F22(I))
       ENDDO
 c      
       !========================================================================
@@ -307,8 +311,6 @@ c
       DO I=1,NEL 
 c    
         ! Computation of the trial stress tensor  
-        SIGNXX(I) = SIGOXX(I)/MAX((ONE-DF(I)),EM20) 
-     .                 + S11(I)*DEPSXX(I) + S12(I)*DEPSYY(I) + S13(I)*DEPSZZ(I)
         SIGNYY(I) = SIGOYY(I)/MAX((ONE-DPY(I)),EM20) 
      .                 + S12(I)*DEPSXX(I) + S22(I)*DEPSYY(I) + S23(I)*DEPSZZ(I)
         SIGNZZ(I) = SIGOZZ(I)/MAX((ONE-DPZ(I)),EM20)
@@ -422,6 +424,10 @@ c
         DPXY(I) = DLAM*NORMXY
         DPYZ(I) = DLAM*NORMYZ
         DPZX(I) = DLAM*NORMZX  
+c
+        ! Total plastic strains along Y and Z
+        EPSPYY(I) = EPSPYY(I) + DPYY(I)
+        EPSPZZ(I) = EPSPZZ(I) + DPZZ(I)
 c          
         ! Elasto-plastic stresses update
         SIGNXX(I) = SIGNXX(I) - (S12(I)*DPYY(I) + S13(I)*DPZZ(I))
@@ -461,8 +467,9 @@ c
         ! Fiber damage (direction 1)
         ! ------------------------------------------
         ! -> Fiber equivalent strain 
-        EPSF_EQ = (ONE - NU23*NU32)*EPSXX(I) + (NU23*NU31 + NU21)*EPSYY(I) + 
-     .            (NU21*NU32 + NU31)*EPSZZ(I)  
+        EPSF_EQ = (ONE - NU23*NU32)*EPSXX(I) + 
+     .            (NU23*NU31 + NU21)*(EPSYY(I)-EPSPYY(I)) + 
+     .            (NU21*NU32 + NU31)*(EPSZZ(I)-EPSPZZ(I))  
         ! -> Tension 
         IF (EPSF_EQ >= ZERO) THEN 
           IF (EPSF_EQ < EFTI(I)) THEN 
@@ -470,8 +477,8 @@ c
           ELSEIF ((EPSF_EQ >= EFTI(I)).AND.(EPSF_EQ < EFTU(I))) THEN 
             DFT(I) = MAX(DFTU*((EPSF_EQ-EFTI(I))/(EFTU(I)-EFTI(I))),DFT(I))
             ! Save damage threshold in case of strain rate dependency
-            IF (UVAR(I,8) == ZERO) UVAR(I,8) = EFTI(I)
-            IF (UVAR(I,9) == ZERO) UVAR(I,9) = EFTU(I)
+            IF (UVAR(I,3) == ZERO) UVAR(I,3) = EFTI(I)
+            IF (UVAR(I,4) == ZERO) UVAR(I,4) = EFTU(I)
           ELSEIF (EPSF_EQ >= EFTU(I)) THEN 
             DFT(I) = MAX(ONE - (ONE - DFTU)*(EFTU(I)/EPSF_EQ),DFT(I))
           ENDIF
@@ -485,8 +492,8 @@ c
           ELSEIF ((ABS(EPSF_EQ) >= EFCI(I)).AND.(ABS(EPSF_EQ) < EFCU(I))) THEN 
             DFC(I) = MAX(DFCU*((ABS(EPSF_EQ)-EFCI(I))/(EFCU(I)-EFCI(I))),DFC(I))
             ! Save damage threshold in case of strain rate dependency
-            IF (UVAR(I,10) == ZERO) UVAR(I,10) = EFCI(I)
-            IF (UVAR(I,11) == ZERO) UVAR(I,11) = EFCU(I)
+            IF (UVAR(I,5) == ZERO) UVAR(I,5) = EFCI(I)
+            IF (UVAR(I,6) == ZERO) UVAR(I,6) = EFCU(I)
           ELSEIF (ABS(EPSF_EQ) >= EFCU(I)) THEN 
             DFC(I) = MAX(ONE - (ONE - DFCU)*(EFCU(I)/ABS(EPSF_EQ)),DFC(I))
           ENDIF  
@@ -515,10 +522,10 @@ c
             D(I) = MAX(Y(I)-Y0(I),ZERO)/MAX(YC(I),EM20)
             D(I) = MIN(D(I),DMAX)
             ! Save damage threshold in case of strain rate dependency
-            IF (UVAR(I,12) == ZERO) UVAR(I,12) = Y0(I)
-            IF (UVAR(I,13) == ZERO) UVAR(I,13) = YC(I)
+            IF (UVAR(I,7) == ZERO) UVAR(I,7) = Y0(I)
+            IF (UVAR(I,8) == ZERO) UVAR(I,8) = YC(I)
           ELSE
-            D(I) = ONE - (ONE - DMAX)*UVAR(I,4)/MAX(Y(I),EM20)
+            D(I) = ONE - (ONE - DMAX)*UVAR(I,1)/MAX(Y(I),EM20)
           ENDIF
           D(I) = MAX(D(I),ZERO)
           D(I) = MIN(D(I), ONE)
@@ -529,8 +536,8 @@ c
           IF (Y(I)>Y0(I)) THEN 
             D(I) = DSAT1*(ONE - EXP((Y0(I)-Y(I))/MAX(YC(I),EM20)))
             ! Save damage threshold in case of strain rate dependency
-            IF (UVAR(I,12) == ZERO) UVAR(I,12) = Y0(I)
-            IF (UVAR(I,13) == ZERO) UVAR(I,13) = YC(I)
+            IF (UVAR(I,7) == ZERO) UVAR(I,7) = Y0(I)
+            IF (UVAR(I,8) == ZERO) UVAR(I,8) = YC(I)
           ELSE 
             D(I) = ZERO
           ENDIF  
@@ -549,7 +556,7 @@ c
         VARTMP(1:NEL,1) = IPOS(1:NEL)
         DO I = 1,NEL 
           ! Save damage threshold in case of strain rate dependency
-          IF (UVAR(I,12) == ZERO .AND. D(I) /= ZERO) UVAR(I,12) = Y0(I)
+          IF (UVAR(I,7) == ZERO .AND. D(I) /= ZERO) UVAR(I,7) = Y0(I)
           D(I) = MAX(D(I),ZERO)
           D(I) = MIN(D(I), ONE) 
         ENDDO 
@@ -565,10 +572,10 @@ c
             DP(I) = MAX(YP(I)-Y0P(I),ZERO)/MAX(YCP(I),EM20)
             DP(I) = MIN(DP(I),DMAX)
             ! Save damage threshold in case of strain rate dependency
-            IF (UVAR(I,14) == ZERO) UVAR(I,14) = Y0P(I)
-            IF (UVAR(I,15) == ZERO) UVAR(I,15) = YCP(I)
+            IF (UVAR(I,9)  == ZERO) UVAR(I,9)  = Y0P(I)
+            IF (UVAR(I,10) == ZERO) UVAR(I,10) = YCP(I)
           ELSE
-            DP(I) = ONE - (ONE - DMAX)*UVAR(I,5)/MAX(YP(I),EM20)
+            DP(I) = ONE - (ONE - DMAX)*UVAR(I,2)/MAX(YP(I),EM20)
           ENDIF
           DP(I) = MAX(DP(I),ZERO)
           DP(I) = MIN(DP(I), ONE)
@@ -579,8 +586,8 @@ c
           IF (YP(I)>Y0P(I)) THEN 
             DP(I) = DSAT2*(ONE - EXP((Y0P(I)-YP(I))/MAX(YCP(I),EM20)))
             ! Save damage threshold in case of strain rate dependency
-            IF (UVAR(I,14) == ZERO) UVAR(I,14) = Y0P(I)
-            IF (UVAR(I,15) == ZERO) UVAR(I,15) = YCP(I)
+            IF (UVAR(I,9)  == ZERO) UVAR(I,9)  = Y0P(I)
+            IF (UVAR(I,10) == ZERO) UVAR(I,10) = YCP(I)
           ELSE 
             DP(I) = ZERO
           ENDIF
@@ -599,13 +606,18 @@ c
         VARTMP(1:NEL,2) = IPOS(1:NEL)
         DO I = 1,NEL 
           ! Save damage threshold in case of strain rate dependency
-          IF (UVAR(I,14) == ZERO .AND. DP(I) /= ZERO) UVAR(I,14) = Y0P(I)
+          IF (UVAR(I,9) == ZERO .AND. DP(I) /= ZERO) UVAR(I,9) = Y0P(I)
           DP(I) = MAX(DP(I),ZERO)
           DP(I) = MIN(DP(I), ONE)
         ENDDO
       ENDIF
 c 
       DO I = 1,NEL
+c
+        ! Sound-speed
+        SOUNDSP(I) = SQRT(MAX(S11(I),S22(I),S33(I),
+     .                    TWO*G12(I),TWO*G23(I),TWO*G31(I))/RHO0(I))
+c
         ! Computation of effective DP for each transverse directions 
         IF (EPSYY(I) >= ZERO) THEN 
           DPY(I) = DP(I) 
@@ -618,27 +630,43 @@ c
           DPZ(I) = ZERO 
         ENDIF
 c
+        ! Compute damaged stiffness matrix
+        S11(I) = S11(I)*(ONE - DF(I))
+        S12(I) = S12(I)*(ONE - DF(I))*(ONE - DPY(I))
+        S13(I) = S13(I)*(ONE - DF(I))*(ONE - DPZ(I))
+        S22(I) = S22(I)*(ONE - DPY(I))
+        S23(I) = S23(I)*(ONE - DPY(I))*(ONE - DPZ(I))
+        S33(I) = S33(I)*(ONE - DPZ(I))   
+c
         ! Update stresses with damage softening effect
         ! -------------------------------------------- 
-        SIGNXX(I) = SIGNXX(I)*(ONE - DF(I))
-        SIGNYY(I) = SIGNYY(I)*(ONE - DPY(I))
-        SIGNZZ(I) = SIGNZZ(I)*(ONE - DPZ(I))
+        SIGNXX(I) = S11(I)*EPSXX(I) + 
+     .              S12(I)*(EPSYY(I) - EPSPYY(I)) + 
+     .              S13(I)*(EPSZZ(I) - EPSPZZ(I))
+        SIGNYY(I) = S12(I)*EPSXX(I) + 
+     .              S22(I)*(EPSYY(I) - EPSPYY(I)) + 
+     .              S23(I)*(EPSZZ(I) - EPSPZZ(I))
+        SIGNZZ(I) = S13(I)*EPSXX(I) + 
+     .              S23(I)*(EPSYY(I) - EPSPYY(I)) + 
+     .              S33(I)*(EPSZZ(I) - EPSPZZ(I))
         SIGNXY(I) = SIGNXY(I)*(ONE -  D(I))
         SIGNYZ(I) = SIGNYZ(I)*(ONE -  D(I))
         SIGNZX(I) = SIGNZX(I)*(ONE -  D(I))
 c
-        ! -> Store internal variables
+        ! -> Store internal variables and damages
         ! ------------------------------------------ 
-        UVAR(I,1)  = DF(I)
-        UVAR(I,2)  = D(I) 
-        UVAR(I,3)  = DP(I)
-        UVAR(I,4)  = Y(I) 
-        UVAR(I,5)  = YP(I)
-        UVAR(I,6)  = DFT(I)
-        UVAR(I,7)  = DFC(I)
-        UVAR(I,19) = DPY(I)
-        UVAR(I,20) = DPZ(I)
-        DMG(I) = MAX(DF(I),D(I),DP(I))
+        DMG(I,1)   = MAX(DF(I),D(I),DP(I))
+        DMG(I,2)   = DF(I)
+        DMG(I,3)   = D(I) 
+        DMG(I,4)   = DP(I)
+        DMG(I,5)   = DFT(I)
+        DMG(I,6)   = DFC(I)
+        UVAR(I,1)  = Y(I) 
+        UVAR(I,2)  = YP(I)
+        UVAR(I,14) = DPY(I)
+        UVAR(I,15) = DPZ(I)
+        UVAR(I,16) = EPSPYY(I)
+        UVAR(I,17) = EPSPZZ(I)
 c
       ENDDO
       !=================================================================== 
@@ -647,13 +675,10 @@ c
       DO I=1,NEL
         ! Save old yield stress
         IF (DPLA(I) > ZERO) THEN 
-          UVAR(I,18) = PHI(I)
+          UVAR(I,13) = PHI(I)
         ELSE
-          UVAR(I,18) = ZERO
+          UVAR(I,13) = ZERO
         ENDIF
-        ! Sound-speed
-        SOUNDSP(I) = SQRT(MAX(S11(I),S22(I),S33(I),
-     .                    TWO*G12(I),TWO*G23(I),TWO*G31(I))/RHO0(I))
         ! Coefficient for hourglass
         IF (DPLA(I)>ZERO) THEN 
           ET(I) = H(I) / (H(I) + MAX(E1(I),E2(I),E3(I)))

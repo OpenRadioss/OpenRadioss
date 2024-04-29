@@ -33,7 +33,7 @@ Chd|====================================================================
      1     NEL     ,NUPARAM ,NUVAR   ,UPARAM  ,UVAR    ,RHO0    ,
      2     EPSXX   ,EPSYY   ,EPSZZ   ,PLA     ,DPLA    ,
      3     DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
-     4     SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
+     4     SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      5     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      6     OFF     ,SIGY    ,ET      ,DMG     ,SEQ     ,EPSD    ,
      7     SOUNDSP ,NFUNC   ,IFUNC   ,NPF     ,TF      ,NVARTMP ,
@@ -60,12 +60,14 @@ C-----------------------------------------------
       my_real,DIMENSION(NEL), INTENT(IN)     :: 
      .   RHO0,EPSXX,EPSYY,EPSZZ,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
-     .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
+     .   SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX,
      .   SOUNDSP,SIGY,ET
       my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
-     .   PLA,DPLA,EPSD,OFF,DMG,SEQ
+     .   PLA,DPLA,EPSD,OFF,SEQ
+      my_real ,DIMENSION(NEL,6), INTENT(INOUT)     :: 
+     .   DMG
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
       INTEGER, DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: VARTMP 
@@ -87,7 +89,7 @@ c
      1      NEL     ,NUPARAM ,NUVAR   ,UPARAM  ,UVAR    ,RHO0    , 
      2      EPSXX   ,EPSYY   ,EPSZZ   ,PLA     ,DPLA    ,
      3      DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
-     4      SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
+     4      SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      5      SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      6      OFF     ,SIGY    ,ET      ,DMG     ,SEQ     ,EPSD    ,
      7      SOUNDSP ,NFUNC   ,IFUNC   ,NPF     ,TF      ,NVARTMP ,
@@ -99,7 +101,7 @@ c
      1      NEL     ,NUPARAM ,NUVAR   ,UPARAM  ,UVAR    ,RHO0    , 
      2      EPSXX   ,EPSYY   ,EPSZZ   ,PLA     ,DPLA    ,
      3      DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
-     4      SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
+     4      SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      5      SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      6      OFF     ,SIGY    ,ET      ,DMG     ,SEQ     ,EPSD    ,
      7      SOUNDSP ,NFUNC   ,IFUNC   ,NPF     ,TF      ,NVARTMP ,

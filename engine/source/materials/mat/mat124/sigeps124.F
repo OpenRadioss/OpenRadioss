@@ -64,7 +64,9 @@ Chd|====================================================================
       my_real,DIMENSION(NEL) ::
      .   SIGY,ET
       my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
-     .   PLA,DPLA,EPSD,LOFF,OFF,DMG
+     .   PLA,DPLA,EPSD,LOFF,OFF
+      my_real ,DIMENSION(NEL,3), INTENT(INOUT) :: 
+     .   DMG
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
       !=======================================================================
@@ -174,12 +176,13 @@ c
         KAPDT(I)  = UVAR(I,9)  ! Tensile damage strain threshold
         KAPDT1(I) = UVAR(I,10) ! First tensile damage variable
         KAPDT2(I) = UVAR(I,11) ! Second tensile damage variable
-        OMEGAT(I) = UVAR(I,12) ! Tensile damage
-        KAPDC(I)  = UVAR(I,13) ! Compressive damage strain threshold
-        KAPDC1(I) = UVAR(I,14) ! First compressive damage variable
-        KAPDC2(I) = UVAR(I,15) ! Second compressive damage variable
-        OMEGAC(I) = UVAR(I,16) ! Compressive damage
-        ARATE(I)  = UVAR(I,17) ! Rate dependency factor
+        KAPDC(I)  = UVAR(I,12) ! Compressive damage strain threshold
+        KAPDC1(I) = UVAR(I,13) ! First compressive damage variable
+        KAPDC2(I) = UVAR(I,14) ! Second compressive damage variable
+        ARATE(I)  = UVAR(I,15) ! Rate dependency factor
+        ! Damage variables
+        OMEGAT(I) = DMG(I,2)   ! Tensile damage
+        OMEGAC(I) = DMG(I,3)   ! Compressive damage
         ! Standard inputs
         DPLA(I)   = ZERO ! Initialization of the plastic strain increment
         ET(I)     = ONE  ! Initialization of hourglass coefficient
@@ -192,8 +195,8 @@ c
         DPZX(I)   = ZERO ! Initialization of the ZX plastic strain increment
         ! Regularization factor
         IF (IREG > 1) THEN 
-          IF (UVAR(I,18) == ZERO) UVAR(I,18) = LE(I)
-          H(I) = UVAR(I,18)
+          IF (UVAR(I,16) == ZERO) UVAR(I,16) = LE(I)
+          H(I) = UVAR(I,16)
         ELSE
           H(I) = ONE
         ENDIF
@@ -815,7 +818,7 @@ c
             ELSEIF (DTYPE == 3) THEN 
               OMEGAT(I) = ONE - EXP(-(H(I)*EPS_INEL(I)/WF))
             ENDIF
-            OMEGAT(I) = MAX(OMEGAT(I),UVAR(I,12))
+            OMEGAT(I) = MAX(OMEGAT(I),DMG(I,2))
             OMEGAT(I) = MIN(MAX(OMEGAT(I),ZERO),ZEP999)
             ! Compute compression damage
             KAPDC2(I) = KAPDC2(I) + ALPHAC(I)*(MAX(EPS_EQ(I) - KAPDC(I),ZERO))/XSIS(I)
@@ -825,14 +828,14 @@ c
             KAPDC(I)  = MAX(ALPHAC(I)*EPS_EQ(I),KAPDC(I))
             EPS_INEL(I) = KAPDC1(I) + OMEGAC(I)*KAPDC2(I)
             OMEGAC(I) = ONE - EXP(-(EPS_INEL(I)/EFC))
-            OMEGAC(I) = MAX(OMEGAC(I),UVAR(I,16))
+            OMEGAC(I) = MAX(OMEGAC(I),DMG(I,3))
             OMEGAC(I) = MIN(MAX(OMEGAC(I),ZERO),ZEP999)      
           ENDIF
 c
           ! Apply damage on stress computation
           !  -> Standard model with two damage variables
           IF (DFLAG == 1) THEN 
-            DMG(I) = MIN(MIN(OMEGAT(I),OMEGAC(I)),ZEP999)
+            DMG(I,1) = MIN(MIN(OMEGAT(I),OMEGAC(I)),ZEP999)
             ! Tensile stress tensor
             SIGTXX(I) = DIRPRV(I,1,1)*DIRPRV(I,1,1)*SIGPT(I,1)
      .                + DIRPRV(I,1,2)*DIRPRV(I,1,2)*SIGPT(I,2)
@@ -880,33 +883,33 @@ c
             SIGNZX(I) = (ONE-OMEGAT(I))*SIGTZX(I) + (ONE-OMEGAC(I))*SIGCZX(I)
           !  -> Isotropic damage model with one damage variable
           ELSEIF (DFLAG == 2) THEN 
-            DMG(I) = MIN(OMEGAT(I),ZEP999)
-            SIGNXX(I) = (ONE-DMG(I))*SIGNXX(I)
-            SIGNYY(I) = (ONE-DMG(I))*SIGNYY(I)
-            SIGNZZ(I) = (ONE-DMG(I))*SIGNZZ(I)
-            SIGNXY(I) = (ONE-DMG(I))*SIGNXY(I)
-            SIGNYZ(I) = (ONE-DMG(I))*SIGNYZ(I)
-            SIGNZX(I) = (ONE-DMG(I))*SIGNZX(I)
+            DMG(I,1) = MIN(OMEGAT(I),ZEP999)
+            SIGNXX(I) = (ONE-DMG(I,1))*SIGNXX(I)
+            SIGNYY(I) = (ONE-DMG(I,1))*SIGNYY(I)
+            SIGNZZ(I) = (ONE-DMG(I,1))*SIGNZZ(I)
+            SIGNXY(I) = (ONE-DMG(I,1))*SIGNXY(I)
+            SIGNYZ(I) = (ONE-DMG(I,1))*SIGNYZ(I)
+            SIGNZX(I) = (ONE-DMG(I,1))*SIGNZX(I)
           !  -> Multiplicative damage model
           ELSEIF (DFLAG == 3) THEN 
-            DMG(I) = MIN(ONE - (ONE-OMEGAT(I))*(ONE-OMEGAC(I)),ZEP999)
-            SIGNXX(I) = (ONE-DMG(I))*SIGNXX(I)
-            SIGNYY(I) = (ONE-DMG(I))*SIGNYY(I)
-            SIGNZZ(I) = (ONE-DMG(I))*SIGNZZ(I)
-            SIGNXY(I) = (ONE-DMG(I))*SIGNXY(I)
-            SIGNYZ(I) = (ONE-DMG(I))*SIGNYZ(I)
-            SIGNZX(I) = (ONE-DMG(I))*SIGNZX(I)
+            DMG(I,1) = MIN(ONE - (ONE-OMEGAT(I))*(ONE-OMEGAC(I)),ZEP999)
+            SIGNXX(I) = (ONE-DMG(I,1))*SIGNXX(I)
+            SIGNYY(I) = (ONE-DMG(I,1))*SIGNYY(I)
+            SIGNZZ(I) = (ONE-DMG(I,1))*SIGNZZ(I)
+            SIGNXY(I) = (ONE-DMG(I,1))*SIGNXY(I)
+            SIGNYZ(I) = (ONE-DMG(I,1))*SIGNYZ(I)
+            SIGNZX(I) = (ONE-DMG(I,1))*SIGNZX(I)
           ENDIF
 c
           ! Element deletion check    
-          IF ((DMG(I) == ZEP999).AND.(LOFF(I) == ONE).AND.(OFF(I) > ZERO)) THEN 
+          IF ((DMG(I,1) == ZEP999).AND.(LOFF(I) == ONE).AND.(OFF(I) > ZERO)) THEN 
             SIGNXX(I) = ZERO
             SIGNYY(I) = ZERO
             SIGNZZ(I) = ZERO
             SIGNXY(I) = ZERO
             SIGNYZ(I) = ZERO
             SIGNZX(I) = ZERO  
-            DMG(I)    = ONE
+            DMG(I,1)  = ONE
             LOFF(I)   = FOUR_OVER_5
             IF (IDEL > 1) THEN 
               NINDX3   = NINDX3 + 1
@@ -933,11 +936,12 @@ c
         UVAR(I,9)  = KAPDT(I)
         UVAR(I,10) = KAPDT1(I)
         UVAR(I,11) = KAPDT2(I) 
-        UVAR(I,12) = OMEGAT(I)
-        UVAR(I,13) = KAPDC(I)
-        UVAR(I,14) = KAPDC1(I)
-        UVAR(I,15) = KAPDC2(I)
-        UVAR(I,16) = OMEGAC(I)   
+        UVAR(I,12) = KAPDC(I)
+        UVAR(I,13) = KAPDC1(I)
+        UVAR(I,14) = KAPDC2(I)
+        ! Damage variables
+        DMG(I,2) = OMEGAT(I)
+        DMG(I,3) = OMEGAC(I)
         ! Coefficient for hourglass
         ET(I)      = HARDP(I) / (HARDP(I) + YOUNG) 
         ! Computation of the sound speed   
@@ -948,12 +952,12 @@ c
 #include "vectorize.inc" 
         DO II = 1,NINDX
           I = INDX(II)
-          IF (UVAR(I,17) == ZERO) UVAR(I,17) = ARATE(I)
+          IF (UVAR(I,15) == ZERO) UVAR(I,15) = ARATE(I)
         ENDDO
 #include "vectorize.inc" 
         DO II = 1,NINDX2
           I = INDX2(II)
-          IF (UVAR(I,17) == ZERO) UVAR(I,17) = ARATE(I)
+          IF (UVAR(I,15) == ZERO) UVAR(I,15) = ARATE(I)
         ENDDO
       ENDIF
 

@@ -370,7 +370,7 @@ c--------------------------
       ! Number of functions
       NFUNC   = 3
       ! Number of user variables 
-      NUVAR   = 20
+      NUVAR   = 17
       ! Number of temporary variable for interpolation
       NVARTMP = 3
 c          
@@ -465,8 +465,16 @@ c
       MTAG%L_EPSD = 1
       MTAG%G_SEQ  = 1
       MTAG%L_SEQ  = 1
-      MTAG%G_DMG  = 1
-      MTAG%L_DMG  = 1
+      MTAG%G_DMG  = 6
+      MTAG%L_DMG  = 6
+c
+      ! Number of output modes 
+      ! -> Stored in DMG(:,2:4)
+      MATPARAM%NMOD = 3
+      ALLOCATE(MATPARAM%MODE(MATPARAM%NMOD))
+      MATPARAM%MODE(1) = "Fiber damage"
+      MATPARAM%MODE(2) = "Shear matrix damage"
+      MATPARAM%MODE(3) = "Transverse matrix damage"
 c
       CALL INIT_MAT_KEYWORD(MATPARAM ,"ELASTO_PLASTIC")
       CALL INIT_MAT_KEYWORD(MATPARAM ,"INCREMENTAL"   )

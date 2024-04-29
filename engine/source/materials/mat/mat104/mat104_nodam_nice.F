@@ -91,12 +91,9 @@ c
      .   SXX,SYY,SZZ,SXY,SYZ,SZX,SIGM,J2,J3,SIGDR,YLD,WEITEMP,
      .   HARDP,FHARD,FRATE,FTHERM,FDR,PHI0,PHI,DPLA_DLAM
       !=======================================================================
-      !       DRUCKER MATERIAL LAW WITH NO DAMAGE
+      !              DRUCKER - VOCE - JOHNSON-COOK MATERIAL LAW 
       !=======================================================================
       !UVAR(1)   PHI    YIELD FUNCTION VALUE
-      !-  
-      !DEPIJ     PLASTIC STRAIN TENSOR COMPONENT
-      !DEPSIJ    TOTAL   STRAIN TENSOR COMPONENT (EL+PL)
       !=======================================================================
 c
       !=======================================================================
@@ -135,13 +132,13 @@ c
 c
       ! Recovering internal variables
       DO I=1,NEL
-        IF (OFF(I) < 0.1) OFF(I) = ZERO
-        IF (OFF(I) < ONE)  OFF(I) = OFF(I)*FOUR_OVER_5
+        IF (OFF(I) < EM01) OFF(I) = ZERO
+        IF (OFF(I) <  ONE) OFF(I) = OFF(I)*FOUR_OVER_5
         ! User inputs
         PHI0(I)  = UVAR(I,1) ! Previous yield function value
         ! Standard inputs
         DPLA(I)  = ZERO      ! Initialization of the plastic strain increment
-        ET(I)    = ONE        ! Initialization of hourglass coefficient
+        ET(I)    = ONE       ! Initialization of hourglass coefficient
         HARDP(I) = ZERO      ! Initialization of hourglass coefficient
       ENDDO    
 c      
@@ -279,22 +276,14 @@ c
         ! a plastic multiplier allowing to update internal variables to satisfy
         ! the consistency condition. 
         ! Its expression is : DLAMBDA = - (PHI + DPHI) / DPHI_DLAMBDA
-          ! -> PHI  : current value of yield function (known)
+        ! -> PHI  : current value of yield function (known)
         ! -> DPHI : yield function prediction (to compute)
         ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
         !                   into account of internal variables kinetic : 
         !                   plasticity, temperature and damage (to compute)
 c        
-          ! 1 - Computation of DPHI_DSIG the normal to the yield surface
-        !-------------------------------------------------------------
-c        
-        ! Computation of the normal to the yield criterion NORM
-        ! flow direction (derivative dPhi / Dsig) 
-        ! HERE WE COMPUTE DPHI/DS with phi = (sigbar/sigy)**2 - 1       
-        ! on note dphi/dS=dF/dS                                        
-        ! Fdr = J2^3 - c*J3^2                                     
-        ! dPhi/dSig = dPhi/dFdr * (dFdr/dJ2 * dJ2/dSig + dFdr/dJ3 * dJ3/dSig)
-        ! dJ2/dSig = S          
+        ! 1 - Computation of DPHI_DSIG the normal to the yield surface
+        !-------------------------------------------------------------       
 c        
         ! Derivative with respect to the equivalent stress
         YLD2I       = ONE/(YLD(I)**2)
@@ -408,7 +397,7 @@ c
         DLAM    = (DPHI + PHI(I)) / DENOM
         DLAM    = MAX(DLAM, ZERO)
 c        
-          ! Plastic strains tensor update
+        ! Plastic strains tensor update
         DPXX = DLAM * NORMXX
         DPYY = DLAM * NORMYY
         DPZZ = DLAM * NORMZZ

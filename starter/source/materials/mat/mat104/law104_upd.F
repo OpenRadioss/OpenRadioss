@@ -69,13 +69,11 @@ C=======================================================================
         !IGURSON = 0  no damage (default) 
         IF (ILOC == 0) THEN
           IGURSON = 1 ! local damage
-          MLAW_TAG%NUVAR = MLAW_TAG%NUVAR + 5
         ELSEIF (ILOC == 1) THEN
           IGURSON = 2 ! Non local Forest (Micromorphic)
-          MLAW_TAG%NUVAR = MLAW_TAG%NUVAR + 7
         ELSEIF (ILOC == 2) THEN
           IGURSON = 3 ! Non local (Peerling)
-          MLAW_TAG%NUVAR = MLAW_TAG%NUVAR + 8
+          MLAW_TAG%NUVAR = MLAW_TAG%NUVAR + 1
         ENDIF
         IPM(8,IMAT) = MLAW_TAG%NUVAR
         ! Gurson yield criterion parameters
@@ -110,8 +108,20 @@ c
         ENDIF
 c
         ! Tag for damage output
-        MLAW_TAG%G_DMG    = 1
-        MLAW_TAG%L_DMG    = 1
+        ! -> Number of output modes (stored in DMG(NEL,I), I>1)
+        MATPARAM%NMOD  = 5
+        ! Total number of damage outputs
+        ! -> DMG(NEL,1) = Global damage output 
+        ! -> DMG(NEL,2:NMOD+1) = Damage modes output
+        MLAW_TAG%G_DMG = 1 + MATPARAM%NMOD
+        MLAW_TAG%L_DMG = 1 + MATPARAM%NMOD
+        ! -> Modes allocation and definition
+        ALLOCATE(MATPARAM%MODE(MATPARAM%NMOD))
+        MATPARAM%MODE(1) = "Void growth volume fraction fg"
+        MATPARAM%MODE(2) = "Nucleation volume fraction fn"
+        MATPARAM%MODE(3) = "Shear growth volume fraction fsh"
+        MATPARAM%MODE(4) = "Total void volume fraction ft"
+        MATPARAM%MODE(5) = "Effective void volume fraction f*"
 c
         ! Storage of damage parameters
         UPARAM(30) = IGURSON

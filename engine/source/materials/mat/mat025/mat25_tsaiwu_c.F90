@@ -36,7 +36,7 @@
 ! ==================================================================================
       subroutine mat25_tsaiwu_c(mat_param   ,                                    &  
                              nel     ,off     ,sig     ,                         &  
-                             wpla    ,dir     ,damt    ,crak  ,                  &  
+                             wpla    ,dir     ,crak    ,                         &  
                              nfis1   ,nfis2   ,nfis3   ,ilayer  ,shf   ,         &  
                              ngl     ,eps     ,igtyp   ,wplar   ,strn1 ,         &  
                              strn2   ,strn3   ,strp1   ,strp2   ,sige  ,         &  
@@ -45,7 +45,7 @@
                              ly_exy  ,sigply  ,sigpe   ,ply_id  ,                &  
                              signxx  ,signyy  ,signxy  ,signyz  ,signzx,         &  
                              ipg     ,tsaiwu  ,iplyxfem,time    ,timestep,       &  
-                             imconv  ,mvsiz   ,iout    )
+                             imconv  ,mvsiz   ,iout    ,dmg     ,l_dmg   )
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
@@ -78,6 +78,7 @@
       integer ,intent(in) :: ngl(mvsiz)                !< element ID table
       my_real ,intent(in) :: time                      !< current time
       my_real ,intent(in) :: timestep                  !< current time step
+      integer ,intent(in) :: l_dmg                     !< second dimension of damage table
       integer ,dimension(nel) ,intent(inout) :: nfis1  !< failure counter in 1st direction 
       integer ,dimension(nel) ,intent(inout) :: nfis2  !< failure counter in 2nd direction 
       integer ,dimension(nel) ,intent(inout) :: nfis3  !< failure counter in 3rd direction 
@@ -85,7 +86,6 @@
       my_real :: sig(nel,5)                            !< output stress tensor
       my_real :: wpla(nel)                             !< plastic work   
       my_real :: dir(nel,2)                            !< orthotropy directions
-      my_real :: damt(nel,2)                           !< damage coefficient 
       my_real :: crak(nel,2)                           !< ply Xfem failure criterion
       my_real :: shf(nel)                              !< transverse shear factor
       my_real :: epsp(nel)                             !< equivalent strain rate
@@ -111,6 +111,7 @@
       my_real :: signyz(mvsiz)                         !< stress component
       my_real :: signzx(mvsiz)                         !< stress component
       my_real :: tsaiwu(mvsiz)                         !< Tsai-Wu criterion
+      my_real, intent(inout) :: dmg(nel,l_dmg)         !< damage related variables
       type (matparam_struct_) ,intent(in) :: mat_param !< material parameter structure
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
@@ -182,8 +183,8 @@
 !-----------------------------
       do i=1,nel
         fail_old(i)=0
-        if (damt(i,1)>=dmax(i))fail_old(i) = fail_old(i) + 1
-        if (damt(i,2)>=dmax(i))fail_old(i) = fail_old(i) + 2
+        if (dmg(i,2)>=dmax(i)) fail_old(i) = fail_old(i) + 1
+        if (dmg(i,3)>=dmax(i)) fail_old(i) = fail_old(i) + 2
         if (wpla(i)< zero) then
 !         wpla is negative in case of layer already reached failure-p :
           fail_old(i) = fail_old(i) + 4
@@ -286,22 +287,22 @@
 !-----------------------------
       if (ishplyxfem /= 0 .and. iplyxfem==2) then 
         do  i=1,nel
-          de1(i)  =one-max( zero , sign(damt(i,1),sig(i,1)) )
-          de2(i)  =one-max( zero , sign(damt(i,2),sig(i,2)) )
-          scale   =(half +sign(half,de1(i)-one))*(half+sign(half,de2(i)-one))
-          s1(i) = sig(i,1)/de1(i)-nu12(i)*sig(i,2)*scale
-          s2(i) = sig(i,2)/de2(i)-nu21(i)*sig(i,1)*scale
-          s1(i)=s1(i)/e11(i)
-          s2(i)=s2(i)/e22(i)
-          s3(i)=sig(i,3)/de1(i)/de2(i)/g12(i)
-          s4(i)=sig(i,4)/max(de2(i)*g23(i)*shf(i),em20)
-          s5(i)=sig(i,5)/max(de1(i)*g31(i)*shf(i),em20)
+          de1(i) = one-max( zero , sign(dmg(i,2),sig(i,1)) )
+          de2(i) = one-max( zero , sign(dmg(i,3),sig(i,2)) )
+          scale  = (half +sign(half,de1(i)-one))*(half+sign(half,de2(i)-one))
+          s1(i)  = sig(i,1)/de1(i)-nu12(i)*sig(i,2)*scale
+          s2(i)  = sig(i,2)/de2(i)-nu21(i)*sig(i,1)*scale
+          s1(i)  = s1(i)/e11(i)
+          s2(i)  = s2(i)/e22(i)
+          s3(i)  = sig(i,3)/de1(i)/de2(i)/g12(i)
+          s4(i)  = sig(i,4)/max(de2(i)*g23(i)*shf(i),em20)
+          s5(i)  = sig(i,5)/max(de1(i)*g31(i)*shf(i),em20)
           ! relatif displacement
           eply(i,1) = sigply(i,1)/de1(i)-nu12(i)*sigply(i,2)*scale
           eply(i,2) = sigply(i,2)/de2(i)-nu21(i)*sigply(i,1)*scale
-          eply(i,1)=eply(i,1)/e11(i)
-          eply(i,2)=eply(i,2)/e22(i)
-          eply(i,3)=sigply(i,3)/de1(i)/de2(i)/g12(i)           
+          eply(i,1) = eply(i,1)/e11(i)
+          eply(i,2) = eply(i,2)/e22(i)
+          eply(i,3) = sigply(i,3)/de1(i)/de2(i)/g12(i)           
         enddo      
 !
         do  i=1,nel
@@ -317,16 +318,16 @@
         enddo  
       else
         do i=1,nel
-          de1(i) =one-max( zero , sign(damt(i,1),sig(i,1)) )
-          de2(i) =one-max( zero , sign(damt(i,2),sig(i,2)) )
-          scale  =(half +sign(half,de1(i)-one))*(half+sign(half,de2(i)-one))
-          s1(i) = sig(i,1)/de1(i)-nu12(i)*sig(i,2)*scale
-          s2(i) = sig(i,2)/de2(i)-nu21(i)*sig(i,1)*scale
-          s1(i)=s1(i)/e11(i)
-          s2(i)=s2(i)/e22(i)
-          s3(i)=sig(i,3)/de1(i)/de2(i)/g12(i)
-          s4(i)=sig(i,4)/max(de2(i)*g23(i)*shf(i),em20)
-          s5(i)=sig(i,5)/max(de1(i)*g31(i)*shf(i),em20)      
+          de1(i) = one-max( zero , sign(dmg(i,2),sig(i,1)) )
+          de2(i) = one-max( zero , sign(dmg(i,3),sig(i,2)) )
+          scale  = (half +sign(half,de1(i)-one))*(half+sign(half,de2(i)-one))
+          s1(i)  = sig(i,1)/de1(i)-nu12(i)*sig(i,2)*scale
+          s2(i)  = sig(i,2)/de2(i)-nu21(i)*sig(i,1)*scale
+          s1(i)  = s1(i)/e11(i)
+          s2(i)  = s2(i)/e22(i)
+          s3(i)  = sig(i,3)/de1(i)/de2(i)/g12(i)
+          s4(i)  = sig(i,4)/max(de2(i)*g23(i)*shf(i),em20)
+          s5(i)  = sig(i,5)/max(de1(i)*g31(i)*shf(i),em20)      
         enddo
 !
         do i=1,nel
@@ -343,12 +344,12 @@
 #include "vectorize.inc"
         do j=1,nindx
           i=index(j)
-          if (damt(i,1)/=zero) then
-           crak(i,1)= crak(i,1) + eps(i,1)+ epsply(i,1)
+          if (dmg(i,2)/=zero) then
+           crak(i,1) = crak(i,1) + eps(i,1)+ epsply(i,1)
            dam1 = crak(i,1)/(epsm1(i)-epst1(i))
            dam2 = dam1*epsm1(i)/(crak(i,1)+epst1(i))
-           damt(i,1)= max(damt(i,1),dam2)
-           damt(i,1)= min(damt(i,1),dmax(i))      
+           dmg(i,2) = max(dmg(i,2),dam2)
+           dmg(i,2) = min(dmg(i,2),dmax(i))      
           endif
         enddo
 !
@@ -356,48 +357,48 @@
         do j=1,nindx
           i=index(j)
 !
-          if (damt(i,2)/=zero) then
-           crak(i,2)= crak(i,2)+eps(i,2)+ epsply(i,2)
+          if (dmg(i,3)/=zero) then
+           crak(i,2) = crak(i,2)+eps(i,2)+ epsply(i,2)
            dam1 = crak(i,2)/(epsm2(i)-epst2(i))
            dam2 = dam1*epsm2(i)/(crak(i,2)+epst2(i))
-           damt(i,2)= max(damt(i,2),dam2)
-           damt(i,2)= min(damt(i,2),dmax(i))
+           dmg(i,3) = max(dmg(i,3),dam2)
+           dmg(i,3) = min(dmg(i,3),dmax(i))
           endif
         enddo 
       else
 #include "vectorize.inc"
         do j=1,nindx
           i=index(j)
-          if (damt(i,1)/=zero) then
-           crak(i,1)= crak(i,1) + eps(i,1) 
+          if (dmg(i,2)/=zero) then
+           crak(i,1) = crak(i,1) + eps(i,1) 
            dam1 = crak(i,1)/(epsm1(i)-epst1(i))
            dam2 = dam1*epsm1(i)/(crak(i,1)+epst1(i))
-           damt(i,1)= max(damt(i,1),dam2)
-           damt(i,1)= min(damt(i,1),dmax(i))      
+           dmg(i,2) = max(dmg(i,2),dam2)
+           dmg(i,2) = min(dmg(i,2),dmax(i))      
           endif
         enddo
 !
         do j=1,nindx
           i=index(j)
 !
-          if (damt(i,2)/=zero) then
-           crak(i,2)= crak(i,2)+eps(i,2)
+          if (dmg(i,3)/=zero) then
+           crak(i,2) = crak(i,2)+eps(i,2)
            dam1 = crak(i,2)/(epsm2(i)-epst2(i))
            dam2 = dam1*epsm2(i)/(crak(i,2)+epst2(i))
-           damt(i,2)= max(damt(i,2),dam2)
-           damt(i,2)= min(damt(i,2),dmax(i))
+           dmg(i,3) = max(dmg(i,3),dam2)
+           dmg(i,3) = min(dmg(i,3),dmax(i))
           endif
         enddo       
       endif
 !
       do i=1,nel
-        de1(i)=one- max( zero , sign(damt(i,1),sig(i,1)) )
-        de2(i)=one- max( zero , sign(damt(i,2),sig(i,2)) )
-        scale1 =(half + sign(half,de1(i)-one))*(half+sign(half,de2(i)-one))
-        scale2 =one-nu12(i)*nu21(i)*scale1
-        a11(i)= e11(i)*de1(i)/scale2
-        a22(i)= e22(i)*de2(i)/scale2
-        a12(i)=nu21(i)*a11(i)*scale1
+        de1(i) = one- max( zero , sign(dmg(i,2),sig(i,1)) )
+        de2(i) = one- max( zero , sign(dmg(i,3),sig(i,2)) )
+        scale1 = (half + sign(half,de1(i)-one))*(half+sign(half,de2(i)-one))
+        scale2 = one-nu12(i)*nu21(i)*scale1
+        a11(i) = e11(i)*de1(i)/scale2
+        a22(i) = e22(i)*de2(i)/scale2
+        a12(i) = nu21(i)*a11(i)*scale1
       enddo
 !-----------------------------
 !     elastic stress
@@ -526,15 +527,16 @@
 !
       do i=1,nel
         ifail0  =  mod(fail_old(i),8)
+        if (wplamx(i) < ep20) dmg(i,4) = min(wpla(i)/wplamx(i),one)
         if (wpla(i)>=wplamx(i) .or.ifail0 >= 4 )wplar(i)= wplar(i)+one
         if (wpla(i)>=wplamx(i).or.ifail0 >= 4 .or.                         &
-          damt(i,1)>=dmax(i).or.                                           &
+          dmg(i,2)>=dmax(i).or.                                            &
           crak(i,1)>=epsf1(i)-epst1(i)) nfis1(i)=nfis1(i)+1                
         if (wpla(i)>=wplamx(i).or.ifail0 >= 4 .or.                         &
-          damt(i,2)>=dmax(i).or.                                           &
+          dmg(i,3)>=dmax(i).or.                                            &
           crak(i,2)>=epsf2(i)-epst2(i)) nfis2(i)=nfis2(i)+1                
-        if (wpla(i)>=wplamx(i).or.ifail0 >= 4 .or. damt(i,1)>=dmax(i).or.  &
-            crak(i,1)>=epsf1(i)-epst1(i) .or. damt(i,2)>=dmax(i).or.       &
+        if (wpla(i)>=wplamx(i).or.ifail0 >= 4 .or. dmg(i,2)>=dmax(i).or.   &
+            crak(i,1)>=epsf1(i)-epst1(i) .or. dmg(i,3)>=dmax(i).or.        &
             crak(i,2)>=epsf2(i)-epst2(i)) nfis3(i)=nfis3(i)+1 
       enddo
 !-------------------------------------------------------------------
@@ -542,8 +544,8 @@
 !-------------------------------------------------------------------
       do i=1,nel
         fail = 0
-        if (damt(i,1) >= dmax(i))           fail = fail + 1
-        if (damt(i,2) >= dmax(i))           fail = fail + 2
+        if (dmg(i,2) >= dmax(i))            fail = fail + 1
+        if (dmg(i,3) >= dmax(i))            fail = fail + 2
         if (wpla(i) >= wplamx(i))           fail = fail + 4
         if (crak(i,1) >= epsf1(i)-epst1(i)) fail = fail + 8
         if (crak(i,2) >= epsf2(i)-epst2(i)) fail = fail + 16

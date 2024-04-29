@@ -39,9 +39,10 @@
                  nel  ,ngl ,off  ,flay,                            &
                  s1  ,s2  ,s3, s4  ,s5  ,s6  ,                     &
                  d1  ,d2  ,d3, d4  ,d5  ,d6  ,                     &
-                 epst,damt,nfis1,nfis2,nfis3,                      &
+                 epst,nfis1,nfis2,nfis3,                           &
                  wplar,epsp , wpla, sigl, ilay,                    &
-                 ipg,tsaiwu,time,imconv  ,mvsiz   ,iout    )                                             
+                 ipg,tsaiwu,time,imconv  ,mvsiz   ,iout,           &
+                 dmg,l_dmg )                                             
 !-----------------------------------------------
 !   m o d u l e s
 !-----------------------------------------------
@@ -66,13 +67,13 @@
       integer ,intent(in) :: iout                      !< output file id
       integer ,intent(in) :: mvsiz                     !< max element group size
       integer ,intent(in) :: ngl(mvsiz)                !< element ID table
+      integer ,intent(in) :: l_dmg                     !< second dimension of damage table
       integer ,dimension(nel) ,intent(inout) :: nfis1  !< failure counter in 1st direction
       integer ,dimension(nel) ,intent(inout) :: nfis2  !< failure counter in 2nd direction
       integer ,dimension(nel) ,intent(inout) :: nfis3  !< failure counter in 3rd direction
       my_real ,intent(in)    :: time                   !< current time
       my_real ,intent(inout) :: off(mvsiz)             !< element activation coefficient
       my_real ,intent(inout) :: wpla(mvsiz)            !< plastic work
-      my_real ,intent(inout) :: damt(nel,2)            !< damage
       my_real ,intent(inout) :: epsp(mvsiz)            !< equivalent strain rate
       my_real ,intent(inout) :: epst(nel,6)            !< total strain tensor
       my_real ,intent(inout) :: wplar(mvsiz)           !< reference plastic work
@@ -91,6 +92,7 @@
       my_real ,intent(inout) :: sigl(mvsiz,6)          !< output stress tensor
       my_real ,intent(inout) :: flay(mvsiz)            !< layer failure coefficient
       my_real ,intent(inout) :: tsaiwu(nel)            !< Tsai-Wu criterion
+      my_real ,intent(inout) :: dmg(nel,l_dmg)         !< damage related variables
       type (matparam_struct_) ,intent(in) :: mat_param !< material parameter structure
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
@@ -237,8 +239,8 @@
 #include   "nofusion.inc"
       do i=1,nel
         fail_old(i)= 0
-        if(damt(i,1) >= dmax(i))fail_old(i) = fail_old(i) + 1
-        if(damt(i,2) >= dmax(i))fail_old(i) = fail_old(i) + 2
+        if(dmg(i,2) >= dmax(i))fail_old(i) = fail_old(i) + 1
+        if(dmg(i,3) >= dmax(i))fail_old(i) = fail_old(i) + 2
 !
         if(wpla(i) < zero )then
 !         wpla is negative in case of layer already reached failure-p :
@@ -292,8 +294,8 @@
 !-------------------------------------------------------------------
 !     deformations elastiques
 !-----------------------------
-      de1(1:nel)  = one-max( zero , sign(damt(1:nel,1),s1(1:nel)) )
-      de2(1:nel)  = one-max( zero , sign(damt(1:nel,2),s2(1:nel)) )
+      de1(1:nel)  = one-max( zero , sign(dmg(1:nel,2),s1(1:nel)) )
+      de2(1:nel)  = one-max( zero , sign(dmg(1:nel,3),s2(1:nel)) )
       do  i=1,nel
          scale = (half +sign(half,de1(i)-one))*(half+sign(half,de2(i)-one))
          e1 = s1(i)/de1(i)/e11  - nu21*s2(i)*scale/e22
@@ -321,28 +323,28 @@
 #include "vectorize.inc"
       do j=1,nindx
         i=index(j)
-        if (damt(i,1) > zero) then
+        if (dmg(i,2) > zero) then
          dam1=(epst(i,1)-epst1(i))/(epsm1(i)-epst1(i))
          dam2= dam1*epsm1(i)/epst(i,1)         
-         damt(i,1)= max(damt(i,1),dam2)
-         damt(i,1)= min(damt(i,1),dmax(i))      
+         dmg(i,2)= max(dmg(i,2),dam2)
+         dmg(i,2)= min(dmg(i,2),dmax(i))      
         endif
       enddo
 !
 #include "vectorize.inc"
       do j=1,nindx
         i=index(j)
-        if (damt(i,2) > zero) then
+        if (dmg(i,3) > zero) then
          dam1=(epst(i,2) - epst2(i))/(epsm2(i)-epst2(i))
          dam2= dam1*epsm2(i)/epst(i,2)        
-         damt(i,2)= max(damt(i,2),dam2)
-         damt(i,2)= min(damt(i,2),dmax(i))
+         dmg(i,3)= max(dmg(i,3),dam2)
+         dmg(i,3)= min(dmg(i,3),dmax(i))
         endif
       enddo 
 !
       do i=1,nel
-         de1(i)=one- max( zero , sign(damt(i,1),s1(i)) )
-         de2(i)=one- max( zero , sign(damt(i,2),s2(i)) )
+         de1(i)=one- max( zero , sign(dmg(i,2),s1(i)) )
+         de2(i)=one- max( zero , sign(dmg(i,3),s2(i)) )
          scale1 =(half +sign(half,de1(i)-one))*(half+sign(half,de2(i)-one))
          scale2 =one-nu12*nu21*scale1
          a11(i)= e11*de1(i)/scale2
@@ -431,27 +433,48 @@
         soft(3)=zero
         isoft(i) = 0 
         ! direction 1
-        if(epst(i,1) <= -eps1c1(i)) then
-         soft(1)=min(one,(epst(i,1)+eps1c1(i))/(eps1c1(i)-eps2c1(i)))
-        elseif(eps(i,1) >= eps1t1(i)) then
-         soft(1)=min(one,(epst(i,1)-eps1t1(i))/(eps2t1(i)-eps1t1(i)))         
+        ! -> failure index in compression
+        if ((epst(i,1) < zero).and.(epst(i,1) > -eps1c1(i))) then 
+          dmg(i,5) = max(-abs(epst(i,1))/abs(eps1c1(i)),-one)
+        elseif (epst(i,1) <= -eps1c1(i)) then
+          soft(1)  = min(one,(epst(i,1)+eps1c1(i))/(eps1c1(i)-eps2c1(i)))
+          dmg(i,5) = max(-one-soft(1),-1.95d0)
+        ! -> failure index in tension
+        elseif (epst(i,1) >= zero .and. epst(i,1) < eps1t1(i)) then 
+          dmg(i,5) = min(epst(i,1)/eps1t1(i),one)
+        elseif (eps(i,1) >= eps1t1(i)) then
+          soft(1)  = min(one,(epst(i,1)-eps1t1(i))/(eps2t1(i)-eps1t1(i)))       
+          dmg(i,5) = min(one + soft(1),1.95d0)
         endif
         sigyt1=min(sigyt1,(one -soft(1))*sigyt1+soft(1)*sigrst1(i))
         sigyc1=min(sigyc1,(one -soft(1))*sigyc1+soft(1)*sigrsc1(i))
         ! direction 2 
-        if(epst(i,2) <= -eps1c2(i)) then
-         soft(2)=min(one,(epst(i,2)+eps1c2(i))/(eps1c2(i)-eps2c2(i)))
-        elseif(epst(i,2) >= eps1t2(i)) then
-         soft(2)=min(one,(epst(i,2)-eps1t2(i))/(eps2t2(i)-eps1t2(i)))
+        ! -> failure index in compression
+        if ((epst(i,2) < zero).and.(epst(i,2) > -eps1c2(i))) then 
+          dmg(i,6) = max(-abs(epst(i,2))/abs(eps1c2(i)),-one)
+        elseif (epst(i,2) <= -eps1c2(i)) then
+          soft(2)  = min(one,(epst(i,2)+eps1c2(i))/(eps1c2(i)-eps2c2(i)))
+          dmg(i,6) = max(- one - soft(2),-1.95d0)
+        ! -> failure index in tension
+        elseif (epst(i,2) >= zero .and. epst(i,2) < eps1t2(i)) then 
+          dmg(i,6) = min(epst(i,2)/eps1t2(i),one)
+        elseif (epst(i,2) >= eps1t2(i)) then
+          soft(2)  = min(one,(epst(i,2)-eps1t2(i))/(eps2t2(i)-eps1t2(i)))
+          dmg(i,6) = min(one + soft(2),1.95d0)
         endif
         sigyt2=min(sigyt2,(one -soft(2))*sigyt2+soft(2)*sigrst2(i))
         sigyc2=min(sigyc2,(one -soft(2))*sigyc2+soft(2)*sigrsc2(i))
         ! direction 12
         strp12 = half*epst(i,4)
-        if(strp12 <= - eps1t12(i)) then
-        soft(3) = min(one,(strp12 + eps1t12(i))/(eps1t12(i)-eps2t12(i)))
-        elseif(strp12 >= eps1t12(i)) then
-         soft(3)=min(one,( strp12 - eps1t12(i))/(eps2t12(i)-eps1t12(i)))
+        ! -> failure index in shear
+        if (strp12 <= - eps1t12(i)) then
+          soft(3)  = min(one,(strp12 + eps1t12(i))/(eps1t12(i)-eps2t12(i)))
+          dmg(i,7) = min(one + soft(3),1.95d0)
+        elseif (strp12 >= eps1t12(i)) then
+          soft(3)  = min(one,( strp12 - eps1t12(i))/(eps2t12(i)-eps1t12(i)))
+          dmg(i,7) = min(one + soft(3),1.95d0)
+        else
+          dmg(i,7) = min(abs(strp12)/eps1t12(i),one)
         endif
         sigyt12=min(sigyt12,(one -soft(3))*sigyt12+soft(3)*sigrst12(i))         
 !        
@@ -545,7 +568,11 @@
         sigyc2 = sigy0_c2 
         sigyt12= sigy0_t12
 !
+        ! failure index for global maximum plastic work
+        if (wplamx(i) < ep20) dmg(i,4) = min(wpla(i)/wplamx(i),one)
+!
         if (imodwp == 0 .or. (imodwp> 0 .and. isoft(I) == 0)) then
+!
           ! direction 1       
           wpla1 = ep20
           if(t1(i) >= sigyt1 ) then
@@ -560,6 +587,16 @@
             wplamx(i) = wpla1
             icas(i) = id
           endif
+!
+          ! failure index in direction 1 update
+          if (wpla(i)/wplamx(i) >= 0.95d0) then 
+            dmg(i,5) = sign(two,dmg(i,5))
+          elseif (dmg(i,5) > one) then 
+            dmg(i,5) = max(dmg(i,5),one + wpla(i)/wplamx(i))
+          elseif (dmg(i,5) < -one) then 
+            dmg(i,5) = min(dmg(i,5),-one-wpla(i)/wplamx(i))
+          endif 
+!
           ! direction 2             
            wpla2 = ep20
            if(t2(i) >= sigyt2  ) then
@@ -573,6 +610,16 @@
              wplamx(i) = wpla2
              icas(i) = id
            endif
+!
+          ! failure index in direction 2 update
+           if (wpla(i)/wplamx(i) >= 0.95d0) then 
+            dmg(i,6) = sign(two,dmg(i,6))
+          elseif (dmg(i,6) > one) then 
+            dmg(i,6) = max(dmg(i,6),one + wpla(i)/wplamx(i))
+          elseif (dmg(i,6) < -one) then 
+            dmg(i,6) = min(dmg(i,6),-one-wpla(i)/wplamx(i))
+          endif 
+!
            ! shear 
            wpla3 = ep20
            if(abs(t3(i)) >= sigyt12) then
@@ -583,6 +630,13 @@
              wplamx(i) = wpla3
              icas(i) = id
            endif
+!
+          ! failure index in shear plane 12 update
+           if (wpla(i)/wplamx(i) >= 0.95d0) then 
+            dmg(i,7) = two
+          elseif (dmg(i,7) > one) then 
+            dmg(i,7) = max(dmg(i,7),one + wpla(i)/wplamx(i))
+          endif 
         elseif (imodwp > 0 ) THEN  
           id = 1
           if(abs(t2(i)) > abs(t1(i)))then
@@ -593,34 +647,64 @@
           endif
           select case(id)
             case(1)
-             icas(i) = sign(one,t1(i)) 
-             if(icas(i) > 0 ) then
+              icas(i) = sign(one,t1(i)) 
+              if (icas(i) > 0 ) then
                 wplamx(i) = min(wplamx(i),wplamxt1(I))
-             else
+                ! update failure index in direction 1 (tension)
+                if (wpla(i)/wplamx(i) >= 0.95d0) then 
+                  dmg(i,5) = two
+                elseif (dmg(i,5) > one) then 
+                  dmg(i,5) = max(dmg(i,5),one + wpla(i)/wplamx(i))
+                endif 
+              else
                 wplamx(i)  = min(wplamx(i),wplamxC1(I))
-             endif 
+                ! update failure index in direction 1 (compression)
+                if (wpla(i)/wplamx(i) >= 0.95d0) then 
+                  dmg(i,5) = -two
+                elseif (dmg(i,5) < -one) then 
+                  dmg(i,5) = min(dmg(i,5),-one-wpla(i)/wplamx(i))
+                endif 
+              endif 
             case(2)
-             icas(i) = sign(two,t2(i)) 
-             if(icas(i) > 0 ) then
-               wplamx(i) = min(wplamx(i),wplamxt2(I))
-             else
-               wplamx(i) = min(wplamx(i),wplamxc2(I))
-             endif 
+              icas(i) = sign(two,t2(i)) 
+              if(icas(i) > 0 ) then
+                wplamx(i) = min(wplamx(i),wplamxt2(I))
+                ! update failure index in direction 2 (tension)
+                if (wpla(i)/wplamx(i) >= 0.95d0) then 
+                  dmg(i,6) = two
+                elseif (dmg(i,6) > one) then 
+                  dmg(i,6) = max(dmg(i,6),one + wpla(i)/wplamx(i))
+                endif 
+              else
+                wplamx(i) = min(wplamx(i),wplamxc2(I))
+                ! update failure index in direction 2 (compression)
+                if (wpla(i)/wplamx(i) >= 0.95d0) then 
+                  dmg(i,6) = -two
+                elseif (dmg(i,6) < -one) then 
+                  dmg(i,6) = min(dmg(i,6),-one-wpla(i)/wplamx(i))
+                endif                 
+              endif 
             case(3)
               icas(i) = 3 
               wplamx(i) = min(wplamx(i),wplamxt12(I))
+              ! update failure index in plane 12 (shear)
+              if (wpla(i)/wplamx(i) >= 0.95d0) then 
+                dmg(i,7) = two
+              elseif (dmg(i,7) > one) then 
+                dmg(i,7) = max(dmg(i,7),one + wpla(i)/wplamx(i))
+              endif 
           end select                
         endif ! iflag == 1 ...
       enddo 
 !
       do i=1,nel
         if(wpla(i) >= wplamx(i)) wplar(i) = wplar(i)+oNE
-        if(wpla(i) >= wplamx(i) .or. damt(i,1) >= dmax(I).or.          &
+        if(wpla(i) >= wplamx(i) .or. dmg(i,2) >= dmax(I).or.          &
           epst(i,1) >= epsf1(i)) nfis1(i)=nfis1(i)+1                    
-       if(wpla(i) >= wplamx(i) .or. damt(i,2) >= dmax(I).or.           &
+       if(wpla(i) >= wplamx(i) .or. dmg(i,3) >= dmax(I).or.           &
           epst(i,3) >= epsf2(i)) nfis2(i)=nfis2(i)+1                    
-       if(wpla(i) >= wplamx(i) .or. damt(i,1) >= dmax(I).or.           &
-          epst(i,1) >= epsf1(i).or. damt(i,2) >= dmax(I).or.           &
+       if(wpla(i) >= wplamx(i) .or. dmg(i,2) >= dmax(I).or.           &
+          epst(i,1) >= epsf1(i).or. dmg(i,3) >= dmax(I).or.           &
           epst(i,2) >= epsf2(i)) nfis3(i)=nfis3(i)+1
       enddo
 !-------------------------------------------------------------------
@@ -628,8 +712,8 @@
 !-----------------------------
       do i=1,nel
         fail=0
-        if(damt(i,1) >= dmax(i))fail = fail + 1
-        if(damt(i,2) >= dmax(i))fail = fail + 2
+        if(dmg(i,2) >= dmax(i))fail = fail + 1
+        if(dmg(i,3) >= dmax(i))fail = fail + 2
         if(wpla(i) >= wplamx(i))fail = fail + 4
         if(epst(i,1) >= epsf1(i))fail=fail+8
         if(epst(i,2) >= epsf2(i))fail=fail+16

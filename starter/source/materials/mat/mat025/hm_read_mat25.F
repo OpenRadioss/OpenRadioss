@@ -102,11 +102,13 @@ c
      .           MATPARAM ,PARMAT   ,UNITAB   ,LSUBMODEL,
      .           ID       ,TITR     ,PM       ,ISRATE   ,
      .           IOUT     ,NPROPM   )
+        MATPARAM%NMOD = 3
       ELSE     
        CALL READ_MAT25_CRASURV(
      .           MATPARAM ,PARMAT   ,UNITAB   ,LSUBMODEL,
      .           ID       ,TITR     ,PM       ,ISRATE   ,
      .           IOUT     ,NPROPM   )
+        MATPARAM%NMOD = 6
       END IF
 c-------------------------------------------------------------
 c---- Element buffer variable activation (for automatic allocation)
@@ -116,16 +118,28 @@ c
       MTAG%G_GAMA   = 6  
       MTAG%G_PLA    = 1    
       MTAG%G_EPSD   = 1    
-      MTAG%G_DAMDL  = 1    
+      MTAG%G_DAMDL  = 1  
+      MTAG%G_TSAIWU = 1 
+      MTAG%G_DMG    = 1 + MATPARAM%NMOD 
 c
       MTAG%L_GAMA   = 6  
       MTAG%L_PLA    = 1
       MTAG%L_EPSD   = 1
-      MTAG%L_DAM    = 2
       MTAG%L_CRAK   = 2
       MTAG%L_STRA   = 6
-      MTAG%G_TSAIWU = 1
       MTAG%L_TSAIWU = 1
+      MTAG%L_DMG    = 1 + MATPARAM%NMOD
+c
+      ALLOCATE(MATPARAM%MODE(MATPARAM%NMOD))
+      MATPARAM%MODE(1) = "Tensile damage in direction 1"
+      MATPARAM%MODE(2) = "Tensile damage in direction 2"
+      MATPARAM%MODE(3) = "Global maximum plastic work"
+      IF (iflag > 0) THEN 
+        MATPARAM%MODE(4) = "Failure index in direction 1"
+        MATPARAM%MODE(5) = "Failure index in direction 2"
+        MATPARAM%MODE(6) = "Failure index in shear plane 12"
+      ENDIF
+c
 c-----------
       CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
       CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")

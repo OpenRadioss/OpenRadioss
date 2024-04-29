@@ -53,12 +53,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IMAT,NUMMAT,NUMTABL,NUPARAM,NIPARAM,NFAIL,IAD,NFIX,LEN
+      INTEGER :: I,IMAT,NUMMAT,NUMTABL,NUPARAM,NIPARAM,NFAIL,IAD,NFIX,LEN,
+     .           NMOD,MOD
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
 C=======================================================================
 c     read MATPARAM data
-      NFIX   = 19
+      NFIX   = 20
       NUMMAT = MAT_ELEM%NUMMAT
       ALLOCATE(MAT_ELEM%MAT_PARAM(NUMMAT))
 c
@@ -89,6 +90,9 @@ c
         MAT_ELEM%MAT_PARAM(IMAT)%NLOC               = IBUF(IAD+17)
         MAT_ELEM%MAT_PARAM(IMAT)%IFAILWAVE          = IBUF(IAD+18)
         MAT_ELEM%MAT_PARAM(IMAT)%IXFEM              = IBUF(IAD+19)
+c
+        MAT_ELEM%MAT_PARAM(IMAT)%NMOD               = IBUF(IAD+20)
+c
         IAD = IAD + NFIX
       END DO
       DEALLOCATE( IBUF )
@@ -147,7 +151,24 @@ c
             CALL READ_FAILPARAM(MAT_ELEM%MAT_PARAM(IMAT)%FAIL(I))
           END DO      
         END IF
-      END DO      
+      END DO     
+c      
+c     write damage modes
+c     
+      DO IMAT = 1,NUMMAT
+        NMOD = MAT_ELEM%MAT_PARAM(IMAT)%NMOD
+        IF (NMOD > 0) THEN
+          ALLOCATE(MAT_ELEM%MAT_PARAM(IMAT)%MODE(NMOD))
+          DO MOD = 1,NMOD
+            CALL READ_C_C(NAME,NCHARTITLE)
+            DO I=1,NCHARTITLE
+              MAT_ELEM%MAT_PARAM(IMAT)%MODE(MOD)(I:I) = CHAR(NAME(I))
+            END DO
+          ENDDO 
+        ELSE 
+          ALLOCATE(MAT_ELEM%MAT_PARAM(IMAT)%MODE(0))
+        ENDIF
+      ENDDO       
 c-----------
       RETURN
       END

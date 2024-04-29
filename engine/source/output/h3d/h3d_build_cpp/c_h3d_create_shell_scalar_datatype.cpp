@@ -138,23 +138,23 @@ extern "C"
                 RES_STRING = strcat(RES_STRING, cname);
 #endif
 
-                if (*mode > 0)
-                {
-                        sprintf(MODE_STRING, " mode %d", *mode);
-#ifdef _WIN64
-                        strcat_s(RES_STRING, 100, MODE_STRING);
-#else
-                        RES_STRING = strcat(RES_STRING, MODE_STRING);
-#endif
-                }
-
                 if (*id > 0)
                 {
-                        sprintf(ID_STRING, " id %d", *id);
+                        sprintf(ID_STRING, " ID %d", *id);
 #ifdef _WIN64
                         strcat_s(RES_STRING, 100, ID_STRING);
 #else
                         RES_STRING = strcat(RES_STRING, ID_STRING);
+#endif
+                }
+
+                if (*mode > 0)
+                {
+                        sprintf(MODE_STRING, " Mode %d", *mode);
+#ifdef _WIN64
+                        strcat_s(RES_STRING, 100, MODE_STRING);
+#else
+                        RES_STRING = strcat(RES_STRING, MODE_STRING);
 #endif
                 }
 
@@ -300,7 +300,7 @@ extern "C"
                 }
                 rc = Hyper3DAddString(h3d_file, LAYERPOOL, &layer_pool_id);
 
-                char edata_type[50];
+                char edata_type[100];
                 //
 
                 //     printf("String en sortie : %s  %d  \n",RES_STRING,*sizeMdsUvarName);
@@ -325,7 +325,7 @@ extern "C"
 
                         dt_id++;
 #ifdef _WIN64
-                        strcpy_s(edata_type, 50, RES_STRING);
+                        strcpy_s(edata_type, 100, RES_STRING);
 #else
                         strcpy(edata_type, RES_STRING);
 #endif

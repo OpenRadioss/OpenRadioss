@@ -38,7 +38,7 @@ Chd|====================================================================
      7 INACTI      ,KINI        ,ITAB        ,LB          ,LC          ,
      8 PENMIN      ,EPS         ,PENE        ,PENE_OLD    ,SUBTRIA     , 
      9 GAPV        ,IVIS2       ,IF_ADH      ,IFADHI      ,BASE_ADH    ,
-     A MVOISN      ,IBOUND      ,VTX_BISECTOR,DIST       )
+     A MVOISN      ,IBOUND      ,VTX_BISECTOR,DIST        ,TIME )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,6 +73,7 @@ C-----------------------------------------------
      .     PENE(MVSIZ), GAPMXL(MVSIZ), GAPV(MVSIZ), BASE_ADH(MVSIZ)
       REAL*4 VTX_BISECTOR(3,2,*)
       my_real  , INTENT(INOUT) :: DIST(MVSIZ)
+      my_real  , INTENT(IN)    :: TIME
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -907,6 +908,25 @@ C
 C-----------------------------------------------------------------------
 C      PENE_OLD(5) <=> Initial Penetration
 C-----------------------------------------------------------------------
+      IF (TIME==ZERO) THEN
+        IF (INACTI==5.AND.IVIS2/=-1) THEN
+          DO I=1,JLT
+           IF (PENE(I) == ZERO) CYCLE 
+           JG = NSVG(I)
+           N  = CAND_N(I)
+           IF(JG > 0)THEN
+             IF(IRTLM(1,N) > 0)THEN ! initial pen
+               PENE_OLD(5,N)=MAX(PENE(I),PENE_OLD(5,N))
+             END IF
+           ELSE
+             JG = -JG
+             IF(IRTLM_FI(NIN)%P(1,JG) > 0)THEN 
+               PENE_OLDFI(NIN)%P(5,JG)=MAX(PENE(I),PENE_OLDFI(NIN)%P(5,JG))
+             END IF
+           END IF
+          END DO 
+        END IF!(INACTI==5.AND.IVIS2/=-1) THEN
+      END IF
       IF(IVIS2/=-1) THEN
 C       IF(INACTI==5)THEN
         DO I=1,JLT
@@ -920,23 +940,12 @@ C
              PENE_OLD(5,N)=PENE(I)
            END IF
            PENE_SHFT = MAX(ZERO,PENE(I)-PENE_OLD(5,N))
-C         if(itab(jg)== 29687 .OR. ITAB(IX1(I)) == 29687 .OR. ITAB(IX2(I)) == 29687
-C    . .OR. ITAB(IX4(I)) == 29687 .OR. ITAB(IX3(I)) == 29687)
-C    .    THEN
-C              print *,ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I)),
-C    . ITAB(JG),PENE_OLD(5,N),pene_shft
-C         ENDIF
           ELSE
            JG = -JG
            IF(IRTLM_FI(NIN)%P(1,JG) < 0)THEN ! new impact
              PENE_OLDFI(NIN)%P(5,JG)=PENE(I)
            END IF
            PENE_SHFT= MAX(ZERO,PENE(I)-PENE_OLDFI(NIN)%P(5,JG))
-C         if(itafi(nin)%p(jg)==29687 .OR. ITAB(IX1(I)) == 29687 .OR. ITAB(IX2(I)) == 29687
-C    ..OR.  ITAB(IX4(I)) == 29687 .OR. ITAB(IX3(I)) == 29687) THEN
-C              print *,ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I)),
-C    . ITAB(JG),PENE_OLDFI(NIN)%P(5,JG),pene_shft
-C         endif
 
          ENDIF
          PENE(I) = PENE_SHFT
