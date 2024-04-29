@@ -727,7 +727,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
-      SUBROUTINE DYNA_INA(IBCL  ,FORC   ,NPC   ,TF    ,A     ,
+      SUBROUTINE DYNA_INA(IBCL  ,FORC   ,SNPC,NPC   ,TF    ,A     ,
      2                    V     ,X      ,SKEW  ,AR    ,VR    ,
      3                    SENSOR_TAB,WEIGHT,TFEXC ,IADS_F ,
      4                    FSKY  ,IGRV   ,AGRV  ,MS    ,IN    ,
@@ -736,7 +736,7 @@ Chd|====================================================================
      7                    IDIV  ,H3D_DATA,CPTREAC,FTHREAC,NODREAC,
      8                    NSENSOR,TH_SURF ,FSAVSURF, NSEG_LOADP,DPL0CLD,
      9                    VEL0CLD,   D,  DR,  NUMNOD,NSURF,
-     A                    NFUNCT,NCONLD,NGRAV,NINVEL)
+     A                    NFUNCT,NCONLD,NGRAV,NINVEL,STF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -762,7 +762,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR,NUMNOD,NSURF,NFUNCT,NCONLD,NGRAV,NINVEL
-      INTEGER ITASK,NPC(*), IBCL(*), NPBY(NNPBY,*), IADS_F(*),
+      INTEGER, INTENT(IN) :: STF
+      INTEGER, INTENT(IN) :: SNPC
+      INTEGER ITASK,NPC(SNPC), IBCL(*), NPBY(NNPBY,*), IADS_F(*),
      .        IGRV(*),WEIGHT(*),LGRAV(*),IDIV,
      .        CPTREAC,NODREAC(*)
       INTEGER FR_ELEM(*),IAD_ELEM(2,*),NRBYAC,IRBYAC(*),NDDL ,NNZK
@@ -844,13 +846,13 @@ C---estimation a(t=0)----
         IF (TT==DT2) TT = ZERO
         IF(NCONLD/=0) THEN
           IF (IMON>0) CALL STARTIME(4,ITASK+1)
-          CALL FORCE_IMP(IBCL  ,FORC  ,NPC   ,TF  ,DY_A  ,
+          CALL FORCE_IMP(IBCL  ,FORC  ,SNPC,NPC   ,TF  ,DY_A  ,
      2               V     ,X     ,SKEW  ,DY_AR,VR    ,
-     3               NSENSOR,SENSOR_TAB,TFEXC,
-     4               IADS_F,FSKY  ,FSKY,DUMMY_FEXT,H3D_DATA,
+     3               NSENSOR,SENSOR_TAB,TFEXC, IADS_F,
+     4               FSKY  ,DUMMY_FEXT,H3D_DATA,
      5               CPTREAC,FTHREAC,NODREAC,TH_SURF ,FSAVSURF,
      6               NSEG_LOADP,DPL0CLD ,VEL0CLD ,D       ,DR      ,
-     7               NCONLD ,NUMNOD    ,NSURF,NFUNCT)
+     7               NCONLD ,NUMNOD    ,NSURF,NFUNCT,STF)
          IF (NSPMD>1) THEN
           DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
             J = FR_ELEM(I)
@@ -977,7 +979,7 @@ Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
-      SUBROUTINE DYNA_WEX(IBCL  ,FORC   ,NPC   ,TF    ,A     ,
+      SUBROUTINE DYNA_WEX(IBCL  ,FORC   ,SNPC,NPC   ,TF    ,A     ,
      2                    V     ,X      ,SKEW  ,AR    ,VR    ,
      3                    SENSOR_TAB,WEIGHT,TFEXT ,IADS_F ,
      4                    FSKY  ,IGRV   ,AGRV  ,MS    ,IN    ,
@@ -987,7 +989,7 @@ Chd|====================================================================
      8                    H3D_DATA,CPTREAC,FTHREAC,NODREAC,NSENSOR,
      9                    TH_SURF ,FSAVSURF,NSEG_LOADP,DPL0CLD,
      A                    VEL0CLD, NUMNOD,NSURF,NFUNCT,NCONLD,
-     B                    NGRAV,NFXVEL)
+     B                    NGRAV,NFXVEL,STF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1011,7 +1013,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR,NUMNOD,NSURF,NFUNCT,NCONLD,NGRAV,NFXVEL
-      INTEGER ITASK,NPC(*), IBCL(*), NPBY(NNPBY,*), IADS_F(*),
+      INTEGER ,INTENT(IN) :: STF
+      INTEGER ,INTENT(IN) :: SNPC
+      INTEGER ITASK,NPC(SNPC), IBCL(*), NPBY(NNPBY,*), IADS_F(*),
      .        IGRV(*),WEIGHT(*),LGRAV(*),
      .        IFRAME(LISKN,*),IBFV(*),IKC(*) ,IDDL(*),NDOF(*),
      .        CPTREAC,NODREAC(*)
@@ -1041,13 +1045,13 @@ C--------------------------------
 C--------------------------------
        IF (IMON>0) CALL STARTIME(4,ITASK+1)
         IF(NCONLD/=0) THEN
-          CALL FORCE_IMP(IBCL  ,FORC  ,NPC   ,TF  ,A     ,
+          CALL FORCE_IMP(IBCL  ,FORC ,SNPC ,NPC   ,TF  ,A     ,
      2               V     ,X     ,SKEW  ,AR  ,VR    ,
-     3               NSENSOR,SENSOR_TAB,TFEXC,
-     4               IADS_F,FSKY  ,FSKY, DUMMY_FEXT,H3D_DATA,
+     3               NSENSOR,SENSOR_TAB,TFEXC,IADS_F,
+     4               FSKY  , DUMMY_FEXT,H3D_DATA,
      5               CPTREAC,FTHREAC,NODREAC,TH_SURF ,FSAVSURF,
      6               NSEG_LOADP,DPL0CLD ,VEL0CLD ,D       ,DR      ,
-     7               NCONLD ,NUMNOD    ,NSURF,NFUNCT)
+     7               NCONLD ,NUMNOD    ,NSURF,NFUNCT,STF)
           TFEXT = TFEXT + TFEXC*DT2
         ENDIF
         IF(NGRAV/=0) THEN
