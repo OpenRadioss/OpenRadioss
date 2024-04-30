@@ -63,6 +63,7 @@ verbose=""
 st_vers="starter"
 com=0
 release=0
+ad=none
 
 if [ $number_of_arguments = 0 ]
 then
@@ -189,7 +190,7 @@ build_directory=cbuild_${starter_exec}${cf}
    echo " static_link =          : " $static_link
    echo " " 
    echo " Executable name        : " ${starter_exec}
-   if [[ -v ad ]]  
+   if [ $ad != "none" ]  
    then
       echo " Addflag                : \""$ad "\" "
    fi
