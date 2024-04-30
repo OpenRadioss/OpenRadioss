@@ -199,10 +199,13 @@ Chd|        EIG1                          engine/stub/eig1.F
 Chd|        EIGP                          engine/stub/eigp.F            
 Chd|        GENANI                        engine/source/output/anim/generate/genani.F
 Chd|        GENH3D                        engine/source/output/h3d/h3d_results/genh3d.F
+Chd|        H3D_SHELL_SCALAR              engine/source/output/h3d/h3d_results/h3d_shell_scalar.F
+Chd|        H3D_SHELL_SCALAR_1            engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
 Chd|        H3D_SHELL_TENSOR              engine/source/output/h3d/h3d_results/h3d_shell_tensor.F
 Chd|        H3D_SOLID_SCALAR              engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
 Chd|        HIST2                         engine/source/output/th/hist2.F
 Chd|        IMP_BUCK                      engine/source/implicit/imp_buck.F
+Chd|        LECH3D                        engine/source/output/h3d/h3d_build_fortran/lech3d.F
 Chd|        S4VOLN_M                      engine/source/elements/solid/solide4_sfem/s4voln_m.F
 Chd|        SIGEPS190                     engine/source/materials/mat/mat190/sigeps190.F
 Chd|        SIGEPS25C                     engine/source/materials/mat/mat025/sigeps25c.F
