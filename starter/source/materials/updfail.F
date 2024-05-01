@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      module updfail_mod
+      contains
+!
 Chd|====================================================================
 Chd|  UPDFAIL                       source/materials/updfail.F    
 Chd|-- called by -----------
@@ -28,13 +31,11 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FAIL_FUN2SYS                  source/materials/tools/fail_fun2sys.F
 Chd|        MATTAB_USR2SYS                source/materials/tools/mattab_usr2sys.F
+Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      module updfail_mod
-      contains
-!
       SUBROUTINE UPDFAIL(MAT_PARAM ,NUMMAT ,NFUNCT ,NTABLE ,FUNC_ID ,TABLE ,
      .                   FAIL_FRACTAL,NGRSHEL   ,NGRSH3N,IGRSH4N,IGRSH3N,
      .                   IXC    ,IXTG      ,NUMELC ,NUMELTG )

@@ -414,6 +414,7 @@ Chd|        TGRTAILS                      starter/source/elements/truss/tgrtails
 Chd|        THPRIN_SUB                    starter/source/output/th/thprin.F
 Chd|        TH_SURF_LOAD_PRESSURE         starter/source/output/th/th_surf_load_pressure.F
 Chd|        TSURFTAG                      starter/source/groups/tsurftag.F
+Chd|        UPDFAIL                       starter/source/materials/updfail.F
 Chd|        W_DAMPVREL                    starter/source/restart/ddsplit/w_dampvrel.F
 Chd|        W_FRONT                       starter/source/restart/ddsplit/w_front.F
 Chd|        W_GROUP_STR                   starter/source/restart/ddsplit/w_group_str.F
