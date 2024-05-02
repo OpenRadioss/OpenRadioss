@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2023 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2024 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -20,31 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!hd|====================================================================
-!hd|  PYTHON_FUNCT_MOD              modules/python_mod.F
-!hd|-- called by -----------
-!hd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-!hd|        EXECARGCHECK                  starter/source/starter/execargcheck.F
-!hd|        LECTUR                        starter/source/starter/lectur.F
-!hd|        DAASOLV                       engine/source/fluid/daasolv.F
-!hd|        DAASOLVP                      engine/source/fluid/daasolvp.F
-!hd|        FIXVEL                        engine/source/constraints/general/impvel/fixvel.F
-!hd|        FLOW0                         engine/source/fluid/flow0.F
-!hd|        FORCE                         engine/source/loads/general/force.F
-!hd|        GRAVIT                        engine/source/loads/general/grav/gravit.F
-!hd|        GRAVIT_FVM_FEM                engine/source/loads/general/grav/gravit_fvm_fem.F
-!hd|        INCPFLOW                      engine/source/fluid/incpflow.F
-!hd|        LAG_FXV                       engine/source/tools/lagmul/lag_fxv.F
-!hd|        LAG_FXVP                      engine/source/tools/lagmul/lag_fxv.F
-!hd|        LAG_MULT                      engine/source/tools/lagmul/lag_mult.F
-!hd|        LAG_MULTP                     engine/source/tools/lagmul/lag_mult.F
-!hd|        RADIOSS2                      engine/source/engine/radioss2.F
-!hd|        RDRESB                        engine/source/output/restart/rdresb.F
-!hd|        RESOL                         engine/source/engine/resol.F
-!hd|        RESOL_HEAD                    engine/source/engine/resol_head.F
-!hd|        WRRESTP                       engine/source/output/restart/wrrestp.F
-!hd|-- calls ---------------
-!hd|====================================================================
       module python_funct_mod
         use iso_c_binding
         integer, parameter :: max_line_length = 500 !< the maximum length of a line of code of python function
@@ -275,7 +250,7 @@
           allocate(character(kind=c_char, len=max_code_length) :: code)
 
           ierror = 0 ! if python error = 1 => python_initialize will do nothing, because python is not avaiable
-            ! i.e. starter without -python option
+          ! i.e. starter without -python option
           if(py%nb_functs>0) call python_initialize(ierror)
 
           if(py%nb_functs > 0 .and. ierror == 1) then

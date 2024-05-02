@@ -20,15 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C|============================================================
-C|  PUFF                                   /dfs/puff.F
-C|------------------------------------------------------------
-C|-- appelee par -----------
-C|       EOSMAIN                           /matera/mmain.F
-C|-- appelle ---------------
-C| 
-C|============================================================
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 Chd|====================================================================
 Chd|  PUFF                          eos/puff.F                    
 Chd|-- called by -----------

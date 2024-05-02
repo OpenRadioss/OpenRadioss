@@ -2193,7 +2193,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
 C ------com. de numero nodes SECONDARYs et diag_Kss-----
-C au l'appel, SSIZE=IAD_SREM(NSPMD+1)-1 
+C au l appel, SSIZE=IAD_SREM(NSPMD+1)-1 
 C             RSIZE=IAD_SL(NSPMD+1)-1 
 C------recive--
         SIZE=7
@@ -3427,7 +3427,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
 C ------com. de numero nodes SECONDARYs -----
-C au l'appel, RSIZE=IAD_R(NSPMD+1)-1 
+C au l appel, RSIZE=IAD_R(NSPMD+1)-1 
 C             SSIZE=IAD_S(NSPMD+1)-1 
 C------recive--
         L=1
@@ -3541,7 +3541,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
 C ------com. de numero nodes SECONDARYs -----
-C au l'appel, RSIZE=IAD_R(NSPMD+1)-1 
+C au l appel, RSIZE=IAD_R(NSPMD+1)-1 
 C             SSIZE=IAD_S(NSPMD+1)-1 
 C------recive--
         L=1
