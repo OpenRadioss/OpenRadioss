@@ -337,22 +337,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C--------------------------------------
-C     ECRITURE DES ENTIERS
-C--------------------------------------
-      IF (IRFORM/5<=1) THEN
-        CALL WRTSQI (IFLOW,LIFLOW,IRFORM)
-      ELSE
         CALL WRITE_I_C(IFLOW,LIFLOW)
-      ENDIF
-C--------------------------------------
-C     ECRITURE DES REELS
-C--------------------------------------
-      IF (IRFORM/5<=1) THEN
-        CALL WRTSQR (RFLOW,LRFLOW,IRFORM)
-      ELSE
         CALL WRITE_DB(RFLOW,LRFLOW)
-      ENDIF
 C
       RETURN
       END
@@ -367,7 +353,7 @@ Chd|        WRTSQR                        source/output/tools/wrtsqr.F
 Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
 Chd|        IMP_REST                      share/modules/impbufdef_mod.F 
 Chd|====================================================================
-      SUBROUTINE IMPWREST(IRFORM,NIMPR)
+      SUBROUTINE IMPWREST(NIMPR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -386,7 +372,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IRFORM,NIMPR
+      INTEGER NIMPR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -396,19 +382,13 @@ C--------------------------------------
 C     ECRITURE DES REELS
 C--------------------------------------
       ND = NUMNOD*3
-      IF (IRFORM/5<=1) THEN
-       CALL WRTSQR(IMP_RR,NIMPR,IRFORM)
-       IF (IDYNA>0) THEN
-        CALL WRTSQR(DY_A,ND,IRFORM)
-        IF (IRODDL/=0) CALL WRTSQR(DY_AR,ND,IRFORM)
-       ENDIF
-      ELSE
-       CALL WRITE_DB(IMP_RR,NIMPR)
-       IF (IDYNA>0) THEN
+      CALL WRITE_DB(IMP_RR,NIMPR)
+
+      IF (IDYNA>0) THEN
         CALL WRITE_DB(DY_A,ND)
         IF (IRODDL/=0) CALL WRITE_DB(DY_AR,ND)
-       ENDIF
       ENDIF
+
 C
       RETURN
       END
@@ -890,16 +870,11 @@ C-----------------------------------------------
 C--------------------------------------
 C     ECRITURE DES REELS
 C--------------------------------------
-      IF (IRFORM/5 <= 1) THEN
-        CALL WRTSQR (RBYM,NFRBYM*NRBYM,IRFORM)
-        CALL WRTSQI (IRBYM,NIRBYM*NRBYM,IRFORM)
-        CALL WRTSQI (LCRBYM,NGSLNRBYM,IRFORM)        
-      ELSE
-        CALL WRITE_DB(RBYM,NFRBYM*NRBYM)
-        CALL WRITE_I_C(IRBYM,NIRBYM*NRBYM)
-        CALL WRITE_I_C( LCRBYM,NGSLNRBYM)      
-      ENDIF
+      CALL WRITE_DB(RBYM,NFRBYM*NRBYM)
+      CALL WRITE_I_C(IRBYM,NIRBYM*NRBYM)
+      CALL WRITE_I_C( LCRBYM,NGSLNRBYM)      
       CALL WRITE_I_C( WEIGHT_RM,NRBYM)
+      
       RETURN
       END
 C for shell composite xfem 

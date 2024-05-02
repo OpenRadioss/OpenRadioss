@@ -133,5 +133,66 @@ C PLY  Nodes structures for animations
      .      PLY_INFO
       
 c
+      CONTAINS
+
+Chd|====================================================================
+Chd|  STACK_PLY_ALLOC          modules/names_and_titles_mod.F
+Chd|-- called by -----------
+Chd|        RADIOSS2                      engine/source/engine/radioss2.F
+Chd|-- calls ---------------
+Chd|====================================================================
+        SUBROUTINE STACK_PLY_ALLOC(STACK,IPART_STACK,NPT_STACK,NS_STACK)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+          USE MESSAGE_MOD
+C-----------------------------------------------------------------------
+          IMPLICIT NONE
+C-----------------------------------------------
+C   m y _ r e a l
+C-----------------------------------------------
+#include      "my_real.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+          TYPE(STACK_PLY),INTENT(INOUT) :: STACK
+          INTEGER,INTENT(IN) :: IPART_STACK
+          INTEGER,INTENT(IN) :: NPT_STACK
+          INTEGER,INTENT(IN) :: NS_STACK
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+          INTEGER IERR
+C-----------------------------------------------
+          IF(IPART_STACK >0) THEN
+
+               
+               ALLOCATE(STACK%IGEO(4*NPT_STACK+2,NS_STACK),STAT=IERR)
+               IF(IERR/=0) THEN
+                  CALL ANCMSG(MSGID=19,ANMODE=ANINFO,C1='(/PROP/STACK/...)')
+                  CALL ARRET(2)
+               ENDIF
+               STACK%IGEO = 0
+
+               ALLOCATE(STACK%GEO(6*NPT_STACK+1,NS_STACK),STAT=IERR)
+               IF(IERR/=0) THEN
+                   CALL ANCMSG(MSGID=19,ANMODE=ANINFO,C1='(/PROP/STACK/...)')
+                   CALL ARRET(2)
+               ENDIF
+               STACK%GEO = 0.0
+
+               ALLOCATE(STACK%PM(20,NS_STACK),STAT=IERR)
+               IF(IERR/=0) THEN
+                   CALL ANCMSG(MSGID=19,ANMODE=ANINFO,C1='(/PROP/STACK/...)')
+                   CALL ARRET(2)
+               ENDIF
+               STACK%PM = 0.0
+          ELSE
+               ALLOCATE(STACK%IGEO(0,0),STACK%GEO(0,0),STACK%PM(0,0))
+          ENDIF 
+
+        END SUBROUTINE STACK_PLY_ALLOC
+
+
       END MODULE STACK_MOD
 

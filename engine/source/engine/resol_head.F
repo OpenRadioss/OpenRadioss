@@ -72,7 +72,8 @@ Chd|====================================================================
      .           DRAPE_SH4N  ,DRAPE_SH3N  ,T_MONVOL       ,SENSORS    ,EBCS_TAB        ,
      .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS    ,
      .           OUTPUT      ,INTERFACES  ,DT             ,LOADS      ,MAT_ELEM        ,
-     .           PYTHON      ,NAMES_AND_TITLES, UNITAB    ,SKEWS)
+     .           PYTHON      ,NAMES_AND_TITLES, UNITAB    ,SKEWS      ,LIFLOW          ,
+     .           LRFLOW )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -126,11 +127,16 @@ C------------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITASK,IAF(*),IDATA(*),IFLOW(*),
-     .   IRUNN_BIS
+      INTEGER, INTENT(IN) :: LIFLOW  !< Size of IFLOW
+      INTEGER, INTENT(IN) :: LRFLOW  !< Size of RFLOW
+
+      INTEGER,INTENT(INOUT) :: IFLOW(LIFLOW)
+      INTEGER,INTENT(INOUT) :: RFLOW(LRFLOW)
+C
+      INTEGER ITASK,IAF(*),IDATA(*),IRUNN_BIS
 C     REAL
       my_real
-     .   AF(*),RDATA(*),RFLOW(*),MCP(*),TEMP(*) ,
+     .   AF(*),RDATA(*),MCP(NUMNOD),TEMP(NUMNOD) ,
      .   FORNEQS(*)
       DOUBLE PRECISION XDP(*)
       TYPE(PRGRAPH) :: GRAPHE(*)
@@ -275,7 +281,7 @@ C
      M  T_MONVOL        ,ID_GLOBAL_VOIS ,FACE_VOIS      ,TAGSLV_RBY     ,DYNAIN_DATA    ,FCONT_MAX   ,EBCS_TAB         ,DIFFUSION ,
      N  KLOADPINTER     ,LOADPINTER     ,IN0            ,DGAPLOADINT    ,DRAPEG         ,USER_WINDOWS ,OUTPUT          ,INTERFACES,
      O  DT              ,LOADS          ,PYTHON         ,DPL0CLD        ,VEL0CLD        ,
-     P  NDAMP_VREL      ,ID_DAMP_VREL   ,FR_DAMP_VREL   ,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB)
+     P  NDAMP_VREL      ,ID_DAMP_VREL   ,FR_DAMP_VREL   ,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB,LIFLOW,LRFLOW)
 C
       CALL TRACE_OUT(2)
 C

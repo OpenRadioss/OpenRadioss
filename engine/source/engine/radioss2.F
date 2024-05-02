@@ -743,15 +743,16 @@ C       Create info, hist, monitor, progress and tpl files for writing implicit 
           IOFF1 = 'Off'
           IOFF2 = 'Off'
           IOFF3 = 'Off'
+          
           IF (NITOL == 1 .OR. NITOL == 12 .OR. NITOL == 13 .OR. NITOL == 123) IOFF1 = 'On'
           IF (NITOL == 0 .OR. NITOL == 2 .OR. NITOL == 12 .OR. NITOL == 23 .OR. NITOL == 123) IOFF2 = 'On'
           IF (NITOL == 3 .OR. NITOL == 13 .OR. NITOL == 23 .OR. NITOL == 123) IOFF3 = 'On'
+
           FILNAM=ROOTNAM(1:ROOTLEN)
           CALL WRITE_TPL_FILE(FILNAM(1:ROOTLEN),IOFF1,IOFF2,IOFF3)
 1004      FORMAT('*DefineReport(',A,', PLOT_FILE_1)')
 1005      FORMAT('    *Id("HyperWorks", "Report")')           
-1006      FORMAT('    *Parameter(PLOT_FILE_1, PLOT_FILE_1, FILENAME, "*", "',
-     .           A,'")')
+1006      FORMAT('    *Parameter(PLOT_FILE_1, PLOT_FILE_1, FILENAME, "*", "',A,'")')
         ENDIF
       ENDIF
         IF(IOUT==0)IOUT=7
@@ -925,7 +926,8 @@ C Specific case with different number of threads per MPI domain
      .                           NBTASK(NSPMD+1)
       
        END IF
-C Open the qaprint file
+
+       ! Open the qaprint file
        CALL QAOPEN('engine')
       ENDIF
 C
@@ -936,9 +938,33 @@ C
 
       CALL PRINTCPU(2)
 
-      IF(ISPMD==0)
-     *  CALL PRINTCENTER(" ",0,IOUT,1)
-C------------------------------------------------
+      IF(ISPMD==0) CALL PRINTCENTER(" ",0,IOUT,1)
+
+      ! ---------------------------------------------------
+      ! Arrays, Types Allocation and initialization
+      ! ---------------------------------------------------
+      CALL TRACE_IN(17,2,ZERO)
+
+      ! Variable & sizes
+      SIGEO = NPROPGI*NUMGEO
+      SIPM  = NPROPMI*NUMMAT
+
+
+      ! Finite Volume Method
+      IF (MULTI_FVM%IS_USED) THEN
+           MULTI_FVM%MUSCL = ALEMUSCL_Param%IALEMUSCL
+      ENDIF
+
+      CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
+
+      ! Most of arrays from Restart
+      CALL RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,LOADS,INTERFACES,SKEWS)
+
+      ! Initialization
+      IGEO = 0
+      IPM = 0
+
+      ! IAF,AF : Fluid, noise
       IF(IFIF>0)ALLOCATE (IAF(IFIF),STAT=IADIF)
       IF(MFIF>0)ALLOCATE (AF(MFIF),STAT=IADRF)
       IF(IADRF/=0.OR.IADIF/=0)THEN
@@ -946,6 +972,7 @@ C------------------------------------------------
         CALL ARRET(2)
       ENDIF
 C
+      ! Single Precision version : XDP = X in Double :
       IF (IRESP==1) THEN
         SXDP = 3*NUMNOD
         ALLOCATE(XDP(SXDP),STAT=IXDP)
@@ -971,37 +998,11 @@ C
           CALL ARRET(2)
         ENDIF
       ENDIF
-      SIGEO = NPROPGI*NUMGEO
-      SIPM  = NPROPMI*NUMMAT
 
-      IF (MULTI_FVM%IS_USED) THEN
-           MULTI_FVM%MUSCL = ALEMUSCL_Param%IALEMUSCL
-      ENDIF
-
-      CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
-
-C------------------------------------------------
-C     .rst file reading 2
-C------------------------------------------------
-      CALL TRACE_IN(17,2,ZERO)
-      CALL RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,LOADS,INTERFACES,SKEWS)
+      ! Monvol / Airbag
       ALLOCATE(T_MONVOL(NVOLU))
-      IGEO = 0
-      IPM = 0
-C
-C     allocations structures INTSTAMP
-      IF(NINTSTAMP/=0)THEN
-        ALLOCATE(INTSTAMP(NINTSTAMP),STAT=IERR)
-        IF (IERR/=0)THEN
-          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-          CALL ARRET(2)
-        ENDIF
-        CALL INTSTAMP_ZERO(INTSTAMP)
-      ELSE
-        ALLOCATE(INTSTAMP(0))
-      END IF
-C
-C     allocations structure TABLE
+
+      ! Table structure allocation
       IF(NTABLE/=0)THEN
         ALLOCATE(TABLE(NTABLE),STAT=IERR)
         IF (IERR/=0)THEN
@@ -1012,55 +1013,78 @@ C     allocations structure TABLE
       ELSE
         ALLOCATE(TABLE(0))
       END IF
-!     allocation of engine time array
-      ALLOCATE(GLOBAL_COMP_TIME%ENGINE_TIME(IRUNN))
-c
-      GLOBAL_COMP_TIME%ENGINE_TIME(1:IRUNN) = ZERO
-      GLOBAL_COMP_TIME%RUN_NBR = IRUNN
-      GLOBAL_COMP_TIME%RST_NAME(1:1000)=''
-      GLOBAL_COMP_TIME%RST_NAME=
-     .   ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_0001.rst'
-c
-      CALL RDRESB(AF                ,IAF      ,LVARREA      ,XDP             ,IRUNN     , 
-     .            MULTI_FVM        ,H3D_DATA  ,PINCH_DATA,
-     .            ALE_CONNECTIVITY ,T_MONVOL  ,SENSORS      ,EBCS_TAB        ,DYNAIN_DATA,
-     .            USER_WINDOWS     ,OUTPUT    ,INTERFACES   ,LOADS           ,MAT_ELEM, PYTHON,SKEWS)
-
-      IF (NSPMD > 1)  CALL SPMD_RST_CHECK()
-c----------
 
       IF (IMACH==3) NSPROC=1
       ALLOCATE(GRAPHE(0))
+
+      !NFLOW
       IF (NFLOW>0) THEN
          ALLOCATE(IFLOW(LIFLOW), RFLOW(LRFLOW))
-         CALL NFRREST(IFLOW, RFLOW)
       ELSE
          ALLOCATE(IFLOW(0), RFLOW(0))
       ENDIF
 
-      CALL FVRREST(MONVOL)
-
-      IF (IMPL_S0>0) CALL IMPRREST(IRFORM,IMPL_S0)
-C heat  transfer
+      ! Heat Transfer
       IF(ITHERM_FE > 0   ) THEN
         ALLOCATE(MCP(NUMNOD),TEMP(NUMNOD))
-        CALL THCRREST(MCP,TEMP)
       ELSE
          ALLOCATE(MCP(0),TEMP(0))
       ENDIF
-C Nitsche Method : Equivalent Nodal Force allocation
+
+      ! Nitsche Method : Equivalent Nodal Force allocation
       IF(NITSCHE > 0   ) THEN
         ALLOCATE(FORNEQS(3*NUMNOD))
-        CALL NITSCHERREST(FORNEQS)
       ELSE
          ALLOCATE(FORNEQS(0))
       ENDIF
-C
+
+      ! Stack Ply
+      CALL STACK_PLY_ALLOC(STACK,IPART_STACK,NPT_STACK,NS_STACK)
+
+      ! Drape
+      SCDRAPE = 0
+      STDRAPE = 0
+      IF (NDRAPE > 0) THEN
+         ALLOCATE(DRAPE_SH4N(NUMELC_DRAPE),DRAPE_SH3N(NUMELTG_DRAPE))
+         ALLOCATE(DRAPEG%INDX_SH4N(NUMELC),DRAPEG%INDX_SH3N(NUMELTG))
+         DRAPEG%INDX_SH4N = 0
+         DRAPEG%INDX_SH3N = 0
+      ELSE
+       ALLOCATE(DRAPE_SH4N(0),DRAPE_SH3N(0),DRAPEG%INDX_SH4N(0),
+     .                                      DRAPEG%INDX_SH3N(0) )
+      ENDIF 
+
+      ! allocation of engine time array
+      ALLOCATE(GLOBAL_COMP_TIME%ENGINE_TIME(IRUNN))
+      GLOBAL_COMP_TIME%ENGINE_TIME(1:IRUNN) = ZERO
+      GLOBAL_COMP_TIME%RUN_NBR = IRUNN
+      GLOBAL_COMP_TIME%RST_NAME(1:1000)=''
+      GLOBAL_COMP_TIME%RST_NAME=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_0001.rst'
+
+      ! ---------------------------------------------------------------------------------------------
+      !      .rst file reading 2
+      ! ---------------------------------------------------------------------------------------------
+      CALL RDRESB(AF             ,IAF        ,LVARREA      ,XDP               ,IRUNN     , 
+     .            MULTI_FVM      ,H3D_DATA   ,PINCH_DATA    ,ALE_CONNECTIVITY ,T_MONVOL  ,
+     .            SENSORS        ,EBCS_TAB   ,DYNAIN_DATA   ,USER_WINDOWS     ,OUTPUT    ,
+     .            INTERFACES     ,LOADS      ,MAT_ELEM      ,PYTHON           ,IFLOW     ,
+     .            SKEWS          ,RFLOW      ,LIFLOW        ,LRFLOW           ,IMPL_S0   ,
+     .            MCP            ,TEMP       ,FORNEQS       ,UNITAB           ,NFXFLUX   ,
+     .            STACK          ,DRAPE_SH4N ,DRAPE_SH3N    ,DRAPEG           ,NDRAPE )
+
+       ! Close restart file
+       CALL CLOSE_C
+       ! --------------------------------------------------------------------------------------------
+      IF (NSPMD > 1)  CALL SPMD_RST_CHECK()
+c----------
+      IF (IMACH==3) NSPROC=1
+C----------
       ALLOCATE(DMSPH(SDMSPH),STAT=IERR)
       IF (IERR/=0)THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
+
 C--------------------------------------------
 C     Multimaterial law update (/ANIM/BRIC/VFRAC) (TRIMAT common value unknown in freanim.F since its read after it)
 C       Consistency with material law number is also checked here
@@ -1299,95 +1323,8 @@ C--------------------------------------------
       ENDIF !IF(ILAW20 == 0)
 
       IF(ALE%GLOBAL%I_DT_NODA_ALE_ON_KEY==1) ALE%GLOBAL%I_DT_NODA_ALE_ON = 1
-                          
-C--------------------------------------------
-C     UNIT restart info
-      CALL READ_UNITS(UNITAB)
-C--------------------------------------------
-C     rigid material
-C
-      IF(IRIGID_MAT > 0) CALL RMATRREST(RBYM,IRBYM, LNRBYM,WEIGHT_RM)
-C   thermal bc
-      IF(NUMCONV > 0)  CALL CONVRREST(IBCV, FCONV)
-      IF(NUMRADIA > 0) CALL RADIARREST(IBCR, FRADIA)
-      IF(NFXFLUX > 0)  CALL FXFLUXRREST(IBFFLUX, FBFFLUX)
-      IF(NFXTEMP > 0)  CALL FXTEMPRREST(IBFTEMP, FBFTEMP)
-      IF (IPLYXFEM > 0) THEN
-        CALL PLYXFEM_RREST(MS_PLY,ZI_PLY,INOD_PXFEM,IEL_PXFEM,
-     .                        ICODE_PLY,ISKEW_PLY,MSZ2)
-      ENDIF
-      CALL  PLYXFEM_RRESTANIM()
-      IF(IPLYXFEM > 0) CALL  PLYXFEM_RAVUPLY()
-      IF(NLOADC   > 0) CALL CFIELDREST(CFIELD)
-      IF(NLOADP   > 0) CALL LOADPREST(LOADP)
-C--------------------------------------------
-C LOAD/PRESSURE interfaces : Gaps
-C--------------------------------------------
-      IF (NINTLOADP>0) THEN
-         CALL READ_DB(DGAPLOADINT, NINTER*NLOADP_HYD )
-      ENDIF
-      IF(ICRACK3D > 0) CALL CRKXFEM_RREST(INOD_CRKXFEM,IEL_CRKXFEM,NODLEVXF)
-      CALL CRKXFEM_RRESTANIM()
-      IF(ALEFVM_Param%IEnabled  > 0) CALL READ_DB(ALEFVM_Buffer%FCELL ,6*NUMELS)
-      IF(IALELAG  > 0) CALL ALELAG_RREST()
-C--------------------------------------
-      IF(SRTHBUF > 0) CALL RTHBUFREST(RTHBUF,SRTHBUF)
-C--------------------------------------------
-      IF(SKNOT > 0) CALL KNOTREST(KNOT)
-      IF(SKNOTLOCPC > 0) CALL KNOTLOCPCREST(KNOTLOCPC)
-      IF(SKNOTLOCEL > 0) CALL KNOTLOCELREST(KNOTLOCEL)
-      IF(NUMELIG3D > 0) CALL WIGEREST(WIGE)
-      IF(IPART_STACK >0) THEN
-          ALLOCATE(STACK%IGEO(4*NPT_STACK+2,NS_STACK),STAT=IERR)
-          IF(IERR/=0) THEN
-            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .            C1='(/PROP/STACK/...)')
-            CALL ARRET(2)
-          ENDIF
-          STACK%IGEO = 0
-          ALLOCATE(STACK%GEO(6*NPT_STACK+1,NS_STACK),STAT=IERR)
-           IF(IERR/=0) THEN
-            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .            C1='(/PROP/STACK/...)')
-            CALL ARRET(2)
-          ENDIF
-          STACK%GEO = ZERO
-          ALLOCATE(STACK%PM(20,NS_STACK),STAT=IERR)
-           IF(IERR/=0) THEN
-            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .            C1='(/PROP/STACK/...)')
-            CALL ARRET(2)
-          ENDIF
-          STACK%PM = ZERO
-        CALL STACK_RREST(STACK%IGEO,STACK%GEO, STACK%PM )
-      ELSE
-         ALLOCATE(STACK%IGEO(0,0),STACK%GEO(0,0),STACK%PM(0,0))
-      ENDIF 
-      SCDRAPE = 0
-      STDRAPE = 0
-      IF (NDRAPE > 0) THEN
-         ALLOCATE(DRAPE_SH4N(NUMELC_DRAPE),DRAPE_SH3N(NUMELTG_DRAPE))
-         ALLOCATE(DRAPEG%INDX_SH4N(NUMELC),DRAPEG%INDX_SH3N(NUMELTG))
-         DRAPEG%INDX_SH4N = 0
-         DRAPEG%INDX_SH3N = 0
-         CALL DRAPE_RREST(DRAPE_SH4N,DRAPE_SH3N, DRAPEG)  
-      ELSE
-       ALLOCATE(DRAPE_SH4N(0),DRAPE_SH3N(0),DRAPEG%INDX_SH4N(0),
-     .                                      DRAPEG%INDX_SH3N(0) )
-      ENDIF 
-C--------------------------------------------
-      IF (NUMPLY > 0) CALL PLY_INFO_REST(PLY_INFO)
-C--------------------------------------------
-!       read the starter elapsed time
-        CALL READ_DPDB(GLOBAL_COMP_TIME%STARTER_TIME,1)
-!       read the previous engine elapsed time
-        IF(GLOBAL_COMP_TIME%RUN_NBR>1) THEN
-                CALL READ_DPDB(GLOBAL_COMP_TIME%ENGINE_TIME,GLOBAL_COMP_TIME%RUN_NBR-1)
-        ENDIF      
 
-C     Close restart file
-      CALL CLOSE_C
-
+C--------------------------------------------
       IF (NSPMD > 1)  THEN
         PREVIOUS_RUN = GLOBAL_COMP_TIME%RUN_NBR-1
         CALL SPMD_ALLREDUCE_DB(GLOBAL_COMP_TIME%STARTER_TIME,LOCAL_STARTER_TIME,1,"MAX ")
@@ -2259,7 +2196,7 @@ C---------------------------------------------------------------------
      .                   DRAPE_SH4N   ,DRAPE_SH3N      ,T_MONVOL        ,SENSORS    ,EBCS_TAB        ,
      .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    ,
      .                   OUTPUT       ,INTERFACES      ,DT              ,LOADS      ,MAT_ELEM  , PYTHON,
-     .                   NAMES_AND_TITLES, UNITAB      ,SKEWS)
+     .                   NAMES_AND_TITLES, UNITAB ,SKEWS,LIFLOW         ,LRFLOW)
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")
