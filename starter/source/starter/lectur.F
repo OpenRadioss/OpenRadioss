@@ -5442,8 +5442,8 @@ c------------------------------------------------------------------------
      .            MAT_ELEM%MAT_PARAM)
 c
       CALL UPDFAIL(MAT_ELEM%MAT_PARAM ,NUMMAT ,NFUNCT ,NTABLE ,NPC1 ,TABLE ,
-     .             FAIL_FRACTAL,NGRSHEL   ,NGRSH3N,IGRSH4N ,IGRSH3N,
-     .             IXC    ,IXTG      ,NUMELC ,NUMELTG )
+     .             FAIL_FRACTAL,NGRSHEL   ,NGRSH3N,IGRSH4N ,IGRSH3N ,
+     .             NIXC    ,IXC   ,NIXTG ,IXTG    ,NUMELC  ,NUMELTG )
 C
       CALL TRACE_OUT1()
 C------------------------------------------------------------------------

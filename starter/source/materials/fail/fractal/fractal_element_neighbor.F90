@@ -97,7 +97,7 @@
       end do
       nshell_4n = nshell
       do i = 1,numeltg
-        mid = ixc(1,i)
+        mid = ixtg(1,i)
         if (mid == fractal%imat) then
           nshell = nshell + 1
           nixel(nshell) = 3
@@ -111,10 +111,15 @@
       fractal%nelem = nshell 
       allocate (fractal%random_walk(nshell))
       do i = 1,nshell
-        fractal%random_walk(i)%id = elmat(i)
+        fractal%random_walk(i)%elnum = elmat(i)
         nix = nixel(i)
         fractal%random_walk(i)%nix    = nix
         fractal%random_walk(i)%damage = zero
+        if (nix == 4) then
+          fractal%random_walk(i)%id =ixc(nixc,i) 
+        else
+          fractal%random_walk(i)%id =ixtg(nixtg,i-nshell_4n) 
+        end if
         allocate (fractal%random_walk(i)%neighbor(nix))
         fractal%random_walk(i)%neighbor(:) = 0
       end do

@@ -35,6 +35,7 @@
 
       type random_walk_  
         integer :: id                                   ! element id
+        integer :: elnum                                ! element number
         integer :: nix                                  ! number of edge connexions (3/4)
         my_real :: damage                               ! damage value 
         integer, dimension(:), allocatable :: neighbor  ! neighbor element list (nix)
