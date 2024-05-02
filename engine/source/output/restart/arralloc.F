@@ -137,7 +137,7 @@ C-----------------------------------------------
       TYPE(t_SEGVAR) :: SEGVAR
       TYPE (LOADS_),INTENT(IN) :: LOADS
       TYPE(INTERFACES_) :: INTERFACES
-      TYPE(SKEW_)       :: SKEWS
+      TYPE(SKEW_) , INTENT(INOUT)       :: SKEWS
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1813,6 +1813,19 @@ c
               ALLOCATE(PSKIDS(NINTSKIDOLD,NUMNOD),STAT=IERR)
               IF (IERR/=0) GOTO 1000
            ENDIF
+         END IF
+
+         ! Stamping
+         ! INTSTAMP structures allocation
+         IF(NINTSTAMP/=0)THEN
+            ALLOCATE(INTSTAMP(NINTSTAMP),STAT=IERR)
+            IF (IERR/=0)THEN
+              CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+              CALL ARRET(2)
+            ENDIF
+            CALL INTSTAMP_ZERO(INTSTAMP)
+         ELSE
+            ALLOCATE(INTSTAMP(0))
          END IF
 C
         ALLOCATE (CFIELD(LFACLOAD*NLOADC),STAT=IERR)
