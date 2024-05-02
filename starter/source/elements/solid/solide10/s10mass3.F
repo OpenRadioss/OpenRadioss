@@ -446,7 +446,7 @@ C=======================================================================
        END DO
        RETURN
       END IF
-C ------------Ai -> A²(i)-----------
+C ---------------------------------
        CALL AREA_TRIA(X,IX2,IX3,IX4, A1  )
        CALL AREA_TRIA(X,IX1,IX3,IX4, A2  )
        CALL AREA_TRIA(X,IX1,IX2,IX4, A3  )

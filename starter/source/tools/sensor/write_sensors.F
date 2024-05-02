@@ -72,7 +72,7 @@ c
           TITLE = SENSOR%TITLE
           ALLOCATE (LTEMP(NPARI))
           LTEMP(1:NPARI) = SENSOR%IPARAM(1:NPARI)
-c         update node system N° after renumbering for sensors using nodes
+c         update node system number after renumbering for sensors using nodes
           IF (TYP == 2) THEN   ! /sens/disp
             N1 = NODLOCAL(SENSOR%IPARAM(1))
             N2 = NODLOCAL(SENSOR%IPARAM(2))

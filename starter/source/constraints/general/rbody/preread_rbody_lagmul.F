@@ -89,7 +89,7 @@ C--------------------------------------------------
 C--------------------------------------------------
        IF(KEY(1:6)=='LAGMUL')THEN
         NRB=NRB+1
-C----------Multidomaines --> on ignore les rby tagés---------------
+C----------Multidomais: ignore tagged rbys---------------
         IF(NSUBDOM>0)THEN
             IF(TAGRBY(NRB)==0)CALL HM_SZ_R2R(TAGRBY,NRB,LSUBMODEL)
           END IF

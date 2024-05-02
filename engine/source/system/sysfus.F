@@ -22,7 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C     REAL
 #include "my_real.inc"
-      my_real
 Chd|====================================================================
 Chd|  SYSFUS                        source/system/sysfus.F        
 Chd|-- called by -----------
@@ -31,7 +30,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-     .   FUNCTION SYSFUS(IU,ITABM1,NUMNOD,MESS)
+       my_real  FUNCTION SYSFUS(IU,ITABM1,NUMNOD,MESS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

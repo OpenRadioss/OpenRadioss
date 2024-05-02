@@ -20,13 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C|============================================================
-C|   M3LAW                           /matera/m3law.F
-C|------------------------------------------------------------
-C|-- appelee par -----------
-C|         MMAIN                           /matera/mmain.F
-C|-- appelle ---------------
-C|============================================================
 Chd|====================================================================
 Chd|  M3LAW                         source/materials/mat/mat003/m3law.F
 Chd|-- called by -----------
