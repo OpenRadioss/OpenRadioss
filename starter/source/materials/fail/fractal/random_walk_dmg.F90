@@ -65,10 +65,10 @@
       integer             ,intent(in)    :: imat           !< material model number
       integer ,dimension(nixc,numelc)  ,intent(in) :: ixc  !< 4n shell connectivity table
       integer ,dimension(nixtg,numeltg),intent(in) :: ixtg !< 3n shell connectivity table
-      type (fail_param_)  ,intent(inout) :: fail           !< failure model data structure
-      type (group_),intent(in) :: igrsh4n(ngrshel)         !< 4n shell group structure
-      type (group_),intent(in) :: igrsh3n(ngrsh3n)         !< 3n shell group structure 
-      type (fractal_)  ,intent(inout) :: fractal           !< fractal model structure
+      type (group_)      ,intent(in) :: igrsh4n(ngrshel)   !< 4n shell group structure
+      type (group_)      ,intent(in) :: igrsh3n(ngrsh3n)   !< 3n shell group structure 
+      type (fail_param_) ,intent(inout) :: fail            !< failure model data structure
+      type (fractal_)    ,intent(inout) :: fractal         !< fractal model structure
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -76,11 +76,13 @@
       integer :: seed,i_seed
       integer :: n_rwalk,nstart,ntarget,iwalk,istart
       integer :: iel,count,stop_walk,prv,current,nxt
+      integer :: curr_id,nxt_id,trgt_id
       integer :: igr4n_start,igr3n_start,igr4n_target,igr3n_target
       integer :: start_gsh4_id,start_gsh3_id,target_gsh4_id,target_gsh3_id,nb_sh3,nb_sh4
       integer ,dimension(6) :: nxtk4
       integer ,dimension(5) :: nxtk3
-      integer ,dimension(:) ,allocatable :: start_group,a_seed
+      integer ,dimension(:) ,allocatable :: start_group
+      integer ,dimension(:) ,allocatable :: a_seed
       my_real :: dmg,probability
       my_real :: random_value
       logical :: random_start,random_target
@@ -106,6 +108,7 @@
       if (seed == zero) then
         call random_seed()
       else
+        i_seed = 1
         call random_seed(size=i_seed)
         allocate(a_seed(1:i_seed))
         a_seed = seed
@@ -142,7 +145,7 @@
           iel = igrsh4n(igr4n_start)%entity(i)
           do j = 1,fractal%nelem
             if (fractal%random_walk(j)%nix == 4) then
-              if (fractal%random_walk(j)%id == iel) then
+              if (fractal%random_walk(j)%elnum == iel) then
                 count = count + 1
                 start_group(count) = iel
               end if
@@ -154,7 +157,7 @@
           iel = igrsh3n(igr3n_start)%entity(i)
           do j = 1,fractal%nelem
             if (fractal%random_walk(j)%nix == 3) then
-              if (fractal%random_walk(j)%id == iel) then
+              if (fractal%random_walk(j)%elnum == iel) then
                 count = count + 1
                 start_group(count) = iel
               end if
@@ -166,11 +169,11 @@
 !
       end if      ! random start
       !------------------------------
-      if (debug==1) then
+      if (debug == 1 .and. random_start .eqv. .false.) then
         print*,'starting element list'
         do i = 1,nstart
           iel = start_group(i)
-          print*,'    ',ixc(nixc,iel)
+          print*,'    ',fractal%random_walk(iel)%id
         end do
         print*,' '
         print*,'target element list'
@@ -186,6 +189,7 @@
         call random_number(random_value)
         iel = ceiling(random_value * fractal%nelem)
         fractal%random_walk(iel)%damage = dmg
+        if (debug==1) print*,'    ',fractal%random_walk(iel)%id
       else
         random_target = .false.
         if (target_gsh4_id > 0) then
@@ -199,9 +203,9 @@
           iel = igrsh4n(igr4n_target)%entity(i)
           do j = 1,fractal%nelem
             if (fractal%random_walk(j)%nix == 4) then
-              if (fractal%random_walk(j)%id == iel) then
+              if (fractal%random_walk(j)%elnum == iel) then
                 fractal%random_walk(j)%damage = dmg
-                if (debug==1) print*,'    ',ixc(nixc,iel)
+                if (debug==1) print*,'    ',fractal%random_walk(j)%id
               end if
             end if          
           end do
@@ -210,8 +214,9 @@
           iel = igrsh3n(igr3n_target)%entity(i)
           do j = 1,fractal%nelem
             if (fractal%random_walk(j)%nix == 3) then
-              if (fractal%random_walk(j)%id == iel) then
+              if (fractal%random_walk(j)%elnum == iel) then
                 fractal%random_walk(j)%damage = dmg
+                if (debug==1) print*,'    ',fractal%random_walk(j)%id
               end if
             end if          
           end do
@@ -238,7 +243,7 @@
         prv = 0
         if (debug==1) then
           print*,' '
-          print*,' drunken walker number',iwalk,',start with',ixc(nixc,current)
+          print*,' drunken walker number',iwalk,',start with',fractal%random_walk(current)%id
         end if
 
         do while (stop_walk == 0)
@@ -259,7 +264,9 @@
                   fractal%random_walk(current)%damage = dmg
                   stop_walk = 1
                   if (debug==1) then
-                    print*,'     found target',ixc(nixc,j),',set damage to',ixc(nixc,current)
+                    curr_id = fractal%random_walk(current)%id
+                    trgt_id = fractal%random_walk(j)%id
+                    print*,'     found target',trgt_id,',set damage to',curr_id
                   end if
                 end if
               end if
@@ -275,10 +282,12 @@
               end do
             end if
             if (nxt == 0) then          ! exit on border
-              if (debug==1)  print*,'     died on',ixc(nixc,current)
               stop_walk = 1
-            else
-              if (debug==1) print*,'   ',ixc(nixc,current),' => ',ixc(nixc,nxt)
+              if (debug==1) print*,'     died on',fractal%random_walk(current)%id
+            else if (debug==1) then
+              curr_id = fractal%random_walk(current)%id
+              nxt_id  = fractal%random_walk(nxt)%id
+              print*,'   ',curr_id,' => ',nxt_id
             end if     
             prv     = current
             current = nxt

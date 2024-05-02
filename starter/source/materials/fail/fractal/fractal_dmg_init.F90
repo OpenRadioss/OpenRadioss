@@ -71,7 +71,7 @@
       integer :: i,ii,jj,iel,nlay,ilay,ir,is,it,nptr,npts,nptt,nix
       integer :: nelem_dmg,nlay_dmg
       integer :: imat,mat_fail
-      integer :: ifract,ifail,nfail,l_dmx
+      integer :: ifract,ifail,nfail,l_dmx,l_dam
       integer :: debug
       integer ,dimension(:) ,allocatable :: lay_dmg
       my_real :: dmg
@@ -109,7 +109,7 @@
           elem_dmg(:) = 0
           nelem_dmg   = 0
           do i=1,fail_fractal%fractal(ifract)%nelem                        
-            iel = fail_fractal%fractal(ifract)%random_walk(i)%id
+            iel = fail_fractal%fractal(ifract)%random_walk(i)%elnum
             if (fail_fractal%fractal(ifract)%random_walk(iel)%nix  == nix .and.   &
                 fail_fractal%fractal(ifract)%random_walk(iel)%damage > zero) tagsh(iel) = 1             
           end do
@@ -138,15 +138,16 @@
           nptt  = elbuf_str%bufly(ilay)%nptt
 
           do ifail = 1,nfail
-            l_dmx = elbuf_str%bufly(ilay)%fail(1,1,1)%floc(ifail)%lf_dam
-            if (l_dmx > 0) then ! dammx variable is allocated and used in local failure model
+            l_dmx = elbuf_str%bufly(ilay)%fail(1,1,1)%floc(ifail)%lf_dammx
+            l_dam = elbuf_str%bufly(ilay)%fail(1,1,1)%floc(ifail)%lf_dam
+            if (l_dmx > 0 .or. l_dam > 0) then ! damage variable is allocated and used in local failure model
               do jj = 1,nelem_dmg
                 iel = elem_dmg(jj)
                 do ir=1,nptr
                   do is=1,npts
                     do it=1,nptt
-                      elbuf_str%bufly(ilay)%fail(ir,is,it)%floc(ifail)%dam(iel)   = dmg
-                      elbuf_str%bufly(ilay)%fail(ir,is,it)%floc(ifail)%dammx(iel) = dmg
+                      if (l_dmx > 0) elbuf_str%bufly(ilay)%fail(ir,is,it)%floc(ifail)%dammx(iel) = dmg
+                      if (l_dam > 0) elbuf_str%bufly(ilay)%fail(ir,is,it)%floc(ifail)%dam(iel)   = dmg
                     end do      !  it=1,nptt
                   end do        !  it=1,npts
                 end do          !  it=1,nptr
