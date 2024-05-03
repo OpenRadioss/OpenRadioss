@@ -70,7 +70,6 @@ Chd|        FAIL_TENSSTRAIN_IB            source/materials/fail/tensstrain/fail_
 Chd|        FAIL_TENSSTRAIN_S             source/materials/fail/tensstrain/fail_tensstrain_s.F
 Chd|        FAIl_TAB_OLD_S                source/materials/fail/tabulated/fail_tab_old_s.F
 Chd|        FIXFLUX                       source/constraints/thermic/fixflux.F
-Chd|        FORCE                         source/loads/general/force.F  
 Chd|        FORCEFINGEO                   source/loads/general/forcefingeo.F
 Chd|        FORCEPINCH                    source/loads/general/forcepinch.F
 Chd|        FRICTIONPARTS_MODEL_ISOT      source/interfaces/int07/frictionparts_model.F

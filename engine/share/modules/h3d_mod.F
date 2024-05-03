@@ -67,7 +67,6 @@ Chd|        EIGP                          stub/eigp.F
 Chd|        FORANI1                       source/output/anim/generate/forani1.F
 Chd|        FORANI2                       source/output/anim/generate/forani2.F
 Chd|        FORANI3                       source/output/anim/generate/forani3.F
-Chd|        FORCE                         source/loads/general/force.F  
 Chd|        FORCEFINGEO                   source/loads/general/forcefingeo.F
 Chd|        FORCEPINCH                    source/loads/general/forcepinch.F
 Chd|        FORCE_IMP                     source/loads/general/force_imp.F

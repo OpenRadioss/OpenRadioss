@@ -31,7 +31,6 @@ Chd|        DYNA_WEX                      source/implicit/imp_dyna.F
 Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
 Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|-- calls ---------------
-Chd|        FORCE_MOD                     source/loads/general/force.F  
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    

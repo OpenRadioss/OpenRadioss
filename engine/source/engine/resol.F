@@ -141,7 +141,6 @@ Chd|        FLOW_VITESSE                  source/assembly/flow_vitesse.F
 Chd|        FORANI1                       source/output/anim/generate/forani1.F
 Chd|        FORANI2                       source/output/anim/generate/forani2.F
 Chd|        FORANI3                       source/output/anim/generate/forani3.F
-Chd|        FORCE                         source/loads/general/force.F  
 Chd|        FORCEFINGEO                   source/loads/general/forcefingeo.F
 Chd|        FORCEPINCH                    source/loads/general/forcepinch.F
 Chd|        FORINT                        source/elements/forint.F      
@@ -449,7 +448,6 @@ Chd|        EBCS_MOD                      ../common_source/modules/boundary_cond
 Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
 Chd|        ERROR_MOD                     share/modules/error_mod.F     
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
-Chd|        FORCE_MOD                     source/loads/general/force.F  
 Chd|        FORINT_MOD                    source/elements/forint.F      
 Chd|        FSKYI_MOD                     share/modules/restart_mod.F   
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
