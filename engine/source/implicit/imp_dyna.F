@@ -736,7 +736,7 @@ Chd|====================================================================
      7                    IDIV  ,H3D_DATA,CPTREAC,FTHREAC,NODREAC,
      8                    NSENSOR,TH_SURF ,FSAVSURF, NSEG_LOADP,DPL0CLD,
      9                    VEL0CLD,   D,  DR,  NUMNOD,NSURF,
-     A                    NFUNCT,NCONLD,NGRAV,NINVEL,STF)
+     A                    NFUNCT,NCONLD,NGRAV,NINVEL,STF,NUMSKW)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -764,6 +764,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR,NUMNOD,NSURF,NFUNCT,NCONLD,NGRAV,NINVEL
       INTEGER, INTENT(IN) :: STF
       INTEGER, INTENT(IN) :: SNPC
+      INTEGER, INTENT(IN) :: NUMSKW
       INTEGER ITASK,NPC(SNPC), IBCL(*), NPBY(NNPBY,*), IADS_F(*),
      .        IGRV(*),WEIGHT(*),LGRAV(*),IDIV,
      .        CPTREAC,NODREAC(*)
@@ -846,13 +847,13 @@ C---estimation a(t=0)----
         IF (TT==DT2) TT = ZERO
         IF(NCONLD/=0) THEN
           IF (IMON>0) CALL STARTIME(4,ITASK+1)
-          CALL FORCE_IMP(IBCL  ,FORC  ,SNPC,NPC   ,TF  ,DY_A  ,
-     2               V     ,X     ,SKEW  ,DY_AR,VR    ,
-     3               NSENSOR,SENSOR_TAB,TFEXC, IADS_F,
-     4               FSKY  ,DUMMY_FEXT,H3D_DATA,
-     5               CPTREAC,FTHREAC,NODREAC,TH_SURF ,FSAVSURF,
-     6               NSEG_LOADP,DPL0CLD ,VEL0CLD ,D       ,DR      ,
-     7               NCONLD ,NUMNOD    ,NSURF,NFUNCT,STF)
+          CALL FORCE_IMP(IBCL    ,FORC       ,SNPC       ,NPC        ,TF         ,
+     2                   DY_A    ,V          ,X          ,SKEW       ,NUMSKW     ,
+     3                   DY_AR   ,VR         ,NSENSOR    ,SENSOR_TAB ,TFEXC      ,
+     4                   IADS_F  ,FSKY       ,DUMMY_FEXT ,H3D_DATA   ,CPTREAC    ,
+     5                   FTHREAC ,NODREAC    ,TH_SURF    ,FSAVSURF   ,NSEG_LOADP ,
+     6                   DPL0CLD ,VEL0CLD    ,D          ,DR         ,NCONLD     ,
+     7                   NUMNOD  ,NSURF      ,NFUNCT     ,STF )
          IF (NSPMD>1) THEN
           DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
             J = FR_ELEM(I)
@@ -989,7 +990,7 @@ Chd|====================================================================
      8                    H3D_DATA,CPTREAC,FTHREAC,NODREAC,NSENSOR,
      9                    TH_SURF ,FSAVSURF,NSEG_LOADP,DPL0CLD,
      A                    VEL0CLD, NUMNOD,NSURF,NFUNCT,NCONLD,
-     B                    NGRAV,NFXVEL,STF)
+     B                    NGRAV,NFXVEL,STF,NUMSKW)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1015,6 +1016,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR,NUMNOD,NSURF,NFUNCT,NCONLD,NGRAV,NFXVEL
       INTEGER ,INTENT(IN) :: STF
       INTEGER ,INTENT(IN) :: SNPC
+      INTEGER ,INTENT(IN) :: NUMSKW
       INTEGER ITASK,NPC(SNPC), IBCL(*), NPBY(NNPBY,*), IADS_F(*),
      .        IGRV(*),WEIGHT(*),LGRAV(*),
      .        IFRAME(LISKN,*),IBFV(*),IKC(*) ,IDDL(*),NDOF(*),
@@ -1045,13 +1047,14 @@ C--------------------------------
 C--------------------------------
        IF (IMON>0) CALL STARTIME(4,ITASK+1)
         IF(NCONLD/=0) THEN
-          CALL FORCE_IMP(IBCL  ,FORC ,SNPC ,NPC   ,TF  ,A     ,
-     2               V     ,X     ,SKEW  ,AR  ,VR    ,
-     3               NSENSOR,SENSOR_TAB,TFEXC,IADS_F,
-     4               FSKY  , DUMMY_FEXT,H3D_DATA,
-     5               CPTREAC,FTHREAC,NODREAC,TH_SURF ,FSAVSURF,
-     6               NSEG_LOADP,DPL0CLD ,VEL0CLD ,D       ,DR      ,
-     7               NCONLD ,NUMNOD    ,NSURF,NFUNCT,STF)
+          CALL FORCE_IMP( IBCL    ,FORC    ,SNPC       ,NPC        ,TF         ,
+     2                    A       ,V       ,X          ,SKEW       ,NUMSKW     ,
+     3                    AR      ,VR      ,NSENSOR    ,SENSOR_TAB ,TFEXC      ,
+     4                    IADS_F  ,FSKY    ,DUMMY_FEXT ,H3D_DATA   ,CPTREAC    ,
+     5                    FTHREAC ,NODREAC ,TH_SURF    ,FSAVSURF   ,NSEG_LOADP ,
+     6                    DPL0CLD ,VEL0CLD ,D          ,DR         ,NCONLD     ,
+     7                    NUMNOD  ,NSURF   ,NFUNCT     ,STF)
+
           TFEXT = TFEXT + TFEXC*DT2
         ENDIF
         IF(NGRAV/=0) THEN

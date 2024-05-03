@@ -531,7 +531,7 @@ C
      7                     I_IMP(5),H3D_DATA,CPTREAC,FTHREAC,NODREAC,
      8                     NSENSOR,TH_SURF ,FSAVSURF, NSEG_LOADP,DPL0CLD,
      9                     VEL0CLD,   D,  DR,  NUMNOD,NSURF,
-     A                     NFUNCT,NCONLD,NGRAV,NINVEL,STF)
+     A                     NFUNCT,NCONLD,NGRAV,NINVEL,STF,NUMSKW)
 C
 C----------------------------------
 C       FORCES EXTERNES A=Fext-Fint
@@ -541,13 +541,13 @@ C
           IF(NCONLD/=0) THEN
             IF (IMON>0) CALL STARTIME(4,1)
 C         --en spmd force est traite comme elements---
-            CALL FORCE_IMP(IBCL   ,FORC  ,SNPC  ,NPC    ,TF    ,AC     ,
-     2                 V      ,X       ,NUMSKW,SKEW   ,ACR   ,VR     ,
-     3                 NSENSOR,SENSOR_TAB,TFEXC,IADS_F ,
-     4                 FSKY    ,DUMMY_FEXT,H3D_DATA,
-     5                 CPTREAC ,FTHREAC,NODREAC ,TH_SURF ,FSAVSURF,
-     6                 NSEG_LOADP,DPL0CLD ,VEL0CLD ,D       ,DR      ,
-     7                 NCONLD  ,NUMNOD    ,NSURF,NFUNCT,STF)
+            CALL FORCE_IMP( IBCL    ,FORC       ,SNPC       ,NPC        ,TF         ,
+     2                      AC      ,V          ,X          ,SKEW       ,NUMSKW     ,
+     3                      ACR     ,VR         ,NSENSOR    ,SENSOR_TAB ,TFEXC      ,
+     4                      IADS_F  ,FSKY       ,DUMMY_FEXT ,H3D_DATA   ,CPTREAC    ,
+     5                      FTHREAC ,NODREAC    ,TH_SURF    ,FSAVSURF   ,NSEG_LOADP ,
+     6                      DPL0CLD ,VEL0CLD    ,D          ,DR         ,NCONLD     ,
+     7                      NUMNOD  ,NSURF      ,NFUNCT     ,STF )
 C
             IF (IMACH==3.AND.NSPMD>1) THEN
               DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
@@ -1927,7 +1927,7 @@ C
      8                    NDOF  ,H3D_DATA,CPTREAC,FTHREAC,NODREAC,NSENSOR,
      9                    TH_SURF ,FSAVSURF,NSEG_LOADP,DPL0CLD,
      A                    VEL0CLD, NUMNOD,NSURF,NFUNCT,NCONLD,
-     B                    NGRAV,NFXVEL,STF)
+     B                    NGRAV,NFXVEL,STF,NUMSKW)
             CALL DYNA_CPR0(NDDL0  )
           END IF
 C----------D_imp taking D_n-1 :exception for case with Gravity-----
@@ -3350,13 +3350,13 @@ C----------------------------------
         NCL_MAX=0
         R_IMP(16)=ZERO
         IF(NCONLD/=0) THEN
-          CALL FORCE_IMP(IBCL  ,FORC  ,SNPC,NPC   ,TF  ,AC    ,
-     2               V     ,X     ,SKEW  ,ACR ,VR    ,
-     3               NSENSOR,SENSOR_TAB,TFEXC, IADS_F,
-     4              FSKY  , DUMMY_FEXT,H3D_DATA,
-     5               CPTREAC,FTHREAC,NODREAC,TH_SURF ,FSAVSURF,
-     6               NSEG_LOADP,DPL0CLD ,VEL0CLD ,D       ,DR      ,
-     7               NCONLD  ,NUMNOD    ,NSURF,NFUNCT,STF)
+          CALL FORCE_IMP(IBCL    ,FORC    ,SNPC       ,NPC        ,TF         ,
+     2                   AC      ,V       ,X          ,SKEW       ,NUMSKW     ,
+     3                   ACR     ,VR      ,NSENSOR    ,SENSOR_TAB ,TFEXC      ,
+     4                   IADS_F  ,FSKY    ,DUMMY_FEXT ,H3D_DATA   ,CPTREAC    ,
+     5                   FTHREAC ,NODREAC ,TH_SURF    ,FSAVSURF   ,NSEG_LOADP ,
+     6                   DPL0CLD ,VEL0CLD ,D          ,DR         ,NCONLD     ,
+     7                   NUMNOD  ,NSURF   ,NFUNCT     ,STF)
           IF (IMACH==3.AND.NSPMD>1) THEN
             DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
               J = FR_ELEM(I)
