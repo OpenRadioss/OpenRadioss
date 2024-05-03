@@ -88,7 +88,7 @@
           integer, intent(in) :: nodreac(numnod)               !< Node ID for REAC option
           integer, intent(in) :: ib(nibcld,nconld)             !< Concentrated loads buffer
           my_real, intent(in) :: fac(lfaccld,nconld)           !< array for concentrated loads
-          my_real, intent(in) :: skew(lskew,numskw)            !< Skew array
+          my_real, intent(in) :: skew(lskew,numskw+1)          !< Skew array
           my_real, intent(in) :: tf(stf)                       !< Tabulated function array
           my_real, intent(in) :: dpl0cld(6,nconld)             !< condition loads displacements
           my_real, intent(in) :: vel0cld(6,nconld)             !< condition loads velocity

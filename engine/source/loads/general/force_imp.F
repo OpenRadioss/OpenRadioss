@@ -36,13 +36,13 @@ Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
-      SUBROUTINE FORCE_IMP(IB      ,FAC    ,SNPC    ,NPC     ,TF   ,A   ,
-     2                  V       ,X      ,SKEW    ,NUMSKW  ,AR   ,VR   ,
-     3                  NSENSOR ,SENSOR_TAB,TFEXC   ,IADC   ,
-     4                  FSKY    ,FEXT    ,H3D_DATA,
-     5                  CPTREAC ,FTHREAC   ,NODREAC ,TH_SURF ,FSAVSURF,
-     6                  NSEG_LOADP,DPL0CLD ,VEL0CLD ,D       ,DR      ,
-     7                  NCONLD  ,NUMNOD    ,NSURF   ,NFUNCT , STF) 
+      SUBROUTINE FORCE_IMP(IB      ,FAC     ,SNPC    ,NPC        ,TF         ,
+     2                     A       ,V       ,X       ,SKEW       ,NUMSKW     ,
+     3                     AR      ,VR      ,NSENSOR ,SENSOR_TAB ,TFEXC      ,
+     4                     IADC    ,FSKY    ,FEXT    ,H3D_DATA   ,CPTREAC    ,
+     5                     FTHREAC ,NODREAC ,TH_SURF ,FSAVSURF   ,NSEG_LOADP ,
+     6                     DPL0CLD ,VEL0CLD ,D       ,DR         ,NCONLD     ,
+     7                     NUMNOD  ,NSURF   ,NFUNCT  ,STF) 
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -91,7 +91,6 @@ C-----------------------------------------------
       my_real, INTENT(IN) ::  DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
       my_real, INTENT(IN) ::  D(3,NUMNOD), DR(3,NUMNOD)
 C-----------------------------------------------
-
       call FORCE( NIBCLD  ,IB      ,LFACCLD    ,FAC      ,SNPC      ,
      2            NPC     ,STF     ,TF         ,A        ,V         ,
      3            X       ,LSKEW   ,NUMSKW     ,SKEW     ,AR        ,
