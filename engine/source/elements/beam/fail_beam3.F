@@ -168,7 +168,7 @@ c---------------
      .                       TIME         ,SVM      ,PRESSURE ,
      .                       DPLA         ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,
      .                       ELBUF_STR%GBUF%FAIL(1)%TDEL     ,IOUT    ,ISTDO  ,FAIL%IFUNC   ,
-     .                       SNPC     ,NPF     ,STF     ,TF,
+     .                       NFUNC,SNPC     ,NPF     ,STF     ,TF,
      .                       ELBUF_STR%GBUF%FAIL(1)%NVAR, ELBUF_STR%GBUF%FAIL(1)%VAR,AL)
 
  
