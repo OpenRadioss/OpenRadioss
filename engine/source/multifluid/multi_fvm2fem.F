@@ -76,7 +76,8 @@ C-----------------------------------------------
      .     IADS(8, *)
       
       my_real, INTENT(IN) ::
-     .     XGRID(3, *), ACCELE(*),  WGRID(3, *), VEUL(*), VEL(3, *), TIMESTEP
+     .     XGRID(3, *), WGRID(3, *), VEUL(*), VEL(3, *), TIMESTEP
+      my_real, INTENT(INOUT) :: ACCELE(*)
       my_real, INTENT(INOUT) ::
      .     MS(*), MSNF(*)
       my_real, INTENT(INOUT) :: FSKYM(*), STIFN(*), FSKY(8,LSKY),

@@ -21,14 +21,6 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FORINT_MOD                    source/elements/forint.F      
-Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
-Chd|-- calls ---------------
-Chd|====================================================================
-      MODULE FORINT_MOD
-      CONTAINS
-Chd|====================================================================
 Chd|  FORINT                        source/elements/forint.F      
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
@@ -1426,5 +1418,4 @@ C-----------
       RETURN
       END
 C-----------
-      END MODULE FORINT_MOD
 

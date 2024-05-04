@@ -172,7 +172,7 @@ C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
       TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
-      TYPE (MAT_ELEM_) ,INTENT(IN) ,TARGET :: MAT_ELEM
+      TYPE (MAT_ELEM_) ,INTENT(INOUT) ,TARGET :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
