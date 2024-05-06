@@ -50,57 +50,64 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IKEYO, J, JK, I
       CHARACTER KEYO(9)*5
+      LOGICAL DETECTED
 C-----------------------------------------------
       IR=0
 C
       IKEYO=IKEY
-      DO 5 J=1,9
-      KEYO(J)=KEY(J)
-   5  KEY(J)=' '
+      DO J=1,9
+        KEYO(J)=KEY(J)
+        KEY(J)=' '
+      ENDDO
       JK=0
-      DO 10 I=1,NCHARLINE100
-      IF(CARTE(I:I)=='/')THEN
-       JK=JK+1
-       J=0
-      ELSEIF(CARTE(I:I)/=' ')THEN
-       J=J+1
-       IF(J<=5)KEY(JK)(J:J)=CARTE(I:I)
-      ENDIF
- 10   CONTINUE
-C
-      DO 100 I=1,NKEY
-      IKEY=I
- 100  IF(KEY(1)==KEY0(IKEY)) GOTO 400
-C
-      IR=1
-      IKEY=IKEYO
-      DO 200 J=1,9
- 200  KEY(J)=KEYO(J)
-      RETURN
-C
- 400  CONTINUE
-      IOK = 0
-      J=0
-
-      IF(IKEY==1.OR.IKEY==58)THEN  
-       IF (GOT_INPUT == 0.OR.IKEY==58) THEN
-        DO 410 I=5,NCHARLINE100
-        IF(IOK==0.AND.CARTE(I:I)=='/')THEN
-         IOK = 1
-        ELSEIF(IOK==1.AND.CARTE(I:I)=='/')THEN
-         ROOTLEN = J
-         RETURN
-        ELSEIF(IOK==1.AND.CARTE(I:I)/=' ')THEN
+      DO I=1,NCHARLINE100
+        IF(CARTE(I:I)=='/')THEN
+         JK=JK+1
+         J=0
+        ELSEIF(CARTE(I:I)/=' ')THEN
          J=J+1
-
-         IF(J<=80)ROOTNAM(J:J)=CARTE(I:I)
+         IF(J<=5)KEY(JK)(J:J)=CARTE(I:I)
         ENDIF
- 410    CONTINUE
-       ELSE
-        ROOTNAM(1:LENROOTN)=ROOTN(1:LENROOTN)
-        ROOTLEN = LENROOTN
-       ENDIF
+      ENDDO
+
+      DETECTED=.FALSE.
+      DO I=1,NKEY
+        IKEY=I
+        IF(KEY(1)==KEY0(IKEY))THEN
+         DETECTED = .TRUE.
+         EXIT
+        ENDIF
+      ENDDO
+
+      IF(.NOT. DETECTED)THEN
+        IR=1
+        IKEY=IKEYO
+        DO J=1,9
+          KEY(J)=KEYO(J)
+        ENDDO
+
+      ELSE ! IF(DETECTED)
+        IOK = 0
+        J=0
+        IF(IKEY==1.OR.IKEY==58)THEN
+         IF (GOT_INPUT == 0.OR.IKEY==58) THEN
+          DO I=5,NCHARLINE100
+            IF(IOK==0.AND.CARTE(I:I)=='/')THEN
+             IOK = 1
+            ELSEIF(IOK==1.AND.CARTE(I:I)=='/')THEN
+             ROOTLEN = J
+             RETURN
+            ELSEIF(IOK==1.AND.CARTE(I:I)/=' ')THEN
+             J=J+1
+             IF(J<=80)ROOTNAM(J:J)=CARTE(I:I)
+            ENDIF
+          ENDDO
+         ELSE
+          ROOTNAM(1:LENROOTN)=ROOTN(1:LENROOTN)
+          ROOTLEN = LENROOTN
+         ENDIF
+        ENDIF
       ENDIF
-C
+
       RETURN
       END

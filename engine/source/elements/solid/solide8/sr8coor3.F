@@ -50,57 +50,51 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(11,*),IPARG(*),IOUTPRT,NEL
-C     REAL
-      my_real
-     .   OFFG(NEL),OFF(MVSIZ),X(3,*),V(3,*),
-     .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
-     .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
-     .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
-     .   VGAX(MVSIZ),VGAY(MVSIZ),VGAZ(MVSIZ),VGA2(MVSIZ),
-     .   XGAX(MVSIZ),XGAY(MVSIZ),XGAZ(MVSIZ),
-     .   XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ),
-     .   XGXYA(MVSIZ),XGYZA(MVSIZ),XGZXA(MVSIZ)
-      my_real
-     .   XLOC(MVSIZ,8), YLOC(MVSIZ,8), ZLOC(MVSIZ,8),
-     .   VXLOC(MVSIZ,8),VYLOC(MVSIZ,8),VZLOC(MVSIZ,8)
+      my_real OFFG(NEL),OFF(MVSIZ),X(3,*),V(3,*),
+     .        R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
+     .        R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
+     .        R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
+     .        VGAX(MVSIZ),VGAY(MVSIZ),VGAZ(MVSIZ),VGA2(MVSIZ),
+     .        XGAX(MVSIZ),XGAY(MVSIZ),XGAZ(MVSIZ),
+     .        XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ),
+     .        XGXYA(MVSIZ),XGYZA(MVSIZ),XGZXA(MVSIZ)
+      my_real XLOC(MVSIZ,8), YLOC(MVSIZ,8), ZLOC(MVSIZ,8),
+     .        VXLOC(MVSIZ,8),VYLOC(MVSIZ,8),VZLOC(MVSIZ,8)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NC(8,MVSIZ), MXT(MVSIZ), PID(MVSIZ), NGL(MVSIZ), I
-C     REAL
-C
-      my_real
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
-     .   X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),VIS(MVSIZ),
-     .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ),
-     .   VX5(MVSIZ), VX6(MVSIZ), VX7(MVSIZ), VX8(MVSIZ),
-     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ),
-     .   VY5(MVSIZ), VY6(MVSIZ), VY7(MVSIZ), VY8(MVSIZ),
-     .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
-     .   VZ5(MVSIZ), VZ6(MVSIZ), VZ7(MVSIZ), VZ8(MVSIZ),
-     .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
-     .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
-     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
-      my_real 
-     .   XL, YL, ZL, VXL, VYL, VZL, OFF_L
+      my_real X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
+     .        X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
+     .        Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
+     .        Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
+     .        Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
+     .        Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),VIS(MVSIZ),
+     .        VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ),
+     .        VX5(MVSIZ), VX6(MVSIZ), VX7(MVSIZ), VX8(MVSIZ),
+     .        VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ),
+     .        VY5(MVSIZ), VY6(MVSIZ), VY7(MVSIZ), VY8(MVSIZ),
+     .        VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
+     .        VZ5(MVSIZ), VZ6(MVSIZ), VZ7(MVSIZ), VZ8(MVSIZ),
+     .        RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
+     .        SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
+     .        TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ)
+      my_real XL, YL, ZL, VXL, VYL, VZL, OFF_L
 C=======================================================================
       OFF_L  = ZERO
-      DO 10 I=1,NEL
-      NGL(I)=IXS(11,I)
-      MXT(I)=IXS(1,I)
-      PID(I)=IXS(10,I)
-      NC(1,I)=IXS(2,I)
-      NC(2,I)=IXS(3,I)
-      NC(3,I)=IXS(4,I)
-      NC(4,I)=IXS(5,I)
-      NC(5,I)=IXS(6,I)
-      NC(6,I)=IXS(7,I)
-      NC(7,I)=IXS(8,I)
-   10 NC(8,I)=IXS(9,I)
+      DO I=1,NEL
+       NGL(I)=IXS(11,I)
+       MXT(I)=IXS(1,I)
+       PID(I)=IXS(10,I)
+       NC(1,I)=IXS(2,I)
+       NC(2,I)=IXS(3,I)
+       NC(3,I)=IXS(4,I)
+       NC(4,I)=IXS(5,I)
+       NC(5,I)=IXS(6,I)
+       NC(6,I)=IXS(7,I)
+       NC(7,I)=IXS(8,I)
+       NC(8,I)=IXS(9,I)
+      ENDDO
 C
 C----------------------------
 C     NODAL COORDINATES     |
@@ -180,18 +174,12 @@ C-----------
           XGAX(I)=X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I)+X7(I)+X8(I)
           XGAY(I)=Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I)+Y7(I)+Y8(I)
           XGAZ(I)=Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I)+Z7(I)+Z8(I)
-          XGXA2(I)=X1(I)**2+X2(I)**2+X3(I)**2+X4(I)**2
-     1            +X5(I)**2+X6(I)**2+X7(I)**2+X8(I)**2
-          XGYA2(I)=Y1(I)**2+Y2(I)**2+Y3(I)**2+Y4(I)**2
-     1            +Y5(I)**2+Y6(I)**2+Y7(I)**2+Y8(I)**2
-          XGZA2(I)=Z1(I)**2+Z2(I)**2+Z3(I)**2+Z4(I)**2
-     1            +Z5(I)**2+Z6(I)**2+Z7(I)**2+Z8(I)**2
-          XGXYA(I)=X1(I)*Y1(I)+X2(I)*Y2(I)+X3(I)*Y3(I)+X4(I)*Y4(I)
-     1            +X5(I)*Y5(I)+X6(I)*Y6(I)+X7(I)*Y7(I)+X8(I)*Y8(I)
-          XGYZA(I)=Y1(I)*Z1(I)+Y2(I)*Z2(I)+Y3(I)*Z3(I)+Y4(I)*Z4(I)
-     1            +Y5(I)*Z5(I)+Y6(I)*Z6(I)+Y7(I)*Z7(I)+Y8(I)*Z8(I)
-          XGZXA(I)=Z1(I)*X1(I)+Z2(I)*X2(I)+Z3(I)*X3(I)+Z4(I)*X4(I)
-     1            +Z5(I)*X5(I)+Z6(I)*X6(I)+Z7(I)*X7(I)+Z8(I)*X8(I)
+          XGXA2(I)=X1(I)**2+X2(I)**2+X3(I)**2+X4(I)**2+X5(I)**2+X6(I)**2+X7(I)**2+X8(I)**2
+          XGYA2(I)=Y1(I)**2+Y2(I)**2+Y3(I)**2+Y4(I)**2+Y5(I)**2+Y6(I)**2+Y7(I)**2+Y8(I)**2
+          XGZA2(I)=Z1(I)**2+Z2(I)**2+Z3(I)**2+Z4(I)**2+Z5(I)**2+Z6(I)**2+Z7(I)**2+Z8(I)**2
+          XGXYA(I)=X1(I)*Y1(I)+X2(I)*Y2(I)+X3(I)*Y3(I)+X4(I)*Y4(I)+X5(I)*Y5(I)+X6(I)*Y6(I)+X7(I)*Y7(I)+X8(I)*Y8(I)
+          XGYZA(I)=Y1(I)*Z1(I)+Y2(I)*Z2(I)+Y3(I)*Z3(I)+Y4(I)*Z4(I)+Y5(I)*Z5(I)+Y6(I)*Z6(I)+Y7(I)*Z7(I)+Y8(I)*Z8(I)
+          XGZXA(I)=Z1(I)*X1(I)+Z2(I)*X2(I)+Z3(I)*X3(I)+Z4(I)*X4(I)+Z5(I)*X5(I)+Z6(I)*X6(I)+Z7(I)*X7(I)+Z8(I)*X8(I)
          ENDDO
        ENDIF
       ENDIF
@@ -270,7 +258,7 @@ C     X=RX' <=> X'=t(R)X chgt de base.
         ZLOC(I,8)=ZL
        ENDDO
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C     Transition to the convected reference frame
 C-----------
        DO I=1,NEL
         VXL=R11(I)*VX1(I)+R21(I)*VY1(I)+R31(I)*VZ1(I)
@@ -322,12 +310,9 @@ C-----------
         VYLOC(I,8)=VYL
         VZLOC(I,8)=VZL
 C
-        VXL = (VXLOC(I,1)+VXLOC(I,2)+VXLOC(I,3)+VXLOC(I,4)
-     .       + VXLOC(I,5)+VXLOC(I,6)+VXLOC(I,7)+VXLOC(I,8))*ONE_OVER_8
-        VYL = (VYLOC(I,1)+VYLOC(I,2)+VYLOC(I,3)+VYLOC(I,4)
-     .       + VYLOC(I,5)+VYLOC(I,6)+VYLOC(I,7)+VYLOC(I,8))*ONE_OVER_8
-        VZL = (VZLOC(I,1)+VZLOC(I,2)+VZLOC(I,3)+VZLOC(I,4)
-     .       + VZLOC(I,5)+VZLOC(I,6)+VZLOC(I,7)+VZLOC(I,8)) * ONE_OVER_8
+        VXL = (VXLOC(I,1)+VXLOC(I,2)+VXLOC(I,3)+VXLOC(I,4)+ VXLOC(I,5)+VXLOC(I,6)+VXLOC(I,7)+VXLOC(I,8))*ONE_OVER_8
+        VYL = (VYLOC(I,1)+VYLOC(I,2)+VYLOC(I,3)+VYLOC(I,4)+ VYLOC(I,5)+VYLOC(I,6)+VYLOC(I,7)+VYLOC(I,8))*ONE_OVER_8
+        VZL = (VZLOC(I,1)+VZLOC(I,2)+VZLOC(I,3)+VZLOC(I,4)+ VZLOC(I,5)+VZLOC(I,6)+VZLOC(I,7)+VZLOC(I,8)) * ONE_OVER_8
         VXLOC(I,1)=VXLOC(I,1)-VXL
         VYLOC(I,1)=VYLOC(I,1)-VYL
         VZLOC(I,1)=VZLOC(I,1)-VZL
@@ -354,33 +339,33 @@ C
         VZLOC(I,8)=VZLOC(I,8)-VZL
        ENDDO
 C-----------
-      IF(OFF_L<0.)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=1,NEL
-          IF(OFFG(I)<0.)THEN
-            VXLOC(I,1)=0.
-            VYLOC(I,1)=0.
-            VZLOC(I,1)=0.
-            VXLOC(I,2)=0.
-            VYLOC(I,2)=0.
-            VZLOC(I,2)=0.
-            VXLOC(I,3)=0.
-            VYLOC(I,3)=0.
-            VZLOC(I,3)=0.
-            VXLOC(I,4)=0.
-            VYLOC(I,4)=0.
-            VZLOC(I,4)=0.
-            VXLOC(I,5)=0.
-            VYLOC(I,5)=0.
-            VZLOC(I,5)=0.
-            VXLOC(I,6)=0.
-            VYLOC(I,6)=0.
-            VZLOC(I,6)=0.
-            VXLOC(I,7)=0.
-            VYLOC(I,7)=0.
-            VZLOC(I,7)=0.
-            VXLOC(I,8)=0.
-            VYLOC(I,8)=0.
-            VZLOC(I,8)=0.
+          IF(OFFG(I)<ZERO)THEN
+            VXLOC(I,1)=ZERO
+            VYLOC(I,1)=ZERO
+            VZLOC(I,1)=ZERO
+            VXLOC(I,2)=ZERO
+            VYLOC(I,2)=ZERO
+            VZLOC(I,2)=ZERO
+            VXLOC(I,3)=ZERO
+            VYLOC(I,3)=ZERO
+            VZLOC(I,3)=ZERO
+            VXLOC(I,4)=ZERO
+            VYLOC(I,4)=ZERO
+            VZLOC(I,4)=ZERO
+            VXLOC(I,5)=ZERO
+            VYLOC(I,5)=ZERO
+            VZLOC(I,5)=ZERO
+            VXLOC(I,6)=ZERO
+            VYLOC(I,6)=ZERO
+            VZLOC(I,6)=ZERO
+            VXLOC(I,7)=ZERO
+            VYLOC(I,7)=ZERO
+            VZLOC(I,7)=ZERO
+            VXLOC(I,8)=ZERO
+            VYLOC(I,8)=ZERO
+            VZLOC(I,8)=ZERO
           ENDIF
         ENDDO
       ENDIF

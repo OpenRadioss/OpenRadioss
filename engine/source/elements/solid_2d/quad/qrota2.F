@@ -45,37 +45,33 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: JCVT
       INTEGER NEL
-C     REAL
-      my_real
-     .   SIG(NEL,6),S1(*), S2(*), S3(*), S4(*), S5(*), S6(*), WYZ(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+      my_real SIG(NEL,6),S1(*), S2(*), S3(*), S4(*), S5(*), S6(*), WYZ(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL
-      my_real
-     .    Q1(MVSIZ)
+      my_real Q1(MVSIZ)
 C-----------------------------------------------
-      DO 10 I=1,NEL
-      S1(I)=SIG(I,1)
-      S2(I)=SIG(I,2)
-      S3(I)=SIG(I,3)
-      S4(I)=SIG(I,4)
-      S5(I)=SIG(I,5)
-   10 S6(I)=SIG(I,6)
+      DO I=1,NEL
+        S1(I)=SIG(I,1)
+        S2(I)=SIG(I,2)
+        S3(I)=SIG(I,3)
+        S4(I)=SIG(I,4)
+        S5(I)=SIG(I,5)
+        S6(I)=SIG(I,6)
+      ENDDO
 C
       IF(JCVT/=0) RETURN
 C---------------------------------
-      DO 20 I=1,NEL
-   20 Q1(I)=TWO*S4(I)*WYZ(I)
+      DO I=1,NEL
+        Q1(I)=TWO*S4(I)*WYZ(I)
+      ENDDO
 C
-      DO 30 I=1,NEL
-      SIG(I,1)=S1(I)+Q1(I)
-      SIG(I,2)=S2(I)-Q1(I)
-   30 SIG(I,4)=S4(I)+WYZ(I)*(S2(I)-S1(I))
+      DO I=1,NEL
+        SIG(I,1)=S1(I)+Q1(I)
+        SIG(I,2)=S2(I)-Q1(I)
+        SIG(I,4)=S4(I)+WYZ(I)*(S2(I)-S1(I))
+      ENDDO
 C
       RETURN
       END

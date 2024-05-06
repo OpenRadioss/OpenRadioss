@@ -69,17 +69,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER INOISE(*), ITABM1(*)
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT) :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
-C     REAL
-C      my_real
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ICODE,ITITLE(80),I,IFILNAM(2148),IWA(33),NOILEN,ITIT40(40),
-     .        K,ITEST,J,
-     .        INOITMP(NNOISE)
-C     REAL
-      my_real
-     . TITLE(20),TIT40(10)
+      INTEGER ICODE,ITITLE(80),I,IFILNAM(2148),IWA(33),NOILEN,ITIT40(40),K,ITEST,J,INOITMP(NNOISE)
+      my_real TITLE(20),TIT40(10)
        CHARACTER FILNAM*100, CH8*8 , EOR*8, CH40*40, CH80*80
        CHARACTER(LEN=LTITLE) :: CARD
        INTEGER :: LEN_TMP_NAME
@@ -87,13 +81,9 @@ C     REAL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-C     REAL
-      CHARACTER STRI*8
+      CHARACTER, EXTERNAL :: STRI*8
+      INTEGER,EXTERNAL ::  SYSFUS2
 C-----------------------------------------------
-      EXTERNAL STRI
-      INTEGER  SYSFUS2
-      my_real
-     .   SYSFUS
       DATA EOR/'ZZZZZEOR'/
 C-----------------------------------------------
 CFP Modif format @T + ajout acceleration et pression
@@ -196,8 +186,9 @@ C
      .     ACCESS='SEQUENTIAL',
      .     FORM='FORMATTED',STATUS='UNKNOWN')
       ELSEIF(ITFORM==3)THEN
-       DO 1 I=1,LEN_TMP_NAME
- 1     IFILNAM(I)=ICHAR(TMP_NAME(I:I))
+       DO I=1,LEN_TMP_NAME
+         IFILNAM(I)=ICHAR(TMP_NAME(I:I))
+       ENDDO
        CALL CUR_FIL_C(IUNIT)
        CALL OPEN_C(IFILNAM,LEN_TMP_NAME,0)
       ELSEIF(ITFORM==4)THEN
@@ -231,8 +222,9 @@ C
         WRITE(IUNIT,'(A,I5,A,I5,A)')EOR,1,'I',72,'C'
         WRITE(IUNIT,'(I5,A)')ICODE,CARD(1:72)
       ELSEIF(ITFORM==3)THEN
-       DO 5 I=1,80
- 5     ITITLE(I)=ICHAR(CARD(I:I))
+       DO I=1,80
+         ITITLE(I)=ICHAR(CARD(I:I))
+       ENDDO
        CALL EOR_C(84)
        CALL WRITE_I_C(ICODE,1)
        CALL WRITE_C_C(ITITLE,80)
@@ -276,7 +268,7 @@ C 1 VARIABLE GLOBALE
       IWA(1)=1
       CALL WRTDES(IWA,IWA,1,ITFORM,0)
 C      DO I=1,IWA(6)
-C          IWA(I)=I
+C        IWA(I)=I
 C      ENDDO
 C      CALL WRTDES(IWA,IWA,12,ITFORM,0)
 C-------PART DESCRIPTION------------

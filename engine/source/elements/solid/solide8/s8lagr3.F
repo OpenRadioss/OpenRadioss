@@ -46,26 +46,26 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
-C     REAL
-      my_real
-     .   PM(NPROPM,*), VOL0(*), RHO(*), EINT(*)
-      my_real
-     .   VOLN(MVSIZ), RHO0(MVSIZ), DVOL(MVSIZ), VD2(MVSIZ)
+      my_real PM(NPROPM,*), VOL0(*), RHO(*), EINT(*)
+      my_real VOLN(MVSIZ), RHO0(MVSIZ), DVOL(MVSIZ), VD2(MVSIZ)
       INTEGER MXT(MVSIZ)
 C-----------------------------------------------
       INTEGER I, MX
 C-----------------------------------------------
       MX = MXT(1)
-      DO 10 I=1,NEL
-   10 RHO0(I)=PM(1,MX)
+      DO I=1,NEL
+        RHO0(I)=PM(1,MX)
+      ENDDO
 C
-      DO 20 I=1,NEL
-   20 DVOL(I)=VOLN(I)-(RHO0(1)/RHO(I))*VOL0(I)
+      DO I=1,NEL
+        DVOL(I)=VOLN(I)-(RHO0(1)/RHO(I))*VOL0(I)
+      ENDDO
 C
-      DO 30 I=1,NEL
-      VD2(I)=ZERO
-      RHO(I)=RHO0(1)*(VOL0(I)/VOLN(I))
-   30 EINT(I)=EINT(I)*VOL0(I)
+      DO I=1,NEL
+        VD2(I)=ZERO
+        RHO(I)=RHO0(1)*(VOL0(I)/VOLN(I))
+        EINT(I)=EINT(I)*VOL0(I)
+      ENDDO
 C
       RETURN
       END

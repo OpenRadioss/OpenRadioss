@@ -47,11 +47,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NCP(NIXP,*),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ),
      .        MXT(MVSIZ), MXG(MVSIZ)
-C     REAL
-      my_real
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), 
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ),X(3,*),DELTAX(MVSIZ)
+      my_real X1(MVSIZ), X2(MVSIZ), X3(MVSIZ),
+     .        Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ),
+     .        Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ),X(3,*),DELTAX(MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -60,34 +58,34 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real
-     .   XP1, XP2, XP3, XNOR1, XP4, XP5, XP6, 
-     .   XNOR2, XNORM, DET1, DET2, DET3, DET, XX,YY,ZZ,TOL
+      my_real XP1, XP2, XP3, XNOR1, XP4, XP5, XP6,
+     .        XNOR2, XNORM, DET1, DET2, DET3, DET, XX,YY,ZZ,TOL
 C=======================================================================
 C     CONNECTIVITES ET MATERIEL                   |
 C--------------------------------------------------
       TOL=TWO*EM06
-      DO 10 I=LFT,LLT
-      MXT(I)=NCP(1,I)
-      NC1(I)=NCP(2,I)
-      NC2(I)=NCP(3,I)
-      NC3(I)=NCP(4,I)
-   10 MXG(I)=NCP(5,I)
+      DO I=LFT,LLT
+        MXT(I)=NCP(1,I)
+        NC1(I)=NCP(2,I)
+        NC2(I)=NCP(3,I)
+        NC3(I)=NCP(4,I)
+        MXG(I)=NCP(5,I)
+      END DO
 C
 C----------------------------
 C     COORDONNEES           |
 C----------------------------
-      DO 20 I=LFT,LLT
-      X1(I)=X(1,NC1(I))
-      Y1(I)=X(2,NC1(I))
-      Z1(I)=X(3,NC1(I))
-      X2(I)=X(1,NC2(I))
-      Y2(I)=X(2,NC2(I))
-      Z2(I)=X(3,NC2(I))
-      X3(I)=X(1,NC3(I))
-      Y3(I)=X(2,NC3(I))
-      Z3(I)=X(3,NC3(I))
-   20 CONTINUE
+      DO I=LFT,LLT
+        X1(I)=X(1,NC1(I))
+        Y1(I)=X(2,NC1(I))
+        Z1(I)=X(3,NC1(I))
+        X2(I)=X(1,NC2(I))
+        Y2(I)=X(2,NC2(I))
+        Z2(I)=X(3,NC2(I))
+        X3(I)=X(1,NC3(I))
+        Y3(I)=X(2,NC3(I))
+        Z3(I)=X(3,NC3(I))
+      ENDDO
 c
       DO I=LFT,LLT
         XX = (X1(I)-X2(I))*(X1(I)-X2(I)) 
@@ -98,7 +96,7 @@ c
 C------------------------------
 C     CONSISTENCE
 C------------------------------
-      DO 30 I=LFT,LLT
+      DO I=LFT,LLT
        XP1=X2(I)-X1(I)
        XP2=Y2(I)-Y1(I)
        XP3=Z2(I)-Z1(I)
@@ -135,7 +133,7 @@ C      CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
            NC3(I)=NC2(I)
          END IF
        ENDIF
- 30   CONTINUE
+      ENDDO
       CALL ANCMSG(MSGID=3051,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,

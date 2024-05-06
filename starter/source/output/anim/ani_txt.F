@@ -42,8 +42,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER CTEXT(81),I
 C
-      DO 100 I=1,LEN
- 100  CTEXT(I)=ICHAR(TEXT(I:I))
+      DO I=1,LEN
+        CTEXT(I)=ICHAR(TEXT(I:I))
+      ENDDO
       CTEXT(LEN+1)=0
 C
       CALL WRITE_C_C(CTEXT,81)
@@ -73,8 +74,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER CTEXT(81),I
 C
-      DO 100 I=1,LEN
- 100  CTEXT(I)=ICHAR(TEXT(I:I))
+      DO I=1,LEN
+        CTEXT(I)=ICHAR(TEXT(I:I))
+      ENDDO
       CTEXT(LEN+1)=0
 C
       CALL WRITE_C_C(CTEXT,50)

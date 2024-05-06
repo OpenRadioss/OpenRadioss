@@ -73,18 +73,20 @@ C-----------------------------------------------
 C
       L1=1
       L2=LREC
-   1  L2=MIN(L,L2)
-      IF (IFORM/5==1)THEN
-       II=0
-       DO 10 I=L1,L2
-       II=II+1
- 10    CH8(II)=STRR(A(I))
-       WRITE(IUNIT,'(10A8)') (CH8(I),I=1,II)
-      ELSE
-       WRITE(IUNIT) (A(I),I=L1,L2)
-      ENDIF
-      IF(L2==L)RETURN
-      L1=L2+1
-      L2=L1+LREC-1
-      GOTO 1
+      DO
+        L2=MIN(L,L2)
+        IF (IFORM/5==1)THEN
+         II=0
+         DO I=L1,L2
+           II=II+1
+           CH8(II)=STRR(A(I))
+         ENDDO
+         WRITE(IUNIT,'(10A8)') (CH8(I),I=1,II)
+        ELSE
+         WRITE(IUNIT) (A(I),I=L1,L2)
+        ENDIF
+        IF(L2==L)EXIT
+        L1=L2+1
+        L2=L1+LREC-1
+      ENDDO
       END

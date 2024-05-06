@@ -67,18 +67,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER , DIMENSION(:), ALLOCATABLE :: ELNOI,ELG,NOIADD
-      my_real
-     &  ,DIMENSION(:),ALLOCATABLE ::  C
+      my_real,DIMENSION(:),ALLOCATABLE ::  C
       INTEGER IPELNOI,IPNOIADD,IPTC
       INTEGER IFIRST,I,K,L,NE,NC,KK,IAD, LEN
-      my_real
-     . PI1,PI2,TOL,TE,TC,FNE,FAC,DEC,TO,    
-     . TRANS,XI,W,CC,TTN
+      my_real PI1,PI2,TOL,TE,TC,FNE,FAC,DEC,TO,TRANS,XI,W,CC,TTN
       INTEGER LENGTH, ITAG(0:NUMNOD)
       SAVE IFIRST,TE,IPTC,C,NC,TO,IPELNOI,ELNOI,ELG,IPNOIADD,NOIADD
       DATA IFIRST/0/
-      my_real
-     .     WA(NNOISE)
+      my_real WA(NNOISE)
 C-----------------------------------------------
 C INITIALIALISATION DES COEFFICIENTS DU FILTRE
 C-----------------------------------------------
@@ -125,7 +121,7 @@ C COEFF. DU FILTRE PARFAIT AVEC FENETRE DE HAMMING
 C
         PI2 = TWO*PI
         TRANS=0
-        DO 10 I=1,NC
+        DO I=1,NC
           XI=FLOAT(I-1)-DEC
           W=0.54+0.46*COS(PI2*XI/FLOAT(NC))
           IF(ABS(PI*FAC*XI)<TOL)THEN
@@ -134,7 +130,7 @@ C
             C(I)=W*SIN(PI*XI*FAC)/PI/XI
           ENDIF
           TRANS=TRANS+C(I)
- 10     CONTINUE
+        ENDDO
 C
         IF(IMACH/=3.OR.ISPMD==0) THEN
           WRITE(IOUT,1000)ONE/DTNOISE,ONE/TC,NC,TRANS
@@ -143,8 +139,9 @@ C
         ENDIF
 C           
         IF(RNOI==0)THEN
-         DO 20 K=1,6
- 20       J(K)=(1-K)*NE-1
+         DO K=1,6
+          J(K)=(1-K)*NE-1
+         ENDDO
          DO I=1,6*NNOISE
           DO L=1,NCNOIS
             BUF(L,I)=ZERO
@@ -162,8 +159,7 @@ C
 C-----------------------------------------------
 C PRESSION
 C-----------------------------------------------
-      IF(NOISEP/=0)
-     .  CALL PNOISE(ELNOI,ELG,NOIADD,ELBUF_TAB,WA,IPARG)
+      IF(NOISEP/=0)CALL PNOISE(ELNOI,ELG,NOIADD,ELBUF_TAB,WA,IPARG)
 C-----------------------------------------------
 C FILTRAGE
 C-----------------------------------------------
@@ -178,35 +174,35 @@ C
         ENDDO
       ENDIF
 C
-      DO 100 K=1,6
-      J(K)=J(K)+1
-      IF(J(K)>0)THEN
-       CC=C(J(K))
-       KK=(K-1)*NNOISE
-       DO 110 I=1,NNOISE
-          KK=KK+1
-          IF(IN(I)/=0)THEN          ! test preliminaire necessaire en spmd (presence noeud sur proc)
-           IF(WEIGHT(IN(I))==1) THEN
-            IF(NOISEV/=0)THEN
-             BUF(1,KK)=BUF(1,KK)+CC *V(1,IN(I))
-             BUF(2,KK)=BUF(2,KK)+CC *V(2,IN(I))
-                      BUF(3,KK)=BUF(3,KK)+CC *V(3,IN(I))
+      DO K=1,6
+        J(K)=J(K)+1
+        IF(J(K)>0)THEN
+         CC=C(J(K))
+         KK=(K-1)*NNOISE
+         DO I=1,NNOISE
+            KK=KK+1
+            IF(IN(I) /= 0)THEN      ! test if present on current domain (spmd)
+             IF(WEIGHT(IN(I))==1) THEN
+              IF(NOISEV/=0)THEN
+               BUF(1,KK)=BUF(1,KK)+CC *V(1,IN(I))
+               BUF(2,KK)=BUF(2,KK)+CC *V(2,IN(I))
+               BUF(3,KK)=BUF(3,KK)+CC *V(3,IN(I))
+              ENDIF
+              IF(NOISEA/=0)THEN
+               IAD=3*NOISEV
+               BUF(IAD+1,KK)=BUF(IAD+1,KK)+CC *A(1,IN(I))
+               BUF(IAD+2,KK)=BUF(IAD+2,KK)+CC *A(2,IN(I))
+               BUF(IAD+3,KK)=BUF(IAD+3,KK)+CC *A(3,IN(I))
+              ENDIF
+             ENDIF
+            END IF
+            IF(NOISEP/=0.AND.ISPMD==0)THEN
+              IAD=3*NOISEV+3*NOISEA+1
+              BUF(IAD,KK)=BUF(IAD,KK)-CC *WA(I)
             ENDIF
-            IF(NOISEA/=0)THEN
-             IAD=3*NOISEV
-             BUF(IAD+1,KK)=BUF(IAD+1,KK)+CC *A(1,IN(I))
-             BUF(IAD+2,KK)=BUF(IAD+2,KK)+CC *A(2,IN(I))
-                      BUF(IAD+3,KK)=BUF(IAD+3,KK)+CC *A(3,IN(I))
-            ENDIF
-           ENDIF
-          END IF
-          IF(NOISEP/=0.AND.ISPMD==0)THEN
-            IAD=3*NOISEV+3*NOISEA+1
-            BUF(IAD,KK)=BUF(IAD,KK)-CC *WA(I)
-          ENDIF
- 110    CONTINUE
-      ENDIF
- 100  CONTINUE
+          ENDDO ! I
+        ENDIF
+      ENDDO ! K
 C
 C GATHER SPMD BUF
 C
@@ -217,7 +213,7 @@ C
 C-----------------------------------------------------
 C INCREMENTATION DES INDICES ET ECRITURE DES RESULTATS
 C-----------------------------------------------------
-      DO 200 K=1,6
+      DO K=1,6
         IF(J(K)==NC)THEN
          J(K)=0
          KK=(K-1)*NNOISE+1
@@ -233,7 +229,7 @@ C-----------------------------------------------------
           ENDDO
          ENDDO
         ENDIF
- 200  CONTINUE
+      ENDDO
 c
 C-----------
       RETURN

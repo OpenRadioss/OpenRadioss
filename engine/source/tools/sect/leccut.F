@@ -36,9 +36,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICUT(44,*),ITABM1(*)
-C     REAL
-      my_real
-     .   XCUT(7,*)
+      my_real XCUT(7,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -49,53 +47,54 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,J,ITYP
-C     REAL
-      my_real
-     . X0(3),VN(3),VIT,VNN  
+      my_real X0(3),VN(3),VIT,VNN
       CHARACTER IDTITL*40
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      my_real
-     .   SYSFUS
+      my_real, EXTERNAL :: SYSFUS
 C-----------------------------------------------
       WRITE(IOUT,2000)NCUTS
-      DO 100 I=1,NCUTS
+      DO I=1,NCUTS
         READ(IIN,'(I8,A40)')ITYP,IDTITL
         IF(ITYP==0)ITYP=1
         WRITE(IOUT,1100)IDTITL,ITYP
         ICUT(1,I)=ITYP
-        DO 10 J=1,40
- 10     ICUT(4+J,I) = ICHAR(IDTITL(J:J))
+        DO J=1,40
+          ICUT(4+J,I) = ICHAR(IDTITL(J:J))
+        ENDDO
         IF(ITYP<3)THEN
           READ(IIN,'(7E16.0)')(X0(J),J=1,3),(VN(J),J=1,3),VIT
           IF(ITYP==2)VIT=0
           XCUT(7,I)=VIT
-          DO 20 J=1,3
- 20         XCUT(J,I)=X0(J)
+          DO J=1,3
+            XCUT(J,I)=X0(J)
+          ENDDO
           VNN=SQRT(VN(1)**2+VN(2)**2+VN(3)**2)
           IF(VNN==ZERO)THEN
             WRITE(ISTDO,1000) IDTITL
-            VN(1)=1.
+            VN(1)=ONE
           ELSE
             VN(1)=VN(1)/VNN
             VN(2)=VN(2)/VNN
             VN(3)=VN(3)/VNN
           ENDIF
-          DO 30 J=1,3
+          DO J=1,3
             ICUT(J+1,I)=0
- 30         XCUT(J+3,I)=VN(J)
+            XCUT(J+3,I)=VN(J)
+          ENDDO
           WRITE(IOUT,1200)(X0(J),J=1,3),(VN(J),J=1,3),VIT
          ELSE
           READ(IIN,'(3I8)')(ICUT(J,I),J=2,4)
           WRITE(IOUT,1300)(ICUT(J,I),J=2,4)          
-          DO40 J=1,7
- 40         XCUT(J,I)=ZERO
-          DO45 J=2,4
+          DO J=1,7
+            XCUT(J,I)=ZERO
+          ENDDO
+          DO J=2,4
             ICUT(J,I)=SYSFUS(ICUT(J,I),ITABM1,NUMNOD,' ** ERROR ** CUT')
- 45       CONTINUE 
+          ENDDO 
          ENDIF
- 100  CONTINUE     
+      ENDDO ! I    
 C
       RETURN
 C

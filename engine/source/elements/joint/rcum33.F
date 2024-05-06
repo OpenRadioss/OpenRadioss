@@ -57,27 +57,26 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL
-      my_real
-     .     F11(MVSIZ), F21(MVSIZ), F31(MVSIZ), 
-     .     M11(MVSIZ), M21(MVSIZ), M31(MVSIZ),
-     .     M12(MVSIZ), M22(MVSIZ), M32(MVSIZ),
-     .     XMOM1, XMOM2, YMOM1, YMOM2, ZMOM1, ZMOM2, M1,M2,M3,
-     .     EX(9), XX
+      my_real F11(MVSIZ), F21(MVSIZ), F31(MVSIZ),
+     .        M11(MVSIZ), M21(MVSIZ), M31(MVSIZ),
+     .        M12(MVSIZ), M22(MVSIZ), M32(MVSIZ),
+     .        XMOM1, XMOM2, YMOM1, YMOM2, ZMOM1, ZMOM2, M1,M2,M3,
+     .        EX(9), XX
 C=======================================================================
 C-------------------------
 C     FORCES
 C-------------------------
-      DO 20 I=JFT,JLT
+      DO I=JFT,JLT
         DO J=1,9
-            EX(J) = UVAR(21+J,I)
-        END DO
+          EX(J) = UVAR(21+J,I)
+        ENDDO
         F11(I)=EX(1)*FORX(I)+EX(4)*FORY(I)+EX(7)*FORZ(I)
         F21(I)=EX(2)*FORX(I)+EX(5)*FORY(I)+EX(8)*FORZ(I)
-   20   F31(I)=EX(3)*FORX(I)+EX(6)*FORY(I)+EX(9)*FORZ(I)
+        F31(I)=EX(3)*FORX(I)+EX(6)*FORY(I)+EX(9)*FORZ(I)
+      ENDDO
    
-C----  Assemble
-      DO 100 I=JFT,JLT
+C----  Assembly
+      DO I=JFT,JLT
         F(1,NC1(I))=F(1,NC1(I))+F11(I)
         F(2,NC1(I))=F(2,NC1(I))+F21(I)
         F(3,NC1(I))=F(3,NC1(I))+F31(I)
@@ -92,43 +91,41 @@ C----  Assemble
         FY2(I) = F21(I)
         FZ2(I) = F31(I)
         STIFN(NC2(I))=STIFN(NC2(I))+TWO*STI(2,I)
-  100 CONTINUE
+      ENDDO
 C
 C-------------------------
 C     MOMENTS
 C-------------------------
 C
-      DO 120 I=JFT,JLT
+      DO I=JFT,JLT
 C      
-      DO J=1,9
+        DO J=1,9
           EX(J) = UVAR(21+J,I)
-      END DO
-      M1 = HALF*(XL(I,2)*FORZ(I)-XL(I,3)*FORY(I))
-      M2 = HALF*(XL(I,3)*FORX(I)-XL(I,1)*FORZ(I))
-      M3 = HALF*(XL(I,1)*FORY(I)-XL(I,2)*FORX(I))
-      XMOM1 = XMOM(I) + M1
-      YMOM1 = YMOM(I) + M2
-      ZMOM1 = ZMOM(I) + M3
-      M11(I)=EX(1)*XMOM1+EX(4)*YMOM1+EX(7)*ZMOM1
-      M21(I)=EX(2)*XMOM1+EX(5)*YMOM1+EX(8)*ZMOM1
-      M31(I)=EX(3)*XMOM1+EX(6)*YMOM1+EX(9)*ZMOM1
+        END DO
+        M1 = HALF*(XL(I,2)*FORZ(I)-XL(I,3)*FORY(I))
+        M2 = HALF*(XL(I,3)*FORX(I)-XL(I,1)*FORZ(I))
+        M3 = HALF*(XL(I,1)*FORY(I)-XL(I,2)*FORX(I))
+        XMOM1 = XMOM(I) + M1
+        YMOM1 = YMOM(I) + M2
+        ZMOM1 = ZMOM(I) + M3
+        M11(I)=EX(1)*XMOM1+EX(4)*YMOM1+EX(7)*ZMOM1
+        M21(I)=EX(2)*XMOM1+EX(5)*YMOM1+EX(8)*ZMOM1
+        M31(I)=EX(3)*XMOM1+EX(6)*YMOM1+EX(9)*ZMOM1
 C
-      XMOM2 = XMOM(I) - M1
-      YMOM2 = YMOM(I) - M2
-      ZMOM2 = ZMOM(I) - M3
-      M12(I)=EX(1)*XMOM2+EX(4)*YMOM2+EX(7)*ZMOM2
-      M22(I)=EX(2)*XMOM2+EX(5)*YMOM2+EX(8)*ZMOM2
-      M32(I)=EX(3)*XMOM2+EX(6)*YMOM2+EX(9)*ZMOM2
+        XMOM2 = XMOM(I) - M1
+        YMOM2 = YMOM(I) - M2
+        ZMOM2 = ZMOM(I) - M3
+        M12(I)=EX(1)*XMOM2+EX(4)*YMOM2+EX(7)*ZMOM2
+        M22(I)=EX(2)*XMOM2+EX(5)*YMOM2+EX(8)*ZMOM2
+        M32(I)=EX(3)*XMOM2+EX(6)*YMOM2+EX(9)*ZMOM2
 C
-      XX = XL(I,1)*XL(I,1)
-     .   + XL(I,2)*XL(I,2)
-     .   + XL(I,3)*XL(I,3)
-      STIR(1,I) = STIR(1,I) + STI(2,I)*XX
-      STIR(2,I) = STIR(2,I) + STI(1,I)*XX
- 120  CONTINUE
+        XX = XL(I,1)*XL(I,1) + XL(I,2)*XL(I,2) + XL(I,3)*XL(I,3)
+        STIR(1,I) = STIR(1,I) + STI(2,I)*XX
+        STIR(2,I) = STIR(2,I) + STI(1,I)*XX
+      ENDDO
  
-C----   Assemble
-      DO 140 I=JFT,JLT
+C----   Assembly
+      DO I=JFT,JLT
         XM(1,NC1(I))=XM(1,NC1(I))+M11(I)
         XM(2,NC1(I))=XM(2,NC1(I))+M21(I)
         XM(3,NC1(I))=XM(3,NC1(I))+M31(I)
@@ -143,7 +140,7 @@ C----   Assemble
         MY2(I) = M22(I)
         MZ2(I) = M32(I)
         STIFR(NC2(I))=STIFR(NC2(I))+STIR(2,I)
-  140 CONTINUE
+      ENDDO
 C-----------------------------------------------
       RETURN
       END
