@@ -95,7 +95,7 @@ c
             ELSE IF (ITY == 7) THEN
               DO I=1,NEL
                 DO J=2,4
-                  INOD = IXC(J,I+NFT)
+                  INOD = IXTG(J,I+NFT)
                   TAGNOD(INOD) = 1
                 ENDDO      
               ENDDO      
