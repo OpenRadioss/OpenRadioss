@@ -93,7 +93,7 @@ C-----------------------------------------------
         my_real, DIMENSION(3*NUMNOD), INTENT(in) :: V   !   velocity
         my_real, DIMENSION(NUMNOD), INTENT(in) :: MS    !   mass
         my_real, DIMENSION(TEMP_SIZ), INTENT(in) :: TEMP   !   temperature
-        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: WEIGHT ! weight : 1 if current proc computes the node
+        INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: WEIGHT ! weight : 1 if current proc computes the node
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB   ! global node ID
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: KINET  ! k energy & 
         INTEGER, DIMENSION(NODNX_SMS_SIZ), INTENT(in) :: NODNX_SMS ! SMS array

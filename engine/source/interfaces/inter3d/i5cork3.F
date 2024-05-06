@@ -50,7 +50,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(INOUT) :: LFT
       INTEGER, INTENT(INOUT) :: LLT
-      INTEGER, INTENT(INOUT) :: NFT
+      INTEGER, INTENT(IN) :: NFT
       INTEGER IRECT(4,*), MSR(*), NSV(*), IRTL(*),I_N(*),I_E(*)
       INTEGER JX1(MVSIZ), JX2(MVSIZ), JX3(MVSIZ), JX4(MVSIZ),
      .        NSVG(MVSIZ)
