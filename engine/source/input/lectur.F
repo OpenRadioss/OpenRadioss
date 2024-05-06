@@ -2451,6 +2451,11 @@ C-------------------------------------------
         DO 950 I=1,NINTCH
             READ(IIN,'(2I8,2F16.0)')NOINT,NSEARCH,TSTART,TFIN
             IF(TFIN == 0.0)TFIN=1.E30
+            IF(TFIN <= TSTART) THEN
+              CALL ANCMSG(MSGID=307,ANMODE=ANSTOP)
+              CALL ARRET(2)
+            ENDIF
+
             JPRI = -1
             DO 949 J=1,NINTER
               IF(NOINT == IPARI(15,J)) THEN
