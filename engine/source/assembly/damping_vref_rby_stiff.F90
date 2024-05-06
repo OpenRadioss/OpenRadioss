@@ -31,7 +31,7 @@
 !=======================================================================================================================
 !
         subroutine damping_vref_rby_stiff(numnod,nnpby,nrbykin,nrbykin_l,npby,                       &
-                                          rby6_c,ms,in,stifn,stifr,size_rby6_c,irbkin_l)
+          rby6_c,ms,in,stifn,stifr,size_rby6_c,irbkin_l)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -43,22 +43,22 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"       
+#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,                                   intent(in) :: numnod                      !< number of nodes         
+          integer,                                   intent(in) :: numnod                      !< number of nodes
           integer,                                   intent(in) :: nnpby                       !< first dimension of array NPBY
           integer,                                   intent(in) :: nrbykin                     !< number of rigid bodies
-          integer,                                   intent(in) :: nrbykin_l                   !< number of rigid bodies on this proc         
+          integer,                                   intent(in) :: nrbykin_l                   !< number of rigid bodies on this proc
           integer,                                   intent(in) :: npby(nnpby,nrbykin)         !< main structure for rigid bodies
           integer,                                   intent(in) :: size_rby6_c                 !< dimension of array rby6c
-          integer,                                   intent(in) :: irbkin_l(nrbykin)           !< local global id of rigid_body 
+          integer,                                   intent(in) :: irbkin_l(nrbykin)           !< local global id of rigid_body
           my_real,                                   intent(in) :: ms(numnod)                  !< nodal mass
-          my_real,                                   intent(in) :: in(numnod)                  !< nodal inertia      
+          my_real,                                   intent(in) :: in(numnod)                  !< nodal inertia
           my_real,                                intent(inout) :: stifn(numnod)               !< nodal stiffness
-          my_real,                                intent(inout) :: stifr(numnod)               !< nodal rotational stiffness                                  
-          double precision,                          intent(in) :: rby6_c(2,6,size_rby6_c)         !< working array for rigid body damping assembly  
+          my_real,                                intent(inout) :: stifr(numnod)               !< nodal rotational stiffness
+          double precision,                          intent(in) :: rby6_c(2,6,size_rby6_c)         !< working array for rigid body damping assembly
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -66,8 +66,8 @@
           my_real :: c_tot,cr_tot,dd,fac
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------        
-!         
+! ----------------------------------------------------------------------------------------------------------------------
+!
           do n=1,nrbykin_l
 
             nd = irbkin_l(n)
@@ -85,10 +85,10 @@
               dd = cr_tot/sqrt(two*stifr(m)*in(m))
               fac = sqrt(one + dd*dd) - dd
               stifr(m) = stifr(m) / fac**2
-!              
-            endif  
 !
-          enddo          
+            endif
+!
+          enddo
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine damping_vref_rby_stiff

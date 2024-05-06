@@ -20,17 +20,17 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-    module inter_sh_offset_ini_mod
-        contains
+      module inter_sh_offset_ini_mod
+      contains
 !=======================================================================================================================
 !!\brief This subroutine do the initialization for offset treatment
 !=======================================================================================================================
-        subroutine inter_sh_offset_ini(                                         &                                    
-                       ngroup,    nparg,      iparg,        npropg,            &
-                       numgeo,      geo,     numelc,          nixc,            &
-                          ixc,  numeltg,      nixtg,          ixtg,            &
-                       numnod,    nspmd,   iad_elem,       fr_elem,            &
-                     sfr_elem,     thke,  elbuf_tab,      sh_offset_tab)
+        subroutine inter_sh_offset_ini(                                         &
+          ngroup,    nparg,      iparg,        npropg,            &
+          numgeo,      geo,     numelc,          nixc,            &
+          ixc,  numeltg,      nixtg,          ixtg,            &
+          numnod,    nspmd,   iad_elem,       fr_elem,            &
+          sfr_elem,     thke,  elbuf_tab,      sh_offset_tab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -43,7 +43,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"       
+#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -70,131 +70,131 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer i,j,k,n,nel,nft,nn,ie,ii,igtyp,nf1,ity,nnode,pid,nshel,ng,stat,lenr,nsh_oset
-        integer ibid(1)
-        my_real shelloff
-        my_real, dimension(:)  ,  allocatable :: thkoset    
-        type(g_bufel_)     , pointer :: gbuf
+          integer i,j,k,n,nel,nft,nn,ie,ii,igtyp,nf1,ity,nnode,pid,nshel,ng,stat,lenr,nsh_oset
+          integer ibid(1)
+          my_real shelloff
+          my_real, dimension(:)  ,  allocatable :: thkoset
+          type(g_bufel_)     , pointer :: gbuf
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-        call inter_sh_offset_dim(                                                &                                    
-                         ngroup,    nparg,      iparg,     elbuf_tab,            &
-                         nsh_oset)
-  
-        sh_offset_tab%nsh_oset = nsh_oset
-        if (nsh_oset >0) then
-          allocate(sh_offset_tab%ix_offset(4,nsh_oset),STAT=stat)
-          allocate(sh_offset_tab%offset_n(numnod),STAT=stat)
-          allocate(sh_offset_tab%norm_n(3,numnod),STAT=stat)
-          allocate(thkoset(nsh_oset),STAT=stat)
-          sh_offset_tab%offset_n = zero
-          thkoset = zero
-          nshel=0
-          do  ng=1,ngroup
-            ity=iparg(5,ng)
-            igtyp  = iparg(38,ng)
-            gbuf  => elbuf_tab(ng)%gbuf                                  
-            if (igtyp == 0.or.(ity /= 3 .and. ity /= 7).or.gbuf%G_SH_IOFFSET==0 ) cycle
-            pid =iparg(62,ng) 
-            shelloff = zero
-            select case(igtyp)
-              case (11)
+          call inter_sh_offset_dim(                                                &
+            ngroup,    nparg,      iparg,     elbuf_tab,            &
+            nsh_oset)
+
+          sh_offset_tab%nsh_oset = nsh_oset
+          if (nsh_oset >0) then
+            allocate(sh_offset_tab%ix_offset(4,nsh_oset),STAT=stat)
+            allocate(sh_offset_tab%offset_n(numnod),STAT=stat)
+            allocate(sh_offset_tab%norm_n(3,numnod),STAT=stat)
+            allocate(thkoset(nsh_oset),STAT=stat)
+            sh_offset_tab%offset_n = zero
+            thkoset = zero
+            nshel=0
+            do  ng=1,ngroup
+              ity=iparg(5,ng)
+              igtyp  = iparg(38,ng)
+              gbuf  => elbuf_tab(ng)%gbuf
+              if (igtyp == 0.or.(ity /= 3 .and. ity /= 7).or.gbuf%G_SH_IOFFSET==0 ) cycle
+              pid =iparg(62,ng)
+              shelloff = zero
+              select case(igtyp)
+               case (11)
                 shelloff = geo(199,pid)
-              case (17,51,52)
+               case (17,51,52)
                 shelloff = half + geo(199,pid)
-            end select 
-            nel=iparg(2,ng)
-            nft=iparg(3,ng)
-            if (ity == 3)then
-              nnode =4
-              do i=1,nel
-                ie = nft + i
-                if (gbuf%sh_ioffset(i)>0) then
-                  nshel= nshel + 1
-                  sh_offset_tab%ix_offset(1:nnode,nshel) =ixc(2:nnode+1,ie)
-                  thkoset(nshel)=shelloff*thke(ie)
-                end if
-              end do
-            elseif (ity == 7)then
-              nnode =3
-              do i=1,nel
-                ie = nft + i
-                if (gbuf%sh_ioffset(i)>0) then
-                  nshel= nshel + 1
-                  sh_offset_tab%ix_offset(1:nnode,nshel) = ixtg(2:nnode+1,ie)
-                  thkoset(nshel) = shelloff*thke(ie+numelc)
-                  sh_offset_tab%ix_offset(4,nshel) = sh_offset_tab%ix_offset(3,nshel)
-                end if
-              end do
-            end if
-          end do
-          allocate(sh_offset_tab%intag(numnod),STAT=stat)
-! initialize comm 
-          if (nspmd>1) then
-            sh_offset_tab%intag = 0
-            do i = 1, nshel
+              end select
+              nel=iparg(2,ng)
+              nft=iparg(3,ng)
+              if (ity == 3)then
+                nnode =4
+                do i=1,nel
+                  ie = nft + i
+                  if (gbuf%sh_ioffset(i)>0) then
+                    nshel= nshel + 1
+                    sh_offset_tab%ix_offset(1:nnode,nshel) =ixc(2:nnode+1,ie)
+                    thkoset(nshel)=shelloff*thke(ie)
+                  end if
+                end do
+              elseif (ity == 7)then
+                nnode =3
+                do i=1,nel
+                  ie = nft + i
+                  if (gbuf%sh_ioffset(i)>0) then
+                    nshel= nshel + 1
+                    sh_offset_tab%ix_offset(1:nnode,nshel) = ixtg(2:nnode+1,ie)
+                    thkoset(nshel) = shelloff*thke(ie+numelc)
+                    sh_offset_tab%ix_offset(4,nshel) = sh_offset_tab%ix_offset(3,nshel)
+                  end if
+                end do
+              end if
+            end do
+            allocate(sh_offset_tab%intag(numnod),STAT=stat)
+! initialize comm
+            if (nspmd>1) then
+              sh_offset_tab%intag = 0
+              do i = 1, nshel
                 do k = 1,4
-                  n = sh_offset_tab%ix_offset(k,i) 
+                  n = sh_offset_tab%ix_offset(k,i)
                   sh_offset_tab%intag(n) = 1
                 end do
-            end do
-            lenr = iad_elem(1,nspmd+1)-iad_elem(1,1)
-            call spmd_exch_nodareai(sh_offset_tab%intag,iad_elem,fr_elem,lenr,ibid)  
-            nn = 0
-            do i = 1, nspmd
-              do j=iad_elem(1,i),iad_elem(1,i+1)-1
-                n = fr_elem(j)
-                if (sh_offset_tab%intag(n)>0) nn = nn + 1
+              end do
+              lenr = iad_elem(1,nspmd+1)-iad_elem(1,1)
+              call spmd_exch_nodareai(sh_offset_tab%intag,iad_elem,fr_elem,lenr,ibid)
+              nn = 0
+              do i = 1, nspmd
+                do j=iad_elem(1,i),iad_elem(1,i+1)-1
+                  n = fr_elem(j)
+                  if (sh_offset_tab%intag(n)>0) nn = nn + 1
+                enddo
               enddo
-            enddo
-            allocate(sh_offset_tab%iad_offset(2,nspmd+1),STAT=stat) ! dim (2,*) to use existing spmd_exch routines
-            sh_offset_tab%iad_offset= 0
-            allocate(sh_offset_tab%fr_offset(nn),STAT=stat)
-            sh_offset_tab%iad_offset(1,1) = 1
-            k = 0
-            do i = 1, nspmd
-              do j=iad_elem(1,i),iad_elem(1,i+1)-1
-                n = fr_elem(j)
-                if (sh_offset_tab%intag(n)>0) then
-                  k = k + 1
-                  sh_offset_tab%fr_offset(k) = n
-                end if
+              allocate(sh_offset_tab%iad_offset(2,nspmd+1),STAT=stat) ! dim (2,*) to use existing spmd_exch routines
+              sh_offset_tab%iad_offset= 0
+              allocate(sh_offset_tab%fr_offset(nn),STAT=stat)
+              sh_offset_tab%iad_offset(1,1) = 1
+              k = 0
+              do i = 1, nspmd
+                do j=iad_elem(1,i),iad_elem(1,i+1)-1
+                  n = fr_elem(j)
+                  if (sh_offset_tab%intag(n)>0) then
+                    k = k + 1
+                    sh_offset_tab%fr_offset(k) = n
+                  end if
+                enddo
+                sh_offset_tab%iad_offset(1,i+1) = k+1
               enddo
-              sh_offset_tab%iad_offset(1,i+1) = k+1
-            enddo
-          end if !(nspmd>1)
-!  compute offset_n    
-          sh_offset_tab%intag = 0
-          do i = 1, nshel
-!------each node            
+            end if !(nspmd>1)
+!  compute offset_n
+            sh_offset_tab%intag = 0
+            do i = 1, nshel
+!------each node
               if (sh_offset_tab%ix_offset(4,i)/=sh_offset_tab%ix_offset(3,i)) then
                 nnode = 4
-              else 
+              else
                 nnode = 3
               end if
-!       
+!
               do k = 1,nnode
-                n = sh_offset_tab%ix_offset(k,i) 
+                n = sh_offset_tab%ix_offset(k,i)
                 sh_offset_tab%intag(n) = sh_offset_tab%intag(n) + 1
                 sh_offset_tab%offset_n(n) = sh_offset_tab%offset_n(n) + thkoset(i)
               end do
-          end do
-          if (nspmd>1) then
-            lenr = sh_offset_tab%iad_offset(1,nspmd+1)-sh_offset_tab%iad_offset(1,1)
-            call spmd_exch_nodareai(sh_offset_tab%intag,sh_offset_tab%iad_offset,           &
-                                    sh_offset_tab%fr_offset,lenr,ibid)  
-            call spmd_exch_nodarea(sh_offset_tab%offset_n,sh_offset_tab%iad_offset,         &
-                                    sh_offset_tab%fr_offset,lenr,ibid)
-          end if
-          
-          do n = 1, numnod
-            if (sh_offset_tab%intag(n)==0) cycle
-            sh_offset_tab%offset_n(n) = sh_offset_tab%offset_n(n)/sh_offset_tab%intag(n)
-            if (sh_offset_tab%offset_n(n)==zero) sh_offset_tab%intag(n)=0
-          end do
-          deallocate(thkoset)
-        end if !(nsh_oset>0) then
+            end do
+            if (nspmd>1) then
+              lenr = sh_offset_tab%iad_offset(1,nspmd+1)-sh_offset_tab%iad_offset(1,1)
+              call spmd_exch_nodareai(sh_offset_tab%intag,sh_offset_tab%iad_offset,           &
+                sh_offset_tab%fr_offset,lenr,ibid)
+              call spmd_exch_nodarea(sh_offset_tab%offset_n,sh_offset_tab%iad_offset,         &
+                sh_offset_tab%fr_offset,lenr,ibid)
+            end if
+
+            do n = 1, numnod
+              if (sh_offset_tab%intag(n)==0) cycle
+              sh_offset_tab%offset_n(n) = sh_offset_tab%offset_n(n)/sh_offset_tab%intag(n)
+              if (sh_offset_tab%offset_n(n)==zero) sh_offset_tab%intag(n)=0
+            end do
+            deallocate(thkoset)
+          end if !(nsh_oset>0) then
         end subroutine inter_sh_offset_ini
-    end module inter_sh_offset_ini_mod
+      end module inter_sh_offset_ini_mod

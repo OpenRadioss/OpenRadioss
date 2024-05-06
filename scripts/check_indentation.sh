@@ -9,7 +9,7 @@ added_files=$(git show --pretty="" --name-only --diff-filter=A HEAD | grep -E '\
 # Loop through each file and check indentation
 for file in $added_files; do
     # Apply wfindent in-place
-    wfindent -i2 $file
+    wfindent -i2 --openmp=0 $file
 
     # Check if the file is now modified according to git
     if git status --porcelain | grep -q "^ M $file"; then
