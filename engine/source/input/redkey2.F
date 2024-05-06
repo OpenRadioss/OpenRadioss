@@ -52,22 +52,24 @@ C-----------------------------------------------
       KEY1=' '
       KEY2=' '
       JK=0
-      DO 10 I=1,NCHARLINE100 
-      IF(CARTE(I:I)=='/')THEN
-       JK=JK+1
-       J=0
-      ELSEIF(CARTE(I:I)/=' '.AND.JK==1)THEN
-       J=J+1
-       KEY1(J:J)=CARTE(I:I)
-      ELSEIF(CARTE(I:I)/=' '.AND.JK==2)THEN
-       J=J+1
-       LK2=J
-       KEY2(J:J)=CARTE(I:I)
-      ENDIF
- 10   CONTINUE
+      DO I=1,NCHARLINE100
+        IF(CARTE(I:I)=='/')THEN
+         JK=JK+1
+         J=0
+        ELSEIF(CARTE(I:I)/=' '.AND.JK==1)THEN
+         J=J+1
+         KEY1(J:J)=CARTE(I:I)
+        ELSEIF(CARTE(I:I)/=' '.AND.JK==2)THEN
+         J=J+1
+         LK2=J
+         KEY2(J:J)=CARTE(I:I)
+        ENDIF
+      ENDDO
 C
-      DO 100 IKEY=1,NKEY
- 100  IF(KEY1==KEY0(IKEY))RETURN
+      DO IKEY=1,NKEY
+        IF(KEY1==KEY0(IKEY))RETURN
+      ENDDO
+
       IKEY=0
 C
       RETURN

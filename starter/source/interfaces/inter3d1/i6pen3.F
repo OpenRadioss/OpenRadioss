@@ -49,82 +49,77 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,IWPENE,ICOR,INACTI
-      my_real
-     .   GAP,PENI
-      INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), IRTL0(*),
-     .   ITAB(*)
-      my_real
-     .   X(3,*), CST(2,*)
+      my_real GAP,PENI
+      INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), IRTL0(*),ITAB(*)
+      my_real X(3,*), CST(2,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle,TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II, I, J, K, L, JJ, NN, IER
-C     REAL
-      my_real
-     .   N1, N2, N3, PEN, ALP
+      my_real N1, N2, N3, PEN, ALP
       my_real :: XX1(4), XX2(4),XX3(4),XS1,YS1,ZS1,XC,YC,ZC
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       ALP = TWOEM2
-      DO 500 II=1,NSN
-      I=NSV(II)
-      J=ILOC(II)
-      K=MSR(J)
-      L=IRTL(II)
-      DO 10 JJ=1,4
-      NN=MSR(IRECT(JJ,L))
-      XX1(JJ)=X(1,NN)
-      XX2(JJ)=X(2,NN)
-   10 XX3(JJ)=X(3,NN)
-      XS1=X(1,I)
-      YS1=X(2,I)
-      ZS1=X(3,I)
-      CALL INIST3(N1,N2,N3,CST(1,II),CST(2,II),IER,ALP,XX1,XX2,XX3,XS1,YS1,ZS1,XC,YC,ZC)
-      IF(IER==-1)THEN
-         CALL ANCMSG(MSGID=85,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
-     .               I1=ID,
-     .               C1=TITR,
-     .               I2=ITAB(I),
-     .               I3=ITAB(K),
-     .               I4=L,
-     .               I5=ITAB(MSR(IRECT(1,L))),
-     .               I6=ITAB(MSR(IRECT(2,L))),
-     .               I7=ITAB(MSR(IRECT(3,L))),
-     .               I8=ITAB(MSR(IRECT(4,L))))
-      ELSE IF(IER==1)THEN
-       IF(IPRI>=1)WRITE(IOUT,FMT=FMW_7I)ITAB(I),ITAB(K),L,
-     .                    (ITAB(MSR(IRECT(JJ,L))),JJ=1,4)
-      ELSE
-        PEN = N1*(XS1-XC)+N2*(YS1-YC)+N3*(ZS1-ZC) - GAP
-        IF (PEN<=ZERO) IRTL0(II)=L
-        IF (PEN < ZERO) THEN
-          PENI = MIN(PEN,PENI)
-          CALL ANCMSG(MSGID=346,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO_BLIND_2,
-     .                I1=ID,I2=ITAB(I),
-     .                C1=TITR,
-     .                R1=PEN)
-          IF (INACTI == 5) THEN
-c            PEN = MIN(ZERO, PEN + GAP)
-            GAP = MAX(ZERO, GAP + PEN)   ! constant gap
-          ELSEIF (INACTI == 6) THEN
-c            PEN = MIN(ZERO, PEN + ZEP05 * (GAP - PEN))
-            GAP = MAX(ZERO, GAP + PEN + ZEP05 * (GAP + PEN))   ! constant gap
+      DO II=1,NSN
+        I=NSV(II)
+        J=ILOC(II)
+        K=MSR(J)
+        L=IRTL(II)
+        DO JJ=1,4
+          NN=MSR(IRECT(JJ,L))
+          XX1(JJ)=X(1,NN)
+          XX2(JJ)=X(2,NN)
+          XX3(JJ)=X(3,NN)
+        ENDDO
+        XS1=X(1,I)
+        YS1=X(2,I)
+        ZS1=X(3,I)
+        CALL INIST3(N1,N2,N3,CST(1,II),CST(2,II),IER,ALP,XX1,XX2,XX3,XS1,YS1,ZS1,XC,YC,ZC)
+        IF(IER==-1)THEN
+           CALL ANCMSG(MSGID=85,
+     .                 MSGTYPE=MSGERROR,
+     .                 ANMODE=ANINFO,
+     .                 I1=ID,
+     .                 C1=TITR,
+     .                 I2=ITAB(I),
+     .                 I3=ITAB(K),
+     .                 I4=L,
+     .                 I5=ITAB(MSR(IRECT(1,L))),
+     .                 I6=ITAB(MSR(IRECT(2,L))),
+     .                 I7=ITAB(MSR(IRECT(3,L))),
+     .                 I8=ITAB(MSR(IRECT(4,L))))
+        ELSE IF(IER==1)THEN
+         IF(IPRI>=1)WRITE(IOUT,FMT=FMW_7I)ITAB(I),ITAB(K),L,
+     .                      (ITAB(MSR(IRECT(JJ,L))),JJ=1,4)
+        ELSE
+          PEN = N1*(XS1-XC)+N2*(YS1-YC)+N3*(ZS1-ZC) - GAP
+          IF (PEN<=ZERO) IRTL0(II)=L
+          IF (PEN < ZERO) THEN
+            PENI = MIN(PEN,PENI)
+            CALL ANCMSG(MSGID=346,
+     .                  MSGTYPE=MSGWARNING,
+     .                  ANMODE=ANINFO_BLIND_2,
+     .                  I1=ID,I2=ITAB(I),
+     .                  C1=TITR,
+     .                  R1=PEN)
+            IF (INACTI == 5) THEN
+c              PEN = MIN(ZERO, PEN + GAP)
+              GAP = MAX(ZERO, GAP + PEN)   ! constant gap
+            ELSEIF (INACTI == 6) THEN
+c              PEN = MIN(ZERO, PEN + ZEP05 * (GAP - PEN))
+              GAP = MAX(ZERO, GAP + PEN + ZEP05 * (GAP + PEN))   ! constant gap
+            ENDIF
+            IWPENE=IWPENE+1
           ENDIF
-          IWPENE=IWPENE+1
+         IF(IPRI>=1)WRITE(IOUT,FMT=FMW_7I_2F)
+     .    ITAB(I),ITAB(K),L,
+     .    (ITAB(MSR(IRECT(JJ,L))),JJ=1,4),CST(1,II),CST(2,II)
         ENDIF
-       IF(IPRI>=1)WRITE(IOUT,FMT=FMW_7I_2F)
-     .  ITAB(I),ITAB(K),L,
-     .  (ITAB(MSR(IRECT(JJ,L))),JJ=1,4),CST(1,II),CST(2,II)
-      ENDIF
-  500 CONTINUE
+      ENDDO
       IF (ICOR == 0) PENI = ZERO
 C-----------
       RETURN

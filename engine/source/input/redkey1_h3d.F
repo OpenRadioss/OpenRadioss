@@ -47,38 +47,48 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IKEYO, J, JK, I
       CHARACTER(LEN=NCHARKEY) :: KEYO(9)
+      LOGICAL DETECTED
 C-----------------------------------------------
       IR=0
 C
       IKEYO=IKEY
-      DO 5 J=1,9
-      KEYO(J)=KEY(J)
-   5  KEY(J)=' '
+      DO J=1,9
+        KEYO(J)=KEY(J)
+        KEY(J)=' '
+      ENDDO
       JK=0
 C
-      DO 10 I=1,NCHARLINE100
-      IF(CARTE(I:I)=='/')THEN
-       JK=JK+1
-       J=0
-      ELSEIF(CARTE(I:I)/=' ')THEN
-       J=J+1
-       IF(J<=NCHARKEY)KEY(JK)(J:J)=CARTE(I:I)
+      DO I=1,NCHARLINE100
+        IF(CARTE(I:I)=='/')THEN
+         JK=JK+1
+         J=0
+        ELSEIF(CARTE(I:I)/=' ')THEN
+         J=J+1
+         IF(J<=NCHARKEY)KEY(JK)(J:J)=CARTE(I:I)
+        ENDIF
+      ENDDO
+C
+      DETECTED = .FALSE.
+      DO I=1,NKEY
+        IKEY=I
+        IF(KEY(1)(1:5)==KEY0(IKEY)(1:5)) THEN
+          DETECTED = .TRUE.
+          EXIT
+        ENDIF
+      ENDDO
+
+      IF(.NOT. DETECTED)THEN
+       IR=1
+       IKEY=IKEYO
+       DO J=1,9
+         KEY(J)=KEYO(J)
+       ENDDO
+
+      ELSE
+        IOK = 0
+        J=0
+
       ENDIF
- 10   CONTINUE
-C
-      DO 100 I=1,NKEY
-      IKEY=I
- 100  IF(KEY(1)(1:5)==KEY0(IKEY)(1:5)) GOTO 400
-C
-      IR=1
-      IKEY=IKEYO
-      DO 200 J=1,9
- 200  KEY(J)=KEYO(J)
-      RETURN
-C
- 400  CONTINUE
-      IOK = 0
-      J=0
-C
+
       RETURN
       END

@@ -46,28 +46,27 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
-C     REAL
-      my_real
-     .   PM(NPROPM,*), VOL0(*), RHO(*), EINT(*),
-     .   VOLN(*), DVOL(*)
+      my_real PM(NPROPM,*), VOL0(*), RHO(*), EINT(*),VOLN(*), DVOL(*)
       INTEGER MAT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C     REAL
-      my_real
-     .   RHO0(MVSIZ)
+      my_real  RHO0(MVSIZ)
 C-----------------------------------------------
-      DO 10 I=1,NEL
-   10 RHO0(I)=PM(1,MAT(I))
+      DO I=1,NEL
+        RHO0(I)=PM(1,MAT(I))
+      ENDDO
 C
-      DO 20 I=1,NEL
-   20 DVOL(I)=VOLN(I)-(RHO0(I)/RHO(I))*VOL0(I)
+      DO I=1,NEL
+        DVOL(I)=VOLN(I)-(RHO0(I)/RHO(I))*VOL0(I)
+      ENDDO
 C
-      DO 30 I=1,NEL
-      RHO(I)=RHO0(I)*(VOL0(I)/VOLN(I))
-   30 EINT(I)=EINT(I)*VOL0(I)
+      DO I=1,NEL
+        RHO(I)=RHO0(I)*(VOL0(I)/VOLN(I))
+        EINT(I)=EINT(I)*VOL0(I)
+      ENDDO
 C
       RETURN
       END
