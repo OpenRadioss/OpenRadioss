@@ -56,17 +56,13 @@ C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
 C---------+---------+---+---+--------------------------------------------
 C NPT     |  1      | I | R | NUMBER OF LAYERS OR INTEGRATION POINTS   
 C IPT     |  1      | I | R | LAYER OR INTEGRATION POINT NUMBER   
-C ISHELL  |  *      | I | R | GEOMETRICAL FLAGS   
 C NGL     | NEL     | I | R | ELEMENT NUMBER
-C SHF     | NEL     | F | R | SHEAR FACTOR
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C---------+---------+---+---+--------------------------------------------
 C SIGNXX  | NEL     | F | W | NEW ELASTO PLASTIC STRESS XX
 C SIGNYY  | NEL     | F | W | NEW ELASTO PLASTIC STRESS YY
 C ...     |         |   |   |
-C SOUNDSP | NEL     | F | W | SOUND SPEED (NEEDED FOR TIME STEP)
-C VISCMAX | NEL     | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
 C---------+---------+---+---+--------------------------------------------
 C PLA     | NEL     | F |R/W| PLASTIC STRAIN
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
@@ -76,8 +72,6 @@ C---------+---------+---+---+--------------------------------------------
 C IPT                         CURRENT INTEGRATION POINT IN ALL LAYERS
 C IPTT                        CURRENT INTEGRATION POINT IN THE LAYER (FOR OUTPUT ONLY)
 C NPTOT                       NUMBER OF INTEGRATION POINTS IN ALL LAYERS (TOTAL)
-C NOFF                        NUMBER OF FAILED INTEGRATION POINTS (TOTAL)
-C IGTYP                       PROPERTY TYPE
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------

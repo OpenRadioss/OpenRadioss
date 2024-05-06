@@ -171,7 +171,7 @@ C-----------------------------------------------
      .SOLD4(MVSIZ) ,SOLD5(MVSIZ) ,SOLD6(MVSIZ),
      .Q(MVSIZ),SSPP(MVSIZ),SIGY(MVSIZ),
      .DPLA(MVSIZ),EPSP1(MVSIZ),TSTAR(MVSIZ),
-     .DF(MVSIZ),AMU(MVSIZ)    
+     .DF(MVSIZ),AMU(MVSIZ),BIDV(MVSIZ)    
       my_real 
      .   E1,E2,E3,E4,E5,E6,BID1,BID2,BID3,DAV,DTA,SS1,SS2,SS3,SS4,
      .   SS5,SS6,Q1,Q2,Q3,ASRATE,EPSP,
@@ -666,7 +666,7 @@ C
         CALL SIGEPS44(
      2    LLT      ,NPAR     ,NUVAR    ,NFUNC    ,IFUNC    ,
      3    NPF      ,TF       ,TT       ,DT1      ,UPARAM   ,
-     4    RHO0     ,RHO      ,VOLN     ,EINT     ,
+     4    RHO0     ,RHO      ,VOLN     ,EINT     ,MAT_PARAM%IEOS,BIDV,
      5    EP1      ,EP2      ,EP3      ,EP4      ,EP5      ,EP6   ,
      6    DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6   ,
      7    ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6   ,
