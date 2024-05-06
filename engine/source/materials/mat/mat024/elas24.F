@@ -46,7 +46,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
       my_real PM(NPROPM)
-      my_real, DIMENSION(NEL) ,INTENT(IN)  :: DEPS1,DEPS2,DEPS3,DEPS4,DEPS5,DEPS6
+      my_real, DIMENSION(NEL) ,INTENT(INOUT)  :: DEPS1,DEPS2,DEPS3,DEPS4,DEPS5,DEPS6
       my_real, DIMENSION(NEL) ,INTENT(OUT) :: S01,S02,S03,S04,S05,S06,
      .                                        SCAL1,SCAL2,SCAL3,C44,C55,C66
       my_real, DIMENSION(NEL) ,INTENT(OUT) :: DE1,DE2,DE3

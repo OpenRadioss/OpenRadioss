@@ -501,7 +501,7 @@ c
 c           INCREMENT DEFORMATIONS PASTIQUES
 c           il y a deux fois dfds4 c'est df/ds12 et non (df/ds12 + df/ds21)
 c
-            DLAMBDA = DFDS1*DS1(I) + DFDS2*DS2(I) + DFDS3*DS3(I)+
+            DLAMBDA = DFDS1*DS1(I) + DFDS2*DS2(I) + DFDS3*DS3(I)
      .              +(DFDS4*DS4(I)+ DFDS5*DS5(I)+ DFDS6*DS6(I))*TWO
      .              + DFDP*(DP(I)-DU(I))
 C

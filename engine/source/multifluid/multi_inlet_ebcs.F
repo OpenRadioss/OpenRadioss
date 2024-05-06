@@ -500,7 +500,7 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: RHO
       my_real, INTENT(INOUT) :: SSP, PRES, EINT
       my_real, INTENT(INOUT) :: BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME, BUFMAT(*)
-      my_real, INTENT(OUT) :: OFF
+      my_real, INTENT(INOUT) :: OFF
       INTEGER, INTENT(IN) :: NPF(SNPC),NVAREOS
       my_real, INTENT(IN) :: TF(STF),VAREOS(NVAREOS*1)
 

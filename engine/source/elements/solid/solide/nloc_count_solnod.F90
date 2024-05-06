@@ -40,7 +40,7 @@
 !-----------------------------------------------
           integer, intent(in) :: ngroup                                       !< number of groups
           integer, intent(in) :: nparg                                        !< number of group parameters
-          integer, dimension(nel), intent(in) :: iparg(nparg,ngroup)          !< failure counter in 1st direction
+          integer, intent(in) :: iparg(nparg,ngroup)          !< failure counter in 1st direction
           type (elbuf_struct_), dimension(ngroup), intent(inout) :: elbuf_tab !< element buffer structure
           integer, dimension(nixs,numels), intent(in) :: ixs                  !< solid element related data table
           integer, intent(in) :: nixs                                         !< number of solid element parameters
