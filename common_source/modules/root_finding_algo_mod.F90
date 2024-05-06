@@ -21,14 +21,14 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-        module root_finding_algo_mod
-        contains
+      module root_finding_algo_mod
+      contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief root finding algo based on Brent's algo
-!! \details 
-          function brent_algo( a,b,tolerance,funct,funct_parameter_size,funct_parameter)
+!! \details
+        function brent_algo( a,b,tolerance,funct,funct_parameter_size,funct_parameter)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -44,13 +44,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          my_real, intent(in) :: a !< lower bound of the interval 
-          my_real, intent(in) :: b !< upper bound of the interval 
+          my_real, intent(in) :: a !< lower bound of the interval
+          my_real, intent(in) :: b !< upper bound of the interval
           my_real, intent(in) :: tolerance !< tolerance
           my_real, external :: funct !< function
           integer, intent(in) :: funct_parameter_size !< size of funct_parameter array
           my_real, dimension(funct_parameter_size), intent(inout) :: funct_parameter !< parameter of the function funct
-          my_real :: brent_algo !< root value 
+          my_real :: brent_algo !< root value
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -62,7 +62,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------
-! 
+!
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -78,10 +78,10 @@
           ! save b and f(b)
           save_b = b
           f_b = funct(save_b,funct_parameter)
-          ! -----------------        
+          ! -----------------
 
           condition = .true.
-          ! -----------------        
+          ! -----------------
           ! check if the signs of f(a) & f(b) : if there is no sign change, f(x)=0 does not exist in the [a,b] interval
           if(sign(one, f_a) == sign(one, f_b)) then
             condition = .false.
@@ -95,7 +95,7 @@
           d = delta
 
           do while(condition)
-            ! -----------------           
+            ! -----------------
             ! check the value of f(c) & f(b)
             ! change the 2 bounds if f(b)>f(c)
             if(abs(f_c)<abs(f_b)) then
@@ -113,8 +113,8 @@
             if((new_tol<abs(length)).and.f_b/=zero) then
 
               if( (abs( delta )>=new_tol).and.(abs(f_a)>abs(f_b)) ) then
-                ! -----------------       
-                ! interpolation algo                
+                ! -----------------
+                ! interpolation algo
                 s = f_b / f_a
                 if( save_a /= c ) then
                   ! inverse quadratic interpolation
@@ -146,8 +146,8 @@
                   d = r3 / r1
                 endif
               else
-                ! -----------------       
-                ! bisection algo  
+                ! -----------------
+                ! bisection algo
                 delta = length
                 d = delta
               endif
@@ -162,9 +162,9 @@
               else
                 save_b = save_b - new_tol
               endif
-      
+
               f_b = funct(save_b,funct_parameter)
-      
+
               if ( ( zero < f_b .and. zero < f_c ) .or. ( f_b <= zero .and. f_c <= zero ) ) then
                 c = save_a
                 f_c = f_a
@@ -180,6 +180,6 @@
           brent_algo = save_b
 
           return
-          end function brent_algo
+        end function brent_algo
 ! ----------------------------------------------------------------------------------------------------------------------
-        end module root_finding_algo_mod
+      end module root_finding_algo_mod

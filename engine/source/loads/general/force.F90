@@ -26,8 +26,8 @@
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief force : computation for loads
-      subroutine force (                                             &
-        & nibcld     ,ib         ,lfaccld    ,fac       ,snpc       ,& 
+        subroutine force (                                             &
+        & nibcld     ,ib         ,lfaccld    ,fac       ,snpc       ,&
         & npc        ,stf        ,tf         ,a         ,v          ,&
         & x          ,lskew      ,numskw     ,skew      ,ar         ,&
         & vr         ,nsensor    ,sensor_tab ,tfexc     ,iadc       ,&
@@ -67,7 +67,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          ! Input 
+          ! Input
           integer, intent(in) :: numnod                        !< number of nodes in model
           integer, intent(in) :: numskw                        !< number of skew in model
           integer, intent(in) :: nfunct                        !< number of tabulated functions in model
@@ -633,7 +633,7 @@
               endif
             enddo
 !
-!$OMP atomic 
+!$OMP atomic
             tfext = tfext + tfextt
 !$OMP end atomic
 !

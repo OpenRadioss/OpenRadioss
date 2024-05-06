@@ -48,7 +48,7 @@
           integer,                                    intent(in) :: nnpby   !< size of first dimension of the npby array
           integer,                                    intent(in) :: nrbody  !< size of second dimension of the npby array (number of rbodies)
           integer,                                    intent(in) :: npby(nnpby,nrbody)      !< rbodies data array
-          integer,                                    intent(in) :: slrbody       !< size of lpby array 
+          integer,                                    intent(in) :: slrbody       !< size of lpby array
           integer,                                    intent(in) :: lpby(slrbody) !< array of rbody nodes
           integer,                                    intent(in) :: sicode !< size of icode array
           integer,                                    intent(in) :: icode(sicode) !< bcs code of nodes
@@ -56,16 +56,16 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,k,l,n 
+          integer :: i,j,k,l,n
           integer :: idrb ! rigid body index
           integer :: nfound_rby ! number of rigid bodies found
           integer :: nfound_bcs ! nimber of bcs found
           integer :: ic ! bcs code
           integer :: ic1 ! bcs code in dir1
           integer :: ic2 ! bcs code in dir1
-          integer :: bcs_x 
-          integer :: bcs_y 
-          integer :: bcs_z 
+          integer :: bcs_x
+          integer :: bcs_y
+          integer :: bcs_z
           integer :: nod ! frame anchor node
           integer :: nsl ! rigid body secondary node number
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -75,44 +75,44 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 !
-        do i=1,nslipring
-          if (slipring(i)%nfram > 1) then
-            idrb = 0
-            nfound_rby = 0
-            nfound_bcs = 0
-            do j=1,slipring(i)%nfram
-              nod = slipring(i)%fram(j)%anchor_node
+          do i=1,nslipring
+            if (slipring(i)%nfram > 1) then
+              idrb = 0
+              nfound_rby = 0
+              nfound_bcs = 0
+              do j=1,slipring(i)%nfram
+                nod = slipring(i)%fram(j)%anchor_node
 !---          check of rbodies ---
-              l = 0
-              do n=1,nrbody
-                nsl=npby(2,n)
-                do k=1,nsl              
-                  if ((lpby(k+l)==nod).and.((idrb==0).or.(idrb == n))) then
-                    nfound_rby  = nfound_rby  + 1
-                    idrb = n
-                  endif
+                l = 0
+                do n=1,nrbody
+                  nsl=npby(2,n)
+                  do k=1,nsl
+                    if ((lpby(k+l)==nod).and.((idrb==0).or.(idrb == n))) then
+                      nfound_rby  = nfound_rby  + 1
+                      idrb = n
+                    endif
+                  enddo
+                  l = l+nsl
                 enddo
-                l = l+nsl
-              enddo
 !---          check of bcs ---
-              ic = icode(nod)
-              ic1=ic/512
-              ic2=(ic-512*ic1)/64
-              bcs_x = ic1/4
-              bcs_y = (ic1-4*bcs_x)/2
-              bcs_z = ic1-4*bcs_x-2*bcs_y
-              if (bcs_x*bcs_y*bcs_z > 0) nfound_bcs = nfound_bcs + 1
-            enddo
-            if (nfound_rby ==slipring(i)%nfram) then
-              slipring(i)%rbody = idrb
-            elseif (nfound_bcs /= slipring(i)%nfram) then
-              call ancmsg(msgid=2081,              &
-                          msgtype=msgerror,        &
-                          anmode=aninfo_blind_1,   &
-                          i1=slipring(i)%id) 
+                ic = icode(nod)
+                ic1=ic/512
+                ic2=(ic-512*ic1)/64
+                bcs_x = ic1/4
+                bcs_y = (ic1-4*bcs_x)/2
+                bcs_z = ic1-4*bcs_x-2*bcs_y
+                if (bcs_x*bcs_y*bcs_z > 0) nfound_bcs = nfound_bcs + 1
+              enddo
+              if (nfound_rby ==slipring(i)%nfram) then
+                slipring(i)%rbody = idrb
+              elseif (nfound_bcs /= slipring(i)%nfram) then
+                call ancmsg(msgid=2081,              &
+                  msgtype=msgerror,        &
+                  anmode=aninfo_blind_1,   &
+                  i1=slipring(i)%id)
+              endif
             endif
-          endif
-        enddo
+          enddo
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine init_seatbelt_rbodies
       end module init_seatbelt_rbodies_mod

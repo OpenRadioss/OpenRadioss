@@ -42,17 +42,17 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"       
+#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(GROUP_),                              intent(in) :: igrnod(ngrnod)              !< group od nodes structure
-          integer,                                   intent(in) :: ngrnod                      !< number of groups of nodes 
+          integer,                                   intent(in) :: ngrnod                      !< number of groups of nodes
           integer,                                   intent(in) :: ndamp                       !< number of /DAMP
-          integer,                                   intent(in) :: nrdamp                      !< first dimension of array DAMP       
+          integer,                                   intent(in) :: nrdamp                      !< first dimension of array DAMP
           integer,                                   intent(in) :: nnpby                       !< first dimension of array NPBY
           integer,                                   intent(in) :: nrbody                      !< number of rigid bodies
-          integer,                                   intent(in) :: npby(nnpby,nrbody)          !< main structure for rigid bodies                    
+          integer,                                   intent(in) :: npby(nnpby,nrbody)          !< main structure for rigid bodies
           integer,                                   intent(in) :: nrbmerge                    !< nb or rigid body merge
           my_real,                                intent(inout) :: dampr(nrdamp,ndamp)         !< main structure for option /DAMP
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -63,39 +63,39 @@
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------    
+! ----------------------------------------------------------------------------------------------------------------------
 !
-!         Rbody id replaced by id or main rigid body in case of rigid body merge                         
+!         Rbody id replaced by id or main rigid body in case of rigid body merge
 !
           if (nrbmerge > 0) then
             do nd=1,ndamp
-              id_rby_user = nint(dampr(25,nd))          
-              if (id_rby_user > 0) then                    
+              id_rby_user = nint(dampr(25,nd))
+              if (id_rby_user > 0) then
                 do j=1,nrbody
-                  if (id_rby_user == npby(6,j)) then  
+                  if (id_rby_user == npby(6,j)) then
                     if (npby(12,j)==0) then
-            !         main rbody
-                      id_rby = j                      
+                      !         main rbody
+                      id_rby = j
                     else
-            !         secondary rbody - switch to main
-                      id_rby = npby(13,j)                        
+                      !         secondary rbody - switch to main
+                      id_rby = npby(13,j)
                     endif
                   endif
                 enddo
                 dampr(25,nd) = id_rby
-              endif  
+              endif
             enddo
           endif
 !
-!         Stick main node of rigid body on pioc in damped nodes are present                   
-!             
+!         Stick main node of rigid body on pioc in damped nodes are present
+!
           do nd=1,ndamp
-            id_rby = nint(dampr(25,nd))         
-            if (id_rby > 0) then        
+            id_rby = nint(dampr(25,nd))
+            if (id_rby > 0) then
               igr   = nint(dampr(2,nd))
-              call spmdset(id_rby,npby,nnpby,igrnod(igr)%entity,igrnod(igr)%nentity,0)              
+              call spmdset(id_rby,npby,nnpby,igrnod(igr)%entity,igrnod(igr)%nentity,0)
             endif
-          enddo    
+          enddo
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine damping_rby_spmdset

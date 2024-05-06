@@ -22,7 +22,7 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       module same_shellori_mod
 
-        contains
+      contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
@@ -32,51 +32,51 @@
 !=======================================================================================================================
         subroutine same_shellori(i1,i2,ixm,ixn,isame)
 ! ------------------------------------------------------------------------------
-!          
+!
 ! ------------------------------------------------------------------------------
 !
-      implicit none
+          implicit none
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer,  intent(in   )               :: i1 , i2        !< commun seg i1,i2
-      integer,  intent(in   ),dimension(4)  :: ixm, ixn       !< shell connectivity   
-      integer,  intent(inout)               :: isame          !< same orientation flag
+          integer,  intent(in   )               :: i1 , i2        !< commun seg i1,i2
+          integer,  intent(in   ),dimension(4)  :: ixm, ixn       !< shell connectivity
+          integer,  intent(inout)               :: isame          !< same orientation flag
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer i,k,nextk(4),im1,im2,in1,in2,ivm,ivn
-      data nextk/2,3,4,1/
+          integer i,k,nextk(4),im1,im2,in1,in2,ivm,ivn
+          data nextk/2,3,4,1/
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------  
-      ivm = 0
-      ivn = 0
-      do i = 1,4
-        im1=ixm(i)
-        im2=ixm(nextk(i))
-        if(min(im1,im2)==i1.and.max(im1,im2)==i2) then
-          if(im2 > im1)then
-            ivm = 1
-          else
-            ivm = -1
-          endif
-        endif
-      end do
-      do i=1,4
-        im1=ixn(i)
-        im2=ixn(nextk(i))
-        if(min(im1,im2)==i1.and.max(im1,im2)==i2) then
-          if(im2 > im1)then
-            ivn = 1
-          else
-            ivn = -1
-          endif
-        endif
-      end do
-      isame = -ivm*ivn
-!       
-      end subroutine same_shellori
-    end module same_shellori_mod
+! ----------------------------------------------------------------------------------------------------------------------
+          ivm = 0
+          ivn = 0
+          do i = 1,4
+            im1=ixm(i)
+            im2=ixm(nextk(i))
+            if(min(im1,im2)==i1.and.max(im1,im2)==i2) then
+              if(im2 > im1)then
+                ivm = 1
+              else
+                ivm = -1
+              endif
+            endif
+          end do
+          do i=1,4
+            im1=ixn(i)
+            im2=ixn(nextk(i))
+            if(min(im1,im2)==i1.and.max(im1,im2)==i2) then
+              if(im2 > im1)then
+                ivn = 1
+              else
+                ivn = -1
+              endif
+            endif
+          end do
+          isame = -ivm*ivn
+!
+        end subroutine same_shellori
+      end module same_shellori_mod
 

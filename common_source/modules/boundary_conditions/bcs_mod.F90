@@ -32,7 +32,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-      implicit none
+        implicit none
 #include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -62,8 +62,8 @@
         type bcs_struct_
           integer :: num_wall
           type(bcs_wall_struct_),dimension(:),allocatable :: wall
-          contains
-            procedure :: deallocate
+        contains
+          procedure :: deallocate
         end type bcs_struct_
 
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -71,13 +71,13 @@
         type(bcs_struct_) :: bcs
 
 ! ----------------------------------------------------------------------------------------------------------------------
-        contains
-        
- ! ======================================================================================================================
+      contains
+
+! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief Deallocate related data structure if allocated
-      subroutine deallocate(this)
+        subroutine deallocate(this)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -85,33 +85,33 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-      implicit none
+          implicit none
 #include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      class(bcs_struct_),intent(inout) :: this
+          class(bcs_struct_),intent(inout) :: this
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer :: ii
+          integer :: ii
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      if(this%num_wall > 0)then
-        do ii=1,this%num_wall
-          if(this%wall(ii)%list%size > 0)then
-            if(allocated(this%wall(ii)%list%elem)) deallocate(this%wall(ii)%list%elem)
-            if(allocated(this%wall(ii)%list%face)) deallocate(this%wall(ii)%list%face)
-            if(allocated(this%wall(ii)%list%adjacent_elem)) deallocate(this%wall(ii)%list%adjacent_elem)
+          if(this%num_wall > 0)then
+            do ii=1,this%num_wall
+              if(this%wall(ii)%list%size > 0)then
+                if(allocated(this%wall(ii)%list%elem)) deallocate(this%wall(ii)%list%elem)
+                if(allocated(this%wall(ii)%list%face)) deallocate(this%wall(ii)%list%face)
+                if(allocated(this%wall(ii)%list%adjacent_elem)) deallocate(this%wall(ii)%list%adjacent_elem)
+              endif
+            enddo
+            if(allocated(this%wall))deallocate(this%wall)
           endif
-        enddo
-        if(allocated(this%wall))deallocate(this%wall)
-      endif
 ! ----------------------------------------------------------------------------------------------------------------------
-      return
-      end subroutine deallocate
-       
-        
-        
+          return
+        end subroutine deallocate
+
+
+
       end module bcs_mod
