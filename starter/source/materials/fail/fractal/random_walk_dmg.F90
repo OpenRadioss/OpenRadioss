@@ -169,7 +169,7 @@
 !
           end if      ! random start
           !------------------------------
-          if (debug == 1 .and. random_start .eqv. .false.) then
+          if ((debug == 1) .and. (random_start .eqv. .false.)) then
             print*,'starting element list'
             do i = 1,nstart
               iel = start_group(i)
