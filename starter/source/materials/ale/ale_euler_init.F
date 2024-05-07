@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(MLAW_TAG_), DIMENSION(NUMMAT), INTENT(INOUT)  :: MLAW_TAG
-      CHARACTER*nchartitle,INTENT(IN) :: TITR,TITR1,TITR2
+      CHARACTER*nchartitle, INTENT(INOUT) :: TITR,TITR1,TITR2
       INTEGER,INTENT(INOUT)::IGEO(NPROPGI,NUMGEO)      
       INTEGER,INTENT(IN) :: ID,IMID,PID,IPID,IGTYP,ILAW
       INTEGER,INTENT(INOUT) :: MID,JALE_FROM_PROP,JALE_FROM_MAT
