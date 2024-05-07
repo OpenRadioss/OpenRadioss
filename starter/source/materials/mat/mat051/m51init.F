@@ -88,6 +88,8 @@ C-----------------------------------------------
       !need to initialize element buffer with initial density for this specific case.
       IS_IFORM12 = .FALSE.
       IF(IFORM == 12)THEN
+        UPARAM(31) = 1
+        UPARAM(55) = 1
         IFORM = 1
         IFLG = 1
         IS_IFORM12 = .TRUE.
