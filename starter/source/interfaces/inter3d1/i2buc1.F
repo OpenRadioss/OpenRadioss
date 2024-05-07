@@ -99,12 +99,12 @@ C     REAL
       CHARACTER*nchartitle,
      .   TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: PROV_N,PROV_E,NSVG
-      INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: IX1,IX2,IX3,IX4
+      INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX1,IX2,IX3,IX4
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: N11,N12,N13
-      my_real, DIMENSION(MVSIZ), INTENT(IN) :: X1,X2,X3,X4
-      my_real, DIMENSION(MVSIZ), INTENT(IN) :: Y1,Y2,Y3,Y4
-      my_real, DIMENSION(MVSIZ), INTENT(IN) :: Z1,Z2,Z3,Z4
-      my_real, DIMENSION(MVSIZ), INTENT(IN) :: XI,YI,ZI
+      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4
+      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Y1,Y2,Y3,Y4
+      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Z1,Z2,Z3,Z4
+      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: XI,YI,ZI
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: X0,Y0,Z0
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: NX1,NY1,NZ1
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: NX2,NY2,NZ2
@@ -112,7 +112,8 @@ C     REAL
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: NX4,NY4,NZ4
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: P1,P2,P3,P4
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: LB1,LB2,LB3,LB4
-      my_real, DIMENSION(MVSIZ), INTENT(IN) :: LC1,LC2,LC3,LC4,STIF
+      my_real, DIMENSION(MVSIZ), INTENT(IN) :: LC1,LC2,LC3,LC4
+      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: STIF
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: S,T
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

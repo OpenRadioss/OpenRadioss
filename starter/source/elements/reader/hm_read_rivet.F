@@ -88,7 +88,7 @@ C-----------------------------------------------
 C INPUT ARGUMENTS
       my_real,INTENT(INOUT)::MS(*)
       my_real,INTENT(INOUT)::IN(*)
-      INTEGER,INTENT(IN)::GEO(NPROPG,*)
+      my_real,INTENT(IN)::GEO(NPROPG,*)
       INTEGER,INTENT(IN)::ITAB(*)
       INTEGER,INTENT(IN)::ITABM1(*)
       INTEGER,INTENT(IN)::IPART(LIPART1,*)

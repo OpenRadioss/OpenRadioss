@@ -56,7 +56,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,LTOT,LL,IDX,IERROR
       my_real :: X1,X2,XC,Y1,Y2,DX,DX1,DERI
-      my_real ,DIMENSION(:) ,ALLOCATABLE :: XTMP,PERM
+      my_real ,DIMENSION(:) ,ALLOCATABLE :: XTMP
+      INTEGER, DIMENSION(:), ALLOCATABLE :: PERM
 c=======================================================================
       LTOT = NPT
       ALLOCATE (PERM(LTOT))

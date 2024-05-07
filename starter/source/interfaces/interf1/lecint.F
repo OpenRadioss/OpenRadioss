@@ -724,7 +724,7 @@ C--------------------------------------------
                 IAD_IGE = IGRSURF(ISU1)%IAD_IGE               
                 CALL INSURFIGEO(NRTS_IGE,NRTS_FE,NSN_IGE,0,IAD_IGE,IRM,IRECTS,NOINT,
      .                     SURF_NODES_IGE,ITAB,NSV,ID,TITR,
-     .                     RBID,RBID,RBID,RBID,RBID,RBID,RBID,RBID)
+     .                     RBID,IBID,RBID,RBID,RBID,RBID,RBID,RBID)
               ENDIF
             ELSEIF(IS1 == 2)THEN
               CALL INPOINT(NSN_FE,NOINT,IGRNOD(ISU1)%ENTITY,ITAB,NSV)

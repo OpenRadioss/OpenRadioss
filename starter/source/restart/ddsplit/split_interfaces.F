@@ -620,8 +620,8 @@ C=======================================================================
               CALL COPY_RVAL(INTBUF_TAB(NI)%FRIC_P,10,1) !JD(25)
             ENDIF
             IF (IFQ/=0) THEN 
-              CALL COPY_RVAL(INTBUF_TAB(NI)%S_XFILTR,1,1) !JD(26)
-              CALL COPY_RVAL(INTBUF_TAB(NI)%S_FTSAV,NSN,3) !JD(27)
+              CALL COPY_RVAL(INTBUF_TAB(NI)%S_XFILTR,1,1) !JD(26) COPY_IVAL?
+              CALL COPY_RVAL(INTBUF_TAB(NI)%S_FTSAV,NSN,3) !JD(27) COPY_IVAL?
             ENDIF
             CALL COPY_RVAL(INTBUF_TAB(NI)%STFM,NRTM,1) !JD(17)
             CALL COPY_RVAL(INTBUF_TAB(NI)%STFS,NRTS,1) !JD(16)
@@ -1209,8 +1209,8 @@ cc     .                          TAG_IELES) !KD(24)
             CALL COPY_RVAL(INTBUF_TAB(NI)%FRIC_P,10,1) !JD(25)
           ENDIF
           IF (IFQ/=0) THEN 
-            CALL COPY_RVAL(INTBUF_TAB(NI)%S_XFILTR,1,1) !JD(26)
-            CALL COPY_RVAL(INTBUF_TAB(NI)%S_FTSAV,NSN,3) !JD(27)
+            CALL COPY_RVAL(INTBUF_TAB(NI)%S_XFILTR,1,1) !JD(26) COPY_IVAL
+            CALL COPY_RVAL(INTBUF_TAB(NI)%S_FTSAV,NSN,3) !JD(27) COPY_IVAL
           ENDIF
 
           DEALLOCATE(TAG_NODE_2RY, TAG_NODE_MSR, TAG_IELES, TAG_IELEM)

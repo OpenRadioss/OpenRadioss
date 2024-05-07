@@ -136,7 +136,7 @@ C-----------------------------------------------
      .          NB_INTEGER,N,IR_MAX,IS_MAX,IT_MAX,
      .          NB_ALL,IS_CHAR_KEY2,IS_CHAR_KEY3,IS_CHAR_KEY4,IS_CHAR_KEY5,IS_CHAR_KEY6,IS_CHAR_KEY7,IS_CHAR_KEY8,
      .          IS_EMPTY_KEY2,IS_EMPTY_KEY3,IS_EMPTY_KEY4,IS_EMPTY_KEY5,IS_EMPTY_KEY6,IS_EMPTY_KEY7,IS_EMPTY_KEY8,
-     .          IS_PLY_KEY4,IS_PLY_KEY5,IS_PLY_KEY6,IS_PLY_KEY7,IS_PLY_KEY8,IBID,IS_ALL,IS_UPPER,IS_LOWER,IS_DEF,
+     .          IS_PLY_KEY4,IS_PLY_KEY5,IS_PLY_KEY6,IS_PLY_KEY7,IS_PLY_KEY8,IS_ALL,IS_UPPER,IS_LOWER,IS_DEF,
      .          IS_LAYER_KEY4,IS_LAYER_KEY5,IS_LAYER_KEY6,IS_LAYER_KEY7,IS_LAYER_KEY8,IS_IPT_KEY4,IS_IPT_KEY5,
      .          IS_IPT_KEY6,IS_IPT_KEY7,IS_IPT_KEY8,
      .          IS_GAUSS_KEY4,IS_GAUSS_KEY5,IS_GAUSS_KEY6,IS_GAUSS_KEY7,IS_GAUSS_KEY8,IS_PLY,IS_LAYER,IS_IPT,IS_GAUSS,
@@ -157,6 +157,7 @@ C-----------------------------------------------
      .          IS_MODE,MODE,MODE_MAX,IS_MODE_ALL
         INTEGER MLW,NEL,NG,JTURB,NLAY,NUVAR,IPLY,IMAT,ISUBSTACK,ID_PLY_TMP
         INTEGER CPT_MOD,NMOD,CPT_LAWID
+        INTEGER IBID1,IBID2,IBID3
 
         CHARACTER(LEN=NCHARKEY)::KEY2
         CHARACTER(LEN=NCHARKEY)::KEY3
@@ -231,7 +232,10 @@ C=========================================================================
      .                         + INT((TT-DT2-H3D_DATA%TH3D)/H3D_DATA%DTH3D)*H3D_DATA%DTH3D
         IF (H3D_DATA%TH3D < TT-DT2)H3D_DATA%TH3D = H3D_DATA%TH3D+H3D_DATA%DTH3D
 C=========================================================================
-        IBID = 0
+        IBID1 = 0
+        IBID2 = 0
+        IBID3 = 0
+        
 c
         H3D_DATA%IPART_SELECT = 0
         IS_SCALAR = 0
@@ -526,8 +530,8 @@ C--------------------------------------------------
           CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
      .                                KEY7       ,KEY8        ,IS_ALL    ,IS_LOWER ,IS_UPPER  ,
      .                                'PLY'  ,3       ,IS_PLY  ,PLY    ,
-     .                                IS_PLY_ALL ,IBID        ,IBID      ,IS_DEF   ,
-     .                                IBID       )
+     .                                IS_PLY_ALL ,IBID1        ,IBID2      ,IS_DEF   ,
+     .                                IBID3       )
 C--------------------------------------------------
 C Read LAYER= I/ALL/LOWER/UPPER
 C--------------------------------------------------
@@ -539,7 +543,7 @@ C--------------------------------------------------
      .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
      .                                'LAYER'    ,5           ,IS_LAYER    ,LAYER    ,
      .                                IS_LAYER_ALL,IS_LAYER_LOWER,IS_LAYER_UPPER   ,IS_DEF ,
-     .                                IBID       )
+     .                                IBID1       )
 C--------------------------------------------------
 C Read NPT= I/ALL/LOWER/UPPER
 C--------------------------------------------------
@@ -553,7 +557,7 @@ C--------------------------------------------------
      .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
      .                                'NPT'      ,3           ,IS_IPT    ,IPT    ,
      .                                IS_IPT_ALL,IS_IPT_LOWER,IS_IPT_UPPER,IS_DEF  ,
-     .                                IBID       )
+     .                                IBID1       )
 C--------------------------------------------------
 C Read UVAR= I/ALL/DEF
 C--------------------------------------------------
@@ -564,8 +568,8 @@ C--------------------------------------------------
           CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
      .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
      .                                'UVAR'     ,4           ,IS_UVAR    ,IUVAR    ,
-     .                                IS_UVAR_ALL,IBID        ,IBID       ,IS_DEF  ,
-     .                                IBID       )
+     .                                IS_UVAR_ALL,IBID1        ,IBID2       ,IS_DEF  ,
+     .                                IBID3       )
 C--------------------------------------------------
 C Read MDS_VAR= I/ALL/DEF
 C--------------------------------------------------
@@ -576,7 +580,7 @@ C--------------------------------------------------
           CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
      .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
      .                                'MDS_VAR'  ,7           ,IS_MDSVAR  ,IMDSVAR    ,
-     .                                IS_MDSVAR_ALL,IBID      ,IBID       ,IS_DEF  ,
+     .                                IS_MDSVAR_ALL,IBID1      ,IBID2       ,IS_DEF  ,
      .                                IS_MDSVAR_DEF)
 C--------------------------------------------------
 C Read IR= I/ALL/LOWER/UPPER
@@ -589,7 +593,7 @@ C--------------------------------------------------
      .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
      .                                'IR'  ,2       ,IS_IR  ,IR    ,
      .                                IS_IR_ALL  ,IS_IR_LOWER ,IS_IR_UPPER ,IS_DEF ,
-     .                                IBID       )
+     .                                IBID1       )
 C--------------------------------------------------
 C Read IS= I/ALL/LOWER/UPPER
 C--------------------------------------------------
@@ -601,7 +605,7 @@ C--------------------------------------------------
      .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
      .                                'IS'  ,2       ,IS_IS  ,IS    ,
      .                                IS_IS_ALL  ,IS_IS_LOWER ,IS_IS_UPPER ,IS_DEF ,
-     .                                IBID       )
+     .                                IBID1       )
 C--------------------------------------------------
 C Read IT= I/ALL/LOWER/UPPER
 C--------------------------------------------------
@@ -613,7 +617,7 @@ C--------------------------------------------------
      .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
      .                                'IT'  ,2       ,IS_IT  ,IT    ,
      .                                IS_IT_ALL  ,IS_IT_LOWER ,IS_IT_UPPER ,IS_DEF ,
-     .                                IBID       )
+     .                                IBID1       )
 C--------------------------------------------------
 C Read INTER= I/ALL
 C--------------------------------------------------
@@ -624,8 +628,8 @@ C--------------------------------------------------
           CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
      .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
      .                                'INTER'    ,5           ,IS_INTER    ,INTER    ,
-     .                                IS_INTER_ALL,IBID       ,IBID       ,IS_DEF    ,
-     .                                IBID       )
+     .                                IS_INTER_ALL,IBID1      ,IBID2       ,IS_DEF    ,
+     .                                IBID3       )
 C--------------------------------------------------
 C Read ID= I/ALL
 C--------------------------------------------------
@@ -636,8 +640,8 @@ C--------------------------------------------------
           CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
      .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
      .                                'ID'       ,2           ,IS_ID     ,ID         ,
-     .                                IS_ID_ALL  ,IBID       ,IBID       ,IS_DEF    ,
-     .                                IBID       )
+     .                                IS_ID_ALL  ,IBID1       ,IBID2       ,IS_DEF    ,
+     .                                IBID3       )
 C--------------------------------------------------
 C Read MODE= I/ALL
 C--------------------------------------------------
@@ -648,8 +652,8 @@ C--------------------------------------------------
           CALL CREATE_H3D_ARG_KEYWORD(KEY2       ,KEY3        ,KEY4      ,KEY5     ,KEY6      ,
      .                                KEY7       ,KEY8        ,IS_ALL     ,IS_LOWER    ,IS_UPPER  ,
      .                                'MODE'     ,4           ,IS_MODE   ,MODE       ,
-     .                                IS_MODE_ALL,IBID       ,IBID       ,IS_DEF    ,
-     .                                IBID       )
+     .                                IS_MODE_ALL,IBID1       ,IBID2       ,IS_DEF    ,
+     .                                IBID3       )
 C--------------------------------------------------
           CPT = 0
           IF ( IS_CHAR_KEY3 == 1 .AND. IS_EMPTY_KEY3 == 0) THEN

@@ -292,7 +292,7 @@ C-----------------------------------------------
      .        NCTRLMAX,NSIGBEAM,NSIGTRUSS
       INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,*),SLRBODY
       INTEGER,INTENT(IN) :: IPARI(NPARI,NINTER)
-      INTEGER,INTENT(IN) :: IWORKING_ARRAY(2*NUMNOD)  !lectur::IWCIN2 used here as working array
+      INTEGER,INTENT(INOUT) :: IWORKING_ARRAY(2*NUMNOD)  !lectur::IWCIN2 used here as working array
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
       my_real
      .   ELBUF(*), MS(*), IN(*), V(*), X(*), GEO(*),PM(NPROPM,*),

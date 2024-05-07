@@ -447,7 +447,7 @@ C
      .                                        QUAD_VECTOR,QUAD_VECTOR_P,
      .                                        QUAD_TENSOR,QUAD_TENSOR_P,NODAL_SCALAR_FVM,
      .                                        NODAL_VECTOR_FVM
-        INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNOD,TAGNOD_P,TAGNOD_P_PART,
+        INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNOD,TAGNOD_P,
      .                                        ITAB_P_PART,ITABM1_P
         my_real
      .     XWL(NRWALL) ,YWL(NRWALL) , ZWL(NRWALL), V1(NRWALL), V2(NRWALL), V3(NRWALL),
@@ -844,7 +844,6 @@ c
             ENDIF
           ENDIF
 C
-          ALLOCATE(TAGNOD_P_PART(NUMNOD_H3DPART))
           ALLOCATE(ITAB_P_PART(NUMNOD_H3DPART))
           ALLOCATE(ITABM1_P(2*NUMNODG))
 C
@@ -868,7 +867,6 @@ C
               TAGNOD_P(I) = TAGNOD(I)
             ENDDO
           ENDIF
-          DEALLOCATE(TAGNOD_P_PART)
           DEALLOCATE(ITAB_P_PART)
           DEALLOCATE(ITABM1_P)
         ELSE IF(ISPMD == 0) THEN

@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE M75INIT(
      1      NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC  , NPF   ,
      2      TF     , UPARAM , RHO0    , VOLUME , EINT   ,UVAR   ,
-     3      PM     , IPM    ,ID       ,TITR) 
+     3      PM     ,ID       ,TITR) 
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -70,7 +70,7 @@ C----------------------------------------------------------------
       INTEGER       NEL, NUPARAM, NUVAR
       my_real
      .      UPARAM(NUPARAM), RHO0(NEL), VOLUME(NEL), EINT(NEL),
-     .      PM(NPROPM,*), IPM(NPROPMI,*)
+     .      PM(NPROPM,*)                
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR

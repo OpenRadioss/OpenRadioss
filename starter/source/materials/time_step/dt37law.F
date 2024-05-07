@@ -49,7 +49,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real, INTENT(IN) :: PM(NPROPM, *), GEO(NPROPG, *), AIRE(*), VOL(*), DTX(*)
+      my_real, INTENT(IN) :: PM(NPROPM, *), GEO(NPROPG, *), AIRE(*), VOL(*)
+      my_real, INTENT(INOUT) ::  DTX(*)
       my_real, INTENT(IN), DIMENSION(:), TARGET :: BUFMAT(*), DELTAX(*)
       INTEGER, INTENT(IN) :: PID(*),MAT(*),IPM(NPROPMI, *)
 C-----------------------------------------------

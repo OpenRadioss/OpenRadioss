@@ -93,7 +93,7 @@ C-----------------------------------------------
         INTEGER, INTENT(IN) :: NNOD2SURF,NSEG_USED ! size of SEGTOSURF & INOD2SURF arrays
         INTEGER, DIMENSION(NUMNOD+1), INTENT(IN) :: KNOD2SURF
         INTEGER, DIMENSION(NNOD2SURF,NUMNOD), INTENT(IN) :: INOD2SURF
-        INTEGER, DIMENSION(3,NUMNOD), INTENT(IN) :: NOD_NORMAL
+        my_real, DIMENSION(3,NUMNOD), INTENT(IN) :: NOD_NORMAL
         INTEGER, DIMENSION(NSEG_USED), INTENT(IN) :: SEGTOSURF
         INTEGER, INTENT(IN) :: NSEG ! number of segment of the current surface
         INTEGER, DIMENSION(NSEG), INTENT(IN) :: SURF_ELTYP ! type of surface (shell or triangle)

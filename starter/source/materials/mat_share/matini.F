@@ -347,7 +347,7 @@ c
           CALL M75INIT(
      1       NEL   ,NPAR    ,NUVAR   ,NFUNC  ,IFUNC  ,
      2       NPF   ,TF      ,UPARAM  ,RHO0   ,VOL    ,
-     3       EINT  ,MBUF%VAR,PM      ,IPM    ,ID     ,TITR   )
+     3       EINT  ,MBUF%VAR,PM      ,ID     ,TITR   )
         ELSEIF (MTN == 77) THEN
           CALL M77INIT(
      1       NEL   ,NPAR    ,NUVAR   ,NFUNC  ,IFUNC  ,
