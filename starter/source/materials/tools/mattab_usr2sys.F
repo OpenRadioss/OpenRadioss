@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  MATTAB_USR2SYS                source/materials/tools/mattab_usr2sys.F
 Chd|-- called by -----------
-Chd|        UPDFAIL                       source/materials/updfail.F    
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F

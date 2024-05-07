@@ -58,6 +58,7 @@ Chd|        WRITE_TH                      source/output/th/write_th.F
 Chd|        WRTDES                        source/output/th/wrtdes.F     
 Chd|        WRTDES0                       source/output/th/wrtdes0.F    
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
+Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F

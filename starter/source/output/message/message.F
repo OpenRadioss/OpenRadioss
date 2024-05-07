@@ -813,7 +813,6 @@ Chd|        UDOUBL2_SET                   source/system/sysfus.F
 Chd|        UDOUBL2_WO_TITLE              source/system/sysfus.F        
 Chd|        UDOUBL3                       source/system/sysfus.F        
 Chd|        UNIT_CODE                     source/general_controls/computation/unit_code.F
-Chd|        UPDFAIL                       source/materials/updfail.F    
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|        VDOUBL2                       source/system/sysfus.F        
 Chd|        W_ISPH                        source/restart/ddsplit/w_isph.F

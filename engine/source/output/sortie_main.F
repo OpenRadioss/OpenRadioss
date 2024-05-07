@@ -54,6 +54,7 @@ Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        DT_MOD                        share/modules/dt_mod.F        
+Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
