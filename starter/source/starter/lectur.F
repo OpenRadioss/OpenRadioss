@@ -434,7 +434,6 @@ Chd|        TRACE_IN1                     source/system/trace_back.F
 Chd|        TRACE_OUT1                    source/system/trace_back.F    
 Chd|        TRIINTFRIC                    source/interfaces/interf1/trintfric.F
 Chd|        UPDATE_WEIGHT_RBE3            source/spmd/domain_decomposition/update_weight_rbe3.F
-Chd|        UPDFAIL                       source/materials/updfail.F    
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|        UPGRADE_IXINT                 source/interfaces/interf1/upgrade_ixint.F
 Chd|        XFEM_CRACK_INIT               source/elements/xfem/xfem_crack_init.F
@@ -5235,11 +5234,11 @@ C--------------------------------------------
 
 
 C -------------------------------------------------
-C Check des surfaces pour les airbags
+C Check surfaces for airbags
 C -------------------------------------------------
-      CALL CHECK_SURF(IGRSURF,1)
+      CALL CHECK_SURF(IGRSURF,1,EBCS_TAB)
 C----------------------------------
-C     LECTURE DES VOLUMES MONITORES
+C     READER FOR MONITORED VOLUMES
 C----------------------------------
       ERR_MSG='MONITORED VOLUMES'
       ERR_CATEGORY='MONITORED VOLUMES'
@@ -5442,8 +5441,8 @@ c------------------------------------------------------------------------
      .            MAT_ELEM%MAT_PARAM)
 c
       CALL UPDFAIL(MAT_ELEM%MAT_PARAM ,NUMMAT ,NFUNCT ,NTABLE ,NPC1 ,TABLE ,
-     .             FAIL_FRACTAL,NGRSHEL   ,NGRSH3N,IGRSH4N ,IGRSH3N,
-     .             IXC    ,IXTG      ,NUMELC ,NUMELTG )
+     .             FAIL_FRACTAL,NGRSHEL   ,NGRSH3N,IGRSH4N ,IGRSH3N ,
+     .             NIXC    ,IXC   ,NIXTG ,IXTG    ,NUMELC  ,NUMELTG )
 C
       CALL TRACE_OUT1()
 C------------------------------------------------------------------------
@@ -9952,9 +9951,9 @@ C
       IF(ALLOCATED(ITHBUFTMP)) DEALLOCATE(ITHBUFTMP)
 C
 C -------------------------------------------------
-C Check des surfaces pour les sorties TH
+C Check surfaces for /TH/SURF option
 C -------------------------------------------------
-      CALL CHECK_SURF(IGRSURF,2)
+      CALL CHECK_SURF(IGRSURF,2,EBCS_TAB)
 C -------------------------------------------------
 C /TH/SURF : outputting Pressure and Area : 
 C -------------------------------------------------

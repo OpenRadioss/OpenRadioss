@@ -55,7 +55,7 @@ C-----------------------------------------------
      .   RHO0,EPSXX,EPSYY,EPSZZ,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
-      my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
+      my_real ,DIMENSION(NEL), INTENT(INOUT)   :: 
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX,
      .   SOUNDSP,SIGY,ET
       my_real ,DIMENSION(NEL), INTENT(INOUT) :: 

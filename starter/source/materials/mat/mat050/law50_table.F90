@@ -31,19 +31,19 @@
 
 ! ======================================================================================================================
 ! \brief unifies abscissas of input function and creates equivalent 2D tables
-!! \details 
+!! \details
 
 ! ======================================================================================================================
 
-      subroutine law50_table(table  ,nfunc  ,len     ,lmax   ,rate   ,xi     ,yi     )
+        subroutine law50_table(table  ,nfunc  ,len     ,lmax   ,rate   ,xi     ,yi     )
 
-!----------------------------------------------- 
+!-----------------------------------------------
 !     M o d u l e s
 !-----------------------------------------------
-      use table4d_mod
+          use table4d_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 
-      implicit none
+          implicit none
 
 ! ----------------------------------------------------------------------------------------------------------------------
 !     included files
@@ -54,84 +54,84 @@
 !-----------------------------------------------
 !     D u m m y   A r g u m e n t s
 !-----------------------------------------------
-      integer ,intent(in)    :: nfunc                     !< number of function in 2D table
-      integer ,intent(inout) :: lmax                      !< max size of function abscissa
-      integer ,dimension(nfunc),intent(inout)    :: len   !< size table of all functions
-      my_real ,dimension(nfunc) ,intent(in)      :: rate  !< second dimension values
-      my_real ,dimension(lmax,nfunc) ,intent(in) :: xi    !< x vectors by dimension
-      my_real ,dimension(lmax,nfunc) ,intent(in) :: yi    !< y vectors by dimension
-      type(table_4d_) ,intent(inout) ::  table            !< table structure
+          integer ,intent(in)    :: nfunc                     !< number of function in 2D table
+          integer ,intent(inout) :: lmax                      !< max size of function abscissa
+          integer ,dimension(nfunc),intent(inout)    :: len   !< size table of all functions
+          my_real ,dimension(nfunc) ,intent(in)      :: rate  !< second dimension values
+          my_real ,dimension(lmax,nfunc) ,intent(in) :: xi    !< x vectors by dimension
+          my_real ,dimension(lmax,nfunc) ,intent(in) :: yi    !< y vectors by dimension
+          type(table_4d_) ,intent(inout) ::  table            !< table structure
 !-----------------------------------------------
 !     L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer :: i,j,nptx,idebug
-      my_real ,dimension(:)   ,allocatable :: xf
-      my_real ,dimension(:,:) ,allocatable :: yf
+          integer :: i,j,nptx,idebug
+          my_real ,dimension(:)   ,allocatable :: xf
+          my_real ,dimension(:,:) ,allocatable :: yf
 !=======================================================================
 !     create X,Y vectors for all curves and unify all abscissas
 !--------------------------------------------------------
-      idebug = 0 
-      nptx = 0
-      do i = 1,nfunc
-        nptx = nptx + len(i)
-      end do
-      allocate (xf(nptx))
-      allocate (yf(nptx,nfunc))
+          idebug = 0
+          nptx = 0
+          do i = 1,nfunc
+            nptx = nptx + len(i)
+          end do
+          allocate (xf(nptx))
+          allocate (yf(nptx,nfunc))
 !
-      if (nfunc == 1) then
-        xf(1:nptx)   = xi(1:nptx,1)
-        yf(1:nptx,1) = yi(1:nptx,1)
+          if (nfunc == 1) then
+            xf(1:nptx)   = xi(1:nptx,1)
+            yf(1:nptx,1) = yi(1:nptx,1)
 !
-      else
-        ! unify abscissas
+          else
+            ! unify abscissas
 !
-        call unify_abscissa_2d(nfunc,len,lmax,nptx ,xi  ,xf  )
+            call unify_abscissa_2d(nfunc,len,lmax,nptx ,xi  ,xf  )
 !
-        do i = 1,nfunc
-          call table_values_2d(len(i) ,nptx ,xi(1,i) ,yi(1,i) ,xf ,yf(1,i) )
-        end do      
-        len(1:nfunc) = nptx
-        
-      end if      
-!--------------------------------------------------------------------------
-       ! create 2d function table
-!--------------------------------------------------------
-      if (nfunc == 1) then
-        table%ndim = 1
-        allocate (table%x(table%ndim) )            
-        allocate (table%x(1)%values(nptx) )      
-        allocate (table%y1d(nptx) )
-        table%x(1)%values(1:nptx) = xf(1:nptx)
-        table%y1d(1:nptx) = yf(1:nptx,1)
-      else
-        table%ndim = 2
-        allocate (table%x(table%ndim) )            
-        allocate (table%x(1)%values(nptx) )      
-        allocate (table%x(2)%values(nfunc) )
-        allocate (table%y2d(nptx,nfunc) )
-        table%x(1)%values(1:nptx)  = xf(1:nptx)   
-        table%x(2)%values(1:nfunc) = rate(1:nfunc)
-        do i = 1,nfunc
-          table%y2d(1:nptx,i) = yf(1:nptx,i)
-        end do
-      end if 
-!--------------------
-      ! print tables
-      if (idebug == 1) then
-          print*,' '
-        if (table%ndim == 2) then
-          do i = 1, size(table%x(2)%values)
-            print*,' dimension, epsp', i,table%x(2)%values(i)
-            do j = 1,size(table%x(1)%values)
-              print*,table%x(1)%values(j),table%y2d(j,i)
+            do i = 1,nfunc
+              call table_values_2d(len(i) ,nptx ,xi(1,i) ,yi(1,i) ,xf ,yf(1,i) )
             end do
-          end do     
-        end if
-      end if
+            len(1:nfunc) = nptx
+
+          end if
+!--------------------------------------------------------------------------
+          ! create 2d function table
+!--------------------------------------------------------
+          if (nfunc == 1) then
+            table%ndim = 1
+            allocate (table%x(table%ndim) )
+            allocate (table%x(1)%values(nptx) )
+            allocate (table%y1d(nptx) )
+            table%x(1)%values(1:nptx) = xf(1:nptx)
+            table%y1d(1:nptx) = yf(1:nptx,1)
+          else
+            table%ndim = 2
+            allocate (table%x(table%ndim) )
+            allocate (table%x(1)%values(nptx) )
+            allocate (table%x(2)%values(nfunc) )
+            allocate (table%y2d(nptx,nfunc) )
+            table%x(1)%values(1:nptx)  = xf(1:nptx)
+            table%x(2)%values(1:nfunc) = rate(1:nfunc)
+            do i = 1,nfunc
+              table%y2d(1:nptx,i) = yf(1:nptx,i)
+            end do
+          end if
 !--------------------
-      deallocate (xf)
-      deallocate (yf)
+          ! print tables
+          if (idebug == 1) then
+            print*,' '
+            if (table%ndim == 2) then
+              do i = 1, size(table%x(2)%values)
+                print*,' dimension, epsp', i,table%x(2)%values(i)
+                do j = 1,size(table%x(1)%values)
+                  print*,table%x(1)%values(j),table%y2d(j,i)
+                end do
+              end do
+            end if
+          end if
 !--------------------
-      return
-      end subroutine law50_table
+          deallocate (xf)
+          deallocate (yf)
+!--------------------
+          return
+        end subroutine law50_table
       end module law50_table_mod

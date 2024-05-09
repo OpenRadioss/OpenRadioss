@@ -52,38 +52,35 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NFT
       INTEGER JFT,JLT,IADR(3,*),NUVAR
-C     REAL
-      my_real
-     .   FORX(*), FORY(*), FORZ(*), XMOM(*), YMOM(*), ZMOM(*), 
-     .   STI(3,*),STIR(3,*),FSKY(8,LSKY),FSKYV(LSKY,8), 
-     .   FX1(*),FX2(*),FY1(*),FY2(*),FZ1(*),FZ2(*), 
-     .   MX1(*),MX2(*),MY1(*),MY2(*),MZ1(*),MZ2(*),UVAR(NUVAR,*)
+      my_real FORX(*), FORY(*), FORZ(*), XMOM(*), YMOM(*), ZMOM(*),
+     .        STI(3,*),STIR(3,*),FSKY(8,LSKY),FSKYV(LSKY,8),
+     .        FX1(*),FX2(*),FY1(*),FY2(*),FZ1(*),FZ2(*),
+     .        MX1(*),MX2(*),MY1(*),MY2(*),MZ1(*),MZ2(*),UVAR(NUVAR,*)
       DOUBLE PRECISION XL(MVSIZ,3)     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, N,J
-C     REAL
-      my_real
-     .     F11(MVSIZ), F21(MVSIZ), F31(MVSIZ), 
-     .     M11(MVSIZ), M21(MVSIZ), M31(MVSIZ),
-     .     M12(MVSIZ), M22(MVSIZ), M32(MVSIZ),
-     .     XMOM1, XMOM2, YMOM1, YMOM2, ZMOM1, ZMOM2, M1,M2,M3,
-     .     EX(9), XX
+      my_real F11(MVSIZ), F21(MVSIZ), F31(MVSIZ),
+     .        M11(MVSIZ), M21(MVSIZ), M31(MVSIZ),
+     .        M12(MVSIZ), M22(MVSIZ), M32(MVSIZ),
+     .        XMOM1, XMOM2, YMOM1, YMOM2, ZMOM1, ZMOM2, M1,M2,M3,
+     .        EX(9), XX
 C=======================================================================
 C-------------------------
 C     FORCES
 C-------------------------
 C
-      DO 20 I=JFT,JLT
+      DO I=JFT,JLT
         DO J=1,9
-            EX(J) = UVAR(21+J,I)
+          EX(J) = UVAR(21+J,I)
         END DO      
         F11(I)=EX(1)*FORX(I)+EX(4)*FORY(I)+EX(7)*FORZ(I)
         F21(I)=EX(2)*FORX(I)+EX(5)*FORY(I)+EX(8)*FORZ(I)
-   20   F31(I)=EX(3)*FORX(I)+EX(6)*FORY(I)+EX(9)*FORZ(I)
+        F31(I)=EX(3)*FORX(I)+EX(6)*FORY(I)+EX(9)*FORZ(I)
+      ENDDO
 C
-C----  Assemble
+C----  Assembly
 C
       IF(IVECTOR==1) THEN
 #include "vectorize.inc"
@@ -129,12 +126,12 @@ C
       ENDIF
 C
 C-------------------------
-C     MOMENTS
+C     momentum
 C-------------------------
 C
       DO I=JFT,JLT
         DO J=1,9
-            EX(J) = UVAR(21+J,I)
+          EX(J) = UVAR(21+J,I)
         END DO
 C
         M1 = HALF*(XL(I,2)*FORZ(I)-XL(I,3)*FORY(I))
@@ -155,9 +152,7 @@ C
         M22(I)=EX(2)*XMOM2+EX(5)*YMOM2+EX(8)*ZMOM2
         M32(I)=EX(3)*XMOM2+EX(6)*YMOM2+EX(9)*ZMOM2
 C
-        XX = XL(I,1)*XL(I,1)
-     .     + XL(I,2)*XL(I,2)
-     .     + XL(I,3)*XL(I,3)
+        XX = XL(I,1)*XL(I,1) + XL(I,2)*XL(I,2) + XL(I,3)*XL(I,3)
         STIR(1,I) = STIR(1,I) + STI(2,I)*XX
         STIR(2,I) = STIR(2,I) + STI(1,I)*XX
       ENDDO

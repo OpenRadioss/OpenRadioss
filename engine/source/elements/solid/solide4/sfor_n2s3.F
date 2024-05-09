@@ -48,17 +48,14 @@ C-----------------------------------------------
       INTEGER, INTENT (IN)  :: NEL
       INTEGER, INTENT (OUT) :: IFCTL
       INTEGER, DIMENSION(MVSIZ), INTENT (IN) :: IFC1
-      my_real, DIMENSION(MVSIZ), INTENT (IN) :: 
-     .                 X1,      X2,     X3,     
-     .                 Y1,      Y2,     Y3,     
-     .                 Z1,      Z2,     Z3,     
-     .                 XI,      YI,     ZI
-      my_real,                   INTENT (IN) :: FQMAX
+      my_real, DIMENSION(MVSIZ), INTENT (IN) ::  X1, X2, X3,
+     .                                           Y1, Y2, Y3,
+     .                                           Z1, Z2, Z3,
+     .                                           XI, YI, ZI
+      my_real, INTENT (IN) :: FQMAX
       my_real, DIMENSION(MVSIZ), INTENT (INOUT) :: FKTMAX
-      my_real, DIMENSION(MVSIZ), INTENT (IN) :: STIF,LL,
-     .                                     PENMIN, PENREF
-      my_real, DIMENSION(MVSIZ,3), INTENT (INOUT) :: FORC_N,
-     .                     FOR_T1, FOR_T2, FOR_T3
+      my_real, DIMENSION(MVSIZ), INTENT (IN) :: STIF,LL,PENMIN, PENREF
+      my_real, DIMENSION(MVSIZ,3), INTENT (INOUT) :: FORC_N, FOR_T1, FOR_T2, FOR_T3
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -68,22 +65,21 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IFCTL1,ie
 C                                                                     12
-      my_real
-     .   NX(MVSIZ),NY(MVSIZ),NZ(MVSIZ),FN(MVSIZ),
-     .   XSC(MVSIZ),YSC(MVSIZ),ZSC(MVSIZ),PENE(MVSIZ),
-     .   XA(MVSIZ),YA(MVSIZ),ZA(MVSIZ),AREA(MVSIZ),
-     .   XB(MVSIZ),YB(MVSIZ),ZB(MVSIZ),
-     .   XC(MVSIZ),YC(MVSIZ),ZC(MVSIZ),
-     .   LA(MVSIZ),LB(MVSIZ),LC(MVSIZ),STIFKT(MVSIZ),
-     .   RX, RY, RZ, SX, SY, SZ,VXC,VYC,VZC,
-     .   X42,Y42, Z42, X31, Y31, Z31,FX,FY,FZ,
-     .   SAX,SAY,SAZ,SBX,SBY,SBZ,SCX,SCY,SCZ,
-     .   TRX,TRY,TRZ,TSX,TSY,TSZ,TTX,TTY,TTZ,
-     .   TR2,TS2,TT2,AAA,BBB,VR,VS,VT,NNX,NNY,NNZ,
-     .   XAB,XBC,XCA,YAB,YBC,YCA,ZAB,ZBC,ZCA,
-     .   XIA,  XIB,  XIC, YIA,  YIB,  YIC,
-     .   ZIA,  ZIB,  ZIC, H0,NORM,S2,FAC,S2MIN,LJ,
-     .   F_Q,F_C,KTS,ZEROM,TX,TY,TZ,PENDR
+      my_real NX(MVSIZ),NY(MVSIZ),NZ(MVSIZ),FN(MVSIZ),
+     .        XSC(MVSIZ),YSC(MVSIZ),ZSC(MVSIZ),PENE(MVSIZ),
+     .        XA(MVSIZ),YA(MVSIZ),ZA(MVSIZ),AREA(MVSIZ),
+     .        XB(MVSIZ),YB(MVSIZ),ZB(MVSIZ),
+     .        XC(MVSIZ),YC(MVSIZ),ZC(MVSIZ),
+     .        LA(MVSIZ),LB(MVSIZ),LC(MVSIZ),STIFKT(MVSIZ),
+     .        RX, RY, RZ, SX, SY, SZ,VXC,VYC,VZC,
+     .        X42,Y42, Z42, X31, Y31, Z31,FX,FY,FZ,
+     .        SAX,SAY,SAZ,SBX,SBY,SBZ,SCX,SCY,SCZ,
+     .        TRX,TRY,TRZ,TSX,TSY,TSZ,TTX,TTY,TTZ,
+     .        TR2,TS2,TT2,AAA,BBB,VR,VS,VT,NNX,NNY,NNZ,
+     .        XAB,XBC,XCA,YAB,YBC,YCA,ZAB,ZBC,ZCA,
+     .        XIA,  XIB,  XIC, YIA,  YIB,  YIC,
+     .        ZIA,  ZIB,  ZIC, H0,NORM,S2,FAC,S2MIN,LJ,
+     .        F_Q,F_C,KTS,ZEROM,TX,TY,TZ,PENDR
 C----------------------------
         IFCTL = 0
         IFCTL1 = 0
@@ -116,12 +112,11 @@ C
      .           (Y3(I)-YI(I))*NY(I) +
      .           (Z3(I)-ZI(I))*NZ(I) -PENMIN(I)
            PENE(I) = MAX(ZERO,-BBB)  
-           IF (AREA(I)<PENMIN(I)*LL(I)) 
-     .         PENE(I)=MIN(PENE(I),EM01*PENMIN(I))
+           IF (AREA(I)<PENMIN(I)*LL(I)) PENE(I)=MIN(PENE(I),EM01*PENMIN(I))
          ENDDO
 !     3  A 
-!    / \  
-!   /   \ 
+!    / \
+!   /   \
 !  /     \
 ! 1-------2 C
          DO I=1,NEL

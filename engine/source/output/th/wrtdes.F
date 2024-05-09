@@ -53,9 +53,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER L, IFORM, IR
       INTEGER IA(*)
-C     REAL
-      my_real
-     .   A(*)
+      my_real A(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -74,40 +72,44 @@ C-----------------------------------------------
       EXTERNAL STRR,STRI
       DATA EOR/'ZZZZZEOR'/
       IF(L==0)RETURN
-C
+
       IF (IFORM==0)THEN
        IF (IR==1)THEN
         WRITE(IUNIT) (A(I),I=1,L)
        ELSE
         WRITE(IUNIT) (IA(I),I=1,L)
        ENDIF
-C
+       
       ELSEIF (IFORM==1)THEN
        L1=1
        L2=1000
-   1   L2=MIN(L,L2)
-       II=0
-       IF(IR==1)THEN
-        DO 10 I=L1,L2
-        II=II+1
- 10     CH8(II)=STRR(A(I))
-       ELSE
-        DO 20 I=L1,L2
-        II=II+1
- 20     CH8(II)=STRI(IA(I))
-       ENDIF
-       IF(L2<L)THEN
-        WRITE(IUNIT,'(10A8)') (CH8(I),I=1,II)
-        L1=L1+1000
-        L2=L2+1000
-        GOTO 1
-       ELSEIF(II<1000) THEN
-        WRITE(IUNIT,'(10A8)') (CH8(I),I=1,II),EOR
-       ELSE
-        WRITE(IUNIT,'(10A8)') (CH8(I),I=1,II)
-        WRITE(IUNIT,'(10A8)') EOR
-       ENDIF
-C
+       DO
+         L2=MIN(L,L2)
+         II=0
+         IF(IR==1)THEN
+          DO I=L1,L2
+           II=II+1
+           CH8(II)=STRR(A(I))
+          ENDDO
+         ELSE
+          DO I=L1,L2
+            II=II+1
+            CH8(II)=STRI(IA(I))
+          ENDDO
+         ENDIF
+         IF(L2<L)THEN
+          WRITE(IUNIT,'(10A8)') (CH8(I),I=1,II)
+          L1=L1+1000
+          L2=L2+1000
+          CYCLE
+         ELSEIF(II<1000) THEN
+          WRITE(IUNIT,'(10A8)') (CH8(I),I=1,II),EOR
+         ELSE
+          WRITE(IUNIT,'(10A8)') (CH8(I),I=1,II)
+          WRITE(IUNIT,'(10A8)') EOR
+         ENDIF
+       ENDDO
+
       ELSEIF (IFORM==2)THEN
        IF(IR==1)THEN
         WRITE(IUNIT,'(A,I5,A)')EOR,L,'R'
@@ -116,18 +118,20 @@ C
         WRITE(IUNIT,'(A,I5,A)')EOR,L,'I'
         WRITE(IUNIT,'(16I10)')          (IA(I),I=1,L)
        ENDIF
-C
+
       ELSEIF (IFORM==3)THEN
        CALL EOR_C(4*L)
        IF(IR==1)THEN
-        DO 100 I=1,L
-        R4 = A(I)
- 100    CALL WRITE_R_C(R4,1)
+        DO I=1,L
+          R4 = A(I)
+          CALL WRITE_R_C(R4,1)
+        ENDDO
        ELSE
         CALL WRITE_I_C(IA,L)
        ENDIF
        CALL EOR_C(4*L)
+       
       ENDIF
-C
+
       RETURN
       END

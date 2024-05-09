@@ -37,7 +37,6 @@ Chd|        CBAPINCHTHK                   engine/source/elements/shell/coqueba/c
 Chd|        CBASTRA3PINCH                 engine/source/elements/shell/coqueba/cbastra3pinch.F
 Chd|        CMAIN3PINCH                   engine/source/elements/shell/coqueba/cmain3pinch.F
 Chd|        DEPLAPINCH                    engine/source/assembly/deplapinch.F
-Chd|        FORCE                         engine/source/loads/general/force.F
 Chd|        FORCEPINCH                    engine/source/loads/general/forcepinch.F
 Chd|        FORCE_IMP                     engine/source/loads/general/force_imp.F
 Chd|        FORINTC                       engine/source/elements/forintc.F

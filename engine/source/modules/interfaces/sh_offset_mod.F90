@@ -21,14 +21,14 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       module inter_sh_offset_mod
-#include "my_real.inc"       
-                type sh_offset_
-                  integer ::  nsh_oset                                 ! number of offset shell to be projected
-                  integer, dimension(:,:) , allocatable :: ix_offset      ! (4,nsh_oset)  
-                  integer, dimension(:)  ,  allocatable :: intag       ! (numnod) node connected to offset shell 
-                  integer, dimension(:,:),  allocatable :: iad_offset    ! (2,nspmd+1) comm work array 
-                  integer, dimension(:)  ,  allocatable :: fr_offset     ! comm work array 
-                  my_real, dimension(:)  ,  allocatable :: offset_n    ! (numnod) nodal offset
-                  my_real, dimension(:,:) , allocatable :: norm_n      ! (3,numnod) nodal normal
-                end type  sh_offset_
+#include "my_real.inc"
+        type sh_offset_
+          integer ::  nsh_oset                                 ! number of offset shell to be projected
+          integer, dimension(:,:) , allocatable :: ix_offset      ! (4,nsh_oset)
+          integer, dimension(:)  ,  allocatable :: intag       ! (numnod) node connected to offset shell
+          integer, dimension(:,:),  allocatable :: iad_offset    ! (2,nspmd+1) comm work array
+          integer, dimension(:)  ,  allocatable :: fr_offset     ! comm work array
+          my_real, dimension(:)  ,  allocatable :: offset_n    ! (numnod) nodal offset
+          my_real, dimension(:,:) , allocatable :: norm_n      ! (3,numnod) nodal normal
+        end type  sh_offset_
       end module inter_sh_offset_mod

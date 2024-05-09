@@ -59,7 +59,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-!         
+!
           nseg = set%nb_plane
 !
           igrs = igrs + 1
@@ -82,14 +82,14 @@
 !         not printout empty group
           igrsurf(igrs)%set_group = 1
 !
-          igrsurf(igrs)%type = 200 
+          igrsurf(igrs)%type = 200
           iad=set%plane_iad_bufr
           igrsurf(igrs)%iad_bufr = iad
 !
           bufsf(iad+1)=set%plane_xm
           bufsf(iad+2)=set%plane_ym
           bufsf(iad+3)=set%plane_zm
-          bufsf(iad+4)=set%plane_xm1                                                
+          bufsf(iad+4)=set%plane_xm1
           bufsf(iad+5)=set%plane_ym1
           bufsf(iad+6)=set%plane_zm1
 !

@@ -66,7 +66,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: IADC(*)
       INTEGER, INTENT(IN) :: ITAB(NUMNOD)
       my_real,INTENT(INOUT) :: FAC(LFACLOAD,NLOADP)
-      my_real,INTENT(IN) :: V(3,NUMNOD),X(3,NUMNOD)
+      my_real, INTENT(IN) :: V(3,NUMNOD),X(3,NUMNOD)
       my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8), FSKYV(SFSKY/8,8),FEXT(3,NUMNOD)
       TYPE(H3D_DATABASE),INTENT(IN) :: H3D_DATA
       TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF

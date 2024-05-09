@@ -20,12 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!hd|====================================================================
-!hd|  SIGEPS22G                     src/mate22/sigeps22g.F           
-!hd|-- called by -----------
-!hd|-- calls ---------------
-!hd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-!hd|====================================================================
 Chd|====================================================================
 Chd|  SIGEPS22G                     source/materials/mat/mat022/sigeps22g.F
 Chd|-- called by -----------

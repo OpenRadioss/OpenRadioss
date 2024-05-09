@@ -220,8 +220,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JSMS
       INTEGER, INTENT(INOUT) :: IDEL7NOK
       INTEGER NFT ,MTN, NUVAR,JCVT,ISORTH,NFAIL,NPG,NVARTMP,
-     .        J, JSPH, IPLA,ISMSTR,NELTST, ITYPTST, NUVARR,NG,ILAY,
-     .        IX(*), JTHE, ISROT,ISTRAIN,IPTR, IPTS, IPTT,IHET,IEXPAN,NEL
+     .        JSPH, IPLA,ISMSTR,NELTST, ITYPTST, NUVARR,NG,ILAY,
+     .        IX(*), JTHE,ISTRAIN,IPTR, IPTS, IPTT,IHET,IEXPAN,NEL
       INTEGER NPF(*),MAT(MVSIZ),NGL(MVSIZ),PID(MVSIZ),IPM(NPROPMI,NUMMAT),
      .        IPARG(NPARG,NGROUP),IGEO(NPROPGI,NUMGEO),ITASK,ISELECT
       TARGET  :: IPM
@@ -267,7 +267,7 @@ C-----------------------------------------------
       INTEGER I,NPAR,NPARF,IADBUF,IADVIS,NFUNC,NUMTABL,ISRATE,IPG,NPTR,NPTS,
      .  IBID,IBIDON1,IBIDON2,IBIDON3,IBIDON4 ,N48,NIX,ILAW_USER,IGTYP,
      .  NVARF,IR,IRUPT,IMAT,ISVIS,IVISC,NUVARV,NUPARV,ISEQ,IDEV,NTABL_FAIL,
-     .  IFORM,L_PLANL,L_EPSDNL,L_DMG
+     .  L_PLANL,L_EPSDNL,L_DMG
       my_real 
      .E1,E2,E3,E4,E5,E6,BID1,BID3,Q1,Q2,Q3,SS1,SS2,SS3,SS4,SS5,
      . SS6,WXXF,WYYF,WZZF,P2,EPSP,DAV,ASRATE,C1(MVSIZ),
@@ -2075,10 +2075,9 @@ c ---   extended mohr coulomb failure model
 c ---   MIT Wierzbicki Sahraei electric battery failure                                               
               CALL FAIL_SAHRAEI_S(
      1        NEL      ,NFUNC    ,IFUNC    ,NPF      ,TF       ,
-     2        TT       ,NGL      ,IPM      ,MAT      ,UPARF  ,
+     2        TT       ,NGL      ,UPARF    ,
      3        ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6      , 
-     4        OFF      ,DFMAX    ,TDEL     ,DELTAX   ,NVARF    ,
-     5        UVARF    ) 
+     4        OFF      ,DFMAX    ,TDEL     ,DELTAX   ,NVARF    ,UVARF    ) 
           ELSEIF (IRUPT == 30) THEN                                      
 c  --- Biquadratic failure model                                  
               CALL FAIL_BIQUAD_S(
@@ -2091,7 +2090,7 @@ c  --- Mullins Ogden-Roxburgh damage model
               CALL FAIL_MULLINS_OR_S(
      1        NEL      ,NPARF    ,NVARF    ,
      2        TT       ,DT1      ,UPARF,NGL , 
-     3        MAT      ,S1       ,S2       ,S3       ,S4       ,
+     3        S1       ,S2       ,S3       ,S4       ,
      4        S5       ,S6       ,UVARF    ,OFF      ,
      5        DFMAX    ,LBUF%EPSA) 
           ELSEIF (IRUPT == 34) THEN                                           

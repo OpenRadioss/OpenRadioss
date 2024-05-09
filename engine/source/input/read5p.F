@@ -48,25 +48,29 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
        K=0
-       DO 550 I=1,NBC
+       DO I=1,NBC
         CALL WCIUSC2(IREC+K,1,N,KEY0)
         READ(IUSC2,*)(IV0(J),J=1,N)
-        DO 505 J=1,N
-        IV1(2*J - 1) = IV0(J)
- 505    IV1(2*J)     = IV0(J)
+        DO J=1,N
+          IV1(2*J - 1) = IV0(J)
+          IV1(2*J)     = IV0(J)
+        ENDDO
         N=2*N
         K=K+1
         NC1=1
- 510    CONTINUE
-        NC2=MIN(NC1+9-JJ,N)
-        DO 520 J=NC1,NC2
-        JJ=JJ+1
- 520    IV2(JJ)=IV1(J)
-        IF(JJ<10)GOTO 550
-         WRITE(IIN,'(10I10)')(IV2(J),J=1,JJ)
-         NC1=NC2+1
-         JJ=0
-         IF(NC2/=N)GOTO 510
- 550   CONTINUE
+
+        DO
+          NC2=MIN(NC1+9-JJ,N)
+          DO J=NC1,NC2
+            JJ=JJ+1
+            IV2(JJ)=IV1(J)
+          ENDDO
+          IF(JJ<10)CYCLE
+          WRITE(IIN,'(10I10)')(IV2(J),J=1,JJ)
+          NC1=NC2+1
+          JJ=0
+          IF(NC2==N)EXIT
+        ENDDO
+      ENDDO ! I
       RETURN
       END

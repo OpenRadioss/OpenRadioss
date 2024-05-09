@@ -192,7 +192,6 @@ Chd|        SUINIT3                       starter/source/elements/elbuf_init/sui
 Chd|        T3GRHEAD                      starter/source/elements/solid_2d/tria/t3grhead.F
 Chd|        T3GRTAILS                     starter/source/elements/solid_2d/tria/t3grtails.F
 Chd|        TAGNOD_R2R_NL                 starter/source/coupling/rad2rad/tagnod_r2r_nl.F
-Chd|        UPDFAIL                       starter/source/materials/updfail.F
 Chd|        UPDMAT                        starter/source/materials/updmat.F
 Chd|        EIG                           engine/stub/eig.F             
 Chd|        EIG1                          engine/stub/eig1.F            

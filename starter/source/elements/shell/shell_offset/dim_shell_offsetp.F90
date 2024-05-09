@@ -22,7 +22,7 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       module dim_shell_offsetp_mod
 
-        contains
+      contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
@@ -30,11 +30,11 @@
 !=======================================================================================================================
 !!\brief This subroutine do the dimensioning of shell offset projection
 !=======================================================================================================================
-        subroutine dim_shell_offsetp(                                          &                                    
-                       ngroup,    nparg,      iparg,        npropg,            &
-                       numgeo,      geo,     numelc,          nixc,            &
-                          ixc,  numeltg,      nixtg,          ixtg,            &
-                       numnod,    intag,    nsh_oset   )
+        subroutine dim_shell_offsetp(                                          &
+          ngroup,    nparg,      iparg,        npropg,            &
+          numgeo,      geo,     numelc,          nixc,            &
+          ixc,  numeltg,      nixtg,          ixtg,            &
+          numnod,    intag,    nsh_oset   )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -44,103 +44,103 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"       
+#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer, intent (in   )                         :: ngroup           !< number of elem group
-        integer, intent (in   )                         :: nparg            !< 1er dim of iparg
-        integer, intent (in   )                         :: npropg           !< 1er dim of geo
-        integer, intent (in   )                         :: numgeo           !< number of prop
-        integer, intent (in   )                         :: numelc           !< number shell 4n element
-        integer, intent (in   )                         :: nixc             !< 1er dim of ixc
-        integer, intent (in   )                         :: numeltg          !< number shell 3n element
-        integer, intent (in   )                         :: nixtg            !< 1er dim of ixtg
-        integer, intent (in   )                         :: numnod           !< number node
-        integer, intent (in   ) ,dimension(nparg,ngroup):: iparg            !< elem group array
-        integer, intent (in   ) ,dimension(nixc,numelc) :: ixc              !< shell 4n connectivity
-        integer, intent (in   ),dimension(nixtg,numeltg):: ixtg             !< shell 3n connectivity
-        integer, intent (inout) ,dimension(numnod)      :: intag            !< itag working array
-        integer, intent (inout)                         :: nsh_oset         !< number offset shell for projection
-        my_real, intent (in   ),dimension(npropg,numgeo):: geo              !< property array
+          integer, intent (in   )                         :: ngroup           !< number of elem group
+          integer, intent (in   )                         :: nparg            !< 1er dim of iparg
+          integer, intent (in   )                         :: npropg           !< 1er dim of geo
+          integer, intent (in   )                         :: numgeo           !< number of prop
+          integer, intent (in   )                         :: numelc           !< number shell 4n element
+          integer, intent (in   )                         :: nixc             !< 1er dim of ixc
+          integer, intent (in   )                         :: numeltg          !< number shell 3n element
+          integer, intent (in   )                         :: nixtg            !< 1er dim of ixtg
+          integer, intent (in   )                         :: numnod           !< number node
+          integer, intent (in   ) ,dimension(nparg,ngroup):: iparg            !< elem group array
+          integer, intent (in   ) ,dimension(nixc,numelc) :: ixc              !< shell 4n connectivity
+          integer, intent (in   ),dimension(nixtg,numeltg):: ixtg             !< shell 3n connectivity
+          integer, intent (inout) ,dimension(numnod)      :: intag            !< itag working array
+          integer, intent (inout)                         :: nsh_oset         !< number offset shell for projection
+          my_real, intent (in   ),dimension(npropg,numgeo):: geo              !< property array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer i,j,n,nel,nft,nn,ie,igtyp,nf1,ity,nnode,pid,nshel,ng
-        my_real shelloff
+          integer i,j,n,nel,nft,nn,ie,igtyp,nf1,ity,nnode,pid,nshel,ng
+          my_real shelloff
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------  
-! 1er pass to fill intag 
-      intag = 0
-      do  ng=1,ngroup
-        ity=iparg(5,ng)
-        igtyp  = iparg(38,ng)
-        if (igtyp == 0.or.(ity /= 3 .and. ity /= 7) ) cycle
-        nel=iparg(2,ng)
-        nft=iparg(3,ng)
-        pid =iparg(62,ng) 
-        shelloff = zero
-        select case(igtyp)
-          case (11)
-            shelloff = geo(199,pid)
-          case (17,51,52)
-            shelloff = half+geo(199,pid)
-        end select
-        if (ity == 3)then
-          nnode =4
-          do i=1,nel
-              ie = nft + i
-            do j=1,nnode
-              n = ixc(j+1,ie)
-              if (shelloff/=zero) intag(n)=1
-            enddo
+! ----------------------------------------------------------------------------------------------------------------------
+! 1er pass to fill intag
+          intag = 0
+          do  ng=1,ngroup
+            ity=iparg(5,ng)
+            igtyp  = iparg(38,ng)
+            if (igtyp == 0.or.(ity /= 3 .and. ity /= 7) ) cycle
+            nel=iparg(2,ng)
+            nft=iparg(3,ng)
+            pid =iparg(62,ng)
+            shelloff = zero
+            select case(igtyp)
+             case (11)
+              shelloff = geo(199,pid)
+             case (17,51,52)
+              shelloff = half+geo(199,pid)
+            end select
+            if (ity == 3)then
+              nnode =4
+              do i=1,nel
+                ie = nft + i
+                do j=1,nnode
+                  n = ixc(j+1,ie)
+                  if (shelloff/=zero) intag(n)=1
+                enddo
+              end do
+            elseif (ity == 7)then
+              nnode =3
+              do i=1,nel
+                ie = nft + i
+                do j=1,nnode
+                  n = ixtg(j+1,ie)
+                  if (shelloff/=zero) intag(n)=1
+                enddo
+              end do
+            end if
           end do
-        elseif (ity == 7)then
-          nnode =3
-          do i=1,nel
-              ie = nft + i
-            do j=1,nnode
-              n = ixtg(j+1,ie)
-              if (shelloff/=zero) intag(n)=1
-            enddo
+! 2nd pass for dim w/ connected 0 offset shell
+          nshel=0
+          do  ng=1,ngroup
+            ity=iparg(5,ng)
+            igtyp  = iparg(38,ng)
+            if (igtyp == 0.or.(ity /= 3 .and. ity /= 7) ) cycle
+            nel=iparg(2,ng)
+            nft=iparg(3,ng)
+            if (ity == 3)then
+              nnode =4
+              do i=1,nel
+                ie = nft + i
+                nn=0
+                do j=1,nnode
+                  n = ixc(j+1,ie)
+                  nn = nn + intag(n)
+                enddo
+                if (nn>0) nshel = nshel + 1
+              end do
+            elseif (ity == 7)then
+              nnode =3
+              do i=1,nel
+                ie = nft + i
+                nn=0
+                do j=1,nnode
+                  n = ixtg(j+1,ie)
+                  nn = nn + intag(n)
+                enddo
+                if (nn>0) nshel = nshel + 1
+              end do
+            end if
           end do
-        end if
-      end do
-! 2nd pass for dim w/ connected 0 offset shell 
-      nshel=0
-      do  ng=1,ngroup
-        ity=iparg(5,ng)
-        igtyp  = iparg(38,ng)
-        if (igtyp == 0.or.(ity /= 3 .and. ity /= 7) ) cycle
-        nel=iparg(2,ng)
-        nft=iparg(3,ng)
-        if (ity == 3)then
-          nnode =4
-          do i=1,nel
-              ie = nft + i
-              nn=0
-            do j=1,nnode
-              n = ixc(j+1,ie)
-              nn = nn + intag(n)
-            enddo
-            if (nn>0) nshel = nshel + 1
-          end do
-        elseif (ity == 7)then
-          nnode =3
-          do i=1,nel
-              ie = nft + i
-              nn=0
-            do j=1,nnode
-              n = ixtg(j+1,ie)
-              nn = nn + intag(n)
-            enddo
-            if (nn>0) nshel = nshel + 1
-          end do
-        end if
-      end do
-      nsh_oset = nshel
+          nsh_oset = nshel
 !-----------
-      end subroutine dim_shell_offsetp
-    end module dim_shell_offsetp_mod
+        end subroutine dim_shell_offsetp
+      end module dim_shell_offsetp_mod

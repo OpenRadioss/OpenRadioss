@@ -31,7 +31,7 @@ Chd|        SOLVE_EINT                    source/multifluid/multi_inlet_ebcs.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE MULTI_INLET_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
-     .     FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE, NPF,TF)
+     .     FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE, ID_SURF, NPF,TF,FSAVSURF)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -64,8 +64,9 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IPM(NPROPMI, NUMMAT)
       my_real, INTENT(IN) :: PM(NPROPM, NUMMAT), FUNC_VALUE(*)
       TYPE(FVM_INLET_DATA_STRUCT), INTENT(IN) :: FVM_INLET_DATA
-      INTEGER, INTENT(IN) :: NPF(SNPC)
+      INTEGER, INTENT(IN) :: NPF(SNPC), ID_SURF
       my_real, INTENT(IN) :: TF(STF)
+      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -467,6 +468,10 @@ C     Submaterial fluxes
             CALL ARRET(2)
 C     
          ENDIF
+
+         ! /TH/SURF (massflow)
+         FSAVSURF(2,ID_SURF) = FSAVSURF(2,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID)
+
       ENDDO
 C-----------------------------------------------
 C     E n d   o f   s u b r o u t i n e 
@@ -495,7 +500,7 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: RHO
       my_real, INTENT(INOUT) :: SSP, PRES, EINT
       my_real, INTENT(INOUT) :: BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME, BUFMAT(*)
-      my_real, INTENT(OUT) :: OFF
+      my_real, INTENT(INOUT) :: OFF
       INTEGER, INTENT(IN) :: NPF(SNPC),NVAREOS
       my_real, INTENT(IN) :: TF(STF),VAREOS(NVAREOS*1)
 

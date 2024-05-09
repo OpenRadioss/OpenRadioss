@@ -22,7 +22,7 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       module chk_shell_offset_mod
 
-        contains
+      contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
@@ -30,9 +30,9 @@
 !=======================================================================================================================
 !!\brief This subroutine check if there is shell offset in the model
 !=======================================================================================================================
-        subroutine chk_shell_offset(                                           &                                    
-                       ngroup,    nparg,      iparg,        npropg,            &
-                       numgeo,      geo,    ioffset)
+        subroutine chk_shell_offset(                                           &
+          ngroup,    nparg,      iparg,        npropg,            &
+          numgeo,      geo,    ioffset)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -42,47 +42,47 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"       
+#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer, intent (in   )                         :: ngroup           !< number of elem group
-        integer, intent (in   )                         :: nparg            !< 1er dim of iparg
-        integer, intent (in   )                         :: npropg           !< 1er dim of geo
-        integer, intent (in   )                         :: numgeo           !< number of prop
-        integer, intent (in   ) ,dimension(nparg,ngroup):: iparg            !< elem group array
-        integer, intent (inout)                         :: ioffset          !< flag for offset treatment
-        my_real, intent (in   ),dimension(npropg,numgeo):: geo              !< property array
+          integer, intent (in   )                         :: ngroup           !< number of elem group
+          integer, intent (in   )                         :: nparg            !< 1er dim of iparg
+          integer, intent (in   )                         :: npropg           !< 1er dim of geo
+          integer, intent (in   )                         :: numgeo           !< number of prop
+          integer, intent (in   ) ,dimension(nparg,ngroup):: iparg            !< elem group array
+          integer, intent (inout)                         :: ioffset          !< flag for offset treatment
+          my_real, intent (in   ),dimension(npropg,numgeo):: geo              !< property array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer i,igtyp,ity,nnode,pid,ifoset,ng
-        my_real shelloff
+          integer i,igtyp,ity,nnode,pid,ifoset,ng
+          my_real shelloff
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------  
-      ifoset = 0
-      do  ng=1,ngroup
-        ity=iparg(5,ng)
-        igtyp  = iparg(38,ng)
-        if (igtyp == 0.or.(ity /= 3 .and. ity /= 7) ) cycle
-        pid =iparg(62,ng) 
-        shelloff = zero
-        select case(igtyp)
-          case (11)
-            shelloff = geo(199,pid)
-          case (17,51,52)
-            shelloff = half + geo(199,pid)
-        end select 
-        if (shelloff/=zero) then
-          ifoset = 1
-          cycle
-        end if
-      end do
-      if (ifoset == 0) ioffset=0
+! ----------------------------------------------------------------------------------------------------------------------
+          ifoset = 0
+          do  ng=1,ngroup
+            ity=iparg(5,ng)
+            igtyp  = iparg(38,ng)
+            if (igtyp == 0.or.(ity /= 3 .and. ity /= 7) ) cycle
+            pid =iparg(62,ng)
+            shelloff = zero
+            select case(igtyp)
+             case (11)
+              shelloff = geo(199,pid)
+             case (17,51,52)
+              shelloff = half + geo(199,pid)
+            end select
+            if (shelloff/=zero) then
+              ifoset = 1
+              cycle
+            end if
+          end do
+          if (ifoset == 0) ioffset=0
 !-----------
-      end subroutine chk_shell_offset
+        end subroutine chk_shell_offset
 
-    end module chk_shell_offset_mod
-    
+      end module chk_shell_offset_mod
+

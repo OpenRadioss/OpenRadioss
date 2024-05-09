@@ -136,6 +136,7 @@ C-----------------------------------------------
       MID(1:4) = NINT(UPARAM(9:12))
       AV(1:4)  = UPARAM(13:16)
       UPARAM(9:280)=ZERO
+      UPARAM(31) = 12
       MID_VALID(1:4)=0
       COUNT_VALID_MAT = 0
       COUNT_NONEXPLO = 0
@@ -710,7 +711,7 @@ C-----------------------------------------------
        !IF(UPARAM(30)==ZERO)    UPARAM(30)=ZEP2
        UPARAM(62) = EM03
        UPARAM(69) = UPARAM(9)*UPARAM(4) + UPARAM(10)*UPARAM(5) + UPARAM(11)*UPARAM(6) + UPARAM(47)*UPARAM(46)
-       UPARAM(31) = 1
+       !UPARAM(31) = 1
        UPARAM(72) = INFINITY
        IF(UPARAM(43) <= EM20) UPARAM(44)=INFINITY
        IF(UPARAM(47)==ZERO) UPARAM(47) = EM20

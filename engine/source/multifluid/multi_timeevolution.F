@@ -54,7 +54,7 @@ Chd|====================================================================
      .     NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
      .     ITAB, ITABM1, CURRENT_TIME,
      .     STIFN, FSKY, IADS, FSKYM, 
-     .     CONDN, CONDNSKY, BUFMAT, FUNC_VALUE, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPF,TF)
+     .     CONDN, CONDNSKY, BUFMAT, FUNC_VALUE, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPF,TF,FSAVSURF)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -82,6 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      my_real,INTENT(INOUT) :: FSAVSURF(5,NSURF)
       my_real, INTENT(IN) :: TIMESTEP
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       INTEGER, INTENT(IN) :: IPARG(NPARG, *), IADS(8, *)
@@ -295,7 +296,7 @@ C---------------------
       IF (EBCS_TAB%nebcs_fvm > 0) THEN
          CALL MY_BARRIER
          CALL MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE, 
-     .        EBCS_TAB,NPF,TF)
+     .        EBCS_TAB,NPF,TF,FSAVSURF,NSURF)
          CALL MY_BARRIER
       ENDIF
 C     ------------------------- 

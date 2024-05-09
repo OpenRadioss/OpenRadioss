@@ -59,7 +59,7 @@
           character(len=nchartitle),                 intent(in) :: title                             !< set title
           my_real,                                   intent(in) :: rtrans(ntransf,nrtrans)           !< transformation storage array
           type(SET_),                                intent(inout) :: clause                         !< clause of set
-          type(UNIT_TYPE_),                          intent(in) :: unitab                            !< unit table 
+          type(UNIT_TYPE_),                          intent(in) :: unitab                            !< unit table
           type(SUBMODEL_DATA),                       intent(in) :: lsubmodel(nsubmod)              !< submodel storage array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -81,14 +81,14 @@
           ym1 = ZERO
           zm1 = ZERO
 !
-          call hm_get_floatv('XM' ,xm,is_available,lsubmodel,unitab)                                                            
-          call hm_get_floatv('YM' ,ym,is_available,lsubmodel,unitab)                                                            
+          call hm_get_floatv('XM' ,xm,is_available,lsubmodel,unitab)
+          call hm_get_floatv('YM' ,ym,is_available,lsubmodel,unitab)
           call hm_get_floatv('ZM' ,zm,is_available,lsubmodel,unitab)
           if (sub_id /= 0) call subrotpoint(xm,ym,zm,rtrans,sub_id,lsubmodel)
 !
-          call hm_get_floatv  ('XM1' ,xm1,is_available,lsubmodel,unitab)                                                            
-          call hm_get_floatv  ('YM1' ,ym1,is_available,lsubmodel,unitab)                                                            
-          call hm_get_floatv  ('ZM1' ,zm1,is_available,lsubmodel,unitab)                                                            
+          call hm_get_floatv  ('XM1' ,xm1,is_available,lsubmodel,unitab)
+          call hm_get_floatv  ('YM1' ,ym1,is_available,lsubmodel,unitab)
+          call hm_get_floatv  ('ZM1' ,zm1,is_available,lsubmodel,unitab)
           if (sub_id /= 0) call subrotpoint(xm1,ym1,zm1,rtrans,sub_id,lsubmodel)
 !
 !         Normal Vector

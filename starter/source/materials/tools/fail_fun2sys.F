@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  FAIL_FUN2SYS                  source/materials/tools/fail_fun2sys.F
 Chd|-- called by -----------
-Chd|        UPDFAIL                       source/materials/updfail.F    
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FAIL_PARAM_MOD                ../common_source/modules/mat_elem/fail_param_mod.F

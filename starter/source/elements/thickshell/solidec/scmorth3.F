@@ -214,7 +214,7 @@ C------Uij-->gij; Wij->[g]-1-----
         DO I=LFT,LLT
           IG = PID(I)
           IPNUM = IGEO(2,IG)
-C----par rapport à HA8, permitation si s16----
+C----par rapport a HA8, permitation si s16----
           SELECT CASE (IPNUM)
           CASE (1)
            U1X = RX(I)*E2X(I)+RY(I)*E2Y(I)+RZ(I)*E2Z(I)

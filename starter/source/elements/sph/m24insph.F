@@ -43,33 +43,33 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPART(LIPART1,*),IPARTSP(*),NEL
-C     REAL
-      my_real
-     .   PM(NPROPM,*), ANG(NEL,6), SF(NEL,3), VK0(*), ROB(*)
+      my_real PM(NPROPM,*), ANG(NEL,6), SF(NEL,3), VK0(*), ROB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IPRT, MX, IG, ISK
-C     REAL
 C-----------------------------------------------
-      DO 20 I=LFT,LLT
-      ANG(I,1)=ONE
-      ANG(I,2)=ZERO
-      ANG(I,3)=ZERO
-      ANG(I,4)=ZERO
-      ANG(I,5)=ONE
-   20 ANG(I,6)=ZERO
+      DO I=LFT,LLT
+        ANG(I,1)=ONE
+        ANG(I,2)=ZERO
+        ANG(I,3)=ZERO
+        ANG(I,4)=ZERO
+        ANG(I,5)=ONE
+        ANG(I,6)=ZERO
+      ENDDO
 C
-      DO 30 I=LFT,LLT
-      SF(I,1)=-ONE
-      SF(I,2)=-ONE
-   30 SF(I,3)=-ONE
+      DO I=LFT,LLT
+        SF(I,1)=-ONE
+        SF(I,2)=-ONE
+        SF(I,3)=-ONE
+      ENDDO
 C
-      DO 40 I=LFT,LLT
-      IPRT=IPARTSP(I+NFT)
-      MX  =IPART(1,IPRT)
-      ROB(I)=PM(30,MX)
-   40 VK0(I)=PM(46,MX)
+      DO I=LFT,LLT
+        IPRT=IPARTSP(I+NFT)
+        MX=IPART(1,IPRT)
+        ROB(I)=PM(30,MX)
+        VK0(I)=PM(46,MX)
+      ENDDO
 C
       RETURN
       END

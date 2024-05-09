@@ -92,7 +92,6 @@ Chd|        TABLE_WRESTI                  source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTR                  source/tools/curve/table_tools.F
 Chd|        TABLE_ZERO                    source/tools/curve/table_tools.F
 Chd|        UNIFY_X                       source/tools/curve/func_slope.F
-Chd|        UPDFAIL                       source/materials/updfail.F    
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|        YMAX                          source/materials/mat/mat100/law100_upd.F
 Chd|        GET_U_NUMTABLE                source/user_interface/utable.F

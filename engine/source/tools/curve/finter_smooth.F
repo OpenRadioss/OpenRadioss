@@ -26,7 +26,6 @@ Chd|  FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
 Chd|-- called by -----------
 Chd|        DAASOLV                       source/fluid/daasolv.F        
 Chd|        DAASOLVP                      source/fluid/daasolvp.F       
-Chd|        FORCE                         source/loads/general/force.F  
 Chd|        FORCEFINGEO                   source/loads/general/forcefingeo.F
 Chd|        FORCEPINCH                    source/loads/general/forcepinch.F
 Chd|        GRAVIT                        source/loads/general/grav/gravit.F

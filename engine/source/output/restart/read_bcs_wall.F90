@@ -30,7 +30,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use bcs_mod , only : bcs
+        use bcs_mod , only : bcs
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -43,41 +43,41 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      my_real, dimension(2) :: rtmp
-      integer, dimension(7) :: itmp
-      integer :: ilen,ii,jj
+        my_real, dimension(2) :: rtmp
+        integer, dimension(7) :: itmp
+        integer :: ilen,ii,jj
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------                   
+! ----------------------------------------------------------------------------------------------------------------------
 
-      if(bcs%num_wall > 0)then
+        if(bcs%num_wall > 0)then
 
-        allocate(bcs%wall(bcs%num_wall))
+          allocate(bcs%wall(bcs%num_wall))
 
-        do ii=1,bcs%num_wall
-          call read_i_c(itmp,7)               
-          bcs%wall(ii)%is_enabled             = (itmp(1)==1)
-          bcs%wall(ii)%is_depending_on_time   = (itmp(2)==1)
-          bcs%wall(ii)%is_depending_on_sensor = (itmp(3)==1)
-          bcs%wall(ii)%user_id                = itmp(4)
-          bcs%wall(ii)%grnod_id               = itmp(5)
-          bcs%wall(ii)%sensor_id              = itmp(6)
-          bcs%wall(ii)%list%size              = itmp(7)
-          
-          ilen = itmp(7)
-          if(ilen > 0)then
-            allocate(bcs%wall(ii)%list%elem(ilen)) ; call read_i_c(bcs%wall(ii)%list%elem(1),ilen)
-            allocate(bcs%wall(ii)%list%face(ilen)) ; call read_i_c(bcs%wall(ii)%list%face(1),ilen)
-            allocate(bcs%wall(ii)%list%adjacent_elem(ilen)) ; call read_i_c(bcs%wall(ii)%list%adjacent_elem(1),ilen)
-          endif 
-          
-          call read_db(rtmp,2)
-          bcs%wall(ii)%tstart = rtmp(1)
-          bcs%wall(ii)%tstop = rtmp(2)
+          do ii=1,bcs%num_wall
+            call read_i_c(itmp,7)
+            bcs%wall(ii)%is_enabled             = (itmp(1)==1)
+            bcs%wall(ii)%is_depending_on_time   = (itmp(2)==1)
+            bcs%wall(ii)%is_depending_on_sensor = (itmp(3)==1)
+            bcs%wall(ii)%user_id                = itmp(4)
+            bcs%wall(ii)%grnod_id               = itmp(5)
+            bcs%wall(ii)%sensor_id              = itmp(6)
+            bcs%wall(ii)%list%size              = itmp(7)
 
-        enddo
-      endif
+            ilen = itmp(7)
+            if(ilen > 0)then
+              allocate(bcs%wall(ii)%list%elem(ilen)) ; call read_i_c(bcs%wall(ii)%list%elem(1),ilen)
+              allocate(bcs%wall(ii)%list%face(ilen)) ; call read_i_c(bcs%wall(ii)%list%face(1),ilen)
+              allocate(bcs%wall(ii)%list%adjacent_elem(ilen)) ; call read_i_c(bcs%wall(ii)%list%adjacent_elem(1),ilen)
+            endif
+
+            call read_db(rtmp,2)
+            bcs%wall(ii)%tstart = rtmp(1)
+            bcs%wall(ii)%tstop = rtmp(2)
+
+          enddo
+        endif
 
 ! ----------------------------------------------------------------------------------------------------------------------
-      return
+        return
       end subroutine read_bcs_wall

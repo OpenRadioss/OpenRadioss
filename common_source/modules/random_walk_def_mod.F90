@@ -26,29 +26,30 @@
 
 ! ======================================================================================================================
 !! \brief data structure for random walk algorithm used in fractal damage initialization
-!! \details 
+!! \details
 ! ======================================================================================================================
-      implicit none
+        implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 #include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 
-      type random_walk_  
-        integer :: id                                   ! element id
-        integer :: nix                                  ! number of edge connexions (3/4)
-        my_real :: damage                               ! damage value 
-        integer, dimension(:), allocatable :: neighbor  ! neighbor element list (nix)
-      end type random_walk_ 
-            
-      type fractal_  
-        integer :: imat
-        integer :: nelem
-        type (random_walk_), dimension(:), allocatable :: random_walk  ! (nelem)
-      end type fractal_ 
-      
-      type fail_fractal_               ! (nfail_fractal)
-        integer :: nfail               ! number of fractal_dmg models (global)
-        type (fractal_) ,dimension(:), allocatable :: fractal   ! (nfail_fractal)     
-      end type fail_fractal_ 
+        type random_walk_
+          integer :: id                                   ! element id
+          integer :: elnum                                ! element number
+          integer :: nix                                  ! number of edge connexions (3/4)
+          my_real :: damage                               ! damage value
+          integer, dimension(:), allocatable :: neighbor  ! neighbor element list (nix)
+        end type random_walk_
+
+        type fractal_
+          integer :: imat
+          integer :: nelem
+          type (random_walk_), dimension(:), allocatable :: random_walk  ! (nelem)
+        end type fractal_
+
+        type fail_fractal_               ! (nfail_fractal)
+          integer :: nfail               ! number of fractal_dmg models (global)
+          type (fractal_) ,dimension(:), allocatable :: fractal   ! (nfail_fractal)
+        end type fail_fractal_
 ! ----------------------------------------------------------------------------------------------------------------------
       end module random_walk_def_mod

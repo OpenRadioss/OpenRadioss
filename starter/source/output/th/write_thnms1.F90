@@ -27,38 +27,38 @@
 ! ======================================================================================================================
 !! \write th.nms1 file containing th index->name correspondance
         subroutine write_thnms1(nvarn1        ,nvarn1a       ,nvarn2           ,nvarnpinch        ,nvars1           ,&
-                                nvars2        ,nvars3        ,nvars4           ,nvars5            ,nvars6           ,&
-                                nvars7        ,nvars8        ,nvars9           ,nvarsnloc         ,&
-                                nvarp         ,nvarr         ,nvart            ,nvarns            ,nvarsph          ,&
-                                nvarin        ,nvarrw        ,nvarrb           ,nvarmv            ,nvarse           ,&
-                                nvarac        ,nvarjo        ,nvarmvent        ,nvarpa            ,nvarfx           ,&
-                                nvargau       ,nvarfr        ,nvarslip         ,nvarret           ,nvarclus         ,&
-                                nvarflow      ,nvarsurf      ,nvarc            ,nvarsens          ,&
-                                varn1_title   ,varn1a_title  ,varn2_title      ,&
-                                varnpinch_title,varp_title   ,varr_title       ,vart_title        ,&
-                                vars1_title   ,vars2_title   ,vars3_title      ,vars4_title       ,vars5_title      ,&
-                                vars6_title   ,vars7_title   ,vars8_title      ,vars9_title       ,varsnloc_title   ,&
-                                varc_title    ,&
-                                varns_title   ,varsph_title  ,varin_title      ,&
-                                varrw_title   ,varrb_title   ,varmv_title      ,varse_title       ,varac_title      ,&
-                                varjo_title   ,varmvent_title,varpa_title      ,varfx_title       ,vargau_title     ,&
-                                varfr_title   ,varslip_title ,varret_title     ,varclus_title     ,varflow_title    ,&
-                                varsurf_title ,varsens_title,&
-                                varn1         ,varn1a        ,varn2            ,varnpinch         ,&
-                                varp          ,varr          ,vart             ,vars1             ,vars2            ,&
-                                vars3         ,vars4         ,vars5            ,vars6             ,vars7            ,&
-                                vars8         ,vars9         ,varsnloc         ,&
-                                varc          ,&
-                                varns         ,varsph        ,varin            ,&
-                                varrw         ,varrb         ,varmv            ,varse             ,varac            ,&
-                                varjo         ,varmvent      ,varpa            ,varfx             ,vargau           ,&
-                                varfr         ,varslip       ,varret           ,varclus           ,varflow          ,&
-                                varsurf       ,varsens)
+          nvars2        ,nvars3        ,nvars4           ,nvars5            ,nvars6           ,&
+          nvars7        ,nvars8        ,nvars9           ,nvarsnloc         ,&
+          nvarp         ,nvarr         ,nvart            ,nvarns            ,nvarsph          ,&
+          nvarin        ,nvarrw        ,nvarrb           ,nvarmv            ,nvarse           ,&
+          nvarac        ,nvarjo        ,nvarmvent        ,nvarpa            ,nvarfx           ,&
+          nvargau       ,nvarfr        ,nvarslip         ,nvarret           ,nvarclus         ,&
+          nvarflow      ,nvarsurf      ,nvarc            ,nvarsens          ,&
+          varn1_title   ,varn1a_title  ,varn2_title      ,&
+          varnpinch_title,varp_title   ,varr_title       ,vart_title        ,&
+          vars1_title   ,vars2_title   ,vars3_title      ,vars4_title       ,vars5_title      ,&
+          vars6_title   ,vars7_title   ,vars8_title      ,vars9_title       ,varsnloc_title   ,&
+          varc_title    ,&
+          varns_title   ,varsph_title  ,varin_title      ,&
+          varrw_title   ,varrb_title   ,varmv_title      ,varse_title       ,varac_title      ,&
+          varjo_title   ,varmvent_title,varpa_title      ,varfx_title       ,vargau_title     ,&
+          varfr_title   ,varslip_title ,varret_title     ,varclus_title     ,varflow_title    ,&
+          varsurf_title ,varsens_title,&
+          varn1         ,varn1a        ,varn2            ,varnpinch         ,&
+          varp          ,varr          ,vart             ,vars1             ,vars2            ,&
+          vars3         ,vars4         ,vars5            ,vars6             ,vars7            ,&
+          vars8         ,vars9         ,varsnloc         ,&
+          varc          ,&
+          varns         ,varsph        ,varin            ,&
+          varrw         ,varrb         ,varmv            ,varse             ,varac            ,&
+          varjo         ,varmvent      ,varpa            ,varfx             ,vargau           ,&
+          varfr         ,varslip       ,varret           ,varclus           ,varflow          ,&
+          varsurf       ,varsens)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
-! ----------------------------------------------------------------------------------------------------------------------     
-      use write_thnms1_titles_mod   
-      use write_thnms1_empty_titles_mod
+! ----------------------------------------------------------------------------------------------------------------------
+          use write_thnms1_titles_mod
+          use write_thnms1_empty_titles_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -70,10 +70,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,                                   intent(in) :: nvarn1  
-          integer,                                   intent(in) :: nvarn1a  
-          integer,                                   intent(in) :: nvarn2  
-          integer,                                   intent(in) :: nvarnpinch  
+          integer,                                   intent(in) :: nvarn1
+          integer,                                   intent(in) :: nvarn1a
+          integer,                                   intent(in) :: nvarn2
+          integer,                                   intent(in) :: nvarnpinch
           integer,                                   intent(in) :: nvars1
           integer,                                   intent(in) :: nvars2
           integer,                                   intent(in) :: nvars3
@@ -84,35 +84,35 @@
           integer,                                   intent(in) :: nvars8
           integer,                                   intent(in) :: nvars9
           integer,                                   intent(in) :: nvarsnloc
-          integer,                                   intent(in) :: nvarp        
-          integer,                                   intent(in) :: nvarr                  
-          integer,                                   intent(in) :: nvart                     
-          integer,                                   intent(in) :: nvarns                     
-          integer,                                   intent(in) :: nvarsph        
-          integer,                                   intent(in) :: nvarin                 
-          integer,                                   intent(in) :: nvarrw                 
-          integer,                                   intent(in) :: nvarrb                    
-          integer,                                   intent(in) :: nvarmv                     
+          integer,                                   intent(in) :: nvarp
+          integer,                                   intent(in) :: nvarr
+          integer,                                   intent(in) :: nvart
+          integer,                                   intent(in) :: nvarns
+          integer,                                   intent(in) :: nvarsph
+          integer,                                   intent(in) :: nvarin
+          integer,                                   intent(in) :: nvarrw
+          integer,                                   intent(in) :: nvarrb
+          integer,                                   intent(in) :: nvarmv
           integer,                                   intent(in) :: nvarse
-          integer,                                   intent(in) :: nvarac                 
-          integer,                                   intent(in) :: nvarjo                 
-          integer,                                   intent(in) :: nvarmvent                 
-          integer,                                   intent(in) :: nvarpa                     
+          integer,                                   intent(in) :: nvarac
+          integer,                                   intent(in) :: nvarjo
+          integer,                                   intent(in) :: nvarmvent
+          integer,                                   intent(in) :: nvarpa
           integer,                                   intent(in) :: nvarfx
-          integer,                                   intent(in) :: nvargau                
-          integer,                                   intent(in) :: nvarfr                 
-          integer,                                   intent(in) :: nvarslip                  
-          integer,                                   intent(in) :: nvarret                    
-          integer,                                   intent(in) :: nvarclus                               
-          integer,                                   intent(in) :: nvarflow               
-          integer,                                   intent(in) :: nvarsurf                
-          integer,                                   intent(in) :: nvarc                   
-          integer,                                   intent(in) :: nvarsens   
-          
+          integer,                                   intent(in) :: nvargau
+          integer,                                   intent(in) :: nvarfr
+          integer,                                   intent(in) :: nvarslip
+          integer,                                   intent(in) :: nvarret
+          integer,                                   intent(in) :: nvarclus
+          integer,                                   intent(in) :: nvarflow
+          integer,                                   intent(in) :: nvarsurf
+          integer,                                   intent(in) :: nvarc
+          integer,                                   intent(in) :: nvarsens
+
           character(len=100),                        intent(in) :: varn1_title(nvarn1)
           character(len=100),                        intent(in) :: varn1a_title(nvarn1a)
           character(len=100),                        intent(in) :: varn2_title(nvarn2)
-          character(len=100),                        intent(in) :: varnpinch_title(nvarnpinch)                              
+          character(len=100),                        intent(in) :: varnpinch_title(nvarnpinch)
           character(len=100),                        intent(in) :: varp_title(nvarp)
           character(len=100),                        intent(in) :: varr_title(nvarr)
           character(len=100),                        intent(in) :: vart_title(nvart)
@@ -145,13 +145,13 @@
           character(len=100),                        intent(in) :: varret_title(nvarret)
           character(len=100),                        intent(in) :: varclus_title(nvarclus)
           character(len=100),                        intent(in) :: varflow_title(nvarflow)
-          character(len=100),                        intent(in) :: varsurf_title(nvarsurf)   
-          character(len=100),                        intent(in) :: varsens_title(nvarsens)   
-          
+          character(len=100),                        intent(in) :: varsurf_title(nvarsurf)
+          character(len=100),                        intent(in) :: varsens_title(nvarsens)
+
           character(len=10),                        intent(in) :: varn1(nvarn1)
           character(len=10),                        intent(in) :: varn1a(nvarn1a)
           character(len=10),                        intent(in) :: varn2(nvarn2)
-          character(len=10),                        intent(in) :: varnpinch(nvarnpinch)                              
+          character(len=10),                        intent(in) :: varnpinch(nvarnpinch)
           character(len=10),                        intent(in) :: varp(nvarp)
           character(len=10),                        intent(in) :: varr(nvarr)
           character(len=10),                        intent(in) :: vart(nvart)
@@ -189,7 +189,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,l,k,m 
+          integer :: i,l,k,m
           integer :: pos
           integer :: io
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -199,7 +199,7 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
           open(newunit=io, file="th.nms1", status="new", action="write")
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$'
           write(io, *) '$$               FILE NMS release 2024.0'
@@ -239,7 +239,7 @@
           call write_thnms1_titles(io,nvarn1a,varn1a_title,varn1a,nvarn1)
           call write_thnms1_titles(io,nvarn2,varn2_title,varn2,nvarn1+nvarn1a)
           call write_thnms1_titles(io,nvarnpinch,varnpinch_title,varnpinch,nvarn1+nvarn1a+nvarn2)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ BRICK'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -254,12 +254,12 @@
           call write_thnms1_titles(io,nvars8,vars8_title,vars8,239030)
           call write_thnms1_titles(io,nvars9,vars9_title,vars9,239030+nvars8)
           call write_thnms1_titles(io,nvarsnloc,varsnloc_title,varsnloc,239030+nvars8+nvars9)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ SHELL'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           call write_thnms1_titles(io,nvarc,varc_title,varc,0)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ SH3N'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -275,7 +275,7 @@
           write(io, *) '$$ BEAM'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           call write_thnms1_titles(io,nvarp,varp_title,varp,0)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ SPRING'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -285,7 +285,7 @@
           write(io, *) '$$ NSTRAND'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           call write_thnms1_titles(io,nvarns,varns_title,varns,0)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ SPHCEL'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -300,17 +300,17 @@
           write(io, *) '$$ RWALL'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           call write_thnms1_titles(io,nvarrw,varrw_title,varrw,0)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ RBODY'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           call write_thnms1_titles(io,nvarrb,varrb_title,varrb,0)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ FXBODY'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           call write_thnms1_titles(io,nvarfx,varfx_title,varfx,0)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ ACCEL'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -325,17 +325,17 @@
           write(io, *) '$$ CYL_JO'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           call write_thnms1_titles(io,nvarjo,varjo_title,varjo,0)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ MONVOL'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           call write_thnms1_titles(io,nvarmv,varmv_title,varmv,0)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ VENT'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           call write_thnms1_titles(io,nvarmvent,varmvent_title,varmvent,0)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ PART, MAT, PROP'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -350,7 +350,7 @@
           write(io, *) '$$ FRAME'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           call write_thnms1_titles(io,nvarfr,varfr_title,varfr,0)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ GAUGE'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -360,7 +360,7 @@
           write(io, *) '$$ CLUSTER'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           call write_thnms1_titles(io,nvarclus,varclus_title,varclus,0)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ SPH_FLOW'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -370,7 +370,7 @@
           write(io, *) '$$ SURF'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           call write_thnms1_titles(io,nvarsurf,varsurf_title,varsurf,0)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ TRIA'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -385,7 +385,7 @@
           call write_thnms1_titles(io,nvars8,vars8_title,vars8,239030)
           call write_thnms1_titles(io,nvars9,vars9_title,vars9,239030+nvars8)
           call write_thnms1_titles(io,nvarsnloc,varsnloc_title,varsnloc,239030+nvars8+nvars9)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ QUAD'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -400,12 +400,12 @@
           call write_thnms1_titles(io,nvars8,vars8_title,vars8,239030)
           call write_thnms1_titles(io,nvars9,vars9_title,vars9,239030+nvars8)
           call write_thnms1_titles(io,nvarsnloc,varsnloc_title,varsnloc,239030+nvars8+nvars9)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ SLIPRING'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           call write_thnms1_titles(io,nvarslip,varslip_title,varslip,0)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ RETRACTOR'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -415,10 +415,10 @@
           write(io, *) '$$ SENSOR'
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           call write_thnms1_titles(io,nvarsens,varsens_title,varsens,0)
-          
+
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 
-          
+
           close(io)
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine write_thnms1

@@ -318,7 +318,7 @@ C----       cauchy stress
               T(I,2) = T(I,2) + FAC*(EV2 -  RVT)*INVR(I) 
               T(I,3) = T(I,3) + FAC*(EV3 -  RVT)*INVR(I) 
 C              
-              DSVOL(I) = DSVOL(I) - TWO_THIRD*FAC*(EV1 + EV2 + EV3) + 
+              DSVOL(I) = DSVOL(I) - TWO_THIRD*FAC*(EV1 + EV2 + EV3)
      .                      + TWO*FAC*RVT + TWO_THIRD*MU(K)*EV3 
      .                      + TWO*BETA(K)*MU(K)*RVT
 C     

@@ -272,7 +272,7 @@ C
             F4(I) = VR(1,N)*IG1 
      .             +(X(2,N)-X(2,M))*V(3,N)*MS(N)
      .             -(X(3,N)-X(3,M))*V(2,N)*MS(N)
-            F5(I) = VR(2,N)*IG5 + 
+            F5(I) = VR(2,N)*IG5
      .             +(X(3,N)-X(3,M))*V(1,N)*MS(N)
      .             -(X(1,N)-X(1,M))*V(3,N)*MS(N)
             F6(I) = VR(3,N)*IG9

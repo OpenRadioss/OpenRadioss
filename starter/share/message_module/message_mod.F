@@ -1160,7 +1160,6 @@ Chd|        UDOUBL2_WO_TITLE              source/system/sysfus.F
 Chd|        UDOUBL3                       source/system/sysfus.F        
 Chd|        UNIFY_X                       source/tools/curve/func_slope.F
 Chd|        UNIT_CODE                     source/general_controls/computation/unit_code.F
-Chd|        UPDFAIL                       source/materials/updfail.F    
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|        VDOUBL2                       source/system/sysfus.F        
 Chd|        WRITE_PCYL                    source/loads/general/load_pcyl/write_pcyl.F

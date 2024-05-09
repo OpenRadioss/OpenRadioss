@@ -58,6 +58,7 @@ Chd|        WRITE_TH                      source/output/th/write_th.F
 Chd|        WRTDES                        source/output/th/wrtdes.F     
 Chd|        WRTDES0                       source/output/th/wrtdes0.F    
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
+Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
@@ -72,7 +73,7 @@ Chd|====================================================================
      2                 IXS     ,BUFEL     ,WA       ,IPARG    ,SENSOR_TAB,
      4                 FSAV    ,FLSW      ,SKEW     ,ELBUF_TAB,CLUSTER   ,
      5                 PARTSAV ,ACCELM    ,NSENSOR  ,MATPARAM_TAB, 
-     6                 WEIGHT    ,IPART    ,IGRSURF  ,
+     6                 WEIGHT  ,IPART     ,IGRSURF  ,EBCS_TAB ,
      7                 ITHGRP  ,ITHBUF    ,SUBSET   ,GEO      ,
      8                 KXX     ,IXR       ,
      9                 KXSP    ,NOD2SP    ,SPBUF    ,
@@ -102,6 +103,7 @@ C-----------------------------------------------
       USE SEATBELT_MOD  
       USE SENSOR_MOD
       USE MATPARAM_DEF_MOD
+      USE EBCS_MOD , only : t_ebcs_tab
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -132,6 +134,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(t_ebcs_tab), TARGET, INTENT(IN) :: EBCS_TAB
       INTEGER,INTENT(IN) :: SITHBUF,NSENSOR
       INTEGER NPARTL
       INTEGER IXS(NIXS,NUMELS),IPARG(NPARG,NGROUP),
@@ -171,11 +174,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      LOGICAL ICOND,RIVET_BOOL
+      LOGICAL ICOND,RIVET_BOOL,HAS_TH
       
       INTEGER I,J,K,L,M,N,II,JJ,NP,NN,N1,NRWA,
      .        JALE,FSAVMAX,NVAR,IAD,ITYP,IADV,KRBHOL,ID_HIST, SEEK_ID,
-     .        IMID,IPID,JALE_FROM_MAT,JALE_FROM_PROP
+     .        IMID,IPID,JALE_FROM_MAT,JALE_FROM_PROP,SURF_ID
 
       my_real XX,YY,ZZ,DET,XXMOM,YYMOM,ZZMOM, 
      .        XCG, YCG, ZCG, IXX, IYY, IZZ,IXY, IYZ, IZX,                   
@@ -183,7 +186,8 @@ C-----------------------------------------------
      .        FSAVINT(NTHVKI,NINTER+NINTSUB),FSAVVENT(5,NVENTTOT),          
      .        FAC,ARRAY(5)                            
       my_real, DIMENSION(100) :: SUBSAV  
-      my_real, DIMENSION(1) :: WA_LOCAL      
+      my_real, DIMENSION(1) :: WA_LOCAL
+      my_real :: EBCS_TH_MASSFLOW(NSURF)
       REAL(KIND=8) :: THIS0_DOUBLE,TT_DOUBLE
       REAL(KIND=8) :: DTHIS0_DOUBLE,DT1_DOUBLE,THISC_DOUBLE
 C-----------------------------------------------
@@ -601,6 +605,20 @@ C
          IF(NSPMD > 1)CALL SPMD_GLOB_DSUM9(FSAVVENT,5*NVENTTOT)
        END IF
 C
+C---------------------------------------------------------
+C      EBCS STORAGE (/TH/SURF)
+C---------------------------------------------------------
+       IF (EBCS_TAB%nebcs > 0)THEN
+         EBCS_TH_MASSFLOW(1:NSURF) = FSAVSURF(2,1:NSURF)
+         IF (NSPMD > 1) THEN
+           CALL SPMD_GLOB_DSUM9(EBCS_TH_MASSFLOW,NSURF)
+         ENDIF
+       ENDIF
+
+
+C---------------------------------------------------------
+C      RESET FOR AIRBAG CALCULATION (/TH/SURF)
+C---------------------------------------------------------
        IF(NSURF > 0) THEN
          DO I=1,NSURF
            DO J=1,3
@@ -620,10 +638,8 @@ C---------------------------------------------------------
 C      MASS FLOW (FVMBAG)
 C---------------------------------------------------------
          CALL SURF_MASS_MONV(FSAVSURF,IGRSURF,MONVOL,VOLMON,FR_MV)
-C
          IF(NSPMD > 1)CALL SPMD_GLOB_DSUM9(FSAVSURF,5*NSURF)
          IF(NSPMD > 1)CALL SPMD_GLOB_ISUM9(NSEG_LOADP,NSURF)
-C
          IF(ISPMD ==0 ) THEN
            DO I=1,NSURF
             IF(IGRSURF(I)%TH_SURF == 1) THEN
@@ -636,10 +652,27 @@ C
           ENDDO
         ENDIF
        ENDIF
+
+C---------------------------------------------------------
+C      MASS FLOW (EBCS)
+C---------------------------------------------------------
+       IF (EBCS_TAB%nebcs > 0)THEN
+         DO K=1,EBCS_TAB%nebcs
+           IF(.NOT.EBCS_TAB%need_to_compute(K)) CYCLE
+           HAS_TH = EBCS_TAB%TAB(K)%poly%has_th
+           IF(has_th) THEN
+               SURF_ID = EBCS_TAB%TAB(K)%poly%surf_id
+               NN = IGRSURF(SURF_ID)%NSEG
+               CALL SURF_AREA(X, NN, IGRSURF(SURF_ID)%NODES, FSAVSURF(1,SURF_ID))
+               FSAVSURF(2,SURF_ID) =  EBCS_TH_MASSFLOW(SURF_ID)
+           ENDIF
+         ENDDO!next K
+       ENDIF
+
 C--------------------------------------------
 C      PRE-TREATMENT RIVETS (SPMD ONLY)
 C--------------------------------------------
-       IF(NRIVF>1.AND.NSPMD > 1.AND.NRIVET>0) THEN
+       IF(NRIVF>1 .AND. NSPMD > 1 .AND. NRIVET>0) THEN
         DO K = 1, NRIVET
           I = ABS(LRIVET(2,K))
 C beckup : flag off
@@ -1290,7 +1323,7 @@ C-----------------------------
 C
           ELSEIF (ITYP==119) THEN
 C-----------------------------
-C           RETRACTOR
+C           RETRACTORS
 C-----------------------------
             IF (ISPMD==0) THEN
               II = 0
@@ -1313,7 +1346,7 @@ C-----------------------------
 c
           ELSEIF (ITYP == 120) THEN
 C-----------------------------
-C           SENSOR
+C           SENSORS
 C-----------------------------
             CALL THSENS (SENSOR_TAB,NSENSOR,
      .           IAD    ,IAD+NN-1 ,IADV   ,IADV+NVAR-1,ITHBUF   ,
@@ -1323,7 +1356,7 @@ c----
           ENDIF  ! ITYP
        ENDDO
 C-------------------------------------------------------
-C     SECTIONS FLUIDES
+C     SECTIONS OF FLUIDS
 C-------------------------------------------------------
        IF (NSFLSW> 0 .AND. NABFILE==0)THEN
          IF (NSPMD > 1)CALL SPMD_GLOB_DSUM9(FLSW,9*NSFLSW)
@@ -1361,7 +1394,7 @@ C---------------------------------------
          IF(ISPMD==0)THEN
            IF(IUNIT==3)THEN
             DO M=1,NPART+NTHPART
-C remise a zero apres gather sur toute les parts ou on ne cumule pas
+C Reset after gather on all partitions where no accumulation occurs
               DO I=1,NPSAV
                 IF((I<23.OR.I>26.OR.I==25).AND.I/=8 .AND. NABFILE==0
      .               .AND. (MSTOP /= 1 .OR. ICTLSTOP == 1) ) then
@@ -1379,7 +1412,6 @@ C-------------------------
         DO II=1,NPARTL
           ! zeroing on current PART on local domain
           M = IPARTL(II) !local parts (present on current domain)
-
           IMID = IPART(1,M)
           IPID = IPART(2,M)
           JALE_FROM_MAT = NINT(PM(72,IMID))
@@ -1393,20 +1425,9 @@ C-------------------------
             END DO
           END IF
         END DO
-c      ELSEIF(IMACH/=3.AND.IUNIT==3)THEN
-c        ICOND = TT+2.*DT2>=T1S+DT2S
-c        DO M=1,NPART
-C remise a zero sur part active du processeur en spmd
-c          JALE= NINT(PM(72,IPART(1,M)))
-c          IF(JALE==0.OR.(JALE>0.AND.ICOND))THEN
-c            DO I=1,NPSAV
-c              IF((I<23.OR.I>26).AND.I/=8)
-c     .          PARTSAV(I,M)=0
-c            END DO
-c          END IF
-c        END DO
       END IF
-C remise a zero du tableau GRESAV
+
+C reset GRESAV array
       IF (NTHPART > 0) THEN
         DO I=1,NPSAV
           DO J = 1,NTHPART

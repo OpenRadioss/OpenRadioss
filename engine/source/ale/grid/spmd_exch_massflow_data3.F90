@@ -30,85 +30,85 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-         use ale_mod , only : massflow_data_
-         use spmd_mod
-         use constant_mod , only: zero
+        use ale_mod , only : massflow_data_
+        use spmd_mod
+        use constant_mod , only: zero
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included file
 ! ----------------------------------------------------------------------------------------------------------------------
-         implicit none
+        implicit none
 #include "my_real.inc"
 #include "task_c.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-         type(massflow_data_),intent(inout)::domain_data !< intent(in) ale massflow buffer for given domain
-         integer,intent(in)::nspmd                       !< number of SPMD domains
+        type(massflow_data_),intent(inout)::domain_data !< intent(in) ale massflow buffer for given domain
+        integer,intent(in)::nspmd                       !< number of SPMD domains
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer :: msgtyp, msgoff, p, nbirecv
-      integer :: req_sb(nspmd),irindexi(nspmd)
-      integer :: loc_proc, isize
-      my_real :: rbuf(6,nspmd)
-      data msgoff/2205/
+        integer :: msgtyp, msgoff, p, nbirecv
+        integer :: req_sb(nspmd),irindexi(nspmd)
+        integer :: loc_proc, isize
+        my_real :: rbuf(6,nspmd)
+        data msgoff/2205/
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Preconditions
 ! ----------------------------------------------------------------------------------------------------------------------
-         if(nspmd == 1)return
+        if(nspmd == 1)return
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 !$OMP SINGLE
-         loc_proc=ispmd+1
-         rbuf(1:6,1:nspmd)=zero
-         rbuf(1:6,loc_proc) = domain_data%itm_l(1:6)
-         isize=6
-         !-------------------------------------------!
-         ! SENDING %ITM(1:6)                         !
-         !-------------------------------------------!
-         do p = 1, nspmd
-            if(p /= loc_proc) then
-               msgtyp = msgoff
-               call spmd_isend(rbuf(1,loc_proc),isize,it_spmd(p),msgtyp,req_sb(p))
-            endif
-         enddo
-         !-------------------------------------------!
-         ! RECIEVING %ITM(1:6)                       !
-         !-------------------------------------------!
-         nbirecv=0
-         do p = 1, nspmd
-            if(loc_proc /= p) then
-               nbirecv=nbirecv+1
-               irindexi(nbirecv)=p
-               msgtyp = msgoff
-               call spmd_recv(rbuf(1,p), isize, it_spmd(p), msgtyp)
-            endif
-         enddo
-         !-------------------------------------------!
-         !     MPI_WAITING                           !
-         !-------------------------------------------!
-         do p = 1, nspmd
-            if(p /= loc_proc) then
-               call spmd_wait(req_sb(p))
-            endif
-         enddo
+        loc_proc=ispmd+1
+        rbuf(1:6,1:nspmd)=zero
+        rbuf(1:6,loc_proc) = domain_data%itm_l(1:6)
+        isize=6
+        !-------------------------------------------!
+        ! SENDING %ITM(1:6)                         !
+        !-------------------------------------------!
+        do p = 1, nspmd
+          if(p /= loc_proc) then
+            msgtyp = msgoff
+            call spmd_isend(rbuf(1,loc_proc),isize,it_spmd(p),msgtyp,req_sb(p))
+          endif
+        enddo
+        !-------------------------------------------!
+        ! RECIEVING %ITM(1:6)                       !
+        !-------------------------------------------!
+        nbirecv=0
+        do p = 1, nspmd
+          if(loc_proc /= p) then
+            nbirecv=nbirecv+1
+            irindexi(nbirecv)=p
+            msgtyp = msgoff
+            call spmd_recv(rbuf(1,p), isize, it_spmd(p), msgtyp)
+          endif
+        enddo
+        !-------------------------------------------!
+        !     MPI_WAITING                           !
+        !-------------------------------------------!
+        do p = 1, nspmd
+          if(p /= loc_proc) then
+            call spmd_wait(req_sb(p))
+          endif
+        enddo
 
-         !-------------------------------------------!
-         ! COMPUTE AVERAGE ON CURRENT DOMAIN         !
-         !-------------------------------------------!
-         domain_data%itm_l(1:6)=zero
+        !-------------------------------------------!
+        ! COMPUTE AVERAGE ON CURRENT DOMAIN         !
+        !-------------------------------------------!
+        domain_data%itm_l(1:6)=zero
 
-         do p=1,nspmd
-            domain_data%itm_l(1) = domain_data%itm_l(1) + rbuf(1,p)
-            domain_data%itm_l(2) = domain_data%itm_l(2) + rbuf(2,p)
-            domain_data%itm_l(3) = domain_data%itm_l(3) + rbuf(3,p)
-            domain_data%itm_l(4) = domain_data%itm_l(4) + rbuf(4,p)
-            domain_data%itm_l(5) = domain_data%itm_l(5) + rbuf(5,p)
-            domain_data%itm_l(6) = domain_data%itm_l(6) + rbuf(6,p)
-         enddo
+        do p=1,nspmd
+          domain_data%itm_l(1) = domain_data%itm_l(1) + rbuf(1,p)
+          domain_data%itm_l(2) = domain_data%itm_l(2) + rbuf(2,p)
+          domain_data%itm_l(3) = domain_data%itm_l(3) + rbuf(3,p)
+          domain_data%itm_l(4) = domain_data%itm_l(4) + rbuf(4,p)
+          domain_data%itm_l(5) = domain_data%itm_l(5) + rbuf(5,p)
+          domain_data%itm_l(6) = domain_data%itm_l(6) + rbuf(6,p)
+        enddo
 
 !$OMP END SINGLE
 !-----------------------------------------------
-         return
+        return
       end subroutine spmd_exch_massflow_data3

@@ -127,14 +127,10 @@ c
         LA(2,N3)=LA(2,N3)+NY
         LA(3,N3)=LA(3,N3)+NZ 
 C
-cow46e16+++
         VMX=V(1,NG1)+V(1,NG2)+V(1,NG3)
         VMY=V(2,NG1)+V(2,NG2)+V(2,NG3)
         VMZ=V(3,NG1)+V(3,NG2)+V(3,NG3)
-cow46e16---
-cow46e16        VMX=V(1,NG1)+V(1,NG2)+V(1,N3)
-cow46e16        VMY=V(2,NG1)+V(2,NG2)+V(2,N3)
-cow46e16        VMZ=V(3,NG1)+V(3,NG2)+V(3,N3)
+
         IF(N4/=N3) THEN
            LA(1,N4)=LA(1,N4)+NX
            LA(2,N4)=LA(2,N4)+NY

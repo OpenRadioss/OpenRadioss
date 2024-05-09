@@ -140,6 +140,7 @@ c--------------------------------------------------
 c     GEORED should be initialized in fail_windshield_init depending of element type
       GEORED = ONE / SQRT(PI)  ! here adjusted for underintegrated 4N shells only
 c
+      IF (EXP_N== ZERO) EXP_N = 16.0
       IF (RLEN == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Rlen' ,FAC_L  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         RLEN = ONE*FAC_L

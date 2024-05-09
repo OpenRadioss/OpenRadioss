@@ -20,13 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C  |============================================================
-C  |  CBAPROJ_PLY                          /coqueba/cbaproj_ply.F
-C  |------------------------------------------------------------
-C  |-- appelee par -----------
-C  |         CBAFORC3                         /coqueba/cbaforc3.F
-C  |-- appelle ---------------
-C  |============================================================
 Chd|====================================================================
 Chd|  CBAPROJ_PLY                   source/properties/composite_options/stack/cbaproj_ply.F
 Chd|-- called by -----------

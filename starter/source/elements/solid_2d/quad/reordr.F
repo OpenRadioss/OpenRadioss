@@ -63,52 +63,54 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       NL=MAXLAW
 C
-      DO 50 M=0,NL+1
-   50 IADR(M)=0
+      DO M=0,NL+1
+        IADR(M)=0
+      ENDDO
 C---------------------------------------
 C     CALCUL DU NOMBRE D'ELEMENT PAR LOI
 C---------------------------------------
-      DO 100 I=1,NEL
-      IF(IX(1,I)<0) THEN
-        MLAWP1=17+1
-      ELSE
-        MT=IX(1,I)
-        MLAWP1=NINT(PM(19,MT))+1
-      ENDIF
-      IADR(MLAWP1)=IADR(MLAWP1)+1
-  100 CONTINUE
+      DO I=1,NEL
+       IF(IX(1,I)<0) THEN
+         MLAWP1=17+1
+       ELSE
+         MT=IX(1,I)
+         MLAWP1=NINT(PM(19,MT))+1
+       ENDIF
+       IADR(MLAWP1)=IADR(MLAWP1)+1
+      ENDDO
 C------------------------------------------
 C     CALCUL DE L'ADRESSE D'ELEMENT PAR LOI
 C     SKIP DE LA LOI 11 MIS A LA FIN
 C------------------------------------------
       IADR(11+1)=0
-      DO 150 M=1,NL
-  150 IADR(M)=IADR(M)+IADR(M-1)
+      DO M=1,NL
+        IADR(M)=IADR(M)+IADR(M-1)
+      ENDDO
       IADR(11)=IADR(NL+1)+IADR(NL)
 C--------------------------------------------------
 C     CALCUL DU POINTEUR D'ELEMENTS CLASSES PAR LOI
 C--------------------------------------------------
-      DO 400 I=1,NEL
-      IF(IX(1,I)<0) THEN
-        MLAW=17
-      ELSE
-        MT=IX(1,I)
-        MLAW=NINT(PM(19,MT))
-      ENDIF
-      IADR(MLAW)=IADR(MLAW)+1
-      IPOINT(1,I)=IADR(MLAW)
-  400 CONTINUE
+      DO I=1,NEL
+        IF(IX(1,I)<0) THEN
+          MLAW=17
+        ELSE
+          MT=IX(1,I)
+          MLAW=NINT(PM(19,MT))
+        ENDIF
+        IADR(MLAW)=IADR(MLAW)+1
+        IPOINT(1,I)=IADR(MLAW)
+      END DO
 C------------------------------------------
 C     PERMUTATION DES ELEMENTS PAR LOI
 C------------------------------------------
-      DO 600 J=1,NX
-      DO 500 I=1,NEL
-        IPOINT(2,I)=IX(J,I)
-  500 CONTINUE
-      DO 550 I=1,NEL
-        IX(J,IPOINT(1,I))=IPOINT(2,I)
-  550 CONTINUE
-  600 CONTINUE
+      DO J=1,NX
+        DO I=1,NEL
+          IPOINT(2,I)=IX(J,I)
+        END DO
+        DO I=1,NEL
+          IX(J,IPOINT(1,I))=IPOINT(2,I)
+        END DO
+      ENDDO
 C------------------------------------------
       IF(INVERS<40)RETURN
 C------------------------------------------

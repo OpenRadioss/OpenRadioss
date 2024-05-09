@@ -31,19 +31,18 @@ Chd|        DYNA_WEX                      source/implicit/imp_dyna.F
 Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
 Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|-- calls ---------------
-Chd|        FORCE_MOD                     source/loads/general/force.F  
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
-      SUBROUTINE FORCE_IMP(IB      ,FAC       ,NPC     ,TF      ,A      ,
-     2                  V       ,X         ,SKEW    ,AR      ,VR     ,
+      SUBROUTINE FORCE_IMP(IB      ,FAC    ,SNPC    ,NPC     ,TF   ,A   ,
+     2                  V       ,X      ,SKEW    ,NUMSKW  ,AR   ,VR   ,
      3                  NSENSOR ,SENSOR_TAB,TFEXC   ,IADC   ,
-     4                  FSKY    ,FSKYV     ,FEXT    ,H3D_DATA,
+     4                  FSKY    ,FEXT    ,H3D_DATA,
      5                  CPTREAC ,FTHREAC   ,NODREAC ,TH_SURF ,FSAVSURF,
      6                  NSEG_LOADP,DPL0CLD ,VEL0CLD ,D       ,DR      ,
-     7                  NCONLD  ,NUMNOD    ,NSURF   ,NFUNCT) 
+     7                  NCONLD  ,NUMNOD    ,NSURF   ,NFUNCT , STF) 
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -73,14 +72,17 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NUMSKW
+      INTEGER, INTENT(IN) :: SNPC
       INTEGER ,INTENT(IN) :: NSENSOR,NCONLD,NUMNOD,NSURF,NFUNCT
-      INTEGER NPC(*),CPTREAC,NODREAC(*)
+      INTEGER ,INTENT(IN) :: STF
+      INTEGER NPC(SNPC),CPTREAC,NODREAC(*)
       INTEGER IB(NIBCLD,*)
       INTEGER IADC(4,*)
       my_real
      .   FAC(LFACCLD,*), TF(*), A(3,*), V(3,*), AR(3,*), VR(3,*),
      .   X(3,*), SKEW(LSKEW,*), TFEXC,
-     .   FSKY(8,LSKY), FSKYV(LSKY,8),FEXT(3,*),FTHREAC(6,*)
+     .   FSKY(8,LSKY), FEXT(3,*),FTHREAC(6,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
@@ -90,12 +92,15 @@ C-----------------------------------------------
       my_real, INTENT(IN) ::  D(3,NUMNOD), DR(3,NUMNOD)
 C-----------------------------------------------
 
-      call FORCE(IB      ,FAC       ,NPC     ,TF      ,A      ,
-     2                  V       ,X         ,SKEW    ,AR      ,VR     ,
-     3                  NSENSOR ,SENSOR_TAB,TFEXC   ,IADC   ,
-     4                  FSKY    ,FSKYV     ,FEXT    ,H3D_DATA,
-     5                  CPTREAC ,FTHREAC   ,NODREAC ,TH_SURF ,FSAVSURF,
-     6                  NSEG_LOADP,DPL0CLD ,VEL0CLD ,D       ,DR      ,
-     7                  NCONLD  ,NUMNOD    ,NSURF   ,NFUNCT) 
+      call FORCE( NIBCLD  ,IB      ,LFACCLD    ,FAC      ,SNPC      ,
+     2            NPC     ,STF     ,TF         ,A        ,V         ,
+     3            X       ,LSKEW   ,NUMSKW     ,SKEW     ,AR        ,
+     4            VR      ,NSENSOR ,SENSOR_TAB ,TFEXC    ,IADC      ,
+     5            LSKY    ,FSKY    ,FEXT       ,H3D_DATA ,CPTREAC   ,
+     6            FTHREAC ,NODREAC ,TH_SURF    ,FSAVSURF ,NSEG_LOADP,
+     7            DPL0CLD ,VEL0CLD ,D          ,DR       ,NCONLD    ,
+     8            NUMNOD  ,NSURF   ,NFUNCT     , ANIM_V  ,OUTP_V    ,
+     9            IPARIT  ,TT      ,DT1        ,N2D      ,TFEXT     ,
+     A            IMPL_S) 
 
       END SUBROUTINE

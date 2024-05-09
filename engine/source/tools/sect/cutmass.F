@@ -35,8 +35,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   X(3,*),AL(*) ,VEL(3,*),V(3,*)
+      my_real X(3,*),AL(*) ,VEL(3,*),V(3,*)
       INTEGER NC(5,*),NODCUT,NELCUT,IVOIS(2,*)
 C-----------------------------------------------
       my_real X13,Y13,Z13,X24,Y24,Z24,XX,YY,ZZ,S,UN6
@@ -45,15 +44,18 @@ C-----------------------------------------------
 C-----------------------------------------------
       UN6=ONE_OVER_6
 C
-      DO 10 I=1,NODCUT
-      N1=IVOIS(1,I)
-      N2=IVOIS(2,I)
-      DO 10 J=1,3
- 10   V(J,I)=AL(I)*VEL(J,N2)+(1.-AL(I))*VEL(J,N1)
+      DO I=1,NODCUT
+        N1=IVOIS(1,I)
+        N2=IVOIS(2,I)
+        DO J=1,3
+          V(J,I)=AL(I)*VEL(J,N2)+(1.-AL(I))*VEL(J,N1)
+        ENDDO
+      ENDDO
 C
-      DO 15 I=1,NODCUT
- 15   AL(I)=0.
-      DO 20 I=1,NELCUT
+      DO I=1,NODCUT
+        AL(I)=ZERO
+      ENDDO
+      DO I=1,NELCUT
         N1=NC(1,I)
         N2=NC(2,I)
         N3=NC(3,I)
@@ -68,7 +70,7 @@ C
         YY=Z13*X24-X13*Z24
         ZZ=X13*Y24-Y13*X24
         IF(N3==N4)THEN
-           S= UN6
+           S=UN6
         ELSE
            S=ONE_OVER_8
         ENDIF
@@ -77,11 +79,11 @@ C        S=S*SQRT(XX**2+YY**2+ZZ**2)
         AL(N2)=AL(N2)+S*(V(1,N2)*XX+V(2,N2)*YY+V(3,N2)*ZZ)
         AL(N3)=AL(N3)+S*(V(1,N3)*XX+V(2,N3)*YY+V(3,N3)*ZZ)
         IF(N3/=N4)AL(N4)=AL(N4)+S*(V(1,N4)*XX+V(2,N4)*YY+V(3,N4)*ZZ)
- 20   CONTINUE
-      DO 30 I=1,NODCUT
-         R4 =     AL(I)
+      ENDDO
+      DO I=1,NODCUT
+         R4 = AL(I)
          CALL WRITE_R_C(R4,1)
- 30   CONTINUE
+      ENDDO
 C-----------------------------------------------
       RETURN
       END
