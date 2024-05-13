@@ -86,7 +86,7 @@ C-----------------------------------------------
      .        OPT_,OPT_D,OPT_O,OPT_G,OPT_B,OPT_A,OPT_E,OPT_I,OPT_C,
      .        IGR,NOD,NB_NODE,NB_PART,IP,IE,NB_SOLID,NB_SH4N,NB_SH3N,
      .        NB_QUAD,NB_TRIA,NB_BEAM,NB_TRUSS,NB_SPRING,NB_SURF_SEG,
-     .        NB_LINE_SEG,ISEG
+     .        NB_LINE_SEG,ISEG,NB_NODENS
       CHARACTER(LEN = nchartitle) :: TITLE
       CHARACTER(LEN = ncharfield) :: KEYSET,SET_TYPE
       CHARACTER(LEN = ncharkey)   :: KEY
@@ -203,7 +203,7 @@ C-----------------------------------------------
 !---
 !
 !---
-!           --- New /SET grnod --
+!           --- New /SET grnod of NODES--
 !---
             IF( SET(IGS)%SET_ACTIV == 0 ) CYCLE
 
@@ -221,6 +221,25 @@ C-----------------------------------------------
                 CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(NOD),0.0_8)
               ENDDO
             ENDIF ! IF (NB_NODE > 0)
+!---
+!           --- New /SET grnod of NODENS --
+!---
+            IF( SET(IGS)%SET_ACTIV == 0 ) CYCLE
+
+            NB_NODENS = SET(IGS)%NB_NODENS
+
+            IF (NB_NODENS > 0) THEN
+              IGR = SET(IGS)%SET_GRNOD_ID
+              WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'GRNOD'
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IGRNOD(IGR)%ID,0.0_8)
+              WRITE(VARNAME,'(A,I0,A)') 'SET_',ID,'_'//'GRNOD_NB_NODENS'
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NB_NODENS,0.0_8)
+              DO N = 1,NB_NODENS
+                NOD = IGRNOD(IGR)%ENTITY(N)
+                WRITE(VARNAME,'(A,I0,A,I0)') 'SET_',ID,'_'//'NODENS'//'_',N
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(NOD),0.0_8)
+              ENDDO
+            ENDIF ! IF (NB_NODENS > 0)
 !---
 !           --- New /SET grpart --
 !---

@@ -92,6 +92,7 @@ C-----------------------------------------------
       SET(IGS)%HAS_SURF_SEG= 0        ! Flag if a surface was created from surface (QA Print)
       SET(IGS)%HAS_LINE_SEG= 0        ! Flag if a line was created from surface (QA Print)
       SET(IGS)%NB_ELLIPSE=0           ! Flag nb of ellipses (one per /SET)
+      SET(IGS)%NB_NODENS= 0           ! SET nb of nodens
 
       SET(IGS)%NB_ELLIPSE= 0          ! SET nb of Ellipses (max = 1, one per /SET)
       SET(IGS)%ELLIPSE_IAD_BUFR= 0    ! surface buffer adress in SET

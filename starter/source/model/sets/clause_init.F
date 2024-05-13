@@ -78,6 +78,8 @@ C-----------------------------------------------
       CLAUSE%PLANE_XM1=0
       CLAUSE%PLANE_YM1=0
       CLAUSE%PLANE_ZM1=0
+
+      CLAUSE%NB_NODENS= 0         ! CLAUSE nb of NODENS -> unsortable node list
 !---
       IF(ALLOCATED( CLAUSE%NODE ))          DEALLOCATE( CLAUSE%NODE )
       IF(ALLOCATED( CLAUSE%PART ))          DEALLOCATE( CLAUSE%PART )
@@ -97,6 +99,7 @@ C-----------------------------------------------
       IF(ALLOCATED( CLAUSE%LINE_ELEM ))     DEALLOCATE( CLAUSE%LINE_ELEM )
       IF(ALLOCATED( CLAUSE%RBODY ))         DEALLOCATE( CLAUSE%RBODY )
       IF(ALLOCATED( CLAUSE%ELLIPSE_SKEW ))  DEALLOCATE( CLAUSE%ELLIPSE_SKEW )
+      IF(ALLOCATED( CLAUSE%NODENS ))        DEALLOCATE( CLAUSE%NODENS )
 C-----
       RETURN
       END

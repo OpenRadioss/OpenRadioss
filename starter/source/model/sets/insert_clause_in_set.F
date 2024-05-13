@@ -147,6 +147,48 @@ C-----------------------------------------------
         ENDIF
       ENDIF
 C-----------------------------------------------
+C     NODENS 
+C-----------------------------------------------
+      IF(  CLAUSE%NB_NODENS > 0 ) THEN
+
+        IF( SET%NB_NODENS > 0 ) THEN
+
+          ALLOCATE(RESULT(SET%NB_NODENS + CLAUSE%NB_NODENS ))                  ! Results SET
+
+          CALL SET_MERGE_SIMPLE( SET%NODENS,    SET%NB_NODENS    ,
+     *                             CLAUSE%NODENS, CLAUSE%NB_NODENS ,
+     *                             RESULT,      NEW_SIZE       ,
+     *                             CLAUSE_OPERATOR)
+
+          IF (ALLOCATED(SET%NODENS)) DEALLOCATE (SET%NODENS)
+          ALLOCATE(SET%NODENS(NEW_SIZE))
+
+          SET%NODENS(1:NEW_SIZE) = RESULT(1:NEW_SIZE)
+          SET%NB_NODENS=NEW_SIZE
+
+          DEALLOCATE(RESULT)
+
+        ELSE   ! SET is empty fill it with clause when ADD
+
+          IF ( CLAUSE_OPERATOR == SET_ADD) THEN 
+            IF (ALLOCATED(SET%NODENS)) DEALLOCATE (SET%NODENS)
+            ALLOCATE(SET%NODENS(CLAUSE%NB_NODENS) )
+
+            SET%NB_NODENS=CLAUSE%NB_NODENS
+            SET%NODENS(1:CLAUSE%NB_NODENS)=CLAUSE%NODENS(1:CLAUSE%NB_NODENS)
+
+          ENDIF
+
+        ENDIF
+      ELSE
+        IF ( CLAUSE_OPERATOR == SET_INTERSECT) THEN              ! SET Intersection with Empty clause gives Empty SET
+          IF (SET%NB_NODENS > 0)THEN
+            IF(ALLOCATED(SET%NODENS)) DEALLOCATE(SET%NODENS)
+            SET%NB_NODENS=0
+          ENDIF
+        ENDIF
+      ENDIF
+C-----------------------------------------------
 C     PARTS
 C-----------------------------------------------
       IF(  CLAUSE%NB_PART > 0) THEN
