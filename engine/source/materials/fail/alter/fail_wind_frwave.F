@@ -171,6 +171,8 @@ c       Crack depth modification and definition of Y (formfactor)
               AI(I) = CR_CORE  ! crack depth inside glass
             ENDIF
           ENDIF
+          
+          AI(I) = AI(I) * (ONE - DFMAX(I))  ! take into account the initial damage
           SIGP_AKT(I) = (TWO*(EXP_N + ONE)*K_IC**EXP_N) /
      .              ((EXP_N - TWO)*V0*(FORMF(I)*SQRT(PI))**EXP_N*
      .               AI(I)**((EXP_N-TWO)/TWO))
