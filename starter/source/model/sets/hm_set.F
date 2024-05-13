@@ -112,6 +112,7 @@ C-----------------------------------------------
       USE SET_SCRATCH_MOD
       USE UNITAB_MOD
       USE CREATE_PLANE_CLAUSE_MOD
+      USE CREATE_NODENS_CLAUSE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -820,6 +821,11 @@ C-----------------------------------------------
                    CALL CREATE_PLANE_CLAUSE(CLAUSE%SET_ID ,CLAUSE%TITLE ,SUB_ID  ,CLAUSE ,LSUBMODEL,
      .                                      UNITAB        ,IAD          ,NRTRANS ,NTRANSF,RTRANS   )
 
+              CASE ( 'NODENS' )
+                  
+                   ! NODENS -> unsortable node list
+                   !-----------------------
+                   CALL CREATE_NODENS_CLAUSE(CLAUSE ,ITABM1 ,J ,IS_AVAILABLE ,LSUBMODEL ,NUMNOD)
 
               CASE DEFAULT
 

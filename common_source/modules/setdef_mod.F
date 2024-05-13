@@ -179,6 +179,8 @@ C-----------------------------------------------------------------------
         MY_REAL   :: PLANE_XM1
         MY_REAL   :: PLANE_YM1
         MY_REAL   :: PLANE_ZM1
+
+        INTEGER   :: NB_NODENS      ! CLAUSE nb of NODENS -> unsortable node list
 !
         INTEGER, DIMENSION(:), ALLOCATABLE  ::   NODE
         INTEGER, DIMENSION(:), ALLOCATABLE  ::   PART
@@ -190,6 +192,7 @@ C-----------------------------------------------------------------------
         INTEGER, DIMENSION(:), ALLOCATABLE  ::   BEAM
         INTEGER, DIMENSION(:), ALLOCATABLE  ::   TRUSS
         INTEGER, DIMENSION(:), ALLOCATABLE  ::   SPRING
+        INTEGER, DIMENSION(:), ALLOCATABLE  ::   NODENS
 !
         INTEGER, DIMENSION(:), ALLOCATABLE  ::   RBODY
 !

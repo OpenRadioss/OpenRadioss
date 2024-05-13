@@ -219,7 +219,8 @@ C-----------------------------------------------
 
          ! Nodes
          CALL HM_GROUP_IS_USED('/GRNOD',6,SET(IGS)%SET_ID,IS_USED)
-         IF((IS_USED .OR. DOQA == 1) .AND. SET(IGS)%NB_ELLIPSE == 0 .AND. SET(IGS)%NB_PLANE == 0)THEN
+         IF((IS_USED .OR. DOQA == 1) .AND. SET(IGS)%NB_ELLIPSE == 0 .AND. SET(IGS)%NB_PLANE == 0
+     *                               .AND. SET(IGS)%NB_NODENS == 0 )THEN
            GRTYPE = 0
            CALL FILL_GR( IGRNOD ,NGRNOD,GRTYPE,
      *                 SET(IGS)%SET_ID,SET(IGS)%TITLE,SET(IGS)%NODE,SET(IGS)%NB_NODE,SET(IGS)%SET_GRNOD_ID)
@@ -228,6 +229,20 @@ C-----------------------------------------------
          IF(DOQA == 0) THEN              ! if qa_print keep SET memory
            IF(ALLOCATED (SET(IGS)%NODE )) DEALLOCATE ( SET(IGS)%NODE )
            SET(IGS)%NB_NODE = 0
+         ENDIF
+
+          ! Nodens
+         CALL HM_GROUP_IS_USED('/GRNOD',6,SET(IGS)%SET_ID,IS_USED)
+         IF((IS_USED .OR. DOQA == 1) .AND. SET(IGS)%NB_ELLIPSE == 0 .AND. SET(IGS)%NB_PLANE == 0
+     *                               .AND. SET(IGS)%NB_NODENS /= 0 )THEN
+           GRTYPE = 0
+           CALL FILL_GR( IGRNOD ,NGRNOD,GRTYPE,
+     *                 SET(IGS)%SET_ID,SET(IGS)%TITLE,SET(IGS)%NODENS,SET(IGS)%NB_NODENS,SET(IGS)%SET_GRNOD_ID)
+         ENDIF
+
+         IF(DOQA == 0) THEN              ! if qa_print keep SET memory
+           IF(ALLOCATED (SET(IGS)%NODENS )) DEALLOCATE ( SET(IGS)%NODENS )
+           SET(IGS)%NB_NODENS = 0
          ENDIF
 
          ! Surfaces
