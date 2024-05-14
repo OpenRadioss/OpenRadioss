@@ -179,11 +179,11 @@
           do i=1,nb_new_segment
             segment_id = list_new_segment(permutation(i),3)
             ierror = -1
-            call c_hash_find_( segment_hash_id,segment_id,ierror ) ! check if "segment id" is already in the hash table
+            call c_hash_find( segment_hash_id,segment_id,ierror ) ! check if "segment id" is already in the hash table
 
             if(ierror==-1) then  ! no --> need to add it
               seg_id = seg_id + 1
-              call c_hash_insert_( segment_hash_id,segment_id,seg_id )
+              call c_hash_insert( segment_hash_id,segment_id,seg_id )
               new_segment_id(i) = seg_id
             else
               new_segment_id(i) = ierror
@@ -238,11 +238,11 @@
               my_integer = transfer(r_buffer(proc_id)%my_real_array_1d(my_offset_2 + j),my_int_variable) ! get local neighbour segment id
               local_n_segment_id = abs(my_integer)
               ierror = -1
-              call c_hash_find_( segment_hash_id,n_segment_id,ierror ) ! check if "n_segment id" is already in the hash table
+              call c_hash_find( segment_hash_id,n_segment_id,ierror ) ! check if "n_segment id" is already in the hash table
 
               if(ierror==-1) then  ! no --> need to add it
                 seg_id = seg_id + 1
-                call c_hash_insert_( segment_hash_id,n_segment_id,seg_id )
+                call c_hash_insert( segment_hash_id,n_segment_id,seg_id )
                 n_seg_id = seg_id
                 do kji=1,4
                   my_integer = transfer(r_buffer(proc_id)%my_real_array_1d(my_offset_6 + 4*(j-1) + kji),my_int_variable) ! check if the n_segment has already a neighbour
@@ -359,10 +359,10 @@
                     my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_4 + ijk),my_int_variable) ! get edge id of the neighbour segment
                     n_iedge_id = my_integer
                     ierror = -1
-                    call c_hash_find_( segment_hash_id,n_segment_id,ierror ) ! check if "n_segment id" is already in the hash table
+                    call c_hash_find( segment_hash_id,n_segment_id,ierror ) ! check if "n_segment id" is already in the hash table
                     if(ierror==-1) then  ! no --> need to add it
                       seg_id = seg_id + 1
-                      call c_hash_insert_( segment_hash_id,n_segment_id,seg_id )
+                      call c_hash_insert( segment_hash_id,n_segment_id,seg_id )
                       n_seg_id = seg_id
                       do kji=1,4
                         my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_6 + 4*(ijk-1) + kji),my_int_variable) ! check if the n_segment has already a neighbour
