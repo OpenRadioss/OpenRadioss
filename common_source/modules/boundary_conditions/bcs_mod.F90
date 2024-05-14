@@ -62,6 +62,7 @@
         type bcs_struct_
           integer :: num_wall
           type(bcs_wall_struct_),dimension(:),allocatable :: wall
+          integer, allocatable, dimension(:,:) :: iworking_array
         contains
           procedure :: deallocate
         end type bcs_struct_
@@ -108,6 +109,8 @@
             enddo
             if(allocated(this%wall))deallocate(this%wall)
           endif
+
+          if(allocated(this%iworking_array))deallocate(this%iworking_array)
 ! ----------------------------------------------------------------------------------------------------------------------
           return
         end subroutine deallocate

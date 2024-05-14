@@ -8554,7 +8554,7 @@ C
      &            IXP        , IXR            , DETONATORS       , GEO                , PM       ,
      &            RBY        , NPBY           , LPBY             , NPC                , NPTS     ,
      &            TF         , VEUL           , ALE_CONNECTIVITY , SKEW               , FILL     ,
-     &            IPART      , ITAB           , SENSORS          , IWCIN2             ,
+     &            IPART      , ITAB           , SENSORS          ,
      &            IXTG       , THKE           , NLOC_DMG         , GROUP_PARAM_TAB    ,
      &            IGRNOD     , IGRSURF        , BUFSF            , VR                 ,
      &            BUFMAT     , XLAS           , ILAS             , DTELEM             , MSS      ,
