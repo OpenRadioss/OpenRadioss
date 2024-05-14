@@ -28,7 +28,7 @@
 !! \details binary comparison (IAND) is done to identify relevant faces
       subroutine init_bcs_wall( igrnod, ngrnod, numnod, ale_connectivity, multi_fvm,&
         ixs,nixs,numels, ixq,nixq,numelq, ixtg,nixtg,numeltg, n2d ,  &
-        ngroup, nparg, iparg, iworking_array, ipri)
+        ngroup, nparg, iparg, ipri)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -36,6 +36,7 @@
         use ale_connectivity_mod , only : t_ale_connectivity
         use multi_fvm_mod , only : multi_fvm_struct
         use bcs_mod , only : bcs
+        use my_alloc_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -57,7 +58,6 @@
         integer, intent(in) :: n2d                                                   !< flag for 2d/3d analysis
         integer, intent(in) :: ngroup,nparg                                          !< size for array definition
         integer, intent(in) :: iparg(nparg,ngroup)                                   !< data buffer for elem groups
-        integer, intent(inout) :: iworking_array(2,numnod)                           !< working array defined in lectur:IWCIN2
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -66,11 +66,14 @@
         integer :: internal_grnod_id, internal_sensor_id
         integer :: ii,jj,kk,kv
         integer :: num_nodes_in_group
-        integer :: icode,ng,nseg
-        integer :: iad1,lgth,iadv,lgthv,iv,ivv,ie
-        integer :: ity,jale,jeul,nel,nft,isolnod
+        integer :: icode !< binary code
+        integer :: ng,nseg
+        integer :: iad1,lgth,iadv,lgthv,iv,ivv,ie !< connectivity data
+        integer :: ity,jale,jeul,nel,nft,isolnod !< elem group parameters
         integer :: ipos
+        integer :: isize !< data buffer for elem groups : allocation size for working array
         integer,allocatable,dimension(:) :: adjacent_elem
+        integer,allocatable,dimension(:,:) :: itmp
         logical :: l_tagnod(numnod)
         logical :: is_tria
         ! ----------------------------------------------------------------------------------------------------------------------
@@ -84,6 +87,8 @@
         if(ipri >= 3)write(iout, 2010)
         is_tria = .false.
 
+        isize = numnod
+        call my_alloc(bcs%iworking_array,2,isize)
 
         do ii = 1, bcs%num_wall
 
@@ -101,7 +106,7 @@
           !INIT
           nseg = 0
           ipos = 0
-          iworking_array(2,1:NUMNOD) = 0
+          bcs%iworking_array(1:2,1:NUMNOD) = 0
           !LOOP OVER ALL ELEMS
           do ng=1,ngroup
             nel = iparg(2,ng)
@@ -127,14 +132,27 @@
                 if(l_tagnod(ixs(8,jj+nft)))then; icode = IBSET(icode,6); kk=kk+1 ; end if
                 if(l_tagnod(ixs(9,jj+nft)))then; icode = IBSET(icode,7); kk=kk+1 ; end if
                 if(kk < 4)cycle ! at least 4 nodes are requires to define a face
+                !check allocated size & reallocate if needed
+                if(nseg+6 > isize)then
+                  call my_alloc(itmp,2,isize)
+                  itmp(1,1:isize) = bcs%iworking_array(1,1:isize)
+                  itmp(2,1:isize) = bcs%iworking_array(2,1:isize)
+                  deallocate(bcs%iworking_array)
+                  isize=isize+numnod
+                  call my_alloc(bcs%iworking_array,2,isize)
+                  bcs%iworking_array(1,1:isize/2)=itmp(1,1:isize/2)
+                  bcs%iworking_array(2,1:isize/2)=itmp(2,1:isize/2)
+                  deallocate(itmp)
+                end if
+                !test binary codes to identify blocked faces
                 kk = 0 !number of identified faces
-                if(015 == IAND(icode,015))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 1 ; end if
-                if(204 == IAND(icode,204))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 2 ; end if
-                if(240 == IAND(icode,240))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 3 ; end if
-                if(051 == IAND(icode,051))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 4 ; end if
-                if(102 == IAND(icode,102))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 5 ; end if
-                if(153 == IAND(icode,153))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 6 ; end if
-                iworking_array(1,nseg+1:nseg+kk) = jj+nft
+                if(015 == IAND(icode,015))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 1 ; end if
+                if(204 == IAND(icode,204))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 2 ; end if
+                if(240 == IAND(icode,240))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 3 ; end if
+                if(051 == IAND(icode,051))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 4 ; end if
+                if(102 == IAND(icode,102))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 5 ; end if
+                if(153 == IAND(icode,153))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 6 ; end if
+                bcs%iworking_array(1,nseg+1:nseg+kk) = jj+nft
                 nseg = nseg + kk
               end do!next jj
 
@@ -152,15 +170,28 @@
                 if(l_tagnod(ixs(7,jj+nft)))then; icode = IBSET(icode,5); kk=kk+1 ; end if
                 if(l_tagnod(ixs(8,jj+nft)))then; icode = IBSET(icode,6); kk=kk+1 ; end if
                 if(l_tagnod(ixs(9,jj+nft)))then; icode = IBSET(icode,7); kk=kk+1 ; end if
-                if(kk < 4)cycle ! at least 4 nodes are requires to define a face
+                if(kk < 3)cycle ! at least 3 nodes are requires to define a face
+                !check allocated size & reallocate if needed
+                if(nseg+4 > isize)then
+                  call my_alloc(itmp,2,isize)
+                  itmp(1,1:isize) = bcs%iworking_array(1,1:isize)
+                  itmp(2,1:isize) = bcs%iworking_array(2,1:isize)
+                  deallocate(bcs%iworking_array)
+                  isize=isize+numnod
+                  call my_alloc(bcs%iworking_array,2,isize)
+                  bcs%iworking_array(1,1:isize-numnod)=itmp(1,1:isize-numnod)
+                  bcs%iworking_array(2,1:isize-numnod)=itmp(2,1:isize-numnod)
+                  deallocate(itmp)
+                end if
+                !test binary codes to identify blocked faces
                 kk = 0 !number of identified faces
-                !if(015 == IAND(icode,015))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 1 ; end if
-                if(204 == IAND(icode,204))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 2 ; end if
-                !if(240 == IAND(icode,240))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 3 ; end if
-                if(051 == IAND(icode,051))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 4 ; end if
-                if(102 == IAND(icode,102))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 5 ; end if
-                if(153 == IAND(icode,153))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 6 ; end if
-                iworking_array(1,nseg+1:nseg+kk) = jj+nft
+                !if(015 == IAND(icode,015))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 1 ; end if
+                if(204 == IAND(icode,204))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 2 ; end if
+                !if(240 == IAND(icode,240))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 3 ; end if
+                if(051 == IAND(icode,051))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 4 ; end if
+                if(102 == IAND(icode,102))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 5 ; end if
+                if(153 == IAND(icode,153))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 6 ; end if
+                bcs%iworking_array(1,nseg+1:nseg+kk) = jj+nft
                 nseg = nseg + kk
               end do!next j
 
@@ -176,11 +207,24 @@
                 if(l_tagnod(ixq(5,jj+nft)))then; icode = IBSET(icode,3); kk=kk+1 ; end if
                 if(kk < 2)cycle ! at least 4 nodes are requires to define a face
                 kk = 0 ! number of identified faces
-                if(03 == IAND(icode,03))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 1 ; end if
-                if(06 == IAND(icode,06))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 2 ; end if
-                if(12 == IAND(icode,12))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 3 ; end if
-                if(09 == IAND(icode,09))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 4 ; end if
-                iworking_array(1,nseg+1:nseg+kk) = jj+nft
+                !check allocated size & reallocate if needed
+                if(nseg+4 > isize)then
+                  call my_alloc(itmp,2,isize)
+                  itmp(1,1:isize) = bcs%iworking_array(1,1:isize)
+                  itmp(2,1:isize) = bcs%iworking_array(2,1:isize)
+                  deallocate(bcs%iworking_array)
+                  isize=isize+numnod
+                  call my_alloc(bcs%iworking_array,2,isize)
+                  bcs%iworking_array(1,1:isize-numnod)=itmp(1,1:isize-numnod)
+                  bcs%iworking_array(2,1:isize-numnod)=itmp(2,1:isize-numnod)
+                  deallocate(itmp)
+                end if
+                !test binary codes to identify blocked faces
+                if(03 == IAND(icode,03))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 1 ; end if
+                if(06 == IAND(icode,06))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 2 ; end if
+                if(12 == IAND(icode,12))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 3 ; end if
+                if(09 == IAND(icode,09))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 4 ; end if
+                bcs%iworking_array(1,nseg+1:nseg+kk) = jj+nft
                 nseg = nseg + kk
               end do!next jj
 
@@ -194,12 +238,25 @@
                 if(l_tagnod(ixtg(2,jj+nft)))then; icode = IBSET(icode,0); kk=kk+1 ; end if
                 if(l_tagnod(ixtg(3,jj+nft)))then; icode = IBSET(icode,1); kk=kk+1 ; end if
                 if(l_tagnod(ixtg(4,jj+nft)))then; icode = IBSET(icode,2); kk=kk+1 ; end if
-                if(kk < 2)cycle ! at least 4 nodes are requires to define a face
+                if(kk < 3)cycle ! at least 3 nodes are requires to define a face
                 kk = 0 !number of identified faces
-                if(3 == IAND(icode,3))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 1 ; end if
-                if(6 == IAND(icode,6))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 2 ; end if
-                if(5 == IAND(icode,5))then; kk=kk+1 ; iworking_array(2,nseg+kk) = 3 ; end if
-                iworking_array(1,nseg+1:nseg+kk) = jj+nft
+                !check allocated size & reallocate if needed
+                if(nseg+3 > isize)then
+                  call my_alloc(itmp,2,isize)
+                  itmp(1,1:isize) = bcs%iworking_array(1,1:isize)
+                  itmp(2,1:isize) = bcs%iworking_array(2,1:isize)
+                  deallocate(bcs%iworking_array)
+                  isize=isize+numnod
+                  call my_alloc(bcs%iworking_array,2,isize)
+                  bcs%iworking_array(1,1:isize-numnod)=itmp(1,1:isize-numnod)
+                  bcs%iworking_array(2,1:isize-numnod)=itmp(2,1:isize-numnod)
+                  deallocate(itmp)
+                end if
+                !test binary codes to identify blocked faces
+                if(3 == IAND(icode,3))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 1 ; end if
+                if(6 == IAND(icode,6))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 2 ; end if
+                if(5 == IAND(icode,5))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 3 ; end if
+                bcs%iworking_array(1,nseg+1:nseg+kk) = jj+nft
                 nseg = nseg + kk
               end do!next jj
 
@@ -209,22 +266,22 @@
 
           allocate(bcs%wall(ii)%list%elem(nseg))
           allocate(bcs%wall(ii)%list%face(nseg))
-          ! allocate(bcs%wall(ii)%list%adjacent_elem(nseg)) !do not need to store in global datastrucure : printout only
+          ! allocate(bcs%wall(ii)%list%adjacent_elem(nseg)) !do not need to store in global datastrucure : printout only => local alloc. / dealloc.
           allocate(adjacent_elem(nseg)) !Starter printout only (local array)
 
           !searching for adjacent elems on related face (and face from this adjacent elem)
           do jj=1,nseg
-            ie = iworking_array(1,jj)
+            ie = bcs%iworking_array(1,jj)
             iad1 = ale_connectivity%ee_connect%iad_connect(ie)
             lgth = ale_connectivity%ee_connect%iad_connect(ie+1)-ale_connectivity%ee_connect%iad_connect(ie)
-            kk = iworking_array(2,jj)
+            kk = bcs%iworking_array(2,jj)
             iv = ale_connectivity%ee_connect%connected(iad1 + kk - 1)
             if (iv > 0) then
               iadv = ale_connectivity%ee_connect%iad_connect(iv)
               lgthv = ale_connectivity%ee_connect%iad_connect(iv+1)-ale_connectivity%ee_connect%iad_connect(iv)
               do kv = 1, lgthv
                 ivv = ale_connectivity%ee_connect%connected(iadv + kv - 1)
-                if(ivv == iworking_array(1,jj) ) then
+                if(ivv == bcs%iworking_array(1,jj) ) then
                   ipos = ipos + 1 ! skip data when there is no adjacent elem
                   bcs%wall(ii)%list%elem(ipos) = ie
                   bcs%wall(ii)%list%face(ipos) = kk
@@ -235,9 +292,10 @@
             end if
           end do !next jj
 
+          bcs%wall(ii)%list%size = ipos
+
           if(ipri >= 3)then
             !effective size & printout
-            bcs%wall(ii)%list%size = ipos
             if(ipos > 0)then
               write(iout, 2011)bcs%wall(ii)%user_id
               write(iout, 2019)ipos/2  ! elem_i/elem_j and elem_j/elem_i related to the same internal face

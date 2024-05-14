@@ -145,7 +145,7 @@ Chd|====================================================================
      2                  IXP        ,IXR           ,DETONATORS       ,GEO            ,PM        ,
      3                  RBY        ,NPBY          ,LPBY             ,NPC            ,NPTS      ,
      4                  PLD        ,VEUL          ,ALE_CONNECTIVITY ,SKEW           ,FILL      ,
-     5                  IPART      ,ITAB          ,SENSORS          ,IWORKING_ARRAY ,
+     5                  IPART      ,ITAB          ,SENSORS          ,
      6                  IXTG       ,THK           ,NLOC_DMG         ,GROUP_PARAM_TAB,
      7                  IGRNOD     ,IGRSURF       ,BUFSF            ,VR             ,
      8                  BUFMAT     ,XLAS          ,LAS              ,DTELEM         ,MSS       ,
@@ -292,7 +292,6 @@ C-----------------------------------------------
      .        NCTRLMAX,NSIGBEAM,NSIGTRUSS
       INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,*),SLRBODY
       INTEGER,INTENT(IN) :: IPARI(NPARI,NINTER)
-      INTEGER,INTENT(INOUT) :: IWORKING_ARRAY(2*NUMNOD)  !lectur::IWCIN2 used here as working array
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
       my_real
      .   ELBUF(*), MS(*), IN(*), V(*), X(*), GEO(*),PM(NPROPM,*),
@@ -821,7 +820,7 @@ C--------------------------------------------
       IF(BCS%NUM_WALL > 0)THEN
         CALL INIT_BCS_WALL(IGRNOD,NGRNOD,NUMNOD,ALE_CONNECTIVITY,MULTI_FVM,
      .                     IXS,NIXS,NUMELS, IXQ,NIXQ,NUMELQ, IXTG,NIXTG,NUMELTG, N2D,
-     .                     NGROUP,NPARG,IPARG,IWORKING_ARRAY,IPRI)
+     .                     NGROUP,NPARG,IPARG,IPRI)
       ENDIF
 C---------------------------------------------------------
 C     Tri du vecteur de bolt Preloading

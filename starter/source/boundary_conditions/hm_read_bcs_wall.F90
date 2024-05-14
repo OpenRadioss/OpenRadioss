@@ -110,12 +110,12 @@
           if(is_available_tstart .or. is_available_tstop)then
             if(tstart /= zero .or. tstop /=zero)then
               bcs%wall(ii)%is_depending_on_time = .true.
-              !DEFAULT
-              if(tstop == zero)tstop = ep20
-              if(tstop < tstart)then
-                tstop = ep20
-              end if
             end if
+          end if
+          !DEFAULT
+          if(tstop == zero)tstop = ep20
+          if(tstop < tstart)then
+            tstop = ep20
           end if
 
           !CHECK USER SET IDENTIFIER
@@ -144,6 +144,11 @@
               call ancmsg(msgid=1252,anmode=aninfo,msgtype=msgerror,i1=id,c1=label,c2=label,c3=titr,i2=user_sensor_id)
             endif
           endif
+
+          if(.not.bcs%wall(ii)%is_depending_on_time .and. .not.bcs%wall(ii)%is_depending_on_sensor)then
+            !when option is defined without any parameter then wall bcs is enabled from 0 to 1e20
+            bcs%wall(ii)%is_depending_on_time = .true.
+          end if
 
           !FILL BARRIER DATA STRUCTURE
           bcs%wall(ii)%is_enabled= .false.  !set by engine on cycle 0
