@@ -520,10 +520,8 @@ C--------------------------------------------------
         ENDIF
         USERL_AVAIL=0
         DLIB_ARRAY(1:NBR_DLIB) = 0
-#ifndef SANITIZE 
         CALL DYN_USERLIB_INIT(DLIBFILE,DLIBFILE_SIZE,USERL_AVAIL,DLIBTKVERS,IRESP,GOT_USERL_ALTNAME,
      1                        DLIB_ARRAY)
-#endif
         DYN_LIB_MODE = 1
         CALL INIT_DYN_LIB_STRUC(DYN_LIB_MODE)
 
@@ -538,12 +536,10 @@ C Linux Issue call dummy routines to avoid loader removing object files
 C--------------------------------------------------
 C Radioss MDS initialization
 C--------------------------------------------------
-#ifndef SANITIZE
 #ifdef DNC
         CALL MDS_USERLIB_INIT(IRESP,MDS_AVAIL,MDS_VER,MDS_PATH,MDS_PATH_LEN)
 #else
         MDS_AVAIL=0
-#endif
 #endif
 C--------------------------------------------------
 C Error messages initialization
@@ -1903,7 +1899,8 @@ C   Multiple th files
      2                    WA            ,PM               ,GEO              ,IPART,
      3                    SUBSETS       ,OUTPUT%TH%ITHGRP ,OUTPUT%TH%ITHBUF ,IGEO,
      4                    IPM           ,IPART            ,LIPART1          ,8,
-     5                    12            ,ITHVAR           ,ITHFLAG,NAMES_AND_TITLES )
+     5                    12            ,ITHVAR           ,ITHFLAG,NAMES_AND_TITLES,
+     6                    OUTPUT%TH%SITHBUF )
             FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.abf'
             LONG = 9
             LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -1936,7 +1933,8 @@ c
      2                      WA            ,PM                ,GEO               ,IPART,
      3                      SUBSETS       ,OUTPUT%TH%ITHGRPA ,OUTPUT%TH%ITHBUFA ,IGEO,
      4                      IPM           ,IPART(1+LIPART1*(NPART+NTHPART))     ,2,1,
-     5                      1             ,ITHVAR            ,ITHFLAG,NAMES_AND_TITLES)
+     5                      1             ,ITHVAR            ,ITHFLAG,NAMES_AND_TITLES,
+     6                      OUTPUT%TH%SITHBUFA)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_a.abf'
               LONG = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -1966,7 +1964,8 @@ c
      2                      WA            ,PM               ,GEO               ,IPART,
      3                      SUBSETS       ,OUTPUT%TH%ITHGRPB,OUTPUT%TH%ITHBUFB ,IGEO,
      4                      IPM           ,IPART(1+LIPART1*(NPART+NTHPART)+2*(NPART+NTHPART)),2,1,
-     5                      1             ,ITHVAR           ,ITHFLAG,NAMES_AND_TITLES)
+     5                      1             ,ITHVAR           ,ITHFLAG,NAMES_AND_TITLES,
+     6                      OUTPUT%TH%SITHBUFB)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_b.abf'
               LONG = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -1997,7 +1996,8 @@ c
      2                      WA            ,PM      ,GEO        ,IPART ,
      3                      SUBSETS       ,OUTPUT%TH%ITHGRPC   ,OUTPUT%TH%ITHBUFC ,IGEO,
      4                      IPM           ,IPART               ,2 ,1,
-     5                      1             ,ITHVAR              ,ITHFLAG,NAMES_AND_TITLES)
+     5                      1             ,ITHVAR              ,ITHFLAG,NAMES_AND_TITLES,
+     6                      OUTPUT%TH%SITHBUFC)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_c.abf'
               LONG = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -2027,7 +2027,8 @@ c
      2                       WA            ,PM      ,GEO        ,IPART,
      3                       SUBSETS       ,OUTPUT%TH%ITHGRPD   ,OUTPUT%TH%ITHBUFD ,IGEO,
      4                       IPM           ,IPART   ,2     ,1   ,
-     5                       1             ,ITHVAR  ,ITHFLAG,NAMES_AND_TITLES)
+     5                       1             ,ITHVAR  ,ITHFLAG,NAMES_AND_TITLES,
+     6                       OUTPUT%TH%SITHBUFD)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_d.abf'
               LONG = 11
             LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -2055,7 +2056,8 @@ c
      2                       WA            ,PM     ,GEO       ,IPART,
      3                       SUBSETS       ,OUTPUT%TH%ITHGRPE ,OUTPUT%TH%ITHBUFE ,IGEO,
      4                       IPM           ,IPART             ,2     ,1     ,
-     5                       1             ,ITHVAR            ,ITHFLAG,NAMES_AND_TITLES)
+     5                       1             ,ITHVAR            ,ITHFLAG,NAMES_AND_TITLES,
+     6                       OUTPUT%TH%SITHBUFE)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_e.abf'
               LONG = 11
             LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -2084,7 +2086,8 @@ c
      2                      WA  ,PM  ,GEO ,IPART ,
      3                      SUBSETS ,OUTPUT%TH%ITHGRPF,OUTPUT%TH%ITHBUFF,IGEO    ,
      4                      IPM   ,IPART   ,2     ,1     ,
-     5                      1   ,ITHVAR,ITHFLAG,NAMES_AND_TITLES)
+     5                      1   ,ITHVAR,ITHFLAG,NAMES_AND_TITLES,
+     6                      OUTPUT%TH%SITHBUFF)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_f.abf'
               LONG = 11
             LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
@@ -2113,7 +2116,8 @@ c
      2                      WA  ,PM  ,GEO ,IPART ,
      3                      SUBSETS ,OUTPUT%TH%ITHGRPG,OUTPUT%TH%ITHBUFG,IGEO    ,
      4                      IPM     ,IPART   ,2     ,1     ,
-     5                      1       ,ITHVAR,ITHFLAG,NAMES_AND_TITLES)
+     5                      1       ,ITHVAR,ITHFLAG,NAMES_AND_TITLES,
+     6                      OUTPUT%TH%SITHBUFG)
      
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_g.abf'
               LONG = 11
@@ -2147,7 +2151,8 @@ c
      2                      WA            ,PM                  ,GEO              ,IPART,
      3                      SUBSETS       ,OUTPUT%TH%ITHGRPH  ,OUTPUT%TH%ITHBUFH ,IGEO,
      4                      IPM   ,IPART  ,2                  ,1     ,
-     5                      1     ,ITHVAR ,ITHFLAG ,NAMES_AND_TITLES)
+     5                      1     ,ITHVAR ,ITHFLAG ,NAMES_AND_TITLES,
+     6                      OUTPUT%TH%SITHBUFH)
      
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_h.abf'
               LONG = 11
@@ -2180,7 +2185,8 @@ c
      2                      WA            ,PM                 ,GEO               ,IPART,
      3                      SUBSETS       ,OUTPUT%TH%ITHGRPI  ,OUTPUT%TH%ITHBUFI ,IGEO    ,
      4                      IPM           ,IPART(1+LIPART1*(NPART+NTHPART)+16*(NPART+NTHPART)),2,1,
-     5                      1             ,ITHVAR ,ITHFLAG,NAMES_AND_TITLES)
+     5                      1             ,ITHVAR ,ITHFLAG,NAMES_AND_TITLES,
+     6                      OUTPUT%TH%SITHBUFI)
      
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_i.abf'
               LONG = 11
