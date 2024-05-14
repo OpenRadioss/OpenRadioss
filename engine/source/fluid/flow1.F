@@ -83,8 +83,10 @@ C
             CALL DAAACC(NDIM, NNO, NEL, IFLOW(II1), IFLOW(II2), IFLOW(II3), IFLOW(II4), IFLOW(II6), 
      .                  A,  RFLOW(IR2), RFLOW(IR8))
          ENDIF
-         IADI=IADI+IFLOW(IADI+14)  
-         IADR=IADR+IFLOW(IADI+15)
+         IF(N < NFLOW) THEN
+           IADI=IADI+IFLOW(IADI+14)  
+           IADR=IADR+IFLOW(IADI+15)
+         ENDIF
       ENDDO
 C
       RETURN

@@ -148,6 +148,7 @@ C
 
       my_real YDP, TF2J2,TF2J1,TF1J2,TF1J1,
      .  XDP,YYDP, DYDXDP
+      LOGICAL COND1, COND2
 C
       J = 0
       ICONT = 1
@@ -157,10 +158,14 @@ C
        ICONT = 0
        DO I=1,NEL0
          J1 = IPOS(I)+IAD(I)+1
-         IF(J<=ILEN(I)-1.AND.X(I)>TF(1,J1))THEN
+         COND1 = J<=ILEN(I)-1
+         IF(COND1) COND1 = X(I)>TF(1,J1)
+         COND2 = IPOS(I)>=1
+         IF(COND2) COND2 = X(I)<TF(1,J1-1)
+         IF(COND1)THEN
            IPOS(I)=IPOS(I)+1
            ICONT = 1
-         ELSEIF(IPOS(I)>=1.AND.X(I)<TF(1,J1-1))THEN
+         ELSEIF(COND2)THEN
            IPOS(I)=IPOS(I)-1
            ICONT = 1
          ENDIF
