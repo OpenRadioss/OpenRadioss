@@ -1162,7 +1162,7 @@ C SEATBELTS
       TYPE(INTER_CAND_) :: INTER_CAND
       TYPE (FAIL_FRACTAL_) :: FAIL_FRACTAL
 c=======================================================================
-!    
+      IREAC = 0 
       PYTHON%NB_FUNCTS = 0
 !     domain decomposition statistic
       DDSTAT(1:50,1:PARASIZ)=0
