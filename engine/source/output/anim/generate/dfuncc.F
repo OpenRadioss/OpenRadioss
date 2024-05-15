@@ -2585,8 +2585,8 @@ C
                               EPSF1(I)= ONE/PM(98,MATLY(J))                               
                               EPSF2(I)= ONE/PM(99,MATLY(J))
 C   
-                              VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
-                              VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I)) 
+                              VG(1) = MAX(VG(1),LBUF%DMG(JJ(2)+I)*DMAX(I)) 
+                              VG(2) = MAX(VG(2),LBUF%DMG(JJ(3)+I)*DMAX(I)) 
                               VG(3)= MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I)) 
                               IF(LBUF%CRAK(JJ(1)+I) > ZERO) VG(4)=  MAX(VG(4),
      .                          (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I)) 
