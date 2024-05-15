@@ -33,6 +33,9 @@ Chd|====================================================================
      +                    NQVOIS,NTGVOIS,PROC,IPARG,CEP,CEL,
      +                    ALE_CONNECTIVITY,ee_connect_l,IXS,IXQ,IXTG,NODLOCAL,NUMELS_L,NUMELQ_L,NUMELTG_L,MULTI_FVM,
      +                    ID_GLOBAL_VOIS,INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,FACE_VOIS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
@@ -68,18 +71,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, N, NG, IFS, IFQ, IFTG,IE_LOC, IV_LOC,
-     .        ISOLNOD,ILAW,JTUR,JTHE,ITY,IE,NFT,NEL,IV,PROC2,NFT_LOC,IAD1, LGTH, IAD2
-      INTEGER :: NUMEL_L, TMP, IALEUL
+      INTEGER I, J, K, N, NG, IFS, IFQ, IFTG,IE_LOC, IV_LOC
+      INTEGER ISOLNOD,ILAW,JTUR,JTHE,ITY,IE,NFT,NEL,IV,PROC2,NFT_LOC,IAD1, LGTH, IAD2
+      INTEGER NUMEL_L, TMP, IALEUL
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGE, nb_connect_l
-!
+      LOGICAL IS_HEXA,IS_QUAD,IS_TRIA
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
 !     Number of local elements
       NUMEL_L = 0 
       DO NG = 1, NGROUP
-         IF (IPARG(32, NG) == PROC) THEN
-            NEL = IPARG(2, NG)
-            NUMEL_L = NUMEL_L + NEL
-         ENDIF
+        IF (IPARG(32, NG) == PROC) THEN
+          NEL = IPARG(2, NG)
+          NUMEL_L = NUMEL_L + NEL
+        ENDIF
       ENDDO
       ALLOCATE(ee_connect_l%iad_connect(NUMEL_L + 1))
       ee_connect_l%iad_connect(1:NUMEL_L + 1) = 0
@@ -93,16 +99,25 @@ C-----------------------------------------------
             NEL = IPARG(2, NG)
             NFT = IPARG(3, NG)
             IALEUL = IPARG(7, NG) + IPARG(11, NG)
-            IF (IALEUL /= 0) THEN
-               DO I = 1, NEL
-!     Index of the element
+            ITY = IPARG(5,NG)
+            IS_HEXA=.FALSE.
+            IS_QUAD=.FALSE.
+            IS_TRIA=.FALSE.
+            IF(ITY == 1)IS_HEXA=.TRUE.
+            IF(ITY == 2)IS_QUAD=.TRUE.
+            IF(ITY == 7 .AND. N2D > 0)IS_TRIA=.TRUE.
+            IF(IS_HEXA .OR. IS_QUAD .OR. IS_TRIA)THEN !skip shell, sh3n, and other elem types
+              IF (IALEUL /= 0) THEN
+                DO I = 1, NEL
+                  ! Index of the element
                   IE = I + NFT
-!     Local index of the element
+                  ! Local index of the element
                   IE_LOC = I + NFT_LOC
-!     Number of neighbors
+                  ! Number of neighbors
                   LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
                   nb_connect_l(IE_LOC) = LGTH
-               ENDDO
+                ENDDO
+              ENDIF
             ENDIF
             NFT_LOC = NFT_LOC + NEL
          ENDIF
@@ -112,9 +127,9 @@ C-----------------------------------------------
          ee_connect_l%iad_connect(I) = ee_connect_l%iad_connect(I - 1) + nb_connect_l(I - 1)
       ENDDO
       TMP = ee_connect_l%iad_connect(NUMEL_L + 1) - 1
-      ALLOCATE(ee_connect_l%connected(TMP))
-      ALLOCATE(ee_connect_l%type(TMP))
-      ALLOCATE(ee_connect_l%iface2(TMP))
+      ALLOCATE(ee_connect_l%connected(TMP)) ; ee_connect_l%connected(1:TMP) = 0
+      ALLOCATE(ee_connect_l%type(TMP)) ; ee_connect_l%type(1:TMP) = 0
+      ALLOCATE(ee_connect_l%iface2(TMP)) ; ee_connect_l%iface2(1:TMP) = 0
 C
       ALLOCATE(TAGE(NUMEL))
       DO I = 1, NUMEL
@@ -134,6 +149,8 @@ C
          ITY = IPARG(5,NG)
 C   voir autres types solides
          ISOLNOD = IPARG(28,NG)
+         IALEUL = IPARG(7, NG) + IPARG(11, NG)
+         IF(IALEUL == 0)CYCLE
 C   3D
          IF(ITY==1) THEN
            DO I = 1, NEL
@@ -241,7 +258,7 @@ C   element interne
              ENDDO
            ENDDO
            NFT_LOC = NFT_LOC + NEL
-         ELSEIF(ITY==7 .AND. (N2D /= 0 .AND. MULTI_FVM%IS_USED)) THEN
+         ELSEIF(ITY == 7 .AND. (N2D /= 0 .AND. MULTI_FVM%IS_USED)) THEN
 C   2D
            DO I = 1, NEL
              IE = I+NFT

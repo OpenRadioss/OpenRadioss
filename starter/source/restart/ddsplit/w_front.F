@@ -1865,9 +1865,9 @@ C
         DO I=1,NUMELS
           DO J=1,8
              NS = IXS(j+1,I)         
-             IF ( (NODLOCAL(NS)/=0).AND.(NODLOCAL(NS)<=NUMNOD_L) ) THEN  
-                IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(I)
-                LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(I)
+             IF ( (NODLOCAL(NS)/=0) .AND. (NODLOCAL(NS)<=NUMNOD_L) ) THEN
+               IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(I)
+               LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(I)
                DO K=1,LGTH
                   IE = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + K - 1)
                   IF (IE>0) THEN

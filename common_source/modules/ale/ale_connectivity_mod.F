@@ -787,31 +787,34 @@ C-----------------------------------------------
 
 !       2D elements
 !       /TRIA
-        DO II = 1, NUMELTG
-!       ale : jal = 1, euler : jal = 2
-         JAL_FROM_MAT = NINT(PM(72, IABS(IXTG(1, II)))) 
-         JAL_FROM_PROP = IGEO(62, IABS(IXTG(5, II)))
-         JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)
-         JALT = JAL + NINT(PM(71, IABS(IXTG(1, II))) + PM(96, IABS(IXTG(1, II))))
-         IMID = IABS(IXTG(1, II))
-         IF (JALT == 0) CYCLE
-         MLW  = NINT(PM(19,IMID))
-         DO JJ = 1, 3
-            NODE_ID = IXTG(1 + JJ, II)
-            NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
-            IF (.NOT. THIS%NALE_ALREADY_COMPUTED) THEN
-               THIS%NALE(NODE_ID) = MAX(THIS%NALE(NODE_ID), JAL)
-               IF (MLW == 151) THEN
-                  IF (THIS%NALE(NODE_ID) == 1 .OR. THIS%NALE(NODE_ID) == 2) THIS%NALE(NODE_ID) = 150 + THIS%NALE(NODE_ID)
-               ENDIF
-            ENDIF
-         ENDDO
-        ENDDO
+        IF(N2D > 0)THEN
+          DO II = 1, NUMELTG
+!         ale : jal = 1, euler : jal = 2
+           JAL_FROM_MAT = NINT(PM(72, IABS(IXTG(1, II))))
+           JAL_FROM_PROP = IGEO(62, IABS(IXTG(5, II)))
+           JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)
+           JALT = JAL + NINT(PM(71, IABS(IXTG(1, II))) + PM(96, IABS(IXTG(1, II))))
+           IMID = IABS(IXTG(1, II))
+           IF (JALT == 0) CYCLE
+           MLW  = NINT(PM(19,IMID))
+           DO JJ = 1, 3
+              NODE_ID = IXTG(1 + JJ, II)
+              NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+              IF (.NOT. THIS%NALE_ALREADY_COMPUTED) THEN
+                 THIS%NALE(NODE_ID) = MAX(THIS%NALE(NODE_ID), JAL)
+                 IF (MLW == 151) THEN
+                    IF (THIS%NALE(NODE_ID) == 1 .OR. THIS%NALE(NODE_ID) == 2) THIS%NALE(NODE_ID) = 150 + THIS%NALE(NODE_ID)
+                 ENDIF
+              ENDIF
+           ENDDO
+          ENDDO
+        ENDIF
+
 !       /QUAD
         DO II = 1, NUMELQ
 !       ale : jal = 1, euler : jal = 2
          JAL_FROM_MAT = NINT(PM(72, IABS(IXQ(1, II))))
-         JAL_FROM_PROP = IGEO(62,IABS(IXQ(6, II))) 
+         JAL_FROM_PROP = IGEO(62,IABS(IXQ(6, II)))
          JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)
          JALT = JAL + NINT(PM(71, IABS(IXQ(1, II))) + PM(96, IABS(IXQ(1, II))))
          IMID = IABS(IXQ(1, II))
@@ -828,7 +831,7 @@ C-----------------------------------------------
             ENDIF
          ENDDO
         ENDDO
-        
+
 !       3D elements
         DO II = 1, NUMELS
          JAL_FROM_MAT = NINT(PM(72, IABS(IXS(1, II))))
@@ -886,24 +889,27 @@ C-----------------------------------------------
         
 !       2D elements
 !       /TRIA
-        DO II = 1, NUMELTG
-         JAL_FROM_MAT = NINT(PM(72, IABS(IXTG(1, II)))) 
-         JAL_FROM_PROP = IGEO(62,IABS(IXTG(5, II)))
-         JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)
-         JALT = JAL + NINT(PM(71, IABS(IXTG(1, II))) + PM(96, IABS(IXTG(1, II))))
-         IMID = IABS(IXTG(1, II))
-         IF (JALT == 0) CYCLE
-         DO JJ = 1, 3
-            NODE_ID = IXTG(1 + JJ, II)
-            CONNECTED(ADSKY(NODE_ID)) = II
-            TYPE(ADSKY(NODE_ID)) = 3
-            ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
-         ENDDO
-        ENDDO
+        IF(N2D > 0)THEN
+          DO II = 1, NUMELTG
+           JAL_FROM_MAT = NINT(PM(72, IABS(IXTG(1, II))))
+           JAL_FROM_PROP = IGEO(62,IABS(IXTG(5, II)))
+           JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)
+           JALT = JAL + NINT(PM(71, IABS(IXTG(1, II))) + PM(96, IABS(IXTG(1, II))))
+           IMID = IABS(IXTG(1, II))
+           IF (JALT == 0) CYCLE
+           DO JJ = 1, 3
+              NODE_ID = IXTG(1 + JJ, II)
+              CONNECTED(ADSKY(NODE_ID)) = II
+              TYPE(ADSKY(NODE_ID)) = 3
+              ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
+           ENDDO
+          ENDDO
+        ENDIF
+
 !       /QUAD
         DO II = 1, NUMELQ
          JAL_FROM_MAT = NINT(PM(72, IABS(IXQ(1, II))))
-         JAL_FROM_PROP = IGEO(62, IABS(IXQ(6, II)) ) 
+         JAL_FROM_PROP = IGEO(62, IABS(IXQ(6, II)) )
          JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)
          JALT = JAL + NINT(PM(71, IABS(IXQ(1, II))) + PM(96, IABS(IXQ(1, II))))
          IMID = IABS(IXQ(1, II))
@@ -914,7 +920,8 @@ C-----------------------------------------------
             TYPE(ADSKY(NODE_ID)) = 2
             ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
          ENDDO
-       ENDDO
+        ENDDO
+
 !      3D elements
         DO II = 1, NUMELS
          JAL_FROM_MAT = NINT(PM(72, IABS(IXS(1, II))))
