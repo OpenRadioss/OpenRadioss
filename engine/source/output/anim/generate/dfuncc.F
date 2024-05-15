@@ -395,12 +395,12 @@ c----           USER VARIABLES from 6 to 60
  
             !Burn Fraction      
             ELSEIF(IFUNC == 10252)THEN 
-              IF(ELBUF_TAB(NG)%GBUF%G_BFRAC>0)THEN
-                DO  I=LFT,LLT
+              IF(ELBUF_TAB(NG)%GBUF%G_BFRAC > 0 .AND. N2D > 0)THEN
+                DO I=LFT,LLT
                   FUNC(EL2FA(NN3+NFT+I)) =  ELBUF_TAB(NG)%GBUF%BFRAC(I)             
                 ENDDO  
               ELSE
-                DO  I=LFT,LLT
+                DO I=LFT,LLT
                   FUNC(EL2FA(NN3+NFT+I)) = ZERO
                 ENDDO
               ENDIF
@@ -427,12 +427,12 @@ c----           USER VARIABLES from 6 to 60
                     FUNC(EL2FA(NN3+NFT+I)) = ZERO                       
                   ENDDO 
                ELSE
-                 IF(ITY==2)THEN                                                                         
+                 IF(ITY == 2)THEN
                    CALL OUTPUT_SCHLIEREN(
      1                   EVAR    , IXQ    , X           ,
      2                   IPARG   , WA_L   , ELBUF_TAB   , ALE_CONNECTIVITY   , GBUF%VOL,
      3                   NG      , NIXQ   , ITY)
-                 ELSEIF(ITY==7.AND.N2D/=0)THEN
+                 ELSEIF(ITY == 7 .AND. N2D /= 0)THEN
                    CALL OUTPUT_SCHLIEREN(
      1                   EVAR    , IXTG   , X           ,
      2                   IPARG   , WA_L   , ELBUF_TAB   , ALE_CONNECTIVITY   , GBUF%VOL,
