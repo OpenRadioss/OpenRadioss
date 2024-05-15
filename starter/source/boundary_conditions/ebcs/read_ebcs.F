@@ -226,7 +226,7 @@ C-----------------------------------------------
             allocate (t_ebcs_monvol :: EBCS_TAB%tab(ii)%poly)
             select type (twf => EBCS_TAB%tab(ii)%poly)
             type is (t_ebcs_monvol)
-              CALL HM_READ_EBCS_MONVOL(IGRSURF,MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
+              CALL HM_READ_EBCS_MONVOL(IGRSURF,MULTI_FVM,UNITAB, ID, TITR, UID, LSUBMODEL, twf)
             end select
 
          CASE DEFAULT
