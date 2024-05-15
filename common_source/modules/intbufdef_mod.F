@@ -157,6 +157,7 @@ Chd|        SPLIT_REMNODE_I25_E2S         starter/source/restart/ddsplit/inter_t
 Chd|        SPLIT_REMNODE_I25_EDGE        starter/source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_REMNODE_I7              starter/source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEGEDGE_NODLOC_I24      starter/source/restart/ddsplit/inter_tools.F
+Chd|        SPLIT_SEG_IELEM               starter/source/restart/ddsplit/split_seg_ielem.F
 Chd|        SPLIT_SEG_IVAL2               starter/source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEG_IVAL_I20            starter/source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEG_IVAL_I20_2          starter/source/restart/ddsplit/inter_tools.F

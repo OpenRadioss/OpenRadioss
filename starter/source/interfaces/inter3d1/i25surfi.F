@@ -33,6 +33,7 @@ Chd|        SH2SURF25                     source/interfaces/inter3d1/i25surfi.F
 Chd|        BITSET                        source/interfaces/inter3d1/bitget.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
 Chd|====================================================================
       SUBROUTINE I25SURFI(IALLO   ,IPARI   ,IGRNOD  ,IGRSURF ,
      1                    IRECT   ,FRIGAP  ,

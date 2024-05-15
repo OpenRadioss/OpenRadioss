@@ -24,7 +24,6 @@ Chd|====================================================================
 Chd|  SPMD_ARRAYS_MOD               modules/interfaces/spmd_arrays_mod.F
 Chd|-- called by -----------
 Chd|        INTERFACES_MOD                common_source/modules/interfaces/interfaces_mod.F
-Chd|        CHECK_NEIGHBOURS_SURFACE_STATEengine/source/interfaces/interf/check_neighbours_surface_state.F
 Chd|-- calls ---------------
 Chd|====================================================================
         MODULE SPMD_ARRAYS_MOD

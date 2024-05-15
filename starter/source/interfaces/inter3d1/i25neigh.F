@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
 Chd|-- calls ---------------
 Chd|        I25NEIGH_MSG_ERR              source/interfaces/inter3d1/i25neigh.F
+Chd|        I25NEIGH_SEG_E                source/interfaces/inter3d1/i25neigh.F
 Chd|        I25NEIGH_SEG_EN               source/interfaces/inter3d1/i25neigh.F
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        BITGET                        source/interfaces/inter3d1/bitget.F
@@ -1370,6 +1371,7 @@ C----6---------------------------------------------------------------7---------8
 Chd|====================================================================
 Chd|  I25NEIGH_SEG_E                source/interfaces/inter3d1/i25neigh.F
 Chd|-- called by -----------
+Chd|        I25NEIGH                      source/interfaces/inter3d1/i25neigh.F
 Chd|        I25NEIGH_SEG_EN               source/interfaces/inter3d1/i25neigh.F
 Chd|-- calls ---------------
 Chd|        ADD_ID                        source/interfaces/inter3d1/i24tools.F

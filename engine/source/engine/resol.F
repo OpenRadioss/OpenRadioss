@@ -447,7 +447,7 @@ Chd|        DYNLIB_MOD                    share/modules/dynlib_mod.F
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
 Chd|        ERROR_MOD                     share/modules/error_mod.F     
-Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F    
+Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
 Chd|        FSKYI_MOD                     share/modules/restart_mod.F   
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
