@@ -95,39 +95,39 @@ C ----------------------------------------
                 !       -----------------------------
                 ! check if a neighbouring element is used
                 BOOL(1:NSPMD)=.FALSE.
+                IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(I)
+                LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(I)
                 DO J=1,8
-                        NS = IXS(J+1,I)
-                        IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(I)
-                        LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(I)
-                        DO K=1,LGTH
-                                SOLV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + K - 1)
-                                IF (SOLV>0) THEN
-                                        DO L=1,8
-                                                N = IXS(L+1,SOLV)
-                                                CALL PLIST_IFRONT(ID_SPMD,N,NBR_PROC)
-                                                DO ISPMD=1,NBR_PROC
-                                                        BOOL(ID_SPMD(ISPMD)) = .TRUE.
-                                                ENDDO
-                                        ENDDO
-                                ENDIF
+                  NS = IXS(J+1,I)
+                  DO K=1,LGTH
+                    SOLV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + K - 1)
+                    IF (SOLV>0) THEN
+                      DO L=1,8
+                        N = IXS(L+1,SOLV)
+                        CALL PLIST_IFRONT(ID_SPMD,N,NBR_PROC)
+                        DO ISPMD=1,NBR_PROC
+                          BOOL(ID_SPMD(ISPMD)) = .TRUE.
                         ENDDO
+                      ENDDO
+                    ENDIF
+                  ENDDO
                 ENDDO
                 !       -----------------------------
                 !       fill the ALE_ELM array / increase the size
                 DO ISPMD=1,NSPMD
-                        IF( BOOL(ISPMD) ) THEN
-                                II(ISPMD) = II(ISPMD) + 1
-                                IF( II(ISPMD)>SIZE_ALE_ELM(ISPMD) ) THEN
-                                        !       need to check the size for small test, ie. when NUMELS < NSPMS
-                                        MIN_SIZE=MAX(1,5* NUMELS/ ( 4*NSPMD ))
-                                        NEW_SIZE_II = SIZE_ALE_ELM(ISPMD) + MIN_SIZE
-                                        ALLOCATE( TMP( NEW_SIZE_II ) )
-                                        TMP(1:SIZE_ALE_ELM(ISPMD)) = ALE_ELM(ISPMD)%SOL_ID( 1:SIZE_ALE_ELM(ISPMD) )
-                                        CALL MOVE_ALLOC(FROM=TMP,TO=ALE_ELM(ISPMD)%SOL_ID)
-                                        SIZE_ALE_ELM(ISPMD) = NEW_SIZE_II                                        
-                                ENDIF
-                                ALE_ELM(ISPMD)%SOL_ID(II(ISPMD)) = I   
-                        ENDIF
+                  IF( BOOL(ISPMD) ) THEN
+                    II(ISPMD) = II(ISPMD) + 1
+                    IF( II(ISPMD)>SIZE_ALE_ELM(ISPMD) ) THEN
+                      !       need to check the size for small test, ie. when NUMELS < NSPMS
+                      MIN_SIZE=MAX(1,5* NUMELS/ ( 4*NSPMD ))
+                      NEW_SIZE_II = SIZE_ALE_ELM(ISPMD) + MIN_SIZE
+                      ALLOCATE( TMP( NEW_SIZE_II ) )
+                      TMP(1:SIZE_ALE_ELM(ISPMD)) = ALE_ELM(ISPMD)%SOL_ID( 1:SIZE_ALE_ELM(ISPMD) )
+                      CALL MOVE_ALLOC(FROM=TMP,TO=ALE_ELM(ISPMD)%SOL_ID)
+                      SIZE_ALE_ELM(ISPMD) = NEW_SIZE_II
+                    ENDIF
+                    ALE_ELM(ISPMD)%SOL_ID(II(ISPMD)) = I
+                  ENDIF
                 ENDDO
                 !       -----------------------------
         ENDDO
