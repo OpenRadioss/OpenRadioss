@@ -2200,7 +2200,6 @@ C
       IS_AVAILABLE = .FALSE.
       IGS=0
       IAD=1
-      IREAC=0
       HM_NTHGRP=0
 c
       ! Choose TH file type 
