@@ -33,7 +33,7 @@ Chd|====================================================================
      3     AREA    ,DEPSZZ  ,DEPSYZ  ,DEPSZX  ,NUPARAM ,EPSZZ   ,
      4     SIGOZZ  ,SIGOYZ  ,SIGOZX  ,SIGNZZ  ,SIGNYZ  ,SIGNZX  ,
      5     PLA     ,JSMS    ,DMELS   ,SYM,     UVAR    ,NUVAR   ,
-     6     DMG     ,ASRATE  ,ISRATE  )    
+     6     DMG     ,ASRATE  )    
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C---------+---------+---+---+--------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s  
 C----------------------------------------------------------
-      INTEGER NEL,NUPARAM,NUVAR,MAXFUNC, JSMS,ISRATE
+      INTEGER NEL,NUPARAM,NUVAR,MAXFUNC,JSMS
       INTEGER IFUNC(*),NPF(*)
       my_real
      .   TIME,TIMESTEP,ASRATE
@@ -88,13 +88,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: II,IEL,ITER,IRATE,NRATE,IDYIELD,IPLAS,IFUNN,IFUNT,
-     .           ICOMP,NTRAC,NCOMP
+     .           ICOMP,NTRAC,NCOMP,VP
       INTEGER ,DIMENSION(NEL) :: ELTRAC,ELCOMP
-      my_real :: YOUNGT,YOUNGC,SHEAR,DYDX1,DYDX2,Y1,Y2,FAC,R,DSIG,
-     .   SVMN,SVMT,DTB,ALPHA, BETA, SVM,TTA,TS,TN,XSCALE,RNC,RSC,FAIL,
-     .   XFAC,YFAC,YFACT ,YFACN ,AN,AS,SVMA,SVMP,SFP,NORMEF,NZZ,NYZ,NZX,
-     .   AA,FPX,FPY,FPN,FPS,DTN,DTS,FPRIM,DEPL,NORM,SIGN,SIGT,
-     .   PUI_1,PUI_2,PUI_3,MAX_SVMT,MAX_SVMN
+      my_real :: YOUNGT,YOUNGC,SHEAR,DYDX,
+     .   SVMN,SVMT,DTB,ALPHA,BETA,SVM,TS,TN,XSCALE,RNC,RSC,XFAC,YFAC,
+     .   AA,AN,AS,NORMEF,NZZ,NYZ,NZX,FACN,FACT,SZZ,SYZ,SZX,
+     .   FPX,FPY,FPRIM,SIGN,SIGT,SIG_EFF,PHI,DTINV,DSZZ,DSYZ,DSZX,DYLD,YLD0
       my_real ,DIMENSION(NEL) :: DSIGX,DSIGY,DSIGZ,DEP,DEPST,STF,EPSP,HT, 
      .   FYIELD,HYIELD, RN,HN,RS,SIGTRZZ,SIGTRYZ,SIGTRZX,YOUNG
 C----------------------------------------------------------
@@ -102,9 +101,7 @@ C   E x t e r n a l  F u n c t i o n
 C----------------------------------------------------------
        my_real :: FINTER
 c-----------------------------------------------------
-c     UVAR(1)  = DEPLA
-c     UVAR(2)  = Sigma equiv
-c     UVAR(3)  = Plastic strain rate
+c     UVAR(1) = strain rate
 C=======================================================================
 C     INPUT PARAMETERS INITIALIZATION
 C-----------------------------------------------
@@ -123,13 +120,16 @@ C-----------------------------------------------
       SHEAR   = UPARAM(11)
       ICOMP   = NINT(UPARAM(12))
       YOUNGC  = UPARAM(13)
+      VP      = NINT(UPARAM(14))
+      DTINV   = ONE / MAX(EM20,TIMESTEP)
 c
-      IF (ISRATE > 0) THEN
-        EPSP(:NEL) = UVAR(:NEL,3)
-      ELSE
-        EPSP(:NEL) = EPSD(:NEL)
+      IF (VP == 0) THEN              ! total displacement rate
+        EPSP(1:NEL)   = SQRT(DEPSZZ(1:NEL)**2 + DEPSYZ(1:NEL)**2 + DEPSZX(1:NEL)**2) *DTINV                                                      
+        UVAR(1:NEL,1) = ASRATE*EPSP(1:NEL) + (ONE - ASRATE)*UVAR(:NEL,1)
+        EPSD(1:NEL)   = UVAR(1:NEL,1)
       ENDIF
-      DEP(:NEL) = ZERO   ! UVAR(1)    
+      EPSP(:NEL) = UVAR(:NEL,1)
+      DEP(:NEL)  = ZERO
 c----------------------------------
       NTRAC = 0
       NCOMP = 0
@@ -140,7 +140,7 @@ c----------------------------------
           DO IEL=1,NEL
             IF (SIGOZZ(IEL) > ZERO) THEN   ! element in tension
               YOUNG(IEL)  = YOUNGT
-            ELSE                          ! element in compression
+            ELSE                           ! element in compression
               YOUNG(IEL)  = YOUNGC
             ENDIF
           ENDDO
@@ -165,13 +165,13 @@ c
       DSIGZ(1:NEL)   = YOUNG(1:NEL) * DEPSZZ(1:NEL)
       DSIGY(1:NEL)   = SHEAR*DEPSYZ(1:NEL)                              
       DSIGX(1:NEL)   = SHEAR*DEPSZX(1:NEL)                              
-      SIGNZZ(1:NEL)  = SIGOZZ(1:NEL) + DSIGZ(1:NEL)                  
-      SIGNYZ(1:NEL)  = SIGOYZ(1:NEL) + DSIGY(1:NEL)                  
-      SIGNZX(1:NEL)  = SIGOZX(1:NEL) + DSIGX(1:NEL)                  
-      STIFM(1:NEL)   = STIFM(1:NEL)  + STF(1:NEL)*OFF(1:NEL)                                              
+      SIGNZZ(1:NEL)  = SIGOZZ(1:NEL) + DSIGZ(1:NEL) * OFF(1:NEL)             
+      SIGNYZ(1:NEL)  = SIGOYZ(1:NEL) + DSIGY(1:NEL) * OFF(1:NEL)              
+      SIGNZX(1:NEL)  = SIGOZX(1:NEL) + DSIGX(1:NEL) * OFF(1:NEL)              
+      STIFM(1:NEL)   = STIFM(1:NEL)  + STF(1:NEL)*OFF(1:NEL)                                           
       SIGTRZZ(1:NEL) = SIGNZZ(1:NEL)                   
       SIGTRYZ(1:NEL) = SIGNYZ(1:NEL)                     
-      SIGTRZX(1:NEL) = SIGNZX(1:NEL)           
+      SIGTRZX(1:NEL) = SIGNZX(1:NEL)            
 c-----------------------------------------------------      
 c omega = sqrt(2k/2*dmels), dt=2/omega, 2*dmels=dt**2 * 2k / 4
       IF (IDTMINS==2 .AND. JSMS/=0) THEN
@@ -185,7 +185,7 @@ c----------------------Interpolation
 c
       IF (IFUNN /= 0) THEN
         DO IEL=1,NEL               
-          RN(IEL) = FINTER(IFUNN,EPSP(IEL)*XSCALE,NPF,TF,DYDX1) * RNC  !/ AREA(IEL)
+          RN(IEL) = FINTER(IFUNN,EPSP(IEL)*XSCALE,NPF,TF,DYDX) * RNC  !/ AREA(IEL)
         ENDDO
       ELSE
         DO IEL=1,NEL               
@@ -195,7 +195,7 @@ c
  
       IF (IFUNT /=0)THEN
         DO IEL=1,NEL       
-          RS(IEL) = FINTER(IFUNT,EPSP(IEL)*XSCALE,NPF,TF,DYDX1) * RSC  !/ AREA(IEL)
+          RS(IEL) = FINTER(IFUNT,EPSP(IEL)*XSCALE,NPF,TF,DYDX) * RSC  !/ AREA(IEL)
         ENDDO
       ELSE
         DO IEL=1,NEL               
@@ -203,9 +203,9 @@ c
         ENDDO
       ENDIF
       DO IEL=1,NEL          
-        FYIELD(IEL) = MAX(ZERO, FINTER(IDYIELD,PLA(IEL)*XFAC,NPF,TF,DYDX1))
+        FYIELD(IEL) = MAX(ZERO, FINTER(IDYIELD,PLA(IEL)*XFAC,NPF,TF,DYDX))
         FYIELD(IEL) = FYIELD(IEL)*(ONE-DMG(IEL))*YFAC
-        HYIELD(IEL) = DYDX1*YFAC
+        HYIELD(IEL) = DYDX*YFAC
       ENDDO
 c-----------------------------------------------------------------------------
 c     Plasticity projection (radial return from sigma trial) 
@@ -214,66 +214,41 @@ c-----------------------------------------------------------------------------
         IF (ICOMP == 0) THEN    ! elasto-plastic in tension and compression
           DO IEL = 1,NEL
             AA = RN(IEL)*(ONE-ALPHA*SIN(SYM(IEL)))
-            AN = ONE/MAX(EM20,AA)
-            AS = ONE/MAX(EM20,RS(IEL))
-            SVMN  = ABS(SIGTRZZ(IEL))                        ! normal stress    
-            SVMT  = SQRT(SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)  ! shear stress      
-            
-            TN  = SVMN * AN
-            TS  = SVMT * AS
-            SVM = TN ** 2 + TS ** 2  ! effective stress svm
-            IF (FYIELD(IEL) > ZERO) THEN
-             PUI_1 = FYIELD(IEL)**2
-            ELSE
-             PUI_1 = ZERO
-            ENDIF
-            IF (AN/=ZERO) THEN
-              PUI_2 = AN**2
-            ELSE
-              PUI_2 = ZERO
-            ENDIF
-            IF (AS/=ZERO) THEN
-             PUI_3 = AS**2
-            ELSE
-             PUI_3 = ZERO
-            ENDIF
-            DSIG = SVM - PUI_1 ! FYIELD(IEL)**2
-            IF (SVM > ZERO .and. DSIG > ZERO) THEN ! plastic
+            AN = ONE/MAX(EM20,AA)**2
+            AS = ONE/MAX(EM20,RS(IEL))**2
+            SIG_EFF = AN * SIGTRZZ(IEL)** 2 + AS * (SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)
+            YLD0 = FYIELD(IEL)
+            PHI  = SIG_EFF - YLD0**2
+            IF (SIG_EFF > ZERO .and. PHI > ZERO) THEN ! plastic
               NORMEF = SQRT (SIGTRZZ(IEL)**2 + SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)
               NZZ  = SIGTRZZ(IEL) / NORMEF
               NYZ  = SIGTRYZ(IEL) / NORMEF
               NZX  = SIGTRZX(IEL) / NORMEF
-              FAC = - BETA * YOUNG(IEL) / MAX(EM20,NORMEF)
+              FACN = TWO*AN*YOUNG(IEL)
+              FACT = TWO*AS*SHEAR
               DO ITER= 1,3
-                DTN  = ZERO
-                DTS  = ZERO
-                IF (SIGNZZ(IEL)/= ZERO)
-     .          DTN  = SIGTRZZ(IEL) * SIGNZZ(IEL)/ ABS(SIGNZZ(IEL))
-                IF (SVMT  /= ZERO)
-     .          DTS  = (SIGNZX(IEL)*SIGTRZX(IEL)+SIGNYZ(IEL)*SIGTRYZ(IEL))/SVMT     
-                FPN  = PUI_2 *MAX(EM20,SVMN)
-                FPS  = PUI_3 *MAX(EM20,SVMT)
-                FPRIM = FAC * (FPN * DTN + FPS * DTS)
+                FPRIM = -FACN*SIGNZZ(IEL)*NZZ - FACT*(SIGNYZ(IEL)*NYZ + SIGNZX(IEL)*NZX)
+                FPRIM = FPRIM -TWO*FYIELD(IEL)
+                              
+                DSZZ = -FACN*SIGNZZ(IEL)*NZZ
+                DSYZ = -FACT*SIGNYZ(IEL)*NYZ
+                DSZX = -FACT*SIGNZX(IEL)*NZX
+                DYLD = -TWO*FYIELD(IEL)*HYIELD(IEL)
+                FPRIM = DSZZ + DSYZ + DSZX + DYLD
 
-                DEP(IEL) = DEP(IEL) - DSIG/FPRIM
-                DEP(IEL) = MAX(ZERO, DEP(IEL))
+                DEP(IEL) = DEP(IEL) - PHI / FPRIM
 
                 SIGNZZ(IEL) = SIGTRZZ(IEL) - YOUNG(IEL)*DEP(IEL) * NZZ
                 SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
                 SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
 
-                SVMN  = ABS(SIGNZZ(IEL))                       ! normal stress
-                SVMT  = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)  ! shear stress 
-                TN  = SVMN * AN
-                TS  = SVMT * AS
-                SVM = TN**2 + TS**2   ! effective stress svm
-                DSIG = SVM - PUI_1    ! yield criterion function
+                FYIELD(IEL) = YLD0 + HYIELD(IEL)*DEP(IEL)
+                SIG_EFF = AN * SIGNZZ(IEL)** 2 + AS * (SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
+                PHI     = SIG_EFF - FYIELD(IEL)**2    ! yield criterion function
               ENDDO  
-              DEP(IEL) = DEP(IEL)*OFF(IEL)
-              UVAR(IEL,1) = DEP(IEL)
+              DEP(IEL) = MAX(ZERO, DEP(IEL))*OFF(IEL)
               PLA(IEL) = PLA(IEL) + DEP(IEL)
             ENDIF 
-            UVAR(IEL,2) = SQRT(SVM)  ! equivalent stress for output
           ENDDO
 c--------------
         ELSE  !  ICOMP = 1 (linear in compression, elasto-plastic in tension)
@@ -281,105 +256,68 @@ c--------------
           DO II = 1,NTRAC                                                    
             IEL= ELTRAC(II)                                                   
             AA = RN(IEL)*(ONE-ALPHA*SIN(SYM(IEL)))
-            AN = ONE/MAX(EM20,AA)
-            AS = ONE/MAX(EM20,RS(IEL))
-            SVMN  = ABS(SIGTRZZ(IEL))                        ! normal stress    
-            SVMT  = SQRT(SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)  ! shear stress      
-            
-            TN  = SVMN * AN
-            TS  = SVMT * AS
-            SVM = TN ** 2 + TS ** 2  !effective stress svm
-            IF (FYIELD(IEL) > ZERO) THEN
-             PUI_1 = FYIELD(IEL)**2
-            ELSE
-             PUI_1 = ZERO
-            ENDIF
-            IF (AN/=ZERO) THEN
-              PUI_2 = AN**2
-            ELSE
-              PUI_2 = ZERO
-            ENDIF
-            IF (AS/=ZERO) THEN
-             PUI_3 = AS**2
-            ELSE
-             PUI_3 = ZERO
-            ENDIF
-            DSIG = SVM - PUI_1 ! FYIELD(IEL)**2
-            IF (SVM > ZERO .and. DSIG > ZERO) THEN ! plastic
+            AN = ONE/MAX(EM20,AA)**2
+            AS = ONE/MAX(EM20,RS(IEL))**2
+            SIG_EFF = AN * SIGTRZZ(IEL)** 2 + AS * (SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)
+            YLD0 = FYIELD(IEL)
+            PHI  = SIG_EFF - YLD0**2
+            IF (SIG_EFF > ZERO .and. PHI > ZERO) THEN ! plastic
               NORMEF = SQRT (SIGTRZZ(IEL)**2 + SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)
               NZZ  = SIGTRZZ(IEL) / NORMEF
               NYZ  = SIGTRYZ(IEL) / NORMEF
               NZX  = SIGTRZX(IEL) / NORMEF
-              FAC = - BETA * YOUNG(IEL) / MAX(EM20,NORMEF)
+              FACN = TWO*AN*YOUNG(IEL)
+              FACT = TWO*AS*SHEAR
               DO ITER= 1,3
-                DTN  = ZERO
-                DTS  = ZERO
-                IF (SIGNZZ(IEL)/= ZERO)
-     .          DTN  = SIGTRZZ(IEL) * SIGNZZ(IEL)/ ABS(SIGNZZ(IEL))
-                IF (SVMT  /= ZERO)
-     .          DTS  = (SIGNZX(IEL)*SIGTRZX(IEL)+SIGNYZ(IEL)*SIGTRYZ(IEL))/SVMT     
-                FPN  = PUI_2 *MAX(EM20,SVMN)
-                FPS  = PUI_3 *MAX(EM20,SVMT)
-                FPRIM = FAC * (FPN * DTN + FPS * DTS)
+                DSZZ = -FACN*SIGNZZ(IEL)*NZZ
+                DSYZ = -FACT*SIGNYZ(IEL)*NYZ
+                DSZX = -FACT*SIGNZX(IEL)*NZX
+                DYLD = -TWO*FYIELD(IEL)*HYIELD(IEL)
+                FPRIM = DSZZ + DSYZ + DSZX + DYLD
 
-                DEP(IEL) = DEP(IEL) - DSIG/FPRIM
-                DEP(IEL) = MAX(ZERO, DEP(IEL))
+                DEP(IEL) = DEP(IEL) - PHI / FPRIM
 
                 SIGNZZ(IEL) = SIGTRZZ(IEL) - YOUNG(IEL)*DEP(IEL) * NZZ
                 SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
                 SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
 
-                SVMN  = ABS(SIGNZZ(IEL))                       ! normal stress
-                SVMT  = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)  ! shear stress 
-                TN  = SVMN * AN
-                TS  = SVMT * AS
-                SVM = TN**2 + TS**2   ! effective stress svm
-                DSIG = SVM - PUI_1    ! yield criterion function
+                FYIELD(IEL) = YLD0 + HYIELD(IEL)*DEP(IEL)
+                SIG_EFF = AN * SIGNZZ(IEL)** 2 + AS * (SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
+                PHI     = SIG_EFF - FYIELD(IEL)**2    ! yield criterion function
               ENDDO  
-               DEP(IEL) = DEP(IEL)*OFF(IEL)
-               UVAR(IEL,1) = DEP(IEL)
-               PLA(IEL) = PLA(IEL) + DEP(IEL)
+              DEP(IEL) = MAX(ZERO, DEP(IEL))*OFF(IEL)
+              PLA(IEL) = PLA(IEL) + DEP(IEL)
             ENDIF 
-            UVAR(IEL,2) = SQRT(SVM)  ! equivalent stress for output
           ENDDO
 c
           DO II = 1,NCOMP                                                  
             IEL= ELCOMP(II)                                                   
-            SVMT = SQRT(SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)  ! trial shear stress
-            AA = RN(IEL)*(ONE-ALPHA*SIN(SYM(IEL)))
-            AN = ONE/MAX(EM20,AA)
-            AS   = ONE /  MAX(EM20,RS(IEL))
-            TN   = SIGTRZZ(IEL) * AN
-            TS   = SVMT * AS
-            DSIG = TS - FYIELD(IEL)
-            DEPL = ZERO
-c
-            IF (SVMT > ZERO .and. DSIG > ZERO) THEN ! plastic
-              NYZ  = SIGTRYZ(IEL) / SVMT
-              NZX  = SIGTRZX(IEL) / SVMT
-              FAC  = -SHEAR / (RS(IEL)*SVMT)
-              SIGT = SVMT
-              
+            AS = ONE/MAX(EM20,RS(IEL))**2
+            SIG_EFF = AS * (SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)
+            YLD0 = FYIELD(IEL)
+            PHI  = SIG_EFF - YLD0**2
+            IF (SIG_EFF > ZERO .and. PHI > ZERO) THEN ! plastic
+              NORMEF = SQRT (SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)
+              NYZ  = SIGTRYZ(IEL) / NORMEF
+              NZX  = SIGTRZX(IEL) / NORMEF
+              FACT = TWO*AS*SHEAR
               DO ITER= 1,3
-                DTS  = (SIGNZX(IEL)*SIGTRZX(IEL)+SIGNYZ(IEL)*SIGTRYZ(IEL)) / SIGT     
-                FPRIM = FAC * DTS - HYIELD(IEL)
+                DSYZ = -FACT*SIGNYZ(IEL)*NYZ
+                DSZX = -FACT*SIGNZX(IEL)*NZX
+                DYLD = -TWO*FYIELD(IEL)*HYIELD(IEL)
+                FPRIM = DSYZ + DSZX + DYLD
 
-                DEPL = DEPL - DSIG/FPRIM
-                DEP(IEL) = MAX(ZERO, DEP(IEL) + DEPL)
+                DEP(IEL) = DEP(IEL) - PHI / FPRIM
+                SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
+                SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
 
-                SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL)*NYZ
-                SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL)*NZX
-
-                SIGT = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)  ! shear stress 
-                TS   = SIGT * AS
-                DSIG = TS -  FYIELD(IEL)   ! yield criterion function
+                FYIELD(IEL) = YLD0 + HYIELD(IEL)*DEP(IEL)
+                SIG_EFF = AS * (SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
+                PHI     = SIG_EFF - FYIELD(IEL)**2    ! yield criterion function
               ENDDO  
-              DEP(IEL) = DEP(IEL)*OFF(IEL)
-              UVAR(IEL,1) = DEP(IEL)
+              DEP(IEL) = MAX(ZERO, DEP(IEL))*OFF(IEL)
               PLA(IEL) = PLA(IEL) + DEP(IEL)
             ENDIF 
-            SVM = TN**2 + TS**2   ! effective stress svm
-            UVAR(IEL,2) = SQRT(SVM)  ! equivalent stress for output
           ENDDO
 c
         END IF
@@ -389,66 +327,46 @@ c------------------------
         IF (ICOMP == 0) THEN    ! elasto-plastic in tension and compression
           DO IEL=1,NEL                                                      
             AA = RN(IEL)*(ONE-ALPHA*SIN(SYM(IEL)))
-            AN = ONE/MAX(EM20,AA)
-            AS = ONE/MAX(EM20,RS(IEL))
-            SVMN  = ABS(SIGTRZZ(IEL))                        ! normal stress    
-            SVMT  = SQRT(SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)  ! shear stress      
-            
-            TN  = SVMN * AN
-            TS  = SVMT * AS
-            SVM = TN ** BETA + TS ** BETA  !effective stress svm
-            IF (FYIELD(IEL) > ZERO) THEN
-             PUI_1 = FYIELD(IEL)**BETA
-            ELSE
-             PUI_1 = ZERO
-            ENDIF
-            IF (AN/=ZERO) THEN
-              PUI_2 = AN**BETA
-            ELSE
-              PUI_2 = ZERO
-            ENDIF
-            IF (AS/=ZERO) THEN
-             PUI_3 = AS**BETA
-            ELSE
-             PUI_3 = ZERO
-            ENDIF
-            DSIG = SVM - PUI_1 ! FYIELD(IEL)**BETA
-            IF (SVM > ZERO .and. DSIG > ZERO) THEN ! plastic
-              DEP(IEL) = ZERO !UVAR(IEL,1)    
+            AN = ONE/MAX(EM20,AA)**BETA
+            AS = ONE/MAX(EM20,RS(IEL))**BETA
+            SVMN = ABS(SIGNZZ(IEL))                      ! plast - normal stress
+            SVMT = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2) ! plast - shear stress 
+            SIG_EFF = AN * SVMN**BETA + AS * SVMT**BETA 
+            YLD0 = FYIELD(IEL)
+            PHI  = SIG_EFF - YLD0**BETA
+            IF (SIG_EFF > ZERO .and. PHI > ZERO) THEN ! plastic
               NORMEF = SQRT (SIGTRZZ(IEL)**2+SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)
               NZZ  = SIGTRZZ(IEL) / NORMEF
               NYZ  = SIGTRYZ(IEL) / NORMEF
               NZX  = SIGTRZX(IEL) / NORMEF
-              FAC = -BETA * YOUNG(IEL) / MAX(EM20,NORMEF)
-              DO ITER=1,5
-                DTN  = ZERO
-                DTS  = ZERO
-                IF (SIGNZZ(IEL)/= ZERO)
-     .          DTN  = SIGTRZZ(IEL) * SIGNZZ(IEL)/ ABS(SIGNZZ(IEL))
-                IF (SVMT  /= ZERO)
-     .          DTS  = (SIGNZX(IEL)*SIGTRZX(IEL)+SIGNYZ(IEL)*SIGTRYZ(IEL))/SVMT     
-                FPN  = PUI_2 *MAX(EM20,SVMN)**(BETA-ONE)
-                FPS  = PUI_3 *MAX(EM20,SVMT)**(BETA-ONE)
-                FPRIM = FAC * (FPN * DTN + FPS * DTS)
 
-                DEP(IEL) = DEP(IEL) - DSIG/FPRIM
+              FACN = BETA*AN*YOUNG(IEL)
+              FACT = BETA*AS*SHEAR
 
-                SIGNZZ(IEL) = SIGOZZ(IEL) + YOUNG(IEL)*(DEPSZZ(IEL)- DEP(IEL)*NZZ)
-                SIGNYZ(IEL) = SIGOYZ(IEL) + SHEAR*(DEPSYZ(IEL)- DEP(IEL)*NYZ)           
-                SIGNZX(IEL) = SIGOZX(IEL) + SHEAR*(DEPSZX(IEL)- DEP(IEL)*NZX)            
+              DO ITER=1,3
+                SZZ = ABS(SIGNZZ(IEL))
+                SYZ = ABS(SIGNYZ(IEL))
+                SZX = ABS(SIGNZX(IEL))
+                DSZZ = -FACN*NZZ*SZZ**(BETA-ONE)
+                DSYZ = -FACT*NYZ*SYZ*SVMT**(BETA-TWO)
+                DSZX = -FACT*NZX*SZX*SVMT**(BETA-TWO)
+                DYLD = -BETA*HYIELD(IEL)*FYIELD(IEL)**(BETA-ONE)
+                FPRIM = DSZZ + DSYZ + DSZX + DYLD
 
-                SVMN  = ABS(SIGNZZ(IEL))                      ! plast - normal stress
-                SVMT  = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2) ! plast - shear stress 
-                TN  = SVMN * AN
-                TS  = SVMT * AS
-                SVM= TN ** BETA + TS ** BETA!effective stress svm
-                DSIG = SVM - PUI_1 ! FYIELD(IEL)**BETA    
+                DEP(IEL) = DEP(IEL) - PHI / FPRIM
+
+                SIGNZZ(IEL) = SIGTRZZ(IEL) - YOUNG(IEL)*DEP(IEL) * NZZ
+                SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
+                SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
+                FYIELD(IEL) = YLD0 + HYIELD(IEL)*DEP(IEL)
+
+                SVMT = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
+                SIG_EFF = AN * SZZ**BETA + AS * SVMT**BETA 
+                PHI     = SIG_EFF - FYIELD(IEL)**BETA
               ENDDO  
-              DEP(IEL) = MAX(ZERO, DEP(IEL)*OFF(IEL) )
-              UVAR(IEL,1) = DEP(IEL)
+              DEP(IEL) = MAX(ZERO, DEP(IEL))*OFF(IEL)
               PLA(IEL) = PLA(IEL) + DEP(IEL)
             ENDIF 
-            UVAR(IEL,2) = SVM**(ONE / BETA)  ! equivalent stress for output
           ENDDO
 c
         ELSE   ! ICOMP = 1   ! elastic in compression
@@ -456,105 +374,82 @@ c
           DO II = 1,NTRAC                                                    
             IEL= ELTRAC(II)                                                   
             AA = RN(IEL)*(ONE-ALPHA*SIN(SYM(IEL)))
-            AN = ONE/MAX(EM20,AA)
-            AS = ONE/MAX(EM20,RS(IEL))
-            SVMN  = ABS(SIGTRZZ(IEL))                        ! normal stress    
-            SVMT  = SQRT(SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)  ! shear stress      
-            
-            TN  = SVMN * AN
-            TS  = SVMT * AS
-            SVM = TN ** BETA + TS ** BETA  !effective stress svm
-            IF (FYIELD(IEL) > ZERO) THEN
-             PUI_1 = FYIELD(IEL)**BETA
-            ELSE
-             PUI_1 = ZERO
-            ENDIF
-            IF (AN/=ZERO) THEN
-              PUI_2 = AN**BETA
-            ELSE
-              PUI_2 = ZERO
-            ENDIF
-            IF (AS/=ZERO) THEN
-             PUI_3 = AS**BETA
-            ELSE
-             PUI_3 = ZERO
-            ENDIF
-            DSIG = SVM - PUI_1 ! FYIELD(IEL)**BETA
-            IF (SVM > ZERO .and. DSIG > ZERO) THEN ! plastic
-              DEP(IEL) = ZERO !UVAR(IEL,1)    
+            AN = ONE/MAX(EM20,AA)**BETA
+            AS = ONE/MAX(EM20,RS(IEL))**BETA
+            SVMN = ABS(SIGNZZ(IEL))                      ! plast - normal stress
+            SVMT = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2) ! plast - shear stress 
+            SIG_EFF = AN * SVMN**BETA + AS * SVMT**BETA 
+            YLD0 = FYIELD(IEL)
+            PHI  = SIG_EFF - YLD0**BETA
+            IF (SIG_EFF > ZERO .and. PHI > ZERO) THEN ! plastic
               NORMEF = SQRT (SIGTRZZ(IEL)**2+SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)
               NZZ  = SIGTRZZ(IEL) / NORMEF
               NYZ  = SIGTRYZ(IEL) / NORMEF
               NZX  = SIGTRZX(IEL) / NORMEF
-              FAC = - BETA * YOUNG(IEL) / MAX(EM20,NORMEF)
-              DO ITER=1,5
-                DTN  = ZERO
-                DTS  = ZERO
-                IF (SIGNZZ(IEL)/= ZERO)
-     .          DTN  = SIGTRZZ(IEL) * SIGNZZ(IEL)/ ABS(SIGNZZ(IEL))
-                IF (SVMT  /= ZERO)
-     .          DTS  = (SIGNZX(IEL)*SIGTRZX(IEL)+SIGNYZ(IEL)*SIGTRYZ(IEL))/SVMT     
-                FPN  = PUI_2 *MAX(EM20,SVMN)**(BETA-ONE)
-                FPS  = PUI_3 *MAX(EM20,SVMT)**(BETA-ONE)
-                FPRIM = FAC * (FPN * DTN + FPS * DTS)
 
-                DEP(IEL) = DEP(IEL) - DSIG/FPRIM
+              FACN = BETA*AN*YOUNG(IEL)
+              FACT = BETA*AS*SHEAR
 
-                SIGNZZ(IEL) = SIGOZZ(IEL) + YOUNG(IEL)*(DEPSZZ(IEL)- DEP(IEL)*NZZ)
-                SIGNYZ(IEL) = SIGOYZ(IEL) + SHEAR*(DEPSYZ(IEL)- DEP(IEL)*NYZ)           
-                SIGNZX(IEL) = SIGOZX(IEL) + SHEAR*(DEPSZX(IEL)- DEP(IEL)*NZX)            
+              DO ITER=1,3
+                SZZ = ABS(SIGNZZ(IEL))
+                SYZ = ABS(SIGNYZ(IEL))
+                SZX = ABS(SIGNZX(IEL))
+                DSZZ = -FACN*NZZ*SZZ**(BETA-ONE)
+                DSYZ = -FACT*NYZ*SYZ*SVMT**(BETA-TWO)
+                DSZX = -FACT*NZX*SZX*SVMT**(BETA-TWO)
+                DYLD = -BETA*HYIELD(IEL)*FYIELD(IEL)**(BETA-ONE)
+                FPRIM = DSZZ + DSYZ + DSZX + DYLD
 
-                SVMN  = ABS(SIGNZZ(IEL))                     ! plast - normal stress 
-                SVMT  = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)! plast - shear stress 
-                TN  = SVMN * AN
-                TS  = SVMT * AS
-                SVM= TN ** BETA + TS ** BETA!effective stress svm
-                DSIG = SVM - PUI_1 ! FYIELD(IEL)**BETA    
+                DEP(IEL) = DEP(IEL) - PHI / FPRIM
+
+                SIGNZZ(IEL) = SIGTRZZ(IEL) - YOUNG(IEL)*DEP(IEL) * NZZ
+                SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
+                SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
+                FYIELD(IEL) = YLD0 + HYIELD(IEL)*DEP(IEL)
+
+                SVMT = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
+                SIG_EFF = AN * SZZ**BETA + AS * SVMT**BETA 
+                PHI     = SIG_EFF - FYIELD(IEL)**BETA
               ENDDO  
-              DEP(IEL) = MAX(ZERO, DEP(IEL)*OFF(IEL) )
-              UVAR(IEL,1) = DEP(IEL)
+              DEP(IEL) = MAX(ZERO, DEP(IEL))*OFF(IEL)
               PLA(IEL) = PLA(IEL) + DEP(IEL)
             ENDIF 
-            UVAR(IEL,2) = SVM**(ONE / BETA)  ! equivalent stress for output
           ENDDO
 c
           DO II = 1,NCOMP                                                  
             IEL= ELCOMP(II)                                                   
-            SVMT = SQRT(SIGTRYZ(IEL)**2 + SIGTRZX(IEL)**2)  ! trial shear stress
-            AA = RN(IEL)*(ONE-ALPHA*SIN(SYM(IEL)))
-            AN = ONE/MAX(EM20,AA)
-            AS   = ONE /  MAX(EM20,RS(IEL))
-            TN   = SIGTRZZ(IEL) * AN
-            TS   = SVMT * AS
-            DSIG = TS - FYIELD(IEL)
-            DEPL = ZERO
-c
-            IF (SVMT > ZERO .and. DSIG > ZERO) THEN ! plastic
-              NYZ  = SIGTRYZ(IEL) / SVMT
-              NZX  = SIGTRZX(IEL) / SVMT
-              FAC  = -SHEAR / (RS(IEL)*SVMT)
-              SIGT = SVMT
-              
-              DO ITER= 1,3
-                DTS  = (SIGNZX(IEL)*SIGTRZX(IEL)+SIGNYZ(IEL)*SIGTRYZ(IEL)) / SIGT     
-                FPRIM = FAC * DTS - HYIELD(IEL)
+            AS = ONE/MAX(EM20,RS(IEL))**BETA
+            SVMT = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2) ! plast - shear stress 
+            SIG_EFF = AS * SVMT**BETA 
+            YLD0 = FYIELD(IEL)
+            PHI  = SIG_EFF - YLD0**BETA
+            IF (SIG_EFF > ZERO .and. PHI > ZERO) THEN ! plastic
+              NORMEF = SVMT
+              NYZ  = SIGTRYZ(IEL) / NORMEF
+              NZX  = SIGTRZX(IEL) / NORMEF
+              FACT = BETA*AS*SHEAR
 
-                DEPL = DEPL - DSIG/FPRIM
-                DEP(IEL) = MAX(ZERO, DEP(IEL) + DEPL)
+              DO ITER=1,3
+                SYZ = ABS(SIGNYZ(IEL))
+                SZX = ABS(SIGNZX(IEL))
+                DSYZ = -FACT*NYZ*SYZ*SVMT**(BETA-TWO)
+                DSZX = -FACT*NZX*SZX*SVMT**(BETA-TWO)
+                DYLD = -BETA*HYIELD(IEL)*FYIELD(IEL)**(BETA-ONE)
+                FPRIM = DSYZ + DSZX + DYLD
 
-                SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL)*NYZ
-                SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL)*NZX
+                DEP(IEL) = DEP(IEL) - PHI / FPRIM
 
-                SIGT = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)  ! shear stress 
-                TS   = SIGT * AS
-                DSIG = TS -  FYIELD(IEL)   ! yield criterion function
+                SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
+                SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
+                FYIELD(IEL) = YLD0 + HYIELD(IEL)*DEP(IEL)
+
+                SVMT = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
+                SIG_EFF = AS * SVMT**BETA 
+                PHI     = SIG_EFF - FYIELD(IEL)**BETA
               ENDDO  
-              DEP(IEL) = DEP(IEL)*OFF(IEL)
-              UVAR(IEL,1) = DEP(IEL)
+              DEP(IEL) = MAX(ZERO, DEP(IEL))*OFF(IEL)
               PLA(IEL) = PLA(IEL) + DEP(IEL)
             ENDIF 
-            SVM = TN**BETA + TS**BETA       ! effective stress svm
-            UVAR(IEL,2) = SVM**(ONE / BETA)  ! equivalent stress for output
           ENDDO
 c
         END IF    ! ICOMP
@@ -563,10 +458,11 @@ c
 c----------------------------end iplas 2--------------------------------------
 c     normal projection option (hidden: iplas = 1) deleted in august 2021
 c------------------
-      IF (ISRATE > 0) THEN
+      IF (VP == 1) THEN
         DO IEL=1,NEL
-          EPSP(IEL)   = DEP(IEL) / MAX(EM20,TIMESTEP)  ! plastic strain rate
-          UVAR(IEL,3) = ASRATE*EPSP(IEL) + (ONE - ASRATE)*UVAR(IEL,3)
+          EPSP(IEL)   = DEP(IEL) * DTINV  ! plastic strain rate
+          UVAR(IEL,1) = ASRATE*EPSP(IEL) + (ONE - ASRATE)*UVAR(IEL,1)
+          EPSD(IEL)   = UVAR(IEL,1)
         ENDDO
       ENDIF
 C-----------

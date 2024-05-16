@@ -89,15 +89,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,NRATE,IFILTR,IDYIELD,IFUNN,IFUNT,
-     .           RHOFLAG,ICOMP,IPLAS,ILAW
+     .           RHOFLAG,ICOMP,IPLAS,VP,ILAW
       my_real :: YOUNGT,YOUNGC,G,YOUNG,FCUT,XFAC,YFAC,XSCALE,RN,RS,BETA,ALPHA,
-     .           ASRATE,A1,A2,AA,E0,EMAX,EPSMAX,RHO0,RHOR,YFAC_UNIT,
+     .           A1,A2,AA,E0,EMAX,EPSMAX,RHO0,RHOR,YFAC_UNIT,
      .           XFAC_UNIT,XSCALE_UNIT,RN_UNIT,RS_UNIT
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-C-----------------------------------------------
+!======================================================================= 
       ILAW = 83
 !
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 !
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
@@ -120,7 +120,7 @@ card4
       CALL HM_GET_FLOATV('MAT_R00'      ,RN          ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_R45'      ,RS          ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV  ('Fsmooth'      ,ISRATE      ,IS_AVAILABLE ,LSUBMODEL)
-      CALL HM_GET_FLOATV('Fcut'         ,ASRATE      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('Fcut'         ,FCUT      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 card5
       CALL HM_GET_INTV  ('FUN_A2'       ,IFUNN       ,IS_AVAILABLE ,LSUBMODEL)
       CALL HM_GET_INTV  ('FUN_A3'       ,IFUNT       ,IS_AVAILABLE ,LSUBMODEL)
@@ -131,18 +131,24 @@ c-------------------------------------------------------------------------------
       CALL HM_GET_FLOATV_DIM('FScale33' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV_DIM('MAT_R00'  ,RN_UNIT     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV_DIM('MAT_R45'  ,RS_UNIT     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-C---
+c-------------------------------------------------------------------------------------
       IF (RHOR == ZERO) RHOR=RHO0
       PM(1) = RHOR
       PM(89)= RHO0
 !
-      IF (ASRATE  == ZERO) ASRATE = INFINITY
       IF (XFAC == ZERO) XFAC = ONE*XFAC_UNIT
       IF (BETA  == ZERO) BETA = TWO
       IF (RN  == ZERO) RN = ONE*RN_UNIT
       IF (RS  == ZERO) RS = ONE*RS_UNIT
       IPLAS = 0 ! hidden
       IF (IPLAS == 0)  IPLAS = 2
+      IF (ISRATE == 0) THEN
+        VP = 0
+      ELSE
+        VP = 1
+        ISRATE = 1
+      END IF
+      IF (FCUT  == ZERO) FCUT = 10000.0D0*UNITAB%FAC_T_WORK
 C---
       NFUNC = 3 
       IFUNC(1) = IFUNN
@@ -176,13 +182,14 @@ C----------------
       UPARAM(11) = G
       UPARAM(12) = ICOMP
       UPARAM(13) = YOUNGC
+      UPARAM(14) = VP      ! total or plastic strain rate flag
 C----------------
-      NUPARAM = 13
-      NUVAR   = 3
+      NUPARAM = 14
+      NUVAR   = 1
 C----------------
       PARMAT(1) = YOUNG/THREE
       PARMAT(2) = YOUNG
-      PARMAT(5) = ASRATE
+      PARMAT(5) = FCUT
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
       PARMAT(17) =  ONE ! (ONE - TWO*NU)/(ONE - NU), NU=0      
@@ -207,7 +214,12 @@ C----------------
       ELSE                                                     
         WRITE(IOUT,1200) RHO0
         WRITE(IOUT,1300) YOUNGT,YOUNGC,G,ICOMP,RHOFLAG,IDYIELD,YFAC,XFAC,ALPHA,BETA
-        WRITE(IOUT,1400)IFUNN,IFUNT,XSCALE,RN,RS,ISRATE,ASRATE
+        WRITE(IOUT,1400)IFUNN,IFUNT,XSCALE,RN,RS,ISRATE,FCUT
+        IF (VP ==0) THEN
+          WRITE(IOUT,1500)
+        ELSE
+          WRITE(IOUT,1600)
+        END IF
       ENDIF
 C-----------
       RETURN
@@ -243,6 +255,8 @@ C-----------
      & 5X,'RN VARIABLE . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'RS VARIABLE . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'STRAIN RATE FILTERING FLAG  . . . . . . . . . . . .=',I10/,
-     & 5X,'CUT FREQ FOR STRAIN RATE FILTERING  . . . . . . . .=',1PG20.13/)
+     & 5X,'CUT FREQ FOR STRAIN RATE FILTERING  . . . . . . . .=',1PG20.13)
+ 1500 FORMAT(5X,'USING TOTAL STRAIN RATE',/)
+ 1600 FORMAT(5X,'USING PLASTIC STRAIN RATE',/)
 C--------
       END

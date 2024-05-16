@@ -83,7 +83,7 @@ C NUVAR    |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
 C IOUT     |  1      | I | R | OUTPUT FILE UNIT (L01 file)
 C IPROP    |  1      | I | R | PROPERTY NUMBER
 C IMAT     |  1      | I | R | MATERIAL NUMBER
-C NGL |  NEL    | I | R | SOLID ELEMENT ID
+C NGL      |  NEL    | I | R | SOLID ELEMENT ID
 C----------+---------+---+---+--------------------------------------------
 C TIME     |  1      | F | R | CURRENT TIME 
 C TIMESTEP |  1      | F | R | CURRENT TIME STEP
@@ -182,7 +182,7 @@ C-----------------------------------------------
      .  NPAR,NPARF,NVARF,NFUNC,NFUNCR,NFAILS,ISMSTR,ILAW_USER,IPTR,IPTS,IPTT,
      .  IADBUF,IFAIL,NUVAR,MTN,NDAMF,ISOLID,ISOLIDF,NUMTABL,NVARTMP
       INTEGER IFUNC(MAXFUNC),IFUNCR(MAXFUNC)
-      my_real :: A,B,C,ALPHA,EPSP,ASRATE,TTHICK,OFF_EL
+      my_real :: A,B,C,EPSP,ASRATE,ALPHA,TTHICK,OFF_EL
       my_real 
      .   HH(NPG,NPG),AREAP(MVSIZ,NPG),AREAT(MVSIZ),
      .   UXLOC(MVSIZ,8),UYLOC(MVSIZ,8),UZLOC(MVSIZ,8),
@@ -234,7 +234,8 @@ C=======================================================================
       ITABLE => IPM(226+1:226+NUMTABL,IMAT)
                      
       ISRATE = IPM(3,IMAT)
-      ALPHA  = PM(9,IMAT)
+      ASRATE = PM(9,IMAT)   ! 2*PI*FCUT
+      ALPHA  = MIN(ONE,ASRATE*TIMESTEP)
       
       ISMSTR = IGEO(5,IPROP)
       TTHICK = GEO(41,IPROP)
@@ -312,8 +313,8 @@ c-----------------------------------------------------------------------
 C-------------------
 C     MEAN STRAIN RATE
 C-------------------
-      IF (MTN == 116) THEN
-        CONTINUE
+      IF (MTN == 116 .or. MTN == 83 .or. MTN == 120) THEN
+        GBUF%EPSD(1:NEL) = ZERO                                   
       ELSE
         DO IPG=1,NPG                                          
           DO I=1,NEL                                          
@@ -326,13 +327,11 @@ C-------------------
           EP1(I) = EP1(I)*FOURTH                               
           EP2(I) = EP2(I)*FOURTH                               
           EP3(I) = EP3(I)*FOURTH                               
-          EPSP   = SQRT(EP1(I)**2 + EP2(I)**2 + EP3(I)**2)    
-                                                              
+          EPSP   = SQRT(EP1(I)**2 + EP2(I)**2 + EP3(I)**2)                                                                  
           IF (ISRATE > 0) THEN                                
-            ASRATE = MIN(ONE,ALPHA*TIMESTEP)                    
-            EPSP = ASRATE*EPSP + (ONE - ASRATE)*GBUF%EPSD(I)    
-          ENDIF                                               
-          GBUF%EPSD(I)=EPSP                                   
+            EPSP  = ALPHA*EPSP + (ONE - ALPHA)*GBUF%EPSD(I)
+          ENDIF 
+          GBUF%EPSD(I) = EPSP                                   
         ENDDO
       END IF                                            
 C--------------------------------------------------
@@ -409,7 +408,7 @@ c
      3         AREA     ,DEPSZZ   ,DEPSYZ   ,DEPSZX   ,NPAR     ,EPSZZ   ,  
      4         SIG0ZZ   ,SIG0YZ   ,SIG0ZX   ,SIGNZZ   ,SIGNYZ   ,SIGNZX  ,  
      5         LBUF%PLA ,JSMS     ,DMELS    ,SYM      ,UVAR     ,NUVAR   ,  
-     6         LBUF%DMG ,ASRATE   ,ISRATE   )                                                      
+     6         LBUF%DMG ,ALPHA    )                                                      
 c           mean Gauss point values for element output                                                     
             DO IEL=1,NEL
               GBUF%PLA(IEL)  = GBUF%PLA(IEL)  + FOURTH*LBUF%PLA(IEL)
