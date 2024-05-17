@@ -32,7 +32,7 @@ Chd|====================================================================
      2           TIME      ,TIMESTEP  ,IPG       ,ILAY      ,IPT       , 
      3           NGL       ,DMG_FLAG  ,DMG_SCALE ,DFMAX     ,TDEL      ,  
      4           SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,    
-     5           OFF       ,FOFF      )                               
+     5           OFF       ,FOFF      ,LF_DAMMX  )                               
 C-----------------------------------------------
 C    chang-chang failure model
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C IPT                         CURRENT INTEGRATION POINT IN THE LAYER
 C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT
+      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT,LF_DAMMX
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
       my_real ,INTENT(IN) :: TIME
       my_real ,DIMENSION(NEL) ,INTENT(IN)    :: OFF,TIMESTEP,
@@ -84,7 +84,7 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(OUT) ::DMG_FLAG
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX
+      my_real ,DIMENSION(NEL,LF_DAMMX), INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL,DMG_SCALE
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
 C-----------------------------------------------
@@ -131,24 +131,32 @@ c             check fiber damage
               IF (SIGNXX(I) > ZERO) THEN
                 DAMFT = (SIGNXX(I)/SIGT1)**2 + BETA*(SIGNXY(I)/SIGT12)**2
                 DAMFC = ZERO
+                DFMAX(I,2) = MAX(DAMFT,DFMAX(I,2))
+                DFMAX(I,2) = MIN(DFMAX(I,2),ONE)
               ELSE 
                 DAMFC = (SIGNXX(I)/SIGC1)**2
                 DAMFT = ZERO
+                DFMAX(I,3) = MAX(DAMFC,DFMAX(I,3))
+                DFMAX(I,3) = MIN(DFMAX(I,3),ONE)
               ENDIF 
 c
 c             check matrix damage
               IF (SIGNYY(I) > ZERO) THEN                                   
                 DAMMT = (SIGNYY(I)/SIGT2)**2                             
      .                + (SIGNXY(I)/SIGT12)**2                    
-                DAMMC = ZERO        
+                DAMMC = ZERO   
+                DFMAX(I,4) = MAX(DAMMT,DFMAX(I,4))
+                DFMAX(I,4) = MIN(DFMAX(I,4),ONE)     
               ELSE                                                        
                 DAMMC = (SIGNYY(I)/(TWO*SIGT12))**2                     
      .                + (SIGNXY(I)/SIGT12)**2                             
      .                + SIGNYY(I)*((SIGC2/(TWO*SIGT12))**2 - ONE)/SIGC2 
                 DAMMT = ZERO
+                DFMAX(I,5) = MAX(DAMMC,DFMAX(I,5))
+                DFMAX(I,5) = MIN(DFMAX(I,5),ONE)  
               ENDIF 
               DAMMX = MAX(DAMFT,DAMFC,DAMMC,DAMMT)
-              DFMAX(I) = MIN(ONE,DAMMX)
+              DFMAX(I,1) = MIN(ONE,DAMMX)
               IF (DAMMX >= ONE) THEN
                 UVAR(I,1) = TIME
                 NINDX = NINDX+1
@@ -157,7 +165,7 @@ c             check matrix damage
             ENDIF             
 c
             IF (UVAR(I,1) > ZERO) THEN 
-              DFMAX(I) = ONE
+              DFMAX(I,1) = ONE
               DMG_SCALE(I) = EXP(-(TIME + TIMESTEP(I) - UVAR(I,1))/TMAX)
 c
               IF (DMG_SCALE(I) < EM02) THEN
@@ -186,17 +194,21 @@ c             check fiber damage only
                 DAMFT = (SIGNXX(I)/SIGT1)**2 
      .                + BETA*(SIGNXY(I)/SIGT12)**2
                 DAMFC = ZERO
+                DFMAX(I,2) = MAX(DAMFT,DFMAX(I,2))
+                DFMAX(I,2) = MIN(DFMAX(I,2),ONE)
               ELSE 
                 DAMFC = (SIGNXX(I)/SIGC1)**2
                 DAMFT = ZERO
+                DFMAX(I,3) = MAX(DAMFC,DFMAX(I,3))
+                DFMAX(I,3) = MIN(DFMAX(I,3),ONE)
               ENDIF 
               DAMMX    = MAX(DAMFT,DAMFC)
-              DFMAX(I) = MIN(ONE,DAMMX)
+              DFMAX(I,1) = MIN(ONE,DAMMX)
               IF (DAMMX >= ONE) UVAR(I,1) = TIME
             ENDIF 
 c
             IF (UVAR(I,1) > ZERO) THEN 
-              DFMAX(I) = ONE
+              DFMAX(I,1) = ONE
               DMG_SCALE(I) = EXP(-(TIME + TIMESTEP(I) - UVAR(I,1))/TMAX)   
 c
               IF (DMG_SCALE(I) < EM02) THEN

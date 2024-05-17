@@ -32,7 +32,7 @@ Chd|====================================================================
      2     TIME    ,TIMESTEP,UPARAM  ,
      3     NGL     ,OFF     ,NOFF    ,SIGNXX  ,
      4     SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     5     UVAR    ,NUPARAM ,DFMAX   ,TDELE   )
+     5     UVAR    ,NUPARAM ,DFMAX   ,LF_DAMMX,TDELE   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,6 +81,7 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM, NUVAR,ILAY,NPT0
       INTEGER NGL(NEL)
+      INTEGER, INTENT(IN) :: LF_DAMMX
       my_real 
      .   TIME,TIMESTEP(NEL),UPARAM(NUPARAM),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
@@ -89,7 +90,8 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER NOFF(NEL)
-      my_real UVAR(NEL,NUVAR), OFF(NEL), DFMAX(NEL),TDELE(NEL)
+      my_real UVAR(NEL,NUVAR), OFF(NEL), TDELE(NEL)
+      my_real ,DIMENSION(NEL,LF_DAMMX),INTENT(INOUT) :: DFMAX
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -206,8 +208,12 @@ C             fiber criteria
 C
               IF (SXX(I) >= ZERO) THEN
                 F1 = SXX(I)/SIGT1
+                DFMAX(I,2) = MAX(DFMAX(I,2),F1)
+                DFMAX(I,2) = MIN(DFMAX(I,2),ONE)
               ELSE
                 F1 = -SXX(I)/SIGC1
+                DFMAX(I,3) = MAX(DFMAX(I,3),F1)
+                DFMAX(I,3) = MIN(DFMAX(I,3),ONE)
               ENDIF
 C
 C             matrice criteria direction 2
@@ -217,10 +223,14 @@ C
                 FAC = FAC*SYY(I)/SIGT2
                 FA = SQRT((SXY(I)/FSIG12)**2 + FAC*FAC) 
      .                   + PP12*SYY(I)/FSIG12
+                DFMAX(I,4) = MAX(DFMAX(I,4),FA)
+                DFMAX(I,4) = MIN(DFMAX(I,4),ONE)
                ELSE
                 FAC = HALF/(ONE + PN22)/FSIG12
                 FC = (SXY(I)*FAC)**2 + (SYY(I)/SIGC2)**2
                 FC =-FC*SIGC2/SYY(I)
+                DFMAX(I,6) = MAX(DFMAX(I,6),FC)
+                DFMAX(I,6) = MIN(DFMAX(I,6),ONE)
 C plane angle
 c                FAC = SQRT(ONE + TWO*PN12(I)*SIGC2(I)/FSIG12(I)) - ONE
 c                FAC = HALF*FAC*FSIG12(I)/PN12(I)
@@ -234,6 +244,8 @@ c                ANGLE(I) = ACOS(CC)
               FB = SQRT(SXY(I)**2 + (PN12*SYY(I))**2 ) 
      .                               + PN12*SYY(I)
               FB = FB/FSIG12
+              DFMAX(I,5) = MAX(DFMAX(I,5),FB)
+              DFMAX(I,5) = MIN(DFMAX(I,5),ONE)
 C
 C             matrice criteria direction 3
 C              
@@ -242,10 +254,14 @@ C
                 FAC = FAC*SZZ(I)/SIGT2
                 FA_2 = SQRT((SZX(I)/FSIG12)**2 + FAC*FAC) 
      .                   + PP12*SZZ(I)/FSIG12
+                DFMAX(I,4) = MAX(DFMAX(I,4),FA_2)
+                DFMAX(I,4) = MIN(DFMAX(I,4),ONE)
               ELSE
                 FAC = HALF/(ONE + PN22)/FSIG12
                 FC_2 = (SZX(I)*FAC)**2 + (SZZ(I)/SIGC2)**2
                 FC_2 =-FC_2*SIGC2/SZZ(I)
+                DFMAX(I,6) = MAX(DFMAX(I,6),FC_2)
+                DFMAX(I,6) = MIN(DFMAX(I,6),ONE)
 C plane angle
 c                FAC = SQRT(ONE + TWO*PN12(I)*SIGC2(I)/FSIG12(I)) - ONE
 c                FAC = HALF*FAC*FSIG12(I)/PN12(I)
@@ -258,9 +274,11 @@ c                ANGLE(I) = ACOS(CC)
               
               FB_2 = SQRT(SZX(I)**2 + (PN12*SZZ(I))**2 ) 
      .                               + PN12*SZZ(I)
-              FB_2 = FB_2/FSIG12   
+              FB_2 = FB_2/FSIG12 
+              DFMAX(I,5) = MAX(DFMAX(I,5),FB_2)
+              DFMAX(I,5) = MIN(DFMAX(I,5),ONE)  
 C
-               DFMAX(I)  = MIN(ONE,MAX(DFMAX(I),F1,FA,FB,FC,FA_2,FB_2,FC_2))
+              DFMAX(I,1) = MIN(ONE,MAX(DFMAX(I,1),F1,FA,FB,FC,FA_2,FB_2,FC_2))
 C         
               IF (F1 >= ONE .OR. FA   >= ONE .OR. FB   >= ONE .OR.
      .            FC >= ONE .OR. FA_2 >= ONE .OR. FB_2 >= ONE .OR.
@@ -311,8 +329,12 @@ C   fiber criteria
 C
               IF(SXX(I) > 0 ) THEN
                 F1 = SXX(I)/SIGT1
+                DFMAX(I,2) = MAX(DFMAX(I,2),F1)
+                DFMAX(I,2) = MIN(DFMAX(I,2),ONE)
               ELSE
                 F1 = -SXX(I)/SIGC1
+                DFMAX(I,3) = MAX(DFMAX(I,3),F1)
+                DFMAX(I,3) = MIN(DFMAX(I,3),ONE)
               ENDIF
 C
 C  matrice criteria --direction 2
@@ -322,10 +344,14 @@ C
                 FAC = FAC*SYY(I)/SIGT2
                 FA = SQRT((SXY(I)/FSIG12)**2 + FAC*FAC) 
      .                   + PP12*SYY(I)/FSIG12
+                DFMAX(I,4) = MAX(DFMAX(I,4),FA)
+                DFMAX(I,4) = MIN(DFMAX(I,4),ONE)
                ELSE
                 FAC = HALF/(ONE + PN22)/FSIG12
                 FC = (SXY(I)*FAC)**2 + (SYY(I)/SIGC2)**2
                 FC =-FC*SIGC2/SYY(I)
+                DFMAX(I,6) = MAX(DFMAX(I,6),FC)
+                DFMAX(I,6) = MIN(DFMAX(I,6),ONE)
 C plane angle
 c                FAC = SQRT(ONE + TWO*PN12(I)*SIGC2(I)/FSIG12(I)) - ONE
 c                FAC = HALF*FAC*FSIG12(I)/PN12(I)
@@ -338,7 +364,8 @@ c                ANGLE(I) = ACOS(CC)
               FB = SQRT(SXY(I)**2 + (PN12*SYY(I))**2 ) 
      .                               + PN12*SYY(I)
               FB = FB/FSIG12
-
+              DFMAX(I,5) = MAX(DFMAX(I,5),FB)
+              DFMAX(I,5) = MIN(DFMAX(I,5),ONE)
 C
 C  matrice criteria direction 3
 C              
@@ -347,10 +374,14 @@ C
                 FAC = FAC*SZZ(I)/SIGT2
                 FA_2 = SQRT((SZX(I)/FSIG12)**2 + FAC*FAC) 
      .                   + PP12*SZZ(I)/FSIG12
+                DFMAX(I,4) = MAX(DFMAX(I,4),FA_2)
+                DFMAX(I,4) = MIN(DFMAX(I,4),ONE)
                ELSE
                 FAC = HALF/(ONE + PN22)/FSIG12
                 FC_2 = (SZX(I)*FAC)**2 + (SZZ(I)/SIGC2)**2
                 FC_2 =-FC_2*SIGC2/SZZ(I)
+                DFMAX(I,6) = MAX(DFMAX(I,6),FC_2)
+                DFMAX(I,6) = MIN(DFMAX(I,6),ONE)
 C plane angle
 c                FAC = SQRT(ONE + TWO*PN12(I)*SIGC2(I)/FSIG12(I)) - ONE
 c                FAC = HALF*FAC*FSIG12(I)/PN12(I)
@@ -363,9 +394,11 @@ c                ANGLE(I) = ACOS(CC)
               
               FB_2 = SQRT(SZX(I)**2 + (PN12*SZZ(I))**2 ) 
      .                               + PN12*SZZ(I)
-              FB_2 = FB_2/FSIG12    
+              FB_2 = FB_2/FSIG12  
+              DFMAX(I,5) = MAX(DFMAX(I,5),FB_2)
+              DFMAX(I,5) = MIN(DFMAX(I,5),ONE)   
 C
-               DFMAX(I)  = MIN(ONE,MAX(DFMAX(I),F1,FA,FB,FC,FA_2,FB_2,FC_2))
+              DFMAX(I,1)  = MIN(ONE,MAX(DFMAX(I,1),F1,FA,FB,FC,FA_2,FB_2,FC_2))
 C           
               IF(F1 >= ONE .OR. FA >= ONE .OR. FB >= ONE .OR.
      .          FC >= ONE .OR. FA_2 >= ONE .OR. FB_2 >= ONE .OR.

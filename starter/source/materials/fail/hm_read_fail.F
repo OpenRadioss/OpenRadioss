@@ -353,14 +353,14 @@ c
               IRUPT = 13
               CALL HM_READ_FAIL_CHANG(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             LSUBMODEL,UNITAB)
+     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IRUPT))
 c     
             ELSEIF (KEY(1:6) == 'HASHIN') THEN
               IRUPT = 14
               CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
               CALL HM_READ_FAIL_HASHIN(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,IFAILWAVE,
-     .             LSUBMODEL,UNITAB  )
+     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IRUPT))
 c     
             !!  ELSEIF (KEY(1:6) == '') THEN   
             !!     IRUPT = 15                      ! not used
@@ -369,7 +369,7 @@ c
                  IRUPT = 16 
               CALL HM_READ_FAIL_PUCK(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             LSUBMODEL,UNITAB)
+     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IRUPT))
 c     
             !! ELSEIF (KEY(1:10) == '') THEN
             !!       IRUPT = 17                     ! not used
@@ -387,7 +387,7 @@ c
               IRUPT = 20
               CALL HM_READ_FAIL_CONNECT(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,UNIT_ID ,
-     .             LSUBMODEL,UNITAB)
+     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IRUPT))
 c     
             !! ELSEIF (KEY(1:10) == ' ') THEN 
             !!       IRUPT = 21                     ! not used
@@ -423,8 +423,7 @@ c
               IRUPT = 25   
               CALL HM_READ_FAIL_NXT(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             LSUBMODEL,UNITAB   )
-              FAIL_TAG(IRUPT)%LF_DAM = 1
+     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IRUPT))
 c     
             ELSEIF (KEY(1:9) == 'SNCONNECT') THEN
               IRUPT = 26
@@ -499,7 +498,8 @@ c
               CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
               CALL HM_READ_FAIL_GENE1(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB   )
+     .             MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB,    
+     .             FAIL_TAG(IRUPT))
 c     
             ELSEIF (KEY(1:4) == 'RTCL') THEN
               IRUPT = 40
@@ -523,23 +523,27 @@ c
             ELSEIF (KEY(1:6) == 'TSAIWU') THEN
               IRUPT = 44
               CALL HM_READ_FAIL_TSAIWU(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB,
+     .             FAIL_TAG(IRUPT))
 c
             ELSEIF (KEY(1:8) == 'TSAIHILL') THEN
               IRUPT = 45
               CALL HM_READ_FAIL_TSAIHILL(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB ,
+     .             FAIL_TAG(IRUPT))
 c
             ELSEIF (KEY(1:7) == 'HOFFMAN') THEN
               IRUPT = 46
               CALL HM_READ_FAIL_HOFFMAN(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB,
+     .             FAIL_TAG(IRUPT))
 c
             ELSEIF (KEY(1:9) == 'MAXSTRAIN') THEN
               IRUPT = 47
               CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
               CALL HM_READ_FAIL_MAXSTRAIN(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB  ,
+     .             FAIL_TAG(IRUPT))
 c
             ELSEIF(KEY(1:9) == 'ORTHENERG')THEN
               IRUPT = 48

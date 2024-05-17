@@ -33,7 +33,7 @@ Chd|====================================================================
      3           UVAR    ,NGL     ,EPS1    ,EPS2    ,EPS3    ,
      4           EPSP    ,OFFG    ,OFFL    ,IPG     ,ISOLID  ,
      5           SIGNZZ  ,SIGNYZ  ,SIGNZX  ,DEIN    ,DEIT    ,
-     6           DFMAX   ,TDELE   ,AREA    ,SOFT    )
+     6           DFMAX   ,LF_DAMMX,TDELE   ,AREA    ,SOFT    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,10 +80,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR,NFUNC,IPG,ISOLID
       INTEGER NGL(*),NPF(*),IFUNC(*)
+      INTEGER, INTENT(IN) :: LF_DAMMX
       my_real TIME,TIMESTEP
       my_real UPARAM(NUPARAM),UVAR(NEL,NUVAR),TF(*)
       my_real, DIMENSION(NEL) :: OFFG,OFFL,EPS1,EPS2,EPS3,EPST,EPSP,
-     .   SIGNZZ,SIGNYZ,SIGNZX,DEIN,DEIT,DFMAX,TDELE,AREA,SOFT
+     .   SIGNZZ,SIGNYZ,SIGNZX,DEIN,DEIT,TDELE,AREA,SOFT
+      my_real ,DIMENSION(NEL,LF_DAMMX),INTENT(INOUT) :: DFMAX
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -122,25 +124,25 @@ C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
       IF (ISIGI == ZERO) THEN
-        IF ((UVAR(1,6) == ZERO).AND.(OFFL(1) == ONE)) THEN 
+        IF ((UVAR(1,1) == ZERO).AND.(OFFL(1) == ONE)) THEN 
           DO I=1,NEL
-            UVAR(I,6)= ONE  
+            UVAR(I,1)= ONE  
           ENDDO
         ENDIF
-        IF (UVAR(1,13) == ZERO) THEN
+        IF (UVAR(1,8) == ZERO) THEN
           DO I=1,NEL         
-            UVAR(I,13)= AREA(I)  
+            UVAR(I,8)= AREA(I)  
           ENDDO  
         ENDIF 
       ENDIF 
 C-----------------------------------------------
       DO I=1,NEL
-        DAM1(I) = UVAR(I,7)                   
-        DAM2(I) = UVAR(I,8)                   
-        DAM3(I) = UVAR(I,9)                   
-        DAM4(I) = UVAR(I,10)                   
-        EN(I)   = UVAR(I,11)                   
-        ET(I)   = UVAR(I,12)                   
+        DAM1(I) = UVAR(I,2)                   
+        DAM2(I) = UVAR(I,3)                   
+        DAM3(I) = UVAR(I,4)                   
+        DAM4(I) = UVAR(I,5)                   
+        EN(I)   = UVAR(I,6)                   
+        ET(I)   = UVAR(I,7)                   
       ENDDO                                   
 C-----------------------------------------------
       NINDX  = 0
@@ -167,6 +169,8 @@ c-----  Energy criterion
 c-----------------------------
         IF (IFAILE == 1) THEN   !  global energy criterion
           C1 = EI(I)/MAXEI
+          DFMAX(I,7) = MAX(DFMAX(I,7),C1)
+          DFMAX(I,7) = MIN(DFMAX(I,7),ONE)
           IF (C1 > ONE) THEN
             IF (DAM1(I) == ZERO) THEN
               NINDXE = NINDXE+1
@@ -176,7 +180,11 @@ c-----------------------------
           ENDIF
 c         
         ELSEIF (IFAILE == 2) THEN  !  orthotropic energy rupture
-          C2 = (ET(I)/MAXET)**NT+ (EN(I)/MAXEN)**NN          
+          C2 = (ET(I)/MAXET)**NT+ (EN(I)/MAXEN)**NN     
+          DFMAX(I,5) = MAX(DFMAX(I,5),EN(I)/MAXEN)
+          DFMAX(I,5) = MIN(DFMAX(I,5),ONE)
+          DFMAX(I,6) = MAX(DFMAX(I,6),ET(I)/MAXET)
+          DFMAX(I,6) = MIN(DFMAX(I,6),ONE)    
           IF (C2 > ONE) THEN
             IF (DAM1(I) == ZERO) THEN
               NINDXE = NINDXE+1
@@ -186,8 +194,16 @@ c
           ENDIF
         ELSEIF (IFAILE == 3) THEN  ! total + component
           C1 =  EI(I)/MAXEI
+          DFMAX(I,7) = MAX(DFMAX(I,7),C1)
+          DFMAX(I,7) = MIN(DFMAX(I,7),ONE)
           C2 = (ET(I)/MAXET)**NT+ (EN(I)/MAXEN)**NN
+          DFMAX(I,5) = MAX(DFMAX(I,5),EN(I)/MAXEN)
+          DFMAX(I,5) = MIN(DFMAX(I,5),ONE)
+          DFMAX(I,6) = MAX(DFMAX(I,6),ET(I)/MAXET)
+          DFMAX(I,6) = MIN(DFMAX(I,6),ONE)            
           C1 = MAX(C1,C2)
+          DFMAX(I,8) = MAX(DFMAX(I,8),C1)
+          DFMAX(I,8) = MIN(DFMAX(I,8),ONE)
           IF (C1 > ONE) THEN
             IF (DAM1(I) == ZERO) THEN
               NINDXE = NINDXE+1
@@ -208,9 +224,15 @@ c-----------------------------
           C4 = FAC2*EPST(I)/MAXDT
           IF (FUNN > 0) C3 = C3*FINTER(FUNN,EPSP(I)*ASCALE,NPF,TF,DYDX)
           IF (FUNT > 0) C4 = C4*FINTER(FUNT,EPSP(I)*ASCALE,NPF,TF,DYDX) 
+          DFMAX(I,2) = MAX(DFMAX(I,2),C3)
+          DFMAX(I,2) = MIN(DFMAX(I,2),ONE)
+          DFMAX(I,3) = MAX(DFMAX(I,3),C4)
+          DFMAX(I,3) = MIN(DFMAX(I,3),ONE)
           IF (IFAILS == 1) THEN
 c           unidirectional rupture in strain
             C3 = MAX(C3,C4)
+            DFMAX(I,4) = MAX(DFMAX(I,4),C3)
+            DFMAX(I,4) = MIN(DFMAX(I,4),ONE)
             IF (C3 > ONE) THEN
               IF (DAM3(I) == ZERO) THEN
                 NINDXS = NINDXS+1
@@ -221,6 +243,8 @@ c           unidirectional rupture in strain
           ELSEIF (IFAILS == 2) THEN
 c           multidirectional rupture in strain
             CM = ABS(C3)**EXPN + ABS(C4)**EXPT
+            DFMAX(I,4) = MAX(DFMAX(I,4),CM)
+            DFMAX(I,4) = MIN(DFMAX(I,4),ONE)
             IF (CM > ONE) THEN
               IF (DAM3(I) == ZERO) THEN
                 NINDXS = NINDXS+1
@@ -250,7 +274,7 @@ c-----------------------------
 c-----------------------------
 c---    deformed elements check
         IF (AREASCALE > ZERO .AND. OFFG(I) == ONE ) THEN
-          DEFO = UVAR(I,13) * AREASCALE
+          DEFO = UVAR(I,8) * AREASCALE
           IF (AREA(I) > DEFO) THEN
             OFFL(I) = ZERO
             NINDXA = NINDXA+1
@@ -260,21 +284,16 @@ c---    deformed elements check
           ENDIF
         ENDIF
 c-------------------------------
-        UVAR(I,1) = MAX(UVAR(I,1), C1)
-        UVAR(I,2) = MAX(UVAR(I,2), C2)
-        UVAR(I,3) = MAX(UVAR(I,3), C3)
-        UVAR(I,4) = MAX(UVAR(I,4), C4)
-        UVAR(I,5) = MAX(UVAR(I,5), CM)
-        UVAR(I,6) = SOFT(I)           
+        UVAR(I,1) = SOFT(I)           
 c      
-        UVAR(I,7) = DAM1(I)
-        UVAR(I,8) = DAM2(I)
-        UVAR(I,9) = DAM3(I)
-        UVAR(I,10)= DAM4(I)
-        UVAR(I,11)= EN(I)            
-        UVAR(I,12)= ET(I)   
+        UVAR(I,2) = DAM1(I)
+        UVAR(I,3) = DAM2(I)
+        UVAR(I,4) = DAM3(I)
+        UVAR(I,5) = DAM4(I)
+        UVAR(I,6) = EN(I)            
+        UVAR(I,7) = ET(I)   
 c--     Maximum Damage storing for output : 0 < DFMAX < 1
-        DFMAX(I) = MIN(ONE,MAX(DFMAX(I),DAMT/ MAX(DTIME,EM20))) 
+        DFMAX(I,1) = MIN(ONE,MAX(DFMAX(I,1),DAMT/ MAX(DTIME,EM20))) 
 c
       ENDDO     ! I=1,NEL                        
 C-----------------------------------------------

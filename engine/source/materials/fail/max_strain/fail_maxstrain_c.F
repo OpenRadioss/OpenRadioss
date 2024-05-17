@@ -32,7 +32,7 @@ Chd|====================================================================
      2     TIME      ,NGL       ,IPG       ,ILAY      ,IPT       ,                          
      3     EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     ,  
      4     OFF       ,FOFF      ,DMG_FLAG  ,DMG_SCALE ,
-     5     DFMAX     ,TDEL      ,TIMESTEP  )               
+     5     DFMAX     ,LF_DAMMX  ,TDEL      ,TIMESTEP  )               
 C-----------------------------------------------
 C    modified Puck model ------
 C-----------------------------------------------
@@ -47,7 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT
+      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT,LF_DAMMX
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
       my_real ,INTENT(IN) :: TIME,TIMESTEP
       my_real ,DIMENSION(NEL) ,INTENT(IN) :: OFF,
@@ -58,7 +58,7 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(OUT) :: DMG_FLAG
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX
+      my_real ,DIMENSION(NEL,LF_DAMMX),INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL,DMG_SCALE
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
 C-----------------------------------------------
@@ -116,22 +116,20 @@ c
       DO I=1,NEL
 c
         ! If damage has not been reached yet
-        IF (DFMAX(I)<ONE) THEN
+        IF (DFMAX(I,1)<ONE) THEN
 c
           ! Compute failure index and reserve factor
           FINDEX = MAX(ABS(EXX(I))/EPS1_MAX,
      .                 ABS(EYY(I))/EPS2_MAX,
      .                 ABS(EXY(I))/GAM12_MAX)
-          IF (FINDEX > ZERO) THEN 
-            RFACTR = ONE/SQRT(FINDEX)
-          ELSE 
-            RFACTR = ZERO
-          ENDIF
+          FINDEX = MAX(ZERO,FINDEX)
+c
+          ! Compute reserve factor 
+          DFMAX(I,2) = ONE/MAX(SQRT(FINDEX),EM20)
 c
           ! Damage variable update
-          FINDEX   = MAX(ZERO,FINDEX)
-          DFMAX(I) = MIN(ONE ,MAX(FINDEX,DFMAX(I)))
-          IF (DFMAX(I) >= ONE) THEN
+          DFMAX(I,1) = MIN(ONE ,MAX(FINDEX,DFMAX(I,1)))
+          IF (DFMAX(I,1) >= ONE) THEN
             NINDX = NINDX+1                                    
             INDX(NINDX) = I                                    
             IF (IFAIL_SH > 0) THEN 

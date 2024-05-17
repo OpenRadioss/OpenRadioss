@@ -33,7 +33,7 @@ Chd|====================================================================
      2    TIME      ,IP        ,ILAY      ,NPG       ,NGL       , 
      3    DMG_SCALE ,DFMAX     ,OFF       ,LOFF      ,NOFF      ,
      4    SIGNXX    ,SIGNYY    ,SIGNZZ    ,SIGNXY    ,SIGNZX    ,
-     5    TDELE     )                            
+     5    TDELE     ,LF_DAMMX  )                           
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: NEL,NUPARAM,NUVAR,IP,ILAY,NPG
+      INTEGER,INTENT(IN) :: NEL,NUPARAM,NUVAR,IP,ILAY,NPG,LF_DAMMX
       INTEGER,DIMENSION(NEL),INTENT(IN) :: NGL
       my_real,INTENT(IN) :: TIME
       my_real,DIMENSION(NEL),INTENT(IN) :: 
@@ -56,8 +56,9 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER,DIMENSION(NEL),INTENT(INOUT) :: NOFF
-      my_real,DIMENSION(NEL),INTENT(INOUT) :: DFMAX,TDELE,
+      my_real,DIMENSION(NEL),INTENT(INOUT) :: TDELE,
      .   DMG_SCALE,LOFF,OFF
+      my_real,DIMENSION(NEL,LF_DAMMX),INTENT(INOUT) :: DFMAX
       my_real,DIMENSION(NEL,NUVAR),INTENT(INOUT) :: UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -94,7 +95,7 @@ c
       DO I = 1,NEL
 c
         ! If damage has not been reached yet
-        IF (DFMAX(I) < ONE) THEN
+        IF (DFMAX(I,1) < ONE) THEN
 c
           ! Fiber damage in direction 1 
           IF (SIGNXX(I) > ZERO) THEN
@@ -102,9 +103,13 @@ c
      .            + BETA*(SIGNXY(I)/SIGT12)**2
      .            + BETA*(SIGNZX(I)/SIGT12)**2
             DAMFC = ZERO
+            DFMAX(I,2) = MAX(DAMFT,DFMAX(I,2))
+            DFMAX(I,2) = MIN(DFMAX(I,2),ONE)
           ELSE 
             DAMFC = (SIGNXX(I)/SIGC1)**2
             DAMFT = ZERO
+            DFMAX(I,3) = MAX(DAMFC,DFMAX(I,3))
+            DFMAX(I,3) = MIN(DFMAX(I,3),ONE)
           ENDIF 
 c
           ! Matrix damage in direction 2 
@@ -112,11 +117,15 @@ c
             DAMMT1 = (SIGNYY(I)/SIGT2)**2                             
      .             + (SIGNXY(I)/SIGT12)**2                    
             DAMMC1 = ZERO        
+            DFMAX(I,4) = MAX(DAMMT1,DFMAX(I,4))
+            DFMAX(I,4) = MIN(DFMAX(I,4),ONE)   
           ELSE             
             DAMMC1 = (SIGNYY(I)/(TWO*SIGT12))**2                     
      .             + (SIGNXY(I)/SIGT12)**2                             
      .             + SIGNYY(I)*((SIGC2/(TWO*SIGT12))**2 - ONE)/SIGC2 
             DAMMT1 = ZERO
+            DFMAX(I,5) = MAX(DAMMC1,DFMAX(I,5))
+            DFMAX(I,5) = MIN(DFMAX(I,5),ONE)  
           ENDIF
 c 
           ! Matrix damage in direction 3 
@@ -124,17 +133,21 @@ c
             DAMMT2 = (SIGNZZ(I)/SIGT2)**2                             
      .             + (SIGNZX(I)/SIGT12)**2                    
             DAMMC2 = ZERO        
+            DFMAX(I,4) = MAX(DAMMT2,DFMAX(I,4))
+            DFMAX(I,4) = MIN(DFMAX(I,4),ONE)  
           ELSE             
             DAMMC2 = (SIGNZZ(I)/(TWO*SIGT12))**2                     
      .             + (SIGNZX(I)/SIGT12)**2                             
      .             + SIGNZZ(I)*((SIGC2/(TWO*SIGT12))**2 - ONE)/SIGC2 
             DAMMT2 = ZERO
+            DFMAX(I,5) = MAX(DAMMC2,DFMAX(I,5))
+            DFMAX(I,5) = MIN(DFMAX(I,5),ONE)  
           ENDIF          
 c
           ! Damage variable update
           DAMMX = MAX(DAMFT,DAMFC,DAMMC1,DAMMT1,DAMMC2,DAMMT2)
-          DFMAX(I) = MIN(ONE,MAX(DAMMX,DFMAX(I)))
-          IF (DFMAX(I) >= ONE) THEN
+          DFMAX(I,1) = MIN(ONE,MAX(DAMMX,DFMAX(I,1)))
+          IF (DFMAX(I,1) >= ONE) THEN
             NINDX = NINDX+1                                    
             INDX(NINDX) = I
             UVAR(I,1) = TIME

@@ -34,7 +34,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_FAIL_PUCK(FAIL ,
      .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           LSUBMODEL,UNITAB   )
+     .           LSUBMODEL,UNITAB   ,FAIL_TAG )
 C-----------------------------------------------
 c    ROUTINE DESCRIPTION :
 c    Read Puck failure model parameters
@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,12 +57,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER            ,INTENT(IN) :: FAIL_ID       ! failure model ID
-      INTEGER            ,INTENT(IN) :: MAT_ID        ! material law ID
-      INTEGER            ,INTENT(IN) :: IRUPT         ! failure model type number
-      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
-      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table
-      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
+      INTEGER            ,INTENT(IN) :: FAIL_ID       !< failure model ID
+      INTEGER            ,INTENT(IN) :: MAT_ID        !< material law ID
+      INTEGER            ,INTENT(IN) :: IRUPT         !< failure model type number
+      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        !< table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  !< submodel table
+      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       !< failure model data structure
+      TYPE (FAIL_TAG_)   ,INTENT(INOUT) :: FAIL_TAG   !< failure model tag for buffer allocation
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -118,13 +120,22 @@ c---------------------------
       FAIL%NUVAR   = 14
       FAIL%NFUNC   = 0
       FAIL%NTABLE  = 0
-      FAIL%NMOD    = 0
+      FAIL%NMOD    = 5
       FAIL%PTHK    = PTHKF
 c            
       ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
       ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
       ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
       ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      ! Modes of failure
+      FAIL_TAG%LF_DAMMX = FAIL_TAG%LF_DAMMX + FAIL%NMOD
+      ALLOCATE (FAIL%MODE(FAIL%NMOD))
+      FAIL%MODE(1) = "Tensile fiber failure"
+      FAIL%MODE(2) = "Compression fiber failure"
+      FAIL%MODE(3) = "Inter-fiber failure A"
+      FAIL%MODE(4) = "Inter-fiber failure B"
+      FAIL%MODE(5) = "Inter-fiber failure C"
 c
       FAIL%UPARAM(1)  = SIGT1
       FAIL%UPARAM(2)  = SIGT2

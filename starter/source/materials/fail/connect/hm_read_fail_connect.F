@@ -34,7 +34,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_FAIL_CONNECT(FAIL ,
      .           MAT_ID   ,FAIL_ID  ,IRUPT    ,UNIT_ID,
-     .           LSUBMODEL,UNITAB   )
+     .           LSUBMODEL,UNITAB   ,FAIL_TAG )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
+      USE ELBUFTAG_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,13 +58,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER             ,INTENT(IN) :: FAIL_ID       ! failure model ID
-      INTEGER             ,INTENT(IN) :: MAT_ID        ! material law ID
+      INTEGER             ,INTENT(IN) :: FAIL_ID       !< failure model ID
+      INTEGER             ,INTENT(IN) :: MAT_ID        !< material law ID
       INTEGER             ,INTENT(IN) :: UNIT_ID       ! 
-      INTEGER             ,INTENT(IN) :: IRUPT         ! failure model number
-      TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
+      INTEGER             ,INTENT(IN) :: IRUPT         !< failure model number
+      TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        !< table of input units
       TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*) 
       TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL
+      TYPE (FAIL_TAG_)    ,INTENT(INOUT) :: FAIL_TAG   !< failure model tag for buffer allocation
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -150,15 +152,26 @@ c-----------------------------------------------------------------------
       FAIL%FAIL_ID = FAIL_ID 
       FAIL%NUPARAM = 19
       FAIL%NIPARAM = 0
-      FAIL%NUVAR   = 13
+      FAIL%NUVAR   = 8
       FAIL%NFUNC   = 2
       FAIL%NTABLE  = 0
-      FAIL%NMOD    = 0
+      FAIL%NMOD    = 7
 c            
       ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
       ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
       ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
       ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      ! Modes of failure
+      FAIL_TAG%LF_DAMMX = FAIL_TAG%LF_DAMMX + FAIL%NMOD
+      ALLOCATE (FAIL%MODE(FAIL%NMOD))
+      FAIL%MODE(1) = "Normal direction displ. damage"
+      FAIL%MODE(2) = "Shear plane displ. damage"
+      FAIL%MODE(3) = "Displacement based damage"
+      FAIL%MODE(4) = "Normal direction ener. damage"
+      FAIL%MODE(5) = "Shear plane ener. damage"
+      FAIL%MODE(6) = "Total energy damage"
+      FAIL%MODE(7) = "Energy based damage"
 c
       FAIL%UPARAM(1)  = MAXDN
       FAIL%UPARAM(2)  = MAXDT

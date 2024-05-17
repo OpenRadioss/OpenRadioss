@@ -132,7 +132,7 @@ C-----------------------------------------------
      .          OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
      .          IIGEO,IADI,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),
      .          LERCVOIS(*),LESDVOIS(*),NB_PLYOFF,IUVAR,IDX,IPOS,ITRIMAT,
-     .          IALEFVM_FLG, IMAT,IADBUF,NUPARAM,ICSIG,NC(8),IEOS,NMOD,MAT_ID
+     .          IALEFVM_FLG, IMAT,IADBUF,NUPARAM,ICSIG,NC(8),IEOS,NMOD,MAT_ID,FAIL_ID
         INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
      .          PTE(4),PTP(4),PTMAT(4),PTVAR(4),NPT_ALL,IPLY,
      .          ID_ELEM_TMP(MVSIZ),NIX,ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,
@@ -1434,64 +1434,139 @@ c ILAYER=NULL IR= IS= IT=
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'FAILURE') THEN
 C--------------------------------------------------
+                IF (MODE == -1) THEN 
 c ILAYER=NULL IR=NULL IS=NULL IT=NULL
-                IF ( ILAY == -1 .AND. IR == -1 .AND. IS == -1 .AND. IT == -1) THEN
-                  DO I = 1,NEL
-                    NLAY_FAIL = 0
-                    DO IL=1,NLAY
-                      NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL
-                      DO IS=1,NPTS
-                        DO IT=1,NPTT
-                          DO IIR=1,NPTR
-                            FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IIR,IS,IT)
-                            DMGMX = ZERO
-                            DO IFAIL = 1,NFAIL
-                              IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN
-                                DMGMX = FBUF%FLOC(IFAIL)%DAMMX(I)
-                                IS_WRITTEN_VALUE(I) = 1
-                                NLAY_FAIL = NLAY_FAIL + 1
-                              ENDIF
-                            ENDDO
-                            VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS*NPTT)
-                          ENDDO
-                        ENDDO
-                      ENDDO
-                    ENDDO
-                    VALUE(I) = VALUE(I)/NLAY_FAIL
-                  ENDDO
-c ILAYER=NULL IR= IS= IT=
-                ELSEIF ( ILAY == -1 .AND. IR >= 0 .AND. IR <= NPTR .AND.
-     .                   IS >= 0 .AND.  IS <= NPTS .AND. IT >= 0 .AND. IT <= NPTT) THEN
-                  IIR = IR
-                  IF (IIR <= NPTR.AND.IS <= NPTS.AND.IT <= NPTT) THEN
+                  IF ( ILAY == -1 .AND. IR == -1 .AND. IS == -1 .AND. IT == -1) THEN
                     DO I = 1,NEL
                       NLAY_FAIL = 0
                       DO IL=1,NLAY
-                        NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL
-                        FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IIR,IS,IT)
+                        IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
+                        NFAIL = MAT_PARAM(IMAT)%NFAIL
                         DO IFAIL = 1,NFAIL
-                          IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN
-                            VALUE(I) = VALUE(I) + FBUF%FLOC(IFAIL)%DAMMX(I)
-                            IS_WRITTEN_VALUE(I) = 1
-                            NLAY_FAIL = NLAY_FAIL + 1
+                          FAIL_ID = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID
+                          IF (FAIL_ID == ID) THEN
+                            DO IS=1,NPTS
+                              DO IT=1,NPTT
+                                DO IIR=1,NPTR
+                                  FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IIR,IS,IT)
+                                  DMGMX = FBUF%FLOC(IFAIL)%DAMMX(I)
+                                  VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS*NPTT)
+                                  IS_WRITTEN_VALUE(I) = 1
+                                  NLAY_FAIL = NLAY_FAIL + 1
+                                ENDDO
+                              ENDDO
+                            ENDDO
                           ENDIF
                         ENDDO
                       ENDDO
-                      VALUE(I) = VALUE(I)/NLAY_FAIL
+                      IF (NLAY_FAIL > 0) VALUE(I) = VALUE(I)/NLAY_FAIL
                     ENDDO
-                  ENDIF
-                ELSEIF ( ILAY > 0 .AND. ILAY <= NLAY .AND. IR >= 0 .AND. IR <= NPTR .AND.
-     .                   IS >= 0 .AND.  IS <= NPTS) THEN
-                  NFAIL = ELBUF_TAB(NG)%BUFLY(ILAY)%NFAIL
-                  FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)
-                  DO I = 1,NEL
+c ILAYER=NULL IR= IS= IT=
+                  ELSEIF ( ILAY == -1 .AND. IR >= 0 .AND. IR <= NPTR .AND.
+     .                     IS >= 0 .AND.  IS <= NPTS .AND. IT >= 0 .AND. IT <= NPTT) THEN
+                    IIR = IR
+                    IF (IIR <= NPTR.AND.IS <= NPTS.AND.IT <= NPTT) THEN
+                      DO I = 1,NEL
+                        NLAY_FAIL = 0
+                        DO IL=1,NLAY
+                          IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
+                          NFAIL = MAT_PARAM(IMAT)%NFAIL
+                          DO IFAIL = 1,NFAIL
+                            FAIL_ID = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID
+                            IF (FAIL_ID == ID) THEN
+                              FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IIR,IS,IT)
+                              VALUE(I) = VALUE(I) + FBUF%FLOC(IFAIL)%DAMMX(I)
+                              IS_WRITTEN_VALUE(I) = 1
+                              NLAY_FAIL = NLAY_FAIL + 1
+                            ENDIF
+                          ENDDO
+                        ENDDO
+                        IF (NLAY_FAIL > 0) VALUE(I) = VALUE(I)/NLAY_FAIL
+                      ENDDO
+                    ENDIF
+                  ELSEIF ( ILAY > 0 .AND. ILAY <= NLAY .AND. IR >= 0 .AND. IR <= NPTR .AND.
+     .                     IS >= 0 .AND.  IS <= NPTS) THEN
+                    IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT
+                    NFAIL = MAT_PARAM(IMAT)%NFAIL
                     DO IFAIL = 1,NFAIL
-                      IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN
-                        VALUE(I) = FBUF%FLOC(IFAIL)%DAMMX(I)
-                        IS_WRITTEN_VALUE(I) = 1
+                      FAIL_ID = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID
+                      IF (FAIL_ID == ID) THEN
+                        FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)
+                        DO I = 1,NEL
+                          VALUE(I) = FBUF%FLOC(IFAIL)%DAMMX(I)
+                          IS_WRITTEN_VALUE(I) = 1
+                        ENDDO
                       ENDIF
                     ENDDO
-                  ENDDO
+                  ENDIF
+                ELSE
+c ILAYER=NULL IR=NULL IS=NULL IT=NULL
+                  IF ( ILAY == -1 .AND. IR == -1 .AND. IS == -1 .AND. IT == -1) THEN
+                    DO I = 1,NEL
+                      NLAY_FAIL = 0
+                      DO IL=1,NLAY
+                        IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
+                        NFAIL = MAT_PARAM(IMAT)%NFAIL
+                        DO IFAIL = 1,NFAIL
+                          FAIL_ID = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID
+                          NMOD    = MAT_PARAM(IMAT)%FAIL(IFAIL)%NMOD
+                          IF ((FAIL_ID == ID).AND.(MODE <= NMOD)) THEN
+                            DO IS=1,NPTS
+                              DO IT=1,NPTT
+                                DO IIR=1,NPTR
+                                  FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IIR,IS,IT)
+                                  DMGMX = FBUF%FLOC(IFAIL)%DAMMX(MODE*NEL + I)
+                                  VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS*NPTT)
+                                  IS_WRITTEN_VALUE(I) = 1
+                                  NLAY_FAIL = NLAY_FAIL + 1         
+                                ENDDO
+                              ENDDO
+                            ENDDO 
+                          ENDIF
+                        ENDDO
+                      ENDDO
+                      IF (NLAY_FAIL > 0) VALUE(I) = VALUE(I)/NLAY_FAIL
+                    ENDDO
+c ILAYER=NULL IR= IS= IT=
+                  ELSEIF ( ILAY == -1 .AND. IR >= 0 .AND. IR <= NPTR .AND.
+     .                     IS >= 0 .AND.  IS <= NPTS .AND. IT >= 0 .AND. IT <= NPTT) THEN
+                    IIR = IR
+                    IF (IIR <= NPTR.AND.IS <= NPTS.AND.IT <= NPTT) THEN
+                      DO I = 1,NEL
+                        NLAY_FAIL = 0
+                        DO IL=1,NLAY
+                          IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
+                          NFAIL = MAT_PARAM(IMAT)%NFAIL
+                          DO IFAIL = 1,NFAIL
+                            FAIL_ID = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID
+                            NMOD    = MAT_PARAM(IMAT)%FAIL(IFAIL)%NMOD
+                            IF ((FAIL_ID == ID).AND.(MODE <= NMOD)) THEN
+                              FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IIR,IS,IT)
+                              VALUE(I) = VALUE(I) + FBUF%FLOC(IFAIL)%DAMMX(MODE*NEL + I)
+                              IS_WRITTEN_VALUE(I) = 1
+                              NLAY_FAIL = NLAY_FAIL + 1
+                            ENDIF
+                          ENDDO
+                        ENDDO
+                        IF (NLAY_FAIL > 0) VALUE(I) = VALUE(I)/NLAY_FAIL
+                      ENDDO
+                    ENDIF
+                  ELSEIF ( ILAY > 0 .AND. ILAY <= NLAY .AND. IR >= 0 .AND. IR <= NPTR .AND.
+     .                     IS >= 0 .AND.  IS <= NPTS) THEN
+                    IMAT  = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT
+                    NFAIL = MAT_PARAM(IMAT)%NFAIL    
+                    DO IFAIL = 1,NFAIL
+                      FAIL_ID = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID
+                      NMOD    = MAT_PARAM(IMAT)%FAIL(IFAIL)%NMOD
+                      IF ((FAIL_ID == ID).AND.(MODE <= NMOD)) THEN
+                        FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)
+                        DO I = 1,NEL
+                          VALUE(I) = FBUF%FLOC(IFAIL)%DAMMX(MODE*NEL + I)
+                          IS_WRITTEN_VALUE(I) = 1
+                        ENDDO 
+                      ENDIF
+                    ENDDO
+                  ENDIF
                 ENDIF
 C--------------------------------------------------
               ELSEIF (KEYWORD == 'DAMG') THEN

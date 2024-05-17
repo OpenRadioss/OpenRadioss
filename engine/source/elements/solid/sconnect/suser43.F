@@ -180,7 +180,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,I1,I2,II,JJ(6),J,J1,J2,IC,IR,IPG,JPT,IUV,IEL,ISRATE,
      .  NPAR,NPARF,NVARF,NFUNC,NFUNCR,NFAILS,ISMSTR,ILAW_USER,IPTR,IPTS,IPTT,
-     .  IADBUF,IFAIL,NUVAR,MTN,NDAMF,ISOLID,ISOLIDF,NUMTABL,NVARTMP
+     .  IADBUF,IFAIL,NUVAR,MTN,NDAMF,ISOLID,ISOLIDF,NUMTABL,NVARTMP,LF_DAMMX
       INTEGER IFUNC(MAXFUNC),IFUNCR(MAXFUNC)
       my_real :: A,B,C,EPSP,ASRATE,ALPHA,TTHICK,OFF_EL
       my_real 
@@ -547,7 +547,8 @@ c
               IFUNCR(I) = MAT_PARAM(IMAT)%FAIL(IR)%IFUNC(I) 
             ENDDO                                                              
 C
-            FLOC  => ELBUF_STR%BUFLY(1)%FAIL(IPG,1,1)%FLOC(IR)                      
+            FLOC  => ELBUF_STR%BUFLY(1)%FAIL(IPG,1,1)%FLOC(IR)  
+            LF_DAMMX = FLOC%LF_DAMMX                    
 c
             IF (IFAIL == 20)THEN                                                   
 C
@@ -557,7 +558,7 @@ C
      3        FLOC%VAR  ,NGL      ,EPSZZ   ,EPSZX    ,EPSYZ     ,                           
      4        GBUF%EPSD ,GBUF%OFF ,LBUF%OFF,IPG      ,ISOLIDF   ,                       
      5        SIGNZZ    ,SIGNYZ   ,SIGNZX  ,DEIN     ,DEIT      ,              
-     6        FLOC%DAMMX,FLOC%TDEL,AREAN   ,SOFT     )                                                   
+     6        FLOC%DAMMX,LF_DAMMX ,FLOC%TDEL,AREAN   ,SOFT      )                                                   
 c
             ELSEIF (IFAIL == 26)THEN                                               
 C

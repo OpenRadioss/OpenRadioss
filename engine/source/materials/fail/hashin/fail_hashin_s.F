@@ -31,7 +31,8 @@ Chd|====================================================================
      2     TIME    ,TIMESTEP,UPARAM  ,
      3     NGL     ,OFF     ,NOFF    ,SIGNXX  , 
      4     SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     5     UVAR    ,NUPARAM ,DFMAX   ,TDELE   ,EPSP )
+     5     UVAR    ,NUPARAM ,DFMAX   ,TDELE   ,EPSP    ,
+     6     LF_DAMMX)
 C-----------------------------------------------
 C Hashin model ------
 C-----------------------------------------------
@@ -83,6 +84,7 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM,ILAY,NPT0,NUVAR
       INTEGER NGL(NEL)
+      INTEGER, INTENT(IN) :: LF_DAMMX
       my_real 
      .   TIME,TIMESTEP(NEL),UPARAM(NUPARAM),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
@@ -97,7 +99,8 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER NOFF(NEL)
-      my_real UVAR(NEL,NUVAR), OFF(NEL), DFMAX(NEL),TDELE(NEL)
+      my_real UVAR(NEL,NUVAR), OFF(NEL), TDELE(NEL)
+      my_real ,DIMENSION(NEL,LF_DAMMX) ,INTENT(INOUT) :: DFMAX
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -241,12 +244,18 @@ C
              SIG = HALF*(SIGNXX(I) + ABS(SIGNXX(I)))
              F1=(SIG/SIGT1)**2 
      .                  + (SIGNXY(I)**2 + SIGNZX(I)**2)/FSIG12**2
+             DFMAX(I,2) = MAX(DFMAX(I,2),F1)
+             DFMAX(I,2) = MIN(DFMAX(I,2),ONE)
              SIG =  -HALF*(SIGNYY(I) + SIGNZZ(I))
              SIG = - SIGNXX(I) + HALF*(SIG + ABS(SIG))
              SIG = HALF*(SIG + ABS(SIG))
              F2 = (SIG /SIGC1)**2
+             DFMAX(I,3) = MAX(DFMAX(I,3),F2)
+             DFMAX(I,3) = MIN(DFMAX(I,3),ONE)
              P = -THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
              IF(P > 0) F3 = (P/CSIG)**2
+             DFMAX(I,4) = MAX(DFMAX(I,4),F3)
+             DFMAX(I,4) = MIN(DFMAX(I,4),ONE)
 C
 C  matrice criteria
 C              
@@ -261,6 +270,8 @@ C
               SIG = HALF*(SIGNYY(I) + ABS(SIGNYY(I)))
               F4=(SIG/SIGT2)**2 
      .            + (SIGNYZ(I)/S23)**2 + (SIGNXY(I)/S12)**2
+              DFMAX(I,5) = MAX(DFMAX(I,5),F4)
+              DFMAX(I,5) = MIN(DFMAX(I,5),ONE)
 C
               IF(SIGNZZ(I) < ZERO) THEN
                 MSIG13(I) = MSIG13(I) - SIGNZZ(I)*FAC
@@ -271,8 +282,10 @@ C
               F5= (SIG/SIGT3)**2 +
      .            (SIGNYZ(I)/MSIG23(I))**2 + (SIGNZX(I)/MSIG13(I))**2
               F5 = SDEL*SDEL*F5
+              DFMAX(I,6) = MAX(DFMAX(I,6),F5)
+              DFMAX(I,6) = MIN(DFMAX(I,6),ONE)
 C
-              DFMAX(I)  = MIN(ONE,MAX(DFMAX(I),F1,F2,F3,F4,F5))
+              DFMAX(I,1) = MIN(ONE,MAX(DFMAX(I,1),F1,F2,F3,F4,F5))
               UVAR(I,10) = MAX(F1,F2,F3,F4,F5)
 C
               IF(F1 >= ONE .OR. F2 >= ONE .OR. F3 >= ONE .OR.
@@ -370,12 +383,18 @@ C
              SIG = HALF*(SIGNXX(I) + ABS(SIGNXX(I)))
              F1=(SIG/SIGT1)**2 
      .                  + (SIGNXY(I)**2 + SIGNZX(I)**2)/FSIG12**2
+             DFMAX(I,2) = MAX(DFMAX(I,2),F1)
+             DFMAX(I,2) = MIN(DFMAX(I,2),ONE)
              SIG =  -HALF*(SIGNYY(I) + SIGNZZ(I))
              SIG = - SIGNXX(I) + HALF*(SIG + ABS(SIG))
              SIG = HALF*(SIG + ABS(SIG))
              F2 = (SIG /SIGC1)**2
+             DFMAX(I,3) = MAX(DFMAX(I,3),F2)
+             DFMAX(I,3) = MIN(DFMAX(I,3),ONE)
              P = -THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
-             IF(P > 0) F3 = (P/CSIG)**2            
+             IF(P > 0) F3 = (P/CSIG)**2     
+             DFMAX(I,4) = MAX(DFMAX(I,4),F3)
+             DFMAX(I,4) = MIN(DFMAX(I,4),ONE)       
 C
 C  matrice criteria
 C              
@@ -390,6 +409,8 @@ C
               SIG = HALF*(SIGNYY(I) + ABS(SIGNYY(I)))
               F4=(SIG/SIGT2)**2 
      .            + (SIGNYZ(I)/S23)**2 + (SIGNXY(I)/S12)**2
+              DFMAX(I,5) = MAX(DFMAX(I,5),F4)
+              DFMAX(I,5) = MIN(DFMAX(I,5),ONE)
 C
               IF(SIGNZZ(I) < ZERO) THEN
                 MSIG13(I) = MSIG13(I) - SIGNZZ(I)*FAC
@@ -398,9 +419,11 @@ C
               SIG = HALF*(SIGNZZ(I) + ABS(SIGNZZ(I)))
               F5= (SIG/SIGT3)**2 +
      .            (SIGNYZ(I)/MSIG23(I))**2 + (SIGNZX(I)/MSIG13(I))**2
-              F5 = SDEL*SDEL*F5     
+              F5 = SDEL*SDEL*F5   
+              DFMAX(I,6) = MAX(DFMAX(I,6),F5)
+              DFMAX(I,6) = MIN(DFMAX(I,6),ONE)  
 C
-                DFMAX(I)  = MIN(ONE,MAX(DFMAX(I),F1,F2,F3,F4,F5))
+                DFMAX(I,1) = MIN(ONE,MAX(DFMAX(I,1),F1,F2,F3,F4,F5))
 C   
                 UVAR(I,10) = MAX(F1,F2,F3,F4,F5)
                 IF(F1 >= ONE .OR. F2 >= ONE .OR. F3 >= ONE .OR.               
@@ -516,20 +539,36 @@ C
                 SIG = HALF*(SIGNXX(I) + ABS(SIGNXX(I)))
                 F1=(SIG/SIGT1)**2 
      .                     + (SIGNXY(I)**2 + SIGNZX(I)**2)/FSIG12**2
+                DFMAX(I,2) = MAX(DFMAX(I,2),F1)
+                DFMAX(I,2) = MIN(DFMAX(I,2),ONE)
+C
                 SIG = HALF*(SIGNYY(I) + ABS(SIGNYY(I)))
                 FSIG12UP = FSIG12*SIGT2/SIGT1
                 F2=(SIG/SIGT2)**2 
      .                   + (SIGNXY(I)**2 + SIGNYZ(I)**2)/FSIG12UP**2  
+                DFMAX(I,3) = MAX(DFMAX(I,3),F2)
+                DFMAX(I,3) = MIN(DFMAX(I,3),ONE)
 C                              
                 SIG = HALF*(-SIGNZZ(I) + ABS(SIGNZZ(I)))
                 IF(-SIGNXX(I) + SIG > ZERO) 
-     .                       F3 = ((-SIGNXX(I) + SIG)/SIGC1)**2     
+     .                       F3 = ((-SIGNXX(I) + SIG)/SIGC1)**2    
+                DFMAX(I,4) = MAX(DFMAX(I,4),F3)
+                DFMAX(I,4) = MIN(DFMAX(I,4),ONE)     
+C     
                 IF(-SIGNYY(I) + SIG > ZERO) 
      .                       F4 = ((-SIGNYY(I) + SIG)/SIGC2)**2
+                DFMAX(I,5) = MAX(DFMAX(I,5),F4)
+                DFMAX(I,5) = MIN(DFMAX(I,5),ONE)
+C
                 P = -THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
                 IF(P > ZERO) F5 = (P/CSIG)**2
+                DFMAX(I,6) = MAX(DFMAX(I,6),F5)
+                DFMAX(I,6) = MIN(DFMAX(I,6),ONE)
 C                F5 = (SIGNXY(I)/MSIG12(I))**2
                 F6 = (SIGNXY(I)/MSIG12(I))**2
+                DFMAX(I,7) = MAX(DFMAX(I,7),F6)
+                DFMAX(I,7) = MIN(DFMAX(I,7),ONE)
+C
                 SIG = HALF*(SIGNZZ(I) + ABS(SIGNZZ(I)))
                 IF(SIGNZZ(I) < ZERO) THEN
                   FAC=TAN(ANGLE)
@@ -544,9 +583,10 @@ C                F6 = SDEL(I)*SDEL(I)*F6
      .            (SIGNYZ(I)/MSIG23(I))**2 + (SIGNZX(I)/MSIG13(I))**2
 C     
                 F7 = SDEL*SDEL*F7
+                DFMAX(I,8) = MAX(DFMAX(I,8),F7)
+                DFMAX(I,8) = MIN(DFMAX(I,8),ONE)
 C  
-C
-                DFMAX(I)  = MIN(ONE,MAX(DFMAX(I),F1,F2,F3,F4,F5,F6,F7))
+                DFMAX(I,1) = MIN(ONE,MAX(DFMAX(I,1),F1,F2,F3,F4,F5,F6,F7))
 C          
                 UVAR(I,10) = MAX(F1,F2,F3,F4,F5,F6,F7)
                 IF(F1 >= ONE .OR. F2 >= ONE .OR. F3 >= ONE .OR.
@@ -654,20 +694,36 @@ C
                 SIG = HALF*(SIGNXX(I) + ABS(SIGNXX(I)))
                 F1=(SIG/SIGT1)**2 
      .                   + (SIGNXY(I)**2 + SIGNZX(I)**2)/FSIG12**2
+                DFMAX(I,2) = MAX(DFMAX(I,2),F1)
+                DFMAX(I,2) = MIN(DFMAX(I,2),ONE)
                   
                 SIG = HALF*(SIGNYY(I) + ABS(SIGNYY(I)))
                 FSIG12UP = FSIG12*SIGT2/SIGT1
                 F2=(SIG/SIGT2)**2 
-     .                   + (SIGNXY(I)**2 + SIGNYZ(I)**2)/FSIG12UP**2  
+     .                   + (SIGNXY(I)**2 + SIGNYZ(I)**2)/FSIG12UP**2 
+                DFMAX(I,3) = MAX(DFMAX(I,3),F2)
+                DFMAX(I,3) = MIN(DFMAX(I,3),ONE) 
 C                             
                 SIG = HALF*(-SIGNZZ(I) + ABS(SIGNZZ(I)))
                 IF(-SIGNXX(I) + SIG > ZERO) 
      .                       F3 = ((-SIGNXX(I) + SIG)/SIGC1)**2
+                DFMAX(I,4) = MAX(DFMAX(I,4),F3)
+                DFMAX(I,4) = MIN(DFMAX(I,4),ONE)
+C
                 IF(-SIGNYY(I) + SIG > ZERO) 
      .                       F4 = ((-SIGNYY(I) + SIG)/SIGC2)**2
+                DFMAX(I,5) = MAX(DFMAX(I,5),F4)
+                DFMAX(I,5) = MIN(DFMAX(I,5),ONE)
+C
                 P = -THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
                 IF(P > ZERO) F5 = (P/CSIG)**2
+                DFMAX(I,6) = MAX(DFMAX(I,6),F5)
+                DFMAX(I,6) = MIN(DFMAX(I,6),ONE)
+C
                 F6 = (SIGNXY(I)/MSIG12(I))**2
+                DFMAX(I,7) = MAX(DFMAX(I,7),F6)
+                DFMAX(I,7) = MIN(DFMAX(I,7),ONE)
+C
                 SIG = HALF*(SIGNZZ(I) + ABS(SIGNZZ(I)))
                 IF(SIGNZZ(I) < ZERO) THEN
                   FAC=TAN(ANGLE)
@@ -678,9 +734,11 @@ C                F6 = (SIG/SIGT3(I))**2 +
                 F7 = (SIG/SIGT3)**2 + 
      .           (SIGNYZ(I)/MSIG23(I))**2 + (SIGNZX(I)/MSIG13(I))**2  
 C                 F6 = SDEL(I)*SDEL(I)*F6
-                 F7 = SDEL*SDEL*F7
+                F7 = SDEL*SDEL*F7
+                DFMAX(I,8) = MAX(DFMAX(I,8),F7)
+                DFMAX(I,8) = MIN(DFMAX(I,8),ONE)
 C
-                DFMAX(I)  = MIN(ONE,MAX(DFMAX(I),F1,F2,F3,F4,F5,F6,F7))
+                DFMAX(I,1) = MIN(ONE,MAX(DFMAX(I,1),F1,F2,F3,F4,F5,F6,F7))
                 UVAR(I,10) = MAX(F1,F2,F3,F4,F5,F6,F7)
 C  
                  IF(F1 >= ONE .OR. F2 >= ONE .OR. F3 >= ONE .OR.
