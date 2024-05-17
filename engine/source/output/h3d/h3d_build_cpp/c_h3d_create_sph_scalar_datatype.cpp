@@ -69,7 +69,7 @@ extern "C"
 /*=================================================================*/
 
 void c_h3d_create_sph_scalar_datatype_(int *cpt_data, char *name1, int *size1, int *info, char *name2, int *size2, int *nuvar,
-                                       char *comment, int *s_comment, int *id)
+                                       char *comment, int *s_comment, int *id, int *mode)
 {
     char *cname,*cname2,*ccomment;
     int cname_len,cname_len1,ccomment_len;
@@ -112,6 +112,8 @@ void c_h3d_create_sph_scalar_datatype_(int *cpt_data, char *name1, int *size1, i
     RES_STRING[0] ='\0'; 
     char * ID_STRING = new char [100];
     ID_STRING[0] ='\0'; 
+    char *MODE_STRING = new char[100];
+    ID_STRING[0] = '\0';
 
     H3D_ID layer_pool_id = H3D_NULL_ID;
 
@@ -133,7 +135,7 @@ void c_h3d_create_sph_scalar_datatype_(int *cpt_data, char *name1, int *size1, i
 
     if(*id > 0)
     {
-        sprintf(ID_STRING, " id %d",*id);
+        sprintf(ID_STRING, " ID %d",*id);
 #ifdef _WIN64
         strcat_s(RES_STRING,100,ID_STRING);
 #else
@@ -141,7 +143,17 @@ void c_h3d_create_sph_scalar_datatype_(int *cpt_data, char *name1, int *size1, i
 #endif
     }
 
-    char edata_type[50];
+    if (*mode > 0)
+    {
+        sprintf(MODE_STRING, " Mode %d", *mode);
+#ifdef _WIN64
+        strcat_s(RES_STRING, 100, MODE_STRING);
+#else
+        RES_STRING = strcat(RES_STRING, MODE_STRING);
+#endif
+    }        
+
+    char edata_type[100];
 //
 
         //printf( "scalar  %d  info = %d  %s\n", *cpt_data , *info1, name);
@@ -192,7 +204,8 @@ void c_h3d_create_sph_scalar_datatype_(int *cpt_data, char *name1, int *size1, i
     delete []     IS_STRING; 
     delete []     IT_STRING;   
     delete []    MID_STRING; 
-    delete []    RES_STRING; 
+    delete []    RES_STRING;
+    delete []   MODE_STRING; 
     free(cname);
     free(ccomment);
 
@@ -201,14 +214,14 @@ void c_h3d_create_sph_scalar_datatype_(int *cpt_data, char *name1, int *size1, i
 
 
 void _FCALL C_H3D_CREATE_SPH_SCALAR_DATATYPE(int *cpt_data, char *name1, int *size1, int *info, char *name2, int *size2, int *nuvar,
-                                             char *comment, int *s_comment, int *id)
-{c_h3d_create_sph_scalar_datatype_ (cpt_data, name1, size1, info, name2, size2, nuvar, comment, s_comment, id);}
+                                             char *comment, int *s_comment, int *id, int *mode)
+{c_h3d_create_sph_scalar_datatype_ (cpt_data, name1, size1, info, name2, size2, nuvar, comment, s_comment, id, mode);}
 
 void c_h3d_create_sph_scalar_datatype__ (int *cpt_data, char *name1, int *size1, int *info, char *name2, int *size2, int *nuvar,
-                                         char *comment, int *s_comment, int *id)
-{c_h3d_create_sph_scalar_datatype_ (cpt_data, name1, size1, info, name2, size2, nuvar, comment, s_comment, id);}
+                                         char *comment, int *s_comment, int *id, int *mode)
+{c_h3d_create_sph_scalar_datatype_ (cpt_data, name1, size1, info, name2, size2, nuvar, comment, s_comment, id, mode);}
 
 void c_create_sph_scalar_datatype (int *cpt_data, char *name1, int *size1, int *info, char *name2, int *size2, int *nuvar,
-                                   char *comment, int *s_comment, int *id)
-{c_h3d_create_sph_scalar_datatype_ (cpt_data, name1, size1, info, name2, size2, nuvar, comment, s_comment, id);}
+                                   char *comment, int *s_comment, int *id, int *mode)
+{c_h3d_create_sph_scalar_datatype_ (cpt_data, name1, size1, info, name2, size2, nuvar, comment, s_comment, id, mode);}
 }

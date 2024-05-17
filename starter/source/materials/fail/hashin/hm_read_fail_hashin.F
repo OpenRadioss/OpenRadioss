@@ -32,9 +32,9 @@ Chd|        FAIL_PARAM_MOD                ../common_source/modules/mat_elem/fail
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_HASHIN(FAIL , 
-     .           MAT_ID   ,FAIL_ID  ,IRUPT  ,FRWAVE    ,
-     .           LSUBMODEL,UNITAB   )
+      SUBROUTINE HM_READ_FAIL_HASHIN(FAIL    , 
+     .           MAT_ID   ,FAIL_ID  ,IRUPT   ,FRWAVE    ,
+     .           LSUBMODEL,UNITAB   ,FAIL_TAG)
 C-----------------------------------------------
 c    ROUTINE DESCRIPTION :
 c    Read Hashin failure model parameters
@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
+      USE ELBUFTAG_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,13 +57,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER            ,INTENT(IN) :: FAIL_ID       ! failure model ID
-      INTEGER            ,INTENT(IN) :: MAT_ID        ! material law ID
-      INTEGER            ,INTENT(IN) :: IRUPT         ! failure model type number
-      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
-      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table
-      INTEGER            ,INTENT(INOUT) :: FRWAVE     ! failure model type number
-      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
+      INTEGER            ,INTENT(IN) :: FAIL_ID       !< failure model ID
+      INTEGER            ,INTENT(IN) :: MAT_ID        !< material law ID
+      INTEGER            ,INTENT(IN) :: IRUPT         !< failure model type number
+      TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        !< table of input units
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  !< submodel table
+      INTEGER            ,INTENT(INOUT) :: FRWAVE     !< failure model type number
+      TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       !< failure model data structure
+      TYPE (FAIL_TAG_)   ,INTENT(INOUT) :: FAIL_TAG   !< failure model tag for buffer allocation
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -161,13 +163,36 @@ c--------------------------------------------------
       FAIL%NUVAR   = 12
       FAIL%NFUNC   = 0
       FAIL%NTABLE  = 0
-      FAIL%NMOD    = 0
       FAIL%PTHK    = PTHKF
 c            
       ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
       ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
       ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
       ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      ! Modes of failure
+      ! -> Uni-directional lamina model 
+      IF (IMODEL == 1) THEN 
+        FAIL%NMOD = 5
+        ALLOCATE (FAIL%MODE(FAIL%NMOD))
+        FAIL%MODE(1) = "Tensile/Shear fiber"
+        FAIL%MODE(2) = "Compression fiber"
+        FAIL%MODE(3) = "Crush"
+        FAIL%MODE(4) = "Matrix failure"
+        FAIL%MODE(5) = "Delamination"
+      ! -> Fabric lamina model 
+      ELSE 
+        FAIL%NMOD = 7
+        ALLOCATE (FAIL%MODE(FAIL%NMOD))
+        FAIL%MODE(1) = "Tensile/Shear fiber 1"
+        FAIL%MODE(2) = "Tensile/Shear fiber 2"
+        FAIL%MODE(3) = "Compression fiber 1"
+        FAIL%MODE(4) = "Compression fiber 2"
+        FAIL%MODE(5) = "Crush"
+        FAIL%MODE(6) = "Shear failure matrix"
+        FAIL%MODE(7) = "Matrix failure"
+      ENDIF
+      FAIL_TAG%LF_DAMMX = FAIL_TAG%LF_DAMMX + FAIL%NMOD
 c
       FAIL%UPARAM(1)  = IMODEL
       FAIL%UPARAM(2)  = SIGT1

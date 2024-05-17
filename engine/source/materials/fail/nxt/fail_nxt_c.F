@@ -33,7 +33,7 @@ Chd|====================================================================
      2     TIME      ,NPF       ,TF        ,NFUNC     ,IFUNC     ,
      3     NGL       ,IPG       ,ILAY      ,IPT       ,HARDM     ,
      4     SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,  
-     5     OFF       ,FOFF      ,DFMAX     ,TDEL      ,DAM       )
+     5     OFF       ,FOFF      ,DFMAX     ,TDEL      ,LF_DAMMX  )
 C-----------------------------------------------
 c     NXT Failure
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C IPT                         CURRENT INTEGRATION POINT IN THE LAYER
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NFUNC,NUPARAM,NUVAR,IPG,ILAY,IPT
+      INTEGER ,INTENT(IN) :: NEL,NFUNC,NUPARAM,NUVAR,IPG,ILAY,IPT,LF_DAMMX
       INTEGER, DIMENSION(NFUNC), INTENT(IN) :: IFUNC
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
       my_real ,INTENT(IN) :: TIME
@@ -83,9 +83,9 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX,DAM
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
+      my_real ,DIMENSION(NEL,LF_DAMMX),INTENT(INOUT) :: DFMAX
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -195,10 +195,10 @@ c-----------------------
 c     SAVE USER VARIABLES
 c-----------------------
       DO I=1,NEL                          
-        DAM(I)    = MAX(DAM(I),LAMBDANXT(I))                                     
-        UVAR(I,1) = SIG1(I)                                                      
-        UVAR(I,2) = SIG2(I)                                                      
-        DFMAX(I)  = MIN(ONE, DAM(I)/TWO) ! Maximum Dmg for output : 0 < DFMAX < 1  
+        DFMAX(I,2) = MAX(DFMAX(I,2),LAMBDANXT(I))                                     
+        UVAR(I,1)  = SIG1(I)                                                      
+        UVAR(I,2)  = SIG2(I)                                                      
+        DFMAX(I,1) = MIN(ONE, DFMAX(I,2)/TWO) ! Maximum Dmg for output : 0 < DFMAX < 1  
       ENDDO                                                                      
 C-----------------------------------------------
  2000 FORMAT(1X,'(NXT FAILURE) FOR SHELL ELEMENT ',I10,1X,

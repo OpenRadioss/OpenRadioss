@@ -33,7 +33,7 @@ Chd|====================================================================
      3           NGL       ,DMG_FLAG  ,DMG_SCALE ,DFMAX     ,TDEL      ,
      4           SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
      5           OFF       ,FOFF      ,PLY_ID    ,
-     6           EPSP      ,FWAVE_EL  ,DADV      )                               
+     6           EPSP      ,FWAVE_EL  ,DADV      ,LF_DAMMX  )                               
 C-----------------------------------------------
 c    Hashin failure model 
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C IPT                         CURRENT INTEGRATION POINT IN THE LAYER
 C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT,PLY_ID
+      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT,PLY_ID,LF_DAMMX
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
       my_real ,INTENT(IN) :: TIME
       my_real ,DIMENSION(NEL) ,INTENT(IN)    :: OFF,TIMESTEP
@@ -85,8 +85,9 @@ C-----------------------------------------------
       INTEGER ,INTENT(OUT) ::DMG_FLAG
       INTEGER ,DIMENSION(*) :: FWAVE_EL
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX,DADV,
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DADV,
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,EPSP
+      my_real ,DIMENSION(NEL,LF_DAMMX) ,INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL,DMG_SCALE
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
 C-----------------------------------------------
@@ -166,36 +167,50 @@ c smoothed strain rate
             UVAR(I,11)=EPSP(I)
             IF (UVAR(I,6) == ZERO) THEN                  
 c
-c             fiber criteria
-c
+              ! Fiber failure criteria
+              ! -> Tension 
               SIG = HALF*(SIGNXX(I) + ABS(SIGNXX(I)))
               F1  = (SIG/SIGT1)**2 
      .            + (SIGNXY(I)**2 + SIGNZX(I)**2)/FSIG12**2
+              DFMAX(I,2) = MAX(DFMAX(I,2),F1)
+              DFMAX(I,2) = MIN(DFMAX(I,2),ONE)
+              ! -> Compression 
               SIG = -HALF*SIGNYY(I)
               SIG = -SIGNXX(I) + HALF*(SIG + ABS(SIG))
               SIG = HALF*(SIG + ABS(SIG))
               F2  = (SIG /SIGC1)**2 
+              DFMAX(I,3) = MAX(DFMAX(I,3),F2)
+              DFMAX(I,3) = MIN(DFMAX(I,3),ONE)
+c
+              ! Crush mode criterion
               P   = -THIRD*(SIGNXX(I) + SIGNYY(I))
               IF (P > 0) F3 = (P/CSIG)**2
+              DFMAX(I,4) = MAX(DFMAX(I,4),F3)
+              DFMAX(I,4) = MIN(DFMAX(I,4),ONE)
 c
-c             matrix criteria                                      
-c                                                                  
+              ! Matrix failure criteria           
+              ! -> Delamination mode                                     
               F5 = (SIGNYZ(I)/MSIG23)**2 + (SIGNZX(I)/MSIG13)**2   
-              F5 = SDEL*SDEL*F5                                    
+              F5 = SDEL*SDEL*F5       
+              DFMAX(I,6) = MAX(DFMAX(I,6),F5)
+              DFMAX(I,6) = MIN(DFMAX(I,6),ONE)
+c
+              ! -> Failure matrix mode
               IF (SIGNYY(I) < ZERO) THEN                           
                 XSIG12 = MSIG12 - SIGNYY(I)*(TAN(ANGLE))           
                 XSIG23 = MSIG23 - SIGNYY(I)*(TAN(ANGLE))           
               ELSE                                                 
                 XSIG12 = MSIG12                                    
                 XSIG23 = MSIG23                                    
-              ENDIF                                                
-c                                                                  
+              ENDIF                                                                                                        
               SIG = HALF*(SIGNYY(I) + ABS(SIGNYY(I)))            
               F4  = (SIG/SIGT2)**2                                 
      .            + (SIGNYZ(I)/XSIG23)**2 + (SIGNXY(I)/XSIG12)**2  
+              DFMAX(I,5) = MAX(DFMAX(I,5),F4)
+              DFMAX(I,5) = MIN(DFMAX(I,5),ONE)
 c
-              DAMMX    = MIN(ONE,MAX(F1,F2,F3,F4,F5))
-              DFMAX(I) = MIN(ONE,DAMMX)
+              DAMMX = MIN(ONE,MAX(F1,F2,F3,F4,F5))
+              DFMAX(I,1) = MIN(ONE,DAMMX)
               IF (DAMMX >= DADV(I)) THEN
                 NINDX = NINDX+1                                    
                 INDX(NINDX) = I                                    
@@ -274,24 +289,49 @@ c smoothed strain rate
             UVAR(I,11)=EPSP(I)
             IF (UVAR(I,6) == ZERO) THEN                  
 c
+              ! Fiber failure criteria
+              ! -> Tension
               SIG = HALF*(SIGNXX(I) + ABS(SIGNXX(I)))
               F1  = (SIG/SIGT1)**2 
      .            + (SIGNXY(I)**2 + SIGNZX(I)**2)/FSIG12**2
+              DFMAX(I,2) = MAX(DFMAX(I,2),F1)
+              DFMAX(I,2) = MIN(DFMAX(I,2),ONE)
+c
+              ! -> Shear
               SIG = HALF*(SIGNYY(I) + ABS(SIGNYY(I)))
               TSIG12 = FSIG12*SIGT2/SIGT1
               F2 = (SIG/SIGT2)**2 
-     .           + (SIGNXY(I)**2 + SIGNYZ(I)**2)/TSIG12**2          
-                            
+     .           + (SIGNXY(I)**2 + SIGNYZ(I)**2)/TSIG12**2      
+              DFMAX(I,3) = MAX(DFMAX(I,3),F2)
+              DFMAX(I,3) = MIN(DFMAX(I,3),ONE)
+c
+              ! Matrix compression failure criteria
               IF (SIGNXX(I) < ZERO) F3 = (SIGNXX(I)/SIGC1)**2
+              DFMAX(I,4) = MAX(DFMAX(I,4),F3)
+              DFMAX(I,4) = MIN(DFMAX(I,4),ONE)
               IF (SIGNYY(I) < ZERO) F4 = (SIGNYY(I)/SIGC2)**2
+              DFMAX(I,5) = MAX(DFMAX(I,5),F4)
+              DFMAX(I,5) = MIN(DFMAX(I,5),ONE)
+c
+              ! -> Crush mode criterion
               P = -THIRD*(SIGNXX(I) + SIGNYY(I) )
               IF (P > ZERO) F5 = (P/CSIG)**2
-              F6 = (SIGNXY(I)/MSIG12)**2
-              F7 = (SIGNYZ(I)/MSIG23)**2 + (SIGNZX(I)/MSIG13)**2
-              F7 = SDEL*SDEL*F6
+              DFMAX(I,6) = MAX(DFMAX(I,6),F5)
+              DFMAX(I,6) = MIN(DFMAX(I,6),ONE)
 c
-              DAMMX    = MIN(ONE,MAX(F1,F2,F3,F4,F5,F6,F7))
-              DFMAX(I) = MIN(ONE,DAMMX)
+              ! Shear Matrix failure
+              F6 = (SIGNXY(I)/MSIG12)**2
+              DFMAX(I,7) = MAX(DFMAX(I,7),F6)
+              DFMAX(I,7) = MIN(DFMAX(I,7),ONE)
+c
+              ! Matrix failure
+              F7 = (SIGNYZ(I)/MSIG23)**2 + (SIGNZX(I)/MSIG13)**2
+              F7 = SDEL*SDEL*F7
+              DFMAX(I,8) = MAX(DFMAX(I,8),F7)
+              DFMAX(I,8) = MIN(DFMAX(I,8),ONE)
+c
+              DAMMX = MIN(ONE,MAX(F1,F2,F3,F4,F5,F6,F7))
+              DFMAX(I,1) = MIN(ONE,DAMMX)
               IF (DAMMX >= DADV(I)) THEN
                 NINDX = NINDX+1                                  
                 INDX(NINDX) = I                                  
@@ -325,7 +365,7 @@ C
             ENDIF
 c
             IF (UVAR(I,6) > ZERO .AND. TIME > UVAR(I,6) ) THEN 
-              DFMAX(I) = ONE
+              DFMAX(I,1) = ONE
               IF(TMOD == 1) THEN
                   TELEM = MAX((TIMESTEP(I)*1.0),TMAX*(EPSPREF/EPSP(I))**2)
                   DMG_SCALE(I)=DMG_SCALE(I)*EXP(-TIMESTEP(I)/TELEM)

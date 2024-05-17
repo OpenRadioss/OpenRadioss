@@ -41,7 +41,8 @@ Chd|====================================================================
      4     EPSXX    ,EPSYY    ,EPSZZ    ,EPSXY    ,EPSYZ    ,EPSZX    ,
      5     SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      6     TEMP     ,VOLN     ,DFMAX    ,TDELE    ,ALDT     ,TABLE    ,
-     7     IRUPT    ,ELBUF_TAB,ILAY1    ,NTABLF   ,ITABLF)
+     7     IRUPT    ,ELBUF_TAB,ILAY1    ,NTABLF   ,ITABLF   ,LF_DAMMX ,
+     8     NIPARAM  ,IPARAM   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,35 +61,35 @@ C-----------------------------------------------
 #include      "comlock.inc"
 #include      "com04_c.inc"
 #include      "com01_c.inc"
+#include      "tabsiz_c.inc"
 C!-----------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR,NGL(NEL),IPG,NPG,IRUPT,ILAY1,NTABLF
+      INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,NPG,NFUNC,NTABLF,
+     .   NIPARAM,LF_DAMMX,IRUPT,ILAY1
+      INTEGER, DIMENSION(NFUNC)  ,INTENT(IN) :: IFUNC
       INTEGER, DIMENSION(NTABLF) ,INTENT(IN) :: ITABLF
-      my_real TIME,TIMESTEP,UPARAM(*),
-     .   EPSXX(NEL),EPSYY(NEL),EPSZZ(NEL),
-     .   EPSXY(NEL),EPSYZ(NEL),EPSZX(NEL),
-     .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
-     .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),UVAR(NEL,NUVAR),
-     .   DT(NEL),EPSP(NEL),OFF(NEL),DFMAX(NEL),TDELE(NEL),
-     .   ALDT(NEL),TEMP(NEL),VOLN(NEL),LOFF(NEL)
+      INTEGER, DIMENSION(NEL)    ,INTENT(IN) :: NGL
+      INTEGER, DIMENSION(NIPARAM),INTENT(IN) :: IPARAM
+      my_real, INTENT(IN) :: TIME,TIMESTEP
+      my_real, DIMENSION(NUPARAM), INTENT(IN) :: UPARAM
+      my_real, DIMENSION(NEL), INTENT(IN) :: EPSXX,EPSYY,EPSZZ,
+     .   EPSXY,EPSYZ,EPSZX,DT,EPSP,ALDT,TEMP,VOLN
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: SIGNXX,SIGNYY,SIGNZZ,
+     .   SIGNXY,SIGNYZ,SIGNZX,OFF,LOFF,TDELE
+      my_real, DIMENSION(NEL,LF_DAMMX), INTENT(INOUT) :: DFMAX
+      my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
       TYPE (TTABLE), DIMENSION(NTABLE) :: TABLE
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_TAB
 C!-----------------------------------------------
 C!   VARIABLES FOR FUNCTION INTERPOLATION 
 C!-----------------------------------------------
-      INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER ,TF(*)
+      INTEGER, INTENT(IN) :: NPF(SNPC)
+      my_real, INTENT(IN) :: TF(STF)
+      my_real  FINTER 
       EXTERNAL FINTER
-C!        Y = FINTER(IFUNC(J),X,NPF,TF,DF)
-C!        Y       : y = f(x)
-C!        X       : x
-C!        DF      : f'(x) = dy/dx
-C!        IFUNC(J): FUNCTION INDEX
-C!              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C!        NPF,TF  : FUNCTION PARAMETER
 C!-----------------------------------------------
 C!   L o c a l   V a r i a b l e s
 C!-----------------------------------------------
-      INTEGER I,K,J,INDX(NEL),NINDX,INDX2(NEL),NINDX2,NSTEP,
+      INTEGER I,K,J,INDX(NEL),NINDX,INDX2(NEL),NINDX2,NSTEP,CRIT,NMOD,
      .        fct_ISM,fct_IPS,fct_IDg12,fct_IDg13,fct_IDe1c,fct_IDel,
      .        NCRIT(NEL),IPOS(NEL,2),Ismooth,Istrain,IR,IS,IT,
      .        ILAY,tab_IDfld,Itab,NCS,INDX3(NEL),NINDX3,IPMAX(NEL),IPMIN(NEL),
@@ -113,6 +114,14 @@ C!--------------------------------------------------------------
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
       !=======================================================================
       ! Recovering failure criterion parameters
+      ! -> Integer parameter, activated criteria
+      CRIT       = IPARAM(1)
+      Itab       = IPARAM(2)
+      NSTEP      = IPARAM(3)
+      NCS        = IPARAM(4)
+      Ismooth    = IPARAM(5)
+      Istrain    = IPARAM(6)
+      ! -> Real parameters
       MINPRES    = UPARAM(1)
       MAXPRES    = UPARAM(2)
       SIGP1      = UPARAM(3)
@@ -128,17 +137,12 @@ C!--------------------------------------------------------------
       VOLEPS     = UPARAM(13)
       MINEPS     = UPARAM(14)
       EPSSH      = UPARAM(15)
-      Itab       = NINT(UPARAM(17))
-      EPSDOT_FLD = UPARAM(18)
-      NSTEP      = NINT(UPARAM(19))
-      THIN       = UPARAM(20)
-      VOLFRAC    = UPARAM(21)
-      NCS        = NINT(UPARAM(23))
-      MAXTEMP    = UPARAM(24)
-      Fscale_el  = UPARAM(25)
-      El_ref     = UPARAM(26)
-      Ismooth    = NINT(UPARAM(31))
-      Istrain    = NINT(UPARAM(32))
+      EPSDOT_FLD = UPARAM(16)
+      THIN       = UPARAM(17)
+      VOLFRAC    = UPARAM(18)
+      MAXTEMP    = UPARAM(20)
+      Fscale_el  = UPARAM(21)
+      El_ref     = UPARAM(22)
 c
 c     function & tables
       fct_ISM    = IFUNC(1) 
@@ -368,128 +372,206 @@ c
       ! - LOOP OVER THE ELEMENT TO CHECK THE EROSION CRITERIA
       !====================================================================    
       DO I = 1,NEL
+        NMOD = 0
         IF ((UVAR(I,5) == ONE).AND.(OFF(I)==ONE)) THEN
-          !  -> maximum pressure
-          IF (P(I) >= MAXPRES*FACL(I)) THEN
-            NCRIT(I) = NCRIT(I) + 1
-            IPMAX(I) = 1
-          ENDIF
           !  -> minimum pressure
-          IF (P(I) <= MINPRES*FACL(I)) THEN
-            NCRIT(I) = NCRIT(I) + 1
-            IPMIN(I) = 1
+          IF (BTEST(CRIT,1)) THEN 
+            NMOD = NMOD + 1
+            DFMAX(I,1+NMOD) = MAX(P(I)/(MINPRES*FACL(I)),DFMAX(I,1+NMOD))
+            DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE)
+            IF (P(I) <= MINPRES*FACL(I)) THEN
+              NCRIT(I) = NCRIT(I) + 1
+              IPMIN(I) = 1
+            ENDIF
+          ENDIF
+          !  -> maximum pressure
+          IF (BTEST(CRIT,2)) THEN 
+            NMOD = NMOD + 1
+            DFMAX(I,1+NMOD) = MAX(P(I)/(MAXPRES*FACL(I)),DFMAX(I,1+NMOD))
+            DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE)
+            IF (P(I) >= MAXPRES*FACL(I)) THEN
+              NCRIT(I) = NCRIT(I) + 1
+              IPMAX(I) = 1
+            ENDIF
           ENDIF
           !  -> maximal principal stress
-          !     (unrestricted)
-          IF (SIGP1 > ZERO) THEN 
-            IF (S11(I) >= SIGP1*FACL(I)) THEN 
-              NCRIT(I)  = NCRIT(I) + 1
-              IS1MAX(I) = 1
-            ENDIF
-          !     (restricted to positive stress triaxialities)
-          ELSE 
-            IF ((S11(I) >= ABS(SIGP1)*FACL(I)).AND.(TRIAX(I)>EM10)) THEN 
-              NCRIT(I)  = NCRIT(I) + 1
-              IS1MAX(I) = 1
+          IF (BTEST(CRIT,3)) THEN 
+            NMOD = NMOD + 1
+            ! (unrestricted)
+            IF (SIGP1 > ZERO) THEN
+              DFMAX(I,1+NMOD) = MAX(S11(I)/(SIGP1*FACL(I)),DFMAX(I,1+NMOD))
+              DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE) 
+              IF (S11(I) >= SIGP1*FACL(I)) THEN 
+                NCRIT(I)  = NCRIT(I) + 1
+                IS1MAX(I) = 1
+              ENDIF
+            !     (restricted to positive stress triaxialities)
+            ELSE 
+              IF (TRIAX(I)>EM10) THEN 
+                DFMAX(I,1+NMOD) = MAX(S11(I)/(ABS(SIGP1)*FACL(I)),DFMAX(I,1+NMOD))
+                DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE)
+                IF (S11(I) >= ABS(SIGP1)*FACL(I)) THEN 
+                  NCRIT(I)  = NCRIT(I) + 1
+                  IS1MAX(I) = 1
+                ENDIF
+              ENDIF
             ENDIF
           ENDIF
           !  -> maximum time
-          IF (TIME >= TMAX) THEN
-            NCRIT(I) = NCRIT(I) + 1
-            ITMAX(I) = 1
+          IF (BTEST(CRIT,4)) THEN 
+            NMOD = NMOD + 1
+            DFMAX(I,1+NMOD) = MAX(TIME/TMAX,DFMAX(I,1+NMOD))
+            DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE)   
+            IF (TIME >= TMAX) THEN
+              NCRIT(I) = NCRIT(I) + 1
+              ITMAX(I) = 1
+            ENDIF
           ENDIF
           !  -> minimum timestep
-          IF ((DT(I) <= DTMIN).AND.(TIME > ZERO)) THEN 
-            NCRIT(I)  = NCRIT(I) + 1
-            IMINDT(I) = 1
-          ENDIF 
-          !  -> equivalent stress
-          IF (EPSDOT_SM /= ZERO) THEN 
-            LAMBDA    = EPSP(I)/EPSDOT_SM
-            SIGMAX(I) = FINTER(fct_ISM,LAMBDA,NPF,TF,DF) 
-            SIGMAX(I) = SIGMAX(I)*SIGVM       
-          ELSE
-            SIGMAX(I) = SIGVM
+          IF (BTEST(CRIT,5)) THEN 
+            NMOD = NMOD + 1
+            IF (TIME > ZERO) THEN 
+              DFMAX(I,1+NMOD) = MAX(DTMIN/DT(I),DFMAX(I,1+NMOD))
+              DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE)  
+              IF ((DT(I) <= DTMIN).AND.(TIME > ZERO)) THEN 
+                NCRIT(I)  = NCRIT(I) + 1
+                IMINDT(I) = 1
+              ENDIF 
+            ENDIF
           ENDIF
-          IF (SVM(I) >= SIGMAX(I)*FACL(I)) THEN 
-            NCRIT(I)   = NCRIT(I) + 1  
-            ISIGMAX(I) = 1
+          !  -> equivalent stress
+          IF (BTEST(CRIT,6)) THEN
+            NMOD = NMOD + 1 
+            IF (EPSDOT_SM /= ZERO) THEN 
+              LAMBDA    = EPSP(I)/EPSDOT_SM
+              SIGMAX(I) = FINTER(fct_ISM,LAMBDA,NPF,TF,DF) 
+              SIGMAX(I) = SIGMAX(I)*SIGVM       
+            ELSE
+              SIGMAX(I) = SIGVM
+            ENDIF
+            DFMAX(I,1+NMOD) = MAX(SVM(I)/(SIGMAX(I)*FACL(I)),DFMAX(I,1+NMOD))
+            DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE)   
+            IF (SVM(I) >= SIGMAX(I)*FACL(I)) THEN 
+              NCRIT(I)   = NCRIT(I) + 1  
+              ISIGMAX(I) = 1
+            ENDIF
           ENDIF
           !  -> Tuler-Butcher
-          IF (S11(I) > SIGTH) THEN 
-            UVAR(I,2) = UVAR(I,2) + TIMESTEP*(S11(I) - SIGTH)**2
-            IF (UVAR(I,2) >= KF*FACL(I)) THEN 
-              NCRIT(I)  = NCRIT(I) + 1 
-              ISIGTH(I) = 1
+          IF (BTEST(CRIT,7)) THEN
+            NMOD = NMOD + 1 
+            DFMAX(I,1+NMOD) = MAX(UVAR(I,2)/(KF*FACL(I)),DFMAX(I,1+NMOD))
+            DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE)  
+            IF (S11(I) > SIGTH) THEN 
+              UVAR(I,2) = UVAR(I,2) + TIMESTEP*(S11(I) - SIGTH)**2
+              IF (UVAR(I,2) >= KF*FACL(I)) THEN 
+                NCRIT(I)  = NCRIT(I) + 1 
+                ISIGTH(I) = 1
+              ENDIF
             ENDIF
           ENDIF
           !  -> maximal principal strain
-          IF (EPSDOT_PS /= ZERO) THEN 
-            LAMBDA    = EPSP(I)/EPSDOT_PS    
-            EPSMAX(I) = FINTER(fct_IPS,LAMBDA,NPF,TF,DF)
-            EPSMAX(I) = EPSMAX(I)*MAXEPS
-          ELSE
-            EPSMAX(I) = MAXEPS
+          IF (BTEST(CRIT,8)) THEN
+            NMOD = NMOD + 1 
+            IF (EPSDOT_PS /= ZERO) THEN 
+              LAMBDA    = EPSP(I)/EPSDOT_PS    
+              EPSMAX(I) = FINTER(fct_IPS,LAMBDA,NPF,TF,DF)
+              EPSMAX(I) = EPSMAX(I)*MAXEPS
+            ELSE
+              EPSMAX(I) = MAXEPS
+            ENDIF
+            DFMAX(I,1+NMOD) = MAX(E11(I)/(EPSMAX(I)*FACL(I)),DFMAX(I,1+NMOD))
+            DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE) 
+            IF (E11(I) >= EPSMAX(I)*FACL(I)) THEN 
+              NCRIT(I)   = NCRIT(I) + 1       
+              IEPSMAX(I) = 1
+            ENDIF  
           ENDIF
-          IF (E11(I) >= EPSMAX(I)*FACL(I)) THEN 
-            NCRIT(I)   = NCRIT(I) + 1       
-            IEPSMAX(I) = 1
-          ENDIF  
           !  -> maximum effective strain
-          IF (EFF_STRAIN(I) >= EFFEPS*FACL(I)) THEN
-            NCRIT(I)   = NCRIT(I) + 1
-            IEFFEPS(I) = 1
+          IF (BTEST(CRIT,9)) THEN
+            NMOD = NMOD + 1 
+            DFMAX(I,1+NMOD) = MAX(EFF_STRAIN(I)/(EFFEPS*FACL(I)),DFMAX(I,1+NMOD))
+            DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE) 
+            IF (EFF_STRAIN(I) >= EFFEPS*FACL(I)) THEN
+              NCRIT(I)   = NCRIT(I) + 1
+              IEFFEPS(I) = 1
+            ENDIF
           ENDIF
           !  -> maximum volumetric strain
-          IF (VOLEPS > ZERO) THEN 
-            IF (VOL_STRAIN(I) >= VOLEPS*FACL(I)) THEN 
-              NCRIT(I)   = NCRIT(I) + 1
-              IVOLEPS(I) = 1
-            ENDIF
-          ELSE
-            IF (VOL_STRAIN(I) <= VOLEPS*FACL(I)) THEN 
-              NCRIT(I)   = NCRIT(I) + 1
-              IVOLEPS(I) = 1
+          IF (BTEST(CRIT,10)) THEN
+            NMOD = NMOD + 1 
+            IF (VOLEPS > ZERO) THEN 
+              DFMAX(I,1+NMOD) = MAX(VOL_STRAIN(I)/(VOLEPS*FACL(I)),DFMAX(I,1+NMOD))
+              DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE)  
+              IF (VOL_STRAIN(I) >= VOLEPS*FACL(I)) THEN 
+                NCRIT(I)   = NCRIT(I) + 1
+                IVOLEPS(I) = 1
+              ENDIF
+            ELSE
+              DFMAX(I,1+NMOD) = MAX(VOL_STRAIN(I)/(VOLEPS*FACL(I)),DFMAX(I,1+NMOD))
+              DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE) 
+              IF (VOL_STRAIN(I) <= VOLEPS*FACL(I)) THEN 
+                NCRIT(I)   = NCRIT(I) + 1
+                IVOLEPS(I) = 1
+              ENDIF
             ENDIF
           ENDIF
           !  -> minimum principal strain
-          IF (E33(I) <= MINEPS*FACL(I)) THEN
-            NCRIT(I) = NCRIT(I) + 1
-            IMINEPS(I) = 1
+          IF (BTEST(CRIT,11)) THEN
+            NMOD = NMOD + 1 
+            DFMAX(I,1+NMOD) = MAX(MINEPS*FACL(I)/(E33(I)),DFMAX(I,1+NMOD))
+            DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE)  
+            IF (E33(I) <= MINEPS*FACL(I)) THEN
+              NCRIT(I) = NCRIT(I) + 1
+              IMINEPS(I) = 1
+            ENDIF
           ENDIF
           !  -> maximum tensorial shear strain
-          IF ((E11(I) - E33(I))/TWO >= EPSSH*FACL(I)) THEN 
-            NCRIT(I)  = NCRIT(I) + 1
-            ISHEAR(I) = 1
-          ENDIF 
+          IF (BTEST(CRIT,12)) THEN
+            NMOD = NMOD + 1 
+            DFMAX(I,1+NMOD) = MAX(((E11(I) - E33(I))/TWO)/(EPSSH*FACL(I)),DFMAX(I,1+NMOD))
+            DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE)  
+            IF ((E11(I) - E33(I))/TWO >= EPSSH*FACL(I)) THEN 
+              NCRIT(I)  = NCRIT(I) + 1
+              ISHEAR(I) = 1
+            ENDIF 
+          ENDIF
           !  -> mixed mode 
-          IF (fct_IDg12 > 0) THEN 
+          IF (BTEST(CRIT,13)) THEN
             LAMBDA  = UVAR(I,8)/El_ref
             SH12(I) = FINTER(fct_IDg12,LAMBDA,NPF,TF,DF) 
             DENOM   = SIGN(MAX(ABS(E11(I)),EM20),E11(I))  
+            NMOD    = NMOD + 1 
             IF (((E22(I)/DENOM)<=-HALF).AND.((E22(I)/DENOM)>=-TWO)) THEN
+              DFMAX(I,1+NMOD) = MAX(((E11(I) - E22(I))/TWO)/(SH12(I)),DFMAX(I,1+NMOD))
+              DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE) 
               IF ((E11(I) - E22(I))/TWO >= SH12(I)) THEN 
                 NCRIT(I)  = NCRIT(I) + 1
                 IMIX12(I) = 1
               ENDIF
             ENDIF
           ENDIF
-          IF (fct_IDg13 > 0) THEN 
+          IF (BTEST(CRIT,14)) THEN 
             LAMBDA  = UVAR(I,8)/El_ref
             SH13(I) = FINTER(fct_IDg13,LAMBDA,NPF,TF,DF)
             DENOM   = SIGN(MAX(ABS(E11(I)),EM20),E11(I))  
+            NMOD    = NMOD + 1
             IF (((E22(I)/DENOM)<=ONE).AND.((E22(I)/DENOM)>=-HALF)) THEN
+              DFMAX(I,1+NMOD) = MAX(((E11(I) - E33(I))/TWO)/(SH13(I)),DFMAX(I,1+NMOD))
+              DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE) 
               IF ((E11(I) - E33(I))/TWO >= SH13(I)) THEN 
                 NCRIT(I)  = NCRIT(I) + 1
                 IMIX13(I) = 1
               ENDIF
             ENDIF
           ENDIF
-          IF (fct_IDe1c > 0) THEN 
+          IF (BTEST(CRIT,15)) THEN
             LAMBDA = UVAR(I,8)/El_ref
             E1C(I) = FINTER(fct_IDe1c,LAMBDA,NPF,TF,DF) 
             DENOM  = SIGN(MAX(ABS(E11(I)),EM20),E11(I))  
+            NMOD   = NMOD + 1 
             IF (((E22(I)/DENOM)<=ONE).AND.((E22(I)/DENOM)>=-HALF)) THEN
+              DFMAX(I,1+NMOD) = MAX(E11(I)/E1C(I),DFMAX(I,1+NMOD))
+              DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE) 
               IF (E11(I) >= E1C(I)) THEN 
                 NCRIT(I)  = NCRIT(I) + 1
                 IMXE1C(I) = 1
@@ -497,13 +579,18 @@ c
             ENDIF
           ENDIF
           !  -> Forming limit diagram
-          IF (NTABLF > 0) THEN 
+          IF (BTEST(CRIT,16)) THEN 
+            NMOD = NMOD + 1 
             IF (Itab == 1) THEN 
+              DFMAX(I,1+NMOD) = MAX(E11(I)/(E1FLD(I)*FACL(I)),DFMAX(I,1+NMOD))
+              DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE)
               IF (E11(I) >= E1FLD(I)*FACL(I)) THEN 
                 NCRIT(I) = NCRIT(I) + 1
                 IFLD(I)  = 1
               ENDIF
             ELSE
+              DFMAX(I,1+NMOD) = MAX(E11(I)/(E1FLD(I)),DFMAX(I,1+NMOD))
+              DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE) 
               IF (E11(I) >= E1FLD(I)) THEN
                 NCRIT(I) = NCRIT(I) + 1
                 IFLD(I)  = 1
@@ -511,19 +598,31 @@ c
             ENDIF
           ENDIF
           !  -> maximum shell thinning
-          IF (EPSZZ(I) <= -ABS(THIN)*FACL(I)) THEN 
-            NCRIT(I) = NCRIT(I) + 1
-            ITHIN(I) = 1
+          IF (BTEST(CRIT,17)) THEN 
+            NMOD = NMOD + 1 
+            DFMAX(I,1+NMOD) = MAX((EPSZZ(I))/(-ABS(THIN)*FACL(I)),DFMAX(I,1+NMOD))
+            DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE) 
+            IF (EPSZZ(I) <= -ABS(THIN)*FACL(I)) THEN 
+              NCRIT(I) = NCRIT(I) + 1
+              ITHIN(I) = 1
+            ENDIF
           ENDIF
           !  -> maximum temperature
-          IF (TEMP(I) >= MAXTEMP) THEN 
-            NCRIT(I)    = NCRIT(I) + 1 
-            IMAXTEMP(I) = 1
+          IF (BTEST(CRIT,18)) THEN 
+            NMOD = NMOD + 1 
+            DFMAX(I,1+NMOD) = MAX(TEMP(I)/MAXTEMP,DFMAX(I,1+NMOD))
+            DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE)  
+            IF (TEMP(I) >= MAXTEMP) THEN 
+              NCRIT(I)    = NCRIT(I) + 1 
+              IMAXTEMP(I) = 1
+            ENDIF
           ENDIF
 c
           !  -> Checking failure
-          DFMAX(I) = REAL(NCRIT(I)/NCS,KIND(DFMAX(I)))
-          DFMAX(I) = MIN(DFMAX(I),ONE)
+          DO J = 1,NMOD 
+            DFMAX(I,1) = MAX(DFMAX(I,1),DFMAX(I,1+J))
+          ENDDO
+          DFMAX(I,1) = MIN(DFMAX(I,1),ONE)
           IF (NCRIT(I) >= NCS) THEN 
             UVAR(I,5)   = UVAR(I,5) - ONE/NSTEP
             SIGNXX(I)   = SIGNXX(I)*UVAR(I,5)
@@ -532,7 +631,7 @@ c
             SIGNXY(I)   = SIGNXY(I)*UVAR(I,5)
             SIGNYZ(I)   = SIGNYZ(I)*UVAR(I,5)
             SIGNZX(I)   = SIGNZX(I)*UVAR(I,5)
-            DFMAX(I)    = ONE
+            DFMAX(I,1)  = ONE
             NINDX       = NINDX + 1
             INDX(NINDX) = I
           ENDIF
@@ -549,7 +648,7 @@ c
           IF ((UVAR(I,5) == ZERO).AND.(OFF(I) /= ZERO)) THEN 
             NINDX2        = NINDX2 + 1
             INDX2(NINDX2) = I
-            DFMAX(I)      = ONE 
+            DFMAX(I,1)    = ONE 
             OFF(I)        = ZERO
             IDEL7NOK      = 1   
             TDELE(I)      = TIME
@@ -579,7 +678,7 @@ c
               ENDDO
               ! Checking volume fraction criterion
               IF ((VDAM/VTOT) >= VOLFRAC) THEN
-                DFMAX(I)      = ONE
+                DFMAX(I,1)    = ONE
                 NINDX3        = NINDX3 + 1
                 INDX3(NINDX3) = I
                 VFAIL(I)      = VDAM/VTOT

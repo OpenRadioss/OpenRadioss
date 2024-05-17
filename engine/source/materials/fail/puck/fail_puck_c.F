@@ -33,7 +33,7 @@ Chd|====================================================================
      2     TIME      ,NGL       ,IPG       ,ILAY      ,IPT       ,                          
      3     SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,  
      4     OFF       ,FOFF      ,DMG_FLAG  ,DMG_SCALE ,
-     5     DFMAX     ,TDEL      ,TIMESTEP  )                               
+     5     DFMAX     ,LF_DAMMX  ,TDEL      ,TIMESTEP  )                               
 C-----------------------------------------------
 C    modified Puck model ------
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C IPT                         CURRENT INTEGRATION POINT IN THE LAYER
 C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT
+      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT,LF_DAMMX
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
       my_real ,INTENT(IN) :: TIME,TIMESTEP
       my_real ,DIMENSION(NEL) ,INTENT(IN)    :: OFF,
@@ -85,7 +85,7 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(OUT) ::DMG_FLAG
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
-      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX
+      my_real ,DIMENSION(NEL,LF_DAMMX),INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL,DMG_SCALE
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
 C-----------------------------------------------
@@ -147,8 +147,12 @@ c           fiber criteria
 c
             IF (SXX(I) >= ZERO) THEN
               F1 = SXX(I)/SIGT1
+              DFMAX(I,2) = MAX(DFMAX(I,2),F1)
+              DFMAX(I,2) = MIN(DFMAX(I,2),ONE)
             ELSE
               F1 = -SXX(I)/SIGC1
+              DFMAX(I,3) = MAX(DFMAX(I,3),F1)
+              DFMAX(I,3) = MIN(DFMAX(I,3),ONE)
             ENDIF
 c
 c           matrix criteria                                      
@@ -158,17 +162,23 @@ c
               FAC = FAC*SYY(I)/SIGT2
               FA  = SQRT((SXY(I)/FSIG12)**2 + FAC*FAC) 
      .            + PP12*SYY(I)/FSIG12
+              DFMAX(I,4) = MAX(DFMAX(I,4),FA)
+              DFMAX(I,4) = MIN(DFMAX(I,4),ONE)
              ELSE
               FAC = HALF/(ONE + PN22)/FSIG12
               FC  = (SXY(I)*FAC)**2 + (SYY(I)/SIGC2)**2
               FC  =-FC*SIGC2/SYY(I)
+              DFMAX(I,6) = MAX(DFMAX(I,6),FC)
+              DFMAX(I,6) = MIN(DFMAX(I,6),ONE)
             ENDIF
             FB = SQRT(SXY(I)**2 + (PN12*SYY(I))**2 ) 
      .                             + PN12*SYY(I)
             FB = FB/FSIG12
+            DFMAX(I,5) = MAX(DFMAX(I,5),FB)
+            DFMAX(I,5) = MIN(DFMAX(I,5),ONE)
 C
-            DAMMX    = MIN(ONE,MAX(F1,FA,FB,FC))
-            DFMAX(I) = MIN(ONE,DAMMX)
+            DAMMX = MIN(ONE,MAX(F1,FA,FB,FC))
+            DFMAX(I,1) = MIN(ONE,DAMMX)
             IF (DAMMX >= ONE) THEN
               NINDX = NINDX+1                                    
               INDX(NINDX) = I                                    

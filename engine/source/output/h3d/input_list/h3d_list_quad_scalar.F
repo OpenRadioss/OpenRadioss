@@ -278,6 +278,7 @@ c-----------------------------------------------
       H3D_KEYWORD_QUAD_SCALAR(I)%IS_IPT = 1
       H3D_KEYWORD_QUAD_SCALAR(I)%IS_IPT_ALL = 1
       H3D_KEYWORD_QUAD_SCALAR(I)%IS_ID = 1
+      H3D_KEYWORD_QUAD_SCALAR(I)%IS_MODE = 1
       H3D_KEYWORD_QUAD_SCALAR(I)%TEXT1  = 'Failure'
       H3D_KEYWORD_QUAD_SCALAR(I)%COMMENT = 'Damage of current failue criterion'
 c-----------------------------------------------

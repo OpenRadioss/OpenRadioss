@@ -37,7 +37,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_FAIL_GENE1(
      .           FAIL    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           TITR    ,LSUBMODEL,UNITAB   )
+     .           TITR    ,LSUBMODEL,UNITAB   ,FAIL_TAG )
 C-----------------------------------------------
 c    ROUTINE DESCRIPTION :
 c    Read generic tabulated failure model parameters
@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE ELBUFTAG_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,21 +61,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER             ,INTENT(IN) :: FAIL_ID        ! failure model ID
-      INTEGER             ,INTENT(IN) :: MAT_ID         ! material law ID
-      INTEGER             ,INTENT(IN) :: IRUPT          ! failure model number
-      CHARACTER           ,INTENT(IN) :: TITR*500 ! material model title
-      TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB         ! table of input units
-      TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)   ! submodel table 
-      TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL        ! failure model data structure
+      INTEGER             ,INTENT(IN) :: FAIL_ID        !< failure model ID
+      INTEGER             ,INTENT(IN) :: MAT_ID         !< material law ID
+      INTEGER             ,INTENT(IN) :: IRUPT          !< failure model number
+      CHARACTER           ,INTENT(IN) :: TITR*500       !< material model title
+      TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB         !< table of input units
+      TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)   !< submodel table 
+      TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL        !< failure model data structure
+      TYPE (FAIL_TAG_)    ,INTENT(INOUT) :: FAIL_TAG    !< failure model tag for buffer allocation
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NSTEP,NCS,fct_IDsm,fct_IDps,fct_IDg12,fct_IDg13,
-     .        fct_IDe1c,fct_IDel,Itab,tab_IDfld,Istrain,
-     .        Ismooth,NCRIT_MAX,IMINPRES,IMAXPRES,IMAXSIGP,IMAXTIME,
-     .        IMINDT,IMAXSIGVM,IMAXKF,IMAXEPS,IEFFEPS,IVOLEPS,IMINEPS,
-     .        IEPSSH,IMINTHIN,IMAXTEMP,NFUNC,NTABLE,NUPARAM,NUVAR
+     .        fct_IDe1c,fct_IDel,Itab,tab_IDfld,Istrain,CRIT,
+     .        Ismooth,NCRIT_MAX,NFUNC,NTABLE,NUPARAM,NUVAR,NMODE
       INTEGER ,PARAMETER :: NSIZE = 6
       INTEGER ,DIMENSION(NSIZE) :: IFUNC
       my_real 
@@ -83,26 +83,16 @@ C-----------------------------------------------
      .        THIN,VOLFRAC,PTHK,MAXTEMP,Fscale_el,El_ref,FREQ_UNIT,
      .        PRESSURE_UNIT,LENGTH_UNIT
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
+      CHARACTER(LEN=NCHARTITLE), DIMENSION(50) :: MODNAME
 C=======================================================================
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       ! Initialization of the number of criteria
-      NCRIT_MAX    = 0
-      ! Initialization of output flags
-      IMINPRES     = 0
-      IMAXPRES     = 0    
-      IMAXSIGP     = 0
-      IMAXTIME     = 0
-      IMINDT       = 0  
-      IMAXSIGVM    = 0
-      IMAXKF       = 0
-      IMAXEPS      = 0
-      IEFFEPS      = 0
-      IVOLEPS      = 0
-      IMINEPS      = 0
-      IEPSSH       = 0
-      IMINTHIN     = 0
-      IMAXTEMP     = 0
+      NCRIT_MAX = 0
+      ! Initialization of the number of modes
+      NMODE = 0
+      ! Activated criteria
+      CRIT  = 0
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
@@ -114,24 +104,38 @@ C===============================================================================
 ! -> Card1
 !---------------
       CALL HM_GET_FLOATV ('MAT_MINPRES'  ,MINPRES   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (MINPRES /= ZERO) IMINPRES = 1
+      IF (MINPRES /= ZERO) THEN 
+        CRIT = IBSET(CRIT,1)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Minimum hydrostatic pressure"
+      ENDIF
       CALL HM_GET_FLOATV ('MAT_MAXPRES'  ,MAXPRES   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (MAXPRES /= ZERO) IMAXPRES = 1
+      IF (MAXPRES /= ZERO) THEN 
+        CRIT = IBSET(CRIT,2)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Maximum hydrostatic pressure"
+      ENDIF
       IF ((MINPRES /= ZERO).OR.(MAXPRES /= ZERO)) NCRIT_MAX = NCRIT_MAX + 1
       CALL HM_GET_FLOATV ('MAT_SIGP1'    ,SIGP1     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (SIGP1 /= ZERO) THEN
         NCRIT_MAX = NCRIT_MAX + 1
-        IMAXSIGP  = 1
+        CRIT = IBSET(CRIT,3)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Maximum principal stress"
       ENDIF
       CALL HM_GET_FLOATV ('MAT_TMAX'     ,TMAX      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (TMAX  /= ZERO) THEN 
         NCRIT_MAX = NCRIT_MAX + 1
-        IMAXTIME  = 1
+        CRIT = IBSET(CRIT,4)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Failure time"
       ENDIF
       CALL HM_GET_FLOATV ('MAT_DTMIN'    ,DTMIN     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (DTMIN /= ZERO) THEN
         NCRIT_MAX = NCRIT_MAX + 1
-        IMINDT    = 1
+        CRIT = IBSET(CRIT,5)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Minimum timestep"
       ENDIF
 !---------------
 ! -> Card2
@@ -141,13 +145,17 @@ C===============================================================================
       CALL HM_GET_FLOATV ('MAT_SIGVM'    ,SIGVM     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF ((SIGVM /= ZERO).OR.(fct_IDsm /= 0)) THEN 
         NCRIT_MAX = NCRIT_MAX + 1
-        IMAXSIGVM = 1
+        CRIT = IBSET(CRIT,6)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Maximum equivalent stress"
       ENDIF
       CALL HM_GET_FLOATV ('MAT_SIGTH'    ,SIGTH     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('MAT_KF'       ,KF        ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF ((SIGTH /= ZERO).OR.(KF /= ZERO)) THEN 
         NCRIT_MAX = NCRIT_MAX + 1
-        IMAXKF    = 1
+        CRIT = IBSET(CRIT,7)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Tuler-Butcher failure"
       ENDIF
 !---------------
 ! -> Card3
@@ -157,17 +165,23 @@ C===============================================================================
       CALL HM_GET_FLOATV ('MAT_MAXEPS'   ,MAXEPS    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF ((MAXEPS /= ZERO).OR.(fct_IDps /= 0)) THEN 
         NCRIT_MAX = NCRIT_MAX + 1
-        IMAXEPS   = 1
+        CRIT = IBSET(CRIT,8)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Maximum principal strain"
       ENDIF
       CALL HM_GET_FLOATV ('MAT_EFFEPS'   ,EFFEPS    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (EFFEPS /= ZERO) THEN 
         NCRIT_MAX = NCRIT_MAX + 1
-        IEFFEPS   = 1
+        CRIT = IBSET(CRIT,9)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Maximum effective strain"
       ENDIF
       CALL HM_GET_FLOATV ('MAT_VOLEPS'   ,VOLEPS    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (VOLEPS /= ZERO) THEN 
         NCRIT_MAX = NCRIT_MAX + 1
-        IVOLEPS   = 1
+        CRIT = IBSET(CRIT,10)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Maximum volumetric strain"
       ENDIF
 !---------------
 ! -> Card4
@@ -175,16 +189,35 @@ C===============================================================================
       CALL HM_GET_FLOATV ('MAT_MINEPS'   ,MINEPS    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (MINEPS /= ZERO) THEN 
         NCRIT_MAX = NCRIT_MAX + 1
-        IMINEPS   = 1
+        CRIT = IBSET(CRIT,11)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Minimum principal strain"
       ENDIF
       CALL HM_GET_FLOATV ('MAT_EPSSH'    ,EPSSH     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (EPSSH  /= ZERO) THEN 
         NCRIT_MAX = NCRIT_MAX + 1
-        IEPSSH    = 1
+        CRIT = IBSET(CRIT,12)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Critical shear strain"
       ENDIF
       CALL HM_GET_INTV   ('fct_IDg12'    ,fct_IDg12 ,IS_AVAILABLE,LSUBMODEL)
+      IF (fct_IDg12 /= 0) THEN 
+        CRIT = IBSET(CRIT,13)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Maximum in-plane shear strain"
+      ENDIF 
       CALL HM_GET_INTV   ('fct_IDg13'    ,fct_IDg13 ,IS_AVAILABLE,LSUBMODEL)
+      IF (fct_IDg13 /= 0) THEN 
+        CRIT = IBSET(CRIT,14)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Maximum transversal shear strain"
+      ENDIF 
       CALL HM_GET_INTV   ('fct_IDe1c'    ,fct_IDe1c ,IS_AVAILABLE,LSUBMODEL)
+      IF (fct_IDe1c /= 0) THEN 
+        CRIT = IBSET(CRIT,15)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Maximum in-plane major strain"
+      ENDIF 
       IF ((fct_IDg13 /= 0).AND.(fct_IDe1c /= 0)) THEN 
         NCRIT_MAX = NCRIT_MAX + 2
       ELSEIF ((fct_IDg12 /= 0).AND.((fct_IDg13 /= 0).OR.(fct_IDe1c /= 0))) THEN       
@@ -197,7 +230,12 @@ C===============================================================================
 ! -> Card5
 !---------------
       CALL HM_GET_INTV   ('tab_IDfld'    ,tab_IDfld ,IS_AVAILABLE,LSUBMODEL)
-      IF (tab_IDfld /= 0) NCRIT_MAX = NCRIT_MAX + 1
+      IF (tab_IDfld /= 0) THEN 
+        NCRIT_MAX = NCRIT_MAX + 1
+        CRIT = IBSET(CRIT,16)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Forming Limit Diagram"
+      ENDIF
       CALL HM_GET_INTV   ('Itab'         ,Itab      ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('MAT_EPSDFLD'  ,EPSDOT_FLD,IS_AVAILABLE,LSUBMODEL,UNITAB)   
       CALL HM_GET_INTV   ('MAT_NSTEP'    ,NSTEP     ,IS_AVAILABLE,LSUBMODEL)
@@ -206,7 +244,9 @@ C===============================================================================
       CALL HM_GET_FLOATV ('MAT_THIN'     ,THIN      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (THIN /= ZERO) THEN 
         NCRIT_MAX = NCRIT_MAX + 1
-        IMINTHIN  = 1
+        CRIT = IBSET(CRIT,17)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Thinning failure"
       ENDIF 
 !---------------
 ! -> Card6
@@ -217,7 +257,9 @@ C===============================================================================
       CALL HM_GET_FLOATV ('MAT_MAXTEMP'  ,MAXTEMP   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (MAXTEMP /= ZERO) THEN 
         NCRIT_MAX = NCRIT_MAX + 1      
-        IMAXTEMP  = 1
+        CRIT = IBSET(CRIT,18)
+        NMODE = NMODE + 1 
+        MODNAME(NMODE) = "Maximum temperature"
       ENDIF
 !---------------
 ! -> Card7
@@ -312,27 +354,34 @@ C===============================================================================
 c     Filling buffer tables
 c-----------------------------------------------------    
       NUVAR   = 8 
-      NUPARAM = 32
+      NUPARAM = 22
       NFUNC   = 6
       NTABLE  = 0
       IF (tab_IDfld > 0) NTABLE = 1
 c
-      FAIL%KEYWORD = 'GENE' 
+      FAIL%KEYWORD = 'GENE1' 
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
       FAIL%NUPARAM = NUPARAM
-      FAIL%NIPARAM = 0
+      FAIL%NIPARAM = 6
       FAIL%NUVAR   = NUVAR
       FAIL%NFUNC   = NFUNC
       FAIL%NTABLE  = NTABLE
-      FAIL%NMOD    = 0
+      FAIL%NMOD    = NMODE
       FAIL%PTHK    = PTHK
 c            
       ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
       ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
       ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
       ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
-
+c
+      ! Modes of failure
+      FAIL_TAG%LF_DAMMX = FAIL_TAG%LF_DAMMX + FAIL%NMOD
+      ALLOCATE (FAIL%MODE(FAIL%NMOD))
+      DO I = 1,FAIL%NMOD
+        FAIL%MODE(I) = MODNAME(I)
+      ENDDO 
+c
       FAIL%IFUNC(1) = fct_IDsm
       FAIL%IFUNC(2) = fct_IDps
       FAIL%IFUNC(3) = fct_IDg12
@@ -340,6 +389,13 @@ c
       FAIL%IFUNC(5) = fct_IDe1c
       FAIL%IFUNC(6) = fct_IDel
       IF (NTABLE == 1) FAIL%TABLE(1) = tab_IDfld
+c
+      FAIL%IPARAM(1)  = CRIT
+      FAIL%IPARAM(2)  = Itab
+      FAIL%IPARAM(3)  = NSTEP
+      FAIL%IPARAM(4)  = NCS
+      FAIL%IPARAM(5)  = Ismooth
+      FAIL%IPARAM(6)  = Istrain
 c
       FAIL%UPARAM(1)  = MINPRES
       FAIL%UPARAM(2)  = MAXPRES
@@ -356,23 +412,13 @@ c
       FAIL%UPARAM(13) = VOLEPS
       FAIL%UPARAM(14) = MINEPS
       FAIL%UPARAM(15) = EPSSH
-      FAIL%UPARAM(16) = 0              !  tab_IDfld
-      FAIL%UPARAM(17) = Itab
-      FAIL%UPARAM(18) = EPSDOT_FLD
-      FAIL%UPARAM(19) = NSTEP
-      FAIL%UPARAM(20) = THIN
-      FAIL%UPARAM(21) = VOLFRAC
-      FAIL%UPARAM(22) = PTHK
-      FAIL%UPARAM(23) = NCS
-      FAIL%UPARAM(24) = MAXTEMP
-      FAIL%UPARAM(25) = Fscale_el
-      FAIL%UPARAM(26) = El_ref
-      FAIL%UPARAM(27) = 0              !  fct_IDg12
-      FAIL%UPARAM(28) = 0              !  fct_IDg13
-      FAIL%UPARAM(29) = 0              !  fct_IDe1c
-      FAIL%UPARAM(30) = 0              !  fct_IDel
-      FAIL%UPARAM(31) = Ismooth
-      FAIL%UPARAM(32) = Istrain
+      FAIL%UPARAM(16) = EPSDOT_FLD
+      FAIL%UPARAM(17) = THIN
+      FAIL%UPARAM(18) = VOLFRAC
+      FAIL%UPARAM(19) = PTHK
+      FAIL%UPARAM(20) = MAXTEMP
+      FAIL%UPARAM(21) = Fscale_el
+      FAIL%UPARAM(22) = El_ref
 c--------------------------
 c     Printout data
 c-------------------------- 
@@ -388,45 +434,45 @@ c--------------------------
         ! Definition of the criteria
         WRITE(IOUT,1003)
         ! Card 1
-        IF (IMINPRES == 1) WRITE(IOUT,1100) MINPRES
-        IF (IMAXPRES == 1) WRITE(IOUT,1101) MAXPRES
-        IF (IMINPRES == 1 .OR. IMAXPRES == 1) WRITE(IOUT,1105)
-        IF (IMAXSIGP == 1) WRITE(IOUT,1102) SIGP1
-        IF (IMAXTIME == 1) WRITE(IOUT,1103) TMAX
-        IF (IMINDT   == 1) WRITE(IOUT,1104) DTMIN
+        IF (BTEST(CRIT,1)) WRITE(IOUT,1100) MINPRES
+        IF (BTEST(CRIT,2)) WRITE(IOUT,1101) MAXPRES
+        IF (BTEST(CRIT,1) .OR. BTEST(CRIT,2)) WRITE(IOUT,1105)
+        IF (BTEST(CRIT,3)) WRITE(IOUT,1102) SIGP1
+        IF (BTEST(CRIT,4)) WRITE(IOUT,1103) TMAX
+        IF (BTEST(CRIT,5)) WRITE(IOUT,1104) DTMIN
         ! Card 2 
-        IF (IMAXSIGVM == 1) THEN 
+        IF (BTEST(CRIT,6)) THEN 
           IF (fct_IDsm > 0) THEN 
             WRITE(IOUT,2000) fct_IDsm,EPSDOT_SM,SIGVM
           ELSE
             WRITE(IOUT,2100) SIGVM
           ENDIF
         ENDIF
-        IF (IMAXKF == 1) WRITE(IOUT,2001) SIGTH,KF
+        IF (BTEST(CRIT,7)) WRITE(IOUT,2001) SIGTH,KF
         ! Card 3
-        IF (IMAXEPS == 1) THEN 
+        IF (BTEST(CRIT,8)) THEN 
           IF (fct_IDps > 0) THEN 
             WRITE(IOUT,3000) fct_IDps,EPSDOT_PS,MAXEPS
           ELSE
             WRITE(IOUT,3100) MAXEPS
           ENDIF
         ENDIF
-        IF (IEFFEPS == 1) WRITE(IOUT,3001) EFFEPS
-        IF (IVOLEPS == 1) WRITE(IOUT,3002) VOLEPS
+        IF (BTEST(CRIT,9))  WRITE(IOUT,3001) EFFEPS
+        IF (BTEST(CRIT,10)) WRITE(IOUT,3002) VOLEPS
         ! Card 4
-        IF (IMINEPS == 1)  WRITE(IOUT,4000) MINEPS
-        IF (IEPSSH  == 1)  WRITE(IOUT,4001) EPSSH
-        IF (fct_IDg12 > 0) WRITE(IOUT,4100) fct_IDg12
-        IF (fct_IDg13 > 0) WRITE(IOUT,4200) fct_IDg13
-        IF (fct_IDe1c > 0) WRITE(IOUT,4300) fct_IDe1c
+        IF (BTEST(CRIT,11))  WRITE(IOUT,4000) MINEPS
+        IF (BTEST(CRIT,12))  WRITE(IOUT,4001) EPSSH
+        IF (BTEST(CRIT,13)) WRITE(IOUT,4100) fct_IDg12
+        IF (BTEST(CRIT,14)) WRITE(IOUT,4200) fct_IDg13
+        IF (BTEST(CRIT,15)) WRITE(IOUT,4300) fct_IDe1c
         ! Card 5
-        IF (tab_IDfld > 0) THEN 
+        IF (BTEST(CRIT,16)) THEN 
           WRITE(IOUT,5000) tab_IDfld,Itab,EPSDOT_FLD,
      .                     Ismooth,Istrain
         ENDIF
-        IF (IMINTHIN == 1) WRITE(IOUT,5002) THIN
+        IF (BTEST(CRIT,17)) WRITE(IOUT,5002) THIN
         ! Card 6
-        IF (IMAXTEMP == 1) WRITE(IOUT,6001) MAXTEMP
+        IF (BTEST(CRIT,18)) WRITE(IOUT,6001) MAXTEMP
         ! Card 7
         IF (fct_IDel > 0) WRITE(IOUT,7000) fct_IDel,Fscale_el
         IF (((fct_IDel > 0).OR.(fct_IDg12 > 0).OR.(fct_IDg13 > 0).OR.(fct_IDe1c > 0)
