@@ -130,7 +130,8 @@ C Reception des entiers
             ITAG=MSGOFF
             IAD=IADI(II)
             LEN=ITAB(1,II)+ITAB(2,II)+ITAB(3,II)
-            CALL MPI_IRECV(IBUF(IAD), LEN, MPI_INTEGER, I,
+            REQ(II) = MPI_REQUEST_NULL
+            IF(LEN > 0) CALL MPI_IRECV(IBUF(IAD), LEN, MPI_INTEGER, I,
      .                     ITAG, FVSPMD(IFV)%MPI_COMM, REQ(II), IERR)
          ENDDO
 C Reception des reels
@@ -140,7 +141,8 @@ C Reception des reels
             ITAG=MSGOFF
             IAD=IADR(II)
             LEN=3*(ITAB(1,II)+ITAB(2,II)+ITAB(3,II))
-            CALL MPI_IRECV(RBUF(IAD), LEN, REAL, I, ITAG,
+            REQ(FVSPMD(IFV)%NSPMD-1+II) = MPI_REQUEST_NULL
+            IF(LEN >0 ) CALL MPI_IRECV(RBUF(IAD), LEN, REAL, I, ITAG,
      .      FVSPMD(IFV)%MPI_COMM, REQ(FVSPMD(IFV)%NSPMD-1+II), IERR)
          ENDDO
 C Remplissage des tableaux de sortie XXX, XXXA, XXXSA

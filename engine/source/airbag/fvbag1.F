@@ -77,6 +77,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ANIM_MOD
       USE H3D_MOD , only:H3D_DATABASE
+      USE CAST_MOD, only: double_to_my_real
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -155,11 +156,11 @@ C-----------------------------------------------
      .        DQ(3,NPOLH), DE(NPOLH), DMI, DQI(3), DEI, RHO1, RE1, UX1,
      .        UY1, UZ1, RHO2, RE2, UX2, UY2, UZ2, VFX, VFY, VFZ, SS,
      .        ALPHA, RHOM, REM, RUXM, RUYM, RUZM, P1, P2,
-     .        UEL(3,NELT), AREA1, AREA3, FF, TEMP, PEXT, VOLG, VOLPH,
+     .        UEL(3,NELT), AREA1, AREA3, FF, TEMP, TEMP2, PEXT, VOLG, VOLPH,
      .        AREAP, AREAEL, XX, YY, ZZ, QA, QB, DTX, AL, DD, AD, SSP,
      .        QX, VV, DMINI(NPOLH), DMCPA(NPOLH), DMCPB(NPOLH),
      .        DMCPC(NPOLH), DMRMW(NPOLH), MSINI,
-     .        RMW, CP, CV, RHOEL(NELT), TKEL(NELT), SSPEL(NELT), GAMA1, GAMA2,
+     .        RMW, CV, RHOEL(NELT), TKEL(NELT), SSPEL(NELT), GAMA1, GAMA2,
      .        QVISC(NPOLH), AMTOT, PMEAN, PMEAN2, ELSOUT(NELT),TMP(NEL),
      .        AREA_VENT(NVENT), PM_VENT(NVENT), SCALP, SCALS, EXTEN,
      .        AVENT, BVENT, AINI, FPORT, FPORP, FPORA, FPORT1, FPORP1,
@@ -176,6 +177,7 @@ C-----------------------------------------------
      .        ENINT, MASSFLOW, TFEXT0, ELDMASS(NEL), ELDEHPY(NEL), DMOUT, DHOUT,
      .        CPAM, CPBM, CPCM, CPDM, CPEM, CPFM, RMWM, TMP_VEC(3), VMAT(3),SSP1,SSP2,SSPt,NTRIA_TOT,
      .        PRES_AV, RHO_AV, TEMP_AV, CP_AV, CV_AV, RGAS_AV, CENTROID(3)
+      DOUBLE PRECISION :: CP
 
       LOGICAL :: boolTAGEL,EXIT_NEG_VOL,INJECTION_STARTED
       LOGICAL :: UP_SWITCH
@@ -451,19 +453,24 @@ C Normal vector, area, grid velocity in triangle center
           PNORM(2,I)=ZERO
           PNORM(3,I)=ZERO
         ENDIF
-        IF(IVOLU(39)==0) CYCLE
-        VX1=VNOD(1,N1)
-        VY1=VNOD(2,N1)
-        VZ1=VNOD(3,N1)
-        VX2=VNOD(1,N2)
-        VY2=VNOD(2,N2)
-        VZ2=VNOD(3,N2)
-        VX3=VNOD(1,N3)
-        VY3=VNOD(2,N3)
-        VZ3=VNOD(3,N3)
-        VGRID(1,I)=THIRD*(VX1+VX2+VX3)
-        VGRID(2,I)=THIRD*(VY1+VY2+VY3)
-        VGRID(3,I)=THIRD*(VZ1+VZ2+VZ3)
+        IF(IVOLU(39)==0) THEN
+          VGRID(1,I) = ZERO
+          VGRID(2,I) = ZERO 
+          VGRID(3,I) = ZERO
+        ELSE
+          VX1=VNOD(1,N1)
+          VY1=VNOD(2,N1)
+          VZ1=VNOD(3,N1)
+          VX2=VNOD(1,N2)
+          VY2=VNOD(2,N2)
+          VZ2=VNOD(3,N2)
+          VX3=VNOD(1,N3)
+          VY3=VNOD(2,N3)
+          VZ3=VNOD(3,N3)
+          VGRID(1,I)=THIRD*(VX1+VX2+VX3)
+          VGRID(2,I)=THIRD*(VY1+VY2+VY3)
+          VGRID(3,I)=THIRD*(VZ1+VZ2+VZ3)
+        ENDIF
       ENDDO
 !$OMP END DO
 C Polyhedra centers
@@ -1115,7 +1122,7 @@ C
 !$OMP+ PRIVATE(NTRIA,NTRIA_TOT,NPOLYG,WSURF,SSP1,SSP2,SSPt)
 !$OMP+ PRIVATE(TEMP,CP,CV,RMW,Denom,Denom_max,VMAT,KK, AREA,IEL1,IEL2)
 !$OMP+ PRIVATE(AL,DD,AD,GAMA,SSP,QX,VV,TMP_VEC)
-!$OMP+ PRIVATE(ITYPL)
+!$OMP+ PRIVATE(ITYPL, TEMP2)
 
       ITYPL = ITYP
 !$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
@@ -1163,13 +1170,19 @@ C-------------------------
             CPEPOLH(I)=CPE
             CPFPOLH(I)=CPF
             CP=CP+CPD*TEMP**3+CPF*TEMP**4
-            IF(CPE /= ZERO .AND. TEMP > ZERO) THEN
-              CP=CP+CPE/(TEMP*TEMP)
+            TEMP2 = TEMP * TEMP
+            IF(CPE /= ZERO .AND. TEMP2 > ZERO) THEN
+              CP=CP+CPE/(TEMP2)
             ENDIF
           ENDIF
-          CV=CP-RMW
+          CV=double_to_my_real(CP)-RMW
           RMWPOLH(I)=RMW
-          GPOLH(I)=CP/CV
+          IF(CP > HUGE(CV) .OR. CP < -HUGE(CV) .OR. CV == ZERO) THEN 
+          ! abs(CP) == Infinity 
+            GPOLH(I)=ONE
+          ELSE
+            GPOLH(I)=double_to_my_real(CP)/CV
+          ENDIF
           TPOLH(I)=TEMP
 C---------------------------------------------------
 C Pressure & Density
@@ -1658,11 +1671,12 @@ C---------------------------------------------------
           CPE=CPEPOLH(I)
           CPF=CPFPOLH(I)
           CP=CP+CPD*TEMP**3+CPF*TEMP**4
-          IF(TEMP > ZERO) CP=CP+CPE/(TEMP*TEMP)
+          TEMP2 = TEMP * TEMP
+          IF(TEMP2 > ZERO) CP=CP+CPE/(TEMP*TEMP)
         ENDIF
-        CV=CP-RMW
+        CV=double_to_my_real(CP)-RMW
         FSAV(5) =FSAV(5) +MPOLH(I)*TEMP
-        FSAV(10)=FSAV(10)+MPOLH(I)*CP
+        FSAV(10)=FSAV(10)+MPOLH(I)*double_to_my_real(CP)
         FSAV(11)=FSAV(11)+MPOLH(I)*CV
         FSAV(12)=FSAV(12)+MPOLH(I)*GAMA
       ENDDO
