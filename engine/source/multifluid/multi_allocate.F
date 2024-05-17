@@ -31,7 +31,7 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE MULTI_ALLOCATE(MULTI_FVM,H3D_DATA)
+      SUBROUTINE MULTI_ALLOCATE(MULTI_FVM, H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -147,8 +147,8 @@ C     Allocation of centroid accelerations
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF     
-           MULTI_FVM%ACC(:, :) = ZERO  
-         ENDIF         
+           MULTI_FVM%ACC(:, :) = ZERO
+         ENDIF
 C     Allocation of soud speed
            ALLOCATE(MULTI_FVM%SOUND_SPEED(LEN), STAT = IERR)
            IF (IERR /= 0) THEN

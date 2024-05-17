@@ -65,6 +65,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE EBCS_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real,INTENT(INOUT) :: FSAVSURF(5,NSURF)
+      my_real,INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       my_real, INTENT(IN) :: TIMESTEP
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       INTEGER, INTENT(IN) :: IPARG(NPARG, *), IADS(8, *)
@@ -296,7 +297,7 @@ C---------------------
       IF (EBCS_TAB%nebcs_fvm > 0) THEN
          CALL MY_BARRIER
          CALL MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE, 
-     .        EBCS_TAB,NPF,TF,FSAVSURF,NSURF)
+     .        EBCS_TAB,NPF,TF,FSAVSURF,NSURF,TIMESTEP)
          CALL MY_BARRIER
       ENDIF
 C     ------------------------- 

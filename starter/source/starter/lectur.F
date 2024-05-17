@@ -5236,7 +5236,7 @@ C--------------------------------------------
 C -------------------------------------------------
 C Check surfaces for airbags
 C -------------------------------------------------
-      CALL CHECK_SURF(IGRSURF,1,EBCS_TAB)
+      CALL CHECK_SURF(IGRSURF)
 C----------------------------------
 C     READER FOR MONITORED VOLUMES
 C----------------------------------
@@ -9978,10 +9978,6 @@ C
       IF(ALLOCATED(ITHSUB))    DEALLOCATE(ITHSUB)
       IF(ALLOCATED(ITHBUFTMP)) DEALLOCATE(ITHBUFTMP)
 C
-C -------------------------------------------------
-C Check surfaces for /TH/SURF option
-C -------------------------------------------------
-      CALL CHECK_SURF(IGRSURF,2,EBCS_TAB)
 C -------------------------------------------------
 C /TH/SURF : outputting Pressure and Area : 
 C -------------------------------------------------

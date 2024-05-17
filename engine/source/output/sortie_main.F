@@ -124,7 +124,7 @@ Chd|====================================================================
      q            TF        ,NPC         ,DYNAIN_DATA,FCONT_MAX,MDS_MATID,
      r            FNCONTP2  ,FTCONTP2    ,IBCL        ,ILOADP   ,LLOADP   ,
      s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ,DRAPEG,USER_WINDOWS,
-     t            OUTPUT    ,DT          ,FSAVSURF    ,NSEG_LOADP,TABLE   ,
+     t            OUTPUT    ,DT          ,FSAVSURF    ,TABLE   ,
      u            LOADS     ,SFANI       ,IPARIT      )
 C-----------------------------------------------
 C   M o d u l e s
@@ -159,6 +159,7 @@ C-----------------------------------------------
       USE TABLE_MOD
       USE LOADS_MOD
       USE EBCS_MOD , only : t_ebcs_tab
+      USE TH_SURF_MOD , only : TH_SURF_, TH_SURF_NUM_CHANNEL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -254,8 +255,7 @@ C-----------------------------------------------
      .       LOADP(LFACCLD,*),FORC(*)
 
       INTEGER, DIMENSION(*), INTENT(IN) :: ISKWP
-      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
-      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
+      my_real, INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
 C-----------------------------------------------      
       TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
 C-----------------------------------------------      
@@ -1030,7 +1030,7 @@ C         to avoid double points
      L                 IGAUP  ,NGAUP ,AFORM(1),SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFA,
-     Q                 FSAVSURF,NSEG_LOADP,NEED_TO_REINIT_FSAV)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV)
 
             IF (SIZE_MES==1 .AND.AFORM(1)==3 .AND.ISPMD==0 ) 
      *          CALL file_size(MULTITHFILESIZE(1))
@@ -1125,7 +1125,7 @@ C
      L                 IGAUP  ,NGAUP, AFORM(2),SIZE_MES,
      M                 RTHBUF ,THKE ,STACK,ISPHIO  ,VSPHIO,
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFB,
-     Q                 FSAVSURF,NSEG_LOADP,NEED_TO_REINIT_FSAV)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV)
 
             IF (SIZE_MES==1 .AND.AFORM(2)==3 .AND.ISPMD==0 )
      *        CALL file_size(MULTITHFILESIZE(2))
@@ -1220,7 +1220,7 @@ C
      L                 IGAUP  ,NGAUP ,AFORM(3),SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      n                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFC,
-     Q                 FSAVSURF,NSEG_LOADP,NEED_TO_REINIT_FSAV)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(3)==3   .AND.
@@ -1311,7 +1311,7 @@ C
      L                 IGAUP  ,NGAUP ,AFORM(4),SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFD,
-     Q                 FSAVSURF,NSEG_LOADP,NEED_TO_REINIT_FSAV)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV)
 
          IF(SIZE_MES==1 .AND.
      *     AFORM(4)==3   .AND.
@@ -1403,7 +1403,7 @@ C
      L                IGAUP  ,NGAUP ,AFORM(5),SIZE_MES,
      M                RTHBUF  ,THKE ,STACK  ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFE,
-     Q                FSAVSURF,NSEG_LOADP,NEED_TO_REINIT_FSAV)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(5)==3   .AND.
@@ -1494,7 +1494,7 @@ C
      L                IGAUP,NGAUP ,AFORM(6),SIZE_MES,
      M                RTHBUF,THKE ,STACK  ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFF,
-     Q                FSAVSURF,NSEG_LOADP,NEED_TO_REINIT_FSAV)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(6)==3   .AND.
@@ -1586,7 +1586,7 @@ C
      L                IGAUP,NGAUP ,AFORM(7),SIZE_MES,
      M                RTHBUF,THKE ,STACK  ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFG,
-     Q                FSAVSURF,NSEG_LOADP,NEED_TO_REINIT_FSAV)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(7)==3   .AND.
@@ -1678,7 +1678,7 @@ C
      L                IGAUP  ,NGAUP ,AFORM(8),SIZE_MES,
      M                RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFH,
-     Q                FSAVSURF,NSEG_LOADP,NEED_TO_REINIT_FSAV)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(8)==3   .AND.
@@ -1769,7 +1769,7 @@ C
      L                IGAUP,NGAUP ,AFORM(9),SIZE_MES,
      M                RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFI,
-     Q                FSAVSURF,NSEG_LOADP,NEED_TO_REINIT_FSAV)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(9)==3   .AND.
@@ -1858,7 +1858,7 @@ C
      L                IGAUP,NGAUP,ITFORM,SIZE_MES,
      M                RTHBUF ,THKE ,STACK,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUF,
-     Q                FSAVSURF,NSEG_LOADP,NEED_TO_REINIT_FSAV)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV)
 
         IF(SIZE_MES==1 .AND.
      *     ITFORM==3   .AND.
@@ -1955,12 +1955,14 @@ C  FSAV(26) : contact elastic energy is not cumulated : only for int10 and int18
          END DO
       ENDIF
 
-C Pressure/Area for /TH/SURF is reset to zero (not cumulated)
-      IF(NSURF >0 ) THEN
-        DO N = 1,NSURF                                                                        
-          FSAVSURF(4:5,N) = ZERO
-          NSEG_LOADP(N) = 0
-        ENDDO
+C /TH/SURF quantities reset to 0 expect for massflow (airbags)
+      IF(NSURF > 0) THEN
+        FSAVSURF(1,1:NSURF) = ZERO  !area
+        FSAVSURF(2,1:NSURF) = ZERO  !massflow
+        FSAVSURF(3,1:NSURF) = ZERO  !velocity
+        FSAVSURF(4,1:NSURF) = ZERO  !pressure
+        FSAVSURF(5,1:NSURF) = ZERO  !A (load,pload)
+        !FSAVSURF(6,1:NSURF)        !cumulated mass
       ENDIF 
       
       ! -----------------------

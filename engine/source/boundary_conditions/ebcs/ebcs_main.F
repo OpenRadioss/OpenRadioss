@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE EBCS_MOD
       USE MULTI_FVM_MOD
+      USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,12 +63,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real,INTENT(INOUT) :: FSAVSURF(5,NSURF)
+      my_real,INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       INTEGER IPARG(NPARG,NGROUP)
       INTEGER,INTENT(IN) :: IXQ(NIXQ,NUMELQ),IXS(NIXS,NUMELS),IXTG(NIXTG,NUMELTG),ITAB(NUMNOD),NALE(NUMNOD)
-      my_real
-     .       VOLMON(*),SEGVAR(*),V(3,NUMNOD),W(3,NUMNOD),A(3,NUMNOD),X(3,NUMNOD),FSAV(NTHVKI,*),
-     .       FV(*),WA(*),MS(NUMNOD),STIFN(NUMNOD)
+      my_real VOLMON(*),SEGVAR(*),V(3,NUMNOD),W(3,NUMNOD),A(3,NUMNOD),X(3,NUMNOD),FSAV(NTHVKI,*),
+     .        FV(*),WA(*),MS(NUMNOD),STIFN(NUMNOD)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(t_ebcs_tab), TARGET, INTENT(INOUT) :: EBCS_TAB
@@ -91,6 +91,7 @@ C-----------------------------------------------
          IF(HAS_TH)THEN
            ISU = EBCS%surf_id
            FSAVSURF(1:5,ISU) = ZERO
+           ! FSAVSURF(6,ISU) is cumulative value : not reset
          ENDIF
       ENDDO
 

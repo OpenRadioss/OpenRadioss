@@ -30,13 +30,12 @@ Chd|        EBCS_MOD                      ../common_source/modules/boundary_cond
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE CHECK_SURF(IGRSURF,IFLAG,EBCS_TAB)
+      SUBROUTINE CHECK_SURF(IGRSURF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
-      USE EBCS_MOD , ONLY : t_ebcs_tab
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,57 +47,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IFLAG
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
-      TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, NSEG, EBCS_SURF_ID, KK
-      LOGICAL :: FOUND
+      INTEGER I, J, K, NSEG
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IF(IFLAG == 1) THEN
-C-------------------------------------------
-C  IGRSURF(I)%ISH4N3N = 1 FOR SURFACE COMPOSED OF SHELL ELEMS
-C-------------------------------------------
+        ! IGRSURF(I)%ISH4N3N = 1 FOR SURFACE COMPOSED OF SHELL ELEMS
         DO I=1,NSURF
           NSEG = IGRSURF(I)%NSEG
           IGRSURF(I)%ISH4N3N = 1
             DO J = 1,NSEG
               K = IGRSURF(I)%ELTYP(J)
-              IF(K/=3 .AND. K/=7) THEN
+              IF(K /= 3 .AND. K /= 7) THEN
                  IGRSURF(I)%ISH4N3N = 0
                  CYCLE
               ENDIF
             ENDDO
         ENDDO
-
-      ELSEIF(IFLAG == 2) THEN
-C------------------------------------
-C     CHECK SURFACE FOR /TH/SURF OPTION
-C------------------------------------
-        DO I=1,NSURF
-           IF(IGRSURF(I)%TH_SURF == 2 ) THEN
-              IGRSURF(I)%TH_SURF = 1
-              !AIRBAG CASE
-              IF(IGRSURF(I)%ISH4N3N == 1) CYCLE
-              !EBCS CASE (mark /EBCS for which time history is requested)
-              FOUND = .FALSE.
-              DO KK=1,EBCS_TAB%NEBCS
-                EBCS_SURF_ID = EBCS_TAB%TAB(KK)%poly%SURF_ID
-                IF(I == EBCS_SURF_ID)THEN
-                  EBCS_TAB%TAB(KK)%poly%HAS_TH = .TRUE.
-                  FOUND = .TRUE.
-                  EXIT
-                ENDIF
-              ENDDO
-              IF(.NOT. FOUND)THEN
-                CALL ANCMSG(MSGID=1135,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=IGRSURF(I)%ID)
-              ENDIF
-           ENDIF
-        ENDDO
-      ENDIF
+C-----------------------------------------------
       RETURN
       END

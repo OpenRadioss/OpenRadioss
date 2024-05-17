@@ -69,27 +69,27 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TH_MOD                        share/modules/th_mod.F        
 Chd|====================================================================
-      SUBROUTINE HIST2(PM      ,D         ,X        ,V        ,A         ,
-     2                 IXS     ,BUFEL     ,WA       ,IPARG    ,SENSOR_TAB,
-     4                 FSAV    ,FLSW      ,SKEW     ,ELBUF_TAB,CLUSTER   ,
+      SUBROUTINE HIST2(PM      ,D         ,X        ,V           ,A         ,
+     2                 IXS     ,BUFEL     ,WA       ,IPARG       ,SENSOR_TAB,
+     4                 FSAV    ,FLSW      ,SKEW     ,ELBUF_TAB   ,CLUSTER   ,
      5                 PARTSAV ,ACCELM    ,NSENSOR  ,MATPARAM_TAB, 
-     6                 WEIGHT  ,IPART     ,IGRSURF  ,EBCS_TAB ,
-     7                 ITHGRP  ,ITHBUF    ,SUBSET   ,GEO      ,
+     6                 WEIGHT  ,IPART     ,IGRSURF  ,EBCS_TAB    ,
+     7                 ITHGRP  ,ITHBUF    ,SUBSET   ,GEO         ,
      8                 KXX     ,IXR       ,
      9                 KXSP    ,NOD2SP    ,SPBUF    ,
-     B                 AR        ,VR       ,DR       ,
-     D                 LRIVET    ,RIVET    ,IXP      ,
-     E                 ISKWN   ,IFRAME    ,XFRAME   ,IXC      ,IXQ       ,
-     F                 DTHIS0  ,THIS0     ,IFIL     ,NTHGRP2  ,IXTG      ,
-     G                 IGEO    ,IPM       ,FXBIPM   ,FXBDEP   ,FXBVIT    ,
-     H                 FXBACC  ,IPARTL    ,NPARTL   ,IACCP    ,NACCP     ,
+     B                 AR      ,VR        ,DR       ,
+     D                 LRIVET  ,RIVET     ,IXP      ,
+     E                 ISKWN   ,IFRAME    ,XFRAME   ,IXC         ,IXQ       ,
+     F                 DTHIS0  ,THIS0     ,IFIL     ,NTHGRP2     ,IXTG      ,
+     G                 IGEO    ,IPM       ,FXBIPM   ,FXBDEP      ,FXBVIT    ,
+     H                 FXBACC  ,IPARTL    ,NPARTL   ,IACCP       ,NACCP     ,
      I                 IPARTH  ,NPARTH    ,NVPARTH  ,
-     J                 MONVOL    ,VOLMON   ,FR_MV    ,TEMP,INOD ,
-     K                 FTHREAC ,NODREAC   ,GRESAV   ,GAUGE    ,
-     L                 IGAUP   ,NGAUP     ,ITTYP    ,SIZE_MES  ,
-     M                 RTHBUF  ,THKE      ,STACK    ,ISPHIO   ,VSPHIO    ,
-     N                 ITHFLAG ,PINCH_DATA,MULTI_FVM,W        ,SITHBUF   ,
-     Q                 FSAVSURF,NSEG_LOADP,NEED_TO_REINIT_FSAV)
+     J                 MONVOL  ,VOLMON    ,FR_MV    ,TEMP,INOD   ,
+     K                 FTHREAC ,NODREAC   ,GRESAV   ,GAUGE       ,
+     L                 IGAUP   ,NGAUP     ,ITTYP    ,SIZE_MES    ,
+     M                 RTHBUF  ,THKE      ,STACK    ,ISPHIO      ,VSPHIO    ,
+     N                 ITHFLAG ,PINCH_DATA,MULTI_FVM,W           ,SITHBUF   ,
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -104,6 +104,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE MATPARAM_DEF_MOD
       USE EBCS_MOD , only : t_ebcs_tab
+      USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -168,8 +169,7 @@ C-----------------------------------------------
       TYPE (MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM   
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
-      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
-      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
+      my_real, INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       LOGICAL, INTENT(INOUT) :: NEED_TO_REINIT_FSAV !< boolean to re-initialize PARTSAV array 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -187,7 +187,6 @@ C-----------------------------------------------
      .        FAC,ARRAY(5)                            
       my_real, DIMENSION(100) :: SUBSAV  
       my_real, DIMENSION(1) :: WA_LOCAL
-      my_real :: EBCS_TH_MASSFLOW(NSURF)
       REAL(KIND=8) :: THIS0_DOUBLE,TT_DOUBLE
       REAL(KIND=8) :: DTHIS0_DOUBLE,DT1_DOUBLE,THISC_DOUBLE
 C-----------------------------------------------
@@ -527,11 +526,9 @@ C                                    [Izx Iyz Izz]   {ZZMOM}
                  JXY=IYZ*IZX-IXY*IZZ
                  JYZ=IZX*IXY-IYZ*IXX
                  JZX=IXY*IYZ-IZX*IYY
-                 DET =  ONE/ MAX(EM20,
-     .                       IXX * JXX + IXY * JXY + IZX * JZX)
-                 WA(II)=DET *
-     .        (HALF*(IXX*XXMOM*XXMOM+IYY*YYMOM*YYMOM+IZZ*ZZMOM*ZZMOM)
-     .            + IXY*XXMOM*YYMOM+IYZ*YYMOM*ZZMOM+IZX*XXMOM*ZZMOM )
+                 DET =  ONE/ MAX(EM20,IXX * JXX + IXY * JXY + IZX * JZX)
+                 WA(II)=DET * (HALF*(IXX*XXMOM*XXMOM+IYY*YYMOM*YYMOM+IZZ*ZZMOM*ZZMOM)
+     .                             + IXY*XXMOM*YYMOM+IYZ*YYMOM*ZZMOM+IZX*XXMOM*ZZMOM )
               ELSEIF(K==24)THEN
                  WA(II)=SUBSAV(22)
               ELSEIF(K==25) THEN 
@@ -559,16 +556,9 @@ C-------------------------------------------------------
        FSAVMAX = NVOLU+NRBAG+NJOINT+NSECT+NRBODY+NRWALL+NINTER+NINTSUB
 
        IF (NSPMD > 1) THEN
-         CALL SPMD_GLOB_DSUM9(
-     .        FSAV,NTHVKI*(NINTER+NRWALL+NRBODY+NSECT+NJOINT))
-         IF((NVOLU+NRBAG)>0)
-     .        CALL SPMD_GLOB_DSUM9(
-     .        FSAV(1,1+NINTER+NRWALL+NRBODY+NSECT+NJOINT),
-     .        NTHVKI*(NVOLU+NRBAG))
-         IF(NINTSUB>0)
-     .        CALL SPMD_GLOB_DSUM9(
-     .  FSAV(1,1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG),
-     .  NTHVKI*NINTSUB)
+         CALL SPMD_GLOB_DSUM9(FSAV,NTHVKI*(NINTER+NRWALL+NRBODY+NSECT+NJOINT))
+         IF((NVOLU+NRBAG)>0)CALL SPMD_GLOB_DSUM9(FSAV(1,1+NINTER+NRWALL+NRBODY+NSECT+NJOINT),NTHVKI*(NVOLU+NRBAG))
+         IF(NINTSUB>0)CALL SPMD_GLOB_DSUM9(FSAV(1,1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG),NTHVKI*NINTSUB)
        ENDIF
        IF(FSAVMAX>0) THEN
          IF (ISPMD/=0) THEN
@@ -586,14 +576,12 @@ C
              FSAVINT(J,N)=FSAV(J,N)
            END DO
            DO N=1,NINTSUB
-             FSAVINT(J,NINTER+N)=
-     .  FSAV(J,(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG)+N)
+             FSAVINT(J,NINTER+N)=FSAV(J,(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG)+N)
            END DO
          END DO
        END IF
        IF(NVENTTOT>0)THEN
-C
-C        Volmon dumped into Fsavvent.
+         ! Volmon dumped into Fsavvent.
          DO I=1,NVENTTOT
            DO J=1,5
              FSAVVENT(J,I) = ZERO
@@ -601,70 +589,72 @@ C        Volmon dumped into Fsavvent.
          END DO
          KRBHOL =1 + NRVOLU * NVOLU + LRCBAG + LRBAGJET
          CALL BUFMONV(FSAVVENT,MONVOL,VOLMON(KRBHOL),FR_MV)
-C
          IF(NSPMD > 1)CALL SPMD_GLOB_DSUM9(FSAVVENT,5*NVENTTOT)
        END IF
-C
+
 C---------------------------------------------------------
-C      EBCS STORAGE (/TH/SURF)
+C      /TH/SURF : 6 output channels
 C---------------------------------------------------------
-       IF (EBCS_TAB%nebcs > 0)THEN
-         EBCS_TH_MASSFLOW(1:NSURF) = FSAVSURF(2,1:NSURF)
-         IF (NSPMD > 1) THEN
-           CALL SPMD_GLOB_DSUM9(EBCS_TH_MASSFLOW,NSURF)
+      !FSAVSURF(1, 1:NSURF) : area           (ebcs + monvol + ploads)
+      !FSAVSURF(2, 1:NSURF) : massflow       (ebcs + monvol         )
+      !FSAVSURF(3, 1:NSURF) : velocity       (ebcs + monvol + ploads)
+      !FSAVSURF(4, 1:NSURF) : pressure       (ebcs + monvol + ploads)
+      !FSAVSURF(5, 1:NSURF) : A              (                ploads)
+      !FSAVSURF(6, 1:NSURF) : cumulated mass (ebcs + monvol         )
+C-----------------------------------
+C      /TH/SURF (AREA) if not already computed
+C-----------------------------------
+       DO I=1,NSURF
+         IF(IGRSURF(I)%TH_SURF == 1 .AND. FSAVSURF(1,I) == ZERO) THEN
+           NN = IGRSURF(I)%NSEG
+           CALL SURF_AREA(X, NN, IGRSURF(I)%NODES, FSAVSURF(1,I), NUMNOD)
          ENDIF
-       ENDIF
+       ENDDO
 
-
 C---------------------------------------------------------
-C      RESET FOR AIRBAG CALCULATION (/TH/SURF)
+C      /TH/SURF (cumulated mass from AIRBAGS)
 C---------------------------------------------------------
-       IF(NSURF > 0) THEN
-         DO I=1,NSURF
-           DO J=1,3
-             FSAVSURF(J,I)=ZERO
-           ENDDO
-         ENDDO
-C-----------------------------------
-C      Area of surfaces computation
-C-----------------------------------
-         DO I=1,NSURF
-            IF(IGRSURF(I)%TH_SURF == 1) THEN
-               NN = IGRSURF(I)%NSEG
-               CALL SURF_AREA(X, NN, IGRSURF(I)%NODES, FSAVSURF(1,I))
-            ENDIF
-         ENDDO
-C---------------------------------------------------------
-C      MASS FLOW (FVMBAG)
-C---------------------------------------------------------
+       IF(NSURF > 0)THEN
          CALL SURF_MASS_MONV(FSAVSURF,IGRSURF,MONVOL,VOLMON,FR_MV)
-         IF(NSPMD > 1)CALL SPMD_GLOB_DSUM9(FSAVSURF,5*NSURF)
-         IF(NSPMD > 1)CALL SPMD_GLOB_ISUM9(NSEG_LOADP,NSURF)
-         IF(ISPMD ==0 ) THEN
-           DO I=1,NSURF
-            IF(IGRSURF(I)%TH_SURF == 1) THEN
-               IF(NSEG_LOADP(I) > 0) THEN
-                  FSAVSURF(4,I)=FSAVSURF(4,I) / NSEG_LOADP(I) ! The pressure in an average pressure
-               ELSE
-                  FSAVSURF(4,I)= ZERO
-               ENDIF
-            ENDIF    
-          ENDDO
-        ENDIF
+       ENDIF !NSURF > 0
+
+C---------------------------------------------------------
+C      /TH/SURF : SPMD EXCHANGE
+C---------------------------------------------------------
+       IF(NSPMD > 1)CALL SPMD_GLOB_DSUM9(FSAVSURF,5*NSURF)
+
+C---------------------------------------------------------
+C      /TH/SURF (PRESSURE mean velues)
+C---------------------------------------------------------
+       IF(ISPMD ==0 ) THEN
+         DO I=1,NSURF
+           IF(IGRSURF(I)%TH_SURF == 1) THEN
+             !IF(N_S_E_G_LOADP(I) > 0) THEN
+               FSAVSURF(4,I)=FSAVSURF(4,I) ! The pressure in an average pressure
+             !ELSE
+             !  FSAVSURF(4,I)= ZERO
+             !ENDIF
+           ENDIF
+         ENDDO
        ENDIF
 
 C---------------------------------------------------------
-C      MASS FLOW (EBCS)
+C      /TH/SURF (EBCS mean values)
+C        total surface FSAVSURF(1,:) are here gathered and
+C        they can be used here to divide
 C---------------------------------------------------------
        IF (EBCS_TAB%nebcs > 0)THEN
          DO K=1,EBCS_TAB%nebcs
            IF(.NOT.EBCS_TAB%need_to_compute(K)) CYCLE
            HAS_TH = EBCS_TAB%TAB(K)%poly%has_th
            IF(has_th) THEN
-               SURF_ID = EBCS_TAB%TAB(K)%poly%surf_id
-               NN = IGRSURF(SURF_ID)%NSEG
-               CALL SURF_AREA(X, NN, IGRSURF(SURF_ID)%NODES, FSAVSURF(1,SURF_ID))
-               FSAVSURF(2,SURF_ID) =  EBCS_TH_MASSFLOW(SURF_ID)
+             SURF_ID = EBCS_TAB%TAB(K)%poly%surf_id
+             NN = IGRSURF(SURF_ID)%NSEG
+             IF(FSAVSURF(1,SURF_ID) > ZERO)THEN
+               FSAVSURF(3,SURF_ID) =  FSAVSURF(3,SURF_ID) / FSAVSURF(1,SURF_ID)  !mean velocity
+               FSAVSURF(4,SURF_ID) =  FSAVSURF(4,SURF_ID) / FSAVSURF(1,SURF_ID)  !mean pressure
+               FSAVSURF(5,SURF_ID) =  FSAVSURF(5,SURF_ID) / FSAVSURF(1,SURF_ID)  !mean acceleration
+             ENDIF
            ENDIF
          ENDDO!next K
        ENDIF
@@ -1287,10 +1277,9 @@ C-----------------------------
             IF((ISPMD==0).AND.(II>0)) CALL WRTDES(WA,WA,II,ITTYP,1)
           ELSEIF (ITYP==116) THEN
 C-----------------------------
-C           SURF
+C           /TH/SURF
 C-----------------------------
-            CALL THSURF(IAD,IAD+NN-1,IADV,IADV+NVAR-1,ITHBUF,
-     .                  WA ,FSAVSURF,ITTYP)
+            CALL THSURF(IAD,IAD+NN-1,IADV,IADV+NVAR-1,ITHBUF,WA ,FSAVSURF,ITTYP,NSURF)
 C
           ELSEIF (ITYP==118) THEN
 C-----------------------------

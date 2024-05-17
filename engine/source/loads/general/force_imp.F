@@ -40,9 +40,9 @@ Chd|====================================================================
      2                     A       ,V       ,X       ,SKEWS      ,
      3                     AR      ,VR      ,NSENSOR ,SENSOR_TAB ,TFEXC      ,
      4                     IADC    ,FSKY    ,FEXT    ,H3D_DATA   ,CPTREAC    ,
-     5                     FTHREAC ,NODREAC ,TH_SURF ,FSAVSURF   ,NSEG_LOADP ,
+     5                     FTHREAC ,NODREAC ,TH_SURF ,
      6                     DPL0CLD ,VEL0CLD ,D       ,DR         ,NCONLD     ,
-     7                     NUMNOD  ,NSURF   ,NFUNCT  ,STF) 
+     7                     NUMNOD  ,NFUNCT  ,STF)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -74,21 +74,16 @@ C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: SNPC
-      INTEGER ,INTENT(IN) :: NSENSOR,NCONLD,NUMNOD,NSURF,NFUNCT
+      INTEGER ,INTENT(IN) :: NSENSOR,NCONLD,NUMNOD,NFUNCT
       INTEGER ,INTENT(IN) :: STF
       INTEGER NPC(SNPC),CPTREAC,NODREAC(*)
       INTEGER IB(NIBCLD,*)
       INTEGER IADC(4,*)
-      my_real
-     .   FAC(LFACCLD,*), TF(*), A(3,*), V(3,*), AR(3,*), VR(3,*),
-     .   X(3,*), TFEXC,
-     .   FSKY(8,LSKY), FEXT(3,*),FTHREAC(6,*)
+      my_real FAC(LFACCLD,*),TF(*),A(3,*),V(3,*),AR(3,*),VR(3,*),X(3,*),TFEXC,FSKY(8,LSKY),FEXT(3,*),FTHREAC(6,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
-      TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
       TYPE(SKEW_),INTENT(INOUT) :: SKEWS
-      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
-      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
+      TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
       my_real, INTENT(IN) ::  DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
       my_real, INTENT(IN) ::  D(3,NUMNOD), DR(3,NUMNOD)
 C-----------------------------------------------
@@ -97,9 +92,9 @@ C-----------------------------------------------
      3            X       ,SKEWS   ,AR         ,
      4            VR      ,NSENSOR ,SENSOR_TAB ,TFEXC    ,IADC      ,
      5            LSKY    ,FSKY    ,FEXT       ,H3D_DATA ,CPTREAC   ,
-     6            FTHREAC ,NODREAC ,TH_SURF    ,FSAVSURF ,NSEG_LOADP,
+     6            FTHREAC ,NODREAC ,TH_SURF    ,
      7            DPL0CLD ,VEL0CLD ,D          ,DR       ,NCONLD    ,
-     8            NUMNOD  ,NSURF   ,NFUNCT     , ANIM_V  ,OUTP_V    ,
+     8            NUMNOD  ,NFUNCT  , ANIM_V    ,OUTP_V   ,
      9            IPARIT  ,TT      ,DT1        ,N2D      ,TFEXT     ,
      A            IMPL_S) 
 

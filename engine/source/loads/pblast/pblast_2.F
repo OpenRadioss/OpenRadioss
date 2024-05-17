@@ -36,7 +36,7 @@ Chd|====================================================================
       SUBROUTINE PBLAST_2(ILOADP  ,FAC      ,A       ,V         ,X       ,
      1                    IADC    ,FSKY     ,LLOADP  ,FEXT      ,
      2                    ITAB    ,H3D_DATA ,NL      ,DTMIN_LOC ,TFEXT_LOC,
-     3                    TH_SURF ,FSAVSURF ,NSEG_LOADP,NSEGPL)
+     3                    TH_SURF ,NSEGPL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -75,9 +75,8 @@ C-----------------------------------------------
       my_real,INTENT(INOUT) :: FAC(LFACLOAD,NLOADP)
       my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8), FEXT(3,NUMNOD)
       TYPE(H3D_DATABASE),INTENT(IN) :: H3D_DATA
-      TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
-      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
-      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF), NSEGPL
+      TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
+      INTEGER, INTENT(INOUT) :: NSEGPL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -419,9 +418,8 @@ C----- /TH/SURF -------
           AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
           DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
              KSURF = TH_SURF%LOADP_SEGS(NS)
-             NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
-             FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + P
-             FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+             th_surf%channels(4,KSURF)= th_surf%channels(4,KSURF) + P
+             th_surf%channels(5,KSURF)= th_surf%channels(5,KSURF) + AREA
           ENDDO
         ENDIF
 

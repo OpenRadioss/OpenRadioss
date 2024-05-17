@@ -901,7 +901,7 @@ c
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT)              :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
 C
       INTEGER ,INTENT(IN) :: NDAMP_VREL,NDAMP_VREL_RBYG
-      INTEGER ,INTENT(IN) :: ID_DAMP_VREL(NDAMP_VREL),FR_DAMP_VREL(NSPMD+2,NDAMP_VREL)  
+      INTEGER ,INTENT(IN) :: ID_DAMP_VREL(NDAMP_VREL),FR_DAMP_VREL(NSPMD+2,NDAMP_VREL)
       TYPE(SKEW_),INTENT(INOUT) :: SKEWS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1097,8 +1097,6 @@ C TEMPI I24
       INTEGER S_LOADPINTER, NPRESLOAD
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAGNCONT
       INTEGER, DIMENSION(:), ALLOCATABLE :: LOADP_HYD_INTER, LOADP_TAGDEL
-      my_real, DIMENSION(:), ALLOCATABLE :: FSAVSURF    ! table for storing surf TH output (Pressure, Area ...)
-      INTEGER, DIMENSION(:), ALLOCATABLE ::  NSEG_LOADP ! number of segments of surf pressure is applied
 C-----------------------------------------------------------------------------------
 C Debug CAND INTERFACE TYPE25
       INTEGER NB25_CANDT(PARASIZ),NB25_IMPCT(PARASIZ),
@@ -1421,13 +1419,10 @@ C
 C       ! /TH/SURF output
 
         IF(NSURF > 0) THEN
-           ALLOCATE(FSAVSURF(5*NSURF)) 
-           ALLOCATE(NSEG_LOADP(NSURF)) 
-           NSEG_LOADP (1:NSURF)= 0          
-           FSAVSURF(1:5*NSURF)=ZERO
+           ALLOCATE(OUTPUT%TH%TH_SURF%CHANNELS(TH_SURF_NUM_CHANNEL,NSURF))
+           OUTPUT%TH%TH_SURF%CHANNELS(1:TH_SURF_NUM_CHANNEL,1:NSURF)=ZERO
         ELSE
-           ALLOCATE(FSAVSURF(0))  
-           ALLOCATE(NSEG_LOADP(0))            
+           ALLOCATE(OUTPUT%TH%TH_SURF%CHANNELS(0,0))
         ENDIF
 C
         IF(OUTPUT%TH%TH_SURF%IOK > 0 ) THEN
@@ -3282,15 +3277,15 @@ C-------------------------------------------------------------------
         IF (IMON>0) CALL STARTIME(4,1)
         IF (IMONM > 0) CALL STARTIME(41,1)
           CALL FORCE(
-     1               NIBCLD  ,IBCL     ,LFACCLD  ,FORC     ,SNPC     ,
-     2               NPC     ,STF      ,TF       ,A        ,V        ,
-     3               X       ,SKEWS    ,AR                           ,
-     4               VR      ,NSENSOR  ,SENSORS%SENSOR_TAB ,TFEXC    ,IADS(I87J) ,
-     5               LSKY    ,FSKY     ,FEXT     ,H3D_DATA ,CPTREAC  ,
-     6               FTHREAC ,NODREAC  ,OUTPUT%TH%TH_SURF  ,FSAVSURF ,NSEG_LOADP ,
-     7               DPL0CLD ,VEL0CLD  ,D        ,DR       ,NCONLD   ,
-     8               NUMNOD  ,NSURF    ,NFUNCT   ,ANIM_V   ,OUTP_V   ,
-     9               IPARIT  ,TT       ,DT1      ,N2D      ,TFEXT    ,
+     1               NIBCLD  ,IBCL     ,LFACCLD  ,FORC     ,SNPC                      ,
+     2               NPC     ,STF      ,TF       ,A        ,V                         ,
+     3               X       ,SKEWS    ,AR                        ,
+     4               VR      ,NSENSOR  ,SENSORS%SENSOR_TAB ,TFEXC                     ,IADS(I87J) ,
+     5               LSKY    ,FSKY     ,FEXT     ,H3D_DATA ,CPTREAC                   ,
+     6               FTHREAC ,NODREAC  ,OUTPUT%TH%TH_SURF  ,
+     7               DPL0CLD ,VEL0CLD  ,D        ,DR       ,NCONLD                    ,
+     8               NUMNOD  ,NFUNCT   ,ANIM_V   ,OUTP_V                    ,
+     9               IPARIT  ,TT       ,DT1      ,N2D      ,TFEXT                     ,
      A               IMPL_S  ,PYTHON=PYTHON)
 C
         IF (NPINCH > 0) THEN
@@ -3330,10 +3325,10 @@ C-------------------------------------------------------------------
         IF (IMONM > 0) CALL STARTIME(41,1)
 !$OMP PARALLEL
           CALL PFLUID(ILOADP  ,LOADP   ,NPC        ,TF        ,A         ,
-     2                V       ,X       ,XFRAME     ,
+     2                V       ,X       ,XFRAME     ,MS        ,
      3                NSENSOR,SENSORS%SENSOR_TAB,TFEXC,IADS(I87M) ,
      4                FSKY    ,FSKY    ,LLOADP     ,FEXT     ,H3D_DATA   ,
-     5                OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP)
+     5                OUTPUT%TH%TH_SURF)
 !$OMP END PARALLEL
         IF (IMONM > 0) CALL STOPTIME(41,1)
         IF (IMON>0) CALL STOPTIME(4,1)
@@ -3347,9 +3342,9 @@ C----------------------------------
           CALL TRACE_IN(10,0,ZERO)
           IF (IMON>0) CALL STARTIME(4,1)
           IF (IMONM > 0) CALL STARTIME(41,1)
-          CALL PBLAST(ILOADP     ,LOADP      ,A          ,V       ,X      ,
-     1                IADS(I87M) ,FSKY       ,FSKY       ,LLOADP  ,FEXT   ,
-     2                ITAB       ,H3D_DATA   ,OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP)
+          CALL PBLAST(ILOADP     ,LOADP      ,A                ,V                ,X      ,
+     1                IADS(I87M) ,FSKY       ,FSKY             ,LLOADP           ,FEXT   ,
+     2                ITAB       ,H3D_DATA   ,OUTPUT%TH%TH_SURF)
           IF (IMONM > 0) CALL STOPTIME(41,1)
           IF (IMON>0) CALL STOPTIME(4,1)
           CALL TRACE_OUT(10)
@@ -3804,27 +3799,27 @@ C     Init var parallel SMP
            ITYPTSTT = ITYPTST
 C     
            CALL ALEMAIN(
-     1          PM         ,GEO      ,X             ,A(1,NDTSK)   ,AR(1,NDTSK)    ,V               ,
-     2          MS         ,WA       ,ELBUF_TAB     ,BUFMAT       ,PARTSAV(IPMTSK),TF              ,
-     3          VAL2       ,VEUL     ,FV            ,STIFN(NDTSK) ,FSKY           ,EANI            ,
-     4          PHI        ,FILL     ,DFILL         ,ALPH         ,SKEWS%SKEW           ,W               ,
-     5          D          ,DSAVE    ,ASAVE         ,DT2TT        ,DT2SAVE        ,XCELL           ,
-     6          IPARG      ,NPC      ,IXS           ,IXQ          ,IXTG           ,IADS            ,IADS(I87B),
-     7          IFILL      ,NODPOR   ,ICODT         ,ISKEW        ,IMS            ,
-     8          NELTSTT    ,ITYPTSTT ,IPART         ,IPART(K1)    ,IPART(K2)      ,ITSK            ,
-     A          NODFTSK    ,NODLTSK  ,NBRCVOIS      ,TEMP         ,FSAVSURF       ,
-     B          NBSDVOIS   ,LNRCVOIS ,LNSDVOIS      ,NERCVOIS     ,NESDVOIS       ,LERCVOIS        ,
-     C          LESDVOIS   ,ISIZXV   ,IAD_ELEM      ,FR_ELEM      ,FSKYM          ,MSNF            ,
+     1          PM         ,GEO      ,X             ,A(1,NDTSK)   ,AR(1,NDTSK)      ,V               ,
+     2          MS         ,WA       ,ELBUF_TAB     ,BUFMAT       ,PARTSAV(IPMTSK)  ,TF              ,
+     3          VAL2       ,VEUL     ,FV            ,STIFN(NDTSK) ,FSKY             ,EANI            ,
+     4          PHI        ,FILL     ,DFILL         ,ALPH         ,SKEWS%SKEW        ,W               ,
+     5          D          ,DSAVE    ,ASAVE         ,DT2TT        ,DT2SAVE          ,XCELL           ,
+     6          IPARG      ,NPC      ,IXS           ,IXQ          ,IXTG             ,IADS            ,IADS(I87B),
+     7          IFILL      ,NODPOR   ,ICODT         ,ISKEW        ,IMS              ,
+     8          NELTSTT    ,ITYPTSTT ,IPART         ,IPART(K1)    ,IPART(K2)        ,ITSK            ,
+     A          NODFTSK    ,NODLTSK  ,NBRCVOIS      ,TEMP         ,OUTPUT%TH%TH_SURF%CHANNELS,
+     B          NBSDVOIS   ,LNRCVOIS ,LNSDVOIS      ,NERCVOIS     ,NESDVOIS         ,LERCVOIS        ,
+     C          LESDVOIS   ,ISIZXV   ,IAD_ELEM      ,FR_ELEM      ,FSKYM            ,MSNF            ,
      D          IPARI      ,SEGVAR   ,ITAB          ,ISKWN        ,
      E          VOLMON     ,FSAV     ,IGRSURF       ,NELTSA       ,
-     F          ITYPTSA    ,WEIGHT   ,NPSEGCOM      ,LSEGCOM      ,IPM            ,IGEO            ,
-     G          ITABM1     ,LENQMV   ,NV46          ,A            ,GRESAV         ,
-     H          GRTH       ,IGRTH    ,LGAUGE        ,GAUGE        ,MSSA           ,
-     I          DMELS      ,IGAUP    ,NGAUP         ,TABLE        ,MS0            ,
-     J          XDP        ,IGRNOD   ,VARNOD                      ,FSKYI          ,ISKY            ,
-     K          INTBUF_TAB ,IXT      ,IGRV          ,AGRV         ,SENSORS        ,
-     L          LGRAV      ,CONDNSKY ,CONDN         ,MS_2D        ,MULTI_FVM      ,IGRTRUSS        ,
-     M          IGRBRIC    ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS    ,EBCS_TAB       ,ALE_CONNECTIVITY, DIFFUSION,
+     F          ITYPTSA    ,WEIGHT   ,NPSEGCOM      ,LSEGCOM      ,IPM              ,IGEO            ,
+     G          ITABM1     ,LENQMV   ,NV46          ,A            ,GRESAV           ,
+     H          GRTH       ,IGRTH    ,LGAUGE        ,GAUGE        ,MSSA             ,
+     I          DMELS      ,IGAUP    ,NGAUP         ,TABLE        ,MS0              ,
+     J          XDP        ,IGRNOD   ,VARNOD                      ,FSKYI            ,ISKY            ,
+     K          INTBUF_TAB ,IXT      ,IGRV          ,AGRV         ,SENSORS          ,
+     L          LGRAV      ,CONDNSKY ,CONDN         ,MS_2D        ,MULTI_FVM        ,IGRTRUSS        ,
+     M          IGRBRIC    ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS    ,EBCS_TAB         ,ALE_CONNECTIVITY, DIFFUSION,
      N          MAT_ELEM   ,H3D_DATA,DT , OUTPUT , NEED_COMM_INTER18)
 
            IF(INT22 /=0)  call my_barrier !INTER22in input files  - get also IDT_INT22
@@ -4396,7 +4391,7 @@ C Init var parallel SMP
      3   WA(NWAFTSK)  ,STIFN(NDTSK)    ,STIFR(NDTSK)    ,FSKY           ,CRKSKY       , 
      4   TF           ,BUFMAT          ,PARTSAV(IPMTSK) ,D              ,MAT_ELEM     , 
      5   DR           ,EANI            ,TANI            ,FANI(1,NFOA+1) ,      
-     6   FSAV         ,SENSORS         ,SKEWS%SKEW      ,ANIN(NDMA2+1)  ,FAILWAVE     ,               
+     6   FSAV         ,SENSORS         ,SKEWS%SKEW      ,ANIN(NDMA2+1)  ,FAILWAVE     ,
      7   DT2TT        ,THKE            ,BUFGEO          ,IADS(I87C)     ,IADS(I87G)   , 
      8   IPARG        ,NPC             ,IXC             ,IXTG           ,NELTSTT      , 
      9   IPARI        ,ITYPTSTT        ,NSTRF           ,        
@@ -4753,8 +4748,7 @@ C
      2                          A         ,V         ,X       ,SKEWS%SKEW   ,SENSORS%SENSOR_TAB,
      3                          IADS(I87M),FSKY      ,FANI(1,1+NFEA),TAGNCONT ,NSENSOR   ,
      4                          LOADP_HYD_INTER,H3D_DATA ,
-     5                          NPRESLOAD ,LOADP_TAGDEL,OUTPUT%TH%TH_SURF,FSAVSURF,
-     6                          NSEG_LOADP )
+     5                          NPRESLOAD ,LOADP_TAGDEL,OUTPUT%TH%TH_SURF)
 
           IF (IMONM > 0) CALL STOPTIME(41,1)
            IF (IMON>0) CALL STOPTIME(4,1)
@@ -8365,7 +8359,7 @@ C Regular animation
      q   TF            ,NPC            ,DYNAIN_DATA    ,FCONT_MAX      ,MDS_MATID     ,
      r   FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),IBCL        ,ILOADP         ,LLOADP        ,
      s   LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           ,DRAPEG        ,
-     t   USER_WINDOWS  ,OUTPUT         ,DT             ,FSAVSURF       ,NSEG_LOADP    ,
+     t   USER_WINDOWS  ,OUTPUT         ,DT             ,OUTPUT%TH%TH_SURF%CHANNELS    ,
      u   TABLE         ,LOADS          ,SFANI          ,IPARIT         )
 C
         IF((MSTOP == 1 .AND. ICTLSTOP == 0) .OR. MSTOP == 2 .OR. DT2<=ZERO)THEN
@@ -8522,7 +8516,7 @@ C===============================================================================
      O  FRWL6  ,IRBE2  ,LRBE2 ,ICFIELD,LCFIELD,CFIELD,ELBUF_TAB,
      P  WEIGHT_MD, STACK,SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR,DRAPE_SH4N  , 
      Q  DRAPE_SH3N,H3D_DATA ,NDDL0,NNZK0,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC,
-     R  DRAPEG ,OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP,DPL0CLD,VEL0CLD,SNPC,STF)
+     R  DRAPEG ,OUTPUT%TH%TH_SURF,DPL0CLD,VEL0CLD,SNPC,STF)
          MSTOP=2
 #else
         WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
@@ -8563,7 +8557,7 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
      Y  SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR,DRAPE_SH4N  , DRAPE_SH3N,
      Z  H3D_DATA,MULTI_FVM,IGRBRIC,IGRSH4N,IGRSH3N,IGRBEAM,FORNEQS,MAXDGAP,
      A  NDDL0   ,NNZK0 ,IT_T   ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC, DRAPEG,
-     B  INTERFACES,OUTPUT%TH%TH_SURF,FSAVSURF,NSEG_LOADP,DPL0CLD,VEL0CLD,SNPC,STF)
+     B  INTERFACES,OUTPUT%TH%TH_SURF,DPL0CLD,VEL0CLD,SNPC,STF)
 #else 
         WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
         CALL FLUSH(6)
@@ -8580,7 +8574,7 @@ C
      4 IXR,            IXTG,            IXTG1,     IPARG,
      5 TF,             NPC,             FR_WAVE,   W16,            BUFMAT,
      6 THKE,           BUFGEO,          NSENSOR,   SENSORS%SENSOR_TAB,RBY,
-     7 SKEWS%SKEW,     WA,                ICODT,   ICODR,         ISKEW,          
+     7 SKEWS%SKEW,     WA,                ICODT,   ICODR,         ISKEW,
      9 IBFV,           VEL,             LPBY,      NPBY,           ITAB,
      A WEIGHT,         MS,              IN,        IPARI,     INTBUF_TAB,
      B X_A ,           ITSK ,    

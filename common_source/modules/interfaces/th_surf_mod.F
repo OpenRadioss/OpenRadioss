@@ -78,7 +78,11 @@ C---------------------------------------------
             INTEGER, DIMENSION(:), ALLOCATABLE :: LOADP_KSEGS  !< ids of th surfaces to which each segment of load pressure is included 
             INTEGER, DIMENSION(:), ALLOCATABLE :: LOADP_SEGS   !< list of th surfaces to which each segment of load pressure is included 
 
+            my_real, DIMENSION(:,:), ALLOCATABLE :: CHANNELS   !< channels for /TH/SURF output (1:TH_SURF_NUM_CHANNEL, 1:NSURF)
+                                                               !
           END TYPE TH_SURF_
+
+          INTEGER, PARAMETER :: TH_SURF_NUM_CHANNEL = 6        !< number ot /TH/SURF channels : AREA, VELOCITY, MASSFLOW, P A, MASS
 
         CONTAINS
 

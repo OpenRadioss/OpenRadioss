@@ -727,16 +727,16 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
-      SUBROUTINE DYNA_INA(IBCL  ,FORC   ,SNPC,NPC   ,TF    ,A     ,
-     2                    V     ,X      ,SKEWS  ,AR    ,VR    ,
-     3                    SENSOR_TAB,WEIGHT,TFEXC ,IADS_F ,
-     4                    FSKY  ,IGRV   ,AGRV  ,MS    ,IN    ,
-     5                    LGRAV ,ITASK ,NRBYAC,IRBYAC ,NPBY  ,
-     6                    RBY   ,FR_ELEM,IAD_ELEM  ,NDDL  ,NNZK,
-     7                    IDIV  ,H3D_DATA,CPTREAC,FTHREAC,NODREAC,
-     8                    NSENSOR,TH_SURF ,FSAVSURF, NSEG_LOADP,DPL0CLD,
-     9                    VEL0CLD,   D,  DR,  NUMNOD,NSURF,
-     A                    NFUNCT,NCONLD,NGRAV,NINVEL,STF,NUMSKW)
+      SUBROUTINE DYNA_INA(IBCL      ,FORC    ,SNPC    ,NPC    ,TF     ,A     ,
+     2                    V         ,X       ,SKEWS   ,AR     ,VR     ,
+     3                    SENSOR_TAB,WEIGHT  ,TFEXC   ,IADS_F ,
+     4                    FSKY      ,IGRV    ,AGRV    ,MS     ,IN     ,
+     5                    LGRAV     ,ITASK   ,NRBYAC  ,IRBYAC ,NPBY   ,
+     6                    RBY       ,FR_ELEM ,IAD_ELEM,NDDL   ,NNZK   ,
+     7                    IDIV      ,H3D_DATA,CPTREAC ,FTHREAC,NODREAC,
+     8                    NSENSOR   ,TH_SURF ,FSAVSURF,DPL0CLD,
+     9                    VEL0CLD   ,D       ,DR      ,NUMNOD ,NSURF  ,
+     A                    NFUNCT    ,NCONLD  ,NGRAV   ,NINVEL ,STF    ,NUMSKW)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -744,7 +744,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
       USE SENSOR_MOD
-      USE TH_SURF_MOD , ONLY : TH_SURF_
+      USE TH_SURF_MOD , ONLY : TH_SURF_, TH_SURF_NUM_CHANNEL
       USE SKEW_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -779,8 +779,7 @@ C     REAL
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
       TYPE (SKEW_),INTENT(INOUT)   :: SKEWS
-      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
-      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
+      my_real, INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       my_real, INTENT(IN) :: 
      .   DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD),
      .   D(3,NUMNOD),DR(3,NUMNOD)
@@ -853,7 +852,7 @@ C---estimation a(t=0)----
      2                   DY_A    ,V          ,X          ,SKEWS      ,
      3                   DY_AR   ,VR         ,NSENSOR    ,SENSOR_TAB ,TFEXC      ,
      4                   IADS_F  ,FSKY       ,DUMMY_FEXT ,H3D_DATA   ,CPTREAC    ,
-     5                   FTHREAC ,NODREAC    ,TH_SURF    ,FSAVSURF   ,NSEG_LOADP ,
+     5                   FTHREAC ,NODREAC    ,TH_SURF    ,FSAVSURF   ,
      6                   DPL0CLD ,VEL0CLD    ,D          ,DR         ,NCONLD     ,
      7                   NUMNOD  ,NSURF      ,NFUNCT     ,STF )
          IF (NSPMD>1) THEN
@@ -990,7 +989,7 @@ Chd|====================================================================
      6                    RBY   ,IBFV  ,VEL   ,D      ,DR    ,
      7                    IKC   ,IDDL  ,IFRAME,XFRAME ,NDOF  ,
      8                    H3D_DATA,CPTREAC,FTHREAC,NODREAC,NSENSOR,
-     9                    TH_SURF ,FSAVSURF,NSEG_LOADP,DPL0CLD,
+     9                    TH_SURF ,FSAVSURF,DPL0CLD,
      A                    VEL0CLD, NUMNOD,NSURF,NFUNCT,NCONLD,
      B                    NGRAV,NFXVEL,STF,NUMSKW)
 C-----------------------------------------------
@@ -999,7 +998,7 @@ C-----------------------------------------------
       USE IMP_DYNA
       USE H3D_MOD
       USE SENSOR_MOD
-      USE TH_SURF_MOD , ONLY : TH_SURF_
+      USE TH_SURF_MOD , ONLY : TH_SURF_, TH_SURF_NUM_CHANNEL
       USE SKEW_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1025,27 +1024,22 @@ C-----------------------------------------------
      .        IFRAME(LISKN,*),IBFV(*),IKC(*) ,IDDL(*),NDOF(*),
      .        CPTREAC,NODREAC(*)
       INTEGER NRBYAC,IRBYAC(*)
-C     REAL
-      my_real
-     .   X(3,*)    ,V(3,*)   ,VR(3,*),MS(*)   ,AGRV(*),
-     .   TF(*) ,FORC(*)  ,RBY(NRBY,*),IN(*),
-     .   A(3,*) ,AR(3,*),TFEXT,FSKY(*),
-     .   VEL(LFXVELR,*), D(3,*), DR(3,*),XFRAME(NXFRAME,*),
-     .   FTHREAC(6,*)
+      my_real X(3,*)    ,V(3,*)   ,VR(3,*),MS(*)   ,AGRV(*),
+     .        TF(*) ,FORC(*)  ,RBY(NRBY,*),IN(*),
+     .        A(3,*) ,AR(3,*),TFEXT,FSKY(*),
+     .        VEL(LFXVELR,*), D(3,*), DR(3,*),XFRAME(NXFRAME,*),
+     .        FTHREAC(6,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
       TYPE(SKEW_),INTENT(INOUT) :: SKEWS
-      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
-      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
-      my_real, INTENT(IN) :: 
-     .   DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
+      my_real, INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
+      my_real, INTENT(IN) :: DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,IBID,IW ,I,J,ND,J1
-      my_real
-     .   TFEXC,DUMMY_FEXT(3,1)
+      my_real  TFEXC,DUMMY_FEXT(3,1)
 C--------------------------------
        DUMMY_FEXT=ZERO
 C--------------------------------
@@ -1055,7 +1049,7 @@ C--------------------------------
      2                    A       ,V       ,X          ,SKEWS      ,
      3                    AR      ,VR      ,NSENSOR    ,SENSOR_TAB ,TFEXC      ,
      4                    IADS_F  ,FSKY    ,DUMMY_FEXT ,H3D_DATA   ,CPTREAC    ,
-     5                    FTHREAC ,NODREAC ,TH_SURF    ,FSAVSURF   ,NSEG_LOADP ,
+     5                    FTHREAC ,NODREAC ,TH_SURF    ,FSAVSURF   ,
      6                    DPL0CLD ,VEL0CLD ,D          ,DR         ,NCONLD     ,
      7                    NUMNOD  ,NSURF   ,NFUNCT     ,STF)
 
@@ -1135,11 +1129,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NODFT,NODLT,IDDL(*) ,NDOF(*),WEIGHT(*),INLOC(*),
-     .        IKC(*)
-C     REAL
-      my_real
-     . DIAG_K(*),MS(*),IN(*)
+      INTEGER NODFT,NODLT,IDDL(*) ,NDOF(*),WEIGHT(*),INLOC(*),IKC(*)
+      my_real DIAG_K(*),MS(*),IN(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1235,16 +1226,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER M, NSN, I, N, J, K, LCOD, ISK
-      my_real
-     .   WA1, WA2, WA3, DD, VI(3),II1,II2,II3,II4,II5,II6,II7,II8,II9,
-     .   VID(3),RBYD(9),VJ(3),RBZ(9),
-     .   DET, IL1,IL2,IL3,IL4,IL5,IL6,IL7,IL8,IL9
-      my_real
-     . RBY(25)
-C-------  ----------
-      M   =NBY(1)
-      IF (IMACH==3.AND.M<0) RETURN
-      NSN =NBY(2)
+      my_real WA1, WA2, WA3, DD, VI(3),II1,II2,II3,II4,II5,II6,II7,II8,II9,
+     .        VID(3),RBYD(9),VJ(3),RBZ(9),
+     .        DET, IL1,IL2,IL3,IL4,IL5,IL6,IL7,IL8,IL9,
+     .        RBY(25)
+C-----------------
+      M=NBY(1)
+      IF(IMACH==3.AND.M<0) RETURN
+      NSN=NBY(2)
 C petit traitement pour le spmd ou M est replique sur les processeurs
       IF (IMACH==3.AND.NSPMD>1) THEN
         AM(1,M)  = AM(1,M)  * WEIGHT(M)

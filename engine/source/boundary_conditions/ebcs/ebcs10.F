@@ -42,6 +42,7 @@ Chd|====================================================================
       USE MULTI_FVM_MOD
       USE SEGVAR_MOD
       USE ALE_MOD , only : ALE
+      USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
+      my_real, INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       INTEGER,INTENT(IN) :: NSEG,NOD,ISEG(NSEG),LISTE(NOD),IRECT(4,NSEG),IELEM(NSEG),IFACE(NSEG)
       INTEGER,INTENT(IN) :: IXQ(NIXQ,NUMELQ),IXS(NIXS,NUMELS),IXTG(NIXTG,NUMELTG)
       INTEGER,INTENT(IN) :: ITAB(NUMNOD),NALE(NUMNOD)
@@ -281,9 +282,6 @@ C-----------------------------------------------
           ENDIF
           NBMAT=EBCS%NBMAT
 
-          !/TH/SURF (massflow)
-          FSAVSURF(2,SURF_ID) = FSAVSURF(2,SURF_ID) + RHO*SURF*Vnew
-
           !segment data for flux of volumes ( upwind/ACONVE() )
           SEGVAR%RHO(KSEG)=RHO
           SEGVAR%EINT(KSEG)=EINT          
@@ -306,7 +304,7 @@ C              PP    = Pold + (ROC*(Vnew-Vold)) !+ALPHA*(Pvois+DP0)/(ALPHA + ONE
 
             ENDIF
             EBCS%pold(IS) = PP
-            
+
             IF(SEGVAR%nbmat > 0)THEN
               !Volume Fractions update
               IF(Vnew < ZERO)THEN     !flux rentrant, relaxation du pourcentage volumique   
@@ -329,6 +327,12 @@ C              PP    = Pold + (ROC*(Vnew-Vold)) !+ALPHA*(Pvois+DP0)/(ALPHA + ONE
              LA(2,NN(KK)) = LA(2,NN(KK)) -  PP*SURF*YN*FAC1
              LA(3,NN(KK)) = LA(3,NN(KK)) -  PP*SURF*ZN*FAC1
            ENDDO
+
+           !/TH/SURF (massflow, velocity, pressure)
+           FSAVSURF(2,SURF_ID) = FSAVSURF(2,SURF_ID) + RHO*SURF*Vnew     !rho.S.u = dm/dt
+           FSAVSURF(3,SURF_ID) = FSAVSURF(3,SURF_ID) + SURF*Vnew         !S.u
+           FSAVSURF(4,SURF_ID) = FSAVSURF(4,SURF_ID) + SURF*PP           !S.P
+           FSAVSURF(6,SURF_ID) = FSAVSURF(6,SURF_ID) + RHO*SURF*Vnew*DT1 ! m<-m+dm (cumulative)
 
            ! -------------
            ! for parith/on option : need to update with FSKY array 
@@ -354,7 +358,7 @@ C              PP    = Pold + (ROC*(Vnew-Vold)) !+ALPHA*(Pvois+DP0)/(ALPHA + ONE
                 A(3,NUM)=A(3,NUM)+LA(3,II)
             ENDDO
         ENDIF
-        ! -------------         
+        ! -------------
 
       RETURN
       END

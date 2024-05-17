@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        HIST2                         source/output/th/hist2.F      
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SURF_AREA(X   ,NN  ,SURF_NODES, AREA)
+      SUBROUTINE SURF_AREA(X, NN, SURF_NODES, AREA, NUMNOD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -34,15 +34,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NN,SURF_NODES(NN,4)
-      my_real X(3,*), AREA
+      INTEGER,INTENT(IN) :: NN,SURF_NODES(NN,4),NUMNOD
+      my_real,INTENT(IN) ::  X(3,NUMNOD)
+      my_real,INTENT(INOUT) :: AREA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NOD1,NOD2,NOD3,NOD4
-      my_real
-     .   X13, Y13, Z13, X24, Y24, Z24,
-     .   N1, N2, N3
+      my_real X13, Y13, Z13, X24, Y24, Z24,N1, N2, N3
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       AREA = ZERO
       DO I=1,NN
@@ -62,6 +63,6 @@ C-----------------------------------------------
          AREA = AREA + SQRT(N1*N1+N2*N2+N3*N3)
       ENDDO
       AREA = AREA * HALF
-C
+C-----------------------------------------------
       RETURN
       END

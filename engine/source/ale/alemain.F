@@ -120,6 +120,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE DT_MOD
       USE OUTPUT_MOD
+      USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -153,7 +154,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real,INTENT(INOUT) :: FSAVSURF(5,NSURF)
+      my_real,INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       INTEGER IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),IXTG(NIXTG,NUMELTG), ISKY(*),
      .   IFILL(NUMNOD,*), NPC(*), IPARG(NPARG,NGROUP),NODPOR(*),
      .   IADS(8,*),IADQ(4,*),ICODT(*),ISKEW(*), IMS(*),

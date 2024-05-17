@@ -30,13 +30,14 @@ Chd|        MULTI_NRF_EBCS                source/multifluid/multi_nrf_ebcs.F
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, 
-     .     FUNC_VALUE, EBCS_TAB,NPF,TF,FSAVSURF,NSURF)
+      SUBROUTINE MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM,
+     .     FUNC_VALUE, EBCS_TAB,NPF,TF,FSAVSURF,NSURF,TIMESTEP)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE EBCS_MOD
+      USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +55,7 @@ C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: NSURF
-      my_real,INTENT(INOUT) :: FSAVSURF(5,NSURF)
+      my_real,INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       INTEGER, INTENT(IN) :: ITASK
       INTEGER, INTENT(IN) :: IXS(NIXS, *), IXQ(NIXQ, *), IXTG(NIXTG, *)
@@ -63,7 +64,7 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: PM(NPROPM, *), FUNC_VALUE(*)
       TYPE(t_ebcs_tab), TARGET, INTENT(IN) :: EBCS_TAB
       INTEGER, INTENT(IN) :: NPF(SNPC)
-      my_real, INTENT(IN) :: TF(STF)
+      my_real, INTENT(IN) :: TF(STF), TIMESTEP
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -82,15 +83,18 @@ C-----------------------------------------------
 C     Inlet, outlet boundary condition
               CALL MULTI_INLET_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
-     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,twf%surf_id,NPF,TF,FSAVSURF)
+     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
+     .           twf%surf_id,NPF,TF,FSAVSURF, TIMESTEP)
             TYPE IS(t_ebcs_fluxout)
               CALL MULTI_INLET_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
-     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,twf%surf_id,NPF,TF,FSAVSURF)
+     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
+     .           twf%surf_id,NPF,TF,FSAVSURF,TIMESTEP)
             TYPE IS(t_ebcs_nrf)
               CALL MULTI_NRF_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
-     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,twf,NPF,TF,FSAVSURF)
+     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
+     .           twf,NPF,TF,FSAVSURF,TIMESTEP)
             CLASS DEFAULT
          END SELECT
       ENDDO

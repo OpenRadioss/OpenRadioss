@@ -34,6 +34,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
+      USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,10 +50,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MONVOL(*), FR_MV(NSPMD+2,NVOLU)
-C     REAL
-      my_real
-     .   FSAVSURF(5,NSURF), VOLMON(*)
-      TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+      my_real FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF), VOLMON(*)
+      TYPE (SURF_), DIMENSION(NSURF) :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

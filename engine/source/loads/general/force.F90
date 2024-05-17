@@ -32,9 +32,9 @@
         & x          ,skews      ,ar                                ,&
         & vr         ,nsensor    ,sensor_tab ,tfexc     ,iadc       ,&
         & lsky       ,fsky       ,fext       ,h3d_data  ,cptreac    ,&
-        & fthreac    ,nodreac    ,th_surf    ,fsavsurf  ,nseg_loadp ,&
+        & fthreac    ,nodreac    ,th_surf    ,                       &
         & dpl0cld    ,vel0cld    ,d          ,dr        ,nconld     ,&
-        & numnod     ,nsurf      ,nfunct     ,anim_v    ,outp_v     ,&
+        & numnod     ,nfunct     ,anim_v    ,outp_v     ,            &
         & iparit     ,tt         ,dt1        ,n2d       ,tfext      ,&
         & impl_s     ,python )
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -71,7 +71,6 @@
           ! Input
           integer, intent(in) :: numnod                        !< number of nodes in model
           integer, intent(in) :: nfunct                        !< number of tabulated functions in model
-          integer, intent(in) :: nsurf                         !< number of surfaces in model
           integer, intent(in) :: stf                           !< size of tabulated functions array
           integer, intent(in) :: nconld                        !< number of condition loads in model
           integer, intent(in) :: n2d                           !< 2d resolution flag
@@ -103,7 +102,7 @@
           type (sensor_str_) ,dimension(nsensor),intent(in) :: sensor_tab !< Sensors type
           type(python_), intent(in), optional :: python        !< Python functions structures
           type(h3d_database), intent(in) :: h3d_data           !< H3D output structure
-          type (th_surf_) , intent(in) :: th_surf              !< Time history / surface
+          type (th_surf_) , intent(inout) :: th_surf           !< Time history / surface
           ! Inout / output
           type(skew_), intent(inout) :: skews                  !< Skews structure
           my_real, intent(inout) :: fsky(8,lsky)               !< skyline vector : Strore forces for PARITH/ON
@@ -112,9 +111,7 @@
           my_real, intent(inout) :: fext(3,numnod)             !< nodal external work
           double precision, intent(inout) :: tfext             !< external work - Care : double precision
           my_real, intent(inout) :: tfexc                      !< external work
-          my_real, intent(inout) :: fsavsurf(5,nsurf)          !< save forces for surfaces
           my_real, intent(inout) :: fthreac(6,cptreac)         !< TH forces
-          integer, intent(inout) :: nseg_loadp(nsurf)          !< surface  array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -438,9 +435,8 @@
                       area = half*sqrt(nx*nx+ny*ny+nz*nz)
                       do ns=th_surf%pload_ksegs(nsegpl) +1,th_surf%pload_ksegs(nsegpl+1)
                         ksurf = th_surf%pload_segs(ns)
-                        nseg_loadp(ksurf) = nseg_loadp(ksurf) + 1
-                        fsavsurf(4,ksurf)= fsavsurf(4,ksurf) + aa
-                        fsavsurf(5,ksurf)= fsavsurf(5,ksurf) + area
+                        th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + aa
+                        th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
                       enddo
                     endif
 !
@@ -533,9 +529,8 @@
                       area = half*sqrt(nx*nx+ny*ny+nz*nz)
                       do ns=th_surf%pload_ksegs(nsegpl) +1,th_surf%pload_ksegs(nsegpl+1)
                         ksurf = th_surf%pload_segs(ns)
-                        nseg_loadp(ksurf) = nseg_loadp(ksurf) + 1
-                        fsavsurf(4,ksurf)= fsavsurf(4,ksurf) + aa
-                        fsavsurf(5,ksurf)= fsavsurf(5,ksurf) + area
+                        th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + aa
+                        th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
                       enddo
                     endif
 !
@@ -615,9 +610,8 @@
                     area = half*sqrt(nx*nx+ny*ny+nz*nz)
                     do ns=th_surf%pload_ksegs(nsegpl) +1,th_surf%pload_ksegs(nsegpl+1)
                       ksurf = th_surf%pload_segs(ns)
-                      nseg_loadp(ksurf) = nseg_loadp(ksurf) + 1
-                      fsavsurf(4,ksurf)= fsavsurf(4,ksurf) + aa
-                      fsavsurf(5,ksurf)= fsavsurf(5,ksurf) + area
+                      th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + aa
+                      th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
                     enddo
                   endif
 !
@@ -952,9 +946,8 @@
                       area = half*sqrt(nx*nx+ny*ny+nz*nz)
                       do ns=th_surf%pload_ksegs(nsegpl) +1,th_surf%pload_ksegs(nsegpl+1)
                         ksurf = th_surf%pload_segs(ns)
-                        nseg_loadp(ksurf) = nseg_loadp(ksurf) + 1
-                        fsavsurf(4,ksurf)= fsavsurf(4,ksurf) + aa
-                        fsavsurf(5,ksurf)= fsavsurf(5,ksurf) + area
+                        th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + aa
+                        th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
                       enddo
                     endif
 !
@@ -1051,9 +1044,8 @@
                       area = half*sqrt(nx*nx+ny*ny+nz*nz)
                       do ns=th_surf%pload_ksegs(nsegpl) +1,th_surf%pload_ksegs(nsegpl+1)
                         ksurf = th_surf%pload_segs(ns)
-                        nseg_loadp(ksurf) = nseg_loadp(ksurf) + 1
-                        fsavsurf(4,ksurf)= fsavsurf(4,ksurf) + aa
-                        fsavsurf(5,ksurf)= fsavsurf(5,ksurf) + area
+                        th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + aa
+                        th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
                       enddo
                     endif
 !
@@ -1137,9 +1129,8 @@
                     area = half*sqrt(nx*nx+ny*ny+nz*nz)
                     do ns=th_surf%pload_ksegs(nsegpl) +1,th_surf%pload_ksegs(nsegpl+1)
                       ksurf = th_surf%pload_segs(ns)
-                      nseg_loadp(ksurf) = nseg_loadp(ksurf) + 1
-                      fsavsurf(4,ksurf)= fsavsurf(4,ksurf) + aa
-                      fsavsurf(5,ksurf)= fsavsurf(5,ksurf) + area
+                      th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + aa
+                      th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
                     enddo
                   endif
 !
