@@ -166,7 +166,7 @@ C-----------------------------------------------
       PARAMETER (NVARAB = 7,NVARMV4= 9,NVARMV = 19,NVARMVENT = 150)
       PARAMETER (NVARPA = 31)
       PARAMETER (NVARF1 = 18,NVARFR = 24,NVARGAU = 8,NVARCLUS=11,NVARFLOW=1,
-     .           NVARSURF = 5,NVARSLIP=6,NVARRET=3)
+     .           NVARSURF = 6,NVARSLIP=6,NVARRET=3)
       CHARACTER*10 VARN(NVARN),VART(NVART)
       CHARACTER*10 VARP(NVARP),VARR(NVARR),VARUR(NVARUR)
       CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE::VARS
@@ -1209,7 +1209,7 @@ C     element cluster
       DATA VARFLOW/
      . 'FLOW    '/
       DATA VARSURF/
-     . 'AREA    ','MASSFLOW','VELOCITY','P       ','A       '/
+     . 'AREA    ','MASSFLOW','VELOCITY','P       ','A       ','MASS    '/
 C
       DATA VARSLIP/
      . 'RINGSLIP','FN      ','F1      ','F2      ','THETA   ','GAMMA   '/

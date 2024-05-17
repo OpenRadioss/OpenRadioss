@@ -31,11 +31,13 @@ Chd|        SOLVE_EINT                    source/multifluid/multi_inlet_ebcs.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE MULTI_INLET_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
-     .     FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE, ID_SURF, NPF,TF,FSAVSURF)
+     .                            FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM,
+     .                            FUNC_VALUE, ID_SURF, NPF,TF,FSAVSURF, TIMESTEP)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE MULTI_FVM_MOD
+      USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,8 +67,8 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: PM(NPROPM, NUMMAT), FUNC_VALUE(*)
       TYPE(FVM_INLET_DATA_STRUCT), INTENT(IN) :: FVM_INLET_DATA
       INTEGER, INTENT(IN) :: NPF(SNPC), ID_SURF
-      my_real, INTENT(IN) :: TF(STF)
-      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
+      my_real, INTENT(IN) :: TF(STF), TIMESTEP
+      my_real, INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -78,13 +80,13 @@ C-----------------------------------------------
       INTEGER :: NODE1, NODE2, IMAT, NBMAT
       INTEGER :: MATLAW(MULTI_FVM%NBMAT), LOCAL_MATID(MULTI_FVM%NBMAT)
       my_real :: PHASE_RHOII(MULTI_FVM%NBMAT), PHASE_PRESII(MULTI_FVM%NBMAT), 
-     .     PHASE_EINTII(MULTI_FVM%NBMAT), PHASE_SSPII(MULTI_FVM%NBMAT),
-     .     PHASE_ALPHAII(MULTI_FVM%NBMAT), PHASE_RHOJJ(MULTI_FVM%NBMAT), 
-     .     PHASE_PRESJJ(MULTI_FVM%NBMAT), PHASE_EINTJJ(MULTI_FVM%NBMAT), 
-     .     PHASE_SSPJJ(MULTI_FVM%NBMAT), PHASE_ALPHAJJ(MULTI_FVM%NBMAT)
+     .           PHASE_EINTII(MULTI_FVM%NBMAT), PHASE_SSPII(MULTI_FVM%NBMAT),
+     .           PHASE_ALPHAII(MULTI_FVM%NBMAT), PHASE_RHOJJ(MULTI_FVM%NBMAT),
+     .           PHASE_PRESJJ(MULTI_FVM%NBMAT), PHASE_EINTJJ(MULTI_FVM%NBMAT),
+     .           PHASE_SSPJJ(MULTI_FVM%NBMAT), PHASE_ALPHAJJ(MULTI_FVM%NBMAT)
       my_real :: DUMMY(6), RHOII, PII, EINTII, VXII, VYII, VZII, SSPII, NORMAL_VELII, RHOJJ, SSPJJ, 
-     .     PJJ, NORMAL_VELJJ, VXJJ, VYJJ, VZJJ, VELII2, ALPHAII, SUB_RHOII, SUB_RHOEINTII, SUB_VIISTAR(3),
-     .     SUB_FIISTAR(3), ALPHASTAR, SUB_RHOSTAR, SUB_PII, VELJJ2, SUB_ESTAR, EINTJJ
+     .           PJJ, NORMAL_VELJJ, VXJJ, VYJJ, VZJJ, VELII2, ALPHAII, SUB_RHOII, SUB_RHOEINTII, SUB_VIISTAR(3),
+     .           SUB_FIISTAR(3), ALPHASTAR, SUB_RHOSTAR, SUB_PII, VELJJ2, SUB_ESTAR, EINTJJ, PSURF
       INTEGER :: IFUNC, IELEM_START, IELEM_END
 C-----------------------------------------------
 C     B e g i n n i n g   o f   s u b r o u t i n e
@@ -181,15 +183,14 @@ C     VE formulation
                ENDIF
                IF (PHASE_ALPHAJJ(IMAT)  >  ZERO) THEN
                   CALL MULTI_SUBMATLAW(
-     1   0,                           MATLAW(IMAT),                LOCAL_MATID(IMAT),           1,
-     2   PHASE_EINTJJ(IMAT),          PHASE_PRESJJ(IMAT),          PHASE_RHOJJ(IMAT),           PHASE_SSPJJ(IMAT),
-     3   ONE,                         DUMMY,                       PM,                          IPM,
-     4   NPROPM,                      NPROPMI,                     DUMMY,                       ONE,
-     5   DUMMY,                       MULTI_FVM%BFRAC(IMAT,ELEMID),MULTI_FVM%TBURN(ELEMID),     DUMMY,
-     6   DUMMY,                       DUMMY,                       NPF,                         TF,
-     7   DUMMY(1),                    1)
-                  SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) * 
-     .                 MAX(EM20, PHASE_SSPJJ(IMAT)) 
+     1                    0,                  MATLAW(IMAT),                 LOCAL_MATID(IMAT),       1,
+     2                    PHASE_EINTJJ(IMAT), PHASE_PRESJJ(IMAT),           PHASE_RHOJJ(IMAT),       PHASE_SSPJJ(IMAT),
+     3                    ONE,                DUMMY,                        PM,                      IPM,
+     4                    NPROPM,             NPROPMI,                      DUMMY,                   ONE,
+     5                    DUMMY,              MULTI_FVM%BFRAC(IMAT,ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY,
+     6                    DUMMY,              DUMMY,                        NPF,                     TF,
+     7                    DUMMY(1),           1)
+                  SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) * MAX(EM20, PHASE_SSPJJ(IMAT))
                   PJJ = PJJ + PHASE_PRESJJ(IMAT) * PHASE_ALPHAJJ(IMAT)
                   EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)
                ENDIF
@@ -217,8 +218,7 @@ C     INITIALIZE INTERNAL ENERGY
      .              MULTI_FVM%BFRAC(IMAT, ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY(1), DUMMY,
      .              DUMMY, ONE, NPF, TF, DUMMY, 1)
                
-               SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) * 
-     .              MAX(EM20, PHASE_SSPJJ(IMAT)) 
+               SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) * MAX(EM20, PHASE_SSPJJ(IMAT))
                EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)
             ENDDO
          ENDIF
@@ -271,10 +271,8 @@ C     HLL wave speed estimates
          SR = MAX(NORMAL_VELII + SSPII, NORMAL_VELJJ + SSPJJ)
 
 C     Intermediate wave speed
-         SSTAR = PJJ - PII + RHOII * NORMAL_VELII * (SL - NORMAL_VELII) - 
-     .        RHOJJ * NORMAL_VELJJ * (SR - NORMAL_VELJJ)
-         SSTAR = SSTAR / (RHOII * (SL - NORMAL_VELII) - 
-     .        RHOJJ * (SR - NORMAL_VELJJ))
+         SSTAR = PJJ - PII + RHOII * NORMAL_VELII * (SL - NORMAL_VELII) - RHOJJ * NORMAL_VELJJ * (SR - NORMAL_VELJJ)
+         SSTAR = SSTAR / (RHOII * (SL - NORMAL_VELII) - RHOJJ * (SR - NORMAL_VELJJ))
 
          PSTAR = PII + RHOII * (SSTAR - NORMAL_VELII) * (SL - NORMAL_VELII)
          PP(1) = ZERO
@@ -295,6 +293,8 @@ C     Intermediate wave speed
             FII(3) = VII(3) * NORMAL_VELII + PII * NY
             FII(4) = VII(4) * NORMAL_VELII + PII * NZ
             FII(5) = (VII(5) + PII) * NORMAL_VELII
+!     /th/surf : pressure
+            PSURF = PII
 C     Take the fluxes of cell II
 C     ===
 C     Global fluxes
@@ -311,12 +311,9 @@ C     Submaterial fluxes
                   SUB_VIISTAR(2) = ALPHAII * SUB_RHOII ! ALPHA_RHO
                   SUB_VIISTAR(3) = ALPHAII * SUB_RHOEINTII
                   SUB_FIISTAR(1:3) = SUB_VIISTAR(1:3) * NORMAL_VELII
-                  MULTI_FVM%SUBVOL_FLUXES(IMAT, KFACE, ELEMID) = 
-     .                 (SUB_FIISTAR(1) - NORMALW * SUB_VIISTAR(1)) * SURF
-                  MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE, ELEMID) = 
-     .                 (SUB_FIISTAR(2) - NORMALW * SUB_VIISTAR(2)) * SURF
-                  MULTI_FVM%SUBENER_FLUXES(IMAT, KFACE, ELEMID) = 
-     .                 (SUB_FIISTAR(3) - NORMALW * SUB_VIISTAR(3)) * SURF
+                  MULTI_FVM%SUBVOL_FLUXES(IMAT, KFACE, ELEMID) = (SUB_FIISTAR(1) - NORMALW * SUB_VIISTAR(1)) * SURF
+                  MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE, ELEMID) = (SUB_FIISTAR(2) - NORMALW * SUB_VIISTAR(2)) * SURF
+                  MULTI_FVM%SUBENER_FLUXES(IMAT, KFACE, ELEMID) = (SUB_FIISTAR(3) - NORMALW * SUB_VIISTAR(3)) * SURF
                ENDDO
             ENDIF
 C     
@@ -332,14 +329,15 @@ C
             FII(3) = VII(3) * NORMAL_VELII + PII * NY
             FII(4) = VII(4) * NORMAL_VELII + PII * NZ
             FII(5) = (VII(5) + PII) * NORMAL_VELII
+!     /th/surf : pressure
+            PSURF = PII
 C     Take intermediate state flux (HLLC scheme)
 C     ===
 C     Global fluxes
             VIISTAR(1:5) = FII(1:5) - (SL) * VII(1:5) - PP(1:5)
             VIISTAR(1:5) = VIISTAR(1:5) / (SSTAR - SL)
             FIISTAR(1:5) = VIISTAR(1:5) * SSTAR + PP(1:5) 
-            MULTI_FVM%FLUXES(1:5, KFACE, ELEMID) = 
-     .           (FIISTAR(1:5) - NORMALW * VIISTAR(1:5)) * SURF
+            MULTI_FVM%FLUXES(1:5, KFACE, ELEMID) = (FIISTAR(1:5) - NORMALW * VIISTAR(1:5)) * SURF
             MULTI_FVM%FLUXES(6, KFACE, ELEMID) = SSTAR * SURF
 C     ===
 C     Submaterial fluxes
@@ -366,12 +364,9 @@ C     Submaterial fluxes
                   SUB_VIISTAR(3) = ALPHASTAR * SUB_RHOSTAR * SUB_ESTAR
 
                   SUB_FIISTAR(1:3) = SUB_VIISTAR(1:3) * SSTAR
-                  MULTI_FVM%SUBVOL_FLUXES(IMAT, KFACE, ELEMID) = 
-     .                 (SUB_FIISTAR(1) - NORMALW * SUB_VIISTAR(1)) * SURF
-                  MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE, ELEMID) = 
-     .                 (SUB_FIISTAR(2) - NORMALW * SUB_VIISTAR(2)) * SURF
-                  MULTI_FVM%SUBENER_FLUXES(IMAT, KFACE, ELEMID) = 
-     .                 (SUB_FIISTAR(3) - NORMALW * SUB_VIISTAR(3)) * SURF
+                  MULTI_FVM%SUBVOL_FLUXES(IMAT, KFACE, ELEMID) = (SUB_FIISTAR(1) - NORMALW * SUB_VIISTAR(1)) * SURF
+                  MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE, ELEMID) = (SUB_FIISTAR(2) - NORMALW * SUB_VIISTAR(2)) * SURF
+                  MULTI_FVM%SUBENER_FLUXES(IMAT, KFACE, ELEMID) = (SUB_FIISTAR(3) - NORMALW * SUB_VIISTAR(3)) * SURF
                ENDDO
             ENDIF
             
@@ -387,14 +382,15 @@ C     Submaterial fluxes
             FII(3) = VII(3) * NORMAL_VELJJ + PJJ * NY
             FII(4) = VII(4) * NORMAL_VELJJ + PJJ * NZ
             FII(5) = (VII(5) + PJJ) * NORMAL_VELJJ
+!     /th/surf : pressure
+            PSURF = PJJ
 C     Take intermediate state flux (HLLC scheme)
 C     ===
 C     Global fluxes
             VIISTAR(1:5) = FII(1:5) - (SR) * VII(1:5) - PP(1:5)
             VIISTAR(1:5) = VIISTAR(1:5) / (SSTAR - SR)
             FIISTAR(1:5) = VIISTAR(1:5) * SSTAR + PP(1:5) 
-            MULTI_FVM%FLUXES(1:5, KFACE, ELEMID) = 
-     .           (FIISTAR(1:5) - NORMALW * VIISTAR(1:5)) * SURF
+            MULTI_FVM%FLUXES(1:5, KFACE, ELEMID) = (FIISTAR(1:5) - NORMALW * VIISTAR(1:5)) * SURF
             MULTI_FVM%FLUXES(6, KFACE, ELEMID) = SSTAR * SURF
 C     ===
 C     Submaterial fluxes
@@ -420,12 +416,9 @@ C     Submaterial fluxes
                   SUB_VIISTAR(2) = PHASE_ALPHAJJ(IMAT) * SUB_RHOSTAR
                   SUB_VIISTAR(3) = PHASE_ALPHAJJ(IMAT) * SUB_RHOSTAR * SUB_ESTAR
                   SUB_FIISTAR(1:3) = SUB_VIISTAR(1:3) * SSTAR
-                  MULTI_FVM%SUBVOL_FLUXES(IMAT, KFACE, ELEMID) = 
-     .                 (SUB_FIISTAR(1) - NORMALW * SUB_VIISTAR(1)) * SURF
-                  MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE, ELEMID) = 
-     .                 (SUB_FIISTAR(2) - NORMALW * SUB_VIISTAR(2)) * SURF
-                  MULTI_FVM%SUBENER_FLUXES(IMAT, KFACE, ELEMID) = 
-     .                 (SUB_FIISTAR(3) - NORMALW * SUB_VIISTAR(3)) * SURF
+                  MULTI_FVM%SUBVOL_FLUXES(IMAT, KFACE, ELEMID) = (SUB_FIISTAR(1) - NORMALW * SUB_VIISTAR(1)) * SURF
+                  MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE, ELEMID) = (SUB_FIISTAR(2) - NORMALW * SUB_VIISTAR(2)) * SURF
+                  MULTI_FVM%SUBENER_FLUXES(IMAT, KFACE, ELEMID) = (SUB_FIISTAR(3) - NORMALW * SUB_VIISTAR(3)) * SURF
                ENDDO
             ENDIF
          ELSE IF (SR  <  NORMALW) THEN
@@ -440,6 +433,8 @@ C     Submaterial fluxes
             FII(3) = VII(3) * NORMAL_VELJJ + PJJ * NY
             FII(4) = VII(4) * NORMAL_VELJJ + PJJ * NZ
             FII(5) = (VII(5) + PJJ) * NORMAL_VELJJ
+!     /th/surf : pressure
+            PSURF = PJJ
 C     Take the fluxes of cell II
 C     ===
 C     Global fluxes
@@ -456,12 +451,9 @@ C     Submaterial fluxes
                   SUB_VIISTAR(2) = ALPHAII * SUB_RHOII ! ALPHA_RHO
                   SUB_VIISTAR(3) = ALPHAII * SUB_RHOEINTII
                   SUB_FIISTAR(1:3) = SUB_VIISTAR(1:3) * NORMAL_VELJJ
-                  MULTI_FVM%SUBVOL_FLUXES(IMAT, KFACE, ELEMID) = 
-     .                 (SUB_FIISTAR(1) - NORMALW * SUB_VIISTAR(1)) * SURF
-                  MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE, ELEMID) = 
-     .                 (SUB_FIISTAR(2) - NORMALW * SUB_VIISTAR(2)) * SURF
-                  MULTI_FVM%SUBENER_FLUXES(IMAT, KFACE, ELEMID) = 
-     .                 (SUB_FIISTAR(3) - NORMALW * SUB_VIISTAR(3)) * SURF
+                  MULTI_FVM%SUBVOL_FLUXES(IMAT, KFACE, ELEMID) = (SUB_FIISTAR(1) - NORMALW * SUB_VIISTAR(1)) * SURF
+                  MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE, ELEMID) = (SUB_FIISTAR(2) - NORMALW * SUB_VIISTAR(2)) * SURF
+                  MULTI_FVM%SUBENER_FLUXES(IMAT, KFACE, ELEMID) = (SUB_FIISTAR(3) - NORMALW * SUB_VIISTAR(3)) * SURF
                ENDDO
             ENDIF     
          ELSE
@@ -469,9 +461,11 @@ C     Submaterial fluxes
 C     
          ENDIF
 
-         ! /TH/SURF (massflow)
-         FSAVSURF(2,ID_SURF) = FSAVSURF(2,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID)
-
+         ! /TH/SURF (massflow,velocity,pressure,acceleration)
+         FSAVSURF(2,ID_SURF) = FSAVSURF(2,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID)            ! += rho.S.un
+         FSAVSURF(3,ID_SURF) = FSAVSURF(3,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID) / VII(1)   ! += S.un
+         FSAVSURF(4,ID_SURF) = FSAVSURF(4,ID_SURF) + SURF*PSURF                                    ! += S.P
+         FSAVSURF(6,ID_SURF) = FSAVSURF(6,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID) * TIMESTEP ! m <- m+dm (cumulative value)
       ENDDO
 C-----------------------------------------------
 C     E n d   o f   s u b r o u t i n e 

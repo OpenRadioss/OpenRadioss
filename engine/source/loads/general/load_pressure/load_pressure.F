@@ -30,11 +30,11 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
-      SUBROUTINE LOAD_PRESSURE (ILOADP    ,LOADP     ,LLOADP   ,NPC     ,TF        ,
-     2                          A         ,V         ,X       ,SKEW     ,SENSOR_TAB,
-     3                          IADC      ,FSKY      ,FEXT    ,TAGNCONT ,NSENSOR   ,
-     4                          LOADP_HYD_INTER  , H3D_DATA ,
-     5                          NPRESLOAD  ,LOADP_TAGDEL,TH_SURF,FSAVSURF,NSEG_LOADP)
+      SUBROUTINE LOAD_PRESSURE (ILOADP          ,LOADP       ,LLOADP   ,NPC     ,TF        ,
+     2                          A               ,V           ,X       ,SKEW     ,SENSOR_TAB,
+     3                          IADC            ,FSKY        ,FEXT    ,TAGNCONT ,NSENSOR   ,
+     4                          LOADP_HYD_INTER , H3D_DATA   ,
+     5                          NPRESLOAD       ,LOADP_TAGDEL,TH_SURF)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -61,28 +61,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l  F u n c t i o n s
 C-----------------------------------------------
-      INTEGER  GET_U_NUMSENS,GET_U_SENS_FPAR,GET_U_SENS_IPAR,
-     .         GET_U_SENS_VALUE,SET_U_SENS_VALUE
-      EXTERNAL GET_U_NUMSENS,GET_U_SENS_FPAR,GET_U_SENS_IPAR,
-     .         GET_U_SENS_VALUE,SET_U_SENS_VALUE
+      INTEGER,EXTERNAL ::  GET_U_NUMSENS,GET_U_SENS_FPAR,GET_U_SENS_IPAR,GET_U_SENS_VALUE,SET_U_SENS_VALUE
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NPRESLOAD,NSENSOR
       INTEGER NPC(*),LLOADP(SLLOADP)
-      INTEGER ILOADP(SIZLOADP,*),
-     .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
-     .        LOADP_HYD_INTER(NLOADP_HYD)
-      INTEGER  IADC(*) 
-      my_real
-     .   LOADP(SLOADP,*), TF(*), A(3,*), V(3,*), 
-     .   X(3,*), SKEW(LSKEW,*),FSKY(8,LSKY), FEXT(3,*)
+      INTEGER ILOADP(SIZLOADP,*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD),LOADP_HYD_INTER(NLOADP_HYD),IADC(*)
+      my_real LOADP(SLOADP,*), TF(*), A(3,*), V(3,*), X(3,*), SKEW(LSKEW,*),FSKY(8,LSKY), FEXT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       INTEGER, INTENT(IN) :: LOADP_TAGDEL(NPRESLOAD)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
-      TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
-      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
-      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
+      TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -308,9 +298,8 @@ C
                     AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
                     DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
                        KSURF = TH_SURF%LOADP_SEGS(NS)
-                       NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
-                       FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + AA
-                       FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+                       th_surf%channels(4,KSURF)= th_surf%channels(4,KSURF) + AA
+                       th_surf%channels(5,KSURF)= th_surf%channels(5,KSURF) + AREA
                     ENDDO
                   ENDIF
 C
@@ -430,9 +419,8 @@ C
                     AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
                     DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
                        KSURF = TH_SURF%LOADP_SEGS(NS)
-                       NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
-                       FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + AA
-                       FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+                       th_surf%channels(4,KSURF)= th_surf%channels(4,KSURF) + AA
+                       th_surf%channels(5,KSURF)= th_surf%channels(5,KSURF) + AREA
                     ENDDO
                   ENDIF
 C
@@ -677,9 +665,8 @@ C
                     AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
                     DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
                        KSURF = TH_SURF%LOADP_SEGS(NS)
-                       NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
-                       FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + AA
-                       FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+                       th_surf%channels(4,KSURF)= th_surf%channels(4,KSURF) + AA
+                       th_surf%channels(5,KSURF)= th_surf%channels(5,KSURF) + AREA
                     ENDDO
                   ENDIF
                   TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
@@ -802,9 +789,8 @@ C
                     AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
                     DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
                        KSURF = TH_SURF%LOADP_SEGS(NS)
-                       NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
-                       FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + AA
-                       FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+                       th_surf%channels(4,KSURF)= th_surf%channels(4,KSURF) + AA
+                       th_surf%channels(5,KSURF)= th_surf%channels(5,KSURF) + AREA
                     ENDDO
                   ENDIF
 

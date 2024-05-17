@@ -30,11 +30,11 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
-      SUBROUTINE PFLUID(ILOADP     ,RLOAD   ,NPC    ,TF     ,A          ,
-     2                  V          ,X       ,XFRAME ,       
-     3                  NSENSOR    ,SENSOR_TAB ,TFEXC,IADC       ,
-     4                  FSKY       ,FSKYV   ,LLOADP ,FEXT   ,H3D_DATA   ,
-     5                  TH_SURF    ,FSAVSURF,NSEG_LOADP)
+      SUBROUTINE PFLUID(ILOADP     ,RLOAD      ,NPC    ,TF     ,A          ,
+     2                  V          ,X          ,XFRAME ,MS     ,       
+     3                  NSENSOR    ,SENSOR_TAB ,TFEXC  ,IADC   ,
+     4                  FSKY       ,FSKYV      ,LLOADP ,FEXT   ,H3D_DATA   ,
+     5                  TH_SURF    )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
@@ -101,6 +101,7 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: MS(NUMNOD)
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(SNPC),LLOADP(SLLOADP)
       INTEGER ILOADP(SIZLOADP,NLOADP)
@@ -110,9 +111,7 @@ C-----------------------------------------------
      .        FSKY(8,SFSKY/8), FSKYV(SFSKY/8,8),FEXT(3,NUMNOD)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
-      TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
-      my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
-      INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
+      TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -122,7 +121,7 @@ C-----------------------------------------------
       my_real NX, NY, NZ, AA,FX, FY, FZ, DYDX, TS,
      .        SIXTH,TFEXTT,X_OLD,XSENS,FCX,FCY,
      .        FCX1,FCY1,FCX2,FCY2,VEL,VSEG,FINTER,
-     .        CENTROID_DEPTH,PVEL,NORM,NSIGN,AREA,PA
+     .        CENTROID_DEPTH,PVEL,NORM,NSIGN,AREA,PA,MASS,AN,VN
       EXTERNAL FINTER
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -261,9 +260,11 @@ C---------------------------------------
               !-node_4
               A(1,N4)=A(1,N4)+FX                                                                   
               A(2,N4)=A(2,N4)+FY                                                                   
-              A(3,N4)=A(3,N4)+FZ  
+              A(3,N4)=A(3,N4)+FZ 
+#include "lockoff.inc" 
 
               IF(IANIM  > 0) THEN                
+#include "lockon.inc"
                 FEXT(1,N1) = FEXT(1,N1)+FX                                                         
                 FEXT(2,N1) = FEXT(2,N1)+FY                                                         
                 FEXT(3,N1) = FEXT(3,N1)+FZ    
@@ -279,19 +280,35 @@ C---------------------------------------
                 FEXT(1,N4) = FEXT(1,N4)+FX                                                         
                 FEXT(2,N4) = FEXT(2,N4)+FY                                                         
                 FEXT(3,N4) = FEXT(3,N4)+FZ  
+#include "lockoff.inc"
               ENDIF  
 C 
              IF(TH_SURF%LOADP_FLAG >0 ) THEN
+                !mean velocity (/TH/SURF)
+                VN =       V(1,N1)*NX + V(2,N1)*NY + V(3,N1)*NZ
+                VN =  VN + V(1,N2)*NX + V(2,N2)*NY + V(3,N2)*NZ
+                VN =  VN + V(1,N3)*NX + V(2,N3)*NY + V(3,N3)*NZ
+                VN =  VN + V(1,N4)*NX + V(2,N4)*NY + V(3,N4)*NZ
+                VN = VN / FOUR
+                !mean acceleration (/TH/SURF)
+                AN =  FX*NX + FY*NY + FZ*NZ
+                MASS = ( MS(N1)+MS(N2)+MS(N3)+MS(N4) ) / FOUR
+                AN = AN / MASS
+                !TH_SURF%CHANNELS output
                 NSEGPL = NSEGPL + 1
+#include "lockon.inc"
                 DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
                    KSURF = TH_SURF%LOADP_SEGS(NS)
-                   NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
-                   FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + PA
-                   FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+                   TH_SURF%CHANNELS(1,KSURF)= TH_SURF%CHANNELS(1,KSURF) + AREA    ! area
+                   !TH_SURF%CHANNELS(2,KSURF)= ZERO                       ! massflow
+                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*VN ! velocity
+                   TH_SURF%CHANNELS(4,KSURF)= TH_SURF%CHANNELS(4,KSURF) + AREA*PA ! pressure
+                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*AN ! accel
+                   !TH_SURF%CHANNELS(6,KSURF)= ZERO                       ! mass
                 ENDDO
-             ENDIF                                                     
-#include "lockoff.inc"                                                                    
-    
+#include "lockoff.inc"
+             ENDIF
+             
 
             !---TRIANGLE--------------------------------------------                                                                                                     
             ELSE     
@@ -369,6 +386,13 @@ C
               FY=FY*THIRD                                                                                                                                                                                              
               FZ=FZ*THIRD                                                                                                                                                                                              
 
+              !External Force Work
+              TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))  
+     +                          +FY*(V(2,N1)+V(2,N2)+V(2,N3))  
+     +                          +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))  
+     
+
+#include "lockoff.inc"
               !/PARITH/OFF: force is direcctly added in A array. It will be dividedby nodal mass later
               !-node_1
               A(1,N1)=A(1,N1)+FX                                                                    
@@ -382,12 +406,10 @@ C
               A(1,N3)=A(1,N3)+FX                                                                    
               A(2,N3)=A(2,N3)+FY                                                                    
               A(3,N3)=A(3,N3)+FZ                                                                    
-                                                         
-              !External Force Work
-              TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))  
-     +                          +FY*(V(2,N1)+V(2,N2)+V(2,N3))  
-     +                          +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))   
+#include "lockoff.inc"                                                                    
 
+     
+     
               IF(IANIM  > 0) THEN  
 #include "lockon.inc"
                 FEXT(1,N1) = FEXT(1,N1)+FX                                                         
@@ -401,21 +423,34 @@ C
                 FEXT(1,N3) = FEXT(1,N3)+FX                                                         
                 FEXT(2,N3) = FEXT(2,N3)+FY                                                         
                 FEXT(3,N3) = FEXT(3,N3)+FZ                                     
-#include "lockoff.inc"                                                                    
+#include "lockoff.inc"
               ENDIF        
-C
+
              IF(TH_SURF%LOADP_FLAG >0 ) THEN
+                !mean velocity (/TH/SURF)
+                VN =       V(1,N1)*NX + V(2,N1)*NY + V(3,N1)*NZ
+                VN =  VN + V(1,N2)*NX + V(2,N2)*NY + V(3,N2)*NZ
+                VN =  VN + V(1,N3)*NX + V(2,N3)*NY + V(3,N3)*NZ
+                VN = THIRD * VN
+                !mean acceleration (/TH/SURF)
+                AN =  FX*NX + FY*NY + FZ*NZ
+                MASS = THIRD * ( MS(N1)+MS(N2)+MS(N3) )
+                AN = AN / MASS
+                !TH_SURF%CHANNELS output
                 NSEGPL = NSEGPL + 1
+#include "lockon.inc"                
                 DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
-#include "lockon.inc"
                    KSURF = TH_SURF%LOADP_SEGS(NS)
-                   NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
-                   FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + PA
-                   FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
-#include "lockoff.inc"                                                                    
+                   TH_SURF%CHANNELS(1,KSURF)= TH_SURF%CHANNELS(1,KSURF) + AREA    ! area
+                   !TH_SURF%CHANNELS(2,KSURF)= ZERO                       ! massflow
+                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*VN ! velocity
+                   TH_SURF%CHANNELS(4,KSURF)= TH_SURF%CHANNELS(4,KSURF) + AREA*PA ! pressure
+                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*AN ! accel
+                   !TH_SURF%CHANNELS(6,KSURF)= ZERO                       ! mass
                 ENDDO
+#include "lockoff.inc"                
              ENDIF  
-                                                       
+                                                                    
             ENDIF! quadrangle / triangle                                                                                  
           ENDDO !next I   
 !$OMP END DO
@@ -610,13 +645,27 @@ C---------------------------------------
               ENDIF 
 C 
               IF(TH_SURF%LOADP_FLAG >0 ) THEN
+                !mean velocity (/TH/SURF)
+                VN =       V(1,N1)*NX + V(2,N1)*NY + V(3,N1)*NZ
+                VN =  VN + V(1,N2)*NX + V(2,N2)*NY + V(3,N2)*NZ
+                VN =  VN + V(1,N3)*NX + V(2,N3)*NY + V(3,N3)*NZ
+                VN =  VN + V(1,N4)*NX + V(2,N4)*NY + V(3,N4)*NZ
+                VN =  VN / FOUR
+                !mean acceleration (/TH/SURF)
+                AN =  FX*NX + FY*NY + FZ*NZ
+                MASS = ( MS(N1)+MS(N2)+MS(N3)+MS(N4) ) / FOUR
+                AN = AN / MASS
+                !TH_SURF%CHANNELS output
                 NSEGPL = NSEGPL + 1
                 DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
 #include "lockon.inc"
                    KSURF = TH_SURF%LOADP_SEGS(NS)
-                   NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
-                   FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + PA
-                   FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+                   TH_SURF%CHANNELS(1,KSURF)= TH_SURF%CHANNELS(1,KSURF) + AREA    ! area
+                   !TH_SURF%CHANNELS(2,KSURF)= ZERO                       ! massflow
+                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*VN ! velocity
+                   TH_SURF%CHANNELS(4,KSURF)= TH_SURF%CHANNELS(4,KSURF) + AREA*PA ! pressure
+                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*AN ! accel
+                   !TH_SURF%CHANNELS(6,KSURF)= ZERO                       ! mass
 #include "lockoff.inc"                                                                    
                 ENDDO
               ENDIF       
@@ -738,13 +787,29 @@ C
               ENDIF
 C 
               IF(TH_SURF%LOADP_FLAG >0 ) THEN
+              
+                !mean velocity (/TH/SURF)
+                VN =       V(1,N1)*NX + V(2,N1)*NY + V(3,N1)*NZ
+                VN =  VN + V(1,N2)*NX + V(2,N2)*NY + V(3,N2)*NZ
+                VN =  VN + V(1,N3)*NX + V(2,N3)*NY + V(3,N3)*NZ
+                VN = THIRD * VN
+
+                !mean acceleration (/TH/SURF)
+                AN =  FX*NX + FY*NY + FZ*NZ
+                MASS = THIRD * ( MS(N1)+MS(N2)+MS(N3) )
+                AN = AN / MASS
+                              
                 NSEGPL = NSEGPL + 1
                 DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
 #include "lockon.inc"
                    KSURF = TH_SURF%LOADP_SEGS(NS)
-                   NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
-                   FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + PA
-                   FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+                   TH_SURF%CHANNELS(1,KSURF)= TH_SURF%CHANNELS(1,KSURF) + AREA    ! area
+                   !TH_SURF%CHANNELS(2,KSURF)= ZERO                       ! massflow
+                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*VN ! velocity
+                   TH_SURF%CHANNELS(4,KSURF)= TH_SURF%CHANNELS(4,KSURF) + AREA*PA ! pressure
+                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*AN ! accel
+                   !TH_SURF%CHANNELS(6,KSURF)= ZERO                       ! mass
+
 #include "lockoff.inc"                                                                    
                 ENDDO
               ENDIF       
@@ -912,13 +977,30 @@ C-----------------------------------
               ENDIF       
 C 
               IF(TH_SURF%LOADP_FLAG >0 ) THEN
+              
+                !mean velocity (/TH/SURF)
+                VN =       V(1,N1)*NX + V(2,N1)*NY + V(3,N1)*NZ
+                VN =  VN + V(1,N2)*NX + V(2,N2)*NY + V(3,N2)*NZ
+                VN =  VN + V(1,N3)*NX + V(2,N3)*NY + V(3,N3)*NZ
+                VN =  VN + V(1,N4)*NX + V(2,N4)*NY + V(3,N4)*NZ
+                VN =  VN / FOUR
+
+                !mean acceleration (/TH/SURF)
+                AN =  FX*NX + FY*NY + FZ*NZ
+                MASS = ( MS(N1)+MS(N2)+MS(N3)+MS(N4) ) / FOUR
+                AN = AN / MASS
+                              
                 NSEGPL = NSEGPL + 1
                 DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
 #include "lockon.inc"
                    KSURF = TH_SURF%LOADP_SEGS(NS)
-                   NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
-                   FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + PA
-                   FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+                   TH_SURF%CHANNELS(1,KSURF)= TH_SURF%CHANNELS(1,KSURF) + AREA    ! area
+                   !TH_SURF%CHANNELS(2,KSURF)= ZERO                       ! massflow
+                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*VN ! velocity
+                   TH_SURF%CHANNELS(4,KSURF)= TH_SURF%CHANNELS(4,KSURF) + AREA*PA ! pressure
+                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*AN ! accel
+                   !TH_SURF%CHANNELS(6,KSURF)= ZERO                       ! mass
+
 #include "lockoff.inc"                                                                    
                 ENDDO
               ENDIF 
@@ -1040,13 +1122,28 @@ C
                ENDIF
 C 
               IF(TH_SURF%LOADP_FLAG >0 ) THEN
+              
+                !mean velocity (/TH/SURF)
+                VN =  V(1,N1)*NX + V(2,N1)*NY + V(3,N1)*NZ
+                VN =  VN + V(1,N2)*NX + V(2,N2)*NY + V(3,N2)*NZ
+                VN =  VN + V(1,N3)*NX + V(2,N3)*NY + V(3,N3)*NZ
+                VN = THIRD * VN
+
+                !mean acceleration (/TH/SURF)
+                AN =  FX*NX + FY*NY + FZ*NZ
+                MASS = THIRD * ( MS(N1)+MS(N2)+MS(N3)+MS(N4) )
+                AN = AN / MASS  
+                                            
                 NSEGPL = NSEGPL + 1
                 DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
 #include "lockon.inc"
                    KSURF = TH_SURF%LOADP_SEGS(NS)
-                   NSEG_LOADP(KSURF) = NSEG_LOADP(KSURF) + 1
-                   FSAVSURF(4,KSURF)= FSAVSURF(4,KSURF) + PA
-                   FSAVSURF(5,KSURF)= FSAVSURF(5,KSURF) + AREA
+                   TH_SURF%CHANNELS(1,KSURF)= TH_SURF%CHANNELS(1,KSURF) + AREA    ! area
+                   !TH_SURF%CHANNELS(2,KSURF)= ZERO                       ! massflow
+                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*VN ! velocity
+                   TH_SURF%CHANNELS(4,KSURF)= TH_SURF%CHANNELS(4,KSURF) + AREA*PA ! pressure
+                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*AN ! accel
+                   !TH_SURF%CHANNELS(6,KSURF)= ZERO                       ! mass
 #include "lockoff.inc"                                                                    
                 ENDDO
               ENDIF 

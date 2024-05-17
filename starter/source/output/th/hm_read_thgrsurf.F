@@ -73,7 +73,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: ITYP,NV,NUM,NVG,IVARG(18,*),NV0,FLAGABF
       INTEGER,INTENT(INOUT) :: ITHGRP(NITHGR), IGS, IFI, IAD, NSNE, NVARABF, ITHVAR(*), ITHBUF(*)
       CHARACTER*10,INTENT(IN) :: VARE(NV),KEY,VARG(NVG)
-      TYPE (SURF_),INTENT(INOUT), DIMENSION(NSURF)   :: IGRSURF
+      TYPE (SURF_),INTENT(INOUT), DIMENSION(NSURF) :: IGRSURF
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -81,7 +81,7 @@ C-----------------------------------------------
       INTEGER J,JJ, I,ISU,ID,NNE,NOSYS,NTOT,KK,IER,
      .        OK,IGRS,NSU,K,L,JREC,CONT,IAD0,IADV,NTRI,
      .        IFITMP,IADFIN,NVAR,M,N,IAD1,IAD2,ISK,IPROC,ITITLE(LTITR),
-     .        IDS,IDSMAX,AIRBAG_OUTPUT,
+     .        IDS,IDSMAX,
      .        NUM_FOUND
       CHARACTER TITR*nchartitle,MESS*40
       LOGICAL IS_AVAILABLE
@@ -123,13 +123,7 @@ C-----------------------------------------------
         IAD2=IAD+3*NNE
         ITHGRP(8)=IAD2
         IFI=IFI+3*NNE+40*NNE
-        CALL ZEROIN(IAD,IAD+43*NNE-1,ITHBUF)
-
-        AIRBAG_OUTPUT = 0
-        DO JJ = ITHGRP(7),ITHGRP(5)
-            IF(ITHBUF(JJ) ==2 .OR. ITHBUF(JJ) ==3) AIRBAG_OUTPUT = 1  !massflow or velocity
-        ENDDO
-      
+        CALL ZEROIN(IAD,IAD+43*NNE-1,ITHBUF)      
 C
         NUM_FOUND=0
         DO K = 1,IDSMAX
@@ -144,7 +138,6 @@ C
               IF(IDS == IGRSURF(J)%ID)THEN
                  N=J
                  IGRSURF(J)%TH_SURF=1          
-                 IF(AIRBAG_OUTPUT > 0) IGRSURF(J)%TH_SURF=2
                  NUM_FOUND=NUM_FOUND+1
                  EXIT
               ENDIF

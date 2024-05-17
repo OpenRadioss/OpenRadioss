@@ -42,7 +42,7 @@ Chd|        DYNA_CPR0                     source/implicit/imp_dyna.F
 Chd|        DYNA_INA                      source/implicit/imp_dyna.F    
 Chd|        DYNA_WEX                      source/implicit/imp_dyna.F    
 Chd|        ETFAC_INI                     source/implicit/imp_init.F    
-Chd|        FIL_SPAN1                     source/implicit/ind_glob_k.F  
+Chd|        FIL_SPAN1                     source/implicit/ind_glob_k.F  f
 Chd|        FORCE_IMP                     source/loads/general/force_imp.F
 Chd|        FVBC_IMPL1                    source/constraints/general/impvel/fv_imp0.F
 Chd|        FV_DD0                        source/constraints/general/impvel/fv_imp0.F
@@ -164,7 +164,7 @@ Chd|====================================================================
      Y  DIMFB  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N, DRAPE_SH3N,
      Z  H3D_DATA,MULTI_FVM,IGRBRIC,IGRSH4N,IGRSH3N,IGRBEAM,FORNEQS,MAXDGAP,
      A  NDDL0   ,NNZK0 ,IT_T    ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC, DRAPEG,
-     B  INTERFACES,TH_SURF ,FSAVSURF,NSEG_LOADP,DPL0CLD,VEL0CLD,SNPC,STF)
+     B  INTERFACES,TH_SURF,DPL0CLD,VEL0CLD,SNPC,STF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -286,8 +286,6 @@ C
         TYPE (DRAPEG_)   :: DRAPEG
         TYPE (INTERFACES_)    ,INTENT(IN)     :: INTERFACES
         TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
-        my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
-        INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
         TYPE(SKEW_),INTENT(INOUT) :: SKEWS
 C
 C---D_IMP: dUn+1,i,DD : ddU,i+1
@@ -531,7 +529,7 @@ C
      5                     LGRAV ,ITASK ,NRBYAC,IRBYAC ,NPBY  ,
      6                     RBY   ,FR_ELEM,IAD_ELEM,NDDL0,NNZK0,
      7                     I_IMP(5),H3D_DATA,CPTREAC,FTHREAC,NODREAC,
-     8                     NSENSOR,TH_SURF ,FSAVSURF, NSEG_LOADP,DPL0CLD,
+     8                     NSENSOR,TH_SURF ,TH_SURF%CHANNELS, DPL0CLD,
      9                     VEL0CLD,   D,  DR,  NUMNOD,NSURF,
      A                     NFUNCT,NCONLD,NGRAV,NINVEL,STF,NUMSKW)
 C
@@ -547,7 +545,7 @@ C         --en spmd force est traite comme elements---
      2                      AC      ,V          ,X          ,SKEWS      ,
      3                      ACR     ,VR         ,NSENSOR    ,SENSOR_TAB ,TFEXC      ,
      4                      IADS_F  ,FSKY       ,DUMMY_FEXT ,H3D_DATA   ,CPTREAC    ,
-     5                      FTHREAC ,NODREAC    ,TH_SURF    ,FSAVSURF   ,NSEG_LOADP ,
+     5                      FTHREAC ,NODREAC    ,TH_SURF    ,TH_SURF%CHANNELS   ,
      6                      DPL0CLD ,VEL0CLD    ,D          ,DR         ,NCONLD     ,
      7                      NUMNOD  ,NSURF      ,NFUNCT     ,STF )
 C
@@ -1927,7 +1925,7 @@ C
      6                    NPBY  ,RBY   ,IBFV    ,VEL   ,D_IMP  ,
      7                    DR_IMP,IKC   ,IDDL  ,IFRAME,XFRAME  ,
      8                    NDOF  ,H3D_DATA,CPTREAC,FTHREAC,NODREAC,NSENSOR,
-     9                    TH_SURF ,FSAVSURF,NSEG_LOADP,DPL0CLD,
+     9                    TH_SURF ,TH_SURF%CHANNELS,DPL0CLD,
      A                    VEL0CLD, NUMNOD,NSURF,NFUNCT,NCONLD,
      B                    NGRAV,NFXVEL,STF,NUMSKW)
             CALL DYNA_CPR0(NDDL0  )
@@ -3144,7 +3142,7 @@ Chd|====================================================================
      N  FRWL6  ,IRBE2  ,LRBE2  ,ICFIELD,LCFIELD,CFIELD,ELBUF_TAB,WEIGHT_MD,
      O  STACK  ,DIMFB  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N,DRAPE_SH3N,H3D_DATA,
      P  NDDL0  ,NNZK0  ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC,DRAPEG,TH_SURF ,
-     Q  FSAVSURF,NSEG_LOADP,DPL0CLD,VEL0CLD,SNPC,STF)
+     Q  DPL0CLD,VEL0CLD,SNPC,STF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -3232,8 +3230,6 @@ c     .  BKUD(*),R_IMP(*),AC(3,*),ACR(3,*),FRBE3(*)
         TYPE (IMPBUF_STRUCT_) ,TARGET :: IMPBUF_TAB
         TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
         TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
-        my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
-        INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
 #if defined(MUMPS5)
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -3356,7 +3352,7 @@ C----------------------------------
      2                   AC      ,V       ,X          ,SKEW       ,NUMSKW     ,
      3                   ACR     ,VR      ,NSENSOR    ,SENSOR_TAB ,TFEXC      ,
      4                   IADS_F  ,FSKY    ,DUMMY_FEXT ,H3D_DATA   ,CPTREAC    ,
-     5                   FTHREAC ,NODREAC ,TH_SURF    ,FSAVSURF   ,NSEG_LOADP ,
+     5                   FTHREAC ,NODREAC ,TH_SURF    ,TH_SURF%CHANNELS,
      6                   DPL0CLD ,VEL0CLD ,D          ,DR         ,NCONLD     ,
      7                   NUMNOD  ,NSURF   ,NFUNCT     ,STF)
           IF (IMACH==3.AND.NSPMD>1) THEN
