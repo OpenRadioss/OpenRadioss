@@ -611,7 +611,7 @@ C-----------------------------------------------
 !       NUMNOD_L : integer, number of local element
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
         INTEGER, DIMENSION(NUMSKW+1), INTENT(INOUT) :: TAG_SKN
-        TYPE(SKEW_TYPE), DIMENSION(NUMSKW+1), INTENT(INOUT) :: MULTIPLE_SKEW
+        TYPE(PLIST_SKEW_), DIMENSION(NUMSKW+1), INTENT(INOUT) :: MULTIPLE_SKEW
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       TAG_SKN : integer ; dimension=NUMSKW+1
 !                 tag array --> tag the i SKEW if a SPRING uses it

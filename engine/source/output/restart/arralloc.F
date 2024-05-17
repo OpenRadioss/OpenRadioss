@@ -62,7 +62,7 @@ Chd|        SPH_MOD                       share/modules/sph_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TRIMAT_MOD                    share/modules/trimat.F        
 Chd|====================================================================
-      SUBROUTINE RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,LOADS,INTERFACES)
+      SUBROUTINE RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,LOADS,INTERFACES,SKEWS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -97,6 +97,8 @@ C-----------------------------------------------
       USE LOADS_MOD
       USE DAMP_MOD
       USE INTERFACES_MOD
+      USE SKEW_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,6 +137,7 @@ C-----------------------------------------------
       TYPE(t_SEGVAR) :: SEGVAR
       TYPE (LOADS_),INTENT(IN) :: LOADS
       TYPE(INTERFACES_) :: INTERFACES
+      TYPE(SKEW_)       :: SKEWS
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1042,10 +1045,6 @@ C   -----------------------------------------------
         ALLOCATE (PM(SPM),STAT=IERR)
         IF (IERR/=0) GOTO 1000
         PM = 0
-
-        ALLOCATE (SKEW(SSKEW),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        SKEW = 0  
 
         ALLOCATE (XFRAME(SXFRAME),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -2292,7 +2291,10 @@ C-------/DAMP/VREL----------------------
         IF (IERR/=0) GOTO 1000    
         ALLOCATE (FR_DAMP_VREL(NDAMP_VREL*(NSPMD+2)),STAT=IERR)
         IF (IERR/=0) GOTO 1000          
-C
+
+        ! Skew
+        CALL MY_ALLOC(SKEWS%SKEW,SKEWS%N_SKEW_VAR,SKEWS%TOTAL_SKEW_NUMBER)
+        
 C  DEBUG MEMORY ALLOCATIONS
 C
         IF(DEBUG(6)==1)THEN

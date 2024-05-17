@@ -72,7 +72,7 @@ Chd|====================================================================
      .           DRAPE_SH4N  ,DRAPE_SH3N  ,T_MONVOL       ,SENSORS    ,EBCS_TAB        ,
      .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS    ,
      .           OUTPUT      ,INTERFACES  ,DT             ,LOADS      ,MAT_ELEM        ,
-     .           PYTHON      ,NAMES_AND_TITLES, UNITAB)
+     .           PYTHON      ,NAMES_AND_TITLES, UNITAB    ,SKEWS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -111,6 +111,7 @@ C-----------------------------------------------
       USE DAMP_MOD
       USE NAMES_AND_TITLES_MOD,only:NAMES_AND_TITLES_
       USE UNITAB_MOD
+      USE SKEW_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -170,6 +171,7 @@ C     REAL
       TYPE(MAT_ELEM_) ,INTENT(INOUT)          :: MAT_ELEM
       TYPE(PYTHON_)   , INTENT(INOUT)         :: PYTHON
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT)   :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
+      TYPE(SKEW_), INTENT(INOUT)              :: SKEWS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -204,7 +206,7 @@ C
      A  LLINK           ,LINALE         ,NEFLSW         ,NNFLSW         ,ICUT           ,CLUSTER     ,
      B  ITASK           ,IAF(IF01)      ,
      C  X               ,D              ,V              ,VR             ,DR             ,THKE        ,DAMP             ,MS        ,
-     D  IN              ,PM             ,SKEW           ,GEO            ,EANI           ,BUFMAT      ,BUFGEO           ,BUFSF     ,
+     D  IN              ,PM             ,SKEWS          ,GEO            ,EANI           ,BUFMAT      ,BUFGEO           ,BUFSF     ,
      E  W               ,VEUL           ,FILL           ,DFILL          ,ALPH           ,WB          ,DSAVE            ,ASAVE     ,
      .  MSNF            , 
      F  TF              ,FORC           ,VEL            ,FSAV           ,FZERO          ,XLAS        ,ACCELM           ,

@@ -46,7 +46,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|====================================================================
       SUBROUTINE RDCOMI(TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
-     .                  INTER_PARAMETERS,SENSORS,LOADS ,MAT_ELEM)
+     .                  INTER_PARAMETERS,SENSORS,LOADS ,MAT_ELEM,SKEWS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -68,6 +68,7 @@ C-----------------------------------------------
       USE LOADS_MOD
       USE MAT_ELEM_MOD
       USE DAMP_MOD
+      USE SKEW_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,6 +81,7 @@ C-----------------------------------------------
       TYPE (SENSORS_)       ,INTENT(INOUT) :: SENSORS
       TYPE (LOADS_)         ,INTENT(INOUT) :: LOADS
       TYPE (MAT_ELEM_)      ,INTENT(INOUT) :: MAT_ELEM
+      TYPE (SKEW_)          ,INTENT(INOUT) :: SKEWS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1791,6 +1793,12 @@ C-----/DAMP/VREL
       NEXT       = NEXT + 1
       INTER_PARAMETERS%INT25_EROSION_SOLID   = TABVINT(NEXT)
 C
+      ! Initialize variables from Restart 
+      ! ----------------------------------
+      ! Skews
+      SKEWS%SKEW_NUMBER=NUMSKW                                                   ! Copy the Skew Number in SKEW_ type
+      SKEWS%N_SKEW_VAR= LSKEW                                                    ! Copy the number of variables per skew
+      SKEWS%TOTAL_SKEW_NUMBER =  NUMSKW + 1 + MIN(1,NSPCOND)*NUMSPH + NSUBMOD    ! skew array contains deck skews + 1 skew per SPH + 1 Skew per Submodel
 C--------------------------------------
       RETURN
       END

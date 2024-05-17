@@ -135,6 +135,14 @@ C         USER SENSOR
 C--------------------
 
           ! Allocate Userbuffer Sensors
+          ! Global sensor variables / Not need with user sensors
+          SENSOR_PTR%NPARI  = 0
+          SENSOR_PTR%NPARR  = 0
+          SENSOR_PTR%NVAR  = 0
+          ALLOCATE(SENSOR_PTR%IPARAM(SENSOR_PTR%NPARI))
+          ALLOCATE(SENSOR_PTR%RPARAM(SENSOR_PTR%NPARR))
+          ALLOCATE(SENSOR_PTR%VAR(SENSOR_PTR%NVAR))
+          ! User Sensor Buffer
           ALLOCATE(SENSOR_PTR%INTEGER_USERBUF(ISENBUF))
           ALLOCATE(SENSOR_PTR%FLOAT_USERBUF(LSENBUF))
 

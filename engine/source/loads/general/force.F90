@@ -29,7 +29,7 @@
         subroutine force (                                             &
         & nibcld     ,ib         ,lfaccld    ,fac       ,snpc       ,&
         & npc        ,stf        ,tf         ,a         ,v          ,&
-        & x          ,lskew      ,numskw     ,skew      ,ar         ,&
+        & x          ,skews      ,ar                                ,&
         & vr         ,nsensor    ,sensor_tab ,tfexc     ,iadc       ,&
         & lsky       ,fsky       ,fext       ,h3d_data  ,cptreac    ,&
         & fthreac    ,nodreac    ,th_surf    ,fsavsurf  ,nseg_loadp ,&
@@ -46,6 +46,7 @@
           use pinchtype_mod
           use sensor_mod
           use th_surf_mod , only : th_surf_
+          use skew_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -69,7 +70,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           ! Input
           integer, intent(in) :: numnod                        !< number of nodes in model
-          integer, intent(in) :: numskw                        !< number of skew in model
           integer, intent(in) :: nfunct                        !< number of tabulated functions in model
           integer, intent(in) :: nsurf                         !< number of surfaces in model
           integer, intent(in) :: stf                           !< size of tabulated functions array
@@ -78,7 +78,6 @@
           integer, intent(in) :: impl_s                        !< implicit flag
           integer, intent(in) :: iparit                        !< parallel arithmetic flag
           integer, intent(in) :: lsky                          !< size of skyline array (/parith/on)
-          integer, intent(in) :: lskew                         !< size of skew array
           integer, intent(in) :: nibcld                        !< loads: number of variables per load
           integer, intent(in) :: lfaccld                       !< loads: number of variables per fac
           integer, intent(in) :: nsensor                       !< number of sensors in model
@@ -88,7 +87,6 @@
           integer, intent(in) :: nodreac(numnod)               !< Node ID for REAC option
           integer, intent(in) :: ib(nibcld,nconld)             !< Concentrated loads buffer
           my_real, intent(in) :: fac(lfaccld,nconld)           !< array for concentrated loads
-          my_real, intent(in) :: skew(lskew,numskw+1)          !< Skew array
           my_real, intent(in) :: tf(stf)                       !< Tabulated function array
           my_real, intent(in) :: dpl0cld(6,nconld)             !< condition loads displacements
           my_real, intent(in) :: vel0cld(6,nconld)             !< condition loads velocity
@@ -107,6 +105,7 @@
           type(h3d_database), intent(in) :: h3d_data           !< H3D output structure
           type (th_surf_) , intent(in) :: th_surf              !< Time history / surface
           ! Inout / output
+          type(skew_), intent(inout) :: skews                  !< Skews structure
           my_real, intent(inout) :: fsky(8,lsky)               !< skyline vector : Strore forces for PARITH/ON
           my_real, intent(inout) :: a(3,numnod)                !< node accelerations
           my_real, intent(inout) :: ar(3,numnod)               !< node rotational accelerations
@@ -287,22 +286,22 @@
                     k1=3*n2-2
                     k2=3*n2-1
                     k3=3*n2
-                    vv = skew(k1,isk)*v(1,n1)+skew(k2,isk)*v(2,n1)+skew(k3,isk)*v(3,n1)
-                    a(1,n1)=a(1,n1)+skew(k1,isk)*aa
-                    a(2,n1)=a(2,n1)+skew(k2,isk)*aa
-                    a(3,n1)=a(3,n1)+skew(k3,isk)*aa
+                    vv = skews%skew(k1,isk)*v(1,n1)+skews%skew(k2,isk)*v(2,n1)+skews%skew(k3,isk)*v(3,n1)
+                    a(1,n1)=a(1,n1)+skews%skew(k1,isk)*aa
+                    a(2,n1)=a(2,n1)+skews%skew(k2,isk)*aa
+                    a(3,n1)=a(3,n1)+skews%skew(k3,isk)*aa
                     if(ianim >0 .and.impl_s==0) then
-                      fext(1,n1) = fext(1,n1)+skew(k1,isk)*aa
-                      fext(2,n1) = fext(2,n1)+skew(k2,isk)*aa
-                      fext(3,n1) = fext(3,n1)+skew(k3,isk)*aa
+                      fext(1,n1) = fext(1,n1)+skews%skew(k1,isk)*aa
+                      fext(2,n1) = fext(2,n1)+skews%skew(k2,isk)*aa
+                      fext(3,n1) = fext(3,n1)+skews%skew(k3,isk)*aa
                     endif
 !
 !
                     if (cptreac > 0 ) then
                       if(nodreac(n1)/=0) then
-                        fthreac(1,nodreac(n1)) = fthreac(1,nodreac(n1)) + skew(k1,isk)*aa*dt1
-                        fthreac(2,nodreac(n1)) = fthreac(2,nodreac(n1)) + skew(k2,isk)*aa*dt1
-                        fthreac(3,nodreac(n1)) = fthreac(3,nodreac(n1)) + skew(k3,isk)*aa*dt1
+                        fthreac(1,nodreac(n1)) = fthreac(1,nodreac(n1)) + skews%skew(k1,isk)*aa*dt1
+                        fthreac(2,nodreac(n1)) = fthreac(2,nodreac(n1)) + skews%skew(k2,isk)*aa*dt1
+                        fthreac(3,nodreac(n1)) = fthreac(3,nodreac(n1)) + skews%skew(k3,isk)*aa*dt1
                       endif
                     endif!
 !
@@ -323,16 +322,16 @@
                     k1       = 3*n2-2
                     k2       = 3*n2-1
                     k3       = 3*n2
-                    vv       = skew(k1,isk)*vr(1,n1)+skew(k2,isk)*vr(2,n1)+skew(k3,isk)*vr(3,n1)
-                    ar(1,n1) = ar(1,n1)+skew(k1,isk)*aa
-                    ar(2,n1) = ar(2,n1)+skew(k2,isk)*aa
-                    ar(3,n1) = ar(3,n1)+skew(k3,isk)*aa
+                    vv       = skews%skew(k1,isk)*vr(1,n1)+skews%skew(k2,isk)*vr(2,n1)+skews%skew(k3,isk)*vr(3,n1)
+                    ar(1,n1) = ar(1,n1)+skews%skew(k1,isk)*aa
+                    ar(2,n1) = ar(2,n1)+skews%skew(k2,isk)*aa
+                    ar(3,n1) = ar(3,n1)+skews%skew(k3,isk)*aa
 !
                     if (cptreac > 0) then
                       if(nodreac(n1)/=0) then
-                        fthreac(4,nodreac(n1)) = fthreac(4,nodreac(n1)) + skew(k1,isk)*aa*dt1
-                        fthreac(5,nodreac(n1)) = fthreac(5,nodreac(n1)) + skew(k2,isk)*aa*dt1
-                        fthreac(6,nodreac(n1)) = fthreac(6,nodreac(n1)) + skew(k3,isk)*aa*dt1
+                        fthreac(4,nodreac(n1)) = fthreac(4,nodreac(n1)) + skews%skew(k1,isk)*aa*dt1
+                        fthreac(5,nodreac(n1)) = fthreac(5,nodreac(n1)) + skews%skew(k2,isk)*aa*dt1
+                        fthreac(6,nodreac(n1)) = fthreac(6,nodreac(n1)) + skews%skew(k3,isk)*aa*dt1
                       endif
                     endif
 !
@@ -798,22 +797,22 @@
                     k1  = 3*n2-2
                     k2  = 3*n2-1
                     k3  = 3*n2
-                    vv  = skew(k1,isk)*v(1,n1)+skew(k2,isk)*v(2,n1)+ skew(k3,isk)*v(3,n1)
+                    vv  = skews%skew(k1,isk)*v(1,n1)+skews%skew(k2,isk)*v(2,n1)+ skews%skew(k3,isk)*v(3,n1)
                     iad = iadc(1,nl)
-                    fsky(1,iad)  = skew(k1,isk)*aa
-                    fsky(2,iad)  = skew(k2,isk)*aa
-                    fsky(3,iad)  = skew(k3,isk)*aa
+                    fsky(1,iad)  = skews%skew(k1,isk)*aa
+                    fsky(2,iad)  = skews%skew(k2,isk)*aa
+                    fsky(3,iad)  = skews%skew(k3,isk)*aa
                     if(ianim >0  .and.impl_s==0) then
-                      fext(1,n1) = fext(1,n1)+skew(k1,isk)*aa
-                      fext(2,n1) = fext(2,n1)+skew(k2,isk)*aa
-                      fext(3,n1) = fext(3,n1)+skew(k3,isk)*aa
+                      fext(1,n1) = fext(1,n1)+skews%skew(k1,isk)*aa
+                      fext(2,n1) = fext(2,n1)+skews%skew(k2,isk)*aa
+                      fext(3,n1) = fext(3,n1)+skews%skew(k3,isk)*aa
                     endif
 !
                     if (cptreac > 0) then
                       if(nodreac(n1)/=0) then
-                        fthreac(1,nodreac(n1)) = fthreac(1,nodreac(n1)) + skew(k1,isk)*aa*dt1
-                        fthreac(2,nodreac(n1)) = fthreac(2,nodreac(n1)) + skew(k2,isk)*aa*dt1
-                        fthreac(3,nodreac(n1)) = fthreac(3,nodreac(n1)) + skew(k3,isk)*aa*dt1
+                        fthreac(1,nodreac(n1)) = fthreac(1,nodreac(n1)) + skews%skew(k1,isk)*aa*dt1
+                        fthreac(2,nodreac(n1)) = fthreac(2,nodreac(n1)) + skews%skew(k2,isk)*aa*dt1
+                        fthreac(3,nodreac(n1)) = fthreac(3,nodreac(n1)) + skews%skew(k3,isk)*aa*dt1
                       endif
                     endif
 !
@@ -835,17 +834,17 @@
                     k1  = 3*n2-2
                     k2  = 3*n2-1
                     k3  = 3*n2
-                    vv  = skew(k1,isk)*vr(1,n1)+skew(k2,isk)*vr(2,n1)+ skew(k3,isk)*vr(3,n1)
+                    vv  = skews%skew(k1,isk)*vr(1,n1)+skews%skew(k2,isk)*vr(2,n1)+ skews%skew(k3,isk)*vr(3,n1)
                     iad = iadc(1,nl)
-                    fsky(4,iad) = skew(k1,isk)*aa
-                    fsky(5,iad) = skew(k2,isk)*aa
-                    fsky(6,iad) = skew(k3,isk)*aa
+                    fsky(4,iad) = skews%skew(k1,isk)*aa
+                    fsky(5,iad) = skews%skew(k2,isk)*aa
+                    fsky(6,iad) = skews%skew(k3,isk)*aa
 !
                     if (cptreac > 0) then
                       if(nodreac(n1)/=0) then
-                        fthreac(4,nodreac(n1)) = fthreac(4,nodreac(n1)) + skew(k1,isk)*aa*dt1
-                        fthreac(5,nodreac(n1)) = fthreac(5,nodreac(n1)) + skew(k2,isk)*aa*dt1
-                        fthreac(6,nodreac(n1)) = fthreac(6,nodreac(n1)) + skew(k3,isk)*aa*dt1
+                        fthreac(4,nodreac(n1)) = fthreac(4,nodreac(n1)) + skews%skew(k1,isk)*aa*dt1
+                        fthreac(5,nodreac(n1)) = fthreac(5,nodreac(n1)) + skews%skew(k2,isk)*aa*dt1
+                        fthreac(6,nodreac(n1)) = fthreac(6,nodreac(n1)) + skews%skew(k3,isk)*aa*dt1
                       endif
                     endif
 !

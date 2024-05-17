@@ -111,7 +111,7 @@ C-----------------------------------------------
      .        R_SKEW(*),IPM(NPROPMI,*),LEN_CEP
         INTEGER, DIMENSION(NPROPGI,*), INTENT(IN) :: IGEO
         INTEGER, DIMENSION(NUMSKW+NSUBMOD+1), INTENT(INOUT) :: TAG_SKN
-        TYPE(SKEW_TYPE), DIMENSION(NUMSKW+1), INTENT(INOUT) :: MULTIPLE_SKEW
+        TYPE(PLIST_SKEW_), DIMENSION(NUMSKW+1), INTENT(INOUT) :: MULTIPLE_SKEW
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       TAG_SKN : integer ; dimension=NUMSKW+NSUBMOD+1
 !                 tag array --> tag the i SKEW if a SPRING uses it

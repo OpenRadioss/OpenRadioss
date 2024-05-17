@@ -205,6 +205,7 @@ C-----------------------------------------------
       USE PYTHON_FUNCT_MOD
       USE NAMES_AND_TITLES_MOD, only: NAMES_AND_TITLES_
       USE UNITAB_MOD
+      USE SKEW_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -336,6 +337,7 @@ c      TYPE (SENSORS_)  :: SENSORS    ! defined as global in user_interface_mod
       TYPE (DT_)       :: DT
       TYPE (LOADS_)    :: LOADS
       TYPE (MAT_ELEM_) :: MAT_ELEM
+      TYPE (SKEW_)      :: SKEWS
 C----------------------------------------------------------------------------------
 C MDS Table
       INTEGER, DIMENSION(:), ALLOCATABLE :: MDS_OUTPUT_TABLE
@@ -850,7 +852,7 @@ C------------------------------------------------
       CALL RDRESA(ITSTV1 ,LHEADER ,LVARINT ,LVARREA ,PRADIOS ,
      .            PRESFIL, MULTI_FVM, H3D_DATA,
      .            PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
-     .            MAT_ELEM,NAMES_AND_TITLES )
+     .            MAT_ELEM,NAMES_AND_TITLES,SKEWS )
 
 C------------------------------------------------
 C     Test of .rst file compatibility
@@ -982,7 +984,7 @@ C------------------------------------------------
 C     .rst file reading 2
 C------------------------------------------------
       CALL TRACE_IN(17,2,ZERO)
-      CALL RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,LOADS,INTERFACES)
+      CALL RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,LOADS,INTERFACES,SKEWS)
       ALLOCATE(T_MONVOL(NVOLU))
       IGEO = 0
       IPM = 0
@@ -1022,7 +1024,7 @@ c
       CALL RDRESB(AF                ,IAF      ,LVARREA      ,XDP             ,IRUNN     , 
      .            MULTI_FVM        ,H3D_DATA  ,PINCH_DATA,
      .            ALE_CONNECTIVITY ,T_MONVOL  ,SENSORS      ,EBCS_TAB        ,DYNAIN_DATA,
-     .            USER_WINDOWS     ,OUTPUT    ,INTERFACES   ,LOADS           ,MAT_ELEM, PYTHON)
+     .            USER_WINDOWS     ,OUTPUT    ,INTERFACES   ,LOADS           ,MAT_ELEM, PYTHON,SKEWS)
 
       IF (NSPMD > 1)  CALL SPMD_RST_CHECK()
 c----------
@@ -1541,7 +1543,7 @@ C------------------------------------------------
      5              NPBY ,   LPBY    ,ILINK,   LLINK  ,LINALE ,
      6              NEFLSW , NNFLSW , ICUT ,   IAF(IF01),
      7              X  ,     V  ,     VR  ,    MS   ,IN  ,
-     8              SKEW  ,TF       ,RBY  ,
+     8              SKEWS%SKEW  ,TF       ,RBY  ,
      9              WA  ,CRFLSW  ,XCUT  ,ANIN  ,DAMPR  ,
      A              IGRNOD ,KXSP,WEIGHT ,FR_RBY2 ,FR_RL,
      B              PARTSAV,IPART,PM,
@@ -1589,7 +1591,7 @@ C------------------------------------------------
       IF (NUMELTG6>0) THEN
         CALL CDK6BC3(ICODT ,ISKEW,ISKWN,IXTG  ,
      1                  IXTG1   ,NPBY,
-     2                  X ,SKEW)
+     2                  X ,SKEWS%SKEW)
       ENDIF
 C
 C bcs rigid material
@@ -2257,7 +2259,7 @@ C---------------------------------------------------------------------
      .                   DRAPE_SH4N   ,DRAPE_SH3N      ,T_MONVOL        ,SENSORS    ,EBCS_TAB        ,
      .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    ,
      .                   OUTPUT       ,INTERFACES      ,DT              ,LOADS      ,MAT_ELEM  , PYTHON,
-     .                   NAMES_AND_TITLES, UNITAB)
+     .                   NAMES_AND_TITLES, UNITAB      ,SKEWS)
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")

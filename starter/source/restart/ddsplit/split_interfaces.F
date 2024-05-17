@@ -1769,11 +1769,9 @@ c split and write on disk floating arrays
 
 
           IF(INTBUF_TAB(NI)%S_CRITX > 0) THEN
-            CALL SPLIT_SEG_RVAL_I20(INTBUF_TAB(NI)%CRITX,
-     .                              NSNE_L,3,TAG_NSVE) !JD(39)
-
-            CALL SPLIT_SEG_RVAL_I20(INTBUF_TAB(NI)%CRITX(NSNE_L*3+1),
-     .                              NMNE_L,3,TAG_MSRE) !JD(39)
+            ! INTBUF_TAB(NI)%CRITX is initialized to 0 in Starter / No need to split
+            SIZ = 3*(NSNE_L+NMNE_L)            
+            CALL WRITE_DB(INTBUF_TAB(NI)%CRITX,SIZ)
           ENDIF
 
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_ME,NLINM_L,1,TAG_NLINM) !JD(35)

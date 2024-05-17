@@ -117,7 +117,7 @@ Chd|====================================================================
      .    DIMENSION(:), ALLOCATABLE :: 
      .      X,       D,       V,       VR,      DR,      THKE,
      .      DAMPR,   DAMP,    MS,      IN,      TF,      PM, 
-     .      SKEW,    XFRAME,  GEO,     EANI,    BUFMAT,  BUFGEO,
+     .      XFRAME,  GEO,     EANI,    BUFMAT,  BUFGEO,
      .      BUFSF,   RBMPC,   GJBUFR,  W,       VEUL,    FILL, 
      .      DFILL,   ALPH,    WB,      DSAVE,   ASAVE, 
      .      SPBUF,
