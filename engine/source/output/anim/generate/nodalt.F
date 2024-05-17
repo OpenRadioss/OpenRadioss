@@ -96,7 +96,9 @@ C-----------------------------------------------
       TYPE(G_BUFEL_)  ,POINTER :: GBUF,GBUFv     
       my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL    
       my_real V,T
-      INTEGER,DIMENSION(:,:), POINTER   :: pAdjBRICK      
+      INTEGER,DIMENSION(:,:), POINTER   :: pAdjBRICK
+      INTEGER G_VOL     
+      INTEGER G_TEMP 
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------      
@@ -118,9 +120,16 @@ C------------------------------------------------------------------
              IF(ITYP/=1 .AND. ITYP/=2)CYCLE 
              !IF(IALEL==0)CYCLE
              GBUF => ELBUF_TAB(NG)%GBUF
+             G_VOL=ELBUF_TAB(NG)%GBUF%G_VOL
+             G_TEMP = ELBUF_TAB(NG)%GBUF%G_TEMP
              DO I=1,NEL
-                T = GBUF%TEMP(I)
-                V = GBUF%VOL(I)                            
+                IF (G_VOL > 0 .AND. G_TEMP > 0)THEN
+                  T = GBUF%TEMP(I)
+                  V = GBUF%VOL(I)                            
+                ELSE                      ! Volume is not computet with Void properties
+                  T=ZERO
+                  V=ZERO
+                ENDIF
                 DO J=2,NNOD+1
                   JJ=IX(J,NFT+I)
                   WA4(JJ)=WA4(JJ)+V*T               !cumulated quantity

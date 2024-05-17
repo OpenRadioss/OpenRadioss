@@ -106,7 +106,8 @@ Chd|====================================================================
      .           PINCH_DATA    ,ALE_CONNECTIVITY, T_MONVOL,
      .           SENSORS       ,EBCS_TAB  ,DYNAIN_DATA,USER_WINDOWS,OUTPUT,
      .           INTERFACES    ,LOADS     ,PYTHON, NAMES_AND_TITLES,
-     .           EIGIPM        ,EIGIBUF   ,EIGRPM, NEIPM, LEIBUF, NERPM)
+     .           EIGIPM        ,EIGIBUF   ,EIGRPM, NEIPM, LEIBUF, NERPM,
+     .           SKEWS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -146,6 +147,7 @@ C-----------------------------------------------
       USE DAMP_MOD
       USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,LTITLE
       USE BCS_MOD , only : BCS
+      USE SKEW_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -180,6 +182,7 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(MAT_ELEM_)       ,INTENT(IN)                   :: MAT_ELEM
       TYPE(PYTHON_)         ,INTENT(INOUT)                :: PYTHON
       TYPE(NAMES_AND_TITLES_),INTENT(IN)                  :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
+      TYPE(SKEW_),INTENT(IN)                              :: SKEWS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -234,6 +237,7 @@ C-----------------------------------------------
       INTEGER :: II, NS_DIFF, ITMP
       INTEGER :: MY_SIZE
       INTEGER,DIMENSION(LTITLE) :: ITITLE
+      INTEGER :: SKEW_LEN
 C-----------------------------------------------
 C     Python interface
 C-----------------------------------------------
@@ -1013,7 +1017,8 @@ C--------------------------------------
 
          CALL WRITE_ELGROUP_PARAM(MAT_ELEM%GROUP_PARAM,NGROUP)
 
-         CALL WRITE_DB(SKEW,SSKEW)
+         SKEW_LEN = SKEWS%N_SKEW_VAR * SKEWS%TOTAL_SKEW_NUMBER
+         CALL WRITE_DB(SKEWS%SKEW,SKEW_LEN)
 
          CALL WRITE_DB(XFRAME,SXFRAME)
 

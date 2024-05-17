@@ -43,7 +43,7 @@ Chd|====================================================================
       SUBROUTINE RDRESA(ITSTV1 , LHEADER, LVARINT, LVARREA, PRADIOS,
      .                  PRESFIL,MULTI_FVM,H3D_DATA,
      .                  PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
-     .                  MAT_ELEM, NAMES_AND_TITLES  )
+     .                  MAT_ELEM, NAMES_AND_TITLES,SKEWS  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE LOADS_MOD
       USE MAT_ELEM_MOD
       USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,LTITLE   !< NAMES_AND_TITLES host the input deck names and titles for outputs
+      USE SKEW_MOD                                              !< Skew type
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,6 +87,7 @@ C-----------------------------------------------
       TYPE (LOADS_)         ,INTENT(INOUT)   :: LOADS
       TYPE (MAT_ELEM_)      ,INTENT(INOUT)   :: MAT_ELEM
       TYPE (NAMES_AND_TITLES_),INTENT(INOUT) :: NAMES_AND_TITLES
+      TYPE (SKEW_)          ,INTENT(INOUT)   :: SKEWS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -164,7 +166,7 @@ C     Read integer variables
 C----------------------------
       CALL READ_I_C(TABVINT,LVARINT)
       CALL RDCOMI(TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
-     .            INTERFACES%PARAMETERS,SENSORS,LOADS  ,MAT_ELEM)
+     .            INTERFACES%PARAMETERS,SENSORS,LOADS  ,MAT_ELEM,SKEWS)
 
 C
       IF(ANIM_PLY > 0 .AND.IPLYXFEM == 0) THEN

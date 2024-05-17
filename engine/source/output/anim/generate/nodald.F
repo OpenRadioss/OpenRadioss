@@ -93,6 +93,7 @@ C-----------------------------------------------
      .        IR1, IR2, J, JJ, NNO_L, NNI_L, II3, II4, JJJ, NNI,
      .        IALEL,NNOD,IPOS,IV,NGv,IDLOCv,J1,J2,IBV
       INTEGER MLW, NG, KCVT, II, NBF, NBL, IB, ICELL, NIN, MCELL
+      INTEGER G_VOL
       TYPE(G_BUFEL_)  ,POINTER :: GBUF,GBUFv     
       my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL    
       my_real D,V
@@ -124,9 +125,16 @@ C------------------------------------------------------------------
              IF(ITYP/=1 .AND. ITYP/=2)CYCLE 
              !IF(IALEL==0)CYCLE
              GBUF => ELBUF_TAB(NG)%GBUF                       
+             G_VOL = ELBUF_TAB(NG)%GBUF%G_VOL
+
               DO I=1,NEL
-                D = GBUF%RHO(I)   
-                V = GBUF%VOL(I)                            
+                IF (G_VOL > 0 )THEN
+                   D = ELBUF_TAB(NG)%GBUF%RHO(I)
+                   V = ELBUF_TAB(NG)%GBUF%VOL(I)                            
+                ELSE          ! Volume is not initialized in case of VOID Bricks 
+                   D=ZERO
+                   V=ZERO
+                ENDIF
                 DO J=2,NNOD+1
                   JJ=IX(J,NFT+I)
                   WA4(JJ)=WA4(JJ)+V*D               !cumulated mass

@@ -3990,10 +3990,9 @@ C ----------------------------------------
         TAG_SCRATCH(N) = 0
       ENDDO
       NINDX_SCRT = 0
-
 C
 C Partie ligne
-C
+CTAG_SCRATCH(K)
       CNLINS_L = 0
       CNLINSA_L= 0
       CNLINM_L = 0
@@ -4042,15 +4041,17 @@ C comptage ligne active
           ENDIF
         ENDIF
       ENDDO
-
       !reflush to zero only part of TAG_SCRATCH that has been used
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
-          N = INDX_SCRT(K)
-          TAG_SCRATCH(N) = 0
+        DO K=1,NLINS
+          N1L = INTBUF_TAB%IXLINS(2*(K-1)+1)
+          N2L = INTBUF_TAB%IXLINS(2*(K-1)+2)
+          N1  = INTBUF_TAB%NLG(N1L)
+          N2  = INTBUF_TAB%NLG(N2L)
+          TAG_SCRATCH(N1) = 0
+          TAG_SCRATCH(N2) = 0
         ENDDO
         NINDX_SCRT = 0
-
       DO K=1,NLINM
         N1L = INTBUF_TAB%IXLINM(2*(K-1)+1)
         N2L = INTBUF_TAB%IXLINM(2*(K-1)+2)
@@ -4095,11 +4096,14 @@ C comptage ligne active
 
       !reflush to zero only part of TAG_SCRATCH that has been used
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
-          N = INDX_SCRT(K)
-          TAG_SCRATCH(N) = 0
-        ENDDO
-        NINDX_SCRT = 0
+      DO K=1,NLINM
+        N1L = INTBUF_TAB%IXLINM(2*(K-1)+1)
+        N2L = INTBUF_TAB%IXLINM(2*(K-1)+2)
+        N1  = INTBUF_TAB%NLG(N1L)
+        N2  = INTBUF_TAB%NLG(N2L)
+        TAG_SCRATCH(N1) = 0
+        TAG_SCRATCH(N2) = 0
+      ENDDO
 C
 C Calcul de NCONT en prenant le max des edge et non edge
 C
@@ -4385,6 +4389,7 @@ C ----------------------------------------
 
         ALLOCATE(PLIST(NSPMD)) 
         PLIST(1:NSPMD) = -1
+        NINDX_SCRT=0
         DO K=1,NSN
           N = INTBUF_TAB%NSV(K)
           NSNLOCAL(K) = 0

@@ -47,7 +47,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NUMSKW+1), INTENT(IN) :: TAG_SKN
         INTEGER, DIMENSION(NUMSKW+1), INTENT(IN) :: ISKWP
         INTEGER, DIMENSION(NUMSKW+1), INTENT(INOUT) :: ISKWP_L
-        TYPE(SKEW_TYPE), DIMENSION(NUMSKW+1), INTENT(IN) :: MULTIPLE_SKEW
+        TYPE(PLIST_SKEW_), DIMENSION(NUMSKW+1), INTENT(IN) :: MULTIPLE_SKEW
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       CURR_PROC : integer 
 !                   current ID processor 
@@ -143,7 +143,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NUMSKW+1), INTENT(IN) :: TAG_SKN
         INTEGER, DIMENSION(NUMSKW+1), INTENT(IN) :: ISKWP
         INTEGER, DIMENSION(NUMSKW+1), INTENT(INOUT) :: ISKWP_L
-        TYPE(SKEW_TYPE), DIMENSION(NUMSKW+1), INTENT(IN) :: MULTIPLE_SKEW
+        TYPE(PLIST_SKEW_), DIMENSION(NUMSKW+1), INTENT(IN) :: MULTIPLE_SKEW
 
 
         integer, dimension(*) :: NSKWP

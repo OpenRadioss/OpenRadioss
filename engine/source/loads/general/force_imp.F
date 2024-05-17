@@ -37,7 +37,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE FORCE_IMP(IB      ,FAC     ,SNPC    ,NPC        ,TF         ,
-     2                     A       ,V       ,X       ,SKEW       ,NUMSKW     ,
+     2                     A       ,V       ,X       ,SKEWS      ,
      3                     AR      ,VR      ,NSENSOR ,SENSOR_TAB ,TFEXC      ,
      4                     IADC    ,FSKY    ,FEXT    ,H3D_DATA   ,CPTREAC    ,
      5                     FTHREAC ,NODREAC ,TH_SURF ,FSAVSURF   ,NSEG_LOADP ,
@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE TH_SURF_MOD , ONLY : TH_SURF_
       USE FORCE_MOD   , ONLY : FORCE
+      USE SKEW_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,7 +73,6 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NUMSKW
       INTEGER, INTENT(IN) :: SNPC
       INTEGER ,INTENT(IN) :: NSENSOR,NCONLD,NUMNOD,NSURF,NFUNCT
       INTEGER ,INTENT(IN) :: STF
@@ -81,11 +81,12 @@ C-----------------------------------------------
       INTEGER IADC(4,*)
       my_real
      .   FAC(LFACCLD,*), TF(*), A(3,*), V(3,*), AR(3,*), VR(3,*),
-     .   X(3,*), SKEW(LSKEW,*), TFEXC,
+     .   X(3,*), TFEXC,
      .   FSKY(8,LSKY), FEXT(3,*),FTHREAC(6,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+      TYPE(SKEW_),INTENT(INOUT) :: SKEWS
       my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
       INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
       my_real, INTENT(IN) ::  DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
@@ -93,7 +94,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       call FORCE( NIBCLD  ,IB      ,LFACCLD    ,FAC      ,SNPC      ,
      2            NPC     ,STF     ,TF         ,A        ,V         ,
-     3            X       ,LSKEW   ,NUMSKW     ,SKEW     ,AR        ,
+     3            X       ,SKEWS   ,AR         ,
      4            VR      ,NSENSOR ,SENSOR_TAB ,TFEXC    ,IADC      ,
      5            LSKY    ,FSKY    ,FEXT       ,H3D_DATA ,CPTREAC   ,
      6            FTHREAC ,NODREAC ,TH_SURF    ,FSAVSURF ,NSEG_LOADP,

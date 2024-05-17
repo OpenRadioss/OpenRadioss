@@ -728,7 +728,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE DYNA_INA(IBCL  ,FORC   ,SNPC,NPC   ,TF    ,A     ,
-     2                    V     ,X      ,SKEW  ,AR    ,VR    ,
+     2                    V     ,X      ,SKEWS  ,AR    ,VR    ,
      3                    SENSOR_TAB,WEIGHT,TFEXC ,IADS_F ,
      4                    FSKY  ,IGRV   ,AGRV  ,MS    ,IN    ,
      5                    LGRAV ,ITASK ,NRBYAC,IRBYAC ,NPBY  ,
@@ -745,6 +745,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE SENSOR_MOD
       USE TH_SURF_MOD , ONLY : TH_SURF_
+      USE SKEW_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -772,11 +773,12 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*)    ,V(3,*)   ,VR(3,*),MS(*)   ,AGRV(*),
-     .   SKEW(LSKEW,*),TF(*) ,FORC(*)  ,RBY(NRBY,*),IN(*),
+     .   TF(*) ,FORC(*)  ,RBY(NRBY,*),IN(*),
      .   A(3,*) ,AR(3,*),TFEXC,FSKY(*),FTHREAC(6,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+      TYPE (SKEW_),INTENT(INOUT)   :: SKEWS
       my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
       INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
       my_real, INTENT(IN) :: 
@@ -848,7 +850,7 @@ C---estimation a(t=0)----
         IF(NCONLD/=0) THEN
           IF (IMON>0) CALL STARTIME(4,ITASK+1)
           CALL FORCE_IMP(IBCL    ,FORC       ,SNPC       ,NPC        ,TF         ,
-     2                   DY_A    ,V          ,X          ,SKEW       ,NUMSKW     ,
+     2                   DY_A    ,V          ,X          ,SKEWS      ,
      3                   DY_AR   ,VR         ,NSENSOR    ,SENSOR_TAB ,TFEXC      ,
      4                   IADS_F  ,FSKY       ,DUMMY_FEXT ,H3D_DATA   ,CPTREAC    ,
      5                   FTHREAC ,NODREAC    ,TH_SURF    ,FSAVSURF   ,NSEG_LOADP ,
@@ -879,7 +881,7 @@ C---estimation a(t=0)----
         IF(NGRAV/=0) THEN
           IF (IMON>0) CALL STARTIME(4,ITASK+1)
           CALL GRAVIT_IMP(IGRV  ,AGRV  ,NPC   ,TF    ,DY_A,
-     2                    V     ,X     ,SKEW  ,MS,TFEXC,
+     2                    V     ,X     ,SKEWS%SKEW  ,MS,TFEXC,
      3                    NSENSOR,SENSOR_TAB,WEIGHT,LGRAV,ITASK,
      4                    NRBYAC,IRBYAC,NPBY  ,RBY    )
           IF (IMON>0) CALL STOPTIME(4,ITASK+1)
@@ -981,7 +983,7 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE DYNA_WEX(IBCL  ,FORC   ,SNPC,NPC   ,TF    ,A     ,
-     2                    V     ,X      ,SKEW  ,AR    ,VR    ,
+     2                    V     ,X      ,SKEWS  ,AR    ,VR    ,
      3                    SENSOR_TAB,WEIGHT,TFEXT ,IADS_F ,
      4                    FSKY  ,IGRV   ,AGRV  ,MS    ,IN    ,
      5                    LGRAV ,ITASK ,NRBYAC,IRBYAC ,NPBY  ,
@@ -998,6 +1000,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE SENSOR_MOD
       USE TH_SURF_MOD , ONLY : TH_SURF_
+      USE SKEW_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1025,13 +1028,14 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*)    ,V(3,*)   ,VR(3,*),MS(*)   ,AGRV(*),
-     .   SKEW(LSKEW,*),TF(*) ,FORC(*)  ,RBY(NRBY,*),IN(*),
+     .   TF(*) ,FORC(*)  ,RBY(NRBY,*),IN(*),
      .   A(3,*) ,AR(3,*),TFEXT,FSKY(*),
      .   VEL(LFXVELR,*), D(3,*), DR(3,*),XFRAME(NXFRAME,*),
      .   FTHREAC(6,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+      TYPE(SKEW_),INTENT(INOUT) :: SKEWS
       my_real, INTENT(INOUT) :: FSAVSURF(5,NSURF)
       INTEGER, INTENT(INOUT) :: NSEG_LOADP(NSURF)
       my_real, INTENT(IN) :: 
@@ -1048,7 +1052,7 @@ C--------------------------------
        IF (IMON>0) CALL STARTIME(4,ITASK+1)
         IF(NCONLD/=0) THEN
           CALL FORCE_IMP( IBCL    ,FORC    ,SNPC       ,NPC        ,TF         ,
-     2                    A       ,V       ,X          ,SKEW       ,NUMSKW     ,
+     2                    A       ,V       ,X          ,SKEWS      ,
      3                    AR      ,VR      ,NSENSOR    ,SENSOR_TAB ,TFEXC      ,
      4                    IADS_F  ,FSKY    ,DUMMY_FEXT ,H3D_DATA   ,CPTREAC    ,
      5                    FTHREAC ,NODREAC ,TH_SURF    ,FSAVSURF   ,NSEG_LOADP ,
@@ -1059,7 +1063,7 @@ C--------------------------------
         ENDIF
         IF(NGRAV/=0) THEN
           CALL GRAVIT_IMP(IGRV  ,AGRV  ,NPC   ,TF    ,A    ,
-     2                    V     ,X     ,SKEW  ,MS,TFEXC,
+     2                    V     ,X     ,SKEWS%SKEW  ,MS,TFEXC,
      3                    NSENSOR,SENSOR_TAB,WEIGHT,LGRAV,ITASK,
      5                    NRBYAC,IRBYAC,NPBY  ,RBY    )
           TFEXT = TFEXT + TFEXC*DT2
@@ -1067,7 +1071,7 @@ C--------------------------------
         IF(NFXVEL/=0) THEN
           CALL WFV_IMP(IBFV  ,NPC    ,TF     ,VEL   ,SENSOR_TAB,
      1                D      ,DR     ,IKC   ,IDDL  ,NSENSOR   ,
-     2                SKEW  ,IFRAME ,XFRAME  ,DY_A  ,DY_AR ,
+     2                SKEWS%SKEW  ,IFRAME ,XFRAME  ,DY_A  ,DY_AR ,
      3                X     ,NDOF    ,MS     ,IN    ,WEIGHT,
      4                RBY   ,TFEXC   )
           TFEXT = TFEXT + TFEXC

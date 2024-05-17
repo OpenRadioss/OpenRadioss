@@ -59,7 +59,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NPROPGI,NUMGEO), INTENT(IN) :: IGEO
         INTEGER, DIMENSION(LISKN,SISKWN/LISKN), INTENT(IN) :: ISKN
         INTEGER, DIMENSION(NPROPMI,NUMMAT), INTENT(IN) :: IPM
-        TYPE(SKEW_TYPE), DIMENSION(NUMSKW+1), INTENT(INOUT) :: MULTIPLE_SKEW
+        TYPE(PLIST_SKEW_), DIMENSION(NUMSKW+1), INTENT(INOUT) :: MULTIPLE_SKEW
         INTEGER, INTENT(IN) :: OFFSET
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       NSKWP : integer ; dimension = NSPMD

@@ -100,7 +100,7 @@ Chd|====================================================================
      .                   MULTI_FVM        ,H3D_DATA ,PINCH_DATA , 
      .                   ALE_CONNECTIVITY ,T_MONVOL ,SENSORS      ,EBCS_TAB        ,DYNAIN_DATA,
      .                   USER_WINDOWS     ,OUTPUT   ,INTERFACES   ,LOADS           ,MAT_ELEM   ,
-     .                   PYTHON)
+     .                   PYTHON,SKEWS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -138,6 +138,7 @@ C-----------------------------------------------
       USE LOADS_MOD
       USE DAMP_MOD
       USE BCS_MOD , ONLY : BCS
+      USE SKEW_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -193,6 +194,7 @@ C-----------------------------------------------
       TYPE(LOADS_)          ,INTENT(INOUT)                 :: LOADS
       TYPE(MAT_ELEM_)       ,INTENT(INOUT)                 :: MAT_ELEM
       TYPE(PYTHON_)         ,INTENT(INOUT)                 :: PYTHON  
+      TYPE(SKEW_)           ,INTENT(INOUT)                 :: SKEWS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -209,6 +211,7 @@ C-----------------------------------------------
       INTEGER :: MY_SIZE
       INTEGER :: PYTHON_LEN
       INTEGER, DIMENSION(:), ALLOCATABLE :: BUFFER
+      INTEGER :: SKEW_LEN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -939,7 +942,8 @@ C--------------------------------------
 
         CALL READ_ELGROUP_PARAM(MAT_ELEM)
 
-        CALL READ_DB(SKEW,SSKEW)
+        SKEW_LEN = SKEWS%N_SKEW_VAR*SKEWS%TOTAL_SKEW_NUMBER
+        CALL READ_DB(SKEWS%SKEW,SKEW_LEN)
 
         CALL READ_DB(XFRAME,SXFRAME)
 

@@ -1074,7 +1074,7 @@ C
 !       FLAG_24_25 : logical, flag for interface 24 or 25
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_SKN
-      TYPE(SKEW_TYPE), DIMENSION(:), ALLOCATABLE :: MULTIPLE_SKEW
+      TYPE(SKEW_) :: SKEWS
       TYPE (SENSOR_STR_) ,DIMENSION(:) ,ALLOCATABLE :: SENSOR_TMP
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       TAG_SKN : integer ; dimension=NUMSKW+1
@@ -1083,9 +1083,10 @@ C
 !                 tag array=1 --> the SKEW is used by one SPRING
 !                 tag array>1 --> the SKEW is used by several SPRING
 !                 tag array <0 --> the SKEW is used by several options (has to be duplicated to all domains that have the nodes)
-!       MULTIPLE_SKEW : SKEW_TYPE ; dimension=NUMSKW+1
-!                       MULTIPLE_SKEW(I)%PLIST(:) is a list of processor
-!                       where the SKEW is stuck
+!       SKEWS : SKEW_ ; SKEW Type 
+      !                 SKEWS%MULTIPLE_SKEW : dimension=NUMSKW+1
+!                       %MULTIPLE_SKEW(I)%PLIST(:) is a list of processor
+!                       where the SKEW is stick
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
         TYPE(SURF_), DIMENSION(:,:), ALLOCATABLE :: IGRSURF_PROC
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
@@ -10276,7 +10277,7 @@ C--------------------------------------------
         ALLOCATE(IGAUP(NBGAUGE))
         ALLOCATE(NGAUP(NSPMD))
         ALLOCATE(TAG_SKN(NUMSKW+NSUBMOD+1))
-        ALLOCATE(MULTIPLE_SKEW(NUMSKW+1))
+        ALLOCATE(SKEWS%MULTIPLE_SKEW(NUMSKW+1))
         ISKWP(1:NUMSKW+1) = 0
         TAG_SKN(1:NUMSKW+NSUBMOD+1) = 0
         NSKWP(1:NSPMD) = 0
@@ -10298,7 +10299,7 @@ C
      B    IRBYM  ,LNRBYM  ,CEP    ,IBCR      ,IRBE2   ,
      C    LRBE2  ,CEPSP   ,CELSPH ,ILOADP    ,LLOADP  ,
      D    LGAUGE ,IGAUP   ,NGAUP  ,INTBUF_TAB,IBFFLUX ,
-     E    ICNDS10,ITAGND  ,IGEO   ,TAG_SKN   ,MULTIPLE_SKEW,
+     E    ICNDS10,ITAGND  ,IGEO   ,TAG_SKN   ,SKEWS%MULTIPLE_SKEW,
      F    IBFV   ,IBCSCYC ,LBCSCYC,R_SKEW    ,IPM,
      G    SENSORS,SCEP    ,EBCS_TAB,LOADS,IFRAME)
 
@@ -10894,7 +10895,7 @@ c
      X         POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,MID_PID_SHELL,MID_PID_TRI ,
      Y         MID_PID_SOL  , TAG_NM      ,NINDX_NM       ,INDX_NM      ,TAG_SCRATCH ,
      Z         NINDX_SCRT   , INDX_SCRT   ,FLAG_24_25     ,NUMNOD_L(P)  ,TAG_SKN     ,
-     A         MULTIPLE_SKEW, IGRSURF_PROC,KNOTLOCPC     ,KNOTLOCEL     ,ALE_ELM(P),
+     A         SKEWS%MULTIPLE_SKEW, IGRSURF_PROC,KNOTLOCPC     ,KNOTLOCEL     ,ALE_ELM(P),
      B         SIZE_ALE_ELM(P),PINCH_DATA ,TAG_SKINS6    ,IBCSCYC      ,LBCSCYC   ,T_MONVOL,
      C         INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,NBR_TH_MONVOL, EBCS_TAB,
      D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP,DYNAIN_DATA,
@@ -10964,7 +10965,7 @@ C
           DEALLOCATE(IPART_STATE)
           DEALLOCATE(EIGIPM, EIGIBUF, EIGRPM)
           DEALLOCATE(TAG_SKN)
-          DEALLOCATE(MULTIPLE_SKEW)
+          DEALLOCATE(SKEWS%MULTIPLE_SKEW)
           IF(IDDLEVEL ==1 .OR. ((NINTER == 0).AND.(ISMS == 0))) THEN
             DEALLOCATE(TAGXREF)
             DEALLOCATE(TAGREFSTA)
