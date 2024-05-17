@@ -28,9 +28,10 @@ Chd|        FVUPD1                        source/airbag/fvupd.F
 Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE FVTEMP(ITYP  , EFAC , CPA  , CPB  , CPC  ,
-     .                  CPD   , CPE  , CPF  , RMW  , TEMP0,
-     .                  TEMP  )
+      SUBROUTINE FVTEMP(ITYP  , EFAC_IN , CPA_IN  , CPB_IN  , CPC_IN  ,
+     .                  CPD_IN   , CPE_IN  , CPF_IN  , RMW_IN  , TEMP0_IN,
+     .                  TEMP_IN  )
+       USE CAST_MOD, ONLY : double_to_my_real
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,23 +40,38 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITYP
-      my_real
-     .        EFAC, CPA, CPB, CPC, CPD, CPE, CPF, RMW, TEMP0, TEMP
+      my_real, intent(in) ::
+     .        EFAC_IN, CPA_IN, CPB_IN, CPC_IN, CPD_IN, CPE_IN, CPF_IN, RMW_IN, TEMP0_IN
+      my_real, intent(inout) ::  TEMP_IN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K
-      my_real CVA, HH, TEMP2
+      DOUBLE PRECISION :: CVA, HH, TEMP2, EFAC
+      DOUBLE PRECISION :: CPA, CPB, CPC, CPD, CPE, CPF, RMW, TEMP0, TEMP
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+      CPA=CPA_IN
+      CPB=CPB_IN
+      CPC=CPC_IN
+      CPD=CPD_IN
+      CPE=CPE_IN
+      CPF=CPF_IN
+      RMW=RMW_IN
+      TEMP0=TEMP0_IN
+      TEMP=TEMP_IN
+      EFAC = EFAC_IN
+
       IF(ITYP == 6) THEN
          CVA=CPA-RMW
          IF(CPC == ZERO) THEN
             IF(CPB == ZERO) THEN
                TEMP=EFAC/CVA
-            ELSE
-               TEMP=(SQRT(CVA*CVA+TWO*CPB*EFAC)-CVA)/CPB
+            ELSE IF( CPB .NE. ZERO) THEN
+               TEMP=(SQRT(MAX(ZERO,CVA*CVA+TWO*CPB*EFAC))-CVA)/CPB
+            ELSE 
+               TEMP = TEMP0
             ENDIF
          ELSE
             TEMP=TEMP0
@@ -73,10 +89,15 @@ C-----------------------------------------------
             IF( (HH-RMW) > ZERO) THEN
               TEMP=EFAC/(HH-RMW)
             ELSE
-              TEMP=ZERO
+              TEMP_IN=ZERO
               RETURN
             ENDIF
          ENDDO
       ENDIF
+      ! TEMP__IN**4 will be used, so we need to limit the value TEMP_IN 
+      ! to avoid overflow
+      ! in sp sqrt(sqrt(HUGE(TEMP_IN))) is 4.2E+9
+      ! in dp sqrt(sqrt(HUGE(TEMP_IN))) is 1.2E+77
+      TEMP_IN = double_to_my_real(TEMP,max_value = sqrt(sqrt(HUGE(TEMP_IN))))
       RETURN
       END 
