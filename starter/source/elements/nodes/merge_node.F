@@ -56,8 +56,8 @@ C-----------------------------------------------
      .        IMERGE2(NUMNOD+1),IADMERGE2(NUMNOD+1),MERGE_NODE_TAB(4,*),
      .        NMERGE_NODE_CAND,NMERGE_NODE_DEST,NMERGE_TOT
       INTEGER IXS(NIXS,*),IXS10(6,*),IXS16(8,*),IXS20(12,*),IXQ(NIXQ,*),
-     .        IXC(NIXC,*),IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),IXTG(NIXTG,*),
-     .        EANI(*)
+     .        IXC(NIXC,*),IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
+     .        IXTG(NIXTG,*),EANI(*)
       TARGET  ITAB
       my_real
      .        X(3,NUMNOD),MERGE_NODE_TOL(*)
@@ -66,10 +66,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,M,N,NUMNOD1,NM,FLAG,N_DEST,N_DEST_DEST,NN1,NN2,CUR_ID,GR_IDS,ALL_VS_ALL,
-     .        NM_L
+     .        NM_L,ISS
 C
-      INTEGER, DIMENSION(:),ALLOCATABLE :: IMERGE0,LBUF,IADMERGE2TMP,LIST1,LIST2,LIST1_INV,LIST2_INV
+      INTEGER, DIMENSION(:),ALLOCATABLE :: IMERGE0,IADMERGE2TMP,LIST1,LIST2,LIST1_INV,LIST2_INV
       INTEGER, DIMENSION(:),ALLOCATABLE :: LIST1_IDMERGE,LIST2_IDMERGE,LIST1_NBMERGE,LIST2_NBMERGE
+      INTEGER, DIMENSION(:),ALLOCATABLE :: TAGNOD_TEMP
       my_real, DIMENSION(:),ALLOCATABLE :: DIST
 C 
       my_real
@@ -80,7 +81,7 @@ C-----------------------------------------------
       EXTERNAL USRTOS,USRTOSC
 C
 C=======================================================================
-C - MERGING ROUTINE for /MERGE/NODE
+C - MERGING ROUTINE for /MERGE/NODE 
 C======================================================================= 
 C     
 C-------    dbuc------------------------------
@@ -103,9 +104,11 @@ C
       NN2 = NMERGE_NODE_DEST
 C
       ALLOCATE(IMERGE0(NN1),DIST(NN1),LIST1(NMERGE_NODE_CAND),LIST2(NMERGE_NODE_DEST))
-      ALLOCATE(LIST1_INV(NUMNOD),LIST2_INV(NUMNOD),LBUF(NUMNOD),IADMERGE2TMP(NUMNOD+1))
+      ALLOCATE(LIST1_INV(NUMNOD),LIST2_INV(NUMNOD),IADMERGE2TMP(NUMNOD+1))
       ALLOCATE(LIST1_IDMERGE(NMERGE_NODE_CAND),LIST2_IDMERGE(NMERGE_NODE_DEST))
       ALLOCATE(LIST1_NBMERGE(NMERGE_NODE_CAND),LIST2_NBMERGE(NMERGE_NODE_DEST))
+      ALLOCATE(TAGNOD_TEMP(NUMNOD))
+C
       IMERGE0 = 0
       DIST = ZERO
       LIST1 = 0
@@ -116,7 +119,7 @@ C
       LIST2_IDMERGE = 0
       LIST2_NBMERGE = 0
       LIST2_INV = 0
-      LBUF = 0
+      TAGNOD_TEMP = 0
       IADMERGE2TMP = 0
 C
       FLAG = 2
@@ -148,7 +151,7 @@ C--           point already in list
               NM_L = LIST1_INV(IGRNOD(GR_IDS)%ENTITY(J))
 C--           coding of idmerge in case of several merge
               LIST1_NBMERGE(NM_L) = LIST1_NBMERGE(NM_L) + 1
-              LIST1_IDMERGE(NM_L) = LIST1_IDMERGE(NM_L) + I*(NB_MERGE_NODE**(LIST1_NBMERGE(NM_L)-1))   
+              LIST1_IDMERGE(NM_L) = LIST1_IDMERGE(NM_L) + I*((2*NB_MERGE_NODE)**(LIST1_NBMERGE(NM_L)-1))   
             ENDIF            
           ENDDO
         ENDDO   
@@ -169,7 +172,7 @@ C--     list filled merge by merge
         DO I=1,NB_MERGE_NODE 
           GR_IDS = MERGE_NODE_TAB(2,I)
           IF (MERGE_NODE_TAB(1,I) == 1) THEN
-C--         destination defined by grnod
+C--         Merge_type = 1 - destination is defined by the grnod
             DO J=1,IGRNOD(GR_IDS)%NENTITY
               IF (LIST2_INV(IGRNOD(GR_IDS)%ENTITY(J)) == 0) THEN
 C--             new point in list
@@ -183,26 +186,33 @@ C--             point already in list
                 NM_L = LIST2_INV(IGRNOD(GR_IDS)%ENTITY(J))
 C--             coding of idmerge in case of several merge
                 LIST2_NBMERGE(NM_L) = LIST2_NBMERGE(NM_L) + 1
-                LIST2_IDMERGE(NM_L) = LIST2_IDMERGE(NM_L) + I*(NB_MERGE_NODE**(LIST2_NBMERGE(NM_L)-1))        
+                LIST2_IDMERGE(NM_L) = LIST2_IDMERGE(NM_L) + I*((2*NB_MERGE_NODE)**(LIST2_NBMERGE(NM_L)-1))        
               ENDIF      
             ENDDO
           ELSE
-C--         all nodes are destination
+C--         Merge_type = 2 - destination is all nodes outside of the grnod
+            ISS = I+NB_MERGE_NODE
+            TAGNOD_TEMP(1:NUMNOD) = 0
+            DO J=1,IGRNOD(GR_IDS)%NENTITY
+              TAGNOD_TEMP(IGRNOD(GR_IDS)%ENTITY(J)) = 1
+            ENDDO  
             DO J=1,NUMNOD
-              IF (LIST2_INV(J) == 0) THEN
-C--             new point in list
-                NM = NM + 1
-                LIST2(NM) = J
-                LIST2_INV(J) = NM
-                LIST2_NBMERGE(NM) = 1
-                LIST2_IDMERGE(NM) = I
-              ELSE
-C--             point already in list
-                NM_L = LIST2_INV(J)
-C--             coding of idmerge in case of several merge
-                LIST2_NBMERGE(NM_L) = LIST2_NBMERGE(NM_L) + 1
-                LIST2_IDMERGE(NM_L) = LIST2_IDMERGE(NM_L) + I*(NB_MERGE_NODE**(LIST2_NBMERGE(NM_L)-1))               
-              ENDIF      
+              IF (TAGNOD_TEMP(J)==0) THEN
+                IF (LIST2_INV(J) == 0) THEN
+C--               new point in list
+                  NM = NM + 1
+                  LIST2(NM) = J
+                  LIST2_INV(J) = NM
+                  LIST2_NBMERGE(NM) = 1 
+                  LIST2_IDMERGE(NM) = ISS
+                ELSE
+C--               point already in list
+                  NM_L = LIST2_INV(J)
+C--               coding of idmerge in case of several merge
+                  LIST2_NBMERGE(NM_L) = LIST2_NBMERGE(NM_L) + 1
+                  LIST2_IDMERGE(NM_L) = LIST2_IDMERGE(NM_L) + ISS*((2*NB_MERGE_NODE)**(LIST2_NBMERGE(NM_L)-1))      
+                ENDIF 
+              ENDIF         
             ENDDO     
           ENDIF
         ENDDO   
@@ -373,18 +383,18 @@ C--------------------------------------------------
 C     TAB ID_NODE systeme  -> ID_CNODE  systeme (done from scratch even with cnodes)              
 C--------------------------------------------------
       IF (NMERGED > 0) THEN
-        LBUF = 0
+        TAGNOD_TEMP(1:NUMNOD) = 0
         DO I = 1,NMERGE_TOT
           IF (IMERGE(NMERGE_TOT+I) > 0) THEN
             N = IMERGE(NMERGE_TOT+I)
-            LBUF(N) = LBUF(N) + 1
+            TAGNOD_TEMP(N) = TAGNOD_TEMP(N) + 1
           ENDIF
         ENDDO
         IADMERGE2(1) = 1
         IADMERGE2TMP(1) = 1
         DO I = 2,NUMNOD+1
-          IADMERGE2(I) = IADMERGE2(I-1) + LBUF(I-1)
-          IADMERGE2TMP(I) = IADMERGE2TMP(I-1) + LBUF(I-1)
+          IADMERGE2(I) = IADMERGE2(I-1) + TAGNOD_TEMP(I-1)
+          IADMERGE2TMP(I) = IADMERGE2TMP(I-1) + TAGNOD_TEMP(I-1)
         ENDDO
         DO I = 1,NMERGE_TOT
           IF (IMERGE(NMERGE_TOT+I) > 0) THEN
@@ -409,7 +419,11 @@ C
         ENDDO                                                       
       ENDDO
 C--------
-      DEALLOCATE(IMERGE0)
+      DEALLOCATE(IMERGE0,DIST,LIST1,LIST2)
+      DEALLOCATE(LIST1_INV,LIST2_INV,IADMERGE2TMP)
+      DEALLOCATE(LIST1_IDMERGE,LIST2_IDMERGE)
+      DEALLOCATE(LIST1_NBMERGE,LIST2_NBMERGE)
+      DEALLOCATE(TAGNOD_TEMP)
 C--------
       RETURN
 C
