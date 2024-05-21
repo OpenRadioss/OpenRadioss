@@ -171,7 +171,7 @@ C-------------------------------------------------------------------------------
       FAIL%KEYWORD = 'TAB2' 
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
-      FAIL%NUPARAM = 23
+      FAIL%NUPARAM = 22
       FAIL%NIPARAM = 0
       FAIL%NUVAR   = 3
       FAIL%NFUNC   = 4
@@ -184,29 +184,28 @@ c
       ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
       ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
 c
-      FAIL%UPARAM(1)  = 0              !   INT_ITAB_EPSF
-      FAIL%UPARAM(2)  = FCRIT
-      FAIL%UPARAM(3)  = FAILIP
-      FAIL%UPARAM(4)  = PTHKFAIL
-      FAIL%UPARAM(5)  = DN
-      FAIL%UPARAM(6)  = DCRIT
-      FAIL%UPARAM(7)  = 0              !   INT_ITAB_INST
-      FAIL%UPARAM(8)  = ECRIT
-      FAIL%UPARAM(9)  = EXP_REF
-      FAIL%UPARAM(10) = EXPO
-      FAIL%UPARAM(11) = 0              !   INT_ITAB_SIZE
-      FAIL%UPARAM(12) = IREG
-      FAIL%UPARAM(13) = EL_REF
-      FAIL%UPARAM(14) = SR_REF1
-      FAIL%UPARAM(15) = FSCALE_EL
-      FAIL%UPARAM(16) = SHRF
-      FAIL%UPARAM(17) = BIAXF
-      FAIL%UPARAM(18) = SR_REF2
-      FAIL%UPARAM(19) = FSCALE_SR
-      FAIL%UPARAM(20) = CJC
-      FAIL%UPARAM(21) = FSCALE_DLIM 
-      FAIL%UPARAM(22) = TEMP_REF
-      FAIL%UPARAM(23) = FSCALE_TEMP
+      FAIL%UPARAM(1)  = FCRIT
+      FAIL%UPARAM(2)  = FAILIP
+      FAIL%UPARAM(3)  = PTHKFAIL
+      FAIL%UPARAM(4)  = DN
+      FAIL%UPARAM(5)  = DCRIT
+      FAIL%UPARAM(6)  = ECRIT
+      FAIL%UPARAM(7)  = EXP_REF
+      FAIL%UPARAM(8)  = EXPO
+      FAIL%UPARAM(9)  = IREG
+      FAIL%UPARAM(10) = EL_REF
+      FAIL%UPARAM(11) = SR_REF1
+      FAIL%UPARAM(12) = FSCALE_EL
+      FAIL%UPARAM(13) = SHRF
+      FAIL%UPARAM(14) = BIAXF
+      FAIL%UPARAM(15) = SR_REF2
+      FAIL%UPARAM(16) = FSCALE_SR
+      FAIL%UPARAM(17) = CJC
+      FAIL%UPARAM(18) = FSCALE_DLIM 
+      FAIL%UPARAM(19) = TEMP_REF
+      FAIL%UPARAM(20) = FSCALE_TEMP
+      FAIL%UPARAM(21) = 0             ! Flag 1 for logarithmic scale in strain rate dependency
+      FAIL%UPARAM(22) = 0             ! Flag 2 for logarithmic scale in strain rate dependency
 c
       FAIL%IFUNC(1) = IFUN_EXP
       FAIL%IFUNC(2) = IFUN_RATE

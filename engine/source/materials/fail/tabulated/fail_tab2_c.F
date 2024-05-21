@@ -84,7 +84,8 @@ C-----------------------------------------------
       INTEGER I,J,INDX(NEL),NINDX,ITAB_EPSF,
      .        ITAB_INST,ITAB_SIZE,IREG,
      .        IPOS(NEL,3),NDIM,IPOS2(NEL),
-     .        IAD(NEL),ILEN(NEL)
+     .        IAD(NEL),ILEN(NEL),LOG_SCALE1,
+     .        LOG_SCALE2
       my_real 
      .        FCRIT  ,DN,DCRIT,ECRIT,EXP_REF,EXPO,EL_REF,
      .        SR_REF1,FSCALE_EL,SHRF,BIAXF  ,SR_REF2,
@@ -101,25 +102,26 @@ C!--------------------------------------------------------------
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
       !=======================================================================
       ! Recovering failure criterion parameters
-      FCRIT         = UPARAM(2)
-      DN            = UPARAM(5)
-      DCRIT         = UPARAM(6) 
-      ECRIT         = UPARAM(8)
-      EXP_REF       = UPARAM(9)
-      EXPO          = UPARAM(10)
-      ITAB_SIZE     = NINT(UPARAM(11))
-      IREG          = NINT(UPARAM(12))
-      EL_REF        = UPARAM(13)
-      SR_REF1       = UPARAM(14)
-      FSCALE_EL     = UPARAM(15)
-      SHRF          = UPARAM(16)
-      BIAXF         = UPARAM(17)
-      SR_REF2       = UPARAM(18)
-      FSCALE_SR     = UPARAM(19)
-      CJC           = UPARAM(20)
-      FSCALE_DLIM   = UPARAM(21)
-      TEMP_REF      = UPARAM(22)
-      FSCALE_TEMP   = UPARAM(23)
+      FCRIT         = UPARAM(1)
+      DN            = UPARAM(4)
+      DCRIT         = UPARAM(5) 
+      ECRIT         = UPARAM(6)
+      EXP_REF       = UPARAM(7)
+      EXPO          = UPARAM(8)
+      IREG          = NINT(UPARAM(9))
+      EL_REF        = UPARAM(10)
+      SR_REF1       = UPARAM(11)
+      FSCALE_EL     = UPARAM(12)
+      SHRF          = UPARAM(13)
+      BIAXF         = UPARAM(14)
+      SR_REF2       = UPARAM(15)
+      FSCALE_SR     = UPARAM(16)
+      CJC           = UPARAM(17)
+      FSCALE_DLIM   = UPARAM(18)
+      TEMP_REF      = UPARAM(19)
+      FSCALE_TEMP   = UPARAM(20)
+      LOG_SCALE1    = NINT(UPARAM(21))
+      LOG_SCALE2    = NINT(UPARAM(22))
 c
       ITAB_EPSF = ITABLF(1)
       ITAB_INST = ITABLF(2)
@@ -209,7 +211,13 @@ c
             ! Scale factor vs element size vs strain rate
             CASE(2)
               XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
-              XVEC(1:NEL,2)   = EPSP(1:NEL)/SR_REF1
+              IF (LOG_SCALE1 > 0) THEN 
+                DO I = 1,NEL
+                  XVEC(I,2) = LOG(MAX(EPSP(I),EM20)/SR_REF1)
+                ENDDO 
+              ELSE
+                XVEC(1:NEL,2) = EPSP(1:NEL)/SR_REF1
+              ENDIF
               XVEC(1:NEL,3)   = ZERO
               IPOS(1:NEL,1:3) = 1
           END SELECT
@@ -251,11 +259,18 @@ c
 c
       ! Compute the strain rate dependency factor
       IF (IFUNC(2) > 0) THEN 
-        DO I=1,NEL   
-          LAMBDA     = EPSP(I)/SR_REF2
-          RATEFAC(I) = FINTER(IFUNC(2),LAMBDA,NPF,TF,DF) 
-          RATEFAC(I) = FSCALE_SR*RATEFAC(I)
-        ENDDO
+        IF (LOG_SCALE2 > 0) THEN
+          DO I = 1,NEL 
+            VAR(I) = LOG(MAX(EPSP(I),EM20)/SR_REF2)
+          ENDDO 
+        ELSE
+          VAR(1:NEL) = EPSP(1:NEL)/SR_REF2
+        ENDIF
+        IPOS2(1:NEL) = 1
+        IAD (1:NEL) = NPF(IFUNC(2)) / 2 + 1
+        ILEN(1:NEL) = NPF(IFUNC(2)+1) / 2 - IAD(1:NEL) - IPOS2(1:NEL)
+        CALL VINTER2(TF,IAD,IPOS2,ILEN,NEL,VAR,DFT,RATEFAC)
+        RATEFAC(1:NEL) = FSCALE_SR*RATEFAC(1:NEL)
       ELSEIF (CJC > ZERO) THEN 
         DO I=1,NEL
           IF (EPSP(I) > SR_REF2) THEN 

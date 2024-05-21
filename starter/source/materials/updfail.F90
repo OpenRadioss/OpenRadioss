@@ -47,6 +47,7 @@
           use groupdef_mod
           use random_walk_def_mod
           use random_walk_dmg_mod
+          use constant_mod, only : zero
 ! ---------------------------------------------------------------------------------------------
           implicit none
 ! ---------------------------------------------------------------------------------------------
@@ -125,6 +126,19 @@
                         i1=mat_param(imat)%mat_id,                                          &
                         c1=mat_param(imat)%title)
                     endif
+                  endif
+                  ! check if strain rate dependency tables are in logarithmic scale
+                  if (nint(mat_param(imat)%fail(ir)%uparam(9)) == 1) then
+                    if (table(mat_param(imat)%fail(ir)%table(3))%ndim == 2) then
+                      if (table(mat_param(imat)%fail(ir)%table(3))%x(2)%values(1) < zero) then 
+                        mat_param(imat)%fail(ir)%uparam(21) = 1
+                      endif
+                    endif 
+                  endif
+                  if (mat_param(imat)%fail(ir)%ifunc(2) > 0) then
+                    if (table(mat_param(imat)%fail(ir)%ifunc(2))%x(1)%values(1) < zero) then 
+                      mat_param(imat)%fail(ir)%uparam(22) = 1
+                    endif 
                   endif
                 endif
 !           count number of /fail/fractal_dmg models
