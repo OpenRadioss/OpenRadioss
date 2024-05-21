@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Chd|====================================================================
+Chd|==================================================================== 
 Chd|  HM_READ_MERGE_NODE            source/elements/reader/hm_read_merge_node.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
@@ -69,7 +69,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ID,UID,IDN,GR_ID,GR_IDS,MERGE_TYPE,FLAG_FULL_MERGE
       CHARACTER TITR*nchartitle
-      INTEGER, DIMENSION(:),ALLOCATABLE :: TAGNOD1,TAGNOD2
+      INTEGER, DIMENSION(:),ALLOCATABLE :: TAGNOD1,TAGNOD2,TAGNOD_TEMP
       LOGICAL   IS_AVAILABLE
       my_real
      .   TOL,XN,XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,DX,DY,DZ,TOL_DEF
@@ -84,9 +84,9 @@ C
 C
       TOL_DEF = ZERO
       FLAG_FULL_MERGE = 0
-      ALLOCATE(TAGNOD1(NUMNOD),TAGNOD2(NUMNOD))
-      TAGNOD1 = 0
-      TAGNOD2 = 0
+      ALLOCATE(TAGNOD1(NUMNOD),TAGNOD2(NUMNOD),TAGNOD_TEMP(NUMNOD))
+      TAGNOD1(1:NUMNOD) = 0
+      TAGNOD2(1:NUMNOD) = 0
 C
 C--------------------------------------------------
 C START BROWSING MODEL MERGE
@@ -151,11 +151,23 @@ C
         IF (GR_IDS > 0) THEN
 C--       Grnod id is defined
           IF (MERGE_TYPE == 0) MERGE_TYPE = 1
-          DO J=1,IGRNOD(GR_IDS)%NENTITY
-            TAGNOD1(IGRNOD(GR_IDS)%ENTITY(J)) = 1
-            TAGNOD2(IGRNOD(GR_IDS)%ENTITY(J)) = 1
-          ENDDO
-          IF (MERGE_TYPE == 2) TAGNOD2(1:NUMNOD) = 1
+          IF (MERGE_TYPE == 1) THEN 
+C--       nodes of the group are candidates and destinations
+            DO J=1,IGRNOD(GR_IDS)%NENTITY
+              TAGNOD1(IGRNOD(GR_IDS)%ENTITY(J)) = 1
+              TAGNOD2(IGRNOD(GR_IDS)%ENTITY(J)) = 1
+            ENDDO
+          ELSEIF (MERGE_TYPE == 2) THEN
+C--       nodes of the group are candidates and nodes outside group are destinations
+            TAGNOD_TEMP(1:NUMNOD) = 0
+            DO J=1,IGRNOD(GR_IDS)%NENTITY
+              TAGNOD1(IGRNOD(GR_IDS)%ENTITY(J)) = 1
+              TAGNOD_TEMP(IGRNOD(GR_IDS)%ENTITY(J)) = 1
+            ENDDO
+            DO J=1,NUMNOD
+              IF (TAGNOD_TEMP(J)==0) TAGNOD2(J) = 1      
+            ENDDO
+          ENDIF   
         ELSE
 C--       all nodes taken into account
           IF (FLAG_FULL_MERGE == 0) THEN
@@ -188,6 +200,8 @@ C
         WRITE(IOUT,1100) ID,TRIM(TITR),TOL,MERGE_TYPE,GR_ID    
 C
       ENDDO
+C
+      DEALLOCATE(TAGNOD1,TAGNOD2,TAGNOD_TEMP)
 C
 C-----------
       RETURN

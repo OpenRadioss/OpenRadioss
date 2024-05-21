@@ -144,7 +144,7 @@ C--     destinations are cnodes (NN2 = NUMCNOD)
         NUMNOD1 = NUMNOD0-NUMCNOD
         ITABC => ITAB(NUMNOD1+1:NUMNOD0)
         DO I=1,NN2
-          N = LIST2(I)       
+          N = LIST2(I)   
           NN  = USRTOSC(ITABC(N),ITABM1)
           NOBCX(N) =INT( (X(1,NN)-XMIN)/DBUC)
           NOBCY(N) =INT( (X(2,NN)-YMIN)/DBUC)
@@ -152,7 +152,7 @@ C--     destinations are cnodes (NN2 = NUMCNOD)
         ENDDO
       ELSE
 C--     destinations are nodes
-        DO I=1,NN2
+        DO I=1,NN2 
           N = LIST2(I)       
           NN  = USRTOS(ITAB(N),ITABM1)
           NOBCX(I) = INT( (X(1,NN)-XMIN)/DBUC)
@@ -390,7 +390,7 @@ C-------------------------------------------------------------------------------
 C--                           Merging with nodes - node with lowest user id is the destination
 C---------------------------------------------------------------------------------------------
                               NC = LIST2(IPCZ(KP))
-                              NS = LIST1(IPZ(KS))       
+                              NS = LIST1(IPZ(KS))  
                               IG=USRTOS(ITAB(NC),ITABM1)
                               XI =X(1,IG)
                               YI =X(2,IG)
@@ -408,24 +408,25 @@ C
                               DMERGE = ZERO
                               DO J=1,LIST2_NBMERGE(IPCZ(KP))
                                 DO K=1,LIST1_NBMERGE(IPZ(KS))
-                                  IF (TABC(J) == TABS(K)) THEN
-C--                                 candidate is retianed only if referred by same merge/node
-                                    TAG = 1
+                                  IF (ABS(TABC(J)) == TABS(K)) THEN
+C--                                 pair is retained only if referred by same merge/node
+C--                                 tabc < 0 if merge_type = 2 - criteria itab(ns) < itab(nc) not used
                                     DMERGE = CMERGE(TABS(K))*CMERGE(TABS(K))
+                                    IF ((ITAB(NS)>ITAB(NC)).OR.((TABC(J)<0).AND.(NS/=NC))) THEN
+                                      IF (DIST2<=DMERGE) THEN
+                                        IF(IMERGE0(IPZ(KS)) == 0) THEN
+                                          IMERGE0(IPZ(KS)) = ITAB(NC)
+                                          DDD(IPZ(KS)) = DIST2
+                                        ELSEIF(IMERGE0(IPZ(KS)) > ITAB(NC))THEN
+                                          IMERGE0(IPZ(KS)) = ITAB(NC)
+                                          DDD(IPZ(KS)) = DIST2
+                                        ENDIF
+                                      ENDIF  
+                                    ENDIF
                                   ENDIF
                                 ENDDO
-                              ENDDO
-C                          
-                              IF((ITAB(NS) > ITAB(NC)).AND.(DIST2<=DMERGE).AND.(TAG==1)) THEN
-                                IF(IMERGE0(IPZ(KS)) == 0) THEN
-                                   IMERGE0(IPZ(KS)) = ITAB(NC)
-                                   DDD(IPZ(KS)) = DIST2
-                                ELSEIF(IMERGE0(IPZ(KS)) > ITAB(NC))THEN
-                                   IMERGE0(IPZ(KS)) = ITAB(NC)
-                                   DDD(IPZ(KS)) = DIST2
-                                ENDIF
-C
-                              ENDIF      
+                              ENDDO                             
+C                             
                             ENDIF
                           ENDDO   
                         ENDIF           
@@ -453,7 +454,7 @@ Chd|-- called by -----------
 Chd|        MERGE_BUCKET_SEARCH           source/elements/nodes/merge_bucket_search.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DECODE_MERGE(CODE,NVAL,TAB,BASE)
+      SUBROUTINE DECODE_MERGE(CODE,NVAL,TAB,NB_MERGE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -461,24 +462,27 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER CODE,NVAL,TAB(*),BASE
+      INTEGER CODE,NVAL,TAB(*),NB_MERGE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,CODE_TEMP
+      INTEGER I,J,CODE_TEMP,BASE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 C
 C--   decode id merge
 C
-      TAB(1:BASE) = 0 
+      BASE = 2*NB_MERGE
+C
+      TAB(1:NB_MERGE) = 0 
 C   
       CODE_TEMP = CODE
       DO I=1,NVAL
         TAB(I) = CODE_TEMP / (BASE**(NVAL-I))
 C        TAB(I) = FLOOR(DIV)
         CODE_TEMP = CODE_TEMP - (BASE**(NVAL-I))*TAB(I)
+        IF (TAB(I) > NB_MERGE) TAB(I) = -(TAB(I)-NB_MERGE)
       ENDDO                   
 C
       END SUBROUTINE DECODE_MERGE
