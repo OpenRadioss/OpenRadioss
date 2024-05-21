@@ -1114,7 +1114,7 @@ C----------------------------------------
                WRITE(IOUT,1200) ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY,ALE%GRID%VGZ,VOLMIN
              CASE(1) !DISP
                WRITE(IOUT,1008)
-               WRITE(IOUT,1220) ALE%GRID%ALPHA,ALE%GRID%VGX,ALE%GRID%VGY,ALE%GRID%VGZ,VOLMIN
+               WRITE(IOUT,1220) ALE%GRID%ALPHA,VOLMIN
              CASE(2) !SPRING
                WRITE(IOUT,1008)
                WRITE(IOUT,1250) DT_INPUT,ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY,VOLMIN
@@ -2863,9 +2863,6 @@ C---------------------------------------------------------
      . 28X,' VOLMIN  : MINIMUM VOLUME FOR ELEMENT DELETION. . ',G14.7//)
  1220 FORMAT(
      . 28X,' UMAX  : MAXIMUM ABSOLUTE GRID VELOCITY . . . . . ',G14.7/
-     . 28X,' CWX   : X GRID VELOCITY SCALE FACTOR . . . . . . ',G14.7/
-     . 28X,' CWY   : Y GRID VELOCITY SCALE FACTOR . . . . . . ',G14.7/
-     . 28X,' CWZ   : Z GRID VELOCITY SCALE FACTOR . . . . . . ',G14.7/
      . 28X,' VMIN  : MINIMUM VOLUME FOR ELEMENT DELETION. . . ',G14.7//)
  1250 FORMAT(
      . 28X,' DT0   : TYPICAL TIME STEP. . . . . . . . . . . . ',G14.7/
