@@ -1638,13 +1638,9 @@ C--------------------
        ELSEIF(StringALE(1:4)=='DISP'.OR.StringALE(1:1)=='1')THEN
         NUM_ALE_GRID = NUM_ALE_GRID + 1
         IALE_GRID_FORM=1
-        READ(IUSC2,*,ERR=1161,END=1161)ALP,A1,A2,A3,VM  !format kept for backward compatibility
-        IF(ALP/=ZERO.OR.VM/=ZERO.OR.A1/=ZERO.OR.A2/=ZERO.OR.A3/=ZERO)GOTO 1162
- 1161   REWIND(IUSC2)
-        A1=ZERO; A2=ZERO; A3=ZERO;
         READ(IUSC2,*,ERR=9990,END=9990)ALP,VM           !new format scale factor removed (hidden flags)
- 1162   CONTINUE
         GAM=ZERO
+        A1=ONE; A2=ONE; A3=ONE;
        !---------------------------------------!
        !    '/ALE/GRID/SPRING'                 !
        !---------------------------------------!

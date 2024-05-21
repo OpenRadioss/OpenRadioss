@@ -117,14 +117,11 @@ C-----------------------------------------------
             IS_DEFINED_ALE_GRID = .TRUE.
             ALE%GRID%NWALE = 1
             CALL HM_GET_FLOATV('MAT_EPS', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            CALL HM_GET_FLOATV('VEL_X', VGX, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            CALL HM_GET_FLOATV('VEL_Y', VGY, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            CALL HM_GET_FLOATV('VEL_Z', VGZ, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('MAT_PC', VOLMIN, IS_AVAILABLE, LSUBMODEL, UNITAB)
             IF (ALPHA == ZERO) ALPHA = INFINITY
-            IF (VGX == ZERO) VGX = ONE
-            IF (VGY == ZERO) VGY = ONE
-            IF (VGZ == ZERO) VGZ = ONE
+            VGX = ONE
+            VGY = ONE
+            VGZ = ONE
          ELSEIF (KEY(1:6) == 'SPRING') THEN
             IS_DEFINED_ALE_GRID = .TRUE.
             IF (N2D /= 0) THEN

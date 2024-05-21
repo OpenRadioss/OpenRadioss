@@ -90,7 +90,6 @@ C  SPMD : COMM D
          LENCOM = NBRCVOIS(NSPMD+1)+NBSDVOIS(NSPMD+1)
          CALL SPMD_XVOIS(D,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,LENCOM)
 !$OMP END SINGLE
-
       END IF
       FAC=ONE/DT2/THREE
       DO I = NODFT, NODLT
@@ -115,10 +114,6 @@ C  SPMD : COMM D
             DX = FAC * (DX_MAX + DX_MIN - TWO * D(1, I))
             DY = FAC * (DY_MAX + DY_MIN - TWO * D(2, I))
             DZ = FAC * (DZ_MAX + DZ_MIN - TWO * D(3, I))
-
-            DX=ALE%GRID%VGX*DX
-            DY=ALE%GRID%VGY*DY
-            DZ=ALE%GRID%VGZ*DZ
             W(1,I)=SIGN(ONE,DX)*MIN(ABS(DX),ALE%GRID%ALPHA)
             W(2,I)=SIGN(ONE,DY)*MIN(ABS(DY),ALE%GRID%ALPHA)
             W(3,I)=SIGN(ONE,DZ)*MIN(ABS(DZ),ALE%GRID%ALPHA)

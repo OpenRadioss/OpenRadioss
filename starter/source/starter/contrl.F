@@ -1115,7 +1115,7 @@ C----------------------------------------------------------
       CALL HM_OPTION_COUNT('/USERWI',USER_WINDOWS%HAS_USER_WINDOW)
       NCPRI=1
       IF(DTINI==ZERO)DTINI=EP06
-      IF(VOLMIN==ZERO)VOLMIN=-EP30
+      IF(VOLMIN==ZERO)VOLMIN=-EP20
       DT2OLD=DTINI/ONEP1
       TT=ZERO
       DT1=ZERO
@@ -1372,7 +1372,7 @@ C
         WRITE (IOUT,5100)ALE%GRID%NWALE
         SELECT CASE (ALE%GRID%NWALE)
           CASE(0);WRITE (IOUT,5199) ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY,ALE%GRID%VGZ,VOLMIN
-          CASE(1);WRITE (IOUT,5200) ALE%GRID%ALPHA,ALE%GRID%VGX,ALE%GRID%VGY,ALE%GRID%VGZ,VOLMIN
+          CASE(1);WRITE (IOUT,5200) ALE%GRID%ALPHA,VOLMIN
           CASE(2);WRITE (IOUT,5300) DT_INPUT, ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY,VOLMIN
           CASE(3);WRITE (IOUT,5350) 
           CASE(4);WRITE (IOUT,5351) ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY 
@@ -1545,8 +1545,8 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
  5100 FORMAT(/
      & 4X,'NWALE : CHOICE OF ALE GRID VELOCITY FORMULATION . . .',I10)
  5199 FORMAT(//
-     & 4X,'ALE GRID FORMULATION                           '/
-     & 4X,'--------------------                           '/
+     & 4X,'ALE GRID SMOOTHING FORMULATION'/
+     & 4X,'------------------------------'/
      & 5X,'DONEA GRID VELOCITY COMPUTATION METHOD         '/
      & 5X,'ALPHA   : DONEA COEFFICIENT. . . . . . . . . . ',1PG20.13/
      & 5X,'GAMMA   : GRID VELOCITY LIMITATION FACTOR. . . ',1PG20.13/
@@ -1555,17 +1555,14 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
      & 5X,'FscaleZ : Z-GRID VELOCITY SCALE FACTOR . . . . ',1PG20.13/
      & 5X,'VOLMIN  : MINIMUM VOLUME FOR ELEMENT DELETION. ',1PG20.13)
  5200 FORMAT(//
-     & 4X,'ALE GRID FORMULATION                           '/
-     & 4X,'--------------------                           '/
+     & 4X,'ALE GRID SMOOTHING FORMULATION'/
+     & 4X,'------------------------------'/
      & 5X,'ALTAIR AVERAGE DISPLACEMENT GRID FORMULATION   '/
      & 5X,'UMAX  : MAXIMUM ABSOLUTE GRID VELOCITY . . . . ',1PG20.13/
-     & 5X,'CWX   : X GRID VELOCITY SCALE FACTOR . . . . . ',1PG20.13/
-     & 5X,'CWY   : Y GRID VELOCITY SCALE FACTOR . . . . . ',1PG20.13/
-     & 5X,'CWZ   : Z GRID VELOCITY SCALE FACTOR . . . . . ',1PG20.13/
      & 5X,'VMIN  : MINIMUM VOLUME FOR ELEMENT DELETION. . ',1PG20.13)
  5300 FORMAT(//
-     & 4X,'ALE GRID FORMULATION                           '/
-     & 4X,'--------------------                           '/
+     & 4X,'ALE GRID SMOOTHING FORMULATION'/
+     & 4X,'------------------------------'/
      &5X,'ALTAIR SPRING METHOD FOR GRID VELOCITY COMPUTATION    '/
      &5X,'DT0   : TYPICAL TIME STEP  . . . . . . . . . . . . ',1PG20.13/
      &5X,'DT0*  : EFFECTIVE TIME STEP. . . . . . . . . . . . ',1PG20.13/
@@ -1574,45 +1571,45 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
      &5X,'NU    : SHEAR FACTOR . . . . . . . . . . . . . . . ',1PG20.13/
      &5X,'VOLMIN: MINIMUM VOLUME FOR ELEMENT DELETION. . . . ',1PG20.13)
  5350 FORMAT(//
-     & 4X,'ALE GRID FORMULATION                           '/
-     & 4X,'--------------------                           '/
+     & 4X,'ALE GRID SMOOTHING FORMULATION'/
+     & 4X,'------------------------------'/
      & 5X,'GRID VELOCITY IS NOT COMPUTED (QUASI EULER) ')
  5351 FORMAT(//
-     & 4X,'ALE GRID FORMULATION                           '/
-     & 4X,'--------------------                           '/
+     & 4X,'ALE GRID SMOOTHING FORMULATION'/
+     & 4X,'------------------------------'/
      & 5X,'ALTAIR STANDARD METHOD FOR GRID VELOCITY COMPUTATION '/
      & 5X,'ALPHA : STABILITY FACTOR . . . . . . . . . . . . ',1PG20.13/
      & 5X,'GAMMA : NON LINEARITY FACTOR . . . . . . . . . . ',1PG20.13/
      & 5X,'BETA  : DAMPING COEFFICIENT. . . . . . . . . . . ',1PG20.13/
      & 5X,'LC    : CHARACTERISTIC LENGTH. . . . . . . . . . ',1PG20.13)
  5353 FORMAT(//
-     & 4X,'ALE GRID FORMULATION                           '/
-     & 4X,'--------------------                           '/
+     & 4X,'ALE GRID SMOOTHING FORMULATION'/
+     & 4X,'------------------------------'/
      & 5X,'LAPLACIAN SMOOTHING '/
      & 5X,'LAMBDA:. . . . . . . . . . . . . . . . . . . . . ',1PG20.13/
      & 5X,'NITER :. . . . . . . . . . . . . . . . . . . . . ',I10)
  5354 FORMAT(//
-     & 4X,'ALE GRID FORMULATION                           '/
-     & 4X,'--------------------                           '/
+     & 4X,'ALE GRID SMOOTHING FORMULATION'/
+     & 4X,'------------------------------'/
      & 5X,'VOLUME SMOOTHING ')
  5355 FORMAT(//
-     & 4X,'ALE GRID FORMULATION                           '/
-     & 4X,'--------------------                           '/
+     & 4X,'ALE GRID SMOOTHING FORMULATION'/
+     & 4X,'------------------------------'/
      & 5X,'AVERAGED MASSFLOW '/
      & 5X,'SCALE_DEF: . . . . . . . . . . . . . . . . . . . ',1PG20.13/
      & 5X,'SCALE_ROT: . . . . . . . . . . . . . . . . . . . ',1PG20.13/)
 
 
  5360 FORMAT(//
-     & 4X,'ALE UPWIND PARAMETERS                   '/
-     & 4X,'---------------------                   '/
+     & 4X,'ALE UPWIND PARAMETERS'/
+     & 4X,'---------------------'/
      & 5X,'UPWIND FOR MOMENTUM TRANSPORT . . . . .=',1PG20.13/,
      & 5X,'UPWIND FOR OTHER TRANSPORT. . . . . . .=',1PG20.13/)
  5380 FORMAT(/
-     & 4X,'CAA FLUID FORMULATION ACTIVATED         ')
+     & 4X,'CAA FLUID FORMULATION ACTIVATED')
  5400 FORMAT(
-     & 4X,'alpha M + beta K DAMPING                    '/,
-     & 4X,'------------------------                    '/,
+     & 4X,'alpha M + beta K DAMPING'/,
+     & 4X,'------------------------'/,
      . 4X,'NODE GROUP ID (=0 ALL NODES). . . . . . ',I5/,
      & 5X,'ALPHA . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'BETA. . . . . . . . . . . . . . . . . .=',1PG20.13)
@@ -1644,8 +1641,8 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
  5503 FORMAT(
      & 4X,'ISFINT : INTERNAL FORCES FORMULATION . . . . . . . . .',I10)  
  5504 FORMAT(//
-     & 4X,'ALEMUSCL                   '/
-     & 4X,'---------------------                   '/
+     & 4X,'MUSCL (MONOTONIC UPSTREAM-CENTERED SCHEME FOR CONSERVATION LAWS)'/
+     & 4X,'----------------------------------------------------------------'/
      & 5X,'COMPRESSION COEFFICIENT (BETA). . . . . . . . . . . : ',1PG20.13/  
      & 5X,'FORMULATION FLAG (IFLAG). . . . . . . . . . . . . . : ',I10)
  5700 FORMAT(//
