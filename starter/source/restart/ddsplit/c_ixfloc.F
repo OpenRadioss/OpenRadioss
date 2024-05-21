@@ -72,7 +72,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, N, NG, IFS, IFQ, IFTG,IE_LOC, IV_LOC
-      INTEGER ISOLNOD,ILAW,JTUR,JTHE,ITY,IE,NFT,NEL,IV,PROC2,NFT_LOC,IAD1, LGTH, IAD2
+      INTEGER ILAW,JTUR,JTHE,ITY,IE,NFT,NEL,IV,PROC2,NFT_LOC,IAD1, LGTH, IAD2
       INTEGER NUMEL_L, TMP, IALEUL
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGE, nb_connect_l
       LOGICAL IS_HEXA,IS_QUAD,IS_TRIA
@@ -147,10 +147,6 @@ C
          NEL = IPARG(2,NG)
          NFT = IPARG(3,NG)
          ITY = IPARG(5,NG)
-C   voir autres types solides
-         ISOLNOD = IPARG(28,NG)
-         IALEUL = IPARG(7, NG) + IPARG(11, NG)
-         IF(IALEUL == 0)CYCLE
 C   3D
          IF(ITY==1) THEN
            DO I = 1, NEL
