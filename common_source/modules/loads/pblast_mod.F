@@ -3431,7 +3431,7 @@ C-----------------------------------------------
               ENDIF
               RES = ABS(FUNCT)   !g(x_new)
             ENDDO
-            DECAY_inci=MAX(ONE,ZETA)   ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
+            DECAY_inci=MAX(ZERO,ZETA)   ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
 
             ITER=0
             ZETA=ONE
@@ -3457,7 +3457,7 @@ C-----------------------------------------------
               ENDIF
               RES = ABS(FUNCT)   !g(x_new)
             ENDDO
-            DECAY_refl=MAX(ONE,ZETA)   ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
+            DECAY_refl=MAX(ZERO,ZETA)   ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
           ENDIF
 
           !CONVERSION UNITS !
@@ -3641,7 +3641,7 @@ C-----------------------------------------------
               ENDIF
               RES = ABS(FUNCT)   !g(x_new)
             ENDDO
-            DECAY_inci=MAX(ONE,ZETA)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
+            DECAY_inci=MAX(ZERO,ZETA)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
 
             ITER=0
             ZETA=ONE
@@ -3667,7 +3667,7 @@ C-----------------------------------------------
               ENDIF
               RES = ABS(FUNCT)   !g(x_new)
             ENDDO
-            DECAY_refl=MAX(ONE,ZETA)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
+            DECAY_refl=MAX(ZERO,ZETA)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
 
           ENDIF! IS_DECAY_TO_BE_COMPUTED
 
@@ -4115,7 +4115,7 @@ C-----------------------------------------------
               ENDIF
               RES = ABS(FUNCT)   !g(x_new)
             ENDDO
-            DECAY_inci=MAX(ONE,ZETA)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
+            DECAY_inci=MAX(ZERO,ZETA)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
 
             ITER=0
             ZETA=ONE
@@ -4141,7 +4141,7 @@ C-----------------------------------------------
               ENDIF
               RES = ABS(FUNCT)   !g(x_new)
             ENDDO
-            DECAY_refl=MAX(ONE,ZETA)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
+            DECAY_refl=MAX(ZERO,ZETA)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
 
           ENDIF! IS_DECAY_TO_BE_COMPUTED
 
