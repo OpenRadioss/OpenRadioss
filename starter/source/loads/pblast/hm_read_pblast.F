@@ -297,8 +297,15 @@ C-----------------------------------------------
         !--------------------------------------------------------------
 
         IF(TSTOP == ZERO)TSTOP=EP20
-        IF(PMIN == ZERO)PMIN=-EP20
         IF(NDT == 0) NDT=100
+
+        IF(PMIN < ZERO)THEN
+           MSGOUT1=''
+           MSGOUT1='PMIN PARAMETER IS NEGATIVE. PLEASE CHECK THE LOAD HISTORY FOR NEGATIVE PRESSURE,'
+           MSGOUT2=''
+           MSGOUT2='AS THE PBLAST MODEL IS FITTED ONLY FOR THE POSITIVE PHASE'
+           CALL ANCMSG(MSGID=1907, MSGTYPE=MSGWARNING, ANMODE=ANINFO,C1=TRIM(TITR), I1=ID, C2=MSGOUT1, C3=MSGOUT2)
+        ENDIF
 
         IF(WTNT == ZERO)THEN
            MSGOUT1=''
@@ -369,7 +376,7 @@ C-----------------------------------------------
         !ITA_SHIFT : BLAST ARRIVAL
         !---1:no shift (default)
         !---2:shift    loading starts from the first cycle T=0 is shift to time on which first targeted segment is reached (within all pblast options)
-        IF(ITA_SHIFT==0) ITA_SHIFT = 1
+        IF(ITA_SHIFT==0) ITA_SHIFT = 2
         IF(ITA_SHIFT < 0 .OR. ITA_SHIFT >= 3)ITA_SHIFT = 1
         IF(ITA_SHIFT == 2)IS_ITA_SHIFT=.TRUE.
 
