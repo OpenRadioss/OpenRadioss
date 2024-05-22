@@ -84,8 +84,8 @@ c                     WA4(JJ)=RFLOW(IR1+NNO+J)
 c                  ENDDO
 c               ENDIF
 c            ENDIF
-c            IADI=IADI+IFLOW(IADI+14)
 c            IADR=IADR+IFLOW(IADI+15)
+c            IADI=IADI+IFLOW(IADI+14)
 c         ENDDO
 c      ELSE
          IADI=0
@@ -134,8 +134,8 @@ c      ELSE
                   ENDDO
                ENDIF
             ENDIF
-            IADI=IADI+IFLOW(IADI+14)
             IADR=IADR+IFLOW(IADI+15)
+            IADI=IADI+IFLOW(IADI+14)
          ENDDO
 c      ENDIF
 C
