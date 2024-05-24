@@ -435,7 +435,7 @@ C-----------------------------------------------
             NRTM = IPARI(4,NIN) ! number of main surfaces/edges
             NRTS = IPARI(3,NIN) ! number of secondary edges
             IDEL = IPARI(17,NIN)! idel option
-            TYPE_INTER = (ITY==7.OR.ITY==10.OR.ITY==22.OR.ITY==24) ! interface 7/10/11/22/24/25 with idel=1
+            TYPE_INTER = (ITY==7.OR.ITY==10.OR.ITY==11.OR.ITY==22.OR.ITY==24) ! interface 7/10/11/22/24/25 with idel=1
             TYPE_INTER = (TYPE_INTER.OR.(ITY==25.AND.IPARI(100,NIN)==0)) ! interface  7/10/11/22/24/25 with idel=1
             TYPE_INTER = (TYPE_INTER.AND.(IDEL==1)) ! interface  7/10/11/22/24/25 with idel=1
             ! ----------------------------------------

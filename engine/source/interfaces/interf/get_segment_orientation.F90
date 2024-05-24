@@ -31,7 +31,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use constant_mod , only : zero,one_over_8
+          use constant_mod , only : zero,one
           use intbufdef_mod , only : intbuf_struct_
           use get_segment_normal_mod , only : get_segment_normal
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -59,8 +59,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j
           integer :: node_id,elem_id
+          integer :: real_nb_node,error
           integer, dimension(4) :: segment_node_id
-          my_real :: dds
+          integer, dimension(8) :: list,node_id_list,perm_list
+          my_real :: dds,ratio
           my_real :: xc,yc,zc
           my_real, dimension(3) :: segment_position ! coordinates of the segment barycentre
           my_real, dimension(3) :: normal ! normal of the segment
@@ -73,7 +75,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !
           ! -------------------------
-          ! loop over the new active segment/surface
           ! normal to the segment
           call get_segment_normal( segment_id,segment_node_id,segment_position,normal,intbuf_tab,numnod,x )
 
@@ -83,15 +84,39 @@
           yc = zero
           zc = zero
 
+          ! ----------------
           do j=1,8
-            node_id = ixs(j+1,elem_id)
+            list(j) = ixs(j+1,elem_id) ! get the node id of the element : a node can appeared several time in ixs... (tetra or degenerated element)
+          enddo
+          call myqsort_int(8,list,perm_list,error) ! sort the list 
+          ! ----------------
+          
+          ! ----------------
+          ! check the number of node of the element & save the list of node
+          node_id = list(1)
+          real_nb_node = 1
+          node_id_list(real_nb_node) = node_id
+          do j=2,8
+            if(node_id/=list(j)) then
+              real_nb_node = real_nb_node + 1
+              node_id = list(j)
+              node_id_list(real_nb_node) = node_id
+            endif
+          enddo
+          ! ----------------
+
+          ! ----------------
+          ratio = one / real_nb_node
+          do j=1,real_nb_node
+            node_id = node_id_list(j)
             xc = xc+x(1,node_id)
             yc = yc+x(2,node_id)
             zc = zc+x(3,node_id)
           enddo
-          xc=xc*one_over_8
-          yc=yc*one_over_8
-          zc=zc*one_over_8
+          xc=xc*ratio
+          yc=yc*ratio
+          zc=zc*ratio
+          ! ----------------
 
           dds=normal(1)*(xc-segment_position(1))+normal(2)*(yc-segment_position(2))+normal(3)*(zc-segment_position(3))
           

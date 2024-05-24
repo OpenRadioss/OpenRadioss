@@ -33,7 +33,7 @@ Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE CHECK_SURFACE_STATE( ITASK,SURFARCE_NB,SURFACE_ID,SHIFT_INTERFACE,INTBUF_TAB,
      .                                  IPARI,GEO,
-     .                                  IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                                  IXS,IXC,IXT,IXP,IXR,IXTG,IXS10,
      .                                  ADDCNEL,CNEL,TAG_NODE,TAG_ELEM,SHOOT_STRUCT )
 !$COMMENT
 !       CHECK_SURFACE_STATE description
@@ -74,6 +74,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NIXP,NUMELP), INTENT(in) :: IXP! beam array
         INTEGER, DIMENSION(NIXR,NUMELR), INTENT(in) :: IXR! spring array
         INTEGER, DIMENSION(NIXTG,NUMELTG), INTENT(in) :: IXTG! triangle array
+        INTEGER, DIMENSION(6,NUMELS10), INTENT(in) :: IXS10!< tetra10 data
         INTEGER, DIMENSION(0:NUMNOD+1), INTENT(in) :: ADDCNEL ! address for the CNEL array
         my_real, DIMENSION(NPROPG,NUMGEO), INTENT(in) :: GEO
         INTEGER, DIMENSION(0:LCNEL), INTENT(in) :: CNEL ! connectivity node-->element
@@ -160,7 +161,7 @@ C-----------------------------------------------
             IF(SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M(K)<1) THEN
               CALL CHECK_ACTIVE_ELEM_EDGE( NUMBER_NODE, N1,N2,N3,N4,
      .                                     DEACTIVATION,GEO,IXS,IXC,
-     .                                     IXT,IXP,IXR,IXTG,ADDCNEL,CNEL,
+     .                                     IXT,IXP,IXR,IXTG,IXS10,ADDCNEL,CNEL,
      .                                     TAG_NODE,TAG_ELEM)
             ELSE
               DEACTIVATION = .FALSE.
