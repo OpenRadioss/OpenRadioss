@@ -229,8 +229,9 @@ C-----------------------------------------------
       my_real
      .   TITLE(20), TFI,  DTF, DTM, ALP, GAM,
      .   CV1, CV2, CV3, VOLM, TSTART, TFIN,DT_INPUT, DT_CRIT
-       CHARACTER*9 Cale1,Cale2,ALEform(0:7),CHAR1,CHAR2
-       CHARACTER*9 Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8,Label9
+       CHARACTER*9 Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8
+       CHARACTER*16 ALEform(0:7),Cale1,Cale2,CHAR1,CHAR2,Label9
+       CHARACTER*3 :: LABEL_DEF,LABEL_ROT
       my_real eta1,eta2,MIN_ASPECT,MIN_DEFV
       my_real, DIMENSION(:), POINTER :: OFFG
       TYPE (SENSOR_STR_) ,DIMENSION(:) ,POINTER :: SENSOR_TAB
@@ -1035,7 +1036,8 @@ C----------------------------------------
          !---ALE GRID FORMULATION CHECK---!
          IF(ALE%GRID%NWALE_ENGINE /= ALE%GRID%NWALE_RST .AND. ALE%GRID%NWALE_ENGINE /= -1) THEN !Forbid ALE grid formulation switch
            IF(ALE%GRID%NWALE_ENGINE /= 3)THEN  !expect if new one is /ALE/ZERO
-             ALEform=(/'DONEA    ','DISP     ','SPRING   ', 'ZERO     ','STANDARD ', 'LAPLACIAN' ,'VOLUME   ', 'MASSFLOW '/)
+             ALEform=(/'DONEA           ','DISP            ','SPRING          ', 'ZERO            ',
+     .                 'STANDARD        ','LAPLACIAN       ','VOLUME          ', 'FLOW-TRACKING   '/)
              ALEStrL=(/5,4,6,4,8,9,6,8/)
              Cale1=ALEform(ALE%GRID%NWALE_ENGINE)
              Cale2=ALEform(ALE%GRID%NWALE_RST)
@@ -1083,7 +1085,8 @@ C----------------------------------------
          IF (LOWMACH_OPT == 1 .AND. MULTI_FVM%IS_USED) THEN
             MULTI_FVM%LOWMACH_OPT = .TRUE.
          ENDIF
-         ALEform=(/'DONEA    ','DISP     ','SPRING   ','ZERO     ','STANDARD ','LAPLACIAN','VOLUME   ', 'MASSFLOW ' /)
+         ALEform=(/'DONEA           ','DISP            ','SPRING          ', 'ZERO            ',
+     .             'STANDARD        ','LAPLACIAN       ','VOLUME          ', 'FLOW-TRACKING   '/)
          !effective value which will be retained during numerical solving
          IF(ALE%GRID%NWALE_ENGINE /= -1)THEN
            ALE%GRID%NWALE = ALE%GRID%NWALE_ENGINE
@@ -1091,7 +1094,7 @@ C----------------------------------------
            ALE%GRID%NWALE = ALE%GRID%NWALE_RST
          ENDIF
          Label9(:)='         '
-         Label9(1:9)=ALEform(ALE%GRID%NWALE)
+         Label9(1:16)=ALEform(ALE%GRID%NWALE)
          eta1=ALE%UPWIND%UPWMG2
          eta2=ALE%UPWIND%UPWOG2
          IF(ALE%UPWIND%UPWM>1)eta1=ALE%UPWIND%CUPWM
@@ -1107,7 +1110,7 @@ C----------------------------------------
            !OUTPUT COURANT NUMBER
            WRITE(IOUT,1006) DTFAC1(102),DTMIN1(102)
            !OUTPUT GRID SMOOTHING FORMULATION AND ITS PARAMETERS
-           WRITE(IOUT,1007)Label9(1:9)
+           WRITE(IOUT,1007)Label9(1:len_trim(Label9))
            SELECT CASE (ALE%GRID%NWALE)
              CASE(0) !DONEA
                WRITE(IOUT,1008)
@@ -1128,9 +1131,13 @@ C----------------------------------------
                WRITE(IOUT,1254) ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY
              CASE(6) !VOLUME
                !no parameters
-             CASE(7) !MASSFLOW
+             CASE(7) !FLOW-TRACKING
                WRITE(IOUT,1008)
-               WRITE(IOUT,1257) ALE%GRID%ALPHA,ALE%GRID%GAMMA
+               LABEL_DEF=' NO'
+               LABEL_ROT=' NO'
+               IF(INT(ALE%GRID%VGX) == 1)LABEL_DEF='YES'
+               IF(INT(ALE%GRID%VGY) == 1)LABEL_ROT='YES'
+               WRITE(IOUT,1257) LABEL_DEF,LABEL_ROT,ALE%GRID%ALPHA,ALE%GRID%GAMMA
            END SELECT
          ENDIF
        ENDIF !(IALE/=0.OR.IEULER/=0)
@@ -1191,37 +1198,35 @@ C
        NN=(NSLIOF+9)/10
        DO IL=1,NN
          READ (IIN,'(10I10)') (NLEC(I),I=1,10)
-         DO 80 I=1,10
-          IF(NLEC(I) == 0)GOTO 80
-          IF(ISPMD == 0.AND.MCHECK == 0)
-     .           WRITE(IOUT,2000) NLEC(I)
-               DO K=1,NINTER
-                 IF(IPARI(15,K) == NLEC(I))THEN
-                   IF(IPARI(7,K)==2)THEN
-                     IDEL2= IPARI(17,K)
-                     IF(IDEL2 /= 0)THEN
-C
-C                      SMASS & SINER have been saved only if IDEL2 /= 0
-                       NSN  = IPARI(5,K)
-                       DO N=1,NSN
-                         IS =INTBUF_TAB(K)%NSV(N)
-                         IF(IS > 0)THEN
-                           MS(IS)=INTBUF_TAB(K)%SMAS(N)
-                           IN(IS)=INTBUF_TAB(K)%SINER(N)
-                           INTBUF_TAB(K)%NSV(N)=-IS
-                         END IF
-                       END DO
+         DO I=1,10
+           IF(NLEC(I) == 0)CYCLE
+           IF(ISPMD == 0.AND.MCHECK == 0)WRITE(IOUT,2000) NLEC(I)
+           DO K=1,NINTER
+             IF(IPARI(15,K) == NLEC(I))THEN
+               IF(IPARI(7,K)==2)THEN
+                 IDEL2= IPARI(17,K)
+                 IF(IDEL2 /= 0)THEN
+C                  SMASS & SINER have been saved only if IDEL2 /= 0
+                   NSN  = IPARI(5,K)
+                   DO N=1,NSN
+                     IS =INTBUF_TAB(K)%NSV(N)
+                     IF(IS > 0)THEN
+                       MS(IS)=INTBUF_TAB(K)%SMAS(N)
+                       IN(IS)=INTBUF_TAB(K)%SINER(N)
+                       INTBUF_TAB(K)%NSV(N)=-IS
                      END IF
-                   END IF
-C----- change T_stop for int25 otherwise issue w/ int25
-                   IF(IPARI(7,K)==25)THEN
-                     INTBUF_TAB(K)%VARIABLES(11) = ZERO
-                   ELSE
-                   IPARI(7,K)=0
-                 ENDIF
+                   END DO
                  END IF
-               ENDDO
-   80    CONTINUE
+               END IF
+C----- change T_stop for int25 otherwise issue w/ int25
+               IF(IPARI(7,K)==25)THEN
+                 INTBUF_TAB(K)%VARIABLES(11) = ZERO
+               ELSE
+                 IPARI(7,K)=0
+               ENDIF
+             END IF
+           ENDDO
+         ENDDO !next I
        ENDDO
       ENDIF
 C-----------------------------------
@@ -1778,185 +1783,185 @@ C-----------------------
 C     RESET OFF ARRAY
 C-----------------------
       IF (NELOF > 0)THEN
-       DO 790 NG=1,NGROUP
-       OFFG => ELBUF_STR(NG)%GBUF%OFF
-       MLW=IPARG(1,NG)
-       ITY=IPARG(5,NG)
-       NEL=IPARG(2,NG)
-       NFT=IPARG(3,NG)
-       IAD=IPARG(4,NG)
-       IGOF=0
+       DO NG=1,NGROUP
+         OFFG => ELBUF_STR(NG)%GBUF%OFF
+         MLW=IPARG(1,NG)
+         ITY=IPARG(5,NG)
+         NEL=IPARG(2,NG)
+         NFT=IPARG(3,NG)
+         IAD=IPARG(4,NG)
+         IGOF=0
 C-----------------------
 C     1. SOLID ELEMS
 C-----------------------
-       IF(ITY == 1.AND.NELSOF /= 0)THEN
-        IGOF=1
-        DO 710 I=1,NEL
-        II=I+NFT
-        IF(IXS(1,II) < 0)THEN
-         IXS(1,II)=-IXS(1,II)
-         IF (MLW /= 0) THEN
-           OFFG(I)=ZERO
-         ELSE     ! loi0, pas de off
-           CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXS(NIXS,II),C1='BRICK',C2='BRICK')
-         ENDIF
-        ELSE
-         IGOF=0
-        ENDIF
-  710   CONTINUE
+         IF(ITY == 1.AND.NELSOF /= 0)THEN
+            IGOF=1
+            DO I=1,NEL
+              II=I+NFT
+              IF(IXS(1,II) < 0)THEN
+               IXS(1,II)=-IXS(1,II)
+               IF (MLW /= 0) THEN
+                 OFFG(I)=ZERO
+               ELSE     ! loi0, pas de off
+                 CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXS(NIXS,II),C1='BRICK',C2='BRICK')
+               ENDIF
+              ELSE
+               IGOF=0
+              ENDIF
+            ENDDO
 C-----------------------
 C     2. 2D ELEMS
 C-----------------------
-       ELSEIF(ITY == 2.AND.NELQOF /= 0)THEN
-        IGOF=1
-        DO 720 I=1,NEL
-        II=I+NFT
-        IF(IXQ(1,II) < 0)THEN
-         IXQ(1,II)=-IXQ(1,II)
-         OFFG(I) = ZERO
-        ELSE
-         IGOF=0
-        ENDIF
-  720   CONTINUE
+         ELSEIF(ITY == 2.AND.NELQOF /= 0)THEN
+          IGOF=1
+          DO I=1,NEL
+            II=I+NFT
+            IF(IXQ(1,II) < 0)THEN
+             IXQ(1,II)=-IXQ(1,II)
+             OFFG(I) = ZERO
+            ELSE
+             IGOF=0
+            ENDIF
+          ENDDO
 C-----------------------
 C     3. SHELL ELEMS
 C-----------------------
-       ELSEIF(ITY == 3.AND.NELCOF /= 0)THEN
-        IGOF=1
-        DO I=1,NEL
-        II=I+NFT
-        IF(IXC(1,II) < 0)THEN
-          IXC(1,II)=-IXC(1,II)
-          IF (MLW /= 0) THEN
-            OFFG(I) = ZERO
-          ELSE     ! loi0, pas de off
-           CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXC(NIXC,II), C1='SHELL',C2='SHELL')
-          ENDIF
-        ELSE
-          IGOF=0
-        ENDIF
-        ENDDO
+         ELSEIF(ITY == 3.AND.NELCOF /= 0)THEN
+           IGOF=1
+           DO I=1,NEL
+             II=I+NFT
+             IF(IXC(1,II) < 0)THEN
+               IXC(1,II)=-IXC(1,II)
+               IF (MLW /= 0) THEN
+                 OFFG(I) = ZERO
+               ELSE     ! loi0, pas de off
+                CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXC(NIXC,II), C1='SHELL',C2='SHELL')
+               ENDIF
+             ELSE
+               IGOF=0
+             ENDIF
+           ENDDO
 C-----------------------
 C     4. ROD ELEMS
 C-----------------------
-       ELSEIF(ITY == 4.AND.NELTOF /= 0)THEN
-C        IGOF=1
+         ELSEIF(ITY == 4.AND.NELTOF /= 0)THEN
+C          IGOF=1
 C suppression du groupe incompatible avec option gap truss
-        IGOF=0
-        DO 740 I=1,NEL
-        II=I+NFT
-        IF(IXT(1,II) < 0)THEN
-         IXT(1,II)=-IXT(1,II)
-         OFFG(I) = ZERO
-C        ELSE
-C         IGOF=0
-        ENDIF
-  740   CONTINUE
+           IGOF=0
+           DO I=1,NEL
+             II=I+NFT
+             IF(IXT(1,II) < 0)THEN
+              IXT(1,II)=-IXT(1,II)
+              OFFG(I) = ZERO
+C             ELSE
+C              IGOF=0
+             ENDIF
+           ENDDO
 C-----------------------
 C     5. BEAM ELEMS
 C-----------------------
-       ELSEIF(ITY == 5.AND.NELPOF /= 0)THEN
-        IGOF=1
-        DO 750 I=1,NEL
-        II=I+NFT
-        IF(IXP(1,II) < 0)THEN
-         IXP(1,II)=-IXP(1,II)
-         OFFG(I) = ZERO
-        ELSE
-         IGOF=0
-        ENDIF
-  750   CONTINUE
+         ELSEIF(ITY == 5.AND.NELPOF /= 0)THEN
+          IGOF=1
+          DO I=1,NEL
+            II=I+NFT
+            IF(IXP(1,II) < 0)THEN
+             IXP(1,II)=-IXP(1,II)
+             OFFG(I) = ZERO
+            ELSE
+             IGOF=0
+            ENDIF
+          ENDDO
 C-----------------------
 C     6. ELEMENTS RESSORTS
 C-----------------------
-       ELSEIF(ITY == 6.AND.NELROF /= 0)THEN
-        IGOF=0
-        DO 760 I=1,NEL
-        II=I+NFT
-        IF(IXR(1,II) < 0)THEN
-         IXR(1,II)=-IXR(1,II)
-         OFFG(I) = ZERO
-        ENDIF
-  760   CONTINUE
+         ELSEIF(ITY == 6.AND.NELROF /= 0)THEN
+          IGOF=0
+          DO I=1,NEL
+            II=I+NFT
+            IF(IXR(1,II) < 0)THEN
+              IXR(1,II)=-IXR(1,II)
+              OFFG(I) = ZERO
+            ENDIF
+          ENDDO
 C-----------------------
 C     7. 3N-SHELL-ELEMS
 C-----------------------
-       ELSEIF(ITY == 7.AND.NELTGOF /= 0)THEN
-        IGOF=1
-        DO 770 I=1,NEL
-        II=I+NFT
-        IF(IXTG(1,II) < 0)THEN
-         IXTG(1,II)=-IXTG(1,II)
-         IF(MLW /= 0) THEN
-           OFFG(I) = ZERO
-         ELSE     ! loi0, pas de off
-          CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXTG(NIXTG,II), C1='SH_3N',C2='SH_3N')
-         ENDIF
-        ELSE
-         IGOF=0
-        ENDIF
-  770   CONTINUE
+         ELSEIF(ITY == 7.AND.NELTGOF /= 0)THEN
+          IGOF=1
+          DO I=1,NEL
+            II=I+NFT
+            IF(IXTG(1,II) < 0)THEN
+             IXTG(1,II)=-IXTG(1,II)
+             IF(MLW /= 0) THEN
+               OFFG(I) = ZERO
+             ELSE     ! loi0, pas de off
+              CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXTG(NIXTG,II), C1='SH_3N',C2='SH_3N')
+             ENDIF
+            ELSE
+             IGOF=0
+            ENDIF
+          ENDDO
 C-----------------------
 C     8. SPH PARTICLES
 C-----------------------
-       ELSEIF(ITY == 51.AND.NSPHOF /= 0)THEN
-        IGOF=1
-        DO 780 I=1,NEL
-        II=I+NFT
-        IF(KXSP(2,II) /= 0)THEN
-         IGOF=0
-        ENDIF
-  780   CONTINUE
-       ENDIF
+         ELSEIF(ITY == 51.AND.NSPHOF /= 0)THEN
+          IGOF=1
+          DO I=1,NEL
+            II=I+NFT
+            IF(KXSP(2,II) /= 0)THEN
+             IGOF=0
+            ENDIF
+          ENDDO
+         ENDIF
 C----------------------------------------
 C     CHECK FOR GROUP CLEANING
 C----------------------------------------
-       IPARG(8,NG)=MAX0(IPARG(8,NG),IGOF)
-  790  CONTINUE
+         IPARG(8,NG)=MAX0(IPARG(8,NG),IGOF)
+        ENDDO ! next NG
       END IF
 C-------------------------------------------
 C     ADDING RIGID LINK BETWEEN NODES
 C-------------------------------------------
-      IF(NRLINK > 0.AND.MCHECK == 0) THEN
+      IF(NRLINK > 0 .AND. MCHECK == 0) THEN
        K1 =1
        K2 =1
-       DO 800 K=1,NRLINK
-       READ (IIN,'(I8,1X,3I1,1X,3I1,I10)')N,I1,I2,I3,IR1,IR2,IR3,ISK
-       READ (IIN,'(10I10)')   (LLINK(K2+I-1),I=1,N)
-       IC=I3+2*I2+4*I1
-       ICR=IR3+2*IR2+4*IR1
-       IF(IRODDL == 0)ICR=0
-       IF(ISPMD == 0.AND.MCHECK == 0)WRITE(IOUT,2100)  K,I1,I2,I3,IR1,IR2,IR3,ISK,N
-       IF(ISPMD == 0.AND.MCHECK == 0)WRITE(IOUT,'(10I10)')  (LLINK(K2+I-1),I=1,N)
-       IF ( ISK  /=  0) THEN
-         ISK1 = 0
-         ISK2 = 0
-         DO LL=0,NUMSKW
-           IF(ISK == ISKWN(4,LL+1)) THEN
-             ISK1 = LL
-             ISK2 = 1
+       DO K=1,NRLINK
+         READ (IIN,'(I8,1X,3I1,1X,3I1,I10)')N,I1,I2,I3,IR1,IR2,IR3,ISK
+         READ (IIN,'(10I10)') (LLINK(K2+I-1),I=1,N)
+         IC=I3+2*I2+4*I1
+         ICR=IR3+2*IR2+4*IR1
+         IF(IRODDL == 0)ICR=0
+         IF(ISPMD == 0.AND.MCHECK == 0)WRITE(IOUT,2100)  K,I1,I2,I3,IR1,IR2,IR3,ISK,N
+         IF(ISPMD == 0.AND.MCHECK == 0)WRITE(IOUT,'(10I10)')  (LLINK(K2+I-1),I=1,N)
+         IF ( ISK  /=  0) THEN
+           ISK1 = 0
+           ISK2 = 0
+           DO LL=0,NUMSKW
+             IF(ISK == ISKWN(4,LL+1)) THEN
+               ISK1 = LL
+               ISK2 = 1
+             ENDIF
+           ENDDO
+           IF ( ISK2  ==  0) THEN
+             CALL ANCMSG(MSGID=125,ANMODE=ANINFO)
+             CALL ARRET(2)
            ENDIF
-         ENDDO
-         IF ( ISK2  ==  0) THEN
-           CALL ANCMSG(MSGID=125,ANMODE=ANINFO)
-           CALL ARRET(2)
+           ISK = ISK1
          ENDIF
-         ISK = ISK1
-       ENDIF
-       ! shared verification & defining specific data structure 
-       CALL FR_RLINK1(LLINK(K2),ITABM1,FR_RL(1,K),N)
-       CALL RLINK0(
-     1    V           ,VR          ,MS       ,IN           ,NNLINK(K1),
-     2    NNLINK(K1+1),NNLINK(K1+2),LLINK(K2),N            ,IC        ,
-     3    ICR         ,NNLINK(K1+3),ISK      ,SKEW(1,ISK+1),ISKWN     ,
-     4    FR_RL(1,K)  ,WEIGHT      )
-       K1=K1+4
-       K2=K2+N
-       IF(IC+ICR == 0)THEN
-        IF(ISPMD == 0)CALL ANCMSG(MSGID=126,ANMODE=ANINFO)
-        CALL ARRET(2)
-       ENDIF
-  800  CONTINUE
+         ! shared verification & defining specific data structure
+         CALL FR_RLINK1(LLINK(K2),ITABM1,FR_RL(1,K),N)
+         CALL RLINK0(
+     1      V           ,VR          ,MS       ,IN           ,NNLINK(K1),
+     2      NNLINK(K1+1),NNLINK(K1+2),LLINK(K2),N            ,IC        ,
+     3      ICR         ,NNLINK(K1+3),ISK      ,SKEW(1,ISK+1),ISKWN     ,
+     4      FR_RL(1,K)  ,WEIGHT      )
+         K1=K1+4
+         K2=K2+N
+         IF(IC+ICR == 0)THEN
+          IF(ISPMD == 0)CALL ANCMSG(MSGID=126,ANMODE=ANINFO)
+          CALL ARRET(2)
+         ENDIF
+       ENDDO
       ENDIF
 C-------------------------------------------
 C     ALE - LINK ON GRID VELOCITY
@@ -2448,7 +2453,7 @@ C-------------------------------------------
 C     MODIFICATION DES INTERFACES
 C-------------------------------------------
       IF(NINTCH /= 0)THEN
-        DO 950 I=1,NINTCH
+        DO I=1,NINTCH
             READ(IIN,'(2I8,2F16.0)')NOINT,NSEARCH,TSTART,TFIN
             IF(TFIN == 0.0)TFIN=1.E30
             IF(TFIN <= TSTART) THEN
@@ -2457,20 +2462,20 @@ C-------------------------------------------
             ENDIF
 
             JPRI = -1
-            DO 949 J=1,NINTER
+            DO J=1,NINTER
               IF(NOINT == IPARI(15,J)) THEN
                 IF(NSEARCH /= 0) IPARI(13,J)=NSEARCH
                 INTBUF_TAB(J)%VARIABLES(3)  = TSTART
                 INTBUF_TAB(J)%VARIABLES(11) = TFIN
                 JPRI=J
               ENDIF
- 949        CONTINUE
+            ENDDO
             IF(JPRI/=-1) THEN
                 IF(ISPMD == 0.AND.MCHECK == 0) WRITE(IOUT,2300)NOINT,IPARI(13,JPRI),TSTART,TFIN
             ELSE
                 IF(ISPMD == 0.AND.MCHECK == 0) WRITE(IOUT,2301)NOINT
             ENDIF
- 950    CONTINUE
+        ENDDO
       ENDIF
 C
       IF(MCHECK /= 0)THEN
@@ -2653,7 +2658,7 @@ C---------------------------------------------------------
  1007 FORMAT(
      & 1X,'  |'/
      & 1X,'  +--GRID SMOOTHING'/
-     & 1X,'     +--FORMULATION       : ',A9)
+     & 1X,'     +--FORMULATION       : ',A17)
  1008 FORMAT(
      & 1X,'     +--PARAMETERS        :')
 
@@ -2776,10 +2781,6 @@ C---------------------------------------------------------
      .  ' MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . . ',I5   //
      .  ' INVERS: INPUT DECK VERSION . . . . . . . . . . . ',I5/
      .  ' ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . . ' ,I5/)
- 1112 FORMAT(
-     .  ' NODAL TIME STEP FOR SHELLS SCALE FACTOR. . . . . ',G14.7/
-     .  ' NODAL MINIMUM TIME STEP FOR SHELLS . . . . . . . ',G14.7/
-     .  ' MIN. TIME FLAG (1:INCREASE MASS) . . . . . . . . ',I5//)
  1120 FORMAT(/
      .  ' TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . . ',G14.7/
      .  ' TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . . ',G14.7/
@@ -2877,8 +2878,10 @@ C---------------------------------------------------------
      . 28X,' BETA  : DAMPING COEFFICIENT. . . . . . . . . . . ',G14.7/
      . 28X,' LC    : CHARACTERISTIC LENGTH. . . . . . . . . . ',G14.7//)
  1257 FORMAT(
-     . 28X,' SCALE_DEF : SCALE FACTOR FOR DEFORMATION . . . . ',G14.7/
-     . 28X,' SCALE_ROT : SCALE FACTOR FOR ROTATION. . . . . . ',G14.7//)
+     . 28X,' ENABLED DEFORMATION  . . . . . . . . . . . . . . ',A3/
+     . 28X,' ENABLED ROTATION  .  . . . . . . . . . . . . . . ',A3/
+     . 28X,' SCALE FACTOR FOR DEFORMATION . . . . . . . . . . ',G14.7/
+     . 28X,' SCALE FACTOR FOR ROTATION  . . . . . . . . . . . ',G14.7//)
  1300 FORMAT(
      .  ' NUMBER OF INTERFACES TO BE ELIMINATED. . . . . . ',I8//
      .  ' NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED ',I8//

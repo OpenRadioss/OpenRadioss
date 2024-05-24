@@ -203,6 +203,7 @@ C-----------------------------------------------
       CHARACTER (LEN=NCHARTITLE) :: TITR
       CHARACTER (LEN=255) :: STR_NBTHREADS
       CHARACTER MESS*40, ERRMSG*40
+      CHARACTER*3 :: LABEL_DEF,LABEL_ROT
 C-----------------------------------------------
 C OpenMP specific
 #if defined(_OPENMP)
@@ -1378,7 +1379,12 @@ C
           CASE(4);WRITE (IOUT,5351) ALE%GRID%ALPHA,ALE%GRID%GAMMA,ALE%GRID%VGX,ALE%GRID%VGY 
           CASE(5);WRITE (IOUT,5353) ALE%GRID%ALPHA,NINT(ALE%GRID%VGX)               
           CASE(6);WRITE (IOUT,5354)
-          CASE(7);WRITE (IOUT,5355) ALE%GRID%ALPHA,ALE%GRID%GAMMA
+          CASE(7);
+            LABEL_DEF = ' NO'
+            IF(INT(ALE%GRID%VGX) == 1)LABEL_DEF = 'YES'
+            LABEL_ROT = ' NO'
+            IF(INT(ALE%GRID%VGY) == 1)LABEL_ROT = 'YES'
+            WRITE (IOUT,5355) LABEL_DEF,LABEL_ROT,ALE%GRID%ALPHA,ALE%GRID%GAMMA
         END SELECT
       ENDIF
 
@@ -1543,11 +1549,11 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
  5055 FORMAT(
      & '    NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . . ',I10)
  5100 FORMAT(/
-     & 4X,'NWALE : CHOICE OF ALE GRID VELOCITY FORMULATION . . .',I10)
+     & 4X,'NWALE : ALE GRID VELOCITY FORMULATION  . . . . . . . .',I10)
  5199 FORMAT(//
      & 4X,'ALE GRID SMOOTHING FORMULATION'/
      & 4X,'------------------------------'/
-     & 5X,'DONEA GRID VELOCITY COMPUTATION METHOD         '/
+     & 5X,'DONEA GRID VELOCITY COMPUTATION METHOD         '//
      & 5X,'ALPHA   : DONEA COEFFICIENT. . . . . . . . . . ',1PG20.13/
      & 5X,'GAMMA   : GRID VELOCITY LIMITATION FACTOR. . . ',1PG20.13/
      & 5X,'FscaleX : X-GRID VELOCITY SCALE FACTOR . . . . ',1PG20.13/
@@ -1557,13 +1563,13 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
  5200 FORMAT(//
      & 4X,'ALE GRID SMOOTHING FORMULATION'/
      & 4X,'------------------------------'/
-     & 5X,'ALTAIR AVERAGE DISPLACEMENT GRID FORMULATION   '/
+     & 5X,'ALTAIR AVERAGE DISPLACEMENT GRID FORMULATION   '//
      & 5X,'UMAX  : MAXIMUM ABSOLUTE GRID VELOCITY . . . . ',1PG20.13/
      & 5X,'VMIN  : MINIMUM VOLUME FOR ELEMENT DELETION. . ',1PG20.13)
  5300 FORMAT(//
      & 4X,'ALE GRID SMOOTHING FORMULATION'/
      & 4X,'------------------------------'/
-     &5X,'ALTAIR SPRING METHOD FOR GRID VELOCITY COMPUTATION    '/
+     &5X,'ALTAIR SPRING METHOD FOR GRID VELOCITY COMPUTATION    '//
      &5X,'DT0   : TYPICAL TIME STEP  . . . . . . . . . . . . ',1PG20.13/
      &5X,'DT0*  : EFFECTIVE TIME STEP. . . . . . . . . . . . ',1PG20.13/
      &5X,'GAMMA : NON LINEARITY FACTOR . . . . . . . . . . . ',1PG20.13/
@@ -1577,7 +1583,7 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
  5351 FORMAT(//
      & 4X,'ALE GRID SMOOTHING FORMULATION'/
      & 4X,'------------------------------'/
-     & 5X,'ALTAIR STANDARD METHOD FOR GRID VELOCITY COMPUTATION '/
+     & 5X,'ALTAIR STANDARD METHOD FOR GRID VELOCITY COMPUTATION '//
      & 5X,'ALPHA : STABILITY FACTOR . . . . . . . . . . . . ',1PG20.13/
      & 5X,'GAMMA : NON LINEARITY FACTOR . . . . . . . . . . ',1PG20.13/
      & 5X,'BETA  : DAMPING COEFFICIENT. . . . . . . . . . . ',1PG20.13/
@@ -1585,7 +1591,7 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
  5353 FORMAT(//
      & 4X,'ALE GRID SMOOTHING FORMULATION'/
      & 4X,'------------------------------'/
-     & 5X,'LAPLACIAN SMOOTHING '/
+     & 5X,'LAPLACIAN SMOOTHING '//
      & 5X,'LAMBDA:. . . . . . . . . . . . . . . . . . . . . ',1PG20.13/
      & 5X,'NITER :. . . . . . . . . . . . . . . . . . . . . ',I10)
  5354 FORMAT(//
@@ -1595,9 +1601,11 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
  5355 FORMAT(//
      & 4X,'ALE GRID SMOOTHING FORMULATION'/
      & 4X,'------------------------------'/
-     & 5X,'AVERAGED MASSFLOW '/
-     & 5X,'SCALE_DEF: . . . . . . . . . . . . . . . . . . . ',1PG20.13/
-     & 5X,'SCALE_ROT: . . . . . . . . . . . . . . . . . . . ',1PG20.13/)
+     & 5X,'FLOW-TRACKING (MASS WEIGHTED AVERAGED VELOCITY)'//
+     & 5X,'DEFORMATION ENABLED :  . . . . . . . . . . . . . ',A3/
+     & 5X,'ROTATION ENABLED : . . . . . . . . . . . . . . . ',A3/
+     & 5X,'DEFORMATION SCALE FACTOR : . . . . . . . . . . . ',1PG20.13/
+     & 5X,'ROTATION SCALE FACTOR: . . . . . . . . . . . . . ',1PG20.13/)
 
 
  5360 FORMAT(//

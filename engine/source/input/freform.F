@@ -1677,13 +1677,13 @@ C--------------------
        !---------------------------------------!
        !    '/ALE/GRID/VOLUME'                 !
        !---------------------------------------!
-       ELSEIF(StringALE(1:4)=='VOLUM')THEN
+       ELSEIF(StringALE(1:5)=='VOLUM')THEN
         NUM_ALE_GRID = NUM_ALE_GRID + 1
         IALE_GRID_FORM=6
        !---------------------------------------!
-       !    '/ALE/GRID/MASSFLOW'               !
+       !    '/ALE/GRID/MASS-WEIGHTED-VEL'      !
        !---------------------------------------!
-       ELSEIF(StringALE(1:4)=='MASSF')THEN
+       ELSEIF(StringALE(1:5)=='MASS-')THEN
         NUM_ALE_GRID = NUM_ALE_GRID + 1
         IALE_GRID_FORM=7
         READ(IUSC2,*,ERR=9990,END=9990)ALP,GAM

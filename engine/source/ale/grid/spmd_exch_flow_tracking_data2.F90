@@ -23,24 +23,18 @@
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
-!! \brief SPMD exchange necessary for option /ALE/GRID/MASSFLOW
-!!    gathering  SUM(mi.eps,i) : DOMAIN_DATA%EP(1:9)
-!!    gathering  SUM(mi)       : DOMAIN_DATA%SUM_M
-!!    then averaging eps tensor (L)
-!!    deducde spherical tensor %LD and anti-symmetrical tensor %LW  (L=DL+LW)
-!!    when finished, reset DOMAIN_DATA%SUM_M
-!!      DOMAIN_DATA%EP(1:9) = DOMAIN_DATA%EP(1:9) / DOMAIN_DATA%SUM_M
-!!      DOMAIN_DATA%SUM_M = ZERO !used for elem mass in sforc3, used below for nodal mass
-!!      DOMAIN_DATA%LD(1) = ...
-!!      DOMAIN_DATA%LW(3) = ...
+!! \brief SPMD exchange necessary for option /ALE/GRID/MASS-WEIGHTED-VEL
+!! \details gathering  SUM(mi.vi,i) : DOMAIN_DATA%MOM_L(1:3)
+!! gathering SUM(mi.xi,i) : DOMAIN_DATA%COG_L(1:3)
+!! gathering SUM(mi)      : DOMAIN_DATA%SUM_M
 !
-      subroutine spmd_exch_massflow_data( domain_data, nspmd  )
+      subroutine spmd_exch_flow_tracking_data2( domain_data, nspmd )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-        use ale_mod , only : massflow_data_
-        use constant_mod , only: zero
         use spmd_mod
+        use ale_mod , only : flow_tracking_data_
+        use constant_mod , only: zero
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included file
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -50,7 +44,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        type(massflow_data_),intent(inout)::domain_data !< intent(in) ale massflow buffer for given domain
+        type(flow_tracking_data_),intent(inout)::domain_data !< intent(in) ale mass weighted velocity data buffer for given domain
         integer,intent(in)::nspmd                       !< number of spmd domains
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -58,7 +52,7 @@
         integer :: msgtyp, msgoff, p, nbirecv
         integer :: req_sb(nspmd),irindexi(nspmd)
         integer :: loc_proc, isize
-        my_real :: rbuf(12,nspmd)
+        my_real :: rbuf(7,nspmd)
         data msgoff/2205/
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Preconditions
@@ -69,12 +63,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !$OMP SINGLE
         loc_proc=ispmd+1
-        rbuf(1:11,1:nspmd) = zero
-        rbuf(1:9,loc_proc) = domain_data%ep(1:9)     !sum(mass*epsilon)
-        rbuf(10,loc_proc) = domain_data%sum_m        !sum(mass)
-        rbuf(11,loc_proc) = domain_data%sum_vol      !sum(volume)
-        rbuf(12,loc_proc) = domain_data%num_elem_ale !sum(ale_elem)
-        isize=12
+        rbuf(1:7,1:nspmd)=zero
+        rbuf(1:3,loc_proc) = domain_data%mom_l(1:3)
+        rbuf(4:6,loc_proc) = domain_data%cog_l(1:3)
+        rbuf(7,loc_proc) = domain_data%sum_m
+        isize=7
         !-------------------------------------------!
         ! SENDING %EP(1:9)                          !
         !-------------------------------------------!
@@ -106,30 +99,23 @@
         enddo
 
         !-------------------------------------------!
-        ! COMPUTE AVERAGE ON CurRENT DOMAIN         !
+        ! COMPUTE AVERAGE ON CURRENT DOMAIN         !
         !-------------------------------------------!
-        domain_data%ep(1:9)=zero
+        domain_data%mom_l(1:3)=zero
+        domain_data%cog_l(1:3)=zero
         domain_data%sum_m=zero
-        domain_data%sum_vol=zero
-        domain_data%num_elem_ale=zero
 
         do p=1,nspmd
-          domain_data%ep(1) = domain_data%ep(1) + rbuf(1,p)
-          domain_data%ep(2) = domain_data%ep(2) + rbuf(2,p)
-          domain_data%ep(3) = domain_data%ep(3) + rbuf(3,p)
-          domain_data%ep(4) = domain_data%ep(4) + rbuf(4,p)
-          domain_data%ep(5) = domain_data%ep(5) + rbuf(5,p)
-          domain_data%ep(6) = domain_data%ep(6) + rbuf(6,p)
-          domain_data%ep(7) = domain_data%ep(7) + rbuf(7,p)
-          domain_data%ep(8) = domain_data%ep(8) + rbuf(8,p)
-          domain_data%ep(9) = domain_data%ep(9) + rbuf(9,p)
-          domain_data%sum_m = domain_data%sum_m + rbuf(10,p)
-          domain_data%sum_vol = domain_data%sum_vol + rbuf(11,p)
-          domain_data%num_elem_ale = domain_data%num_elem_ale + rbuf(12,p)
+          domain_data%mom_l(1) = domain_data%mom_l(1) + rbuf(1,p)
+          domain_data%mom_l(2) = domain_data%mom_l(2) + rbuf(2,p)
+          domain_data%mom_l(3) = domain_data%mom_l(3) + rbuf(3,p)
+          domain_data%cog_l(1) = domain_data%cog_l(1) + rbuf(4,p)
+          domain_data%cog_l(2) = domain_data%cog_l(2) + rbuf(5,p)
+          domain_data%cog_l(3) = domain_data%cog_l(3) + rbuf(6,p)
+          domain_data%sum_m = domain_data%sum_m + rbuf(7,p)
         enddo
-
 
 !$OMP END SINGLE
 ! ----------------------------------------------------------------------------------------------------------------------
         return
-      end subroutine spmd_exch_massflow_data
+      end subroutine spmd_exch_flow_tracking_data2

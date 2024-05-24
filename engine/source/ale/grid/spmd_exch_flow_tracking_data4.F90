@@ -23,15 +23,15 @@
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
-!! \brief SPMD exchange necessary for option /ALE/GRID/MASSFLOW
+!! \brief SPMD exchange necessary for option /ALE/GRID/MASS-WEIGHTED-VEL
 !! \details  gathering  domain boundaries X_MIN_MAX (for main flow) and X_MIN_MAX_GRID (for ALE grid points)
 !
-      subroutine spmd_exch_massflow_data4( domain_data, nspmd )
+      subroutine spmd_exch_flow_tracking_data4( domain_data, nspmd )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
         use spmd_mod
-        use ale_mod , only : massflow_data_
+        use ale_mod , only : flow_tracking_data_
         use constant_mod , only: zero,ep20
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included file
@@ -42,7 +42,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        type(massflow_data_),intent(inout)::domain_data !< intent(in) ale massflow buffer for given domain
+        type(flow_tracking_data_),intent(inout)::domain_data !< intent(in) ale mass weighted velolcity data buffer for given domain
         integer,intent(in)::nspmd                       !< number of SPMD domains
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -125,4 +125,4 @@
 !$OMP END SINGLE
 !-----------------------------------------------
         return
-      end subroutine spmd_exch_massflow_data4
+      end subroutine spmd_exch_flow_tracking_data4

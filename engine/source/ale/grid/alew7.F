@@ -40,7 +40,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C Compute Grid velocities for /ALE/GRID/MASSFLOW
+C Compute Grid velocities for /ALE/GRID/FLOW-TRACKING
 C
 C  INPUT/OUTPUT
 C     X,D,V are allocated to SX,SD,DV=3*(NUMNOD_L+NUMVVOIS_L)
@@ -132,41 +132,41 @@ C-----------------------------------------------
       lROT=.FALSE.
       SCALE_DEF = ALE%GRID%ALPHA !user parameter
       SCALE_ROT = ALE%GRID%GAMMA !user parameter
-      IF(SCALE_DEF > EM20)lDEF=.TRUE. !enable mesh deformation
-      IF(SCALE_ROT > EM20)lROT=.TRUE. !enalbe mesh rotation
+      IF(INT(ALE%GRID%VGX) == 1)lDEF=.TRUE. !enable mesh deformation
+      IF(INT(ALE%GRID%VGY) == 1)lROT=.TRUE. !enalbe mesh rotation
       IF(lDEF .OR. lROT)lTENSOR=.TRUE.!request for mean tensor calculation
 
       !2.---AVERAGED DEFORMATION TENSOR
       !-----------------------------------
       !mean value is computed here
       !  cumulative mass value done in sfor3.F for 3d solid and qforc2.F for quads
-      !  ALE%GRID%MASSFLOW_DATA%.. is a shared data strucutre for SMP  (omp single or lock on/off)
+      !  ALE%GRID%flow_tracking_data%.. is a shared data strucutre for SMP  (omp single or lock on/off)
 !$OMP SINGLE
       IF(lTENSOR)THEN
          IF(NSPMD > 1)THEN
-           CALL SPMD_EXCH_MASSFLOW_DATA(ALE%GRID%MASSFLOW_DATA, NSPMD)
+           CALL SPMD_EXCH_FLOW_TRACKING_DATA(ALE%GRID%flow_tracking_data, NSPMD)
          ENDIF
-         ALE%GRID%MASSFLOW_DATA%EP(1:9) = ALE%GRID%MASSFLOW_DATA%EP(1:9) / ALE%GRID%MASSFLOW_DATA%SUM_M
+         ALE%GRID%flow_tracking_data%EP(1:9) = ALE%GRID%flow_tracking_data%EP(1:9) / ALE%GRID%flow_tracking_data%SUM_M
          !STRAIN RATE TENSOR
-         ALE%GRID%MASSFLOW_DATA%LD(1) = ALE%GRID%MASSFLOW_DATA%EP(1) !xx
-         ALE%GRID%MASSFLOW_DATA%LD(2) = ALE%GRID%MASSFLOW_DATA%EP(2) !yy
-         ALE%GRID%MASSFLOW_DATA%LD(3) = ALE%GRID%MASSFLOW_DATA%EP(3) !zz
-         ALE%GRID%MASSFLOW_DATA%LD(4) = HALF*(ALE%GRID%MASSFLOW_DATA%EP(4)+ALE%GRID%MASSFLOW_DATA%EP(7)) !xy
-         ALE%GRID%MASSFLOW_DATA%LD(5) = HALF*(ALE%GRID%MASSFLOW_DATA%EP(5)+ALE%GRID%MASSFLOW_DATA%EP(8)) !xz
-         ALE%GRID%MASSFLOW_DATA%LD(6) = HALF*(ALE%GRID%MASSFLOW_DATA%EP(6)+ALE%GRID%MASSFLOW_DATA%EP(9)) !yz
+         ALE%GRID%flow_tracking_data%LD(1) = ALE%GRID%flow_tracking_data%EP(1) !xx
+         ALE%GRID%flow_tracking_data%LD(2) = ALE%GRID%flow_tracking_data%EP(2) !yy
+         ALE%GRID%flow_tracking_data%LD(3) = ALE%GRID%flow_tracking_data%EP(3) !zz
+         ALE%GRID%flow_tracking_data%LD(4) = HALF*(ALE%GRID%flow_tracking_data%EP(4)+ALE%GRID%flow_tracking_data%EP(7)) !xy
+         ALE%GRID%flow_tracking_data%LD(5) = HALF*(ALE%GRID%flow_tracking_data%EP(5)+ALE%GRID%flow_tracking_data%EP(8)) !xz
+         ALE%GRID%flow_tracking_data%LD(6) = HALF*(ALE%GRID%flow_tracking_data%EP(6)+ALE%GRID%flow_tracking_data%EP(9)) !yz
          !SPIN TENSOR
-         ALE%GRID%MASSFLOW_DATA%LW(1) = HALF*(ALE%GRID%MASSFLOW_DATA%EP(4)-ALE%GRID%MASSFLOW_DATA%EP(7))
-         ALE%GRID%MASSFLOW_DATA%LW(2) = HALF*(ALE%GRID%MASSFLOW_DATA%EP(5)-ALE%GRID%MASSFLOW_DATA%EP(8))
-         ALE%GRID%MASSFLOW_DATA%LW(3) = HALF*(ALE%GRID%MASSFLOW_DATA%EP(6)-ALE%GRID%MASSFLOW_DATA%EP(9))
+         ALE%GRID%flow_tracking_data%LW(1) = HALF*(ALE%GRID%flow_tracking_data%EP(4)-ALE%GRID%flow_tracking_data%EP(7))
+         ALE%GRID%flow_tracking_data%LW(2) = HALF*(ALE%GRID%flow_tracking_data%EP(5)-ALE%GRID%flow_tracking_data%EP(8))
+         ALE%GRID%flow_tracking_data%LW(3) = HALF*(ALE%GRID%flow_tracking_data%EP(6)-ALE%GRID%flow_tracking_data%EP(9))
       ENDIF
 !$OMP END SINGLE
 
 
       !4.---MEAN VELOCITY & CENTER OF MASS
       !-----------------------------------
-      ALE%GRID%MASSFLOW_DATA%MOM_L(1:3) = ZERO
-      ALE%GRID%MASSFLOW_DATA%COG_L(1:3) = ZERO
-      ALE%GRID%MASSFLOW_DATA%SUM_M = ZERO !used for elem mass in sforc3, used below for nodal mass
+      ALE%GRID%flow_tracking_data%MOM_L(1:3) = ZERO
+      ALE%GRID%flow_tracking_data%COG_L(1:3) = ZERO
+      ALE%GRID%flow_tracking_data%SUM_M = ZERO !used for elem mass in sforc3, used below for nodal mass
       CALL MY_BARRIER
       SUM_MOM(1:3) = ZERO
       SUM_COG(1:3) = ZERO
@@ -185,34 +185,34 @@ C-----------------------------------------------
       ENDDO
 #include "lockon.inc"
       !assembly of global values for SMP case
-      ALE%GRID%MASSFLOW_DATA%MOM_L(1) = ALE%GRID%MASSFLOW_DATA%MOM_L(1) + SUM_MOM(1)
-      ALE%GRID%MASSFLOW_DATA%MOM_L(2) = ALE%GRID%MASSFLOW_DATA%MOM_L(2) + SUM_MOM(2)
-      ALE%GRID%MASSFLOW_DATA%MOM_L(3) = ALE%GRID%MASSFLOW_DATA%MOM_L(3) + SUM_MOM(3)
-      ALE%GRID%MASSFLOW_DATA%SUM_M = ALE%GRID%MASSFLOW_DATA%SUM_M + SUM_M
-      ALE%GRID%MASSFLOW_DATA%COG_L(1) = ALE%GRID%MASSFLOW_DATA%COG_L(1) + SUM_COG(1)
-      ALE%GRID%MASSFLOW_DATA%COG_L(2) = ALE%GRID%MASSFLOW_DATA%COG_L(2) + SUM_COG(2)
-      ALE%GRID%MASSFLOW_DATA%COG_L(3) = ALE%GRID%MASSFLOW_DATA%COG_L(3) + SUM_COG(3)
+      ALE%GRID%flow_tracking_data%MOM_L(1) = ALE%GRID%flow_tracking_data%MOM_L(1) + SUM_MOM(1)
+      ALE%GRID%flow_tracking_data%MOM_L(2) = ALE%GRID%flow_tracking_data%MOM_L(2) + SUM_MOM(2)
+      ALE%GRID%flow_tracking_data%MOM_L(3) = ALE%GRID%flow_tracking_data%MOM_L(3) + SUM_MOM(3)
+      ALE%GRID%flow_tracking_data%SUM_M = ALE%GRID%flow_tracking_data%SUM_M + SUM_M
+      ALE%GRID%flow_tracking_data%COG_L(1) = ALE%GRID%flow_tracking_data%COG_L(1) + SUM_COG(1)
+      ALE%GRID%flow_tracking_data%COG_L(2) = ALE%GRID%flow_tracking_data%COG_L(2) + SUM_COG(2)
+      ALE%GRID%flow_tracking_data%COG_L(3) = ALE%GRID%flow_tracking_data%COG_L(3) + SUM_COG(3)
 #include "lockoff.inc"
       CALL MY_BARRIER
       !SPMD EXCHANGE 'MOM' and 'COG'
       IF(NSPMD > 1)THEN
-         CALL SPMD_EXCH_MASSFLOW_DATA2(ALE%GRID%MASSFLOW_DATA, NSPMD)
+         CALL SPMD_EXCH_FLOW_TRACKING_DATA2(ALE%GRID%flow_tracking_data, NSPMD)
       ENDIF
       VMEAN(1:3) = ZERO
-      SUM_MS = ALE%GRID%MASSFLOW_DATA%SUM_M
+      SUM_MS = ALE%GRID%flow_tracking_data%SUM_M
       IF(SUM_MS > EM20)THEN
-        VMEAN(1) = ALE%GRID%MASSFLOW_DATA%MOM_L(1)/SUM_MS
-        VMEAN(2) = ALE%GRID%MASSFLOW_DATA%MOM_L(2)/SUM_MS
-        VMEAN(3) = ALE%GRID%MASSFLOW_DATA%MOM_L(3)/SUM_MS
-        COG(1) = ALE%GRID%MASSFLOW_DATA%COG_L(1)/SUM_MS
-        COG(2) = ALE%GRID%MASSFLOW_DATA%COG_L(2)/SUM_MS
-        COG(3) = ALE%GRID%MASSFLOW_DATA%COG_L(3)/SUM_MS
+        VMEAN(1) = ALE%GRID%flow_tracking_data%MOM_L(1)/SUM_MS
+        VMEAN(2) = ALE%GRID%flow_tracking_data%MOM_L(2)/SUM_MS
+        VMEAN(3) = ALE%GRID%flow_tracking_data%MOM_L(3)/SUM_MS
+        COG(1) = ALE%GRID%flow_tracking_data%COG_L(1)/SUM_MS
+        COG(2) = ALE%GRID%flow_tracking_data%COG_L(2)/SUM_MS
+        COG(3) = ALE%GRID%flow_tracking_data%COG_L(3)/SUM_MS
       END IF
 
 
       !5.---INERTIA TENSOR MATRIX (ITM)
       !-----------------------------------
-      ALE%GRID%MASSFLOW_DATA%ITM_L(6) = ZERO
+      ALE%GRID%flow_tracking_data%ITM_L(6) = ZERO
       CALL MY_BARRIER
       SUM_ITM(1:6) = ZERO
       DO I = NODFT, NODLT
@@ -231,26 +231,26 @@ C-----------------------------------------------
       ENDDO
 #include "lockon.inc"
       !assembly of global values for SMP case
-      ALE%GRID%MASSFLOW_DATA%ITM_L(1) = ALE%GRID%MASSFLOW_DATA%ITM_L(1) + SUM_ITM(1)
-      ALE%GRID%MASSFLOW_DATA%ITM_L(2) = ALE%GRID%MASSFLOW_DATA%ITM_L(2) + SUM_ITM(2)
-      ALE%GRID%MASSFLOW_DATA%ITM_L(3) = ALE%GRID%MASSFLOW_DATA%ITM_L(3) + SUM_ITM(3)
-      ALE%GRID%MASSFLOW_DATA%ITM_L(4) = ALE%GRID%MASSFLOW_DATA%ITM_L(4) + SUM_ITM(4)
-      ALE%GRID%MASSFLOW_DATA%ITM_L(5) = ALE%GRID%MASSFLOW_DATA%ITM_L(5) + SUM_ITM(5)
-      ALE%GRID%MASSFLOW_DATA%ITM_L(6) = ALE%GRID%MASSFLOW_DATA%ITM_L(6) + SUM_ITM(6)
+      ALE%GRID%flow_tracking_data%ITM_L(1) = ALE%GRID%flow_tracking_data%ITM_L(1) + SUM_ITM(1)
+      ALE%GRID%flow_tracking_data%ITM_L(2) = ALE%GRID%flow_tracking_data%ITM_L(2) + SUM_ITM(2)
+      ALE%GRID%flow_tracking_data%ITM_L(3) = ALE%GRID%flow_tracking_data%ITM_L(3) + SUM_ITM(3)
+      ALE%GRID%flow_tracking_data%ITM_L(4) = ALE%GRID%flow_tracking_data%ITM_L(4) + SUM_ITM(4)
+      ALE%GRID%flow_tracking_data%ITM_L(5) = ALE%GRID%flow_tracking_data%ITM_L(5) + SUM_ITM(5)
+      ALE%GRID%flow_tracking_data%ITM_L(6) = ALE%GRID%flow_tracking_data%ITM_L(6) + SUM_ITM(6)
 #include "lockoff.inc"
       CALL MY_BARRIER
       !SPMD EXCHANGE 'ITM'
       IF(NSPMD > 1)THEN
-         CALL SPMD_EXCH_MASSFLOW_DATA3(ALE%GRID%MASSFLOW_DATA, NSPMD)
+         CALL SPMD_EXCH_FLOW_TRACKING_DATA3(ALE%GRID%flow_tracking_data, NSPMD)
       ENDIF
-      SUM_MS = ALE%GRID%MASSFLOW_DATA%SUM_M
+      SUM_MS = ALE%GRID%flow_tracking_data%SUM_M
       IF(SUM_MS > EM20)THEN
-        ITM(1) = ALE%GRID%MASSFLOW_DATA%ITM_L(1)/SUM_MS
-        ITM(2) = ALE%GRID%MASSFLOW_DATA%ITM_L(2)/SUM_MS
-        ITM(3) = ALE%GRID%MASSFLOW_DATA%ITM_L(3)/SUM_MS
-        ITM(4) = ALE%GRID%MASSFLOW_DATA%ITM_L(4)/SUM_MS
-        ITM(5) = ALE%GRID%MASSFLOW_DATA%ITM_L(5)/SUM_MS
-        ITM(6) = ALE%GRID%MASSFLOW_DATA%ITM_L(6)/SUM_MS
+        ITM(1) = ALE%GRID%flow_tracking_data%ITM_L(1)/SUM_MS
+        ITM(2) = ALE%GRID%flow_tracking_data%ITM_L(2)/SUM_MS
+        ITM(3) = ALE%GRID%flow_tracking_data%ITM_L(3)/SUM_MS
+        ITM(4) = ALE%GRID%flow_tracking_data%ITM_L(4)/SUM_MS
+        ITM(5) = ALE%GRID%flow_tracking_data%ITM_L(5)/SUM_MS
+        ITM(6) = ALE%GRID%flow_tracking_data%ITM_L(6)/SUM_MS
       END IF
 
 
@@ -259,28 +259,28 @@ C-----------------------------------------------
       CALL VALPVEC(ITM,EIGENVAL,EIGENVEC,1)
       !-----------------------------------
       IF(DT1 == ZERO)THEN
-        ALE%GRID%MASSFLOW_DATA%EIGENVEC(1:3,1)=EIGENVEC(1:3,1)
-        ALE%GRID%MASSFLOW_DATA%EIGENVEC(1:3,2)=EIGENVEC(1:3,2)
-        ALE%GRID%MASSFLOW_DATA%EIGENVEC(1:3,3)=EIGENVEC(1:3,3)
+        ALE%GRID%flow_tracking_data%EIGENVEC(1:3,1)=EIGENVEC(1:3,1)
+        ALE%GRID%flow_tracking_data%EIGENVEC(1:3,2)=EIGENVEC(1:3,2)
+        ALE%GRID%flow_tracking_data%EIGENVEC(1:3,3)=EIGENVEC(1:3,3)
       ENDIF
-      EIGENVEC(1:3,1) = ALE%GRID%MASSFLOW_DATA%EIGENVEC(1:3,1)
-      EIGENVEC(1:3,2) = ALE%GRID%MASSFLOW_DATA%EIGENVEC(1:3,2)
-      EIGENVEC(1:3,3) = ALE%GRID%MASSFLOW_DATA%EIGENVEC(1:3,3)
+      EIGENVEC(1:3,1) = ALE%GRID%flow_tracking_data%EIGENVEC(1:3,1)
+      EIGENVEC(1:3,2) = ALE%GRID%flow_tracking_data%EIGENVEC(1:3,2)
+      EIGENVEC(1:3,3) = ALE%GRID%flow_tracking_data%EIGENVEC(1:3,3)
 
 
       !7.---TRANSITION MATRIX (transposed)
       !-----------------------------------
-      R11=ALE%GRID%MASSFLOW_DATA%EIGENVEC(1,1)
-      R21=ALE%GRID%MASSFLOW_DATA%EIGENVEC(1,2)
-      R31=ALE%GRID%MASSFLOW_DATA%EIGENVEC(1,3)
+      R11=ALE%GRID%flow_tracking_data%EIGENVEC(1,1)
+      R21=ALE%GRID%flow_tracking_data%EIGENVEC(1,2)
+      R31=ALE%GRID%flow_tracking_data%EIGENVEC(1,3)
 
-      R12=ALE%GRID%MASSFLOW_DATA%EIGENVEC(2,1)
-      R22=ALE%GRID%MASSFLOW_DATA%EIGENVEC(2,2)
-      R32=ALE%GRID%MASSFLOW_DATA%EIGENVEC(2,3)
+      R12=ALE%GRID%flow_tracking_data%EIGENVEC(2,1)
+      R22=ALE%GRID%flow_tracking_data%EIGENVEC(2,2)
+      R32=ALE%GRID%flow_tracking_data%EIGENVEC(2,3)
 
-      R13=ALE%GRID%MASSFLOW_DATA%EIGENVEC(3,1)
-      R23=ALE%GRID%MASSFLOW_DATA%EIGENVEC(3,2)
-      R33=ALE%GRID%MASSFLOW_DATA%EIGENVEC(3,3)
+      R13=ALE%GRID%flow_tracking_data%EIGENVEC(3,1)
+      R23=ALE%GRID%flow_tracking_data%EIGENVEC(3,2)
+      R33=ALE%GRID%flow_tracking_data%EIGENVEC(3,3)
 
 
       !8.---MEAN MASS DENSITY
@@ -289,20 +289,20 @@ C-----------------------------------------------
 
       IF(DT1 == ZERO)THEN
         MS_ELEM_MEAN = EP20
-        IF(ALE%GRID%MASSFLOW_DATA%NUM_ELEM_ALE > 0)THEN
-          MS_ELEM_MEAN = ALE%GRID%MASSFLOW_DATA%SUM_M / (ONE*ALE%GRID%MASSFLOW_DATA%NUM_ELEM_ALE)
+        IF(ALE%GRID%flow_tracking_data%NUM_ELEM_ALE > 0)THEN
+          MS_ELEM_MEAN = ALE%GRID%flow_tracking_data%SUM_M / (ONE*ALE%GRID%flow_tracking_data%NUM_ELEM_ALE)
         ENDIF
-        ALE%GRID%MASSFLOW_DATA%MS_ELEM_MEAN_0 = MS_ELEM_MEAN
+        ALE%GRID%flow_tracking_data%MS_ELEM_MEAN_0 = MS_ELEM_MEAN
       ENDIF
-      MS_ELEM_MEAN = ALE%GRID%MASSFLOW_DATA%MS_ELEM_MEAN_0
+      MS_ELEM_MEAN = ALE%GRID%flow_tracking_data%MS_ELEM_MEAN_0
 
 
       !9.---ENCOMPASSING BOX (FLOW & WHOLE GRID)
       !-----------------------------------
-      ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(1:3) = EP20   !FLOW min 1,2,3
-      ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(4:6) = -EP20  !FLOW max 1,2,3
-      ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(1:3) = EP20 ! FULL GRID min 1,2,3
-      ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(4:6) = -EP20 ! FULL GRID max 1,2,3
+      ALE%GRID%flow_tracking_data%X_MIN_MAX(1:3) = EP20   !FLOW min 1,2,3
+      ALE%GRID%flow_tracking_data%X_MIN_MAX(4:6) = -EP20  !FLOW max 1,2,3
+      ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(1:3) = EP20 ! FULL GRID min 1,2,3
+      ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(4:6) = -EP20 ! FULL GRID max 1,2,3
       CALL MY_BARRIER
 
       X_MIN_MAX(1:3) = EP20
@@ -346,27 +346,27 @@ C-----------------------------------------------
       !assembly of global values for SMP case
       !---FLOW
       IF(HAS_FLOW_NODE)THEN
-        ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(1) = MIN(ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(1), X_MIN_MAX(1))
-        ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(2) = MIN(ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(2), X_MIN_MAX(2))
-        ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(3) = MIN(ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(3), X_MIN_MAX(3))
-        ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(4) = MAX(ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(4), X_MIN_MAX(4))
-        ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(5) = MAX(ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(5), X_MIN_MAX(5))
-        ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(6) = MAX(ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(6), X_MIN_MAX(6))
+        ALE%GRID%flow_tracking_data%X_MIN_MAX(1) = MIN(ALE%GRID%flow_tracking_data%X_MIN_MAX(1), X_MIN_MAX(1))
+        ALE%GRID%flow_tracking_data%X_MIN_MAX(2) = MIN(ALE%GRID%flow_tracking_data%X_MIN_MAX(2), X_MIN_MAX(2))
+        ALE%GRID%flow_tracking_data%X_MIN_MAX(3) = MIN(ALE%GRID%flow_tracking_data%X_MIN_MAX(3), X_MIN_MAX(3))
+        ALE%GRID%flow_tracking_data%X_MIN_MAX(4) = MAX(ALE%GRID%flow_tracking_data%X_MIN_MAX(4), X_MIN_MAX(4))
+        ALE%GRID%flow_tracking_data%X_MIN_MAX(5) = MAX(ALE%GRID%flow_tracking_data%X_MIN_MAX(5), X_MIN_MAX(5))
+        ALE%GRID%flow_tracking_data%X_MIN_MAX(6) = MAX(ALE%GRID%flow_tracking_data%X_MIN_MAX(6), X_MIN_MAX(6))
       ENDIF
       !---FULL GRID
       IF(HAS_ALE_NODE)THEN
-        ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(1) = MIN(ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(1), X_MIN_MAX_GRID(1))
-        ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(2) = MIN(ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(2), X_MIN_MAX_GRID(2))
-        ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(3) = MIN(ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(3), X_MIN_MAX_GRID(3))
-        ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(4) = MAX(ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(4), X_MIN_MAX_GRID(4))
-        ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(5) = MAX(ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(5), X_MIN_MAX_GRID(5))
-        ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(6) = MAX(ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(6), X_MIN_MAX_GRID(6))
+        ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(1) = MIN(ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(1), X_MIN_MAX_GRID(1))
+        ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(2) = MIN(ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(2), X_MIN_MAX_GRID(2))
+        ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(3) = MIN(ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(3), X_MIN_MAX_GRID(3))
+        ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(4) = MAX(ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(4), X_MIN_MAX_GRID(4))
+        ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(5) = MAX(ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(5), X_MIN_MAX_GRID(5))
+        ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(6) = MAX(ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(6), X_MIN_MAX_GRID(6))
       ENDIF
 #include "lockoff.inc"
       CALL MY_BARRIER
       !gathering values for SPMD
       IF(NSPMD > 1)THEN
-         CALL SPMD_EXCH_MASSFLOW_DATA4(ALE%GRID%MASSFLOW_DATA, NSPMD)
+         CALL SPMD_EXCH_FLOW_TRACKING_DATA4(ALE%GRID%flow_tracking_data, NSPMD)
       ENDIF
 
       CALL MY_BARRIER
@@ -375,40 +375,40 @@ C-----------------------------------------------
       !10. RATIO (to detect border proximity)
       !-----------------------------------
       !local axis 1 - BETA_Xmin,BETA_Xmax
-      BETA(1)=ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(1)/ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(1)
-      BETA(4)=ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(4)/ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(4)
+      BETA(1)=ALE%GRID%flow_tracking_data%X_MIN_MAX(1)/ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(1)
+      BETA(4)=ALE%GRID%flow_tracking_data%X_MIN_MAX(4)/ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(4)
       !local axis 2 - BETA_Ymin,BETA_Ymax
-      BETA(2)=ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(2)/ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(2)
-      BETA(5)=ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(5)/ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(5)
+      BETA(2)=ALE%GRID%flow_tracking_data%X_MIN_MAX(2)/ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(2)
+      BETA(5)=ALE%GRID%flow_tracking_data%X_MIN_MAX(5)/ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(5)
       !local axis 3 - BETA_Zmin,BETA_Zmax
-      BETA(3)=ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(3)/ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(3)
-      BETA(6)=ALE%GRID%MASSFLOW_DATA%X_MIN_MAX(6)/ALE%GRID%MASSFLOW_DATA%X_MIN_MAX_GRID(6)
+      BETA(3)=ALE%GRID%flow_tracking_data%X_MIN_MAX(3)/ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(3)
+      BETA(6)=ALE%GRID%flow_tracking_data%X_MIN_MAX(6)/ALE%GRID%flow_tracking_data%X_MIN_MAX_GRID(6)
       ! store initial value
       IF(DT1 == ZERO)THEN
-        ALE%GRID%MASSFLOW_DATA%BETA0(1) = BETA(1)
-        ALE%GRID%MASSFLOW_DATA%BETA0(2) = BETA(2)
-        ALE%GRID%MASSFLOW_DATA%BETA0(3) = BETA(3)
-        ALE%GRID%MASSFLOW_DATA%BETA0(4) = BETA(4)
-        ALE%GRID%MASSFLOW_DATA%BETA0(5) = BETA(5)
-        ALE%GRID%MASSFLOW_DATA%BETA0(6) = BETA(6)
+        ALE%GRID%flow_tracking_data%BETA0(1) = BETA(1)
+        ALE%GRID%flow_tracking_data%BETA0(2) = BETA(2)
+        ALE%GRID%flow_tracking_data%BETA0(3) = BETA(3)
+        ALE%GRID%flow_tracking_data%BETA0(4) = BETA(4)
+        ALE%GRID%flow_tracking_data%BETA0(5) = BETA(5)
+        ALE%GRID%flow_tracking_data%BETA0(6) = BETA(6)
       END IF
       CALL MY_BARRIER
       !retrieve initial ratio
-      BETA0(1) = ALE%GRID%MASSFLOW_DATA%BETA0(1)
-      BETA0(2) = ALE%GRID%MASSFLOW_DATA%BETA0(2)
-      BETA0(3) = ALE%GRID%MASSFLOW_DATA%BETA0(3)
-      BETA0(4) = ALE%GRID%MASSFLOW_DATA%BETA0(4)
-      BETA0(5) = ALE%GRID%MASSFLOW_DATA%BETA0(5)
-      BETA0(6) = ALE%GRID%MASSFLOW_DATA%BETA0(6)
+      BETA0(1) = ALE%GRID%flow_tracking_data%BETA0(1)
+      BETA0(2) = ALE%GRID%flow_tracking_data%BETA0(2)
+      BETA0(3) = ALE%GRID%flow_tracking_data%BETA0(3)
+      BETA0(4) = ALE%GRID%flow_tracking_data%BETA0(4)
+      BETA0(5) = ALE%GRID%flow_tracking_data%BETA0(5)
+      BETA0(6) = ALE%GRID%flow_tracking_data%BETA0(6)
 
 
       !11.---NORM OF STRAIN RATE TENSOR (global basis)
       !-----------------------------------
       CALL MY_BARRIER
       !local working array
-      LD(1:6)=ALE%GRID%MASSFLOW_DATA%LD(1:6)
-      LW(1:3)=ALE%GRID%MASSFLOW_DATA%LW(1:3)
-      ALE%GRID%MASSFLOW_DATA%SUM_M = ZERO
+      LD(1:6)=ALE%GRID%flow_tracking_data%LD(1:6)
+      LW(1:3)=ALE%GRID%flow_tracking_data%LW(1:3)
+      ALE%GRID%flow_tracking_data%SUM_M = ZERO
 
       LD_B(1,1:3) = (/LD(1),LD(4),LD(5)/)
       LD_B(2,1:3) = (/LD(4),LD(2),LD(6)/)
@@ -421,10 +421,10 @@ C-----------------------------------------------
       LD_NORM = LD_NORM / NINE
 
       CALL MY_BARRIER
-      IF( ALE%GRID%MASSFLOW_DATA%LD_NORM < LD_NORM)THEN
-        ALE%GRID%MASSFLOW_DATA%LD_NORM = LD_NORM
+      IF( ALE%GRID%flow_tracking_data%LD_NORM < LD_NORM)THEN
+        ALE%GRID%flow_tracking_data%LD_NORM = LD_NORM
       ENDIF
-      LD_NORM = ALE%GRID%MASSFLOW_DATA%LD_NORM
+      LD_NORM = ALE%GRID%flow_tracking_data%LD_NORM
 
 
       !12.---CORRECTION TERM : LD_TOTAL = LD_AVERAGE + LD_CORRECTION
@@ -532,9 +532,9 @@ C-----------------------------------------------
           EIGENVEC(3,JJ) = ZZ + DT1*SCALE_ROT* (LW(3)*YY-LW(2)*XX)
         ENDDO
         ! save it in data structure (RESTART)
-        ALE%GRID%MASSFLOW_DATA%EIGENVEC(1:3,1)=EIGENVEC(1:3,1)
-        ALE%GRID%MASSFLOW_DATA%EIGENVEC(1:3,2)=EIGENVEC(1:3,2)
-        ALE%GRID%MASSFLOW_DATA%EIGENVEC(1:3,3)=EIGENVEC(1:3,3)
+        ALE%GRID%flow_tracking_data%EIGENVEC(1:3,1)=EIGENVEC(1:3,1)
+        ALE%GRID%flow_tracking_data%EIGENVEC(1:3,2)=EIGENVEC(1:3,2)
+        ALE%GRID%flow_tracking_data%EIGENVEC(1:3,3)=EIGENVEC(1:3,3)
       ENDIF
 
 C-----------------------------------------------

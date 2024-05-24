@@ -202,7 +202,7 @@ C-----------------------------------------------
           Vnew = FAC1 * (TMP(1)*XN + TMP(2)*YN + TMP(3)*ZN)
           IF(TIME == ZERO) THEN
             IF(ALE%GRID%NWALE == 7)THEN
-              Vold = ZERO ! 0.0 with /ALE/GRID/MASSFLOW
+              Vold = ZERO ! 0.0 with /ALE/GRID/FLOW-TRACKING
             ENDIF
             Vold = Vnew
           ENDIF

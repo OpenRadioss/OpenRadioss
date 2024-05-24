@@ -1109,7 +1109,7 @@ C
       IF(IALEFVM_MAT > 1)IFVM_SKIP=1
 
       !---------------------------------------------
-      ! /ALE/GRID/MASSFLOW - BUFFER UPDATED
+      ! /ALE/GRID/FLOW-TRACKING - BUFFER UPDATED
       !---------------------------------------------
       ! this grid formulation needs an averaged tensor (E=GRAD U)
       IF(ALE%GRID%NWALE == 7 .AND. JALE == 1)THEN
@@ -1132,18 +1132,18 @@ C
           SUM_VOL = SUM_VOL + GBUF%VOL(I)
         ENDDO
 #include "lockon.inc"
-      ALE%GRID%MASSFLOW_DATA%EP(1) = ALE%GRID%MASSFLOW_DATA%EP(1) + SUM_EPS(1)
-      ALE%GRID%MASSFLOW_DATA%EP(2) = ALE%GRID%MASSFLOW_DATA%EP(2) + SUM_EPS(2)
-      ALE%GRID%MASSFLOW_DATA%EP(3) = ALE%GRID%MASSFLOW_DATA%EP(3) + SUM_EPS(3)
-      ALE%GRID%MASSFLOW_DATA%EP(4) = ALE%GRID%MASSFLOW_DATA%EP(4) + SUM_EPS(4)
-      ALE%GRID%MASSFLOW_DATA%EP(5) = ALE%GRID%MASSFLOW_DATA%EP(5) + SUM_EPS(5)
-      ALE%GRID%MASSFLOW_DATA%EP(6) = ALE%GRID%MASSFLOW_DATA%EP(6) + SUM_EPS(6)
-      ALE%GRID%MASSFLOW_DATA%EP(7) = ALE%GRID%MASSFLOW_DATA%EP(7) + SUM_EPS(7)
-      ALE%GRID%MASSFLOW_DATA%EP(8) = ALE%GRID%MASSFLOW_DATA%EP(8) + SUM_EPS(8)
-      ALE%GRID%MASSFLOW_DATA%EP(9) = ALE%GRID%MASSFLOW_DATA%EP(9) + SUM_EPS(9)
-      ALE%GRID%MASSFLOW_DATA%SUM_M = ALE%GRID%MASSFLOW_DATA%SUM_M + SUM_M
-      ALE%GRID%MASSFLOW_DATA%SUM_VOL = ALE%GRID%MASSFLOW_DATA%SUM_VOL + SUM_VOL
-      ALE%GRID%MASSFLOW_DATA%NUM_ELEM_ALE = ALE%GRID%MASSFLOW_DATA%NUM_ELEM_ALE + NUM_ELEM_ALE
+      ALE%GRID%flow_tracking_data%EP(1) = ALE%GRID%flow_tracking_data%EP(1) + SUM_EPS(1)
+      ALE%GRID%flow_tracking_data%EP(2) = ALE%GRID%flow_tracking_data%EP(2) + SUM_EPS(2)
+      ALE%GRID%flow_tracking_data%EP(3) = ALE%GRID%flow_tracking_data%EP(3) + SUM_EPS(3)
+      ALE%GRID%flow_tracking_data%EP(4) = ALE%GRID%flow_tracking_data%EP(4) + SUM_EPS(4)
+      ALE%GRID%flow_tracking_data%EP(5) = ALE%GRID%flow_tracking_data%EP(5) + SUM_EPS(5)
+      ALE%GRID%flow_tracking_data%EP(6) = ALE%GRID%flow_tracking_data%EP(6) + SUM_EPS(6)
+      ALE%GRID%flow_tracking_data%EP(7) = ALE%GRID%flow_tracking_data%EP(7) + SUM_EPS(7)
+      ALE%GRID%flow_tracking_data%EP(8) = ALE%GRID%flow_tracking_data%EP(8) + SUM_EPS(8)
+      ALE%GRID%flow_tracking_data%EP(9) = ALE%GRID%flow_tracking_data%EP(9) + SUM_EPS(9)
+      ALE%GRID%flow_tracking_data%SUM_M = ALE%GRID%flow_tracking_data%SUM_M + SUM_M
+      ALE%GRID%flow_tracking_data%SUM_VOL = ALE%GRID%flow_tracking_data%SUM_VOL + SUM_VOL
+      ALE%GRID%flow_tracking_data%NUM_ELEM_ALE = ALE%GRID%flow_tracking_data%NUM_ELEM_ALE + NUM_ELEM_ALE
 
 #include "lockoff.inc"
       ENDIF!(ALE%GRID%NWALE == 7)
