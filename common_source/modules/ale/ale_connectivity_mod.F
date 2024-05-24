@@ -322,7 +322,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: II, JJ, NODE_ID, NODE1, NODE2
+        INTEGER :: II, JJ,KK, NODE_ID, NODE1, NODE2
+        LOGICAL :: DUPLICATE
         INTEGER, DIMENSION(:), ALLOCATABLE :: ADSKY
         INTEGER :: IAD1, IAD2, ITMP
         INTEGER :: MAX_EDGE, NB_EDGE, NB_EDGE_NEW, IEDGE, CUR_POS
@@ -464,7 +465,11 @@ C-----------------------------------------------
 !             BRICKS
              DO JJ = 1, 8
                 NODE_ID = IXS(1 + JJ, II)
-                NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+                DUPLICATE = .FALSE.
+                DO KK = 1, JJ-1
+                  IF(NODE_ID == IXS(1 + KK, II)) DUPLICATE = .TRUE.
+                ENDDO
+                IF(.NOT. DUPLICATE) NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
              ENDDO
 !             edges
              DO IEDGE = 1, 12
@@ -550,9 +555,15 @@ C-----------------------------------------------
 !          BRICKS                                            
            DO JJ = 1, 8                                      
               NODE_ID = IXS(1 + JJ, II)                      
-              THIS%NE_CONNECT%CONNECTED(ADSKY(NODE_ID)) = II 
-              THIS%NE_CONNECT%TYPE(ADSKY(NODE_ID)) = 1       
-              ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1            
+              DUPLICATE = .FALSE. !degenerated solids: duplicated node IDS
+              DO KK = 1, JJ-1                              
+               IF(NODE_ID == IXS(1 + KK, II)) DUPLICATE = .TRUE.
+              ENDDO
+              IF(.NOT. DUPLICATE) THEN
+                THIS%NE_CONNECT%CONNECTED(ADSKY(NODE_ID)) = II 
+                THIS%NE_CONNECT%TYPE(ADSKY(NODE_ID)) = 1       
+                ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1            
+              ENDIF
            ENDDO                                             
          ENDIF
         ENDDO
@@ -683,7 +694,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: II, JJ, NODE_ID, NODE1, NODE2, INODE
+        INTEGER :: II, JJ,KK, NODE_ID, NODE1, NODE2, INODE
+        LOGICAL :: DUPLICATE
         INTEGER, DIMENSION(:), ALLOCATABLE :: ADSKY
         INTEGER :: IAD1, IAD2, ITMP, IAD
         INTEGER, DIMENSION(:), ALLOCATABLE :: IDX
@@ -858,11 +870,17 @@ C-----------------------------------------------
 !          bricks
            DO JJ = 1, 8
              NODE_ID = IXS(1 + JJ, II)
-             NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
-             IF (.NOT. THIS%NALE_ALREADY_COMPUTED) THEN
-               THIS%NALE(NODE_ID) = MAX(THIS%NALE(NODE_ID), JAL)
-               IF (MLW == 151) THEN
-                 IF (THIS%NALE(NODE_ID) == 1 .OR. THIS%NALE(NODE_ID) == 2) THIS%NALE(NODE_ID) = 150 + THIS%NALE(NODE_ID)
+             DUPLICATE = .FALSE.
+             DO KK = 1,JJ - 1
+              IF(NODE_ID == IXS(1 + KK, II)) DUPLICATE = .TRUE.
+             ENDDO
+             IF( .NOT. DUPLICATE) THEN
+               NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+               IF (.NOT. THIS%NALE_ALREADY_COMPUTED) THEN
+                 THIS%NALE(NODE_ID) = MAX(THIS%NALE(NODE_ID), JAL)
+                 IF (MLW == 151) THEN
+                   IF (THIS%NALE(NODE_ID) == 1 .OR. THIS%NALE(NODE_ID) == 2) THIS%NALE(NODE_ID) = 150 + THIS%NALE(NODE_ID)
+                 ENDIF
                ENDIF
              ENDIF
            ENDDO
@@ -953,9 +971,15 @@ C-----------------------------------------------
 !           bricks
             DO JJ = 1, 8
                NODE_ID = IXS(1 + JJ, II)
-               CONNECTED(ADSKY(NODE_ID)) = II
-               TYPE(ADSKY(NODE_ID)) = 1
-               ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
+               DUPLICATE = .FALSE.
+               DO KK = 1,JJ - 1
+                IF(NODE_ID == IXS(1 + KK, II)) DUPLICATE = .TRUE.
+               ENDDO
+               IF(.NOT. DUPLICATE) THEN
+                 CONNECTED(ADSKY(NODE_ID)) = II
+                 TYPE(ADSKY(NODE_ID)) = 1
+                 ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
+               ENDIF
             ENDDO
          ENDIF
         ENDDO
