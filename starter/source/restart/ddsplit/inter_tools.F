@@ -4151,7 +4151,6 @@ C TAGG(I) = K => noeud I vers numero local de noeud d interface sur le proc
 Chd|====================================================================
 Chd|  SPLIT_SEG_RVAL_I20            source/restart/ddsplit/inter_tools.F
 Chd|-- called by -----------
-Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F

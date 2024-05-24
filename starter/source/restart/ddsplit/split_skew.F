@@ -25,7 +25,6 @@ Chd|  SPLIT_SKEW                    source/restart/ddsplit/split_skew.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        SKEW_MOD                      share/modules1/skew_mod.F     
 Chd|====================================================================
         SUBROUTINE SPLIT_SKEW(CURR_PROC,ISKWP_L,ISKWP,TAG_SKN,MULTIPLE_SKEW)
 C-----------------------------------------------
@@ -123,7 +122,6 @@ Chd|====================================================================
 Chd|  SPLIT_SKEW_save               source/restart/ddsplit/split_skew.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        SKEW_MOD                      share/modules1/skew_mod.F     
 Chd|====================================================================
         SUBROUTINE SPLIT_SKEW_save(CURR_PROC,ISKWP_L,ISKWP,TAG_SKN,MULTIPLE_SKEW,NSKWP)
 C-----------------------------------------------

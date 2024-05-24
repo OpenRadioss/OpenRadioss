@@ -42,7 +42,6 @@ Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_m
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        SKEW_MOD                      share/modules1/skew_mod.F     
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE DOMDEC2(

@@ -258,7 +258,6 @@ Chd|        PBLAST_MOD                    ../common_source/modules/loads/pblast_
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
-Chd|        SKEW_MOD                      share/modules1/skew_mod.F     
 Chd|        SPLIT_CFD_MOD                 share/modules1/split_cfd_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|        STACK_VAR_MOD                 share/modules1/stack_var_mod.F

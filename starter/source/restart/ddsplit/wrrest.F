@@ -48,6 +48,7 @@ Chd|        NFWRESTP                      source/restart/ddsplit/wrrest.F
 Chd|        PLYXFEM_WREST                 source/restart/ddsplit/wrrest.F
 Chd|        RIGMATWREST                   source/restart/ddsplit/wrrest.F
 Chd|        SPLIT_CAND_RVAL               source/restart/ddsplit/inter_tools.F
+Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|        SPLIT_NODE_RVAL               source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEG_RVAL_I20            source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_XSAV                    source/restart/ddsplit/inter_tools.F

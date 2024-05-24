@@ -503,7 +503,6 @@ Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SET_MOD                       share/modules1/set_mod.F      
-Chd|        SKEW_MOD                      share/modules1/skew_mod.F     
 Chd|        SMS_MOD                       share/modules1/sms_mod.F      
 Chd|        SPH_MOD                       share/modules1/sph_mod.F      
 Chd|        SPLIT_CFD_MOD                 share/modules1/split_cfd_mod.F
