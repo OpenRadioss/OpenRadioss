@@ -80,7 +80,7 @@ C-----------------------------------------------
 !   4       'STANDARD'
 !   5       'LAPLACIAN'
 !   6       'VOLUME'
-!   7       'MASSFLOW'
+!   7       'FLOW-TRACKING'
 !
 ! This subroutine is switching to grid formulation depending on NWALE value.
 C
@@ -254,9 +254,9 @@ C----------------------------------------
      4           ELBUF_TAB, IPARG, IXS, IXQ)
             CALL MY_BARRIER
 
-          !-------------------------!
-          !---/ALE/GRID/MASSFLOW (7)
-          !-------------------------!
+          !-------------------------------!
+          !---/ALE/GRID/FLOW-TRACKING (7)
+          !-------------------------------!
           CASE(7)
             CALL MY_BARRIER
             CALL ALEW7(

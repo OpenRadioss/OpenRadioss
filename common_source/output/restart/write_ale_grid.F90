@@ -48,14 +48,14 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-        ! NWALE=7 => /ALE/GRID/MASSFLOW
+        ! NWALE=7 => /ALE/GRID/FLOW-TRACKING
         !   when starting from a restart file we need to read these value to get thet state from previous cycle
         if(ale%grid%nwale == 7)then
-          rtmp(1:3) = ale%grid%massflow_data%eigenvec(1:3,1)
-          rtmp(4:6) = ale%grid%massflow_data%eigenvec(1:3,2)
-          rtmp(7:9) = ale%grid%massflow_data%eigenvec(1:3,3)
-          rtmp(10:15) = ale%grid%massflow_data%beta0(1:6)
-          rtmp(16) = ale%grid%massflow_data%ms_elem_mean_0
+          rtmp(1:3) = ale%grid%flow_tracking_data%eigenvec(1:3,1)
+          rtmp(4:6) = ale%grid%flow_tracking_data%eigenvec(1:3,2)
+          rtmp(7:9) = ale%grid%flow_tracking_data%eigenvec(1:3,3)
+          rtmp(10:15) = ale%grid%flow_tracking_data%beta0(1:6)
+          rtmp(16) = ale%grid%flow_tracking_data%ms_elem_mean_0
           call write_db(rtmp,16)
         endif
 

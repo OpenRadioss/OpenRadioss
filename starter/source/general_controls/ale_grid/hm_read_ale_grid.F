@@ -49,7 +49,7 @@ C  3           'ZERO'
 C  4           'STANDARD'
 C  5           'LAPLACIAN'
 C  6           'VOLUME'
-C  7           'MASSFLOW'
+C  7           'FLOW-TRACKING'
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,9 +79,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NALE_GRID, II, NITER,NTETRA4
-      CHARACTER :: KEY*ncharkey
+      CHARACTER :: KEY*32
       LOGICAL :: IS_AVAILABLE
       LOGICAL :: IS_DEFINED_ALE_GRID
+      INTEGER :: IS_DEF, IS_ROT
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -173,16 +174,22 @@ C-----------------------------------------------
          ELSEIF (KEY(1:6) == 'VOLUME') THEN
             IS_DEFINED_ALE_GRID = .TRUE.
             ALE%GRID%NWALE = 6
-         ELSEIF (KEY(1:8) == 'MASSFLOW') THEN
+         ELSEIF (KEY(1:13) == 'FLOW-TRACKING') THEN
             IS_DEFINED_ALE_GRID = .TRUE.
             ALE%GRID%NWALE = 7
+            CALL HM_GET_INTV('IS_DEF', IS_DEF, IS_AVAILABLE, LSUBMODEL)
+            CALL HM_GET_INTV('IS_ROT', IS_ROT, IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_FLOATV('SCALE_DEF', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('SCALE_ROT', GAMMA, IS_AVAILABLE, LSUBMODEL, UNITAB)
+            IF(IS_DEF == 0)IS_DEF = 1
+            IF(IS_DEF /= 1 .AND. IS_DEF /= -1)IS_DEF = 1 !value different than expected values leads to default value
+            IF(IS_ROT == 0)IS_ROT = 1
+            IF(IS_ROT /= 1 .AND. IS_ROT /= -1)IS_ROT = 1 !value different than expected values leads to default value
             IF (ALPHA == ZERO) ALPHA = ONE
             IF (GAMMA == ZERO) GAMMA = ONE
-            IF (VGX == ZERO) VGX = ONE
-            IF (VGY == ZERO) VGY = ONE
-            IF (VGZ == ZERO) VGZ = ONE
+            VGX = IS_DEF
+            VGY = IS_ROT
+            VGZ = ZERO
          ELSE
            !invalid keyword : error message managed by Reader itself
          ENDIF

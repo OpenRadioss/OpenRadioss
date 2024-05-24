@@ -23,17 +23,15 @@
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
-!! \brief SPMD exchange necessary for option /ALE/GRID/MASSFLOW
-!! \details gathering  SUM(mi.vi,i) : DOMAIN_DATA%MOM_L(1:3)
-!! gathering SUM(mi.xi,i) : DOMAIN_DATA%COG_L(1:3)
-!! gathering SUM(mi)      : DOMAIN_DATA%SUM_M
+!! \brief  SPMD exchange necessary for option /ALE/GRID/MASS-WEIGHTED-VEL
+!! \details  gathering  SUM(mi.ITMi,i) : DOMAIN_DATA%ITM(1:6)    where ITM is Inertia Tensor Matrix
 !
-      subroutine spmd_exch_massflow_data2( domain_data, nspmd )
+      subroutine spmd_exch_flow_tracking_data3( domain_data, nspmd )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
+        use ale_mod , only : flow_tracking_data_
         use spmd_mod
-        use ale_mod , only : massflow_data_
         use constant_mod , only: zero
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included file
@@ -44,15 +42,15 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        type(massflow_data_),intent(inout)::domain_data !< intent(in) ale massflow buffer for given domain
-        integer,intent(in)::nspmd                       !< number of spmd domains
+        type(flow_tracking_data_),intent(inout)::domain_data !< intent(in) ale mass weighted velocity data buffer for given domain
+        integer,intent(in)::nspmd                       !< number of SPMD domains
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
         integer :: msgtyp, msgoff, p, nbirecv
         integer :: req_sb(nspmd),irindexi(nspmd)
         integer :: loc_proc, isize
-        my_real :: rbuf(7,nspmd)
+        my_real :: rbuf(6,nspmd)
         data msgoff/2205/
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Preconditions
@@ -63,13 +61,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !$OMP SINGLE
         loc_proc=ispmd+1
-        rbuf(1:7,1:nspmd)=zero
-        rbuf(1:3,loc_proc) = domain_data%mom_l(1:3)
-        rbuf(4:6,loc_proc) = domain_data%cog_l(1:3)
-        rbuf(7,loc_proc) = domain_data%sum_m
-        isize=7
+        rbuf(1:6,1:nspmd)=zero
+        rbuf(1:6,loc_proc) = domain_data%itm_l(1:6)
+        isize=6
         !-------------------------------------------!
-        ! SENDING %EP(1:9)                          !
+        ! SENDING %ITM(1:6)                         !
         !-------------------------------------------!
         do p = 1, nspmd
           if(p /= loc_proc) then
@@ -78,7 +74,7 @@
           endif
         enddo
         !-------------------------------------------!
-        ! RECIEVING %EP(1:9)                        !
+        ! RECIEVING %ITM(1:6)                       !
         !-------------------------------------------!
         nbirecv=0
         do p = 1, nspmd
@@ -101,21 +97,18 @@
         !-------------------------------------------!
         ! COMPUTE AVERAGE ON CURRENT DOMAIN         !
         !-------------------------------------------!
-        domain_data%mom_l(1:3)=zero
-        domain_data%cog_l(1:3)=zero
-        domain_data%sum_m=zero
+        domain_data%itm_l(1:6)=zero
 
         do p=1,nspmd
-          domain_data%mom_l(1) = domain_data%mom_l(1) + rbuf(1,p)
-          domain_data%mom_l(2) = domain_data%mom_l(2) + rbuf(2,p)
-          domain_data%mom_l(3) = domain_data%mom_l(3) + rbuf(3,p)
-          domain_data%cog_l(1) = domain_data%cog_l(1) + rbuf(4,p)
-          domain_data%cog_l(2) = domain_data%cog_l(2) + rbuf(5,p)
-          domain_data%cog_l(3) = domain_data%cog_l(3) + rbuf(6,p)
-          domain_data%sum_m = domain_data%sum_m + rbuf(7,p)
+          domain_data%itm_l(1) = domain_data%itm_l(1) + rbuf(1,p)
+          domain_data%itm_l(2) = domain_data%itm_l(2) + rbuf(2,p)
+          domain_data%itm_l(3) = domain_data%itm_l(3) + rbuf(3,p)
+          domain_data%itm_l(4) = domain_data%itm_l(4) + rbuf(4,p)
+          domain_data%itm_l(5) = domain_data%itm_l(5) + rbuf(5,p)
+          domain_data%itm_l(6) = domain_data%itm_l(6) + rbuf(6,p)
         enddo
 
 !$OMP END SINGLE
-! ----------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------
         return
-      end subroutine spmd_exch_massflow_data2
+      end subroutine spmd_exch_flow_tracking_data3

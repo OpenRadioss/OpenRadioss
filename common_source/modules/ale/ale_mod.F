@@ -141,8 +141,8 @@ Chd|====================================================================
         IMPLICIT NONE
 #include      "my_real.inc"
 
-        ! specific buffer for grid formulation 7 (/ALE/GRID/MASSFLOW)
-        TYPE MASSFLOW_DATA_
+        ! specific buffer for grid formulation 7 (/ALE/GRID/FLOW-TRACKING)
+        TYPE FLOW_TRACKING_DATA_
           my_real :: EP(9) ! L=GRAD V
           my_real :: LD(6) ! D = 1/2*( L + t(L) ) !strain rate
           my_real :: LW(3) ! W = 1/2*( L - t(L) ) !rotation
@@ -159,7 +159,7 @@ Chd|====================================================================
           my_real :: LD_NORM
           INTEGER :: NUM_ELEM_ALE
           INTEGER :: NUM_NODE_ALE_L
-        END TYPE MASSFLOW_DATA_
+        END TYPE FLOW_TRACKING_DATA_
 
         ! GRID FORMULATION PARAMETERS
         TYPE ALE_GRID_
@@ -173,7 +173,7 @@ Chd|====================================================================
           INTEGER NWALE_ENGINE       !        read from Engine input file with /ALE/GRID/...
           INTEGER NWALE_RST          !        read from RESTART FILE
           INTEGER NWALE              !        effective value used in numerical scheme
-          TYPE(MASSFLOW_DATA_) MASSFLOW_DATA
+          TYPE(FLOW_TRACKING_DATA_) FLOW_TRACKING_DATA
         END TYPE ALE_GRID_
 
         ! UPWIND PARAMETERS
@@ -250,12 +250,12 @@ C-----------------------------------------------
             this%GRID%NWALE_ENGINE = -1
             this%GRID%NWALE_RST = 0
             this%GRID%NWALE = 0
-            this%GRID%MASSFLOW_DATA%EP(1:9) = ZERO
-            this%GRID%MASSFLOW_DATA%LD(1:6) = ZERO
-            this%GRID%MASSFLOW_DATA%LW(1:3) = ZERO
-            this%GRID%MASSFLOW_DATA%MOM_L(1:3) = ZERO
-            this%GRID%MASSFLOW_DATA%COG_L(1:3) = ZERO
-            this%GRID%MASSFLOW_DATA%SUM_M = ZERO
+            this%GRID%flow_tracking_data%EP(1:9) = ZERO
+            this%GRID%flow_tracking_data%LD(1:6) = ZERO
+            this%GRID%flow_tracking_data%LW(1:3) = ZERO
+            this%GRID%flow_tracking_data%MOM_L(1:3) = ZERO
+            this%GRID%flow_tracking_data%COG_L(1:3) = ZERO
+            this%GRID%flow_tracking_data%SUM_M = ZERO
             !---ALE%UPWIND
             this%UPWIND%UPWMG = ZERO
             this%UPWIND%UPWOG = ZERO           

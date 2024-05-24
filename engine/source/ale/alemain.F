@@ -312,8 +312,7 @@ C  IOUTPRT (assembly report)
       CALL MY_BARRIER
         IF(NSPMD>1)THEN
            LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
-           CALL SPMD_ENVOIS(3, XCELL, 
-     .          NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)    
+           CALL SPMD_ENVOIS(3, XCELL, NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)    
         ENDIF
       ENDIF      
 
@@ -505,11 +504,9 @@ C     ---------------------
                IF (NSPMD  >  1 .AND. ((MULTI_FVM%MUSCL  >  0) .OR. MULTI_FVM%NS_DIFF)) THEN
 !$OMP SINGLE
                   LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
-                  CALL SPMD_ENVOIS(3, MULTI_FVM%ELEM_DATA%CENTROID, 
-     .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
+                  CALL SPMD_ENVOIS(3, MULTI_FVM%ELEM_DATA%CENTROID,NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
                   IF (ALLOCATED(MULTI_FVM%VOL)) THEN
-                     CALL SPMD_ENVOIS(1, MULTI_FVM%VOL, 
-     .                    NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM) 
+                     CALL SPMD_ENVOIS(1, MULTI_FVM%VOL, NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM) 
                   ENDIF
 !$OMP END SINGLE
                   CALL MY_BARRIER
@@ -681,17 +678,15 @@ C     -------------------------
                CALL MY_BARRIER
                IF (IALE  >  0) THEN
                   CALL MULTI_FVM2FEM(DT1, ELBUF_TAB, ITASK, 
-     .                 IXS, IXQ, IPARG, X, A, V, W, MS, MSNF, VEUL, 
-     .                 STIFN, FSKY, IADS, FSKYM, 
-     .                 CONDN, CONDNSKY, MULTI_FVM)  
+     .                  IXS, IXQ, IPARG, X, A, V, W, MS, MSNF, VEUL, 
+     .                  STIFN, FSKY, IADS, FSKYM, 
+     .                  CONDN, CONDNSKY, MULTI_FVM)  
                   CALL MY_BARRIER
                ENDIF
 C     -------------------------
 C     Multifluid law time step computation
 C     -------------------------
-               CALL MULTI_COMPUTE_DT(DT2T, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
-     .              PM, IPM, MULTI_FVM, W, X,
-     .              NELTST, ITYPTST)  
+               CALL MULTI_COMPUTE_DT(DT2T, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, PM, IPM, MULTI_FVM, W, X, NELTST, ITYPTST)  
                CALL MY_BARRIER
             ENDIF
             IF(ITASK==0) CALL STOPTIME(MACRO_TIMER_MULTIFVM,1)
@@ -756,18 +751,17 @@ C
          !---------------------------------------------
 !$OMP SINGLE
           IF(ISFEM >= 1) THEN
-            CALL S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,VARNOD,PM,
-     .                     IAD_ELEM,FR_ELEM)
+            CALL S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,VARNOD,PM,IAD_ELEM,FR_ELEM)
           ENDIF
 !$OMP END SINGLE
 
          !---------------------------------------------
-         ! /ALE/GRID/MASSFLOW - INIT BUFFER
+         ! /ALE/GRID/FLOW-TRACKING - INIT BUFFER
          !---------------------------------------------
           IF(ALE%GRID%NWALE == 7) THEN
-             ALE%GRID%MASSFLOW_DATA%EP(1:9)=ZERO
-             ALE%GRID%MASSFLOW_DATA%SUM_M = ZERO
-             ALE%GRID%MASSFLOW_DATA%NUM_ELEM_ALE = 0
+             ALE%GRID%flow_tracking_data%EP(1:9)=ZERO
+             ALE%GRID%flow_tracking_data%SUM_M = ZERO
+             ALE%GRID%flow_tracking_data%NUM_ELEM_ALE = 0
           ENDIF
 
          !---------------------------------------------
@@ -805,24 +799,24 @@ C
 C
                  IF (ITY == 1 .AND. ISOLNOD == 4) THEN
                   CALL S4FORC3(
-     1   ELBUF_TAB,       NG,              PM,              GEO,
-     2   IXS,             X,               A,               V,
-     3   MS,              W,               WA,              VAL2,
-     4   VEUL,            FV,              ALE_CONNECTIVITY,IPARG,
-     5   TF,              NPC,             BUFMAT,          PARTSAV,
-     6   NLOC_DMG,        DT2T,            NELTST,          ITYPTST,
-     7   STIFN,           FSKY,            IADS,            OFFSET,
-     8   EANI,            IPARTS(NF1),     FX(1,1),         FY(1,1),
-     9   FZ(1,1),         FX(1,2),         FY(1,2),         FZ(1,2),
-     A   FX(1,3),         FY(1,3),         FZ(1,3),         FX(1,4),
-     B   FY(1,4),         FZ(1,4),         NEL,             FSKYM,
-     C   MSNF,            IPM,             IGEO,            BUFVOIS,
-     D   ISTRA,           ITASK,           BID,             BID,
-     E   BID,             IBID,            GRESAV,          GRTH,
-     F   IGRTH,           MSSA,            DMELS,           TABLE,
-     G   XDP,             VARNOD,          VOLN,            BID,
-     H   BID,             D,               SENSORS,         IOUTPRT,
-     I   MAT_ELEM,        IBID,            DT,              IDEL7NOK)
+     1                  ELBUF_TAB,       NG,              PM,              GEO,
+     2                  IXS,             X,               A,               V,
+     3                  MS,              W,               WA,              VAL2,
+     4                  VEUL,            FV,              ALE_CONNECTIVITY,IPARG,
+     5                  TF,              NPC,             BUFMAT,          PARTSAV,
+     6                  NLOC_DMG,        DT2T,            NELTST,          ITYPTST,
+     7                  STIFN,           FSKY,            IADS,            OFFSET,
+     8                  EANI,            IPARTS(NF1),     FX(1,1),         FY(1,1),
+     9                  FZ(1,1),         FX(1,2),         FY(1,2),         FZ(1,2),
+     A                  FX(1,3),         FY(1,3),         FZ(1,3),         FX(1,4),
+     B                  FY(1,4),         FZ(1,4),         NEL,             FSKYM,
+     C                  MSNF,            IPM,             IGEO,            BUFVOIS,
+     D                  ISTRA,           ITASK,           BID,             BID,
+     E                  BID,             IBID,            GRESAV,          GRTH,
+     F                  IGRTH,           MSSA,            DMELS,           TABLE,
+     G                  XDP,             VARNOD,          VOLN,            BID,
+     H                  BID,             D,               SENSORS,         IOUTPRT,
+     I                  MAT_ELEM,        IBID,            DT,              IDEL7NOK)
 C
                  ELSEIF (ITY == 1 .AND. ISOLNOD /= 4) THEN
                   NULLIFY(pQMV); 
@@ -832,34 +826,34 @@ C
                     pQMV => BID
                   ENDIF
                   CALL SFORC3(
-     1   ELBUF_TAB,            NG,                   PM,                   GEO,
-     2   IXS,                  X,                    NV46,                 A,
-     3   V,                    MS,                   W,                    WA,
-     4   VAL2,                 VEUL,                 FV,                   ALE_CONNECTIVITY,
-     5   IPARG,                TF,                   NPC,                  BUFMAT,
-     6   PARTSAV,              ITAB,                 DT2T,                 NELTST,
-     7   ITYPTST,              STIFN,                FSKY,                 IADS,
-     8   OFFSET,               EANI,                 IPARTS(1+NFT),        FX(1,1),
-     9   FY(1,1),              FZ(1,1),              FX(1,2),              FY(1,2),
-     A   FZ(1,2),              FX(1,3),              FY(1,3),              FZ(1,3),
-     B   FX(1,4),              FY(1,4),              FZ(1,4),              FX(1,5),
-     C   FY(1,5),              FZ(1,5),              FX(1,6),              FY(1,6),
-     D   FZ(1,6),              FX(1,7),              FY(1,7),              FZ(1,7),
-     E   FX(1,8),              FY(1,8),              FZ(1,8),              NEL,
-     F   FSKYM,                MSNF,                 ISKY,                 FSKYI,
-     G   NVC,                  IPM,                  IGEO,                 BID,
-     H   BID,                  BID,                  BID,                  BID,
-     I   BUFVOIS,              ITASK,                pQMV,                 ISTRA,
-     J   TEMP,                 BID,                  BID,                  IBID,
-     K   GRESAV,               GRTH,                 IGRTH,                MSSA,
-     L   DMELS,                TABLE,                BID,                  BID,
-     M   BID,                  BID,                  BID,                  BID,
-     N   BID,                  BID,                  BID,                  IPARG(1,NG),
-     O   XDP,                  BID,                  IBID,                 IBID,
-     P   VOLN,                 CONDN,                CONDNSKY,             AGRAV,
-     Q   IGRV,                 LGRAV,                SENSORS,              SKEW,
-     R   ALE_CONNECTIVITY%NALE,D,                    IOUTPRT,              NLOC_DMG,
-     S   MAT_ELEM,             IBID,                 DT,                   IDEL7NOK)
+     1                  ELBUF_TAB,             NG,      PM,            GEO,
+     2                  IXS,                   X,       NV46,          A,
+     3                  V,                     MS,      W,             WA,
+     4                  VAL2,                  VEUL,    FV,            ALE_CONNECTIVITY,
+     5                  IPARG,                 TF,      NPC,           BUFMAT,
+     6                  PARTSAV,               ITAB,    DT2T,          NELTST,
+     7                  ITYPTST,               STIFN,   FSKY,          IADS,
+     8                  OFFSET,                EANI,    IPARTS(1+NFT), FX(1,1),
+     9                  FY(1,1),               FZ(1,1), FX(1,2),       FY(1,2),
+     A                  FZ(1,2),               FX(1,3), FY(1,3),       FZ(1,3),
+     B                  FX(1,4),               FY(1,4), FZ(1,4),       FX(1,5),
+     C                  FY(1,5),               FZ(1,5), FX(1,6),       FY(1,6),
+     D                  FZ(1,6),               FX(1,7), FY(1,7),       FZ(1,7),
+     E                  FX(1,8),               FY(1,8), FZ(1,8),       NEL,
+     F                  FSKYM,                 MSNF,    ISKY,          FSKYI,
+     G                  NVC,                   IPM,     IGEO,          BID,
+     H                  BID,                   BID,     BID,           BID,
+     I                  BUFVOIS,               ITASK,   pQMV,          ISTRA,
+     J                  TEMP,                  BID,     BID,           IBID,
+     K                  GRESAV,                GRTH,    IGRTH,         MSSA,
+     L                  DMELS,                 TABLE,   BID,           BID,
+     M                  BID,                   BID,     BID,           BID,
+     N                  BID,                   BID,     BID,           IPARG(1,NG),
+     O                  XDP,                   BID,     IBID,          IBID,
+     P                  VOLN,                  CONDN,   CONDNSKY,      AGRAV,
+     Q                  IGRV,                  LGRAV,   SENSORS,       SKEW,
+     R                  ALE_CONNECTIVITY%NALE, D,       IOUTPRT,       NLOC_DMG,
+     S                  MAT_ELEM,              IBID,    DT,            IDEL7NOK)
 C
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
                   NULLIFY(pQMV); 
@@ -869,31 +863,31 @@ C
                     pQMV => BID
                   ENDIF   
                   CALL QFORC2(
-     .              ELBUF_TAB,NG ,
-     1              PM           ,GEO          ,IXQ         ,X         ,A        ,  
-     2              V            ,MS           ,W           ,WA        ,VAL2     ,  
-     3              VEUL         ,FV           ,ALE_CONNECTIVITY       ,IPARG     ,NLOC_DMG ,
-     4              TF           ,NPC          ,BUFMAT      ,PARTSAV   ,
-     5              DT2T         ,NELTST       ,ITYPTST     ,STIFN     ,OFFSET   ,  
-     6              EANI         ,IPARTQ(1+NFT),NEL         ,IADQ      ,FSKY     ,  
-     9              IPM          ,BUFVOIS      ,pQMV        ,
-     A              GRESAV       ,GRTH         ,IGRTH       ,TABLE     ,IGEO     ,
-     B              VOLN         ,ITASK        ,MS_2D       ,FSKYM     ,IOUTPRT  ,MAT_ELEM,
+     .                  ELBUF_TAB,NG ,
+     1                  PM           ,GEO          ,IXQ         ,X         ,A        ,  
+     2                  V            ,MS           ,W           ,WA        ,VAL2     ,  
+     3                  VEUL         ,FV           ,ALE_CONNECTIVITY       ,IPARG    ,NLOC_DMG,
+     4                  TF           ,NPC          ,BUFMAT      ,PARTSAV   ,
+     5                  DT2T         ,NELTST       ,ITYPTST     ,STIFN     ,OFFSET   ,  
+     6                  EANI         ,IPARTQ(1+NFT),NEL         ,IADQ      ,FSKY     ,  
+     9                  IPM          ,BUFVOIS      ,pQMV        ,
+     A                  GRESAV       ,GRTH         ,IGRTH       ,TABLE     ,IGEO     ,
+     B                  VOLN         ,ITASK        ,MS_2D       ,FSKYM     ,IOUTPRT  ,MAT_ELEM,
      C              H3D_DATA%STRAIN) 
 c
                  ELSEIF (ITY == 2 .AND. JMULT /= 0) THEN
                   CALL BFORC2(ELBUF_TAB,NG      ,
-     1              PM          ,GEO   ,IXQ    ,X         ,
-     2              A           ,V     ,MS     ,W         ,WA          ,
-     3              VAL2        ,VEUL  ,FV     ,ALE_CONNECTIVITY     ,IPARG       ,
-     4              IPARG(1,NG) ,FILL  ,DFILL  ,IMS       ,NLOC_DMG    ,
-     5              TF    ,NPC    ,BUFMAT    ,PARTSAV     ,
-     6              DT2T        ,NELTST,ITYPTST,STIFN     ,OFFSET      ,
-     7              EANI        ,IPARTQ(1+NFT),NEL,IADQ   ,FSKY        ,
-     8              IPM ,BUFVOIS,
-     9              GRESAV,GRTH ,IGRTH ,TABLE  ,IGEO,
-     O              VOLN  ,ITASK,MS_2D ,FSKYM  ,MAT_ELEM,
-     B              IBID,OUTPUT)
+     1                  PM          , GEO           , IXQ       , X               ,
+     2                  A           , V             , MS        , W               , WA          ,
+     3                  VAL2        , VEUL          , FV        , ALE_CONNECTIVITY, IPARG       ,
+     4                  IPARG(1,NG) , FILL          , DFILL     , IMS             , NLOC_DMG    ,
+     5                  TF    ,NPC  , BUFMAT        , PARTSAV   ,
+     6                  DT2T        , NELTST,ITYPTST, STIFN     , OFFSET          ,
+     7                  EANI        , IPARTQ(1+NFT) , NEL,IADQ  , FSKY            ,
+     8                  IPM ,BUFVOIS,
+     9                  GRESAV,GRTH , IGRTH         , TABLE     , IGEO            ,
+     O                  VOLN  ,ITASK, MS_2D         , FSKYM     , MAT_ELEM        ,
+     B                  IBID,OUTPUT)
                  ENDIF
                 ENDIF
               ENDIF
@@ -921,7 +915,7 @@ C
      2              LENCOM  )
                  ! to be optimized depending on combination of options
                  IF(ALE%GLOBAL%INCOMP == 1.OR.ITURB+ITHERM == 0)
-     .             CALL SPMD_XVOIS(X       ,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,LENCOM  )
+     .             CALL SPMD_XVOIS(X,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,LENCOM  )
                    ! comm adjacent elems
                  CALL SPMD_L11VOIS(
      1                 BUFVOIS ,IPARG   ,ELBUF_TAB,PM      ,IXS     ,
@@ -942,12 +936,12 @@ C     ALE ON / OFF
                NGR_SENSOR = NG
                IF (TT  >  ZERO .AND. IPARG(76, NG)  ==  1) CYCLE ! --> OFF
                CALL INITBUF(IPARG    ,NG      ,
-     2           MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
-     3           NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
-     4           JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
-     5           NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,IPLA    ,
-     6           IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
-     7           ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
+     2               MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,   
+     3               NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
+     4               JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
+     5               NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,IPLA    ,   
+     6               IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
+     7               ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )   
                IF (MTN  ==  151) CYCLE
               IF (IPARG(8,NG) /= 1) THEN
                IF (JLAG /= 1 .AND. ITY <= 2) THEN
@@ -966,24 +960,24 @@ C     ALE ON / OFF
 
                  IF(ITY == 1 .AND. ISOLNOD == 4)THEN
                   CALL S4FORC3(
-     1   ELBUF_TAB,       NG,              PM,              GEO,
-     2   IXS,             X,               A,               V,
-     3   MS,              W,               WA,              VAL2,
-     4   VEUL,            FV,              ALE_CONNECTIVITY,IPARG,
-     5   TF,              NPC,             BUFMAT,          PARTSAV,
-     6   NLOC_DMG,        DT2T,            NELTST,          ITYPTST,
-     7   STIFN,           FSKY,            IADS,            OFFSET,
-     8   EANI,            IPARTS(NF1),     FX(1,1),         FY(1,1),
-     9   FZ(1,1),         FX(1,2),         FY(1,2),         FZ(1,2),
-     A   FX(1,3),         FY(1,3),         FZ(1,3),         FX(1,4),
-     B   FY(1,4),         FZ(1,4),         NEL,             FSKYM,
-     C   MSNF,            IPM,             IGEO,            BUFVOIS,
-     D   ISTRA,           ITASK,           BID,             BID,
-     E   BID,             IBID,            GRESAV,          GRTH,
-     F   IGRTH,           MSSA,            DMELS,           TABLE,
-     G   XDP,             BID,             VOLN,            BID,
-     H   BID,             D,               SENSORS,         IOUTPRT,
-     I   MAT_ELEM,        IBID,            DT,              IDEL7NOK)
+     1                  ELBUF_TAB,       NG,              PM,              GEO,
+     2                  IXS,             X,               A,               V,
+     3                  MS,              W,               WA,              VAL2,
+     4                  VEUL,            FV,              ALE_CONNECTIVITY,IPARG,
+     5                  TF,              NPC,             BUFMAT,          PARTSAV,
+     6                  NLOC_DMG,        DT2T,            NELTST,          ITYPTST,
+     7                  STIFN,           FSKY,            IADS,            OFFSET,
+     8                  EANI,            IPARTS(NF1),     FX(1,1),         FY(1,1),
+     9                  FZ(1,1),         FX(1,2),         FY(1,2),         FZ(1,2),
+     A                  FX(1,3),         FY(1,3),         FZ(1,3),         FX(1,4),
+     B                  FY(1,4),         FZ(1,4),         NEL,             FSKYM,
+     C                  MSNF,            IPM,             IGEO,            BUFVOIS,
+     D                  ISTRA,           ITASK,           BID,             BID,
+     E                  BID,             IBID,            GRESAV,          GRTH,
+     F                  IGRTH,           MSSA,            DMELS,           TABLE,
+     G                  XDP,             BID,             VOLN,            BID,
+     H                  BID,             D,               SENSORS,         IOUTPRT,
+     I                  MAT_ELEM,        IBID,            DT,              IDEL7NOK)
 
                  ELSEIF(ITY == 1 .AND. ISOLNOD /= 4)THEN
                   NULLIFY(pQMV); 
@@ -993,34 +987,34 @@ C     ALE ON / OFF
                     pQMV => BID
                   ENDIF
                   CALL SFORC3(
-     1   ELBUF_TAB,            NG,                   PM,                   GEO,
-     2   IXS,                  X,                    NV46,                 A,
-     3   V,                    MS,                   W,                    WA,
-     4   VAL2,                 VEUL,                 FV,                   ALE_CONNECTIVITY,
-     5   IPARG,                TF,                   NPC,                  BUFMAT,
-     6   PARTSAV,              ITAB,                 DT2T,                 NELTST,
-     7   ITYPTST,              STIFN,                FSKY,                 IADS,
-     8   OFFSET,               EANI,                 IPARTS(1+NFT),        FX(1,1),
-     9   FY(1,1),              FZ(1,1),              FX(1,2),              FY(1,2),
-     A   FZ(1,2),              FX(1,3),              FY(1,3),              FZ(1,3),
-     B   FX(1,4),              FY(1,4),              FZ(1,4),              FX(1,5),
-     C   FY(1,5),              FZ(1,5),              FX(1,6),              FY(1,6),
-     D   FZ(1,6),              FX(1,7),              FY(1,7),              FZ(1,7),
-     E   FX(1,8),              FY(1,8),              FZ(1,8),              NEL,
-     F   FSKYM,                MSNF,                 ISKY,                 FSKYI,
-     G   NVC,                  IPM,                  IGEO,                 BID,
-     H   BID,                  BID,                  BID,                  BID,
-     I   BUFVOIS,              ITASK,                pQMV,                 ISTRA,
-     J   TEMP,                 BID,                  BID,                  IBID,
-     K   GRESAV,               GRTH,                 IGRTH,                MSSA,
-     L   DMELS,                TABLE,                BID,                  BID,
-     M   BID,                  BID,                  BID,                  BID,
-     N   BID,                  BID,                  BID,                  IPARG(1,NG),
-     O   XDP,                  BID,                  IBID,                 IBID,
-     P   VOLN,                 CONDN,                CONDNSKY,             AGRAV,
-     Q   IGRV,                 LGRAV,                SENSORS,              SKEW,
-     R   ALE_CONNECTIVITY%NALE,D,                    IOUTPRT,              NLOC_DMG,
-     S   MAt_ELEM,             IBID,                 DT,                   IDEL7NOK)
+     1                  ELBUF_TAB,            NG,       PM,            GEO,
+     2                  IXS,                  X,        NV46,          A,
+     3                  V,                    MS,       W,             WA,
+     4                  VAL2,                 VEUL,     FV,            ALE_CONNECTIVITY,
+     5                  IPARG,                TF,       NPC,           BUFMAT,
+     6                  PARTSAV,              ITAB,     DT2T,          NELTST,
+     7                  ITYPTST,              STIFN,    FSKY,          IADS,
+     8                  OFFSET,               EANI,     IPARTS(1+NFT), FX(1,1),
+     9                  FY(1,1),              FZ(1,1),  FX(1,2),       FY(1,2),
+     A                  FZ(1,2),              FX(1,3),  FY(1,3),       FZ(1,3),
+     B                  FX(1,4),              FY(1,4),  FZ(1,4),       FX(1,5),
+     C                  FY(1,5),              FZ(1,5),  FX(1,6),       FY(1,6),
+     D                  FZ(1,6),              FX(1,7),  FY(1,7),       FZ(1,7),
+     E                  FX(1,8),              FY(1,8),  FZ(1,8),       NEL,
+     F                  FSKYM,                MSNF,     ISKY,          FSKYI,
+     G                  NVC,                  IPM,      IGEO,          BID,
+     H                  BID,                  BID,      BID,           BID,
+     I                  BUFVOIS,              ITASK,    pQMV,          ISTRA,
+     J                  TEMP,                 BID,      BID,           IBID,
+     K                  GRESAV,               GRTH,     IGRTH,         MSSA,
+     L                  DMELS,                TABLE,    BID,           BID,
+     M                  BID,                  BID,      BID,           BID,
+     N                  BID,                  BID,      BID,           IPARG(1,NG),
+     O                  XDP,                  BID,      IBID,          IBID,
+     P                  VOLN,                 CONDN,    CONDNSKY,      AGRAV,
+     Q                  IGRV,                 LGRAV,    SENSORS,       SKEW,
+     R                  ALE_CONNECTIVITY%NALE,D,        IOUTPRT,       NLOC_DMG,
+     S                  MAT_ELEM,             IBID,     DT,            IDEL7NOK)
                
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
                   NULLIFY(pQMV); 
@@ -1043,18 +1037,18 @@ C     ALE ON / OFF
      C              H3D_DATA%STRAIN)
 c
                       ELSEIF(ITY == 2 .AND. JMULT /= 0)THEN
-                  CALL BFORC2(ELBUF_TAB,NG      ,
-     1            PM         ,GEO     ,IXQ       ,X         ,    
-     2            A          ,V         ,MS      ,W         ,WA        ,  
-     3            VAL2       ,VEUL      ,FV      ,ALE_CONNECTIVITY     ,IPARG     ,  
-     4            IPARG(1,NG),FILL      ,DFILL   ,IMS       ,NLOC_DMG  ,             
-     5            TF        ,NPC     ,BUFMAT    ,PARTSAV   ,       
-     5            DT2T       ,NELTST    ,ITYPTST ,STIFN     ,OFFSET    ,       
-     6            EANI       ,IPARTQ(1+NFT),NEL  ,IADQ      ,FSKY      ,       
-     7            IPM        ,BUFVOIS   ,
-     8            GRESAV     ,GRTH      ,IGRTH   ,TABLE     ,IGEO      ,
-     9            VOLN       ,ITASK     ,MS_2D   ,FSKYM     ,MAT_ELEM,
-     B            IBID,OUTPUT)
+                  CALL BFORC2(ELBUF_TAB  ,NG           ,
+     1                        PM         ,GEO          ,IXQ     ,X                ,    
+     2                        A          ,V            ,MS      ,W                ,WA        ,  
+     3                        VAL2       ,VEUL         ,FV      ,ALE_CONNECTIVITY ,IPARG     ,
+     4                        IPARG(1,NG),FILL         ,DFILL   ,IMS              ,NLOC_DMG  ,    
+     5                        TF         ,NPC          ,BUFMAT  ,PARTSAV          ,       
+     5                        DT2T       ,NELTST       ,ITYPTST ,STIFN            ,OFFSET    ,  
+     6                        EANI       ,IPARTQ(1+NFT),NEL     ,IADQ             ,FSKY      ,  
+     7                        IPM        ,BUFVOIS      ,
+     8                        GRESAV     ,GRTH         ,IGRTH   ,TABLE            ,IGEO      ,
+     9                        VOLN       ,ITASK        ,MS_2D   ,FSKYM            ,MAT_ELEM,
+     B                        IBID       ,OUTPUT)
 
                  ENDIF
                 ENDIF
