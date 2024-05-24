@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
         SUBROUTINE CHECK_ACTIVE_ELEM_EDGE( NUMBER_NODE, N1,N2,N3,N4,
      .                                     DEACTIVATION,GEO,IXS,IXC,
-     .                                     IXT,IXP,IXR,IXTG,ADDCNEL,CNEL,
+     .                                     IXT,IXP,IXR,IXTG,IXS10,ADDCNEL,CNEL,
      .                                     TAG_NODE,TAG_ELEM )
 !$COMMENT
 !       CHECK_ACTIVE_ELEM_EDGE description
@@ -55,12 +55,13 @@ C-----------------------------------------------
         LOGICAL, INTENT(inout) :: DEACTIVATION
         INTEGER, INTENT(in) :: NUMBER_NODE ! number of node of the edge/surface
         INTEGER, INTENT(in) :: N1,N2,N3,N4 ! node id : for interface type11 -> N3&N4 are fake node id (ie. =0)
-        INTEGER, DIMENSION(NIXS,NUMELS),TARGET, INTENT(in) :: IXS   ! solid array
-        INTEGER, DIMENSION(NIXC,NUMELC),TARGET, INTENT(in) :: IXC   ! shell array
-        INTEGER, DIMENSION(NIXT,NUMELT),TARGET, INTENT(in) :: IXT! truss array
-        INTEGER, DIMENSION(NIXP,NUMELP),TARGET, INTENT(in) :: IXP! beam array
-        INTEGER, DIMENSION(NIXR,NUMELR),TARGET, INTENT(in) :: IXR! spring array
-        INTEGER, DIMENSION(NIXTG,NUMELTG),TARGET, INTENT(in) :: IXTG! triangle array
+        INTEGER, DIMENSION(NIXS,NUMELS), INTENT(in) :: IXS   ! solid array
+        INTEGER, DIMENSION(NIXC,NUMELC), INTENT(in) :: IXC   ! shell array
+        INTEGER, DIMENSION(NIXT,NUMELT), INTENT(in) :: IXT! truss array
+        INTEGER, DIMENSION(NIXP,NUMELP), INTENT(in) :: IXP! beam array
+        INTEGER, DIMENSION(NIXR,NUMELR), INTENT(in) :: IXR! spring array
+        INTEGER, DIMENSION(NIXTG,NUMELTG), INTENT(in) :: IXTG! triangle array
+        INTEGER, DIMENSION(6,NUMELS10), INTENT(in) :: IXS10!< tetra10 data
         INTEGER, DIMENSION(0:NUMNOD+1), INTENT(in) :: ADDCNEL ! address for the CNEL array
         my_real, DIMENSION(NPROPG,NUMGEO), INTENT(in) :: GEO
         INTEGER, DIMENSION(0:LCNEL), INTENT(in) :: CNEL ! connectivity node-->element
@@ -125,9 +126,15 @@ C-----------------------------------------------
                 ! solid element
                 IF(ELEM_ID<=OFFSET_SHELL) THEN
                     DO K=2,9
-                        NODE_ID = IXS(K,ELEM_ID)
-                        TAG_NODE(NODE_ID) = 1
+                      NODE_ID = IXS(K,ELEM_ID)
+                      TAG_NODE(NODE_ID) = 1
                     ENDDO
+                    IF(ELEM_ID>NUMELS8.AND.ELEM_ID<=NUMELS8+NUMELS10) THEN
+                      DO K=1,6
+                        NODE_ID = IXS10(K,ELEM_ID)
+                        TAG_NODE(NODE_ID) = 1
+                      ENDDO
+                    ENDIF
                 ELSEIF(ELEM_ID>OFFSET_SHELL.AND.ELEM_ID<=OFFSET_TRUSS) THEN
                 ! -----------------
                 ! shell element

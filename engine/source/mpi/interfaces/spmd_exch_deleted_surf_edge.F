@@ -35,7 +35,7 @@ Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,ITABM1,SHOOT_STRUCT,INTBUF_TAB,NEWFRONT,
      .                                          IPARI,GEO,
-     .                                          IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                                          IXS,IXC,IXT,IXP,IXR,IXTG,IXS10,
      .                                          ADDCNEL,CNEL,TAG_NODE,TAG_ELEM )
 !$COMMENT
 !       SPMD_EXCH_DELETED_SURF_EDGE description
@@ -81,6 +81,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NIXP,NUMELP),TARGET, INTENT(in) :: IXP! beam array
         INTEGER, DIMENSION(NIXR,NUMELR),TARGET, INTENT(in) :: IXR! spring array
         INTEGER, DIMENSION(NIXTG,NUMELTG),TARGET, INTENT(in) :: IXTG! triangle array
+        INTEGER, DIMENSION(6,NUMELS10), INTENT(in) :: IXS10!< tetra10 data
         INTEGER, DIMENSION(0:NUMNOD+1), INTENT(in) :: ADDCNEL ! address for the CNEL array
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI
         my_real, DIMENSION(NPROPG,NUMGEO), INTENT(in) :: GEO
@@ -240,13 +241,13 @@ C-----------------------------------------------
 
             CALL FIND_SURFACE_FROM_REMOTE_PROC(SHOOT_STRUCT,NB_SURFACE,BUFFER_R(ADDRESS),INTBUF_TAB,ITABM1,
      .                                         IPARI,GEO,
-     .                                         IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                                         IXS,IXC,IXT,IXP,IXR,IXTG,IXS10,
      .                                         ADDCNEL,CNEL,TAG_NODE,TAG_ELEM )
             NB_EDGE = REMOTE_SURF_PER_PROC_2(2,K)
             ADDRESS = INDEX_BUFFER_R_2(K)+4*NB_SURFACE  
             CALL FIND_EDGE_FROM_REMOTE_PROC( SHOOT_STRUCT,NB_EDGE,BUFFER_R(ADDRESS),INTBUF_TAB,ITABM1,
      .                                       NEWFRONT,IPARI,GEO,
-     .                                       IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                                       IXS,IXC,IXT,IXP,IXR,IXTG,IXS10,
      .                                       ADDCNEL,CNEL,TAG_NODE,TAG_ELEM )
         ENDDO
         ! ----------------

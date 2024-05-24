@@ -32,7 +32,7 @@ Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE FIND_SURFACE_FROM_REMOTE_PROC(SHOOT_STRUCT,NB_SURFACE,LIST_NODE,INTBUF_TAB,ITABM1,
      .                                           IPARI,GEO,
-     .                                           IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                                           IXS,IXC,IXT,IXP,IXR,IXTG,IXS10,
      .                                           ADDCNEL,CNEL,TAG_NODE,TAG_ELEM )
 !$COMMENT
 !       FIND_SURFACE_FROM_REMOTE_PROC description
@@ -70,6 +70,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NIXP,NUMELP), INTENT(in) :: IXP! beam array
         INTEGER, DIMENSION(NIXR,NUMELR), INTENT(in) :: IXR! spring array
         INTEGER, DIMENSION(NIXTG,NUMELTG), INTENT(in) :: IXTG! triangle array
+        INTEGER, DIMENSION(6,NUMELS10), INTENT(in) :: IXS10!< tetra10 data
         INTEGER, DIMENSION(0:NUMNOD+1), INTENT(in) :: ADDCNEL ! address for the CNEL array
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI
         my_real, DIMENSION(NPROPG,NUMGEO), INTENT(in) :: GEO
@@ -153,7 +154,7 @@ C-----------------------------------------------
 
         CALL CHECK_SURFACE_STATE( -1,NB_SURFACE_R_PROC,LIST_SURFACE_R_PROC,SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                            IPARI,GEO,
-     .                            IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                            IXS,IXC,IXT,IXP,IXR,IXTG,IXS10,
      .                            ADDCNEL,CNEL,TAG_NODE,TAG_ELEM,SHOOT_STRUCT )
 
         DEALLOCATE( LIST_SURFACE_R_PROC )

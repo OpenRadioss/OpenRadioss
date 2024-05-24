@@ -30,7 +30,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use constant_mod , only : zero,em20,fourth
+          use constant_mod , only : zero,em20,fourth,third
           use intbufdef_mod , only : intbuf_struct_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
@@ -55,10 +55,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j
           integer :: node_id,elem_id
+          integer :: node_id_3,node_id_4
+          integer :: node_number
           my_real :: xx13,yy13,zz13,xx24,yy24,zz24
           my_real :: nor1,nor2,nor3
           my_real :: area,dds
           my_real :: xc,yc,zc
+          my_real :: ratio
           my_real, dimension(4) :: xx1,xx2,xx3
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   external functions
@@ -74,16 +77,31 @@
           segment_position(1) = zero 
           segment_position(2) = zero 
           segment_position(3) = zero
-          do i=1,4
+          node_number = 4
+          node_id_3 = intbuf_tab%irectm(4*(segment_id-1)+3)
+          node_id_4 = intbuf_tab%irectm(4*(segment_id-1)+4)
+          ratio = fourth
+          if(node_id_3==node_id_4) then
+            node_number = 3
+            ratio = third
+          endif
+          do i=1,node_number
             node_id = intbuf_tab%irectm(4*(segment_id-1)+i) ! get the node id
             segment_node_id(i) = node_id
             xx1(i) = x(1,node_id)
             xx2(i) = x(2,node_id)
             xx3(i) = x(3,node_id)
-            segment_position(1) = segment_position(1)+fourth*x(1,node_id)
-            segment_position(2) = segment_position(2)+fourth*x(2,node_id)
-            segment_position(3) = segment_position(3)+fourth*x(3,node_id)   
+            segment_position(1) = segment_position(1)+ratio*x(1,node_id)
+            segment_position(2) = segment_position(2)+ratio*x(2,node_id)
+            segment_position(3) = segment_position(3)+ratio*x(3,node_id)   
           enddo    
+          if(node_id_3==node_id_4) then
+            node_id = intbuf_tab%irectm(4*(segment_id-1)+4) ! get the node id
+            segment_node_id(4) = node_id
+            xx1(4) = x(1,node_id)
+            xx2(4) = x(2,node_id)
+            xx3(4) = x(3,node_id)
+          endif
 
           xx13 =xx1(3)-xx1(1)
           yy13 =xx2(3)-xx2(1)

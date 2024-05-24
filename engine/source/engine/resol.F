@@ -2341,7 +2341,7 @@ C Init var parallel SMP
           IF(NSPMD>1) THEN 
             IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,ITABM1,SHOOT_STRUCT,INTBUF_TAB,NEWFRONT,
      .                           IPARI,GEO,
-     .                           IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                           IXS,IXC,IXT,IXP,IXR,IXTG,IXS(L1),
      .                           ADDCNEL,CNEL,WA(NWAFTSK),TAGEL )
             CALL MY_BARRIER()
           ENDIF
@@ -2353,7 +2353,7 @@ C Init var parallel SMP
           CALL CHECK_SURFACE_STATE( ITSK,SHOOT_STRUCT%SAVE_SURFACE_NB,SHOOT_STRUCT%SAVE_SURFACE,
      .                              SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                              IPARI,GEO,
-     .                              IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                              IXS,IXC,IXT,IXP,IXR,IXTG,IXS(L1),
      .                              ADDCNEL,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
 
           ! loop over the edge id and deactivate the edge
@@ -2361,7 +2361,7 @@ C Init var parallel SMP
           CALL CHECK_EDGE_STATE( ITSK,SHOOT_STRUCT%SAVE_M_EDGE_NB,SHOOT_STRUCT%SAVE_S_EDGE_NB,
      .                           SHOOT_STRUCT%SAVE_M_EDGE,SHOOT_STRUCT%SAVE_S_EDGE,
      .                           SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,NEWFRONT,IPARI,GEO,
-     .                           IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                           IXS,IXC,IXT,IXP,IXR,IXTG,IXS(L1),
      .                           ADDCNEL,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
           ! ---------------------
 
@@ -5371,7 +5371,7 @@ C WA local  : utilise de 1 a NUMNOD
           IF(NSPMD>1) THEN 
             IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,ITABM1,SHOOT_STRUCT,INTBUF_TAB,NEWFRONT,
      .                           IPARI,GEO,
-     .                           IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                           IXS,IXC,IXT,IXP,IXR,IXTG,IXS(L1),
      .                           ADDCNEL,CNEL,WA(NWAFTSK),TAGEL )
             CALL MY_BARRIER()
           ENDIF
@@ -5384,7 +5384,7 @@ C WA local  : utilise de 1 a NUMNOD
           CALL CHECK_SURFACE_STATE( ITSK,SHOOT_STRUCT%SAVE_SURFACE_NB,SHOOT_STRUCT%SAVE_SURFACE,
      .                              SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,
      .                              IPARI,GEO,
-     .                              IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                              IXS,IXC,IXT,IXP,IXR,IXTG,IXS(L1),
      .                              ADDCNEL,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
 
           ! loop over the edge id and deactivate the edge
@@ -5392,7 +5392,7 @@ C WA local  : utilise de 1 a NUMNOD
           CALL CHECK_EDGE_STATE( ITSK,SHOOT_STRUCT%SAVE_M_EDGE_NB,SHOOT_STRUCT%SAVE_S_EDGE_NB,
      .                           SHOOT_STRUCT%SAVE_M_EDGE,SHOOT_STRUCT%SAVE_S_EDGE,
      .                           SHOOT_STRUCT%SHIFT_INTERFACE,INTBUF_TAB,NEWFRONT,IPARI,GEO,
-     .                           IXS,IXC,IXT,IXP,IXR,IXTG,
+     .                           IXS,IXC,IXT,IXP,IXR,IXTG,IXS(L1),
      .                           ADDCNEL,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
           ! ---------------------
 
