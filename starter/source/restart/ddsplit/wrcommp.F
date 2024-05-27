@@ -81,7 +81,8 @@ Chd|====================================================================
      3   ALE_CONNECTIVITY,N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
      5   NUMSH4N_L,NUMSH3N_L,INTER_PARAMETERS,SENSORS,NLOAD_CYL,
-     6   NCLOAD_L,NPLOAD_L,NDAMP_VREL_L, UNITAB)
+     6   NCLOAD_L,NPLOAD_L,NDAMP_VREL_L, UNITAB,
+     7   LWAMP_L,LWANMP_L)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -148,6 +149,8 @@ C-----------------------------------------------
      .        N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,
      .        NUMSH4N_L,NUMSH3N_L,NLOAD_CYL,NDAMP_VREL_L
       INTEGER, INTENT(IN) :: NCLOAD_L,NPLOAD_L
+      INTEGER, INTENT(IN) :: LWAMP_L     !< Size of Engine work array (WA)
+      INTEGER, INTENT(IN) :: LWANMP_L    !< Size of Engine work array (WA)
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
@@ -663,8 +666,8 @@ C-----
       TABVINT(325)=NIXFR1
       TABVINT(326)=NIXFR2
       TABVINT(327)=NPARI
-      TABVINT(328)=LWAMP
-      TABVINT(329)=LWANMP
+      TABVINT(328)=LWAMP_L
+      TABVINT(329)=LWANMP_L
       TABVINT(330)=NISX
       TABVINT(331)=LIGRN1
       TABVINT(332)=LISUB1

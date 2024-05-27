@@ -880,6 +880,8 @@ C
       TYPE (DYNAIN_DATABASE)   :: DYNAIN_DATA
       TYPE (INTERFACES_)       :: INTERFACES
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
+      INTEGER LWAMP_L     !< Size of work array in Engine (WA)
+      INTEGER LWANMP_L    !< Size of work array in Engine (WA)
 C-----------------------------------------------
       CHARACTER(LEN=4096) :: SCR_FILE_NAME
       CHARACTER(LEN=ncharline) :: RLINE
@@ -10095,7 +10097,10 @@ C appel a routine generique ici et dans ddsplit
      1      LENWA ,NTHWA  ,NAIRWA    ,NUMELS   ,NUMELQ,
      2      NUMELC,NUMELTG,NUMELT    ,NUMELP   ,NUMELR,
      3      NUMNOD,NMNT   ,L_MUL_LAG1,L_MUL_LAG,MAXNX ,
-     4      LWASPH,NUMSPH    ,LWASPIO, NRCVVOIS0 )
+     4      LWASPH,NUMSPH    ,LWASPIO, NRCVVOIS0,
+     5      LWAMP_L,LWANMP_L )
+      LWAMP  = LWAMP_L   !< Copy values in common
+      LWANMP = LWANMP_L  !< Copy values in common
 C init MULTIMAX
       ALLOCATE(MWA(LENWA)     ,  STAT=stat)
       MWA = ZERO
