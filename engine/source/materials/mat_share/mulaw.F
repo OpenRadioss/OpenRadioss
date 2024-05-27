@@ -197,6 +197,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
       USE SIGEPS100_MOD
+      USE SIGEPS126_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1805,6 +1806,18 @@ c
      .                 ES1    ,ES2    ,ES3    ,ES4    ,ES5    ,ES6    ,
      .                 S1     ,S2     ,S3     ,S4     ,S5     ,S6     ,
      .                 SIGY   ,ET     ,LBUF%DMG,DELTAX)
+c
+      ELSEIF (MTN == 126) THEN
+        IDEV = 1
+        CALL MSTRAIN_RATE(NEL    ,ISRATE ,ASRATE ,EPSD   ,IDEV   ,
+     .                    EP1    ,EP2    ,EP3    ,EP4    ,EP5    ,EP6)
+        CALL SIGEPS126(
+     .                NEL      ,NUVAR    ,UVAR     ,MATPARAM ,TT       ,
+     .                RHO0     ,NGL      ,SIGY     ,DPLA     ,DEFP     ,AMU      , 
+     .                DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6      ,
+     .                SO1      ,SO2      ,SO3      ,SO4      ,SO5      ,SO6      ,
+     .                S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
+     .                EPSD     ,LBUF%DMG ,SSP      ,OFF      ,IDEL7NOK )
 c
       ELSEIF (MTN == 187) THEN !BARLAT 2000
           CALL SIGEPS187(NEL   ,NPAR  ,NUVAR ,NFUNC ,IFUNC ,
