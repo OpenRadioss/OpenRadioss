@@ -179,6 +179,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE TABLE_MOD
       USE HM_READ_MAT169_ARUP_MOD
+      USE HM_READ_MAT126_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1127,6 +1128,13 @@ c-------
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,MTAG     ,
      .           PARMAT   ,UNITAB   ,PM(1,I)  ,LSUBMODEL,ISRATE   ,
      .           ASRATE   ,MAT_ID   ,TITR     ,MATPARAM )
+c-------
+          CASE ('LAW126','JOHN_HOLM_1')
+            ILAW = 126
+            CALL HM_READ_MAT126(
+     .           NUVAR    ,MTAG     ,MATPARAM ,NPROPM   ,IOUT     ,
+     .           PARMAT   ,UNITAB   ,PM(1,I)  ,LSUBMODEL,ISRATE   ,
+     .           MAT_ID   ,TITR     )
 c-------
           CASE ('LAW151','MULTIFLUID')
             ILAW  = 151
