@@ -51,7 +51,7 @@ Chd|====================================================================
      .                  IPARTP             ,IPARTT                  ,IPARTS         ,IPARTQ          ,KXSP            , 
      .                  IXR                ,IXP                     ,IXT            ,N_H3D_PART_LIST ,NODAL_VECTOR_FVM, 
      .                  IS_WRITTEN_NODE_FVM,AIRBAGS_TOTAL_FVM_IN_H3D,SMONVOL        ,SVOLMON         ,ISPMD           ,
-     .                  FVDATA_P           ,AIRBAGS_NODE_ID_SHIFT   ,W              ,SW)
+     .                  FVDATA_P           ,AIRBAGS_NODE_ID_SHIFT   ,W              ,SW              ,X_C )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -88,7 +88,7 @@ C-----------------------------------------------
       my_real
      .   NODAL_VECTOR(3*NUMNOD),MASS(*),GEO(NPROPG,NUMGEO),
      .   PM(NPROPM,NUMMAT),ANIN(*),TEMP(*),RFLOW(*),VOLMON(SVOLMON), DIAG_SMS(*),MS(NUMNOD),
-     .   PDAMA2(2,*),X(3*NUMNOD),STIFR(*),STIFN(NUMNOD),A(3,NUMNOD),D(3,NUMNOD),V(3,NUMNOD), CONT(3,*),
+     .   PDAMA2(2,*),X(3,NUMNOD),STIFR(*),STIFN(NUMNOD),A(3,NUMNOD),D(3,NUMNOD),V(3,NUMNOD), CONT(3,*),
      .   FCONTG(3,*), FINT(3,NUMNOD), FEXT(3,NUMNOD),FNCONT(3,*),FNCONTG(3,*),
      .   FTCONT(3,*),FTCONTG(3,*),FNCONT2(3,*), DR(3,NUMNOD),DXANCG(3,*),
      .   FANREAC(6,*),FCLUSTER(3,*),MCLUSTER(3,*),VR(3,NUMNOD),FOPT(6,*),VGAZ(3,*),
@@ -102,6 +102,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARLINE100):: KEYWORD
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
       my_real , INTENT(IN) :: AR(3,NUMNOD)
+      my_real , INTENT(IN) , DIMENSION(3,NUMNOD) :: X_C
       INTEGER ,INTENT(IN) :: IPARTSP(NUMSPH),IPARTR(NUMELR),IPARTP(NUMELP),
      .                       IPARTT(NUMELT),IPARTS(NUMELS),IPARTQ(NUMELQ)
       INTEGER ,INTENT(IN) :: KXSP(NISP,NUMSPH),IXR(NIXR,NUMELR),IXP(NIXP,NUMELP),
@@ -630,6 +631,13 @@ C--------------------------------------------------
             CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
           ENDDO
         ENDIF
+C--------------------------------------------------
+      ELSEIF(KEYWORD == 'SH_OFFSET') THEN
+C--------------------------------------------------
+        DO I=1,NUMNOD
+          VALUE(1:3) = X_C(1:3,I) - X(1:3,I)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,VALUE)
+        ENDDO
 C--------------------------------------------------
       ENDIF
 C--------------------------------------------------
