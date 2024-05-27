@@ -31,7 +31,8 @@ Chd|====================================================================
      1      LENWA0 ,NTHWA0  ,NAIRWA0   ,NUMELS0  ,NUMELQ0,
      2      NUMELC0,NUMELTG0,NUMELT0   ,NUMELP0  ,NUMELR0,
      3      NUMNOD0,NMNT0   ,L_MUL_LAG1,L_MUL_LAG,MAXNX0 ,
-     4      LWASPH0,NUMSPH0   ,LWASPIO  , NRCVVOIS0 )
+     4      LWASPH0,NUMSPH0   ,LWASPIO  , NRCVVOIS0 ,
+     5      LWAMP_L, LWANMP_L)
 C Attention les dummy peuvent etre soit locaux soit globaux suivant appel
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -48,6 +49,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: LWAMP_L
+      INTEGER, INTENT(INOUT) :: LWANMP_L
       INTEGER LENWA0,NTHWA0,NAIRWA0,
      .        NUMELS0,NUMELQ0,NUMELC0,NUMELTG0,NUMELT0,NUMELP0,
      .        NUMELR0,NUMNOD0,NMNT0,L_MUL_LAG1,L_MUL_LAG,MAXNX0,
@@ -92,17 +95,17 @@ C SPMD : tout en dynamique
 C shooting nodes
       NIDELWA = 3*NUMNOD0
 C lenwa non parallele
-      LWANMP   = MAX(NTHWA0,NASSNMP,L_MUL_LAG)
+      LWANMP_L   = MAX(NTHWA0,NASSNMP,L_MUL_LAG)
 C---------------------------------------------------------------------
       NXELWA   = 22*MAXNX0                                         ! en toute rigueur MAXNX local
 C lenwa parallele
-      LWAMP    = MAX(NAIRWA,NINTWA,NFLUWA+NBHOLWA,NASSMP,NXELWA,NSPHWA,
+      LWAMP_L    = MAX(NAIRWA,NINTWA,NFLUWA+NBHOLWA,NASSMP,NXELWA,NSPHWA,
      +               NIDELWA,LENVOISWA)
 C
 C MSPR utilise dans le starter
       MSPR    = MAX(4*NUMELR0,NPARG*NGROUP)
 C
-      LENWA0  = MAX(LWAMP,LWANMP,MSPR)
+      LENWA0  = MAX(LWAMP_L,LWANMP_L,MSPR)
 C
       RETURN
       END
