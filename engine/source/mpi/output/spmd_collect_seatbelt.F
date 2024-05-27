@@ -96,7 +96,7 @@ C
             DO M=1,3
               TH_RETRACTOR(K,M) = RBUF(L+M)
             ENDDO
-            L = L + 3
+            L = L + 4
           END DO
         END DO
 C
