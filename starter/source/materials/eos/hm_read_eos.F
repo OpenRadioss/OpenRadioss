@@ -97,7 +97,7 @@ c     Routine reading EOS models :
       !------------------------------------!                
       !  IEOS     !    EOS                 !             
       !-----------!------------------------!  
-      !   0       !     LINEAR             !                 
+      !   0 => 18 (LINEAR)                 !
       !   1       !     POLYNOMIAL         !             
       !   2       !     GRUNEISEN          !             
       !   3       !     TILLOTSON          !             
@@ -115,6 +115,8 @@ c     Routine reading EOS models :
       !  15       !     JWL                ! internal use : INIMAP   
       !  16       !     IDEALGAS_VT        ! 2022.0
       !  17       !     TABULATED          ! 2022.2
+      !  18       !     LINEAR             ! 2019.0
+      !  19       !     EXPONENTIAL        ! 2024.1
       !------------------------------------!                      
 c======================================================================-       
 c     COUNT EOS MODELS USING CFG FILES
@@ -130,17 +132,9 @@ c
 c--------------------------------------------------
 c
       DO I = 1,HM_NEOS
-c
-        CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                          OPTION_ID   = IMIDEOS ,
-     .                          OPTION_TITR = TITR   ,
-     .                          UNIT_ID     = UID    )   
-     
+        CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=IMIDEOS, OPTION_TITR=TITR, UNIT_ID=UID)
         CALL HM_GET_STRING('EOS_Keyword',KEY2, 32,IS_AVAILABLE)
-        !CALL HM_GET_INTV('_ID_',IMIDEOS,IS_AVAILABLE,LSUBMODEL)       
-c--------------------------------------------------
-c       Check MAT_Id
-c--------------------------------------------------
+        ! Check MAT_Id
         FLAGMAT  = 0
         DO IMAT=1,NUMMAT-1
           IMID = IPM(1,IMAT)
@@ -149,17 +143,11 @@ c--------------------------------------------------
             EXIT
           ENDIF
         ENDDO
-        
         IF (IMIDEOS > 0 .AND. FLAGMAT == 0) THEN
-          CALL ANCMSG(MSGID=1663,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                I1= IMIDEOS,
-     .                C1='EOS',
-     .                C2= KEY,
-     .                C3= TITR)                              
+          CALL ANCMSG(MSGID=1663, ANMODE=ANINFO, MSGTYPE=MSGERROR, I1=IMIDEOS, C1='EOS', C2= KEY, C3=TITR)
         ENDIF
-c--------------------------------------------------
-c       Check Unit_ID
-c--------------------------------------------------
+
+        ! Check Unit_ID
         FLAGUNIT = 0
         DO IUNIT=1,UNITAB%NUNITS
           IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN
@@ -167,23 +155,13 @@ c--------------------------------------------------
             EXIT
           ENDIF
         ENDDO
-        
         IF (UID > 0 .AND. FLAGUNIT == 0) THEN
-          CALL ANCMSG(MSGID=659,
-     .                ANMODE=ANINFO,
-     .                MSGTYPE=MSGERROR,
-     .                I1= IMIDEOS,
-     .                I2= UID,
-     .                C1='MATERIAL',
-     .                C2='EOS MODEL',
-     .                C3= TITR)                             
+          CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=IMIDEOS,I2=UID,C1='MATERIAL',C2='EOS MODEL',C3=TITR)
         ENDIF
-c--------------------------------------------------
-c       Read EOS model
-c--------------------------------------------------
+
+
         WRITE(IOUT,1000) TRIM(TITR),IMIDEOS
-c
-c-----------------------------
+        ! READ EOS
         EOS_key = KEY2(1:LEN_TRIM(KEY2))
         SELECT CASE (EOS_key)
 c---
@@ -255,21 +233,19 @@ c---
             IEOS = 18                          
             CALL HM_READ_EOS_LINEAR(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
 c---
+          CASE ('EXPONENTIAL')
+            IEOS = 19
+            CALL HM_READ_EOS_EXPONENTIAL(IOUT,PM(1,IMAT),UNITAB,LSUBMODEL,NPROPM)
+c---
           CASE DEFAULT
             IEOS = -1 
-            CALL ANCMSG(MSGID=67,
-     .                ANMODE=ANINFO,
-     .                MSGTYPE=MSGERROR,
-     .                I1= IMIDEOS,
-     .                C1='EOS_key',
-     .                C2='EOS TYPE IS NOT VALID')                     
+            CALL ANCMSG(MSGID=67,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1= IMIDEOS,C1='EOS_key',C2='EOS TYPE IS NOT VALID')
 c---
         END SELECT
-c
+
         IPM(4,IMAT) = IEOS
         MAT_PARAM(IMAT)%IEOS = IEOS
 c--------------------------------------------------
-c
       ENDDO      !  HM_NEOS
 c--------------------------------------------------
       DO I=1,NUMMAT-1

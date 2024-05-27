@@ -62,7 +62,7 @@ C This subroutines call the expected EOS solver
 C depending on EOSTYP(INTEGER) value.
       !------------------------------------!                
       !  IEOS     !    EOS                 !             
-      !-----------!------------------------!  
+      !-----------!------------------------!
       !   1       !     POLYNOMIAL         !             
       !   2       !     GRUNEISEN          !             
       !   3       !     TILLOTSON          !             
@@ -80,7 +80,8 @@ C depending on EOSTYP(INTEGER) value.
       !  15       !     JWL                ! internal use : INIMAP   
       !  16       !     IDEALGAS_VT        ! 2022.0
       !  17       !     TABULATED          ! 2022.2
-      !  18       !     LINEAR             ! 2019.0                
+      !  18       !     LINEAR             ! 2019.0
+      !  19       !     EXPONENTIAL        ! 2024.1
       !------------------------------------!  
 !
 !  input   EINT(:) :  rho.e   (law151    , unit J/m**3)
@@ -148,15 +149,6 @@ C-----------------------------------------------
            
       SELECT CASE (EOSTYP)
 
-        CASE (18)
-         !--------------------------------------------------!
-         !         LINEAR EOS                               !
-         !--------------------------------------------------! 
-         CALL EOSLINEAR(
-     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2, 
-     2                  DVOL   ,DF     ,VNEW   ,MAT    ,PNEW  ,DPDM,
-     3                  DPDE   ,THETA  ,ECOLD  )
-
        CASE (1)
          !--------------------------------------------------!
          !         POLYNOMIAL EOS                           !
@@ -202,7 +194,7 @@ C-----------------------------------------------
      2                  ESPE   ,DVOL   ,MAT    ,PNEW   ,DPDM  ,DPDE,  
      3                  THETA  ,BUFMAT )
 
-        CASE(6)
+       CASE(6)
          !--------------------------------------------------!
          !         NOBLE-ABEL EOS (COVOLUME EOS)            !
          !--------------------------------------------------!          
@@ -211,7 +203,7 @@ C-----------------------------------------------
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)
 
-        CASE(7)
+       CASE(7)
          !--------------------------------------------------!
          !         IDEAL GAS EOS                            !
          !--------------------------------------------------!          
@@ -220,7 +212,7 @@ C-----------------------------------------------
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)
 
-        CASE(8)
+       CASE(8)
          !--------------------------------------------------!
          !         OSBORNE EOS                              !
          !--------------------------------------------------!          
@@ -229,7 +221,7 @@ C-----------------------------------------------
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)  
              
-        CASE(9)
+       CASE(9)
          !--------------------------------------------------!
          !         OSBORNE EOS                              !
          !--------------------------------------------------!          
@@ -238,7 +230,7 @@ C-----------------------------------------------
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)     
 
-        CASE(10)
+       CASE(10)
          !--------------------------------------------------!
          !         STIFFENED GAS EOS                        !
          !--------------------------------------------------!          
@@ -247,7 +239,7 @@ C-----------------------------------------------
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)     
 
-        CASE(11)
+       CASE(11)
          !--------------------------------------------------!
          !         STIFFENED GAS EOS                        !
          !--------------------------------------------------!          
@@ -256,7 +248,7 @@ C-----------------------------------------------
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD) 
 
-        CASE(12)
+       CASE(12)
          !--------------------------------------------------!
          !         POWDER BURN EOS                          !
          !--------------------------------------------------!          
@@ -265,7 +257,7 @@ C-----------------------------------------------
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD) 
 
-        CASE(13)
+       CASE(13)
          !--------------------------------------------------!
          !         COMPACTION EOS                           !
          !--------------------------------------------------!          
@@ -274,7 +266,7 @@ C-----------------------------------------------
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH  ,POLD,
      3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD,SIG  ,MU_OLD) 
 
-        CASE(14)
+       CASE(14)
          !--------------------------------------------------!
          !         NASG EOS                                 !
          !--------------------------------------------------!          
@@ -282,7 +274,7 @@ C-----------------------------------------------
      1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)    
-        CASE(15)
+       CASE(15)
          !--------------------------------------------------!
          !        JWL EOS (internal use, no /EOS/JWL so far)!
          !--------------------------------------------------!
@@ -291,15 +283,16 @@ C-----------------------------------------------
      2                  ESPE  ,DVOL ,DF   ,VNEW , MAT  ,PSH ,
      3                  PNEW  ,DPDM ,DPDE ,THETA, ECOLD)  
      
-        CASE(16)
+       CASE(16)
          !--------------------------------------------------!
          !         IDEAL GAS EOS                            !
          !--------------------------------------------------!          
           CALL IDEALGAS_VT(
      1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD,POLD) 
-        CASE(17)
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD,POLD)
+
+       CASE(17)
          !--------------------------------------------------!
          !         TABULATED EOS                            !
          !--------------------------------------------------!          
@@ -307,7 +300,27 @@ C-----------------------------------------------
      1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD, 
-     4                  NPF   ,TF)                     
+     4                  NPF   ,TF)
+
+       CASE (18)
+         !--------------------------------------------------!
+         !         LINEAR EOS                               !
+         !--------------------------------------------------!
+         CALL EOSLINEAR(
+     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2,
+     2                  DVOL   ,DF     ,VNEW   ,MAT    ,PNEW  ,DPDM,
+     3                  DPDE   ,THETA  ,ECOLD  )
+
+       CASE (19)
+         !--------------------------------------------------!
+         !         EXPONENTIAL EOS                          !
+         !--------------------------------------------------!
+         CALL EOSEXPONENTIAL(
+     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,
+     2                  DVOL   ,VNEW   ,MAT    ,PSH   ,
+     3                  PNEW   ,DPDM   ,DPDE   ,THETA  ,TT    ,
+     4                  NPROPM ,NUMMAT ,TFEXT)
+
        END SELECT
       
       
