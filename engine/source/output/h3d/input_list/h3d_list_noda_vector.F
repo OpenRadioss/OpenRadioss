@@ -242,6 +242,11 @@ c-----------------------------------------------
       H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Grid Velocity'
       H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 'ALE only'
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'SH_OFFSET'
+      H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Shell offset vector'
+      H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 'Nodal shell offset used for contact'
+c-----------------------------------------------
 
       NKEY=I
       END

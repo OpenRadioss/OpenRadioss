@@ -150,7 +150,7 @@ Chd|====================================================================
      4                  LLOADP   ,FAC      ,SENSORS     ,TAGNCONT    ,LOADP_HYD_INTER,
      5                  XFRAME   ,FORC     ,AR          ,CSEFRIC     ,CSEFRICG  ,
      6                  CSEFRIC_STAMP,CSEFRICG_STAMP    ,TABLE       ,IFRAME    ,LOADS,
-     7                  DRAPE_SH4N, DRAPE_SH3N, DRAPEG  )
+     7                  DRAPE_SH4N, DRAPE_SH3N, DRAPEG  ,X_C         )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -284,6 +284,7 @@ C-----------------------------------------------
         my_real , INTENT(IN) :: AR(SAR)
         my_real , INTENT(IN) :: CSEFRIC(NINEFRIC,S_EFRICINT) ,CSEFRICG(S_EFRIC),
      .                          CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG) ,CSEFRICG_STAMP(S_EFRICG)
+        my_real ,DIMENSION(3,NUMNOD), INTENT(IN) :: X_C
         TYPE (DRAPE_) , INTENT(IN)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
         TYPE (DRAPEG_), INTENT(IN)  :: DRAPEG
 C-----------------------------------------------
@@ -2219,7 +2220,7 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                     IXR               ,IXP                      , IXT           ,N_H3D_PART_LIST ,
      .                     NODAL_VECTOR_FVM,
      .                     IS_WRITEN_NODE_FVM,AIRBAGS_TOTAL_FVM_IN_H3D_G,SMONVOL       ,SVOLMON  ,ISPMD         ,
-     .                     FVDATA_P          ,USER_NOD_ID%FVMBAG_SHIFT ,W              ,SW)
+     .                     FVDATA_P          ,USER_NOD_ID%FVMBAG_SHIFT ,W              ,SW       ,X_C  )
 
 c
             IF (NSPMD > 1 ) THEN

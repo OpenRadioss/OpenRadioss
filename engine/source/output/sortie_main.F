@@ -126,7 +126,7 @@ Chd|====================================================================
      r            FNCONTP2  ,FTCONTP2    ,IBCL        ,ILOADP   ,LLOADP   ,
      s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ,DRAPEG,USER_WINDOWS,
      t            OUTPUT    ,DT          ,FSAVSURF    ,TABLE   ,
-     u            LOADS     ,SFANI       ,IPARIT      )
+     u            LOADS     ,SFANI       ,IPARIT      ,X_C    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -257,6 +257,7 @@ C-----------------------------------------------
 
       INTEGER, DIMENSION(*), INTENT(IN) :: ISKWP
       my_real, INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
+      my_real, DIMENSION(3,NUMNOD), INTENT(IN) :: X_C
 C-----------------------------------------------      
       TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
 C-----------------------------------------------      
@@ -784,7 +785,7 @@ c
      4             LLOADP     ,LOADP     ,SENSORS     ,TAGNCONT    ,LOADP_HYD_INTER,
      5             XFRAME     ,FORC      ,AR          ,CSEFRIC     ,CSEFRICG  ,
      6             CSEFRIC_STAMP,CSEFRICG_STAMP,TABLE ,IFRAME      ,LOADS   ,
-     7             DRAPE_SH4N, DRAPE_SH3N, DRAPEG)
+     7             DRAPE_SH4N, DRAPE_SH3N, DRAPEG     ,X_C         )
       ENDIF
       IF(ALLOCATED(CSEFRIC)) DEALLOCATE(CSEFRIC)
       IF(ALLOCATED(CSEFRICG)) DEALLOCATE(CSEFRICG)
