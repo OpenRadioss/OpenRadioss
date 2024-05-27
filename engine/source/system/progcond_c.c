@@ -60,7 +60,7 @@ void progcond_c__(int *icur, int *imax, int *iproc, int *ilvl, int *id, int *ist
 
 void progcondp_c(int *icur, int *imax, int *iproc, int *id)
 {
-     char outline[10];
+     char outline[11];
      double percent ;
      char ctab[80] ;
      int i,j ;
