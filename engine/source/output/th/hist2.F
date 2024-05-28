@@ -32,7 +32,6 @@ Chd|        FSEEK_C_RD                    ../common_source/tools/input_output/wr
 Chd|        SPMD_COLLECT_SEATBELT         source/mpi/output/spmd_collect_seatbelt.F
 Chd|        SPMD_GATHERV                  source/mpi/generic/spmd_gatherv.F
 Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
-Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_GLOB_RSUM_POFF           source/mpi/generic/spmd_glob_rsum_poff.F
 Chd|        SPMD_SD_ACC                   source/mpi/output/spmd_sd_acc.F
 Chd|        SPMD_SD_GAU                   source/mpi/output/spmd_sd_gau.F
@@ -68,6 +67,7 @@ Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TH_MOD                        share/modules/th_mod.F        
+Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE HIST2(PM      ,D         ,X        ,V           ,A         ,
      2                 IXS     ,BUFEL     ,WA       ,IPARG       ,SENSOR_TAB,

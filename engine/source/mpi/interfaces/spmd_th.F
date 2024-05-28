@@ -490,7 +490,6 @@ Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|        H3D_CREATE_RBE2_IMPI          source/output/h3d/h3d_build_fortran/h3d_create_rbe2_impi.F
 Chd|        H3D_CREATE_RBE3_IMPI          source/output/h3d/h3d_build_fortran/h3d_create_rbe3_impi.F
 Chd|        H3D_CREATE_RBODIES_IMPI       source/output/h3d/h3d_build_fortran/h3d_create_rbodies_impi.F
-Chd|        HIST2                         source/output/th/hist2.F      
 Chd|        I21_ICRIT                     source/interfaces/intsort/i21_icrit.F
 Chd|        I9WAL2                        source/interfaces/int09/i9wal2.F
 Chd|        I9WAL3                        source/interfaces/int09/i9wal3.F

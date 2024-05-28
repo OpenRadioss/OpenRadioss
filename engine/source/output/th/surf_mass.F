@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        SURF_MASS_COM                 source/output/th/surf_mass.F  
 Chd|        SURF_MASS_FVM                 source/output/th/surf_mass.F  
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE SURF_MASS_MONV(FSAVSURF, IGRSURF, MONVOL, VOLMON, FR_MV)
 C-----------------------------------------------

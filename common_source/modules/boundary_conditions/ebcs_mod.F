@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  EBCS_MOD                      modules/boundary_conditions/ebcs_mod.F
 Chd|-- called by -----------
-Chd|        CHECK_SURF                    starter/source/groups/check_surf.F
 Chd|        C_IEBCS                       starter/source/restart/ddsplit/c_iebcs.F
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        DOMDEC2                       starter/source/spmd/domdec2.F 

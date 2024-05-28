@@ -75,6 +75,7 @@ Chd|        OUTPUT_MOD                    ../common_source/modules/output/output
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
+Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE ALEMAIN(
      1         PM          , GEO         ,X             ,A         ,AR        ,V               ,

@@ -32,6 +32,16 @@ Chd|        HM_READ_EOS_COMPACTION        source/materials/eos/hm_read_eos_compa
 Chd|        HM_READ_EOS_TILLOTSON         source/materials/eos/hm_read_eos_tillotson.F
 Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|        HM_READ_FAIL_ALTER            source/materials/fail/windshield_alter/hm_read_fail_alter.F
+Chd|        HM_READ_FAIL_CHANG            source/materials/fail/changchang/hm_read_fail_chang.F
+Chd|        HM_READ_FAIL_CONNECT          source/materials/fail/connect/hm_read_fail_connect.F
+Chd|        HM_READ_FAIL_GENE1            source/materials/fail/gene1/hm_read_fail_gene1.F
+Chd|        HM_READ_FAIL_HASHIN           source/materials/fail/hashin/hm_read_fail_hashin.F
+Chd|        HM_READ_FAIL_HOFFMAN          source/materials/fail/hoffman/hm_read_fail_hoffman.F
+Chd|        HM_READ_FAIL_MAXSTRAIN        source/materials/fail/max_strain/hm_read_fail_maxstrain.F
+Chd|        HM_READ_FAIL_NXT              source/materials/fail/nxt/hm_read_fail_nxt.F
+Chd|        HM_READ_FAIL_PUCK             source/materials/fail/puck/hm_read_fail_puck.F
+Chd|        HM_READ_FAIL_TSAIHILL         source/materials/fail/tsaihill/hm_read_fail_tsaihill.F
+Chd|        HM_READ_FAIL_TSAIWU           source/materials/fail/tsaiwu/hm_read_fail_tsaiwu.F
 Chd|        HM_READ_INJECT1               source/properties/injector/hm_read_inject1.F
 Chd|        HM_READ_INJECT2               source/properties/injector/hm_read_inject2.F
 Chd|        HM_READ_INTER_TYPE10          source/interfaces/int10/hm_read_inter_type10.F

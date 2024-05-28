@@ -25,6 +25,8 @@ Chd|====================================================================
 Chd|  FAIL_PUCK_S                   source/materials/fail/puck/fail_puck_s.F
 Chd|-- called by -----------
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
+Chd|        MULAW                         source/materials/mat_share/mulaw.F
+Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FAIL_PUCK_S(

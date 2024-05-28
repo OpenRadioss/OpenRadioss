@@ -30,6 +30,7 @@ Chd|        EBCS_MOD                      ../common_source/modules/boundary_cond
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
+Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE EBCS10(NSEG,ISEG,SEGVAR,
      .                 A,V,W,X,

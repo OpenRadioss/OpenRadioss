@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        HIST2                         source/output/th/hist2.F      
 Chd|-- calls ---------------
 Chd|        WRTDES                        source/output/th/wrtdes.F     
+Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE THSURF(J1, J2, L1, L2, ITHBUF, WA, FSAVSURF, IFORM, NSURF)
 C-----------------------------------------------

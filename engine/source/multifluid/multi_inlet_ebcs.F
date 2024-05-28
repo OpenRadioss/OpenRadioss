@@ -29,6 +29,7 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        MULTI_SUBMATLAW               source/multifluid/multi_submatlaw.F
 Chd|        SOLVE_EINT                    source/multifluid/multi_inlet_ebcs.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
+Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE MULTI_INLET_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
      .                            FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM,

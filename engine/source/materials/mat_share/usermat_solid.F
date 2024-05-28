@@ -41,6 +41,7 @@ Chd|        FAIL_COCKROFT_S               source/materials/fail/cockroft_latham/
 Chd|        FAIL_EMC                      source/materials/fail/emc/fail_emc.F
 Chd|        FAIL_ENERGY_S                 source/materials/fail/energy/fail_energy_s.F
 Chd|        FAIL_GENE1_S                  source/materials/fail/gene1/fail_gene1_s.F
+Chd|        FAIL_HASHIN_S                 source/materials/fail/hashin/fail_hashin_s.F
 Chd|        FAIL_HOFFMAN_S                source/materials/fail/hoffman/fail_hoffman_s.F
 Chd|        FAIL_INIEVO_S                 source/materials/fail/inievo/fail_inievo_s.F
 Chd|        FAIL_JOHNSON                  source/materials/fail/johnson_cook/fail_johnson.F
@@ -49,6 +50,7 @@ Chd|        FAIL_MULLINS_OR_S             source/materials/fail/mullins_or/fail_
 Chd|        FAIL_ORTHBIQUAD_S             source/materials/fail/orthbiquad/fail_orthbiquad_s.F
 Chd|        FAIL_ORTHENERG_S              source/materials/fail/orthenerg/fail_orthenerg_s.F
 Chd|        FAIL_ORTHSTRAIN               source/materials/fail/orthstrain/fail_orthstrain_s.F
+Chd|        FAIL_PUCK_S                   source/materials/fail/puck/fail_puck_s.F
 Chd|        FAIL_RTCL_S                   source/materials/fail/rtcl/fail_rtcl_s.F
 Chd|        FAIL_SAHRAEI_S                source/materials/fail/sahraei/fail_sahraei_s.F
 Chd|        FAIL_SPALLING_S               source/materials/fail/spalling/fail_spalling_s.F

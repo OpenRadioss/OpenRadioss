@@ -42,7 +42,7 @@ Chd|        DYNA_CPR0                     source/implicit/imp_dyna.F
 Chd|        DYNA_INA                      source/implicit/imp_dyna.F    
 Chd|        DYNA_WEX                      source/implicit/imp_dyna.F    
 Chd|        ETFAC_INI                     source/implicit/imp_init.F    
-Chd|        FIL_SPAN1                     source/implicit/ind_glob_k.F  f
+Chd|        FIL_SPAN1                     source/implicit/ind_glob_k.F  
 Chd|        FORCE_IMP                     source/loads/general/force_imp.F
 Chd|        FVBC_IMPL1                    source/constraints/general/impvel/fv_imp0.F
 Chd|        FV_DD0                        source/constraints/general/impvel/fv_imp0.F
