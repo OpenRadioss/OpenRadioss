@@ -1716,3 +1716,103 @@ C=======================================================================
       
       CALL ARRET(2)
       END
+
+      SUBROUTINE INTER7_REALLOC_INTBUF(NI,MULTIMP_PARAMETER,INTBUF_TAB)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE RESTMOD
+      USE INTBUFDEF_MOD
+      USE MY_ALLOC_MOD, ONLY : REALLOC 
+C-------------------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "tabsiz_c.inc"
+#include      "param_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER NI, MULTIMP_PARAMETER
+
+      TYPE(INTBUF_STRUCT_) INTBUF_TAB
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER ITY,IFQ,INACTI,MFROT,NCONT,ITIED,
+     .        NCONTE,NSN,NRTM,IEDGE1,FLAGREMNODE
+      INTEGER I,N,OLD_SIZE,NEW_SIZE,MULTIMP,
+     .        IERR
+
+C======================================================================|
+      IERR=0
+
+      MULTIMP  = IPARI(NPARI*(NI-1)+23)
+      NCONT    = IPARI(NPARI*(NI-1)+18)
+      OLD_SIZE = MULTIMP * NCONT
+      NEW_SIZE = MULTIMP_PARAMETER * NCONT
+
+      !use for type20
+      NCONTE    = NCONT
+
+C Set the new MULTIMP parameter for the given Interface
+      IPARI(NPARI*(NI-1)+23) = MULTIMP_PARAMETER
+C Set Global parameters
+      ITY    =     IPARI(NPARI*(NI-1)+7)
+      INACTI = ABS(IPARI(NPARI*(NI-1)+22))
+      MFROT  = IPARI(NPARI*(NI-1)+30)
+      IFQ    =     IPARI(NPARI*(NI-1)+31)
+      NSN    =     IPARI(NPARI*(NI-1)+5)
+      NRTM   =     IPARI(NPARI*(NI-1)+4)
+      IEDGE1 =     IPARI(NPARI*(NI-1)+58)
+      FLAGREMNODE= IPARI(NPARI*(NI-1)+63)
+      ITIED  =     IPARI(NPARI*(NI-1)+85)
+
+      !     call REALLOC(cand_n, mulnsn_save, mulnsn)
+      !     call REALLOC(cand_e, mulnsn_save, mulnsn)
+      !     call REALLOC(ifpen, mulnsn_save, mulnsn)
+      !     call REALLOC(cand_p, mulnsn_save, mulnsn)
+      !     call REALLOC(cand_f, 8*mulnsn_save, 8*mulnsn)
+
+C=======================================================================
+      IF (ITY == 7)THEN
+C=======================================================================
+        ! CAND_E
+        CALL REALLOC(INTBUF_TAB%CAND_E,INTBUF_TAB%S_CAND_E,NEW_SIZE)
+        INTBUF_TAB%S_CAND_E = NEW_SIZE                         
+        ! CAND_N
+        CALL REALLOC(INTBUF_TAB%CAND_N,INTBUF_TAB%S_CAND_N,NEW_SIZE)
+        INTBUF_TAB%S_CAND_N = NEW_SIZE
+        IF (IFQ /= 0)THEN
+          ! IFPEN
+          CALL REALLOC(INTBUF_TAB%IFPEN,INTBUF_TAB%S_IFPEN,NEW_SIZE)
+          INTBUF_TAB%S_IFPEN = NEW_SIZE
+          ! FTSAVX
+          CALL REALLOC(INTBUF_TAB%FTSAVX,INTBUF_TAB%S_FTSAVX,NEW_SIZE)
+          INTBUF_TAB%S_FTSAVX = NEW_SIZE
+          ! FTSAVY
+          CALL REALLOC(INTBUF_TAB%FTSAVY,INTBUF_TAB%S_FTSAVY,NEW_SIZE)
+          INTBUF_TAB%S_FTSAVY = NEW_SIZE
+          ! FTSAVZ
+          CALL REALLOC(INTBUF_TAB%FTSAVZ,INTBUF_TAB%S_FTSAVZ,NEW_SIZE)
+          INTBUF_TAB%S_FTSAVZ = NEW_SIZE                          
+        ENDIF
+
+        IF(ITIED/=0)THEN
+          ! CAND_F 
+          CALL REALLOC(INTBUF_TAB%CAND_F,INTBUF_TAB%S_CAND_F,8*NEW_SIZE)
+          INTBUF_TAB%S_CAND_F = 8 * NEW_SIZE                         
+        END IF
+
+        IF(INACTI == 5 .OR. INACTI == 6 .OR. INACTI == 7) THEN 
+          ! CAND_P
+          CALL REALLOC(INTBUF_TAB%CAND_P,INTBUF_TAB%S_CAND_P,NEW_SIZE)
+          INTBUF_TAB%S_CAND_P = NEW_SIZE
+        ENDIF
+C=======================================================================
+      ENDIF      
+      RETURN
+      END

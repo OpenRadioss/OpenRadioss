@@ -55,7 +55,6 @@ Chd|====================================================================
      E   ITIED    ,CAND_F  ,DGAPLOAD,
      F   TOTAL_NB_NRTM, s_cand_a,
      F   S_KREMNOD, S_REMNOD)
-
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -82,7 +81,8 @@ C-----------------------------------------------
       INTEGER, INTENT(in) :: TOTAL_NB_NRTM !< total number of segments
       integer, intent(in) :: s_cand_a
       INTEGER IRECT(4,*),NSV(*),CAND_A(s_cand_a), RENUM(*),NUM_IMP, ITASK
-      INTEGER CAND_E(*),CAND_N(*),IFPEN(*),KREMNOD(*),REMNOD(*)
+      INTEGER, POINTER :: CAND_E(:),CAND_N(:),IFPEN(:)
+      INTEGER ::  KREMNOD(*),REMNOD(*)
       INTEGER NCONTACT,ESHIFT, IGAP, I_MEM,
      *        II_STOK, FLAGREMNODE, ITIED
       INTEGER, intent(in) :: S_KREMNOD, S_REMNOD
@@ -92,10 +92,11 @@ C     REAL
      .   GAP,TZINF,
      .   GAPMIN, GAPMAX, BMINMA(12),CURV_MAX(NRTM),BGAPSMX
       my_real , INTENT(IN) :: DRAD,DGAPLOAD
+      my_real, pointer :: CAND_P(:), CAND_F(:)
       my_real
-     .   X(3,*), CAND_P(*), STFN(*),
+     .   X(3,*), STFN(*),
      .   STF(*), GAP_S(*), GAP_M(*), 
-     .   GAP_S_L(*), GAP_M_L(*), CAND_F(*)
+     .   GAP_S_L(*), GAP_M_L(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

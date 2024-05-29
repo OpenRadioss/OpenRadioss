@@ -255,8 +255,19 @@ C
      F      NRTM, INTER_STRUCT(NIN)%SIZE_CAND_A,
      .      INTBUF_TAB%S_KREMNODE, INTBUF_TAB%S_REMNODE)
             IF(NCONTACT > NCONT * MULTIMP) THEN
-                ! if the number of contacts is greater than the allocated size of the contact array
-
+              ! arrays have been reallocated within INTER7_COLLISION_DETECTION, without margin
+              ! we update their size, and reallocate with a margin
+!$OMP SINGLE
+              INTBUF_TAB%S_CAND_N = NCONTACT
+              INTBUF_TAB%S_CAND_E = NCONTACT
+              INTBUF_TAB%S_CAND_P = NCONTACT
+              INTBUF_TAB%S_CAND_F = 8 * NCONTACT
+              INTBUF_TAB%S_IFPEN = NCONTACT
+              !Compute MULTIMP such as NCONTACT = NCONT * MULTIMP
+              MULTIMP = ceiling(dble(NCONTACT) / dble(NCONT)) + 1 
+              CALL INTER7_REALLOC_INTBUF(NIN,MULTIMP,INTBUF_TAB)
+              NCONTACT = MULTIMP * NCONT
+!$OMP END SINGLE
             ENDIF
 
         ELSE IF(INTBUF_TAB%METRIC%ALGO == ALGO_VOXEL .OR.  INTBUF_TAB%METRIC%ALGO == TRY_ALGO_VOXEL) THEN

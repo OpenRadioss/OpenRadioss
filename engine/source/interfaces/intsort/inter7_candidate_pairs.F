@@ -139,9 +139,9 @@ C-----------------------------------------------
           integer, intent(in) :: remnod(s_remnod) !< list of removed nodes
           integer, intent(in) :: irect(4,nrtm) !< node id (from 1 to NUMNOD) for each segment (1:nrtm)
 
-          integer, intent(inout) :: cand_n(*) !< list of candidates (secondary) size: mulnsn
-          integer, intent(inout) :: cand_e(*) !< list of candidates (main) size: mulnsn
-          integer, intent(inout) :: ifpen(*) !< something related to friction (???) size: mulnsn
+          integer, dimension(:), pointer,  intent(inout) :: cand_n !< list of candidates (secondary) size: mulnsn
+          integer, dimension(:), pointer,  intent(inout) :: cand_e !< list of candidates (main) size: mulnsn
+          integer, dimension(:), pointer,  intent(inout) :: ifpen !< something related to friction (???) size: mulnsn
           integer, intent(inout) :: cand_a(s_cand_a) !< (???)
           integer, intent(inout) :: irem(s_irem,nsnr) !< remote (spmd) integer data
           integer, intent(inout) :: voxel(nbx+2,nby+2,nbz+2) !< contain the first node of each voxel
@@ -163,8 +163,8 @@ C-----------------------------------------------
           my_real, intent(in) :: curv_max(nrtm) !< maximum curvature
           my_real, intent(in) :: xyzm(12) !< bounding box
 
-          my_real, intent(inout) :: cand_p(*) !< penetration (???) size: mulnsn
-          my_real, intent(inout) :: cand_f(*) !< related to tied contact, cand force (???) size: mulnsn
+          my_real, dimension(:), pointer,  intent(inout) :: cand_p !< penetration (???) size: mulnsn
+          my_real, dimension(:), pointer,  intent(inout) :: cand_f !< related to tied contact, cand force (???) size: mulnsn
           my_real, intent(in) :: stf(nrtm) !< stiffness of segments (quadrangles or triangles)
           my_real, intent(inout) :: stfn(nsn) !< stiffness secondary nodes
           my_real, intent(inout) :: xrem(s_xrem,nsnr) !< remote (spmd) real data
@@ -528,7 +528,11 @@ c                   if(i_mem==2) jj = 0
             write(*,*) 'ERROR: not enough memory for candidates'
             mulnsn = mulnsn_save - mulnsn
             ! upgrade arrays to mulnsn size
-
+            call realloc(cand_n, mulnsn_save, mulnsn)
+            call realloc(cand_e, mulnsn_save, mulnsn)
+            if(ifq .ne.0)  call realloc(ifpen, mulnsn_save, mulnsn)
+            if(inacti == 5 .or. inacti == 6 .or. inacti == 7)  call  realloc(cand_p, mulnsn_save, mulnsn)
+            if(itied .ne. 0) call realloc(cand_f, 8*mulnsn_save, 8*mulnsn)
           endif
 
           DO i=1, j_stok, GROUP_SIZE
@@ -719,8 +723,8 @@ C-----------------------------------------------
           integer, intent(in) :: irect(4,nrtm) !< node id (from 1 to NUMNOD) for each segment (1:nrtm)
           integer, intent(in) :: cand_a(s_cand_a) !< (???)
 
-          integer, intent(in) :: cand_n(mulnsn) !< list of candidates (secondary)
-          integer, intent(in) :: cand_e(mulnsn) !< list of candidates (main)
+          integer, intent(in), pointer :: cand_n(:) !< list of candidates (secondary)
+          integer, intent(in), pointer :: cand_e(:) !< list of candidates (main)
 
           my_real, intent(in), value :: gap !< gap (???)
           my_real, intent(in), value :: gapmin !< minimum gap
@@ -922,8 +926,8 @@ C-----------------------------------------------
           integer, intent(out), dimension(:,:), allocatable :: irect !< node id (from 1 to NUMNOD) for each segment (1:nrtm)
           integer, intent(out), dimension(:), allocatable :: cand_a !< (???)
 
-          integer, intent(out), dimension(:), allocatable :: cand_n !< list of candidates (secondary)
-          integer, intent(out), dimension(:), allocatable :: cand_e !< list of candidates (main)
+          integer, intent(out), dimension(:), pointer :: cand_n !< list of candidates (secondary)
+          integer, intent(out), dimension(:), pointer:: cand_e !< list of candidates (main)
 
           my_real, intent(out) :: gap !< gap (???)
           my_real, intent(out) :: gapmin !< minimum gap
@@ -1104,8 +1108,10 @@ C-----------------------------------------------
           integer, dimension(:), allocatable :: remnod !< list of removed nodes
           integer, dimension(:,:), allocatable :: irect !< node id (from 1 to NUMNOD) for each segment (1:nrtm)
           integer, dimension(:), allocatable :: cand_a !< (???)
-          integer, dimension(:), allocatable :: cand_n, cand_n_ref !< list of candidates (secondary)
-          integer, dimension(:), allocatable :: cand_e, cand_e_ref !< list of candidates (main)
+          integer, dimension(:), pointer :: cand_n
+          integer, dimension(:), pointer:: cand_n_ref !< list of candidates (secondary)
+          integer, dimension(:), pointer :: cand_e
+          integer, dimension(:), pointer::  cand_e_ref !< list of candidates (main)
           my_real :: gap !< gap (???)
           my_real :: gapmin !< minimum gap
           my_real :: gapmax !< maximum gap
@@ -1122,7 +1128,7 @@ C-----------------------------------------------
           my_real, dimension(:), allocatable :: curv_max !< maximum curvature
           my_real, dimension(:), allocatable :: stf !< stiffness of segments (quadrangles or triangles)
           my_real, dimension(:), allocatable :: stfn !< stiffness secondary nodes
-          my_real, dimension(:), allocatable :: cand_f,cand_p
+          my_real, dimension(:), pointer :: cand_f,cand_p
 
           integer OMP_GET_THREAD_NUM, OMP_GET_NUM_THREADS
           external OMP_GET_THREAD_NUM, OMP_GET_NUM_THREADS
@@ -1130,7 +1136,8 @@ C-----------------------------------------------
           my_real ::  xyzm(12) !< bounding box
 !         integer :: voxel(8000000)
           integer, dimension(:), allocatable :: voxel
-          integer, dimension(:), allocatable :: next_nod,ifpen
+          integer, dimension(:), allocatable :: next_nod
+          integer, dimension(:), pointer :: ifpen
           integer :: eshift,i_mem,i, itask, s_irem, s_xrem 
           my_real, dimension(:,:), allocatable :: xrem
           integer, dimension(:,:), allocatable :: irem
