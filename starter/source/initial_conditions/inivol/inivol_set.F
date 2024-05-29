@@ -30,7 +30,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE INIVOL_SET(UVAR,NUVAR,NEL,KVOL, MLW, ELBUF_TAB, NG,NBSUBMAT,MULTI_FVM,IXS,IXQ,IXTG,IDP,IPART)
+      SUBROUTINE INIVOL_SET(UVAR,NUVAR,NEL,KVOL, MLW, ELBUF_TAB, NG,NBSUBMAT,MULTI_FVM,IXS,IDP,IPART,NFT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -47,13 +47,12 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "vect01_c.inc"
 #include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN)                 :: NEL, NUVAR, MLW, NG, NBSUBMAT,IDP,IPART(*)
-      INTEGER,INTENT(INOUT)              :: IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),IXTG(NIXTG,NUMELTG)
+      INTEGER,INTENT(IN)                 :: NEL, NUVAR, MLW, NG, NBSUBMAT,IDP,IPART(*),NFT
+      INTEGER,INTENT(INOUT)              :: IXS(NIXS,NUMELS)
       my_real,INTENT(INOUT)              :: KVOL(NBSUBMAT,NEL)
       my_real,INTENT(INOUT)              :: UVAR(NEL,NUVAR)
       TYPE(MULTI_FVM_STRUCT),INTENT(IN)  :: MULTI_FVM
@@ -101,13 +100,8 @@ C-----------------------------------------------
       ENDDO
 
       IF(.NOT.PASSED)THEN
-          !display error message : sumvf must be <= 1.000000
-             CALL ANCMSG(MSGID=1597,
-     .                   MSGTYPE=MSGERROR,
-     .                   ANMODE=ANINFO,
-     .                   R1=SUMVF,
-     .                   I1=IXS(11,I+NFT)
-     .                   )
+         !display error message : sumvf must be <= 1.000000
+         CALL ANCMSG(MSGID=1597,MSGTYPE=MSGERROR,ANMODE=ANINFO,R1=SUMVF,I1=IXS(11,I+NFT))
        ELSE 
         !---set initial volumetric fraction using KVOL array    
         IF(MLW==51)THEN

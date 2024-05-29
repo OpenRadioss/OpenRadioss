@@ -30,7 +30,9 @@ Chd|        IN_OUT_SIDE                   source/initial_conditions/inivol/in_ou
 Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
 Chd|        PHASE_PROPAGATION             source/initial_conditions/inivol/phase_propagation.F
 Chd|====================================================================
-        SUBROUTINE PHASE_DETECTION(LEADING_DIMENSION,NB_CELL_X,NB_CELL_Y,NB_CELL_Z,NB_BOX_LIMIT,
+        SUBROUTINE PHASE_DETECTION(
+     .                             NPARG,NGROUP,NUMELS,NUMELQ,NUMELTG,NUMNOD,NSURF,N2D,
+     .                             LEADING_DIMENSION,NB_CELL_X,NB_CELL_Y,NB_CELL_Z,NB_BOX_LIMIT,
      .                             IPARG,IXS,IXQ,IXTG,X,ID_SURFACE,
      .                             CELL,CELL_POSITION,NODAL_PHASE,CLOSEST_NODE_ID,
      .                             NNOD2SURF,KNOD2SURF,INOD2SURF,
@@ -61,21 +63,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-! com01 : ngroup/n2d
-#include "com01_c.inc" 
-! com04 : numels/numelq/numeltg
-#include "com04_c.inc"
-! param : nparg
-#include "param_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        INTEGER, INTENT(IN) :: NPARG,NGROUP,NUMELS,NUMELQ,NUMELTG,NUMNOD,NSURF,N2D
         INTEGER, INTENT(IN) :: LEADING_DIMENSION
         INTEGER, INTENT(IN) :: NB_BOX_LIMIT ! maximum number of cell 
         INTEGER, INTENT(IN) :: NB_CELL_X,NB_CELL_Y,NB_CELL_Z
@@ -136,7 +126,7 @@ C-----------------------------------------------
         DO J=1,4
             DO I=1,NSEG
                 NODE_ID = SURFACE_NODES(I,J)
-                IF(TAG_ARRAY(NODE_ID)==0) THEN
+                IF(TAG_ARRAY(NODE_ID) == 0) THEN
                     TAG_ARRAY(NODE_ID) = 1
                     SURF_NODE_NUMBER = SURF_NODE_NUMBER + 1
                     SURF_NODE_LIST(SURF_NODE_NUMBER) = NODE_ID
@@ -169,24 +159,24 @@ C-----------------------------------------------
             ITY = IPARG(5,NG)   ! type of element 
             ISOLNOD = IPARG(28,NG)
             INIVOL = IPARG(53,NG)
-            IF(INIVOL<=0) CYCLE
-            IF(MTN/=51.AND.MTN/=151) CYCLE
-            IF(N2D ==0.AND.ITY/= 1)THEN
+            IF(INIVOL <= 0) CYCLE
+            IF(MTN /= 51 .AND. MTN /= 151) CYCLE
+            IF(N2D == 0 .AND. ITY /= 1)THEN
               CYCLE
-            ELSEIF(N2D>0.AND.ITY/=7.AND.ITY/= 2)THEN
+            ELSEIF(N2D > 0 .AND. ITY /= 7 .AND. ITY /= 2)THEN
               CYCLE
             ENDIF
             ! ---------------
             ! depending on the king of element
-            IF(ITY==1) THEN
+            IF(ITY == 1) THEN
                 FIRST = 1
                 NODE_NUMBER = 8
                 IXP => IXS(1:NODE_NUMBER+1,NFT+1:NFT+NEL)
-            ELSEIF(ITY==2) THEN
+            ELSEIF(ITY == 2) THEN
                 FIRST = 2
                 NODE_NUMBER = 4
                 IXP => IXQ(1:NODE_NUMBER+1,NFT+1:NFT+NEL)
-            ELSEIF(ITY==7) THEN
+            ELSEIF(ITY == 7) THEN
                 FIRST = 2
                 NODE_NUMBER = 3
                 IXP => IXTG(1:NODE_NUMBER+1,NFT+1:NFT+NEL)
@@ -219,14 +209,14 @@ C-----------------------------------------------
                         CONDITION = .FALSE.
                     ! ---------------
                     ! the pseudo distance of the cell (ix,iy,iz) is known --> apply it to the cell
-                    ELSEIF(CELL(IX,IY,IZ)==1.OR.CELL(IX,IY,IZ)==-1) THEN
+                    ELSEIF(CELL(IX,IY,IZ) == 1 .OR. CELL(IX,IY,IZ) == -1) THEN
                         OLD_PHASE = MY_PHASE
                         MY_PHASE = CELL(IX,IY,IZ)
                     ! ---------------
                     ! the pseudo distance of the cell (ix,iy,iz) is unknown --> need to find the pseudo distance
-                    ELSEIF(CELL(IX,IY,IZ)==0) THEN
+                    ELSEIF(CELL(IX,IY,IZ) == 0) THEN
                         CURRENT_UNKNOWN_CELL = IX + 1000 * IY + 1000**2 * IZ 
-                        IF(LAST_UNKNOWN_CELL/=CURRENT_UNKNOWN_CELL) THEN
+                        IF(LAST_UNKNOWN_CELL /= CURRENT_UNKNOWN_CELL) THEN
                             UNKNOWN_CELL_INDEX = UNKNOWN_CELL_INDEX + 1
                             POSITION_SAVE(UNKNOWN_CELL_INDEX,1) = IX
                             POSITION_SAVE(UNKNOWN_CELL_INDEX,2) = IY
@@ -237,7 +227,7 @@ C-----------------------------------------------
                     ENDIF
                     ! ---------------
                     I = I + 1
-                    IF( I>NODE_NUMBER ) CONDITION = .FALSE.
+                    IF( I > NODE_NUMBER ) CONDITION = .FALSE.
                 ENDDO
                 ! -------------
 
@@ -248,7 +238,7 @@ C-----------------------------------------------
                 ! current element is near a surface, need to compute the distance to the surface
                     DO I=1,NODE_NUMBER
                         NODE_ID = IXP(1+I,J)
-                        IF(TAG_ARRAY(NODE_ID)==0) THEN
+                        IF(TAG_ARRAY(NODE_ID) == 0) THEN
                             TAG_ARRAY(NODE_ID) = 1 
                             NEXT_NODE = NEXT_NODE + 1
                             LIST_NODE(NEXT_NODE) = NODE_ID
@@ -262,7 +252,7 @@ C-----------------------------------------------
 
                     ! -------------
                     ! i found a phase, apply it to the ndoes
-                    IF(MY_PHASE/=0) THEN
+                    IF(MY_PHASE /= 0) THEN
                         DO I=1,NODE_NUMBER
                             NODE_ID = IXP(1+I,J)
                             NODAL_PHASE(NODE_ID) = MY_PHASE

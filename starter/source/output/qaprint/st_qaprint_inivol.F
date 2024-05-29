@@ -36,7 +36,6 @@ C-----------------------------------------------
         USE QA_OUT_MOD
         USE GROUPDEF_MOD
         USE INIVOL_DEF_MOD
-        USE INIVOL_ARRAY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +55,7 @@ C-----------------------------------------------
       CHARACTER (LEN=255) :: VARNAME
       INTEGER KK,JJ
       INTEGER ID,IPARTFILL,NBCONTY
-      INTEGER IPHASE,ICUMU ,IFILL
+      INTEGER IPHASE,ICUMU,IREVERSED
       DOUBLE PRECISION VFRAC 
       CHARACTER*nchartitle TITLE
       DOUBLE PRECISION TEMP_DOUBLE      
@@ -65,44 +64,44 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       OK_QA = MYQAKEY('/INIVOL')  
                                                          
-      IF (OK_QA) THEN   
-                                                                      
-          DO KK=1,NINIVOL
-          
-            ID = USER_INIVOL(KK)%ID
-            TITLE = USER_INIVOL(KK)%TITLE
-            NBCONTY = USER_INIVOL(KK)%NBCONTY
-            IPARTFILL = USER_INIVOL(KK)%IPARTFILL
-            
-            WRITE(VARNAME,'(A,I0,A)') 'USER_INIVOL(',KK ,')%ID                  ='              
+      IF (OK_QA) THEN
+
+          DO KK=1,NUM_INIVOL
+
+            ID = INIVOL(KK)%ID
+            TITLE = INIVOL(KK)%TITLE
+            NBCONTY = INIVOL(KK)%NUM_CONTAINER
+            IPARTFILL = INIVOL(KK)%PART_ID
+
+            WRITE(VARNAME,'(A,I0,A)')   'INIVOL(',KK ,')%ID            ='
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ID,0.0_8)             
-            WRITE(VARNAME,'(A,I0,A,A)') 'USER_INIVOL(',KK ,')%TITLE               =',TITLE(1:LEN_TRIM(TITLE))
+            WRITE(VARNAME,'(A,I0,A,A)') 'INIVOL(',KK ,')%TITLE         =',TITLE(1:LEN_TRIM(TITLE))
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,0.0_8)             
-            WRITE(VARNAME,'(A,I0,A)') 'USER_INIVOL(',KK ,')%NBCONTY             ='              
+            WRITE(VARNAME,'(A,I0,A)')   'INIVOL(',KK ,')%NUM_CONTAINER ='
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NBCONTY,0.0_8)             
-            WRITE(VARNAME,'(A,I0,A)') 'USER_INIVOL(',KK ,')%IPARTFILLE          ='              
+            WRITE(VARNAME,'(A,I0,A)')   'INIVOL(',KK ,')%PART_ID       ='
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPARTFILL,0.0_8)
-            
+
             DO JJ=1,NBCONTY
 
-              IPHASE = USER_INIVOL(KK)%CONTY(JJ)%IPHASE
-              ICUMU = USER_INIVOL(KK)%CONTY(JJ)%ICUMU
-              IFILL = USER_INIVOL(KK)%CONTY(JJ)%IFILL 
-              VFRAC = USER_INIVOL(KK)%CONTY(JJ)%FILL_RATIO 
+              IPHASE = INIVOL(KK)%CONTAINER(JJ)%SUBMAT_ID
+              ICUMU = INIVOL(KK)%CONTAINER(JJ)%ICUMU
+              IREVERSED = INIVOL(KK)%CONTAINER(JJ)%IREVERSED
+              VFRAC = INIVOL(KK)%CONTAINER(JJ)%VFRAC
 
-              WRITE(VARNAME,'(A,I0,A,I0,A)') 'USER_INIVOL(',KK ,')%CONTY(',JJ,')%IPHASE     ='              
+              WRITE(VARNAME,'(A,I0,A,I0,A)') 'INIVOL(',KK ,')%CONTY(',JJ,')%SUBMAT_ID     ='
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPHASE,0.0_8)             
-              WRITE(VARNAME,'(A,I0,A,I0,A)') 'USER_INIVOL(',KK ,')%CONTY(',JJ,')%ICUMU      ='              
+              WRITE(VARNAME,'(A,I0,A,I0,A)') 'INIVOL(',KK ,')%CONTY(',JJ,')%ICUMU         ='
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ICUMU,0.0_8)             
-              WRITE(VARNAME,'(A,I0,A,I0,A)') 'USER_INIVOL(',KK ,')%CONTY(',JJ,')%IFILL      ='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IFILL,0.0_8)             
-              WRITE(VARNAME,'(A,I0,A,I0,A)') 'USER_INIVOL(',KK ,')%CONTY(',JJ,')%RATIO_FILL ='              
+              WRITE(VARNAME,'(A,I0,A,I0,A)') 'INIVOL(',KK ,')%CONTY(',JJ,')%IREVERSED     ='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IREVERSED,0.0_8)
+              WRITE(VARNAME,'(A,I0,A,I0,A)') 'INIVOL(',KK ,')%CONTY(',JJ,')%VFRAC         ='
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,VFRAC)                             
-            
+
             ENDDO! next JJ (next line)            
-            
+
           ENDDO!next KK (next option)
-                
+
       ENDIF                                                                             
 C-----------------------------------------------
       RETURN

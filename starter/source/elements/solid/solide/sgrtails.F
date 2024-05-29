@@ -41,14 +41,14 @@ Chd|        R2R_MOD                       share/modules1/r2r_mod.F
 Chd|        REORDER_MOD                   share/modules1/reorder_mod.F  
 Chd|====================================================================
       SUBROUTINE SGRTAILS(
-     1       IXS    ,PM     ,IPARG  ,GEO     ,
-     2       EADD   ,ND     ,IPARTS  ,DD_IAD  ,
-     3       IDX    ,ISOLNOD,INUM    ,INDEX   ,
-     4       CEP    ,ITR1   ,IXS10  ,IGRSURF ,IGRBRIC ,
-     5       IXS20  ,IXS16  ,IGEO    , IDDLEVEL,
-     6       IPM    ,NOD2ELS,ISOLOFF,ISOLNOD1,
-     7       TAGPRT_SMS,INIVOL,SPH2SOL ,SOL2SPH,SOL2SPH_TYP,
-     8       IFLAG_BPRELOAD,CLUSTERS,MATPARAM_TAB,RNOISE,
+     1       IXS           ,PM      ,IPARG       , GEO     ,
+     2       EADD          ,ND      ,IPARTS      , DD_IAD  ,
+     3       IDX           ,ISOLNOD ,INUM        , INDEX   ,
+     4       CEP           ,ITR1    ,IXS10       , IGRSURF ,    IGRBRIC,
+     5       IXS20         ,IXS16   ,IGEO        , IDDLEVEL,
+     6       IPM           ,NOD2ELS ,ISOLOFF     , ISOLNOD1,
+     7       TAGPRT_SMS    ,INIVOL  ,SPH2SOL     , SOL2SPH , SOL2SPH_TYP,
+     8       IFLAG_BPRELOAD,CLUSTERS,MATPARAM_TAB, RNOISE  ,
      9       PRINT_FLAG)
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
@@ -60,8 +60,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE CLUSTER_MOD
       USE MATPARAM_DEF_MOD
-      USE INIVOL_DEF_MOD
-      USE INIVOL_ARRAY_MOD
+      USE INIVOL_DEF_MOD , ONLY : INIVOL_STRUCT_, NUM_INIVOL
       USE QA_OUT_MOD
 C-----------------------------------------------
 C            A R G U M E N T S
@@ -116,7 +115,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
-      TYPE (INIVOL_) , DIMENSION(NINIVOL) :: INIVOL
+      TYPE (INIVOL_STRUCT_) , DIMENSION(NUM_INIVOL) :: INIVOL
       TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTERS
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
@@ -1448,12 +1447,12 @@ C   - initial volume fraction -
 C
           IPARG(53,NGROUP) = 0
           lFOUND=.FALSE.
-          IF(NINIVOL > 0)THEN
+          IF(NUM_INIVOL > 0)THEN
           ! Warning : In same group you can have different PArts, A loop over elem in groups has to be introduced to check if INIVOL PART is there.
             MFT = IPARG(3,NGROUP)
             DO ILOC = 1 ,IPARG(2,NGROUP)
-              DO JJ=1,NINIVOL
-                IF(INIVOL(JJ)%IPARTFILL == IPARTS(ILOC+MFT)) THEN
+              DO JJ=1,NUM_INIVOL
+                IF(INIVOL(JJ)%PART_ID == IPARTS(ILOC+MFT)) THEN
                   IPARG(53,NGROUP) = 1
                   lFOUND=.TRUE.
                   EXIT

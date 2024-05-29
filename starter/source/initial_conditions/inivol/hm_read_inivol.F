@@ -44,7 +44,7 @@ Chd|        R2R_MOD                       share/modules1/r2r_mod.F
 Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_INIVOL(INIVOL , KVOL, IGRSURF ,IPART  ,MULTI_FVM, BUFMAT, IPM, ITAB, NBSUBMAT, LSUBMODEL, UNITAB)
+      SUBROUTINE HM_READ_INIVOL(INIVOL, KVOL, IGRSURF, IPART, MULTI_FVM, BUFMAT, IPM, NBSUBMAT, LSUBMODEL, UNITAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -53,8 +53,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
-      USE INIVOL_DEF_MOD
-      USE INIVOL_ARRAY_MOD
+      USE INIVOL_DEF_MOD , ONLY : INIVOL_STRUCT_, NUM_INIVOL, SKVOL
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE SETDEF_MOD
@@ -77,40 +76,40 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPART(SIPART)
-      INTEGER,INTENT(IN)::IPM(NPROPMI*NUMMAT),ITAB(NUMNOD)
+      INTEGER,INTENT(IN)::IPM(NPROPMI*NUMMAT)
       my_real,INTENT(IN),TARGET :: BUFMAT(*)
       TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM
-      TYPE (SURF_)   , DIMENSION(NSURF+NSETS)   :: IGRSURF
-      TYPE (INIVOL_)  , INTENT(INOUT), DIMENSION(:), ALLOCATABLE  :: INIVOL
+      TYPE (SURF_), DIMENSION(NSURF+NSETS)   :: IGRSURF
+      TYPE (INIVOL_STRUCT_), INTENT(INOUT), DIMENSION(:), ALLOCATABLE  :: INIVOL
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
       my_real, DIMENSION(:), ALLOCATABLE, INTENT(INOUT) :: KVOL
-      TYPE (UNIT_TYPE_),INTENT(IN)      :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB
       INTEGER,INTENT(INOUT) :: NBSUBMAT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real, DIMENSION(:) ,POINTER  :: UPARAM
-      INTEGER I,J,IP,ID,IPARTFILL,JREC,IGS,PARTID,IDSURF,
-     . IPHASE,IFILL,NCONT,NLIN,ISU,NN,JJ,NINTMAX,ITYP,NUMEL_TOT,
-     . SRFTYP,FAC,K,ICUMU,IMAT,IADBUF,NUPARAM,ISUBMAT,STAT,KK,N_R2R
-      my_real FILL_RATIO,ILAW
+      INTEGER I,J,IP,ID,PART_ID,JREC,IGS,PART_USER_ID,IDSURF
+      INTEGER SUBMAT_ID,IREVERSED,NCONT,NLIN,ISU,NN,JJ,NINTMAX,ITYP,NUMEL_TOT
+      INTEGER SRFTYP,FAC,K,ICUMU,IMAT,IADBUF,NUPARAM,ISUBMAT,STAT,KK,N_R2R
+      my_real VFRAC,ILAW
+      my_real, DIMENSION(:),POINTER :: UPARAM
       CHARACTER TITR*nchartitle,MESS*40,KEY*ncharkey
-      DATA MESS/'INITIAL VOLUME FRACTION                 '/
       CHARACTER*ncharline ERR_MSG
+      DATA MESS/'INITIAL VOLUME FRACTION                 '/
       LOGICAL IS_ENCRYPTED,IS_AVAILABLE
 C-----------------------------------------------
 C   C o m m e n t s
 C-----------------------------------------------
-C     INIVOL(IGS)%ID         : INITIAL VOLUME FRACTION IDENTIFIER
-C     INIVOL(IGS)%TITLE      : INIVOL title
-C     INIVOL(IGS)%NBCONTY    : NUMBER of INIVOL containers (SURFACES)
-C     INIVOL(IGS)%IPARTFILL  : INIVOL part to be filled
-C     INIVOL(IGS)%SURFCONTY(KK) :  INIVOL CONTAINER SURFACE
-C     INIVOL(IGS)%CONTY(KK)%IPHASE : Phase of the multi-material ALE to fill the Part
-C     INIVOL(IGS)%CONTY(KK)%ICUMU : Flag for cumulate volume filling
-C     INIVOL(IGS)%CONTY(KK)%FILL_RATIO : Filling ratio:
-C                                = 0 ! filling the side along normal direction 
-C                                = 1 ! filling the side against normal direction
+C     INIVOL(IGS)%ID                      : INITIAL VOLUME FRACTION IDENTIFIER
+C     INIVOL(IGS)%TITLE                   : INIVOL title
+C     INIVOL(IGS)%NUM_CONTAINER           : NUMBER of INIVOL containers (SURFACES)
+C     INIVOL(IGS)%PART_ID                 : INIVOL part to be filled
+C     INIVOL(IGS)%CONTAINER(KK)%SURF_ID   : INIVOL CONTAINER SURFACE
+C     INIVOL(IGS)%CONTAINER(KK)%SUBMAT_ID : Submat identifier of the multi-material ALE to fill the Part
+C     INIVOL(IGS)%CONTAINER(KK)%ICUMU     : Flag for cumulate volume filling
+C     INIVOL(IGS)%CONTAINER(KK)%VFRAC     : Filling ratio:
+C                                          = 0 ! filling the side along normal direction
+C                                          = 1 ! filling the side against normal direction
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -121,15 +120,15 @@ C-----------------------------------------------
       ERR_MSG='INITIAL VOLUME FRACTION'                                                          
       ERR_CATEGORY='INITIAL VOLUME FRACTION'                                                     
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))                                                  
-      IF (NINIVOL > 0)THEN                                                                       
+      IF (NUM_INIVOL > 0)THEN                                                                       
         WRITE(ISTDO,'(A)')' .. INITIAL VOLUME FRACTION'                                          
         WRITE(IOUT,'(//A)')'     INITIAL VOLUME FRACTION'                                      
-        WRITE(IOUT,'(A/)')'     -----------------------'  
+        WRITE(IOUT,'(A/)') '     -----------------------'
         NBSUBMAT = 4 !(LAW51)   
         IF (MULTI_FVM%IS_USED) NBSUBMAT = MAX(NBSUBMAT, MULTI_FVM%NBMAT)  !up to 20 (LAW151)
         NUMEL_TOT = MAX(NUMELTG,MAX(NUMELS,NUMELQ))
         SKVOL = NBSUBMAT*NUMEL_TOT
-        SINIVOL = NINIVOL
+        SINIVOL = NUM_INIVOL
       ENDIF    
       
       !---ALLOCATION
@@ -138,8 +137,7 @@ C-----------------------------------------------
 
       IF(.NOT.ALLOCATED(KVOL))ALLOCATE (KVOL(SKVOL)     ,STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO, MSGTYPE=MSGERROR,C1='KVOL')
-      IF (SKVOL > 0) KVOL  = 0                                               
-                                                                                  
+      IF (SKVOL > 0) KVOL  = 0
 
       !---READ CARDS
       CALL HM_OPTION_START('/INIVOL')
@@ -150,79 +148,76 @@ C-----------------------------------------------
       NINTMAX = 3
       N_R2R = 0
 C
-      DO IGS=1,NINIVOL
+      DO IGS=1,NUM_INIVOL
 C     
         IF (NSUBDOM > 0) THEN
           N_R2R = N_R2R + 1
           IF(TAG_INIVOL(N_R2R) == 0) CALL HM_SZ_R2R(TAG_INIVOL,N_R2R,LSUBMODEL)
         ENDIF
-C
-        ! CALL FREDEC_KEY_2ID_T(PARTID,ID,TITR)
+
         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
-        CALL HM_GET_INTV('secondarycomponentlist', PARTID, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('secondarycomponentlist', PART_USER_ID, IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_INTV('NIP', NLIN, IS_AVAILABLE, LSUBMODEL)
         
-        WRITE(IOUT, 1001) TITR, ID, PARTID
+        WRITE(IOUT, 1001) TITR, ID, PART_USER_ID
              
-        IPARTFILL = 0
+        PART_ID = 0
         !search PART_ID                                                                                                      
         DO J=1,NPART                                                                                                         
           IP = IPART(LIPART1*(J-1)+4)                                                                                                    
-          IF(PARTID == IP)THEN                                                                                               
-            IPARTFILL = J                                                                                                    
+          IF(PART_USER_ID == IP)THEN
+            PART_ID = J
             EXIT                                                                                                             
           ENDIF                                                                                                              
         ENDDO                                                                                                                
-        IF(IPARTFILL == 0)CALL ANCMSG(MSGID=886,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR,I2=PARTID)  !PART_ID not found  
-
+        IF(PART_ID == 0)CALL ANCMSG(MSGID=886,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR,I2=PART_USER_ID)  !PART_ID not found
 
         INIVOL(IGS)%ID = ID
         INIVOL(IGS)%TITLE(1:nchartitle)=' '
         INIVOL(IGS)%TITLE = TITR(1:LEN_TRIM(TITR))
-        INIVOL(IGS)%NBCONTY=NLIN
-        INIVOL(IGS)%IPARTFILL = IPARTFILL
-        ALLOCATE(INIVOL(IGS)%CONTY(NLIN))
-        ALLOCATE(INIVOL(IGS)%SURFCONTY(NLIN))
+        INIVOL(IGS)%NUM_CONTAINER = NLIN
+        INIVOL(IGS)%PART_ID = PART_ID
+        ALLOCATE(INIVOL(IGS)%CONTAINER(NLIN))
 
-        WRITE(IOUT, '(A)') "     surf_ID ALE_PHASE FILL_OPT ICUMU          FILL_RATIO"
+        WRITE(IOUT, '(A)') "     surf_ID SUBMAT_ID IREVERSED     ICUMU               VFRAC"
         DO KK=1,NLIN
           CALL HM_GET_INT_ARRAY_INDEX('SETSURFID_ARR', IDSURF,KK, IS_AVAILABLE, LSUBMODEL)         
-          CALL HM_GET_INT_ARRAY_INDEX('ALE_PHASE', IPHASE,KK, IS_AVAILABLE, LSUBMODEL)         
-          CALL HM_GET_INT_ARRAY_INDEX('fill_opt_arr', IFILL,KK, IS_AVAILABLE, LSUBMODEL)         
+          CALL HM_GET_INT_ARRAY_INDEX('ALE_PHASE', SUBMAT_ID,KK, IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_INT_ARRAY_INDEX('fill_opt_arr', IREVERSED,KK, IS_AVAILABLE, LSUBMODEL)
           CALL HM_GET_INT_ARRAY_INDEX('ICUMU', ICUMU,KK, IS_AVAILABLE, LSUBMODEL)         
-          CALL HM_GET_FLOAT_ARRAY_INDEX('FILL_RATIO', FILL_RATIO, KK, IS_AVAILABLE, LSUBMODEL,UNITAB)  
+          CALL HM_GET_FLOAT_ARRAY_INDEX('FILL_RATIO', VFRAC, KK, IS_AVAILABLE, LSUBMODEL,UNITAB)
 
-          WRITE(IOUT, '(2X,I10,I10,I9,I6,F20.0)')    IDSURF,IPHASE, IFILL, ICUMU, FILL_RATIO        
+          WRITE(IOUT,'(2X,I10,I10,I9,I6,F20.0)')IDSURF,SUBMAT_ID,IREVERSED,ICUMU,VFRAC
 
           !IF(FLAG == 0)THEN
-            IF((IPHASE < 0 .OR. IPHASE > 4).AND.  .NOT.MULTI_FVM%IS_USED )THEN
+            IF((SUBMAT_ID < 0 .OR. SUBMAT_ID > 4).AND.  .NOT.MULTI_FVM%IS_USED )THEN
               CALL ANCMSG(MSGID=887,MSGTYPE=MSGERROR, ANMODE=ANINFO,I1=ID,C1=TITR)
             ENDIF
-            IF(IFILL < 0 .OR. IFILL > 1)THEN
+            IF(IREVERSED < 0 .OR. IREVERSED > 1)THEN
               CALL ANCMSG(MSGID=888,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
             ENDIF
-            IF(FILL_RATIO < ZERO .or. FILL_RATIO > ONE)THEN
+            IF(VFRAC < ZERO .or. VFRAC > ONE)THEN
               CALL ANCMSG(MSGID=1596,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
             ENDIF
           !ENDIF
                                                                                                   
-          IMAT = IPART(LIPART1*(IPARTFILL-1)+1)  
+          IMAT = IPART(LIPART1*(PART_ID-1)+1)
           ILAW=   IPM((IMAT-1)*NPROPMI + 2)     !IPM(2,IMAT)
           IF(ILAW/=51 .AND. ILAW/=151)THEN
             CALL ANCMSG(MSGID=821, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=ID, C1=TITR)             
           ENDIF   
 
           !!get bijective application to retrieve internal order of submaterial.
-          !! (internally & historically phase4 is explosive submaterial)
+          !! (internally & historically submat4 is explosive submaterial)
           IF(ILAW==51)THEN                    
             IADBUF = IPM((IMAT-1)*NPROPMI + 7)!IPM(7,IMAT)                       
             NUPARAM= IPM((IMAT-1)*NPROPMI + 9)!IPM(9,IMAT)                       
             UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)          
-            IPHASE=UPARAM(276+IPHASE)
+            SUBMAT_ID=UPARAM(276+SUBMAT_ID)
           ENDIF
           
-          IF(FILL_RATIO==ZERO)FILL_RATIO = ONE
-          IF(ICUMU/=0 .AND. ICUMU/=1)THEN
+          IF(VFRAC == ZERO)VFRAC=ONE
+          IF(ICUMU /= 0 .AND. ICUMU /= 1)THEN
             ICUMU = 0
           ENDIF
           ISU=0
@@ -247,11 +242,11 @@ C
               ENDDO                                                                        
             ENDIF                                                                          
             !---   discretized surface                                                     
-            INIVOL(IGS)%SURFCONTY(KK) = ISU                                     
-            INIVOL(IGS)%CONTY(KK)%IPHASE = IPHASE                               
-            INIVOL(IGS)%CONTY(KK)%IFILL = IFILL                                 
-            INIVOL(IGS)%CONTY(KK)%FILL_RATIO = INT(FILL_RATIO*EP9)              
-            INIVOL(IGS)%CONTY(KK)%ICUMU = ICUMU                                 
+            INIVOL(IGS)%CONTAINER(KK)%SURF_ID = ISU
+            INIVOL(IGS)%CONTAINER(KK)%SUBMAT_ID = SUBMAT_ID
+            INIVOL(IGS)%CONTAINER(KK)%IREVERSED = IREVERSED
+            INIVOL(IGS)%CONTAINER(KK)%VFRAC = INT(VFRAC*EP9)
+            INIVOL(IGS)%CONTAINER(KK)%ICUMU = ICUMU
 C
             IF(N2D == 0 .AND. FAC == 0)THEN                                                               
               CALL ANCMSG(MSGID=890,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)          
@@ -272,8 +267,8 @@ C-----------------------------
       RETURN
 C-----------------------------
  1001 FORMAT(
-     .     5X,'INIVOL TITLE . . . . . . . . . . . . .=',A/,
-     .     5X,'INIVOL IDENTFIER . . . . . . . . . . .=',I10/,     
+     .     5X,'TITLE  . . . . . . . . . . . . . . . .=',A/,
+     .     5X,'IDENTFIER (ID) . . . . . . . . . . . .=',I10/,
      .     5X,'PART IDENTIFIER. . . . . . . . . . . .=',I10)
 
       RETURN

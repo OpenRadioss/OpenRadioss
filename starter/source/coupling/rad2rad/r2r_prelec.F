@@ -69,7 +69,7 @@ C-----------------------------------------------
         USE GROUPDEF_MOD
         USE SUBMODEL_MOD
         USE HM_OPTION_READ_MOD
-        USE INIVOL_ARRAY_MOD
+        USE INIVOL_DEF_MOD , ONLY : NUM_INIVOL
         USE DETONATORS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1259,11 +1259,11 @@ C------Prereading and tag of INIVOL----------------------------------C
 C--------------------------------------------------------------------C
 
         NEW_NINIVOL = 0
-        IF (PASSE==0) ALLOCATE(TAG_INIVOL(NINIVOL))
+        IF (PASSE==0) ALLOCATE(TAG_INIVOL(NUM_INIVOL))
         TAG_INIVOL(:) = 0
         CALL HM_OPTION_START('/INIVOL')
 
-        DO I=1,NINIVOL
+        DO I=1,NUM_INIVOL
           CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
           CALL HM_GET_INTV('secondarycomponentlist', ID_PART, IS_AVAILABLE, LSUBMODEL)
 C
