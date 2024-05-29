@@ -44,11 +44,11 @@ Chd|====================================================================
        SUBROUTINE INTER7_COLLISION_DETECTION(
      1   X        ,IRECT   ,NSV     ,INACTI   ,CAND_P  ,
      2   NMN      ,NRTM    ,NSN     ,CAND_E   ,CAND_N  ,
-     3   GAP      ,NOINT   ,II_STOK ,NCONTACT ,BMINMA  ,
+     3   GAP      ,II_STOK ,NCONTACT ,BMINMA  ,
      4   TZINF    ,CAND_A,CURV_MAX,
-     5   NB_N_B   ,ESHIFT  ,ILD     ,IFQ      ,IFPEN   ,
+     5   ESHIFT  ,IFQ      ,IFPEN   ,
      8   STFN     ,STF     ,IGAP     ,GAP_S   ,
-     A   NSNR     ,NCONT   ,RENUM   ,NSNROLD  ,GAP_M   ,
+     A   NSNR     ,RENUM   ,NSNROLD  ,GAP_M   ,
      B   GAPMIN   ,GAPMAX  ,NUM_IMP,GAP_S_L ,
      C   GAP_M_L  ,ITASK   ,BGAPSMX  ,I_MEM   ,  
      D   KREMNOD  ,REMNOD  ,FLAGREMNODE, DRAD ,
@@ -77,13 +77,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NMN,NSN, NOINT,INACTI,IFQ,  NSNR, NSNROLD
+      INTEGER NMN,NSN, INACTI,IFQ,  NSNR, NSNROLD
       INTEGER, INTENT(in) :: NRTM !< number of segments per threads
       INTEGER, INTENT(in) :: TOTAL_NB_NRTM !< total number of segments
       integer, intent(in) :: s_cand_a
       INTEGER IRECT(4,*),NSV(*),CAND_A(s_cand_a), RENUM(*),NUM_IMP, ITASK
       INTEGER CAND_E(*),CAND_N(*),IFPEN(*),KREMNOD(*),REMNOD(*)
-      INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, IGAP, NCONT,I_MEM,
+      INTEGER NCONTACT,ESHIFT, IGAP, I_MEM,
      *        II_STOK, FLAGREMNODE, ITIED
       INTEGER, intent(in) :: S_KREMNOD, S_REMNOD
 
@@ -221,47 +221,6 @@ C
             IF(ALLOCATED(PREV_REMOTE_NUMBER)) DEALLOCATE(PREV_REMOTE_NUMBER)
 
         ENDIF
-C     I_MEM = 2 ==> Not enough memory
-      IF (I_MEM ==2) RETURN
-      IF(I_MEM==1)THEN
-        NB_N_B = NB_N_B + 1
-        IF ( NB_N_B > NCONT) THEN
-          CALL ANCMSG(MSGID=85,ANMODE=ANINFO,
-     .            I1=NOINT)
-          CALL ARRET(2)
-        ENDIF
-        ILD = 1
-      ELSEIF(I_MEM==2) THEN
-        IF(DEBUG(1)>=1) THEN
-          IWARN = IWARN+1
-#include "lockon.inc"
-          WRITE(ISTDO,*)' **WARNING INTERFACE/MEMORY'
-          WRITE(IOUT,*)' **WARNING INTERFACE NB:',NOINT
-          WRITE(IOUT,*)'       TOO MANY POSSIBLE IMPACTS'
-          WRITE(IOUT,*)'       SIZE OF INFLUENCE ZONE IS'
-          WRITE(IOUT,*)'       MULTIPLIED BY 0.75'
-#include "lockoff.inc"
-        ENDIF
-        RETURN
-        TZINF = THREE_OVER_4*TZINF
-C taille de boite non diminuee
-C        MINBOX= THREE_OVER_4*MINBOX
-C        MAXBOX= THREE_OVER_4*MAXBOX
-        IF( TZINF<=MAX(GAP+DGAPLOAD,DRAD)  ) THEN
-          CALL ANCMSG(MSGID=98,ANMODE=ANINFO,
-     .            I1=NOINT,C1='(I7BUCE)')
-          CALL ARRET(2)
-        ENDIF
-        ILD = 1
-      ELSEIF(I_MEM==3)THEN
-        NB_N_B = NB_N_B + 1
-        IF ( NB_N_B > NCONT) THEN
-          CALL ANCMSG(MSGID=100,ANMODE=ANINFO,
-     .            I1=NOINT)
-          CALL ARRET(2)
-        ENDIF
-        ILD = 1
-      ENDIF
 C
       RETURN
       END

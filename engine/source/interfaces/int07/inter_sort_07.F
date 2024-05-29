@@ -116,8 +116,9 @@ C-----------------------------------------------
      .        I, IP0, IP1, IP2, IP21, I_SK_OLD, I_STOK1, 
      .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ, ITIED
         INTEGER 
-     .        ILD, NCONT, NCONTACT, INACTII, INACIMP, INTTH,
+     .        NCONT, NCONTACT, INACTII, INACIMP, INTTH,
      .        I_MEM,CAND_N_OLD,IDUM1(1),NMN_L, IVIS2,NUM_IMP
+        INTEGER :: ILD ! unused variable
         my_real
      .   STARTT,GAP,MAXBOX,MINBOX,STOPT,DIST,TZINF,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,
@@ -190,7 +191,6 @@ C -------------------------------------------------------------
 !$OMP SINGLE
         NSNR = 0
         CURV_MAX_MAX = INTER_STRUCT(NIN)%CURV_MAX_MAX
-        RESULT = 0
         NMN_G = INTER_STRUCT(NIN)%NMN_G
 !$OMP END SINGLE
 
@@ -219,7 +219,7 @@ C
         ILD = 0
         NB_N_B = 1
 
- 50     CALL MY_BARRIER    
+        CALL MY_BARRIER    
         IF(ITASK==0) THEN
             IF(ALLOCATED( LIST_REMOTE_S_NODE ) ) DEALLOCATE( LIST_REMOTE_S_NODE )
             ALLOCATE( LIST_REMOTE_S_NODE(NSNR) )
@@ -243,17 +243,21 @@ C
             CALL INTER7_COLLISION_DETECTION(
      1      X      ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV       ,INACTI    ,INTBUF_TAB%CAND_P,
      2      NMN_G  ,NRTM           ,NSN                  ,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
-     3      GAP    ,NOINT            ,INTBUF_TAB%I_STOK(1) ,NCONTACT ,INTER_STRUCT(NIN)%BOX_LIMIT_MAIN,
+     3      GAP    ,INTBUF_TAB%I_STOK(1) ,NCONTACT ,INTER_STRUCT(NIN)%BOX_LIMIT_MAIN,
      4      TZINF  ,INTER_STRUCT(NIN)%CAND_A  ,INTER_STRUCT(NIN)%CURV_MAX,
-     6      NB_N_B ,ESHIFT      ,ILD            ,IFQ    ,INTBUF_TAB%IFPEN,
+     6      ESHIFT      ,IFQ    ,INTBUF_TAB%IFPEN,
      8      INTBUF_TAB%STFNS,INTBUF_TAB%STFM,IPARI(21,NIN),INTBUF_TAB%GAP_S,
-     A      NSNR   ,NCONT  ,RENUM  ,NSNROLD  ,INTBUF_TAB%GAP_M,
+     A      NSNR   ,RENUM  ,NSNROLD  ,INTBUF_TAB%GAP_M,
      B      GAPMIN ,GAPMAX  ,NUM_IMP   ,INTBUF_TAB%GAP_SL,
      C      INTBUF_TAB%GAP_ML,ITASK  , INTBUF_TAB%VARIABLES(7),I_MEM     ,  
      D      INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE,  IPARI(63,NIN),DRAD         ,
      E      ITIED ,INTBUF_TAB%CAND_F,DGAPLOADP,
      F      NRTM, INTER_STRUCT(NIN)%SIZE_CAND_A,
      .      INTBUF_TAB%S_KREMNODE, INTBUF_TAB%S_REMNODE)
+            IF(NCONTACT > NCONT * MULTIMP) THEN
+                ! if the number of contacts is greater than the allocated size of the contact array
+
+            ENDIF
 
         ELSE IF(INTBUF_TAB%METRIC%ALGO == ALGO_VOXEL .OR.  INTBUF_TAB%METRIC%ALGO == TRY_ALGO_VOXEL) THEN
             FIRST = 1 + ITASK*(NRTM/NTHREAD)
@@ -317,9 +321,6 @@ C New barrier needed for Dynamic MultiMP
 
         IF(I_MEMG /=0)THEN
             IF(I_MEMG == 3 .OR. I_MEMG == 1) INTBUF_TAB%METRIC%ALGO = ALGO_VOXEL
-C CARE : JINBUF & JBUFIN array are reallocated in
-C        UPGRADE_MULTIMP routine !!!!
-
 !$OMP SINGLE
             MULTIMP = IPARI(23,NIN) + 4
             CALL UPGRADE_MULTIMP(NIN,MULTIMP,INTBUF_TAB)
@@ -356,25 +357,9 @@ C
         INTBUF_TAB%VARIABLES(12) = MIN(MINBOX,INTBUF_TAB%VARIABLES(12))
         INTBUF_TAB%VARIABLES(8)  = MIN(TZINF,INTBUF_TAB%VARIABLES(8))
         INTBUF_TAB%VARIABLES(5)  = INTBUF_TAB%VARIABLES(8)-GAP
-        RESULT        = RESULT + ILD
 #include "lockoff.inc"
 C--------------------------------------------------------------
-C--------------------------------------------------------------
         CALL MY_BARRIER
-        IF (RESULT/=0) THEN
-            CALL MY_BARRIER
-            IF (ITASK==0) THEN
-C utile si on revient
-                INTBUF_TAB%I_STOK(1) = I_SK_OLD
-                RESULT = 0
-            ENDIF
-            CALL MY_BARRIER
-            ILD  = 0
-            MAXBOX = INTBUF_TAB%VARIABLES(9)
-            MINBOX = INTBUF_TAB%VARIABLES(12)
-            TZINF  = INTBUF_TAB%VARIABLES(8)
-            GOTO 50
-        ENDIF
 C mise a - de dist temporairement pour reperage dans partie frontiere
         IF(NSPMD>1)THEN
 C mono tache

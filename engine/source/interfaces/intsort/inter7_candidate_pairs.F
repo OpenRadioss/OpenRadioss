@@ -100,6 +100,7 @@ Chd|====================================================================
           USE COLLISION_MOD , ONLY : GROUP_SIZE
           USE INTER7_FILTER_CAND_MOD
           USE CONSTANT_MOD
+          USE MY_ALLOC_MOD, ONLY : REALLOC 
 C-----------------------------------------------
           implicit none
 #include "my_real.inc"
@@ -129,7 +130,7 @@ C-----------------------------------------------
           integer, intent(in), value :: s_cand_a !< size of cand_a
           integer, intent(in), value :: s_kremnod !< 2 * nrtm + 1 if option is used
           integer, intent(in), value :: s_remnod !< size of remnod
-          integer, intent(in), value :: mulnsn !< maximum numbrer of candidates (size of cand_n)
+          integer, intent(inout) :: mulnsn !< maximum numbrer of candidates (size of cand_n)
           integer, intent(inout) :: ii_stok !< number of candidates found
 
           integer, intent(in) :: nsv(nsn) !< global secondary node numbers
@@ -138,9 +139,9 @@ C-----------------------------------------------
           integer, intent(in) :: remnod(s_remnod) !< list of removed nodes
           integer, intent(in) :: irect(4,nrtm) !< node id (from 1 to NUMNOD) for each segment (1:nrtm)
 
-          integer, intent(inout) :: cand_n(mulnsn) !< list of candidates (secondary)
-          integer, intent(inout) :: cand_e(mulnsn) !< list of candidates (main)
-          integer, intent(inout) :: ifpen(mulnsn) !< something related to friction (???)
+          integer, intent(inout) :: cand_n(*) !< list of candidates (secondary) size: mulnsn
+          integer, intent(inout) :: cand_e(*) !< list of candidates (main) size: mulnsn
+          integer, intent(inout) :: ifpen(*) !< something related to friction (???) size: mulnsn
           integer, intent(inout) :: cand_a(s_cand_a) !< (???)
           integer, intent(inout) :: irem(s_irem,nsnr) !< remote (spmd) integer data
           integer, intent(inout) :: voxel(nbx+2,nby+2,nbz+2) !< contain the first node of each voxel
@@ -162,8 +163,8 @@ C-----------------------------------------------
           my_real, intent(in) :: curv_max(nrtm) !< maximum curvature
           my_real, intent(in) :: xyzm(12) !< bounding box
 
-          my_real, intent(inout) :: cand_p(mulnsn) !< penetration (???)
-          my_real, intent(inout) :: cand_f(mulnsn) !< related to tied contact, cand force (???)
+          my_real, intent(inout) :: cand_p(*) !< penetration (???) size: mulnsn
+          my_real, intent(inout) :: cand_f(*) !< related to tied contact, cand force (???) size: mulnsn
           my_real, intent(in) :: stf(nrtm) !< stiffness of segments (quadrangles or triangles)
           my_real, intent(inout) :: stfn(nsn) !< stiffness secondary nodes
           my_real, intent(inout) :: xrem(s_xrem,nsnr) !< remote (spmd) real data
@@ -189,15 +190,18 @@ C-----------------------------------------------
           integer first,last
           integer :: nb_voxel_on !< number of remote nodes in the bounding box
           integer, dimension(:), allocatable :: list_nb_voxel_on
-          integer, dimension(GROUP_SIZE) :: prov_n, prov_e !< temporary list of candidates
+!         integer, dimension(GROUP_SIZE) :: prov_n, prov_e !< temporary list of candidates
+          integer, dimension(:), allocatable :: prov_n, prov_e
+          integer :: size_prov 
+          integer :: mulnsn_save
 
 
 C-----------------------------------------------
 
-          if(itask == 0)then
-            allocate(list_nb_voxel_on((nbx+2)*(nby+2)*(nbz+2)))
-            nb_voxel_on = 0
-          end if
+          size_prov = mulnsn
+          mulnsn_save = mulnsn
+          allocate(prov_n(mulnsn))
+          allocate(prov_e(mulnsn))
 
 !$OMP BARRIER
 
@@ -227,7 +231,10 @@ C-----------------------------------------------
 C=======================================================================
 C 1   Add local nodes to the cells
 C=======================================================================
-          if(itask==0.and.total_nb_nrtm>0)then
+!$omp single
+          allocate(list_nb_voxel_on((nbx+2)*(nby+2)*(nbz+2)))
+          nb_voxel_on = 0
+          if(total_nb_nrtm>0)then
             allocate(last_nod(nsn+nsnr))
             do i=1,nsn
               iix=0
@@ -317,8 +324,7 @@ C=======================================================================
             enddo
             deallocate(last_nod)
           end if !itask == 0
-!$OMP BARRIER
-
+!$omp end single
 
 C=======================================================================
 C 3   FACE RECOVERY AND ENUMERATION OF CANDIDATE COUPLES
@@ -487,25 +493,13 @@ C=======================================================================
                     endif
 
                     j_stok = j_stok + 1
+                    if(j_stok > size_prov) then
+                      CALL REALLOC(prov_n, size_prov, size_prov+mulnsn) 
+                      CALL REALLOC(prov_e, size_prov, size_prov+mulnsn) 
+                      size_prov = size_prov + mulnsn
+                    endif
                     prov_n(j_stok) = jj
                     prov_e(j_stok) = ne
-
-                    if(j_stok == GROUP_SIZE) then 
-                       ! filter prov_n, prov_e and append to cand_n, cand_e
-                       if(i_mem == 0) call inter7_filter_cand(
-     1                   j_stok,irect  ,x     ,nsv   ,ii_stok,
-     2                   cand_n,cand_e ,mulnsn,marge  ,
-     3                   i_mem ,prov_n ,prov_e,eshift,inacti ,
-     4                   ifq   ,cand_a ,cand_p,ifpen ,nsn    ,
-     5                   oldnum,nsnrold,igap  ,gap   ,gap_s  ,
-     6                   gap_m ,gapmin ,gapmax,curv_max,
-     7                   gap_s_l,gap_m_l,drad,itied    ,
-     8                   cand_f ,dgapload,
-     .                   nsnr,
-     .                   xrem ,s_xrem)
-                         j_stok = 0
-                    endif
- 
   200               continue
                     jj = next_nod(jj)
 c                   if(i_mem==2) jj = 0
@@ -522,10 +516,28 @@ c                   if(i_mem==2) jj = 0
             endif
           enddo
 !$OMP END DO
-          if(j_stok > 0 .and. i_mem == 0) call inter7_filter_cand(
-     1                   j_stok,irect  ,x     ,nsv   ,ii_stok,
+
+!$OMP CRITICAL
+          mulnsn = mulnsn - j_stok
+!$OMP END CRITICAL
+
+!$OMP BARRIER
+
+
+          if(itask == 0 .AND. mulnsn < 0) then
+            write(*,*) 'ERROR: not enough memory for candidates'
+            mulnsn = mulnsn_save - mulnsn
+            ! upgrade arrays to mulnsn size
+
+          endif
+
+          DO i=1, j_stok, GROUP_SIZE
+          ! j = size of the current block
+            j = min(GROUP_SIZE, j_stok - i + 1)
+            call inter7_filter_cand(
+     1                   j,irect  ,x     ,nsv   ,ii_stok,
      2                   cand_n,cand_e ,mulnsn,marge  ,
-     3                   i_mem ,prov_n ,prov_e,eshift,inacti ,
+     3                   prov_n(i) ,prov_e(i),eshift,inacti ,
      4                   ifq   ,cand_a ,cand_p,ifpen ,nsn    ,
      5                   oldnum,nsnrold,igap  ,gap   ,gap_s  ,
      6                   gap_m ,gapmin ,gapmax,curv_max,
@@ -533,12 +545,16 @@ c                   if(i_mem==2) jj = 0
      8                   cand_f ,dgapload,
      .                   nsnr,
      .                   xrem ,s_xrem)
+          enddo
+
+          deallocate(prov_n)
+          deallocate(prov_e)
 
 C=======================================================================
 C 5   VOXEL RESET
 C=======================================================================
 !$OMP BARRIER
-          if(total_nb_nrtm>0 .and. itask == 0) then
+          if(total_nb_nrtm>0 .and. allocated(list_nb_voxel_on)) then
             do jj = 1, nb_voxel_on
               j = list_nb_voxel_on(jj)
               k = j
@@ -550,6 +566,7 @@ C=======================================================================
               iix = mod(k,nbx+2) + 1
               voxel(iix,iiy,iiz) = 0
             enddo
+            deallocate(list_nb_voxel_on)
           endif
 !$OMP BARRIER
 C=======================================================================
@@ -558,8 +575,6 @@ C=======================================================================
           if(flagremnode == 2) then
             if(allocated(tagremnode)) deallocate(tagremnode)
           endif
-          if(itask == 0) deallocate(list_nb_voxel_on)
-
 C#ifndef NO_SERIALIZE
 C        if(nsn > 13602 .and. nrtm > 1800) then
 C        call INTER7_SERIALIZE(      "t10m.dat", 

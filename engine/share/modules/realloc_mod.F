@@ -31,8 +31,13 @@ Chd|        I25TRIVOX_EDG                 source/interfaces/intsort/i25trivox_ed
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE REALLOC_MOD
+
+
+
       CONTAINS
-        
+
+
+
       FUNCTION IREALLOCATE(ptr, new_size)
 !reallocate INTEGER ARRAY
 C-----------------------------------------------

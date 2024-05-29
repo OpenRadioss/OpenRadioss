@@ -103,6 +103,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           module procedure my_alloc_8_pdouble_2d
           module procedure my_alloc_8_pdouble_3d
         end interface my_alloc
+        interface realloc
+          module procedure integer_realloc,ptr_integer_realloc                                                                        
+          module procedure double_realloc,ptr_double_realloc
+          module procedure real_realloc,ptr_real_realloc
+        end interface  
+
 
       contains
 
@@ -1233,5 +1239,79 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           endif
           if(present(stat)) stat = ierr
         end subroutine my_alloc_8_pinteger_3d
+! ----------------------------------------------------------------------------------------------------------------------
+        subroutine integer_realloc(a, oldsize, newsize)
+            implicit none
+            integer, dimension(:), allocatable :: a           !< the array to be reallocated
+            integer :: oldsize                                !< the current size of the array
+            integer :: newsize                                !< the new size of the array
+            integer, dimension(:), allocatable :: temp        !< temporary array for copying values
+            allocate(temp(newsize))
+            temp(1:oldsize) = a
+            deallocate(a)
+            call move_alloc(temp, a)
+        end subroutine integer_realloc
+        subroutine double_realloc(a, oldsize, newsize)
+            implicit none
+            double precision, dimension(:), allocatable :: a      !< the array to be reallocated
+            integer :: oldsize                                    !< the current size of the array
+            integer :: newsize                                    !< the new size of the array
+            double precision, dimension(:), allocatable :: temp   !< temporary array for copying values
+            allocate(temp(newsize))
+            temp(1:oldsize) = a
+            deallocate(a)
+            call move_alloc(temp, a)
+        end subroutine double_realloc
+
+        subroutine real_realloc(a, oldsize, newsize)
+            implicit none
+            real(4), dimension(:), allocatable :: a      !< the array to be reallocated
+            integer :: oldsize                                    !< the current size of the array
+            integer :: newsize                                    !< the new size of the array
+            real(4), dimension(:), allocatable :: temp   !< temporary array for copying values
+            allocate(temp(newsize))
+            temp(1:oldsize) = a
+            deallocate(a)
+            call move_alloc(temp, a)
+        end subroutine real_realloc
+        subroutine ptr_integer_realloc(a, oldsize, newsize)
+            implicit none
+            integer, dimension(:), pointer :: a           !< the array to be reallocated
+            integer :: oldsize                                !< the current size of the array
+            integer :: newsize                                !< the new size of the array
+            integer, dimension(:), allocatable :: temp        !< temporary array for copying values
+            allocate(temp(oldsize))
+            temp(1:oldsize) = a
+            deallocate(a)
+            allocate(a(newsize))
+            a(1:oldsize) = temp(1:oldsize)
+            deallocate(temp)
+        end subroutine ptr_integer_realloc
+        subroutine ptr_double_realloc(a, oldsize, newsize)
+            implicit none
+            double precision, dimension(:), pointer :: a      !< the array to be reallocated
+            integer :: oldsize                                    !< the current size of the array
+            integer :: newsize                                    !< the new size of the array
+            double precision, dimension(:), allocatable :: temp   !< temporary array for copying values
+            allocate(temp(oldsize))
+            temp(1:oldsize) = a
+            deallocate(a)
+            allocate(a(newsize))
+            a(1:oldsize) = temp(1:oldsize)
+            deallocate(temp)
+        end subroutine ptr_double_realloc
+        subroutine ptr_real_realloc(a, oldsize, newsize)
+            implicit none
+            real(4), dimension(:), pointer :: a      !< the array to be reallocated
+            integer :: oldsize                                    !< the current size of the array
+            integer :: newsize                                    !< the new size of the array
+            real(4), dimension(:), allocatable :: temp   !< temporary array for copying values
+            allocate(temp(oldsize))
+            temp(1:oldsize) = a
+            deallocate(a)
+            allocate(a(newsize))
+            a(1:oldsize) = temp(1:oldsize)
+            deallocate(temp)
+        end subroutine ptr_real_realloc
       end module my_alloc_mod
 

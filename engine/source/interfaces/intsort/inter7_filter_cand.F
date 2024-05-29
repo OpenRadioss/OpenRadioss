@@ -41,7 +41,7 @@ Chd|====================================================================
         SUBROUTINE INTER7_FILTER_CAND(
      1        j_stok,irect  ,x     ,nsv   ,ii_stok,
      2        cand_n,cand_e ,mulnsn,margin  ,
-     3        i_mem ,prov_n ,prov_e,eshift,inacti ,
+     3        prov_n ,prov_e,eshift,inacti ,
      4        ifq   ,cand_a ,cand_p,ifpen ,nsn    ,
      5        oldnum,nsnrold,igap  ,gap   ,gap_s  ,
      6        gap_m ,gapmin ,gapmax,curv_max,
@@ -63,7 +63,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-          integer, intent(inout) :: i_mem !< memory error flag
           integer, intent(in) :: nsn  !< number secondary nodes
           integer, intent(in) :: nsnrold !< number of remote nodes in the previous collision detection
           integer, intent(in) :: igap !< gap formulation
@@ -75,8 +74,8 @@ C-----------------------------------------------
           integer, intent(in) :: eshift !< shift for segment numbering
           integer, intent(in) :: irect(4,*) !< 4 nodes of the segment
           integer, intent(in) :: nsv(*) !< secondary node ids
-          integer, intent(inout) :: cand_n(*) !< output: node number of the candidate pair
-          integer, intent(inout) :: cand_e(*) !< output: segment number of the candidate pair
+          integer, intent(inout) :: cand_n(mulnsn) !< output: node number of the candidate pair
+          integer, intent(inout) :: cand_e(mulnsn) !< output: segment number of the candidate pair
           integer, intent(inout) :: cand_a(*)
           integer, intent(inout) :: prov_n(j_stok) !< input node number of the candidate pair, before filtering
           integer, intent(inout) :: prov_e(j_stok) !< input segment number of the candidate pair, before filtering
@@ -128,7 +127,7 @@ C-----------------------------------------------
           integer :: ix2(GROUP_SIZE)
           integer :: ix3(GROUP_SIZE)
           integer :: ix4(GROUP_SIZE)
-          logical :: exit_flag
+          logical :: need_realloc
 
 
 C-----------------------------------------------
@@ -178,21 +177,11 @@ c-----------------------------------------------
             if(pene(i)/=zero) k_stok = k_stok + 1
           enddo
           if(k_stok==0)return
-          exit_flag = .false.
+          need_realloc = .false.
 !$omp critical
           i_stok = ii_stok
-          if (i_stok + k_stok > mulnsn) then
-              i_mem = 2
-              exit_flag = .true.
-          else
-              ii_stok = i_stok + k_stok
-          endif
+          ii_stok = i_stok + k_stok
 !$omp end critical
-          
-          if (exit_flag) then
-              return
-          endif
-
           inacti_l = inacti
           itied_l = itied
           ifq_l = ifq
