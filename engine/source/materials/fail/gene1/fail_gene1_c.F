@@ -453,7 +453,9 @@ c
           !  -> minimum principal strain
           IF (BTEST(CRIT,11)) THEN
             NMOD = NMOD + 1 
-            DFMAX(I,1+NMOD) = MAX(MINEPS*FACL(I)/(E22(I)),DFMAX(I,1+NMOD))
+            IF (E22(I) /= ZERO) THEN 
+              DFMAX(I,1+NMOD) = MAX(MINEPS*FACL(I)/(E22(I)),DFMAX(I,1+NMOD))
+            ENDIF
             DFMAX(I,1+NMOD) = MIN(DFMAX(I,1+NMOD),ONE)  
             IF (E22(I) <= MINEPS*FACL(I)) THEN
               NCRIT(I) = NCRIT(I) + 1
