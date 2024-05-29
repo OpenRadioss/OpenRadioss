@@ -46,64 +46,38 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
-        TYPE CONTY_
-          INTEGER   :: IPHASE ! Phase of the multi-material ALE to fill the Part
-          my_real   :: FILL_RATIO ! Filling ratio
-          INTEGER   :: ICUMU ! Flag for cumulate volume filling
-          INTEGER   :: IFILL ! Filling option parameter for filling action (inside or outside the container) 
+        TYPE CONTAINER_
+          INTEGER   :: SURF_ID
+          INTEGER   :: SUBMAT_ID  ! Phase of the multi-material ALE to fill the Part
+          my_real   :: VFRAC     ! Filling ratio
+          INTEGER   :: ICUMU     ! Flag for cumulate volume filling
+          INTEGER   :: IREVERSED ! Filling option parameter for filling action (inside or outside the container) 
                        ! 0 ! filling the side along normal direction 
                        ! 1 ! filling the side against normal direction
-        END TYPE CONTY_
-C-----------------------------------------------
-        TYPE INIVOL_
-          INTEGER   :: ID ! - INIVOL IDENTIFIER
-          INTEGER   :: SIPHASE          
-          CHARACTER :: TITLE*nchartitle ! INIVOL title
-          INTEGER   :: NBCONTY ! NUMBER of INIVOL containers
-          INTEGER, DIMENSION(:),ALLOCATABLE :: SURFCONTY ! Surface defining containers of the INIVOL
-          INTEGER   :: IPARTFILL ! INIVOL part to be filled
-          !INTEGER   :: ISURF ! INIVOL CONTAINER SURFACE IDENTIFIER
-          TYPE (CONTY_) ,DIMENSION(:) ,ALLOCATABLE :: CONTY ! CONTAINER to be
-        END TYPE INIVOL_
+        END TYPE CONTAINER_
         
+C-----------------------------------------------
+
+        TYPE INIVOL_STRUCT_
+          CHARACTER :: TITLE*nchartitle
+          INTEGER   :: ID
+          INTEGER   :: PART_ID
+          INTEGER   :: SIZE
+          INTEGER   :: NUM_CONTAINER
+          TYPE (CONTAINER_) ,DIMENSION(:) ,ALLOCATABLE :: CONTAINER
+        END TYPE INIVOL_STRUCT_
+
+C-----------------------------------------------
+C   D a t a   S t r u c t u r e
+C-----------------------------------------------
+
+        TYPE(INIVOL_STRUCT_),DIMENSION(:),ALLOCATABLE :: INIVOL   !  SIZE NUM_INIVOL
+        INTEGER NUM_INIVOL
+        INTEGER SKVOL
+
 C-----------------------------------------------
       END MODULE INIVOL_DEF_MOD
 C-----------------------------------------------
-
-
-
-Chd|====================================================================
-Chd|  INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F   
-Chd|-- called by -----------
-Chd|        CONTRL                        source/starter/contrl.F       
-Chd|        HM_READ_INIVOL                source/initial_conditions/inivol/hm_read_inivol.F
-Chd|        HM_READ_MAT151                source/materials/mat/mat151/hm_read_mat151.F
-Chd|        INITIA                        source/elements/initia/initia.F
-Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        QGRTAILS                      source/elements/solid_2d/quad/qgrtails.F
-Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
-Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
-Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F
-Chd|        ST_QAPRINT_INIVOL             source/output/qaprint/st_qaprint_inivol.F
-Chd|        T3GRTAILS                     source/elements/solid_2d/tria/t3grtails.F
-Chd|-- calls ---------------
-Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
-Chd|====================================================================
-      MODULE INIVOL_ARRAY_MOD
-C-----------------------------------------------
-C   m y _ r e a l
-C-----------------------------------------------
-#include      "my_real.inc"
-C-----------------------------------------------
-C   S o u r c e   L i n e s
-C------------------------------------------------
-        USE INIVOL_DEF_MOD
-        TYPE(INIVOL_)   ,TARGET,DIMENSION(:),ALLOCATABLE :: USER_INIVOL   !  NINIVOL
-        INTEGER NINIVOL
-C-----------------------------------------------
-      END MODULE INIVOL_ARRAY_MOD
-C-----------------------------------------------
-
 
 
 
@@ -122,25 +96,24 @@ C-----------------------------------------------
 C   B l o c k   I n t e r f a c e
 C------------------------------------------------
       INTERFACE
-         SUBROUTINE HM_READ_INIVOL(INIVOL_STRUCT , KVOL, IGRSURF ,IPART  ,MULTI_FVM, BUFMAT, IPM, ITAB, NSUBMAT, LSUBMODEL, UNITAB)
-         USE UNITAB_MOD
-         USE MULTI_FVM_MOD
-         USE GROUPDEF_MOD
-         USE INIVOL_DEF_MOD
-         USE SUBMODEL_MOD 
-         USE SETDEF_MOD   
+         SUBROUTINE HM_READ_INIVOL(INIVOL_STRUCT , KVOL, IGRSURF ,IPART  ,MULTI_FVM, BUFMAT, IPM, NSUBMAT, LSUBMODEL, UNITAB)
+           USE UNITAB_MOD
+           USE MULTI_FVM_MOD
+           USE GROUPDEF_MOD
+           USE INIVOL_DEF_MOD
+           USE SUBMODEL_MOD
+           USE SETDEF_MOD
 #include "tabsiz_c.inc"           
 #include "com04_c.inc"  
-         TYPE (INIVOL_)  , INTENT(INOUT), DIMENSION(:), ALLOCATABLE  :: INIVOL_STRUCT
-              my_real, DIMENSION(:), ALLOCATABLE, INTENT(INOUT) :: KVOL
-              INTEGER, DIMENSION(SIPART) :: IPART
+              TYPE(INIVOL_STRUCT_),INTENT(INOUT),DIMENSION(:),ALLOCATABLE  :: INIVOL_STRUCT
+              my_real,DIMENSION(:), ALLOCATABLE, INTENT(INOUT) :: KVOL
+              INTEGER,DIMENSION(SIPART) :: IPART
               TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM
-              INTEGER,INTENT(IN), DIMENSION(SIPM) :: IPM
-              INTEGER,INTENT(IN),DIMENSION(NUMNOD) :: ITAB
+              INTEGER,INTENT(IN),DIMENSION(SIPM) :: IPM
               my_real,INTENT(IN),TARGET :: BUFMAT(*)
-              TYPE (SURF_)   , DIMENSION(NSURF+NSETS)   :: IGRSURF
+              TYPE (SURF_), DIMENSION(NSURF+NSETS) :: IGRSURF
               TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
-             TYPE (UNIT_TYPE_),INTENT(IN)      :: UNITAB 
+             TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB
              INTEGER,INTENT(INOUT) :: NSUBMAT
            END SUBROUTINE HM_READ_INIVOL
          END INTERFACE

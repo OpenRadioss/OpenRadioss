@@ -26,7 +26,8 @@ Chd|-- called by -----------
 Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|====================================================================
-        SUBROUTINE ALE_ELEMENT_SIZE_COMPUTATION(IPARG,IXS,IXQ,IXTG,
+        SUBROUTINE ALE_ELEMENT_SIZE_COMPUTATION(NPARG, NGROUP, NUMELS,NUMELTG,NUMELQ,NUMNOD,N2D,
+     .                                          IPARG,IXS,IXQ,IXTG,
      .                                          ELEMENT_SIZE,MIN_MAX_POSITION,X,
      .                                          ALE_ELEMENT_NUMBER,ALE_NODE_NUMBER,LIST_ALE_NODE)
 !$COMMENT
@@ -50,17 +51,9 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-! com01 : ngroup/n2d
-#include "com01_c.inc" 
-! com04 : numels/numelq/numeltg
-#include "com04_c.inc"
-! param : nparg
-#include "param_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        INTEGER,INTENT(IN) :: NPARG, NGROUP, NUMELS,NUMELTG,NUMELQ,NUMNOD,N2D
         INTEGER, INTENT(INOUT) :: ALE_ELEMENT_NUMBER ! number of ale element with material 51 or 151
         INTEGER, INTENT(INOUT) :: ALE_NODE_NUMBER ! number of ale node
         INTEGER, DIMENSION(NUMNOD), INTENT(INOUT) :: LIST_ALE_NODE ! list of ale node
@@ -98,11 +91,11 @@ C-----------------------------------------------
             ITY = IPARG(5,NG)   ! type of element 
             ISOLNOD = IPARG(28,NG)
             INIVOL = IPARG(53,NG)
-            IF(INIVOL<=0) CYCLE
-            IF(MTN/=51.AND.MTN/=151) CYCLE
-            IF(N2D ==0.AND.ITY/= 1)THEN
+            IF(INIVOL <= 0) CYCLE
+            IF(MTN /= 51 .AND. MTN /= 151) CYCLE
+            IF(N2D == 0 .AND. ITY /= 1)THEN
               CYCLE
-            ELSEIF(N2D>0.AND.ITY/=7.AND.ITY/= 2)THEN
+            ELSEIF(N2D > 0 .AND. ITY/=7 .AND. ITY /= 2)THEN
               CYCLE
             ENDIF
             ! total number of ale element with material 51 or 151
@@ -110,17 +103,17 @@ C-----------------------------------------------
 
             ! ---------------
             ! depending on the king of element
-            IF(ITY==1) THEN
+            IF(ITY == 1) THEN
                 FIRST = 1
                 NODE_NUMBER = 8
 !                IX(1:NODE_NUMBER+1,1:NEL) => IXS(1:NODE_NUMBER+1,NFT+1:NFT+NEL)
                 IX => IXS(1:NODE_NUMBER+1,NFT+1:NFT+NEL)
-            ELSEIF(ITY==2) THEN
+            ELSEIF(ITY == 2) THEN
                 FIRST = 2
                 NODE_NUMBER = 4
 !                IX(1:NODE_NUMBER+1,1:NEL) => IXQ(1:NODE_NUMBER+1,NFT+1:NFT+NEL)
                 IX => IXQ(1:NODE_NUMBER+1,NFT+1:NFT+NEL)
-            ELSEIF(ITY==7) THEN
+            ELSEIF(ITY == 7) THEN
                 FIRST = 2
                 NODE_NUMBER = 3
 !                IX(1:NODE_NUMBER+1,1:NEL) => IXTG(1:NODE_NUMBER+1,NFT+1:NFT+NEL)
@@ -132,34 +125,33 @@ C-----------------------------------------------
             ! loop over the elements of the group to compute 
             ! the max element size and the min/max position
             DO J=1,NEL
-                MAX_NODE(1:3) = -EP20
-                MIN_NODE(1:3) =  EP20
-                ! ---------------
-                ! max element size
+              MAX_NODE(1:3) = -EP20
+              MIN_NODE(1:3) =  EP20
+              ! ---------------
+              ! max element size
+              DO I=1,NODE_NUMBER
+                MAX_NODE(FIRST:3) = MAX(MAX_NODE(FIRST:3),X(FIRST:3,IX(1+I,J)) )
+                MIN_NODE(FIRST:3) = MIN(MIN_NODE(FIRST:3),X(FIRST:3,IX(1+I,J)) )
+              ENDDO
+              DISTANCE(FIRST:3) = (ABS(MAX_NODE(FIRST:3)-MIN_NODE(FIRST:3)))**2
+              LOCAL_SIZE = SQRT( SUM(DISTANCE(FIRST:3)) )
+              ELEMENT_SIZE = MAX(ELEMENT_SIZE,LOCAL_SIZE)
+              ! --------------
+              ! ---------------
+              ! min / max position & save the ALE node id
+              DO K=FIRST,3
+                ! min / max position
                 DO I=1,NODE_NUMBER
-                    MAX_NODE(FIRST:3) = MAX(MAX_NODE(FIRST:3),X(FIRST:3,IX(1+I,J)) )
-                    MIN_NODE(FIRST:3) = MIN(MIN_NODE(FIRST:3),X(FIRST:3,IX(1+I,J)) )
+                  MIN_MAX_POSITION(K) = MIN(MIN_MAX_POSITION(K),X(K,IX(1+I,J)))
+                  MIN_MAX_POSITION(3+K) = MAX(MIN_MAX_POSITION(3+K),X(K,IX(1+I,J)))
+                  IF(TAG_ARRAY(IX(1+I,J))==0) THEN
+                    TAG_ARRAY(IX(1+I,J)) = 1
+                    ALE_NODE_NUMBER = ALE_NODE_NUMBER + 1
+                    LIST_ALE_NODE(ALE_NODE_NUMBER) = IX(1+I,J)
+                  ENDIF
                 ENDDO
-                DISTANCE(FIRST:3) = (ABS(MAX_NODE(FIRST:3)-MIN_NODE(FIRST:3)))**2
-                LOCAL_SIZE = SQRT( SUM(DISTANCE(FIRST:3)) )
-                ELEMENT_SIZE = MAX(ELEMENT_SIZE,LOCAL_SIZE)
-                ! ---------------
-
-                ! ---------------
-                ! min / max position & save the ALE node id
-                DO K=FIRST,3
-                    ! min / max position
-                    DO I=1,NODE_NUMBER
-                        MIN_MAX_POSITION(K) = MIN(MIN_MAX_POSITION(K),X(K,IX(1+I,J)))
-                        MIN_MAX_POSITION(3+K) = MAX(MIN_MAX_POSITION(3+K),X(K,IX(1+I,J)))
-                        IF(TAG_ARRAY(IX(1+I,J))==0) THEN
-                            TAG_ARRAY(IX(1+I,J)) = 1
-                            ALE_NODE_NUMBER = ALE_NODE_NUMBER + 1
-                            LIST_ALE_NODE(ALE_NODE_NUMBER) = IX(1+I,J)
-                        ENDIF
-                    ENDDO
-                ENDDO
-                ! ---------------
+              ENDDO
+              ! ---------------
             ENDDO
             ! ---------------
         ENDDO

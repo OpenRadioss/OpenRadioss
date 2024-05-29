@@ -69,7 +69,7 @@ C-----------------------------------------------
         USE GROUP_MOD
         USE INOUTFILE_MOD
         USE SUBMODEL_MOD
-        USE INIVOL_ARRAY_MOD
+        USE INIVOL_DEF_MOD , ONLY : NUM_INIVOL
         USE NLOCAL_REG_MOD
         USE DETONATORS_MOD
         USE MATPARAM_DEF_MOD
@@ -368,7 +368,7 @@ C---------------Update of number of remaining options----------------C
             NINTER      = NEW_HM_NINTER + NEW_NINTER - NEW_NINTSUB
             NSLASH(KINTER) = NEW_NSLASH_INT
             NINTSUB = NEW_NINTSUB
-            NINIVOL = NEW_NINIVOL
+            NUM_INIVOL = NEW_NINIVOL
 C
             NLINK = NEW_NLINK
             NRBE3 = NEW_NRBE3

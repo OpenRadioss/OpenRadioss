@@ -30,7 +30,8 @@ Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
 Chd|====================================================================
-        SUBROUTINE ALE_BOX_COLORATION(NB_CELL_X,NB_CELL_Y,NB_CELL_Z,SURFACE_NUMBER,
+        SUBROUTINE ALE_BOX_COLORATION(NSURF,NUMNOD,
+     .                                NB_CELL_X,NB_CELL_Y,NB_CELL_Z,SURFACE_NUMBER,
      .                                MIN_MAX_POSITION,CELL,X,IGRSURF,INIVOL,CELL_POSITION,
      .                                ALE_NODE_NUMBER,LIST_ALE_NODE)
 !$COMMENT
@@ -46,24 +47,16 @@ Chd|====================================================================
 !       - the position of ALE nodes in the grid are computed 
 !$ENDCOMMENT
         USE ARRAY_MOD
-        USE INIVOL_DEF_MOD , only:inivol_,conty_
-        USE GROUPDEF_MOD , only:surf_
+        USE INIVOL_DEF_MOD , only : inivol_struct_
+        USE GROUPDEF_MOD , only : surf_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-! com04 : numnod, nsurf
-#include "com04_c.inc" 
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        INTEGER,INTENT(IN) :: NSURF,NUMNOD
         INTEGER, INTENT(IN) :: NB_CELL_X,NB_CELL_Y,NB_CELL_Z ! number of cell in x/y/z direction
         INTEGER, INTENT(IN) :: SURFACE_NUMBER ! number of surface
         TYPE(array_type), DIMENSION(SURFACE_NUMBER), INTENT(INOUT) :: CELL ! voxcell
@@ -71,7 +64,7 @@ C-----------------------------------------------
         my_real, DIMENSION(3,NUMNOD), INTENT(IN) :: X ! position
         INTEGER, DIMENSION(3,NUMNOD), INTENT(INOUT) :: CELL_POSITION ! position of node/cell
         TYPE (SURF_), DIMENSION(NSURF), INTENT(IN) :: IGRSURF ! surface data
-        TYPE (INIVOL_), INTENT(IN) :: INIVOL ! inivol data
+        TYPE (INIVOL_STRUCT_), INTENT(IN) :: INIVOL ! inivol data
         INTEGER, INTENT(IN) :: ALE_NODE_NUMBER ! number of ale node
         INTEGER, DIMENSION(ALE_NODE_NUMBER), INTENT(IN) :: LIST_ALE_NODE ! list of ale node
 C-----------------------------------------------
@@ -111,7 +104,7 @@ C-----------------------------------------------
             ! ------------------
 
             ! ------------------
-            SURFACE_ID = INIVOL%SURFCONTY(I) ! surface id
+            SURFACE_ID = INIVOL%CONTAINER(I)%SURF_ID ! surface id
             SURFACE_NODE_NUMBER = IGRSURF(SURFACE_ID)%NSEG ! number of segment of the surface
             SURFACE_TYPE = IGRSURF(SURFACE_ID)%TYPE ! type of surface
             IF(SURFACE_TYPE/=200.AND.SURFACE_TYPE/=101) THEN

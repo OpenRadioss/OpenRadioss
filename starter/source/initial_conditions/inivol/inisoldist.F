@@ -33,15 +33,15 @@ Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
        SUBROUTINE INISOLDIST(
-     .          IFILL     ,IXS      ,PM        ,X        ,GEO       ,
-     .          IPARG     ,IDP      ,IPART_    ,IPM      ,XREFS     ,
-     .          NTRACE   ,NTRACE0   ,DIS       ,NSOLTOSF ,NBIP      ,
-     .          NNOD2SURF,INOD2SURF ,KNOD2SURF,SURF_ELTYP,SURF_NODES,
-     .          JMID      ,IPHASE   ,INPHASE   ,KVOL     ,SURF_TYPE ,
-     .          IAD_BUFR  ,BUFSF    ,NOD_NORMAL,ISOLNOD  ,NBSUBMAT  ,
-     .          FILL_RATIO,ICUMU    ,IDC       ,NBCONTY  ,NSEG      ,
-     .          IDSURF    ,SWIFTSURF,SEGTOSURF ,IGRSURF  ,IVOLSURF ,
-     .          NSURF_INVOL,IXQ, IXTG, ITYP, NEL, NUMEL_TOT,ITAB)
+     .          IFILL      ,IXS       ,X         ,GEO       ,NG        ,
+     .          IPARG      ,IDP       ,IPART_    ,XREFS     ,
+     .          NTRACE     ,NTRACE0   ,DIS       ,NSOLTOSF  ,NBIP      ,
+     .          NNOD2SURF  ,INOD2SURF ,KNOD2SURF ,SURF_ELTYP,SURF_NODES,
+     .          JMID       ,IPHASE    ,INPHASE   ,KVOL      ,SURF_TYPE ,
+     .          IAD_BUFR   ,BUFSF     ,NOD_NORMAL,ISOLNOD   ,NBSUBMAT  ,
+     .          FILL_RATIO ,ICUMU     ,IDC       ,NBCONTY   ,NSEG      ,
+     .          IDSURF     ,SWIFTSURF ,SEGTOSURF ,IGRSURF   ,IVOLSURF  ,
+     .          NSURF_INVOL,IXQ       ,IXTG      ,ITYP      ,NEL       , NUMEL_TOT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,47 +65,46 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: NG
       INTEGER NTRACE,NTRACE0,IDC,NBCONTY,NSEG, IVOLSURF(NSURF),NUMEL_TOT,NEL
       INTEGER,TARGET :: IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),IXTG(NIXTG,NUMELTG)
-      INTEGER IPARG(SIPARG),IPART_(*),IPM(NPROPMI,NUMMAT),
-     .    IDP,IFILL,NSOLTOSF(NBCONTY,NUMNOD),
-     .    NNOD2SURF,KNOD2SURF(NUMNOD+1),JMID,
-     .    IPHASE(NBSUBMAT+1,NUMEL_TOT),INPHASE(NTRACE,NEL),
-     .    INOD2SURF(NNOD2SURF,NUMNOD),ISOLNOD,ICUMU,SURF_TYPE,IAD_BUFR,
-     .    SURF_ELTYP(NSEG),SURF_NODES(NSEG,4),NBIP(NBSUBMAT,NUMEL_TOT),
-     .    IDSURF,SWIFTSURF(NSURF),SEGTOSURF(*),NSURF_INVOL,
-     .    ITYP
-      my_real
-     .   PM(NPROPM,NUMMAT),X(3,NUMNOD),GEO(NPROPG,*),XREFS(8,3,*),
-     .   DIS(NSURF_INVOL,NUMNOD),KVOL(NBSUBMAT,NUMEL_TOT),BUFSF(*),
-     .   NOD_NORMAL(3,NUMNOD),FILL_RATIO
-      INTEGER, INTENT(IN) :: NBSUBMAT, ITAB(NUMNOD)
+      INTEGER IPARG(NPARG,NGROUP),IPART_(*),
+     .        IDP,IFILL,NSOLTOSF(NBCONTY,NUMNOD),
+     .        NNOD2SURF,KNOD2SURF(NUMNOD+1),JMID,
+     .        IPHASE(NBSUBMAT+1,NUMEL_TOT),INPHASE(NTRACE,NEL),
+     .        INOD2SURF(NNOD2SURF,NUMNOD),ISOLNOD,ICUMU,SURF_TYPE,IAD_BUFR,
+     .        SURF_ELTYP(NSEG),SURF_NODES(NSEG,4),NBIP(NBSUBMAT,NUMEL_TOT),
+     .        IDSURF,SWIFTSURF(NSURF),SEGTOSURF(*),NSURF_INVOL,
+     .        ITYP
+      my_real X(3,NUMNOD),GEO(NPROPG,*),XREFS(8,3,*),
+     .        DIS(NSURF_INVOL,NUMNOD),KVOL(NBSUBMAT,NUMEL_TOT),BUFSF(*),
+     .        NOD_NORMAL(3,NUMNOD),FILL_RATIO
+      INTEGER, INTENT(IN) :: NBSUBMAT
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER,POINTER :: pIXQ,pIXTG,pIXS
-      INTEGER NF1,I,II,J,JHBE
+      INTEGER NF1,I,II,JHBE
       INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),
      .   IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),
      .   IX5(MVSIZ),IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ)       
-C
+
       INTEGER IBID
       my_real
      .   X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),X5(MVSIZ),X6(MVSIZ),
      .   X7(MVSIZ),X8(MVSIZ),Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),Y4(MVSIZ),
      .   Y5(MVSIZ),Y6(MVSIZ),Y7(MVSIZ),Y8(MVSIZ),Z1(MVSIZ),Z2(MVSIZ), 
      .   Z3(MVSIZ),Z4(MVSIZ),Z5(MVSIZ),Z6(MVSIZ),Z7(MVSIZ),Z8(MVSIZ),
-     .   RX(MVSIZ) ,RY(MVSIZ) ,RZ(MVSIZ) ,S_X(MVSIZ) ,
-     .   S_Y(MVSIZ) ,S_Z(MVSIZ) ,TX(MVSIZ) ,TY(MVSIZ) ,TZ(MVSIZ) ,
+     .   RX(MVSIZ) ,RY(MVSIZ),RZ(MVSIZ) ,S_X(MVSIZ) ,
+     .   S_Y(MVSIZ) ,S_Z(MVSIZ),TX(MVSIZ) ,TY(MVSIZ) ,TZ(MVSIZ) ,
      .   E1X(MVSIZ),E1Y(MVSIZ),E1Z(MVSIZ),
      .   E2X(MVSIZ),E2Y(MVSIZ),E2Z(MVSIZ),
      .   E3X(MVSIZ),E3Y(MVSIZ),E3Z(MVSIZ),
      .   F1X(MVSIZ),F1Y(MVSIZ),F1Z(MVSIZ),
      .   F2X(MVSIZ),F2Y(MVSIZ),F2Z(MVSIZ)
-C
-      my_real
-     .   RBID
+
+      my_real RBID
       DOUBLE PRECISION 
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
@@ -116,13 +115,20 @@ C
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      JHBE  = IPARG(23)
-      JCVT  = IPARG(37)
-C
-      NF1=NFT+1
       RBID = ZERO
       IBID = 0
-C
+
+      JHBE  = IPARG(23,NG)
+      JCVT  = IPARG(37,NG)
+
+      !common variables required for s*coor3 subroutine
+      NFT=IPARG(3,NG)
+      NF1=NFT+1
+      LFT=1
+      LLT=NEL
+
+
+
       IF(N2D == 0)THEN
         IF ( ISOLNOD == 4 )THEN
           CALL S4COOR3(X    ,XREFS(1,1,NF1),IXS(1,NF1),NGL  ,
@@ -158,7 +164,7 @@ C
         ENDIF
       ELSEIF(N2D > 0)THEN
         IF(ITYP == 7)THEN
-          DO II = LFT, LLT
+          DO II = 1, NEL
             I = II + NFT                                                                      
             IX1(II) = IXTG(1 + 1, I)                                                          
             IX2(II) = IXTG(1 + 2, I)                                                          
@@ -175,7 +181,7 @@ C
             NGL(II) = IXTG(6, I)                                                                      
           ENDDO
         ELSEIF(ITYP == 2)THEN
-          DO II = LFT, LLT                                                                     
+          DO II = 1, NEL
             X1(II) = ZERO            
             X2(II) = ZERO
             X3(II) = ZERO
@@ -202,11 +208,11 @@ C-----------
      . Z1         ,Z2         ,Z3        ,Z4         ,Z5            ,Z6            ,Z7            ,Z8         ,
      . IDP        ,X          ,
      . pIXS       ,IPART_(NF1),IFILL     ,NTRACE     ,NTRACE0       ,DIS           ,NSOLTOSF      ,
-     . NNOD2SURF  ,INOD2SURF  ,KNOD2SURF ,JMID       ,IPHASE(1,NF1) ,INPHASE       ,KVOL(1,NF1),
+     . NNOD2SURF  ,INOD2SURF  ,KNOD2SURF ,JMID       ,IPHASE(1,NF1) ,INPHASE       ,KVOL(1,NF1)   ,
      . SURF_TYPE  ,IAD_BUFR   ,BUFSF     ,NOD_NORMAL ,ISOLNOD       ,NBSUBMAT      ,FILL_RATIO    ,ICUMU      ,
      . NSEG       ,SURF_ELTYP ,SURF_NODES,NBCONTY    ,IDC           ,NBIP(1,NF1)   ,IDSURF        ,SWIFTSURF  ,
      . SEGTOSURF  ,IGRSURF    ,IVOLSURF  ,NSURF_INVOL,pIXQ          ,pIXTG         ,ITY           ,NEL        ,
-     . NUMEL_TOT  ,ITAB)
+     . NUMEL_TOT  )
 C-----------------------------------------------------------------
       RETURN
       END

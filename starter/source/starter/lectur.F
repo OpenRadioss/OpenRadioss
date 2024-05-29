@@ -577,7 +577,6 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE DRAPE_MOD
       USE INIVOL_DEF_MOD
-      USE INIVOL_ARRAY_MOD
       USE INIVOL_INTERF_MOD
       USE SENSOR_MOD
       USE RANDOM_MOD
@@ -2015,18 +2014,12 @@ C-------------------------------------------
       ISHIF = NUMELS+NUMELQ+NUMELC
 
       ALLOCATE(PM(SPM)     ,STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='PM')
-      ALLOCATE(GEO(SGEO)   ,STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='GEO')
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='PM')
+      ALLOCATE(GEO(SGEO),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='GEO')
 c dans le skew, on met tous les skew du modele
       ALLOCATE(SKEW(SSKEW) ,STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='SKEW')
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='SKEW')
       IF(SSKEW-SXFRAME<SSKEW) THEN
       XFRAME => SKEW(SSKEW-SXFRAME+1:SSKEW)
       ELSE
@@ -2034,9 +2027,7 @@ c dans le skew, on met tous les skew du modele
       END IF
 c      ALLOCATE(XFRAME(SXFRAME) ,STAT=stat)
       ALLOCATE(EANI(SEANI) ,STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='EANI')
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='EANI')
       IF(SEANI > 0) EANI = 0
       IF(NUMELTG > 0) THEN
         EANIT => EANI(ISHIF+1:SEANI)
@@ -2059,16 +2050,13 @@ C--------------------------------------------
       ERR_MSG='MATERIALS'
       ERR_CATEGORY='MATERIALS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      CALL SAV_BUF_POINT(NPC    ,5)
-      CALL SAV_BUF_POINT(TF     ,6)
+      CALL SAV_BUF_POINT(NPC,5)
+      CALL SAV_BUF_POINT(TF,6)
       WRITE(ISTDO,'(A)')TITRE(11)
-C
       SRWORK  = MAX(NUMMAT*10000,1000000)
       SBUFMAT = 0
       ALLOCATE(RWORK(SRWORK)    ,STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                           C1='RWORK')
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='RWORK')
       IF(SRWORK > 0) RWORK = ZERO
 c------------------------------------
       ALLOCATE(MTAG_INI   (NUMMAT))
@@ -5213,8 +5201,7 @@ C--------------------------------------------
 C--------------------------------------------
 C     LECTURE DES INITIAL VOLUME FRACTIONS
 C--------------------------------------------
-        CALL HM_READ_INIVOL(USER_INIVOL , KVOL, IGRSURF ,IPART ,MULTI_FVM, BUFMAT, IPM, ITAB, NBSUBMAT, LSUBMODEL, UNITAB)
-
+      CALL HM_READ_INIVOL(INIVOL, KVOL, IGRSURF ,IPART, MULTI_FVM, BUFMAT, IPM, NBSUBMAT, LSUBMODEL, UNITAB)
 C--------------------------------------------
 C     Surfaces fictives IGE
 C--------------------------------------------
@@ -5918,7 +5905,7 @@ C
      4       CEP(OFF) ,ITRI1    ,IXS10    ,IGRSURF  ,IGRBRIC  ,
      5       IXS20    ,IXS16    ,IGEO     ,IDDLEVEL,
      6       IPM      ,NOD2ELS  ,ISOLOFF  ,ISOLNOD  ,
-     7       TAGPRT_SMS,USER_INIVOL  ,SPH2SOL  ,SOL2SPH  ,SOL2SPH_TYP,
+     7       TAGPRT_SMS,INIVOL  ,SPH2SOL  ,SOL2SPH  ,SOL2SPH_TYP,
      8       IFLAG_BPRELOAD, CLUSTERS ,MAT_ELEM%MAT_PARAM ,RNOISE(1,MIN(SRNOISE2,NUMELC+NUMELTG+1)),
      9       IPRI)
         GRSOL_ID2 = NGROUP
@@ -5984,7 +5971,7 @@ C
      2      EADD      ,ND       ,DD_TMP(IDX),IDX     ,
      3      INUM      ,INDEX1   ,CEP(OFF)   ,IPARTQ  ,
      4      ITR1      ,IGRSURF  ,IGRQUAD    ,MAT_ELEM%MAT_PARAM,
-     5      IGEO      ,IPM      ,IQUAOFF    ,USER_INIVOL, IPRI)
+     5      IGEO      ,IPM      ,IQUAOFF    ,INIVOL, IPRI)
           OFF = OFF + NUMELQ
        ENDIF
 C
@@ -6302,7 +6289,7 @@ C
      5          EANIT    ,IGEO     ,IPM      ,IXTG1    ,
      6          IPART    ,SH3TREE  ,NOD2ELTG ,ITRIOFF  ,
      7          SH3TRIM  ,TAGPRT_SMS,IWORKSH ,STACK      ,
-     8          DRAPE   ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)) ,USER_INIVOL,
+     8          DRAPE   ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)) ,INIVOL,
      9          MAT_ELEM%MAT_PARAM,SH3ANG ,DRAPEG,IPRI,PTSH3N)
          ENDIF
          OFF = OFF + NUMELTG
@@ -8582,7 +8569,7 @@ C
      &            SLNRBM     , NSLNRBM        , RMSTIFN          , RMSTIFR            ,
      &            MS_PLY0    , ZI_PLY0        , ITAGND_SHXFEM    , ITAGSH             , MCPC     ,
      &            MCPTG      , XREFC          , XREFTG           , XREFS              , MSSA     ,
-     &            MSRT       , IRBE2          , LRBE2            , USER_INIVOL        , KVOL     , NBSUBMAT,
+     &            MSRT       , IRBE2          , LRBE2            , INIVOL        , KVOL     , NBSUBMAT,
      &            IXS10      , IXS16          , IXS20            , TOTADDMAS          ,
      &            IPMAS      , STIFFN         , MSZ20            , ITAGN              , SITAGE   ,
      &            ITAGE      , IXR_KJ         , ELBUF_TAB        ,
@@ -9459,10 +9446,10 @@ C----------------------------------
             AMOD=FXBIPM(AIPM+7)
             IF(NLGRAV>0)
      .         CALL FXBGRAV(
-     . IGRV   , LGRAV  , FXBIPM(AIPM+18), FXBNOD(ANOD),
-     . FXBGRVI(AGRVI), FXBGRVR(AGRVR), FXBIPM(AIPM+3), FXBMOD(AMOD),
-     . FXBIPM(AIPM+4), FXBIPM(AIPM+17), MS     , GRAV   ,
-     . SKEW          , FXBIPM(AIPM+29), NFX    , FXBIPM(AIPM+30))
+     .               IGRV   , LGRAV  , FXBIPM(AIPM+18), FXBNOD(ANOD),
+     .               FXBGRVI(AGRVI), FXBGRVR(AGRVR), FXBIPM(AIPM+3), FXBMOD(AMOD),
+     .               FXBIPM(AIPM+4), FXBIPM(AIPM+17), MS     , GRAV   ,
+     .               SKEW          , FXBIPM(AIPM+29), NFX    , FXBIPM(AIPM+30))
          ENDDO
       ENDIF
       CALL TRACE_OUT1()

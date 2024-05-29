@@ -41,15 +41,15 @@ Chd|        REORDER_MOD                   share/modules1/reorder_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|====================================================================
       SUBROUTINE T3GRTAILS(
-     1       IXTG    ,PM     ,IPARG   ,GEO    ,
-     2       EADD    ,ND     ,IPARTTG,DD_IAD ,
-     3       IDX     ,INUM    ,INDEX  ,CEP    ,
-     4       THK     ,XNUM   ,ITR1    ,IGRSURF,IGRSH3N,
-     5       ICNOD   ,IGEO    ,IPM    ,IXTG1  ,
-     6       IPART   ,SH3TREE,NOD2ELTG,ITRIOFF,
-     7       SH3TRIM,TAGPRT_SMS,IWORKSH, STACK,
-     8       DRAPE  ,RNOISE,INIVOL,MAT_PARAM,
-     9       SH3ANG,DRAPEG,PRINT_FLAG, PTSH3N)
+     1       IXTG    ,PM         ,IPARG      ,GEO       ,
+     2       EADD    ,ND         ,IPARTTG    ,DD_IAD    ,
+     3       IDX     ,INUM       ,INDEX      ,CEP       ,
+     4       THK     ,XNUM       ,ITR1       ,IGRSURF   ,IGRSH3N ,
+     5       ICNOD   ,IGEO       ,IPM        ,IXTG1     ,
+     6       IPART   ,SH3TREE    ,NOD2ELTG   ,ITRIOFF   ,
+     7       SH3TRIM ,TAGPRT_SMS ,IWORKSH    ,STACK     ,
+     8       DRAPE   ,RNOISE     ,INIVOL     ,MAT_PARAM ,
+     9       SH3ANG  ,DRAPEG     ,PRINT_FLAG ,PTSH3N )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,24 +60,23 @@ C-----------------------------------------------
       USE REORDER_MOD
       USE GROUPDEF_MOD
       USE DRAPE_MOD
-      USE INIVOL_DEF_MOD
-      USE INIVOL_ARRAY_MOD
+      USE INIVOL_DEF_MOD , ONLY : INIVOL_STRUCT_, NUM_INIVOL
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
-C     IXTG(NIXTG,NUMELTG)TABLEAU CONECS+PID+MID+NOS TRIANGLES       E
-C     PM(NPROPM,NUMMAT)  TABLEAU DES CARACS DES MATERIAUX           E
-C     IPARG(NPARG,NGROUP)TABLEAU DES CARACTERISTIQUES DES GROUPES   E/S
-C     GEO(NPROPG,NUMGEO) TABLEAU DES CARACS DES PID                 E
-C     EADD(NUMELTG)      TABLEAU DES ADRESSES DANS IDAM CHGT DAMIER E
-C     IPARTTG(NUMELTG)                                              E/S
-C     INUM(8,NUMELTG)     TABLEAU DE TRAVAIL                         E/S
-C     ITR1(NSELTG)        TABLEAU DE TRAVAIL                         E/S
-C     INDEX(NUMELTG)      TABLEAU DE TRAVAIL                         E/S
-C     CEP(NUMELTG)        TABLEAU DE TRAVAIL                         E/S
-C     THK(NUMELTG)        TABLEAU DE TRAVAIL                         E/S
-C     ITRIOFF(NUMELTG)    FLAG ELEM RBY ON/OFF                       E/S
+C     IXTG(NIXTG,NUMELTG) ARRAY : CONECS+PID+MID+NOS TRIANGLES    I
+C     PM(NPROPM,NUMMAT)   ARRAY : MATERIALS                       I
+C     IPARG(NPARG,NGROUP) ARRAY : GROUPS                         I/O
+C     GEO(NPROPG,NUMGEO)  ARRAY : PROPERTIES                      I
+C     EADD(NUMELTG)       ARRAY : IDAM INDEX (CHECKBOARD CHANGE)  I
+C     IPARTTG(NUMELTG)                                           I/O
+C     INUM(8,NUMELTG)     WOKING ARRAY                           I/O
+C     ITR1(NSELTG)        WOKING ARRAY                           I/O
+C     INDEX(NUMELTG)      WOKING ARRAY                           I/O
+C     CEP(NUMELTG)        WOKING ARRAY                           I/O
+C     THK(NUMELTG)        WOKING ARRAY                           I/O
+C     ITRIOFF(NUMELTG)    FLAG ELEM RBY ON/OFF                   I/O
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -110,36 +109,35 @@ C-----------------------------------------------
      .        TAGPRT_SMS(*),IWORKSH(3,*)
       INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       INTEGER , DIMENSION(NUMELTG) , INTENT(INOUT):: PTSH3N
-      TYPE (INIVOL_) , DIMENSION(NINIVOL) :: INIVOL
+      TYPE (INIVOL_STRUCT_),DIMENSION(NUM_INIVOL) :: INIVOL
       MY_REAL :: PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),THK(*),XNUM(*),RNOISE(NPERTURB,*),SH3ANG(*)
 C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
-      TYPE (DRAPE_)  , TARGET            :: DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
-      TYPE (DRAPEG_)                              :: DRAPEG
-      TYPE (DRAPE_)  , DIMENSION(:), ALLOCATABLE :: XNUM_DRAPE
-      TYPE (DRAPEG_) ,               ALLOCATABLE :: XNUM_DRAPEG
-      TYPE (DRAPE_PLY_)             , POINTER   :: DRAPE_PLY
+      TYPE (DRAPE_), TARGET :: DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
+      TYPE (DRAPEG_) :: DRAPEG
+      TYPE (DRAPE_), DIMENSION(:), ALLOCATABLE :: XNUM_DRAPE
+      TYPE (DRAPEG_), ALLOCATABLE :: XNUM_DRAPEG
+      TYPE (DRAPE_PLY_), POINTER :: DRAPE_PLY
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT),INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
-      TYPE (GROUP_)  , DIMENSION(NGRSH3N)  :: IGRSH3N
-      TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
+      TYPE (GROUP_), DIMENSION(NGRSH3N) :: IGRSH3N
+      TYPE (SURF_), DIMENSION(NSURF) :: IGRSURF
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I, K, NGR1, MLN, ISMST,NN,ICSEN,NLEVXF,
-     .   NPN, N, MID, PID,II, J, MIDN, NSG, NEL, NE1, ITHK,
-     .   IPLA, IGTYP, P, NEL_PREC, NB,MODE,KCNOD,PRT,NELTG3,IPT,
-     .   ILEV, IE, MPT, NUVAR, NUVARR, IADM, MY_NVSIZ,
-     .   IMATLY,IXFEM,IPTUN,IREP,
-     .   ISUBSTACK,IPPID,IPMAT,ISH3N, NPG,IDROT1,NB_LAW58,IPERT,
-     .   STAT, MFT,ILOC,JJ,
-     .   JALE_FROM_MAT,JALE_FROM_PROP,NSLICE,KK,NPT_DRP,IDRAPE,IEL,IEL0
-       my_real ::  ANGLE(NUMELTG)
+     .        NPN, N, MID, PID,II, J, MIDN, NSG, NEL, NE1, ITHK,
+     .        IPLA, IGTYP, P, NEL_PREC, NB,MODE,KCNOD,PRT,NELTG3,IPT,
+     .        ILEV, IE, MPT, NUVAR, NUVARR, IADM, MY_NVSIZ,
+     .        IMATLY,IXFEM,IPTUN,IREP,
+     .        ISUBSTACK,IPPID,IPMAT,ISH3N, NPG,IDROT1,NB_LAW58,IPERT,
+     .        STAT, MFT,ILOC,JJ,
+     .        JALE_FROM_MAT,JALE_FROM_PROP,NSLICE,KK,NPT_DRP,IDRAPE,IEL,IEL0
+      my_real ::  ANGLE(NUMELTG)
       INTEGER WORK(70000),NGP(NSPMD+1)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISTOR
       INTEGER ID,IPARTR2R
-      CHARACTER*nchartitle,
-     .   TITR,TITR1
+      CHARACTER*nchartitle, TITR,TITR1
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2, INUM_PTSH3N
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: INUM_WORKSH
@@ -156,9 +154,7 @@ C-----------------------------------------------
 C
       IF (NPERTURB > 0) THEN
         ALLOCATE(XNUM_RNOISE(NPERTURB,NUMELTG),STAT=stat)
-        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                           C1='XNUM_RNOISE')
+        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='XNUM_RNOISE')
       ENDIF
 C
       IPTUN = 1
@@ -167,25 +163,24 @@ C         BORNAGE DES GROUPES DE MVSIZ
 C--------------------------------------------------------------
       NGR1 = NGROUP + 1
 C
-C phase 1 : domain decompostition
+C submat 1 : domain decompostition
 C
       IDX=IDX+ND*(NSPMD+1)
       CALL ZEROIN(1,ND*(NSPMD+1),DD_IAD(1,NSPGROUP+1))
-C     NSPGROUP = NSPGROUP + ND
       NFT = 0
-C initialisation dd_iad
+
+      !  init. dd_iad
       DO N=1,ND
        DO P=1,NSPMD+1
          DD_IAD(P,NSPGROUP+N) = 0
        END DO
       ENDDO
-C
+
       NELTG3 = NUMELTG
       IEL = 0
       IF(NDRAPE > 0 ) IEL = DRAPEG%NUMSH4
       DO N=1,ND
         NEL = EADD(N+1)-EADD(N)
-!!        
         IF (NDRAPE > 0 .AND. NUMELTG_DRAPE > 0) THEN
          ALLOCATE(XNUM_DRAPE(NEL))                                                  
          ALLOCATE(XNUM_DRAPEG%INDX(NEL))
@@ -210,7 +205,7 @@ C
             ALLOCATE( XNUM_DRAPE(0) )
         ENDIF
         ALLOCATE(INUM_WORKSH(3,NEL))
-C
+
         IF(NDRAPE > 0 .AND. NUMELTG_DRAPE > 0 ) THEN
          DO I = 1, NEL
            INDEX(I) = I
@@ -282,7 +277,7 @@ C
            ANGLE(I)=SH3ANG(NFT+I)
          ENDDO
         ENDIF 
-C
+
         IF(ABS(ISIGI) == 3  .OR. ABS(ISIGI) == 4 .OR. ABS(ISIGI) == 5) THEN
           ALLOCATE(INUM_PTSH3N(NEL))
           DO I = 1, NEL
@@ -290,8 +285,8 @@ C
           ENDDO
         ENDIF 
         IF(NADMESH/=0)THEN
-          DO  K=1,KSH3TREE
-            DO  I=1,NEL
+          DO K=1,KSH3TREE
+            DO I=1,NEL
               ISTOR(K,I)=SH3TREE(K,NFT+I)
             ENDDO
           ENDDO
@@ -763,12 +758,12 @@ C   - initial volume franction -
 C
           IPARG(53,NGROUP) = 0
           LFOUND=.FALSE.
-          IF(NINIVOL > 0)THEN
+          IF(NUM_INIVOL > 0)THEN
           ! Warning : In same group you can have different PArts, A loop over elem in groups has to be introduced to check if INIVOL PART is there.
             MFT = IPARG(3,NGROUP)
             DO ILOC = 1 ,IPARG(2,NGROUP)
-              DO JJ=1,NINIVOL
-                IF(INIVOL(JJ)%IPARTFILL == IPARTTG(ILOC+MFT)) THEN
+              DO JJ=1,NUM_INIVOL
+                IF(INIVOL(JJ)%PART_ID == IPARTTG(ILOC+MFT)) THEN
                   IPARG(53,NGROUP) = 1
                   lFOUND=.TRUE.
                   EXIT

@@ -39,9 +39,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT151(
-     .  MTAG     ,PM       ,IPM      ,ID       ,TITR     ,MULTI_FVM,UNITAB   ,
-     .  LSUBMODEL,MATPARAM )
+      SUBROUTINE HM_READ_MAT151( MTAG, PM, IPM, ID, TITR, MULTI_FVM, UNITAB, LSUBMODEL, MATPARAM )
 C     ..... FOR DEMO  ......
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -64,7 +62,6 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD       
       USE SUBMODEL_MOD 
       USE INIVOL_DEF_MOD
-      USE INIVOL_ARRAY_MOD   
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -121,22 +118,18 @@ C     Reading submaterial IDS and corresponding volumic fractions
          PM(20 + II) = FRAC_VOL
          SUM_FRAC_VOL = SUM_FRAC_VOL + FRAC_VOL
          IF (FRAC_VOL < ZERO .OR. FRAC_VOL > ONE) THEN
-            IF (NINIVOL == 0) THEN
-               CALL ANCMSG(MSGID = 1511, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
-     .              C1 = "ERROR", I1 = ID, I2 = MAT_ID, R1 = FRAC_VOL) 
+            IF (NUM_INIVOL == 0) THEN
+               CALL ANCMSG(MSGID = 1511, MSGTYPE = MSGERROR, ANMODE = ANINFO, C1 = "ERROR", I1 = ID, I2 = MAT_ID, R1 = FRAC_VOL)
             ELSE
-               CALL ANCMSG(MSGID = 1511, MSGTYPE = MSGWARNING, ANMODE = ANINFO, 
-     .              C1 = "WARNING", I1 = ID, I2 = MAT_ID, R1 = FRAC_VOL) 
+               CALL ANCMSG(MSGID = 1511, MSGTYPE = MSGWARNING, ANMODE = ANINFO, C1 = "WARNING", I1 = ID, I2 = MAT_ID, R1 = FRAC_VOL)
             ENDIF
          ENDIF
       ENDDO
       IF (SUM_FRAC_VOL /= ONE) THEN
-         IF (NINIVOL == 0) THEN
-            CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
-     .           C1 = "ERROR", I1 = ID, R1 = SUM_FRAC_VOL) 
+         IF (NUM_INIVOL == 0) THEN
+            CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGERROR, ANMODE = ANINFO, C1 = "ERROR", I1 = ID, R1 = SUM_FRAC_VOL)
          ELSE
-            CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGWARNING, ANMODE = ANINFO, 
-     .           C1 = "WARNING", I1 = ID, R1 = SUM_FRAC_VOL) 
+            CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGWARNING, ANMODE = ANINFO, C1 = "WARNING", I1 = ID, R1 = SUM_FRAC_VOL)
          ENDIF
       ENDIF
 

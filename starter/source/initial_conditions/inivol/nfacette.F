@@ -35,20 +35,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   XFAS(3,4),NX,NY,NZ
+      my_real, intent(in) :: XFAS(3,4)
+      my_real, intent(inout) :: NX,NY,NZ
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .   RX,RY,RZ,SX,SY,SZ,SUM
+      my_real RX,RY,RZ,SX,SY,SZ,SUM
 C-----------------------------------------------
-c       RX=XFAS(1,2)+XFAS(1,3)-XFAS(1,4)-XFAS(1,1)
-c       SX=XFAS(1,3)+XFAS(1,4)-XFAS(1,1)-XFAS(1,2)
-c       RY=XFAS(2,2)+XFAS(2,3)-XFAS(2,4)-XFAS(2,1)
-c       SY=XFAS(2,3)+XFAS(2,4)-XFAS(2,1)-XFAS(2,2)
-c       RZ=XFAS(3,2)+XFAS(3,3)-XFAS(3,4)-XFAS(3,1)
-c       SZ=XFAS(3,3)+XFAS(3,4)-XFAS(3,1)-XFAS(3,2)
        RX=XFAS(1,3) - XFAS(1,1)
        SX=XFAS(1,4) - XFAS(1,2)
        RY=XFAS(2,3) - XFAS(2,1)

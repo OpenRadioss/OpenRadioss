@@ -100,8 +100,7 @@ C-----------------------------------------------
       USE INOUTFILE_MOD
       USE SETDEF_MOD
       USE DETONATORS_MOD
-      USE INIVOL_DEF_MOD
-      USE INIVOL_ARRAY_MOD
+      USE INIVOL_DEF_MOD , ONLY : NUM_INIVOL
       USE REFSTA_MOD
       USE ALE_EBCS_MOD
       USE RESTMOD
@@ -907,7 +906,7 @@ C-----
       CALL HM_OPTION_COUNT('/INIMAP1D', NINIMAP1D)
       CALL HM_OPTION_COUNT('/INIMAP2D', NINIMAP2D)
 C-----
-      CALL HM_OPTION_COUNT('/INIVOL' ,NINIVOL)
+      CALL HM_OPTION_COUNT('/INIVOL' ,NUM_INIVOL)
 C---------------------------------------------------
 C     Thermal FE options 
 C---------------------------------------------------

@@ -29,41 +29,29 @@ Chd|        MEAN_NODE_NORM2               source/initial_conditions/inivol/mean_
 Chd|        NFACETTE                      source/initial_conditions/inivol/nfacette.F
 Chd|        PHASE_DETECTION               source/initial_conditions/inivol/phase_detection.F
 Chd|====================================================================
-      SUBROUTINE GETPHASE(X         ,SURF_TYPE ,ITAGNSOL ,DIS       ,NSOLTOSF  ,
-     .                    SURF_ELTYP,KNOD2SURF ,NNOD2SURF,INOD2SURF ,TAGN      ,
-     .                    IDSURF    ,NSEG      ,BUFSF    ,NOD_NORMAL,SURF_NODES,
-     .                    IAD_BUFR  ,IDC       ,NBCONTY  ,NSEG_SWIFT_SURF,SWIFTSURF,
-     .                    SEGTOSURF ,IVOLSURF  ,NSURF_INVOL,ITAB,NSEG_USED,
-     .                    LEADING_DIMENSION,NB_CELL_X,NB_CELL_Y,NB_CELL_Z,
-     .                    IPARG,IXS,IXQ,IXTG,
-     .                    CELL,CELL_POSITION,NODAL_PHASE,NB_BOX_LIMIT)
+      SUBROUTINE GETPHASE(MVSIZ            ,NUMELS       ,NUMELTG    ,NUMELQ         ,NUMNOD    ,
+     .                    NPARG            ,NGROUP       ,NSURF      ,N2D            ,
+     .                    X                ,SURF_TYPE    ,ITAGNSOL   ,DIS            ,NSOLTOSF  ,
+     .                    SURF_ELTYP       ,KNOD2SURF    ,NNOD2SURF  ,INOD2SURF      ,TAGN      ,
+     .                    IDSURF           ,NSEG         ,BUFSF      ,NOD_NORMAL     ,SURF_NODES,
+     .                    IAD_BUFR         ,IDC          ,NBCONTY    ,NSEG_SWIFT_SURF,SWIFTSURF ,
+     .                    SEGTOSURF        ,IVOLSURF     ,NSURF_INVOL,NSEG_USED      ,
+     .                    LEADING_DIMENSION,NB_CELL_X    ,NB_CELL_Y  ,NB_CELL_Z      ,
+     .                    IPARG            ,IXS          ,IXQ        ,IXTG           ,
+     .                    CELL             ,CELL_POSITION,NODAL_PHASE,NB_BOX_LIMIT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-! com01 : ngroup/n2d
-#include "com01_c.inc" 
-#include "com04_c.inc"
-#include "param_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IDC,NBCONTY,ITAGNSOL(*),NSOLTOSF(NBCONTY,*),
-     .  KNOD2SURF(*),NNOD2SURF,TAGN(*),IDSURF,NSEG,
-     .  INOD2SURF(NNOD2SURF,*),SURF_TYPE,SURF_ELTYP(NSEG),
-     .  SURF_NODES(NSEG,4),IAD_BUFR,SWIFTSURF(NSURF),NSEG_SWIFT_SURF,
-     .  SEGTOSURF(*),IVOLSURF(NSURF),NSURF_INVOL
-      my_real
-     . X(3,*),DIS(NSURF_INVOL,*),BUFSF(*),
-     . NOD_NORMAL(3,NUMNOD)
-      INTEGEr, INTENT(IN) :: ITAb(NUMNOD)
+      INTEGER,INTENT(IN) :: MVSIZ,NUMELS,NUMELTG,NUMELQ,NUMNOD,NPARG,NGROUP,NSURF,N2D
+      INTEGER IDC,NBCONTY,ITAGNSOL(*),NSOLTOSF(NBCONTY,*),KNOD2SURF(*),NNOD2SURF,TAGN(*),IDSURF,NSEG,
+     .        INOD2SURF(NNOD2SURF,*),SURF_TYPE,SURF_ELTYP(NSEG),
+     .        SURF_NODES(NSEG,4),IAD_BUFR,SWIFTSURF(NSURF),NSEG_SWIFT_SURF,
+     .        SEGTOSURF(*),IVOLSURF(NSURF),NSURF_INVOL
+      my_real X(3,NUMNOD),DIS(NSURF_INVOL,*),BUFSF(*),NOD_NORMAL(3,NUMNOD)
       INTEGER, INTENT(IN) :: NSEG_USED
       INTEGER, INTENT(IN) :: LEADING_DIMENSION
       INTEGER, INTENT(IN) :: NB_BOX_LIMIT
@@ -78,17 +66,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,INOD,OK,OK1,OK2,FIRST,LAST,
-     . IPL,IXPL1,IXPL2,IXPL3,IXPL4,OK3,IAD0,IN(4),ITYP,JJ,
-     . IPASSN(NUMNOD),p,r,p1,p2,dd1(4),dd2(4),
-     . NULL_DIST,IX2,SIZE_X2
+      INTEGER I,J,K,N,INOD,OK,OK1,OK2,FIRST,LAST
+      INTEGER IPL,IXPL1,IXPL2,IXPL3,IXPL4,OK3,IAD0,IN(4),ITYP,JJ
+      INTEGER IPASSN(NUMNOD),p,r,p1,p2,dd1(4),dd2(4)
+      INTEGER NULL_DIST,IX2,SIZE_X2
 
-      my_real
-     . NX,NY,NZ,XFAS(3,4),DIST,DIST_OLD,X0,Y0,Z0,DOT,NSIGN(3),
-     . SUM,XP1,YP1,ZP1,XP2,YP2,ZP2,AA,BB,CC,
-     . DIST_PL(3),VX_NOD_INOD,VY_NOD_INOD,VZ_NOD_INOD,XSIGN(3),
-     . V1X,V1Y,V1Z,V2X,V2Y,V2Z,V3X,V3Y,V3Z,V12X,V12Y,V12Z,XN(3),
-     . TMP(3),SKW(9),XG,YG,ZG,DGR,X_PRIME,Y_PRIME,Z_PRIME
+      my_real NX,NY,NZ,XFAS(3,4),DIST,DIST_OLD,X0,Y0,Z0,DOT,NSIGN(3),
+     .        SUM,XP1,YP1,ZP1,XP2,YP2,ZP2,AA,BB,CC,
+     .        DIST_PL(3),VX_NOD_INOD,VY_NOD_INOD,VZ_NOD_INOD,XSIGN(3),
+     .        V1X,V1Y,V1Z,V2X,V2Y,V2Z,V3X,V3Y,V3Z,V12X,V12Y,V12Z,XN(3),
+     .        TMP(3),SKW(9),XG,YG,ZG,DGR,X_PRIME,Y_PRIME,Z_PRIME
       DATA dd1/4,1,2,3/,dd2/2,3,4,1/
       INTEGER , DIMENSION(:), ALLOCATABLE   :: ID_X2_TAGN,CLOSEST_NODE_ID
 C-----------------------------------------------
@@ -108,90 +95,88 @@ C
         IPASSN(1:NUMNOD) = 0
         FIRST = 1
         LAST  = MIN(NSEG,MVSIZ)
- 800  CONTINUE
-      DO 10 J=FIRST,LAST
-        ITYP  = SURF_ELTYP(J)
-        IN(1) = SURF_NODES(J,1)
-        IN(2) = SURF_NODES(J,2)
-        IN(3) = SURF_NODES(J,3)
-        IN(4) = SURF_NODES(J,4)
-C
-        XFAS(1,1) = X(1,IN(1))
-        XFAS(2,1) = X(2,IN(1))
-        XFAS(3,1) = X(3,IN(1))
-        XFAS(1,2) = X(1,IN(2))
-        XFAS(2,2) = X(2,IN(2))
-        XFAS(3,2) = X(3,IN(2))
-        XFAS(1,3) = X(1,IN(3))
-        XFAS(2,3) = X(2,IN(3))
-        XFAS(3,3) = X(3,IN(3))
-        XFAS(1,4) = X(1,IN(4))
-        XFAS(2,4) = X(2,IN(4))
-        XFAS(3,4) = X(3,IN(4))
-C
-        CALL NFACETTE(XFAS,NX,NY,NZ)
-C-----
-C fill cutting surfaces from shell elements
-C-----
-        IF (TAGN(IN(1)) == 0) THEN
-          TAGN(IN(1)) = 1
-          IX2 = IX2 + 1
-          ID_X2_TAGN(IX2) = IN(1)
-        ENDIF
-        IF (TAGN(IN(2)) == 0) THEN
-          TAGN(IN(2)) = 1
-          IX2 = IX2 + 1
-          ID_X2_TAGN(IX2) = IN(2)
-        ENDIF
-        IF (TAGN(IN(3)) == 0) THEN
-          TAGN(IN(3)) = 1
-          IX2 = IX2 + 1
-          ID_X2_TAGN(IX2) = IN(3)
-        ENDIF
-        IF(TAGN(IN(4)) == 0)THEN
-          TAGN(IN(4)) = 1
-          IX2 = IX2 + 1
-          ID_X2_TAGN(IX2) = IN(4)
-        ENDIF
-C
-C fill normals to cut surfaces
-        IF (ITYP == 3) THEN
-          DO K=1,4
-            N = IN(K)
-            KNOD2SURF(N) = KNOD2SURF(N) + 1
-!!            INOD2SURF(KNOD2SURF(N),N) = J
-            INOD2SURF(KNOD2SURF(N),N) = J + NSEG_SWIFT_SURF
-            SEGTOSURF(J + NSEG_SWIFT_SURF) = IDSURF
-          ENDDO
-        ELSEIF (ITYP == 7) THEN
-          DO K=1,3
-            N = IN(K)
-            KNOD2SURF(N) = KNOD2SURF(N) + 1
-!!            INOD2SURF(KNOD2SURF(N),N) = J
-            INOD2SURF(KNOD2SURF(N),N) = J + NSEG_SWIFT_SURF
-            SEGTOSURF(J + NSEG_SWIFT_SURF) = IDSURF
-          ENDDO
-        ENDIF ! IF(ITYP == 3)
-C
-        CALL MEAN_NODE_NORM2(IN,XFAS,NOD_NORMAL,NX,NY,NZ)
-C---
- 10     CONTINUE
-C---
-        IF(LAST < NSEG)THEN
-          FIRST = LAST + 1
-          LAST  = MIN(LAST+MVSIZ,NSEG)
-          GOTO 800
-        END IF
-C-----
+
+      DO
+
+        DO J=FIRST,LAST
+          ITYP  = SURF_ELTYP(J)
+          IN(1) = SURF_NODES(J,1)
+          IN(2) = SURF_NODES(J,2)
+          IN(3) = SURF_NODES(J,3)
+          IN(4) = SURF_NODES(J,4)
+
+          XFAS(1,1) = X(1,IN(1))
+          XFAS(2,1) = X(2,IN(1))
+          XFAS(3,1) = X(3,IN(1))
+          XFAS(1,2) = X(1,IN(2))
+          XFAS(2,2) = X(2,IN(2))
+          XFAS(3,2) = X(3,IN(2))
+          XFAS(1,3) = X(1,IN(3))
+          XFAS(2,3) = X(2,IN(3))
+          XFAS(3,3) = X(3,IN(3))
+          XFAS(1,4) = X(1,IN(4))
+          XFAS(2,4) = X(2,IN(4))
+          XFAS(3,4) = X(3,IN(4))
+
+          CALL NFACETTE(XFAS,NX,NY,NZ)
+
+          ! fill cutting surfaces from shell elements
+          IF (TAGN(IN(1)) == 0) THEN
+            TAGN(IN(1)) = 1
+            IX2 = IX2 + 1
+            ID_X2_TAGN(IX2) = IN(1)
+          ENDIF
+          IF (TAGN(IN(2)) == 0) THEN
+            TAGN(IN(2)) = 1
+            IX2 = IX2 + 1
+            ID_X2_TAGN(IX2) = IN(2)
+          ENDIF
+          IF (TAGN(IN(3)) == 0) THEN
+            TAGN(IN(3)) = 1
+            IX2 = IX2 + 1
+            ID_X2_TAGN(IX2) = IN(3)
+          ENDIF
+          IF(TAGN(IN(4)) == 0)THEN
+            TAGN(IN(4)) = 1
+            IX2 = IX2 + 1
+            ID_X2_TAGN(IX2) = IN(4)
+          ENDIF
+
+          ! fill normals to cut surfaces
+          IF (ITYP == 3) THEN
+            DO K=1,4
+              N = IN(K)
+              KNOD2SURF(N) = KNOD2SURF(N) + 1
+              INOD2SURF(KNOD2SURF(N),N) = J + NSEG_SWIFT_SURF
+              SEGTOSURF(J + NSEG_SWIFT_SURF) = IDSURF
+            ENDDO
+          ELSEIF (ITYP == 7) THEN
+            DO K=1,3
+              N = IN(K)
+              KNOD2SURF(N) = KNOD2SURF(N) + 1
+              INOD2SURF(KNOD2SURF(N),N) = J + NSEG_SWIFT_SURF
+              SEGTOSURF(J + NSEG_SWIFT_SURF) = IDSURF
+            ENDDO
+          ENDIF ! IF(ITYP == 3)
+
+          CALL MEAN_NODE_NORM2(IN,NOD_NORMAL,NX,NY,NZ)
+
+        ENDDO ! next J
+
+        IF(LAST >= NSEG)EXIT
+        FIRST = LAST + 1
+        LAST  = MIN(LAST+MVSIZ,NSEG)
+
+      ENDDO
+
+
         NSEG_SWIFT_SURF = NSEG_SWIFT_SURF + NSEG
 C------------------------------------
 C     mean normmal to nodes
 C------------------------------------
         DO N=1,NUMNOD
           IF (TAGN(N) == 1 .AND. IPASSN(N) == 0) THEN
-            AA=ONE/MAX(EM30,SQRT(NOD_NORMAL(1,N)*NOD_NORMAL(1,N)+
-     .                          NOD_NORMAL(2,N)*NOD_NORMAL(2,N)+
-     .                          NOD_NORMAL(3,N)*NOD_NORMAL(3,N)))
+            AA=ONE/MAX(EM30,SQRT(NOD_NORMAL(1,N)*NOD_NORMAL(1,N)+NOD_NORMAL(2,N)*NOD_NORMAL(2,N)+NOD_NORMAL(3,N)*NOD_NORMAL(3,N)))
             NOD_NORMAL(1,N)=NOD_NORMAL(1,N)*AA
             NOD_NORMAL(2,N)=NOD_NORMAL(2,N)*AA
             NOD_NORMAL(3,N)=NOD_NORMAL(3,N)*AA
@@ -207,7 +192,8 @@ C------------------------------------
         SIZE_X2 = IX2
         ALLOCATE( CLOSEST_NODE_ID(NUMNOD) )
         CLOSEST_NODE_ID(1:NUMNOD) = -1
-        CALL PHASE_DETECTION(LEADING_DIMENSION,NB_CELL_X,NB_CELL_Y,NB_CELL_Z,NB_BOX_LIMIT,
+        CALL PHASE_DETECTION(NPARG,NGROUP,NUMELS,NUMELQ,NUMELTG,NUMNOD,NSURF,N2D,
+     .                       LEADING_DIMENSION,NB_CELL_X,NB_CELL_Y,NB_CELL_Z,NB_BOX_LIMIT,
      .                       IPARG,IXS,IXQ,IXTG,X,IDSURF,
      .                       CELL,CELL_POSITION,NODAL_PHASE,CLOSEST_NODE_ID,
      .                       NNOD2SURF,KNOD2SURF,INOD2SURF,
@@ -272,26 +258,17 @@ C---
         SKW(7)=BUFSF(IAD0+13)
         SKW(8)=BUFSF(IAD0+14)
         SKW(9)=BUFSF(IAD0+15)                                                                              
-        DGR=BUFSF(IAD0+36)  
-        !XG = SKW(1)*XG + SKW(4)*YG + SKW(7)*ZG 
-        !YG = SKW(2)*XG + SKW(5)*YG + SKW(8)*ZG
-        !ZG = SKW(3)*XG + SKW(6)*YG + SKW(9)*ZG     
+        DGR=BUFSF(IAD0+36)
         DO N=1,NUMNOD
           IF (ITAGNSOL(N) /= 1) CYCLE
           DIST=ZERO
-          !matrice de passage
+          !transition matrix
           X_PRIME = SKW(1)*(X(1,N)-XG) + SKW(4)*(X(2,N)-YG) + SKW(7)*(X(3,N)-ZG)
           Y_PRIME = SKW(2)*(X(1,N)-XG) + SKW(5)*(X(2,N)-YG) + SKW(8)*(X(3,N)-ZG)
           Z_PRIME = SKW(3)*(X(1,N)-XG) + SKW(6)*(X(2,N)-YG) + SKW(9)*(X(3,N)-ZG)
           TMP(1)= ABS(X_PRIME)/AA
           TMP(2)= ABS(Y_PRIME)/BB
-          TMP(3)= ABS(Z_PRIME)/CC          
-          !X_PRIME = SKW(1)*X(1,N) + SKW(4)*X(2,N) + SKW(7)*X(3,N)
-          !Y_PRIME = SKW(2)*X(1,N) + SKW(5)*X(2,N) + SKW(8)*X(3,N)
-          !Z_PRIME = SKW(3)*X(1,N) + SKW(6)*X(2,N) + SKW(9)*X(3,N)
-          !TMP(1)= ABS(X_PRIME-XG)/AA
-          !TMP(2)= ABS(Y_PRIME-YG)/BB
-          !TMP(3)= ABS(Z_PRIME-ZG)/CC
+          TMP(3)= ABS(Z_PRIME)/CC
           IF(TMP(1)/=ZERO)TMP(1)= EXP(DGR*LOG(TMP(1)))
           IF(TMP(2)/=ZERO)TMP(2)= EXP(DGR*LOG(TMP(2)))
           IF(TMP(3)/=ZERO)TMP(3)= EXP(DGR*LOG(TMP(3)))
