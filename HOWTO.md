@@ -70,7 +70,7 @@ Install as sudo or root
            dnf install perl
            dnf install git-lfs
 
-  Installed python is Python3. To create the link from python3 to pyhton,
+  Installed python is Python3. To create the link from python3 to python,
 
   type:
 
