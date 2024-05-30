@@ -31,11 +31,11 @@
 !!\brief This subroutine do the shell offset treatment w/ projection for composite shell
 !=======================================================================================================================
         subroutine shell_offsetp(                                              &
-          ngroup,    nparg,      iparg,        npropg,            &
-          numgeo,      geo,     numelc,          nixc,            &
-          ixc,  numeltg,      nixtg,          ixtg,            &
-          numnod,        x,        thk,        itagsh,            &
-          defaults_shell)
+                       ngroup,    nparg,      iparg,        npropg,            &
+                       numgeo,      geo,     numelc,          nixc,            &
+                       ixc,     numeltg,      nixtg,          ixtg,            &
+                       numnod,        x,        thk,        itagsh,            &
+                       defaults_shell)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -160,11 +160,7 @@
               nshel = nshel + 1
               idnneoset(nshel) = idnneoset(i)
               ixnneoset(1:4,nshel) = ixnneoset(1:4,i)
-              if (ixnneoset(4,i)/=ixnneoset(3,i)) then
-                sh_oset(nshel) = sh_oset(i)*thk(ie)
-              else
-                sh_oset(nshel) = sh_oset(i)*thk(ie+numelc)
-              end if
+              sh_oset(nshel) = sh_oset(i)*thk(ie)
             end if
           end do
           nneoset_g = nshel
