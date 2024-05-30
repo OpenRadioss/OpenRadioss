@@ -125,7 +125,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IFLAG,IGTYP,NUPARAM,NUVAR,NFUNC,IFUNC_ALPHA,IMAT
       INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),IFUNC(100),
-     .   NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ)
+     .   NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),IPT
       my_real 
      .   STI(MVSIZ),STIR(MVSIZ),OFF(MVSIZ),AL(MVSIZ),EXX(MVSIZ),
      .   EXY(MVSIZ),EXZ(MVSIZ),KXX(MVSIZ),KYY(MVSIZ),KZZ(MVSIZ),
@@ -143,6 +143,7 @@ C-----------------------------------------------
      .   FSCAL_ALPHA,ETH(MVSIZ),DEINTTH,ALPHA,DF,VL12(MVSIZ),DTINV
 C
       my_real ::  KC,PHIX, CA,CB, AREA, FPHI(MVSIZ,2),DIE(MVSIZ)
+      my_real ::  SIGX,FXINV,RR
       my_real ,DIMENSION(:) ,POINTER :: UVAR
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
@@ -311,6 +312,16 @@ C-------------------------
               VL12(I) = EXX(I)*DTINV
            ENDDO
            CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,STF_F,F1 )
+           IF (IGTYP == 18) THEN
+             DO IPT = 1,NPT        
+               DO I=1,NEL
+                 FXINV =  GBUF%FOR(I)/MAX(GBUF%FOR(I)**2,EM20)  
+                 RR = F1(I)*FXINV
+                 SIGX  = ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)%SIG(I)*RR 
+                 ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)%SIG(I) = SIGX 
+               ENDDO
+             ENDDO
+           END IF
            GBUF%FOR(1:NEL) = F1(1:NEL) 
         END IF
 C----------------------------

@@ -275,6 +275,7 @@ C
      2                  (V(3,NC2(I))-V(3,NC1(I)))*EZ(I)
            ENDDO
            CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,STF_F,GBUF%FOR)
+           GBUF%FOREP(JFT:JLT) = GBUF%FOR(JFT:JLT)
         END IF
         IF (IPARIT == 0) THEN
           CALL R1CUM3(
@@ -690,6 +691,7 @@ C
      1                  (VY2(I)-VY1(I))*EYX(I)+(VZ2(I)-VZ1(I))*EZX(I)
            ENDDO
            CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,STF_F,GBUF%FOR)
+           GBUF%FOREP(JFT:JLT) = GBUF%FOR(JFT:JLT)
         END IF
         IF (IPARIT == 0) THEN
           CALL R4CUM3(
