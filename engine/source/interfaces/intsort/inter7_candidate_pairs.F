@@ -542,7 +542,7 @@ c                   if(i_mem==2) jj = 0
           endif
 
 !$OMP BARRIER
-          write(6,*) itask,'Number of candidates: ', j_stok,ncontact,ncontact_save
+C         write(6,*) itask,'Number of candidates: ', j_stok,ncontact,ncontact_save
 
 
           DO i=1, j_stok, GROUP_SIZE
