@@ -116,7 +116,7 @@ C-----------------------------------------------
      .        I, IP0, IP1, IP2, IP21, I_SK_OLD, I_STOK1, 
      .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ, ITIED
         INTEGER 
-     .        NCONT, NCONTACT, INACTII, INACIMP, INTTH,
+     .        NCONT,  INACTII, INACIMP, INTTH,
      .        I_MEM,CAND_N_OLD,IDUM1(1),NMN_L, IVIS2,NUM_IMP
         INTEGER :: ILD ! unused variable
         my_real
@@ -151,7 +151,9 @@ C
         ITIED   =IPARI(85,NIN)
       
         LOC_PROC=ISPMD+1      
-        NCONTACT=MULTIMP*NCONT
+!$OMP SINGLE
+        INTBUF_TAB%NCONTACT = NCONT * MULTIMP
+!$OMP END SINGLE NOWAIT
       
         TYPE18=.FALSE.
         IF(NTY==7 .AND. INACTI==7)TYPE18=.TRUE.
@@ -243,7 +245,7 @@ C
             CALL INTER7_COLLISION_DETECTION(
      1      X      ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV       ,INACTI    ,INTBUF_TAB%CAND_P,
      2      NMN_G  ,NRTM           ,NSN                  ,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
-     3      GAP    ,INTBUF_TAB%I_STOK(1) ,NCONTACT ,INTER_STRUCT(NIN)%BOX_LIMIT_MAIN,
+     3      GAP    ,INTBUF_TAB%I_STOK(1) ,INTBUF_TAB%NCONTACT ,INTER_STRUCT(NIN)%BOX_LIMIT_MAIN,
      4      TZINF  ,INTER_STRUCT(NIN)%CAND_A  ,INTER_STRUCT(NIN)%CURV_MAX,
      6      ESHIFT      ,IFQ    ,INTBUF_TAB%IFPEN,
      8      INTBUF_TAB%STFNS,INTBUF_TAB%STFM,IPARI(21,NIN),INTBUF_TAB%GAP_S,
@@ -254,19 +256,21 @@ C
      E      ITIED ,INTBUF_TAB%CAND_F,DGAPLOADP,
      F      NRTM, INTER_STRUCT(NIN)%SIZE_CAND_A,
      .      INTBUF_TAB%S_KREMNODE, INTBUF_TAB%S_REMNODE)
-            IF(NCONTACT > NCONT * MULTIMP) THEN
+            IF(INTBUF_TAB%NCONTACT > NCONT * MULTIMP) THEN
               ! arrays have been reallocated within INTER7_COLLISION_DETECTION, without margin
               ! we update their size, and reallocate with a margin
 !$OMP SINGLE
-              INTBUF_TAB%S_CAND_N = NCONTACT
-              INTBUF_TAB%S_CAND_E = NCONTACT
-              INTBUF_TAB%S_CAND_P = NCONTACT
-              INTBUF_TAB%S_CAND_F = 8 * NCONTACT
-              INTBUF_TAB%S_IFPEN = NCONTACT
-              !Compute MULTIMP such as NCONTACT = NCONT * MULTIMP
-              MULTIMP = ceiling(dble(NCONTACT) / dble(NCONT)) + 1 
+              INTBUF_TAB%S_CAND_N = INTBUF_TAB%NCONTACT
+              INTBUF_TAB%S_CAND_E = INTBUF_TAB%NCONTACT
+              IF(INACTI == 5 .OR. INACTI == 6 .OR. INACTI == 7)  INTBUF_TAB%S_CAND_P = INTBUF_TAB%NCONTACT
+              IF(ITIED .NE. 0) INTBUF_TAB%S_CAND_F = 8 * INTBUF_TAB%NCONTACT
+              IF(IFQ .NE. 0 ) INTBUF_TAB%S_IFPEN = INTBUF_TAB%NCONTACT
+
+              !Compute MULTIMP such as INTBUF_TAB(NIN)%NCONTACT = NCONT * MULTIMP
+              MULTIMP = ceiling(dble(INTBUF_TAB%NCONTACT) / dble(NCONT)) + 1 
               CALL INTER7_REALLOC_INTBUF(NIN,MULTIMP,INTBUF_TAB)
-              NCONTACT = MULTIMP * NCONT
+              INTBUF_TAB%NCONTACT = MULTIMP * NCONT
+              
 !$OMP END SINGLE
             ENDIF
 
@@ -280,7 +284,7 @@ C
             CALL I7BUCE_VOX(
      1      X      ,INTBUF_TAB%IRECTM(1+4*ESHIFT),INTBUF_TAB%NSV  ,INACTI    ,INTBUF_TAB%CAND_P,
      2      NMN_G  ,NRTM_T                       ,NSN     ,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
-     3      GAP    ,NOINT       ,INTBUF_TAB%I_STOK(1) ,NCONTACT ,INTER_STRUCT(NIN)%BOX_LIMIT_MAIN ,
+     3      GAP    ,NOINT       ,INTBUF_TAB%I_STOK(1) ,INTBUF_TAB%NCONTACT ,INTER_STRUCT(NIN)%BOX_LIMIT_MAIN ,
      4      TZINF  ,MAXBOX      ,MINBOX         ,INTER_STRUCT(NIN)%CAND_A         ,CURV_MAX  ,
      6      NB_N_B ,ESHIFT      ,ILD            ,IFQ    ,INTBUF_TAB%IFPEN,
      8      INTBUF_TAB%STFNS,NIN ,INTBUF_TAB%STFM(1+ESHIFT),IPARI(21,NIN),INTBUF_TAB%GAP_S,
@@ -299,7 +303,7 @@ C
             CALL I7BUCE(
      1 X      ,INTBUF_TAB%IRECTM(1+4*ESHIFT),INTBUF_TAB%NSV  ,INACTI    ,INTBUF_TAB%CAND_P,
      2 NMN_G  ,NRTM_T                       ,NSN     ,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
-     3 GAP    ,NOINT       ,INTBUF_TAB%I_STOK(1) ,NCONTACT ,INTER_STRUCT(NIN)%BOX_LIMIT_MAIN ,
+     3 GAP    ,NOINT       ,INTBUF_TAB%I_STOK(1) ,INTBUF_TAB%NCONTACT ,INTER_STRUCT(NIN)%BOX_LIMIT_MAIN ,
      4 TZINF  ,MAXBOX      ,MINBOX         ,INTER_STRUCT(NIN)%CAND_A         ,CURV_MAX  ,
      6 NB_N_B ,ESHIFT      ,ILD            ,IFQ    ,INTBUF_TAB%IFPEN,
      8 INTBUF_TAB%STFNS,NIN ,INTBUF_TAB%STFM(1+ESHIFT),IPARI(21,NIN),INTBUF_TAB%GAP_S,
@@ -340,7 +344,7 @@ C New barrier needed for Dynamic MultiMP
             I_MEMG = 0
             INTBUF_TAB%I_STOK(1) = CAND_N_OLD
             MULTIMP=IPARI(23,NIN)
-            NCONTACT=MULTIMP*NCONT
+            INTBUF_TAB%NCONTACT=MULTIMP*NCONT
             GOTO 40
         ENDIF
 

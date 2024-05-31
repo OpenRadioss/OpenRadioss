@@ -694,15 +694,6 @@ C=======================================================================
         SIZ = INTBUF_TAB(NI)%S_I_STOK_E
         CALL WRITE_I_C(INTBUF_TAB(NI)%I_STOK_E,SIZ)
 
-
-C       ! IF edges
-C        SIZ = INTBUF_TAB(NI)%S_GAPE
-C        IF(SIZ > 0) THEN
-C          CALL WRITE_I_C(INTBUF_TAB(NI)%NB_INTERNAL_EDGES,1)
-C          CALL WRITE_I_C(INTBUF_TAB(NI)%NB_BOUNDARY_EDGES_LOCAL,1)
-C          CALL WRITE_I_C(INTBUF_TAB(NI)%NB_BOUNDARY_EDGES_REMOTE,1)
-C        ENDIF
-
         SIZ = INTBUF_TAB(NI)%S_IFPEN
         CALL WRITE_I_C(INTBUF_TAB(NI)%IFPEN,SIZ)
 

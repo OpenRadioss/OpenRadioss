@@ -1779,6 +1779,7 @@ C Set Global parameters
 
 C=======================================================================
       IF (ITY == 7)THEN
+C       write(6,*) __FILE__,__LINE__,"!!!! REALLOCATION !!!!",IFQ,INTBUF_TAB%S_IFPEN,NEW_SIZE
 C=======================================================================
         ! CAND_E
         CALL REALLOC(INTBUF_TAB%CAND_E,INTBUF_TAB%S_CAND_E,NEW_SIZE)
@@ -1786,31 +1787,30 @@ C=======================================================================
         ! CAND_N
         CALL REALLOC(INTBUF_TAB%CAND_N,INTBUF_TAB%S_CAND_N,NEW_SIZE)
         INTBUF_TAB%S_CAND_N = NEW_SIZE
-        IF (IFQ /= 0)THEN
-          ! IFPEN
+        ! IFPEN
+        IF( IFQ /= 0)THEN
           CALL REALLOC(INTBUF_TAB%IFPEN,INTBUF_TAB%S_IFPEN,NEW_SIZE)
           INTBUF_TAB%S_IFPEN = NEW_SIZE
-          ! FTSAVX
+          !FTSAVX
           CALL REALLOC(INTBUF_TAB%FTSAVX,INTBUF_TAB%S_FTSAVX,NEW_SIZE)
           INTBUF_TAB%S_FTSAVX = NEW_SIZE
-          ! FTSAVY
+          !FTSAVY
           CALL REALLOC(INTBUF_TAB%FTSAVY,INTBUF_TAB%S_FTSAVY,NEW_SIZE)
           INTBUF_TAB%S_FTSAVY = NEW_SIZE
-          ! FTSAVZ
+          !FTSAVZ
           CALL REALLOC(INTBUF_TAB%FTSAVZ,INTBUF_TAB%S_FTSAVZ,NEW_SIZE)
-          INTBUF_TAB%S_FTSAVZ = NEW_SIZE                          
+          INTBUF_TAB%S_FTSAVZ = NEW_SIZE
+        ENDIF
+        IF(ITIED /= 0)THEN
+          ! CAND_F
+          CALL REALLOC(INTBUF_TAB%CAND_F,INTBUF_TAB%S_CAND_F,8*NEW_SIZE)
+          INTBUF_TAB%S_CAND_F = 8*NEW_SIZE
         ENDIF
 
-        IF(ITIED/=0)THEN
-          ! CAND_F 
-          CALL REALLOC(INTBUF_TAB%CAND_F,INTBUF_TAB%S_CAND_F,8*NEW_SIZE)
-          INTBUF_TAB%S_CAND_F = 8 * NEW_SIZE                         
-        END IF
-
-        IF(INACTI == 5 .OR. INACTI == 6 .OR. INACTI == 7) THEN 
+        IF(INACTI == 5 .OR. INACTI == 6 .OR. INACTI == 7)THEN
           ! CAND_P
           CALL REALLOC(INTBUF_TAB%CAND_P,INTBUF_TAB%S_CAND_P,NEW_SIZE)
-          INTBUF_TAB%S_CAND_P = NEW_SIZE
+          INTBUF_TAB%S_CAND_P = NEW_SIZE 
         ENDIF
 C=======================================================================
       ENDIF      

@@ -521,8 +521,7 @@ C-----------------------------------------------
 
 
 #include "my_real.inc"      
-c
-C=======================================================================
+C================================================
       TYPE INTBUF_STRUCT_
 C=================================================  
 c define typeINTBUF_STRUCT_ for new interface buffer INTBUF_TAB
@@ -531,7 +530,8 @@ c   - define integer arrays sizes
 c   - define float arrays sizes
 c   - define integer arrays
 c   - define float arrays
-
+C
+        integer :: NCONTACT ! multimp * ncont (coming from ipari) type 7 (engine only)
 C=======================================================================
 c DEFINE SIZES (integers arrays)
 C=======================================================================

@@ -395,28 +395,6 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
           CALL ARRET(2)
         ENDIF
         ILD = 1
-      ELSEIF(I_MEM==2) THEN
-        IF(DEBUG(1)>=1) THEN
-          IWARN = IWARN+1
-#include "lockon.inc"
-          WRITE(ISTDO,*)' **WARNING INTERFACE/MEMORY'
-          WRITE(IOUT,*)' **WARNING INTERFACE NB:',NOINT
-          WRITE(IOUT,*)'       TOO MANY POSSIBLE IMPACTS'
-          WRITE(IOUT,*)'       SIZE OF INFLUENCE ZONE IS'
-          WRITE(IOUT,*)'       MULTIPLIED BY 0.75'
-#include "lockoff.inc"
-        ENDIF
-        RETURN
-        TZINF = THREE_OVER_4*TZINF
-C taille de boite non diminuee
-C        MINBOX= THREE_OVER_4*MINBOX
-C        MAXBOX= THREE_OVER_4*MAXBOX
-        IF( TZINF<=MAX(GAP+DGAPLOAD,DRAD)  ) THEN
-          CALL ANCMSG(MSGID=98,ANMODE=ANINFO,
-     .            I1=NOINT,C1='(I7BUCE)')
-          CALL ARRET(2)
-        ENDIF
-        ILD = 1
       ELSEIF(I_MEM==3)THEN
         NB_N_B = NB_N_B + 1
         IF ( NB_N_B > NCONT) THEN

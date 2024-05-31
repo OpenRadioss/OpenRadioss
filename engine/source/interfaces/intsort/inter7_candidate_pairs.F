@@ -55,7 +55,7 @@ Chd|====================================================================
      &                                    cand_n       ,
      &                                    eshift       ,
      &                                    cand_e       ,
-     &                                    mulnsn       ,
+     &                                    ncontact       ,
      &                                    tzinf        ,
      &                                    gap_s_l      ,
      &                                    gap_m_l      ,
@@ -130,7 +130,7 @@ C-----------------------------------------------
           integer, intent(in), value :: s_cand_a !< size of cand_a
           integer, intent(in), value :: s_kremnod !< 2 * nrtm + 1 if option is used
           integer, intent(in), value :: s_remnod !< size of remnod
-          integer, intent(inout) :: mulnsn !< maximum numbrer of candidates (size of cand_n)
+          integer, intent(inout) :: ncontact !< maximum numbrer of candidates (size of cand_n)
           integer, intent(inout) :: ii_stok !< number of candidates found
 
           integer, intent(in) :: nsv(nsn) !< global secondary node numbers
@@ -139,9 +139,9 @@ C-----------------------------------------------
           integer, intent(in) :: remnod(s_remnod) !< list of removed nodes
           integer, intent(in) :: irect(4,nrtm) !< node id (from 1 to NUMNOD) for each segment (1:nrtm)
 
-          integer, dimension(:), pointer,  intent(inout) :: cand_n !< list of candidates (secondary) size: mulnsn
-          integer, dimension(:), pointer,  intent(inout) :: cand_e !< list of candidates (main) size: mulnsn
-          integer, dimension(:), pointer,  intent(inout) :: ifpen !< something related to friction (???) size: mulnsn
+          integer, dimension(:), pointer,  intent(inout) :: cand_n !< list of candidates (secondary) size: ncontact
+          integer, dimension(:), pointer,  intent(inout) :: cand_e !< list of candidates (main) size: ncontact
+          integer, dimension(:), pointer,  intent(inout) :: ifpen !< something related to friction (???) size: ncontact
           integer, intent(inout) :: cand_a(s_cand_a) !< (???)
           integer, intent(inout) :: irem(s_irem,nsnr) !< remote (spmd) integer data
           integer, intent(inout) :: voxel(nbx+2,nby+2,nbz+2) !< contain the first node of each voxel
@@ -163,8 +163,8 @@ C-----------------------------------------------
           my_real, intent(in) :: curv_max(nrtm) !< maximum curvature
           my_real, intent(in) :: xyzm(12) !< bounding box
 
-          my_real, dimension(:), pointer,  intent(inout) :: cand_p !< penetration (???) size: mulnsn
-          my_real, dimension(:), pointer,  intent(inout) :: cand_f !< related to tied contact, cand force (???) size: mulnsn
+          my_real, dimension(:), pointer,  intent(inout) :: cand_p !< penetration (???) size: ncontact
+          my_real, dimension(:), pointer,  intent(inout) :: cand_f !< related to tied contact, cand force (???) size: ncontact
           my_real, intent(in) :: stf(nrtm) !< stiffness of segments (quadrangles or triangles)
           my_real, intent(inout) :: stfn(nsn) !< stiffness secondary nodes
           my_real, intent(inout) :: xrem(s_xrem,nsnr) !< remote (spmd) real data
@@ -193,15 +193,16 @@ C-----------------------------------------------
 !         integer, dimension(GROUP_SIZE) :: prov_n, prov_e !< temporary list of candidates
           integer, dimension(:), allocatable :: prov_n, prov_e
           integer :: size_prov 
-          integer :: mulnsn_save
-
+          integer :: ncontact_save
+          integer :: nthreads
+          integer, external :: omp_get_num_threads
 
 C-----------------------------------------------
-
-          size_prov = mulnsn
-          mulnsn_save = mulnsn
-          allocate(prov_n(mulnsn))
-          allocate(prov_e(mulnsn))
+          nthreads = omp_get_num_threads()
+          size_prov = 2 * ncontact/nthreads 
+          ncontact_save = ncontact
+          allocate(prov_n(ncontact))
+          allocate(prov_e(ncontact))
 
 !$OMP BARRIER
 
@@ -494,9 +495,9 @@ C=======================================================================
 
                     j_stok = j_stok + 1
                     if(j_stok > size_prov) then
-                      CALL REALLOC(prov_n, size_prov, size_prov+mulnsn) 
-                      CALL REALLOC(prov_e, size_prov, size_prov+mulnsn) 
-                      size_prov = size_prov + mulnsn
+                      CALL REALLOC(prov_n, size_prov, size_prov*2) 
+                      CALL REALLOC(prov_e, size_prov, size_prov*2) 
+                      size_prov = 2*size_prov       
                     endif
                     prov_n(j_stok) = jj
                     prov_e(j_stok) = ne
@@ -518,29 +519,38 @@ c                   if(i_mem==2) jj = 0
 !$OMP END DO
 
 !$OMP CRITICAL
-          mulnsn = mulnsn - j_stok
+          ncontact = ncontact - j_stok
 !$OMP END CRITICAL
-
 !$OMP BARRIER
 
-
-          if(itask == 0 .AND. mulnsn < 0) then
-            write(*,*) 'ERROR: not enough memory for candidates'
-            mulnsn = mulnsn_save - mulnsn
-            ! upgrade arrays to mulnsn size
-            call realloc(cand_n, mulnsn_save, mulnsn)
-            call realloc(cand_e, mulnsn_save, mulnsn)
-            if(ifq .ne.0)  call realloc(ifpen, mulnsn_save, mulnsn)
-            if(inacti == 5 .or. inacti == 6 .or. inacti == 7)  call  realloc(cand_p, mulnsn_save, mulnsn)
-            if(itied .ne. 0) call realloc(cand_f, 8*mulnsn_save, 8*mulnsn)
+          if(itask == 0) then 
+            if(ncontact < 0) then
+!$OMP CRITICAL
+              ncontact = ncontact_save - ncontact 
+!$OMP END CRITICAL
+              ! upgrade arrays to ncontact size
+              call realloc(cand_n, ncontact_save, ncontact)
+              call realloc(cand_e, ncontact_save, ncontact)
+              if(ifq .ne.0)  call realloc(ifpen, ncontact_save, ncontact)
+              if(inacti == 5 .or. inacti == 6 .or. inacti == 7)  call  realloc(cand_p, ncontact_save, ncontact)
+              if(itied .ne. 0) call realloc(cand_f, 8*ncontact_save, 8*ncontact)
+            else 
+!$omp critical
+              ncontact = ncontact_save
+!$omp end critical
+            endif
           endif
+
+!$OMP BARRIER
+          write(6,*) itask,'Number of candidates: ', j_stok,ncontact,ncontact_save
+
 
           DO i=1, j_stok, GROUP_SIZE
           ! j = size of the current block
             j = min(GROUP_SIZE, j_stok - i + 1)
             call inter7_filter_cand(
      1                   j,irect  ,x     ,nsv   ,ii_stok,
-     2                   cand_n,cand_e ,mulnsn,marge  ,
+     2                   cand_n,cand_e ,ncontact,marge  ,
      3                   prov_n(i) ,prov_e(i),eshift,inacti ,
      4                   ifq   ,cand_a ,cand_p,ifpen ,nsn    ,
      5                   oldnum,nsnrold,igap  ,gap   ,gap_s  ,
@@ -595,7 +605,7 @@ C     &                                    nsv          ,
 C     &                                    ii_stok      ,
 C     &                                    cand_n       ,
 C     &                                    cand_e       ,
-C     &                                    mulnsn       ,
+C     &                                    ncontact       ,
 C     &                                    tzinf        ,
 C     &                                    gap_s_l      ,
 C     &                                    gap_m_l      ,
@@ -654,7 +664,7 @@ Chd|====================================================================
      &                                    ii_stok      ,
      &                                    cand_n       ,
      &                                    cand_e       ,
-     &                                    mulnsn       ,
+     &                                    ncontact       ,
      &                                    tzinf        ,
      &                                    gap_s_l      ,
      &                                    gap_m_l      ,
@@ -709,7 +719,7 @@ C-----------------------------------------------
           integer, intent(in), value :: s_cand_a !< size of cand_a
           integer, intent(in), value :: s_kremnod ! 2 * nrtm + 1 if option is used
           integer, intent(in), value :: s_remnod !< size of remnod
-          integer, intent(in), value :: mulnsn !< maximum numbrer of candidates (size of cand_n)
+          integer, intent(in), value :: ncontact !< maximum numbrer of candidates (size of cand_n)
           integer, intent(in), value :: nbx !< number of voxels in x
           integer, intent(in), value :: nby !< number of voxels in y
           integer, intent(in), value :: nbz !< number of voxels in z
@@ -772,7 +782,7 @@ C-----------------------------------------------
           write(unitNum) s_cand_a !< size of cand_a
           write(unitNum) s_kremnod !< 2 * nrtm + 1 if option is used
           write(unitNum) s_remnod !< size of remnod
-          write(unitNum) mulnsn !< maximum numbrer of candidates (size of cand_n)
+          write(unitNum) ncontact !< maximum numbrer of candidates (size of cand_n)
           write(unitNum) nbx !< number of voxels in x
           write(unitNum) nby !< number of voxels in y
           write(unitNum) nbz !< number of voxels in z
@@ -828,7 +838,7 @@ C-----------------------------------------------
           write(6,*)  "s_cand_a     ",s_cand_a                  
           write(6,*)  "s_kremnod    ",s_kremnod                                  
           write(6,*)  "s_remnod     ",s_remnod                  
-          write(6,*)  "mulnsn       ",mulnsn                                                  
+          write(6,*)  "ncontact       ",ncontact                                                  
           write(6,*)  "nbx          ",nbx                         
           write(6,*)  "nby          ",nby                         
           write(6,*)  "nbz          ",nbz                         
@@ -857,7 +867,7 @@ Chd|====================================================================
      &                                    ii_stok      ,
      &                                    cand_n       ,
      &                                    cand_e       ,
-     &                                    mulnsn       ,
+     &                                    ncontact       ,
      &                                    tzinf        ,
      &                                    gap_s_l      ,
      &                                    gap_m_l      ,
@@ -912,7 +922,7 @@ C-----------------------------------------------
           integer, intent(out) :: s_cand_a !< size of cand_a
           integer, intent(out) :: s_kremnod ! 2 * nrtm + 1 if option is used
           integer, intent(out) :: s_remnod !< size of remnod
-          integer, intent(out) :: mulnsn !< maximum numbrer of candidates (size of cand_n)
+          integer, intent(out) :: ncontact !< maximum numbrer of candidates (size of cand_n)
           integer, intent(out) :: nbx !< number of voxels in x
           integer, intent(out) :: nby !< number of voxels in y
           integer, intent(out) :: nbz !< number of voxels in z
@@ -976,7 +986,7 @@ C-----------------------------------------------
           read(unitNum) s_cand_a !< size of cand_a
           read(unitNum) s_kremnod !< 2 * nrtm + 1 if option is used
           read(unitNum) s_remnod !< size of remnod
-          read(unitNum) mulnsn !< maximum numbrer of candidates (size of cand_n)
+          read(unitNum) ncontact !< maximum numbrer of candidates (size of cand_n)
           read(unitNum) nbx !< number of voxels in x
           read(unitNum) nby !< number of voxels in y
           read(unitNum) nbz !< number of voxels in z
@@ -996,7 +1006,7 @@ C-----------------------------------------------
           write(6,*)  "s_cand_a     ",s_cand_a                  
           write(6,*)  "s_kremnod    ",s_kremnod                                  
           write(6,*)  "s_remnod     ",s_remnod                  
-          write(6,*)  "mulnsn       ",mulnsn                                                  
+          write(6,*)  "ncontact       ",ncontact                                                  
           write(6,*)  "nbx          ",nbx                         
           write(6,*)  "nby          ",nby                         
           write(6,*)  "nbz          ",nbz                         
@@ -1051,8 +1061,8 @@ C-----------------------------------------------
           !relevant output
           !mumnsn is the maximum number of candidates, ii_stok is the number of candidates found
           read(unitNum) ii_stok !< number of candidates found
-          allocate(cand_n(mulnsn))
-          allocate(cand_e(mulnsn))
+          allocate(cand_n(ncontact))
+          allocate(cand_e(ncontact))
           cand_n = 0
           cand_e = 0
           read(unitNum) cand_n(1:ii_stok) !< list of candidates (secondary)
@@ -1097,7 +1107,7 @@ C-----------------------------------------------
           integer :: s_cand_a !< size of cand_a
           integer :: s_kremnod ! 2 * nrtm + 1 if option is used
           integer :: s_remnod !< size of remnod
-          integer :: mulnsn !< maximum numbrer of candidates (size of cand_n)
+          integer :: ncontact !< maximum numbrer of candidates (size of cand_n)
           integer :: nbx !< number of voxels in x
           integer :: nby !< number of voxels in y
           integer :: nbz !< number of voxels in z
@@ -1164,7 +1174,7 @@ C-----------------------------------------------
      &                                    ii_stok_ref  ,
      &                                    cand_n_ref   ,
      &                                    cand_e_ref   ,
-     &                                    mulnsn       ,
+     &                                    ncontact       ,
      &                                    tzinf        ,
      &                                    gap_s_l      ,
      &                                    gap_m_l      ,
@@ -1197,11 +1207,11 @@ C-----------------------------------------------
      &                                    total_nb_nrtm,
      &                                    numnod       )
 
-        allocate(cand_n(mulnsn))
-        allocate(cand_e(mulnsn))
-        allocate(cand_f(mulnsn))
-        allocate(cand_p(mulnsn))
-        allocate(ifpen(mulnsn))
+        allocate(cand_n(ncontact))
+        allocate(cand_e(ncontact))
+        allocate(cand_f(ncontact))
+        allocate(cand_p(ncontact))
+        allocate(ifpen(ncontact))
         s_xrem = 1 
         s_irem = 1
         allocate(xrem(s_xrem, nsnr))
@@ -1239,7 +1249,7 @@ C-----------------------------------------------
      &                                    cand_n       ,
      &                                    eshift       ,
      &                                    cand_e       ,
-     &                                    mulnsn       ,
+     &                                    ncontact       ,
      &                                    tzinf        ,
      &                                    gap_s_l      ,
      &                                    gap_m_l      ,

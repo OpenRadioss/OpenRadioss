@@ -188,6 +188,7 @@ c-----------------------------------------------
           do i=1,j_stok
             if(pene(i)/=zero)then
               i_stok = i_stok + 1
+              if(i_stok>mulnsn) write(6,* )'INTER7_FILTER_CAND: mulnsn too small',mulnsn,i_stok
               cand_n(i_stok) = prov_n(i)
               cand_e(i_stok) = prov_e(i)+eshift
               if(ifq_l > 0)ifpen(i_stok)  = 0
