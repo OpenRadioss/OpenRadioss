@@ -600,9 +600,10 @@ c---
 c---      User Mat Buffer, Fail buffer, Visc buffer :  alloc + init
           DO IL = 1, NLAY
            MX      = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
+           NUVARV  = MAT_PARAM(MX)%VISC%NUVAR
+           ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = NUVARV
            NUVARM  = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
            NVARTMP = ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP
-           NUVARV  = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC
            NFAIL   = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL
            NUVAREOS= ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS
            DO IR = 1,NPTR                                       
@@ -1302,9 +1303,11 @@ c--------------
 c---      Layer variables
 c---      User Mat Buffer, Fail buffer, Visc buffer :  alloc + init
           DO IL = 1, NLAY
+           MX      = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
+           NUVARV  = MAT_PARAM(MX)%VISC%NUVAR
+           ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = NUVARV
            NUVARM = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
            NVARTMP= ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP
-           NUVARV = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC
            NUVAREOS = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS 
            NFAIL  = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL
            NPTT   = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
