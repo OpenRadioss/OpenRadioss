@@ -172,9 +172,6 @@ c
        ITY=IPARG(5,NG)
        IS_ALE = IPARG(7,NG)
        
-       DO I=1,6
-         JJ(I) = NEL*(I-1)
-       ENDDO  
 
        IF (ITY == ITYP) THEN
          GBUF => ELBUF_TAB(NG)%GBUF
@@ -535,6 +532,9 @@ C MACH NUMBER
 C SSP
                 WWA(239550)= LBUF%SSP(I)                              
                 IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN   
+                  JJ(1) = NEL*(1-1)
+                  JJ(2) = NEL*(2-1)
+                  JJ(3) = NEL*(3-1)
                   VEL(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I) 
                   VEL(2) = GBUF%MOM(JJ(2) + I) / GBUF%RHO(I)
                   VEL(3) = GBUF%MOM(JJ(3) + I) / GBUF%RHO(I) 
