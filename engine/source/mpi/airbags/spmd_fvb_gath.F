@@ -268,12 +268,14 @@ C
 C
          ITAG=MSGOFF
          LEN=ITABL(1)+ITABL(2)+ITABL(3)
-         CALL MPI_ISEND(IBUF, LEN, MPI_INTEGER, 0,
+         REQ(1) = MPI_REQUEST_NULL
+         REQ(2) = MPI_REQUEST_NULL
+         IF(LEN > 0) CALL MPI_ISEND(IBUF, LEN, MPI_INTEGER, 0,
      .                  ITAG, FVSPMD(IFV)%MPI_COMM, REQ(1), IERR)
 C
          ITAG=MSGOFF
          LEN=3*(ITABL(1)+ITABL(2)+ITABL(3))
-         CALL MPI_ISEND(RBUF, LEN, REAL, 0,
+         IF(LEN > 0 ) CALL MPI_ISEND(RBUF, LEN, REAL, 0,
      .                  ITAG, FVSPMD(IFV)%MPI_COMM, REQ(2), IERR)
 C
          CALL MPI_WAITALL(2, REQ, STAT, IERR)
