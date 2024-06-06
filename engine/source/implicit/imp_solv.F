@@ -21,28 +21,28 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|  IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
-Chd|        ARRET                         source/system/arret.F         
-Chd|        BFGS_INI                      source/implicit/imp_bfgs.F    
+Chd|        ARRET                         source/system/arret.F
+Chd|        BFGS_INI                      source/implicit/imp_bfgs.F
 Chd|        CFIELD_IMP                    source/loads/general/load_centri/cfield_imp.F
-Chd|        CONDENS_B                     source/implicit/upd_glob_k.F  
-Chd|        CP_IMPBUF                     source/implicit/produt_v.F    
-Chd|        CP_INT_HP                     source/implicit/produt_v.F    
-Chd|        CP_REAL_HP                    source/implicit/produt_v.F    
-Chd|        CRIT_LLIM                     source/implicit/imp_solv.F    
-Chd|        DEALLOCM                      source/implicit/imp_solv.F    
-Chd|        DIM_INT_K                     source/implicit/ind_glob_k.F  
-Chd|        DIS_CP                        source/implicit/imp_solv.F    
-Chd|        DU_INI_HP                     source/implicit/imp_solv.F    
-Chd|        DYNA_CPK0                     source/implicit/imp_dyna.F    
-Chd|        DYNA_CPR0                     source/implicit/imp_dyna.F    
-Chd|        DYNA_INA                      source/implicit/imp_dyna.F    
-Chd|        DYNA_WEX                      source/implicit/imp_dyna.F    
-Chd|        ETFAC_INI                     source/implicit/imp_init.F    
-Chd|        FIL_SPAN1                     source/implicit/ind_glob_k.F  
+Chd|        CONDENS_B                     source/implicit/upd_glob_k.F
+Chd|        CP_IMPBUF                     source/implicit/produt_v.F
+Chd|        CP_INT_HP                     source/implicit/produt_v.F
+Chd|        CP_REAL_HP                    source/implicit/produt_v.F
+Chd|        CRIT_LLIM                     source/implicit/imp_solv.F
+Chd|        DEALLOCM                      source/implicit/imp_solv.F
+Chd|        DIM_INT_K                     source/implicit/ind_glob_k.F
+Chd|        DIS_CP                        source/implicit/imp_solv.F
+Chd|        DU_INI_HP                     source/implicit/imp_solv.F
+Chd|        DYNA_CPK0                     source/implicit/imp_dyna.F
+Chd|        DYNA_CPR0                     source/implicit/imp_dyna.F
+Chd|        DYNA_INA                      source/implicit/imp_dyna.F
+Chd|        DYNA_WEX                      source/implicit/imp_dyna.F
+Chd|        ETFAC_INI                     source/implicit/imp_init.F
+Chd|        FIL_SPAN1                     source/implicit/ind_glob_k.F
 Chd|        FORCE_IMP                     source/loads/general/force_imp.F
 Chd|        FVBC_IMPL1                    source/constraints/general/impvel/fv_imp0.F
 Chd|        FV_DD0                        source/constraints/general/impvel/fv_imp0.F
@@ -50,90 +50,90 @@ Chd|        FV_FINT0                      source/constraints/general/impvel/fv_i
 Chd|        FV_IMP                        source/constraints/general/impvel/fv_imp0.F
 Chd|        FV_IMP1                       source/constraints/general/impvel/fv_imp0.F
 Chd|        FV_RW                         source/constraints/general/impvel/fv_imp0.F
-Chd|        GETNDDLI_G                    source/mpi/implicit/imp_fri.F 
-Chd|        GET_FEXT                      source/implicit/imp_solv.F    
+Chd|        GETNDDLI_G                    source/mpi/implicit/imp_fri.F
+Chd|        GET_FEXT                      source/implicit/imp_solv.F
 Chd|        GET_NSPC                      source/constraints/general/bcs/bc_imp0.F
 Chd|        GRAVIT_IMP                    source/loads/general/grav/gravit_imp.F
-Chd|        IDDL2NOD                      source/implicit/recudis.F     
-Chd|        IDEL_INT                      source/implicit/ind_glob_k.F  
-Chd|        IMP_B2A                       source/implicit/imp_solv.F    
-Chd|        IMP_CHECK                     source/implicit/imp_solv.F    
-Chd|        IMP_CHECM                     source/implicit/imp_solv.F    
-Chd|        IMP_DTKIN                     source/implicit/imp_int_k.F   
-Chd|        IMP_DTN                       source/implicit/imp_dt.F      
-Chd|        IMP_DYKV                      source/implicit/imp_dyna.F    
-Chd|        IMP_DYKV0                     source/implicit/imp_dyna.F    
-Chd|        IMP_DYNAM                     source/implicit/imp_dyna.F    
-Chd|        IMP_FR7I                      source/mpi/implicit/imp_fri.F 
-Chd|        IMP_GLOB_KHP                  source/implicit/imp_glob_k.F  
-Chd|        IMP_INTFR                     source/implicit/imp_solv.F    
-Chd|        IMP_INTTD0                    source/implicit/imp_int_k.F   
-Chd|        IMP_INT_K                     source/implicit/imp_int_k.F   
-Chd|        IMP_KPRES                     source/implicit/imp_glob_k.F  
-Chd|        IMP_MUMPS1                    source/implicit/imp_mumps.F   
-Chd|        IMP_QIFAM                     source/implicit/imp_dyna.F    
-Chd|        IMP_SETB                      source/implicit/imp_setb.F    
-Chd|        IMP_STOP                      source/implicit/imp_solv.F    
-Chd|        IND_FRKD                      source/mpi/implicit/imp_fri.F 
-Chd|        IND_GLOB_K                    source/implicit/ind_glob_k.F  
-Chd|        IND_INT_K                     source/implicit/ind_glob_k.F  
-Chd|        INI_BMINMA_IMP                source/implicit/imp_solv.F    
-Chd|        INI_K0H                       source/implicit/imp_solv.F    
-Chd|        INI_KIC                       source/implicit/imp_solv.F    
-Chd|        INI_KIF                       source/implicit/imp_solv.F    
-Chd|        INT5_DIVERG                   source/implicit/imp_solv.F    
-Chd|        INTEGRATOR1_HP                source/implicit/integrator.F  
-Chd|        INTEGRATORL_HP                source/implicit/integrator.F  
-Chd|        INTEGRATOR_HP                 source/implicit/integrator.F  
-Chd|        KIN_KNL                       source/implicit/imp_int_k.F   
-Chd|        K_BAND                        source/implicit/imp_solv.F    
-Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
-Chd|        MONV_IMP                      source/airbag/monv_imp0.F     
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        M_LNZ                         source/implicit/imp_solv.F    
-Chd|        NL_SOLV                       source/implicit/nl_solv.F     
-Chd|        PRODUT_HP                     source/implicit/produt_v.F    
-Chd|        PRODUT_UHP0                   source/implicit/produt_v.F    
-Chd|        PR_INFOK                      source/implicit/imp_solv.F    
-Chd|        PR_SOLNFO                     source/implicit/imp_solv.F    
+Chd|        IDDL2NOD                      source/implicit/recudis.F
+Chd|        IDEL_INT                      source/implicit/ind_glob_k.F
+Chd|        IMP_B2A                       source/implicit/imp_solv.F
+Chd|        IMP_CHECK                     source/implicit/imp_solv.F
+Chd|        IMP_CHECM                     source/implicit/imp_solv.F
+Chd|        IMP_DTKIN                     source/implicit/imp_int_k.F
+Chd|        IMP_DTN                       source/implicit/imp_dt.F
+Chd|        IMP_DYKV                      source/implicit/imp_dyna.F
+Chd|        IMP_DYKV0                     source/implicit/imp_dyna.F
+Chd|        IMP_DYNAM                     source/implicit/imp_dyna.F
+Chd|        IMP_FR7I                      source/mpi/implicit/imp_fri.F
+Chd|        IMP_GLOB_KHP                  source/implicit/imp_glob_k.F
+Chd|        IMP_INTFR                     source/implicit/imp_solv.F
+Chd|        IMP_INTTD0                    source/implicit/imp_int_k.F
+Chd|        IMP_INT_K                     source/implicit/imp_int_k.F
+Chd|        IMP_KPRES                     source/implicit/imp_glob_k.F
+Chd|        IMP_MUMPS1                    source/implicit/imp_mumps.F
+Chd|        IMP_QIFAM                     source/implicit/imp_dyna.F
+Chd|        IMP_SETB                      source/implicit/imp_setb.F
+Chd|        IMP_STOP                      source/implicit/imp_solv.F
+Chd|        IND_FRKD                      source/mpi/implicit/imp_fri.F
+Chd|        IND_GLOB_K                    source/implicit/ind_glob_k.F
+Chd|        IND_INT_K                     source/implicit/ind_glob_k.F
+Chd|        INI_BMINMA_IMP                source/implicit/imp_solv.F
+Chd|        INI_K0H                       source/implicit/imp_solv.F
+Chd|        INI_KIC                       source/implicit/imp_solv.F
+Chd|        INI_KIF                       source/implicit/imp_solv.F
+Chd|        INT5_DIVERG                   source/implicit/imp_solv.F
+Chd|        INTEGRATOR1_HP                source/implicit/integrator.F
+Chd|        INTEGRATORL_HP                source/implicit/integrator.F
+Chd|        INTEGRATOR_HP                 source/implicit/integrator.F
+Chd|        KIN_KNL                       source/implicit/imp_int_k.F
+Chd|        K_BAND                        source/implicit/imp_solv.F
+Chd|        LIN_SOLV                      source/implicit/lin_solv.F
+Chd|        MONV_IMP                      source/airbag/monv_imp0.F
+Chd|        MY_BARRIER                    source/system/machine.F
+Chd|        M_LNZ                         source/implicit/imp_solv.F
+Chd|        NL_SOLV                       source/implicit/nl_solv.F
+Chd|        PRODUT_HP                     source/implicit/produt_v.F
+Chd|        PRODUT_UHP0                   source/implicit/produt_v.F
+Chd|        PR_INFOK                      source/implicit/imp_solv.F
+Chd|        PR_SOLNFO                     source/implicit/imp_solv.F
 Chd|        PUT_NSPC                      source/constraints/general/bcs/bc_imp0.F
-Chd|        QSTAT_INI                     source/implicit/imp_dyna.F    
-Chd|        RECUKIN                       source/implicit/recudis.F     
-Chd|        RER02                         source/implicit/upd_glob_k.F  
+Chd|        QSTAT_INI                     source/implicit/imp_dyna.F
+Chd|        RECUKIN                       source/implicit/recudis.F
+Chd|        RER02                         source/implicit/upd_glob_k.F
 Chd|        RGWAL0_IMP                    source/constraints/general/rwall/rgwal0.F
-Chd|        SAVE_KIF                      source/implicit/imp_solv.F    
-Chd|        SAV_INTTD                     source/implicit/imp_int_k.F   
-Chd|        SPBRM_PRE                     source/implicit/imp_solv.F    
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
+Chd|        SAVE_KIF                      source/implicit/imp_solv.F
+Chd|        SAV_INTTD                     source/implicit/imp_int_k.F
+Chd|        SPBRM_PRE                     source/implicit/imp_solv.F
+Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F
 Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_MIN_I                    source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_MIN_S                    source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_SUMF_A                   source/mpi/implicit/imp_spmd.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        UPD_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F  
-Chd|        UPD_RHS                       source/implicit/upd_glob_k.F  
-Chd|        VAXPY_HP                      source/implicit/produt_v.F    
-Chd|        VSCALY_HP                     source/implicit/produt_v.F    
-Chd|        WEIGHTDDL                     source/implicit/recudis.F     
-Chd|        ZERO1                         source/system/zero.F          
-Chd|        ZEROR_HP                      source/implicit/produt_v.F    
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
+Chd|        STARTIME                      source/system/timer.F
+Chd|        STOPTIME                      source/system/timer.F
+Chd|        UPD_FR_K                      source/mpi/implicit/imp_fri.F
+Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F
+Chd|        UPD_RHS                       source/implicit/upd_glob_k.F
+Chd|        VAXPY_HP                      source/implicit/produt_v.F
+Chd|        VSCALY_HP                     source/implicit/produt_v.F
+Chd|        WEIGHTDDL                     source/implicit/recudis.F
+Chd|        ZERO1                         source/system/zero.F
+Chd|        ZEROR_HP                      source/implicit/produt_v.F
+Chd|        DRAPE_MOD                     share/modules/drape_mod.F
+Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F 
-Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F 
-Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
-Chd|        IMP_WORKI                     share/modules/impbufdef_mod.F 
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
+Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F
+Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F
+Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F
+Chd|        IMP_WORKI                     share/modules/impbufdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
+Chd|        STACK_MOD                     share/modules/stack_mod.F
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_SOLV(
@@ -250,12 +250,8 @@ C-----------------------------------------------
      .          ISLEN17,IRLEN17,IRLEN7T,ISLEN7T,
      .          IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,ISLEN20E,
      .          KINET(*),NUM_IMP1(*),IRBE3(*),LRBE3(*),IRBE2(*),LRBE2(*)
-      my_real, INTENT(IN) :: 
-     .        DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
-C     REAL
-        my_real
-     .    DT2PREV,VOLMON(*) ,TEMP(*),
-     .    WAINT(*),FRBE3(*)
+      my_real, INTENT(IN) :: DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
+        my_real DT2PREV,VOLMON(*) ,TEMP(*), WAINT(*),FRBE3(*)
         TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB, ELBUF_IMP
         DOUBLE PRECISION
      .          FRWL6(*), XDP(3,*)
@@ -268,7 +264,7 @@ C
       TYPE(DMUMPS_STRUC) MUMPS_PAR
 #else
       ! Fake declaration as DMUMPS_STRUC is shipped with MUMPS
-      INTEGER MUMPS_PAR 
+      INTEGER MUMPS_PAR
 #endif
         TYPE(INTBUF_STRUCT_) INTBUF_TAB(*), INTBUF_TAB_C
         TYPE (STACK_PLY) :: STACK
@@ -314,12 +310,9 @@ C
 C
         INTEGER IBID,IFIF,F_DDL,L_DDL,NSPC_OLD,NSPC,NFXV_G
 C
-        my_real
-     .          RBID,EFAC,LBB(NDDL0),DUMMY_FEXT(3,1)
-        my_real
-     .    TFEXC,TMP,TMP1,TMP2,R2,BFAC,FACI,R02,GAP,BID,WE_IMP
-        my_real,
-     .           DIMENSION(:),ALLOCATABLE :: DIAG_I0,LT_I0
+        my_real RBID,EFAC,LBB(NDDL0),DUMMY_FEXT(3,1)
+        my_real TFEXC,TMP,TMP1,TMP2,R2,BFAC,FACI,R02,GAP,BID,WE_IMP
+        my_real,DIMENSION(:),ALLOCATABLE :: DIAG_I0,LT_I0
 C
         INTEGER, POINTER     :: NDDL,NNZK,NRBYAC,NINT2,NMC,NMC2,NMONV
         INTEGER, DIMENSION(:) ,POINTER     :: IADK,JDIK,IADM,JDIM
@@ -390,7 +383,6 @@ C
         DGR   =>IMPBUF_TAB%DGR
         DG0   =>IMPBUF_TAB%DG0
         DGR0  =>IMPBUF_TAB%DGR0
-c                 BUFIN_C=>IMPBUF_TAB%BUFIN_C
         AC=>IMPBUF_TAB%AC
         ACR=>IMPBUF_TAB%ACR
         R_IMP => IMPBUF_TAB%R_IMP
@@ -407,7 +399,7 @@ C    /---------------/
           RETURN
         ENDIF
 C------------------------------
-C        Initialisation
+C        Initialization
 C------------------------------
         IPRINT0=0
         IF (ISPMD==0) THEN
@@ -451,8 +443,6 @@ C---------for interface sorting
           IF(NINTER>0) CALL INI_BMINMA_IMP
         END IF
 c
-C-----------------------------
-Citask0        IF (ITASK == 0) THEN
 C-----------------------------
         IF (IMCONV==3) CALL CP_REAL_HP(NNDL,X_C,X)
         NFXV_G = NFXVEL
@@ -522,32 +512,32 @@ C
           ENDIF
 C
           IF (NCYCLE==1.AND.IDYNA>0)
-     .       CALL DYNA_INA(IBCL  ,FORC   ,SNPC,NPC   ,TF    ,A     ,
-     2                     V     ,X      ,SKEWS  ,AR    ,VR    ,
-     3                     SENSOR_TAB,WEIGHT,TFEXC ,IADS_F ,
-     4                     FSKY  ,IGRV   ,AGRV  ,MS    ,IN    ,
-     5                     LGRAV ,ITASK ,NRBYAC,IRBYAC ,NPBY  ,
-     6                     RBY   ,FR_ELEM,IAD_ELEM,NDDL0,NNZK0,
-     7                     I_IMP(5),H3D_DATA,CPTREAC,FTHREAC,NODREAC,
-     8                     NSENSOR,TH_SURF ,TH_SURF%CHANNELS, DPL0CLD,
-     9                     VEL0CLD,   D,  DR,  NUMNOD,NSURF,
-     A                     NFUNCT,NCONLD,NGRAV,NINVEL,STF,NUMSKW)
+     .       CALL DYNA_INA(IBCL       ,FORC     ,SNPC            ,NPC     ,TF     ,A   ,
+     2                     V          ,X        ,SKEWS           ,AR      ,VR     ,
+     3                     SENSOR_TAB ,WEIGHT   ,TFEXC           ,IADS_F  ,
+     4                     FSKY       ,IGRV     ,AGRV            ,MS      ,IN     ,
+     5                     LGRAV      ,ITASK    ,NRBYAC          ,IRBYAC  ,NPBY   ,
+     6                     RBY        ,FR_ELEM  ,IAD_ELEM        ,NDDL0   ,NNZK0  ,
+     7                     I_IMP(5)   ,H3D_DATA ,CPTREAC         ,FTHREAC ,NODREAC,
+     8                     NSENSOR    ,TH_SURF  ,TH_SURF%CHANNELS,DPL0CLD ,
+     9                     VEL0CLD    ,D        ,DR              ,NUMNOD  ,NSURF  ,
+     A                     NFUNCT     ,NCONLD   ,NGRAV           ,NINVEL  ,STF    ,NUMSKW)
 C
 C----------------------------------
-C       FORCES EXTERNES A=Fext-Fint
+C       EXTERNAL FORCES A=Fext-Fint
 C----------------------------------
 C
           NCL_MAX=0
           IF(NCONLD/=0) THEN
             IF (IMON>0) CALL STARTIME(4,1)
-C         --en spmd force est traite comme elements---
+C         --spmd : force treated like elements ---
             CALL FORCE_IMP( IBCL    ,FORC       ,SNPC       ,NPC        ,TF         ,
      2                      AC      ,V          ,X          ,SKEWS      ,
      3                      ACR     ,VR         ,NSENSOR    ,SENSOR_TAB ,TFEXC      ,
      4                      IADS_F  ,FSKY       ,DUMMY_FEXT ,H3D_DATA   ,CPTREAC    ,
-     5                      FTHREAC ,NODREAC    ,TH_SURF    ,TH_SURF%CHANNELS   ,
+     5                      FTHREAC ,NODREAC    ,TH_SURF    ,
      6                      DPL0CLD ,VEL0CLD    ,D          ,DR         ,NCONLD     ,
-     7                      NUMNOD  ,NSURF      ,NFUNCT     ,STF )
+     7                      NUMNOD  ,NFUNCT     ,STF )
 C
             IF (IMACH==3.AND.NSPMD>1) THEN
               DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
@@ -556,8 +546,7 @@ C
                 N2 = 3*(J-1)+2
                 N3 = 3*(J-1)+3
                 TMP = ABS(AC(N1))+ABS(AC(N2))+ABS(AC(N3))
-                IF (IRODDL/=0) TMP = TMP +
-     .                ABS(ACR(N1))+ABS(ACR(N2))+ABS(ACR(N3))
+                IF (IRODDL/=0) TMP = TMP + ABS(ACR(N1))+ABS(ACR(N2))+ABS(ACR(N3))
                 IF (TMP>ZERO) NCL_MAX = NCL_MAX + 1
               ENDDO
             ENDIF
@@ -600,7 +589,7 @@ C---------no //SMP for the moment, add it after----
 
 
           TFEXT = WE_IMP
-C fin IF (IMCONV==1)
+C END IF (IMCONV==1)
         ENDIF
 C-------------dU_d---------------------------------
         IF(NFXVEL/=0.AND.(IMCONV==1.OR.IMCONV==3)) THEN
@@ -1988,17 +1977,17 @@ C endif MUMPS defined
 #endif
       END
 Chd|====================================================================
-Chd|  IMP_STOP                      source/implicit/imp_solv.F    
+Chd|  IMP_STOP                      source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_CHECK                     source/implicit/imp_solv.F    
-Chd|        IMP_ERRMUMPS                  source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_CHECK                     source/implicit/imp_solv.F
+Chd|        IMP_ERRMUMPS                  source/implicit/imp_solv.F
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|        M36ITER_IMP                   source/materials/mat/mat036/m36iter_imp.F
-Chd|        NL_SOLV                       source/implicit/nl_solv.F     
+Chd|        NL_SOLV                       source/implicit/nl_solv.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        MY_FLUSH                      source/system/machine.F       
+Chd|        ARRET                         source/system/arret.F
+Chd|        MY_FLUSH                      source/system/machine.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_STOP(ISTOP)
@@ -2047,11 +2036,11 @@ C------------------------------------------
       END
 C------------------------------------------
 Chd|====================================================================
-Chd|  IMP_CHECK                     source/implicit/imp_solv.F    
+Chd|  IMP_CHECK                     source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        IMP_STOP                      source/implicit/imp_solv.F    
+Chd|        IMP_STOP                      source/implicit/imp_solv.F
 Chd|====================================================================
       SUBROUTINE IMP_CHECK(ITAB  ,NDDL  ,IDDL  ,DIAG_K  ,NDOF  ,
      .                     IKC   ,INLOC ,NDDL0 )
@@ -2141,11 +2130,11 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  PR_INFOK                      source/implicit/imp_solv.F    
+Chd|  PR_INFOK                      source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_K_EIG                     stub/imp_k_eig.F              
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_CHKM                      source/implicit/imp_solv.F
+Chd|        IMP_K_EIG                     stub/imp_k_eig.F
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|        SPMD_INF_G                    source/mpi/implicit/imp_spmd.F
 Chd|====================================================================
@@ -2252,12 +2241,12 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  K_BAND                        source/implicit/imp_solv.F    
+Chd|  K_BAND                        source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
-Chd|        IND_SPA2                      source/implicit/ind_glob_k.F  
-Chd|        IND_SPAN                      source/implicit/ind_glob_k.F  
+Chd|        IMP_CHKM                      source/implicit/imp_solv.F
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
+Chd|        IND_SPA2                      source/implicit/ind_glob_k.F
+Chd|        IND_SPAN                      source/implicit/ind_glob_k.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE K_BAND(NDDL,IADK,JDIK,NDMAX)
@@ -2291,13 +2280,13 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  M_LNZ                         source/implicit/imp_solv.F    
+Chd|  M_LNZ                         source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_CHKM                      source/implicit/imp_solv.F
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        DIM_SUBNZ                     source/implicit/imp_solv.F    
-Chd|        SP_STAT0                      source/implicit/imp_fsa_inv.F 
+Chd|        DIM_SUBNZ                     source/implicit/imp_solv.F
+Chd|        SP_STAT0                      source/implicit/imp_fsa_inv.F
 Chd|====================================================================
       SUBROUTINE M_LNZ(NDDL,IADK,JDIK,NDMAX,NLMAX)
 C-----------------------------------------------
@@ -2323,11 +2312,11 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  DIM_SUBNZ                     source/implicit/imp_solv.F    
+Chd|  DIM_SUBNZ                     source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        M_LNZ                         source/implicit/imp_solv.F    
+Chd|        M_LNZ                         source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        INTAB0                        source/implicit/imp_fsa_inv.F 
+Chd|        INTAB0                        source/implicit/imp_fsa_inv.F
 Chd|====================================================================
       SUBROUTINE DIM_SUBNZ(IADK  ,JDIK  ,NC    ,JM    , NNZA  )
 C-----------------------------------------------
@@ -2362,9 +2351,9 @@ C
         RETURN
       END
 Chd|====================================================================
-Chd|  IMP_CHECM                     source/implicit/imp_solv.F    
+Chd|  IMP_CHECM                     source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE IMP_CHECM(ITAB  ,NDDL  ,IDDL  ,DIAG_M  ,NDOF  ,
@@ -2448,9 +2437,9 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  IMP_B2A                       source/implicit/imp_solv.F    
+Chd|  IMP_B2A                       source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE IMP_B2A(F     ,M      ,IDDL   ,NDOF  ,B  )
@@ -2488,11 +2477,11 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  INI_KIF                       source/implicit/imp_solv.F    
+Chd|  INI_KIF                       source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F 
+Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INI_KIF
 C-----------------------------------------------
@@ -2512,13 +2501,13 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  SAVE_KIF                      source/implicit/imp_solv.F    
+Chd|  SAVE_KIF                      source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        CP_INT                        source/implicit/produt_v.F    
-Chd|        CP_REAL                       source/implicit/produt_v.F    
-Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F 
+Chd|        CP_INT                        source/implicit/produt_v.F
+Chd|        CP_REAL                       source/implicit/produt_v.F
+Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SAVE_KIF(NDDL  ,IADK  ,JDIK  ,DIAG_K,LT_K   ,
      1                    ITOK  ,NDDLG)
@@ -2625,11 +2614,11 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  DIAG_KIF                      source/implicit/imp_solv.F    
+Chd|  DIAG_KIF                      source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
+Chd|        LIN_SOLV                      source/implicit/lin_solv.F
 Chd|-- calls ---------------
-Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F 
+Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIAG_KIF(DIAG_K)
 C-----------------------------------------------
@@ -2660,14 +2649,14 @@ C-----------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  MATV_KIF                      source/implicit/imp_solv.F    
+Chd|  MATV_KIF                      source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        MAV_LT2                       source/implicit/produt_v.F    
-Chd|        MAV_LTH                       source/implicit/produt_v.F    
-Chd|        MAV_LTH0                      source/implicit/produt_v.F    
-Chd|        MAV_LTP                       source/implicit/produt_v.F    
+Chd|        MAV_LT2                       source/implicit/produt_v.F
+Chd|        MAV_LTH                       source/implicit/produt_v.F
+Chd|        MAV_LTH0                      source/implicit/produt_v.F
+Chd|        MAV_LTP                       source/implicit/produt_v.F
 Chd|-- calls ---------------
-Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F 
+Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MATV_KIF(V,W)
 C-----------------------------------------------
@@ -2707,11 +2696,11 @@ C-----------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  IMP_CPRE                      source/implicit/imp_solv.F    
+Chd|  IMP_CPRE                      source/implicit/imp_solv.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        BUF_DIM                       source/implicit/produt_v.F    
-Chd|        CP_REAL                       source/implicit/produt_v.F    
+Chd|        BUF_DIM                       source/implicit/produt_v.F
+Chd|        CP_REAL                       source/implicit/produt_v.F
 Chd|====================================================================
       SUBROUTINE IMP_CPRE(IFLAG,NNDL   ,
      1  ELBUF  ,ELBUF_C,BUFMAT ,FSAV   ,VOLMON  ,BUFMAT_C,X     ,X_C   ,
@@ -2763,9 +2752,9 @@ C-----------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  IMP_CHECK0                    source/implicit/imp_solv.F    
+Chd|  IMP_CHECK0                    source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
+Chd|        IMP_CHKM                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_SEND_VR                  source/mpi/implicit/imp_spmd.F
@@ -2916,11 +2905,11 @@ C------------------------------------------
  1002   FORMAT(' NODE NUM. =',I10,5X,'ROT_DIR = ',1A,5X,'VAL.= ',G14.7)
       END
 Chd|====================================================================
-Chd|  IMP_CHECM0                    source/implicit/imp_solv.F    
+Chd|  IMP_CHECM0                    source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
+Chd|        IMP_CHKM                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        FR_DLFT                       source/mpi/implicit/imp_fri.F 
+Chd|        FR_DLFT                       source/mpi/implicit/imp_fri.F
 Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_SEND_VR                  source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_SUM_S                    source/mpi/implicit/imp_spmd.F
@@ -3068,59 +3057,59 @@ C------------------------------------------
  1003   FORMAT(/,' LOOK AT CONNECTIVITY FOR NODE NUM. =',I10)
       END
 Chd|====================================================================
-Chd|  IMP_CHKM                      source/implicit/imp_solv.F    
+Chd|  IMP_CHKM                      source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        CFIELD_IMP                    source/loads/general/load_centri/cfield_imp.F
-Chd|        DIM_INT_K                     source/implicit/ind_glob_k.F  
+Chd|        DIM_INT_K                     source/implicit/ind_glob_k.F
 Chd|        FORCE_IMP                     source/loads/general/force_imp.F
 Chd|        FV_IMP                        source/constraints/general/impvel/fv_imp0.F
 Chd|        FV_IMP1                       source/constraints/general/impvel/fv_imp0.F
 Chd|        FV_RW                         source/constraints/general/impvel/fv_imp0.F
 Chd|        GRAVIT_IMP                    source/loads/general/grav/gravit_imp.F
-Chd|        IDEL_INT                      source/implicit/ind_glob_k.F  
-Chd|        IMP_CHECK0                    source/implicit/imp_solv.F    
-Chd|        IMP_CHECM0                    source/implicit/imp_solv.F    
-Chd|        IMP_COMPAB                    source/implicit/imp_solv.F    
-Chd|        IMP_COMPABP                   source/implicit/imp_solv.F    
-Chd|        IMP_DYNAM                     source/implicit/imp_dyna.F    
-Chd|        IMP_FR7I                      source/mpi/implicit/imp_fri.F 
-Chd|        IMP_FRFV                      source/mpi/implicit/imp_fri.F 
-Chd|        IMP_FRI                       source/mpi/implicit/imp_fri.F 
-Chd|        IMP_GLOB_KHP                  source/implicit/imp_glob_k.F  
-Chd|        IMP_INT_K                     source/implicit/imp_int_k.F   
-Chd|        IMP_SETB                      source/implicit/imp_setb.F    
-Chd|        IND_INT_K                     source/implicit/ind_glob_k.F  
-Chd|        INI_K0H                       source/implicit/imp_solv.F    
-Chd|        K_BAND                        source/implicit/imp_solv.F    
-Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
-Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        M_LNZ                         source/implicit/imp_solv.F    
-Chd|        PRODUT_W                      source/implicit/produt_v.F    
-Chd|        PR_INFOK                      source/implicit/imp_solv.F    
-Chd|        PVP_K                         source/implicit/imp_solv.F    
+Chd|        IDEL_INT                      source/implicit/ind_glob_k.F
+Chd|        IMP_CHECK0                    source/implicit/imp_solv.F
+Chd|        IMP_CHECM0                    source/implicit/imp_solv.F
+Chd|        IMP_COMPAB                    source/implicit/imp_solv.F
+Chd|        IMP_COMPABP                   source/implicit/imp_solv.F
+Chd|        IMP_DYNAM                     source/implicit/imp_dyna.F
+Chd|        IMP_FR7I                      source/mpi/implicit/imp_fri.F
+Chd|        IMP_FRFV                      source/mpi/implicit/imp_fri.F
+Chd|        IMP_FRI                       source/mpi/implicit/imp_fri.F
+Chd|        IMP_GLOB_KHP                  source/implicit/imp_glob_k.F
+Chd|        IMP_INT_K                     source/implicit/imp_int_k.F
+Chd|        IMP_SETB                      source/implicit/imp_setb.F
+Chd|        IND_INT_K                     source/implicit/ind_glob_k.F
+Chd|        INI_K0H                       source/implicit/imp_solv.F
+Chd|        K_BAND                        source/implicit/imp_solv.F
+Chd|        LIN_SOLV                      source/implicit/lin_solv.F
+Chd|        MY_BARRIER                    source/system/machine.F
+Chd|        M_LNZ                         source/implicit/imp_solv.F
+Chd|        PRODUT_W                      source/implicit/produt_v.F
+Chd|        PR_INFOK                      source/implicit/imp_solv.F
+Chd|        PVP_K                         source/implicit/imp_solv.F
 Chd|        RGWAL0_IMP                    source/constraints/general/rwall/rgwal0.F
 Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_MIN_S                    source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_SUMF_A                   source/mpi/implicit/imp_spmd.F
-Chd|        STARTIME                      source/system/timer.F         
-Chd|        STOPTIME                      source/system/timer.F         
-Chd|        UPD_FR_K                      source/mpi/implicit/imp_fri.F 
-Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F  
-Chd|        UPD_RHS                       source/implicit/upd_glob_k.F  
-Chd|        WEIGHTDDL                     source/implicit/recudis.F     
-Chd|        ZERO1                         source/system/zero.F          
-Chd|        ZEROR                         source/system/zero.F          
-Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
-Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
+Chd|        STARTIME                      source/system/timer.F
+Chd|        STOPTIME                      source/system/timer.F
+Chd|        UPD_FR_K                      source/mpi/implicit/imp_fri.F
+Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F
+Chd|        UPD_RHS                       source/implicit/upd_glob_k.F
+Chd|        WEIGHTDDL                     source/implicit/recudis.F
+Chd|        ZERO1                         source/system/zero.F
+Chd|        ZEROR                         source/system/zero.F
+Chd|        DRAPE_MOD                     share/modules/drape_mod.F
+Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F 
-Chd|        IMP_WORKI                     share/modules/impbufdef_mod.F 
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
+Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F
+Chd|        IMP_WORKI                     share/modules/impbufdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
+Chd|        STACK_MOD                     share/modules/stack_mod.F
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_CHKM(
@@ -3131,7 +3120,7 @@ Chd|====================================================================
      5  NSTRF  ,LJOINT ,ICODT  ,ICODR  ,ISKY   ,ADSKY  ,IADS_F ,
      6  ILINK  ,LLINK  ,WEIGHT         ,ITASK  ,IBVEL  ,LBVEL  ,FBVEL  ,
      7  X      ,D      ,V      ,VR     ,DR     ,THKE   ,DAMP   ,MS     ,
-     8  IN     ,PM     ,SKEW   ,GEO    ,EANI   ,BUFMAT ,BUFGEO ,BUFSF  ,
+     8  IN     ,PM     ,SKEWS  ,GEO    ,EANI   ,BUFMAT ,BUFGEO ,BUFSF  ,
      9  TF     ,FORC   ,VEL    ,FSAV   ,AGRV   ,FR_WAVE,PARTS0 ,
      A  ELBUF  ,RBY    ,RIVET  ,FR_ELEM,IAD_ELEM,NSENSOR,
      B  WA            ,A      ,AR     ,STIFN  ,STIFR  ,PARTSAV,FSKY   ,
@@ -3156,6 +3145,7 @@ C-----------------------------------------------
         USE SENSOR_MOD
         USE DRAPE_MOD
         USE TH_SURF_MOD , ONLY : TH_SURF_
+        USE SKEW_MOD , ONLY : SKEW_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3182,47 +3172,35 @@ C-----------------------------------------------
         INTEGER ,INTENT(IN) :: STF     !< size of TF / Tabulated function array
         INTEGER ,INTENT(IN) :: NSENSOR
         INTEGER ITASK,ICODE(*), ISKEW(*), ISKWN(LISKN,*),ITABM1(*),
-     .     IPART(*),IXS(*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*),
-     .     IXP(NIXP,*),IXR(NIXR,*), IXTG(NIXTG,*), IXTG1(4,*),
-     .     ITAB(*),NPC(*), IBCL(*), IBFV(*),IPARG(NPARG,*),IPARI(NPARI,*),
-     .     NPRW(*), NPBY(NNPBY,*), LPBY(*),IADS_F(*),
-     .     LRIVET(*), NSTRF(*), LJOINT(*), ICODT(*), ICODR(*), ILINK(*),
-     .     LLINK(*),ISKY(*),ADSKY(*),
-     .     NNLINK(10,*),LNLINK(*),IGRV(*),LGRAV(*),
-     .     WEIGHT(*),IFRAME(LISKN,*),IBVEL(NBVELP,*),LBVEL(*),
-     .     IACTIV(*),IGEO(*),IPM(*),ICONX(*),NODFT  ,NODLT,IT,
-     .     ICFIELD(*),LCFIELD(*),WEIGHT_MD(*),
-     .     DIMFB,STABSEN,TABSENSOR(*),CPTREAC,NODREAC(*)
-        INTEGER LPRW(*), FR_WALL(NSPMD+2,*), FR_ELEM(*),
-     .     IAD_ELEM(2,*),NBINTC ,INTLIST(*),DIRUL(*)
-C     REAL
-        my_real
-     .     X(3,*)    ,D(3,*)      ,V(3,*)   ,VR(3,*),DAMP(*),
-     .     MS(*)   ,IN(*)   ,PM(NPROPM,*),SKEW(LSKEW,*),GEO(NPROPG,*),
-     .     BUFMAT(*) ,TF(*) ,FORC(*)  ,VEL(*),FSAV(NTHVKI,*) ,ELBUF(*) ,
-     .     RWBUF(NRWLP,*),RWSAV(*),RBY(NRBY,*),
-     .     RIVET(*),WA(*), A(3,*) ,AR(3,*),PARTSAV(*) ,TFEXT,
-     .     STIFN(*) ,STIFR(*),FSKY(*),FSKYI(*),DR(3,*),
-     .     EANI(*),AGRV(*), THKE(*),FR_WAVE(*),PARTS0(*),BUFGEO(*),
-     .     XFRAME(NXFRAME,*),W16(*),FBVEL(*),FSKYM(*),BUFSF(*),
-     .     FOPT(6,*),FSAVD(NTHVKI,*),CFIELD(*),FRBE3(*),
-     .     FTHREAC(6,*)
+     .          IPART(*),IXS(*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*),
+     .          IXP(NIXP,*),IXR(NIXR,*), IXTG(NIXTG,*), IXTG1(4,*),
+     .          ITAB(*),NPC(*), IBCL(*), IBFV(*),IPARG(NPARG,*),IPARI(NPARI,*),
+     .          NPRW(*), NPBY(NNPBY,*), LPBY(*),IADS_F(*),
+     .          LRIVET(*), NSTRF(*), LJOINT(*), ICODT(*), ICODR(*), ILINK(*),
+     .          LLINK(*),ISKY(*),ADSKY(*),
+     .          NNLINK(10,*),LNLINK(*),IGRV(*),LGRAV(*),
+     .          WEIGHT(*),IFRAME(LISKN,*),IBVEL(NBVELP,*),LBVEL(*),
+     .          IACTIV(*),IGEO(*),IPM(*),ICONX(*),NODFT  ,NODLT,IT,
+     .          ICFIELD(*),LCFIELD(*),WEIGHT_MD(*),
+     .          DIMFB,STABSEN,TABSENSOR(*),CPTREAC,NODREAC(*)
+        INTEGER LPRW(*), FR_WALL(NSPMD+2,*), FR_ELEM(*), IAD_ELEM(2,*),NBINTC ,INTLIST(*),DIRUL(*)
+        my_real  X(3,*)    ,D(3,*)      ,V(3,*)   ,VR(3,*),DAMP(*),
+     .           MS(*)   ,IN(*)   ,PM(NPROPM,*),GEO(NPROPG,*),
+     .           BUFMAT(*) ,TF(*) ,FORC(*)  ,VEL(*),FSAV(NTHVKI,*) ,ELBUF(*) ,
+     .           RWBUF(NRWLP,*),RWSAV(*),RBY(NRBY,*),
+     .           RIVET(*),WA(*), A(3,*) ,AR(3,*),PARTSAV(*) ,TFEXT,
+     .           STIFN(*) ,STIFR(*),FSKY(*),FSKYI(*),DR(3,*),
+     .           EANI(*),AGRV(*), THKE(*),FR_WAVE(*),PARTS0(*),BUFGEO(*),
+     .           XFRAME(NXFRAME,*),W16(*),FBVEL(*),FSKYM(*),BUFSF(*),
+     .           FOPT(6,*),FSAVD(NTHVKI,*),CFIELD(*),FRBE3(*),
+     .           FTHREAC(6,*)
         INTEGER  NDDL0,NNZK0,NINT7
-        INTEGER  NUM_IMP(*),NS_IMP(*),NE_IMP(*),IND_IMP(*),
-     .           IRBE3(*),LRBE3(*),IRBE2(*),LRBE2(*)
+        INTEGER  NUM_IMP(*),NS_IMP(*),NE_IMP(*),IND_IMP(*),IRBE3(*),LRBE3(*),IRBE2(*),LRBE2(*)
         TYPE (DRAPE_) :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
         TYPE (DRAPEG_) :: DRAPEG
-        my_real, INTENT(IN) :: 
-     .   DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
-C     REAL
-c      my_real
-c     .  DIAG_K(*),LT_K(*),DD(*) ,DDR(*) ,DIAG_M(*),LT_M(*),LB(*),LB0(*),
-c     .  D_IMP(3,*),DR_IMP(3,*),X_C(*) ,BUFMAT_C(*) ,
-c     .  BKUD(*),R_IMP(*),AC(3,*),ACR(3,*),FRBE3(*)
-        DOUBLE PRECISION
-     .          FRWL6(*)
-        DOUBLE PRECISION
-     .          FBSAV6(12,6,DIMFB)
+        my_real, INTENT(IN) :: DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
+        DOUBLE PRECISION FRWL6(*)
+        DOUBLE PRECISION FBSAV6(12,6,DIMFB)
         TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
         TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
         TYPE (STACK_PLY) :: STACK
@@ -3230,6 +3208,7 @@ c     .  BKUD(*),R_IMP(*),AC(3,*),ACR(3,*),FRBE3(*)
         TYPE (IMPBUF_STRUCT_) ,TARGET :: IMPBUF_TAB
         TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
         TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+        TYPE(SKEW_),INTENT(INOUT) :: SKEWS
 #if defined(MUMPS5)
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -3238,15 +3217,11 @@ C-----------------------------------------------
         INTEGER I,J,NTMP,L1,L2,L3,NNDL,INPRINT,ISTOP,LI10,LI11,
      .          LI1,LI2,LI3,LI4,LI5,LI6,LI7,LI8,LI9,LIF,IC,ISETP,
      .          LI12,LNSS3,LI13,LI14,LI15,LNSB2,LNSRB2
-C      INTEGER, DIMENSION(:),ALLOCATABLE :: IADI,JDII,ITOK
         INTEGER, DIMENSION(:),ALLOCATABLE :: NSS,ISS,NSS2,ISS2,NSS3,ISS3
         INTEGER, DIMENSION(:),ALLOCATABLE :: NSB2,ISB2,IAINT2
         INTEGER  NNOD,IFDIS,N1,N2,N3
         INTEGER LBAND,NCL_MAX,IRFLAG,IBID
-        my_real
-     .  TFEXC,TMP,TMP1,TMP2,R2,BFAC,FACI,R02,GAP,RBID,WE_IMP,LAMDA,DUMMY_FEXT(3,1)
-C      my_real,
-C     .         DIMENSION(:),ALLOCATABLE :: DIAG_I,LT_I
+        my_real TFEXC,TMP,TMP1,TMP2,R2,BFAC,FACI,R02,GAP,RBID,WE_IMP,LAMDA,DUMMY_FEXT(3,1)
         INTEGER, POINTER     :: NDDL,NNZK,NRBYAC,NINT2,NMC,NMC2,NMONV
         INTEGER, DIMENSION(:) ,POINTER     :: IADK,JDIK,IADM,JDIM
         INTEGER, DIMENSION(:) ,POINTER     :: IDDL,NDOF,INLOC,LSIZE,I_IMP,IKC,
@@ -3261,9 +3236,9 @@ C     .         DIMENSION(:),ALLOCATABLE :: DIAG_I,LT_I
         TYPE(DMUMPS_STRUC) MUMPS_PAR
 #else
         ! Fake declaration as DMUMPS_STRUC is shipped with MUMPS
-        INTEGER MUMPS_PAR 
+        INTEGER MUMPS_PAR
 #endif
-  
+
 C------------------------------
 C        Initialisation
 C-----------------------------------------------
@@ -3295,7 +3270,6 @@ C-----------------------------------------------
         JDIM => IMPBUF_TAB%JDIM
         IDDLI => IMPBUF_TAB%IDDLI
         NDOFI => IMPBUF_TAB%NDOFI
-C
         DIAG_K  =>IMPBUF_TAB%DIAG_K
         LT_K    =>IMPBUF_TAB%LT_K
         DIAG_M  =>IMPBUF_TAB%DIAG_M
@@ -3315,7 +3289,6 @@ C
         DG0   =>IMPBUF_TAB%DG0
         DGR0  =>IMPBUF_TAB%DGR0
         DR_IMP=>IMPBUF_TAB%DR_IMP
-c                 BUFIN_C=>IMPBUF_TAB%BUFIN_C
         AC=>IMPBUF_TAB%AC
         ACR=>IMPBUF_TAB%ACR
         R_IMP => IMPBUF_TAB%R_IMP
@@ -3336,7 +3309,6 @@ C
         ELSE
           IRFLAG=0
         ENDIF
-citask0       IF (ITASK == 0) THEN
 C
         CALL ZEROR(D_IMP,NUMNOD)
         IF (IRODDL/=0) CALL ZEROR(DR_IMP,NUMNOD)
@@ -3349,12 +3321,12 @@ C----------------------------------
         R_IMP(16)=ZERO
         IF(NCONLD/=0) THEN
           CALL FORCE_IMP(IBCL    ,FORC    ,SNPC       ,NPC        ,TF         ,
-     2                   AC      ,V       ,X          ,SKEW       ,NUMSKW     ,
+     2                   AC      ,V       ,X          ,SKEWS      ,
      3                   ACR     ,VR      ,NSENSOR    ,SENSOR_TAB ,TFEXC      ,
      4                   IADS_F  ,FSKY    ,DUMMY_FEXT ,H3D_DATA   ,CPTREAC    ,
-     5                   FTHREAC ,NODREAC ,TH_SURF    ,TH_SURF%CHANNELS,
+     5                   FTHREAC ,NODREAC ,TH_SURF    ,
      6                   DPL0CLD ,VEL0CLD ,D          ,DR         ,NCONLD     ,
-     7                   NUMNOD  ,NSURF   ,NFUNCT     ,STF)
+     7                   NUMNOD  ,NFUNCT  ,STF)
           IF (IMACH==3.AND.NSPMD>1) THEN
             DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
               J = FR_ELEM(I)
@@ -3362,8 +3334,7 @@ C----------------------------------
               N2 = 3*(J-1)+2
               N3 = 3*(J-1)+3
               TMP = ABS(AC(N1))+ABS(AC(N2))+ABS(AC(N3))
-              IF (IRODDL/=0) TMP = TMP +
-     .              ABS(ACR(N1))+ABS(ACR(N2))+ABS(ACR(N3))
+              IF (IRODDL/=0) TMP = TMP + ABS(ACR(N1))+ABS(ACR(N2))+ABS(ACR(N3))
               IF (TMP>ZERO) NCL_MAX = NCL_MAX + 1
             ENDDO
           ENDIF
@@ -3381,13 +3352,11 @@ C----------------------------------
           ENDIF
         ENDIF
         IF(NGRAV/=0) THEN
-c          CALL MY_BARRIER
-          CALL GRAVIT_IMP(IGRV  ,AGRV  ,NPC   ,TF    ,AC,
-     2                    V     ,X     ,SKEW  ,MS,TFEXC,
-     3                    NSENSOR,SENSOR_TAB,WEIGHT,
-     4                    LGRAV ,ITASK,
-     5                    NRBYAC,IRBYAC,NPBY  ,RBY    )
-c          CALL MY_BARRIER
+          CALL GRAVIT_IMP(IGRV   ,AGRV      ,NPC        ,TF    ,AC,
+     2                    V      ,X         ,SKEWS%SKEW ,MS,TFEXC,
+     3                    NSENSOR,SENSOR_TAB            ,WEIGHT,
+     4                    LGRAV  ,ITASK     ,
+     5                    NRBYAC ,IRBYAC    ,NPBY       ,RBY    )
         ENDIF
         IF(NLOADC/=0) THEN
           CALL CFIELD_IMP(ICFIELD  ,CFIELD,NPC   ,TF    ,AC,
@@ -3398,10 +3367,10 @@ c          CALL MY_BARRIER
         ENDIF
 C-------------dU_d---------------------------------
         IF(NFXVEL/=0.AND.IMCONV==1) THEN
-          CALL FV_IMP(IBFV  ,NPC    ,TF     ,VEL   ,SENSOR_TAB,
-     1                D_IMP ,DR_IMP ,IKC    ,IDDL  ,NSENSOR   ,
-     2                SKEW  ,IFRAME ,XFRAME ,V     ,VR    ,
-     3                X     ,DIRUL  ,NDOF   ,A     ,VR    )
+          CALL FV_IMP(IBFV        ,NPC    ,TF     ,VEL   ,SENSOR_TAB,
+     1                D_IMP       ,DR_IMP ,IKC    ,IDDL  ,NSENSOR   ,
+     2                SKEWS%SKEW  ,IFRAME ,XFRAME ,V     ,VR    ,
+     3                X           ,DIRUL  ,NDOF   ,A     ,VR    )
         ENDIF
 C-------------U_d--> rigid wall-------------------------------
         NT_RW=0
@@ -3431,7 +3400,6 @@ C-------------U_d--> rigid wall-------------------------------
           ENDIF
         ENDIF
 C----------------------------------
-C----------------------------------
         CALL IMP_SETB(AC    ,ACR     ,IDDL   ,NDOF  ,LB    )
 C----------------------------------
 C  CHECKING
@@ -3447,23 +3415,23 @@ C----------------------------------
           CALL IMP_COMPABP(
      1     ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
      2     TF        ,VEL       ,NSENSOR   ,SENSOR_TAB,XFRAME    ,
-     3     RBY       ,X         ,SKEW      ,LPBY      ,NPBY      ,
+     3     RBY       ,X         ,SKEWS%SKEW,LPBY      ,NPBY      ,
      4     ITAB      ,NRBYAC    ,IRBYAC    ,NINT2     ,IINT2     ,
      5     IPARI     ,INTBUF_TAB,NT_RW     ,NDDL      ,
      6     NDOF      ,IKC       ,INLOC     ,IDDL      ,NDDL0     ,
      7     IMP_IW    ,IMP_IR    )
         ELSE
           CALL IMP_COMPAB(
-     1     ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
-     2     TF        ,VEL       ,NSENSOR   ,SENSOR_TAB,XFRAME    ,
-     3     RBY       ,X         ,SKEW      ,LPBY      ,NPBY      ,
-     4     ITAB      ,NRBYAC    ,IRBYAC    ,NINT2     ,IINT2     ,
-     5     IPARI     ,INTBUF_TAB,NT_RW     ,NDDL      ,
-     6     NDOF      ,IKC       ,INLOC     ,IDDL      ,NDDL0     ,
+     1     ICODT     ,ICODR     ,ISKEW      ,IBFV      ,NPC       ,
+     2     TF        ,VEL       ,NSENSOR    ,SENSOR_TAB,XFRAME    ,
+     3     RBY       ,X         ,SKEWS%SKEW ,LPBY      ,NPBY      ,
+     4     ITAB      ,NRBYAC    ,IRBYAC     ,NINT2     ,IINT2     ,
+     5     IPARI     ,INTBUF_TAB,NT_RW      ,NDDL      ,
+     6     NDOF      ,IKC       ,INLOC      ,IDDL      ,NDDL0     ,
      7     IMP_IW    ,IMP_IR    )
         ENDIF
 
-citask0       END IF !(ITASK == 0) THEN
+
 C----------------------------------
 C       MATRICE DE RIGIDITE
 C----------------------------------
@@ -3479,10 +3447,10 @@ C----------------------------------
           NNMAX=LSIZE(9)
           NKMAX=LSIZE(10)
           NMC2=LSIZE(11)
-c        IF (ITASK == 0) THEN
+
           CALL ZERO1(DIAG_K,NDDL)
           CALL ZERO1(LT_K,NNZK)
-c        END IF
+
           L1 = 1+NIXS*NUMELS
           L2 = L1+6*NUMELS10
           L3 = L2+12*NUMELS20
@@ -3506,24 +3474,23 @@ C    /---------------/
 c      CALL MY_BARRIER
 C    /---------------/
           CALL IMP_GLOB_KHP(
-     1     PM        ,GEO       ,IPM       ,IGEO      ,ELBUF     ,
-     2     IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
-     3     IXR       ,IXTG      ,IXTG1     ,IXS(L1)   ,
-     4     IXS(L2)   ,IXS(L3)   ,IPARG     ,TF        ,NPC       ,
-     5     FR_WAVE   ,W16       ,BUFMAT    ,THKE      ,BUFGEO    ,
-     6     RBY       ,SKEW      ,X         ,
-     7     WA        ,IDDL      ,NDOF      ,DIAG_K    ,LT_K      ,
-     8     IADK      ,JDIK      ,IKG       ,IBID      ,ITASK     ,
-     9     ELBUF_TAB ,STACK     ,DRAPE_SH4N, DRAPE_SH3N   ,DRAPEG   )
+     1     PM        ,GEO        ,IPM       ,IGEO      ,ELBUF     ,
+     2     IXS       ,IXQ        ,IXC       ,IXT       ,IXP       ,
+     3     IXR       ,IXTG       ,IXTG1     ,IXS(L1)   ,
+     4     IXS(L2)   ,IXS(L3)    ,IPARG     ,TF        ,NPC       ,
+     5     FR_WAVE   ,W16        ,BUFMAT    ,THKE      ,BUFGEO    ,
+     6     RBY       ,SKEWS%SKEW ,X         ,
+     7     WA        ,IDDL       ,NDOF      ,DIAG_K    ,LT_K      ,
+     8     IADK      ,JDIK       ,IKG       ,IBID      ,ITASK     ,
+     9     ELBUF_TAB ,STACK      ,DRAPE_SH4N, DRAPE_SH3N   ,DRAPEG   )
           NDDL_L = NDDL
 C    /---------------/
 c      CALL MY_BARRIER
 C    /---------------/
-citask0         IF (ITASK == 0) THEN
+
 C------ 1er VP: for dt check
           IF (IMPDEB>0.AND.NDDL<1000) THEN
-            CALL PVP_K(NDDL,IADK,JDIK,IDDL ,INLOC,
-     .                 NDOF,ITAB,DIAG_K,LT_K ,LAMDA, J , MS  )
+            CALL PVP_K(NDDL,IADK,JDIK,IDDL ,INLOC,NDOF,ITAB,DIAG_K,LT_K ,LAMDA, J , MS  )
             tmp = TWO*sqrt(ONE/LAMDA)
             write(iout,*) 'critical DT =',tmp
           END IF
@@ -3532,46 +3499,40 @@ C------ 1er VP: for dt check
      .                   MS     ,IN      ,HHT_A  ,WEIGHT ,IADK   ,
      .                   LT_K   )
           CALL UPD_GLOB_K(
-     1    ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
-     2    TF        ,VEL       ,XFRAME    ,
-     3    RBY       ,X         ,SKEW      ,LPBY      ,NPBY      ,
-     4    ITAB      ,WEIGHT    ,MS        ,IN        ,NRBYAC    ,
-     5    IRBYAC    ,NSC       ,IKINW(LI1),NMC       ,IKINW(LI2),
-     6    IKINW(LI3),IKINW(LI4),NINT2     ,IINT2     ,IKINW(LI8),
-     7    IKINW(LI5),IKINW(LI6),IKINW(LI7),IPARI     ,INTBUF_TAB,
-     8    NDDL      ,NNZK      ,IADK      ,JDIK      ,
-     9    DIAG_K    ,LT_K      ,NDOF      ,IDDL      ,IKC       ,
-     A    D_IMP     ,LB        ,NKUD      ,IKUD      ,BKUD      ,
-     B    NMC2      ,IKINW(LI12),NT_RW    ,DR_IMP    ,DIRUL     ,
-     C    IRBE3     ,LRBE3     ,FRBE3     ,IKINW(LI13),IRBE2    ,
+     1    ICODT     ,ICODR     ,ISKEW      ,IBFV       ,NPC       ,
+     2    TF        ,VEL       ,XFRAME     ,
+     3    RBY       ,X         ,SKEWS%SKEW ,LPBY       ,NPBY      ,
+     4    ITAB      ,WEIGHT    ,MS         ,IN         ,NRBYAC    ,
+     5    IRBYAC    ,NSC       ,IKINW(LI1) ,NMC        ,IKINW(LI2),
+     6    IKINW(LI3),IKINW(LI4),NINT2      ,IINT2      ,IKINW(LI8),
+     7    IKINW(LI5),IKINW(LI6),IKINW(LI7) ,IPARI      ,INTBUF_TAB,
+     8    NDDL      ,NNZK      ,IADK       ,JDIK       ,
+     9    DIAG_K    ,LT_K      ,NDOF       ,IDDL       ,IKC       ,
+     A    D_IMP     ,LB        ,NKUD       ,IKUD       ,BKUD      ,
+     B    NMC2      ,IKINW(LI12),NT_RW     ,DR_IMP     ,DIRUL     ,
+     C    IRBE3     ,LRBE3     ,FRBE3      ,IKINW(LI13),IRBE2    ,
      D    LRBE2     ,IKINW(LI14),IKINW(LI15))
-C
+
           IF (IMACH==3.AND.NSPMD>1) THEN
             CALL UPD_FR_K(
      1      IADK     ,JDIK     ,NDOF      ,IKC      ,IDDL     ,
      2      INLOC    ,FR_ELEM  ,IAD_ELEM  ,NDDL     )
-C
+
             CALL WEIGHTDDL(IDDL  ,NDOF  ,IKC  ,WEIGHT ,W_DDL  ,INLOC )
           ENDIF
-C
           CALL PR_INFOK(NDDL0,NNZK0,NDDL,NNZK,MAX(NNMAX,NKMAX))
-C
           IF (IPREC>4.AND.NKMAX>200) THEN
             CALL K_BAND(NDDL,IADK,JDIK,IBID)
             MAXB = MIN(MAXB,IBID)
-C
             IF (MAXB>10000) THEN
               CALL M_LNZ(NDDL,IADK,JDIK,MAXB,MAX_L)
             ENDIF
-C
           ENDIF
 
           CALL INI_K0H(NDDL,NNZK,NNZK,IADK,JDIK)
           IF (IMON>0) CALL STOPTIME(31,1)
-citask0        END IF !(ITASK == 0) THEN
         ENDIF
 
-citask0        IF (ITASK == 0) THEN
 C----------------------------------
 C       MATRICE DE RIGIDITE D'INTERFACE
 C----------------------------------
@@ -3620,35 +3581,31 @@ C----------------------------------
           IF (NSREM>0)
      1      CALL IMP_FR7I(IPARI ,INTBUF_TAB  ,NUM_IMP ,NS_IMP ,NSREM ,
      2                    NBINTC,INTLIST)
-Ctmp-------A n'est pas modifie ici -------------------
-          CALL IMP_INT_K(A     ,V         ,
-     1    ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
-     2    TF        ,VEL       ,NSENSOR   ,SENSOR_TAB,XFRAME    ,
-     3    RBY       ,X         ,SKEW      ,LPBY      ,NPBY      ,
-     4    ITAB      ,WEIGHT    ,MS        ,IN        ,NRBYAC    ,
-     5    IRBYAC    ,NSS       ,ISS       ,IPARI     ,INTBUF_TAB,
-     6    NINT2     ,IINT2     ,IAINT2    ,NSS2      ,
-     7    ISS2      ,NDDLI     ,NNZI      ,IADI      ,JDII      ,
-     8    DIAG_I    ,LT_I      ,IDDLI     ,NDDL0     ,IADK      ,
-     9    JDIK      ,IKC       ,DIAG_K    ,LT_K      ,IDDL      ,
-     A    NUM_IMP   ,NS_IMP    ,NE_IMP    ,IND_IMP   ,NDOFI     ,
-     B    ITOK      ,D_IMP     ,LB        ,GAP       ,DIRUL     ,
-     C    NT_RW     ,RBID      ,IRBE3     ,LRBE3     ,FRBE3     ,
-     D    NSS3      ,ISS3      ,IRBE2     ,LRBE2     ,NSB2      ,
+          !-------A is not updated here -------------------
+          CALL IMP_INT_K(A     ,V          ,
+     1    ICODT     ,ICODR     ,ISKEW      ,IBFV      ,NPC       ,
+     2    TF        ,VEL       ,NSENSOR    ,SENSOR_TAB,XFRAME    ,
+     3    RBY       ,X         ,SKEWS%SKEW ,LPBY      ,NPBY      ,
+     4    ITAB      ,WEIGHT    ,MS         ,IN        ,NRBYAC    ,
+     5    IRBYAC    ,NSS       ,ISS        ,IPARI     ,INTBUF_TAB,
+     6    NINT2     ,IINT2     ,IAINT2     ,NSS2      ,
+     7    ISS2      ,NDDLI     ,NNZI       ,IADI      ,JDII      ,
+     8    DIAG_I    ,LT_I      ,IDDLI      ,NDDL0     ,IADK      ,
+     9    JDIK      ,IKC       ,DIAG_K     ,LT_K      ,IDDL      ,
+     A    NUM_IMP   ,NS_IMP    ,NE_IMP     ,IND_IMP   ,NDOFI     ,
+     B    ITOK      ,D_IMP     ,LB         ,GAP       ,DIRUL     ,
+     C    NT_RW     ,RBID      ,IRBE3      ,LRBE3     ,FRBE3     ,
+     D    NSS3      ,ISS3      ,IRBE2      ,LRBE2     ,NSB2      ,
      E    ISB2      )
 C
           DEALLOCATE(NSS2,NSS3,NSB2)
           DEALLOCATE(ISS2,ISS3,ISB2)
           DEALLOCATE(NSS)
           DEALLOCATE(ISS)
-          IF (NSPMD==1.AND.IMCONV>=0.AND.
-     .         (LPRINT/=0.OR.NPRINT/=0)) THEN
+          IF (NSPMD==1.AND.IMCONV>=0.AND.(LPRINT/=0.OR.NPRINT/=0)) THEN
             WRITE(IOUT,1006)
-c            WRITE(ISTDO,1006)
             WRITE(IOUT,1007)NDDLI,NNZI,NNMAX
-c            WRITE(ISTDO,1007)NDDLI,NNZI,NNMAX
             WRITE(IOUT,*)
-c            WRITE(ISTDO,*)
           ENDIF
           IF (IMON>0) CALL STOPTIME(31,1)
         ENDIF
@@ -3656,16 +3613,16 @@ C----------------------------------
         IF (NFXVEL/=0.AND.IMCONV==1) THEN
           CALL FV_IMP1(NKUD   ,IKUD    ,BKUD    ,LB    )
         ENDIF
-C-------------LB,A,AR devient Fext-Fint---------------------
-        CALL UPD_RHS(ICODT ,ICODR ,ISKEW ,IBFV    ,XFRAME ,
-     1               RBY   ,X     ,SKEW   ,LPBY   ,NPBY   ,
-     2               NRBYAC,IRBYAC,NINT2  ,IINT2  ,IPARI  ,
-     3               INTBUF_TAB   ,NDOF   ,IDDL   ,IKC    ,
-     4               NDDL0 ,LB    ,ISETK  ,INLOC  ,DIRUL  ,
-     5               A     ,AR    ,AC     ,ACR    ,NT_RW  ,
-     6               IRFLAG,W_DDL ,NDDL   ,R_IMP(1),IDYNA ,
-     7               V     ,VR    ,MS     ,IN     ,IRBE3  ,
-     8               LRBE3 ,FRBE3 ,WEIGHT ,IRBE2  ,LRBE2  )
+C-------------LB,A,AR becomes Fext-Fint---------------------
+        CALL UPD_RHS(ICODT ,ICODR ,ISKEW      ,IBFV    ,XFRAME ,
+     1               RBY   ,X     ,SKEWS%SKEW ,LPBY   ,NPBY   ,
+     2               NRBYAC,IRBYAC,NINT2      ,IINT2  ,IPARI  ,
+     3               INTBUF_TAB   ,NDOF       ,IDDL   ,IKC    ,
+     4               NDDL0 ,LB    ,ISETK      ,INLOC  ,DIRUL  ,
+     5               A     ,AR    ,AC         ,ACR    ,NT_RW  ,
+     6               IRFLAG,W_DDL ,NDDL       ,R_IMP(1),IDYNA ,
+     7               V     ,VR    ,MS         ,IN     ,IRBE3  ,
+     8               LRBE3 ,FRBE3 ,WEIGHT     ,IRBE2  ,LRBE2  )
 
         IF (IMACH==3.AND.NSPMD>1) THEN
           IF (NBINTC>0.) THEN
@@ -3677,7 +3634,7 @@ C-------------LB,A,AR devient Fext-Fint---------------------
      2        NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
      3        IRBYAC    ,NINT2     ,IINT2     ,IDDL      ,IKC       ,
      4        NDOF      ,INLOC     ,NSREM     ,NSL       ,NBINTC    ,
-     5        INTLIST   ,X         ,IBFV      ,DIRUL     ,SKEW      ,
+     5        INTLIST   ,X         ,IBFV      ,DIRUL     ,SKEWS%SKEW,
      6        XFRAME    ,ISKEW     ,ICODT     ,A         ,D_IMP     ,
      7        LB        ,IFDIS     ,NDDL      ,DR_IMP    ,IDDLI     ,
      8        IRBE3     ,LRBE3     ,FRBE3     ,IRBE2  ,LRBE2 )
@@ -3689,7 +3646,7 @@ C-------------LB,A,AR devient Fext-Fint---------------------
      2        IDDL      ,IKC       ,NDOF      ,NSREM     ,
      3        NSL       ,D_IMP     ,DD        ,DR_IMP    ,DDR       ,
      4        A         ,AR        ,MS        ,V         ,X         ,
-     5        LB        ,NDDL      ,IBFV      ,SKEW      ,XFRAME    ,
+     5        LB        ,NDDL      ,IBFV      ,SKEWS%SKEW,XFRAME    ,
      6        IRBE3     ,LRBE3     ,IRBE2     ,LRBE2     ,R_IMP(16) ,
      7        NDDL0     ,W_DDL     )
             ENDIF
@@ -3722,7 +3679,6 @@ C----------------------------------
           IMP_IR = IMP_IR + 1
         ENDIF
 
-citask0         END IF !(ITASK == 0) THEN
 C
 C    /---------------/
 c      CALL MY_BARRIER
@@ -3735,15 +3691,13 @@ C    /---------------/
      5                FR_ELEM,IAD_ELEM,W_DDL,ITASK ,ISETP  ,
      6                ISTOP ,A     ,AR     ,V    ,
      7                MS    ,X     ,IPARI ,INTBUF_TAB   ,
-     8                NUM_IMP,NS_IMP,NE_IMP,NSREM ,NSL  ,
-     9                NTMP  ,GRAPHE, ITAB  ,RBID  ,IBID ,
-     A                IBID  ,NTMP  ,IBID   ,IBID  ,IBID ,
-     B                IBID  ,RBID   ,IBFV  ,SKEW  ,
+     8                NUM_IMP,NS_IMP,NE_IMP,NSREM       ,NSL  ,
+     9                NTMP  ,GRAPHE, ITAB  ,RBID        ,IBID ,
+     A                IBID  ,NTMP  ,IBID   ,IBID        ,IBID ,
+     B                IBID  ,RBID   ,IBFV  ,SKEWS%SKEW  ,
      C                XFRAME,MUMPS_PAR,IBID,IBID  ,RBID ,
      D                IRBE3 ,LRBE3 ,IRBE2  ,LRBE2 )
-c       IF (ITASK == 0) THEN
-        CALL IMP_CHECM0(ITAB  ,NDDL  ,IDDL  ,DIAG_M  ,NDOF  ,
-     .                  IKC   ,INLOC ,NDDL0 ,IMP_IW  ,IMP_IR)
+        CALL IMP_CHECM0(ITAB  ,NDDL  ,IDDL  ,DIAG_M  ,NDOF  ,IKC   ,INLOC ,NDDL0 ,IMP_IW  ,IMP_IR)
         IF (NINT7>0) THEN
           DEALLOCATE(IADI)
           DEALLOCATE(ITOK)
@@ -3751,7 +3705,6 @@ c       IF (ITASK == 0) THEN
           DEALLOCATE(DIAG_I)
           DEALLOCATE(LT_I)
         ENDIF
-c       END IF !(ITASK == 0) THEN
 
  100    CONTINUE
 C    /---------------/
@@ -3763,11 +3716,9 @@ C    /---------------/
 
  1001   FORMAT(' SYMBOLIC DIM : NDDL =',I8,1X,'NNZ =',I8,1X,'NB_MAX =',I8)
  1002   FORMAT(' FINAL    DIM : NDDL =',I8,1X,'NNZ =',I8,1X,'NB_MAX =',I8)
- 1006   FORMAT(5X,'--SUPPLEMENTARY STIFFNESS MATRIX',
-     .         1X, 'DUE TO INTERFACE IS CREATED --')
+ 1006   FORMAT(5X,'--SUPPLEMENTARY STIFFNESS MATRIX',1X, 'DUE TO INTERFACE IS CREATED --')
  1007   FORMAT(5X,' WITH DIM. : ND   =',I8,1X,'NZ  =',I8,1X,'NB_MAX =',I8)
- 1009   FORMAT(3X,'**TIMESTEP WILL BE REDUCED TO AVOID DE-ACTIVATION ',
-     .            'IN INTERFACE :**',I8)
+ 1009   FORMAT(3X,'**TIMESTEP WILL BE REDUCED TO AVOID DE-ACTIVATION ','IN INTERFACE :**',I8)
  1011   FORMAT(/,2X,'** END IMPLICIT MODEL CHECKING **'/,
      .         5X,'TERMINATION WITH '/,I8,' ERRORS '/,I8,' WARNINGS'/
      .         5X,'** DETAILS REPORTED IN LISTING FILE **'/)
@@ -3775,12 +3726,12 @@ C    /---------------/
 #endif
       END
 Chd|====================================================================
-Chd|  IMP_COMPAB                    source/implicit/imp_solv.F    
+Chd|  IMP_COMPAB                    source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
+Chd|        IMP_CHKM                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_COMPAB(
      1    ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
@@ -4168,15 +4119,15 @@ C--------rwall---------
 #endif
       END
 Chd|====================================================================
-Chd|  IMP_COMPABP                   source/implicit/imp_solv.F    
+Chd|  IMP_COMPABP                   source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
+Chd|        IMP_CHKM                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_SEND_VI                  source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_SUM_S                    source/mpi/implicit/imp_spmd.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_COMPABP(
      1    ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
@@ -4707,12 +4658,12 @@ C endif MUMPS defined
       END
 
 Chd|====================================================================
-Chd|  IMP_FOUT                      source/implicit/imp_solv.F    
+Chd|  IMP_FOUT                      source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F 
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
+Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_FOUT(
      1          FANI     ,A        ,AR       ,NFIA      ,NFEA       ,
@@ -4766,11 +4717,11 @@ C
         RETURN
       END
 Chd|====================================================================
-Chd|  IMP_FANII                     source/implicit/imp_solv.F    
+Chd|  IMP_FANII                     source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_FANII(
      1          FANI     ,FINT     ,NFIA      ,NODFT    ,NODLT    ,
@@ -4813,11 +4764,11 @@ C
         RETURN
       END
 Chd|====================================================================
-Chd|  IMP_FANIE                     source/implicit/imp_solv.F    
+Chd|  IMP_FANIE                     source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
-Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_FANIE(
      1          FANI   ,FEXT   ,NFIA   ,NFEA     ,NODFT    ,NODLT    ,
@@ -4867,12 +4818,12 @@ C---
         RETURN
       END
 Chd|====================================================================
-Chd|  INI_KIC                       source/implicit/imp_solv.F    
+Chd|  INI_KIC                       source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_BUCK                      source/implicit/imp_buck.F
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
+Chd|        IMP_INTM                      share/modules/imp_intm.F
 Chd|====================================================================
       SUBROUTINE INI_KIC
 C-----------------------------------------------
@@ -4894,11 +4845,11 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  DEALLOCM                      source/implicit/imp_solv.F    
+Chd|  DEALLOCM                      source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        IMP_KNON                      share/modules/impbufdef_mod.F 
+Chd|        IMP_KNON                      share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DEALLOCM
 C-----------------------------------------------
@@ -4932,20 +4883,20 @@ C------------------------------------------
       END
 
 Chd|====================================================================
-Chd|  DEALLOCM_IMP                  source/implicit/imp_solv.F    
+Chd|  DEALLOCM_IMP                  source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        FVBC_DEALLO                   source/constraints/general/impvel/fv_imp0.F
 Chd|        SPMD_MUMPS_DEAL               source/mpi/implicit/imp_spmd.F
-Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
-Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
-Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F   
-Chd|        IMP_KBCS                      share/modules/impbufdef_mod.F 
-Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
-Chd|        IMP_QSTAT                     share/modules/impbufdef_mod.F 
-Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F 
-Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F 
+Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F
+Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F
+Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F
+Chd|        IMP_KBCS                      share/modules/impbufdef_mod.F
+Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F
+Chd|        IMP_QSTAT                     share/modules/impbufdef_mod.F
+Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F
+Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DEALLOCM_IMP(MUMPS_PAR)
 C-----------------------------------------------
@@ -4979,7 +4930,7 @@ C-----------------------------------------------
       TYPE(DMUMPS_STRUC) MUMPS_PAR
 #else
       ! Fake declaration as DMUMPS_STRUC is shipped with MUMPS
-      INTEGER MUMPS_PAR 
+      INTEGER MUMPS_PAR
 #endif
 #if defined(MUMPS5)
 C-----------------------------------------------
@@ -5052,9 +5003,9 @@ C------------------------------------------
 #endif
       END
 Chd|====================================================================
-Chd|  CRIT_LLIM                     source/implicit/imp_solv.F    
+Chd|  CRIT_LLIM                     source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CRIT_LLIM(NDDL,NNZK)
@@ -5096,16 +5047,16 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  INI_K0H                       source/implicit/imp_solv.F    
+Chd|  INI_K0H                       source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_CHKM                      source/implicit/imp_solv.F
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F         
-Chd|        DIM_SPAN                      source/implicit/ind_glob_k.F  
-Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
-Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F 
+Chd|        ARRET                         source/system/arret.F
+Chd|        DIM_SPAN                      source/implicit/ind_glob_k.F
+Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F
+Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE INI_K0H(NDDL,NNZ,NNZM,IADK,JDIK)
@@ -5177,13 +5128,13 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  SET_KSYM                      source/implicit/imp_solv.F    
+Chd|  SET_KSYM                      source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
-Chd|        LIN_SOLVH0                    source/implicit/lin_solv.F    
-Chd|        LIN_SOLVH1                    source/implicit/lin_solv.F    
-Chd|        LIN_SOLVHM                    source/implicit/lin_solv.F    
-Chd|        LIN_SOLVIH2                   source/implicit/lin_solv.F    
+Chd|        LIN_SOLV                      source/implicit/lin_solv.F
+Chd|        LIN_SOLVH0                    source/implicit/lin_solv.F
+Chd|        LIN_SOLVH1                    source/implicit/lin_solv.F
+Chd|        LIN_SOLVHM                    source/implicit/lin_solv.F
+Chd|        LIN_SOLVIH2                   source/implicit/lin_solv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SET_KSYM(NDDL,IADK,JDIK,LT_K,IADK0,JDIK0,LT_K0)
@@ -5230,13 +5181,13 @@ C
       END
 
 Chd|====================================================================
-Chd|  GET_FEXT                      source/implicit/imp_solv.F    
+Chd|  GET_FEXT                      source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        CONDENS_B                     source/implicit/upd_glob_k.F  
-Chd|        IMP_SETBA                     source/implicit/imp_setb.F    
-Chd|        IMP_SETBP                     source/implicit/imp_setb.F    
+Chd|        CONDENS_B                     source/implicit/upd_glob_k.F
+Chd|        IMP_SETBA                     source/implicit/imp_setb.F
+Chd|        IMP_SETBP                     source/implicit/imp_setb.F
 Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
 Chd|====================================================================
       SUBROUTINE GET_FEXT(NDDL0 ,NDDL   ,IDDL   ,NDOF   ,IKC   ,
@@ -5290,9 +5241,9 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  RE2INT5                       source/implicit/imp_solv.F    
+Chd|  RE2INT5                       source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE RE2INT5(NT_IMP,NUMIMP,NS_IMP,NE_IMP,NUMIMPL,
@@ -5386,11 +5337,11 @@ C
         RETURN
       END
 Chd|====================================================================
-Chd|  RE2INT7                       source/implicit/imp_solv.F    
+Chd|  RE2INT7                       source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
-Chd|        IMP_STIF24                    source/implicit/imp_solv.F    
+Chd|        IMP_STIF24                    source/implicit/imp_solv.F
 Chd|====================================================================
       SUBROUTINE RE2INT7(NT_IMP,NUMIMP,NS_IMP,NE_IMP,IND_IMP,
      1                   NUMIMPL,IPARI,NT_IMP0)
@@ -5486,10 +5437,10 @@ C-------int24, Istif=6
         RETURN
       END
 Chd|====================================================================
-Chd|  DU_INI                        source/implicit/imp_solv.F    
+Chd|  DU_INI                        source/implicit/imp_solv.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
+Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DU_INI(NODFT ,NODLT  ,DN     ,DNR    ,DD    ,
      1                  DDR   ,IDIV   ,ICONT0 )
@@ -5576,11 +5527,11 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  PR_DEB                        source/implicit/imp_solv.F    
+Chd|  PR_DEB                        source/implicit/imp_solv.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        IMP_FRK                       share/modules/impbufdef_mod.F 
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
+Chd|        IMP_FRK                       share/modules/impbufdef_mod.F
+Chd|        IMP_INTM                      share/modules/imp_intm.F
 Chd|====================================================================
       SUBROUTINE PR_DEB(NDDL  ,IDDL  ,NDOF   ,IKC   ,ITAB   ,
      1                  DIAG_K,DIAG_M,INLOC  ,FR_ELEM,IAD_ELEM,
@@ -5839,10 +5790,10 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  PR_MATRIX                     source/implicit/imp_solv.F    
+Chd|  PR_MATRIX                     source/implicit/imp_solv.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        IMP_FRK                       share/modules/impbufdef_mod.F 
+Chd|        IMP_FRK                       share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PR_MATRIX(NDDL  ,IDDL  ,NDOF   ,IKC   ,ITAB   ,
      1                     DIAG_K,DIAG_M,INLOC  ,FR_ELEM,IAD_ELEM,
@@ -5973,13 +5924,13 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  PR_SOLNFO                     source/implicit/imp_solv.F    
+Chd|  PR_SOLNFO                     source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|        SPMD_MAX_F                    source/mpi/implicit/imp_spmd.F
-Chd|        IMP_FRK                       share/modules/impbufdef_mod.F 
-Chd|        IMP_INTM                      share/modules/imp_intm.F      
+Chd|        IMP_FRK                       share/modules/impbufdef_mod.F
+Chd|        IMP_INTM                      share/modules/imp_intm.F
 Chd|====================================================================
       SUBROUTINE PR_SOLNFO(NDDL  ,IDDL  ,NDOF   ,IKC   ,ITAB   ,
      1                  DIAG_K,DIAG_M,INLOC  ,FR_ELEM,IAD_ELEM,
@@ -6378,9 +6329,9 @@ C------------------------------------------
       END
 
 Chd|====================================================================
-Chd|  WRITE_TPL_FILE                source/implicit/imp_solv.F    
+Chd|  WRITE_TPL_FILE                source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
+Chd|        RADIOSS2                      source/engine/radioss2.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE WRITE_TPL_FILE(FILNAM,IOFF1,IOFF2,IOFF3)
@@ -6825,9 +6776,9 @@ C------------------------------------------
       END
 c
 Chd|====================================================================
-Chd|  INT5_DIVERG                   source/implicit/imp_solv.F    
+Chd|  INT5_DIVERG                   source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE INT5_DIVERG(IPARI )
@@ -6872,12 +6823,12 @@ C-----------------------------------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  DIS_CP                        source/implicit/imp_solv.F    
+Chd|  DIS_CP                        source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        CP_REAL                       source/implicit/produt_v.F    
-Chd|        IMP_QSTAT                     share/modules/impbufdef_mod.F 
+Chd|        CP_REAL                       source/implicit/produt_v.F
+Chd|        IMP_QSTAT                     share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIS_CP(N     ,D      ,DR   ,IFLAG   )
 C-----------------------------------------------
@@ -6915,26 +6866,26 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  IMP_SMPINI                    source/implicit/imp_solv.F    
+Chd|  IMP_SMPINI                    source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        B_CORRECT_HP                  source/implicit/nl_solv.F     
-Chd|        CP_INT_HP                     source/implicit/produt_v.F    
-Chd|        CP_REAL_HP                    source/implicit/produt_v.F    
-Chd|        DU_INI_HP                     source/implicit/imp_solv.F    
-Chd|        FRAC_DD_HP                    source/implicit/integrator.F  
-Chd|        FRAC_D_HP                     source/implicit/integrator.F  
-Chd|        INTEGRATOR1_HP                source/implicit/integrator.F  
-Chd|        INTEGRATOR2_HP                source/implicit/integrator.F  
-Chd|        INTEGRATORL_HP                source/implicit/integrator.F  
-Chd|        INTEGRATOR_HP                 source/implicit/integrator.F  
-Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
-Chd|        MUMPSLB_HP                    source/implicit/lin_solv.F    
-Chd|        PRODUT_HP                     source/implicit/produt_v.F    
-Chd|        PRODUT_UHP0                   source/implicit/produt_v.F    
-Chd|        VAXPY_HP                      source/implicit/produt_v.F    
-Chd|        VSCALY_HP                     source/implicit/produt_v.F    
-Chd|        VSCAL_HP                      source/implicit/produt_v.F    
-Chd|        ZEROR_HP                      source/implicit/produt_v.F    
+Chd|        B_CORRECT_HP                  source/implicit/nl_solv.F
+Chd|        CP_INT_HP                     source/implicit/produt_v.F
+Chd|        CP_REAL_HP                    source/implicit/produt_v.F
+Chd|        DU_INI_HP                     source/implicit/imp_solv.F
+Chd|        FRAC_DD_HP                    source/implicit/integrator.F
+Chd|        FRAC_D_HP                     source/implicit/integrator.F
+Chd|        INTEGRATOR1_HP                source/implicit/integrator.F
+Chd|        INTEGRATOR2_HP                source/implicit/integrator.F
+Chd|        INTEGRATORL_HP                source/implicit/integrator.F
+Chd|        INTEGRATOR_HP                 source/implicit/integrator.F
+Chd|        LIN_SOLV                      source/implicit/lin_solv.F
+Chd|        MUMPSLB_HP                    source/implicit/lin_solv.F
+Chd|        PRODUT_HP                     source/implicit/produt_v.F
+Chd|        PRODUT_UHP0                   source/implicit/produt_v.F
+Chd|        VAXPY_HP                      source/implicit/produt_v.F
+Chd|        VSCALY_HP                     source/implicit/produt_v.F
+Chd|        VSCAL_HP                      source/implicit/produt_v.F
+Chd|        ZEROR_HP                      source/implicit/produt_v.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE IMP_SMPINI(
@@ -6969,12 +6920,12 @@ C
         RETURN
       END
 Chd|====================================================================
-Chd|  DU_INI_HP                     source/implicit/imp_solv.F    
+Chd|  DU_INI_HP                     source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        IMP_SMPINI                    source/implicit/imp_solv.F    
-Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
+Chd|        IMP_SMPINI                    source/implicit/imp_solv.F
+Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DU_INI_HP(DN     ,DNR    ,DD    ,
      1                     DDR   ,IDIV   ,ICONT0 )
@@ -7066,11 +7017,11 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  PRINT_STIF                    source/implicit/imp_solv.F    
+Chd|  PRINT_STIF                    source/implicit/imp_solv.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE PRINT_STIF(IPARI,INTBUF_TAB,IFLAG,NN     ,JG    )
 C-----------------------------------------------
@@ -7130,13 +7081,13 @@ c      end if
         RETURN
       END
 Chd|====================================================================
-Chd|  IMP_STIF24                    source/implicit/imp_solv.F    
+Chd|  IMP_STIF24                    source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        RE2INT7                       source/implicit/imp_solv.F    
+Chd|        RE2INT7                       source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|        SPMD_ALLGLOB_ISUM9            source/mpi/generic/spmd_allglob_isum9.F
-Chd|        IMP_I7CP                      share/modules/imp_intm.F      
-Chd|        TRI7BOX                       share/modules/tri7box.F       
+Chd|        IMP_I7CP                      share/modules/imp_intm.F
+Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE IMP_STIF24(NUMIMP  ,IPARI   )
 C-----------------------------------------------
@@ -7226,11 +7177,11 @@ C
         RETURN
       END
 Chd|====================================================================
-Chd|  UPD_RHS_FR                    source/implicit/imp_solv.F    
+Chd|  UPD_RHS_FR                    source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_INTFR                     source/implicit/imp_solv.F    
+Chd|        IMP_INTFR                     source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        EXT_RHS                       source/implicit/upd_glob_k.F  
+Chd|        EXT_RHS                       source/implicit/upd_glob_k.F
 Chd|        I2_IMPR1                      source/interfaces/interf/i2_imp1.F
 Chd|        I2_IMPR2                      source/interfaces/interf/i2_imp1.F
 Chd|        RBE2_IMPR1                    source/constraints/general/rbe2/rbe2_imp0.F
@@ -7333,15 +7284,15 @@ C
         RETURN
       END
 Chd|====================================================================
-Chd|  IMP_INTFR                     source/implicit/imp_solv.F    
+Chd|  IMP_INTFR                     source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        CP_REAL_HP                    source/implicit/produt_v.F    
-Chd|        IMP_FRFV                      source/mpi/implicit/imp_fri.F 
-Chd|        IMP_FRI                       source/mpi/implicit/imp_fri.F 
-Chd|        IMP_SETBA                     source/implicit/imp_setb.F    
-Chd|        UPD_RHS_FR                    source/implicit/imp_solv.F    
+Chd|        CP_REAL_HP                    source/implicit/produt_v.F
+Chd|        IMP_FRFV                      source/mpi/implicit/imp_fri.F
+Chd|        IMP_FRI                       source/mpi/implicit/imp_fri.F
+Chd|        IMP_SETBA                     source/implicit/imp_setb.F
+Chd|        UPD_RHS_FR                    source/implicit/imp_solv.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_INTFR(
@@ -7457,11 +7408,11 @@ C----6---------------------------------------------------------------7---------8
         RETURN
       END
 Chd|====================================================================
-Chd|  INI_BMINMA_IMP                source/implicit/imp_solv.F    
+Chd|  INI_BMINMA_IMP                source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F   
+Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F
 Chd|====================================================================
       SUBROUTINE INI_BMINMA_IMP
 C-----------------------------------------------
@@ -7494,19 +7445,19 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  SPBRM_PRE                     source/implicit/imp_solv.F    
+Chd|  SPBRM_PRE                     source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        CGSHELL3                      source/implicit/cgshell.F     
-Chd|        CGSHELL4                      source/implicit/cgshell.F     
-Chd|        SPB_REFSH3ID                  source/implicit/imp_solv.F    
-Chd|        SPB_REFSH4ID                  source/implicit/imp_solv.F    
+Chd|        CGSHELL3                      source/implicit/cgshell.F
+Chd|        CGSHELL4                      source/implicit/cgshell.F
+Chd|        SPB_REFSH3ID                  source/implicit/imp_solv.F
+Chd|        SPB_REFSH4ID                  source/implicit/imp_solv.F
 Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_MIN_S                    source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_SUM_S                    source/mpi/implicit/imp_spmd.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F 
+Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPBRM_PRE(ITAB ,
      1    X         ,IPARG     ,IXC       ,IXTG      ,PARTSAV   ,
@@ -7782,9 +7733,9 @@ C
         RETURN
       END
 Chd|====================================================================
-Chd|  SPB_REFSH4ID                  source/implicit/imp_solv.F    
+Chd|  SPB_REFSH4ID                  source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        SPBRM_PRE                     source/implicit/imp_solv.F    
+Chd|        SPBRM_PRE                     source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPB_REFSH4ID(JFT,JLT,NEL,IXC,X,XC,YC,ZC,IE,
@@ -7881,9 +7832,9 @@ C
         RETURN
       END
 Chd|====================================================================
-Chd|  SPB_REFSH3ID                  source/implicit/imp_solv.F    
+Chd|  SPB_REFSH3ID                  source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        SPBRM_PRE                     source/implicit/imp_solv.F    
+Chd|        SPBRM_PRE                     source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPB_REFSH3ID(JFT,JLT,NEL,IXTG,X,XC,YC,ZC,IE,
@@ -7980,21 +7931,21 @@ C
         RETURN
       END
 Chd|====================================================================
-Chd|  SPB_RM_RIG                    source/implicit/imp_solv.F    
+Chd|  SPB_RM_RIG                    source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        GETIKCE                       source/implicit/imp_solv.F    
-Chd|        SPB_IEREF3                    source/implicit/imp_solv.F    
-Chd|        SPB_IEREF_BC                  source/implicit/imp_solv.F    
-Chd|        SPB_REF_NDS                   source/implicit/imp_solv.F    
-Chd|        SPB_RGMOD                     source/implicit/imp_solv.F    
+Chd|        GETIKCE                       source/implicit/imp_solv.F
+Chd|        SPB_IEREF3                    source/implicit/imp_solv.F
+Chd|        SPB_IEREF_BC                  source/implicit/imp_solv.F
+Chd|        SPB_REF_NDS                   source/implicit/imp_solv.F
+Chd|        SPB_RGMOD                     source/implicit/imp_solv.F
 Chd|        SPMD_E_REF                    source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_N_REF                    source/mpi/implicit/imp_spmd.F
-Chd|        TRANSVG2L                     source/implicit/imp_solv.F    
-Chd|        TRANSVL2G                     source/implicit/imp_solv.F    
+Chd|        TRANSVG2L                     source/implicit/imp_solv.F
+Chd|        TRANSVL2G                     source/implicit/imp_solv.F
 Chd|        VELROT                        source/constraints/general/rbe2/rbe2v.F
-Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F 
+Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPB_RM_RIG(
      1    X         ,IXC       ,IXTG      ,NDOF      ,IDDL      ,
@@ -8203,12 +8154,12 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  SPB_IEREF_BC                  source/implicit/imp_solv.F    
+Chd|  SPB_IEREF_BC                  source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
+Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|        SPMD_MIN_S                    source/mpi/implicit/imp_spmd.F
-Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F 
+Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPB_IEREF_BC(
      1    X         ,IXC       ,IXTG      ,D_IMP     ,DMIN    ,
@@ -8345,9 +8296,9 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  SPB_RGMOD                     source/implicit/imp_solv.F    
+Chd|  SPB_RGMOD                     source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
+Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPB_RGMOD(N_SEG,X_REF ,D_REF ,X  ,D  ,
@@ -8461,12 +8412,12 @@ C
         RETURN
       END
 Chd|====================================================================
-Chd|  SPB_IEREF3                    source/implicit/imp_solv.F    
+Chd|  SPB_IEREF3                    source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
+Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|        SPMD_MIN_S                    source/mpi/implicit/imp_spmd.F
-Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F 
+Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPB_IEREF3(
      1    X         ,IXC       ,IXTG      ,NDOF      ,IDDL      ,
@@ -8583,11 +8534,11 @@ C------------------------------------------
         RETURN
       END
 Chd|====================================================================
-Chd|  IMP_INTBUF_INI                source/implicit/imp_solv.F    
+Chd|  IMP_INTBUF_INI                source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        DIM_INT7                      source/implicit/ind_glob_k.F  
+Chd|        DIM_INT7                      source/implicit/ind_glob_k.F
 Chd|-- calls ---------------
-Chd|        IMP_INTBUFDEF                 share/modules/imp_mod_def.F   
+Chd|        IMP_INTBUFDEF                 share/modules/imp_mod_def.F
 Chd|====================================================================
       SUBROUTINE IMP_INTBUF_INI(IMP_INTBUF_TAB,NIMP)
 C-----------------------------------------------
@@ -8654,11 +8605,11 @@ C-----
 
       END SUBROUTINE IMP_INTBUF_INI
 Chd|====================================================================
-Chd|  IMP_ERRMUMPS                  source/implicit/imp_solv.F    
+Chd|  IMP_ERRMUMPS                  source/implicit/imp_solv.F
 Chd|-- called by -----------
 Chd|        SPMD_MUMPS_EXEC               source/mpi/implicit/imp_spmd.F
 Chd|-- calls ---------------
-Chd|        IMP_STOP                      source/implicit/imp_solv.F    
+Chd|        IMP_STOP                      source/implicit/imp_solv.F
 Chd|====================================================================
       SUBROUTINE IMP_ERRMUMPS(IERR)
 C-----------------------------------------------
@@ -8712,13 +8663,13 @@ C
 
 
 Chd|====================================================================
-Chd|  PVP_K                         source/implicit/imp_solv.F    
+Chd|  PVP_K                         source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
+Chd|        IMP_CHKM                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        JACOBIEN                      source/implicit/imp_glob_k.F  
-Chd|        MINV_K                        source/implicit/imp_solv.F    
-Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
+Chd|        JACOBIEN                      source/implicit/imp_glob_k.F
+Chd|        MINV_K                        source/implicit/imp_solv.F
+Chd|        ECND_MOD                      share/modules/ecdn_mod.F
 Chd|====================================================================
       SUBROUTINE PVP_K(ND  ,IADK,JDIK,IDDL ,INLOC,
      .                 NDOF,ITAB,K_DIAG,K_LT ,LAMDA, NODE,MS  )
@@ -8810,11 +8761,11 @@ C
         RETURN
       END
 Chd|====================================================================
-Chd|  MINV_K                        source/implicit/imp_solv.F    
+Chd|  MINV_K                        source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        PVP_K                         source/implicit/imp_solv.F    
+Chd|        PVP_K                         source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        JACOBIEN                      source/implicit/imp_glob_k.F  
+Chd|        JACOBIEN                      source/implicit/imp_glob_k.F
 Chd|====================================================================
       SUBROUTINE MINV_K(ND  ,ICNDS10,IDDL ,INLOC,NDOF,
      .                  MS  ,TOL ,KE   )
@@ -8927,10 +8878,10 @@ C
         RETURN
       END
 Chd|====================================================================
-Chd|  GETIKCE                       source/implicit/imp_solv.F    
+Chd|  GETIKCE                       source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        SPB_REF_NDS                   source/implicit/imp_solv.F    
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
+Chd|        SPB_REF_NDS                   source/implicit/imp_solv.F
+Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE GETIKCE(ICT ,ICR,K,IFIX )
@@ -8998,9 +8949,9 @@ C
         RETURN
       END
 Chd|====================================================================
-Chd|  TRANSVG2L                     source/implicit/imp_solv.F    
+Chd|  TRANSVG2L                     source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
+Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE TRANSVG2L(SKEW  ,VG  ,VL  )
@@ -9025,9 +8976,9 @@ C
         RETURN
       END
 Chd|====================================================================
-Chd|  TRANSVL2G                     source/implicit/imp_solv.F    
+Chd|  TRANSVL2G                     source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
+Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE TRANSVL2G(SKEW  ,VL  ,VG  )
@@ -9052,12 +9003,12 @@ C
         RETURN
       END
 Chd|====================================================================
-Chd|  SPB_REF_NDS                   source/implicit/imp_solv.F    
+Chd|  SPB_REF_NDS                   source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F    
+Chd|        SPB_RM_RIG                    source/implicit/imp_solv.F
 Chd|-- calls ---------------
-Chd|        GETIKCE                       source/implicit/imp_solv.F    
-Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F 
+Chd|        GETIKCE                       source/implicit/imp_solv.F
+Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPB_REF_NDS(
      1    X         ,D_IMP     ,NDOF      ,IDDL      ,IKC       ,
@@ -9111,11 +9062,11 @@ C------------------------------------------
       END
 C
 Chd|====================================================================
-Chd|  DEALLOC_IMPBUF                source/implicit/imp_solv.F    
+Chd|  DEALLOC_IMPBUF                source/implicit/imp_solv.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
-Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F 
+Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DEALLOC_IMPBUF(IMPBUF_TAB)
 C-----------------------------------------------

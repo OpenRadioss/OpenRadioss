@@ -852,9 +852,9 @@ C---estimation a(t=0)----
      2                   DY_A    ,V          ,X          ,SKEWS      ,
      3                   DY_AR   ,VR         ,NSENSOR    ,SENSOR_TAB ,TFEXC      ,
      4                   IADS_F  ,FSKY       ,DUMMY_FEXT ,H3D_DATA   ,CPTREAC    ,
-     5                   FTHREAC ,NODREAC    ,TH_SURF    ,FSAVSURF   ,
+     5                   FTHREAC ,NODREAC    ,TH_SURF    ,
      6                   DPL0CLD ,VEL0CLD    ,D          ,DR         ,NCONLD     ,
-     7                   NUMNOD  ,NSURF      ,NFUNCT     ,STF )
+     7                   NUMNOD  ,NFUNCT     ,STF )
          IF (NSPMD>1) THEN
           DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
             J = FR_ELEM(I)
@@ -1049,9 +1049,9 @@ C--------------------------------
      2                    A       ,V       ,X          ,SKEWS      ,
      3                    AR      ,VR      ,NSENSOR    ,SENSOR_TAB ,TFEXC      ,
      4                    IADS_F  ,FSKY    ,DUMMY_FEXT ,H3D_DATA   ,CPTREAC    ,
-     5                    FTHREAC ,NODREAC ,TH_SURF    ,FSAVSURF   ,
+     5                    FTHREAC ,NODREAC ,TH_SURF    ,
      6                    DPL0CLD ,VEL0CLD ,D          ,DR         ,NCONLD     ,
-     7                    NUMNOD  ,NSURF   ,NFUNCT     ,STF)
+     7                    NUMNOD  ,NFUNCT  ,STF)
 
           TFEXT = TFEXT + TFEXC*DT2
         ENDIF
