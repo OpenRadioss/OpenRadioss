@@ -25,12 +25,12 @@
 !=======================================================================================================================
 !!\brief This subroutine do the initialization for offset treatment
 !=======================================================================================================================
-        subroutine inter_sh_offset_ini(                                         &
-          ngroup,    nparg,      iparg,        npropg,            &
-          numgeo,      geo,     numelc,          nixc,            &
-          ixc,  numeltg,      nixtg,          ixtg,            &
-          numnod,    nspmd,   iad_elem,       fr_elem,            &
-          sfr_elem,     thke,  elbuf_tab,      sh_offset_tab)
+        subroutine inter_sh_offset_ini(                                        &
+                       ngroup,    nparg,      iparg,        npropg,            &
+                       numgeo,      geo,     numelc,          nixc,            &
+                          ixc,  numeltg,      nixtg,          ixtg,            &
+                       numnod,    nspmd,   iad_elem,       fr_elem,            &
+                       sfr_elem,     thke,  elbuf_tab,      sh_offset_tab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -100,7 +100,7 @@
               pid =iparg(62,ng)
               shelloff = zero
               select case(igtyp)
-               case (11)
+               case (1,9,10,11,16)
                 shelloff = geo(199,pid)
                case (17,51,52)
                 shelloff = half + geo(199,pid)

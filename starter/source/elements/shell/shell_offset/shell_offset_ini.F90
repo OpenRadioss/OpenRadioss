@@ -31,10 +31,10 @@
 !!\brief This subroutine do the initialization of shell offset treatment
 !=======================================================================================================================
         subroutine shell_offset_ini(                                          &
-          ngroup,    nparg,      iparg,        npropg,           &
-          numgeo,      geo,     numelc,       numeltg,           &
-          npropgi,     igeo,     itagsh,     elbuf_tab,           &
-          defaults_shell)
+                       ngroup,    nparg,      iparg,        npropg,           &
+                       numgeo,      geo,     numelc,       numeltg,           &
+                       npropgi,    igeo,     itagsh,     elbuf_tab,           &
+                       defaults_shell)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -103,6 +103,9 @@
               if (igtyp == 0.or.(ity /= 3 .and. ity /= 7) ) cycle
               pid =iparg(62,ng)
               select case(igtyp)
+               case (1,9)
+                geo(198,pid) = geo(199,pid)    ! old value saved in 198
+                geo(199,pid) = zero
                case (17,51,52)
                 geo(198,pid) = geo(199,pid)    ! old value saved in 198
                 if (geo(199,pid)/=-half) geo(199,pid) = -half

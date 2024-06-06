@@ -77,7 +77,7 @@
           integer i,j,n,nel,nft,nn,ie,igtyp,nf1,ity,nnode,pid,ng,nshel,nneoset_g,ix(4),id
           integer, dimension(:), allocatable   :: intag,idnneoset
           integer, dimension(:,:), allocatable :: ixnneoset
-          my_real, dimension(:), allocatable   :: shoset_n,sh_oset
+          my_real, dimension(:), allocatable   :: shoset_n,sh_oset,thk_g
           my_real shelloff
 !
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -85,17 +85,18 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           allocate(intag(numnod))
 !
-          call dim_shell_offsetp(                                                  &
-            ngroup,    nparg,      iparg,        npropg,            &
-            numgeo,      geo,     numelc,          nixc,            &
-            ixc,  numeltg,      nixtg,          ixtg,            &
-            numnod,    intag,      nshel)
+          call dim_shell_offsetp(                                              &
+                ngroup,    nparg,      iparg,        npropg,                   &
+                numgeo,      geo,     numelc,          nixc,                   &
+                   ixc,  numeltg,      nixtg,          ixtg,                   &
+                numnod,    intag,      nshel)
 !
           nneoset_g = nshel
           allocate(idnneoset(nneoset_g))
           allocate(ixnneoset(4,nneoset_g))
           allocate(shoset_n(numnod))
           allocate(sh_oset(nneoset_g))
+          allocate(thk_g(nneoset_g))
           shoset_n = zero
           nshel = 0
           do  ng=1,ngroup
@@ -107,7 +108,7 @@
             pid =iparg(62,ng)
             shelloff = zero
             select case(igtyp)
-             case (11)
+             case (1,9,10,11,16)
               shelloff = geo(199,pid)    ! updated already in hm_read_prop11
              case (17,51,52)
               shelloff = half+geo(199,pid)   ! respect to the bottom
@@ -127,6 +128,11 @@
                   idnneoset(nshel) = ie
                   ixnneoset(1:nnode,nshel) = ix(1:nnode)
                   sh_oset(nshel) = shelloff
+                  if (thk(ie)>zero) then 
+                    thk_g(nshel) = thk(ie)
+                  else
+                    thk_g(nshel) = geo(1,pid)
+                  end if
                 end if
               end do
             elseif (ity == 7)then
@@ -144,6 +150,11 @@
                   idnneoset(nshel) = ie + numelc  ! same than thke
                   ixnneoset(1:nnode,nshel) = ix(1:nnode)
                   sh_oset(nshel) = shelloff
+                  if (thk(ie+numelc)>zero) then 
+                    thk_g(nshel) = thk(ie+numelc)
+                  else
+                    thk_g(nshel) = geo(1,pid)
+                  end if
                 end if
                 ixnneoset(4,nshel) = ix(nnode)
               end do
@@ -160,7 +171,7 @@
               nshel = nshel + 1
               idnneoset(nshel) = idnneoset(i)
               ixnneoset(1:4,nshel) = ixnneoset(1:4,i)
-              sh_oset(nshel) = sh_oset(i)*thk(ie)
+              sh_oset(nshel) = sh_oset(i)*thk_g(i)
             end if
           end do
           nneoset_g = nshel
@@ -180,6 +191,7 @@
           deallocate(ixnneoset)
           deallocate(shoset_n)
           deallocate(sh_oset)
+          deallocate(thk_g)
 !-----------
         end subroutine shell_offsetp
       end module shell_offsetp_mod

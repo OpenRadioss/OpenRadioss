@@ -238,12 +238,13 @@ c---------------------------------------------------------
 c----
         CASE (1,9)
 c----
+          ZSHIFT = GEO(199, PID(1))
           DO N=1,NPT                                
             IADR  = (N-1)*JLT
             DO I = JFT,JLT                            
               J = IADR+I         
               THKLY(J)   = WF(N,NPT)
-              POSLY(I,N) = Z0(N,NPT)
+              POSLY(I,N) = Z0(N,NPT)+ZSHIFT
               MATLY(J)   = MAT(1)
             ENDDO                                   
           ENDDO     

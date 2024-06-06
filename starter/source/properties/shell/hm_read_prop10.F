@@ -83,7 +83,7 @@ C-----------------------------------------------
      
       my_real
      .    ANGL,PUN,CVIS,RBID,VX,VY,VZ,
-     .    PTHK, AN, PHI_I,THK10
+     .    PTHK, AN, PHI_I,THK10,ZSHIFT
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
       CHARACTER*nchartitle,
      .   TITR
@@ -106,6 +106,7 @@ C fixing flag and removed from input
         PTHK = ZERO
         IRP = 0
         IDSK = 0
+        IPOS =0
 
         IS_ENCRYPTED = .FALSE.
         IS_AVAILABLE = .FALSE.
@@ -133,6 +134,7 @@ C      CALL HM_GET_INTV('ISTRAIN',ISTRAIN,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('ITHICK',ITHK,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('IPLAS',IPLAST,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('SKEW_CSID',IDSK,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV('Ipos',IPOS,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Ip',IRP,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
@@ -335,13 +337,13 @@ C---+#---1----+----2----+----3----+----4----+----5----+----6----+----7-#
         WRITE(IOUT,2011)IG,NLY,ISTRAIN,GEO(1),ISS,IHBE,
      .              ISH3N,IGEO(20),  
      .              GEO(16),GEO(13),GEO(38),GEO(42),ISHEAR,ITHK,IPLAST,
-     .              GEO(7),GEO(8),GEO(9),IDSK,IGEO(14)
+     .              GEO(7),GEO(8),GEO(9),IDSK,IGEO(14),IPOS
        ELSE
         WRITE(IOUT,2010)IG,NLY,ISTRAIN,GEO(1),ISS,IHBE,
      .               ISH3N,  
      .              GEO(13),GEO(14),GEO(15),GEO(16),
      .              GEO(38),GEO(42),ISHEAR,ITHK,IPLAST,
-     .              GEO(7),GEO(8),GEO(9),IDSK,IGEO(14)
+     .              GEO(7),GEO(8),GEO(9),IDSK,IGEO(14),IPOS
        ENDIF
       ENDIF
       IF (NLY == 0) THEN
@@ -359,6 +361,15 @@ C---+#---1----+----2----+----3----+----4----+----5----+----6----+----7-#
      .               I1=IG,
      .               C1=IDTITL)
       ENDIF
+        IGEO(99) = IPOS
+        ZSHIFT = ZERO
+        IF (IPOS==3) THEN
+          ZSHIFT = -HALF
+        ELSEIF (IPOS==4) THEN
+          ZSHIFT = HALF
+        END IF
+        GEO(199) = ZSHIFT
+!        
       N1=MIN0(NLY,NLYMAX)
       GEO(6)  = N1+EM01
       IGEO(4) = N1
@@ -369,7 +380,7 @@ C----------------------
        M1 = IPANG+K
        GEO(M1) = PHI_I
        GEO(IPTHK+K) = THK10 
-       GEO(IPPOS+K) = -HALF*(ONE+THK10)+K*THK10
+       GEO(IPPOS+K) = -HALF*(ONE+THK10)+K*THK10 + ZSHIFT 
        IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,2020)  K,GEO(M1)
        GEO(M1)=GEO(M1)*PI/HUNDRED80
       ENDDO
@@ -432,7 +443,8 @@ C-----------
      & 5X,'Y COMPONENT OF DIR 1 OF ORTHOTROPY. . .=',1PG20.13/,
      & 5X,'Z COMPONENT OF DIR 1 OF ORTHOTROPY. . .=',1PG20.13/,
      & 5X,'SKEW OF THE FIRST ORTHOTROPY DIRECTION.=',I10/,
-     & 5X,'REFERENCE DIRECTION FLAG IN SHELL PLANE=',I10/)
+     & 5X,'REFERENCE DIRECTION FLAG IN SHELL PLANE=',I10/,
+     & 5X,'SHELL OFFSET POSITION FLAG . . . . . . =',I10/)
  2011 FORMAT(
      & 5X,'ORTHOTROPIC LAYERED SHELL PROPERTY SET'/,
      & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10/,
@@ -456,7 +468,8 @@ C-----------
      & 5X,'Y COMPONENT OF DIR 1 OF ORTHOTROPY. . .=',1PG20.13/,
      & 5X,'Z COMPONENT OF DIR 1 OF ORTHOTROPY. . .=',1PG20.13/,
      & 5X,'SKEW OF THE FIRST ORTHOTROPY DIRECTION.=',I10/,
-     & 5X,'REFERENCE DIRECTION FLAG IN SHELL PLANE=',I10/)
+     & 5X,'REFERENCE DIRECTION FLAG IN SHELL PLANE=',I10/,
+     & 5X,'SHELL OFFSET POSITION FLAG . . . . . . =',I10/)
  2020 FORMAT(
      & 5X,'LAYER,ANGLE (DIR 1,PROJ(DIR 1 / SHELL).=',I10,E12.5)     
 C-----------

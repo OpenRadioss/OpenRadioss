@@ -161,7 +161,7 @@ C-----------------------------------------------
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
      .   DEPSZX(MVSIZ), EPSPXX(MVSIZ),EPSPYY(MVSIZ),EPSPXY(MVSIZ),
      .   EPSPYZ(MVSIZ), EPSPZX(MVSIZ),ETIMP(MVSIZ),TENS(NEL,5),ETH(MVSIZ)
-      my_real ALPHA,DF,DEINTTH,T0,TM,FSCAL_ALPHA,DM
+      my_real ALPHA,DF,DEINTTH,T0,TM,FSCAL_ALPHA,DM,ZSHIFT
       INTEGER, DIMENSION(:) ,POINTER :: FLD_IDX
 C-------------------------------------
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
@@ -231,6 +231,7 @@ c----------------------------
         ILAY = 1
         IT   = 1
         LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT)
+        ZSHIFT = GEO(199, PID(1))
 c
         CALL MULAWGLC(ELBUF_STR,
      1       JFT     ,JLT     ,PM      ,FOR     ,MOM     ,THK     ,
@@ -242,7 +243,7 @@ c
      7       INDXDEL ,NGL     ,ZCFAC   ,GS      ,SIGY    ,G       ,
      8       THK0    ,EPSP    ,IPLA    ,IGEO    ,IPM     ,TABLE   ,
      9       IR      ,IS      ,F_DEF   ,ISMSTR  ,NU      ,VOL0    ,
-     A       KFTS    ) 
+     A       KFTS    ,ZSHIFT  )
 c----------------------------
       ELSE IF (MTN > 28 .AND. MTN < 32 .or. MTN == 99 .or. MTN == 200) THEN
 c---    user material law libraries here

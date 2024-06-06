@@ -291,7 +291,7 @@ c----
       CHARACTER OPTION*256
       INTEGER SIZE
       INTEGER :: NRATE,NPRONY
-      my_real :: FISOKIN,KV
+      my_real :: FISOKIN,KV,ZSHIFT
       my_real, DIMENSION(NEL) :: DEPS1,DEPS2,EPS1,EPS2
       my_real, DIMENSION(NEL), TARGET :: VECNUL
       my_real, DIMENSION(:), POINTER  :: SIGBXX,SIGBYY,SIGBXY
@@ -415,6 +415,7 @@ c
       SIGOFF(1:NEL) = ONE
       EPCHK(1:MVSIZ)  = ZERO
       VISCMX(1:MVSIZ) = ZERO
+      ZSHIFT = GEO(199, PID(1))
 !
       IF ( FLAG_LAW22 ) THEN
 #include "vectorize.inc"
@@ -614,7 +615,7 @@ C-----------------------------------------
           !THLY => THKLY(JPOS:JPOS+NEL-1)
           THKLYL(1:NEL) = THKLY(JPOS:JPOS+NEL-1)*THK0(1:NEL)
 C
-          IF (IGTYP == 1 .or. IGTYP == 9) THEN
+          IF ((IGTYP == 1 .OR. IGTYP == 9).AND.ZSHIFT==ZERO) THEN
             WMC(1:NEL) = WM(IPT,NPT)
           ELSE
             WMC(1:NEL) = POSLY(1:NEL,IPT)*THKLY(JPOS:JPOS+NEL-1)

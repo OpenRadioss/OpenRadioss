@@ -160,7 +160,7 @@ C-----------------------------------------------
       CHARACTER*nchartitle, TITR
       my_real 
      .   FAC,MST,DMS,THICKT,THKLY,LAYPOS,MSE,INS,MZI,EMS_NPTT,ET,ZJ,
-     .   XX,YY,ZZ,XY,YZ,ZX,MSL,XIL,MS_NPTT,POS_0,THINNING
+     .   XX,YY,ZZ,XY,YZ,ZX,MSL,XIL,MS_NPTT,POS_0,THINNING,F_OFFSET
       my_real 
      .   EMS_LAYER(MVSIZ,NLAY)
       my_real, DIMENSION(:), ALLOCATABLE  :: POSLY,RATIO_THKLY, THK_IT,POS_IT
@@ -1262,8 +1262,10 @@ C
             ENDDO      ! LFT,LLT
           ENDIF  ! idrape  
       ELSE
+        ZSHIFT = GEO(199,IPROP)
+        F_OFFSET= ZSHIFT*ZSHIFT
         DO I=LFT,LLT
-          XI(I)=EMS(I)*(AREA(I)/FAC+THK(I)*THK(I)*ONE_OVER_12)
+          XI(I)=EMS(I)*(AREA(I)/FAC+THK(I)*THK(I)*(ONE_OVER_12+F_OFFSET))
         ENDDO
       ENDIF
 C---  check stability condition

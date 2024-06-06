@@ -31,10 +31,10 @@
 !!\brief This subroutine do the dimensioning of shell offset projection
 !=======================================================================================================================
         subroutine dim_shell_offsetp(                                          &
-          ngroup,    nparg,      iparg,        npropg,            &
-          numgeo,      geo,     numelc,          nixc,            &
-          ixc,  numeltg,      nixtg,          ixtg,            &
-          numnod,    intag,    nsh_oset   )
+                       ngroup,    nparg,      iparg,        npropg,            &
+                       numgeo,      geo,     numelc,          nixc,            &
+                          ixc,  numeltg,      nixtg,          ixtg,            &
+                       numnod,    intag,    nsh_oset   )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@
             pid =iparg(62,ng)
             shelloff = zero
             select case(igtyp)
-             case (11)
+             case (1,9,10,11,16)
               shelloff = geo(199,pid)
              case (17,51,52)
               shelloff = half+geo(199,pid)
