@@ -82,10 +82,10 @@ C-----------------------------------------------
      .   IHBE,IPLAST,ITHK,IBID,IHBEOUTP,K,N,
      .   NSHELL, NSHSUP, NSHINF,
      .   NSST_D, NSST_DS, NPSH,ISEN,ISORTH,
-     .   IHBE_OLD,  ISH3N,ISROT,IPINCH,I1,I2
+     .   IHBE_OLD,  ISH3N,ISROT,IPINCH,I1,I2,IPOS
      
       my_real
-     .    PUN,CVIS,DN_P,PTHK
+     .    PUN,CVIS,DN_P,PTHK,ZSHIFT
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
       DATA NSHELL /0/, NSHSUP /0/, NSHINF /0/
 C-----------------------------------------------
@@ -104,6 +104,7 @@ C=======================================================================
         NSST_D = 0
         NSST_DS= 0
         PTHK = ZERO
+        IPOS =0
 C
 C       Double stockage temporaire - supprimer GEO(12)=IGTYP apres tests
         IGEO( 1)=IG
@@ -134,6 +135,7 @@ C--------------------------------------------------
 C      CALL HM_GET_INTV('ISTRAIN',ISTRAIN,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('ITHICK',ITHK,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('IPLAS',IPLAST,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV('Ipos',IPOS,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -265,12 +267,12 @@ C-------not change default dn of DKT with old define (ishel=12)
             IF (IHBE==12.AND.DN_P==ZERO) DN_P=EM03
             WRITE(IOUT,1112)IG,NIP,ISTRAIN,GEO(1),ISMSTR,IHBEOUTP,
      .            ISH3N,ISROT,IPINCH,GEO(16),DN_P,GEO(38),
-     .            PTHK,ISHEAR,ITHK,IPLAST
+     .            PTHK,ISHEAR,ITHK,IPLAST,IPOS
           ELSE
             WRITE(IOUT,1110)IG,NIP,ISTRAIN,GEO(1),ISMSTR,IHBEOUTP,
      .            ISH3N,
      .            GEO(13),GEO(14),GEO(15),GEO(16),GEO(38),
-     .            PTHK,ISHEAR,ITHK,IPLAST
+     .            PTHK,ISHEAR,ITHK,IPLAST,IPOS
           ENDIF
         ELSE
           WRITE(IOUT,1199)IG
@@ -312,6 +314,14 @@ C       Double stockage temporaire
         ENDIF
 
         IGEO(17)=ISORTH ! == 0 Isotropic property
+        IGEO(99) = IPOS
+        ZSHIFT = ZERO
+        IF (IPOS==3) THEN
+          ZSHIFT = -HALF
+        ELSEIF (IPOS==4) THEN
+          ZSHIFT = HALF
+        END IF
+        GEO(199) = ZSHIFT
 C-------------------------------
 C       Double stockage temporaire
         IGEO( 5)=NINT(GEO( 3))
@@ -368,7 +378,8 @@ C-----------
      & 5X,' < 0.0 : FRACTION OF FAILED INTG. POINTS',/,
      & 5X,'SHEAR FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'THICKNESS VARIATION FLAG. . . . . . . .=',I10/,
-     & 5X,'PLASTICITY FORMULATION FLAG . . . . . .=',I10//)
+     & 5X,'PLASTICITY FORMULATION FLAG . . . . . .=',I10/,
+     & 5X,'SHELL OFFSET POSITION FLAG . . . . . . =',I10//)
  1112 FORMAT(
      & 5X,'ISOTROPIC SHELL PROPERTY SET'/,
      & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10/,
@@ -388,7 +399,8 @@ C-----------
      & 5X,' < 0.0 : FRACTION OF FAILED INTG. POINTS',/,
      & 5X,'SHEAR FORMULATION FLAG. . . . . . . . .=',I10/,
      & 5X,'THICKNESS VARIATION FLAG. . . . . . . .=',I10/,
-     & 5X,'PLASTICITY FORMULATION FLAG . . . . . .=',I10//)
+     & 5X,'PLASTICITY FORMULATION FLAG . . . . . .=',I10/,
+     & 5X,'SHELL OFFSET POSITION FLAG . . . . . . =',I10//)
  1199 FORMAT(
      & 5X,'ISOTROPIC SHELL PROPERTY SET'/,
      & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10/,

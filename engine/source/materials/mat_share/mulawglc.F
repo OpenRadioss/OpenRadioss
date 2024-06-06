@@ -48,7 +48,7 @@ Chd|====================================================================
      7           INDX   ,NGL    ,ZCFAC  ,GS    ,SIGY  ,G     ,
      8           THK0   ,EPSP   ,IPLA   ,IGEO  ,IPM   ,TABLE ,
      9           IR     ,IS     ,F_DEF  ,ISMSTR,NU    ,VOL0  ,
-     A           KFTS   )
+     A           KFTS   ,ZSHIFT )
 C-----------------------------------------------
       USE TABLE_MOD
       USE ELBUFDEF_MOD
@@ -82,6 +82,7 @@ C-----------------------------------------------
      .   KXX(*), KYY(*), KXY(*),BUFMAT(*),SSP(*),RHO(*),
      .   ZCFAC(MVSIZ,2),GS(*),SIGY(*),THK0(*),SHF(*),F_DEF(MVSIZ,8),
      .   A1(MVSIZ),A2(MVSIZ),G(MVSIZ),NU(MVSIZ),VOL0(*)
+      my_real, INTENT(IN) :: ZSHIFT
       TYPE(TTABLE) TABLE(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C-----------------------------------------------
@@ -99,7 +100,7 @@ C-----------------------------------------------
      .   SIGNXX(MVSIZ),SIGNYY(MVSIZ),SIGNXY(MVSIZ),SIGNYZ(MVSIZ),
      .   SIGNZX(MVSIZ),SIGVXX(MVSIZ),SIGVYY(MVSIZ),SIGVXY(MVSIZ),
      .   SIGVYZ(MVSIZ),SIGVZX(MVSIZ),TENS(5,MVSIZ), 
-     .   EPS_M2,EPS_K2,YOUNG, VISC, VOL2, ASRATE
+     .   EPS_M2,EPS_K2,YOUNG, VISC, VOL2, ASRATE,SH_OFFSET
       my_real
      .   DEPBXX(MVSIZ),DEPBYY(MVSIZ),DEPBXY(MVSIZ),
      .   MOMOXX(MVSIZ),MOMOYY(MVSIZ),MOMOXY(MVSIZ),
@@ -508,6 +509,15 @@ C-----------------------------------------------
         ZCFAC(I,1) = ETSE(I)
         ZCFAC(I,2) = ZCFAC(I,1)
       ENDDO
+C---------------------------
+C     offset
+C---------------------------
+      IF (ZSHIFT /= ZERO) THEN
+        DO I=JFT,JLT                                                   
+          SH_OFFSET = ZSHIFT*THK(I)
+          MOM(I,1:3) = MOM(I,1:3) + FOR(I,1:3) *SH_OFFSET*SH_OFFSET      
+        ENDDO
+      ENDIF
 C---------------------------
 C     VISCOSITE DE MEMBRANE
 C---------------------------

@@ -85,7 +85,8 @@ C-----------------------------------------------
      .   ISKN(LISKN,*),ISMSTR,ISROT,IHBEOUTP,ISORTH,IHBE_OLD,IPWEIGHT
 C     REAL
       my_real
-     .    AN, VX, VY, VZ, THICKT, DT, TMIN, TMAX, ASHEAR,PTHK,CVIS,PUN
+     .    AN, VX, VY, VZ, THICKT, DT, TMIN, TMAX, ASHEAR,PTHK,CVIS,PUN,
+     .    ZSHIFT
       INTEGER ISH3N,IRP
       INTEGER ID,IUN
       CHARACTER*nchartitle,
@@ -363,6 +364,8 @@ C---
       ENDIF
       NLY = MIN(NLY,NLYMAX)
       IGEO(4) = NLY                                                          
+      IGEO(99) = IPOS
+      ZSHIFT = ZERO
 C---  calcul epaIGEO(5)eur & position des couches
       IF (IPOS > 0)THEN
         TMIN = EP20
@@ -374,6 +377,7 @@ C---  calcul epaIGEO(5)eur & position des couches
           TMAX = MAX(TMAX,GEO(IPPOS+N)+DT)
         ENDDO
         THICKT = TMAX - TMIN
+        ZSHIFT = HALF*(TMAX + TMIN)
         GEO(200)=THICKT
         DO N=1,NLY
           GEO(IPTHK+N)=GEO(IPTHK+N) / MAX(THICKT,EM20)
@@ -395,6 +399,7 @@ C---      calcul automatique de position des couches
         ENDDO
         GEO(200)=THICKT
       ENDIF
+      GEO(199) = ZSHIFT
 C---  Test validite epaIGEO(5)eur
       IERREL=NINT(ABS((THICKT-GEO(1))/GEO(1))*EP02)
       IF(IERREL > TEN) THEN

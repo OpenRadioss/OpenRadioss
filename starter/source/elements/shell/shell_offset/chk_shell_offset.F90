@@ -31,8 +31,8 @@
 !!\brief This subroutine check if there is shell offset in the model
 !=======================================================================================================================
         subroutine chk_shell_offset(                                           &
-          ngroup,    nparg,      iparg,        npropg,            &
-          numgeo,      geo,    ioffset)
+                       ngroup,    nparg,      iparg,        npropg,            &
+                       numgeo,      geo,    ioffset)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -70,7 +70,7 @@
             pid =iparg(62,ng)
             shelloff = zero
             select case(igtyp)
-             case (11)
+             case (1,9,10,11,16)
               shelloff = geo(199,pid)
              case (17,51,52)
               shelloff = half + geo(199,pid)
