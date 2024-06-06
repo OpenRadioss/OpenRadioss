@@ -212,7 +212,7 @@ C-----------------------------------------------
 
       !5.---INERTIA TENSOR MATRIX (ITM)
       !-----------------------------------
-      ALE%GRID%flow_tracking_data%ITM_L(6) = ZERO
+      ALE%GRID%flow_tracking_data%ITM_L(1:6) = ZERO
       CALL MY_BARRIER
       SUM_ITM(1:6) = ZERO
       DO I = NODFT, NODLT
