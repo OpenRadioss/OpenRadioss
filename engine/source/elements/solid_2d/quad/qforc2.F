@@ -533,7 +533,7 @@ C------------------------
      9   VZ4,     EYY,     EZZ,     DYZ,
      A   DZY,     NC1,     NC2,     NC3,
      B   NC4,     MAT,     GBUF%OFF,QMV,
-     C   BUFMAT,  DELTAX,  VIS)
+     C   BUFMAT,  DELTAX,  VIS, IPM)
        IF(JEUL>0.)
      .   CALL EMOMT2(
      1   PM,      GBUF%RHO,Y1,      Y2,
@@ -547,7 +547,7 @@ C------------------------
      9   EZZ,     DYZ,     DZY,     VDY,
      A   VDZ,     DELTAX,  VIS,     VD2,
      B   NC1,     NC2,     NC3,     NC4,
-     C   MAT,     QMV,     BUFMAT)
+     C   MAT,     QMV,     BUFMAT,  IPM)
 C--------------------
 C     FORCES INTERNES
 C--------------------

@@ -34,7 +34,11 @@ Chd|====================================================================
      3   DXZ,        DYX,        DYY,        DYZ,
      4   DZX,        DZY,        DZZ,        D4,
      5   D5,         D6,         WXX,        WYY,
-     6   WZZ,        BUFMAT,     NEL,        NFT)
+     6   WZZ,        BUFMAT,     NEL,        NFT,
+     7   IPM,        NUMMAT,     NUMELS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -50,14 +54,17 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT(IN) :: NFT
-      INTEGER IXS(NIXS,*)
+      INTEGER, INTENT(IN) :: NUMMAT
+      INTEGER, INTENT(IN) :: NUMELS
+      INTEGER IXS(NIXS,NUMELS)
       my_real
-     .   V(3,*), VEUL(LVEUL,*),X(3,*),PM(NPROPM,*),
+     .   V(3,*), VEUL(LVEUL,*),X(3,*),PM(NPROPM,NUMMAT),
      .   DXX(*), DXY(*), DXZ(*),
      .   DYX(*), DYY(*), DYZ(*),
      .   DZX(*), DZY(*), DZZ(*), D4(*), D5(*), D6(*),
      .   WXX(*), WYY(*), WZZ(*),BUFMAT(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      INTEGER,INTENT(IN)::IPM(NPROPMI,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -94,7 +101,7 @@ c
         IF(IVOI/=0)ML=NINT(PM(19,IXS(1,IVOI)))
         IF(ML/=11)EXIT
         IF(ML==51)THEN
-          IADBUF = NINT(PM(27,IXS(1,IVOI)))
+          IADBUF = IPM(27,IXS(1,IVOI))
           IFLG = NINT(BUFMAT(31+IADBUF-1)) 
           IF(IFLG<=1)EXIT
         ENDIF 

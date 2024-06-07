@@ -454,7 +454,7 @@ C
       CALL S11FX3(
      1   PM,         FLUX(1,NF1),ALE_CONNECT,IXS,
      2   IPM,        BUFMAT,     NEL,        NFT,
-     3   JALE,       JEUL)
+     3   JALE,       JEUL  ,     NUMMAT,     NUMELS)
 C-----------------------------------------------------
 C     SFEM
 C-----------------------------------------------------

@@ -36,7 +36,7 @@ Chd|====================================================================
      .                  DYY, DZZ, DYZ, DZY,VDY,VDZ,
      .                  DELTAX,VIS,VD2,
      .                  NC1,NC2,NC3,NC4,MAT,
-     .                  QMV,BUFMAT)
+     .                  QMV,BUFMAT,IPM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,6 +67,7 @@ C-----------------------------------------------
      .        DYY(*), DZZ(*), DYZ(*), DZY(*),VDY(*),VDZ(*),
      .        DELTAX(*),VIS(*),VD2(*),QMV(8,*),BUFMAT(*)
       INTEGER MAT(*), NC1(*), NC2(*), NC3(*), NC4(*)
+      INTEGER,INTENT(IN)::IPM(NPROPMI,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -93,7 +94,7 @@ C     Reynolds transportation theorem
 C-----------------------------------------------
 C   DMi = 0.5*DT1*QMV(i,I)  incoming mass from face i
       IF(MTN == 51 .AND. ALE%UPWIND%UPWM /= 3)THEN
-        IADBUF = NINT(PM(27,MAT(1)))
+        IADBUF = IPM(27,MAT(1))
         IFLG = NINT(BUFMAT(31+IADBUF-1))
 C
         IF(IFLG > 1)RETURN
@@ -188,7 +189,7 @@ C
      2   VDZ,     S,       S,       T,
      3   DELTAX,  GAM,     LLT)
         DO I=LFT,LLT
-         FAC=4.*GAM(I)/AIRE(I)
+         FAC=FOUR*GAM(I)/AIRE(I)
          A1(I) = FAC*(PY1(I)*VDY(I)+PZ1(I)*VDZ(I))
          A2(I) = FAC*(PY2(I)*VDY(I)+PZ2(I)*VDZ(I))
         ENDDO
