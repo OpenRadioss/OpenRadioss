@@ -42,7 +42,8 @@ Chd|====================================================================
      4       CEP     ,XEP     ,IGEO      ,IPM    ,
      5       IPART   ,SH4TREE ,NOD2ELC   ,ISHEOFF,SH4TRIM,
      6       TAGPRT_SMS, LGAUGE,IWORKSH  ,MAT_PARAM,
-     7       STACK   ,DRAPE  ,RNOISE ,SH4ANG,DRAPEG, PTSHEL )
+     7       STACK   ,DRAPE  ,RNOISE ,SH4ANG,DRAPEG, PTSHEL,
+     8       CEP_INTERF, CONNECTIVITY)
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -64,6 +65,7 @@ C     ISHEOFF(NUMELC)   FLAG ELEM RBY ON/OFF                       E/S
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE consider_edge_mod, only : max_nb_nodes_per_elt
       USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE R2R_MOD
@@ -93,6 +95,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
+      integer :: CEP_INTERF(NUMELC), CONNECTIVITY(max_nb_nodes_per_elt,NUMELC)
       INTEGER IXC(NIXC,*),ISEL(*),INUM(9,*),IPARTC(*), ISHEOFF(*),
      .        EADD(*),ITR1(*),INDEX(*),ITRI(7,*),
      .        ND, CEP(*), XEP(*),
@@ -140,6 +143,8 @@ C     REAL OU REAL*8
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
 C
       TYPE (DRAPE_PLY_)             , POINTER   :: DRAPE_PLY
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: CONNECTIVITY_TMP
+
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 Clef 1---------------------------------
       DATA MSKMLN /O'07770000000'/
@@ -516,6 +521,24 @@ C
         CEP(I)=XEP(INDEX(I))
         PERMUTATION%SHELL(I)=INDEX2(INDEX(I))
       ENDDO
+C ====== REORDER CONNECTIVITY FOR INTERFACE DOMAIN DECOMPOSITION ======
+        DO I=1,NUMELC
+          XEP(I)=CEP_INTERF(I)
+        ENDDO
+        DO I=1,NUMELC
+          CEP_INTERF(I)=XEP(INDEX(I))
+        ENDDO 
+        ALLOCATE(CONNECTIVITY_TMP(max_nb_nodes_per_elt,NUMELC))
+        CONNECTIVITY_TMP(1:max_nb_nodes_per_elt,1:NUMELC) = CONNECTIVITY(1:max_nb_nodes_per_elt,1:NUMELC)
+        DO  I=1,NUMELC
+          DO J=1,max_nb_nodes_per_elt
+            CONNECTIVITY(J,I) = CONNECTIVITY_TMP(J,INDEX(I))
+          ENDDO 
+        ENDDO
+        DEALLOCATE(CONNECTIVITY_TMP)
+C ====== REORDER CONNECTIVITY FOR INTERFACE DOMAIN DECOMPOSITION ======
+
+
 
       DO  K=1,7
         DO  I=1,NUMELC

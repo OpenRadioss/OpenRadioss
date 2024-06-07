@@ -1490,8 +1490,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
-!      INTEGER  NLOCAL
-!      EXTERNAL NLOCAL
+       INTEGER  NLOCAL
+       EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1568,7 +1568,6 @@ C     Interface type 18 law 151
           N2 = INTBUF_TAB%IRECTM(4*(K-1)+2)
           N3 = INTBUF_TAB%IRECTM(4*(K-1)+3)
           N4 = INTBUF_TAB%IRECTM(4*(K-1)+4)
-
           CNRTM_L = CNRTM_L + 1 
           TAG_SEGM(CNRTM_L) = K
           TAG_SEGM2(K) = CNRTM_L

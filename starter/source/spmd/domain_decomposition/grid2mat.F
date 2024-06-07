@@ -51,7 +51,7 @@ Chd|        REORDER_MOD                   share/modules1/reorder_mod.F
 Chd|====================================================================
       SUBROUTINE DOMETIS(
      1  IXS    ,IXQ    ,IXC    ,IXT     ,IXP     ,
-     2  IXR    ,IXTG   ,CEP     ,GEO     ,
+     2  IXR    ,IXTG   ,CEP, CEP_INTERF   ,GEO     ,
      3  ITRI1  ,ITRI2  ,INDEX1 ,INDEX2  ,NUM     ,
      4  WD     ,IWCONT ,NELEM  ,IDDLEVEL,NELEMINT,
      5  INTER_CAND,PM     ,X      ,KXX     ,IXX     ,
@@ -62,7 +62,7 @@ Chd|====================================================================
      1  TAILLE,POIN_UMP,TAB_UMP,
      2  POIN_UMP_OLD,TAB_UMP_OLD,CPUTIME_MP_OLD,
      3  NSNT, NMNT,TABMP_L,IQUAOFF,
-     4  IGRSURF,FVMAIN,
+     4  IGRSURF,FVMAIN, CONNECTIVITY,
      5  ITAB  ,IPART  ,IPARTC  ,IPARTG ,IPARTS  ,
      6  POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
      7  MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,T_MONVOL,
@@ -108,7 +108,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*),
      .        IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*),
-     .        CEP(*), ITRI1(*), ITRI2(*), INDEX1(*),INDEX2(*),
+     .        CEP(*), CEP_INTERF(*), ITRI1(*), ITRI2(*), INDEX1(*),INDEX2(*),
      .        NUM(*), NELEM,IDDLEVEL, NELEMINT,
      .        KXX(NIXX,NUMELX),IXX(*), ADSKY(0:*),IGEO(NPROPGI,NUMGEO),
      .        ISOLNOD(*), IWCONT(5,*), IWCIN2(2,*), DSDOF(*),
@@ -141,6 +141,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(*), INTENT(in) :: LPBY
       TYPE(INTER_CAND_), INTENT(in) :: INTER_CAND
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
+      INTEGER, DIMENSION(max_nb_nodes_per_elt,NELEM) :: CONNECTIVITY
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -171,7 +173,6 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: IWKIN ! NUMNOD
       INTEGER TAILLE_LOCAL,PREV_NEIGH,C_NEIGH,POINT_DELETE,
      .        ELEMNODES(MAX_NB_NODES_PER_ELT),OFFELEM(10),WGHT 
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: CONNECTIVITY
       INTEGER, DIMENSION(:), ALLOCATABLE :: NB_NODES_MINI 
       REAL, DIMENSION(:),ALLOCATABLE :: RWD,WD_COPY
       CHARACTER FILNAM*109, KEYA*80, CHLEVEL*1
@@ -181,6 +182,7 @@ C-----------------------------------------------
      .        W(NSPMD), WIS(NSPMD),WIM(NSPMD),WI2(NSPMD), WDDL(NSPMD), 
      .        WFSI(NSPMD), WCAND(NSPMD), WSOL(NSPMD), WKIN(NSPMD),
      .        WDEL(NSPMD), WR2R(NSPMD), WNOD_SMS(NSPMD)
+      INTEGER :: TAG_CONSTRAINTS(NCRITMAX)
       DOUBLE PRECISION :: WS, WD_MAX,WD_MAX0
 C metis5 null pointers
 
@@ -1353,13 +1355,6 @@ C----------------------------------------------
 C
       NEDGES_OLD = NEDGES
 
-      IF(EDGE_FILTERING == 1 .AND. (NUMELS > NELEM / 3 .OR. ICFSI > 0 )) THEN 
-        WRITE(IOUT,'(A)') "** INFO: SIMPLIFIED DOMAIN DECOMPOSITION" 
-C+------------------------------------------------------------+
-C| Domain decomposition for models with solids                |
-C|      dectivated via Domdec = -3 in /SPMD card              |
-C+------------------------------------------------------------+
-        ALLOCATE(CONNECTIVITY(MAX_NB_NODES_PER_ELT,NELEM))
         ALLOCATE(NB_NODES_MINI(NELEM)) ! minimum number of shared nodes to consider the edge
         CONNECTIVITY(1:MAX_NB_NODES_PER_ELT,1:NELEM) = 0
         NB_NODES_MINI(1:NELEM) = 3
@@ -1370,6 +1365,15 @@ C+------------------------------------------------------------+
      3                    IXIG3D,GEO      ,OFFELEM,NB_NODES_MINI(I))
           CALL SORT_DESCENDING(CONNECTIVITY(1,I))
         ENDDO
+
+
+      IF(EDGE_FILTERING == 1 .AND. (NUMELS > NELEM / 3 .OR. ICFSI > 0 )) THEN 
+        WRITE(IOUT,'(A)') "** INFO: SIMPLIFIED DOMAIN DECOMPOSITION" 
+C+------------------------------------------------------------+
+C| Domain decomposition for models with solids                |
+C|      dectivated via Domdec = -3 in /SPMD card              |
+C+------------------------------------------------------------+
+!       ALLOCATE(CONNECTIVITY(MAX_NB_NODES_PER_ELT,NELEM))
 
         ALLOCATE(CONNECT_WEIGHT(NELEM))
         ALLOCATE(POINTER_NEIGH(NELEM))
@@ -1421,7 +1425,7 @@ C+------------------------------------------------------------+
         DEALLOCATE(CONNECT_WEIGHT)
         DEALLOCATE(POINTER_NEIGH)
         DEALLOCATE(NB_NODES_MINI)
-        DEALLOCATE(CONNECTIVITY)
+!       DEALLOCATE(CONNECTIVITY)
 
       ELSE                                               
 C+------------------------------------------------------------+
@@ -2136,17 +2140,28 @@ C
         IF(ICKIN/=0)  UBVEC(ICKIN)  = 1.10
         IF(ICR2R/=0)  UBVEC(ICR2R) = 1.30  ! weird !!!
         IF(ICNOD_SMS/=0) UBVEC(ICNOD_SMS) = 1.05
-c        i=0
-c        call METIS_EstimateMemory(NELEM,XADJ,ADJNCY,0,2,I)
-c        print *,'estimate memory=',i,nelem,XADJ(NELEM+1)
+        TAG_CONSTRAINTS(1:NCRITMAX) = 0
+        IF(ICELEM /=0) TAG_CONSTRAINTS(1) = ICELEM 
+        IF(ICINTS /=0) TAG_CONSTRAINTS(2) = ICINTS 
+        IF(ICINTM /=0) TAG_CONSTRAINTS(3) = ICINTM 
+        IF(ICINT2 /=0) TAG_CONSTRAINTS(4) = ICINT2 
+        IF(ICDDL /=0)  TAG_CONSTRAINTS(5) = ICDDL  
+        IF(ICSOL /=0)  TAG_CONSTRAINTS(6) = ICSOL  
+        IF(ICFSI /=0)  TAG_CONSTRAINTS(7) = ICFSI  
+        IF(ICDEL /=0)  TAG_CONSTRAINTS(8) = ICDEL  
+        IF(ICCAND /=0) TAG_CONSTRAINTS(9) = ICCAND 
+        IF(ICKIN /=0)  TAG_CONSTRAINTS(10) = ICKIN  
+        IF(ICR2R /=0)  TAG_CONSTRAINTS(11) = ICR2R 
+        IF(ICNOD_SMS /=0) TAG_CONSTRAINTS(12) = ICNOD_SMS
  1999    CONTINUE
          IF(DECTYP==3.OR.DECTYP==5)THEN
 C KWAY METIS
-      
-          IERR1 = Wrap_METIS_PartGraphKway(
+          CALL CALL_METIS(1,
      1      NELEM,NCOND,XADJ,ADJNCY,
      2      IWD,NNODE,
-     3      UBVEC,OPTIONS,NEC,CEP)
+     3      UBVEC,OPTIONS,NEC,CEP, TAG_CONSTRAINTS,CEP_INTERF)
+
+
           IDB_METIS = 0
 
           IF(IDB_METIS == 1) THEN
@@ -2166,10 +2181,12 @@ C weight only on vertices
           END IF     
          ELSEIF(DECTYP==4.OR.DECTYP==6)THEN
 C RSB METIS
-          IERR1 = Wrap_METIS_PartGraphRecursive(
-     1      NELEM,NCOND,XADJ,ADJNCY,
-     2      IWD,NNODE,
-     3      UBVEC,OPTIONS,NEC,CEP)
+            CALL CALL_METIS(2,
+     1        NELEM,NCOND,XADJ,ADJNCY,
+     2        IWD,NNODE,
+     3        UBVEC,OPTIONS,NEC,CEP, TAG_CONSTRAINTS,CEP_INTERF)
+
+
         END IF
             CALL STAT_DOMDEC(
      1           WIS      ,WI2     ,WFSI      ,WDEL      ,WDDL     ,
@@ -2178,7 +2195,7 @@ C RSB METIS
      4           ICDDL    ,ICSOL   ,ICFSI     ,ICDEL     ,ICR2R    ,
      5           ICKIN    ,AVERAGE ,DEVIATION ,DMAX      ,DMIN     ,
      6           CEP      ,NELEM   ,W         ,ICINTM    ,WIM      ,
-     7           NCRITMAX ,WNOD_SMS,ICNOD_SMS)
+     7           NCRITMAX ,WNOD_SMS,ICNOD_SMS, CEP_INTERF)
       
 
       IF(ICFSI > 0 .AND.  ICFSI < ICELEM) THEN 
@@ -2237,6 +2254,8 @@ C    Loop over domain decomposition until satisfactory load balancing for elemen
 C---------------------------------------------------------------------
         MAX_TRY       = 3
         WD_MAX_FACTOR = 2
+        IF(ALLOCATED(IWD_COPY)) DEALLOCATE(IWD_COPY)
+        IF(ALLOCATED(WD_COPY)) DEALLOCATE(WD_COPY)
         ALLOCATE(IWD_COPY(NCOND*NELEM))
         ALLOCATE(WD_COPY(NELEM))
         IF((DECTYP==4 .OR. DECTYP==6) .AND. IDDLEVEL==1 .AND. NELEM>10*NSPMD )THEN
@@ -2249,6 +2268,9 @@ C---------------------------------------------------------------------
                WGHT=IWD(NCOND*(I-1)+1)
                IWD(NCOND*(I-1)+1) = IWD(NCOND*(I-1)+ICDEL)
                IWD(NCOND*(I-1)+ICDEL)=WGHT
+               WGHT = TAG_CONSTRAINTS(ICDEL)
+               TAG_CONSTRAINTS(8) = ICELEM
+               TAG_CONSTRAINTS(1) = ICDEL
              ENDDO 
             ENDIF
           ENDIF
@@ -2272,6 +2294,7 @@ C---------------------------------------------------------------------
             WD_MAX = WD_MAX0
           ENDIF
 
+C         DO WHILE(.FALSE.)
           DO WHILE(DD_UNBALANCED .AND.  NCOND2 > 1 )
 C      CHECK Quality of Domain Decomp on elements
             WRITE(IOUT,'(A)')
@@ -2314,8 +2337,6 @@ C      CHECK Quality of Domain Decomp on elements
             ENDIF
             !==============================================
 
-
-
             WRITE(IOUT,'(A,I5)') 'RETRY KWAY WITH NCOND =',NCOND2
 
             ALLOCATE(IWD2(NCOND2*NELEM))
@@ -2325,10 +2346,12 @@ C      CHECK Quality of Domain Decomp on elements
               ENDDO
             ENDDO 
 C  KWAY METIS
-            IERR1 = WRAP_METIS_PartGraphKway(
-     1      NELEM,NCOND2,XADJ,ADJNCY,
-     2      IWD2,NNODE,
-     3      UBVEC,OPTIONS,NEC,CEP)    
+            CALL CALL_METIS(1,
+     1        NELEM,NCOND2,XADJ,ADJNCY,
+     2        IWD2,NNODE,
+     3        UBVEC,OPTIONS,NEC,CEP, TAG_CONSTRAINTS,CEP_INTERF)
+
+
             CALL STAT_DOMDEC(
      1           WIS      ,WI2     ,WFSI      ,WDEL      ,WDDL     ,
      2           WCAND    ,WSOL    ,WR2R      ,WKIN      ,IWD      ,
@@ -2336,7 +2359,7 @@ C  KWAY METIS
      4           ICDDL    ,ICSOL   ,ICFSI     ,ICDEL     ,ICR2R    ,
      5           ICKIN    ,AVERAGE ,DEVIATION ,DMAX      ,DMIN     ,
      6           CEP      ,NELEM   ,W         ,ICINTM    ,WIM      ,
-     7           NCRITMAX ,WNOD_SMS,ICNOD_SMS)
+     7           NCRITMAX ,WNOD_SMS,ICNOD_SMS, CEP_INTERF)
 
 !      CHECK Quality of Domain Decomp on elements
             DD_UNBALANCED =  (DMIN(MAIN_TARGET) <  AVERAGE(MAIN_TARGET)*0.80)
@@ -2355,10 +2378,11 @@ C  KWAY METIS
 
 C  RSB METIS
 
-              IERR1 = WRAP_METIS_PartGraphRecursive(
-     1        NELEM,NCOND2,XADJ,ADJNCY,
-     2        IWD2,NNODE,
-     3        UBVEC,OPTIONS,NEC,CEP)
+              CALL CALL_METIS(2,
+     1          NELEM,NCOND2,XADJ,ADJNCY,
+     2          IWD2,NNODE,
+     3          UBVEC,OPTIONS,NEC,CEP, TAG_CONSTRAINTS,CEP_INTERF)
+
               CALL STAT_DOMDEC(
      1             WIS      ,WI2     ,WFSI      ,WDEL      ,WDDL     ,
      2             WCAND    ,WSOL    ,WR2R      ,WKIN      ,IWD      ,
@@ -2366,7 +2390,7 @@ C  RSB METIS
      4             ICDDL    ,ICSOL   ,ICFSI     ,ICDEL     ,ICR2R    ,
      5             ICKIN    ,AVERAGE ,DEVIATION ,DMAX      ,DMIN     ,
      6             CEP      ,NELEM   ,W         ,ICINTM    ,WIM      ,
-     7             NCRITMAX ,WNOD_SMS,ICNOD_SMS) 
+     7             NCRITMAX ,WNOD_SMS,ICNOD_SMS, CEP_INTERF) 
         
             ENDIF       
             DEALLOCATE(IWD2)                                 
@@ -2432,6 +2456,7 @@ C
        
         DO I = 1, NELEM
           CEP(I) = CEP(I)-1
+          CEP_INTERF(I) = CEP_INTERF(I)-1
         END DO
         
         !---------------------!       
@@ -3660,7 +3685,7 @@ Chd|====================================================================
      4                        ICDDL ,ICSOL   ,ICFSI     ,ICDEL  ,ICR2R    ,
      5                        ICKIN ,AVERAGE ,DEVIATION ,DMAX   ,DMIN     ,
      6                        CEP   ,NELEM   ,W         ,ICINTM ,WIM      ,
-     7                        NCRITMAX ,WNOD_SMS,ICNOD_SMS)
+     7                        NCRITMAX ,WNOD_SMS,ICNOD_SMS, CEP_INTERF)
 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3675,7 +3700,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
            INTEGER ICKIN,ICR2R,ICDEL,ICFSI,ICSOL,ICDDL,ICCAND,
      .             ICINTS,ICINTM,ICINT2,NCOND,NELEM,ICELEM,NCRITMAX,ICNOD_SMS,
-     .             CEP(NELEM),IWD(NCOND*NELEM)
+     .             CEP(NELEM),IWD(NCOND*NELEM),CEP_INTERF(NELEM)
            DOUBLE PRECISION AVERAGE(NCRITMAX), DEVIATION(NCRITMAX), DMIN(NCRITMAX),DMAX(NCRITMAX),
      .                      W(NSPMD), WIS(NSPMD), WI2(NSPMD), WDDL(NSPMD),
      .                      WFSI(NSPMD),WCAND(NSPMD),WSOL(NSPMD),WKIN(NSPMD),
@@ -3684,7 +3709,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-           INTEGER  I,J
+           INTEGER  I,J,K
 C----------------------------------------------
 
             DO I = 1, NSPMD
@@ -3703,11 +3728,12 @@ C----------------------------------------------
             END DO
             DO J = 1, NELEM
               I = CEP(J)
+              K = CEP_INTERF(J)
               W(I) = W(I) + IWD(NCOND*(J-1)+ICELEM)
-              IF(ICINTS/=0)WIS(I) = WIS(I) + IWD(NCOND*(J-1)+ICINTS)
-              IF(ICINTM/=0)WIM(I) = WIM(I) + IWD(NCOND*(J-1)+ICINTM)
+              IF(ICINTS/=0)WIS(K) = WIS(K) + IWD(NCOND*(J-1)+ICINTS)
+              IF(ICINTM/=0)WIM(K) = WIM(K) + IWD(NCOND*(J-1)+ICINTM)
               IF(ICINT2/=0)WI2(I) = WI2(I) + IWD(NCOND*(J-1)+ICINT2)
-              IF(ICCAND/=0)WCAND(I) = WCAND(I) + IWD(NCOND*(J-1)+ICCAND)
+              IF(ICCAND/=0)WCAND(K) = WCAND(K) + IWD(NCOND*(J-1)+ICCAND)
               IF(ICDDL/=0)WDDL(I) = WDDL(I) + IWD(NCOND*(J-1)+ICDDL)
               IF(ICSOL/=0)WSOL(I) = WSOL(I) + IWD(NCOND*(J-1)+ICSOL)
               IF(ICFSI/=0)WFSI(I) = WFSI(I) + IWD(NCOND*(J-1)+ICFSI)

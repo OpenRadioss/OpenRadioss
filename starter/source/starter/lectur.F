@@ -607,6 +607,8 @@ C-----------------------------------------------
       USE SHELL_OFFSETP_MOD, ONLY:SHELL_OFFSETP
       USE UPDFAIL_MOD
       USE RANDOM_WALK_DEF_MOD
+      USE CONSIDER_EDGE_MOD , ONLY : MAX_NB_NODES_PER_ELT 
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -775,7 +777,7 @@ C
       INTEGER(KIND=8) :: KVOISPH8,NUMSPH8,SIXSP8,LIMIT8
       INTEGER :: INTEGER_LIMIT32
 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: CEP,CEL,CNE,
+      INTEGER, DIMENSION(:),ALLOCATABLE :: CEP,CEL,CNE,CEP_INTERF,
      .                                     CNI2, CELI2, CEPI2,
      .                                     CEPSP, CELSPH, ITAGSH,
      .                                     CNE_PXFEM,CEL_PXFEM
@@ -1153,6 +1155,7 @@ C SEATBELTS
 C   
       INTEGER  :: NUMSH3,NUMSH4, NSLICE,NPT_DRAPE,JJ,ISL, IP,IE, IDSHEL
       INTEGER , DIMENSION(:), ALLOCATABLE :: INDXSH  
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: CONNECTIVITY
       INTEGER :: NUMBER_LOAD_CYL
       INTEGER :: S_NOD2ELS,S_NOD2ELTG,S_NOD2EL1D
 C SEATBELTS      
@@ -5704,11 +5707,13 @@ C        les sensors de type 2 modifient front sur p<>1
            SCEP = NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLLOADP+NUMBER_LOAD_CYL
            SCEL = NELEM+NCONLD+NUMCONV+NUMRADIA+NFXFLUX+SLLOADP+NUMBER_LOAD_CYL
            ALLOCATE(CEP(SCEP))
+           ALLOCATE(CEP_INTERF(SCEP))
            ALLOCATE(CEL(SCEL))
          ELSE
            SCEP = 1
            SCEL = 1
            ALLOCATE(CEP(SCEP))
+           ALLOCATE(CEP_INTERF(SCEP))
            ALLOCATE(CEL(SCEL))
          ENDIF
       ENDIF
@@ -5755,9 +5760,16 @@ C allocation moyenne normalement suffisante si taille de groupe moyenne > NVSIZ/
       IF(.NOT. ALLOCATED(LPBY)) ALLOCATE(LPBY(0))
       IF(.NOT. ALLOCATED( RBY)) ALLOCATE( RBY(0))
 
+          IF(.NOT. ALLOCATED(CONNECTIVITY)) THEN 
+             ! global connectivity array: nodes for each element from 1 to NELEM (consistent with CEP)
+             ALLOCATE(CONNECTIVITY(MAX_NB_NODES_PER_ELT,NELEM))
+             CONNECTIVITY(:,:) = 0
+          ENDIF
+
+          CEP_INTERF = 0
           CALL DOMETIS(
      1     IXS       ,IXQ      ,IXC      ,IXT     ,IXP      ,
-     2     IXR       ,IXTG     ,CEP     ,GEO      ,
+     2     IXR       ,IXTG     ,CEP     , CEP_INTERF, GEO      ,
      3     ITRI1     ,ITRI2    ,INDEX1   ,INDEX2  ,INUM     ,
      4     IWD       ,IWCONT   ,NELEM    ,IDDLEVEL,NELEMINT ,
      5     INTER_CAND,PM ,X        ,KXX     ,IXX      ,
@@ -5768,7 +5780,7 @@ C allocation moyenne normalement suffisante si taille de groupe moyenne > NVSIZ/
      1     TAILLE   ,POIN_UMP,TAB_UMP  ,
      2     POIN_UMP_OLD,TAB_UMP_OLD,CPUTIME_MP_OLD,
      3     NSNT, NMNT_2,TABMP_L,IQUAOFF,
-     4     IGRSURF  , FVMAIN,
+     4     IGRSURF  , FVMAIN, CONNECTIVITY,
      5     ITAB      ,IPART    ,IPARTC   ,IPARTG   ,IPARTS,
      6     POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
      7     MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,T_MONVOL,
@@ -5878,7 +5890,8 @@ C
      5       IGEO   ,IPM    ,NOD2ELS,ISOLOFF ,
      6       TAGPRT_SMS,SPH2SOL,SOL2SPH,MAT_ELEM%MAT_PARAM,
      7       SOL2SPH_TYP    ,IFLAG_BPRELOAD, CLUSTERS ,
-     8       RNOISE(1,MIN(SRNOISE2,NUMELC+NUMELTG+1)))
+     8       RNOISE(1,MIN(SRNOISE2,NUMELC+NUMELTG+1)),
+     9       CEP_INTERF(OFF), CONNECTIVITY(1:MAX_NB_NODES_PER_ELT,OFF))
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------
@@ -5906,7 +5919,7 @@ C
      6       IPM      ,NOD2ELS  ,ISOLOFF  ,ISOLNOD  ,
      7       TAGPRT_SMS,INIVOL  ,SPH2SOL  ,SOL2SPH  ,SOL2SPH_TYP,
      8       IFLAG_BPRELOAD, CLUSTERS ,MAT_ELEM%MAT_PARAM ,RNOISE(1,MIN(SRNOISE2,NUMELC+NUMELTG+1)),
-     9       IPRI)
+     9       IPRI, CEP_INTERF(OFF), CONNECTIVITY(1:MAX_NB_NODES_PER_ELT,OFF))
         GRSOL_ID2 = NGROUP
         NGR_SOL   = GRSOL_ID2 - GRSOL_ID1
 C
@@ -6008,7 +6021,8 @@ C
      4   CEP(OFF),XEP     ,IGEO    ,IPM     ,
      5   IPART   ,SH4TREE ,NOD2ELC ,ISHEOFF ,SH4TRIM ,
      6   TAGPRT_SMS,LGAUGE,IWORKSH ,MAT_ELEM%MAT_PARAM,
-     7   STACK   ,DRAPE   ,RNOISE  ,SH4ANG,DRAPEG, PTSHEL)
+     7   STACK   ,DRAPE   ,RNOISE  ,SH4ANG,DRAPEG, PTSHEL,
+     8   CEP_INTERF(OFF), CONNECTIVITY(1:MAX_NB_NODES_PER_ELT,OFF))
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------
@@ -6037,7 +6051,8 @@ C
      6        IPART    ,SH4TREE  ,NOD2ELC  ,ISHEOFF ,
      7        SH4TRIM  ,TAGPRT_SMS, LGAUGE,IWORKSH    ,
      8        STACK    ,DRAPE   ,RNOISE  ,MAT_ELEM%MAT_PARAM,
-     9        SH4ANG, IDDLEVEL , DRAPEG,IPRI, PTSHEL)
+     9        SH4ANG, IDDLEVEL , DRAPEG,IPRI, PTSHEL,
+     .        CEP_INTERF(OFF), CONNECTIVITY(1:MAX_NB_NODES_PER_ELT,OFF))
 
          OFF = OFF + NUMELC
 
@@ -7506,9 +7521,10 @@ C read /INIBRI/FILL before interfaces stiffness
 
 C
 C fill interface structure to be used by sorting 
-c set INTERCEP for INT7 only to avoid bug with INT20 dur to renumerotation
+c set INTERCEP for INT7 only to avoid bug with INT20 due to renumbering 
 c in I20NLG (other interface types still done in SET_INTERCEP)
-        CALL FILL_INTERCEP(IPARI,INTBUF_TAB,INTERCEP)
+        CALL FILL_INTERCEP(IPARI,INTBUF_TAB,INTERCEP, CEP_INTERF, CONNECTIVITY, NELEM) 
+
 C
         CALL ININTR(IPARI     ,INSCR    ,X_C,V   ,IXS      ,IXQ      ,
      2               IXC      ,PM       ,GEO     ,ITAB     ,MS       ,
@@ -10614,7 +10630,7 @@ C-------------------------------------------------------------
 C-------------------------------------------------------------
 C         Set INTERCEP (for all INTERFACES except TYPE24) (flag=1)
 C-------------------------------------------------------------
-
+C         CALL FILL_INTERCEP(IPARI,INTBUF_TAB,INTERCEP, CEP_INTERF, CONNECTIVITY, NELEM) 
           CALL SET_INTERCEP(IPARI,INTERCEP,1,INTBUF_TAB,ITAB,CEP)
 
 C ! this call is maintened here to avoid a bug
