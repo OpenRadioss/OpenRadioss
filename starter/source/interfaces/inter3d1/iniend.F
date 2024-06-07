@@ -140,7 +140,7 @@ C  interface ALE -> c. c. traitees par P0
              FLAGKIN(INTBUF_TAB%MSR(I)) = 1
            END DO
          ENDIF
-       ELSE
+       ELSE ! NTY == 2
          IF (N2D==0) THEN
            NIR = 4
          ELSE

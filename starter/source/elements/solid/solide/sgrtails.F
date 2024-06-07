@@ -40,18 +40,19 @@ Chd|        R2R_MOD                       share/modules1/r2r_mod.F
 Chd|        REORDER_MOD                   share/modules1/reorder_mod.F  
 Chd|====================================================================
       SUBROUTINE SGRTAILS(
-     1       IXS           ,PM      ,IPARG       , GEO     ,
-     2       EADD          ,ND      ,IPARTS      , DD_IAD  ,
-     3       IDX           ,ISOLNOD ,INUM        , INDEX   ,
-     4       CEP           ,ITR1    ,IXS10       , IGRSURF ,    IGRBRIC,
-     5       IXS20         ,IXS16   ,IGEO        , IDDLEVEL,
-     6       IPM           ,NOD2ELS ,ISOLOFF     , ISOLNOD1,
-     7       TAGPRT_SMS    ,INIVOL  ,SPH2SOL     , SOL2SPH , SOL2SPH_TYP,
-     8       IFLAG_BPRELOAD,CLUSTERS,MATPARAM_TAB, RNOISE  ,
-     9       PRINT_FLAG)
+     1       IXS    ,PM     ,IPARG  ,GEO     ,
+     2       EADD   ,ND     ,IPARTS  ,DD_IAD  ,
+     3       IDX    ,ISOLNOD,INUM    ,INDEX   ,
+     4       CEP    ,ITR1   ,IXS10  ,IGRSURF ,IGRBRIC ,
+     5       IXS20  ,IXS16  ,IGEO    , IDDLEVEL,
+     6       IPM    ,NOD2ELS,ISOLOFF,ISOLNOD1,
+     7       TAGPRT_SMS,INIVOL,SPH2SOL ,SOL2SPH,SOL2SPH_TYP,
+     8       IFLAG_BPRELOAD,CLUSTERS,MATPARAM_TAB,RNOISE,
+     9       PRINT_FLAG, CEP_INTERF, CONNECTIVITY)
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
+      USE consider_edge_mod, only: max_nb_nodes_per_elt
       USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE R2R_MOD
@@ -99,6 +100,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
+      INTEGER :: CEP_INTERF(NUMELS), CONNECTIVITY(max_nb_nodes_per_elt,NUMELS)
       INTEGER ND, IDX
       INTEGER IXS(11,*),IPARG(NPARG,*),EADD(*), ISOLNOD(*),
      .        DD_IAD(NSPMD+1,*),IPARTS(*),
@@ -139,10 +141,17 @@ C-----------------------------------------------
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
       LOGICAL lFOUND
       INTEGER :: NB_NODES, LDIM, OFFSET
+      INTEGER, dimension(:), allocatable :: XEP
+      INTEGER, dimension(:,:), allocatable :: CONNECTIVITY_TMP
 C--------------------------------------------------------------
 C         BORNAGE DES GROUPES DE MVSIZ
 C--------------------------------------------------------------
       CALL MY_ALLOC(INDEXS2,NUMELS)
+      ALLOCATE(XEP(NUMELS))
+      ALLOCATE(CONNECTIVITY_TMP(max_nb_nodes_per_elt,NUMELS))
+      CONNECTIVITY_TMP(1:max_nb_nodes_per_elt,1:NUMELS) = CONNECTIVITY(1:max_nb_nodes_per_elt,1:NUMELS)
+      XEP(1:NUMELS) = CEP_INTERF(1:NUMELS)
+
       nullify(MATPARAM)
       INDEXS2(1:NUMELS)=PERMUTATION%SOLID(1:NUMELS)
       NGR1 = NGROUP + 1
@@ -372,6 +381,26 @@ C
 C          
 C maj CEP
 C
+C ====== REORDER CONNECTIVITY FOR INTERFACE DOMAIN DECOMPOSITION ======
+        DO I=1, NEL
+          XEP(I)=CEP_INTERF(NFT + INDEX(I))
+        ENDDO
+        DO I=1,NEL
+          CEP_INTERF(NFT+I)=XEP(I)
+        ENDDO 
+        DO  I=1,NEL
+          DO J=1,max_nb_nodes_per_elt
+            CONNECTIVITY_TMP(J,I) = CONNECTIVITY(J,NFT+INDEX(I))
+          ENDDO 
+        ENDDO
+        DO  I=1,NEL
+          DO J=1,max_nb_nodes_per_elt
+            CONNECTIVITY(J,I+NFT) = CONNECTIVITY_TMP(J,I)
+          ENDDO 
+        ENDDO
+C ====== REORDER CONNECTIVITY FOR INTERFACE DOMAIN DECOMPOSITION ======
+
+
         DO I = 1, NEL
           INDEX(I) = CEP(NFT+INDEX(I))          
         ENDDO
@@ -379,8 +408,11 @@ C
           CEP(NFT+I) = INDEX(I)          
         ENDDO
         NFT = NFT + NEL
+
       ENDDO
-       
+      DEALLOCATE(CONNECTIVITY_TMP)
+      DEALLOCATE(XEP)
+      
 C
 C RENUMEROTATION POUR SURFACES
 C

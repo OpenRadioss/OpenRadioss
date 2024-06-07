@@ -41,7 +41,8 @@ Chd|====================================================================
      4       CEP        ,XEP           ,IXS10     ,IXS20   ,IXS16  ,
      5       IGEO       ,IPM           ,NOD2ELS   ,ISOLOFF ,
      6       TAGPRT_SMS ,SPH2SOL       ,SOL2SPH   ,MAT_PARAM,
-     7       SOL2SPH_TYP,IFLAG_BPRELOAD,CLUSTERS  ,RNOISE)
+     7       SOL2SPH_TYP,IFLAG_BPRELOAD,CLUSTERS  ,RNOISE,
+     8       CEP_INTERF, CONNECTIVITY)
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -64,6 +65,7 @@ C     ISOLOFF(NUMELS)      FLAG ELEM RBY ON/OFF                      E/S
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE consider_edge_mod, only : max_nb_nodes_per_elt
       USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE R2R_MOD
@@ -91,6 +93,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
+      INTEGER, INTENT(INOUT) :: CONNECTIVITY(max_nb_nodes_per_elt,NUMELS)
+      INTEGER, INTENT(INOUT) :: CEP_INTERF(NUMELS)
       INTEGER IXS(NIXS,NUMELS),ISEL(*),INUM(16,*),IPARTS(*),
      .        EADD(*),ITR1(*),INDEX(*),ITRI(7,*),
      .        ND, ISOLNOD(*), CEP(*),
@@ -110,6 +114,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: CONNECTIVITY_TMP
       INTEGER 
      .        I,J,K,L,IL,MLN, NG, ISSN, NPN, NN, N, MID, PID ,IREP,
      .        II,II0,JJ0,II1,JJ1,II2,JJ2,JJ,II3,JJ3,II4,JJ4,II5,JJ5,
@@ -368,6 +373,23 @@ c     IF (IMACH==3) THEN
           CEP(I)=XEP(INDEX(I))
           PERMUTATION%SOLID(I)=INDEX2(INDEX(I))
         ENDDO
+C ====== REORDER CONNECTIVITY FOR INTERFACE DOMAIN DECOMPOSITION ======
+        DO I=1,NUMELS
+          XEP(I)=CEP_INTERF(I)
+        ENDDO
+        DO I=1,NUMELS
+          CEP_INTERF(I)=XEP(INDEX(I))
+        ENDDO 
+        ALLOCATE(CONNECTIVITY_TMP(max_nb_nodes_per_elt,NUMELS))
+        CONNECTIVITY_TMP(1:max_nb_nodes_per_elt,1:NUMELS) = CONNECTIVITY(1:max_nb_nodes_per_elt,1:NUMELS)
+        DO  I=1,NUMELS
+          DO J=1,max_nb_nodes_per_elt
+            CONNECTIVITY(J,I) = CONNECTIVITY_TMP(J,INDEX(I))
+          ENDDO 
+        ENDDO
+        DEALLOCATE(CONNECTIVITY_TMP)
+C ====== REORDER CONNECTIVITY FOR INTERFACE DOMAIN DECOMPOSITION ======
+
 c     ENDIF
       DO  K=1,11
         DO  I=1,NUMELS

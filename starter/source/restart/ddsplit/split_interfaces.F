@@ -914,7 +914,7 @@ c
               ENDIF
               
 c     split and write on disk integers arrays
-              
+
               CALL SPLIT_SEG_NODLOC(INTBUF_TAB(NI)%IRECTM,NRTM_FE_L,4,
      .             TAG_SEGM,NODLOCAL)
               CALL COPY_IVAL(INTBUF_TAB(NI)%IRECTM,NRTM_IGE,4)
