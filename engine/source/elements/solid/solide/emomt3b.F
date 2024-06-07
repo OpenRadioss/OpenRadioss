@@ -52,7 +52,7 @@ Chd|====================================================================
      L   VY7,     VY8,     VZ1,     VZ2,
      M   VZ3,     VZ4,     VZ5,     VZ6,
      N   VZ7,     VZ8,     IPARG1,  NEL,
-     O   MTN)
+     O   MTN,     IPM)
 C-----------------------------------------------
 C   M o d u l e  s
 C-----------------------------------------------
@@ -96,6 +96,7 @@ C-----------------------------------------------
      .   VZ1(*),VZ2(*),VZ3(*),VZ4(*),VZ5(*),VZ6(*),VZ7(*),VZ8(*)
       INTEGER IFL, MX
       INTEGER MAT(*),IPARG1(*)
+      INTEGER,INTENT(IN)::IPM(NPROPMI,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -117,7 +118,7 @@ C     Forces de transports calcul es par volume fini
 C-----------------------------------------------
 C   DMi = 0.5*DT1*QMV(i,I)  masse entrant par la face i
       IF(MTN==51 .AND. ALE%UPWIND%UPWM/=3 .AND. IPARG1(64)==0)THEN
-        IADBUF = NINT(PM(27,MAT(1)))
+        IADBUF = IPM(27,MAT(1))
         IFLG = NINT(BUFMAT(31+IADBUF-1))
 C
         IF(IFLG>1)RETURN

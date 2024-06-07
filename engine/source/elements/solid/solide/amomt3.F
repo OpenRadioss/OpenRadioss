@@ -66,7 +66,7 @@ Chd|====================================================================
      X   IPARG1,  IXS,     IAD22,   NC1,
      Y   NC2,     NC3,     NC4,     NC5,
      Z   NC6,     NC7,     NC8,     NALE,
-     1   NEL,     NFT,     MTN)
+     1   NEL,     NFT,     MTN,     IPM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -120,6 +120,7 @@ C-----------------------------------------------
       INTEGER MAT(*),IPARG1(*),IXS(NIXS,*), 
      .   NC1(*), NC2(*), NC3(*), NC4(*), NC5(*), NC6(*), NC7(*), NC8(*), 
      .   NALE(*)
+      INTEGER, INTENT(IN) :: IPM(NPROPMI,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -135,21 +136,21 @@ C-----------------------------------------------
      .   V87a(MVSIZ,3), V87b(MVSIZ,3)
       INTEGER I,J,IADBUF,IFLG, MX
 C-----------------------------------------------
-      IF(ALE%UPWIND%UPWM==0.AND.IPARG1(64)==1)RETURN   !silent boundary
+      IF(ALE%UPWIND%UPWM == 0. AND. IPARG1(64) == 1)RETURN   !silent boundary
 C-----------------------------------------------
 C  MULTIMATERIAL LAW 51
 C-----------------------------------------------
-      IF(MTN==51 .AND. ALE%UPWIND%UPWM/=3 .AND. IPARG1(64)==0)THEN
+      IF(MTN == 51 .AND. ALE%UPWIND%UPWM /= 3 .AND. IPARG1(64) == 0)THEN
       !-------------------------------------------------------!
       !     Reynolds theorem ('transportation force')         !
       !   DMi = 0.5*DT1*QMV(i,I)  incoming mass from face i   !
       !-------------------------------------------------------!
-      IADBUF = NINT(PM(27,MAT(1)))
+      IADBUF = IPM(27,MAT(1))
       IFLG = NINT(BUFMAT(31+IADBUF-1))
  
        IF(IFLG>1)RETURN
 
-       !momentum advection with UPWIND method only. Even if SUPG or TG are activated. (UPSM=2 or 3)   
+       !momentum advection with STD upwind & TG
        MX = MAT(1)       
        DO I=1,NEL
         GAM(I)= PM(15,MX)

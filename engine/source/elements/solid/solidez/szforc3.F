@@ -561,7 +561,8 @@ c
      3   DXZ,        DYX,        DYY,        DYZ,
      4   DZX,        DZY,        DZZ,        D4,
      5   D5,         D6,         WXX,        WYY,
-     6   WZZ,        BUFMAT,     NEL,        NFT)
+     6   WZZ,        BUFMAT,     NEL,        NFT,
+     7   IPM,        NUMMAT,     NUMELS)
       ELSE
         CALL SDEFO3(
      1   PX1,     PX2,     PX3,     PX4,
@@ -950,7 +951,7 @@ C ALE or EULER : update momentum transport forces
      X   IPARG(1,NG),IXS,        GBUF%TAG22, NC1,
      Y   NC2,        NC3,        NC4,        NC5,
      Z   NC6,        NC7,        NC8,        NALE,
-     1   NEL,        NFT,        MTN)
+     1   NEL,        NFT,        MTN,        IPM)
       ELSEIF(JEUL == 1 .AND. INTEG8 == 1)THEN
 C
 C Does not include upwind SUPG or TG
@@ -978,7 +979,7 @@ C Does not include upwind SUPG or TG
      L   VY7,               VY8,               VZ1,               VZ2,
      M   VZ3,               VZ4,               VZ5,               VZ6,
      N   VZ7,               VZ8,               IPARG(1,NG),       NEL,
-     O   MTN)
+     O   MTN,               IPM)
       ENDIF
 
         IF(JEUL+JALE/=0) CALL CHECK_OFF_ALE(F11,F21,F31,F12,F22,

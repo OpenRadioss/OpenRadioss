@@ -36,7 +36,7 @@ Chd|====================================================================
      .   VY1, VY2   , VY3,  VY4, VZ1  , VZ2, VZ3 , VZ4,
      .   DYY, DZZ   , DYZ,  DZY,
      .   NC1, NC2   , NC3,  NC4, MAT  , OFF,
-     .   QMV, BUFMAT, DELTAX, VIS)
+     .   QMV, BUFMAT, DELTAX, VIS, IPM)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -74,6 +74,7 @@ C-----------------------------------------------
      .   VZ1(*), VZ2(*), VZ3(*), VZ4(*),
      .   DYY(*), DZZ(*), DYZ(*), DZY(*), OFF(*),QMV(8,*),BUFMAT(*), DELTAX(*), VIS(*)
       INTEGER MAT(*), NC1(*), NC2(*), NC3(*), NC4(*)
+      INTEGER,INTENT(IN) :: IPM(NPROPMI,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -140,7 +141,7 @@ C-----------------------------------------------
       !-----------------------------------------------
       !   DMi = 0.5*DT1*QMV(i,I)  masse entrant par la face i
       IF(MTN == 51 .AND. ALE%UPWIND%UPWM /= 3) THEN
-        IADBUF = NINT(PM(27,MAT(1)))
+        IADBUF = IPM(27,MAT(1))
         IFLG = NINT(BUFMAT(31+IADBUF-1))
         IF(IFLG > 1)RETURN
         IF(ALE%UPWIND%UPWM == 0.)THEN
