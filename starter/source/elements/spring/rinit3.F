@@ -142,7 +142,7 @@ C     REAL
       DATA NSPRG /0/, NSPRG4 /0/, NSPRG8 /0/, NSPRG12 /0/, 
      .     NSPRG13 /0/, NSPRG25 /0/,NSPRG26/0/,NSPRGU /0/, 
      .     NSPRG23 /0/,NSPRG27/0/
-      INTEGER MINIDL, MAXIDL,IPID
+      INTEGER MINIDL, MAXIDL,IPID,IFUNC
       my_real 
      .     NOISE,BIDON,MAS2,UNDAMP
       INTEGER ID
@@ -1540,46 +1540,62 @@ C
             J=1+NFT
             I0=IXR(1,J)
             IH = NINT(GEO(7,I0))
-            DO I=LFT,LLT
-              XM=GEO(1,I0)*XL(I)
-              UNDAMP = XM/DTELEM(NDEPAR+I)
-              GBUF%BPRELD(I)     = PRELOAD_A%preload
-              GBUF%BPRELD(I+NEL) = UNDAMP*PRELOAD_A%damp
-            ENDDO
+            IFUNC = IGEO(101,I0)
+            IF (IFUNC==0) IH =0
             IF (IH==0.OR.IH==8) THEN
               CALL ANCMSG(MSGID=3057,
-     .                  MSGTYPE=MSGWARNING,
+     .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=ID,
      .                  I2=IH,
      .                  C1=TITR)
-              GBUF%BPRELD(LFT:2*LLT)  = ZERO
-            END IF 
-          CASE(23)
-            IF (MTN==113) THEN  
+            ELSE
               DO I=LFT,LLT
-                XM=GBUF%MASS(I)
+                XM=GEO(1,I0)*XL(I)
                 UNDAMP = XM/DTELEM(NDEPAR+I)
                 GBUF%BPRELD(I)     = PRELOAD_A%preload
                 GBUF%BPRELD(I+NEL) = UNDAMP*PRELOAD_A%damp
               ENDDO
+            END IF 
+          CASE(23)
+            IF (MTN==113) THEN  
+              J=1+NFT
+              I0=IXR(1,J)
+              IFUNC = IGEO(101,I0)
+              IMAT   = IXR(5,J)
+              IADBUF = IPM(7,IMAT) - 1
+              IH= NINT(UPARAM(IADBUF + 4 + 12*6 + 1))
+              IF (IFUNC==0) IH =0
+              IF (IH==0.OR.IH==8) THEN
+                CALL ANCMSG(MSGID=3057,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID,
+     .                  I2=IH,
+     .                  C1=TITR)
+              ELSE
+               DO I=LFT,LLT
+                XM=GBUF%MASS(I)
+                UNDAMP = XM/DTELEM(NDEPAR+I)
+                GBUF%BPRELD(I)     = PRELOAD_A%preload
+                GBUF%BPRELD(I+NEL) = UNDAMP*PRELOAD_A%damp
+               ENDDO
+              END IF ! IH==0.OR.
             ELSE
               CALL ANCMSG(MSGID=3053,
-     .                  MSGTYPE=MSGWARNING,
+     .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=ID,
      .                  I2=IGTYP,
      .                  C1=TITR)
-              GBUF%BPRELD(LFT:2*LLT)  = ZERO
             END IF
           CASE DEFAULT
             CALL ANCMSG(MSGID=3053,
-     .                  MSGTYPE=MSGWARNING,
+     .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=ID,
      .                  I2=IGTYP,
      .                  C1=TITR)
-           GBUF%BPRELD(LFT:2*LLT)  = ZERO
         END SELECT 
 !
       END IF
