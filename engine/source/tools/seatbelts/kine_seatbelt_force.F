@@ -100,10 +100,10 @@ C----------------------------------------------------------
          STIFN(ANCHOR_NODE)=STIFN(ANCHOR_NODE)+STIFN(NODE2)  
          IF (RETRACTOR(I)%N_REMOTE_PROC > 0) THEN
 C--        Contribution stored to be exchanged to remote anchor node
-            BUF_EXCH(1,L) = A(1,NODE2)
-            BUF_EXCH(2,L) = A(2,NODE2)
-            BUF_EXCH(3,L) = A(3,NODE2)
-            BUF_EXCH(4,L) = STIFN(NODE2)
+            BUF_EXCH(L,1) = A(1,NODE2)
+            BUF_EXCH(L,2) = A(2,NODE2)
+            BUF_EXCH(L,3) = A(3,NODE2)
+            BUF_EXCH(L,4) = STIFN(NODE2)
             L = L + 1
          ENDIF
          A(1,NODE2)=ZERO

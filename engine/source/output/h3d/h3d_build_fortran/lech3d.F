@@ -907,7 +907,11 @@ C
                 DO K=1,NUMGEO
                   IF(IGEO(11,K) == 1 .OR. IGEO(11,K) == 9 ) THEN
                     NIP_MAX = MAX(NIP_MAX,IGEO(4,K))
-                    IF (IGEO(4,K)==0) ISH_NPT0=1
+                    IF (IGEO(4,K)==0) THEN
+                      ISH_NPT0=1
+                      NIP_MAX = NIP_MAX + 1
+                      NLAY_MAX = NLAY_MAX + 1
+                    ENDIF
                   ELSEIF(IGEO(11,K) == 19 )THEN  !
                     NIP_MAX = MAX(NIP_MAX,IGEO(44,K))
                   ELSEIF(IGEO(11,K) == 18)THEN

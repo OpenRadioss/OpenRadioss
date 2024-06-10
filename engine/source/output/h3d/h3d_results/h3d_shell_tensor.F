@@ -250,7 +250,7 @@ c
             IF (ILAY == -3) ILAY = NLAY  ! Upper
             IF (IPT  == -2) IPT  = 1     ! Lower
             IF (IGTYP == 51 .OR. IGTYP == 52) THEN 
-              IF (IPT  == -3) IPT = MAX(1,ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT)  ! Upper  
+              IF (IPT  == -3 .AND. ILAY > 0) IPT = MAX(1,ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT)  ! Upper  
             ELSE
               IF (IPT  == -3) IPT = MAX(1,NPT)                             ! Upper  
             ENDIF 
