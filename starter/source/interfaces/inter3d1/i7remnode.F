@@ -1479,7 +1479,9 @@ C       IremI2 for edge to edge contact type 25
 C-----------------------------------------------
 
                     IF(NTY==25.AND.IF25>0.AND.IEDGE>0)THEN
-                      CALL REMN_I2OP_EDG25(N          ,FLAGREMNODE_SAV ,IPARI   ,INTBUF_TAB   ,I2NODE,
+                      NEDGE = IPARI(68,N)
+                      IF (NEDGE >0) 
+     .                CALL REMN_I2OP_EDG25(N          ,FLAGREMNODE_SAV ,IPARI   ,INTBUF_TAB   ,I2NODE,
      .                                     POINTS_I2N ,I2NODE_SIZE     ,NOM_OPT  ,ITAB,IDDLEVEL)
                     ENDIF      
         END DO 
