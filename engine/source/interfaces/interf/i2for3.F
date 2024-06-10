@@ -1680,7 +1680,7 @@ C
 #include "vectorize.inc"
         DO II=1,NMN
           J=MSR(II)
-          ADM(J) = ADM(J)/MMASS(II)
+          ADM(J) = ADM(J)/MAX(MMASS(II),EM20)
         ENDDO
       ENDIF
 C

@@ -116,11 +116,11 @@ C
           ILEV = IPARI(20,N)
           IF (NTY == 2) THEN
             IF (ILEV == 25) THEN
-              I25PENA=1
+              I25PENA=MAX(I25PENA,1)
             ELSEIF (ILEV == 26) THEN
-              I25PENA=2
+              I25PENA=MAX(I25PENA,2)
             ELSEIF (ILEV == 27 .or. ILEV == 28) THEN
-              I25PENA=2
+              I25PENA=MAX(I25PENA,2)
             ENDIF
             IF (IRODDL > 0) SIZE_INER_POFF = NUMNOD
           ENDIF

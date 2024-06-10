@@ -238,7 +238,7 @@ c
               IF (ILAY == -2) ILAY = 1
               IF (ILAY == -3) ILAY = NLAY
               IF (IPT  == -2) IPT  = 1
-              IF (IPT  == -3) IPT  = MAX(1,ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT)
+              IF (IPT  == -3 .AND. ILAY > 0 ) IPT  = MAX(1,ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT)
             ELSE
               IF (ILAY == -2) ILAY = 1
               IF (ILAY == -3) ILAY = NLAY
