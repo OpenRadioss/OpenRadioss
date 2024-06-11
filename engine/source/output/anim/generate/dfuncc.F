@@ -1278,7 +1278,7 @@ c
                     DO IR = 1, NPTR                                                        
                       DO IS = 1, NPTS                                                      
                         UVAR=>ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IPT)%VAR                   
-                        IF (IUS==3 .OR. IUS==4) THEN  ! convert true to eng strain                                           
+                        IF (IUS==4 .OR. IUS==5) THEN  ! convert true to eng strain                                           
                           EVAR(I) = EVAR(I) + EXP(UVAR(I1+I) - ONE) / NPG                     
                         ELSE                                                               
                           EVAR(I) = EVAR(I) + UVAR(I1 + I) / NPG                             

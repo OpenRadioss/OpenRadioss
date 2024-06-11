@@ -1130,7 +1130,7 @@ c
                         DO IR = 1, NPTR
                           DO IS = 1, NPTS
                             UVAR=>ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IPT)%VAR
-                            IF(IUVAR==3.OR.IUVAR==4)THEN
+                            IF(IUVAR==4.OR.IUVAR==5)THEN
                               DO I=1,NEL
                                 VALUE(I) = VALUE(I) + LOG(UVAR(I1 + I)+ONE)/NPG
                                 IS_WRITTEN_VALUE(I) = 1
