@@ -655,6 +655,7 @@ C     shells
       COQMAT(119) = 1
       COQMAT(121) = 1
       COQMAT(122) = 1
+      COQMAT(125) = 1
       COQMAT(151) = 1
       COQMAT(158) = 1
       COQMAT(200) = 1
