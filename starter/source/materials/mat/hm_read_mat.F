@@ -145,6 +145,7 @@ Chd|        HM_READ_MAT93                 source/materials/mat/mat093/hm_read_ma
 Chd|        HM_READ_MAT94                 source/materials/mat/mat094/hm_read_mat94.F
 Chd|        HM_READ_MAT95                 source/materials/mat/mat095/hm_read_mat95.F
 Chd|        HM_READ_MAT97                 source/materials/mat/mat097/hm_read_mat97.F
+Chd|        HM_READ_MAT125                source/materials/mat/mat125/hm_read_mat125.F
 Chd|        HM_READ_MATGAS                source/materials/mat/matgas/hm_read_matgas.F
 Chd|        HM_READ_MAT_99                source/materials/mat/matuser/hm_read_mat_user_99.F
 Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
@@ -179,6 +180,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE TABLE_MOD
       USE HM_READ_MAT169_ARUP_MOD
+      USE HM_READ_MAT125_MOD
       USE HM_READ_MAT126_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1127,6 +1129,14 @@ c-------
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,MTAG     ,
      .           PARMAT   ,UNITAB   ,PM(1,I)  ,LSUBMODEL,ISRATE   ,
      .           ASRATE   ,MAT_ID   ,TITR     ,MATPARAM )
+c-------     
+          CASE ('LAW125','LAMINATED_COMPOSITE')
+            ILAW = 125
+            CALL HM_READ_MAT125(
+     .           NUVAR    ,MAXFUNC  ,NPROPM  , IOUT     , 
+     .           NFUNC    ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
+     .           PM(1,I)  ,LSUBMODEL,ISRATE   ,MAT_ID   ,TITR     ,
+     .           MATPARAM ,NVARTMP  )     
 c-------
           CASE ('LAW126','JOHNSON_HOLMQUIST_CONCRETE')
             ILAW = 126
@@ -1306,8 +1316,9 @@ c
 c--------------------------------------------      
 c       for user type laws (lecmuser)
 c---------------------------------------------------------
-        IF (ILAW > 27 .and. ILAW /= 32 .and. ILAW /= 49 .and. ILAW /= 151 .AND. 
-     .      ILAW /= 999) THEN
+        
+        IF (ILAW > 27 .and. ILAW /= 32 .and. ILAW /= 49 .and. ILAW /= 125 
+     .     .and. ILAW /= 151 .AND. ILAW /= 999) THEN
           MTAG%L_STRA = 6        ! all user type laws calculate total strain
 c
           C1    = PARMAT(1)
@@ -1323,7 +1334,7 @@ c
           PM(21,I) = NU
           PM(22,I) = G
           PM(24,I) = YOUNG/(ONE - NU**2)
-          PM(32,I) = C1     
+          PM(32,I) = C1  
           IF (ILAW==71 ) PM(27,I)=SQRT(YOUNG/MAX(PM(1,I),EM20))  ! Sound speed
 C---------
 C         For solid elements time step computation :

@@ -104,7 +104,7 @@ c
             ENDIF
           ENDIF
 c------   specific default dm for QEPH,QBAT
-          IF (IHBE == 23 .AND. ILAW==25) THEN                                             
+          IF (IHBE == 23 .AND. (ILAW==25 .OR. ILAW == 125)) THEN                                             
             IF (DM == ZERO) DM=EM01
           ENDIF
 c
@@ -112,7 +112,7 @@ c
             IF (DM == ZERO) DM = FIVEEM2
           ELSEIF (ILAW == 1 .or. ILAW == 2 .or. ILAW == 22 ) THEN
             IF (IDEF == 1) DM = ZERO
-          ELSEIF ( ILAW == 15 .or. ILAW == 27 .or. ILAW == 25) THEN
+          ELSEIF ( ILAW == 15 .or. ILAW == 27 .or. ILAW == 25 .or. ILAW==125) THEN
             IF (DM == ZERO) DM = FIVEEM2
           ENDIF !(IGMAT > 0
 c          

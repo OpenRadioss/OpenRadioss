@@ -175,6 +175,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
       USE SENSOR_MOD
+      USE SIGEPS125C_MOD 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -603,13 +604,6 @@ c         initial scale factor for yield stress defined per IPG,NPI
               YLDFAC => LBUF%FAC_YLD(1:NEL)
             ENDIF
           ENDIF
-!---
-!!          SIGNXX(JFT:JLT) => LBUF%SIG(IJ1+JFT:IJ1+JLT) 
-!!          SIGNYY(JFT:JLT) => LBUF%SIG(IJ2+JFT:IJ2+JLT)
-!!          SIGNXY(JFT:JLT) => LBUF%SIG(IJ3+JFT:IJ3+JLT)
-!!          SIGNYZ(JFT:JLT) => LBUF%SIG(IJ4+JFT:IJ4+JLT)
-!!          SIGNZX(JFT:JLT) => LBUF%SIG(IJ(5)+JFT:IJ(5)+JLT)
-!---
 C-----------------------------------------
 c         COORDONNEES DU POINT D'INTEGRATION IPT
 C-----------------------------------------
@@ -835,7 +829,7 @@ C---
 !               -------------------------------
 !               IGTYP /= 51 and 52 or ilaw/=58
 !               -------------------------------
-           IF (ILAW /= 1 .AND. ILAW /= 2 .AND. ILAW /= 32) THEN
+           IF (ILAW /= 1 .AND. ILAW /= 2 .AND. ILAW /= 32 ) THEN
             DO I=JFT,JLT
               ZT       = POSLY(I,IPT) *THK0(I)
               TENS(I,1)=EXX(I)+ZT*KXX(I)
@@ -912,13 +906,13 @@ C
                CALL ROTOV(JFT,JLT,TENS,DIRDMG,NEL)
              ENDIF
 C
-            IF (FLAG_EPS) THEN
+            IF (FLAG_EPS) THEN ! 
               DO I=JFT,JLT
                 EPSXX(I) = TENS(I,1)
                 EPSYY(I) = TENS(I,2)
                 EPSXY(I) = TWO*TENS(I,3)
                 EPSYZ(I) = TWO*TENS(I,4)
-                EPSZX(I) = TWO*TENS(I,5)         
+                EPSZX(I) = TWO*TENS(I,5)  
               ENDDO
             ENDIF
            ENDIF  ! IF (IGTYP ==51 .AND. ILAW == 58)
@@ -1694,6 +1688,25 @@ c
      8         EPSP     ,NFUNC    ,IFUNC    ,NPF      ,TF       ,
      9         NVARTMP  ,VARTMP   )
 c
+        ELSEIF (ILAW == 125) THEN 
+           !---
+            DO I=JFT,JLT                                               
+            ! IJ(K) = NEL*(K-1)
+               SIGOXX(I) =  LBUF%SIG(NEL*(1-1)+I)   
+               SIGOYY(I) =  LBUF%SIG(NEL*(2-1)+I)         
+               ! SIGOXY(I) =  LBUF%SIG(NEL*(3-1)+I)      
+               ! SIGOYZ(I) =  LBUF%SIG(NEL*(4-1)+I)      
+               ! SIGOZX(I) =  LBUF%SIG(NEL*(5-1)+I)       
+            ENDDO       
+            !---
+            CALL SIGEPS125C(
+     1         JLT      ,MATPARAM   ,NUVAR    ,UVAR     ,
+     2         RHO      ,THKN       ,THKLYL   , SHF     , 
+     4         EPSXX    ,EPSYY      ,EPSXY    ,EPSYZ    ,EPSZX   ,
+     5         SIGOXX   ,SIGOYY     ,
+     6         SIGNXX   ,SIGNYY     ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
+     7         OFF      ,SIGY       ,ETSE     ,SSP  )
+c     
           ELSEIF (ILAW == 158) THEN
 
             CALL SIGEPS158C(
@@ -2330,7 +2343,7 @@ c-----------------------------------
             LBUF%SIG(NEL*(2-1)+I) = SIGNYY(I) * SIGOFF(I)           
             LBUF%SIG(NEL*(3-1)+I) = SIGNXY(I) * SIGOFF(I)           
             LBUF%SIG(NEL*(4-1)+I) = SIGNYZ(I) * SIGOFF(I)           
-            LBUF%SIG(NEL*(5-1)+I) = SIGNZX(I) * SIGOFF(I)           
+            LBUF%SIG(NEL*(5-1)+I) = SIGNZX(I) * SIGOFF(I) 
           ENDDO                                                      
 C
 c------------------------------------------------
