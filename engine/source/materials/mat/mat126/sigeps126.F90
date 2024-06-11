@@ -32,7 +32,8 @@
           depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   , &
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   , &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   , &
-          epsd     ,dmg      ,ssp      ,off      ,idel7nok )
+          epsd     ,dmg      ,ssp      ,off      ,idel7nok ,inloc    , &
+          varnl    ,l_planl  ,planl    )
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
@@ -81,6 +82,10 @@
           my_real, dimension(nel), intent(inout) :: ssp !< sound speed
           my_real, dimension(nel), intent(inout) :: off !< element deletion flag
           integer, intent(inout) :: idel7nok !< flag for element deletion in interface type 7
+          integer, intent(in) :: inloc !< non-local method flag
+          my_real, dimension(nel), intent(inout) :: varnl !< non-local variable increment
+          integer, intent(in) :: l_planl !< size of the non-local plastic strain table
+          my_real, dimension(l_planl*nel), intent(in) :: planl !< non-local plastic strain
 !-----------------------------------------------
 !  L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -128,6 +133,7 @@
             if (off(i) < em01) off(i) = zero
             if (off(i) <  one) off(i) = off(i)*four_over_5
             if (uvar(i,2) == zero) uvar(i,2) = pc
+            if (tt == zero) uvar(i,4) = aa
             mup(i)   = uvar(i,1)
             phard(i) = uvar(i,2)
             dpla(i)  = zero 
@@ -152,25 +158,79 @@
           enddo
 !
           !========================================================================
+          ! - Update plastic strain and damage in case of non-local regularisation
+          !========================================================================
+          if (inloc > 0) then 
+            nindx = 0
+            indx(1:nel) = 0
+            do i=1,nel
+              if (off(i) == one) then 
+                ! compute plastic strain at failure
+                if ((pold(i)/fc+t0/fc) >= zero) then
+                  epfail = d1*(pold(i)/fc+t0/fc)**d2
+                else
+                  epfail = zero
+                endif
+                epfail = max(epfail,efmin)
+                ! update plastic strain and damage 
+                dmg(i) = dmg(i) + varnl(i)/epfail
+                dmg(i) = min(dmg(i),one)
+                ! check element deletion
+                if (idel == 1) then 
+                  if ((pold(i)/fc+t0/fc) <= zero) then 
+                    off(i) = four_over_5
+                    nindx  = nindx + 1
+                    indx(nindx) = i
+                    idel7nok = 1
+                  endif 
+                elseif (idel == 2) then 
+                  if (planl(i) > emax) then 
+                    off(i) = four_over_5
+                    nindx  = nindx + 1
+                    indx(nindx) = i
+                    idel7nok = 1
+                  endif
+                elseif (idel == 3) then 
+                  if (uvar(i,4) <= zero) then 
+                    off(i) = four_over_5
+                    nindx  = nindx + 1
+                    indx(nindx) = i
+                    idel7nok = 1
+                  endif   
+                elseif (idel == 4) then 
+                  if (dmg(i) >= one) then 
+                    off(i) = four_over_5
+                    nindx  = nindx + 1
+                    indx(nindx) = i
+                    idel7nok = 1
+                  endif          
+                endif
+              endif
+            enddo    
+          endif
+!
+          !========================================================================
           ! - Computation of the pressure
           !========================================================================
           do i=1,nel
             ! New pressure 
             ! -> Region I and II: elasticity + air voids crushing plasticity
-            if (mup(i) <= mul) then
+            if (mup(i) < mul) then
               pmin    = -t0*(one-dmg(i)) 
               kav     = (k0 + (k1 - k0)*(mup(i)/mul))
               pnew(i) = pold(i) + kav*(amu(i) - uvar(i,3))
               if (pnew(i) > phard(i)) then 
                 dmup(i)  = (pnew(i)-phard(i))/(kav + h)
                 mup(i)   = mup(i) + dmup(i)
+                mup(i)   = min(mup(i),mul)
                 pnew(i)  = pnew(i) - kav*dmup(i)
                 phard(i) = pnew(i)
               endif
               pnew(i)  = max(pnew(i),pmin)
               dpdmu(i) = kav
+            endif
             ! -> Region III: fully dense concrete
-            else
+            if (mup(i) >= mul) then 
               mubar    = (amu(i) - mul)/(one + mul)
               pnew(i)  = k1*mubar + k2*(mubar**2) + k3*(mubar**3)
               dpdmu(i) = (k1 + two*k2*mubar + three*k3*(mubar**2))/(one + mul)
@@ -222,56 +282,56 @@
           enddo
 !
           !========================================================================
-          ! - UPDATE PLASTIC STRAIN AND DAMAGE
+          ! - Update plastic strain and damage without non-local regularization
           !========================================================================
-          nindx = 0
-          indx(1:nel) = 0
-          do i=1,nel
-            if (off(i) == one) then 
-              ! compute plastic strain at failure
-              if ((pstar(i)+t0/fc) >= zero) then
-                epfail = d1*(pstar(i)+t0/fc)**d2
-              else
-                epfail = zero
-              endif
-              epfail = max(epfail,efmin)
-              ! update plastic strain and damage
-              if (epfail > zero) then   
+          if (inloc == 0) then 
+            nindx = 0
+            indx(1:nel) = 0
+            do i=1,nel
+              if (off(i) == one) then 
+                ! compute plastic strain at failure
+                if ((pstar(i)+t0/fc) >= zero) then
+                  epfail = d1*(pstar(i)+t0/fc)**d2
+                else
+                  epfail = zero
+                endif
+                epfail = max(epfail,efmin)
+                ! update plastic strain and damage
                 dmg(i) = dmg(i) + (dpla(i) + dmup(i))/epfail
                 dmg(i) = min(dmg(i),one)
-              endif
-              ! check element deletion
-              if (idel == 1) then 
-                if ((pstar(i)+t0/fc) <= zero) then 
-                  off(i) = four_over_5
-                  nindx  = nindx + 1
-                  indx(nindx) = i
-                  idel7nok = 1
-                endif 
-              elseif (idel == 2) then 
-                if (defp(i) > emax) then 
-                  off(i) = four_over_5
-                  nindx  = nindx + 1
-                  indx(nindx) = i
-                  idel7nok = 1
+                ! check element deletion
+                if (idel == 1) then 
+                  if ((pstar(i)+t0/fc) <= zero) then 
+                    off(i) = four_over_5
+                    nindx  = nindx + 1
+                    indx(nindx) = i
+                    idel7nok = 1
+                  endif 
+                elseif (idel == 2) then 
+                  if (defp(i) > emax) then 
+                    off(i) = four_over_5
+                    nindx  = nindx + 1
+                    indx(nindx) = i
+                    idel7nok = 1
+                  endif
+                elseif (idel == 3) then 
+                  if (fc*sigy(i) <= zero) then 
+                    off(i) = four_over_5
+                    nindx  = nindx + 1
+                    indx(nindx) = i
+                    idel7nok = 1
+                  endif   
+                elseif (idel == 4) then 
+                  if (dmg(i) >= one) then 
+                    off(i) = four_over_5
+                    nindx  = nindx + 1
+                    indx(nindx) = i
+                    idel7nok = 1
+                  endif          
                 endif
-              elseif (idel == 3) then 
-                if (fc*sigy(i) <= zero) then 
-                  off(i) = four_over_5
-                  nindx  = nindx + 1
-                  indx(nindx) = i
-                  idel7nok = 1
-                endif   
-              elseif (idel == 4) then 
-                if (dmg(i) >= one) then 
-                  off(i) = four_over_5
-                  nindx  = nindx + 1
-                  indx(nindx) = i
-                  idel7nok = 1
-                endif          
               endif
-            endif
-          enddo    
+            enddo    
+          endif
 !
           !========================================================================
           ! - Update stress tensor and sound speed
@@ -283,12 +343,24 @@
             uvar(i,1) = mup(i)
             uvar(i,2) = phard(i)
             uvar(i,3) = amu(i)
+            uvar(i,4) = sigy(i)
             ! Add pressure to the stress tensor
             signxx(i) = signxx(i)-pnew(i)
             signyy(i) = signyy(i)-pnew(i)
             signzz(i) = signzz(i)-pnew(i)
             ! Sound speed
             ssp(i) = sqrt((dpdmu(i)+four_over_3*g)/rho0(i))
+            ! Non-local variable to regularize
+            if (inloc > 0) then 
+              if (off(i) == one) then 
+                varnl(i) = defp(i) + mup(i)
+                if (dmg(i) >= one) then 
+                  varnl(i) = zero
+                endif
+              else
+                varnl(i) = zero
+              endif 
+            endif 
           enddo          
 !     
           !========================================================================
