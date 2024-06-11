@@ -194,11 +194,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S t a t e    V a r i a b l e s  (U V A R)
 C-----------------------------------------------
-c     UVAR(1)  = SIGNXX + SIGVXX  ! total stress in 1st direction (elastic + viscous)
-c     UVAR(2)  = SIGNYY + SIGVYY  ! total stress in 2nd direction (elastic + viscous)
+c     UVAR(1)  = SIGNXX + SIGVXX  ! total engineering stress in 1st direction (elastic + viscous)
+c     UVAR(2)  = SIGNYY + SIGVYY  ! total engineering stress in 2nd direction (elastic + viscous)
 c     UVAR(3)  = SIGNXY + SIGVXY  ! total shear stress (elastic + friction)
-c     UVAR(4)  = EC               ! total element elongation in 1st direction
-c     UVAR(5)  = ET               ! total element elongation in 2nd direction
+c     UVAR(4)  = EC               ! total true element strain in 1st fiber direction
+c     UVAR(5)  = ET               ! total true element strain in 2nd fiber direction
 c     UVAR(6)  = DEPSXY           ! tan(alpha) of shear angle
 c     UVAR(7)  = YC               ! total flex element elongation in 1st direction
 c     UVAR(8)  = YT               ! total flex element elongation in 2nd direction
