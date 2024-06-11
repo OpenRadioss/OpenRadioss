@@ -140,7 +140,7 @@
           ! Number of real material parameters
           matparam%nuparam = 23
           ! Number of user variables 
-          nuvar = 3
+          nuvar = 4
 !          
           ! Allocation of material parameters tables
           allocate (matparam%iparam(matparam%niparam))
@@ -197,7 +197,14 @@
 !
           ! Properties compatibility  
           call init_mat_keyword(matparam,"SOLID_ISOTROPIC") 
-          call init_mat_keyword(matparam,"SPH")       
+          call init_mat_keyword(matparam,"SPH")      
+! 
+          ! Properties compatibility  
+          call init_mat_keyword(matparam ,"COMPRESSIBLE")
+          call init_mat_keyword(matparam ,"INCREMENTAL" )
+          call init_mat_keyword(matparam ,"LARGE_STRAIN")
+          call init_mat_keyword(matparam ,"HYDRO_EOS") 
+          call init_mat_keyword(matparam ,"ISOTROPIC") 
 !
 !--------------------------
 !     Parameters printout

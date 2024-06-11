@@ -1764,7 +1764,7 @@ c       TAPO (toughened adhesive polymer)
      .                 DE1    ,DE2    ,DE3    ,DE4    ,DE5    ,DE6    ,
      .                 SO1    ,SO2    ,SO3    ,SO4    ,SO5    ,SO6    ,
      .                 S1     ,S2     ,S3     ,S4     ,S5     ,S6     ,
-     .                 JTHE   ,INLOC  ,VARNL  ,LBUF%DMG     ,LBUF%DMGSCL)
+     .                 JTHE   ,INLOC  ,VARNL  ,LBUF%DMG,LBUF%DMGSCL)
 c
       ELSEIF (MTN == 121) THEN 
 c 
@@ -1817,7 +1817,8 @@ c
      .                DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6      ,
      .                SO1      ,SO2      ,SO3      ,SO4      ,SO5      ,SO6      ,
      .                S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
-     .                EPSD     ,LBUF%DMG ,SSP      ,OFF      ,IDEL7NOK )
+     .                EPSD     ,LBUF%DMG ,SSP      ,OFF      ,IDEL7NOK ,INLOC    ,
+     ,                VARNL    ,L_PLANL  ,LBUF%PLANL)
 c
       ELSEIF (MTN == 187) THEN !BARLAT 2000
           CALL SIGEPS187(NEL   ,NPAR  ,NUVAR ,NFUNC ,IFUNC ,
@@ -2454,7 +2455,7 @@ C
 C------------------------------------------------------------
 C     Variable to regularize with Non-local
 C------------------------------------------------------------
-      IF (ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLA > 0) THEN
+      IF ((ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLA > 0).AND.(MTN /= 126)) THEN
         IF (INLOC > 0) THEN 
           DO I=1,NEL
             VARNL(I) = DEFP(I)
