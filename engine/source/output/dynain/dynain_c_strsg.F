@@ -87,7 +87,7 @@ C-----------------------------------------------
      .   IGTYP,NPT_ALL,IL,KK(12),LARGE,IREP,IPID,IVISC,
      .   IPMAT,IXFEM,IXLAY,ISUBSTACK,IPTT,IS_WRITTEN,
      ,   LAYNPT_MAX,NLAY_MAX,IERR,L_DIRA,L_DIRB,IORTH,
-     .   JDIR,ILAY,J1,J2,SEDRAPE,NUMEL_DRAPE
+     .   JDIR,ILAY,J1,J2,SEDRAPE,NUMEL_DRAPE,KB
      
       INTEGER, DIMENSION(:)   , ALLOCATABLE :: MATLY   !! 
       my_real, DIMENSION(:)   , ALLOCATABLE :: THKLY   !! 
@@ -185,6 +185,10 @@ C
           NLAY_MAX   = MAX(NLAY,NPT,  ELBUF_TAB(NG)%NLAY)
           ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
      .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
+          MATLY  = 0
+          THKLY  = ZERO
+          POSLY  = ZERO
+          THK_LY = ZERO   
           DO I=LFT,LLT
              MAT(I)=IXC(1,NFT+I)
              PID(I)=IXC(6,NFT+I)
@@ -658,13 +662,13 @@ c
 
                     DO IR=1,NPTR                                                         
                        DO IS=1,NPTS 
-                          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
-                          IPG = NPTR*(IS-1) + IR
-                          K = (IPG-1)*NEL*5
-
-                         SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)   
-                         SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)     
-                         SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)    
+                         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
+                         IPG = NPTR*(IS-1) + IR
+                         K = (IPG-1)*NEL*5
+                         KB= (IPG-1)*NEL*3
+                         SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(KB + KK(1) + I)   
+                         SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(KB + KK(2) + I)     
+                         SIG(3) = A1*GBUF%FORPG(K + KK(3) + I) + A2*GBUF%MOMPG(KB + KK(3) + I) 
                          SIG(4) = GBUF%FORPG(K + KK(4) + I) 
                          SIG(5) = GBUF%FORPG(K + KK(5) + I)   
                          SIG(6) = ZERO  
@@ -713,11 +717,12 @@ c
                        DO IS=1,NPTS 
                           LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                           IPG = NPTR*(IS-1) + IR
-                          K = (IPG-1)*NEL*5
+                          K   = (IPG-1)*NEL*5
+                          KB  = (IPG-1)*NEL*3
 
-                         SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)   
-                         SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)     
-                         SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)    
+                         SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(KB + KK(1) + I)   
+                         SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(KB + KK(2) + I)     
+                         SIG(3) = A1*GBUF%FORPG(K + KK(3) + I) + A2*GBUF%MOMPG(KB + KK(3) + I)    
                          SIG(4) = GBUF%FORPG(K + KK(4) + I) 
                          SIG(5) = GBUF%FORPG(K + KK(5) + I)   
                          SIG(6) = ZERO  
@@ -765,11 +770,12 @@ c
                        DO IS=1,NPTS 
                           LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                           IPG = NPTR*(IS-1) + IR
-                          K = (IPG-1)*NEL*5
+                          K   = (IPG-1)*NEL*5
+                          KB  =(IPG-1)*NEL*3
 
-                         SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)   
-                         SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)     
-                         SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)    
+                         SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(KB + KK(1) + I)   
+                         SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(KB + KK(2) + I)     
+                         SIG(3) = A1*GBUF%FORPG(K + KK(3) + I) + A2*GBUF%MOMPG(KB + KK(3) + I)    
                          SIG(4) = GBUF%FORPG(K + KK(4) + I) 
                          SIG(5) = GBUF%FORPG(K + KK(5) + I)   
                          SIG(6) = ZERO  
@@ -1050,10 +1056,9 @@ C           Pointer last position of shell IE in WA
 
           IF (ALLOCATED(DIRB))     DEALLOCATE(DIRB)                                                          
           IF (ALLOCATED(DIRA))     DEALLOCATE(DIRA)   
-
 c------- end loop over 4 node shell elements
+          DEALLOCATE(MATLY, THKLY, POSLY, THK_LY) 
         ENDIF ! ITY == 3
-        DEALLOCATE(MATLY, THKLY, POSLY, THK_LY) 
        ENDDO   ! NG = 1, NGROUP
       ENDIF  ! DYNAIN_NUMEL /= 0
 
@@ -1219,6 +1224,10 @@ C
           NLAY_MAX   = MAX(NLAY,NPT,  ELBUF_TAB(NG)%NLAY)
           ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
      .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
+          MATLY  = 0
+          THKLY  = ZERO
+          POSLY  = ZERO
+          THK_LY = ZERO 
           DO I=LFT,LLT
              MAT(I)=IXTG(1,NFT+I)
              PID(I)=IXTG(5,NFT+I)
@@ -1485,11 +1494,12 @@ c
                     DO IS=1,NPTS 
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                       IPG = NPTR*(IS-1) + IR
-                      K = (IPG-1)*NEL*5
+                      K   = (IPG-1)*NEL*5
+                      KB  = (IPG-1)*NEL*3
 
-                      SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)   
-                      SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)     
-                      SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)    
+                      SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(KB + KK(1) + I)   
+                      SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(KB + KK(2) + I)     
+                      SIG(3) = A1*GBUF%FORPG(K + KK(3) + I) + A2*GBUF%MOMPG(KB + KK(3) + I)    
                       SIG(4) = GBUF%FORPG(K + KK(4) + I) 
                       SIG(5) = GBUF%FORPG(K + KK(5) + I)   
                       SIG(6) = ZERO  
@@ -1538,10 +1548,11 @@ c
                     DO IS=1,NPTS 
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                       IPG = NPTR*(IS-1) + IR
-                      K = (IPG-1)*NEL*5
-                      SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)   
-                      SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)     
-                      SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)    
+                      K   = (IPG-1)*NEL*5
+                      KB  = (IPG-1)*NEL*3
+                      SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(KB + KK(1) + I)   
+                      SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(KB + KK(2) + I)     
+                      SIG(3) = A1*GBUF%FORPG(K + KK(3) + I) + A2*GBUF%MOMPG(KB + KK(3) + I)    
                       SIG(4) = GBUF%FORPG(K + KK(4) + I) 
                       SIG(5) = GBUF%FORPG(K + KK(5) + I)   
                       SIG(6) = ZERO  
@@ -1589,11 +1600,11 @@ c
                     DO IS=1,NPTS 
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                       IPG = NPTR*(IS-1) + IR
-                      K = (IPG-1)*NEL*5
-
-                      SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)   
-                      SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)     
-                      SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)    
+                      K   = (IPG-1)*NEL*5
+                      KB  = (IPG-1)*NEL*3
+                      SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(KB + KK(1) + I)   
+                      SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(KB + KK(2) + I)     
+                      SIG(3) = A1*GBUF%FORPG(K + KK(3) + I) + A2*GBUF%MOMPG(KB + KK(3) + I)    
                       SIG(4) = GBUF%FORPG(K + KK(4) + I) 
                       SIG(5) = GBUF%FORPG(K + KK(5) + I)   
                       SIG(6) = ZERO  
@@ -1780,9 +1791,8 @@ C        pointer for last position for element IE
 
           IF (ALLOCATED(DIRB))     DEALLOCATE(DIRB)                                                          
           IF (ALLOCATED(DIRA))     DEALLOCATE(DIRA)   
-
+          DEALLOCATE(MATLY, THKLY, POSLY, THK_LY) 
         ENDIF  !  IF (ITY == 7)
-        DEALLOCATE(MATLY, THKLY, POSLY, THK_LY) 
        ENDDO  !  DO NG=1,NGROUP
       ENDIF
 C

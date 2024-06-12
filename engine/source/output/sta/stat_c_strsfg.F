@@ -181,6 +181,10 @@ C
          NLAY_MAX   = MAX(NLAY,NPT,  ELBUF_TAB(NG)%NLAY)
          ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
      .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
+         MATLY  = 0
+         THKLY  = ZERO
+         POSLY  = ZERO
+         THK_LY = ZERO   
          NUMEL_DRAPE = NUMELC_DRAPE  
          SEDRAPE = SCDRAPE
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
@@ -512,10 +516,10 @@ C         pointeur de fin de zone dans WA
             PTWA(IE)=JJ
           ENDDO  !  DO I=LFT,LLT
 c------- end loop over 4 node shell elements
-        ENDIF ! ITY == 3
-        IF (ALLOCATED(DIRB)) DEALLOCATE(DIRB)                                                          
-        IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)  
-        DEALLOCATE(MATLY, THKLY, POSLY, THK_LY)                                                        
+         IF(ALLOCATED(DIRB))  DEALLOCATE(DIRB)                                                          
+         IF(ALLOCATED(DIRA))  DEALLOCATE(DIRA)  
+         DEALLOCATE(MATLY, THKLY, POSLY, THK_LY)  
+        ENDIF ! ITY == 3       
       ENDDO   ! NG = 1, NGROUP
 C
  200  CONTINUE
@@ -713,6 +717,10 @@ C
          NLAY_MAX   = MAX(NLAY,NPT,  ELBUF_TAB(NG)%NLAY)
          ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
      .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
+         MATLY  = 0
+         THKLY  = ZERO
+         POSLY  = ZERO
+         THK_LY = ZERO   
          NUMEL_DRAPE = NUMELTG_DRAPE  
          SEDRAPE = STDRAPE
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
@@ -906,10 +914,11 @@ C
 C         pointeur de fin de zone
             PTWA(IE)=JJ
           ENDDO  !  DO I=LFT,LLT
-        ENDIF  !  IF (ITY == 7)
-        IF (ALLOCATED(DIRB)) DEALLOCATE(DIRB)                                                          
-        IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)  
-         DEALLOCATE(MATLY, THKLY, POSLY, THK_LY)                                                        
+         
+         IF(ALLOCATED(DIRB))  DEALLOCATE(DIRB)                                                          
+         IF(ALLOCATED(DIRA))  DEALLOCATE(DIRA)  
+         DEALLOCATE(MATLY, THKLY, POSLY, THK_LY)      
+        ENDIF  !  IF (ITY == 7)                            
       ENDDO  !  DO NG=1,NGROUP
 C
  300  CONTINUE

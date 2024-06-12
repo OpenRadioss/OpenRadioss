@@ -133,6 +133,10 @@ C-----------------------------------------------
       NLAY_MAX   = MAX(NLAY,NPT, ELBUF_STR%NLAY)
       ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
      .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
+       MATLY  = 0
+       THKLY  = ZERO
+       POSLY  = ZERO
+       THK_LY = ZERO 
 C
       SHIFT = 1+NFT
       IF (ITY == 7) SHIFT = SHIFT + NUMELC
