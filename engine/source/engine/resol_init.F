@@ -1187,7 +1187,8 @@ C-----------------------
      .                     NUMGEO,      GEO,     NUMELC,          NIXC,
      .                        IXC,  NUMELTG,      NIXTG,          IXTG,
      .                     NUMNOD,    NSPMD,   IAD_ELEM,       FR_ELEM,
-     .                   SFR_ELEM,     THKE,  ELBUF_TAB,    SH_OFFSET_TAB)
+     .                   SFR_ELEM,     THKE,  ELBUF_TAB, SH_OFFSET_TAB,
+     .                    IPARIT )
 !$OMP END SINGLE
 C-------------------------------------------
       RETURN

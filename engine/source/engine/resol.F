@@ -667,7 +667,7 @@ C-----------------------------------------------
       USE UNITAB_MOD, ONLY : UNIT_TYPE_
       USE BCS_MOD , ONLY : BCS
       USE INTER_SH_OFFSET_MOD , only:SH_OFFSET_
-      USE OFFSET_NPROJ_MOD
+      USE OFFSET_NPROJ_MOD, only : OFFSET_NPROJ
       USE get_neighbour_surface_mod , only : get_neighbour_surface
       USE spmd_mod , only : SPMD_MAX,spmd_allreduce
       USE SKEW_MOD
@@ -3370,7 +3370,7 @@ C----------------------------------
 !----------------------------------
         IF (SH_OFFSET_TAB%NSH_OSET > 0) THEN
            XYZ(1:3*NUMNOD) = X(1:3*NUMNOD)
-           CALL offset_nPROJ(NSPMD,NUMNOD,XYZ,SH_OFFSET_TAB)
+           CALL offset_nPROJ(NSPMD,NUMNOD,XYZ,SH_OFFSET_TAB,IPARIT)
         ENDIF  
 !
         IF( NUMCONV + NUMRADIA > 0 .AND. ITHERM_FE > 0 )THEN
