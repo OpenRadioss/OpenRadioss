@@ -4462,10 +4462,10 @@ C Init var parallel SMP
       IF(NDTSK>ICONDN)IDX_CONDN = 1
 C
       CALL FORINT(
-     1 PM             ,GEO           ,X           ,A(1,NDTSK) ,AR(1,NDTSK)     ,     
-     2 V              ,VR            ,MS          ,IN         ,W               ,      
-     3 ELBUF          ,WA(NWAFTSK)   ,VAL2        ,VEUL       ,FV              ,     
-     4 STIFN(NDTSK)   ,STIFR(NDTSK)  ,FSKY        ,TF         ,BUFMAT          ,     
+     1 PM             ,GEO           ,X           ,A(1,NDTSK) ,AR(1,NDTSK)     ,
+     2 V              ,VR            ,MS          ,IN         ,W               ,
+     3 ELBUF          ,WA(NWAFTSK)   ,VAL2        ,VEUL       ,FV              ,
+     4 STIFN(NDTSK)   ,STIFR(NDTSK)  ,FSKY        ,TF         ,BUFMAT          ,
      5 PARTSAV(IPMTSK),D             ,DR          ,EANI       ,ELBUF_TAB       ,
      6 TANI           ,FANI(1,NFOA+1),FSAV        ,SENSORS    ,NLOC_DMG        ,
      7 SKEWS%SKEW     ,ANIN(NDMA2+1) ,DT2TT       ,BUFGEO     ,ITAB            ,
@@ -4495,7 +4495,7 @@ C
      W KNOTLOCPC      ,KNOTLOCEL     ,SUBSETS     ,FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE  ,
      Y H3D_DATA       ,IFTHE         ,ICONDN      ,DT      ,OUTPUT,
      Z SBUFMAT        ,SNPC          ,STF         ,NODADT  ,DTFAC1,
-     . DTMIN1         ,IDTMIN        ,IOUT        ,ISTDO   ,IDTMINS,DTFACS) 
+     . DTMIN1         ,IDTMIN        ,IOUT        ,ISTDO   ,IDTMINS,DTFACS,NSVOIS)
 C     
 #include "lockon.inc"
       IF(DT2TT<DT2T)THEN

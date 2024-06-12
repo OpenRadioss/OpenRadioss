@@ -96,7 +96,7 @@ Chd|====================================================================
      F   IGRTH,      MSSA,       DMELS,      TABLE,
      G   XDP,        VARNOD,     VOLN,       CONDN,
      H   CONDNSKY,   D,          SENSORS,    IOUTPRT,
-     I   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK)
+     I   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK,NSVOIS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -131,6 +131,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN)    :: NSVOIS
       INTEGER, INTENT(INOUT) :: IDEL7NOK
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP), NPF(*),IADS(8,*),
      .        IPARTS(*),IPM(NPROPMI,*),IGEO(NPROPGI,*),ITASK,
@@ -454,7 +455,7 @@ C
       CALL S11FX3(
      1   PM,         FLUX(1,NF1),ALE_CONNECT,IXS,
      2   IPM,        BUFMAT,     NEL,        NFT,
-     3   JALE,       JEUL  ,     NUMMAT,     NUMELS)
+     3   JALE,       JEUL  ,     NUMMAT,     NUMELS+NSVOIS)
 C-----------------------------------------------------
 C     SFEM
 C-----------------------------------------------------

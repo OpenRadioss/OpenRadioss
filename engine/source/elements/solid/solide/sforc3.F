@@ -143,7 +143,7 @@ Chd|====================================================================
      P   VOLN,       CONDN,      CONDNSKY,   AGRAV,
      Q   IGRV,       LGRAV,      SENSORS,    SKEW,
      R   NALE,       D,          IOUTPRT,    NLOC_DMG,
-     S   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK)
+     S   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK,NSVOIS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -181,6 +181,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NSVOIS
       INTEGER, INTENT(INOUT) :: IDEL7NOK
       INTEGER, DIMENSION(*), INTENT(IN) :: IPARG,IPARTS,NPF,NALE
       INTEGER,INTENT(IN) :: NG,NEL
@@ -741,7 +742,7 @@ C
       CALL S11FX3(
      1   PM,         FLUX(1,NF1),ALE_CONNECT,IXS,
      2   IPM,        BUFMAT,     NEL,        NFT,
-     3   JALE,       JEUL  ,     NUMMAT,     NUMELS)
+     3   JALE,       JEUL  ,     NUMMAT,     NUMELS+NSVOIS)
 C
       DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))  
 C Compute new density

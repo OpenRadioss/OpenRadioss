@@ -817,7 +817,7 @@ C
      F                  IGRTH,           MSSA,            DMELS,           TABLE,
      G                  XDP,             VARNOD,          VOLN,            BID,
      H                  BID,             D,               SENSORS,         IOUTPRT,
-     I                  MAT_ELEM,        IBID,            DT,              IDEL7NOK)
+     I                  MAT_ELEM,        IBID,            DT,              IDEL7NOK,NSVOIS)
 C
                  ELSEIF (ITY == 1 .AND. ISOLNOD /= 4) THEN
                   NULLIFY(pQMV); 
@@ -854,7 +854,7 @@ C
      P                  VOLN,                  CONDN,   CONDNSKY,      AGRAV,
      Q                  IGRV,                  LGRAV,   SENSORS,       SKEW,
      R                  ALE_CONNECTIVITY%NALE, D,       IOUTPRT,       NLOC_DMG,
-     S                  MAT_ELEM,              IBID,    DT,            IDEL7NOK)
+     S                  MAT_ELEM,              IBID,    DT,            IDEL7NOK,NSVOIS)
 C
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
                   NULLIFY(pQMV); 
@@ -978,7 +978,7 @@ C     ALE ON / OFF
      F                  IGRTH,           MSSA,            DMELS,           TABLE,
      G                  XDP,             BID,             VOLN,            BID,
      H                  BID,             D,               SENSORS,         IOUTPRT,
-     I                  MAT_ELEM,        IBID,            DT,              IDEL7NOK)
+     I                  MAT_ELEM,        IBID,            DT,              IDEL7NOK,NSVOIS)
 
                  ELSEIF(ITY == 1 .AND. ISOLNOD /= 4)THEN
                   NULLIFY(pQMV); 
@@ -1015,7 +1015,7 @@ C     ALE ON / OFF
      P                  VOLN,                 CONDN,    CONDNSKY,      AGRAV,
      Q                  IGRV,                 LGRAV,    SENSORS,       SKEW,
      R                  ALE_CONNECTIVITY%NALE,D,        IOUTPRT,       NLOC_DMG,
-     S                  MAT_ELEM,             IBID,     DT,            IDEL7NOK)
+     S                  MAT_ELEM,             IBID,     DT,            IDEL7NOK,NSVOIS)
                
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
                   NULLIFY(pQMV); 
