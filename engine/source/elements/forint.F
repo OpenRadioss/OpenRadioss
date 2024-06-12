@@ -108,7 +108,7 @@ Chd|====================================================================
      W    KNOTLOCPC ,KNOTLOCEL ,SUBSET     ,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
      Y    H3D_DATA  ,IFTHE     ,ICONDN     ,DT        ,OUTPUT,
      Z    SBUFMAT   ,SNPC      ,STF        ,NODADT    ,DTFAC1,
-     .    DTMIN1    ,IDTMIN    ,IOUT       ,ISTDO     ,IDTMINS,DTFACS)
+     .    DTMIN1    ,IDTMIN    ,IOUT       ,ISTDO     ,IDTMINS,DTFACS,NSVOIS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -175,6 +175,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: STF
       INTEGER ,INTENT(IN) :: IOUT
       INTEGER ,INTENT(IN) :: ISTDO
+      INTEGER ,INTENT(IN) :: NSVOIS
       INTEGER  :: IDTMINS
       my_real  :: DTFACS
       my_real
@@ -366,7 +367,7 @@ C---------
      F   IGRTH(NF1), MSSA(NF1),  DMELS(NF1), TABLE,
      G   XDP,        VARNOD,     VOLN,       CONDN,
      H   CONDNSKY,   D,          SENSORS,    IPRI,
-     I   MAT_ELEM,   IBID,       DT,         IDEL7NOK)
+     I   MAT_ELEM,   IBID,       DT,         IDEL7NOK,NSVOIS)
 C
             IF (NSECT > 0) THEN 
               K0=NSTRF(25)                                             
@@ -1014,7 +1015,7 @@ C-------------------------
      P   VOLN,       CONDN,      CONDNSKY,   AGRAV,
      Q   IGRV,       LGRAV,      SENSORS,    SKEW,
      R   NALE,       D,          IPRI,       NLOC_DMG,
-     S   MAt_ELEM,   IBID,       DT,         IDEL7NOK)
+     S   MAt_ELEM,   IBID,       DT,         IDEL7NOK,NSVOIS)
 
             ENDIF
 C

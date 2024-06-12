@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE S11FX3(
      1   PM,         FLUX,       ALE_CONNECT,IXS,
      2   IPM,        BUFMAT,     NEL,        NFT,
-     3   JALE,       JEUL  ,     NUMMAT,     NUMELS)
+     3   JALE,       JEUL  ,     NUMMAT,     S_IXS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -41,6 +41,7 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -53,9 +54,9 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JALE
       INTEGER, INTENT(IN) :: JEUL
       INTEGER, INTENT(IN) :: NUMMAT
-      INTEGER, INTENT(IN) :: NUMELS
+      INTEGER, INTENT(IN) :: S_IXS
       my_real PM(NPROPM,NUMMAT),FLUX(6,*),BUFMAT(*)
-      INTEGER, INTENT(IN) :: IXS(NIXS,NUMELS),IPM(NPROPMI,NUMMAT)
+      INTEGER, INTENT(IN) :: IXS(NIXS,S_IXS),IPM(NPROPMI,NUMMAT)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
