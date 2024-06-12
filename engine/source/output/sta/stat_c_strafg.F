@@ -165,7 +165,11 @@ C-----------------------------------------------
          ENDIF
          NLAY_MAX   = MAX(NLAY,NPT,  ELBUF_TAB(NG)%NLAY)
          ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
-     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))   
+     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
+         MATLY  = 0
+         THKLY  = ZERO
+         POSLY  = ZERO
+         THK_LY = ZERO   
          NUMEL_DRAPE = NUMELC_DRAPE  
          SEDRAPE = SCDRAPE
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
@@ -291,8 +295,8 @@ C         pointeur de fin de zone dans WA
           PTWA(IE)=JJ
 c
          ENDDO  ! I=LFT,LLT
+         DEALLOCATE(MATLY, THKLY, POSLY, THK_LY) 
        END IF   ! ITY==3
-       DEALLOCATE(MATLY, THKLY, POSLY, THK_LY) 
       ENDDO     ! NG=1,NGROUP
 
  200  CONTINUE
@@ -472,7 +476,11 @@ C-----------------------------------------------
          ENDIF
          NLAY_MAX   = MAX(NLAY,NPT,  ELBUF_TAB(NG)%NLAY)
          ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
-     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))   
+     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
+         MATLY  = 0
+         THKLY  = ZERO
+         POSLY  = ZERO
+         THK_LY = ZERO      
          NUMEL_DRAPE = NUMELTG_DRAPE  
          SEDRAPE = STDRAPE
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
@@ -600,8 +608,8 @@ C         pointeur de fin de zone
           PTWA(IE)=JJ
 c
          ENDDO  ! I=LFT,LLT
-       END IF   ! ITY==3
-       DEALLOCATE(MATLY, THKLY, POSLY, THK_LY) 
+         DEALLOCATE(MATLY, THKLY, POSLY, THK_LY) 
+       END IF   ! ITY==7
       ENDDO     ! NG=1,NGROUP
 
  300  CONTINUE

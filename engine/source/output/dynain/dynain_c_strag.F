@@ -176,6 +176,10 @@ C
           NLAY_MAX   = MAX(NLAY,NPT,  ELBUF_TAB(NG)%NLAY)
           ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
      .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
+          MATLY  = 0
+          THKLY  = ZERO
+          POSLY  = ZERO
+          THK_LY = ZERO  
           IF (MLW == 1 .OR. MLW == 3 .OR. MLW == 23) MPT=0
 
           DO I=LFT,LLT
@@ -358,8 +362,8 @@ C           Pointer last position of shell IE in WA
           ENDDO  !  DO I=LFT,LLT
 
 c------- end loop over 4 node shell elements
+          DEALLOCATE(MATLY, THKLY, POSLY, THK_LY)
         ENDIF ! ITY == 3
-        DEALLOCATE(MATLY, THKLY, POSLY, THK_LY) 
        ENDDO   ! NG = 1, NGROUP
       ENDIF  ! DYNAIN_NUMEL /= 0
 
@@ -526,7 +530,10 @@ C
           NLAY_MAX   = MAX(NLAY,NPT,  ELBUF_TAB(NG)%NLAY)
           ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
      .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
-
+          MATLY  = 0
+          THKLY  = ZERO
+          POSLY  = ZERO
+          THK_LY = ZERO 
           IF (MLW == 1 .OR. MLW == 3 .OR. MLW == 23) MPT=0
 
           DO I=LFT,LLT
@@ -714,10 +721,9 @@ C
             IE=IE+1
 C        pointer for last position for element IE
             PTWA(IE)=JJ
-          ENDDO  !  DO I=LFT,LLT  
-
+          ENDDO  !  DO I=LFT,LLT
+          DEALLOCATE(MATLY, THKLY, POSLY, THK_LY) 
         ENDIF  !  IF (ITY == 7)
-        DEALLOCATE(MATLY, THKLY, POSLY, THK_LY) 
        ENDDO  !  DO NG=1,NGROUP
       ENDIF
 C
