@@ -30,7 +30,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-        SUBROUTINE INT18_ALLOC(NUMBER_INTER18,INTER18_LIST,MULTI_FVM,IPARI,XCELL_REMOTE)
+        SUBROUTINE INT18_ALLOC(NUMBER_INTER18,INTER18_LIST,MULTI_FVM,IPARI,XCELL_REMOTE, NSPMD)
 !$COMMENT
 !       INT18_ALLOC description
 !       allocation of array for interface 18 & interface 18 combined 
@@ -60,6 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        INTEGER, INTENT(in) :: NSPMD !< number of spmd
         INTEGER, INTENT(inout) :: NUMBER_INTER18 !< number of interface 18
         INTEGER, DIMENSION(NINTER), INTENT(inout) :: INTER18_LIST !< list of interface 18
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI
@@ -70,6 +71,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: N,NN,II,JJ,MY_SIZE,MY_SIZE_2,MY_SIZE_3
         INTEGER :: ISU1,NBRIC,NSN,NTY,INACTI,NODE_ID,IBRIC,NODFI
+        INTEGER :: P
 C-----------------------------------------------
         !   check if int18 + law151 is used in the model
         !   and create a list of int18
@@ -127,7 +129,10 @@ C-----------------------------------------------
             DO II=1,MULTI_FVM%NUMBER_INT18
                 N = INTER18_LIST(II) ! list of interface 18 + law151
                 IF( ALLOCATED( MULTI_FVM%R_AFI(N)%R_FORCE_INT ) ) DEALLOCATE( MULTI_FVM%R_AFI(N)%R_FORCE_INT )
-                NODFI = size(NSVFI(N)%P)
+                NODFI = 0
+                DO P = 1,NSPMD
+                  NODFI = NODFI + NSNFI(N)%P(P)
+                ENDDO
                 MULTI_FVM%R_AFI(N)%NODFI = NODFI
                 ALLOCATE( MULTI_FVM%R_AFI(N)%R_FORCE_INT(3,6,NODFI*NTHREAD) )
                 MULTI_FVM%R_AFI(N)%R_FORCE_INT(1:3,1:6,1:NODFI*NTHREAD) = 0d+00 
