@@ -111,7 +111,7 @@ Chd|====================================================================
      G                   CONDN    ,CONDNSKY  ,
      H                   D        ,TAGPRT_SMS,SENSORS,IOUTPRT  ,
      I                   NALE     ,NLOC_DMG  ,MAT_ELEM,H3D_STRAIN,
-     J                   DT       ,OUTPUT)
+     J                   DT       ,OUTPUT,NSVOIS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -151,6 +151,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NSVOIS
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP), NPF(*),IADS(8,*),
      .        IPARTS(*),IPM(NPROPMI,NUMMAT),ITASK,IMATVIS,GRTH(*),IGRTH(*),
      .        IGEO(NPROPGI,*), TAGPRT_SMS(*)        
@@ -562,7 +563,7 @@ c
      4   DZX,        DZY,        DZZ,        D4,
      5   D5,         D6,         WXX,        WYY,
      6   WZZ,        BUFMAT,     NEL,        NFT,
-     7   IPM,        NUMMAT,     NUMELS)
+     7   IPM,        NUMMAT,     NUMELS+NSVOIS)
       ELSE
         CALL SDEFO3(
      1   PX1,     PX2,     PX3,     PX4,
