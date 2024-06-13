@@ -708,7 +708,7 @@ C Compute strain rates Dij (silent boundary element)
      4   DZX,        DZY,        DZZ,        D4,
      5   D5,         D6,         WXX,        WYY,
      6   WZZ,        BUFMAT,     NEL,        NFT,
-     7   IPM,        NUMMAT,     NUMELS      )
+     7   IPM,        NUMMAT,     NUMELS+NSVOIS      )
       ELSE
 C Compute strain rates Dij
         CALL SDEFO3(

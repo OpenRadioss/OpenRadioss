@@ -978,7 +978,7 @@ C
      G         CONDN     ,CONDNSKY  ,
      H         D         ,TAGPRT_SMS,SENSORS  ,IPRI      ,
      I         NALE      ,NLOC_DMG  ,MAT_ELEM,IBID,DT,
-     J         OUTPUT)
+     J         OUTPUT,NSVOIS)
 C
             ELSE
 C-------------------------
