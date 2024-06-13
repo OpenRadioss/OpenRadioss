@@ -41,7 +41,7 @@ Chd|====================================================================
      9 DEPTH    ,GAP_S0      ,AREA_S0  ,XM0     ,LXM    ,
      A LYM      ,LZM         ,INTTH    ,DRAD    ,IPARTS ,
      B IPARTC   ,IPARTG      ,THK_PART ,THKNOD0 ,ID     ,
-     C TITR     ,DGAPLOAD    )
+     C TITR     ,DGAPLOAD    ,RESORT  )
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -68,6 +68,7 @@ C-----------------------------------------------
      .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
      .   NOD2ELTG(*),IELES(*), 
      .   MSR(*), ITAB(*), IKINE(*), IPARTS(*), IPARTC(*), IPARTG(*)
+      INTEGER , INTENT (IN) :: RESORT
 C     REAL
       my_real  , INTENT(IN) :: DGAPLOAD
       my_real
@@ -184,18 +185,18 @@ C                                 =====
             NDX=NDX+1
            ENDDO
            GAP = HALF*DXM/NDX
-           WRITE(IOUT,1000)GAP
+           IF (RESORT==0) WRITE(IOUT,1000)GAP
          ENDIF
          GAPMIN = GAP
          GAPMAX = GAP
        ELSE
 C SUP DES GAPS VARIABLES
          IF(GAP>ZERO)GAPMIN=GAP
-         WRITE(IOUT,1000)GAPMIN
+         IF (RESORT==0) WRITE(IOUT,1000)GAPMIN
 C
 C        GAP n'est pas utilise pour Igap > 0 ; Gapmin peut etre egal a 0.
          IF(GAPMAX==ZERO)GAPMAX=EP30
-         WRITE(IOUT,1500)GAPMAX
+         IF (RESORT==0) WRITE(IOUT,1500)GAPMAX
          GAP = MIN(GAP,GAPMAX)
        ENDIF
 C---------------------------------------------
@@ -226,11 +227,11 @@ C cest encore necessaire au tri dans le starter
 C Depth est tjrs superieur au gap (sup des gaps si variable)
         DEPTH=GAP
       END IF
-      WRITE(IOUT,2000)DEPTH
+      IF (RESORT==0) WRITE(IOUT,2000)DEPTH
 C
       CRITER=MAX(CRITER,EM01*DEPTH)
 C
-      IF(DEPTH>GAPMX)THEN
+      IF(DEPTH>GAPMX .AND. RESORT==0 )THEN
        CALL ANCMSG(MSGID=687,
      .             MSGTYPE=MSGWARNING,
      .             ANMODE=ANINFO_BLIND_2,
@@ -247,11 +248,11 @@ C
         ELSEIF(DRAD<GAP)THEN
           DRAD=GAP
         END IF
-        WRITE(IOUT,2001)DRAD
+        IF (RESORT==0)  WRITE(IOUT,2001)DRAD
 C
         CRITER=MAX(CRITER,EM01*DRAD)
 C
-        IF(DRAD>GAPMX)THEN
+        IF(DRAD>GAPMX .AND. RESORT==0)THEN
          CALL ANCMSG(MSGID=918,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_2,
