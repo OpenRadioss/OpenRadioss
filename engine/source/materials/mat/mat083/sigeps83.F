@@ -38,6 +38,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+#include      "com01_c.inc"
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
@@ -359,12 +360,12 @@ c------------------------
                 SIGNZZ(IEL) = SIGTRZZ(IEL) - YOUNG(IEL)*DEP(IEL) * NZZ
                 SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
                 SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
-                FYIELD(IEL) = YLD0 + HYIELD(IEL)*DEP(IEL)
+                FYIELD(IEL) = MAX(ZERO, YLD0 + HYIELD(IEL)*DEP(IEL))
 
                 SVMT = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
                 SIG_EFF = AN * ABS(SIGNZZ(IEL))**BETA + AS * SVMT**BETA 
                 PHI     = SIG_EFF - FYIELD(IEL)**BETA
-              ENDDO  
+              ENDDO
               DEP(IEL) = MAX(ZERO, DEP(IEL))*OFF(IEL)
               PLA(IEL) = PLA(IEL) + DEP(IEL)
             ENDIF 
@@ -406,7 +407,7 @@ c
                 SIGNZZ(IEL) = SIGTRZZ(IEL) - YOUNG(IEL)*DEP(IEL) * NZZ
                 SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
                 SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
-                FYIELD(IEL) = YLD0 + HYIELD(IEL)*DEP(IEL)
+                FYIELD(IEL) = MAX(ZERO, YLD0 + HYIELD(IEL)*DEP(IEL))
 
                 SVMT = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
                 SIG_EFF = AN * ABS(SIGNZZ(IEL))**BETA + AS * SVMT**BETA 
