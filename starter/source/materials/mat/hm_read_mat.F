@@ -1129,7 +1129,7 @@ c-------
      .           PARMAT   ,UNITAB   ,PM(1,I)  ,LSUBMODEL,ISRATE   ,
      .           ASRATE   ,MAT_ID   ,TITR     ,MATPARAM )
 c-------
-          CASE ('LAW126','JOHN_HOLM_1')
+          CASE ('LAW126','JOHNSON_HOLMQUIST_CONCRETE')
             ILAW = 126
             CALL HM_READ_MAT126(
      .           NUVAR    ,MTAG     ,MATPARAM ,NPROPM   ,IOUT     ,
