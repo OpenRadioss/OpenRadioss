@@ -168,6 +168,7 @@ C---
       IF (YOUNGC == ZERO) YOUNGC = YOUNGT
       IF (ICOMP /= 1) ICOMP = 0
       YOUNG = MAX(YOUNGT,YOUNGC)
+      ALPHA = MIN(ALPHA, ONE)
 C----------------
       UPARAM(1) = YOUNGT
       UPARAM(2) = ALPHA
