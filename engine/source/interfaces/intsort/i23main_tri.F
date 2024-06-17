@@ -62,6 +62,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD 
       USE H3D_MOD 
       USE MULTI_FVM_MOD
+      use check_sorting_criteria_mod , only : check_sorting_criteria
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -108,12 +109,19 @@ C-----------------------------------------------
      .       I_MEM,CAND_N_OLD,IDUM1(1),ILEV, IVIS2
 C     REAL
       my_real
-     .   STARTT,GAP,MAXBOX,MINBOX,STOPT,DIST,TZINF,
+     .   GAP,MAXBOX,MINBOX,TZINF,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,
      .   SX,SY,SZ,SX2,SY2,SZ2,
      .   C_MAXL,CURV_MAX(NRTM_T),RDUM1(1)
       INTEGER :: NMN,NSN,NTY
+      logical :: need_computation
 C-----------------------------------------------
+      ! --------------
+      ! check if the current interface needs to be sorted
+      call check_sorting_criteria( need_computation,nin,npari,nspmd,  
+     .                             itask,ipari(1,nin),tt,intbuf_tab )
+      if( .not.need_computation ) return
+      ! --------------
       I_MEM = 0
       I_MEMG = 0
       NMN_G = 0
@@ -139,10 +147,6 @@ C
 C
       NSNROLD = IPARI(24,NIN)
 C
-      STARTT=INTBUF_TAB%VARIABLES(3)
-      STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT>TT) RETURN
-      IF(TT>STOPT)  RETURN
       GAP =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
       GAPMAX=INTBUF_TAB%VARIABLES(16)
@@ -150,8 +154,6 @@ C
 C
 C -------------------------------------------------------------
 C
-      DIST = INTBUF_TAB%VARIABLES(5)
-      IF (DIST>ZERO) RETURN
       RETRI = 1
 C
 C -------------------------------------------------------------

@@ -102,10 +102,10 @@ C-----------------------------------------------
             ! interface type 7
             IF( (NTY == 7.AND.TT>=TS).AND.(.NOT.TYPE18) )THEN
                 ! check if the interface must be sorted (dist + t_start + t_stop)
-                DIST = INTBUF_TAB(N)%VARIABLES(5)
+                DIST = INTBUF_TAB(N)%VARIABLES(distance_index)
                 IF (DIST<=ZERO) IS_SORTING_NEEDED = .TRUE.
-                STARTT=INTBUF_TAB(N)%VARIABLES(3)
-                STOPT =INTBUF_TAB(N)%VARIABLES(11)
+                STARTT=INTBUF_TAB(N)%VARIABLES(t_start_index)
+                STOPT =INTBUF_TAB(N)%VARIABLES(t_stop_index)
 
                 IF(IS_SORTING_NEEDED) THEN
                     IF(STARTT>TT) IS_SORTING_NEEDED = .FALSE.

@@ -114,13 +114,13 @@ C-----------------------------------------------
             IF(ITASK==NTHREAD-1) NRTM_T= NRTM - ADRESS + 1
             NB_LOCAL_CELL(ITASK+1) = 0
             
-            TZINF = INTBUF_TAB(NIN)%VARIABLES(8)
-            GAP   =INTBUF_TAB(NIN)%VARIABLES(2)
-            GAPMIN=INTBUF_TAB(NIN)%VARIABLES(13)
-            GAPMAX=INTBUF_TAB(NIN)%VARIABLES(16)
+            TZINF = INTBUF_TAB(NIN)%VARIABLES(tzinf_index)
+            GAP   =INTBUF_TAB(NIN)%VARIABLES(gap_index)
+            GAPMIN=INTBUF_TAB(NIN)%VARIABLES(gapmin_index)
+            GAPMAX=INTBUF_TAB(NIN)%VARIABLES(gapmax_index)
             DRAD = ZERO
-            IF(IPARI(7,NIN)==7) DRAD =INTBUF_TAB(NIN)%VARIABLES(32)
-            DGAPLOAD = INTBUF_TAB(NIN)%VARIABLES(46)
+            IF(IPARI(7,NIN)==7) DRAD =INTBUF_TAB(NIN)%VARIABLES(drad_index)
+            DGAPLOAD = INTBUF_TAB(NIN)%VARIABLES(bgapemx_index)
 
             NTY = IPARI(7,NIN)
             INACTI = IPARI(22,NIN)
@@ -145,7 +145,7 @@ C-----------------------------------------------
             CALL INTER_CELL_COLOR( X,IPARI(21,NIN)   ,NRTM_T  ,INTBUF_TAB(NIN)%STFM(1+ESHIFT)   ,
      2                 TZINF,INTER_STRUCT(NIN)%CURV_MAX(ADRESS),
      3                 GAPMIN ,GAPMAX,INTBUF_TAB(NIN)%GAP_M(1+ESHIFT) ,
-     4                 INTBUF_TAB(NIN)%IRECTM(1+4*ESHIFT),GAP,INTBUF_TAB(NIN)%VARIABLES(7),DRAD,
+     4                 INTBUF_TAB(NIN)%IRECTM(1+4*ESHIFT),GAP,INTBUF_TAB(NIN)%VARIABLES(bgapsmx_index),DRAD,
      5                 NB_LOCAL_CELL(ITASK+1),SIZE_INDEX_CELL,INDEX_CELL,
      6                 COARSE_GRID,SORT_COMM(NIN)%MAIN_COARSE_GRID,DGAPLOAD)
 

@@ -1,0 +1,121 @@
+!copyright>        openradioss
+!copyright>        copyright (c) 1986-2024 altair engineering inc.
+!copyright>
+!copyright>        this program is free software: you can redistribute it and/or modify
+!copyright>        it under the terms of the gnu affero general public license as published by
+!copyright>        the free software foundation, either version 3 of the license, or
+!copyright>        (at your option) any later version.
+!copyright>
+!copyright>        this program is distributed in the hope that it will be useful,
+!copyright>        but without any warranty; without even the implied warranty of
+!copyright>        merchantability or fitness for a particular purpose.  see the
+!copyright>        gnu affero general public license for more details.
+!copyright>
+!copyright>        you should have received a copy of the gnu affero general public license
+!copyright>        along with this program.  if not, see <https://www.gnu.org/licenses/>.
+!copyright>
+!copyright>
+!copyright>        commercial alternative: altair radioss software
+!copyright>
+!copyright>        as an alternative to this open-source version, altair also offers altair radioss
+!copyright>        software under a commercial license.  contact altair to discuss further if the
+!copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      module check_sorting_criteria_mod
+      contains
+! ======================================================================================================================
+!                                                   procedures
+! ======================================================================================================================
+!! \brief This routine checks if the current "interface_id" interface needs to be sorted
+        subroutine check_sorting_criteria( need_computation,interface_id,nipari,nspmd,task_id,ipari,time,intbuf_tab )
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   modules
+! ----------------------------------------------------------------------------------------------------------------------
+          use intbufdef_mod
+          use constant_mod , only : zero
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   included files
+! ----------------------------------------------------------------------------------------------------------------------
+#include "my_real.inc"
+#include "macro.inc"
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          logical, intent(inout) :: need_computation !< boolean, true if the interface must be sorted
+          integer, intent(in) :: interface_id !< id of the current interface
+          integer, intent(in) :: nipari !< first dimension of ipari array
+          integer, intent(in) :: nspmd !< number of processor
+          integer, intent(in) :: task_id !< task id
+          integer, dimension(nipari), intent(inout) :: ipari !< interface data
+          my_real, intent(in) :: time !< current time
+          type(intbuf_struct_), intent(inout) :: intbuf_tab !< interface data structure
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          logical :: my_bool,t_start_condition,t_stop_condition,distance_condition
+          integer :: interface_type,sensor_id
+          my_real :: t_start,t_stop,distance
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   external functions
+! ----------------------------------------------------------------------------------------------------------------------
+! [ external functions must be kept to mimimum ]
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   body
+! ----------------------------------------------------------------------------------------------------------------------
+!
+          ! -------------------------
+          my_bool = .false.
+          need_computation = .false.
+          t_start = intbuf_tab%variables( t_start_index ) ! get the start time 
+          t_stop = intbuf_tab%variables( t_stop_index )   ! get the stop time
+          distance = intbuf_tab%variables( distance_index ) ! get the distance criteria
+    
+          t_start_condition = (t_start>time)    ! if true, computation is not needed
+          t_stop_condition = (time>t_stop)      ! if true, computation is not needed
+          distance_condition = (distance>zero)  ! if true, computation is not needed
+
+          interface_type = ipari(MACRO_NTY)
+          ! -------------
+          if(interface_type==7.or.interface_type==10.or.interface_type==11.or.  &
+             interface_type==21.or.interface_type==23.or.interface_type==24) then
+
+            ! check the 3 conditions : start / stop / distance
+            my_bool = t_start_condition.or.t_stop_condition.or.distance_condition
+            need_computation = .not.(my_bool)
+
+          elseif(interface_type==20.or.interface_type==22) then
+
+            ! check only 2 conditions : start / stop
+            my_bool = t_start_condition.or.t_stop_condition
+            need_computation = .not.(my_bool)
+            ! ------
+            ! only for interface type = 20
+            if(need_computation.and.interface_type==20) then
+              if(distance_condition.and.nspmd>1) then
+                 call i20xsinir( ipari(MACRO_NSNR),ipari(MACRO_NSNER),  &
+                                 task_id,interface_id,intbuf_tab%stfac )
+                need_computation=need_computation.and.(.not.(distance_condition))
+              endif
+            endif
+            ! ------
+
+          elseif(interface_type==25) then
+
+            ! check only 2 conditions : stop / distance
+            sensor_id = ipari(MACRO_IDSENS)
+            if(sensor_id==0) then
+              my_bool = t_stop_condition
+            endif
+            need_computation = .not.(my_bool.or.distance_condition)
+
+          endif
+          ! -------------
+          return
+          ! -------------------------
+!
+! ----------------------------------------------------------------------------------------------------------------------
+        end subroutine check_sorting_criteria
+      end module check_sorting_criteria_mod
