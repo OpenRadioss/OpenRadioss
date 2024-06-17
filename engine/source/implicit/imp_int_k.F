@@ -1213,7 +1213,7 @@ C
         ELSEIF(NTY==10)THEN
 C 
           CALL I10MAIN_TRI(
-     1 IPARI(1,N),X       ,V         ,
+     1 npari     ,IPARI(1,N),X       ,V         ,
      2 MS        ,N            ,ITASK        ,WAG     ,WEIGHT    ,
      3 ISENDTO   ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM   ,
      4 NRTM_T    ,RENUM        ,NSNFIOLD     ,ESHIFT  ,IBID      ,

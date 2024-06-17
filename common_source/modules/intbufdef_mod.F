@@ -1154,7 +1154,25 @@ c (maximum number of different arrays composing INTBUF_TAB structure)
       INTEGER, PARAMETER :: L_INTBUF_SIZE_MAX = 516
       INTEGER INTER_ITHKNOD !Flag to fill THKNOD array  (enabled with Ithick parameter from interface type 25 or 21)
 
-
+      ! -------------------------
+      ! index of intbuf_tab%variables
+      ! -------------------------
+      integer, parameter :: gap_index = 2 !< index for gap
+      integer, parameter :: t_start_index = 3 ! index for start time 
+      integer, parameter :: distance_index = 5 !< index for dist
+      integer, parameter :: bgapsmx_index = 7 !< index for bgapsmx
+      integer, parameter :: tzinf_index = 8 !< index for tzinf
+      integer, parameter :: maxbox_index = 9 !< index for maxbox
+      integer, parameter :: t_stop_index = 11   ! index for stop time
+      integer, parameter :: minbox_index = 12 !< index for minbox
+      integer, parameter :: gapmin_index = 13 !< index for gapmin
+      integer, parameter :: gapmax_index = 16 !< index for gapmax
+      integer, parameter :: pmax_index = 23 !< index for pmax
+      integer, parameter :: vmaxdt_index = 24 !< index for vmaxdt
+      integer, parameter :: marge_index = 25 !< index for marge
+      integer, parameter :: drad_index = 32 !< index for drad
+      integer, parameter :: bgapemx_index = 40 !< index for bgapemx
+      integer, parameter :: dgapload_index = 46 !< index for dgapload
 c
 c---------------
       END MODULE INTBUFDEF_MOD

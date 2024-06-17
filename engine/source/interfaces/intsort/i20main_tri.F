@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE INTBUFMOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
+      use check_sorting_criteria_mod , only : check_sorting_criteria
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -111,7 +112,7 @@ C-----------------------------------------------
      .       I_MEM
 C     REAL
       my_real
-     .   STARTT,GAP,MAXBOX,MINBOX,STOPT,DIST,TZINF,
+     .   GAP,MAXBOX,MINBOX,TZINF,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,
      .   XMAXEL, YMAXEL, ZMAXEL, XMINEL, YMINEL, ZMINEL, C_MAXL,
      .   CURV_MAX(NRTM_T),GAP_SHIFT,RBID
@@ -119,7 +120,16 @@ C     REAL
       INTEGER :: NRTM,NSN,NMN,NTY
       INTEGER :: NSNE,NMNE
       INTEGER :: NLINSA,NLINMA,NLINM,NLINS
+      logical :: need_computation
 C-----------------------------------------------
+
+      ! --------------
+      ! check if the current interface needs to be sorted
+      call check_sorting_criteria( need_computation,nin,npari,nspmd,  
+     .                             itask,ipari(1,nin),tt,intbuf_tab )
+      if( .not.need_computation ) return
+      ! --------------
+
       I_MEM = 0
       I_MEMG = 0
 C
@@ -159,27 +169,13 @@ C
         NSNROLD = 0
       ENDIF
 C
-      STARTT=INTBUF_TAB%VARIABLES(3)
-      STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT>TT) RETURN
-      IF(TT>STOPT)  RETURN
       GAP =INTBUF_TAB%VARIABLES(2)
 
       GAPMIN=INTBUF_TAB%VARIABLES(13)
       GAPMAX=INTBUF_TAB%VARIABLES(16)
-      DIST = INTBUF_TAB%VARIABLES(5)
 C
 C -------------------------------------------------------------
 C
-      IF (DIST>ZERO) THEN
-C Appel routine calcul XS VS remote stocke dans XFI et VFI + partie edge
-        IF (NSPMD>1)THEN
-          CALL I20XSINIR(
-     1      IPARI(24,NIN),IPARI(57,NIN),ITASK,NIN,INTBUF_TAB%STFAC(1))
-        ENDIF
-        RETURN
-C Si retri XFI et VFI transferes directement au niveau de i20buce/SPMD_TRI20BOX
-      END IF
       RETRI=1 
 C -------------------------------------------------------------
 C

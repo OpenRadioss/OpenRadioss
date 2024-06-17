@@ -79,6 +79,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE MOD_I25MAIN_TRI
       USE PARAMETERS_MOD
+      use check_sorting_criteria_mod , only : check_sorting_criteria
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -129,12 +130,19 @@ C-----------------------------------------------
       INTEGER :: ISENS
 C     REAL
       my_real
-     .   STARTT,GAP,STOPT,DIST,
+     .   GAP,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,DRAD,
      .   C_MAXL,PMAX_GAP,VMAXDT,MARGE,TZINF,SX,SY,SZ,SX2,SY2,SZ2,DGAPLOAD,
      .   CURV_MAX(NRTM_T),BMINMA_OLD(6),BGAPEMX,BSAV(6)
       INTEGER :: NMN,NRTM,NSN,NTY
+      logical :: need_computation
 C-----------------------------------------------
+      ! --------------
+      ! check if the current interface needs to be sorted
+      call check_sorting_criteria( need_computation,nin,npari,nspmd,  
+     .                             itask,ipari(1,nin),tt,intbuf_tab )
+      if( .not.need_computation ) return
+      ! --------------
       I_MEM = 0
 !$OMP SINGLE
       I_MEMG = 0
@@ -172,35 +180,26 @@ C
       IF(IPARI(36,NIN)> 0.AND.PARAMETERS%INTCAREA > 0) IFSUB_CAREA = 1
 C
 C
-      ISENS = IPARI(64,NIN)  
-      IF(ISENS == 0) THEN
-         STOPT =INTBUF_TAB%VARIABLES(11)
-         IF(TT > STOPT) RETURN
-      ENDIF
-
-      GAP =INTBUF_TAB%VARIABLES(2)
-      GAPMIN=INTBUF_TAB%VARIABLES(13)
-      GAPMAX=INTBUF_TAB%VARIABLES(16)
-      PMAX_GAP=INTBUF_TAB%VARIABLES(23)
-      VMAXDT  =INTBUF_TAB%VARIABLES(24)
+      GAP =INTBUF_TAB%VARIABLES(gap_index)
+      GAPMIN=INTBUF_TAB%VARIABLES(gapmin_index)
+      GAPMAX=INTBUF_TAB%VARIABLES(gapmax_index)
+      PMAX_GAP=INTBUF_TAB%VARIABLES(pmax_index)
+      VMAXDT  =INTBUF_TAB%VARIABLES(vmaxdt_index)
 C
       DRAD = ZERO
-      IF(IPARI(47,NIN) > 0)  DRAD =INTBUF_TAB%VARIABLES(32)
+      IF(IPARI(47,NIN) > 0)  DRAD =INTBUF_TAB%VARIABLES(drad_index)
 C
-      DGAPLOAD  =INTBUF_TAB%VARIABLES(46)
+      DGAPLOAD  =INTBUF_TAB%VARIABLES(dgapload_index)
 C
       ITIED = 0 
 C
 C -------------------------------------------------------------
 C
-      DIST = INTBUF_TAB%VARIABLES(5)
-C     PRINTIF(ISPMD == 0,DIST)
-      IF (DIST>ZERO) RETURN
       RETRI = 1
 C
 C -------------------------------------------------------------
 C
-      MARGE  = INTBUF_TAB%VARIABLES(25)
+      MARGE  = INTBUF_TAB%VARIABLES(marge_index)
 C
 C -------------------------------------------------------------
 C
@@ -305,7 +304,7 @@ C
         TZINF = MARGE+MAX(GAP+DGAPLOAD,DRAD)+VMAXDT
 
         IF(IEDGE > 0)THEN
-          BGAPEMX=INTBUF_TAB%VARIABLES(40)
+          BGAPEMX=INTBUF_TAB%VARIABLES(bgapemx_index)
           TZINF = MAX(TZINF,MARGE+TWO*BGAPEMX+DGAPLOAD+VMAXDT)
         ENDIF
 
@@ -335,12 +334,12 @@ C
 
         CALL MY_BARRIER
         IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(26,1)
-        BGAPEMX=INTBUF_TAB%VARIABLES(40)
+        BGAPEMX=INTBUF_TAB%VARIABLES(bgapemx_index)
 
         CALL SPMD_TRI25VOX0(
      1      X           ,BMINMA  ,NRTM_T,INTBUF_TAB%STFM(1+SSHIFT),MARGE ,
      2      CURV_MAX,INTBUF_TAB%GAP_M(1+SSHIFT),INTBUF_TAB%IRECTM(1+4*SSHIFT),GAP,
-     +                                                    INTBUF_TAB%VARIABLES(7),
+     +                                                    INTBUF_TAB%VARIABLES(bgapsmx_index),
      3      PMAX_GAP,VMAXDT,BGAPEMX,IEDGE,
      .      INTBUF_TAB%LEDGE,NEDGE,NLEDGE,
      .      INTBUF_TAB%GAPE ,DRAD ,DGAPLOAD)
@@ -348,7 +347,7 @@ C
         CALL SPMD_TRI25VOX0_EDGE(
      1      X           ,BMINMA  ,NRTM,INTBUF_TAB%STFE,MARGE ,
      2      CURV_MAX,INTBUF_TAB%GAP_M,INTBUF_TAB%IRECTM,GAP,
-     +                                   INTBUF_TAB%VARIABLES(7),
+     +                                   INTBUF_TAB%VARIABLES(bgapsmx_index),
      3      PMAX_GAP,VMAXDT,BGAPEMX,IEDGE,IGAP0,
      .      INTBUF_TAB%LEDGE,NEDGE,NLEDGE,
      .      INTBUF_TAB%GAPE,DGAPLOAD)
@@ -414,7 +413,7 @@ C     NCONT additional candidates (if all secondary nodes are already impacted, 
      3 GAP    ,NOINT       ,INTBUF_TAB%I_STOK(1)   ,MULNSN     ,BMINMA       ,
      4 MARGE  ,CURV_MAX    ,PMAX_GAP       ,VMAXDT       ,
      5 SSHIFT ,NIN         ,INTBUF_TAB%STFM(1+SSHIFT) ,INTBUF_TAB%GAP_S,
-     6 NSNR   ,NCONT       ,INTBUF_TAB%GAP_M(1+SSHIFT)   ,ITASK      ,INTBUF_TAB%VARIABLES(7),
+     6 NSNR   ,NCONT       ,INTBUF_TAB%GAP_M(1+SSHIFT)   ,ITASK      ,INTBUF_TAB%VARIABLES(bgapsmx_index),
      7 I_MEM  ,INTBUF_TAB%PENE_OLD,ITAB          ,INTBUF_TAB%NBINFLG,INTBUF_TAB%MBINFLG,
      8 ILEV   ,INTBUF_TAB%MSEGTYP24,
      9 FLAGREMN,INTBUF_TAB%KREMNODE(1+2*SSHIFT),INTBUF_TAB%REMNODE,
@@ -449,7 +448,7 @@ C--------------------------------------------------------------
       IF(IEDGE==0) GOTO 200
       INACTI  = IPARI(22,NIN)
       CAND_E_OLD(1:2) = INTBUF_TAB%I_STOK_E(1:2)
-      BGAPEMX=INTBUF_TAB%VARIABLES(40)
+      BGAPEMX=INTBUF_TAB%VARIABLES(bgapemx_index)
       IF(ITASK == 0)THEN
 
         BMINMA(1)=BSAV(1)
@@ -549,7 +548,7 @@ C Negative value in "dist" : tag boundary part
       IF(NSPMD>1)THEN
 !$OMP SINGLE
         IF (IMONM > 0) CALL STARTIME(26,1)
-        INTBUF_TAB%VARIABLES(5) = - ONE
+        INTBUF_TAB%VARIABLES(distance_index) = - ONE
 C
         CALL SPMD_TRI25GAT(
      1      RESULT       ,NSN ,INTBUF_TAB%CAND_N,INTBUF_TAB%I_STOK(1),NIN,

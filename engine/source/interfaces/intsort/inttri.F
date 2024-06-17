@@ -808,7 +808,7 @@ c-----------------------------------------------------------------------
           ESHIFT = ITASK*NRTM_T
           IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
           CALL I10MAIN_TRI(
-     1 IPARI(1,N),X       ,V         ,
+     1 npari     ,IPARI(1,N),X       ,V         ,
      2 MS        ,N            ,ITASK        ,WAG     ,WEIGHT    ,
      3 ISENDTO   ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM   ,
      4 NRTM_T    ,RENUM        ,NSNFIOLD     ,ESHIFT  ,IDUM      ,
@@ -1007,7 +1007,7 @@ C
             CALL I21MAIN_TRI(
      1          IPARI   ,X       ,N            ,
      2          ITASK  ,WEIGHT   ,RETRI21(N)   ,IDUM    ,IDUM    ,
-     3          INTSTAMP(KK) ,WAG,INTBUF_TAB(N) )
+     3          INTSTAMP(KK) ,WAG,INTBUF_TAB(N),nspmd)
            IF(RETRI21(N)==1) RETRI = 1 
           ENDIF
        ENDDO
@@ -1127,7 +1127,7 @@ C-----------------------------------------------------------------------
           ESHIFT = ITASK*NRTM_T
           IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
           CALL I10MAIN_TRI(
-     1 IPARI(1,N),X       ,V         ,
+     1 npari     ,IPARI(1,N),X       ,V         ,
      2 MS        ,N            ,ITASK        ,WAG     ,WEIGHT    ,
      3 ISENDTO   ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM   ,
      4 NRTM_T    ,RENUM        ,NSNFIOLD     ,ESHIFT  ,NUM_IMP(N),
