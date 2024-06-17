@@ -40,13 +40,14 @@ Chd|====================================================================
       SUBROUTINE I21MAIN_TRI(
      1                  IPARI   ,X       ,NIN     ,
      2                  ITASK   ,WEIGHT  ,RETRI   ,NUM_IMP ,IND_IMP ,
-     3                  INTSTAMP,MWAG    ,INTBUF_TAB  )
+     3                  INTSTAMP,MWAG    ,INTBUF_TAB, nspmd)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTSTAMP_MOD
       USE INTBUFMOD
       USE INTBUFDEF_MOD 
+      use check_sorting_criteria_mod , only : check_sorting_criteria
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,6 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: nspmd !< number of processor
       INTEGER NIN ,ITASK, RETRI, NUM_IMP ,IND_IMP(*),
      .        IPARI(NPARI,NINTER),
      .        WEIGHT(*), MWAG(*)
@@ -86,11 +88,18 @@ C-----------------------------------------------
      .       I_MEM,CAND_N_OLD, IROT
 C     REAL
       my_real
-     .   STARTT,GAP,MAXBOX,MINBOX,STOPT,DIST,TZINF,
+     .   GAP,MAXBOX,MINBOX,TZINF,
      .   XMAX, YMAX, ZMAX, XMIN, YMIN, ZMIN, GAPMIN, GAPMAX,
      .   DD(3)
       INTEGER :: NRTM,NSN,NTY,NMN
+      logical :: need_computation
 C-----------------------------------------------
+      ! --------------
+      ! check if the current interface needs to be sorted
+      call check_sorting_criteria( need_computation,nin,npari,nspmd,  
+     .                             itask,ipari(1,nin),tt,intbuf_tab )
+      if( .not.need_computation ) return
+      ! --------------
       I_MEM = 0
       I_MEMG = 0
 C
@@ -106,10 +115,6 @@ C
 
       NCONTACT=MULTIMP*NSN
 C
-      STARTT=INTBUF_TAB%VARIABLES(3)
-      STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT>TT) RETURN
-      IF(TT>STOPT)  RETURN
       GAP =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
       GAPMAX=INTBUF_TAB%VARIABLES(16)
@@ -122,8 +127,6 @@ C
 C
 C -------------------------------------------------------------
 C
-      DIST = INTBUF_TAB%VARIABLES(5)
-      IF (DIST>ZERO) GOTO 999
        RETRI=1
 C
        DD(1)=INTSTAMP%D(1)
@@ -256,7 +259,7 @@ C MWA = MWAG SUR TASK 0
      3       INACTI)
          ENDIF
 C--------------------------------------------------------------
- 999  continue
+
 C
       RETURN
       END

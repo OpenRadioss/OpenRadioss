@@ -72,6 +72,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MULTI_FVM_MOD
       USE ALE_CONNECTIVITY_MOD
+      use check_sorting_criteria_mod , only : check_sorting_criteria
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -138,7 +139,7 @@ C-----------------------------------------------
       LOGICAL ::
      .        IS_CONTACT
       my_real
-     .   STARTT,GAP,MAXBOX,MINBOX,STOPT,DIST,TZINF,
+     .   GAP,MAXBOX,MINBOX,TZINF,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,
      .   C_MAXL,BID,
      .   CURV_MAX(NRTM_T),RDUM1(1), STFE, 
@@ -146,20 +147,23 @@ C-----------------------------------------------
      .   BMINMA_AND(6),  !intersection fluid in local domain and all faces
      .   vel(4), vel_max
       INTEGER :: NRTM,NSN,NTY,NMN
+      logical :: need_computation
 C-----------------------------------------------
+
+      ! --------------
+      ! check if the current interface needs to be sorted
+      call check_sorting_criteria( need_computation,nin,npari,nspmd,  
+     .                             itask,ipari(1,nin),tt,intbuf_tab )
+      if( .not.need_computation ) return
+      ! --------------
+
       I_MEMG = 0
       I_MEM = 0
       IS_CONTACT=.FALSE.
-      STARTT=INTBUF_TAB%VARIABLES(3)
-      STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT>TT) RETURN
-      IF(TT>STOPT)  RETURN
 
 C -------------------------------------------------------------
 C     CRITERE DE RETRI
 C -------------------------------------------------------------
-      DIST = INTBUF_TAB%VARIABLES(5)
-      !IF (DIST>ZERO) RETURN
       RETRI = 1
 C
 C -------------------------------------------------------------

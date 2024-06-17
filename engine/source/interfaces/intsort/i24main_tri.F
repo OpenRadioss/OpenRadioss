@@ -63,6 +63,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE PARAMETERS_MOD
+      use check_sorting_criteria_mod , only : check_sorting_criteria
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -111,7 +112,7 @@ C-----------------------------------------------
      .        I_MEM,CAND_N_OLD,ILEV,FLAGREMN, NRTSE ,NMN_L
 C     REAL
       my_real
-     .   STARTT,GAP,MAXBOX,MINBOX,STOPT,DIST,DGAPLOAD,
+     .   GAP,MAXBOX,MINBOX,DGAPLOAD,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,
      .   C_MAXL,PMAX_GAP,VMAXDT,MARGE,TZINF,SX,SY,SZ,SX2,SY2,SZ2,
      .   CURV_MAX(NRTM_T),BMINMA_OLD(6),FORNEQS(*)
@@ -119,7 +120,15 @@ C
       INTEGER, DIMENSION(:),ALLOCATABLE :: CAND_A
       INTEGER :: NMN, NSN,NRTM,NTY,NSNE
       SAVE CAND_A
+      logical :: need_computation
 C-----------------------------------------------
+      ! --------------
+      ! check if the current interface needs to be sorted
+      call check_sorting_criteria( need_computation,nin,npari,nspmd,  
+     .                             itask,ipari(1,nin),tt,intbuf_tab )
+      if( .not.need_computation ) return
+      ! --------------
+
       I_MEM = 0
       I_MEMG = 0
       NMN_G = 0
@@ -147,37 +156,26 @@ C
       IFSUB_CAREA =0
       IF(IPARI(36,NIN)> 0.AND.PARAMETERS%INTCAREA > 0) IFSUB_CAREA = 1
 
-C
-c      IF(NUM_IMP>0)THEN
-c        NSNROLD = IPARI(24,NIN)
-c      ELSE
-         NSNROLD = IPARI(24,NIN)
-c      ENDIF
-C
-      STARTT=INTBUF_TAB%VARIABLES(3)
-      STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT>TT) RETURN
-      IF(TT>STOPT)  RETURN
-      GAP =INTBUF_TAB%VARIABLES(2)
-      GAPMIN=INTBUF_TAB%VARIABLES(13)
-      GAPMAX=INTBUF_TAB%VARIABLES(16)
-      PMAX_GAP=INTBUF_TAB%VARIABLES(23)
-      VMAXDT  =INTBUF_TAB%VARIABLES(24)
+      NSNROLD = IPARI(24,NIN)
+
+      GAP =INTBUF_TAB%VARIABLES(gap_index)
+      GAPMIN=INTBUF_TAB%VARIABLES(gapmin_index)
+      GAPMAX=INTBUF_TAB%VARIABLES(gapmax_index)
+      PMAX_GAP=INTBUF_TAB%VARIABLES(pmax_index)
+      VMAXDT  =INTBUF_TAB%VARIABLES(vmaxdt_index)
 C
 
 C
 C -------------------------------------------------------------
 C
-      DIST = INTBUF_TAB%VARIABLES(5)
-      IF (DIST>ZERO) RETURN
       RETRI = 1
 C
 C -------------------------------------------------------------
 C
-      MAXBOX = INTBUF_TAB%VARIABLES(9)
-      MINBOX = INTBUF_TAB%VARIABLES(12)
-      MARGE  = INTBUF_TAB%VARIABLES(25)
-      DGAPLOAD = INTBUF_TAB%VARIABLES(46)
+      MAXBOX = INTBUF_TAB%VARIABLES(maxbox_index)
+      MINBOX = INTBUF_TAB%VARIABLES(minbox_index)
+      MARGE  = INTBUF_TAB%VARIABLES(marge_index)
+      DGAPLOAD = INTBUF_TAB%VARIABLES(bgapemx_index)
       BMINMA(1)=-EP30
       BMINMA(2)=-EP30
       BMINMA(3)=-EP30
@@ -292,7 +290,7 @@ c        goto 150
         CALL SPMD_TRI24VOX0(
      1      X           ,BMINMA  ,NRTM_T,INTBUF_TAB%STFM(1+ESHIFT),MARGE ,
      2      CURV_MAX,INTBUF_TAB%GAP_M(1+ESHIFT),INTBUF_TAB%IRECTM(1+4*ESHIFT),GAP,
-     +                                                    INTBUF_TAB%VARIABLES(7),
+     +                                                    INTBUF_TAB%VARIABLES(bgapsmx_index),
      3      PMAX_GAP,VMAXDT      ,DGAPLOAD )
  
         CALL MY_BARRIER
@@ -348,7 +346,7 @@ C
      3 GAP    ,NOINT       ,INTBUF_TAB%I_STOK(1)   ,NCONTACT     ,BMINMA       ,
      4 MARGE  ,CURV_MAX    ,PMAX_GAP       ,VMAXDT       ,NB_N_B       ,
      5 ESHIFT ,ILD         ,NIN            ,INTBUF_TAB%STFM(1+ESHIFT) ,INTBUF_TAB%GAP_S,
-     6 NSNR   ,NCONT       ,INTBUF_TAB%GAP_M(1+ESHIFT)   ,ITASK      ,INTBUF_TAB%VARIABLES(7),
+     6 NSNR   ,NCONT       ,INTBUF_TAB%GAP_M(1+ESHIFT)   ,ITASK      ,INTBUF_TAB%VARIABLES(bgapsmx_index),
      7 I_MEM  ,INTBUF_TAB%PENE_OLD,ITAB          ,INTBUF_TAB%NBINFLG,INTBUF_TAB%MBINFLG,
      8 ILEV   ,INTBUF_TAB%MSEGTYP24,INTBUF_TAB%EDGE8L2 ,IEDGE        ,INTBUF_TAB%ISEADD,
      9 INTBUF_TAB%ISEDGE,INTBUF_TAB%CAND_T,FLAGREMN,INTBUF_TAB%KREMNODE(1+2*ESHIFT),INTBUF_TAB%REMNODE ,
@@ -403,7 +401,7 @@ C mise a - de dist temporairement pour reperage dans partie frontiere
 C mono tache
 !$OMP SINGLE
         IF (IMONM > 0) CALL STARTIME(26,1)
-        INTBUF_TAB%VARIABLES(5) = - ONE
+        INTBUF_TAB%VARIABLES(distance_index) = - ONE
 C
         CALL SPMD_TRI24GAT(
      1      RESULT       ,NSN ,INTBUF_TAB%CAND_N,INTBUF_TAB%I_STOK(1),NIN,

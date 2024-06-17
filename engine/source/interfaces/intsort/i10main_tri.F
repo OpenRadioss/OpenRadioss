@@ -46,7 +46,7 @@ Chd|        INTBUFMOD                     share/modules/restart_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I10MAIN_TRI(
-     1                  IPARI   ,X       ,V       ,
+     1                  npari   ,IPARI   ,X       ,V       ,
      2                  MS      ,NIN     ,ITASK   ,MWAG    ,WEIGHT  ,
      3                  ISENDTO ,IRCVFROM,RETRI   ,IAD_ELEM,FR_ELEM ,
      5                  NRTM_T  ,RENUM   ,NSNFIOLD,ESHIFT  ,NUM_IMP ,
@@ -60,6 +60,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
+      use check_sorting_criteria_mod , only : check_sorting_criteria
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,9 +80,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: npari !< dimension of ipari
       INTEGER  ITASK, NIN, RETRI, NRTM_T, ESHIFT,
      .         NUM_IMP ,IND_IMP(*),
-     .         IPARI(*), MWAG(*), ITAB(*),
+     .         IPARI(npari), MWAG(*), ITAB(*),
      .         ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),
      .         WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .         RENUM(NUMNOD), NSNFIOLD(NSPMD), NODNX_SMS(*)
@@ -101,12 +103,19 @@ C-----------------------------------------------
      .   IBID,I_MEM,CAND_N_OLD
 C     REAL
       my_real
-     .   STARTT, GAP, MAXBOX, MINBOX, STOPT,DIST,TZINF,DIST1,
+     .    GAP, MAXBOX, MINBOX, TZINF,DIST1,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX
       INTEGER :: NMN, NSN,NRTM,NTY
+      logical :: need_computation
 C-----------------------------------------------
-C     REAL
-C-----------------------------------------------
+
+      ! --------------
+      ! check if the current interface needs to be sorted
+      call check_sorting_criteria( need_computation,nin,npari,nspmd,  
+     .                             itask,ipari,tt,intbuf_tab )
+      if( .not.need_computation ) return
+      ! --------------
+
       I_MEM = 0
       I_MEMG = 0
 
@@ -125,18 +134,12 @@ c      ENDIF
       NCONTACT=MULTIMP*NCONT
       NSNROLD = IPARI(24)
 C
-      STARTT=INTBUF_TAB%VARIABLES(3)
-      STOPT =INTBUF_TAB%VARIABLES(11)
       GAP   =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
       GAPMAX=INTBUF_TAB%VARIABLES(16)
-      IF(STARTT>TT) RETURN
-      IF(TT>STOPT)  RETURN
 C
 C -------------------------------------------------------------
 C
-      DIST = INTBUF_TAB%VARIABLES(5)
-      IF (DIST>ZERO) RETURN
       RETRI=1
 C -------------------------------------------------------------
 C

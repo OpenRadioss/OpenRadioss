@@ -67,6 +67,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE MULTI_FVM_MOD
       USE INTER_SORTING_MOD
+      use check_sorting_criteria_mod , only : check_sorting_criteria
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -118,14 +119,21 @@ C-----------------------------------------------
      .        ILD, NCONT, NCONTACT, INACTII, INACIMP, INTTH,
      .        I_MEM,CAND_N_OLD,IDUM1(1),NMN_L, IVIS2
       my_real
-     .   STARTT,GAP,MAXBOX,MINBOX,STOPT,DIST,TZINF,DGAPLOADP,
+     .   GAP,MAXBOX,MINBOX,TZINF,DGAPLOADP,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,
      .   C_MAXL,DRAD,MX,MY,MZ,DX,DY,DZ,SX,SY,SZ,SX2,SY2,SZ2,
      .   CURV_MAX(NRTM_T),RDUM1(1)
       REAL T1  !elapsed time in smp
       LOGICAL TYPE18
       INTEGER :: NRTM,NSN,NMN,NTY
+      logical :: need_computation
 C-----------------------------------------------
+      ! --------------
+      ! check if the current interface needs to be sorted
+      call check_sorting_criteria( need_computation,nin,npari,nspmd,  
+     .                             itask,ipari(1,nin),tt,intbuf_tab )
+      if( .not.need_computation ) return
+      ! --------------
       I_MEM  = 0
       I_MEMG = 0
       NMN_G  = 0
@@ -158,29 +166,24 @@ C
         NSNROLD = 0
       ENDIF
 
-      STARTT=INTBUF_TAB%VARIABLES(3)
-      STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT>TT) RETURN
-      IF(TT>STOPT)  RETURN
-      GAP    =INTBUF_TAB%VARIABLES(2)
-      GAPMIN=INTBUF_TAB%VARIABLES(13)
-      GAPMAX=INTBUF_TAB%VARIABLES(16)
+      GAP =INTBUF_TAB%VARIABLES(gap_index)
+      GAPMIN=INTBUF_TAB%VARIABLES(gapmin_index)
+      GAPMAX=INTBUF_TAB%VARIABLES(gapmax_index)
       DRAD = ZERO
-      IF(IPARI(7,NIN)==7) DRAD =INTBUF_TAB%VARIABLES(32)
-      DGAPLOADP= INTBUF_TAB%VARIABLES(46)
+      IF(IPARI(7,NIN)==7) DRAD =INTBUF_TAB%VARIABLES(drad_index)
+      DGAPLOADP= INTBUF_TAB%VARIABLES(bgapemx_index)
+
 C
 C
 C -------------------------------------------------------------
 C
-      DIST = INTBUF_TAB%VARIABLES(5)
-      IF (DIST>ZERO) RETURN
       RETRI = 1
 C
 C -------------------------------------------------------------
 C
-      MAXBOX = INTBUF_TAB%VARIABLES(9)
-      MINBOX = INTBUF_TAB%VARIABLES(12)
-      TZINF  = INTBUF_TAB%VARIABLES(8)
+      MAXBOX = INTBUF_TAB%VARIABLES(maxbox_index)
+      MINBOX = INTBUF_TAB%VARIABLES(minbox_index)
+      TZINF  = INTBUF_TAB%VARIABLES(tzinf_index)
       BMINMA(1)=-EP30
       BMINMA(2)=-EP30
       BMINMA(3)=-EP30
@@ -354,7 +357,7 @@ C
         CALL SPMD_TRI7VOX0(
      1      X           ,BMINMA  ,IPARI(21,NIN),NRTM_T,INTBUF_TAB%STFM(1+ESHIFT),
      2      TZINF       ,CURV_MAX,GAPMIN ,GAPMAX,INTBUF_TAB%GAP_M(1+ESHIFT),
-     3      INTBUF_TAB%IRECTM(1+4*ESHIFT),GAP  ,INTBUF_TAB%VARIABLES(7),DRAD,
+     3      INTBUF_TAB%IRECTM(1+4*ESHIFT),GAP  ,INTBUF_TAB%VARIABLES(bgapsmx_index),DRAD,
      4      DGAPLOADP  )
  
         CALL MY_BARRIER
@@ -449,7 +452,7 @@ C
      8 INTBUF_TAB%STFNS,NIN ,INTBUF_TAB%STFM(1+ESHIFT),IPARI(21,NIN),INTBUF_TAB%GAP_S,
      A NSNR   ,NCONT  ,RENUM  ,NSNROLD  ,INTBUF_TAB%GAP_M(1+ESHIFT),
      B GAPMIN ,GAPMAX      ,CURV_MAX_MAX   ,NUM_IMP   ,INTBUF_TAB%GAP_SL,
-     C INTBUF_TAB%GAP_ML(1+ESHIFT),INTTH ,ITASK  , INTBUF_TAB%VARIABLES(7),I_MEM     ,  
+     C INTBUF_TAB%GAP_ML(1+ESHIFT),INTTH ,ITASK  , INTBUF_TAB%VARIABLES(bgapsmx_index),I_MEM     ,  
      D INTBUF_TAB%KREMNODE(1+2*ESHIFT),INTBUF_TAB%REMNODE,ITAB , IPARI(63,NIN),DRAD         ,
      E ITIED ,INTBUF_TAB%CAND_F,DGAPLOADP,REMOTE_S_NODE,LIST_REMOTE_S_NODE,
      F NRTM)
@@ -463,7 +466,7 @@ C
      8 INTBUF_TAB%STFNS,NIN ,INTBUF_TAB%STFM(1+ESHIFT),IPARI(21,NIN),INTBUF_TAB%GAP_S,
      A NSNR   ,NCONT  ,RENUM  ,NSNROLD  ,INTBUF_TAB%GAP_M(1+ESHIFT),
      B GAPMIN ,GAPMAX      ,CURV_MAX_MAX   ,NUM_IMP   ,INTBUF_TAB%GAP_SL,
-     C INTBUF_TAB%GAP_ML(1+ESHIFT),INTTH ,ITASK  , INTBUF_TAB%VARIABLES(7),I_MEM     ,  
+     C INTBUF_TAB%GAP_ML(1+ESHIFT),INTTH ,ITASK  , INTBUF_TAB%VARIABLES(bgapsmx_index),I_MEM     ,  
      D INTBUF_TAB%KREMNODE(1+2*ESHIFT),INTBUF_TAB%REMNODE,ITAB , IPARI(63,NIN),DRAD         ,
      E ITIED ,INTBUF_TAB%CAND_F,DGAPLOADP)
 
@@ -525,10 +528,10 @@ c    .                    "USES SORT1 FOR CONTACT INTERFACE",NOINT
       ENDIF
 C
 #include "lockon.inc"
-      INTBUF_TAB%VARIABLES(9)  = MIN(MAXBOX,INTBUF_TAB%VARIABLES(9))
-      INTBUF_TAB%VARIABLES(12) = MIN(MINBOX,INTBUF_TAB%VARIABLES(12))
-      INTBUF_TAB%VARIABLES(8)  = MIN(TZINF,INTBUF_TAB%VARIABLES(8))
-      INTBUF_TAB%VARIABLES(5)  = INTBUF_TAB%VARIABLES(8)-GAP
+      INTBUF_TAB%VARIABLES(maxbox_index)  = MIN(MAXBOX,INTBUF_TAB%VARIABLES(maxbox_index))
+      INTBUF_TAB%VARIABLES(minbox_index) = MIN(MINBOX,INTBUF_TAB%VARIABLES(minbox_index))
+      INTBUF_TAB%VARIABLES(tzinf_index)  = MIN(TZINF,INTBUF_TAB%VARIABLES(tzinf_index))
+      INTBUF_TAB%VARIABLES(distance_index)  = INTBUF_TAB%VARIABLES(tzinf_index)-GAP
       RESULT        = RESULT + ILD
 #include "lockoff.inc"
 C--------------------------------------------------------------
@@ -543,9 +546,9 @@ C utile si on revient
         ENDIF
         CALL MY_BARRIER
         ILD  = 0
-        MAXBOX = INTBUF_TAB%VARIABLES(9)
-        MINBOX = INTBUF_TAB%VARIABLES(12)
-        TZINF  = INTBUF_TAB%VARIABLES(8)
+        MAXBOX = INTBUF_TAB%VARIABLES(maxbox_index)
+        MINBOX = INTBUF_TAB%VARIABLES(minbox_index)
+        TZINF  = INTBUF_TAB%VARIABLES(tzinf_index)
         GOTO 50
       ENDIF
 C mise a - de dist temporairement pour reperage dans partie frontiere
@@ -553,7 +556,7 @@ C mise a - de dist temporairement pour reperage dans partie frontiere
 C mono tache
 !$OMP SINGLE
         IF (IMONM > 0) CALL STARTIME(26,1)
-        INTBUF_TAB%VARIABLES(5) = -INTBUF_TAB%VARIABLES(5)
+        INTBUF_TAB%VARIABLES(distance_index) = -INTBUF_TAB%VARIABLES(distance_index)
 C
         CALL SPMD_TRI7GAT(
      1      RESULT       ,NSN     ,INTBUF_TAB%CAND_N,INTBUF_TAB%I_STOK(1),NIN,
