@@ -93,7 +93,8 @@
             need_computation = .not.(my_bool)
             ! ------
             ! only for interface type = 20
-            if(.not.need_computation.and.interface_type==20) then
+            if(need_computation.and.interface_type==20) then
+              need_computation=need_computation.and.(.not.(distance_condition))
               if(distance_condition.and.nspmd>1) then
                  call i20xsinir( ipari(MACRO_NSNR),ipari(MACRO_NSNER),  &
                                  task_id,interface_id,intbuf_tab%stfac )
