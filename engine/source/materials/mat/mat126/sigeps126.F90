@@ -372,7 +372,7 @@
               write(istdo,1000) ngl(indx(j)),tt
             enddo
           endif
- 1000 format(1x,'-- RUPTURE (JH-1) OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4)     
+ 1000 format(1x,'-- RUPTURE (JHC) OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4)     
 
         end subroutine sigeps126
       end module sigeps126_mod  
