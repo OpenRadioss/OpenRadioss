@@ -99,6 +99,7 @@ jobs:
             git clone ${{ env.GITLAB_REPO_URL }} .
           else
               echo "Already present"
+              git reset --hard
           fi
 
           # Create a branch from_github_main if it does not exist
@@ -110,10 +111,16 @@ jobs:
           git remote -v
 
           # Merge github commits into this branch and push on remote
+          # Temporarily disable the LFS smudge filter to avoid some weirds error
+          export GIT_LFS_SKIP_SMUDGE=1
           git fetch github 
-          git lfs fetch -a github
+          git lfs fetch github
           git merge github/main
-          git push --set-upstream origin from_github_main       
+          # Get real LFS objects
+          unset GIT_LFS_SKIP_SMUDGE
+          git lfs pull github
+          # Push modif
+          git push --set-upstream origin from_github_main        
 
           # Set correct end of step status (if not an email will be sent)
           echo "STATUS_STEP_MERGE=1" >> $GITHUB_ENV
