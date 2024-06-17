@@ -84,6 +84,7 @@
           do k = 1,nnod
             n = sh_offset_tab%ix_offset(k,i) 
             n_l = sh_offset_tab%intag(n)
+            if (n_l==0) cycle
             sh_offset_tab%norm_n6(1:6,1,n_l) = sh_offset_tab%norm_n6(1:6,1,n_l) + t6(1:6,1)
             sh_offset_tab%norm_n6(1:6,2,n_l) = sh_offset_tab%norm_n6(1:6,2,n_l) + t6(1:6,2)
             sh_offset_tab%norm_n6(1:6,3,n_l) = sh_offset_tab%norm_n6(1:6,3,n_l) + t6(1:6,3)
@@ -130,6 +131,7 @@
           do k = 1,nnod
             n = sh_offset_tab%ix_offset(k,i) 
             n_l = sh_offset_tab%intag(n)
+            if (n_l==0) cycle
             sh_offset_tab%norm_n(1:3,n_l) = sh_offset_tab%norm_n(1:3,n_l) + t(1:3)
           end do
         enddo

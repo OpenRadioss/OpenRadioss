@@ -98,6 +98,7 @@ C     IF(ISTR_D==0)ISTR_D = 1
       ISTR_D = 1
       IF(NPTS_D==-1)NPTS_D=NPTS_DD
       IF (IOFFSET_D==2) IOFFSET_D = 0
+      IF (IOFFSET_D==3) IOFFSET_D = 0
       DEFAULTS_SHELL%IOFFSET = IOFFSET_D
 C--------------------------------------------------------------
       RETURN
