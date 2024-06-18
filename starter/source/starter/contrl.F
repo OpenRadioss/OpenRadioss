@@ -74,7 +74,6 @@ Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        GRP_SIZE_MOD                  share/modules1/grp_size_mod.F 
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F   
 Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F

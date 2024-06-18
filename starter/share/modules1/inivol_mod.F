@@ -30,11 +30,12 @@ Chd|        HM_READ_MAT151                source/materials/mat/mat151/hm_read_ma
 Chd|        INITIA                        source/elements/initia/initia.F
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        QGRTAILS                      source/elements/solid_2d/quad/qgrtails.F
+Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
+Chd|        R2R_PRELEC                    source/coupling/rad2rad/r2r_prelec.F
 Chd|        SGRTAILS                      source/elements/solid/solide/sgrtails.F
 Chd|        ST_QAPRINT_INIVOL             source/output/qaprint/st_qaprint_inivol.F
 Chd|        SURFACE_MIN_MAX_COMPUTATION   source/initial_conditions/inivol/surface_min_max_computation.F
 Chd|        T3GRTAILS                     source/elements/solid_2d/tria/t3grtails.F
-Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F   
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE INIVOL_DEF_MOD

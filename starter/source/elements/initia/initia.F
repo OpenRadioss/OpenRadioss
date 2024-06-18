@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ADDMASPART                    source/tools/admas/addmaspart.F
-Chd|        ALLOC_1D_ARRAY                ../common_source/modules/array_mod.F
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        ASSTIFI                       source/interfaces/inter3d1/asstifi.F
@@ -37,8 +36,6 @@ Chd|        CDKINIT3                      source/elements/sh3n/coquedk/cdkinit3.
 Chd|        CHECKMP                       source/elements/initia/initia.F
 Chd|        CHEKMP2                       source/elements/initia/initia.F
 Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
-Chd|        DEALLOC_1D_ARRAY              ../common_source/modules/array_mod.F
-Chd|        DEALLOC_3D_ARRAY              ../common_source/modules/array_mod.F
 Chd|        DTNODA_STIFINT                source/interfaces/inter3d1/dtnoda_stifint.F
 Chd|        EPORIN3                       source/ale/ale3d/eporin3.F    
 Chd|        FRETITL2                      source/starter/freform.F      
@@ -117,7 +114,7 @@ Chd|        FUNC2D_MOD                    share/modules1/func2d_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
 Chd|        INIMAP1D_MOD                  share/modules1/inimap1d_mod.F 
-Chd|        INIMAP2D_MOD                  share/modules1/inimap2d_mod.F
+Chd|        INIMAP2D_MOD                  share/modules1/inimap2d_mod.F 
 Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F

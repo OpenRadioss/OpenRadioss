@@ -467,7 +467,6 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        INIGRAV                       share/modules1/inigrav_mod.F  
 Chd|        INIMAP1D_MOD                  share/modules1/inimap1d_mod.F 
 Chd|        INIMAP2D_MOD                  share/modules1/inimap2d_mod.F 
-Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F   
 Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
 Chd|        INIVOL_INTERF_MOD             share/modules1/inivol_mod.F   
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F

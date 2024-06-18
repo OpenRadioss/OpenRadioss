@@ -44,7 +44,7 @@ Chd|        USR2SYS                       source/system/sysfus.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F   
+Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F   
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      

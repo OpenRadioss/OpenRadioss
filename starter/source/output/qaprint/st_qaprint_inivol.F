@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F   
 Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
 Chd|====================================================================
       SUBROUTINE ST_QAPRINT_INIVOL()

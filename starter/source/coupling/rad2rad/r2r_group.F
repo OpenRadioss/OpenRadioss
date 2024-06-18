@@ -39,7 +39,7 @@ Chd|        TAGNOD_R2R_S                  source/coupling/rad2rad/tagnod_r2r.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        GROUP_MOD                     share/modules1/group_mod.F    
-Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F   
+Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

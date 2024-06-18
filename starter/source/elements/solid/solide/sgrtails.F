@@ -33,7 +33,6 @@ Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.
 Chd|        ZEROIN                        source/system/zeroin.F        
 Chd|        CLUSTER_MOD                   share/modules1/cluster_mod.F  
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INIVOL_ARRAY_MOD              share/modules1/inivol_mod.F   
 Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
