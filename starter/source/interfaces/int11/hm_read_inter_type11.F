@@ -319,10 +319,6 @@ C-- for TYPE11 field6 is multimp (obsolete)
      .                   I1=NOINT,
      .                   C1=TITR)
            ENDIF
-        ELSEIF (IGAP==3) THEN
-           IF (FLAGREMNOD == 2 )THEN
-              FLAGREMNOD = 1
-           ENDIF
         ENDIF
 C
         IF(ISU1==0) THEN
