@@ -33,7 +33,7 @@ Chd|====================================================================
      2         NUMNOD,GAP_S ,GAP_M, GAPMIN,IGAP,
      3         KREMNODE,REMNODE,GAP,DRAD,NREMNODE,
      4         I_START,I_MEM_REM,INOD2LIN,TAGSECND,NOD2LIN,
-     5         DGAPLOAD)
+     5         DGAPLOAD,GAP_S_L,GAP_M_L)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,6 +47,7 @@ C-----------------------------------------------
       my_real
      .        X(3,*),GAP_S(*),GAP_M(*),GAP,DRAD,GAPMIN
       my_real , INTENT(IN) :: DGAPLOAD
+      my_real , INTENT(IN) :: GAP_S_L(NRTS), GAP_M_L(NRTM)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -279,13 +280,14 @@ C--- lines with common nodes with main lines are already removed - no need to st
               ENDIF
             ENDDO
             KREMNODE(I+1) = KREMNODE(I) + CPT1
-          ELSEIF (IGAP == 1) THEN 
+          ELSE 
             DO L=1,CPT_TOTAL
               LIN = LISTLINTOTAL(L)
               IF ((IM1 /= IRECTM(1,LIN)).AND.(IM1 /= IRECTM(2,LIN))
      .           .AND.(IM2 /= IRECTM(1,LIN)).AND.(IM2 /= IRECTM(2,LIN))) THEN
 C--- lines with common nodes with main lines are already removed - no need to store them in remnode
                 GAPV = GAP_S(LIN)+GAP_M(I)
+                IF(IGAP == 3) GAPV=MIN(GAP_S_L(LIN)+GAP_M_L(I),GAPV)
                 GAPV = SQRT(TWO)*MAX(DRAD,GAPMIN,GAPV+DGAPLOAD)
                 IF ((DIST1(IRECTM(1,LIN)) <= GAPV).OR.(DIST1(IRECTM(2,LIN)) <= GAPV)) THEN
                   REMNODE(KREMNODE(I)+CPT1) = LIN
