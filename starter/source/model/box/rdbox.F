@@ -306,9 +306,8 @@ C
 C
 C  Otherwise, determine the distance from P to the axis.
 C
-      P_LENGTH = VEC_LENGTH(3, P(1:3) - P1(1:3))
-      OFF_AXIX_COMPONENT = SQRT(P_LENGTH**2 - P_DOT_AXIS**2)
-      IF(OFF_AXIX_COMPONENT <= HALF*D)OK = 1
+      P_LENGTH = VEC_LENGTH(3, P1(1:3) - (P(1:3) - P_DOT_AXIS * AXIS(1:3)))
+      IF(P_LENGTH <= HALF*D)OK = 1
 C
       RETURN
       END
