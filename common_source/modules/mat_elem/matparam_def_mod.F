@@ -305,6 +305,10 @@ c
         INTEGER     :: IXFEM                ! XFEM flag
         ! --------------------------------- !
         INTEGER     :: NMOD                 !number of rupture/damage modes
+        ! --------------------------------- !
+        my_real     ::  RHO
+        my_real     ::  RHO0        
+        my_real     ::  YOUNG        
 c                        
         my_real           ,DIMENSION(:) ,ALLOCATABLE :: UPARAM   ! NUPARAM
         INTEGER           ,DIMENSION(:) ,ALLOCATABLE :: IPARAM   ! NIPARAM

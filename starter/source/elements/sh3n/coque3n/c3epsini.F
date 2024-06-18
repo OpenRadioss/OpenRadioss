@@ -34,18 +34,18 @@ Chd|        CORTH3                        source/elements/shell/coque/corth3.F
 Chd|        SHTROTO3                      source/elements/sh3n/coque3n/c3epsini.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE C3EPSINI(ELBUF_STR,
+      SUBROUTINE C3EPSINI(ELBUF_STR,MAT_PARAM,
      1           JFT    ,JLT    ,ISMSTR ,MTN   ,ITHK   ,
      2           PM     ,GEO    ,IXTG   ,X     ,XREFTG ,
      3           FOR    ,THK    ,EINT   ,GSTR  ,NLAY   ,
      4           PX1G   ,PY1G   ,PY2G   ,X2S   ,X3S    ,
-     5           Y3S    ,UVAR   ,UPARAM ,IPM   ,IGEO   ,
+     5           Y3S    ,UVAR   ,IPM    ,
      6           NEL    ,DIR_A  ,DIR_B  ,SIGI  ,NPF    ,
      7           TF     ,IREP   ,ISH3NFR,IMAT  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,14 +63,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,ISMSTR,MTN,ITHK,NEL,NLAY,IREP,ISH3NFR,IMAT
-      INTEGER IXTG(NIXTG,*),IGEO(NPROPGI,*),IPM(NPROPMI,*),NPF(*)
+      INTEGER IXTG(NIXTG,*),IPM(NPROPMI,*),NPF(*)
       my_real
      . PM(NPROPM,*),GEO(NPROPG,*),X(3,*),XREFTG(3,3,*),
      . FOR(NEL,5) ,THK(*)   ,EINT(NEL,2),GSTR(NEL,8),
      . PX1G(*)  ,PY1G(*)  ,PY2G(*),X2S(*)   ,X3S(*)   ,Y3S(*),
-     . UPARAM(*),UVAR(*),DIR_A(NEL,*),DIR_B(NEL,*),SIGI(NEL,3),TF(*),
+     . UVAR(*),DIR_A(NEL,*),DIR_B(NEL,*),SIGI(NEL,3),TF(*),
      . PX1(MVSIZ), PY1(MVSIZ), PY2(MVSIZ)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      TYPE (MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -211,10 +212,11 @@ c
 c
           IF (ISH3NFR ==0 ) CALL SHTROTO3(JFT,JLT,ECOS,ESIN,GSTR,NEL)
 c
-          CALL CMLAWI(JFT   ,JLT  ,MTN   ,ITHK ,PM    ,
+          CALL CMLAWI(MAT_PARAM,
+     .                JFT   ,JLT  ,MTN   ,ITHK ,PM    ,
      .                FOR   ,THK  ,EINT  ,GSTR ,DIR_A ,
-     .                DIR_B ,UVAR ,UPARAM,IPM  ,IGEO  ,
-     .                NEL   ,SIGI ,ISMSTR,NPF  ,TF    ,
+     .                DIR_B ,UVAR ,IPM  ,
+     .                NEL   ,SIGI ,NPF   ,TF   ,
      .                AREA  ,EXX  ,EYY   ,EXY  ,IMAT  )
 C
         ENDDO
@@ -240,10 +242,11 @@ c
 c
           IF (ISH3NFR == 0) CALL SHTROTO3(JFT,JLT,ECOS,ESIN,GSTR,NEL)
 c
-          CALL CMLAWI(JFT   ,JLT  ,MTN   ,ITHK ,PM    ,
+          CALL CMLAWI(MAT_PARAM,
+     .                JFT   ,JLT  ,MTN   ,ITHK ,PM    ,
      .                FOR   ,THK  ,EINT  ,GSTR ,DIR1  ,
-     .                DIR2  ,UVAR ,UPARAM,IPM  ,IGEO  ,
-     .                NEL   ,SIGI ,ISMSTR,NPF  ,TF    ,
+     .                DIR2  ,UVAR ,IPM  ,
+     .                NEL   ,SIGI ,NPF   ,TF   ,
      .                AREA  ,EXX  ,EYY   ,EXY  ,IMAT  )
         ENDDO
 c

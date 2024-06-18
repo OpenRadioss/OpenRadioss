@@ -51,10 +51,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,NUMMAT,IMAT,IAD,NFIX,NUPARAM,NIPARAM,NUMTABL,NFAIL,LEN,
-     .           NMOD,MOD
+      INTEGER :: I,NUMMAT,IMAT,IAD,NFIX,NFIXR,NUPARAM,NIPARAM,NUMTABL,NFAIL,
+     .           LEN,LENR,NMOD,MOD
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
+      my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
 C=======================================================================
       NFIX   = 20
       NUMMAT = MAT_ELEM%NUMMAT
@@ -92,6 +93,21 @@ c
 c
       CALL WRITE_I_C(IBUF,LEN)
       DEALLOCATE(IBUF)
+c      
+c     write real parameters
+c
+      NFIXR = 3
+      LENR  = NFIXR*NUMMAT
+      IAD   = 0
+      ALLOCATE (RBUF(LENR) )
+      DO IMAT = 1,NUMMAT
+        RBUF(IAD + 1) = MAT_ELEM%MAT_PARAM(IMAT)%RHO
+        RBUF(IAD + 2) = MAT_ELEM%MAT_PARAM(IMAT)%RHO0
+        RBUF(IAD + 3) = MAT_ELEM%MAT_PARAM(IMAT)%YOUNG
+        IAD = IAD + NFIXR
+      END DO
+      CALL WRITE_DB(RBUF ,LENR)
+      DEALLOCATE(RBUF)
 c      
 c     write material title
 c

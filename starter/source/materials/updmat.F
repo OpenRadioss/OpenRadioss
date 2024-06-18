@@ -75,6 +75,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
       USE LAW50_UPD_MOD  
+      USE LAW19_UPD_MOD  
       USE LAW190_UPD_MOD  
       USE VISC_PARAM_MOD
 C-----------------------------------------------
@@ -167,10 +168,10 @@ c-----------------------------------------------------------------------
 
       DO IMAT=1,NUMMAT
 C
-        MAT_ID  = IPM(1,IMAT)
-        ILAW    = NINT(PM(19,IMAT))
+        MAT_ID  = MAT_PARAM(IMAT)%MAT_ID
+        ILAW    = MAT_PARAM(IMAT)%ILAW
 c
-        IF (ILAW < 29.or.ILAW==32.or.ILAW==43.or.ILAW==49.or.ILAW==52.or.
+        IF (ILAW < 29.and.ILAW/=19.or.ILAW==32.or.ILAW==43.or.ILAW==49.or.ILAW==52.or.
      .      ILAW==57.or.ILAW==59.or.ILAW==60.or.ILAW==65.or.ILAW==75.or.
      .      ILAW==78 ) CYCLE
 c
@@ -219,36 +220,32 @@ c
 c-----------------------------------------------------------------------
         SELECT CASE (ILAW)
 c-------------------------
+          CASE (19) 
+            CALL LAW19_UPD(MAT_PARAM(IMAT),SENSORS)
+c-------------------------
           CASE (36) 
-c------------------
-           MTAG => MLAW_TAG(IMAT)
-           CALL LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,NPARAM,UPARAM ,
+            MTAG => MLAW_TAG(IMAT)
+            CALL LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,NPARAM,UPARAM ,
      .                    NFUNC  ,IFUNC  ,FUNC_ID,NPC    ,PLD  ,
      .                    MTAG   ,NFUNCT )        
 c-------------------------
           CASE (42) 
-c------------------
             CALL LAW42_UPD(IOUT,TITR,MAT_ID,UPARAM,PM(1,IMAT),GAMA_INF)        
 c-------------------------
           CASE (50) 
-c------------------
             CALL LAW50_UPD(MATPARAM,NPARAM,UPARAM,NFUNC,IFUNC,SNPC,STF,NPC,PLD)        
 c-------------------------
           CASE (58) 
-c------------------
-c
             NFUNCL =  IPM(6,IMAT)
             IFUNC  => IPM(10+1:10+NFUNC+NFUNCL,IMAT)
-            CALL LAW58_UPD(IOUT,TITR,UPARAM,NPC,PLD,
+            CALL LAW58_UPD(MAT_PARAM(IMAT),TITR,NPC,PLD,
      .                     NFUNC,NFUNCL,IFUNC,MAT_ID,FUNC_ID,
-     .                     PM(1,IMAT),NPARAM,SENSORS)
+     .                     PM(1,IMAT),SENSORS)
 c-------------------------
           CASE (62) 
-c------------------
             CALL LAW62_UPD(IOUT,TITR,MAT_ID,NPARAM,UPARAM, PM(1,IMAT),GAMA_INF) 
 c------------------
           CASE (69) 
-c------------------
            CALL LAW69_UPD(IOUT, TITR    , MAT_ID, UPARAM, NFUNC,NFUNCT, 
      .                    IFUNC, FUNC_ID , NPC   , PLD , 
      .                    PM(1,IMAT),IPM(1,IMAT),GAMA_INF)
@@ -261,21 +258,18 @@ c------------------
      .                     NFUNCT   ,FUNC_ID  ,NPROPM   ,PM(1,IMAT))       
 c------------------
           CASE (76) 
-c------------------
             CALL LAW76_UPD(IOUT   ,TITR    ,MAT_ID   ,NPARAM ,MATPARAM ,
      .                     UPARAM ,NUMTABL ,ITABLE   ,TABLE   ,NFUNC    ,
      .                     IFUNC  ,NPC     ,PLD      )       
 c
 c------------------
           CASE (77) 
-c------------------
             CALL LAW77_UPD(TITR    ,MAT_ID   ,NPARAM ,MATPARAM ,
      .                     UPARAM  ,NFUNC    ,IFUNC  ,NPC      ,PLD      )       
 c
 c          
 c------------------
           CASE (87) !BARLAT 2D
-c------------------
             NFUNC = UPARAM(25)
             FLAG_FIT = NINT ( UPARAM(25+2*NFUNC+9) )
             IF (FLAG_FIT == 1) THEN 
@@ -284,14 +278,12 @@ c------------------
             ENDIF
 c-------------------------
           CASE (88) 
-c------------------
 c
             CALL LAW88_UPD(IOUT,TITR,UPARAM,NPC,PLD,
      .                     NFUNC,IFUNC,MAT_ID,FUNC_ID,PM(1,IMAT),
      .                     NFUNCT )
 c------------------
           CASE (90) 
-c------------------
 c
             CALL LAW90_UPD(IOUT,TITR,MAT_ID   ,UPARAM,
      .                     IPM(1,IMAT),FUNC_ID,NPC,PLD,PM(1,IMAT),
@@ -310,15 +302,7 @@ c------------------
           CASE (95) ! Bergstrom-Boyce visco-elastic law
             UPARAM(21) = MULLINS(IMAT)
 c------------------
-
-c------------------
-          CASE (98)    ! 
-c------------------
-
-c
-c------------------
           CASE (100)    ! parallel network model
-c------------------
 c
             FLAG_HE = UPARAM(2)
             UPARAM(3) = MULLINS(IMAT)
@@ -357,7 +341,6 @@ c------------------
             ENDIF            
 c------------------
           CASE (111) ! Marlow  hyperelastic law
-c------------------
 c
            !! UPARAM(13) = MULLINS(IMAT)
             IFC = IPM(11,IMAT)
@@ -391,12 +374,11 @@ c-------------------------
           CASE (158) 
             NFUNCL =  IPM(6,IMAT)
             IFUNC  => IPM(10+1:10+NFUNC+NFUNCL,IMAT)
-            CALL LAW158_UPD(TITR,UPARAM,NPC,PLD,
+            CALL LAW158_UPD(MAT_PARAM(IMAT),TITR,NPC,PLD,
      .                      NFUNC,NFUNCL,IFUNC,MAT_ID,FUNC_ID,
-     .                      PM(1,IMAT),NPARAM,SENSORS)
+     .                      PM(1,IMAT),SENSORS)
 c------------------
           CASE (190) !PAth dependent foam (dubois)
-c------------------
             CALL LAW190_UPD(MATPARAM ,NUMTABL ,ITABLE   ,TABLE   )       
 c------------------
 c

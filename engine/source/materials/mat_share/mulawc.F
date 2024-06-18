@@ -231,7 +231,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ::I,J,K,II,JJ,KK,IC,JMLY,IPG,IT,IFL,ILAY,NPG,MPT,MX,IMAT,
      .   IRUPT,NFAIL,IADBUF,IADBUFR,MAXNULVAR,IGTYP,NUVAR,NVARF,JDIR,
-     .   NFUNC, JPOS, NINDX,NUPAR,NUPARAM,NUPARAM0,NFUNC_FAIL,NTABL_FAIL,
+     .   NFUNC, JPOS, NINDX,NUPAR,NIPARAM,NUPARAM,NUPARAM0,NFUNC_FAIL,NTABL_FAIL,
      .   IFAILWV,NLOCAL,NSENSOR,IUN,IBIDON1,IBIDON2,IBIDON3,
      .   IPTX,ILAYER,IROT,DMG_FLAG,LF_DAMMX,NIPAR,
      .   IGMAT,IPGMAT,NPTT,IPT_ALL,NPTTOT,NUVARV,ILAW,
@@ -278,7 +278,7 @@ c----
       TYPE(BUF_VISC_),POINTER :: VBUF
 c----
       INTEGER, DIMENSION(:) ,POINTER  :: FLD_IDX,FOFF,OFFLY,ITABLE,IFUNC_FAIL,
-     .                                   ITABL_FAIL,VARTMP,IPARAMF
+     .                                   ITABL_FAIL,VARTMP,IPARAM,IPARAMF
       my_real, DIMENSION(:) ,POINTER  :: UVAR,UVARF,UELR,UELR1,DAM,
      .   DFMAX,TDEL ,OFFL,UVARV,UPARAM,UPARAM0,UPARAMF,
      .   DIRDMG,DIR_ORTH,DAMINI
@@ -504,8 +504,10 @@ c
         NUMTABL= IPM(226,IMAT) 
         ITABLE => IPM(226+1:226+NUMTABL,IMAT)    
         MATPARAM => MAT_ELEM%MAT_PARAM(IMAT)
-        UPARAM   => MAT_ELEM%MAT_PARAM(IMAT)%UPARAM
         NUPARAM  =  MAT_ELEM%MAT_PARAM(IMAT)%NUPARAM
+        NIPARAM  =  MAT_ELEM%MAT_PARAM(IMAT)%NIPARAM
+        UPARAM   => MAT_ELEM%MAT_PARAM(IMAT)%UPARAM
+        IPARAM   => MAT_ELEM%MAT_PARAM(IMAT)%IPARAM
 
         IF (IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17 .OR. 
      .      IGTYP == 51 .OR. IGTYP == 52) THEN
@@ -982,11 +984,11 @@ C------------------------------------------
           ELSEIF (ILAW == 19) THEN
 
             CALL SIGEPS19C(
-     .            NEL       ,NUPARAM0   ,FLAG_ZCFAC,ZCFAC     ,SHF       ,
-     .            UPARAM0    ,NPTTOT    ,SSP       ,NSENSOR   ,
-     .            EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     ,
+     .            NEL       ,NUPARAM   ,NIPARAM  ,FLAG_ZCFAC,ZCFAC     ,SHF       ,
+     .            UPARAM    ,IPARAM    ,NPTTOT   ,SSP       ,NSENSOR   ,
+     .            EPSXX     ,EPSYY     ,EPSXY    ,EPSYZ     ,EPSZX     ,
      .            LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
-     .            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
+     .            SIGNXX    ,SIGNYY    ,SIGNXY   ,SIGNYZ    ,SIGNZX    ,
      .            GBUF%SIGI ,SENSORS%SENSOR_TAB)
 
           ELSEIF (ILAW == 22) THEN
@@ -1252,10 +1254,10 @@ C
           ELSEIF (ILAW == 58) THEN
 
            CALL SIGEPS58C(
-     1        JLT     ,NUPARAM0 ,NUVAR   ,NFUNC    ,IFUNC  , 
-     2        NPF     ,NPT     ,IPT     ,IFLAG    ,NSENSOR,          
-     2        TF      ,TT      ,DT1C    ,UPARAM0   ,RHO    ,  
-     3        AREA    ,EINT    ,THKLYL  ,                    
+     1        JLT     ,NUPARAM ,NUVAR   ,NFUNC    ,IFUNC  , 
+     2        NPF     ,NPT     ,IPT     ,NSENSOR  ,          
+     2        TF      ,TT      ,DT1C    ,UPARAM   ,RHO    ,  
+     3        AREA    ,EINT    ,THKLYL  ,NIPARAM  ,IPARAM  ,                    
      4        EPSPXX  ,EPSPYY  ,EPSPXY  ,EPSPYZ   ,EPSPZX  ,  
      5        DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ   ,DEPSZX  ,  
      6        EPSXX   ,EPSYY   ,EPSXY   ,EPSYZ    ,EPSZX   ,  
@@ -1695,8 +1697,8 @@ c
           ELSEIF (ILAW == 158) THEN
 
             CALL SIGEPS158C(
-     1        JLT       ,NUPARAM0   ,NUVAR     ,NFUNC     ,IFUNC     ,
-     2        NPF       ,TF        ,TT        ,DT1       ,UPARAM0    , 
+     1        JLT       ,NUPARAM   ,NUVAR     ,NFUNC     ,IFUNC     ,
+     2        NPF       ,TF        ,TT        ,DT1       ,UPARAM    , 
      3        AREA      ,THKLYL    ,SSP       ,VISCMX    ,UVAR      ,                                                
      4        DEPSXX    ,DEPSYY    ,DEPSXY    ,DEPSYZ    ,DEPSZX    , 
      5        EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     , 
@@ -1704,7 +1706,7 @@ c
      7        SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,                       
      8        SIGVXX    ,SIGVYY    ,SIGVXY    ,LBUF%ANG  ,GBUF%OFF  ,
      9        RHO       ,ETSE      ,SHF       ,ALDT      ,NSENSOR   ,
-     A        SENSORS%SENSOR_TAB)  
+     A        SENSORS%SENSOR_TAB   ,NIPARAM   ,IPARAM    )  
 c
           ENDIF !ILAW
 C
