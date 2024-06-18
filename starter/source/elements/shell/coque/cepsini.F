@@ -32,19 +32,19 @@ Chd|        CORTH3                        source/elements/shell/coque/corth3.F
 Chd|        CPXPYI                        source/elements/shell/coque/cepsini.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE CEPSINI(ELBUF_STR,
-     1           JFT    ,JLT   ,ISMSTR,MTN    ,ITHK    ,
+      SUBROUTINE CEPSINI(ELBUF_STR,MAT_PARAM,
+     1           JFT    ,JLT   ,ISMSTR,ILAW    ,ITHK    ,
      2           PM     ,GEO   ,IXC   ,X      ,XREFC   ,
      3           FOR    ,THK   ,EINT  ,GSTR   ,NLAY    ,
      4           PX1G   ,PX2G  ,PY1G  ,PY2G   ,X2S     ,
      5           Y2S    ,X3S   ,Y3S   ,X4S    ,Y4S     ,
-     6           UVAR   ,UPARAM,IPM   ,IGEO   ,IMAT    ,
+     6           UVAR   ,IPM   ,IGEO   ,IMAT    ,
      7           SKEW   ,NEL   ,DIR_A ,DIR_B  ,SIGI    ,
      8           NPF    ,TF    ,IREP  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,15 +61,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT, ISMSTR, MTN, ITHK, NEL, NLAY,IREP,IMAT
+      INTEGER JFT, JLT, ISMSTR, ILAW, ITHK, NEL, NLAY,IREP,IMAT
       INTEGER IXC(NIXC,*),IGEO(NPROPGI,*),IPM(NPROPMI,*),NPF(*)
       my_real
      . PM(NPROPM,*),GEO(NPROPG,*),X(3,*),XREFC(4,3,*),SKEW(LSKEW,*),
      . FOR(NEL,5) ,THK(*)   ,EINT(JLT,2),GSTR(NEL,8),
-     . PX1G(*)  ,PX2G(*)  ,PY1G(*)  ,PY2G(*), UPARAM(*),UVAR(NEL,*),
+     . PX1G(*)  ,PX2G(*)  ,PY1G(*)  ,PY2G(*), UVAR(NEL,*),
      . X2S(*), Y2S(*), X3S(*), Y3S(*), X4S(*), Y4S(*),
      . DIR_A(NEL,*),DIR_B(NEL,*),SIGI(NEL,3),TF(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      TYPE (MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -223,10 +224,11 @@ c
      .                AREA ,EXX  ,EYY  ,EXY  ,EYZ  ,EZX  ,
      .                E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z ,E2Z ,E3Z )
 c
-          CALL CMLAWI(JFT   ,JLT  ,MTN   ,ITHK ,PM    ,
+          CALL CMLAWI(MAT_PARAM,
+     .                JFT   ,JLT  ,ILAW  ,ITHK ,PM    ,
      .                FOR   ,THK  ,EINT  ,GSTR ,DIR_A ,
-     .                DIR_B ,UVAR ,UPARAM,IPM  ,IGEO  ,
-     .                NEL   ,SIGI ,ISMSTR,NPF  ,TF    ,
+     .                DIR_B ,UVAR ,IPM  ,
+     .                NEL   ,SIGI ,NPF   ,TF   ,
      .                AREA  ,EXX  ,EYY   ,EXY  ,IMAT  ) 
 C
         ENDDO
@@ -251,10 +253,11 @@ c
      .                AREA ,EXX  ,EYY  ,EXY  ,EYZ  ,EZX  ,                 
      .                E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z ,E2Z ,E3Z )  
 c
-          CALL CMLAWI(JFT   ,JLT  ,MTN   ,ITHK ,PM    ,                             
+          CALL CMLAWI(MAT_PARAM,
+     .                JFT   ,JLT  ,ILAW  ,ITHK ,PM    ,                             
      .                FOR   ,THK  ,EINT  ,GSTR ,DIR1  ,                          
-     .                DIR2  ,UVAR ,UPARAM,IPM  ,IGEO  ,                       
-     .                NEL   ,SIGI ,ISMSTR,NPF  ,TF    ,                       
+     .                DIR2  ,UVAR ,IPM  ,                    
+     .                NEL   ,SIGI ,NPF   ,TF   ,                
      .                AREA  ,EXX  ,EYY   ,EXY  ,IMAT  )                   
         ENDDO
       ENDIF
@@ -275,15 +278,16 @@ Chd|        CM1INI                        source/elements/shell/coque/cepsini.F
 Chd|        CM58_REFSTA                   source/materials/mat/mat058/cm58_refsta.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE CMLAWI(JFT,JLT,MTN,ITHK,PM,
+      SUBROUTINE CMLAWI(MAT_PARAM,
+     1                  JFT,JLT,ILAW,ITHK,PM,
      2                  FOR,THK,EINT,GSTR,DIR1,
-     3                  DIR2,UVAR,UPARAM,IPM,IGEO,
-     4                  NEL ,SIGI,ISMSTR,NPF ,TF ,
+     3                  DIR2,UVAR,IPM,
+     4                  NEL ,SIGI,NPF ,TF ,
      5                  AREA,EXX,EYY,EXY,IMAT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -292,61 +296,47 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "scr19_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IGEO(NPROPGI,*),IPM(NPROPMI,*),NPF(*)
-      INTEGER JFT, JLT, ITHK, MTN,NEL,ISMSTR,IMAT
+      INTEGER IPM(NPROPMI,*),NPF(*)
+      INTEGER JFT, JLT, ITHK, ILAW,NEL,IMAT
       my_real
      .   PM(*),FOR(NEL,5),THK(*),EINT(NEL,2),DIR1(NEL,*),DIR2(NEL,*),
-     .   UPARAM(*),UVAR(NEL,*),SIGI(NEL,3), TF(*),GSTR(*),
+     .   UVAR(NEL,*),SIGI(NEL,3), TF(*),GSTR(*),
      .   AREA(NEL),EXX(NEL),EYY(NEL),EXY(NEL)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      TYPE (MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NUVAR,NUPAR,IADB,NBFUNC
-      INTEGER IFUNC(MAXFUNC)
+      INTEGER I,J,NUVAR,NUPARAM,NIPARAM,NBFUNC
+      INTEGER IFUNC(100)
 C=======================================================================
 C   INITIALIZE STRESS,THICKNESS & ENERGY
 C-------------------------------------
-      IF (MTN == 1) THEN
+      IF (ILAW == 1) THEN
          CALL CM1INI(JFT,JLT,ITHK,PM,FOR,
      .               THK,EINT,NEL,IMAT,AREA,
      .               EXX,EYY ,EXY )
-      ELSEIF (MTN == 19) THEN
+      ELSEIF (ILAW == 19) THEN
          CALL CM19INI(JFT,JLT,ITHK,PM,FOR,
      .                THK,EINT,GSTR,DIR1,SIGI,
      .                NEL,IMAT,AREA,EXX,EYY ,EXY )
-      ELSEIF (MTN == 58) THEN
-         IADB  = IPM(7,IMAT)
+      ELSEIF (ILAW == 58) THEN
          NUVAR = IPM(8,IMAT)
-         NUPAR = IPM(9,IMAT)
          NBFUNC= IPM(10,IMAT)
          DO J= 1,NBFUNC
            IFUNC(J) = IPM(10+J,IMAT)
          ENDDO
-         CALL CM58_REFSTA(
-     1        JFT    ,JLT    ,FOR    ,EINT   ,GSTR   ,
-     2        THK    ,DIR1   ,DIR2   ,NUPAR  ,NUVAR  ,
-     3        UVAR   ,UPARAM(IADB)   ,NEL    ,ISMSTR ,
-     4        NBFUNC ,IFUNC  ,NPF    ,TF     ,AREA   ,
-     5        EXX    ,EYY    ,EXY    )
-c
-      ELSEIF (MTN == 98) THEN
-c        IADB  = IPM(7,IMAT)
-c        NUVAR = IPM(8,IMAT)
-c        NUPAR = IPM(9,IMAT)
-c        NBFUNC= IPM(10,IMAT)
-c        DO J= 1,NBFUNC
-c          IFUNC(J) = IPM(10+J,IMAT)
-c        ENDDO
-c        CALL CM98_REFSTA(
-c     1        JFT    ,JLT    ,FOR    ,EINT   ,GSTR   ,
-c     2        THK    ,DIR1   ,DIR2   ,NUPAR  ,NUVAR  ,
-c     3        UVAR   ,UPARAM(IADB)   ,NEL    ,ISMSTR ,
-c     4        NBFUNC ,IFUNC  ,NPF     ,TF)
+         NUPARAM = MAT_PARAM%NUPARAM
+         NIPARAM = MAT_PARAM%NIPARAM
+         CALL CM58_REFSTA(NEL    ,NUPARAM,NIPARAM,MAT_PARAM%UPARAM,MAT_PARAM%IPARAM,
+     1        FOR    ,EINT   ,GSTR   ,
+     2        THK    ,DIR1   ,DIR2   ,NUVAR  ,UVAR   ,
+     3        NBFUNC ,IFUNC  ,NPF    ,TF     ,AREA   ,
+     4        EXX    ,EYY    ,EXY    )
+!
       ENDIF
 c-----------
       RETURN

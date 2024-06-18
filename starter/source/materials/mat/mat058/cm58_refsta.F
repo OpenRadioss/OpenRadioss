@@ -27,12 +27,11 @@ Chd|        CMLAWI                        source/elements/shell/coque/cepsini.F
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
-      SUBROUTINE CM58_REFSTA(
-     1                   JFT    ,JLT    ,FOR    ,EINT   ,GSTR   ,
-     2                   THK    ,DIR1   ,DIR2   ,NUPARAM,NUVAR  ,
-     3                   UVAR   ,UPARAM ,NEL    ,ISMSTR ,
-     4                   NBFUNC ,KFUNC  ,NPF    ,TF     ,AREA   ,
-     5                   EXX    ,EYY    ,EXY    )
+      SUBROUTINE CM58_REFSTA(NEL    ,NUPARAM,NIPARAM,UPARAM ,IPARAM ,
+     2                       FOR    ,EINT   ,GSTR   ,
+     3                       THK    ,DIR1   ,DIR2   ,NUVAR  ,UVAR   ,
+     4                       NBFUNC ,IFUNC  ,NPF    ,TF     ,AREA   ,
+     5                       EXX    ,EYY    ,EXY    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,9 +43,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT, NUPARAM,NUVAR,NEL,ISMSTR,NBFUNC,KFUNC(NBFUNC)
-      my_real
-     .   FOR(NEL,5),UPARAM(*),THK(*),UVAR(NEL,NUVAR),AREA(NEL),
+      INTEGER :: NEL,NUPARAM,NIPARAM,NUVAR,NBFUNC
+      INTEGER ,INTENT(IN) :: IFUNC(NBFUNC)
+      INTEGER ,INTENT(IN) :: IPARAM(NIPARAM)
+      my_real ,INTENT(IN) :: UPARAM(NUPARAM)
+      my_real :: FOR(NEL,5),THK(*),UVAR(NEL,NUVAR),AREA(NEL),
      .   EINT(NEL,2),GSTR(NEL,8),DIR1(NEL,*),DIR2(NEL,*),
      .   EXX(NEL),EYY(NEL),EXY(NEL)
 C-----------------------------------------------
@@ -56,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,MX,NC,NT,ITER,NITER,NBFCT,FLAGUL
+      INTEGER I,J,MX,NC,NT,ITER,NITER,FLAGUL
       my_real
      .        KC,KT,KFC,KFT,G0,GT,GB,TAN_LOCK,VISCE,VISCG,LC0,LT0,
      .        KBC,KBT,DC0,DT0,HC0,HT0,ETC,ETT,DC,DT,TRACE,R3R3,S3S3, 
@@ -83,14 +84,16 @@ C=======================================================================
 C---  Initialisations
 C----------------------------------------------------------------------
       NITER      = 5
+      FLAGUL     = IPARAM(1)  
+      NC         = IPARAM(3) 
+      NT         = IPARAM(4) 
+
       LC0        = UPARAM( 1) 
       LT0        = UPARAM( 2) 
       DC0        = UPARAM( 3) 
       DT0        = UPARAM( 4) 
       HC0        = UPARAM( 5) 
       HT0        = UPARAM( 6) 
-      NC         = UPARAM( 7) 
-      NT         = UPARAM( 8) 
       KC         = UPARAM( 9) 
       KT         = UPARAM(10) 
       KFC        = UPARAM(11) 
@@ -104,77 +107,57 @@ C----------------------------------------------------------------------
       KBC        = UPARAM(19) 
       KBT        = UPARAM(20) 
       ZEROSTRESS = UPARAM(24)  
-      FLAGUL     = NINT(UPARAM(35))  
       KKC        = UPARAM(40)   
       KKT        = UPARAM(41)   
+      FLEX1      = UPARAM(26)
+      FLEX2      = UPARAM(27)
+      YFAC(1)    = UPARAM(28)
+      YFAC(2)    = UPARAM(29)
+      YFAC(3)    = UPARAM(30)
 c
-      FLEX1 = UPARAM(26)
-      FLEX2 = UPARAM(27)
-      DO I=1,3        
-        YFAC(I)  = UPARAM(27 + I )
-      ENDDO       
-      NBFCT    = NINT(UPARAM(31))
-C
       IF (KBC == ZERO) THEN
-       CCL = EP30
+       CCL = EP20
       ELSE
        CCL = KC / KBC
       ENDIF
       IF (KBT == ZERO) THEN
-       TTL = EP30
+       TTL = EP20
       ELSE
        TTL = KT / KBT
       ENDIF
 C      
-      DO I=JFT,JLT
+      DO I=1,NEL
         DEGMB(I) = FOR(I,1)*EXX(I)+FOR(I,2)*EYY(I)+FOR(I,3)*EXY(I)
         FOR(I,1)=ZERO
         FOR(I,2)=ZERO
         FOR(I,3)=ZERO
       ENDDO
 C----------------------------------------------------------------------
-      IF (ISMSTR == 11) THEN                 
-c       total strain in fiber coord sys      
-        DO I=JFT,JLT                                                          
-          R1 = DIR1(I,1)                                                     
-          S1 = DIR1(I,2)                                                     
-          R2 = DIR2(I,1)                                                     
-          S2 = DIR2(I,2)                                                     
+c     strain rate in fiber coord sys
+      DO I=1,NEL                                                          
+        R1 = DIR1(I,1)                                                     
+        S1 = DIR1(I,2)                                                     
+        R2 = DIR2(I,1)                                                     
+        S2 = DIR2(I,2)                                                     
 c
-          T1 = GSTR(I,1)       
-          T2 = GSTR(I,2)       
-          T3 = GSTR(I,3)*HALF
-          EC(I)     = R1*R1*T1 + S1*S1*T2 + TWO*R1*S1*T3  ! eps_x dir1
-          ET(I)     = R2*R2*T1 + S2*S2*T2 + TWO*R2*S2*T3 ! eps_y dir2   
-          DEPSXY(I) = (R1*R2 + S1*S2) / (R1*S2 - R2*S1)    ! Tan(alpha_totale)
-        ENDDO                                                  
-      ELSE                             
-c       strain rate in fiber coord sys
-        DO I=JFT,JLT                                                          
-          R1 = DIR1(I,1)                                                     
-          S1 = DIR1(I,2)                                                     
-          R2 = DIR2(I,1)                                                     
-          S2 = DIR2(I,2)                                                     
-c
-          T1 = EXX(I)                                                           
-          T2 = EYY(I)                                                           
-          T3 = HALF*EXY(I)                                                    
-          DEPSXX(I) = R1*R1*T1 + S1*S1*T2 + TWO*R1*S1*T3 ! delta_eps_x         
-          DEPSYY(I) = R2*R2*T1 + S2*S2*T2 + TWO*R2*S2*T3 ! delta_eps_y         
-          DEPSXY(I) = (R1*R2 + S1*S2) / (R1*S2 - R2*S1)   ! Tan(alpha_totale)   
-C---      integration des deformations
-          ETC = UVAR(I,4) + DEPSXX(I)     
-          ETT = UVAR(I,5) + DEPSYY(I)     
-          UVAR(I,4) = ETC
-          UVAR(I,5) = ETT
-          EC(I) = EXP(ETC) - ONE ! eng strain
-          ET(I) = EXP(ETT) - ONE
-        ENDDO
-      ENDIF                                                 
+        T1 = EXX(I)                                                           
+        T2 = EYY(I)                                                           
+        T3 = HALF*EXY(I)                                                    
+        DEPSXX(I) = R1*R1*T1 + S1*S1*T2 + TWO*R1*S1*T3 ! delta_eps_x         
+        DEPSYY(I) = R2*R2*T1 + S2*S2*T2 + TWO*R2*S2*T3 ! delta_eps_y         
+        DEPSXY(I) = (R1*R2 + S1*S2) / (R1*S2 - R2*S1)   ! Tan(alpha_totale)   
+C---    integration des deformations
+        ETC = UVAR(I,4) + DEPSXX(I)     
+        ETT = UVAR(I,5) + DEPSYY(I)     
+        UVAR(I,4) = ETC
+        UVAR(I,5) = ETT
+        EC(I) = EXP(ETC) - ONE ! eng strain
+        ET(I) = EXP(ETT) - ONE
+      ENDDO
 c---
       IF(FLAGUL /= 1)THEN!no hysteresis
 c---
-      DO I=JFT,JLT                                                  
+      DO I=1,NEL                                                  
         LC(I) = LC0 * (ONE + EC(I))                                 
         LT(I) = LT0 * (ONE + ET(I))                                 
       ENDDO
@@ -183,7 +166,7 @@ C---  Calcul YC, YT
       AC = AC*AC
       AT = KT*DT0
       AT = AT*AT
-      DO I=JFT,JLT
+      DO I=1,NEL
         YC(I) = UVAR(I,7)    
         YT(I) = UVAR(I,8)    
         FN(I) = ZERO
@@ -199,8 +182,8 @@ C---    non coupled model
           HDT= HT * UDT                    
           CC = DC - DC0                    
           TT = DT - DT0          
-          IF(KFUNC(1) /= 0)THEN            
-            FC = YFAC(1)*FINTER(KFUNC(1),CC,NPF,TF,FPC)
+          IF(IFUNC(1) /= 0)THEN            
+            FC = YFAC(1)*FINTER(IFUNC(1),CC,NPF,TF,FPC)
             FPC = FPC *YFAC(1)
             KC = FPC
             KFC = FLEX1*FPC*HC0/DC0
@@ -212,8 +195,8 @@ C---    non coupled model
             FC  = (KC - HALF*KBC * CC) * CC        
             FPC = (KC - KBC*CC) * HDC
           ENDIF 
-          IF(KFUNC(2) /= 0)THEN
-            FT = YFAC(2)*FINTER(KFUNC(2),TT,NPF,TF,FPT)
+          IF(IFUNC(2) /= 0)THEN
+            FT = YFAC(2)*FINTER(IFUNC(2),TT,NPF,TF,FPT)
             FPT = FPT *YFAC(2)
             KT = FPT
             KFT = FLEX2*FPT*HT0/DT0
@@ -248,8 +231,8 @@ C---    Coupled model    (traction fibre)
             UDT= ONE / DT
             HDC= HC * UDC
             HDT= HT * UDT
-            IF(KFUNC(1) /= 0)THEN            
-             FC =YFAC(1)* FINTER(KFUNC(1),CC,NPF,TF,FPC)
+            IF(IFUNC(1) /= 0)THEN            
+             FC =YFAC(1)* FINTER(IFUNC(1),CC,NPF,TF,FPC)
              FPC = FPC *YFAC(1)
              KC = FPC
              KFC = FLEX1*FPC*HC0/DC0
@@ -261,8 +244,8 @@ C---    Coupled model    (traction fibre)
               FC  = (KC - HALF*KBC * CC) * CC      
               FPC = (KC - KBC*CC) * HDC
             ENDIF 
-            IF(KFUNC(2) /= 0)THEN
-              FT = YFAC(2)*FINTER(KFUNC(2),TT,NPF,TF,FPT)
+            IF(IFUNC(2) /= 0)THEN
+              FT = YFAC(2)*FINTER(IFUNC(2),TT,NPF,TF,FPT)
               FPT = FPT *YFAC(2)
               KT = FPT
               KFT = FLEX2*FPT*HT0/DT0
@@ -297,15 +280,15 @@ C
         DT = SQRT(LT(I)*LT(I) + HT*HT) 
       ENDDO
 C---      
-      DO I=JFT,JLT
+      DO I=1,NEL
         HC = HC0 + YC(I)   
         HT = HT0 + YT(I)    
         DC = SQRT(LC(I)*LC(I) + HC*HC) 
         DT = SQRT(LT(I)*LT(I) + HT*HT) 
         CC = DC - DC0    
         TT = DT - DT0                                          
-        IF(KFUNC(1) /= 0)THEN            
-          FC =YFAC(1)* FINTER(KFUNC(1),CC,NPF,TF,FPC)
+        IF(IFUNC(1) /= 0)THEN            
+          FC =YFAC(1)* FINTER(IFUNC(1),CC,NPF,TF,FPC)
           FPC = FPC *YFAC(1)
           KC = FPC
         ELSEIF (CC >= CCL ) THEN            
@@ -313,8 +296,8 @@ C---
         ELSE                              
           FC = (KC - HALF*KBC * CC) * CC          
         ENDIF                             
-        IF(KFUNC(2) /= 0)THEN
-          FT = YFAC(2)*FINTER(KFUNC(2),TT,NPF,TF,FPT)
+        IF(IFUNC(2) /= 0)THEN
+          FT = YFAC(2)*FINTER(IFUNC(2),TT,NPF,TF,FPT)
           FPT = FPT *YFAC(2)
           KT = FPT
         ELSEIF (TT >= TTL ) THEN            
@@ -323,21 +306,15 @@ C---
           FT = (KT - HALF*KBT * TT) * TT          
         ENDIF                             
 C
-        IF (ISMSTR == 11) THEN
-          TRACE = (GSTR(I,1) + ONE) * (GSTR(I,2) + ONE)
-          EC2 = ONE
-          ET2 = ONE
+        TRACE = EXP(GSTR(I,1) + GSTR(I,2))
+        IF (TRACE /= ZERO) THEN
+          EC2 = TRACE / MAX((EC(I) + ONE), EM6)
+          ET2 = TRACE / MAX((ET(I) + ONE), EM6)
+          RFAC = NC / EC2
+          RFAT = NT / ET2
         ELSE
-          TRACE = EXP(GSTR(I,1) + GSTR(I,2))
-          IF (TRACE /= ZERO) THEN
-            EC2 = TRACE / MAX((EC(I) + ONE), EM6)
-            ET2 = TRACE / MAX((ET(I) + ONE), EM6)
-            RFAC = NC / EC2
-            RFAT = NT / ET2
-          ELSE
-            RFAC = ZERO
-            RFAT = ZERO
-          ENDIF
+          RFAC = ZERO
+          RFAT = ZERO
         ENDIF
 C---    contraintes membrane       
         SIGC = RFAC * FC * LC(I) / DC
@@ -348,8 +325,8 @@ C---    contraintes cisaillement
         SIG0    = UVAR(I,10)
         TAN_PHI = DEPSXY(I)
         PHI = atan (TAN_PHI)*HUNDRED80/PI
-        IF (KFUNC(3) /= 0)THEN
-          SIGNXY(I)  =YFAC(3)* FINTER(KFUNC(3),PHI,NPF,TF,GXY)
+        IF (IFUNC(3) /= 0)THEN
+          SIGNXY(I)  =YFAC(3)* FINTER(IFUNC(3),PHI,NPF,TF,GXY)
           GXY = GXY *YFAC(3)
         ELSEIF (TAN_PHI > TAN_LOCK) THEN
           SIGNXY(I) = GT*TAN_PHI + GB - SIG0  
@@ -360,7 +337,7 @@ C---    contraintes cisaillement
         ENDIF
       ENDDO
 C---
-      DO I=JFT,JLT
+      DO I=1,NEL
         UVAR(I,6) = DEPSXY(I)
         UVAR(I,7) = YC(I)
         UVAR(I,8) = YT(I)
@@ -369,7 +346,7 @@ C----------------
 C----------------  FIN LAW 58 sans hysteresis
 C----------------  
       ELSE
-      DO I=JFT,JLT                                                          
+      DO I=1,NEL                                                          
         LC(I) = ONE + EC(I) 
         LT(I) = ONE + ET(I)
         EPSMAXC(I)   = UVAR(I,17)   
@@ -391,7 +368,7 @@ C----------------
         EPSMAXRLS(I) = UVAR(I,34)   
         SLMAXRLS(I)  = UVAR(I,35)   
       ENDDO
-      DO I=JFT,JLT                                                          
+      DO I=1,NEL                                                          
         FN(I) = ZERO
 c---  uncoupled model  (compression of fiber)         
         YC(I)    = UVAR(I,7)  
@@ -417,7 +394,7 @@ c---  uncoupled model  (compression of fiber)
             DC  = DCC +  DC0     
             UDC = ONE / DC                                         
             HDC = HC * UDC      !sinus(alpha)                                
-            FC          = YFAC(1) * FINTER(KFUNC(1),DCC,NPF,TF,FPC)
+            FC          = YFAC(1) * FINTER(IFUNC(1),DCC,NPF,TF,FPC)
             FPC         = FPC * YFAC(1) 
             KC = FPC
             FPC         = FPC  * HDC
@@ -467,7 +444,7 @@ c----------------------------------
             DT  = DTT +  DT0           
             UDT = ONE / DT                                         
             HDT = HT * UDT      !sinus(alpha)                               
-            FT = YFAC(2)*FINTER(KFUNC(2),DTT,NPF,TF,FPT)
+            FT = YFAC(2)*FINTER(IFUNC(2),DTT,NPF,TF,FPT)
             FPT = FPT * YFAC(2)   
             KT  =  FPT         
             FPT = FPT *HDT
@@ -536,7 +513,7 @@ C  ========================================================
            HDT= HT * UDT                   
            IF(DCC1 >=ZERO  ) THEN   
 c----------------------------------LOAD
-              FC          = YFAC(1) * FINTER(KFUNC(1),DCC,NPF,TF,FPC)
+              FC          = YFAC(1) * FINTER(IFUNC(1),DCC,NPF,TF,FPC)
               FPC         = FPC * YFAC(1)
               KC = FPC 
               FPC         = FPC  * HDC
@@ -562,7 +539,7 @@ c----------------direction trame---
 c----------------------------------
            
            IF(DTT1 >=ZERO  ) THEN 
-               FT = YFAC(2)*FINTER(KFUNC(2),DTT,NPF,TF,FPT)
+               FT = YFAC(2)*FINTER(IFUNC(2),DTT,NPF,TF,FPT)
                FPT = FPT * YFAC(2)   
                KT  =  FPT         
                FPT = FPT * HDT
@@ -607,21 +584,15 @@ C
 C------------------------------------------------------------------
 C                             SHEAR
 C------------------------------------------------------------------
-        IF (ISMSTR == 11) THEN
-          TRACE = (GSTR(I,1) + ONE) * (GSTR(I,2) + ONE)
-          EC2 = ONE
-          ET2 = ONE
+        TRACE = EXP(GSTR(I,1) + GSTR(I,2))
+        IF (TRACE /= ZERO) THEN
+          EC2 = TRACE / MAX((EC(I) + ONE), EM6)
+          ET2 = TRACE / MAX((ET(I) + ONE), EM6)
+          RFAC = NC / EC2
+          RFAT = NT / ET2
         ELSE
-          TRACE = EXP(GSTR(I,1) + GSTR(I,2))
-          IF (TRACE /= ZERO) THEN
-            EC2 = TRACE / MAX((EC(I) + ONE), EM6)
-            ET2 = TRACE / MAX((ET(I) + ONE), EM6)
-            RFAC = NC / EC2
-            RFAT = NT / ET2
-          ELSE
-            RFAC = ZERO
-            RFAT = ZERO
-          ENDIF
+          RFAC = ZERO
+          RFAT = ZERO
         ENDIF
 C---    contraintes membrane       
         SIGC = RFAC * FC * LC(I) / DC
@@ -632,12 +603,12 @@ C---    contraintes cisaillement
         SIG0    = UVAR(I,10)
         TAN_PHI = DEPSXY(I)
         PHI   = ATAN(TAN_PHI)*HUNDRED80/PI 
-        SIGNXY(I)  =YFAC(3)* FINTER(KFUNC(3),PHI,NPF,TF,GXY)
+        SIGNXY(I)  =YFAC(3)* FINTER(IFUNC(3),PHI,NPF,TF,GXY)
         UVAR(I,15) = DC
         UVAR(I,16) = DT
       ENDDO
 C---
-      DO I=JFT,JLT
+      DO I=1,NEL
         UVAR(I,6) = DEPSXY(I)
         UVAR(I,7) = YC(I)
         UVAR(I,8) = YT(I)
@@ -665,13 +636,13 @@ C----------------
       ENDIF
 C----------------  FIN hysteresis
 c
-      DO I=JFT,JLT                      
+      DO I=1,NEL                      
         TENS(1,I) = SIGNXX(I)
         TENS(2,I) = SIGNYY(I)
         TENS(3,I) = SIGNXY(I)
       ENDDO    
 C----------------  RETOUR REPERE COQUE
-      DO I=JFT,JLT                                             
+      DO I=1,NEL                                             
         R1 = DIR1(I,1)                                         
         S1 = DIR1(I,2)                                         
         R2 = DIR2(I,1)                                         
@@ -697,13 +668,13 @@ C----------------  RETOUR REPERE COQUE
 C-----------------------
 C      FORCES ET MOMENTS
 C-----------------------
-      DO I=JFT,JLT
+      DO I=1,NEL
         FOR(I,1)=FOR(I,1) + THK(I)*TENS(1,I)
         FOR(I,2)=FOR(I,2) + THK(I)*TENS(2,I)
         FOR(I,3)=FOR(I,3) + THK(I)*TENS(3,I)
       ENDDO
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
          DEGMB(I) = DEGMB(I)+      
      +              FOR(I,1)*EXX(I)+FOR(I,2)*EYY(I)+FOR(I,3)*EXY(I)
          EINT(I,1) = EINT(I,1) + DEGMB(I)*HALF*THK(I)*AREA(I)
@@ -712,13 +683,13 @@ C-----------------------------------------------------------
 C     REF-STATE ZEROSTRESS OPTION
 C-----------------------------------------------------------
       IF(ZEROSTRESS /= ZERO)THEN
-        DO I=JFT,JLT
+        DO I=1,NEL
           UVAR(I,11) = SIGNXX(I)
           UVAR(I,12) = SIGNYY(I)
           UVAR(I,13) = SIGNXY(I)
         ENDDO
 c      ELSE
-c        DO I=JFT,JLT
+c        DO I=1,NEL
 c         DEGMB(I) = DEGMB(I)+      
 c     +              FOR(I,1)*EXX(I)+FOR(I,2)*EYY(I)+FOR(I,3)*EXY(I)
 c         EINT(I,1) = EINT(I,1) + DEGMB(I)*HALF*THK(I)*AREA(I)

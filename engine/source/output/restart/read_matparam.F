@@ -53,11 +53,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IMAT,NUMMAT,NUMTABL,NUPARAM,NIPARAM,NFAIL,IAD,NFIX,LEN,
-     .           NMOD,MOD
+      INTEGER :: I,IMAT,NUMMAT,NUMTABL,NUPARAM,NIPARAM,NFAIL,IAD,NFIX,NFIXR,
+     .           LEN,LENR,NMOD,MOD
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
-C=======================================================================
+      my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
+c=======================================================================
 c     read MATPARAM data
       NFIX   = 20
       NUMMAT = MAT_ELEM%NUMMAT
@@ -96,6 +97,21 @@ c
         IAD = IAD + NFIX
       END DO
       DEALLOCATE( IBUF )
+c
+c     read real parameters
+c
+      NFIXR = 3
+      LENR  = NFIXR*NUMMAT
+      ALLOCATE (RBUF(LENR) )
+      CALL READ_DB (RBUF ,LENR)
+      IAD   = 0
+      DO IMAT = 1,NUMMAT
+        MAT_ELEM%MAT_PARAM(IMAT)%RHO   = RBUF(IAD + 1)
+        MAT_ELEM%MAT_PARAM(IMAT)%RHO0  = RBUF(IAD + 2)
+        MAT_ELEM%MAT_PARAM(IMAT)%YOUNG = RBUF(IAD + 3)
+        IAD = IAD + NFIXR
+      END DO
+      DEALLOCATE (RBUF)
 c
 c     read material title
 c

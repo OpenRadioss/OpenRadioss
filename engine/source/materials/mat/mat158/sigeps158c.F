@@ -38,7 +38,7 @@ Chd|====================================================================
      7           SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
      8           SIGVXX    ,SIGVYY    ,SIGVXY    ,TAN_PHI   ,OFFGG     ,
      9           RHO0      ,ETSE      ,SHF       ,ALDT      ,NSENSOR   ,
-     A           SENSOR_TAB)
+     A           SENSOR_TAB,NIPARAM   ,IPARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -50,7 +50,7 @@ C-----------------------------------------------
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
-C NEL    |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
+C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
 C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
 C---------+---------+---+---+--------------------------------------------
@@ -94,11 +94,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NFUNC,NUPARAM,NUVAR,NSENSOR
+      INTEGER ,INTENT(IN) :: NEL
+      INTEGER ,INTENT(IN) :: NFUNC
+      INTEGER ,INTENT(IN) :: NUPARAM
+      INTEGER ,INTENT(IN) :: NIPARAM
+      INTEGER ,INTENT(IN) :: NUVAR
+      INTEGER ,INTENT(IN) :: NSENSOR
       my_real ,INTENT(IN) :: TIME,TIMESTEP
-      INTEGER ,DIMENSION(NFUNC),INTENT(IN) :: IFUNC
-      INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPF
-      my_real ,DIMENSION(STF)  ,INTENT(IN) :: TF
+      INTEGER ,DIMENSION(NFUNC)   ,INTENT(IN) :: IFUNC
+      INTEGER ,DIMENSION(SNPC)    ,INTENT(IN) :: NPF
+      my_real ,DIMENSION(STF)     ,INTENT(IN) :: TF
+      INTEGER ,DIMENSION(NIPARAM) ,INTENT(IN) :: IPARAM
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN) :: UPARAM
       my_real ,DIMENSION(NEL) ,INTENT(IN) :: AREA,RHO0,THKLY,OFFGG,
      .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,EPSXX,EPSYY,EPSXY,EPSYZ,EPSZX,
@@ -140,7 +146,7 @@ c     UVAR(6)  = DEPSXY           ! tan(alpha) of shear angle
 c     UVAR(7)  = YC               ! total flex element elongation in 1st direction
 c     UVAR(8)  = YT               ! total flex element elongation in 2nd direction
 c     UVAR(9)  = SIGVXY           ! Friction stress (shear)
-c     UVAR(10) = SIG0             ! Initial shear stress (if initial shear angle > 0)
+c     UVAR(10) =                  ! not used
 c     UVAR(11) = SIGNXX           ! elastic stress in 1st direction (used for zerostress relaxation)
 c     UVAR(12) = SIGNYY           ! elastic stress in 2nd direction (used for zerostress relaxation)
 c     UVAR(13) = SIGNXY           ! elastic stress in shear (used for zerostress relaxation)
@@ -150,6 +156,8 @@ c     UVAR(16) = DT               ! total fiber elongation in 2nd direction
 C======================================================================|
 C---  Initialisations
 C----------------------------------------------------------------------
+      ISENS    = IPARAM(1)
+!
       LC0      = ONE
       LT0      = ONE
       DC0      = UPARAM(1)  
@@ -160,7 +168,6 @@ C----------------------------------------------------------------------
       KFLEX1   = UPARAM(6)       ! stiffness factor for log function in dir1
       KFLEX2   = UPARAM(7)       ! stiffness factor for log function in dir1
       ZEROSTRESS = UPARAM(8)
-      ISENS    = NINT(UPARAM(9))
       KMAX     = UPARAM(10)
       GMAX     = UPARAM(11)
       YFAC(1)  = UPARAM(12)

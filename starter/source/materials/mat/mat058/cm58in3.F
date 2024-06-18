@@ -28,8 +28,8 @@ Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
 Chd|        CMAINI3                       source/elements/sh3n/coquedk/cmaini3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CM58IN3(IREP      ,IMAT  ,IPM   ,DIR1   ,DIR2  ,
-     .                   UPARAM    ,UVAR  ,ALDT  ,NEL    ,NUVAR ,TAN_PHI  ,
+      SUBROUTINE CM58IN3(IREP  ,DIR1   ,DIR2  ,UPARAM    ,
+     .                   UVAR  ,ALDT  ,NEL    ,NUVAR ,TAN_PHI  ,
      .                   X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                   Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                   E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,NUVAR,IPM(NPROPMI,*),IREP,IMAT
+      INTEGER NEL,NUVAR,IREP
 C     REAL
       my_real UPARAM(*),UVAR(NEL,*),ALDT(NEL),TAN_PHI(NEL),DIR1(NEL,2),DIR2(NEL,2)
       my_real, DIMENSION(NEL), INTENT(IN) :: E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,
@@ -53,7 +53,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,IADB
+      INTEGER I
       my_real
      .   R,S,D1,D2,D11,D12,D21,D22,U1X,U1Y,U2X,U2Y,DET,W1X,W2X,W1Y,W2Y,
      .   PHI,CSP,SNP,TANA,R1,R2,S1,S2,G0,AA,BB,SUMA,V1,V2,V3,WR,WS
@@ -82,8 +82,7 @@ C---    shell 3N
         ENDDO                              
       ENDIF                                
 C------  Initialise UVAR 
-      IADB  = IPM(7,IMAT)-1                                        
-      G0    = UPARAM(IADB+13)                                               
+      G0    = UPARAM(13)                                               
       DO I=1,NEL
         AA = DIR1(I,1)                                                     
         BB = DIR1(I,2)                                                     

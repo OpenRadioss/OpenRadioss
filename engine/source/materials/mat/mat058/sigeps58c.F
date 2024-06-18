@@ -32,9 +32,9 @@ Chd|        TABLE_MOD                     share/modules/table_mod.F
 Chd|====================================================================
       SUBROUTINE SIGEPS58C(
      1     NEL0   ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,
-     2     NPF    ,NPT0    ,IPT    ,IFLAG   ,NSENSOR,
+     2     NPF    ,NPT0   ,IPT     ,NSENSOR,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0   ,
-     3     AREA   ,EINT   ,THKLY   ,
+     3     AREA   ,EINT   ,THKLY   ,NIPARAM ,IPARAM ,
      4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
      5     DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      6     EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
@@ -71,7 +71,6 @@ C IFUNC   | NFUNC   | I | R | FUNCTION INDEX
 C NPF     |  *      | I | R | FUNCTION ARRAY   
 C NPT0    |  1      | I | R | NUMBER OF LAYERS OR INTEGRATION POINTS   
 C IPT     |  1      | I | R | LAYER OR INTEGRATION POINT NUMBER   
-C IFLAG   |  *      | I | R | GEOMETRICAL FLAGS   
 C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
@@ -118,9 +117,13 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR
-      INTEGER NEL0, NUPARAM, NUVAR, NPT0, IPT,ISMSTR,IFLAG(*),
-     .   NGL(NEL0),MAT(NEL0)
-      my_real TIME,TIMESTEP(NEL0),UPARAM(*),
+      INTEGER ,INTENT(IN) :: NIPARAM
+      INTEGER ,INTENT(IN) :: NUPARAM
+      INTEGER :: NEL0, NUVAR,NPT0,IPT,ISMSTR
+      INTEGER :: NGL(NEL0),MAT(NEL0)
+      INTEGER ,DIMENSION(NIPARAM) ,INTENT(IN) :: IPARAM
+      my_real ,DIMENSION(NUPARAM) ,INTENT(IN) :: UPARAM
+      my_real TIME,TIMESTEP(NEL0),
      .   AREA(NEL0),RHO0(NEL0),EINT(NEL0,2),
      .   THKLY(NEL0),PLA(NEL0),OFFGG(NEL0),TAN_PHI(NEL0),
      .   EPSPXX(NEL0),EPSPYY(NEL0),
@@ -164,7 +167,7 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NC,NT,ISENS,ITER,NITER,NBFCT,NINDX,NUMOFF,UNLOAD,IERR,
+      INTEGER I,J,NC,NT,ISENS,ITER,NITER,NINDX,NUMOFF,UNLOAD,IERR,
      .        IFUNCC,IFUNCT,IDXCNT,IDX1,IDX2,IERRT,IERRC,INDEX(MVSIZ),
      .        INDXOFF(MVSIZ),TAGOLDC,TAGOLDT,TAGC(0:1),TAGT(0:1)
       my_real
@@ -214,14 +217,18 @@ C======================================================================|
 C---  Initialisations
 C----------------------------------------------------------------------
       NITER    = 3
+!
+      UNLOAD   = IPARAM(1)
+      ISENS    = IPARAM(2)
+      NC       = IPARAM(3)  
+      NT       = IPARAM(4)  
+!
       LC0      = UPARAM( 1)  
       LT0      = UPARAM( 2)  
       DC0      = UPARAM( 3)  
       DT0      = UPARAM( 4)  
       HC0      = UPARAM( 5)  
       HT0      = UPARAM( 6)  
-      NC       = UPARAM( 7)  
-      NT       = UPARAM( 8)  
       KC0      = UPARAM( 9)  ! young dir1
       KT0      = UPARAM(10)  ! young dir2
       KKC      = UPARAM(40)  ! initial slope dir1
@@ -240,10 +247,8 @@ C----------------------------------------------------------------------
       AREAMIN  = UPARAM(22)  
       DAREAMIN = UPARAM(23)  
       ZEROSTRESS = UPARAM(24)
-      ISENS    = NINT(UPARAM(25))
       FLEX1    = UPARAM(26)
       FLEX2    = UPARAM(27)
-      NBFCT    = NINT(UPARAM(31))
       GSH      = UPARAM(32)*SHF(1)
       IF (ZEROSTRESS > ZERO .and. ISENS > 0) THEN
         TSTART = SENSOR_TAB(ISENS)%TSTART
@@ -257,7 +262,6 @@ c
       YFAC(4) = UPARAM(33)
       YFAC(5) = UPARAM(34)
       YFAC(6) = UPARAM(42)
-      UNLOAD  = NINT(UPARAM(35))
 c
       KFC = KFC0  
       KFT = KFT0

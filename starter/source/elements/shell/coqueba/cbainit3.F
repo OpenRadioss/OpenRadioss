@@ -82,14 +82,13 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE MESSAGE_MOD
       USE STACK_MOD
       USE GROUPDEF_MOD
       USE NLOCAL_REG_MOD
       USE GROUP_PARAM_MOD      
       USE DRAPE_MOD        
-      USE MATPARAM_DEF_MOD
       USE RANDOM_WALK_DEF_MOD
       USE FRACTAL_DMG_INIT_mod
 C-----------------------------------------------
@@ -346,10 +345,10 @@ c
           CALL CMAINI3(ELBUF_STR,PM       ,GEO      ,NEL       ,NLAY     ,
      .                 SKEW     ,IGEO     ,IXC(1,NFT+1),NIXC   ,NUMELC   ,
      .                 NSIGSH   ,SIGSH    ,PTSHEL   ,IGTYP     ,IORTHLOC ,
-     .                 IPM      ,PROPID   ,ALDT     ,BUFMAT    ,
+     .                 IPM      ,PROPID   ,ALDT     ,MAT_PARAM,
      .                 IR       ,IS       ,ISUBSTACK,STACK     ,IREP     ,
-     .                 DRAPE   ,SH4ANG(NFT+1),GEO_STACK,IGEO_STACK,
-     .                 IGMAT    ,IMAT     ,IPROP   ,
+     .                 DRAPE    ,SH4ANG(NFT+1),GEO_STACK,IGEO_STACK,
+     .                 IGMAT    ,IMAT     ,IPROP   ,NUMMAT,
      .                 X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                 Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                 E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,X ,
@@ -443,13 +442,13 @@ c----
 c         REFERENCE STATE, QEPH
 c
           UVAR => ELBUF_STR%BUFLY(1)%MAT(1,1,1)%VAR  !
-          CALL CNEPSINI(ELBUF_STR,
+          CALL CNEPSINI(ELBUF_STR,MAT_PARAM(IMAT),
      .        LFT      ,LLT     ,ISMSTR     ,MTN      ,ITHK   ,
      .        PM       ,GEO     ,IXC(1,NFT+1),X ,XREFC(1,1,NFT+1),
      .        NLAY     ,GBUF%FOR ,GBUF%THK,GBUF%EINT  ,GBUF%STRA,
      .        PX1G     ,PX2G    ,PY1G       ,PY2G     ,X2S      ,
      .        Y2S      ,X3S     ,Y3S        ,X4S      ,Y4S      ,
-     .        GBUF%OFF ,UVAR    ,BUFMAT     ,IPM      ,IMAT     ,
+     .        GBUF%OFF ,UVAR    ,IPM      ,IMAT     ,
      .        IGEO     ,NEL     ,DIR_A      ,DIR_B    ,GBUF%SIGI,
      .        NPF      ,TF      ,IREP       )
 c
@@ -562,13 +561,13 @@ c
 c         using only one pt, suppose constant  
           UVAR => ELBUF_STR%BUFLY(1)%MAT(1,1,1)%VAR  ! loi 58 => nlay=1
 c
-          CALL CNEPSINI(ELBUF_STR,
+          CALL CNEPSINI(ELBUF_STR,MAT_PARAM(IMAT),
      .       LFT     ,LLT      ,ISMSTR     ,MTN      ,ITHK      ,
      .       PM      ,GEO      ,IXC(1,NFT+1),X       ,XREFC(1,1,NFT+1),
      .       NLAY    ,GBUF%FOR ,GBUF%THK   ,GBUF%EINT,GBUF%STRA ,
      .       PX1G    ,PX2G     ,PY1G       ,PY2G     ,X2S       ,
      .       Y2S     ,X3S      ,Y3S        ,X4S      ,Y4S       ,
-     .       GBUF%OFF,UVAR     ,BUFMAT     ,IPM      ,IMAT      ,
+     .       GBUF%OFF,UVAR     ,IPM        ,IMAT      ,
      .       IGEO    ,NEL      ,DIR_A      ,DIR_B    ,GBUF%SIGI ,
      .       NPF     ,TF       ,IREP      )
 c          

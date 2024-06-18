@@ -32,19 +32,19 @@ Chd|        CORTH3                        source/elements/shell/coque/corth3.F
 Chd|        CPXPYI                        source/elements/shell/coque/cepsini.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE CNEPSINI(ELBUF_STR,
+      SUBROUTINE CNEPSINI(ELBUF_STR,MAT_PARAM,
      1           JFT    ,JLT    ,ISMSTR,MTN   ,ITHK   ,
      2           PM     ,GEO    ,IXC   ,X     ,XREFC  ,
      3           NLAY   ,FOR    ,THK   ,EINT  ,GSTR   ,
      4           PX1G   ,PX2G   ,PY1G  ,PY2G  ,X2S    ,
      5           Y2S    ,X3S    ,Y3S   ,X4S   ,Y4S    ,
-     6           OFF    ,UVAR  ,UPARAM,IPM    ,IMAT   ,
+     6           OFF    ,UVAR   ,IPM    ,IMAT   ,
      7           IGEO   ,NEL    ,DIR_A ,DIR_B ,SIGI   ,
      8           NPF    ,TF     ,IREP  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,9 +69,10 @@ C-----------------------------------------------
      . FOR(NEL,5) ,THK(*)   ,EINT(JLT,2),GSTR(NEL,8),
      . PX1G(*)  ,PX2G(*)  ,PY1G(*)  ,PY2G(*),
      . X2S(*)   ,Y2S(*)   ,X3S(*)   ,Y3S(*) ,X4S(*) ,
-     . Y4S(*)   ,OFF(*)  ,UPARAM(*),UVAR(NEL,*) ,
+     . Y4S(*)   ,OFF(*)  ,UVAR(NEL,*) ,
      . DIR_A(NEL,*),DIR_B(NEL,*),SIGI(NEL,3),TF(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      TYPE (MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -226,10 +227,11 @@ c
      .                PX1  ,PX2  ,PY1  ,PY2  ,NEL,
      .                AREA ,EXX  ,EYY  ,EXY  ,EYZ  ,EZX  ,
      .                E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z ,E2Z ,E3Z )
-          CALL CMLAWI(JFT  ,JLT  ,MTN    ,ITHK ,PM   ,
+          CALL CMLAWI(MAT_PARAM,
+     .                JFT  ,JLT  ,MTN    ,ITHK ,PM   ,
      .                FOR  ,THK  ,EINT   ,GSTR ,DIR_A,
-     .                DIR_B,UVAR ,UPARAM,IPM   ,IGEO ,
-     .                NEL  ,SIGI ,ISMSTR,NPF   ,TF   ,
+     .                DIR_B,UVAR ,IPM   ,
+     .                NEL  ,SIGI ,NPF   ,TF   ,
      .                AREA ,EXX  ,EYY   ,EXY   ,IMAT )
 C
         ENDDO
@@ -253,10 +255,11 @@ c
      .                AREA ,EXX  ,EYY  ,EXY  ,EYZ  ,EZX  ,                 
      .                E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z ,E2Z ,E3Z )  
 c
-          CALL CMLAWI(JFT,JLT,MTN,ITHK,PM,                                 
+          CALL CMLAWI(MAT_PARAM,
+     .                JFT,JLT,MTN,ITHK,PM,                                 
      .                FOR,THK,EINT,GSTR,DIR1,                              
-     .                DIR2,UVAR,UPARAM,IPM,IGEO,                           
-     .                NEL,SIGI,ISMSTR,NPF ,TF,                             
+     .                DIR2,UVAR,IPM,                          
+     .                NEL,SIGI,NPF ,TF,                             
      .                AREA,EXX    ,EYY    ,EXY, IMAT )                     
         ENDDO
       ENDIF

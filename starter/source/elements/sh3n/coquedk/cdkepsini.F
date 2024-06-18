@@ -32,19 +32,19 @@ Chd|        CMLAWI                        source/elements/shell/coque/cepsini.F
 Chd|        CORTH3                        source/elements/shell/coque/corth3.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE CDKEPSINI(ELBUF_STR,
+      SUBROUTINE CDKEPSINI(ELBUF_STR,MAT_PARAM,
      1           JFT  ,JLT   ,ISMSTR,ILAW  ,ITHK   ,
      2           PM   ,GEO   ,IXTG  ,X    ,XREFTG ,
      3           FOR  ,THK   ,EINT  ,GSTR ,
      4           PX2G ,PY2G  ,PX3G  ,PY3G ,X2S    ,
      5           Y2S  ,X3S   ,Y3S   ,OFF  ,IMAT   ,
-     6           UVAR ,UPARAM,IPM   ,IGEO ,NEL    ,
+     6           UVAR ,IPM   ,NEL    ,
      7           NLAY ,DIR_A ,DIR_B ,SIGI ,NPF    ,
      8           TF   ,IREP  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,14 +62,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, ISMSTR, ILAW,IMAT,ITHK,NEL,IREP,NLAY
-      INTEGER IXTG(NIXTG,*),IGEO(NPROPGI,*),IPM(NPROPMI,*),NPF(*)
+      INTEGER IXTG(NIXTG,*),IPM(NPROPMI,*),NPF(*)
       my_real
      . PM(NPROPM,*),GEO(NPROPG,*)   ,X(3,*)   ,XREFTG(3,3,*),
      . FOR(NEL,5) ,THK(*)   ,EINT(JLT,2),GSTR(NEL,8),
-     . PX2G(*)  ,PY2G(*)  ,PX3G(*)  ,PY3G(*) ,UPARAM(*),UVAR(*),
+     . PX2G(*)  ,PY2G(*)  ,PX3G(*)  ,PY3G(*) ,UVAR(*),
      . X2S(*)   ,X3S(*)   ,Y2S(*)   ,Y3S(*) ,OFF(*),
      . DIR_A(NEL,*),DIR_B(NEL,*),SIGI(NEL,3),TF(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      TYPE (MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -197,10 +198,11 @@ c
      .                  E3Y  ,E1Z  ,E2Z  ,E3Z  ,
      .                  EXX  ,EYY  ,EXY  ,EYZ  ,EZX  )
 c
-          CALL CMLAWI(JFT  ,JLT  ,ILAW    ,ITHK ,PM   ,
+          CALL CMLAWI(MAT_PARAM,
+     .                JFT  ,JLT  ,ILAW    ,ITHK ,PM   ,
      .                FOR  ,THK  ,EINT   ,GSTR ,DIR_A,
-     .                DIR_B,UVAR ,UPARAM,IPM   ,IGEO ,
-     .                NEL  ,SIGI ,ISMSTR,NPF   ,TF   ,
+     .                DIR_B,UVAR ,IPM   ,
+     .                NEL  ,SIGI ,NPF   ,TF   ,
      .                AREA ,EXX  ,EYY   ,EXY   ,IMAT )
         ENDDO
       ELSE
@@ -225,10 +227,11 @@ c
      .                  E3Y  ,E1Z  ,E2Z  ,E3Z  ,
      .                  EXX  ,EYY  ,EXY  ,EYZ  ,EZX  )
 
-          CALL CMLAWI(JFT  ,JLT  ,ILAW    ,ITHK ,PM   ,
+          CALL CMLAWI(MAT_PARAM,
+     .                JFT  ,JLT  ,ILAW    ,ITHK ,PM   ,
      .                FOR  ,THK  ,EINT   ,GSTR ,DIR_A,
-     .                DIR_B,UVAR ,UPARAM,IPM   ,IGEO ,
-     .                NEL  ,SIGI ,ISMSTR,NPF   ,TF   ,
+     .                DIR_B,UVAR ,IPM   ,
+     .                NEL  ,SIGI ,NPF   ,TF   ,
      .                AREA ,EXX  ,EYY   ,EXY   ,IMAT )
 c
         ENDDO

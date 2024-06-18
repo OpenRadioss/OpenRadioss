@@ -28,8 +28,8 @@ Chd|-- calls ---------------
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE SIGEPS19C(
-     .            NEL    ,NUPARAM,FLAG_ZCFAC,ZCFAC  ,SHF    ,
-     .            UPARAM ,NPTTOT ,SSP    ,NSENSOR,
+     .            NEL    ,NUPARAM,NIPARAM,FLAG_ZCFAC,ZCFAC  ,SHF    ,
+     .            UPARAM ,IPARAM ,NPTTOT ,SSP    ,NSENSOR,
      .            EPSXX  ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX     ,
      .            SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX    ,
      .            SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX    ,
@@ -54,11 +54,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NPTTOT,NUPARAM,NSENSOR
+      INTEGER ,INTENT(IN) :: NEL
+      INTEGER ,INTENT(IN) :: NPTTOT
+      INTEGER ,INTENT(IN) :: NUPARAM
+      INTEGER ,INTENT(IN) :: NIPARAM
+      INTEGER ,INTENT(IN) :: NSENSOR
       LOGICAL ,INTENT(IN) :: FLAG_ZCFAC
       my_real ,DIMENSION(MVSIZ,2) ,INTENT(INOUT) :: ZCFAC
-      my_real ,DIMENSION(NUPARAM) ,INTENT(IN)  :: UPARAM
-      my_real ,DIMENSION(NEL) ,INTENT(IN) ::  SHF,
+      INTEGER ,DIMENSION(NIPARAM) ,INTENT(IN)    :: IPARAM
+      my_real ,DIMENSION(NUPARAM) ,INTENT(IN)    :: UPARAM
+      my_real ,DIMENSION(NEL)     ,INTENT(IN)    ::  SHF,
      .   EPSXX,EPSYY,EPSXY,EPSYZ,EPSZX,SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
       my_real ,DIMENSION(NEL) ,INTENT(OUT) :: SSP,
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
@@ -72,6 +77,7 @@ C-----------------------------------------------
      .           S,D,T,P1,P2,R,BETA,ZEROSTRESS,TSTART,DSIG
       my_real ,DIMENSION(NEL) :: ET
 C=======================================================================
+      ISENS = IPARAM(1)
       E11   = UPARAM(1)
       E22   = UPARAM(2)
       NU12  = UPARAM(3)
@@ -83,7 +89,6 @@ C=======================================================================
       A11   = UPARAM(10)
       A22   = UPARAM(11)
       A12   = UPARAM(12)
-      ISENS = NINT(UPARAM(13))
       ZEROSTRESS = UPARAM(14)
       SSP(1:NEL) = UPARAM(9)
       TSTART = ZERO

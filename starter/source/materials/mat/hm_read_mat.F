@@ -464,9 +464,8 @@ c-------
 c-------
           CASE ('LAW19','FABRI')
             ILAW = 19 
-            CALL HM_READ_MAT19(
-     .           MTAG     ,UPARAM   ,MAXUPARAM,NUPARAM  ,PM(1,I)  ,
-     .           MATPARAM ,PARMAT   ,NUVAR    ,MAT_ID   ,TITR     ,
+            CALL HM_READ_MAT19(MATPARAM,MTAG  ,PM(1,I)  ,PARMAT   ,
+     .           NUVAR    ,MAT_ID   ,TITR     ,
      .           UNITAB   ,LSUBMODEL,ISRATE   )
 c-------
           CASE ('LAW20','BIMAT')
@@ -697,10 +696,10 @@ c-------
 c-------
           CASE ('LAW58','FABR_A')
             ILAW  = 58  
-            CALL HM_READ_MAT58(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
-     .           MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
-     .           PM(1,I)  ,LSUBMODEL,MAT_ID   ,TITR     ,MATPARAM )
+            CALL HM_READ_MAT58(MATPARAM ,NUVAR    ,NFUNC    ,
+     .                         MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,
+     .                         UNITAB   ,LSUBMODEL,MAT_ID   ,TITR     )
+                 PM(23,I) = MATPARAM%YOUNG
 c-------
           CASE ('LAW59','CONNECT')
             ILAW  = 59  
@@ -1144,10 +1143,9 @@ c-------
 c-------
           CASE ('LAW158','FABR_NL')
             ILAW  = 158  
-            CALL HM_READ_MAT158(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
-     .           MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
-     .           PM(1,I)  ,LSUBMODEL,MAT_ID   ,TITR     ,MATPARAM )
+            CALL HM_READ_MAT158(MATPARAM ,NUVAR    ,NFUNC    ,
+     .                          MAXFUNC  ,IFUNC    ,MTAG     ,UNITAB   ,
+     .                          LSUBMODEL,MAT_ID   ,TITR     )
 c-------
           CASE ('LAW169','ARUP_ADHESIVE')
             ILAW  = 169  
@@ -1282,6 +1280,9 @@ c-------
      .                           PM(1,I) ,PARMAT)
 #endif        
         END SELECT
+!
+        MATPARAM%ILAW   = ILAW
+        MATPARAM%MAT_ID = MAT_ID
 c-----------------------------------------------------------------------
         ! Set Pmin default value to -INF for EOS compatible materials
         
@@ -1379,6 +1380,9 @@ c
         IPM(217,I) = IUSER_LAW
 c---------------------------------------------------------
 c
+        IF (MATPARAM%RHO  > ZERO) PM(1 ,I) = MATPARAM%RHO
+        IF (MATPARAM%RHO0 > ZERO) PM(89,I) = MATPARAM%RHO0
+          
         RHOR = PM(1 ,I)
         RHO0 = PM(89,I)
         IF (RHOR == ZERO .AND. ILAW /= 37) THEN

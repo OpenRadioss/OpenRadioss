@@ -36,10 +36,9 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matp
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT58(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
-     .           MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
-     .           PM       ,LSUBMODEL,MAT_ID   ,TITR     ,MATPARAM )
+      SUBROUTINE HM_READ_MAT58(MATPARAM ,NUVAR    ,NFUNC    ,
+     .                         MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,
+     .                         UNITAB   ,LSUBMODEL,MAT_ID   ,TITR     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,16 +71,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER, INTENT(IN)    :: MAT_ID,MAXUPARAM,MAXFUNC
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
+      INTEGER, INTENT(IN)    :: MAT_ID,MAXFUNC
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
-      INTEGER, INTENT(INOUT)                         :: NUPARAM,NUVAR,NFUNC
-      INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT)   :: IFUNC
-      my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)   :: UPARAM
-      my_real, DIMENSION(100),INTENT(INOUT) :: PARMAT
+      INTEGER, INTENT(INOUT)                       :: NUVAR,NFUNC
+      INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT) :: IFUNC
+      my_real, DIMENSION(100)       ,INTENT(INOUT) :: PARMAT
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
-      TYPE(MLAW_TAG_), INTENT(INOUT) :: MTAG
+      TYPE (UNIT_TYPE_)      ,INTENT(IN)    :: UNITAB 
+      TYPE(MLAW_TAG_)        ,INTENT(INOUT) :: MTAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -94,7 +91,7 @@ C-----------------------------------------------
      .   VISCE,VISCG,AREAMIN1,AREAMIN2,ZEROSTRESS,STRESS_UNIT
       my_real ,DIMENSION(6) ::  YFAC
 C=======================================================================
-      IS_ENCRYPTED   = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       ILAW  = 58
       ILOAD = 0
@@ -262,52 +259,63 @@ c
       IF (GSH   == ZERO .and. ILOAD == 0) GSH   = G0
 c-----------------------------------------------------------------------
       NUVAR   = 40   
-      NUPARAM = 46 ! 4pts pour l intersection +flag+PR SHEAR
 c-----------------------------------------------------------------------
-      UPARAM(1:NUPARAM) = ZERO
-c
-      UPARAM( 1) = LC0
-      UPARAM( 2) = LT0
-      UPARAM( 3) = DC0
-      UPARAM( 4) = DT0
-      UPARAM( 5) = HC0
-      UPARAM( 6) = HT0
-      UPARAM( 7) = NC
-      UPARAM( 8) = NT
-      UPARAM( 9) = KC
-      UPARAM(10) = KT
-      UPARAM(11) = KFC
-      UPARAM(12) = KFT
-      UPARAM(13) = G0 
-      UPARAM(14) = G 
-      UPARAM(15) = GB
-      UPARAM(16) = TAN_LOCK
-      UPARAM(17) = VISCE
-      UPARAM(18) = VISCG
-      UPARAM(19) = KKC
-      UPARAM(20) = KKT
-      UPARAM(21) = GFROT
-      UPARAM(22) = AREAMIN1
+      MATPARAM%NUPARAM = 46 ! 4pts pour l intersection +flag+PR SHEAR
+      MATPARAM%NIPARAM = 4
+      MATPARAM%NFUNC   = NFUNC
+!
+      ALLOCATE (MATPARAM%UPARAM(MATPARAM%NUPARAM))
+      ALLOCATE (MATPARAM%IPARAM(MATPARAM%NIPARAM))
+      MATPARAM%UPARAM(:) = ZERO 
+      MATPARAM%IPARAM(:) = 0 
+c-----------------------------------------------------------------------
+      MATPARAM%IPARAM(1) = ULOAD
+      MATPARAM%IPARAM(2) = ISENS
+      MATPARAM%IPARAM(3) = NC
+      MATPARAM%IPARAM(4) = NT
+!
+      MATPARAM%UPARAM( 1) = LC0
+      MATPARAM%UPARAM( 2) = LT0
+      MATPARAM%UPARAM( 3) = DC0
+      MATPARAM%UPARAM( 4) = DT0
+      MATPARAM%UPARAM( 5) = HC0
+      MATPARAM%UPARAM( 6) = HT0
+      MATPARAM%UPARAM( 7) = 0  ! moved to IPARAM (NC)
+      MATPARAM%UPARAM( 8) = 0  ! moved to IPARAM (NT) 
+      MATPARAM%UPARAM( 9) = KC
+      MATPARAM%UPARAM(10) = KT
+      MATPARAM%UPARAM(11) = KFC
+      MATPARAM%UPARAM(12) = KFT
+      MATPARAM%UPARAM(13) = G0 
+      MATPARAM%UPARAM(14) = G 
+      MATPARAM%UPARAM(15) = GB
+      MATPARAM%UPARAM(16) = TAN_LOCK
+      MATPARAM%UPARAM(17) = VISCE
+      MATPARAM%UPARAM(18) = VISCG
+      MATPARAM%UPARAM(19) = KKC
+      MATPARAM%UPARAM(20) = KKT
+      MATPARAM%UPARAM(21) = GFROT
+      MATPARAM%UPARAM(22) = AREAMIN1
       AREAMIN2 = ONE + HALF*(AREAMIN1-ONE)
       IF (AREAMIN2 > AREAMIN1) THEN
-        UPARAM(23)= ONE / (AREAMIN2-AREAMIN1)
+        MATPARAM%UPARAM(23)= ONE / (AREAMIN2-AREAMIN1)
       ELSE
-        UPARAM(23)= ZERO
+        MATPARAM%UPARAM(23)= ZERO
       ENDIF
-      UPARAM(24) = ZEROSTRESS
-      UPARAM(25) = ISENS
-      UPARAM(26) = FLEX1
-      UPARAM(27) = FLEX2
-      UPARAM(28) = YFAC(1)
-      UPARAM(29) = YFAC(2)
-      UPARAM(30) = YFAC(3)
-      UPARAM(31) = NFUNC
-      UPARAM(32) = GSH
-      UPARAM(33) = YFAC(4)
-      UPARAM(34) = YFAC(5)
-      UPARAM(35) = ULOAD
-      UPARAM(42) = YFAC(6)
-C
+      MATPARAM%UPARAM(24) = ZEROSTRESS
+      MATPARAM%UPARAM(25) = 0  ! not used
+      MATPARAM%UPARAM(26) = FLEX1
+      MATPARAM%UPARAM(27) = FLEX2
+      MATPARAM%UPARAM(28) = YFAC(1)
+      MATPARAM%UPARAM(29) = YFAC(2)
+      MATPARAM%UPARAM(30) = YFAC(3)
+      MATPARAM%UPARAM(31) = 0 ! not used
+      MATPARAM%UPARAM(32) = GSH
+      MATPARAM%UPARAM(33) = YFAC(4)
+      MATPARAM%UPARAM(34) = YFAC(5)
+      MATPARAM%UPARAM(35) = 0  ! not used
+      MATPARAM%UPARAM(42) = YFAC(6)
+c-----------------------------------------------------------------------
       YOUNG = MAX(KC,KT)
 c--------------------------
       PARMAT(1) = YOUNG/THREE
@@ -316,9 +324,9 @@ c--------------------------
       PARMAT(4) = ZERO
       PARMAT(5) = ZERO
 c--------------------------
-      PM(1)  = RHOR
-      PM(89) = RHO0
-      PM(23) = YOUNG
+      MATPARAM%RHO   = RHOR
+      MATPARAM%RHO0  = RHO0
+      MATPARAM%YOUNG = YOUNG
 c--------------------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"ANISOTROPIC")
 c

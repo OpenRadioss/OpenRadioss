@@ -40,10 +40,10 @@ Chd|====================================================================
       SUBROUTINE CMAINI3(ELBUF_STR,PM      ,GEO      ,NEL      ,NLAY      ,
      .                   SKEW     ,IGEO    ,IX       ,NIX      ,NUMEL     ,
      .                   NSIGSH   ,SIGSH   ,PTSH     ,IGTYP    ,IORTHLOC  ,
-     .                   IPM      ,PROPID  ,ALDT     ,BUFMAT   ,
+     .                   IPM      ,PROPID  ,ALDT     ,MAT_PARAM,
      .                   IR       ,IS      ,ISUBSTACK,STACK    ,IREP      ,
-     .                   DRAPE    ,SHANG    ,GEO_STACK,IGEO_STACK,
-     .                   IGMAT    ,IMAT    ,IPROP    ,
+     .                   DRAPE    ,SHANG   ,GEO_STACK,IGEO_STACK,
+     .                   IGMAT    ,IMAT    ,IPROP    ,NUMMAT ,
      .                   X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                   Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                   E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z ,X  ,
@@ -51,7 +51,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE MESSAGE_MOD           
       USE STACK_MOD          
       USE DRAPE_MOD
@@ -72,18 +72,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NUMMAT
       INTEGER NEL,NLAY,NIX,NSIGSH,NUMEL,IGTYP,PROPID,IR,IS,IREP,IGMAT,IMAT,IPROP,
      .        IDRAPE ,NPT_ALL,NUMEL_DRAPE
       INTEGER IGEO(NPROPGI,*),IX(NIX,*),PTSH(*),IORTHLOC(MVSIZ),
      .        IPM(NPROPMI,*),ISUBSTACK,IGEO_STACK(*)
       INTEGER , DIMENSION(NUMEL_DRAPE) :: INDX
       my_real
-     .   BUFMAT(*),PM(*),GEO(NPROPG,*),SKEW(LSKEW,*),ALDT(*),
+     .   PM(*),GEO(NPROPG,*),SKEW(LSKEW,*),ALDT(*),
      .   SIGSH(NSIGSH,*),SHANG(*),GEO_STACK(*),X(3,*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,
      .                                         X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -100,7 +102,6 @@ C-----------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(BUF_LAY_) ,POINTER :: BUFLY   
-      TYPE(L_BUFEL_DIR_), POINTER :: LBUF_DIR   
       TYPE(DRAPE_) :: DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
 C=======================================================================
       COOR1 = ZERO
@@ -172,33 +173,30 @@ C-----
 C
        IF (IDRAPE == 0) THEN
           DO IL = 1,NLAY
-            NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
-            IMAT =  ELBUF_STR%BUFLY(IL)%IMAT
-            ILAW =  ELBUF_STR%BUFLY(IL)%ILAW
-            NUPARAM = IPM(9,IMAT) 
+            NPTT  = ELBUF_STR%BUFLY(IL)%NPTT
+            IMAT  = ELBUF_STR%BUFLY(IL)%IMAT
+            ILAW  = ELBUF_STR%BUFLY(IL)%ILAW
+            NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
+            DIR1 => ELBUF_STR%BUFLY(IL)%DIRA
+            DIR2 => ELBUF_STR%BUFLY(IL)%DIRB
+            NUPARAM = MAT_PARAM(IMAT)%NUPARAM
+!
             IF (ILAW == 58) THEN
-              DIR1 => ELBUF_STR%BUFLY(IL)%DIRA
-              DIR2 => ELBUF_STR%BUFLY(IL)%DIRB
               DO IT=1,NPTT
                 LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
                 UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
-                NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
-                CALL CM58IN3(IREP     ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
-     .                       BUFMAT   ,UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
+                CALL CM58IN3(IREP     ,DIR1    ,DIR2    ,MAT_PARAM(IMAT)%UPARAM,
+     .                       UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
      .                       X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                       Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                       E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
               ENDDO
             ELSE IF (ILAW == 158) THEN
-              DIR1 => ELBUF_STR%BUFLY(IL)%DIRA
-              DIR2 => ELBUF_STR%BUFLY(IL)%DIRB
               DO IT=1,NPTT
                 LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
                 UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
-                NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
-                CALL LAW158_INIT(
-     .               NUPARAM  ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
-     .               BUFMAT   ,UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
+                CALL LAW158_INIT(DIR1    ,DIR2    ,
+     .               UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
      .               X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .               Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .               E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
@@ -210,17 +208,17 @@ C
             NPTT =  ELBUF_STR%BUFLY(IL)%NPTT
             IMAT =  ELBUF_STR%BUFLY(IL)%IMAT
             ILAW =  ELBUF_STR%BUFLY(IL)%ILAW
-            NUPARAM = IPM(9,IMAT) 
+            NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
+            NUPARAM = MAT_PARAM(IMAT)%NUPARAM
+!
             IF (ILAW == 58) THEN
               DO IT=1,NPTT
                 LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
                 UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
-                NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
-                LBUF_DIR =>ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
-                DIR1 => LBUF_DIR%DIRA
-                DIR2 => LBUF_DIR%DIRB
-                CALL CM58IN3(IREP     ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
-     .                       BUFMAT   ,UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
+                DIR1 => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)%DIRA
+                DIR2 => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)%DIRB
+                CALL CM58IN3(IREP     ,DIR1    ,DIR2    ,MAT_PARAM(IMAT)%UPARAM,
+     .                       UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
      .                       X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                       Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                       E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
@@ -229,13 +227,10 @@ C
               DO IT=1,NPTT
                 LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
                 UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
-                NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
-                LBUF_DIR =>ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)    
-                DIR1 => LBUF_DIR%DIRA
-                DIR2 => LBUF_DIR%DIRB
-                CALL LAW158_INIT(
-     .               NUPARAM  ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
-     .               BUFMAT   ,UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
+                DIR1 => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)%DIRA
+                DIR2 => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)%DIRB
+                CALL LAW158_INIT(DIR1    ,DIR2    ,
+     .               UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
      .               X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .               Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .               E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )

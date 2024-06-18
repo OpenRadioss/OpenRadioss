@@ -28,12 +28,11 @@ Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
 Chd|        CMAINI3                       source/elements/sh3n/coquedk/cmaini3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE LAW158_INIT(
-     .           NUPARAM   ,IMAT  ,IPM   ,DIR1   ,DIR2  ,
-     .           UPARAM    ,UVAR  ,ALDT  ,NEL    ,NUVAR ,TAN_PHI  ,
-     .           X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
-     .           Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
-     .           E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
+      SUBROUTINE LAW158_INIT(DIR1     ,DIR2     ,
+     .                       UVAR,ALDT,NEL      ,NUVAR    ,TAN_PHI  ,
+     .                       X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
+     .                       Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
+     .                       E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,27 +41,24 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "com04_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NUVAR,NUPARAM,IMAT
-      INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN) :: IPM
-      my_real ,DIMENSION(NUPARAM) ,INTENT(IN) :: UPARAM
-      my_real ,DIMENSION(NEL)   ,INTENT(IN) :: ALDT
-      my_real ,DIMENSION(NEL,2) ,INTENT(IN) :: DIR1,DIR2
-      my_real, DIMENSION(NEL)   ,INTENT(IN) :: E1X,E2X,E3X,E1Y,E2Y,
+      INTEGER                     ,INTENT(IN) :: NEL,NUVAR
+      my_real ,DIMENSION(NEL)     ,INTENT(IN) :: ALDT
+      my_real ,DIMENSION(NEL,2)   ,INTENT(IN) :: DIR1,DIR2
+      my_real, DIMENSION(NEL)     ,INTENT(IN) :: E1X,E2X,E3X,E1Y,E2Y,
      .   E3Y,E1Z,E2Z,E3Z,X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(OUT) :: UVAR
       my_real ,DIMENSION(NEL)       ,INTENT(OUT) :: TAN_PHI
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,IADB
+      INTEGER I
       my_real
      .   R,S,D1,D2,D11,D12,D21,D22,U1X,U1Y,U2X,U2Y,DET,W1X,W2X,W1Y,W2Y,
-     .   PHI,CSP,SNP,TANA,R1,R2,S1,S2,G0,AA,BB,SUMA,V1,V2,V3,WR,WS
+     .   PHI,CSP,SNP,TANA,R1,R2,S1,S2,AA,BB,SUMA,V1,V2,V3,WR,WS
       my_real , DIMENSION(NEL) :: E11,E12,E13,E21,E22,E23
 C======================================================================|
 C---  isoparametric (material) axes        
@@ -88,8 +84,6 @@ C---    shell 3N
         ENDDO                              
       ENDIF                                
 C------  Initialise UVAR 
-      IADB  = IPM(7,IMAT)-1                                        
-      G0    = UPARAM(IADB+13)                                               
       DO I=1,NEL
         AA = DIR1(I,1)                                                     
         BB = DIR1(I,2)                                                     
@@ -116,7 +110,6 @@ c
         UVAR(I,1:NUVAR) = ZERO                                                 
         UVAR(I,6)  = TANA                                                  
         TAN_PHI(I) = TANA                                                  
-        UVAR(I,10) = TANA*G0                                               
         UVAR(I,14) = ALDT(I)                                               
       ENDDO                                                                
 C----

@@ -34,15 +34,16 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE LAW58_UPD(IOUT   ,TITR   ,UPARAM ,NPC    ,PLD    ,  
-     .                     NFUNC  ,NFUNL  ,IFUNC  ,MAT_ID ,FUNC_ID,
-     .                     PM     ,NUPARAM,SENSORS)
+      SUBROUTINE LAW58_UPD(MAT_PARAM,TITR   ,NPC    ,PLD    ,  
+     .                     NFUNC    ,NFUNL  ,IFUNC  ,MAT_ID ,FUNC_ID,
+     .                     PM       ,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE TABLE_MOD
       USE SENSOR_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,17 +52,20 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com04_c.inc"
 #include      "scr17_c.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      CHARACTER*nchartitle  :: TITR
-      INTEGER MAT_ID,IOUT,NFUNC,NFUNL,NUPARAM,NPTS
-      INTEGER NPC(SNPC), FUNC_ID(NFUNCT),IFUNC(NFUNC+NFUNL)
-      my_real UPARAM(NUPARAM),PLD(STF),PM(NPROPM)
-      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      CHARACTER*nchartitle            ,INTENT(IN)    :: TITR
+      INTEGER                         ,INTENT(IN)    :: MAT_ID,NFUNC,NFUNL
+      INTEGER ,DIMENSION(NFUNC)       ,INTENT(IN)    :: FUNC_ID
+      INTEGER ,DIMENSION(NFUNC+NFUNL) ,INTENT(INOUT) :: IFUNC
+      INTEGER ,DIMENSION(SNPC)        ,INTENT(IN)    :: NPC
+      my_real ,DIMENSION(STF)         ,INTENT(IN)    :: PLD
+      my_real ,DIMENSION(NPROPM)      ,INTENT(OUT)   :: PM
+      TYPE (SENSORS_)                 ,INTENT(IN)    :: SENSORS
+      TYPE(MATPARAM_STRUCT_)          ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -79,7 +83,7 @@ c
 C----------------------------
 C     SENSOR NUMBERING CHECK
 C----------------------------
-      SENS_ID = UPARAM(25)
+      SENS_ID = MAT_PARAM%IPARAM(2)
       ISENS   = 0
       IF (SENS_ID > 0 ) THEN
         DO I=1,SENSORS%NSENSOR
@@ -92,8 +96,8 @@ C----------------------------
           CALL ANCMSG(MSGID=1240,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
      .          I1=MAT_ID,C1=TITR,I2=ISENS) 
         END IF
-        UPARAM(25) = ISENS
       ENDIF
+      MAT_PARAM%IPARAM(2) = ISENS
 c---------------------------------------------------------------
       KC   = ZERO
       KT   = ZERO
@@ -108,7 +112,7 @@ c
       FUNC = IFUNC(1)                                                            
       IF (FUNC > 0 ) THEN       
                                                   
-        FAC = UPARAM(28)                                                     
+        FAC = MAT_PARAM%UPARAM(28)                                                     
         CALL FUNC_SLOPE(FUNC,FAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)
 c
         IF (STIFFMIN <= ZERO) THEN
@@ -122,7 +126,7 @@ c
         KC  = MAX(KC ,STIFFMAX)
         KFC = MAX(KFC,STIFFINI)
         KCMAX = KC
-        UPARAM(40) = STIFFINI
+        MAT_PARAM%UPARAM(40) = STIFFINI
 c        
       ENDIF
 c
@@ -130,7 +134,7 @@ c     fiber stiffness dir2 (load)
 c
       FUNC = IFUNC(2)                                                            
       IF (FUNC > 0 ) THEN                                                         
-        FAC = UPARAM(29)                                                     
+        FAC = MAT_PARAM%UPARAM(29)                                                     
         CALL FUNC_SLOPE(FUNC,FAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)    
 c
         IF (STIFFMIN <= ZERO) THEN
@@ -144,15 +148,14 @@ c
         KT  = MAX(KT ,STIFFMAX)
         KFT = MAX(KFT,STIFFINI)
         KTMAX = KT
-        UPARAM(41) = STIFFINI
+        MAT_PARAM%UPARAM(41) = STIFFINI
       ENDIF
 c
 c     shear modulus  (load) 
 c
       FUNC = IFUNC(3)                                                            
       IF (FUNC > 0 ) THEN                                                         
-
-        FAC  = UPARAM(30)
+        FAC  = MAT_PARAM%UPARAM(30)
         CALL FUNC_SLOPE(FUNC,FAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)    
 c
         IF (STIFFMIN <= ZERO) THEN
@@ -166,12 +169,12 @@ c
         GMAX  = MAX(GMAX,STIFFMAX)
         GFROT = STIFFINI
         GSH   = STIFFINI
-        IF (UPARAM(21) == ZERO) UPARAM(21) = GFROT
-        IF (UPARAM(32) == ZERO) UPARAM(32) = GSH
+        IF (MAT_PARAM%UPARAM(21) == ZERO) MAT_PARAM%UPARAM(21) = GFROT
+        IF (MAT_PARAM%UPARAM(32) == ZERO) MAT_PARAM%UPARAM(32) = GSH
         
       ENDIF                                       
 c
-      UNLOAD = NINT(UPARAM(35))
+      UNLOAD = MAT_PARAM%IPARAM(1)
 c-------------------------------------------------
       IF (UNLOAD == 1) THEN  ! hystheresis / unload option
 c-------------------------------------------------
@@ -180,7 +183,7 @@ c       Fiber stiffness dir1 (unload)
 c
         FUNC = IFUNC(4)                                                            
         IF (FUNC > 0 )THEN                                                         
-          FAC  = UPARAM(33)                                                     
+          FAC  = MAT_PARAM%UPARAM(33)                                                     
           CALL FUNC_SLOPE(FUNC,FAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)    
           KCMAX = MAX(KCMAX,STIFFMAX)
 c
@@ -198,7 +201,7 @@ c       Fiber stiffness dir2 (unload)
 c
         FUNC = IFUNC(5)                                                            
         IF (FUNC > 0 )THEN                                                         
-          FAC  = UPARAM(34)                                                     
+          FAC  = MAT_PARAM%UPARAM(34)                                                     
           CALL FUNC_SLOPE(FUNC,FAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)    
           KTMAX = MAX(KTMAX,STIFFMAX)                                          
 c
@@ -216,7 +219,7 @@ c       shear modulus  (unload)
 c
         FUNC = IFUNC(6)                                                          
         IF (FUNC > 0 )THEN                                                       
-          FAC = UPARAM(42)
+          FAC = MAT_PARAM%UPARAM(42)
           CALL FUNC_SLOPE(FUNC,FAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG)  
           GMAX = MAX(GMAX,STIFFMAX)
 c
@@ -236,15 +239,15 @@ c
         FUND = IFUNC(4)
 c
         IF (FUNC == 0) THEN
-          UPARAM(36) = INFINITY    
-          UPARAM(37) = INFINITY    
+          MAT_PARAM%UPARAM(36) = INFINITY    
+          MAT_PARAM%UPARAM(37) = INFINITY    
         ELSEIF (FUNC == FUND) THEN
           PN = NPC(FUNC+1)
-          UPARAM(36) = PLD(PN - 2)    
-          UPARAM(37) = PLD(PN - 1)
+          MAT_PARAM%UPARAM(36) = PLD(PN - 2)    
+          MAT_PARAM%UPARAM(37) = PLD(PN - 1)
         ELSE
-          FAC1 = UPARAM(28)
-          FAC2 = UPARAM(33)
+          FAC1 = MAT_PARAM%UPARAM(28)
+          FAC2 = MAT_PARAM%UPARAM(33)
           CALL FUNC_INTERS(TITR   ,MAT_ID ,FUNC   ,FUND   ,FAC1   ,
      .                     FAC2   ,NPC    ,PLD    ,XINT1  ,YINT1  )
           IF (XINT1 == ZERO .or. YINT1 == ZERO) THEN
@@ -254,8 +257,8 @@ c
      .                  I3 = FUNC_ID(FUND),                                               
      .                  C1 = TITR  )
           ENDIF 
-          UPARAM(36) = XINT1    
-          UPARAM(37) = YINT1
+          MAT_PARAM%UPARAM(36) = XINT1    
+          MAT_PARAM%UPARAM(37) = YINT1
         ENDIF    
 c
 c       Intersection - direction trame : load = ifunc(2), unload = ifunc(5)
@@ -264,15 +267,15 @@ c
         FUND = IFUNC(5)
 c
         IF (FUNC == 0) THEN
-          UPARAM(38) = INFINITY    
-          UPARAM(39) = INFINITY
+          MAT_PARAM%UPARAM(38) = INFINITY    
+          MAT_PARAM%UPARAM(39) = INFINITY
         ELSEIF (FUNC == FUND) THEN
           PN = NPC(FUNC+1)
-          UPARAM(38) = PLD(PN - 2)    
-          UPARAM(39) = PLD(PN - 1)
+          MAT_PARAM%UPARAM(38) = PLD(PN - 2)    
+          MAT_PARAM%UPARAM(39) = PLD(PN - 1)
         ELSE
-          FAC1 = UPARAM(29)
-          FAC2 = UPARAM(34)
+          FAC1 = MAT_PARAM%UPARAM(29)
+          FAC2 = MAT_PARAM%UPARAM(34)
           CALL FUNC_INTERS(TITR   ,MAT_ID ,FUNC   ,FUND   ,FAC1   ,
      .                     FAC2   ,NPC    ,PLD    ,XINT2  ,YINT2  )
           IF (XINT1 == ZERO .or. YINT1 == ZERO) THEN
@@ -282,8 +285,8 @@ c
      .                  I3 = FUNC_ID(FUND),                                               
      .                  C1 = TITR  )
           ENDIF 
-          UPARAM(38) = XINT2    
-          UPARAM(39) = YINT2    
+          MAT_PARAM%UPARAM(38) = XINT2    
+          MAT_PARAM%UPARAM(39) = YINT2    
         ENDIF    
 c
 c       Intersection - Shear : load = ifunc(3), unload = ifunc(6)
@@ -292,8 +295,8 @@ c
         FUND = IFUNC(6)
 c
         IF (FUNC /= FUND) THEN
-          FAC1 = UPARAM(30)
-          FAC2 = UPARAM(42)
+          FAC1 = MAT_PARAM%UPARAM(30)
+          FAC2 = MAT_PARAM%UPARAM(42)
           CALL FUNC_INTERS_SHEAR(
      .         TITR   ,MAT_ID ,FUNC   ,FUND   ,FAC1   ,FAC2   ,
      .         NPC    ,PLD    ,XINT1  ,YINT1  ,XINT2  ,YINT2  )
@@ -308,17 +311,17 @@ c
      .                  C1 = TITR  )
           ENDIF 
 c          
-          UPARAM(43) = XINT1
-          UPARAM(44) = YINT1
-          UPARAM(45) = XINT2
-          UPARAM(46) = YINT2
+          MAT_PARAM%UPARAM(43) = XINT1
+          MAT_PARAM%UPARAM(44) = YINT1
+          MAT_PARAM%UPARAM(45) = XINT2
+          MAT_PARAM%UPARAM(46) = YINT2
         ELSEIF (FUNC > 0) THEN
           PN = NPC(FUNC)
-          UPARAM(43) = PLD(PN)
-          UPARAM(44) = PLD(PN+1)
+          MAT_PARAM%UPARAM(43) = PLD(PN)
+          MAT_PARAM%UPARAM(44) = PLD(PN+1)
           PN = NPC(FUNC+1)
-          UPARAM(45) = PLD(PN - 2)
-          UPARAM(46) = PLD(PN - 1)
+          MAT_PARAM%UPARAM(45) = PLD(PN - 2)
+          MAT_PARAM%UPARAM(46) = PLD(PN - 1)
         ENDIF    
 c-----------
       ENDIF  ! UNLOAD
@@ -326,12 +329,15 @@ c-----------
       IF (KCMAX > 0 ) KCMAX = KCMAX * TWO
       IF (KTMAX > 0 ) KTMAX = KTMAX * TWO
       IF (GMAX  > 0 ) GMAX  = GMAX  * TWO
-      KCMAX = MAX(UPARAM(9) , KCMAX) 
-      KTMAX = MAX(UPARAM(10), KTMAX) 
-      GMAX  = MAX(UPARAM(14), GMAX)  
-      UPARAM(9)  = KCMAX
-      UPARAM(10) = KTMAX
-      UPARAM(14) = GMAX
+      KCMAX = MAX(MAT_PARAM%UPARAM(9) , KCMAX) 
+      KTMAX = MAX(MAT_PARAM%UPARAM(10), KTMAX) 
+      GMAX  = MAX(MAT_PARAM%UPARAM(14), GMAX)  
+      KCMAX = MAX(MAT_PARAM%UPARAM(9) , KCMAX) 
+      KTMAX = MAX(MAT_PARAM%UPARAM(10), KTMAX) 
+      GMAX  = MAX(MAT_PARAM%UPARAM(14), GMAX)  
+      MAT_PARAM%UPARAM(9)  = KCMAX
+      MAT_PARAM%UPARAM(10) = KTMAX
+      MAT_PARAM%UPARAM(14) = GMAX
 c
       STIFF = MAX(KCMAX,KTMAX)
 c

@@ -35,8 +35,8 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matp
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT19(MTAG     ,UPARAM   ,MAXUPARAM,NUPARAM  ,PM       ,
-     .                         MATPARAM ,PARMAT   ,NUVAR    ,MAT_ID   ,TITR     ,
+      SUBROUTINE HM_READ_MAT19(MATPARAM ,MTAG     ,PM       ,PARMAT   ,
+     .                         NUVAR    ,MAT_ID   ,TITR     ,
      .                         UNITAB   ,LSUBMODEL,ISRATE   )
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -75,10 +75,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(INOUT)  :: NUPARAM,NUVAR,ISRATE
-      INTEGER ,INTENT(IN)   :: MAT_ID,MAXUPARAM
-      CHARACTER*nchartitle,INTENT(IN)::TITR
-      my_real ,INTENT(INOUT):: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
+      INTEGER ,INTENT(INOUT) :: NUVAR,ISRATE
+      INTEGER ,INTENT(IN)    :: MAT_ID
+      my_real ,INTENT(INOUT) :: PM(NPROPM)
+      my_real ,INTENT(INOUT) :: PARMAT(100)
+      CHARACTER*nchartitle   ,INTENT(IN)    :: TITR
       TYPE (UNIT_TYPE_)      ,INTENT(IN)    :: UNITAB 
       TYPE(SUBMODEL_DATA)    ,INTENT(IN)    :: LSUBMODEL((NSUBMOD))
       TYPE(MLAW_TAG_)        ,INTENT(INOUT) :: MTAG
@@ -186,25 +187,35 @@ c
       ENDIF
       PM(56) = POROSITY 
 c-----------------------------------------
-      UPARAM(1)  = E11
-      UPARAM(2)  = E22
-      UPARAM(3)  = N12
-      UPARAM(4)  = N21
-      UPARAM(5)  = G12
-      UPARAM(6)  = G23
-      UPARAM(7)  = G31
-      UPARAM(8)  = RCOMP
-      UPARAM(9)  = SSP
-      UPARAM(10) = A11                         
-      UPARAM(11) = A22                         
-      UPARAM(12) = A12
-      UPARAM(13) = ISENS
-      UPARAM(14) = ZEROSTRESS
-      UPARAM(15) = POROSITY
-c
-      NUPARAM = 15
       NUVAR   = 0
-c                
+      MATPARAM%NUPARAM = 15
+      MATPARAM%NIPARAM = 1
+      MATPARAM%NFUNC   = 0
+!
+      ALLOCATE (MATPARAM%UPARAM(MATPARAM%NUPARAM))
+      ALLOCATE (MATPARAM%IPARAM(MATPARAM%NIPARAM))
+c-----------------------------------------
+      MATPARAM%IPARAM(1)  = ISENS 
+!
+      MATPARAM%UPARAM(1)  = E11
+      MATPARAM%UPARAM(2)  = E22
+      MATPARAM%UPARAM(3)  = N12
+      MATPARAM%UPARAM(4)  = N21
+      MATPARAM%UPARAM(5)  = G12
+      MATPARAM%UPARAM(6)  = G23
+      MATPARAM%UPARAM(7)  = G31
+      MATPARAM%UPARAM(8)  = RCOMP
+      MATPARAM%UPARAM(9)  = SSP
+      MATPARAM%UPARAM(10) = A11                         
+      MATPARAM%UPARAM(11) = A22                         
+      MATPARAM%UPARAM(12) = A12
+      MATPARAM%UPARAM(13) = ZERO        ! not used
+      MATPARAM%UPARAM(14) = ZEROSTRESS
+      MATPARAM%UPARAM(15) = POROSITY
+c--------------------------
+      MATPARAM%RHO   = RHOR
+      MATPARAM%RHO0  = RHO0
+      MATPARAM%YOUNG = MAX(E11,E22)
 c --------------------------
       PARMAT(1)  = C1
       PARMAT(2)  = MAX(E11,E22)/DETC

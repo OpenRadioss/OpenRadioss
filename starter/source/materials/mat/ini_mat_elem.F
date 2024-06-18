@@ -89,6 +89,10 @@ c
 c
         ! Options compatibility flags
         MAT_ELEM%MAT_PARAM(IMAT)%COMPATIBILITY_EOS = 0
+c
+        ! material parameters
+        MAT_ELEM%MAT_PARAM(IMAT)%RHO         = ZERO   
+        MAT_ELEM%MAT_PARAM(IMAT)%RHO0        = ZERO   
 c        
       END DO
 c-----------

@@ -219,26 +219,6 @@ C
           ENDIF
  250      CONTINUE
 c
-        ELSE IF(ILAW == 19) THEN
-         NF=IPM(10,I)+IPM(6,I)
-         DO 240 K=1,NF
-          IS=IPM(10+K,I)
-          IF(IS/=0)THEN
-           DO J=1,NFUNCT
-            IF(IS == NPC1(J))  THEN
-              IPM(10+K,I)=J
-              GOTO 240
-            ENDIF
-           ENDDO
-           CALL ANCMSG(MSGID=126,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID,
-     .                 C1=TITR,
-     .                 I2=IS)
-          ENDIF
- 240      CONTINUE
-C
         ELSE IF(ILAW == 21) THEN
 C
           IS=IPM(11,I)
@@ -1716,35 +1696,6 @@ C
 C    (III) SENSOR NUMBERING
 C
 C=======================================================================
-C----------------------------
-C     MATERIAL LAWS
-C----------------------------
-C
-      DO I=1,NUMMAT
-        ILAW = NINT(PM(19,I))
-        IF (ILAW == 19) THEN
-          ID = IPM(1,I)
-          CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)
-          IADD  = IPM(7,I) - 1
-          ISENS = BUFMAT(IADD+13)
-          IOK = 0
-          IF (ISENS > 0) THEN
-            DO J=1,SENSORS%NSENSOR
-              IF (ISENS == SENSORS%SENSOR_TAB(J)%SENS_ID) THEN
-                BUFMAT(IADD+13) = J
-                IOK = 1
-                EXIT
-              END IF
-            ENDDO
-            IF (IOK == 0) THEN  
-              CALL ANCMSG(MSGID=1240,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
-     .                    I1=ID,C1=TITR,I2=ISENS) 
-              BUFMAT(IADD+13) = 0   ! If not found set SENSOR ID to 0 as if there is no sensor
-            ENDIF
-          ENDIF
-        ENDIF
-      ENDDO
-C-------------------------
 C  CONVECTIVE HEAT FLUX
 C-------------------------
        DO I=1,NUMCONV

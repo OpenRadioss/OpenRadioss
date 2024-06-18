@@ -159,9 +159,7 @@ C     REAL OU REAL*8
      .   STIFN(*), STIFR(*),FSKY(*),TANI(6,*),THKE(*),
      .   FZERO(3,4,*),TEMP(*),FTHE(*),FTHESKY(*),GRESAV(*),
      .   MSC(*), DMELC(*),CONDN(*),CONDNSKY(*)
-      my_real    
-     .   DT1, DT2T
-      TARGET :: BUFMAT
+      my_real DT1, DT2T
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
@@ -234,14 +232,14 @@ C--------------------------------
        my_real , DIMENSION (NEL) :: ZOFFSET
 C--- Variables pour le non-local
       INTEGER :: NDDL, K, INOD(4),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
-     .           IPOS(4), L_NLOC, IMAT, INLOC,NUPARAM,IADBUF,IINT
+     .           IPOS(4), L_NLOC, IMAT, INLOC,IINT
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: BPRELD,DNL,UVAR
 C---
       INTEGER, DIMENSION(NEL) :: OFFLY
       INTEGER, ALLOCATABLE, DIMENSION(:) :: ELCRKINI
       my_real, ALLOCATABLE, DIMENSION(:) :: DIRA,DIRB,DIR1_CRK,DIR2_CRK
-      my_real, DIMENSION(:) ,POINTER     :: DIR_A,DIR_B,CRKDIR,CRKLEN,DADV,UPARAM
+      my_real, DIMENSION(:) ,POINTER     :: DIR_A,DIR_B,CRKDIR,CRKLEN,DADV
       TARGET :: DIRA,DIRB
 C-----
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
@@ -352,9 +350,6 @@ C
       IMAT  = IXC(1,JFT)
       IGTYP = IGEO(11,PID(1))
       IGMAT = IGEO(98,PID(1))
-      IADBUF = MAX(1,IPM(7,IMAT))
-      NUPARAM= IPM(9,IMAT)       
-      UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
 c--------------------------------------------
 c     Front wave
 c--------------------------------------------
@@ -429,8 +424,8 @@ C
      6              NPTTOT ,DT1C    ,DT1     ,IHBE    ,AMU     ,
      7              GSR    ,A11SR   ,A12SR   ,NUSR    ,SHFSR   ,
      8              KRZ    ,IGEO    ,A11R , ISUBSTACK , STACK%PM,
-     9              UPARAM ,DIRA    ,DIRB    ,UVAR    ,FAC58   ,
-     A              NEL     ,ZOFFSET )
+     9              MAT_ELEM%MAT_PARAM(IMAT)%UPARAM ,DIRA    ,DIRB    ,
+     A              UVAR   ,FAC58   ,NEL     ,ZOFFSET )
 C       
       CALL CNCOEFORT(JFT    ,JLT    ,PM        ,MAT     ,GEO     ,
      1               PID    ,MTN    ,NPTTOT    ,HM      ,HF      ,

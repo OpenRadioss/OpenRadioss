@@ -87,6 +87,10 @@ c
         MATPARAM_TAB(I)%PROP_TRUSS         = MATPARAM_INI(I)%PROP_TRUSS
         MATPARAM_TAB(I)%PROP_SPH           = MATPARAM_INI(I)%PROP_SPH
 c
+        MATPARAM_TAB(I)%RHO                = MATPARAM_INI(I)%RHO
+        MATPARAM_TAB(I)%RHO0               = MATPARAM_INI(I)%RHO0
+        MATPARAM_TAB(I)%YOUNG              = MATPARAM_INI(I)%YOUNG
+c
         MATPARAM_TAB(I)%COMPATIBILITY_EOS  = MATPARAM_INI(I)%COMPATIBILITY_EOS
 c
         ALLOCATE(MATPARAM_TAB(I)%UPARAM(NUPARAM))
@@ -174,6 +178,10 @@ c
         MATPARAM_TAB(I)%PROP_TRUSS         = 1
         MATPARAM_TAB(I)%PROP_SPH           = 1 
         MATPARAM_TAB(I)%COMPATIBILITY_EOS  = 0
+c
+        MATPARAM_TAB(I)%RHO                = ZERO
+        MATPARAM_TAB(I)%RHO0               = ZERO
+        MATPARAM_TAB(I)%YOUNG              = ZERO
       ENDDO
 c-----------------------------------------------
       RETURN

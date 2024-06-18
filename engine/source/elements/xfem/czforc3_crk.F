@@ -156,7 +156,7 @@ C--------------------------------
       INTEGER 
      .   I,J,NEL,MX,NNOD,NPG,IBID,ISROT,IXLAY,NXLAY,NLAYER,NPTT,
      .   IR,IS,IT,IPT,NG,L_DIRA,L_DIRB,J1,J2,IXFEM2,IPTHK,
-     .   IORTH,ILEV,IGMAT,IGTYP,IREP,NUPARAM,IADBUF,IMAT,
+     .   IORTH,ILEV,IGMAT,IGTYP,IREP,IMAT,
      .   ACTIFXFEM, SEDRAPE,NUMEL_DRAPE
       INTEGER  MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),FWAVE(MVSIZ)
       PARAMETER (NNOD = 4)
@@ -209,7 +209,7 @@ C---
       my_real, 
      .    ALLOCATABLE, DIMENSION(:) :: DIRA,DIRB,DIR1_CRK,DIR2_CRK
       my_real,
-     .  DIMENSION(:) ,POINTER  ::  DIR_A,DIR_B,UPARAM,UVAR
+     .  DIMENSION(:) ,POINTER  ::  DIR_A,DIR_B,UVAR
       TARGET :: DIRA,DIRB
 C---
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
@@ -256,9 +256,6 @@ C
       IREP  = IPARG(35)
       ACTIFXFEM = IPARG(70)
       IMAT  = IXC(1,JFT)
-      IADBUF = MAX(1,IPM(7,IMAT))
-      NUPARAM= IPM(9,IMAT)       
-      UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
 C-----------------------------------------
       GBUF => XFEM_STR%GBUF
 C
@@ -403,8 +400,8 @@ C
      6                NPTT   ,DT1C    ,DT1     ,IHBE   ,AMU    ,
      7                GSR    ,A11SR   ,A12SR   ,NUSR   ,SHFSR  ,
      8                KRZ    ,IGEO    ,A11R  ,ISUBSTACK, STACK%PM, 
-     9                UPARAM ,DIRA    ,DIRB    ,UVAR   ,FAC58  ,
-     A                NEL     ,ZOFFSET)
+     9                MAT_ELEM%MAT_PARAM(IMAT)%UPARAM ,DIRA    ,DIRB    ,
+     A                UVAR   ,FAC58  ,NEL     ,ZOFFSET)
 C
         CALL CNCOEFORT(JFT    ,JLT    ,PM       ,MAT     ,GEO    ,  
      1                 PID    ,MTN    ,NPTT     ,HM      ,HF     ,  

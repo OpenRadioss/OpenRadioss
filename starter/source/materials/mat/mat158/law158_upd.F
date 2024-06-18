@@ -32,15 +32,16 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE LAW158_UPD(TITR   ,UPARAM ,NPC    ,PLD    ,  
-     .                      NFUNC  ,NFUNL  ,IFUNC  ,MAT_ID ,FUNC_ID,
-     .                      PM     ,NUPARAM,SENSORS)
+      SUBROUTINE LAW158_UPD(MAT_PARAM,TITR   ,NPC    ,PLD    ,  
+     .                      NFUNC    ,NFUNL  ,IFUNC  ,MAT_ID ,FUNC_ID,
+     .                      PM       ,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE TABLE_MOD
       USE SENSOR_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,21 +50,20 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com04_c.inc"
 #include      "scr17_c.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      CHARACTER*nchartitle  ,INTENT(IN) :: TITR
-      INTEGER ,INTENT(IN) :: MAT_ID,NFUNC,NFUNL,NUPARAM
-      INTEGER ,DIMENSION(NFUNC) ,INTENT(IN) :: FUNC_ID
+      CHARACTER*nchartitle            ,INTENT(IN)    :: TITR
+      INTEGER                         ,INTENT(IN)    :: MAT_ID,NFUNC,NFUNL
+      INTEGER ,DIMENSION(NFUNC)       ,INTENT(IN)    :: FUNC_ID
       INTEGER ,DIMENSION(NFUNC+NFUNL) ,INTENT(INOUT) :: IFUNC
-      INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPC
-      my_real ,DIMENSION(STF)  ,INTENT(IN) :: PLD
-      my_real ,DIMENSION(NUPARAM) ,INTENT(INOUT) :: UPARAM
-      my_real ,DIMENSION(NPROPM)  ,INTENT(OUT)   :: PM
-      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      INTEGER ,DIMENSION(SNPC)        ,INTENT(IN)    :: NPC
+      my_real ,DIMENSION(STF)         ,INTENT(IN)    :: PLD
+      my_real ,DIMENSION(NPROPM)      ,INTENT(OUT)   :: PM
+      TYPE (SENSORS_)                 ,INTENT(IN)    :: SENSORS
+      TYPE(MATPARAM_STRUCT_)          ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -77,15 +77,14 @@ c
       IF (NFUNL > 0) THEN
         CALL MATFUN_USR2SYS(TITR,MAT_ID,NFUNL,IFUNC(NFUNC+1),FUNC_ID  )
       ENDIF
-c
 c---------------------------------------------------------------
-      KFLEX1= UPARAM(6)
-      KFLEX2= UPARAM(7)
-      YFAC1 = UPARAM(12) 
-      YFAC2 = UPARAM(13) 
-      YFAC3 = UPARAM(14)
+      KFLEX1  = MAT_PARAM%UPARAM(6)
+      KFLEX2  = MAT_PARAM%UPARAM(7)
+      YFAC1   = MAT_PARAM%UPARAM(12) 
+      YFAC2   = MAT_PARAM%UPARAM(13) 
+      YFAC3   = MAT_PARAM%UPARAM(14)
      
-      SENS_ID = NINT(UPARAM(9))
+      SENS_ID = MAT_PARAM%IPARAM(1)
 C----------------------------
 C     SENSOR NUMBERING CHECK
 C----------------------------
@@ -94,7 +93,6 @@ C----------------------------
         DO I=1,SENSORS%NSENSOR
           IF (SENS_ID == SENSORS%SENSOR_TAB(I)%SENS_ID) THEN
             ISENS = I
-            UPARAM(9) = ISENS
             EXIT
           END IF
         ENDDO
@@ -102,6 +100,7 @@ C----------------------------
      .    CALL ANCMSG(MSGID=1240,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
      .          I1=MAT_ID,C1=TITR,I2=ISENS) 
       ENDIF
+      MAT_PARAM%IPARAM(1) = ISENS
 c---------------------------------------------------------------
 c
 c     fiber stiffness dir1 (load) 
@@ -184,8 +183,8 @@ c
       ENDIF                                                                     
 c-----------
       STIFF = MAX(KCMAX,KTMAX)
-      UPARAM(10) = STIFF
-      UPARAM(11) = GMAX
+      MAT_PARAM%UPARAM(10) = STIFF
+      MAT_PARAM%UPARAM(11) = GMAX
 c-----------
       PM(20) = STIFF        ! Stiffness contact
       PM(21) = ZERO         ! NU

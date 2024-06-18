@@ -36,10 +36,9 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matp
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT158(
-     .           UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,NFUNC    ,
-     .           MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
-     .           PM       ,LSUBMODEL,MAT_ID   ,TITR     ,MATPARAM )
+      SUBROUTINE HM_READ_MAT158(MATPARAM ,NUVAR    ,NFUNC    ,
+     .                          MAXFUNC  ,IFUNC    ,MTAG     ,UNITAB   ,
+     .                          LSUBMODEL,MAT_ID   ,TITR     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,13 +72,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER, INTENT(IN)    :: MAT_ID,MAXUPARAM,MAXFUNC
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
+      INTEGER, INTENT(IN)    :: MAT_ID,MAXFUNC
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
-      INTEGER, INTENT(INOUT)                         :: NUPARAM,NUVAR,NFUNC
-      INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT)   :: IFUNC
-      my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)   :: UPARAM
-      my_real, DIMENSION(100),INTENT(INOUT) :: PARMAT
+      INTEGER, INTENT(INOUT)                       :: NUVAR,NFUNC
+      INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT) :: IFUNC
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT) :: MTAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
@@ -161,34 +157,32 @@ c-----------------------------------------------------------------------
       HT0 = SQRT(DT0*DT0 - LT0*LT0)
 c-----------------------------------------------------------------------
       NUVAR   = 40   
-      NUPARAM = 15
+      MATPARAM%NUPARAM = 14
+      MATPARAM%NIPARAM = 1
+      MATPARAM%NFUNC   = NFUNC
+!
+      ALLOCATE (MATPARAM%UPARAM(MATPARAM%NUPARAM))
+      ALLOCATE (MATPARAM%IPARAM(MATPARAM%NIPARAM))
 c-----------------------------------------------------------------------
-      UPARAM(1:NUPARAM) = ZERO
-c
-      UPARAM( 1) = DC0
-      UPARAM( 2) = DT0
-      UPARAM( 3) = HC0
-      UPARAM( 4) = HT0
-      UPARAM( 5) = KFLEX 
-      UPARAM( 6) = KFLEX1
-      UPARAM( 7) = KFLEX2
-      UPARAM( 8) = ZEROSTRESS
-      UPARAM( 9) = ISENS
-      UPARAM(10) = ZERO       ! KTMAX  = max fiber stiffness  
-      UPARAM(11) = ZERO       ! GMAX   = max shear stiffness  
-      UPARAM(12) = YFAC(1)
-      UPARAM(13) = YFAC(2)
-      UPARAM(14) = YFAC(3)
+      MATPARAM%IPARAM(1) = ISENS
+!      
+      MATPARAM%UPARAM( 1) = DC0
+      MATPARAM%UPARAM( 2) = DT0
+      MATPARAM%UPARAM( 3) = HC0
+      MATPARAM%UPARAM( 4) = HT0
+      MATPARAM%UPARAM( 5) = KFLEX 
+      MATPARAM%UPARAM( 6) = KFLEX1
+      MATPARAM%UPARAM( 7) = KFLEX2
+      MATPARAM%UPARAM( 8) = ZEROSTRESS
+      MATPARAM%UPARAM( 9) = 0          ! not used
+      MATPARAM%UPARAM(10) = ZERO       ! KTMAX  = max fiber stiffness  
+      MATPARAM%UPARAM(11) = ZERO       ! GMAX   = max shear stiffness  
+      MATPARAM%UPARAM(12) = YFAC(1)
+      MATPARAM%UPARAM(13) = YFAC(2)
+      MATPARAM%UPARAM(14) = YFAC(3)
 c--------------------------
-!      PARMAT(1) = YOUNG/THREE
-!      PARMAT(2) = YOUNG
-!      PARMAT(3) = ZERO                                      
-!      PARMAT(4) = ZERO                                      
-!      PARMAT(5) = ZERO                                      
-c--------------------------
-      PM(1)  = RHO0
-      PM(89) = RHO0
-!      PM(23) = YOUNG
+      MATPARAM%RHO   = RHO0
+      MATPARAM%RHO0  = RHO0
 c--------------------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"ANISOTROPIC")
 c
