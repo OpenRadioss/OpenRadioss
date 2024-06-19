@@ -100,6 +100,7 @@ Chd|        LECTUR                        source/input/lectur.F
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        OUTP_C_TF                     source/output/sty/outp_c_t.F  
 Chd|        RADIOSS2                      source/engine/radioss2.F      
+Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|        RESOL                         source/engine/resol.F         
 Chd|        RESOL_HEAD                    source/engine/resol_head.F    
 Chd|        RESOL_INIT                    source/engine/resol_init.F    
@@ -112,6 +113,7 @@ Chd|        TENSORC_PLY                   source/output/anim/generate/tensorc_pl
 Chd|        THCOQ                         source/output/th/thcoq.F      
 Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
+Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE STACK_MOD
@@ -136,10 +138,13 @@ c
       CONTAINS
 
 Chd|====================================================================
-Chd|  STACK_PLY_ALLOC          modules/names_and_titles_mod.F
+Chd|  STACK_PLY_ALLOC               share/modules/stack_mod.F     
 Chd|-- called by -----------
-Chd|        RADIOSS2                      engine/source/engine/radioss2.F
+Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        ARRET                         source/system/arret.F         
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
         SUBROUTINE STACK_PLY_ALLOC(STACK,IPART_STACK,NPT_STACK,NS_STACK)
 C-----------------------------------------------

@@ -1151,6 +1151,7 @@ Chd|        HM_READ_XELEM                 source/elements/reader/hm_read_xelem.F
 Chd|        LECSEC42                      source/tools/sect/hm_read_sect.F
 Chd|        LECSEC4BOLT                   source/tools/sect/lecsec4bolt.F
 Chd|        READ_DFS_DETCORD              source/initial_conditions/detonation/read_dfs_detcord.F
+Chd|        READ_DFS_DETPOINT             source/initial_conditions/detonation/read_dfs_detpoint.F
 Chd|        READ_DFS_WAVE_SHAPER          source/initial_conditions/detonation/read_dfs_wave_shaper.F
 Chd|        READ_IMPDISP                  source/constraints/general/impvel/read_impdisp.F
 Chd|        READ_IMPVEL                   source/constraints/general/impvel/read_impvel.F

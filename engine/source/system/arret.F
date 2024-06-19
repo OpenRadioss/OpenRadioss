@@ -388,6 +388,7 @@ Chd|        SPONOF1                       source/elements/sph/sponof1.F
 Chd|        SP_A2                         source/implicit/imp_fsa_inv.F 
 Chd|        SP_STATIC                     source/implicit/imp_fsa_inv.F 
 Chd|        SRHO3                         source/elements/solid/solide/srho3.F
+Chd|        STACK_PLY_ALLOC               share/modules/stack_mod.F     
 Chd|        SUFORC3                       source/user_interface/suforc3.F
 Chd|        SWITCH_TO_DTNODA              source/time_step/switch_to_dtnoda.F
 Chd|        TABLE2D_VINTERP_LOG           source/tools/curve/table2d_vinterp_log.F

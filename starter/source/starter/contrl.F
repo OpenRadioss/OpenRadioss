@@ -69,7 +69,7 @@ Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mo
 Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F
 Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale/ale_ebcs_mod.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
+Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        GRP_SIZE_MOD                  share/modules1/grp_size_mod.F 

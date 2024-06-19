@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  FXFLUXWREST                   source/constraints/thermic/fxfluxwrest.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|        WRITE_DB                      source/output/tools/write_db.F
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c

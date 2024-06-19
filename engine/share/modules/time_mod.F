@@ -27,7 +27,9 @@ Chd|        ADD_ELAPSED_TIME_MON_OFF      source/system/timer.F
 Chd|        PRINTIME                      source/system/timer.F         
 Chd|        PRINT_RUNTIME                 source/system/timer.F         
 Chd|        RADIOSS2                      source/engine/radioss2.F      
+Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|        RESOL                         source/engine/resol.F         
+Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE TIME_MOD

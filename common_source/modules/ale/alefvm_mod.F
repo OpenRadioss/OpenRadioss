@@ -73,6 +73,7 @@ Chd|        M11VS3                        engine/source/materials/mat/mat011/m11
 Chd|        MULTI_TIMEEVOLUTION           engine/source/multifluid/multi_timeevolution.F
 Chd|        RADIOSS2                      engine/source/engine/radioss2.F
 Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
+Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
 Chd|        SFINT3                        engine/source/elements/solid/solide/sfint3.F
@@ -82,6 +83,7 @@ Chd|        SINIT22_FVM                   engine/source/interfaces/int22/sinit22
 Chd|        THQUAD                        engine/source/output/th/thquad.F
 Chd|        THSOL                         engine/source/output/th/thsol.F
 Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
+Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE ALEFVM_MOD

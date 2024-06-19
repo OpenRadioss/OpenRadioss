@@ -51,7 +51,6 @@ Chd|        NITSCHERREST                  source/output/restart/rdresb.F
 Chd|        PLYXFEM_RAVUPLY               source/output/restart/rdresb.F
 Chd|        PLYXFEM_RREST                 source/output/restart/rdresb.F
 Chd|        RADIARREST                    source/output/restart/rdresb.F
-Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|        READ_CLUSTER                  source/output/cluster/read_cluster.F
 Chd|        READ_ELGROUP_PARAM            source/output/restart/read_elgroup_param.F
@@ -148,7 +147,6 @@ Chd|  READ_DPDB                     source/output/tools/read_db.F
 Chd|-- called by -----------
 Chd|        ALLOCBUF_AUTO                 source/elements/elbuf/allocbuf_auto.F
 Chd|        INTSTAMP_RRESTR               share/modules/intstamp_mod.F  
-Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|        READ_SENSORS                  source/output/restart/read_sensors.F
 Chd|-- calls ---------------

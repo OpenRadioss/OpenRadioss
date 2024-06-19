@@ -29,7 +29,6 @@ Chd|        EIGRREST                      source/output/restart/rdresb.F
 Chd|        FXBRESB                       source/output/restart/rdresb.F
 Chd|        FXFLUXRREST                   source/constraints/thermic/fxfluxrrest.F
 Chd|        FXTEMPRREST                   source/output/restart/rdresb.F
-Chd|        IMPRREST                      source/output/restart/rdresb.F
 Chd|        NFRREST                       source/output/restart/rdresb.F
 Chd|        NITSCHERREST                  source/output/restart/rdresb.F
 Chd|        RADIARREST                    source/output/restart/rdresb.F

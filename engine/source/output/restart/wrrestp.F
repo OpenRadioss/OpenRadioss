@@ -25,23 +25,45 @@ Chd|  WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
+Chd|        ALELAG_WREST                  source/output/restart/wrrest.F
+Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
 Chd|        COMPRESS_I_NNZ                ../common_source/comm/compress_nnz.F
 Chd|        COMPRESS_R_NNZ                ../common_source/comm/compress_nnz.F
+Chd|        CONVWREST                     source/output/restart/wrrest.F
+Chd|        CRKXFEM_WREST                 source/output/restart/wrrest.F
+Chd|        CRKXFEM_WRESTANIM             source/output/restart/wrrest.F
 Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
+Chd|        DRAPE_WREST                   source/output/restart/wrrest.F
 Chd|        EIGWREST                      source/output/restart/wrrest.F
+Chd|        FVWREST                       source/output/restart/wrrest.F
 Chd|        FXBWREST                      source/output/restart/wrrest.F
+Chd|        FXFLUXWREST                   source/constraints/thermic/fxfluxwrest.F
+Chd|        FXTEMPWREST                   source/output/restart/wrrest.F
+Chd|        IMPWREST                      source/output/restart/wrrest.F
+Chd|        IMP_TRANS                     source/output/restart/wrrest.F
 Chd|        INTFRIC_WRESTI                share/modules/intbuf_fric_mod.F
 Chd|        INTFRIC_WRESTR                share/modules/intbuf_fric_mod.F
 Chd|        INTSTAMP_WRESTI               share/modules/intstamp_mod.F  
 Chd|        INTSTAMP_WRESTR               share/modules/intstamp_mod.F  
+Chd|        NFWREST                       source/output/restart/wrrest.F
+Chd|        NITSCHEWREST                  source/output/restart/wrrest.F
 Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
 Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/loads/pblast_mod.F
+Chd|        PLYXFEM_WRAVUPLY              source/output/restart/wrrest.F
+Chd|        PLYXFEM_WREST                 source/output/restart/wrrest.F
+Chd|        PLYXFEM_WRESTANIM             source/output/restart/wrrest.F
+Chd|        PLY_INFO_WREST                source/output/restart/wrrest.F
+Chd|        RADIAWREST                    source/output/restart/wrrest.F
+Chd|        RIGMATWREST                   source/output/restart/wrrest.F
+Chd|        RTHBUFWREST                   source/output/restart/wrrest.F
 Chd|        SPMD_GLOB_DMIN9               source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_SAVEFI                   source/mpi/interfaces/spmd_i7tool.F
 Chd|        SPMD_SAVESPH                  source/mpi/sph/spmd_sptool.F  
+Chd|        STACK_WREST                   source/output/restart/wrrest.F
 Chd|        TABLE_WRESTI                  source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTR                  source/tools/curve/table_tools.F
+Chd|        THCWREST                      source/output/restart/wrrest.F
 Chd|        THSURF_WRITE_RESTART          ../common_source/modules/interfaces/th_surf_mod.F
 Chd|        USERWI_WRITE                  source/user_interface/userwindow_interface_routines.F
 Chd|        WRCOMI                        source/output/restart/wrcomm.F
@@ -58,6 +80,7 @@ Chd|        WRITE_NLOC_STRUCT             source/output/restart/write_nloc_struc
 Chd|        WRITE_PCYL                    source/output/restart/write_pcyl.F
 Chd|        WRITE_SENSORS                 source/output/restart/write_sensors.F
 Chd|        WRITE_TH_RESTART              source/output/th/write_th_restart.F
+Chd|        WRITE_UNITS                   ../common_source/comm/write_units.F
 Chd|        W_BUFBRIC_22                  source/interfaces/int22/w_bufbric_22.F
 Chd|        W_CLUSTER                     source/output/cluster/w_cluster.F
 Chd|        W_ELBUF_STR                   source/elements/elbuf/w_elbuf_str.F
@@ -66,10 +89,12 @@ Chd|        W_GROUP_STR                   source/output/restart/w_group_str.F
 Chd|        W_LINE_STR                    source/output/restart/w_line_str.F
 Chd|        W_SUBSET_STR                  source/output/restart/w_subset_str.F
 Chd|        W_SURF_STR                    source/output/restart/w_surf_str.F
+Chd|        ALEFVM_MOD                    ../common_source/modules/ale/alefvm_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
 Chd|        DAMP_MOD                      share/modules/damp_mod.F      
+Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        ECND_MOD                      share/modules/ecdn_mod.F      
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
@@ -96,9 +121,12 @@ Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        SMS_MOD                       share/modules/sms_mod.F       
 Chd|        SPH_MOD                       share/modules/sph_mod.F       
+Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
+Chd|        TIME_MOD                      share/modules/time_mod.F      
 Chd|        USER_WINDOWS_MOD              ../common_source/modules/user_windows_mod.F
+Chd|        XFEM2VARS_MOD                 share/modules/xfem2vars_mod.F 
 Chd|====================================================================
       SUBROUTINE WRRESTP(AF         ,IAF      ,XDP        ,ICH       ,ADDCNE,
      .                   ELBUF_TAB  ,XFEM_TAB        ,INTBUF_TAB ,MULTI_FVM   ,MAT_ELEM         ,

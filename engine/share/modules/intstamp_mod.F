@@ -104,7 +104,7 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  INTSTAMP_ZERO                 share/modules/intstamp_mod.F  
 Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
+Chd|        RESTALLOC                     source/output/restart/arralloc.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE INTSTAMP_ZERO(INTSTAMP)

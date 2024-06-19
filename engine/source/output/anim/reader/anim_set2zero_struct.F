@@ -25,7 +25,7 @@ Chd|  ANIM_SET2ZERO_STRUCT          source/output/anim/reader/anim_set2zero_stru
 Chd|-- called by -----------
 Chd|        FREANIM                       source/output/anim/reader/freanim.F
 Chd|-- calls ---------------
-Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
+Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================

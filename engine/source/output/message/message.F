@@ -326,6 +326,7 @@ Chd|        SPMD_TRI7VOX                  source/mpi/interfaces/spmd_int.F
 Chd|        SPMD_TRI7VOX_OPTIMIZED        source/mpi/interfaces/spmd_tri7vox_optimized.F
 Chd|        SPONOF1                       source/elements/sph/sponof1.F 
 Chd|        SRHO3                         source/elements/solid/solide/srho3.F
+Chd|        STACK_PLY_ALLOC               share/modules/stack_mod.F     
 Chd|        STAT_INIMAP1D_FILE_SPMD       source/output/sta/stat_inimap1d_file_spmd.F
 Chd|        STAT_INIMAP1D_SPMD            source/output/sta/stat_inimap1d_spmd.F
 Chd|        STAT_INIMAP2D_FILE_SPMD       source/output/sta/stat_inimap2d_file_spmd.F

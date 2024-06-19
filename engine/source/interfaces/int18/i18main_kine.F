@@ -35,7 +35,7 @@ Chd|        SPMD_I18KINE_MACC_COM_POFF    source/mpi/interfaces/spmd_i18kine_mac
 Chd|        SPMD_I18KINE_MSF_COM_POFF     source/mpi/interfaces/spmd_i18kine_msf_com_poff.F
 Chd|        SPMD_I18KINE_PENE_COM_POFF    source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
+Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
 Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
@@ -2017,7 +2017,7 @@ Chd|  I18KINE_S                     source/interfaces/int18/i18main_kine.F
 Chd|-- called by -----------
 Chd|        I18MAIN_KINE_S                source/interfaces/int18/i18main_kine.F
 Chd|-- calls ---------------
-Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
+Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================

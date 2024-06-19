@@ -24,7 +24,7 @@ Chd|====================================================================
 Chd|  WRITE_UNITS                   comm/write_units.F            
 Chd|-- called by -----------
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
-Chd|        RESOL                         engine/source/engine/resol.F  
+Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|        WRITE_DB                      starter/source/restart/ddsplit/wrrest.F
 Chd|        WRITE_DB                      engine/source/output/tools/write_db.F
@@ -79,7 +79,7 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  READ_UNITS                    comm/write_units.F            
 Chd|-- called by -----------
-Chd|        RADIOSS2                      engine/source/engine/radioss2.F
+Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|-- calls ---------------
 Chd|        READ_DB                       starter/source/restart/ddsplit/wrrest.F
 Chd|        READ_DB                       engine/source/output/tools/read_db.F

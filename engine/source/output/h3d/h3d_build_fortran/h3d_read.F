@@ -31,7 +31,7 @@ Chd|        CREATE_H3D_INPUT              source/output/h3d/h3d_build_fortran/cr
 Chd|        FREDEC_8KEY_I                 source/input/fredec_8key_i.F  
 Chd|        WRIUSC2                       source/input/wriusc2.F        
 Chd|        NVAR                          source/input/nvar.F           
-Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
+Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    

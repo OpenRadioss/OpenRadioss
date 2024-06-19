@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
+Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

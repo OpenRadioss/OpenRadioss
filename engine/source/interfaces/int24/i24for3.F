@@ -33,7 +33,7 @@ Chd|        I24SMS2                       source/interfaces/int24/i24for3.F
 Chd|        I24_SAVE_SUB                  source/interfaces/int24/i24_save_sub.F
 Chd|        IBCOFF                        source/interfaces/interf/ibcoff.F
 Chd|        BITGET                        source/interfaces/intsort/i20sto.F
-Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
+Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F

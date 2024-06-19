@@ -66,6 +66,7 @@ Chd|        LAYINI                        source/elements/shell/coque/layini.F
 Chd|        OUTP_C_TF                     source/output/sty/outp_c_t.F  
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|        RDCOMI                        source/output/restart/rdcomm.F
+Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|        RESOL                         source/engine/resol.F         
 Chd|        RESOL_HEAD                    source/engine/resol_head.F    
 Chd|        RESTALLOC                     source/output/restart/arralloc.F
@@ -73,6 +74,7 @@ Chd|        SORTIE_MAIN                   source/output/sortie_main.F
 Chd|        STAT_C_STRAFG                 source/output/sta/stat_c_strafg.F
 Chd|        STAT_C_STRSFG                 source/output/sta/stat_c_strsfg.F
 Chd|        WRCOMI                        source/output/restart/wrcomm.F
+Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|====================================================================
         MODULE DRAPE_MOD

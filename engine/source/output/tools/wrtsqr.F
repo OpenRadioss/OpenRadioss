@@ -28,11 +28,8 @@ Chd|        DSWREST                       source/output/restart/wrrest.F
 Chd|        EIGWREST                      source/output/restart/wrrest.F
 Chd|        FXFLUXWREST                   source/constraints/thermic/fxfluxwrest.F
 Chd|        FXTEMPWREST                   source/output/restart/wrrest.F
-Chd|        IMPWREST                      source/output/restart/wrrest.F
-Chd|        NFWREST                       source/output/restart/wrrest.F
 Chd|        NITSCHEWREST                  source/output/restart/wrrest.F
 Chd|        RADIAWREST                    source/output/restart/wrrest.F
-Chd|        RIGMATWREST                   source/output/restart/wrrest.F
 Chd|        THCWREST                      source/output/restart/wrrest.F
 Chd|-- calls ---------------
 Chd|        STRR                          source/tools/univ/strr.F      

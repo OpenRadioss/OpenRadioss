@@ -55,7 +55,7 @@ Chd|        SPMD_WIOUT                    source/mpi/generic/spmd_wiout.F
 Chd|        NGR2USR                       source/input/freform.F        
 Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_mod.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        ANIM_MOD                      ../common_source/modules/anim_mod.F
+Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     

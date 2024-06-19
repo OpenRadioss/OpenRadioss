@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        ALEFVM_INIT                   source/ale/alefvm/alefvm_init.F
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
+Chd|        INTSTAMP_ZERO                 share/modules/intstamp_mod.F  
 Chd|        MULTI_ALLOCATE                source/multifluid/multi_allocate.F
 Chd|        SZ_PRINT                      source/output/restart/arralloc.F
 Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F   

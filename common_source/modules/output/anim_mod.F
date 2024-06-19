@@ -25,7 +25,7 @@ C All REAL VARIABLES related to ANIM were moved in this module
 C       (intially located in ./engine/share/includes/com04_c.inc and engine/share/includes/scr_14.inc) 
 C COMMON BLOCK are no longer maintened
 Chd|====================================================================
-Chd|  ANIM_MOD                      modules/anim_mod.F            
+Chd|  ANIM_MOD                      modules/output/anim_mod.F     
 Chd|-- called by -----------
 Chd|        CONTRL                        starter/source/starter/contrl.F
 Chd|        HM_READ_ANIM                  starter/source/general_controls/engine/hm_read_anim.F
