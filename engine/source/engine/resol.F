@@ -9099,9 +9099,11 @@ C--- //0 ----------------
       BOOL_RESTART=.FALSE.
 
       ! End of computation
-      IF (((TT>TSTOP).OR.(MSTOP_DT_THERM==1)).AND.IMCONV==1.AND.IRAD2R==0) THEN
+      IF (((TT>TSTOP).OR.(MSTOP_DT_THERM==1)).AND.IMCONV==1) THEN
         STOP_OR_ADD_CYCLE = 1   ! check if additional cycle is need with animation
-        BOOL_RESTART = ((ILASTANIM==0.OR.ILASTANIM==1.OR.ILASTANIM==3).AND. RESTART_FILE==1) ! Restart writing criteria
+        IF (IRAD2R==0) THEN     ! No Restart writing at end of Run when Rad2rad is active
+           BOOL_RESTART = ((ILASTANIM==0.OR.ILASTANIM==1.OR.ILASTANIM==3).AND. RESTART_FILE==1) ! Restart writing criteria
+        ENDIF
       ENDIF
 
       ! Restart within Run
@@ -9218,7 +9220,7 @@ C--- //0 ----------------
       ! ILASTANIM=2 Additional cycle done
       ! ILASTANIM=3 regular animation
 
-         IF (ILASTANIM==2)THEN ! We are done / No magic
+         IF (ILASTANIM==2.OR.IRAD2R==1)THEN ! We are done / No magic - No additional Restart with Rad2rad run
            MSTOP=2
            GOTO 500
          ENDIF
