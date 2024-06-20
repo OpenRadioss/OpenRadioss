@@ -45,13 +45,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NUPARAM,NIPARAM
+      INTEGER I,J,IFAIL,NUPARAM,NIPARAM,NFAIL
 C=======================================================================
 c     Copy matparam from standard materials
 c
       DO I = 1,NUMMAT0
         NUPARAM = MATPARAM_INI(I)%NUPARAM
         NIPARAM = MATPARAM_INI(I)%NIPARAM
+        NFAIL   = MATPARAM_INI(I)%NFAIL
         MATPARAM_TAB(I)%ILAW               = MATPARAM_INI(I)%ILAW
         MATPARAM_TAB(I)%MAT_ID             = MATPARAM_INI(I)%MAT_ID
         MATPARAM_TAB(I)%NUPARAM            = NUPARAM 
@@ -59,7 +60,7 @@ c
         MATPARAM_TAB(I)%NFUNC              = MATPARAM_INI(I)%NFUNC
         MATPARAM_TAB(I)%NTABLE             = MATPARAM_INI(I)%NTABLE  
         MATPARAM_TAB(I)%NSUBMAT            = MATPARAM_INI(I)%NSUBMAT
-        MATPARAM_TAB(I)%NFAIL              = MATPARAM_INI(I)%NFAIL
+        MATPARAM_TAB(I)%NFAIL              = NFAIL
         MATPARAM_TAB(I)%IVISC              = MATPARAM_INI(I)%IVISC
         MATPARAM_TAB(I)%IEOS               = MATPARAM_INI(I)%IEOS
         MATPARAM_TAB(I)%ITHERM             = MATPARAM_INI(I)%ITHERM
@@ -98,7 +99,41 @@ c
           MATPARAM_TAB(I)%IPARAM(1:NIPARAM) = MATPARAM_INI(I)%IPARAM(1:NIPARAM)
         END IF
         
-        ! to be completed with further evolution of MATPARAM
+        ALLOCATE(MATPARAM_TAB(I)%FAIL(NFAIL))
+        IF (NFAIL > 0) THEN
+          DO IFAIL=1,NFAIL
+            MATPARAM_TAB(I)%FAIL(IFAIL)%KEYWORD = MATPARAM_INI(I)%FAIL(IFAIL)%KEYWORD
+            MATPARAM_TAB(I)%FAIL(IFAIL)%IRUPT   = MATPARAM_INI(I)%FAIL(IFAIL)%IRUPT
+            MATPARAM_TAB(I)%FAIL(IFAIL)%FAIL_ID = MATPARAM_INI(I)%FAIL(IFAIL)%FAIL_ID
+            MATPARAM_TAB(I)%FAIL(IFAIL)%NUPARAM = MATPARAM_INI(I)%FAIL(IFAIL)%NUPARAM
+            MATPARAM_TAB(I)%FAIL(IFAIL)%NIPARAM = MATPARAM_INI(I)%FAIL(IFAIL)%NIPARAM
+            MATPARAM_TAB(I)%FAIL(IFAIL)%NUVAR   = MATPARAM_INI(I)%FAIL(IFAIL)%NUVAR
+            MATPARAM_TAB(I)%FAIL(IFAIL)%NFUNC   = MATPARAM_INI(I)%FAIL(IFAIL)%NFUNC
+            MATPARAM_TAB(I)%FAIL(IFAIL)%NTABLE  = MATPARAM_INI(I)%FAIL(IFAIL)%NTABLE
+            MATPARAM_TAB(I)%FAIL(IFAIL)%NMOD    = MATPARAM_INI(I)%FAIL(IFAIL)%NMOD
+            MATPARAM_TAB(I)%FAIL(IFAIL)%FAIL_IP = MATPARAM_INI(I)%FAIL(IFAIL)%FAIL_IP
+            MATPARAM_TAB(I)%FAIL(IFAIL)%PTHK    = MATPARAM_INI(I)%FAIL(IFAIL)%PTHK
+            ALLOCATE(MATPARAM_TAB(I)%FAIL(IFAIL)%UPARAM(MATPARAM_TAB(I)%FAIL(IFAIL)%NUPARAM))
+            DO J=1,MATPARAM_TAB(I)%FAIL(IFAIL)%NUPARAM
+              MATPARAM_TAB(I)%FAIL(IFAIL)%UPARAM(J) = MATPARAM_INI(I)%FAIL(IFAIL)%UPARAM(J)
+            END DO
+            ALLOCATE(MATPARAM_TAB(I)%FAIL(IFAIL)%IPARAM(MATPARAM_TAB(I)%FAIL(IFAIL)%NIPARAM))
+            DO J=1,MATPARAM_TAB(I)%FAIL(IFAIL)%NIPARAM
+              MATPARAM_TAB(I)%FAIL(IFAIL)%IPARAM(J) = MATPARAM_INI(I)%FAIL(IFAIL)%IPARAM(J)
+            END DO
+            ALLOCATE(MATPARAM_TAB(I)%FAIL(IFAIL)%IFUNC(MATPARAM_TAB(I)%FAIL(IFAIL)%NFUNC))
+            DO J=1,MATPARAM_TAB(I)%FAIL(IFAIL)%NFUNC
+              MATPARAM_TAB(I)%FAIL(IFAIL)%IFUNC(J) = MATPARAM_INI(I)%FAIL(IFAIL)%IFUNC(J)
+            END DO
+            ALLOCATE(MATPARAM_TAB(I)%FAIL(IFAIL)%TABLE(MATPARAM_TAB(I)%FAIL(IFAIL)%NTABLE))
+            DO J=1,MATPARAM_TAB(I)%FAIL(IFAIL)%NTABLE
+              MATPARAM_TAB(I)%FAIL(IFAIL)%TABLE(J) = MATPARAM_INI(I)%FAIL(IFAIL)%TABLE(J)
+            END DO
+          END DO  ! NFAIL
+!
+        ! copy of matparam between subdomains must be completed with further evolution of MATPARAM structure
+
+        END IF
         
       ENDDO
 c
