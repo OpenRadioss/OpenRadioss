@@ -109,9 +109,9 @@ C-----------------------------------------------
                           IF (SUBMATLAW == 5) THEN
                              LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
                              DO II = LFT, LLT
-                                VFRAC = LBUF%VOL(II)/GBUF%VOL(II) 
-                                IF(VFRAC > ZERO)THEN
-                                  GBUF%TB(II) = MAX(GBUF%TB(II), LBUF%TB(II))  !must be done only in case of initial volume fraction
+                                VFRAC = LBUF%VOL(II)/GBUF%VOL(II)
+                                IF(VFRAC >= ZERO)THEN
+                                  GBUF%TB(II) = MAX(GBUF%TB(II), LBUF%TB(II))
                                 ENDIF
                              ENDDO
                              IS_JWL = .TRUE.

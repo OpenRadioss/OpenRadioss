@@ -109,7 +109,7 @@ C-----------------------------------------------
      .   X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41,SUMA,VR,VS,X31,Y31,
      .   Z31,E11,E12,E13,E21,E22,E23,AREA,X2L,VAR,
      .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,RX,RY,RZ,SX,SY,SZ,
-     .   VG(5),VLY(5),VE(5),BUFMAT(*),VFRAC(MVSIZ,1:21),
+     .   VG(5),VLY(5),VE(5),BUFMAT(*),VFRAC(MVSIZ,1:21),VOLFRAC,BFRAC,
      .   S11,S22,S33,S4,S5,S6,CRIT,VALUE1,VALUE2,VEL(0:3),TMP(3,4),
      .   NX,NY,NZ,CUMUL(3),SURF,VX,VY,VZ,VOL,MASS0
       INTEGER I,I1,II,J,NG,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
@@ -124,7 +124,7 @@ C-----------------------------------------------
      .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),NPT_ALL,IPLY,
      .        ID_ELEM_TMP(MVSIZ),NIX,IOK_PART(MVSIZ),JJ(6),NPGT,IUVAR,
      .        IS_WRITTEN_VALUE(MVSIZ),NFRAC,KFACE,NB_FACE,IV,ISUBMAT,IS_EULER,IS_ALE,IAD2,NVAREOS,
-     .        NTILLOTSON,IMAT_TILLOTSON
+     .        NTILLOTSON,IMAT_TILLOTSON,SUBMATLAW
       CHARACTER*5 BUFF
       REAL R4
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
@@ -137,6 +137,7 @@ C-----------------------------------------------
       TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
       TYPE(BUF_MAT_)  ,POINTER :: MBUF 
       my_real, DIMENSION(:) ,POINTER  :: UPARAM
+      LOGICAL DETECTED
       TARGET :: BUFMAT
       my_real PI_
       DATA PI_/3.141592653589793238462643/
@@ -806,7 +807,7 @@ C--------------------------------------------------
 C-------------------------------------------------- 
               ELSEIF (KEYWORD == 'TDET') THEN  !  /ANIM/ELEM/TDET
 C-------------------------------------------------- 
-                 IF (MLW  /= 51 .AND. GBUF%G_TB > 0) THEN
+                 IF (MLW  /= 51 .AND. MLW /= 151 .AND. GBUF%G_TB > 0) THEN
                    DO I=1,NEL
                      VALUE(I) = -GBUF%TB(I)
                      IS_WRITTEN_VALUE(I) = 1
@@ -819,7 +820,26 @@ C--------------------------------------------------
                    DO I=1,IPARG(2,NG)
                      VALUE(I) = -MBUF%VAR(K+I)
                      IS_WRITTEN_VALUE(I) = 1
-                   ENDDO 
+                   ENDDO
+                 ELSEIF(MLW == 151 .AND. GBUF%G_TB > 0)THEN
+                   DO I=1,NEL
+                     DETECTED = .FALSE.
+                     VALUE(I) = ZERO
+                     DO ILAY=1,NLAY
+                       SUBMATLAW = ELBUF_TAB(NG)%BUFLY(ILAY)%ILAW
+                       IF(SUBMATLAW == 5 )THEN
+                         VOLFRAC = ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)%VOL(I)/GBUF%VOL(I)
+                         BFRAC = MULTI_FVM%BFRAC(ILAY,I+NFT)
+                         IF(VOLFRAC > ZERO .OR. BFRAC > ZERO)THEN
+                           DETECTED = .TRUE.
+                         ENDIF
+                       ENDIF
+                     ENDDO
+                     IF(DETECTED)THEN
+                       VALUE(I) = -GBUF%TB(I)
+                     ENDIF
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
                  ENDIF   
 C--------------------------------------------------
             ELSEIF(KEYWORD == 'LAW20/DENS1')THEN
@@ -841,7 +861,7 @@ C--------------------------------------------------
                   LBUF  => ELBUF_TAB(NG)%BUFLY(2)%LBUF(1,1,1)
                   VALUE(I) = LBUF%RHO(I)
             IS_WRITTEN_VALUE(I) = 1
-                ENDDO  
+                ENDDO
               ENDIF 
 C--------------------------------------------------
             ELSEIF(KEYWORD == 'LAW20/ENER1')THEN
