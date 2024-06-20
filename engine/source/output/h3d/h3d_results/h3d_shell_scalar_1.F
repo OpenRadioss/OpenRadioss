@@ -107,18 +107,20 @@ C-----------------------------------------------
      .          NINTY,VONM2,S1,S2,S12,DMGMX,A1,A2,A3,A4,DIR1_1,DIR1_2,AA,BB,V1,V2,V3,X21,X32,X34,
      .          X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41,SUMA,VR,VS,X31,Y31,Z31,E11,E12,E13,E21,E22,E23,SUM_,AREA,X2L,
      .          E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,RX,RY,RZ,S_X,S_Y,S_Z,RHO0(MVSIZ),THK0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3,A0,
-     .          RINDX,VFRAC(MVSIZ,1:21),TMP(3,3),CUMUL(3),VX,VY,VZ,SURF,NX,NY,NZ,PHI,ERR,PRES(MVSIZ),VEL(0:3),MAXDAMINI
+     .          RINDX,VFRAC(MVSIZ,1:21),TMP(3,3),CUMUL(3),VX,VY,VZ,SURF,NX,NY,NZ,PHI,ERR,PRES(MVSIZ),VEL(0:3),MAXDAMINI,
+     .          VOLFRAC,BFRAC
         INTEGER I,I1,II,J,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
      .          IR,IS,IT,IL,MLW, NUVAR,NFAIL,
      .          N,K,K1,K2,JTURB,
      .          OFFSET,IHBE,NPG, MPT,IPT,IADR,IPMAT,
      .          ISUBSTACK,ITHK,ID_PLY,IOK,N1,N2,N3,N4,
-     .          IMAT,IU(4),NFRAC,IPOS,ITRIMAT,NS,IAD2,IDRAPE,NLAY_FAIL,ILAY0
+     .          IMAT,IU(4),NFRAC,IPOS,ITRIMAT,NS,IAD2,IDRAPE,NLAY_FAIL,ILAY0,SUBMATLAW
         INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
      .          IPLY,
      .          IOK_PART(MVSIZ),JJ(5),NPGT,IUVAR,
      .          IS_WRITTEN_VALUE(MVSIZ),IV,KFACE,NB_FACE,IADBUF,NUPARAM,ISUBMAT,IS_EULER,IS_ALE,
      .          IPINCH,IPG,USER_OK,IALEL,IMODE,NMOD,MAT_ID
+        LOGICAL DETECTED
         CHARACTER*5 BUFF
         TYPE(G_BUFEL_)  ,POINTER :: GBUF
         TYPE(L_BUFEL_)  ,POINTER :: LBUF
@@ -4976,7 +4978,7 @@ C--------------------------------------------------
 C--------------------------------------------------
             ELSEIF(KEYWORD == 'TDET' )THEN
 C--------------------------------------------------
-              IF (MLW  /= 51 .AND. GBUF%G_TB > 0) THEN
+              IF (MLW  /= 51 .AND. MLW /=151 .AND. GBUF%G_TB > 0) THEN
                 DO I=1,NEL
                   VALUE(I) = -GBUF%TB(I)
                   IS_WRITTEN_VALUE(I) = 1
@@ -4990,6 +4992,25 @@ C--------------------------------------------------
                   VALUE(I) = -MBUF%VAR(K+I)
                   IS_WRITTEN_VALUE(I) = 1
                 ENDDO
+                ELSEIF(MLW == 151 .AND. GBUF%G_TB > 0)THEN
+                   DO I=1,NEL
+                     DETECTED = .FALSE.
+                     VALUE(I) = ZERO
+                     DO ILAY=1,NLAY
+                       SUBMATLAW = ELBUF_TAB(NG)%BUFLY(ILAY)%ILAW
+                       IF(SUBMATLAW == 5 )THEN
+                         VOLFRAC = ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)%VOL(I)/GBUF%VOL(I)
+                         BFRAC = MULTI_FVM%BFRAC(ILAY,I+NFT)
+                         IF(VOLFRAC > ZERO .OR. BFRAC > ZERO)THEN
+                           DETECTED = .TRUE.
+                         ENDIF
+                       ENDIF
+                     ENDDO
+                     IF(DETECTED)THEN
+                       VALUE(I) = -GBUF%TB(I)
+                     ENDIF
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
               ENDIF
 C--------------------------------------------------
             ELSEIF(KEYWORD == 'BFRAC' )THEN

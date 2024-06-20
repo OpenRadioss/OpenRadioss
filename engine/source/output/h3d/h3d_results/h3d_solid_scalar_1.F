@@ -121,7 +121,8 @@ C-----------------------------------------------
      .     VG(5),VLY(5),VE(5),S11,S22,S33,S4,S5,S6,VONM,GAMA(6),
      .     T11,T21,T31,T12,T22,T32,T13,T23,T33,
      .     PHI,THETA,PSI,DAMMAX,EVAR_TMP,VEL(0:3),VFRAC(MVSIZ,1:21),TMP(3,8),
-     .     CUMUL(3),VX,VY,VZ,NX,NY,NZ,SURF,TMP_2(MVSIZ,3)
+     .     CUMUL(3),VX,VY,VZ,NX,NY,NZ,SURF,TMP_2(MVSIZ,3),
+     .     VOLFRAC,BFRAC
         my_real
      .     G1(MVSIZ,3),G2(MVSIZ,3),G3(MVSIZ,3),VOLN(MVSIZ),AREAM(MVSIZ),
      .     RHO0,DET(MVSIZ),EZZ(MVSIZ),MAXDAMINI,E33
@@ -137,7 +138,9 @@ C-----------------------------------------------
      .          PTE(4),PTP(4),PTMAT(4),PTVAR(4),NPT_ALL,IPLY,
      .          ID_ELEM_TMP(MVSIZ),NIX,ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,
      .          IOK_PART(MVSIZ),JJ(6),IRUPT,IOK,NPG_PLANE,NUMLAY,IJK,IIR,
-     .          IS_WRITTEN_VALUE(MVSIZ),NFRAC,IU(4),IV,NB_FACE,KFACE,IS_EULER,IS_ALE,IAD2,KK,IMODE
+     .          IS_WRITTEN_VALUE(MVSIZ),NFRAC,IU(4),IV,NB_FACE,KFACE,IS_EULER,IS_ALE,IAD2,KK,IMODE,
+     .          SUBMATLAW
+        LOGICAL DETECTED
         CHARACTER*5 BUFF
         REAL R4
         TYPE(G_BUFEL_)  ,POINTER :: GBUF
@@ -2004,7 +2007,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               ELSEIF (KEYWORD == 'TDET') THEN  !  /ANIM/ELEM/TDET
 C--------------------------------------------------
-                IF (MLW  /= 51 .AND. GBUF%G_TB > 0) THEN
+                IF (MLW  /= 51 .AND. MLW /= 151 .AND. GBUF%G_TB > 0) THEN
                   DO I=1,NEL
                     VALUE(I) = -GBUF%TB(I)
                     IS_WRITTEN_VALUE(I) = 1
@@ -2018,6 +2021,25 @@ C--------------------------------------------------
                     VALUE(I) = -MBUF%VAR(K+I)
                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO
+                ELSEIF(MLW == 151 .AND. GBUF%G_TB > 0)THEN
+                   DO I=1,NEL
+                     DETECTED = .FALSE.
+                     VALUE(I) = ZERO
+                     DO ILAY=1,NLAY
+                       SUBMATLAW = ELBUF_TAB(NG)%BUFLY(ILAY)%ILAW
+                       IF(SUBMATLAW == 5 )THEN
+                         VOLFRAC = ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)%VOL(I)/GBUF%VOL(I)
+                         BFRAC = MULTI_FVM%BFRAC(ILAY,I+NFT)
+                         IF(VOLFRAC > ZERO .OR. BFRAC > ZERO)THEN
+                           DETECTED = .TRUE.
+                         ENDIF
+                       ENDIF
+                     ENDDO
+                     IF(DETECTED)THEN
+                       VALUE(I) = -GBUF%TB(I)
+                     ENDIF
+                     IS_WRITTEN_VALUE(I) = 1
+                   ENDDO
                 ENDIF
 C--------------------------------------------------
               ELSEIF (KEYWORD == 'MOMX') THEN
