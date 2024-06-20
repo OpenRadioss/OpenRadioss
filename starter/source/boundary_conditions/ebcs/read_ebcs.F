@@ -93,7 +93,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: LOCAL_ID
       INTEGER :: ID,TYP,UID
-      INTEGER :: II, SURF_ID, JJ
+      INTEGER :: II, SURF_ID, JJ, SUB_INDEX
       CHARACTER*nchartitle :: TITR    
       CHARACTER*ncharkey :: KEY, KEY2
       LOGICAL :: IS_AVAILABLE
@@ -113,7 +113,7 @@ C-----------------------------------------------
          DO II = 1, NEBCS
             LOCAL_ID = II
             CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, UNIT_ID = UID, OPTION_TITR = TITR, 
-     .           KEYWORD2 = KEY, KEYWORD3 = KEY2)
+     .           KEYWORD2 = KEY, KEYWORD3 = KEY2, SUBMODEL_INDEX = SUB_INDEX)
 !     Allocate type
        SELECT CASE(KEY)
          CASE ('GRADP0')  
@@ -199,7 +199,7 @@ C-----------------------------------------------
             select type (twf => EBCS_TAB%tab(ii)%poly)
             type is (t_ebcs_inlet)
 
-              CALL HM_READ_EBCS_INLET(IGRSURF, NPC1, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, KEY2, twf)
+              CALL HM_READ_EBCS_INLET(IGRSURF, NPC1, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, KEY2, SUB_INDEX, twf)
            end select
 
          CASE ('FLUXOUT') 

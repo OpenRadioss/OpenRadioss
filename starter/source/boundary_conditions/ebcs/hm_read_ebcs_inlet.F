@@ -38,7 +38,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_EBCS_INLET(IGRSURF,NPC, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, KEY2, EBCS)
+      SUBROUTINE HM_READ_EBCS_INLET(IGRSURF,NPC, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, KEY2, SUB_INDEX, EBCS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER  NPC(*)
       INTEGER ID,UID
+      INTEGER,INTENT(IN) :: SUB_INDEX !< submodel index used to shift function identifiers if defined
       TYPE (MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       TYPE (SURF_)   ,TARGET,  DIMENSION(NSURF)   :: IGRSURF
       CHARACTER, INTENT(IN) :: TITR*nchartitle
@@ -75,7 +76,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ISU,SURF,NGR2USR,IPRES,IRHO,J,NSEG,IENER,IVX,IVY,IVZ,IALPHA
-      INTEGER IMAT,IVEL_TYP,U_IALPHA,U_IRHO,U_IPRES,IFLAGUNIT
+      INTEGER IMAT,IVEL_TYP,U_IALPHA,U_IRHO,U_IPRES,IFLAGUNIT,OFF_DEF
       my_real :: CHECK_CUMUL_VF(2)
       my_real C,PRES,RHO,LCAR,R1,R2,ENER,VX,VY,VZ, ALPHA
       CHARACTER chain*9, chain1*64
@@ -171,6 +172,13 @@ C-----------------------------------------------
       CALL HM_GET_INTV('fct_IDvx',  IVX  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('fct_IDvy',  IVY  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('fct_IDvz',  IVZ  ,IS_AVAILABLE,LSUBMODEL)
+      IF(SUB_INDEX /= 0 ) THEN
+        OFF_DEF = LSUBMODEL(SUB_INDEX)%OFF_DEF
+        !since IVX, IVY, and IVZ may be -1, these values are shifted only if they are defined Spositive
+        IF(IVX > 0) IVX = IVX + OFF_DEF
+        IF(IVY > 0) IVY = IVY + OFF_DEF
+        IF(IVZ > 0) IVZ = IVZ + OFF_DEF
+      ENDIF
 
       IF(IVEL_TYP==0)THEN
         !NORMAL VELOCITY
@@ -289,6 +297,12 @@ C-----------------------------------------------
          CALL HM_GET_INT_ARRAY_INDEX('fct_IDvf_n',   IALPHA,IMAT,IS_AVAILABLE,LSUBMODEL)
          CALL HM_GET_INT_ARRAY_INDEX('fct_IDrho_n',  IRHO  ,IMAT,IS_AVAILABLE,LSUBMODEL)
          CALL HM_GET_INT_ARRAY_INDEX('fct_IDp_e_n',  IPRES ,IMAT,IS_AVAILABLE,LSUBMODEL)
+      IF(SUB_INDEX /= 0 ) THEN
+        OFF_DEF = LSUBMODEL(SUB_INDEX)%OFF_DEF
+        IF(IALPHA > 0) IALPHA = IALPHA + OFF_DEF
+        IF(IRHO > 0) IRHO = IRHO + OFF_DEF
+        IF(IPRES > 0) IPRES = IPRES + OFF_DEF
+      ENDIF
          CHECK_CUMUL_VF(1)=CHECK_CUMUL_VF(1)+ABS(IALPHA)
          CHECK_CUMUL_VF(2)=CHECK_CUMUL_VF(2)+ABS(ALPHA)
          !user ids backup
