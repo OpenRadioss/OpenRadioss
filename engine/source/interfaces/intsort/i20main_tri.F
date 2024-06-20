@@ -31,7 +31,6 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        I20BUCE                       source/interfaces/intsort/i20buce.F
 Chd|        I20BUC_EDGE                   source/interfaces/intsort/i20buce.F
 Chd|        I20XSAVE                      source/interfaces/intsort/i20xsave.F
-Chd|        I20XSINIR                     source/interfaces/intsort/i20main_tri.F
 Chd|        I7TRC                         source/interfaces/intsort/i7trc.F
 Chd|        IMP_RNUMCD                    source/implicit/imp_int_k.F   
 Chd|        MY_BARRIER                    source/system/machine.F       
@@ -564,7 +563,6 @@ C
 Chd|====================================================================
 Chd|  I20XSINIR                     source/interfaces/intsort/i20main_tri.F
 Chd|-- called by -----------
-Chd|        I20MAIN_TRI                   source/interfaces/intsort/i20main_tri.F
 Chd|-- calls ---------------
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
