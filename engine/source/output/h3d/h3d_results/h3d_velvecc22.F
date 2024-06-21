@@ -65,7 +65,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: IPARG(NPARG,*), IFLG,IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),ITAB(NUMNOD)
-      INTEGER, INTENT(IN)    :: IOK_PART(*),IS_WRITTEN_NODE(*) 
+      INTEGER, INTENT(IN)    :: IOK_PART(*)
+      INTEGER, INTENT(INOUT) :: IS_WRITTEN_NODE(*) 
       my_real, INTENT(INOUT) :: NODAL_VECTOR(3,*)   
       REAL R4
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB      

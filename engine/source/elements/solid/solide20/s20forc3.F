@@ -73,7 +73,11 @@ Chd|====================================================================
      I   FTHESKY,    IEXPAN,     GRESAV,     GRTH,
      J   IGRTH,      TABLE,      IGEO,       VOLN,
      K   CONDN,      CONDNSKY,   ITASK,      IOUTPRT,
-     L   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK)
+     L   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK,
+     M   SNPC,       STF,        SBUFMAT,    SVIS,
+     N   IDTMINS,    NSVOIS,     IRESP,      IDEL7NG,
+     O   IDTMIN,     MAXFUNC,    IMON_MAT,   USERL_AVAIL,
+     .   heat_meca,  impl_s,     idyna)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -109,7 +113,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(INOUT) :: IDEL7NOK
+      INTEGER ,INTENT(IN) :: IDEL7NG
+      INTEGER ,INTENT(INOUT) :: IDEL7NOK
+      integer,dimension(102) :: IDTMIN
+      INTEGER ,INTENT(IN) :: MAXFUNC
+      INTEGER, INTENT(IN) :: SNPC
+      INTEGER, INTENT(IN) :: STF
+      INTEGER, INTENT(IN) :: SBUFMAT
+      INTEGER, INTENT(IN) :: IDTMINS
+      INTEGER, INTENT(IN) :: NSVOIS
+      INTEGER ,INTENT(IN) :: IRESP
+      INTEGER, INTENT(IN) :: IMPL_S
+      INTEGER, INTENT(IN) :: IDYNA
+      INTEGER, INTENT(IN) :: USERL_AVAIL
+      INTEGER, INTENT(IN) :: IMON_MAT
+      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP),NPF(*),
      .        IADS(8,*),IPARTS(*),IXS20(12,*),IADS20(12,*),IPM(*),
      .        GRTH(*),IGRTH(*),IGEO(*),ITASK,IOUTPRT
@@ -133,6 +151,7 @@ C-----------------------------------------------
      .   DNIDR(MVSIZ,NPE),DNIDS(MVSIZ,NPE),DNIDT(MVSIZ,NPE),
      .   PX(MVSIZ,NPE,NIPMAX),PY(MVSIZ,NPE,NIPMAX),PZ(MVSIZ,NPE,NIPMAX),
      .   CONDN(*),CONDNSKY(*)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
@@ -147,6 +166,7 @@ C-----------------------------------------------
 
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ), IPERM1(NPE),
      .IPERM2(NPE)
+      INTEGER SZ_BID,SZ_IX
       my_real
      . VD2(MVSIZ) , DVOL(MVSIZ),DELTAX(MVSIZ),
      . VIS(MVSIZ) , QVIS(MVSIZ), CXX(MVSIZ) ,
@@ -257,6 +277,8 @@ C=======================================================================
       GBUF  => ELBUF_TAB(NG)%GBUF
 c
       BID    = ZERO
+      SZ_BID = MVSIZ
+      SZ_IX=NUMELQ+NUMELS+NSVOIS
       IBID   = 0
       IBIDON = 0
       TEMPEL(1:MVSIZ) = ZERO
@@ -391,7 +413,7 @@ C         CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------
           CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,
-     2   FV,          ALE_CONNECT, IXS,         IPARG,
+     2                ALE_CONNECT, IXS,         IPARG,
      3   V,           TF,          NPF,         BUFMAT,
      4   STI,         X,           DT2T,        NELTST,
      5   ITYPTST,     OFFSET,      NEL,         W,
@@ -416,7 +438,15 @@ C------------------------------------------------------
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
      Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM ,
-     R   H3D_STRAIN,  JPLASOL,     JSPH)
+     R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_BID,
+     *                SNPC,        STF,         SBUFMAT,
+     *   SVIS,        SZ_IX,       IDTMINS,     IRESP,
+     *   N2D,         TH_STRAIN,   NGROUP,      TT, 
+     .   DT1,         NTABLE,      NUMELQ,      nummat,
+     .   numgeo,      numnod,      numels,  
+     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   idyna)
 c     
           IF (ISTRAIN == 1) THEN 
             CALL SSTRA3(
@@ -444,7 +474,7 @@ c
      6   GBUF%EINT, GBUF%RHO,  GBUF%QVIS, GBUF%PLA,
      7   WI,        VOLG,      LBUF%VOL,  GBUF%VOL,
      8   GBUF%G_PLA,NEL,       CONDE,     DELTAX,
-     9   CONDEG,    ISRAT)
+     9   CONDEG,    ISRAT,SVIS)
 C
 C-------------------------
 c    finite element heat transfert  

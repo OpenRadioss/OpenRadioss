@@ -119,7 +119,7 @@ Chd|====================================================================
      Z   EPSTH,    SVISC,    NEL,      ETOTSH,
      1   ISELECT,  TSTAR,    MUOLD,    AMU2,
      2   DPDM,     RHOREF,   RHOSP,    NLOC_DMG,
-     3   ITY,      JTUR  ,   MAT_ELEM, IDEL7NOK)
+     3   ITY,      JTUR  ,   MAT_ELEM, IDEL7NOK,SVIS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -137,7 +137,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "usrplas_c.inc"
-#include      "nsvis_c.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
@@ -184,6 +183,7 @@ C
      .   SVISC(NEL,6),AMU(MVSIZ),AMU2(MVSIZ),DPDM(MVSIZ),VOL_AVG(MVSIZ),EPSTH(NEL),EPSTH3(MVSIZ),
      .   ETOTSH(NEL,6),TSTAR(MVSIZ),MUOLD(NEL),CONDE(*), RHOREF(*), RHOSP(*)
       TARGET :: BUFMAT,DELTAX,VARNL,DEFP
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       my_real, TARGET, DIMENSION(NUVAR*LLT):: UVAR
       my_real, TARGET, DIMENSION(LLT):: LTEMP,TEMPEL,SCALE1,INITVARF
       TYPE (BUF_FAIL_), TARGET  :: FBUF

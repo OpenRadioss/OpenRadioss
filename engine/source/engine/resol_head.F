@@ -64,8 +64,8 @@ Chd|====================================================================
       SUBROUTINE RESOL_HEAD(
      .           ITASK       ,AF          ,IAF            ,IDATA      ,RDATA,XDP       ,
      .           GRAPHE      ,IFLOW       ,RFLOW          ,MCP        ,TEMP            ,
-     .           INTBUF_TAB  ,STACK       ,IRUNN_BIS      ,
-     .           MULTI_FVM   ,H3D_DATA    ,INTBUF_FRIC_TAB,SUBSETS    ,IGRNOD          ,
+     .           STACK       ,IRUNN_BIS   ,
+     .           MULTI_FVM   ,H3D_DATA    ,SUBSETS    ,IGRNOD          ,
      .           IGRBRIC     ,IGRQUAD     ,IGRSH4N        ,IGRSH3N    ,IGRTRUSS        ,
      .           IGRBEAM     ,IGRSPRING   ,IGRPART        ,IGRSURF    ,IGRSLIN         , 
      .           FORNEQS     ,PINCH_DATA  ,ALE_CONNECTIVITY,
@@ -78,13 +78,11 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE RESTMOD
-      USE INTBUFMOD
       USE DSGRAPH_MOD
       USE TABLE_GLOB_MOD
       USE SPH_MOD
       USE SOLTOSPH_MOD
       USE CLUSTER_MOD
-      USE INTBUFDEF_MOD
       USE STACK_MOD
       USE MULTI_FVM_MOD
       USE H3D_MOD
@@ -110,7 +108,7 @@ C-----------------------------------------------
       USE DT_MOD
       USE PYTHON_FUNCT_MOD
       USE DAMP_MOD
-      USE NAMES_AND_TITLES_MOD,only:NAMES_AND_TITLES_
+      USE NAMES_AND_TITLES_MOD
       USE UNITAB_MOD
       USE SKEW_MOD
 C-----------------------------------------------
@@ -140,11 +138,9 @@ C     REAL
      .   FORNEQS(*)
       DOUBLE PRECISION XDP(*)
       TYPE(PRGRAPH) :: GRAPHE(*)
-      TYPE(INTBUF_STRUCT_), DIMENSION(NINTER) :: INTBUF_TAB
       TYPE (STACK_PLY) :: STACK
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(H3D_DATABASE) :: H3D_DATA
-      TYPE(INTBUF_FRIC_STRUCT_), DIMENSION(NINTERFRIC) :: INTBUF_FRIC_TAB
       TYPE(UNIT_TYPE_) :: UNITAB
 !
       TYPE(SUBSET_) ,DIMENSION(NSUBS)   :: SUBSETS
@@ -160,7 +156,7 @@ C     REAL
       TYPE(SURF_)   ,DIMENSION(NSURF)   :: IGRSURF
       TYPE(SURF_)   ,DIMENSION(NSURF)   :: IGRSLIN
       TYPE(PINCH) :: PINCH_DATA
-      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
+      TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
       TYPE(DRAPE_)                            :: DRAPE_SH3N(NUMELTG_DRAPE),DRAPE_SH4N(NUMELC_DRAPE)
       TYPE(DRAPEG_)                           :: DRAPEG
@@ -266,14 +262,14 @@ C
      7  IGAUP           ,NGAUP          ,NODLEVXF       ,DD_R2R_ELEM    ,WEIGHT_MD      ,
      8  NODGLOBXFE      ,SPH2SOL        ,SOL2SPH        ,IRST           ,FSKYD          ,
      9  DMSPH           ,WAGAP          ,MAT_ELEM%XFEM_TAB,ELCUTC       ,NODENR         ,
-     A  KXFENOD2ELC     ,ENRTAG         ,INTBUF_TAB     ,
+     A  KXFENOD2ELC     ,ENRTAG         ,
      B  RTHBUF          ,KXIG3D         ,IXIG3D         ,KNOT           ,WIGE           ,
      C  WSMCOMP        ,STACK          ,
      D  CPUTIME_MP_GLOB ,CPUTIME_MP     ,TAB_UMP        ,POIN_UMP       ,SOL2SPH_TYP    ,
      E  IRUNN_BIS       ,ADDCSRECT      ,IAD_FRNOR      ,FR_NOR         ,PROCNOR        ,
      F  INTERFACES%SPMD_ARRAYS%IAD_FREDG,INTERFACES%SPMD_ARRAYS%FR_EDG  ,DRAPE_SH4N     ,DRAPE_SH3N     ,TAB_MAT        , 
      G  NATIV0_SMS      ,MULTI_FVM      ,DDP            ,SEGQUADFR      ,MS_2D          ,
-     H  H3D_DATA        ,INTBUF_FRIC_TAB,SUBSETS        ,IGRNOD         ,IGRBRIC        ,
+     H  H3D_DATA        ,SUBSETS        ,IGRNOD         ,IGRBRIC        ,
      I  IGRQUAD         ,IGRSH4N        ,IGRSH3N        ,IGRTRUSS       ,IGRBEAM        ,
      J  IGRSPRING       ,IGRPART        ,IGRSURF        ,FORNEQS        ,
      K  NLOC_DMG        ,ISKWP_L        ,KNOTLOCPC      ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6  ,ALE_CONNECTIVITY ,

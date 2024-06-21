@@ -67,8 +67,6 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFMOD
-      USE INTBUF_MOD
       USE RESTMOD
       USE INTSTAMP_GLOB_MOD
       USE FSKYI_MOD
@@ -82,8 +80,7 @@ C-----------------------------------------------
       USE ECND_MOD
       USE MULTI_FVM_MOD
       USE ALEANIM_MOD
-      USE H3D_MOD
-      USE INTBUFFRIC_MOD                     
+      USE H3D_MOD                    
       USE PINCHTYPE_MOD 
       USE DRAPE_MOD
       USE FXB_MOD
@@ -397,11 +394,11 @@ c        ALLOCATE (INBUF(0),STAT=IERR)
 c        IF (IERR/=0) GOTO 1000
 c        INBUF = 0  
 
-        ALLOCATE (INTBUF_TAB(NINTER),STAT=IERR)
+        ALLOCATE (INTERFACES%INTBUF_TAB(NINTER),STAT=IERR)
 
 C
 C     allocations structures Interface friction
-        ALLOCATE(INTBUF_FRIC_TAB(NINTERFRIC),STAT=IERR)
+        ALLOCATE(INTERFACES%INTBUF_FRIC_TAB(NINTERFRIC),STAT=IERR)
         IF (IERR/=0) GOTO 1000
 
 c        ALLOCATE (T8(NINTER),STAT=IERR)

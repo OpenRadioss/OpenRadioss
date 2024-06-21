@@ -96,7 +96,10 @@ Chd|====================================================================
      F   IGRTH,      MSSA,       DMELS,      TABLE,
      G   XDP,        VARNOD,     VOLN,       CONDN,
      H   CONDNSKY,   D,          SENSORS,    IOUTPRT,
-     I   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK,NSVOIS)
+     I   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK,NSVOIS,SZ_BUFVOIS,
+     *   SNPC,       STF,        SBUFMAT,    SVIS,IDTMINS,IRESP, 
+     *   IDEL7NG,    MAXFUNC,    USERL_AVAIL, heat_meca, 
+     V   impl_s,     idyna)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -131,8 +134,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN)    :: SNPC
+      INTEGER, INTENT(IN)    :: STF
       INTEGER, INTENT(IN)    :: NSVOIS
+      INTEGER, INTENT(IN)    :: SZ_BUFVOIS
+      INTEGER, INTENT(IN)    :: SBUFMAT
       INTEGER, INTENT(INOUT) :: IDEL7NOK
+      INTEGER, INTENT(IN)    :: IDTMINS
+      INTEGER ,INTENT(IN) :: IRESP
+      INTEGER ,INTENT(IN) :: MAXFUNC
+      INTEGER ,INTENT(IN) :: IDEL7NG
+      INTEGER, INTENT(IN) :: IMPL_S
+      INTEGER, INTENT(IN) :: IDYNA
+      INTEGER, INTENT(IN) :: USERL_AVAIL
+      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP), NPF(*),IADS(8,*),
      .        IPARTS(*),IPM(NPROPMI,*),IGEO(NPROPGI,*),ITASK,
      .        GRTH(*),IGRTH(*),IOUTPRT
@@ -155,6 +170,7 @@ C
      .   F14(MVSIZ),F24(MVSIZ),F34(MVSIZ),D(*),
      .   TEMP(*), FTHE(*), FTHESKY(*),GRESAV(*), MSSA(*), DMELS(*), VOLN(MVSIZ)
       my_real MSNF(*),VARNOD(*),CONDN(*),CONDNSKY(*),BUFVOIS(6,*)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
@@ -244,7 +260,7 @@ C
 
 C----- 
 c     Flag Bolt Preloading
-      INTEGER IBOLTP,NBPRELD,II(6),ISCTL,ISTAB(MVSIZ),PID,MX
+      INTEGER IBOLTP,NBPRELD,II(6),ISCTL,ISTAB(MVSIZ),PID,MX,SZ_IX
       my_real, 
      .  DIMENSION(:), POINTER :: BPRELD
 C-----------------------------------------------
@@ -258,6 +274,7 @@ C-----special traitment when switching Ismstr from 12 to 11
       IBIDON(1) = 0
       TEMPEL(1:MVSIZ) = ZERO
 C
+      SZ_IX=NUMELQ+NUMELS+NSVOIS
       IBOLTP = IPARG(72,NG)
       INLOC  = IPARG(78,NG)
       ALLOCATE(VAR_REG(NEL))
@@ -576,7 +593,7 @@ Cpour le fluide en SPMD : BUFVOIS LOI11
 
       CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,
-     2   FV,          ALE_CONNECT, IXS,         IPARG,
+     2                ALE_CONNECT, IXS,         IPARG,
      3   V,           TF,          NPF,         BUFMAT,
      4   STI,         X,           DT2T,        NELTST,
      5   ITYPTST,     OFFSET,      NEL,         W,
@@ -601,7 +618,15 @@ Cpour le fluide en SPMD : BUFVOIS LOI11
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
      Q   ITASK,       NLOC_DMG,    VAR_REG,     MAT_ELEM,
-     R   H3D_STRAIN,  JPLASOL,     JSPH)
+     R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_BUFVOIS,
+     T                SNPC,        STF,         SBUFMAT,
+     U   SVIS,        SZ_IX,       IDTMINS,     IRESP,
+     V   N2D,         TH_STRAIN,   NGROUP,      TT, 
+     .   DT1,         NTABLE,      NUMELQ,      nummat,
+     .   numgeo,      numnod,      numels,
+     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   idyna)
 c
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C-----------  return to global system    
@@ -731,7 +756,7 @@ C----------------------------
      .   PY1, PY2, PY3, PY4,
      .   PZ1, PZ2, PZ3, PZ4,
      .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   VOLN,QVIS,NEL)
+     .   VOLN,QVIS,NEL,SVIS)
 C --------------------------
 C  --- heat transfert 
 C --------------------------

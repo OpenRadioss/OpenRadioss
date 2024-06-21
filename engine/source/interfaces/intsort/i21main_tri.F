@@ -45,7 +45,6 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTSTAMP_MOD
-      USE INTBUFMOD
       USE INTBUFDEF_MOD 
       use check_sorting_criteria_mod , only : check_sorting_criteria
 C-----------------------------------------------

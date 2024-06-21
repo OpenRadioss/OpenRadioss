@@ -36,7 +36,7 @@ Chd|====================================================================
      6   EINTG,   RHOG,    QG,      EPLASG,
      7   WI,      VOLG,    VOL0,    VOL0G,
      8   G_PLA,   NEL,     CONDE,   DELTAX,
-     9   CONDEG,  ISRAT)
+     9   CONDEG,  ISRAT,   SVIS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,10 +57,10 @@ C-----------------------------------------------
      .  SIGG(NEL,6),EINTG(NEL),RHOG(*),QG(*),WI,STIG(MVSIZ,*),EPSD(*),
      .  EPSDG(*),STIN(MVSIZ,*),VOLG(*),VOL0(*),VOL0G(*),CONDE(MVSIZ),
      .  DELTAX(MVSIZ), CONDEG(MVSIZ,*)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "nsvis_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

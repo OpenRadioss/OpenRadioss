@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(LNOPT1,SNOM_OPT) ,INTENT(IN) :: NOM_OPT
       INTEGER, DIMENSION(NINTER)      ,INTENT(INOUT) :: NREMOV
       my_real, DIMENSION(NUMNOD*3)       ,INTENT(IN) :: X
-      TYPE(INTBUF_STRUCT_), DIMENSION(NINTER),INTENT(IN):: INTBUF_TAB
+      TYPE(INTBUF_STRUCT_), DIMENSION(NINTER),INTENT(INOUT):: INTBUF_TAB
       INTEGER, INTENT(in) :: IDDLEVEL !< flag : 0 for the 1rst step, 1 for the 2nd step
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

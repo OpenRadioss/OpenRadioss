@@ -34,7 +34,7 @@ Chd|====================================================================
      5   EPSDG,   SIGG,    EINTG,   RHOG,
      6   QG,      EPLASG,  WIP,     G_PLA,
      7   NEL,     CONDE,   CONDEG,  G_EPSD,
-     8   ISRAT)
+     8   ISRAT,   SVIS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,10 +55,10 @@ C     REAL
      .  SIG(NEL,6),VOL(*),QVIS(*),EINT(*),RHO(*),Q(*),EPLASG(*),EPLAS(*),
      .  SIGG(NEL,6),EINTG(*),RHOG(*),QG(*),WIP,STI(*),STIG(*),EPSD(*),
      .  EPSDG(*),CONDE(*),CONDEG(*)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "nsvis_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

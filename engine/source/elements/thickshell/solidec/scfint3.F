@@ -42,7 +42,7 @@ Chd|====================================================================
      .   EINT,RHO,Q,EPLAS,EPSD,
      .   EPSDM,SIGM,EINTM,EINTO,RHOM,QM,EPLASM,
      .   NU,ZI,WI,VOLG,MM,OFF,
-     .   VOL0,VOL0G,G_PLA,G_EPSD,NEL)
+     .   VOL0,VOL0G,G_PLA,G_EPSD,NEL,SVIS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,10 +51,6 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nsvis_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -80,6 +76,7 @@ C     REAL
      .   SIGM(NEL,6),EINTM(*),EINTO(*),RHOM(*),QM(*),EPSD(*),EPSDM(*),
      .   NU(*),ZI,WI,VOLG(*),MM(MVSIZ,2),OFF(*),
      +   VOL0(*),VOL0G(*)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -111,7 +111,9 @@ Chd|====================================================================
      G                   CONDN    ,CONDNSKY  ,
      H                   D        ,TAGPRT_SMS,SENSORS,IOUTPRT  ,
      I                   NALE     ,NLOC_DMG  ,MAT_ELEM,H3D_STRAIN,
-     J                   DT       ,OUTPUT,NSVOIS)
+     J                   DT       ,OUTPUT,NSVOIS,SZ_BUFVOIS,SNPC,STF,
+     K                   SBUFMAT  ,SVIS,IRESP,MAXFUNC, USERL_AVAIL, heat_meca, 
+     V                   impl_s   ,idyna)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -152,6 +154,16 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NSVOIS
+      INTEGER, INTENT(IN) :: SZ_BUFVOIS
+      INTEGER, INTENT(IN) :: SNPC
+      INTEGER, INTENT(IN) :: STF
+      INTEGER, INTENT(IN) :: SBUFMAT
+      INTEGER ,INTENT(IN) :: IRESP
+      INTEGER ,INTENT(IN) :: MAXFUNC
+      INTEGER, INTENT(IN) :: IMPL_S
+      INTEGER, INTENT(IN) :: IDYNA
+      INTEGER, INTENT(IN) :: USERL_AVAIL
+      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP), NPF(*),IADS(8,*),
      .        IPARTS(*),IPM(NPROPMI,NUMMAT),ITASK,IMATVIS,GRTH(*),IGRTH(*),
      .        IGEO(NPROPGI,*), TAGPRT_SMS(*)        
@@ -179,7 +191,7 @@ C-----------------------------------------------
      .   QMV(12,*),GRESAV(*), MSSA(*), DMELS(*),
      .   CONDN(*),CONDNSKY(*),D(*)
 
- 
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
@@ -228,7 +240,7 @@ C 8-nodes solid connectivities
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
       my_real
-     .  OFF(MVSIZ) , RHOO(MVSIZ),HH(MVSIZ),BID(1),
+     .  OFF(MVSIZ) , RHOO(MVSIZ),HH(MVSIZ),BID(MVSIZ),
      .  X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .  X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
      .  Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
@@ -296,7 +308,8 @@ C     IBOLTP : flag bolt preloading
       my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
       my_real :: NL_NBNOD
       my_real, DIMENSION(:), POINTER :: BPRELD,DNL
-      my_real :: P(MVSIZ)      
+      my_real :: P(MVSIZ)
+      INTEGER SZ_IX
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
@@ -309,6 +322,7 @@ C=======================================================================
       TEMPEL(1:MVSIZ) = ZERO
       IBID = 0
       IBIDV = 0
+      SZ_IX=NUMELQ+NUMELS+NSVOIS
       IF (JCVT==1 .AND. ISORTH>0) JCVT=2
 C
       IBOLTP = IPARG(72,NG)
@@ -676,7 +690,7 @@ C
 C Compute stresses according to the material law
       CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,
-     2   FV,          ALE_CONNECT, IXS,         IPARG,
+     2                ALE_CONNECT, IXS,         IPARG,
      3   V,           TF,          NPF,         BUFMAT,
      4   STI,         X,           DT2T,        NELTST,
      5   ITYPTST,     OFFSET,      NEL,         W,
@@ -701,7 +715,15 @@ C Compute stresses according to the material law
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
      Q   ITASK,       NLOC_DMG,    VAR_REG,     MAT_ELEM,
-     R   H3D_STRAIN,  JPLASOL,     JSPH)
+     R   H3D_STRAIN,  JPLASOL,     JSPH, SZ_BUFVOIS,
+     S                SNPC,        STF,         SBUFMAT,
+     T   SVIS,        SZ_IX,       IDTMINS,     IRESP, 
+     *   N2D,         TH_STRAIN,   NGROUP,      TT, 
+     .   DT1,         NTABLE,      NUMELQ,      nummat,
+     .   numgeo,      numnod,      numels,      
+     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,idyna   )
+
       IF (ISTRAIN == 1)THEN 
         CALL SSTRA3(
      1   DXX,      DYY,      DZZ,      D4,
@@ -896,7 +918,7 @@ C
       IF (CNS2 > ZERO) 
      .     CALL NSVIS_SM12(GBUF%OFF ,CNS2,CXX  ,VOLN ,DXX     ,
      .                     DYY     ,DZZ    ,D4    ,D5  ,D6   ,
-     .                     LBUF%VOL,RHO0_1 ,STI   ,NEL   ) 
+     .                     LBUF%VOL,RHO0_1 ,STI   ,NEL,SVIS   ) 
 C 
       IF(JCLOSE /= 0) CALL FE_CLOSE(
      1   HH,      GBUF%RHO,VOLN,    VX1,
@@ -1039,7 +1061,8 @@ C Compute nodal internal forces
      G   N4Y,     N5Y,     N6Y,     N1Z,
      H   N2Z,     N3Z,     N4Z,     N5Z,
      I   N6Z,     BID,     P,       IXS,
-     J   NEL,     NFT,     JALE,    JEUL)
+     J   NEL,     NFT,     JALE,    JEUL,
+     K   SVIS)
 C
 c===========================================================================
 c     Computation of the internal non-local forces

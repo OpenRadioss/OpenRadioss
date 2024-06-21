@@ -130,13 +130,11 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD  
-      USE INTBUFMOD
       USE INTSTAMP_MOD
       USE TRI7BOX
       USE INTBUFDEF_MOD  
       USE I22TRI_MOD
       USE I22BUFBRIC_MOD      
-      USE MOD_I25MAIN_NORM
       USE MULTI_FVM_MOD
       USE H3D_MOD
       USE METRIC_MOD

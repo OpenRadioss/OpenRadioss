@@ -53,7 +53,7 @@ Chd|====================================================================
      5                   STIFN ,FSKY ,IADS  ,OFFSET ,IPARTS  ,
      6                   NEL      ,DT2T     ,NELTST ,ITYPTST ,IPM      ,
      7                   ITASK    ,GRESAV   ,GRTH   ,IGRTH   ,MSSA     ,
-     8                   DMELS    ,TABLE    ,IOUTPRT,MAT_ELEM,NG       )
+     8                   DMELS    ,TABLE    ,IOUTPRT,MAT_ELEM,NG,SVIS       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -87,6 +87,7 @@ C     REAL
      .   PM(*), GEO(*), X(*), A(*), V(*), MS(*),
      .   VEUL(*), FV(*),TF(*), BUFMAT(*),
      .   PARTSAV(*),STIFN(*),FSKY(*), DT2T,GRESAV(*), MSSA(*), DMELS(*)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (MAT_ELEM_) ,TARGET ,INTENT(INOUT) :: MAT_ELEM
       TYPE(TTABLE) TABLE(*)
@@ -208,7 +209,8 @@ C------------------------------------------------------
      8            DT2T ,NELTST,ITYPTST,R11   ,R21   ,  
      9            R31  ,R12   ,R22    ,R32   ,R13   , 
      A            R23  ,R33   ,OFF    ,IPM   ,GAMA  ,
-     B            MSSA ,DMELS ,TABLE  ,SSP   ,ITASK )
+     B            MSSA ,DMELS ,TABLE  ,SSP   ,ITASK ,
+     C            SVIS)
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C--------------------------
 C     BILANS PAR MATERIAU
@@ -249,7 +251,8 @@ C----------------------------
      .               F15, F16, F17, F18, F21,
      .               F22, F23, F24, F25, F26,
      .               F27, F28, F31, F32, F33,
-     .               F34, F35, F36, F37, F38)
+     .               F34, F35, F36, F37, F38,
+     .               SVIS)
 
 C----------------------------
 C     CONVECTE --> GLOBAL.

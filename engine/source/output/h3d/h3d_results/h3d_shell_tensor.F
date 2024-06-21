@@ -148,6 +148,7 @@ C       IF(ANIM_K == 0.AND.IPARG(8,NG) == 1)GOTO 490
         ITY     = IPARG(5,NG)
         IGTYP   = IPARG(38,NG)
         ISROT   = IPARG(41,NG)
+        IXFEM   = IPARG(54,NG)
         ISUBSTACK = IPARG(71,NG)
         IDRAPE = ELBUF_TAB(NG)%IDRAPE
         NPT   = IABS(IPARG(6,NG))

@@ -133,7 +133,9 @@ Chd|====================================================================
      I   DMELS,      TABLE,      IGEO,       XDP,
      J   VOLN,       CONDN,      CONDNSKY,   D,
      K   SENSORS,    IOUTPRT,    MAT_ELEM,   H3D_STRAIN,
-     L   DT)
+     L   DT,         SNPC,       STF,        SBUFMAT,SVIS,
+     M   NSVOIS,     IDTMINS,    IRESP,      MAXFUNC  ,  
+     V   USERL_AVAIL, heat_meca, impl_s,     idyna  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -169,6 +171,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: SNPC
+      INTEGER, INTENT(IN) :: STF
+      INTEGER, INTENT(IN) :: SBUFMAT
+      INTEGER, INTENT(IN) :: NSVOIS
+      INTEGER, INTENT(IN) :: IDTMINS
+      INTEGER ,INTENT(IN) :: IRESP
+      INTEGER ,INTENT(IN) :: MAXFUNC
+      INTEGER, INTENT(IN) :: IMPL_S
+      INTEGER, INTENT(IN) :: IDYNA
+      INTEGER, INTENT(IN) :: USERL_AVAIL
+      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP),NPF(*),
      .    IADS(8,*),IPARTS(*), IPM(NPROPMI,*),GRTH(*),IGRTH(*),IGEO(NPROPGI,*),
      .    IOUTPRT
@@ -195,7 +208,7 @@ C
      .   F18(MVSIZ),F28(MVSIZ),F38(MVSIZ),
      .   TEMP(*),FTHE(*),FTHESKY(*),GRESAV(*), MSSA(*), DMELS(*), VOLN(MVSIZ),
      .   CONDN(*),CONDNSKY(*),D(*)
-
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
@@ -238,6 +251,7 @@ C Variables utilisees en argument par les materiaux si SPH uniquement.
       my_real
      .   MUVOID(MVSIZ)
       INTEGER IOFFS, ITET
+      INTEGER SZ_R1_FREE
       my_real
      .   OFFS(MVSIZ),DSV(MVSIZ),SDV(MVSIZ),L_MAX(MVSIZ)
 C-----
@@ -375,6 +389,7 @@ C
      .   STI_C(MVSIZ),LL(MVSIZ),FQMAX,DIV0(MVSIZ),DELTAXI(MVSIZ)
       DOUBLE PRECISION 
      .   VOLP(MVSIZ,NNPT)
+      INTEGER SZ_IX
 
 C-----
 C     Variables utilis  es pour le non-local
@@ -457,6 +472,8 @@ C-----------------------------------------------
       NPTT   = ELBUF_TAB(NG)%NPTT
       GBUF   => ELBUF_TAB(NG)%GBUF
 C
+      SZ_R1_FREE=MVSIZ
+      SZ_IX=NUMELQ+NUMELS+NSVOIS
       IBOLTP = IPARG(72,NG)
       INLOC   = IPARG(78,NG)
       ALLOCATE(VAR_REG(NEL,NPTR*NPTS*NPTT))
@@ -1497,7 +1514,7 @@ c
 c
       CALL MMAIN(
      1   ELBUF_TAB,    NG,           PM,           GEO,
-     2   FV,           ALE_CONNECT,  IXS,          IPARG,
+     2                 ALE_CONNECT,  IXS,          IPARG,
      3   V,            TF,           NPF,          BUFMAT,
      4   STI,          X,            DT2T,         NELTST,
      5   ITYPTST,      OFFSET,       NEL,          W,
@@ -1522,7 +1539,15 @@ c
      O   TABLE,        BID,          BID,          BID,
      P   BID,          IPARG(1,NG),  IGEO,         CONDE,
      Q   ITASK,        NLOC_DMG,     VAR_REG(1,IP),MAT_ELEM,
-     R   H3D_STRAIN,   JPLASOL,      JSPH)
+     R   H3D_STRAIN,   JPLASOL,      JSPH,         SZ_R1_FREE,
+     T                 SNPC,         STF,          SBUFMAT,
+     U   SVIS,         SZ_IX,        IDTMINS,      IRESP,
+     .   N2D,          TH_STRAIN,    NGROUP,       TT,
+     *   DT1,         NTABLE,      NUMELQ,      nummat,
+     .   numgeo,      numnod,      numels, 
+     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   idyna)
 C
        IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         IF (ISM12_11==0.AND.JCVT==0) THEN
@@ -1576,7 +1601,7 @@ C
       IF (CNS2 > ZERO) 
      .     CALL NSVIS_SM12(GBUF%OFF ,CNS2,CXX  ,VOLN ,DXX     ,
      .                      DYY     ,DZZ    ,D4    ,D5  ,D6   ,
-     .                      LBUF%VOL,RHO0_1,STI   ,NEL   ) 
+     .                      LBUF%VOL,RHO0_1,STI   ,NEL ,SVIS  ) 
 C----------------------------
 C     INTERNAL FORCES
 C----------------------------
@@ -1625,7 +1650,7 @@ C----------------------------
      7   F27,       F37,       F18,       F28,
      8   F38,       VOLN,      QVIS,      ICP,
      9   JFAC(1,IP),NEL,       ISELECT,   IDEG,
-     A   SIG_A,     ISEL_V,    ISMSTR)
+     A   SIG_A,     ISEL_V,    ISMSTR,    SVIS)
           CALL S8EFMOY3(
      1   LBUF%SIG,   VOLN,       QVIS,       PP,
      2   LBUF%EINT,  LBUF%RHO,   LBUF%QVIS,  LBUF%PLA,
@@ -1634,7 +1659,7 @@ C----------------------------
      5   STI,        STIN,       ICP,        OFF,
      6   LBUF%VOL,   GBUF%VOL,   GBUF%G_PLA, GBUF%G_EPSD,
      7   LBUF%EINTTH,GBUF%EINTTH,IEXPAN,     NEL,
-     8   CONDE,      CONDEN)
+     8   CONDE,      CONDEN,SVIS)
 c-------------------------
 c     Virtual internal forces of regularized non local ddl 
 c--------------------------

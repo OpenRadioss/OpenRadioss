@@ -51,7 +51,7 @@ Chd|====================================================================
      K   MX5,     MY5,     MZ5,     MX6,
      L   MY6,     MZ6,     MX7,     MY7,
      M   MZ7,     MX8,     MY8,     MZ8,
-     N   IXS,     NEL,     ISMSTR)
+     N   IXS,     NEL,     ISMSTR,  SVIS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,15 +61,12 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nsvis_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: ISMSTR
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*), NC5(*), NC6(*), NC7(*),
      .   NC8(*),IXS(NIXS,*),NEL
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       my_real
      .   SIG(NEL,6),SIGD(NEL,6),X(3,*),DR(3,*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),  

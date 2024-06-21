@@ -68,7 +68,6 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD 
-      USE MOD_NODNORM
       USE I22TRI_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD

@@ -36,7 +36,7 @@ Chd|====================================================================
      5   STI,     STIN,    ICP,     OFF,
      6   VOL0,    VOL0G,   G_PLA,   G_EPSD,
      7   EINTTH,  EINTTHM, IEXPAN,  NEL,
-     8   CONDE,   CONDEN)
+     8   CONDE,   CONDEN,  SVIS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,7 +48,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "nsvis_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -62,6 +61,7 @@ C     REAL
      .   SIGM(NEL,6),EINTM(*),RHOM(*),QM(*),EPSD(*),EPSDM(*),
      .   VOLG(*),STI(*),STIN(*),OFF(*),VOL0(*),VOL0G(*),
      .   EINTTH(*),EINTTHM(*),CONDE(*),CONDEN(*)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

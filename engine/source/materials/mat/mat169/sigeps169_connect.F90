@@ -39,11 +39,14 @@
           area    , off     ,nuvar  ,uvar  ,ipg      ,                         &
           depszz  ,depsyz   ,depszx ,epszz   ,epsyz    ,epszx   ,              &                             
           sigozz  ,sigoyz  ,sigozx  ,signzz  ,signyz ,signzx  ,                &
-          pla     ,iout    ,jsms    ,dmg     ,ngl   ,dmels , idtmins,dtfacs )        
+          pla     ,iout    ,jsms    ,dmg     ,ngl   ,dmels , idtmins,dtfacs,    &
+          dtmins )
 !-----------------------------------------------
 !   m o d u l e s
 !-----------------------------------------------
-        use constant_mod , only : one , zero,two,em20,four,five
+      use constant_mod , only : one , zero,two,em20,four,five,half
+!-----------------------------------------------
+      implicit none
 ! ----------------------------------------------
 #include "my_real.inc"
 !-----------------------------------------------
@@ -55,6 +58,7 @@
       integer ,dimension(niparam)   ,intent(in)    :: iparam
       integer ,intent(in) :: idtmins
       my_real ,intent(in) :: dtfacs
+      my_real ,intent(in) :: dtmins
 
       my_real ,intent(in)  :: time
       my_real ,dimension(nel)  ,intent(inout) :: off,area,pla,dmels
@@ -69,6 +73,7 @@
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
         integer      i,ii,k,iterk,nindf,tempi,nindxdn,nindxdsh
+        integer  iel
         integer ,dimension(nel)   ::      indxdsh,indxdn,      indf
 
         my_real        young,nu, tenmax,gcten,shrmax, gcshr,shrp, sht_sl,pwrt,pwrs ,taumax

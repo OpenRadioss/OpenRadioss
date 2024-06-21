@@ -20,10 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      module MOD_I25MAIN_TRI
-      implicit none
-      INTEGER, DIMENSION(:), ALLOCATABLE :: CAND_A, CAND_B
-      END MODULE MOD_I25MAIN_TRI
 Chd|====================================================================
 Chd|  I25MAIN_TRI                   source/interfaces/intsort/i25main_tri.F
 Chd|-- called by -----------
@@ -72,12 +68,10 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI25EBOX
       USE TRI7BOX
-      USE INTBUFMOD
       USE MESSAGE_MOD
       USE IMP_INTBUF
       USE INTBUFDEF_MOD
       USE H3D_MOD
-      USE MOD_I25MAIN_TRI
       USE PARAMETERS_MOD
       use check_sorting_criteria_mod , only : check_sorting_criteria
 C-----------------------------------------------
@@ -227,24 +221,24 @@ C
 
 
           NEDGE_TOTAL = NEDGE + NEDGE_REMOTE_OLD
-          ALLOCATE(CAND_A(NEDGE_TOTAL + 3)) ! attention SPMD : NEDGE + NEDGEROLD + 3 
+          ALLOCATE(INTBUF_TAB%I25_CAND_A(NEDGE_TOTAL + 3)) ! attention SPMD : NEDGE + NEDGEROLD + 3 
 
           I_SK_OLD_E = INTBUF_TAB%I_STOK_E(1)
           CALL I25TRC_EDG(
-     1      NEDGE_TOTAL            ,I_SK_OLD_E ,INTBUF_TAB%CANDS_E2E,INTBUF_TAB%CANDM_E2E,
-     2      INTBUF_TAB%CAND_P      ,CAND_A     ,NIN                 ,NEDGE,IFQ           ,
-     3      INTBUF_TAB%FTSAVX_E,INTBUF_TAB%FTSAVY_E, INTBUF_TAB%FTSAVZ_E,INTBUF_TAB%IFPEN_E)
+     1      NEDGE_TOTAL            ,I_SK_OLD_E             ,INTBUF_TAB%CANDS_E2E ,INTBUF_TAB%CANDM_E2E,
+     2      INTBUF_TAB%CAND_P      ,INTBUF_TAB%I25_CAND_A  ,NIN                  ,NEDGE,IFQ           ,
+     3      INTBUF_TAB%FTSAVX_E    ,INTBUF_TAB%FTSAVY_E    ,INTBUF_TAB%FTSAVZ_E  ,INTBUF_TAB%IFPEN_E)
 
           INTBUF_TAB%I_STOK_E(1)=I_SK_OLD_E
 
-          ALLOCATE(CAND_B(NEDGE_TOTAL + 3)) ! attention SPMD : NEDGE + NEDGEROLD + 3 
+          ALLOCATE(INTBUF_TAB%I25_CAND_B(NEDGE_TOTAL + 3)) ! attention SPMD : NEDGE + NEDGEROLD + 3 
 
           I_SK_OLD_E = INTBUF_TAB%I_STOK_E(2)
           CALL I25TRC_E2S(
             ! attention SPMD
      1      NEDGE_TOTAL            ,I_SK_OLD_E ,INTBUF_TAB%CANDS_E2S,
      .                                    INTBUF_TAB%CANDM_E2S,
-     2      INTBUF_TAB%CAND_PS,CAND_B     ,NIN               ,NEDGE,
+     2      INTBUF_TAB%CAND_PS,INTBUF_TAB%I25_CAND_B   ,NIN               ,NEDGE,
      3      INTBUF_TAB%LEDGE,IFQ          ,INTBUF_TAB%FTSAVX_E2S,
      4      INTBUF_TAB%FTSAVY_E2S, INTBUF_TAB%FTSAVZ_E2S,INTBUF_TAB%IFPEN_E2S )
 
@@ -492,12 +486,12 @@ C
      5 ESHIFT ,NEDGE_T     ,SSHIFT ,NRTM_T      ,INTBUF_TAB%STFM ,
      6 INTBUF_TAB%STFE ,NCONTE ,INTBUF_TAB%GAP_M  ,ITASK ,BGAPEMX,
      7 I_MEME ,ITAB        ,INTBUF_TAB%MBINFLG,INTBUF_TAB%EBINFLG,INTBUF_TAB%I_STOK_E(2),
-     8 MULNSNS,ILEV        ,CAND_A      ,INTBUF_TAB%CAND_P ,IGAP0 ,
+     8 MULNSNS,ILEV        ,INTBUF_TAB%I25_CAND_A      ,INTBUF_TAB%CAND_P ,IGAP0 ,
      9 FLAGREMN,INTBUF_TAB%KREMNODE_EDG ,INTBUF_TAB%REMNODE_EDG,INTBUF_TAB%KREMNODE_E2S,
      .                                                          INTBUF_TAB%REMNODE_E2S,
      A IGAP   ,INTBUF_TAB%GAP_ML,IEDGE ,NEDGE ,INTBUF_TAB%MSEGTYP24,
      B INTBUF_TAB%LEDGE,INTBUF_TAB%ADMSR,INTBUF_TAB%EDGE_BISECTOR,INTBUF_TAB%VTX_BISECTOR,
-     C INTBUF_TAB%CANDM_E2S,INTBUF_TAB%CANDS_E2S,CAND_B,INTBUF_TAB%CAND_PS,INTBUF_TAB%GAPE,
+     C INTBUF_TAB%CANDM_E2S,INTBUF_TAB%CANDS_E2S,INTBUF_TAB%I25_CAND_B,INTBUF_TAB%CAND_PS,INTBUF_TAB%GAPE,
      D INTBUF_TAB%GAP_E_L,NEDGE_LOCAL,IFQ  ,       INTBUF_TAB%FTSAVX_E,INTBUF_TAB%FTSAVY_E,
      E INTBUF_TAB%FTSAVZ_E,INTBUF_TAB%FTSAVX_E2S,INTBUF_TAB%FTSAVY_E2S, INTBUF_TAB%FTSAVZ_E2S,
      F INTBUF_TAB%IFPEN_E,INTBUF_TAB%IFPEN_E2S,INTBUF_TAB%S_KREMNODE_EDG ,INTBUF_TAB%S_REMNODE_EDG,
@@ -538,7 +532,7 @@ C New barrier needed for Dynamic MultiMP
         GOTO 140
       ENDIF
 C
-      IF(ITASK==0)DEALLOCATE(CAND_A,CAND_B)
+      IF(ITASK==0)DEALLOCATE(INTBUF_TAB%I25_CAND_A,INTBUF_TAB%I25_CAND_B)
 C
       IF (IMONM > 0) CALL STOPTIME(30,1)
 C--------------------------------------------------------------

@@ -79,7 +79,7 @@ C-----------------------------------------------
       INTEGER, INTENT(in) :: NSENSOR
       INTEGER, DIMENSION(NB_INTER_SORTED), INTENT(in) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
       INTEGER, INTENT(inout) :: RETRI
-      INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI    !   interface data
+      INTEGER, DIMENSION(NPARI,NINTER), INTENT(inout) :: IPARI    !   interface data
       INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRECVFROM 
       TYPE(INTBUF_STRUCT_),DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    ! interface data
       my_real, DIMENSION(3,NUMNOD), INTENT(in), TARGET :: X            !   position

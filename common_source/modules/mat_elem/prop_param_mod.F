@@ -58,8 +58,12 @@ c=======================================================================
 !      INTEGER ,PARAMETER  :: GEO_QB    =
 !      INTEGER ,PARAMETER  :: GEO_QH    =      
 !      ! size of arrays 
-!      INTEGER ,PARAMETER  :: NPROPG  = 
-!      INTEGER ,PARAMETER  :: NPROPGI = 
+
+       INTEGER ,PARAMETER  :: N_VAR_IPARG = 100    ! Number of IPARG variables = NPARG
+       INTEGER ,PARAMETER  :: N_VAR_PM    = 250    ! Number of PM variables = MPROPM
+       INTEGER ,PARAMETER  :: N_VAR_IPM   = 467    ! Number of IPM variables = MPROPMI
+       INTEGER ,PARAMETER  :: N_VAR_IGEO  = 917    ! Number of IGEO variables = NPROPGI
+       INTEGER ,PARAMETER  :: N_VAR_GEO   = 1000   ! Number of GEO variables = NPROPG
 c----------------------------------------------------------------------- 
 c 
       TYPE PROP_PARAM_                      ! (NUMGEO)

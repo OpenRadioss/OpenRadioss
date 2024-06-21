@@ -1032,3 +1032,5 @@ set_source_files_properties( ${source_directory}/../common_source/modules/bounda
 set_source_files_properties( ${source_directory}/../common_source/modules/ale/ale_connectivity_mod.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/../common_source/modules/output/time_history_mod.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/../common_source/modules/interfaces/th_surf_mod.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/../common_source/tools/input_output/read_db.F  PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/../common_source/tools/input_output/write_db.F  PROPERTIES COMPILE_FLAGS "${legacy_flags}" )

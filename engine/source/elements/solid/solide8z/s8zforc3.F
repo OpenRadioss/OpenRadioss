@@ -110,7 +110,9 @@ Chd|====================================================================
      K                    GRTH     ,IGRTH  ,MSSA   ,DMELS   ,TABLE   ,
      L                    XDP      ,VOLN   ,CONDN  ,CONDNSKY  ,JFAC,
      M                    D        ,SENSORS,IOUTPRT,MAT_ELEM,H3D_STRAIN,
-     N                    DT       )
+     N                    DT       ,SNPC ,STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,
+     O                    IRESP    ,MAXFUNC ,    USERL_AVAIL, heat_meca, 
+     V                    impl_s,     idyna)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -146,6 +148,17 @@ C-----------------------------------------------
 C-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) ::SNPC
+      INTEGER, INTENT(IN) :: STF
+      INTEGER, INTENT(IN) :: SBUFMAT
+      INTEGER, INTENT(IN) :: NSVOIS
+      INTEGER, INTENT(IN) :: IDTMINS
+      INTEGER ,INTENT(IN) :: IRESP
+      INTEGER ,INTENT(IN) :: MAXFUNC
+      INTEGER, INTENT(IN) :: IMPL_S
+      INTEGER, INTENT(IN) :: IDYNA
+      INTEGER, INTENT(IN) :: USERL_AVAIL
+      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP),NPF(*),
      .        IPARTS(*), IPM(NPROPMI,*),IGEO(NPROPGI,*),GRTH(*),
      .        IGRTH(*),IADS(8,*),IOUTPRT
@@ -179,6 +192,7 @@ C
      .    JFAC(MVSIZ,729),
      .    TEMP(*), FTHE(*), FTHESKY(*),GRESAV(*), MSSA(*), DMELS(*),VOLN(MVSIZ),
      .    CONDN(*),CONDNSKY(*),D(*)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
@@ -329,6 +343,7 @@ C   Variables utilisees dans les routines solides uniquement (en arguments).
       INTEGER NNEGA,INDEX(MVSIZ)
       my_real
      .   AJ7(MVSIZ) , AJ8(MVSIZ) , AJ9(MVSIZ),L_MAX(MVSIZ),DIV0(MVSIZ) 
+      INTEGER SZ_R1_FREE
 C----- 
 
 c
@@ -341,6 +356,7 @@ C     Variables utilis  es pour le non-local
      .  DIMENSION(:), POINTER :: DNL
       my_real 
      .  H(8),PS(8),PR(8),PT(8)
+      INTEGER SZ_IX
 
 c     Flag Bolt Preloading
       INTEGER IBOLTP,NBPRELD,ISM12_11,II(6)
@@ -433,6 +449,8 @@ C=======================================================================
       BPRELD =>GBUF%BPRELD(1:NBPRELD*NEL)
       ISM12_11 = ELBUF_TAB(NG)%BUFLY(1)%L_SIGL
       TEMPEL(1:MVSIZ) = ZERO
+      SZ_R1_FREE=MVSIZ
+      SZ_IX=NUMELQ+NUMELS+NSVOIS
 C----
       NF1=NFT+1
 C----
@@ -1153,7 +1171,7 @@ C
 C
       CALL MMAIN(
      1   ELBUF_TAB,    NG,           PM,           GEO,
-     2   FV,           ALE_CONNECT,  IXS,          IPARG,
+     2                 ALE_CONNECT,  IXS,          IPARG,
      3   V,            TF,           NPF,          BUFMAT,
      4   STI,          X,            DT2T,         NELTST,
      5   ITYPTST,      OFFSET,       NEL,          W,
@@ -1178,7 +1196,15 @@ C
      O   TABLE,        BID,          BID,          BID,
      P   BID,          IPARG(1,NG),  IGEO,         CONDE,
      Q   ITASK,        NLOC_DMG,     VAR_REG(1,IP),MAT_ELEM,
-     R   H3D_STRAIN,   JPLASOL,      JSPH)
+     R   H3D_STRAIN,   JPLASOL,      JSPH,         SZ_R1_FREE,
+     T                 SNPC,         STF,          SBUFMAT,
+     U   SVIS,         SZ_IX,        IDTMINS,      IRESP,
+     V   N2D,          TH_STRAIN,    NGROUP,       TT, 
+     .   DT1,          NTABLE,       NUMELQ,       nummat,
+     .   numgeo,       numnod,       numels,
+     .   IDEL7NG,      IDEL7NOK,     IDTMIN,       MAXFUNC,
+     .   IMON_MAT,     USERL_AVAIL,  heat_meca,    impl_s,
+     .   idyna)
 C    
         IF (ISTRAIN == 1) THEN 
           CALL SSTRA3(
@@ -1238,7 +1264,7 @@ C
      7   OFF,        LBUF%VOL,   GBUF%VOL,   GBUF%G_PLA,
      8   GBUF%G_EPSD,JFAC(1,IP), LBUF%EINTTH,GBUF%EINTTH,
      9   IEXPAN,     NEL,        IDEG,       CONDE,
-     A   CONDEN,     MTN,        ISMSTR)
+     A   CONDEN,     MTN,        ISMSTR,SVIS)
        ELSE
 C----------------------------
 C     INTERNAL FORCES
@@ -1288,7 +1314,7 @@ C----------------------------
      7   OFF,        LBUF%VOL,   GBUF%VOL,   GBUF%G_PLA,
      8   GBUF%G_EPSD,JFAC(1,IP), LBUF%EINTTH,GBUF%EINTTH,
      9   IEXPAN,     NEL,        IDEG,       CONDE,
-     A   CONDEN,     MTN,        ISMSTR)
+     A   CONDEN,     MTN,        ISMSTR,     SVIS)
       ENDIF
 c-------------------------
 c     Virtual internal forces of regularized non local ddl 

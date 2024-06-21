@@ -143,7 +143,10 @@ Chd|====================================================================
      P   VOLN,       CONDN,      CONDNSKY,   AGRAV,
      Q   IGRV,       LGRAV,      SENSORS,    SKEW,
      R   NALE,       D,          IOUTPRT,    NLOC_DMG,
-     S   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK,NSVOIS)
+     S   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK,NSVOIS,
+     T   SZ_BUFVOIS, SNPC,STF,SBUFMAT,SVIS,IDTMINS,IRESP,
+     U   IDEL7NG,    MAXFUNC,    USERL_AVAIL, heat_meca, 
+     V   impl_s,     idyna)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -181,8 +184,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: SNPC
+      INTEGER, INTENT(IN) :: SZ_BUFVOIS
       INTEGER, INTENT(IN) :: NSVOIS
+      INTEGER, INTENT(IN) :: STF
+      INTEGER, INTENT(IN) :: SBUFMAT
       INTEGER, INTENT(INOUT) :: IDEL7NOK
+      INTEGER, INTENT(IN)    :: IDTMINS
+      INTEGER ,INTENT(IN) :: IRESP
+      INTEGER ,INTENT(IN) :: IDEL7NG
+      INTEGER ,INTENT(IN) :: MAXFUNC
+      INTEGER, INTENT(IN) :: IMPL_S
+      INTEGER, INTENT(IN) :: IDYNA
+      INTEGER, INTENT(IN) :: USERL_AVAIL
+      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER, DIMENSION(*), INTENT(IN) :: IPARG,IPARTS,NPF,NALE
       INTEGER,INTENT(IN) :: NG,NEL
       INTEGER IXS(NIXS,NUMELS), IADS(8,*),IPM(NPROPMI,NUMMAT),
@@ -192,7 +207,8 @@ C-----------------------------------------------
      .        ISTRAIN, IEXPAN, NV46,IOUTPRT,H3D_STRAIN
 C
       DOUBLE PRECISION :: XDP(3,*)
-C          
+C
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       my_real :: DT2T
       my_real
      .   PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO), X(*), A(*), V(*), MS(*), W(*),
@@ -409,6 +425,7 @@ C
       INTEGER IBOLTP,NBPRELD,ISM12_11  ! IBOLTP Flag Bolt Preloading
       my_real, DIMENSION(:), POINTER :: BPRELD
       my_real, DIMENSION(:), POINTER :: DNL
+      INTEGER SZ_IX
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
@@ -423,6 +440,8 @@ C
       IBOLTP = IPARG1(72) !IPARG(72,NG)
       NBPRELD = GBUF%G_BPRELD
       BPRELD =>GBUF%BPRELD(1:NBPRELD*NEL)
+C
+      SZ_IX=NUMELQ+NUMELS+NSVOIS
 C
       IBID  = 0
       NF1=NFT+1
@@ -961,7 +980,7 @@ C Stress computation according to material laws
 C
       CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,
-     2   FV,          ALE_CONNECT, IXS,         IPARG,
+     2                ALE_CONNECT, IXS,         IPARG,
      3   V,           TF,          NPF,         BUFMAT,
      4   STI,         X,           DT2T,        NELTST,
      5   ITYPTST,     OFFSET,      NEL,         W,
@@ -986,7 +1005,14 @@ C
      O   TABLE,       FVD2,        FDELTAX,     FCXX,
      P   FQVIS,       IPARG1,      IGEO,        CONDE,
      Q   ITASK,       NLOC_DMG,    VAR_REG,     MAT_ELEM,
-     R   H3D_STRAIN,  JPLASOL,     JSPH)
+     R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_BUFVOIS,
+     T           SNPC,STF,SBUFMAT,SVIS,          SZ_IX,
+     U   IDTMINS,IRESP, N2D,         TH_STRAIN,   NGROUP,TT, 
+     .   DT1,         NTABLE,      NUMELQ,      nummat,
+     .   numgeo,      numnod,      numels,            
+     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   idyna)
 C
       IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         IF (ISM12_11==0.AND.JCVT==0) THEN
@@ -1407,7 +1433,8 @@ C Compute nodal internal forces
      G   N4Y,     N5Y,     N6Y,     N1Z,
      H   N2Z,     N3Z,     N4Z,     N5Z,
      I   N6Z,     DFE,     P,       IXS,
-     J   NEL,     NFT,     JALE,    JEUL)
+     J   NEL,     NFT,     JALE,    JEUL,
+     K   SVIS)
       ELSE
        IISROT = 1
         CALL SFINT3B(
@@ -1433,7 +1460,7 @@ C Compute nodal internal forces
      K   MX5,      MY5,      MZ5,      MX6,
      L   MY6,      MZ6,      MX7,      MY7,
      M   MZ7,      MX8,      MY8,      MZ8,
-     N   IXS,      NEL,      ISMSTR)
+     N   IXS,      NEL,      ISMSTR,   SVIS)
       ENDIF
 C
       IF (JALE  == 3) THEN
@@ -1507,7 +1534,7 @@ C Internal forces
      5   N1Z,       N2Z,       N3Z,       N4Z,
      6   N5Z,       N6Z,       X,         IPM,
      7   GBUF%RHO,  GBUF%VOL,  A,         GBUF%TAG22,
-     8   NEL,       GBUF%MOM,  LBUF%SSP)
+     8   NEL,       GBUF%MOM,  LBUF%SSP,  SVIS)
           IF(INT22/=0)THEN
             CALL ALEFVM_STRESS_INT22(
      1   IXS,       NV46,      GBUF%SIG,  QVIS,
@@ -1518,7 +1545,7 @@ C Internal forces
      6   N5Z,       N6Z,       X,         IPM,
      7   GBUF%RHO,  GBUF%VOL,  A,         GBUF%TAG22,
      8   ELBUF_TAB, NEL,       GBUF%MOM,  LBUF%SSP,
-     9   ITASK)
+     9   ITASK,     SVIS)
           ENDIF    
       ENDIF ! IALEFVM_MAT > 1 
 C

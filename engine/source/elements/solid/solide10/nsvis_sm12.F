@@ -30,7 +30,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE NSVIS_SM12(OFFG ,MU ,SSP  ,VOL  ,D1   ,
      .                      D2   ,D3  ,D4    ,D5  ,D6   ,
-     .                      VOL0 ,RHO0,STI   ,NEL   ) 
+     .                      VOL0 ,RHO0,STI   ,NEL,SVIS   ) 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,10 +39,6 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "nsvis_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -53,6 +49,7 @@ C     REAL
       my_real, DIMENSION(NEL),INTENT(IN) :: OFFG,VOL0
       my_real, DIMENSION(MVSIZ),INTENT(INOUT) :: STI
       my_real, INTENT(IN) :: RHO0,MU
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

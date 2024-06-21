@@ -53,7 +53,11 @@ Chd|====================================================================
      6    IPARTSP   ,FV        ,NEL       ,IPM       ,GRESAV    ,
      7    GRTH      ,IGRTH     ,TABLE     ,ISTRAIN   ,VOLN      ,
      8    IGEO      ,IEXPAN    ,TEMP      ,ITASK     ,SPH2SOL   ,
-     9    MAT_ELEM  ,H3D_STRAIN,OUTPUT    )
+     9    MAT_ELEM  ,H3D_STRAIN,OUTPUT    ,SNPC      ,STF,
+     A    SBUFMAT   ,SVIS,NSVOIS,IDTMINS, IRESP,      
+     .    IDEL7NG,   IDEL7NOK,    IDTMIN,     MAXFUNC,LIPART1,
+     .    IMON_MAT,  USERL_AVAIL, heat_meca, impl_s,
+     V    idyna)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -82,10 +86,25 @@ C-----------------------------------------------
 #include      "sphcom.inc"
 #include      "param_c.inc"
 #include      "scr07_c.inc"
-#include      "scr17_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: SNPC
+      INTEGER, INTENT(IN) :: STF
+      INTEGER, INTENT(IN) :: SBUFMAT
+      INTEGER, INTENT(IN) :: NSVOIS
+      INTEGER, INTENT(IN) :: IDTMINS
+      INTEGER ,INTENT(IN) :: IRESP
+      INTEGER ,INTENT(IN) :: IDEL7NG
+      INTEGER ,INTENT(INOUT) :: IDEL7NOK
+      integer,dimension(102) :: IDTMIN
+      INTEGER ,INTENT(IN) :: MAXFUNC
+      INTEGER ,INTENT(IN) :: LIPART1
+      INTEGER, INTENT(IN) :: IMPL_S
+      INTEGER, INTENT(IN) :: IDYNA
+      INTEGER, INTENT(IN) :: USERL_AVAIL
+      INTEGER, INTENT(IN) :: IMON_MAT
+      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),ITAB(*),
      .   IPART(LIPART1,*) ,IPARTSP(*), NPC(*), IPARG(NPARG,*),NG,
      .   NELTST,ITYPTST,NEL,GRTH(*),IGRTH(*) , ISTRAIN,
@@ -96,6 +115,7 @@ C-----------------------------------------------
      .   PLD(*) ,FSAV(NTHVKI,*) ,SPBUF(NSPBUF,*) ,
      .   WA(*) , PARTSAV(*) ,DT2T, FV(*),
      .   GRESAV(*),VOLN(MVSIZ),TEMP(*)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
@@ -103,7 +123,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NF1, IFLAG, NB3S, I, OFFSET, IPRT
+      INTEGER NF1, IFLAG, NB3S, I, OFFSET, IPRT,ILAY
 C-----
       INTEGER MXT(MVSIZ),NGL(MVSIZ), IBIDON(1),IBID
       my_real
@@ -138,6 +158,7 @@ C Variables void MMAIN
       my_real
      .   SIGY(MVSIZ),ET(MVSIZ),
      .   R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
+      INTEGER SZ_R1_FREE
       my_real, 
      .  DIMENSION(:), POINTER :: EINT
       my_real VARNL(NEL)
@@ -145,9 +166,13 @@ C Variables void MMAIN
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF   
       TYPE(t_ale_connectivity) :: ALE_CONNECT
+      INTEGER SZ_IX
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
+      SZ_IX=NUMELQ+NUMELS+NSVOIS
+      ILAY=1
+      SZ_R1_FREE = MVSIZ
       IBID = 0
       GBUF => ELBUF_TAB(NG)%GBUF
       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
@@ -209,7 +234,7 @@ C     LAW 11 uses IELVS=IBIDON and IXS=IBIDON should not be used.
       OFFSET=0
       CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,
-     2   FV,          ALE_CONNECT, IBIDON,      IPARG,
+     2                ALE_CONNECT, IBIDON,      IPARG,
      3   V,           PLD,         NPC,         BUFMAT,
      4   STI,         X,           DT2T,        NELTST,
      5   ITYPTST,     OFFSET,      NEL,         W,
@@ -229,12 +254,20 @@ C     LAW 11 uses IELVS=IBIDON and IXS=IBIDON should not be used.
      J   DZZ,         IPM,         GAMA,        BID,
      K   BID,         BID,         BID,         BID,
      L   BID,         BID,         ISTRAIN,     TEMPEL,
-     M   DIE,         IEXPAN,      1,           BID,
+     M   DIE,         IEXPAN,      ILAY,           BID,
      N   BID,         1,           1,           1,
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        BID,
      Q   ITASK,       NLOC_DMG,    VARNL,       MAt_ELEM,
-     R   H3D_STRAIN,  JPLASOL,     JSPH)
+     R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_R1_FREE,
+     S                SNPC,        STF,         SBUFMAT,
+     *   SVIS,        SZ_IX,       IDTMINS,     IRESP,
+     T   N2D,         TH_STRAIN,   NGROUP,      TT, 
+     .   DT1,         NTABLE,      NUMELQ,      nummat,
+     .   numgeo,      numnod,      numels,
+     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   idyna)
 C-----------------------------
       IF(ISTRAIN==1)THEN 
         CALL SSTRA3(DXX,DYY      ,DZZ ,D4  ,D5  ,
