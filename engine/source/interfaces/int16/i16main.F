@@ -21,17 +21,6 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  I16MAIN_MOD                   source/interfaces/int16/i16main.F
-Chd|-- called by -----------
-Chd|        I16CRIT                       source/interfaces/int16/i16crit.F
-Chd|        I16MAIN                       source/interfaces/int16/i16main.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      MODULE I16MAIN_MOD
-#include "my_real.inc"
-        my_real :: XSLVG(7), XMSRG(7)
-      END MODULE
-Chd|====================================================================
 Chd|  I16MAIN                       source/interfaces/int16/i16main.F
 Chd|-- called by -----------
 Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
@@ -56,7 +45,6 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE I16MAIN_MOD
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
 C-----------------------------------------------
@@ -138,18 +126,18 @@ C -------------------------------------------------------------
        ESH_T = ITASK*NME_T
        IF(ITASK==NTHREAD-1)NME_T=NME-(NTHREAD-1)*(NME/NTHREAD)
        SIZE   = ZERO
-       XSLVG(1) = -EP30
-       XSLVG(2) = -EP30
-       XSLVG(3) = -EP30
-       XSLVG(4) =  EP30
-       XSLVG(5) =  EP30
-       XSLVG(6) =  EP30
-       XMSRG(1) = -EP30
-       XMSRG(2) = -EP30
-       XMSRG(3) = -EP30
-       XMSRG(4) =  EP30
-       XMSRG(5) =  EP30
-       XMSRG(6) =  EP30       
+       INTBUF_TAB(NIN)%XSLVG(1) = -EP30
+       INTBUF_TAB(NIN)%XSLVG(2) = -EP30
+       INTBUF_TAB(NIN)%XSLVG(3) = -EP30
+       INTBUF_TAB(NIN)%XSLVG(4) =  EP30
+       INTBUF_TAB(NIN)%XSLVG(5) =  EP30
+       INTBUF_TAB(NIN)%XSLVG(6) =  EP30
+       INTBUF_TAB(NIN)%XMSRG(1) = -EP30
+       INTBUF_TAB(NIN)%XMSRG(2) = -EP30
+       INTBUF_TAB(NIN)%XMSRG(3) = -EP30
+       INTBUF_TAB(NIN)%XMSRG(4) =  EP30
+       INTBUF_TAB(NIN)%XMSRG(5) =  EP30
+       INTBUF_TAB(NIN)%XMSRG(6) =  EP30       
 C -------------------------------------------------------------
        CALL MY_BARRIER
 C=======================================================================
@@ -158,7 +146,8 @@ C=======================================================================
        CALL I16CRIT(
      1   X    ,IGRNOD(IGN)%ENTITY,IGRBRIC(IGE)%ENTITY ,NSN  ,EMINX      ,
      2   NME    ,ITASK       ,INTBUF_TAB(NIN)%XSAV ,IXS  ,IXS16      ,
-     3   IXS20    ,IXS10       ,V       ,A   )
+     3   IXS20    ,IXS10       ,V       ,A  ,INTBUF_TAB(NIN)%XMSRG,
+     4   INTBUF_TAB(NIN)%XSLVG )
 
 C -------------------------------------------------------------
        CALL MY_BARRIER
@@ -166,9 +155,12 @@ C -------------------------------------------------------------
 C error in the estimation formula
        TZINF  = INTBUF_TAB(NIN)%VARIABLES(4) * SIZE / NME / 6
        MINBOX = INTBUF_TAB(NIN)%VARIABLES(5) * SIZE / NME / 6
-       XX = MAX(XSLVG(1)-XMSRG(4),XMSRG(1)-XSLVG(4))
-       XY = MAX(XSLVG(2)-XMSRG(5),XMSRG(2)-XSLVG(5))
-       XZ = MAX(XSLVG(3)-XMSRG(6),XMSRG(3)-XSLVG(6))
+       XX = MAX(INTBUF_TAB(NIN)%XSLVG(1)-INTBUF_TAB(NIN)%XMSRG(4),
+     *          INTBUF_TAB(NIN)%XMSRG(1)-INTBUF_TAB(NIN)%XSLVG(4))
+       XY = MAX(INTBUF_TAB(NIN)%XSLVG(2)-INTBUF_TAB(NIN)%XMSRG(5),
+     *          INTBUF_TAB(NIN)%XMSRG(2)-INTBUF_TAB(NIN)%XSLVG(5))
+       XZ = MAX(INTBUF_TAB(NIN)%XSLVG(3)-INTBUF_TAB(NIN)%XMSRG(6),
+     *          INTBUF_TAB(NIN)%XMSRG(3)-INTBUF_TAB(NIN)%XSLVG(6))
 C -------------------------------------------------------------
        IF(XX**2 +  XY**2 + XZ**2 >= TZINF**2) THEN
 C=======================================================================

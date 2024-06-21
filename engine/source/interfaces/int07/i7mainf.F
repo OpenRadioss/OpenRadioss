@@ -20,23 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      module MOD_NODNORM
-      implicit none
-#include      "my_real.inc"
-      INTEGER
-     .       , DIMENSION(:,:), ALLOCATABLE :: SOLIDN_NORMAL
-      my_real
-     .       , DIMENSION(:,:), ALLOCATABLE :: NOD_NORMAL
-      INTEGER
-     .       , DIMENSION(:,:), ALLOCATABLE :: SOLIDN_NORMAL_F,
-     .                                        SOLIDN_NORMAL_FE
-      END MODULE MOD_NODNORM
-      module MOD_RCURV
-      implicit none
-      my_real 
-     .       , DIMENSION(:), ALLOCATABLE :: RCURV,ANGLM
-      END MODULE MOD_RCURV
-C
 Chd|====================================================================
 Chd|  I7MAINF                       source/interfaces/int07/i7mainf.F
 Chd|-- called by -----------
@@ -107,8 +90,6 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD 
       USE MESSAGE_MOD
-      USE MOD_NODNORM
-      USE MOD_RCURV
       USE INTBUFDEF_MOD
       USE MULTI_FVM_MOD
       USE H3D_MOD
@@ -376,13 +357,13 @@ c----------------------------------------------------
         IF(ICURV==3)THEN
          CALL MY_BARRIER()
          IF(JTASK==1)THEN
-           ALLOCATE(NOD_NORMAL (3,NUMNOD))
+           ALLOCATE(INTBUF_TAB%NODNORM_NORMAL (3,NUMNOD))
            IF(IPARIT==0)THEN
-             CALL I7NORM(IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,X,NOD_NORMAL,
+             CALL I7NORM(IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,X,INTBUF_TAB%NODNORM_NORMAL,
      .                   IPARI(6,NIN),INTBUF_TAB%MSR)
              IF(NSPMD>1)THEN
                LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-               CALL SPMD_EXCH_N(NOD_NORMAL,IAD_ELEM,FR_ELEM,LENR)
+               CALL SPMD_EXCH_N(INTBUF_TAB%NODNORM_NORMAL,IAD_ELEM,FR_ELEM,LENR)
              END IF
            ELSE
 C Traitement d'assemblage parith/on spmd a optimiser si besoin
@@ -399,7 +380,7 @@ C Calcul espace memoire parith/on sans communication
      1           IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,ITAG,LENT,MAXCC)
              END IF
              CALL I7NORMP(
-     1         IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD ,X    ,NOD_NORMAL,
+     1         IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD ,X    ,INTBUF_TAB%NODNORM_NORMAL,
      2         IPARI(6,NIN),INTBUF_TAB%MSR  ,LENT   ,MAXCC,ISDSIZ    ,
      3         IRCSIZ      ,IAD_ELEM        ,FR_ELEM,ITAG )
            END IF
@@ -413,16 +394,16 @@ c----------------------------------------------------
         IF(IADM/=0)THEN
          CALL MY_BARRIER()
          IF(JTASK==1)THEN
-           ALLOCATE(RCURV(NRTMDIM),ANGLM(NRTMDIM))
-           ALLOCATE(NOD_NORMAL (3,NUMNOD))
+           ALLOCATE(INTBUF_TAB%MODRCURV(NRTMDIM),INTBUF_TAB%MODANGLM(NRTMDIM))
+           ALLOCATE(INTBUF_TAB%NODNORM_NORMAL (3,NUMNOD))
 
            IF(IPARIT==0)THEN
              CALL I7NORMN(
-     .         IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,X ,NOD_NORMAL,
+     .         IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,X ,INTBUF_TAB%NODNORM_NORMAL,
      .                   IPARI(6,NIN),INTBUF_TAB%MSR)
              IF(NSPMD>1)THEN
                LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-               CALL SPMD_EXCH_N(NOD_NORMAL,IAD_ELEM,FR_ELEM,LENR)
+               CALL SPMD_EXCH_N(INTBUF_TAB%NODNORM_NORMAL,IAD_ELEM,FR_ELEM,LENR)
              END IF
            ELSE
 C Traitement d'assemblage parith/on spmd a optimiser si besoin
@@ -439,7 +420,7 @@ C Calcul espace memoire parith/on sans communication
      1           IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,ITAG,LENT,MAXCC)
              END IF
              CALL I7NORMNP(
-     1         IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD ,X    ,NOD_NORMAL,
+     1         IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD ,X    ,INTBUF_TAB%NODNORM_NORMAL,
      2         IPARI(6,NIN),INTBUF_TAB%MSR,LENT   ,MAXCC,ISDSIZ    ,
      3         IRCSIZ      ,IAD_ELEM     ,FR_ELEM,ITAG )
            END IF
@@ -448,12 +429,12 @@ C Calcul espace memoire parith/on sans communication
          NMNFT=1+(JTASK-1)*IPARI(6,NIN)/NTHREAD
          NMNLT=JTASK*IPARI(6,NIN)/NTHREAD
          CALL I7NORME(
-     .     NMNFT,NMNLT,NOD_NORMAL,INTBUF_TAB%MSR)
+     .     NMNFT,NMNLT,INTBUF_TAB%NODNORM_NORMAL,INTBUF_TAB%MSR)
          CALL MY_BARRIER()
          NRTMFT=1+(JTASK-1)*IPARI(4,NIN)/NTHREAD
          NRTMLT=JTASK*IPARI(4,NIN)/NTHREAD
-         CALL I7RCURV(NRTMFT, NRTMLT ,X ,NOD_NORMAL ,INTBUF_TAB%IRECTM ,
-     .                RCURV , NRADM  ,ANGLM ,ANGLT )
+         CALL I7RCURV(NRTMFT, NRTMLT ,X ,INTBUF_TAB%NODNORM_NORMAL ,INTBUF_TAB%IRECTM ,
+     .                INTBUF_TAB%MODRCURV , NRADM  ,INTBUF_TAB%MODANGLM ,ANGLT )
          CALL MY_BARRIER()
         END IF
 C----------------------------------------------------
@@ -631,8 +612,8 @@ C         print *, "---a-b-c-----------------",NFT
      9  MS        ,VXI        ,VYI       ,
      A  VZI       ,MSI        ,NSN       ,V            ,KINET        ,
      B  KINI      ,NTY        ,NIN       ,IGSTI        ,KMIN         ,  
-     C  KMAX      ,GAPMAX     ,GAPMIN    ,IADM         ,RCURV        ,
-     D  RCURVI    ,ANGLM      ,ANGLMI    ,INTTH        ,TEMP         ,
+     C  KMAX      ,GAPMAX     ,GAPMIN    ,IADM         ,INTBUF_TAB%MODRCURV        ,
+     D  RCURVI    ,INTBUF_TAB%MODANGLM      ,ANGLMI    ,INTTH        ,TEMP         ,
      E  TEMPI     ,PHI        ,INTBUF_TAB%AREAS,INTBUF_TAB%IELEC,AREASI ,
      F  IELECI    ,NODNX_SMS  ,NSMS      ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,
      G  INTFRIC  ,INTBUF_TAB%IPARTFRICS,IPARTFRICSI,INTBUF_TAB%IPARTFRICM,IPARTFRICMI,
@@ -717,7 +698,7 @@ C
      D        VZI          ,MSI     ,KINI    ,ICURV  ,INTBUF_TAB%IRECTM,
      E        NNX1         ,NNX2    ,NNX3    ,NNX4   ,NNY1         ,
      F        NNY2         ,NNY3    ,NNY4    ,NNZ1   ,NNZ2         ,
-     G        NNZ3         ,NNZ4    ,NOD_NORMAL ,IADM,RCURVI       ,
+     G        NNZ3         ,NNZ4    ,INTBUF_TAB%NODNORM_NORMAL ,IADM,RCURVI       ,
      H        ANGLMI       ,INTTH   ,TEMPI   ,PHI     ,AREASI      ,
      I        IELECI       ,NSMS    ,CMAJ    ,DRAD2   ,
      J        INTFRIC ,IPARTFRICSI,
@@ -783,7 +764,7 @@ C
      I  MSI         ,KINI       ,NIN          ,NISUB   ,INTBUF_TAB%LISUB,
      J  INTBUF_TAB%ADDSUBS,INTBUF_TAB%ADDSUBM,INTBUF_TAB%LISUBS     ,
      .                                     INTBUF_TAB%LISUBM,FSAVSUB,
-     K  INTBUF_TAB%CAND_N,IPARI(33,NIN),IPARI(39,NIN),NOD_NORMAL ,FNCONT,     
+     K  INTBUF_TAB%CAND_N,IPARI(33,NIN),IPARI(39,NIN),INTBUF_TAB%NODNORM_NORMAL ,FNCONT,     
      L  FTCONT       ,X1         ,X2          ,X3         ,X4         ,
      M  Y1           , Y2        ,Y3          ,Y4         ,Z1         ,
      N  Z2           ,Z3         ,Z4          ,XI         ,YI         ,
@@ -883,11 +864,11 @@ C
         ENDIF
         IF(ICURV==3.OR.IADM/=0)THEN
           CALL MY_BARRIER
-          IF(JTASK==1)DEALLOCATE(NOD_NORMAL)
+          IF(JTASK==1)DEALLOCATE(INTBUF_TAB%NODNORM_NORMAL)
         END IF
         IF(IADM/=0)THEN
           CALL MY_BARRIER
-          IF(JTASK==1)DEALLOCATE(RCURV,ANGLM)
+          IF(JTASK==1)DEALLOCATE(INTBUF_TAB%MODRCURV,INTBUF_TAB%MODANGLM)
         END IF
       ELSEIF(NTY==17)THEN
         ILAGM = IPARI(33,NIN)

@@ -57,7 +57,8 @@ Chd|====================================================================
      8                  DT2T   ,NELTST   ,ITYPTST  ,RX       ,RY      ,
      9                  RZ     ,SX       ,SY       ,SZ       ,TX      ,
      A                  TY     ,TZ       ,OFF      ,IPM      ,GAMA    ,
-     B                  MSSA   ,DMELS    ,TABLE    ,SSP      ,ITASK)
+     B                  MSSA   ,DMELS    ,TABLE    ,SSP      ,ITASK   ,
+     C                  SVIS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,7 +79,6 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com08_c.inc"
 #include      "scr19_c.inc"
-#include      "nsvis_c.inc"
 #include      "param_c.inc"
 #include      "impl1_c.inc"
 #include      "timeri_c.inc"
@@ -99,6 +99,7 @@ C     REAL
      .   SX(MVSIZ)    ,SY(MVSIZ)    ,SZ(MVSIZ)    ,
      .   TX(MVSIZ)    ,TY(MVSIZ)    ,TZ(MVSIZ)    ,OFF(MVSIZ)    ,
      .   GAMA(MVSIZ,6),DT2T, MSSA(*) ,DMELS(*)    ,SSP(MVSIZ)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (MAT_ELEM_) ,TARGET ,INTENT(INOUT) :: MAT_ELEM
@@ -215,7 +216,7 @@ c
      G   TABLE,    IHET,     SSP,      ITASK,
      H   NEL,      ITY,      JSMS,     JSPH,
      I   JTHE,     JTUR,     IMPL_S   ,MAT_ELEM%NUMMAT,
-     J   MAT_ELEM%MAT_PARAM)
+     J   MAT_ELEM%MAT_PARAM,SVIS)
 C-----
       ENDIF 
 C---------------------------

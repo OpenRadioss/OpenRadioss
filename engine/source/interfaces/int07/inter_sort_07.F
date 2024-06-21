@@ -97,9 +97,9 @@ C-----------------------------------------------
         INTEGER, INTENT(in) :: RENUM_SIZ    ! size of RENUM
         INTEGER, INTENT(in) :: NIN ,ITASK,NRTM_T,ESHIFT
         INTEGER, INTENT(inout) :: RETRI
-        INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: ITAB
+        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB
         INTEGER, DIMENSION(NPARI,NINTER),INTENT(inout) :: IPARI
-        INTEGER, DIMENSION(NINTER+1,NSPMD+1),INTENT(inout) :: ISENDTO,IRCVFROM
+        INTEGER, DIMENSION(NINTER+1,NSPMD+1),INTENT(in) :: ISENDTO,IRCVFROM
         INTEGER, DIMENSION(RENUM_SIZ), INTENT(inout) :: RENUM
         INTEGER, DIMENSION(NSPMD), INTENT(inout) :: NSNFIOLD
         my_real, DIMENSION(3*NUMNOD), INTENT(in) :: X   ! position

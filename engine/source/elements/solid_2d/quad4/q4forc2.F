@@ -66,7 +66,10 @@ Chd|====================================================================
      7                   ICP   ,NG     ,
      8                   IPM   ,BUFVOIS,QMV    ,GRESAV,GRTH   ,
      9                   IGRTH ,TABLE  ,IGEO   ,ITASK ,IEXPAN ,
-     A                   MS_2D ,FSKYM  ,IOUTPRT,MAT_ELEM,H3D_STRAIN)
+     A                   MS_2D ,FSKYM  ,IOUTPRT,MAT_ELEM,H3D_STRAIN,SZ_BUFVOIS,SNPC,
+     B                   STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,IRESP,TT,DT1,      
+     .                   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,IMON_MAT,
+     V                   USERL_AVAIL, heat_meca,  impl_s,     idyna)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -94,6 +97,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      my_real, INTENT(IN) :: DT1
+      my_real, INTENT(IN) :: TT
+      INTEGER, INTENT(IN) :: SNPC
+      INTEGER, INTENT(IN) :: STF
+      INTEGER, INTENT(IN) :: SBUFMAT
+      INTEGER, INTENT(IN) :: NSVOIS
+      INTEGER, INTENT(IN) :: IDTMINS
+      INTEGER ,INTENT(IN) :: IRESP
+      INTEGER ,INTENT(IN) :: IDEL7NG
+      INTEGER ,INTENT(INOUT) :: IDEL7NOK
+      integer,dimension(102) :: IDTMIN
+      INTEGER ,INTENT(IN) :: MAXFUNC
+      INTEGER, INTENT(IN) :: IMPL_S
+      INTEGER, INTENT(IN) :: IDYNA
+      INTEGER, INTENT(IN) :: USERL_AVAIL
+      INTEGER, INTENT(IN) :: IMON_MAT
+      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER IC(*), IPARG(NPARG,*), NPF(*), IPARTQ(*), 
      +  IPM(*), GRTH(*), IGRTH(*), IGEO(*), IADQ(4,*),ITASK,IOUTPRT
       INTEGER OFFSET, NEL, NELTST, ITYPTST, ICP, NG, IEXPAN,H3D_STRAIN
@@ -104,6 +124,7 @@ C-----------------------------------------------
      +  FLUX(4,*),FLU1(*),VEUL(*),FV(*), TF(*),BUFMAT(*), 
      +  FSKY(*),STIFN(*),EANI(*),BUFVOIS(6,*),QMV(8,*),GRESAV(*),MS_2D(*),
      +  FSKYM(*)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
@@ -145,7 +166,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,IFLAG,IOFFS,ICPG,ISTRAIN
 C     FOR THE USAGE OF EMPTY INPUT
-      INTEGER IBID,IBIDON(1),ipr,enum
+      INTEGER IBID,IBIDON(1),ipr,enum,SZ_IX
+      INTEGER SZ_BUFVOIS
 C     INDEX OF ELEMENT INFORMATION IN GLOBAL TABLE "IC"
       INTEGER LCO
 C     SN OF THE FIRST ELEMENT OF THE GROUP IN GLOBAL STORAGE
@@ -155,7 +177,7 @@ C     MATERIAL SN, CONNECTIVITY, ID, PROPERTY SN OF ELEMENTS
      +    NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),
      +    NGL(MVSIZ),NGEO(MVSIZ)
 C     NUMBER AND INDEXES OF INTEGRATION POINTS
-      INTEGER NPTR,NPTS,IR,IS
+      INTEGER NPTR,NPTS,IR,IS,ILAY
 C
       my_real, 
      .  DIMENSION(:), POINTER :: EINT
@@ -309,6 +331,8 @@ C
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
+      SZ_IX=NUMELQ+NUMELS+NSVOIS    ! Size of IX array (either IXS+NSVOIS or IXQ)
+      ILAY = 1
       GBUF => ELBUF_TAB(NG)%GBUF
       IBID = 0
       IBIDON(1) = 0
@@ -512,7 +536,7 @@ C
 C       UPDATE STRESS
         CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,
-     2   FV,          ALE_CONNECT, IC,          IPARG,
+     2                ALE_CONNECT, IC,          IPARG,
      3   V,           TF,          NPF,         BUFMAT,
      4   STI,         X,           DT2T,        NELTST,
      5   ITYPTST,     OFFSET,      NEL,         W,
@@ -532,12 +556,20 @@ C       UPDATE STRESS
      J   WXX,         IPM,         GAMA,        BID,
      K   BID,         BID,         BID,         BID,
      L   BID,         BID,         ISTRAIN,     BID,
-     M   BID,         IBIDON(1),   1,           MBID,
+     M   BID,         IBIDON(1),   ILAY,        MBID,
      N   MBID,        IR,          IS,          1,
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        BID,
      Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
-     R   H3D_STRAIN,  JPLASOL,     JSPH)
+     R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_BUFVOIS,
+     S                SNPC,        STF,         SBUFMAT,
+     T   SVIS,        SZ_IX,       IDTMINS,     IRESP,
+     *   N2D,         TH_STRAIN,   NGROUP,      TT, 
+     .   DT1,         NTABLE,      NUMELQ,      nummat,
+     .   numgeo,      numnod,      numels,
+     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   idyna)
 C
 C       COMPUTE NODAL INTERNAL FORCE
         CALL Q4FINT2(
@@ -550,7 +582,7 @@ C       COMPUTE NODAL INTERNAL FORCE
      7   FY3,     FZ3,     FY4,     FZ4,
      8   R22,     R23,     R32,     R33,
      9   AIRN,    VOLN,    QVIS,    ICPG,
-     A   NEL,     JHBE,    JCVT)
+     A   NEL,     JHBE,    JCVT,    SVIS)
 C
 C       COMPUTE ELEMENT AVERAGE & SUMMERY DATA
         CALL S8EFMOY3(
@@ -561,7 +593,7 @@ C       COMPUTE ELEMENT AVERAGE & SUMMERY DATA
      5   STI,        STIM,       ICPG,       OFF,
      6   LBUF%VOL,   GBUF%VOL,   GBUF%G_PLA, GBUF%G_EPSD,
      7   LBUF%EINTTH,GBUF%EINTTH,IEXPAN,     NEL,
-     8   BID,        BID)
+     8   BID,        BID,SVIS)
 C
          DO I=LFT,LLT
            OFFG(I)=MIN(OFFG(I),OFF(I))

@@ -60,7 +60,6 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFMOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
       use check_sorting_criteria_mod , only : check_sorting_criteria

@@ -734,7 +734,7 @@ Chd|====================================================================
      5                    LGRAV     ,ITASK   ,NRBYAC  ,IRBYAC ,NPBY   ,
      6                    RBY       ,FR_ELEM ,IAD_ELEM,NDDL   ,NNZK   ,
      7                    IDIV      ,H3D_DATA,CPTREAC ,FTHREAC,NODREAC,
-     8                    NSENSOR   ,TH_SURF ,FSAVSURF,DPL0CLD,
+     8                    NSENSOR   ,TH_SURF ,DPL0CLD,
      9                    VEL0CLD   ,D       ,DR      ,NUMNOD ,NSURF  ,
      A                    NFUNCT    ,NCONLD  ,NGRAV   ,NINVEL ,STF    ,NUMSKW)
 C-----------------------------------------------
@@ -777,9 +777,8 @@ C     REAL
      .   A(3,*) ,AR(3,*),TFEXC,FSKY(*),FTHREAC(6,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
-      TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+      TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
       TYPE (SKEW_),INTENT(INOUT)   :: SKEWS
-      my_real, INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       my_real, INTENT(IN) :: 
      .   DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD),
      .   D(3,NUMNOD),DR(3,NUMNOD)
@@ -989,7 +988,7 @@ Chd|====================================================================
      6                    RBY   ,IBFV  ,VEL   ,D      ,DR    ,
      7                    IKC   ,IDDL  ,IFRAME,XFRAME ,NDOF  ,
      8                    H3D_DATA,CPTREAC,FTHREAC,NODREAC,NSENSOR,
-     9                    TH_SURF ,FSAVSURF,DPL0CLD,
+     9                    TH_SURF ,DPL0CLD,
      A                    VEL0CLD, NUMNOD,NSURF,NFUNCT,NCONLD,
      B                    NGRAV,NFXVEL,STF,NUMSKW)
 C-----------------------------------------------
@@ -1031,9 +1030,8 @@ C-----------------------------------------------
      .        FTHREAC(6,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
-      TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+      TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
       TYPE(SKEW_),INTENT(INOUT) :: SKEWS
-      my_real, INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       my_real, INTENT(IN) :: DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

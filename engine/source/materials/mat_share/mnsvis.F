@@ -32,7 +32,7 @@ Chd|====================================================================
      2   PID,     SSP,     AIRE,    VOL,
      3   D1,      D2,      D3,      D4,
      4   D5,      D6,      MAT,     ISVIS,
-     5   RHOREF,  NEL)
+     5   RHOREF,  NEL,     SVIS)
 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -47,7 +47,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "param_c.inc"
-#include      "nsvis_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -57,6 +56,7 @@ C     REAL
      .   PM(NPROPM,*), OFF(*), RHO(*),GEO(NPROPG,*), SSP(*),
      .   AIRE(*), VOL(*), D1(*), D2(*), D3(*),
      .   D4(*), D5(*), D6(*), RHOREF(*)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       INTEGER PID(*), MAT(*),ISVIS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

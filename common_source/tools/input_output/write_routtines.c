@@ -73,14 +73,19 @@ void eor_c(int *len);
 
 void write_r_c(float *w,int *len);
 void write_db_c(double *w,int *len);
+void write_db_array_c(double *w,int *len);
 void write_c_c(int *w,int *len);
 void write_c_c_txt(char *w,int *len);
 void write_i_c(int *w,int *len);
+void write_i_array_c(int *w,int *len);
+
 void write_s_c(int *w, int *len);
 
 void read_db_c(double *w,int *len);
+void read_db_array_c(double *w,int *len);
 void read_r_c(float *w, int *len);
 void read_i_c(int *w, int *len);
+void read_i_array_c(int *w, int *len);
 void read_c_c(int *w,int *len);
 void flu_fil_c();
 
@@ -573,6 +578,14 @@ void write_db_c_(double *w,int *len)
 void write_db_c__(double *w,int *len)
 {write_db_c(w,len);}
 
+void _FCALL WRITE_DB_ARRAY_C(double *w,int *len)
+{write_db_c(w,len);}
+
+void write_db_array_c_(double *w,int *len)
+{ write_db_c(w,len);}
+
+void write_db_array_c__(double *w,int *len)
+{write_db_c(w,len);}
 // -------------------------------------------------------------------------------------
 
 void write_c_c(int *w,int *len)
@@ -658,6 +671,18 @@ void write_i_c_(int *w,int *len)
 void write_i_c__(int *w,int *len)
 {write_i_c(w,len);}
 
+
+void _FCALL WRITE_I_ARRAY_C(int *w,int *len)
+{write_i_c(w,len);}
+
+void write_i_array_c_(int *w,int *len)
+{ write_i_c(w,len); }
+
+
+void write_i_array_c__(int *w,int *len)
+{write_i_c(w,len);}
+
+
 // -------------------------------------------------------------------------------------
 void write_s_c(int *w, int *len)
 //! Write a string array as Integer in Radioss IEEE format
@@ -720,6 +745,12 @@ void _FCALL READ_DB_C(double *w,int *len)
 void read_db_c_(double *w,int *len)
 { read_db_c(w,len); }
 
+
+void _FCALL READ_DB_ARRAY_C(double *w,int *len)
+{ read_db_c(w,len); } 
+
+void read_db_array_c_(double *w,int *len)
+{ read_db_c(w,len); }
 
 // -------------------------------------------------------------------------------------
 void read_r_c(float *w, int *len)
@@ -813,6 +844,14 @@ void _FCALL READ_I_C(int *w, int *len)
 
 void read_i_c_(int *w, int *len)
 { read_i_c(w,len);} 
+
+
+void _FCALL READ_I_ARRAY_C(int *w, int *len)
+{ read_i_c(w,len);} /* READ_I_C */
+
+void read_i_array_c_(int *w, int *len)
+{ read_i_c(w,len);} 
+
 
 // -------------------------------------------------------------------------------------
 void read_c_c(int *w, int *len)

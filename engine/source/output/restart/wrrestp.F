@@ -142,7 +142,6 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE RESTMOD
-      USE INTBUFMOD
       USE INTSTAMP_GLOB_MOD
       USE SMS_MOD
       USE TABLE_GLOB_MOD
@@ -177,7 +176,7 @@ C-----------------------------------------------
       USE DAMP_MOD
       USE XFEM2VARS_MOD
       USE ALEFVM_MOD
-      USE NAMES_AND_TITLES_MOD, only:NAMES_AND_TITLES_,LTITLE
+      USE NAMES_AND_TITLES_MOD
       USE BCS_MOD , only : BCS
       USE SKEW_MOD
       USE IMPBUFDEF_MOD, only: IMPBUF_STRUCT_
@@ -973,7 +972,7 @@ C--------------------------------------
 C  Interface friction buffer (integer )
 C--------------------------------------
       IF(NINTERFRIC /= 0)THEN
-        CALL INTFRIC_WRESTI(INTBUF_FRIC_TAB)
+        CALL INTFRIC_WRESTI(INTBUF_FRIC_TAB,NINTERFRIC)
       END IF
 C--------------------------------------
 C structure tables (partie entiere)
@@ -1351,7 +1350,7 @@ C--------------------------------------
 C  Interface friction buffer (integer )
 C--------------------------------------
       IF(NINTERFRIC /= 0)THEN
-        CALL INTFRIC_WRESTR(INTBUF_FRIC_TAB)
+        CALL INTFRIC_WRESTR(INTBUF_FRIC_TAB,NINTERFRIC)
       END IF
 C--------------------------------------
         CALL WRITE_DB(MS0,NUMNOD)

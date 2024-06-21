@@ -85,7 +85,9 @@ Chd|====================================================================
      D                    TEMP     ,FTHE   ,FTHESKY ,IEXPAN  ,GRESAV  ,
      E                    GRTH     ,IGRTH  ,MSSA    ,DMELS   ,TABLE   ,
      F                    IGEO     ,XDP    ,VOLN    ,CONDN   ,CONDNSKY,
-     G                    D        ,IOUTPRT,MAT_ELEM,H3D_STRAIN)
+     G                    D        ,IOUTPRT,MAT_ELEM,H3D_STRAIN,SNPC,STF,
+     H                    SBUFMAT  ,SVIS,NSVOIS,IDTMINS,IRESP,IDTMIN,MAXFUNC,
+     I                   USERL_AVAIL,heat_meca)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -119,6 +121,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: SNPC
+      INTEGER, INTENT(IN) :: STF
+      INTEGER, INTENT(IN) :: SBUFMAT
+      INTEGER, INTENT(IN) :: NSVOIS
+      INTEGER, INTENT(IN) :: IDTMINS
+      INTEGER ,INTENT(IN) :: IRESP
+      integer,dimension(102) :: IDTMIN
+      INTEGER ,INTENT(IN) :: MAXFUNC
+      INTEGER, INTENT(IN) :: USERL_AVAIL
+      my_real, INTENT(INOUT) :: HEAT_MECA
+
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP),NPF(*),
      .    IADS(8,*),IPARTS(*), IPM(NPROPMI,*),GRTH(*),IGRTH(*),IGEO(*),
      .    IOUTPRT
@@ -145,6 +158,7 @@ C
      .   F18(MVSIZ),F28(MVSIZ),F38(MVSIZ),
      .   TEMP(*),FTHE(*),FTHESKY(*),GRESAV(*), MSSA(*), DMELS(*), VOLN(MVSIZ),
      .   CONDN(*),CONDNSKY(*),D(*)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
@@ -187,6 +201,7 @@ C   Variables utilisees en argument par les materiaux si SPH uniquement.
       INTEGER IOFFS, N,ITET
       my_real
      .   OFFS(MVSIZ),DSV(MVSIZ),SDV(MVSIZ)
+      INTEGER SZ_R1_FREE
 C-----
 C   Variables utilisees dans les routines solides uniquement (en arguments).
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
@@ -345,7 +360,8 @@ C
       my_real
      .   A11(MVSIZ), A12(MVSIZ), A13(MVSIZ), 
      .   A21(MVSIZ), A22(MVSIZ), A23(MVSIZ), 
-     .   A31(MVSIZ), A32(MVSIZ), A33(MVSIZ)      
+     .   A31(MVSIZ), A32(MVSIZ), A33(MVSIZ)     
+      INTEGER SZ_IX 
 C
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9)
@@ -424,6 +440,8 @@ C
       NBPRELD = GBUF%G_BPRELD
       BPRELD =>GBUF%BPRELD(1:NBPRELD*NEL)
       TEMPEL(1:MVSIZ) = ZERO
+      SZ_R1_FREE=MVSIZ
+      SZ_IX=NUMELQ+NUMELS+NSVOIS
 c
       ILAY   = 1
       IBID = 0
@@ -803,7 +821,7 @@ c
 c
       CALL MMAIN(
      1   ELBUF_TAB,    NG,           PM,           GEO,
-     2   FV,           ALE_CONNECT,  IXS,          IPARG,
+     2                 ALE_CONNECT,  IXS,          IPARG,
      3   V,            TF,           NPF,          BUFMAT,
      4   STI,          X,            DT2T,         NELTST,
      5   ITYPTST,      OFFSET,       NEL,          W,
@@ -828,7 +846,15 @@ c
      O   TABLE,        BID,          BID,          BID,
      P   BID,          IPARG(1,NG),  IGEO,         CONDE,
      Q   ITASK,        NLOC_DMG,     VAR_REG(1,IP),MAT_ELEM,
-     R   H3D_STRAIN,   JPLASOL,      JSPH)
+     R   H3D_STRAIN,   JPLASOL,      JSPH,         SZ_R1_FREE,
+     S                 SNPC,         STF,          SBUFMAT,
+     *   SVIS,         SZ_IX,        IDTMINS,      IRESP,
+     T   N2D,          TH_STRAIN,    NGROUP,       TT, 
+     .   DT1,         NTABLE,      NUMELQ,      nummat,
+     .   numgeo,      numnod,      numels,
+     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   idyna)
 C
        IF (ISTRAIN == 1)THEN 
         CALL SSTRA3(
@@ -851,7 +877,7 @@ C----------------------------
      7   F38,       DN_X,      DN_Y,      DN_Z,
      8   BB,        VOLN,      QVIS,      ICP,
      9   JFAC(1,IP),NEL,       ISELECT,   IDEG,
-     A   ISMSTR)
+     A   ISMSTR,    SVIS)
       CALL S8EFMOY3(
      1   LBUF%SIG,   VOLN,       QVIS,       PP,
      2   LBUF%EINT,  LBUF%RHO,   LBUF%QVIS,  LBUF%PLA,
@@ -860,7 +886,7 @@ C----------------------------
      5   STI,        STIN,       ICP,        OFF,
      6   LBUF%VOL,   GBUF%VOL,   GBUF%G_PLA, GBUF%G_EPSD,
      7   LBUF%EINTTH,GBUF%EINTTH,IEXPAN,     NEL,
-     8   CONDE,      CONDEN)
+     8   CONDE,      CONDEN,SVIS)
 c-------------------------
 c     Virtual internal forces of regularized non local ddl 
 c--------------------------

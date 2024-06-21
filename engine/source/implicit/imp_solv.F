@@ -281,7 +281,7 @@ C
         TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
         TYPE (DRAPEG_)   :: DRAPEG
         TYPE (INTERFACES_)    ,INTENT(IN)     :: INTERFACES
-        TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+        TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
         TYPE(SKEW_),INTENT(INOUT) :: SKEWS
 C
 C---D_IMP: dUn+1,i,DD : ddU,i+1
@@ -440,7 +440,7 @@ C
         IF(NCYCLE==1.AND.IMCONV==1.AND.I_IMP(5)==0) THEN
           R_IMP(19)=TT-DT2
 C---------for interface sorting
-          IF(NINTER>0) CALL INI_BMINMA_IMP
+          IF(NINTER>0) CALL INI_BMINMA_IMP(INTBUF_TAB)
         END IF
 c
 C-----------------------------
@@ -519,7 +519,7 @@ C
      5                     LGRAV      ,ITASK    ,NRBYAC          ,IRBYAC  ,NPBY   ,
      6                     RBY        ,FR_ELEM  ,IAD_ELEM        ,NDDL0   ,NNZK0  ,
      7                     I_IMP(5)   ,H3D_DATA ,CPTREAC         ,FTHREAC ,NODREAC,
-     8                     NSENSOR    ,TH_SURF  ,TH_SURF%CHANNELS,DPL0CLD ,
+     8                     NSENSOR    ,TH_SURF  ,DPL0CLD ,
      9                     VEL0CLD    ,D        ,DR              ,NUMNOD  ,NSURF  ,
      A                     NFUNCT     ,NCONLD   ,NGRAV           ,NINVEL  ,STF    ,NUMSKW)
 C
@@ -1914,7 +1914,7 @@ C
      6                    NPBY  ,RBY   ,IBFV    ,VEL   ,D_IMP  ,
      7                    DR_IMP,IKC   ,IDDL  ,IFRAME,XFRAME  ,
      8                    NDOF  ,H3D_DATA,CPTREAC,FTHREAC,NODREAC,NSENSOR,
-     9                    TH_SURF ,TH_SURF%CHANNELS,DPL0CLD,
+     9                    TH_SURF ,DPL0CLD,
      A                    VEL0CLD, NUMNOD,NSURF,NFUNCT,NCONLD,
      B                    NGRAV,NFXVEL,STF,NUMSKW)
             CALL DYNA_CPR0(NDDL0  )
@@ -3207,7 +3207,7 @@ C-----------------------------------------------
         TYPE(H3D_DATABASE) :: H3D_DATA
         TYPE (IMPBUF_STRUCT_) ,TARGET :: IMPBUF_TAB
         TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
-        TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
+        TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
         TYPE(SKEW_),INTENT(INOUT) :: SKEWS
 #if defined(MUMPS5)
 C----------------------------------------------
@@ -7412,13 +7412,12 @@ Chd|  INI_BMINMA_IMP                source/implicit/imp_solv.F
 Chd|-- called by -----------
 Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|-- calls ---------------
-Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F   
 Chd|====================================================================
-      SUBROUTINE INI_BMINMA_IMP
+      SUBROUTINE INI_BMINMA_IMP(INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE IMP_INTBUF
+        USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -7428,18 +7427,19 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 C-----------------------------------------------
+        TYPE(INTBUF_STRUCT_):: INTBUF_TAB(NINTER)
+C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER  N
 C-----------------------------------------------
-        ALLOCATE(BMINMA_IMP(6,NINTER))
         DO N = 1,NINTER
-          BMINMA_IMP(1,N)=-EP30
-          BMINMA_IMP(2,N)=-EP30
-          BMINMA_IMP(3,N)=-EP30
-          BMINMA_IMP(4,N)=EP30
-          BMINMA_IMP(5,N)=EP30
-          BMINMA_IMP(6,N)=EP30
+          INTBUF_TAB(N)%BMINMA_IMP(1)=-EP30
+          INTBUF_TAB(N)%BMINMA_IMP(2)=-EP30
+          INTBUF_TAB(N)%BMINMA_IMP(3)=-EP30
+          INTBUF_TAB(N)%BMINMA_IMP(4)=EP30
+          INTBUF_TAB(N)%BMINMA_IMP(5)=EP30
+          INTBUF_TAB(N)%BMINMA_IMP(6)=EP30
         END DO
 C------------------------------------------
         RETURN

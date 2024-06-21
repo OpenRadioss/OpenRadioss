@@ -79,8 +79,6 @@ C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MOD_NODNORM
-      USE MOD_RCURV
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE MESSAGE_MOD
@@ -273,21 +271,21 @@ c----------------------------------------------------
       IF(IGAP/=0)THEN
         CALL MY_BARRIER
         IF(JTASK==1)THEN
-          ALLOCATE(SOLIDN_NORMAL (3,NUMNOD))
-          CALL I20NORMS(IPARI(4),INTBUF_TAB%IRECTM,NUMNOD,X,SOLIDN_NORMAL,
+          ALLOCATE(INTBUF_TAB%SOLIDN_NORMAL (3,NUMNOD))
+          CALL I20NORMS(IPARI(4),INTBUF_TAB%IRECTM,NUMNOD,X,INTBUF_TAB%SOLIDN_NORMAL,
      2           IPARI(6),INTBUF_TAB%MSR,NLN,INTBUF_TAB%NLG,INTBUF_TAB%GAP_SH,
      3           IAD_ELEM,FR_ELEM,INTBUF_TAB%NSV,NSN)
  
           IF(NSPMD > 1)THEN
               LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-            CALL SPMD_I20EXCH_N(SOLIDN_NORMAL,IAD_ELEM,FR_ELEM,LENR)
+            CALL SPMD_I20EXCH_N(INTBUF_TAB%SOLIDN_NORMAL,IAD_ELEM,FR_ELEM,LENR)
 C Communication supplementaire normale sur proc remote en SPMD
 C allocation partie non edge sur taille NSNR (nb noeuds secnd remote)
-            ALLOCATE(SOLIDN_NORMAL_F (3,IPARI(24)))
+            ALLOCATE(INTBUF_TAB%SOLIDN_NORMAL_F (3,IPARI(24)))
 C allocation partie edge sur taille NLINR (nb lignes secnd remote)
-            ALLOCATE(SOLIDN_NORMAL_FE(3,2*IPARI(57)))
+            ALLOCATE(INTBUF_TAB%SOLIDN_NORMAL_FE(3,2*IPARI(57)))
       CALL SPMD_I20NORMF(
-     1 SOLIDN_NORMAL,SOLIDN_NORMAL_F,SOLIDN_NORMAL_FE,NIN     ,IRLEN20 ,
+     1 INTBUF_TAB%SOLIDN_NORMAL,INTBUF_TAB%SOLIDN_NORMAL_F,INTBUF_TAB%SOLIDN_NORMAL_FE,NIN     ,IRLEN20 ,
      2 ISLEN20      ,IRLEN20T     ,ISLEN20T      ,IRLEN20E,ISLEN20E,
      3 INTBUF_TAB%NSV,INTBUF_TAB%NLG ,INTBUF_TAB%IXLINS   )
           END IF
@@ -302,14 +300,14 @@ c----------------------------------------------------
       IF(ICURV==3)THEN
         CALL MY_BARRIER()
         IF(JTASK==1)THEN
-          ALLOCATE(NOD_NORMAL (3,NUMNOD))
+          ALLOCATE(INTBUF_TAB%NODNORM_NORMAL (3,NUMNOD))
           IF(IPARIT==0)THEN
-            CALL I20NORM(IPARI(4),INTBUF_TAB%IRECTM,NUMNOD,X,NOD_NORMAL,
+            CALL I20NORM(IPARI(4),INTBUF_TAB%IRECTM,NUMNOD,X,INTBUF_TAB%NODNORM_NORMAL,
      .                  IPARI(6),INTBUF_TAB%MSR,NLN,INTBUF_TAB%NLG)
 cc        CALL MY_BARRIER()
             IF(NSPMD>1)THEN
               LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-              CALL SPMD_EXCH_N(NOD_NORMAL,IAD_ELEM,FR_ELEM,LENR)
+              CALL SPMD_EXCH_N(INTBUF_TAB%NODNORM_NORMAL,IAD_ELEM,FR_ELEM,LENR)
             END IF
           ELSE
 C Traitement d'assemblage parith/on spmd a optimiser si besoin
@@ -325,7 +323,7 @@ C Traitement d'assemblage parith/on spmd a optimiser si besoin
      2        MAXCC       ,NLN     ,INTBUF_TAB%NLG)
             ENDIF
       CALL I20NORMP(
-     1        IPARI(4),INTBUF_TAB%IRECTM,NUMNOD ,X    ,NOD_NORMAL,
+     1        IPARI(4),INTBUF_TAB%IRECTM,NUMNOD ,X    ,INTBUF_TAB%NODNORM_NORMAL,
      2        IPARI(6),INTBUF_TAB%MSR,LENT   ,MAXCC,ISDSIZ    ,
      3        IRCSIZ  ,IAD_ELEM     ,FR_ELEM,ITAG ,NLN,INTBUF_TAB%NLG)
           END IF
@@ -342,17 +340,17 @@ c----------------------------------------------------
       IF(IADM/=0)THEN
          CALL MY_BARRIER()
          IF(JTASK==1)THEN
-           ALLOCATE(RCURV(NRTMDIM),ANGLM(NRTMDIM))
-           ALLOCATE(NOD_NORMAL (3,NUMNOD))
+           ALLOCATE(INTBUF_TAB%MODRCURV(NRTMDIM),INTBUF_TAB%MODANGLM(NRTMDIM))
+           ALLOCATE(INTBUF_TAB%NODNORM_NORMAL (3,NUMNOD))
 
            IF(IPARIT==0)THEN
        CALL I20NORMN(
-     .         IPARI(4),INTBUF_TAB%IRECTM,NUMNOD,X ,NOD_NORMAL,
+     .         IPARI(4),INTBUF_TAB%IRECTM,NUMNOD,X ,INTBUF_TAB%NODNORM_NORMAL,
      .       IPARI(6),INTBUF_TAB%MSR,NLN,INTBUF_TAB%NLG)
 cc             CALL MY_BARRIER()
              IF(NSPMD>1)THEN
                LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-               CALL SPMD_EXCH_N(NOD_NORMAL,IAD_ELEM,FR_ELEM,LENR)
+               CALL SPMD_EXCH_N(INTBUF_TAB%NODNORM_NORMAL,IAD_ELEM,FR_ELEM,LENR)
              END IF
            ELSE
 C Traitement d'assemblage parith/on spmd a optimiser si besoin
@@ -369,7 +367,7 @@ C Traitement d'assemblage parith/on spmd a optimiser si besoin
 
              ENDIF
        CALL I20NORMNP(
-     1         IPARI(4),INTBUF_TAB%IRECTM,NUMNOD ,X    ,NOD_NORMAL,
+     1         IPARI(4),INTBUF_TAB%IRECTM,NUMNOD ,X    ,INTBUF_TAB%NODNORM_NORMAL,
      2         IPARI(6),INTBUF_TAB%MSR,LENT   ,MAXCC,ISDSIZ    ,
      3         IRCSIZ    ,IAD_ELEM  ,FR_ELEM,ITAG ,NLN,INTBUF_TAB%NLG)
 
@@ -384,13 +382,13 @@ C il s agit de la barriere matchant celle de I7NORMN sur tache1
          NMNLT=JTASK*IPARI(6)/NTHREAD
 
          CALL I20NORME(
-     .       NMNFT,NMNLT,NOD_NORMAL,INTBUF_TAB%MSR,NLN,INTBUF_TAB%NLG)
+     .       NMNFT,NMNLT,INTBUF_TAB%NODNORM_NORMAL,INTBUF_TAB%MSR,NLN,INTBUF_TAB%NLG)
           CALL MY_BARRIER()
 
          NRTMFT=1+(JTASK-1)*IPARI(4)/NTHREAD
          NRTMLT=JTASK*IPARI(4)/NTHREAD
-         CALL I20RCURV(NRTMFT, NRTMLT ,X ,NOD_NORMAL ,INTBUF_TAB%IRECTM ,
-     .                RCURV , NRADM  ,ANGLM ,ANGLT,NLN,INTBUF_TAB%NLG )
+         CALL I20RCURV(NRTMFT, NRTMLT ,X ,INTBUF_TAB%NODNORM_NORMAL ,INTBUF_TAB%IRECTM ,
+     .                INTBUF_TAB%MODRCURV , NRADM  ,INTBUF_TAB%MODANGLM ,ANGLT,NLN,INTBUF_TAB%NLG )
          CALL MY_BARRIER()
       END IF
 C----------------------------------------------------
@@ -473,8 +471,8 @@ C cand_n et cand_e remplace par cand_n_n et cand_e_n
      8  MS    ,VXI        ,VYI   ,NLN        ,INTBUF_TAB%NLG,
      9  VZI   ,MSI        ,NSN   ,INTBUF_TAB%VA,KINET      ,
      A  KINI    ,NTY        ,NIN   ,IGSTI        ,KMIN       ,  
-     B  KMAX    ,GAPMAX     ,GAPMIN  ,IADM         ,RCURV      ,
-     C  RCURVI    ,ANGLM      ,ANGLMI  ,INTTH        ,TEMP       ,
+     B  KMAX    ,GAPMAX     ,GAPMIN  ,IADM         ,INTBUF_TAB%MODRCURV      ,
+     C  RCURVI    ,INTBUF_TAB%MODANGLM      ,ANGLMI  ,INTTH        ,TEMP       ,
      D  TEMPI   ,PHI        ,INTBUF_TAB%AREAS,INTBUF_TAB%IELEC,AREASI    ,
      E  IELECI    ,INTBUF_TAB%GAP_SH,INTBUF_TAB%STFAC,NODNX_SMS,NSMS       )
 C
@@ -491,15 +489,15 @@ C
      8 LB4      ,LC1   ,LC2      ,LC3 ,LC4        ,
      9 P1     ,P2    ,P3       ,P4  ,IX1        ,
      A IX2      ,IX3   ,IX4      ,NSVG  ,STIF       ,
-     B JLT_NEW       ,GAPV       ,INACTI  ,SOLIDN_NORMAL,
+     B JLT_NEW       ,GAPV       ,INACTI  ,INTBUF_TAB%SOLIDN_NORMAL,
      C INDEX2(NFT+1),VXI   ,VYI      ,GAPR  ,INTBUF_TAB%GAP_SH,
      D VZI      ,MSI   ,KINI       ,ICURV ,INTBUF_TAB%IRECTM,
      E NNX1     ,NNX2  ,NNX3       ,NNX4  ,NNY1       ,
      F NNY2     ,NNY3  ,NNY4       ,NNZ1  ,NNZ2       ,
-     G NNZ3     ,NNZ4  ,NOD_NORMAL ,IADM  ,RCURVI       ,
+     G NNZ3     ,NNZ4  ,INTBUF_TAB%NODNORM_NORMAL ,IADM  ,RCURVI       ,
      H ANGLMI     ,INTTH   ,TEMPI      ,PHI ,AREASI       ,
      I IELECI     ,NLN   ,INTBUF_TAB%NLG,IGAP ,GAPMAX       ,
-     J SOLIDN_NORMAL_F     ,NSMS    ,INTBUF_TAB%NBINFLG,INTBUF_TAB%GAP_M,
+     J INTBUF_TAB%SOLIDN_NORMAL_F     ,NSMS    ,INTBUF_TAB%NBINFLG,INTBUF_TAB%GAP_M,
      K CMAJ)
         JLT = JLT_NEW
         IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
@@ -544,7 +542,7 @@ C
      J  VISCN        ,VXI       ,VYI          ,VZI         ,MSI      ,
      K  KINI         ,NIN       ,NISUB   ,INTBUF_TAB%LISUB,INTBUF_TAB%ADDSUBS,
      L  INTBUF_TAB%ADDSUBM,INTBUF_TAB%LISUBS,INTBUF_TAB%LISUBM,FSAVSUB,INTBUF_TAB%CAND_N,
-     M  IPARI(33)    ,IPARI(39) ,NOD_NORMAL  ,FNCONT     ,FTCONT   ,
+     M  IPARI(33)    ,IPARI(39) ,INTBUF_TAB%NODNORM_NORMAL  ,FNCONT     ,FTCONT   ,
      N  X1       ,X2        ,X3          ,X4         ,Y1       ,
      O  Y2       ,Y3        ,Y4          ,Z1         ,Z2       ,
      P  Z3       ,Z4        ,XI          ,YI         ,ZI       ,
@@ -665,8 +663,8 @@ C         preparation candidats retenus
      8      VXM2   ,VYM1  ,VYM2   ,VZM1  ,VZM2  ,
      9      MS1    ,MS2   ,MM1    ,MM2   ,GAPV  ,
      A      NL1    ,NL2   ,ML1    ,ML2   ,IGAP  ,
-     B      SOLIDN_NORMAL,INTBUF_TAB%GAP_SE,INTBUF_TAB%GAP_ME,NLINSA,
-     C      SOLIDN_NORMAL_FE,NSMS)
+     B      INTBUF_TAB%SOLIDN_NORMAL,INTBUF_TAB%GAP_SE,INTBUF_TAB%GAP_ME,NLINSA,
+     C      INTBUF_TAB%SOLIDN_NORMAL_FE,NSMS)
           JLT = JLT_NEW
           IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
           IF(JLT_NEW/=0) THEN
@@ -731,20 +729,20 @@ C----------------------------------------------------------------------
       IF(IGAP/=0)THEN
         CALL MY_BARRIER
         IF(JTASK == 1) THEN
-          DEALLOCATE(SOLIDN_NORMAL)
+          DEALLOCATE(INTBUF_TAB%SOLIDN_NORMAL)
           IF(NSPMD > 1) THEN
-            DEALLOCATE(SOLIDN_NORMAL_F)
-            DEALLOCATE(SOLIDN_NORMAL_FE)
+            DEALLOCATE(INTBUF_TAB%SOLIDN_NORMAL_F)
+            DEALLOCATE(INTBUF_TAB%SOLIDN_NORMAL_FE)
           END IF
         END IF
       END IF
       IF(ICURV==3.OR.IADM/=0)THEN
           CALL MY_BARRIER()
-          IF(JTASK == 1)DEALLOCATE(NOD_NORMAL)
+          IF(JTASK == 1)DEALLOCATE(INTBUF_TAB%NODNORM_NORMAL)
       END IF
       IF(IADM/=0)THEN
           CALL MY_BARRIER()
-          IF(JTASK == 1)DEALLOCATE(RCURV,ANGLM)
+          IF(JTASK == 1)DEALLOCATE(INTBUF_TAB%MODRCURV,INTBUF_TAB%MODANGLM)
       END IF
 C-----------
       RETURN

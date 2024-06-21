@@ -2618,8 +2618,7 @@ C--------------------------------------
 C interface friction (integers)
 C--------------------------------------
        IF(NINTERFRIC > 0) THEN
-          CALL INTFRIC_WRESTI(INTBUF_FRIC_TAB, LINTFRIC)
-          LEN_IA=LEN_IA+LINTFRIC
+          CALL INTFRIC_WRESTI(INTBUF_FRIC_TAB,NINTERFRIC)
        ENDIF
 C--------------------------------------
 C structure tables (partie entiere)
@@ -3191,8 +3190,7 @@ C--------------------------------------
 C FRICTION INTERFACE (REALS)
 C--------------------------------------
        IF(NINTERFRIC > 0) THEN
-          CALL INTFRIC_WRESTR(INTBUF_FRIC_TAB, LINTFRIC)
-          LEN_AM=LEN_AM+LINTFRIC
+          CALL INTFRIC_WRESTR(INTBUF_FRIC_TAB,NINTERFRIC)
        ENDIF
 C-----------------------------------------------
       CALL W_RNLOC(MS0,NODGLOB,NUMNOD_L,LEN_AM)

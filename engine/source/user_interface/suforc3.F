@@ -47,7 +47,7 @@ Chd|====================================================================
      7           STIFR    ,FX       ,FY      ,FZ      ,IFAILURE,
      8           MTN      ,IGTYP    ,NPT     ,JSMS    ,MSSA    ,
      9           DMELS    ,ITASK    ,IOUTPRT ,JTHE    ,TABLE   ,
-     A           IDTMINS  ,DTFACS)
+     A           IDTMINS  ,DTFACS   ,DTMINS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,8 +79,9 @@ C-----------------------------------------------
       INTEGER LFT, LLT,NEL,NFT,MTN,IGTYP,IFAILURE,NPT, JSMS,IOUTPRT,JTHE
       INTEGER IXS(NIXS,*), IPARG(*), NPF(*),IADS(8,*),
      .        IPARTS(*), IGEO(NPROPGI,*), IPM(NPROPMI,*),ITASK
-      INTEGER ,INTENT(INOUT) :: IDTMINS
-      my_real ,INTENT(INOUT) :: DTFACS
+      INTEGER ,INTENT(IN) :: IDTMINS
+      my_real ,INTENT(IN) :: DTFACS
+      my_real ,INTENT(IN) :: DTMINS
 C     REAL
 C     REAL
       my_real
@@ -409,7 +410,7 @@ C-----------
      H  STI    ,STIR   ,VISCM  ,VISCR  ,PARTSAV,IPARTS ,BUFMAT ,IOUTPRT,     
      L  IFAILURE,NPF   ,TF     ,IPM    ,IGEO   ,NPT    ,NEL    ,JSMS   ,     
      M  DMELS  ,PM     ,GEO    ,ITASK  ,JTHE   ,TABLE  ,MAT_PARAM      ,
-     N  IDTMINS,DTFACS)   
+     N  IDTMINS,DTFACS ,DTMINS)   
        IF(NFILSOL/=0) THEN
         CALL SFILLOPT(
      1   GBUF%FILL,STI,      FX(1,1),  FX(1,2),

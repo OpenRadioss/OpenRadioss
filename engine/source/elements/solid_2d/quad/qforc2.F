@@ -62,14 +62,17 @@ Chd|====================================================================
       SUBROUTINE QFORC2(ELBUF_TAB,NG      ,
      1                  PM       ,GEO     ,IC          ,X        ,A       ,
      2                  V        ,MS      ,W           ,FLUX     ,FLU1    ,
-     3                  VEUL     ,FV      ,ALE_CONNECT ,IPARG    ,NLOC_DMG,
+     3                  VEUL     ,ALE_CONNECT ,IPARG    ,NLOC_DMG,
      4                  TF       ,NPF     ,BUFMAT      ,PARTSAV  ,
      5                  DT2T     ,NELTST  ,ITYPTST     ,STIFN    ,OFFSET  ,
      6                  EANI     ,IPARTQ  ,NEL         ,IADQ     ,FSKY    ,
      9                  IPM      ,BUFVOIS ,QMV         ,
      A                  GRESAV   ,GRTH    ,IGRTH       ,TABLE    ,IGEO    ,
      B                  VOLN     ,ITASK   ,MS_2D       ,FSKYM    ,IOUTPRT ,
-     C                  MAt_ELEM ,H3D_STRAIN)
+     C                  MAT_ELEM ,H3D_STRAIN,SZ_BUFVOIS,SNPC,STF,SBUFMAT  ,
+     D                  SVIS,NSVOIS,IDTMINS,IRESP,TT,DT1,      
+     .                  IDEL7NG,     IDEL7NOK,    IDTMIN,     MAXFUNC,  
+     .                  IMON_MAT,USERL_AVAIL, heat_meca, impl_s,     idyna)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -129,14 +132,33 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      my_real, INTENT(IN) :: DT1
+      my_real, INTENT(IN) :: TT
+      INTEGER,INTENT(IN) :: SNPC
+      INTEGER,INTENT(IN) :: STF
+      INTEGER, INTENT(IN) :: SBUFMAT
+      INTEGER, INTENT(IN) :: NSVOIS
+      INTEGER, INTENT(IN) :: IDTMINS
+      INTEGER ,INTENT(IN) :: IRESP
+      INTEGER ,INTENT(IN) :: IDEL7NG
+      INTEGER ,INTENT(INOUT) :: IDEL7NOK
+      integer,dimension(102) :: IDTMIN
+      INTEGER ,INTENT(IN) :: MAXFUNC
+      INTEGER, INTENT(IN) :: IMPL_S
+      INTEGER, INTENT(IN) :: IDYNA
+      INTEGER, INTENT(IN) :: USERL_AVAIL
+      INTEGER, INTENT(IN) :: IMON_MAT
+      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER IC(*), IPARG(NPARG,NGROUP), NPF(*),IPARTQ(NUMELQ),
      .        IPM(*), GRTH(*),IGRTH(*),IGEO(*), IADQ(4,*), ITASK
+      INTEGER, INTENT(IN) :: SZ_BUFVOIS
       INTEGER OFFSET,NEL,NG,NELTST,ITYPTST,IOUTPRT,H3D_STRAIN
       my_real DT2T
       my_real PM(*), GEO(*), X(*), A(*), V(*), MS(*), W(*), FLUX(4,*),
-     .        FLU1(*), VEUL(*), FV(*), TF(*), BUFMAT(*), FSKY(*),
+     .        FLU1(*), VEUL(*), TF(*), BUFMAT(*), FSKY(*),
      .        PARTSAV(*), STIFN(*),EANI(*), BUFVOIS(6,*),QMV(8,*),GRESAV(*),VOLN(MVSIZ),
      .        MS_2D(*),FSKYM(*)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
@@ -152,7 +174,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LCO, NF1, IFLAG,I,II,IPTR,IPTS,IPTT,ILAY,ISTRAIN
-      INTEGER IBIDON(1),IBID,N
+      INTEGER IBIDON(1),IBID,N,SZ_IX,DUMMY_IPARG1(NPARG)
 
       my_real RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ)
 
@@ -174,7 +196,7 @@ C-----------------------------------------------
       my_real WYY(MVSIZ),WZZ(MVSIZ),VDX(MVSIZ)
 
       ! SPH case
-      my_real MUVOID(MVSIZ), STI(MVSIZ),BID(1), MBID(MVSIZ),RSDA(1)
+      my_real MUVOID(MVSIZ), STI(MVSIZ),BID(MVSIZ), MBID(MVSIZ),RSDA(1)
       ! void MMAIN
       my_real SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
       my_real  R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
@@ -196,6 +218,7 @@ C-----------------------------------------------
 c
       IBIDON=0
       IBID = 0
+      SZ_IX=NUMELQ+NUMELS+NSVOIS    ! Size of IX array (either IXS+NSVOIS or IXQ)
       BIDM(1:MVSIZ) = ZERO
       DO I=1,NEL
         WYY(I)=ZERO
@@ -375,7 +398,7 @@ c
 c
       CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,
-     2   FV,          ALE_CONNECT, IC,          IPARG,
+     2                ALE_CONNECT, IC,          IPARG,
      3   V,           TF,          NPF,         BUFMAT,
      4   STI,         X,           DT2T,        NELTST,
      5   ITYPTST,     OFFSET,      NEL,         W,
@@ -398,9 +421,17 @@ c
      M   BID,         IBIDON(1),   ILAY,        MBID,
      N   MBID,        IPTR,        IPTS,        IPTT,
      O   TABLE,       BID,         BID,         BID,
-     P   BID,         IBIDON(1),   IGEO,        BID,
+     P   BID,         DUMMY_IPARG1,IGEO,        BID,
      Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
-     R   H3D_STRAIN,  JPLASOL,     JSPH)
+     R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_BUFVOIS,
+     S                SNPC,        STF,         SBUFMAT,
+     T   SVIS,        SZ_IX,       IDTMINS,     IRESP,
+     U   N2D,         TH_STRAIN,   NGROUP,      TT, 
+     .   DT1,         NTABLE,      NUMELQ,      nummat,
+     .   numgeo,      numnod,      numels,            
+     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   idyna)
 C--------------------------
 C       SYNTHESIS PER MATERIAL (thermics)
 C--------------------------
@@ -556,7 +587,8 @@ C--------------------
      2   PZ2,     AIRE,    VOLN,    QVIS,
      3   F11,     F12,     F21,     F22,
      4   AX1,     AX2,     R22,     R23,
-     5   R32,     R33,     NEL,     JCVT)
+     5   R32,     R33,     NEL,     JCVT,
+     6   SVIS)
 C--------------
       IF(JCVT/=0)THEN
         CALL QRROTA2(

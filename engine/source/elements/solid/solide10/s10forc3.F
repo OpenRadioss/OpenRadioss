@@ -98,7 +98,10 @@ Chd|====================================================================
      E   TABLE,      MSSA,       DMELS,      IGEO,
      F   XDP,        VOLN,       CONDN,      CONDNSKY,
      G   VARNOD,     ITAGDN,     SENSORS,    IOUTPRT,
-     H   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK)
+     H   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK,
+     I   SNPC,       STF,        SBUFMAT,    SVIS,
+     J   NSVOIS,     IDTMINS,    IDEL7NG,    MAXFUNC,
+     V   USERL_AVAIL,heat_meca,  impl_s,     idyna )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -139,6 +142,18 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(INOUT) :: IDEL7NOK
+      INTEGER, INTENT(IN) :: SNPC
+      INTEGER, INTENT(IN) :: STF
+      INTEGER, INTENT(IN) :: SBUFMAT
+      INTEGER, INTENT(IN) :: NSVOIS
+      INTEGER, INTENT(IN) :: IDTMINS
+      INTEGER ,INTENT(IN) :: IDEL7NG
+      INTEGER ,INTENT(IN) :: MAXFUNC
+      INTEGER, INTENT(IN) :: IMPL_S
+      INTEGER, INTENT(IN) :: IDYNA
+      INTEGER, INTENT(IN) :: USERL_AVAIL
+      my_real, INTENT(INOUT) :: HEAT_MECA
+
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP),NPF(*),IADS(8,*),
      .        IPARTS(*),IXS10(6,*),IADS10(6,*),IPM(*),ITASK,GRTH(*),
      .        IGRTH(*),IGEO(NPROPGI,*),IOUTPRT,H3D_STRAIN
@@ -159,6 +174,7 @@ C     REAL
      .   FX(MVSIZ,10),FY(MVSIZ,10),FZ(MVSIZ,10),
      .   TEMP(*), FTHE(*), FTHESKY(*),GRESAV(*),VOLN(MVSIZ),CONDN(*),
      .   CONDNSKY(*),VARNOD(SVARNOD)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
@@ -232,6 +248,7 @@ c
       my_real VARNL(NEL),DELTAX4(MVSIZ)
 c     Flag Bolt Preloading
       INTEGER IBOLTP,NBPRELD,II(6),ISCTL,ISTAB(MVSIZ)
+      INTEGER SZ_IX
       my_real, 
      .  DIMENSION(:), POINTER :: BPRELD
 C-----
@@ -252,6 +269,7 @@ C=======================================================================
       BPRELD =>GBUF%BPRELD(1:NBPRELD*NEL)
       ISM12_11 = ELBUF_TAB(NG)%BUFLY(1)%L_SIGL
 C-----
+      SZ_IX=NUMELQ+NUMELS+NSVOIS
       NF1=NFT+1
       NF2=NF1-NUMELS8
       IBID = 0
@@ -601,7 +619,7 @@ C
 C
         CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,
-     2   FV,          ALE_CONNECT, IXS,         IPARG,
+     2                ALE_CONNECT, IXS,         IPARG,
      3   V,           TF,          NPF,         BUFMAT,
      4   STI,         X,           DT2T,        NELTST,
      5   ITYPTST,     OFFSET,      NEL,         W,
@@ -626,7 +644,15 @@ C
      O   TABLE,       BID,         BID,         BID,
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
      Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
-     R   H3D_STRAIN,  JPLASOL,     JSPH)
+     R   H3D_STRAIN,  JPLASOL,     JSPH,        MVSIZ,
+     *                SNPC,        STF,         SBUFMAT,
+     S   SVIS,        SZ_IX,       IDTMINS,     IRESP,
+     T   N2D,         TH_STRAIN,   NGROUP,      TT, 
+     .   DT1,         NTABLE,      NUMELQ,      nummat,
+     .   numgeo,      numnod,      numels,
+     .   IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,
+     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   idyna)
 C
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C-----------  return to global system    
@@ -660,7 +686,7 @@ C-------------------------
         IF (CNS2>ZERO)
      .     CALL NSVIS_SM12(VISP  ,CNS2,CXX  ,VOLN ,DXX     ,
      .                     DYY     ,DZZ    ,D4    ,D5  ,D6   ,
-     .                     LBUF%VOL,RHO0_1,STI   ,NEL   ) 
+     .                     LBUF%VOL,RHO0_1,STI   ,NEL  ,SVIS ) 
 C----------------------------
 C       INTERNAL FORCES
 C----------------------------
@@ -672,7 +698,7 @@ C----------------------------
      5   GBUF%EPSD,  GBUF%SIG,   GBUF%EINT,  GBUF%RHO,
      6   GBUF%QVIS,  GBUF%PLA,   WIP(IP,NPT),GBUF%G_PLA,
      7   NEL,        CONDE,      CONDEG,     GBUF%G_EPSD,
-     8   ISRAT)
+     8   ISRAT,      SVIS)
 C
         DO I=LFT,LLT
          IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN

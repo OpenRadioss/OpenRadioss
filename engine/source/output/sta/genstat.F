@@ -150,7 +150,7 @@ C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
       TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
       TYPE(DRAPEG_) :: DRAPEG
-      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
       my_real BUFMAT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

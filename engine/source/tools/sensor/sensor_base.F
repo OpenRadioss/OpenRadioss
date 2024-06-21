@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NPARI,NINTER)  ,INTENT(IN) :: IPARI
       INTEGER ,DIMENSION(*)             ,INTENT(IN) :: NPRW
       my_real ,DIMENSION(3,NUMNOD)      ,INTENT(IN) :: X,V,A
-      my_real ,DIMENSION(12,NSENSOR)    ,INTENT(IN) :: XSENS
+      my_real ,DIMENSION(12,NSENSOR)    ,INTENT(INOUT) :: XSENS
       my_real ,DIMENSION(LLACCELM,*)    ,INTENT(IN) :: ACC
       my_real ,DIMENSION(NTHVKI,*)      ,INTENT(IN) :: FSAV
       my_real ,DIMENSION(LLGAUGE,*)     ,INTENT(IN) :: GAUGE

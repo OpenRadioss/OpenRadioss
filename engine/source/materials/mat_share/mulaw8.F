@@ -95,7 +95,7 @@ Chd|====================================================================
      G   TABLE,   IHET,    SSP,     ITASK,
      H   NEL,     ITY,     JSMS,    JSPH,
      I   JTHE,    JTUR,    IMPL_S   ,NUMMAT,
-     J   MAT_PARAM)
+     J   MAT_PARAM, SVIS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -113,7 +113,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "nsvis_c.inc"
 #include      "param_c.inc"
 #include      "com08_c.inc"
 #include      "scr19_c.inc"
@@ -145,7 +144,8 @@ C-----------------------------------------------
      .  WXX(MVSIZ,NPT) ,WYY(MVSIZ,NPT) ,WZZ(MVSIZ,NPT),
      .  RX(MVSIZ)    ,RY(MVSIZ)    ,RZ(MVSIZ),
      .  SX(MVSIZ)    ,SY(MVSIZ)    ,SZ(MVSIZ),
-     .  TX(MVSIZ)    ,TY(MVSIZ)    ,TZ(MVSIZ),SSP(MVSIZ)          
+     .  TX(MVSIZ)    ,TY(MVSIZ)    ,TZ(MVSIZ),SSP(MVSIZ)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TARGET :: BUFMAT
       TYPE(TTABLE) TABLE(*)
       TYPE (BUF_LAY_), TARGET :: BUFLY

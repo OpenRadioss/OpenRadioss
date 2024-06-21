@@ -207,54 +207,6 @@ C=======================================================================
 
       END MODULE RESTMOD
 
-Chd|====================================================================
-Chd|  INTBUFMOD                     share/modules/restart_mod.F   
-Chd|-- called by -----------
-Chd|        I10MAIN_TRI                   source/interfaces/intsort/i10main_tri.F
-Chd|        I20MAIN_TRI                   source/interfaces/intsort/i20main_tri.F
-Chd|        I21MAIN_TRI                   source/interfaces/intsort/i21main_tri.F
-Chd|        I22MAIN_TRI                   source/interfaces/intsort/i22main_tri.F
-Chd|        I23MAIN_TRI                   source/interfaces/intsort/i23main_tri.F
-Chd|        I24MAIN_TRI                   source/interfaces/intsort/i24main_tri.F
-Chd|        I25MAIND_2                    source/interfaces/int25/i25maind_2.F
-Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
-Chd|        I25MAIN_TRI                   source/interfaces/intsort/i25main_tri.F
-Chd|        INTTRI                        source/interfaces/intsort/inttri.F
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|        RESOL                         source/engine/resol.F         
-Chd|        RESOL_HEAD                    source/engine/resol_head.F    
-Chd|        RESTALLOC                     source/output/restart/arralloc.F
-Chd|        WRRESTP                       source/output/restart/wrrestp.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      MODULE INTBUFMOD
-#include "my_real.inc"
-        INTEGER , DIMENSION(:), ALLOCATABLE :: INBUF
-        TARGET :: INBUF
-       my_real,
-     .         DIMENSION(:),ALLOCATABLE :: BUFIN
-        TARGET :: BUFIN
-      END MODULE INTBUFMOD
-C=======================================================================
-Chd|====================================================================
-Chd|  INTBUF_MOD                    share/modules/restart_mod.F   
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|        RESTALLOC                     source/output/restart/arralloc.F
-Chd|-- calls ---------------
-Chd|        INT8_MOD                      ../common_source/modules/interfaces/int8_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|====================================================================
-      MODULE INTBUF_MOD
-
-        USE INTBUFDEF_MOD      
-        USE INT8_MOD
-        TYPE(INTBUF_STRUCT_),TARGET,DIMENSION(:),ALLOCATABLE :: INTBUF_TAB
-        TYPE(INT8_STRUCT_),TARGET,DIMENSION(:),ALLOCATABLE :: T8
-
-      END MODULE INTBUF_MOD
 C=======================================================================
 Chd|====================================================================
 Chd|  FSKYI_MOD                     share/modules/restart_mod.F   
@@ -271,19 +223,3 @@ Chd|====================================================================
      .  DIMENSION(:,:),ALLOCATABLE :: FSKYI,TEMP_FSKYI
         INTEGER,DIMENSION(:),ALLOCATABLE :: ISKY,TEMP_ISKY
       END MODULE FSKYI_MOD
-Chd|====================================================================
-Chd|  INTBUFFRIC_MOD                share/modules/restart_mod.F   
-Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F      
-Chd|        RDRESB                        source/output/restart/rdresb.F
-Chd|        RESTALLOC                     source/output/restart/arralloc.F
-Chd|-- calls ---------------
-Chd|        INTBUF_FRIC_MOD               share/modules/intbuf_fric_mod.F
-Chd|====================================================================
-      MODULE INTBUFFRIC_MOD
-
-        USE INTBUF_FRIC_MOD                     
-
-        TYPE(INTBUF_FRIC_STRUCT_),TARGET,DIMENSION(:),ALLOCATABLE :: INTBUF_FRIC_TAB
-
-      END MODULE INTBUFFRIC_MOD

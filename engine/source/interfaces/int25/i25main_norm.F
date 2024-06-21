@@ -20,15 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      module MOD_I25MAIN_NORM
-      implicit none
-      REAL*4
-     .       , DIMENSION(:,:,:), ALLOCATABLE :: WNOD_NORMAL
-      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNOD,TAGE
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAGSEG
-      INTEGER:: NB_TAGSEG
-
-      END MODULE MOD_I25MAIN_NORM
 Chd|====================================================================
 Chd|  I25MAIN_NORM                  source/interfaces/int25/i25main_norm.F
 Chd|-- called by -----------
@@ -51,7 +42,6 @@ C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MOD_I25MAIN_NORM
       USE MPI_COMMOD
       USE INTBUFDEF_MOD
       USE SENSOR_MOD
@@ -98,8 +88,11 @@ C
 C Calcul // des normales
 C
       IF(JTASK==1) THEN
-        ALLOCATE(TAGNOD(NUMNOD), WNOD_NORMAL(3,4,NRTMX25))
-        ALLOCATE(TAGE(NRTMX25))
+        DO I=1,NINTER25
+            N = INTLIST25(I)
+                  ALLOCATE(INTBUF_TAB(N)%TAGNOD(NUMNOD), INTBUF_TAB(N)%WNOD_NORMAL(3,4,NRTMX25))
+                  ALLOCATE(INTBUF_TAB(N)%TAGE(NRTMX25))
+        ENDDO
       END IF
 C
       CALL MY_BARRIER()
@@ -183,7 +176,7 @@ C
      2               JTASK   ,IAD_FRNOR ,FR_NOR  ,INTBUF_TAB(N)%IRTLM,INTBUF_TAB(N)%MSEGTYP24  ,
      3               INTBUF_TAB(N)%I_STOK(2), INTBUF_TAB(N)%I_STOK(3), INTBUF_TAB(N)%CAND_OPT_E, 
      .                           INTBUF_TAB(N)%STFNS, INTBUF_TAB(N)%ACTNOR,INTBUF_TAB(N)%IRECTM,    
-     4               TAGNOD,IAD_ELEM,FR_ELEM ,INTBUF_TAB(N)%ADMSR,INTBUF_TAB(N)%KNOR2MSR, 
+     4               INTBUF_TAB(N)%TAGNOD,IAD_ELEM,FR_ELEM ,INTBUF_TAB(N)%ADMSR,INTBUF_TAB(N)%KNOR2MSR, 
      5               INTBUF_TAB(N)%NOR2MSR,FLAGREMN,INTBUF_TAB(N)%KREMNOR,INTBUF_TAB(N)%REMNOR,
      6               IEDGE, NEDGE, INTBUF_TAB(N)%LEDGE,INTBUF_TAB(N)%NRTM_FREE,
      .                                    INTBUF_TAB(N)%FREE_IRECT_ID,INTBUF_TAB(N)%I_STOK_E(2),
@@ -198,7 +191,7 @@ C
         NADMSRL6= JTASK*6*NADMSR/NTHREAD
         INTBUF_TAB(N)%VTX_BISECTOR(NADMSRF6:NADMSRL6)=RZERO
 C
-        IF(JTASK==1) ALLOCATE(TAGSEG(4,4*NRTM))
+        IF(JTASK==1) ALLOCATE(INTBUF_TAB(N)%TAGSEG(4,4*NRTM))
 
         CALL MY_BARRIER()
 C
@@ -207,12 +200,12 @@ C
      1    NI25,NRTM,NRTM0,INTBUF_TAB(N)%IRECTM,X           ,
      2    INTBUF_TAB(N)%EDGE_BISECTOR,IPARI(6,N),INTBUF_TAB(N)%MSR   , 
      .                        JTASK,INTBUF_TAB(N)%STFM,INTBUF_TAB(N)%STFE,
-     3    INTBUF_TAB(N)%ACTNOR,INTBUF_TAB(N)%MSEGTYP24,TAGNOD,
+     3    INTBUF_TAB(N)%ACTNOR,INTBUF_TAB(N)%MSEGTYP24,INTBUF_TAB(N)%TAGNOD,
      .                        INTBUF_TAB(N)%MVOISIN,INTBUF_TAB(N)%EVOISIN,
-     4    IAD_FREDG,FR_EDG,WNOD_NORMAL,BUFFERS(NI25),IEDGE,IPARI(68,N),
+     4    IAD_FREDG,FR_EDG,INTBUF_TAB(N)%WNOD_NORMAL,BUFFERS(NI25),IEDGE,IPARI(68,N),
      5    INTBUF_TAB(N)%LEDGE,INTBUF_TAB(N)%LBOUND,NADMSR,INTBUF_TAB(N)%ADMSR,
      6    IAD_FRNOR,FR_NOR,INTBUF_TAB(N)%VTX_BISECTOR,1,
-     7    NB_TAGSEG, TAGSEG,TAGE,INTBUF_TAB(N)%FREE_IRECT_ID,INTBUF_TAB(N)%NRTM_FREE,
+     7    INTBUF_TAB(N)%NB_TAGSEG, INTBUF_TAB(N)%TAGSEG,INTBUF_TAB(N)%TAGE,INTBUF_TAB(N)%FREE_IRECT_ID,INTBUF_TAB(N)%NRTM_FREE,
      8    FSKYN25(1,NCSHIFT),INTBUF_TAB(N)%IADNOR,ISHIFT,ADDCSRECT,PROCNOR,SOL_EDGE ,
      9    FSKYN25  )
 
@@ -222,12 +215,12 @@ C
         NCSHIFT=NCSHIFT+INTBUF_TAB(N)%ADSKYN(NADMSR+1)-1
         ISHIFT = ISHIFT + IPARI(67,N)
 
-        IF(JTASK==1)  DEALLOCATE(TAGSEG)
+        IF(JTASK==1)  DEALLOCATE(INTBUF_TAB(N)%TAGSEG)
 
 C
       END DO
 
-C     ALLOCATE(TAGSEG(1,1))
+C     ALLOCATE(INTBUF_TAB(I)%TAGSEG(1,1))
 
       NCSHIFT = 1
       ISHIFT = 0
@@ -267,12 +260,12 @@ C       NEDGE  = IPARI(68,N) ! Updated in i25normp
      1    NI25,NRTM,NRTM0,INTBUF_TAB(N)%IRECTM,X           ,
      2    INTBUF_TAB(N)%EDGE_BISECTOR,IPARI(6,N),INTBUF_TAB(N)%MSR   , 
      .                    JTASK,INTBUF_TAB(N)%STFM,INTBUF_TAB(N)%STFE,
-     3    INTBUF_TAB(N)%ACTNOR,INTBUF_TAB(N)%MSEGTYP24,TAGNOD,
+     3    INTBUF_TAB(N)%ACTNOR,INTBUF_TAB(N)%MSEGTYP24,INTBUF_TAB(N)%TAGNOD,
      .                    INTBUF_TAB(N)%MVOISIN,INTBUF_TAB(N)%EVOISIN,
-     4    IAD_FREDG,FR_EDG,WNOD_NORMAL,BUFFERS(NI25),IEDGE,IPARI(68,N),
+     4    IAD_FREDG,FR_EDG,INTBUF_TAB(N)%WNOD_NORMAL,BUFFERS(NI25),IEDGE,IPARI(68,N),
      5    INTBUF_TAB(N)%LEDGE,INTBUF_TAB(N)%LBOUND,NADMSR,INTBUF_TAB(N)%ADMSR,
      6    IAD_FRNOR,FR_NOR,INTBUF_TAB(N)%VTX_BISECTOR,2,
-     7    NB_TAGSEG,TAGSEG,TAGE,INTBUF_TAB(N)%FREE_IRECT_ID,INTBUF_TAB(N)%NRTM_FREE,
+     7    INTBUF_TAB(N)%NB_TAGSEG,INTBUF_TAB(N)%TAGSEG,INTBUF_TAB(N)%TAGE,INTBUF_TAB(N)%FREE_IRECT_ID,INTBUF_TAB(N)%NRTM_FREE,
      8    FSKYN25(1,NCSHIFT),INTBUF_TAB(N)%IADNOR,ISHIFT,ADDCSRECT,PROCNOR,SOL_EDGE,
      9    FSKYN25  )
 
@@ -330,7 +323,13 @@ C       NEDGE  = IPARI(68,N) ! Updated in i25normp
 c          CALL STARTIME(MACRO_TIMER_T25NORM,1)  
 C
       CALL MY_BARRIER()
-      IF(JTASK==1) DEALLOCATE(TAGNOD, WNOD_NORMAL,TAGE)
+
+      IF(JTASK==1)THEN
+        DO I=1,NINTER25
+           N = INTLIST25(I)
+           DEALLOCATE(INTBUF_TAB(N)%TAGNOD, INTBUF_TAB(N)%WNOD_NORMAL,INTBUF_TAB(N)%TAGE)
+        ENDDO
+      ENDIF
 C
       RETURN
       END

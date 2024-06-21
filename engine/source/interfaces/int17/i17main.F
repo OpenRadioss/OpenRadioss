@@ -21,16 +21,6 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  I17MAIN_MOD                   source/interfaces/int17/i17main.F
-Chd|-- called by -----------
-Chd|        I17MAIN                       source/interfaces/int17/i17main.F
-Chd|-- calls ---------------
-Chd|====================================================================
-      MODULE I17MAIN_MOD
-#include "my_real.inc"
-         my_real :: XSLVG(7), XMSRG(7)
-      END MODULE
-Chd|====================================================================
 Chd|  I17MAIN                       source/interfaces/int17/i17main.F
 Chd|-- called by -----------
 Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
@@ -53,7 +43,6 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE I17MAIN_MOD
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
 C-----------------------------------------------
@@ -133,18 +122,18 @@ C -------------------------------------------------------------
        ESH_T = ITASK*NME_T
        IF(ITASK==NTHREAD-1)NME_T=NME-(NTHREAD-1)*(NME/NTHREAD)
        SIZE   = ZERO
-       XSLVG(1) = -EP30
-       XSLVG(2) = -EP30
-       XSLVG(3) = -EP30
-       XSLVG(4) =  EP30
-       XSLVG(5) =  EP30
-       XSLVG(6) =  EP30
-       XMSRG(1) = -EP30
-       XMSRG(2) = -EP30
-       XMSRG(3) = -EP30
-       XMSRG(4) =  EP30
-       XMSRG(5) =  EP30
-       XMSRG(6) =  EP30 
+       INTBUF_TAB%XSLVG(1) = -EP30
+       INTBUF_TAB%XSLVG(2) = -EP30
+       INTBUF_TAB%XSLVG(3) = -EP30
+       INTBUF_TAB%XSLVG(4) =  EP30
+       INTBUF_TAB%XSLVG(5) =  EP30
+       INTBUF_TAB%XSLVG(6) =  EP30
+       INTBUF_TAB%XMSRG(1) = -EP30
+       INTBUF_TAB%XMSRG(2) = -EP30
+       INTBUF_TAB%XMSRG(3) = -EP30
+       INTBUF_TAB%XMSRG(4) =  EP30
+       INTBUF_TAB%XMSRG(5) =  EP30
+       INTBUF_TAB%XMSRG(6) =  EP30 
        XMSR(1) = -EP30
        XMSR(2) = -EP30
        XMSR(3) = -EP30
@@ -163,27 +152,27 @@ C=======================================================================
      3   IXS20    ,XMSR        ,SIZE_T)
 C -------------------------------------------------------------
 #include "lockon.inc"
-         XMSRG(1)=MAX(XMSRG(1),XMSR(1))
-         XMSRG(2)=MAX(XMSRG(2),XMSR(2))
-         XMSRG(3)=MAX(XMSRG(3),XMSR(3))
-         XMSRG(4)=MIN(XMSRG(4),XMSR(4))
-         XMSRG(5)=MIN(XMSRG(5),XMSR(5))
-         XMSRG(6)=MIN(XMSRG(6),XMSR(6))
+         INTBUF_TAB%XMSRG(1)=MAX(INTBUF_TAB%XMSRG(1),XMSR(1))
+         INTBUF_TAB%XMSRG(2)=MAX(INTBUF_TAB%XMSRG(2),XMSR(2))
+         INTBUF_TAB%XMSRG(3)=MAX(INTBUF_TAB%XMSRG(3),XMSR(3))
+         INTBUF_TAB%XMSRG(4)=MIN(INTBUF_TAB%XMSRG(4),XMSR(4))
+         INTBUF_TAB%XMSRG(5)=MIN(INTBUF_TAB%XMSRG(5),XMSR(5))
+         INTBUF_TAB%XMSRG(6)=MIN(INTBUF_TAB%XMSRG(6),XMSR(6))
 #include "lockoff.inc"
        CALL MY_BARRIER
 C -------------------------------------------------------------
        CALL I17CRIT(
      1   X    ,V         ,A  ,IGRBRIC(IGN)%ENTITY,EMINX(1,NME+1),
      2   NMES    ,ITASK       ,INTBUF_TAB%XSAV,IXS     ,IXS16         ,
-     3   IXS20    ,XSLVG       ,SIZE_T  )
+     3   IXS20    ,INTBUF_TAB%XSLVG       ,SIZE_T  )
 C -------------------------------------------------------------
 #include "lockon.inc"
-         XSLVG(1)=MAX(XSLVG(1),XMSR(1))
-         XSLVG(2)=MAX(XSLVG(2),XMSR(2))
-         XSLVG(3)=MAX(XSLVG(3),XMSR(3))
-         XSLVG(4)=MIN(XSLVG(4),XMSR(4))
-         XSLVG(5)=MIN(XSLVG(5),XMSR(5))
-         XSLVG(6)=MIN(XSLVG(6),XMSR(6))
+         INTBUF_TAB%XSLVG(1)=MAX(INTBUF_TAB%XSLVG(1),XMSR(1))
+         INTBUF_TAB%XSLVG(2)=MAX(INTBUF_TAB%XSLVG(2),XMSR(2))
+         INTBUF_TAB%XSLVG(3)=MAX(INTBUF_TAB%XSLVG(3),XMSR(3))
+         INTBUF_TAB%XSLVG(4)=MIN(INTBUF_TAB%XSLVG(4),XMSR(4))
+         INTBUF_TAB%XSLVG(5)=MIN(INTBUF_TAB%XSLVG(5),XMSR(5))
+         INTBUF_TAB%XSLVG(6)=MIN(INTBUF_TAB%XSLVG(6),XMSR(6))
          SIZE = SIZE + SIZE_T
 #include "lockoff.inc"
        CALL MY_BARRIER
@@ -193,9 +182,9 @@ C       MINBOX = BUFIN(JD(11)+4) * SIZE / NME / 18
 C error in the estimation formula
        TZINF  = INTBUF_TAB%VARIABLES(4) * SIZE / (NME+NMES) / 6
        MINBOX = INTBUF_TAB%VARIABLES(5) * SIZE / (NME+NMES) / 6
-       XX = MAX(XSLVG(1)-XMSRG(4),XMSRG(1)-XSLVG(4))
-       XY = MAX(XSLVG(2)-XMSRG(5),XMSRG(2)-XSLVG(5))
-       XZ = MAX(XSLVG(3)-XMSRG(6),XMSRG(3)-XSLVG(6))
+       XX = MAX(INTBUF_TAB%XSLVG(1)-INTBUF_TAB%XMSRG(4),INTBUF_TAB%XMSRG(1)-INTBUF_TAB%XSLVG(4))
+       XY = MAX(INTBUF_TAB%XSLVG(2)-INTBUF_TAB%XMSRG(5),INTBUF_TAB%XMSRG(2)-INTBUF_TAB%XSLVG(5))
+       XZ = MAX(INTBUF_TAB%XSLVG(3)-INTBUF_TAB%XMSRG(6),INTBUF_TAB%XMSRG(3)-INTBUF_TAB%XSLVG(6))
 C -------------------------------------------------------------
        IF(XX**2 +  XY**2 + XZ**2 >= TZINF**2) THEN
 C=======================================================================

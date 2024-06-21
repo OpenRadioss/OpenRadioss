@@ -138,8 +138,6 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE PYTHON_FUNCT_MOD
-      USE INTBUFMOD
-      USE INTBUF_MOD
       USE RESTMOD
       USE INTSTAMP_GLOB_MOD
       USE TABLE_GLOB_MOD
@@ -149,7 +147,6 @@ C-----------------------------------------------
       USE ECND_MOD
       USE MULTI_FVM_MOD
       USE H3D_MOD
-      USE INTBUFFRIC_MOD
       USE NLOCAL_REG_MOD
       USE MAT_ELEM_MOD
       USE PINCHTYPE_MOD
@@ -562,7 +559,7 @@ c        CALL READ_I_C(INBUF,SINBUF)
         CALL R_BUFBRIC_22  ! I22LEN |-> BRICK_LIST(...);  CALL READ_I_C(); CALL READ_DB(); END SUBROUTINE
 
         !read new structure INTBUF_TAB
-        CALL INTBUF_INI(INTBUF_TAB)
+        CALL INTBUF_INI(INTERFACES%INTBUF_TAB)
 
         CALL READ_I_C(NPRW,SNPRW)
 
@@ -890,7 +887,7 @@ C--------------------------------------
 C  Interface friction buffer (reak )
 C--------------------------------------
       IF(NINTERFRIC /= 0)THEN
-        CALL INTFRIC_RRESTI(INTBUF_FRIC_TAB)
+        CALL INTFRIC_RRESTI(INTERFACES%INTBUF_FRIC_TAB,NINTERFRIC)
       END IF
 C--------------------------------------
 C  Structure table partie entiere
@@ -1275,7 +1272,7 @@ C--------------------------------------
 C  Interface friction buffer (Reals )
 C--------------------------------------
       IF(NINTERFRIC /= 0)THEN
-        CALL INTFRIC_RRESTR(INTBUF_FRIC_TAB)
+        CALL INTFRIC_RRESTR(INTERFACES%INTBUF_FRIC_TAB,NINTERFRIC)
       END IF
 C-------------
 C     always

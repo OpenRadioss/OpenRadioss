@@ -36,7 +36,7 @@ Chd|====================================================================
      7   FY3,     FZ3,     FY4,     FZ4,
      8   R22,     R23,     R32,     R33,
      9   AIR,     VOL,     QVIS,    ICP,
-     A   NEL,     JHBE,    JCVT)
+     A   NEL,     JHBE,    JCVT,    SVIS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,7 +49,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "nsvis_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -67,6 +66,7 @@ C     REAL
      .    FY3(*),FZ3(*),FY4(*),FZ4(*),
      .    R22(*),R23(*),R32(*),R33(*),
      .    AIR(*),VOL(*),QVIS(*)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
 C-----------------------------------------------
 C FUNCTION: 
 C ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)

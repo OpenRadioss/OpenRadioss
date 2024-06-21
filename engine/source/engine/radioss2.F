@@ -131,8 +131,6 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFMOD
-      USE INTBUF_MOD
       USE DSGRAPH_MOD
       USE RESTMOD
       USE INTSTAMP_GLOB_MOD
@@ -144,7 +142,6 @@ C-----------------------------------------------
       USE ALEFVM_MOD
       USE MULTI_FVM_MOD
       USE H3D_MOD
-      USE INTBUFFRIC_MOD
       USE GROUP_MOD
       USE GROUPDEF_MOD
       USE MAT_ELEM_MOD
@@ -174,7 +171,7 @@ C-----------------------------------------------
       USE DT_MOD
       USE LOADS_MOD
       USE PYTHON_FUNCT_MOD
-      USE NAMES_AND_TITLES_MOD, only: NAMES_AND_TITLES_
+      USE NAMES_AND_TITLES_MOD
       USE UNITAB_MOD
       USE SKEW_MOD
 C-----------------------------------------------
@@ -1456,7 +1453,7 @@ C------------------------------------------------
      A              IGRNOD ,KXSP,WEIGHT ,FR_RBY2 ,FR_RL,
      B              PARTSAV,IPART,PM,
      C              MONVOL ,VOLMON, IPART_STATE,GEO,TABLE,
-     D              IFRAME,XFRAME,MAT_ELEM%ELBUF,IGEO,INTBUF_TAB,
+     D              IFRAME,XFRAME,MAT_ELEM%ELBUF,IGEO,INTERFACES%INTBUF_TAB,
      E              IPM   ,H3D_DATA, MULTI_FVM,
      F              IGRPART,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
      G              MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
@@ -2159,8 +2156,8 @@ C---------------------------------------------------------------------
 
          CALL RESOL_HEAD(ITASK        ,AF              ,IAF             ,IDATA      ,RDATA,XDP ,
      .                   GRAPHE       ,IFLOW           ,RFLOW           ,MCP        ,TEMP      ,
-     .                   INTBUF_TAB   ,STACK           ,IRUNN_BIS       ,
-     .                   MULTI_FVM    ,H3D_DATA        ,INTBUF_FRIC_TAB ,SUBSETS    ,IGRNOD    ,
+     .                   STACK        ,IRUNN_BIS       ,
+     .                   MULTI_FVM    ,H3D_DATA        ,SUBSETS    ,IGRNOD    ,
      .                   IGRBRIC      ,IGRQUAD         ,IGRSH4N         ,IGRSH3N    ,IGRTRUSS  ,
      .                   IGRBEAM      ,IGRSPRING       ,IGRPART         ,IGRSURF    ,IGRSLIN   ,
      .                   FORNEQS      ,PINCH_DATA      ,ALE_CONNECTIVITY,

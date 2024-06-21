@@ -59,7 +59,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         CHARACTER(len=*), INTENT(in) :: MODE
         INTEGER, INTENT(in) :: ITASK
-        TYPE(INTBUF_STRUCT_),DIMENSION(NINTER), INTENT(in) :: INTBUF_TAB      
+        TYPE(INTBUF_STRUCT_),DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB      
         INTEGER, DIMENSION(NPARI,*), INTENT(in) :: IPARI
         TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
 C-----------------------------------------------

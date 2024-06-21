@@ -20,14 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      module I23MAINF_MOD
-      implicit none
-#include      "my_real.inc"
-      INTEGER
-     .       , DIMENSION(:), ALLOCATABLE :: IFPEN_SAV
-      my_real
-     .       , DIMENSION(:), ALLOCATABLE :: CAND_P_SAV
-      END MODULE I23MAINF_MOD
 Chd|====================================================================
 Chd|  I23MAINF                      source/interfaces/int23/i23mainf.F
 Chd|-- called by -----------
@@ -63,7 +55,6 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE I23MAINF_MOD
       USE INTBUFDEF_MOD 
       USE H3D_MOD 
       USE MESSAGE_MOD

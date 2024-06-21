@@ -35,7 +35,7 @@ Chd|====================================================================
      3                          N1Y,      N2Y,  N3Y,  N4Y,  N5Y,  N6Y,
      4                          N1Z,      N2Z,  N3Z,  N4Z,  N5Z,  N6Z,
      5                          X  ,      IPM,  RHO,  VOL,  A  ,  IAD22,
-     6                          ELBUF_TAB,NEL,  MOM,  SSP,  ITASK)
+     6                          ELBUF_TAB,NEL,  MOM,  SSP,  ITASK,SVIS)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -64,9 +64,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com01_c.inc"
-#include      "nsvis_c.inc"
 #include      "param_c.inc"
-
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
@@ -85,6 +83,7 @@ C-----------------------------------------------
      .           N1Y(*), N2Y(*),  N3Y(*), N4Y(*), N5Y(*), N6Y(*),
      .           N1Z(*), N2Z(*),  N3Z(*), N4Z(*), N5Z(*), N6Z(*),
      .           MOM(NEL,3), SSP(NEL), ISGN, V(3), W(3), VmW(3)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

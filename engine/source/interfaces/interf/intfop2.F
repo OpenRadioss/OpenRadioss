@@ -70,11 +70,11 @@ Chd|====================================================================
      G       FNCONTG   ,FTCONTG    ,NODGLOB    ,MS0       ,NPC             ,
      H       WA        ,SENSOR_TAB ,QFRICINT   ,NCONT     ,INDEXCONT       ,
      I       TAGCONT   ,INOD_PXFEM ,MS_PLY     ,WAGAP     ,ELBUF_TAB       ,
-     J       CONDN     ,CONDNSKYI  ,INTBUF_TAB ,NV46      ,
+     J       CONDN     ,CONDNSKYI  ,NV46      ,
      K       SFBSAV6   ,FBSAV6     ,
      L       ISENSINT  ,NISUBMAX   ,NB25_CANDT,NB25_IMPCT      ,
      M       NB25_DST1 ,NB25_DST2  ,IXIG3D     ,KXIG3D    ,WIGE     ,
-     N       KNOT      ,IGEO       ,MULTI_FVM  ,H3D_DATA  ,INTBUF_FRIC_TAB,
+     N       KNOT      ,IGEO       ,MULTI_FVM  ,H3D_DATA  ,
      P       PSKIDS    ,T2MAIN_SMS ,FORNEQS    ,KNOTLOCPC,KNOTLOCEL,
      Q       APINCH    ,STIFPINCH   ,T2FAC_SMS ,TAGNCONT ,
      R       KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,
@@ -157,15 +157,13 @@ C-----------------------------------------------
       my_real, TARGET ::  X(3*NUMNOD),V(3*NUMNOD),MS(NUMNOD),XCELL(3,SXCELL)
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       DOUBLE PRECISION FBSAV6(12,6,SFBSAV6)
       INTEGER ISENSINT(NISUBMAX+1,NINTER)
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT), TARGET :: MULTI_FVM
       TYPE(H3D_DATABASE) :: H3D_DATA
-      TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
-      TYPE (INTERFACES_) ,INTENT(IN):: INTERFACES
+      TYPE (INTERFACES_) ,INTENT(INOUT):: INTERFACES
       TYPE(array_type), DIMENSION(NINTER), INTENT(in) :: XCELL_REMOTE !< remote data structure for interface 18 
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
@@ -204,7 +202,7 @@ C
       IAD17 = 1
       ! If law151+int18 : shift NSV array
       IF( MULTI_FVM%IS_INT18_LAW151 ) THEN
-        CALL INT18_LAW151_NSV_SHIFT('+',JTASK-1,MULTI_FVM,IPARI,INTBUF_TAB)
+        CALL INT18_LAW151_NSV_SHIFT('+',JTASK-1,MULTI_FVM,IPARI,INTERFACES%INTBUF_TAB)
         CALL MY_BARRIER()
       ENDIF
 C
@@ -212,7 +210,7 @@ C
       DO N=1,NINTER
         IF(IMONM > 0 ) THEN
 !$OMP MASTER
-           CALL INT_STARTIME(INTBUF_TAB(N)%METRIC,I_MAIN_FORCES)   
+           CALL INT_STARTIME(INTERFACES%INTBUF_TAB(N)%METRIC,I_MAIN_FORCES)   
 !$OMP END MASTER
         ENDIF
 
@@ -259,16 +257,19 @@ C
      .         +NVOLU+NRBAG+NFXBODY+1
           NN2 = NINTER+NRWALL+NRBODY+NSECT+NJOINT+1
 
-          IF(INTBUF_TAB(N)%S_NIGE/=0) THEN
-            ALLOCATE(XE(3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)))
+          IF(INTERFACES%INTBUF_TAB(N)%S_NIGE/=0) THEN
+            ALLOCATE(XE(3*(NUMNOD+INTERFACES%INTBUF_TAB(N)%S_NIGE)))
             XE(1:3*NUMNOD) = X(1:3*NUMNOD)
-            XE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%XIGE(1:3*INTBUF_TAB(N)%S_NIGE)
-            ALLOCATE(VE(3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)))
+            XE(3*NUMNOD+1:3*(NUMNOD+INTERFACES%INTBUF_TAB(N)%S_NIGE)) = 
+     *                     INTERFACES%INTBUF_TAB(N)%XIGE(1:3*INTERFACES%INTBUF_TAB(N)%S_NIGE)
+            ALLOCATE(VE(3*(NUMNOD+INTERFACES%INTBUF_TAB(N)%S_NIGE)))
             VE(1:3*NUMNOD) = V(1:3*NUMNOD)
-            VE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%VIGE(1:3*INTBUF_TAB(N)%S_NIGE)
-            ALLOCATE(MSE(NUMNOD+INTBUF_TAB(N)%S_NIGE))
+            VE(3*NUMNOD+1:3*(NUMNOD+INTERFACES%INTBUF_TAB(N)%S_NIGE)) = 
+     *                     INTERFACES%INTBUF_TAB(N)%VIGE(1:3*INTERFACES%INTBUF_TAB(N)%S_NIGE)
+            ALLOCATE(MSE(NUMNOD+INTERFACES%INTBUF_TAB(N)%S_NIGE))
             MSE(1:NUMNOD) = MS(1:NUMNOD)
-            MSE(NUMNOD+1:NUMNOD+INTBUF_TAB(N)%S_NIGE) = INTBUF_TAB(N)%MASSIGE(1:INTBUF_TAB(N)%S_NIGE)
+            MSE(NUMNOD+1:NUMNOD+INTERFACES%INTBUF_TAB(N)%S_NIGE) =
+     *                     INTERFACES%INTBUF_TAB(N)%MASSIGE(1:INTERFACES%INTBUF_TAB(N)%S_NIGE)
             PTR_X => XE
             PTR_V => VE
             PTR_MS => MSE
@@ -278,9 +279,6 @@ C
              PTR_V => MULTI_FVM%V_APPEND
              PTR_MS => MULTI_FVM%MASS_APPEND
              PTR_KINET => MULTI_FVM%KINET_APPEND
-!             CALL MULTI_I18APPEND(N, JTASK-1, IXS, IPARI, IGRBRIC, INTBUF_TAB(N)%NSV, 
-!     .            PTR_X, X, PTR_V, V, MULTI_FVM, 
-!     .            PTR_MS, PTR_KINET, MS, KINET, 1)
              CALL MY_BARRIER()
           ELSE
             PTR_X => X
@@ -307,10 +305,10 @@ C
      D  PCONTACT       ,TEMP           ,FTHE             ,FTHESKYI        ,
      E  PM             ,IPARG          ,IAD17            ,MSKYI_SMS       ,ISKYI_SMS   ,
      F  NODNX_SMS      ,MS0            ,QFRICINT         ,NPC             ,TF          ,
-     G  CONDN          ,CONDNSKYI      ,INTBUF_TAB(N)    ,
+     G  CONDN          ,CONDNSKYI      ,INTERFACES%INTBUF_TAB(N)    ,
      H  FBSAV6         ,ISENSINT(1,N)  ,SFBSAV6            ,IXIG3D          ,
      I  KXIG3D         ,WIGE           ,KNOT             ,IGEO            ,MULTI_FVM   , 
-     J  H3D_DATA       ,INTBUF_FRIC_TAB,KNOTLOCPC      ,KNOTLOCEL        ,JTASK        ,
+     J  H3D_DATA       ,INTERFACES%INTBUF_FRIC_TAB,KNOTLOCPC      ,KNOTLOCEL        ,JTASK        ,
      K  TAGNCONT       ,KLOADPINTER    ,LOADPINTER       ,LOADP_HYD_INTER ,DGAPLOADINT ,
      L  S_LOADPINTER   ,INTEREFRIC     ,XCELL_REMOTE(N)%SIZE_MY_REAL_ARRAY_1D,XCELL_REMOTE(N)%MY_REAL_ARRAY_1D)
           ELSE
@@ -331,10 +329,10 @@ C
      D  PCONTACT  ,TEMP           ,FTHE             ,FTHESKYI        ,
      E  PM        ,IPARG          ,IAD17            ,MSKYI_SMS       ,ISKYI_SMS   ,
      F  NODNX_SMS ,MS0            ,QFRICINT         ,NPC             ,TF          ,
-     G  CONDN      ,CONDNSKYI     ,INTBUF_TAB(N)    ,
+     G  CONDN      ,CONDNSKYI     ,INTERFACES%INTBUF_TAB(N)    ,
      H  FBSAV6     ,ISENSINT(1,N) ,SFBSAV6            ,IXIG3D          ,              
      I  KXIG3D     ,WIGE          ,KNOT             ,IGEO            ,MULTI_FVM,     
-     J  H3D_DATA   ,INTBUF_FRIC_TAB,KNOTLOCPC       ,KNOTLOCEL       ,JTASK       ,
+     J  H3D_DATA   ,INTERFACES%INTBUF_FRIC_TAB,KNOTLOCPC       ,KNOTLOCEL       ,JTASK       ,
      K  TAGNCONT    ,KLOADPINTER  ,LOADPINTER       ,LOADP_HYD_INTER ,DGAPLOADINT ,
      L  S_LOADPINTER,INTEREFRIC   ,XCELL_REMOTE(N)%SIZE_MY_REAL_ARRAY_1D,XCELL_REMOTE(N)%MY_REAL_ARRAY_1D)
            IAD=IAD+NUM_IMP(N)
@@ -346,7 +344,7 @@ C
             NME   =IGRBRIC(IGE)%NENTITY
             IAD17 = IAD17+6*(NME+NMES)
           END IF
-          IF(INTBUF_TAB(N)%S_NIGE/=0) THEN
+          IF(INTERFACES%INTBUF_TAB(N)%S_NIGE/=0) THEN
             DEALLOCATE(XE,VE,MSE)
           ENDIF
 C-----------------------------------------------------------------------
@@ -365,7 +363,7 @@ C
      .                                                     +NFXBODY)  ,
      9      IDUM      ,IDUM         ,IDUM         ,IDUM      ,FNCONT  ,
      A      FTCONT    ,MSKYI_SMS    ,ISKYI_SMS    ,NODNX_SMS ,
-     B      ICONTACT  ,INTBUF_TAB(N),FBSAV6,ISENSINT(1,N),SFBSAV6       ,
+     B      ICONTACT  ,INTERFACES%INTBUF_TAB(N),FBSAV6,ISENSINT(1,N),SFBSAV6       ,
      C      H3D_DATA  )
           ELSE
            CALL I10MAINF(
@@ -379,7 +377,7 @@ C
      .                                                     +NFXBODY)  ,
      9     NUM_IMP(N),NS_IMP(IAD)  ,NE_IMP(IAD)  ,IND_IMP(IAD),FNCONT  ,
      A      FTCONT   ,MSKYI_SMS    ,ISKYI_SMS    ,NODNX_SMS   ,
-     B      ICONTACT ,INTBUF_TAB(N),FBSAV6,ISENSINT(1,N),SFBSAV6       ,
+     B      ICONTACT ,INTERFACES%INTBUF_TAB(N),FBSAV6,ISENSINT(1,N),SFBSAV6       ,
      C      H3D_DATA )
            IAD=IAD+NUM_IMP(N)
           ENDIF
@@ -399,9 +397,9 @@ C
      5  NB_JLT(JTASK),NB_JLT_NEW(JTASK),NB_STOK_N(JTASK)  ,NISKYFI(N) ,
      6  NEWFRONT(N),NSTRF,SECFCUM,     VISCN   ,IDUM      ,IDUM       ,
      7  IDUM       ,MSKYI_SMS    ,ISKYI_SMS    ,NODNX_SMS,ICONTACT    ,
-     8  INTBUF_TAB(N),PM         ,TEMP         , FTHE        ,FTHESKYI,
+     8  INTERFACES%INTBUF_TAB(N),PM         ,TEMP         , FTHE        ,FTHESKYI,
      9  NPC        , TF          ,CONDN        ,CONDNSKYI ,FBSAV6     ,
-     A  ISENSINT(1,N),SFBSAV6      ,FSAV(1,NN1)  ,H3D_DATA  ,INTBUF_FRIC_TAB,
+     A  ISENSINT(1,N),SFBSAV6      ,FSAV(1,NN1)  ,H3D_DATA  ,INTERFACES%INTBUF_FRIC_TAB,
      B  JTASK      ,TAGNCONT      ,KLOADPINTER ,LOADPINTER,LOADP_HYD_INTER,
      C  DGAPLOADINT,S_LOADPINTER )
           ELSE
@@ -413,9 +411,9 @@ C
      5  NB_JLT(JTASK),NB_JLT_NEW(JTASK),NB_STOK_N(JTASK)  ,NISKYFI(N) ,
      6  NEWFRONT(N),NSTRF,SECFCUM,     VISCN   ,NUM_IMP(N),NS_IMP(IAD),
      7  NE_IMP(IAD),MSKYI_SMS    ,ISKYI_SMS    ,NODNX_SMS,ICONTACT    ,
-     8  INTBUF_TAB(N),PM         ,TEMP         , FTHE    ,FTHESKYI    , 
+     8  INTERFACES%INTBUF_TAB(N),PM         ,TEMP         , FTHE    ,FTHESKYI    , 
      9  NPC        , TF          ,CONDN        ,CONDNSKYI ,FBSAV6     ,
-     A  ISENSINT(1,N),SFBSAV6      ,FSAV(1,NN1)  ,H3D_DATA  ,INTBUF_FRIC_TAB,
+     A  ISENSINT(1,N),SFBSAV6      ,FSAV(1,NN1)  ,H3D_DATA  ,INTERFACES%INTBUF_FRIC_TAB,
      B  JTASK      ,TAGNCONT      ,KLOADPINTER ,LOADPINTER,LOADP_HYD_INTER,
      C  DGAPLOADINT,S_LOADPINTER )
           ENDIF
@@ -453,7 +451,7 @@ C
      E  PM        ,IPARG        ,IAD17        ,WEIGHT     ,NISKYFIE(N) ,
      F  IRLEN20   ,ISLEN20      ,IRLEN20T     ,ISLEN20T   ,IRLEN20E    ,
      G  ISLEN20E  ,MSKYI_SMS    ,ISKYI_SMS    ,NODNX_SMS  ,NPC         ,
-     H  TF        ,INTBUF_TAB(N),FBSAV6,ISENSINT(1,N)     ,SFBSAV6       ,
+     H  TF        ,INTERFACES%INTBUF_TAB(N),FBSAV6,ISENSINT(1,N)     ,SFBSAV6       ,
      I  H3D_DATA  )
 
           IF(IMPL_S == 1) IAD=IAD+NUM_IMP(N)
@@ -469,7 +467,7 @@ C-----------------------------------------------------------------------
 C
           ISTAMP=IPARI(43,N)
           CALL I21MAINF(
-     1  IPARI     ,INTBUF_TAB(N)              ,X          ,A           ,
+     1  IPARI     ,INTERFACES%INTBUF_TAB(N)              ,X          ,A           ,
      2  ICODT     ,FSAV(1,N)    ,V            ,MS         ,ITAB        ,
      3  STIFN     ,FSKYI        ,ISKY         ,FCONTG     ,N           ,
      4  LINDMAX   ,
@@ -495,7 +493,7 @@ C
      .         +NVOLU+NRBAG+NFXBODY+1
           NN2 = NINTER+NRWALL+NRBODY+NSECT+NJOINT+1
            CALL I22MAINF(
-     1  IPARI       ,INTBUF_TAB(N) ,X                 ,A                ,
+     1  IPARI       ,INTERFACES%INTBUF_TAB(N) ,X                 ,A                ,
      2  ICODT       ,FSAV(1,N)     ,V                 ,MS               ,DT2T        ,
      3  NELTST      ,ITYPTST       ,ITAB              ,STIFN            ,FSKYI       ,
      4  ISKY        ,FCONT         ,N                 ,LINDMAX          ,KINET       ,
@@ -521,7 +519,7 @@ C-----------------------------------------------------------------------
           END IF
 C
           CALL I23MAINF(
-     1  IPARI     ,INTBUF_TAB(N)              ,X          ,A           ,
+     1  IPARI     ,INTERFACES%INTBUF_TAB(N)              ,X          ,A           ,
      2  ICODT     ,FSAV(1,N)    ,V            ,MS         ,ITAB        ,
      3  STIFN     ,FSKYI        ,ISKY         ,FCONT      ,N           ,
      4  LINDMAX   ,
@@ -546,7 +544,7 @@ C
           NN2 = NINTER+NRWALL+NRBODY+NSECT+NJOINT+1
           IF(IMPL_S/=1)THEN
            CALL I24MAINF(
-     1  IPARI     ,INTBUF_TAB(N),X            ,A          ,
+     1  IPARI     ,INTERFACES%INTBUF_TAB(N),X            ,A          ,
      2  ICODT     ,FSAV(1,N)    ,V            ,MS         ,DT2T        ,
      3  NELTST    ,ITYPTST      ,ITAB         ,STIFN      ,FSKYI       ,
      4  ISKY      ,FCONT        ,N            ,LINDMAX    ,KINET       ,
@@ -561,14 +559,14 @@ C
      E  PM         ,IPARG       ,IAD17       ,MSKYI_SMS   ,ISKYI_SMS   ,
      F  NODNX_SMS  ,MS0         ,INOD_PXFEM  ,MS_PLY      ,WAGAP       ,
      G  FBSAV6      ,ISENSINT(1,N),
-     H  SFBSAV6      ,H3D_DATA    ,INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
+     H  SFBSAV6      ,H3D_DATA    ,INTERFACES%INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
      I  T2FAC_SMS  ,NPC         ,TF          ,TAGNCONT    ,KLOADPINTER ,
      J  LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,
      K  INTERFACES,NISUBMAX)
 
           ELSE
            CALL I24MAINF(
-     1  IPARI     ,INTBUF_TAB(N),X            ,A          ,
+     1  IPARI     ,INTERFACES%INTBUF_TAB(N),X            ,A          ,
      2  ICODT     ,FSAV(1,N)    ,V            ,MS         ,DT2T        ,
      3  NELTST    ,ITYPTST      ,ITAB         ,STIFN      ,FSKYI       ,
      4  ISKY      ,FCONT        ,N            ,LINDMAX    ,KINET       ,
@@ -583,7 +581,7 @@ C
      E  PM        ,IPARG        ,IAD17        ,MSKYI_SMS  ,ISKYI_SMS   ,
      F  NODNX_SMS ,MS0          ,INOD_PXFEM   ,MS_PLY     ,WAGAP       ,
      G  FBSAV6     ,ISENSINT(1,N),
-     H  SFBSAV6     ,H3D_DATA     ,INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
+     H  SFBSAV6     ,H3D_DATA     ,INTERFACES%INTBUF_FRIC_TAB  ,T2MAIN_SMS,FORNEQS ,
      I  T2FAC_SMS ,NPC         ,TF           ,TAGNCONT    ,KLOADPINTER ,
      J  LOADPINTER ,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,
      K  INTERFACES,NISUBMAX)
@@ -602,11 +600,11 @@ C
      .         +NVOLU+NRBAG+NFXBODY+1
           NN2 = NINTER+NRWALL+NRBODY+NSECT+NJOINT+1
 C
-          LINDMAX = INTBUF_TAB(N)%I_STOK(2)
+          LINDMAX = INTERFACES%INTBUF_TAB(N)%I_STOK(2)
           IF(IPARI(58,N)/=0) LINDMAX=MAX(LINDMAX,
-     .                                   INTBUF_TAB(N)%I_STOK_E(1),INTBUF_TAB(N)%I_STOK_E(2))
+     .                                   INTERFACES%INTBUF_TAB(N)%I_STOK_E(1),INTERFACES%INTBUF_TAB(N)%I_STOK_E(2))
           CALL I25MAINF(
-     1  IPARI     ,INTBUF_TAB(N),X            ,A          ,
+     1  IPARI     ,INTERFACES%INTBUF_TAB(N),X            ,A          ,
      2  ICODT     ,FSAV(1,N)    ,V            ,MS         ,DT2T        ,
      3  NELTST    ,ITYPTST      ,ITAB         ,STIFN      ,FSKYI       ,
      4  ISKY      ,FCONT        ,N            ,LINDMAX    ,KINET       ,
@@ -621,7 +619,7 @@ C
      E  PM         ,IPARG       ,IAD17       ,MSKYI_SMS   ,ISKYI_SMS   ,
      F  NODNX_SMS  ,MS0         ,INOD_PXFEM  ,MS_PLY      ,WAGAP       ,
      G  FBSAV6     ,ISENSINT(1,N),
-     H  SFBSAV6    ,H3D_DATA    ,INTBUF_FRIC_TAB,NISKYFIE(N),
+     H  SFBSAV6    ,H3D_DATA    ,INTERFACES%INTBUF_FRIC_TAB,NISKYFIE(N),
      I  APINCH     ,STIFPINCH   ,NPC         ,TF         , CONDN      ,
      J  CONDNSKYI  ,QFRICINT    ,TAGNCONT    ,KLOADPINTER,LOADPINTER  ,
      K  LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER,INTEREFRIC,INTERFACES)
@@ -635,7 +633,7 @@ C-----------------------------------------------------------------------
 c        DEALLOCATE(ISENSINT)
         IF(IMONM > 0) THEN
 !$OMP MASTER
-          CALL INT_STOPTIME(INTBUF_TAB(N)%METRIC,I_MAIN_FORCES)   
+          CALL INT_STOPTIME(INTERFACES%INTBUF_TAB(N)%METRIC,I_MAIN_FORCES)   
 !$OMP END MASTER
         ENDIF
       ENDDO
@@ -643,7 +641,7 @@ C
       ! If law151+int18 : shift NSV array
       IF( MULTI_FVM%IS_INT18_LAW151 ) THEN
         CALL MY_BARRIER()
-        CALL INT18_LAW151_NSV_SHIFT('-',JTASK-1,MULTI_FVM,IPARI,INTBUF_TAB)
+        CALL INT18_LAW151_NSV_SHIFT('-',JTASK-1,MULTI_FVM,IPARI,INTERFACES%INTBUF_TAB)
       ENDIF
 C
       IF (DEBUG(3)>=1) THEN

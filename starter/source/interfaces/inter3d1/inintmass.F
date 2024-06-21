@@ -49,7 +49,7 @@ C-----------------------------------------------
       INTEGER , INTENT(INOUT) :: ISTIF_DT
       INTEGER , INTENT(IN   ) :: IPARI(NPARI,NINTER) 
       my_real , INTENT(IN   ) :: MS(NUMNOD) 
-      TYPE(INTBUF_STRUCT_) , INTENT(IN   ) ::  INTBUF_TAB(NINTER)
+      TYPE(INTBUF_STRUCT_) , INTENT(INOUT) ::  INTBUF_TAB(NINTER)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

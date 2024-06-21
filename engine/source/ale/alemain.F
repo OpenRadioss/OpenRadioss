@@ -78,28 +78,30 @@ Chd|        TABLE_MOD                     share/modules/table_mod.F
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
 Chd|====================================================================
       SUBROUTINE ALEMAIN(
-     1         PM          , GEO         ,X             ,A         ,AR        ,V               ,
-     2         MS          , WA          ,ELBUF_TAB     ,BUFMAT    ,PARTSAV   ,TF              ,
-     3         VAL2        , VEUL        ,FV            ,STIFN     ,FSKY      ,EANI            ,
-     4         PHI         , FILL        ,DFILL         ,ALPH      ,SKEW      ,W               ,
-     5         D           , DSAVE       ,ASAVE         ,DT2T      ,DT2SAVE   ,XCELL           ,
-     6         IPARG       , NPC         ,IXS           ,IXQ       ,IXTG      ,IADS            ,IADQ    ,
-     7         IFILL       , NODPOR      ,ICODT         ,ISKEW     ,IMS       ,
-     8         NELTST      , ITYPTST     ,IPART         ,IPARTS    ,IPARTQ    ,ITASK           ,
-     A         NODFT       , NODLT       ,NBRCVOIS      ,TEMP      ,FSAVSURF  ,
-     B         NBSDVOIS    , LNRCVOIS    ,LNSDVOIS      ,NERCVOIS  ,NESDVOIS  ,LERCVOIS        ,
-     C         LESDVOIS    , ISIZXV      ,IAD_ELEM      ,FR_ELEM   ,FSKYM     ,MSNF            ,
-     D         IPARI       , SEGVAR      ,ITAB          ,ISKWN     ,
-     E         VOLMON      , FSAV        ,IGRSURF       ,NELTSA    ,
-     F         ITYPTSA     , WEIGHT      ,NPSEGCOM      ,LSEGCOM   ,IPM       ,IGEO            ,
-     G         ITABM1      , LENQMV      ,NV46          ,AGLOB     ,GRESAV    ,
-     H         GRTH        , IGRTH       ,LGAUGE        ,GAUGE     ,MSSA      ,
-     I         DMELS       , IGAUP       ,NGAUP         ,TABLE     ,MS0       ,
-     J         XDP         , IGRNOD      ,VARNOD                   ,FSKYI     ,ISKY            ,
-     K         INTBUF_TAB  , IXT         ,IGRV          ,AGRAV     ,SENSORS   ,
-     L         LGRAV       , CONDNSKY    ,CONDN         ,MS_2D     ,MULTI_FVM ,IGRTRUSS        ,
-     M         IGRBRIC     , NLOC_DMG    ,ID_GLOBAL_VOIS,FACE_VOIS ,EBCS_TAB  ,ALE_CONNECTIVITY, 
-     N         DIFFUSION   , MAT_ELEM    ,H3D_DATA      ,DT   ,OUTPUT,NEED_COMM_INTER18)
+     1         PM          ,GEO         ,X             ,A         ,AR        ,V               ,
+     2         MS          ,WA          ,ELBUF_TAB     ,BUFMAT    ,PARTSAV   ,TF              ,
+     3         VAL2        ,VEUL        ,FV            ,STIFN     ,FSKY      ,EANI            ,
+     4         PHI         ,FILL        ,DFILL         ,ALPH      ,SKEW      ,W               ,
+     5         D           ,DSAVE       ,ASAVE         ,DT2T      ,DT2SAVE   ,XCELL           ,
+     6         IPARG       ,NPC         ,IXS           ,IXQ       ,IXTG      ,IADS            ,IADQ    ,
+     7         IFILL       ,NODPOR      ,ICODT         ,ISKEW     ,IMS       ,
+     8         NELTST      ,ITYPTST     ,IPART         ,IPARTS    ,IPARTQ    ,ITASK           ,
+     A         NODFT       ,NODLT       ,NBRCVOIS      ,TEMP      ,FSAVSURF  ,
+     B         NBSDVOIS    ,LNRCVOIS    ,LNSDVOIS      ,NERCVOIS  ,NESDVOIS  ,LERCVOIS        ,
+     C         LESDVOIS    ,ISIZXV      ,IAD_ELEM      ,FR_ELEM   ,FSKYM     ,MSNF            ,
+     D         IPARI       ,SEGVAR      ,ITAB          ,ISKWN     ,
+     E         VOLMON      ,FSAV        ,IGRSURF       ,NELTSA    ,
+     F         ITYPTSA     ,WEIGHT      ,NPSEGCOM      ,LSEGCOM   ,IPM       ,IGEO            ,
+     G         ITABM1      ,LENQMV      ,NV46          ,AGLOB     ,GRESAV    ,
+     H         GRTH        ,IGRTH       ,LGAUGE        ,GAUGE     ,MSSA      ,
+     I         DMELS       ,IGAUP       ,NGAUP         ,TABLE     ,MS0       ,
+     J         XDP         ,IGRNOD      ,VARNOD                   ,FSKYI     ,ISKY            ,
+     K         INTBUF_TAB  ,IXT         ,IGRV          ,AGRAV     ,SENSORS   ,
+     L         LGRAV       ,CONDNSKY    ,CONDN         ,MS_2D     ,MULTI_FVM ,IGRTRUSS        ,
+     M         IGRBRIC     ,NLOC_DMG    ,ID_GLOBAL_VOIS,FACE_VOIS ,EBCS_TAB  ,ALE_CONNECTIVITY, 
+     N         DIFFUSION   ,MAT_ELEM    ,H3D_DATA      ,DT   ,OUTPUT,NEED_COMM_INTER18,IDTMINS,
+     O         IRESP       ,IDTMIN      ,MAXFUNC       ,IMON_MAT,    
+     P         USERL_AVAIL ,heat_meca   ,impl_s        ,idyna)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -155,6 +157,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN):: IRESP
+      integer,dimension(102) :: IDTMIN
+      INTEGER ,INTENT(IN) :: MAXFUNC
+      INTEGER, INTENT(IN) :: IMON_MAT
+      INTEGER, INTENT(IN) :: USERL_AVAIL
+      INTEGER, INTENT(IN) :: IMPL_S
+      INTEGER, INTENT(IN) :: IDYNA
+      my_real,intent(INOUT) :: heat_meca
       my_real,INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       INTEGER IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),IXTG(NIXTG,NUMELTG), ISKY(*),
      .   IFILL(NUMNOD,*), NPC(*), IPARG(NPARG,NGROUP),NODPOR(*),
@@ -170,6 +180,7 @@ C-----------------------------------------------
      .   ISIZXV, LENQMV,NV46,GRTH(*),IGRTH(*),LGAUGE(3,NBGAUGE),
      .   IGAUP(*),NGAUP(*),NODLT, IXT(NIXT,*),
      .   IGRV(*),LGRAV(*)
+      INTEGER, INTENT(IN) :: IDTMINS
       ! for parith/on : ID_GLOBAL_VOIS --> user id ; FACE_VOIS --> face of the remote element
       INTEGER, DIMENSION(*), INTENT(in) :: ID_GLOBAL_VOIS,FACE_VOIS
       LOGICAL, INTENT(inout) :: NEED_COMM_INTER18 !< true if the mpi comm "exchange of remote XCELL data" is mandatory
@@ -211,10 +222,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      my_real, DIMENSION(MVSIZ,6) :: SVIS
       INTEGER N, M, NG, NVC, NF1,OFFSET,ISOLNOD,  NSG, NEL,I, LENCOM,ISTRA, IBID,IOUTPRT
       INTEGER IPLA
       INTEGER IADBH, IAD22, NIN, NBRIC_L
-      INTEGER SBUFVOIS
+      INTEGER SBUFVOIS,SZ_BUFVOIS
       
       my_real FX(MVSIZ,10),FY(MVSIZ,10),FZ(MVSIZ,10),VOLN(MVSIZ) 
       my_real, TARGET  :: BID
@@ -263,6 +275,7 @@ C  IOUTPRT (assembly report)
       IF(M51_IFLG6 == 1)SBUFVOIS = M51_IFLG6_SIZE
       
       IF(ITASK==0)ALLOCATE(BUFVOIS(SBUFVOIS ,NSVOIS+NQVOIS)) !SPMD array of adjacent ALE/CFD elems           !OPTIM : SHOULD BE ALLOCATED IN ARRALOC,  same for FLUX_VOIS & N4_VOIS
+      IF(ITASK==0)SZ_BUFVOIS=SBUFVOIS*(NSVOIS+NQVOIS)
 
       IF(N2D /= 0 .AND. NMULT /= 0)THEN
         !WA(1:IADBH-1)                         = FLUX
@@ -817,7 +830,11 @@ C
      F                  IGRTH,           MSSA,            DMELS,           TABLE,
      G                  XDP,             VARNOD,          VOLN,            BID,
      H                  BID,             D,               SENSORS,         IOUTPRT,
-     I                  MAT_ELEM,        IBID,            DT,              IDEL7NOK,NSVOIS)
+     I                  MAT_ELEM,        IBID,            DT,              IDEL7NOK,
+     J                  NSVOIS,          SZ_BUFVOIS,      SNPC,            STF,
+     K                  SBUFMAT,         SVIS,            IDTMINS,         IRESP, 
+     *                  IDEL7NG,         MAXFUNC,         USERL_AVAIL,     heat_meca, 
+     V                  impl_s,     idyna)
 C
                  ELSEIF (ITY == 1 .AND. ISOLNOD /= 4) THEN
                   NULLIFY(pQMV); 
@@ -854,7 +871,10 @@ C
      P                  VOLN,                  CONDN,   CONDNSKY,      AGRAV,
      Q                  IGRV,                  LGRAV,   SENSORS,       SKEW,
      R                  ALE_CONNECTIVITY%NALE, D,       IOUTPRT,       NLOC_DMG,
-     S                  MAT_ELEM,              IBID,    DT,            IDEL7NOK,NSVOIS)
+     S                  MAT_ELEM,              IBID,    DT,            IDEL7NOK,NSVOIS,
+     T                  SZ_BUFVOIS,            SNPC, STF,SBUFMAT,SVIS,IDTMINS,IRESP,
+     U                  IDEL7NG,    MAXFUNC,    USERL_AVAIL, heat_meca, 
+     V                  impl_s,     idyna)
 C
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
                   NULLIFY(pQMV); 
@@ -867,20 +887,23 @@ C
      .                  ELBUF_TAB,NG ,
      1                  PM           ,GEO          ,IXQ         ,X         ,A        ,  
      2                  V            ,MS           ,W           ,WA        ,VAL2     ,  
-     3                  VEUL         ,FV           ,ALE_CONNECTIVITY       ,IPARG    ,NLOC_DMG,
+     3                  VEUL         ,ALE_CONNECTIVITY       ,IPARG    ,NLOC_DMG,
      4                  TF           ,NPC          ,BUFMAT      ,PARTSAV   ,
      5                  DT2T         ,NELTST       ,ITYPTST     ,STIFN     ,OFFSET   ,  
      6                  EANI         ,IPARTQ(1+NFT),NEL         ,IADQ      ,FSKY     ,  
      9                  IPM          ,BUFVOIS      ,pQMV        ,
      A                  GRESAV       ,GRTH         ,IGRTH       ,TABLE     ,IGEO     ,
      B                  VOLN         ,ITASK        ,MS_2D       ,FSKYM     ,IOUTPRT  ,MAT_ELEM,
-     C              H3D_DATA%STRAIN) 
+     C              H3D_DATA%STRAIN  ,SZ_BUFVOIS   ,SNPC        ,STF       ,SBUFMAT  ,
+     D                  SVIS,NSVOIS,IDTMINS        ,IRESP       ,TT        ,DT1,      
+     .                  IDEL7NG      ,IDEL7NOK     ,IDTMIN      ,MAXFUNC,  
+     .                  IMON_MAT,USERL_AVAIL, heat_meca, impl_s,     idyna) 
 c
                  ELSEIF (ITY == 2 .AND. JMULT /= 0) THEN
                   CALL BFORC2(ELBUF_TAB,NG      ,
      1                  PM          , GEO           , IXQ       , X               ,
      2                  A           , V             , MS        , W               , WA          ,
-     3                  VAL2        , VEUL          , FV        , ALE_CONNECTIVITY, IPARG       ,
+     3                  VAL2        , VEUL          ,  ALE_CONNECTIVITY, IPARG       ,
      4                  IPARG(1,NG) , FILL          , DFILL     , IMS             , NLOC_DMG    ,
      5                  TF    ,NPC  , BUFMAT        , PARTSAV   ,
      6                  DT2T        , NELTST,ITYPTST, STIFN     , OFFSET          ,
@@ -888,7 +911,10 @@ c
      8                  IPM ,BUFVOIS,
      9                  GRESAV,GRTH , IGRTH         , TABLE     , IGEO            ,
      O                  VOLN  ,ITASK, MS_2D         , FSKYM     , MAT_ELEM        ,
-     B                  IBID,OUTPUT)
+     B                  IBID,OUTPUT,SZ_BUFVOIS      ,SNPC,STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,IRESP,
+     C                  IDEL7NG     , IDEL7NOK      ,IDTMIN     ,MAXFUNC,
+     E                  IMON_MAT    , USERL_AVAIL   ,heat_meca  ,impl_s,
+     F                  idyna)
                  ENDIF
                 ENDIF
               ENDIF
@@ -978,7 +1004,11 @@ C     ALE ON / OFF
      F                  IGRTH,           MSSA,            DMELS,           TABLE,
      G                  XDP,             BID,             VOLN,            BID,
      H                  BID,             D,               SENSORS,         IOUTPRT,
-     I                  MAT_ELEM,        IBID,            DT,              IDEL7NOK,NSVOIS)
+     I                  MAT_ELEM,        IBID,            DT,              IDEL7NOK,
+     J                  NSVOIS,          SZ_BUFVOIS,      SNPC,            STF,
+     K                  SBUFMAT,         SVIS,            IDTMINS,         IRESP, 
+     *                  IDEL7NG,         MAXFUNC,         USERL_AVAIL,     heat_meca, 
+     V                  impl_s,          idyna)
 
                  ELSEIF(ITY == 1 .AND. ISOLNOD /= 4)THEN
                   NULLIFY(pQMV); 
@@ -1015,7 +1045,10 @@ C     ALE ON / OFF
      P                  VOLN,                 CONDN,    CONDNSKY,      AGRAV,
      Q                  IGRV,                 LGRAV,    SENSORS,       SKEW,
      R                  ALE_CONNECTIVITY%NALE,D,        IOUTPRT,       NLOC_DMG,
-     S                  MAT_ELEM,             IBID,     DT,            IDEL7NOK,NSVOIS)
+     S                  MAT_ELEM,             IBID,     DT,            IDEL7NOK,NSVOIS,
+     T                  SZ_BUFVOIS,           SNPC,     STF,SBUFMAT,SVIS,IDTMINS,IRESP,
+     U                  IDEL7NG,              MAXFUNC,  USERL_AVAIL, heat_meca, 
+     V                  impl_s,               idyna)
                
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
                   NULLIFY(pQMV); 
@@ -1028,20 +1061,23 @@ C     ALE ON / OFF
      .              ELBUF_TAB,NG ,
      1              PM           ,GEO          ,IXQ         ,X        ,A         ,  
      2              V            ,MS           ,W           ,WA       ,VAL2      ,      
-     3              VEUL         ,FV           ,ALE_CONNECTIVITY       ,IPARG    ,NLOC_DMG  ,              
+     3              VEUL         ,ALE_CONNECTIVITY       ,IPARG    ,NLOC_DMG  ,              
      4              TF           ,NPC          ,BUFMAT      ,PARTSAV  ,              
      5              DT2T         ,NELTST       ,ITYPTST     ,STIFN    ,OFFSET    ,
      6              EANI         ,IPARTQ(1+NFT),NEL         ,IADQ     ,FSKY      ,
      9              IPM          ,BUFVOIS      ,pQMV        ,
      A              GRESAV       ,GRTH         ,IGRTH       ,TABLE    ,IGEO      ,
      B              VOLN         ,ITASK        ,MS_2D       ,FSKYM    ,IOUTPRT   ,MAT_ELEM ,
-     C              H3D_DATA%STRAIN)
+     C              H3D_DATA%STRAIN,SZ_BUFVOIS   ,SNPC      ,STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,
+     D              IRESP        ,TT           ,DT1,      
+     .              IDEL7NG,     IDEL7NOK,    IDTMIN,     MAXFUNC ,  
+     .              IMON_MAT,USERL_AVAIL, heat_meca, impl_s,     idyna)
 c
                       ELSEIF(ITY == 2 .AND. JMULT /= 0)THEN
                   CALL BFORC2(ELBUF_TAB  ,NG           ,
      1                        PM         ,GEO          ,IXQ     ,X                ,    
      2                        A          ,V            ,MS      ,W                ,WA        ,  
-     3                        VAL2       ,VEUL         ,FV      ,ALE_CONNECTIVITY ,IPARG     ,
+     3                        VAL2       ,VEUL         ,ALE_CONNECTIVITY ,IPARG     ,
      4                        IPARG(1,NG),FILL         ,DFILL   ,IMS              ,NLOC_DMG  ,    
      5                        TF         ,NPC          ,BUFMAT  ,PARTSAV          ,       
      5                        DT2T       ,NELTST       ,ITYPTST ,STIFN            ,OFFSET    ,  
@@ -1049,7 +1085,11 @@ c
      7                        IPM        ,BUFVOIS      ,
      8                        GRESAV     ,GRTH         ,IGRTH   ,TABLE            ,IGEO      ,
      9                        VOLN       ,ITASK        ,MS_2D   ,FSKYM            ,MAT_ELEM,
-     B                        IBID       ,OUTPUT)
+     B                        IBID       ,OUTPUT       ,SZ_BUFVOIS      ,SNPC,STF,SBUFMAT,SVIS,
+     *                        NSVOIS     ,IDTMINS      ,IRESP,
+     C                       IDEL7NG     ,IDEL7NOK     ,IDTMIN     ,MAXFUNC,
+     E                       IMON_MAT    , USERL_AVAIL   ,heat_meca  ,impl_s,
+     F                       idyna)
 
                  ENDIF
                 ENDIF

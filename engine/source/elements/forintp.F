@@ -94,7 +94,9 @@ Chd|====================================================================
      C    NGROUNC   ,IGROUNC   ,IXS       ,IRST      ,SOL2SPH   ,
      D    SPH2SOL   ,FSKYV     ,FSKY      ,IGEO      ,TEMP      ,
      E    FTHE      ,FTHESKYI  ,SPHG_F6   ,WSMCOMP   ,SOL2SPH_TYP,
-     F    MAT_ELEM  ,OUTPUT    ,SPH_IORD1)
+     F    MAT_ELEM  ,OUTPUT    ,SPH_IORD1 ,SNPC      ,STF,
+     G    SBUFMAT   ,IDTMINS   ,NSVOIS    ,IRESP     ,MAXFUNC   ,
+     .    IMON_MAT  ,USERL_AVAIL, heat_meca, impl_s  ,idyna )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -134,6 +136,19 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: SNPC
+      INTEGER, INTENT(IN) :: STF
+      INTEGER, INTENT(IN) :: SBUFMAT
+      INTEGER, INTENT(IN) :: NSVOIS
+      INTEGER, INTENT(IN) :: IDTMINS
+      INTEGER ,INTENT(IN) :: IRESP
+      INTEGER ,INTENT(IN) :: MAXFUNC
+      INTEGER, INTENT(IN) :: IMPL_S
+      INTEGER, INTENT(IN) :: IDYNA
+      INTEGER, INTENT(IN) :: USERL_AVAIL
+      INTEGER, INTENT(IN) :: IMON_MAT
+      my_real, INTENT(INOUT) :: HEAT_MECA
+
       INTEGER IPART(LIPART1,*) ,NPC(*), IPARG(NPARG,*),IADS(8,*),
      .   NELTST, ITYPTST, IPARTSP(*), ISKY(*), ITAB(*),IPM(*),
      .   KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),
@@ -174,6 +189,7 @@ C-----------------------------------------------
      .   PHI1,PHI2,PHI3,PHI4,PHI5,PHI6,PHI7,PHI8,
      .   KSI, ETA, ZETA,
      .   VOLN(MVSIZ)
+      my_real, DIMENSION(MVSIZ,6) :: SVIS
 C
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
@@ -645,7 +661,11 @@ C-----------------------------------------------
      6            IPARTSP   ,FV        ,NEL       ,IPM       ,GRESAV    ,
      7            GRTH      ,IGRTH     ,TABLE     ,ISTRA     ,VOLN      ,
      8            IGEO      ,IEXPAN    ,TEMP      ,ITASK     ,SPH2SOL   ,
-     9            MAT_ELEM  ,IBID      ,OUTPUT    )
+     9            MAT_ELEM  ,IBID      ,OUTPUT    ,SNPC      ,STF       ,
+     A            SBUFMAT,   SVIS      ,NSVOIS    ,IDTMINS   ,IRESP,      
+     .            IDEL7NG,   IDEL7NOK  ,IDTMIN    ,MAXFUNC   ,LIPART1,
+     .            IMON_MAT,  USERL_AVAIL, heat_meca, impl_s,
+     V            idyna)
             ENDIF
             IF (IDDW>0) CALL STOPTIMEG(NG)
           END DO

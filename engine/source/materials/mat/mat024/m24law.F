@@ -51,7 +51,7 @@ Chd|====================================================================
      F   G_DT,    IPM,     RHOREF,  RHOSP,
      G   EPSD,    ITY,     JTUR,    JTHE,
      H   JHBE,    JCVT,    JSPH,    ISMSTR,
-     I   JSMS,    NPG )
+     I   JSMS,    NPG ,    SVIS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,7 +69,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "nsvis_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -94,7 +93,8 @@ C-----------------------------------------------
      .   RX(NEL),RY(NEL),RZ(NEL),SX(NEL),SY(NEL),SZ(NEL),
      .   SOLD1(NEL),SOLD2(NEL),SOLD3(NEL),SOLD4(NEL), 
      .   SOLD5(NEL), SOLD6(NEL), CONDE(NEL), VOL_AVG(NEL),DTEL(NEL),
-     .   RHOREF(*)  ,RHOSP(*)  
+     .   RHOREF(*)  ,RHOSP(*)
+      my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE(L_BUFEL_)  :: LBUF     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -163,7 +163,7 @@ C
      2   PID,     SSP,     AIRE,    VOLG,
      3   D1,      D2,      D3,      D4,
      4   D5,      D6,      MAT,     ISVIS,
-     5   RHOREF,  NEL)
+     5   RHOREF,  NEL,     SVIS)
 C . . . . . . . . . . . . . . . . . . . . . . . . . .
 C L'ENERGIE INTERNE COMPREND L ENERGIE DE FISSURATION
 C . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -198,7 +198,7 @@ C
      2   PID,     SSP,     AIRE,    VOLN,
      3   D1,      D2,      D3,      D4,
      4   D5,      D6,      MAT,     ISVIS,
-     5   RHOREF,  NEL)
+     5   RHOREF,  NEL,     SVIS)
 C . . . . . . . . . . . . . . . . . . . . . . . . . .
 C L'ENERGIE INTERNE COMPREND L ENERGIE DE FISSURATION
 C . . . . . . . . . . . . . . . . . . . . . . . . . .

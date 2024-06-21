@@ -143,6 +143,79 @@ C
       RETURN
       END
 Chd|====================================================================
+Chd|  WRITE_DB                      source/output/tools/write_db.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|        WRITE_DB_C                    ../common_source/tools/input_output/write_routtines.c
+Chd|====================================================================
+      SUBROUTINE WRITE_DB_ARRAY(A,N)
+C ecriture nombre reel : routine tampon
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+            INTEGER N
+C     REAL
+            my_real
+     .   A(*)
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "scr05_c.inc"
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+            INTEGER I,J,K,N1,N2
+            DOUBLE PRECISION R8(1000)
+            REAL R4(1000)
+C-----------------------------------------------
+C   S o u r c e  L i n e s
+C-----------------------------------------------
+            K=0
+            N1=N/1000
+            IF(ICRAY==1)THEN
+C fortran double precision : 128 bits C double : 64 bits
+C fortran real : 64 bits C double : 64 bits
+             DO I = 1, N1
+              DO J = 1, 1000
+                K=K+1
+                R4(J) = A(K)
+              ENDDO
+              CALL WRITE_DB_ARRAY_C(R4,1000)
+             ENDDO
+             N2=N1*1000
+             IF(N2/=N)THEN
+              DO J = 1, N-N2
+                K=K+1
+                R4(J) = A(K)
+              ENDDO
+              CALL WRITE_DB_ARRAY_C(R4,N-N2)
+             ENDIF
+            ELSE
+C fortran double precision : 64 bits C double : 64 bits
+             DO I = 1, N1
+              DO J = 1, 1000
+                K=K+1
+                R8(J) = A(K)
+              ENDDO
+              CALL WRITE_DB_C(R8,1000)
+             ENDDO
+             N2=N1*1000
+             IF(N2/=N)THEN
+              DO J = 1, N-N2
+                K=K+1
+                R8(J) = A(K)
+              ENDDO
+              CALL WRITE_DB_C(R8,N-N2)
+             ENDIF
+            ENDIF
+C
+            RETURN
+            END
+Chd|====================================================================
 Chd|  WRITE_DPDB                    source/output/tools/write_db.F
 Chd|-- called by -----------
 Chd|        WRITE_DOUBLE                  ../common_source/comm/write_mod.F
