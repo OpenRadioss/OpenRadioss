@@ -3305,10 +3305,10 @@ C-------------------------------------------------------------------
         IF (IMON>0) CALL STARTIME(4,1)
         IF (IMONM > 0) CALL STARTIME(41,1)
 !$OMP PARALLEL
-          CALL PFLUID(ILOADP  ,LOADP   ,NPC        ,TF        ,A         ,
-     2                V       ,X       ,XFRAME     ,MS        ,
-     3                NSENSOR,SENSORS%SENSOR_TAB,TFEXC,IADS(I87M) ,
-     4                FSKY    ,FSKY    ,LLOADP     ,FEXT     ,H3D_DATA   ,
+          CALL PFLUID(ILOADP  ,LOADP             ,NPC        ,TF         ,A         ,
+     2                V       ,X                 ,XFRAME     ,MS         ,
+     3                NSENSOR ,SENSORS%SENSOR_TAB,TFEXC      ,IADS(I87M) ,
+     4                FSKY    ,FSKY              ,LLOADP     ,FEXT       ,H3D_DATA  ,
      5                OUTPUT%TH%TH_SURF)
 !$OMP END PARALLEL
         IF (IMONM > 0) CALL STOPTIME(41,1)
