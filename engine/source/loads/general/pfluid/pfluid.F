@@ -392,7 +392,7 @@ C
      +                          +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))  
      
 
-#include "lockoff.inc"
+#include "lockon.inc"
               !/PARITH/OFF: force is direcctly added in A array. It will be dividedby nodal mass later
               !-node_1
               A(1,N1)=A(1,N1)+FX                                                                    
