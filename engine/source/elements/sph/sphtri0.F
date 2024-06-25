@@ -79,7 +79,7 @@ C-----------------------------------------------
 C        
 C
 C        Bucket sort. DBUC + MIN / MAX
-C
+
       DBUCL=ZERO
       DO NS=NSP2SORTF,NSP2SORTL
         N=WSP2SORT(NS)
@@ -132,7 +132,7 @@ C
 C
       CALL MY_BARRIER
 
-      IF(ITASK==0) THEN
+!$OMP SINGLE
         DBUC=DBUC*SQRT(ONE +SPATRUE)*ONEP0001
           BMINMA(1) = BMINMA(1)+DBUC
         BMINMA(2) = BMINMA(2)+DBUC
@@ -174,7 +174,8 @@ C   Test cas particulier 2D
           BMINMA(12)=BMINMA(6)
           BMINMA(9)=BMINMA(3)
         END IF
-      ENDIF
+!$OMP END SINGLE
+                
 
       IF(NSPMD>1) THEN
 C
