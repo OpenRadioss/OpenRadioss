@@ -34,7 +34,7 @@ Chd|====================================================================
      4            G      ,YM     ,A11    ,A12      ,THK     ,
      5            SSP    ,RHO    ,VOL0   ,GS       ,MTN     ,
      6            ITHK   ,NPT    ,ISMSTR ,VOL00    ,IGEO    ,
-     7            A11R   ,ISUBSTACK,PM_STACK)
+     7            A11R   ,ISUBSTACK,PM_STACK,NEL     ,ZOFFSET)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,6 +54,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,MTN,ITHK,NPT,ISMSTR,ISUBSTACK
       INTEGER MAT(MVSIZ), PID(MVSIZ), IGEO(NPROPGI,NUMGEO)
+      INTEGER , INTENT(IN) :: NEL
 C     REAL
       my_real
      .   GEO(NPROPG,NUMGEO), PM(NPROPM,*), OFF(*), AREA(*),
@@ -61,13 +62,14 @@ C     REAL
      .   NU(*),G(*),YM(*),A11(*),A12(*),
      .   VOL0(*),VOL00(*),SSP(*),RHO(*),GS(*),
      .   A11R(*),PM_STACK(20,*)
+      my_real , DIMENSION(NEL), INTENT(OUT) :: ZOFFSET
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISH,MX,IPID,J,IGTYP,IGMAT,IPGMAT
+      INTEGER I,ISH,MX,IPID,J,IGTYP,IGMAT,IPGMAT,IPOS
 C     REAL
       my_real
-     .   FAC1,FSH,VISCDEF      
+     .   FAC1,FSH,VISCDEF,Z0  
 C-----------------------------------------------
       IF (ITHK>0.AND.ISMSTR/=3.AND.ISMDISP == 0) THEN
         DO I=JFT,JLT
@@ -145,6 +147,28 @@ C
       DO I=JFT,JLT
          GS(I)=G(I)*SHF(I)
       ENDDO
+      Z0 = GEO(199,PID(1))
+      ZOFFSET(JFT:JLT)  = ZERO
+      SELECT CASE(IGTYP)
+        CASE (1,9,10,11,16)
+           DO I=JFT,JLT
+            ZOFFSET(I) = Z0
+           ENDDO 
+        CASE (17,51,52)
+            IPOS   = IGEO(99,PID(1))
+             IF(IPOS == 2) THEN
+               DO I=JFT,JLT
+                 ZOFFSET(I) = Z0 - HALF*THK0(I)
+               ENDDO 
+              ELSEIF (IPOS== 3 .OR. IPOS == 4) THEN
+               DO I=JFT,JLT
+                 Z0= HALF*THK0(I)
+                 ZOFFSET (I) = Z0
+               ENDDO  
+             ENDIF    
+        CASE DEFAULT 
+            ZOFFSET(JFT:JLT)  = ZERO
+      END SELECT
 C-----------
       RETURN
       END

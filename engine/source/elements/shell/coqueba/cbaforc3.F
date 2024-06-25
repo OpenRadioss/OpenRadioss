@@ -264,6 +264,7 @@ C-----------------------------------------------
      .  Z1G(MVSIZ), Z2G(MVSIZ), Z3G(MVSIZ), Z4G(MVSIZ),
      .  VRL1(MVSIZ,3),VRL2(MVSIZ,3),VRL3(MVSIZ,3),VRL4(MVSIZ,3),
      .   UXYZ(MVSIZ,12),AXYZ(MVSIZ,4),WXY(MVSIZ),XLCORE(MVSIZ,2*(NNOD-1))
+       my_real , DIMENSION(NEL) ::  ZOFFSET
 C-----------------------------------------------
       INTEGER, DIMENSION(NEL) :: OFFLY
       my_real, DIMENSION(:) ,POINTER     :: DIR_A, DIR_B,CRKDIR,DADV
@@ -450,7 +451,8 @@ C
      4              A11     ,A12     ,GBUF%THK,THKE    ,SSP     ,
      5              RHO     ,VOLG    ,GS      ,MTN     ,ITHK    ,
      6              NPTTOT  ,DT1C    ,DT1     ,IHBE    ,AMU     ,
-     7              KRZ     ,IGEO    ,A11R    ,ISUBSTACK, STACK%PM)
+     7              KRZ     ,IGEO    ,A11R    ,ISUBSTACK, STACK%PM,
+     8              NEL     ,ZOFFSET)
 C
        IF(NPINCH > 0) THEN
          CALL CBACOORPINCH(
@@ -991,7 +993,7 @@ C
      5        IOFC   ,NNOD   ,AREA     , G      ,SHF   ,     
      6        MSC    ,DMELC  ,JSMS     , BID    ,IGTYP ,     
      7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT,MTN   ,
-     8        PM     ,MAT(JFT))
+     8        PM     ,MAT(JFT) , NEL     ,ZOFFSET)
 C
       ENDIF
 C--------------------------

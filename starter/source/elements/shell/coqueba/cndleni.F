@@ -75,7 +75,8 @@ C-----------------------------------------------
       my_real
      .   VISCMX,A11,A11R,A12,B1,B2,VV,STI,STIR,VISCDEF,RHO,YOUNG,NU,
      .   X13,X24,Y13,Y24,L13,L24,C1,C2,THKLY,POSLY,
-     .   FAC,VISCE,RX,RY,SX,SY,S1,FAC1,FAC2,FACI,FAC11,BULK,GMAX
+     .   FAC,VISCE,RX,RY,SX,SY,S1,FAC1,FAC2,FACI,FAC11,BULK,GMAX,Z0
+       my_real, DIMENSION(MVSIZ) ::   ZOFFSET
 C=======================================================================
       FAC = TWO
 C
@@ -83,6 +84,30 @@ C
       IGMAT = IGEO(98,IPROP)
       IPGMAT = 700
       SSP(LFT:LLT) = ZERO
+
+      Z0 = GEO(199,IPROP)
+      ZOFFSET(LFT:LLT)  = ZERO
+      SELECT CASE(IGTYP)
+        CASE (1,9,10,11,16)
+           DO I=LFT,LLT
+            ZOFFSET(I) = Z0
+           ENDDO 
+        CASE (17,51,52)
+            IPOS   = IGEO(99,IPROP)
+             IF(IPOS == 2) THEN
+               DO I=LFT,LLT
+                 ZOFFSET(I) = Z0 - HALF*THK(I)
+               ENDDO 
+              ELSEIF (IPOS== 3 .OR. IPOS == 4) THEN
+               DO I=LFT,LLT
+                 Z0= HALF*THK(I)
+                 ZOFFSET (I) = Z0
+               ENDDO  
+             ENDIF    
+        CASE DEFAULT 
+          ZOFFSET(LFT:LLT)  = ZERO
+      END SELECT
+c
 C
       IF ((IGTYP == 11 .AND. IGMAT < 0) .OR. IGTYP == 16 ) THEN
              IPMAT = 100
@@ -374,7 +399,8 @@ C----------------------------------------------------------
               VV = VV*VV
               FAC = HALF*AREA(I)*THK(I) / VV
               STI = FAC * A11 
-              STIR = ONE_OVER_12*FAC*A11R*THK(I)**2
+              STIR = FAC*A11R*(ONE_OVER_12*THK(I)**2 + ZOFFSET(I)*ZOFFSET(I))
+ !!     .                       +  FAC *A11*AREA(I)*ONE_OVER_12
               STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
               STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
               STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI
@@ -437,7 +463,7 @@ C----------------------------------------------------------
                 VV = VV*VV
                 FAC = HALF*AREA(I)*THK(I) / VV
                 STI = FAC * A11 
-                STIR = ONE_OVER_12*FAC*A11R*THK(I)**2
+                STIR = FAC*A11R*(ONE_OVER_12*THK(I)**2 + ZOFFSET(I)*ZOFFSET(I))
                 STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
                 STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
                 STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI

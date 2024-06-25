@@ -38,7 +38,7 @@ Chd|====================================================================
      4                 IOFC  ,NNE     ,AREA ,G    ,SHF   ,
      5                 MSC   ,DMELC   ,JSMS ,PTG  ,IGTYP ,
      6                 IGMAT ,A11R    ,G_DT ,DTEL ,MTN   ,
-     7                 PM    ,IMAT    )
+     7                 PM    ,IMAT    ,NEL  ,ZOFFSET)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,12 +65,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NELTST,ITYPTST,ISMSTR,IOFC,NNE, JSMS,IGTYP
       INTEGER NGL(*),IGMAT,G_DT,MTN,IMAT
+      INTEGER , INTENT(IN)  :: NEL
 C     REAL
       my_real OFF(*),STI(*),STIR(*),OFFG(*),SSP(*),AMU(*),
      .   ALDT(*), ALPE(*), A1(*), THK0(*),THK02(*),
      .   VOL0(*), VISCMX(*), RHO(*),DT2T, AREA(*), G(*), SHF(*),
      .   MSC(*), DMELC(*), PTG(3,*),A11R(*),DTEL(MVSIZ)
       my_real, DIMENSION(NPROPM,NUMMAT) ,INTENT(IN):: PM
+      my_real, DIMENSION(NEL) , INTENT(IN) :: ZOFFSET
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -107,8 +109,8 @@ C----- isub will add here-----
      .   ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
      .                                   .AND. IGMAT > 0 )) THEN
             FAC = HALF*VOL0(I)/ ALDT(I)**2
-            STIR(I) =(FAC * A11R(I)*THK02(I) + 
-     .                 FAC * A1(I) *AREA(I)) *ONE_OVER_12
+            STIR(I) =FAC * A11R(I)*(THK02(I)*ONE_OVER_12 + ZOFFSET(I)*ZOFFSET(I))
+     .                      + FAC * A1(I) *AREA(I)*ONE_OVER_12
           ELSE
             STIR(I) = STI(I) * (THK02(I)+AREA(I)) *ONE_OVER_12
           ENDIF
@@ -165,9 +167,9 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
                 ELSE
                    STI(I) = HALF*VOL0(I) * A1(I) / ALDT(I)**2
                    FAC =  HALF*VOL0(I)/ ALDT(I)**2
-                   STIR(I) = FAC*A11R(I)*THK02(I)*ONE_OVER_12 +
-     .                       FAC *A1(I)*AREA(I)*ONE_OVER_12
-                  ENDIF
+                   STIR(I) = FAC*A11R(I)*(THK02(I)*ONE_OVER_12 + ZOFFSET(I)*ZOFFSET(I)) 
+     .                       +  FAC *A1(I)*AREA(I)*ONE_OVER_12
+                  ENDIF 
              ENDDO
           ELSE
              DO I=JFT,JLT
