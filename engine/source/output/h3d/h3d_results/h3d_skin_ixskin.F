@@ -441,6 +441,7 @@ C------
            ISOLNOD = IPARG(28,NG)
            ICS     = IPARG(17,NG)                                        
            IF(ISOLNOD == 4)THEN
+!$OMP SIMD PRIVATE(JJ,N,LL) REDUCTION(+:NUMSKIN)
              DO I=1,NEL
                N = I + NFT
                LL=TAG_SKINS6(N)
@@ -451,6 +452,7 @@ C------
              ENDDO
            ELSEIF(ISOLNOD == 6)THEN
            ELSEIF(ISOLNOD == 10)THEN
+!$OMP SIMD PRIVATE(JJ,N,LL) REDUCTION(+:NUMSKIN)
              DO I=1,NEL
                N = I + NFT
                LL=TAG_SKINS6(N)
@@ -460,6 +462,7 @@ C------
                END DO
              ENDDO
            ELSE
+!$OMP SIMD PRIVATE(JJ,N,LL) REDUCTION(+:NUMSKIN)
              DO I=1,NEL
                N = I + NFT
                LL=TAG_SKINS6(N)

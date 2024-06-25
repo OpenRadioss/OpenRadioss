@@ -126,7 +126,6 @@ C
               LL = DEBUT(I)
               SBUF(LL)=0
               L = LL+1
-#include    "vectorize.inc"
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                 NOD = FR_ELEM(J)
                 IF(ITAGX(NOD)/=0)THEN
