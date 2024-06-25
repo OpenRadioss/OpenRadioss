@@ -104,6 +104,7 @@ c-----------------------------------------------------
       IFL  = 1              ! only one failure model for beams      
 C--------------------------------------   
       NPARAM  = FAIL%NUPARAM
+      NFUNC   = FAIL%NFUNC
 c-------------------------------------
 c     progressive element erosion      
 c
