@@ -117,6 +117,7 @@ C--------------------------------------
       ENDDO
       COUNT(1:NEL) = 0
       NPARAM  = FAIL%NUPARAM
+      NFUNC   = FAIL%NFUNC
 C---------------------------------------
 C     START LOOP OVER INTEGRATION POINTS
 C---------------------------------------
