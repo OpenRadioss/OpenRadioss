@@ -173,6 +173,7 @@ c  indx utilise localement contrairement aux coques 4n
      .   VZ4(MVSIZ,3),VZ5(MVSIZ,3),VZ6(MVSIZ,3),
      .   ALDT(MVSIZ),AMU(MVSIZ),VDEF(MVSIZ,8),DIE(MVSIZ),
      .   TEMPEL(MVSIZ),BID,KRZ(MVSIZ),CONDE(MVSIZ),A11R(MVSIZ)
+      my_real , DIMENSIOn(NEL)  ::  ZOFFSET
       my_real, 
      .    ALLOCATABLE, DIMENSION(:), TARGET :: DIRA,DIRB
       my_real,
@@ -195,7 +196,7 @@ C     NB4    |5*JLT    | UNUSED : ONLY FOR FINDING OFF
 C     NB5    |2*JLT    | ENERGIES
 C     NB6    |JLT      | OFF
 C     NB8    |8*JLT    | DEFORMATIONS
-C=======================================================================
+C============================== =========================================
       GBUF   => ELBUF_STR%GBUF
       IDRAPE = ELBUF_STR%IDRAPE
       IUN  = 1
@@ -304,7 +305,8 @@ C
      4             A11    ,A12     ,GBUF%THK,THKE    ,SSP     ,
      5             RHO    ,VOL0    ,GS      ,MTN     ,ITHK    ,
      6             NPTTOT ,DT1C    , DT1    ,IHBE    ,AMU     ,
-     7             KRZ    ,IGEO    ,A11R    ,ISUBSTACK , STACK%PM)
+     7             KRZ    ,IGEO    ,A11R    ,ISUBSTACK , STACK%PM,
+     8             NEL     ,ZOFFSET)
       CALL CDK6DERI3(JFT ,JLT, X2,Y2,X3,Y3,AREA2,ALPE,ALDT,NU,THK02,
      1               PX2,PY2,PX3,PY3,X4,Y4,Z4,X5,Y5,Z5,X6,Y6,Z6,
      2               N4X,N4Y,N4Z,N5X,N5Y,N5Z,N6X,N6Y,N6Z,
@@ -406,7 +408,7 @@ C--------------------------
      5        IOFC   ,NNOD   ,AREA     ,G      ,SHF   ,
      6        MSTG   ,DMELTG ,JSMS     ,PTG    ,IGTYP ,
      7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT,MTN   ,
-     8        PM     ,MAT(JFT))
+     8        PM     ,MAT(JFT), NEL     ,ZOFFSET)
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------

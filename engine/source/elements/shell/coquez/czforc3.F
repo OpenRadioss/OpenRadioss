@@ -230,7 +230,8 @@ C--------------------------------
      .  MX13T(MVSIZ), MX23T(MVSIZ), MX34T(MVSIZ),
      .  MY13T(MVSIZ), MY23T(MVSIZ), MY34T(MVSIZ), Z1T(MVSIZ),
      .  A_IT(MVSIZ),F_DEF(MVSIZ,8), U13(MVSIZ,2),U24(MVSIZ,2),
-     .  AXYZ(MVSIZ,4),WXY(MVSIZ),FAC58(MVSIZ,2)  
+     .  AXYZ(MVSIZ,4),WXY(MVSIZ),FAC58(MVSIZ,2) 
+       my_real , DIMENSION (NEL) :: ZOFFSET
 C--- Variables pour le non-local
       INTEGER :: NDDL, K, INOD(4),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .           IPOS(4), L_NLOC, IMAT, INLOC,NUPARAM,IADBUF,IINT
@@ -428,7 +429,8 @@ C
      6              NPTTOT ,DT1C    ,DT1     ,IHBE    ,AMU     ,
      7              GSR    ,A11SR   ,A12SR   ,NUSR    ,SHFSR   ,
      8              KRZ    ,IGEO    ,A11R , ISUBSTACK , STACK%PM,
-     9              UPARAM ,DIRA    ,DIRB    ,UVAR    ,FAC58   )
+     9              UPARAM ,DIRA    ,DIRB    ,UVAR    ,FAC58   ,
+     A              NEL     ,ZOFFSET )
 C       
       CALL CNCOEFORT(JFT    ,JLT    ,PM        ,MAT     ,GEO     ,
      1               PID    ,MTN    ,NPTTOT    ,HM      ,HF      ,
@@ -595,7 +597,7 @@ C
      5        IOFC  ,NNOD ,AREA,G  ,SHF   ,
      6        MSC   ,DMELC,JSMS,BID , IGTYP ,
      7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT,MTN   ,
-     8        PM     ,MAT(JFT))
+     8        PM     ,MAT(JFT),NEL, ZOFFSET)
 c-------------------------------
          CALL CZFINTCE(JFT  ,JLT  ,THK0 ,THK02,A_I     ,X13     ,
      2                 X24  ,Y13  ,Y24  ,Z1   ,MX23    ,MX13    ,

@@ -211,6 +211,8 @@ C-----------------------------------------------
      .   F_DEF(MVSIZ,8), U21X(MVSIZ),U31X(MVSIZ),U21Y(MVSIZ),U31Y(MVSIZ),
      .   RZ13(MVSIZ),RZ23(MVSIZ),BMRZT(MVSIZ,8),WKXY(MVSIZ),
      .   ECOS(MVSIZ),ESIN(MVSIZ),NFOR(NEL,5),NMOM(NEL,3),TG3(MVSIZ)
+      !
+       my_real , DIMENSION(NEL) :: ZOFFSET
 !       SP issue :
         REAL(kind=8), DIMENSION(MVSIZ) ::X1G,X2G,X3G
         REAL(kind=8), DIMENSION(MVSIZ) ::Y1G,Y2G,Y3G
@@ -407,7 +409,7 @@ c
      4             G      ,YM      ,A11    ,A12      ,GBUF%THK,
      5             SSP    ,RHO     ,VOL0   ,GS       ,MTN     ,
      6             ITHK   ,NPTTOT  ,ISMSTR ,VOL00    ,IGEO    ,
-     7             A11R   ,ISUBSTACK , STACK%PM)
+     7             A11R   ,ISUBSTACK , STACK%PM,NEL, ZOFFSET )
 c
       CALL C3DEFO3(JFT   ,JLT   ,VL1   ,VL2   ,VL3   ,
      .             IXTG  ,ISH3N ,PX1   ,PY1   ,PY2   ,
@@ -533,7 +535,8 @@ C--------------------------
      4        ALPE   ,MSTG      ,DMELTG  ,JSMS   ,PTG     ,
      5        SHF    ,IGTYP     ,IGMAT   ,G      ,A11     ,
      6        A11R   ,GBUF%G_DT ,GBUF%DT ,ALDT   ,THK0    ,
-     7        AREA   ,NGL       ,IMAT    ,MTN    )
+     7        AREA   ,NGL       ,IMAT    ,MTN    ,NEL      , 
+     8        ZOFFSET )
 c
 C--------keep  GBUF%FOR,GBUF%MOM in new local sys as LBUF%SIG    
       CALL C3SROTO3(JFT    ,JLT    ,ECOS    ,ESIN      ,GBUF%FOR,

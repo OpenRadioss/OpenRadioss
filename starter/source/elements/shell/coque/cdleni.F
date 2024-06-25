@@ -74,12 +74,35 @@ C-----------------------------------------------
      .   AL2(MVSIZ), AL3(MVSIZ), AL4(MVSIZ), AL5(MVSIZ), AL6(MVSIZ)
       my_real
      .   VISCMX,A11,A11R,A12,B1,B2,C1,VV,STI,STIR,VISCDEF,DTDYN,RHO, 
-     .   YOUNG,NU,BULK,GMAX,THKLY,POSLY,FAC
+     .   YOUNG,NU,BULK,GMAX,THKLY,POSLY,FAC,Z0
+       my_real, DIMENSION(MVSIZ) :: ZOFFSET
 C======================================================================|
       IGTYP = NINT(GEO(12,IPROP))
       IGMAT = IGEO(98,IPROP)
       IPGMAT = 700
       SSP(LFT:LLT) = ZERO
+      Z0 = GEO(199,IPROP)
+      ZOFFSET(LFT:LLT)  = ZERO
+      SELECT CASE(IGTYP)
+        CASE (1,9,10,11,16)
+           DO I=LFT,LLT
+            ZOFFSET(I) = Z0
+           ENDDO 
+        CASE (17,51,52)
+            IPOS   = IGEO(99,IPROP)
+             IF(IPOS == 2) THEN
+               DO I=LFT,LLT
+                 ZOFFSET(I) = Z0 - HALF*THK(I)
+               ENDDO 
+              ELSEIF (IPOS== 3 .OR. IPOS == 4) THEN
+               DO I=LFT,LLT
+                 Z0= HALF*THK(I)
+                 ZOFFSET (I) = Z0
+               ENDDO  
+             ENDIF    
+        CASE DEFAULT 
+          ZOFFSET(LFT:LLT)  = ZERO
+      END SELECT
 c
       IF ((IGTYP == 11 .AND. IGMAT < 0) .OR. IGTYP == 16) THEN
           IPMAT = 100
@@ -327,7 +350,8 @@ C----------------------------------------------------------
                VV = VISCMX * VISCMX
                FAC = MAX(B1,B2) / (AREA(I) * VV)
                STI =  FAC * THK(I) * A11
-               STIR = FAC*A11R * THK(I)*(THK(I)**2 +  AREA(I))*ONE_OVER_12
+               STIR = FAC*A11R * THK(I)*((THK(I)**2 +  AREA(I))*ONE_OVER_12 + 
+     .                                     ZOFFSET(I)*ZOFFSET(I) ) 
                STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
                STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
                STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI
@@ -394,7 +418,8 @@ C----------------------------------------------------------
                VV = VISCMX * VISCMX
                FAC = MAX(B1,B2) / (AREA(I) * VV)
                STI =  FAC * THK(I) * A11
-               STIR = FAC * A11R * THK(I)*(THK(I)**2 +  AREA(I))*ONE_OVER_12
+               STIR = FAC * A11R * THK(I)*((THK(I)**2 +  AREA(I))*ONE_OVER_12 + 
+     .                                     ZOFFSET(I)*ZOFFSET(I) ) 
                STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
                STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
                STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI

@@ -34,7 +34,8 @@ Chd|====================================================================
      4                 ALPE  ,MSTG   ,DMELTG ,JSMS   ,PTG    ,
      5                 SHF   ,IGTYP  ,IGMAT  ,G      ,A1     ,
      6                 A11R  ,G_DT   ,DTEL   ,ALDT   ,THK0   ,
-     7                 AREA  ,NGL    ,IMAT   ,MTN    )
+     7                 AREA  ,NGL    ,IMAT   ,MTN    ,NEL   ,
+     8                 ZOFFSET)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,8 +66,9 @@ C-----------------------------------------------
      .   PM(NPROPM,*), OFF(*),STI(*),STIR(*),OFFG(*),SSP(MVSIZ),
      .   VISCMX(MVSIZ),DT2T, MSTG(*), DMELTG(*), PTG(3,*),SHF(*), G(MVSIZ),
      .   A11R(MVSIZ),A1(MVSIZ),ALDT(MVSIZ),THK0(MVSIZ),AREA(MVSIZ),ALPE(MVSIZ)
+      INTEGER,INTENT(IN)    :: G_DT, NEL
       my_real,DIMENSION(JLT), INTENT(INOUT) :: DTEL
-      INTEGER,INTENT(IN)    :: G_DT
+      my_real,DIMENSION(NEL),INTENT(IN)  :: ZOFFSET
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -92,8 +94,8 @@ C
                  ATHK   = AREA(I) * THK0(I)
                  STI(I) = ATHK * A1(I) / ALDT(I)**2
                  FAC =A11R(I)*AREA(I)/ ALDT(I)**2
-                 STIR(I) = FAC*(ONE_OVER_12* THK0(I)**3
-     .                 + THK0(I)*HALF * SHF(I) * AREA(I) * G(I)/A1(I))
+                 STIR(I) = FAC*(ONE_OVER_12* THK0(I)**3 + THK0(I)*ZOFFSET(I)*ZOFFSET(I)
+     .                        + THK0(I)*HALF * SHF(I) * AREA(I) * G(I)/A1(I))
                 ENDIF
           ENDDO       
         ELSE
@@ -132,7 +134,7 @@ C
                 ATHK   = AREA(I) * THK0(I)
                 STI(I) = ATHK * A1(I) / ALDT(I)**2
                 FAC = A11R(I)*AREA(I)/ ALDT(I)**2 
-                STIR(I) = FAC * (ONE_OVER_12* (THK0(I)**3)
+                STIR(I) = FAC * (ONE_OVER_12* (THK0(I)**3) + THK0(I)*ZOFFSET(I)*ZOFFSET(I)
      .                 + HALF * THK0(I)*SHF(I) * AREA(I) * G(I)/A1(I))
               ENDIF
            END DO 

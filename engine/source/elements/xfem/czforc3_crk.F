@@ -202,6 +202,8 @@ C--------------------------------
      .   THKE0(MVSIZ),XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),
      .   YL2(MVSIZ),YL3(MVSIZ),YL4(MVSIZ),FAC58(MVSIZ,2)
       my_real  BID,THKR
+      !
+      my_real, DIMENSION(MVSIZ) :: ZOFFSET
 C---
       INTEGER, ALLOCATABLE, DIMENSION(:) :: ELCRKINI
       my_real, 
@@ -401,7 +403,8 @@ C
      6                NPTT   ,DT1C    ,DT1     ,IHBE   ,AMU    ,
      7                GSR    ,A11SR   ,A12SR   ,NUSR   ,SHFSR  ,
      8                KRZ    ,IGEO    ,A11R  ,ISUBSTACK, STACK%PM, 
-     9                UPARAM ,DIRA    ,DIRB    ,UVAR   ,FAC58  )
+     9                UPARAM ,DIRA    ,DIRB    ,UVAR   ,FAC58  ,
+     A                NEL     ,ZOFFSET)
 C
         CALL CNCOEFORT(JFT    ,JLT    ,PM       ,MAT     ,GEO    ,  
      1                 PID    ,MTN    ,NPTT     ,HM      ,HF     ,  
@@ -503,7 +506,7 @@ C
      5             IOFC   ,NNOD   ,AREA   , G      ,SHF   ,
      6             MSC    ,DMELC  ,JSMS   , BID    ,IGTYP ,
      7             IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT,MTN   ,
-     8             PM     ,MAT(JFT))
+     8             PM     ,MAT(JFT),NEL     ,ZOFFSET)
         CALL CZFINTCE(JFT  ,JLT  ,THK0 ,THK02,A_I    ,X13    ,
      2                X24  ,Y13  ,Y24  ,Z1   ,MX23   ,MX13   ,
      3                MX34 ,MY13 ,MY23 ,MY34 ,FORG   ,MOMG   ,

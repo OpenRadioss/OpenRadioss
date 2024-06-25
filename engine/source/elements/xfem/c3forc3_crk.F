@@ -186,6 +186,7 @@ c     indx utilise localement contrairement aux coques 4n
      .   RLZ(MVSIZ,3),WXY(MVSIZ),MLZ(MVSIZ,3),KRZ(MVSIZ),
      .   B0RZ(MVSIZ,3),BKRZ(MVSIZ,2),BERZ(MVSIZ,2),BM0RZ(MVSIZ,3,2),
      .   ECOS(MVSIZ),ESIN(MVSIZ),A11R(MVSIZ),THKE0(MVSIZ),ALDT(MVSIZ)
+      my_real   , DIMENSIOn(NEL) :: ZOFFSET
       my_real 
      .   BID,THKR,F_DEF(MVSIZ,8),WKXY(MVSIZ)
 !       SP issue :
@@ -377,7 +378,7 @@ c
      4               G      ,YM      ,A11    ,A12      ,THKG    ,
      5               SSP    ,RHO     ,VOL0   ,GS       ,MTN     ,
      6               ITHK   ,NPTT    ,ISMSTR ,VOL00    ,IGEO    ,
-     7               A11R   , ISUBSTACK, STACK%PM)
+     7               A11R   , ISUBSTACK, STACK%PM, NEL     ,ZOFFSET)
 c
         CALL C3DEFO3(JFT  ,JLT  ,VL1  ,VL2  ,VL3  ,
      .               IXTG ,ISH3N,PX1  ,PY1  ,PY2  ,
@@ -457,7 +458,8 @@ C--------------------------
      4          ALPE     ,MSTG      ,DMELTG  ,JSMS   ,PTG     ,
      5          SHF      ,IGTYP     ,IGMAT   ,G     ,A11      ,
      6          A11R     ,GBUF%G_DT ,GBUF%DT ,ALDT  ,THK0     ,
-     7          AREA     ,NGL       ,IMAT    ,MTN   )
+     7          AREA     ,NGL       ,IMAT    ,MTN   ,NEL      ,
+     8          ZOFFSET)
 
 C--------------------------
 C     BILANS PAR MATERIAU

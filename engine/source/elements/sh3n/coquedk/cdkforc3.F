@@ -171,6 +171,7 @@ c  indx utilise localement contrairement aux coques 4n
      .   Y1G(MVSIZ), Y2G(MVSIZ), Y3G(MVSIZ),
      .   Z1G(MVSIZ), Z2G(MVSIZ), Z3G(MVSIZ),
      .   X2L(MVSIZ),Y2L(MVSIZ),X3L(MVSIZ),Y3L(MVSIZ)
+       my_real , DIMENSION(NEL) ::  ZOFFSET
       my_real, 
      :    ALLOCATABLE, DIMENSION(:), TARGET :: DIRA,DIRB
       my_real,
@@ -322,7 +323,8 @@ C---
      4             A11    ,A12     ,GBUF%THK,THKE   ,SSP     ,
      5             RHO    ,VOL00   ,GS     ,MTN     ,ITHK    ,
      6             NPTTOT ,DT1C    ,DT1    ,IHBE    ,AMU     ,
-     7             KRZ    ,IGEO    ,A11R   ,ISUBSTACK, STACK%PM)
+     7             KRZ    ,IGEO    ,A11R   ,ISUBSTACK, STACK%PM,
+     8             NEL    ,ZOFFSET )
       CALL CDKDERIC3(JFT ,JLT, X2L,Y2L,X3L,Y3L,AREA2,ALPE,ALDT,
      1              PX2,PY2,PX3,PY3,PX,PY,PXY,PYY,VOL0,VOL00,
      2              NU,THK02)
@@ -497,7 +499,7 @@ C--------------------------
      5        IOFC   ,NNOD   ,AREA     ,G       ,SHF   ,
      6        MSTG   ,DMELTG ,JSMS     ,PTG     ,IGTYP ,
      7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT,MTN   ,
-     8        PM     ,MAT(JFT))
+     8        PM     ,MAT(JFT),NEL     ,ZOFFSET  )
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------

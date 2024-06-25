@@ -35,7 +35,8 @@ Chd|====================================================================
      6                    NPT    ,DT1C    ,DT1    ,IHBE   ,AMU    ,
      7                    GSR    ,A11SR   ,A12SR  ,NUSR   ,SHFSR  ,
      8                    KRZ    ,IGEO    ,A11R  ,ISUBSTACK, PM_STACK,
-     9                    UPARAM ,DIRA    ,DIRB   ,UVAR   ,FAC58  )
+     9                    UPARAM ,DIRA    ,DIRB   ,UVAR   ,FAC58  ,
+     A                    NEL    ,ZOFFSET )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,6 +55,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,MTN,ITHK,NPT,IHBE,ISUBSTACK
+      INTEGER , INTENT(IN) :: NEL
       INTEGER MAT(*), PID(*), IGEO(NPROPGI,*)
       my_real
      .   GEO(NPROPG,*), PM(NPROPM,*), AREA(*),
@@ -63,13 +65,14 @@ C-----------------------------------------------
      .   GSR(*), A11SR(*), A12SR(*), NUSR(*), SHFSR(*),KRZ(*),
      .   A11R(*),PM_STACK(20,*),UPARAM(*),
      .   DIRA(JLT,*),DIRB(JLT,*),UVAR(JLT,*),FAC58(MVSIZ,2)
+       my_real , INTENT(OUT) , DIMENSION(NEL):: ZOFFSET 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ISH,MX,IPID,IGTYP,IPGMAT,IGMAT
+      INTEGER I,J,ISH,MX,IPID,IGTYP,IPGMAT,IGMAT,IPOS
       my_real FSH,VISCDEF,FAC1TMP,KFAC,DN,K58(3),
      .        RFAC,RFAT,R1,R2,R3,S1,S2,S3,T1,T2,T3,RS1,RS2,RS3,
-     .        R12,S12,R22,S22,R3R3,S3S3,E11,E22,EMIN,K58I
+     .        R12,S12,R22,S22,R3R3,S3S3,E11,E22,EMIN,K58I, Z0
 C-----------------------------------------------
       IF(ITHK>0.AND.ISMDISP==0)THEN
         DO I=JFT,JLT
@@ -257,6 +260,28 @@ c
         IF(DN == ZERO) DN = ZEP01 + FIVEEM3 ! 0.015 default value
       ENDIF
       AMU(JFT:JLT) = DN
+      Z0 = GEO(199,PID(1))
+      ZOFFSET(JFT:JLT)  = ZERO
+      SELECT CASE(IGTYP)
+        CASE (1,9,10,11,16)
+           DO I=JFT,JLT
+            ZOFFSET(I) = Z0
+           ENDDO 
+        CASE (17,51,52)
+            IPOS   = IGEO(99,PID(1))
+             IF(IPOS == 2) THEN
+               DO I=JFT,JLT
+                 ZOFFSET(I) = Z0 - HALF*THK0(I)
+               ENDDO 
+              ELSEIF (IPOS== 3 .OR. IPOS == 4) THEN
+               DO I=JFT,JLT
+                 Z0= HALF*THK0(I)
+                 ZOFFSET (I) = Z0
+               ENDDO  
+             ENDIF    
+        CASE DEFAULT 
+            ZOFFSET(JFT:JLT)  = ZERO
+      END SELECT
 c-----------
       RETURN
       END
@@ -275,7 +300,8 @@ Chd|====================================================================
      4                   A11     ,A12     ,THK     ,THKE    ,SSP     ,
      5                   RHO     ,VOLG    ,GS      ,MTN     ,ITHK    ,
      6                   NPT     ,DT1C    ,DT1     ,IHBE    ,AMU     ,
-     7                   KRZ     ,IGEO    ,A11R    ,ISUBSTACK,PM_STACK)
+     7                   KRZ     ,IGEO    ,A11R    ,ISUBSTACK,PM_STACK,
+     8                   NEL     ,ZOFFSET)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -291,18 +317,20 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,MTN,ITHK,NPT,IHBE,ISUBSTACK 
       INTEGER MAT(*), PID(*), IGEO(NPROPGI,*)
+      INTEGER , INTENT(IN) :: NEL
 C     REAL
       my_real GEO(NPROPG,*), PM(NPROPM,*), OFF(*), AREA(*),
      .   SHF(*),THK0(*),THK02(*),THK(*),THKE(*),
      .   NU(*),G(*),YM(*),A11(*),A12(*),AMU(*),
      .   VOLG(*),SSP(*),RHO(*),GS(*),DT1C(*),DT1,KRZ(*),
      .   A11R(*),PM_STACK(20,*)
+      my_real,  DIMENSION(NEL) , INTENT(OUT) :: ZOFFSET
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISH,MX,IPID,J,IGTYP,IPGMAT,IGMAT
+      INTEGER I,ISH,MX,IPID,J,IGTYP,IPGMAT,IGMAT,IPOS
 C     REAL
-      my_real FSH,VISCDEF,FAC1TMP,KFAC,DN      
+      my_real FSH,VISCDEF,FAC1TMP,KFAC,DN , Z0   
 C-----------------------------------------------
       IF(ITHK>0.AND.ISMDISP==0)THEN
         DO I=JFT,JLT
@@ -407,6 +435,28 @@ c
         ENDIF    
       ENDIF
       AMU(JFT:JLT) = DN
+      Z0 = GEO(199,PID(1))
+      ZOFFSET(JFT:JLT)  = ZERO
+      SELECT CASE(IGTYP)
+        CASE (1,9,10,11,16)
+           DO I=JFT,JLT
+            ZOFFSET(I) = Z0
+           ENDDO 
+        CASE (17,51,52)
+            IPOS   = IGEO(99,PID(1))
+             IF(IPOS == 2) THEN
+               DO I=JFT,JLT
+                 ZOFFSET(I) = Z0 - HALF*THK0(I)
+               ENDDO 
+              ELSEIF (IPOS== 3 .OR. IPOS == 4) THEN
+               DO I=JFT,JLT
+                 Z0= HALF*THK0(I)
+                 ZOFFSET (I) = Z0
+               ENDDO  
+             ENDIF    
+        CASE DEFAULT 
+          ZOFFSET(JFT:JLT)  = ZERO
+      END SELECT
 c-----------
       RETURN
       END
