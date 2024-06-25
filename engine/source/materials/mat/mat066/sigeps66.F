@@ -210,11 +210,12 @@ c------------------------------------------------
 c------------------------------------------------   
       E(1:NEL) = ET   
       G(1:NEL) = GT   
-      C1T  = ET/THREE/(ONE - TWO*NU)
+      C1T = ET/THREE/(ONE - TWO*NU)
       IF(EC > ZERO)THEN
         DO I=1,NEL  
 c         P(I) = C1 * (RHO(I)/RHO0(I)- ONE)
           P(I) = C1T * AMU(I)
+          C1T  = MAX(C1T,EC/THREE/(ONE - TWO*NU))
           IF(P(I) <=  - RPCT * PT) THEN
             E(I)   = ET
           ELSEIF(P(I) >= RPCT *PC) THEN
