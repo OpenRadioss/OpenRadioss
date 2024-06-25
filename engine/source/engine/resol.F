@@ -2356,11 +2356,13 @@ C Init var parallel SMP
            CALL MY_BARRIER()
             IF(NINTER25/=0.AND.INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN
               IF(ITSK==0) THEN
+                CHECK_NEIGH_FLAG = SHOOT_STRUCT%NUMBER_NEW_SURF
                 IF(NEED_COMM_INT25_SOLID_EROSION) THEN
-                  CHECK_NEIGH_FLAG = SHOOT_STRUCT%NUMBER_NEW_SURF
                   CALL SPMD_ALLREDUCE(CHECK_NEIGH_FLAG,CHECK_NEIGH_FLAG_RES,1,SPMD_MAX,COMM_INT25_SOLID_EROSION)
-               ENDIF
-               IF(CHECK_NEIGH_FLAG_RES > 0 ) THEN
+                ELSEIF(NSPMD==1) THEN
+                CHECK_NEIGH_FLAG_RES = CHECK_NEIGH_FLAG
+                ENDIF
+                IF(CHECK_NEIGH_FLAG_RES > 0 ) THEN
                   call get_neighbour_surface( ispmd,nspmd,ninter25,npari,ninter,  
      .                                        nbintc,nixs,numnod,numels,s_elem_state,nbddedgt,nbddedg_max,  
      .                                        elem_state,ipari,intlist,itab,itabm1,newfront,ixs,iad_elem,x,         
@@ -5387,9 +5389,12 @@ C WA local  : utilise de 1 a NUMNOD
             CALL MY_BARRIER()
             IF(NINTER25/=0.AND.INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN
               IF(ITSK==0) THEN
+                CHECK_NEIGH_FLAG = SHOOT_STRUCT%NUMBER_NEW_SURF
                 IF(NEED_COMM_INT25_SOLID_EROSION) THEN
                   CHECK_NEIGH_FLAG = SHOOT_STRUCT%NUMBER_NEW_SURF
                   CALL SPMD_ALLREDUCE(CHECK_NEIGH_FLAG,CHECK_NEIGH_FLAG_RES,1,SPMD_MAX,COMM_INT25_SOLID_EROSION)
+                ELSEIF(NSPMD==1) THEN
+                  CHECK_NEIGH_FLAG_RES = CHECK_NEIGH_FLAG
                 ENDIF
                IF(CHECK_NEIGH_FLAG_RES > 0 ) THEN
                   call get_neighbour_surface( ispmd,nspmd,ninter25,npari,ninter,  
