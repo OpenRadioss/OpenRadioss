@@ -1301,7 +1301,7 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
     fprintf(csvFile,"\n");
 
     for(i=0;i<*cptData-1;i++){
-        fprintf(csvFile,"%f",allData[i]);
+        fprintf(csvFile,"%e",(double)allData[i]);
         if((i+1)%( (*cptData) / *nbTimeStep) == 0 )
         { 
             fprintf(csvFile,"\n");
