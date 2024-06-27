@@ -23,8 +23,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  MAT_ELEM_MOD                  modules/mat_elem/mat_elem_mod.F
 Chd|-- called by -----------
+Chd|        C3EPSINI                      starter/source/elements/sh3n/coque3n/c3epsini.F
 Chd|        C3INIT3                       starter/source/elements/sh3n/coque3n/c3init3.F
+Chd|        CBAINIT3                      starter/source/elements/shell/coqueba/cbainit3.F
+Chd|        CDKEPSINI                     starter/source/elements/sh3n/coquedk/cdkepsini.F
+Chd|        CDKINIT3                      starter/source/elements/sh3n/coquedk/cdkinit3.F
+Chd|        CEPSINI                       starter/source/elements/shell/coque/cepsini.F
 Chd|        CHECK_PTHICKFAIL              starter/source/materials/fail/check_pthickfail.F
+Chd|        CMAINI3                       starter/source/elements/sh3n/coquedk/cmaini3.F
+Chd|        CMLAWI                        starter/source/elements/shell/coque/cepsini.F
+Chd|        CNEPSINI                      starter/source/elements/shell/coqueba/cnepsini.F
 Chd|        CONTRL                        starter/source/starter/contrl.F
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        ELBUF_INI                     starter/source/elements/elbuf_init/elbuf_ini.F

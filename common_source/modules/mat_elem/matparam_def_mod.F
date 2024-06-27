@@ -26,8 +26,6 @@ Chd|-- called by -----------
 Chd|        MAT_ELEM_MOD                  common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        C3GRHEAD                      starter/source/elements/sh3n/coque3n/c3grhead.F
 Chd|        C3GRTAILS                     starter/source/elements/sh3n/coque3n/c3grtails.F
-Chd|        CBAINIT3                      starter/source/elements/shell/coqueba/cbainit3.F
-Chd|        CDKINIT3                      starter/source/elements/sh3n/coquedk/cdkinit3.F
 Chd|        CFAILINI                      starter/source/elements/shell/coque/cfailini.F
 Chd|        CFAILINI4                     starter/source/elements/shell/coque/cfailini.F
 Chd|        CGRHEAD                       starter/source/elements/shell/coque/cgrhead.F
@@ -163,7 +161,9 @@ Chd|        INITWG_TRI                    starter/source/spmd/domain_decompositi
 Chd|        INIT_MAT_KEYWORD              starter/source/materials/mat/init_mat_keyword.F
 Chd|        INI_INIMAP1D                  starter/source/initial_conditions/inimap/ini_inimap1d.F
 Chd|        LAW104_UPD                    starter/source/materials/mat/mat104/law104_upd.F
+Chd|        LAW158_UPD                    starter/source/materials/mat/mat158/law158_upd.F
 Chd|        LAW190_UPD                    starter/source/materials/mat/mat190/law190_upd.F
+Chd|        LAW58_UPD                     starter/source/materials/mat/mat058/law58_upd.F
 Chd|        LAW70_UPD                     starter/source/materials/mat/mat070/law70_upd.F
 Chd|        LAW76_UPD                     starter/source/materials/mat/mat076/law76_upd.F
 Chd|        LAW77_UPD                     starter/source/materials/mat/mat077/law77_upd.F

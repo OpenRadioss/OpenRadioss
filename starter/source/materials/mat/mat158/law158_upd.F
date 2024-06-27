@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FUNC_SLOPE                    source/tools/curve/func_slope.F
 Chd|        MATFUN_USR2SYS                source/materials/tools/matfun_usr2sys.F
+Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
