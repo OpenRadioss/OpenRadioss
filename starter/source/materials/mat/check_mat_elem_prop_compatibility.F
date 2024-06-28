@@ -63,6 +63,8 @@ C-----------------------------------------------
       INTEGER :: NG,IGTYP,PID,PROP_ID,NLAY,IL,IMAT,ILAW,IEOS,MAT_ID,K,ITY,ISNOD,NFT,IVISC
       LOGICAL :: COMPAT_ELEM,COMPAT_PROP,COMPAT_EOS,COMPAT_VISC
       CHARACTER (LEN = 10) :: ELTYP
+      PID = -HUGE(PID)
+      IMAT = -HUGE(IMAT) 
 c
       !===============================================================================
       ! CHECK MATERIAL AND PROPERTY COMPATIBILITY

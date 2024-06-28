@@ -77,6 +77,8 @@ c
       END DO
 c     we assume there's only one NIC-Nij sensor in the model
       IF (ISENS > 0) THEN   
+        MY = ZERO
+        FZ = ZERO
         DO I = 1,NEL
           SPRING_ID = IXR(6,I)
           IF (SENSOR_TAB(ISENS)%IPARAM(1) == SPRING_ID) THEN

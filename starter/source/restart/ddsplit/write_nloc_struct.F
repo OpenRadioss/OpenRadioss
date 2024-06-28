@@ -71,6 +71,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IADS,IADC,IADTG
 C=======================================================================
       ! Flag for non-local computation 
+      LCNENL_L = 0
       ILOC   = NLOC_DMG%IMOD
 c
       ! Flag = 0, no non-local computation

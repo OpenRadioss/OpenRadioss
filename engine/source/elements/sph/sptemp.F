@@ -690,6 +690,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       Prepare le gradient de temperature sur les particules symetriques.
 C-----------------------------------------------
+      OX = ZERO
+      OY = ZERO
+      OZ = ZERO
+      UX = ZERO
+      UY = ZERO
+      UZ = ZERO
+      VX = ZERO
+      VY = ZERO
+      VZ = ZERO
+      WX = ZERO
+      WY = ZERO
+      WZ = ZERO
       DO NC=1,NSPCOND
         IC=ISPCOND(2,NC)
         IS=ISPCOND(3,NC)

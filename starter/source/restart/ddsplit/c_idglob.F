@@ -59,6 +59,7 @@ C-----------------------------------------------
       TAG(1:NUMEL) = 0
 
       ICOUNT = 0
+      NELEM_L = 0
       DO NG = 1, NGROUP
          NEL = IPARG(2, NG)
          NFT = IPARG(3, NG)

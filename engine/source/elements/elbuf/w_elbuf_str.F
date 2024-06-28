@@ -106,6 +106,7 @@ C-----------------------------------------------
       TYPE(BUF_NLOCTS_)  , POINTER :: BUFNLTS
       TYPE(L_BUFEL_DIR_) , POINTER :: LBUF_DIR
 C=======================================================================
+      NPG = 0
       DO NG=1,NGROUP
 c----
           ITY    = IPARG(5,NG)
@@ -126,6 +127,7 @@ C
           NPT  = ELBUF%NLAY*ELBUF%NPTR*ELBUF%NPTS*ELBUF%NPTT
 C
 c---------------------------------------------------    
+          NPG = 0
           IF (ITY == 1 .OR. ITY == 2 .OR. ITY == 51 .OR.
      .        ITY == 101) THEN
             NPG = ELBUF%NPTR*ELBUF%NPTS*ELBUF%NPTT

@@ -368,8 +368,9 @@ C... Check the yield condition according to Tsay Wu.
 C
 !!        SEQ_OUTPUT(I) = F(I)
 C             
-        IF(F(I)<=ONE) SCALE=ONE
-        IF(F(I)>ONE)THEN
+        IF(F(I)<=ONE) THEN
+          SCALE=ONE
+        ELSE !IF(F(I)>ONE)THEN
           BB= F1(I)*SIGNXX(I) + F2(I)*SIGNYY(I)+ F2(I)*SIGNZZ(I)
           CC = -ONE
           AA =

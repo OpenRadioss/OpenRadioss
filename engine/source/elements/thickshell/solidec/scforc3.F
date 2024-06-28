@@ -386,6 +386,10 @@ C=======================================================================
       IR = 1
       IS = 1
       IT = 1
+      IPTHK = 0
+      IPPOS = 0
+      MTN0= 0
+
       TEMPEL(1:MVSIZ) = ZERO
       INLOC = IPARG(78,NG)
       ALLOCATE(VAR_REG(NEL,NLAY))
@@ -867,7 +871,7 @@ c
       END DO
 C-----------------------------
       IF (IGTYP == 22) THEN
-        MTN = MTN0
+        MTN = MTN0 !is MTN0 always initialized here? (initialization only for ISORTH>0) 
         DO I=1,NEL
           MXT(I)=MXT0(I)
         ENDDO

@@ -99,6 +99,7 @@ C-----------------------------------------------
      .       INVTREF
        DATA WTYPE /1.6 ,1. ,1. ,.9 ,1.1 ,1.4 ,0.65 ,.9 ,2.0/   
 C-----------------------------------------------
+      NFUNC = ZERO
       CALL BIDON()
 !     DD_OPTIMIZATION = 0 --> default case, DD optimized for Broadwell processor
 !     DD_OPTIMIZATION = 1 --> DD optimized for Skylake processor 

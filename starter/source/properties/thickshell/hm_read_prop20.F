@@ -105,6 +105,7 @@ C-----hide and removed flags:
 C---- will branche later     
       ICPRE = 0  
       ISTRAIN =1 
+      JCVT = 0
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------

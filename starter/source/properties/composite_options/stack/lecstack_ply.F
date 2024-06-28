@@ -268,8 +268,8 @@ C
           DO J =1 , N1
 C ply of stack JPID              
             JPID = STACK_INFO(NUMS)%PID(J)
+            lFOUND = .FALSE.
             IF(JPID > 0)THEN
-              lFOUND = .FALSE.
               DO K=1,NUMPLY
                 IF (IGEO_STACK(1,NUMSTACK + K) == JPID) THEN
                     STACK_INFO(NUMS)%PID(J) = NUMSTACK + K

@@ -79,7 +79,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN ,ITASK, RETRI, NRTM_T, ESHIFT
+      INTEGER, INTENT(IN) :: ITASK
+      INTEGER NIN , RETRI, NRTM_T, ESHIFT
       INTEGER IPARI(NPARI,NINTER),  ITAB(*),
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),NODNX_SMS(*), 

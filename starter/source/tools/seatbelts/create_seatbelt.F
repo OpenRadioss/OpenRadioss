@@ -86,6 +86,7 @@ C-----------------------------------------------
 C
 C-----------------------------------------------
 C--   Check of sensor (not made in hm_read_slipring or hm_read_retractor as sensor are not yet read)
+      NB_2D_SEATBELT = 0
 C
       IF (IDDLEVEL == 0) THEN
 C
@@ -295,6 +296,7 @@ C
         FRAM_TAB(1:COMPT_FRAM) = 0
         COMPT_BELT_END = 0
         COMPT_FRAM = 0
+        NODE_LONGI = -HUGE(NODE_LONGI)
         DO I=1,NUMNOD
           IF ((TAG_NOD_SHELL(I) < 2).AND.(TAG_NOD_SPRING(I)==1).AND.(TAG_NOD(I)==0)) THEN
             COMPT_BELT_END = COMPT_BELT_END + 1

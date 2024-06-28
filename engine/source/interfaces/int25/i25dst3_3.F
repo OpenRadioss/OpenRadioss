@@ -404,7 +404,7 @@ C
             IBX=MAX(IB1,IB2)
             IF(IB1/=0)THEN
               IX =I1
-            ELSEIF(IB2/=0)THEN
+            ELSE !IF(IB2/=0)THEN
               IX =I2
             END IF
 
@@ -566,7 +566,7 @@ C
               IX =2
               IY =3
               IZ =1
-            ELSEIF(IB3/=0)THEN
+            ELSE !IF(IB3/=0)THEN
               IX =3
               IY =1
               IZ =2

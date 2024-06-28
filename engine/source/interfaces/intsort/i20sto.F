@@ -247,6 +247,7 @@ C-----------------------------------------------
 C elimination des couples deja trouves dans 1 boite precedente
 C-----------------------------------------------
         I_STOK = II_STOKE
+        IAD0 = 0
         DO I=1,J_STOK
           IF(PENE(I)>ZERO)THEN
             IAD=ADDCM(PROV_M(I))

@@ -76,6 +76,9 @@ C-----------------------------------------------
      .       VXX,VXY,VXZ,VYY,VYZ,VZZ
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
+      VX = ZERO
+      VY = ZERO
+      VZ = ZERO
       DO NC=1,NSPCOND
       ILEV=ISPCOND(1,NC)
       IF(ILEV==1)THEN

@@ -260,6 +260,7 @@ C     Initial condition for Newton method
                NORM_V0 = ABS(V0) 
                CONVERGED = .FALSE.
                ITER = 0
+               ERROR2 = ZERO
                ITER_MAX = NMAX
                DO WHILE (.NOT. CONVERGED .AND. ITER <= ITER_MAX)
                   CALL JC(UVAR(I,1)+V0,TEMP(I),A,B,CM,CN,TREF,TM,EPSM,SIGMAM,JC_VAL,DJC_VAL)

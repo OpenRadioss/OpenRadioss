@@ -1585,7 +1585,7 @@ C--------------------------------------
 !   -------------------------------------
 !   /LOAD/PCYL : add 1 contribution per node per segment
 !   ------------
-    ! loop over the /LOAD/PCYL
+!   ! loop over the /LOAD/PCYL
       DO I=1,LOADS%NLOAD_CYL
             NUMBER_SEGMENT = LOADS%LOAD_CYL(I)%NSEG ! number of segment for the PCYL I
             ! ------------
@@ -1613,6 +1613,9 @@ C
 C-----------------------------------------------
 C Remplissage de CEL : connection Element/Local
 C-----------------------------------------------
+      OFF = 0
+      NIN = 0
+      ITY_OLD = 0
       DO PROC = 1, NSPMD
         OFF = 0
         NIN = 0

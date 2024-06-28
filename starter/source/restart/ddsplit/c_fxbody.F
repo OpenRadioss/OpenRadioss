@@ -221,6 +221,8 @@ C
 c initially was set in starter0, but re-set here for multi threading compatibility
       IFXM_L = 27000
       IFXS_L = 28000 
+      NELS_L  = 0
+
 
       WRITE(CIT,'(I4.4)')ITASK
       SCR_FILE_NAME ='SCR_FXM_'//ROOTNAM(1:ROOTLEN)//'_'//CIT(1:4)//'.scr'

@@ -83,6 +83,8 @@ c    SENSOR%VAR(9)   = current total internal energy
 c    SENSOR%VAR(10)  = current total kinetic energy
 C=======================================================================
       IF (SENSOR%STATUS == 1) RETURN   ! already activated
+      AVG_EK = ZERO
+      AVG_EI = ZERO
 c
       IPART  = SENSOR%IPARAM(1)
       ISUBS  = SENSOR%IPARAM(2)

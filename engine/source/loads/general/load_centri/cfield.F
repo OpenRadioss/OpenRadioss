@@ -130,7 +130,7 @@ C
         X2 = XFRAME(4,IFRA+1)
         Y2 = XFRAME(5,IFRA+1)
         Z2 = XFRAME(6,IFRA+1)
-      ELSEIF(IDIR == 6) THEN
+      ELSE !IF(IDIR == 6) THEN
         X2 = XFRAME(7,IFRA+1)
         Y2 = XFRAME(8,IFRA+1)
         Z2 = XFRAME(9,IFRA+1)

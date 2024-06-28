@@ -64,6 +64,7 @@ C-----------------------------------------------
       my_real 
      .  Q1,Q2,Q3,EPN,AS,KW,F0,FC,FR,RLEN,HKHI
 C=======================================================================
+       IGURSON = 0
       IF (IFAILG == 1) THEN
         ILOC  = MATPARAM%NLOC
         !IGURSON = 0  no damage (default) 

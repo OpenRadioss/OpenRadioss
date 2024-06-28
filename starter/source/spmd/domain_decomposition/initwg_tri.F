@@ -98,6 +98,8 @@ C-----------------------------------------------
        DATA WTYPE /1.6 ,1. ,1. ,.9 ,1.1 ,1.4 ,0.65 ,.9 ,2.0/     
 C-----------------------------------------------
       CALL BIDON()
+      TELT = 0
+      NFUNC = 0
 !     DD_OPTIMIZATION = 0 --> default case, DD optimized for Broadwell processor
 !     DD_OPTIMIZATION = 1 --> DD optimized for Skylake processor 
 !     DD_OPTIMIZATION = 2 --> DD optimized for Sandy Bridge processor   

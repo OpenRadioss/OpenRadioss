@@ -127,6 +127,9 @@ C
 C
              NIXJ = ZERO
              IF (IFRA > 0) THEN
+               VX = ZERO
+               VY = ZERO
+               VZ = ZERO
                DO K=1,NUMFRAM
                  J=K+1
                  IF(IFRA==IFRAME(4,K+1)) THEN
@@ -180,6 +183,9 @@ C
 C
              NIXJ = ZERO
              IF (IFRA > 0) THEN
+               VX = ZERO
+               VY = ZERO
+               VZ = ZERO
                DO K=1,NUMFRAM
                  J=K+1
                  IF(IFRA==IFRAME(4,K+1)) THEN

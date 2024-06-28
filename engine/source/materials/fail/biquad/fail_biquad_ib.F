@@ -85,6 +85,7 @@ C-----------------------------------------------
       my_real EPS_FAIL,FINTER
       my_real ,DIMENSION(NEL) :: DAMAGE
 C=======================================================================
+      EPS_FAIL = ZERO
       X_1(1) = UPARAM(1)
       X_1(2) = UPARAM(2)
       X_1(3) = UPARAM(3)

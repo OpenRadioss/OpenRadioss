@@ -122,7 +122,7 @@ c--------------------------------------------------------------------
         ETA      = ETA1
         BETA_DRB = BETA1
         TAU_DRB  = TAU1
-      ELSE IF (IPT == 1) THEN        ! bottom surface - first integration point
+      ELSE ! IF (IPT == 1) THEN        ! bottom surface - first integration point
         ETA      = ETA2
         BETA_DRB = BETA2
         TAU_DRB  = TAU2
@@ -248,7 +248,7 @@ c
      .       + 1.061849e+01*NS2 -1.306599e+02*NS1 + 5.876649e+02 
           P5 = -1.067185e-03*NS4 + 8.159522e-02*NS3 
      .       - 2.300259e+00*NS2 + 2.832827e+01*NS1 -1.262924e+02      
-        ELSE IF (SIG_MPA >= SIG6) THEN 
+        ELSE ! IF (SIG_MPA >= SIG6) THEN 
           ! Valid for P(0.663;1.1) at 400 MPa
           P1 = -1.487196e-03*NS4 + 1.192492e-01*NS3 
      .       -3.542728e+00*NS2 + 4.624246e+01*NS1 -2.215987e+02 

@@ -79,6 +79,8 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
+      LSKYFI = 0
+      NODFI = 0
 C
 C Test succes du tri ?
 C

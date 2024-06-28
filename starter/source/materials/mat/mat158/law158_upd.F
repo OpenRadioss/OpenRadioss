@@ -75,6 +75,7 @@ C=======================================================================
 c     Transform FUNC_ID ->  Function number , leakmat only
 c     NFUNL = IPM(6)     :  LEAK_MAT functions
 c
+      KCMAX = ZERO
       IF (NFUNL > 0) THEN
         CALL MATFUN_USR2SYS(TITR,MAT_ID,NFUNL,IFUNC(NFUNC+1),FUNC_ID  )
       ENDIF

@@ -108,6 +108,9 @@ C-----------------------------------------------
       NMUN =0
       NZERO=0
       NUN  =0
+      VX = ZERO
+      VY = ZERO
+      VZ = ZERO
       DO I=ITASK+1,NSPHACT,NTHREAD
         N=WASPACT(I)
         IPRT  =IPARTSP(N)

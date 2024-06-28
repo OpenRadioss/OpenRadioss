@@ -266,7 +266,7 @@ C
             NUMERATOR = E11
           ELSEIF (NUM == 5) THEN
             NUMERATOR = E22
-          ELSEIF (NUM == 6) THEN
+          ELSE !IF (NUM == 6) THEN
             NUMERATOR = E33
           ENDIF
 C
@@ -281,7 +281,7 @@ C
             DENOMINATOR = E11 
           ELSEIF (DEN == 5) THEN
             DENOMINATOR = E22
-          ELSEIF (DEN == 6) THEN
+          ELSE !IF (DEN == 6) THEN
             DENOMINATOR = E33      
           ENDIF
 C

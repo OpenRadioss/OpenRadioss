@@ -103,6 +103,7 @@ C-----------------------------------------------
       DATA MESS/'MOVING SKEW SYSTEM DEFINITION           '/
       DATA NOMSG/'global skew system                     '/
 C=======================================================================
+      IDSUB = 0
 C
       DO I=1,LISKN
         ISKN(I,1)=0

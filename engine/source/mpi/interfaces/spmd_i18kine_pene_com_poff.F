@@ -313,6 +313,8 @@ C--------------------------------------------------
         LEN=6
       ELSEIF(MODE==3)THEN
         LEN=4
+      ELSE 
+        LEN=0
       ENDIF
       LENRV = (IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1))*LEN
 
