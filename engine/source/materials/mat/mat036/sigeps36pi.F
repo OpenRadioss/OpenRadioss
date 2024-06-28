@@ -127,6 +127,7 @@ C=======================================================================
       ENDDO                                  
 C
       IADBUF = IPM(7,IMAT)-1                
+      IFAIL = 0
       DO I=1,NEL                                
         E(I)   = UPARAM(IADBUF+2)                
         G(I)   = UPARAM(IADBUF+5)                

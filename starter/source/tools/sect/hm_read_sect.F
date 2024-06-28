@@ -1048,6 +1048,12 @@ C List nodes related to section.
 C
         ALLOCATE(TAGNDOUBL(NUMNOD))
         ALLOCATE(TAGNODES(NUMNOD*2+NPART))
+        PROJX = ZERO
+        PROJY = ZERO
+        PROJZ = ZERO
+        P1 = ZERO
+        P2 = ZERO
+        ISU = -HUGE(ISU)
         TAGNDOUBL = 0
           TAGNODES  = 0
           IF (IGU1 /= 0) THEN

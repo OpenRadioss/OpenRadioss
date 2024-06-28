@@ -105,6 +105,7 @@ C
         ENDDO
 
         XMAX=ZERO
+        LMAX = 1
         DO L=1,3
           IF (XMAG(L) > XMAX) THEN
             XMAX=XMAG(L)

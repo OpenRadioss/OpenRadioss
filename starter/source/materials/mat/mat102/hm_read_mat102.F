@@ -108,6 +108,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
+      K = 0.0D0
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 

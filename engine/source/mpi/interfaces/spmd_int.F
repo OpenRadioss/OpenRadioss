@@ -4999,6 +4999,7 @@ C
 C
       SEGFI = 0
       LSKYFI= 0
+      NODFI = 0
       IF(RESULT==0) THEN
 C
 C Reperage des candidats

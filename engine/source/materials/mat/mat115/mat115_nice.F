@@ -114,7 +114,7 @@ c
       CFAIL   = UPARAM(14) ! Tensile volumic strain at failure
       PFAIL   = UPARAM(15) ! Principal stress at failure  
       ! Density of base material
-      IF (Istat == 1) RHOF0 = UPARAM(16) 
+      IF (Istat .NE. 0) RHOF0 = UPARAM(16) 
 c
       ! Recovering internal variables
       DO I=1,NEL

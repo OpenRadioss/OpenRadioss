@@ -903,6 +903,7 @@ C-----------------------------------------------
      .              C1='TABLE INTERPOLATION')
         CALL ARRET(2)
       END IF
+      IPOS = 1
 C-----
         R(2)= R2
         k=1

@@ -185,6 +185,7 @@ C      ICPRE = 0
 C
 C  npt
 C
+      NLY = 0
       SELECT CASE (IHBE)
       CASE(15)
         IF (NPT == 0) NPT = 3

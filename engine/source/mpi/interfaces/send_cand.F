@@ -86,6 +86,7 @@ C
      .     ircvfrom(NIN,LOC_PROC)==0)) THEN
           RETURN
         ENDIF
+        PMAIN = 1
 C
 C   determination du proc main (celui qui fait joue le role de P0)
 C
@@ -2352,6 +2353,7 @@ C
           DO NI = 1, NINTSTAMP
             NIN = INTSTAMP(NI)%NOINTER
             ISENS = IPARI(64,NIN)  ! IF an interface sensor is defined
+            INTERACT = 0
 
             IF (ISENS> 0) THEN             ! Sensor ID
               TS = SENSOR_TAB(ISENS)%TSTART

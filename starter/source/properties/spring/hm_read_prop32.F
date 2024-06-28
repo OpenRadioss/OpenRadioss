@@ -273,7 +273,6 @@ C
       PROP_TAG(IGTYP)%G_NUVAR = NUVAR
 C
       RETURN
- 999  CONTINUE
       CALL ANCMSG(MSGID=401,
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANINFO,

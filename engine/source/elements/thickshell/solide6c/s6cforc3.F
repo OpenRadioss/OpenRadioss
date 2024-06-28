@@ -302,6 +302,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
+      MTN0 = 0
+      NLYMAX= 0
+      IPANG = 0
+      IPTHK = 0 
+      IPPOS = 0                                 
+      IPMAT = 0 
+
       GBUF => ELBUF_TAB(NG)%GBUF
       NLAY = ELBUF_TAB(NG)%NLAY
       IR = 1
@@ -779,7 +786,7 @@ c
        END DO
       END IF
       IF (IGTYP == 22) THEN
-        MTN = MTN0
+          MTN = MTN0 !MTN0 may not be initialized if ISORTH == 0 
         DO I=1,NEL
           MXT(I)=MXT0(I)
         ENDDO

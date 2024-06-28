@@ -109,7 +109,7 @@ c
         ACC = ACC_X   
       ELSEIF (IDIR == 3) THEN    !  Y
         ACC = ACC_Y  
-      ELSEIF (IDIR == 4) THEN    !  Z
+      ELSE    !  Z
         ACC = ACC_Z    
       END IF
       ACCG = ACC / GRAVITY

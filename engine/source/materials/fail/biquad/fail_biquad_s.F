@@ -81,13 +81,15 @@ C
       X_2(1) = UPARAM(4)
       X_2(2) = UPARAM(5)
       X_2(3) = UPARAM(6)
-      FLAG_PERTURB = UPARAM(8)
+            FLAG_PERTURB = UPARAM(8)
       SEL    = INT(UPARAM(11)+0.0001)
       IF (SEL == 3) SEL = 2
       REF_EL_LEN = UPARAM(13)
       ICOUP = NINT(UPARAM(14))
       DCRIT = UPARAM(15)
       EXP   = UPARAM(16)
+      EPS_FAIL = ZERO
+
 C
       ! At initial time, compute the element size regularization factor
       IF (MFUNC > 0) THEN 

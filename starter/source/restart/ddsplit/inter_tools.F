@@ -6112,6 +6112,7 @@ C orientation  segment 1
           ELSEIF(IRECTM(JAS,IAS)==N2.AND.IRECTM(MOD(JAS,4)+1,IAS)==N1)THEN
             IS=-1
           ELSE
+            IS = -HUGE(IS)
             ASSERT(.FALSE.)
           END IF
           IBUF(CMPT) = IS 

@@ -167,6 +167,7 @@ C-----------------
                     IF(JK<=NUMSPH) THEN
                         JG=KXSP(3,JK)
                     ELSE
+                        JG = 0
                         print *,'internal error'
                     END IF
                     IXSPR(K,IL-NUMSPH)=JG

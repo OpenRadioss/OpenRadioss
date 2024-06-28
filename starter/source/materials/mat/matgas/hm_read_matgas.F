@@ -78,6 +78,7 @@ C-----------------------------------------------
 
 !     **************
 !     Initialization
+      MW = ZERO
       IS_AVAILABLE = .FALSE.
       IS_ENCRYPTED = .FALSE.
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)

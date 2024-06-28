@@ -143,6 +143,7 @@ C
       EPSPREF   = UPARAM(20)
       FILT     = UPARAM(21)
       KM      = UPARAM(22)
+      NINDX0 = 0
       IF (IFLAG == 3) RATIO = ONE - ONE/ NPT0 
       DO I=1,NEL
          INDX(I) = 0

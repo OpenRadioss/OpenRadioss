@@ -102,6 +102,7 @@ C=======================================================================
 C
       IERR = 0
       ISENS = 0
+      ISENS_ACT = 0
       JTYP  = NINT(GET_U_GEO(1,IPROP))
       IF (IGTYP==33) THEN
 C----------------   skew initialisation for kjoints      

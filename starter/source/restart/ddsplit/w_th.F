@@ -62,6 +62,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NT, IH, ITYP, NNE, IAD, K, P, ESHIFT,
      .        ITHBUF_L(LENTHG)
+      ESHIFT = 0
 C
 C Header recopie
 C

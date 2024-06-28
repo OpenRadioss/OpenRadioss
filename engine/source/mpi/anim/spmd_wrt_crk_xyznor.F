@@ -82,16 +82,9 @@ C---
            EMPL = CRKNOD(ICRK)%XFENODES(I)
 C           S = SQRT(XNORM(1,I)**2 + XNORM(2,I)**2 + XNORM(3,I)**2)
            S = ZERO
-           IF(S /= ZERO)THEN
-c             S = S3000 / S
-c               XN1 = XNORM(1,I) * S
-c               XN2 = XNORM(2,I) * S
-c               XN3 = XNORM(3,I) * S
-           ELSE
-             XN1 = 0
-             XN2 = 0
-             XN3 = IXNN
-           END IF
+           XN1 = 0
+           XN2 = 0
+           XN3 = IXNN
            SIZ = SIZ + 1
            IBUF(1,SIZ) = CRKNOD(ICRK)%XFECRKNODID(I)
            IBUF(2,SIZ) = XN1
@@ -116,21 +109,14 @@ C proc 0
 c           NG = CRKNOD(ICRK)%XFECRKNODID(I)
 C
            SIZ0 = SIZ0 + 1
-c           S = SQRT(XNORM(1,I)**2 + XNORM(2,I)**2 + XNORM(3,I)**2)
+c          S = SQRT(XNORM(1,I)**2 + XNORM(2,I)**2 + XNORM(3,I)**2)
            S = ZERO
-           IF(S/=ZERO)THEN
-             S = S3000 / S
-c             XN1 = XNORM(1,I) * S
-c             XN2 = XNORM(2,I) * S
-c             XN3 = XNORM(3,I) * S
-           ELSE
-             XN1 = 0
-             XN2 = 0
-             XN3 = IXNN
-           END IF 
-c           RNGLOB(1,NG) = XN1
-c           RNGLOB(2,NG) = XN2
-c           RNGLOB(3,NG) = XN3
+           XN1 = 0
+           XN2 = 0
+           XN3 = IXNN
+c          RNGLOB(1,NG) = XN1
+c          RNGLOB(2,NG) = XN2
+c          RNGLOB(3,NG) = XN3
            RNGLOB(1,SIZ0) = XN1
            RNGLOB(2,SIZ0) = XN2
            RNGLOB(3,SIZ0) = XN3

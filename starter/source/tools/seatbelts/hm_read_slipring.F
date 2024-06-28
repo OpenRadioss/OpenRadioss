@@ -112,6 +112,7 @@ C-----------------------------------------------
       IERR1      = 0
 C
       IF(NSLIPRING > 0 ) THEN
+        NODE1 = 0
 C
         WRITE(IOUT,1000)
 C

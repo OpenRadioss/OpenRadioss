@@ -71,6 +71,7 @@ C----------------------------------------------------------
         DTMI1 = DTMIN1(11)
         DTMAX = EP04
         DT0 = DTMAX
+        FACI = ZERO
         IF (DT1>ZERO) THEN
           DT0=MIN(DT0,DT1)
         ELSE          

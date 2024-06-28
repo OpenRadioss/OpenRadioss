@@ -141,7 +141,8 @@ C-----------
              T21=R11*CP-R13*SP
              T22=R21*CP-R23*SP
              T23=R31*CP-R33*SP
-          ELSEIF(ICSIG == 1 )THEN
+C         ELSEIF(ICSIG == 1 )THEN
+          ELSE
              T11=R12*CP+R13*SP
              T12=R22*CP+R23*SP
              T13=R32*CP+R33*SP

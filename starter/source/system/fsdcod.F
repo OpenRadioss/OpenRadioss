@@ -139,6 +139,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       IFLAG1=0
       IFLAG2=0
+      NF=0
 C----------------------------
 C     (I) FUNCTIONS (/FUNCT)
 C----------------------------
@@ -2012,6 +2013,7 @@ C
           CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)
           NF=NINT(PM(40,I))
           RHO_MAX=ZERO
+          J = 1
           DO K=1,2
             PASSED=.TRUE.          
             IS=NINT(PM(20+K,I))

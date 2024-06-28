@@ -117,6 +117,7 @@ C
         IF (ISENS > 0) THEN             
            TS = SENSOR_TAB(ISENS)%TSTART
            IF (TT>=TS) INTERACT = 1
+           STOPT = HUGE(STOPT)
         ELSE
            STARTT = INTBUF_TAB(I)%VARIABLES(3)
            STOPT = INTBUF_TAB(I)%VARIABLES(11)

@@ -55,6 +55,7 @@ C
       OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR
      +    + NUMELX + NCONLD
       NB_L = 0
+      K = 0
 C
       DO I = 1, NUMCONV
         IF(CEP(I+OFF)==PROC) THEN

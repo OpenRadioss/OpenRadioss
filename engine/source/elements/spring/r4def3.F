@@ -313,6 +313,7 @@ C-------------------------------
      A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
      B   NFT)
 C
+      DLIM = ZERO
       DO I=1,NEL
         CC = GEO(103,MGN(I))
         CN = GEO(109,MGN(I))

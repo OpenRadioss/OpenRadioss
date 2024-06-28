@@ -74,6 +74,7 @@ c
 c----------------------------------------------------      
 c     eliminate points with min area until NPT = target number of points
 c----------------------------------------------------      
+      IMIN = 1
       DO ITER = 1,NITER                           
         AMIN = INFINITY
         IDX  = 1

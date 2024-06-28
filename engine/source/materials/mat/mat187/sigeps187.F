@@ -752,7 +752,7 @@ C     ----------------------------------------------------
      .         -G * (DU * DF5) **2 
      .         -G * (DU * DF6) **2 
 
-          DF = DF  - YLDP
+          DF = DF  - YLDP ! bug, YLDP not initialized here
 
           !CALCUL PAS PLASTIQUE
           DPLA(I)=DPLA(I)-FCT/DF

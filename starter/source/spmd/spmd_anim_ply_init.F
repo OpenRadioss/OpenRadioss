@@ -300,6 +300,7 @@ C-----------------------------------------------
       SIZE=PLYNOD(IPLY)%PLYNUMNODS
 
       BINF=1
+      EMPL = - HUGE(EMPL)
       BSUP=SIZE
 
       IF (PLYNOD(IPLY)%NODES(BINF)==NODID)THEN

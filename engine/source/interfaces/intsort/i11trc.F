@@ -80,6 +80,7 @@ C
       ENDDO
 C
 
+      IAD0 = 0
       DO I=1,JLT
         II = I + NFT
         IF(IFPEN(II) == 1)THEN

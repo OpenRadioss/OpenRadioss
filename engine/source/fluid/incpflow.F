@@ -157,6 +157,7 @@ C
       EXTERNAL FINTER,FINTER_SMOOTH
 C-----------------------------------------------
       VV = ZERO
+      PA = ZERO
 C      
       IFORM=IFLOW(13)
       ILVOUT=IFLOW(17)

@@ -1018,7 +1018,8 @@ C=======================================================================
       IADI = 1
       DO KK=1,NBINTC
         N   = INTLIST(KK)
-C
+        NTY = IPARI(7,N)
+
         ISENS = 0
         IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
         IF (ISENS > 0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
@@ -1027,7 +1028,6 @@ C
            TS = TT
         ENDIF
 C
-        NTY = IPARI(7,N)
         TYPE18 = .FALSE.
         INACTI = IPARI(22,N)
         IF(NTY == 7 .AND. INACTI ==7)TYPE18=.TRUE.

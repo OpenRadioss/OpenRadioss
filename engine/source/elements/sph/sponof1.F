@@ -114,6 +114,8 @@ C-----------------------------------------------
 C-----------------------------------------------
       TFEXTT=ZERO
       BID=ZERO
+      EN = 0
+      RHON = ZERO
 C-------
 C     reset active particles states.
       DO I=1,NSPHIO

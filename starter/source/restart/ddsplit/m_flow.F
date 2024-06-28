@@ -59,6 +59,7 @@ C
       IADI=0
       IADMATI=1
       IADMATR=1
+      IADL = 0
       DO I=1,NFLOW
          ITYP =IFLOW(IADI+2)
          NNO  =IFLOW(IADI+5)
