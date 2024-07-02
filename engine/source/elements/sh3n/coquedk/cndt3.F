@@ -113,6 +113,7 @@ C----- isub will add here-----
      .                      + FAC * A1(I) *AREA(I)*ONE_OVER_12
           ELSE
             STIR(I) = STI(I) * (THK02(I)+AREA(I)) *ONE_OVER_12
+     .                       +  STI(I)*ZOFFSET(I)*ZOFFSET(I)
           ENDIF
          ENDIF 
         ENDDO
@@ -179,6 +180,7 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
                 ELSE
                    STI(I) = HALF*VOL0(I) * A1(I) / ALDT(I)**2
                    STIR(I) = STI(I) * (THK02(I)+AREA(I)) *ONE_OVER_12
+     .                       +  STI(I)*ZOFFSET(I)*ZOFFSET(I)
                 ENDIF
              ENDDO
           ENDIF 
