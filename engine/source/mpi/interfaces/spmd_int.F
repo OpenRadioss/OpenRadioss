@@ -519,7 +519,6 @@ C
             L = 0
             L2= 0      
               
-#include      "vectorize.inc"
             DO J = 1, NB
                I = INDEX(J)
                NOD = NSV(I)
@@ -552,7 +551,6 @@ c IGAP=1 or IGAP=2
             IF(IGAP==1 .OR. IGAP==2)THEN
                  L = 0      
                IGAPXREMP = RSHIFT
-#include      "vectorize.inc"         
                DO J = 1, NB
                  I = INDEX(J)   
                  RBUF(P)%p(L+RSHIFT)= GAP_S(I)
@@ -564,7 +562,6 @@ c IGAP=3
               ELSEIF(IGAP==3)THEN 
                L = 0   
                IGAPXREMP = RSHIFT
-#include      "vectorize.inc"           
                DO J = 1, NB
                  I = INDEX(J)
                  RBUF(P)%p(L+RSHIFT)  = GAP_S(I)
@@ -578,7 +575,6 @@ C thermic
             IF(INTTH>0)THEN
                L = 0
                  L2 = 0       
-#include      "vectorize.inc"                        
                DO J = 1, NB
                  I = INDEX(J)
                  NOD = NSV(I)
@@ -596,7 +592,6 @@ C Interface Adhesion
             IF(ITYP==25.AND.IVIS2==-1)THEN               
               L = 0
               L2 = 0
-#include      "vectorize.inc"                        
               DO J = 1, NB
                 I = INDEX(J)
                 NOD = NSV(I)
@@ -613,7 +608,6 @@ C Interface Adhesion
 C Friction
             IF(INTFRIC>0)THEN
                  L2 = 0       
-#include      "vectorize.inc"                        
                DO J = 1, NB
                  I = INDEX(J)
            IBUF(P)%p(L2+ISHIFT) = IPARTFRICS(I)
@@ -625,7 +619,6 @@ C Friction
 C -- IDTMINS==2
             IF(IDTMINS==2)THEN
                L2 = 0
-#include      "vectorize.inc"                  
                DO J = 1, NB
                  I = INDEX(J)
                  NOD = NSV(I)
@@ -638,7 +631,6 @@ C -- IDTMINS==2
 C -- IDTMINS_INT /= 0         
             ELSEIF(IDTMINS_INT/=0)THEN
               L2 = 0           
-#include      "vectorize.inc"        
               DO J = 1, NB
                 I = INDEX(J)
                 NOD = NSV(I)
@@ -653,7 +645,6 @@ c INT24
 
               L = 0
               I24XREMP = RSHIFT
-#include      "vectorize.inc"
               DO J = 1, NB
                 I = INDEX(J)
                 RBUF(P)%p(L+RSHIFT)    =I24_TIME_S(I)
@@ -670,7 +661,6 @@ c INT24
                   
                 L2 = 0      
                 I24IREMP = ISHIFT
-#include      "vectorize.inc"
               DO J = 1, NB
                 I = INDEX(J)
 C               IRTLM(2,NSN) in TYPE24
@@ -684,7 +674,6 @@ C---pay attention in i24sto.F IREM(I24IREMP+3,N-NSN) is used,
 C----change the shift value when new table was added like I24_ICONT_I           
               IF (ILEV==2) THEN   
                   L2 = 0          
-#include      "vectorize.inc"      
                 DO J = 1, NB
                   I = INDEX(J)
                   IBUF(P)%p(L2+ISHIFT)=NBINFLG(I)
@@ -699,7 +688,6 @@ c INT25
               IF(ITYP==25)THEN
               L = 0
               I24XREMP = RSHIFT
-#include      "vectorize.inc"
               DO J = 1, NB
                 I = INDEX(J)
                 RBUF(P)%p(L+RSHIFT)    =I24_TIME_S(2*(I-1)+1)
@@ -712,7 +700,6 @@ c INT25
                 L2 = 0      
                 I24IREMP = ISHIFT
 
-#include      "vectorize.inc"
               DO J = 1, NB
                 I = INDEX(J)
                 NOD = NSV(I)
@@ -732,7 +719,6 @@ C---pay attention in i25sto.F IREM(I24IREMP+4,N-NSN) is used,
 C----change the shift value when new table was added like IRTLM(3*(I-1)+2)          
               IF (ILEV==2) THEN   
                   L2 = 0          
-#include      "vectorize.inc"      
                 DO J = 1, NB
                   I = INDEX(J)
                   IBUF(P)%p(L2+ISHIFT)=NBINFLG(I)
@@ -745,7 +731,6 @@ C----change the shift value when new table was added like IRTLM(3*(I-1)+2)
 C
             !save specifics IREM and XREM indexes for INT24 sorting
             L2 = 0
-#include      "vectorize.inc"
             DO J = 1, NB
               I = INDEX(J)
               NOD = NSV(I)
@@ -1152,7 +1137,6 @@ C
             L2= 0      
               
 c general case
-#include      "vectorize.inc"
             DO J = 1, NB
                I = INDEX(J)
                NOD = NSV(I)
@@ -1185,7 +1169,6 @@ c IGAP=1 or IGAP=2
             IF(IGAP==1 .OR. IGAP==2)THEN
                  L = 0      
                IGAPXREMP = RSHIFT
-#include      "vectorize.inc"         
                DO J = 1, NB
                  I = INDEX(J)   
                  RBUF(P)%p(L+RSHIFT)= GAP_S(I)
@@ -1197,7 +1180,6 @@ c IGAP=3
               ELSEIF(IGAP==3)THEN 
                L = 0   
                IGAPXREMP = RSHIFT
-#include      "vectorize.inc"           
                DO J = 1, NB
                  I = INDEX(J)
                  RBUF(P)%p(L+RSHIFT)  = GAP_S(I)
@@ -1211,7 +1193,6 @@ C thermic
             IF(INTTH>0)THEN
                L = 0
                  L2 = 0       
-#include      "vectorize.inc"                        
                DO J = 1, NB
                  I = INDEX(J)
                  NOD = NSV(I)
@@ -1228,7 +1209,6 @@ C thermic
 C Friction
             IF(INTFRIC>0)THEN
                  L2 = 0       
-#include      "vectorize.inc"                        
                DO J = 1, NB
                  I = INDEX(J)
            IBUF(P)%p(L2+ISHIFT) = IPARTFRICS(I)
@@ -1240,7 +1220,6 @@ C Friction
 C -- IDTMINS==2
             IF(IDTMINS==2)THEN
                L2 = 0
-#include      "vectorize.inc"                  
                DO J = 1, NB
                  I = INDEX(J)
                  NOD = NSV(I)
@@ -1253,7 +1232,6 @@ C -- IDTMINS==2
 C -- IDTMINS_INT /= 0         
             ELSEIF(IDTMINS_INT/=0)THEN
               L2 = 0           
-#include      "vectorize.inc"        
               DO J = 1, NB
                 I = INDEX(J)
                 NOD = NSV(I)
@@ -1265,7 +1243,6 @@ C -- IDTMINS_INT /= 0
 C
             !save specifics IREM and XREM indexes for INT24 sorting
             L2 = 0
-#include      "vectorize.inc"
             DO J = 1, NB
               I = INDEX(J)
               NOD = NSV(I)
@@ -1781,7 +1758,6 @@ C
                 L2= 0      
 
 c general case
-#include      "vectorize.inc"
             DO J = 1, NB
               I = INDEX(J)
               NOD = NSV(I)
@@ -1845,7 +1821,6 @@ c IGAP=1 or IGAP=2
             IF(IGAP==1 .OR. IGAP==2)THEN
                  L = 0      
                IGAPXREMP = RSHIFT
-#include      "vectorize.inc"         
                DO J = 1, NB
                  I = INDEX(J)   
                  RBUF(P)%p(L+RSHIFT)= GAP_S(I)
@@ -1857,7 +1832,6 @@ c IGAP=3
               ELSEIF(IGAP==3)THEN 
                L = 0   
                IGAPXREMP = RSHIFT
-#include      "vectorize.inc"           
                DO J = 1, NB
                  I = INDEX(J)
                  RBUF(P)%p(L+RSHIFT)  = GAP_S(I)
@@ -1871,7 +1845,6 @@ C thermic
             IF(INTTH>0)THEN
                L = 0
                  L2 = 0       
-#include      "vectorize.inc"                        
                DO J = 1, NB
                  I = INDEX(J)
                  NOD = NSV(I)
@@ -1887,7 +1860,6 @@ C thermic
 C Friction
             IF(INTFRIC>0)THEN
                  L2 = 0       
-#include      "vectorize.inc"                        
                DO J = 1, NB
                  I = INDEX(J)
            IBUF(P)%p(L2+ISHIFT) = IPARTFRICS(I)
@@ -1900,7 +1872,6 @@ C -- IDTMINS==2
             IF(IDTMINS==2)THEN 
                L = 0
                L2 = 0
-#include      "vectorize.inc"                  
                DO J = 1, NB
                  I = INDEX(J)
                  NOD = NSV(I)
@@ -1937,7 +1908,6 @@ C -- IDTMINS_INT /= 0
             ELSEIF(IDTMINS_INT/=0)THEN
               L = 0
               L2 = 0           
-#include      "vectorize.inc"        
               DO J = 1, NB
                 I = INDEX(J)
                 NOD = NSV(I)
@@ -1960,7 +1930,6 @@ c INT24
               IF(ITYP==24)THEN
               L = 0
               I24XREMP = RSHIFT
-#include      "vectorize.inc"
               DO J = 1, NB
                 I = INDEX(J)
                 RBUF(P)%p(L+RSHIFT)    =I24_TIME_S(I)
@@ -1977,7 +1946,6 @@ c INT24
 
               IF(ISTIF_MSDT > 0) THEN
                 L = 0
-#include      "vectorize.inc"
                 DO J = 1, NB
                   I = INDEX(J)
                   RBUF(P)%p(L+RSHIFT)    =STIFMSDT_S(I)
@@ -1988,7 +1956,6 @@ c INT24
 
               IF(IFSUB_CAREA > 0) THEN
                 L = 0
-#include      "vectorize.inc"
                 DO J = 1, NB
                   I = INDEX(J)
                   NOD = NSV(I)
@@ -2000,7 +1967,6 @@ c INT24
                   
                 L2 = 0      
                 I24IREMP = ISHIFT
-#include      "vectorize.inc"
               DO J = 1, NB
                 I = INDEX(J)
 
@@ -2015,7 +1981,6 @@ C---pay attention in i24sto.F IREM(I24IREMP+3,N-NSN) is used,
 C----change the shift value when new table was added like I24_ICONT_I           
               IF (ILEV==2) THEN   
                   L2 = 0          
-#include      "vectorize.inc"      
                 DO J = 1, NB
                   I = INDEX(J)
                   IBUF(P)%p(L2+ISHIFT)=NBINFLG(I)
@@ -2077,7 +2042,6 @@ c                ENDIF
 C
             !save specifics IREM and XREM indexes for INT24 sorting
             L2 = 0
-#include      "vectorize.inc"
             DO J = 1, NB
               I = INDEX(J)
               NOD = NSV(I)
@@ -2092,7 +2056,6 @@ C
 C NITSCHE      
              IF(INTNITSCHE > 0 ) THEN    
                 L = 0
-#include      "vectorize.inc"
                 DO J = 1, NB
                    I = INDEX(J)
                    NOD = NSV(I)
@@ -3772,7 +3735,6 @@ C
               L2 = 0 
 
 c general case
-#include      "vectorize.inc"
             DO J = 1, NB
               I = INDEX(J)
               NOD = NSV(I)
@@ -3800,7 +3762,6 @@ c IGAP=1 or IGAP=2
             IF(IGAP>0)THEN
                 L = 0      
                 RSHIFT = RSHIFT + 1
-#include     "vectorize.inc"         
               DO J = 1, NB
                 I = INDEX(J)   
                 RBUF(P)%p(L+RSHIFT)= GAP_S(I)
@@ -3812,7 +3773,6 @@ C -- IDTMINS==2
             IF(IDTMINS==2)THEN
                L2 = 0
                  ISHIFT = ISHIFT + 1
-#include      "vectorize.inc"                  
                DO J = 1, NB
                  I = INDEX(J)
                  NOD = NSV(I)
@@ -3825,7 +3785,6 @@ C -- IDTMINS_INT /= 0
             ELSEIF(IDTMINS_INT/=0)THEN
               L2 = 0      
                 ISHIFT = ISHIFT + 1      
-#include      "vectorize.inc"        
               DO J = 1, NB
                 I = INDEX(J)
                 NOD = NSV(I)
@@ -4694,7 +4653,6 @@ C
               L2= 0
 C
 c general case
-#include      "vectorize.inc"
             DO J = 1, NB
               I = INDEX(J)
               N1=IRECTS(1,I)
@@ -4730,7 +4688,6 @@ c specific cases
 c IGAP=1 or IGAP=2     
             IF(IGAP==1 .OR. IGAP==2)THEN
                  L = 0      
-#include      "vectorize.inc"         
                DO J = 1, NB
                  I = INDEX(J)   
                  RBUF(P)%p(L+RSHIFT)= GAP_S(I)
@@ -4740,7 +4697,6 @@ c IGAP=1 or IGAP=2
 c IGAP=3           
               ELSEIF(IGAP==3)THEN 
                L = 0
-#include      "vectorize.inc"           
                DO J = 1, NB
                  I = INDEX(J)
                  RBUF(P)%p(L+RSHIFT)  = GAP_S(I)
@@ -4753,7 +4709,6 @@ C thermic
             IF(INTTH>0)THEN
                L = 0
                  L2 = 0       
-#include      "vectorize.inc"                        
                DO J = 1, NB
                  I = INDEX(J)
                  N1=IRECTS(1,I)
@@ -4772,7 +4727,6 @@ C thermic
 C Friction
             IF(INTFRIC>0)THEN
                  L2 = 0       
-#include      "vectorize.inc"                        
                DO J = 1, NB
                  I = INDEX(J)
            IBUF(P)%p(L2+ISHIFT) = IPARTFRICS(I)
@@ -4784,7 +4738,6 @@ C Friction
 c INACTI = 5 or 6 
             IF(INACTI==5.OR.INACTI==6)THEN
                  L = 0      
-#include      "vectorize.inc"         
                DO J = 1, NB
                  I = INDEX(J)   
                  RBUF(P)%p(L+RSHIFT)  = PENIS(1,I)
@@ -4797,7 +4750,6 @@ c INACTI = 5 or 6
 C -- IDTMINS==2
             IF(IDTMINS==2)THEN
                L2 = 0
-#include      "vectorize.inc"                  
                DO J = 1, NB
                  I = INDEX(J)
                  N1=IRECTS(1,I)
@@ -4812,7 +4764,6 @@ C -- IDTMINS==2
 C -- IDTMINS_INT /= 0         
             ELSEIF(IDTMINS_INT/=0)THEN
               L2 = 0      
-#include      "vectorize.inc"        
               DO J = 1, NB
                 I = INDEX(J)
                 N1=IRECTS(1,I)
@@ -4827,7 +4778,6 @@ C -- IDTMINS_INT /= 0
 C-- SUBINTERFACES
             IF(NISUB > 0)THEN
               L2 = 0      
-#include      "vectorize.inc"     
               DO J = 1, NB
                 I = INDEX(J)
                       IBUF(P)%p(L2+ISHIFT)  = ADDSUBS(I+1)-ADDSUBS(I)
