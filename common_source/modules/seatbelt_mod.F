@@ -118,6 +118,7 @@ c
         INTEGER  ISENS(2)
         INTEGER  TENS_TYP
         INTEGER  LOCKED
+        INTEGER  LOCKED_FREEZE
         INTEGER  PRETENS_ACTIV
         INTEGER  INACTI_NNOD
         INTEGER  INACTI_NNOD_MAX
@@ -134,6 +135,7 @@ c
         my_real  LOCK_PULL
         my_real  LOCK_OFFSET
         my_real  LOCK_YIELD_FORCE
+        my_real  LOCK_PULL_SAV
         my_real  RINGSLIP
         my_real  PRETENS_TIME
         my_real  PRETENS_PULL
