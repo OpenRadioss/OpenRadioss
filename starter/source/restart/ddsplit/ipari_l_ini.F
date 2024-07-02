@@ -333,10 +333,6 @@ C TAGE flag servant pour inacti
                N3 = INTBUF_TAB(NI)%MSR(N3)
                N4 = INTBUF_TAB(NI)%MSR(N4)
               ENDIF
-c             IF(NI==1) THEN
-c             WRITE(600+PROC,*) NI,K,INTERCEP(1,NI)%P(K),PROC+1
-c             WRITE(600+PROC,*) N1,N2,N3,N4 ,NMN_L,NRTM_L
-c             ENDIF
               NRTM_L = NRTM_L + 1
               TAGE(K) = NRTM_L           
               IF (TAG(N1)==0) THEN
