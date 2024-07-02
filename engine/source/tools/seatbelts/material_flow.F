@@ -84,11 +84,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NODE1,NODE2,NODE3,ANCHOR_NODE,NEW_NODE2,FUNC,ISENS,FLAG_SENSOR_LOCK,FLAG_NO_COUNT_PULL,FL_IMPOSED_FORCE
-      INTEGER FLAG
+      INTEGER I,J,NODE1,NODE2,NODE3,ANCHOR_NODE,FUNC,ISENS,FLAG_SENSOR_LOCK
+      INTEGER FLAG,NEW_NODE2,NEW_NODE1,FORCE_TENS_TYP,FLAG_NO_COUNT_PULL
       my_real DDFS,BETA,HH,HH2,FRIC,DELTAF,DDV,DT11,FB,F1,F2,DF
       my_real TENS,XSCAL,NORM,PRES,VREL,ALPHA,ALPHA2,VEC1(3),VEC2(3)
-      my_real FRICD,FRICS,XX,DXDY,YY,GET_U_FUNC,GET_U_FUNC_INV,FB2,ANGLE,DDPULL,DD_PRETENS
+      my_real FRICD,FRICS,XX,DXDY,YY,GET_U_FUNC,GET_U_FUNC_INV,FB2,ANGLE
       my_real DDX,DDX2,F_LOCK,F_UNLOCK,PRETENS,XX1,XX2,COS_BETA
       my_real OMEGA,EPS1,EPS2,EPSN,FACT
       DOUBLE PRECISION DELTA_LO
@@ -515,8 +515,7 @@ C--------------------Pretensionning -------------------------------------
               ENDIF
             ENDIF
 C
-            FL_IMPOSED_FORCE = 0
-            DD_PRETENS = ZERO
+            FORCE_TENS_TYP = 0
             PRETENS = ZERO
             IF (RETRACTOR(RETRACTOR_ID(I))%PRETENS_ACTIV == 1) THEN
               XX = (TT - RETRACTOR(RETRACTOR_ID(I))%PRETENS_TIME) / RETRACTOR(RETRACTOR_ID(I))%FAC(4)
@@ -535,19 +534,12 @@ C--               Pretensioning deactivated when force is reached
                   ENDIF
                 ENDIF
               ELSEIF (RETRACTOR(RETRACTOR_ID(I))%TENS_TYP == 2) THEN
-C--             Pretensioning with force -> F = MAX(F_retractor,F_pretens)
-                IF (RETRACTOR(RETRACTOR_ID(I))%LOCKED == 1) THEN
-                  YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)        
-                  XX = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),YY)*RETRACTOR(RETRACTOR_ID(I))%FAC(2)
-                  DELTA_LO = XX - RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL
-                  EPSN = (ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(LMIN(I),AL0DP(I)+DELTA_LO)
-                  F_UNLOCK = MAX(FX(I) + XK(I)*(EPSN-EPS1),PRETENS)
-                  FL_IMPOSED_FORCE = 1
-                ELSE
-                  F_UNLOCK = MAX(RETRACTOR(RETRACTOR_ID(I))%UNLOCK_FORCE,PRETENS)
-                ENDIF
+C--             Pretensioning with force -> F = F_retractor + F_pretens
+                FORCE_TENS_TYP = 2
+                F_UNLOCK = MAX(RETRACTOR(RETRACTOR_ID(I))%UNLOCK_FORCE,PRETENS)    
               ELSEIF (RETRACTOR(RETRACTOR_ID(I))%TENS_TYP == 3) THEN
 C--             Pretensioning with force -> F = MAX(F_retractor,F_pretens) - same as type2 with locking
+                FORCE_TENS_TYP = 2
                 IF (RETRACTOR(RETRACTOR_ID(I))%PRETENS_PULL > RETRACTOR(RETRACTOR_ID(I))%PULLOUT) THEN
 C--               Pretensioning deactivated when pullout is reached
                   RETRACTOR(RETRACTOR_ID(I))%LOCKED = 1
@@ -556,22 +548,12 @@ C--               Pretensioning deactivated when pullout is reached
                   RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL = RETRACTOR(RETRACTOR_ID(I))%FAC(2)*XX
                   RETRACTOR(RETRACTOR_ID(I))%PRETENS_ACTIV = -1
                   RETRACTOR(RETRACTOR_ID(I))%PRETENS_PULL = ZERO
-                ELSEIF (RETRACTOR(RETRACTOR_ID(I))%LOCKED == 1) THEN
-                  YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)        
-                  XX = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),YY)*RETRACTOR(RETRACTOR_ID(I))%FAC(2)
-                  DELTA_LO = XX - RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL
-                  EPSN = (ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(LMIN(I),AL0DP(I)+DELTA_LO)
-                  F_UNLOCK = MAX(FX(I) + XK(I)*(EPSN-EPS1),PRETENS)
-                  FL_IMPOSED_FORCE = 1
-                ELSE
-                  F_UNLOCK = MAX(RETRACTOR(RETRACTOR_ID(I))%UNLOCK_FORCE,PRETENS)
                 ENDIF
+                F_UNLOCK = MAX(RETRACTOR(RETRACTOR_ID(I))%UNLOCK_FORCE,PRETENS)            
               ELSEIF (RETRACTOR(RETRACTOR_ID(I))%TENS_TYP == 4) THEN
 C--             Pretensioning with force -> F = F_retractor + F_pretens
-                IF (RETRACTOR(RETRACTOR_ID(I))%LOCKED == 1) THEN
-                  F_LOCK = F_LOCK - PRETENS
-                  DD_PRETENS = PRETENS
-                ENDIF
+                FORCE_TENS_TYP = 4
+                IF (RETRACTOR(RETRACTOR_ID(I))%LOCKED == 1) F_LOCK = F_LOCK - PRETENS
                 F_UNLOCK = RETRACTOR(RETRACTOR_ID(I))%UNLOCK_FORCE + PRETENS
               ELSEIF (RETRACTOR(RETRACTOR_ID(I))%TENS_TYP == 5) THEN
 C--             Pretensioning with pullin energy
@@ -591,19 +573,34 @@ C--               Pretensioning deactivated when force is reached
 C
 C--------------------Retractor is Locked ---------------------------------
             FLAG_NO_COUNT_PULL = 0
-            IF ((RETRACTOR(RETRACTOR_ID(I))%LOCKED == 1).AND.(FL_IMPOSED_FORCE /= 1)) THEN
-              IF (F_LOCK <= RETRACTOR(RETRACTOR_ID(I))%UNLOCK_FORCE) THEN
-                RETRACTOR(RETRACTOR_ID(I))%LOCK_YIELD_FORCE = ZERO
-                FLAG_NO_COUNT_PULL = 1
+            IF (RETRACTOR(RETRACTOR_ID(I))%LOCKED == 1) THEN
+C--           Loading --                
+              IF ((F_LOCK <= RETRACTOR(RETRACTOR_ID(I))%UNLOCK_FORCE).AND.
+     .            (RETRACTOR(RETRACTOR_ID(I))%LOCKED_FREEZE == 0)) THEN
+                RETRACTOR(RETRACTOR_ID(I))%LOCKED_FREEZE = 1
+                RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL_SAV = RETRACTOR(RETRACTOR_ID(I))%RINGSLIP
+              ELSEIF ((RETRACTOR(RETRACTOR_ID(I))%LOCKED_FREEZE == 1).AND.
+     .                (RETRACTOR(RETRACTOR_ID(I))%RINGSLIP > RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL_SAV)) THEN 
+                RETRACTOR(RETRACTOR_ID(I))%LOCKED_FREEZE = 0
+                RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL_SAV = ZERO
+              ENDIF  
+              IF (RETRACTOR(RETRACTOR_ID(I))%LOCKED_FREEZE == 1) THEN
+                 RETRACTOR(RETRACTOR_ID(I))%LOCK_YIELD_FORCE = ZERO
+                 FLAG_NO_COUNT_PULL = 1
               ELSEIF (F_LOCK > RETRACTOR(RETRACTOR_ID(I))%LOCK_YIELD_FORCE) THEN
 C--             Loading --  
                 XX = RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL/RETRACTOR(RETRACTOR_ID(I))%FAC(2)
                 YY = GET_U_FUNC(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),XX,DXDY)*RETRACTOR(RETRACTOR_ID(I))%FAC(1)
                 DXDY = DXDY * (RETRACTOR(RETRACTOR_ID(I))%FAC(2) / RETRACTOR(RETRACTOR_ID(I))%FAC(1))
-                YY = YY + PRETENS
+                IF ((FORCE_TENS_TYP == 2).AND.(PRETENS > YY)) THEN
+                  YY = PRETENS
+                  DXDY = ZERO   
+                ELSEIF (FORCE_TENS_TYP == 4) THEN    
+                  YY = YY + PRETENS       
+                ENDIF  
                 CALL SOLVE_DELTA_L02(DELTA_LO,DXDY,YY,XK(I),ALDP(I),AL0DP(I),LMIN(I),FB)
                 EPSN = (ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(LMIN(I),AL0DP(I)+DELTA_LO)
-                FB = FX(I) + XK(I)*(EPSN-EPS1)
+                FB = FX(I) + XK(I)*(EPSN-EPS1) 
                 RETRACTOR(RETRACTOR_ID(I))%LOCK_YIELD_FORCE = FB
                 RETRACTOR(RETRACTOR_ID(I))%LOCK_OFFSET = ZERO
               ELSE
@@ -617,17 +614,21 @@ C--             Unloading --
                 XX = (RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL-RETRACTOR(RETRACTOR_ID(I))%LOCK_OFFSET)/RETRACTOR(RETRACTOR_ID(I))%FAC(2)
                 YY = GET_U_FUNC(RETRACTOR(RETRACTOR_ID(I))%IFUNC(2),XX,DXDY)*RETRACTOR(RETRACTOR_ID(I))%FAC(1)
                 DXDY = DXDY * (RETRACTOR(RETRACTOR_ID(I))%FAC(2) / RETRACTOR(RETRACTOR_ID(I))%FAC(1))
-                YY = YY + PRETENS
+                IF ((FORCE_TENS_TYP == 2).AND.(PRETENS > YY)) THEN
+                  YY = PRETENS
+                  DXDY = ZERO   
+                ELSEIF (FORCE_TENS_TYP == 4) THEN    
+                  YY = YY + PRETENS       
+                ENDIF 
                 CALL SOLVE_DELTA_L02(DELTA_LO,DXDY,YY,XK(I),ALDP(I),AL0DP(I),LMIN(I),FB)
                 EPSN = (ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(LMIN(I),AL0DP(I)+DELTA_LO)
-                FB = FX(I) + XK(I)*(EPSN-EPS1)
+                FB = FX(I) + XK(I)*(EPSN-EPS1) 
               ENDIF
             ENDIF
 C
 C--------------------Retractor is Unlocked ---------------------------------
             IF ((RETRACTOR(RETRACTOR_ID(I))%LOCKED == 0).OR.
-     .          (F_LOCK <= RETRACTOR(RETRACTOR_ID(I))%UNLOCK_FORCE).OR.
-     .          (FL_IMPOSED_FORCE == 1)) THEN
+     .          (RETRACTOR(RETRACTOR_ID(I))%LOCKED_FREEZE == 1)) THEN
 C
               TENS = (F_UNLOCK - FB) / XK(I) + EPS1
               DELTA_LO = (ALDP(I)-AL0DP(I)*(TENS + ONE))/(TENS + ONE)
@@ -698,16 +699,9 @@ C--------------------------------------------------------------
 C
             IF (ABS(DELTA_LO) > ZERO) THEN
 C
-              AL0DP(I) = AL0DP(I) +  DELTA_LO
-              AL0(I) = AL0DP(I)
-              XL0(I)=MAX(LMIN(I),AL0(I))
-C
               DDX =  EXDP(I) * (VX2(I) - VX1(I))
      .             + EYDP(I) * (VY2(I) - VY1(I))
      .             + EZDP(I) * (VZ2(I) - VZ1(I))
-C
-              EPSN = (ALDP(I)-AL0DP(I))/MAX(AL0(I),LMIN(I))
-              DDF(I) = XK(I)*(EPSN-EPS1)
 
 C---          if XSCAL < 0.9 N2 has crossed AC -> update of retractor
               XSCAL = -EXDP(I)*RETRACTOR(RETRACTOR_ID(I))%VECTOR(1)*RETRACTOR(RETRACTOR_ID(I))%STRAND_DIRECTION
@@ -722,16 +716,15 @@ C-------- Detection of retractor update---------------------------------
 C
               IF (RETRACTOR(RETRACTOR_ID(I))%STRAND_DIRECTION == 1) THEN    
                 NEW_NODE2 = ADD_NODE2(I)
+                NEW_NODE1 = ADD_NODE1(I)
               ELSE
                 NEW_NODE2 = ADD_NODE1(I)
+                NEW_NODE1 = ADD_NODE2(I)
               ENDIF
 C
-              RING_SLIP(I) =RING_SLIP(I) + DELTA_LO
-              RETRACTOR(RETRACTOR_ID(I))%RINGSLIP = RETRACTOR(RETRACTOR_ID(I))%RINGSLIP  + DELTA_LO
-C
               IF (UPDATE_FLAG(I) == 0) THEN
-                IF ((RING_SLIP(I) > RETRACTOR(RETRACTOR_ID(I))%ELEMENT_SIZE).AND.(NEW_NODE2 > 0)) THEN
-C--             new element to be released - (if no next node it's the end of the belt - no switch)
+                IF ((RING_SLIP(I)+DELTA_LO>RETRACTOR(RETRACTOR_ID(I))%ELEMENT_SIZE).AND.(NEW_NODE2 > 0)) THEN
+C--             new element to be released - (if no next node its the end of the belt - no switch)
                   RETRACTOR(RETRACTOR_ID(I))%UPDATE = 2
                   RETRACTOR(RETRACTOR_ID(I))%MATERIAL_FLOW = DELTA_LO/DT11
                   IF (RETRACTOR(RETRACTOR_ID(I))%STRAND_DIRECTION  == 1) THEN 
@@ -742,18 +735,32 @@ C--             new element to be released - (if no next node it's the end of th
                     RETRACTOR(RETRACTOR_ID(I))%NODE_NEXT(2) = ADD_NODE1(I)
                   ENDIF
                 ELSEIF ((ALDP(I) + 1.3*DDX*DT1 < ZERO).OR.(XSCAL < 0.5)) THEN
-C--             element to enter the retractor
-                  RETRACTOR(RETRACTOR_ID(I))%UPDATE = -2
-                  RETRACTOR(RETRACTOR_ID(I))%MATERIAL_FLOW = DELTA_LO/DT11
-                  IF (RETRACTOR(RETRACTOR_ID(I))%STRAND_DIRECTION  == 1) THEN 
-                    RETRACTOR(RETRACTOR_ID(I))%NODE_NEXT(1) = ADD_NODE1(I)
-                    RETRACTOR(RETRACTOR_ID(I))%NODE_NEXT(2) = NC1(I)
+                  IF (NEW_NODE1 > 0) THEN  
+C--                 element to enter the retractor
+                    RETRACTOR(RETRACTOR_ID(I))%UPDATE = -2
+                    RETRACTOR(RETRACTOR_ID(I))%MATERIAL_FLOW = DELTA_LO/DT11
+                    IF (RETRACTOR(RETRACTOR_ID(I))%STRAND_DIRECTION  == 1) THEN 
+                      RETRACTOR(RETRACTOR_ID(I))%NODE_NEXT(1) = ADD_NODE1(I)
+                      RETRACTOR(RETRACTOR_ID(I))%NODE_NEXT(2) = NC1(I)
+                    ELSE
+                      RETRACTOR(RETRACTOR_ID(I))%NODE_NEXT(1) = ADD_NODE2(I)
+                      RETRACTOR(RETRACTOR_ID(I))%NODE_NEXT(2) = NC2(I)
+                    ENDIF
                   ELSE
-                    RETRACTOR(RETRACTOR_ID(I))%NODE_NEXT(1) = ADD_NODE2(I)
-                    RETRACTOR(RETRACTOR_ID(I))%NODE_NEXT(2) = NC2(I)
+C--                 End of the belt - no more length to pullin                  
+                    DELTA_LO = ZERO
                   ENDIF
                 ENDIF
               ENDIF
+C
+              AL0DP(I) = AL0DP(I) +  DELTA_LO
+              AL0(I) = AL0DP(I)
+              XL0(I)=MAX(LMIN(I),AL0(I))
+C
+              EPSN = (ALDP(I)-AL0DP(I))/MAX(AL0(I),LMIN(I))
+              DDF(I) = XK(I)*(EPSN-EPS1)
+              RING_SLIP(I) =RING_SLIP(I) + DELTA_LO
+              RETRACTOR(RETRACTOR_ID(I))%RINGSLIP = RETRACTOR(RETRACTOR_ID(I))%RINGSLIP  + DELTA_LO              
 C
             ENDIF
 C
@@ -860,7 +867,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real  DD,SOL1,SOL2,AA,BB,CC
+      my_real  DD,SOL1,SOL2,AA,BB,CC,EE
 C-----------------------------------------------
 C
 C      Computation of Dl0 for locked retractor
@@ -875,14 +882,16 @@ C--    equation 1 -> l0 > lmin
          SOL2 = (-BB-SQRT(DD))/(2*AA)
          DELTA_LO = SOL1
        ELSE
-         DELTA_LO = -CC / MAX(EM20,BB)
+         EE = SIGN(MAX(EM20,ABS(BB)),BB)
+         DELTA_LO = -CC / EE
        ENDIF
 C
        IF (L0 +  DELTA_LO < LMIN) THEN
 C--      equation 2 -> l0 < lmin
          LMIN = MAX(LMIN,L0)
          BB = ALPHA*LMIN + XK
-         DELTA_LO = (XK*(L-L0) - BETA*LMIN)/MAX(EM20,BB)
+         EE = SIGN(MAX(EM20,ABS(BB)),BB)
+         DELTA_LO = (XK*(L-L0) - BETA*LMIN)/EE
        ENDIF
 
       RETURN
