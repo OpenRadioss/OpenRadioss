@@ -315,17 +315,16 @@ C                 FACTAG(JS) moins face jj
       END DO
 C
       NFASOLFR=0
-!ifx 2024.2 workaround
-!$OMP SIMD PRIVATE(JJ) REDUCTION(+:NFASOLFR)
-        DO N=1,NUMELS
-          LL=FASTAG(N)
-!DIR$ UNROLL(6)
-          DO JJ=1,6
-            IF (ISHFT(IAND(FASTAG(N), ISHFT(1, JJ)-1),-(JJ-1))==0) THEN
-              NFASOLFR=NFASOLFR+1
-            END IF
-          END DO
+      DO N=1,NUMELS
+        LL=FASTAG(N)
+        DO JJ=1,6
+          IF(MOD(LL,PWR(JJ+1))/PWR(JJ)==0)THEN
+            NFASOLFR=NFASOLFR+1
+C            FASOLFR(1,NFASOLFR)=N
+C            FASOLFR(2,NFASOLFR)=JJ
+          END IF
         END DO
+      END DO    
       DEALLOCATE(ELTGNOD, ELCNOD, ELSNOD, NELENOD,NODTAG,NODTAG_1)
 C     
       RETURN
