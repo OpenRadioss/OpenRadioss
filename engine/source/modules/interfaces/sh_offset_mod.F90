@@ -24,7 +24,7 @@
 #include "my_real.inc"
         type sh_offset_
           integer ::  nsh_oset                                 ! number of offset shell to be projected
-          integer ::  nnsh_oset                                ! number of nodal offset 
+          integer ::  nnsh_oset                                ! number of nodal offset
           integer, dimension(:,:) , allocatable :: ix_offset   ! (4,nsh_oset)
           integer, dimension(:)  ,  allocatable :: intag       ! (numnod) global node to local offset
           integer, dimension(:)  ,  allocatable :: indexg      ! (nnsh_oset) to global node number
@@ -33,5 +33,6 @@
           my_real, dimension(:)  ,  allocatable :: offset_n    ! (nnsh_oset) nodal offset
           my_real, dimension(:,:) , allocatable :: norm_n      ! (3,nnsh_oset) nodal normal
           double precision,dimension(:,:,:), allocatable :: norm_n6 ! (6,3,nnsh_oset) nodal normal P/ON
+          logical :: active                                    !< true if at least 1 nspmd domain has nsh_oset > 0
         end type  sh_offset_
       end module inter_sh_offset_mod

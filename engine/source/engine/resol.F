@@ -2178,7 +2178,7 @@ C ---------------------
         MCLUSTER(1:3)=0
       ENDIF
 !
-       IF (SH_OFFSET_TAB%NSH_OSET > 0 .AND. IMPL_S==0) THEN
+       IF (SH_OFFSET_TAB%ACTIVE  .AND. IMPL_S==0) THEN
            ALLOCATE(XYZ(3*NUMNOD)) 
        ELSE
            ALLOCATE(XYZ(0))  
@@ -2804,6 +2804,7 @@ C
          IBUCK= IBUCKL
 !--- deactivate contact w/ offset         
          SH_OFFSET_TAB%NSH_OSET = 0
+         SH_OFFSET_TAB%ACTIVE = .FALSE.
 C----------------------------------
 C       EIGENSOLVER  [MONO THREAD]
 C----------------------------------
@@ -2855,7 +2856,7 @@ C------ one routine for EIG
          NE_IMP => IMP_DUM 
          IND_IMP=> IMP_DUM
          NUM_IMP=0
-         IF (SH_OFFSET_TAB%NSH_OSET > 0) THEN
+         IF (SH_OFFSET_TAB%ACTIVE) THEN
            X_C =>XYZ
          ELSE  
            X_C =>X
@@ -3351,7 +3352,7 @@ C----------------------------------
 !-------------------------------------------------------------------
 !       offset projection for contact ! add smp // after
 !----------------------------------
-        IF (SH_OFFSET_TAB%NSH_OSET > 0) THEN
+        IF (SH_OFFSET_TAB%ACTIVE) THEN
            XYZ(1:3*NUMNOD) = X(1:3*NUMNOD)
            CALL offset_nPROJ(NSPMD,NUMNOD,XYZ,SH_OFFSET_TAB,IPARIT)
         ENDIF  
