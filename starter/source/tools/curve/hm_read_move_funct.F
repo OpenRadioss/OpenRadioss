@@ -124,12 +124,31 @@ C-----------------------------------------------
             ENDDO
             DO N = 1,NTABLE
                IF (TABLE(N)%NOTABLE == ID) THEN
-                  DO J = 1,SIZE(TABLE(N)%X(1)%VALUES)
-                     TABLE(N)%X(1)%VALUES(J)= TABLE(N)%X(1)%VALUES(J)  *SCX
-                     TABLE(N)%Y%VALUES(J)   = TABLE(N)%Y%VALUES(J)     *SCY
-                     TABLE(N)%X(1)%VALUES(J)= TABLE(N)%X(1)%VALUES(J)+SHX
-                     TABLE(N)%Y%VALUES(J)   = TABLE(N)%Y%VALUES(J)   +SHY
-                  ENDDO
+                  IF(SCX >= ZERO) THEN
+                    DO J = 1,SIZE(TABLE(N)%X(1)%VALUES)
+                       TABLE(N)%X(1)%VALUES(J)= TABLE(N)%X(1)%VALUES(J)  *SCX
+                       TABLE(N)%Y%VALUES(J)   = TABLE(N)%Y%VALUES(J)     *SCY
+                       TABLE(N)%X(1)%VALUES(J)= TABLE(N)%X(1)%VALUES(J)  +SHX
+                       TABLE(N)%Y%VALUES(J)   = TABLE(N)%Y%VALUES(J)     +SHY
+                    ENDDO
+                  ELSE 
+                     ALLOCATE(PLD_TMP(SIZE(TABLE(N)%X(1)%VALUES)*2))
+                     CPT = 1
+                     DO J = 1,2*SIZE(TABLE(N)%X(1)%VALUES),2
+                        PLD_TMP(J)     = TABLE(N)%X(1)%VALUES(CPT)  *SCX +SHX
+                        PLD_TMP(J+1)   = TABLE(N)%Y%VALUES(CPT)     *SCY +SHY 
+                        CPT = CPT + 1
+                     ENDDO
+
+                     CPT = 1
+                     DO J = 1,SIZE(TABLE(N)%X(1)%VALUES)
+                        TABLE(N)%X(1)%VALUES(J) = PLD_TMP(2*SIZE(TABLE(N)%X(1)%VALUES)-CPT)
+                        TABLE(N)%Y%VALUES(J) = PLD_TMP(2*SIZE(TABLE(N)%X(1)%VALUES)-CPT+1)
+                        CPT = CPT + 2
+                     ENDDO      
+                     
+                     IF(ALLOCATED(PLD_TMP)) DEALLOCATE(PLD_TMP)                    
+                  ENDIF
                   EXIT
                ENDIF
             ENDDO
