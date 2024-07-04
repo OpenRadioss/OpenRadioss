@@ -41,10 +41,9 @@ extern "C" {
         {
                 for(const auto & c : clusters)
                 {
-                        const int domain = cep[c[0]];
+                        const int domain = cep[c[0]-1];
                         for(const auto & v : c)
                         {
-//                                std::cout<<"element "<<v<<" moved from "<<cep[v-1]<<" to "<<domain<<std::endl;
                                 cep[v-1] = domain; 
                         }
                 }
