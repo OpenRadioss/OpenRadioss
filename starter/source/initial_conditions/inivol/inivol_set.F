@@ -29,7 +29,9 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE INIVOL_SET(UVAR,NUVAR,NEL,KVOL, MLW, ELBUF_TAB, NG,NBSUBMAT,MULTI_FVM,IXS,IDP,IPART,NFT)
+      SUBROUTINE INIVOL_SET(UVAR     , NUVAR, NEL     , KVOL     , MLW                         ,
+     .                      ELBUF_TAB, NG   , NBSUBMAT, MULTI_FVM, REQUIRED_2D_POLYGON_CLIPPING,
+     .                      IXS      , IDP  , IPART   , NFT      , KVOL_2D_POLYG               )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -53,13 +55,14 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)                 :: NEL, NUVAR, MLW, NG, NBSUBMAT,IDP,IPART(*),NFT
       INTEGER,INTENT(INOUT)              :: IXS(NIXS,NUMELS)
       my_real,INTENT(INOUT)              :: KVOL(NBSUBMAT,NEL)
+      my_real,INTENT(INOUT)              :: KVOL_2D_POLYG(NBSUBMAT,NEL)
       my_real,INTENT(INOUT)              :: UVAR(NEL,NUVAR)
       TYPE(MULTI_FVM_STRUCT),INTENT(IN)  :: MULTI_FVM
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP),INTENT(INOUT) :: ELBUF_TAB
+      LOGICAL,INTENT(IN) :: REQUIRED_2D_POLYGON_CLIPPING
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      TYPE(BUF_MAT_) ,POINTER :: MBUF
       INTEGER                 :: I, IMAT, KK
       TYPE(G_BUFEL_) ,POINTER :: GBUF   
       TYPE(L_BUFEL_) ,POINTER :: LBUF   
@@ -68,9 +71,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
- 
-      !---CHECK UNOCCUPIPED SUBVOLUME AND FILL WITH PHASE 1. IF SUM(vfrac>1) display an error message.
 
+      !---ADD CONTRIBUTION FROM 2D POLYGONAL CLIPPING
+      IF(REQUIRED_2D_POLYGON_CLIPPING) THEN
+        DO I=1,NEL
+          DO IMAT=1,NBSUBMAT
+            KVOL(IMAT,I) = KVOL(IMAT,I) + KVOL_2D_POLYG(IMAT,I)
+          ENDDO
+        ENDDO
+      ENDIF
+
+      !---CHECK UNOCCUPIPED SUBVOLUME AND FILL WITH PHASE 1. IF SUM(vfrac>1) display an error message.
       PASSED = .TRUE.
       DO I=1,NEL
        IF(IPART(I+NFT) /= IDP)CYCLE
@@ -79,13 +90,13 @@ C-----------------------------------------------
         IF(SUMVF>ONE+EM06)THEN
           !not expected, user input must be checked : error message
           SUMVF = SUM(KVOL(2:NBSUBMAT,I))
-          IF(SUMVF <= ONE .AND. SUMVF > ZERO)THEN
+          IF(SUMVF <= ONE .AND. SUMVF > ZERO)THEN  ! sumvf is here calculated in range 2:nbsumat
             KVOL(1,I)=ONE-SUMVF
             PASSED = .TRUE.
           ELSE
             SUMVF = SUM(KVOL(1:NBSUBMAT,I))
             RATIO=ONE/SUMVF
-            KVOL(1:NBSUBMAT,I)=RATIO*KVOL(1:NBSUBMAT,I)          
+            KVOL(1:NBSUBMAT,I)=RATIO*KVOL(1:NBSUBMAT,I)
             PASSED=.TRUE.
           ENDIF
         ELSEIF(SUMVF<ONE-EM06)THEN

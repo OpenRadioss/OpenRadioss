@@ -137,6 +137,8 @@ C-----------------------------------------------
             IX(7) =IXS(8,I)
             IX(8) =IXS(9,I)
             ELEM_NUMNOD = 8
+          ELSE
+            CYCLE !not a solid elem
           ENDIF
         ELSE 
           IF(ITYP == 7)THEN
@@ -150,7 +152,9 @@ C-----------------------------------------------
             IX(2) =IXQ(3,I)
             IX(3) =IXQ(4,I)
             IX(4) =IXQ(5,I)  
-            ELEM_NUMNOD = 4      
+            ELEM_NUMNOD = 4
+          ELSE
+            CYCLE ! not a solid elem
           ENDIF
         ENDIF
         DO J=1,ELEM_NUMNOD

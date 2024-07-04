@@ -25,7 +25,7 @@ Chd|  CONNESURF                     source/initial_conditions/inivol/connesurf.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CONNESURF(NSEG, SURF_NODES ,KNOD2SURF,NNOD2SURF)
+      SUBROUTINE CONNESURF(NUMNOD, NSEG, SURF_NODES ,KNOD2SURF,NNOD2SURF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -33,7 +33,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER KNOD2SURF(*),NNOD2SURF,NSEG,SURF_NODES(NSEG,4)
+      INTEGER,INTENT(IN) :: NUMNOD
+      INTEGER KNOD2SURF(NUMNOD+1),NNOD2SURF,NSEG,SURF_NODES(NSEG,4)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
