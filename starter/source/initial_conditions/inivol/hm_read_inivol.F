@@ -96,6 +96,9 @@ C-----------------------------------------------
       CHARACTER*ncharline ERR_MSG
       DATA MESS/'INITIAL VOLUME FRACTION                 '/
       LOGICAL IS_ENCRYPTED,IS_AVAILABLE
+      LOGICAL DETECTED_ERROR
+      LOGICAL :: REQUIRED_2D_POLYGON_CLIPPING ! 2d polygons
+      LOGICAL :: REQUIRED_MONTE_CARLO_METHOD  ! 3d discretized surface, infinita plane, ellipsoids
 C-----------------------------------------------
 C   C o m m e n t s
 C-----------------------------------------------
@@ -176,6 +179,8 @@ C
         INIVOL(IGS)%TITLE = TITR(1:LEN_TRIM(TITR))
         INIVOL(IGS)%NUM_CONTAINER = NLIN
         INIVOL(IGS)%PART_ID = PART_ID
+        INIVOL(IGS)%REQUIRED_MONTE_CARLO_METHOD = .FALSE.
+        INIVOL(IGS)%REQUIRED_2D_POLYGON_CLIPPING = .FALSE.
         ALLOCATE(INIVOL(IGS)%CONTAINER(NLIN))
 
         WRITE(IOUT, '(A)') "     surf_ID SUBMAT_ID IREVERSED     ICUMU               VFRAC"
@@ -230,26 +235,55 @@ C
           ENDDO                                                                            
           FAC = 0                                                                          
           IF (ISU > 0) THEN                                                                
-            SRFTYP=IGRSURF(ISU)%TYPE 
-            IF(SRFTYP == 101) FAC = FAC + 1                                                                         
-            IF(SRFTYP == 200) FAC = FAC + 1                                                
-            !---   planar surface                                                          
-            IF(FAC /= 1)THEN                                                               
-              DO J=1,NN                                                                    
-                ITYP=IGRSURF(ISU)%ELTYP(J)                                                 
-                IF(ITYP==3 .or. ITYP==7) FAC = FAC + 1                                 
-              ENDDO                                                                        
-            ENDIF                                                                          
+            SRFTYP=IGRSURF(ISU)%TYPE
+            IF(SRFTYP == 101 .OR. SRFTYP == 200) THEN
+              FAC = 1
+            ELSE
+              DO J=1,NN
+                ITYP=IGRSURF(ISU)%ELTYP(J)
+                IF(ITYP==0 .or. ITYP==3 .or. ITYP==7) FAC = FAC + 1
+              ENDDO
+            ENDIF
+
+            REQUIRED_2D_POLYGON_CLIPPING = .FALSE.
+            REQUIRED_MONTE_CARLO_METHOD = .FALSE.
+            IF(ISU > 0 .AND. NN > 1 .AND. N2D /= 0)THEN
+              !TEST SURFACE CLOSURE (CLOSED POLYGON)
+              IF(IGRSURF(ISU)%NODES(1,1) /= IGRSURF(ISU)%NODES(NN,2)) THEN
+                CALL ANCMSG(MSGID=3063,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
+              ENDIF
+              !TEST POLYGON DEFINITION --- (last point of current segment is first point of next one : otherwise set DETECTED_ERROR to .TRUE.
+              DETECTED_ERROR=.FALSE.
+              DO J=1,NN-1
+                IF(IGRSURF(ISU)%NODES(J,2) /= IGRSURF(ISU)%NODES(J+1,1))THEN
+                  DETECTED_ERROR = .TRUE.
+                  EXIT
+                ENDIF
+              ENDDO
+              IF(DETECTED_ERROR)THEN
+                CALL ANCMSG(MSGID=3064,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
+              ENDIF
+              REQUIRED_2D_POLYGON_CLIPPING = .TRUE.
+            ELSEIF(ISU > 0)THEN
+              REQUIRED_MONTE_CARLO_METHOD = .TRUE.
+              IF(ISU > 0 .AND. NN <= 2 .AND. N2D /= 0 .AND. SRFTYP == 0)THEN
+                CALL ANCMSG(MSGID=3064,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR) !not enough points to define a polygon
+              ENDIF
+            ENDIF
             !---   discretized surface                                                     
             INIVOL(IGS)%CONTAINER(KK)%SURF_ID = ISU
             INIVOL(IGS)%CONTAINER(KK)%SUBMAT_ID = SUBMAT_ID
             INIVOL(IGS)%CONTAINER(KK)%IREVERSED = IREVERSED
             INIVOL(IGS)%CONTAINER(KK)%VFRAC = INT(VFRAC*EP9)
             INIVOL(IGS)%CONTAINER(KK)%ICUMU = ICUMU
+            INIVOL(IGS)%CONTAINER(KK)%REQUIRED_MONTE_CARLO_METHOD = REQUIRED_MONTE_CARLO_METHOD
+            INIVOL(IGS)%CONTAINER(KK)%REQUIRED_2D_POLYGON_CLIPPING = REQUIRED_2D_POLYGON_CLIPPING
+            IF(REQUIRED_MONTE_CARLO_METHOD)  INIVOL(IGS)%REQUIRED_MONTE_CARLO_METHOD = .TRUE.
+            IF(REQUIRED_2D_POLYGON_CLIPPING) INIVOL(IGS)%REQUIRED_2D_POLYGON_CLIPPING = .TRUE.
 C
             IF(N2D == 0 .AND. FAC == 0)THEN                                                               
               CALL ANCMSG(MSGID=890,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)          
-            ELSEIF(N2D > 0 .AND. SRFTYP /=101 .AND. SRFTYP /= 200)THEN
+            ELSEIF(N2D > 0 .AND. SRFTYP /=0 .AND. SRFTYP /=101 .AND. SRFTYP /= 200)THEN
               CALL ANCMSG(MSGID=2012,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR) 
             ENDIF                                                                          
           ELSE  ! ISU == 0                                                                 

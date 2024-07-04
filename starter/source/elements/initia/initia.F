@@ -132,7 +132,7 @@ Chd|====================================================================
      2                  IXP        ,IXR           ,DETONATORS       ,GEO            ,PM        ,
      3                  RBY        ,NPBY          ,LPBY             ,NPC            ,NPTS      ,
      4                  PLD        ,VEUL          ,ALE_CONNECTIVITY ,SKEW           ,FILL      ,
-     5                  IPART      ,ITAB          ,SENSORS          ,
+     5                  IPART      ,ITAB          ,SENSORS          ,SKVOL          ,
      6                  IXTG       ,THK           ,NLOC_DMG         ,GROUP_PARAM_TAB,
      7                  IGRNOD     ,IGRSURF       ,BUFSF            ,VR             ,
      8                  BUFMAT     ,XLAS          ,LAS              ,DTELEM         ,MSS       ,
@@ -249,6 +249,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: SKVOL
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,*), IXQ(NIXQ,*),IXC(NIXC,*),
      .   IGEO(NPROPGI,*), IXT(NIXT,*),IXP(NIXP,*), IXR(NIXR,*),
      .   NPBY(NNPBY,*),LPBY(*),NPBYL(NNPBY,*),LPBYL(*),NPC(*),
@@ -1645,7 +1646,7 @@ C-----------------------------------------------------
      .                   n2d      ,multi_fvm,  sipart, ipart,
      .                   i15a     ,i15b     ,    i15h, sbufmat,  bufmat,
      .                   npropmi  ,nummat   ,     ipm , sbufsf,   bufsf,
-     .                   npropg   ,numgeo   ,     geo , mvsiz)
+     .                   npropg   ,numgeo   ,     geo , mvsiz ,   skvol, itab)
 C---------------------------------
 C  Gravity (after INIVOL)
 C---------------------------------

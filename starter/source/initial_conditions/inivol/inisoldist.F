@@ -125,6 +125,7 @@ C-----------------------------------------------
       NF1=NFT+1
       LFT=1
       LLT=NEL
+      ITY=ITYP
 
 
 
@@ -210,7 +211,7 @@ C-----------
      . NNOD2SURF  ,INOD2SURF  ,KNOD2SURF ,JMID       ,IPHASE(1,NF1) ,INPHASE       ,KVOL(1,NF1)   ,
      . SURF_TYPE  ,IAD_BUFR   ,BUFSF     ,NOD_NORMAL ,ISOLNOD       ,NBSUBMAT      ,FILL_RATIO    ,ICUMU      ,
      . NSEG       ,SURF_ELTYP ,SURF_NODES,NBCONTY    ,IDC           ,NBIP(1,NF1)   ,IDSURF        ,SWIFTSURF  ,
-     . SEGTOSURF  ,IGRSURF    ,IVOLSURF  ,NSURF_INVOL,pIXQ          ,pIXTG         ,ITY           ,NEL        ,
+     . SEGTOSURF  ,IGRSURF    ,IVOLSURF  ,NSURF_INVOL,pIXQ          ,pIXTG         ,ITYP          ,NEL        ,
      . NUMEL_TOT  )
 C-----------------------------------------------------------------
       RETURN
