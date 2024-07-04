@@ -74,7 +74,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
         integer i,j,k,n,nel,nft,nn,ie,ii,igtyp,nf1,ity,nnode,pid,nshel,ng,stat,lenr,nsh_oset,nnoset
-        integer ibid(1),ndim1,ndim2
+        integer ibid(1),ndim1,ndim2,nsh_oset_g
         my_real shelloff
         my_real, dimension(:)  ,  allocatable :: thkoset,thkoset_n    
         double precision, dimension(:,:),  allocatable :: thkoset6,thkoset_n6    
@@ -88,6 +88,7 @@
             nsh_oset)
 
           sh_offset_tab%nsh_oset = nsh_oset
+          nshel=0
           if (nsh_oset >0) then
             allocate(sh_offset_tab%ix_offset(4,nsh_oset),STAT=stat)
             allocate(sh_offset_tab%offset_n(numnod),STAT=stat)
@@ -95,7 +96,6 @@
             allocate(thkoset(nsh_oset),STAT=stat)
             sh_offset_tab%offset_n = zero
             thkoset = zero
-            nshel=0
             do  ng=1,ngroup
               ity=iparg(5,ng)
               igtyp  = iparg(38,ng)
@@ -134,6 +134,7 @@
                 end do
               end if
             end do
+          end if !(nsh_oset>0) then
             allocate(sh_offset_tab%intag(numnod),STAT=stat)
 ! initialize comm
             if (nspmd>1) then
@@ -239,7 +240,7 @@
             thkoset_n(n) = thkoset_n(n)/sh_offset_tab%intag(n)
             if (thkoset_n(n)==zero) sh_offset_tab%intag(n)=0
           end do
-          deallocate(thkoset)
+          if (nsh_oset >0) deallocate(thkoset)
 ! reducing nodal dim
           nnoset=0
           do n = 1, numnod
@@ -260,12 +261,13 @@
             end if
           end do
 !  update  sh_offset_tab%fr_offset         
-          do i = 1, nn
-            n = sh_offset_tab%fr_offset(i)
-            ii = sh_offset_tab%intag(n)
-            sh_offset_tab%fr_offset(i) = ii
-          end do
+          if (nspmd>1) then
+            do i = 1, nn
+              n = sh_offset_tab%fr_offset(i)
+              ii = sh_offset_tab%intag(n)
+              sh_offset_tab%fr_offset(i) = ii
+            end do
+          end if
           deallocate(thkoset_n)
-        end if !(nsh_oset>0) then
         end subroutine inter_sh_offset_ini
       end module inter_sh_offset_ini_mod
