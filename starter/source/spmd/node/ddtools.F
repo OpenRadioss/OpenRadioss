@@ -744,7 +744,7 @@ C--------------------------------------------------------------
         ITY    = IPARI(7,NI)
         
         IF ((FLAG==0.AND.(ITY==24.OR.(ITY==25.AND.IPARI(100,NI) == 0))).OR.
-     .      (FLAG==1.AND.(ITY==7.OR.ITY==10.OR.
+     .      (FLAG==1.AND.(ITY==10.OR. ITY==7.OR.
      .      ITY==22.OR.ITY==23)) )THEN
      
           NRTM   = IPARI(4,NI)
@@ -761,7 +761,6 @@ C Allocate CEP INTERFACE
             ENDIF
             INTERCEP(2,NI)%P(1:NRTM) = 0
           ENDIF
-              
           DO K=1,NRTM
              N1=INTBUF_TAB(NI)%IRECTM(4*(K-1)+1)
              N2=INTBUF_TAB(NI)%IRECTM(4*(K-1)+2)
@@ -950,7 +949,6 @@ C Allocate CEP INTERFACE
       ENDDO !ENDDO 1,NINTER
 
       END
-      
 Chd|====================================================================
 Chd|  FILL_INTERCEP                 source/spmd/node/ddtools.F    
 Chd|-- called by -----------
@@ -961,7 +959,54 @@ Chd|        FRONT_MOD                     share/modules1/front_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE FILL_INTERCEP(IPARI,INTBUF_TAB,INTERCEP)
+      SUBROUTINE FIND_PROC_FROM_NODES(NRTM,N1,N2,N3,N4,CEP_INTERF,CONNECTIVITY, max_nb_nodes_per_elt, NELEM, PROC, NUMNOD)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc" 
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER, INTENT(IN) :: max_nb_nodes_per_elt !< maximum number of nodes per element (10)
+      INTEGER, INTENT(IN) :: NRTM !< number of nodes to find
+      INTEGER, INTENT(IN) :: NUMNOD !< number of nodes
+      INTEGER, INTENT(IN) :: N1(NRTM), N2(NRTM), N3(NRTM), N4(NRTM) !< nodes to find in the connectivity
+      INTEGER, INTENT(IN) :: NELEM !< number of elements
+      INTEGER, INTENT(IN) :: CEP_INTERF(NELEM) !< domain for the interface part
+      INTEGER, INTENT(IN) :: CONNECTIVITY(max_nb_nodes_per_elt,nelem) !< element to node connectivity
+      INTEGER, INTENT(INOUT) :: PROC(NRTM) !< domain for the interface part
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER :: I,J,K
+      INTEGER :: NODES(max_nb_nodes_per_elt)
+      INTEGER :: MAX_NODES, MAX_NODES_LOCAL
+      INTEGER :: IRTM
+
+      PROC(1:NRTM) = -1
+      CALL find_element_from_nodes(nrtm, n1, n2, n3, n4,connectivity, max_nb_nodes_per_elt,nelem,PROC)
+      DO I=1,NRTM
+            IF( PROC(I) < 0 .OR. PROC(I) > NELEM) THEN
+                  PROC(I) = -1 ! the processor is not found using element connectivity, will use the surface latter
+                  ! TETRA10: not found in the element connectivity
+            ELSE
+              PROC(I) = CEP_INTERF(PROC(I)) + 1 ! the processor that will be used for the surface is the one of the element that contains the maximum number of nodes of the surface 
+            ENDIF
+      ENDDO
+
+      END
+     
+Chd|====================================================================
+Chd|  FILL_INTERCEP                 source/spmd/node/ddtools.F    
+Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
+Chd|-- calls ---------------
+Chd|        INTERSURFL                    source/spmd/node/ddtools.F    
+Chd|        FRONT_MOD                     share/modules1/front_mod.F    
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|====================================================================
+      SUBROUTINE FILL_INTERCEP(IPARI,INTBUF_TAB,INTERCEP, CEP_INTERF, CONNECTIVITY, NELEM) 
 C   new routine called right after domdec1 to be used by interface sorting
 C-----------------------------------------------
 C   M o d u l e s
@@ -969,6 +1014,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE FRONT_MOD
       USE INTBUFDEF_MOD
+      USE consider_edge_mod, ONLY :  max_nb_nodes_per_elt
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -984,6 +1030,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NELEM !< number of elements
+      INTEGER :: CEP_INTERF(NELEM)
+      INTEGER, INTENT(IN) :: CONNECTIVITY(max_nb_nodes_per_elt,nelem)
       INTEGER IPARI(NPARI,*)
       TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -995,9 +1044,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ITY,NRTM,N,N1,N2,N3,N4,NSN,
+      INTEGER ITY,NRTM,N,NSN,
      .        NRTS,N1L,N2L,N3L,N4L,NLINM,NLINS
-      INTEGER NI,K,I,PROC
+      INTEGER NI,K,I
+      integer, dimension(:), allocatable :: N1, N2, N3, N4, PROC
 C--------------------------------------------------------------
       DO NI=1,NINTER
       
@@ -1012,26 +1062,27 @@ C Allocate CEP INTERFACE
             ALLOCATE(INTERCEP(1,NI)%P(NRTM))
           ENDIF   
           INTERCEP(1,NI)%P(1:NRTM)=0
-
+          allocate(N1(NRTM), N2(NRTM), N3(NRTM), N4(NRTM))
+          allocate(proc(NRTM))
           DO K=1,NRTM
-             N1=INTBUF_TAB(NI)%IRECTM(4*(K-1)+1)
-             N2=INTBUF_TAB(NI)%IRECTM(4*(K-1)+2)
-             N3=INTBUF_TAB(NI)%IRECTM(4*(K-1)+3)
-             N4=INTBUF_TAB(NI)%IRECTM(4*(K-1)+4)
-             !find first SPMD domain on which the 4 nodes of the surface are
-             IF(N1>NUMNOD.OR.N2>NUMNOD.OR.
-     .          N3>NUMNOD.OR.N4>NUMNOD) THEN
-               INTERCEP(1,NI)%P(K) = 1
-             ELSE
-               PROC = INTERSURFL(N1,N2,N3,N4)
-               INTERCEP(1,NI)%P(K) = PROC
-             ENDIF           
+             N1(k)=INTBUF_TAB(NI)%IRECTM(4*(K-1)+1)
+             N2(k)=INTBUF_TAB(NI)%IRECTM(4*(K-1)+2)
+             N3(k)=INTBUF_TAB(NI)%IRECTM(4*(K-1)+3)
+             N4(k)=INTBUF_TAB(NI)%IRECTM(4*(K-1)+4)
           ENDDO
-        
+          CALL FIND_PROC_FROM_NODES(NRTM,N1,N2,N3,N4,CEP_INTERF,CONNECTIVITY, max_nb_nodes_per_elt, NELEM, PROC, NUMNOD)
+          DO K=1,NRTM
+               IF(PROC(k) < 0)  PROC = INTERSURFL(N1(k),N2(k),N3(k),N4(k))
+c              IF(N1(K) == 8572) write(6,*) "STICK NODE 8572 TO",PROC
+               CALL IFRONTPLUS(N1(k),PROC(k))
+               CALL IFRONTPLUS(N2(k),PROC(k))
+               CALL IFRONTPLUS(N3(k),PROC(k))
+               CALL IFRONTPLUS(N4(k),PROC(k))
+               INTERCEP(1,NI)%P(K) = PROC(k)
+          ENDDO
+          deallocate(N1, N2, N3, N4, PROC)
         ENDIF
-        
       ENDDO !ENDDO 1,NINTER
-
       END
 
 Chd|====================================================================
