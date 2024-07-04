@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  SPMD_FIADD20_PON              source/mpi/interfaces/spmd_i7tool.F
+Chd|  SPMD_FIADD20_PON              source/mpi/interfaces/spmd_i20tool.F
 Chd|-- called by -----------
 Chd|        SPMD_I7FCOM_PON               source/mpi/forces/spmd_i7fcom_pon.F
 Chd|-- calls ---------------
@@ -83,7 +83,7 @@ C
       END
 C
 Chd|====================================================================
-Chd|  SPMD_FIADD20E_PON             source/mpi/interfaces/spmd_i7tool.F
+Chd|  SPMD_FIADD20E_PON             source/mpi/interfaces/spmd_i20tool.F
 Chd|-- called by -----------
 Chd|        SPMD_I7FCOM_PON               source/mpi/forces/spmd_i7fcom_pon.F
 Chd|-- calls ---------------

@@ -489,7 +489,6 @@ Chd|  MIXTURE_EQUILIBRIUM           source/materials/mat/mat041/sigeps41.F
 Chd|-- called by -----------
 Chd|        SIGEPS41                      source/materials/mat/mat041/sigeps41.F
 Chd|-- calls ---------------
-Chd|        JWL_EOS_STATE                 source/materials/mat/mat041/sigeps41.F
 Chd|====================================================================
       SUBROUTINE MIXTURE_EQUILIBRIUM(
      .               ar   ,br   ,r1r    ,r2r  ,r3r   ,cvr ,etar,

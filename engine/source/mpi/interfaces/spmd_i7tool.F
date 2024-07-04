@@ -7345,9 +7345,9 @@ Chd|  GETDPDAANC                    source/mpi/interfaces/spmd_i7tool.F
 Chd|-- called by -----------
 Chd|        SPMD_EXCH_DA20                source/mpi/interfaces/spmd_exch_da20.F
 Chd|        SPMD_FIADD20E_POFF            source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_FIADD20E_PON             source/mpi/interfaces/spmd_i7tool.F
+Chd|        SPMD_FIADD20E_PON             source/mpi/interfaces/spmd_i20tool.F
 Chd|        SPMD_FIADD20_POFF             source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_FIADD20_PON              source/mpi/interfaces/spmd_i7tool.F
+Chd|        SPMD_FIADD20_PON              source/mpi/interfaces/spmd_i20tool.F
 Chd|        SPMD_I7XVCOM2                 source/mpi/interfaces/spmd_i7xvcom2.F
 Chd|-- calls ---------------
 Chd|====================================================================

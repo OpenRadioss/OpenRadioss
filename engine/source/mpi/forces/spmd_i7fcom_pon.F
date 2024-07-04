@@ -43,10 +43,10 @@ Chd|        SORTI25                       source/mpi/interfaces/sorti25.F
 Chd|        SORTINT                       source/mpi/interfaces/spmd_i7tool.F
 Chd|        SPMD_FIADD11_PON              source/mpi/interfaces/spmd_i7tool.F
 Chd|        SPMD_FIADD17_PON              source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_FIADD20E_PON             source/mpi/interfaces/spmd_i7tool.F
+Chd|        SPMD_FIADD20E_PON             source/mpi/interfaces/spmd_i20tool.F
 Chd|        SPMD_FIADD20FE_PON            source/mpi/interfaces/spmd_i7tool.F
 Chd|        SPMD_FIADD20F_PON             source/mpi/interfaces/spmd_i7tool.F
-Chd|        SPMD_FIADD20_PON              source/mpi/interfaces/spmd_i7tool.F
+Chd|        SPMD_FIADD20_PON              source/mpi/interfaces/spmd_i20tool.F
 Chd|        SPMD_FIADD25E_PON             source/mpi/interfaces/spmd_fiadd25e_pon.F
 Chd|        SPMD_FIADD_PON                source/mpi/interfaces/spmd_i7tool.F
 Chd|        FSKYI_MOD                     share/modules/restart_mod.F   
