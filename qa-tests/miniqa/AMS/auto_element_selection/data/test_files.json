@@ -1,0 +1,8 @@
+{
+	"enabled": 1,
+	"enabled_sp" : 1,
+	"starter": "tstpeel_AUTOPART_0000.rad",
+	"engines": ["tstpeel_AUTOPART_0001.rad"],
+    "keyword" : "pon_nok"
+
+}

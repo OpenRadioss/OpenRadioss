@@ -3,6 +3,7 @@ echo OFF
 set arch=built_in
 set mpi=smp
 set np=1
+set nt=1
 set prec=dp
 set test_cases=""
 set verbose=""
@@ -11,6 +12,8 @@ set keep_results=0
 set clean=0
 set debug=0
 set ddebug=0
+set qa_type=default
+set pon_run=4x1,1x4
 
 rem Argument loop
 :ARG_LOOP
@@ -18,6 +21,15 @@ IF (%1) == () GOTO END_ARG_LOOP
 
    IF %1==-help (
        GOTO HELP
+   )
+
+   IF %1==-type (
+       set qa_type=%2
+   )
+
+   IF %1==-pon_run (
+       set pon_run=%2
+       set qa_type=pon
    )
 
    IF %1==-arch (
@@ -36,13 +48,16 @@ IF (%1) == () GOTO END_ARG_LOOP
        set np=%2
    )
 
+   IF %1==-nt (
+       set nt=%2
+   )
+
    IF %1==-prec (
        set prec=%2 
     )
 
    IF %1==-tests (
        set tests=-R %2
-
    )
 
    IF %1==-stdout (
@@ -90,7 +105,7 @@ if exist %test_directory% (
 )
 
 if %debug%==0 (
-    set ddebug=Optimized
+    set ddebug=optimized
 ) else (
 
    if %debug%==1 (
@@ -105,7 +120,9 @@ rem MPI=smp,impi,ompi : depending on the flavors
 rem cmake -DMPI=impi -DNP=4 ..
 echo ddebug= %ddebug%
 
-cmake -Darch=%arch% -DPREC=%prec% -DMPI=%mpi%  -DNP=%np% %stdout% -DKEEP=%keep_results% -DDEBUG=%ddebug% ..
+echo QA Type: %qa_type%
+
+cmake -Darch=%arch% -DPREC=%prec% -DMPI=%mpi% -DNP=%np% -DNT=%nt%  %stdout% -DKEEP=%keep_results% -DDEBUG=%ddebug% -Dtype=%qa_type% -Dpon_run=%pon_run% ..
 ctest -C Release --output-on-failure --timeout 600 %tests% %verbose%
 
 cd ..
@@ -119,21 +136,29 @@ GOTO END
   echo ------------
   echo Run Test suite and verify the results
   echo. 
-  echo Use with arguments :
-  echo -help              : print this help exit
+  echo Use with arguments  :
+  echo -help               : print this help exit
+  echo.
+  echo -type=[default,pon] : test type
+  echo                       -type=default : test suite with numerical results verification
+  echo                       -type=pon     : check parallel arithmetic
+  echo -pon_run="MPIxThreds,..." : komma separated list of #mpix#threads
   echo. 
-  echo -arch=arch         : Set the executable architecture.
-  echo                      -arch=built_in (Default) :
+  echo -arch=arch          : Set the executable architecture.
+  echo                       -arch=built_in (Default) :
   echo                               linux64_gf for linux
   echo                               win64 for windows
   echo                               linuxa64 for Linux/Arm
   echo.
   echo -mpi=[smp,ompi,impi]
-  echo         -mpi=smp  : Engine is SMP only executable (default)
-  echo         -mpi=ompi : engine is using OpenMPI
-  echo         -mpi=impi : engine is using Intel MPI
+  echo         -mpi=smp    : Engine is SMP only executable (default)
+  echo         -mpi=ompi   : engine is using OpenMPI
+  echo         -mpi=impi   : engine is using Intel MPI
   echo.
-  echo -np=#MPI Domains    : Set # MPI Domains thest will run through
+  echo -debug=[0,1,chkb]   : Debug flag for executable : 0 (default) 1 debug (_db),chkb (debug with checkbounds)
+  echo.
+  echo -np=#MPI Domains    : Set # MPI Domains 
+  echo -nt=#Threads        : Set # Threads
   echo -prec=[dp,sp]       : set executable precision - dp (default) ,sp
   echo -stdout             : print Test output
   echo -tests="Test list"  : Run specific tests
