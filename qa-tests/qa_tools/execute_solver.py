@@ -240,48 +240,17 @@ def exec_openradioss(starter,starter_arg,run_starter,engine,run_engine,starter_d
 # Execute OpenRadioss Starter & Engine
 # ------------------------------------
 
-  # Environment Variable setting
-  #-----------------------------
   # OMP_NUM_THREADS
-  qa_system.set_variable('OMP_NUM_THREADS',str(nt))
-  #
-  # RAD_CFG_PATH
-  #
-  rad_cfg_path=os.getcwd()+slash+'..'+slash+'..'+slash+'..'+slash+'hm_cfg_files'
-  qa_system.set_variable('RAD_CFG_PATH',rad_cfg_path)
-
-  #
-  # RAD_H3D_PATH
-  #
-  rad_h3d_path=os.getcwd()+slash+'..'+slash+'..'+slash+'..'+slash+'extlib'+slash+'h3d'+slash+'lib'+arch
-  qa_system.set_variable('RAD_H3D_PATH',rad_h3d_path)
-
-  #
-  # PATH/LD_LIBRARY_PATH : add parth to extlib in PATH
-  #
-  if arch == 'win64':
-    path=os.getenv('PATH')
-    wd=os.getcwd()
-    hm_reader_path=wd+slash+'..'+slash+'..'+slash+'..'+slash+'extlib'+slash+'hm_reader'+slash+arch
-    new_path=hm_reader_path+sep+path
-    os.environ['PATH']=new_path
-  else:
-    wd=os.getcwd()
-    hm_reader_path=wd+slash+'..'+slash+'..'+slash+'..'+slash+'extlib'+slash+'hm_reader'+slash+arch
-    try:
-      path=os.getenv('LD_LIBRARY_PATH')
-      new_path=hm_reader_path+sep+path
-    except:
-      new_path=hm_reader_path
-    os.environ['LD_LIBRARY_PATH']=new_path
+  os.environ['OMP_NUM_THREADS']=str(nt)
 
   print("")
   if run_starter == 1:
-     print("--- Executing Starter")
+     print("    Executing Starter:")
      starter_command=get_starter_command(starter,starter_deck,np,starter_arg)
      p_starter_command='    '+starter_command
      print(p_starter_command)
      os.system(starter_command)
+
 
      if stdout == 1:
         print('')
@@ -293,11 +262,11 @@ def exec_openradioss(starter,starter_arg,run_starter,engine,run_engine,starter_d
            print(line[:-1])
 
   else:
-     print("--- Skip Starter")
+     print("    Skip Starter")
   print("")
 
   if run_engine == 1:
-     print("--- Executing Engine")
+     print("    Executing Engine:")
      for deck in engine_decks:
         engine_command=get_engine_command(engine,mpi,deck,np)
         p_engine_command='    '+ engine_command

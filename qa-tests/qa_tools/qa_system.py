@@ -59,7 +59,6 @@ def get_arch():
 
   return arch,default_arch,slash,separator
 
-
 def set_variable(variable,value):
 # --------------------------------------------------
 # Input:
@@ -109,4 +108,93 @@ def print_log_files(starter_log_file,engine_log_file):
   print('----------------------------------------------------------------------------')
 
 
- 
+def set_or_variables():
+# -------------------------------------------------------
+# Input:
+#    threads : Set Threads for execution
+# -------------------------------------------------------
+# set environment variables for Radioss.
+# -------------------------------------------------------
+  arch,default_arch,slash,sep=get_arch()
+
+  #
+  # OMP_STACKSIZE
+  set_variable('OMP_STACKSIZE','400m')
+
+  #
+  # RAD_CFG_PATH
+  #
+  rad_cfg_path=os.getcwd()+slash+'..'+slash+'..'+slash+'..'+slash+'hm_cfg_files'
+  set_variable('RAD_CFG_PATH',rad_cfg_path)
+
+  #
+  # RAD_H3D_PATH
+  #
+  rad_h3d_path=os.getcwd()+slash+'..'+slash+'..'+slash+'..'+slash+'extlib'+slash+'h3d'+slash+'lib'+arch
+  set_variable('RAD_H3D_PATH',rad_h3d_path)
+
+  #
+  # PATH/LD_LIBRARY_PATH : add parth to extlib in PATH
+  #
+  if arch == 'win64':
+    path=os.getenv('PATH')
+    wd=os.getcwd()
+    hm_reader_path=wd+slash+'..'+slash+'..'+slash+'..'+slash+'extlib'+slash+'hm_reader'+slash+arch
+    new_path=hm_reader_path+sep+path
+    os.environ['PATH']=new_path
+  else:
+    wd=os.getcwd()
+    hm_reader_path=wd+slash+'..'+slash+'..'+slash+'..'+slash+'extlib'+slash+'hm_reader'+slash+arch
+    try:
+      path=os.getenv('LD_LIBRARY_PATH')
+      new_path=hm_reader_path+sep+path
+    except:
+      new_path=hm_reader_path
+    os.environ['LD_LIBRARY_PATH']=new_path
+
+
+def get_rootname(input_file):
+#
+# Input file : 
+# Get the input format : rad or dyn
+# The input deck rootname  
+#
+   deck_type='unknown'
+   rootname='-'
+
+   deck_suf=input_file.split('.')
+   len_deck=len(deck_suf)
+   if len_deck >= 2:
+       suff=deck_suf[len_deck-1]
+       if suff == 'rad':
+           deck_type='rad'
+           rootname=input_file[0:len(input_file)-9]
+
+       if suff == 'k' or suff == 'key':
+           deck_type='dyn'
+           rootname=deck_suf[0]
+           
+   return rootname
+
+def add_checksum_option(engine_file):
+    #rename file
+    tmp_file=engine_file+'_tmp'
+    try:
+       os.rename(engine_file,tmp_file)
+    except:
+       print('--- Error: '+engine_file+' not found' )
+
+    with open (engine_file,"w") as write_file:
+         write_file.write('/DEBUG/CHKSM/10\n')
+         with open(tmp_file,"r") as read_file:     
+           while True:
+             line=read_file.readline()
+             if not line:
+               break 
+             write_file.write(line)
+
+    write_file.close()
+    read_file.close()
+
+   
+      

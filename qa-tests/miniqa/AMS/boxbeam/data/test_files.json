@@ -13,6 +13,7 @@
     "TOL_KENERGYT_DIS": ["Relative_Int_Tolerance", "0.0051"],
     "TOL_KENERGYR_DIS": ["Relative_Int_Tolerance", "0.0051"],
     "TOL_KENERGYT_SP": ["Diff_tolerance", "0.018"],
-    "TOL_KENERGYR_SP": ["Diff_tolerance", "0.075"]
+    "TOL_KENERGYR_SP": ["Diff_tolerance", "0.075"],
+    "keyword" : "pon_nok"
 
 }

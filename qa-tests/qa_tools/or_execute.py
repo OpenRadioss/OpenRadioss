@@ -29,6 +29,7 @@
 import os
 import sys
 import shutil
+import time
 
 # qa_tools_library
 import qa_system
@@ -58,16 +59,20 @@ if __name__ == "__main__":
   run_starter=1
   run_engine=1
   np=1
+  nt=1
   stdout = 0
   keep=0
   qa_type='default'
   starter_arg=""
   debug=""
+  pon_string='4x1,1x4'
+  keywork='nothing'
 
   # Parse command line arguments
   # -----------------------------
   arguments=sys.argv
   count = 0
+
   for arg  in arguments:
     count=count+1
     if(arg == '-starter'):
@@ -101,10 +106,13 @@ if __name__ == "__main__":
       mpi=arguments[count]
 
     if(arg == '-debug'):
-      debug=arguments[count]
+      debug="_"+arguments[count]
 
     if(arg == '-np'):
       np=int(arguments[count])
+
+    if(arg == '-nt'):
+      nt=int(arguments[count])
 
     if(arg == '-prec'):
       prec=arguments[count] 
@@ -116,11 +124,13 @@ if __name__ == "__main__":
       stdout=int(arguments[count])
 
     if(arg == '-qa_type'):
-      qa_type=int(arguments[count])
+      qa_type=arguments[count]
 
     if(arg == '-keep'):
       keep=int(arguments[count])
 
+    if (arg=='-pon_string'):
+      pon_string=arguments[count]
 
 
   # ---------------------------------
@@ -131,6 +141,9 @@ if __name__ == "__main__":
   print("")
   print('--- Run Number: ',id)
   Deck_mes='--- Deck Directory: '+deck_dir
+  print('--- Test Type: '+qa_type)
+  if qa_type == 'pon':
+     print('    pon experiments: '+pon_string)
   if prec == 'sp':
      print('--- Single Precision version tested')
   print(Deck_mes)
@@ -152,6 +165,16 @@ if __name__ == "__main__":
        if enabled == 0:
           print('')
           print('--- Test case disabled ! ')
+          print('    Skiping') 
+          print('')
+          sys.exit(0)
+
+
+    if 'keyword' in test_json:
+       keyword=test_json['keyword']
+       if qa_type=='pon' and 'pon_nok' in keyword:
+          print('')
+          print('--- Test case not suited for pon test ')
           print('    Skiping') 
           print('')
           sys.exit(0)
@@ -181,6 +204,7 @@ if __name__ == "__main__":
 
     if 'starter_argument' in test_json:
        starter_arg=test_json['starter_argument']
+      
 
   # Set -np 1 when run in SMP mode.
   if mpi == 'smp':
@@ -279,35 +303,46 @@ if __name__ == "__main__":
   print(starter_deck_mess)
   print(engine_deck_mess,engine_deck)
 
-# Execute the Solver
-# ------------------
+
+  #move to execution directory
   os.chdir(exec_directory)
-  execute_solver.exec_openradioss(starter,starter_arg,run_starter,engine,run_engine,starter_deck,engine_deck,mpi,np,1,stdout)
-  print('')
 
-# Verify the results
-# ------------------
-  print('--- Verify Results')
-  number_of_runs = len(engine_deck)
-  Errors = 0
+  # Set all variables to execute OpenRadioss
+  qa_system.set_or_variables()
 
+  #----------------------------------------------------
   if qa_type == 'default':
   # Default Radioss QA Check
   # Compare last cycle line with Reference
-  # --------------------------------------
+  #----------------------------------------------------
+ 
+    # Execute the Solver
+    # ----------------------- 
+    execute_solver.exec_openradioss(starter,starter_arg,run_starter,engine,run_engine,starter_deck,engine_deck,mpi,np,nt,stdout)
+    print('')
 
-     print('    Listing Engine output check')
-     # Get the last line infos from last engine output file
-     # ---------------------------------------------------
-     results,Normal_termination = verify_results.extract_engine_results(engine_deck[0],number_of_runs)
-     if Normal_termination == 0:
+    # Verify the results
+    # ------------------
+    print('--- Verify Results')
+    number_of_runs = len(engine_deck)
+    Errors = 0
+
+    # Default Radioss QA Check
+    # Compare last cycle line with Reference
+    # --------------------------------------
+
+    print('    Listing Engine output check')
+    # Get the last line infos from last engine output file
+    # ---------------------------------------------------
+    results,Normal_termination = verify_results.extract_engine_results(engine_deck[0],number_of_runs)
+    if Normal_termination == 0:
         Errors = Errors + 1
      
-     if Normal_termination == -1:
+    if Normal_termination == -1:
         Errors = Errors + 1
         qa_system.print_log_files('starter_output.log','engine_output.log') 
 
-     else:
+    else:
         # Get the lines from ref.extract
         # ------------------------------
         words,reference = verify_results.extract_reference('ref.extract')
@@ -316,6 +351,72 @@ if __name__ == "__main__":
         # --------------------------------------------
         Errors =  Errors + verify_results.compare(words,reference,results,test_json,default_tol,prec)
   
+
+  #----------------------------------------------------
+  if qa_type == 'pon':
+  # parallel arithmetic on - Radioss QA Check
+  # Compare Acceleration checksums at the end of job
+  # Executed with different MPIs / Threads
+  # --------------------------------------------------
+     engine_out_list=[]
+
+     exp_l=pon_string.split(',')
+
+     # pon string is a komma separated list : item is #MPIx#Threads
+     # -------------------------------------------------------------
+     # Each item will be executed, Engine output files kept
+     for exp in exp_l:
+        mpi_thr=exp.split('x')
+        np=int(mpi_thr[0])
+        nt=int(mpi_thr[1])
+
+        for deck in engine_deck:
+           qa_system.add_checksum_option(deck)
+
+        print(" ")
+        print("--- MPI="+str(mpi)+" #MPI="+str(np)+" Threads="+str(nt))
+        execute_solver.exec_openradioss(starter,starter_arg,run_starter,engine,run_engine,starter_deck,engine_deck,mpi,np,nt,stdout)
+
+        # Save last Engine file
+        number_of_runs = len(engine_deck)
+        rootname=qa_system.get_rootname(engine_deck[number_of_runs-1])
+        file_to_save=rootname+'_'+str(number_of_runs).zfill(4)+'.out'
+        renamed_file=file_to_save+'_'+str(np)+'x'+str(nt)+'.txt'
+
+        try:
+           os.rename(file_to_save,renamed_file)
+        except:
+           print('--- Error: '+file_to_save+' not found' )
+
+        engine_out_list.append(renamed_file)
+
+     # -------------------------------------------------------------
+     # Grab the last checksum from the saved output file & compare them
+     time.sleep(1)
+     print(" ")
+     print("--- Verify Results")
+     Errors = 0
+     checksum_list=[]
+     for file in engine_out_list:
+        checksum=verify_results.last_checksum(file)
+        checksum_list.append(checksum)
+        print("    Parse "+file+", Checksum: "+checksum)
+
+     if len(checksum_list) > 0:
+       initial_item=checksum_list[0]
+       for item in checksum_list:
+          if item != initial_item:
+             Errors = Errors + 1
+     else:
+        print(" ")
+        print("    Parsing failed")
+        Errors=1
+     
+     if Errors > 0:
+        print(" ")
+        print("Checksum verification failed - test case is not /PARITH/ON ")
+        print(" ")
+
   if qa_type == 'qa_print':
      print('--- QA PRINT Verification TBD')
      Errors = Errors + 1
@@ -326,6 +427,7 @@ if __name__ == "__main__":
     print('')
     print('--- clean up')
     print('')
+    print(exec_directory)
     shutil.rmtree(exec_directory)
   
 

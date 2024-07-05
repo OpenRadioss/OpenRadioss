@@ -3,5 +3,6 @@
 	"enabled_sp" : 0,
 	"starter": "9BRICKS_0000.rad",
 	"engines": ["9BRICKS_0001.rad"],
-	"np": 1
+	"np": 1,
+	"keyword" : "pon_nok"
 }

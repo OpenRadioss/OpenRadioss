@@ -3,7 +3,7 @@
 # ctest -C Release --output-on-failure --timeout 600
 # set minimum cmake version
 
-cmake_minimum_required(VERSION 2.7)
+cmake_minimum_required(VERSION 3.5)
 
 # project name and language
 project(OpenRadioss_test_suite LANGUAGES NONE)
@@ -21,11 +21,13 @@ message(" ")
 message(" OpenRadioss Test Suite ") 
 message("------------------------")
 message(" ")
+message(" QA Type=     : ${type}")
 message(" arch=        : ${arch}")
 message(" Precision    : ${PREC}")
 message(" Debug        : ${DEBUG}")
 message(" mpi          : ${MPI}")
 message(" #mpi domains : ${NP}")
+message(" #threads     : ${NT}")
 message(" Keep_results : ${KEEP}")
 message(" ")
 if (STDOUT STREQUAL 1)
@@ -33,11 +35,14 @@ if (STDOUT STREQUAL 1)
 endif()
 
 if ( NOT ${DEBUG} STREQUAL "optimized")
-  set (debug_option "-debug ${DEBUG}")
+  set (debug_option "-debug;${DEBUG}")
 endif()
 
 
 set (Test_script "${CMAKE_CURRENT_SOURCE_DIR}/qa_tools/or_execute.py")
+
+
+set (arguments -arch;${arch};-mpi;${MPI};-np;${NP};-nt;${NT};-stdout;${STDOUT};-prec;${PREC};-keep;${KEEP};-qa_type;${type};-pon_string;${pon_run};${debug_option})
 
 include (qa_tools/miniqa.txt)
 

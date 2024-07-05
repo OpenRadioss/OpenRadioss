@@ -26,7 +26,7 @@
 # Library dedicated to extract the results from Engine output file
 # and compare the results with the tolerance mechanism
 # ----------------------------------------------------------------
-
+import os
 
 def extract_engine_results(input_deck,run_number):
 # ----------------------------------------------------------------
@@ -346,3 +346,22 @@ def compare(words,reference,results,test_json,default_tol,prec):
     print("    --------------------")
 
   return Error_found
+
+
+def last_checksum(outputfile):
+  checksum='0'
+
+  file=open(outputfile,"r")
+
+  while True:
+        line=file.readline()
+        if  'CHECKSUM:' in line:
+          str_line=line.strip()
+          field=str_line.split(" ")
+          checksum=field[len(field)-1]
+
+        if not line:
+            break
+
+  file.close()
+  return checksum
