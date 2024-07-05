@@ -39,28 +39,24 @@ Chd|        INITBUF_MOD                   share/resol/initbuf.F
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SCHLIEREN_MOD                 share/modules/schlieren_mod.F 
-Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE H3D_SOLID_SCALAR_1(
-     .                  ELBUF_TAB       ,SOLID_SCALAR ,IFUNC     ,IPARG       ,GEO         ,
-     .                  IXQ             ,IXS          ,IXTG      ,PM          ,BUFMAT      ,
-     .                  EL2FA           ,NBF          ,IADP        ,
-     .                  NBF_L           ,EHOUR        ,ANIM      ,NBPART      ,IADG        ,
-     .                  IPM             ,IGEO         ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3 ,
-     .                  INVERT          ,X            ,V         ,W           ,ALE_CONNECT ,
-     .                  NV46            ,NERCVOIS     ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
-     .                  STACK           ,ID_ELEM      ,ITY_ELEM  ,IPARTS      ,LAYER_INPUT ,
+     .                  ELBUF_TAB       ,SOLID_SCALAR ,IPARG       ,
+     .                  IXS          ,PM          ,BUFMAT      ,
+     .                  EHOUR        ,
+     .                  IPM            ,
+     .                  X            ,V         ,W           ,ALE_CONNECT ,
+     .                  ID_ELEM      ,ITY_ELEM  ,IPARTS      ,LAYER_INPUT ,
      .                  IR_INPUT        ,IS_INPUT     ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
      .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,
-     .                  MULTI_FVM       , H3D_DATA    ,NG        ,IDMDS       ,IMDSVAR     ,
-     .                  MDS_MATID       ,ID           ,MAT_PARAM ,MODE        )
+     .                  MULTI_FVM       , NG        ,IDMDS       ,IMDSVAR     ,
+     .                  ID              ,MAT_PARAM ,MODE        )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE INITBUF_MOD
         USE MAT_ELEM_MOD
         USE SCHLIEREN_MOD
-        USE STACK_MOD
         USE H3D_MOD
         USE MULTI_FVM_MOD
         USE ALE_CONNECTIVITY_MOD
@@ -74,32 +70,34 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+C argument for initbuf
 #include      "vect01_c.inc"
 #include      "mvsiz_p.inc"
+!NGROUP NFILSOL N2D
 #include      "com01_c.inc"
+!NUMELS NUMNOD
 #include      "com04_c.inc"
-#include      "scr14_c.inc"
+!NPROPM, NPROPMI NPARG
 #include      "param_c.inc"
+!ISPMD
 #include      "task_c.inc"
+!N0PHAS, NVPHAS,
 #include      "mmale51_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         my_real
-     .     SOLID_SCALAR(*),X(3,*),V(3,*),W(3,*),THKE(*),EHOUR(*),GEO(NPROPG,*),
-     .     ANIM(*),PM(NPROPM,*),ERR_THK_SH4(*), ERR_THK_SH3(*)
+     .     SOLID_SCALAR(*),X(3,*),V(3,*),W(3,*),EHOUR(*),
+     .     PM(NPROPM,*)
         my_real, INTENT(IN),TARGET :: BUFMAT(*)
-        INTEGER IPARG(NPARG,*),IXS(NIXS,*),IXTG(NIXTG,*),EL2FA(*),
-     .     IXQ(NIXQ,*),IFUNC,NBF,
-     .     IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,*),
-     .     IGEO(NPROPGI,*),INVERT(*), NV46,ID_ELEM(*),ITY_ELEM(*),IPARTS(*),ID,
+        INTEGER IPARG(NPARG,*),IXS(NIXS,*),
+     .     IPM(NPROPMI,*),
+     .     ID_ELEM(*),ITY_ELEM(*),IPARTS(*),ID,
      .     H3D_PART(*),IS_WRITTEN_SOLID(*),INFO1,LAYER_INPUT,IR_INPUT,IS_INPUT,IT_INPUT,
-     .     IUVAR_INPUT,NG,IDMDS,IMDSVAR,MDS_MATID(*)
+     .     IUVAR_INPUT,NG,IDMDS,IMDSVAR
         TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
-        TYPE (STACK_PLY) :: STACK
         CHARACTER(NCHARLINE100):: KEYWORD
         TYPE(FANI_CELL_), INTENT(IN) :: FANI_CELL
-        TYPE (H3D_DATABASE) :: H3D_DATA
         TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
         TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
         TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
@@ -108,49 +106,38 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         my_real
-     .     EVAR(MVSIZ),DAM1(MVSIZ),DAM2(MVSIZ),
-     .     WPLA(MVSIZ),DMAX(MVSIZ),WPMAX(MVSIZ),FAIL(MVSIZ),
-     .     EPST1(MVSIZ),EPST2(MVSIZ),EPSF1(MVSIZ),EPSF2(MVSIZ),
-     .     USER(NUMELS),VALUE(MVSIZ),MASS(MVSIZ),PRES(MVSIZ),MASS0,VOL
+     .     EVAR(MVSIZ),
+     .     VALUE(MVSIZ),MASS(MVSIZ),PRES(MVSIZ),MASS0,VOL
         my_real
-     .     OFF, P,VONM2,S1,S2,S12,S3,DMGMX,FAC,
-     .     DIR1_1,DIR1_2,DIR2_1,DIR2_2,AA,BB,V1,V2,V3,X21,X32,X34,
-     .     X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41,SUMA,VR,VS,X31,Y31,
-     .     Z31,E11,E12,E13,E21,E22,E23,SUM_,AREA,X2L,VAR,
-     .     E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,RX,RY,RZ,SX,SY,SZ,
-     .     VG(5),VLY(5),VE(5),S11,S22,S33,S4,S5,S6,VONM,GAMA(6),
+     .     OFF, P,VONM2,S1,S2,S3,DMGMX,FAC,
+     .     S11,S22,S33,S4,S5,S6,VONM,GAMA(6),
      .     T11,T21,T31,T12,T22,T32,T13,T23,T33,
-     .     PHI,THETA,PSI,DAMMAX,EVAR_TMP,VEL(0:3),VFRAC(MVSIZ,1:21),TMP(3,8),
+     .     PHI,THETA,PSI,DAMMAX,VEL(0:3),VFRAC(MVSIZ,1:21),
      .     CUMUL(3),VX,VY,VZ,NX,NY,NZ,SURF,TMP_2(MVSIZ,3),
      .     VOLFRAC,BFRAC
         my_real
      .     G1(MVSIZ,3),G2(MVSIZ,3),G3(MVSIZ,3),VOLN(MVSIZ),AREAM(MVSIZ),
      .     RHO0,DET(MVSIZ),EZZ(MVSIZ),MAXDAMINI,E33
-        INTEGER I,I1,II,J,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
-     .          IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
-     .          N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
-     .          NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,NLAY_FAIL,
-     .          OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
-     .          IIGEO,IADI,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),
-     .          LERCVOIS(*),LESDVOIS(*),NB_PLYOFF,IUVAR,IDX,IPOS,ITRIMAT,
+        INTEGER I,II,J,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
+     .          IR,IS,IT,IL,MLW, NUVAR,IUS,NFAIL,
+     .          N,K,JTURB,MT,IALEL,
+     .          NLAY_FAIL,
+     .          OFFSET, IPT,
+     .          IUVAR,IPOS,ITRIMAT,
      .          IALEFVM_FLG, IMAT,IADBUF,NUPARAM,ICSIG,NC(8),IEOS,NMOD,MAT_ID,FAIL_ID
-        INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
-     .          PTE(4),PTP(4),PTMAT(4),PTVAR(4),NPT_ALL,IPLY,
-     .          ID_ELEM_TMP(MVSIZ),NIX,ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,
-     .          IOK_PART(MVSIZ),JJ(6),IRUPT,IOK,NPG_PLANE,NUMLAY,IJK,IIR,
-     .          IS_WRITTEN_VALUE(MVSIZ),NFRAC,IU(4),IV,NB_FACE,KFACE,IS_EULER,IS_ALE,IAD2,KK,IMODE,
+        INTEGER
+     .          ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,
+     .          IOK_PART(MVSIZ),JJ(6),IRUPT,IOK,NPG_PLANE,IIR,
+     .          IS_WRITTEN_VALUE(MVSIZ),NFRAC,IU(4),IV,NB_FACE,KFACE,IS_EULER,IS_ALE,IAD2,
      .          SUBMATLAW
         LOGICAL DETECTED
         CHARACTER*5 BUFF
-        REAL R4
         TYPE(G_BUFEL_)  ,POINTER :: GBUF
         TYPE(L_BUFEL_)  ,POINTER :: LBUF
         TYPE(BUF_MAT_)  ,POINTER :: MBUF
-        TYPE(BUF_LAY_)  ,POINTER :: BUFLY
         TYPE(BUF_FAIL_) ,POINTER :: FBUF
         TYPE(BUF_EOS_)  ,POINTER :: EBUF
         my_real, DIMENSION(:), POINTER  :: UVARF,DAMF,DFMAX,TDELE
-        TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
         my_real, DIMENSION(:) ,POINTER  :: UPARAM
         INTEGER :: ISUBMAT,NVAREOS,NTILLOTSON,IMAT_TILLOTSON
 
@@ -163,6 +150,7 @@ C-----------------------------------------------
      5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
      6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
+
         IF (MLW /= 13) THEN
           NFT = IPARG(3,NG)
           ISOLNOD = IPARG(28,NG)
@@ -200,8 +188,6 @@ C-----------------------------------------------
             TSH_ORT = 0
             IF (IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22) TSHELL = 1
             IF (IGTYP==21 .OR. IGTYP==22) TSH_ORT = 1
-c             PID=IXS(10,1 + NFT)
-c
 
             IF (ITY == 1) OFFSET = 0
 c
@@ -213,7 +199,6 @@ c
               ENDIF
             ENDDO
 c
-            IMODE = MODE
             ILAY = LAYER_INPUT
             IUVAR = IUVAR_INPUT
             IF (KEYWORD == 'MDS') IUVAR = IMDSVAR
@@ -1048,6 +1033,7 @@ C--------
                         T23=T31*T12-T11*T32
                         T33=T11*T22-T21*T12
                         IF (ABS(T31) - ONE  < EM20)THEN
+                          THETA = -ASIN(T31)
                           PSI  = ATAN2(T32/COS(THETA),T33/COS(THETA))
                         ELSE
                           IF(T31 == -ONE)THEN
@@ -1158,6 +1144,7 @@ C--------
                         T23=T31*T12-T11*T32
                         T33=T11*T22-T21*T12
                         IF (ABS(T31) - ONE  < EM20)THEN
+                          THETA = -ASIN(T31)
                           PHI  = ATAN2(T21/COS(THETA),T11/COS(THETA))
                         ELSE
                           PHI = ZERO

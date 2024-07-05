@@ -2544,18 +2544,18 @@ c         IF(ISPMD == 0)  print *,'shell scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO
 c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT_LIST(I)%PART(1:NPART)
 
             CALL H3D_SHELL_SCALAR(
-     .                       ELBUF_TAB ,SHELL_SCALAR ,IFUNC      ,IPARG        ,GEO        ,
-     .                       IXQ       ,IXC       ,IXTG          ,PM           ,BUFMAT     ,
-     .                       EL2FA     ,NBF       ,IAD          ,
-     .                       NBF_L     ,EANI      ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
+     .                       ELBUF_TAB ,SHELL_SCALAR ,IPARG        ,GEO        ,
+     .                       IXC       ,IXTG          ,PM           ,BUFMAT     ,
+     .                       EANI,
      .                       IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
-     .                       INVERT    ,X         ,V             ,W            ,ALE_CONNECT,
-     .                       NV46      ,NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
-     .                       STACK     ,SHELL_ID  ,SHELL_ITY     ,INFO1        ,INFO2      ,
+     .                       X         ,V             ,W            ,ALE_CONNECT,
+     .                       NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
+     .                       STACK     ,SHELL_ID  ,SHELL_ITY     ,
      .                       IS_WRITEN_SHELL,IPARTC ,IPARTTG     ,LAYER        ,IPT        ,
-     .                       ID_PLY     ,GAUSS     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD,
+     .                       ID_PLY     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD,
      .                       D          ,MULTI_FVM ,IDMDS        ,IMDSVAR      ,MDS_MATID  ,
      .                       OBJECT_ID  ,MODE      ,MAT_PARAM    )
+
 c
             IF (NSPMD > 1 ) THEN
               CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
@@ -2710,17 +2710,16 @@ c-----
 c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO1',INFO1,'INFO2',INFO2
 
             CALL H3D_SOLID_SCALAR(
-     .                      ELBUF_TAB ,SOLID_SCALAR ,IFUNC      ,IPARG        ,GEO        ,
-     .                      IXQ       ,IXS       ,IXTG          ,PM           ,BUFMAT     ,
-     .                      EL2FA     ,NBF       ,IAD          ,
-     .                      NBF_L     ,EANI      ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
-     .                      IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
-     .                      INVERT    ,X         ,V             ,W            ,ALE_CONNECT,
-     .                      NV46      ,NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
-     .                      STACK     ,SOLID_ID  ,SOLID_ITY     ,IPARTS       ,LAYER      ,
+     .                      ELBUF_TAB ,SOLID_SCALAR ,IPARG        ,
+     .                      IXS       ,PM           ,BUFMAT     ,
+     .                      EANI      ,
+     .                      IPM       ,
+     .                      X         ,V             ,W            ,ALE_CONNECT,
+     .                      NERCVOIS,NESDVOIS, LERCVOIS,LESDVOIS,
+     .                      SOLID_ID  ,SOLID_ITY     ,IPARTS       ,LAYER      ,
      .                      IR        ,IS        ,IT            ,IUVAR        ,H3D_DATA%OUTPUT_LIST(I)%PART,
      .                      IS_WRITEN_SOLID,INFO1,KEYWORD       ,FANI_CELL    ,
-     .                      MULTI_FVM, H3D_DATA  ,IDMDS         ,IMDSVAR      ,MDS_MATID  ,
+     .                      MULTI_FVM, IDMDS         ,IMDSVAR      ,
      .                      OBJECT_ID ,MAT_PARAM ,MODE          )
 c
             IF (NSPMD > 1 ) THEN
