@@ -1,0 +1,153 @@
+######################################### 
+#       STARTER - Gfortran COMPILER
+#########################################
+# Compiler predefinition
+# Simplify usage for target compilation
+
+
+# Executable name
+# ---------------
+
+set ( RELNAME ${arch}  )
+
+# General machine flag setting
+set ( cppmach "-DCPP_mach=CPP_p4linux964" )
+set ( cpprel  "-DCPP_rel=75" )
+
+
+# Third party libraries
+# ---------------------
+
+#hm_reader
+set ( reader_lib "-L${source_directory}/../extlib/hm_reader/linuxa64/ -lhm_reader_linuxa64 ${source_directory}/../extlib/hm_reader/linuxa64/libapr-1.so.0 " )
+
+#Lapack
+set (lapack_lib "${source_directory}/../extlib/lapack-3.10.0/lib_linuxa64/liblapack_gcc.a ${source_directory}/../extlib/lapack-3.10.0/lib_linuxa64/librefblas_gcc.a  ${source_directory}/../extlib/lapack-3.10.0/lib_linuxa64/libtmglib_gcc.a")
+
+#metis
+set (metis_lib "${source_directory}/../extlib/metis/linuxa64/libmetis_linuxa64.a")
+
+#ZLIB
+set (zlib_inc "-I${source_directory}/../extlib/zlib/linuxia64/include")
+set (zlib_lib "${source_directory}/../extlib/zlib/linuxa64/lib/libz.a")
+
+#
+# compiler Flags
+# --------------
+set (CMAKE_Fortran_FLAGS_DEBUG " " )
+set (CMAKE_Fortran_FLAGS_RELEASE " " )
+
+set (CMAKE_C_FLAGS_DEBUG " " )
+set (CMAKE_C_FLAGS_RELEASE " " )
+
+set (CMAKE_CPP_FLAGS_DEBUG " " )
+set (CMAKE_CPP_FLAGS_RELEASE " " )
+
+# Single / Double Precision
+# -------------------------
+if (precision STREQUAL "sp")
+  set (precision_flag "-DMYREAL4")
+else (precision STREQUAL "sp")
+  set (precision_flag "-DMYREAL8")
+endif (precision STREQUAL "sp")
+
+# Modules directory
+set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/CMakeFiles/modules )
+set(CMAKE_Fortran_MODDIR_FLAG "-J" )
+
+message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")
+
+#Generic Compilation flags
+###########################
+
+if ( sanitize STREQUAL "1" )
+set( FSANITIZE "-fsanitize=address -fsanitize=undefined -fsanitize=bounds-strict -DSANITIZE") 
+endif()
+if ( CMAKE_C_COMPILER_VERSION VERSION_GREATER 10) 
+set( portability "-fallow-argument-mismatch -fallow-invalid-boz -std=legacy")
+endif()
+
+#set( strict "-Waliasing -Wunused-dummy-argument -Werror=unused-dummy-argument -Wdo-subscript -Warray-bounds -Wtabs -Werror=tabs -pedantic-errors -Wsurprising -Wuse-without-only -Werror=use-without-only ") 
+set( strict "-Werror=aliasing -Werror=unused-dummy-argument -Werror=do-subscript -Werror=array-bounds -Werror=surprising -Werror=tabs") 
+
+if ( debug STREQUAL "1" )
+
+# Fortran
+#set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -Wall ${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math -fopenmp -fbacktrace -ffixed-line-length-none -Wdo-subscript ${ADF} ${portability}" )
+
+set( legacy_flags " -Wall ${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math -fopenmp -fbacktrace -ffixed-line-length-none -Wdo-subscript ${ADF} ${portability}") 
+
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -Wall ${strict} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math -fopenmp -fbacktrace -ffixed-line-length-none ${ADF} " )
+
+
+# C source files
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O0 -g -fopenmp " )
+
+# CXX source files
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc}  -O0 -g  -fopenmp -std=c++11  " )
+
+elseif ( debug STREQUAL "asan" )
+
+set( FSANITIZE "-fsanitize=address -fsanitize=undefined -fsanitize=bounds-strict -DSANITIZE") 
+
+# Fortran
+#set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -Wall ${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math -fopenmp -fbacktrace -ffixed-line-length-none -Wdo-subscript ${ADF} ${portability}" )
+
+set( legacy_flags " -Wall ${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -march=armv8-a -DARCH_CPU=ARM -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math -fopenmp -fbacktrace -ffixed-line-length-none -Wdo-subscript ${ADF} ${portability}") 
+
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -Wall ${strict} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -march=armv8-a -DARCH_CPU=ARM  -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math -fopenmp -fbacktrace -ffixed-line-length-none ${ADF} " )
+
+
+# C source files
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O0 -g -fopenmp ${zlib_inc} -march=armv8-a -DARCH_CPU=ARM " )
+
+# CXX source files
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel}  -O0 -g  -fopenmp  ${zlib_inc} -std=c++11 -march=armv8-a -DARCH_CPU=ARM" )
+
+else ()
+
+# Fortran
+#set_source_files_properties( ${legacy_source_files}  PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set( legacy_flags "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -march=armv8-a -DARCH_CPU=ARM -DCOMP_GFORTRAN=1 -fdec-math -O2 -ffp-contract=off -frounding-math -fopenmp -ffixed-line-length-none  ${ADF} ${portability} ") 
+
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag}  ${strict} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -march=armv8-a -DARCH_CPU=ARM  -fdec-math -O2 -ffp-contract=off -frounding-math -fopenmp -ffixed-line-length-none  ${ADF}" )
+
+
+# C source files
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O2 -fopenmp -march=armv8-a -DARCH_CPU=ARM  " )
+
+# CXX source files
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O2 -fopenmp -std=c++11  " )
+
+endif()
+
+# Linking flags
+set (CMAKE_EXE_LINKER_FLAGS " -rdynamic -no-pie -O2 -fopenmp ${FSANITIZE}" )
+
+
+#Libraries
+if ( static_link STREQUAL "1" )
+set (LINK "dl ${flexpipe_lib} ${metis_lib} ${reader_lib}  ${lapack_lib} ${zlib_lib} -ldl -static-libgfortran -static-libstdc++ -static-libgcc -Wunused-function" )
+else()
+set (LINK "dl ${flexpipe_lib} ${metis_lib} ${reader_lib}  ${lapack_lib} ${zlib_lib} -ldl -Wunused-function" )
+endif()
+string(STRIP ${LINK} LINK)
+
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# Specific set of compilation flag
+
+# legacy fortran files
+include (CMake_Compilers/legacy_fortran.cmake)
+
+
+set (F_O0_compiler_flags " -O0 ${precision_flag} -DMETIS5 ${cppmach} ${cpprel}  -ffixed-line-length-none ${portability}")
+if ( debug STREQUAL "0" )
+#inimsg.F
+set_source_files_properties( ${source_directory}/source/output/message/inimsg.F PROPERTIES COMPILE_FLAGS ${F_O0_compiler_flags} )
+
+endif()
+
+if( no_python STREQUAL "1") 
+get_source_file_property( existing_flags ${source_directory}/../common_source/modules/cpp_python_funct.cpp COMPILE_FLAGS)
+set_source_files_properties( ${source_directory}/../common_source/modules/cpp_python_funct.cpp PROPERTIES COMPILE_FLAGS  "${existing_flags} -DPYTHON_DISABLED " )
+endif()
