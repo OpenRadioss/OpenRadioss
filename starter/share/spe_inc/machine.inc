@@ -38,6 +38,8 @@ C
       CPUNAM = 'linux64'
 #if CPP_rel == 70
       ARCHTITLE='Linux 64 bits, ARM compiler'
+#elif CPP_rel == 75
+      ARCHTITLE='Linux 64 bits, ARM, GFortran compiler'
 #elif CPP_rel == 80
       ARCHTITLE='Linux 64 bits, GNU compiler'
 #elif CPP_rel == 96

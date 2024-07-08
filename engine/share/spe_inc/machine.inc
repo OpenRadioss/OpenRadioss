@@ -66,6 +66,14 @@ C
         CPUNAM='linuxa64'
         ARCHTITLE='Linux 64 bits, ARM compiler'
 #endif
+#elif CPP_rel == 75
+#if defined(MPI)
+        CPUNAM='linuxa64_gf ompi'
+        ARCHTITLE='Linux 64 bits, ARM, GFortran compiler, OpenMPI'
+#elif 1
+        CPUNAM='linuxa64'
+        ARCHTITLE='Linux 64 bits, ARM, GFortran compiler'
+#endif
 #elif CPP_rel == 80
 #if defined(MPI)
         CPUNAM='linuxa64 gf ompi'
