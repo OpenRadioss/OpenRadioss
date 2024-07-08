@@ -128,6 +128,10 @@ set_source_files_properties( ${source_directory}/source/output/tools/ieee.cpp PR
 endif()
 set_source_files_properties( ${source_directory}/source/system/rad_sys_call.c PROPERTIES COMPILE_FLAGS "${precision_flag} -std=c90 ${cppmach} ${cpprel} ")
 
+#compiler bug fix
+set_source_files_properties( ${source_directory}/source/output/anim/ani_fasolfr.F PROPERTIES COMPILE_FLAGS ${F_O0_compiler_flags} )
+
+
 if ( no_python STREQUAL "1" )
 get_source_file_property(existing_flags ${source_directory}/../common_source/modules/cpp_python_funct.cpp COMPILE_FLAGS)
 set_source_files_properties( ${source_directory}/../common_source/modules/cpp_python_funct.cpp PROPERTIES COMPILE_FLAGS  "${existing_flags} -DPYTHON_DISABLED" )
