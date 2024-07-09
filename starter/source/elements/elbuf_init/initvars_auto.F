@@ -190,6 +190,7 @@ c---------------------
           IF (GBUF%G_MAXEPS == 0) GBUF%G_MAXEPS = MTAG%G_MAXEPS               
           IF (GBUF%G_DMG    == 0) GBUF%G_DMG    = MTAG%G_DMG
           IF (GBUF%G_NUVAR  == 0) GBUF%G_NUVAR  = MTAG%G_NUVAR 
+          IF (GBUF%G_THK    == 0) GBUF%G_THK    = MTAG%G_THK  
 c
           IF (IGTYP == 2 .or. IGTYP == 3) THEN   ! truss / beam with Material
             IF (GBUF%G_NUVAR  == 0) GBUF%G_NUVAR  = MTAG%NUVAR 
@@ -441,3 +442,4 @@ c       local property variables
 C-----------------------------------------------
       RETURN
       END SUBROUTINE INITVARS_AUTO
+

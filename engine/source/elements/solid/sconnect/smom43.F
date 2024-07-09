@@ -98,6 +98,7 @@ c
 c
 c---    Moments Mx, MY
 c
+        
         IF(TTHICK >ZERO)THEN
         MYZ = R1Y(I)*F1Z(I)+R2Y(I)*F2Z(I)+R3Y(I)*F3Z(I)+R4Y(I)*F4Z(I)
      .       +R5Y(I)*F5Z(I)+R6Y(I)*F6Z(I)+R7Y(I)*F7Z(I)+R8Y(I)*F8Z(I)
@@ -146,3 +147,4 @@ C---
 C-----------
       RETURN
       END
+

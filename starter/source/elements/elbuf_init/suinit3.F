@@ -141,7 +141,7 @@ C-----------------------------------------------
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
-     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)     
+     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),THICK(MVSIZ)       
 C-----------------------------------------------
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
@@ -174,13 +174,14 @@ C
 c--------------------------
       IF (IGTYP == 43) THEN
         CALL SPCOOR3(
-     .           X    ,IXS(1,NF1) ,GEO   ,MAT  ,PID  ,NGL  ,
+     .           X    ,IXS(1,NF1) ,GEO  ,NEL  ,MAT  ,PID  ,NGL  ,
      .           NC1  ,NC2  ,NC3  ,NC4  ,NC5  ,NC6  ,NC7  ,NC8  ,
      .           X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .           Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .           Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
      .           E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
-     .           AREA )
+     .           AREA ,THICK)
+      IF (ELBUF_STR%GBUF%G_THK == 1) ELBUF_STR%GBUF%THK(1:NEL) = THICK(1:NEL)
       ELSEIF (JCVT == 0) THEN
         CALL SCOOR3(X ,BID  ,IXS(1,NF1) ,GEO  ,MAT  ,PID  ,NGL  ,
      .           NC1  ,NC2  ,NC3  ,NC4  ,NC5  ,NC6  ,NC7  ,NC8  ,
@@ -546,4 +547,5 @@ C
 C-----------
       RETURN
       END
+
 

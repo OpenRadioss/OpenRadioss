@@ -171,7 +171,9 @@ c---    local variables (per integration point)
         MTAG%L_EPSDNL = 0 
         MTAG%L_DMGSCL = 0  
         MTAG%L_TSAIWU = 0   
+        MTAG%G_THK    = 0
       ENDDO
 C-----------------------------------------------
       RETURN
       END SUBROUTINE INI_MLAW_VARS
+

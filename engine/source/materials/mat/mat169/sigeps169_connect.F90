@@ -39,8 +39,8 @@
           area    , off     ,nuvar  ,uvar  ,ipg      ,                         &
           depszz  ,depsyz   ,depszx ,epszz   ,epsyz    ,epszx   ,              &                             
           sigozz  ,sigoyz  ,sigozx  ,signzz  ,signyz ,signzx  ,                &
-          pla     ,iout    ,jsms    ,dmg     ,ngl   ,dmels , idtmins,dtfacs,    &
-          dtmins )
+          pla     ,iout    ,jsms    ,dmg     ,ngl   ,dmels , idtmins,dtfacs,   &
+          dtmins  ,thick0)
 !-----------------------------------------------
 !   m o d u l e s
 !-----------------------------------------------
@@ -62,7 +62,7 @@
 
       my_real ,intent(in)  :: time
       my_real ,dimension(nel)  ,intent(inout) :: off,area,pla,dmels
-      my_real ,dimension(nel)  ,intent(in)    :: depszz,depsyz,depszx,epszz,epsyz,epszx
+      my_real ,dimension(nel)  ,intent(in)    :: depszz,depsyz,depszx,epszz,epsyz,epszx,thick0
       my_real ,dimension(nel)  ,intent(in)    :: sigozz  ,sigoyz  ,sigozx  
       my_real ,dimension(nel)  ,intent(out)   :: signzz,signyz,signzx
       my_real ,dimension(nel)  ,intent(inout) :: dmg,stifm
@@ -76,8 +76,8 @@
         integer  iel
         integer ,dimension(nel)   ::      indxdsh,indxdn,      indf
 
-        my_real        young,nu, tenmax,gcten,shrmax, gcshr,shrp, sht_sl,pwrt,pwrs ,taumax
-        my_real        dlam, dpla_dlam,shear,an,as,dp,g1,g2,sigeq,thick0,dtb,norm,nxz,nyz,d0fn,dfn,d0fs,dfs
+        my_real        young,nu, wave,tenmax,gcten,shrmax, gcshr,shrp, sht_sl,pwrt,pwrs ,taumax
+        my_real        dlam, dpla_dlam,shear,an,as,dp,g1,g2,sigeq,dtb,norm,nxz,nyz,d0fn,dfn,d0fs,dfs
         my_real, dimension(nel) :: dstrnz, dstrnxz, dstrnyz,strs_tr_sh,fyld,strn_pl,dstr_sh,epsn0
         my_real, dimension(nel) :: normzz, normxz, normyz, df,dpzx,dpyz,ddpla,dpla,dmg_n,dmg_s
         my_real, dimension(nel) :: fdam_n,fdam_s,thick,stf,tempr,normyz_norm,normxz_norm,eps_sh0,eps_sh
@@ -96,7 +96,6 @@
       gcshr    =   uparam(7) 
       shrp     =   uparam(8) 
       sht_sl   =   uparam(9) 
-      thick0   =   uparam(10)
 
        
       do i=1,nel 
@@ -131,6 +130,7 @@
         dmg_s(i) = uvar(i,2)        
         fdam_n(i) = one - dmg_n(i)
         fdam_s(i) = one - dmg_s(i)
+        wave = young * (one-nu)/(one+nu)/(one-two*nu)/thick0(i)
       enddo                                                        
 
       dpla(1:nel) = zero
