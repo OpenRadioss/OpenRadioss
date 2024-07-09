@@ -40,7 +40,7 @@ Chd|====================================================================
      .                   IS_WRITTEN_SKIN  ,H3D_PART,INFO1   ,KEYWORD ,
      .                   IB ,ILOADP,LLOADP,FAC ,NPC,TF ,SENSOR_TAB,
      .                   TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V ,
-     .                   IMAPSKP,LOADS ,TABLE,IFRAME)
+     .                   IMAPSKP,LOADS ,TABLE,IFRAME,DIS)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -76,7 +76,7 @@ C-----------------------------------------------
       INTEGER  ,INTENT(IN) :: NSENSOR
       CHARACTER(LEN=NCHARLINE100):: KEYWORD
       my_real
-     .   SKIN_VECTOR(3,*),TF(*),X(3,*),V(3,*)
+     .   SKIN_VECTOR(3,*),TF(*),X(3,*),V(3,*),DIS(3,NUMNOD)
       TYPE (H3D_DATABASE) :: H3D_DATA
       INTEGER , DIMENSION(NUMSKINP0), INTENT(IN) ::  IMAPSKP
       INTEGER
@@ -112,9 +112,9 @@ C-----------------------------------------------
       my_real COORMEAN,YMEAN,ZMEAN,PVEL,NSIGN,DNORM,
      .        Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,Dx,Dy,Dz,NORMD, P,
      .        T0INF_LOC, TA_SHIFT, TT_STAR
-      INTEGER :: IFUN,IFRA,M1,M2,NDIM,NPOINT, IIOUT,SHIFT
+      INTEGER :: IFUN,IFRA,M1,M2,NDIM,NPOINT, IIOUT,SHIFT,FUNCTYPE
        my_real :: A11,A12,A21,A22,B1,B2,DET,LEN,DIRX,DIRY,DIRZ,
-     .     BETA,GAMMA,R,S,RMAX,XFACR,XFACT,YFAC,SEGP,PRESS
+     .     BETA,GAMMA,R,S,RMAX,XFACR,XFACT,YFAC,SEGP,PRESS,DISP
       my_real, DIMENSION(3) :: P0,DIR,A,B,C,D,M
       
       EXTERNAL FINTER,FINTER_SMOOTH
@@ -136,6 +136,7 @@ C-----Force (pressure) first
          N4      = IB(4,NL)
          N5      = IB(5,NL)
          IDEL    = IB(8,NL)
+         FUNCTYPE= IB(9,NL)
          FCY     = FORC(1,NL)
          FCX     = FORC(2,NL)
          IF (N1==0.OR.N2==0.OR.N3==0.OR.N4==-1) CYCLE
@@ -157,19 +158,47 @@ C--------default zero
             IF(TS < ZERO) CYCLE
          ENDIF
          IF(IDEL > 0 ) CYCLE  ! SEGMENT DELETED
-         IF(N_OLD/=N5.OR.X_OLD/=TS) THEN
-           ISMOOTH = 0
-           IF (N5 > 0) ISMOOTH = NPC(2*NFUNCT+N5+1)
-!!           F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
-           IF (ISMOOTH == 0) THEN
-             F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
-           ELSE IF(ISMOOTH > 0) THEN
-             F1 = FINTER_SMOOTH(N5,TS*FCX,NPC,TF,DYDX)
-           ELSE 
-
-           ENDIF ! IF (ISMOOTH == 0)
+         IF(FUNCTYPE == 1)THEN
+           IF(N_OLD/=N5.OR.X_OLD/=TS) THEN
+             ISMOOTH = 0
+             IF (N5 > 0) ISMOOTH = NPC(2*NFUNCT+N5+1)
+             IF (ISMOOTH == 0) THEN
+               F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
+             ELSE IF(ISMOOTH > 0) THEN
+               F1 = FINTER_SMOOTH(N5,TS*FCX,NPC,TF,DYDX)
+             ELSE 
+             ENDIF ! IF (ISMOOTH == 0)
+           ENDIF
            N_OLD = N5
            X_OLD = TS
+         ELSEIF(FUNCTYPE == 2)THEN
+          IF(N_OLD/=N5) THEN
+            DISP = (DIS(3,N1)+DIS(3,N2)+DIS(3,N3)+DIS(3,N4))/4.0
+            ISMOOTH = 0
+            IF (N5 > 0) ISMOOTH = NPC(2*NFUNCT+N5+1)
+            IF (ISMOOTH == 0) THEN
+              F1 = FINTER(N5,DISP*FCX,NPC,TF,DYDX)
+            ELSE IF(ISMOOTH > 0) THEN
+              F1 = FINTER_SMOOTH(N5,DISP*FCX,NPC,TF,DYDX)
+            ELSE 
+            ENDIF ! IF (ISMOOTH == 0)
+          ENDIF
+          N_OLD = N5
+          X_OLD = DISP
+         ELSEIF(FUNCTYPE == 3)THEN
+          IF(N_OLD/=N5) THEN
+            VEL = (V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4))/4.0
+            ISMOOTH = 0
+            IF (N5 > 0) ISMOOTH = NPC(2*NFUNCT+N5+1)
+            IF (ISMOOTH == 0) THEN
+              F1 = FINTER(N5,VEL*FCX,NPC,TF,DYDX)
+            ELSE IF(ISMOOTH > 0) THEN
+              F1 = FINTER_SMOOTH(N5,VEL*FCX,NPC,TF,DYDX)
+            ELSE 
+            ENDIF ! IF (ISMOOTH == 0)
+          ENDIF
+          N_OLD = N5
+          X_OLD = VEL
          ENDIF
          AA = FCY*F1*XSENS
          SKIN_VECTOR(3,NSKIN)=SKIN_VECTOR(3,NSKIN) + AA

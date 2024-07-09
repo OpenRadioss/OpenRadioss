@@ -26,12 +26,14 @@ Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DISP_VEL_SAVED_CLOAD(V      ,D      ,VR    ,DR    ,IB         ,
-     2                                DPL0CLD,VEL0CLD,NIBCLD,NCONLD,NCLOAD,
-     3                                IRODDL ,NUMNOD )
+      SUBROUTINE DISP_VEL_SAVED_CLOAD(V      ,D      ,VR    ,DR    ,IB     ,
+     2                                DPL0CLD,VEL0CLD,NIBCLD,NCONLD,IRODDL ,
+     3                                NUMNOD )
 C-----------------------------------------------
 C   M o d u l e s
-C----------------------------------------------- 
+C-----------------------------------------------
+      !USE CONSTANT_MOD
+      ! ,ONLY : THIRD,FOURTH
 !      USE PINCHTYPE_MOD
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,37 +41,42 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NIBCLD,NCONLD,NCLOAD,IRODDL,NUMNOD
+      INTEGER, INTENT(IN) :: NIBCLD,NCONLD,IRODDL,NUMNOD
       INTEGER, INTENT(IN) :: IB(NIBCLD,NCONLD)
 C     REAL
       my_real, INTENT(IN) :: 
      .   D(3,NUMNOD) ,V(3,NUMNOD) ,DR(3,NUMNOD)  ,VR(3,NUMNOD)
       my_real, INTENT(INOUT) :: 
-     .   DPL0CLD(6,NCLOAD),VEL0CLD(6,NCLOAD)
+     .   DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  NL,N1,N2,ISK,IDIR,IFUN
+      INTEGER  NL,N1,N2,N3,N4,ISK,IDIR,IFUN
 C-----------------------------------------------
 C     IBCL(1:NIBCLD,1:NUMCLD)              IPRES = IBCL(1:NIBCLD,NUMCCLD+1,NUMCLD+NUMPRES)         
 C     1: Node Number                       1st node number of the segment
 C     2: NS = 10*Noskew+Idir               2nd node number of the segment
 !! Save displacement and velocity in the previous cycle
-      DO NL=1,NCLOAD
+      !DO NL=1,NCLOAD
+      DO NL=1,NCONLD
         N1 = IB(1,NL)
         N2 = IB(2,NL)
+        N3 = IB(3,NL)
+        N4 = IB(4,NL)
         IFUN = IB(9,NL)
         ISK = IB(2,NL)/10
         IDIR  = IB(2,NL)-10*ISK
-        IF (IFUN > 1) THEN
-          IF (IDIR<=3) THEN
-            DPL0CLD(IDIR,NL) = D(IDIR,N1)
-            VEL0CLD(IDIR,NL) = V(IDIR,N1)
-          ELSEIF (IDIR<=6 .AND. IRODDL/=0) THEN
-            DPL0CLD(IDIR,NL) = DR(IDIR-3,N1)
-            VEL0CLD(IDIR,NL) = VR(IDIR-3,N1)
+        IF (N4 == -1) THEN
+          IF (IFUN > 1) THEN
+            IF (IDIR<=3) THEN
+              DPL0CLD(IDIR,NL) = D(IDIR,N1)
+              VEL0CLD(IDIR,NL) = V(IDIR,N1)
+            ELSEIF (IDIR<=6 .AND. IRODDL/=0) THEN
+              DPL0CLD(IDIR,NL) = DR(IDIR-3,N1)
+              VEL0CLD(IDIR,NL) = VR(IDIR-3,N1)
+            ENDIF
           ENDIF
-        ENDIF
+        ENDIF  
       ENDDO
 C
       RETURN

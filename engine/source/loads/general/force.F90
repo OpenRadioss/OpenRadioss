@@ -155,7 +155,7 @@
               fcy     = fac(1,nl)
               fcx     = fac(2,nl)
 !---------------------------------------
-              if (ifun > 1) then
+              if (ifun > 1 .and. n4 == -1) then
                 isk = ib(2,nl)/10
                 idir  = ib(2,nl)-10*isk
                 if (idir<=3) then
@@ -208,10 +208,10 @@
                   endif
                 else if(ifun == 2)then
                   !! displacement dependent abscisa
-                  !!disp_old  !! previous cycle displacement
-                  !!disp      !! current cycle displacement
+                  !! disp_old  !! previous cycle displacement
+                  !! disp      !! current cycle displacement
                   disp_old = dpl0cld(idir,nl)
-                  if(n_old/=n3.or.x_old/=disp) then
+                  if(n_old/=n3)then
                     ismooth = 0
                     if (n3 > 0) ismooth = npc(2*nfunct+n3+1)
                     if (ismooth == 0) then
@@ -232,10 +232,10 @@
                   endif
                 else if(ifun == 3)then
                   !! velocity dependent abscisa
-                  !!vel_old   !! previous cycle velocity
-                  !!vel       !! current cycle velocity
+                  !! vel_old   !! previous cycle velocity
+                  !! vel       !! current cycle velocity
                   vel_old  = vel0cld(idir,nl)
-                  if(n_old/=n3.or.x_old/=vel) then
+                  if(n_old/=n3)then
                     ismooth = 0
                     if (n3 > 0) ismooth = npc(2*nfunct+n3+1)
                     if (ismooth == 0) then
@@ -363,8 +363,11 @@
                   endif
                 elseif(ifun == 2)then
                   !! displacement dependent abscisa
-                  !!disp      !! current cycle displacement
-                  if(n_old/=n5.or.x_old/=disp) then
+                  !! disp      !! current cycle displacement
+                  !-------
+                  disp = (d(3,n1)+d(3,n2)+d(3,n3)+d(3,n4))/4.0
+                  !-------
+                  if(n_old/=n5)then
                     ismooth = 0
                     if (n5 > 0) ismooth = npc(2*nfunct+n5+1)
                     if (ismooth == 0) then
@@ -382,8 +385,11 @@
                   endif
                 elseif(ifun == 3)then
                   !! velocity dependent abscisa
-                  !!vel       !! current cycle velocity
-                  if(n_old/=n5.or.x_old/=vel) then
+                  !! vel       !! current cycle velocity
+                  !-------
+                  vel = (v(3,n1)+v(3,n2)+v(3,n3)+v(3,n4))/4.0
+                  !-------
+                  if(n_old/=n5)then
                     ismooth = 0
                     if (n5 > 0) ismooth = npc(2*nfunct+n5+1)
                     if (ismooth == 0) then
@@ -665,7 +671,7 @@
               fsky(1:8,iadc(1:up_bound,nl))=zero
               ! -------------
 !---------------------------------------
-              if (ifun > 1) then
+              if (ifun > 1 .and. n4 == -1) then
                 isk = ib(2,nl)/10
                 idir  = ib(2,nl)-10*isk
                 if (idir<=3) then
@@ -716,10 +722,10 @@
                   endif
                 else if(ifun == 2)then
                   !! displacement dependent abscisa
-                  !!disp_old  !! previous cycle displacement
-                  !!disp      !! current cycle displacement
+                  !! disp_old  !! previous cycle displacement
+                  !! disp      !! current cycle displacement
                   disp_old = dpl0cld(idir,nl)
-                  if(n_old/=n3.or.x_old/=disp) then
+                  if(n_old/=n3) then
                     ismooth = 0
                     if (n3 > 0) ismooth = npc(2*nfunct+n3+1)
                     if (ismooth == 0) then
@@ -740,10 +746,10 @@
                   endif
                 else if(ifun == 3)then
                   !! velocity dependent abscisa
-                  !!vel_old   !! previous cycle velocity
-                  !!vel       !! current cycle velocity
+                  !! vel_old   !! previous cycle velocity
+                  !! vel       !! current cycle velocity
                   vel_old  = vel0cld(idir,nl)
-                  if(n_old/=n3.or.x_old/=vel) then
+                  if(n_old/=n3)then
                     ismooth = 0
                     if (n3 > 0) ismooth = npc(2*nfunct+n3+1)
                     if (ismooth == 0) then
@@ -873,8 +879,11 @@
                   endif
                 elseif(ifun == 2)then
                   !! displacement dependent abscisa
-                  !!disp      !! current cycle displacement
-                  if(n_old/=n5.or.x_old/=disp) then
+                  !! disp      !! current cycle displacement
+                  !-------
+                  disp = (d(3,n1)+d(3,n2)+d(3,n3)+d(3,n4))/4.0
+                  !-------
+                  if(n_old/=n5)then
                     ismooth = 0
                     if (n5 > 0) ismooth = npc(2*nfunct+n5+1)
                     if (ismooth == 0) then
@@ -892,8 +901,11 @@
                   endif
                 elseif(ifun == 3)then
                   !! velocity dependent abscisa
-                  !!vel       !! current cycle velocity
-                  if(n_old/=n5.or.x_old/=vel) then
+                  !! vel       !! current cycle velocity
+                  !-------
+                  vel = (v(3,n1)+v(3,n2)+v(3,n3)+v(3,n4))/4.0
+                  !-------
+                  if(n_old/=n5)then
                     ismooth = 0
                     if (n5 > 0) ismooth = npc(2*nfunct+n5+1)
                     if (ismooth == 0) then

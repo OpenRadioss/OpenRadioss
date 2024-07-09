@@ -3271,13 +3271,13 @@ C--------------------------------------------
 C--------------------------------------------
 C Pressure & concentrated loads --> DISP & VEL saved
 C--------------------------------------------
-      IF (LOADS%NLOAD_CLOAD > 0) THEN
+      IF (LOADS%NLOAD_CLOAD > 0 .or. LOADS%NLOAD_PLOAD > 0) THEN
         OFF = NUMELC+NUMELTG+NUMELS+NUMELQ+NUMELT+NUMELP+NUMELR
      .      + NUMELX
-        CALL W_DISP0_VEL0_CLOAD(DPL0CLD,CEP    ,P-1   ,NCLOAD_L,LEN_AM,
-     .                          OFF    ,LEN_CEP,LOADS%NLOAD_CLOAD)
-        CALL W_DISP0_VEL0_CLOAD(VEL0CLD,CEP    ,P-1   ,NCLOAD_L,LEN_AM,
-     .                          OFF    ,LEN_CEP,LOADS%NLOAD_CLOAD)
+        CALL W_DISP0_VEL0_CLOAD(DPL0CLD,CEP    ,P-1   ,NCLOAD_L+NPLOAD_L,LEN_AM,
+     .                          OFF    ,LEN_CEP,NCONLD)
+        CALL W_DISP0_VEL0_CLOAD(VEL0CLD,CEP    ,P-1   ,NCLOAD_L+NPLOAD_L,LEN_AM,
+     .                          OFF    ,LEN_CEP,NCONLD)
       ENDIF
 C--------------------------------------------
 C /DAMP/VREL
