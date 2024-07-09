@@ -266,6 +266,9 @@ c for seatbelt elements
         INTEGER ::  G_FRAM_FACTOR
         INTEGER ::  G_INTVAR
         INTEGER ::  G_DFS
+c for cohesif solid material
+        INTEGER ::  G_THK
+
 
 c       layer variables 
 c
@@ -456,3 +459,4 @@ C
       END TYPE FAIL_TAG_               
 c---------------
       END MODULE ELBUFTAG_MOD
+

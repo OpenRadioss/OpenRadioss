@@ -136,6 +136,7 @@
       pm(1)  = rho0
       pm(89) = rho0
 !-------------------------------------------------
+      mtag%g_thk  = 1
       mtag%g_pla  = 1
       mtag%l_pla  = 1
       mtag%l_dmg  = 1

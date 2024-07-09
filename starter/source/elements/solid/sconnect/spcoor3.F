@@ -29,13 +29,13 @@ Chd|        CLSKEW3                       source/elements/shell/coque/clskew.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPCOOR3(
-     .         X    ,IXS  ,GEO  ,MXT  ,PID ,NGL  ,
+     .         X    ,IXS  ,GEO  ,NEL  ,MXT  ,PID  ,NGL  ,
      .         IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8 ,
      .         X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8  ,   
      .         Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8  ,   
      .         Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8  ,   
      .         E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
-     .         VOLU )
+     .         VOLU ,THICK)
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -52,6 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NEL
       INTEGER IXS(NIXS,*),MXT(*),NGL(*),PID(*),
      .   IX1(*),IX2(*),IX3(*),IX4(*),IX5(*),IX6(*),IX7(*),IX8(*)        
 C     REAL
@@ -61,14 +62,13 @@ C     REAL
      .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*), 
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
      .   E1X(*),E2X(*),E3X(*),E1Y(*),E2Y(*),E3Y(*),E1Z(*),E2Z(*),E3Z(*)
+      my_real, DIMENSION(NEL), INTENT(OUT) :: THICK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IREP
-C     REAL
-      my_real
-     .   XL,YL,ZL,SUM
-      my_real 
+      INTEGER :: I,J,IREP
+      my_real :: XL,YL,ZL,SUM,H1,H2,H3,H4
+      my_real ::
      .   P1X(MVSIZ), P2X(MVSIZ), P3X(MVSIZ), P4X(MVSIZ),
      .   P1Y(MVSIZ), P2Y(MVSIZ), P3Y(MVSIZ), P4Y(MVSIZ),
      .   P1Z(MVSIZ), P2Z(MVSIZ), P3Z(MVSIZ), P4Z(MVSIZ),
@@ -220,7 +220,12 @@ C-----------
         ZL=E3X(I)*X8(I)+E3Y(I)*Y8(I)+E3Z(I)*Z8(I)                 
         X8(I)=XL                                                  
         Y8(I)=YL                                                  
-        Z8(I)=ZL                                                  
+        Z8(I)=ZL
+        H1 = SQRT((X5(I)-X1(I))**2 + (Y5(I)-Y1(I))**2 + (Z5(I)-Z1(I))**2)
+        H2 = SQRT((X6(I)-X2(I))**2 + (Y6(I)-Y2(I))**2 + (Z6(I)-Z2(I))**2)
+        H3 = SQRT((X7(I)-X3(I))**2 + (Y7(I)-Y3(I))**2 + (Z7(I)-Z3(I))**2)
+        H4 = SQRT((X8(I)-X4(I))**2 + (Y8(I)-Y4(I))**2 + (Z8(I)-Z4(I))**2)
+        THICK(I) = (H1 + H2 + H3 + H4) * FOURTH                                      
       ENDDO                                                       
 C-----------
       RETURN
