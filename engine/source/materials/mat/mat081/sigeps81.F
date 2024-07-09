@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SIGEPS81                      source/materials/mat/mat081/sigeps81.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        FCRIT                         source/materials/mat/mat081/sigeps81.F
 Chd|        FINTER                        source/tools/curve/finter.F   

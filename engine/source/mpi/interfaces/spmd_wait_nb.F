@@ -25,7 +25,6 @@ Chd|  SPMD_WAIT_NB                  source/mpi/interfaces/spmd_wait_nb.F
 Chd|-- called by -----------
 Chd|        INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       

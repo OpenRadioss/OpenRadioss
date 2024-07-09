@@ -25,7 +25,7 @@ Chd|  READ_NLOC_STRUCT              source/output/restart/read_nloc_struct.F
 Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
-Chd|        READ_DB                       source/output/tools/read_db.F 
+Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
 Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|====================================================================

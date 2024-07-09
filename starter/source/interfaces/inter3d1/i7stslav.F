@@ -25,7 +25,6 @@ Chd|  I7STSECND                     source/interfaces/inter3d1/i7stslav.F
 Chd|-- called by -----------
 Chd|        ININTR1                       source/interfaces/interf1/inintr1.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I7STSECND(IPARI,STIFINT,INTBUF_TAB )
 C-----------------------------------------------

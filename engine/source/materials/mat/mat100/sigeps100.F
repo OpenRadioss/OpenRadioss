@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SIGEPS100_MOD                 source/materials/mat/mat100/sigeps100.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE SIGEPS100_MOD
@@ -31,7 +30,6 @@ Chd|====================================================================
 Chd|====================================================================
 Chd|  SIGEPS100                     source/materials/mat/mat100/sigeps100.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        CALCMATB                      source/materials/mat/mat100/calcmatb.F
 Chd|        KMATINV3                      source/materials/tools/kmatinv.F

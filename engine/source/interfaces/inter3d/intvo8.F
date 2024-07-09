@@ -38,8 +38,6 @@ Chd|        SPMD_I8_INDEX                 source/mpi/interfaces/spmd_i8tool.F
 Chd|        SPMD_I8_IRTL                  source/mpi/interfaces/spmd_i8tool.F
 Chd|        SPMD_I8_UPDBUF                source/mpi/interfaces/spmd_i8tool.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INT8_MOD                      ../common_source/modules/interfaces/int8_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INTVO8(IPARI,X ,A  ,
      2                  ICODT,FSAV ,V ,MS ,

@@ -36,7 +36,6 @@ Chd|        SPMD_BOX_LIMIT_REDUCTION      source/mpi/interfaces/spmd_box_limit_r
 Chd|        SPMD_CELL_LIST_EXCHANGE       source/mpi/interfaces/spmd_cell_list_exchange.F
 Chd|        SPMD_COARSE_CELL_EXCHANGE     source/mpi/interfaces/spmd_coarse_cell_exchange.F
 Chd|        SPMD_WAIT_NB                  source/mpi/interfaces/spmd_wait_nb.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|====================================================================

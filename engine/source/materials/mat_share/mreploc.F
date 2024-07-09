@@ -24,8 +24,6 @@ Chd|====================================================================
 Chd|  MREPLOC                       source/materials/mat_share/mreploc.F
 Chd|-- called by -----------
 Chd|        M25LAW                        source/materials/mat/mat025/m25law.F
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------

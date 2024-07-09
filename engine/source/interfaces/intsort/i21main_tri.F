@@ -33,8 +33,6 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        UPDATE_STRUCT_INT21           source/interfaces/int21/update_struct_int21.F
 Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        INTBUFMOD                     share/modules/restart_mod.F   
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|====================================================================
       SUBROUTINE I21MAIN_TRI(

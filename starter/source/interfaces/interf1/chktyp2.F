@@ -27,7 +27,6 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE CHKTYP2(IPARI   ,ITAB,

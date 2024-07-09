@@ -28,7 +28,6 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE LGMINI_I7( IPARI, INTBUF_TAB, MASS, ITAB, IGRNOD, 

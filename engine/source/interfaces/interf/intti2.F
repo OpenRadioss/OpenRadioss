@@ -27,7 +27,6 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        INTTI12V                      source/interfaces/interf/intti12.F
 Chd|        INTTI2V                       source/interfaces/interf/intti2v.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INTTI2(IPARI,X     ,V      ,
      .                  A    ,VR    ,AR    ,KHIE  ,MS     ,

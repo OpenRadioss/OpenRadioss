@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        IELOF3                        source/interfaces/interf/ielof3.F
 Chd|        IELOF5                        source/interfaces/interf/ielof5.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IELOF2(INTBUF_TAB,IXC,IPARI,NEL)
 C-----------------------------------------------

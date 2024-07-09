@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SESA10                        source/materials/mat/mat026/sesa10.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SESA10(OFF   ,SNEW  ,QOLD  ,EINT  ,VOLN ,

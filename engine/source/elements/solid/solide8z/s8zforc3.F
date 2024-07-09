@@ -31,7 +31,6 @@ Chd|        BOLTST                        source/elements/solid/solide/boltst.F
 Chd|        CSMALL3                       source/elements/solid/solide/csmall3.F
 Chd|        DEGENES8                      source/elements/solid/solide/degenes8.F
 Chd|        JACOB_F0                      source/elements/solid/solide8e/jacob_f0.F
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        S8EDEFW3                      source/elements/solid/solide8e/s8edefw3.F
 Chd|        S8ETHERM                      source/elements/solid/solide8e/s8etherm.F
 Chd|        S8FUPD11T12                   source/elements/solid/solide8e/s8fupd11t12.F
@@ -85,7 +84,6 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_conne
 Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TABLE_MOD                     share/modules/table_mod.F     

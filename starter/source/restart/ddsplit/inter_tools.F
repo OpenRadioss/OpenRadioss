@@ -27,7 +27,6 @@ Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interface
 Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE W_INTBUF_SIZE(INTBUF_TAB_L)
 c
@@ -614,7 +613,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_NODE_IVAL(TAB,DIM1,DIM2,TAG)
 c
@@ -660,7 +658,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE FILTER_NODE_NODLOC(TAB,DIM1,TAG,NODLOCAL) 
 c
@@ -705,7 +702,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE COPY_NODE_NODLOC(TAB,DIM1,NODLOCAL) 
 c
@@ -748,7 +744,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_NODE_NODLOC(TAB,DIM1,TAG,NODLOCAL) 
 c
@@ -789,8 +784,7 @@ Chd|  SPLIT_NODE_RVAL               source/restart/ddsplit/inter_tools.F
 Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|====================================================================
       SUBROUTINE SPLIT_NODE_RVAL(TAB,DIM1,DIM2,TAG)
 c
@@ -836,7 +830,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_SEG_NODLOC(TAB,DIM1,DIM2,TAG_SEG,NODLOCAL)
 c
@@ -883,7 +876,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_SEG_SEGLOC(TAB,DIM1,DIM2,TAG_SEG,SEGLOCAL)
 c
@@ -937,7 +929,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE COPY_IVAL(TAB,DIM1,DIM2)
 c 
@@ -980,7 +971,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE COPY_IVAL_IGEO(TAB,DIM1,DIM2,OFFSET)
 c 
@@ -1022,8 +1012,7 @@ Chd|  COPY_RVAL                     source/restart/ddsplit/inter_tools.F
 Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|====================================================================
       SUBROUTINE COPY_RVAL(TAB,DIM1,DIM2)
 c 
@@ -1069,7 +1058,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_NODE_NODLOC_P0(TAB,DIM1,DIM2,NODLOCAL)
 c
@@ -1111,7 +1099,6 @@ Chd|  PREPARE_SPLIT_CAND            source/restart/ddsplit/inter_tools.F
 Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_CAND(INTBUF_TAB, TAG_SEGM2, II_STOK, TAG_II)
 C-----------------------------------------------
@@ -1153,7 +1140,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_CAND_IVAL(TAB    , II_STOK_L, TAG_II,
      .                           MULTIMP, NCONT )
@@ -1196,8 +1182,7 @@ Chd|  SPLIT_CAND_RVAL               source/restart/ddsplit/inter_tools.F
 Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|====================================================================
       SUBROUTINE SPLIT_CAND_RVAL(TAB,II_STOK_L,TAG_II,MULTIMP,NCONT)
 c
@@ -1250,7 +1235,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I2(PROC, INTBUF_TAB  , NSN     , NMN      ,
      +                            NRTM, TAG_NODE_2RY, TAG_SEGM, TAG_SEGM2,
@@ -1341,7 +1325,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_NODE_IVAL2(TAB,DIM1,DIM2,TAG_SEGM2,TAG_NODE_2RY)
 c specific type2, need use of 2 TAG arrays (one for main segment, one for secnd node)
@@ -1383,7 +1366,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_SEG_IVAL2(TAB,DIM1,TAG,TAG2)
 c
@@ -1434,7 +1416,6 @@ Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interface
 Chd|-- calls ---------------
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|        I7I10SPLITMOD                 share/modules1/i710split_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I7(PROC     ,   INTBUF_TAB  , IPARI       ,
@@ -1624,7 +1605,6 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F    
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_CAND_I7(PROC     , INTBUF_TAB, NSN    , NSN_L       ,
@@ -1907,7 +1887,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_REMNODE_I7(PROC     , INTBUF_TAB, NRTM    , NRTM_L,
@@ -2034,7 +2013,6 @@ Chd|  PREPARE_SPLIT_CAND_I25_EDGE   source/restart/ddsplit/inter_tools.F
 Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
             SUBROUTINE PREPARE_SPLIT_CAND_I25_EDGE(INTBUF_TAB,SEGLOC,
      .                             TAG_EDGE, NEDGE_L, TAG_EDGE2, NEDGE,
@@ -2320,7 +2298,6 @@ Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interface
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        I25_FIE_MOD                   share/modules1/i25_fie_mod.F  
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
             SUBROUTINE SPLIT_CAND_I25_EDGE(INTBUF_TAB,SEGLOC,PROC,NIN,
      .                             TAG_EDGE, NEDGE_L, TAG_EDGE2, NEDGE,
@@ -2441,7 +2418,6 @@ Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interface
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_REMNODE_I25(PROC     , INTBUF_TAB, NRTM    , NRTM_L ,
@@ -2620,7 +2596,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_NISUB_I7(INTBUF_TAB, NSN_L , TAG_NODE_2RY, NRTM_L,
@@ -2713,7 +2688,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_NISUB_I25(INTBUF_TAB, NSN_L , TAG_NODE_2RY, NRTM_L,
@@ -2865,9 +2839,8 @@ Chd|====================================================================
 Chd|  SPLIT_XSAV                    source/restart/ddsplit/inter_tools.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_XSAV(INTBUF_TAB, NUMNOD_L, NSN, NSN_L,
      .                      NMN       , NMN_L , TAG_SCRATCH, TAG_NODE_MSR,
@@ -3108,8 +3081,6 @@ Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interface
 Chd|-- calls ---------------
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INT8_MOD                      ../common_source/modules/interfaces/int8_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I8(PROC     ,   INTBUF_TAB  , IPARI       ,
      .                            INTERCEP ,   TAG_NODE_2RY, TAG_SEGM    ,
@@ -3310,7 +3281,6 @@ Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interface
 Chd|-- calls ---------------
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I9(PROC        , INTBUF_TAB  , IPARI       ,
      .                            TAG_NODE_2RY, TAG_NODE_MSR, TAG_SCRATCH ,
@@ -3437,7 +3407,6 @@ Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interface
 Chd|-- calls ---------------
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I11(PROC        , INTBUF_TAB, IPARI       ,
      .                             TAG_NODE_2RY, TAG_SEGM  , TAG_SEGM2   ,
@@ -3562,7 +3531,6 @@ Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_CAND_I11(PROC       , INTBUF_TAB, NRTS   , NRTS_L ,
@@ -3755,7 +3723,6 @@ Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interface
 Chd|-- calls ---------------
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I17(PROC        , INTBUF_TAB   , IPARI  ,
      .                            TAG_NODE_2RY , TAG_NODE_MSR , 
@@ -3841,7 +3808,6 @@ Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interface
 Chd|-- calls ---------------
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I20(
      .              PROC        , INTBUF_TAB, IPARI    ,
@@ -4152,8 +4118,7 @@ Chd|====================================================================
 Chd|  SPLIT_SEG_RVAL_I20            source/restart/ddsplit/inter_tools.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|====================================================================
       SUBROUTINE SPLIT_SEG_RVAL_I20(TAB,DIM1,DIM2,TAG_SEG)
 C-----------------------------------------------
@@ -4196,7 +4161,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_SEG_IVAL_I20(TAB,TAB_NLG,DIM1,DIM2,TAG,TAG_NLG)
 C-----------------------------------------------
@@ -4237,7 +4201,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_SEG_IVAL_I20_2(TAG_SEG,DIM1,TAG_NLG)
 c specific inter 20 + redirection local to global
@@ -4275,7 +4238,6 @@ Chd|  PREPARE_SPLIT_CAND_I20_EDGE   source/restart/ddsplit/inter_tools.F
 Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_CAND_I20_EDGE(INTBUF_TAB, TAG_NLINS2, II_STOK, TAG_II)
 C-----------------------------------------------
@@ -4321,7 +4283,6 @@ Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.
 Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F    
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_CAND_I20(PROC     , INTBUF_TAB, NSN    , NSN_L       ,
@@ -4546,7 +4507,6 @@ Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_CAND_I20_EDGE(PROC      , INTBUF_TAB, NLINS  , NLINS_L     ,
@@ -4755,7 +4715,6 @@ Chd|-- calls ---------------
 Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F    
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I21(PROC        , INTBUF_TAB  , IPARI       ,
      .                             TAG_NODE_2RY, TAG_SEGM    , TAG_NODE_2RY2,
@@ -4906,7 +4865,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_CAND_IVAL_I21(TAB    , II_STOK_L, TAG_II,
      .                               DIM1, DIM2 )
@@ -4951,7 +4909,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_2RY_CAND_IVAL_I21(TAB    , II_STOK_L, TAG_II,TAG_NODE_2RY2,
      .                               DIM1 )
@@ -4995,7 +4952,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_CAND_I21(INTBUF_TAB, TAG_NODE_2RY2, II_STOK, TAG_II,C_II,PROC)
 C-----------------------------------------------
@@ -5052,7 +5008,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I24(PROC     , INTBUF_TAB  , IPARI       ,
      .                            INTERCEP , TAG_NODE_2RY, TAG_SEGM    ,
@@ -5276,7 +5231,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_NODE_IVAL_I24(TAB,DIM1,TAG,TAG2)
 c
@@ -5326,7 +5280,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_SEG_NODLOC_I24(TAB,DIM1,DIM2,TAG_SEG,NODLOCAL)
 C-----------------------------------------------
@@ -5373,7 +5326,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_SEGEDGE_NODLOC_I24(TAB,DIM1,TAG_SEG,NODLOCAL,NI)
 C-----------------------------------------------
@@ -5427,7 +5379,6 @@ Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_CAND_I24(PROC    , INTBUF_TAB, NSN    , NSN_L        ,
@@ -5749,7 +5700,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_NODE_IVAL_I25(TAB,DIMO,DIMN,TAG,TAG2)
 c
@@ -5810,7 +5760,6 @@ Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interface
 Chd|-- calls ---------------
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I25(PROC     , INTBUF_TAB   , IPARI          ,
      .                            INTERCEP  , TAG_NODE_2RY , TAG_SEGM       ,
@@ -6003,7 +5952,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_LEDGE_I25(NEDGE,
      .                          NEDGE_L,
@@ -6465,7 +6413,6 @@ Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.
 Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F    
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_CAND_I25(PROC     , INTBUF_TAB, NSN    , NSN_L       ,
@@ -6688,7 +6635,6 @@ Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interface
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_ADSKYN_25(ADSKYN,IADNOR,NADMSR,ADMSR,NADMSR_L,
      .                           NRTM_L,TAG_SEGM,TAG_SM,INTERCEP)
@@ -6752,7 +6698,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_LBOUND_I25(NADMSR,NADMSR_L,LBOUND,TAG_SM)
 c
@@ -6805,7 +6750,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_ISEGPT_IVAL(ISEGPT,NSN_L,DIM2,TAG_NODE_2RY,NI,TAG_2RY_INV,PROC)
 c
@@ -6868,7 +6812,6 @@ Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_REMNODE_I24(PROC     , INTBUF_TAB, NRTM    , NRTM_L,
@@ -7013,7 +6956,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_REMNODE_I11(PROC     , INTBUF_TAB, NRTM    , NRTM_L,
@@ -7127,7 +7069,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_REMNODE_I25_EDGE(PROC     , INTBUF_TAB, NEDGE    , NEDGE_L,
@@ -7274,7 +7215,6 @@ Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_REMNODE_I25_E2S(PROC     , INTBUF_TAB, NRTM    , NRTM_L,

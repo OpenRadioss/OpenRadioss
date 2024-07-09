@@ -25,7 +25,7 @@ Chd|  W_CLUSTER                     source/restart/ddsplit/w_cluster.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        CLUSTER_MOD                   share/modules1/cluster_mod.F  
 Chd|====================================================================

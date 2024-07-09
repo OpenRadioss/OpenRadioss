@@ -28,7 +28,6 @@ Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        I17CRIT                       source/interfaces/int17/i17crit.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I17MAIN_CRIT_TRI(
      1          IPARI  ,INTBUF_TAB ,X       ,NIN    ,
@@ -144,7 +143,6 @@ Chd|        SPMD_TRI17GAT                 source/mpi/interfaces/spmd_i7crit.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I17MAIN_TRI(
@@ -357,7 +355,6 @@ Chd|        I17FOR3                       source/interfaces/int17/i17for3.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I17MAIN_PENA(
      1          NIN    ,IPARI  ,INTBUF_TAB    ,X      ,V      ,

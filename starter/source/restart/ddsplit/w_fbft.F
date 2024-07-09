@@ -25,7 +25,7 @@ Chd|  W_FBFT                        source/restart/ddsplit/w_fbft.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|====================================================================
       SUBROUTINE W_FBFT(VEL,NC,IBFT,NFXTEMP_L,LEN_AM,PROC)

@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  M21LAW                        source/materials/mat/mat021/m21law.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================

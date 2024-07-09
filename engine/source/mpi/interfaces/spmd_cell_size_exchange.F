@@ -29,7 +29,6 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        MYQSORT_INT                   ../common_source/tools/sort/myqsort_int.F
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       

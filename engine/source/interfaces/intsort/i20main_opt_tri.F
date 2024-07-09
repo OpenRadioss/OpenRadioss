@@ -28,7 +28,6 @@ Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        I20OPTCD                      source/interfaces/intsort/i20optcd.F
 Chd|        I20OPTCDE                     source/interfaces/intsort/i20optcd.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I20MAIN_OPT_TRI(
      1                  IPARI   ,X    ,V      ,

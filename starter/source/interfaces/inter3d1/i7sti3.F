@@ -36,7 +36,6 @@ Chd|        INELTS                        source/interfaces/inter3d1/inelt.F
 Chd|        INSOL3D                       source/interfaces/inter3d1/insol3.F
 Chd|        VOLINT                        source/interfaces/inter3d1/volint.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I7STI3(

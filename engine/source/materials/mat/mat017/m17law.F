@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  M17LAW                        source/materials/mat/mat017/m17law.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE M17LAW(

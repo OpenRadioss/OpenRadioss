@@ -27,7 +27,6 @@ Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
 Chd|-- calls ---------------
 Chd|        I2_DTN_28_CIN                 source/interfaces/inter3d1/i2_dtn_28.F
 Chd|        I2_DTN_28_PEN                 source/interfaces/inter3d1/i2_dtn_28.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I2_DTN_28(X,INTBUF_TAB,IPARI,STIFN,MS,IN,N,NSN)
 C-----------------------------------------------

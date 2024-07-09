@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ATUR17                        source/ale/turbulence/atur17.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|        A17YL2                        source/ale/turbulence/a17yl2.F
 Chd|        A17YL3                        source/ale/turbulence/a17yl3.F

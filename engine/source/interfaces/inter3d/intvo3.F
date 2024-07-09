@@ -37,7 +37,6 @@ Chd|        I5FOR3                        source/interfaces/inter3d/i5for3.F
 Chd|        I5FRI3                        source/interfaces/inter3d/i3fri3.F
 Chd|        I5IMPK3                       source/interfaces/inter3d/i5impk3.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INTVO3(IPARI,X ,A  ,
      2                  ICODT,FSAV ,MWA  ,V ,MS ,

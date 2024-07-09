@@ -25,7 +25,7 @@ Chd|  W_AVUPLY                      source/restart/ddsplit/w_avuply.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|====================================================================
       SUBROUTINE W_AVUPLY( NNODPXFE_L,LEN_AM)
 C-----------------------------------------------

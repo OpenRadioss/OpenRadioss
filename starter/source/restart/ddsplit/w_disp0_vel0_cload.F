@@ -26,7 +26,7 @@ Chd|  W_DISP0_VEL0_CLOAD            source/restart/ddsplit/w_disp0_vel0_cload.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|====================================================================
       SUBROUTINE W_DISP0_VEL0_CLOAD(DISP0,CEP    ,PROC  ,NCLOAD_L,LEN_AM,
      .                             OFF  ,LEN_CEP ,NCLOAD)

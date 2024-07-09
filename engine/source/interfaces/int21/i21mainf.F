@@ -38,7 +38,6 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        SUM_6_FLOAT_SENS              source/system/parit.F         
 Chd|        STRI                          source/tools/univ/stri.F      
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F

@@ -39,9 +39,6 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F   
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        INTBUFMOD                     share/modules/restart_mod.F   
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       

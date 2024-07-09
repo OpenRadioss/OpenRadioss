@@ -29,7 +29,6 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        BITSET                        source/interfaces/inter3d1/bitget.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE ININTSUB_11(ITAB      ,IGRSLIN ,IGRSURF ,NOM_OPT ,INTBUF_TAB,

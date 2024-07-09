@@ -25,7 +25,6 @@ Chd|  FIND_EDGE_INTER               source/interfaces/interf/find_edge_inter.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE FIND_EDGE_INTER( ITAB,SHOOT_STRUCT,IXS,IXS10,

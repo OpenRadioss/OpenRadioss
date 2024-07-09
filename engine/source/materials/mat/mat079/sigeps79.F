@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SIGEPS79                      source/materials/mat/mat079/sigeps79.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|====================================================================
        SUBROUTINE SIGEPS79(

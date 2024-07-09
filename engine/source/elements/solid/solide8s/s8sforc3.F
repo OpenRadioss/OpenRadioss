@@ -29,7 +29,6 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        BASIS8                        source/elements/solid/solide8/basis8.F
 Chd|        CSMALL3                       source/elements/solid/solide/csmall3.F
 Chd|        DEGENES8                      source/elements/solid/solide/degenes8.F
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        S8EDEFOC3                     source/elements/solid/solide8e/s8edefoc3.F
 Chd|        S8EDEFW3                      source/elements/solid/solide8e/s8edefw3.F
 Chd|        S8EDERIC3                     source/elements/solid/solide8e/s8ederic3.F
@@ -65,7 +64,6 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================

@@ -25,7 +25,6 @@ Chd|  I25IRTLM                      source/interfaces/int25/i25irtlm.F
 Chd|-- called by -----------
 Chd|        I25MAIN_OPT_TRI               source/interfaces/intsort/i25main_opt_tri.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25IRTLM(

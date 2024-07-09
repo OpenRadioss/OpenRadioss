@@ -25,7 +25,6 @@ Chd|  Q4FORC2                       source/elements/solid_2d/quad4/q4forc2.F
 Chd|-- called by -----------
 Chd|        FORINT                        source/elements/forint.F      
 Chd|-- calls ---------------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        Q4COOR2                       source/elements/solid_2d/quad4/q4coor2.F
 Chd|        Q4CUMU2                       source/elements/solid_2d/quad4/q4cumu2.F
 Chd|        Q4CUMU2P                      source/elements/solid_2d/quad4/q4cumu2p.F
@@ -53,7 +52,6 @@ Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zsigp
 Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================

@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        I21BUCE_CRIT                  source/interfaces/intsort/i21buce_crit.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|====================================================================
       SUBROUTINE I21MAIN_CRIT_TRI(

@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SIGEPS76                      source/materials/mat/mat076/sigeps76.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        ASSO_PLAS76                   source/materials/mat/mat076/asso_plas76.F
 Chd|        NO_ASSO_PLAS76                source/materials/mat/mat076/no_asso_plas76.F

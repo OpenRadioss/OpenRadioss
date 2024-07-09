@@ -29,7 +29,6 @@ Chd|        I9WALE                        source/interfaces/int09/i9wale.F
 Chd|        INT12W                        source/ale/inter/int12w.F     
 Chd|        INTAL4                        source/ale/inter/intal4.F     
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INTAL3(IPARI,X        ,V      ,
      2                  A    ,VG      ,ISKEW     ,SKEW     ,ICODE  ,

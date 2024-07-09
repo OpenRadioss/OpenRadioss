@@ -25,7 +25,6 @@ Chd|  INIT_I25_EDGE                 source/interfaces/int25/init_i25_edge.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
         SUBROUTINE INIT_I25_EDGE(NLEDGE,NINTER,NPARI,IPARI,INTBUF_TAB)
 !$COMMENT

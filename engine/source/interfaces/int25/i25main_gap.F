@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        I25GAP3                       source/interfaces/int25/i25gap3.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|====================================================================
       SUBROUTINE I25MAIN_GAP(

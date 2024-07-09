@@ -116,8 +116,6 @@ Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/grou
 Chd|        INIMAP1D_MOD                  share/modules1/inimap1d_mod.F 
 Chd|        INIMAP2D_MOD                  share/modules1/inimap2d_mod.F 
 Chd|        INIVOL_DEF_MOD                share/modules1/inivol_mod.F   
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/mat_elem/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F

@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPMD_ARRAYS_MOD               modules/interfaces/spmd_arrays_mod.F
 Chd|-- called by -----------
-Chd|        INTERFACES_MOD                common_source/modules/interfaces/interfaces_mod.F
 Chd|-- calls ---------------
 Chd|====================================================================
         MODULE SPMD_ARRAYS_MOD

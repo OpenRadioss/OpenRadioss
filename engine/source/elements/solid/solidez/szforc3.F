@@ -33,7 +33,6 @@ Chd|        CHECK_OFF_ALE                 source/elements/solid/solide/check_off
 Chd|        EMOMT3B                       source/elements/solid/solide/emomt3b.F
 Chd|        EPXLE3                        source/elements/solid/solide/epxle3.F
 Chd|        FE_CLOSE                      source/elements/solid/solide/fe_close.F
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        MOD_CLOSE                     source/elements/solid/solide/mod_close.F
 Chd|        NSVIS_SM12                    source/elements/solid/solide10/nsvis_sm12.F
 Chd|        S11DEFO3                      source/elements/solid/solide/s11defo3.F
@@ -86,7 +85,6 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_conne
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    

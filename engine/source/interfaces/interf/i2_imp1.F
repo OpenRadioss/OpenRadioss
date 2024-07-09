@@ -28,7 +28,6 @@ Chd|        I2_IMPI                       source/interfaces/interf/i2_imp0.F
 Chd|-- calls ---------------
 Chd|        I2UPDK0                       source/interfaces/interf/i2_imp1.F
 Chd|        I2UPDK1                       source/interfaces/interf/i2_imp1.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I2_IMP1(IPARI,INTBUF_TAB,ITAB  ,
      .                   NSC2 ,ISIJ2,NSS2,ISS2 ,
@@ -115,7 +114,6 @@ Chd|-- calls ---------------
 Chd|        GET_KIJ                       source/implicit/imp_glob_k.F  
 Chd|        I2UPDKM0                      source/interfaces/interf/i2_imp1.F
 Chd|        I2UPDKM1                      source/interfaces/interf/i2_imp1.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I2_IMPM(IPARI,INTBUF_TAB,NMC2 ,IMIJ2,
      .                   X    ,MS  ,IN   ,WEIGHT  ,
@@ -1907,7 +1905,6 @@ Chd|        UPD_RHS_FR                    source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|        I2UPDB0                       source/interfaces/interf/i2_imp1.F
 Chd|        I2UPDB1                       source/interfaces/interf/i2_imp1.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I2_IMPR1(IPARI,INTBUF_TAB,
      .                    X    ,NDOF ,IDDL    ,B     )
@@ -2189,7 +2186,6 @@ Chd|        UPD_RHS_FR                    source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|        I2UPDB02                      source/interfaces/interf/i2_imp1.F
 Chd|        I2UPDB12                      source/interfaces/interf/i2_imp1.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I2_IMPR2(IPARI,INTBUF_TAB,A    ,AR      ,
      .                    X    ,NDOF ,IDDL    ,B     )

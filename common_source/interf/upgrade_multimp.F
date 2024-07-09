@@ -40,7 +40,6 @@ Chd|        ARRET                         starter/source/system/arret.F
 Chd|        ARRET                         engine/source/system/arret.F  
 Chd|        ARRET_MESSAGE                 starter/source/interfaces/int24/arret_message.F
 Chd|        ARRET_MESSAGE                 engine/source/system/arret_message.F
-Chd|        INTBUFDEF_MOD                 modules/intbufdef_mod.F       
 Chd|        RESTMOD                       starter/share/modules1/restart_mod.F
 Chd|        RESTMOD                       engine/share/modules/restart_mod.F
 Chd|====================================================================
@@ -1118,7 +1117,6 @@ Chd|        ARRET                         starter/source/system/arret.F
 Chd|        ARRET                         engine/source/system/arret.F  
 Chd|        ARRET_MESSAGE_SLID            starter/source/interfaces/int24/arret_message.F
 Chd|        ARRET_MESSAGE_SLID            engine/source/system/arret_message.F
-Chd|        INTBUFDEF_MOD                 modules/intbufdef_mod.F       
 Chd|        RESTMOD                       starter/share/modules1/restart_mod.F
 Chd|        RESTMOD                       engine/share/modules/restart_mod.F
 Chd|====================================================================
@@ -1319,7 +1317,6 @@ Chd|        ARRET                         starter/source/system/arret.F
 Chd|        ARRET                         engine/source/system/arret.F  
 Chd|        ARRET_MESSAGE                 starter/source/interfaces/int24/arret_message.F
 Chd|        ARRET_MESSAGE                 engine/source/system/arret_message.F
-Chd|        INTBUFDEF_MOD                 modules/intbufdef_mod.F       
 Chd|        RESTMOD                       starter/share/modules1/restart_mod.F
 Chd|        RESTMOD                       engine/share/modules/restart_mod.F
 Chd|====================================================================
@@ -1523,7 +1520,6 @@ Chd|        ARRET                         starter/source/system/arret.F
 Chd|        ARRET                         engine/source/system/arret.F  
 Chd|        ARRET_MESSAGE                 starter/source/interfaces/int24/arret_message.F
 Chd|        ARRET_MESSAGE                 engine/source/system/arret_message.F
-Chd|        INTBUFDEF_MOD                 modules/intbufdef_mod.F       
 Chd|        RESTMOD                       starter/share/modules1/restart_mod.F
 Chd|        RESTMOD                       engine/share/modules/restart_mod.F
 Chd|====================================================================

@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  M11LAW                        source/materials/mat/mat011/m11law.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|        M11VS2                        source/materials/mat/mat011/m11vs2.F
 Chd|        M11VS3                        source/materials/mat/mat011/m11vs3.F

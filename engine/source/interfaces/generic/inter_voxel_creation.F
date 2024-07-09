@@ -25,7 +25,6 @@ Chd|  INTER_VOXEL_CREATION          source/interfaces/generic/inter_voxel_creati
 Chd|-- called by -----------
 Chd|        INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|====================================================================
         SUBROUTINE INTER_VOXEL_CREATION(IPARI,INTBUF_TAB,X,NIN,SORT_COMM)

@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  FAIL_MULLINS_OR_S             source/materials/fail/mullins_or/fail_mullins_OR_s.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------
 Chd|        MULLINS_OR                    source/materials/fail/mullins_or/fail_mullins_OR_s.F

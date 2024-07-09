@@ -25,7 +25,6 @@ Chd|  FLUSH_REMNODE_ARRAY           source/interfaces/inter3d1/flush_remnode_arr
 Chd|-- called by -----------
 Chd|        ININTR                        source/interfaces/interf1/inintr.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
         SUBROUTINE FLUSH_REMNODE_ARRAY(NINTER,NPARI,IPARI,INTBUF_TAB)
 !$COMMENT

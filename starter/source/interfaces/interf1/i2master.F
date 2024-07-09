@@ -27,7 +27,6 @@ Chd|-- called by -----------
 Chd|        ININT2                        source/interfaces/inter2d1/inint2.F
 Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I2MAIN(NSV,MSR,IRECTM,IPARI,
      .                   TAG,MSRU,INTBUF_TAB)

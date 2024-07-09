@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        CHKSLV                        source/interfaces/inter2d/chkstifn.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CHKSTIFN(IPARI,MS,INTBUF_TAB)
 C-----------------------------------------------

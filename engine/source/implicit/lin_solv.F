@@ -55,7 +55,6 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE LIN_SOLV(NDDL  ,IDDL  ,NDOF  ,IKC   ,D     ,
      1                    DR    ,TOL   ,NNZ   ,IADK  ,JDIK  ,
@@ -687,7 +686,6 @@ Chd|        SET_KSYM                      source/implicit/imp_solv.F
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE LIN_SOLVH0(TOL  ,
      1                    NDDL  ,NNZ     ,IADK   ,JDIK  ,DIAG_K ,
@@ -854,7 +852,6 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE LIN_SOLVH1(TOL  ,MAX_L  ,
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
@@ -1151,7 +1148,6 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE LIN_SOLVIH2(TOL  ,N_PAT,MAXB1  ,
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
@@ -1422,7 +1418,6 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE LIN_SOLVHM(TOL  ,
      1                    NDDL  ,NNZ     ,IADK   ,JDIK  ,DIAG_K ,

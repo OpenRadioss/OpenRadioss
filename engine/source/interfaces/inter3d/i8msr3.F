@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        INTVO8                        source/interfaces/inter3d/intvo8.F
 Chd|-- calls ---------------
 Chd|        I8_NEAREST_SEG                source/interfaces/inter3d/i8_nearest_seg.F
-Chd|        INT8_MOD                      ../common_source/modules/interfaces/int8_mod.F
 Chd|====================================================================
       SUBROUTINE I8MSR3(
      1   X,           IRECT,       LMSR,        MSR,

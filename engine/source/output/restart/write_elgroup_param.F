@@ -25,7 +25,7 @@ Chd|  WRITE_ELGROUP_PARAM           source/output/restart/write_elgroup_param.F
 Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/output/tools/write_db.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|        GROUP_PARAM_MOD               ../common_source/modules/mat_elem/group_param_mod.F
 Chd|====================================================================
       SUBROUTINE WRITE_ELGROUP_PARAM(GROUP_PARAM_TAB,NGROUP)

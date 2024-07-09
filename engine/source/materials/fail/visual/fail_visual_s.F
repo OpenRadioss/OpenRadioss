@@ -23,8 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  FAIL_VISUAL_S                 source/materials/fail/visual/fail_visual_s.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------

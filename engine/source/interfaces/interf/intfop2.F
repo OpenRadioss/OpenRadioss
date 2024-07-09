@@ -43,11 +43,8 @@ Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        INTBUF_FRIC_MOD               share/modules/intbuf_fric_mod.F
-Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
-Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
+Chd|        METRIC_MOD                    ../common_source/modules/interfaces/metric_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    

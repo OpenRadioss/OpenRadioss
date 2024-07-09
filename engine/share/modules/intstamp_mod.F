@@ -222,8 +222,8 @@ Chd|  INTSTAMP_WRESTR               share/modules/intstamp_mod.F
 Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/output/tools/write_db.F
-Chd|        WRITE_DPDB                    source/output/tools/write_db.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
+Chd|        WRITE_DPDB                    ../common_source/tools/input_output/write_db.F
 Chd|====================================================================
       SUBROUTINE INTSTAMP_WRESTR(INTSTAMP)
 C-----------------------------------------------
@@ -323,8 +323,8 @@ Chd|  INTSTAMP_RRESTR               share/modules/intstamp_mod.F
 Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
-Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        READ_DPDB                     source/output/tools/read_db.F 
+Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
+Chd|        READ_DPDB                     ../common_source/tools/input_output/read_db.F
 Chd|====================================================================
       SUBROUTINE INTSTAMP_RRESTR(INTSTAMP)
 C-----------------------------------------------

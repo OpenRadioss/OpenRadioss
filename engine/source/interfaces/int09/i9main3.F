@@ -34,7 +34,6 @@ Chd|        I9AVEL                        source/interfaces/int09/i9avel.F
 Chd|        I9COR3                        source/interfaces/int09/i9cor3.F
 Chd|        I9FRMS                        source/interfaces/int09/i9frms.F
 Chd|        I9IMP3                        source/interfaces/int09/i9imp3.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I9MAIN3(IPARI,INTBUF_TAB        ,X         ,V         ,
      1           A            ,ISKEW   ,SKEW     ,LCOD      ,FN        ,

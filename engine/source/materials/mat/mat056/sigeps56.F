@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SIGEPS56                      source/materials/mat/mat056/sigeps56.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|-- calls ---------------
 Chd|        VINTER                        source/tools/curve/vinter.F   

@@ -26,7 +26,6 @@ Chd|  SPMD_GLOB_MIN5                source/mpi/generic/spmd_glob_min5.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_GLOB_MIN5(DT2  ,ITYPTS,NELTS,ICODT,IMSCH,
      .                         TSTOP,IWIOUT,MSTOP,ISMSCH,

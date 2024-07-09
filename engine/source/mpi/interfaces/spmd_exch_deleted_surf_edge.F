@@ -30,7 +30,6 @@ Chd|        DEALLOC_1D_ARRAY              ../common_source/modules/array_mod.F
 Chd|        FIND_EDGE_FROM_REMOTE_PROC    source/interfaces/interf/find_edge_from_remote_proc.F
 Chd|        FIND_SURFACE_FROM_REMOTE_PROC source/interfaces/interf/find_surface_from_remote_proc.F
 Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,ITABM1,SHOOT_STRUCT,INTBUF_TAB,NEWFRONT,

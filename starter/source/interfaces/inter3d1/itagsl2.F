@@ -29,7 +29,6 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        KINSET                        source/constraints/general/kinset.F
 Chd|        INTAB                         source/interfaces/inter3d1/i24tools.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE ITAGSL2(IPARI ,NOM_OPT,ITAB  ,IKINE  ,INTBUF_TAB,

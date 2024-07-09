@@ -31,7 +31,6 @@ Chd|        I25OPTCD_E2S                  source/interfaces/intsort/i25optcd_e2s
 Chd|        I25OPTCD_EDG                  source/interfaces/intsort/i25optcd_edg.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        UPGRADE_CAND_OPT              ../common_source/interf/upgrade_multimp.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25MAIN_OPT_TRI(

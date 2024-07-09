@@ -33,7 +33,6 @@ Chd|        EDE112                        source/ale/euler2d/ede112.F
 Chd|        EDEFO2                        source/ale/euler2d/edefo2.F   
 Chd|        EMOMT2                        source/ale/euler2d/emomt2.F   
 Chd|        EULRO2                        source/ale/euler2d/eulro2.F   
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        QBILAN                        source/elements/solid_2d/quad/qbilan.F
 Chd|        QCOOR2                        source/elements/solid_2d/quad/qcoor2.F
 Chd|        QCUMU2                        source/elements/solid_2d/quad/qcumu2.F
@@ -55,7 +54,6 @@ Chd|        QVOLU2                        source/elements/solid_2d/quad/qvolu2.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================

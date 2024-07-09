@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SIGEPS44                      source/materials/mat/mat044/sigeps44.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|-- calls ---------------
 Chd|        MSTRAIN_RATE                  source/materials/mat_share/mstrain_rate.F

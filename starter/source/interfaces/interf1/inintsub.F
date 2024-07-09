@@ -30,7 +30,6 @@ Chd|        ININTSUB_11                   source/output/subinterface/inintsub_11
 Chd|        ININTSUB_25                   source/output/subinterface/inintsub_25.F
 Chd|        ININTSUB_7                    source/output/subinterface/inintsub_7.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE ININTSUB(ITAB      ,IGRNOD ,IGRSURF ,

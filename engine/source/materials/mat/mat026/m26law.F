@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  M26LAW                        source/materials/mat/mat026/m26law.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE M26LAW(PM   ,OFF   ,SIG  ,RHO,

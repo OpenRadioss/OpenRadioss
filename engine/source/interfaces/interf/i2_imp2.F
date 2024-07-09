@@ -28,7 +28,6 @@ Chd|-- calls ---------------
 Chd|        I2RECU0                       source/interfaces/interf/i2_imp2.F
 Chd|        I2RECU1                       source/interfaces/interf/i2_imp2.F
 Chd|        I2RECU2                       source/interfaces/interf/i2_imp2.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INT2_IMP2(IPARI,INTBUF_TAB,X    ,
      .                   MS  ,IN   ,WEIGHT  ,NDOF ,D    ,DR  )

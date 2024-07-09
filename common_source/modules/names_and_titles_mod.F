@@ -30,12 +30,18 @@ Chd|        CREATE_ELLIPSE_CLAUSE         starter/source/model/sets/create_ellip
 Chd|        WRITE_FAILPARAM               starter/source/materials/fail/write_failparam.F
 Chd|        WRITE_MATPARAM                starter/source/materials/mat/write_matparam.F
 Chd|        WRITE_VISCPARAM               starter/source/materials/mat/write_viscparam.F
+Chd|        LECTUR                        engine/source/input/lectur.F  
+Chd|        RADIOSS2                      engine/source/engine/radioss2.F
+Chd|        RDRESA                        engine/source/output/restart/rdresa.F
 Chd|        READ_FAILPARAM                engine/source/output/restart/read_failparam.F
 Chd|        READ_MATPARAM                 engine/source/output/restart/read_matparam.F
 Chd|        READ_VISCPARAM                engine/source/output/restart/read_viscparam.F
+Chd|        RESOL                         engine/source/engine/resol.F  
+Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
 Chd|        WRITE_FAILPARAM               engine/source/output/restart/write_failparam.F
 Chd|        WRITE_MATPARAM                engine/source/output/restart/write_matparam.F
 Chd|        WRITE_VISCPARAM               engine/source/output/restart/write_viscparam.F
+Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE NAMES_AND_TITLES_MOD

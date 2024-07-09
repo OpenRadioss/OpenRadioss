@@ -108,7 +108,7 @@ Chd|  TABLE_WRESTR                  source/tools/curve/table_tools.F
 Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/output/tools/write_db.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE TABLE_WRESTR(TABLE, LENR)
@@ -216,7 +216,7 @@ Chd|  TABLE_RRESTR                  source/tools/curve/table_tools.F
 Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
-Chd|        READ_DB                       source/output/tools/read_db.F 
+Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE TABLE_RRESTR(TABLE)

@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        I7TRC                         source/interfaces/intsort/i7trc.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|====================================================================
         SUBROUTINE INTER_TRC_7( ITASK,NIN,IPARI,IND_IMP,

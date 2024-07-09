@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        INTTI2V                       source/interfaces/interf/intti2v.F
 Chd|-- calls ---------------
 Chd|        I2VIROT3                      source/interfaces/interf/i2vit3.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I2VIT28(INTBUF_TAB,IPARI,WEIGHT,NSN ,
      .                   X    ,V   ,A    ,VR   ,AR   ,

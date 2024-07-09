@@ -27,7 +27,6 @@ Chd|        IMP_TRIPI                     source/implicit/imp_int_k.F
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        I7OPTCD                       source/interfaces/intsort/i7optcd.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I7MAIN_OPT_TRI(
      1                  IPARI   ,X     ,V           ,

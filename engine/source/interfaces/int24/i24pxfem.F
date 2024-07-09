@@ -27,7 +27,6 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        I24GAP                        source/interfaces/int24/i24pxfem.F
 Chd|        SPMD_EXCH_I24_GAP             source/mpi/interfaces/spmd_exch_i24_gap.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I24PXFEM(
      1   IPARI    ,INTBUF_TAB,WAGAP ,IAD_ELEM,FR_ELEM)

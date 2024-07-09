@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        ININTR1                       source/interfaces/interf1/inintr1.F
 Chd|-- calls ---------------
 Chd|        I20STIFN2                     source/interfaces/inter3d1/i20stifn.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I20STIFN(IPARI,STIFINT,INTBUF_TAB)
 C-----------------------------------------------

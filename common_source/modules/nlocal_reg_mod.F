@@ -70,8 +70,6 @@ Chd|        FORINT                        engine/source/elements/forint.F
 Chd|        FORINTC                       engine/source/elements/forintc.F
 Chd|        FORINTP                       engine/source/elements/forintp.F
 Chd|        IG3DUFORC3                    engine/source/elements/ige3d/ig3duforc3.F
-Chd|        MMAIN                         engine/source/materials/mat_share/mmain.F
-Chd|        MULAW                         engine/source/materials/mat_share/mulaw.F
 Chd|        MULAWC                        engine/source/materials/mat_share/mulawc.F
 Chd|        NLOCAL_ACC                    engine/source/assembly/nlocal_acc.F
 Chd|        NLOCAL_DTNODA                 engine/source/time_step/nlocal_dtnoda.F

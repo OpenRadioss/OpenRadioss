@@ -102,7 +102,6 @@ Chd|        LECTUR                        engine/source/input/lectur.F
 Chd|        M46LAW                        engine/source/materials/mat/mat046/m46law.F
 Chd|        MANCTR                        engine/source/input/manctr.F  
 Chd|        MEINT                         engine/source/materials/mat_share/meint.F
-Chd|        MMAIN                         engine/source/materials/mat_share/mmain.F
 Chd|        MQVISCB                       engine/source/materials/mat_share/mqviscb.F
 Chd|        QDLEN2                        engine/source/elements/solid_2d/quad/qdlen2.F
 Chd|        QFORC2                        engine/source/elements/solid_2d/quad/qforc2.F

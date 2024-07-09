@@ -25,7 +25,6 @@ Chd|  SPSTRES                       source/elements/sph/spstres.F
 Chd|-- called by -----------
 Chd|        FORINTP                       source/elements/forintp.F     
 Chd|-- calls ---------------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        SPBACK3                       source/elements/sph/spback3.F 
 Chd|        SPBILAN                       source/elements/sph/spbilan.F 
 Chd|        SPDEFO3                       source/elements/sph/spdefo3.F 
@@ -39,7 +38,6 @@ Chd|        SROTA3                        source/elements/solid/solide/srota3.F
 Chd|        SSTRA3                        source/elements/solid/solide/sstra3.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     

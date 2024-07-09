@@ -127,8 +127,7 @@ Chd|====================================================================
 Chd|  WRITE_REAL                    comm/write_mod.F              
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      starter/source/restart/ddsplit/wrrest.F
-Chd|        WRITE_DB                      engine/source/output/tools/write_db.F
+Chd|        WRITE_DB                      tools/input_output/write_db.F 
 Chd|====================================================================
         SUBROUTINE WRITE_REAL(A)
 C-----------------------------------------------
@@ -152,8 +151,7 @@ Chd|====================================================================
 Chd|  WRITE_REAL_1D                 comm/write_mod.F              
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      starter/source/restart/ddsplit/wrrest.F
-Chd|        WRITE_DB                      engine/source/output/tools/write_db.F
+Chd|        WRITE_DB                      tools/input_output/write_db.F 
 Chd|====================================================================
         SUBROUTINE WRITE_REAL_1D(A,N)
 C-----------------------------------------------
@@ -178,8 +176,7 @@ Chd|====================================================================
 Chd|  WRITE_REAL_2D                 comm/write_mod.F              
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      starter/source/restart/ddsplit/wrrest.F
-Chd|        WRITE_DB                      engine/source/output/tools/write_db.F
+Chd|        WRITE_DB                      tools/input_output/write_db.F 
 Chd|====================================================================
         SUBROUTINE WRITE_REAL_2D(A,M,N)
 C-----------------------------------------------
@@ -204,8 +201,7 @@ Chd|====================================================================
 Chd|  WRITE_REAL_3D                 comm/write_mod.F              
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      starter/source/restart/ddsplit/wrrest.F
-Chd|        WRITE_DB                      engine/source/output/tools/write_db.F
+Chd|        WRITE_DB                      tools/input_output/write_db.F 
 Chd|====================================================================
         SUBROUTINE WRITE_REAL_3D(A,L,M,N)
 C-----------------------------------------------
@@ -230,8 +226,7 @@ Chd|====================================================================
 Chd|  WRITE_DOUBLE                  comm/write_mod.F              
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        WRITE_DPDB                    starter/source/restart/ddsplit/wrrest.F
-Chd|        WRITE_DPDB                    engine/source/output/tools/write_db.F
+Chd|        WRITE_DPDB                    tools/input_output/write_db.F 
 Chd|====================================================================
         SUBROUTINE WRITE_DOUBLE(A)
 C-----------------------------------------------
@@ -256,8 +251,7 @@ Chd|====================================================================
 Chd|  WRITE_DOUBLE_1D               comm/write_mod.F              
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        WRITE_DPDB                    starter/source/restart/ddsplit/wrrest.F
-Chd|        WRITE_DPDB                    engine/source/output/tools/write_db.F
+Chd|        WRITE_DPDB                    tools/input_output/write_db.F 
 Chd|====================================================================
         SUBROUTINE WRITE_DOUBLE_1D(A,N)
 C-----------------------------------------------
@@ -282,8 +276,7 @@ Chd|====================================================================
 Chd|  WRITE_DOUBLE_2D               comm/write_mod.F              
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        WRITE_DPDB                    starter/source/restart/ddsplit/wrrest.F
-Chd|        WRITE_DPDB                    engine/source/output/tools/write_db.F
+Chd|        WRITE_DPDB                    tools/input_output/write_db.F 
 Chd|====================================================================
         SUBROUTINE WRITE_DOUBLE_2D(A,M,N)
 C-----------------------------------------------
@@ -308,8 +301,7 @@ Chd|====================================================================
 Chd|  WRITE_DOUBLE_3D               comm/write_mod.F              
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        WRITE_DPDB                    starter/source/restart/ddsplit/wrrest.F
-Chd|        WRITE_DPDB                    engine/source/output/tools/write_db.F
+Chd|        WRITE_DPDB                    tools/input_output/write_db.F 
 Chd|====================================================================
         SUBROUTINE WRITE_DOUBLE_3D(A,L,M,N)
 C-----------------------------------------------

@@ -29,7 +29,6 @@ Chd|-- calls ---------------
 Chd|        ADDDP                         source/mpi/interfaces/spmd_i7tool.F
 Chd|        GETDPDAANC                    source/mpi/interfaces/spmd_i7tool.F
 Chd|        PUTDPDAANC                    source/mpi/interfaces/spmd_i7tool.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_EXCH_DA20(
      1   INTBUF_TAB,IPARI,IAD_ELEM,FR_ELEM,

@@ -37,7 +37,6 @@ Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale/ale_ebcs_
 Chd|        EBCS_MOD                      ../common_source/modules/boundary_conditions/ebcs_mod.F
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
@@ -2810,7 +2809,6 @@ Chd|  FILLCNI2                      source/spmd/domdec2.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE FILLCNI2(
      1   CNI2  ,LCNI2 ,ADDCNI2, IPARI, INTBUF_TAB)

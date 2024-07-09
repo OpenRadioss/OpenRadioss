@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  GRAY20                        source/materials/mat/mat016/gray20.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|        GRAY21                        source/materials/mat/mat016/gray21.F
 Chd|====================================================================

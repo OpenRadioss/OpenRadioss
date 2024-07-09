@@ -34,7 +34,6 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_conne
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        SPLIT_CFD_MOD                 share/modules1/split_cfd_mod.F

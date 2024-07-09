@@ -31,7 +31,6 @@ Chd|        FFIZERO                       source/interfaces/int07/i7ke3.F
 Chd|        I7CORK3                       source/interfaces/int07/i7cork3.F
 Chd|        I7DSTK3                       source/interfaces/int07/i7dstk3.F
 Chd|        I7KEG3                        source/interfaces/int07/i7keg3.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I7KE3(  A     ,V      ,MS   ,
      1                   IPARI ,INTBUF_TAB,X    ,NIN   ,
@@ -201,7 +200,6 @@ Chd|-- calls ---------------
 Chd|        I10FORCF3                     source/interfaces/int10/i10ke3.F
 Chd|        I11FORCF3                     source/interfaces/int11/i11ke3.F
 Chd|        I7FORCF3                      source/interfaces/int07/i7ke3.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I7MAINFR(  A     ,V     ,D      ,X     ,MS    ,
      1                     IPARI  ,INTBUF_TAB    ,NUM_IMP,NS_IMP,
@@ -262,7 +260,6 @@ Chd|-- calls ---------------
 Chd|        I24CORP3                      source/interfaces/int24/i24cork3.F
 Chd|        I7CORP3                       source/interfaces/int07/i7cork3.F
 Chd|        I7FRF3                        source/interfaces/int07/i7keg3.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I7FORCF3(  A     ,V      ,MS   ,X    ,D ,
      1                    IPARI   ,INTBUF_TAB,NIN     ,
@@ -391,7 +388,6 @@ Chd|        I7CDCOR3                      source/interfaces/int07/i7cdcor3.F
 Chd|        I7CORK3                       source/interfaces/int07/i7cork3.F
 Chd|        I7DSTK3                       source/interfaces/int07/i7dstk3.F
 Chd|        I7DSTR3                       source/interfaces/int07/i7dstk3.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_I7MAINF(
      1       IPARI  ,INTBUF_TAB,X        ,
@@ -591,7 +587,6 @@ Chd|        I7CORK3                       source/interfaces/int07/i7cork3.F
 Chd|        I7CORKP3                      source/interfaces/int07/i7cork3.F
 Chd|        I7DSTK3                       source/interfaces/int07/i7dstk3.F
 Chd|        I7KFOR3                       source/interfaces/int07/i7keg3.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I7FKU3(A      ,V     ,MS     ,D     ,
      1                  IPARI ,INTBUF_TAB,X    ,NIN   ,

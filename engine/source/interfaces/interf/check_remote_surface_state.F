@@ -29,7 +29,6 @@ Chd|        ALLOC_2D_ARRAY                ../common_source/modules/array_mod.F
 Chd|        DEALLOC_2D_ARRAY              ../common_source/modules/array_mod.F
 Chd|        SURFACE_DEACTIVATION          source/interfaces/interf/surface_deactivation.F
 Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE CHECK_REMOTE_SURFACE_STATE( SURFARCE_NB,SURFACE_ID,SHIFT_INTERFACE,INTBUF_TAB,

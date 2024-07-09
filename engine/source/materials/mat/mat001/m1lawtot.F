@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  M1LAWTOT                      source/materials/mat/mat001/m1lawtot.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|        M1ISMSTR10_PON                source/materials/mat/mat001/m1ismstr10_pon.F
 Chd|        M1ISMSTR11                    source/materials/mat/mat001/m1ismstr11.F

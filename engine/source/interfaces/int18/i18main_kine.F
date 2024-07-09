@@ -38,7 +38,6 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_conne
 Chd|        ANIM_MOD                      ../common_source/modules/output/anim_mod.F
 Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
@@ -317,7 +316,6 @@ Chd|        SPMD_I18KINE_COM_A            source/mpi/interfaces/spmd_i18kine_com
 Chd|        SPMD_I18KINE_COM_V            source/mpi/interfaces/spmd_i18kine_com_v.F
 Chd|        SPMD_I18KINE_PENE_COM_POFF    source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I18MAIN_KINE_2(IPARI,INTBUF_TAB ,X   ,V       ,
@@ -507,7 +505,6 @@ Chd|        I7CDCOR3                      source/interfaces/int07/i7cdcor3.F
 Chd|        I7COR3                        source/interfaces/int07/i7cor3.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|====================================================================
@@ -740,7 +737,6 @@ Chd|-- called by -----------
 Chd|        I18MAIN_KINE_1                source/interfaces/int18/i18main_kine.F
 Chd|-- calls ---------------
 Chd|        I18KINE_F                     source/interfaces/int18/i18main_kine.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I18MAIN_KINE_F(NIN,
      1                          IPARI     ,INTBUF_TAB          ,X         ,STIFN     ,
@@ -976,7 +972,6 @@ Chd|        I18MAIN_KINE_2                source/interfaces/int18/i18main_kine.F
 Chd|-- calls ---------------
 Chd|        I18KINE_V                     source/interfaces/int18/i18main_kine.F
 Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I18MAIN_KINE_V(NIN,
      1      IPARI     ,INTBUF_TAB         ,X       ,STIFN     ,
@@ -1126,7 +1121,6 @@ Chd|-- calls ---------------
 Chd|        I18KINE_S                     source/interfaces/int18/i18main_kine.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I18MAIN_KINE_S(NIN,
      1      IPARI     ,INTBUF_TAB         ,X       ,STIFN    ,

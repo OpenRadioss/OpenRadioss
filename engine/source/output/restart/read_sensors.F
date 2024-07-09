@@ -26,8 +26,8 @@ Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
 Chd|        FRETITL2                      source/input/freform.F        
-Chd|        READ_DB                       source/output/tools/read_db.F 
-Chd|        READ_DPDB                     source/output/tools/read_db.F 
+Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
+Chd|        READ_DPDB                     ../common_source/tools/input_output/read_db.F
 Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    

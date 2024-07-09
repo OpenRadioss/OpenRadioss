@@ -77,7 +77,7 @@ Chd|====================================================================
 Chd|  WRITE_DB_DEBUG                source/output/tools/write_debug.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|====================================================================
       SUBROUTINE WRITE_DB_DEBUG(A,N,SA)
 ! Do not replace IMPLICIT NONE by an include here

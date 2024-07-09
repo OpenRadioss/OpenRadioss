@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  M24LAW                        source/materials/mat/mat024/m24law.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|        CONC24                        source/materials/mat/mat024/conc24.F
 Chd|        M24ANIM                       source/materials/mat/mat024/m24anim.F

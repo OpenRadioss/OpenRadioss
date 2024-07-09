@@ -33,7 +33,6 @@ Chd|        I25DST3_22                    source/interfaces/int25/i25dst3_22.F
 Chd|        I25GLOB                       source/interfaces/int25/i25dst3_1.F
 Chd|        I25GLOB_22                    source/interfaces/int25/i25dst3_22.F
 Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25COMP_2(

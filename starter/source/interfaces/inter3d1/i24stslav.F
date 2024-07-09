@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        ININTR1                       source/interfaces/interf1/inintr1.F
 Chd|-- calls ---------------
 Chd|        I24FICS_INI                   source/interfaces/inter3d1/i24surfi.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I24STSECND(IPARI,STIFINT,INTBUF_TAB,SFAC )
 C-----------------------------------------------

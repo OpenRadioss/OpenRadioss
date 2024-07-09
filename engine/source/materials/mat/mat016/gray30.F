@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  GRAY30                        source/materials/mat/mat016/gray30.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE GRAY30(SIG  ,EINT ,QOLD ,VOL ,QNEW,

@@ -39,7 +39,6 @@ Chd|        BLERO2                        source/ale/bimat/blero2.F
 Chd|        BREST2                        source/ale/bimat/brest2.F     
 Chd|        CHECK_OFF_ALE                 source/elements/solid/solide/check_off_ale.F
 Chd|        EDEFO2                        source/ale/euler2d/edefo2.F   
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        QBILAN                        source/elements/solid_2d/quad/qbilan.F
 Chd|        QCOOR2                        source/elements/solid_2d/quad/qcoor2.F
 Chd|        QDEFO2                        source/elements/solid_2d/quad/qdefo2.F
@@ -58,7 +57,6 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_conne
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     

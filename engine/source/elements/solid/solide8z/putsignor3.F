@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  PUTSIGNOR3                    source/elements/solid/solide8z/putsignor3.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|        IMP_KTAN                      share/modules/impbufdef_mod.F 
 Chd|        IMP_KTAN_DEF                  share/modules/impbufdef_mod.F 

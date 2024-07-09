@@ -35,7 +35,6 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_conne
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================
       SUBROUTINE ALEFVM_MAIN(

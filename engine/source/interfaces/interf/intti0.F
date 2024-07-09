@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        ALEMAIN                       source/ale/alemain.F          
 Chd|-- calls ---------------
 Chd|        INTTI12A                      source/interfaces/interf/intti12.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================
       SUBROUTINE INTTI0(IPARI ,X      ,V    ,WA     ,ITAB ,

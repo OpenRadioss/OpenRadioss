@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        I21OPTCD                      source/interfaces/int21/i21optcd.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|====================================================================
       SUBROUTINE I21MAIN_OPT_TRI(

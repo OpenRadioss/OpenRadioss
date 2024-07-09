@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        I24OPTCD                      source/interfaces/intsort/i24optcd.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I24MAIN_OPT_TRI(
      1                  IPARI   ,INTBUF_TAB,X    ,V      ,

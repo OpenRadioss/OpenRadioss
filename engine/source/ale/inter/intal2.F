@@ -30,7 +30,6 @@ Chd|        IQEL03                        source/ale/ale3d/iqel03.F
 Chd|        IQELA1                        source/ale/inter/iqela1.F     
 Chd|        IQELA2                        source/ale/inter/iqela2.F     
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INTAL2(IPARI,INTBUF_TAB         , X        ,V         ,
      1           A           ,ISKEW   ,SKEW      ,LCOD      ,E         ,

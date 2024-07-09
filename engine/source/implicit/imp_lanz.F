@@ -32,7 +32,6 @@ Chd|        PREC_SOLVP                    source/implicit/prec_solv.F
 Chd|        PRODUT_W                      source/implicit/produt_v.F    
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_LANZP(IPREC ,
      1                    N     ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   

@@ -62,8 +62,7 @@ Chd|  DECOMPRESS_R_NNZ              comm/decompress_nnz.F
 Chd|-- called by -----------
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|-- calls ---------------
-Chd|        READ_DB                       starter/source/restart/ddsplit/wrrest.F
-Chd|        READ_DB                       engine/source/output/tools/read_db.F
+Chd|        READ_DB                       tools/input_output/read_db.F  
 Chd|        READ_I_C                      tools/input_output/write_routtines.c
 Chd|====================================================================
        SUBROUTINE DECOMPRESS_R_NNZ(ARRAY,LEN)

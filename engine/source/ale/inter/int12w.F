@@ -27,7 +27,6 @@ Chd|        INTAL3                        source/ale/inter/intal3.F
 Chd|-- calls ---------------
 Chd|        IN12R                         source/interfaces/interf/in12r.F
 Chd|        IQELA3                        source/ale/inter/iqela3.F     
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INT12W(
      1                  IPARI, INTBUF_TAB, X      ,V     ,A  ,

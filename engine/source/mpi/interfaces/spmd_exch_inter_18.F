@@ -29,7 +29,6 @@ Chd|        ALLOC_MY_REAL_1D_ARRAY        ../common_source/modules/array_mod.F
 Chd|        DEALLOC_MY_REAL_1D_ARRAY      ../common_source/modules/array_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================

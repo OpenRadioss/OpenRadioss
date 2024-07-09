@@ -24,7 +24,6 @@ C polypropylene - Bouvard law
 Chd|====================================================================
 Chd|  SIGEPS101                     source/materials/mat/mat101/sigeps101.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        ATXB_TPU                      source/materials/mat/mat101/sigeps101.F
 Chd|        AT_TPU                        source/materials/mat/mat101/sigeps101.F

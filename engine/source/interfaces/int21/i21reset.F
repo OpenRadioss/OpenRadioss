@@ -25,7 +25,6 @@ Chd|  I21RESET                      source/interfaces/int21/i21reset.F
 Chd|-- called by -----------
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I21RESET(
      1  IPARI  ,INTBUF_TAB  ,NIN    ,ITASK  )

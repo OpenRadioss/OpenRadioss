@@ -24,7 +24,6 @@ c jbm036
 Chd|====================================================================
 Chd|  SIGEPS40                      source/materials/mat/mat040/sigeps40.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|-- calls ---------------
 Chd|====================================================================

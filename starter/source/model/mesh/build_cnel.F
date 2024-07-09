@@ -398,7 +398,6 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_INT25(
@@ -502,7 +501,6 @@ Chd|  BUILD_CSRECT                  source/model/mesh/build_cnel.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE BUILD_CSRECT(
      1   INTBUF_TAB , IPARI, CSRECT   ,ADDCSRECT    )

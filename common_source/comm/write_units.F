@@ -26,8 +26,7 @@ Chd|-- called by -----------
 Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      starter/source/restart/ddsplit/wrrest.F
-Chd|        WRITE_DB                      engine/source/output/tools/write_db.F
+Chd|        WRITE_DB                      tools/input_output/write_db.F 
 Chd|        WRITE_I_C                     tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE WRITE_UNITS(UNITAB)
@@ -81,8 +80,7 @@ Chd|  READ_UNITS                    comm/write_units.F
 Chd|-- called by -----------
 Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|-- calls ---------------
-Chd|        READ_DB                       starter/source/restart/ddsplit/wrrest.F
-Chd|        READ_DB                       engine/source/output/tools/read_db.F
+Chd|        READ_DB                       tools/input_output/read_db.F  
 Chd|        READ_I_C                      tools/input_output/write_routtines.c
 Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
 Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F

@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  MEINT                         source/materials/mat_share/meint.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================

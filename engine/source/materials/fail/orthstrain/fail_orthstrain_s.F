@@ -23,8 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  FAIL_ORTHSTRAIN               source/materials/fail/orthstrain/fail_orthstrain_s.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------
 Chd|        JACOBIEW                      source/materials/mat/mat033/sigeps33.F

@@ -32,9 +32,6 @@ Chd|        I24KE3                        source/interfaces/int24/i24ke3.F
 Chd|        I5KE3                         source/interfaces/inter3d/i5ke3.F
 Chd|        I7KE3                         source/interfaces/int07/i7ke3.F
 Chd|        UPD_INT_K                     source/implicit/upd_glob_k.F  
-Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F   
-Chd|        IMP_INTTD                     share/modules/imp_mod_def.F   
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE IMP_INT_K( A     ,V         ,
@@ -377,7 +374,6 @@ Chd|        I11MAIN_CRIT_TRI              source/interfaces/intsort/i11main_crit
 Chd|        I7MAIN_CRIT_TRI               source/interfaces/intsort/i7main_crit_tri.F
 Chd|        IMP_ICOMCRIT                  source/implicit/imp_int_k.F   
 Chd|        SPMD_MIN_S                    source/mpi/implicit/imp_spmd.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE IMP_INTDT(
@@ -546,7 +542,6 @@ Chd|        SPMD_GET_STIF                 source/mpi/interfaces/send_cand.F
 Chd|        SPMD_GET_STIF11               source/mpi/interfaces/send_cand.F
 Chd|        SPMD_SYNC_MMX                 source/mpi/interfaces/spmd_sync_mmx.F
 Chd|        INTAB                         source/implicit/ind_glob_k.F  
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE IMP_ICOMCRIT(
@@ -703,8 +698,6 @@ Chd|        IMP_INTDT                     source/implicit/imp_int_k.F
 Chd|        IMP_TRIPI                     source/implicit/imp_int_k.F   
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
@@ -1076,8 +1069,6 @@ Chd|        SPMD_IFRONT                   source/mpi/interfaces/spmd_ifront.F
 Chd|        SPMD_SD_XV                    source/mpi/nodes/spmd_sd_xv.F 
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
@@ -1361,7 +1352,6 @@ Chd|-- called by -----------
 Chd|        IMP_INTTD0                    source/implicit/imp_int_k.F   
 Chd|-- calls ---------------
 Chd|        CP_INT                        source/implicit/produt_v.F    
-Chd|        IMP_INTTD                     share/modules/imp_mod_def.F   
 Chd|====================================================================
       SUBROUTINE CP_INTTD(NT_IMP1,NUMIMP ,NS_IMP,NE_IMP,IND_IMP,NUMIMP1)
 C-----------------------------------------------
@@ -1416,7 +1406,6 @@ Chd|  SAV_INTTD                     source/implicit/imp_int_k.F
 Chd|-- called by -----------
 Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|-- calls ---------------
-Chd|        IMP_INTTD                     share/modules/imp_mod_def.F   
 Chd|====================================================================
       SUBROUTINE SAV_INTTD(NT_IMP,NUMIMP,NS_IMP,NE_IMP,IND_IMP,
      1                     NUMIMP1)
@@ -1524,7 +1513,6 @@ Chd|        I22MAIN_TRI                   source/interfaces/intsort/i22main_tri.
 Chd|        I23MAIN_TRI                   source/interfaces/intsort/i23main_tri.F
 Chd|        I7MAIN_TRI                    source/interfaces/intsort/i7main_tri.F
 Chd|-- calls ---------------
-Chd|        IMP_INTTD                     share/modules/imp_mod_def.F   
 Chd|====================================================================
       SUBROUTINE IMP_RNUMCD(CAND_N ,NIN,NSN,NUM_IMP,INDEX )
 C-----------------------------------------------
@@ -1563,7 +1551,6 @@ Chd|-- called by -----------
 Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|-- calls ---------------
 Chd|        IMP_INTDT                     source/implicit/imp_int_k.F   
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE IMP_DTKIN(
@@ -1669,7 +1656,6 @@ Chd|        INI_KINKN                     source/implicit/imp_int_k.F
 Chd|        RBE3_MINT                     source/implicit/imp_int_k.F   
 Chd|        IMP_ASPC                      share/modules/impbufdef_mod.F 
 Chd|        IMP_KNON                      share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE KIN_KNL(         
      1    IPARI     ,INTBUF_TAB ,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
@@ -1833,7 +1819,6 @@ Chd|        KIN_KNL                       source/implicit/imp_int_k.F
 Chd|-- calls ---------------
 Chd|        IMP_ASPC                      share/modules/impbufdef_mod.F 
 Chd|        IMP_RWL                       share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_KINKN(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NINT2     ,
@@ -1971,7 +1956,6 @@ Chd|        KIN_KNL                       source/implicit/imp_int_k.F
 Chd|-- calls ---------------
 Chd|        IMP_ASPC                      share/modules/impbufdef_mod.F 
 Chd|        IMP_RWL                       share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INI_KINKN(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NINT2     ,
@@ -2162,7 +2146,6 @@ Chd|  IDDL_MINT                     source/implicit/imp_int_k.F
 Chd|-- called by -----------
 Chd|        KIN_KNL                       source/implicit/imp_int_k.F   
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IDDL_MINT(NML    ,IML     ,IDDL    ,IKC     ,NDOF     ,
      .                    IDDLM   ,IPARI   ,INTBUF_TAB,IDDML   ,NRB_FR   ,
@@ -2377,7 +2360,6 @@ Chd|        IMP3_U2X                      source/airbag/monv_imp0.F
 Chd|        INT_FKU3                      source/implicit/imp_int_k.F   
 Chd|        ZEROR                         source/system/zero.F          
 Chd|        IMP_KNON                      share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INT_MATV(IPARI  ,INTBUF_TAB     ,NDOF   ,NUM_IMP,
      1                    NS_IMP ,NE_IMP ,INDEX2 ,A      ,AR     ,
@@ -2472,7 +2454,6 @@ Chd|        SPMD_IFCF                     source/mpi/implicit/imp_spmd.F
 Chd|        ZEROR                         source/system/zero.F          
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
 Chd|        IMP_KNON                      share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INT_MATVP(IPARI  ,INTBUF_TAB  ,NDOF   ,NUM_IMP,
      1                    NS_IMP ,NE_IMP ,INDEX2 ,A      ,AR     ,
@@ -2570,7 +2551,6 @@ Chd|-- calls ---------------
 Chd|        I10FKU3                       source/interfaces/int10/i10ke3.F
 Chd|        I11FKU3                       source/interfaces/int11/i11ke3.F
 Chd|        I7FKU3                        source/interfaces/int07/i7ke3.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INT_FKU3(A      ,V      ,MS     ,D      ,IPARI  ,
      1                   INTBUF_TAB      ,X      ,NUM_IMP,NS_IMP ,

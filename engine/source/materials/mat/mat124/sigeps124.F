@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SIGEPS124                     source/materials/mat/mat124/sigeps124.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        VALPVECDP_V                   source/materials/mat/mat033/sigeps33.F
 Chd|        VALPVEC_V                     source/materials/mat/mat033/sigeps33.F

@@ -28,7 +28,6 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        I25FREE_BOUND                 source/interfaces/int25/i25free_bound.F
 Chd|        SPMD_COMM_SPLIT               source/mpi/generic/spmd_comm_split.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
@@ -302,7 +301,6 @@ Chd|  SPMD_I25FRONT_NOR             source/mpi/interfaces/spmd_i25front.F
 Chd|-- called by -----------
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MPI_COMMOD                    share/modules/mpi_comm_mod.F  
 Chd|        TRI25EBOX                     share/modules/tri25ebox.F     

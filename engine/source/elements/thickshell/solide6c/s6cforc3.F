@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        FORINT                        source/elements/forint.F      
 Chd|-- calls ---------------
 Chd|        CSMALL3                       source/elements/solid/solide/csmall3.F
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        S6CBILAN                      source/elements/thickshell/solide6c/s6cbilan.F
 Chd|        S6CDEFC3                      source/elements/thickshell/solide6c/s6cdefo3.F
 Chd|        S6CDERI3                      source/elements/thickshell/solide6c/s6cderi3.F
@@ -59,7 +58,6 @@ Chd|        VRROTA3                       source/elements/thickshell/solide6c/vr
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================

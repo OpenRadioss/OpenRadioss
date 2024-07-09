@@ -210,8 +210,8 @@ Chd|  INTSTAMP_WRESTR               share/modules1/intstamp_mod.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
-Chd|        WRITE_DPDB                    source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
+Chd|        WRITE_DPDB                    ../common_source/tools/input_output/write_db.F
 Chd|====================================================================
       SUBROUTINE INTSTAMP_WRESTR(INTSTAMP, LENI)
 C-----------------------------------------------
@@ -321,8 +321,8 @@ Chd|====================================================================
 Chd|  INTSTAMP_RRESTR               share/modules1/intstamp_mod.F 
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        READ_DB                       source/restart/ddsplit/wrrest.F
-Chd|        READ_DPDB                     source/restart/ddsplit/wrrest.F
+Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
+Chd|        READ_DPDB                     ../common_source/tools/input_output/read_db.F
 Chd|====================================================================
       SUBROUTINE INTSTAMP_RRESTR(INTSTAMP)
 C-----------------------------------------------

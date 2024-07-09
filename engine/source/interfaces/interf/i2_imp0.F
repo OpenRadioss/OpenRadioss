@@ -27,7 +27,6 @@ Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F
 Chd|-- calls ---------------
 Chd|        I2_IMP1                       source/interfaces/interf/i2_imp1.F
 Chd|        I2_IMPM                       source/interfaces/interf/i2_imp1.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I2_IMP0(NINT2 ,IINT2 ,IPARI ,
      .                   INTBUF_TAB,X   ,MS   ,IN   ,
@@ -97,7 +96,6 @@ Chd|-- called by -----------
 Chd|        UPD_INT_K                     source/implicit/upd_glob_k.F  
 Chd|-- calls ---------------
 Chd|        I2_IMP1                       source/interfaces/interf/i2_imp1.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I2_IMPI(NINT2 ,IINT2 ,IPARI ,
      .                   INTBUF_TAB,X   ,MS   ,IN   ,

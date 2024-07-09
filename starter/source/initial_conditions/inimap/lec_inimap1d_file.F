@@ -29,7 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        CLOSE_C                       ../common_source/tools/input_output/write_routtines.c
 Chd|        CUR_FIL_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
-Chd|        READ_DB                       source/restart/ddsplit/wrrest.F
+Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
 Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INIMAP1D_MOD                  share/modules1/inimap1d_mod.F 

@@ -25,7 +25,7 @@ Chd|  READ_CLUSTER                  source/output/cluster/read_cluster.F
 Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
-Chd|        READ_DB                       source/output/tools/read_db.F 
+Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
 Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
 Chd|====================================================================

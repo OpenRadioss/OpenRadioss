@@ -33,7 +33,6 @@ Chd|        ANIM_MOD                      ../common_source/modules/output/anim_m
 Chd|        DAMP_MOD                      share/modules/damp_mod.F      
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F

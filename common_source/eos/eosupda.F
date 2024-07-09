@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  EOSUPDA                       eos/eosupda.F                 
 Chd|-- called by -----------
-Chd|        MMAIN                         engine/source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE EOSUPDA(OFF  ,SIG  ,EINT ,VOL0 ,PNEW,NEL)

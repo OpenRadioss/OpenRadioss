@@ -31,8 +31,6 @@ Chd|        I17LAGM                       source/interfaces/int17/i17lagm.F
 Chd|        I21LAGM                       source/interfaces/int17/i21lagm.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        I17MAIN_MOD                   source/interfaces/int17/i17main.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I17MAIN(
      1          NIN    ,IPARI  ,INTBUF_TAB     ,X       ,

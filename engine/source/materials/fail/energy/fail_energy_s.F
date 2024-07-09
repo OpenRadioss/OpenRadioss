@@ -24,8 +24,6 @@ C new (energy  failure model)
 Chd|====================================================================
 Chd|  FAIL_ENERGY_S                 source/materials/fail/energy/fail_energy_s.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------

@@ -27,7 +27,6 @@ Chd|        IMP_INTDT                     source/implicit/imp_int_k.F
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        I7BUCE_CRIT                   source/interfaces/intsort/i7buce_crit.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I7MAIN_CRIT_TRI(
      1  IPARI  ,X      ,NIN    ,

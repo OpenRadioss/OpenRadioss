@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SREPLOC3                      source/elements/solid/solide/sreploc3.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
 Chd|        S10KE3                        source/elements/solid/solide10/s10ke3.F
 Chd|        S20KE3                        source/elements/solid/solide20/s20ke3.F

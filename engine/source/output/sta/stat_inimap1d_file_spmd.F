@@ -31,7 +31,7 @@ Chd|        CUR_FIL_C                     ../common_source/tools/input_output/wr
 Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
 Chd|        SPMD_STATE_INIMAP1D_EXCH_DATA source/output/sta/spmd_state_inimap1d_exch_data.F
 Chd|        SPMD_STATE_INIMAP_EXCH_SIZ    source/output/sta/spmd_state_inimap_exch_siz.F
-Chd|        WRITE_DB                      source/output/tools/write_db.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F

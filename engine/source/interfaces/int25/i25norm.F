@@ -27,7 +27,6 @@ Chd|-- called by -----------
 Chd|        I25MAIN_NORM                  source/interfaces/int25/i25main_norm.F
 Chd|-- calls ---------------
 Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25TAGN (NI25    ,NIN     ,NRTM    ,NSN      ,NSNR    ,

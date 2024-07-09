@@ -34,7 +34,6 @@ Chd|        I2VIT27                       source/interfaces/interf/i2vit27.F
 Chd|        I2VIT28                       source/interfaces/interf/i2vit28.F
 Chd|        I2VIT3                        source/interfaces/interf/i2vit3.F
 Chd|        I2VIT3N                       source/interfaces/interf/i2vit3.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INTTI2V(IPARI,X    ,V   ,
      .                   A    ,VR   ,AR   ,MS  ,IN   ,

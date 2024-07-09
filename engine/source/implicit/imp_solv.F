@@ -128,8 +128,6 @@ Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F
 Chd|        IMP_LINTF                     share/modules/impbufdef_mod.F 
 Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
 Chd|        IMP_WORKI                     share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
@@ -3107,7 +3105,6 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        IMPBUFDEF_MOD                 share/modules/impbufdef_mod.F 
 Chd|        IMP_WORKI                     share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TH_SURF_MOD                   ../common_source/modules/interfaces/th_surf_mod.F
@@ -3730,7 +3727,6 @@ Chd|  IMP_COMPAB                    source/implicit/imp_solv.F
 Chd|-- called by -----------
 Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE IMP_COMPAB(
@@ -4126,7 +4122,6 @@ Chd|-- calls ---------------
 Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_SEND_VI                  source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_SUM_S                    source/mpi/implicit/imp_spmd.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE IMP_COMPABP(
@@ -4891,7 +4886,6 @@ Chd|        FVBC_DEALLO                   source/constraints/general/impvel/fv_i
 Chd|        SPMD_MUMPS_DEAL               source/mpi/implicit/imp_spmd.F
 Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
 Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
-Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F   
 Chd|        IMP_KBCS                      share/modules/impbufdef_mod.F 
 Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
 Chd|        IMP_QSTAT                     share/modules/impbufdef_mod.F 
@@ -7020,7 +7014,6 @@ Chd|====================================================================
 Chd|  PRINT_STIF                    source/implicit/imp_solv.F    
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE PRINT_STIF(IPARI,INTBUF_TAB,IFLAG,NN     ,JG    )
@@ -7189,7 +7182,6 @@ Chd|        RBE3_IMPR1                    source/constraints/general/rbe3/rbe3_i
 Chd|        RBE3_IMPR2                    source/constraints/general/rbe3/rbe3_imp0.F
 Chd|        RBY_IMPR1                     source/constraints/general/rbody/rby_imp0.F
 Chd|        RBY_IMPR2                     source/constraints/general/rbody/rby_imp0.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE UPD_RHS_FR(ICODT ,ICODR ,ISKEW ,IBFV    ,XFRAME ,
      1                   RBY   ,X     ,SKEW   ,LPBY   ,NPBY   ,
@@ -7293,7 +7285,6 @@ Chd|        IMP_FRFV                      source/mpi/implicit/imp_fri.F
 Chd|        IMP_FRI                       source/mpi/implicit/imp_fri.F 
 Chd|        IMP_SETBA                     source/implicit/imp_setb.F    
 Chd|        UPD_RHS_FR                    source/implicit/imp_solv.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_INTFR(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,IPARI     ,INTBUF_TAB,
@@ -8538,7 +8529,6 @@ Chd|  IMP_INTBUF_INI                source/implicit/imp_solv.F
 Chd|-- called by -----------
 Chd|        DIM_INT7                      source/implicit/ind_glob_k.F  
 Chd|-- calls ---------------
-Chd|        IMP_INTBUFDEF                 share/modules/imp_mod_def.F   
 Chd|====================================================================
       SUBROUTINE IMP_INTBUF_INI(IMP_INTBUF_TAB,NIMP)
 C-----------------------------------------------

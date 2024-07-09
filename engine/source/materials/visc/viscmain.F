@@ -23,8 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  VISCMAIN                      source/materials/visc/viscmain.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------
 Chd|        VISC_PRONY                    source/materials/visc/visc_prony.F

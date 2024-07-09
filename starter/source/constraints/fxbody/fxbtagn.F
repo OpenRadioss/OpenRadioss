@@ -25,7 +25,6 @@ Chd|  FXBTAGN                       source/constraints/fxbody/fxbtagn.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE FXBTAGN(FXBNOD, NSN  , NTAG , IBCLD, IBPRL,
      .                   IXS   , IXC  , IXT  , IXP  , IXR  ,

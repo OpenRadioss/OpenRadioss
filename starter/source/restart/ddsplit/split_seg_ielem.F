@@ -27,7 +27,6 @@ Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interface
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPLIT_SEG_IELEM(IELEM_M    ,PROC_MVOISIN  ,MVOISIN  ,NRTM      ,
      .                           NRTM_L     ,TAG_SEG       ,CEP      ,CEL       ,

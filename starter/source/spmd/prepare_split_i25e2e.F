@@ -29,7 +29,6 @@ Chd|        LOCAL_EDGE_NUMBERING          source/spmd/prepare_split_i25e2e.F
 Chd|        ID                            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|        I25_FIE_MOD                   share/modules1/i25_fie_mod.F  
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I25E2E(NSPMD, INTBUF_TAB , IPARI, INTERCEP)

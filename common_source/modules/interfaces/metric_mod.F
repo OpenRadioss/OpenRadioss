@@ -24,9 +24,8 @@ C  Part of interface buffer:
 C  Monitoring information for interface
 C----------------------------------------------------------------------- 
 Chd|====================================================================
-Chd|  METRIC_MOD                    modules/metric_mod.F          
+Chd|  METRIC_MOD                    modules/interfaces/metric_mod.F
 Chd|-- called by -----------
-Chd|        INTBUFDEF_MOD                 common_source/modules/intbufdef_mod.F
 Chd|        CLOSE_INTERF_TIME             engine/source/system/timer_interf.F
 Chd|        FREFORM                       engine/source/input/freform.F 
 Chd|        INIT_INTERF_SORTING_STRATEGY  engine/source/interfaces/init_interf_sorting_strategy.F
@@ -84,7 +83,7 @@ C Debug
       CONTAINS
 
 Chd|====================================================================
-Chd|  INT_PRINTIME                  modules/metric_mod.F          
+Chd|  INT_PRINTIME                  modules/interfaces/metric_mod.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
@@ -118,7 +117,7 @@ c      CALL INT_FLUSHTIME(THIS)
 
 
 Chd|====================================================================
-Chd|  INT_FLUSHTIME                 modules/metric_mod.F          
+Chd|  INT_FLUSHTIME                 modules/interfaces/metric_mod.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================

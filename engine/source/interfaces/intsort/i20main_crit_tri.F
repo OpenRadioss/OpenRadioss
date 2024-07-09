@@ -27,7 +27,6 @@ Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        I20BUCE_CRIT                  source/interfaces/intsort/i20buce_crit.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I20MAIN_CRIT_TRI(
      1  IPARI  ,X      ,NIN    ,

@@ -25,7 +25,6 @@ Chd|  CHECK_NODAL_STATE             source/interfaces/interf/check_nodal_state.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
         SUBROUTINE CHECK_NODAL_STATE( ITASK,ITAG,NEWFRONT,INTBUF_TAB,SIZE_SEC_NODE,
      .                        SHIFT_S_NODE,INTER_SEC_NODE,SEC_NODE_ID)

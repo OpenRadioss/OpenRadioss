@@ -26,8 +26,8 @@ Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|        FRETITL                       source/starter/freform.F      
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
-Chd|        WRITE_DPDB                    source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
+Chd|        WRITE_DPDB                    ../common_source/tools/input_output/write_db.F
 Chd|        WRITE_INTEGER                 ../common_source/comm/write_mod.F
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   

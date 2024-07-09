@@ -24,7 +24,6 @@ C  --New-- Hill model + MMC failure model
 Chd|====================================================================
 Chd|  SIGEPS72                      source/materials/mat/mat072/sigeps72.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SIGEPS72(

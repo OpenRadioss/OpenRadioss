@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SIGEPS190                     source/materials/mat/mat190/sigeps190.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        CONDAMAGE                     source/materials/mat/mat190/condamage.F
 Chd|        CONVERSION                    source/materials/mat/mat190/conversion.F

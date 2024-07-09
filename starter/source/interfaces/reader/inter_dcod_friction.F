@@ -31,7 +31,6 @@ Chd|        HM_READ_INTER_TYPE25          source/interfaces/int25/hm_read_inter_
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
 Chd|        INTSTAMP_MOD                  share/modules1/intstamp_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================

@@ -419,7 +419,6 @@ Chd|-- called by -----------
 Chd|        I24E2E_FICTIVE_NODES_UPDATE   source/interfaces/int24/i24for3e.F
 Chd|-- calls ---------------
 Chd|        I24XFIC_INI                   source/interfaces/int24/i24for3e.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I24XVFIC_UPD(IPARI  ,INTBUF_TAB   ,X    ,V ,NPT ,ITAB )
 C-----------------------------------------------
@@ -701,7 +700,6 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        I24FICS_INI                   source/interfaces/int24/i24for3e.F
 Chd|        I24XVFIC_UPD                  source/interfaces/int24/i24for3e.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I24E2E_FICTIVE_NODES_UPDATE(INTLIST,NBINTC,IPARI,INTBUF_TAB,
      *            X,V,MS,ITAB)

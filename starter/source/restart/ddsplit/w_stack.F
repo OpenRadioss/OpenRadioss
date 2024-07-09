@@ -25,7 +25,7 @@ Chd|  W_STACK                       source/restart/ddsplit/w_stack.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|====================================================================
       SUBROUTINE W_STACK(IGEO,GEO,LEN_IG,LEN_G,LEN_IA,LEN_AM,PM,LEN_PM)

@@ -26,7 +26,7 @@ Chd|  W_FAC                         source/restart/ddsplit/w_fac.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|====================================================================
       SUBROUTINE W_FAC(FAC,CEP,PROC,NCONLD_L,LEN_AM)
 C-----------------------------------------------

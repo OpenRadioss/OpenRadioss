@@ -37,7 +37,6 @@ Chd|        I12S2M                        source/interfaces/interf/i12s2m.F
 Chd|        I3CST3                        source/interfaces/inter3d/i3cst3.F
 Chd|        VARCONDEC                     source/interfaces/interf/varcondec.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================
       SUBROUTINE INTTI12A(IPARI, X, WA, ITAB, SEGVAR, TEST, SKEW, ISKWN ,INTBUF_TAB )
@@ -234,7 +233,6 @@ Chd|        INTTI1                        source/interfaces/interf/intti1.F
 Chd|-- calls ---------------
 Chd|        I12FOR3                       source/interfaces/interf/i12for3.F
 Chd|        IN12R                         source/interfaces/interf/in12r.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INTTI12F(IPARI,INTBUF_TAB ,X     ,V     ,
      .                    A    ,MS   ,ITAB ,WEIGHT,STIFN ,WA,SKEW  )
@@ -309,7 +307,6 @@ Chd|        INTTI2                        source/interfaces/interf/intti2.F
 Chd|-- calls ---------------
 Chd|        I12VIT3                       source/interfaces/interf/i12vit3.F
 Chd|        IN12R                         source/interfaces/interf/in12r.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INTTI12V(IPARI,INTBUF_TAB  ,X    ,V   ,
      .                    A    ,MS   ,WEIGHT,WA,SKEW )

@@ -28,7 +28,6 @@ Chd|-- calls ---------------
 Chd|        I2_DTN_0                      source/interfaces/inter3d1/i2_dtn.F
 Chd|        I2_DTN_1                      source/interfaces/inter3d1/i2_dtn.F
 Chd|        I2_DTN_25                     source/interfaces/inter3d1/i2_dtn.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I2_DTN(X,INTBUF_TAB,IPARI,STIFN,MS,IN,N,NSN,ILEV)
 C-----------------------------------------------

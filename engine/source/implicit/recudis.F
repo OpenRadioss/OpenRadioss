@@ -90,7 +90,6 @@ Chd|        RBY_IMPD                      source/constraints/general/rbody/rby_i
 Chd|        RM_IMP2                       source/model/remesh/rm_imp0.F 
 Chd|        RWL_IMPD                      source/constraints/general/rwall/srw_imp.F
 Chd|        IMP_FVBCL                     share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE RECUKIN(RBY   ,LPBY  ,NPBY  ,SKEW  ,ISKEW ,
      1                   ITAB  ,WEIGHT,MS    ,IN    ,

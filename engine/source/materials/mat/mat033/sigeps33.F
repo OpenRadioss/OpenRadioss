@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SIGEPS33                      source/materials/mat/mat033/sigeps33.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|-- calls ---------------
 Chd|        DREH                          source/materials/mat/mat033/sigeps33.F
@@ -1436,7 +1435,6 @@ C str utilise com tableau temporaire au lieu de scalaires temporaires
 Chd|====================================================================
 Chd|  EPSF2U                        source/materials/mat/mat033/sigeps33.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------
 Chd|        VALPVEC                       source/materials/mat/mat033/sigeps33.F

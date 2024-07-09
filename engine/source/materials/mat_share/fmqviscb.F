@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  FMQVISCB                      source/materials/mat_share/fmqviscb.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================

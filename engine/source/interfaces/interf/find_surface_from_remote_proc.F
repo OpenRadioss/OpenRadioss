@@ -27,7 +27,6 @@ Chd|        SPMD_EXCH_DELETED_SURF_EDGE   source/mpi/interfaces/spmd_exch_delete
 Chd|-- calls ---------------
 Chd|        CHECK_SURFACE_STATE           source/interfaces/interf/check_surface_state.F
 Chd|        SYSFUS2                       source/system/sysfus.F        
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE FIND_SURFACE_FROM_REMOTE_PROC(SHOOT_STRUCT,NB_SURFACE,LIST_NODE,INTBUF_TAB,ITABM1,

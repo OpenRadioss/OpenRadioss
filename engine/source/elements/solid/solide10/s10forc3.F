@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        FORINT                        source/elements/forint.F      
 Chd|-- calls ---------------
 Chd|        BOLTST                        source/elements/solid/solide/boltst.F
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        NSVIS_SM12                    source/elements/solid/solide10/nsvis_sm12.F
 Chd|        S10BILAN                      source/elements/solid/solide10/s10bilan.F
 Chd|        S10COOR3                      source/elements/solid/solide10/s10coor3.F
@@ -76,7 +75,6 @@ Chd|        SXFILLOPT                     source/elements/solid/solide10/sxfillo
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TABLE_MOD                     share/modules/table_mod.F     

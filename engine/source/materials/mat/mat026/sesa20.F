@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SESA20                        source/materials/mat/mat026/sesa20.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|        MINTP_RE                      ../common_source/eos/mintp_re.F
 Chd|        MINTP_RT                      ../common_source/eos/mintp_rt.F

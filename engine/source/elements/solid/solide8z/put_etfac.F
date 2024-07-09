@@ -24,7 +24,6 @@ Chd|====================================================================
 Chd|  PUT_ETFAC                     source/elements/solid/solide8z/put_etfac.F
 Chd|-- called by -----------
 Chd|        CMAIN3                        source/materials/mat_share/cmain3.F
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        MMAIN8                        source/materials/mat_share/mmain8.F
 Chd|-- calls ---------------
 Chd|        IKTMAT_INI                    source/implicit/imp_init.F    

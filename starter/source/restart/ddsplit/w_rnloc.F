@@ -26,7 +26,7 @@ Chd|  W_RNLOC                       source/restart/ddsplit/w_rnloc.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|====================================================================
       SUBROUTINE W_RNLOC(RTAB,NODGLOB,NUMNOD_L,LEN_AM)
 C-----------------------------------------------

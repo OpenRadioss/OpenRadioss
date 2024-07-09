@@ -37,7 +37,6 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
 Chd|        COMMAND_LINE_ARGS_MOD         share/modules/command_line_args.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTER7_COLLISION_DETECTION_MODsource/interfaces/inter7_collision_detection.F
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F

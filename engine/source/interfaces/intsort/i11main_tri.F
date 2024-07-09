@@ -40,7 +40,6 @@ Chd|        SPMD_TRI11VOX0                source/mpi/interfaces/spmd_int.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================

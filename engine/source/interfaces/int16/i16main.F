@@ -33,8 +33,6 @@ Chd|        I20LAGM                       source/interfaces/int16/i20lagm.F
 Chd|        I8LAGM                        source/interfaces/int16/i8lagm.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        I16MAIN_MOD                   source/interfaces/int16/i16main.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I16MAIN(
      1          NIN    ,IPARI    ,INTBUF_TAB ,X      ,V      ,

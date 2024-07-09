@@ -41,7 +41,6 @@ Chd|        I3STI2                        source/interfaces/inter2d1/i3sti2.F
 Chd|        I9STI2                        source/interfaces/int09/i9sti2.F
 Chd|        ININT0                        source/interfaces/interf1/inint0.F
 Chd|        INVOI2                        source/interfaces/inter2d1/invoi2.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE ININT2(INTBUF_TAB ,INSCR    ,X         ,IXQ    ,

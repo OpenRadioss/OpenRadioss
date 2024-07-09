@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        PRESEGMT                      source/interfaces/interf1/presegmt.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTBUFSCRATCH_MOD             source/interfaces/interf1/intbufscratch_mod.F
 Chd|====================================================================
       SUBROUTINE PRESCRINT(IPARI, INTBUF_TAB,INSCR)

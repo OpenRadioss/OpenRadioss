@@ -47,7 +47,6 @@ Chd|        PRODUT_VMHP                   source/implicit/produt_v.F
 Chd|        VAXPY_HP                      source/implicit/produt_v.F    
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE NL_SOLV(NDDL  ,IDDL  ,NDOF  ,IKC   ,D     ,
      1                   DR    ,NNZ   ,IADK  ,JDIK  ,DIAG_K,

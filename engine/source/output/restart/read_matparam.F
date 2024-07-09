@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
 Chd|        READ_C_C                      ../common_source/tools/input_output/write_routtines.c
-Chd|        READ_DB                       source/output/tools/read_db.F 
+Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
 Chd|        READ_FAILPARAM                source/output/restart/read_failparam.F
 Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        READ_MAT_TABLE                source/materials/tools/read_mat_table.F

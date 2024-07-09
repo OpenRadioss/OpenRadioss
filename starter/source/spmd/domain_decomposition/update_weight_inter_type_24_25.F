@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
 Chd|-- calls ---------------
 Chd|        I24FIC_GETN                   source/interfaces/inter3d1/i24surfi.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTER_CAND_MOD                share/modules1/inter_cand_mod.F
 Chd|====================================================================
         SUBROUTINE UPDATE_WEIGHT_INTER_TYPE_24_25(NUMNOD,NELEMINT,INTERFACE_ID,NSN,NRTM,

@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        IG3DONEBASIS                  source/elements/ige3d/ig3donebasis.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DEPLAFAKEIGE(X     ,V    ,INTBUF_TAB,KXIG3D, 
      .                        IXIG3D,IGEO ,KNOT      ,WIGE  ,

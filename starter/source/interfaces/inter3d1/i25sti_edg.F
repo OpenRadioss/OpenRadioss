@@ -25,7 +25,6 @@ Chd|  I25STI_EDG                    source/interfaces/inter3d1/i25sti_edg.F
 Chd|-- called by -----------
 Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
 Chd|-- calls ---------------
-Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
 Chd|====================================================================
       SUBROUTINE I25STI_EDG(
      1 NEDGE    ,LEDGE     ,STFE       ,STFM      ,IGAP      ,

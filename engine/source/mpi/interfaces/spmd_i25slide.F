@@ -236,7 +236,6 @@ Chd|        REALLOCATE_FI1                source/mpi/interfaces/spmd_i25slide.F
 Chd|        REALLOCATE_FI2                source/mpi/interfaces/spmd_i25slide.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        IFRONT_MOD                    share/modules/ifront_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI25TMP                      share/modules/tri25tmp_mod.F  
 Chd|        TRI7BOX                       share/modules/tri7box.F       

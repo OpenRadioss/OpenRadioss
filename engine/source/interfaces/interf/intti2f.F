@@ -54,7 +54,6 @@ Chd|        I2MOM3PN                      source/interfaces/interf/i2for3p.F
 Chd|        I2MZEROP                      source/interfaces/interf/i2for3p.F
 Chd|        I2THERM                       source/interfaces/interf/i2therm.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INTTI2F(
      1   IPARI  ,X      ,V      ,A      ,

@@ -25,7 +25,6 @@ Chd|  INTBUF_FRIC_INI_STARTER       source/interfaces/intbuf/intbufFric_ini_star
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE INTBUF_FRIC_INI_STARTER(INTBUF_FRIC_TAB  )

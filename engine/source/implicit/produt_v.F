@@ -445,7 +445,6 @@ Chd|        INT_MATV                      source/implicit/imp_int_k.F
 Chd|        MATV_KIF                      source/implicit/imp_solv.F    
 Chd|        MV_MATV                       source/airbag/monv_imp0.F     
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MAV_LT2(
      1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,   
@@ -558,7 +557,6 @@ Chd|        MATV_KIF                      source/implicit/imp_solv.F
 Chd|        MV_MATV                       source/airbag/monv_imp0.F     
 Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MAV_LTP(
      1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,   
@@ -1027,8 +1025,6 @@ Chd|        CP_IFRONT                     source/implicit/produt_v.F
 Chd|        CP_REAL                       source/implicit/produt_v.F    
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        IMP_I7CP                      share/modules/imp_intm.F      
-Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F   
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE CP_IMPBUF(
      .           IFLAG   ,ELBUF   ,ELBUF_C ,BUFMAT   ,BUFMAT_C ,
@@ -1226,7 +1222,6 @@ Chd|        MV_MATV                       source/airbag/monv_imp0.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MAV_LTH0(
      1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,   
@@ -1380,7 +1375,6 @@ Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MAV_LTH(
      1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,   
@@ -2962,7 +2956,6 @@ Chd|        MMV_LTH                       source/implicit/produt_v.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MMAV_LTH(
      1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,   

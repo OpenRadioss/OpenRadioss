@@ -175,8 +175,6 @@ Chd|        M11VS2                        engine/source/materials/mat/mat011/m11
 Chd|        M11VS3                        engine/source/materials/mat/mat011/m11vs3.F
 Chd|        M51VOIS2                      engine/source/materials/mat/mat051/m51vois2.F
 Chd|        M51VOIS3                      engine/source/materials/mat/mat051/m51vois3.F
-Chd|        MMAIN                         engine/source/materials/mat_share/mmain.F
-Chd|        MULAW                         engine/source/materials/mat_share/mulaw.F
 Chd|        MULTI_FLUXES_COMPUTATION      engine/source/multifluid/multi_fluxes_computation.F
 Chd|        MULTI_MUSCL_GRADIENTS         engine/source/multifluid/multi_muscl_gradients.F
 Chd|        MULTI_TIMEEVOLUTION           engine/source/multifluid/multi_timeevolution.F

@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|-- calls ---------------
 Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
 Chd|====================================================================
       SUBROUTINE ST_QAPRINT_FRICTION(NOM_OPT   ,INOM_OPT  ,INTBUF_FRIC_TAB,NPFRICORTH,
      2                                PFRICORTH , IREPFORTH, PHIFORTH,VFORTH)

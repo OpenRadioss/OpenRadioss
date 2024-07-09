@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  M46LAW                        source/materials/mat/mat046/m46law.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|        MQVISCB                       source/materials/mat_share/mqviscb.F
 Chd|        SIGEPS46                      source/materials/mat/mat046/sigeps46.F

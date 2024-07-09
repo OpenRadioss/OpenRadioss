@@ -36,7 +36,6 @@ Chd|        IGE3DAIRE                     source/elements/ige3d/ig3daire.F
 Chd|        IGE3DBILAN                    source/elements/ige3d/ige3dbilan.F
 Chd|        IGE3DDEFO                     source/elements/ige3d/ige3ddefo.F
 Chd|        IGE3DZERO                     source/elements/ige3d/ige3dzero.F
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        SMALLB3                       source/elements/solid/solide/smallb3.F
 Chd|        SRHO3                         source/elements/solid/solide/srho3.F
 Chd|        SROTA3                        source/elements/solid/solide/srota3.F
@@ -46,7 +45,6 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================

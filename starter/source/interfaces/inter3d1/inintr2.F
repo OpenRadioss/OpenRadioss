@@ -42,7 +42,6 @@ Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2_EDGOP                 source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_SELF24                   source/interfaces/inter3d1/remn_self24.F
 Chd|        RI2_INT24P_INI                source/interfaces/inter3d1/i7remnode.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTBUFSCRATCH_MOD             source/interfaces/interf1/intbufscratch_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
@@ -257,7 +256,6 @@ Chd|-- called by -----------
 Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
 Chd|-- calls ---------------
 Chd|        KINSET                        source/constraints/general/kinset.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE ITAGSL12(IPARI,ITAB,IKINE,INTBUF_TAB)
@@ -362,7 +360,6 @@ Chd|-- called by -----------
 Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
 Chd|-- calls ---------------
 Chd|        I20STAB                       source/interfaces/inter3d1/inintr2.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I20STA(IPARI,STIFN,INTBUF_TAB)
 C-----------------------------------------------

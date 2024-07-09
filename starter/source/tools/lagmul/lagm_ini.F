@@ -32,7 +32,6 @@ Chd|        LGMINI_GJ                     source/tools/lagmul/lgmini_gj.F
 Chd|        LGMINI_I2                     source/tools/lagmul/lgmini_i2.F
 Chd|        LGMINI_MPC                    source/tools/lagmul/lgmini_mpc.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE LAGM_INI(NHF    ,IADHF       ,IADLL  ,JLL    ,LLL    ,

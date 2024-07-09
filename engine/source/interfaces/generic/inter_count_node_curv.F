@@ -29,7 +29,6 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        INTER_CURV_COMPUTATION        source/interfaces/generic/inter_curv_computation.F
 Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

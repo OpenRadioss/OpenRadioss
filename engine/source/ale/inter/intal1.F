@@ -29,7 +29,6 @@ Chd|        I9MAIN2                       source/interfaces/int09/i9main2.F
 Chd|        I9MAIN3                       source/interfaces/int09/i9main3.F
 Chd|        INTAL2                        source/ale/inter/intal2.F     
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INTAL1(IPARI,X      ,V       ,
      2                  A    ,ISKEW  ,SKEW    ,LCOD   ,WA      ,

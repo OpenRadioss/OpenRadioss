@@ -30,7 +30,6 @@ Chd|        ASS_SPMD11                    source/implicit/assem_int.F
 Chd|        I11COR3                       source/interfaces/int11/i11cor3.F
 Chd|        I11DSTK3                      source/interfaces/int11/i11dstk3.F
 Chd|        I11KEG3                       source/interfaces/int11/i11keg3.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I11KE3(
      1      A         ,V        ,MS        ,IPARI   ,INTBUF_TAB,
@@ -191,7 +190,6 @@ Chd|        I7MAINFR                      source/interfaces/int07/i7ke3.F
 Chd|-- calls ---------------
 Chd|        I11CORP3                      source/interfaces/int11/i11corp3.F
 Chd|        I11FRF3                       source/interfaces/int11/i11keg3.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I11FORCF3(  A     ,V      ,MS   ,X       ,D       ,
      1                    IPARI   ,INTBUF_TAB,NIN     ,
@@ -297,7 +295,6 @@ Chd|        I11CDCOR3                     source/interfaces/int11/i11cdcor3.F
 Chd|        I11COR3                       source/interfaces/int11/i11cor3.F
 Chd|        I11DSTK3                      source/interfaces/int11/i11dstk3.F
 Chd|        I11DSTR3                      source/interfaces/int11/i11dstk3.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_I11MAINF(
      1       IPARI  ,INTBUF_TAB,X         ,
@@ -456,7 +453,6 @@ Chd|        I11COR3                       source/interfaces/int11/i11cor3.F
 Chd|        I11CORKP3                     source/interfaces/int11/i11corp3.F
 Chd|        I11DSTK3                      source/interfaces/int11/i11dstk3.F
 Chd|        I11KFOR3                      source/interfaces/int11/i11keg3.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I11FKU3(
      1      A         ,V         ,MS        ,D        ,

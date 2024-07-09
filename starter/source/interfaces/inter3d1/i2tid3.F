@@ -27,7 +27,6 @@ Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        KINSET                        source/constraints/general/kinset.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F   
 Chd|====================================================================

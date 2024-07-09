@@ -26,7 +26,6 @@ Chd|  I11EDGE                       source/interfaces/inter3d1/i11edge.F
 Chd|-- called by -----------
 Chd|        LECINS                        source/interfaces/interf1/lecins.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I11EDGE(IPARI,INTBUF_TAB)
 C-----------------------------------------------

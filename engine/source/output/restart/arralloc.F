@@ -44,10 +44,6 @@ Chd|        EIG_MOD                       share/modules/eig_mod.F
 Chd|        FSKYI_MOD                     share/modules/restart_mod.F   
 Chd|        FXB_MOD                       share/modules/fxb_mod.F       
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFFRIC_MOD                share/modules/restart_mod.F   
-Chd|        INTBUFMOD                     share/modules/restart_mod.F   
-Chd|        INTBUF_MOD                    share/modules/restart_mod.F   
-Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

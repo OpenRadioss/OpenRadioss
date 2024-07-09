@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SIGEPS120                     source/materials/mat/mat120/sigeps120.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        SIGEPS120_DP                  source/materials/mat/mat120/sigeps120_dp.F
 Chd|        SIGEPS120_TAB_DP              source/materials/mat/mat120/sigeps120_tab_dp.F

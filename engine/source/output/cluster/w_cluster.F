@@ -25,7 +25,7 @@ Chd|  W_CLUSTER                     source/output/cluster/w_cluster.F
 Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/output/tools/write_db.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   
 Chd|====================================================================

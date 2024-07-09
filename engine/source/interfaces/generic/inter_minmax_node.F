@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
 Chd|-- calls ---------------
 Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

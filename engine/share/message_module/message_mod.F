@@ -293,11 +293,9 @@ Chd|        LINE_INI                      source/groups/line_ini.F
 Chd|        LOADPREST                     source/output/restart/rdresb.F
 Chd|        L_DIR02                       source/constraints/general/impvel/fv_imp0.F
 Chd|        M13LAW                        source/materials/mat/mat013/m13law.F
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        MPI_MIN_REAL_BEGIN            share/modules/mpi_tools_mod.F 
 Chd|        MPI_MIN_REAL_END              share/modules/mpi_tools_mod.F 
 Chd|        MPP_INIT                      source/mpi/interfaces/spmd_i7tool.F
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        MULTI_ALLOCATE                source/multifluid/multi_allocate.F

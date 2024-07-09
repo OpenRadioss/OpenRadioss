@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
 Chd|        I24BUCE_CRIT                  source/interfaces/intsort/i24buce_crit.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I24MAIN_CRIT_TRI(
      1  IPARI  ,INTBUF_TAB     ,X      ,NIN    ,

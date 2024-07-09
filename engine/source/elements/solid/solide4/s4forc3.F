@@ -32,7 +32,6 @@ Chd|        A4MOMT3                       source/elements/solid/solide4/a4momt3.
 Chd|        BOLTST                        source/elements/solid/solide/boltst.F
 Chd|        CHECK_OFF_ALE                 source/elements/solid/solide/check_off_ale.F
 Chd|        E4PXLE3                       source/elements/solid/solide4/e4pxle3.F
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        S11FX3                        source/elements/solid/solide/s11fx3.F
 Chd|        S4BILAN                       source/elements/solid/solide4/s4bilan.F
 Chd|        S4COOR3                       source/elements/solid/solide4/s4coor3.F
@@ -73,7 +72,6 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_conne
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TABLE_MOD                     share/modules/table_mod.F     

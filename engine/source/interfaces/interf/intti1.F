@@ -38,7 +38,6 @@ Chd|        SPMD_EXCH_A_INT2H_AMS         source/mpi/forces/spmd_exch_a_int2h_am
 Chd|        SPMD_EXCH_A_INT2_AMS          source/mpi/forces/spmd_exch_a_int2_ams.F
 Chd|        SPMD_EXCH_A_INT2_PON          source/mpi/forces/spmd_exch_a_int2_pon.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INTTI1(
      1   IPARI    ,X        ,V        ,A       ,

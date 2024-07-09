@@ -24,7 +24,6 @@ Chd|====================================================================
 Chd|  MERGEMOD                      share/modules1/merge_mod.F    
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       MODULE MERGEMOD
       USE INTBUFDEF_MOD

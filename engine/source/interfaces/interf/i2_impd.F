@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        RECUKIN                       source/implicit/recudis.F     
 Chd|-- calls ---------------
 Chd|        INT2_IMP2                     source/interfaces/interf/i2_imp2.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I2_IMPD(NINT2 ,IINT2,IPARI,INTBUF_TAB  ,
      .                   X     ,MS   ,IN   ,WEIGHT,NDOF ,

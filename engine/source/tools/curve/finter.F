@@ -101,7 +101,6 @@ Chd|        M11LAW                        source/materials/mat/mat011/m11law.F
 Chd|        M21LAW                        source/materials/mat/mat021/m21law.F
 Chd|        MAT87C_TABULATED_PLAS_SR      source/materials/mat/mat087/mat87c_tabulated_plas_sr.F
 Chd|        MAT87C_TABULATED_TOTALSR      source/materials/mat/mat087/mat87c_tabulated_totalsr.F
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        PFLUID                        source/loads/general/pfluid/pfluid.F
 Chd|        PFORC3                        source/elements/beam/pforc3.F 
 Chd|        R26SIG                        source/elements/spring/r26sig.F

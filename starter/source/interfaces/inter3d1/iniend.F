@@ -33,7 +33,6 @@ Chd|        ININT0                        source/interfaces/interf1/inint0.F
 Chd|        INVOI3                        source/interfaces/inter3d1/invoi3.F
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE INIEND(INSCR,X    ,IXS  ,
@@ -353,7 +352,6 @@ Chd|-- calls ---------------
 Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F  
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INIEND2D(IPARI,NOIN,MS,INTBUF_TAB )
 C-----------------------------------------------

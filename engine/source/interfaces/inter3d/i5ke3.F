@@ -32,7 +32,6 @@ Chd|        I3GAP3                        source/interfaces/inter3d/i3gap3.F
 Chd|        I5CORK3                       source/interfaces/inter3d/i5cork3.F
 Chd|        I5FRIK3                       source/interfaces/inter3d/i5keg3.F
 Chd|        I5KEG3                        source/interfaces/inter3d/i5keg3.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I5KE3(  A     ,V      ,MS   ,
      1                   IPARI ,INTBUF_TAB,X    ,

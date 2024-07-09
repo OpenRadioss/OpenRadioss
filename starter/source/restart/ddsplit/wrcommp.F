@@ -30,7 +30,6 @@ Chd|        ALEMUSCL_MOD                  ../common_source/modules/ale/alemuscl_
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
 Chd|        ALE_EBCS_MOD                  ../common_source/modules/ale/ale_ebcs_mod.F
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F

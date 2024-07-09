@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        INTTI1                        source/interfaces/interf/intti1.F
 Chd|-- calls ---------------
 Chd|        I2IPOFF                       source/interfaces/interf/int2poff.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INT2POFF(IPARI,X    ,V     ,
      .                   A     ,VR   ,AR   ,MS   ,IN    ,
@@ -95,7 +94,6 @@ Chd|-- called by -----------
 Chd|        INTTI1                        source/interfaces/interf/intti1.F
 Chd|-- calls ---------------
 Chd|        I2IPOFFH                      source/interfaces/interf/int2poff.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INT2POFFH(IPARI,X     ,V     ,
      .                   A     ,VR   ,AR    ,MS    ,IN    ,

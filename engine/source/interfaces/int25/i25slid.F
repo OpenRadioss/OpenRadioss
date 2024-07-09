@@ -709,7 +709,6 @@ Chd|  I25PREP_NINDEX                source/interfaces/int25/i25slid.F
 Chd|-- called by -----------
 Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
@@ -790,7 +789,6 @@ Chd|  I25PREP_SIZBUFS               source/interfaces/int25/i25slid.F
 Chd|-- called by -----------
 Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
@@ -943,7 +941,6 @@ Chd|  I25PREP_SEND                  source/interfaces/int25/i25slid.F
 Chd|-- called by -----------
 Chd|        I25MAIN_SLID                  source/interfaces/int25/i25main_slid.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================

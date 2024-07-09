@@ -27,7 +27,6 @@ Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        NSEGMT                        source/interfaces/interf1/nsegmt.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTBUFSCRATCH_MOD             source/interfaces/interf1/intbufscratch_mod.F
 Chd|====================================================================
       SUBROUTINE SCRINT(IPARI,INSCR,INTBUF_TAB)

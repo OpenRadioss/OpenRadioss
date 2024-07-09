@@ -31,7 +31,6 @@ Chd|        I7REMNODE_BUILD               source/interfaces/inter3d1/i7remnode.F
 Chd|        I7REMNODE_INIT                source/interfaces/inter3d1/i7remnode.F
 Chd|        MY_EXIT                       source/output/analyse/analyse.c
 Chd|        UPGRADE_REMNODE               source/interfaces/interf1/upgrade_remnode.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I7REMNODE(
@@ -691,7 +690,6 @@ Chd|-- calls ---------------
 Chd|        ADD_NSFIC                     source/interfaces/inter3d1/i7remnode.F
 Chd|        DIM_IEDGN2                    source/interfaces/inter3d1/i7remnode.F
 Chd|        IND_IEDGN2                    source/interfaces/inter3d1/i7remnode.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE REMN_I2_EDG(IPARI   ,INTBUF_TAB   ,ITAB, NREMOV,IFLAG  )
 C-----------------------------------------------
@@ -938,7 +936,6 @@ Chd|        PRE_I2                        source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2OP_EDG25               source/interfaces/int25/i25remlin.F
 Chd|        UPGRADE_REMNODE2              source/interfaces/interf1/upgrade_remnode.F
 Chd|        ZERONM_TAGD                   source/interfaces/inter3d1/i7remnode.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE REMN_I2OP(LOWER_BOUND, UPPER_BOUND, IPARI,INTBUF_TAB,ITAB,NOM_OPT,NREMOV,IDDLEVEL,SKIP_TYPE25_EDGE_2_EDGE)
@@ -1499,7 +1496,6 @@ Chd|-- called by -----------
 Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
 Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PRE_I2(IPARI   ,INTBUF_TAB ,NSIZE, I2NODE,POINT_I2NODE)
 C-----------------------------------------------
@@ -1686,7 +1682,6 @@ Chd|        ADD_NSFIC1                    source/interfaces/inter3d1/i7remnode.F
 Chd|        DIM_PTEDGN                    source/interfaces/inter3d1/i7remnode.F
 Chd|        PRE_I2EDGE                    source/interfaces/inter3d1/i7remnode.F
 Chd|        UPGRADE_REMNODE2              source/interfaces/interf1/upgrade_remnode.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE REMN_I2_EDGOP(IPARI   ,INTBUF_TAB   ,ITAB, NREMOV)
 C-----------------------------------------------
@@ -2010,7 +2005,6 @@ Chd|        ININTR2                       source/interfaces/inter3d1/inintr2.F
 Chd|-- calls ---------------
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        RM_CAND24                     source/interfaces/inter3d1/i7remnode.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE RI2_INT24P_INI(IPARI   ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMOV)
 C-----------------------------------------------

@@ -36,7 +36,6 @@ Chd|        I15TOT1                       source/interfaces/int15/i15tot1.F
 Chd|        I15TOTT1                      source/interfaces/int15/i15tott1.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I15CMP(IPARI,INTBUF_TAB,IGRSURF,BUFSF,

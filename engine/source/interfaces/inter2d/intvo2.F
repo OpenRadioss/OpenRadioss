@@ -28,7 +28,6 @@ Chd|-- calls ---------------
 Chd|        I3FOR2                        source/interfaces/inter2d/i3for2.F
 Chd|        INVOI2                        source/interfaces/inter2d/invoi2.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INTVO2(IPARI,INTBUF_TAB ,X   ,A    ,
      .                  ICODT,FSAV       ,FSKYI,ISKY,

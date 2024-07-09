@@ -25,7 +25,7 @@ Chd|  W_BUFBRIC_22                  source/interfaces/int22/w_bufbric_22.F
 Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/output/tools/write_db.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        I22BUFBRIC_MOD                ../common_source/modules/interfaces/cut-cell-search_mod.F
 Chd|        I22TRI_MOD                    ../common_source/modules/interfaces/cut-cell-search_mod.F

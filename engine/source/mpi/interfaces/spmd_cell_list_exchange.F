@@ -29,7 +29,6 @@ Chd|        SPMD_CELL_SIZE_EXCHANGE       source/mpi/interfaces/spmd_cell_size_e
 Chd|        SPMD_CELL_SIZE_EXCHANGE_INIT  source/mpi/interfaces/spmd_cell_size_exchange_init.F
 Chd|        SPMD_CELL_SIZE_POST_RCV       source/mpi/interfaces/spmd_cell_size_post_rcv.F
 Chd|        SPMD_IALLTOALLV_INT           source/mpi/generic/spmd_ialltoallv_int.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       

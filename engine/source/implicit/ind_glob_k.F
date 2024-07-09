@@ -1670,7 +1670,6 @@ Chd|  DIM_KINE_P                    source/implicit/ind_glob_k.F
 Chd|-- called by -----------
 Chd|        DIM_KINMAX                    source/implicit/ind_glob_k.F  
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_KINE_P(
      1    IGEO      ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
@@ -1787,7 +1786,6 @@ Chd|-- calls ---------------
 Chd|        I2_PREM                       source/interfaces/interf/i2_prem.F
 Chd|        RBYAC_IMP                     source/constraints/general/rbody/rbyac_imp.F
 Chd|        INTAB                         source/implicit/ind_glob_k.F  
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_NDOF_I(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
@@ -1898,7 +1896,6 @@ Chd|  DIM_NDOF_II                   source/implicit/ind_glob_k.F
 Chd|-- called by -----------
 Chd|        DIM_GLOB_K                    source/implicit/ind_glob_k.F  
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_NDOF_II(
      1    NINT2     ,IINT2     ,IPARI     ,NDOF      ,
@@ -2083,7 +2080,6 @@ Chd|-- called by -----------
 Chd|        DIM_KINMAX                    source/implicit/ind_glob_k.F  
 Chd|-- calls ---------------
 Chd|        INTAB                         source/implicit/ind_glob_k.F  
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_KINE_S(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -2388,7 +2384,6 @@ Chd|        DIM_KINMAX                    source/implicit/ind_glob_k.F
 Chd|-- calls ---------------
 Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
 Chd|        INTAB                         source/implicit/ind_glob_k.F  
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_KINE_T(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -2741,7 +2736,6 @@ Chd|-- calls ---------------
 Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
 Chd|        RMIND_IMP                     source/model/remesh/rm_imp0.F 
 Chd|        INTAB                         source/implicit/ind_glob_k.F  
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IND_KINE_K(NPBY,LPBY,
      1    ITAB      ,NRBYAC    ,IRBYAC    ,NSC       ,ISIJ      ,
@@ -3154,7 +3148,6 @@ Chd|        KIN_NRMAX0                    source/mpi/implicit/imp_fri.F
 Chd|        RMDIM_IMP                     source/model/remesh/rm_imp0.F 
 Chd|        SPMD_MAX_I                    source/mpi/implicit/imp_spmd.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_KINMAX(
      1    IGEO      ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
@@ -3342,7 +3335,6 @@ Chd|        SET_IKIN2G                    source/mpi/implicit/imp_fri.F
 Chd|        SPMD_NDOF                     source/mpi/implicit/imp_spmd.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_GLOB_K(
      1    GEO       ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
@@ -3703,7 +3695,6 @@ Chd|        SET_IND_K                     source/implicit/ind_glob_k.F
 Chd|        SPC_FR_K                      source/mpi/implicit/imp_fri.F 
 Chd|        ZERO_IKIN2G                   source/mpi/implicit/imp_fri.F 
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IND_GLOB_K(NPBY,LPBY,
      1    ITAB      ,NRBYAC    ,IRBYAC    ,NSC       ,ISIJ      ,
@@ -4525,8 +4516,6 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        IMP_INTBUF_INI                source/implicit/imp_solv.F    
 Chd|        INTBUF_TAB_C_INI              ../common_source/interf/copy_intbuf_tab.F
-Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F   
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_INT7(
@@ -4635,8 +4624,6 @@ Chd|        ROW_INT                       source/implicit/ind_glob_k.F
 Chd|        ROW_INT11                     source/implicit/ind_glob_k.F  
 Chd|        ROW_INT24                     source/implicit/ind_glob_k.F  
 Chd|        ROW_INT5                      source/implicit/ind_glob_k.F  
-Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F   
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_INT_K(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
@@ -4810,8 +4797,6 @@ Chd|        ROW_INT2                      source/implicit/ind_glob_k.F
 Chd|        ROW_INT242                    source/implicit/ind_glob_k.F  
 Chd|        ROW_INT52                     source/implicit/ind_glob_k.F  
 Chd|        SET_IND_K                     source/implicit/ind_glob_k.F  
-Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F   
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IND_INT_K(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP      ,
@@ -5687,8 +5672,6 @@ Chd|        ROW_INT111                    source/implicit/ind_glob_k.F
 Chd|        ROW_INT241                    source/implicit/ind_glob_k.F  
 Chd|        ROW_INT51                     source/implicit/ind_glob_k.F  
 Chd|        INTAB                         source/implicit/ind_glob_k.F  
-Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F   
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_KINE_I(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,NPBY      ,LPBY      ,
@@ -6139,7 +6122,6 @@ Chd|        IND_INT_K                     source/implicit/ind_glob_k.F
 Chd|-- calls ---------------
 Chd|        REORDER_A                     source/implicit/ind_glob_k.F  
 Chd|        INTAB                         source/implicit/ind_glob_k.F  
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IND_KINE_I(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -6616,7 +6598,6 @@ Chd|-- calls ---------------
 Chd|        NDOF_INT                      source/implicit/ind_glob_k.F  
 Chd|        NDOF_INT11                    source/implicit/ind_glob_k.F  
 Chd|        NDOF_INT5                     source/implicit/ind_glob_k.F  
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IDEL_INT(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,

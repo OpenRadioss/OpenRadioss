@@ -25,7 +25,6 @@ Chd|  COPY_INTBUF_TAB               interf/copy_intbuf_tab.F
 Chd|-- called by -----------
 Chd|        CP_IMPBUF                     engine/source/implicit/produt_v.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 modules/intbufdef_mod.F       
 Chd|====================================================================
       SUBROUTINE COPY_INTBUF_TAB(INTBUF_TAB, INTBUF_TAB_C)  
 C-----------------------------------------------
@@ -1065,7 +1064,6 @@ Chd|  INTBUF_TAB_C_INI              interf/copy_intbuf_tab.F
 Chd|-- called by -----------
 Chd|        DIM_INT7                      engine/source/implicit/ind_glob_k.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 modules/intbufdef_mod.F       
 Chd|====================================================================
       SUBROUTINE INTBUF_TAB_C_INI(INTBUF_TAB, INTBUF_TAB_C)  
 C-----------------------------------------------

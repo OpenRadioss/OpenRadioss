@@ -30,7 +30,6 @@ Chd|        IMP_FRKD                      source/mpi/implicit/imp_fri.F
 Chd|        IMP_FRKI                      source/mpi/implicit/imp_fri.F 
 Chd|        IMP_FRSL                      source/mpi/implicit/imp_fri.F 
 Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_FRI(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,IPARI     ,INTBUF_TAB,
@@ -128,7 +127,6 @@ Chd|        INI_DD0                       source/mpi/implicit/imp_fri.F
 Chd|        INI_DDFV                      source/mpi/implicit/imp_fri.F 
 Chd|        PRODUT_VMHP                   source/implicit/produt_v.F    
 Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_FRFV(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,IPARI     ,INTBUF_TAB,
@@ -244,7 +242,6 @@ Chd|        SPMD_IFC1                     source/mpi/implicit/imp_spmd.F
 Chd|        TAG_INTM                      source/mpi/implicit/imp_fri.F 
 Chd|        TAG_INTM11                    source/mpi/implicit/imp_fri.F 
 Chd|        TAG_INTS                      source/mpi/implicit/imp_fri.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_FRKI(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
@@ -375,7 +372,6 @@ Chd|        IMP_FRKD                      source/mpi/implicit/imp_fri.F
 Chd|        IMP_FRKI                      source/mpi/implicit/imp_fri.F 
 Chd|-- calls ---------------
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_FRSN(IPARI ,INTBUF_TAB  ,NBINTC,INTLIST)
 C-----------------------------------------------
@@ -495,7 +491,6 @@ Chd|        IMP_CHKM                      source/implicit/imp_solv.F
 Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|-- calls ---------------
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE IMP_FR7I(IPARI ,INTBUF_TAB,NUM_IMP ,NS_IMP ,NSREM ,
@@ -869,7 +864,6 @@ Chd|-- called by -----------
 Chd|        IMP_FRFV                      source/mpi/implicit/imp_fri.F 
 Chd|-- calls ---------------
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INI_DDFV(IDDL ,IKC  ,NDOF  ,IPARI ,INTBUF_TAB ,
      .                    D    ,DR   ,DD    ,DDR   ,NSL   ,
@@ -1033,7 +1027,6 @@ Chd|-- called by -----------
 Chd|        IMP_FRFV                      source/mpi/implicit/imp_fri.F 
 Chd|-- calls ---------------
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INI_DD0(IDDL ,IKC  ,NDOF  ,IPARI ,INTBUF_TAB ,
      .                   DD   ,DDR  ,NSL   ,IRBE3 ,LRBE3 ,
@@ -1239,7 +1232,6 @@ Chd|  DIM_KINEFR                    source/mpi/implicit/imp_fri.F
 Chd|-- called by -----------
 Chd|        IMP_FRKI                      source/mpi/implicit/imp_fri.F 
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_KINEFR(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -1350,7 +1342,6 @@ Chd|-- calls ---------------
 Chd|        IMP_ASPC                      share/modules/impbufdef_mod.F 
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
 Chd|        IMP_RWL                       share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IND_KINEFR(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -1604,7 +1595,6 @@ Chd|        IMP_FRKI                      source/mpi/implicit/imp_fri.F
 Chd|-- calls ---------------
 Chd|        RBE3CL                        source/constraints/general/rbe3/rbe3f.F
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IDDL_INT(NSL    ,IDDL    ,IKC     ,NDOF     ,IDDLM   ,
      .                    IPARI  ,INTBUF_TAB,IRBE3   ,LRBE3    ,FRBE3   ,
@@ -1826,7 +1816,6 @@ Chd|        UPDFR_RB                      source/constraints/general/rbody/rby_i
 Chd|        IMP_ASPC                      share/modules/impbufdef_mod.F 
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
 Chd|        IMP_RWL                       share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIAG_INT(NSL    ,NDOF    ,IPARI  ,INTBUF_TAB,
      .                    KSS    ,X       ,IBFV   ,SKEW    ,XFRAME,
@@ -2162,7 +2151,6 @@ Chd|        LIN_SOLVH1                    source/implicit/lin_solv.F
 Chd|        LIN_SOLVIH2                   source/implicit/lin_solv.F    
 Chd|-- calls ---------------
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_DIAGS(DIAG_K,NDOF,NSL,IPARI,INTBUF_TAB,IRBE3,LRBE3,
      .                     IRBE2 )
@@ -2276,7 +2264,6 @@ Chd|        LIN_SOLVH1                    source/implicit/lin_solv.F
 Chd|        LIN_SOLVIH2                   source/implicit/lin_solv.F    
 Chd|-- calls ---------------
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_DIAGSN(DIAG_K,NDOF,NSL,IPARI,INTBUF_TAB,IRBE3,LRBE3,
      .                      IRBE2 )
@@ -2401,7 +2388,6 @@ Chd|        SPMD_IFCF                     source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_IFRF                     source/mpi/implicit/imp_spmd.F
 Chd|        SPMD_IFRU                     source/mpi/implicit/imp_spmd.F
 Chd|        UPD_FR                        source/mpi/implicit/imp_fri.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE FR_MATV(  A     ,V     ,D      ,MS     ,X      ,
      1                     DR    ,AR    ,IPARI  ,INTBUF_TAB     ,
@@ -2591,7 +2577,6 @@ Chd|        RBY_IMP3                      source/constraints/general/rbody/rby_i
 Chd|        IMP_ASPC                      share/modules/impbufdef_mod.F 
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
 Chd|        IMP_RWL                       share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE FR_U2DD( D     ,DR    ,X     ,IPARI  ,INTBUF_TAB,
      .                    NDOF  ,A     ,AR     ,LX     ,
@@ -2814,7 +2799,6 @@ Chd|        RBY_IMPF                      source/constraints/general/rbody/rby_i
 Chd|        IMP_ASPC                      share/modules/impbufdef_mod.F 
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
 Chd|        IMP_RWL                       share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE UPD_FR(  A     ,AR     ,X     ,IPARI  ,INTBUF_TAB,
      1                   NDOF   ,IBFV  ,SKEW   ,XFRAME ,
@@ -2985,7 +2969,6 @@ Chd|-- called by -----------
 Chd|        FR_MATV                       source/mpi/implicit/imp_fri.F 
 Chd|-- calls ---------------
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE FR_A2BD(NDOF  ,IPARI ,INTBUF_TAB  ,LB    ,A     ,
      .                   AR    ,IRBE3 ,LRBE3  ,IRBE2 ,LRBE2  )
@@ -4696,7 +4679,6 @@ Chd|        ROWFR_IND                     source/mpi/implicit/imp_fri.F
 Chd|        ROWFR_IND11                   source/mpi/implicit/imp_fri.F 
 Chd|        ROWFR_IND24                   source/mpi/implicit/imp_fri.F 
 Chd|        SET_IND_FR                    source/mpi/implicit/imp_fri.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IND_FRKD(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
@@ -5303,7 +5285,6 @@ Chd|        TAG_INTML                     source/mpi/implicit/imp_fri.F
 Chd|        TRA_FRKM                      source/mpi/implicit/imp_fri.F 
 Chd|        UPD_KML                       source/mpi/implicit/imp_fri.F 
 Chd|        UPD_KSL                       source/mpi/implicit/imp_fri.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_FRKD(
      1      NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -5711,7 +5692,6 @@ Chd|        RBY_FRK                       source/constraints/general/rbody/rby_i
 Chd|        IMP_ASPC                      share/modules/impbufdef_mod.F 
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
 Chd|        IMP_RWL                       share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE UPD_KSL(
      1    IPARI     ,INTBUF_TAB,NINT2     ,IINT2     ,
@@ -6520,7 +6500,6 @@ Chd|        DOUB_NRS                      source/mpi/implicit/imp_fri.F
 Chd|        IND_KINFRK                    source/mpi/implicit/imp_fri.F 
 Chd|        INI_SLNR                      source/mpi/implicit/imp_fri.F 
 Chd|        TAG_INTS                      source/mpi/implicit/imp_fri.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE KIN_KSL(
      1    IPARI     ,INTBUF_TAB,NINT2     ,IINT2     ,
@@ -6714,7 +6693,6 @@ Chd|-- called by -----------
 Chd|        KIN_KML                       source/mpi/implicit/imp_fri.F 
 Chd|        KIN_KSL                       source/mpi/implicit/imp_fri.F 
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_KINFRK(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -6857,7 +6835,6 @@ Chd|        REORDER_A                     source/implicit/ind_glob_k.F
 Chd|        IMP_ASPC                      share/modules/impbufdef_mod.F 
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
 Chd|        IMP_RWL                       share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IND_KINFRK(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -7399,7 +7376,6 @@ Chd|-- calls ---------------
 Chd|        DIM_KINFRK                    source/mpi/implicit/imp_fri.F 
 Chd|        IND_KINFRK                    source/mpi/implicit/imp_fri.F 
 Chd|        INI_SLNR                      source/mpi/implicit/imp_fri.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE KIN_KML(
      1    IPARI     ,INTBUF_TAB,NINT2     ,IINT2     ,     
@@ -7692,7 +7668,6 @@ Chd|        RBY_FRK                       source/constraints/general/rbody/rby_i
 Chd|        IMP_ASPC                      share/modules/impbufdef_mod.F 
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
 Chd|        IMP_RWL                       share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE UPD_KML(
      1    IPARI     ,INTBUF_TAB,NINT2     ,IINT2     ,
@@ -9928,7 +9903,6 @@ Chd|        NDDLI_FRB                     source/mpi/implicit/imp_fri.F
 Chd|        NDDLI_NS                      source/mpi/implicit/imp_fri.F 
 Chd|        SPMD_NDDLIG                   source/mpi/implicit/imp_spmd.F
 Chd|        IMP_FRK                       share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE GETNDDLI_G(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -9983,7 +9957,6 @@ Chd|-- called by -----------
 Chd|        GETNDDLI_G                    source/mpi/implicit/imp_fri.F 
 Chd|-- calls ---------------
 Chd|        NDOFI_NSL                     source/mpi/implicit/imp_fri.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE NDDLI_NS(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,

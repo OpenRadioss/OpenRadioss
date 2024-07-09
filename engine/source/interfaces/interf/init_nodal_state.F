@@ -31,7 +31,6 @@ Chd|        COUNT_REMOTE_NB_ELEM_EDGE     source/interfaces/interf/count_remote_
 Chd|        DEALLOC_1D_ARRAY              ../common_source/modules/array_mod.F
 Chd|        MYQSORT_INT                   ../common_source/tools/sort/myqsort_int.F
 Chd|        ARRAY_MOD                     ../common_source/modules/array_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SHOOTING_NODE_MOD             share/modules/shooting_node_mod.F
 Chd|====================================================================
         SUBROUTINE INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTBUF_TAB,IAD_ELEM,FR_ELEM,

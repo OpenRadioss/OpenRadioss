@@ -25,8 +25,7 @@ Chd|  INIT_INTERF_SORTING_STRATEGY  source/interfaces/init_interf_sorting_strate
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
+Chd|        METRIC_MOD                    ../common_source/modules/interfaces/metric_mod.F
 Chd|====================================================================
       SUBROUTINE INIT_INTERF_SORTING_STRATEGY(INTBUF_TAB,NINTER)
 C Bucket or voxel, depending on /PERF/ in 1.rad

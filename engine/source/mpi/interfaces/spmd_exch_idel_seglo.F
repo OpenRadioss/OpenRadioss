@@ -27,7 +27,6 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        I24_REMOVE_GLOBAL_SEGMENT     source/interfaces/interf/chkstfn3.F
 Chd|        I25_REMOVE_GLOBAL_SEGMENT     source/interfaces/interf/chkstfn3.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
         SUBROUTINE SPMD_EXCH_IDEL_SEGLO(IPARI,INTBUF_TAB,INDSEGLO,IBUFSEGLO)
 C-----------------------------------------------

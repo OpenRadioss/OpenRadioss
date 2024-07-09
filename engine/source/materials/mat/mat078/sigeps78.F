@@ -26,7 +26,6 @@ C=======================================================================
 Chd|====================================================================
 Chd|  SIGEPS78                      source/materials/mat/mat078/sigeps78.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================

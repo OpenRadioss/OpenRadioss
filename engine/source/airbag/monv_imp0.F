@@ -29,7 +29,6 @@ Chd|        DIM_KINMV                     source/airbag/monv_imp0.F
 Chd|        INI_KINMV                     source/airbag/monv_imp0.F     
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        IMP_MONV                      share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MONV_PREM(
      1    NMONV     ,IMONV     ,MONVOL    ,IGRSURF   ,
@@ -192,7 +191,6 @@ Chd|  DIM_KINMV                     source/airbag/monv_imp0.F
 Chd|-- called by -----------
 Chd|        MONV_PREM                     source/airbag/monv_imp0.F     
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE DIM_KINMV(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NINT2     ,
@@ -299,7 +297,6 @@ Chd|  INI_KINMV                     source/airbag/monv_imp0.F
 Chd|-- called by -----------
 Chd|        MONV_PREM                     source/airbag/monv_imp0.F     
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INI_KINMV(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NINT2     ,
@@ -553,7 +550,6 @@ Chd|-- calls ---------------
 Chd|        MONV_FVL                      source/airbag/monv_imp0.F     
 Chd|        MONV_M3                       source/airbag/monv_imp0.F     
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MONV_IMP(MONVOL ,VOLMON  ,X      ,IGRSURF  ,
      1                    NMONV  ,IMONV   ,IPARI  ,INTBUF_TAB      ,
@@ -604,7 +600,6 @@ Chd|        UPDK_MV                       source/airbag/monv_imp0.F
 Chd|        ZEROR                         source/system/zero.F          
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        IMP_MONV                      share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MONV_M3(MONVOL ,VOLMON  ,X      ,IGRSURF  ,
      1                   NMONV  ,IMONV   ,IPARI  ,INTBUF_TAB,
@@ -770,7 +765,6 @@ Chd|        MONV_M3                       source/airbag/monv_imp0.F
 Chd|-- calls ---------------
 Chd|        RBE3CL                        source/constraints/general/rbe3/rbe3f.F
 Chd|        IMP_MONV                      share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE ID_MVINI(IPARI  ,INTBUF_TAB,NDOF   ,IDDL    ,IKC    ,
      1                    INLOC  ,X      ,SKEW   ,IRBE3   ,LRBE3  ,
@@ -1254,7 +1248,6 @@ Chd|        RBE2_IMPKD                    source/constraints/general/rbe2/rbe2_i
 Chd|        RBE3_FRUPD                    source/constraints/general/rbe3/rbe3_imp0.F
 Chd|        IMP_ASPC                      share/modules/impbufdef_mod.F 
 Chd|        IMP_RWL                       share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE UPDK_MV(NDOF    ,IPARI  ,INTBUF_TAB,NI2_MV ,
      .                   II2_MV  ,NRB_MV ,IRB_MV  ,NFX_MV,IFX_MV ,
@@ -1568,7 +1561,6 @@ Chd|        LIN_SOLVH1                    source/implicit/lin_solv.F
 Chd|        LIN_SOLVIH2                   source/implicit/lin_solv.F    
 Chd|-- calls ---------------
 Chd|        IMP_MONV                      share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MONV_DIAG(DIAG_K,NDOF,IPARI,INTBUF_TAB,IRBE3,LRBE3,
      .                     IRBE2  ,IFLAG )
@@ -1759,7 +1751,6 @@ Chd|        SPMD_FR_POFF                  source/mpi/kinematic_conditions/spmd_f
 Chd|        ZEROR                         source/system/zero.F          
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        IMP_MONV                      share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MV_MATV(MONVOL ,VOLMON  ,X      ,IGRSURF,
      1                   FR_MV  ,NMONV  ,IMONV   ,U      ,F      ,
@@ -1920,7 +1911,6 @@ Chd|        RBE2_FRD                      source/constraints/general/rbe2/rbe2v.
 Chd|        RBE3_FRD                      source/constraints/general/rbe3/rbe3v.F
 Chd|        IMP_ASPC                      share/modules/impbufdef_mod.F 
 Chd|        IMP_RWL                       share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP3_U2X(X     ,IPARI  ,INTBUF_TAB,NDOF  ,
      .                   LX     ,A      ,AR     ,X_IMP ,NUMN  ,
@@ -2317,7 +2307,6 @@ Chd|        RBE3FRF                       source/constraints/general/rbe3/rbe3f.
 Chd|        RBY_IMPF                      source/constraints/general/rbody/rby_imp0.F
 Chd|        IMP_ASPC                      share/modules/impbufdef_mod.F 
 Chd|        IMP_RWL                       share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP3_A2B(IPARI  ,INTBUF_TAB,NDOF  ,X_IMP  ,
      .                    A      ,AR     ,NUMN  ,INL   ,IDDL   ,

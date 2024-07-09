@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SBOLTLAW                      source/elements/solid/solide/sboltlaw.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|        MDTSPH                        source/materials/mat_share/mdtsph.F
 Chd|        MQVISCB                       source/materials/mat_share/mqviscb.F

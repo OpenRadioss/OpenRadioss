@@ -392,8 +392,6 @@ Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INT8_MOD                      ../common_source/modules/interfaces/int8_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SET_FRONT8(IPARI,INTERCEP,INTBUF_TAB,T8,NBT8,ITAB)
 C-----------------------------------------------
@@ -698,7 +696,6 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|        INTERSURFL                    source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SET_INTERCEP(IPARI,INTERCEP,FLAG,INTBUF_TAB,ITAB,CEP)
@@ -958,7 +955,6 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|        INTERSURFL                    source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE FILL_INTERCEP(IPARI,INTBUF_TAB,INTERCEP)

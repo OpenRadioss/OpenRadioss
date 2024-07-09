@@ -30,8 +30,6 @@ Chd|        M22LAW                        source/materials/mat/mat022/m22law.F
 Chd|        M24LAW                        source/materials/mat/mat024/m24law.F
 Chd|        M2LAW                         source/materials/mat/mat002/m2law.F
 Chd|        M46LAW                        source/materials/mat/mat046/m46law.F
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        SBOLTLAW                      source/elements/solid/solide/sboltlaw.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------

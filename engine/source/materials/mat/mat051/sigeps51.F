@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SIGEPS51                      source/materials/mat/mat051/sigeps51.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        COMPUTE_BFRAC                 source/materials/mat/mat051/compute_bfrac.F
 Chd|        DPRAG51                       source/materials/mat/mat051/dprag51.F

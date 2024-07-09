@@ -65,9 +65,7 @@ Chd|        MAT112C_XIA_NEWTON            source/materials/mat/mat112/mat112c_xi
 Chd|        MAT112C_XIA_NICE              source/materials/mat/mat112/mat112c_xia_nice.F
 Chd|        MAT112_XIA_NEWTON             source/materials/mat/mat112/mat112_xia_newton.F
 Chd|        MAT112_XIA_NICE               source/materials/mat/mat112/mat112_xia_nice.F
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        MMAIN8                        source/materials/mat_share/mmain8.F
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        MULAWGLC                      source/materials/mat_share/mulawglc.F

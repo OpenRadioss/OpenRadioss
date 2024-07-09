@@ -29,7 +29,6 @@ Chd|        I25ASSNP                      source/interfaces/int25/i25norm.F
 Chd|        I25NORMP                      source/interfaces/int25/i25norm.F
 Chd|        I25TAGN                       source/interfaces/int25/i25norm.F
 Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MPI_COMMOD                    share/modules/mpi_comm_mod.F  
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================

@@ -47,7 +47,6 @@ Chd|        RBY_IMP0                      source/constraints/general/rbody/rby_i
 Chd|        RM_IMP0                       source/model/remesh/rm_imp0.F 
 Chd|        UPD_ASPC                      source/constraints/general/bcs/bc_imp0.F
 Chd|        IMP_FVBCL                     share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE UPD_GLOB_K(ICODT ,ICODR ,ISKEW ,IBFV    ,NPC    ,
      1                      TF    ,VEL   ,XFRAME ,
@@ -449,7 +448,6 @@ Chd|        I2_IMPI                       source/interfaces/interf/i2_imp0.F
 Chd|        RBE2_IMPI                     source/constraints/general/rbe2/rbe2_imp0.F
 Chd|        RBE3_IMPI                     source/constraints/general/rbe3/rbe3_imp0.F
 Chd|        RBY_IMPI                      source/constraints/general/rbody/rby_imp0.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE UPD_INT_K(ICODT  ,ICODR ,ISKEW ,IBFV    ,NPC    ,
      1                      TF    ,VEL   ,XFRAME ,
@@ -650,7 +648,6 @@ Chd|        RBE3_IMPR2                    source/constraints/general/rbe3/rbe3_i
 Chd|        RBY_IMPR1                     source/constraints/general/rbody/rby_imp0.F
 Chd|        RBY_IMPR2                     source/constraints/general/rbody/rby_imp0.F
 Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE UPD_RHS(ICODT ,ICODR ,ISKEW ,IBFV    ,XFRAME ,
      1                   RBY   ,X     ,SKEW   ,LPBY   ,NPBY   ,
@@ -925,7 +922,6 @@ Chd|        PRODUT_W                      source/implicit/produt_v.F
 Chd|        RECUKIN                       source/implicit/recudis.F     
 Chd|        RER_INT_V                     source/implicit/upd_glob_k.F  
 Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE RER02(RBY   ,LPBY  ,NPBY  ,SKEW  ,ISKEW ,
      1                   ITAB  ,WEIGHT,MS    ,IN    ,
@@ -1066,7 +1062,6 @@ Chd|-- calls ---------------
 Chd|        UD_INT11                      source/implicit/upd_glob_k.F  
 Chd|        UD_INT5                       source/implicit/upd_glob_k.F  
 Chd|        UD_INT7                       source/implicit/upd_glob_k.F  
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE RER_INT_V(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
@@ -1535,7 +1530,6 @@ Chd|        I3DIS3                        source/interfaces/inter3d/i3dis3.F
 Chd|        I3GAP3                        source/interfaces/inter3d/i3gap3.F
 Chd|        I5CORK3                       source/interfaces/inter3d/i5cork3.F
 Chd|        UD_INTG5                      source/implicit/upd_glob_k.F  
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE UD_INT5(
      1                   IPARI ,INTBUF_TAB,X    ,NUM_IMP,
@@ -1713,7 +1707,6 @@ Chd|-- called by -----------
 Chd|        UPD_GLOB_K                    source/implicit/upd_glob_k.F  
 Chd|-- calls ---------------
 Chd|        COLINEAR3                     source/implicit/upd_glob_k.F  
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INI_DOFSPC(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NINT2     ,

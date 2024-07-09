@@ -33,7 +33,6 @@ Chd|        I7CDCOR3                      source/interfaces/int07/i7cdcor3.F
 Chd|        I7COR3                        source/interfaces/int07/i7cor3.F
 Chd|        SUM_6_FLOAT_SENS              source/system/parit.F         
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I10MAINF(IPARI  ,X      ,A      ,

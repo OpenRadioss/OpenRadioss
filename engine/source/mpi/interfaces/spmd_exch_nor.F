@@ -25,7 +25,6 @@ Chd|  SPMD_EXCH_NOR                 source/mpi/interfaces/spmd_exch_nor.F
 Chd|-- called by -----------
 Chd|        I25NORMP                      source/interfaces/int25/i25norm.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_EXCH_NOR(
      1   NI25,IAD_FREDG,FR_EDG,NOD_NORMAL,WNOD_NORMAL,SIZE,NADMSR,

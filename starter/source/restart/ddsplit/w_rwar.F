@@ -26,7 +26,7 @@ Chd|  W_RWAR                        source/restart/ddsplit/w_rwar.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|        NLOCAL                        source/spmd/node/ddtools.F    
 Chd|====================================================================
       SUBROUTINE W_RWAR(NPRW    ,LPRW ,RWL, RWSAV,

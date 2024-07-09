@@ -207,15 +207,6 @@ Chd|        IMP_ISAVE                     source/implicit/imp_pcg.F
 Chd|        IMP_ISAVE2                    source/implicit/imp_pcg.F     
 Chd|        IMP_RSAVE                     source/implicit/imp_pcg.F     
 Chd|        MAV_LTH                       source/implicit/produt_v.F    
-Chd|        MIC_DAXPY                     source/implicit/imp_pcg.F     
-Chd|        MIC_DCOPY                     source/implicit/imp_pcg.F     
-Chd|        MIC_DDOT                      source/implicit/imp_pcg.F     
-Chd|        MIC_DSCAL                     source/implicit/imp_pcg.F     
-Chd|        MIC_GATHER                    source/implicit/imp_pcg.F     
-Chd|        MIC_INIT                      source/implicit/imp_pcg.F     
-Chd|        MIC_MV                        source/implicit/imp_pcg.F     
-Chd|        MIC_SCATTER                   source/implicit/imp_pcg.F     
-Chd|        MIC_SPMV                      source/implicit/imp_pcg.F     
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        NLIM_MIX                      source/implicit/imp_pcg.F     
 Chd|        PREC_SOLVH                    source/implicit/prec_solv.F   
@@ -232,9 +223,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        IMP_FRK                       share/modules/impbufdef_mod.F 
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
 Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        MIC_PCG                       source/implicit/imp_pcg.F     
 Chd|====================================================================
       SUBROUTINE IMP_PCGH( IPREC ,
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
@@ -2715,7 +2704,6 @@ Chd|        MMAV_LTH                      source/implicit/produt_v.F
 Chd|        PRODUT_H                      source/implicit/produt_v.F    
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
        SUBROUTINE IMP_UPDV2( 
      1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,   
@@ -2916,7 +2904,6 @@ Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
 Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_PPCGH( IPREC ,
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
@@ -3625,7 +3612,6 @@ Chd|        MMAV_LTH                      source/implicit/produt_v.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
        SUBROUTINE IMP_INIST( 
      1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,   
@@ -3779,7 +3765,6 @@ Chd|        MORTHO_GS                     source/implicit/produt_v.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
        SUBROUTINE IMP_UPDST( 
      1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,   
@@ -3909,7 +3894,6 @@ Chd|        PRODUT_H                      source/implicit/produt_v.F
 Chd|        ALEAT                         source/system/aleat.F         
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_INISI( 
      1                    NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,   

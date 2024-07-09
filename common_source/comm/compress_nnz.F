@@ -143,8 +143,7 @@ Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit
 Chd|        W_GEO                         starter/source/restart/ddsplit/w_geo.F
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      starter/source/restart/ddsplit/wrrest.F
-Chd|        WRITE_DB                      engine/source/output/tools/write_db.F
+Chd|        WRITE_DB                      tools/input_output/write_db.F 
 Chd|        WRITE_I_C                     tools/input_output/write_routtines.c
 Chd|====================================================================
        SUBROUTINE COMPRESS_R_NNZ(ARRAY,LEN)

@@ -327,7 +327,6 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        UPGRADE_REMNODE_E2S           source/interfaces/interf1/upgrade_remnode.F
 Chd|        UPGRADE_REMNODE_EDG2          source/interfaces/interf1/upgrade_remnode.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE REMN_I2OP_EDG25(N         ,FLAGREMNODE, IPARI   ,INTBUF_TAB   ,I2NODE  ,

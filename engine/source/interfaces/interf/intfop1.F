@@ -32,7 +32,6 @@ Chd|        INTVO2                        source/interfaces/inter2d/intvo2.F
 Chd|        INTVO3                        source/interfaces/inter3d/intvo3.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE INTFOP1(

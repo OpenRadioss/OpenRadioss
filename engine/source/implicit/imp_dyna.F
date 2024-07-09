@@ -1737,7 +1737,6 @@ Chd|        RBY_IMPR1                     source/constraints/general/rbody/rby_i
 Chd|        RBY_IMPR2                     source/constraints/general/rbody/rby_imp0.F
 Chd|        SPMD_SUMF_A                   source/mpi/implicit/imp_spmd.F
 Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_DYKV(NODFT  ,NODLT   ,IDDL   ,NDOF   ,IKC    ,
      .                    DIAG_K ,IADK    ,JDIK   ,LT_K   ,WEIGHT ,
@@ -1941,7 +1940,6 @@ Chd|        RBY_IMPR1                     source/constraints/general/rbody/rby_i
 Chd|        RBY_IMPR2                     source/constraints/general/rbody/rby_imp0.F
 Chd|        SPMD_SUMF_A                   source/mpi/implicit/imp_spmd.F
 Chd|        IMP_DYNA                      share/modules/impbufdef_mod.F 
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_DYKV0(NODFT  ,NODLT   ,IDDL   ,NDOF   ,IKC    ,
      .                    DIAG_K ,IADK    ,JDIK   ,LT_K   ,WEIGHT ,

@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|-- calls ---------------
 Chd|        FRETITL2                      source/starter/freform.F      
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE ST_QAPRINT_INTERFACES(NOM_OPT   ,INOM_OPT  ,IPARI   ,INTBUF_TAB, I2RUPT,
      2                                 AREASL    )

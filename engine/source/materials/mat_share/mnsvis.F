@@ -24,7 +24,6 @@ Chd|====================================================================
 Chd|  MNSVIS                        source/materials/mat_share/mnsvis.F
 Chd|-- called by -----------
 Chd|        M24LAW                        source/materials/mat/mat024/m24law.F
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE MNSVIS(

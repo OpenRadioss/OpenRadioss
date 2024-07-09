@@ -30,7 +30,6 @@ Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F
 Chd|        INTERSURFL                    source/spmd/node/ddtools.F    
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|        I7I10SPLITMOD                 share/modules1/i710split_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I24SETNODES(IPARI,INTBUF_TAB,INTERCEP,ITAB,I24MAXNSNE)
@@ -135,7 +134,6 @@ Chd|  SECND_SURFACE_ON_DOMAIN       source/interfaces/inter3d1/i24setnodes.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       INTEGER FUNCTION SECND_SURFACE_ON_DOMAIN(INTERCEP,SE,PROC)
 C-----------------------------------------------

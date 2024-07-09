@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SIGEPS65                      source/materials/mat/mat065/sigeps65.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        EQSOLV_2                      source/materials/mat/mat065/sigeps65c.F
 Chd|        INTERSTAR                     source/materials/mat/mat065/sigeps65c.F

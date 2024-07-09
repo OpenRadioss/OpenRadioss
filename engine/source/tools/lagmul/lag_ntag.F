@@ -101,7 +101,6 @@ Chd|-- called by -----------
 Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
 Chd|-- calls ---------------
 Chd|        LTAG_I2                       source/tools/lagmul/lag_ntag.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE LTAG_I2MAIN(COMNTAG ,IPARI   ,INTBUF_TAB   )
 C-----------------------------------------------

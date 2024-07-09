@@ -35,7 +35,6 @@ Chd|        MY_EXIT                       source/output/analyse/analyse.c
 Chd|        NORMA1                        source/interfaces/inter3d1/norma1.F
 Chd|        VOLINT                        source/interfaces/inter3d1/volint.F
 Chd|        GET_U_GEO                     source/user_interface/uaccess.F
-Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
 Chd|====================================================================

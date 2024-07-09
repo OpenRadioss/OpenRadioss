@@ -25,7 +25,6 @@ Chd|  I25STSECND                    source/interfaces/inter3d1/i25stslav.F
 Chd|-- called by -----------
 Chd|        ININTR1                       source/interfaces/interf1/inintr1.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I25STSECND(IPARI,STIFINT,INTBUF_TAB,SFAC )
 C-----------------------------------------------

@@ -25,7 +25,7 @@ Chd|  W_FTHFLUX                     source/restart/ddsplit/w_fthflux.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|====================================================================
       SUBROUTINE W_FTHFLUX(FBFFLUX,CEP,PROC,NFXFLUX_L,LEN_AM)
 C-----------------------------------------------

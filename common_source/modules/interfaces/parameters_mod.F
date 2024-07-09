@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  PARAMETERS_MOD                modules/interfaces/parameters_mod.F
 Chd|-- called by -----------
-Chd|        INTERFACES_MOD                common_source/modules/interfaces/interfaces_mod.F
 Chd|        HM_READ_INTER_TYPE24          starter/source/interfaces/int24/hm_read_inter_type24.F
 Chd|        HM_READ_INTER_TYPE25          starter/source/interfaces/int25/hm_read_inter_type25.F
 Chd|        I25SURFI                      starter/source/interfaces/inter3d1/i25surfi.F

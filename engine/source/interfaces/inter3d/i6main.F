@@ -38,7 +38,6 @@ Chd|        I6FRI3                        source/interfaces/inter3d/i6fri3.F
 Chd|        I6INI3                        source/interfaces/inter3d/i6ini3.F
 Chd|        I6IPMACT                      source/interfaces/inter3d/i6impact.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I6MAIN(IPARI,X     ,A   ,
      2                  ICODT,NPC   ,TF     ,V     ,FSAV,

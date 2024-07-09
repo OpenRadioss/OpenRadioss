@@ -37,8 +37,6 @@ Chd|        IFRONTPLUS                    source/spmd/node/frontplus.F
 Chd|        USR2SYS                       source/system/sysfus.F        
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
-Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
-Chd|        INTERFACES_MOD                ../common_source/modules/interfaces/interfaces_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      

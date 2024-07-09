@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        WRITE_MATPARAM                source/output/restart/write_matparam.F
 Chd|        WRITE_VISCPARAM               source/output/restart/write_viscparam.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/output/tools/write_db.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        TABLE4D_MOD                   ../common_source/modules/table4d_mod.F
 Chd|====================================================================

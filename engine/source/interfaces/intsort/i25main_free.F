@@ -31,7 +31,6 @@ Chd|        MY_BARRIER                    source/system/machine.F
 Chd|        SPMD_GET_STIF25_EDG           source/mpi/interfaces/spmd_getstif25_edg.F
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I25MAIN_FREE(

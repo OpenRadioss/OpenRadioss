@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SIGEPS107                     source/materials/mat/mat107/sigeps107.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        MAT107_NEWTON                 source/materials/mat/mat107/mat107_newton.F
 Chd|        MAT107_NICE                   source/materials/mat/mat107/mat107_nice.F

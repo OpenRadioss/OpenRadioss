@@ -72,7 +72,6 @@ Chd|        LAG_ANITH                     engine/source/tools/lagmul/lag_anith.F
 Chd|        LAG_ANITHP                    engine/source/tools/lagmul/lag_anith.F
 Chd|        LECTUR                        engine/source/input/lectur.F  
 Chd|        MANCTR                        engine/source/input/manctr.F  
-Chd|        MMAIN                         engine/source/materials/mat_share/mmain.F
 Chd|        RDCOMI                        engine/source/output/restart/rdcomm.F
 Chd|        RDCOMR                        engine/source/output/restart/rdcomm.F
 Chd|        RESOL                         engine/source/engine/resol.F  

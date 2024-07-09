@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        INIGRAV_EOS                   starter/source/initial_conditions/inigrav/inigrav_eos.F
 Chd|        SOLVE_EINT                    starter/source/initial_conditions/inimap/ini_inimap1d.F
 Chd|        M12LAW                        engine/source/materials/mat/mat012/m12law.F
-Chd|        MMAIN                         engine/source/materials/mat_share/mmain.F
 Chd|        MULTI_SUBMATLAW               engine/source/multifluid/multi_submatlaw.F
 Chd|        SIGEPS75                      engine/source/materials/mat/mat075/sigeps75.F
 Chd|-- calls ---------------

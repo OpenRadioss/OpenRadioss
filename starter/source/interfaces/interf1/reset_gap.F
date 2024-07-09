@@ -25,7 +25,6 @@ Chd|  RESET_GAP                     source/interfaces/interf1/reset_gap.F
 Chd|-- called by -----------
 Chd|        ININTR                        source/interfaces/interf1/inintr.F
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE RESET_GAP(NI,IPARI,INTBUF_TAB,FRIGAP)
 C-----------------------------------------------

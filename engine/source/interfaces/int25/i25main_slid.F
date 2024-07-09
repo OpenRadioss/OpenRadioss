@@ -40,8 +40,6 @@ Chd|        SPMD_I25_SLIDE_EXCH           source/mpi/interfaces/spmd_i25slide.F
 Chd|        SPMD_I25_SLIDE_GAT            source/mpi/interfaces/spmd_i25slide.F
 Chd|        UPGRADE_CAND_OPT              ../common_source/interf/upgrade_multimp.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        INTBUFMOD                     share/modules/restart_mod.F   
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MPI_COMMOD                    share/modules/mpi_comm_mod.F  
 Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F

@@ -24,7 +24,7 @@ Chd|====================================================================
 Chd|  OPEN_INTERF_TIME              source/system/timer_interf.F  
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
+Chd|        METRIC_MOD                    ../common_source/modules/interfaces/metric_mod.F
 Chd|====================================================================
       SUBROUTINE OPEN_INTERF_TIME(ISPMD)
       USE METRIC_MOD
@@ -54,7 +54,7 @@ Chd|====================================================================
 Chd|  CLOSE_INTERF_TIME             source/system/timer_interf.F  
 Chd|-- called by -----------
 Chd|-- calls ---------------
-Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
+Chd|        METRIC_MOD                    ../common_source/modules/interfaces/metric_mod.F
 Chd|====================================================================
       SUBROUTINE CLOSE_INTERF_TIME()
       USE METRIC_MOD
@@ -78,7 +78,7 @@ Chd|        INTER_SORT                    source/interfaces/generic/inter_sort.F
 Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
-Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
+Chd|        METRIC_MOD                    ../common_source/modules/interfaces/metric_mod.F
 Chd|====================================================================
       SUBROUTINE INT_STARTIME(THIS,EVENT)
 C-----------------------------------------------
@@ -121,7 +121,7 @@ Chd|        INTER_SORT                    source/interfaces/generic/inter_sort.F
 Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
-Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
+Chd|        METRIC_MOD                    ../common_source/modules/interfaces/metric_mod.F
 Chd|====================================================================
       SUBROUTINE INT_STOPTIME(THIS,EVENT)
 C-----------------------------------------------
@@ -163,8 +163,7 @@ Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        SPMD_DGATHER                  source/mpi/output/spmd_gather.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
+Chd|        METRIC_MOD                    ../common_source/modules/interfaces/metric_mod.F
 Chd|====================================================================
       SUBROUTINE PRINTIME_INTERF(INTBUF_TAB,IPARI,INTLIST,NBINTC)
 C-----------------------------------------------

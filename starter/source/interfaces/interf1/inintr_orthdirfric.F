@@ -27,8 +27,6 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|        INCOQ3                        source/interfaces/inter3d1/incoq3.F
 Chd|        ORTHDIR_PROJ                  source/interfaces/interf1/inintr_orthdirfric.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
-Chd|        INTBUF_FRIC_MOD               share/modules1/intbuf_fric_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE ININTR_ORTHDIRFRIC(

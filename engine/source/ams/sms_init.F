@@ -580,7 +580,6 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        STARTIMEG                     source/system/timer.F         
 Chd|        STOPTIMEG                     source/system/timer.F         
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SMS_INI_KDI(
      2             IXC      ,IPARG   ,IXS      ,IXT      ,IXP     ,
@@ -1003,7 +1002,6 @@ Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SMS_INI_JAD_1(
      2             IXC      ,IPARG   ,IXS      ,IXT      ,IXP     ,
@@ -1332,7 +1330,6 @@ Chd|  SMS_INI_JAD_2                 source/ams/sms_init.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
@@ -1648,7 +1645,6 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        SPMD_ALLGLOB_ISUM9            source/mpi/generic/spmd_allglob_isum9.F
 Chd|        SPMD_EXCH_NODNX               source/mpi/ams/spmd_exch_nodnx.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
@@ -2102,7 +2098,6 @@ Chd|        SPMD_FRWALL_NN                source/mpi/kinematic_conditions/spmd_f
 Chd|        SPMD_GLOB_IMAX9               source/mpi/generic/spmd_glob_imax9.F
 Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
 Chd|        SPMD_SD_CJ_2                  source/mpi/kinematic_conditions/spmd_sd_cj_2.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SMS_INI_KIN_1(
      1  NODNX_SMS ,INDX1_SMS ,ILINK     ,RLINK    ,NNLINK    ,
@@ -2479,7 +2474,6 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        SPMD_EXCH_ICONT               source/mpi/nodes/spmd_exch_icont.F
 Chd|        SPMD_EXCH_SMST2               source/mpi/ams/spmd_exch_smst2.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SMS_INI_INT(
      1  IPARI    ,INTBUF_TAB     ,IAD_ELEM   ,FR_ELEM  ,INTLIST,

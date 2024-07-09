@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  M25LAW                        source/materials/mat/mat025/m25law.F
 Chd|-- called by -----------
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|        MREPLOC                       source/materials/mat_share/mreploc.F
 Chd|        MROTENS                       source/materials/mat_share/mrotens.F

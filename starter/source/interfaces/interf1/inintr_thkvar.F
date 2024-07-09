@@ -95,7 +95,6 @@ Chd|        THICKVAR                      source/interfaces/interf1/inintr_thkva
 Chd|        UPGRADE_MULTIMP               ../common_source/interf/upgrade_multimp.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbufdef_mod.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTBUFSCRATCH_MOD             source/interfaces/interf1/intbufscratch_mod.F
 Chd|        INTSTAMP_MOD                  share/modules1/intstamp_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

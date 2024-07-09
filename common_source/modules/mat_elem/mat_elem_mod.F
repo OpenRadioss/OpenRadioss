@@ -83,9 +83,7 @@ Chd|        LECSTAT                       engine/source/input/lecstat.F
 Chd|        LECTUR                        engine/source/input/lectur.F  
 Chd|        MAIN_BEAM18                   engine/source/elements/beam/main_beam18.F
 Chd|        MAIN_BEAM3                    engine/source/elements/beam/main_beam3.F
-Chd|        MMAIN                         engine/source/materials/mat_share/mmain.F
 Chd|        MMAIN8                        engine/source/materials/mat_share/mmain8.F
-Chd|        MULAW                         engine/source/materials/mat_share/mulaw.F
 Chd|        MULAW8                        engine/source/materials/mat_share/mulaw8.F
 Chd|        MULAWC                        engine/source/materials/mat_share/mulawc.F
 Chd|        PFORC3                        engine/source/elements/beam/pforc3.F

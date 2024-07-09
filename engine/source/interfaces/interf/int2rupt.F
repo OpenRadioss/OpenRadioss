@@ -27,7 +27,6 @@ Chd|        INTTI1                        source/interfaces/interf/intti1.F
 Chd|-- calls ---------------
 Chd|        I2RUPT                        source/interfaces/interf/int2rupt.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INT2RUPT(IPARI   ,MS      ,IN      ,
      .                    X       ,V       ,A       ,STIFN   ,IGEO    ,

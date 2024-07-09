@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        INTAL3                        source/ale/inter/intal3.F     
 Chd|-- calls ---------------
 Chd|        IQELA3                        source/ale/inter/iqela3.F     
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INTAL4(IPARI,INTBUF_TAB         ,X         ,V         ,
      1           A           ,VG      ,ICODE     ,IBCS      ,BCS       )

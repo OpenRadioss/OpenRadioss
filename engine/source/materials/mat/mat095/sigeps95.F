@@ -24,7 +24,6 @@ C BERGSTROM BOYCE
 Chd|====================================================================
 Chd|  SIGEPS95                      source/materials/mat/mat095/sigeps95.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        CALCMATB                      source/materials/mat/mat100/calcmatb.F
 Chd|        KMATINV3                      source/materials/tools/kmatinv.F

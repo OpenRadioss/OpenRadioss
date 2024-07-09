@@ -24,7 +24,6 @@ C Orthotropic Hill
 Chd|====================================================================
 Chd|  SIGEPS93                      source/materials/mat/mat093/sigeps93.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        MSTRAIN_RATE                  source/materials/mat_share/mstrain_rate.F
 Chd|        VINTER                        source/tools/curve/vinter.F   

@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SIGEPS111                     source/materials/mat/mat111/sigeps111.F
 Chd|-- called by -----------
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|        CARDAN_METHOD                 source/materials/mat/mat111/sigeps111.F
 Chd|        PRODAAT                       source/materials/tools/prodAAT.F

@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        WRITE_MATPARAM                source/output/restart/write_matparam.F
 Chd|-- calls ---------------
 Chd|        WRITE_C_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_DB                      source/output/tools/write_db.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        WRITE_MAT_TABLE               source/materials/tools/write_mat_table.F
 Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F

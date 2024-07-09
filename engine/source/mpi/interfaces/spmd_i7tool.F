@@ -2839,7 +2839,6 @@ Chd|        SPMD_SPLIT_COMM               source/mpi/init/spmd_split_comm.F
 Chd|        SPMD_SPLIT_COMM_INTER         source/mpi/interfaces/spmd_split_comm_inter.F
 Chd|        SPMD_SPLIT_COMM_JOINT         source/mpi/init/spmd_split_comm_joint.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTERFACE_MODIFICATION_MOD    share/modules/interface_modification_mod.F
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -3350,7 +3349,7 @@ Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
-Chd|        READ_DB                       source/output/tools/read_db.F 
+Chd|        READ_DB                       ../common_source/tools/input_output/read_db.F
 Chd|        READ_I_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        READ_R_C                      ../common_source/tools/input_output/write_routtines.c
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
@@ -5085,10 +5084,9 @@ Chd|  SPMD_SAVEFI                   source/mpi/interfaces/spmd_i7tool.F
 Chd|-- called by -----------
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
-Chd|        WRITE_DB                      source/output/tools/write_db.F
+Chd|        WRITE_DB                      ../common_source/tools/input_output/write_db.F
 Chd|        WRITE_I_C                     ../common_source/tools/input_output/write_routtines.c
 Chd|        WRITE_R_C                     ../common_source/tools/input_output/write_routtines.c
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTERFACE_MODIFICATION_MOD    share/modules/interface_modification_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        PARAMETERS_MOD                ../common_source/modules/interfaces/parameters_mod.F

@@ -32,7 +32,6 @@ Chd|        I7COR3                        source/interfaces/int07/i7cor3.F
 Chd|        I7DST3                        source/interfaces/int07/i7dst3.F
 Chd|        I7LAGM                        source/interfaces/int07/i7lagm.F
 Chd|        MY_BARRIER                    source/system/machine.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I7MAIN_LMULT(

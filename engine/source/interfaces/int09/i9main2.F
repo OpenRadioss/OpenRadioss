@@ -29,7 +29,6 @@ Chd|        I9AVEL                        source/interfaces/int09/i9avel.F
 Chd|        I9FRMS                        source/interfaces/int09/i9frms.F
 Chd|        I9IMP2                        source/interfaces/int09/i9imp2.F
 Chd|        INVOI2                        source/interfaces/inter2d/invoi2.F
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I9MAIN2(IPARI,INTBUF_TAB        ,X         ,V         ,
      1           A           ,ISKEW   ,SKEW      ,LCOD      ,FN        ,

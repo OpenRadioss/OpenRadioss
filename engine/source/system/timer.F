@@ -687,9 +687,7 @@ Chd|        LIN_SOLVH1                    source/implicit/lin_solv.F
 Chd|        LIN_SOLVHM                    source/implicit/lin_solv.F    
 Chd|        LIN_SOLVIH2                   source/implicit/lin_solv.F    
 Chd|        MAV_LTH                       source/implicit/produt_v.F    
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        MMAIN8                        source/materials/mat_share/mmain8.F
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        MULTI_MUSCL_GRADIENTS         source/multifluid/multi_muscl_gradients.F
@@ -838,9 +836,7 @@ Chd|        LIN_SOLVH1                    source/implicit/lin_solv.F
 Chd|        LIN_SOLVHM                    source/implicit/lin_solv.F    
 Chd|        LIN_SOLVIH2                   source/implicit/lin_solv.F    
 Chd|        MAV_LTH                       source/implicit/produt_v.F    
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        MMAIN8                        source/materials/mat_share/mmain8.F
-Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        MULAW8                        source/materials/mat_share/mulaw8.F
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        MULTI_MUSCL_GRADIENTS         source/multifluid/multi_muscl_gradients.F
@@ -969,7 +965,7 @@ Chd|        PRINT_SUMMARY                 source/system/timer.F
 Chd|        RAD_SPMD_RECV                 source/mpi/generic/rad_spmd_recv.F
 Chd|        RAD_SPMD_SEND                 source/mpi/generic/rad_spmd_send.F
 Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
-Chd|        WRITE_DPDB                    source/output/tools/write_db.F
+Chd|        WRITE_DPDB                    ../common_source/tools/input_output/write_db.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        TIME_MOD                      share/modules/time_mod.F      
 Chd|====================================================================
@@ -3616,7 +3612,7 @@ Chd|        CUR_FIL_C                     ../common_source/tools/input_output/wr
 Chd|        ELAPSTIME                     source/system/timer.F         
 Chd|        FSEEK_END_C                   ../common_source/tools/input_output/write_routtines.c
 Chd|        OPEN_C                        ../common_source/tools/input_output/write_routtines.c
-Chd|        WRITE_DPDB                    source/output/tools/write_db.F
+Chd|        WRITE_DPDB                    ../common_source/tools/input_output/write_db.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        TIME_MOD                      share/modules/time_mod.F      
 Chd|====================================================================

@@ -38,7 +38,6 @@ Chd|        SUM_6_FLOAT_SENS              source/system/parit.F
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        STRI                          source/tools/univ/stri.F      
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
-Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I23MAINF(

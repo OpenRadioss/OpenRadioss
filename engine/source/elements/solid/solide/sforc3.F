@@ -53,7 +53,6 @@ Chd|        FE_CLOSE                      source/elements/solid/solide/fe_close.
 Chd|        FFINT3                        source/elements/solid/solide/ffint3.F
 Chd|        FHVIS3                        source/elements/solid/solide/fhvis3.F
 Chd|        FRHO3                         source/elements/solid/solide/frho3.F
-Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        MOD_CLOSE                     source/elements/solid/solide/mod_close.F
 Chd|        S11DEFO3                      source/elements/solid/solide/s11defo3.F
 Chd|        S11FX3                        source/elements/solid/solide/s11fx3.F
@@ -110,7 +109,6 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_conne
 Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|        DT_MOD                        share/modules/dt_mod.F        
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
-Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
