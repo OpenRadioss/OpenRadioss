@@ -8643,12 +8643,12 @@ C===============================================================================
 
 !$OMP END PARALLEL
 C----------------------------------------------------------------
-C         CLOAD - Save Displacements and Velocities for concentrated loads only
+C         CLOAD - Save Displacements and Velocities for concentrated loads and pressure loads
 C----------------------------------------------------------------
-      IF (LOADS%NLOAD_CLOAD > 0) THEN
-        CALL DISP_VEL_SAVED_CLOAD(V      ,D      ,VR    ,DR    ,IBCL       ,
-     .                            DPL0CLD,VEL0CLD,NIBCLD,NCONLD,LOADS%NLOAD_CLOAD,
-     .                            IRODDL ,NUMNOD )
+      IF (LOADS%NLOAD_CLOAD + LOADS%NLOAD_PLOAD > 0) THEN
+        CALL DISP_VEL_SAVED_CLOAD(V      ,D      ,VR    ,DR    ,IBCL   ,
+     .                            DPL0CLD,VEL0CLD,NIBCLD,NCONLD,IRODDL ,
+     .                            NUMNOD )
       ENDIF
 C----------------------------------------------------------------
 C         USER WINDOWS - Save Accelerations before reset to zero

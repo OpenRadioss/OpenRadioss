@@ -3104,7 +3104,7 @@ c-----
      6                      IAD_ELEM        ,FR_ELEM     , WEIGHT    ,TAG_SKINS6,
      7                      NPF  ,TF   ,BUFMAT,IBCL    ,ILOADP     ,LLOADP    ,FAC    ,
      8                      NSENSOR,SENSORS%SENSOR_TAB,TAGNCONT,LOADP_HYD_INTER,XFRAME,FORC  ,
-     9                      NODAL_IPART ,IMAPSKP ,LOADS ,TABLE,IFRAME,MAT_PARAM)
+     9                      NODAL_IPART ,IMAPSKP ,LOADS ,TABLE,IFRAME,MAT_PARAM,D)
 c
             IF (NSPMD > 1 ) THEN
               CALL STARTIME(MACRO_TIMER_SPMDH3D,1)
@@ -3140,7 +3140,7 @@ c-----
      .                    IS_WRITEN_SKIN  ,H3D_DATA%OUTPUT_LIST(I)%PART,INFO1   ,KEYWORD ,
      .                    IBCL,ILOADP,LLOADP,FAC ,NPF,TF ,SENSORS%SENSOR_TAB,
      .                    TAGNCONT,LOADP_HYD_INTER,FORC,XFRAME,X ,V ,IMAPSKP,LOADS ,
-     .                    TABLE,IFRAME)
+     .                    TABLE,IFRAME,D)
 c
             IF (NSPMD > 1 ) THEN
               CALL STARTIME(MACRO_TIMER_SPMDH3D,1)

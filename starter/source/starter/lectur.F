@@ -4564,11 +4564,11 @@ C--------------------------------------------
         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='FORC')
-      ALLOCATE(DPL0CLD(6*NUMCLD)    ,STAT=stat)
+      ALLOCATE(DPL0CLD(6*(NUMCLD+NUMPRES))    ,STAT=stat)
         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='DPL0CLD')
-      ALLOCATE(VEL0CLD(6*NUMCLD)    ,STAT=stat)
+      ALLOCATE(VEL0CLD(6*(NUMCLD+NUMPRES))    ,STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                            MSGTYPE=MSGERROR,
      .                         C1='VEL0CLD')
