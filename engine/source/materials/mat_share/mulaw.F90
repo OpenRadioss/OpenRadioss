@@ -379,7 +379,7 @@ subroutine mulaw(&
       iadbuf = ipm(7,imat)
       nfunc  = ipm(10,imat)
       numtabl= ipm(226,imat)
-      uparam => bufmat(iadbuf:iadbuf+npar)
+      uparam => bufmat(iadbuf:iadbuf+npar-1)
       ifunc  => ipm(10+1:10+nfunc,imat)
       itable => ipm(226+1:226+numtabl,imat)
       matparam => mat_elem%mat_param(imat)
