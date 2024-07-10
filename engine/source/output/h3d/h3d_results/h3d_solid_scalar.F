@@ -25,6 +25,7 @@ Chd|  H3D_SOLID_SCALAR              source/output/h3d/h3d_results/h3d_solid_scal
 Chd|-- called by -----------
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|-- calls ---------------
+Chd|        H3D_SOLID_SCALAR_1            source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 Chd|        SCHLIEREN_BUFFER_GATHERING    source/output/anim/generate/schlieren_buffer_gathering.F
 Chd|        ALEANIM_MOD                   share/modules/aleanim_mod.F   
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale/ale_connectivity_mod.F
