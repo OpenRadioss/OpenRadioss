@@ -1,10 +1,13 @@
-name: PR Merge CI MAIN
+name: Delivery stable CI
 
 on:
 
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'The tag name we want to deliver'
+        required: true
+        default: 'latest-'
 
 env:
   CLOSE_BRANCH: 0
@@ -14,6 +17,7 @@ env:
   MAIL_RELAY: ${{ secrets.MAIL_RELAY }}
   QA_TIMEOUT_PER_TEST_LINUX: 150
   QA_TIMEOUT_PER_TEST_WIN: 500
+  LAST_STABLE_TAG_NAME: ${{ github.event.inputs.tag_name }}
 
 jobs:
 
@@ -39,12 +43,7 @@ jobs:
       # Set the working dir suffixed with branch name
       - name: Set workdir 
         run: |
-          if [ "${{ github.base_ref }}" = "" ]
-          then
-            echo "WORKDIR=${{github.ref_name}}" >> $GITHUB_ENV
-          else
-            echo "WORKDIR=${{github.base_ref}}" >> $GITHUB_ENV
-          fi
+          echo "WORKDIR=latest" >> $GITHUB_ENV
 
       - name: Create branch oriented WS directory & integration WS
         run: |
@@ -63,6 +62,7 @@ jobs:
           path: ${{ env.WORKDIR }}
           clean: 'false'
           lfs: 'true'
+          ref: ${{ env.LAST_STABLE_TAG_NAME }}
 
       - name: Running builds
         working-directory: ${{ env.WORKDIR }}
@@ -112,7 +112,7 @@ jobs:
             echo -e $MAILMSG
 
             # Send email
-            echo -e "$MAILMSG" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} (${{github.sha}})" $TO_EMAIL
+            echo -e "$MAILMSG" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} ($(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }}))" $TO_EMAIL
 
           else
             echo -e "Status\t[ \033[32;2;1mOK\033[0m ]"
@@ -127,6 +127,7 @@ jobs:
 
   build_tools_windows_no_container:
     if: ${{ github.repository_owner == 'OpenRadioss' }}
+    # DEV ONLY # runs-on: ["win64","dev_pmci"]
     runs-on: ["win64","build","prmerge_ci"]
     continue-on-error: true
  
@@ -141,12 +142,7 @@ jobs:
         shell: cmd
         run: >
           call C:\cygwin64\bin\bash --login -c "
-          if [ \"${{ github.base_ref }}\" = \"\" ]; 
-          then 
-          echo \"WORKDIR=${{github.ref_name}}\" >> $GITHUB_ENV;
-          else
-          echo \"WORKDIR=${{github.base_ref}}\" >> $GITHUB_ENV;
-          fi;  
+          echo \"WORKDIR=lastest\" >> $GITHUB_ENV;
           "
       - name: Create branch oriented WS directory & integration WS (WIN64)
         shell: cmd
@@ -172,6 +168,7 @@ jobs:
           path: ${{ env.WORKDIR }}
           clean: 'false'
           lfs: 'true'
+          ref: ${{ env.LAST_STABLE_TAG_NAME }}
 
       - name: Running builds
         working-directory: ${{ env.WORKDIR }}
@@ -210,7 +207,7 @@ jobs:
           echo -e \"Status\t[ \033[31;2;1mFAILED\033[0m ]\";
           MAILMSG+=\"The build tools ${{ env.os }} has failed \n\";
           echo -e $MAILMSG;
-          echo -e \"$MAILMSG\" | Email -f $FROM_EMAIL -s \"Error in Github CI repo ${{ github.repository }} (${{github.sha}})\" -r $MAIL_RELAY $TO_EMAIL;
+          echo -e \"$MAILMSG\" | Email -f $FROM_EMAIL -s \"Error in Github CI repo ${{ github.repository }} ($(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }}))\" -r $MAIL_RELAY $TO_EMAIL;
           exit 1;
           else
           echo -e \"Status\t[ \033[32;2;1mOK\033[0m ]\";
@@ -283,12 +280,7 @@ jobs:
       # Set the working dir suffixed with branch name
       - name: Set workdir 
         run: |
-          if [ "${{ github.base_ref }}" = "" ]
-          then
-            echo "WORKDIR=${{github.ref_name}}" >> $GITHUB_ENV
-          else
-            echo "WORKDIR=${{github.base_ref}}" >> $GITHUB_ENV
-          fi
+          echo "WORKDIR=lastest" >> $GITHUB_ENV
 
       - name: Create branch oriented WS directory & integration WS
         run: |
@@ -307,6 +299,7 @@ jobs:
           path: ${{ env.WORKDIR }}
           clean: 'false'
           lfs: 'true'
+          ref: ${{ env.LAST_STABLE_TAG_NAME }}
 
       - name: Running build
         working-directory: ${{ env.WORKDIR }}
@@ -364,7 +357,7 @@ jobs:
             echo -e $MAILMSG
 
             # Send email
-            echo -e "$MAILMSG\nThe branch is closed" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} (${{github.sha}})" $TO_EMAIL
+            echo -e "$MAILMSG\nThe branch is closed" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} ($(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }}))" $TO_EMAIL
 
             # Exit fail to see it as a failure
             exit 1
@@ -408,7 +401,7 @@ jobs:
           echo -e "\nClose return data API is : ${{ steps.close_branch_build.outputs.data }}"
 
           # Send email
-          echo -e "$MAILMSG" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} (${{github.sha}}) on closing branch" $TO_EMAIL
+          echo -e "$MAILMSG" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} ($(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }})) on closing branch" $TO_EMAIL
 
           # Exit fail to see it as a failure
           exit 1
@@ -418,7 +411,7 @@ jobs:
 
   qa_linux:
     needs: build_linux
-    # DEV ONLY # runs-on: ["qa_${{ matrix.os }}","dev"]
+    # DEV ONLY # runs-on: ["qa_${{ matrix.os }}","dev_pmci"]
     runs-on: ["qa_${{ matrix.os }}","prmerge_ci"]
     container: 
       image: fr-qafactorydev.europe.altair.com/qa-linux64_gf:cos8-ompi411
@@ -505,7 +498,7 @@ jobs:
           export LD_LIBRARY_PATH=${{ env.hm_reader_extlib }}/${{ matrix.os }}:$LD_LIBRARY_PATH
 
 
-          cmd="./or_qa_script ../../exec/engine_${{ matrix.os }}_gf_${{ env.mpi }}${precision_ext} 1.0 --env:RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }} --system_run --env:OMP_STACKSIZE=400m --exec_script_args='mpiexec -np ${{ env.QA_NB_PROC }}' --env:OMP_NUM_THREADS=${{ env.QA_NB_THREAD }} --output_failures_stdout --xtra_args='--timeoutscript=${{ env.QA_TIMEOUT_PER_TEST_LINUX }}'"
+          cmd="./or_qa_script ../../exec/engine_${{ matrix.os }}_gf_${{ env.mpi }}${precision_ext} 1.0 --env:RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }} --system_run --env:OMP_STACKSIZE=400m --exec_script_args='mpiexec -np ${{ env.QA_NB_PROC }}' --env:OMP_NUM_THREADS=${{ env.QA_NB_THREAD }} --output_failures_stdout --xtra_args='--timeoutscript=${{ env.QA_TIMEOUT_PER_TEST_LINUX }}'" 
           echo "========================================="
           echo "--  QA ${{ matrix.os }}_${{ matrix.precision }} --"   
           echo "--  $cmd --"   
@@ -547,7 +540,7 @@ jobs:
             echo -e $MAILMSG
 
             # Send email
-            echo -e "$MAILMSG\nThe branch is closed" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} (${{github.sha}})" $TO_EMAIL
+            echo -e "$MAILMSG\nThe branch is closed" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} ($(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }}))" $TO_EMAIL
 
             # Exit fail to see it as a failure
             exit 1
@@ -583,7 +576,7 @@ jobs:
           echo -e "\nClose return data API is : ${{ steps.close_branch_qa.outputs.data }}"
 
           # Send email
-          echo -e "$MAILMSG" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} (${{github.sha}}) on closing branch" $TO_EMAIL
+          echo -e "$MAILMSG" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} ($(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }})) on closing branch" $TO_EMAIL
 
           # Exit fail to see it as a failure
           exit 1
@@ -593,6 +586,7 @@ jobs:
 
   build_windows_no_container:
     if: ${{ github.repository_owner == 'OpenRadioss' }}
+    # DEV ONLY # runs-on: ["${{ matrix.build }}","dev_pmci"]
     runs-on: ["${{ matrix.build }}","prmerge_ci"]
  
     env:
@@ -645,12 +639,7 @@ jobs:
         shell: cmd
         run: >
           call C:\cygwin64\bin\bash --login -c "
-          if [ \"${{ github.base_ref }}\" = \"\" ]; 
-          then 
-          echo \"WORKDIR=${{github.ref_name}}\" >> $GITHUB_ENV;
-          else
-          echo \"WORKDIR=${{github.base_ref}}\" >> $GITHUB_ENV;
-          fi;  
+          echo \"WORKDIR=lastest\" >> $GITHUB_ENV;
           "
       - name: Create branch oriented WS directory & integration WS (WIN64)
         shell: cmd
@@ -676,6 +665,7 @@ jobs:
           path: ${{ env.WORKDIR }}
           clean: 'false'
           lfs: 'true'
+          ref: ${{ env.LAST_STABLE_TAG_NAME }}
 
       - name: Running builds
         working-directory: ${{ env.WORKDIR }}
@@ -717,7 +707,7 @@ jobs:
           MAILMSG+=\"The build ${{ matrix.build }} has failed \n\";
           echo \"CLOSE_BRANCH=1\" >> $GITHUB_ENV;
           echo -e $MAILMSG;
-          echo -e \"$MAILMSG\nThe branch is closed\" | Email -f $FROM_EMAIL -s \"Error in Github CI repo ${{ github.repository }} (${{github.sha}})\" -r $MAIL_RELAY $TO_EMAIL;
+          echo -e \"$MAILMSG\nThe branch is closed\" | Email -f $FROM_EMAIL -s \"Error in Github CI repo ${{ github.repository }} ($(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }}))\" -r $MAIL_RELAY $TO_EMAIL;
           exit 1;
           else
           echo -e \"Status\t[ \033[32;2;1mOK\033[0m ]\";
@@ -756,7 +746,7 @@ jobs:
           MAILMSG+=\"Check more detailed datas in CI logs\n\";
           echo -e $MAILMSG;
           echo -e \"\nClose return data API is : ${{ steps.close_branch_build.outputs.data }}\";
-          echo -e \"$MAILMSG\" | Email -f $FROM_EMAIL -s \"Error in Github CI repo ${{ github.repository }} (${{github.sha}}) on closing branch\" -r $MAIL_RELAY $TO_EMAIL;
+          echo -e \"$MAILMSG\" | Email -f $FROM_EMAIL -s \"Error in Github CI repo ${{ github.repository }} ($(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }})) on closing branch\" -r $MAIL_RELAY $TO_EMAIL;
           exit 1;
           "
         if: ${{ always() && env.CLOSE_BRANCH == 1 && steps.close_branch_build.outputs.status != 200 }} 
@@ -764,6 +754,7 @@ jobs:
   qa_windows_no_container:
 
     needs: build_windows_no_container
+    # DEV ONLY # runs-on: ["${{ matrix.build }}","dev_pmci"]
     runs-on: ["qa_${{ matrix.os }}","prmerge_ci"]
 
     env:
@@ -881,7 +872,7 @@ jobs:
           MAILMSG+=\"The QA ${{ matrix.os }}-${{ matrix.precision }} has failed \n\";
           echo \"CLOSE_BRANCH=1\" >> $GITHUB_ENV;
           echo -e $MAILMSG;
-          echo -e \"$MAILMSG\nThe branch is closed\" | Email -f $FROM_EMAIL -s \"Error in Github CI repo ${{ github.repository }} (${{github.sha}})\" -r $MAIL_RELAY $TO_EMAIL;
+          echo -e \"$MAILMSG\nThe branch is closed\" | Email -f $FROM_EMAIL -s \"Error in Github CI repo ${{ github.repository }} ($(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }}))\" -r $MAIL_RELAY $TO_EMAIL;
           exit 1;
           else
           echo -e \"Status\t[ \033[32;2;1mOK\033[0m ]\";
@@ -912,30 +903,14 @@ jobs:
           MAILMSG+=\"Check more detailed datas in CI logs\n\";
           echo -e $MAILMSG;
           echo -e \"\nClose return data API is : ${{ steps.close_branch_qa.outputs.data }}\";
-          echo -e \"$MAILMSG\" | Email -f $FROM_EMAIL -s \"Error in Github CI repo ${{ github.repository }} (${{github.sha}}) on closing branch\" -r $MAIL_RELAY $TO_EMAIL;
+          echo -e \"$MAILMSG\" | Email -f $FROM_EMAIL -s \"Error in Github CI repo ${{ github.repository }} ($(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }})) on closing branch\" -r $MAIL_RELAY $TO_EMAIL;
           exit 1;
           "
         if: ${{ always() && env.CLOSE_BRANCH == 1 && steps.close_branch_qa.outputs.status != 200 }} 
 
-
-  # Call the sync CI if build and qa are OK 
-  # Secrets variables must be passed
-  call-workflow-sync-git2perforce:
-    needs: [qa_linux,qa_windows_no_container]
-    uses: ./.github/workflows/prmerge_ci_sync.yml
-    secrets: 
-      DOCKER_REGISTRY_USER: ${{secrets.DOCKER_REGISTRY_USER}}
-      DOCKER_REGISTRY_PASSWD: ${{secrets.DOCKER_REGISTRY_PASSWD}}
-      SERVBOT_PAT: ${{ secrets.SERVBOT_PAT }}
-      FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
-      TO_EMAIL: ${{ secrets.TO_EMAIL }} 
-      GITLAB_PAT: "${{ secrets.GITLAB_PAT }}"
-      GITLAB_REPO_URL: "${{ secrets.GITLAB_REPO_URL }}"
-      
-
-  update_counters:
+  delivery:
+    needs: [qa_linux,qa_windows_no_container,build_tools_linux,build_tools_windows_no_container]
     # DEV ONLY # runs-on: dev_delivery
-    # runs-on: dev_delivery
     runs-on: delivery    
     container: 
       image: fr-qafactorydev.europe.altair.com/common-linux64
@@ -944,29 +919,174 @@ jobs:
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
       volumes: 
          - /etc/localtime:/etc/localtime:ro
-         # DEV ONLY # - /github_download_counter_dev:/github_download_counter 
+         # DEV ONLY # - /github_download_counter_dev:/github_download_counter
          - /github_download_counter:/github_download_counter
 
     env:
       SERVBOT_USER: ${{ secrets.SERVBOT_USER }}
       SERVBOT_PAT: ${{ secrets.SERVBOT_PAT }}
+      DELIVERY_NB_RELEASES_TO_KEEP: 3
+      DELIVERY_TAG_PREFIX: 'latest-'
+      OPENRADIOSS_MAINDIR_NAME: 'OpenRadioss'
 
     steps:
 
-      - name: Set variables
+      - name: Set the release name & clean previous exec
         run: |
-          echo "DATEOFTHEDAY=`date +'%Y%m%d'`" >> $GITHUB_ENV
+          echo "DATEOFTHETAG=${LAST_STABLE_TAG_NAME#latest-}" >> $GITHUB_ENV
+          rm -rf exec todeliver exec_tmp
+
+      # Get last git modifications, don't clean before (way to go faster)
+      - name: Checkout git sources
+        uses: actions/checkout@v4
+        with:
+          clean: 'false'
+          lfs: 'true'
+          ref: ${{ env.LAST_STABLE_TAG_NAME }}
+
+      # Get OpenRadioss extras from dedicated repository
+      - name: Checkout git EXTRA sources
+        uses: actions/checkout@v4
+        with:
+          lfs: 'true'
+          clean: 'false'
+          repository: '${{ secrets.EXTRA_REPOSITORY }}'
+          path: 'EXTRA'
+          token: '${{ secrets.EXTRA_REPOSITORY_PAT }}'
+
+      # Download ALL artifacts
+      - name: Download ALL artifacts for packaging
+        uses: actions/download-artifact@v4
+        with:
+          path: exec_tmp
+
+      - name: Check files in exec
+        run: |
+          ls -l exec_tmp/
+
+      - name: Copy all artifact complex structure into flat files in exec
+        run: |
+          echo "List exec_tmp : "
+          find exec_tmp -type f
+
+          for os in linux64 win64 
+          do
+            mkdir -p exec/${os}
+            for file in `find exec_tmp/*${os}*/ -type f`
+            do
+              cp -p $file exec/${os}/
+            done
+            chmod 755 exec/${os}/*
+          done
+
+          echo "List exec : "
+          find exec -type f
+
+      - name: Provide ALL binaries
+        run: |
+          # Removed lfs hook (not supported in next action, not neeeded)
+          rm -f .git/hooks/pre-push
+
+          # Prepare tree architecture
+          rm -rf todeliver
+
+          for os in linux64 win64 
+          do      
+            mkdir -p todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/extlib/h3d/lib/${os} todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/extlib/hm_reader todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/exec
+            cp -a extlib/h3d/lib/${os}/* todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/extlib/h3d/lib/${os}/
+            cp -a extlib/hm_reader/${os} todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/extlib/hm_reader/
+
+            # Get Intel runtime and some other extras from a dedicated repository
+            if test -d EXTRA/${os}
+            then
+              cp -a EXTRA/${os}/* todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
+            fi
+
+            cp -a hm_cfg_files todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
+
+            cp -a exec/${os}/* todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/exec/
+
+            mkdir -p todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/licenses
+            cp -a extlib/license/* todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/licenses/
+
+            cp -a COPYRIGHT.md todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
+
+            export OPENRADIOSS_BIN_ARCHIVE="${{ env.OPENRADIOSS_MAINDIR_NAME }}_${os}.zip"
+
+            cd todeliver/${os}
+            zip -r ../$OPENRADIOSS_BIN_ARCHIVE ${{ env.OPENRADIOSS_MAINDIR_NAME }}
+            cd ..
+            rm -rf ${os}
+            cd ..
+          done 
+
+      - name: Set some variables
+        run: |
+          echo "LAST_STABLE_COMMIT=$(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }})" >> $GITHUB_ENV
+          echo "LAST_STABLE_COMMIT_MESSAGE=$(git log -1 --format=%B ${{ env.LAST_STABLE_TAG_NAME }})" >> $GITHUB_ENV
+
+      - uses: octokit/request-action@v2.x
+        id: get_commit_author
+        env:
+          GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
+          REQUEST_BODY: "['${{ env.LAST_STABLE_COMMIT }}']"
+        with:
+          route: GET /repos/${{ github.repository }}/commits/${{ env.LAST_STABLE_COMMIT }}
 
       - name: Counter Download - Update values
         run: |
             cd /github_download_counter
 
             # Do some before using some lock and retry stuff
-            cp download_count.json sav-merge-main-${{ env.DATEOFTHEDAY }}-download_count.json
+            cp download_count.json sav-delivery-${{ env.DATEOFTHETAG }}-download_count.json
 
             github_download_count.py \
               --git_api_url ${{ github.api_url }} \
               --git_repo ${{ github.repository }} \
               --git_user $SERVBOT_USER \
               --git_token $SERVBOT_PAT \
-              --action update_values      
+              --action update_values
+
+      # The action creates the release with an already existing tag (latest-xxxxx) so we use option skip_tag_creation: true
+      # We do this because we have already checkouted the wanted commit before
+      # Prerequisite: create the tag with command : git tag latest-YYYMMDD <commit id>; git push origin latest-YYYMMDD
+      - name: Release the new binaries
+        uses: docker://ghcr.io/mini-bomba/create-github-release:v1.2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          release: "${{ env.LAST_STABLE_TAG_NAME }}"
+          tag: "${{ env.LAST_STABLE_TAG_NAME }}"
+          name: "Last stable build on ${{ env.DATEOFTHETAG }}"            
+          body: |
+            This automatic release is built from commit ${{ env.LAST_STABLE_COMMIT }} and authored by @${{ fromJson(steps.get_commit_author.outputs.data).author.login }}
+            [Github Actions workflow run that built this release](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+            Commit message:
+            ${{ env.LAST_STABLE_COMMIT_MESSAGE }}
+          files: |
+            todeliver/*
+          clear_attachments: true    
+          skip_tag_creation: true 
+          target_commit: ${{ env.LAST_STABLE_COMMIT }}
+
+      - name: Counter Download - Update/Add entries
+        run: |
+            cd /github_download_counter
+            github_download_count.py \
+              --git_api_url ${{ github.api_url }} \
+              --git_repo ${{ github.repository }} \
+              --git_user $SERVBOT_USER \d
+              --git_token $SERVBOT_PAT \
+              --action update \
+              --tag_date ${{ env.DATEOFTHETAG }}
+
+      - name: Clean old github release/tag if needed + clean Counter Download
+        run: |
+            clean_github_release.py \
+              --git_api_url ${{ github.api_url }} \
+              --git_repo ${{ github.repository }} \
+              --git_user $SERVBOT_USER \
+              --git_token $SERVBOT_PAT \
+              --nb_releases_to_keep ${{ env.DELIVERY_NB_RELEASES_TO_KEEP }} \
+              --counter_file_dir /github_download_counter \
+              --tag_prefix ${{ env.DELIVERY_TAG_PREFIX }} 
