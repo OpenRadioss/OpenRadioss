@@ -234,6 +234,9 @@ set_source_files_properties( ${source_directory}/source/interfaces/intsort/i25pe
 # spmd_i7tool.F
 set_source_files_properties( ${source_directory}/source/mpi/interfaces/spmd_i7tool.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
 
+# admmap4.F / compiler issue
+set_source_files_properties( ${source_directory}/source/model/remesh/admmap4.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
+
 
 # fvm airbags           
 set_source_files_properties( ${source_directory}/source/airbag/fv_up_switch.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
