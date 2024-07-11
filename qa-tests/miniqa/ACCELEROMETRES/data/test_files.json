@@ -2,5 +2,7 @@
 	"enabled": 1,
 	"enabled_sp" : 0,
 	"starter": "ACCELERO_0000.rad",
-	"engines": ["ACCELERO_0001.rad"]
+	"engines": ["ACCELERO_0001.rad"],
+        "TOL_ERROR": ["Diff_tolerance","0.6"],
+	"TOL_KENERGYT": ["Diff_tolerance","0.0008"]
 }

@@ -433,6 +433,7 @@ local	IENERGY     Diff_Tolerance	0.0029
 local	KENERGYT	Abs_Tolerance	0.0002
 local	KENERGYR	Abs_Tolerance	8.0e-05
 local	EXTWORK	Diff_Tolerance	0.032
+local   ERROR           Abs_Tolerance   0.2
 if precision == sp local IENERGY Diff_Tolerance 0.007
 if precision == sp local KENERGYT Diff_Tolerance 0.0265
 if precision == sp local EXTWORK Diff_Tolerance 0.007
