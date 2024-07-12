@@ -145,7 +145,6 @@ Chd|        HM_READ_MAT93                 source/materials/mat/mat093/hm_read_ma
 Chd|        HM_READ_MAT94                 source/materials/mat/mat094/hm_read_mat94.F
 Chd|        HM_READ_MAT95                 source/materials/mat/mat095/hm_read_mat95.F
 Chd|        HM_READ_MAT97                 source/materials/mat/mat097/hm_read_mat97.F
-Chd|        HM_READ_MAT125                source/materials/mat/mat125/hm_read_mat125.F
 Chd|        HM_READ_MATGAS                source/materials/mat/matgas/hm_read_matgas.F
 Chd|        HM_READ_MAT_99                source/materials/mat/matuser/hm_read_mat_user_99.F
 Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
