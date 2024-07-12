@@ -30,11 +30,13 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|====================================================================
       SUBROUTINE STAT_SIZE_C(IPARG ,IXC  ,IXTG ,IGEO ,IPM      ,
      .                       P0ARS ,WASZ ,IXS  ,GEO  ,ELBUF_TAB,
-     .                       IXR   ,IXP  ,IXT  )
+     .                       IXR   ,IXP  ,IXT  ,OUTPUT , LIPART1  ,
+     .                       NPART ,IPART,NUMSPH,IPARTSP   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD         
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,6 +58,12 @@ C-----------------------------------------------
       my_real
      .   GEO(NPROPG,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
+      TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
+      INTEGER,     INTENT(IN) :: LIPART1
+      INTEGER,     INTENT(IN) :: NPART
+      INTEGER,     INTENT(IN) :: NUMSPH
+      INTEGER,     INTENT(IN) :: IPARTSP(NUMSPH) 
+      INTEGER,     INTENT(IN) :: IPART(LIPART1,NPART) 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -64,19 +72,21 @@ C-----------------------------------------------
      .        RWASZ,WASZ2,P0ARSZ2,RWASZ2,JHBE,ISOLNOD,
      .        NLAY,NPTR,NPTS,NPTT,NPTG,IGTYP,ICSIG,
      .        NPTS0,NPTR0,NPTT0,NUVARR,NVARF,IL,NPT_ALL,IPROP,
-     .        EL_FIX,EL_VAR,ISMSTR,NFAIL
+     .        EL_FIX,EL_VAR,ISMSTR,NFAIL,IPRT,MT
       TYPE(BUF_FAIL_) ,POINTER :: FBUF
 C======================================================================|
       P0ARS = 0
       WASZ = 0
 C
       IF (STAT_C(1) == 1.OR.STAT_C(2) == 1.OR.STAT_R(1) == 1.OR.
-     .    STAT_P(1) == 1.OR.STAT_P(3) == 1.OR.STAT_T(1) == 1) THEN
+     .    STAT_P(1) == 1.OR.STAT_P(3) == 1.OR.STAT_T(1) == 1.OR.
+     .    OUTPUT%STATE%STAT_SPH(3) == 1 ) THEN
 C       1: off, 2: thk
-        WASZ  = 3*MAX(STAT_NUMELC,STAT_NUMELTG,STAT_NUMELR,STAT_NUMELP,
-     .                STAT_NUMELT)
-        RWASZ = 3*MAX(STAT_NUMELC_G,STAT_NUMELTG_G,STAT_NUMELR_G,STAT_NUMELP_G,
-     .                STAT_NUMELT_G)
+        WASZ  = 3*MAX(STAT_NUMELC,STAT_NUMELTG,STAT_NUMELR,STAT_NUMELP,STAT_NUMELT)
+        WASZ = MAX(WASZ,4*OUTPUT%STATE%STAT_NUMELSPH)
+
+        RWASZ = 3*MAX(STAT_NUMELC_G,STAT_NUMELTG_G,STAT_NUMELR_G,STAT_NUMELP_G,STAT_NUMELT_G)
+        RWASZ= MAX(RWASZ,4*OUTPUT%STATE%STAT_NUMELSPH_G)
         IF (ISPMD == 0) P0ARS = RWASZ
       ENDIF
 C
@@ -788,7 +798,31 @@ c
       P0ARS= MAX (P0ARS,P0ARSZ2)+6
       WASZ = MAX (WASZ,WASZ2)
       P0ARSZ2 = 0
-      WASZ2 = 0
+      WASZ2   = 0
+C
+      IF (OUTPUT%STATE%STAT_SPH(3) == 1) THEN
+C------------------------------
+C       18: full
+C------------------------------
+        DO NG=1,NGROUP
+          ITY   = IPARG(5,NG)
+          NEL   = IPARG(2,NG)
+          NUVAR = 0
+          DO I=1,NEL
+            IPRT  = IPARTSP(I)
+            MT    = IPART(1,IPRT)
+            NUVAR = MAX(NUVAR,IPM(8,MT))
+          ENDDO
+          WASZ2 = WASZ2+(NUVAR+12)*NEL
+        ENDDO
+C
+        RWASZ2= WASZ2
+        IF (NSPMD > 1) CALL SPMD_GLOB_ISUM9(RWASZ2,1)
+        IF (ISPMD == 0) P0ARSZ2 = RWASZ2
+      ENDIF  !  IF (OUTPUT%STATE%STAT_SPH(3) == 1)
+C
+      P0ARS= MAX (P0ARS,P0ARSZ2)+6
+      WASZ = MAX (WASZ,WASZ2)
 !-----------
       RETURN
       END

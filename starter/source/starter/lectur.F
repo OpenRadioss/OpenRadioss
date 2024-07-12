@@ -883,6 +883,7 @@ C-----------------------------------------------
       INTEGER NLINES,NUSERWI,USERWI_ID
       INTEGER SCR_FILE_NAME_LEN
       CHARACTER(LEN=ncharkey) :: KEY
+      INTEGER NUSPHCEL
 C-----------------------------------------------
 C Model Checker Memory
       DATA IUN/1/
@@ -8161,10 +8162,11 @@ C
 C
       CALL TRACE_OUT1()
 C--------------------------------------------
+      NUSPHCEL = 0
       ! still need for *Y00, *sty files - not yet covered by CFG files (hm_reader)
       IF(IDDLEVEL == 0) CALL YCTRL(IGRBRIC)
 !
-      IF (IDDLEVEL == 0) CALL HM_YCTRL(UNITAB,LSUBMODEL,IGRBRIC,IXC,IXTG, PTSHEL,PTSH3N)
+      IF (IDDLEVEL == 0) CALL HM_YCTRL(UNITAB,LSUBMODEL,IGRBRIC,IXC,IXTG, PTSHEL,PTSH3N,NUSPHCEL)
 C
 C----------------------------------------------------------
 C
@@ -8263,7 +8265,7 @@ C
       LSIGBEAM = 0
       LSIGTRUSS = 0
       NSIGI = 0
-      NSIGSPH= 11
+      NSIGSPH= 12
       NSIGSH = 0
       NSIGRS = 0
       NSIGBEAM = 0
@@ -8278,6 +8280,7 @@ C
         IF(IORTSHEL/=0) NSIGSH = NSIGSH + NORTSHEL
         IF(NVSHELL1/=0)NSIGSH = NSIGSH + NVSHELL1
         IF(NVSHELL2 /= 0)NSIGSH = NSIGSH + NVSHELL2 + 3
+        IF(NUSPHCEL /= 0)NSIGSPH = NSIGSPH + NUSPHCEL
         NSIGI= NVSOLID1 + NVSOLID2 + NVSOLID3 + NUSOLID + 4 + NVSOLID4 +
      .         NVSOLID5 + NVSOLID6 + 7
 
@@ -8293,7 +8296,7 @@ C
         ELSE
           LSIGSH  = NUMELC+NUMELTG
           LSIGSP  = NUMELS+NUMELQ
-          LSIGSPH = NUMELS+NUMELQ
+          LSIGSPH = NUMSPH
           LSIGRS  = NUMELR
           LSIGBEAM = NUMELP
           LSIGTRUSS = NUMELT
@@ -8517,7 +8520,7 @@ C
      9            SIGBEAM ,SIGTRUSS,STRSGLOB,STRAGLOB,ORTHOGLOB,
      A            ISIGSH  ,IYLDINI ,KSIGSH3 ,FAIL_INI,IUSOLYLD,
      B            IUSERL  ,IGRBRIC ,MAP_TABLES,IPARG ,STACK ,IWORKSH,
-     C            MAT_ELEM%MAT_PARAM)
+     C            MAT_ELEM%MAT_PARAM,NUMSPH,NISP)
 C
 C----------------------------------
 C -- ELEMENT INITIALIZATION

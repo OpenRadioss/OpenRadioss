@@ -34,7 +34,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STATE_INIMAP_MOD              share/modules/state_inimap_mod.F
 Chd|====================================================================
-      SUBROUTINE FRESTAT(IKAD,KEY0,KSTATF,SENSORS)
+      SUBROUTINE FRESTAT(IKAD,KEY0,KSTATF,SENSORS,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE STATE_INIMAP_MOD
       USE SENSOR_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY,LINE120
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,6 +54,7 @@ C-----------------------------------------------
      .        KSTATF
       CHARACTER KEY0(*)*5
       TYPE (SENSORS_), INTENT(INOUT) :: SENSORS
+      TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -80,6 +82,11 @@ C-----------------------------------------------
       LOGICAL BOOL,IS_STAT_LSENS
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
+C-----------------------------------------------
+C-----------------------------------------------
+C   Init OUTPUT%STATE
+C-----------------------------------------------
+      CALL STATE_INIT(OUTPUT%STATE,MX_STAT)
 C-----------------------------------------------
       IS_STAT = .FALSE.
       IS_STAT_DT = .FALSE.
@@ -250,6 +257,14 @@ c---
             ELSE
               GOTO 9990
             ENDIF
+          ELSEIF (KEY2(1:6) == 'SPHCEL') THEN
+            OUTPUT%STATE%IS_STAT_SPH = .TRUE.
+            IF (KEY3(1:4) == 'FULL') THEN
+              OUTPUT%STATE%STAT_SPH(3) = 1 
+            ELSE
+              CALL ANCMSG(MSGID=73,ANMODE=ANINFO,
+     .                    C1=KEY0(IKEY),C2=LINE(1:35))
+            ENDIF
           ELSEIF (KEY2(1:5) == 'LSENS') THEN
             IS_STAT_LSENS = .TRUE.
             DO I=1,NBC
@@ -267,6 +282,7 @@ c---
             STAT_R(2) = 1
             STAT_P(2) = 1
             STAT_T(2) = 1
+            OUTPUT%STATE%STAT_SPH(2) = 1
           ELSEIF (KEY2(1:5) == 'SPRIN') THEN
             IS_STAT_SPRING = .TRUE.
             IF (KEY3(1:4) == 'FULL') THEN
@@ -335,6 +351,7 @@ c
         IF(IS_STAT_NODE)BOOL=.TRUE.
         IF(IS_STAT_LSENS)BOOL=.TRUE.
         IF(IS_STAT_NO_DE)BOOL=.TRUE.
+        IF(OUTPUT%STATE%IS_STAT_SPH)BOOL=.TRUE.
         
         !do not export STATE FILE IF /STATE/INIMAP IS USED AS A SINGLE /STATE OPTION
         IF(BOOL .AND. (IS_STAT_INIMAP2D .OR. IS_STAT_INIMAP1D))THEN

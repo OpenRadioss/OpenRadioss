@@ -61,7 +61,8 @@ Chd|====================================================================
      B                  ID_SIGTRUSS,WORK         ,IGRBRIC      ,NIBRICK      ,NIQUAD    ,
      C                  NISHELL    ,NISH3N       ,NISPRING     ,NIBEAM       ,NITRUSS   ,
      D                  MAP_TABLES ,VARMAX       ,IPARG        ,PTSHEL       ,PTSH3N    ,
-     E                  STACK      ,IWORKSH      ,IOUT         ,MAT_PARAM    )
+     E                  STACK      ,IWORKSH      ,IOUT         ,MAT_PARAM    ,NISPHCEL  ,
+     F                  NUMSPH     ,NISP         ,KXSP         ,ID_SIGSPH )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -118,6 +119,11 @@ C
       INTEGER,   INTENT(IN) :: IWORKSH(3,NUMELC + NUMELTG)
       INTEGER,   INTENT(IN) :: IOUT
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+      INTEGER,   INTENT(INOUT) :: NISPHCEL
+      INTEGER,  INTENT(IN) :: NUMSPH
+      INTEGER,  INTENT(IN) :: NISP
+      INTEGER,  INTENT(IN) :: KXSP(NISP,NUMSPH)
+      INTEGER,  INTENT(INOUT) :: ID_SIGSPH(NUMSPH)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -133,7 +139,7 @@ C-----------------------------------------------
      .   ISUBSTACK,NSLICE,IPNPT_LAY,IPT
       INTEGER IE, KN, IR, IS, IT, BRIGLOB, SUB_ID, NLAY, ILAY, PID
       INTEGER KTRIELS, KTRIELC, KTRIELTG, KTRIELSPR, KTRIELBEAM, KTRIELTRUSS,
-     .   KTRIELTQUAD
+     .   KTRIELTQUAD, KTRIELSPHCEL
       INTEGER IGBR, JGBR, I1, SIZE,NSROT,NG,ITYR,NFTR,NELR,ISMRAD
 !      INTEGER :: VARMAX
 !      PARAMETER (VARMAX = MAX(NSIGSH,NSIGI,NSIGI,NSIGTRUSS,NSIGBEAM,NSIGRS))
@@ -142,7 +148,7 @@ C-----------------------------------------------
      .   R0 , EIN, VX, VY, VZ, PHI1, PHI2, SCALEYLD,
      .   EXX, EYY, EXY, EYZ, EZX, FXX, FYY, FXY,
      .   EPSP, ANGLE1, ANGLE2, AA, AREA, FOR,ENER,DENS,
-     .   FILL
+     .   FILL, RHO, SLEN
       my_real
      .   S(6),
 !     .   TMPVAL(NVSHELL),
@@ -154,7 +160,7 @@ C-----------------------------------------------
      .   TMPVAL13(VARMAX)
 !
       INTEGER, DIMENSION(:), ALLOCATABLE :: KSYSUSRTG ,KSYSUSRS,INDEXS,ITRIS,
-     . KSYSUSRQ,INDEXQ,ITRIQ,IES2IPARG,MLAW_LY
+     . KSYSUSRQ,INDEXQ,ITRIQ,IES2IPARG,MLAW_LY,ITRISPH,INDEXSPH,KSYSUSRSPH
 
       CHARACTER KEY2*ncharkey,KEY3*ncharkey
       CHARACTER*nchartitle,TITR,TITR1  
@@ -168,7 +174,7 @@ C-----------------------------------------------
       CHARACTER KEY*ncharkey
       INTEGER  NB_INIBRI,NB_INISHE,NB_INISH3,NB_ELEMENTS,ID_ELEM,
      . ELT,ELTP,INI,K0,NB_INITRUSS,NB_INIBEAM,NB_INISPRI,NB_INIQUA,
-     . SUB_INDEX,IDOUB,ISTRSF,ISTRSFG,ISTRAF,ISTRAFG,ISTAT
+     . SUB_INDEX,IDOUB,ISTRSF,ISTRSFG,ISTRAF,ISTRAFG,ISTAT,NB_INISPHCEL
       my_real
      .   THK,FOR1,FOR2,FOR3,MOM1,MOM2,MOM3
 !
@@ -190,6 +196,9 @@ C
       ALLOCATE (INDEXQ(2*NUMELQ))
       ALLOCATE (KSYSUSRQ(2*NUMELQ))
       ALLOCATE (IES2IPARG(NUMELS) ,STAT=ISTAT)
+      ALLOCATE (ITRISPH(NUMSPH))
+      ALLOCATE (INDEXSPH(2*NUMSPH))
+      ALLOCATE (KSYSUSRSPH(2*NUMSPH))
       IF (ISTAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IES2IPARG')
@@ -210,6 +219,7 @@ C
       KTRIELBEAM = 0
       KTRIELTRUSS = 0
       KTRIELTQUAD = 0
+      KTRIELSPHCEL = 0
       NEM1 = 0
 C-----------------------------------------
 C     CONTRAINTES INITIALES FICHIER D00
@@ -4866,6 +4876,113 @@ C---------
       ENDIF ! IF ( NB_INIQUA > 0 )
 !
       NIQUAD = I
+
+!-----------------------------------------
+!            ---  /INISPHCEL  ---
+!-----------------------------------------
+      NISPHCEL = 0
+      I = 0
+      CALL HM_OPTION_COUNT('/INISPHCEL', NB_INISPHCEL)
+!
+      IF ( NB_INISPHCEL > 0 ) THEN
+!
+        ! Start reading /INISPHCEL card 
+        CALL HM_OPTION_START('/INISPHCEL')
+!---
+           IF (KTRIELSPHCEL == 0) THEN
+              DO IE = 1, NUMSPH
+                ITRISPH(IE) = KXSP(NISP,IE)
+              END DO
+              CALL MY_ORDERS(0,WORK,ITRISPH,INDEXSPH,NUMSPH,1)
+              DO J = 1, NUMSPH
+                IE=INDEXSPH(J)
+                KSYSUSRSPH(J)         =KXSP(NISP,IE)
+                KSYSUSRSPH(NUMSPH+J)=IE
+              END DO
+              KTRIELSPHCEL=1
+           ENDIF
+!---
+        DO INI=1,NB_INISPHCEL         
+!
+          CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                            UNIT_ID  = UID,
+     .                            SUBMODEL_INDEX = SUB_INDEX,
+     .                            SUBMODEL_ID = SUB_ID,
+     .                            KEYWORD2 = KEY,
+     .                            KEYWORD3 = KEY2)
+!
+          IF (KEY2 /= ' ') GLOB = .TRUE.
+!
+          IFLAGUNIT = 0
+          DO IUNIT=1,UNITAB%NUNITS
+            IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
+              IFLAGUNIT = 1
+              EXIT
+            ENDIF
+          ENDDO
+!
+          IF (UID /= 0.AND.IFLAGUNIT == 0) THEN
+            CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
+     .                  I2=UID, I1=SUB_ID, C1='INISPHCEL',
+     .                  C2='INISPHCEL',
+     .                  C3=' ')
+          ENDIF
+c---------------------------------------
+          SELECT CASE (KEY(1:LEN_TRIM(KEY)))
+C---------
+            CASE ( 'FULL' )
+C---------
+              CALL HM_GET_INTV('no_blocks',NB_ELEMENTS,IS_AVAILABLE,LSUBMODEL)
+!
+              DO J=1,NB_ELEMENTS
+                I=I+1
+                CALL HM_GET_INT_ARRAY_INDEX('sphcel_ID',ID_ELEM,J,IS_AVAILABLE,LSUBMODEL)
+                CALL HM_GET_INT_ARRAY_INDEX('nvarsph',NUVAR,J,IS_AVAILABLE,LSUBMODEL)
+                CALL HM_GET_FLOAT_ARRAY_INDEX('Eint',ENER,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
+                CALL HM_GET_FLOAT_ARRAY_INDEX('Rho',RHO,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
+                CALL HM_GET_FLOAT_ARRAY_INDEX('Slen',SLEN,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
+                CALL HM_GET_FLOAT_ARRAY_INDEX('Sigma1',S(1),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
+                CALL HM_GET_FLOAT_ARRAY_INDEX('Sigma2',S(2),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
+                CALL HM_GET_FLOAT_ARRAY_INDEX('Sigma3',S(3),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
+                CALL HM_GET_FLOAT_ARRAY_INDEX('Epsp',EPSP,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
+!
+                IE=UEL2SYS(ID_ELEM,KSYSUSRSPH,NUMSPH)
+!
+                IF (IE == 0) THEN        
+                  ! Sphcel was not found. Issue a Warning & Skip.
+                  NONEXIST = NONEXIST+1
+                ELSE
+                  ID_SIGSPH(I) = ID_ELEM
+                  SIGSPH(1,I) = S(1)
+                  SIGSPH(2,I) = S(2)
+                  SIGSPH(3,I) = S(3)
+                  SIGSPH(4,I) = ZERO
+                  SIGSPH(5,I) = ZERO
+                  SIGSPH(6,I) = ZERO
+                  SIGSPH(7,I) = ZERO
+                  SIGSPH(8,I) = RHO
+                  SIGSPH(9,I) = ENER
+                  SIGSPH(10,I) = EPSP
+                  SIGSPH(11,I) = SLEN
+                  SIGSPH(12,I) = NUVAR
+                  CALL HM_GET_FLOAT_ARRAY('V'  ,TMPVAL,NUVAR,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
+                  DO K=1,NUVAR
+                    SIGSPH(12+K,I) = TMPVAL(K)
+                  ENDDO
+!--------------------
+                ENDIF ! IF (IE /= 0)
+              ENDDO ! DO I=1,NB_ELEMENTS
+C---------
+            CASE DEFAULT
+C---------
+          END SELECT ! SELECT CASE(KEY)
+!
+        ENDDO ! DO INI=1,NB_INI
+!
+      ENDIF ! IF ( NB_INI > 0 )
+
+
+
 !     message in case some elements was not found in the model
       IF (NONEXIST  > 0) THEN
            CALL ANCMSG(MSGID=3045,ANMODE=ANINFO,MSGTYPE=MSGWARNING,I1=NONEXIST)
@@ -4879,6 +4996,9 @@ C------------------------------------
       DEALLOCATE (INDEXQ)
       DEALLOCATE (KSYSUSRQ)
       DEALLOCATE (IES2IPARG)
+      IF(ALLOCATED(ITRISPH)) DEALLOCATE(ITRISPH)
+      IF(ALLOCATED(INDEXSPH)) DEALLOCATE(INDEXSPH)
+      IF(ALLOCATED(KSYSUSRSPH)) DEALLOCATE(KSYSUSRSPH)
 C------------------------------------
       RETURN
 C
