@@ -936,7 +936,8 @@ jobs:
   update_counters:
     # DEV ONLY # runs-on: dev_delivery
     # runs-on: dev_delivery
-    runs-on: delivery    
+    if: ${{ github.repository_owner == 'OpenRadioss' }} 
+    runs-on: delivery   
     container: 
       image: fr-qafactorydev.europe.altair.com/common-linux64
       credentials: 
