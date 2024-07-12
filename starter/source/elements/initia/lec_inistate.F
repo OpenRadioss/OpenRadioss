@@ -46,7 +46,7 @@ Chd|====================================================================
      9                  SIGBEAM    ,SIGTRUSS     ,STRSGLOB     ,STRAGLOB     ,ORTHOGLOB,
      A                  ISIGSH     ,IYLDINI      ,KSIGSH3      ,FAIL_INI     ,IUSOLYLD ,
      B                  IUSER      ,IGRBRIC      ,MAP_TABLES   ,IPARG        ,STACK    ,
-     C                  IWORKSH    ,MAT_PARAM    )
+     C                  IWORKSH    ,MAT_PARAM    ,NUMSPH       ,NISP         )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -95,18 +95,22 @@ C
       TYPE (STACK_PLY) :: STACK
       INTEGER,  INTENT(IN) :: IWORKSH(3,NUMELC + NUMELTG)
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+      INTEGER,  INTENT(IN) :: NUMSPH
+      INTEGER,  INTENT(IN) :: NISP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, J, N, stat
-      INTEGER NIBRICK, NIQUAD, NISHELL, NISH3N, NISPRING, NIBEAM, NITRUSS
+      INTEGER NIBRICK, NIQUAD, NISHELL, NISH3N, NISPRING, NIBEAM, NITRUSS, NISPHCEL
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_SIGSH
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_SOLID_SIGI
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_QUAD_SIGI
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_SIGSPRI
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_SIGBEAM
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_SIGTRUSS
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ID_SIGSPH
       INTEGER, DIMENSION(:), ALLOCATABLE :: WORK
+      LOGICAL IS_STATE
 C=======================================================================
 C
 C -- LECTURE OF INITIAL STATE DATA - EXTRACTED FROM INITIA.F
@@ -121,6 +125,7 @@ C=======================================================================
       IORTSHEL = 0
       INISPRI = 0
       VARMAX = MAX(NSIGSH,NSIGI,NSIGI,NSIGTRUSS,NSIGBEAM,NSIGRS)
+      IS_STATE = .FALSE.
 C
       ALLOCATE (ID_SIGSH(NUMSHEL+NUMSH3N)     ,STAT=stat)
       ALLOCATE (ID_SOLID_SIGI(NUMSOL)         ,STAT=stat)
@@ -128,6 +133,7 @@ C
       ALLOCATE (ID_SIGSPRI(NUMSPRI)           ,STAT=stat)
       ALLOCATE (ID_SIGBEAM(NUMBEAM)           ,STAT=stat)
       ALLOCATE (ID_SIGTRUSS(NUMTRUS)          ,STAT=stat)
+      ALLOCATE (ID_SIGSPH(NUMSPH)          ,STAT=stat)
       ALLOCATE (WORK(70000)                   ,STAT=stat)
 C
       IF(NUMSHEL+NUMSH3N > 0) ID_SIGSH(1:NUMSHEL+NUMSH3N) = 0
@@ -182,6 +188,8 @@ C
 C-----------------------------------------
 C     CONTRAINTES INITIALES FICHIER D00
 C-----------------------------------------
+      IF (ISIGI == -3.OR.ISIGI == -4.OR.ISIGI == -5) IS_STATE = .TRUE.
+
       IF (ISIGI == -3.OR.ISIGI == -4.OR.ISIGI == -5) THEN
          ISIGI = -ISIGI
 !         CALL LEC_INISTATE_D00 (
@@ -210,7 +218,8 @@ C-----------------------------------------
      B                  ID_SIGTRUSS,WORK         ,IGRBRIC      ,NIBRICK      ,NIQUAD    ,
      C                  NISHELL    ,NISH3N       ,NISPRING     ,NIBEAM       ,NITRUSS   ,
      D                  MAP_TABLES ,VARMAX       ,IPARG        ,PTSHEL       ,PTSH3N    ,
-     E                  STACK      ,IWORKSH      ,IOUT         ,MAT_PARAM    )
+     E                  STACK      ,IWORKSH      ,IOUT         ,MAT_PARAM    ,NISPHCEL  ,
+     F                  NUMSPH     ,NISP         ,KXSP         ,ID_SIGSPH)
       ENDIF
 C------------------------------------------------------------------------------------------
          CALL LEC_INISTATE_TRI(
@@ -222,7 +231,7 @@ C-------------------------------------------------------------------------------
      6                  PTSPRI     ,PTBEAM       ,PTTRUSS      ,SIGI         ,SIGSH     ,
      7                  SIGSP      ,SIGSPH       ,SIGRS        ,SIGBEAM      ,SIGTRUSS  ,
      8                  ID_SIGSH   ,ID_SOLID_SIGI,ID_QUAD_SIGI ,ID_SIGSPRI ,ID_SIGBEAM  ,
-     9                  ID_SIGTRUSS,WORK )
+     9                  ID_SIGTRUSS,WORK         ,ID_SIGSPH    ,IS_STATE)
 
 C 
       IF(NUMSOL           > 0) DEALLOCATE (ID_SOLID_SIGI)
@@ -231,6 +240,7 @@ C
       IF(NUMSPRI         > 0 )DEALLOCATE (ID_SIGSPRI)
       IF(NUMBEAM         > 0 )DEALLOCATE (ID_SIGBEAM)
       IF(NUMTRUS         > 0 )DEALLOCATE (ID_SIGTRUSS)
+      IF(NUMSPH         > 0 )DEALLOCATE (ID_SIGSPH)
       DEALLOCATE (WORK)
 C
       RETURN

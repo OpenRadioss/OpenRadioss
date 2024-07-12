@@ -93,7 +93,8 @@ Chd|====================================================================
      A                  IXS16    ,IXS20   ,ICODE    ,LENGR   ,LENGP   ,
      B                  LENGT    ,ISKEW   ,V        ,VR      ,LENGQ   ,
      C                  MULTI_FVM,BUFMAT  ,NPBY     ,LPBY    ,STACK   ,
-     D                  DRAPE_SH4N ,DRAPE_SH3N,DR,DRAPEG,MAT_PARAM)
+     D                  DRAPE_SH4N ,DRAPE_SH3N,DR,DRAPEG,MAT_PARAM    ,
+     E                  IPARTSPH , OUTPUT ,LENGSPH  ,NUMSPHG )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -104,6 +105,10 @@ C-----------------------------------------------
       USE STATE_INIMAP_MOD
       USE STACK_MOD
       USE DRAPE_MOD
+      USE OUTPUT_MOD
+      USE stat_sphcel_mp_mod
+      USE stat_sphcel_spmd_mod
+      USE stat_sphcel_full_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -151,7 +156,11 @@ C-----------------------------------------------
       TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
       TYPE(DRAPEG_) :: DRAPEG
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
+      INTEGER, DIMENSION(NUMSPH), INTENT(IN)  :: IPARTSPH
       my_real BUFMAT(*)
+      TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
+      INTEGER, INTENT(IN)  :: LENGSPH
+      INTEGER, INTENT(IN)  :: NUMSPHG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -161,7 +170,7 @@ C-----------------------------------------------
       INTEGER I161,I16A,I16B,I16C,I16D,I16E,I16F,I16G,I16H,I16I
       INTEGER NODTAG(NUMNOD), STAT_INDXC(2*LENGC), STAT_INDXTG(2*LENGTG), STAT_INDXQ(2*LENGQ)
       INTEGER STAT_INDXS(2*LENGS),STAT_INDXR(2*LENGR),STAT_INDXP(2*LENGP),
-     .        STAT_INDXT(2*LENGT)
+     .        STAT_INDXT(2*LENGT),STAT_INDXSPH(2*LENGSPH)
       INTEGER CTEXT(2149)
       double precision
      .      ,  DIMENSION(:),ALLOCATABLE :: WA,WAP0
@@ -240,6 +249,7 @@ c
       STAT_NUMELR =0
       STAT_NUMELP =0
       STAT_NUMELT =0
+      OUTPUT%STATE%STAT_NUMELSPH = 0
 
       IF(NSPMD == 1)THEN
         !  - shells -
@@ -279,6 +289,14 @@ c
      .                         ITAB   ,IPART     ,IXT   ,IPARTT   ,IPART_STATE,
      .                         NODTAG ,STAT_INDXT,IPARG ,ELBUF_TAB,STAT_T(2)  )
         STAT_NUMELT_G =STAT_NUMELT
+        !  - sphcels -
+        CALL STAT_SPHCEL_MP(   NUMNOD , NUMSPH    ,NISP  ,NPART    ,NGROUP , 
+     .                         NPARG  , LIPART1   ,OUTPUT%STATE%STAT_NUMELSPH ,ITAB   ,IPART     ,
+     .                         KXSP   , IPARTSPH  ,IPART_STATE,NODTAG ,STAT_INDXSPH,
+     .                         IPARG  ,ELBUF_TAB  ,OUTPUT%STATE%STAT_SPH(2)  )
+        
+        OUTPUT%STATE%STAT_NUMELSPH_G = OUTPUT%STATE%STAT_NUMELSPH
+
       ELSE
         !  - shells -
         CALL STAT_SHEL_SPMD(
@@ -313,6 +331,13 @@ c
      .                         ITAB   ,IPART     ,IXT   ,IPARTT,IPART_STATE,
      .                         NODTAG ,STAT_INDXT,LENGT ,IPARG ,ELBUF_TAB  ,
      .                         STAT_T(2) )
+        !  - sphcels -
+        CALL STAT_SPHCEL_SPMD(   
+     .                         NUMNOD   ,NUMSPH    ,NUMSPHG  ,NISP    ,NPART     , 
+     .                         NGROUP   ,NPARG     ,LIPART1  ,OUTPUT%STATE%STAT_NUMELSPH ,OUTPUT%STATE%STAT_NUMELSPH_G ,
+     .                         LENGSPH  ,NSPMD     ,ITAB     ,IPART   ,KXSP      ,
+     .                         IPARTSPH ,IPART_STATE ,NODTAG ,STAT_INDXSPH,IPARG ,
+     .                         ELBUF_TAB ,OUTPUT%STATE%STAT_SPH(2)  )
       END IF
 
       !  - inimap1d -  (generic subroutine : SMP or SPMD)
@@ -396,7 +421,8 @@ C-----------------------------------------------
 C-----------------------------------------------
       CALL STAT_SIZE_C(IPARG ,IXC    ,IXTG ,IGEO ,IPM     ,
      .                 SIZP0 ,SIZLOC ,IXS  ,GEO  ,ELBUF_TAB,
-     .                 IXR   ,IXP    ,IXT  )
+     .                 IXR   ,IXP    ,IXT  ,OUTPUT,LIPART1 ,
+     .                 NPART ,IPART  ,NUMSPH,IPARTSP  )
 C-----------------------------------------------
 C   ALLOCATION OF TABLES
 C-----------------------------------------------
@@ -571,7 +597,17 @@ C-----------------------------------------------
      2                        WA          ,WAP0  ,IPARTT ,IPART_STATE ,STAT_INDXT,
      3                        SIZP0       )
 C-----------------------------------------------
-
+C  - SPHCEL elems (FULL)
+C-----------------------------------------------
+! - FULL -
+      IF(OUTPUT%STATE%STAT_SPH(3) == 1) CALL STAT_SPHCEL_FULL(
+     1                        NUMSPH     ,NISP     ,NGROUP      ,NPARG         ,SIZLOC        ,
+     2                        NPART      ,SIZP0    ,NSPMD       ,OUTPUT%STATE%STAT_NUMELSPH ,OUTPUT%STATE%STAT_NUMELSPH_G ,
+     2                        NSPBUF     ,NUMNOD   ,NPROPMI     ,NUMMAT        ,LIPART1       ,
+     4                        KXSP       ,IPARTSPH ,IPART_STATE ,STAT_INDXSPH  ,IPARG         ,
+     5                        ELBUF_TAB  ,WA       ,WAP0        ,SPBUF         ,ITAB          , 
+     6                        IPM        ,OUTPUT%STATE%STAT_SPH(2),IPART )
+C-----------------------------------------------
       IF(SIZLOC >= 1) DEALLOCATE(WA)
       IF(SIZP0 >= 1) DEALLOCATE(WAP0)
 C-----------------------------------------------

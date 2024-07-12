@@ -38,7 +38,7 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_YCTRL(UNITAB,LSUBMODEL,IGRBRIC,IXC, IXTG,PTSHEL,PTSH3N)
+      SUBROUTINE HM_YCTRL(UNITAB,LSUBMODEL,IGRBRIC,IXC, IXTG,PTSHEL,PTSH3N,NUSPHCEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -67,6 +67,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       INTEGER   IXTG(NIXTG,NUMELTG) ,IXC(NIXC,NUMELC)
       INTEGER,   INTENT(INOUT) :: PTSHEL(NUMELC),PTSH3N(NUMELTG)
+      INTEGER,   INTENT(INOUT) :: NUSPHCEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -85,7 +86,7 @@ C-----------------------------------------------
       CHARACTER KEY*ncharkey
       INTEGER  ID_ELEM,NB_INIBRI,NB_INISHE,NB_INISH3,NB_ELEMENTS,
      .      NB_INITRUSS,NB_INIBEAM,NB_INISPRI,NB_INIQUA,IE,KTRIELC,
-     .      KTRIELTG,NELT
+     .      KTRIELTG,NELT,NB_INISPHCEL
       my_real
      .   THK
       INTEGER, DIMENSION(:), ALLOCATABLE :: KSYSUSRTG ,KSYSUSR,WORK,ITRI,
@@ -1154,6 +1155,49 @@ C------------------------------------
           ENDDO ! DO I=1,NB_INIQUA
 !
         ENDIF ! IF ( NB_INIQUA > 0 )
+
+
+        
+C------------------------------------
+C /INISPHCEL card
+C------------------------------------
+        CALL HM_OPTION_COUNT('/INISPHCEL', NB_INISPHCEL)
+!
+        IF ( NB_INISPHCEL > 0 ) THEN
+          ! Start reading /INISPHCEL card 
+          CALL HM_OPTION_START('/INISPHCEL')
+!
+          DO I=1,NB_INISPHCEL
+!
+            CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                              KEYWORD2 = KEY)
+!
+            CALL HM_GET_INTV('no_blocks',NB_ELEMENTS,IS_AVAILABLE,LSUBMODEL)
+
+            NUMSPHY = NUMSPHY + NB_ELEMENTS
+
+            SELECT CASE (KEY(1:LEN_TRIM(KEY)))
+            
+!-------------------
+              CASE ( 'FULL' )
+!-------------------
+!!
+                DO J=1,NB_ELEMENTS
+                  ! Reading  ---  ID_ELEM, Prop ...  ---
+                  CALL HM_GET_INT_ARRAY_INDEX('nvarsph'    ,NUVAR,J,IS_AVAILABLE,LSUBMODEL)
+!
+                  NUSPHCEL = MAX(NUSPHCEL,NUVAR)
+                ENDDO ! DO J=1,NB_ELEMENTS
+!
+              CASE DEFAULT
+!
+            END SELECT ! SELECT CASE(KEY)
+!
+          ENDDO ! DO I=1,NB_INISPHCEL
+!
+        ENDIF ! IF ( NB_INISPHCEL > 0 )
+
+
 !---
       ENDIF ! IF (ISIGI==-3.OR.ISIGI==-4.OR.ISIGI==-5)
 !

@@ -221,9 +221,11 @@ C--------------------------------------------------
          DO I=LFT,LLT
            N = I+NFT
            JJ=PTSPH(N)
-           IF(JJ/=0.AND.SIGSPH(11,JJ)/=0.)THEN
-             SPBUF(1,N)=SIGSPH(11,JJ)
-           END IF
+           IF(JJ/=0) THEN
+             IF(SIGSPH(11,JJ)/=0.)THEN
+               SPBUF(1,N)=SIGSPH(11,JJ)
+             ENDIF
+           ENDIF
            SPBUF(2,N) = GBUF%RHO(I)
          ENDDO
        ENDIF

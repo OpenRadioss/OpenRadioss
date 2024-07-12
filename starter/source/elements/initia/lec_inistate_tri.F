@@ -39,7 +39,7 @@ Chd|====================================================================
      6                  PTSPRI     ,PTBEAM       ,PTTRUSS      ,SIGI         ,SIGSH     ,
      7                  SIGSP      ,SIGSPH       ,SIGRS        ,SIGBEAM      ,SIGTRUSS  ,
      8                  ID_SIGSH   ,ID_SOLID_SIGI,ID_QUAD_SIGI ,ID_SIGSPRI ,ID_SIGBEAM  ,
-     9                  ID_SIGTRUSS,WORK )
+     9                  ID_SIGTRUSS,WORK         ,ID_SIGSPHCEL ,IS_STATE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -68,6 +68,9 @@ C-----------------------------------------------
       my_real
      .   SIGI(NSIGS,*),SIGSH(MAX(1,NSIGSH),*),SIGTRUSS(NSIGTRUSS,*),
      .   SIGSP(NSIGI,*),SIGSPH(NSIGSPH,*),SIGRS(NSIGRS,*),SIGBEAM(NSIGBEAM,*)
+      
+      INTEGER,  INTENT(INOUT) :: ID_SIGSPHCEL(NUMSPH)
+      LOGICAL,  INTENT(IN)    :: IS_STATE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -431,19 +434,98 @@ C
 C SPH
 C
       IF(NUMSPHY>0)THEN
-C
-C       tri des elts du Y000 par ID croissant
+C      sorting elements Ids
         DO ISYS = 1, NUMSPHY
-          ITRI(ISYS) = NINT(SIGSPH(7,ISYS))
+          IF(IS_STATE) THEN 
+            ITRI(ISYS) = ID_SIGSPHCEL(ISYS)
+          ELSE
+            ITRI(ISYS) = NINT(SIGSPH(7,ISYS))
+          ENDIF
+        END DO
+        CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMSPHY,1)
+C        checking INISPHCEL : search for multiply define
+        ISYS=INDEX(1)
+        IF(IS_STATE) THEN 
+          IE = ID_SIGSPHCEL(ISYS)
+        ELSE
+          IE = NINT(SIGSPH(7,ISYS))
+        ENDIF
+        
+        DO J = 2, NUMSPHY
+          JSYS=INDEX(J)
+          IF(IS_STATE) THEN 
+            JE = ID_SIGSPHCEL(JSYS)
+          ELSE
+            JE = NINT(SIGSPH(7,JSYS))
+          ENDIF
+          IF (JE == IE) THEN
+            DO K=1,NSIGSPH
+              IF (SIGSPH(K,JSYS) /= ZERO) THEN
+                IF (SIGSPH(K,ISYS) /= ZERO .AND.
+     .              SIGSPH(K,ISYS) /= SIGSPH(K,JSYS)) THEN
+                  CALL ANCMSG(MSGID=1234,
+     .                        MSGTYPE=MSGERROR,
+     .                        ANMODE=ANINFO_BLIND_1,
+     .                        I1=IE)
+                ELSE
+                  SIGSPH(K,ISYS)=SIGSPH(K,JSYS)
+                ENDIF
+              ENDIF
+            ENDDO
+            SIGSPH(1,JSYS)=ZERO
+            ID_SIGSPHCEL(JSYS)=0
+          ELSE
+            IE  =JE
+            ISYS=JSYS
+          ENDIF
+        ENDDO
+        COMPT=0
+        DO J=1,NUMSPHY
+          IF(IS_STATE) THEN 
+            IE = ID_SIGSPHCEL(J)
+          ELSE
+            IE = NINT(SIGSPH(7,J))
+          ENDIF
+          IF (IE /= 0) THEN
+            COMPT=COMPT+1
+            IF (COMPT < J) THEN
+              DO K=1,NSIGSPH
+                SIGSPH(K,COMPT)=SIGSPH(K,J)
+              ENDDO
+              ID_SIGSPHCEL(COMPT)=ID_SIGSPHCEL(J)
+              SIGSPH(1,J)=ZERO
+              ID_SIGSPHCEL(J)=0
+            ENDIF
+          ENDIF
+        ENDDO
+        NUMSPHY=COMPT
+
+
+      ENDIF ! IF (NUMSPHY > 0)
+
+
+
+
+      IF (NUMSPHY > 0) THEN
+C      sorting elements Ids
+        DO ISYS = 1, NUMSPHY
+          IF(IS_STATE) THEN 
+            ITRI(ISYS) = ID_SIGSPHCEL(ISYS)
+          ELSE
+            ITRI(ISYS) = NINT(SIGSPH(7,ISYS))
+          ENDIF
         END DO
         CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMSPHY,1)
         DO J = 1, NUMSPHY
           ISYS=INDEX(J)
-          KSYSUSR(J)=NINT(SIGSPH(7,ISYS))
+          IF(IS_STATE) THEN 
+            KSYSUSR(J) = ID_SIGSPHCEL(ISYS)
+          ELSE
+            KSYSUSR(J) = NINT(SIGSPH(7,ISYS))
+          ENDIF
           KSYSUSR(NUMSPHY+J)=ISYS
         END DO
 C
-C       Nos systeme dans le Y000, des elts du D00
         DO I=1,NUMSPH
           ISYS=UEL2SYS(KXSP(NISP*I),KSYSUSR,NUMSPHY)
           PTSPH(I) =ISYS

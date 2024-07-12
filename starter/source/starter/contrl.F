@@ -223,7 +223,7 @@ C
       INTEGER :: NUMTITLE, NGRTRIA, IDUMMY, NANIM_VERS
       INTEGER :: NALEMUSCL
       INTEGER :: NB_INISHE,NB_INISH3,NB_INIBRI,NB_INIQUAD,
-     .           NB_INIBEAM,NB_INITRUSS,NB_INISPRIG
+     .           NB_INIBEAM,NB_INITRUSS,NB_INISPRIG,NB_INISPHCEL
       INTEGER :: LEN_LINE
       CHARACTER*20 UNIT_NAME
       INTEGER IS_U_STRING
@@ -1217,11 +1217,13 @@ C---------------------------------------------------
       CALL HM_OPTION_COUNT('/INIBEAM',  NB_INIBEAM)
       CALL HM_OPTION_COUNT('/INITRUSS', NB_INITRUSS)
       CALL HM_OPTION_COUNT('/INISPRI',  NB_INISPRIG)
+      CALL HM_OPTION_COUNT('/INISPHCEL',  NB_INISPHCEL)
+
       IF(ISIGI==0.AND.
      .   (NB_INISHE+NB_INISH3
      .   +NB_INIBRI+NB_INIQUAD
      .   +NB_INIBEAM+NB_INITRUSS
-     .   +NB_INISPRIG)/=0) ISIGI=-3
+     .   +NB_INISPRIG+NB_INISPHCEL)/=0) ISIGI=-3
 C=======================================================================
 C     Writing to 0000.out FILE
 C=======================================================================

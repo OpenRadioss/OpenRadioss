@@ -296,7 +296,7 @@ C-----------------------------------------------
      .  SKNUMX2,SKNUMX3,SKOFFX1,SKOFFX2,SKOFFX3,SKMASS1,SKMASS2,
      .  SKMASS3,SKFUNC1,SKFUNC2,SKFUNC3,SKFIN,SIG3DSOLID
       INTEGER
-     .  LENR,LENG,LENGC,LENGTG,LENGS,LENGT,LENGR,LENGP,LENGQ
+     .  LENR,LENG,LENGC,LENGTG,LENGS,LENGT,LENGR,LENGP,LENGQ,LENGSPH
       INTEGER SIZE_MES,LONG,LONG_TMP,N
       INTEGER IFILNAM(2148),IFILNAM_TMP(2148)
       my_real
@@ -851,6 +851,7 @@ C
          LENGP = NUMELP
          LENGT = NUMELT
          LENGQ = NUMELQ
+         LENGSPH = NUMSPH
        ELSEIF (ISPMD==0) THEN
          LENGC = NUMELCG
          LENGTG= NUMELTGG
@@ -859,6 +860,7 @@ C
          LENGP = NUMELPG
          LENGT = NUMELTRG
          LENGQ = NUMELQG
+         LENGSPH = NUMSPHG
        ELSE
          LENGC = 0
          LENGTG= 0
@@ -867,6 +869,7 @@ C
          LENGP = 0
          LENGT = 0
          LENGQ = 0
+         LENGSPH = 0
        ENDIF
 C
        CALL GENSTAT(X        ,MS    ,ELBUF_TAB, ELBUF  ,SPBUF ,
@@ -881,7 +884,8 @@ C
      A             IXS16    ,IXS20  ,ICODE ,LENGR ,LENGP  ,
      B             LENGT    ,ISKEW  ,V     ,VR    ,LENGQ  ,
      C             MULTI_FVM,BUFMAT ,NPBY  ,LPBY  ,STACK  ,
-     D             DRAPE_SH4N, DRAPE_SH3N,DR,DRAPEG   ,MAT_PARAM)
+     D             DRAPE_SH4N, DRAPE_SH3N,DR,DRAPEG   ,MAT_PARAM,
+     E             IPART(K10),OUTPUT,LENGSPH,NUMSPHG)
        IF(TT>=TSTAT)TSTAT=TSTAT+DTSTAT
        IF ((TSTOP<TSTAT).AND.(TSTAT<TSTOP+EM06*TSTOP)
      .     .AND.(TSTOP+EM06*TSTOP<TSTAT+DTSTAT)) THEN

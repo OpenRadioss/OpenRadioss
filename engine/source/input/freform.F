@@ -2548,7 +2548,7 @@ C--------------------
 C-----------------------
 C     /STATE
 C-----------------------
-      CALL FRESTAT(IKAD(0),KEY0,KSTATF,SENSORS)
+      CALL FRESTAT(IKAD(0),KEY0,KSTATF,SENSORS,OUTPUT)
       
 C-----------------------
 C     /DYNAIN

@@ -379,6 +379,8 @@ c
         ENDIF
 
       ENDIF
+
+
       
       !must be set, once m51init() was called
       IF(ELBUF_STR%BUFLY(1)%L_SSP /= 0)THEN
