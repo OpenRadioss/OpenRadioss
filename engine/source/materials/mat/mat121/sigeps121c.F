@@ -110,7 +110,7 @@ c
      5         EPSPXX  ,EPSPYY  ,EPSPXY  ,EPSPYZ  ,EPSPZX  ,
      6         SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     8         SIGY    ,ET      ,VARNL   ,SEQ     ,INLOC   )
+     8         SIGY    ,ET      ,VARNL   ,SEQ     ,INLOC   ,OFFL    )
 c        
         CASE(2)
 c
@@ -122,7 +122,7 @@ c
      5         EPSPXX  ,EPSPYY  ,EPSPXY  ,EPSPYZ  ,EPSPZX  ,
      6         SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     8         SIGY    ,ET      ,VARNL   ,SEQ     ,INLOC   )
+     8         SIGY    ,ET      ,VARNL   ,SEQ     ,INLOC   ,OFFL    )
 c      
       END SELECT    
 c

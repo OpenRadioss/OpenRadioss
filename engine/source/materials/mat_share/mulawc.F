@@ -583,9 +583,9 @@ c
           IF (INLOC > 0) THEN 
             DO I = JFT,JLT
               IF (OFF(I) == ONE) THEN 
-                VARNL(I,IT)    = MAX(VARNL(I,IT),ZERO)
+                VARNL(I,IT)  = MAX(VARNL(I,IT),ZERO)
               ELSE 
-                VARNL(I,IT)    = ZERO
+                VARNL(I,IT)  = ZERO
               ENDIF
               LBUF%PLANL(I)  = LBUF%PLANL(I) + VARNL(I,IT)
               LBUF%EPSDNL(I) = VARNL(I,IT)/MAX(DT1,EM20)
@@ -964,7 +964,7 @@ C------------------------------------------
      9                  DEPSXX     ,DEPSYY    ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
      A                  EPSPXX     ,EPSPYY    ,EPSPXY   ,EPSPYZ   ,EPSPZX ,
      B                  LBUF%SIGB(IJ1),LBUF%SIGB(IJ2),LBUF%SIGB(IJ3),INLOC  ,VARNL(1,IT),
-     C                  VP        ,NUVAR     ,UVAR     ,ASRATE)
+     C                  VP        ,NUVAR     ,UVAR      ,ASRATE   ,LBUF%OFF)
 !
           ELSEIF (ILAW == 15) THEN
             CALL SIGEPS15C(
@@ -994,7 +994,7 @@ C------------------------------------------
      5                   DEPSXX   ,DEPSYY ,DEPSXY   ,DEPSYZ ,DEPSZX  ,
      6         LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      7                   SIGNXX   ,SIGNYY ,SIGNXY   ,SIGNYZ ,SIGNZX  ,
-     8                   INLOC    ,VARNL(1,IT))
+     8                   INLOC    ,VARNL(1,IT),LBUF%OFF)
           ELSEIF (ILAW == 27) THEN
             CALL SIGEPS27C(
      1                   JFT      ,JLT     ,PM       ,THKN    ,OFF   ,
@@ -1005,7 +1005,7 @@ C------------------------------------------
      6                   DEPSXX   ,DEPSYY  ,DEPSXY   ,DEPSYZ  ,DEPSZX,
      7         LBUF%SIG(IJ1),LBUF%SIG(IJ2) ,LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),             
      9                   SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ  ,SIGNZX,
-     4                   DIRDMG   ,LBUF%PLA,INLOC    ,VARNL(1,IT))
+     4                   DIRDMG   ,LBUF%PLA,INLOC    ,VARNL(1,IT),LBUF%OFF)
 !
             EPSPL(JFT:JLT) = EPSPDT(JFT:JLT)
           ELSEIF (ILAW == 32) THEN
@@ -1017,7 +1017,7 @@ C------------------------------------------
      5        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      6                     SIGNXX     ,SIGNYY ,SIGNXY  ,SIGNYZ ,SIGNZX ,
      7                     LBUF%PLA   ,NGL    ,HARDM   ,INLOC  ,VARNL(1,IT),
-     8                     LBUF%SEQ   )
+     8                     LBUF%SEQ   ,LBUF%OFF)
                EPSPL(JFT:JLT) = EPSP(JFT:JLT)
           ELSEIF (ILAW == 25) THEN
            IF (IGTYP /= 1 .and. IGTYP /= 9) THEN
@@ -1109,7 +1109,7 @@ C
      B          ETSE   ,GS     ,SIGY   ,EPSPL   ,ISRATE   ,
      C          DPLA   ,G_IMP  ,SIGKSI  ,SHF      ,HARDM  ,
      D          YLDFAC ,INLOC ,VARNL(1,IT),LBUF%DMG,LBUF%PLANL,
-     E          SIGBXX,SIGBYY,SIGBXY) 
+     E          SIGBXX,SIGBYY,SIGBXY,LBUF%OFF) 
           ELSEIF (ILAW == 42) THEN
            CALL SIGEPS42C(
      1         JLT    , NUPARAM0, NUVAR   , NFUNC , IFUNC , NPF   ,
@@ -1137,7 +1137,7 @@ C
      9        SSP    ,THKN   ,LBUF%PLA ,UVAR    ,OFF    ,
      A        NGL    ,ETSE   ,HARDM    ,SIGY    ,GS     ,
      B        DPLA   ,EPSP   ,SHF      ,INLOC   ,VARNL(1,IT),
-     C        LBUF%SEQ)
+     C        LBUF%SEQ,LBUF%OFF)
            EPSPL(JFT:JLT) = EPSP(JFT:JLT)
 
           ELSEIF (ILAW == 44) THEN
@@ -1152,7 +1152,8 @@ C
      7        SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
      8        SSP    ,VISCMX ,THKN    ,LBUF%PLA ,UVAR   ,
      9        GS     ,SIGY   ,EPSP    ,DPLA     ,ASRATE ,
-     A        NVARTMP,VARTMP ,LBUF%SIGB,INLOC   ,VARNL(1,IT))
+     A        NVARTMP,VARTMP ,LBUF%SIGB,INLOC   ,VARNL(1,IT),
+     B        LBUF%OFF)
 
           ELSEIF (ILAW == 45) THEN
            CALL SIGEPS45C(
@@ -1183,7 +1184,7 @@ C
      A        SSP    ,VISCMX ,THKN    ,LBUF%PLA ,UVAR   ,
      B        OFF    ,NGL    ,IPM     ,MATLY(JMLY),ETSE ,
      C        GS     ,SIGY   ,EPSPL   ,DPLA     ,ISRATE ,
-     D        INLOC  ,VARNL(1,IT))
+     D        INLOC  ,VARNL(1,IT),LBUF%OFF)
           ELSEIF (ILAW == 52) THEN
            CALL SIGEPS52C(
      1        JLT    ,NUPARAM0,NUVAR   ,NFUNC   ,IFUNC   ,
@@ -1244,7 +1245,7 @@ C
      A        SSP    ,VISCMX ,THKN    ,LBUF%PLA ,UVAR   ,
      B        OFF    ,NGL    ,SHF     ,ETSE     ,SIGY   ,
      C        HARDM  ,LBUF%SEQ,ISRATE ,EPSP     ,INLOC  ,
-     D        VARNL(1,IT))
+     D        VARNL(1,IT),LBUF%OFF)
           ELSEIF (ILAW == 58) THEN
 
            CALL SIGEPS58C(
@@ -1280,7 +1281,7 @@ c
      A        SSP    ,VISCMX ,THKN    ,LBUF%PLA ,UVAR   ,
      B        OFF    ,NGL    ,IPM     ,MATLY(JMLY),ETSE ,
      C        GS     ,SIGY   ,EPSPL   ,ISRATE   ,DPLA,SHF,
-     D        INLOC  ,VARNL(1,IT))
+     D        INLOC  ,VARNL(1,IT),LBUF%OFF)
            ELSE
             CALL SIGEPS60C(
      1        JLT    ,NUPARAM0,NUVAR   ,NFUNC   ,IFUNC   ,
@@ -1296,7 +1297,7 @@ c
      A        SSP    ,VISCMX ,THKN    ,LBUF%PLA ,UVAR   ,
      B        OFF    ,NGL    ,IPM     ,MATLY(JMLY),ETSE ,
      C        GS     ,SIGY   ,EPSPL   ,ISRATE   ,DPLA,SHF,
-     D        INLOC  ,VARNL(1,IT))
+     D        INLOC  ,VARNL(1,IT),LBUF%OFF)
            END IF
            ELSEIF (ILAW == 62) THEN  
             CALL SIGEPS62C(
@@ -1329,7 +1330,8 @@ c
      D   VISCMX,       THKN,         LBUF%PLA,     UVAR,
      E   OFF,          NGL,          ETSE,         GS,
      F   VOL0,         SIGY,         TEMPEL,       DIE,
-     G   COEF,         INLOC,        VARNL(1,IT),  JTHE)
+     G   COEF,         INLOC,        VARNL(1,IT),  JTHE,
+     H   LBUF%OFF)
           ELSEIF (ILAW == 64) THEN       
            CALL SIGEPS64C(
      1   JLT,          NUPARAM0,      NUVAR,        NFUNC,
@@ -1348,7 +1350,7 @@ c
      E   OFF,          NGL,          IPM,          MATLY(JMLY),
      F   ETSE,         GS,           VOL0,         SIGY,
      G   TEMPEL,       DIE,          COEF,         INLOC,
-     H   VARNL(1,IT),  JTHE)
+     H   VARNL(1,IT),  JTHE,         LBUF%OFF)
           ELSEIF (ILAW == 65) THEN
            CALL SIGEPS65C(
      1        JLT    ,NUPARAM0,NUVAR   ,NFUNC   ,IFUNC   ,
@@ -1379,7 +1381,8 @@ c
      A        SSP    ,VISCMX ,THKN    ,LBUF%PLA ,UVAR   ,
      B        OFF    ,NGL    ,IPM     ,MATLY(JMLY),ETSE ,
      C        GS     ,SIGY   ,EPSPL   ,ISRATE   ,INLOC  ,
-     D        VARNL(1,IT),MATPARAM    ,NUVARV  ,UVARV   )
+     D        VARNL(1,IT),MATPARAM    ,NUVARV  ,UVARV   ,
+     E        LBUF%OFF)
           ELSEIF (ILAW == 69) THEN
            CALL SIGEPS69C(
      1         JLT    , NUPARAM0, NUVAR   , NFUNC , IFUNC , NPF   ,
@@ -1422,7 +1425,7 @@ c
      5         SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      6         SSP      ,THKN     ,LBUF%PLA ,UVAR     ,OFF      ,
      7         ETSE     ,GS       ,SIGY     ,HARDM    ,LBUF%SEQ ,
-     8         DPLA     ,LBUF%DMG ,INLOC    ,VARNL(1,IT))
+     8         DPLA     ,LBUF%DMG ,INLOC    ,VARNL(1,IT),LBUF%OFF)
           ELSEIF (ILAW == 73) THEN
             CALL SIGEPS73C(
      1   JLT,          NUPARAM0,      NUVAR,        TT,
@@ -1441,7 +1444,8 @@ c
      E   EPSPL,        TABLE,        VOL0,         TEMPEL,
      F   DIE,          COEF,         NPF,          NFUNC,
      G   IFUNC,        TF,           SHF,          HARDM,
-     H   LBUF%SEQ,     INLOC,        VARNL(1,IT),  JTHE)
+     H   LBUF%SEQ,     INLOC,        VARNL(1,IT),  JTHE,
+     I   LBUF%OFF)
 c
           ELSEIF (ILAW == 76) THEN
 
@@ -1455,7 +1459,7 @@ c
      7         SSP      ,THKN     ,THKLYL   ,LBUF%PLA ,EPSP     ,
      8         ETSE     ,GS       ,SIGY     ,INLOC    ,BUFLY%L_PLANL,
      9         LBUF%PLANL,VARNL(1,IT),LBUF%DMG,IDEL7NOK,
-     A         NVARTMP  ,VARTMP   )
+     A         NVARTMP  ,VARTMP   ,LBUF%OFF)
 c
                EPSPL(1:NEL) = EPSP(1:NEL)
 c
@@ -1469,7 +1473,7 @@ c
      6         SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      7         SSP      ,UVAR     ,LBUF%SIGA,LBUF%SIGB,LBUF%SIGC,
      8         RHO      ,OFF      ,LBUF%PLA ,DPLA     ,VARTMP   ,
-     9         INLOC    ,VARNL(1,IT),ET_IMP ,LBUF%SEQ )   
+     9         INLOC    ,VARNL(1,IT),ET_IMP ,LBUF%SEQ ,LBUF%OFF)   
           ELSEIF (ILAW == 80) THEN  
             IF (ISRATE == 0) THEN
               DO I=JFT,JLT
@@ -1559,7 +1563,7 @@ c
      A   LBUF%PLA,     DPLA,         EPSPL,        SIGY,
      B   ETSE,         GS,           ISRATE,       ASRATE,
      C   YLDFAC,       TEMPEL,       LBUF%SIGB,    INLOC,
-     D   VARNL(1,IT),  LBUF%SEQ,     JTHE)
+     D   VARNL(1,IT),  LBUF%SEQ,     JTHE,         LBUF%OFF)
          ELSEIF (ILAW == 88) THEN
            CALL SIGEPS88C(
      1         JLT    , NUPARAM0, NUVAR   , NFUNC , IFUNC , NPF   ,
@@ -1583,7 +1587,7 @@ c
      7         SSP      ,THKN     ,LBUF%PLA ,UVAR     ,RHO      ,
      8         OFF      ,ETSE     ,THKLYL   ,SHF      ,SIGY     ,
      9         HARDM    ,LBUF%SEQ ,EPSP     ,ASRATE   ,NVARTMP  ,
-     A         VARTMP   ,DPLA     ,INLOC    ,VARNL(1,IT))
+     A         VARTMP   ,DPLA     ,INLOC    ,VARNL(1,IT),LBUF%OFF)
 c
           ELSEIF (ILAW == 96)THEN 
             CALL SIGEPS96C(
@@ -1626,7 +1630,7 @@ c
      5         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX   ,
      6         LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      7         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,
-     8         THKN    ,THKLYL  ,INLOC   ,VARNL(1,IT),EPSPL )     
+     8         THKN    ,THKLYL  ,INLOC   ,VARNL(1,IT),EPSPL ,LBUF%OFF)     
 !
           ELSEIF (ILAW == 110 )THEN
             CALL SIGEPS110C(
@@ -1639,7 +1643,7 @@ c
      7         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,THKLYL  ,
      8         THKN    ,SIGY    ,ETSE    ,TEMPEL  ,LBUF%TEMP,LBUF%SEQ,
      9         TF      ,NUMTABL ,ITABLE  ,TABLE   ,NVARTMP  ,VARTMP  ,
-     A         LBUF%SIGA,INLOC  ,VARNL(1,IT),EPSPL)   
+     A         LBUF%SIGA,INLOC  ,VARNL(1,IT),EPSPL,LBUF%OFF )   
 !
           ELSEIF (ILAW == 112 )THEN
             CALL SIGEPS112C(
@@ -2572,12 +2576,16 @@ c-----------------------------------------------
           ENDIF
 C------------------------------------------------------------
 C     Variable to regularize with Non-local
-C-----------------------     
+C------------------------------------------------------------     
           IF (BUFLY%L_PLA > 0) THEN
             ! Non-local material
             IF (INLOC > 0) THEN
               DO I=JFT,JLT
-                VARNL(I,IT) = LBUF%PLA(I)
+                IF (OFF(I) == ONE) THEN 
+                  VARNL(I,IT) = LBUF%PLA(I)
+                ELSE
+                  VARNL(I,IT) = ZERO
+                ENDIF
               ENDDO
             ENDIF
           ENDIF

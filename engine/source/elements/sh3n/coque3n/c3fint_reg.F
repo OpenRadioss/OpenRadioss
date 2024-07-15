@@ -337,7 +337,7 @@ c
         DO I = 1, NEL
 c
           ! If the element is not broken, normal computation
-          IF (OFF(I)/=ZERO) THEN 
+          IF (OFF(I) /= ZERO) THEN 
             ! Computation of the product LEN**2 * BtxB
             ! Warning: the derivatives of the shape function does not take into account the volume of the element. 
             ! That is why a factor (1/VOL**2) is added in B1, B2, B3.
@@ -356,9 +356,9 @@ c
             ! Computing the product XDAMP*NtN*VNL
             NTN_VNL = (VNL(POS1(I)+K-1) + VNL(POS2(I)+K-1) + VNL(POS3(I)+K-1))/NTN
             IF (NODADT > 0) THEN 
-              NTN_VNL = (SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1))*VNL(POS1(I)+K-1) + 
-     .                   SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1))*VNL(POS2(I)+K-1) + 
-     .                   SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1))*VNL(POS3(I)+K-1)) / NTN
+              NTN_VNL = MIN(SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1)),
+     .                      SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1)),
+     .                      SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1)))*NTN_VNL
             ENDIF
 c          
             ! Multiplication by the volume of the element

@@ -40,7 +40,7 @@ Chd|====================================================================
      A     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
      B     OFF    ,NGL    ,IPM     ,MAT     ,ETSE   ,
      C     GS     ,YLD    ,EPSP    ,DPLA_I  ,ISRATE ,
-     D     INLOC  ,DPLANL )
+     D     INLOC  ,DPLANL ,LOFF    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -120,6 +120,7 @@ C
      .   SIGOXX(NEL0),SIGOYY(NEL0),
      .   SIGOXY(NEL0),SIGOYZ(NEL0),SIGOZX(NEL0),
      .   GS(*),EPSP(NEL0),DPLANL(NEL0)
+      my_real, DIMENSION(NEL0), INTENT(IN) :: LOFF
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -494,13 +495,15 @@ C---     NON-LOCAL THICKNESS VARIATION
 C
        IF (INLOC > 0) THEN 
          DO I = 1,NEL0 
-           SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I)
-     .              + SIGNYY(I)*SIGNYY(I)
-     .              - SIGNXX(I)*SIGNYY(I)
-     .              + THREE*SIGNXY(I)*SIGNXY(I))
-           DEZZ   = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(SVM(I),EM20)
-           DEZZ   = -NUX*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E1) - DEZZ
-           THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)     
+           IF (LOFF(I) == ONE) THEN 
+             SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I)
+     .                + SIGNYY(I)*SIGNYY(I)
+     .                - SIGNXX(I)*SIGNYY(I)
+     .                + THREE*SIGNXY(I)*SIGNXY(I))
+             DEZZ   = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(SVM(I),EM20)
+             DEZZ   = -NUX*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E1) - DEZZ
+             THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)   
+           ENDIF  
          ENDDO  
        ENDIF 
 C

@@ -37,7 +37,7 @@ Chd|====================================================================
      7     SOUNDSP  ,THK      ,PLA      ,UVAR     ,RHO0     ,
      8     OFF      ,ETSE     ,THKLY    ,SHF      ,YLD      ,
      9     HARDM    ,SEQ      ,EPSP     ,ASRATE   ,NVARTMP  ,
-     A     VARTMP   ,DPLA     ,INLOC    ,DPLANL   )
+     A     VARTMP   ,DPLA     ,INLOC    ,DPLANL   ,LOFF     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,6 +62,7 @@ C
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
      .   SHF(*),HARDM(NEL),SEQ(NEL),DPLANL(NEL),
      .   EPSP(NEL),ASRATE
+      my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -457,7 +458,7 @@ C
         ! Computation of the thickness variation 
         INVD33     = ONE/MAX(EM20,D33)
         DEELZZ(I)  = -(NU13/E11)*(SIGNXX(I)-SIGOXX(I)) -(NU23/E22)*(SIGNYY(I)-SIGOYY(I)) 
-        IF (INLOC > 0) THEN 
+        IF ((INLOC > 0).AND.(LOFF(I) == ONE)) THEN 
           NORMXX = (GG*SIGNXX(I) + HH*(SIGNXX(I)-SIGNYY(I)))/(MAX(SIGHL(I),EM20))
           NORMYY = (FF*SIGNYY(I) + HH*(SIGNYY(I)-SIGNXX(I)))/(MAX(SIGHL(I),EM20))
           NORMXY = TWO*NN*SIGNXY(I)/(MAX(SIGHL(I),EM20))

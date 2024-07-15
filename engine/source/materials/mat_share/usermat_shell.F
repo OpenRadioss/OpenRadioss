@@ -502,9 +502,9 @@ c
           IF (INLOC > 0) THEN 
             DO I = JFT,JLT
               IF (OFF(I) == ONE) THEN 
-                VARNL(I,IT)    = MAX(VARNL(I,IT),ZERO)
+                VARNL(I,IT)  = MAX(VARNL(I,IT),ZERO)
               ELSE 
-                VARNL(I,IT)    = ZERO
+                VARNL(I,IT)  = ZERO
               ENDIF
               LBUF%PLANL(I)  = LBUF%PLANL(I) + VARNL(I,IT)
               LBUF%EPSDNL(I) = VARNL(I,IT)/MAX(DT1,EM20)
@@ -1953,12 +1953,16 @@ c-----------------------------------------------
           ENDIF
 C------------------------------------------------------------
 C     Variable to regularize with Non-local
-C-----------------------     
+C------------------------------------------------------------     
           IF (BUFLY%L_PLA > 0) THEN
             ! Non-local material
             IF (INLOC > 0) THEN
               DO I=JFT,JLT
-                VARNL(I,IT) = LBUF%PLA(I)
+                IF (OFF(I) == ONE) THEN 
+                  VARNL(I,IT) = LBUF%PLA(I)
+                ELSE
+                  VARNL(I,IT) = ZERO
+                ENDIF
               ENDDO
             ENDIF
           ENDIF

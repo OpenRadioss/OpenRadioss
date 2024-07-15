@@ -364,9 +364,9 @@ subroutine mulaw(&
       if (inloc > 0) then
          do i = 1,nel
             if (off(i) == one) then
-               varnl(i) = max(varnl(i),zero)
+              varnl(i) = max(varnl(i),zero)
             else
-               varnl(i) = zero
+              varnl(i) = zero
             endif
             lbuf%planl(i)  = lbuf%planl(i) + varnl(i)
             lbuf%epsdnl(i) = varnl(i)/max(dt1,em20)
@@ -2479,7 +2479,11 @@ subroutine mulaw(&
       if ((elbuf_tab(ng)%bufly(ilay)%l_pla > 0).and.(mtn /= 126)) then
          if (inloc > 0) then
             do i=1,nel
-               varnl(i) = defp(i)
+              if (off(i) == one) then 
+                varnl(i) = defp(i)
+              else
+                varnl(i) = zero
+              endif
             enddo
          endif
       endif

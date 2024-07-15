@@ -81,7 +81,7 @@ C-----------------------------------------------
      . DX, DY, DZ, L2,XI,NTVAR,A,
      . B1,B2,B3,B4,B5,B6,B7,B8,
      . A1,A2,A3,A4,A5,A6,A7,A8,C1,C2,C3,C4,C5,C6,C7,C8,
-     . ZETA,SSPNL,DTNL,LE_MAX,MAXSTIF
+     . ZETA,SSPNL,DTNL,LE_MAX,MAXSTIF,MINMASSCAL
       my_real, DIMENSION(NEL) :: 
      . F1,F2,F3,F4,F5,F6,F7,F8,LC
       my_real, DIMENSION(:) ,ALLOCATABLE   :: 
@@ -214,14 +214,22 @@ c
      .         + H(1)*H(4)*VNL(POS4(I)) + H(1)*H(5)*VNL(POS5(I)) + H(1)*H(6)*VNL(POS6(I))
      .         + H(1)*H(7)*VNL(POS7(I)) + H(1)*H(8)*VNL(POS8(I)))
           ELSE
-            A1 = A1 + VOL(I) * XI * (H(1)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) + 
-     .                                    H(1)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) + 
-     .                                    H(1)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) + 
-     .                                    H(1)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) + 
-     .                                    H(1)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) + 
-     .                                    H(1)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) + 
-     .                                    H(1)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) + 
-     .                                    H(1)*H(8)*(SQRT(MASS(POS8(I))/MASS0(POS8(I))))*VNL(POS8(I)))
+            MINMASSCAL = MIN(SQRT(MASS(POS1(I))/MASS0(POS1(I))),
+     .                       SQRT(MASS(POS2(I))/MASS0(POS2(I))),
+     .                       SQRT(MASS(POS3(I))/MASS0(POS3(I))),
+     .                       SQRT(MASS(POS4(I))/MASS0(POS4(I))),
+     .                       SQRT(MASS(POS5(I))/MASS0(POS5(I))),
+     .                       SQRT(MASS(POS6(I))/MASS0(POS6(I))),
+     .                       SQRT(MASS(POS7(I))/MASS0(POS7(I))),
+     .                       SQRT(MASS(POS8(I))/MASS0(POS8(I))))
+            A1 = A1 + VOL(I) * XI * (H(1)*H(1)*MINMASSCAL*VNL(POS1(I)) + 
+     .                               H(1)*H(2)*MINMASSCAL*VNL(POS2(I)) + 
+     .                               H(1)*H(3)*MINMASSCAL*VNL(POS3(I)) + 
+     .                               H(1)*H(4)*MINMASSCAL*VNL(POS4(I)) + 
+     .                               H(1)*H(5)*MINMASSCAL*VNL(POS5(I)) + 
+     .                               H(1)*H(6)*MINMASSCAL*VNL(POS6(I)) + 
+     .                               H(1)*H(7)*MINMASSCAL*VNL(POS7(I)) + 
+     .                               H(1)*H(8)*MINMASSCAL*VNL(POS8(I)))
           ENDIF
 c        
           B1 = L2 * VOL(I) * ( BTB11(I)*UNL(POS1(I)) + BTB12(I)*UNL(POS2(I)) 
@@ -239,14 +247,14 @@ c
      .         + H(2)*H(4)*VNL(POS4(I)) + H(2)*H(5)*VNL(POS5(I)) + H(2)*H(6)*VNL(POS6(I))
      .         + H(2)*H(7)*VNL(POS7(I)) + H(2)*H(8)*VNL(POS8(I)))
           ELSE
-            A2 = A2 + VOL(I) * XI * (H(2)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) + 
-     .                                    H(2)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) + 
-     .                                    H(2)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) + 
-     .                                    H(2)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) + 
-     .                                    H(2)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) + 
-     .                                    H(2)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) + 
-     .                                    H(2)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) + 
-     .                                    H(2)*H(8)*(SQRT(MASS(POS8(I))/MASS0(POS8(I))))*VNL(POS8(I)))
+            A2 = A2 + VOL(I) * XI * (H(2)*H(1)*MINMASSCAL*VNL(POS1(I)) + 
+     .                               H(2)*H(2)*MINMASSCAL*VNL(POS2(I)) + 
+     .                               H(2)*H(3)*MINMASSCAL*VNL(POS3(I)) + 
+     .                               H(2)*H(4)*MINMASSCAL*VNL(POS4(I)) + 
+     .                               H(2)*H(5)*MINMASSCAL*VNL(POS5(I)) + 
+     .                               H(2)*H(6)*MINMASSCAL*VNL(POS6(I)) + 
+     .                               H(2)*H(7)*MINMASSCAL*VNL(POS7(I)) + 
+     .                               H(2)*H(8)*MINMASSCAL*VNL(POS8(I)))
           ENDIF
 c        
           B2 = L2 * VOL(I) * ( BTB12(I)*UNL(POS1(I)) + BTB22(I)*UNL(POS2(I)) 
@@ -264,14 +272,14 @@ c
      .         + H(3)*H(4)*VNL(POS4(I)) + H(3)*H(5)*VNL(POS5(I)) + H(3)*H(6)*VNL(POS6(I))
      .         + H(3)*H(7)*VNL(POS7(I)) + H(3)*H(8)*VNL(POS8(I))) 
           ELSE
-            A3 = A3 + VOL(I) * XI * (H(3)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) + 
-     .                                    H(3)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) + 
-     .                                    H(3)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) + 
-     .                                    H(3)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) + 
-     .                                    H(3)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) + 
-     .                                    H(3)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) + 
-     .                                    H(3)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) + 
-     .                                    H(3)*H(8)*(SQRT(MASS(POS8(I))/MASS0(POS8(I))))*VNL(POS8(I)))
+            A3 = A3 + VOL(I) * XI * (H(3)*H(1)*MINMASSCAL*VNL(POS1(I)) + 
+     .                               H(3)*H(2)*MINMASSCAL*VNL(POS2(I)) + 
+     .                               H(3)*H(3)*MINMASSCAL*VNL(POS3(I)) + 
+     .                               H(3)*H(4)*MINMASSCAL*VNL(POS4(I)) + 
+     .                               H(3)*H(5)*MINMASSCAL*VNL(POS5(I)) + 
+     .                               H(3)*H(6)*MINMASSCAL*VNL(POS6(I)) + 
+     .                               H(3)*H(7)*MINMASSCAL*VNL(POS7(I)) + 
+     .                               H(3)*H(8)*MINMASSCAL*VNL(POS8(I)))
           ENDIF
 c        
           B3 = L2 * VOL(I) * ( BTB13(I)*UNL(POS1(I)) + BTB23(I)*UNL(POS2(I)) 
@@ -289,14 +297,14 @@ c
      .         + H(4)*H(4)*VNL(POS4(I)) + H(4)*H(5)*VNL(POS5(I)) + H(4)*H(6)*VNL(POS6(I))
      .         + H(4)*H(7)*VNL(POS7(I)) + H(4)*H(8)*VNL(POS8(I)))  
           ELSE
-            A4 = A4 + VOL(I) * XI * (H(4)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) + 
-     .                                    H(4)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) + 
-     .                                    H(4)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) + 
-     .                                    H(4)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) + 
-     .                                    H(4)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) + 
-     .                                    H(4)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) + 
-     .                                    H(4)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) + 
-     .                                    H(4)*H(8)*(SQRT(MASS(POS8(I))/MASS0(POS8(I))))*VNL(POS8(I)))
+            A4 = A4 + VOL(I) * XI * (H(4)*H(1)*MINMASSCAL*VNL(POS1(I)) + 
+     .                               H(4)*H(2)*MINMASSCAL*VNL(POS2(I)) + 
+     .                               H(4)*H(3)*MINMASSCAL*VNL(POS3(I)) + 
+     .                               H(4)*H(4)*MINMASSCAL*VNL(POS4(I)) + 
+     .                               H(4)*H(5)*MINMASSCAL*VNL(POS5(I)) + 
+     .                               H(4)*H(6)*MINMASSCAL*VNL(POS6(I)) + 
+     .                               H(4)*H(7)*MINMASSCAL*VNL(POS7(I)) + 
+     .                               H(4)*H(8)*MINMASSCAL*VNL(POS8(I)))
           ENDIF
 c        
           B4 = L2 * VOL(I) * ( BTB14(I)*UNL(POS1(I)) + BTB24(I)*UNL(POS2(I)) 
@@ -314,14 +322,14 @@ c
      .         + H(5)*H(4)*VNL(POS4(I)) + H(5)*H(5)*VNL(POS5(I)) + H(5)*H(6)*VNL(POS6(I))
      .         + H(5)*H(7)*VNL(POS7(I)) + H(5)*H(8)*VNL(POS8(I)))  
           ELSE
-            A5 = A5 + VOL(I) * XI * (H(5)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) + 
-     .                                    H(5)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) + 
-     .                                    H(5)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) + 
-     .                                    H(5)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) + 
-     .                                    H(5)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) + 
-     .                                    H(5)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) + 
-     .                                    H(5)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) + 
-     .                                    H(5)*H(8)*(SQRT(MASS(POS8(I))/MASS0(POS8(I))))*VNL(POS8(I)))
+            A5 = A5 + VOL(I) * XI * (H(5)*H(1)*MINMASSCAL*VNL(POS1(I)) + 
+     .                               H(5)*H(2)*MINMASSCAL*VNL(POS2(I)) + 
+     .                               H(5)*H(3)*MINMASSCAL*VNL(POS3(I)) + 
+     .                               H(5)*H(4)*MINMASSCAL*VNL(POS4(I)) + 
+     .                               H(5)*H(5)*MINMASSCAL*VNL(POS5(I)) + 
+     .                               H(5)*H(6)*MINMASSCAL*VNL(POS6(I)) + 
+     .                               H(5)*H(7)*MINMASSCAL*VNL(POS7(I)) + 
+     .                               H(5)*H(8)*MINMASSCAL*VNL(POS8(I)))
           ENDIF
 c        
           B5 = L2 * VOL(I) * ( BTB15(I)*UNL(POS1(I)) + BTB25(I)*UNL(POS2(I)) 
@@ -339,14 +347,14 @@ c
      .         + H(6)*H(4)*VNL(POS4(I)) + H(6)*H(5)*VNL(POS5(I)) + H(6)*H(6)*VNL(POS6(I))
      .         + H(6)*H(7)*VNL(POS7(I)) + H(6)*H(8)*VNL(POS8(I))) 
           ELSE
-            A6 = A6 + VOL(I) * XI * (H(6)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) + 
-     .                                    H(6)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) + 
-     .                                    H(6)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) + 
-     .                                    H(6)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) + 
-     .                                    H(6)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) + 
-     .                                    H(6)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) + 
-     .                                    H(6)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) + 
-     .                                    H(6)*H(8)*(SQRT(MASS(POS8(I))/MASS0(POS8(I))))*VNL(POS8(I)))
+            A6 = A6 + VOL(I) * XI * (H(6)*H(1)*MINMASSCAL*VNL(POS1(I)) + 
+     .                               H(6)*H(2)*MINMASSCAL*VNL(POS2(I)) + 
+     .                               H(6)*H(3)*MINMASSCAL*VNL(POS3(I)) + 
+     .                               H(6)*H(4)*MINMASSCAL*VNL(POS4(I)) + 
+     .                               H(6)*H(5)*MINMASSCAL*VNL(POS5(I)) + 
+     .                               H(6)*H(6)*MINMASSCAL*VNL(POS6(I)) + 
+     .                               H(6)*H(7)*MINMASSCAL*VNL(POS7(I)) + 
+     .                               H(6)*H(8)*MINMASSCAL*VNL(POS8(I)))
           ENDIF
 c        
           B6 = L2 * VOL(I) * ( BTB16(I)*UNL(POS1(I)) + BTB26(I)*UNL(POS2(I)) 
@@ -364,14 +372,14 @@ c
      .         + H(7)*H(4)*VNL(POS4(I)) + H(7)*H(5)*VNL(POS5(I)) + H(7)*H(6)*VNL(POS6(I))
      .         + H(7)*H(7)*VNL(POS7(I)) + H(7)*H(8)*VNL(POS8(I)))
           ELSE
-            A7 = A7 + VOL(I) * XI * (H(7)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) + 
-     .                                    H(7)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) + 
-     .                                    H(7)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) + 
-     .                                    H(7)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) + 
-     .                                    H(7)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) + 
-     .                                    H(7)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) + 
-     .                                    H(7)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) + 
-     .                                    H(7)*H(8)*(SQRT(MASS(POS8(I))/MASS0(POS8(I))))*VNL(POS8(I)))
+            A7 = A7 + VOL(I) * XI * (H(7)*H(1)*MINMASSCAL*VNL(POS1(I)) + 
+     .                               H(7)*H(2)*MINMASSCAL*VNL(POS2(I)) + 
+     .                               H(7)*H(3)*MINMASSCAL*VNL(POS3(I)) + 
+     .                               H(7)*H(4)*MINMASSCAL*VNL(POS4(I)) + 
+     .                               H(7)*H(5)*MINMASSCAL*VNL(POS5(I)) + 
+     .                               H(7)*H(6)*MINMASSCAL*VNL(POS6(I)) + 
+     .                               H(7)*H(7)*MINMASSCAL*VNL(POS7(I)) + 
+     .                               H(7)*H(8)*MINMASSCAL*VNL(POS8(I)))
           ENDIF  
 c        
           B7 = L2 * VOL(I) * ( BTB17(I)*UNL(POS1(I)) + BTB27(I)*UNL(POS2(I)) 
@@ -389,14 +397,14 @@ c
      .         + H(8)*H(4)*VNL(POS4(I)) + H(8)*H(5)*VNL(POS5(I)) + H(8)*H(6)*VNL(POS6(I))
      .         + H(8)*H(7)*VNL(POS7(I)) + H(8)*H(8)*VNL(POS8(I)))  
           ELSE
-            A8 = A8 + VOL(I) * XI * (H(8)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) + 
-     .                                    H(8)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) + 
-     .                                    H(8)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) + 
-     .                                    H(8)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) + 
-     .                                    H(8)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) + 
-     .                                    H(8)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) + 
-     .                                    H(8)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) + 
-     .                                    H(8)*H(8)*(SQRT(MASS(POS8(I))/MASS0(POS8(I))))*VNL(POS8(I)))
+            A8 = A8 + VOL(I) * XI * (H(8)*H(1)*MINMASSCAL*VNL(POS1(I)) + 
+     .                               H(8)*H(2)*MINMASSCAL*VNL(POS2(I)) + 
+     .                               H(8)*H(3)*MINMASSCAL*VNL(POS3(I)) + 
+     .                               H(8)*H(4)*MINMASSCAL*VNL(POS4(I)) + 
+     .                               H(8)*H(5)*MINMASSCAL*VNL(POS5(I)) + 
+     .                               H(8)*H(6)*MINMASSCAL*VNL(POS6(I)) + 
+     .                               H(8)*H(7)*MINMASSCAL*VNL(POS7(I)) + 
+     .                               H(8)*H(8)*MINMASSCAL*VNL(POS8(I)))
           ENDIF
 c        
           B8 = L2 * VOL(I) * ( BTB18(I)*UNL(POS1(I)) + BTB28(I)*UNL(POS2(I)) 

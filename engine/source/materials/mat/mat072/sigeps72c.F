@@ -34,7 +34,7 @@ Chd|====================================================================
      5     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      6     SOUNDSP  ,THK      ,PLA      ,UVAR     ,OFF      ,
      7     ETSE     ,GS       ,YLD      ,HARDM    ,SEQ      ,
-     8     DPLA     ,DMG      ,INLOC    ,DPLANL   )
+     8     DPLA     ,DMG      ,INLOC    ,DPLANL   ,LOFF     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,6 +61,7 @@ C
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
      .   GS(*),HARDM(NEL),SEQ(NEL),DMG(NEL),
      .   DPLANL(NEL)
+      my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -351,9 +352,11 @@ C
         ! Computation of the thickness variation 
         DEELZZ(I)  = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E
         IF (INLOC > 0) THEN 
-          NORMXX   = (GG*SIGNXX(I) + HH*(SIGNXX(I)-SIGNYY(I)))/(MAX(SIGHL(I),EM20))
-          NORMYY   = (FF*SIGNYY(I) + HH*(SIGNYY(I)-SIGNXX(I)))/(MAX(SIGHL(I),EM20))
-          DEZZ(I)  = DEELZZ(I) - MAX(DPLANL(I),ZERO)*(NORMXX+NORMYY)
+          IF (LOFF(I) == ONE) THEN 
+            NORMXX   = (GG*SIGNXX(I) + HH*(SIGNXX(I)-SIGNYY(I)))/(MAX(SIGHL(I),EM20))
+            NORMYY   = (FF*SIGNYY(I) + HH*(SIGNYY(I)-SIGNXX(I)))/(MAX(SIGHL(I),EM20))
+            DEZZ(I)  = DEELZZ(I) - MAX(DPLANL(I),ZERO)*(NORMXX+NORMYY)
+          ENDIF
         ELSE
           DEZZ(I)  = DEELZZ(I) + DPZZ(I)
         ENDIF

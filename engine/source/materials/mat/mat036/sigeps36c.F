@@ -43,7 +43,7 @@ Chd|====================================================================
      B     ETSE   ,GS     ,YLD     ,EPSP    ,ISRATE ,
      C     DPLA_I ,GAMA_IMP,SIGNOR ,SHF     ,HARDM  ,
      D     FACYLDI,INLOC   ,DPLANL  ,DMG    ,PLANL  ,
-     E     SIGBXX,SIGBYY,SIGBXY  )
+     E     SIGBXX,SIGBYY,SIGBXY  ,LOFF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,6 +113,7 @@ C-----------------------------------------------
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
      .   GS(NEL),EPSP(NEL),SHF(NEL),HARDM(NEL),DPLANL(NEL),DMG(NEL),
      .   PLANL(NEL)
+      my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -1003,13 +1004,15 @@ C     NON-LOCAL THICKNESS VARIATION
 C--------------------------------
       IF (INLOC > 0) THEN
         DO I = 1,NEL 
-          SVM    = SQRT(SIGNXX(I)*SIGNXX(I)
-     .           + SIGNYY(I)*SIGNYY(I)
-     .           - SIGNXX(I)*SIGNYY(I)
-     .           + THREE*SIGNXY(I)*SIGNXY(I))
-          DEZZ   = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(SVM,EM20)
-          DEZZ   = -NUX*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E(I)) - DEZZ
-          THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)     
+          IF (LOFF(I) == ONE) THEN 
+            SVM    = SQRT(SIGNXX(I)*SIGNXX(I)
+     .             + SIGNYY(I)*SIGNYY(I)
+     .             - SIGNXX(I)*SIGNYY(I)
+     .             + THREE*SIGNXY(I)*SIGNXY(I))
+            DEZZ   = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(SVM,EM20)
+            DEZZ   = -NUX*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E(I)) - DEZZ
+            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
+          ENDIF     
         ENDDO  
       ENDIF
 c-----------

@@ -139,7 +139,7 @@ c
         ! Standard inputs
         DPLA(I)  = ZERO      ! Initialization of the plastic strain increment
         ET(I)    = ONE       ! Initialization of hourglass coefficient
-        HARDP(I) = ZERO      ! Initialization of hourglass coefficient
+        HARDP(I) = ZERO      ! Initialization of hardening modulus
       ENDDO    
 c      
       ! Initialization of temperature and self-heating weight factor
@@ -231,14 +231,14 @@ c
       ! Checking plastic behavior for all elements
       NINDX = 0
       DO I=1,NEL         
-        IF ((PHI(I)>ZERO).AND.(OFF(I) == ONE)) THEN
+        IF ((PHI(I) >= ZERO).AND.(OFF(I) == ONE)) THEN
           NINDX=NINDX+1
           INDEX(NINDX)=I
         ENDIF
       ENDDO
 c      
       !====================================================================
-      ! - PLASTIC CORRECTION WITH NICE - EXPLICIT 1 METHOD
+      ! - PLASTIC CORRECTION WITH NICE - EXPLICIT METHOD
       !==================================================================== 
 #include "vectorize.inc" 
       DO II = 1, NINDX  
@@ -275,8 +275,8 @@ c
         ! Note     : in this part, the purpose is to compute for each iteration
         ! a plastic multiplier allowing to update internal variables to satisfy
         ! the consistency condition. 
-        ! Its expression is : DLAMBDA = - (PHI + DPHI) / DPHI_DLAMBDA
-        ! -> PHI  : current value of yield function (known)
+        ! Its expression is : DLAMBDA = - (PHI_OLD + DPHI) / DPHI_DLAMBDA
+        ! -> PHI_OLD : old value of yield function (known)
         ! -> DPHI : yield function prediction (to compute)
         ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
         !                   into account of internal variables kinetic : 
@@ -295,7 +295,8 @@ c
      .          + SIGOZZ(I)*SIGOZZ(I)  
      .          + TWO*SIGOXY(I)*SIGOXY(I)
      .          + TWO*SIGOYZ(I)*SIGOYZ(I)
-     .          + TWO*SIGOZX(I)*SIGOZX(I))       
+     .          + TWO*SIGOZX(I)*SIGOZX(I))  
+        NORMSIG = MAX(NORMSIG,ONE)     
 c     
         ! Derivative with respect to Fdr 
         FDR(I)     =  (J2(I)/(NORMSIG**2))**3 - CDR*((J3(I)/(NORMSIG**3))**2)       
@@ -454,7 +455,7 @@ c
         PHI(I) = SIGDR2 * YLD2I - ONE       
       ENDDO 
       !===================================================================
-      ! - END OF PLASTIC CORRECTION WITH NICE - EXPLICIT 1 METHOD
+      ! - END OF PLASTIC CORRECTION WITH NICE - EXPLICIT METHOD
       !===================================================================
 c
       ! Storing new values
@@ -476,7 +477,7 @@ c
         ! Storing the yield stress
         SIGY(I)    = YLD(I)
         ! Non-local temperature
-        IF (INLOC > 0) THEN 
+        IF ((INLOC > 0).AND.(OFF(I) == ONE)) THEN 
           IF (CP > ZERO .AND. JTHE == 0) THEN     
             ! Computation of the weight factor
             DPDT_NL = MAX(DPLANL(I),ZERO)/MAX(TIMESTEP,EM20)

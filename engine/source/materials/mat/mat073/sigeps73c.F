@@ -47,7 +47,8 @@ Chd|====================================================================
      E   EPSP,      TABLE,     VOL,       TEMPEL,
      F   DIE,       COEF,      NPF,       NFUNC,
      G   IFUNC,     TF,        SHF,       HARDM,
-     H   SEQ_OUTPUT,INLOC,     DPLANL,    JTHE)
+     H   SEQ_OUTPUT,INLOC,     DPLANL,    JTHE,
+     I   LOFF)
 C-----------------------------------------------
       USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
@@ -80,6 +81,7 @@ C-----------------------------------------------
      .   GS(NEL),VOL(NEL),TEMPEL(NEL),DIE(NEL),COEF(NEL),HARDM(*),
      .   SEQ_OUTPUT(NEL),DPLANL(NEL)
       TYPE(TTABLE) TABLE(*)
+      my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
 C-----------------------------------------------
 C   O U T P U T   A R G U M E N T S
 C-----------------------------------------------
@@ -733,7 +735,7 @@ C------------------------------------------------------------------
         AXY(I)  = A12*SIGNXY(I)*SIGNXY(I)
         SVM(I)  = SQRT(S1+S2-S3+AXY(I))
         SEQ_OUTPUT(I) = SVM(I) 
-        IF (INLOC > 0) THEN 
+        IF ((INLOC > 0).AND.(LOFF(I) == ONE)) THEN 
           NORMXX  = (TWO*A01*SIGNXX(I) - A03*SIGNYY(I))/(MAX(TWO*SVM(I),EM20))
           NORMYY  = (TWO*A02*SIGNYY(I) - A03*SIGNXX(I))/(MAX(TWO*SVM(I),EM20))
           DEZZ    = MAX(DPLANL(I),ZERO)*(NORMXX + NORMYY)

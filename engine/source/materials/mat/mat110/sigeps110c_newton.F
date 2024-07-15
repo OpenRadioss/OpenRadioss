@@ -40,7 +40,7 @@ Chd|====================================================================
      7     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKLY   ,
      8     THK     ,SIGY    ,ET      ,TEMPEL  ,TEMP    ,SEQ     ,
      9     TF      ,NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,
-     A     SIGA    ,INLOC   ,DPLANL  )
+     A     SIGA    ,INLOC   ,DPLANL  ,LOFF    )
       !=======================================================================
       !      Modules
       !=======================================================================
@@ -69,7 +69,7 @@ Chd|====================================================================
      .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
      .   EPSPXX,EPSPYY,EPSPXY,EPSPYZ,EPSPZX ,
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX,
-     .   GS,THKLY
+     .   GS,THKLY,LOFF
 c
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
      .   SOUNDSP,SIGY,ET,EPSP,
@@ -889,7 +889,7 @@ c
         ! Computation of the thickness variation 
         DEELZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG
         ! Computation of the non-local thickness variation
-        IF (INLOC > 0) THEN 
+        IF ((INLOC > 0).AND.(LOFF(I) == ONE)) THEN 
           ! Computation of the old principal stresses
           MOHR_RADIUS = SQRT(((SIGNXX(I)-SIGNYY(I))/TWO)**2 + SIGNXY(I)**2)
           MOHR_CENTER = (SIGNXX(I)+SIGNYY(I))/TWO

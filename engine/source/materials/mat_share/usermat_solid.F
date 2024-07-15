@@ -1750,7 +1750,11 @@ C------------------------------------------------------------
       IF (ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLA > 0) THEN
         IF (INLOC > 0) THEN 
           DO I=LFT,LLT
-            VARNL(I) = DEFP(I)
+            IF (OFF(I) == ONE) THEN 
+              VARNL(I) = DEFP(I)
+            ELSE
+              VARNL(I) = ZERO
+            ENDIF
           ENDDO
         ENDIF
       ENDIF
