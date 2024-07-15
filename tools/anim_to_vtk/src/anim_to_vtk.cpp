@@ -43,6 +43,8 @@ using std::cout;
 
 #endif
 
+#include <vector>
+#include <set>
 
 // X
 #define FASTMAGI4 0x5426
@@ -972,9 +974,29 @@ void readRadiossAnim(char *fileName)
         cout << "\n";
 
         // elements connectivity
+        std::vector<bool> is3DCellTetrahedron;
+        int tetrahedronCount = 0;
+        for (int icon = 0; icon < nbElts3D; icon++)
+        {
+            std::set<int> nodes;
+            for(i=0;i<8;i++)
+            {
+                nodes.insert(connect3DA[(icon * 8) + i]);
+            }
+            if(nodes.size() == 4)
+            {
+                is3DCellTetrahedron.push_back(true);
+                tetrahedronCount++;
+            }
+            else
+            {
+                is3DCellTetrahedron.push_back(false);
+            }
+        }
+
         if (nbElts1D + nbFacets + nbElts3D + nbEltsSPH)
         {
-            cout << "CELLS " << nbElts1D + nbFacets + nbElts3D + nbEltsSPH << " " << nbElts1D * 3 + nbFacets * 5 + nbElts3D * 9 + nbEltsSPH * 2 << "\n";
+            cout << "CELLS " << nbElts1D + nbFacets + nbElts3D + nbEltsSPH << " " << nbElts1D * 3 + nbFacets * 5 + tetrahedronCount * 5 + (nbElts3D - tetrahedronCount) * 9 + nbEltsSPH * 2 << "\n";
             for (int icon = 0; icon < nbElts1D; icon++)
             {
                 cout << 2 << " "
@@ -991,6 +1013,22 @@ void readRadiossAnim(char *fileName)
             }
             for (int icon = 0; icon < nbElts3D; icon++)
             {
+                std::set<int> nodes;
+                for(i=0;i<8;i++)
+                {
+                    nodes.insert(connect3DA[(icon * 8) + i]);
+                }
+                if(nodes.size() == 4)
+                {
+                    cout << 4;
+                    for(auto it = nodes.begin(); it != nodes.end(); ++it)
+                    {
+                        cout << " " << *it;
+                    }
+                    cout << "\n";
+                }
+                else
+                {
                 cout << 8 << " "
                      << connect3DA[(icon * 8)] << "  "
                      << connect3DA[(icon * 8) + 1] << "  "
@@ -1000,6 +1038,7 @@ void readRadiossAnim(char *fileName)
                      << connect3DA[(icon * 8) + 5] << "  "
                      << connect3DA[(icon * 8) + 6] << "  "
                      << connect3DA[(icon * 8) + 7] << "\n";
+                }
             }
             for (int icon = 0; icon < nbEltsSPH; icon++)
             {
@@ -1023,7 +1062,14 @@ void readRadiossAnim(char *fileName)
             }
             for (int icon = 0; icon < nbElts3D; icon++)
             {
-                cout << 12 << "\n";
+                if(is3DCellTetrahedron[icon])
+                {
+                    cout << 10 << "\n";
+                }
+                else
+                {
+                    cout << 12 << "\n";
+                }
             }
             for (int icon = 0; icon < nbEltsSPH; icon++)
             {
