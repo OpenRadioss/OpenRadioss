@@ -59,7 +59,7 @@ C-----------------------------------------------
 C                                                                     12
       my_real
      .   RX, RY, RZ, SX, SY, SZ,NX,NY,NZ,BBB,
-     .   DX,DY,DZ,DD,PENE(MVSIZ),NORM,DMIN
+     .   DX,DY,DZ,DD,PENE(MVSIZ),NORM,DMIN,DMIN1
 C----------------------------
          DO I=1,NEL
            IF (IFC1(I)>0) CYCLE
@@ -88,6 +88,11 @@ C-------if degenerated quad not possible have 1=3 or 2=4
            DMIN = ABS(DX)+ABS(DY)+ABS(DZ)
            IF (DMIN==ZERO) THEN
              IFC1(I)=3
+             DX =X2(I)-X1(I)
+             DY =Y2(I)-Y1(I)
+             DZ =Z2(I)-Z1(I)
+             DMIN1 = ABS(DX)+ABS(DY)+ABS(DZ)
+             IF (DMIN1==ZERO) IFC1(I)=0
              CYCLE
            END IF
            DX =X2(I)-X1(I)
@@ -104,6 +109,11 @@ C-------if degenerated quad not possible have 1=3 or 2=4
            DMIN = ABS(DX)+ABS(DY)+ABS(DZ)
            IF (DMIN==ZERO) THEN
              IFC1(I)=4
+             DX =X3(I)-X2(I)
+             DY =Y3(I)-Y2(I)
+             DZ =Z3(I)-Z2(I)
+             DMIN1 = ABS(DX)+ABS(DY)+ABS(DZ)
+             IF (DMIN1==ZERO) IFC1(I)=0
              CYCLE
            END IF
            DX =X3(I)-X2(I)
