@@ -8645,7 +8645,7 @@ C===============================================================================
 C----------------------------------------------------------------
 C         CLOAD - Save Displacements and Velocities for concentrated loads and pressure loads
 C----------------------------------------------------------------
-      IF (LOADS%NLOAD_CLOAD + LOADS%NLOAD_PLOAD > 0) THEN
+      IF (NCONLD > 0) THEN
         CALL DISP_VEL_SAVED_CLOAD(V      ,D      ,VR    ,DR    ,IBCL   ,
      .                            DPL0CLD,VEL0CLD,NIBCLD,NCONLD,IRODDL ,
      .                            NUMNOD )
