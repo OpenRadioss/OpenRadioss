@@ -1452,9 +1452,9 @@ C--------------------------------------
       CALL READ_DB(TM_NSTRA1,LMAX_NSTRA*NUMNOD)
       CALL READ_DB(TM_NSTRA3,LMAX_NSTRA*NUMNOD)
 C--------------------------------------
-      IF (LOADS%NLOAD_CLOAD + LOADS%NLOAD_PLOAD > 0) THEN
-        CALL READ_DB(DPL0CLD,6*(LOADS%NLOAD_CLOAD+LOADS%NLOAD_PLOAD))
-        CALL READ_DB(VEL0CLD,6*(LOADS%NLOAD_CLOAD+LOADS%NLOAD_PLOAD))
+      IF (NCONLD > 0) THEN
+        CALL READ_DB(DPL0CLD,6*NCONLD)
+        CALL READ_DB(VEL0CLD,6*NCONLD)
       ENDIF
 C--------------------------------------
 C   /DAMP/VREL
