@@ -90,6 +90,7 @@ C-----------------------------------------------
             MLAW_TAG(I)%G_NUVAR = 0
             MLAW_TAG(I)%G_MASS = 0
             MLAW_TAG(I)%G_SKEW_ID = 0
+            MLAW_TAG(I)%G_THK = 0
 c           layer variables 
 c   
             MLAW_TAG(I)%LY_DIRA = 0
