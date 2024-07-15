@@ -108,7 +108,7 @@ c
           IF ((NICE == 1).OR.(NICE == 3)) THEN 
             CALL MAT104C_NODAM_NICE(
      1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
-     2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFF     ,
+     2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFFL    ,
      3         GS      ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5         SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
@@ -118,7 +118,7 @@ c
           ELSE  ! Newton
             CALL MAT104C_NODAM_NEWTON(
      1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
-     2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFF     ,
+     2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFFL    ,
      3         GS      ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5         SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,

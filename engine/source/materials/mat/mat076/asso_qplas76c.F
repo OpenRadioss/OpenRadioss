@@ -39,7 +39,7 @@ Chd|====================================================================
      .     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      .     PLA     ,DPLA    ,EPSD    ,OFF     ,GS      ,
      .     YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  ,
-     .     NVARTMP, VARTMP  )
+     .     NVARTMP, VARTMP  ,LOFF    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,6 +65,7 @@ C-----------------------------------------------
      .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
       TYPE(TABLE_4D_), DIMENSION(NUMTABL) ,INTENT(IN) :: TABLE
+      my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -439,18 +440,20 @@ c
       !====================================================================
       IF (INLOC > 0) THEN 
         DO I = 1,NEL
-          CB     = A1(I) + TWO*A2(I)*P(I)                                                          
-          NORM   = ONE/MAX(EM20, SQRT(SIX*SVM(I)**2  + THIRD*CB**2)) ! norm df/dsig
-          NORMXX = THREE*SXX(I) + CB/THREE ! DF/DSIG
-          NORMYY = THREE*SYY(I) + CB/THREE 
-          NORMZZ = THREE*SZZ(I) + CB/THREE  
-          YLD_NORM = SVM(I)*NORM
-          IF (YLD_NORM /= ZERO) THEN 
-            DLAM_NL(I) = (ONE/(TWO*YLD_NORM))*MAX(DPLANL(I),ZERO)
-            DEZZ(I) = DEZZ(I) + NU1*(DLAM_NL(I)*NORMXX)*NORM
-     .                        + NU1*(DLAM_NL(I)*NORMYY)*NORM
-     .                        + DLAM_NL(I)*NORMZZ*NORM
-          ENDIF          
+          IF (LOFF(I) == ONE) THEN
+            CB     = A1(I) + TWO*A2(I)*P(I)                                                          
+            NORM   = ONE/MAX(EM20, SQRT(SIX*SVM(I)**2  + THIRD*CB**2)) ! norm df/dsig
+            NORMXX = THREE*SXX(I) + CB/THREE ! DF/DSIG
+            NORMYY = THREE*SYY(I) + CB/THREE 
+            NORMZZ = THREE*SZZ(I) + CB/THREE  
+            YLD_NORM = SVM(I)*NORM
+            IF (YLD_NORM /= ZERO) THEN 
+              DLAM_NL(I) = (ONE/(TWO*YLD_NORM))*MAX(DPLANL(I),ZERO)
+              DEZZ(I) = DEZZ(I) + NU1*(DLAM_NL(I)*NORMXX)*NORM
+     .                          + NU1*(DLAM_NL(I)*NORMYY)*NORM
+     .                          + DLAM_NL(I)*NORMZZ*NORM
+            ENDIF    
+          ENDIF      
         ENDDO
       ENDIF
 c

@@ -35,7 +35,7 @@ Chd|====================================================================
      5         EPSPXX  ,EPSPYY  ,EPSPXY  ,EPSPYZ  ,EPSPZX  ,
      6         SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     8         SIGY    ,ET      ,DPLANL  ,SEQ     ,INLOC   )
+     8         SIGY    ,ET      ,DPLANL  ,SEQ     ,INLOC   ,LOFF    )
       !=======================================================================
       !      Implicit types
       !=======================================================================
@@ -53,7 +53,7 @@ Chd|====================================================================
       my_real,DIMENSION(NUPARAM), INTENT(IN) :: 
      .   UPARAM
       my_real,DIMENSION(NEL), INTENT(IN)     :: 
-     .   RHO,DPLANL,GS,THKLY,
+     .   RHO,DPLANL,GS,THKLY,LOFF,
      .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
      .   EPSPXX,EPSPYY,EPSPXY,EPSPYZ,EPSPZX,
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
@@ -378,8 +378,10 @@ c
         SIGY(I) = YLD(I)  
         ! Thickness variation
         IF (INLOC > 0) THEN
-          DEZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG(I)
-          DEZZ(I) = DEZZ(I) - MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
+          IF (LOFF(I) == ONE) THEN 
+            DEZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG(I)
+            DEZZ(I) = DEZZ(I) - MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
+          ENDIF
         ELSE
           DEZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG(I) + DEZZ(I)
         ENDIF

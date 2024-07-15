@@ -33,7 +33,7 @@ Chd|====================================================================
      4     DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5     SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7     SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,TEMP    ,
+     7     SIGY    ,ET      ,TEMPEL  ,DPLA_NL ,DMG     ,TEMP    ,
      8     SEQ     ,PLA_NL  ,L_PLANL ,PLAP_NL ,L_EPSDNL)
       !=======================================================================
       !      Implicit types
@@ -54,7 +54,7 @@ Chd|====================================================================
       my_real,DIMENSION(NUPARAM), INTENT(IN) :: 
      .   UPARAM
       my_real,DIMENSION(NEL), INTENT(IN)     :: 
-     .   RHO0,RHO,TEMPEL,
+     .   RHO0,RHO,TEMPEL,DPLA_NL,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
       my_real, DIMENSION(NEL*L_PLANL), INTENT(IN) :: 
@@ -67,7 +67,7 @@ c
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
 c
       my_real ,DIMENSION(NEL), INTENT(INOUT) :: 
-     .   PLA,DPLA,EPSD,OFF,VARNL,TEMP,SEQ
+     .   PLA,DPLA,EPSD,OFF,TEMP,SEQ
       my_real ,DIMENSION(NEL,6), INTENT(INOUT)     :: 
      .   DMG
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
@@ -77,14 +77,14 @@ c
       !=======================================================================
       INTEGER I,K,II,IGURSON,NINDX,INDEX(NEL),NICE
 c
-      DOUBLE PRECISION ::
+      my_real ::
      .   YOUNG,BULK,LAM,G,G2,NU,CDR,KDR,HARD,YLD0,QVOCE,BVOCE,JCC,
      .   EPSP0,MTEMP,TINI,TREF,ETA,CP,DPIS,DPAD,ASRATE,AFILTR,HKHI,
      .   Q1,Q2,ED,AN,EPN,KW,FR,FC,F0,NORMSIG,DTI
-      DOUBLE PRECISION ::
+      my_real ::
      .   H,LDAV,TRDEP,TRDFDS,SIGVM,SIGDR2,YLD2I,OMEGA,
      .   DTEMP,FCOSH,FSINH,DPDT,DLAM,DDEP
-      DOUBLE PRECISION ::
+      my_real ::
      .   DPXX,DPYY,DPZZ,DPXY,DPYZ,DPZX,DSDRDJ2,DSDRDJ3,
      .   DJ3DSXX,DJ3DSYY,DJ3DSZZ,DJ3DSXY,DJ3DSYZ,DJ3DSZX,
      .   DJ2DSXX,DJ2DSYY,DJ2DSZZ,DJ2DSXY,DJ2DSYZ,DJ2DSZX,
@@ -95,14 +95,12 @@ c
      .   DFN_DLAM,DFSH_DLAM,DFG_DLAM,DFT_DLAM,DFDPLA,DYLD_DPLA_NL,
      .   DFN,DFSH,DFG,DFT,DYLD_DPLA,DYLD_DTEMP,DTEMP_DLAM
 c
-      DOUBLE PRECISION, DIMENSION(NEL) :: 
+      my_real, DIMENSION(NEL) :: 
      .   DSIGXX,DSIGYY,DSIGZZ,DSIGXY,DSIGYZ,DSIGZX,TRSIG,
      .   SXX,SYY,SZZ,SXY,SYZ,SZX,SIGM,J2,J3,SIGDR,YLD,WEITEMP,
      .   HARDP,FHARD,FRATE,FTHERM,FDR,DEPXX,DEPYY,DEPZZ,DEPXY,DEPYZ,DEPZX,
      .   FDAM,PHI0,PHI,FT,FS,FG,FN,FSH,DPLA_DLAM,D,TRIAX,ETAT
 c
-      DOUBLE PRECISION, DIMENSION(NEL) :: 
-     .   DLAM_NL,DDPNL,DPLA_NL
       !=======================================================================
       !    DRUCKER - VOCE - JOHNSON-COOK MATERIAL LAW WITH GURSON DAMAGE
       !        USING LOCAL DAMAGE OR NON-LOCAL MICROMORPHIC METHOD
@@ -177,14 +175,7 @@ c
         D(I)     = Q1*FS(I)   ! Effective normalized damage
         DPLA(I)  = ZERO       ! Initialization of the plastic strain increment
         ET(I)    = ONE        ! Initialization of hourglass coefficient
-        HARDP(I) = ZERO       ! Initialization of hourglass coefficient
-        IF (IGURSON == 2) THEN
-          IF (OFF(I) == ONE) THEN 
-            DPLA_NL(I) = MAX(VARNL(I),ZERO)     ! Non-local plastic strain increment
-          ELSE 
-            DPLA_NL(I) = ZERO
-          ENDIF
-        ENDIF    
+        HARDP(I) = ZERO       ! Initialization of hardening modulus
       ENDDO
 c      
       ! Initialization of damage, temperature and self-heating weight factor
@@ -299,27 +290,21 @@ c
       ! - COMPUTATION OF YIELD FONCTION
       !========================================================================
       DO I=1,NEL
-        ! If the element is not broken
-        IF (OFF(I)==ONE) THEN
-          FDAM(I) = TWO*Q1*FS(I)*COSH(Q2*ETAT(I)*TRSIG(I)/YLD(I)/TWO) - (Q1*FS(I))**2
-          PHI(I)  = (SIGDR(I) / YLD(I))**2 - ONE + FDAM(I)
-        ! If the element is broken  
-        ELSE
-          PHI(I) = ZERO
-        ENDIF  
+        FDAM(I) = TWO*Q1*FS(I)*COSH(Q2*ETAT(I)*TRSIG(I)/YLD(I)/TWO) - (Q1*FS(I))**2
+        PHI(I)  = (SIGDR(I) / YLD(I))**2 - ONE + FDAM(I)
       ENDDO
 c      
       ! Checking plastic behavior for all elements
       NINDX = 0
       DO I=1,NEL         
-        IF ((PHI(I)>ZERO).AND.(OFF(I) == ONE).AND.(FT(I)<FR)) THEN
+        IF ((PHI(I) >= ZERO).AND.(OFF(I) == ONE).AND.(FT(I) < FR)) THEN
           NINDX=NINDX+1
           INDEX(NINDX)=I
         ENDIF
       ENDDO
 c      
       !====================================================================
-      ! - PLASTIC CORRECTION WITH NICE - EXPLICIT 1 METHOD
+      ! - PLASTIC CORRECTION WITH NICE - EXPLICIT METHOD
       !====================================================================
 #include "vectorize.inc" 
       DO II=1,NINDX   
@@ -363,8 +348,8 @@ c
         ! Note : in this part, the purpose is to compute for each iteration
         ! a plastic multiplier allowing to update internal variables to satisfy
         ! the consistency condition. 
-        ! Its expression is : DLAMBDA = - (PHI + DPHI) / DPHI_DLAMBDA
-        ! -> PHI  : current value of yield function (known)
+        ! Its expression is : DLAMBDA = - (PHI_OLD + DPHI) / DPHI_DLAMBDA
+        ! -> PHI_OLD : old value of yield function (known)
         ! -> DPHI : yield function prediction (to compute)
         ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
         !                   into account of internal variables kinetic : 
@@ -385,7 +370,8 @@ c
      .          + SIGOZZ(I)*SIGOZZ(I)  
      .          + TWO*SIGOXY(I)*SIGOXY(I)
      .          + TWO*SIGOYZ(I)*SIGOYZ(I)
-     .          + TWO*SIGOZX(I)*SIGOZX(I))       
+     .          + TWO*SIGOZX(I)*SIGOZX(I))    
+        NORMSIG = MAX(NORMSIG,ONE)   
 c     
         ! Derivative with respect to Fdr 
         FDR(I)     =  (J2(I)/(NORMSIG**2))**3 - CDR*((J3(I)/(NORMSIG**3))**2)       
@@ -710,15 +696,11 @@ c
         DMG(I,5)   = MIN(FT(I),FR)     ! Total damage
         DMG(I,6)   = MIN(FS(I),ONE/Q1) ! Effective damage
         SEQ(I)     = SIGDR(I)          ! Equivalent stress
-        DPDT       = DPLA(I) / MAX(EM20,TIMESTEP)
         ! Plastic strain-rate (filtered)
+        DPDT       = DPLA(I) / MAX(EM20,TIMESTEP)
         EPSD(I)    = AFILTR * DPDT + (ONE - AFILTR) * EPSD(I)
         ! Coefficient for hourglass
         ET(I)      = HARDP(I)*FRATE(I) / (HARDP(I)*FRATE(I) + YOUNG)
-        ! Variable to regularize (cumulated plastic strain)
-        IF (IGURSON==2) THEN
-          VARNL(I)  = PLA(I)         
-        ENDIF
         ! Computation of the sound speed
         SOUNDSP(I) = SQRT((BULK + FOUR_OVER_3*G)/RHO0(I))
         ! Storing the yield stress

@@ -36,7 +36,7 @@ Chd|====================================================================
      5                     SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX ,
      6                     SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX ,
      7                     PLA    ,NGL    ,HARDM  ,INLOC  ,DPLANL ,
-     8                     SEQH   )
+     8                     SEQH   ,LOFF   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C     REAL
      .   SIGOYZ(NEL),SIGOZX(NEL),SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
      .   SIGNYZ(NEL),SIGNZX(NEL),PLA(NEL),THKLYL(NEL),DPLANL(NEL),
      .   SEQH(NEL)
+      my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -130,57 +131,58 @@ C----------------------------------------------------------
         SEQH(I) = SQRT(A+B+B+C)
         ! Non-local
         IF (INLOC > 0) THEN 
-          SEQ     = MAX(SQRT(A+B+B+C),EM20)
-          DSEQ_DA = ONE/(TWO*SEQ)
-          DSEQ_DB = ONE/(SEQ)
-          DSEQ_DC = ONE/(TWO*SEQ)
-          DA_DS11 = TWO*A01*S11 - A03*S22
-          DA_DS22 = TWO*A02*S22 - A03*S11
-          DA_DS12 = TWO*A12*S12
-          DB_DS11 = (HALF*A03-A01)*Q
-          DB_DS22 = (HALF*A03-A02)*Q
-          DB_DQ   = -(A01*S11 + A02*S22 - HALF*A03*(S11+S22))
-          DC_DQ   = TWO*(A01+A02-A03)*Q
-          DQ_DSXX = -THIRD*(ONE - (NU/(ONE - NU)))
-          DQ_DSYY = -THIRD*(ONE - (NU/(ONE - NU)))
-          DS11_DSXX = ONE + DQ_DSXX
-          DS11_DSYY = DQ_DSYY
-          DS22_DSXX = DQ_DSXX
-          DS22_DSYY = ONE + DQ_DSYY
-          DSXX_DSIGX  = D11
-          DSXX_DSIGY  = D22
-          DSYY_DSIGX  = D22
-          DSYY_DSIGY  = D11
-          DSXY_DSIGX  = -D12
-          DSXY_DSIGY  = D12
-          NORMXX = DSEQ_DA*(
-     .                 DA_DS11*(DS11_DSXX*DSXX_DSIGX + DS11_DSYY*DSYY_DSIGX) + 
-     .                 DA_DS22*(DS22_DSXX*DSXX_DSIGX + DS22_DSYY*DSYY_DSIGX) +
-     .                 DA_DS12*DSXY_DSIGX ) + 
-     .             DSEQ_DB*(
-     .                 DB_DS11*(DS11_DSXX*DSXX_DSIGX + DS11_DSYY*DSYY_DSIGX) + 
-     .                 DB_DS22*(DS22_DSXX*DSXX_DSIGX + DS22_DSYY*DSYY_DSIGX) + 
-     .                 DB_DQ*(DQ_DSXX*DSXX_DSIGX + DQ_DSYY*DSYY_DSIGX)) +
-     .             DSEQ_DC*(
-     .                 DC_DQ*(DQ_DSXX*DSXX_DSIGX + DQ_DSYY*DSYY_DSIGX))
-          NORMYY = DSEQ_DA*(
-     .                 DA_DS11*(DS11_DSXX*DSXX_DSIGY + DS11_DSYY*DSYY_DSIGY) + 
-     .                 DA_DS22*(DS22_DSXX*DSXX_DSIGY + DS22_DSYY*DSYY_DSIGY) +
-     .                 DA_DS12*DSXY_DSIGY ) + 
-     .             DSEQ_DB*(
-     .                 DB_DS11*(DS11_DSXX*DSXX_DSIGY + DS11_DSYY*DSYY_DSIGY) + 
-     .                 DB_DS22*(DS22_DSXX*DSXX_DSIGY + DS22_DSYY*DSYY_DSIGY) + 
-     .                 DB_DQ*(DQ_DSXX*DSXX_DSIGY + DQ_DSYY*DSYY_DSIGY)) +
-     .             DSEQ_DC*(
-     .                 DC_DQ*(DQ_DSXX*DSXX_DSIGY + DQ_DSYY*DSYY_DSIGY))
-          EZZ(I) = MAX(DPLANL(I),ZERO)*(NORMXX + NORMYY)
-          EZZ(I) = -NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG) - EZZ(I)
-          THK(I) = THK(I) + EZZ(I)*THKLYL(I)*OFF(I)          
+          IF (LOFF(I) == ONE) THEN 
+            SEQ     = MAX(SQRT(A+B+B+C),EM20)
+            DSEQ_DA = ONE/(TWO*SEQ)
+            DSEQ_DB = ONE/(SEQ)
+            DSEQ_DC = ONE/(TWO*SEQ)
+            DA_DS11 = TWO*A01*S11 - A03*S22
+            DA_DS22 = TWO*A02*S22 - A03*S11
+            DA_DS12 = TWO*A12*S12
+            DB_DS11 = (HALF*A03-A01)*Q
+            DB_DS22 = (HALF*A03-A02)*Q
+            DB_DQ   = -(A01*S11 + A02*S22 - HALF*A03*(S11+S22))
+            DC_DQ   = TWO*(A01+A02-A03)*Q
+            DQ_DSXX = -THIRD*(ONE - (NU/(ONE - NU)))
+            DQ_DSYY = -THIRD*(ONE - (NU/(ONE - NU)))
+            DS11_DSXX = ONE + DQ_DSXX
+            DS11_DSYY = DQ_DSYY
+            DS22_DSXX = DQ_DSXX
+            DS22_DSYY = ONE + DQ_DSYY
+            DSXX_DSIGX  = D11
+            DSXX_DSIGY  = D22
+            DSYY_DSIGX  = D22
+            DSYY_DSIGY  = D11
+            DSXY_DSIGX  = -D12
+            DSXY_DSIGY  = D12
+            NORMXX = DSEQ_DA*(
+     .                   DA_DS11*(DS11_DSXX*DSXX_DSIGX + DS11_DSYY*DSYY_DSIGX) + 
+     .                   DA_DS22*(DS22_DSXX*DSXX_DSIGX + DS22_DSYY*DSYY_DSIGX) +
+     .                   DA_DS12*DSXY_DSIGX ) + 
+     .               DSEQ_DB*(
+     .                   DB_DS11*(DS11_DSXX*DSXX_DSIGX + DS11_DSYY*DSYY_DSIGX) + 
+     .                   DB_DS22*(DS22_DSXX*DSXX_DSIGX + DS22_DSYY*DSYY_DSIGX) + 
+     .                   DB_DQ*(DQ_DSXX*DSXX_DSIGX + DQ_DSYY*DSYY_DSIGX)) +
+     .               DSEQ_DC*(
+     .                   DC_DQ*(DQ_DSXX*DSXX_DSIGX + DQ_DSYY*DSYY_DSIGX))
+            NORMYY = DSEQ_DA*(
+     .                   DA_DS11*(DS11_DSXX*DSXX_DSIGY + DS11_DSYY*DSYY_DSIGY) + 
+     .                   DA_DS22*(DS22_DSXX*DSXX_DSIGY + DS22_DSYY*DSYY_DSIGY) +
+     .                   DA_DS12*DSXY_DSIGY ) + 
+     .               DSEQ_DB*(
+     .                   DB_DS11*(DS11_DSXX*DSXX_DSIGY + DS11_DSYY*DSYY_DSIGY) + 
+     .                   DB_DS22*(DS22_DSXX*DSXX_DSIGY + DS22_DSYY*DSYY_DSIGY) + 
+     .                   DB_DQ*(DQ_DSXX*DSXX_DSIGY + DQ_DSYY*DSYY_DSIGY)) +
+     .               DSEQ_DC*(
+     .                   DC_DQ*(DQ_DSXX*DSXX_DSIGY + DQ_DSYY*DSYY_DSIGY))
+            EZZ(I) = MAX(DPLANL(I),ZERO)*(NORMXX + NORMYY)
+            EZZ(I) = -NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG) - EZZ(I)
+          ENDIF
         ! Local
         ELSE
           EZZ(I) = -(DEPSXX(I)+DEPSYY(I))*(NU/(ONE-NU)) + EZZ(I)
-          THK(I) = THK(I) + EZZ(I)*THKLYL(I)*OFF(I)
         ENDIF
+        THK(I) = THK(I) + EZZ(I)*THKLYL(I)*OFF(I)
       ENDDO
 !-----------
       RETURN

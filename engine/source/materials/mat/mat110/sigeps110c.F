@@ -42,7 +42,7 @@ Chd|====================================================================
      6     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKLY   ,
      7     THK     ,SIGY    ,ET      ,TEMPEL  ,TEMP    ,SEQ     ,
      8     TF      ,NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,
-     9     SIGA    ,INLOC   ,DPLANL  ,EPSPL   )
+     9     SIGA    ,INLOC   ,DPLANL  ,EPSPL   ,LOFF    )
       !=======================================================================
       !      Modules
       !=======================================================================
@@ -71,7 +71,7 @@ Chd|====================================================================
      .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
      .   EPSPXX,EPSPYY,EPSPXY,EPSPYZ,EPSPZX ,
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX,
-     .   GS,THKLY,DPLANL
+     .   GS,THKLY,DPLANL,LOFF
 c
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
      .   SOUNDSP,SIGY,ET,EPSP,
@@ -121,7 +121,7 @@ c--------------------------
      7           SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,THKLY   ,
      8           THK     ,SIGY    ,ET      ,TEMPEL  ,TEMP     ,SEQ     ,
      9           TF      ,NUMTABL ,ITABLE  ,TABLE   ,NVARTMP  ,VARTMP  ,
-     A           SIGA    ,INLOC   ,DPLANL  )
+     A           SIGA    ,INLOC   ,DPLANL  ,LOFF    )
             CASE(4)
               CALL SIGEPS110C_LITE_NICE(
      1           NEL     ,NGL     ,NUPARAM ,NUVAR   ,NPF      ,
@@ -133,7 +133,7 @@ c--------------------------
      7           SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,THKLY  ,
      8           THK     ,SIGY    ,ET      ,TEMPEL  ,TEMP     ,SEQ    ,
      9           TF      ,NUMTABL ,ITABLE  ,TABLE   ,NVARTMP  ,VARTMP ,
-     A           SIGA    ,INLOC   ,DPLANL  )  
+     A           SIGA    ,INLOC   ,DPLANL  ,LOFF    )  
           END SELECT   
         ! Newton cutting plane return mapping
         CASE(2)
@@ -150,7 +150,7 @@ c--------------------------
      7           SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,THKLY   ,
      8           THK     ,SIGY    ,ET      ,TEMPEL  ,TEMP     ,SEQ     ,
      9           TF      ,NUMTABL ,ITABLE  ,TABLE   ,NVARTMP  ,VARTMP  ,
-     A           SIGA    ,INLOC   ,DPLANL  )
+     A           SIGA    ,INLOC   ,DPLANL  ,LOFF    )
             CASE(4)
               CALL SIGEPS110C_LITE_NEWTON(
      1           NEL     ,NGL     ,NUPARAM ,NUVAR   ,NPF      ,
@@ -162,7 +162,7 @@ c--------------------------
      7           SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,THKLY  ,
      8           THK     ,SIGY    ,ET      ,TEMPEL  ,TEMP     ,SEQ    ,
      9           TF      ,NUMTABL ,ITABLE  ,TABLE   ,NVARTMP  ,VARTMP ,
-     A           SIGA    ,INLOC   ,DPLANL  )
+     A           SIGA    ,INLOC   ,DPLANL  ,LOFF    )
           END SELECT    
         END SELECT
 

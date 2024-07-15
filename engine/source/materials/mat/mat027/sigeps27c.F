@@ -40,7 +40,7 @@ Chd|====================================================================
      6                   DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX,
      7                   SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX,
      8                   SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX,
-     9                   DIRDMG ,PLA    ,INLOC  ,DPLANL )
+     9                   DIRDMG ,PLA    ,INLOC  ,DPLANL ,LOFF  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,6 +69,7 @@ C     REAL
      .   SIGOYZ(NEL),SIGOZX(NEL),SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
      .   SIGNYZ(NEL),SIGNZX(NEL),DIRDMG(NEL,2),
      .   PLA(NEL),CRAK(NEL),DAM(NEL),ZZ(MVSIZ)
+      my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -146,8 +147,10 @@ C-----------------------
 !---
       DO I=JFT,JLT
         IF (INLOC > 0) THEN
-          EZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG
-          EZZ(I) = EZZ(I) - MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/YLD(I)
+          IF (LOFF(I) == ONE) THEN 
+            EZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG
+            EZZ(I) = EZZ(I) - MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/YLD(I)
+          ENDIF
         ELSE
           EZZ(I) =-(DEPSXX(I)+DEPSYY(I))*NU-(ONE - TWO*NU)*EZZ(I)
           EZZ(I) = EZZ(I)/(ONE-NU)

@@ -39,7 +39,7 @@ Chd|====================================================================
      .     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      .     PLA     ,DPLA    ,EPSD    ,OFF     ,GS      ,
      .     YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  ,
-     .     NVARTMP, VARTMP  )
+     .     NVARTMP, VARTMP  ,LOFF    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,6 +65,7 @@ C-----------------------------------------------
      .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
       TYPE(TABLE_4D_), DIMENSION(NUMTABL), INTENT(IN) :: TABLE
+      my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -459,18 +460,20 @@ c
       ! - NON-LOCAL THICKNESS VARIATION
       !====================================================================
       IF (INLOC > 0) THEN 
-        DO I = 1,NEL   
-          ALPHA(I)= (NINE/TWO)*((ONE-TWO*NUP(I))/(ONE+NUP(I)))
-          GF(I)   = SQRT(MAX(EM20,(SVM(I)**2)+ALPHA(I)*P(I)**2))
-          NORMGXX = (THREE_HALF*SXX(I) - THIRD*ALPHA(I)*P(I))/GF(I)
-          NORMGYY = (THREE_HALF*SYY(I) - THIRD*ALPHA(I)*P(I))/GF(I)
-          NORMGZZ = (THREE_HALF*SZZ(I) - THIRD*ALPHA(I)*P(I))/GF(I)
-          YLD_NORM = SVM(I)/GF(I)
-          IF (YLD_NORM /= ZERO) THEN 
-            DLAM_NL(I) = (ONE/YLD_NORM)*MAX(DPLANL(I),ZERO)
-            DEZZ(I) = DEZZ(I) + NU1*(DLAM_NL(I)*NORMGXX)
-     .                        + NU1*(DLAM_NL(I)*NORMGYY)
-     .                        + DLAM_NL(I)*NORMGZZ
+        DO I = 1,NEL
+          IF (LOFF(I) == ONE) THEN    
+            ALPHA(I)= (NINE/TWO)*((ONE-TWO*NUP(I))/(ONE+NUP(I)))
+            GF(I)   = SQRT(MAX(EM20,(SVM(I)**2)+ALPHA(I)*P(I)**2))
+            NORMGXX = (THREE_HALF*SXX(I) - THIRD*ALPHA(I)*P(I))/GF(I)
+            NORMGYY = (THREE_HALF*SYY(I) - THIRD*ALPHA(I)*P(I))/GF(I)
+            NORMGZZ = (THREE_HALF*SZZ(I) - THIRD*ALPHA(I)*P(I))/GF(I)
+            YLD_NORM = SVM(I)/GF(I)
+            IF (YLD_NORM /= ZERO) THEN 
+              DLAM_NL(I) = (ONE/YLD_NORM)*MAX(DPLANL(I),ZERO)
+              DEZZ(I) = DEZZ(I) + NU1*(DLAM_NL(I)*NORMGXX)
+     .                          + NU1*(DLAM_NL(I)*NORMGYY)
+     .                          + DLAM_NL(I)*NORMGZZ
+            ENDIF
           ENDIF          
         ENDDO
       ENDIF

@@ -144,8 +144,8 @@ c
         PHI0(I)  = UVAR(I,1) ! Previous yield function value
         ! Standard inputs
         DPLA(I)  = ZERO      ! Initialization of the plastic strain increment
-        ET(I)    = ONE        ! Initialization of hourglass coefficient
-        HARDP(I) = ZERO      ! Initialization of hourglass coefficient
+        ET(I)    = ONE       ! Initialization of hourglass coefficient
+        HARDP(I) = ZERO      ! Initialization of hardening modulus
       ENDDO
 c      
       ! Initialization of temperature and self-heating weight factor
@@ -231,14 +231,14 @@ c
       ! Checking plastic behavior for all elements
       NINDX = 0
       DO I=1,NEL         
-        IF (PHI(I) > ZERO .AND. OFF(I) == ONE) THEN
+        IF (PHI(I) >= ZERO .AND. OFF(I) == ONE) THEN
           NINDX=NINDX+1
           INDEX(NINDX)=I
         ENDIF
       ENDDO
 c      
       !====================================================================
-      ! - PLASTIC CORRECTION WITH NICE - EXPLICIT 1 METHOD
+      ! - PLASTIC CORRECTION WITH NICE - EXPLICIT METHOD
       !====================================================================
 #include "vectorize.inc" 
       DO II=1,NINDX   
@@ -264,11 +264,11 @@ c
         FDR(I)    = J2(I)**3 - CDR*(J3(I)**2)
         SIGDR(I)  = KDR * EXP((ONE/SIX)*LOG(FDR(I))) 
 c        
-        ! Note     : in this part, the purpose is to compute for each iteration
+        ! Note     : in this part, the purpose is to compute in one iteration
         ! a plastic multiplier allowing to update internal variables to satisfy
         ! the consistency condition. 
-        ! Its expression is : DLAMBDA = - (PHI + DPHI) / DPHI_DLAMBDA
-        ! -> PHI  : current value of yield function (known)
+        ! Its expression is : DLAMBDA = - (PHI_OLD + DPHI) / DPHI_DLAMBDA
+        ! -> PHI_OLD : old value of yield function (known)
         ! -> DPHI : yield function prediction (to compute)
         ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
         !                   into account of internal variables kinetic : 
@@ -285,6 +285,7 @@ c
         NORMSIG = SQRT(SIGOXX(I)*SIGOXX(I)
      .               + SIGOYY(I)*SIGOYY(I)
      .          + TWO*SIGOXY(I)*SIGOXY(I))
+        NORMSIG = MAX(NORMSIG,ONE)
 c     
         ! Derivative with respect to Fdr 
         FDR(I)     =  (J2(I)/(NORMSIG**2))**3 - CDR*((J3(I)/(NORMSIG**3))**2)       
@@ -426,7 +427,7 @@ c
         ENDIF                
       ENDDO 
       !===================================================================
-      ! - END OF PLASTIC CORRECTION WITH NICE - EXPLICIT 1 METHOD
+      ! - END OF PLASTIC CORRECTION WITH NICE - EXPLICIT METHOD
       !===================================================================     
 c      
       ! Storing new values
@@ -437,9 +438,9 @@ c
         ELSE
           UVAR(I,1) = ZERO
         ENDIF
-        SEQ(I)     = SIGDR(I) ! SIGEQ
-        DPDT       = DPLA(I) / MAX(EM20,TIMESTEP)
+        SEQ(I)     = SIGDR(I)
         ! Plastic strain-rate (filtered)
+        DPDT       = DPLA(I) / MAX(EM20,TIMESTEP)
         EPSD(I)    = AFILTR * DPDT + (ONE - AFILTR) * EPSD(I)
         ! Coefficient for hourglass
         ET(I)      = HARDP(I)*FRATE(I) / (HARDP(I)*FRATE(I) + YOUNG)  
@@ -448,61 +449,58 @@ c
         ! Storing the yield stress
         SIGY(I)    = YLD(I)  
         ! Non-local thickness variation + temperature
-        IF (INLOC > 0) THEN 
+        IF ((INLOC > 0).AND.(OFF(I) == ONE).AND.(DPLANL(I)>ZERO)) THEN 
           YLD2I  = ONE/(YLD(I)**2) 
           DPHI_DSIG = TWO*SIGDR(I)*YLD2I   
           NORMSIG = SQRT(SIGNXX(I)*SIGNXX(I)
      .                 + SIGNYY(I)*SIGNYY(I)
      .            + TWO*SIGNXY(I)*SIGNXY(I))
-          IF (NORMSIG>EM10) THEN  
-            FDR(I)     =  (J2(I)/(NORMSIG**2))**3 - CDR*((J3(I)/(NORMSIG**3))**2)   
-            DPHI_DFDR  =  DPHI_DSIG*KDR*(ONE/SIX)*EXP(-(FIVE/SIX)*LOG(FDR(I)))             
-            DSDRDJ2    =  DPHI_DFDR*THREE*(J2(I)/(NORMSIG**2))**2                             
-            DSDRDJ3    = -DPHI_DFDR*TWO*CDR*(J3(I)/(NORMSIG**3))                                                   
-            DJ3DSXX =  TWO_THIRD*(SYY(I)*SZZ(I))/(NORMSIG**2)
-     .                   - THIRD*(SXX(I)*SZZ(I))/(NORMSIG**2)
-     .                   - THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)                 
-            DJ3DSYY =    - THIRD*(SYY(I)*SZZ(I))/(NORMSIG**2)
-     .               + TWO_THIRD*(SXX(I)*SZZ(I))/(NORMSIG**2)
-     .                  -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)             
-            DJ3DSZZ =    - THIRD*(SYY(I)*SZZ(I))/(NORMSIG**2)
-     .                   - THIRD*(SXX(I)*SZZ(I))/(NORMSIG**2)
-     .               + TWO_THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2) 
-            DJ3DSXY =  TWO*(SXX(I)*SXY(I) + SXY(I)*SYY(I))/(NORMSIG**2)                   
-            NORMXX  = DSDRDJ2*SXX(I)/NORMSIG + DSDRDJ3*DJ3DSXX
-            NORMYY  = DSDRDJ2*SYY(I)/NORMSIG + DSDRDJ3*DJ3DSYY
-            NORMZZ  = DSDRDJ2*SZZ(I)/NORMSIG + DSDRDJ3*DJ3DSZZ
-            NORMXY  = TWO*DSDRDJ2*SXY(I)/NORMSIG + DSDRDJ3*DJ3DSXY
-            SIG_DFDSIG = SIGNXX(I) * NORMXX
-     .                 + SIGNYY(I) * NORMYY
-     .                 + SIGNXY(I) * NORMXY
+          NORMSIG = MAX(NORMSIG,ONE)
+          FDR(I)  = (J2(I)/(NORMSIG**2))**3 - CDR*((J3(I)/(NORMSIG**3))**2)  
+          IF (FDR(I) > ZERO) THEN  
+            DPHI_DFDR = DPHI_DSIG*KDR*(ONE/SIX)*EXP(-(FIVE/SIX)*LOG(FDR(I)))   
           ELSE
-            NORMXX  = ZERO
-            NORMYY  = ZERO
-            NORMZZ  = ZERO
-            NORMXY  = ZERO
-            SIG_DFDSIG = ZERO
+            DPHI_DFDR = ZERO
           ENDIF
-          IF (SIG_DFDSIG /= ZERO) THEN
-            DLAM_NL = (YLD(I)*MAX(DPLANL(I),ZERO))/SIG_DFDSIG
-            IF (CP > ZERO .AND. JTHE == 0) THEN     
-              ! Computation of the weight factor
-              DPDT_NL = MAX(DPLANL(I),ZERO)/TIMESTEP
-              IF (DPDT_NL < DPIS) THEN
-                WEITEMP(I) = ZERO
-              ELSEIF (DPDT_NL > DPAD) THEN
-                WEITEMP(I) = ONE
-              ELSE
-                WEITEMP(I) = ((DPDT_NL-DPIS)**2 )
-     .                  * (THREE*DPAD - TWO*DPDT_NL - DPIS)
-     .                  / ((DPAD-DPIS)**3)
-              ENDIF
-              DTEMP   = WEITEMP(I)*DLAM_NL*SIG_DFDSIG*ETA/(RHO(I)*CP)
-              TEMP(I) = TEMP(I) + DTEMP 
-            ENDIF
+          DSDRDJ2 =  DPHI_DFDR*THREE*(J2(I)/(NORMSIG**2))**2                             
+          DSDRDJ3 = -DPHI_DFDR*TWO*CDR*(J3(I)/(NORMSIG**3))                                                   
+          DJ3DSXX =  TWO_THIRD*(SYY(I)*SZZ(I))/(NORMSIG**2)
+     .                 - THIRD*(SXX(I)*SZZ(I))/(NORMSIG**2)
+     .                 - THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)                 
+          DJ3DSYY =    - THIRD*(SYY(I)*SZZ(I))/(NORMSIG**2)
+     .             + TWO_THIRD*(SXX(I)*SZZ(I))/(NORMSIG**2)
+     .                -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)             
+          DJ3DSZZ =    - THIRD*(SYY(I)*SZZ(I))/(NORMSIG**2)
+     .                 - THIRD*(SXX(I)*SZZ(I))/(NORMSIG**2)
+     .             + TWO_THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2) 
+          DJ3DSXY =  TWO*(SXX(I)*SXY(I) + SXY(I)*SYY(I))/(NORMSIG**2)                   
+          NORMXX  = DSDRDJ2*SXX(I)/NORMSIG + DSDRDJ3*DJ3DSXX
+          NORMYY  = DSDRDJ2*SYY(I)/NORMSIG + DSDRDJ3*DJ3DSYY
+          NORMZZ  = DSDRDJ2*SZZ(I)/NORMSIG + DSDRDJ3*DJ3DSZZ
+          NORMXY  = TWO*DSDRDJ2*SXY(I)/NORMSIG + DSDRDJ3*DJ3DSXY
+          SIG_DFDSIG = SIGNXX(I) * NORMXX
+     .               + SIGNYY(I) * NORMYY
+     .               + SIGNXY(I) * NORMXY
+          IF (SIG_DFDSIG > ZERO) THEN
+            DLAM_NL = (YLD(I)*DPLANL(I))/SIG_DFDSIG
             DEZZ(I) = DEZZ(I) + NNU*(DLAM_NL*NORMXX)
      .                        + NNU*(DLAM_NL*NORMYY)
      .                        + DLAM_NL*NORMZZ
+          ENDIF
+          IF (CP > ZERO .AND. JTHE == 0) THEN     
+            ! Computation of the weight factor
+            DPDT_NL = DPLANL(I)/MAX(TIMESTEP,EM20)
+            IF (DPDT_NL < DPIS) THEN
+              WEITEMP(I) = ZERO
+            ELSEIF (DPDT_NL > DPAD) THEN
+              WEITEMP(I) = ONE
+            ELSE
+              WEITEMP(I) = ((DPDT_NL-DPIS)**2 )
+     .                  * (THREE*DPAD - TWO*DPDT_NL - DPIS)
+     .                  / ((DPAD-DPIS)**3)
+            ENDIF
+            DTEMP   = WEITEMP(I)*DPLANL(I)*YLD(I)*ETA/(RHO(I)*CP)
+            TEMP(I) = TEMP(I) + DTEMP 
           ENDIF
         ENDIF
         ! Computation of the thickness variation  

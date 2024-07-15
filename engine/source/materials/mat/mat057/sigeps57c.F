@@ -43,7 +43,7 @@ Chd|====================================================================
      A     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
      B     OFF    ,NGL    ,SHF     ,ETSE    ,SIGY   ,
      C     HARDM  ,SEQ_OUTPUT,ISRATE,EPSP   ,INLOC  ,
-     D     DPLANL )
+     D     DPLANL ,LOFF   )
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -123,6 +123,7 @@ C-----------------------------------------------
      .   SIGOXX(NEL),SIGOYY(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
      .   SEQ_OUTPUT(NEL),EPSP(NEL),DPLANL(NEL)
+      my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -503,33 +504,35 @@ C
 !-------------------------------------------------------------
       IF (INLOC > 0) THEN
         DO I = 1,NEL
-          ! Computation of the normal to the yield surface
-          K1      = (SIGNXX(I) + A03*SIGNYY(I))*NORM/TWO
-          K2      = SQRT(((SIGNXX(I) - A03*SIGNYY(I))/TWO)**TWO + (A12*SIGNXY(I))**TWO)*NORM
-          SEFF    = A01*ABS(K1+K2)**M + A01*ABS(K1-K2)**M + A02*ABS(TWO*K2)**M
-          SEFF    = (HALF*MAX(SEFF,EM20))**(ONE/M)
-          DF_DK1  = (SEFF**(1-M))*(A01/TWO)*(
-     .              +  SIGN(ONE,K1+K2)*(ABS(K1+K2)**(M-1)) 
-     .              +  SIGN(ONE,K1-K2)*(ABS(K1-K2)**(M-1)))
-          DF_DK2  = (SEFF**(1-M))*((A01/TWO)*(
-     .              +  SIGN(ONE,K1+K2)*(ABS(K1+K2)**(M-1)) 
-     .              -  SIGN(ONE,K1-K2)*(ABS(K1-K2)**(M-1))) 
-     .              +  A02*(ABS(TWO*K2)**(M-1)))
-          DK1_DSIGXX = HALF
-          DK1_DSIGYY = A03/TWO
-          DK2_DSIGXX = (SIGNXX(I)-A03*SIGNYY(I))*NORM/(MAX(FOUR*K2,EM20))
-          DK2_DSIGYY = -A03*(SIGNXX(I)-A03*SIGNYY(I))*NORM/(MAX(FOUR*K2,EM20))
-          DK2_DSIGXY = (A12**TWO)*SIGNXY(I)*NORM/MAX(K2,EM20)
-          NORMXX     = DF_DK1*DK1_DSIGXX + DF_DK2*DK2_DSIGXX
-          NORMYY     = DF_DK1*DK1_DSIGYY + DF_DK2*DK2_DSIGYY
-          NORMXY     = DF_DK2*DK2_DSIGXY
-          SIG_DFDSIG = NORMXX*SIGNXX(I) + NORMYY*SIGNYY(I) + NORMXY*SIGNXY(I)
-          ! Updating the thickness
-          DEZZ       = -NU(I)*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E(I))
-          IF (SIG_DFDSIG /= ZERO) THEN
-            DEZZ     = DEZZ - MAX(DPLANL(I),ZERO)*(SEFF/SIG_DFDSIG)*(NORMXX + NORMYY)
-          ENDIF
-          THK(I)     = THK(I) + DEZZ*THKLY(I)*OFF(I)   
+          IF (LOFF(I) == ONE) THEN
+            ! Computation of the normal to the yield surface
+            K1      = (SIGNXX(I) + A03*SIGNYY(I))*NORM/TWO
+            K2      = SQRT(((SIGNXX(I) - A03*SIGNYY(I))/TWO)**TWO + (A12*SIGNXY(I))**TWO)*NORM
+            SEFF    = A01*ABS(K1+K2)**M + A01*ABS(K1-K2)**M + A02*ABS(TWO*K2)**M
+            SEFF    = (HALF*MAX(SEFF,EM20))**(ONE/M)
+            DF_DK1  = (SEFF**(1-M))*(A01/TWO)*(
+     .                +  SIGN(ONE,K1+K2)*(ABS(K1+K2)**(M-1)) 
+     .                +  SIGN(ONE,K1-K2)*(ABS(K1-K2)**(M-1)))
+            DF_DK2  = (SEFF**(1-M))*((A01/TWO)*(
+     .                +  SIGN(ONE,K1+K2)*(ABS(K1+K2)**(M-1)) 
+     .                -  SIGN(ONE,K1-K2)*(ABS(K1-K2)**(M-1))) 
+     .                +  A02*(ABS(TWO*K2)**(M-1)))
+            DK1_DSIGXX = HALF
+            DK1_DSIGYY = A03/TWO
+            DK2_DSIGXX = (SIGNXX(I)-A03*SIGNYY(I))*NORM/(MAX(FOUR*K2,EM20))
+            DK2_DSIGYY = -A03*(SIGNXX(I)-A03*SIGNYY(I))*NORM/(MAX(FOUR*K2,EM20))
+            DK2_DSIGXY = (A12**TWO)*SIGNXY(I)*NORM/MAX(K2,EM20)
+            NORMXX     = DF_DK1*DK1_DSIGXX + DF_DK2*DK2_DSIGXX
+            NORMYY     = DF_DK1*DK1_DSIGYY + DF_DK2*DK2_DSIGYY
+            NORMXY     = DF_DK2*DK2_DSIGXY
+            SIG_DFDSIG = NORMXX*SIGNXX(I) + NORMYY*SIGNYY(I) + NORMXY*SIGNXY(I)
+            ! Updating the thickness
+            DEZZ       = -NU(I)*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E(I))
+            IF (SIG_DFDSIG /= ZERO) THEN
+              DEZZ     = DEZZ - MAX(DPLANL(I),ZERO)*(SEFF/SIG_DFDSIG)*(NORMXX + NORMYY)
+            ENDIF
+            THK(I)     = THK(I) + DEZZ*THKLY(I)*OFF(I) 
+          ENDIF  
         ENDDO  
       ENDIF
 !-------------------------

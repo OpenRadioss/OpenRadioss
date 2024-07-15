@@ -376,31 +376,31 @@ c
             ! Computing the product NtN*VNL    
             NTN_VNL1 = SF1*SF1*VNL(POS1(I)+K-1) + SF1*SF2*VNL(POS2(I)+K-1) + SF1*SF3*VNL(POS3(I)+K-1) + SF1*SF4*VNL(POS4(I)+K-1)
             IF (NODADT > 0) THEN 
-              NTN_VNL1 = SF1*SF1*(SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1)))*VNL(POS1(I)+K-1) + 
-     .                   SF1*SF2*(SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1)))*VNL(POS2(I)+K-1) + 
-     .                   SF1*SF3*(SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1)))*VNL(POS3(I)+K-1) + 
-     .                   SF1*SF4*(SQRT(MASS(POS4(I)+K-1)/MASS0(POS4(I)+K-1)))*VNL(POS4(I)+K-1)
+              NTN_VNL1 = MIN(SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1)),
+     .                       SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1)),
+     .                       SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1)),
+     .                       SQRT(MASS(POS4(I)+K-1)/MASS0(POS4(I)+K-1)))*NTN_VNL1
             ENDIF
             NTN_VNL2 = SF2*SF1*VNL(POS1(I)+K-1) + SF2*SF2*VNL(POS2(I)+K-1) + SF2*SF3*VNL(POS3(I)+K-1) + SF2*SF4*VNL(POS4(I)+K-1)
             IF (NODADT > 0) THEN 
-              NTN_VNL2 = SF2*SF1*(SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1)))*VNL(POS1(I)+K-1) + 
-     .                   SF2*SF2*(SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1)))*VNL(POS2(I)+K-1) + 
-     .                   SF2*SF3*(SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1)))*VNL(POS3(I)+K-1) + 
-     .                   SF2*SF4*(SQRT(MASS(POS4(I)+K-1)/MASS0(POS4(I)+K-1)))*VNL(POS4(I)+K-1)
+              NTN_VNL2 = MIN(SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1)),
+     .                       SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1)),
+     .                       SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1)),
+     .                       SQRT(MASS(POS4(I)+K-1)/MASS0(POS4(I)+K-1)))*NTN_VNL2
             ENDIF
             NTN_VNL3 = SF3*SF1*VNL(POS1(I)+K-1) + SF3*SF2*VNL(POS2(I)+K-1) + SF3*SF3*VNL(POS3(I)+K-1) + SF3*SF4*VNL(POS4(I)+K-1)
             IF (NODADT > 0) THEN 
-              NTN_VNL3 = SF3*SF1*(SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1)))*VNL(POS1(I)+K-1) + 
-     .                   SF3*SF2*(SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1)))*VNL(POS2(I)+K-1) + 
-     .                   SF3*SF3*(SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1)))*VNL(POS3(I)+K-1) + 
-     .                   SF3*SF4*(SQRT(MASS(POS4(I)+K-1)/MASS0(POS4(I)+K-1)))*VNL(POS4(I)+K-1)
+              NTN_VNL3 = MIN(SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1)),
+     .                       SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1)),
+     .                       SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1)),
+     .                       SQRT(MASS(POS4(I)+K-1)/MASS0(POS4(I)+K-1)))*NTN_VNL3
             ENDIF
             NTN_VNL4 = SF4*SF1*VNL(POS1(I)+K-1) + SF4*SF2*VNL(POS2(I)+K-1) + SF4*SF3*VNL(POS3(I)+K-1) + SF4*SF4*VNL(POS4(I)+K-1)
             IF (NODADT > 0) THEN 
-              NTN_VNL4 = SF4*SF1*(SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1)))*VNL(POS1(I)+K-1) + 
-     .                   SF4*SF2*(SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1)))*VNL(POS2(I)+K-1) + 
-     .                   SF4*SF3*(SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1)))*VNL(POS3(I)+K-1) + 
-     .                   SF4*SF4*(SQRT(MASS(POS4(I)+K-1)/MASS0(POS4(I)+K-1)))*VNL(POS4(I)+K-1)
+              NTN_VNL4 = MIN(SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1)),
+     .                       SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1)),
+     .                       SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1)),
+     .                       SQRT(MASS(POS4(I)+K-1)/MASS0(POS4(I)+K-1)))*NTN_VNL4       
             ENDIF
 c
             ! Computing the A term

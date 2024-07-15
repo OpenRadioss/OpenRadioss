@@ -2471,7 +2471,11 @@ subroutine mmain(&
          if (inloc > 0) then
             if (elbuf_tab(ng)%bufly(ilay)%l_pla > 0) then
                do i = 1,nel
-                  varnl(i) = defp(i)
+                  if (off(i) == one) then 
+                     varnl(i) = defp(i)
+                   else
+                     varnl(i) = zero
+                   endif
                enddo
             endif
          endif

@@ -38,7 +38,7 @@ Chd|====================================================================
      5     DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      6     SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     8     THK     ,THKLY   ,INLOC   ,DPLANL  ,EPSPL   )
+     8     THK     ,THKLY   ,INLOC   ,DPLANL  ,EPSPL   ,LOFF    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,6 +71,7 @@ c
       INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
 c
       TYPE(TTABLE), DIMENSION(NTABLE) ::  TABLE
+      my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -361,11 +362,13 @@ c
       EPSP(1:NEL)   = ALPHA*DPLA(1:NEL)*DTINV + ALPHI*EPSP(1:NEL)
       EPSPL(1:NEL)  = EPSP(1:NEL)
       IF (INLOC > 0) THEN 
-        DO I = 1,NEL     
-          DEPSZZ(I) = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
-          DEPSZZ(I) = - NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG) - DEPSZZ(I)
-          IF (JTHE == 0 .AND. BETA > ZERO) THEN 
-            TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*MAX(DPLANL(I),ZERO)
+        DO I = 1,NEL   
+          IF (LOFF(I) == ONE) THEN   
+            DEPSZZ(I) = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
+            DEPSZZ(I) = - NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG) - DEPSZZ(I)
+            IF (JTHE == 0 .AND. BETA > ZERO) THEN 
+              TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*MAX(DPLANL(I),ZERO)
+            ENDIF
           ENDIF
         ENDDO
       ENDIF

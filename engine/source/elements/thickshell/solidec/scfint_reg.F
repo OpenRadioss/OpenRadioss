@@ -433,14 +433,14 @@ c
             NTN_VNL = (VNL(POS1(I)+K-1) + VNL(POS2(I)+K-1) + VNL(POS3(I)+K-1) + VNL(POS4(I)+K-1)
      .              +  VNL(POS5(I)+K-1) + VNL(POS6(I)+K-1) + VNL(POS7(I)+K-1) + VNL(POS8(I)+K-1)) / NTN8
             IF (NODADT > 0) THEN 
-              NTN_VNL = (SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1))*VNL(POS1(I)+K-1) + 
-     .                   SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1))*VNL(POS2(I)+K-1) + 
-     .                   SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1))*VNL(POS3(I)+K-1) + 
-     .                   SQRT(MASS(POS4(I)+K-1)/MASS0(POS4(I)+K-1))*VNL(POS4(I)+K-1) +
-     .                   SQRT(MASS(POS5(I)+K-1)/MASS0(POS5(I)+K-1))*VNL(POS5(I)+K-1) + 
-     .                   SQRT(MASS(POS6(I)+K-1)/MASS0(POS6(I)+K-1))*VNL(POS6(I)+K-1) + 
-     .                   SQRT(MASS(POS7(I)+K-1)/MASS0(POS7(I)+K-1))*VNL(POS7(I)+K-1) + 
-     .                   SQRT(MASS(POS8(I)+K-1)/MASS0(POS8(I)+K-1))*VNL(POS8(I)+K-1)) / NTN8
+              NTN_VNL = MIN(SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1)), 
+     .                      SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1)), 
+     .                      SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1)), 
+     .                      SQRT(MASS(POS4(I)+K-1)/MASS0(POS4(I)+K-1)),
+     .                      SQRT(MASS(POS5(I)+K-1)/MASS0(POS5(I)+K-1)), 
+     .                      SQRT(MASS(POS6(I)+K-1)/MASS0(POS6(I)+K-1)), 
+     .                      SQRT(MASS(POS7(I)+K-1)/MASS0(POS7(I)+K-1)), 
+     .                      SQRT(MASS(POS8(I)+K-1)/MASS0(POS8(I)+K-1)))*NTN_VNL
             ENDIF
 c        
             ! Computation of the product LEN**2 * BtxB
