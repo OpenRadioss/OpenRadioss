@@ -37,7 +37,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_PROP15 (IG , IGTYP , GEO   ,  IGEO   ,PROP_TAG  ,UNITAB ,
-     .                           LSUBMODEL,IDTITL ,ISKN  ,ITABM1    )
+     .                           LSUBMODEL,IDTITL ,ISKN  ,ITABM1,DEFAULTS_SOLID    )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE ALE_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +59,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "scr17_c.inc"
-#include      "scr21_c.inc"
 #include      "tablen_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------
@@ -70,12 +70,14 @@ C-----------------------------------------------
       my_real GEO(*)
       CHARACTER IDTITL*nchartitle
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
+      TYPE(SOLID_DEFAULTS_), INTENT(IN) :: DEFAULTS_SOLID
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IG, ISMSTR, NIP, J,K ,NPTS , 
      .        IHBE,ISH3N,ISROT ,I8PT ,ISK,IHON ,ITU ,IRB,
      .        IGFLU ,IHBE_OLD
+      INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS
      
       my_real  ANGL,PUN,CVIS,RBID,VX,VY,VZ,FAC_L,FAC_T,FAC_M, PTHK, AN, PHI
       CHARACTER*nchartitle,TITR
@@ -95,6 +97,10 @@ c------------------------------
         ISROT=0
         IGFLU=1
         CVIS =ZERO
+!--- defaults values      
+      IHBE_DS=  DEFAULTS_SOLID%ISOLID
+      ISST_DS=  DEFAULTS_SOLID%ISMSTR
+      IFRAME_DS= DEFAULTS_SOLID%IFRAME
 
         IS_ENCRYPTED = .FALSE.
         IS_AVAILABLE = .FALSE.

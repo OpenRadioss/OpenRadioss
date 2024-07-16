@@ -37,7 +37,7 @@ Chd|====================================================================
      2   IPART,MSS,MSNF   ,MSSF,WMA,
      3   RHOCP,MCP,MCPS   ,TEMP0 ,TEMP,
      4   MSSA ,IX1   ,IX2   ,IX3   ,IX4,
-     5   FILL, VOLU)
+     5   FILL, VOLU  ,IMAS_DS )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,6 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) ::  IMAS_DS
       INTEGER IPART(*), IX1(*), IX2(*), IX3(*), IX4(*)
       my_real
      .   RHO(*), MS(*),X(3,*),V(3,*),PARTSAV(20,*),MSNF(*), MSS(8,*),
@@ -74,7 +75,7 @@ C-----------------------------------------------
 C
 C-----------------------------------------------------------------------
       IF(ISMS==0)
-     .  CALL S4FRACA(X,IX1 ,IX2,IX3 ,IX4 ,PTG   )
+     .  CALL S4FRACA(X,IX1 ,IX2,IX3 ,IX4 ,PTG ,IMAS_DS  )
       DO I=LFT,LLT
        MASS(I)=FILL(I)*RHO(I)*VOLU(I)*FOURTH
 C
@@ -345,7 +346,7 @@ Chd|        S4MASS3                       source/elements/solid/solide4/s4mass3.
 Chd|-- calls ---------------
 Chd|        AREA_TRIA                     source/elements/solid/solide4/s4mass3.F
 Chd|====================================================================
-      SUBROUTINE S4FRACA(X,IX1 ,IX2,IX3 ,IX4 ,PTG   )
+      SUBROUTINE S4FRACA(X,IX1 ,IX2,IX3 ,IX4 ,PTG ,IMAS_DS  )
 C----------------------------------------------
 C     MASS PARTITION IN FUNCTION OF NODAL ANGLES by AREA
 C-----------------------------------------------
@@ -360,10 +361,10 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "scr21_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) ::  IMAS_DS
       INTEGER IX1(*), IX2(*), IX3(*),IX4(*)
       my_real
      .   X(3,*),PTG(4,*)

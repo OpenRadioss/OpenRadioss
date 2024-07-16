@@ -191,6 +191,7 @@ C-----------------------------------------------
      .        NPYFUN
       INTEGER IARCHS(8)
       INTEGER IS_BEGIN,SCHAR
+      INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS,ITET4_D,ITET10_D,ICPRE_D,IMAS_DS
       my_real DTINI, DTX ,RBID
       CHARACTER (LEN=NCHARLINE) :: CART
       CHARACTER (LEN=NCHARLINE) :: XRFILE      ! NCHARLINE as #define is set to 500 in Starter
@@ -424,30 +425,25 @@ C-------------------------------------------------------------------
 C-------------------------------------------------------------------
 C     READING DEFAULT VALUES FOR SHELLS, SOLIDS, INTERFACES ...
 C-------------------------------------------------------------------
+!--- remove first /DEF/SOLID in src21_c.inc
+      CALL init_def_zero(DEFAULTS)
 C
       IHBE_D=0
-      IHBE_DS=0
       ISST_D=0
-      ISST_DS=0
       ITHK_D=0
       IPLA_D=0
-      IPLA_DDS=2 
-      IPLA_DS =2 
-      ISTRA_D =1
-      ISTR_D=0
+      IPLA_DS =2  ! obsolet
+c      ISTRA_D =1
+      ISTR_D=1  ! istrain
       ISHEA_D=0 ! Old hidden flag in /DEF_SHELL
       INER_9_12 = ZERO
       INSH = 0 ! Old hidden flag in /DEF_SHELL
       IHBE_DD=1
       ISH3N_D =0
       ISH3N_DD=2
-      IFRAME_DS  = 0
-      IFRAME_DDS = 1
       NPTS_D    = -1 ! Old hidden flag in /DEF_SHELL
       NPTS_DD   = 0
       IDRIL_D=0
-      IMAS_DS = 0
-      ICPRE_D =0 
 C-------------------------------------------------------------------
 C     READING OF SHELL PROPERTIES DEFAULT VALUES
 C-------------------------------------------------------------------
@@ -455,15 +451,14 @@ C-------------------------------------------------------------------
 C-------------------------------------------------------------------
 C     READING OF SOLID PROPERTIES DEFAULT VALUES
 C-------------------------------------------------------------------
-      CALL HM_READ_DEFSOLID(IPLA_DDS,LSUBMODEL)
+      CALL HM_READ_DEFSOLID(LSUBMODEL,DEFAULTS%SOLID)
       IF(IIMPLICIT == 1) THEN
         IF (IPLA_D == 0) IPLA_D = 1
-        IF (IHBE_DS == 0) IHBE_DS = 14
+!        IF (IHBE_DS == 0) IHBE_DS = 14
         IF (IHBE_D == 0)  IHBE_D  = 24
         IF (IDRIL_D == 0) IDRIL_D = 1
       ENDIF
 C----------------------------------------------
-      IF(IFRAME_DS == 0) IFRAME_DS = IFRAME_DDS  
       IS17OLD = 1 ! To be cleaned
 C-----
       IF(IHBE_D==0)IHBE_D = IHBE_DD
@@ -472,7 +467,9 @@ C-----
       IF(INSH==2)INER_9_12 = SIXTEEN      
       IF(INSH==3)INER_9_12 = FOURTY8  
       IF(INSH==4)INER_9_12 = THIRTY     
-      IF(INSH==5)INER_9_12 = NINE       
+      IF(INSH==5)INER_9_12 = NINE 
+!   for the moment only available w/ solid      
+      CALL init_def_elem(N2D,IIMPLICIT,DEFAULTS)
 C-------------------------------------------------------------------
 C     READING OF INTERFACES DEFAULT VALUES
 C-------------------------------------------------------------------
@@ -1085,7 +1082,7 @@ C--------------------------------------------
       ALLOCATE(NISUB(NUMGEO + NUMSTACK) ,STAT=stat)
       ALLOCATE(NPLY (NUMGEO + NUMSTACK) ,STAT=stat)
 c      
-      CALL HM_PREREAD_PROPERTIES(IGEO,NSPHSOL,NPLY,NSUB,NISUB,LSUBMODEL)
+      CALL HM_PREREAD_PROPERTIES(IGEO,NSPHSOL,NPLY,NSUB,NISUB,LSUBMODEL,DEFAULTS)
 
       IF(NSPHSOL/=0.AND.NUMELS8/=0)THEN
         ALLOCATE(IPART(LIPART1*NPART),STAT=stat)
@@ -1410,8 +1407,14 @@ C
 
       WRITE (IOUT,'(//,A,I10)')  TITRE(130)(1:57),NANALY
 
-      IF(IHBE_DS==0) IHBE_DS = IHBE_DD
-      IF(N2D/=0.AND.IHBE_DS/=17) IHBE_DS = 2
+! for print out 
+      IHBE_DS= DEFAULTS%SOLID%ISOLID
+      ISST_DS= DEFAULTS%SOLID%ISMSTR
+      ICPRE_D= DEFAULTS%SOLID%ICPRE
+      ITET4_D= DEFAULTS%SOLID%ITETRA4
+      ITET10_D= DEFAULTS%SOLID%ITETRA10
+      IFRAME_DS = DEFAULTS%SOLID%IFRAME
+      IMAS_DS= DEFAULTS%SOLID%IMAS
       IF(N2D==0)THEN
         IF(NUMELQ/=0. OR. (NUMELTG/=0.AND.N2D/=0) )THEN
           CALL ANCMSG(MSGID   = 286,MSGTYPE = MSGERROR,ANMODE  = ANINFO)

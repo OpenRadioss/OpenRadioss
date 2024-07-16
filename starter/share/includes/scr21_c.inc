@@ -22,10 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../SCR21/
       COMMON /SCR21/ IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
-     .            IHBE_DS,ISST_DS,IPLA_DS,ISH3N_D, ISTRA_D,
-     .            IFRAME_DS, NPTS_D,IDRIL_D,IMAS_DS,DEF_INTER(100),
-     .            ITET4_D,ITET10_D,ICPRE_D
+     .            ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D,DEF_INTER(100)
       INTEGER     IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
-     .            IHBE_DS,ISST_DS,IPLA_DS,ISH3N_D, ISTRA_D,
-     .            IFRAME_DS, NPTS_D,IDRIL_D,IMAS_DS,DEF_INTER,
-     .            ITET4_D,ITET10_D,ICPRE_D
+     .            ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D,DEF_INTER

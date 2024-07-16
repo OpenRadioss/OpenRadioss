@@ -33,7 +33,7 @@ Chd|====================================================================
      2   XX  ,YY ,ZZ     ,VX     ,VY  ,VZ  ,  
      3   NC  ,STI,STIFN  ,DELTAX2,MSSX,MASSCP,
      4   MCP ,MCPS       ,MCPSX  ,IN  ,STIFR,
-     5   INS ,MSSA       ,X      ,FILL)
+     5   INS ,MSSA       ,X      ,FILL,IMAS_DS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,6 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) ::  IMAS_DS
       INTEGER IPART(*), NC(MVSIZ,10)
       DOUBLE PRECISION
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
@@ -83,7 +84,7 @@ C-----------------------------------------------------------------------
         MSSA(I)=MASS(I)
        ENDDO
       ENDIF
-      CALL S4FRACA10(X,NC(1,1),NC(1,2),NC(1,3),NC(1,4),PTG   )
+      CALL S4FRACA10(X,NC(1,1),NC(1,2),NC(1,3),NC(1,4),PTG ,IMAS_DS)
 C
       IF(IDT1TET10==0.AND.ISROT == 0)THEN
 C       same as RD Engine
@@ -407,7 +408,7 @@ Chd|        S10MASS3                      source/elements/solid/solide10/s10mass
 Chd|-- calls ---------------
 Chd|        AREA_TRIA                     source/elements/solid/solide4/s4mass3.F
 Chd|====================================================================
-      SUBROUTINE S4FRACA10(X,IX1 ,IX2,IX3 ,IX4 ,PTG   )
+      SUBROUTINE S4FRACA10(X,IX1 ,IX2,IX3 ,IX4 ,PTG  ,IMAS_DS )
 C----------------------------------------------
 C     MASS PARTITION IN FUNCTION OF NODAL ANGLES by AREA
 C-----------------------------------------------
@@ -422,7 +423,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
-#include      "scr21_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -432,6 +432,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) ::  IMAS_DS
       INTEGER I,J,K,N,IP,I1,I2,I3,I4
       my_real
      .   XX,YY,ZZ,XY,YZ,ZX,P1,P2,P3,P4,S

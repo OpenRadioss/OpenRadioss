@@ -34,7 +34,8 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_PROP20(GEO,IGEO,PROP_TAG ,MULTI_FVM,IGTYP,IG,TITR,UNITAB,LSUBMODEL)
+      SUBROUTINE HM_READ_PROP20(GEO,IGEO,PROP_TAG ,MULTI_FVM,IGTYP,IG,TITR,UNITAB,LSUBMODEL,
+     .                          DEFAULTS_SOLID)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -60,6 +61,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE ELBUFTAG_MOD            
       USE MULTI_FVM_MOD
+      USE DEFAULTS_MOD
 C---s----1---------2---------3---------4---------5---------6---------7->
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -70,7 +72,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "scr21_c.inc"
 #include      "tablen_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -86,6 +87,7 @@ C MODIFIED ARGUMENT
      .  INTENT(INOUT)::GEO(*)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
+      TYPE(SOLID_DEFAULTS_), INTENT(IN) :: DEFAULTS_SOLID
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -93,6 +95,7 @@ C     REAL
       INTEGER IHBE,ISMSTR,IPLAST,ICPRE,ICSTR,IINT,JCVT,
      .   NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID,
      .   NLY
+      INTEGER     IHBE_DS,ISST_DS
       my_real
      .    CVIS,QA,QB,QH,VNS1,VNS2,DTMIN,VDEFMIN,VDEFMAX,ASPMAX,ASPTET 
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
@@ -106,6 +109,9 @@ C---- will branche later
       ICPRE = 0  
       ISTRAIN =1 
       JCVT = 0
+!--- defaults values      
+      IHBE_DS=  DEFAULTS_SOLID%ISOLID
+      ISST_DS=  DEFAULTS_SOLID%ISMSTR
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------

@@ -62,7 +62,8 @@ Chd|====================================================================
      8   MCP      ,MCPS    ,TEMP    ,NPF     ,TF      ,
      9   IUSER    ,SIGSP   ,NSIGI   ,MSSA    ,XREFS   ,
      A   STRSGLOB ,STRAGLOB,FAIL_INI,SPBUF   ,SOL2SPH ,
-     B   ILOADP   ,FACLOAD ,RNOISE  ,PERTURB ,MAT_PARAM)
+     B   ILOADP   ,FACLOAD ,RNOISE  ,PERTURB ,MAT_PARAM,
+     C   DEFAULTS_SOLID )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,6 +73,7 @@ C-----------------------------------------------
       USE DETONATORS_MOD      
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,11 +115,12 @@ C-----------------------------------------------
       TYPE(DETONATORS_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+      TYPE(SOLID_DEFAULTS_), INTENT(IN) :: DEFAULTS_SOLID
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NF1,IBID,I,IGTYP,IREP,NCC, IP, NUVAR, IDEF,
-     .   NUVARR ,JHBE,IPID1,NPTR,NPTS,NPTT,NLAY,L_SIGB,L_PLA
+     .   NUVARR ,JHBE,IPID1,NPTR,NPTS,NPTT,NLAY,L_SIGB,L_PLA,IMAS_DS
       INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ), IXT4(MVSIZ,4)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
       INTEGER NSPHDIR,NCELF,NCELL,IBOLTP
@@ -166,6 +169,7 @@ c
         NUVAR = 0
       ENDIF
 C
+      IMAS_DS = DEFAULTS_SOLID%IMAS
       IBOLTP = IPARG_GR(72)  !Bolt preloading
       JCVT  = IPARG_GR(37)
 C
@@ -267,7 +271,7 @@ c
      2      IPARTS(NF1),MSS(1,NF1),MSNF   ,MSSF(1,NF1),WMA,
      3      RHOCP      ,MCP       ,MCPS(1,NF1),TEMP0,TEMP ,
      4      MSSA       ,IX1     ,IX2     ,IX3     ,IX4    ,
-     5      GBUF%FILL, VOLU)
+     5      GBUF%FILL, VOLU      ,IMAS_DS)
 C------------------------------------------
 C       assemblage des Volumes nodaux et Modules nodaux
 C       (pour rigidites d'interface)

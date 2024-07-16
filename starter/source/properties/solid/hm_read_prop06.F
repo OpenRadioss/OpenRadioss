@@ -38,7 +38,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_PROP06(GEO      ,IGEO    ,PROP_TAG,MULTI_FVM ,IGTYP   ,
      .                          IG       ,IDTITL  ,UNITAB  ,LSUBMODEL ,RTRANS  ,
-     .                          SUB_ID   ,ISKN    ,IPART   ,SUB_INDEX)
+     .                          SUB_ID   ,ISKN    ,IPART   ,SUB_INDEX,DEFAULTS_SOLID)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE MULTI_FVM_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,7 +86,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "scr17_c.inc"
-#include      "scr21_c.inc"
 #include      "sphcom.inc"
 #include      "tablen_c.inc"
 #include      "tabsiz_c.inc"
@@ -109,6 +109,7 @@ C
       TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE(SOLID_DEFAULTS_), INTENT(IN) :: DEFAULTS_SOLID
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -120,6 +121,8 @@ C     REAL
      .    CVIS,QA,QB,QH,VX,VY,VZ,ANGLE,DTMIN,PX,PY,PZ,VN,
      .    VDEFMIN,VDEFMAX,ASPMAX,ASPTET
       INTEGER K,NSPHDIR,ID_PARTSPH,IPARTSPH,J
+      INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS, IMAS_DS,
+     .            ITET4_D,ITET10_D,ICPRE_D
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
@@ -128,6 +131,13 @@ C-----------------------------------------------
       ISORTH=1
       ISMSTR=0
       IHBE=0
+!--- defaults values      
+      IHBE_DS=  DEFAULTS_SOLID%ISOLID
+      ISST_DS=  DEFAULTS_SOLID%ISMSTR
+      ICPRE_D=  DEFAULTS_SOLID%ICPRE
+      ITET4_D=  DEFAULTS_SOLID%ITETRA4
+      ITET10_D= DEFAULTS_SOLID%ITETRA10
+      IFRAME_DS= DEFAULTS_SOLID%IFRAME
 C======================================================================|
 C
       GEO(3)=ISMSTR

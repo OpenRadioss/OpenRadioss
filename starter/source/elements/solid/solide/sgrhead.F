@@ -82,7 +82,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "scr05_c.inc"
-#include      "scr21_c.inc"
 #include      "sms_c.inc"
 #include      "scr17_c.inc"
 #include      "r2r_c.inc"
@@ -185,7 +184,7 @@ C
       DO I = 1, NUMELS
         II = I
         NPN = 1
-        JHBE=IHBE_D
+        JHBE= 1
         JPOR=0
         MID = IXS(1,II)
         MLN = NINT(PM(19,ABS(MID)))
@@ -201,7 +200,7 @@ C
         ENDIF
         PID= IXS(10,II)
         ISO= ISOLNOD(II)
-        IPLAST=IPLA_DS-1
+        IPLAST= 1
         ICPRE = 0
         ICSTR = 0
         IREP = 0

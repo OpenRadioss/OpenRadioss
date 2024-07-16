@@ -75,7 +75,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
-#include      "scr21_c.inc"
 #include      "scr17_c.inc"
 #include      "r2r_c.inc"
 C-----------------------------------------------
@@ -237,7 +236,7 @@ C ngroup global
           JPOR=0
           JCVT = 0
           ISORTH=0
-          IPLAST=IPLA_DS-1
+          IPLAST= 1
           ICPRE=0
           ISMST = 0
           IGT = 0

@@ -34,7 +34,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_PROP43(GEO   ,IGEO  ,IOUT      ,IG     ,
      .                          NUVAR ,PARGEO,IGTYP,PROP_TAG,
-     .                          UNITAB,LSUBMODEL)
+     .                          UNITAB,LSUBMODEL,DEFAULTS_SOLID)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE ELBUFTAG_MOD           
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,7 +51,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C----------+---------+---+---+--------------------------------------------
 #include      "param_c.inc"
-#include      "scr21_c.inc"
 #include      "tablen_c.inc"
 C----------+---------+---+---+--------------------------------------------
 C VAR      | SIZE    |TYP| RW| DEFINITION
@@ -74,10 +74,12 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
       my_real   
      .        PARGEO(*)
+      TYPE(SOLID_DEFAULTS_), INTENT(IN) :: DEFAULTS_SOLID
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IOUT,IERROR,NUVAR,NPG,JCVT,ISMSTR
+      INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS
       my_real
      .   TTHICK
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
@@ -89,6 +91,10 @@ C
       NPG    = 4
       JCVT   = 1
       ISMSTR = 0
+!--- defaults values      
+      IHBE_DS=  DEFAULTS_SOLID%ISOLID
+      ISST_DS=  DEFAULTS_SOLID%ISMSTR
+      IFRAME_DS= DEFAULTS_SOLID%IFRAME
 C
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)

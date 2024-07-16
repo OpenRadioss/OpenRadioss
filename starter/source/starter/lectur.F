@@ -8589,7 +8589,7 @@ C
      &            KNOD2EL1D  , NOD2EL1D       , EBCS_TAB         , RBY_INIAXIS        , ALEA     ,
      &            KNOD2ELC   , NOD2ELC        , DR               , SLRBODY            , DRAPEG   ,
      &            IPARI      , INTBUF_TAB     , INTERFACES       , MAT_ELEM%MAT_PARAM ,
-     &            NPRELOAD_A , PRELOAD_A      , FAIL_FRACTAL     )
+     &            NPRELOAD_A , PRELOAD_A      , FAIL_FRACTAL     ,DEFAULTS )
 
 
       IF(NINTER>0.AND.NUMELIG3D>0) THEN
@@ -10476,7 +10476,8 @@ C----------------------------------------------
      J        NSIGSH      ,SIGSH      ,NSIGI           ,SIGSP         ,NSIGS            ,
      K        SIGI        ,NSIGBEAM   ,SIGBEAM         ,NSIGTRUSS     ,SIGTRUSS         ,
      L        NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL,
-     M        IMERGE      ,NMERGE_TOT ,IEXLNK ,DRAPEG  ,USER_WINDOWS  ,OUTPUT )
+     M        IMERGE      ,NMERGE_TOT ,IEXLNK ,DRAPEG  ,USER_WINDOWS  ,OUTPUT           ,
+     N        DEFAULTS    )
 !
       DEALLOCATE(SIGI)
       DEALLOCATE(SIGSH)

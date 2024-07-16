@@ -68,13 +68,14 @@ Chd|====================================================================
      C                   IXP    ,MST    ,MSP    ,STT    ,STP    ,
      D                   STRP   ,INP    ,STIFINT,MCPP   ,INR    ,
      E                   MSR    ,MSRT   ,STR    ,IPARTR ,ITAB   ,
-     F                   IXR    ,IMERGE2 , IADMERGE2,NEL)
+     F                   IXR    ,IMERGE2 , IADMERGE2,NEL,DEFAULTS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE MESSAGE_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -119,6 +120,7 @@ C-----------------------------------------------
      .   MST(*),MSP(*),STT(*),STP(*),STRP(*),INP(*),STIFINT(*),MCPP(*),
      .   INR(3,*),MSR(3,*),MSRT(*),STR(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      TYPE(DEFAULTS_), INTENT(IN) :: DEFAULTS             
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -126,7 +128,7 @@ C-----------------------------------------------
       INTEGER MXT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),
      .   IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),
      .   IX5(MVSIZ),IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ),IBID(MVSIZ),IP,II(6),
-     .   ID, IPID, J, I0,I1,I2,I3,ITMP, KK, K,ILENG,IMASS,KK1
+     .   ID, IPID, J, I0,I1,I2,I3,ITMP, KK, K,ILENG,IMASS,KK1,IMAS_DS
       my_real
      .   AREA(MVSIZ), VOID(MVSIZ),RHO(MVSIZ),VOL(MVSIZ),
      .   X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),X5(MVSIZ),X6(MVSIZ),
@@ -173,6 +175,7 @@ C
       NXREF = 0
       NF1=NFT+1
       IF (ITY == 1.AND. ISMSTR == 10) ISMSTR = 4
+      IMAS_DS = DEFAULTS%SOLID%IMAS
 C--------------------------------------
       IF(ITY == 1.AND.ISOLNOD == 4)THEN
 C Solid 4 nodes tetrahedron
@@ -203,7 +206,7 @@ C Solid 4 nodes tetrahedron
      2      IPARTS(NFT+1),MSS(1,NFT+1),MSNF   ,MSSF(1,NFT+1),WMA ,
      3      RHOCP        ,MCP         ,MCPS(1,NFT+1)          ,TEMP0,
      4      TEMP         ,MSSA        ,IX1     ,IX2    ,IX3    ,IX4 ,
-     5      FILL, VOLU)
+     5      FILL, VOLU   ,IMAS_DS )
         ENDIF
         IF(I7STIFS /= 0)THEN
           NCC=4

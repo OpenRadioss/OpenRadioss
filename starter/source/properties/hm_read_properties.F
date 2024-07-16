@@ -360,7 +360,7 @@ c------------------------------
              IGTYP=6
              CALL HM_READ_PROP06(GEO(1,I),IGEO(1,I),PROP_TAG ,MULTI_FVM,IGTYP  ,
      .                          PROP_ID  ,IDTITL   ,UNITAB   ,LSUBMODEL,RTRANS ,
-     .                          SUB_ID   ,ISKN     ,IPART    ,SUB_INDEX)
+     .                          SUB_ID   ,ISKN     ,IPART    ,SUB_INDEX,DEFAULTS%SOLID)
 
           CASE ('TYPE5','TYPE05','RIVET')
 c------------------------------
@@ -459,14 +459,16 @@ C--------------------------------------------------
             IGTYP=14
             IF (ALE%GLOBAL%ICAA == 0 .AND. IGFLU == 0) THEN
              CALL HM_READ_PROP14(GEO(1,I),IGEO(1,I),PROP_TAG ,MULTI_FVM,IGTYP,PROP_ID,IDTITL,UNITAB,LSUBMODEL,
-     .                          IPART )
+     .                          IPART ,DEFAULTS%SOLID)
             ELSE
-             CALL HM_READ_PROP14F(GEO(1,I),IGEO(1,I),PROP_TAG ,MULTI_FVM,IGTYP,PROP_ID,IDTITL,UNITAB,LSUBMODEL)
+             CALL HM_READ_PROP14F(GEO(1,I),IGEO(1,I),PROP_TAG ,MULTI_FVM,IGTYP,PROP_ID,IDTITL,UNITAB,LSUBMODEL,
+     .                            DEFAULTS%SOLID)
             END IF
           CASE ('FLUID')
             IGTYP=14
             IGFLU=1
-            CALL HM_READ_PROP14F(GEO(1,I),IGEO(1,I),PROP_TAG ,MULTI_FVM,IGTYP,PROP_ID,IDTITL,UNITAB,LSUBMODEL)
+            CALL HM_READ_PROP14F(GEO(1,I),IGEO(1,I),PROP_TAG ,MULTI_FVM,IGTYP,PROP_ID,IDTITL,UNITAB,LSUBMODEL,
+     .                          DEFAULTS%SOLID)
 
 C--------------------------------------------------
 C            HM READING PROPERTY TYPE15 (POROUS)
@@ -474,14 +476,15 @@ C--------------------------------------------------
           CASE ('TYPE15','POROUS')
              IGTYP=15
              CALL HM_READ_PROP15(PROP_ID ,IGTYP , GEO(1,I)   ,  IGEO(1,I)   ,PROP_TAG  ,UNITAB ,
-     .                   LSUBMODEL,IDTITL , ISKN     ,ITABM1       )
+     .                   LSUBMODEL,IDTITL , ISKN     ,ITABM1      ,DEFAULTS%SOLID )
 
           CASE ('TYPE20','TSHELL')
 C--------------------------------------------------
 C            HM READING PROPERTY TYPE20 (THICKSHELL)
 C--------------------------------------------------
              IGTYP=20
-             CALL HM_READ_PROP20(GEO(1,I),IGEO(1,I),PROP_TAG ,MULTI_FVM,IGTYP,PROP_ID,IDTITL,UNITAB,LSUBMODEL)
+             CALL HM_READ_PROP20(GEO(1,I),IGEO(1,I),PROP_TAG ,MULTI_FVM,IGTYP,PROP_ID,IDTITL,UNITAB,LSUBMODEL,
+     .                           DEFAULTS%SOLID)
 
           CASE ('TYPE21','TSH_ORTH')
 C--------------------------------------------------
@@ -490,7 +493,8 @@ C--------------------------------------------------
              
              IGTYP=21
             CALL HM_PROP_READ21(GEO(1,I) ,IGEO(1,I) ,PROP_ID    ,ISKN   ,UNITAB ,
-     .                          RTRANS   ,LSUBMODEL ,SUB_ID,IDTITL ,IGTYP  ,PROP_TAG)
+     .                          RTRANS   ,LSUBMODEL ,SUB_ID,IDTITL ,IGTYP  ,PROP_TAG,
+     .                          DEFAULTS%SOLID)
           CASE ('TYPE22','TSH_COMP')
 C--------------------------------------------------
 C      HM READING PROPERTY TYPE22 (Composite Thick shell)
@@ -498,7 +502,8 @@ C--------------------------------------------------
              
              IGTYP=22
             CALL HM_READ_PROP22(GEO(1,I) ,IGEO(1,I) ,IGTYP,PROP_ID    ,IDTITL   ,UNITAB ,
-     .                          LSUBMODEL ,PM ,IPM ,RTRANS   ,SUB_ID ,ISKN,PROP_TAG)
+     .                          LSUBMODEL ,PM ,IPM ,RTRANS   ,SUB_ID ,ISKN,PROP_TAG,
+     .                          DEFAULTS%SOLID)
 C--------------------------------------------------
           CASE ('TYPE23','SPR_MAT')
 C--------------------------------------------------
@@ -576,7 +581,7 @@ C-----------------------------
      1        IGTYP    ,PROP_ID ,IDTITL  ,KEY      ,GEO(1,I),
      2        IGEO(1,I),LBUFGEO ,BUFGEO  ,IADBUF   ,UNITAB,
      3        ISKN     ,KNOT    ,IAD_KNOT,PROP_TAG ,LSUBMODEL,
-     4        RTRANS   ,SUB_ID  ,IUNIT   ,SUB_INDEX)
+     4        RTRANS   ,SUB_ID  ,IUNIT   ,SUB_INDEX,DEFAULTS )
          
         END SELECT ! SELECT CASE(IGTYP)
 c
