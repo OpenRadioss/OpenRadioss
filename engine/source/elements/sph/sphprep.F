@@ -682,7 +682,8 @@ C-----------------------------------------------
      2    KXSP    ,IXSP    ,NOD2SP   ,ISPSYM ,XSPSYM%BUF  ,
      3    VSPSYM%BUF  ,IPARG   ,WASPH  ,ISPCOND ,
      4    XFRAME  ,WSMCOMP%BUF,GEO,IPART  ,IPARTSP ,
-     5    WASPACT ,ITASK   ,SPH_IORD1)
+     5    WASPACT ,ITASK   ,SPH_IORD1,NUMGEO,NCYCLE,
+     6    MCHECK)
 C-----------------------------------------------
 C
       IF(ITASK==0) DEALLOCATE(WREDUCE)
