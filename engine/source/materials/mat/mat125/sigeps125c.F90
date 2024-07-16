@@ -158,7 +158,7 @@
          d = (one - w11*w22*nu12*nu21)
          e1d = w11*e1
          e2d = w22*e2
-         e12d = w11*w22*nu12*e2
+         e12d = w11*w22*nu12*e1
          e21d = w11*w22*nu21*e2
          invd = one/d
          signxx(i) = invd*(e1d*epsxx(i) + e12d*epsyy(i))
