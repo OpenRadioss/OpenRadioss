@@ -29,13 +29,14 @@ Chd|        ALE_MOD                       ../common_source/modules/ale/ale_mod.F
 Chd|====================================================================
       SUBROUTINE ST_QAPRINT_GENERAL_CONTROLS(NOM_OPT ,INOM_OPT  ,DAMPR  , IRAND, ALEA,
      1                                       XSEED   ,UNITAB    ,QP_IPERTURB,QP_RPERTURB,
-     2                                       EIGIPM  , EIGRPM)
+     2                                       EIGIPM  , EIGRPM   ,DEFAULTS)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
       USE UNITAB_MOD
       USE ALE_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,12 +68,14 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: DAMPR(NRDAMP,*),ALEA(*),XSEED(*),EIGRPM(NERPM,*)
       my_real, INTENT(IN) :: QP_RPERTURB(NPERTURB,4)
       TYPE (UNIT_TYPE_) ::UNITAB
+      TYPE(DEFAULTS_)    , INTENT(IN)     :: DEFAULTS             
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,IPERT,MY_ID, MY_DAMP, MY_CONSTRAINT,TEMP_INT,
      .        MY_RAND, MY_UNIT, MY_DEFAULTINTER,LENRNOISE,
      .        IDS(NPERTURB),IDX(NPERTURB),IDSEIG(NEIG),IDXEIG(NEIG),MY_EIG
+      INTEGER  IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS,ITET4_D,ITET10_D,ICPRE_D,IMAS_DS
       CHARACTER *nchartitle TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
@@ -155,6 +158,15 @@ C-----------------------------------------------
 C     /DEF_SOLID
 C-----------------------------------------------
       IF (MYQAKEY('/DEF_SOLID')) THEN
+!--- defaults values      
+        IHBE_DS=  DEFAULTS%SOLID%ISOLID
+        ISST_DS=  DEFAULTS%SOLID%ISMSTR
+        ICPRE_D=  DEFAULTS%SOLID%ICPRE
+        ITET4_D=  DEFAULTS%SOLID%ITETRA4
+        ITET10_D= DEFAULTS%SOLID%ITETRA10
+        IMAS_DS=  DEFAULTS%SOLID%IMAS
+        IFRAME_DS= DEFAULTS%SOLID%IFRAME
+        ISTRA_D = 1
 C
         CALL QAPRINT('DEF_SOLID', 0,0.0_8)
 C

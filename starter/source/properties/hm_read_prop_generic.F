@@ -47,7 +47,7 @@ Chd|====================================================================
      1                    IGTYP  ,IG      ,IDTITL  ,KEYTYPE  ,GEO      ,
      2                    IGEO   ,LBUFGEO ,BUFGEO  ,IADBUF   ,UNITAB   ,
      3                    ISKN   ,KNOT    ,IAD_KNOT,PROP_TAG ,LSUBMODEL,
-     4                    RTRANS ,SUB_ID  ,IUNIT   ,SUB_INDEX)
+     4                    RTRANS ,SUB_ID  ,IUNIT   ,SUB_INDEX,DEFAULTS )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD            
       USE SUBMODEL_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,6 +87,7 @@ C     MODIFIED ARGUMENT
      .        GEO(NPROPG), KNOT(*)
       DOUBLE PRECISION,INTENT(INOUT)::  BUFGEO(*)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP),INTENT(INOUT) :: PROP_TAG
+      TYPE(DEFAULTS_), INTENT(IN)  :: DEFAULTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -194,7 +196,7 @@ C--------------------------------------------------
           IGTYP=43
           CALL HM_READ_PROP43(GEO     ,IGEO     ,IOUT    ,IG      ,
      .                        NUVAR   ,PARGEO   ,IGTYP ,PROP_TAG,
-     .                        UNITAB  ,LSUBMODEL)
+     .                        UNITAB  ,LSUBMODEL,DEFAULTS%SOLID)
 
         CASE ('TYPE44','SPR_CRUS')
           IGTYP=44

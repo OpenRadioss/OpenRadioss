@@ -122,7 +122,8 @@ Chd|====================================================================
      J                             NSIGSH      ,SIGSH      ,NSIGI           ,SIGSP          ,NSIGS            ,
      K                             SIGI        ,NSIGBEAM   ,SIGBEAM         ,NSIGTRUSS      ,SIGTRUSS         ,
      L                             NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL ,
-     M                             IMERGE      ,NMERGE_TOT ,IEXLNK          ,DRAPEG         ,USER_WINDOWS,OUTPUT)
+     M                             IMERGE      ,NMERGE_TOT ,IEXLNK          ,DRAPEG         ,USER_WINDOWS     ,
+     N                             OUTPUT      ,DEFAULTS    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -149,6 +150,7 @@ C-----------------------------------------------
       USE USER_WINDOWS_MOD
       USE OUTPUT_MOD
       USE MAT_ELEM_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -221,6 +223,7 @@ C-----------------------------------------------
       TYPE(USER_WINDOWS_),INTENT(IN)      :: USER_WINDOWS
       TYPE(OUTPUT_)      ,INTENT(IN)      :: OUTPUT
       TYPE(MAT_ELEM_)    ,INTENT(IN)      :: MAT_ELEM
+      TYPE(DEFAULTS_)    , INTENT(IN)     :: DEFAULTS             !< Defaults mod
 C-----------------------------------------------
 C      NOM_OPT(LNOPT1,SNOM_OPT1) 
 C         * Possibly, NOM_OPT(1) = ID
@@ -419,7 +422,7 @@ C-----------------------------------------------
 
       CALL ST_QAPRINT_GENERAL_CONTROLS(NOM_OPT   ,INOM_OPT  ,DAMPR, IRAND, ALEA, 
      1                                 XSEED     ,UNITAB    ,QP_IPERTURB       ,
-     2                                 QP_RPERTURB,EIGIPM   , EIGRPM)
+     2                                 QP_RPERTURB,EIGIPM   , EIGRPM, DEFAULTS )
       CALL ST_QAPRINT_INTERFACES(NOM_OPT   ,INOM_OPT  ,IPARI  ,INTBUF_TAB,I2RUPT ,  
      1                           AREASL)      
       CALL ST_QAPRINT_CLUSTERS(NOM_OPT   ,INOM_OPT  ,CLUSTERS)

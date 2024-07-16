@@ -39,7 +39,7 @@ Chd|====================================================================
       SUBROUTINE MULTIFLUID_INIT3T(ELBUF_STR, 
      .     NEL, NSIGS, NSIGI, IXS, IGEO, IPM, IPARG, ALE_CONNECTIVITY, IPARTS, PTSOL, NPF, IPART, ILOADP,
      .     XREFS, GEO, PM, FACLOAD, TF, SKEW, SIGI, BUFMAT, X, 
-     .     WMA, PARTSAV, MAS, V, MSS, MSSF, MSSA, MSNF, MCPS, ERROR_THROWN, DETONATORS)
+     .     WMA, PARTSAV, MAS, V, MSS, MSSF, MSSA, MSNF, MCPS, ERROR_THROWN, DETONATORS,DEFAULTS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,6 +85,7 @@ C-----------------------------------------------
       LOGICAL :: ERROR_THROWN
       TYPE(DETONATORS_STRUCT_) DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      TYPE(DEFAULTS_), INTENT(IN) :: DEFAULTS             
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -103,7 +105,7 @@ C-----------------------------------------------
      .     PY1(MVSIZ),PY2(MVSIZ),PY3(MVSIZ),PY4(MVSIZ),
      .     PZ1(MVSIZ),PZ2(MVSIZ),PZ3(MVSIZ),PZ4(MVSIZ),
      .     VOLU(MVSIZ), BID(MVSIZ), DUMMY, PRES,VFRAC
-      INTEGER :: II, IP, IBID, MATLAW
+      INTEGER :: II, IP, IBID, MATLAW,IMAS_DS
       DOUBLE PRECISION 
      .   VOLDP(MVSIZ)
 C-----------------------------------------------
@@ -112,6 +114,7 @@ C-----------------------------------------------
       GBUF => ELBUF_STR%GBUF
 C     Number of layers ( = number of material in law 151)
       NLAY = ELBUF_STR%NLAY
+      IMAS_DS = DEFAULTS%SOLID%IMAS
 C     Gather coordinates
       CALL S4COOR3(X, XREFS(1, 1, NFT + 1), IXS(1, NFT + 1), NGL, 
      .     MAT, PID, IX1, IX2, IX3, IX4, 
@@ -203,5 +206,5 @@ C      Temperature globalization. We must solve later T such as e+p/rho=integral
      2     IPARTS(NFT + 1),MSS(1,NFT + 1),MSNF   ,MSSF(1,NFT + 1),WMA,
      3     BID      ,BID       ,MCPS(1,NFT + 1),BID,BID ,
      4     MSSA       ,IX1     ,IX2     ,IX3     ,IX4    ,
-     5     GBUF%FILL, GBUF%VOL)
+     5     GBUF%FILL, GBUF%VOL ,IMAS_DS)
       END SUBROUTINE MULTIFLUID_INIT3T

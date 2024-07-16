@@ -34,7 +34,7 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        STACK_VAR_MOD                 share/modules1/stack_var_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_PREREAD_PROPERTIES(IGEO,NSPHSOL,NPLY,NSUB,NISUB,LSUBMODEL)
+      SUBROUTINE HM_PREREAD_PROPERTIES(IGEO,NSPHSOL,NPLY,NSUB,NISUB,LSUBMODEL,DEFAULTS)
 C============================================================================
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE STACK_VAR_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,13 +54,13 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "param_c.inc"
 #include      "scr03_c.inc"
-#include      "scr21_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGEO(NPROPGI,*),NSPHSOL
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       INTEGER ,DIMENSION (NUMGEO + NUMSTACK) :: NPLY,NSUB,NISUB
+      TYPE(DEFAULTS_), INTENT(IN)            :: DEFAULTS             
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -77,7 +78,7 @@ C-----------------------------------------------
       CHARACTER IDTITL*nchartitle,MESS*40,KEY*ncharline, 
      .          STRING*ncharfield,CHROT*7,SOLVERKEYWORD*ncharline
       INTEGER ISH3N,ITET4,IPLAS,NPT,ISROT,NP,LAMIN,NSUB_STACK,NISUB_STACK,
-     .        NPLY_STACK,NPLY_SUB
+     .        NPLY_STACK,NPLY_SUB,ITET4_D
       LOGICAL IS_AVAILABLE
      
 !!      TYPE(STACK_INFO_ ) , DIMENSION(:), POINTER :: STACK_INFO
@@ -90,6 +91,7 @@ C
       NSUB (:) = 0
       NISUB(:) = 0
       NPLY (:) = 0
+      ITET4_D= DEFAULTS%SOLID%ITETRA4
 C--------------------------------------------------
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------

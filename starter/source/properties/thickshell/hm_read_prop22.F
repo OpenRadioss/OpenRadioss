@@ -38,7 +38,8 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_PROP22(GEO,IGEO ,IGTYP,IG,TITR,UNITAB,LSUBMODEL,
-     .                          PM ,IPM ,RTRANS   ,SUB_ID ,ISKN,PROP_TAG)
+     .                          PM ,IPM ,RTRANS   ,SUB_ID ,ISKN,PROP_TAG,
+     .                          DEFAULTS_SOLID)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -64,6 +65,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE ELBUFTAG_MOD            
       USE MULTI_FVM_MOD
+      USE DEFAULTS_MOD
 C---s----1---------2---------3---------4---------5---------6---------7->
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -74,7 +76,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
-#include      "scr21_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "tablen_c.inc"
@@ -94,13 +95,14 @@ C MODIFIED ARGUMENT
       my_real,
      .  INTENT(INOUT)::GEO(*)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
+      TYPE(SOLID_DEFAULTS_), INTENT(IN) :: DEFAULTS_SOLID
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       INTEGER IHBE,ISMSTR,IPLAST,ICPRE,ICSTR,IINT,JCVT,
      .   NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID,
-     .   IREP,IPOS
+     .   IREP,IPOS,IHBE_DS,ISST_DS
       my_real
      .    CVIS,QA,QB,QH,VNS1,VNS2,DTMIN,ASHEAR
       INTEGER NUML(200), NLY, NLYMAX, N, J, M1, M2, M3,ICOMPA,
@@ -123,9 +125,12 @@ C=======================================================================
 C-----hide and removed flags:
       IPLAST = 2                              
       ID = IG
-C---- will branche later     
+C----     
       ICPRE = 0  
       ISTRAIN = 1  
+!--- defaults values      
+      IHBE_DS=  DEFAULTS_SOLID%ISOLID
+      ISST_DS=  DEFAULTS_SOLID%ISMSTR
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------

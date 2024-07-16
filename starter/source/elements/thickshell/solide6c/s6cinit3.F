@@ -57,7 +57,7 @@ Chd|====================================================================
      .                    BUFMAT   ,MCP     ,MCPS    ,MCPSX    ,TEMP  ,
      .                    NPF      ,TF      ,STRSGLOB,STRAGLOB ,MSSA  ,
      .                    ORTHOGLOB,FAIL_INI,ILOADP  ,FACLOAD  ,RNOISE,
-     .                    PERTURB  ,MAT_PARAM)
+     .                    PERTURB  ,MAT_PARAM,DEFAULTS_SOLID)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C   Initialization of thick shell PA6 element
@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE DETONATORS_MOD      
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -106,12 +107,13 @@ C-----------------------------------------------
       TYPE(DETONATORS_STRUCT_) :: DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+      TYPE(SOLID_DEFAULTS_), INTENT(IN) :: DEFAULTS_SOLID
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NF1,IBID,IGTYP,IREP,IP,ILAY,NLAY,NUVAR,NCC,JHBE,
      .   NUVARR,IDEF,IPANG,IPTHK,IPPOS,IPMAT,IG,IM,MTN0,NLYMAX,
-     .   IPID1,NPTR,NPTS,NPTT,L_PLA,L_SIGB
+     .   IPID1,NPTR,NPTS,NPTT,L_PLA,L_SIGB,IMAS_DS
       INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ), MAT0(MVSIZ)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        IX5(MVSIZ), IX6(MVSIZ)
@@ -218,6 +220,7 @@ C
       IF (IGTYP /= 22) THEN
        ISORTH = 0
       END IF
+      IMAS_DS = DEFAULTS_SOLID%IMAS
 C
       DO I=1,NEL
         RHOCP(I) =  PM(69,IXS(1,NFT+I))
@@ -379,7 +382,7 @@ C----------------------------------------
 C Mass initialization
       CALL S6MASS3(GBUF%RHO,MAS,PARTSAV,X,V,IPARTS(NF1),MSS(1,NF1),
      .     RHOCP,MCP ,MCPS(1,NF1),MSSA(NF1),GBUF%FILL, VOLU, 
-     .     IX1, IX2, IX3, IX4, IX5, IX6)
+     .     IX1, IX2, IX3, IX4, IX5, IX6,IMAS_DS)
 C----------------------------------------
 C Failure model initialization
       CALL FAILINI(ELBUF_STR,NPTR,NPTS,NPTT,NLAY,

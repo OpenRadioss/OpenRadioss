@@ -35,7 +35,8 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_PROP_READ21(GEO   ,IGEO      ,IG    ,ISKN   ,UNITAB ,
-     .                       RTRANS   ,LSUBMODEL ,SUB_ID,IDTITL ,IGTYP  ,PROP_TAG)
+     .                       RTRANS   ,LSUBMODEL ,SUB_ID,IDTITL ,IGTYP  ,
+     .                        PROP_TAG, DEFAULTS_SOLID)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -43,6 +44,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +56,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "scr17_c.inc"
-#include      "scr21_c.inc"
 #include      "tablen_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -65,6 +66,7 @@ C-----------------------------------------------
       my_real RTRANS(NTRANSF,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
+      TYPE(SOLID_DEFAULTS_), INTENT(IN) :: DEFAULTS_SOLID
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -72,7 +74,7 @@ C-----------------------------------------------
      .    IINT,JCVT,IP,ISK,IREP,IDSK,ISTRAIN,NLY
       my_real
      .    CVIS,QA,QB,VX,VY,VZ,ANGLE,DTMIN,PUN,VDEFMIN,VDEFMAX,ASPMAX,ASPTET
-      INTEGER J
+      INTEGER J,IHBE_DS,ISST_DS
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
       CHARACTER IDTITL*nchartitle
 C-----------------------------------------------
@@ -96,6 +98,9 @@ C----------------------
        IINT = 1
        ICPRE = 0
 
+!--- defaults values      
+      IHBE_DS=  DEFAULTS_SOLID%ISOLID
+      ISST_DS=  DEFAULTS_SOLID%ISMSTR
 C      Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
        IGEO( 1)=IG
        IGEO(11)=IGTYP

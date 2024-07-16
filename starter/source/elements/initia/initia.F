@@ -182,7 +182,7 @@ Chd|====================================================================
      K                  KNOD2EL1D  ,NOD2EL1D      ,EBCS_TAB         ,RBY_INIAXIS    ,ALEA      ,
      L                  KNOD2ELC   ,NOD2ELC       ,DR               ,SLRBODY        ,DRAPEG    ,
      M                  IPARI      ,INTBUF_TAB    ,INTERFACES       ,MAT_PARAM      ,NPRELOAD_A,
-     N                  PRELOAD_A  ,FAIL_FRACTAL  )
+     N                  PRELOAD_A  ,FAIL_FRACTAL  ,DEFAULTS )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -211,6 +211,7 @@ C-----------------------------------------------
       USE BCS_MOD
       USE SENSOR_MOD
       USE RANDOM_WALK_DEF_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -342,6 +343,7 @@ C-----------------------------------------------
       TYPE (PREL1D_) , INTENT(IN   ), DIMENSION(NPRELOAD_A) ::  PRELOAD_A
       TYPE (SENSORS_) ,INTENT(IN)  :: SENSORS
       TYPE (FAIL_FRACTAL_) ,INTENT(IN) :: FAIL_FRACTAL
+      TYPE(DEFAULTS_), INTENT(IN)      :: DEFAULTS             
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -903,7 +905,7 @@ C
      D        IXP        ,MST        ,MSP        ,STT       ,STP       ,
      E        STRP       ,INP        ,STIFINT    ,MCPP      ,INR       ,
      F        MSR        ,MSRT       ,STR        ,IPART(I15F),ITAB     ,
-     G        IXR       , IMERGE2    ,IADMERGE2  ,NEL)
+     G        IXR       , IMERGE2    ,IADMERGE2  ,NEL       ,DEFAULTS)
 C
        ELSEIF( MTN == 13) THEN
 C Rigid material
@@ -928,7 +930,7 @@ C
      B        NINDX      ,XREFC      ,XREFTG     ,XREFS     ,MSSA     ,
      C        SH3TRIM    ,ISUBSTACK  ,BUFMAT     ,IPM       ,STACK    ,
      D        RNOISE     ,STRC       ,STRTG      ,PERTURB   ,NEL      ,
-     E        GROUP_PARAM_TAB(NG)    ,IGTYP)
+     E        GROUP_PARAM_TAB(NG)    ,IGTYP      ,DEFAULTS  )
 C
        ELSE
 C Element types
@@ -956,7 +958,8 @@ C Element types
      .              NEL, NSIGS, NSIGI, IXS, IGEO, IPM, IPARG, ALE_CONNECTIVITY, IPART(I15A), PTSOL, 
      .              NPC, IPART, ILOADP,
      .              XREFS, GEO, PM, FACLOAD, PLD, SKEW, SIGI, BUFMAT, X, 
-     .              WMA, PARTSAV, MS, V, MSS, MSSF, MSSA, MSNF, MCPS, ERROR_THROWN, DETONATORS)
+     .              WMA, PARTSAV, MS, V, MSS, MSSF, MSSA, MSNF, MCPS, ERROR_THROWN, DETONATORS,
+     .              DEFAULTS)
             ELSE
                IF (ISTOT == 1) THEN
                   CALL SGSAVINI(ISOLNOD,X,IXS(1,NFT+1),GBUF%SMSTR,NEL)
@@ -976,7 +979,8 @@ C Element types
      8              MCP          ,MCPS        ,TEMP     ,NPC        ,PLD        ,  
      9              IUSER        ,SIGSP       ,NSIGI    ,MSSA       ,XREFS      ,  
      A              STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI ,SPBUF     ,SOL2SPH    ,
-     B              ILOADP       ,FACLOAD      ,RNOISE   ,PERTURB   ,MAT_PARAM)                            
+     B              ILOADP       ,FACLOAD      ,RNOISE   ,PERTURB   ,MAT_PARAM  ,
+     C              DEFAULTS%SOLID)                            
                IF (NXREF > 0 .AND. JLAG/=0 .AND. JSPH==0)THEN
                   CALL S4REFSTA3(
      1                 ELBUF_TAB(NG),IXS        ,PM         ,GEO      ,IPARG(1,NG),
@@ -1008,7 +1012,7 @@ C Case total strain
      A         MCP         ,MCPS      ,MCPSX   ,TEMP       ,NPC        ,
      B         PLD         ,IN        ,STIFR   ,INS        ,MSSA       ,
      C         STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI,ILOADP ,FACLOAD    ,
-     D         PERTURB     ,RNOISE    ,MAT_PARAM)
+     D         PERTURB     ,RNOISE    ,MAT_PARAM,DEFAULTS%SOLID)
           IF (NSIGI > 0 ) THEN
              NNOD = 10
              NSROT = 0

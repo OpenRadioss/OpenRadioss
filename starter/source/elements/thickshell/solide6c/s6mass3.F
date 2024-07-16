@@ -29,7 +29,7 @@ Chd|        S6FRACA                       source/elements/thickshell/solide6c/s6
 Chd|====================================================================
       SUBROUTINE S6MASS3(RHO,MS,PARTSAV,X,V,IPART,MSS,
      .     RHOCP,MCP ,MCPS,MSSA,FILL, VOLU, 
-     .     NC1, NC2, NC3, NC4, NC5, NC6)
+     .     NC1, NC2, NC3, NC4, NC5, NC6,IMAS_DS)
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -42,6 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) ::  IMAS_DS
       INTEGER IPART(*),
      .     NC1(*), NC2(*), NC3(*), NC4(*), NC5(*), NC6(*)
       my_real
@@ -59,7 +60,7 @@ C-----------------------------------------------
       my_real
      .   XX,YY,ZZ,XY,YZ,ZX,MASS(MVSIZ),MSS(8,*), MASSP,PTG(MVSIZ,3)
 C-----------------------------------------------------------------------
-       CALL S6FRACA(X,NC1, NC2, NC3, NC4, NC5, NC6 ,PTG   ,LLT )
+       CALL S6FRACA(X,NC1, NC2, NC3, NC4, NC5, NC6 ,PTG   ,LLT ,IMAS_DS)
        DO I=LFT,LLT
         MASS(I)=FILL(I)*RHO(I)*VOLU(I)*ONE_OVER_6
         I1 = NC1(I)

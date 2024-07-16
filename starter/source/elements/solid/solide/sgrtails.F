@@ -90,7 +90,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
-#include      "scr21_c.inc"
 #include      "sms_c.inc"
 #include      "scr17_c.inc"
 #include      "r2r_c.inc"
@@ -469,10 +468,10 @@ C de plus ISOLNOD remis a 0 real dans lectur
           NPT=1
           JIVF=0
           NUVARP=0
-          JHBE=IHBE_D
+          JHBE= 1
           JPOR=0
           JCLOS=0
-          IPLAST=IPLA_DS-1
+          IPLAST= 1
           ICPRE=0
           ICSTR=0
           IREP = 0
@@ -1223,8 +1222,7 @@ C--------------warning out
                 IF (ISSN == 12) THEN
                  ISSN = 2
                 ELSE                 
-                 ISSN = ISST_DS                           
-                 IF (ISSN == 0 .OR. ISSN == 10) ISSN = 4                            
+                 ISSN = 4                            
                 END IF
             END IF
           ELSE IF (ISSN == 11) THEN

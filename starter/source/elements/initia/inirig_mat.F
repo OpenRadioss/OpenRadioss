@@ -64,13 +64,14 @@ Chd|====================================================================
      B                   NINDX  ,XREFC  ,XREFTG ,XREFS   ,MSSA  ,
      C                   SH3TRIM,ISUBSTACK,BUFMAT,IPM    ,STACK ,
      D                   RNOISE ,STRC  ,STRTG   ,PERTURB ,NEL   ,
-     E                   GROUP_PARAM   ,IGTYP)
+     E                   GROUP_PARAM   ,IGTYP   ,DEFAULTS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE GROUP_PARAM_MOD            
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -109,11 +110,12 @@ C-----------------------------------------------
      .   XREFC(4,3,*),XREFTG(3,3,*),XREFS(8,3,*), MSSA(*),BUFMAT(*),
      .   RNOISE(*),STRC(*),STRTG(*)
       TYPE(GROUP_PARAM_)  :: GROUP_PARAM
+      TYPE(DEFAULTS_), INTENT(IN)      :: DEFAULTS             
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,  NDEPAR, NDSA,NC(20),N,JJ,KK,J,K,IP,NF1,NF2,
-     .   ILAW,IMAT,IPROP,IE,IBID(MVSIZ),NREFSTA
+     .   ILAW,IMAT,IPROP,IE,IBID(MVSIZ),NREFSTA,IMAS_DS
       INTEGER NC10(MVSIZ,10)
       INTEGER, DIMENSION(MVSIZ) :: IX1,IX2,IX3,IX4,IX5,IX6,IX7,IX8,MXT,PID,NGL
       my_real
@@ -159,6 +161,7 @@ C
       BID(1:MVSIZ) = ZERO
       NREFSTA = NXREF
       NXREF = 0
+      IMAS_DS = DEFAULTS%SOLID%IMAS
       IF (ITY == 1.AND. ISMSTR == 10) ISMSTR = 4
 C-----------------------------------------------
       IF (ITY == 1.AND. ISOLNOD == 4)THEN
@@ -208,7 +211,7 @@ C
      2      IPARTS(NFT+1),MSS(1,NFT+1),MSNF   ,MSSF(1,NFT+1),WMA ,
      3      RHOCP        ,MCP         ,MCPS(1,NFT+1)          ,TEMP0,
      4      TEMP         ,MSSA        ,IX1    ,IX2    ,IX3    ,IX4  ,
-     5      FILL, VOLU)
+     5      FILL, VOLU   ,IMAS_DS )
         ENDIF                   
 C
         CALL DTMAIN(GEO  ,PM   ,VOID  ,PID   ,MXT   ,VOID  ,
@@ -264,7 +267,7 @@ C
      .              XX  ,YY ,ZZ     ,VX         ,VY         ,VZ  ,  
      .              NC10  ,STI,STIFN  ,DELTAX2    ,MSSX(1,NF1),MASSCP,
      .              MCP ,MCPS(1,NF1),MCPSX(1,NF1),IN        ,STIFR,
-     .              INS(1,NF1),MSSA ,X    ,FILL)
+     .              INS(1,NF1),MSSA ,X    ,FILL  ,IMAS_DS)
 C
 C Create dependency to rigid material              
         DO I=1,NEL
