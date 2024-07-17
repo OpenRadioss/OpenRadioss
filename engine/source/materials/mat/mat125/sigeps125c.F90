@@ -81,7 +81,7 @@
        slims,gammaf,gammar, tsdm, erods,tsize,ef11t,ef11c,          &
        m1t,m1c,al1t,al2t,al2c,als,mfs,ms,e1d,e2d,g12d,d,            &
        w11,w22,w12,al1c,ef22c,ef22t,e12d,efs,invd,m2c,m2t,          &
-       e21d,g12,limit_sig, eint, deint,a11,tauxy
+       e21d,g12,limit_sig, eint, deint,a11,tauxy,g13,g23
       my_real , dimension(nel) ::  dezz,check
 !!======================================================================
 !
@@ -94,8 +94,10 @@
        e1    = mat_param%uparam(1)  
        e2    = mat_param%uparam(2)  
        g12   = mat_param%uparam(4)  
-       nu12  = mat_param%uparam(8)  
-       nu21  = nu12
+       g13   = mat_param%uparam(5) 
+       g23   = mat_param%uparam(6)  
+       nu12  = mat_param%uparam(8) 
+       nu21  = mat_param%uparam(78) 
       ! Fiber direction
        em11t  = mat_param%uparam(11) 
        xt     = mat_param%uparam(12) 
@@ -144,111 +146,112 @@
 
        fs = nint(mat_param%uparam(76))
        damage = nint(mat_param%uparam(77))
+       ! 
+       select  case (damage)
+         case(1) ! with damage 
       ! membrane computing FS = 0, 1, -1 
-       do i=1,nel
-       ! computing damage by direction
-        ! dir 
-        w11 = one
-        w22 = one 
-        check(i) = one
-        ! check unloading
-         w11 = uvar(i,1)
-         w22 = uvar(i,2)
-         W12 = uvar(i,3)
-         d = (one - w11*w22*nu12*nu21)
-         e1d = w11*e1
-         e2d = w22*e2
-         e12d = w11*w22*nu12*e1
-         e21d = w11*w22*nu21*e2
-         invd = one/d
-         signxx(i) = invd*(e1d*epsxx(i) + e12d*epsyy(i))
-         signyy(i) = invd*(e21d*epsxx(i)+ e2d*epsyy(i))
-         signxy(i) = w12*g12*epsxy(i)
-         eint =  half*(epsxx(i)*signxx(i)+ epsyy(i)*signyy(i) + epsxy(i)*signxy(i))
-         deint = eint - uvar(i,4)
-         uvar(i,4) = eint
-         if(deint < ZERO ) then
-          check(i) = -one
-         elseif(uvar(i,5) == -one) then
-          check(i) = -one 
-          if(uvar(i,6) /= zero .and. eint >= uvar(i,6)) check(i) = one
-         else 
-          check(i) = one  
-         endif  
-         if(check(i) >= zero ) then
-           uvar(i,5) = one
-          if(damage > 0 ) then
-            if(epsxx(i) >= zero )then
-              w11 = epsxx(i)/ef11t
-              w11 = exp(m1t*log(w11))/al1t  ! (esp/epsf)^m/alpha
-              w11 = exp(-w11)
-            else
-              w11 = abs(epsxx(i))/ef11c
-              w11 = exp(m1c*log(w11))/al1c  ! (esp/epsf)^m/alpha
-              w11 = exp(-w11)
+          do i=1,nel
+      ! computing damage by direction
+            ! dir 
+             check(i) = one
+            ! check unloading
+             w11 = uvar(i,1)
+             w22 = uvar(i,2)
+             W12 = uvar(i,3)
+             d = (one - w11*w22*nu12*nu21)
+             e1d = w11*e1
+             e2d = w22*e2
+             e12d = w11*w22*nu12*e2
+             e21d = w11*w22*nu21*e2
+             invd = one/d
+             signxx(i) = invd*(e1d*epsxx(i) + e12d*epsyy(i))
+             signyy(i) = invd*(e21d*epsxx(i)+ e2d*epsyy(i))
+             signxy(i) = w12*g12*epsxy(i)
+             eint =  half*(epsxx(i)*signxx(i)+ epsyy(i)*signyy(i) + epsxy(i)*signxy(i))
+             deint = eint - uvar(i,4)
+             uvar(i,4) = eint
+             if(deint < ZERO ) then
+               check(i) = -one
+             elseif(uvar(i,5) == -one) then
+                check(i) = -one 
+                if(uvar(i,6) /= zero .and. eint >= uvar(i,6)) check(i) = one
+             else 
+                check(i) = one  
+            endif  
+            if(check(i) >= zero ) then
+               uvar(i,5) = one
+              if(damage > 0 ) then
+               if(epsxx(i) >= zero )then
+                 w11 = epsxx(i)/ef11t
+                 w11 = exp(m1t*log(w11))/al1t  ! (esp/epsf)^m/alpha
+                 w11 = exp(-w11)
+               else
+                 w11 = abs(epsxx(i))/ef11c
+                 w11 = exp(m1c*log(w11))/al1c  ! (esp/epsf)^m/alpha
+                 w11 = exp(-w11)
+               endif
+            ! dir 
+               if(epsyy(i) >= zero )then
+                 w22 = epsyy(i)/ef22t
+                 w22 = exp(m2t*log(w22))/al2t  ! (esp/epsf)^m/alpha
+                 w22 = exp(-w22)
+               else
+                 w22 = abs(epsyy(i))/ef22c
+                 w22 = exp(m2c*log(w22))/al2c  ! (esp/epsf)^m/alpha
+                 w22 = exp(-w22)
+               endif    
+              endif   
+             else ! unlaod
+               w11 = uvar(i,1)
+               w22 = uvar(i,2)
+               uvar(i,5) = -one
+             endif  
+             ! damage hook matrix
+             d = (one - w11*w22*nu12*nu21)
+             e1d = w11*e1
+             e2d = w22*e2
+             e12d = w11*w22*nu12*e1
+             e21d = w11*w22*nu21*e2
+             invd = one/d
+             signxx(i) = invd*(e1d*epsxx(i) + e12d*epsyy(i))
+             signyy(i) = invd*(e21d*epsxx(i)+ e2d*epsyy(i))
+             signzx(i) = shf(i)*g12*epszx(i) 
+             signyz(i) = shf(i)*g12*epsyz(i) 
+             if( check(i) >= zero ) then
+               limit_sig = zero
+               if(epsxx(i) >= em11t  ) then
+                 limit_sig = slimt1*xt
+                 signxx(i) = max(limit_sig, signxx(i))
+               elseif(abs(epsxx(i)) >= em11c)then 
+                 limit_sig = slimc1*xc
+                 signxx(i) = -max(limit_sig, abs(signxx(i)))
+               endif  
+               if(abs(signxx(i)) ==  limit_sig) w11 = signxx(i) / epsxx(i)/e1
+               if(epsyy(i) >= em22t)then 
+                 limit_sig = slimt2*yt
+                 signyy(i) = max(limit_sig, signyy(i))
+               elseif(abs(epsyy(i)) >= em22c)then 
+                 limit_sig = slimc2*yc
+                 signyy(i) = - max(limit_sig, abs(signyy(i)))
+               endif 
+               if(abs(signyy(i)) ==  limit_sig) w22 = signyy(i) / epsyy(i)/e2
+              ! save w11 & w22
+               uvar(i,1)= w11
+               uvar(i,2)= w22
+               uvar(i,6)= eint
             endif
-        ! dir 
-            if(epsyy(i) >= zero )then
-              w22 = epsyy(i)/ef22t
-              w22 = exp(m2t*log(w22))/al2t  ! (esp/epsf)^m/alpha
-              w22 = exp(-w22)
-            else
-              w22 = abs(epsyy(i))/ef22c
-              w22 = exp(m2c*log(w22))/al2c  ! (esp/epsf)^m/alpha
-              w22 = exp(-w22)
-            endif    
-          endif   
-         else ! unlaod
-           w11 = uvar(i,1)
-           w22 = uvar(i,2)
-           uvar(i,5) = -one
-         endif  
-         ! damage hook matrix
-         d = (one - w11*w22*nu12*nu21)
-         e1d = w11*e1
-         e2d = w22*e2
-         e12d = w11*w22*nu12*e2
-         e21d = w11*w22*nu21*e2
-         invd = one/d
-         signxx(i) = invd*(e1d*epsxx(i) + e12d*epsyy(i))
-         signyy(i) = invd*(e21d*epsxx(i)+ e2d*epsyy(i))
-         signzx(i) = shf(i)*g12*epszx(i) ! to check later
-         signyz(i) = shf(i)*g12*epsyz(i) ! to check later using epsf en epsr (interpolation)
-         if( check(i) >= zero ) then
-            limit_sig = zero
-           if(epsxx(i) >= em11t  ) then
-              limit_sig = slimt1*xt
-              signxx(i) = max(limit_sig, signxx(i))
-           elseif(abs(epsxx(i)) >= em11c)then 
-              limit_sig = slimc1*xc
-              signxx(i) = -max(limit_sig, abs(signxx(i)))
-           endif  
-           if(abs(signxx(i)) ==  limit_sig) w11 = signxx(i) / epsxx(i)/e1
-           if(epsyy(i) >= em22t)then 
-              limit_sig = slimt2*yt
-              signyy(i) = max(limit_sig, signyy(i))
-           elseif(abs(epsyy(i)) >= em22c)then 
-              limit_sig = slimc2*yc
-              signyy(i) = - max(limit_sig, abs(signyy(i)))
-           endif 
-           if(abs(signyy(i)) ==  limit_sig) w22 = signyy(i) / epsyy(i)/e2
-            ! save w11 & w22
-           uvar(i,1)= w11
-           uvar(i,2)= w22
-           uvar(i,6)= eint
-         endif
-         etse(i)   = one
-         a11       = max(e1,e2)/(one - nu12**2) 
-         a11       = max(e1,e2)
-         ssp(i) = sqrt(a11/rho(i))
-         sigy(i)    = min(slimt1*xt,slimt2*yt, slimc1*xc,slimc2*yc)
-         ! computation of the thickness variation 
-         dezz(i)  = -(nu12/e1)*(signxx(i)-sigoxx(i))-(nu12/e2)*(signyy(i)-sigoyy(i)) 
-         thk(i)     = thk(i) + dezz(i)*thkly(i)*off(i) 
-      enddo ! nel loop
-      select  case (fs)
-           case(-1)
-              do i=1,nel
+            etse(i)   = one
+            a11       = max(e1,e2)/(one - nu12**2) 
+            a11       = max(e1,e2)
+            ssp(i) = sqrt(a11/rho(i))
+            sigy(i)    = min(slimt1*xt,slimt2*yt, slimc1*xc,slimc2*yc)
+             ! computation of the thickness variation 
+            dezz(i)  = -(nu12/e1)*(signxx(i)-sigoxx(i))-(nu12/e2)*(signyy(i)-sigoyy(i)) 
+            thk(i)     = thk(i) + dezz(i)*thkly(i)*off(i) 
+            enddo ! nel loop
+           select  case (fs)
+             case(-1)
+               do i=1,nel
                 ! shear w12
                  w12 = one
                  updat = 1
@@ -276,7 +279,7 @@
                   endif   
                   uvar(i,3)= w12
                enddo ! nel loop
-            case(0)
+             case(0)  ! fs = 0 TO CHECK
                do i=1,nel
                   w12 = one 
                   IF(check(i) < zero ) then
@@ -294,8 +297,8 @@
                      uvar(i,3)= w12
                   endif   
                enddo ! nel loop
-            case(1)
-           do i=1,nel
+             case(1)
+               do i=1,nel
                   w12 = one 
                   IF(check(i) < zero ) then
                     signxy(i) = uvar(i,3)*g12*epsxy(i)
@@ -312,7 +315,26 @@
                      uvar(i,3)= w12
                   endif   
                enddo ! nel loop
-            end select 
+            end select ! FS
+         case(0) ! with out damage (lineare behavior)
+            do i=1,nel
+             d = (one - nu12*nu21)
+             invd = one/d
+             signxx(i) = invd*(e1*epsxx(i) + nu12*e1*epsyy(i))
+             signyy(i) = invd*(nu21*e2*epsxx(i)+ e2*epsyy(i))
+             signxy(i) = g12*epsxy(i)
+             signzx(i) = shf(i)*g13*epszx(i) 
+             signyz(i) = shf(i)*g23*epsyz(i) 
+             etse(i)   = one
+             a11       = max(e1,e2)/(one - nu12**2) 
+             a11       = max(e1,e2)
+             ssp(i) = sqrt(a11/rho(i))
+             sigy(i)    = min(slimt1*xt,slimt2*yt, slimc1*xc,slimc2*yc)
+            ! computation of the thickness variation 
+             dezz(i)  = -(nu12/e1)*(signxx(i)-sigoxx(i))-(nu12/e2)*(signyy(i)-sigoyy(i)) 
+             thk(i)     = thk(i) + dezz(i)*thkly(i)*off(i) 
+           enddo ! nel loop
+          end select ! damage
 !-------------------------------------------------------------------------------------------
-          end subroutine sigeps125c
+         end subroutine sigeps125c
       end module sigeps125c_mod  

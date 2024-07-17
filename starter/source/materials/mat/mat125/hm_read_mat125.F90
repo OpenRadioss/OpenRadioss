@@ -181,7 +181,14 @@
       call hm_get_floatv  ('MATL58_ERODS'   ,erods       ,is_available, lsubmodel, unitab)       
 !card? - equivalent strain rate cutoff frequency 
       call hm_get_floatv('fcut'      ,fcut     ,is_available, lsubmodel, unitab)
- !-----------------------------
+
+      ! young modulus initialization
+      if (e2 == zero)  e2  = e1
+      if (e3 == zero)  e3  = e2
+      ! shear modulus
+      if (g13 == zero) g13 = g12
+      if (g23 == zero) g23 = g13
+!-----------------------------
  !     check and default values
  !-----------------------------
       ! poisson's ratio
@@ -219,7 +226,7 @@
                  i1=mat_id,                         &
                  c1=titr)
       endif
-      if (nu31 < zero .or. nu31 >= half) then
+      if (nu13 < zero .or. nu13 >= half) then
         call ancmsg(msgid=3036,                     &
                  msgtype=msgerror,                  &
                  anmode=aninfo_blind_2,             &
@@ -227,8 +234,8 @@
                  i1=mat_id,                         &
                  c1=titr)
       endif 
-      nu13 = nu31*e1/e3
-      if (nu13 < zero .or. nu13 >= half) then
+      nu31 = nu13*e3/e1
+      if (nu31 < zero .or. nu31 >= half) then
         call ancmsg(msgid=3037,                     &
                   msgtype=msgerror,                 &
                   anmode=aninfo_blind_2,            &
@@ -236,10 +243,6 @@
                   i1=mat_id,                        &
                   c1=titr)
       endif 
-      ! young modulus
-      if (e3 == zero)  e3  = e2
-      ! shear modulus
-      if (g31 == zero) g31 = g12
       ! checking poisson's ratio 
       detc = one - nu12*nu21
       if (detc <= zero) then
@@ -248,19 +251,6 @@
                     anmode=aninfo,                    &
                     i1=mat_id,                        &
                     c1=titr)
-      endif 
-      ! young modulus
-      if (e3 == zero)  e3  = e2
-      ! shear modulus
-      if (g31 == zero) g31 = g12
-      ! checking poisson's ratio 
-      detc = one - nu12*nu21
-      if (detc <= zero) then
-        call ancmsg(msgid=307,                                   &
-                    msgtype=msgerror,                            &
-                    anmode=aninfo,                               &
-                    i1=mat_id,                                   &
-                    c1=titr )
       endif 
       ! elasticity matrix for 2d plane stress
       fac = one/(one - nu12*nu21)
@@ -277,7 +267,7 @@
       ! checking input
       detc= c11*c22*c33-c11*c23*c23-c12*c12*c33+c12*c13*c23      &
             +c13*c12*c23-c13*c22*c13
-      if(detc<=zero) then
+      if(detc <= zero) then
          call ancmsg(msgid=307,                                  &
                     msgtype=msgerror,                            &     
                     anmode=aninfo,                               &
@@ -303,20 +293,24 @@
  !     filling buffer tables
  !-------------------------- 
       ! number of material parameters
-      matparam%nuparam = 77
+      matparam%nuparam = 80
 
       allocate (matparam%uparam(matparam%nuparam))
 
       ! number of functions
       nfunc   = 24
       ! number of user variables 
-      nuvar   = 6
+      nuvar   = 10
       ! number of temporary variable for interpolation
       nvartmp = 0
 !     
       ! computing alpha and m for each direction
          ! dir 11 (tension - compression)
       damage = 0 
+      al1t = ep20
+      m1t = one 
+      al1c = ep20
+      m1c = one 
       if(e1 > zero) then
         if(em11t /= zero )then
           ef11t  = xt/e1
@@ -331,6 +325,10 @@
           al1c = m1c*(em11c/ef11c)**m1c
         endif
       endif 
+      al2c = ep20
+      m2t = one 
+      al2c = ep20
+      m2c = one 
       if(e2 > zero) then
         if(em22t /= zero )then
           ef22t  = yt/e2
@@ -343,7 +341,11 @@
           m2c = -one/log(ef22c/em22c)     
           al2c = m2c*(em22c/ef22c)**m2c
         endif
-      endif      
+      endif  
+      al3c = ep20
+      m3t = one 
+      al3c = ep20
+      m3c = one     
       if(e3 > zero) then
         if(em33t /= zero )then
           ef33t  = zt/e3
@@ -358,8 +360,8 @@
           al3c = m3c*(em33c/ef33c)**m3c
         endif
       endif 
-       ms = zero
-       als = zero
+       ms = one
+       als = ep20
        efs = zero
       if(fs == -1) then
          ! plane shear 
@@ -371,8 +373,8 @@
            ! adding error messsage   
         endif
          ! transverse shear 13 (only for solid)
-        ms13 = zero
-        als13 = zero
+        ms13 = one
+        als13 = ep20
         efs13 = zero
         if(g13 > zero .and. tau2 > zero .and. gamma2 > 0 )then
           efs13  = tau2 /g13
@@ -382,8 +384,8 @@
            ! adding error messsage   
         endif 
         ! transverse shear 23 (only for solid)
-        ms23 = zero
-        als23 = zero
+        ms23 = one
+        als23 = ep20
         efs23 = zero
         if(g23 > zero .and. tau3 > zero .and. gamma3 > 0 )then
           efs23  = tau3 /g23
@@ -487,6 +489,10 @@
       
       matparam%uparam(76) = fs
       matparam%uparam(77) = damage
+      !
+      matparam%uparam(78)  = nu21
+      matparam%uparam(70)  = nu31
+      matparam%uparam(80) = nu32   
       ! function ids
       ifunc(1)  = ifem11t 
       ifunc(2)  = ifxt
