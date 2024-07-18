@@ -432,7 +432,7 @@ C
      2               HC     ,HMFOR  ,IORTH     ,DIR_A   ,IGEO    ,
      3               ISUBSTACK,STACK,ELBUF_STR ,NLAY    ,GBUF%THK,
      4               DRAPE_SH4N  ,NFT  ,NEL    ,INDX_DRAPE , THKE,
-     5               SEDRAPE,NUMEL_DRAPE )
+     5               SEDRAPE,NUMEL_DRAPE       ,MAT_ELEM )
 C----------------------------------
 C     CALCUL VITESSE DE DEFORMATION 
 C----------------------------------
