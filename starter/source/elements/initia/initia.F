@@ -1075,7 +1075,7 @@ C Case total strain
      .             BUFMAT       ,MCP      ,MCPS     ,MCPSX      ,TEMP    ,
      .             NPC          ,PLD      ,STRSGLOB(NF1),STRAGLOB(NF1),MSSA    ,
      .             ORTHOGLOB    ,FAIL_INI ,ILOADP   ,FACLOAD   ,PERTURB  ,
-     .             RNOISE       ,MAT_PARAM)
+     .             RNOISE       ,MAT_PARAM,DEFAULTS%SOLID)
             ELSE
               CALL SCINIT3(ELBUF_TAB(NG),
      .             MS         ,IXS       ,PM        ,X           ,MSS        ,
