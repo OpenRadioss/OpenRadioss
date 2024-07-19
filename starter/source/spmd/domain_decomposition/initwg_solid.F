@@ -101,6 +101,10 @@ C-----------------------------------------------
       INTEGER :: OVERCOST_ELM ,ICPR,NUMBER_LAYER
       INTEGER :: NLAY,COMPOSITE_MID,COMPOSITE_MLN
       LOGICAL :: COMPOSITE_OPTION
+      
+      LOGICAL :: ISMSTR_COST
+      INTEGER :: ISMSTR,ISMSTR_L,ISM0,ICP0
+      my_real :: ADD_OVER_COST
 
       DATA WTYPE /1.6 ,1. ,1. ,.9 ,1.1 ,1.4 ,0.65 ,.9 ,2.0/     
 C-----------------------------------------------
@@ -201,18 +205,61 @@ C -------------------------------
             COMPOSITE_OPTION = .TRUE.
         ENDIF
         !   -------------
+
+        ISMSTR = IGEO(5,PID) ! get the value of ismstr
+
+        ISMSTR_COST = .FALSE.
+        ADD_OVER_COST = ZERO
         IF((MLN<28).OR.(MLN==49).OR.(MLN==59)) THEN
          IRUP2 = 1
         ELSE
          IRUP2 = 2
         ENDIF
-        IF (MLN==2) THEN
+
+        ISMSTR_L = ISMSTR
+        IF(ISMSTR<1) THEN
+          ISM0 = MAT_PARAM(ABS(MID))%SMSTR
+          ICP0 = MAT_PARAM(ABS(MID))%STRAIN_FORMULATION
+          IF (ICP0 ==2.AND.JHBE/=16) THEN
+            IF (ISM0==1) THEN
+              ISMSTR_L = 11
+            ELSE
+              ISMSTR_L = 10
+            END IF
+          ELSE
+            IF (ISM0==1) THEN
+              ISMSTR_L = 1
+            ELSE
+              ISMSTR_L = 2
+            END IF
+          END IF
+          IF (MLN == 1.AND.JHBE/=16) ISMSTR_L = 12
+        ENDIF
+
+        IF ( MLN==1.OR.MLN==38.OR.
+     .       MLN==90.OR.MLN==92.OR.MLN==94 ) THEN 
+          IF (ISMSTR_L==10.OR.ISMSTR_L==12) THEN
+            ISMSTR_COST = .TRUE.
+            INDI = 2
+          ELSE
+            INDI = 1
+          ENDIF
+        ELSEIF (MLN==2) THEN
            CC = PM(43,MID)
            IF (CC/=0) THEN
             INDI = 2
            ELSE
             INDI = 1
            ENDIF
+        ! ----------------
+        ! law 25 : 2 sub-option
+        ELSEIF(MLN==25) THEN
+           IF (MAT_PARAM(ABS(MID))%iparam(1)==1) THEN
+            INDI = 2
+           ELSE
+            INDI = 1
+           ENDIF
+        ! ----------------
         ELSEIF (MLN == 36)THEN
            NFUNC = MAX(IPM(10,MID) - 3,1)
            IF (NFUNC<=2) THEN
@@ -322,6 +369,8 @@ C -------------------------------
         ELSE
            INDI = 1
         ENDIF
+        IF(ISMSTR_COST) ADD_OVER_COST = ELM_OVER_COST(1)
+       
         MULT_SPE = 0.
         SPE_I_3 = 1
         IF(FLAG_NON_LOCAL/=0) THEN
@@ -365,7 +414,7 @@ C -------------------------------
             ENDDO
            ENDIF
 !          --------------            
-           TELT = TMAT + TET4TELT(1)  + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+           TELT = TMAT + TET4TELT(1)  + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST
          ENDIF
 !****************************************
 !       ---------------------------
@@ -422,7 +471,7 @@ C -------------------------------
 !           --------------
              IF(ISOL==10) TELT = TET10TELT(1)
              IF(ISOL==4.AND. JSROT==1) TELT = TET4TELT(2)
-             TELT = TMAT + TELT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+             TELT = TMAT + TELT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + 4.*ADD_OVER_COST
          ENDIF
         ELSE
 !****************************************
@@ -474,7 +523,7 @@ C -------------------------------
                ENDDO
               ENDIF
 !             -------------- 
-              TELT = TMAT + SOLTELT(1)  + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+              TELT = TMAT + SOLTELT(1)  + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST
             ELSEIF (JHBE==2) THEN
 !           Solides ISOLD2
               IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
@@ -493,7 +542,7 @@ C -------------------------------
                ENDDO
               ENDIF
 !             -------------- 
-              TELT = TMAT + SOLTELT(2) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+              TELT = TMAT + SOLTELT(2) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST
             ELSEIF (JHBE==24.OR.JHBE==104) THEN
 !           Solides ISOLD24  - HEPH
               IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
@@ -512,7 +561,7 @@ C -------------------------------
                ENDDO
               ENDIF
 !             -------------- 
-              TELT = TMAT + SOLTELT(3) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+              TELT = TMAT + SOLTELT(3) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST
 C
             ELSEIF (JHBE==12) THEN
 !           Solides ISOLD12 - std 8 node integ point
@@ -532,7 +581,7 @@ C
                ENDDO
               ENDIF
 !             -------------- 
-              TELT = TMAT + SOLTELT(4) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+              TELT = TMAT + SOLTELT(4) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + 8.*ADD_OVER_COST
             ELSEIF ( (JHBE==14.OR.(JHBE>=222.AND.JHBE<=999)).AND.(IGT/=20.AND.IGT/=21.AND.IGT/=22)) THEN
 !           Solides HA8
                MPT = ABS (NPN)
@@ -561,7 +610,7 @@ C
                ! if NPT > 8, element weight = reference weight + (NPT-8) * overweight 
                OVERCOST_ELM = 0
                IF(NPTOT>8) OVERCOST_ELM = NPTOT-8
-               TELT = NPTOT*(TMAT+TRUP)+SOLTELT(5) +OVERCOST_ELM *SOLTELT(6) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+               TELT = NPTOT*(TMAT+TRUP+ADD_OVER_COST)+SOLTELT(5) +OVERCOST_ELM *SOLTELT(6) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
             ELSEIF(JHBE==14.AND.(IGT==20.OR.IGT==21.OR.IGT==22)) THEN
 !           Solides Thick shell
                MPT = ABS (NPN)
@@ -631,7 +680,8 @@ C
                ! 4 NPT = 202 = 4 * reference weight 
                ! if NPT > 4, element weight = reference weight + overcost
                TELT = OVERCOST_ELM*TMAT+NPTOT*TRUP + 
-     .                OVERCOST_ELM*NUMBER_LAYER*SOLTELT(10) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+     .                OVERCOST_ELM*NUMBER_LAYER*SOLTELT(10) + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + 
+     .                OVERCOST_ELM * ADD_OVER_COST
             ELSEIF(JHBE==15) THEN
                ! -------------- 
                ! Solid Thick shell
@@ -655,7 +705,8 @@ C
                NPTOT = ABS (NPN)
               ! --------------
                ! jhbe=15 : weight = element weight + element extracost + mat + rupture
-               TELT = NPTOT*(TMAT+TRUP) + SOLTELT(11) + NPTOT*SOLTELT(12) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+               TELT = NPTOT*(TMAT+TRUP) + SOLTELT(11) + NPTOT*SOLTELT(12) +
+     .                MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST
               ! --------------  
             ELSEIF (JHBE==17) THEN   
 !           ISOLIDE=17 H8C Standard 8-nodes compatible 
@@ -676,7 +727,7 @@ C
                 ENDDO
                ENDIF
 !              -------------- 
-               TELT =  (TMAT+TRUP)*8 + SOLTELT(7) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+               TELT =  (TMAT+TRUP+ADD_OVER_COST)*8 + SOLTELT(7) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
             ELSEIF (JHBE==18) THEN   
 !           ISOLIDE=18
                IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
@@ -695,7 +746,7 @@ C
                 ENDDO
                ENDIF
 !              -------------- 
-               TELT =  (TMAT+TRUP)*8 + SOLTELT(9) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+               TELT =  (TMAT+TRUP+ADD_OVER_COST)*8 + SOLTELT(9) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
             ELSE
 !             --------------
 !             Failure
@@ -705,7 +756,8 @@ C
                ENDDO
               ENDIF
 !             -------------- 
-              TELT = SOL1TNL(MLN,1) + SOLTELT(1) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+              TELT = SOL1TNL(MLN,1) + SOLTELT(1) + TRUP 
+     .               + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST
             ENDIF
            ENDIF
         ENDIF      

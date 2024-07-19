@@ -52,7 +52,9 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER    I,J,K,IFAST(MVSIZ),NPRIN,INDEX(MVSIZ),NFAST
+      INTEGER    I,J,K,IJK,IFAST(MVSIZ),NPRIN,INDEX(MVSIZ),NFAST
+      INTEGER :: IFAST1
+      INTEGER, DIMENSION(MVSIZ) :: IFAST1_INDEX
       my_real
      .    SV(3),EV(MVSIZ,3),DIRPRV(MVSIZ,3,3),EKK,DAV,P3,G2(MVSIZ),
      .    ESPIN1(MVSIZ), ESPIN2(MVSIZ), ESPIN3(MVSIZ), 
@@ -63,6 +65,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
          G2(1:NEL)=TWO*G(1:NEL)
           NPRIN = 0
+          IFAST1 = 0
           DO I=1,NEL
             IFAST(I) =1
             EMIN=MIN(ES1(I),ES2(I),ES3(I),ES4(I),ES5(I),ES6(I))
@@ -77,11 +80,15 @@ C----------------------------------------------------------------
              ESPIN4(NPRIN)=ES4(I)
              ESPIN6(NPRIN)=ES6(I)
              ESPIN5(NPRIN)=ES5(I)
+            ELSE
+              IFAST1 = IFAST1 + 1
+              IFAST1_INDEX(IFAST1) = I
             END IF
           ENDDO
 C
-          DO I=1,NEL
-           IF (IFAST(I)==0) CYCLE
+#include "vectorize.inc"
+          DO IJK=1,IFAST1
+           I = IFAST1_INDEX(IJK)
            E1=ES1(I)
            E2=ES2(I)
            E3=ES3(I)
@@ -107,8 +114,9 @@ C
            ES6(I)=E6-HALF*B2(6)
            ES5(I)=E5-HALF*B2(5)
           ENDDO
-          DO I=1,NEL
-           IF (IFAST(I)==0) CYCLE
+#include "vectorize.inc"
+          DO IJK=1,IFAST1
+           I = IFAST1_INDEX(IJK)
             EKK=ES1(I)+ES2(I)+ES3(I)-EPSTH(I)
             DAV=-THIRD*(ES1(I)+ES2(I)+ES3(I))
             P3 = C1(I)*EKK
