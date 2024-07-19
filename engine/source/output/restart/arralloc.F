@@ -45,7 +45,6 @@ Chd|        FSKYI_MOD                     share/modules/restart_mod.F
 Chd|        FXB_MOD                       share/modules/fxb_mod.F       
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
-Chd|        LOADS_MOD                     ../common_source/modules/loads/loads_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
@@ -59,7 +58,7 @@ Chd|        SPH_MOD                       share/modules/sph_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TRIMAT_MOD                    share/modules/trimat.F        
 Chd|====================================================================
-      SUBROUTINE RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,LOADS,INTERFACES,SKEWS)
+      SUBROUTINE RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -88,7 +87,6 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE OUTPUTS_MOD
       USE ALE_MOD
-      USE LOADS_MOD
       USE DAMP_MOD
       USE INTERFACES_MOD
       USE SKEW_MOD
@@ -129,7 +127,6 @@ C-----------------------------------------------
       TYPE(PINCH) :: PINCH_DATA
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE(t_SEGVAR) :: SEGVAR
-      TYPE (LOADS_),INTENT(IN) :: LOADS
       TYPE(INTERFACES_) :: INTERFACES
       TYPE(SKEW_) , INTENT(INOUT)       :: SKEWS
 C----------------------------------------------
@@ -757,7 +754,10 @@ C
 
           ALLOCATE (NE_NESDVOIS(NSPMD + 1),STAT=IERR)  
           IF (IERR/=0) GOTO 1000                     
-          NE_NESDVOIS = 0                              
+          NE_NESDVOIS = 0       
+        ELSE
+          ALLOCATE (NE_NERCVOIS(0) )  
+          ALLOCATE (NE_NESDVOIS(0) )                         
         ENDIF                                          
         
         ALLOCATE (NPSEGCOM(SNPSEGCOM),STAT=IERR)
@@ -1545,10 +1545,9 @@ C   thermal bc
             ALLOCATE(IBFTEMP(0),FBFTEMP(0))                              
          ENDIF  
 C
-
+         ALLOCATE (MSF(SMS),STAT=IERR)
+         IF (IERR/=0) GOTO 1000
          IF(IALELAG > 0) THEN
-           ALLOCATE (MSF(SMS),STAT=IERR)
-           IF (IERR/=0) GOTO 1000
            MSF = ZERO
          ENDIF
 C--------------------------------------------
@@ -1649,6 +1648,8 @@ C--------------------------------------------
            ALLOCATE(NATIV0_SMS(NUMNOD),STAT=IERR)
            IF (IERR/=0) GOTO 1000
            NATIV0_SMS = 0
+         ELSE 
+           ALLOCATE(NATIV0_SMS(0) )
          ENDIF
 C--------------------------------------------
 C
@@ -1891,6 +1892,7 @@ C xfem for layered shell (cracks)
          ELSE
            ALLOCATE(IADC_CRKXFEM(0),ADSKY_CRKXFEM(0))
            ALLOCATE(INOD_CRKXFEM(0),IEL_CRKXFEM(0))
+           ALLOCATE (CNE_CRKXFEM(0))
            ALLOCATE(PROCNE_CRKXFEM(0),IADSDP_CRKXFEM(0),
      .              IADRCP_CRKXFEM(0),CRKNODIAD(0))
          ENDIF
@@ -2131,6 +2133,8 @@ C--------2D Mass----------------------------
         IF(N2D/=0) THEN
           ALLOCATE(MS_2D(NUMNOD),STAT=IERR)
           IF (IERR/=0) GOTO 1000
+        ELSE
+          ALLOCATE(MS_2D(0))
         ENDIF
 C-------shell pinching----------------------
 C       IF(NPINCH > 0) THEN
@@ -2150,6 +2154,7 @@ C       ENDIF
 C------end shell pinching-------------------
 C-------TAG_SKINS6----------------------
          ALLOCATE(TAG_SKINS6(NUMELS),STAT=IERR)
+         SXCELL = 0
 C-------ALE BUFFER----------------------
          IF ((IALE > 0 .AND. ALE%GRID%NWALE_RST == 6) ) THEN
             SXCELL = NUMELS + NUMELQ + NE_NSVOIS + NE_NQVOIS
@@ -2164,6 +2169,8 @@ C-------INTER18 BUFFER (IAUTO=1)--------
             IF(.NOT.ALLOCATED(XCELL))ALLOCATE(XCELL(3, SXCELL),STAT=IERR)
             IF (IERR/=0) GOTO 1000
          ENDIF       
+         IF(.NOT.ALLOCATED(XCELL)) ALLOCATE(XCELL(3,SXCELL))
+         IF(.NOT.ALLOCATED(XFACE)) ALLOCATE(XFACE(3,6,0))
          XCELL(1:3,1:SXCELL) = ZERO
 C-------FXBODY (moved from radioss2.F) -----
         ALLOCATE (FXBIPM(NBIPM,NFXBODY),STAT=IERR)

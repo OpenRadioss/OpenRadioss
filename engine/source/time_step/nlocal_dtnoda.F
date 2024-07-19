@@ -66,6 +66,7 @@ C-----------------------------------------------
       ! Coefficient for non-local stability to take into account damping
       my_real, PARAMETER :: CDAMP = 0.7D0
 C  
+      DTNOD = EP20
       IF (NODADT > 0) THEN
 C
         ! Recovering nodal stiffness and masses
@@ -75,7 +76,6 @@ C
         ! Allocating non-local nodal timestep table
         ALLOCATE(DTN(NLOC_DMG%L_NLOC))
         DTN(1:NLOC_DMG%L_NLOC) = ZERO   
-        DTNOD = EP20
 C
         ! Determining the minimum of non-local nodal timestep
         DO N = NODFT,NODLT
@@ -116,10 +116,12 @@ C
           DTNOD = DTMIN1(11)*(SQRT(CSTA))
         ENDIF 
 C
+#include "lockon.inc"
         ! Classical nodal timestep check
         IF (DTNOD < DT2T) THEN
           DT2T = MIN(DT2T,DTNOD)
         ENDIF
+#include "lockoff.inc"
 C       
         ! Resetting non-local nodal stiffness
         DO N = NODFT,NODLT

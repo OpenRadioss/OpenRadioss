@@ -923,7 +923,7 @@ C
       CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
 
       ! Most of arrays from Restart
-      CALL RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,LOADS,INTERFACES,SKEWS)
+      CALL RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS)
 
       ! Initialization
       IGEO = 0
@@ -1418,6 +1418,13 @@ C-----------------------------------------------------
 C------------------------------------------------
 C     initializations MDS
 C------------------------------------------------
+      IF(.NOT.ALLOCATED(MDS_LABEL)) THEN
+        ALLOCATE( MDS_LABEL(1024,MDS_NMAT) )
+      ENDIF
+      IF(.NOT.ALLOCATED(MDS_NDEPSVAR)) THEN
+        ALLOCATE( MDS_NDEPSVAR(MDS_NMAT) )
+      ENDIF
+      MAX_DEPVAR = 0
 #ifdef DNC
       IF(MDS_AVAIL==1) THEN
         NSPMD_USER = NSPMD
@@ -1434,6 +1441,9 @@ C------------------------------------------------
      *                                  MDS_NMAT,MDS_MATID,MDS_FILES,MDS_LABEL,MDS_NDEPSVAR,MAX_DEPVAR,MDS_OUTPUT_TABLE)
       ENDIF
 #endif
+      IF(.NOT.ALLOCATED(MDS_OUTPUT_TABLE) ) THEN
+        ALLOCATE (MDS_OUTPUT_TABLE(MDS_NMAT*MAX_DEPVAR) ) 
+      ENDIF
 C------------------------------------------------
 C     engine file reading
 C------------------------------------------------
