@@ -595,15 +595,15 @@ C-----------------------------------------------
      .   HMOR(MVSIZ,2),HMLY(MVSIZ,4),HCLY(MVSIZ,2), 
      .   HMORLY(MVSIZ,2),SHF(MVSIZ),IZZ(MVSIZ),IZ(MVSIZ)
 C--------IORTH=2 -> HMFOR couplage non-null----------------
+      IGTYP = IGEO(11,PID(1))
+      IGMAT = IGEO(98,PID(1))
+      IPOS  = IGEO(99,PID(1))
       IF (IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 .OR. 
-     .                   MTN == 19.OR.MTN == 15.OR.MTN == 25.OR.MTN == 119) THEN
+     .    MTN == 19 .OR. MTN == 15  .OR.  MTN == 25 .OR. MTN == 119) THEN
         IORTH=1
       ELSE
         IORTH=0
       ENDIF
-      IGTYP = IGEO(11,PID(1))
-      IGMAT = IGEO(98,PID(1))
-      IPOS  = IGEO(99,PID(1))
 C
       ! Npt_max
       LAYNPT_MAX = 1
