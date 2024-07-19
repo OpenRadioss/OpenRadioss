@@ -62,7 +62,7 @@ Chd|====================================================================
      K   CSRECT,NBDDNORT ,NBDDNOR_MAX,NBCCFR25 ,NBCCNOR ,
      L   NUMNOR_L,NBDDEDGT,NBDDEDG_MAX,INTERCEP,NBDDCNDM,
      M   ITABCNDM,MULTI_FVM,IGRSURF,ISKWP_L,ALE_ELM,
-     N   SIZE_ALE_ELM,NSENSOR,NLOC_DMG) 
+     N   SIZE_ALE_ELM,NSENSOR,NLOC_DMG,constraint_struct) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -75,6 +75,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE USER_WINDOWS_MOD
       USE NLOCAL_REG_MOD
+      use constraint_mod , only : constraint_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -131,6 +132,7 @@ C-----------------------------------------------
       TYPE(split_cfd_type), INTENT(IN) :: ALE_ELM 
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE (NLOCAL_STR_), TARGET, INTENT(IN)  :: NLOC_DMG
+      type(constraint_), intent(inout) :: constraint_struct !< constraint structure for the splitting
 C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
@@ -678,42 +680,12 @@ C
 C    
 C RWALL specifique type sliding
 C
-      K = 0
-      DO N = 1, NRWALL
-        DO P = 1, NSPMD+2
-          DD_WALL(P,N) = 0
-        ENDDO
-        N3 = 2*NRWALL+N
-        NSL=NPRW(N)
-        MSR = NPRW(N3)
-        IF(MSR/=0) THEN
-          ISO = 0
-          IMAX = 0
-          PMAIN = 1
-          DO P = 1, NSPMD
-            IF(NLOCAL(MSR,P)==1) THEN       
-              DO KK = 1, NSL
-                NN = LPRW(K+KK)
-                IF(NLOCAL(NN,P)==1)THEN         
-                  DD_WALL(P,N) = DD_WALL(P,N) + 1
-                ENDIF
-              ENDDO
-              ISO = ISO + DD_WALL(P,N)
-              IF(DD_WALL(P,N)>IMAX)THEN
-                PMAIN = P
-                IMAX = DD_WALL(P,N)
-              ELSEIF(DD_WALL(P,N)==0)THEN
-C cas noeud MSR sur proc sans noeud secnd
-                DD_WALL(P,N) = -1
-                if (NSL==0) PMAIN = P
-              ENDIF
-            ENDIF
-          ENDDO
-          DD_WALL(NSPMD+1,N) = NSL
-          DD_WALL(NSPMD+2,N) = PMAIN
-        ENDIF
-        K = K + NSL
-      ENDDO
+      dd_wall(1:nspmd+2,1:nrwall) = 0
+      do n=1,nrwall
+        if(constraint_struct%rwall%spmd(n)%m_proc_list(proc)/=0) then
+          dd_wall(1:nspmd+2,n) = constraint_struct%rwall%dd(1:nspmd+2,n)
+        endif
+      enddo
 C
 C RBY Kin specifique rigid body (PON)
 C

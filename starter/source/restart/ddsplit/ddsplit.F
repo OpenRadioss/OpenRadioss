@@ -355,7 +355,7 @@ Chd|====================================================================
      D   KLOADPINTER  , LOADPINTER ,DGAPLOADINT     ,S_LOADPINTER, LEN_CEP ,DYNAIN_DATA,
      E   DRAPEG       ,USER_WINDOWS,OUTPUT          ,INTERFACES  ,NUMBER_LOAD_CYL,
      F   LOADS_PER_PROC, PYTHON    ,DPL0CLD         ,VEL0CLD     ,NAMES_AND_TITLES,
-     G   BCS_PER_PROC)
+     G   BCS_PER_PROC,constraint_struct)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -405,6 +405,7 @@ C-----------------------------------------------
       USE PYTHON_FUNCT_MOD
       USE NAMES_AND_TITLES_MOD,only: NAMES_AND_TITLES_,LTITLE
       USE BCS_MOD , ONLY : BCS_STRUCT_
+      use constraint_mod , only : constraint_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -653,6 +654,7 @@ C-----------------------------------------------
         TYPE(LOADS_),INTENT(INOUT) :: LOADS_PER_PROC ! structure of load cyl for for the current proc P
         TYPE(BCS_STRUCT_),INTENT(INOUT) :: BCS_PER_PROC
         TYPE(NAMES_AND_TITLES_),INTENT(IN) :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
+        type(constraint_), intent(inout) :: constraint_struct !< constraint structure for the splitting
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2513,7 +2515,7 @@ C--------------------------------------
      K   CSRECT  ,NBDDNORT_L,NBDDNOR_MAX_L,NBCCFR25_L,NBCCNOR_L,
      L   NUMNOR_L ,NBDDEDGT_L,NBDDEDG_MAX_L,INTERCEP ,NBDDCNDM,
      M   ITABCNDM,MULTI_FVM,IGRSURF,ISKWP_L,ALE_ELM,
-     N   SIZE_ALE_ELM,SENSORS%NSENSOR,NLOC_DMG)
+     N   SIZE_ALE_ELM,SENSORS%NSENSOR,NLOC_DMG,constraint_struct)
       DEALLOCATE(ITABI2M)
       DEALLOCATE(ITABRBE3M)
       DEALLOCATE(ITABRBE2M)

@@ -603,6 +603,8 @@ C-----------------------------------------------
       USE SHELL_OFFSETP_MOD, ONLY:SHELL_OFFSETP
       USE UPDFAIL_MOD
       USE RANDOM_WALK_DEF_MOD
+      use constraint_mod , only : constraint_,alloc_constraint_struct,dealloc_constraint_struct
+      use split_rwall_mod , only : split_rwall
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1157,6 +1159,8 @@ C SEATBELTS
 
       TYPE(INTER_CAND_) :: INTER_CAND
       TYPE (FAIL_FRACTAL_) :: FAIL_FRACTAL
+      ! constraint structure
+      type(constraint_) :: constraint_struct
 c=======================================================================
       IREAC = 0 
       PYTHON%NB_FUNCTS = 0
@@ -10709,25 +10713,32 @@ c         start CPU timer for ddsplit
      1                                   FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,
      2                                   IXS,IXQ,IXTG,CEP,ALE_CONNECTIVITY,BOOL_ALE_TG)
 
-            ELSE
+          ELSE
                 ALLOCATE( INDX_S(0) )
                 ALLOCATE( INDX_Q(0) )
                 ALLOCATE( INDX_TG(0) )
                 ALLOCATE( FACE_ELM_S(0,0) )
                 ALLOCATE( FACE_ELM_Q(0,0) )
                 ALLOCATE( FACE_ELM_TG(0,0) )
-            ENDIF
+          ENDIF
           ! -----------------------------------------
 
           ! -----------------------------------------
           ! split the LOADS structure on the different processors
-            CALL SPLIT_PCYL(LOADS%NLOAD_CYL,LOADS,LOADS_PER_PROC)
-            
+          CALL SPLIT_PCYL(LOADS%NLOAD_CYL,LOADS,LOADS_PER_PROC)
+          ! -----------------------------------------            
+
           ! -----------------------------------------
           ! split the BCs wall data structure
-            CALL SPLIT_BCS_WALL(BCS_PER_PROC, CEP, SCEP, NSPMD)
+          CALL SPLIT_BCS_WALL(BCS_PER_PROC, CEP, SCEP, NSPMD)
           ! -----------------------------------------
-          ! split the LOADS structure on the different processors
+
+          ! -----------------------------------------
+          ! prepare the rwall splitting
+          call alloc_constraint_struct(nrwall,nspmd,constraint_struct)
+          call split_rwall(nrwall,nspmd,nnprw,slprw,nprw,lprw,constraint_struct)
+          ! -----------------------------------------
+
 C Parallel
 
 !   -------------------------------------------------------------
@@ -10886,7 +10897,7 @@ c
      D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP,DYNAIN_DATA,
      E         DRAPEG       ,USER_WINDOWS ,OUTPUT        ,INTERFACES  ,NUMBER_LOAD_CYL ,
      F         LOADS_PER_PROC(P), PYTHON,DPL0CLD,VEL0CLD ,NAMES_AND_TITLES,
-     G         BCS_PER_PROC(P))
+     G         BCS_PER_PROC(P),constraint_struct)
       GOTO 220
  221  CONTINUE
 
@@ -11040,6 +11051,12 @@ C
             DEALLOCATE(RETRACTOR)
           ENDIF
           IF((IPART_STACK > 0 .OR. IPART_PCOMPP > 0) .AND. NDRAPE > 0) DEALLOCATE(IWORK_T)
+
+          ! -----------------------------------------
+          ! deallocation of constraint_struct
+          call dealloc_constraint_struct(nrwall,constraint_struct)
+          ! -----------------------------------------
+
 C --------------------------------------
 C Starter Memory Printout
 C --------------------------------------

@@ -58,6 +58,7 @@ C
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
+      LOGICAL :: COMPUTATION_NEEDED
       INTEGER IE,NG, ITY, LFT, LLT, NPT, N, I, J,
      .        IPRT, NEL, IAD, NPAR, NFT, IMID,IALEL,MTN,
      .        JJ, K, SH_IH, IHBE,BUF,ISHPLYXFEM,IPID,IPT,
@@ -72,7 +73,8 @@ C-----------------------------------------------
         MATER(I)=0
       ENDDO
 
-        DO NG = 1, NGROUP
+      COMPUTATION_NEEDED = .FALSE.
+      DO NG = 1, NGROUP
           NEL   =IPARG(2,NG)
           NFT   =IPARG(3,NG)
           ITY   =IPARG(5,NG)
@@ -92,6 +94,8 @@ C-----------------------------------------------
               MATER(IPARTTG(N)) = 1
             ENDDO
           ENDIF
+          ISHPLYXFEM = IPARG(50,NG)
+          IF(ISHPLYXFEM/=0) COMPUTATION_NEEDED = .TRUE.
       ENDDO
 
 c
@@ -117,100 +121,105 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     PART
 C----------------------------------------------- 
-       ALLOCATE (IDPID_PLY(NPLYMAX))
-       IDPID_PLY= 0
-      DO K=1,NPLYMAX
-        TAG_ARRAY=0
-        TAG_SHELLS=0
-        SHCOUNT=0
-        DO 500 IPRT=1,NPART
-          IF(MATER(IPRT) == 0)GOTO 500
-          DO 490 NG=1,NGROUP
-             MTN   =IPARG(1,NG)
-             NEL   =IPARG(2,NG)
-             NFT   =IPARG(3,NG)
-             IAD   =IPARG(4,NG)
-             ITY   =IPARG(5,NG)
-             ISHPLYXFEM = IPARG(50,NG)
-             LFT=1
-             LLT=NEL
+      ALLOCATE (IDPID_PLY(NPLYMAX))
+      IDPID_PLY= 0
+      IF(COMPUTATION_NEEDED) THEN
+        DO K=1,NPLYMAX
+          TAG_ARRAY=0
+          TAG_SHELLS=0
+          SHCOUNT=0
+          DO 500 IPRT=1,NPART
+            IF(MATER(IPRT) == 0)GOTO 500
+            DO 490 NG=1,NGROUP
+               MTN   =IPARG(1,NG)
+               NEL   =IPARG(2,NG)
+               NFT   =IPARG(3,NG)
+               IAD   =IPARG(4,NG)
+               ITY   =IPARG(5,NG)
+               ISHPLYXFEM = IPARG(50,NG)
+               LFT=1
+               LLT=NEL
 
-             IF(ISHPLYXFEM > 0) THEN
+               IF(ISHPLYXFEM > 0) THEN
 C-----------------------------------------------
 C       COQUES
 C-----------------------------------------------
-               IF(ITY==3)THEN
-                 NPT   =IPARG(6,NG)
-                 IHBE = IPARG(23,NG)
-                 ISUBSTACK = IPARG(71,NG)
-                 IPPID = 2
-                 DO 130 I=LFT,LLT
-                   N = I + NFT
-                   IF(IPARTC(N)/=IPRT)GOTO 130
-                    IPID = IXC(6,N)
-                    DO IPT=1,NPT
-                      JPID = STACK%IGEO(IPPID + IPT, ISUBSTACK)
-                      IPLY = IGEO(102  ,JPID)
-                      IDPID_PLY(IPLY) =IGEO(1  ,JPID) 
-                      IF (IPLY == K) THEN
-                         TAG_ARRAY(IXC(2,N))=1
-                         TAG_ARRAY(IXC(3,N))=1
-                         TAG_ARRAY(IXC(4,N))=1
-                         TAG_ARRAY(IXC(5,N))=1
+                 IF(ITY==3)THEN
+                   NPT   =IPARG(6,NG)
+                   IHBE = IPARG(23,NG)
+                   ISUBSTACK = IPARG(71,NG)
+                   IPPID = 2
+                   DO 130 I=LFT,LLT
+                     N = I + NFT
+                     IF(IPARTC(N)/=IPRT)GOTO 130
+                      IPID = IXC(6,N)
+                      DO IPT=1,NPT
+                        JPID = STACK%IGEO(IPPID + IPT, ISUBSTACK)
+                        IPLY = IGEO(102  ,JPID)
+                        IDPID_PLY(IPLY) =IGEO(1  ,JPID) 
+                        IF (IPLY == K) THEN
+                           TAG_ARRAY(IXC(2,N))=1
+                           TAG_ARRAY(IXC(3,N))=1
+                           TAG_ARRAY(IXC(4,N))=1
+                           TAG_ARRAY(IXC(5,N))=1
 
-                         TAG_SHELLS(N) = IPT
-                         PLYSHELL(K)%PLYNUMSHELL =
-     *                                PLYSHELL(K)%PLYNUMSHELL+1
-                      ENDIF
+                           TAG_SHELLS(N) = IPT
+                           PLYSHELL(K)%PLYNUMSHELL = PLYSHELL(K)%PLYNUMSHELL+1
+                        ENDIF
 
-                    ENDDO
- 130             CONTINUE
+                      ENDDO
+130                CONTINUE
 
 C-----------------------------------------------
 C       COQUES 3 NOEUDS
 C-----------------------------------------------
-               ELSEIF(ITY==7)THEN
+                 ELSEIF(ITY==7)THEN
 C
+                 ENDIF
                ENDIF
-             ENDIF
  490      CONTINUE
 C
  500    CONTINUE
 C
 C Ply Nodes Post treatments
 C
-        DO I=1,NUMNOD
-           IF (TAG_ARRAY(I)==1)
-     *        PLYNOD(K)%PLYNUMNODS = PLYNOD(K)%PLYNUMNODS + 1
-        ENDDO
-        ALLOCATE (PLYNOD(K)%NODES(PLYNOD(K)%PLYNUMNODS))
+          DO I=1,NUMNOD
+             IF (TAG_ARRAY(I)==1) PLYNOD(K)%PLYNUMNODS = PLYNOD(K)%PLYNUMNODS + 1
+          ENDDO
+          ALLOCATE (PLYNOD(K)%NODES(PLYNOD(K)%PLYNUMNODS))
 
-        NCOUNT = 0
-        DO I=1,NUMNOD
-           IF (TAG_ARRAY(I)==1) THEN
-             NCOUNT=NCOUNT+1
-             PLYNOD(K)%NODES(NCOUNT)=I
-           ENDIF
-        ENDDO
+          NCOUNT = 0
+          DO I=1,NUMNOD
+             IF (TAG_ARRAY(I)==1) THEN
+               NCOUNT=NCOUNT+1
+               PLYNOD(K)%NODES(NCOUNT)=I
+             ENDIF
+          ENDDO
 C
 C Ply Shells Post treatments
 C
-        ALLOCATE (PLYSHELL(K)%SHID(PLYSHELL(K)%PLYNUMSHELL))
-        ALLOCATE (PLYSHELL(K)%SHELLIPT(PLYSHELL(K)%PLYNUMSHELL))
+          ALLOCATE (PLYSHELL(K)%SHID(PLYSHELL(K)%PLYNUMSHELL))
+          ALLOCATE (PLYSHELL(K)%SHELLIPT(PLYSHELL(K)%PLYNUMSHELL))
 
 C debugs    print*,'PLYSHELL : ',PLYSHELL(K)%plynumshell,NUMELC
 
-        SHCOUNT=0
-        DO I=1, NUMELC
-           IF (TAG_SHELLS(I) > 0)THEN
-               SHCOUNT=SHCOUNT+1
-               PLYSHELL(K)%SHID(SHCOUNT)=I
-               PLYSHELL(K)%SHELLIPT(SHCOUNT)=TAG_SHELLS(I)
-           ENDIF
+          SHCOUNT=0
+          DO I=1, NUMELC
+             IF (TAG_SHELLS(I) > 0)THEN
+                 SHCOUNT=SHCOUNT+1
+                 PLYSHELL(K)%SHID(SHCOUNT)=I
+                 PLYSHELL(K)%SHELLIPT(SHCOUNT)=TAG_SHELLS(I)
+             ENDIF
+          ENDDO
         ENDDO
 
-      ENDDO
-
+      ELSE
+        DO K=1,NPLYMAX
+          ALLOCATE (PLYNOD(K)%NODES(PLYNOD(K)%PLYNUMNODS))
+          ALLOCATE (PLYSHELL(K)%SHID(PLYSHELL(K)%PLYNUMSHELL))
+          ALLOCATE (PLYSHELL(K)%SHELLIPT(PLYSHELL(K)%PLYNUMSHELL))
+        ENDDO
+      ENDIF
 C-------------------------------
 C Numeros globaux des shell ply
 C-------------------------------
@@ -249,22 +258,10 @@ C-------------------------------
         ENDIF
       ENDDO
 
-C      print*,'NPLYPART:',NPLYPART,'NPLYMAX:',NPLYMAX
-
       NPLYNODG = 0
       DO K=1,NPLYMAX
         NPLYNODG = NPLYNODG + PLYNOD(K)%PLYNUMNODS
       ENDDO
-
-
-C      print*,'plynodg=',nplynodg
-C      print*,'---------------- nodes -----------------------'
-C      DO K=1,NPLYMAX
-C        print*,'=== ply:',K,'===='
-C        DO I=1,PLYNOD(K)%PLYNUMNODS
-C          print*,'ND:',PLYNOD(K)%NODES(I),PLYNOD(K)%PLYNODID(I)
-C        ENDDO
-C      ENDDO
 
       DEALLOCATE(TAG_ARRAY)
       DEALLOCATE(TAG_SHELLS)

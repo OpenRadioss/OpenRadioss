@@ -204,7 +204,12 @@ C------------C1,G are const, otherwise to update
 #include "vectorize.inc"
         DO J=1,NLAR
           I = INDEX(J)
-          SIG(I,1:6) =SIGTMP(J,1:6)
+          SIG(I,1) =SIGTMP(J,1)
+          SIG(I,2) =SIGTMP(J,2)
+          SIG(I,3) =SIGTMP(J,3)
+          SIG(I,4) =SIGTMP(J,4)
+          SIG(I,5) =SIGTMP(J,5)
+          SIG(I,6) =SIGTMP(J,6)
         ENDDO
 
         IF (NLAR < NEL) THEN
@@ -243,15 +248,24 @@ C--------switch to Ismstr11
                IF (FACG>ONE) FACG = ONEP2*FACG
                FRHO = RHOREF(I)/RHO0_1
                IF (FRHO<ONEP01) FACG = ONE
-               SIG(I,1:3)=SIGL(I,1:3) + SIGTMP(J,1:3)
-               SIG(I,4:6)=SIGL(I,4:6) + FACG*SIGTMP(J,4:6)
+               SIG(I,1)=SIGL(I,1) + SIGTMP(J,1)
+               SIG(I,2)=SIGL(I,2) + SIGTMP(J,2)
+               SIG(I,3)=SIGL(I,3) + SIGTMP(J,3)
+               SIG(I,3)=SIGL(I,4) + FACG*SIGTMP(J,4)
+               SIG(I,5)=SIGL(I,5) + FACG*SIGTMP(J,5)
+               SIG(I,6)=SIGL(I,6) + FACG*SIGTMP(J,6)
                G(I) = FACG*G(I)
               END DO
             ELSE
 #include "vectorize.inc"
               DO J=1,NSM
                I = INDEX(J)
-               SIG(I,1:6)=SIGL(I,1:6) + SIGTMP(J,1:6)
+               SIG(I,1)=SIGL(I,1) + SIGTMP(J,1)
+               SIG(I,2)=SIGL(I,2) + SIGTMP(J,2)
+               SIG(I,3)=SIGL(I,3) + SIGTMP(J,3)
+               SIG(I,4)=SIGL(I,4) + SIGTMP(J,4)
+               SIG(I,5)=SIGL(I,5) + SIGTMP(J,5)
+               SIG(I,6)=SIGL(I,6) + SIGTMP(J,6)
               END DO
             END IF!(IPRES==1)THEN 
           ELSE
@@ -290,10 +304,17 @@ C--------switch to Ismstr11
 #include "vectorize.inc"
            DO J=1,NSM
             I = INDEX(J)
-            SIG(I,1:6)=SIGL(I,1:6) + SIGTMP(J,1:6)
+            SIG(I,1)=SIGL(I,1) + SIGTMP(J,1)
+            SIG(I,2)=SIGL(I,2) + SIGTMP(J,2)
+            SIG(I,3)=SIGL(I,3) + SIGTMP(J,3)
+            SIG(I,4)=SIGL(I,4) + SIGTMP(J,4)
+            SIG(I,5)=SIGL(I,5) + SIGTMP(J,5)
+            SIG(I,6)=SIGL(I,6) + SIGTMP(J,6)
             PNEW(I)= C1_1*AMU(I)
             P  =-THIRD*(SIGTMP(J,1)+SIGTMP(J,2)+SIGTMP(J,3))
-            SIG(I,1:3)= SIG(I,1:3)-PNEW(I) + P
+            SIG(I,1)= SIG(I,1)-PNEW(I) + P
+            SIG(I,2)= SIG(I,2)-PNEW(I) + P
+            SIG(I,3)= SIG(I,3)-PNEW(I) + P
            END DO
           END IF !(JCVT>0) THEN
         END IF !(NLAR < NEL)

@@ -66,11 +66,9 @@ C--------- [B]=[F][F]^t -1 strain-----
        AV(I,5) = ES5(I)
        AV(I,6) = ES6(I)
       ENDDO
-        CALL VALPVECOP_V(AV,EVV,DIRPRV,NEL)
+      CALL VALPVECOP_V(AV,EVV,DIRPRV,NEL)
 
-      DO I=1,NEL
-        EV(I,1:3)=SQRT(MAX(ZERO,(EVV(I,1:3)+ ONE))) - ONE
-      ENDDO
+      EV(1:NEL,1:3)=SQRT(MAX(ZERO,(EVV(1:NEL,1:3)+ ONE))) - ONE
 C----------------
 C      
       RETURN
