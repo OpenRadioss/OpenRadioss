@@ -134,6 +134,11 @@
                 end do
               end if
             end do
+          else
+            allocate(sh_offset_tab%ix_offset(4,0) )
+            allocate(sh_offset_tab%offset_n(0) )
+            allocate(sh_offset_tab%norm_n(3,0) )
+            allocate(thkoset(0) ) 
           end if !(nsh_oset>0) then
             allocate(sh_offset_tab%intag(numnod),STAT=stat)
 ! initialize comm
