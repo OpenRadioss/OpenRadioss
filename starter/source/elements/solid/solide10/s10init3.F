@@ -60,7 +60,7 @@ Chd|====================================================================
      A    MCP     ,MCPS    ,MCPSX   ,TEMP   ,NPF      ,
      B    TF      ,IN      ,STIFR   ,INS    ,MSSA     ,
      C    STRSGLOB,STRAGLOB,FAIL_INI,ILOADP ,FACLOAD  ,
-     D    RNOISE  ,PERTURB ,MAT_PARAM)
+     D    RNOISE  ,PERTURB ,MAT_PARAM,DEFAULTS_SOLID)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,6 +70,7 @@ C-----------------------------------------------
       USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -108,11 +109,12 @@ C-----------------------------------------------
       TYPE(DETONATORS_STRUCT_) :: DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+      TYPE(SOLID_DEFAULTS_), INTENT(IN) :: DEFAULTS_SOLID
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IP,NF1,NF2,IBID,IGTYP,NUVAR,IREP,NCC,IDEF,JHBE,IPID
-      INTEGER ID,NPTR,NPTS,NPTT,NLAY,L_PLA,L_SIGB,IBOLTP,IINT
+      INTEGER ID,NPTR,NPTS,NPTT,NLAY,L_PLA,L_SIGB,IBOLTP,IINT,IMAS_DS
       CHARACTER*nchartitle,
      .   TITR
       INTEGER NC(MVSIZ,10),MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ)
@@ -173,6 +175,7 @@ c
 C
       IBOLTP = IPARG(72)  !Bolt preloading
       JCVT  = IPARG(37)
+      IMAS_DS = DEFAULTS_SOLID%IMAS
 C
       DO I=LFT,LLT
         RHOCP(I) =  PM(69,IXS(1,NFT+I))
@@ -313,7 +316,7 @@ C----------------------------------------
      .              XX  ,YY ,ZZ     ,VX         ,VY         ,VZ  ,
      .              NC  ,STI,STIFN  ,DELTAX2    ,MSSX(1,NF1),MASSCP,
      .              MCP ,MCPS(1,NF1),MCPSX(1,NF1),IN        ,STIFR,
-     .              INS(1,NF1),MSSA(NF1),X       ,GBUF%FILL )
+     .              INS(1,NF1),MSSA(NF1),X       ,GBUF%FILL ,IMAS_DS)
 C----------------------------------------
 c Failure model initialisation
 C----------------------------------------
