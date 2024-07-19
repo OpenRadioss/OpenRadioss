@@ -60,6 +60,7 @@ Chd|        CDKFORC3                      engine/source/elements/sh3n/coquedk/cd
 Chd|        CFORC3                        engine/source/elements/shell/coque/cforc3.F
 Chd|        CFORC3_CRK                    engine/source/elements/xfem/cforc3_crk.F
 Chd|        CMAIN3                        engine/source/materials/mat_share/cmain3.F
+Chd|        CNCOEFORT                     engine/source/elements/sh3n/coquedk/cncoef3.F
 Chd|        CZFORC3                       engine/source/elements/shell/coquez/czforc3.F
 Chd|        CZFORC3_CRK                   engine/source/elements/xfem/czforc3_crk.F
 Chd|        DELAMINATION                  engine/source/properties/composite_options/stack/delamination.F
