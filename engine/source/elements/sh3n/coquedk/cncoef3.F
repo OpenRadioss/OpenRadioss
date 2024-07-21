@@ -598,13 +598,7 @@ C--------IORTH=2 -> HMFOR couplage non-null----------------
       IGTYP = IGEO(11,PID(1))
       IGMAT = IGEO(98,PID(1))
       IPOS  = IGEO(99,PID(1))
-      IF (IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 .OR. 
-     .    MTN == 19 .OR. MTN == 15  .OR.  MTN == 25 .OR. MTN == 119) THEN
-        IORTH=1
-      ELSE
-        IORTH=0
-      ENDIF
-C
+      IORTH = 0
       ! Npt_max
       LAYNPT_MAX = 1
       IF(IGTYP == 51 .OR. IGTYP == 52) THEN
@@ -615,7 +609,41 @@ C
       NLAY_MAX   = MAX(NLAY,NPT, ELBUF_STR%NLAY)
       ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
      .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
-C
+      IF (IGTYP == 11 .OR. IGTYP == 17 ) THEN
+           CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO    , 
+     .                    MAT      ,PID      ,THKLY    ,MATLY    ,POSLY   , 
+     .                    IGTYP    ,0        ,0        ,NLAY     ,NPT     , 
+     .                    ISUBSTACK,STACK    ,DRAPE    ,NFT      ,THKE    ,
+     .                    JLT      ,THK_LY   ,INDX_DRAPE, SEDRAPE,NUMEL_DRAPE)
+           DO J=1,NPT
+                J2=1+(J-1)*JLT
+                 MX  = MATLY(J2)
+                 ILAW_PLY = MAT_ELEM%MAT_PARAM(MX)%ILAW 
+                 IF(ILAW_PLY == 15. OR. ILAW_PLY == 25) THEN
+                     IORTH = 1
+                     EXIT 
+                 ENDIF
+           ENDDO
+      ELSEIF( IGTYP == 51 .OR. IGTYP == 52) THEN
+          CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO    , 
+     .                    MAT      ,PID      ,THKLY    ,MATLY    ,POSLY   , 
+     .                    IGTYP    ,0        ,0        ,NLAY     ,NPT     , 
+     .                    ISUBSTACK,STACK    ,DRAPE    ,NFT      ,THKE    ,
+     .                    JLT      ,THK_LY   ,INDX_DRAPE, SEDRAPE,NUMEL_DRAPE)           
+          DO ILAY=1,NLAY
+                    J1 = 1+(ILAY-1)*JLT       ! JMLY
+                    MX  = MATLY(J1)
+                    ILAW_PLY = MAT_ELEM%MAT_PARAM(MX)%ILAW 
+                    IF(ILAW_PLY == 15 .OR. ILAW_PLY == 25 ) THEN
+                      IORTH  = 1
+                      EXIT
+                    ENDIF
+           ENDDO
+      ELSEIF(MTN == 19 .OR. MTN == 15  .OR.  MTN == 25 .OR. MTN == 119) THEN
+        IORTH=1
+      ELSE
+        IORTH=0
+      ENDIF
 C----------unify the factor ONE_OVER_12 after       
       IF (IORTH == 1) THEN
         HMFOR(JFT:JLT,1:6)=ZERO
@@ -695,12 +723,7 @@ C----------unify the factor ONE_OVER_12 after
                   ENDDO
                 ENDDO 
              END SELECT ! IGTYP = 9, 10, 16  
-            ELSEIF(IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
-              CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO    , 
-     .                    MAT      ,PID      ,THKLY    ,MATLY    ,POSLY   , 
-     .                    IGTYP    ,0        ,0        ,NLAY     ,NPT     , 
-     .                    ISUBSTACK,STACK    ,DRAPE    ,NFT      ,THKE    ,
-     .                    JLT      ,THK_LY   ,INDX_DRAPE, SEDRAPE,NUMEL_DRAPE)                              
+            ELSEIF(IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN                            
               HM(JFT:JLT,1:6)=ZERO
               HF(JFT:JLT,1:6)=ZERO
               HC(JFT:JLT,1:2)=ZERO
@@ -714,7 +737,25 @@ C
                   DO J=1,NPT
                     J2=1+(J-1)*JLT
                     J3=1+(J-1)*JLT*2
-                    CALL GEPM_LC(JFT,JLT,MATLY(J2),PM,SHF,HMLY,HCLY)
+                    MX  = MATLY(J2)
+                    ILAW_PLY = MAT_ELEM%MAT_PARAM(MX)%ILAW 
+                    IF(ILAW_PLY == 15 .OR. ILAW_PLY == 25 ) THEN
+                       CALL GEPM_LC(JFT,JLT,MATLY(J2),PM,SHF,HMLY,HCLY)
+                    ELSE
+                        NU   =PM(21,MX)
+                       !! E    =PM(21,MX)
+                        G    =PM(22,MX)
+                        A11  =PM(24,MX) ! E/(one - nu*nu)
+                        A12  = NU*A11
+                        DO I=JFT,JLT
+                           HMLY(I,1)=A11
+                           HMLY(I,2)=A11
+                           HMLY(I,3)=A12
+                           HMLY(I,4)=G
+                           HCLY(I,1)=G*SHF(I)
+                           HCLY(I,2)=G*SHF(I)
+                        ENDDO
+                    ENDIF   
                     CALL CCTOGLOB(JFT,JLT,HMLY,HCLY,HMORLY,DIR(J3),NEL)
                     DO I=JFT,JLT
                       JJ = J2 - 1 + I
@@ -727,7 +768,7 @@ C
                       HC(I,1)=HC(I,1)+THKLY(JJ)*HCLY(I,1)
                       HC(I,2)=HC(I,2)+THKLY(JJ)*HCLY(I,2)
                       HM(I,5)=HM(I,5)+THKLY(JJ)*HMORLY(I,1)
-                      HM(I,6)=HM(I,6)+THKLY(JJ)*HMORLY(I,2)
+                      HM(I,6)=HM(I,6)+THKLY(JJ)*HMORLY(I,2)                    
                       IZZ(I) = IZZ(I) + WMC 
                       IZ(I) = IZ(I) + WM 
 C                
@@ -752,7 +793,25 @@ C
                   DO J=1,NPT
                     J2=1+(J-1)*JLT
                     J3=1+(J-1)*JLT*2
-                    CALL GEPM_LC(JFT,JLT,MATLY(J2),PM,SHF,HMLY,HCLY)
+                    MX  = MATLY(J2)
+                    ILAW_PLY = MAT_ELEM%MAT_PARAM(MX)%ILAW 
+                    IF(ILAW_PLY == 15 .OR. ILAW_PLY == 25 ) THEN
+                       CALL GEPM_LC(JFT,JLT,MATLY(J2),PM,SHF,HMLY,HCLY)
+                    ELSE
+                        NU   =PM(21,MX)
+                       !! E    =PM(21,MX)
+                        G    =PM(22,MX)
+                        A11  =PM(24,MX) ! E/(one - nu*nu)
+                        A12  = NU*A11
+                        DO I=JFT,JLT
+                           HMLY(I,1)=A11
+                           HMLY(I,2)=A11
+                           HMLY(I,3)=A12
+                           HMLY(I,4)=G
+                           HCLY(I,1)=G*SHF(I)
+                           HCLY(I,2)=G*SHF(I)
+                        ENDDO
+                    ENDIF   
                     CALL CCTOGLOB(JFT,JLT,HMLY,HCLY,HMORLY,DIR(J3),NEL)
                     DO I=JFT,JLT
                       JJ = J2 - 1 + I
