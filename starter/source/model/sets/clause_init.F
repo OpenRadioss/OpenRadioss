@@ -58,6 +58,7 @@ C-----------------------------------------------
       CLAUSE%NB_SURF_SEG= 0         ! CLAUSE nb of surfacce's segments
       CLAUSE%NB_LINE_SEG= 0         ! CLAUSE nb of line/edge's segments
       CLAUSE%NB_RBODY= 0            ! CLAUSE nb of Rbodys
+      CLAUSE%NB_SPHCEL= 0           ! CLAUSE nb of sphcel
 
       CLAUSE%NB_ELLIPSE= 0          ! CLAUSE nb of Ellipses within a SET (max = 1, one per /SET)
       CLAUSE%ELLIPSE_IAD_BUFR= 0
@@ -100,6 +101,7 @@ C-----------------------------------------------
       IF(ALLOCATED( CLAUSE%RBODY ))         DEALLOCATE( CLAUSE%RBODY )
       IF(ALLOCATED( CLAUSE%ELLIPSE_SKEW ))  DEALLOCATE( CLAUSE%ELLIPSE_SKEW )
       IF(ALLOCATED( CLAUSE%NODENS ))        DEALLOCATE( CLAUSE%NODENS )
+      IF(ALLOCATED( CLAUSE%SPHCEL ))        DEALLOCATE( CLAUSE%SPHCEL )
 C-----
       RETURN
       END

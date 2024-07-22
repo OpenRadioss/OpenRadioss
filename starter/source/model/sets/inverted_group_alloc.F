@@ -64,6 +64,7 @@ C-----------------------------------------------
         ALLOCATE( INV_GROUP%INDPARTTG( MY_SIZE ) )
         ALLOCATE( INV_GROUP%INDPARTTRIA( MY_SIZE ) )
         ALLOCATE( INV_GROUP%INDPARTR( MY_SIZE ) )
+        ALLOCATE( INV_GROUP%INDPARTSPH( MY_SIZE ) )
 
         INV_GROUP%INDPARTS( 1:MY_SIZE ) = 0
         INV_GROUP%INDPARTQ( 1:MY_SIZE ) = 0
@@ -73,6 +74,7 @@ C-----------------------------------------------
         INV_GROUP%INDPARTTG( 1:MY_SIZE ) = 0
         INV_GROUP%INDPARTTRIA( 1:MY_SIZE ) = 0
         INV_GROUP%INDPARTR( 1:MY_SIZE ) = 0
+        INV_GROUP%INDPARTSPH( 1:MY_SIZE ) = 0
 
         MY_SIZE = INV_GROUP%SIZE_S
         ALLOCATE( INV_GROUP%PARTS( MY_SIZE ) )
@@ -105,6 +107,10 @@ C-----------------------------------------------
         MY_SIZE = INV_GROUP%SIZE_R
         ALLOCATE( INV_GROUP%PARTR( MY_SIZE ) )
         INV_GROUP%PARTR( 1:MY_SIZE ) = 0      
+
+        MY_SIZE = INV_GROUP%SIZE_SPH
+        ALLOCATE( INV_GROUP%PARTSPH( MY_SIZE ) )
+        INV_GROUP%PARTSPH( 1:MY_SIZE ) = 0
 !   ----------------------------------------
         RETURN
         END SUBROUTINE INVERTED_GROUP_ALLOC

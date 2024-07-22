@@ -28,7 +28,7 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|        INVERTED_GROUP_MOD            share/modules1/inverted_group_mod.F
 Chd|====================================================================
-        SUBROUTINE INVERTED_GROUP_INIT(MODE,INV_GROUP)
+        SUBROUTINE INVERTED_GROUP_INIT(MODE,INV_GROUP,NUMSPH)
 !$COMMENT
 !       INVERTED_GROUP_INIT description
 !       initialization of INV_GROUP structure (number of elm & part)
@@ -57,6 +57,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(in) :: MODE
         TYPE(INVERTGROUP_STRUCT_) :: INV_GROUP
+        INTEGER, INTENT(IN) :: NUMSPH
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -78,6 +79,7 @@ C-----------------------------------------------
             INV_GROUP%SIZE_TG = NUMELTG
             INV_GROUP%SIZE_TRIA= NUMELTRIA
             INV_GROUP%SIZE_R = NUMELR        
+            INV_GROUP%SIZE_SPH = NUMSPH
         ELSE
         !   ---------------
         !   recompute the inverted connectivity : flush to 0
@@ -92,6 +94,7 @@ C-----------------------------------------------
             INV_GROUP%INDPARTTG( 1:MY_SIZE ) = 0
             INV_GROUP%INDPARTTRIA( 1:MY_SIZE ) = 0
             INV_GROUP%INDPARTR( 1:MY_SIZE ) = 0
+            INV_GROUP%INDPARTSPH( 1:MY_SIZE ) = 0
 
             MY_SIZE = INV_GROUP%SIZE_S
             INV_GROUP%PARTS( 1:MY_SIZE ) = 0
@@ -113,6 +116,9 @@ C-----------------------------------------------
 
             MY_SIZE = INV_GROUP%SIZE_R
             INV_GROUP%PARTR( 1:MY_SIZE ) = 0  
+
+            MY_SIZE = INV_GROUP%SIZE_SPH
+            INV_GROUP%PARTSPH( 1:MY_SIZE ) = 0
         !   ---------------  
         ENDIF
 !   ----------------------------------------

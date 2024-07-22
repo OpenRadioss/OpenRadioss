@@ -159,6 +159,7 @@ C-----------------------------------------------------------------------
         INTEGER   :: NB_LINE_SEG      ! SET nb of line/edge's segments
 !
         INTEGER   :: NB_RBODY         ! SET nb of Rbody
+        INTEGER   :: NB_SPHCEL        ! SET nb of sphcel
 
         INTEGER   :: NB_ELLIPSE       ! CLAUSE nb of Ellipses within a SET (max = 1, one per /SET)
         INTEGER   :: ELLIPSE_IAD_BUFR
@@ -193,6 +194,7 @@ C-----------------------------------------------------------------------
         INTEGER, DIMENSION(:), ALLOCATABLE  ::   TRUSS
         INTEGER, DIMENSION(:), ALLOCATABLE  ::   SPRING
         INTEGER, DIMENSION(:), ALLOCATABLE  ::   NODENS
+        INTEGER, DIMENSION(:), ALLOCATABLE  ::   SPHCEL
 !
         INTEGER, DIMENSION(:), ALLOCATABLE  ::   RBODY
 !

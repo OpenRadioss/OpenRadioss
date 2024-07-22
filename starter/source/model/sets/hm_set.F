@@ -306,7 +306,7 @@ C-----------------------------------------------
 
                   ! Element from PART
                   !-------------------
-                  CALL CREATE_ELEMENT_FROM_PART(CLAUSE  ,INV_GROUP) 
+                  CALL CREATE_ELEMENT_FROM_PART(CLAUSE  ,INV_GROUP,NUMSPH) 
 
                   ! Surface from ELEMENT
                   !-------------------
@@ -726,7 +726,7 @@ C-----------------------------------------------
 
                   ! Element from PART
                   !-------------------
-                  CALL CREATE_ELEMENT_FROM_PART(CLAUSE  ,INV_GROUP) 
+                  CALL CREATE_ELEMENT_FROM_PART(CLAUSE  ,INV_GROUP,NUMSPH) 
 
                   ! Surface from ELEMENT
                   !-------------------
@@ -767,7 +767,7 @@ C-----------------------------------------------
 
                   ! Element from PART
                   !-------------------
-                  CALL CREATE_ELEMENT_FROM_PART(CLAUSE  ,INV_GROUP) 
+                  CALL CREATE_ELEMENT_FROM_PART(CLAUSE  ,INV_GROUP,NUMSPH) 
 
                   ! Surface from ELEMENT
                   !-------------------
