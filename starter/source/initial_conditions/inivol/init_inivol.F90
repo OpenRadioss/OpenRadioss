@@ -406,10 +406,11 @@
             nuvar =  elbuf_tab(ng)%bufly(1)%nvar_mat
             nf1   =  nft+1
             nf1_2d = max(1,min(nf1,numeltg+numelq)) !kvol_2d_polyg  allocated to 1 when n2d=0
+            if (.not. required_2d_polygon_clipping) nf1_2d = 1
             call inivol_set( &
-                             mbuf%var  , nuvar, nel        , kvol(1,nf1) , mtn                         , &
-                             elbuf_tab , ng   , nbsubmat   , multi_fvm   , required_2d_polygon_clipping, &
-                             ixs       , idp  , ipart(i15_), nft         , kvol_2d_polyg(1,nf1_2d)     )
+                             mbuf%var  , nuvar      , nel        , kvol(1,nf1) , mtn                         , &
+                             elbuf_tab , ng         , nbsubmat   , multi_fvm   , required_2d_polygon_clipping, &
+                             idp       , ipart(i15_), nft        , kvol_2d_polyg(1,nf1_2d)     )
           enddo ! next ng=1,ngroup
 !-------------
 
