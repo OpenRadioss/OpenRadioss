@@ -81,6 +81,17 @@ C-----------------------------------------------
       DOUBLE PRECISION TEMP_DOUBLE
       LOGICAL :: OK_QA
 C-----------------------------------------------
+!--- defaults values      
+C-----------------------------------------------
+        IHBE_DS=  DEFAULTS%SOLID%ISOLID
+        ISST_DS=  DEFAULTS%SOLID%ISMSTR
+        ICPRE_D=  DEFAULTS%SOLID%ICPRE
+        ITET4_D=  DEFAULTS%SOLID%ITETRA4
+        ITET10_D= DEFAULTS%SOLID%ITETRA10
+        IMAS_DS=  DEFAULTS%SOLID%IMAS
+        IFRAME_DS= DEFAULTS%SOLID%IFRAME
+        ISTRA_D = 1
+C-----------------------------------------------
 C     /DAMP
 C-----------------------------------------------
       IF (MYQAKEY('/DAMP')) THEN
@@ -158,15 +169,6 @@ C-----------------------------------------------
 C     /DEF_SOLID
 C-----------------------------------------------
       IF (MYQAKEY('/DEF_SOLID')) THEN
-!--- defaults values      
-        IHBE_DS=  DEFAULTS%SOLID%ISOLID
-        ISST_DS=  DEFAULTS%SOLID%ISMSTR
-        ICPRE_D=  DEFAULTS%SOLID%ICPRE
-        ITET4_D=  DEFAULTS%SOLID%ITETRA4
-        ITET10_D= DEFAULTS%SOLID%ITETRA10
-        IMAS_DS=  DEFAULTS%SOLID%IMAS
-        IFRAME_DS= DEFAULTS%SOLID%IFRAME
-        ISTRA_D = 1
 C
         CALL QAPRINT('DEF_SOLID', 0,0.0_8)
 C
