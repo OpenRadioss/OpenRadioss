@@ -37,11 +37,11 @@ Chd|====================================================================
      5     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
      6     SIGOXX ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
      7     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     8     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,
+     8     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,IEOS   ,
      9     IPM    ,MAT    ,EPSP    ,IPLA    ,YLD     ,PLA    ,
-     A     DPLA1  ,ETSE   ,AL_IMP  ,SIGNOR  ,AMU     ,
-     B     FACYLDI,NVARTMP,VARTMP  ,DMG     ,INLOC  ,PLANL,
-     C     SIGBXX,SIGBYY,SIGBZZ,SIGBXY,SIGBYZ,SIGBZX)
+     A     DPLA1  ,ETSE   ,AL_IMP  ,SIGNOR  ,AMU     ,DPDM   ,
+     B     FACYLDI,NVARTMP,VARTMP  ,DMG     ,INLOC   ,PLANL  ,
+     C     SIGBXX ,SIGBYY ,SIGBZZ  ,SIGBXY  ,SIGBYZ  ,SIGBZX )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,6 +97,7 @@ C---------+---------+---+---+--------------------------------------------
 #include      "impl1_c.inc"
 C=======================================================================
       INTEGER, INTENT(IN) :: NEL, NUVAR,IPLA,NVARTMP,INLOC
+      INTEGER, INTENT(IN) :: IEOS
       INTEGER ,DIMENSION(NEL), INTENT(IN) :: NGL,MAT
       INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(IN) :: IPM
       my_real
@@ -110,6 +111,7 @@ C=======================================================================
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
      .   EPSP(NEL),ETSE(NEL),AMU(NEL),FACYLDI(NEL),
      .   DMG(NEL),PLANL(NEL)
+      my_real, DIMENSION(MVSIZ) ,INTENT(IN) :: DPDM
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -158,7 +160,7 @@ C-----------------------------------------------
      .        EPSR1DAV,EPSR1F,VM_1,G3H,NORM_1,EPSMAX,SSP,
      .        EINF,CE1,EPSR2,SVM,DF,F
       my_real :: FACT(NEL),
-     .        C1(MVSIZ),G(MVSIZ),G2(MVSIZ),G3(MVSIZ),
+     .        BULK(MVSIZ),G(MVSIZ),G2(MVSIZ),G3(MVSIZ),
      .        Y1(MVSIZ),Y2(MVSIZ),H(MVSIZ),DYDX1(MVSIZ),
      .        DYDX2(MVSIZ),FAIL(MVSIZ),E(MVSIZ),
      .        P0(MVSIZ),PFAC(MVSIZ),PSCALE(MVSIZ),RFAC(MVSIZ),
@@ -218,7 +220,7 @@ C
         G(I)  = G11 
         G2(I) = G21                                  
         G3(I) = G31 
-        C1(I) = C11            
+        BULK(I) = C11            
         SOUNDSP(I) = SSP
       ENDDO            
 c-----------------------------
@@ -263,19 +265,19 @@ c------------------------------------------
            G(I) =  HALF*E(I)/(ONE+NU) 
            G2(I) = TWO*G(I)                                  
            G3(I) = THREE*G(I) 
-           C1(I) = E(I)/THREE/(ONE - TWO*NU)            
-           SOUNDSP(I) = SQRT((C1(I) + FOUR_OVER_3*G(I))/RHO0(I))                 
+           BULK(I) = E(I)/THREE/(ONE - TWO*NU)            
+           SOUNDSP(I) = SQRT((BULK(I) + FOUR_OVER_3*G(I))/RHO0(I))                 
         ENDDO   
       ELSEIF ( CE1 /= ZERO) THEN 
 #include "vectorize.inc"
         DO I=1,NEL                                           
           IF(PLA(I) > ZERO)THEN                                                        
-            E(I) = E11-(E11-EINF)*(ONE-EXP(-CE1*PLA(I)))              
-            G(I) =  HALF*E(I)/(ONE+NU)   
+            E(I)  = E11-(E11-EINF)*(ONE-EXP(-CE1*PLA(I)))              
+            G(I)  = HALF*E(I)/(ONE+NU)   
             G2(I) = TWO*G(I)                                  
             G3(I) = THREE*G(I)                                               
-            C1(I) =E(I)/THREE/(ONE - TWO*NU)               
-            SOUNDSP(I) = SQRT((C1(I) + FOUR_OVER_3*G(I))/RHO0(I))
+            BULK(I) = E(I)/THREE/(ONE - TWO*NU)               
+            SOUNDSP(I) = SQRT((BULK(I) + FOUR_OVER_3*G(I))/RHO0(I))
           ENDIF    
         ENDDO         
       ENDIF
@@ -292,7 +294,7 @@ c------------------------------------------
       ENDIF 
 c
 c     ..pressure + delta_pressure (scaled) .. 
-      IF (IMPL_S > 0) PSCALE1(1:NEL)=PSCALE(1:NEL) * ( C1(1:NEL) * AMU(1:NEL) )
+      IF (IMPL_S > 0) PSCALE1(1:NEL)=PSCALE(1:NEL) * ( BULK(1:NEL) * AMU(1:NEL) )
 c
 c------------------------------------------
 c     PRESSURE DEPENDENT YIELD FUNCTION FACTOR
@@ -1465,14 +1467,22 @@ c          ..gets stresses from shifted stresses and back stresses
         ENDIF ! ..FISOKIN 
       END IF !(IPLA/=1.OR.IMPL_S<=0 ) THEN
 
-c   ..adds pressure to the deviatoric stress
-      DO I=1,NEL
-c        P = C1(I) * (RHO(I)/RHO0(I)-ONE)
-        P = C1(I) * AMU(I)
-        SIGNXX(I)=SIGNXX(I)-P
-        SIGNYY(I)=SIGNYY(I)-P
-        SIGNZZ(I)=SIGNZZ(I)-P
-      ENDDO
+      IF (IEOS == 0) THEN !  add pressure to the deviatoric stress
+        DO I=1,NEL
+!         P = BULK * (RHO/RHO0-ONE)
+          P = BULK(I) * AMU(I)
+          SIGNXX(I) = SIGNXX(I) - P
+          SIGNYY(I) = SIGNYY(I) - P
+          SIGNZZ(I) = SIGNZZ(I) - P
+        ENDDO
+      ELSE
+        ! if EOS is used, material law calculates only deviatoric stress tensor
+        !                 sound speed depends on pressure derivative over volume change
+        !                 calculated in EOS
+        DO I = 1, NEL
+          SOUNDSP(I) = SQRT((DPDM(I) + FOUR*G(I)/THREE)/RHO0(I))
+        ENDDO       
+      END IF 
 c
 c-------------------------
       IF (IMPL_S > 0) THEN

@@ -156,7 +156,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NPAR,IADBUF,NFUNC,I,J,II,IPT,JPT,IR,ISRATE,
      .  IFUNC(MAXFUNC),IDUM1,IRUPT,IMAT,NTABL_FAIL,
-     .  NVARF, IEXPAN8,JJ(6),INLOC,DMG_FLAG
+     .  NVARF, IEXPAN8,JJ(6),INLOC,IEOS,DMG_FLAG
       my_real 
      .C1(MVSIZ),PNEW(MVSIZ),PP(MVSIZ),DEFP(MVSIZ),
      .EP1(MVSIZ),EP2(MVSIZ),EP3(MVSIZ),EP4(MVSIZ),EP5(MVSIZ),EP6(MVSIZ),
@@ -192,6 +192,7 @@ C-----------------------------------------------
 C=======================================================================
       IMAT = MAT(LFT)
       INLOC  = MAT_PARAM(IMAT)%NLOC
+      IEOS   = MAT_PARAM(IMAT)%IEOS
       NPAR   = IPM(9,IMAT)
       IADBUF = IPM(7,IMAT)
       NFUNC  = IPM(10,IMAT)
@@ -587,10 +588,10 @@ C-------------------
      6    ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6   ,
      7    SO1      ,SO2      ,SO3      ,SO4      ,SO5      ,SO6   ,
      8    S1       ,S2       ,S3       ,S4       ,S5       ,S6    ,
-     9    SSPP     ,VIS      ,UVAR     ,OFF      ,NGL      ,
+     9    SSPP     ,VIS      ,UVAR     ,OFF      ,NGL      ,IEOS  ,
      A    IPM      ,MAT      ,EPSD     ,IPLA     ,SIGY     ,LBUF%PLA,
-     B    DPLA     ,ET       ,BIDON    ,BIDON    ,AMU      ,CST1  ,
-     C    NVARTMP  ,VARTMP   ,LBUF%DMG ,INLOC    ,LBUF%PLANL,
+     B    DPLA     ,ET       ,BIDON    ,BIDON    ,AMU      ,BIDV      ,
+     C    CST1     ,NVARTMP  ,VARTMP   ,LBUF%DMG ,INLOC    ,LBUF%PLANL,
      D    SIGBXX,SIGBYY,SIGBZZ,SIGBXY,SIGBYZ,SIGBZX )
 c
           DEFP(1:LLT)   =  LBUF%PLA(1:LLT)
@@ -664,9 +665,9 @@ C
 !           ENDIF
 !         ENDDO
         CALL SIGEPS44(
-     2    LLT      ,NPAR     ,NUVAR    ,NFUNC    ,IFUNC    ,
-     3    NPF      ,TF       ,TT       ,DT1      ,UPARAM   ,
-     4    RHO0     ,RHO      ,VOLN     ,EINT     ,MAT_PARAM%IEOS,BIDV,
+     2    LLT      ,NPAR     ,NUVAR    ,NFUNC    ,IFUNC    ,NPF      ,
+     3    TF       ,TT       ,DT1      ,UPARAM   ,RHO0     ,RHO      ,
+     4    VOLN     ,EINT     ,IEOS     ,BIDV     ,
      5    EP1      ,EP2      ,EP3      ,EP4      ,EP5      ,EP6   ,
      6    DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6   ,
      7    ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6   ,

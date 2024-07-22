@@ -370,6 +370,9 @@ C-----------------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
       CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")   
       CALL INIT_MAT_KEYWORD(MATPARAM,"BEAM_INTEGRATED")    
+c
+      ! Material compatibility with /EOS option
+      CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
 C-----------------------      
       WRITE(IOUT,1001) TRIM(TITR),ID,36  
       WRITE(IOUT,1000)   
