@@ -81,6 +81,10 @@ C-----------------------------------------------
         INTEGER :: SIZE_R
         INTEGER, DIMENSION(:), ALLOCATABLE :: INDPARTR
         INTEGER, DIMENSION(:), POINTER :: PARTR
+
+        INTEGER :: SIZE_SPH
+        INTEGER, DIMENSION(:), ALLOCATABLE :: INDPARTSPH
+        INTEGER, DIMENSION(:), POINTER :: PARTSPH
       END TYPE INVERTGROUP_STRUCT_
 c
 c--------------------------

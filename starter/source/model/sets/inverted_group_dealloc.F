@@ -62,6 +62,7 @@ C-----------------------------------------------
             DEALLOCATE( INV_GROUP%INDPARTTG )
             DEALLOCATE( INV_GROUP%INDPARTTRIA )
             DEALLOCATE( INV_GROUP%INDPARTR )
+            DEALLOCATE( INV_GROUP%INDPARTSPH )
 
             DEALLOCATE( INV_GROUP%PARTS )
             DEALLOCATE( INV_GROUP%PARTQ )
@@ -70,6 +71,7 @@ C-----------------------------------------------
             DEALLOCATE( INV_GROUP%PARTTG )
             DEALLOCATE( INV_GROUP%PARTTRIA )
             DEALLOCATE( INV_GROUP%PARTR )
+            DEALLOCATE( INV_GROUP%PARTSPH )
         ENDIF   
 !   ---------------------------------------- 
 

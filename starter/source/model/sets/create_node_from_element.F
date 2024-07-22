@@ -43,6 +43,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SETDEF_MOD
+      USE TAG_NODE_FROM_PART_SPHCEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -125,6 +126,9 @@ C=======================================================================
 !
 !
       ! SPH
+      IF ( CLAUSE%NB_SPHCEL > 0 )
+     . CALL TAG_NODE_FROM_PART_SPHCEL(
+     .                   CLAUSE%NB_SPHCEL  ,CLAUSE%SPHCEL  ,TAGNOD,CLAUSE_NODE,IND,NUMNOD)
 !      IF (NUMSPH > 0) 
 !     .    CALL TAGNOD_PART(KXSP,NISP,3,3,NUMSPH,IPARTSP,TAGPART,TAGNOD)
 C-----------

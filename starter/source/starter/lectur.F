@@ -2782,111 +2782,6 @@ c
 c
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     INVERSE CONNECTIVITY (Starter only)
-C--------------------------------------------
-C Create IXTG1 array and set to 0
-      ERR_MSG='CONNECTIVITY'
-      ERR_CATEGORY='CONNECTIVITY'
-      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      ! -------------------
-      ! initialisation of invert_group structure, used in
-      ! HM_READ_SET and in HM_READ_SENSORS for user sensor
-      CALL INVERTED_GROUP_INIT(0,INV_GROUP)
-      ! example :
-      CALL COMPUTE_CONNECT_PARTELM(IPARTS ,IPARTQ ,IPARTC   ,IPARTT ,IPARTP,
-     .                             IPARTG ,IPARTR ,INV_GROUP)
-      ! -------------------
-      IF(NUMELTG6 ==0 )THEN
-        SIXTG1  = 0
-      ELSE
-        SIXTG1 = 4*NUMELTG
-      ENDIF
-      ALLOCATE(IXTG1(SIXTG1), STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='IXTG1')
-      IXTG1 = 0
-
-214   ALLOCATE(KNOD2ELS(NUMNOD+1),STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='KNOD2ELS')
-      KNOD2ELS=0
-      ALLOCATE(KNOD2ELC(NUMNOD+1),STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR)
-      KNOD2ELC=0
-      ALLOCATE(KNOD2ELTG(NUMNOD+1),STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='KNOD2ELTG')
-      KNOD2ELTG=0
-      ALLOCATE(KNOD2EL1D(NUMNOD+1),STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='KNOD2EL1D')
-      KNOD2EL1D=0
-
-      ALLOCATE(KNOD2ELQ(NUMNOD+1),STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR)
-      KNOD2ELQ=0
-
-
-      S_NOD2ELS = 8*NUMELS+6*NUMELS10+12*NUMELS20+8*NUMELS16
-      ALLOCATE(NOD2ELS(S_NOD2ELS),STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='NOD2ELS')
-      NOD2ELS=0
-      ALLOCATE(NOD2ELC(4*NUMELC),STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='NOD2ELC')
-      NOD2ELC=0
-      S_NOD2ELTG = 3*NUMELTG+3*NUMELTG6
-      ALLOCATE(NOD2ELTG(S_NOD2ELTG),STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='NOD2ELTG')
-      NOD2ELTG=0
-      S_NOD2EL1D=2*NUMELT+2*NUMELP+3*NUMELR+2*SIXX
-      ALLOCATE(NOD2EL1D(S_NOD2EL1D),STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='NOD2EL1D')
-      NOD2EL1D=0
-      ALLOCATE(KNOD2ELIG3D(NUMNOD+1),STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='KNOD2ELIG3D')
-      KNOD2ELIG3D=0
-      ALLOCATE(NOD2ELIG3D(NCTRLMAX*NUMELIG3D),
-     .         STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='NOD2ELIG3D')
-      NOD2ELIG3D=0
-      ALLOCATE(NOD2ELQ(4*NUMELQ),STAT=stat)
-      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='NOD2ELQ')
-      NOD2ELQ=0
-
-      IF(FLAG_GOTO==1) GOTO 215
-
-C--------------------------------------------
-      CALL BUILD_CNEL(
-     2   IXS        ,IXQ        ,IXC        ,IXT      ,IXP      ,
-     3   IXR        ,IXTG       ,IXS10      ,IXS20    ,
-     4   IXS16      ,IXTG1      ,IGEO       ,KNOD2ELS ,KNOD2ELC ,
-     5   KNOD2ELTG  ,NOD2ELS    ,NOD2ELC    ,NOD2ELTG ,NOD2EL1D ,
-     6   KNOD2EL1D  ,KXX        ,IXX        ,X        ,LELX     ,
-     7   IXIG3D     ,KXIG3D     ,KNOD2ELIG3D,NOD2ELIG3D,KNOD2ELQ,
-     8   NOD2ELQ    )
-      IF(ALLOCATED(IWORK)) DEALLOCATE(IWORK)
-      CALL TRACE_OUT1()
-C--------------------------------------------
 C     LECTURE DES PARAMETRES GLOBAUX + PARTICULES SPH.
 C---------------------------------------------
       ERR_MSG='SPH'
@@ -3010,6 +2905,111 @@ c limit INTEGER 32 bits ((2^31)-1), we add a security marge of 5%
      .                             MSGTYPE=MSGERROR,
      .                         C1='SPBUF')
       ENDIF
+      CALL TRACE_OUT1()
+C--------------------------------------------
+C     INVERSE CONNECTIVITY (Starter only)
+C--------------------------------------------
+C Create IXTG1 array and set to 0
+      ERR_MSG='CONNECTIVITY'
+      ERR_CATEGORY='CONNECTIVITY'
+      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
+      ! -------------------
+      ! initialisation of invert_group structure, used in
+      ! HM_READ_SET and in HM_READ_SENSORS for user sensor
+      CALL INVERTED_GROUP_INIT(0,INV_GROUP,NUMSPH)
+      ! example :
+      CALL COMPUTE_CONNECT_PARTELM(IPARTS ,IPARTQ ,IPARTC   ,IPARTT ,IPARTP,
+     .                             IPARTG ,IPARTR ,IPARTSP  ,INV_GROUP,NUMSPH)
+      ! -------------------
+      IF(NUMELTG6 ==0 )THEN
+        SIXTG1  = 0
+      ELSE
+        SIXTG1 = 4*NUMELTG
+      ENDIF
+      ALLOCATE(IXTG1(SIXTG1), STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,
+     .                         C1='IXTG1')
+      IXTG1 = 0
+
+214   ALLOCATE(KNOD2ELS(NUMNOD+1),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,
+     .                         C1='KNOD2ELS')
+      KNOD2ELS=0
+      ALLOCATE(KNOD2ELC(NUMNOD+1),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR)
+      KNOD2ELC=0
+      ALLOCATE(KNOD2ELTG(NUMNOD+1),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,
+     .                         C1='KNOD2ELTG')
+      KNOD2ELTG=0
+      ALLOCATE(KNOD2EL1D(NUMNOD+1),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,
+     .                         C1='KNOD2EL1D')
+      KNOD2EL1D=0
+
+      ALLOCATE(KNOD2ELQ(NUMNOD+1),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR)
+      KNOD2ELQ=0
+
+
+      S_NOD2ELS = 8*NUMELS+6*NUMELS10+12*NUMELS20+8*NUMELS16
+      ALLOCATE(NOD2ELS(S_NOD2ELS),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,
+     .                         C1='NOD2ELS')
+      NOD2ELS=0
+      ALLOCATE(NOD2ELC(4*NUMELC),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,
+     .                         C1='NOD2ELC')
+      NOD2ELC=0
+      S_NOD2ELTG = 3*NUMELTG+3*NUMELTG6
+      ALLOCATE(NOD2ELTG(S_NOD2ELTG),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,
+     .                         C1='NOD2ELTG')
+      NOD2ELTG=0
+      S_NOD2EL1D=2*NUMELT+2*NUMELP+3*NUMELR+2*SIXX
+      ALLOCATE(NOD2EL1D(S_NOD2EL1D),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,
+     .                         C1='NOD2EL1D')
+      NOD2EL1D=0
+      ALLOCATE(KNOD2ELIG3D(NUMNOD+1),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,
+     .                         C1='KNOD2ELIG3D')
+      KNOD2ELIG3D=0
+      ALLOCATE(NOD2ELIG3D(NCTRLMAX*NUMELIG3D),
+     .         STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,
+     .                         C1='NOD2ELIG3D')
+      NOD2ELIG3D=0
+      ALLOCATE(NOD2ELQ(4*NUMELQ),STAT=stat)
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                           MSGTYPE=MSGERROR,
+     .                         C1='NOD2ELQ')
+      NOD2ELQ=0
+
+      IF(FLAG_GOTO==1) GOTO 215
+
+C--------------------------------------------
+      CALL BUILD_CNEL(
+     2   IXS        ,IXQ        ,IXC        ,IXT      ,IXP      ,
+     3   IXR        ,IXTG       ,IXS10      ,IXS20    ,
+     4   IXS16      ,IXTG1      ,IGEO       ,KNOD2ELS ,KNOD2ELC ,
+     5   KNOD2ELTG  ,NOD2ELS    ,NOD2ELC    ,NOD2ELTG ,NOD2EL1D ,
+     6   KNOD2EL1D  ,KXX        ,IXX        ,X        ,LELX     ,
+     7   IXIG3D     ,KXIG3D     ,KNOD2ELIG3D,NOD2ELIG3D,KNOD2ELQ,
+     8   NOD2ELQ    )
+      IF(ALLOCATED(IWORK)) DEALLOCATE(IWORK)
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     LECTURE DES SUBSETS

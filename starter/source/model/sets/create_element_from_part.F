@@ -30,7 +30,7 @@ Chd|        INVERTED_GROUP_MOD            share/modules1/inverted_group_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|====================================================================
-      SUBROUTINE CREATE_ELEMENT_FROM_PART(CLAUSE  ,INV_GROUP)
+      SUBROUTINE CREATE_ELEMENT_FROM_PART(CLAUSE  ,INV_GROUP,NUMSPH)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -63,6 +63,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(INVERTGROUP_STRUCT_) :: INV_GROUP
       TYPE (SET_) ::  CLAUSE
+      INTEGER, INTENT(IN) :: NUMSPH
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -70,7 +71,7 @@ C-----------------------------------------------
       INTEGER IWORK(70000)
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDX,SORT
 C=======================================================================
-      SZELMAX = MAX(NUMELS,NUMELQ,NUMELC,NUMELTG,NUMELTRIA,NUMELT,NUMELP,NUMELR)
+      SZELMAX = MAX(NUMELS,NUMELQ,NUMELC,NUMELTG,NUMELTRIA,NUMELT,NUMELP,NUMELR,NUMSPH)
       ALLOCATE(INDX(SZELMAX*2))
       ALLOCATE(SORT(SZELMAX))
 !
@@ -107,7 +108,39 @@ C=======================================================================
         ENDDO
 
       ENDIF ! IF (NUMELS > 0)
-      
+!
+!               SPHCEL
+      IF (NUMSPH > 0) THEN
+        SIZE = 0
+        DO ID=1,CLAUSE%NB_PART
+          IP=CLAUSE%PART(ID)
+          EL_FIRST = INV_GROUP%INDPARTSPH(IP)
+          EL_LAST  = INV_GROUP%INDPARTSPH(IP+1)
+          SIZE = SIZE + EL_LAST - EL_FIRST
+        ENDDO
+        CLAUSE%NB_SPHCEL = SIZE
+        ALLOCATE( CLAUSE%SPHCEL(SIZE) )
+!
+        IND = 0
+        DO ID=1,CLAUSE%NB_PART
+          IP=CLAUSE%PART(ID)
+          EL_FIRST = INV_GROUP%INDPARTSPH(IP)
+          EL_LAST  = INV_GROUP%INDPARTSPH(IP+1)-1
+          DO EL=EL_FIRST,EL_LAST 
+            IND = IND+1
+            IE = INV_GROUP%PARTSPH(EL)
+            CLAUSE%SPHCEL(IND) = IE
+          ENDDO 
+        ENDDO
+
+        IWORK(1:70000) = 0
+        SORT(1:CLAUSE%NB_SPHCEL) = CLAUSE%SPHCEL(1:CLAUSE%NB_SPHCEL)
+        CALL MY_ORDERS(0,IWORK,SORT,INDX,CLAUSE%NB_SPHCEL,1)
+        
+        DO I=1,CLAUSE%NB_SPHCEL
+           CLAUSE%SPHCEL(I) = SORT(INDX(I))
+        ENDDO
+      ENDIF ! IF (NUMSPH > 0)
 !
 !               QUAD
       IF (NUMELQ > 0) THEN

@@ -30,7 +30,7 @@ Chd|        INVERTED_GROUP_INIT           source/model/sets/inverted_group_init.
 Chd|        INVERTED_GROUP_MOD            share/modules1/inverted_group_mod.F
 Chd|====================================================================
       SUBROUTINE COMPUTE_CONNECT_PARTELM( IPARTS,IPARTQ,IPARTC,IPARTT,IPARTP,
-     .                                    IPARTTG,IPARTR ,INV_GROUP)
+     .                                    IPARTTG,IPARTR ,IPARTSP, INV_GROUP,NUMSPH)
 !$COMMENT
 !       COMPUTE_CONNECT_PARTELM description
 !       computation of the inverted connectivity between part and element
@@ -55,6 +55,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s 
 C-----------------------------------------------             
 C
+      INTEGER, INTENT(IN) :: NUMSPH
       INTEGER, INTENT(IN),DIMENSION(NUMELS) :: IPARTS
       INTEGER, INTENT(IN),DIMENSION(NUMELQ) :: IPARTQ
       INTEGER, INTENT(IN),DIMENSION(NUMELC) :: IPARTC
@@ -62,6 +63,7 @@ C
       INTEGER, INTENT(IN),DIMENSION(NUMELR) :: IPARTR
       INTEGER, INTENT(IN),DIMENSION(NUMELT) :: IPARTT
       INTEGER, INTENT(IN),DIMENSION(NUMELP) :: IPARTP
+      INTEGER, INTENT(IN),DIMENSION(NUMSPH) :: IPARTSP
 
       TYPE(INVERTGROUP_STRUCT_) :: INV_GROUP
 
@@ -74,7 +76,7 @@ C-----------------------------------------------
       ! allocation of INV_GROUP% array
       IF( .NOT.(INV_GROUP%ALREADY_ALLOC) ) CALL INVERTED_GROUP_ALLOC(INV_GROUP)
       ! check INV_GROUP% array was already computed, if already computed, flush to 0
-      IF( INV_GROUP%ALREADY_DONE ) CALL INVERTED_GROUP_INIT(1,INV_GROUP)
+      IF( INV_GROUP%ALREADY_DONE ) CALL INVERTED_GROUP_INIT(1,INV_GROUP,NUMSPH)
 
       ALLOCATE(PART_COUNT(NPART))
 
@@ -102,6 +104,28 @@ C ------------------------------------------------
         INV_GROUP%PARTS(IND)=I
         PART_COUNT(PART)=PART_COUNT(PART)+1
       ENDDO         
+C ------------------------------------------------
+C  Sph particles (cells)
+C ------------------------------------------------
+      PART_COUNT(1:NPART)=0
+
+      DO I=1,NUMSPH
+        PART=IPARTSP(I)
+        PART_COUNT(PART)=PART_COUNT(PART)+1
+      ENDDO 
+
+      INV_GROUP%INDPARTSPH(1)=1
+      DO I=2,NPART+1
+        INV_GROUP%INDPARTSPH(I)=INV_GROUP%INDPARTSPH(I-1)+PART_COUNT(I-1)
+      ENDDO
+
+      PART_COUNT(1:NPART)=0
+      DO I=1,NUMSPH
+        PART=IPARTSP(I)
+        IND=INV_GROUP%INDPARTSPH(PART) + PART_COUNT(PART)
+        INV_GROUP%PARTSPH(IND)=I
+        PART_COUNT(PART)=PART_COUNT(PART)+1
+      ENDDO
 C ------------------------------------------------
 C  Quad elements
 C ------------------------------------------------
