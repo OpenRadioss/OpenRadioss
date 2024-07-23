@@ -664,7 +664,6 @@ C-----------------------------------------------
 #include      "scr16_c.inc"
 #include      "scr17_c.inc"
 #include      "scr19_c.inc"
-#include      "scr21_c.inc"
 #include      "scr23_c.inc"
 #include      "scry_c.inc"
 #include      "sms_c.inc"
@@ -1164,6 +1163,7 @@ C SEATBELTS
 
       TYPE(INTER_CAND_) :: INTER_CAND
       TYPE (FAIL_FRACTAL_) :: FAIL_FRACTAL
+      INTEGER DEF_INTER(100)
       ! constraint structure
       type(constraint_) :: constraint_struct
 c=======================================================================
@@ -1227,6 +1227,7 @@ C Flag to set for Domain Decomposition and Additional nodes
       USER_GRP_DOMAIN=0
       NSNT=0
       NMNT_2=0
+      DEF_INTER(1:100) = DEFAULTS%interface%DEF_INTER(1:100)
 c OpenMP specific
       ITASK=0
 C     flag need generalize BUFINTI in DDPSLIT with Interface type 11.
@@ -2244,7 +2245,8 @@ C prelecture
          CALL LECSTACK_PLY(GEO_STACK ,X          ,IXC       ,PM   ,ITABM1  ,
      .                     ISKWN     ,IGEO_STACK ,IPM       ,NPC  ,TF      ,
      .                     UNITAB    , RTRANS    ,LSUBMODEL,IPART ,IDRAPEID,
-     .                     PLY_INFO  ,STACK_INFO,NUMGEOSTACK, NPROP_STACK)
+     .                     PLY_INFO  ,STACK_INFO,NUMGEOSTACK, NPROP_STACK  ,
+     .                     DEFAULTS )
         ELSE
              ALLOCATE(IGEO_STACK(0),STAT=stat)
              ALLOCATE(GEO_STACK(0),STAT=stat)

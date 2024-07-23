@@ -21,7 +21,6 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../SCR21/
-      COMMON /SCR21/ IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
-     .            ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D,DEF_INTER(100)
-      INTEGER     IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
-     .            ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D,DEF_INTER
+      COMMON /SCR21/ IDEFAULT
+      INTEGER     IDEFAULT
+! now all flags goes to defaults_mod, can be deleted       

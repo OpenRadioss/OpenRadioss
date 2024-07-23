@@ -61,12 +61,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "scr21_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),   INTENT(IN)    :: LSUBMODEL(*)
       TYPE(SHELL_DEFAULTS_), INTENT(INOUT) :: DEFAULTS_SHELL
 C OUTPUT ARGUMENTS
 C-----------------------------------------------
@@ -77,31 +76,24 @@ C-----------------------------------------------
 C============================================================================
       IS_AVAILABLE = .FALSE.
 C----------------------------------------------
-      NPTS_DD = 0
-      IOFFSET_D = 0
       CALL HM_OPTION_COUNT('/DEF_SHELL',NB_DEFSHELL)
       CALL HM_OPTION_START('/DEF_SHELL')
       DO I=1,NB_DEFSHELL
         CALL HM_OPTION_READ_KEY(LSUBMODEL, SUBMODEL_ID = SUB_ID)
         IF(SUB_ID == 0) THEN
-          CALL HM_GET_INTV('ISHELL',IHBE_D,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_INTV('Ismstr',ISST_D,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_INTV('Ithick',ITHK_D,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_INTV('Iplas',IPLA_D,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_INTV('Istrain',ISTR_D,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_INTV('ISH3N',ISH3N_D,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_INTV('Idrill',IDRIL_D,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_INTV('Ioffset',IOFFSET_D,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('ISHELL',DEFAULTS_SHELL%ishell,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('Ismstr',DEFAULTS_SHELL%ismstr,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('Ithick',DEFAULTS_SHELL%ithick,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('Iplas',DEFAULTS_SHELL%iplas,IS_AVAILABLE,LSUBMODEL)
+!          CALL HM_GET_INTV('Istrain',ISTR_D,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('ISH3N',DEFAULTS_SHELL%ish3n,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('Idrill',DEFAULTS_SHELL%idrill,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('Ioffset',DEFAULTS_SHELL%ioffset,IS_AVAILABLE,LSUBMODEL)
           EXIT
         ENDIF            
       ENDDO
 C          
-C     IF(ISTR_D==0)ISTR_D = 1
-      ISTR_D = 1
-      IF(NPTS_D==-1)NPTS_D=NPTS_DD
-      IF (IOFFSET_D==2) IOFFSET_D = 0
-      IF (IOFFSET_D==3) IOFFSET_D = 0
-      DEFAULTS_SHELL%IOFFSET = IOFFSET_D
+      IF (DEFAULTS_SHELL%IOFFSET>1) DEFAULTS_SHELL%IOFFSET = 0
 C--------------------------------------------------------------
       RETURN
       END 

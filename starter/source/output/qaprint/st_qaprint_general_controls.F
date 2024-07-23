@@ -55,7 +55,6 @@ C-----------------------------------------------
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
 #include      "scr17_c.inc"
-#include      "scr21_c.inc"
 #include      "tabsiz_c.inc"
 #include      "random_c.inc"
 #include      "sphcom.inc"
@@ -76,7 +75,9 @@ C-----------------------------------------------
       INTEGER I,II,J,IPERT,MY_ID, MY_DAMP, MY_CONSTRAINT,TEMP_INT,
      .        MY_RAND, MY_UNIT, MY_DEFAULTINTER,LENRNOISE,
      .        IDS(NPERTURB),IDX(NPERTURB),IDSEIG(NEIG),IDXEIG(NEIG),MY_EIG
-      INTEGER  IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS,ITET4_D,ITET10_D,ICPRE_D,IMAS_DS
+      INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS,ITET4_D,ITET10_D,ICPRE_D,IMAS_DS,
+     .            IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
+     .            ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D,IOFFSET,DEF_INTER(100)
       CHARACTER *nchartitle TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
@@ -84,14 +85,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 !--- defaults values      
 C-----------------------------------------------
-        IHBE_DS=  DEFAULTS%SOLID%ISOLID
-        ISST_DS=  DEFAULTS%SOLID%ISMSTR
-        ICPRE_D=  DEFAULTS%SOLID%ICPRE
-        ITET4_D=  DEFAULTS%SOLID%ITETRA4
-        ITET10_D= DEFAULTS%SOLID%ITETRA10
-        IMAS_DS=  DEFAULTS%SOLID%IMAS
-        IFRAME_DS= DEFAULTS%SOLID%IFRAME
-        ISTRA_D = 1
+      IHBE_DS=  DEFAULTS%SOLID%ISOLID
+      ISST_DS=  DEFAULTS%SOLID%ISMSTR
+      ICPRE_D=  DEFAULTS%SOLID%ICPRE
+      ITET4_D=  DEFAULTS%SOLID%ITETRA4
+      ITET10_D= DEFAULTS%SOLID%ITETRA10
+      IMAS_DS=  DEFAULTS%SOLID%IMAS
+      IFRAME_DS= DEFAULTS%SOLID%IFRAME
+      ISTRA_D = 1
+      IHBE_D =  DEFAULTS%SHELL%ishell     
+      ISH3N_D=  DEFAULTS%SHELL%ish3n      
+      ISST_D =  DEFAULTS%SHELL%ismstr     
+      IPLA_D =  DEFAULTS%SHELL%iplas      
+      ITHK_D =  DEFAULTS%SHELL%ithick     
+      IDRIL_D=  DEFAULTS%SHELL%idrill 
+      ISHEA_D = 0  
+      NPTS_D = 0  
+!         
 C-----------------------------------------------
 C     /DAMP
 C-----------------------------------------------
@@ -210,7 +220,7 @@ C     /DEF_SHELL
 C-----------------------------------------------
       IF (MYQAKEY('/DEF_SHELL')) THEN
 C
-        CALL QAPRINT('DEF_SHELL', 0,0.0_8)
+         CALL QAPRINT('DEF_SHELL', 0,0.0_8)
 C
         WRITE(VARNAME,'(A)') 'Ishell'
         TEMP_INT = IHBE_D
@@ -476,6 +486,7 @@ C     /DEFAULT/INTER
 C----------------------------------------------
       IF (MYQAKEY('/DEFAULT/INTER')) THEN
 C
+        DEF_INTER(1:100) = DEFAULTS%interface%DEF_INTER(1:100) 
         CALL QAPRINT('/DEFAULT/INTER', 0,0.0_8)
 
         DO MY_DEFAULTINTER=1,100

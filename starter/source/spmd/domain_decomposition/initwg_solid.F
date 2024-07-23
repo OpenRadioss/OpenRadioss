@@ -51,7 +51,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com01_c.inc"
-#include      "scr21_c.inc"
 #include      "tablen_c.inc"
 #include      "ddspmd_c.inc"
 C-----------------------------------------------
@@ -142,7 +141,8 @@ C -------------------------------
 C Element Property initialization
 C -------------------------------
         NPN = 1
-        JHBE=IHBE_D
+!        JHBE=IHBE_D  ! IHBE_D is used for shell
+        JHBE = 1 ! not be important for PID=0
         MID= IXS(1,I)
         PID= IXS(10,I)
         

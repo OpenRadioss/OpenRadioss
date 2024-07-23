@@ -331,7 +331,8 @@ C--------------------------------------------------
 C            HM READING PROPERTY TYPE1 (SHELL)
 C--------------------------------------------------
              IGTYP=1
-             CALL HM_READ_PROP01(GEO(1,I),IGEO(1,I),PROP_TAG ,MULTI_FVM,IGTYP,PROP_ID,IDTITL,UNITAB,LSUBMODEL)
+             CALL HM_READ_PROP01(GEO(1,I),IGEO(1,I),PROP_TAG ,MULTI_FVM,IGTYP,PROP_ID,IDTITL,UNITAB,LSUBMODEL,
+     .                           DEFAULTS%SHELL)
 
           CASE ('TYPE2','TYPE02','TRUS','TRUSS')
 C--------------------------------------------------
@@ -385,14 +386,14 @@ C            HM READING PROPERTY TYPE9 (Orthotropic shell)
 C--------------------------------------------------
              IGTYP=9
              CALL HM_READ_PROP09(IGTYP ,GEO(1,I),IGEO(1,I),PROP_TAG,UNITAB,
-     .                           RTRANS,LSUBMODEL,IDTITL ,PROP_ID   ,SUB_ID,ISKN )
+     .               RTRANS,LSUBMODEL,IDTITL ,PROP_ID   ,SUB_ID,ISKN,DEFAULTS%SHELL)
           CASE ('TYPE10','SH_COMP')
 C--------------------------------------------------
 C            HM READING PROPERTY TYPE10 
 C--------------------------------------------------
              IGTYP=10
              CALL HM_READ_PROP10(IGTYP ,GEO(1,I),IGEO(1,I),PROP_TAG,UNITAB,
-     .                           RTRANS,LSUBMODEL,IDTITL ,PROP_ID   ,SUB_ID,ISKN )
+     .              RTRANS,LSUBMODEL,IDTITL ,PROP_ID   ,SUB_ID,ISKN,DEFAULTS%SHELL )
           CASE ('TYPE11','SH_SANDW')
 C--------------------------------------------------
 C      HM READING PROPERTY TYPE11 (Orthotropic shell)
@@ -400,7 +401,7 @@ C--------------------------------------------------
              IGTYP=11
              CALL HM_READ_PROP11(GEO(1,I)       ,IGEO(1,I)     ,PM       ,IPM      ,ISKN     ,
      .                   UNITAB    ,RTRANS   ,LSUBMODEL,SUB_ID   ,IDTITL   ,
-     .                   PROP_TAG  ,PROP_ID       ,IGTYP ,DEFAULTS   )
+     .                   PROP_TAG  ,PROP_ID       ,IGTYP ,DEFAULTS%SHELL  )
 c
           CASE ('TYPE12','SPR_PUL')
 C--------------------------------------------------
@@ -425,7 +426,7 @@ C--------------------------------------------------
              IGTYP=16
              CALL HM_READ_PROP16(GEO(1,I) ,IGEO(1,I),PM       ,IPM      ,ISKN     ,
      .                           UNITAB   ,RTRANS   ,LSUBMODEL,SUB_ID   ,PROP_TAG ,
-     .                           IGTYP    ,PROP_ID       ,IDTITL   )
+     .                           IGTYP    ,PROP_ID       ,IDTITL,DEFAULTS%SHELL   )
 
          CASE ('TYPE17','STACK')
 C--------------------------------------------------
@@ -435,7 +436,7 @@ C--------------------------------------------------
              NUMS = NUMGEO_STACK(CPT)
              CALL HM_READ_PROP17(GEO(1,I)       ,IGEO(1,I)     ,PM       ,IPM      ,ISKN     ,
      .                   UNITAB    ,RTRANS   ,LSUBMODEL,SUB_ID   ,IDTITL   ,
-     .                   PROP_ID   ,PROP_TAG  ,STACK_INFO(NUMS))
+     .                   PROP_ID   ,PROP_TAG  ,STACK_INFO(NUMS),DEFAULTS%SHELL)
      
           CASE ('TYPE18','INT_BEAM')
 C--------------------------------------------------
@@ -561,7 +562,7 @@ C--------------------------------------------------
             CALL HM_READ_PROP51(
      .           GEO(1,I) ,IGEO(1,I) ,PM       ,IPM      ,ISKN     ,
      .           PROP_ID  ,PROP_TAG  ,RTRANS   ,SUB_ID   ,STACK_INFO(NUMS)   ,
-     .           IDTITL   ,UNITAB    ,LSUBMODEL)
+     .           IDTITL   ,UNITAB    ,LSUBMODEL,DEFAULTS%SHELL)
 c
           CASE ('PCOMPP')
 C--------------------------------------------------

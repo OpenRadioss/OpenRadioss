@@ -58,7 +58,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr03_c.inc"
-#include      "scr21_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -76,7 +75,7 @@ C-----------------------------------------------
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NT, I1, I2, I3, I4,NITRS0,IDRAPE,IGTYP
+      INTEGER I, NT, I1, I2, I3, I4,IDRAPE,IGTYP
       my_real FAC
       my_real
      .   X1(MVSIZ) , X2(MVSIZ) , X3(MVSIZ) , X4(MVSIZ) ,
@@ -163,10 +162,6 @@ c
         VL(3,4,I) = E1Z(I)*XL(1,4,I) + E2Z(I)*XL(2,4,I)
       ENDDO
 c-----------------
-      IF (MTN==58) THEN
-        NITRS0 = NITRS
-        NITRS = MAX(IPLA_D*100,NITRS0)
-      END IF
       FAC = ONE / FLOAT(NITRS)
       DO I=JFT,JLT
         VL(1,2,I) = (VL(1,2,I) - X2(I)) * FAC
@@ -263,7 +258,6 @@ c
      .                AREA,EXX    ,EYY    ,EXY, IMAT )                     
         ENDDO
       ENDIF
-      IF (MTN==58) NITRS = NITRS0
 C ---
       RETURN
       END
