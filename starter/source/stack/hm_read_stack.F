@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE HM_READ_STACK(
      .           GEO_STACK ,IGEO_STACK ,PM        ,IPM       ,ISKN     ,  
      .           PROP_ID   ,RTRANS     ,SUB_ID    ,STACK_INFO,
-     .           TITR      ,UNITAB     ,LSUBMODEL)
+     .           TITR      ,UNITAB     ,LSUBMODEL ,DEFAULTS_SHELL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE STACK_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,7 +65,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr16_c.inc"
 #include      "scr17_c.inc"
-#include      "scr21_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -79,6 +79,7 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_), INTENT(IN) :: UNITAB
       TYPE (SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       TYPE(STACK_INFO_) , TARGET :: STACK_INFO
+      TYPE(SHELL_DEFAULTS_), INTENT(IN)  :: DEFAULTS_SHELL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -86,6 +87,8 @@ C-----------------------------------------------
      .   IORTH,IPOS,IGMAT,ISHEAR,IPLAST,NPLY,NP,NSUB,NISUB,IGTYP,IMID,
      .   ISK,IDSK,PLY_ID,IPID0,IDSUB,INTER,IS,LAMIN,IPID1,IPID2,NPT_SUB,IRP,
      .   NPLY_MAX
+      INTEGER    IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
+     .           ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D
       my_real :: PTHK,ZSHIFT,HM,HF,HR,DM,DN,ASHEAR,VX,VY,VZ,FAILEXP,CVIS,
      .           NORM,ANG,POS,PTHKLY,WEIGHT
       LOGICAL :: IS_AVAILABLE, IS_ENCRYPTED, LFOUND
@@ -98,6 +101,16 @@ c
       ISTRAIN = 1
       CVIS    = ZERO
       IRP = 0
+!
+      IHBE_D =  DEFAULTS_SHELL%ishell     
+      ISH3N_D=  DEFAULTS_SHELL%ish3n      
+      ISST_D =  DEFAULTS_SHELL%ismstr     
+      IPLA_D =  DEFAULTS_SHELL%iplas      
+      ITHK_D =  DEFAULTS_SHELL%ithick     
+      IDRIL_D=  DEFAULTS_SHELL%idrill 
+       ISHEA_D = 0  
+       NPTS_D = 0  
+       ISTRA_D = 1
 c--------------------------------------------
 c     check encryption
 c--------------------------------------------

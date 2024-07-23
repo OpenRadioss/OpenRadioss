@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE HM_READ_PROP16(GEO      ,IGEO     ,PM       ,IPM      ,ISKN     ,
      .                          UNITAB   ,RTRANS   ,LSUBMODEL,SUB_ID   ,PROP_TAG ,
-     .                          IGTYP    ,IG       ,IDTITL   )
+     .                          IGTYP    ,IG       ,IDTITL   ,DEFAULTS_SHELL  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,7 +60,6 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "scr17_c.inc"
-#include      "scr21_c.inc"
 #include      "sphcom.inc"
 #include      "tablen_c.inc"
 C-----------------------------------------------
@@ -75,6 +75,7 @@ C     REAL
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       CHARACTER IDTITL*nchartitle
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
+      TYPE(SHELL_DEFAULTS_), INTENT(IN)  :: DEFAULTS_SHELL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -90,6 +91,8 @@ C     REAL
      .    ZSHIFT
       INTEGER ISH3N,IRP
       INTEGER ID,IUN
+      INTEGER     IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
+     .           ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D
       CHARACTER*nchartitle,
      .   TITR,TITR1
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
@@ -113,6 +116,16 @@ c
       IPOS = 0
       IREP = 2
       IRP = 0
+!      
+      IHBE_D =  DEFAULTS_SHELL%ishell     
+      ISH3N_D=  DEFAULTS_SHELL%ish3n      
+      ISST_D =  DEFAULTS_SHELL%ismstr     
+      IPLA_D =  DEFAULTS_SHELL%iplas      
+      ITHK_D =  DEFAULTS_SHELL%ithick     
+      IDRIL_D=  DEFAULTS_SHELL%idrill 
+      ISHEA_D = 0  
+      NPTS_D = 0  
+      ISTRA_D = 1
 C----------------------
 C HIDDEN FLAGS
 C----------------------

@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE LECSTACK_PLY(GEO_STACK ,X           ,IX           ,PM          ,ITABM1  ,
      .                       ISKN       ,IGEO_STACK  ,IPM          ,NPC         ,PLD     ,
      .                       UNITAB     ,RTRANS      ,LSUBMODEL    ,IPART       ,IDRAPEID,
-     .                       PLY_INFO   ,STACK_INFO  ,NUMGEO_STACK ,NPROP_STACK)
+     .                       PLY_INFO   ,STACK_INFO  ,NUMGEO_STACK ,NPROP_STACK,DEFAULTS)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,6 +80,7 @@ C-----------------------------------------------
       my_real GEO_STACK(NPROPG,NUMSTACK+NUMPLY), X(*), PM(NPROPM,NUMMAT),PLD(*),RTRANS(NTRANSF,*)
       TYPE(STACK_INFO_ ) , DIMENSION (1:NPROP_STACK) :: STACK_INFO
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE(DEFAULTS_)    , INTENT(IN)     :: DEFAULTS             
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -188,7 +190,7 @@ C----------------------------------------------------------------
           CALL HM_READ_STACK(
      .           GEO_STACK(1,I) ,IGEO_STACK(1,I) ,PM       ,IPM      ,ISKN     ,
      .           IG             ,RTRANS          ,SUB_ID   ,STACK_INFO(NUMS)   ,
-     .           IDTITL         ,UNITAB          ,LSUBMODEL)
+     .           IDTITL         ,UNITAB          ,LSUBMODEL,DEFAULTS%SHELL )
      
 C--------   Variables stored in element buffer        
 c----   Shells

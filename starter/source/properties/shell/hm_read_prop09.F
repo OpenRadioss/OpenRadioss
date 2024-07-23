@@ -37,7 +37,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_PROP09(IGTYP , GEO   ,  IGEO   ,PROP_TAG  ,UNITAB ,
-     .                   RTRANS,LSUBMODEL,IDTITL ,IG     ,SUB_ID   ,ISKN   )
+     .                   RTRANS,LSUBMODEL,IDTITL ,IG     ,SUB_ID   ,ISKN   ,
+     .                   DEFAULTS_SHELL)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,6 +46,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +60,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr16_c.inc"
 #include      "scr17_c.inc"
-#include      "scr21_c.inc"
 #include      "tablen_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------
@@ -73,6 +74,7 @@ C-----------------------------------------------
       CHARACTER IDTITL*nchartitle
 
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
+      TYPE(SHELL_DEFAULTS_), INTENT(IN)  :: DEFAULTS_SHELL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -83,7 +85,9 @@ C-----------------------------------------------
      .   PID1,IPID1, IHGFLU, IHBE_OLD,NSTACK,IGMAT,NN,NUMS
       INTEGER FLAG_FMT,FLAG_FMT_TMP
       INTEGER ISH3N,ISROT,SUB_ID,IRP,IDSK,ISK,IUN,IPOS
-     
+      INTEGER    IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
+     .           ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D
+      
       my_real
      .    ANGL,PUN,CVIS,RBID,VX,VY,VZ,
      .    PTHK, AN, PHI,ZSHIFT
@@ -112,6 +116,15 @@ C=======================================================================
         IS_ENCRYPTED = .FALSE.
         IS_AVAILABLE = .FALSE.
 
+        IHBE_D =  DEFAULTS_SHELL%ishell     
+        ISH3N_D=  DEFAULTS_SHELL%ish3n      
+        ISST_D =  DEFAULTS_SHELL%ismstr     
+        IPLA_D =  DEFAULTS_SHELL%iplas      
+        ITHK_D =  DEFAULTS_SHELL%ithick     
+        IDRIL_D=  DEFAULTS_SHELL%idrill 
+        ISHEA_D = 0  
+        NPTS_D = 0  
+        ISTRA_D = 1
 C HIDDEN FLAGS
 C----------------------
 C ISHEAR NEVER USED

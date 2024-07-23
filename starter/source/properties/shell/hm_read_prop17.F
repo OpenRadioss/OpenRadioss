@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE HM_READ_PROP17(GEO       ,IGEO     ,PM       ,IPM      ,ISKN     ,
      .                   UNITAB    ,RTRANS   ,LSUBMODEL,SUB_ID   ,IDTITL   ,
-     .                   PROP_ID   ,PROP_TAG , STACK_INFO)
+     .                   PROP_ID   ,PROP_TAG , STACK_INFO,DEFAULTS_SHELL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE STACK_MOD
+      USE DEFAULTS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +66,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr16_c.inc"
 #include      "scr17_c.inc"
-#include      "scr21_c.inc"
 #include      "sphcom.inc"
 #include      "tablen_c.inc"
 C-----------------------------------------------
@@ -81,6 +81,7 @@ C-----------------------------------------------
       CHARACTER IDTITL*nchartitle
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(STACK_INFO_) , TARGET :: STACK_INFO
+      TYPE(SHELL_DEFAULTS_), INTENT(IN)  :: DEFAULTS_SHELL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -93,6 +94,8 @@ C-----------------------------------------------
       my_real :: 
      .   AN, VX, VY, VZ, THICKT, DT, TMIN, TMAX,PTHK,CVIS,PUN,ZSHIFT, THK ,
      .   ASHEAR, ANG, POS, HM, HF, HR, DN, DM,VISC_INT
+      INTEGER     IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
+     .           ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D
       INTEGER, DIMENSION(:),ALLOCATABLE :: IDMAT_INTP,IDMAT_SUB
       
       CHARACTER*nchartitle,
@@ -119,6 +122,16 @@ c
       ISTRAIN  = 1
       IRP = 0
       IDSK = 0
+!      
+      IHBE_D =  DEFAULTS_SHELL%ishell     
+      ISH3N_D=  DEFAULTS_SHELL%ish3n      
+      ISST_D =  DEFAULTS_SHELL%ismstr     
+      IPLA_D =  DEFAULTS_SHELL%iplas      
+      ITHK_D =  DEFAULTS_SHELL%ithick     
+      IDRIL_D=  DEFAULTS_SHELL%idrill 
+      ISHEA_D = 0  
+      NPTS_D = 0  
+      ISTRA_D = 1
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------

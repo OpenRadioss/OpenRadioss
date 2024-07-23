@@ -133,7 +133,6 @@ C-----------------------------------------------
 #include      "scr12_c.inc"
 #include      "scr15_c.inc"
 #include      "scr16_c.inc"
-#include      "scr21_c.inc"
 #include      "scr22_c.inc"
 #include      "scr23_c.inc"
 #include      "titr_c.inc"
@@ -182,7 +181,9 @@ C-----------------------------------------------
      .        NPYFUN
       INTEGER IARCHS(8)
       INTEGER IS_BEGIN,SCHAR
-      INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS,ITET4_D,ITET10_D,ICPRE_D,IMAS_DS,ICONTROL_D
+      INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS,ITET4_D,ITET10_D,ICPRE_D,IMAS_DS,ICONTROL_D,
+     .            IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
+     .            ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D,IOFFSET_D,DEF_INTER(100)
       my_real DTINI, DTX ,RBID
       CHARACTER (LEN=NCHARLINE) :: CART
       CHARACTER (LEN=NCHARLINE) :: XRFILE      ! NCHARLINE as #define is set to 500 in Starter
@@ -418,23 +419,13 @@ C     READING DEFAULT VALUES FOR SHELLS, SOLIDS, INTERFACES ...
 C-------------------------------------------------------------------
 !--- remove first /DEF/SOLID in src21_c.inc
       CALL init_def_zero(DEFAULTS)
-C
-      IHBE_D=0
-      ISST_D=0
-      ITHK_D=0
-      IPLA_D=0
+!---- obsolet flag values fixed here
       IPLA_DS =2  ! obsolet
-c      ISTRA_D =1
       ISTR_D=1  ! istrain
       ISHEA_D=0 ! Old hidden flag in /DEF_SHELL
       INER_9_12 = ZERO
       INSH = 0 ! Old hidden flag in /DEF_SHELL
-      IHBE_DD=1
-      ISH3N_D =0
-      ISH3N_DD=2
       NPTS_D    = -1 ! Old hidden flag in /DEF_SHELL
-      NPTS_DD   = 0
-      IDRIL_D=0
 C-------------------------------------------------------------------
 C     READING OF SHELL PROPERTIES DEFAULT VALUES
 C-------------------------------------------------------------------
@@ -443,23 +434,15 @@ C-------------------------------------------------------------------
 C     READING OF SOLID PROPERTIES DEFAULT VALUES
 C-------------------------------------------------------------------
       CALL HM_READ_DEFSOLID(LSUBMODEL,DEFAULTS%SOLID)
-      IF(IIMPLICIT == 1) THEN
-        IF (IPLA_D == 0) IPLA_D = 1
-!        IF (IHBE_DS == 0) IHBE_DS = 14
-        IF (IHBE_D == 0)  IHBE_D  = 24
-        IF (IDRIL_D == 0) IDRIL_D = 1
-      ENDIF
 C----------------------------------------------
       IS17OLD = 1 ! To be cleaned
 C-----
-      IF(IHBE_D==0)IHBE_D = IHBE_DD
-      IF(ISH3N_D==0)ISH3N_D = ISH3N_DD
       IF(INSH==1)INER_9_12 = TWELVE      
       IF(INSH==2)INER_9_12 = SIXTEEN      
       IF(INSH==3)INER_9_12 = FOURTY8  
       IF(INSH==4)INER_9_12 = THIRTY     
       IF(INSH==5)INER_9_12 = NINE 
-!   for the moment only available w/ solid      
+!   default values in def_solid/def_shell      
       CALL init_def_elem(N2D,IIMPLICIT,DEFAULTS)
 C-------------------------------------------------------------------
 C     READING OF INTERFACES DEFAULT VALUES
@@ -468,6 +451,7 @@ C-------------------------------------------------------------------
       DEF_INTER(1:100) = 0
       CALL HM_OPTION_COUNT('/DEFAULT/INTER',HM_NINTER_DEF)
       CALL HM_READ_DEFINTER(HM_NINTER_DEF,DEF_INTER,LSUBMODEL)
+      DEFAULTS%interface%DEF_INTER(1:100) = DEF_INTER(1:100)
 C-------------------------------------------------------------------
       CALL HM_OPTION_COUNT('/INTTHICK/V5',IINTTHICK)
       IF (IINTTHICK > 1) THEN
@@ -1406,8 +1390,17 @@ C
       ICPRE_D= DEFAULTS%SOLID%ICPRE
       ITET4_D= DEFAULTS%SOLID%ITETRA4
       ITET10_D= DEFAULTS%SOLID%ITETRA10
-      IFRAME_DS = DEFAULTS%SOLID%IFRAME
+      IFRAME_DS = DEFAULTS%SOLID%IFRAME      
       IMAS_DS= DEFAULTS%SOLID%IMAS
+!
+      IOFFSET_D= DEFAULTS%SHELL%ioffset    !< offset support contact 
+      IHBE_D =  DEFAULTS%SHELL%ishell     
+      ISH3N_D=  DEFAULTS%SHELL%ish3n      
+      ISST_D =  DEFAULTS%SHELL%ismstr     
+      IPLA_D =  DEFAULTS%SHELL%iplas      
+      ITHK_D =  DEFAULTS%SHELL%ithick     
+      IDRIL_D=  DEFAULTS%SHELL%idrill     
+
       ICONTROL_D= DEFAULTS%SOLID%ICONTROL
       IF(N2D==0)THEN
         IF(NUMELQ/=0. OR. (NUMELTG/=0.AND.N2D/=0) )THEN
@@ -1418,6 +1411,7 @@ C                                                                    012
       WRITE(IOUT,5500)INTEG8,IPARITH,USER_WINDOWS%HAS_USER_WINDOW,IHBE_DS,
      .                ITET4_D,ITET10_D,ISST_DS,ICPRE_D,IHBE_D,ISST_D,ITHK_D,
      .                IPLA_D,ISTR_D,ISHEA_D,INSH,ISH3N_D, NPTS_D, IFRAME_DS,
+     .                IOFFSET_D,
      .                ICONTROL_D
       WRITE(IOUT,5501)ISHFRAM
       IF(ISH3NFRAM>0)WRITE(IOUT,5901)ISH3NFRAM
@@ -1638,6 +1632,7 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
      & 4X,'NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           ',/  
      & 4X,'         INTEGRATION POINTS OR LAYERS. . . . . . . . .',I10/
      & 4X,'IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . . ',I10/
+     & 4X,'IOFFSET: DEFAULT SHELL OFFSET FLAG. . . . . . . . . . ',I10/
      & 4X,'ICONTROL:DEFAULT SOLID DISTORTION CONTROL FLAG. . . . ',I10)
  5501 FORMAT(
      & 4X,'ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .',I10)
