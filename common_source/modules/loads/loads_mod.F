@@ -54,7 +54,6 @@ Chd|        RDRESB                        engine/source/output/restart/rdresb.F
 Chd|        READ_PCYL                     engine/source/output/restart/read_pcyl.F
 Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
-Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
 Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
 Chd|        WRCOMI                        engine/source/output/restart/wrcomm.F
 Chd|        WRITE_PCYL                    engine/source/output/restart/write_pcyl.F

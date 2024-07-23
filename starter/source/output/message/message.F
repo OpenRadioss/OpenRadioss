@@ -575,7 +575,6 @@ Chd|        INITIA                        source/elements/initia/initia.F
 Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
 Chd|        INIT_SKEW45                   source/elements/joint/rjoint/rini45.F
 Chd|        INIVOID                       source/elements/initia/inivoid.F
-Chd|        INIVOL_SET                    source/initial_conditions/inivol/inivol_set.F
 Chd|        INI_BCSCYC                    source/constraints/general/bcs/lecbcscyc.F
 Chd|        INI_DIFF                      source/tools/lagmul/ini_diff.F
 Chd|        INI_FXBODY                    source/constraints/fxbody/ini_fxbody.F
