@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NEMA,ELGR3N,ELGR4N,IDEB,IMOD,ISRATE,PERIOD,ISIDE,
+      INTEGER :: NEMA,ELGR3N,ELGR4N,IDEB,IMOD,ISRATE,PERIOD,ISIDE,SEED,
      .   ITGLASS,PFLAG,NUVAR
       my_real :: EXP_N,CR_FOIL,CR_AIR,CR_CORE,CR_EDGE,K_IC,K_TH,V0,VC,
      .   ALPHA,GEORED,RLEN,FAC_L,TDELAY,KRES1,KRES2,
@@ -134,6 +134,7 @@ card7
       CALL HM_GET_FLOATV   ('Sig_0'    ,SIG_INI  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV   ('Pscale'   ,PSCALE   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV     ('Pflag'    ,PFLAG    ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV     ('seed'     ,SEED     ,IS_AVAILABLE,LSUBMODEL)
 c-------------------------------------------------------------------------------
 c     DEFAULT VALUES
 c--------------------------------------------------
@@ -160,12 +161,12 @@ c
 c     flag for Ch. Brokmann extension
 c
       IF (SIG_INI*ETA1*BETA1*TAU1 > ZERO) THEN
-        ITGLASS = 1
+        ITGLASS = 1                                  ! Alter + Brokmann extension
         IF (ETA2  == ZERO) ETA2  = ETA1
         IF (BETA2 == ZERO) BETA2 = BETA1
         IF (TAU2  == ZERO) TAU2  = TAU1
       ELSE
-        ITGLASS   = 0
+        ITGLASS   = 0                                ! Base Alter
       END IF
 c--------------------------------------------------
       NUVAR  = 21
@@ -187,7 +188,7 @@ c----------------------------------
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
       FAIL%NUPARAM = 35
-      FAIL%NIPARAM = 0
+      FAIL%NIPARAM = 1
       FAIL%NUVAR   = NUVAR
       FAIL%NFUNC   = 0
       FAIL%NTABLE  = 0
@@ -197,6 +198,8 @@ c
       ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
       ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
       ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      FAIL%IPARAM(1) = SEED  
 c
       FAIL%UPARAM(1) = EXP_N   
       FAIL%UPARAM(2) = CR_FOIL 
@@ -247,7 +250,7 @@ c--------------------------------------------------
      .                   ISRATE,PERIOD,ISIDE,IMOD,IDEB
         IF (ITGLASS == 1) THEN
           WRITE(IOUT,4000) ETA1,BETA1,TAU1,ETA2,BETA2,TAU2,SIG_INI,A_REF,
-     .                   PSCALE,PFLAG
+     .                   PSCALE,PFLAG,SEED
         END IF
       ENDIF
 C-------------------------------------------------- 
@@ -298,7 +301,8 @@ C--------------------------------------------------
      & 5X,'INITIAL SURFACE STRESS. . . . . . . . . . . . . . .=',E12.4/
      & 5X,'REFERENCE ELEMENT SURFACE . . . . . . . . . . . . .=',E12.4/ 
      & 5X,'P_SCALE . . . . . . . . . . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'PFLAG . . . . . . . . . . . . . . . . . . . . . . .=',I3//)
+     & 5X,'PFLAG . . . . . . . . . . . . . . . . . . . . . . .=',I3/
+     & 5X,'RANDOM SEED . . . . . . . . . . . . . . . . . . . .=',I3//)
 C--------------------------------------------------------------------- 
       RETURN
       END

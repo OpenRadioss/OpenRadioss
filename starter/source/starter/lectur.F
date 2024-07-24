@@ -619,6 +619,8 @@ C-----------------------------------------------
       use stifint_icontrol_mod, only : stifint_icontrol
       use fractal_elem_renum_mod
       use hm_preread_inivel_mod, only : hm_preread_inivel
+      use brokmann_random_def_mod
+      use brokmann_elem_renum_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1171,7 +1173,8 @@ C SEATBELTS
       INTEGER :: NDAMP_VREL_RBY
 
       TYPE(INTER_CAND_) :: INTER_CAND
-      TYPE (FAIL_FRACTAL_) :: FAIL_FRACTAL
+      TYPE (FAIL_FRACTAL_)  :: FAIL_FRACTAL
+      TYPE (FAIL_BROKMANN_) :: FAIL_BROKMANN
       INTEGER DEF_INTER(100)
       ! constraint structure
       type(constraint_) :: constraint_struct
@@ -5450,7 +5453,8 @@ c------------------------------------------------------------------------
 c
       CALL UPDFAIL(MAT_ELEM%MAT_PARAM ,NUMMAT ,NFUNCT ,NTABLE ,NPC1 ,TABLE ,
      .             FAIL_FRACTAL,NGRSHEL   ,NGRSH3N,IGRSH4N ,IGRSH3N ,
-     .             NIXC    ,IXC   ,NIXTG ,IXTG    ,NUMELC  ,NUMELTG )
+     .             NIXC    ,IXC   ,NIXTG ,IXTG    ,NUMELC  ,NUMELTG ,
+     .             IWORKSH ,STACK ,IGEO  ,NPROPGI ,NUMGEO  ,FAIL_BROKMANN)
 C
       CALL TRACE_OUT1()
 C------------------------------------------------------------------------
@@ -6607,11 +6611,17 @@ C provisoire
         END DO
       END IF
       NBR_GPMP = NGROUP
-
 c-----------------------------------------------------------------------
-c     element renumbering failure  by /fail/fractal 
-c-----------------------------------------------------------------------
-      call fractal_elem_renum(FAIL_FRACTAL  ,NUMELC  ,NUMELTG)
+!
+      !---------------------------------------------------
+      ! element renumbering after domdec for /fail/fractal 
+      !---------------------------------------------------
+      call fractal_elem_renum(fail_fractal,numelc,numeltg)
+!
+      !---------------------------------------------------
+      ! element renumbering after domdec for /fail/alter + brokmann 
+      !---------------------------------------------------
+      call brokmann_elem_renum(fail_brokmann,numelc,numeltg)
 c-----------------------------------------------------------------------
 c     set default material/property parameters by element group
 c-----------------------------------------------------------------------
@@ -8604,7 +8614,7 @@ C
      &            KNOD2EL1D  , NOD2EL1D       , EBCS_TAB         , RBY_INIAXIS        , ALEA     ,
      &            KNOD2ELC   , NOD2ELC        , DR               , SLRBODY            , DRAPEG   ,
      &            IPARI      , INTBUF_TAB     , INTERFACES       , MAT_ELEM%MAT_PARAM ,
-     &            NPRELOAD_A , PRELOAD_A      , FAIL_FRACTAL     ,DEFAULTS )
+     &            NPRELOAD_A , PRELOAD_A      , FAIL_FRACTAL     ,FAIL_BROKMANN       ,DEFAULTS  )
 
 
       IF(NINTER>0.AND.NUMELIG3D>0) THEN
