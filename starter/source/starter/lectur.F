@@ -488,7 +488,6 @@ Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mo
 Chd|        NOD2EL_MOD                    share/modules1/nod2el_mod.F   
 Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
 Chd|        OPTION_MOD                    share/modules1/options_mod.F  
-Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
 Chd|        RANDOM_MOD                    share/modules1/random_mod.F   

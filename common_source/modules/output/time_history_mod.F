@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  TIME_HISTORY_MOD              modules/output/time_history_mod.F
 Chd|-- called by -----------
-Chd|        OUTPUT_MOD                    common_source/modules/output/output_mod.F
 Chd|        WRITE_TH_BUFFER               starter/source/restart/ddsplit/write_th_buffer.F
 Chd|        INIT_TH0                      engine/source/output/th/init_th0.F
 Chd|        READ_TH_RESTART               engine/source/output/th/read_th_restart.F

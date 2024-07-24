@@ -72,7 +72,6 @@ Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod.F
-Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        SENSOR_MOD                    share/modules1/sensor_mod.F   
 Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 

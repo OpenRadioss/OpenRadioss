@@ -69,7 +69,6 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
 Chd|        OUTPUTS_MOD                   ../common_source/modules/outputs_mod.F
-Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        STATE_MOD                     ../common_source/modules/state_mod.F

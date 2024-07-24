@@ -58,7 +58,6 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/mat_elem/elbu
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE BFORC2(ELBUF_TAB,NG   ,

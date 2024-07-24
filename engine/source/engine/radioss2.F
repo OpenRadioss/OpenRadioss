@@ -109,7 +109,6 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules/monvol_struct_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/ale/multi_fvm_mod.F
 Chd|        NAMES_AND_TITLES_MOD          ../common_source/modules/names_and_titles_mod.F
-Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        RAD2R_MOD                     share/modules/rad2r.F         
 Chd|        RBODY_MOD                     share/modules/rbody_mod.F     

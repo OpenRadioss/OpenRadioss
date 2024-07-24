@@ -75,7 +75,6 @@ Chd|        INITBUF_MOD                   share/resol/initbuf.F
 Chd|        MAT_ELEM_MOD                  ../common_source/modules/mat_elem/mat_elem_mod.F
 Chd|        MOD_FORINTP                   source/elements/forintp.F     
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
-Chd|        OUTPUT_MOD                    ../common_source/modules/output/output_mod.F
 Chd|        SPHBOX                        share/modules/sphbox.F        
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
