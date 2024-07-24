@@ -132,7 +132,7 @@ do
 
    done
 
-# As this is a bash script it is intended to be executed on Linux Plarforms.
+# As this is a bash script it is intended to be executed on Linux Platforms.
 test_directory=ctest_suite_linux
 
 echo " " 
