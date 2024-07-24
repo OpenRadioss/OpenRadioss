@@ -433,31 +433,19 @@ C
 C
 C SPH
 C
-      IF(NUMSPHY>0)THEN
+      IF(NUMSPHY>0 .AND. IS_STATE)THEN
 C      sorting elements Ids
         DO ISYS = 1, NUMSPHY
-          IF(IS_STATE) THEN 
-            ITRI(ISYS) = ID_SIGSPHCEL(ISYS)
-          ELSE
-            ITRI(ISYS) = NINT(SIGSPH(7,ISYS))
-          ENDIF
+          ITRI(ISYS) = ID_SIGSPHCEL(ISYS)
         END DO
         CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMSPHY,1)
 C        checking INISPHCEL : search for multiply define
         ISYS=INDEX(1)
-        IF(IS_STATE) THEN 
-          IE = ID_SIGSPHCEL(ISYS)
-        ELSE
-          IE = NINT(SIGSPH(7,ISYS))
-        ENDIF
+        IE = ID_SIGSPHCEL(ISYS)
         
         DO J = 2, NUMSPHY
           JSYS=INDEX(J)
-          IF(IS_STATE) THEN 
-            JE = ID_SIGSPHCEL(JSYS)
-          ELSE
-            JE = NINT(SIGSPH(7,JSYS))
-          ENDIF
+          JE = ID_SIGSPHCEL(JSYS)
           IF (JE == IE) THEN
             DO K=1,NSIGSPH
               IF (SIGSPH(K,JSYS) /= ZERO) THEN
@@ -481,11 +469,7 @@ C        checking INISPHCEL : search for multiply define
         ENDDO
         COMPT=0
         DO J=1,NUMSPHY
-          IF(IS_STATE) THEN 
-            IE = ID_SIGSPHCEL(J)
-          ELSE
-            IE = NINT(SIGSPH(7,J))
-          ENDIF
+          IE = ID_SIGSPHCEL(J)
           IF (IE /= 0) THEN
             COMPT=COMPT+1
             IF (COMPT < J) THEN
