@@ -250,7 +250,7 @@ C
             IF(ISU > 0 .AND. NN > 1 .AND. N2D /= 0)THEN
               !TEST SURFACE CLOSURE (CLOSED POLYGON)
               IF(IGRSURF(ISU)%NODES(1,1) /= IGRSURF(ISU)%NODES(NN,2)) THEN
-                CALL ANCMSG(MSGID=3063,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
+                CALL ANCMSG(MSGID=3063,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,I2=IGRSURF(ISU)%ID,C1=TITR)
               ENDIF
               !TEST POLYGON DEFINITION --- (last point of current segment is first point of next one : otherwise set DETECTED_ERROR to .TRUE.
               DETECTED_ERROR=.FALSE.
@@ -261,13 +261,13 @@ C
                 ENDIF
               ENDDO
               IF(DETECTED_ERROR)THEN
-                CALL ANCMSG(MSGID=3064,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
+                CALL ANCMSG(MSGID=3064,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,I2=IGRSURF(ISU)%ID,C1=TITR)
               ENDIF
               REQUIRED_2D_POLYGON_CLIPPING = .TRUE.
             ELSEIF(ISU > 0)THEN
               REQUIRED_MONTE_CARLO_METHOD = .TRUE.
               IF(ISU > 0 .AND. NN <= 2 .AND. N2D /= 0 .AND. SRFTYP == 0)THEN
-                CALL ANCMSG(MSGID=3064,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR) !not enough points to define a polygon
+                CALL ANCMSG(MSGID=3064,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,I2=IGRSURF(ISU)%ID,C1=TITR) !not enough points to define a polygon
               ENDIF
             ENDIF
             !---   discretized surface                                                     

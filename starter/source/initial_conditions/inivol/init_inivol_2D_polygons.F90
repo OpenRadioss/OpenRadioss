@@ -353,7 +353,7 @@
             elem_polygon%point(2)%y = x(2,ixq(3,ielg));    elem_polygon%point(2)%z = x(3,ixq(3,ielg))
             elem_polygon%point(3)%y = x(2,ixq(4,ielg));    elem_polygon%point(3)%z = x(3,ixq(4,ielg))
             elem_polygon%point(4)%y = x(2,ixq(5,ielg));    elem_polygon%point(4)%z = x(3,ixq(5,ielg))
-            elem_polygon%point(5)%y = x(2,ixq(2,ielg));    elem_polygon%point(5)%z = x(3,ixq(5,ielg))
+            elem_polygon%point(5)%y = x(2,ixq(2,ielg));    elem_polygon%point(5)%z = x(3,ixq(2,ielg))
             elem_polygon%numpoint = 5
             ! already oriented Y->Z
             call polygon_SetClockWise( elem_polygon )  !cen be removed if we already computed the area, then just set %area=...
