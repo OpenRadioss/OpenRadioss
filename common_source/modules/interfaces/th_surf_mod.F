@@ -222,6 +222,13 @@ C-----------------------------------------------
             CALL READ_I_C(TH_SURF%LOADP_SEGS,TH_SURF%S_LOADP_SEGS)
           ENDIF
         ENDIF
+      ELSE ! initialization to 0
+        TH_SURF%NSURF = 0
+        TH_SURF%PLOAD_FLAG = 0
+        TH_SURF%LOADP_FLAG = 0
+        TH_SURF%NSEGLOADP = 0
+        TH_SURF%NSEGLOADPF = 0
+        TH_SURF%NSEGLOADPB = 0
 
       ENDIF
 
