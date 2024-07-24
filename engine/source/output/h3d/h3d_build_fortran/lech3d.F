@@ -1065,6 +1065,12 @@ C----special case for thick-shell Isolid=14  :
                 ENDDO
               END IF ! IF ((IS_IR_ALL + IS_IS_ALL+IS_IT_ALL)>0)
 
+!----special case for tet10  :
+              IF (NUMELS10G>0) THEN
+                 IF (IS_IR_ALL == 1) IR_MAX = MAX(IR_MAX,2)
+                 IF (IS_IS_ALL == 1) IS_MAX = MAX(IS_MAX,2)
+                 IF (IS_IT_ALL == 1) IT_MAX = MAX(IT_MAX,2)
+              END IF 
 c
               ID_MAX = 0
               IF (IS_ID_ALL == 1) THEN
