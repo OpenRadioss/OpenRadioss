@@ -80,7 +80,7 @@ GOTO ARG_LOOP
 
 
 
-REM As this is a bash script it is intended to be executed on Linux Plarforms.
+REM As this is a bat script it is intended to be executed on Windows Platforms.
 set test_directory=ctest_suite_win64
 
 echo.
