@@ -73,7 +73,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D                   STACK   ,RNOISE ,DRAPE ,SH3ANG  ,
      E                   GEO_STACK,IGEO_STACK,STRTG,PERTURB ,ISH3N,
      F                   IYLDINI ,ELE_AREA,NLOC_DMG,NG,GROUP_PARAM,
-     G                   IDRAPE , DRAPEG,MAT_PARAM,FAIL_FRACTAL)
+     G                   IDRAPE , DRAPEG,MAT_PARAM,FAIL_FRACTAL,FAIL_BROKMANN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -88,6 +88,7 @@ C-----------------------------------------------
       USE RANDOM_WALK_DEF_MOD
       USE FRACTAL_DMG_INIT_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use brokmann_random_def_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -134,7 +135,8 @@ C     REAL
       TYPE (DRAPE_) :: DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
       TYPE (DRAPEG_) :: DRAPEG
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
-      TYPE (FAIL_FRACTAL_) ,INTENT(IN) :: FAIL_FRACTAL
+      TYPE (FAIL_FRACTAL_)  ,INTENT(IN) :: FAIL_FRACTAL
+      TYPE (FAIL_BROKMANN_) ,INTENT(IN) :: FAIL_BROKMANN
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSHEL) :: IGRSH4N
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
@@ -518,8 +520,9 @@ c     set element damage initialized in /FAIL/FRACTAL_DMG
       ENDIF
 c     tag edge elements in local UVAR for /FAIL/ALTER (XFEM)
       IF (IFAIL > 0) THEN
-        CALL FAIL_WINDSHIELD_INIT(ELBUF_STR,MAT_PARAM,
-     .        NEL      ,NFT      ,ITY      ,IGRSH4N  ,IGRSH3N  )
+        CALL FAIL_WINDSHIELD_INIT(ELBUF_STR,MAT_PARAM,FAIL_BROKMANN,
+     .        NEL      ,NFT      ,ITY      ,IGRSH4N  ,IGRSH3N  ,
+     .        ALDT     ,THK      ,NGL      )
       ENDIF
 c
 C to be checked for IGTYP = 51

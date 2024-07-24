@@ -27,50 +27,56 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    cbainit3               ../starter/source/elements/shell/coqueba/cbainit3.F
       !||    cinit3                 ../starter/source/elements/shell/coque/cinit3.F
       !||--- calls      -----------------------------------------------------
+      !||    crack_depth_init       ../starter/source/materials/fail/windshield_alter/crack_depth_init.F
       !||    ngr2usrn               ../starter/source/system/nintrr.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
-      SUBROUTINE FAIL_WINDSHIELD_INIT(ELBUF_STR,MAT_PARAM,
-     .            NEL      ,NFT      ,ITY      ,IGRSH4N  ,IGRSH3N  )
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-      USE MAT_ELEM_MOD    
+      SUBROUTINE FAIL_WINDSHIELD_INIT(ELBUF_STR,MAT_PARAM,FAIL_BROKMANN,
+     .           NEL      ,NFT       ,ITY      ,IGRSH4N  ,IGRSH3N  ,
+     .           ALDT     ,THK       ,NGL      )
+!-----------------------------------------------
+!   M o d u l e s
+!-----------------------------------------------
+      USE ELBUFDEF_MOD            
+      USE MATPARAM_DEF_MOD
       USE GROUPDEF_MOD
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
+      USE CRACK_DEPTH_INIT_MOD
+      USE BROKMANN_CRACK_INIT_MOD
+      use brokmann_random_def_mod
+!-----------------------------------------------
+!   I m p l i c i t   T y p e s
+!-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+!-----------------------------------------------
+!   C o m m o n   B l o c k s
+!-----------------------------------------------
 #include       "param_c.inc"
 #include       "com04_c.inc" 
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NEL,NFT
-      TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
-C-----------------------------------------------
+!-----------------------------------------------
+!   D u m m y   A r g u m e n t s
+!-----------------------------------------------
+      INTEGER NEL,NFT,ITY
+      INTEGER, DIMENSION(NEL) ,INTENT(IN) :: NGL
+      my_real, DIMENSION(NEL) ,INTENT(IN) :: ALDT
+      my_real, DIMENSION(NEL) ,INTENT(IN) :: THK
+      TYPE (ELBUF_STRUCT_) :: ELBUF_STR
       TYPE (GROUP_)  , DIMENSION(NGRSHEL) :: IGRSH4N
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I,II,KK,IEL,IL,IR,IS,IT,NPTR,NPTS,NPTT,IFL,
-     .   ITY,IGR,IGRID,NUMEL,IMAT,IRUPT,NFAIL,NINDX,IVAR,NUM
+      TYPE (FAIL_BROKMANN_) ,INTENT(IN) :: FAIL_BROKMANN
+!-----------------------------------------------
+!   L o c a l   V a r i a b l e s
+!-----------------------------------------------
+      INTEGER I,II,KK,IEL,ID,IL,IR,IS,IT,NPTR,NPTS,NPTT,IFL,ITGLASS,ELNUM,
+     .   IGR,IGRID,NUMEL,IMAT,IRUPT,NFAIL,NUPARAM,NUVAR,NINDX,IVAR,NUM
       INTEGER TAGSH(MAX(NUMELC,NUMELTG)),TAGEL(NEL),INDX(NEL)
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
-      TYPE(BUF_FAIL_),POINTER :: FBUF
       EXTERNAL  NGR2USRN
       INTEGER   NGR2USRN
-c-----------------------------------------------------------------------
-c     Initialization of failure UVAR table => edge element flag for /FAIL/ALTER
-C=======================================================================
-      DO IL=1, ELBUF_STR%NLAY  
-        BUFLY => ELBUF_STR%BUFLY(IL)
-        NFAIL = BUFLY%NFAIL
+!-----------------------------------------------------------------------
+!     Initialization of failure UVAR table => edge element flag for /FAIL/ALTER
+!=======================================================================
+      DO IL=1, ELBUF_STR%NLAY
+        NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
         NPTR  = ELBUF_STR%NPTR
         NPTS  = ELBUF_STR%NPTS
         NPTT  = ELBUF_STR%BUFLY(IL)%NPTT
@@ -78,11 +84,13 @@ C=======================================================================
         DO IR=1,NPTR
         DO IS=1,NPTS
         DO IT=1,NPTT
-          FBUF => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IT)  
           DO IFL = 1,NFAIL
-            IRUPT = FBUF%FLOC(IFL)%ILAWF
-c---
+            IRUPT = MAT_PARAM(IMAT)%FAIL(IFL)%IRUPT
             IF (IRUPT == 28) THEN   ! windshield failure model
+              NUPARAM = MAT_PARAM(IMAT)%FAIL(IFL)%NUPARAM
+              NUVAR   = MAT_PARAM(IMAT)%FAIL(IFL)%NUVAR
+              ITGLASS = NINT(MAT_PARAM(IMAT)%FAIL(IFL)%UPARAM(22))
+!
               IVAR = NEL*(10-1)     ! edge element flag = UVAR(10)
               IGR  = 0
               IF (ITY == 3) THEN
@@ -121,16 +129,75 @@ c
                 ENDDO
                 DO II = 1,NINDX
                   I = INDX(II)            
-                  FBUF%FLOC(IFL)%VAR(IVAR + I) = 1
+                  ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(IFL)%VAR(IVAR + I) = 1
                 ENDDO
               ENDIF                
-            ENDIF  !  IRUPT == 28
-c---
-          ENDDO    !  IFL = 1,NFAIL              
-        ENDDO      !  IT=1,NPTT
-        ENDDO      !  IT=1,NPTS
-        ENDDO      !  IT=1,NPTR
-      ENDDO        !  IL=1,NLAY   
-c-----------
+!
+            END IF               
+          END DO    !  IFL = 1,NFAIL              
+        END DO      !  IT=1,NPTT
+        END DO      !  IT=1,NPTS
+        END DO      !  IT=1,NPTR
+      END DO        !  IL=1,NLAY
+!-----------------------------------------------------------------------------
+!     crack depth initialization depending on element and Gauss point position
+!-----------------------------------------------------------------------------
+      DO IL=1, ELBUF_STR%NLAY
+        NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
+        NPTR  = ELBUF_STR%NPTR
+        NPTS  = ELBUF_STR%NPTS
+        NPTT  = ELBUF_STR%BUFLY(IL)%NPTT
+        IMAT  = ELBUF_STR%BUFLY(IL)%IMAT
+        DO IR=1,NPTR
+        DO IS=1,NPTS
+        DO IT=1,NPTT
+          DO IFL = 1,NFAIL
+            IRUPT = MAT_PARAM(IMAT)%FAIL(IFL)%IRUPT
+            IF (IRUPT == 28) THEN   ! windshield failure model
+              NUPARAM = MAT_PARAM(IMAT)%FAIL(IFL)%NUPARAM
+              NUVAR   = MAT_PARAM(IMAT)%FAIL(IFL)%NUVAR
+              ITGLASS = NINT(MAT_PARAM(IMAT)%FAIL(IFL)%UPARAM(22))
+!
+              !  Ch.Alter criterion - crack depth initialization 
+!
+              CALL CRACK_DEPTH_INIT(NEL   ,IT  ,NPTT ,NUPARAM ,NUVAR,
+     .                              MAT_PARAM(IMAT)%FAIL(IFL)%UPARAM,
+     .                              ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(IFL)%VAR,
+     .                              ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(IFL)%DAMMX,
+     .                              ELBUF_STR%GBUF%DMG  )
+!
+              !  Ch.Brokmann criterion - random crack initialization
+!
+              IF (ITGLASS == 1 .and. (IT == 1 .or. IT == NPTT)) THEN
+                DO II = 1,FAIL_BROKMANN%NFAIL
+                  IF (FAIL_BROKMANN%BROKMANN(II)%IMAT == IMAT) THEN
+                    ! tag elements of current group in brokmann element list
+                    nindx = 0
+                    do kk = 1,fail_brokmann%brokmann(ii)%nelem
+                      id = fail_brokmann%brokmann(ii)%brokmann_elem(kk)%id
+                      do iel=1,nel
+                        if (id == ngl(iel)) then
+                          nindx = nindx + 1
+                          indx(nindx) = kk
+                        end if
+                      end do
+                    end do
+!
+                    CALL BROKMANN_CRACK_INIT(NEL  ,IT   ,NPTT ,NUPARAM ,NUVAR,
+     .              MAT_PARAM(IMAT)%FAIL(IFL)%UPARAM    ,FAIL_BROKMANN%BROKMANN(II),
+     .              ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(IFL)%VAR,
+     .              INDX    ,ALDT      ,THK      ,NGL   )
+!
+                  END IF
+                END DO
+              END IF        ! END Brokmann criterion initialization
+!
+            END IF  !  windshield failure
+          END DO    !  IFL = 1,NFAIL              
+        END DO      !  IT=1,NPTT
+        END DO      !  IT=1,NPTS
+        END DO      !  IT=1,NPTR
+      END DO        !  IL=1,NLAY
+!-----------
       RETURN
       END

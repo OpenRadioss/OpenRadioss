@@ -2154,7 +2154,7 @@ c
      3            UELR       ,UELR1      ,OFF        ,OFFLY      ,FOFF       ,
      4            SIGNXX     ,SIGNYY     ,SIGNXY     ,DFMAX      ,NGL        ,
      5            ILAYER     ,IPT        ,NPTT       ,CRKDIR     ,DADV       ,
-     6            DMG_FLAG   ,TRELAX     ,THK0       )
+     6            DMG_FLAG   ,TRELAX     )
                 ENDIF
 c
               CASE (30)     !    Biquadratic failure model
