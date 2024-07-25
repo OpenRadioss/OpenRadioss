@@ -77,14 +77,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,IEL,IPOS,IL,IFL,IP,IPT,IG,JPG,NPTR,NPTS,NPTT,
-     .   COUNTPG,NINDXPG,NINDXLY,IPT_ALL,NFAIL,IPWEIGHT,IPTHKLY,
+     .   COUNTPG,NINDXLY,IPT_ALL,NFAIL,IPWEIGHT,IPTHKLY,
      .   IPS,IPR,ID_PLY,IMAT
       my_real :: P_THICKG,FAIL_EXP,THFACT,NORM,DFAIL,NPFAIL
       my_real, DIMENSION(NLAY,100)   :: PTHKF
-      INTEGER, DIMENSION(NEL)        :: INDXPG,INDXLY
+      INTEGER, DIMENSION(NEL)        :: INDXLY,FAIL_NUM
       INTEGER, DIMENSION(:), POINTER :: FOFF,LAY_OFF,OFFPG
       my_real, DIMENSION(NLAY)       :: WEIGHT,P_THKLY
       TYPE(L_BUFEL_) ,POINTER        :: LBUF 
+      CHARACTER(LEN=NCHARTITLE)      :: FAIL_NAME    
 c-----------------------------------------------------------------------
 c     NPTT       NUMBER OF INTEGRATION POINTS IN CURRENT LAYER
 c     NPTTF      NUMBER OF FAILED INTEGRATION POINTS IN THE LAYER
@@ -125,6 +126,9 @@ c
         ! Only 1 layer with several integration points
         IL = 1
 c
+        ! Material internal identifier number
+        IMAT = ELBUF_STR%BUFLY(IL)%IMAT
+c
         ! Check PTHICKFAIL coming from failure criteria
         NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
         DO IFL = 1,NFAIL
@@ -146,7 +150,7 @@ c
         NPTT = ELBUF_STR%BUFLY(IL)%NPTT
         OFFPG => ELBUF_STR%BUFLY(IL)%OFFPG(JPG+1:JPG+NEL)
         DO IEL=1,NEL
-          IF (OFF(IEL) == ONE .AND. OFFPG(IEL) == 1) THEN 
+          IF (OFF(IEL) == ONE) THEN 
             DO IFL = 1,NFAIL
               THFACT = ZERO
               NPFAIL = ZERO
@@ -163,17 +167,10 @@ c
                 IF (((THFACT >= PTHKF(IL,IFL)).AND.(PTHKF(IL,IFL) > ZERO)).OR.
      .              ((NPFAIL >= ABS(PTHKF(IL,IFL))).AND.(PTHKF(IL,IFL) < ZERO))) THEN
                   OFFPG(IEL) = 0
+                  FAIL_NUM(IEL) = IFL
                 ENDIF 
               ENDDO ! |-> IPT    
             ENDDO ! |-> IFL
-          ENDIF
-        ENDDO ! |-> IEL
-        ! Printing out Gauss point failure message
-        NINDXPG = 0
-        DO IEL=1,NEL
-          IF (OFFPG(IEL) == 0) THEN
-            NINDXPG = NINDXPG + 1
-            INDXPG(NINDXPG) = IEL
           ENDIF
         ENDDO ! |-> IEL
 c 
@@ -187,7 +184,12 @@ c
                 COUNTPG = COUNTPG + ELBUF_STR%BUFLY(IL)%OFFPG(JPG+IEL)
               ENDDO ! |-> IG
               IF (COUNTPG == 0) THEN
-                OFF(IEL) = FOUR_OVER_5          
+                OFF(IEL)  = FOUR_OVER_5    
+                FAIL_NAME = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(FAIL_NUM(IEL))%KEYWORD 
+#include      "lockon.inc"                           
+                WRITE(IOUT, 1000) TRIM(FAIL_NAME),NGL(IEL)
+                WRITE(ISTDO,1100) TRIM(FAIL_NAME),NGL(IEL),TT 
+#include      "lockoff.inc"            
                 IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1
               ENDIF
             ENDIF
@@ -204,18 +206,17 @@ c
 c
         ! Check in-plane Gauss point failure for each layers                                           
         DO IL=1,NLAY
-          NINDXPG = 0                                                          
           NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
           LAY_OFF => ELBUF_STR%BUFLY(IL)%OFF                                     
-          OFFPG =>ELBUF_STR%BUFLY(IL)%OFFPG(JPG+1:JPG+NEL)                                             
+          OFFPG =>ELBUF_STR%BUFLY(IL)%OFFPG(JPG+1:JPG+NEL)     
+          IMAT = ELBUF_STR%BUFLY(IL)%IMAT                                        
           DO IEL=1,NEL                                                          
-            IF (OFF(IEL) == ONE .AND. OFFPG(IEL) == 1 .AND. LAY_OFF(IEL) == 1) THEN                         
+            IF (OFF(IEL) == ONE .AND. LAY_OFF(IEL) == 1) THEN                         
               DO IFL = 1,NFAIL                                                  
                 FOFF => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IPT)%FLOC(IFL)%OFF       
-                IF (FOFF(IEL) < 1)  THEN  
-                  NINDXPG = NINDXPG + 1                                         
-                  INDXPG(NINDXPG) = IEL                                     
-                  OFFPG(IEL) = 0                 
+                IF (FOFF(IEL) < 1) THEN                                      
+                  OFFPG(IEL) = 0   
+                  FAIL_NUM(IEL) = IFL
                 ENDIF                                                           
               ENDDO ! |-> IFL
             ENDIF
@@ -249,18 +250,20 @@ c
                 ELSE 
                   ID_PLY = PLY_INFO(1,STACK%IGEO(2+IL,ISUBSTACK)-NUMSTACK)  
                 ENDIF 
-                DO I = 1,NINDXLY                           
+                DO I = 1,NINDXLY     
+                  FAIL_NAME = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(FAIL_NUM(INDXLY(I)))%KEYWORD                       
 #include       "lockon.inc"                                
-                  WRITE(IOUT, 3000) ID_PLY,NGL(INDXLY(I))      
-                  WRITE(ISTDO,3100) ID_PLY,NGL(INDXLY(I)),TT   
+                  WRITE(IOUT, 3000) TRIM(FAIL_NAME),ID_PLY,NGL(INDXLY(I))      
+                  WRITE(ISTDO,3100) TRIM(FAIL_NAME),ID_PLY,NGL(INDXLY(I)),TT   
 #include       "lockoff.inc"                               
                 ENDDO ! |-> I 
               ! -> Print out layer failure
               ELSE               
-                DO I = 1,NINDXLY                           
+                DO I = 1,NINDXLY      
+                  FAIL_NAME = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(FAIL_NUM(INDXLY(I)))%KEYWORD                     
 #include       "lockon.inc"                                
-                  WRITE(IOUT, 2000) IL,NGL(INDXLY(I))      
-                  WRITE(ISTDO,2100) IL,NGL(INDXLY(I)),TT   
+                  WRITE(IOUT, 2000) TRIM(FAIL_NAME),IL,NGL(INDXLY(I))      
+                  WRITE(ISTDO,2100) TRIM(FAIL_NAME),IL,NGL(INDXLY(I)),TT   
 #include       "lockoff.inc"                               
                 ENDDO ! |-> I 
               ENDIF                                   
@@ -328,13 +331,13 @@ c
         ! Check in-plane Gauss point failure for each layers                                           
         DO IL=1,NLAY
           NPTT  = ELBUF_STR%BUFLY(IL)%NPTT
-          NINDXPG = 0     
           NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL       
           LAY_OFF => ELBUF_STR%BUFLY(IL)%OFF          
           OFFPG =>ELBUF_STR%BUFLY(IL)%OFFPG(JPG+1:JPG+NEL)  
-          WEIGHT(IL)  = STACK%GEO(IPWEIGHT + IL,ISUBSTACK)            
+          WEIGHT(IL)  = STACK%GEO(IPWEIGHT + IL,ISUBSTACK) 
+          IMAT = ELBUF_STR%BUFLY(IL)%IMAT           
           DO IEL=1,NEL
-            IF (OFF(IEL) == ONE .AND. OFFPG(IEL) == 1 .AND. LAY_OFF(IEL) == 1) THEN 
+            IF (OFF(IEL) == ONE .AND. LAY_OFF(IEL) == 1) THEN 
               DO IFL = 1,NFAIL
                 THFACT = ZERO
                 NPFAIL = ZERO
@@ -348,9 +351,8 @@ c
                   ENDIF
                   IF (((THFACT >= PTHKF(IL,IFL)).AND.(PTHKF(IL,IFL)>ZERO)).OR.
      .                ((THFACT >= ABS(PTHKF(IL,IFL))).AND.(PTHKF(IL,IFL)<ZERO))) THEN
-                    NINDXPG = NINDXPG + 1
-                    INDXPG(NINDXPG) = IEL
                     OFFPG(IEL) = 0
+                    FAIL_NUM(IEL) = IFL
                   ENDIF 
                 ENDDO ! |-> IPT       
               ENDDO ! |-> IFL
@@ -396,10 +398,11 @@ c
                   ELSE 
                     ID_PLY = PLY_INFO(1,STACK%IGEO(2+IL,ISUBSTACK)-NUMSTACK)  
                   ENDIF                     
-                  DO I = 1,NINDXLY                      
+                  DO I = 1,NINDXLY        
+                    FAIL_NAME = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(FAIL_NUM(INDXLY(I)))%KEYWORD              
 #include         "lockon.inc"                           
-                    WRITE(IOUT, 3000) ID_PLY,NGL(INDXLY(I))    
-                    WRITE(ISTDO,3100) ID_PLY,NGL(INDXLY(I)),TT 
+                    WRITE(IOUT, 3000) TRIM(FAIL_NAME),ID_PLY,NGL(INDXLY(I))    
+                    WRITE(ISTDO,3100) TRIM(FAIL_NAME),ID_PLY,NGL(INDXLY(I)),TT 
 #include         "lockoff.inc"                          
                   ENDDO ! |-> I
                 ENDIF
@@ -440,10 +443,12 @@ c
       !=======================================================================
       ! PRINTING OUT FORMATS FOR LAYERS/PLYS FAILURE
       !=======================================================================
- 2000 FORMAT(1X,'-- FAILURE OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10)
- 2100 FORMAT(1X,'-- FAILURE OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10,
+ 1000 FORMAT(1X,'-- RUPTURE (',A,') OF SHELL ELEMENT NUMBER ',I10)
+ 1100 FORMAT(1X,'-- RUPTURE (',A,') OF SHELL ELEMENT :',I10,' AT TIME :',G11.4)
+ 2000 FORMAT(1X,'-- FAILURE (',A,') OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10)
+ 2100 FORMAT(1X,'-- FAILURE (',A,') OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10,
      .       1X,'AT TIME :',G11.4)
- 3000 FORMAT(1X,'-- FAILURE OF PLY ID ',I10, ' ,SHELL ELEMENT NUMBER ',I10)
- 3100 FORMAT(1X,'-- FAILURE OF PLY ID ',I10, ' ,SHELL ELEMENT NUMBER ',I10,
+ 3000 FORMAT(1X,'-- FAILURE (',A,') OF PLY ID ',I10, ' ,SHELL ELEMENT NUMBER ',I10)
+ 3100 FORMAT(1X,'-- FAILURE (',A,') OF PLY ID ',I10, ' ,SHELL ELEMENT NUMBER ',I10,
      .       1X,'AT TIME :',G11.4)
       END
