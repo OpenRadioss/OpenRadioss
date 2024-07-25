@@ -30,7 +30,8 @@ Chd|        INVERTED_GROUP_INIT           source/model/sets/inverted_group_init.
 Chd|        INVERTED_GROUP_MOD            share/modules1/inverted_group_mod.F
 Chd|====================================================================
       SUBROUTINE COMPUTE_CONNECT_PARTELM( IPARTS,IPARTQ,IPARTC,IPARTT,IPARTP,
-     .                                    IPARTTG,IPARTR ,IPARTSP, INV_GROUP,NUMSPH)
+     .                                    IPARTTG,IPARTR ,IPARTSP, INV_GROUP,NUMSPH,
+     .                                    NISP   ,KXSP   )
 !$COMMENT
 !       COMPUTE_CONNECT_PARTELM description
 !       computation of the inverted connectivity between part and element
@@ -55,7 +56,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s 
 C-----------------------------------------------             
 C
-      INTEGER, INTENT(IN) :: NUMSPH
+      INTEGER, INTENT(IN) :: NUMSPH,NISP
+      INTEGER, INTENT(IN) :: KXSP(NISP,NUMSPH)
       INTEGER, INTENT(IN),DIMENSION(NUMELS) :: IPARTS
       INTEGER, INTENT(IN),DIMENSION(NUMELQ) :: IPARTQ
       INTEGER, INTENT(IN),DIMENSION(NUMELC) :: IPARTC
@@ -123,7 +125,7 @@ C ------------------------------------------------
       DO I=1,NUMSPH
         PART=IPARTSP(I)
         IND=INV_GROUP%INDPARTSPH(PART) + PART_COUNT(PART)
-        INV_GROUP%PARTSPH(IND)=I
+        INV_GROUP%PARTSPH(IND)=KXSP(3,I)
         PART_COUNT(PART)=PART_COUNT(PART)+1
       ENDDO
 C ------------------------------------------------
