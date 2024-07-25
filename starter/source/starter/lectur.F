@@ -2919,7 +2919,8 @@ C Create IXTG1 array and set to 0
       CALL INVERTED_GROUP_INIT(0,INV_GROUP,NUMSPH)
       ! example :
       CALL COMPUTE_CONNECT_PARTELM(IPARTS ,IPARTQ ,IPARTC   ,IPARTT ,IPARTP,
-     .                             IPARTG ,IPARTR ,IPARTSP  ,INV_GROUP,NUMSPH)
+     .                             IPARTG ,IPARTR ,IPARTSP  ,INV_GROUP,NUMSPH,
+     .                             NISP   ,KXSP   )
       ! -------------------
       IF(NUMELTG6 ==0 )THEN
         SIXTG1  = 0
