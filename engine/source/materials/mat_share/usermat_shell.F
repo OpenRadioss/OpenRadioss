@@ -2012,8 +2012,11 @@ c---
      .        OFF(I) > ZERO   .and. OFF(I) < ONE .and. DMG_FLAG == 1 .and. 
      .        DMG_GLOB_SCALE(I) < EM02) THEN  
             OFF(I) = ZERO
-            NINDX  = NINDX + 1
-            INDX(NINDX) = I
+            IDEL7NOK = 1
+            IF (NLAY > 1) THEN 
+              NINDX  = NINDX + 1
+              INDX(NINDX) = I
+            ENDIF
           ENDIF
         ENDDO
       ENDIF

@@ -82,7 +82,8 @@ C-----------------------------------------------
       my_real, DIMENSION(NLAY)       :: WEIGHT,P_THKLY
       my_real, DIMENSION(NLAY,100)   :: PTHKF
       my_real, DIMENSION(NEL)        :: THFACT,NORM,NPFAIL
-      TYPE(L_BUFEL_) ,POINTER        :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER        :: LBUF 
+      CHARACTER(LEN=NCHARTITLE), DIMENSION(NEL) :: FAIL_NAME    
 c-----------------------------------------------------------------------
 c     NPTT       NUMBER OF INTEGRATION POINTS IN CURRENT LAYER
 c     NPTTOT     NUMBER OF INTEGRATION POINTS IN ALL LAYERS (TOTAL)
@@ -117,6 +118,9 @@ c
 c
         ! Only 1 layer with several integration points
         IL = 1
+c
+        ! Material internal identifier number
+        IMAT = ELBUF_STR%BUFLY(IL)%IMAT
 c
         ! Check PTHICKFAIL coming from failure criteria
         NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
@@ -159,7 +163,12 @@ c
             IF (OFF(IEL) == ONE) THEN                                        
               IF (((THFACT(IEL) >= PTHKF(IL,IFL)).AND.(PTHKF(IL,IFL) > ZERO)).OR.
      .            ((NPFAIL(IEL) >= ABS(PTHKF(IL,IFL))).AND.(PTHKF(IL,IFL) < ZERO))) THEN
-                OFF(IEL) = FOUR_OVER_5
+                OFF(IEL)  = FOUR_OVER_5
+                FAIL_NAME(IEL) = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%KEYWORD
+#include      "lockon.inc"                           
+                WRITE(IOUT, 1000) TRIM(FAIL_NAME(IEL)),NGL(IEL)
+                WRITE(ISTDO,1100) TRIM(FAIL_NAME(IEL)),NGL(IEL),TT 
+#include      "lockoff.inc"   
                 IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1
               ENDIF                                      
             ENDIF                                                           
@@ -179,6 +188,7 @@ c
           NINDXLY = 0
           NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
           LAY_OFF => ELBUF_STR%BUFLY(IL)%OFF
+          IMAT = ELBUF_STR%BUFLY(IL)%IMAT
           DO IFL = 1,NFAIL
             FOFF => ELBUF_STR%BUFLY(IL)%FAIL(1,1,IPT)%FLOC(IFL)%OFF
             DO IEL=1,NEL
@@ -187,6 +197,7 @@ c
                   NINDXLY = NINDXLY + 1    
                   INDXLY(NINDXLY) = IEL    
                   LAY_OFF(IEL) = 0
+                  FAIL_NAME(IEL) = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%KEYWORD
                 ENDIF
               ENDIF
             ENDDO ! |-> IEL
@@ -202,16 +213,16 @@ c
               ENDIF   
               DO I = 1,NINDXLY
 #include      "lockon.inc"                           
-                WRITE(IOUT, 3000) ID_PLY,NGL(INDXLY(I))    
-                WRITE(ISTDO,3100) ID_PLY,NGL(INDXLY(I)),TT 
+                WRITE(IOUT, 3000) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I))    
+                WRITE(ISTDO,3100) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I)),TT 
 #include      "lockoff.inc"                          
               ENDDO ! |-> I
             ! -> Print out layer failure
             ELSE 
               DO I = 1,NINDXLY
 #include      "lockon.inc"                           
-                WRITE(IOUT, 2000) IL,NGL(INDXLY(I))    
-                WRITE(ISTDO,2100) IL,NGL(INDXLY(I)),TT 
+                WRITE(IOUT, 2000) TRIM(FAIL_NAME(INDXLY(I))),IL,NGL(INDXLY(I))    
+                WRITE(ISTDO,2100) TRIM(FAIL_NAME(INDXLY(I))),IL,NGL(INDXLY(I)),TT 
 #include      "lockoff.inc"                          
               ENDDO ! |-> I
             ENDIF
@@ -285,6 +296,7 @@ c
           NINDXLY = 0
           NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
           LAY_OFF => ELBUF_STR%BUFLY(IL)%OFF
+          IMAT = ELBUF_STR%BUFLY(IL)%IMAT
           II = (IL-1)*NEL
           ! Computation of broken fraction of thickness / ratio of integration points
           DO IFL = 1,NFAIL
@@ -311,7 +323,8 @@ c
      .              ((NPFAIL(IEL) >= ABS(PTHKF(IL,IFL))).AND.(PTHKF(IL,IFL) < ZERO))) THEN
                   NINDXLY = NINDXLY + 1
                   INDXLY(NINDXLY) = IEL
-                  LAY_OFF(IEL) = 0   
+                  LAY_OFF(IEL) = 0  
+                  FAIL_NAME(IEL) = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%KEYWORD 
                   DO IPT=1,NPTT
                     FOFF => ELBUF_STR%BUFLY(IL)%FAIL(1,1,IPT)%FLOC(IFL)%OFF
                     FOFF(IEL) = 0
@@ -329,8 +342,8 @@ c
             ENDIF                                   
             DO I = 1,NINDXLY                                          
 #include     "lockon.inc"                                             
-              WRITE(IOUT, 3000) ID_PLY,NGL(INDXLY(I))                   
-              WRITE(ISTDO,3100) ID_PLY,NGL(INDXLY(I)),TT                
+              WRITE(IOUT, 3000) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I))                   
+              WRITE(ISTDO,3100) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I)),TT                
 #include     "lockoff.inc"                                            
             ENDDO ! |-> I                                                  
           ENDIF
@@ -374,10 +387,12 @@ c
       !=======================================================================
       ! PRINTING OUT FORMATS FOR LAYERS/PLYS FAILURE
       !=======================================================================
- 2000 FORMAT(1X,'-- FAILURE OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10)
- 2100 FORMAT(1X,'-- FAILURE OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10,
+ 1000 FORMAT(1X,'-- RUPTURE (',A,') OF SHELL ELEMENT NUMBER ',I10)
+ 1100 FORMAT(1X,'-- RUPTURE (',A,') OF SHELL ELEMENT :',I10,' AT TIME :',G11.4)
+ 2000 FORMAT(1X,'-- FAILURE (',A,') OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10)
+ 2100 FORMAT(1X,'-- FAILURE (',A,') OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10,
      .       1X,'AT TIME :',G11.4)
- 3000 FORMAT(1X,'-- FAILURE OF PLY ID ',I10, ' ,SHELL ELEMENT NUMBER ',I10)
- 3100 FORMAT(1X,'-- FAILURE OF PLY ID ',I10, ' ,SHELL ELEMENT NUMBER ',I10,
+ 3000 FORMAT(1X,'-- FAILURE (',A,') OF PLY ID ',I10, ' ,SHELL ELEMENT NUMBER ',I10)
+ 3100 FORMAT(1X,'-- FAILURE (',A,') OF PLY ID ',I10, ' ,SHELL ELEMENT NUMBER ',I10,
      .       1X,'AT TIME :',G11.4)
       END
