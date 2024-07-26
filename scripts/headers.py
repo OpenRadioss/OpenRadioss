@@ -9,6 +9,11 @@ from enum import Enum
 import subprocess
 from flashtext import KeywordProcessor
 
+
+debug = False
+debug_name = 'hm_lecgre'
+
+
 def get_encoding(file_path):
     result = subprocess.run(['file', '--mime-encoding', file_path], capture_output=True, text=True)
     encoding = result.stdout.split(': ')[1].strip()
@@ -27,14 +32,23 @@ class Subroutine:
         #do not duplicate entries if already exists
         if(callee.lower() not in self.callees_name):
             self.callees_name.append(callee.lower())
-
+            if debug and self.name == debug_name:
+                print(f'Adding callee {callee} to {self.name}')
+            if debug and callee.lower() == debug_name:
+                print(f'Adding caller {self.name} to {callee}')
     def add_module(self, module):
         if(module.lower() not in self.modules_name):
             self.modules_name.append(module.lower())
+            if debug and self.name == debug_name:
+                print(f'Adding module {module} to {self.name}')
 
     def add_caller(self, caller):
         if(caller.lower() not in self.callers_name):
             self.callers_name.append(caller.lower())
+            if debug and self.name == debug_name:
+                print(f'Adding caller {caller} to {self.name}')
+            if debug and caller.lower() == debug_name:
+                print(f'Adding callee {self.name} to {caller}')
 
     def print(self):
         print(f'{self.name} in {self.path}')
@@ -51,6 +65,9 @@ class Subroutine:
                 subroutines[module].add_caller(self.name)
 
     def create_header(self,subroutines):
+        #if subroutine is *.c or *.cpp, do not create header
+        if self.path.endswith('.c') or self.path.endswith('.cpp'):
+            return
         max_len = len(self.name)
         #if self.callees_name is not empty
         if self.callees_name:
@@ -63,13 +80,13 @@ class Subroutine:
         self.header += f'      !||    {self.name.ljust(max_len)}   {self.path}\n'
         if self.callers_name:
             self.header += f'      !||--- called by ------------------------------------------------------\n'
-        else : # warning about dead code
-            print(f'Warning: Subroutine {self.name} in ${self.path} is dead')
+        elif debug : # warning about dead code
+            print(f'Warning: Subroutine {self.name} in {self.path} is dead')
 
         # loop over all callers by alphabetical order
         for caller in sorted(self.callers_name):
             #check if caller is in subroutines
-            if caller in subroutines:
+            if caller in subroutines and caller != self.name:
                 path=subroutines[caller].path
                 self.header += f'      !||    {caller.ljust(max_len)}   {path}\n'
             else:
@@ -80,7 +97,7 @@ class Subroutine:
             self.header += f'      !||--- calls      -----------------------------------------------------\n'
              
             for callee in sorted(self.callees_name):
-                if(callee in subroutines):
+                if(callee in subroutines) and callee != self.name:
                     path=subroutines[callee].path
                     self.header += f'      !||    {callee.ljust(max_len)}   {path}\n'
                 else:   
@@ -127,6 +144,9 @@ class CodeAnalyzer:
         program_regex = re.compile(r'^\s*program\s+(\w+)', re.IGNORECASE)
         module_regex = re.compile(r'^\s*module\s+(?!procedure\s)(\w+)', re.IGNORECASE)
         nocomment_regex = re.compile(r'^ {4}.*')
+        begin_interface_regex = re.compile(r'^\s*interface\s*$', re.IGNORECASE)
+        end_interface_regex = re.compile(r'^\s*end\s+interface\s*$', re.IGNORECASE)
+        is_interface = False
 
 
         header_regex = re.compile(r'^\s*!\|\|', re.IGNORECASE)
@@ -139,6 +159,7 @@ class CodeAnalyzer:
                 # skip ISO-8859 text files
                 if (file.endswith('.F') or file.endswith('.F90')):
                     file_path = os.path.join(root, file)
+                    is_interface = False
                     encoding = get_encoding(os.path.join(root, file))
                     if not "8859" in encoding:
                         try:
@@ -148,6 +169,10 @@ class CodeAnalyzer:
                                     for line in f:
                                         match = subroutine_regex.match(line)
                                         match_nocomment = nocomment_regex.match(line)
+                                        if end_interface_regex.match(line):
+                                            is_interface = False
+                                        if begin_interface_regex.match(line):
+                                            is_interface = True
                                         if not match:
                                             match = recursive_subroutine_regex.match(line)
                                         if not match:
@@ -159,7 +184,7 @@ class CodeAnalyzer:
                                         if not match:
                                             match = module_regex.match(line)
                                         #if at least one match is found
-                                        if match and match_nocomment: 
+                                        if match and match_nocomment and not is_interface: 
                                             subroutine_name = ''
                                             subroutine_name = match.group(1)
                                             subroutine_name = subroutine_name.strip().lstrip().lower()
@@ -350,7 +375,10 @@ class CodeAnalyzer:
         module_regex = re.compile(r'^\s*module\s+(\w+)', re.IGNORECASE)
         use_regex = re.compile(r'.*use\s+(\w+)', re.IGNORECASE)
         nocomment = re.compile(r'^ {4}.*')
+        begin_interface_regex = re.compile(r'^\s*interface\s*$', re.IGNORECASE)
+        end_interface_regex = re.compile(r'^\s*end\s+interface\s*$', re.IGNORECASE)
 
+        is_interface = False
         file_path = os.path.join(root, file)
         subroutine_name = ''
         module_name = ''
@@ -359,6 +387,10 @@ class CodeAnalyzer:
                 for line in f:
                     # truncate the line to the first "!"
                     line = line.split('!')[0]
+                    if end_interface_regex.match(line):
+                        is_interface = False
+                    if begin_interface_regex.match(line):
+                        is_interface = True
                     match = subroutine_regex.match(line)
                     if not match:
                         match = recursive_subroutine_regex.match(line)
@@ -370,13 +402,15 @@ class CodeAnalyzer:
                         match = program_regex.match(line)
                     if not match:
                         match = module_regex.match(line)
-                    if match:
+                    if match and nocomment.match(line) and not is_interface:
                         subroutine_name = match.group(1).strip().lstrip().lower()
                         subroutines[subroutine_name] = Subroutine(subroutine_name, file_path)
                         if function_regex.match(line):
                             subroutines[subroutine_name].is_fortran_function = True
                         if function2_regex.match(line):
                             subroutines[subroutine_name].is_fortran_function = True
+                        if debug and subroutine_name == debug_name:
+                            print(f'Found subroutine {subroutine_name} in file {file_path}')
                     elif nocomment.match(line):
                         match2 = call_regex.match(line)
                         if(match2):
@@ -384,6 +418,8 @@ class CodeAnalyzer:
                                 print(f'Error: Call statement found before subroutine definition in file {file_path}')
                             elif(match2.group(1) != "this" and match2.group(1) != "THIS" and "%" not in match2.group(1)):
                                 subroutines[subroutine_name].add_callee(match2.group(1))
+                                if debug and subroutine_name == debug_name:
+                                    print(f'- Adding callee {match2.group(1)} to {subroutine_name}')
                         elif(use_regex.match(line)):
                             if(subroutine_name== ''):
                                 print(f'Error: USE statement found before subroutine definition in file {file_path}')
