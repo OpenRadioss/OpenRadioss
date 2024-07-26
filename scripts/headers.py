@@ -11,7 +11,7 @@ from flashtext import KeywordProcessor
 
 
 debug = False
-debug_name = 'hm_lecgre'
+debug_name = 'i22aera'
 
 
 def get_encoding(file_path):
@@ -309,6 +309,10 @@ class CodeAnalyzer:
         module_regex = re.compile(r'^\s*module\s+(\w+)', re.IGNORECASE)
         use_regex = re.compile(r'.*use\s+(\w+)', re.IGNORECASE)
         nocomment = re.compile(r'^ {4}.*')
+        begin_interface_regex = re.compile(r'^\s*interface\s*$', re.IGNORECASE)
+        end_interface_regex = re.compile(r'^\s*end\s+interface\s*$', re.IGNORECASE)
+        is_interface = False
+
         #function_patterns = {re.compile(r'\b' + re.escape(name) + r'\b', re.IGNORECASE): name for name in functions.keys()}
         # Build the KeywordProcessor
         keyword_processor = KeywordProcessor(case_sensitive=False)
@@ -323,6 +327,10 @@ class CodeAnalyzer:
                 for line in f:
                     # truncate the line to the first "!"
                     line = line.split('!')[0]
+                    if end_interface_regex.match(line):
+                        is_interface = False
+                    if begin_interface_regex.match(line):
+                        is_interface = True
                     match = subroutine_regex.match(line)
                     if not match:
                         match = recursive_subroutine_regex.match(line)
@@ -334,9 +342,9 @@ class CodeAnalyzer:
                         match = program_regex.match(line)
                     if not match:
                         match = module_regex.match(line)
-                    if match:
+                    if match and not is_interface:
                         subroutine_name = match.group(1).strip().lstrip().lower()
-                    elif nocomment.match(line):
+                    elif nocomment.match(line) and not is_interface:
                         # check if the line contains a call to a function in the functions dictionary
                         # loop over all functions 
 #                       for function in functions.values():
@@ -354,9 +362,19 @@ class CodeAnalyzer:
 #                                   subroutines[subroutine_name].add_callee(function_name)
                         found_keywords = keyword_processor.extract_keywords(line)
                         for function_name in found_keywords:
-                            subroutines[function_name].add_caller(subroutine_name)
+                            if(function_name != subroutine_name):
+                                subroutines[function_name].add_caller(subroutine_name)
+                            if (subroutine_name == debug_name or function_name == debug_name) and debug:
+                                print(f'Adding caller {subroutine_name} to {function_name}')
+                                #print the line
+                                print(line)
                             if subroutine_name in subroutines:
-                                subroutines[subroutine_name].add_callee(function_name)
+                                if(subroutine_name != function_name):
+                                    subroutines[subroutine_name].add_callee(function_name)
+                                if (subroutine_name == debug_name or function_name == debug_name) and debug:
+                                    print(f'Adding callee {subroutine_name} to {function_name}')
+                                    #print the line
+                                    print(line)
 
 
         except UnicodeDecodeError:
@@ -377,7 +395,6 @@ class CodeAnalyzer:
         nocomment = re.compile(r'^ {4}.*')
         begin_interface_regex = re.compile(r'^\s*interface\s*$', re.IGNORECASE)
         end_interface_regex = re.compile(r'^\s*end\s+interface\s*$', re.IGNORECASE)
-
         is_interface = False
         file_path = os.path.join(root, file)
         subroutine_name = ''
@@ -418,8 +435,9 @@ class CodeAnalyzer:
                                 print(f'Error: Call statement found before subroutine definition in file {file_path}')
                             elif(match2.group(1) != "this" and match2.group(1) != "THIS" and "%" not in match2.group(1)):
                                 subroutines[subroutine_name].add_callee(match2.group(1))
-                                if debug and subroutine_name == debug_name:
+                                if debug and (subroutine_name == debug_name or match2.group(1) == debug_name):
                                     print(f'- Adding callee {match2.group(1)} to {subroutine_name}')
+                                    print(line)
                         elif(use_regex.match(line)):
                             if(subroutine_name== ''):
                                 print(f'Error: USE statement found before subroutine definition in file {file_path}')
