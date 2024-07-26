@@ -674,7 +674,7 @@ C=======================================================================
       DO I=1,NEL
         IF(DPLA(I) > ZERO) THEN
           H(I) = (YLD(I)-UVAR(I,2))/DPLA(I)
-          ETSE(I) = H(I)/(H(I)+E)
+          ETSE(I) = DYDX(I)/(DYDX(I)+E)
         ELSE
           ETSE(I) = ONE 
         ENDIF        
