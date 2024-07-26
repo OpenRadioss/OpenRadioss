@@ -211,14 +211,13 @@ C-----------------------------------------------
      .   AREAT(MVSIZ),X2T(MVSIZ) ,Y2T(MVSIZ), X3T(MVSIZ),Y3T(MVSIZ),
      .   F_DEF(MVSIZ,8), U21X(MVSIZ),U31X(MVSIZ),U21Y(MVSIZ),U31Y(MVSIZ),
      .   RZ13(MVSIZ),RZ23(MVSIZ),BMRZT(MVSIZ,8),WKXY(MVSIZ),
-     .   ECOS(MVSIZ),ESIN(MVSIZ),NFOR(NEL,5),NMOM(NEL,3),TG3(MVSIZ)
+     .   ECOS(MVSIZ),ESIN(MVSIZ),NFOR(NEL,5),NMOM(NEL,3)
       !
        my_real , DIMENSION(NEL) :: ZOFFSET
 !       SP issue :
         REAL(kind=8), DIMENSION(MVSIZ) ::X1G,X2G,X3G
         REAL(kind=8), DIMENSION(MVSIZ) ::Y1G,Y2G,Y3G
         REAL(kind=8), DIMENSION(MVSIZ) ::Z1G,Z2G,Z3G
-C        REAL(kind=8), DIMENSION(:), POINTER :: X_POINTER
 
 C--- Variables for non-local formulation
       INTEGER :: NDDL, K, INOD(3),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), L_NLOC, IPOS(3),INLOC

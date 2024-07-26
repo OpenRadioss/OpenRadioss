@@ -281,9 +281,9 @@ build_directory=cbuild_${engine_exec}${cf}
    echo " static_link =          : " $static_link
    echo " " 
    echo " Executable name        : " ${engine_exec}
-   if [ $ad != "none"]  
+   if [ "$ad" != "none" ]  
    then
-      echo " Addflag               : \""$ad "\" "
+      echo " Addflag               : \"$ad\" "
    fi
    echo " "
    echo " #threads for Makefile : " $threads
