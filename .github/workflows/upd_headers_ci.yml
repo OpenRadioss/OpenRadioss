@@ -38,7 +38,9 @@ jobs:
 
       - name: Running the update header script
         run: |
-          Compiling_tools/script/or_header_mod_auto.pl update_headers
+          cd scripts
+          python ./headers.py
+          cd ..
           # Clean temporary files (if any) 
           git clean -f
 
@@ -51,6 +53,7 @@ jobs:
               export THEDATE=`date`
               git config --global user.name "$GIT_SERVBOT_USER"
               git config --global user.email "$GIT_SERVBOT_EMAIL"
+              git add .
               git commit -m "Update Headers at $THEDATE"  
               echo "GO_PUSH=1" >> $GITHUB_ENV
           else
