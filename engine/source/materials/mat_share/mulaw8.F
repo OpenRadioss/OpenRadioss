@@ -156,7 +156,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NPAR,IADBUF,NFUNC,I,J,II,IPT,JPT,IR,ISRATE,
+      INTEGER NPAR,IADBUF,NFUNC,I,J,IPT,JPT,IR,ISRATE,
      .  IFUNC(MAXFUNC),IDUM1,IRUPT,IMAT,NTABL_FAIL,
      .  NVARF, IEXPAN8,JJ(6),INLOC,IEOS,DMG_FLAG
       my_real 
@@ -171,19 +171,18 @@ C-----------------------------------------------
      .R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
      .SOLD1(MVSIZ) ,SOLD2(MVSIZ) ,SOLD3(MVSIZ) ,
      .SOLD4(MVSIZ) ,SOLD5(MVSIZ) ,SOLD6(MVSIZ),
-     .Q(MVSIZ),SSPP(MVSIZ),SIGY(MVSIZ),
+     .SSPP(MVSIZ),SIGY(MVSIZ),
      .DPLA(MVSIZ),EPSP1(MVSIZ),TSTAR(MVSIZ),
      .DF(MVSIZ),AMU(MVSIZ),BIDV(MVSIZ)    
       my_real 
-     .   E1,E2,E3,E4,E5,E6,BID1,BID2,BID3,DAV,DTA,SS1,SS2,SS3,SS4,
+     .   E1,E2,E3,E4,E5,E6,DAV,DTA,SS1,SS2,SS3,SS4,
      .   SS5,SS6,Q1,Q2,Q3,ASRATE,EPSP,
-     .   BID,DUM1,DUM2,DUM3,BIDON,BIDON1,BIDON2,BIDON3,BIDON4,BIDON5,BIDON6
+     .   BID,DUM1,BIDON,BIDON1,BIDON2,BIDON3,BIDON4,BIDON5
       my_real TT_LOCAL     
       my_real,
      .  DIMENSION(:)  ,POINTER :: SIGP,SIGLP,STRAIN,UVAR,UVARF,DFMAX,TDELE,UPARAM,UPARAMF
       INTEGER, DIMENSION(:), POINTER :: VARTMP,ITABL_FAIL
       TYPE(L_BUFEL_)  ,POINTER :: LBUF
-      TYPE (FAIL_LOC_),POINTER :: FLOC
 !
       CHARACTER OPTION*256
       INTEGER SIZE

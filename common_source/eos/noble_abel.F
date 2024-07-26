@@ -57,7 +57,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
       my_real GM1(MVSIZ),TFEXTT, DVV, PP,BB_(MVSIZ),RHO0(MVSIZ)
-      my_real C0(MVSIZ),C2(MVSIZ),C3(MVSIZ),C5(MVSIZ),SPH(MVSIZ), BR0,DENOM,BB
+      my_real SPH(MVSIZ), DENOM,BB
 C--------------------------------------------------------------------
       IF(IFLAG == 0) THEN
 C-----------------------------------------
