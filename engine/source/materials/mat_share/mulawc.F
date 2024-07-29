@@ -1576,7 +1576,7 @@ c
      7         LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      8         SIGNXX , SIGNYY , SIGNXY  , SIGNYZ, SIGNZX,
      A         SSP    , VISCMX , THKN    , UVAR )          
-          ELSEIF (ILAW == 93) THEN     
+          ELSEIF (ILAW == 93) THEN  
             CALL SIGEPS93C(
      1         JLT      ,NUPARAM0  ,NUVAR    ,NFUNC    ,IFUNC    ,
      2         NPF      ,TF       ,TT       ,DT1C     ,UPARAM0   ,
@@ -1600,6 +1600,7 @@ c
      7         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  )
 c  
           ELSEIF (ILAW == 104 )THEN
+            IOFF_DUCT(JFT:JLT) = 1
             CALL SIGEPS104C(
      1         JLT     ,NGL     ,IPG     ,ILAYER  ,IT      ,NUPARAM0 ,NUVAR    ,
      2         DT1C    ,TT      ,UPARAM0 ,UVAR    ,JTHE    ,RHO      ,TEMPEL   ,
@@ -1680,7 +1681,7 @@ c
      A         IPG     ,IT      ,ELBUF_STR%NPTR,ELBUF_STR%NPTS,ELBUF_STR%NPTT,
      B         BUFLY   ,LBUF%OFF)
 c
-          ELSEIF (ILAW == 122) THEN     
+          ELSEIF (ILAW == 122) THEN 
             CALL SIGEPS122C(
      1         JLT      ,NUPARAM0 ,NUVAR    ,UPARAM0  ,UVAR     ,        
      2         EPSXX    ,EPSYY    ,RHO      ,LBUF%PLA ,DPLA     ,
