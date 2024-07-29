@@ -221,6 +221,11 @@ c--------------------------
 #include "lockoff.inc"
           ENDDO
         ENDIF
+      ELSE
+        DO I=1,NEL
+          IF (OFF(I) < EM01) OFF(I) = ZERO
+          IF (OFF(I) < ONE)  OFF(I) = OFF(I)*FOUR_OVER_5 
+        ENDDO 
       ENDIF
 c
  2000 FORMAT(1X,'FAILURE (GURSON) IN SHELL ELEMENT ',I10,1X,',GAUSS PT',I2,1X,',THICKNESS INTG. PT',I3)

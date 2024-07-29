@@ -650,8 +650,12 @@ c
         ! Plastic strain-rate (filtered)
         DPDT       = DPLA(I) / MAX(EM20,TIMESTEP)
         EPSD(I)    = AFILTR * DPDT + (ONE - AFILTR) * EPSD(I)
-        ! Coefficient for hourglass       
-        ET(I)      = HARDP(I)*FRATE(I) / (HARDP(I)*FRATE(I) + YOUNG)
+        ! Coefficient for hourglass
+        IF (DPLA(I) > ZERO) THEN 
+          ET(I) = HARDP(I)*FRATE(I) / (HARDP(I)*FRATE(I) + YOUNG)  
+        ELSE
+          ET(I) = ONE
+        ENDIF
         ! Computation of the sound speed
         SOUNDSP(I) = SQRT((A11)/RHO(I))
         ! Storing the yield stress

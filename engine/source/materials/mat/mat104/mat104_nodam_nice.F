@@ -460,18 +460,18 @@ c
 c
       ! Storing new values
       DO I=1,NEL
-        ! USR Outputs
+        ! USR Outputs & coefficient for hourglass
         IF (DPLA(I) > ZERO) THEN 
           UVAR(I,1) = PHI(I)  ! Yield function value
+          ET(I)     = HARDP(I)*FRATE(I) / (HARDP(I)*FRATE(I) + YOUNG)
         ELSE
           UVAR(I,1) = ZERO
+          ET(I)     = ONE
         ENDIF
         SEQ(I)     = SIGDR(I) ! SIGEQ
         DPDT       = DPLA(I) / MAX(EM20,TIMESTEP)
         ! Plastic strain-rate (filtered)
         EPSD(I)    = AFILTR * DPDT + (ONE - AFILTR) * EPSD(I)
-        ! Coefficient for hourglass
-        ET(I)      = HARDP(I)*FRATE(I) / (HARDP(I)*FRATE(I) + YOUNG)
         ! Computation of the sound speed
         SOUNDSP(I) = SQRT((BULK + FOUR_OVER_3*G)/RHO0(I))
         ! Storing the yield stress
