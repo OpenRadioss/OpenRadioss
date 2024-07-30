@@ -166,13 +166,13 @@ C-----------------------------------------------
       ENDIF
 !$OMP END SINGLE
 
+      CALL MY_BARRIER
 
       !4.---MEAN VELOCITY & CENTER OF MASS
       !-----------------------------------
       ALE%GRID%flow_tracking_data%MOM_L(1:3) = ZERO
       ALE%GRID%flow_tracking_data%COG_L(1:3) = ZERO
       ALE%GRID%flow_tracking_data%SUM_M = ZERO !used for elem mass in sforc3, used below for nodal mass
-      CALL MY_BARRIER
       SUM_MOM(1:3) = ZERO
       SUM_COG(1:3) = ZERO
       SUM_M = ZERO
@@ -188,6 +188,7 @@ C-----------------------------------------------
           SUM_COG(3) = SUM_COG(3) + MS_NODE*X(3,I)
         ENDIF
       ENDDO
+      CALL MY_BARRIER
 #include "lockon.inc"
       !assembly of global values for SMP case
       ALE%GRID%flow_tracking_data%MOM_L(1) = ALE%GRID%flow_tracking_data%MOM_L(1) + SUM_MOM(1)
@@ -200,9 +201,13 @@ C-----------------------------------------------
 #include "lockoff.inc"
       CALL MY_BARRIER
       !SPMD EXCHANGE 'MOM' and 'COG'
+
+!$OMP SINGLE
       IF(NSPMD > 1)THEN
          CALL SPMD_EXCH_FLOW_TRACKING_DATA2(ALE%GRID%flow_tracking_data, NSPMD)
       ENDIF
+!$OMP END SINGLE
+
       VMEAN(1:3) = ZERO
       SUM_MS = ALE%GRID%flow_tracking_data%SUM_M
       IF(SUM_MS > EM20)THEN
@@ -245,9 +250,11 @@ C-----------------------------------------------
 #include "lockoff.inc"
       CALL MY_BARRIER
       !SPMD EXCHANGE 'ITM'
+!$OMP SINGLE
       IF(NSPMD > 1)THEN
          CALL SPMD_EXCH_FLOW_TRACKING_DATA3(ALE%GRID%flow_tracking_data, NSPMD)
       ENDIF
+!$OMP END SINGLE
       SUM_MS = ALE%GRID%flow_tracking_data%SUM_M
       IF(SUM_MS > EM20)THEN
         ITM(1) = ALE%GRID%flow_tracking_data%ITM_L(1)/SUM_MS
@@ -370,10 +377,11 @@ C-----------------------------------------------
 #include "lockoff.inc"
       CALL MY_BARRIER
       !gathering values for SPMD
+!$OMP SINGLE
       IF(NSPMD > 1)THEN
          CALL SPMD_EXCH_FLOW_TRACKING_DATA4(ALE%GRID%flow_tracking_data, NSPMD)
       ENDIF
-
+!$OMP END SINGLE
       CALL MY_BARRIER
 
 
