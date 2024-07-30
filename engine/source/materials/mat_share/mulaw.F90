@@ -209,16 +209,17 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use constant_mod
-          use table_mod
-          use mat_elem_mod
-          use ale_connectivity_mod
-          use message_mod
-          use nlocal_reg_mod
-          use sigeps100_mod
-          use sigeps126_mod
-          use prop_param_mod
-          use dt_mod
+      use constant_mod
+      use table_mod
+      use mat_elem_mod
+      use ale_connectivity_mod
+      use message_mod
+      use nlocal_reg_mod
+      use sigeps100_mod
+      use sigeps125_mod
+      use sigeps126_mod
+      use prop_param_mod
+      use dt_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1968,6 +1969,14 @@
             &es1    ,es2    ,es3    ,es4    ,es5    ,es6    ,&
             &s1     ,s2     ,s3     ,s4     ,s5     ,s6     ,&
             &sigy   ,et     ,lbuf%dmg,deltax)
+!
+          elseif (mtn == 125) then 
+            call sigeps125(&
+            &nel      ,nuvar    ,uvar     ,matparam                     ,&
+            &rho0                                                       ,&
+            &es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,&
+            &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
+            &ssp )
 !
           elseif (mtn == 126) then
             idev = 1

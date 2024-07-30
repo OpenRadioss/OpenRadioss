@@ -186,6 +186,7 @@ C-----------------------------------------------
       USE HM_READ_MAT169_ARUP_MOD
       USE HM_READ_MAT125_MOD
       USE HM_READ_MAT126_MOD
+      USE HM_READ_MAT127_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : nchartitle, ncharline
       USE READER_OLD_MOD , ONLY : KCUR, KLINE, LINE, KEY0, KCUR
 C-----------------------------------------------
@@ -1153,6 +1154,14 @@ c-------
      .           NUVAR    ,MTAG     ,MATPARAM ,NPROPM   ,IOUT     ,
      .           PARMAT   ,UNITAB   ,PM(1,I)  ,LSUBMODEL,ISRATE   ,
      .           MAT_ID   ,TITR     )
+C-------     
+          CASE ('LAW127','ENHANCED_COMPOSITE')
+            ILAW = 127
+            CALL HM_READ_MAT127(
+     .           NUVAR    ,MAXFUNC  ,NPROPM  , IOUT     , 
+     .           NFUNC    ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
+     .           PM(1,I)  ,LSUBMODEL,ISRATE   ,MAT_ID   ,TITR     ,
+     .           MATPARAM ,NVARTMP  )     
 c-------
           CASE ('LAW151','MULTIFLUID')
             ILAW  = 151
@@ -1326,7 +1335,7 @@ c--------------------------------------------
 c       for user type laws (lecmuser)
 c---------------------------------------------------------
         
-        IF (ILAW > 27 .and. ILAW /= 32 .and. ILAW /= 49 .and. ILAW /= 125 
+        IF (ILAW > 27 .and. ILAW /= 32 .and. ILAW /= 49 
      .     .and. ILAW /= 151 .AND. ILAW /= 999) THEN
           MTAG%L_STRA = 6        ! all user type laws calculate total strain
 c
