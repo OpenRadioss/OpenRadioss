@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      8     SIGY    ,ET      ,VARNL   ,INLOC   ,DT      ,
      9     IPG     ,IPT     ,NPTR    ,NPTS    ,NPTT    ,
-     A     BUFLY   ,OFFL    )
+     A     BUFLY   ,OFFL    ,IOFF_DUCT)
 C
       USE ELBUFDEF_MOD
 C-----------------------------------------------
@@ -60,6 +60,7 @@ C-----------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR,NFUNC,INLOC,
      .        IPG,IPT,NPF(*),NGL(NEL),
      .        IFUNC(NFUNC),NPTR,NPTS,NPTT
+      INTEGER, DIMENSION(NEL), INTENT(INOUT) :: IOFF_DUCT
       my_real 
      .   TIMESTEP,TIME,TF(*),UPARAM(NUPARAM)
       my_real,DIMENSION(NEL), INTENT(IN) :: 
@@ -131,6 +132,8 @@ c
       EPSP(1:NEL)  = EPSD(1:NEL)    
       ! Store strain-rate for failure criteria
       EPSPL(1:NEL) = EPSD(1:NEL)
+      ! Ductile failure activation
+      IOFF_DUCT(1:NEL) = 1
 c
       !--------------------------------------------------------------------
       ! Failure

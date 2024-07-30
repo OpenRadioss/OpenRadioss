@@ -41,7 +41,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      A     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,IPT    ,
      B     IPM    ,MAT    ,EPSP    ,IPLA    ,SIGY    ,PLA    ,
-     C     DPLA1  ,AMU    ,ISRATE  ,ASRATE  ,NVARTMP ,VARTMP )
+     C     DPLA1  ,AMU    ,ISRATE  ,ASRATE  ,NVARTMP ,VARTMP ,
+     D     ET     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -129,6 +130,8 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real 
      .    UVAR(NEL,NUVAR), OFF(NEL) 
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: 
+     .    ET
 C-------------------------
 C    variables non utilisees (fonctions utilisateur)
 C-------------------------
@@ -419,6 +422,11 @@ C
       DO I=1,NEL
         SIGY(I) = MAX(SIGY(I),YLD(I))
         IF(OFF(I)<ONE) IDEL7NOK = 1
+        IF (DPLA1(I) > ZERO) THEN
+          ET(I) = H(I) / (H(I) + E)
+        ELSE
+          ET(I) = ONE
+        ENDIF
       ENDDO
 C-----------
       RETURN

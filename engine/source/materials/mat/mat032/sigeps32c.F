@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                     SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX ,
      6                     SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX ,
      7                     PLA    ,NGL    ,HARDM  ,INLOC  ,DPLANL ,
-     8                     SEQH   ,LOFF   )
+     8                     SEQH   ,LOFF   ,ET     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,6 +65,7 @@ C     REAL
      .   SIGNYZ(NEL),SIGNZX(NEL),PLA(NEL),THKLYL(NEL),DPLANL(NEL),
      .   SEQH(NEL)
       my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: ET
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -129,6 +130,12 @@ C----------------------------------------------------------
         B       = -Q*(A01*S11 + A02*S22 - HALF*A03*(S11+S22))
         C       = (A01+A02-A03)*Q*Q
         SEQH(I) = SQRT(A+B+B+C)
+        ! Coefficient for hourglass
+        IF (DPLA(I) > ZERO) THEN
+          ET(I) = HARDM(I) / (HARDM(I) + YOUNG)
+        ELSE
+          ET(I) = ONE
+        ENDIF
         ! Non-local
         IF (INLOC > 0) THEN 
           IF (LOFF(I) == ONE) THEN 

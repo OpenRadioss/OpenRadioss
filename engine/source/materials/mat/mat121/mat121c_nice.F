@@ -391,11 +391,13 @@ c
 c
       ! Storing new values
       DO I=1,NEL  
-        ! Storage of yield function value
+        ! Storage of yield function value & coefficient for hourglass
         IF (DPLA(I) > ZERO) THEN 
           UVAR(I,1) = PHI(I)
+          ET(I) = HARDP(I) / (HARDP(I) + YOUNG(I)) 
         ELSE
           UVAR(I,1) = ZERO
+          ET(I) = ONE
         ENDIF
         ! Storage of derivatives in case of viscoplastic formulation
         IF (Ivisc == 1) THEN 
@@ -404,8 +406,6 @@ c
         ENDIF
         ! USR Outputs
         SEQ(I) = SIGVM(I) ! SIGEQ
-        ! Coefficient for hourglass
-        ET(I) = HARDP(I) / (HARDP(I) + YOUNG(I)) 
         ! Computation of the sound speed   
         SOUNDSP(I) = SQRT(A11(I)/RHO(I))
         ! Storing the yield stress

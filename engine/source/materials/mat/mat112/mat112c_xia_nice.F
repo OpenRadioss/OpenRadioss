@@ -708,7 +708,11 @@ c
           EPSD(I,4) = ASRATE * DPDT + (ONE - ASRATE) * EPSD(I,4)
         ENDIF
         ! Coefficient for hourglass
-        ET(I)  = HARDP(I) / (HARDP(I) + MAX(YOUNG1,YOUNG2))  
+        IF (DPLA(I) > ZERO) THEN 
+          ET(I)  = HARDP(I) / (HARDP(I) + MAX(YOUNG1,YOUNG2))  
+        ELSE
+          ET(I)  = ONE
+        ENDIF
         ! Computation of the sound speed   
         SOUNDSP(I) = SQRT(MAX(A11,A12,A21,A22,G12,G23,G31)/ RHO(I))
         ! Storing the yield stress

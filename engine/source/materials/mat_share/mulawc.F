@@ -1018,7 +1018,7 @@ C------------------------------------------
      5        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      6                     SIGNXX     ,SIGNYY ,SIGNXY  ,SIGNYZ ,SIGNZX ,
      7                     LBUF%PLA   ,NGL    ,HARDM   ,INLOC  ,VARNL(1,IT),
-     8                     LBUF%SEQ   ,LBUF%OFF)
+     8                     LBUF%SEQ   ,LBUF%OFF,ETSE   )
                EPSPL(JFT:JLT) = EPSP(JFT:JLT)
           ELSEIF (ILAW == 25) THEN
            IF (IGTYP /= 1 .and. IGTYP /= 9) THEN
@@ -1601,7 +1601,7 @@ c
      7         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  )
 c  
           ELSEIF (ILAW == 104 )THEN
-            IOFF_DUCT(JFT:JLT) = 1
+!
             CALL SIGEPS104C(
      1         JLT     ,NGL     ,IPG     ,ILAYER  ,IT      ,NUPARAM0 ,NUVAR    ,
      2         DT1C    ,TT      ,UPARAM0 ,UVAR    ,JTHE    ,RHO      ,TEMPEL   ,
@@ -1611,7 +1611,7 @@ c
      6         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKN     ,SIGY     ,
      7         ETSE    ,VARNL(1,IT),LBUF%DMG,BUFLY%L_DMG,LBUF%TEMP,LBUF%SEQ,INLOC,
      8         ELBUF_STR%NPTR,ELBUF_STR%NPTS,ELBUF_STR%NPTT,BUFLY    ,LBUF%PLANL,
-     9         BUFLY%L_PLANL ,LBUF%EPSDNL,BUFLY%L_EPSDNL)
+     9         BUFLY%L_PLANL ,LBUF%EPSDNL,BUFLY%L_EPSDNL,IOFF_DUCT   ,IDEL7NOK )
 !
           ELSEIF (ILAW == 107 )THEN
             CALL SIGEPS107C(
@@ -1645,7 +1645,7 @@ c
      7         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,THKLYL  ,
      8         THKN    ,SIGY    ,ETSE    ,TEMPEL  ,LBUF%TEMP,LBUF%SEQ,
      9         TF      ,NUMTABL ,ITABLE  ,TABLE   ,NVARTMP  ,VARTMP  ,
-     A         LBUF%SIGA,INLOC  ,VARNL(1,IT),EPSPL,LBUF%OFF )   
+     A         LBUF%SIGA,INLOC  ,VARNL(1,IT),EPSPL,LBUF%OFF ,IOFF_DUCT)   
 !
           ELSEIF (ILAW == 112 )THEN
             CALL SIGEPS112C(
@@ -1680,7 +1680,7 @@ c
      8         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      9         SIGY    ,ETSE    ,VARNL(1,IT),INLOC,GBUF%DT ,
      A         IPG     ,IT      ,ELBUF_STR%NPTR,ELBUF_STR%NPTS,ELBUF_STR%NPTT,
-     B         BUFLY   ,LBUF%OFF)
+     B         BUFLY   ,LBUF%OFF,IOFF_DUCT)
 c
           ELSEIF (ILAW == 122) THEN 
             CALL SIGEPS122C(
@@ -1692,7 +1692,7 @@ c
      6         THKN     ,THKLYL   ,OFF      ,SIGY     ,ETSE     ,
      7         LBUF%DMG ,LBUF%SEQ ,SHF      ,SSP      ,
      8         EPSP     ,NFUNC    ,IFUNC    ,NPF      ,TF       ,
-     9         NVARTMP  ,VARTMP   )
+     9         NVARTMP  ,VARTMP   ,IOFF_DUCT,IDEL7NOK )
 c
         ELSEIF (ILAW == 125) THEN 
            !---
@@ -2616,7 +2616,7 @@ c--------------------------------------------------
      .                       THK_LY   ,THKLY    ,OFF      ,STACK    ,
      .                       ISUBSTACK,IGTYP    ,FAILWAVE ,FWAVE_EL ,
      .                       NLAY_MAX ,LAYNPT_MAX,NUMGEO  ,NUMSTACK ,
-     .                       IGEO     )
+     .                       IGEO     ,IDEL7NOK )
         ELSE
           CALL FAIL_SETOFF_NPG_C(
      .                       ELBUF_STR,MAT_ELEM ,GEO      ,PID(1)   ,
@@ -2625,7 +2625,7 @@ c--------------------------------------------------
      .                       OFF      ,NPG      ,STACK    ,ISUBSTACK, 
      .                       IGTYP    ,FAILWAVE ,FWAVE_EL ,NLAY_MAX ,
      .                       LAYNPT_MAX,NUMGEO  ,IPG      ,NUMSTACK ,
-     .                       IGEO     )
+     .                       IGEO     ,IDEL7NOK )
         ENDIF
       ENDIF  
 c---

@@ -346,8 +346,13 @@ C
         ! Sound-speed
         SOUNDSP(I) = SQRT(A11/RHO0(I)) 
         ! Coefficient for hourglass
-        ETSE(I)    = H(I) / (H(I) + E)
-        HARDM(I)   = H(I)
+        IF (DPLA(I) > ZERO) THEN 
+          ETSE(I)  = H(I) / (H(I) + E)
+          HARDM(I) = H(I)
+        ELSE
+          ETSE(I)  = ONE
+          HARDM(I) = ZERO
+        ENDIF
         ! Computation of the thickness variation 
         DEELZZ(I)  = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E
         IF (INLOC > 0) THEN 

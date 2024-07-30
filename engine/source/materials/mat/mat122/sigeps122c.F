@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6     THK     ,THKLY   ,OFF     ,SIGY    ,ETSE    ,
      7     DMG     ,SEQ     ,SHF     ,SOUNDSP ,
      8     EPSPL   ,NFUNC   ,IFUNC   ,NPF     ,TF      ,
-     9     NVARTMP ,VARTMP  )
+     9     NVARTMP ,VARTMP  ,IOFF_DUCT,IDEL7NOK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,10 +73,12 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
       INTEGER ,DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: VARTMP
+      INTEGER, DIMENSION(NEL), INTENT(INOUT) :: IOFF_DUCT
+      INTEGER, INTENT(INOUT) :: IDEL7NOK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IRES
+      INTEGER IRES,I
 C=======================================================================
 c
       IRES = NINT(UPARAM(17)) ! Plastic projection method
@@ -111,7 +113,15 @@ c
      8         NFUNC   ,IFUNC   ,NPF     ,TF      ,NVARTMP ,
      9         VARTMP  )
     
-      END SELECT        
+      END SELECT     
+c
+      ! Ductile failure activation
+      IOFF_DUCT(1:NEL) = 1  
+c 
+      ! Check deletion
+      DO I = 1,NEL  
+        IF (OFF(I) < ONE) IDEL7NOK = 1
+      ENDDO
 c  
 c-----------
       END

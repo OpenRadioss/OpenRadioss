@@ -401,7 +401,11 @@ c
         ENDIF
         SEQ(I)     = SIGEQ(I) ! SIGEQ
         ! Coefficient for hourglass
-        ET(I)      = HARDP(I) / (HARDP(I) + YOUNG)
+        IF (DPLA(I) > ZERO) THEN 
+          ET(I)    = HARDP(I) / (HARDP(I) + YOUNG)
+        ELSE
+          ET(I)    = ONE
+        ENDIF
         ! Computation of the sound speed
         SOUNDSP(I) = SQRT((BULK + FOUR_OVER_3*G)/GRHO(NEL+I))
         ! Storing the yield stress

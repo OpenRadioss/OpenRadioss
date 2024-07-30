@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKLY   ,
      7     THK     ,SIGY    ,ET      ,TEMPEL  ,TEMP    ,SEQ     ,
      8     TF      ,NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,
-     9     SIGA    ,INLOC   ,DPLANL  ,EPSPL   ,LOFF    )
+     9     SIGA    ,INLOC   ,DPLANL  ,EPSPL   ,LOFF    ,IOFF_DUCT)
       !=======================================================================
       !      Modules
       !=======================================================================
@@ -61,7 +61,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !      Dummy arguments
       !=======================================================================
       INTEGER NEL,NUPARAM,NUVAR,JTHE,NUMTABL,ITABLE(NUMTABL),NVARTMP,NPF(*),INLOC
-      INTEGER ,DIMENSION(NEL), INTENT(IN)    :: NGL
+      INTEGER,DIMENSION(NEL), INTENT(IN)    :: NGL
+      INTEGER,DIMENSION(NEL), INTENT(INOUT) :: IOFF_DUCT
       my_real 
      .   TIME,TIMESTEP,ASRATE,TF(*)
       INTEGER :: VARTMP(NEL,NVARTMP)
@@ -169,6 +170,8 @@ c--------------------------
 
         ! Copy the strain rate for failure criteria
         EPSPL(1:NEL) = EPSP(1:NEL)
+        ! Ductile failure activation
+        IOFF_DUCT(1:NEL) = 1
 c--------------------------
 c-----------
       END

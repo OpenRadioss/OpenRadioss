@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THK     ,SIGY    ,
      7     ET      ,VARNL   ,DMG     ,L_DMG   ,TEMP    ,SEQ     ,INLOC   ,
      8     NPTR    ,NPTS    ,NPTT    ,BUFLY   ,PLA_NL  ,L_PLANL ,PLAP_NL ,
-     9     L_EPSDNL)
+     9     L_EPSDNL,IOFF_DUCT,IDEL7NOK)
      
       USE ELBUFDEF_MOD
 C-----------------------------------------------
@@ -62,6 +62,7 @@ C-----------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR,JTHE,IPG,ILAY,IPT,INLOC
       INTEGER NGL(NEL),NPTR,NPTS,NPTT
       INTEGER, INTENT(IN) :: L_PLANL,L_EPSDNL,L_DMG
+      INTEGER, DIMENSION(NEL), INTENT(INOUT) :: IOFF_DUCT
       my_real 
      .   TIMESTEP,TIME,UPARAM(NUPARAM)
       my_real,DIMENSION(NEL), INTENT(IN) :: 
@@ -87,6 +88,7 @@ c
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
       TYPE(BUF_LAY_), INTENT(IN) :: BUFLY
+      INTEGER, INTENT(INOUT) :: IDEL7NOK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -179,6 +181,9 @@ c
 c    
       ! Save the strain rate value for failure criterion
       EPSPL(1:NEL) = EPSD(1:NEL)
+c
+      ! Ductile failure activation
+      IOFF_DUCT(1:NEL) = 1
 c--------------------------
       ! Integration point failure
       IF (IGURSON>0) THEN 
@@ -212,6 +217,7 @@ c--------------------------
           IF (OFFL(I) == FOUR_OVER_5) THEN
             NINDX      = NINDX+1
             INDX(NINDX)= I
+            IDEL7NOK   = 1
           ENDIF
         ENDDO
         IF (NINDX>0) THEN

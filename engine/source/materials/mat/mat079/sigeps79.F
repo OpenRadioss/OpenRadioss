@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4      SIGOXX   ,SIGOYY   ,SIGOZZ   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,
      5      SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      6      EPSD     ,DMG      ,SOUNDSP  ,UVAR     ,OFF      ,AMU      ,
-     7      IDEL7NOK )      
+     7      IDEL7NOK ,ET       )      
 C
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -70,7 +70,7 @@ C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real,INTENT(INOUT) :: 
      .      UVAR(NEL,NUVAR),OFF(NEL),DMG(NEL),
-     .      DEFP(NEL)
+     .      DEFP(NEL),ET(NEL)
 C----------------------------------------------------------------
 C  L O C A L  V A R I A B L E S
 C----------------------------------------------------------------
@@ -295,6 +295,7 @@ C
           DPDMU    = K1
         ENDIF
         SOUNDSP(I) = SQRT((DPDMU+FOUR_OVER_3*G)/RHO0(I))
+        ET(I) = ONE
       ENDDO
 C
       !========================================================================

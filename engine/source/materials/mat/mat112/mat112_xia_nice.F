@@ -869,10 +869,18 @@ c
         ENDIF
         ! Coefficient for hourglass and soundspeed
         IF (EEZZ(I) >= ZERO) THEN 
-          ET(I)      = HARDP(I) / (HARDP(I) + MAX(YOUNG1,YOUNG2,YOUNG3))
+          IF (DPLA(I) > ZERO) THEN 
+            ET(I)    = HARDP(I) / (HARDP(I) + MAX(YOUNG1,YOUNG2,YOUNG3))
+          ELSE
+            ET(I)    = ONE 
+          ENDIF
           SOUNDSP(I) = SQRT(MAX(A11,A12,A21,A22,YOUNG3,G12,G23,G31)/ RHO(I))
         ELSE
-          ET(I)      = HARDP(I) / (HARDP(I) + MAX(YOUNG1,YOUNG2,E3C*CC*EXP(-CC*EEZZ(I))))
+          IF (DPLA(I) > ZERO) THEN 
+            ET(I)    = HARDP(I) / (HARDP(I) + MAX(YOUNG1,YOUNG2,E3C*CC*EXP(-CC*EEZZ(I))))
+          ELSE
+            ET(I)    = ONE 
+          ENDIF
           SOUNDSP(I) = SQRT(MAX(A11,A12,A21,A22,E3C*CC*EXP(-CC*EEZZ(I)),G12,G23,G31)/ RHO(I))        
         ENDIF
         ! Storing the yield stress
